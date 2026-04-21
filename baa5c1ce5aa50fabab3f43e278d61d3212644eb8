@@ -46,6 +46,30 @@
       },
       "revId": "baa5c1ce5aa50fabab3f43e278d61d3212644eb8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eaf42d49_16cd1e26",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-04-21T18:47:49Z",
+      "side": 1,
+      "message": "I think you want this to either match the text you quoted from the ESC minutes, or since I think we\u0027re saying we expect people to be using Java 25 during 3.15.x development, you could say:\n\n```suggestion\nwith 3.15.x development, Java 25 will be used by default, so update gjf.sh\n```",
+      "parentUuid": "d145eef3_9c560aef",
+      "range": {
+        "startLine": 10,
+        "startChar": 13,
+        "endLine": 10,
+        "endChar": 19
+      },
+      "revId": "baa5c1ce5aa50fabab3f43e278d61d3212644eb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

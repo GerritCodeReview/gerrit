@@ -1,5 +1,29 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f30cf14_adf3b0fe",
+        "filename": "polygerrit-ui/app/models/checks/checks-util.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 617,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-04-21T11:01:58Z",
+      "side": 1,
+      "message": "The newer lint tooling from change 520342 reported the `quote-props` suppression here as an unused eslint-disable directive. Removed in follow-up change 575221.",
+      "range": {
+        "startLine": 617,
+        "startChar": 22,
+        "endLine": 617,
+        "endChar": 33
+      },
+      "revId": "ead6b9e01b92644f54e14fc4e1c88275e0a8cd5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

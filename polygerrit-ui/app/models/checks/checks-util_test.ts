@@ -267,6 +267,7 @@ suite('checks-util tests', () => {
           agentId: 'test-agent',
           conversationId: 'test-conv',
           turnIndex: 1,
+          suggestionId: 1,
         }),
       };
 
@@ -281,6 +282,7 @@ suite('checks-util tests', () => {
         agentId: 'test-agent',
         conversationId: 'test-conv',
         turnIndex: 1,
+        suggestionId: 1,
       });
     });
 
@@ -308,6 +310,7 @@ suite('checks-util tests', () => {
         agentId: 'test-agent',
         conversationId: 'test-conv',
         turnIndex: 2,
+        suggestionId: undefined,
       });
     });
 

@@ -241,7 +241,7 @@ export class GeminiMessage extends LitElement {
     }
     await this.getCommentsModel().saveDraft(draft);
     this.getCommentsModel().reloadAllComments();
-    this.reportSuggestionToComment();
+    this.reportSuggestionToComment(part.id);
   }
 
   private onRetry() {
@@ -450,12 +450,13 @@ export class GeminiMessage extends LitElement {
     };
   }
 
-  getAiAgentReportingDetails(): AiAgentEventDetails {
+  getAiAgentReportingDetails(suggestionId?: number): AiAgentEventDetails {
     const agentId = this.turns[this.turnIndex]?.userMessage?.actionId ?? '';
     return {
       agentId,
       conversationId: this.conversationId ?? '',
       turnIndex: this.turnIndex,
+      suggestionId,
     };
   }
 
@@ -472,24 +473,24 @@ export class GeminiMessage extends LitElement {
     );
   }
 
-  private reportSuggestionToComment() {
+  private reportSuggestionToComment(suggestionId?: number) {
     this.reportingService.reportInteraction(
       Interaction.AI_AGENT_SUGGESTION_TO_COMMENT,
-      this.getAiAgentReportingDetails()
+      this.getAiAgentReportingDetails(suggestionId)
     );
   }
 
-  private reportCopyButtonClicked() {
+  private reportCopyButtonClicked(suggestionId?: number) {
     this.reportingService.reportInteraction(
       Interaction.AI_AGENT_SUGGESTION_COPY_BUTTON_CLICKED,
-      this.getAiAgentReportingDetails()
+      this.getAiAgentReportingDetails(suggestionId)
     );
   }
 
-  private reportContentCopied() {
+  private reportContentCopied(suggestionId?: number) {
     this.reportingService.reportInteraction(
       Interaction.AI_AGENT_SUGGESTION_CONTENT_COPIED,
-      this.getAiAgentReportingDetails()
+      this.getAiAgentReportingDetails(suggestionId)
     );
   }
 }

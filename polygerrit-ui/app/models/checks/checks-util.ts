@@ -606,6 +606,7 @@ function getAiAgentEventDetails(
     const agentId = parsed['agentId'];
     const conversationId = parsed['conversationId'];
     const turnIndex = parsed['turnIndex'];
+    const suggestionId = parsed['suggestionId'] ?? undefined;
     if (
       !agentId ||
       !conversationId ||
@@ -614,14 +615,15 @@ function getAiAgentEventDetails(
     ) {
       return;
     }
-    /* eslint-disable quote-props, object-shorthand */
+    /* eslint-disable object-shorthand */
     // prettier-ignore
     return {
       'agentId': agentId,
       'conversationId': conversationId,
       'turnIndex': Number(turnIndex),
+      'suggestionId': suggestionId,
     };
-    /* eslint-enable quote-props, object-shorthand */
+    /* eslint-enable object-shorthand */
   } catch (e) {
     return undefined;
   }

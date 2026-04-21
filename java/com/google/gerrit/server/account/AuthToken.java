@@ -18,12 +18,16 @@ import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
 import com.google.gerrit.common.Nullable;
 import java.time.Instant;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
 @AutoValue
 public abstract class AuthToken {
   private static final Pattern TOKEN_ID_PATTERN = Pattern.compile("^[a-zA-Z][a-zA-Z0-9-_]*$");
+  private static final DateTimeFormatter DATE_FORMATTER =
+      DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm O");
 
   public static AuthToken createWithPlainToken(@Nullable String id, String plainToken)
       throws InvalidAuthTokenException {
@@ -60,6 +64,14 @@ public abstract class AuthToken {
 
   public boolean isExpired() {
     return expirationDate().isPresent() && Instant.now().isAfter(expirationDate().get());
+  }
+
+  public Optional<String> formattedExpirationDate() {
+    if (expirationDate().isPresent()) {
+      return Optional.of(
+          expirationDate().get().atZone(ZoneOffset.systemDefault()).format(DATE_FORMATTER));
+    }
+    return Optional.empty();
   }
 
   private static void validateId(String id) throws InvalidAuthTokenException {

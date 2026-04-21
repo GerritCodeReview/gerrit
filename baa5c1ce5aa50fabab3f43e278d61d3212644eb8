@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "639c0c26_dc352065",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-04-21T08:12:05Z",
+      "side": 1,
+      "message": "3.16? that\u0027s in 2027, the next version is 3.15, did you mean that?",
+      "range": {
+        "startLine": 10,
+        "startChar": 13,
+        "endLine": 10,
+        "endChar": 19
+      },
+      "revId": "baa5c1ce5aa50fabab3f43e278d61d3212644eb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

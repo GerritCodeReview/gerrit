@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3fa46192_69b4cb46",
+        "filename": "polygerrit-ui/app/elements/chat-panel/gemini-message.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-04-21T22:35:47Z",
+      "side": 1,
+      "message": "we don\u0027t include the suggestionId for copy because the button click copies everything, and reportContentCopied could also include everything or multiple suggestions.",
+      "range": {
+        "startLine": 483,
+        "startChar": 10,
+        "endLine": 483,
+        "endChar": 33
+      },
+      "revId": "aebd3f4d5486323688ad8a0cf7f95e464b34312f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

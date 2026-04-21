@@ -195,17 +195,17 @@ public class DefaultPermissionBackend extends PermissionBackend {
         case FLUSH_CACHES, KILL_TASK, RUN_GC, VIEW_CACHES, VIEW_QUEUE ->
             has(globalPermissionName(perm)) || can(GlobalPermission.MAINTAIN_SERVER);
         case CREATE_ACCOUNT,
-                CREATE_GROUP,
-                DELETE_GROUP,
-                CREATE_PROJECT,
-                MAINTAIN_SERVER,
-                MODIFY_ACCOUNT,
-                READ_AS,
-                STREAM_EVENTS,
-                VIEW_ACCESS,
-                VIEW_ALL_ACCOUNTS,
-                VIEW_CONNECTIONS,
-                VIEW_PLUGINS ->
+            CREATE_GROUP,
+            DELETE_GROUP,
+            CREATE_PROJECT,
+            MAINTAIN_SERVER,
+            MODIFY_ACCOUNT,
+            READ_AS,
+            STREAM_EVENTS,
+            VIEW_ACCESS,
+            VIEW_ALL_ACCOUNTS,
+            VIEW_CONNECTIONS,
+            VIEW_PLUGINS ->
             has(globalPermissionName(perm)) || isAdmin();
         case VIEW_SECONDARY_EMAILS ->
             has(globalPermissionName(perm))

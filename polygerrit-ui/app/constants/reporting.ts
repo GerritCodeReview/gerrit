@@ -197,4 +197,6 @@ export type AiAgentEventDetails = {
   turnIndex: number;
   // commentCount is 0 if agent ran but didn't suggest any comments/fixes.
   commentCount?: number;
+  // The response part ID which identifies the specific suggestion/comment in a turn.
+  suggestionId?: number;
 };

@@ -606,6 +606,7 @@ function getAiAgentEventDetails(
     const agentId = parsed['agentId'];
     const conversationId = parsed['conversationId'];
     const turnIndex = parsed['turnIndex'];
+    const suggestionId = parsed['suggestionId'];
     if (
       !agentId ||
       !conversationId ||
@@ -620,6 +621,7 @@ function getAiAgentEventDetails(
       'agentId': agentId,
       'conversationId': conversationId,
       'turnIndex': Number(turnIndex),
+      'suggestionId': suggestionId,
     };
     /* eslint-enable quote-props, object-shorthand */
   } catch (e) {

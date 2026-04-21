@@ -72,6 +72,7 @@ suite('gr-auth-token tests', () => {
                     <md-outlined-text-field
                       autocomplete=""
                       class="showBlueFocusBorder"
+                      error-text="Must start with a letter and contain only letters, digits, hyphens, and underscores."
                       id="newToken"
                       inputmode=""
                       placeholder="New Token ID"
@@ -198,6 +199,34 @@ suite('gr-auth-token tests', () => {
       generateResolve(nextToken);
       assert.equal(element.generatedAuthToken, nextToken);
     });
+  });
+
+  test('generate button is disabled when token id does not match pattern', async () => {
+    element.newTokenId = '123-starts-with-digit';
+    await element.updateComplete;
+    const generateButton = queryAndAssert<GrButton>(element, '#generateButton');
+    assert.isTrue(generateButton.disabled);
+  });
+
+  test('token id input shows error state for invalid token id', async () => {
+    element.newTokenId = '123-starts-with-digit';
+    await element.updateComplete;
+    const tokenInput = element.shadowRoot?.querySelector('#newToken');
+    assert.isTrue(tokenInput?.hasAttribute('error'));
+  });
+
+  test('token id input does not show error state when empty', async () => {
+    element.newTokenId = '';
+    await element.updateComplete;
+    const tokenInput = element.shadowRoot?.querySelector('#newToken');
+    assert.isFalse(tokenInput?.hasAttribute('error'));
+  });
+
+  test('token id input does not show error state for valid token id', async () => {
+    element.newTokenId = 'valid-Token_1';
+    await element.updateComplete;
+    const tokenInput = element.shadowRoot?.querySelector('#newToken');
+    assert.isFalse(tokenInput?.hasAttribute('error'));
   });
 
   test('without http_password_url', () => {

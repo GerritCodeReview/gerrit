@@ -23,6 +23,8 @@ import {MdOutlinedTextField} from '@material/web/textfield/outlined-text-field';
 import '@material/web/textfield/outlined-text-field';
 import {materialStyles} from '../../../styles/gr-material-styles';
 
+const TOKEN_ID_PATTERN = /^[a-zA-Z][a-zA-Z0-9-_]*$/;
+
 declare global {
   interface HTMLElementTagNameMap {
     'gr-auth-token': GrAuthToken;
@@ -63,6 +65,10 @@ export class GrAuthToken extends LitElement {
 
   @property({type: String})
   newLifetime = '';
+
+  private get isTokenIdValid() {
+    return !this.newTokenId.length || TOKEN_ID_PATTERN.test(this.newTokenId);
+  }
 
   @query('#generateButton') generateButton!: GrButton;
 
@@ -314,6 +320,8 @@ export class GrAuthToken extends LitElement {
             class="showBlueFocusBorder"
             placeholder="New Token ID"
             .value=${this.newTokenId ?? ''}
+            ?error=${!this.isTokenIdValid}
+            error-text="Must start with a letter and contain only letters, digits, hyphens, and underscores."
             @input=${(e: InputEvent) => {
               const target = e.target as HTMLInputElement;
               this.newTokenId = target.value;
@@ -344,7 +352,7 @@ export class GrAuthToken extends LitElement {
             id="generateButton"
             link=""
             ?loading=${this.loading}
-            ?disabled=${!this.newTokenId.length}
+            ?disabled=${!this.newTokenId.length || !this.isTokenIdValid}
             @click=${this.handleGenerateTap}
             >Generate</gr-button
           >

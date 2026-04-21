@@ -90,6 +90,10 @@ setup_google_java_format() {
         sha1="3b55f08a70d53984ac4b3e7796dc992858d6bdd8"
         tag_prefix=v
     ;;
+    1.35.0)
+        sha1="c8e59165e3c971509d98018b98bf4f85a56a0ff9"
+        tag_prefix=v
+    ;;
     *)
         echo "unknown google-java-format version: $version"
         exit 1
@@ -152,7 +156,7 @@ run_google_java_format() {
 
 # MAIN
 
-SUPPORTED_VERSIONS=(1.7 1.22.0 1.24.0)
+SUPPORTED_VERSIONS=(1.7 1.22.0 1.24.0 1.35.0)
 HELP_TEXT="
     Usage:
 

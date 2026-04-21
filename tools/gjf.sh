@@ -168,8 +168,8 @@ HELP_TEXT="
 
 "
 
-# Keep the default version in sync with dev-contributing.txt.
-DEFAULT_VERSION="1.24.0"
+# Keep the default version in sync with dev-crafting-changes.txt.
+DEFAULT_VERSION="1.35.0"
 VERSION=${2:-$DEFAULT_VERSION}
 verify_version $VERSION
 

@@ -34,6 +34,24 @@
       "parentUuid": "87c7bb3f_b369c46c",
       "revId": "68613e224b5fc420eaec6fab5e373dfd025b2b3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d2d9c40_fd4af363",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-04-22T12:06:52Z",
+      "side": 1,
+      "message": "I tested this with antigravity and it works well. Then you for looking into it. I agree that Gerrit should be agnostic.",
+      "parentUuid": "28e81884_161ac671",
+      "revId": "68613e224b5fc420eaec6fab5e373dfd025b2b3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

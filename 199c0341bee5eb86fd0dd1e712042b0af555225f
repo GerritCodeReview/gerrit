@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4ff1f8a_c867ebe2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-04-22T22:26:17Z",
+      "side": 1,
+      "message": "Ajay found this same pattern causing problems for us in some plugins today.",
+      "revId": "199c0341bee5eb86fd0dd1e712042b0af555225f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

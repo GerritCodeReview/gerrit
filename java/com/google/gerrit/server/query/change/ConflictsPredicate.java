@@ -84,6 +84,9 @@ public class ConflictsPredicate {
     for (String file : files) {
       filePredicates.add(ChangePredicates.path(file));
     }
+    if (filePredicates.isEmpty()) {
+      return ChangeIndexPredicate.none();
+    }
 
     List<Predicate<ChangeData>> and = new ArrayList<>(5);
     and.add(ChangePredicates.project(c.getProject()));

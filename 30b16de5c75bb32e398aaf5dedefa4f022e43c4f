@@ -70,6 +70,23 @@
       },
       "revId": "30b16de5c75bb32e398aaf5dedefa4f022e43c4f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "174fb0b7_8caa07da",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-04-22T12:37:15Z",
+      "side": 1,
+      "message": "Thank you for looking into this. If this will not be good solution, I can look how to enable canAiReview for all google hosts but it can take some time.",
+      "revId": "30b16de5c75bb32e398aaf5dedefa4f022e43c4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

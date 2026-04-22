@@ -124,6 +124,9 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
 
   @UsedAt(UsedAt.Project.GOOGLE)
   public List<ChangeData> byLegacyChangeIds(Collection<Change.Id> ids) {
+    if (ids.isEmpty()) {
+      return ImmutableList.of();
+    }
     List<Predicate<ChangeData>> preds = new ArrayList<>(ids.size());
     for (Change.Id id : ids) {
       preds.add(ChangePredicates.idStr(id));
@@ -170,6 +173,9 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
   Iterable<ChangeData> byCommitsOnBranchNotMerged(
       Repository repo, BranchNameKey branch, Collection<String> hashes, int indexLimit)
       throws IOException {
+    if (hashes.isEmpty()) {
+      return ImmutableList.of();
+    }
     if (hashes.size() > indexLimit || !indexes.getSearchIndex().isEnabled()) {
       return byCommitsOnBranchNotMergedFromDatabase(repo, branch, hashes);
     }
@@ -209,6 +215,9 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
 
   private ImmutableList<ChangeData> byCommitsOnBranchNotMergedFromIndex(
       BranchNameKey branch, Collection<String> hashes) {
+    if (hashes.isEmpty()) {
+      return ImmutableList.of();
+    }
     return query(
         and(
             ref(branch),
@@ -254,6 +263,9 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
   }
 
   public List<ChangeData> byProjectCommits(Project.NameKey project, List<String> hashes) {
+    if (hashes.isEmpty()) {
+      return ImmutableList.of();
+    }
     int n = indexConfig.maxTerms() - 1;
     checkArgument(hashes.size() <= n, "cannot exceed %s commits", n);
     return query(and(project(project), or(commits(hashes))));
@@ -307,6 +319,9 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
       IndexConfig indexConfig,
       Project.NameKey project,
       Collection<String> groups) {
+    if (groups.isEmpty()) {
+      return ImmutableList.of();
+    }
     // These queries may be complex along multiple dimensions:
     //  * Many groups per change, if there are very many patch sets. This requires partitioning the
     //    list of predicates and combining results.

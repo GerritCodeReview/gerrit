@@ -1368,6 +1368,9 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     }
 
     Set<Account.Id> accounts = getMembers(groupId);
+    if (accounts.isEmpty()) {
+      return ChangeIndexPredicate.none();
+    }
     List<Predicate<ChangeData>> p = Lists.newArrayListWithCapacity(accounts.size());
     for (Account.Id id : accounts) {
       p.add(ChangePredicates.owner(id));
@@ -1386,6 +1389,9 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     }
 
     Set<Account.Id> accounts = getMembers(groupId);
+    if (accounts.isEmpty()) {
+      return ChangeIndexPredicate.none();
+    }
     List<Predicate<ChangeData>> p = Lists.newArrayListWithCapacity(accounts.size());
     for (Account.Id id : accounts) {
       p.add(ChangePredicates.uploader(id));
@@ -1807,6 +1813,9 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       IdentifiedUser me = args.getIdentifiedUser();
       List<Predicate<ChangeData>> predicates =
           me.getEmailAddresses().stream().map(fullPredicateFunc).collect(toList());
+      if (predicates.isEmpty()) {
+        return ChangeIndexPredicate.none();
+      }
       return Predicate.or(predicates);
     }
     Set<String> parts = SchemaUtil.getNameParts(who);
@@ -1902,7 +1911,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       if (!id.isPresent()) {
         throw error("Invalid change id " + value);
       }
-      return args.queryProvider.get().byChangeNumber(id.get());
+      List<ChangeData> changes = args.queryProvider.get().byChangeNumber(id.get());
+      if (changes.isEmpty()) {
+        throw error("Change " + value + " not found");
+      }
+      return changes;
     } else if (PAT_CHANGE_ID.matcher(value).matches()) {
       List<ChangeData> changes = args.queryProvider.get().byKeyPrefix(parseChangeId(value));
       if (changes.isEmpty()) {

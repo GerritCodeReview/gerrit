@@ -124,6 +124,9 @@ public class ChangePredicates {
    * com.google.gerrit.entities.Account.Id}.
    */
   public static Predicate<ChangeData> reviewedBy(Collection<Account.Id> ids) {
+    if (ids.isEmpty()) {
+      return ChangeIndexPredicate.none();
+    }
     List<Predicate<ChangeData>> predicates = new ArrayList<>(ids.size());
     for (Account.Id id : ids) {
       predicates.add(new ChangeIndexPredicate(ChangeField.REVIEWEDBY_SPEC, id.toString()));

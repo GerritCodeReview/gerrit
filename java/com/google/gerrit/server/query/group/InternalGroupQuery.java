@@ -17,6 +17,7 @@ package com.google.gerrit.server.query.group;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
@@ -70,6 +71,9 @@ public class InternalGroupQuery extends InternalQuery<InternalGroup, InternalGro
    */
   public Map<AccountGroup.UUID, ImmutableSet<AccountGroup.UUID>> bySubgroups(
       ImmutableSet<AccountGroup.UUID> subgroupIds) {
+    if (subgroupIds.isEmpty()) {
+      return ImmutableMap.of();
+    }
     List<Predicate<InternalGroup>> predicates =
         subgroupIds.stream().map(e -> GroupPredicates.subgroup(e)).collect(Collectors.toList());
     ImmutableList<InternalGroup> groups = query(Predicate.or(predicates));

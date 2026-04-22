@@ -19,6 +19,7 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.query.OrPredicate;
 import com.google.gerrit.index.query.Predicate;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -50,6 +51,9 @@ public class BranchSetIndexPredicate extends OrPredicate<ChangeData> {
   }
 
   private static List<Predicate<ChangeData>> getPredicates(Set<BranchNameKey> branches) {
+    if (branches.isEmpty()) {
+      return Collections.singletonList(ChangeIndexPredicate.none());
+    }
     return branches.stream()
         .map(
             branchNameKey ->

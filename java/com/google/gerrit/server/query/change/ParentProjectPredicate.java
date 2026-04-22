@@ -41,7 +41,7 @@ public class ParentProjectPredicate extends OrPredicate<ChangeData> {
       ProjectCache projectCache, ChildProjects childProjects, String value) {
     Optional<ProjectState> projectState = projectCache.get(Project.nameKey(value));
     if (!projectState.isPresent()) {
-      return ImmutableList.of();
+      return ImmutableList.of(ChangeIndexPredicate.none());
     }
 
     ImmutableList.Builder<Predicate<ChangeData>> r = ImmutableList.builder();

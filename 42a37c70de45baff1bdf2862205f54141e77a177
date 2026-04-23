@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "011d5540_5fef7526",
+        "filename": "java/com/google/gerrit/server/schema/GrantPostReviewCommentPermission.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-04-23T00:43:11Z",
+      "side": 1,
+      "message": "AI review pointed out this isn\u0027t as strict a check as what we\u0027ve done previously, like for GrantRevert. Updated.",
+      "revId": "42a37c70de45baff1bdf2862205f54141e77a177",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

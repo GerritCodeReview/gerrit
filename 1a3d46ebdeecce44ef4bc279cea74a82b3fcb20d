@@ -16,6 +16,29 @@
       "message": "This is conceptually ok for us, but defer to @milutin@google.com to ensure this doesn\u0027t break any workflows.",
       "revId": "1a3d46ebdeecce44ef4bc279cea74a82b3fcb20d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06cbc2a6_aab0b4e2",
+        "filename": "AGENTS.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-04-23T00:40:14Z",
+      "side": 1,
+      "message": "We should also fix this to be the correct version.",
+      "range": {
+        "startLine": 5,
+        "startChar": 125,
+        "endLine": 5,
+        "endChar": 132
+      },
+      "revId": "1a3d46ebdeecce44ef4bc279cea74a82b3fcb20d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

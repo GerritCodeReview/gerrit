@@ -72,6 +72,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "36ef042e_f9c67d3e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-04-23T20:52:08Z",
+      "side": 1,
+      "message": "Well spotted @nasser.grainawi@oss.qualcomm.com. That tells me that we are indeed propagating this information from the wrong API endpoint.\n\nIt looks to me that performing _\"AI Review\"_ isn\u0027t a property of the change but rather an allowed/denied action.\n\nInstead of propagating this info from `ChangeInfo` it should be part of the `ChangeActions`.\n\nExample:\n\n```\nGET /changes/\u003cchange\u003e/revisions/\u003cpatchset\u003e/actions\n```\n\nReturns the list of actions that you can perform on a change.\n\n```\n{\n  \"cherrypick\": {\n    \"method\": \"POST\",\n    \"label\": \"Cherry Pick\",\n    \"title\": \"Cherry pick change to a different branch\",\n    \"enabled\": true\n  }\n}\n```\n\nSee `GetRevisionActions` and the returned `Map\u003cString,ActionInfo\u003e`, WDYT?",
+      "parentUuid": "47d28696_882ff730",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 43
+      },
+      "revId": "30b16de5c75bb32e398aaf5dedefa4f022e43c4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "174fb0b7_8caa07da",

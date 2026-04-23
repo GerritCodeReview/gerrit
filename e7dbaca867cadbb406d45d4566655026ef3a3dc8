@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d4d66a0_c4acf647",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-04-23T20:39:44Z",
+      "side": 1,
+      "message": "We should wait submitting this, until change 575101 is merged.",
+      "revId": "e7dbaca867cadbb406d45d4566655026ef3a3dc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

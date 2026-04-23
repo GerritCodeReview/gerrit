@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6db9e37a_9be869cf",
+        "filename": "AGENTS.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-04-23T00:41:16Z",
+      "side": 1,
+      "message": "We should fix this.\n```suggestion\nGerrit is a web-based code review system for Git. Backend is Java 21, frontend is TypeScript/Lit components, built with Bazel 8.6.0.\n```",
+      "range": {
+        "startLine": 5,
+        "startChar": 126,
+        "endLine": 5,
+        "endChar": 131
+      },
+      "revId": "486c785064df04ee9e6c0a8450ea23c43dd57ed9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

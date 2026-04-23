@@ -22,6 +22,30 @@
       },
       "revId": "486c785064df04ee9e6c0a8450ea23c43dd57ed9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3fce54e2_76771556",
+        "filename": "AGENTS.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-04-23T06:05:45Z",
+      "side": 1,
+      "message": "Fixed and improved according to DRY principle.",
+      "parentUuid": "6db9e37a_9be869cf",
+      "range": {
+        "startLine": 5,
+        "startChar": 126,
+        "endLine": 5,
+        "endChar": 131
+      },
+      "revId": "486c785064df04ee9e6c0a8450ea23c43dd57ed9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "98193483_d4cdd584",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-04-23T08:42:12Z",
+      "side": 1,
+      "message": "LGTM, very nice change.",
+      "revId": "f3bea077cea70019ded8e446421d0cc0ccd82327",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7233920d_a55e5c50",
+        "filename": "polygerrit-ui/app/embed/diff/gr-selection-action-box/gr-selection-action-box.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-04-23T08:42:12Z",
+      "side": 1,
+      "message": "Please fix this WARNING reported by autoreview issue finding: Since the `mousedown` event listener was moved to the `render()` method, this comment is now left hanging. Consider moving it to `handleMenuMouseDown` (or to the `render` method) and removing this empty constructor.\n\nSince the `mousedown` event listener was moved to the `render()` method, this comment is now left hanging. Consider moving it to `handleMenuMouseDown` (or to the `render` method) and removing this empty constructor.",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 0
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "f8f704e0_449725da",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/embed/diff/gr-selection-action-box/gr-selection-action-box.ts",
+              "range": {
+                "startLine": 41,
+                "startChar": 0,
+                "endLine": 46,
+                "endChar": 0
+              },
+              "replacement": ""
+            },
+            {
+              "path": "polygerrit-ui/app/embed/diff/gr-selection-action-box/gr-selection-action-box.ts",
+              "range": {
+                "startLine": 1,
+                "startChar": 0,
+                "endLine": 1,
+                "endChar": 0
+              },
+              "replacement": "    // See https://crbug.com/gerrit/4767\n"
+            }
+          ]
+        }
+      ],
+      "revId": "f3bea077cea70019ded8e446421d0cc0ccd82327",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf0a7b73_63d93c5a",
+        "filename": "polygerrit-ui/app/embed/diff/gr-selection-action-box/gr-selection-action-box_screenshot_test.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-04-23T08:42:12Z",
+      "side": 1,
+      "message": "Is this expected that suite is skipped? I am ok with that.",
+      "range": {
+        "startLine": 19,
+        "startChar": 6,
+        "endLine": 19,
+        "endChar": 10
+      },
+      "revId": "f3bea077cea70019ded8e446421d0cc0ccd82327",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

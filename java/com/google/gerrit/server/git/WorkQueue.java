@@ -343,13 +343,16 @@ public class WorkQueue {
 
   /** An isolated queue. */
   private class Executor extends ScheduledThreadPoolExecutor {
-    private class ParkedTask implements Comparable<ParkedTask> {
-      public final CancellableCountDownLatch latch = new CancellableCountDownLatch(1);
-      public final Task<?> task;
+    private class ParkedTask implements Comparable<ParkedTask>, AutoCloseable {
+      private final CancellableCountDownLatch latch = new CancellableCountDownLatch(1);
+      private final Task<?> task;
       private final Long priority = priorityGenerator.getAndIncrement();
 
       public ParkedTask(Task<?> task) {
         this.task = task;
+        parked.offer(this);
+        task.runningState.set(Task.State.PARKED);
+        incrementCorePoolSizeBy(1);
       }
 
       @Override
@@ -369,6 +372,24 @@ public class WorkQueue {
 
       public boolean isEqualTo(Task<?> task) {
         return this.task.taskId == task.taskId;
+      }
+
+      public void await() {
+        try {
+          latch.await();
+        } catch (InterruptedException e) {
+          logger.atSevere().withCause(e).log("Parked Task(%s) Interrupted", task);
+          parked.remove(this);
+        }
+      }
+
+      public void unpark() {
+        latch.countDown();
+      }
+
+      @Override
+      public void close() {
+        incrementCorePoolSizeBy(-1);
       }
     }
 
@@ -660,17 +681,8 @@ public class WorkQueue {
 
     public void waitUntilReadyToStart(Task<?> task) {
       if (!listeners.isEmpty() && !isReadyToStart(task)) {
-        ParkedTask parkedTask = new ParkedTask(task);
-        parked.offer(parkedTask);
-        task.runningState.set(Task.State.PARKED);
-        incrementCorePoolSizeBy(1);
-        try {
-          parkedTask.latch.await();
-        } catch (InterruptedException e) {
-          logger.atSevere().withCause(e).log("Parked Task(%s) Interrupted", task);
-          parked.remove(parkedTask);
-        } finally {
-          incrementCorePoolSizeBy(-1);
+        try (ParkedTask parkedTask = new ParkedTask(task)) {
+          parkedTask.await();
         }
       }
     }
@@ -732,7 +744,7 @@ public class WorkQueue {
       parked.addAll(notReady);
 
       if (ready != null) {
-        ready.latch.countDown();
+        ready.unpark();
       }
     }
 

@@ -46,6 +46,30 @@
       },
       "revId": "486c785064df04ee9e6c0a8450ea23c43dd57ed9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "75eef64e_529c1b21",
+        "filename": "AGENTS.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-04-24T00:39:43Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "3fce54e2_76771556",
+      "range": {
+        "startLine": 5,
+        "startChar": 126,
+        "endLine": 5,
+        "endChar": 131
+      },
+      "revId": "486c785064df04ee9e6c0a8450ea23c43dd57ed9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

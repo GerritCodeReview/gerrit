@@ -144,6 +144,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa42bd05_486a9a21",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2026-04-24T05:43:56Z",
+      "side": 1,
+      "message": "Sorry guys for confusion - UI, somehow, didn\u0027t show me the last 2 comments hence my comment was out of sync 😞. Regarding the idea of switching it to the actions endpoint - let me see how that could be implemented and propose new PS for that.",
+      "parentUuid": "67278ce0_eab5b8d2",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 43
+      },
+      "revId": "30b16de5c75bb32e398aaf5dedefa4f022e43c4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "174fb0b7_8caa07da",

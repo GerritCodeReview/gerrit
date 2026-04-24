@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7604352e_38eb9739",
+        "filename": ".agents/skills/gerrit-caches/SKILL.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-04-24T09:11:06Z",
+      "side": 1,
+      "message": "Needs to be a single line for some coding agents.",
+      "revId": "1d24ea3ab33235215c1508e79a79277ce3eb1e93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

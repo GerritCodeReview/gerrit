@@ -2,8 +2,11 @@
 
 ## Project Overview
 
-Gerrit is a web-based code review system for Git. Backend is Java 21, frontend is TypeScript/Lit components, built with Bazel.
-The bazel version to be used can be read from the `.bazelversion` file.
+Gerrit is a web-based code review system for Git. Backend is Java 21, frontend is TypeScript/Lit components, built with Bazel 7.6.1.
+
+## Skills
+
+Skills to be used by AI agents are available under `.agents/skills`.
 
 ## Sub-projects
 

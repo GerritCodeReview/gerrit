@@ -120,6 +120,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "67278ce0_eab5b8d2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2026-04-24T05:08:00Z",
+      "side": 1,
+      "message": "I guess that potential improvements (rename?) could be done in the follow-up. WDYT @luca.milanesio@gmail.com?",
+      "parentUuid": "47d28696_882ff730",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 43
+      },
+      "revId": "30b16de5c75bb32e398aaf5dedefa4f022e43c4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "174fb0b7_8caa07da",
@@ -133,6 +157,24 @@
       "writtenOn": "2026-04-22T12:37:15Z",
       "side": 1,
       "message": "Thank you for looking into this. If this will not be good solution, I can look how to enable canAiReview for all google hosts but it can take some time.",
+      "revId": "30b16de5c75bb32e398aaf5dedefa4f022e43c4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "283b9f16_4ea26cc4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2026-04-24T05:08:00Z",
+      "side": 1,
+      "message": "It creates an exception but it can be dealt when `experiments.UiFeature__enable_ai_chat` FF gets sunsetted. We will have to go back to it anyway then 😊",
+      "parentUuid": "174fb0b7_8caa07da",
       "revId": "30b16de5c75bb32e398aaf5dedefa4f022e43c4f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

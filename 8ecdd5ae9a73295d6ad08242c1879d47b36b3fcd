@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a4bd290_7d26f204",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1345,
+      "author": {
+        "id": 4665459
+      },
+      "writtenOn": "2026-04-24T23:01:49Z",
+      "side": 1,
+      "message": "Do we need a similar short-circuit here?",
+      "revId": "8ecdd5ae9a73295d6ad08242c1879d47b36b3fcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "feb0698c_fdef3a05",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1358,
+      "author": {
+        "id": 4665459
+      },
+      "writtenOn": "2026-04-24T23:01:49Z",
+      "side": 1,
+      "message": "Do we need a similar short-circuit here?",
+      "revId": "8ecdd5ae9a73295d6ad08242c1879d47b36b3fcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed19e5ca_4821041f",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1916,
+      "author": {
+        "id": 4665459
+      },
+      "writtenOn": "2026-04-24T23:01:49Z",
+      "side": 1,
+      "message": "Should this be done in a different change? Operators (for example, parentof) using this method will now return an error instead of empty results for a non-existing change number?",
+      "revId": "8ecdd5ae9a73295d6ad08242c1879d47b36b3fcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

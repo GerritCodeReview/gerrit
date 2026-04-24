@@ -113,6 +113,7 @@ Plugins extend via extension APIs in java/com/google/gerrit/extensions/.
 - Java: Google Java Style Guide, use `./tools/gjf.sh run` before committing
 - Commit messages: max 72 chars/line, present tense, include Change-Id (added by git hook)
 - **Release-Notes footer required**: Every commit must have `Release-Notes:` footer. Use `Release-Notes: skip` for small fixes/refactorings, or add a summary for notable changes
+- **Copyright headers**: All new Java files must include the Apache 2.0 license header with the current year (e.g., `// Copyright (C) 2026 The Android Open Source Project`)
 
 ## Key Patterns
 

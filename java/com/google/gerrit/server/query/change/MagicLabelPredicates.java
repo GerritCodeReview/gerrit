@@ -87,8 +87,7 @@ public class MagicLabelPredicates {
 
       @Override
       protected Predicate<ChangeData> numericPredicate(String label, short value) {
-        return new EqualsLabelPredicates.IndexEqualsLabelPredicate(
-            args, label, value, account, count);
+        return EqualsLabelPredicates.indexPredicate(args, label, value, account, count);
       }
     }
 

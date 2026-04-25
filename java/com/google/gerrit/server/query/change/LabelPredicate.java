@@ -203,11 +203,11 @@ public class LabelPredicate extends OrPredicate<ChangeData> {
       return new EqualsLabelPredicates.PostFilterEqualsLabelPredicate(args, label, expVal, count);
     }
     if (args.accounts == null || args.accounts.isEmpty()) {
-      return new EqualsLabelPredicates.IndexEqualsLabelPredicate(args, label, expVal, count);
+      return EqualsLabelPredicates.indexPredicate(args, label, expVal, null, count);
     }
     List<Predicate<ChangeData>> r = new ArrayList<>();
     for (Account.Id a : args.accounts) {
-      r.add(new EqualsLabelPredicates.IndexEqualsLabelPredicate(args, label, expVal, a, count));
+      r.add(EqualsLabelPredicates.indexPredicate(args, label, expVal, a, count));
     }
     return or(r);
   }

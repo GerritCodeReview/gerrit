@@ -650,6 +650,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       }
     } else if (PAT_CHANGE_ID.matcher(query).matches()) {
       return ChangePredicates.idPrefix(parseChangeId(query));
+    } else if (JujutsuChangeIdUtil.isJujutsuChangeId(query)) {
+      return ChangePredicates.idPrefix(query);
     }
 
     throw new QueryParseException("Invalid change format");
@@ -1764,6 +1766,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   protected Predicate<ChangeData> defaultField(String query) throws QueryParseException {
     if (query.startsWith("refs/")) {
       return ref(query);
+    } else if (JujutsuChangeIdUtil.isJujutsuChangeId(query)) {
+      return change(query);
     } else if (DEF_CHANGE.matcher(query).matches()) {
       List<Predicate<ChangeData>> predicates = Lists.newArrayListWithCapacity(2);
       try {

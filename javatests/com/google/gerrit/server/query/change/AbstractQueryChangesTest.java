@@ -166,6 +166,7 @@ import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -340,6 +341,50 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     for (int i = 0; i <= 36; i++) {
       String q = key.substring(0, 41 - i);
       assertQuery(q, change);
+    }
+  }
+
+  @Test
+  public void byJujutsuChangeId() throws Exception {
+    Project.NameKey project = Project.nameKey("repo");
+    repo = createAndOpenProject(project);
+
+    String jjId = "mlqnqnkrxpuvuuxzlzoltostwlwyskpx";
+    RevCommit commit = buildRawCommitWithJjHeader(repo.getRepository(), jjId);
+    Change change = insert(project, newChangeForCommit(repo, commit));
+
+    assertQuery("change:" + jjId, change);
+    assertQuery(jjId, change);
+    assertQuery("I0000000000000000000000000000000000000000");
+  }
+
+  /** Inserts a raw git commit with a {@code change-id} header (JJ format) and returns it. */
+  private RevCommit buildRawCommitWithJjHeader(Repository repository, String jjChangeId)
+      throws Exception {
+    PersonIdent ident = new PersonIdent("Test User", "test@example.com");
+    String emptyTreeSha = "4b825dc642cb6eb9a060e54bf8d69288fbee4904";
+    String raw =
+        "tree "
+            + emptyTreeSha
+            + "\n"
+            + "author "
+            + ident.toExternalString()
+            + "\n"
+            + "committer "
+            + ident.toExternalString()
+            + "\n"
+            + "change-id "
+            + jjChangeId
+            + "\n"
+            + "\n"
+            + "Commit with JJ change-id header\n";
+    ObjectId id;
+    try (ObjectInserter ins = repository.newObjectInserter()) {
+      id = ins.insert(Constants.OBJ_COMMIT, raw.getBytes(UTF_8));
+      ins.flush();
+    }
+    try (RevWalk rw = new RevWalk(repository)) {
+      return rw.parseCommit(id);
     }
   }
 

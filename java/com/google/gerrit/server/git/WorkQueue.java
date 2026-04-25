@@ -60,6 +60,7 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
@@ -347,6 +348,7 @@ public class WorkQueue {
       private final CancellableCountDownLatch latch = new CancellableCountDownLatch(1);
       private final Task<?> task;
       private final Long priority = priorityGenerator.getAndIncrement();
+      private final AtomicBoolean isParked = new AtomicBoolean(true);
 
       public ParkedTask(Task<?> task) {
         this.task = task;
@@ -366,6 +368,7 @@ public class WorkQueue {
        * method.
        */
       public void cancel() {
+        close();
         latch.cancel();
       }
 
@@ -383,12 +386,15 @@ public class WorkQueue {
       }
 
       public void unpark() {
+        close();
         latch.countDown();
       }
 
       @Override
       public void close() {
-        incrementCorePoolSizeBy(-1);
+        if (isParked.compareAndSet(true, false)) {
+          incrementCorePoolSizeBy(-1);
+        }
       }
     }
 

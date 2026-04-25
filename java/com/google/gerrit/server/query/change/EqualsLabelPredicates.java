@@ -41,6 +41,25 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 public class EqualsLabelPredicates {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  /**
+   * Returns an index-based label predicate, using post-filtering only when required.
+   *
+   * <p>Post-filtering is needed when group membership or vote count must be verified at query time,
+   * as these cannot be fully evaluated from the index alone. For plain label queries with no group
+   * or count constraint, the index result is exact and no post-filter is needed.
+   */
+  public static ChangeIndexPredicate indexPredicate(
+      LabelPredicate.Args args,
+      String label,
+      int expVal,
+      @Nullable Account.Id account,
+      @Nullable Integer count) {
+    if (args.group != null || count != null) {
+      return new IndexEqualsLabelPredicate(args, label, expVal, account, count);
+    }
+    return new IndexOnlyEqualsLabelPredicate(args, label, expVal, account);
+  }
+
   public static class PostFilterEqualsLabelPredicate extends PostFilterPredicate<ChangeData> {
     private final Matcher matcher;
 
@@ -87,6 +106,32 @@ public class EqualsLabelPredicates {
     @Override
     public int getCost() {
       return 1 + (matcher.group == null ? 0 : 1);
+    }
+  }
+
+  /**
+   * Label predicate that only uses the change index, without post-filtering.
+   *
+   * <p>Used when the query has no group or count constraints that cannot be evaluated from the
+   * index alone. In this case the index result is exact and no post-filter is needed.
+   */
+  public static class IndexOnlyEqualsLabelPredicate extends ChangeIndexPredicate {
+    private final Matcher matcher;
+
+    public IndexOnlyEqualsLabelPredicate(
+        LabelPredicate.Args args, String label, int expVal, @Nullable Account.Id account) {
+      super(ChangeField.LABEL_SPEC, ChangeField.formatLabel(label, expVal, account, null));
+      this.matcher = new Matcher(args, label, expVal, account, null);
+    }
+
+    @Override
+    public boolean match(ChangeData object) {
+      return matcher.match(object);
+    }
+
+    @Override
+    public int getCost() {
+      return 1;
     }
   }
 

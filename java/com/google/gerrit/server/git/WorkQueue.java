@@ -60,6 +60,7 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
@@ -347,6 +348,7 @@ public class WorkQueue {
       private final CancellableCountDownLatch latch = new CancellableCountDownLatch(1);
       private final Task<?> task;
       private final Long priority = priorityGenerator.getAndIncrement();
+      private AtomicBoolean isParked = new AtomicBoolean(true);
 
       public ParkedTask(Task<?> task) {
         this.task = task;
@@ -369,6 +371,14 @@ public class WorkQueue {
         latch.cancel();
       }
 
+      public boolean isCancelled() {
+        if (Task.State.CANCELLED.equals(task.getState())) {
+          cancel();
+          return true;
+        }
+        return false;
+      }
+
       public boolean isEqualTo(Task<?> task) {
         return this.task.taskId == task.taskId;
       }
@@ -382,13 +392,20 @@ public class WorkQueue {
         }
       }
 
-      public void unpark() {
+      public boolean unpark() {
+        close();
+        if (isCancelled()) {
+          return false;
+        }
         latch.countDown();
+        return true;
       }
 
       @Override
       public void close() {
-        incrementCorePoolSizeBy(-1);
+        if (isParked.compareAndSet(true, false)) {
+          incrementCorePoolSizeBy(-1);
+        }
       }
     }
 
@@ -728,24 +745,15 @@ public class WorkQueue {
 
     public void updateParked() {
       List<ParkedTask> notReady = new ArrayList<>();
-      ParkedTask ready;
-
-      while ((ready = parked.poll()) != null) {
-        if (Task.State.CANCELLED.equals(ready.task.getState())) {
-          ready.cancel(); // In case a cancelled task is polled before cleanup
-        } else if (isReadyToStart(ready.task)) {
+      for (ParkedTask ready; (ready = parked.poll()) != null; ) {
+        if (isReadyToStart(ready.task) && ready.unpark()) {
           break;
-        } else if (Task.State.CANCELLED.equals(ready.task.getState())) {
-          ready.cancel(); // In case the task is cancelled while evaluating isReadyToStart
-        } else {
+        }
+        if (!ready.isCancelled()) { // Might have been cancelled while evaluating isReadyToStart()
           notReady.add(ready);
         }
       }
       parked.addAll(notReady);
-
-      if (ready != null) {
-        ready.unpark();
-      }
     }
 
     public synchronized void incrementCorePoolSizeBy(int i) {

@@ -463,12 +463,34 @@ public class TaskParkerIT extends AbstractDaemonTest {
     assertStateIsEventually(forwarder.task, State.PARKED);
 
     // interrupt the thread with parked task
-    for (Thread t : Thread.getAllStackTraces().keySet()) {
-      if (t.getName().contains(taskName)) {
-        t.interrupt();
-        break;
-      }
-    }
+    interruptThreadContaining(taskName);
+
+    assertCorePoolSizeIsEventually(1);
+  }
+
+  @Test
+  public void interruptingTaskWhileUnparkingDoesNotDoubleDecrementCorePoolSize()
+      throws InterruptedException {
+    String taskName = "to-be-unparked";
+    LatchedRunnable parkedRunnable = new LatchedRunnable(taskName);
+    LatchedRunnable blockerRunnable = new LatchedRunnable("blocker");
+    assertCorePoolSizeIs(1);
+
+    // park parkedRunnable
+    executor.execute(parkedRunnable);
+    parker.isReadyToStart.assertCalledEventuallyThenComplete(false);
+    assertCorePoolSizeIsEventually(2);
+    assertStateIsEventually(forwarder.task, State.PARKED);
+
+    // start blockerRunnable and unblock it to trigger updateParked() from onStop()
+    executor.execute(blockerRunnable);
+    blockerRunnable.run.assertCalledEventuallyThenComplete(null);
+
+    // Wait for updateParked() to poll parkedRunnable and call isReadyToStart(), then interrupt
+    // the parked thread before releasing isReadyToStart() as ready.
+    parker.isReadyToStart.assertCalledEventually();
+    interruptThreadContaining(taskName);
+    parker.isReadyToStart.complete(true);
 
     assertCorePoolSizeIsEventually(1);
   }
@@ -500,6 +522,15 @@ public class TaskParkerIT extends AbstractDaemonTest {
 
   private void assertTaskCountIsEventually(int count) throws InterruptedException {
     TaskListenerIT.assertTaskCountIsEventually(workQueue, count);
+  }
+
+  private void interruptThreadContaining(String taskName) {
+    for (Thread t : Thread.getAllStackTraces().keySet()) {
+      if (t.getName().contains(taskName)) {
+        t.interrupt();
+        break;
+      }
+    }
   }
 
   private void assertCorePoolSizeIs(int count) {

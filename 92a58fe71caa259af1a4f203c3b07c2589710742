@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e2efcf5_d8d2238b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-04-25T18:12:35Z",
+      "side": 1,
+      "message": "This introduces a change in behaviour between Gerrit and JJ Ids, as JJ\nids are not modifiable via the UI. One could argue that Gerrit change\nids should also not be modifiable in the UI",
+      "revId": "92a58fe71caa259af1a4f203c3b07c2589710742",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

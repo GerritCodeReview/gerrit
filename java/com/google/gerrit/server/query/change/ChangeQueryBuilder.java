@@ -95,6 +95,7 @@ import com.google.gerrit.server.query.change.ChangePredicates.EditByPredicatePro
 import com.google.gerrit.server.query.change.PredicateArgs.ValOp;
 import com.google.gerrit.server.rules.SubmitRule;
 import com.google.gerrit.server.submit.SubmitDryRun;
+import com.google.gerrit.server.util.JujutsuChangeIdUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
@@ -649,6 +650,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       }
     } else if (PAT_CHANGE_ID.matcher(query).matches()) {
       return ChangePredicates.idPrefix(parseChangeId(query));
+    } else if (JujutsuChangeIdUtil.isJujutsuChangeId(query)) {
+      return ChangePredicates.idPrefix(query);
     }
 
     throw new QueryParseException("Invalid change format");
@@ -1763,6 +1766,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   protected Predicate<ChangeData> defaultField(String query) throws QueryParseException {
     if (query.startsWith("refs/")) {
       return ref(query);
+    } else if (JujutsuChangeIdUtil.isJujutsuChangeId(query)) {
+      return change(query);
     } else if (DEF_CHANGE.matcher(query).matches()) {
       List<Predicate<ChangeData>> predicates = Lists.newArrayListWithCapacity(2);
       try {

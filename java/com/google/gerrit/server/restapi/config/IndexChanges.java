@@ -75,7 +75,7 @@ public class IndexChanges implements RestModifyView<ConfigResource, Input> {
         logger.atWarning().log("Change %s missing in NoteDb", changeInfo.changeId());
         if (input.deleteMissing) {
           logger.atWarning().log("Deleting change %s from index", changeInfo.changeId());
-          indexer.delete(changeInfo.changeId());
+          indexer.delete(changeInfo.project, changeInfo.changeId());
         }
         continue;
       }

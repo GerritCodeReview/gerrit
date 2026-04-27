@@ -30,7 +30,7 @@ public class ChangeIndexedCounter implements ChangeIndexedListener {
   }
 
   @Override
-  public void onChangeDeleted(int id) {
+  public void onChangeDeleted(String projectName, int id) {
     countsByChange.incrementAndGet(id);
     deletionsByChange.incrementAndGet(id);
   }

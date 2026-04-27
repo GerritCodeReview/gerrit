@@ -5427,6 +5427,9 @@ public class ChangeIT extends AbstractDaemonTest {
     public void onChangeDeleted(int id) {}
 
     @Override
+    public void onChangeDeleted(int id, String projectName) {}
+
+    @Override
     public void onAllChangesDeletedForProject(String projectName) {
       firedCount.incrementAndGet();
     }

@@ -692,9 +692,8 @@ public class ChangeIndexer {
               e);
         }
       }
-      project.ifPresentOrElse(
-          p -> fireChangeDeletedFromIndexEvent(id.get(), p.get()),
-          () -> fireChangeDeletedFromIndexEvent(id.get(), ""));
+      String projectName = project.orElseThrow().get();
+      fireChangeDeletedFromIndexEvent(id.get(), projectName);
       return null;
     }
   }

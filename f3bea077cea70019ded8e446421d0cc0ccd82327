@@ -69,6 +69,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1f0d5ba_424cdbe0",
+        "filename": "polygerrit-ui/app/embed/diff/gr-selection-action-box/gr-selection-action-box.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 3001824
+      },
+      "writtenOn": "2026-04-27T17:44:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7233920d_a55e5c50",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 0
+      },
+      "revId": "f3bea077cea70019ded8e446421d0cc0ccd82327",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cf0a7b73_63d93c5a",
@@ -82,6 +106,30 @@
       "writtenOn": "2026-04-23T08:42:12Z",
       "side": 1,
       "message": "Is this expected that suite is skipped? I am ok with that.",
+      "range": {
+        "startLine": 19,
+        "startChar": 6,
+        "endLine": 19,
+        "endChar": 10
+      },
+      "revId": "f3bea077cea70019ded8e446421d0cc0ccd82327",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9aa8f77_cc5e8502",
+        "filename": "polygerrit-ui/app/embed/diff/gr-selection-action-box/gr-selection-action-box_screenshot_test.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 3001824
+      },
+      "writtenOn": "2026-04-27T17:44:38Z",
+      "side": 1,
+      "message": "Like the comment above says it\u0027s skipped because of a slight difference in the ui tests between generating the png locally vs what\u0027s run in the CI.\n\nI\u0027m expecting to be able to turn some on when the UI element gets bigger with additional options.",
+      "parentUuid": "cf0a7b73_63d93c5a",
       "range": {
         "startLine": 19,
         "startChar": 6,

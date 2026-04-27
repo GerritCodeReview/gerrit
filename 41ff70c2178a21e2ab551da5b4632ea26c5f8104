@@ -34,6 +34,23 @@
       "parentUuid": "9209b215_442c79cf",
       "revId": "41ff70c2178a21e2ab551da5b4632ea26c5f8104",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "db26ef30_3f0c2eca",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4805113
+      },
+      "writtenOn": "2026-04-27T07:57:35Z",
+      "side": 1,
+      "message": "I want a android update",
+      "revId": "41ff70c2178a21e2ab551da5b4632ea26c5f8104",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

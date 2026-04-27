@@ -5424,7 +5424,7 @@ public class ChangeIT extends AbstractDaemonTest {
     public void onChangeIndexed(String projectName, int id) {}
 
     @Override
-    public void onChangeDeleted(int id) {}
+    public void onChangeDeleted(int id, String projectName) {}
 
     @Override
     public void onAllChangesDeletedForProject(String projectName) {

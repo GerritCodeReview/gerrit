@@ -1234,7 +1234,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @SuppressWarnings("FutureReturnValueIgnored")
   @Test
-  public void deleteChangeFromIndexNotifiesListenersWithoutProjectName() {
+  public void deleteChangeFromIndexNotifiesListenersWithProjectName() {
     TestChange change = changeOperations.newChange().createAndGet();
     TestDeleteForProjectListener deleteAllForProjectsListener = new TestDeleteForProjectListener();
     String projectName = "my-test-project";
@@ -1246,8 +1246,9 @@ public class ChangeIT extends AbstractDaemonTest {
           indexer.deleteAsync(Project.NameKey.parse(projectName), change.numericChangeId());
     }
 
-    assertThat(deleteAllForProjectsListener.getSingleChangeDeletedFiredCount()).isEqualTo(1);
-    assertThat(deleteAllForProjectsListener.getReceivedProjectName()).isNull();
+    assertThat(deleteAllForProjectsListener.getSingleChangeDeletedWithProjectFiredCount())
+        .isEqualTo(1);
+    assertThat(deleteAllForProjectsListener.getReceivedProjectName()).isEqualTo(projectName);
   }
 
   @Test
@@ -5437,15 +5438,16 @@ public class ChangeIT extends AbstractDaemonTest {
 
   public static class TestDeleteForProjectListener implements ChangeIndexedListener {
     private final AtomicInteger allChangesPerProjectDeletedFiredCount = new AtomicInteger(0);
-    private final AtomicInteger singleChangeDeletedFiredCount = new AtomicInteger(0);
+    private final AtomicInteger singleChangeDeletedWithProjectFiredCount = new AtomicInteger(0);
     private String receivedProjectName = null;
 
     @Override
     public void onChangeIndexed(String projectName, int id) {}
 
     @Override
-    public void onChangeDeleted(int id) {
-      singleChangeDeletedFiredCount.incrementAndGet();
+    public void onChangeDeleted(int id, String projectName) {
+      singleChangeDeletedWithProjectFiredCount.incrementAndGet();
+      receivedProjectName = projectName;
     }
 
     @Override
@@ -5457,12 +5459,12 @@ public class ChangeIT extends AbstractDaemonTest {
       return allChangesPerProjectDeletedFiredCount.get();
     }
 
-    public int getSingleChangeDeletedFiredCount() {
-      return singleChangeDeletedFiredCount.get();
-    }
-
     public String getReceivedProjectName() {
       return receivedProjectName;
+    }
+
+    public int getSingleChangeDeletedWithProjectFiredCount() {
+      return singleChangeDeletedWithProjectFiredCount.get();
     }
   }
 

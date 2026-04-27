@@ -95,5 +95,13 @@ public class ActionInfo {
     return Objects.hash(method, label, title, enabled, enabledOptions);
   }
 
+  // TODO(AI review experiment): Remove when UiFeature__enable_ai_chat is removed.
+  public static ActionInfo forBoolean(String label, boolean enabled) {
+    ActionInfo info = new ActionInfo();
+    info.label = label;
+    info.enabled = enabled;
+    return info;
+  }
+
   protected ActionInfo() {}
 }

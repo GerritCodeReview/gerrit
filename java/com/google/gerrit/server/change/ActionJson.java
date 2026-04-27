@@ -14,11 +14,13 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.gerrit.server.experiments.ExperimentFeaturesConstants.ENABLE_AI_CHAT;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.changes.ActionVisitor;
 import com.google.gerrit.extensions.common.ActionInfo;
@@ -30,10 +32,14 @@ import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.webui.PrivateInternals_UiActionDescription;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.experiments.ExperimentFeatures;
 import com.google.gerrit.server.extensions.webui.UiActions;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
+import com.google.gerrit.server.permissions.ChangePermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -46,6 +52,8 @@ import java.util.Map;
 
 @Singleton
 public class ActionJson {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private final DynamicMap<RestView<RevisionResource>> revisionViews;
   private final ChangeJson.Factory changeJsonFactory;
   private final ChangeResource.Factory changeResourceFactory;
@@ -53,6 +61,8 @@ public class ActionJson {
   private final DynamicMap<RestView<ChangeResource>> changeViews;
   private final DynamicSet<ActionVisitor> visitorSet;
   private final Provider<CurrentUser> userProvider;
+  private final ExperimentFeatures experimentFeatures;
+  private final PermissionBackend permissionBackend;
 
   @Inject
   ActionJson(
@@ -62,7 +72,9 @@ public class ActionJson {
       UiActions uiActions,
       DynamicMap<RestView<ChangeResource>> changeViews,
       DynamicSet<ActionVisitor> visitorSet,
-      Provider<CurrentUser> userProvider) {
+      Provider<CurrentUser> userProvider,
+      ExperimentFeatures experimentFeatures,
+      PermissionBackend permissionBackend) {
     this.revisionViews = views;
     this.changeJsonFactory = changeJsonFactory;
     this.changeResourceFactory = changeResourceFactory;
@@ -70,6 +82,8 @@ public class ActionJson {
     this.changeViews = changeViews;
     this.visitorSet = visitorSet;
     this.userProvider = userProvider;
+    this.experimentFeatures = experimentFeatures;
+    this.permissionBackend = permissionBackend;
   }
 
   public Map<String, ActionInfo> format(RevisionResource rsrc) {
@@ -242,6 +256,26 @@ public class ActionJson {
       }
       out.put(d.getId(), actionInfo);
     }
+    addAiReviewAction(rsrc, out);
     return ImmutableMap.copyOf(out);
+  }
+
+  // TODO(AI review experiment): Remove experiment gate when UiFeature__enable_ai_chat is removed.
+  private void addAiReviewAction(RevisionResource rsrc, Map<String, ActionInfo> out) {
+    if (!experimentFeatures.isFeatureEnabled(ENABLE_AI_CHAT)) {
+      return;
+    }
+    try {
+      boolean permitted =
+          permissionBackend
+              .user(rsrc.getUser())
+              .change(rsrc.getChangeResource().getChangeData())
+              .test(ChangePermission.AI_REVIEW);
+      out.put("aiReview", ActionInfo.forBoolean("AI Review", permitted));
+    } catch (PermissionBackendException e) {
+      logger.atWarning().withCause(e).log(
+          "Failed to check AI review permission for change %s",
+          rsrc.getChange().getId());
+    }
   }
 }

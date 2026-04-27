@@ -1220,8 +1220,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void deleteAllForProjectNotifiesListeners() {
-    TestDeleteAllForProjectListener deleteAllForProjectsListener =
-        new TestDeleteAllForProjectListener();
+    TestDeleteForProjectListener deleteAllForProjectsListener = new TestDeleteForProjectListener();
 
     try (Registration ignore =
         extensionRegistry.newRegistration().add(deleteAllForProjectsListener)) {
@@ -1229,7 +1228,26 @@ public class ChangeIT extends AbstractDaemonTest {
       indexer.deleteAllForProject(project);
     }
 
-    assertThat(deleteAllForProjectsListener.getFiredCount()).isEqualTo(1);
+    assertThat(deleteAllForProjectsListener.getAllChangesPerProjectDeletedFiredCount())
+        .isEqualTo(1);
+  }
+
+  @SuppressWarnings("FutureReturnValueIgnored")
+  @Test
+  public void deleteChangeFromIndexNotifiesListenersWithoutProjectName() {
+    TestChange change = changeOperations.newChange().createAndGet();
+    TestDeleteForProjectListener deleteAllForProjectsListener = new TestDeleteForProjectListener();
+    String projectName = "my-test-project";
+
+    try (Registration ignore =
+        extensionRegistry.newRegistration().add(deleteAllForProjectsListener)) {
+
+      var unused =
+          indexer.deleteAsync(Project.NameKey.parse(projectName), change.numericChangeId());
+    }
+
+    assertThat(deleteAllForProjectsListener.getSingleChangeDeletedFiredCount()).isEqualTo(1);
+    assertThat(deleteAllForProjectsListener.getReceivedProjectName()).isNull();
   }
 
   @Test
@@ -5417,22 +5435,34 @@ public class ChangeIT extends AbstractDaemonTest {
     }
   }
 
-  public static class TestDeleteAllForProjectListener implements ChangeIndexedListener {
-    private final AtomicInteger firedCount = new AtomicInteger(0);
+  public static class TestDeleteForProjectListener implements ChangeIndexedListener {
+    private final AtomicInteger allChangesPerProjectDeletedFiredCount = new AtomicInteger(0);
+    private final AtomicInteger singleChangeDeletedFiredCount = new AtomicInteger(0);
+    private String receivedProjectName = null;
 
     @Override
     public void onChangeIndexed(String projectName, int id) {}
 
     @Override
-    public void onChangeDeleted(int id) {}
+    public void onChangeDeleted(int id) {
+      singleChangeDeletedFiredCount.incrementAndGet();
+    }
 
     @Override
     public void onAllChangesDeletedForProject(String projectName) {
-      firedCount.incrementAndGet();
+      allChangesPerProjectDeletedFiredCount.incrementAndGet();
     }
 
-    public int getFiredCount() {
-      return firedCount.get();
+    public int getAllChangesPerProjectDeletedFiredCount() {
+      return allChangesPerProjectDeletedFiredCount.get();
+    }
+
+    public int getSingleChangeDeletedFiredCount() {
+      return singleChangeDeletedFiredCount.get();
+    }
+
+    public String getReceivedProjectName() {
+      return receivedProjectName;
     }
   }
 

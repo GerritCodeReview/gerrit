@@ -615,7 +615,7 @@ function getAiAgentEventDetails(
     ) {
       return;
     }
-    /* eslint-disable quote-props, object-shorthand */
+    /* eslint-disable object-shorthand */
     // prettier-ignore
     return {
       'agentId': agentId,
@@ -623,7 +623,7 @@ function getAiAgentEventDetails(
       'turnIndex': Number(turnIndex),
       'suggestionId': suggestionId,
     };
-    /* eslint-enable quote-props, object-shorthand */
+    /* eslint-enable object-shorthand */
   } catch (e) {
     return undefined;
   }

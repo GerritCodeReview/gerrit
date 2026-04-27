@@ -13,6 +13,7 @@ import './user-message';
 
 import {css, html, LitElement} from 'lit';
 import {customElement, query, queryAll, state} from 'lit/decorators.js';
+import {ExplainCodeEventDetail} from '../../embed/diff/gr-diff-highlight/gr-diff-highlight';
 
 import {
   chatModelToken,
@@ -52,6 +53,15 @@ export class ChatPanel extends LitElement {
   @state() privacyUrl?: string;
 
   @state() isChangePrivate = false;
+
+  set explainCodeData(data: ExplainCodeEventDetail) {
+    // Pass structured data for plugin override
+    this.getChatModel().updateExplainCodeData(data);
+    // Provide full prompt as a safe fallback for core PolyGerrit
+    const sideString = data.side === 'left' ? 'original' : 'modified';
+    const prompt = `Explain this code from the ${sideString} version of ${data.path} (lines ${data.range.start_line}-${data.range.end_line}):\n${data.text}`;
+    this.getChatModel().updateUserInput(prompt);
+  }
 
   private readonly getChatModel = resolve(this, chatModelToken);
 

@@ -26,7 +26,22 @@ declare global {
   interface HTMLElementEventMap {
     /** Fired when the action box is removed. */
     'selection-action-box-removed': CustomEvent<{}>;
+
+    /** Fired when the user requests an explanation of the code snippet. */
+    'explain-code': CustomEvent<ExplainCodeEventDetail>;
   }
+}
+
+export interface ExplainCodeEventDetail {
+  path: string;
+  side: Side;
+  text: string;
+  range: {
+    start_line: number;
+    start_character: number;
+    end_line: number;
+    end_character: number;
+  };
 }
 
 interface SidedRange {
@@ -64,6 +79,8 @@ export interface DiffBuilderInterface {
 export class GrDiffHighlight {
   selectedRange?: SidedRange;
 
+  showExplainCode = false;
+
   private diffBuilder?: DiffBuilderInterface;
 
   private diffTable?: HTMLElement;
@@ -88,6 +105,10 @@ export class GrDiffHighlight {
       'create-comment-requested',
       this.handleRangeCommentRequest
     );
+    diffTable.addEventListener(
+      'explain-code-requested',
+      this.handleExplainCodeRequest
+    );
   }
 
   cleanup() {
@@ -104,6 +125,10 @@ export class GrDiffHighlight {
       this.diffTable.removeEventListener(
         'create-comment-requested',
         this.handleRangeCommentRequest
+      );
+      this.diffTable.removeEventListener(
+        'explain-code-requested',
+        this.handleExplainCodeRequest
       );
     }
   }
@@ -400,6 +425,32 @@ export class GrDiffHighlight {
       end_character: end.column,
     };
     const side = start.side;
+
+    let extractedText = '';
+    const startLine = start.line;
+    const endLine = end.line;
+
+    for (let line = startLine; line <= endLine; line++) {
+      const selector = `.lineNum[data-value="${line}"].${side}`;
+      const lineEl = this.diffTable.querySelector(selector);
+      if (lineEl) {
+        const contentTd = this.diffBuilder?.getContentTdByLineEl(lineEl);
+        const contentTextEl = contentTd?.querySelector('.contentText');
+        if (contentTextEl) {
+          let lineText = contentTextEl.textContent || '';
+          if (line === startLine) {
+            lineText = lineText.slice(start.column);
+          }
+          if (line === endLine) {
+            lineText = lineText.slice(0, end.column);
+          }
+          extractedText += lineText + '\n';
+        }
+      }
+    }
+    // Remove trailing newline if any
+    extractedText = extractedText.replace(/\n$/, '');
+
     this.selectedRange = {range, side};
     this.diffBuilder?.diffModel.fireRangeSelectedEvent(side, range, isMouseUp);
     let actionBox = this.diffTable.querySelector('gr-selection-action-box');
@@ -412,6 +463,13 @@ export class GrDiffHighlight {
     if (hoverCardText) {
       actionBox.setAttribute('hoverCardText', hoverCardText);
     }
+    actionBox.showExplainCode = this.showExplainCode;
+    actionBox.selectionData = {
+      path: this.diffBuilder?.diffModel.getState().path || '',
+      side,
+      text: extractedText,
+      range,
+    };
     if (start.line === end.line) {
       this.positionActionBox(actionBox, start.line, domRange);
     } else if (start.node instanceof Text) {
@@ -449,6 +507,16 @@ export class GrDiffHighlight {
     assertIsDefined(this.selectedRange, 'selectedRange');
     const {side, range} = this.selectedRange;
     this.createRangeComment(side, range);
+  };
+
+  private handleExplainCodeRequest = (
+    e: CustomEvent<ExplainCodeEventDetail>
+  ) => {
+    e.stopPropagation();
+    if (this.diffTable) {
+      fire(this.diffTable, 'explain-code', e.detail);
+    }
+    this.removeActionBox();
   };
 
   // visible for testing

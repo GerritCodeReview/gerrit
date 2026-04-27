@@ -1211,6 +1211,7 @@ export class GrFileList extends LitElement {
             .path=${file.__path}
             .projectName=${this.change?.project}
             ?noRenderOnPrefsChange=${true}
+            .isChatSupported=${true}
           ></gr-diff-host>
         `
       )}

@@ -8,6 +8,7 @@ import '../../../styles/gr-a11y-styles';
 import '../../../styles/gr-material-styles';
 import '../../../styles/shared-styles';
 import '../../chat-panel/chat-panel';
+import {ChatPanel} from '../../chat-panel/chat-panel';
 import '../../checks/gr-checks-tab';
 import '../../diff/gr-apply-fix-dialog/gr-apply-fix-dialog';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
@@ -221,6 +222,8 @@ export class GrChangeView extends LitElement {
   @query('gr-messages-list') messagesList?: GrMessagesList;
 
   @query('gr-thread-list') threadList?: GrThreadList;
+
+  @query('chat-panel') chatPanel?: HTMLElement;
 
   @query('gr-copy-links') private copyLinksDropdown?: GrCopyLinks;
 
@@ -757,7 +760,21 @@ export class GrChangeView extends LitElement {
     // Or consider using either firstConnectedCallback() or constructor().
     document.addEventListener('visibilitychange', this.handleVisibilityChange);
     document.addEventListener('scroll', this.handleScroll);
+    document.addEventListener(
+      'explain-code',
+      this.handleExplainCode as EventListener
+    );
   }
+
+  private handleExplainCode = (e: CustomEvent) => {
+    e.stopPropagation();
+    this.showSidebarChat = true; // Open the chat panel
+    this.updateComplete.then(() => {
+      if (this.chatPanel) {
+        (this.chatPanel as ChatPanel).explainCodeData = e.detail;
+      }
+    });
+  };
 
   override firstUpdated() {
     this.maybeScrollToMessage(window.location.hash);
@@ -805,6 +822,10 @@ export class GrChangeView extends LitElement {
       this.handleVisibilityChange
     );
     document.removeEventListener('scroll', this.handleScroll);
+    document.removeEventListener(
+      'explain-code',
+      this.handleExplainCode as EventListener
+    );
     this.scrollTask?.cancel();
 
     if (this.updateCheckTimerHandle) {

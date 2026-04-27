@@ -7,6 +7,7 @@
 import {fire} from '../../../utils/event-util';
 import {html, LitElement} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
+import type {ExplainCodeEventDetail} from '../gr-diff-highlight/gr-diff-highlight';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -18,6 +19,9 @@ declare global {
 
     /** Fired when the selection action box is visible. */
     'selection-action-box-visible': CustomEvent<{}>;
+
+    /** Fired when explain code action is taken. */
+    'explain-code-requested': CustomEvent<ExplainCodeEventDetail>;
   }
 }
 
@@ -32,6 +36,12 @@ export class GrSelectionActionBox extends LitElement {
   @property({type: String})
   hoverCardText = 'Press c to comment';
 
+  @property({type: Boolean})
+  showExplainCode = false;
+
+  @property({type: Object})
+  selectionData?: ExplainCodeEventDetail;
+
   /**
    * We need to absolutely position the element before we can show it. So
    * initially the tooltip must be invisible.
@@ -45,7 +55,10 @@ export class GrSelectionActionBox extends LitElement {
         ?invisible=${this.invisible}
         @mousedown=${this.handleMenuMouseDown}
       >
-        <div class="menu-item">${this.hoverCardText}</div>
+        <div class="menu-item" id="comment">${this.hoverCardText}</div>
+        ${this.showExplainCode
+          ? html`<div class="menu-item" id="explain">Explain this code</div>`
+          : ''}
       </div>
     `;
   }
@@ -126,11 +139,13 @@ export class GrSelectionActionBox extends LitElement {
     e.stopPropagation();
 
     const target = e.target as HTMLElement;
-    if (
-      target.classList.contains('menu-item') ||
-      target.closest('.menu-item')
-    ) {
+    const menuItem = target.closest('.menu-item');
+    if (menuItem?.id === 'comment') {
       fire(this, 'create-comment-requested', {});
+    } else if (menuItem?.id === 'explain') {
+      if (this.selectionData) {
+        fire(this, 'explain-code-requested', this.selectionData);
+      }
     }
   }
 }

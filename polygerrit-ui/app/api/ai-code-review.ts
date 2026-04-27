@@ -132,6 +132,33 @@ export declare interface ChatRequest {
    * The external contexts that should be used in the request.
    */
   external_contexts: ContextItem[];
+  /**
+   * Optional context representing a pair of file versions.
+   */
+  filePair?: FilePair;
+  /**
+   * Optional context representing a selected range in the code.
+   */
+  selectedRange?: SelectedRange;
+}
+
+export declare interface FileVersion {
+  commit_sha: string;
+}
+
+export declare interface FilePair {
+  lhs?: FileVersion;
+  rhs?: FileVersion;
+  name?: string;
+}
+
+export declare interface SelectedRange {
+  start_line: number;
+  start_character: number;
+  end_line: number;
+  end_character: number;
+  side?: string;
+  text?: string;
 }
 
 /**

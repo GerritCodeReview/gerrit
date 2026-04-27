@@ -37,7 +37,7 @@ suite('gr-selection-action-box', () => {
       /* HTML */ `
         <!---->
         <div class="menu" invisible="">
-          <div class="menu-item">Press c to comment</div>
+          <div class="menu-item" id="comment">Press c to comment</div>
         </div>
       `
     );
@@ -124,7 +124,7 @@ suite('gr-selection-action-box', () => {
         /* HTML */ `
           <!---->
           <div class="menu">
-            <div class="menu-item">Press c to comment</div>
+            <div class="menu-item" id="comment">Press c to comment</div>
           </div>
         `
       );

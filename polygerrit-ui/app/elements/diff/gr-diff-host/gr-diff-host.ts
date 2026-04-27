@@ -155,6 +155,9 @@ export class GrDiffHost extends LitElement {
   @property({type: Boolean})
   noAutoRender = false;
 
+  @property({type: Boolean})
+  isChatSupported = false;
+
   @property({type: Object})
   patchRange?: PatchRange;
 
@@ -488,6 +491,7 @@ export class GrDiffHost extends LitElement {
         .noAutoRender=${this.noAutoRender}
         .path=${this.path}
         .prefs=${this.prefs}
+        .isChatSupported=${this.isChatSupported}
         .noRenderOnPrefsChange=${this.noRenderOnPrefsChange}
         .renderPrefs=${this.renderPrefs}
         .lineWrapping=${this.lineWrapping}

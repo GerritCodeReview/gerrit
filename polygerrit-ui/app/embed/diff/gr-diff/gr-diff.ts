@@ -60,7 +60,8 @@ import {html, LitElement, PropertyValues} from 'lit';
 import {grSyntaxTheme} from '../gr-syntax-themes/gr-syntax-theme';
 import {grRangedCommentTheme} from '../gr-ranged-comment-themes/gr-ranged-comment-theme';
 import {DiffModel, diffModelToken} from '../gr-diff-model/gr-diff-model';
-import {provide} from '../../../models/dependency';
+import {provide, resolve} from '../../../models/dependency';
+import {chatModelToken} from '../../../models/chat/chat-model';
 import {
   grDiffBinaryStyles,
   grDiffContextControlsSectionStyles,
@@ -262,6 +263,14 @@ export class GrDiff extends LitElement implements GrDiffApi {
   // Private but used in tests.
   diffModel = new DiffModel(this);
 
+  private readonly getChatModel = resolve(this, chatModelToken);
+
+  @property({type: Boolean})
+  isChatSupported = false;
+
+  @state()
+  showExplainCode = false;
+
   /**
    * Just the layers that are passed in from the outside. Will be joined with
    * `layersInternal` and sent to the diff model.
@@ -325,6 +334,15 @@ export class GrDiff extends LitElement implements GrDiffApi {
       this,
       () => this.diffModel.groups$,
       groups => (this.groups = groups)
+    );
+    subscribe(
+      this,
+      () => this.getChatModel().capabilitiesLoaded$,
+      capabilitiesLoaded => {
+        this.showExplainCode = capabilitiesLoaded && this.isChatSupported;
+        this.highlights.showExplainCode =
+          capabilitiesLoaded && this.isChatSupported;
+      }
     );
     this.addEventListener('moved-link-clicked', (e: MovedLinkClickedEvent) => {
       this.diffModel.selectLine(e.detail.lineNum, e.detail.side);

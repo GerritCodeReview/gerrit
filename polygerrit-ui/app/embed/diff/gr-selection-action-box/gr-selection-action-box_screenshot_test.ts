@@ -16,7 +16,7 @@ import './gr-selection-action-box';
 import {grDiffElementStyles} from '../gr-diff/gr-diff-styles';
 
 // Skipped because local generation differs from CI by ~3%, exceeding the 2% threshold.
-suite.skip('gr-selection-action-box screenshot tests', () => {
+suite('gr-selection-action-box screenshot tests', () => {
   let container: HTMLDivElement;
   let element: GrSelectionActionBox;
 
@@ -48,5 +48,14 @@ suite.skip('gr-selection-action-box screenshot tests', () => {
     assert.isOk(menu);
     await visualDiff(menu, 'gr-selection-action-box-one-item');
     await visualDiffDarkTheme(menu, 'gr-selection-action-box-one-item');
+  });
+
+  test('renders with two items when showExplainCode is true', async () => {
+    element.showExplainCode = true;
+    await element.updateComplete;
+    const menu = element.querySelector('.menu') as HTMLElement;
+    assert.isOk(menu);
+    await visualDiff(menu, 'gr-selection-action-box-two-items');
+    await visualDiffDarkTheme(menu, 'gr-selection-action-box-two-items');
   });
 });

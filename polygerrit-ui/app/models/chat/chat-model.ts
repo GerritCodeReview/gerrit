@@ -37,6 +37,7 @@ import {UserModel} from '../user/user-model';
 import {contextItemEquals} from './context-item-util';
 import {FilesModel, NormalizedFileInfo} from '../change/files-model';
 import {isMagicPath} from '../../utils/path-list-util';
+import {ExplainCodeEventDetail} from '../../embed/diff/gr-diff-highlight/gr-diff-highlight';
 
 /** The available display modes in the chat panel. */
 export enum ChatPanelMode {
@@ -69,6 +70,8 @@ export declare interface UserMessage {
   // Summarize this CL is trigger when clicking the Help me review button). This
   // may affect the UI layout of the turn.
   readonly isBackgroundRequest?: boolean;
+  // Context for explain-code action.
+  readonly explainCodeData?: ExplainCodeEventDetail;
 }
 
 /**
@@ -154,6 +157,8 @@ export declare interface ClientData {
    * layout of the turn.
    */
   isBackgroundRequest?: boolean;
+
+  explainCodeData?: ExplainCodeEventDetail;
 }
 
 export declare interface ConvTurnId {
@@ -490,6 +495,18 @@ export class ChatModel extends Model<ChatState> {
     });
   }
 
+  updateExplainCodeData(data: ExplainCodeEventDetail) {
+    const state = this.getState();
+    this.updateState({
+      ...state,
+      draftUserMessage: {
+        ...state.draftUserMessage,
+        explainCodeData: data,
+      },
+      contextUpdated: true,
+    });
+  }
+
   chat(
     userInputFreeForm: string,
     actionId: string | undefined,
@@ -578,6 +595,7 @@ export class ChatModel extends Model<ChatState> {
       clientData.actionId = actionId;
       clientData.contextItems = contextItems;
       clientData.isBackgroundRequest = isBackgroundRequest;
+      clientData.explainCodeData = userMessage.explainCodeData;
     }
 
     const request: ChatRequest = {
@@ -594,6 +612,19 @@ export class ChatModel extends Model<ChatState> {
         this.userModel.getState().preferences
       ),
       external_contexts: contextItems,
+      filePair: userMessage.explainCodeData
+        ? {name: userMessage.explainCodeData.path}
+        : undefined,
+      selectedRange: userMessage.explainCodeData
+        ? {
+            start_line: userMessage.explainCodeData.range.start_line,
+            start_character: userMessage.explainCodeData.range.start_character,
+            end_line: userMessage.explainCodeData.range.end_line,
+            end_character: userMessage.explainCodeData.range.end_character,
+            side: userMessage.explainCodeData.side,
+            text: userMessage.explainCodeData.text,
+          }
+        : undefined,
     };
     const listener: ChatResponseListener = {
       emitResponse: (response: ChatResponse) => {

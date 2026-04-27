@@ -376,9 +376,16 @@ public class ChangeIndexer {
     }
   }
 
+  @Deprecated
   private void fireChangeDeletedFromIndexEvent(int id) {
     if (notifyListeners) {
       indexedListeners.runEach(l -> l.onChangeDeleted(id));
+    }
+  }
+
+  private void fireChangeDeletedFromIndexEvent(int id, String projectName) {
+    if (notifyListeners) {
+      indexedListeners.runEach(l -> l.onChangeDeleted(id, projectName));
     }
   }
 
@@ -438,9 +445,9 @@ public class ChangeIndexer {
    *
    * @param id change ID to delete.
    */
-  public void delete(Change.Id id) {
+  public void delete(Project.NameKey project, Change.Id id) {
     fireChangeScheduledForDeletionFromIndexEvent(id.get());
-    doDelete(id);
+    doDelete(project, id);
   }
 
   /**
@@ -458,10 +465,6 @@ public class ChangeIndexer {
 
   private void doDelete(Project.NameKey project, Change.Id id) {
     new DeleteTask(id, Optional.of(project)).call();
-  }
-
-  private void doDelete(Change.Id id) {
-    new DeleteTask(id, Optional.empty()).call();
   }
 
   /**
@@ -692,7 +695,8 @@ public class ChangeIndexer {
               e);
         }
       }
-      fireChangeDeletedFromIndexEvent(id.get());
+      String projectName = project.orElseThrow().get();
+      fireChangeDeletedFromIndexEvent(id.get(), projectName);
       return null;
     }
   }

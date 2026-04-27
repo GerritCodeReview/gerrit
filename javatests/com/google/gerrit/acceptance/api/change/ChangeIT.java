@@ -1234,7 +1234,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @SuppressWarnings("FutureReturnValueIgnored")
   @Test
-  public void deleteChangeFromIndexNotifiesListenersWithoutProjectName() {
+  public void deleteChangeFromIndexNotifiesListeners() {
     TestChange change = changeOperations.newChange().createAndGet();
     TestDeleteForProjectListener deleteAllForProjectsListener = new TestDeleteForProjectListener();
     String projectName = "my-test-project";
@@ -1247,7 +1247,7 @@ public class ChangeIT extends AbstractDaemonTest {
     }
 
     assertThat(deleteAllForProjectsListener.getSingleChangeDeletedFiredCount()).isEqualTo(1);
-    assertThat(deleteAllForProjectsListener.getReceivedProjectName()).isNull();
+    assertThat(deleteAllForProjectsListener.getReceivedProjectName()).isEqualTo(projectName);
   }
 
   @Test
@@ -5317,7 +5317,7 @@ public class ChangeIT extends AbstractDaemonTest {
     Change.Id changeId = change.getChange().getId();
     String metaRef = changeMetaRef(changeId);
 
-    indexer.delete(changeId);
+    indexer.delete(change.getChange().project(), changeId);
 
     try (Repository repo = repoManager.openRepository(project);
         ObjectInserter inserter = repo.newObjectInserter();
@@ -5444,8 +5444,9 @@ public class ChangeIT extends AbstractDaemonTest {
     public void onChangeIndexed(String projectName, int id) {}
 
     @Override
-    public void onChangeDeleted(int id) {
+    public void onChangeDeleted(String projectName, int id) {
       singleChangeDeletedFiredCount.incrementAndGet();
+      receivedProjectName = projectName;
     }
 
     @Override

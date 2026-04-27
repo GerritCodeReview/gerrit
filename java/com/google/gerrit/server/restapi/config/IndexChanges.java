@@ -106,7 +106,7 @@ public class IndexChanges implements RestModifyView<ConfigResource, Input> {
             ChangeData cd = changes.getFirst();
             logger.atWarning().log(
                 "Deleting change %s~%s from index", cd.project(), cd.change().getChangeId());
-            indexer.delete(cd.virtualId());
+            indexer.delete(cd.project(), cd.virtualId());
             continue;
           }
         }

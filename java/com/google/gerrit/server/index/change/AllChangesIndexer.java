@@ -513,7 +513,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
                 logger.atInfo().log("Removing %d changes from index", changesInIndex.size());
                 for (Change.Id id : changesInIndex) {
                   logger.atFine().log("Deleting change %s from index", id);
-                  indexer.delete(id);
+                  indexer.delete(name, id);
                 }
               }
 

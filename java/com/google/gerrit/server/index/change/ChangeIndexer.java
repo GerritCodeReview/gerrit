@@ -376,9 +376,9 @@ public class ChangeIndexer {
     }
   }
 
-  private void fireChangeDeletedFromIndexEvent(int id) {
+  private void fireChangeDeletedFromIndexEvent(int id, String projectName) {
     if (notifyListeners) {
-      indexedListeners.runEach(l -> l.onChangeDeleted(id));
+      indexedListeners.runEach(l -> l.onChangeDeleted(id, projectName));
     }
   }
 
@@ -692,7 +692,8 @@ public class ChangeIndexer {
               e);
         }
       }
-      fireChangeDeletedFromIndexEvent(id.get());
+      project.ifPresentOrElse(p ->
+          fireChangeDeletedFromIndexEvent(id.get(), p.get()), () -> fireChangeDeletedFromIndexEvent(id.get(), ""));
       return null;
     }
   }

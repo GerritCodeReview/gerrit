@@ -1244,7 +1244,8 @@ public class ChangeIT extends AbstractDaemonTest {
       indexer.delete(change.numericChangeId());
     }
 
-    assertThat(deleteAllForProjectsListener.getSingleChangeDeletedFiredCount()).isEqualTo(1);
+    assertThat(deleteAllForProjectsListener.getSingleChangeDeletedFiredCount()).isEqualTo(0);
+    assertThat(deleteAllForProjectsListener.getSingleChangeDeletedWithProjectFiredCount()).isEqualTo(1);
   }
 
   @Test
@@ -5435,7 +5436,7 @@ public class ChangeIT extends AbstractDaemonTest {
   public static class TestDeleteForProjectListener implements ChangeIndexedListener {
     private final AtomicInteger allChangesPerProjectDeletedFiredCount = new AtomicInteger(0);
     private final AtomicInteger singleChangeDeletedFiredCount = new AtomicInteger(0);
-    private String projectName = "no-project-set";
+    private final AtomicInteger singleChangeDeletedWithProjectFiredCount = new AtomicInteger(0);
 
     @Override
     public void onChangeIndexed(String projectName, int id) {}
@@ -5443,6 +5444,11 @@ public class ChangeIT extends AbstractDaemonTest {
     @Override
     public void onChangeDeleted(int id) {
       singleChangeDeletedFiredCount.incrementAndGet();
+    }
+
+    @Override
+    public void onChangeDeleted(int id, String projectName) {
+      singleChangeDeletedWithProjectFiredCount.incrementAndGet();
     }
 
     @Override
@@ -5454,7 +5460,7 @@ public class ChangeIT extends AbstractDaemonTest {
       return allChangesPerProjectDeletedFiredCount.get();
     }
     public int getSingleChangeDeletedFiredCount() {return singleChangeDeletedFiredCount.get();}
-    public String getProjectName(){return projectName;}
+    public int getSingleChangeDeletedWithProjectFiredCount() {return singleChangeDeletedWithProjectFiredCount.get();}
   }
 
   private void voteLabel(String changeId, String labelName, int score) throws RestApiException {

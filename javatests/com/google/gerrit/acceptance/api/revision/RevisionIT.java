@@ -1850,7 +1850,7 @@ public class RevisionIT extends AbstractDaemonTest {
           }
 
           @Override
-          public void onChangeDeleted(int id) {}
+          public void onChangeDeleted(String projectName, int id) {}
         };
 
     try (Registration registration = extensionRegistry.newRegistration().add(listener)) {

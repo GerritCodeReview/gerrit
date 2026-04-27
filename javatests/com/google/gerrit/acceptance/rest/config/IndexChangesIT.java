@@ -102,7 +102,7 @@ public class IndexChangesIT extends AbstractDaemonTest {
     Change.Id changeId = change.getChange().getId();
 
     assertThat(getChangeFromIndex(changeId)).isPresent();
-    indexer.delete(changeId);
+    indexer.delete(project, changeId);
     assertThat(getChangeFromIndex(changeId)).isEmpty();
 
     adminRestSession.post("/config/server/index.changes", indexChangesInput(changeId)).assertOK();
@@ -265,7 +265,7 @@ public class IndexChangesIT extends AbstractDaemonTest {
 
     // Re-index after rewriting the meta-ref so the index reflects the imported serverId,
     // ensuring the virtualId in the index matches what the API will compute at delete time.
-    indexer.delete(changeId);
+    indexer.delete(project, changeId);
     indexer.index(project, changeId);
 
     return change;

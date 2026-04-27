@@ -1904,7 +1904,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     r = push.to("refs/for/master");
     r.assertOkStatus();
 
-    indexer.delete(r.getChange().getId());
+    indexer.delete(project, r.getChange().getId());
 
     assertPushRejected(
         pushHead(testRepo, "refs/for/master", false),

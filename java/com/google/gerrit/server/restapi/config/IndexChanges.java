@@ -17,6 +17,7 @@ package com.google.gerrit.server.restapi.config;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -77,8 +78,9 @@ public class IndexChanges implements RestModifyView<ConfigResource, Input> {
                 id);
             continue;
           }
+          Project.NameKey projectName = Project.nameKey(id.substring(0, id.indexOf('~')));
           logger.atWarning().log("Deleting change %s from index", changeId.get());
-          indexer.delete(changeId.get());
+          indexer.delete(projectName, changeId.get());
         }
         continue;
       }

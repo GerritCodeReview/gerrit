@@ -50,7 +50,6 @@ import com.google.inject.assistedinject.AssistedInject;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
@@ -376,9 +375,9 @@ public class ChangeIndexer {
     }
   }
 
-  private void fireChangeDeletedFromIndexEvent(int id) {
+  private void fireChangeDeletedFromIndexEvent(String projectName, int id) {
     if (notifyListeners) {
-      indexedListeners.runEach(l -> l.onChangeDeleted(id));
+      indexedListeners.runEach(l -> l.onChangeDeleted(projectName, id));
     }
   }
 
@@ -430,7 +429,7 @@ public class ChangeIndexer {
    */
   public ListenableFuture<ChangeData> deleteAsync(Project.NameKey project, Change.Id id) {
     fireChangeScheduledForDeletionFromIndexEvent(id.get());
-    return submit(new DeleteTask(id, Optional.of(project)));
+    return submit(new DeleteTask(id, project));
   }
 
   /**
@@ -438,9 +437,9 @@ public class ChangeIndexer {
    *
    * @param id change ID to delete.
    */
-  public void delete(Change.Id id) {
+  public void delete(Project.NameKey project, Change.Id id) {
     fireChangeScheduledForDeletionFromIndexEvent(id.get());
-    doDelete(id);
+    doDelete(project, id);
   }
 
   /**
@@ -457,11 +456,7 @@ public class ChangeIndexer {
   }
 
   private void doDelete(Project.NameKey project, Change.Id id) {
-    new DeleteTask(id, Optional.of(project)).call();
-  }
-
-  private void doDelete(Change.Id id) {
-    new DeleteTask(id, Optional.empty()).call();
+    new DeleteTask(id, project).call();
   }
 
   /**
@@ -655,9 +650,9 @@ public class ChangeIndexer {
   // Not AbstractIndexTask as it doesn't need a request context.
   private class DeleteTask implements Callable<ChangeData> {
     private final Change.Id id;
-    private final Optional<Project.NameKey> project;
+    private final Project.NameKey project;
 
-    private DeleteTask(Change.Id id, Optional<Project.NameKey> project) {
+    private DeleteTask(Change.Id id, Project.NameKey project) {
       this.id = id;
       this.project = project;
     }
@@ -678,12 +673,7 @@ public class ChangeIndexer {
                     .changeId(id.get())
                     .indexVersion(i.getSchema().getVersion())
                     .build())) {
-          // Some index implementation require ProjectKey to build a database key
-          // If delete(K) method is used, this will require changeId -> projectKey lookup (index
-          // query), which is expensive.
-          // Use changeData with ProjectKey and deleteByValue(V) method, if possible
-          project.ifPresentOrElse(
-              p -> i.deleteByValue(changeDataFactory.create(p, id)), () -> i.delete(id));
+          i.deleteByValue(changeDataFactory.create(project, id));
         } catch (RuntimeException e) {
           throw new StorageException(
               String.format(
@@ -692,7 +682,7 @@ public class ChangeIndexer {
               e);
         }
       }
-      fireChangeDeletedFromIndexEvent(id.get());
+      fireChangeDeletedFromIndexEvent(project.name(), id.get());
       return null;
     }
   }

@@ -38,6 +38,6 @@ public class ChangeIndexerIT extends AbstractDaemonTest {
       indexer.deleteAsync(project, changeId).get();
     }
 
-    verify(listener).onChangeDeleted(changeId.get());
+    verify(listener).onChangeDeleted(changeId.get(), project.get());
   }
 }

@@ -368,7 +368,11 @@ suite('gr-change-actions tests', () => {
       test('chatCapabilitiesLoaded', async () => {
         stubFlags('isEnabled').returns(true);
         element.aiPluginsRegistered = true;
-        element.change = {...element.change!, can_ai_review: true};
+        element.revisionActions = {
+          ...element.revisionActions,
+          aiReview: {label: 'AI Review', enabled: true},
+        };
+        await element.updateComplete;
         chatModel.updateState({
           models: undefined,
           actions: undefined,
@@ -395,6 +399,18 @@ suite('gr-change-actions tests', () => {
         await element.updateComplete;
         assert.isFalse(chatButton.hasAttribute('loading'));
       });
+    });
+
+    test('getAiChatAction returns null when aiReview is denied', async () => {
+      stubFlags('isEnabled').returns(true);
+      element.aiPluginsRegistered = true;
+      element.revisionActions = {
+        ...element.revisionActions,
+        aiReview: {label: 'AI Review', enabled: false},
+      };
+      await element.updateComplete;
+      // @ts-expect-error getAiChatAction is private
+      assert.isNull(element.getAiChatAction());
     });
 
     test('show-revision-actions event should fire', async () => {
@@ -590,13 +606,11 @@ suite('gr-change-actions tests', () => {
       // Create 'reland' via addActionButton to mimic plugin behavior
       const relandKey = element.addActionButton(ActionType.CHANGE, 'Reland');
 
-      // Mock AI Chat action - set can_ai_review before actions to avoid
-      // change setter overwriting element.actions
+      // Mock AI Chat action - enable aiReview in revisionActions.
       stubFlags('isEnabled').returns(true);
       element.aiPluginsRegistered = true;
       element.change = {
         ...element.change!,
-        can_ai_review: true,
         actions: {
           abandon: {
             method: HttpMethod.POST,
@@ -613,6 +627,7 @@ suite('gr-change-actions tests', () => {
           title: 'Rebase this change',
           enabled: true,
         },
+        aiReview: {label: 'AI Review', enabled: true},
       };
 
       await element.updateComplete;

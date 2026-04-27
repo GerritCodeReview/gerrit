@@ -4810,6 +4810,21 @@ Retrieves revision link:#action-info[actions] of the revision of a change.
 }
 ----
 
+NOTE: When the `UiFeature__enable_ai_chat` experiment is enabled, the response
+includes an `aiReview` entry whose `enabled` field reflects the caller's
+`aiReview` permission for the change. The entry is omitted when the experiment
+is disabled or the permission backend errors.
+
+Example:
+----
+{
+  "aiReview": {
+    "label": "AI Review",
+    "enabled": true
+  }
+}
+----
+
 The response is a flat map of possible revision REST endpoint names
 mapped to their link:#action-info[ActionInfo].
 
@@ -7748,8 +7763,6 @@ When present, change is marked as private.
 When present, change is marked as Work In Progress.
 |`has_review_started` |optional, not set if `false`|
 When present, change has been marked Ready at some point in time.
-|`can_ai_review`      |optional|
-Set to `true` if AI review is allowed on the change.
 |`revert_of`          |optional|
 The change number of the change that this change reverts.
 |`submission_id`      |optional|

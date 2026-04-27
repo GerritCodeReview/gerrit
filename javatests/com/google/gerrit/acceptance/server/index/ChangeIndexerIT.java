@@ -30,14 +30,14 @@ public class ChangeIndexerIT extends AbstractDaemonTest {
   @Inject private ExtensionRegistry extensionRegistry;
 
   @Test
-  public void deleteFiresListenerWithNoProjectName() throws Exception {
+  public void deleteFiresListenerWithProjectName() throws Exception {
     Change.Id changeId = createChange().getChange().getId();
     ChangeIndexedListener listener = mock(ChangeIndexedListener.class);
 
     try (Registration registration = extensionRegistry.newRegistration().add(listener)) {
-      indexer.delete(changeId);
+      indexer.deleteAsync(project, changeId).get();
     }
 
-    verify(listener).onChangeDeleted(changeId.get());
+    verify(listener).onChangeDeleted(changeId.get(), project.get());
   }
 }

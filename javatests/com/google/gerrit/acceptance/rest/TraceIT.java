@@ -1196,6 +1196,9 @@ public class TraceIT extends AbstractDaemonTest {
 
     @Override
     public void onChangeDeleted(int id) {}
+
+    @Override
+    public void onChangeDeleted(int id, String projectName) {}
   }
 
   private static class TraceSubmitRule implements SubmitRule {

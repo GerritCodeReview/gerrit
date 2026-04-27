@@ -73,7 +73,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.truth.ThrowableSubject;
-import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.ChangeIndexedCounter;
 import com.google.gerrit.acceptance.ExtensionRegistry;
@@ -1243,11 +1242,14 @@ public class ChangeIT extends AbstractDaemonTest {
     try (Registration ignore =
         extensionRegistry.newRegistration().add(deleteAllForProjectsListener)) {
 
-      var unused = indexer.deleteAsync(Project.NameKey.parse(projectName), change.numericChangeId());
+      var unused =
+          indexer.deleteAsync(Project.NameKey.parse(projectName), change.numericChangeId());
     }
 
-    assertThat(deleteAllForProjectsListener.getSingleChangeDeletedFiredCount()).isEqualTo(1);
-    assertThat(deleteAllForProjectsListener.getReceivedProjectName()).isEmpty();
+    assertThat(deleteAllForProjectsListener.getSingleChangeDeletedFiredCount()).isEqualTo(0);
+    assertThat(deleteAllForProjectsListener.getSingleChangeDeletedWithProjectFiredCount())
+        .isEqualTo(1);
+    assertThat(deleteAllForProjectsListener.getReceivedProjectName()).isEqualTo(projectName);
   }
 
   @Test
@@ -5438,6 +5440,7 @@ public class ChangeIT extends AbstractDaemonTest {
   public static class TestDeleteForProjectListener implements ChangeIndexedListener {
     private final AtomicInteger allChangesPerProjectDeletedFiredCount = new AtomicInteger(0);
     private final AtomicInteger singleChangeDeletedFiredCount = new AtomicInteger(0);
+    private final AtomicInteger singleChangeDeletedWithProjectFiredCount = new AtomicInteger(0);
     private String receivedProjectName = "";
 
     @Override
@@ -5446,6 +5449,12 @@ public class ChangeIT extends AbstractDaemonTest {
     @Override
     public void onChangeDeleted(int id) {
       singleChangeDeletedFiredCount.incrementAndGet();
+    }
+
+    @Override
+    public void onChangeDeleted(int id, String projectName) {
+      singleChangeDeletedWithProjectFiredCount.incrementAndGet();
+      receivedProjectName = projectName;
     }
 
     @Override
@@ -5463,6 +5472,10 @@ public class ChangeIT extends AbstractDaemonTest {
 
     public String getReceivedProjectName() {
       return receivedProjectName;
+    }
+
+    public int getSingleChangeDeletedWithProjectFiredCount() {
+      return singleChangeDeletedWithProjectFiredCount.get();
     }
   }
 

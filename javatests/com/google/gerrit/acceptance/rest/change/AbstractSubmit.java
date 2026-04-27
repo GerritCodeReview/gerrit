@@ -97,6 +97,7 @@ import com.google.gerrit.server.git.validators.OnSubmitValidationListener;
 import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.testing.TestLabels;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.restapi.change.Submit;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
@@ -1042,12 +1043,12 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     // Cherry-pick strategy does not query from index
     assume().that(getSubmitType()).isNotEqualTo(CHERRY_PICK);
     // retry on index
-    PushOneCommit.Result change = createChange();
+    ChangeData change = createChange().getChange();
 
     // Submit using full change Id to avoid using index.
-    String id = change.getChange().project() + "~" + change.getChange().getId().get();
+    String id = change.project() + "~" + change.getId().get();
     approve(id);
-    changeIndex.delete(change.getChange().getId());
+    changeIndex.delete(change.project(), change.getId());
 
     TestSubmitInput input = new TestSubmitInput();
 
@@ -1076,14 +1077,14 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
       throws Throwable {
     // Cherry-pick strategy does not query from the index
     assume().that(getSubmitType()).isNotEqualTo(CHERRY_PICK);
-    PushOneCommit.Result change = createChange();
+    ChangeData change = createChange().getChange();
 
     // Submit using full change Id to avoid using index.
-    String id = change.getChange().project() + "~" + change.getChange().getId().get();
+    String id = change.project() + "~" + change.getId().get();
     approve(id);
 
     // Delete the change from the index, to ensure the use of the backfill mechanism
-    changeIndex.delete(change.getChange().getId());
+    changeIndex.delete(change.project(), change.getId());
 
     testMetricMaker.reset();
 

@@ -64,6 +64,7 @@ public class IndexChanges implements RestModifyView<ConfigResource, Input> {
     }
 
     List<ChangeIdentifier> changeIds = new ArrayList<>();
+
     for (String id : input.changes) {
       changeIds.add(getChangeIdentifier(id));
     }

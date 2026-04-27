@@ -16,6 +16,24 @@
       "message": "@mfick@nvidia.com I did an AI review and it found some issues, so I had it fix them and add a new test too. PTAL",
       "revId": "3f80988841d651319b0bd6a117be228c5b1c2081",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2906a6bc_c28de719",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-04-27T16:08:24Z",
+      "side": 1,
+      "message": "Love it. Refactored to hopefully make this cleaner and safer.",
+      "parentUuid": "fcf28e4e_3097e4b5",
+      "revId": "3f80988841d651319b0bd6a117be228c5b1c2081",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

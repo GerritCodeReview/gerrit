@@ -43,7 +43,11 @@ public interface ChangeIndexedListener {
   void onChangeIndexed(String projectName, int id);
 
   /** Invoked when a change is deleted from the index. */
+  @Deprecated
   void onChangeDeleted(int id);
+
+  /** Invoked when a change is deleted from the index. */
+  void onChangeDeleted(int id, String projectName);
 
   /**
    * Invoked when all change indexes are deleted for a given project

@@ -215,7 +215,7 @@ public class IndexChangesIT extends AbstractDaemonTest {
 
     // Re-index after rewriting the meta-ref so the index reflects the imported serverId,
     // ensuring the virtualId in the index matches what the API will compute at delete time.
-    indexer.delete(changeId);
+    indexer.delete(project, changeId);
     indexer.index(project, changeId);
 
     return change;

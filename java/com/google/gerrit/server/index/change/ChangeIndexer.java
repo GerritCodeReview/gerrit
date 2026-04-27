@@ -376,9 +376,16 @@ public class ChangeIndexer {
     }
   }
 
+  @Deprecated
   private void fireChangeDeletedFromIndexEvent(int id) {
     if (notifyListeners) {
       indexedListeners.runEach(l -> l.onChangeDeleted(id));
+    }
+  }
+
+  private void fireChangeDeletedFromIndexEvent(int id, String projectName) {
+    if (notifyListeners) {
+      indexedListeners.runEach(l -> l.onChangeDeleted(id, projectName));
     }
   }
 
@@ -692,7 +699,12 @@ public class ChangeIndexer {
               e);
         }
       }
-      fireChangeDeletedFromIndexEvent(id.get());
+
+      project.ifPresentOrElse(
+          p -> fireChangeDeletedFromIndexEvent(id.get(), p.get()),
+          () -> fireChangeScheduledForDeletionFromIndexEvent(id.get())
+      );
+
       return null;
     }
   }

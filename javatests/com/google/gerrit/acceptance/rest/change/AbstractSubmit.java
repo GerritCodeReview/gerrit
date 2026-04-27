@@ -1047,7 +1047,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     // Submit using full change Id to avoid using index.
     String id = change.getChange().project() + "~" + change.getChange().getId().get();
     approve(id);
-    changeIndex.delete(change.getChange().getId());
+    changeIndex.delete(change.getChange().project(), change.getChange().getId());
 
     TestSubmitInput input = new TestSubmitInput();
 
@@ -1083,7 +1083,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     approve(id);
 
     // Delete the change from the index, to ensure the use of the backfill mechanism
-    changeIndex.delete(change.getChange().getId());
+    changeIndex.delete(change.getChange().project(), change.getChange().getId());
 
     testMetricMaker.reset();
 

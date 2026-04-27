@@ -17,6 +17,7 @@ package com.google.gerrit.server.restapi.config;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -74,12 +75,12 @@ public class IndexChanges implements RestModifyView<ConfigResource, Input> {
       if (notes.isEmpty()) {
         logger.atWarning().log("Change %s missing in NoteDb", id);
         if (input.deleteMissing) {
-          int tilde = id.lastIndexOf('~');
-          String numericPart = tilde >= 0 ? id.substring(tilde + 1) : id;
+          Project.NameKey projectName = Project.nameKey(id.substring(0, id.indexOf('~')));
+          String numericPart = id.substring(id.lastIndexOf('~') + 1);
           Optional<Change.Id> changeId = Change.Id.tryParse(numericPart);
           if (changeId.isPresent()) {
             logger.atWarning().log("Deleting change %s from index", changeId.get());
-            indexer.delete(changeId.get());
+            indexer.delete(projectName, changeId.get());
           }
         }
         continue;

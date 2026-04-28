@@ -28,7 +28,7 @@ import {GrDropdownList} from '../shared/gr-dropdown-list/gr-dropdown-list';
 import {getAppContext} from '../../services/app-context';
 import {suggestionsServiceToken} from '../../services/suggestions/suggestions-service';
 import {testResolver} from '../../test/common-test-setup';
-
+import {Link} from '../../api/checks';
 suite('gr-result-row test', () => {
   let element: GrResultRow;
 
@@ -233,6 +233,12 @@ suite('gr-result-row test', () => {
       )
     );
   });
+
+  test('renderLink returns undefined when url is empty, whitespace, or missing', () => {
+    assert.isUndefined(element.renderLink({url: ''} as Link));
+    assert.isUndefined(element.renderLink({url: '   '} as Link));
+    assert.isUndefined(element.renderLink(undefined));
+  });
 });
 
 suite('gr-result-expanded test', () => {
@@ -377,6 +383,12 @@ suite('gr-result-expanded test', () => {
         </div>
       `
     );
+  });
+
+  test('renderLink returns undefined when url is empty, whitespace, or missing', () => {
+    assert.isUndefined(element.renderLink({url: ''} as Link));
+    assert.isUndefined(element.renderLink({url: '   '} as Link));
+    assert.isUndefined(element.renderLink(undefined));
   });
 });
 
@@ -668,5 +680,11 @@ suite('gr-checks-results test', () => {
         ignoreAttributes: ['tabindex', 'aria-disabled', 'role'],
       }
     );
+  });
+
+  test('renderLink returns undefined when url is empty, whitespace, or missing', () => {
+    assert.isUndefined(element.renderLink({url: ''} as Link));
+    assert.isUndefined(element.renderLink({url: '   '} as Link));
+    assert.isUndefined(element.renderLink(undefined));
   });
 });

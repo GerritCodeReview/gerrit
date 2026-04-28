@@ -124,6 +124,7 @@ import {commentsModelToken} from '../../../models/comments/comments-model';
 import {resolve} from '../../../models/dependency';
 import {checksModelToken} from '../../../models/checks/checks-model';
 import {changeModelToken} from '../../../models/change/change-model';
+import {chatModelToken} from '../../../models/chat/chat-model';
 import {css, html, LitElement, nothing} from 'lit';
 import {a11yStyles} from '../../../styles/gr-a11y-styles';
 import {materialStyles} from '../../../styles/gr-material-styles';
@@ -379,6 +380,10 @@ export class GrChangeView extends LitElement {
   @state()
   private revertingChange?: ChangeInfo;
 
+  @state() protected commitMessageSuggestion?: string;
+
+  @state() protected isFetchingCommitMessageSuggestion = false;
+
   // Private but used in tests.
   @state()
   flowsTabEnabled = false;
@@ -415,6 +420,8 @@ export class GrChangeView extends LitElement {
   private readonly getConfigModel = resolve(this, configModelToken);
 
   private readonly getViewModel = resolve(this, changeViewModelToken);
+
+  private readonly getChatModel = resolve(this, chatModelToken);
 
   private readonly getFlowsModel = resolve(this, flowsModelToken);
 
@@ -744,6 +751,20 @@ export class GrChangeView extends LitElement {
       () => this.getRelatedChangesModel().revertingChange$,
       revertingChange => {
         this.revertingChange = revertingChange;
+      }
+    );
+    subscribe(
+      this,
+      () => this.getChatModel().commitMessageSuggestion$,
+      suggestion => {
+        this.commitMessageSuggestion = suggestion;
+      }
+    );
+    subscribe(
+      this,
+      () => this.getChatModel().isFetchingCommitMessageSuggestion$,
+      isFetching => {
+        this.isFetchingCommitMessageSuggestion = isFetching;
       }
     );
   }
@@ -2023,6 +2044,25 @@ export class GrChangeView extends LitElement {
     this.allPatchSets = computeAllPatchSets(this.change);
     if (!this.change) return;
     this.labelsChanged(oldChange?.labels, this.change.labels);
+
+    this.maybeFetchCommitMessageSuggestion(oldChange);
+  }
+
+  private maybeFetchCommitMessageSuggestion(oldChange?: ParsedChangeInfo) {
+    const hasChangeOrRevisionChanged =
+      !oldChange ||
+      oldChange._number !== this.change?._number ||
+      oldChange.current_revision !== this.change?.current_revision;
+
+    if (!hasChangeOrRevisionChanged) return;
+
+    if (
+      this.flagService.isEnabled(
+        'UiFeature__enable_ai_commit_message_augmentation'
+      )
+    ) {
+      this.getChatModel().fetchCommitMessageSuggestion();
+    }
   }
 
   /**

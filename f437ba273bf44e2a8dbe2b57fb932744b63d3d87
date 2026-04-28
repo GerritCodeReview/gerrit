@@ -135,6 +135,24 @@
       "message": "Looks like this was reverting the edit you made in the previous change.\n```suggestion\nGerrit is a web-based code review system for Git. Backend is Java 21, frontend is TypeScript/Lit components, built with Bazel.\nThe bazel version to be used can be read from the `.bazelversion` file.\n```",
       "revId": "f437ba273bf44e2a8dbe2b57fb932744b63d3d87",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac5b82ee_142b7fc8",
+        "filename": "AGENTS.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-04-28T20:13:35Z",
+      "side": 1,
+      "message": "Hasn\u0027t master already moved to Java 25?\nDo we need to specify the java version here?",
+      "parentUuid": "55db3365_6a6c07dc",
+      "revId": "f437ba273bf44e2a8dbe2b57fb932744b63d3d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

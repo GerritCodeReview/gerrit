@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65f332d7_845c1442",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-04-28T20:28:48Z",
+      "side": 1,
+      "message": "Not sure I get what\u0027s going on from this commit message?\n\nCould you please explain the change in a bit more detail?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 62
+      },
+      "revId": "0d4d5dcb956fe479cdcba4e405dc1473a9032b84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59da864d_5746c34d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-04-28T20:28:48Z",
+      "side": 1,
+      "message": "This sounds like a new features, unless I\u0027m wrong, which is likely, why are we skipping release notes on it?",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 19
+      },
+      "revId": "0d4d5dcb956fe479cdcba4e405dc1473a9032b84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

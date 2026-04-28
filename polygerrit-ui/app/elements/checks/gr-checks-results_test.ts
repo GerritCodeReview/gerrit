@@ -233,6 +233,12 @@ suite('gr-result-row test', () => {
       )
     );
   });
+
+  test('renderLink returns undefined when url is empty, whitespace, or missing', () => {
+    assert.isUndefined(element.renderLink({url: ''} as any));
+    assert.isUndefined(element.renderLink({url: '   '} as any));
+    assert.isUndefined(element.renderLink({} as any));
+  });
 });
 
 suite('gr-result-expanded test', () => {
@@ -377,6 +383,12 @@ suite('gr-result-expanded test', () => {
         </div>
       `
     );
+  });
+
+  test('renderLink returns undefined when url is empty, whitespace, or missing', () => {
+    assert.isUndefined((element as any).renderLink({url: ''} as any));
+    assert.isUndefined((element as any).renderLink({url: '   '} as any));
+    assert.isUndefined((element as any).renderLink({} as any));
   });
 });
 
@@ -668,5 +680,11 @@ suite('gr-checks-results test', () => {
         ignoreAttributes: ['tabindex', 'aria-disabled', 'role'],
       }
     );
+  });
+
+  test('renderLink returns undefined when url is empty, whitespace, or missing', () => {
+    assert.isUndefined((element as any).renderLink({url: ''} as any));
+    assert.isUndefined((element as any).renderLink({url: '   '} as any));
+    assert.isUndefined((element as any).renderLink({} as any));
   });
 });

@@ -583,7 +583,7 @@ export class GrResultRow extends LitElement {
   renderLink(link?: Link) {
     // The expanded state renders all links in more detail. Hide in summary.
     if (this.isExpanded) return;
-    if (!link) return;
+    if (!link?.url?.trim()) return;
     const tooltipText = link.tooltip ?? tooltipForLink(link.icon);
     const icon = iconForLink(link.icon);
     return html`<gr-tooltip-content
@@ -916,7 +916,7 @@ export class GrResultExpanded extends LitElement {
   }
 
   private renderLink(link?: Link, targetBlank = true) {
-    if (!link) return;
+    if (!link?.url?.trim()) return;
     const text = link.tooltip ?? tooltipForLink(link.icon);
     const target = targetBlank ? '_blank' : undefined;
     const icon = iconForLink(link.icon);
@@ -1407,7 +1407,7 @@ export class GrChecksResults extends LitElement {
   }
 
   private renderLink(link?: Link) {
-    if (!link) return;
+    if (!link?.url?.trim()) return;
     const tooltipText = link.tooltip ?? tooltipForLink(link.icon);
     const icon = iconForLink(link.icon);
     return html`<gr-tooltip-content

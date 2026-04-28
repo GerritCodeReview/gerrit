@@ -345,4 +345,211 @@ suite('chat-model tests', () => {
     const state = model.getState();
     assert.equal(state.turns[0].geminiMessage.regenerationIndex, 0);
   });
+
+  suite('commit message suggestion tests', () => {
+    test('fetchCommitMessageSuggestion successfully gets suggestion', async () => {
+      const change = {
+        ...createParsedChange(),
+        _number: 123 as any,
+        current_revision: 'rev123' as any,
+      } as any;
+      changeModel.updateStateChange(change);
+
+      (provider.getActions as sinon.SinonStub).resolves({
+        actions: [{id: 'Improve_Commit_Message', initial_user_prompt: 'suggestion'}],
+        default_action_id: 'Improve_Commit_Message',
+      });
+      (provider.getModels as sinon.SinonStub).resolves({
+        models: [{model_id: 'default-model'}],
+        default_model_id: 'default-model',
+      });
+
+      await new Promise(resolve => setTimeout(resolve, 0));
+      (provider.chat as sinon.SinonStub).resetHistory();
+
+      let suggestion: string | undefined;
+      const sub = model.commitMessageSuggestion$.subscribe(s => (suggestion = s));
+
+      let isFetching = false;
+      const isFetchingSub = model.isFetchingCommitMessageSuggestion$.subscribe(f => (isFetching = f));
+
+      model.fetchCommitMessageSuggestion();
+
+      assert.isTrue(isFetching);
+
+      const listener = (provider.chat as sinon.SinonStub).lastCall.args[1];
+
+      listener.emitResponse({
+        response_parts: [{id: 1, text: 'Suggestion result'}],
+      });
+      listener.done();
+
+      assert.isFalse(isFetching);
+      assert.equal(suggestion, 'Suggestion result');
+
+      sub.unsubscribe();
+      isFetchingSub.unsubscribe();
+    });
+
+    test('fetchCommitMessageSuggestion returns early when already fetching', async () => {
+      const change = {
+        ...createParsedChange(),
+        _number: 123 as any,
+        current_revision: 'rev123' as any,
+      } as any;
+      changeModel.updateStateChange(change);
+
+      model.updateState({
+        isFetchingCommitMessageSuggestion: true,
+      });
+
+      (provider.chat as sinon.SinonStub).resetHistory();
+      await model.fetchCommitMessageSuggestion();
+
+      assert.isFalse((provider.chat as sinon.SinonStub).called);
+    });
+
+    test('fetchCommitMessageSuggestion returns early when already loaded for revision', async () => {
+      const change = {
+        ...createParsedChange(),
+        _number: 123 as any,
+        current_revision: 'rev123' as any,
+      } as any;
+      changeModel.updateStateChange(change);
+
+      model.updateState({
+        isFetchingCommitMessageSuggestion: false,
+        suggestionLoadedForRevision: 'rev123',
+      });
+
+      (provider.chat as sinon.SinonStub).resetHistory();
+      await model.fetchCommitMessageSuggestion();
+
+      assert.isFalse((provider.chat as sinon.SinonStub).called);
+    });
+
+    test('fetchCommitMessageSuggestion defers fetching when dependencies not ready', async () => {
+      const change = {
+        ...createParsedChange(),
+        _number: 123 as any,
+        current_revision: 'rev123' as any,
+      } as any;
+      changeModel.updateStateChange(change);
+
+      await new Promise(resolve => setTimeout(resolve, 0));
+
+      // Dependency actions/models missing
+      model.updateState({
+        actions: undefined,
+        models: undefined,
+      });
+
+      await new Promise(resolve => setTimeout(resolve, 0));
+      (provider.chat as sinon.SinonStub).resetHistory();
+      model.fetchCommitMessageSuggestion();
+
+      assert.isFalse((provider.chat as sinon.SinonStub).called);
+
+      await new Promise(resolve => setTimeout(resolve, 0));
+
+      // Verify setting deferred state
+      const state = model.getState();
+      assert.isFalse(state.isFetchingCommitMessageSuggestion);
+    });
+
+    test('fetchCommitMessageSuggestion handles emission of errors', async () => {
+      const change = {
+        ...createParsedChange(),
+        _number: 123 as any,
+        current_revision: 'rev123' as any,
+      } as any;
+      changeModel.updateStateChange(change);
+
+      (provider.getActions as sinon.SinonStub).resolves({
+        actions: [{id: 'Improve_Commit_Message'}],
+        default_action_id: 'Improve_Commit_Message',
+      });
+      (provider.getModels as sinon.SinonStub).resolves({
+        models: [{model_id: 'default-model'}],
+        default_model_id: 'default-model',
+      });
+
+      await new Promise(resolve => setTimeout(resolve, 0));
+
+      let errorMsg: string | undefined;
+      const errorSub = model.commitMessageSuggestionError$.subscribe(e => (errorMsg = e));
+
+      (provider.chat as sinon.SinonStub).resetHistory();
+      model.fetchCommitMessageSuggestion();
+
+      const listener = (provider.chat as sinon.SinonStub).lastCall.args[1];
+
+      listener.emitError('fetch failed error');
+
+      assert.equal(errorMsg, 'fetch failed error');
+      assert.isFalse(model.getState().isFetchingCommitMessageSuggestion);
+
+      errorSub.unsubscribe();
+    });
+
+    test('fetchCommitMessageSuggestion sets undefined on empty suggestion message', async () => {
+      const change = {
+        ...createParsedChange(),
+        _number: 123 as any,
+        current_revision: 'rev123' as any,
+      } as any;
+      changeModel.updateStateChange(change);
+
+      (provider.getActions as sinon.SinonStub).resolves({
+        actions: [{id: 'Improve_Commit_Message'}],
+        default_action_id: 'Improve_Commit_Message',
+      });
+      (provider.getModels as sinon.SinonStub).resolves({
+        models: [{model_id: 'default-model'}],
+        default_model_id: 'default-model',
+      });
+
+      await new Promise(resolve => setTimeout(resolve, 0));
+
+      (provider.chat as sinon.SinonStub).resetHistory();
+      model.fetchCommitMessageSuggestion();
+
+      const listener = (provider.chat as sinon.SinonStub).lastCall.args[1];
+
+      listener.emitResponse({
+        response_parts: [{id: 1, text: 'No improvements suggested.'}],
+      });
+      listener.done();
+
+      assert.isUndefined(model.getState().commitMessageSuggestion);
+    });
+
+    test('change subscription clearing state on different revision', async () => {
+      const change1 = {
+        ...createParsedChange(),
+        _number: 123 as any,
+        current_revision: 'rev123' as any,
+      } as any;
+      changeModel.updateStateChange(change1);
+
+      model.updateState({
+        commitMessageSuggestion: 'Good suggestion',
+        isFetchingCommitMessageSuggestion: false,
+        commitMessageSuggestionError: undefined,
+        suggestionLoadedForRevision: 'rev123',
+      });
+
+      const change2 = {
+        ...change1,
+        current_revision: 'rev124' as any,
+      } as any;
+      changeModel.updateStateChange(change2);
+
+      const state = model.getState();
+      assert.isUndefined(state.commitMessageSuggestion);
+      assert.isUndefined(state.suggestionLoadedForRevision);
+      assert.isFalse(state.isFetchingCommitMessageSuggestion);
+    });
+  });
 });
+

@@ -3,11 +3,12 @@
  * Copyright 2025 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {combineLatest, Observable} from 'rxjs';
-import {startWith} from 'rxjs/operators';
+import { combineLatest, Observable } from 'rxjs';
+import { startWith } from 'rxjs/operators';
 
 import {
   Action,
+  ActionEnum,
   Actions,
   AiCodeReviewProvider,
   ChatRequest,
@@ -23,20 +24,20 @@ import {
   Models,
   Reference,
 } from '../../api/ai-code-review';
-import {ChangeInfo, CommentInfo, FileInfoStatus} from '../../api/rest-api';
-import {PreferencesInfo} from '../../types/common';
-import {isDefined} from '../../types/types';
-import {assert, assertIsDefined, cryptoUuid} from '../../utils/common-util';
-import {select} from '../../utils/observable-util';
-import {Model} from '../base/model';
-import {ChangeModel} from '../change/change-model';
-import {define} from '../dependency';
-import {PluginsModel} from '../plugins/plugins-model';
-import {UserModel} from '../user/user-model';
+import { ChangeInfo, CommentInfo, FileInfoStatus } from '../../api/rest-api';
+import { PreferencesInfo } from '../../types/common';
+import { isDefined } from '../../types/types';
+import { assert, assertIsDefined, cryptoUuid } from '../../utils/common-util';
+import { select } from '../../utils/observable-util';
+import { Model } from '../base/model';
+import { ChangeModel } from '../change/change-model';
+import { define } from '../dependency';
+import { PluginsModel } from '../plugins/plugins-model';
+import { UserModel } from '../user/user-model';
 
-import {contextItemEquals} from './context-item-util';
-import {FilesModel, NormalizedFileInfo} from '../change/files-model';
-import {isMagicPath} from '../../utils/path-list-util';
+import { contextItemEquals } from './context-item-util';
+import { FilesModel, NormalizedFileInfo } from '../change/files-model';
+import { isMagicPath } from '../../utils/path-list-util';
 
 /** The available display modes in the chat panel. */
 export enum ChatPanelMode {
@@ -215,6 +216,11 @@ export declare interface ChatState extends ConversationState {
   // Error message if the context item types failed to load.
   readonly contextItemTypesLoadingError?: string;
   readonly provider?: AiCodeReviewProvider;
+
+  readonly commitMessageSuggestion?: string;
+  readonly isFetchingCommitMessageSuggestion: boolean;
+  readonly commitMessageSuggestionError?: string;
+  readonly suggestionLoadedForRevision?: string;
 }
 
 export const initialConversationState: ConversationState = {
@@ -333,11 +339,28 @@ export class ChatModel extends Model<ChatState> {
     state => state.provider
   );
 
+  readonly commitMessageSuggestion$: Observable<string | undefined> = select(
+    this.state$,
+    chatState => chatState.commitMessageSuggestion
+  );
+
+  readonly isFetchingCommitMessageSuggestion$: Observable<boolean> = select(
+    this.state$,
+    chatState => chatState.isFetchingCommitMessageSuggestion ?? false
+  );
+
+  readonly commitMessageSuggestionError$: Observable<string | undefined> = select(
+    this.state$,
+    chatState => chatState.commitMessageSuggestionError
+  );
+
   private plugin?: AiCodeReviewProvider;
 
   private change?: ChangeInfo;
 
   private files: NormalizedFileInfo[] = [];
+
+  private shouldFetchCommitMessageSuggestionWhenReady = false;
 
   constructor(
     private readonly pluginsModel: PluginsModel,
@@ -347,6 +370,7 @@ export class ChatModel extends Model<ChatState> {
   ) {
     super({
       mode: ChatPanelMode.CONVERSATION,
+      isFetchingCommitMessageSuggestion: false,
       ...initialConversationState,
     });
 
@@ -385,13 +409,29 @@ export class ChatModel extends Model<ChatState> {
         this.getActions();
         this.getContextItemTypes();
         this.listConversations();
+
+        if (this.shouldFetchCommitMessageSuggestionWhenReady) {
+          this.shouldFetchCommitMessageSuggestionWhenReady = false;
+          this.fetchCommitMessageSuggestion();
+        }
       }
     });
 
     this.filesModel.files$.subscribe(files => (this.files = files ?? []));
     this.changeModel.change$.subscribe(change => {
       const isNewChange = change?._number !== this.change?._number;
+      const isNewRevision = change?.current_revision !== this.change?.current_revision;
       this.change = change as ChangeInfo;
+
+      if (!isNewChange && isNewRevision) {
+        this.updateState({
+          commitMessageSuggestion: undefined,
+          isFetchingCommitMessageSuggestion: false,
+          commitMessageSuggestionError: undefined,
+          suggestionLoadedForRevision: undefined,
+        });
+      }
+
       // We only want to reset the chat state and fetch models when navigating
       // to a different change. Otherwise, property updates on the change
       // object (e.g. submittability loaded) will trigger duplicate requests.
@@ -410,6 +450,10 @@ export class ChatModel extends Model<ChatState> {
         contextItemTypes: undefined,
         contextItemTypesLoadingError: undefined,
         conversations: undefined,
+        commitMessageSuggestion: undefined,
+        isFetchingCommitMessageSuggestion: false,
+        commitMessageSuggestionError: undefined,
+        suggestionLoadedForRevision: undefined,
       });
 
       if (!this.change) return;
@@ -418,6 +462,11 @@ export class ChatModel extends Model<ChatState> {
       this.getActions();
       this.getContextItemTypes();
       this.listConversations();
+
+      if (this.plugin && this.shouldFetchCommitMessageSuggestionWhenReady) {
+        this.shouldFetchCommitMessageSuggestionWhenReady = false;
+        this.fetchCommitMessageSuggestion();
+      }
     });
   }
 
@@ -621,11 +670,11 @@ export class ChatModel extends Model<ChatState> {
         const turns: readonly Turn[] = state.turns;
         const lastTurn: Turn | undefined = turns[turns.length - 1];
         if (!lastTurn?.geminiMessage) {
-          this.updateState({errorMessage});
+          this.updateState({ errorMessage });
           return;
         }
         this.updateState({
-          ...mergeIntoTurn(state, turnId, {errorMessage}),
+          ...mergeIntoTurn(state, turnId, { errorMessage }),
           errorMessage,
         });
       },
@@ -750,7 +799,7 @@ export class ChatModel extends Model<ChatState> {
   }
 
   setMode(mode: ChatPanelMode) {
-    this.updateState({mode});
+    this.updateState({ mode });
     if (mode === ChatPanelMode.HISTORY) {
       this.listConversations();
     }
@@ -761,10 +810,10 @@ export class ChatModel extends Model<ChatState> {
     return this.plugin
       ?.listChatConversations?.(this.change)
       .then((conversations: Conversation[]) => {
-        this.updateState({conversations});
+        this.updateState({ conversations });
       })
       .catch((error: Error) => {
-        this.updateState({errorMessage: error.message});
+        this.updateState({ errorMessage: error.message });
         console.error('Failed to list chat conversations', error);
       });
   }
@@ -784,14 +833,138 @@ export class ChatModel extends Model<ChatState> {
         });
       })
       .catch((error: Error) => {
-        this.updateState({errorMessage: error.message});
+        this.updateState({ errorMessage: error.message });
         console.error('Failed to load chat conversation', error);
       });
   }
 
+  async fetchCommitMessageSuggestion() {
+    const state = this.getState();
+    if (state.isFetchingCommitMessageSuggestion) return;
+    if (this.change?.current_revision && state.suggestionLoadedForRevision === this.change.current_revision) return;
+
+    this.updateState({
+      isFetchingCommitMessageSuggestion: true,
+      commitMessageSuggestionError: undefined,
+      suggestionLoadedForRevision: undefined,
+    });
+
+    const actionsLoaded = state.actions !== undefined && state.models !== undefined;
+
+    if (!this.plugin || !this.change || !actionsLoaded) {
+      this.shouldFetchCommitMessageSuggestionWhenReady = true;
+      this.updateState({
+        isFetchingCommitMessageSuggestion: false,
+      });
+      return;
+    }
+
+    const fallbackId =
+      '//depot/google3/configs/devtools/gerritcodereview/ai-review/gerrit/GERRIT_CAPABILITIES.textproto:Improve_Commit_Message';
+
+    const actions = [
+      ...(state.customActions ?? []),
+      ...(state.actions?.actions ?? []),
+    ];
+
+    const action = actions.find(
+      a =>
+        a.id === 'Improve_Commit_Message' ||
+        a.id.endsWith(':Improve_Commit_Message')
+    );
+
+    const actionId = action?.id ?? fallbackId;
+
+    const actionToUse: Action = {
+      id: actionId,
+      display_text: action?.display_text ?? 'Improve Commit Message',
+      action_type: ActionEnum.ACTION_CUSTOM,
+      initial_user_prompt:
+        action?.initial_user_prompt ??
+        'Improve the commit message for this patch.',
+      custom_action_source: action?.custom_action_source ?? {
+        custom_action_id: actionId,
+        metadata_source: {
+          cl_number: this.change._number,
+        },
+      },
+    };
+
+
+
+    const files = this.files
+      .map(file => ({
+        path: file.__path,
+        status: file.status ?? FileInfoStatus.MODIFIED,
+      }))
+      .filter(file => !isMagicPath(file.path));
+
+    const clientData = {
+      overridesPreviousTurn: true,
+      actionId: actionToUse.id,
+      contextItems: [],
+      isBackgroundRequest: false,
+    };
+
+    const request: ChatRequest = {
+      action: actionToUse,
+      prompt:
+        actionToUse.initial_user_prompt ||
+        'Improve the commit message for this patch.',
+      conversation_id: cryptoUuid(),
+      change: this.change,
+      files,
+      turn_index: 0,
+      regeneration_index: 0,
+      client_data: JSON.stringify(clientData),
+      model_name: this.getEffectiveModelId(
+        state,
+        this.userModel.getState().preferences
+      ),
+      external_contexts: [],
+    };
+
+    let responseText = '';
+
+    const listener: ChatResponseListener = {
+      emitResponse: (response: ChatResponse) => {
+        const text = response.response_parts
+          .map(part => part.text)
+          .filter(isDefined)
+          .join('');
+        responseText += text;
+      },
+      emitError: (errorMessage: string) => {
+        this.updateState({
+          isFetchingCommitMessageSuggestion: false,
+          commitMessageSuggestionError: errorMessage,
+        });
+      },
+      done: () => {
+        const suggestion = responseText === 'No improvements suggested.' ? undefined : responseText;
+        this.updateState({
+          commitMessageSuggestion: suggestion,
+          isFetchingCommitMessageSuggestion: false,
+          suggestionLoadedForRevision: this.change?.current_revision,
+        });
+      },
+    };
+
+    try {
+      if (this.plugin?.chat) {
+        this.plugin.chat(request, listener);
+      }
+    } catch (e) {
+      this.updateState({
+        isFetchingCommitMessageSuggestion: false,
+        commitMessageSuggestionError: (e as Error).message,
+      });
+    }
+  }
+
   selectModel(selectedModelId: string) {
-    this.updateState({selectedModelId});
-    this.userModel.updatePreferences({ai_chat_selected_model: selectedModelId});
+    this.updateState({ selectedModelId });
+    this.userModel.updatePreferences({ ai_chat_selected_model: selectedModelId });
   }
 
   getModels() {
@@ -804,6 +977,11 @@ export class ChatModel extends Model<ChatState> {
           modelsLoadingError: undefined,
           customActions: models.custom_actions,
         });
+
+        if (this.shouldFetchCommitMessageSuggestionWhenReady) {
+          this.shouldFetchCommitMessageSuggestionWhenReady = false;
+          this.fetchCommitMessageSuggestion();
+        }
       })
       .catch((error: Error) => {
         this.updateState({
@@ -823,6 +1001,11 @@ export class ChatModel extends Model<ChatState> {
           actions,
           actionsLoadingError: undefined,
         });
+
+        if (this.shouldFetchCommitMessageSuggestionWhenReady) {
+          this.shouldFetchCommitMessageSuggestionWhenReady = false;
+          this.fetchCommitMessageSuggestion();
+        }
       })
       .catch((error: Error) => {
         this.updateState({
@@ -903,10 +1086,10 @@ function mergeIntoTurn(
 
   const turns = [
     ...state.turns.slice(0, turnIndex),
-    {...state.turns[turnIndex], geminiMessage: mergedMessage},
+    { ...state.turns[turnIndex], geminiMessage: mergedMessage },
     ...state.turns.slice(turnIndex + 1),
   ];
-  return {...state, turns};
+  return { ...state, turns };
 }
 
 /**
@@ -1088,7 +1271,7 @@ function stateFromConversationResponse(
       responseComplete: true,
       regenerationIndex,
       responseParts: extractResponseParts(turnResponse, {
-        turnId: {turnIndex: index, regenerationIndex},
+        turnId: { turnIndex: index, regenerationIndex },
         conversationId,
       }),
       references: turnResponse.references,
@@ -1097,7 +1280,7 @@ function stateFromConversationResponse(
         ? new Date(turn.timestamp_millis)
         : undefined,
     };
-    turns.push({userMessage, geminiMessage});
+    turns.push({ userMessage, geminiMessage });
   }
 
   const draftUserMessage: UserMessage = {

@@ -3,7 +3,7 @@
  * Copyright 2015 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {BehaviorSubject} from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import '../../../styles/gr-a11y-styles';
 import '../../../styles/gr-material-styles';
 import '../../../styles/shared-styles';
@@ -34,13 +34,13 @@ import '../gr-related-changes-list/gr-related-changes-list';
 import '../gr-reply-dialog/gr-reply-dialog';
 import '../gr-thread-list/gr-thread-list';
 import '../gr-flows/gr-flows';
-import {ChangeStarToggleStarDetail} from '../../shared/gr-change-star/gr-change-star';
-import {GrEditConstants} from '../../edit/gr-edit-constants';
-import {pluralize, trimWithEllipsis} from '../../../utils/string-util';
-import {untilRendered, whenVisible} from '../../../utils/dom-util';
-import {navigationToken} from '../../core/gr-navigation/gr-navigation';
-import {ChangeStatus, DiffViewMode, Tab} from '../../../constants/constants';
-import {getAppContext} from '../../../services/app-context';
+import { ChangeStarToggleStarDetail } from '../../shared/gr-change-star/gr-change-star';
+import { GrEditConstants } from '../../edit/gr-edit-constants';
+import { pluralize, trimWithEllipsis } from '../../../utils/string-util';
+import { untilRendered, whenVisible } from '../../../utils/dom-util';
+import { navigationToken } from '../../core/gr-navigation/gr-navigation';
+import { ChangeStatus, DiffViewMode, Tab } from '../../../constants/constants';
+import { getAppContext } from '../../../services/app-context';
 import {
   computeAllPatchSets,
   computeLatestPatchNum,
@@ -51,12 +51,12 @@ import {
   isInvolved,
   roleDetails,
 } from '../../../utils/change-util';
-import {customElement, property, query, state} from 'lit/decorators.js';
-import {GrApplyFixDialog} from '../../diff/gr-apply-fix-dialog/gr-apply-fix-dialog';
-import {GrFileListHeader} from '../gr-file-list-header/gr-file-list-header';
-import {GrEditableContent} from '../../shared/gr-editable-content/gr-editable-content';
-import {GrChangeStar} from '../../shared/gr-change-star/gr-change-star';
-import {GrChangeActions} from '../gr-change-actions/gr-change-actions';
+import { customElement, property, query, state } from 'lit/decorators.js';
+import { GrApplyFixDialog } from '../../diff/gr-apply-fix-dialog/gr-apply-fix-dialog';
+import { GrFileListHeader } from '../gr-file-list-header/gr-file-list-header';
+import { GrEditableContent } from '../../shared/gr-editable-content/gr-editable-content';
+import { GrChangeStar } from '../../shared/gr-change-star/gr-change-star';
+import { GrChangeActions } from '../gr-change-actions/gr-change-actions';
 import {
   AccountDetailInfo,
   ActionNameToActionInfoMap,
@@ -74,14 +74,14 @@ import {
   ServerInfo,
   UrlEncodedCommentId,
 } from '../../../types/common';
-import {FocusTarget, GrReplyDialog} from '../gr-reply-dialog/gr-reply-dialog';
-import {GrIncludedInDialog} from '../gr-included-in-dialog/gr-included-in-dialog';
-import {GrDownloadDialog} from '../gr-download-dialog/gr-download-dialog';
-import {GrChangeMetadata} from '../gr-change-metadata/gr-change-metadata';
-import {assert, assertIsDefined, queryAll} from '../../../utils/common-util';
-import {GrEditControls} from '../../edit/gr-edit-controls/gr-edit-controls';
-import {isUnresolved} from '../../../utils/comment-util';
-import {GrFileList} from '../gr-file-list/gr-file-list';
+import { FocusTarget, GrReplyDialog } from '../gr-reply-dialog/gr-reply-dialog';
+import { GrIncludedInDialog } from '../gr-included-in-dialog/gr-included-in-dialog';
+import { GrDownloadDialog } from '../gr-download-dialog/gr-download-dialog';
+import { GrChangeMetadata } from '../gr-change-metadata/gr-change-metadata';
+import { assert, assertIsDefined, queryAll } from '../../../utils/common-util';
+import { GrEditControls } from '../../edit/gr-edit-controls/gr-edit-controls';
+import { isUnresolved } from '../../../utils/comment-util';
+import { GrFileList } from '../gr-file-list/gr-file-list';
 import {
   EditRevisionInfo,
   LoadingStatus,
@@ -97,11 +97,11 @@ import {
   TabState,
   ValueChangedEvent,
 } from '../../../types/events';
-import {Side} from '../../../api/diff';
-import {GrButton} from '../../shared/gr-button/gr-button';
-import {GrMessagesList} from '../gr-messages-list/gr-messages-list';
-import {GrThreadList} from '../gr-thread-list/gr-thread-list';
-import {fire, fireAlert, fireReload} from '../../../utils/event-util';
+import { Side } from '../../../api/diff';
+import { GrButton } from '../../shared/gr-button/gr-button';
+import { GrMessagesList } from '../gr-messages-list/gr-messages-list';
+import { GrThreadList } from '../gr-thread-list/gr-thread-list';
+import { fire, fireAlert, fireReload } from '../../../utils/event-util';
 import {
   debounce,
   DelayedTask,
@@ -109,7 +109,7 @@ import {
   until,
   waitUntil,
 } from '../../../utils/async-util';
-import {Interaction} from '../../../constants/reporting';
+import { Interaction } from '../../../constants/reporting';
 import {
   getAddedByReason,
   getRemovedByReason,
@@ -120,39 +120,40 @@ import {
   ShortcutSection,
   shortcutsServiceToken,
 } from '../../../services/shortcuts/shortcuts-service';
-import {commentsModelToken} from '../../../models/comments/comments-model';
-import {resolve} from '../../../models/dependency';
-import {checksModelToken} from '../../../models/checks/checks-model';
-import {changeModelToken} from '../../../models/change/change-model';
-import {css, html, LitElement, nothing} from 'lit';
-import {a11yStyles} from '../../../styles/gr-a11y-styles';
-import {materialStyles} from '../../../styles/gr-material-styles';
-import {sharedStyles} from '../../../styles/shared-styles';
-import {ifDefined} from 'lit/directives/if-defined.js';
-import {ref} from 'lit/directives/ref.js';
-import {when} from 'lit/directives/when.js';
-import {ShortcutController} from '../../lit/shortcut-controller';
-import {FilesExpandedState} from '../gr-file-list-constants';
-import {subscribe} from '../../lit/subscription-controller';
-import {configModelToken} from '../../../models/config/config-model';
-import {prependOrigin} from '../../../utils/url-util';
-import {CopyLink, GrCopyLinks} from '../gr-copy-links/gr-copy-links';
+import { commentsModelToken } from '../../../models/comments/comments-model';
+import { resolve } from '../../../models/dependency';
+import { checksModelToken } from '../../../models/checks/checks-model';
+import { changeModelToken } from '../../../models/change/change-model';
+import { chatModelToken } from '../../../models/chat/chat-model';
+import { css, html, LitElement, nothing } from 'lit';
+import { a11yStyles } from '../../../styles/gr-a11y-styles';
+import { materialStyles } from '../../../styles/gr-material-styles';
+import { sharedStyles } from '../../../styles/shared-styles';
+import { ifDefined } from 'lit/directives/if-defined.js';
+import { ref } from 'lit/directives/ref.js';
+import { when } from 'lit/directives/when.js';
+import { ShortcutController } from '../../lit/shortcut-controller';
+import { FilesExpandedState } from '../gr-file-list-constants';
+import { subscribe } from '../../lit/subscription-controller';
+import { configModelToken } from '../../../models/config/config-model';
+import { prependOrigin } from '../../../utils/url-util';
+import { CopyLink, GrCopyLinks } from '../gr-copy-links/gr-copy-links';
 import {
   ChangeChildView,
   changeViewModelToken,
   ChangeViewState,
   createChangeUrl,
 } from '../../../models/views/change';
-import {rootUrl} from '../../../utils/url-util';
-import {userModelToken} from '../../../models/user/user-model';
-import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
-import {modalStyles} from '../../../styles/gr-modal-styles';
-import {relatedChangesModelToken} from '../../../models/change/related-changes-model';
-import {flowsModelToken} from '../../../models/flows/flows-model';
-import {assign} from '../../../utils/location-util';
+import { rootUrl } from '../../../utils/url-util';
+import { userModelToken } from '../../../models/user/user-model';
+import { pluginLoaderToken } from '../../shared/gr-js-api-interface/gr-plugin-loader';
+import { modalStyles } from '../../../styles/gr-modal-styles';
+import { relatedChangesModelToken } from '../../../models/change/related-changes-model';
+import { flowsModelToken } from '../../../models/flows/flows-model';
+import { assign } from '../../../utils/location-util';
 import '@material/web/tabs/secondary-tab';
 import '@material/web/tabs/tabs';
-import {MdTabs} from '@material/web/tabs/tabs';
+import { MdTabs } from '@material/web/tabs/tabs';
 
 const MIN_LINES_FOR_COMMIT_COLLAPSE = 18;
 
@@ -227,7 +228,7 @@ export class GrChangeView extends LitElement {
   @state()
   viewState?: ChangeViewState;
 
-  @property({type: String})
+  @property({ type: String })
   backPage?: string;
 
   @state()
@@ -359,7 +360,7 @@ export class GrChangeView extends LitElement {
   @state()
   private showSidebarChat = false;
 
-  @property({type: Boolean})
+  @property({ type: Boolean })
   unresolvedOnly = true;
 
   @state()
@@ -378,6 +379,9 @@ export class GrChangeView extends LitElement {
 
   @state()
   private revertingChange?: ChangeInfo;
+
+  @state() protected commitMessageSuggestion?: string;
+  @state() protected isFetchingCommitMessageSuggestion = false;
 
   // Private but used in tests.
   @state()
@@ -415,6 +419,7 @@ export class GrChangeView extends LitElement {
   private readonly getConfigModel = resolve(this, configModelToken);
 
   private readonly getViewModel = resolve(this, changeViewModelToken);
+  private readonly getChatModel = resolve(this, chatModelToken);
 
   private readonly getFlowsModel = resolve(this, flowsModelToken);
 
@@ -492,9 +497,9 @@ export class GrChangeView extends LitElement {
 
   private setupShortcuts() {
     // TODO: Do we still need docOnly bindings?
-    this.shortcutsController.addAbstract(Shortcut.EMOJI_DROPDOWN, () => {}); // docOnly
-    this.shortcutsController.addAbstract(Shortcut.MENTIONS_DROPDOWN, () => {}); // docOnly
-    this.shortcutsController.addAbstract(Shortcut.SAVE_COMMENT, () => {}); // docOnly
+    this.shortcutsController.addAbstract(Shortcut.EMOJI_DROPDOWN, () => { }); // docOnly
+    this.shortcutsController.addAbstract(Shortcut.MENTIONS_DROPDOWN, () => { }); // docOnly
+    this.shortcutsController.addAbstract(Shortcut.SAVE_COMMENT, () => { }); // docOnly
     this.shortcutsController.addAbstract(Shortcut.REFRESH_CHANGE, () =>
       this.getChangeModel().navigateToChangeResetReload()
     );
@@ -577,7 +582,7 @@ export class GrChangeView extends LitElement {
         // works only when change is already loaded and user clicks on link
         // to same page when tabs are not in view, but tabs needs to be rendered.
         if (this.tabs) {
-          this.tabs.scrollIntoView({block: 'nearest'});
+          this.tabs.scrollIntoView({ block: 'nearest' });
         }
         this.activeTab = t;
       }
@@ -744,6 +749,20 @@ export class GrChangeView extends LitElement {
       () => this.getRelatedChangesModel().revertingChange$,
       revertingChange => {
         this.revertingChange = revertingChange;
+      }
+    );
+    subscribe(
+      this,
+      () => this.getChatModel().commitMessageSuggestion$,
+      suggestion => {
+        this.commitMessageSuggestion = suggestion;
+      }
+    );
+    subscribe(
+      this,
+      () => this.getChatModel().isFetchingCommitMessageSuggestion$,
+      isFetching => {
+        this.isFetchingCommitMessageSuggestion = isFetching;
       }
     );
   }
@@ -1184,8 +1203,8 @@ export class GrChangeView extends LitElement {
       </dialog>
       <dialog id="replyModal" @close=${this.onReplyModalCanceled}>
         ${when(
-          this.replyModalOpened && this.loggedIn,
-          () => html`
+      this.replyModalOpened && this.loggedIn,
+      () => html`
             <gr-reply-dialog
               id="replyDialog"
               .permittedLabels=${this.change?.permitted_labels}
@@ -1195,7 +1214,7 @@ export class GrChangeView extends LitElement {
             >
             </gr-reply-dialog>
           `
-        )}
+    )}
       </dialog>
     `;
   }
@@ -1241,12 +1260,12 @@ export class GrChangeView extends LitElement {
     return html` <div class="headerTitle">
       <div class="changeStatuses">
         ${changeStatuses.map(
-          status => html` <gr-change-status
+      status => html` <gr-change-status
             .revertedChange=${this.revertingChange}
             .status=${status}
             .resolveWeblinks=${resolveWeblinks}
           ></gr-change-status>`
-        )}
+    )}
       </div>
       <div class="changeStarContainer">
         ${this.renderCopyLinksDropdown()}
@@ -1256,18 +1275,18 @@ export class GrChangeView extends LitElement {
           down-arrow
           class="showCopyLinkDialogButton"
           @click=${(e: MouseEvent) => {
-            // We don't want to handle clicks on the star or the <a> link.
-            // Calling `stopPropagation()` from the click handler of <a> is not an
-            // option, because then the click does not reach the top-level gr-page
-            // click handler and would result is a full page reload.
-            if ((e.target as HTMLElement)?.nodeName !== 'GR-BUTTON') return;
-            this.copyLinksDropdown?.toggleDropdown(e.target as HTMLElement);
-          }}
+        // We don't want to handle clicks on the star or the <a> link.
+        // Calling `stopPropagation()` from the click handler of <a> is not an
+        // option, because then the click does not reach the top-level gr-page
+        // click handler and would result is a full page reload.
+        if ((e.target as HTMLElement)?.nodeName !== 'GR-BUTTON') return;
+        this.copyLinksDropdown?.toggleDropdown(e.target as HTMLElement);
+      }}
           ><gr-change-star
             id="changeStar"
             .change=${this.change}
             @toggle-star=${(e: CustomEvent<ChangeStarToggleStarDetail>) =>
-              this.handleToggleStar(e)}
+        this.handleToggleStar(e)}
             ?hidden=${!this.loggedIn}
           ></gr-change-star>
           <a
@@ -1380,9 +1399,9 @@ export class GrChangeView extends LitElement {
                 id="replyBtn"
                 class="reply"
                 title=${this.createTitle(
-                  Shortcut.OPEN_REPLY_DIALOG,
-                  ShortcutSection.ACTIONS
-                )}
+      Shortcut.OPEN_REPLY_DIALOG,
+      ShortcutSection.ACTIONS
+    )}
                 primary=""
                 .disabled=${this.replyDisabled}
                 @click=${this.handleReplyTap}
@@ -1449,8 +1468,8 @@ export class GrChangeView extends LitElement {
             >
           </md-secondary-tab>
           ${when(
-            this.showChecksTab,
-            () => html`
+      this.showChecksTab,
+      () => html`
               <md-secondary-tab
                 data-name=${Tab.CHECKS}
                 @click=${this.onMdSecondaryTabClick}
@@ -1458,10 +1477,10 @@ export class GrChangeView extends LitElement {
                 ><span>Checks</span></md-secondary-tab
               >
             `
-          )}
+    )}
           ${when(
-            this.flowsTabEnabled,
-            () => html`
+      this.flowsTabEnabled,
+      () => html`
               <md-secondary-tab
                 data-name=${Tab.FLOWS}
                 @click=${this.onMdSecondaryTabClick}
@@ -1469,9 +1488,9 @@ export class GrChangeView extends LitElement {
                 ><span>Flows</span></md-secondary-tab
               >
             `
-          )}
+    )}
           ${this.pluginTabsHeaderEndpoints.map(
-            tabHeader => html`
+      tabHeader => html`
               <md-secondary-tab
                 data-name=${tabHeader}
                 @click=${this.onMdSecondaryTabClick}
@@ -1485,7 +1504,7 @@ export class GrChangeView extends LitElement {
                 </gr-endpoint-decorator>
               </md-secondary-tab>
             `
-          )}
+    )}
         </md-tabs>
       </div>
     `;
@@ -1526,14 +1545,14 @@ export class GrChangeView extends LitElement {
           .change=${this.change}
           .changeNum=${this.changeNum}
           .editMode=${this.editMode}
-          @files-shown-changed=${(e: CustomEvent<{length: number}>) => {
-            this.shownFileCount = e.detail.length;
-          }}
+          @files-shown-changed=${(e: CustomEvent<{ length: number }>) => {
+        this.shownFileCount = e.detail.length;
+      }}
           @files-expanded-changed=${(
-            _e: ValueChangedEvent<FilesExpandedState>
-          ) => {
-            this.requestUpdate();
-          }}
+        _e: ValueChangedEvent<FilesExpandedState>
+      ) => {
+        this.requestUpdate();
+      }}
           @file-action-tap=${this.handleFileActionTap}
           @open-download-dialog=${this.handleOpenDownloadDialog}
         >
@@ -1644,7 +1663,7 @@ export class GrChangeView extends LitElement {
   // Private but used in tests.
   handleToggleDiffMode() {
     if (this.diffViewMode === DiffViewMode.SIDE_BY_SIDE) {
-      this.getUserModel().updatePreferences({diff_view: DiffViewMode.UNIFIED});
+      this.getUserModel().updatePreferences({ diff_view: DiffViewMode.UNIFIED });
     } else {
       this.getUserModel().updatePreferences({
         diff_view: DiffViewMode.SIDE_BY_SIDE,
@@ -1665,14 +1684,14 @@ export class GrChangeView extends LitElement {
     );
     const tab = tabs[tabIndex].dataset['name'];
 
-    this.getViewModel().updateState({tab});
+    this.getViewModel().updateState({ tab });
   }
 
   setActiveTab(e: SwitchTabEvent) {
     const tab = e.detail.tab;
-    this.getViewModel().updateState({tab});
+    this.getViewModel().updateState({ tab });
     if (e.detail.tabState) this.tabState = e.detail.tabState;
-    if (e.detail.scrollIntoView) this.tabs!.scrollIntoView({block: 'center'});
+    if (e.detail.scrollIntoView) this.tabs!.scrollIntoView({ block: 'center' });
   }
 
   /**
@@ -1903,11 +1922,11 @@ export class GrChangeView extends LitElement {
 
   private async onOpenDiffInChangeView(e: OpenDiffInChangeViewEvent) {
     if (!this.fileList) return;
-    const {path, lineNum, side} = e.detail;
+    const { path, lineNum, side } = e.detail;
 
     if (this.activeTab !== Tab.FILES) {
       this.setActiveTab(
-        new CustomEvent('show-tab', {detail: {tab: Tab.FILES}})
+        new CustomEvent('show-tab', { detail: { tab: Tab.FILES } })
       );
     }
 
@@ -1965,7 +1984,7 @@ export class GrChangeView extends LitElement {
   }
 
   // Private but used in tests.
-  handleMessageAnchorTap(e: CustomEvent<{id: string}>) {
+  handleMessageAnchorTap(e: CustomEvent<{ id: string }>) {
     assertIsDefined(this.change, 'change');
     assertIsDefined(this.patchNum, 'patchNum');
     const hash = PREFIX + e.detail.id;
@@ -2023,6 +2042,25 @@ export class GrChangeView extends LitElement {
     this.allPatchSets = computeAllPatchSets(this.change);
     if (!this.change) return;
     this.labelsChanged(oldChange?.labels, this.change.labels);
+
+    this.maybeFetchCommitMessageSuggestion(oldChange);
+  }
+
+  private maybeFetchCommitMessageSuggestion(oldChange?: ParsedChangeInfo) {
+    const hasChangeOrRevisionChanged =
+      !oldChange ||
+      oldChange._number !== this.change?._number ||
+      oldChange.current_revision !== this.change?.current_revision;
+
+    if (!hasChangeOrRevisionChanged) return;
+
+    if (
+      this.flagService.isEnabled(
+        'UiFeature__enable_ai_commit_message_augmentation'
+      )
+    ) {
+      this.getChatModel().fetchCommitMessageSuggestion();
+    }
   }
 
   /**
@@ -2066,7 +2104,7 @@ export class GrChangeView extends LitElement {
   handleToggleAttentionSet() {
     if (!this.change || !this.account?._account_id) return;
     if (!this.loggedIn || !isInvolved(this.change, this.account)) return;
-    const newChange = {...this.change};
+    const newChange = { ...this.change };
     if (!newChange.attention_set) newChange.attention_set = {};
     if (hasAttention(this.account, this.change.attention_set)) {
       const reason = getRemovedByReason(this.account, this.serverConfig);
@@ -2112,7 +2150,7 @@ export class GrChangeView extends LitElement {
       return;
     }
     this.getNavigation().setUrl(
-      createChangeUrl({change: this.change, patchNum: this.patchNum})
+      createChangeUrl({ change: this.change, patchNum: this.patchNum })
     );
   }
 
@@ -2180,7 +2218,7 @@ export class GrChangeView extends LitElement {
       return;
     }
     this.getNavigation().setUrl(
-      createChangeUrl({change: this.change, patchNum: latestPatchNum})
+      createChangeUrl({ change: this.change, patchNum: latestPatchNum })
     );
   }
 
@@ -2333,7 +2371,7 @@ export class GrChangeView extends LitElement {
     return (
       !!this.latestCommitMessage &&
       this.latestCommitMessage.split('\n').length >=
-        MIN_LINES_FOR_COMMIT_COLLAPSE
+      MIN_LINES_FOR_COMMIT_COLLAPSE
     );
   }
 
@@ -2405,7 +2443,7 @@ export class GrChangeView extends LitElement {
       case GrEditConstants.Actions.OPEN.id:
         this.getNavigation().setUrl(
           this.getViewModel().editUrl({
-            editView: {path},
+            editView: { path },
             patchNum: this.patchNum,
           })
         );
@@ -2431,7 +2469,7 @@ export class GrChangeView extends LitElement {
     );
 
     if (editInfo) {
-      const url = createChangeUrl({change: this.change, patchNum: EDIT});
+      const url = createChangeUrl({ change: this.change, patchNum: EDIT });
       this.getNavigation().setUrl(url);
       return;
     }
@@ -2487,7 +2525,7 @@ export class GrChangeView extends LitElement {
   }
 
   private handleRevisionActionsChanged(
-    e: CustomEvent<{value: ActionNameToActionInfoMap}>
+    e: CustomEvent<{ value: ActionNameToActionInfoMap }>
   ) {
     this.currentRevisionActions = e.detail.value;
   }

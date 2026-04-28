@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54cb90a5_64965bbd",
+        "filename": ".agents/skills/gerrit-caches/SKILL.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-04-28T20:05:19Z",
+      "side": 1,
+      "message": "Caffeine is also used as the in-memory storage for H2 persisted caches.",
+      "revId": "f437ba273bf44e2a8dbe2b57fb932744b63d3d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eea3ff9a_d7b4b88b",
+        "filename": ".agents/skills/gerrit-caches/SKILL.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-04-28T20:05:19Z",
+      "side": 1,
+      "message": "```suggestion\n        .diskLimit(128 \u003c\u003c 20);                         // bytes; ≤0 falls back to in-memory only\n```",
+      "revId": "f437ba273bf44e2a8dbe2b57fb932744b63d3d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5bd50d99_fdee2243",
+        "filename": ".agents/skills/gerrit-caches/SKILL.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-04-28T20:05:19Z",
+      "side": 1,
+      "message": "Should this reference `c.g.g.server.cache.serialize.ProtobufSerializer`?",
+      "revId": "f437ba273bf44e2a8dbe2b57fb932744b63d3d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57a4f703_7d22c752",
+        "filename": ".agents/skills/gerrit-caches/SKILL.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-04-28T20:05:19Z",
+      "side": 1,
+      "message": "There\u0027s more than these 4: https://gerrit.googlesource.com/gerrit/+/master/java/com/google/gerrit/server/cache/serialize\n\nList the others too?\n```suggestion\n| `EnumCacheSerializer` | `Enum` values |\n| `IntegerCacheSerializer` | `Integer` values |\n| `ProtobufSerializer` | Values extending `MessageLite` |\n| `JavaCacheSerializer` | Legacy Java serialization — avoid for new code |\n```",
+      "revId": "f437ba273bf44e2a8dbe2b57fb932744b63d3d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53a3ba2a_4f89e4d4",
+        "filename": ".agents/skills/gerrit-caches/SKILL.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-04-28T20:05:19Z",
+      "side": 1,
+      "message": "```suggestion\n- `PerThreadCache` (`c.g.g.server.cache`) provides a request-scoped, non-persistent deduplication cache for within-request use.\n- Document in [Documentation/config-gerrit.txt](../../../Documentation/config-gerrit.txt) within `Standard Caches`\n```",
+      "revId": "f437ba273bf44e2a8dbe2b57fb932744b63d3d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df336f5d_3bf4be1c",
+        "filename": ".agents/skills/gerrit-integration-test/SKILL.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-04-28T20:05:19Z",
+      "side": 1,
+      "message": "```suggestion\n| `@UseClockStep` | Advance clock by 1s on every tick (useful for ordering) |\n| `@UseSsh` | Enable SSH functionality during the test (disabled by default) |\n| `@UseLocalDisk` | Gerrit site on local (not in-memory) disk during execution (only use when the functionality under test requires a local disk) |\n```",
+      "revId": "f437ba273bf44e2a8dbe2b57fb932744b63d3d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61de00d8_98d17db3",
+        "filename": ".agents/skills/gerrit-integration-test/SKILL.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-04-28T20:05:19Z",
+      "side": 1,
+      "message": "Can you also cover the other common pattern of `srcs \u003d glob([\"*IT.java\"]), group \u003d \"\u003csome fixed string\u003e\"`? I find that the agent often has troubling finding the correct build target in that case. Or at least note that the `group` value is the target name?",
+      "revId": "f437ba273bf44e2a8dbe2b57fb932744b63d3d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55db3365_6a6c07dc",
+        "filename": "AGENTS.md",
+        "patchSetId": 7
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-04-28T20:05:19Z",
+      "side": 1,
+      "message": "Looks like this was reverting the edit you made in the previous change.\n```suggestion\nGerrit is a web-based code review system for Git. Backend is Java 21, frontend is TypeScript/Lit components, built with Bazel.\nThe bazel version to be used can be read from the `.bazelversion` file.\n```",
+      "revId": "f437ba273bf44e2a8dbe2b57fb932744b63d3d87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

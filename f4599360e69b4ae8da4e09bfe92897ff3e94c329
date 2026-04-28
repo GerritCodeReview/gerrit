@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d74a2cd7_737bc7b6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-04-28T18:25:38Z",
+      "side": 1,
+      "message": "You should have a release note for this.",
+      "revId": "f4599360e69b4ae8da4e09bfe92897ff3e94c329",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63aab829_026185e5",
+        "filename": "java/com/google/gerrit/server/query/change/EqualsLabelPredicates.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-04-28T18:25:38Z",
+      "side": 1,
+      "message": "nit: this should come after the public static classes.",
+      "revId": "f4599360e69b4ae8da4e09bfe92897ff3e94c329",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "652dc09b_9273e389",
+        "filename": "java/com/google/gerrit/server/query/change/EqualsLabelPredicates.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-04-28T18:25:38Z",
+      "side": 1,
+      "message": "As a follow up change, I think we can break early when we have a matching vote and `count \u003d\u003d null`.\n```suggestion\n            matchingVotes +\u003d 1;\n            if (count \u003d\u003d null) {\n              break;\n            }\n```",
+      "revId": "f4599360e69b4ae8da4e09bfe92897ff3e94c329",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ded63f3_f87e5fd4",
+        "filename": "java/com/google/gerrit/server/query/change/EqualsLabelPredicates.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-04-28T18:25:38Z",
+      "side": 1,
+      "message": "As a follow up change, do this `userFactory` call only when group !\u003d null?\n```suggestion\n      if (group !\u003d null) {\n        IdentifiedUser reviewer \u003d userFactory.create(approver);\n        if (!reviewer.getEffectiveGroups().contains(group)) {\n```",
+      "range": {
+        "startLine": 344,
+        "startChar": 0,
+        "endLine": 345,
+        "endChar": 76
+      },
+      "revId": "f4599360e69b4ae8da4e09bfe92897ff3e94c329",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31a37d2e_f45e0a4e",
+        "filename": "java/com/google/gerrit/server/query/change/LabelPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-04-28T18:25:38Z",
+      "side": 1,
+      "message": "Should we be making the same changes in `MagicLabelPredicates`? Like at https://gerrit.googlesource.com/gerrit/+/refs/changes/41/577241/1/java/com/google/gerrit/server/query/change/MagicLabelPredicates.java#90 ?",
+      "revId": "f4599360e69b4ae8da4e09bfe92897ff3e94c329",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

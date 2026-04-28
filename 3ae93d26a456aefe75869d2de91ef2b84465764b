@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "60ecc2c4_9914d39e",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 918,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-04-28T22:39:48Z",
+      "side": 1,
+      "message": "Not required for this change, but might be nice to make this a shared util or something since the 3 renderLink functions are so similar.",
+      "range": {
+        "startLine": 918,
+        "startChar": 10,
+        "endLine": 918,
+        "endChar": 20
+      },
+      "revId": "3ae93d26a456aefe75869d2de91ef2b84465764b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

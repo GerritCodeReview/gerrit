@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f9fcf78_c4dec98b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1131691
+      },
+      "writtenOn": "2026-04-28T22:04:24Z",
+      "side": 1,
+      "message": "Checked locally with `yarn start` and (now removed) console.logs to manually verify when requests were sent out and responses contained the right suggestion",
+      "revId": "b9e284c1c24bda7b76ff0a033790a81db18b73b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

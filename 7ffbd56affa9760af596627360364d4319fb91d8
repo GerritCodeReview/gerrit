@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9baa4431_99efbb0b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-04-28T08:24:11Z",
+      "side": 1,
+      "message": "I think \"delete comment\" should be implemented as a project level permission instead of a global capability",
+      "parentUuid": "df06e153_6986c4c8",
+      "revId": "7ffbd56affa9760af596627360364d4319fb91d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0902ba00_807061b3",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 4

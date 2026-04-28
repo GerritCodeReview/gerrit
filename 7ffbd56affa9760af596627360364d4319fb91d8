@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "df06e153_6986c4c8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-04-28T08:05:59Z",
+      "side": 1,
+      "message": "@nasser.grainawi@oss.qualcomm.com @david.ostrovsky@gmail.com for GerritHub.io, it should be at the project level, as the global capabilities are global.",
+      "parentUuid": "edb59c96_92e261de",
+      "revId": "7ffbd56affa9760af596627360364d4319fb91d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0902ba00_807061b3",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 4

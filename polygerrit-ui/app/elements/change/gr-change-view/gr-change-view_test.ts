@@ -80,6 +80,7 @@ import {testResolver} from '../../../test/common-test-setup';
 import {UserModel, userModelToken} from '../../../models/user/user-model';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {commentsModelToken} from '../../../models/comments/comments-model';
+import {ChatModel, chatModelToken} from '../../../models/chat/chat-model';
 
 suite('gr-change-view tests', () => {
   let element: GrChangeView;
@@ -1497,6 +1498,98 @@ suite('gr-change-view tests', () => {
       label: 'Change URL',
       shortcut: 'u',
       value: 'http://localhost:9876/review/c/test-project/+/42',
+    });
+  });
+
+  suite('commit message suggestion', () => {
+    let chatModel: ChatModel;
+    let fetchStub: sinon.SinonStub;
+
+    setup(() => {
+      chatModel = testResolver(chatModelToken);
+      fetchStub = sinon.stub(chatModel, 'fetchCommitMessageSuggestion');
+    });
+
+    teardown(() => {
+      fetchStub.restore();
+    });
+
+    test('maybeFetchCommitMessageSuggestion calls fetch if flag is enabled', async () => {
+      const innerChatModel = (
+        element as unknown as {getChatModel: () => ChatModel}
+      ).getChatModel();
+      const localStub = sinon.stub(
+        innerChatModel,
+        'fetchCommitMessageSuggestion'
+      );
+
+      stubFlags('isEnabled').returns(true);
+
+      element.change = {
+        ...createChangeViewChange(),
+        _number: 42 as NumericChangeId,
+        current_revision: 'rev_1' as CommitId,
+      } as ParsedChangeInfo;
+
+      await element.updateComplete;
+
+      assert.isTrue(localStub.calledOnce || fetchStub.calledOnce);
+      localStub.restore();
+    });
+
+    test('maybeFetchCommitMessageSuggestion does not call fetch if flag is disabled', async () => {
+      const innerChatModel = (
+        element as unknown as {getChatModel: () => ChatModel}
+      ).getChatModel();
+      const localStub = sinon.stub(
+        innerChatModel,
+        'fetchCommitMessageSuggestion'
+      );
+
+      stubFlags('isEnabled').returns(false);
+
+      element.change = {
+        ...createChangeViewChange(),
+        _number: 42 as NumericChangeId,
+        current_revision: 'rev_1' as CommitId,
+      } as ParsedChangeInfo;
+
+      await element.updateComplete;
+
+      assert.isFalse(localStub.called || fetchStub.called);
+      localStub.restore();
+    });
+
+    test("maybeFetchCommitMessageSuggestion does not call fetch if revision hasn't changed", async () => {
+      const innerChatModel = (
+        element as unknown as {getChatModel: () => ChatModel}
+      ).getChatModel();
+      const localStub = sinon.stub(
+        innerChatModel,
+        'fetchCommitMessageSuggestion'
+      );
+
+      stubFlags('isEnabled').returns(true);
+
+      const change = {
+        ...createChangeViewChange(),
+        _number: 42 as NumericChangeId,
+        current_revision: 'rev_1' as CommitId,
+      } as ParsedChangeInfo;
+
+      element.change = change;
+      await element.updateComplete;
+
+      localStub.resetHistory();
+      fetchStub.resetHistory();
+
+      element.change = {
+        ...change,
+      };
+      await element.updateComplete;
+
+      assert.isFalse(localStub.called || fetchStub.called);
+      localStub.restore();
     });
   });
 });

@@ -1,0 +1,226 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a225398_666df526",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-04-28T23:12:48Z",
+      "side": 1,
+      "message": "Please fix this WARNING reported by autoreview issue finding: Is there a reason these are `protected`? Usually `@state` properties in this component are `private`.\n\nIs there a reason these are `protected`? Usually `@state` properties in this component are `private`.",
+      "range": {
+        "startLine": 383,
+        "startChar": 0,
+        "endLine": 383,
+        "endChar": 0
+      },
+      "revId": "fb2daf1e00173ec04c13cd283ee661142ac56f2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3931e4ea_0ba81e0e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 2063,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-04-28T23:12:48Z",
+      "side": 1,
+      "message": "recommend putting this at the top of the function and return early if it\u0027s not enabled",
+      "range": {
+        "startLine": 2059,
+        "startChar": 2,
+        "endLine": 2063,
+        "endChar": 5
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "2a17776c_953c97b2",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+              "range": {
+                "startLine": 1,
+                "startChar": 0,
+                "endLine": 1,
+                "endChar": 0
+              },
+              "replacement": "    if (\n      !this.flagService.isEnabled(\n        \u0027UiFeature__enable_ai_commit_message_augmentation\u0027\n      )\n    ) {\n      return;\n    }\n\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+              "range": {
+                "startLine": 2059,
+                "startChar": 0,
+                "endLine": 2066,
+                "endChar": 0
+              },
+              "replacement": "    this.getChatModel().fetchCommitMessageSuggestion();\n"
+            }
+          ]
+        }
+      ],
+      "revId": "fb2daf1e00173ec04c13cd283ee661142ac56f2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "899b56d0_07c47e56",
+        "filename": "polygerrit-ui/app/models/chat/chat-model.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-04-28T23:12:48Z",
+      "side": 1,
+      "message": "Nit: Consider moving this into a private helper method like `clearSuggestionState()` and calling it here and on line 426.",
+      "range": {
+        "startLine": 452,
+        "startChar": 0,
+        "endLine": 452,
+        "endChar": 0
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "32ee8a8b_f6eb2e68",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/models/chat/chat-model.ts",
+              "range": {
+                "startLine": 426,
+                "startChar": 0,
+                "endLine": 432,
+                "endChar": 0
+              },
+              "replacement": "        this.clearSuggestionState();\n"
+            },
+            {
+              "path": "polygerrit-ui/app/models/chat/chat-model.ts",
+              "range": {
+                "startLine": 452,
+                "startChar": 0,
+                "endLine": 456,
+                "endChar": 0
+              },
+              "replacement": "        ...this.clearSuggestionState(),\n"
+            },
+            {
+              "path": "polygerrit-ui/app/models/chat/chat-model.ts",
+              "range": {
+                "startLine": 1,
+                "startChar": 0,
+                "endLine": 1,
+                "endChar": 0
+              },
+              "replacement": "  private clearSuggestionState() {\n    this.updateState({\n      commitMessageSuggestion: undefined,\n      isFetchingCommitMessageSuggestion: false,\n      commitMessageSuggestionError: undefined,\n      suggestionLoadedForRevision: undefined,\n    });\n  }\n\n"
+            }
+          ]
+        }
+      ],
+      "revId": "fb2daf1e00173ec04c13cd283ee661142ac56f2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19a4bdeb_74d9fe3d",
+        "filename": "polygerrit-ui/app/models/chat/chat-model.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 841,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-04-28T23:12:48Z",
+      "side": 1,
+      "message": "I think just tracking this in a bug rather than the code is sufficient in this case since we don\u0027t know if/when/how it will be changed.",
+      "range": {
+        "startLine": 840,
+        "startChar": 0,
+        "endLine": 841,
+        "endChar": 82
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "9ed2a7de_8cd1b266",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/models/chat/chat-model.ts",
+              "range": {
+                "startLine": 840,
+                "startChar": 0,
+                "endLine": 842,
+                "endChar": 0
+              },
+              "replacement": ""
+            }
+          ]
+        }
+      ],
+      "revId": "fb2daf1e00173ec04c13cd283ee661142ac56f2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0bc218b2_c5a5daec",
+        "filename": "polygerrit-ui/app/models/chat/chat-model.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 869,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-04-28T23:12:48Z",
+      "side": 1,
+      "message": "can we remove the fallbackId so that we aren\u0027t hardcoding Google internal logic to the opensource code?",
+      "range": {
+        "startLine": 868,
+        "startChar": 4,
+        "endLine": 869,
+        "endChar": 128
+      },
+      "revId": "fb2daf1e00173ec04c13cd283ee661142ac56f2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c3b335b_9ccf3b29",
+        "filename": "polygerrit-ui/app/models/chat/chat-model.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 957,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-04-28T23:12:48Z",
+      "side": 1,
+      "message": "Please fix this WARNING reported by autoreview issue finding: There is a potential race condition here. If the user changes the revision while the fetch is in flight, `this.change?.current_revision` might have changed. You should capture the revision at the start of the method and verify it still matches here before updating the state.\n\nThere is a potential race condition here. If the user changes the revision while the fetch is in flight, `this.change?.current_revision` might have changed. You should capture the revision at the start of the method and verify it still matches here before updating the state.",
+      "range": {
+        "startLine": 957,
+        "startChar": 0,
+        "endLine": 957,
+        "endChar": 0
+      },
+      "revId": "fb2daf1e00173ec04c13cd283ee661142ac56f2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -24,6 +24,7 @@ import static com.google.gerrit.server.index.change.IndexedChangeQuery.convertOp
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static org.junit.Assert.assertEquals;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.index.IndexConfig;
@@ -36,6 +37,7 @@ import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.query.change.AndChangeSource;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.ChangeIndexPredicate;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeStatusPredicate;
 import com.google.gerrit.server.query.change.OrSource;
@@ -195,6 +197,23 @@ public class ChangeIndexRewriterTest {
     Predicate<ChangeData> out = rewrite(in);
     assertThat(out.getClass()).isSameInstanceAs(IndexedChangeQuery.class);
     assertEquals(query(in), out);
+  }
+
+  @Test
+  public void emptyOrPredicate() throws Exception {
+    Predicate<ChangeData> in = Predicate.or(ImmutableList.of());
+    assertThat(rewrite(in)).isEqualTo(query(ChangeIndexPredicate.none()));
+  }
+
+  @Test
+  public void emptyOrPredicateInsideAnd() throws Exception {
+    Predicate<ChangeData> fileA = parse("file:a");
+    Predicate<ChangeData> in = Predicate.and(fileA, Predicate.or(ImmutableList.of()));
+    Predicate<ChangeData> out = rewrite(in);
+    assertThat(out.getClass()).isSameInstanceAs(AndChangeSource.class);
+    assertThat(out.getChildren())
+        .containsExactly(query(fileA), ChangeIndexPredicate.none())
+        .inOrder();
   }
 
   @Test

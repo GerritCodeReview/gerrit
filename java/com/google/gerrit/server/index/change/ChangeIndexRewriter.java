@@ -42,6 +42,7 @@ import com.google.gerrit.index.query.TooManyTermsInQueryException;
 import com.google.gerrit.server.query.change.AndChangeSource;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;
+import com.google.gerrit.server.query.change.ChangeIndexPredicate;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeStatusPredicate;
 import com.google.gerrit.server.query.change.IsSubmittablePredicate;
@@ -202,6 +203,11 @@ public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
       // should have already searched the predicate tree for limit predicates
       // and included that in their limit computation.
       return new LimitPredicate<>(ChangeQueryBuilder.FIELD_LIMIT, opts.limit());
+    } else if (in instanceof OrPredicate && in.getChildCount() == 0) {
+      ++leafTerms.value;
+      // An empty OrPredicate will never match anything, but will scan all
+      // changes unless handled here.
+      return ChangeIndexPredicate.none();
     } else if (!isRewritePossible(in)) {
       if (in instanceof IndexPredicate) {
         throw new QueryParseException("Unsupported index predicate: " + in.toString());

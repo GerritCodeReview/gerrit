@@ -323,6 +323,15 @@ suite('gr-change-view screenshot tests', () => {
       revert_of: 12345 as NumericChangeId,
       submittable: true,
       subject: 'Reland "Add initial jj support to `gclient sync`."',
+      actions: {
+        ...element.change?.actions,
+        submit: {
+          method: HttpMethod.POST,
+          label: 'Submit',
+          title: 'Submit the change',
+          enabled: true,
+        },
+      },
     });
     await element.updateComplete;
 
@@ -348,6 +357,10 @@ suite('gr-change-view screenshot tests', () => {
       );
 
       await visualDiff(container, 'gr-change-view-wrapped-statuses-801px');
+      await visualDiffDarkTheme(
+        container,
+        'gr-change-view-wrapped-statuses-801px'
+      );
     } finally {
       document.body.removeChild(container);
     }

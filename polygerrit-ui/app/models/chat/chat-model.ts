@@ -23,7 +23,7 @@ import {
   Models,
   Reference,
 } from '../../api/ai-code-review';
-import {ChangeInfo, CommentInfo, FileInfoStatus} from '../../api/rest-api';
+import {ChangeInfo, CommentInfo, CommentRange, FileInfoStatus} from '../../api/rest-api';
 import {PreferencesInfo} from '../../types/common';
 import {isDefined} from '../../types/types';
 import {assert, assertIsDefined, cryptoUuid} from '../../utils/common-util';
@@ -69,6 +69,14 @@ export declare interface UserMessage {
   // Summarize this CL is trigger when clicking the Help me review button). This
   // may affect the UI layout of the turn.
   readonly isBackgroundRequest?: boolean;
+  readonly selectionContext?: {
+    readonly path: string;
+    readonly side: string;
+    readonly range: CommentRange;
+    readonly patchsetLhs?: number;
+    readonly patchsetRhs?: number;
+  };
+  readonly stream?: boolean;
 }
 
 /**
@@ -594,6 +602,7 @@ export class ChatModel extends Model<ChatState> {
         this.userModel.getState().preferences
       ),
       external_contexts: contextItems,
+      selection_context: userMessage.selectionContext,
     };
     const listener: ChatResponseListener = {
       emitResponse: (response: ChatResponse) => {
@@ -677,7 +686,8 @@ export class ChatModel extends Model<ChatState> {
     userInput: string,
     actionId: string | undefined,
     contextItems: ContextItem[] = [],
-    useCurrentContext = true
+    useCurrentContext = true,
+    selectionContext?: {path: string; side: string; range: CommentRange; patchsetLhs?: number; patchsetRhs?: number}
   ) {
     const state = this.getState();
     const message: UserMessage = {
@@ -687,6 +697,7 @@ export class ChatModel extends Model<ChatState> {
       contextItems: useCurrentContext
         ? state.draftUserMessage.contextItems
         : contextItems,
+      selectionContext,
     };
     const turns: Turn[] = userInput ? [userTurn(message)] : [];
 

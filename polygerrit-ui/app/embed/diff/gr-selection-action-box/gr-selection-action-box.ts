@@ -5,6 +5,7 @@
  */
 import '../../../elements/shared/gr-tooltip/gr-tooltip';
 import {GrTooltip} from '../../../elements/shared/gr-tooltip/gr-tooltip';
+import '../../../elements/plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import {fire} from '../../../utils/event-util';
 import {html, LitElement} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
@@ -58,11 +59,13 @@ export class GrSelectionActionBox extends LitElement {
         ?invisible=${this.invisible}
         @slotchange=${this.handleSlotChange}
       >
-        <gr-tooltip
-          id="tooltip"
-          text=${this.hoverCardText}
-          ?position-below=${this.positionBelow}
-        ></gr-tooltip>
+        <gr-endpoint-decorator name="selection-action-box">
+          <gr-tooltip
+            id="tooltip"
+            text=${this.hoverCardText}
+            ?position-below=${this.positionBelow}
+          ></gr-tooltip>
+        </gr-endpoint-decorator>
       </slot>
     `;
   }

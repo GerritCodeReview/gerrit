@@ -225,6 +225,9 @@ public class EqualsLabelPredicates {
           hasVote = true;
           if (match(cd, psa)) {
             matchingVotes += 1;
+            if (count == null) {
+              break;
+            }
           }
         }
       }

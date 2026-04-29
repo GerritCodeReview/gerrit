@@ -3,7 +3,13 @@
  * Copyright 2025 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {ChangeInfo, CommentInfo, FileInfoStatus} from './rest-api';
+import {
+  ChangeInfo,
+  CommentInfo,
+  CommentRange,
+  FileInfoStatus,
+} from './rest-api';
+import {Side} from './diff';
 
 export declare interface AiCodeReviewPluginApi {
   /**
@@ -132,6 +138,9 @@ export declare interface ChatRequest {
    * The external contexts that should be used in the request.
    */
   external_contexts: ContextItem[];
+  path?: string;
+  side?: Side;
+  range?: CommentRange;
 }
 
 /**

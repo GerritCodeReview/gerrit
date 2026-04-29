@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0aed17a7_b8a7a17c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-04-29T03:44:02Z",
+      "side": 1,
+      "message": "This seems like a better approach than what\u0027s in change 575824.",
+      "revId": "5c629053822fa365c6733f125d1c887676b70924",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -38,6 +38,12 @@ suite('gr-selection-action-box', () => {
         <!---->
         <slot name="selectionActionBox" invisible="">
           <gr-endpoint-decorator name="selection-action-box">
+            <gr-endpoint-param name="path"></gr-endpoint-param>
+            <gr-endpoint-param name="side"></gr-endpoint-param>
+            <gr-endpoint-param name="range"></gr-endpoint-param>
+            <gr-endpoint-param name="patchsetLhs"></gr-endpoint-param>
+            <gr-endpoint-param name="patchsetRhs"></gr-endpoint-param>
+            <gr-endpoint-param name="selectionData"></gr-endpoint-param>
             <gr-tooltip id="tooltip" text="Press c to comment"></gr-tooltip>
           </gr-endpoint-decorator>
         </slot>
@@ -127,6 +133,12 @@ suite('gr-selection-action-box', () => {
           <!---->
           <slot name="selectionActionBox">
             <gr-endpoint-decorator name="selection-action-box">
+              <gr-endpoint-param name="path"></gr-endpoint-param>
+              <gr-endpoint-param name="side"></gr-endpoint-param>
+              <gr-endpoint-param name="range"></gr-endpoint-param>
+              <gr-endpoint-param name="patchsetLhs"></gr-endpoint-param>
+              <gr-endpoint-param name="patchsetRhs"></gr-endpoint-param>
+              <gr-endpoint-param name="selectionData"></gr-endpoint-param>
               <gr-tooltip id="tooltip" text="Press c to comment"></gr-tooltip>
             </gr-endpoint-decorator>
           </slot>

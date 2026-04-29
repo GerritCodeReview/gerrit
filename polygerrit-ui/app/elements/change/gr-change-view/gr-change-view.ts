@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {BehaviorSubject} from 'rxjs';
+import {ActionEnum} from '../../../api/ai-code-review';
 import '../../../styles/gr-a11y-styles';
 import '../../../styles/gr-material-styles';
 import '../../../styles/shared-styles';
@@ -121,6 +122,7 @@ import {
   shortcutsServiceToken,
 } from '../../../services/shortcuts/shortcuts-service';
 import {commentsModelToken} from '../../../models/comments/comments-model';
+import {chatModelToken} from '../../../models/chat/chat-model';
 import {resolve} from '../../../models/dependency';
 import {checksModelToken} from '../../../models/checks/checks-model';
 import {changeModelToken} from '../../../models/change/change-model';
@@ -399,6 +401,8 @@ export class GrChangeView extends LitElement {
   readonly reporting = getAppContext().reportingService;
 
   private readonly getChecksModel = resolve(this, checksModelToken);
+
+  private readonly getChatModel = resolve(this, chatModelToken);
 
   readonly flagService = getAppContext().flagsService;
 
@@ -757,6 +761,11 @@ export class GrChangeView extends LitElement {
     // Or consider using either firstConnectedCallback() or constructor().
     document.addEventListener('visibilitychange', this.handleVisibilityChange);
     document.addEventListener('scroll', this.handleScroll);
+
+    // Listen for ai-chat events bubbling up from plugins or diff selection box
+    this.addEventListener('ai-chat', (e: Event) =>
+      this.handleAiChat(e as CustomEvent)
+    );
   }
 
   override firstUpdated() {
@@ -1218,6 +1227,32 @@ export class GrChangeView extends LitElement {
 
   private toggleChat() {
     this.showSidebarChat = !this.showSidebarChat;
+  }
+
+  private handleAiChat(e: CustomEvent) {
+    console.info('gr-change-view handleAiChat called', e.detail);
+    this.showSidebarChat = true;
+    const chatModel = this.getChatModel();
+    const actions = chatModel.getState().actions?.actions ?? [];
+    const explainAction = actions.find(
+      a => a.action_type === ActionEnum.ACTION_EXPLAIN_CODE
+    );
+
+    const selectionContext = {
+      path: e.detail.path,
+      side: e.detail.side,
+      range: e.detail.range,
+      patchsetLhs: e.detail.patchsetLhs,
+      patchsetRhs: e.detail.patchsetRhs,
+    };
+
+    chatModel.startNewChatWithUserInput(
+      e.detail.prompt || 'Explain this code',
+      explainAction?.id,
+      [],
+      false,
+      selectionContext
+    );
   }
 
   private renderSidebar() {

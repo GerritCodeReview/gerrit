@@ -6,6 +6,8 @@
 import '../../../elements/shared/gr-tooltip/gr-tooltip';
 import {GrTooltip} from '../../../elements/shared/gr-tooltip/gr-tooltip';
 import '../../../elements/plugins/gr-endpoint-decorator/gr-endpoint-decorator';
+import '../../../elements/plugins/gr-endpoint-param/gr-endpoint-param';
+import {CommentRange} from '../../../types/common';
 import {fire} from '../../../utils/event-util';
 import {html, LitElement} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
@@ -31,6 +33,18 @@ export class GrSelectionActionBox extends LitElement {
   @state() private isSlotAssigned = false;
 
   @query('slot') slotElement!: HTMLSlotElement;
+
+  @property({type: String}) path?: string;
+
+  @property({type: String}) side?: string;
+
+  @property({type: Object}) range?: CommentRange;
+
+  @property({type: Number}) patchsetLhs?: number;
+
+  @property({type: Number}) patchsetRhs?: number;
+
+  @property({type: Object}) selectionData?: {getText: () => Promise<string>};
 
   @property({type: Boolean})
   positionBelow = false;
@@ -60,6 +74,31 @@ export class GrSelectionActionBox extends LitElement {
         @slotchange=${this.handleSlotChange}
       >
         <gr-endpoint-decorator name="selection-action-box">
+          <gr-endpoint-param
+            name="path"
+            .value=${this.path}
+          ></gr-endpoint-param>
+          <gr-endpoint-param
+            name="side"
+            .value=${this.side}
+          ></gr-endpoint-param>
+          <gr-endpoint-param
+            name="range"
+            .value=${this.range}
+          ></gr-endpoint-param>
+          <gr-endpoint-param
+            name="patchsetLhs"
+            .value=${this.patchsetLhs}
+          ></gr-endpoint-param>
+          <gr-endpoint-param
+            name="patchsetRhs"
+            .value=${this.patchsetRhs}
+          ></gr-endpoint-param>
+          <gr-endpoint-param
+            name="selectionData"
+            .value=${this.selectionData}
+          ></gr-endpoint-param>
+
           <gr-tooltip
             id="tooltip"
             text=${this.hoverCardText}

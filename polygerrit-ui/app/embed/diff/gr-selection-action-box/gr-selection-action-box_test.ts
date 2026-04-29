@@ -37,7 +37,9 @@ suite('gr-selection-action-box', () => {
       /* HTML */ `
         <!---->
         <slot name="selectionActionBox" invisible="">
-          <gr-tooltip id="tooltip" text="Press c to comment"></gr-tooltip>
+          <gr-endpoint-decorator name="selection-action-box">
+            <gr-tooltip id="tooltip" text="Press c to comment"></gr-tooltip>
+          </gr-endpoint-decorator>
         </slot>
       `
     );
@@ -116,7 +118,9 @@ suite('gr-selection-action-box', () => {
         /* HTML */ `
           <!---->
           <slot name="selectionActionBox">
-            <gr-tooltip id="tooltip" text="Press c to comment"></gr-tooltip>
+            <gr-endpoint-decorator name="selection-action-box">
+              <gr-tooltip id="tooltip" text="Press c to comment"></gr-tooltip>
+            </gr-endpoint-decorator>
           </slot>
         `
       );

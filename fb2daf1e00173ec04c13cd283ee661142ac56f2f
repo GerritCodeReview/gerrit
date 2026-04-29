@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "473017d4_2b263043",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-04-29T00:02:10Z",
+      "side": 1,
+      "message": "My gut tells me this might make more sense as a frontend plugin. what do you think?",
+      "revId": "fb2daf1e00173ec04c13cd283ee661142ac56f2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0a225398_666df526",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
         "patchSetId": 6

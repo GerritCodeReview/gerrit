@@ -403,8 +403,33 @@ export class GrDiffHighlight {
     this.selectedRange = {range, side};
     this.diffBuilder?.diffModel.fireRangeSelectedEvent(side, range, isMouseUp);
     let actionBox = this.diffTable.querySelector('gr-selection-action-box');
+    const isNew = !actionBox;
     if (!actionBox) {
       actionBox = document.createElement('gr-selection-action-box');
+    }
+    actionBox.path = this.diffBuilder?.diffModel.getState().path;
+    actionBox.side = side;
+    actionBox.range = range;
+    actionBox.selectionData = {
+      getText: () => {
+        if (!this.diffTable) return Promise.resolve(domRange.toString());
+        const contentTexts = this.diffTable.querySelectorAll('.contentText');
+        const selectedTexts: string[] = [];
+        for (const el of Array.from(contentTexts)) {
+          if (domRange.intersectsNode(el)) {
+            const lineEl = getLineElByChild(el);
+            if (lineEl && getSideByLineEl(lineEl) === side) {
+              selectedTexts.push(el.textContent || '');
+            }
+          }
+        }
+        if (selectedTexts.length > 0) {
+          return Promise.resolve(selectedTexts.join('\n'));
+        }
+        return Promise.resolve(domRange.toString());
+      },
+    };
+    if (isNew) {
       this.diffTable.appendChild(actionBox);
     }
     const hoverCardText =

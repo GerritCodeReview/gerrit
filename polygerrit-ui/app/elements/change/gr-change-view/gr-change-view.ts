@@ -121,6 +121,7 @@ import {
   shortcutsServiceToken,
 } from '../../../services/shortcuts/shortcuts-service';
 import {commentsModelToken} from '../../../models/comments/comments-model';
+import {chatModelToken} from '../../../models/chat/chat-model';
 import {resolve} from '../../../models/dependency';
 import {checksModelToken} from '../../../models/checks/checks-model';
 import {changeModelToken} from '../../../models/change/change-model';
@@ -399,6 +400,8 @@ export class GrChangeView extends LitElement {
   readonly reporting = getAppContext().reportingService;
 
   private readonly getChecksModel = resolve(this, checksModelToken);
+
+  private readonly getChatModel = resolve(this, chatModelToken);
 
   readonly flagService = getAppContext().flagsService;
 
@@ -757,6 +760,11 @@ export class GrChangeView extends LitElement {
     // Or consider using either firstConnectedCallback() or constructor().
     document.addEventListener('visibilitychange', this.handleVisibilityChange);
     document.addEventListener('scroll', this.handleScroll);
+
+    // Listen for ai-chat events bubbling up from plugins or diff selection box
+    this.addEventListener('ai-chat', (e: Event) =>
+      this.handleAiChat(e as CustomEvent)
+    );
   }
 
   override firstUpdated() {
@@ -1218,6 +1226,17 @@ export class GrChangeView extends LitElement {
 
   private toggleChat() {
     this.showSidebarChat = !this.showSidebarChat;
+  }
+
+  private handleAiChat(e: CustomEvent) {
+    console.info('gr-change-view handleAiChat called', e.detail);
+    this.showSidebarChat = true;
+    if (e.detail && e.detail.prompt) {
+      console.info('Populating chat with prompt');
+      const chatModel = this.getChatModel();
+      chatModel.startEmptyNewChat(false);
+      chatModel.updateUserInput(e.detail.prompt);
+    }
   }
 
   private renderSidebar() {

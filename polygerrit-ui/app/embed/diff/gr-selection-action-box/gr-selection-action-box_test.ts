@@ -37,7 +37,9 @@ suite('gr-selection-action-box', () => {
       /* HTML */ `
         <!---->
         <slot name="selectionActionBox" invisible="">
-          <gr-tooltip id="tooltip" text="Press c to comment"></gr-tooltip>
+          <gr-endpoint-decorator name="selection-action-box">
+            <gr-tooltip id="tooltip" text="Press c to comment"></gr-tooltip>
+          </gr-endpoint-decorator>
         </slot>
       `
     );
@@ -106,6 +108,14 @@ suite('gr-selection-action-box', () => {
       sinon
         .stub(element.tooltip, 'getBoundingClientRect')
         .returns({width: 10, height: 10} as DOMRect);
+      sinon.stub(element, 'getBoundingClientRect').returns({
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
+        width: 10,
+        height: 10,
+      } as DOMRect);
     });
 
     test('renders visible', async () => {
@@ -116,7 +126,9 @@ suite('gr-selection-action-box', () => {
         /* HTML */ `
           <!---->
           <slot name="selectionActionBox">
-            <gr-tooltip id="tooltip" text="Press c to comment"></gr-tooltip>
+            <gr-endpoint-decorator name="selection-action-box">
+              <gr-tooltip id="tooltip" text="Press c to comment"></gr-tooltip>
+            </gr-endpoint-decorator>
           </slot>
         `
       );

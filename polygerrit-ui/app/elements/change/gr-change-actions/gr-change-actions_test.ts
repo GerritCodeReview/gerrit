@@ -80,6 +80,12 @@ suite('gr-change-actions tests', () => {
   >;
   let chatModel: ChatModel;
 
+  teardown(() => {
+    for (const el of document.body.querySelectorAll('gr-tooltip')) {
+      el.remove();
+    }
+  });
+
   suite('basic tests', () => {
     setup(async () => {
       stubRestApi('getChangeRevisionActions').returns(
@@ -170,7 +176,7 @@ suite('gr-change-actions tests', () => {
                   class="submit"
                   data-action-key="submit"
                   data-label="Submit"
-                  link=""
+                  primary=""
                   role="button"
                   tabindex="0"
                 >
@@ -2191,10 +2197,10 @@ suite('gr-change-actions tests', () => {
         assert.isTrue(element._hideQuickApproveAction);
       });
 
-      test('is first in list of secondary actions', () => {
+      test('is first in list of primary actions', () => {
         const approveButton = queryAndAssert<HTMLElement>(
           element,
-          '#secondaryActions'
+          '#primaryActions'
         ).querySelector('gr-button');
         assert.equal(approveButton!.getAttribute('data-label'), 'foo+1');
       });

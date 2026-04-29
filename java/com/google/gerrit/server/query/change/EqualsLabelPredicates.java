@@ -324,13 +324,15 @@ public class EqualsLabelPredicates {
         }
       }
 
-      IdentifiedUser reviewer = userFactory.create(approver);
-      if (group != null && !reviewer.getEffectiveGroups().contains(group)) {
-        logger.atFine().log(
-            "vote %s on change %s doesn't match since the approver %s is not a member of the"
-                + " expected group %s",
-            psa, cd.change().getChangeId(), approver, group);
-        return false;
+      if (group != null) {
+        IdentifiedUser reviewer = userFactory.create(approver);
+        if (!reviewer.getEffectiveGroups().contains(group)) {
+          logger.atFine().log(
+              "vote %s on change %s doesn't match since the approver %s is not a member of the"
+                  + " expected group %s",
+              psa, cd.change().getChangeId(), approver, group);
+          return false;
+        }
       }
 
       // Check the user has 'READ' permission.

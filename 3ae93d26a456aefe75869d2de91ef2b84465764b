@@ -22,6 +22,30 @@
       },
       "revId": "3ae93d26a456aefe75869d2de91ef2b84465764b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "16fce4d3_3d9ad475",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 918,
+      "author": {
+        "id": 1159190
+      },
+      "writtenOn": "2026-04-29T17:04:38Z",
+      "side": 1,
+      "message": "Yeah, I wasn\u0027t sure if this was intentional or not.",
+      "parentUuid": "60ecc2c4_9914d39e",
+      "range": {
+        "startLine": 918,
+        "startChar": 10,
+        "endLine": 918,
+        "endChar": 20
+      },
+      "revId": "3ae93d26a456aefe75869d2de91ef2b84465764b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

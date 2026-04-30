@@ -611,7 +611,7 @@ export class GrConfirmCherrypickDialog
       if (!newMessage.endsWith('\n')) {
         newMessage += '\n';
       }
-      newMessage += '(cherry picked from commit ' + this.commitNum + ')';
+      newMessage += '\n(cherry picked from commit ' + this.commitNum + ')';
     }
     this.message = newMessage;
   }

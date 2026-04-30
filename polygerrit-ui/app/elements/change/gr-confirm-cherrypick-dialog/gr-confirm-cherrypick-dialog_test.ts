@@ -158,7 +158,7 @@ suite('gr-confirm-cherrypick-dialog tests', () => {
     element.commitNum = '123' as CommitId;
     element.branch = 'master' as BranchName;
     await element.updateComplete;
-    const expectedMessage = 'message\n(cherry picked from commit 123)';
+    const expectedMessage = 'message\n\n(cherry picked from commit 123)';
     assert.equal(element.message, expectedMessage);
   });
 
@@ -168,7 +168,7 @@ suite('gr-confirm-cherrypick-dialog tests', () => {
     element.commitNum = '123' as CommitId;
     element.branch = 'master' as BranchName;
     await element.updateComplete;
-    const expectedMessage = 'message\n(cherry picked from commit 123)';
+    const expectedMessage = 'message\n\n(cherry picked from commit 123)';
     assert.equal(element.message, expectedMessage);
   });
 

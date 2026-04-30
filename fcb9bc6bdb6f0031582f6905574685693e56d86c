@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "26e4cb4a_f8dadcf2",
+        "filename": "javatests/com/google/gerrit/acceptance/server/index/ChangeIndexerIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-04-30T08:05:54Z",
+      "side": 1,
+      "message": "The name looks wrong: the listener doesn\u0027t include the project name at the moment.\n\n\n\n```suggestion\n  public void deleteFiresListenerWithoutProjectName() throws Exception {\n```",
+      "range": {
+        "startLine": 33,
+        "startChar": 14,
+        "endLine": 33,
+        "endChar": 48
+      },
+      "revId": "fcb9bc6bdb6f0031582f6905574685693e56d86c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

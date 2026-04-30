@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c46778f_2be9bf57",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-04-30T23:17:04Z",
+      "side": 1,
+      "message": "AI found a few things that sounded a little risky given this is a shared component.",
+      "revId": "4f6b53cea09453ac3cceac06cd2f8f56bd1f0ce1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33e10351_caa80bb7",
+        "filename": "polygerrit-ui/app/embed/diff/gr-selection-action-box/gr-selection-action-box.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-04-30T23:17:04Z",
+      "side": 1,
+      "message": "Please fix this WARNING reported by autoreview issue finding: If a plugin replaces the content of this endpoint, the `#tooltip` element will be removed. The `placeAbove` and `placeBelow` methods (lines 91 and 108) check for `this.tooltip` and will return early if it\u0027s missing. This means that if a plugin replaces the tooltip, the action box might not be positioned or displayed at all. \n\nShould we ensure that plugins can only decorate this area, or should the positioning logic be independent of the tooltip\u0027s presence?\n\nIf a plugin replaces the content of this endpoint, the `#tooltip` element will be removed. The `placeAbove` and `placeBelow` methods (lines 91 and 108) check for `this.tooltip` and will return early if it\u0027s missing. This means that if a plugin replaces the tooltip, the action box might not be positioned or displayed at all. \n\nShould we ensure that plugins can only decorate this area, or should the positioning logic be independent of the tooltip\u0027s presence?",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 0
+      },
+      "revId": "4f6b53cea09453ac3cceac06cd2f8f56bd1f0ce1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ebead44d_74c73328",
+        "filename": "polygerrit-ui/app/embed/diff/gr-selection-action-box/gr-selection-action-box.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-04-30T23:17:04Z",
+      "side": 1,
+      "message": "Please fix this WARNING reported by autoreview issue finding: Wrapping the `gr-tooltip` in a decorator might break existing CSS that uses the direct child selector (e.g., `slot \u003e gr-tooltip`). Since this component uses Light DOM, please verify that no such selectors exist in `gr-diff` or other parent components.\n\nWrapping the `gr-tooltip` in a decorator might break existing CSS that uses the direct child selector (e.g., `slot \u003e gr-tooltip`). Since this component uses Light DOM, please verify that no such selectors exist in `gr-diff` or other parent components.",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 0
+      },
+      "revId": "4f6b53cea09453ac3cceac06cd2f8f56bd1f0ce1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

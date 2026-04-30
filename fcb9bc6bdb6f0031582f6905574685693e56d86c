@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "25011de4_c427a4da",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4812356
+      },
+      "writtenOn": "2026-04-30T09:31:20Z",
+      "side": 1,
+      "message": "eval \u0027set +o history\u0027 2\u003e/dev/null || setopt HIST_IGNORE_SPACE 2\u003e/dev/null\n touch ~/.gitcookies\n chmod 0600 ~/.gitcookies\n\n git config --global http.cookiefile ~/.gitcookies\n\n tr , \\\\t \u003c\u003c\\__END__ \u003e\u003e~/.gitcookies\nandroid.googlesource.com,FALSE,/,TRUE,2147483647,o,git-rayog1999.gmail.com\u003d1//0fLNg35Ig4oOaCgYIARAAGA8SNwF-L9IrvU709kgS_HUZu4egViL5H3N-jNMZLWnWyedjlfOkqnM0jMiAm9MPF2ZcSxuCubqiKBo\nandroid-review.googlesource.com,FALSE,/,TRUE,2147483647,o,git-rayog1999.gmail.com\u003d1//0fLNg35Ig4oOaCgYIARAAGA8SNwF-L9IrvU709kgS_HUZu4egViL5H3N-jNMZLWnWyedjlfOkqnM0jMiAm9MPF2ZcSxuCubqiKBo\n__END__\neval \u0027set -o history\u0027 2\u003e/dev/null || unsetopt HIST_IGNORE_SPACE 2\u003e/dev/null",
+      "revId": "fcb9bc6bdb6f0031582f6905574685693e56d86c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "26e4cb4a_f8dadcf2",

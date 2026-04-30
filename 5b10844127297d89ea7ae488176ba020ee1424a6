@@ -1,0 +1,39 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1e9b1d2_2a38fa7d",
+        "filename": "java/com/google/gerrit/server/util/JujutsuChangeIdUtil.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1010224
+      },
+      "writtenOn": "2026-04-30T14:51:49Z",
+      "side": 1,
+      "message": "They can actually only be k-z, so you may want to make this a bit stricter",
+      "fixSuggestions": [
+        {
+          "fixId": "2a816734_2c55ffb9",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "java/com/google/gerrit/server/util/JujutsuChangeIdUtil.java",
+              "range": {
+                "startLine": 36,
+                "startChar": 0,
+                "endLine": 38,
+                "endChar": 0
+              },
+              "replacement": "  /** Pattern matching a Jujutsu change ID: exactly 32 lowercase letters from k to z. */\n  private static final Pattern JJ_CHANGE_ID_PATTERN \u003d Pattern.compile(\"^[k-z]{32}$\");\n"
+            }
+          ]
+        }
+      ],
+      "revId": "5b10844127297d89ea7ae488176ba020ee1424a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

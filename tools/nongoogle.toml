@@ -61,5 +61,5 @@ truth = { module = "com.google.truth:truth", version.ref = "truth" }
 truth-java8-extension = { module = "com.google.truth.extensions:truth-java8-extension", version.ref = "truth" }
 truth-liteproto-extension = { module = "com.google.truth.extensions:truth-liteproto-extension", version.ref = "truth" }
 truth-proto-extension = { module = "com.google.truth.extensions:truth-proto-extension", version.ref = "truth" }
-tukaani-xz = { module = "org.tukaani:xz", version = "1.11" }
+tukaani-xz = { module = "org.tukaani:xz", version = "1.12" }
 xerces = { module = "xerces:xercesImpl", version = "2.12.2" }

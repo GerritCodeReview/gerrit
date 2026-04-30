@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "581d2065_93b069a6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-04-30T17:34:16Z",
+      "side": 1,
+      "message": "I think both submit and code review would be primary buttons. I\u0027m open to abandoning this change and leaving things as they are, but I do think it will help prevent accidental clicks. If there\u0027s no primary button available, then \"Review agent\" is the first button. So if you\u0027re using the agent a lot, the reflex to just click the first button is strong.",
+      "parentUuid": "09be4be6_20b55d00",
+      "revId": "0be2f1636243be27ee50461ca2b026fbbe524ad1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "67f44751_f658030f",
         "filename": "polygerrit-ui/screenshots/Chromium/baseline/gr-change-view-wrapped-statuses-801px.png",
         "patchSetId": 2
@@ -31,6 +49,24 @@
       "writtenOn": "2026-04-30T01:19:57Z",
       "side": 1,
       "message": "It\u0027s unclear to me from the initial image if the Submit button is disabled and the updated styling is making it look enabled?",
+      "revId": "0be2f1636243be27ee50461ca2b026fbbe524ad1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "992108bd_41994201",
+        "filename": "polygerrit-ui/screenshots/Chromium/baseline/gr-change-view-wrapped-statuses-801px.png",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-04-30T17:34:16Z",
+      "side": 1,
+      "message": "I updated the test to have an enabled submit button because it says \"ready to submit\" so it seemed like the right thing to do rather than create a new test. The other screenshot tests have a disabled submit button and the styling will stay the same for disabled.",
+      "parentUuid": "67f44751_f658030f",
       "revId": "0be2f1636243be27ee50461ca2b026fbbe524ad1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

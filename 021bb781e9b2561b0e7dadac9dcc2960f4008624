@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a3efb2b_fbea1381",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-04-30T13:05:39Z",
+      "side": 1,
+      "message": "nit: wrap long line",
+      "range": {
+        "startLine": 10,
+        "startChar": 72,
+        "endLine": 10,
+        "endChar": 76
+      },
+      "revId": "021bb781e9b2561b0e7dadac9dcc2960f4008624",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "428cebc8_5be44593",
+        "filename": "java/com/google/gerrit/extensions/events/ChangeIndexedListener.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-04-30T13:05:39Z",
+      "side": 1,
+      "message": "If projectName _can_ indeed be `null`, have you considered annotating this as `@Nullable` rather than forcing implementations to pass an arbitrary empty string?\n\nI think this is more self-documenting than forcing to know that an empty string means \"unknown project\", WDYT?",
+      "range": {
+        "startLine": 46,
+        "startChar": 31,
+        "endLine": 46,
+        "endChar": 49
+      },
+      "revId": "021bb781e9b2561b0e7dadac9dcc2960f4008624",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "498c3760_4a2a1b86",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeIndexer.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 697,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-04-30T13:05:39Z",
+      "side": 1,
+      "message": "Since the method is executed is the same, have you considered just passing a different argument to it?\n\n```\n      fireChangeDeletedFromIndexEvent(id.get(), project.map(Project.NameKey::get).orElse(\"\"));\n```\n\nI think it is easier to read and avoids duplicating the method call.",
+      "range": {
+        "startLine": 695,
+        "startChar": 0,
+        "endLine": 697,
+        "endChar": 63
+      },
+      "revId": "021bb781e9b2561b0e7dadac9dcc2960f4008624",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

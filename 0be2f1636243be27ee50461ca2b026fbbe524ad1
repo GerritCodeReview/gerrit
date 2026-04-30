@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "09be4be6_20b55d00",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-04-30T01:21:37Z",
+      "side": 1,
+      "message": "https://screenshot.googleplex.com/6gdFYUoGFceeBws  This case might also look strange, there\u0027s not a clear primary button here",
+      "revId": "0be2f1636243be27ee50461ca2b026fbbe524ad1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "67f44751_f658030f",
         "filename": "polygerrit-ui/screenshots/Chromium/baseline/gr-change-view-wrapped-statuses-801px.png",
         "patchSetId": 2

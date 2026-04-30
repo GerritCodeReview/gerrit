@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6d256a9c_1bdf20ea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-04-30T05:08:42Z",
+      "side": 1,
+      "message": "Works for me. I agree that works best for being able to delegate it like Project Owner.",
+      "parentUuid": "9baa4431_99efbb0b",
+      "revId": "7ffbd56affa9760af596627360364d4319fb91d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0902ba00_807061b3",
         "filename": "Documentation/access-control.txt",
         "patchSetId": 4

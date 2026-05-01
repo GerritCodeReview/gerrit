@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "25e6c4e5_bba93b3a",
+        "filename": "java/com/google/gerrit/server/change/ActionJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2026-05-01T07:12:52Z",
+      "side": 1,
+      "message": "nit: fix formatting",
+      "range": {
+        "startLine": 276,
+        "startChar": 6,
+        "endLine": 278,
+        "endChar": 36
+      },
+      "revId": "51d55d738f6eaa5a8fb2cff6335ba7e42a1cba62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

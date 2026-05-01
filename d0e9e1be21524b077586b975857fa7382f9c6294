@@ -16,6 +16,41 @@
       "message": "Won\u0027t this throw an exception if the Optional is empty?",
       "revId": "d0e9e1be21524b077586b975857fa7382f9c6294",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc611c7d_2655074e",
+        "filename": "java/com/google/gerrit/server/mail/send/AuthTokenExpiredEmailDecorator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-05-01T17:38:29Z",
+      "side": 1,
+      "message": "Yeah, looks like it was a problem with the earlier code too.\n```suggestion\n    token.formattedExpirationDate().ifPresent(formattedExpirationDate -\u003e email.addSoyEmailDataParam(\"expirationDate\", formattedExpirationDate));\n```",
+      "parentUuid": "49a862cd_fc724cc2",
+      "revId": "d0e9e1be21524b077586b975857fa7382f9c6294",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74609bef_8fba0a56",
+        "filename": "java/com/google/gerrit/server/mail/send/AuthTokenWillExpireEmailDecorator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-05-01T17:38:29Z",
+      "side": 1,
+      "message": "```suggestion\n    token.formattedExpirationDate().ifPresent(formattedExpirationDate -\u003e email.addSoyEmailDataParam(\"expirationDate\", formattedExpirationDate));\n```",
+      "revId": "d0e9e1be21524b077586b975857fa7382f9c6294",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

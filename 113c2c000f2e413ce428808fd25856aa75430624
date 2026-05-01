@@ -88,6 +88,24 @@
       "parentUuid": "1c1bef66_f02270d4",
       "revId": "113c2c000f2e413ce428808fd25856aa75430624",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0177e183_5331d311",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-05-01T19:46:07Z",
+      "side": 1,
+      "message": "Thanks @ifrade@google.com for the fix 👍",
+      "parentUuid": "cb3f91e0_0bacd2b9",
+      "revId": "113c2c000f2e413ce428808fd25856aa75430624",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "59b22991_cbe54312",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-05-01T22:07:49Z",
+      "side": 1,
+      "message": "Ok, but should it even be a permission? Should it instead be a capability?",
+      "parentUuid": "9e2e0d2a_77e70c78",
+      "revId": "be6855feecd72d8559bd421dfc722b5723aa4911",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ad735b57_a8c74078",
         "filename": "java/com/google/gerrit/server/change/ActionJson.java",
         "patchSetId": 3

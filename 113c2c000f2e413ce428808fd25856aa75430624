@@ -16,6 +16,24 @@
       "message": "Sync for JGit project currently doesn\u0027t work from gerrithub.io to googlesource.com, see change 564441.\n\n@mthai@google.com @ifrade@google.com could you please help to sort it out?",
       "revId": "113c2c000f2e413ce428808fd25856aa75430624",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a23799c1_73012bb9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-01T08:58:02Z",
+      "side": 1,
+      "message": "@ifrade@google.com @mthai@google.com should we just consume JGit submodule from GerritHub.io in the meantime? WDYT?",
+      "parentUuid": "192e9aae_2612a277",
+      "revId": "113c2c000f2e413ce428808fd25856aa75430624",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

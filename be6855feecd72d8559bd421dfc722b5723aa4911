@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aab982e7_cb171af5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-05-01T17:33:52Z",
+      "side": 1,
+      "message": "I should have checked the docs closer before [my previous reply](https://gerrit-review.googlesource.com/c/gerrit/+/574541/comment/be9d7228_74c0c778/), but looking now, I see we define `ActionInfo` as:\n\n\u003e ```\n\u003e The ActionInfo entity describes a REST API call the client can make to\n\u003e manipulate a resource.\n\u003e ```\n\nThat\u0027s also matched in the [FE code](https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/app/api/rest-api.ts#261). However, there\u0027s **no** REST API mapped to `canAiReview`.\n\nThis looks like it stems from Ben\u0027s [original commit](https://gerrit.googlesource.com/gerrit/+/2ee7a76c2f4b0db73369a65ba6044abe19b9b460%5E%21/#F1) adding AI chat. It probably shouldn\u0027t be a `CHANGE_ACTION` at all (though I\u0027m not seeing a good existing alternative), but the permission especially shouldn\u0027t be represented as an `ActionInfo`. It\u0027s almost more like a user preference or a global capability. Why was canAiReview added as a permission in change 553501? Do we expect project+ref level access controls set for it?\n\nSince Druv had a [clear objection](https://gerrit-review.googlesource.com/c/gerrit/+/553502/comment/7404e58d_a8698c79/) to keeping it on the top-level of `ChangeInfo` and always returning it, why not go with his idea of a separate REST API? Or keep it on ChangeInfo, but only return it when a [specific option](https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#query-options) is provided (I think that would also require some way to have a server-level override to \"always enable\")?\n\nI also realized that unless you\u0027re going to sneak this into 3.14 at the last second, moving the field is an API breaking change. Since this is effectively a bug fix, we should either be delaying 3.14 for another week (FYI @syntonyze@gmail.com) to make the API breaking change (but I\u0027m not convinced now that moving to Actions is correct) or we could say that since the behavior was hidden behind an experimental flag, it\u0027s ok to have the API break in 3.14.1 and 3.15.",
+      "revId": "be6855feecd72d8559bd421dfc722b5723aa4911",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad735b57_a8c74078",
+        "filename": "java/com/google/gerrit/server/change/ActionJson.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-05-01T17:33:52Z",
+      "side": 1,
+      "message": "Unless we\u0027re also removing `ChangePermission.AI_REVIEW`, I don\u0027t think this would be removed when the experiment is removed.",
+      "revId": "be6855feecd72d8559bd421dfc722b5723aa4911",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

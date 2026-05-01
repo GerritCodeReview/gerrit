@@ -20,6 +20,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9e2e0d2a_77e70c78",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-01T20:56:51Z",
+      "side": 1,
+      "message": "I believe it would be cleaner to:\n- Upload the revert of the AI Code Review REST-API introduction on the change details backend\n- Introduce the AI support for supporting the action enablement on the frontend and verify that it works by always showing it\n- Introduce the AI enablement support on the backend and verify that the AI feature can be hidden when adding a DENY or BLOCK ACE.\n\nBy mixing the three of them, the review becomes harder IMHO.",
+      "revId": "be6855feecd72d8559bd421dfc722b5723aa4911",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ad735b57_a8c74078",
         "filename": "java/com/google/gerrit/server/change/ActionJson.java",
         "patchSetId": 3

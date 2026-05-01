@@ -34,6 +34,24 @@
       "parentUuid": "192e9aae_2612a277",
       "revId": "113c2c000f2e413ce428808fd25856aa75430624",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c1bef66_f02270d4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-05-01T15:55:41Z",
+      "side": 1,
+      "message": "\u003e @ifrade@google.com @mthai@google.com should we just consume JGit submodule from GerritHub.io in the meantime? WDYT?\n\nWhy not just manually push the servlet-4 branch? It looks like only the master branch is still syncing: https://gerrit.googlesource.com/jgit/+/refs/heads/master",
+      "parentUuid": "a23799c1_73012bb9",
+      "revId": "113c2c000f2e413ce428808fd25856aa75430624",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

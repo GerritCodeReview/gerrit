@@ -52,6 +52,24 @@
       "parentUuid": "a23799c1_73012bb9",
       "revId": "113c2c000f2e413ce428808fd25856aa75430624",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e617842_7ac60e22",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-01T17:15:07Z",
+      "side": 1,
+      "message": "\u003e \u003e @ifrade@google.com @mthai@google.com should we just consume JGit submodule from GerritHub.io in the meantime? WDYT?\n\u003e \n\u003e Why not just manually push the servlet-4 branch? \n\nThe JGit repo on gerrit-review.googlesource.com blocks manual pushes from the outside. Maybe a Googler can do it? @ifrade@google.com or @tparker@google.com?",
+      "parentUuid": "1c1bef66_f02270d4",
+      "revId": "113c2c000f2e413ce428808fd25856aa75430624",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

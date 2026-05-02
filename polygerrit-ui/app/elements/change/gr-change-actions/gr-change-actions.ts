@@ -1282,7 +1282,7 @@ export class GrChangeActions
       return null;
     }
     // When undefined, assume AI chat is allowed.
-    if (this.change?.can_ai_review === false) {
+    if (this.revisionActions?.aiReview?.enabled === false) {
       return null;
     }
     if (!this.aiPluginsRegistered) {

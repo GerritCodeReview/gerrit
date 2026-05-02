@@ -2344,14 +2344,14 @@ public class RevisionIT extends AbstractDaemonTest {
   public void actions() throws Exception {
     PushOneCommit.Result r = createChange();
     assertThat(current(r).actions().keySet())
-        .containsExactly("cherrypick", "description", "rebase");
+        .containsExactly("cherrypick", "description", "rebase", "aiReview");
 
     current(r).review(ReviewInput.approve());
     assertThat(current(r).actions().keySet())
-        .containsExactly("submit", "cherrypick", "description", "rebase");
+        .containsExactly("submit", "cherrypick", "description", "rebase", "aiReview");
 
     current(r).submit();
-    assertThat(current(r).actions().keySet()).containsExactly("cherrypick");
+    assertThat(current(r).actions().keySet()).containsExactly("cherrypick", "aiReview");
   }
 
   @Test

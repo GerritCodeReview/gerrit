@@ -1281,8 +1281,12 @@ export class GrChangeActions
     if (!this.flagService.isEnabled(KnownExperimentId.ENABLE_AI_CHAT)) {
       return null;
     }
-    // When undefined, assume AI chat is allowed.
-    if (this.change?.can_ai_review === false) {
+    // Wait for the actions endpoint to respond before deciding visibility.
+    if (this.revisionActions === undefined) {
+      return null;
+    }
+    // Hide only when the server explicitly denies AI review.
+    if (this.revisionActions.aiReview?.enabled === false) {
       return null;
     }
     if (!this.aiPluginsRegistered) {

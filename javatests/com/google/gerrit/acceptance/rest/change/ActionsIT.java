@@ -108,7 +108,9 @@ public class ActionsIT extends AbstractDaemonTest {
   public void revisionActionsOneChangePerTopicUnapproved() throws Exception {
     String changeId = createChangeWithTopic().getChangeId();
     Map<String, ActionInfo> actions = getActions(changeId);
-    assertThatMap(actions).keys().containsExactly("cherrypick", "rebase", "description");
+    assertThatMap(actions)
+        .keys()
+        .containsExactly("cherrypick", "rebase", "description", "aiReview");
   }
 
   @Test
@@ -392,7 +394,7 @@ public class ActionsIT extends AbstractDaemonTest {
     }
 
     Map<String, ActionInfo> origActions = gApi.changes().id(id).revision(1).actions();
-    assertThat(origActions.keySet()).containsExactly("description");
+    assertThat(origActions.keySet()).containsExactly("description", "aiReview");
     assertThat(origActions.get("description").label).isEqualTo("Edit Description");
 
     try (Registration registration = extensionRegistry.newRegistration().add(new Visitor())) {
@@ -409,7 +411,9 @@ public class ActionsIT extends AbstractDaemonTest {
   }
 
   private void commonActionsAssertions(Map<String, ActionInfo> actions) {
-    assertThatMap(actions).keys().containsExactly("cherrypick", "submit", "description", "rebase");
+    assertThatMap(actions)
+        .keys()
+        .containsExactly("cherrypick", "submit", "description", "rebase", "aiReview");
   }
 
   private PushOneCommit.Result createChangeWithTopic() throws Exception {

@@ -22,6 +22,18 @@ declare global {
   }
 }
 
+interface SelectionAction {
+  label: string;
+  onClick: (detail: GrSelectionActionBox) => void;
+}
+
+const registeredActions: SelectionAction[] = [];
+
+document.addEventListener('register-selection-action', (e: Event) => {
+  const customEvent = e as CustomEvent<SelectionAction>;
+  registeredActions.push(customEvent.detail);
+});
+
 @customElement('gr-selection-action-box')
 export class GrSelectionActionBox extends LitElement {
   @query('#tooltip')
@@ -50,21 +62,33 @@ export class GrSelectionActionBox extends LitElement {
   }
 
   override render() {
-    // We create the gr-tooltip anyway even if the slot is assigned so that
-    // we reuse the logic for positioning the tooltip (in placeAbove/Below).
     return html`
       <slot
         name="selectionActionBox"
         ?invisible=${this.invisible}
         @slotchange=${this.handleSlotChange}
       >
-        <gr-tooltip
-          id="tooltip"
-          text=${this.hoverCardText}
-          ?position-below=${this.positionBelow}
-        ></gr-tooltip>
+        <div class="selection-action-menu">
+          <button class="action-button" @click=${this.handleDefaultAction}>
+            Press c to comment
+          </button>
+          ${registeredActions.map(
+            action => html`
+              <button
+                class="action-button"
+                @click=${() => action.onClick(this)}
+              >
+                ${action.label}
+              </button>
+            `
+          )}
+        </div>
       </slot>
     `;
+  }
+
+  private handleDefaultAction() {
+    fire(this, 'create-comment-requested', {});
   }
 
   private handleSlotChange() {
@@ -86,10 +110,9 @@ export class GrSelectionActionBox extends LitElement {
   // TODO(b/315277651): This is very similar in purpose to gr-tooltip-content.
   //   We should figure out a way to reuse as much of the logic as possible.
   async placeAbove(el: Text | Element | Range) {
-    if (!this.tooltip) return;
-    await this.tooltip.updateComplete;
+    await this.updateComplete;
     const rect = this.getTargetBoundingRect(el);
-    const boxRect = this.tooltip.getBoundingClientRect();
+    const boxRect = this.getBoundingClientRect();
     const parentRect = this.getParentBoundingClientRect();
     if (parentRect === null) {
       return;
@@ -103,10 +126,9 @@ export class GrSelectionActionBox extends LitElement {
   }
 
   async placeBelow(el: Text | Element | Range) {
-    if (!this.tooltip) return;
-    await this.tooltip.updateComplete;
+    await this.updateComplete;
     const rect = this.getTargetBoundingRect(el);
-    const boxRect = this.tooltip.getBoundingClientRect();
+    const boxRect = this.getBoundingClientRect();
     const parentRect = this.getParentBoundingClientRect();
     if (parentRect === null) {
       return;

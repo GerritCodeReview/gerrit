@@ -92,6 +92,31 @@ export const grDiffElementStyles = css`
     width: 22ch;
     cursor: pointer;
   }
+  gr-diff-element gr-selection-action-box .selection-action-menu {
+    background-color: var(--surface-default, #fff);
+    box-shadow: 0 1px 10px 0 rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+    border: 1px solid var(--hairline, #ddd);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  gr-diff-element gr-selection-action-box .action-button {
+    display: flex;
+    height: 30px;
+    width: 100%;
+    align-items: center;
+    border: none;
+    background: none;
+    text-align: left;
+    cursor: pointer;
+    font-family: var(--font-family, sans-serif);
+    font-size: var(--font-size-small, 12px);
+    padding: 0 8px;
+  }
+  gr-diff-element gr-selection-action-box .action-button:hover {
+    background-color: var(--chat-card-button-hover, #f1f3f4);
+  }
 `;
 
 // Styles related to the <gr-diff-section> component.

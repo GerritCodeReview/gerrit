@@ -6,7 +6,8 @@
 import '../../../test/common-test-setup';
 import {assert, fixture, html} from '@open-wc/testing';
 import {GrChangeSummary} from './gr-change-summary';
-import {queryAll, queryAndAssert} from '../../../utils/common-util';
+import {query, queryAll, queryAndAssert} from '../../../utils/common-util';
+import {ActionInfo} from '../../../types/common';
 import {checkRun0} from '../../../test/test-data-generators';
 import {
   createAccountWithEmail,
@@ -105,54 +106,30 @@ suite('gr-change-summary test', () => {
     );
   });
 
-  test('renders AI review button when canAiReview is true', async () => {
-    commentsModel.setState({
-      drafts: {
-        a: [createDraft(), createDraft(), createDraft()],
-      },
-      discardedDrafts: [],
+  suite('AI review button visibility', () => {
+    setup(async () => {
+      commentsModel.setState({
+        drafts: {a: [createDraft()]},
+        discardedDrafts: [],
+      });
+      element.commentsLoading = false;
+      element.commentThreads = [createCommentThread([createComment()])];
+      await element.updateComplete;
     });
-    element.commentsLoading = false;
-    element.commentThreads = [
-      createCommentThread([createComment()]),
-      createCommentThread([{...createComment(), unresolved: true}]),
-    ];
-    element.canAiReview = true;
-    await element.updateComplete;
-    assert.shadowDom.equal(
-      element,
-      /* HTML */ `
-        <div>
-          <table class="info">
-            <tbody>
-              <tr>
-                <td class="key">Comments</td>
-                <td class="value">
-                  <div class="value-content">
-                    <gr-comments-summary
-                      clickablechips=""
-                      showcommentcategoryname=""
-                    ></gr-comments-summary>
-                    <gr-button
-                      aria-disabled="false"
-                      link=""
-                      role="button"
-                      tabindex="0"
-                    >
-                      Create AI Review Prompt
-                    </gr-button>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <dialog id="aiPromptModal" tabindex="-1">
-          <gr-ai-prompt-dialog id="aiPromptDialog" role="dialog">
-          </gr-ai-prompt-dialog>
-        </dialog>
-      `
-    );
+
+    test('shown when revisionActions is undefined', async () => {
+      element.revisionActions = undefined;
+      await element.updateComplete;
+      assert.isNotNull(queryAndAssert(element, 'gr-button'));
+    });
+
+    test('hidden when aiReview action has enabled: false', async () => {
+      element.revisionActions = {
+        aiReview: {enabled: false} as ActionInfo,
+      };
+      await element.updateComplete;
+      assert.isUndefined(query(element, 'gr-button'));
+    });
   });
 
   test('renders checks summary message', async () => {

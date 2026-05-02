@@ -1051,9 +1051,6 @@ assigned).
 This category controls who is able to use AI-assisted review features,
 such as the "Review Agent" and "Create AI Review Prompt" buttons.
 
-This permission is only effective when the `UiFeature__enable_ai_chat`
-experiment is enabled.
-
 [NOTE]
 Unlike all other Gerrit permissions which use a default-deny model
 (access is denied unless an explicit 'ALLOW' rule grants it), the

@@ -19,6 +19,7 @@ import static java.util.Objects.requireNonNull;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.changes.ActionVisitor;
 import com.google.gerrit.extensions.common.ActionInfo;
@@ -34,6 +35,9 @@ import com.google.gerrit.server.extensions.webui.UiActions;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
+import com.google.gerrit.server.permissions.ChangePermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -46,6 +50,10 @@ import java.util.Map;
 
 @Singleton
 public class ActionJson {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
+  private static final String AI_REVIEW_ACTION_ID = "aiReview";
+
   private final DynamicMap<RestView<RevisionResource>> revisionViews;
   private final ChangeJson.Factory changeJsonFactory;
   private final ChangeResource.Factory changeResourceFactory;
@@ -53,6 +61,7 @@ public class ActionJson {
   private final DynamicMap<RestView<ChangeResource>> changeViews;
   private final DynamicSet<ActionVisitor> visitorSet;
   private final Provider<CurrentUser> userProvider;
+  private final PermissionBackend permissionBackend;
 
   @Inject
   ActionJson(
@@ -62,7 +71,8 @@ public class ActionJson {
       UiActions uiActions,
       DynamicMap<RestView<ChangeResource>> changeViews,
       DynamicSet<ActionVisitor> visitorSet,
-      Provider<CurrentUser> userProvider) {
+      Provider<CurrentUser> userProvider,
+      PermissionBackend permissionBackend) {
     this.revisionViews = views;
     this.changeJsonFactory = changeJsonFactory;
     this.changeResourceFactory = changeResourceFactory;
@@ -70,6 +80,7 @@ public class ActionJson {
     this.changeViews = changeViews;
     this.visitorSet = visitorSet;
     this.userProvider = userProvider;
+    this.permissionBackend = permissionBackend;
   }
 
   public Map<String, ActionInfo> format(RevisionResource rsrc) {
@@ -200,12 +211,10 @@ public class ActionJson {
       // have a server side handler. It must be manually registered into the
       // resulting action map.
       if (!changeData.change().isAbandoned()) {
-        UiAction.Description descr = new UiAction.Description();
-        PrivateInternals_UiActionDescription.setId(descr, "followup");
-        PrivateInternals_UiActionDescription.setMethod(descr, "POST");
-        descr.setTitle("Create follow-up change");
-        descr.setLabel("Follow-Up");
-        descs = Iterables.concat(descs, Collections.singleton(descr));
+        UiAction.Description followup =
+            clientSideAction("followup", "Follow-Up", "Create follow-up change");
+        PrivateInternals_UiActionDescription.setMethod(followup, "POST");
+        descs = Iterables.concat(descs, Collections.singleton(followup));
       }
 
       ACTION:
@@ -227,14 +236,20 @@ public class ActionJson {
       List<ActionVisitor> visitors,
       ChangeInfo changeInfo,
       RevisionInfo revisionInfo) {
-    if (!rsrc.getUser().isIdentifiedUser()) {
-      return ImmutableMap.of();
-    }
-
+    Iterable<UiAction.Description> descs =
+        addAiReviewAction(
+            rsrc,
+            rsrc.getUser().isIdentifiedUser() ? uiActions.from(revisionViews, rsrc) : List.of());
     Map<String, ActionInfo> out = new LinkedHashMap<>();
     ACTION:
-    for (UiAction.Description d : uiActions.from(revisionViews, rsrc)) {
+    for (UiAction.Description d : descs) {
       ActionInfo actionInfo = new ActionInfo(d);
+      // Preserve explicit Description.enabled=false for aiReview; see
+      // ActionInfo(Description) which otherwise maps it to null and would
+      // drop the denied state from JSON.
+      if (AI_REVIEW_ACTION_ID.equals(d.getId())) {
+        actionInfo.enabled = false;
+      }
       for (ActionVisitor visitor : visitors) {
         if (!visitor.visit(d.getId(), actionInfo, changeInfo, revisionInfo)) {
           continue ACTION;
@@ -243,5 +258,37 @@ public class ActionJson {
       out.put(d.getId(), actionInfo);
     }
     return ImmutableMap.copyOf(out);
+  }
+
+  private Iterable<UiAction.Description> addAiReviewAction(
+      RevisionResource rsrc, Iterable<UiAction.Description> descs) {
+    // The aiReview action is a client-side only operation that does not have a
+    // server side handler. It is emitted only when AI review is denied; the
+    // frontend treats an absent entry as the default-allow state.
+    try {
+      boolean permitted =
+          permissionBackend
+              .user(rsrc.getUser())
+              .change(rsrc.getChangeResource().getChangeData())
+              .test(ChangePermission.AI_REVIEW);
+      if (!permitted) {
+        UiAction.Description aiReview =
+            clientSideAction(AI_REVIEW_ACTION_ID, "AI Review", "Run AI Review on this change");
+        aiReview.setEnabled(false);
+        descs = Iterables.concat(descs, Collections.singleton(aiReview));
+      }
+    } catch (PermissionBackendException e) {
+      logger.atWarning().withCause(e).log(
+          "Failed to check AI review permission for change %s", rsrc.getChange().getId());
+    }
+    return descs;
+  }
+
+  private static UiAction.Description clientSideAction(String id, String label, String title) {
+    UiAction.Description descr = new UiAction.Description();
+    PrivateInternals_UiActionDescription.setId(descr, id);
+    descr.setLabel(label);
+    descr.setTitle(title);
+    return descr;
   }
 }

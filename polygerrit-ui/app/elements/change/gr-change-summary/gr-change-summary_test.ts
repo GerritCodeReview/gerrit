@@ -6,7 +6,7 @@
 import '../../../test/common-test-setup';
 import {assert, fixture, html} from '@open-wc/testing';
 import {GrChangeSummary} from './gr-change-summary';
-import {queryAll, queryAndAssert} from '../../../utils/common-util';
+import {query, queryAll, queryAndAssert} from '../../../utils/common-util';
 import {checkRun0} from '../../../test/test-data-generators';
 import {
   createAccountWithEmail,
@@ -68,6 +68,7 @@ suite('gr-change-summary test', () => {
       createCommentThread([createComment()]),
       createCommentThread([{...createComment(), unresolved: true}]),
     ];
+    element.revisionActions = {};
     await element.updateComplete;
     assert.shadowDom.equal(
       element,
@@ -105,7 +106,7 @@ suite('gr-change-summary test', () => {
     );
   });
 
-  test('renders AI review button when canAiReview is true', async () => {
+  test('renders AI review button when revisionActions allow AI review', async () => {
     commentsModel.setState({
       drafts: {
         a: [createDraft(), createDraft(), createDraft()],
@@ -117,7 +118,7 @@ suite('gr-change-summary test', () => {
       createCommentThread([createComment()]),
       createCommentThread([{...createComment(), unresolved: true}]),
     ];
-    element.canAiReview = true;
+    element.revisionActions = {aiReview: {label: 'AI Review', enabled: true}};
     await element.updateComplete;
     assert.shadowDom.equal(
       element,
@@ -153,6 +154,23 @@ suite('gr-change-summary test', () => {
         </dialog>
       `
     );
+  });
+
+  test('hides AI review button when revisionActions deny AI review', async () => {
+    commentsModel.setState({
+      drafts: {
+        a: [createDraft(), createDraft(), createDraft()],
+      },
+      discardedDrafts: [],
+    });
+    element.commentsLoading = false;
+    element.commentThreads = [
+      createCommentThread([createComment()]),
+      createCommentThread([{...createComment(), unresolved: true}]),
+    ];
+    element.revisionActions = {aiReview: {label: 'AI Review', enabled: false}};
+    await element.updateComplete;
+    assert.isUndefined(query(element, 'gr-button'));
   });
 
   test('renders checks summary message', async () => {

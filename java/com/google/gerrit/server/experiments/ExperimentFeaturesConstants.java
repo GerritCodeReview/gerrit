@@ -64,6 +64,7 @@ public class ExperimentFeaturesConstants {
   /** Whether submit_records should only be returned along with submit_requirements. */
   public static final String SKIP_SUBMIT_RECORDS_WITHOUT_SUBMIT_REQUIREMENTS =
       "GerritBackendFeature__skip_submit_records_without_submit_requirements";
+<<<<<<< HEAD   (da3e4421acec62bea077d674c33ffb730fa4126a Set version to 3.14.0-SNAPSHOT)
 
   /** Whether to consider votes of deleted accounts. */
   public static final String CONSIDER_VOTES_OF_DELETED_ACCOUNTS =
@@ -71,4 +72,10 @@ public class ExperimentFeaturesConstants {
 
   /** Whether AI chat/review features are enabled in the UI. */
   public static final String ENABLE_AI_CHAT = "UiFeature__enable_ai_chat";
+||||||| BASE   (1e875b02243e1d6549808134151095e66d9e58d3 Expose canAiReview field on ChangeInfo REST response)
+
+  /** Whether AI chat/review features are enabled in the UI. */
+  public static final String ENABLE_AI_CHAT = "UiFeature__enable_ai_chat";
+=======
+>>>>>>> CHANGE (4a768895738d2925734498fa2d38f81496f261cd Revert "Expose canAiReview field on ChangeInfo REST response)
 }

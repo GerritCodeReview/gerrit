@@ -71,6 +71,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1efe0ce_6dbaa013",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-03T10:40:25Z",
+      "side": 1,
+      "message": "@geminica.programs@gmail.com I\u0027ve prepared the revert of the inclusion of the AI review flag in the ChangeInfo at https://gerrit-review.googlesource.com/c/gerrit/+/579001.\n\nCan you rebase this change on top of it?",
+      "revId": "be6855feecd72d8559bd421dfc722b5723aa4911",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ad735b57_a8c74078",

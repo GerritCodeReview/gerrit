@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00658f0e_49983f6e",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/AiReviewPermissionIT.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-03T10:56:05Z",
+      "side": 1,
+      "message": "This IT test should not belong to this change because it isn\u0027t associated with the UI integration.",
+      "revId": "e26bd3badded889ed6baaa088f9a66f265333492",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

@@ -300,7 +300,7 @@ public class AccountIT extends AbstractDaemonTest {
       if (repo.getRefDatabase().exactRef(ref) != null) {
         RefUpdate ru = repo.updateRef(ref);
         ru.setForceUpdate(true);
-        assertWithMessage("Failed to delete " + ref)
+        assertWithMessage("Failed to delete %s", ref)
             .that(ru.delete())
             .isEqualTo(RefUpdate.Result.FORCED);
       }
@@ -565,6 +565,20 @@ public class AccountIT extends AbstractDaemonTest {
           assertThat(tw).isNull();
         }
       }
+    }
+  }
+
+  @Test
+  public void randomNIds() throws Exception {
+    accountOperations.newAccount().create();
+    accountOperations.newAccount().create();
+    accountOperations.newAccount().create();
+
+    ImmutableList<Account.Id> result = accounts.randomNIds(2, 12345L);
+
+    assertThat(result).hasSize(2);
+    for (Account.Id id : result) {
+      assertThat(gApi.accounts().id(id.get()).get()).isNotNull();
     }
   }
 

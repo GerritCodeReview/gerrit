@@ -51,6 +51,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 
+/** NoteDb-based implementation of {@link Accounts}. */
 @Singleton
 public class AccountsNoteDbImpl implements Accounts {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();

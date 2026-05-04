@@ -33,6 +33,24 @@
       "message": "Is it OK to insert the `ParkedTask` object into the `parked` queue before its construction is complete?",
       "revId": "0e8488001e4f476f998b012358576fae90ec8141",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aaada5ba_4cae86f9",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-05-04T17:17:32Z",
+      "side": 1,
+      "message": "It might not be, I was bit wondering about that also. I believe the latch should be fine, as it is initialized before this constructor is called, and task is initialized before we put it in the queue. However, both of those happen on separate threads potentially than any threads operating on the queue and they are not marked as volatile. The JVM guarantees that those fields are visible to other threads by the time the constructor completes, but I don\u0027t think that is true before then. So, they might NPE if accessed from another thread after being put in the queue before the constructor completes.\n\nWould it be safe to move 353 out of the constructor, leaving 354 and 355 in the constructor, I suspect so?",
+      "parentUuid": "da27bcaa_1ef230ff",
+      "revId": "0e8488001e4f476f998b012358576fae90ec8141",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

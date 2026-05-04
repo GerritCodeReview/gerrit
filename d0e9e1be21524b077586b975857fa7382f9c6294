@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d8500d02_a114a8a6",
+        "filename": "java/com/google/gerrit/server/mail/send/AuthTokenExpiredEmailDecorator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-05-04T15:02:07Z",
+      "side": 1,
+      "message": "OK, but why introduce an Optional then since the whole purpose of an Optional is to avoid this sort of approach?",
+      "parentUuid": "78cac1e8_38eb1596",
+      "revId": "d0e9e1be21524b077586b975857fa7382f9c6294",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "74609bef_8fba0a56",
         "filename": "java/com/google/gerrit/server/mail/send/AuthTokenWillExpireEmailDecorator.java",
         "patchSetId": 2

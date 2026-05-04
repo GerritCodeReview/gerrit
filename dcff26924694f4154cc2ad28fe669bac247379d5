@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c22ab0d_7184eb89",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeIndexer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-05-04T06:25:35Z",
+      "side": 1,
+      "message": "nit: Looks like this is at the wrong place",
+      "range": {
+        "startLine": 489,
+        "startChar": 41,
+        "endLine": 489,
+        "endChar": 47
+      },
+      "revId": "dcff26924694f4154cc2ad28fe669bac247379d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

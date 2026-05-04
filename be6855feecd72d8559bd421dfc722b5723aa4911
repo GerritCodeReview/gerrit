@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7fc6d168_3732dc82",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-05-04T12:48:16Z",
+      "side": 1,
+      "message": "\u003e I also realised that unless you\u0027re going to sneak this into 3.14 at the last second, moving the field is an API breaking change. Since this is effectively a bug fix, we should either be delaying 3.14 for another week (FYI @syntonyze@gmail.com) \n\nYes, I have mentioned [this bug](https://www.gerritcodereview.com/3.14.html#known-issues) in the release notes already, but I don\u0027t think we should be cutting v3.14.0 with this AI enabling/disabling issue still pending.\n\nI will be adding an RC6 to the release plan and postponing the 3.14.0 release by one week, but it would be ideal that (some version) of this change were merged soon, so that we can address this bug and still have a 1-week stabilisation period.\n\nReviewers, any chance we can get this change reviewed and merged (the feature is currently broken, anyway) and take any other discussion as follow-ups?",
+      "parentUuid": "aab982e7_cb171af5",
+      "revId": "be6855feecd72d8559bd421dfc722b5723aa4911",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9e2e0d2a_77e70c78",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3

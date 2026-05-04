@@ -88,6 +88,42 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4fb6f0b_141dbc28",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2026-05-04T06:27:22Z",
+      "side": 1,
+      "message": "I did it too - let\u0027s keep mine so that we avoid mixing authors/reviewers in the chain 😊",
+      "parentUuid": "a1efe0ce_6dbaa013",
+      "revId": "be6855feecd72d8559bd421dfc722b5723aa4911",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e433792_ad036f92",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2026-05-04T06:27:22Z",
+      "side": 1,
+      "message": "As requested: split into 3 changes",
+      "parentUuid": "2e1d941d_65ee1f52",
+      "revId": "be6855feecd72d8559bd421dfc722b5723aa4911",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ad735b57_a8c74078",
@@ -101,6 +137,24 @@
       "writtenOn": "2026-05-01T17:33:52Z",
       "side": 1,
       "message": "Unless we\u0027re also removing `ChangePermission.AI_REVIEW`, I don\u0027t think this would be removed when the experiment is removed.",
+      "revId": "be6855feecd72d8559bd421dfc722b5723aa4911",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e69d5404_99b76d3e",
+        "filename": "java/com/google/gerrit/server/change/ActionJson.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2026-05-04T06:27:22Z",
+      "side": 1,
+      "message": "It is about removing the experiment gate only, not the whole function...",
+      "parentUuid": "ad735b57_a8c74078",
       "revId": "be6855feecd72d8559bd421dfc722b5723aa4911",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -16,6 +16,24 @@
       "message": "What\u0027s the use case for this?",
       "revId": "b6971136922ad5b574451bd25bc71773172a9575",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cdab3420_71ad859a",
+        "filename": "java/com/google/gerrit/server/account/Accounts.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2026-05-04T16:15:09Z",
+      "side": 1,
+      "message": "Added to the change description.",
+      "parentUuid": "5df226a1_80f517fe",
+      "revId": "b6971136922ad5b574451bd25bc71773172a9575",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

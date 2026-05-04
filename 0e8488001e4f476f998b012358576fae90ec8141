@@ -51,6 +51,24 @@
       "parentUuid": "da27bcaa_1ef230ff",
       "revId": "0e8488001e4f476f998b012358576fae90ec8141",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0e0f599_d187ea77",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 4665459
+      },
+      "writtenOn": "2026-05-04T21:02:27Z",
+      "side": 1,
+      "message": "If we do that, we\u0027ll be changing the order of how things are happening currently, i.e the pool size is incremented and state is updated before the task is actually added to the queue. Since this change only intends to make it auto closeable, maybe we shouldn\u0027t change the order here. Why not have a helper method in `Executor` instead like below:\n```\n  ParkedTask parkTask(Task\u003c?\u003e task) {\n      ParkedTask parkedTask \u003d new ParkedTask(task);\n      parked.offer(parkedTask);\n      task.runningState.set(Task.State.PARKED);\n      incrementCorePoolSizeBy(1);\n      return parkedTask;\n  }\n```\n\nand then in `waitUntilReadyToStart`:\n\n```\ntry (ParkedTask parkedTask \u003d parkTask(task)) {\n```",
+      "parentUuid": "aaada5ba_4cae86f9",
+      "revId": "0e8488001e4f476f998b012358576fae90ec8141",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

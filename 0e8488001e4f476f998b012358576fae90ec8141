@@ -69,6 +69,24 @@
       "parentUuid": "aaada5ba_4cae86f9",
       "revId": "0e8488001e4f476f998b012358576fae90ec8141",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "589709db_c6c5caa4",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-05-04T21:33:45Z",
+      "side": 1,
+      "message": "This is a great idea, thanks.\n\nO why must java prevent us from having static methods on non static classes? This forces us to break encapsulation. :( It\u0027s not like static classes are any different from public file level classes (i.e. they aren\u0027t really static!).",
+      "parentUuid": "f0e0f599_d187ea77",
+      "revId": "0e8488001e4f476f998b012358576fae90ec8141",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

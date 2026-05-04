@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "78cac1e8_38eb1596",
+        "filename": "java/com/google/gerrit/server/mail/send/AuthTokenExpiredEmailDecorator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-05-04T07:54:02Z",
+      "side": 1,
+      "message": "Yes it will throw an exception, but that is valid, since this email should only be sent if there is an expiration date. It wouldn\u0027t make sense otherwise. In `AuthTokenExpiryNotifier` we explicitly gate for that and that is the place triggering the respective mail being sent.",
+      "parentUuid": "bc611c7d_2655074e",
+      "revId": "d0e9e1be21524b077586b975857fa7382f9c6294",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "74609bef_8fba0a56",
         "filename": "java/com/google/gerrit/server/mail/send/AuthTokenWillExpireEmailDecorator.java",
         "patchSetId": 2

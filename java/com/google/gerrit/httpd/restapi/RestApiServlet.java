@@ -99,6 +99,7 @@ import com.google.gerrit.server.DynamicOptions;
 import com.google.gerrit.server.ExceptionHook;
 import com.google.gerrit.server.InvalidDeadlineException;
 import com.google.gerrit.server.OptionUtil;
+import com.google.gerrit.server.RequestConfig;
 import com.google.gerrit.server.RequestInfo;
 import com.google.gerrit.server.RequestListener;
 import com.google.gerrit.server.account.ServiceUserClassifier;
@@ -162,6 +163,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.nio.ByteBuffer;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -174,6 +176,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Pattern;
 import java.util.zip.GZIPOutputStream;
@@ -182,6 +185,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
+import org.eclipse.jetty.io.ChannelEndPoint;
+import org.eclipse.jetty.server.HttpChannel;
 import org.eclipse.jgit.http.server.ServletUtils;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.util.TemporaryBuffer;
@@ -200,6 +205,9 @@ public class RestApiServlet extends HttpServlet {
   @VisibleForTesting public static final String X_GERRIT_DEADLINE = "X-Gerrit-Deadline";
   @VisibleForTesting public static final String X_GERRIT_TRACE = "X-Gerrit-Trace";
   @VisibleForTesting public static final String X_GERRIT_UPDATED_REF = "X-Gerrit-UpdatedRef";
+
+  private static final long CLIENT_DISCONNECT_PROBE_INTERVAL_NANOS =
+      TimeUnit.MILLISECONDS.toNanos(500);
 
   @VisibleForTesting
   public static final String X_GERRIT_UPDATED_REF_ENABLED = "X-Gerrit-UpdatedRef-Enabled";
@@ -360,11 +368,7 @@ public class RestApiServlet extends HttpServlet {
       try (PerformanceLogContext performanceLogContext =
               new PerformanceLogContext(globals.config, globals.performanceLoggers);
           RequestStateContext requestStateContext =
-              RequestStateContext.open()
-                  .setPerformanceSummaryProvider(performanceLogContext)
-                  .addRequestStateProvider(
-                      globals.deadlineCheckerFactory.create(
-                          requestInfo, req.getHeader(X_GERRIT_DEADLINE)))) {
+              createRequestStateContext(req, requestInfo, performanceLogContext)) {
         traceRequestData(req);
 
         if (corsResponder.filterCorsPreflight(req, res)) {
@@ -1808,6 +1812,66 @@ public class RestApiServlet extends HttpServlet {
       case CLIENT_PROVIDED_DEADLINE_EXCEEDED -> SC_REQUEST_TIMEOUT;
       case SERVER_DEADLINE_EXCEEDED -> SC_INTERNAL_SERVER_ERROR;
     };
+  }
+
+  private RequestStateContext createRequestStateContext(
+      HttpServletRequest req, RequestInfo requestInfo, PerformanceLogContext performanceLogContext)
+      throws InvalidDeadlineException {
+    RequestStateContext requestStateContext =
+        RequestStateContext.open().setPerformanceSummaryProvider(performanceLogContext);
+    if ("GET".equalsIgnoreCase(req.getMethod())) {
+      requestStateContext.addRequestStateProvider(createClientClosedRequestStateProvider(req));
+    }
+    return requestStateContext.addRequestStateProvider(
+        globals.deadlineCheckerFactory.create(requestInfo, req.getHeader(X_GERRIT_DEADLINE)));
+  }
+
+  @VisibleForTesting
+  static RequestStateProvider createClientClosedRequestStateProvider(HttpServletRequest req) {
+    AtomicLong lastProbeNanos = new AtomicLong(0);
+    AtomicReference<Boolean> lastProbeResult = new AtomicReference<>(false);
+    return onCancelled -> {
+      if (Thread.currentThread().isInterrupted()) {
+        onCancelled.onCancel(RequestStateProvider.Reason.CLIENT_CLOSED_REQUEST, null);
+        return;
+      }
+      Object httpChannel = req.getAttribute(HttpChannel.class.getName());
+      if (!(httpChannel instanceof HttpChannel)) {
+        return;
+      }
+      HttpChannel channel = (HttpChannel) httpChannel;
+      long now = System.nanoTime();
+      long last = lastProbeNanos.get();
+      boolean disconnected;
+      if (now - last >= CLIENT_DISCONNECT_PROBE_INTERVAL_NANOS) {
+        disconnected = isClientDisconnected(channel);
+        lastProbeResult.set(disconnected);
+        lastProbeNanos.set(now);
+      } else {
+        disconnected = lastProbeResult.get();
+      }
+      if (disconnected) {
+        onCancelled.onCancel(RequestStateProvider.Reason.CLIENT_CLOSED_REQUEST, null);
+      }
+    };
+  }
+
+  @VisibleForTesting
+  static boolean isClientDisconnected(HttpChannel channel) {
+    if (!channel.getEndPoint().isOpen()) {
+      return true;
+    }
+    if (channel.getEndPoint() instanceof ChannelEndPoint) {
+      ChannelEndPoint channelEndPoint = (ChannelEndPoint) channel.getEndPoint();
+      try {
+        ByteBuffer probe = ByteBuffer.allocate(1);
+        int read = channelEndPoint.getChannel().read(probe);
+        return read == -1;
+      } catch (IOException e) {
+        return true;
+      }
+    }
+    return false;
   }
 
   private static String getCancellationMessage(

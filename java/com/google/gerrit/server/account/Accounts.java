@@ -14,11 +14,17 @@
 
 package com.google.gerrit.server.account;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
+
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.Account;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
@@ -60,6 +66,19 @@ public interface Accounts {
    * @return first n account IDs
    */
   List<Account.Id> firstNIds(int n) throws IOException;
+
+  /**
+   * Returns n random account IDs.
+   *
+   * @param n the number of account IDs that should be returned
+   * @param seed seed that should be used to randomize the order
+   * @return n random account IDs
+   */
+  default ImmutableList<Account.Id> randomNIds(int n, long seed) throws IOException {
+    List<Account.Id> allIds = new ArrayList<>(allIds());
+    Collections.shuffle(allIds, new Random(seed));
+    return allIds.stream().limit(n).collect(toImmutableList());
+  }
 
   /**
    * Checks if any account exists.

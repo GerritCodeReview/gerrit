@@ -64,4 +64,8 @@ public class ExperimentFeaturesConstants {
   /** Whether submit_records should only be returned along with submit_requirements. */
   public static final String SKIP_SUBMIT_RECORDS_WITHOUT_SUBMIT_REQUIREMENTS =
       "GerritBackendFeature__skip_submit_records_without_submit_requirements";
+
+  /** Whether we restrict the creation of branch permissions. */
+  public static final String GERRIT_BACKEND_FEATURE_RESTRICT_BRANCH_PERMISSIONS =
+      "GerritBackendFeature__restrict_branch_permissions";
 }

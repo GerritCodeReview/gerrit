@@ -75,4 +75,8 @@ public class ExperimentFeaturesConstants {
 
   /** Whether AI chat/review features are enabled in the UI. */
   public static final String ENABLE_AI_CHAT = "UiFeature__enable_ai_chat";
+
+  /** Whether we restrict the creation of branch permissions. */
+  public static final String GERRIT_BACKEND_FEATURE_RESTRICT_BRANCH_PERMISSIONS =
+      "GerritBackendFeature__restrict_branch_permissions";
 }

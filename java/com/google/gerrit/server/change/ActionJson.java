@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.change;
 
-import static com.google.gerrit.server.experiments.ExperimentFeaturesConstants.ENABLE_AI_CHAT;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ImmutableMap;
@@ -32,7 +31,6 @@ import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.extensions.webui.PrivateInternals_UiActionDescription;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.experiments.ExperimentFeatures;
 import com.google.gerrit.server.extensions.webui.UiActions;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
@@ -53,6 +51,8 @@ import java.util.Map;
 @Singleton
 public class ActionJson {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+  private static final String AI_REVIEW_ACTION = "aiReview";
+  private static final String AI_REVIEW_LABEL = "AI Review";
 
   private final DynamicMap<RestView<RevisionResource>> revisionViews;
   private final ChangeJson.Factory changeJsonFactory;
@@ -61,7 +61,6 @@ public class ActionJson {
   private final DynamicMap<RestView<ChangeResource>> changeViews;
   private final DynamicSet<ActionVisitor> visitorSet;
   private final Provider<CurrentUser> userProvider;
-  private final ExperimentFeatures experimentFeatures;
   private final PermissionBackend permissionBackend;
 
   @Inject
@@ -73,7 +72,6 @@ public class ActionJson {
       DynamicMap<RestView<ChangeResource>> changeViews,
       DynamicSet<ActionVisitor> visitorSet,
       Provider<CurrentUser> userProvider,
-      ExperimentFeatures experimentFeatures,
       PermissionBackend permissionBackend) {
     this.revisionViews = views;
     this.changeJsonFactory = changeJsonFactory;
@@ -82,7 +80,6 @@ public class ActionJson {
     this.changeViews = changeViews;
     this.visitorSet = visitorSet;
     this.userProvider = userProvider;
-    this.experimentFeatures = experimentFeatures;
     this.permissionBackend = permissionBackend;
   }
 
@@ -260,21 +257,18 @@ public class ActionJson {
     return ImmutableMap.copyOf(out);
   }
 
-  // TODO(AI review experiment): Remove experiment gate when UiFeature__enable_ai_chat is removed.
   private void addAiReviewAction(RevisionResource rsrc, Map<String, ActionInfo> out) {
-    if (!experimentFeatures.isFeatureEnabled(ENABLE_AI_CHAT)) {
-      return;
-    }
     try {
       boolean permitted =
           permissionBackend
               .user(rsrc.getUser())
               .change(rsrc.getChangeResource().getChangeData())
               .test(ChangePermission.AI_REVIEW);
-      out.put("aiReview", ActionInfo.forBoolean("AI Review", permitted));
+      out.put(AI_REVIEW_ACTION, ActionInfo.withExplicitEnabled(AI_REVIEW_LABEL, permitted));
     } catch (PermissionBackendException e) {
       logger.atWarning().withCause(e).log(
           "Failed to check AI review permission for change %s", rsrc.getChange().getId());
+      out.put(AI_REVIEW_ACTION, ActionInfo.withExplicitEnabled(AI_REVIEW_LABEL, false));
     }
   }
 }

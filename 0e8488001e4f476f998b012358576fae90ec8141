@@ -123,6 +123,24 @@
       "parentUuid": "275e10bc_61abbb43",
       "revId": "0e8488001e4f476f998b012358576fae90ec8141",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "378ef79f_a1525df5",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-05-05T23:00:10Z",
+      "side": 1,
+      "message": "I feel like it is in the spirit of the change, and need not be mentioned separately.",
+      "parentUuid": "38a5f3be_27e5cd96",
+      "revId": "0e8488001e4f476f998b012358576fae90ec8141",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

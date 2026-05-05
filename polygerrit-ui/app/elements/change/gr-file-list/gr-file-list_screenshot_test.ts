@@ -13,6 +13,7 @@ import {FileInfo, PARENT, RevisionPatchSetNum} from '../../../api/rest-api';
 import {normalize} from '../../../models/change/files-model';
 import {PatchRange} from '../../../types/common';
 import {DiffPreferencesInfo} from '../../../api/diff';
+import {Category, CheckResult} from '../../../api/checks';
 import {GrFileList, NormalizedFileInfo} from './gr-file-list';
 import './gr-file-list';
 import {visualDiffDarkTheme} from '../../../test/test-utils';
@@ -59,5 +60,32 @@ suite('gr-file-list screenshot tests', () => {
 
     await visualDiff(element, 'gr-file-list');
     await visualDiffDarkTheme(element, 'gr-file-list');
+  });
+
+  test('screenshot with AI powered check results', async () => {
+    element.files = [...createFiles(1, {lines_inserted: 1})];
+    element.checkResults = [
+      {
+        checkName: 'ai-check',
+        isLatestAttempt: true,
+        isAiPowered: true,
+        category: Category.WARNING,
+        codePointers: [
+          {
+            path: '/file0',
+            range: {
+              start_line: 1,
+              start_character: 0,
+              end_line: 1,
+              end_character: 0,
+            },
+          },
+        ],
+      } as CheckResult,
+    ];
+    await element.updateComplete;
+
+    await visualDiff(element, 'gr-file-list-with-ai-checks');
+    await visualDiffDarkTheme(element, 'gr-file-list-with-ai-checks');
   });
 });

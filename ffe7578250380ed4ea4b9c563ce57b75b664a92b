@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "c799b68d_eb00a3b9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-05-05T21:09:44Z",
+      "side": 1,
+      "message": "The main feature is to hide the AI review button. By default, the button is rendered. The revision action ebdpoint is asynchronous, so if the permission is denied or blocked, there is a noticeable delay: the button appears briefly and is then hidden again shortly afterward.\n\nNormally, such a delay is tolerable because the change screen is rendered first and some actions appear later with a delay. However, hiding buttons with a delay does not work well from a user experience perspective.\n\nI tested this on change 579641 and empty test site. I assume that on a busy site, the delay would be even more noticeable.",
+      "revId": "ffe7578250380ed4ea4b9c563ce57b75b664a92b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "c12a709a_bc5a7d23",

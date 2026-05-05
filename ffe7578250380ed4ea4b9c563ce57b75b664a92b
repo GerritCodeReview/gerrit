@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c12a709a_bc5a7d23",
+        "filename": "polygerrit-ui/app/api/rest-api.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-05T20:34:35Z",
+      "side": 1,
+      "message": "👍",
+      "revId": "ffe7578250380ed4ea4b9c563ce57b75b664a92b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1c7f8d5_bbc71749",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-05T20:34:35Z",
+      "side": 1,
+      "message": "I am missing the case of `shown when aiReview action has enabled: true`\n\n\n\n```suggestion\n\n      test(\u0027hidden when aiReview action has enabled: false\u0027, async () \u003d\u003e {\n        element.revisionActions \u003d {\n          aiReview: {enabled: false} as ActionInfo,\n        };\n        await element.updateComplete;\n        assert.isUndefined(query(element, \u0027gr-button[data-action-key\u003d\"chat\"]\u0027));\n      });\n\n      test(\u0027shown when aiReview action has enabled: true\u0027, async () \u003d\u003e {\n        element.revisionActions \u003d {\n          aiReview: {enabled: true} as ActionInfo,\n        };\n        await element.updateComplete;\n        assert.isDefined(\n          queryAndAssert(element, \u0027gr-button[data-action-key\u003d\"chat\"]\u0027)\n        );\n      });\n```",
+      "range": {
+        "startLine": 405,
+        "startChar": 0,
+        "endLine": 412,
+        "endChar": 9
+      },
+      "revId": "ffe7578250380ed4ea4b9c563ce57b75b664a92b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f3dd1ee_5d4529b5",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-05T20:34:35Z",
+      "side": 1,
+      "message": "I am confused by this statement, and it looks like it is out of sync with the comment.\n\nIf `this.revisionActions.aiReview` is undefined, then this returns false, which isn\u0027t what the comment says.\n\n\n\n```suggestion\n    return !(this.revisionActions?.aiReview?.enabled \u003d\u003d\u003d false);\n```",
+      "revId": "ffe7578250380ed4ea4b9c563ce57b75b664a92b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31bb08f9_e47f3af8",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1413,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-05T20:34:35Z",
+      "side": 1,
+      "message": "I am confused by this addition: why weren\u0027t revisionActions populated before this change? How could that work for other actions?",
+      "range": {
+        "startLine": 1411,
+        "startChar": 0,
+        "endLine": 1413,
+        "endChar": 33
+      },
+      "revId": "ffe7578250380ed4ea4b9c563ce57b75b664a92b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "4dbbf418_c846d8e2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-05T21:40:49Z",
+      "side": 1,
+      "message": "\u003e By default, the button is rendered.\n\nI believe this is wrong: the button should NOT be rendered by default, and *THEN* once the actions API returns the allowed actions, display the button if the AI review is not denied.\n\nSo, it needs fixing.",
+      "parentUuid": "d9412eba_2f643935",
+      "revId": "ffe7578250380ed4ea4b9c563ce57b75b664a92b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "c12a709a_bc5a7d23",

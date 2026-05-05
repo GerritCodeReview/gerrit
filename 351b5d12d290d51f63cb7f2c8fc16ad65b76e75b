@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ddf6d009_80cb393c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2026-05-05T08:52:29Z",
+      "side": 1,
+      "message": "See change in `polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts` it switched from `this.change?.can_ai_review` to `this.revisionActions?.aiReview?.enabled` IOW from ChangeInfo property to the action. Hope this answers your question.",
+      "parentUuid": "d003e91a_84027b6f",
+      "revId": "351b5d12d290d51f63cb7f2c8fc16ad65b76e75b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "21a911ff_786fd37f",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9c64eef_b42b1b9c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary_screenshot_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2026-05-05T08:52:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21a911ff_786fd37f",
+      "revId": "351b5d12d290d51f63cb7f2c8fc16ad65b76e75b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0887c684_4a62755d",
@@ -48,6 +84,30 @@
       "writtenOn": "2026-05-05T05:34:17Z",
       "side": 1,
       "message": "I wasn\u0027t expecting the whole test assertions to change but only the condition of enable/disable ai reviews.",
+      "range": {
+        "startLine": 109,
+        "startChar": 0,
+        "endLine": 132,
+        "endChar": 7
+      },
+      "revId": "351b5d12d290d51f63cb7f2c8fc16ad65b76e75b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "20d9a7c1_1533847c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2026-05-05T08:52:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0887c684_4a62755d",
       "range": {
         "startLine": 109,
         "startChar": 0,

@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22b417f2_dadbdaef",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 4822,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-05T22:18:45Z",
+      "side": 1,
+      "message": "Why not a title as well like the other actions?",
+      "revId": "d7b5e46dee795fb0c74d319392dd7c9c2dce9e31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50b9b893_bdc203a1",
+        "filename": "java/com/google/gerrit/extensions/common/ActionInfo.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-05T22:18:45Z",
+      "side": 1,
+      "message": "Not sure this is strictly needed: it is used only in `ActionJson` once for the AI Review and is unlikely to be used again.",
+      "range": {
+        "startLine": 98,
+        "startChar": 0,
+        "endLine": 104,
+        "endChar": 0
+      },
+      "revId": "d7b5e46dee795fb0c74d319392dd7c9c2dce9e31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5488fc3_e64c6c83",
+        "filename": "java/com/google/gerrit/server/change/ActionJson.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-05T22:18:45Z",
+      "side": 1,
+      "message": "I believe we should follow a similar code of the other client-side only operation at L216-L222 and not use a different pattern here.",
+      "range": {
+        "startLine": 264,
+        "startChar": 0,
+        "endLine": 279,
+        "endChar": 3
+      },
+      "revId": "d7b5e46dee795fb0c74d319392dd7c9c2dce9e31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -105,6 +105,24 @@
       "parentUuid": "589709db_c6c5caa4",
       "revId": "0e8488001e4f476f998b012358576fae90ec8141",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "38a5f3be_27e5cd96",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 4665459
+      },
+      "writtenOn": "2026-05-05T22:57:59Z",
+      "side": 1,
+      "message": "\u003e The more I think about it, I don\u0027t see a reason to not change the order, afterall, having the task marked Parked and incrementing before putting it in the parked queue feels like an improvement. Those things feel like \"setting up the park\", which should happen before we \"offer\" the task up as parked.\n\u003e \n\n+1. Should we mention this in the commit message?\n\n\u003e More importantly though, I think it is important to keep the increment in the constructor. Part of the point of making this an AutoCloseable is to tie the increment to the decrement via this class.\n\u003e \n\u003e It is however buggy to offer the task from the constructor, I will move that to the try(){}.\n\u003e \n\u003e Let me know if you disagree with this approach.",
+      "parentUuid": "275e10bc_61abbb43",
+      "revId": "0e8488001e4f476f998b012358576fae90ec8141",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

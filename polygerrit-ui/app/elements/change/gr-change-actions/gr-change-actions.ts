@@ -121,7 +121,6 @@ import {readJSONResponsePayload} from '../../shared/gr-rest-api-interface/gr-res
 import {commentsModelToken} from '../../../models/comments/comments-model';
 import {when} from 'lit/directives/when.js';
 import {ValidationOptionInfo} from '../../../api/rest-api';
-import {KnownExperimentId} from '../../../services/flags/flags';
 
 const ERR_BRANCH_EMPTY = 'The destination branch can’t be empty.';
 const ERR_COMMIT_EMPTY = 'The commit message can’t be empty.';
@@ -512,8 +511,6 @@ export class GrChangeActions
   private readonly restApiService = getAppContext().restApiService;
 
   private readonly reporting = getAppContext().reportingService;
-
-  private readonly flagService = getAppContext().flagsService;
 
   private readonly getPluginLoader = resolve(this, pluginLoaderToken);
 
@@ -1278,10 +1275,8 @@ export class GrChangeActions
   }
 
   private getAiChatAction(): UIActionInfo | null {
-    if (!this.flagService.isEnabled(KnownExperimentId.ENABLE_AI_CHAT)) {
-      return null;
-    }
-    // When undefined, assume AI chat is allowed.
+    // Missing aiReview is treated as allowed
+    // for compatibility with older backends.
     if (this.revisionActions?.aiReview?.enabled === false) {
       return null;
     }

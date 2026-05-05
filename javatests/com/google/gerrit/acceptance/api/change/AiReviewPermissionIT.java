@@ -21,7 +21,6 @@ import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.d
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.Permission;
@@ -30,9 +29,6 @@ import com.google.inject.Inject;
 import java.util.Map;
 import org.junit.Test;
 
-// TODO(AI review experiment): When UiFeature__enable_ai_chat is removed, revise tests for
-// standard default-deny model. DENY-only and BLOCK-only tests assume default-allow behavior and
-// will need to be rewritten to include explicit ALLOW rules.
 public class AiReviewPermissionIT extends AbstractDaemonTest {
 
   private static final String AI_REVIEW = "aiReview";
@@ -41,9 +37,6 @@ public class AiReviewPermissionIT extends AbstractDaemonTest {
   @Inject private ProjectOperations projectOperations;
 
   @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      values = {"UiFeature__enable_ai_chat"})
   public void aiReviewActionEnabledWhenNoRulesConfigured() throws Exception {
     String changeId = createChange().getChangeId();
 
@@ -55,9 +48,6 @@ public class AiReviewPermissionIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      values = {"UiFeature__enable_ai_chat"})
   public void aiReviewActionEnabledWhenUserInGrantedGroup() throws Exception {
     String changeId = createChange().getChangeId();
 
@@ -74,9 +64,6 @@ public class AiReviewPermissionIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      values = {"UiFeature__enable_ai_chat"})
   public void aiReviewActionDisabledWhenUserNotInGrantedGroup() throws Exception {
     String changeId = createChange().getChangeId();
 
@@ -93,9 +80,6 @@ public class AiReviewPermissionIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      values = {"UiFeature__enable_ai_chat"})
   public void aiReviewActionDisabledWhenUserInDeniedGroup() throws Exception {
     String changeId = createChange().getChangeId();
 
@@ -112,9 +96,6 @@ public class AiReviewPermissionIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      values = {"UiFeature__enable_ai_chat"})
   public void aiReviewActionEnabledWhenUserNotInDeniedGroup() throws Exception {
     String changeId = createChange().getChangeId();
 
@@ -131,9 +112,6 @@ public class AiReviewPermissionIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      values = {"UiFeature__enable_ai_chat"})
   public void aiReviewActionDisabledWhenUserInBlockedGroup() throws Exception {
     String changeId = createChange().getChangeId();
 
@@ -150,9 +128,6 @@ public class AiReviewPermissionIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      values = {"UiFeature__enable_ai_chat"})
   public void aiReviewActionEnabledWhenUserNotInBlockedGroup() throws Exception {
     String changeId = createChange().getChangeId();
 
@@ -169,9 +144,6 @@ public class AiReviewPermissionIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      values = {"UiFeature__enable_ai_chat"})
   public void aiReviewActionDisabledWhenDenySuppressesAllow() throws Exception {
     String changeId = createChange().getChangeId();
 
@@ -189,9 +161,6 @@ public class AiReviewPermissionIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      values = {"UiFeature__enable_ai_chat"})
   public void aiReviewActionDisabledWhenAllowForOtherGroupAndDenyForUserGroup() throws Exception {
     String changeId = createChange().getChangeId();
 
@@ -209,9 +178,6 @@ public class AiReviewPermissionIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      values = {"UiFeature__enable_ai_chat"})
   public void aiReviewActionEnabledWhenAllowForUserGroupAndDenyForOtherGroup() throws Exception {
     String changeId = createChange().getChangeId();
 
@@ -229,9 +195,6 @@ public class AiReviewPermissionIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      values = {"UiFeature__enable_ai_chat"})
   public void aiReviewActionDisabledWhenAdminInDeniedGroup() throws Exception {
     String changeId = createChange().getChangeId();
 
@@ -248,9 +211,6 @@ public class AiReviewPermissionIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      values = {"UiFeature__enable_ai_chat"})
   public void aiReviewActionDisabledWhenDenyInheritedFromAllProjects() throws Exception {
     String changeId = createChange().getChangeId();
 
@@ -267,11 +227,12 @@ public class AiReviewPermissionIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void aiReviewActionAbsentWhenExperimentDisabled() throws Exception {
+  public void aiReviewActionAlwaysPresent() throws Exception {
     String changeId = createChange().getChangeId();
 
     Map<String, ActionInfo> actions = gApi.changes().id(changeId).current().actions();
 
-    assertThat(actions).doesNotContainKey(AI_REVIEW);
+    assertThat(actions).containsKey(AI_REVIEW);
+    assertThat(actions.get(AI_REVIEW).label).isEqualTo("AI Review");
   }
 }

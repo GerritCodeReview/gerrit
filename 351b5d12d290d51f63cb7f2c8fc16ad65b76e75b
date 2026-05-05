@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d003e91a_84027b6f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-05T05:34:17Z",
+      "side": 1,
+      "message": "I am not a FE developer; however, I cannot find the fix for enabling/disabling the AI chat in the action bar.",
+      "revId": "351b5d12d290d51f63cb7f2c8fc16ad65b76e75b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21a911ff_786fd37f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary_screenshot_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-05T05:34:17Z",
+      "side": 1,
+      "message": "```suggestion\n    // revisionActions undefined -\u003e aiReview gate passes -\u003e button shown\n```",
+      "revId": "351b5d12d290d51f63cb7f2c8fc16ad65b76e75b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0887c684_4a62755d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-05T05:34:17Z",
+      "side": 1,
+      "message": "I wasn\u0027t expecting the whole test assertions to change but only the condition of enable/disable ai reviews.",
+      "range": {
+        "startLine": 109,
+        "startChar": 0,
+        "endLine": 132,
+        "endChar": 7
+      },
+      "revId": "351b5d12d290d51f63cb7f2c8fc16ad65b76e75b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

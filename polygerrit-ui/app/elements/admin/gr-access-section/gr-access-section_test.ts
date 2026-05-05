@@ -141,6 +141,9 @@ suite('gr-access-section tests', () => {
                     <md-select-option md-menu-item="" value="addPatchSet">
                       <div slot="headline">Add Patch Set</div>
                     </md-select-option>
+                    <md-select-option md-menu-item="" value="aiReview">
+                      <div slot="headline">AI Review</div>
+                    </md-select-option>
                     <md-select-option md-menu-item="" value="create">
                       <div slot="headline">Create Reference</div>
                     </md-select-option>
@@ -364,17 +367,12 @@ suite('gr-access-section tests', () => {
       assert.deepEqual(element.computePermissions(), expectedPermissions);
 
       // For everything else, include possible label values before filtering.
-      // AI Review is excluded because the experiment flag is disabled.
       element.section.id = 'refs/for/*' as GitRef;
       assert.deepEqual(
         element.computePermissions(),
         labelOptions
           .concat(toSortedPermissionsArray(AccessPermissions))
-          .filter(
-            permission =>
-              permission.id !== 'read' &&
-              permission.id !== AccessPermissionId.AI_REVIEW
-          )
+          .filter(permission => permission.id !== 'read')
       );
     });
 

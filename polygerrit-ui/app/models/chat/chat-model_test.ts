@@ -16,6 +16,8 @@ import {AiCodeReviewProvider, ChatRequest} from '../../api/ai-code-review';
 
 import sinon from 'sinon';
 import {ParsedChangeInfo} from '../../types/types';
+import {getAppContext} from '../../services/app-context';
+import {Interaction, Timing} from '../../constants/reporting';
 
 suite('chat-model tests', () => {
   let model: ChatModel;
@@ -344,5 +346,100 @@ suite('chat-model tests', () => {
 
     const state = model.getState();
     assert.equal(state.turns[0].geminiMessage.regenerationIndex, 0);
+  });
+
+  suite('telemetry reporting', () => {
+    let timeStub: sinon.SinonStub;
+    let timeEndStub: sinon.SinonStub;
+    let reportInteractionStub: sinon.SinonStub;
+
+    setup(() => {
+      timeStub = sinon.stub(getAppContext().reportingService, 'time');
+      timeEndStub = sinon.stub(getAppContext().reportingService, 'timeEnd');
+      reportInteractionStub = sinon.stub(
+        getAppContext().reportingService,
+        'reportInteraction'
+      );
+
+      // Set up a change, models, and actions
+      const models = {
+        models: [
+          {
+            model_id: 'test-model',
+            full_display_text: 'Test Model',
+            short_text: 'Test',
+          },
+        ],
+        default_model_id: 'test-model',
+      };
+      const actions = {
+        actions: [
+          {
+            id: 'test-action',
+            display_text: 'Test Action',
+            initial_user_prompt: 'Test Prompt',
+          },
+        ],
+        default_action_id: 'test-action',
+      };
+      (provider.getActions as sinon.SinonStub).resolves(actions);
+      (provider.getModels as sinon.SinonStub).resolves(models);
+
+      changeModel.updateStateChange(createParsedChange());
+    });
+
+    test('chat request starts a timer', async () => {
+      await new Promise(resolve => setTimeout(resolve, 0));
+
+      model.updateUserInput('hello');
+      model.chat('hello', 'test-action', 0);
+
+      assert.isTrue(timeStub.calledOnceWith(Timing.AI_CHAT_REQUEST));
+    });
+
+    test('chat request success stops the timer', async () => {
+      await new Promise(resolve => setTimeout(resolve, 0));
+
+      (provider.chat as sinon.SinonStub).callsFake((_, listener) => {
+        listener.done();
+      });
+
+      model.updateUserInput('hello');
+      model.chat('hello', 'test-action', 0);
+
+      assert.isTrue(
+        timeEndStub.calledOnceWith(Timing.AI_CHAT_REQUEST, {
+          modelName: 'test-model',
+          actionId: 'test-action',
+        })
+      );
+    });
+
+    test('chat request failure stops the timer and logs interaction', async () => {
+      await new Promise(resolve => setTimeout(resolve, 0));
+
+      (provider.chat as sinon.SinonStub).callsFake((_, listener) => {
+        listener.emitError('some error');
+      });
+
+      model.updateUserInput('hello');
+      model.chat('hello', 'test-action', 0);
+
+      assert.isTrue(
+        timeEndStub.calledOnceWith(Timing.AI_CHAT_REQUEST, {
+          modelName: 'test-model',
+          actionId: 'test-action',
+          error: 'some error',
+        })
+      );
+
+      assert.isTrue(
+        reportInteractionStub.calledOnceWith(Interaction.AI_CHAT_FAILURE, {
+          modelName: 'test-model',
+          actionId: 'test-action',
+          error: 'some error',
+        })
+      );
+    });
   });
 });

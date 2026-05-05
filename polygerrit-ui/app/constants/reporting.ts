@@ -103,6 +103,8 @@ export enum Timing {
   COPY_TO_CLIPBOARD = 'CopyToClipboard',
   // Time to autocomplete a comment
   COMMENT_COMPLETION = 'CommentCompletion',
+  // Time for AI chat requests to complete
+  AI_CHAT_REQUEST = 'AiChatRequest',
 }
 
 export enum Interaction {
@@ -184,6 +186,8 @@ export enum Interaction {
   FLOWS_TAB_RENDERED = 'flows-tab-rendered',
   CREATE_FLOW_DIALOG_OPENED = 'create-flow-dialog-opened',
   FLOW_CREATED = 'flow-created',
+  // AI Chat interaction request failures
+  AI_CHAT_FAILURE = 'ai-chat-failure',
 }
 
 /**

@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6946b165_cb05dc13",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-05T22:27:54Z",
+      "side": 1,
+      "message": "\u003e This looks like it stems from Ben\u0027s original commit adding AI chat.\n\nThe commit you\u0027ve pointed out is a revert: can you re-check 🙏?\n\n\u003e It probably shouldn\u0027t be a CHANGE_ACTION at all (though I\u0027m not seeing a good existing alternative)\n\nThe \"AI Review\" is a read operation on a change that calls an external AI agent with the context of the current change. From that perspective, it is an action that does not directly modify the status of the change.\n\n\u003e but the permission especially shouldn\u0027t be represented as an ActionInfo.\n\nCorrect: The permission controls if the action should be displayed or not, but it isn\u0027t the action.\n\n\u003e It\u0027s almost more like a user preference or a global capability.\n\nI don\u0027t believe global capability is appropriate: you may have a project that is allowed to share its code with an external AI review system and another that isn\u0027t.\n\n\u003e Why was canAiReview added as a permission in change 553501?\n\nAlso, within the same project, some of the branches could be of \"public domain\" and therefore compatible with a public AI review, but others could be \"sensitive\" and not sharable with a wider audience.\n\nWe have clients who also have IP or patent-related concerns in some branches, and they may not want them reviewed by an external AI tool.\nHaving Gerrit to show the AI Chat and the button to generate an AI prompt would suggest to the reviewer that using AI _\"it\u0027s OK\"_ whilst that\u0027s not the case.\n\n\u003e Do we expect project+ref level access controls set for it?\n\nYes.",
+      "parentUuid": "7fc6d168_3732dc82",
+      "revId": "be6855feecd72d8559bd421dfc722b5723aa4911",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9e2e0d2a_77e70c78",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3

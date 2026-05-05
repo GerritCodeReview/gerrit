@@ -364,7 +364,6 @@ suite('gr-access-section tests', () => {
       assert.deepEqual(element.computePermissions(), expectedPermissions);
 
       // For everything else, include possible label values before filtering.
-      // AI Review is excluded because the experiment flag is disabled.
       element.section.id = 'refs/for/*' as GitRef;
       assert.deepEqual(
         element.computePermissions(),
@@ -372,8 +371,7 @@ suite('gr-access-section tests', () => {
           .concat(toSortedPermissionsArray(AccessPermissions))
           .filter(
             permission =>
-              permission.id !== 'read' &&
-              permission.id !== AccessPermissionId.AI_REVIEW
+              permission.id !== 'read'
           )
       );
     });

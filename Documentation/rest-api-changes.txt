@@ -4810,10 +4810,9 @@ Retrieves revision link:#action-info[actions] of the revision of a change.
 }
 ----
 
-NOTE: When the `UiFeature__enable_ai_chat` experiment is enabled, the response
-includes an `aiReview` entry whose `enabled` field reflects the caller's
-`aiReview` permission for the change. The entry is omitted when the experiment
-is disabled or the permission backend errors.
+The response includes an `aiReview` entry whose `enabled` field reflects the
+caller’s `aiReview` permission for the change. If permission evaluation fails,
+`enabled` is returned as `false`.
 
 Example:
 ----

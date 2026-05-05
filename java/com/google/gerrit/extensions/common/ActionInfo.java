@@ -95,7 +95,7 @@ public class ActionInfo {
     return Objects.hash(method, label, title, enabled, enabledOptions);
   }
 
-  public static ActionInfo forBoolean(String label, boolean enabled) {
+  public static ActionInfo withExplicitEnabled(String label, boolean enabled) {
     ActionInfo info = new ActionInfo();
     info.label = label;
     info.enabled = enabled;

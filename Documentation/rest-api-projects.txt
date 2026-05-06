@@ -4149,6 +4149,46 @@ entity describing the resulting change.
   }
 ----
 
+[[get-submit-requirement-templates]]
+=== Get Submit Requirement Templates
+--
+'GET /projects/link:#project-name[\{project-name\}]/submit_requirements:templates'
+--
+
+Retrieves submit requirement templates configured in `project.config` and in its parent projects.
+
+The calling user must be authenticated and must have read access to the
+`refs/meta/config` branch of the requested project and all its parent
+projects.
+
+As response a list of link:#submit-requirement-info[SubmitRequirementInfo]
+entities is returned. If no templates are configured, an empty list is
+returned.
+
+.Request
+----
+  GET /projects/My-Project/submit_requirements:templates HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  [
+    {
+      "name": "Code-Review",
+      "description": "Require Code-Review +2 before submit",
+      "project_name": "All-Projects",
+      "applicability_expression": "-branch:refs/meta/config",
+      "submittability_expression": "label:Code-Review=+2",
+      "allow_override_in_child_projects": true
+    }
+  ]
+----
+
 [[migrate-labels]]
 === Migrate label functions to submit requirements
 --

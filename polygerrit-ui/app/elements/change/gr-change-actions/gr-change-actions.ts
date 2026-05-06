@@ -175,6 +175,7 @@ interface QuickApproveUIActionInfo extends UIActionInfo {
 export const QUICK_APPROVE_ACTION: QuickApproveUIActionInfo = {
   __key: 'review',
   __type: ActionType.CHANGE,
+  __primary: true,
   enabled: true,
   key: 'review',
   label: 'Quick approve',
@@ -881,6 +882,7 @@ export class GrChangeActions
   }
 
   private renderUIAction(action: UIActionInfo) {
+    const disabled = this.calculateDisabled(action);
     return html`
       <gr-tooltip-content
         title=${ifDefined(action.title)}
@@ -888,11 +890,12 @@ export class GrChangeActions
         ?position-below=${true}
       >
         <gr-button
-          link
+          ?link=${!action.__primary || disabled}
           class=${action.__key}
           data-action-key=${action.__key}
           data-label=${action.label}
-          ?disabled=${this.calculateDisabled(action)}
+          ?primary=${action.__primary}
+          ?disabled=${disabled}
           @click=${(e: MouseEvent) =>
             this.handleActionTap(e, action.__key, action.__type)}
         >

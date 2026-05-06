@@ -22,6 +22,7 @@ import static com.google.gerrit.server.project.FileResource.FILE_KIND;
 import static com.google.gerrit.server.project.LabelResource.LABEL_KIND;
 import static com.google.gerrit.server.project.ProjectResource.PROJECT_KIND;
 import static com.google.gerrit.server.project.SubmitRequirementResource.SUBMIT_REQUIREMENT_KIND;
+import static com.google.gerrit.server.project.SubmitRequirementTemplateResource.SUBMIT_REQUIREMENT_TEMPLATE_KIND;
 import static com.google.gerrit.server.project.TagResource.TAG_KIND;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -44,6 +45,7 @@ public class ProjectRestApiModule extends RestApiModule {
     DynamicMap.mapOf(binder(), LABEL_KIND);
     DynamicMap.mapOf(binder(), PROJECT_KIND);
     DynamicMap.mapOf(binder(), SUBMIT_REQUIREMENT_KIND);
+    DynamicMap.mapOf(binder(), SUBMIT_REQUIREMENT_TEMPLATE_KIND);
     DynamicMap.mapOf(binder(), TAG_KIND);
 
     create(PROJECT_KIND).to(CreateProject.class);
@@ -123,6 +125,10 @@ public class ProjectRestApiModule extends RestApiModule {
     delete(SUBMIT_REQUIREMENT_KIND).to(DeleteSubmitRequirement.class);
     postOnCollection(SUBMIT_REQUIREMENT_KIND).to(PostSubmitRequirements.class);
     post(PROJECT_KIND, "submit_requirements:review").to(PostSubmitRequirementsReview.class);
+
+    child(PROJECT_KIND, "submit_requirements_templates")
+        .to(SubmitRequirementTemplatesCollection.class);
+    get(SUBMIT_REQUIREMENT_TEMPLATE_KIND).to(GetSubmitRequirementTemplate.class);
 
     child(PROJECT_KIND, "tags").to(TagsCollection.class);
     create(TAG_KIND).to(CreateTag.class);

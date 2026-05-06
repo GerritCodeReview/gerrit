@@ -319,6 +319,11 @@ export interface RestApiService extends Finalizable {
     errFn?: ErrorCallback
   ): Promise<SubmitRequirementInfo[] | undefined>;
 
+  getRepoSubmitRequirementTemplates(
+    repoName: RepoName,
+    errFn?: ErrorCallback
+  ): Promise<SubmitRequirementInfo[] | undefined>;
+
   createSubmitRequirement(
     repoName: RepoName,
     input: SubmitRequirementInput,

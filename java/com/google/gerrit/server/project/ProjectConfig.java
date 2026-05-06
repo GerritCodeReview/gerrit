@@ -118,6 +118,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   public static final String KEY_BRANCH = "branch";
 
   public static final String SUBMIT_REQUIREMENT = "submit-requirement";
+  public static final String SUBMIT_REQUIREMENT_TEMPLATE = "submit-requirement-template";
   public static final String KEY_SR_DESCRIPTION = "description";
   public static final String KEY_SR_APPLICABILITY_EXPRESSION = "applicableIf";
   public static final String KEY_SR_SUBMITTABILITY_EXPRESSION = "submittableIf";
@@ -254,6 +255,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private Map<String, NotifyConfig> notifySections;
   private Map<String, LabelType> labelSections;
   private Map<String, SubmitRequirement> submitRequirementSections;
+  private Map<String, SubmitRequirement> submitRequirementTemplateSections;
   private ConfiguredMimeTypes mimeTypes;
   private Map<Project.NameKey, SubscribeSection> subscribeSections;
   private Map<String, StoredCommentLinkInfo> commentLinkSections;
@@ -541,6 +543,11 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     return submitRequirementSections;
   }
 
+  /** Returns the submit requirement templates defined in config. */
+  public Map<String, SubmitRequirement> getSubmitRequirementTemplateSections() {
+    return submitRequirementTemplateSections;
+  }
+
   /** Adds or replaces the given {@link SubmitRequirement} in this config. */
   public void upsertSubmitRequirement(SubmitRequirement requirement) {
     submitRequirementSections.put(requirement.name(), requirement);
@@ -701,6 +708,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     loadNotifySections(rc);
     loadLabelSections(rc);
     loadSubmitRequirementSections(rc);
+    loadSubmitRequirementTemplateSections(rc);
     loadCommentLinkSections(rc);
     loadSubscribeSections(rc);
     mimeTypes = ConfiguredMimeTypes.create(projectName.get(), rc);
@@ -1024,6 +1032,65 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
               .build();
 
       submitRequirementSections.put(name, submitRequirement);
+    }
+  }
+
+  /**
+   * Loads submit requirement template sections from {@code project.config}. Templates are stored
+   * under {@code [submit-requirement-template "name"]} and follow the same structure as regular
+   * submit requirements, but are only intended as admin-configured examples for project owners to
+   * select from.
+   */
+  private void loadSubmitRequirementTemplateSections(Config rc) {
+    submitRequirementTemplateSections = new LinkedHashMap<>();
+    for (String name : rc.getSubsections(SUBMIT_REQUIREMENT_TEMPLATE)) {
+      String description = rc.getString(SUBMIT_REQUIREMENT_TEMPLATE, name, KEY_SR_DESCRIPTION);
+      String applicabilityExpr =
+          rc.getString(SUBMIT_REQUIREMENT_TEMPLATE, name, KEY_SR_APPLICABILITY_EXPRESSION);
+      String submittabilityExpr =
+          rc.getString(SUBMIT_REQUIREMENT_TEMPLATE, name, KEY_SR_SUBMITTABILITY_EXPRESSION);
+      String overrideExpr =
+          rc.getString(SUBMIT_REQUIREMENT_TEMPLATE, name, KEY_SR_OVERRIDE_EXPRESSION);
+      boolean canInherit;
+      try {
+        canInherit =
+            rc.getBoolean(
+                SUBMIT_REQUIREMENT_TEMPLATE, name, KEY_SR_OVERRIDE_IN_CHILD_PROJECTS, false);
+      } catch (IllegalArgumentException e) {
+        String canInheritValue =
+            rc.getString(SUBMIT_REQUIREMENT_TEMPLATE, name, KEY_SR_OVERRIDE_IN_CHILD_PROJECTS);
+        error(
+            String.format(
+                "Invalid value %s.%s.%s for submit requirement template '%s': %s",
+                SUBMIT_REQUIREMENT_TEMPLATE,
+                name,
+                KEY_SR_OVERRIDE_IN_CHILD_PROJECTS,
+                name,
+                canInheritValue));
+        continue;
+      }
+      if (submittabilityExpr == null) {
+        error(
+            String.format(
+                "Setting a submittability expression for submit requirement template '%s' is"
+                    + " required: Missing %s.%s.%s",
+                name, SUBMIT_REQUIREMENT_TEMPLATE, name, KEY_SR_SUBMITTABILITY_EXPRESSION));
+        continue;
+      }
+      if (name == null || name.isEmpty()) {
+        error("Setting a Name for submit requirement template is" + " required.");
+        continue;
+      }
+      SubmitRequirement template =
+          SubmitRequirement.builder()
+              .setName(name)
+              .setDescription(Optional.ofNullable(description))
+              .setApplicabilityExpression(SubmitRequirementExpression.of(applicabilityExpr))
+              .setSubmittabilityExpression(SubmitRequirementExpression.create(submittabilityExpr))
+              .setOverrideExpression(SubmitRequirementExpression.of(overrideExpr))
+              .setAllowOverrideInChildProjects(canInherit)
+              .build();
+      submitRequirementTemplateSections.put(name, template);
     }
   }
 

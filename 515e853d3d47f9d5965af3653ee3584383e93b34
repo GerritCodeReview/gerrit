@@ -16,6 +16,23 @@
       "message": "see issue for screenshot",
       "revId": "515e853d3d47f9d5965af3653ee3584383e93b34",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7b41dda_ca408e23",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3117294
+      },
+      "writtenOn": "2026-05-06T17:58:35Z",
+      "side": 1,
+      "message": "@milutin@google.com sorry for directly assigning you, i have no idea how assigning works in gerrit-gerrit (there\u0027s no \u0027suggest reviewer\u0027 as in chromium-land), thanks in advance for your time, if you are the wrong person maybe you can reroute.",
+      "revId": "515e853d3d47f9d5965af3653ee3584383e93b34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

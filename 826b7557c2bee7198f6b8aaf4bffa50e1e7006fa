@@ -22,6 +22,30 @@
       },
       "revId": "826b7557c2bee7198f6b8aaf4bffa50e1e7006fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "618d242c_501a684d",
+        "filename": "javatests/com/google/gerrit/acceptance/server/index/ChangeIndexerIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-05-06T14:15:41Z",
+      "side": 1,
+      "message": "Mainly because ChangeIndexer has nothing to do with APIs, while ChangeIT mainly seems to test that. ChangeIT has also become a 5.5k LOC file.\nI\u0027m also not sure which similar scenario you\u0027re thinking of, could you point it out please?",
+      "parentUuid": "c0473e0f_6e8e2f22",
+      "range": {
+        "startLine": 28,
+        "startChar": 13,
+        "endLine": 28,
+        "endChar": 28
+      },
+      "revId": "826b7557c2bee7198f6b8aaf4bffa50e1e7006fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

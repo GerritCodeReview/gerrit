@@ -44,29 +44,31 @@ suite('gr-repo-submit-requirements tests', () => {
       assert.shadowDom.equal(
         element,
         /* HTML */ `<gr-list-view>
-          <table class="genericList" id="list">
-            <tbody>
-              <tr class="headerRow">
-                <th class="topHeader">Name</th>
-                <th class="topHeader">Description</th>
-                <th class="topHeader">Applicability Expression</th>
-                <th class="topHeader">Submittability Expression</th>
-                <th class="topHeader">Override Expression</th>
-                <th
-                  class="topHeader"
-                  title="Whether override is allowed in child projects"
-                >
-                  Allow Override
-                </th>
-              </tr>
-            </tbody>
-            <tbody id="submit-requirements">
-              <tr id="loadingContainer">
-                <td>Loading...</td>
-              </tr>
-            </tbody>
-          </table>
-        </gr-list-view>`
+            <table class="genericList" id="list">
+              <tbody>
+                <tr class="headerRow">
+                  <th class="topHeader">Name</th>
+                  <th class="topHeader">Description</th>
+                  <th class="topHeader">Applicability Expression</th>
+                  <th class="topHeader">Submittability Expression</th>
+                  <th class="topHeader">Override Expression</th>
+                  <th
+                    class="topHeader"
+                    title="Whether override is allowed in child projects"
+                  >
+                    Allow Override
+                  </th>
+                </tr>
+              </tbody>
+              <tbody id="submit-requirements">
+                <tr id="loadingContainer">
+                  <td>Loading...</td>
+                </tr>
+              </tbody>
+            </table>
+          </gr-list-view>
+          <gr-repo-submit-requirements-template-dialog>
+          </gr-repo-submit-requirements-template-dialog>`
       );
     });
 
@@ -108,6 +110,8 @@ suite('gr-repo-submit-requirements tests', () => {
               </tbody>
             </table>
           </gr-list-view>
+          <gr-repo-submit-requirements-template-dialog>
+          </gr-repo-submit-requirements-template-dialog>
         `
       );
     });
@@ -179,6 +183,17 @@ suite('gr-repo-submit-requirements tests', () => {
               <div class="main" slot="main">
                 <div class="gr-form-styles">
               <div id="form">
+                <section>
+                  <gr-button
+                    aria-disabled="false"
+                    class="action select-from-template"
+                    link=""
+                    role="button"
+                    tabindex="0"
+                  >
+                    Select from Template
+                  </gr-button>
+                </section>
                 <section>
                   <div class="title-flex">
                     <span class="title">
@@ -374,8 +389,50 @@ suite('gr-repo-submit-requirements tests', () => {
           </div>
         </gr-dialog>
       </dialog>
+      <gr-repo-submit-requirements-template-dialog>
+      </gr-repo-submit-requirements-template-dialog>
     `
       );
+    });
+
+    test('template-selected event pre-populates create form', async () => {
+      await waitEventLoop();
+      element.isProjectOwner = true;
+      await element.updateComplete;
+
+      const templateDialog = queryAndAssert<HTMLElement>(
+        element,
+        'gr-repo-submit-requirements-template-dialog'
+      );
+      templateDialog.dispatchEvent(
+        new CustomEvent('template-selected', {
+          detail: {
+            template: {
+              name: 'Template-Verified',
+              description: 'Template description',
+              applicability_expression: '-branch:refs/meta/config',
+              submittability_expression: 'label:Verified=+1',
+              override_expression: 'ownerin:Project-Owners',
+              allow_override_in_child_projects: true,
+            } as SubmitRequirementInfo,
+          },
+          bubbles: true,
+          composed: true,
+        })
+      );
+      await element.updateComplete;
+
+      const dialog = queryAndAssert<HTMLDialogElement>(
+        element,
+        '#createDialog'
+      );
+      assert.isTrue(dialog.open);
+      assert.equal(element.newRequirement.name, 'Template-Verified');
+      assert.equal(
+        element.newRequirement.submittability_expression,
+        'label:Verified=+1'
+      );
+      assert.isTrue(element.newRequirement.allow_override_in_child_projects);
     });
 
     test('open edit dialog', async () => {

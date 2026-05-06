@@ -25,6 +25,7 @@ declare global {
   }
   interface HTMLElementEventMap {
     'create-clicked': CustomEvent<{}>;
+    'create-from-template-clicked': CustomEvent<{}>;
   }
 }
 
@@ -35,6 +36,9 @@ export class GrListView extends LitElement {
 
   @property({type: String})
   createNewText = 'Create New';
+
+  @property({type: String})
+  createFromTemplateText = 'Create From Template';
 
   @property({type: Array})
   items?: unknown[];
@@ -136,6 +140,14 @@ export class GrListView extends LitElement {
           >
             ${this.createNewText}
           </gr-button>
+          <gr-button
+            id="createFromTemplate"
+            ?hidden=${!this.createNew}
+            link
+            @click=${() => this.createFromTemplateItem()}
+          >
+            ${this.createFromTemplateText}
+          </gr-button>
           <slot name="createNewContainerBottom"></slot>
         </div>
       </div>
@@ -198,6 +210,10 @@ export class GrListView extends LitElement {
 
   private createNewItem() {
     fire(this, 'create-clicked', {});
+  }
+
+  private createFromTemplateItem() {
+    fire(this, 'create-from-template-clicked', {});
   }
 
   // private but used in test

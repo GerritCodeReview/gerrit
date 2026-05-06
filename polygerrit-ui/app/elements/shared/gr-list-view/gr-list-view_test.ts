@@ -43,6 +43,16 @@ suite('gr-list-view tests', () => {
             >
               Create New
             </gr-button>
+            <gr-button
+              aria-disabled="false"
+              hidden=""
+              id="createFromTemplate"
+              link=""
+              role="button"
+              tabindex="0"
+            >
+              Create From Template
+            </gr-button>
             <slot name="createNewContainerBottom"> </slot>
           </div>
         </div>
@@ -158,12 +168,18 @@ suite('gr-list-view tests', () => {
     );
   });
 
-  test('createNew link appears correctly', async () => {
+  test('createNew & createFromTemplate links appears correctly', async () => {
     assert.isTrue(queryAndAssert<HTMLDivElement>(element, '#createNew').hidden);
+    assert.isTrue(
+      queryAndAssert<HTMLDivElement>(element, '#createFromTemplate').hidden
+    );
     element.createNew = true;
     await element.updateComplete;
     assert.isFalse(
       queryAndAssert<HTMLDivElement>(element, '#createNew').hidden
+    );
+    assert.isFalse(
+      queryAndAssert<HTMLDivElement>(element, '#createFromTemplate').hidden
     );
   });
 
@@ -173,6 +189,15 @@ suite('gr-list-view tests', () => {
     element.createNew = true;
     await element.updateComplete;
     queryAndAssert<GrButton>(element, '#createNew').click();
+    assert.isTrue(clickHandler.called);
+  });
+
+  test('fires create from template clicked event when button tapped', async () => {
+    const clickHandler = sinon.stub();
+    element.addEventListener('create-from-template-clicked', clickHandler);
+    element.createNew = true;
+    await element.updateComplete;
+    queryAndAssert<GrButton>(element, '#createFromTemplate').click();
     assert.isTrue(clickHandler.called);
   });
 

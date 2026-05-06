@@ -118,6 +118,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   public static final String KEY_BRANCH = "branch";
 
   public static final String SUBMIT_REQUIREMENT = "submit-requirement";
+  public static final String SUBMIT_REQUIREMENT_TEMPLATE = "submit-requirement-template";
   public static final String KEY_SR_DESCRIPTION = "description";
   public static final String KEY_SR_APPLICABILITY_EXPRESSION = "applicableIf";
   public static final String KEY_SR_SUBMITTABILITY_EXPRESSION = "submittableIf";
@@ -254,6 +255,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private Map<String, NotifyConfig> notifySections;
   private Map<String, LabelType> labelSections;
   private Map<String, SubmitRequirement> submitRequirementSections;
+  private Map<String, SubmitRequirement> submitRequirementTemplateSections;
   private ConfiguredMimeTypes mimeTypes;
   private Map<Project.NameKey, SubscribeSection> subscribeSections;
   private Map<String, StoredCommentLinkInfo> commentLinkSections;
@@ -541,6 +543,11 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     return submitRequirementSections;
   }
 
+  /** Returns the submit requirement templates defined in config. */
+  public Map<String, SubmitRequirement> getSubmitRequirementTemplateSections() {
+    return submitRequirementTemplateSections;
+  }
+
   /** Adds or replaces the given {@link SubmitRequirement} in this config. */
   public void upsertSubmitRequirement(SubmitRequirement requirement) {
     submitRequirementSections.put(requirement.name(), requirement);
@@ -701,6 +708,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     loadNotifySections(rc);
     loadLabelSections(rc);
     loadSubmitRequirementSections(rc);
+    loadSubmitRequirementTemplateSections(rc);
     loadCommentLinkSections(rc);
     loadSubscribeSections(rc);
     mimeTypes = ConfiguredMimeTypes.create(projectName.get(), rc);
@@ -978,52 +986,89 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         continue;
       }
       lowerNames.put(lower, name);
-      String description = rc.getString(SUBMIT_REQUIREMENT, name, KEY_SR_DESCRIPTION);
-      String applicabilityExpr =
-          rc.getString(SUBMIT_REQUIREMENT, name, KEY_SR_APPLICABILITY_EXPRESSION);
-      String submittabilityExpr =
-          rc.getString(SUBMIT_REQUIREMENT, name, KEY_SR_SUBMITTABILITY_EXPRESSION);
-      String overrideExpr = rc.getString(SUBMIT_REQUIREMENT, name, KEY_SR_OVERRIDE_EXPRESSION);
-      boolean canInherit;
-      try {
-        canInherit =
-            rc.getBoolean(SUBMIT_REQUIREMENT, name, KEY_SR_OVERRIDE_IN_CHILD_PROJECTS, false);
-      } catch (IllegalArgumentException e) {
-        String canInheritValue =
-            rc.getString(SUBMIT_REQUIREMENT, name, KEY_SR_OVERRIDE_IN_CHILD_PROJECTS);
-        error(
-            String.format(
-                "Invalid value %s.%s.%s for submit requirement '%s': %s",
-                SUBMIT_REQUIREMENT,
-                name,
-                KEY_SR_OVERRIDE_IN_CHILD_PROJECTS,
-                name,
-                canInheritValue));
-        continue;
-      }
+      readSubmitRequirement(
+              rc,
+              SUBMIT_REQUIREMENT,
+              name,
+              /* entityName= */ "submit requirement",
+              /* validateName= */ false)
+          .ifPresent(submitRequirement -> submitRequirementSections.put(name, submitRequirement));
+    }
+  }
 
-      if (submittabilityExpr == null) {
-        error(
-            String.format(
-                "Setting a submittability expression for submit requirement '%s' is required:"
-                    + " Missing %s.%s.%s",
-                name, SUBMIT_REQUIREMENT, name, KEY_SR_SUBMITTABILITY_EXPRESSION));
-        continue;
-      }
+  /**
+   * Loads submit requirement template sections from {@code project.config}. Templates are stored
+   * under {@code [submit-requirement-template "name"]} and follow the same structure as regular
+   * submit requirements, but are only intended as pre-configured examples for project owners to
+   * select from.
+   */
+  private void loadSubmitRequirementTemplateSections(Config rc) {
+    submitRequirementTemplateSections = new LinkedHashMap<>();
+    for (String name : rc.getSubsections(SUBMIT_REQUIREMENT_TEMPLATE)) {
+      readSubmitRequirement(
+              rc,
+              SUBMIT_REQUIREMENT_TEMPLATE,
+              name,
+              /* entityName= */ "submit requirement template",
+              /* validateName= */ true)
+          .ifPresent(template -> submitRequirementTemplateSections.put(name, template));
+    }
+  }
 
-      // The expressions are validated in SubmitRequirementConfigValidator.
+  private Optional<SubmitRequirement> readSubmitRequirement(
+      Config rc, String section, String name, String entityName, boolean validateName) {
+    String description = rc.getString(section, name, KEY_SR_DESCRIPTION);
+    String applicabilityExpr = rc.getString(section, name, KEY_SR_APPLICABILITY_EXPRESSION);
+    String submittabilityExpr = rc.getString(section, name, KEY_SR_SUBMITTABILITY_EXPRESSION);
+    String overrideExpr = rc.getString(section, name, KEY_SR_OVERRIDE_EXPRESSION);
+    Optional<Boolean> allowOverrideInChildProjects =
+        readAllowOverrideInChildProjects(rc, section, name, entityName);
+    if (!allowOverrideInChildProjects.isPresent()) {
+      return Optional.empty();
+    }
 
-      SubmitRequirement submitRequirement =
-          SubmitRequirement.builder()
-              .setName(name)
-              .setDescription(Optional.ofNullable(description))
-              .setApplicabilityExpression(SubmitRequirementExpression.of(applicabilityExpr))
-              .setSubmittabilityExpression(SubmitRequirementExpression.create(submittabilityExpr))
-              .setOverrideExpression(SubmitRequirementExpression.of(overrideExpr))
-              .setAllowOverrideInChildProjects(canInherit)
-              .build();
+    if (submittabilityExpr == null) {
+      error(
+          String.format(
+              "Setting a submittability expression for %s '%s' is required: Missing %s.%s.%s",
+              entityName, name, section, name, KEY_SR_SUBMITTABILITY_EXPRESSION));
+      return Optional.empty();
+    }
 
-      submitRequirementSections.put(name, submitRequirement);
+    if (validateName && Strings.isNullOrEmpty(name)) {
+      error(String.format("Setting a Name for %s is required.", entityName));
+      return Optional.empty();
+    }
+
+    // The expressions are validated in SubmitRequirementConfigValidator.
+    return Optional.of(
+        SubmitRequirement.builder()
+            .setName(name)
+            .setDescription(Optional.ofNullable(description))
+            .setApplicabilityExpression(SubmitRequirementExpression.of(applicabilityExpr))
+            .setSubmittabilityExpression(SubmitRequirementExpression.create(submittabilityExpr))
+            .setOverrideExpression(SubmitRequirementExpression.of(overrideExpr))
+            .setAllowOverrideInChildProjects(allowOverrideInChildProjects.get())
+            .build());
+  }
+
+  private Optional<Boolean> readAllowOverrideInChildProjects(
+      Config rc, String section, String name, String entityName) {
+    try {
+      return Optional.of(rc.getBoolean(section, name, KEY_SR_OVERRIDE_IN_CHILD_PROJECTS, false));
+    } catch (IllegalArgumentException e) {
+      String allowOverrideInChildProjectsValue =
+          rc.getString(section, name, KEY_SR_OVERRIDE_IN_CHILD_PROJECTS);
+      error(
+          String.format(
+              "Invalid value %s.%s.%s for %s '%s': %s",
+              section,
+              name,
+              KEY_SR_OVERRIDE_IN_CHILD_PROJECTS,
+              entityName,
+              name,
+              allowOverrideInChildProjectsValue));
+      return Optional.empty();
     }
   }
 

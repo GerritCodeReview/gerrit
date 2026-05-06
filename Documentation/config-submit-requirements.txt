@@ -365,6 +365,31 @@ when a change can be submitted.
 
 The fields that can be set for submit requirements are explained below.
 
+[[submit-requirement-template-subsection]]
+== submit-requirement-template subsection
+
+Each `submit-requirement-template` subsection defines a submit requirement
+template that project owners can choose from in the UI when creating submit
+requirements.
+
+Submit requirement templates must be defined in the`project.config`
+file and are configured with the same fields as regular
+submit requirements.
+
+The template name is defined by the subsection name and is required. Empty
+template names are invalid.
+
+`submittableIf` is also mandatory for submit requirement templates.
+
+.Example:
+----
+[submit-requirement-template "Code-Review-2"]
+  description = Require Code-Review +2 before submit
+  applicableIf = -branch:refs/meta/config
+  submittableIf = label:Code-Review=+2
+  canOverrideInChildProjects = true
+----
+
 [[submit_requirement_description]]
 === submit-requirement.Name.description
 

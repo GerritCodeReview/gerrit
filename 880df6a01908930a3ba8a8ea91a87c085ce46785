@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a8e5136_517b3482",
+        "filename": "polygerrit-ui/polygerrit.MODULE.bazel",
+        "patchSetId": 14
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-05-06T19:20:59Z",
+      "side": 1,
+      "message": "This should no longer be necessary once change 580261 is merged and this series is rebased.",
+      "range": {
+        "startLine": 126,
+        "startChar": 0,
+        "endLine": 134,
+        "endChar": 1
+      },
+      "revId": "880df6a01908930a3ba8a8ea91a87c085ce46785",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

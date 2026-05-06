@@ -123,6 +123,7 @@ public class ProjectRestApiModule extends RestApiModule {
     delete(SUBMIT_REQUIREMENT_KIND).to(DeleteSubmitRequirement.class);
     postOnCollection(SUBMIT_REQUIREMENT_KIND).to(PostSubmitRequirements.class);
     post(PROJECT_KIND, "submit_requirements:review").to(PostSubmitRequirementsReview.class);
+    get(PROJECT_KIND, "submit_requirements:templates").to(GetSubmitRequirementTemplates.class);
 
     child(PROJECT_KIND, "tags").to(TagsCollection.class);
     create(TAG_KIND).to(CreateTag.class);

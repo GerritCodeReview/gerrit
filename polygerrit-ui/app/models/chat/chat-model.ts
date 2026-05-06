@@ -37,6 +37,8 @@ import {UserModel} from '../user/user-model';
 import {contextItemEquals} from './context-item-util';
 import {FilesModel, NormalizedFileInfo} from '../change/files-model';
 import {isMagicPath} from '../../utils/path-list-util';
+import {getAppContext} from '../../services/app-context';
+import {Interaction, Timing} from '../../constants/reporting';
 
 /** The available display modes in the chat panel. */
 export enum ChatPanelMode {
@@ -616,6 +618,19 @@ export class ChatModel extends Model<ChatState> {
         });
       },
       emitError: (errorMessage: string) => {
+        getAppContext().reportingService.timeEnd(Timing.AI_CHAT_REQUEST, {
+          modelName: request.model_name,
+          actionId: action.id,
+          error: errorMessage,
+        });
+        getAppContext().reportingService.reportInteraction(
+          Interaction.AI_CHAT_FAILURE,
+          {
+            modelName: request.model_name,
+            actionId: action.id,
+            error: errorMessage,
+          }
+        );
         const state = this.getState();
         if (state.id !== conversationId) return;
         const turns: readonly Turn[] = state.turns;
@@ -630,6 +645,10 @@ export class ChatModel extends Model<ChatState> {
         });
       },
       done: () => {
+        getAppContext().reportingService.timeEnd(Timing.AI_CHAT_REQUEST, {
+          modelName: request.model_name,
+          actionId: action.id,
+        });
         const state = this.getState();
         if (state.id !== conversationId) return;
         assert(turnIndex < state.turns.length, 'turn index out of bounds');
@@ -642,6 +661,7 @@ export class ChatModel extends Model<ChatState> {
         });
       },
     };
+    getAppContext().reportingService.time(Timing.AI_CHAT_REQUEST);
     this.plugin?.chat?.(request, listener);
   }
 

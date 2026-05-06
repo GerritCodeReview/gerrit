@@ -171,6 +171,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cbaf555b_ad5f70ca",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-06T19:39:48Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "881dae22_ba0383c3",
+      "revId": "ffe7578250380ed4ea4b9c563ce57b75b664a92b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "31bb08f9_e47f3af8",
@@ -208,6 +226,30 @@
       "side": 1,
       "message": "`gr-change-view` captures it into currentRevisionActions (binding at [gr-change-view.ts:1353](https://gerrit-review.googlesource.com/c/gerrit/+/579081/2/polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts#1353)). None of those actions ever needed to flow through `gr-change-summary`. This change adds `revisionActions` to `gr-change-summary` because the AI review signal moved from `ChangeInfo.canAiReview` -\u003e `revisionActions.aiReview`...",
       "parentUuid": "31bb08f9_e47f3af8",
+      "range": {
+        "startLine": 1411,
+        "startChar": 0,
+        "endLine": 1413,
+        "endChar": 33
+      },
+      "revId": "ffe7578250380ed4ea4b9c563ce57b75b664a92b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "218877a7_221219c1",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1413,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-06T19:39:48Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "d4f22a30_0cccba02",
       "range": {
         "startLine": 1411,
         "startChar": 0,

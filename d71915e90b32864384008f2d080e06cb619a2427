@@ -22,6 +22,30 @@
       },
       "revId": "d71915e90b32864384008f2d080e06cb619a2427",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e485d1e2_00fa89eb",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1294,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-06T19:39:48Z",
+      "side": 1,
+      "message": "\u003e This was already introduced in a previous change, so it’s actually unrelated to this one.\n\u003e \n\u003e That said, I think this condition strongly indicates that we are missing a proper extension point in core, where plugins can dynamically register their callbacks.\n\nThe AI provider extension point already exists. The AI provider gives the _last mile_ implementation of the HTTP communication with the AI LLM backend, whilst 100% of the UI isn\u0027t provided by a plugin but it is in core.\n\nI do not see which additional extension point you would need. The UI isn\u0027t pluggable; the Gerrit UI is provided by Gerrit, not by a plugin, therefore having an extension point for a part of Gerrit core isn\u0027t suitable.\n\nYou could make the *whole AI interface in Gerrit* a plugin, but that\u0027s a completely different change and is out of context of this review.\n\n\u003e Adding core logic just to bail out when no plugin is installed feels intrusive. Instead, core should provide an extension point, and plugins should use it to implement this functionality.\n\nThis comment is related to Ben\u0027s change where the code was introduced, would you like to move it to https://gerrit-review.googlesource.com/c/gerrit/+/520206?",
+      "parentUuid": "86c2e24f_3a0ef234",
+      "range": {
+        "startLine": 1292,
+        "startChar": 4,
+        "endLine": 1294,
+        "endChar": 5
+      },
+      "revId": "d71915e90b32864384008f2d080e06cb619a2427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

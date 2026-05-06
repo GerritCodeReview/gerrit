@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b462a358_a177ac35",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-05-06T14:29:39Z",
+      "side": 1,
+      "message": "Currently testing the wrong thing.",
+      "revId": "826b7557c2bee7198f6b8aaf4bffa50e1e7006fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c0473e0f_6e8e2f22",
         "filename": "javatests/com/google/gerrit/acceptance/server/index/ChangeIndexerIT.java",
         "patchSetId": 7

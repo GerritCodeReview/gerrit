@@ -410,6 +410,11 @@ export const grRestApiMock: RestApiService = {
   getRepoSubmitRequirements(): Promise<SubmitRequirementInfo[] | undefined> {
     return Promise.resolve([]);
   },
+  getRepoSubmitRequirementTemplates(): Promise<
+    SubmitRequirementInfo[] | undefined
+  > {
+    return Promise.resolve([]);
+  },
   createSubmitRequirement(): Promise<SubmitRequirementInfo | undefined> {
     return Promise.resolve(undefined);
   },

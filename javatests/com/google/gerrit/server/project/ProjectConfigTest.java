@@ -315,6 +315,60 @@ public class ProjectConfigTest {
   }
 
   @Test
+  public void readSubmitRequirementTemplates() throws Exception {
+    RevCommit rev =
+        tr.commit()
+            .add("groups", group(developers))
+            .add(
+                "project.config",
+                "[submit-requirement-template \"Code-Review\"]\n"
+                    + "  description = Require Code-Review +2 before submit\n"
+                    + "  applicableIf = -branch:refs/meta/config\n"
+                    + "  submittableIf = label(Code-Review, +2)\n"
+                    + "  overrideIf = is:false\n"
+                    + "  canOverrideInChildProjects = true\n")
+            .create();
+
+    ProjectConfig cfg = read(rev);
+
+    assertThat(cfg.getSubmitRequirementTemplateSections())
+        .containsExactly(
+            "Code-Review",
+            SubmitRequirement.builder()
+                .setName("Code-Review")
+                .setDescription(Optional.of("Require Code-Review +2 before submit"))
+                .setApplicabilityExpression(
+                    SubmitRequirementExpression.of("-branch:refs/meta/config"))
+                .setSubmittabilityExpression(
+                    SubmitRequirementExpression.create("label(Code-Review, +2)"))
+                .setOverrideExpression(SubmitRequirementExpression.of("is:false"))
+                .setAllowOverrideInChildProjects(true)
+                .build());
+  }
+
+  @Test
+  public void readSubmitRequirementTemplateNoSubmittabilityExpression() throws Exception {
+    RevCommit rev =
+        tr.commit()
+            .add("groups", group(developers))
+            .add(
+                "project.config",
+                "[submit-requirement-template \"Code-Review\"]\n"
+                    + "  applicableIf = -branch:refs/meta/config\n")
+            .create();
+
+    ProjectConfig cfg = read(rev);
+
+    assertThat(cfg.getSubmitRequirementTemplateSections()).isEmpty();
+    assertThat(cfg.getValidationErrors()).hasSize(1);
+    assertThat(Iterables.getOnlyElement(cfg.getValidationErrors()).getMessage())
+        .isEqualTo(
+            "project.config: Setting a submittability expression for submit requirement"
+                + " template 'Code-Review' is required: Missing"
+                + " submit-requirement-template.Code-Review.submittableIf");
+  }
+
+  @Test
   public void readConfigLabelOldStyleWithLeadingSpace() throws Exception {
     RevCommit rev =
         tr.commit()

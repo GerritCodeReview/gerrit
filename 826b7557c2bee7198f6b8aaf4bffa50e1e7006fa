@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0473e0f_6e8e2f22",
+        "filename": "javatests/com/google/gerrit/acceptance/server/index/ChangeIndexerIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-06T13:58:16Z",
+      "side": 1,
+      "message": "Why introduce a new suite? The `ChangeIT` already covers a similar scenario; why not add one more test to that suite?",
+      "range": {
+        "startLine": 28,
+        "startChar": 13,
+        "endLine": 28,
+        "endChar": 28
+      },
+      "revId": "826b7557c2bee7198f6b8aaf4bffa50e1e7006fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

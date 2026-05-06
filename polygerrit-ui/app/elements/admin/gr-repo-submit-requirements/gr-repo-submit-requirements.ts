@@ -33,6 +33,8 @@ import {GrButton} from '../../shared/gr-button/gr-button';
 import {materialStyles} from '../../../styles/gr-material-styles';
 import '@material/web/checkbox/checkbox';
 import {MdCheckbox} from '@material/web/checkbox/checkbox';
+import './gr-repo-submit-requirements-template-dialog';
+import {GrRepoSubmitRequirementsTemplateDialog} from './gr-repo-submit-requirements-template-dialog';
 
 @customElement('gr-repo-submit-requirements')
 export class GrRepoSubmitRequirements extends LitElement {
@@ -47,6 +49,9 @@ export class GrRepoSubmitRequirements extends LitElement {
 
   @query('#deleteDialog')
   private readonly deleteDialog?: HTMLDialogElement;
+
+  @query('gr-repo-submit-requirements-template-dialog')
+  private readonly templateDialog?: GrRepoSubmitRequirementsTemplateDialog;
 
   @state()
   loading = true;
@@ -198,6 +203,8 @@ export class GrRepoSubmitRequirements extends LitElement {
           detail: RepoDetailView.SUBMIT_REQUIREMENTS,
         })}
         @create-clicked=${() => this.handleCreateClick()}
+        @create-from-template-clicked=${() =>
+          this.handleCreateFromTemplateClick()}
       >
         <table id="list" class="genericList">
           <tbody>
@@ -273,6 +280,11 @@ export class GrRepoSubmitRequirements extends LitElement {
       </gr-list-view>
 
       ${this.renderCreateDialog()} ${this.renderDeleteDialog()}
+      <gr-repo-submit-requirements-template-dialog
+        .repo=${this.repo}
+        @template-selected=${(e: CustomEvent<{template: SubmitRequirementInfo}>) =>
+          this.handleTemplateSelected(e.detail.template)}
+      ></gr-repo-submit-requirements-template-dialog>
     `;
   }
 
@@ -334,6 +346,30 @@ export class GrRepoSubmitRequirements extends LitElement {
   private handleCreateClick() {
     this.isEditing = false;
     this.newRequirement = this.getEmptyRequirement();
+    assertIsDefined(this.createDialog, 'createDialog');
+    this.createDialog.showModal();
+  }
+
+  private handleCreateFromTemplateClick() {
+    if (!this.templateDialog) {
+      console.error('Template dialog not available');
+      return;
+    }
+    this.templateDialog.show();
+  }
+
+  private handleTemplateSelected(template: SubmitRequirementInfo) {
+    this.isEditing = false;
+    // Populate the create form with the template data
+    this.newRequirement = {
+      name: template.name,
+      description: template.description || '',
+      applicability_expression: template.applicability_expression || '',
+      submittability_expression: template.submittability_expression || '',
+      override_expression: template.override_expression || '',
+      allow_override_in_child_projects:
+        template.allow_override_in_child_projects || false,
+    };
     assertIsDefined(this.createDialog, 'createDialog');
     this.createDialog.showModal();
   }

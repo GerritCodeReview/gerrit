@@ -66,7 +66,9 @@ suite('gr-repo-submit-requirements tests', () => {
               </tr>
             </tbody>
           </table>
-        </gr-list-view>`
+        </gr-list-view>
+        <gr-repo-submit-requirements-template-dialog>
+        </gr-repo-submit-requirements-template-dialog>`
       );
     });
 
@@ -108,6 +110,8 @@ suite('gr-repo-submit-requirements tests', () => {
               </tbody>
             </table>
           </gr-list-view>
+          <gr-repo-submit-requirements-template-dialog>
+          </gr-repo-submit-requirements-template-dialog>
         `
       );
     });
@@ -374,8 +378,47 @@ suite('gr-repo-submit-requirements tests', () => {
           </div>
         </gr-dialog>
       </dialog>
+      <gr-repo-submit-requirements-template-dialog>
+      </gr-repo-submit-requirements-template-dialog>
     `
       );
+    });
+
+    test('template-selected event pre-populates create form', async () => {
+      await waitEventLoop();
+      element.isProjectOwner = true;
+      await element.updateComplete;
+
+      const templateDialog = queryAndAssert<HTMLElement>(
+        element,
+        'gr-repo-submit-requirements-template-dialog'
+      );
+      templateDialog.dispatchEvent(
+        new CustomEvent('template-selected', {
+          detail: {
+            template: {
+              name: 'Template-Verified',
+              description: 'Template description',
+              applicability_expression: '-branch:refs/meta/config',
+              submittability_expression: 'label:Verified=+1',
+              override_expression: 'ownerin:Project-Owners',
+              allow_override_in_child_projects: true,
+            } as SubmitRequirementInfo,
+          },
+          bubbles: true,
+          composed: true,
+        })
+      );
+      await element.updateComplete;
+
+      const dialog = queryAndAssert<HTMLDialogElement>(element, '#createDialog');
+      assert.isTrue(dialog.open);
+      assert.equal(element.newRequirement.name, 'Template-Verified');
+      assert.equal(
+        element.newRequirement.submittability_expression,
+        'label:Verified=+1'
+      );
+      assert.isTrue(element.newRequirement.allow_override_in_child_projects);
     });
 
     test('open edit dialog', async () => {

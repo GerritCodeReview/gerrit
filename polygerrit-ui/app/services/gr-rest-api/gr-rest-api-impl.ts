@@ -1787,6 +1787,19 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     }) as Promise<SubmitRequirementInfo[] | undefined>;
   }
 
+  getRepoSubmitRequirementTemplates(
+    repoName: RepoName,
+    errFn?: ErrorCallback
+  ): Promise<SubmitRequirementInfo[] | undefined> {
+    return this._restApiHelper.fetchJSON({
+      url: `/projects/${encodeURIComponent(
+        repoName
+      )}/submit_requirements:templates`,
+      errFn,
+      anonymizedUrl: '/projects/*/submit_requirements:templates',
+    }) as Promise<SubmitRequirementInfo[] | undefined>;
+  }
+
   createSubmitRequirement(
     repoName: RepoName,
     input: SubmitRequirementInput,

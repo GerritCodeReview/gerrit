@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86c2e24f_3a0ef234",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 1294,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-05-06T17:41:49Z",
+      "side": 1,
+      "message": "This was already introduced in a previous change, so it’s actually unrelated to this one.\n\nThat said, I think this condition strongly indicates that we are missing a proper extension point in core, where plugins can dynamically register their callbacks.\n\nAdding core logic just to bail out when no plugin is installed feels intrusive. Instead, core should provide an extension point, and plugins should use it to implement this functionality.",
+      "range": {
+        "startLine": 1292,
+        "startChar": 4,
+        "endLine": 1294,
+        "endChar": 5
+      },
+      "revId": "d71915e90b32864384008f2d080e06cb619a2427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

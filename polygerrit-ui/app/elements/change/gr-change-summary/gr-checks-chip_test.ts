@@ -85,4 +85,25 @@ suite('gr-checks-chip test', () => {
       `
     );
   });
+
+  test('renders ai chip', async () => {
+    element.text = 'AI Suggestion';
+    element.statusOrCategory = Category.INFO;
+    element.isAiPowered = true;
+    await element.updateComplete;
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <div
+          aria-label="info for check AI Suggestion"
+          class="checksChip ai font-small"
+          role="link"
+          tabindex="0"
+        >
+          <gr-icon icon="ai" filled></gr-icon>
+          <div class="text">AI Suggestion</div>
+        </div>
+      `
+    );
+  });
 });

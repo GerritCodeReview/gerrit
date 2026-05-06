@@ -21,10 +21,12 @@ suite('gr-diff-check-result screenshot tests', () => {
     element = await fixture(
       html`<gr-diff-check-result></gr-diff-check-result>`
     );
+    await document.fonts.ready;
   });
 
   test('collapsed', async () => {
     element.result = {...checkRun1, ...checkRun1.results?.[0]} as RunResult;
+    element.result.isAiPowered = false;
     await element.updateComplete;
 
     await visualDiff(element, 'gr-diff-check-result-collapsed');
@@ -34,9 +36,45 @@ suite('gr-diff-check-result screenshot tests', () => {
   test('expanded', async () => {
     element.result = {...checkRun1, ...checkRun1.results?.[2]} as RunResult;
     element.isExpanded = true;
+    element.result.isAiPowered = false;
     await element.updateComplete;
 
     await visualDiff(element, 'gr-diff-check-result-expanded');
     await visualDiffDarkTheme(element, 'gr-diff-check-result-expanded');
+  });
+
+  test('collapsed with AI powered check results', async () => {
+    element.result = {...checkRun1, ...checkRun1.results?.[0]} as RunResult;
+    await element.updateComplete;
+
+    await visualDiff(element, 'gr-diff-check-result-collapsed-ai-powered');
+    await visualDiffDarkTheme(
+      element,
+      'gr-diff-check-result-collapsed-ai-powered'
+    );
+  });
+
+  test('expanded with AI powered check results', async () => {
+    element.result = {...checkRun1, ...checkRun1.results?.[2]} as RunResult;
+    element.isExpanded = true;
+    await element.updateComplete;
+
+    await visualDiff(element, 'gr-diff-check-result-expanded-ai-powered');
+    await visualDiffDarkTheme(
+      element,
+      'gr-diff-check-result-expanded-ai-powered'
+    );
+  });
+
+  test('with unpublished tag', async () => {
+    element.result = {
+      ...checkRun1,
+      ...checkRun1.results?.[0],
+      tags: [{name: 'Unpublished', tooltip: 'This is unpublished'}],
+    } as RunResult;
+    await element.updateComplete;
+
+    await visualDiff(element, 'gr-diff-check-result-unpublished');
+    await visualDiffDarkTheme(element, 'gr-diff-check-result-unpublished-dark');
   });
 });

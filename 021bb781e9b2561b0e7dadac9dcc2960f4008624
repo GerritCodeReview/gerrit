@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "50132906_4d301a91",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-05-06T13:43:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a3efb2b_fbea1381",
+      "range": {
+        "startLine": 10,
+        "startChar": 72,
+        "endLine": 10,
+        "endChar": 76
+      },
+      "revId": "021bb781e9b2561b0e7dadac9dcc2960f4008624",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "428cebc8_5be44593",
@@ -60,6 +84,30 @@
       "writtenOn": "2026-04-30T13:05:39Z",
       "side": 1,
       "message": "Since the method is executed is the same, have you considered just passing a different argument to it?\n\n```\n      fireChangeDeletedFromIndexEvent(id.get(), project.map(Project.NameKey::get).orElse(\"\"));\n```\n\nI think it is easier to read and avoids duplicating the method call.",
+      "range": {
+        "startLine": 695,
+        "startChar": 0,
+        "endLine": 697,
+        "endChar": 63
+      },
+      "revId": "021bb781e9b2561b0e7dadac9dcc2960f4008624",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d873fad_0f54e881",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeIndexer.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 697,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-05-06T13:43:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "498c3760_4a2a1b86",
       "range": {
         "startLine": 695,
         "startChar": 0,

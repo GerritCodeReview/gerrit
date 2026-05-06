@@ -43,6 +43,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "81fa92ba_da08370d",
+        "filename": "java/com/google/gerrit/extensions/common/ActionInfo.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-05-06T18:21:00Z",
+      "side": 1,
+      "message": "I would rename it, in something more specific: `withExplicitEnabled`.",
+      "parentUuid": "50b9b893_bdc203a1",
+      "range": {
+        "startLine": 98,
+        "startChar": 0,
+        "endLine": 104,
+        "endChar": 0
+      },
+      "revId": "d7b5e46dee795fb0c74d319392dd7c9c2dce9e31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f5488fc3_e64c6c83",
         "filename": "java/com/google/gerrit/server/change/ActionJson.java",
         "patchSetId": 5

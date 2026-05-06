@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "029a9a5f_ecaf1fca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-05-06T18:21:00Z",
+      "side": 1,
+      "message": "I don’t think we need the experiment feature gate here:\n\n* no configuration, or permission explicitly allowed: the button is visible\n* permission blocked/denied, or permission backend error: the button is hidden\n\nSo the permission signal itself should be sufficient.\nI tried removing the flag in a follow-up change.",
+      "range": {
+        "startLine": 11,
+        "startChar": 9,
+        "endLine": 15,
+        "endChar": 67
+      },
+      "revId": "05442a8b8b6b5848dee5c5aa6a75ff1116c82cd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

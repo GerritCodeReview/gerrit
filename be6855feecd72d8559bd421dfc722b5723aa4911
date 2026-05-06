@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bbacc6f4_c776f17d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-05-06T18:21:00Z",
+      "side": 1,
+      "message": "\u003e However, there\u0027s no REST API mapped to canAiReview.\n\nThere is already core `Follow-up` action that is frontend only and there\u0027s *no* REST endpoint mapped to the `Follow-up` action, with this specific comment in the code:\n\n```java\n// The followup action is a client-side only operation that does not\n// have a server side handler. It must be manually registered into the\n// resulting action map.\n```",
+      "parentUuid": "7fc6d168_3732dc82",
+      "revId": "be6855feecd72d8559bd421dfc722b5723aa4911",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9e2e0d2a_77e70c78",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
@@ -191,6 +209,24 @@
       "side": 1,
       "message": "It is about removing the experiment gate only, not the whole function...",
       "parentUuid": "ad735b57_a8c74078",
+      "revId": "be6855feecd72d8559bd421dfc722b5723aa4911",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "129113e2_6a25ab8c",
+        "filename": "java/com/google/gerrit/server/change/ActionJson.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-05-06T18:21:00Z",
+      "side": 1,
+      "message": "Given that the frontend already renders the button by default when the permission is neither blocked nor denied (i.e. even without any explicit configuration), I don’t think we need the additional complexity of another experimental feature gate (`UiFeature__enable_ai_chat`).\n\nThe permission is still respected when explicitly denied or blocked, so the experiment flag doesn’t add much value here.\n\nThis follow-up change (see change 579641) removes the flag and makes the behavior explicit by always emitting the action.",
+      "parentUuid": "e69d5404_99b76d3e",
       "revId": "be6855feecd72d8559bd421dfc722b5723aa4911",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

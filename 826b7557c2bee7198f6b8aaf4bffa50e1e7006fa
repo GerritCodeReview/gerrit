@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "959a5ce2_6ee3786b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-05-06T15:15:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b462a358_a177ac35",
+      "revId": "826b7557c2bee7198f6b8aaf4bffa50e1e7006fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c0473e0f_6e8e2f22",
@@ -79,6 +97,30 @@
       "side": 1,
       "message": "I guess there are some tests that implement listeners, maybe you\u0027re refering to those. Let me see what it would look like to move this there.",
       "parentUuid": "618d242c_501a684d",
+      "range": {
+        "startLine": 28,
+        "startChar": 13,
+        "endLine": 28,
+        "endChar": 28
+      },
+      "revId": "826b7557c2bee7198f6b8aaf4bffa50e1e7006fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e83d7215_ba3450c6",
+        "filename": "javatests/com/google/gerrit/acceptance/server/index/ChangeIndexerIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-05-06T15:15:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d7751102_d421226f",
       "range": {
         "startLine": 28,
         "startChar": 13,

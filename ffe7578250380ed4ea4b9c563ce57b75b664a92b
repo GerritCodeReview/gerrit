@@ -56,6 +56,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "680baafd_f43c4c3d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2026-05-06T15:57:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4dbbf418_c846d8e2",
+      "revId": "ffe7578250380ed4ea4b9c563ce57b75b664a92b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "c12a709a_bc5a7d23",
         "filename": "polygerrit-ui/app/api/rest-api.ts",
         "patchSetId": 2
@@ -94,6 +112,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "656ae7b1_802e7d8f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2026-05-06T15:57:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a1c7f8d5_bbc71749",
+      "range": {
+        "startLine": 405,
+        "startChar": 0,
+        "endLine": 412,
+        "endChar": 9
+      },
+      "revId": "ffe7578250380ed4ea4b9c563ce57b75b664a92b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3f3dd1ee_5d4529b5",
@@ -113,6 +155,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "881dae22_ba0383c3",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2026-05-06T15:57:42Z",
+      "side": 1,
+      "message": "The statement is right and it goes along to what was originally before (see [diff](https://gerrit-review.googlesource.com/c/gerrit/+/579081/2/polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts)) IOW\n\nIt was:\n```\nif (this.change?.can_ai_review \u003d\u003d\u003d false) {\n```\n\nwhich means `true` only when `can_ai_review` is exactly `false` — i.e. `false` (body skipped) if `change` is `undefined`/`null`, or `can_ai_review` is `undefined` or `true`.\n\nthere is:\n```\nif (this.revisionActions?.aiReview?.enabled \u003d\u003d\u003d false) {\n```\n\nwhich means `true` only when `enabled` is exactly `false` — i.e. `false` if `revisionActions` is `undefined`/`null`, or `aiReview` is `undefined`/`null`, or `enabled` is `undefined` or `true`.\n\nBoth flags are typed `boolean | undefined` in TS, so the value space is bounded — the guard fires in exactly one state, which makes the two checks behaviorally equivalent.\n\nIOW it works like this:\n```\nconst testing1 \u003d {};\nconst testing2 \u003d {\n  foo: {\n    name: \"some\"\n  }\n};\nconst testing3 \u003d {\n  foo: {\n    bar: false\n  }\n};\n\nconsole.log(`testing1 evaluates to ${testing1.foo?.bar !\u003d\u003d false}`);\nconsole.log(`testing2 evaluates to ${testing2.foo?.bar !\u003d\u003d false}`);\nconsole.log(`testing3 evaluates to ${testing3.foo?.bar !\u003d\u003d false}`);\n```\n\nwhich produces the following:\n```\nReset\n\"testing1 evaluates to true\"\n\"testing2 evaluates to true\"\n\"testing3 evaluates to false\"\n```\n\nThat blocks AI review button ONLY when action is explicitly disabled (set to `false`).\n\nRefs:\n- [Optional chaining `?.`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining) — short-circuits to `undefined` on a nullish step.\n- [Strict equality `\u003d\u003d\u003d`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Strict_equality) — no type coercion.",
+      "parentUuid": "3f3dd1ee_5d4529b5",
+      "revId": "ffe7578250380ed4ea4b9c563ce57b75b664a92b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "31bb08f9_e47f3af8",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
         "patchSetId": 2
@@ -124,6 +184,30 @@
       "writtenOn": "2026-05-05T20:34:35Z",
       "side": 1,
       "message": "I am confused by this addition: why weren\u0027t revisionActions populated before this change? How could that work for other actions?",
+      "range": {
+        "startLine": 1411,
+        "startChar": 0,
+        "endLine": 1413,
+        "endChar": 33
+      },
+      "revId": "ffe7578250380ed4ea4b9c563ce57b75b664a92b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4f22a30_0cccba02",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1413,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2026-05-06T15:57:42Z",
+      "side": 1,
+      "message": "`gr-change-view` captures it into currentRevisionActions (binding at [gr-change-view.ts:1353](https://gerrit-review.googlesource.com/c/gerrit/+/579081/2/polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts#1353)). None of those actions ever needed to flow through `gr-change-summary`. This change adds `revisionActions` to `gr-change-summary` because the AI review signal moved from `ChangeInfo.canAiReview` -\u003e `revisionActions.aiReview`...",
+      "parentUuid": "31bb08f9_e47f3af8",
       "range": {
         "startLine": 1411,
         "startChar": 0,

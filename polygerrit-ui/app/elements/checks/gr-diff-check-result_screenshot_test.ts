@@ -21,6 +21,7 @@ suite('gr-diff-check-result screenshot tests', () => {
     element = await fixture(
       html`<gr-diff-check-result></gr-diff-check-result>`
     );
+    await document.fonts.ready;
   });
 
   test('collapsed', async () => {
@@ -38,5 +39,54 @@ suite('gr-diff-check-result screenshot tests', () => {
 
     await visualDiff(element, 'gr-diff-check-result-expanded');
     await visualDiffDarkTheme(element, 'gr-diff-check-result-expanded');
+  });
+
+  test('AI powered collapsed', async () => {
+    element.result = {
+      ...checkRun1,
+      ...checkRun1.results?.[0],
+      isAiPowered: true,
+    } as RunResult;
+    await element.updateComplete;
+
+    await visualDiff(element, 'gr-diff-check-result-ai-powered-collapsed');
+    await visualDiffDarkTheme(
+      element,
+      'gr-diff-check-result-ai-powered-collapsed'
+    );
+  });
+
+  test('AI powered expanded', async () => {
+    element.result = {
+      ...checkRun1,
+      ...checkRun1.results?.[2],
+      isAiPowered: true,
+    } as RunResult;
+    element.isExpanded = true;
+    await element.updateComplete;
+
+    await visualDiff(element, 'gr-diff-check-result-ai-powered-expanded');
+    await visualDiffDarkTheme(
+      element,
+      'gr-diff-check-result-ai-powered-expanded'
+    );
+  });
+
+  test('with unpublished tag', async () => {
+    element.result = {
+      ...checkRun1,
+      ...checkRun1.results?.[0],
+      tags: [{name: 'Unpublished', tooltip: 'This is unpublished'}],
+    } as RunResult;
+    await element.updateComplete;
+
+    // Override the style of the tag because italics cause inconsistencies in
+    // the screenshot tests.
+    const style = document.createElement('style');
+    style.textContent = '.container .note { font-style: normal !important; }';
+    element.shadowRoot!.appendChild(style);
+
+    await visualDiff(element, 'gr-diff-check-result-unpublished');
+    await visualDiffDarkTheme(element, 'gr-diff-check-result-unpublished');
   });
 });

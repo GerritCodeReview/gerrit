@@ -73,6 +73,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c8379d17_da6bf83e",
+        "filename": "java/com/google/gerrit/extensions/events/ChangeIndexedListener.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-05-06T16:02:48Z",
+      "side": 1,
+      "message": "Not sure how I feel about making this nullable, we\u0027re deprecating the version with no projectName, and ideally going forward we\u0027d make this neither nullable or empty.\n\nSo I\u0027m kind of happy letting implementations figure out how to pass a projectName and if they can\u0027t then resolve to pass an empty string, but I don\u0027t want to signal that it\u0027s expected for this to be null or empty as its not.\n\nWDYT?",
+      "parentUuid": "428cebc8_5be44593",
+      "range": {
+        "startLine": 46,
+        "startChar": 31,
+        "endLine": 46,
+        "endChar": 49
+      },
+      "revId": "021bb781e9b2561b0e7dadac9dcc2960f4008624",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "498c3760_4a2a1b86",
         "filename": "java/com/google/gerrit/server/index/change/ChangeIndexer.java",
         "patchSetId": 6

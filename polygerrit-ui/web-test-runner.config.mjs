@@ -2,6 +2,7 @@ import path from 'path';
 import fs from 'fs';
 import { esbuildPlugin } from '@web/dev-server-esbuild';
 import { defaultReporter, summaryReporter } from '@web/test-runner';
+import { resultDbReporter } from './resultdb-reporter.mjs';
 import { visualRegressionPlugin } from '@web/test-runner-visual-regression/plugin';
 import pixelmatch from 'pixelmatch';
 import { PNG } from 'pngjs';
@@ -188,7 +189,11 @@ const config = {
   // /lib/fonts/ for screenshots tests, see middleware.
   rootDir: runUnderBazel ? rootDir : '..',
 
-  reporters: [defaultReporter(), summaryReporter()],
+  reporters: [
+    defaultReporter(),
+    summaryReporter(),
+    resultDbReporter(),
+  ],
 
   middleware: [
     // Fonts are in /lib/fonts/, but css tries to load from

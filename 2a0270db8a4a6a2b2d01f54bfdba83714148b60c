@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4fcd7874_3fd69d5f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-05-07T12:55:43Z",
+      "side": 1,
+      "message": "The following 2 tests were failing when running the whole test suite:\n\n```\n//javatests/com/google/gerrit/acceptance/rest:rest_bindings_collection   FAILED in 3 out of 3 in 79.3s\n  Stats over 3 runs: max \u003d 79.3s, min \u003d 62.1s, avg \u003d 68.3s, dev \u003d 7.8s\n//javatests/com/google/gerrit/acceptance/ssh:ssh                         FAILED in 3 out of 3 in 58.5s\n  Stats over 3 runs: max \u003d 58.5s, min \u003d 45.6s, avg \u003d 49.9s, dev \u003d 6.1s\n````\r\n\nHowever, the same tests are failing in previous versions.",
+      "revId": "2a0270db8a4a6a2b2d01f54bfdba83714148b60c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

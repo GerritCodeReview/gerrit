@@ -3571,11 +3571,12 @@ class ReceiveCommits {
           if (messageEq && parentsEq && authorEq) {
             addMessage(
                 String.format(
-                    "warning: no changes between prior commit %s and new commit %s",
-                    abbreviateName(priorCommit, reader), abbreviateName(newCommit, reader)));
+                    "no changes between prior commit %s and new commit %s",
+                    abbreviateName(priorCommit, reader), abbreviateName(newCommit, reader)),
+                ValidationMessage.Type.WARNING);
           } else {
             StringBuilder msg = new StringBuilder();
-            msg.append("warning: ").append(abbreviateName(newCommit, reader));
+            msg.append("commit ").append(abbreviateName(newCommit, reader));
             msg.append(":");
             msg.append(" no files changed");
             if (!authorEq) {
@@ -3587,7 +3588,7 @@ class ReceiveCommits {
             if (!parentsEq) {
               msg.append(", was rebased");
             }
-            addMessage(msg.toString());
+            addMessage(msg.toString(), ValidationMessage.Type.WARNING);
           }
         }
       }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "408179b4_63483e5c",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 1237,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-05-07T20:49:52Z",
+      "side": 1,
+      "message": "```suggestion\n  public void deleteChangeFromIndexNotifiesListenersWithProjectName() {\n```",
+      "range": {
+        "startLine": 1237,
+        "startChar": 14,
+        "endLine": 1237,
+        "endChar": 70
+      },
+      "revId": "ae9c451205053c4c6e0578566dbd319d43a8dedb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

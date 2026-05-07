@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08b10fd2_35a1d1b1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-07T19:46:31Z",
+      "side": 1,
+      "message": "```suggestion\n  - allowed: aiReview entry absent or with enabled\u003dtrue\n```",
+      "revId": "12a2a26a19fa01a9a54733f6a3a6470066b080ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5165a129_8227437e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-07T19:46:31Z",
+      "side": 1,
+      "message": "We should explain why.\n\n\n\n```suggestion\nthe explicit denied state for aiReview via a localized override.\nThis is needed because Google explicitly would like to preserve\nthe enablement of the AI review feature by default when there are\nno ACLs or with a backend that doesn\u0027t provide any AI review action.\n```",
+      "revId": "12a2a26a19fa01a9a54733f6a3a6470066b080ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

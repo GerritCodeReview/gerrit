@@ -8,6 +8,19 @@ import {GrTooltip} from '../../../elements/shared/gr-tooltip/gr-tooltip';
 import {fire} from '../../../utils/event-util';
 import {html, LitElement} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
+import {Side} from '../../../api/diff';
+import {CommentRange} from '../../../api/rest-api';
+
+export interface SelectionContext {
+  path?: string;
+  side?: Side;
+  range?: CommentRange;
+  text?: string;
+}
+
+export interface SelectionActionBoxVisibleEventDetail {
+  getSelectionContext?: () => Promise<SelectionContext>;
+}
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -18,7 +31,7 @@ declare global {
     'create-comment-requested': CustomEvent<{}>;
 
     /** Fired when the selection action box is visible. */
-    'selection-action-box-visible': CustomEvent<{}>;
+    'selection-action-box-visible': CustomEvent<SelectionActionBoxVisibleEventDetail>;
   }
 }
 
@@ -36,6 +49,9 @@ export class GrSelectionActionBox extends LitElement {
 
   @property({type: String})
   hoverCardText = 'Press c to comment';
+
+  @property({type: Object})
+  getSelectionContext?: () => Promise<SelectionContext>;
 
   /**
    * We need to absolutely position the element before we can show it. So
@@ -86,6 +102,7 @@ export class GrSelectionActionBox extends LitElement {
   // TODO(b/315277651): This is very similar in purpose to gr-tooltip-content.
   //   We should figure out a way to reuse as much of the logic as possible.
   async placeAbove(el: Text | Element | Range) {
+    await this.updateComplete;
     if (!this.tooltip) return;
     await this.tooltip.updateComplete;
     const rect = this.getTargetBoundingRect(el);
@@ -99,10 +116,13 @@ export class GrSelectionActionBox extends LitElement {
       rect.left - parentRect.left + (rect.width - boxRect.width) / 2
     }px`;
     this.invisible = false;
-    fire(this, 'selection-action-box-visible', {});
+    fire(this, 'selection-action-box-visible', {
+      getSelectionContext: this.getSelectionContext,
+    });
   }
 
   async placeBelow(el: Text | Element | Range) {
+    await this.updateComplete;
     if (!this.tooltip) return;
     await this.tooltip.updateComplete;
     const rect = this.getTargetBoundingRect(el);
@@ -116,7 +136,9 @@ export class GrSelectionActionBox extends LitElement {
       rect.left - parentRect.left + (rect.width - boxRect.width) / 2
     }px`;
     this.invisible = false;
-    fire(this, 'selection-action-box-visible', {});
+    fire(this, 'selection-action-box-visible', {
+      getSelectionContext: this.getSelectionContext,
+    });
   }
 
   private getParentBoundingClientRect() {

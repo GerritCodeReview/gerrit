@@ -22,7 +22,7 @@ import {
   waitUntil,
 } from '../../../test/test-utils';
 import {GrSelectionActionBox} from '../gr-selection-action-box/gr-selection-action-box';
-import {DiffModel} from '../gr-diff-model/gr-diff-model';
+import {DiffModel, DiffState} from '../gr-diff-model/gr-diff-model';
 
 // Splitting long lines in html into shorter rows breaks tests:
 // zero-length text nodes and new lines are not expected in some places
@@ -317,6 +317,36 @@ suite('gr-diff-highlight', () => {
       });
       assert.equal(side, Side.LEFT);
       assert.notOk(actionBox.positionBelow);
+    });
+
+    test('actionBox properties populated correctly', async () => {
+      const content = stubContent(138, Side.LEFT);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const diffModel = (element as any).diffBuilder.diffModel;
+      const getStateStub = sinon.stub(diffModel, 'getState').returns({
+        path: 'foo/bar.txt',
+      } as unknown as DiffState);
+
+      if (!content?.firstChild) assert.fail('content first child not found');
+      emulateSelection(content.firstChild, 5, content.firstChild, 12);
+
+      const actionBox = await waitQueryAndAssert<GrSelectionActionBox>(
+        diff,
+        'gr-selection-action-box'
+      );
+
+      assert.isDefined(actionBox.getSelectionContext);
+      const context = await actionBox.getSelectionContext();
+      assert.equal(context.path, 'foo/bar.txt');
+      assert.equal(context.side, Side.LEFT);
+      assert.deepEqual(context.range, {
+        start_line: 138,
+        start_character: 5,
+        end_line: 138,
+        end_character: 12,
+      });
+      assert.equal(context.text, 'Nam cum');
+      getStateStub.restore();
     });
 
     test('multiline', () => {

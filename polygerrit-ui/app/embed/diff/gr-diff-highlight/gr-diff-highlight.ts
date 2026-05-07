@@ -53,6 +53,9 @@ interface NormalizedRange {
 export interface DiffBuilderInterface {
   getContentTdByLineEl(lineEl?: Element): Element | undefined;
   diffModel: DiffModel;
+  diffSelection?: {
+    getSelectedText?: (side: Side) => string;
+  };
 }
 
 /**
@@ -64,6 +67,7 @@ export interface DiffBuilderInterface {
 export class GrDiffHighlight {
   selectedRange?: SidedRange;
 
+  // visible for testing
   private diffBuilder?: DiffBuilderInterface;
 
   private diffTable?: HTMLElement;
@@ -316,18 +320,18 @@ export class GrDiffHighlight {
    * positioning the tooltip.
    */
   // visible for testing
-  positionActionBox(
+  async positionActionBox(
     actionBox: GrSelectionActionBox,
     startLine: number,
     range: Text | Element | Range
-  ) {
+  ): Promise<void> {
     if (startLine > 1) {
       actionBox.positionBelow = false;
-      actionBox.placeAbove(range);
+      await actionBox.placeAbove(range);
       return;
     }
     actionBox.positionBelow = true;
-    actionBox.placeBelow(range);
+    await actionBox.placeBelow(range);
   }
 
   private isRangeValid(range: NormalizedRange | null) {
@@ -344,7 +348,10 @@ export class GrDiffHighlight {
   }
 
   // visible for testing
-  handleSelection(selection: Selection | Range, isMouseUp: boolean) {
+  async handleSelection(
+    selection: Selection | Range,
+    isMouseUp: boolean
+  ): Promise<void> {
     /* On Safari, the selection events may return a null range that should
        be ignored */
     if (!selection) return;
@@ -405,18 +412,33 @@ export class GrDiffHighlight {
     let actionBox = this.diffTable.querySelector('gr-selection-action-box');
     if (!actionBox) {
       actionBox = document.createElement('gr-selection-action-box');
-      this.diffTable.appendChild(actionBox);
     }
+    // eslint-disable-next-line @typescript-eslint/require-await
+    actionBox.getSelectionContext = async () => {
+      const path = this.diffBuilder?.diffModel?.getState()?.path;
+      const diffSelection = this.diffBuilder?.diffSelection;
+      const text =
+        diffSelection?.getSelectedText?.(side) ?? domRange.toString();
+      return {
+        path,
+        side,
+        range,
+        text,
+      };
+    };
     const hoverCardText =
       this.diffBuilder?.diffModel.getState().actionHoverCardText;
     if (hoverCardText) {
-      actionBox.setAttribute('hoverCardText', hoverCardText);
+      actionBox.hoverCardText = hoverCardText;
+    }
+    if (!actionBox.parentElement) {
+      this.diffTable.appendChild(actionBox);
     }
     if (start.line === end.line) {
-      this.positionActionBox(actionBox, start.line, domRange);
+      await this.positionActionBox(actionBox, start.line, domRange);
     } else if (start.node instanceof Text) {
       if (start.column) {
-        this.positionActionBox(
+        await this.positionActionBox(
           actionBox,
           start.line,
           start.node.splitText(start.column)
@@ -429,9 +451,13 @@ export class GrDiffHighlight {
       (start.node.firstChild instanceof Element ||
         start.node.firstChild instanceof Text)
     ) {
-      this.positionActionBox(actionBox, start.line, start.node.firstChild);
+      await this.positionActionBox(
+        actionBox,
+        start.line,
+        start.node.firstChild
+      );
     } else if (start.node instanceof Element || start.node instanceof Text) {
-      this.positionActionBox(actionBox, start.line, start.node);
+      await this.positionActionBox(actionBox, start.line, start.node);
     } else {
       console.warn('Failed to position comment action box.');
       this.removeActionBox();

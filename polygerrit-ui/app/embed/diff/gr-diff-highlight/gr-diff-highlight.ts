@@ -405,12 +405,40 @@ export class GrDiffHighlight {
     let actionBox = this.diffTable.querySelector('gr-selection-action-box');
     if (!actionBox) {
       actionBox = document.createElement('gr-selection-action-box');
-      this.diffTable.appendChild(actionBox);
     }
+    actionBox.getSelectionContext = () => {
+      const path = this.diffBuilder?.diffModel?.getState()?.path;
+      const grDiff = this.diffBuilder as unknown as {
+        diffSelection?: {
+          getSelectedText?: (side: Side) => string;
+        };
+      };
+      const diffSelection = grDiff?.diffSelection;
+      let textPromise: Promise<string>;
+      if (
+        diffSelection &&
+        typeof diffSelection.getSelectedText === 'function'
+      ) {
+        textPromise = Promise.resolve(diffSelection.getSelectedText(side));
+      } else {
+        textPromise = Promise.resolve(domRange.toString());
+      }
+      return textPromise.then(text => {
+        return {
+          path,
+          side,
+          range,
+          text,
+        };
+      });
+    };
     const hoverCardText =
       this.diffBuilder?.diffModel.getState().actionHoverCardText;
     if (hoverCardText) {
       actionBox.setAttribute('hoverCardText', hoverCardText);
+    }
+    if (!actionBox.parentElement) {
+      this.diffTable.appendChild(actionBox);
     }
     if (start.line === end.line) {
       this.positionActionBox(actionBox, start.line, domRange);

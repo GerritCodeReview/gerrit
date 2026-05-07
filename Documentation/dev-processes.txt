@@ -52,8 +52,8 @@ timely manner.
 [[steering-committee-election]]
 === Election of non-Google steering committee members
 
-The election of the non-Google steering committee members happens once
-a year in June. Non-Google link:dev-roles.html#maintainer[maintainers]
+The election of the non-Google steering committee members and the community managers
+happens once a year in June. Non-Google link:dev-roles.html#maintainer[maintainers]
 can nominate themselves by posting an informal application on the
 non-public mailto:gerritcodereview-community-managers@googlegroups.com[
 community manager mailing list] when the call for nominations is sent to

@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d78af98_d4b025c0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-05-07T11:44:51Z",
+      "side": 1,
+      "message": "you can remove this line",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 21
+      },
+      "revId": "515e853d3d47f9d5965af3653ee3584383e93b34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "6e32eede_ab889521",
@@ -31,6 +54,69 @@
       "writtenOn": "2026-05-06T17:58:35Z",
       "side": 1,
       "message": "@milutin@google.com sorry for directly assigning you, i have no idea how assigning works in gerrit-gerrit (there\u0027s no \u0027suggest reviewer\u0027 as in chromium-land), thanks in advance for your time, if you are the wrong person maybe you can reroute.",
+      "revId": "515e853d3d47f9d5965af3653ee3584383e93b34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "afdb7c16_ddf50cca",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-05-07T11:44:51Z",
+      "side": 1,
+      "message": "Thanks, that looks like nice addition. I left some comments, then I can do +2",
+      "revId": "515e853d3d47f9d5965af3653ee3584383e93b34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9e06876_89743b79",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account-contents.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-05-07T11:44:51Z",
+      "side": 1,
+      "message": "did you try to use gr-copy-clipboard?",
+      "range": {
+        "startLine": 214,
+        "startChar": 16,
+        "endLine": 221,
+        "endChar": 24
+      },
+      "revId": "515e853d3d47f9d5965af3653ee3584383e93b34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01a70dcb_1ab2fd12",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account-contents.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-05-07T11:44:51Z",
+      "side": 1,
+      "message": "can you please use copyToClipboard in common-util",
+      "range": {
+        "startLine": 256,
+        "startChar": 4,
+        "endLine": 261,
+        "endChar": 7
+      },
       "revId": "515e853d3d47f9d5965af3653ee3584383e93b34",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

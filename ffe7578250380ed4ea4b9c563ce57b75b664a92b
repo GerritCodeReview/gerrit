@@ -74,6 +74,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "9da5f9c7_7a6bc8d5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2026-05-07T07:48:41Z",
+      "side": 1,
+      "message": "Now it works as expected",
+      "parentUuid": "680baafd_f43c4c3d",
+      "revId": "ffe7578250380ed4ea4b9c563ce57b75b664a92b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "c12a709a_bc5a7d23",
         "filename": "polygerrit-ui/app/api/rest-api.ts",
         "patchSetId": 2

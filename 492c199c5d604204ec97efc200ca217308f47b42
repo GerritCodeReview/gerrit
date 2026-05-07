@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "734e1e75_2aa17dc5",
+        "filename": "java/com/google/gerrit/server/change/ActionJson.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-07T11:12:15Z",
+      "side": 1,
+      "message": "I believe this check is incorrect: what\u0027s the correlation of the `ENABLE_AI_CHAT` feature flag (client-side enablement of the AI chat UX) and the backend communicating to the front-end that an action is enabled or not?\n\nThis `if()` creates the following bug, see below:\n\n1. Configure the `All-Projects` repo with a `DENY` on `AI Review` for `refs/*`\n2. ENABLE_AI_CHAT \u003d true\n3. Install any AI review provider plugin\n4. See that the _\"Copy Review Prompt\"_ button is *NOT* visible\n5. ENABLE_AI_CHAT \u003d false\n6. See that the _\"Copy Review Prompt\"_ button is visible (!!!)\n\nThe above sequence shows that checking for the feature flag `ENABLE_AI_CHAT` for the access control of the `AI Review` permission doesn\u0027t make sense and creates a paradox.\n\n\n\n```suggestion\n      try {\n        boolean permitted \u003d\n            permissionBackend\n                .user(rsrc.getUser())\n                .change(rsrc.getChangeResource().getChangeData())\n                .test(ChangePermission.AI_REVIEW);\n        UiAction.Description aiReview \u003d\n            clientSideAction(AI_REVIEW_ACTION_ID, \"AI Review\", \"Run AI Review on this change\");\n        aiReview.setEnabled(permitted);\n        descs \u003d Iterables.concat(descs, Collections.singleton(aiReview));\n      } catch (PermissionBackendException e) {\n        logger.atWarning().withCause(e).log(\n            \"Failed to check AI review permission for change %s\", rsrc.getChange().getId());\n      }\n```",
+      "range": {
+        "startLine": 250,
+        "startChar": 0,
+        "endLine": 270,
+        "endChar": 5
+      },
+      "revId": "492c199c5d604204ec97efc200ca217308f47b42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

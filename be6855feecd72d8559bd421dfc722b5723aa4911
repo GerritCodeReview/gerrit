@@ -92,6 +92,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1160662f_b1feff46",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-07T11:12:15Z",
+      "side": 1,
+      "message": "\u003e \u003e There is already core Follow-up action that is frontend only and there\u0027s no REST endpoint mapped to the Follow-up action\n\u003e \n\u003e Thanks for finding and sharing this. I was searching for an example like that, but I only looked in the frontend code. It does seem like this is a gap in the extension. There\u0027s no reason we can\u0027t introduce a new extension variant for these frontend only actions.\n\n👍 food for thought on master?\nI believe that we would need to _evolve_ the concept of actions and split them into:\n\n- Backend actions (HTTP method and direct REST-API as a result of the action)\n- Frontend actions (show the AI chat, follow-up, anything else)\n\nOn stable-3.14 is an _acceptable_ code smell for now, that requires cleanup on master.\n\n\u003e Otherwise it\u0027s really strange to have this custom code in `ActionJson` to handle each one, and as I think David pointed out elsewhere, it prevents plugins from creating frontend-only actions.\n\nAgreed.\n\n\u003e If we think we have to continue with the hack in ActionJson for now, that\u0027s fine. But I hope we can make it a standard pattern and not another one-off.\n\nTotally agreed, makes sense.",
+      "parentUuid": "ec566069_63dc3cde",
+      "revId": "be6855feecd72d8559bd421dfc722b5723aa4911",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9e2e0d2a_77e70c78",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
@@ -245,6 +263,24 @@
       "side": 1,
       "message": "Given that the frontend already renders the button by default when the permission is neither blocked nor denied (i.e. even without any explicit configuration), I don’t think we need the additional complexity of another experimental feature gate (`UiFeature__enable_ai_chat`).\n\nThe permission is still respected when explicitly denied or blocked, so the experiment flag doesn’t add much value here.\n\nThis follow-up change (see change 579641) removes the flag and makes the behavior explicit by always emitting the action.",
       "parentUuid": "e69d5404_99b76d3e",
+      "revId": "be6855feecd72d8559bd421dfc722b5723aa4911",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6cb927c1_dce0417a",
+        "filename": "java/com/google/gerrit/server/change/ActionJson.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-07T11:12:15Z",
+      "side": 1,
+      "message": "@geminica.programs@gmail.com has addressed the comment and removed the `TODO`, so marking this as resolved.",
+      "parentUuid": "129113e2_6a25ab8c",
       "revId": "be6855feecd72d8559bd421dfc722b5723aa4911",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

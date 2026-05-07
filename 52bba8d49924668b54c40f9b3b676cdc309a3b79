@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9073f056_5dd7f646",
+        "filename": "plugins/replication",
+        "patchSetId": 8
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2026-05-07T19:12:26Z",
+      "side": 1,
+      "message": "nit: that was a mistake 😞",
+      "revId": "52bba8d49924668b54c40f9b3b676cdc309a3b79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

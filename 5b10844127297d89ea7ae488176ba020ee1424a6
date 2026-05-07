@@ -34,6 +34,24 @@
       ],
       "revId": "5b10844127297d89ea7ae488176ba020ee1424a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dff5af6e_532b2392",
+        "filename": "java/com/google/gerrit/server/util/JujutsuChangeIdUtil.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-05-07T06:25:24Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "c1e9b1d2_2a38fa7d",
+      "revId": "5b10844127297d89ea7ae488176ba020ee1424a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

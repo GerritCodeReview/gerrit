@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cecb3c6f_13ba0c20",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 1250,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-05-07T20:46:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f037938_c62c52f9",
+      "revId": "1278052d68acf75a43bbafc904b465aed589f7f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "54b1e9e2_a0de2e15",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-05-07T20:36:46Z",
       "side": 1,
       "message": "Best to initialise to `null` so that we can distinguish between not having received a project name and having received an empty string.",
+      "revId": "1278052d68acf75a43bbafc904b465aed589f7f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d625583_1e26b1df",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 5441,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-05-07T20:46:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "54b1e9e2_a0de2e15",
       "revId": "1278052d68acf75a43bbafc904b465aed589f7f3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

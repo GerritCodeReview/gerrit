@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65865f76_0f3f05b7",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeIndexer.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 695,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-07T20:41:01Z",
+      "side": 1,
+      "message": "This isn\u0027t expected: we are basically passing an empty project name if the operation was perform without a project name.\n\nIf project name is now mandatory for deletions, should we throw an exception here?",
+      "range": {
+        "startLine": 695,
+        "startChar": 48,
+        "endLine": 695,
+        "endChar": 92
+      },
+      "revId": "7c2dbf43b57eaf9989cf4398b5a8c25c426ab311",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

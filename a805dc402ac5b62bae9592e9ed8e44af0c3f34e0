@@ -16,6 +16,24 @@
       "message": "@ifrade@google.com or @nitzan@google.com do you know where this `SLSA-Policy-Verified` submit requirement is coming from?",
       "revId": "a805dc402ac5b62bae9592e9ed8e44af0c3f34e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a0993a0_005384c6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2026-05-07T22:39:11Z",
+      "side": 1,
+      "message": "I understand that this is a new validation we are ramping up when the change includes binaries. After reporting this, it was rolled back.",
+      "parentUuid": "0374a19c_e4f11489",
+      "revId": "a805dc402ac5b62bae9592e9ed8e44af0c3f34e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

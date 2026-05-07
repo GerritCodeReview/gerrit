@@ -22,6 +22,30 @@
       },
       "revId": "7c2dbf43b57eaf9989cf4398b5a8c25c426ab311",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8e0e6b0_edf19342",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeIndexer.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 695,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-05-07T21:54:20Z",
+      "side": 1,
+      "message": "Thanks for the question, I opted to keep the same behaviour in this change and only pass on the project name if present(which, in the use case we care about for the issue linked, is always).\n\nThe third change in this chain does throw an exception if the project name isn\u0027t there, but I expected this to be controversial and touch other code paths, so I opted for a separate change to do just that.\n\nWDYT?",
+      "parentUuid": "65865f76_0f3f05b7",
+      "range": {
+        "startLine": 695,
+        "startChar": 48,
+        "endLine": 695,
+        "endChar": 92
+      },
+      "revId": "7c2dbf43b57eaf9989cf4398b5a8c25c426ab311",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

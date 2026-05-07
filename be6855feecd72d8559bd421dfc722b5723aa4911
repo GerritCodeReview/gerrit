@@ -74,6 +74,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ec566069_63dc3cde",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-05-07T05:01:10Z",
+      "side": 1,
+      "message": "\u003e The commit you\u0027ve pointed out is a revert: can you re-check 🙏?\n\nNo, it\u0027s a Revert^2, so re-apply.\n\n\u003e I don\u0027t believe global capability is appropriate: you may have a project that is allowed to share its code with an external AI review system and another that isn\u0027t.\n\nAck.\n\n\u003e There is already core Follow-up action that is frontend only and there\u0027s no REST endpoint mapped to the Follow-up action\n\nThanks for finding and sharing this. I was searching for an example like that, but I only looked in the frontend code. It does seem like this is a gap in the extension. There\u0027s no reason we can\u0027t introduce a new extension variant for these frontend only actions. Otherwise it\u0027s really strange to have this custom code in `ActionJson` to handle each one, and as I think David pointed out elsewhere, it prevents plugins from creating frontend-only actions.\n\nIf we think we have to continue with the hack in ActionJson for now, that\u0027s fine. But I hope we can make it a standard pattern and not another one off.",
+      "parentUuid": "bbacc6f4_c776f17d",
+      "revId": "be6855feecd72d8559bd421dfc722b5723aa4911",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9e2e0d2a_77e70c78",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3

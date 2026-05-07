@@ -500,7 +500,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
         .committer(new PersonIdent(admin.newIdent(), testRepo.getInstant()))
         .create();
     PushResult result = pushHead(testRepo, "refs/for/master");
-    assertThat(result.getMessages()).contains("warning: pushing without Change-Id is deprecated");
+    assertThat(result.getMessages()).contains("WARNING: pushing without Change-Id is deprecated");
   }
 
   @Test
@@ -3028,7 +3028,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertPushOk(pr, r);
     assertThat(pr.getMessages())
         .contains(
-            "warning: no changes between prior commit "
+            "WARNING: no changes between prior commit "
                 + abbreviateName(c)
                 + " and new commit "
                 + abbreviateName(amended));
@@ -3057,7 +3057,8 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     pr = pushHead(testRepo, r, false);
     assertPushOk(pr, r);
     assertThat(pr.getMessages())
-        .contains("warning: " + abbreviateName(amended) + ": no files changed, message updated");
+        .contains(
+            "WARNING: commit " + abbreviateName(amended) + ": no files changed, message updated");
   }
 
   @Test
@@ -3081,7 +3082,8 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     pr = pushHead(testRepo, r, false);
     assertPushOk(pr, r);
     assertThat(pr.getMessages())
-        .contains("warning: " + abbreviateName(amended) + ": no files changed, author changed");
+        .contains(
+            "WARNING: commit " + abbreviateName(amended) + ": no files changed, author changed");
   }
 
   @Test
@@ -3108,7 +3110,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     pr = pushHead(testRepo, r, false);
     assertPushOk(pr, r);
     assertThat(pr.getMessages())
-        .contains("warning: " + abbreviateName(amended) + ": no files changed, was rebased");
+        .contains("WARNING: commit " + abbreviateName(amended) + ": no files changed, was rebased");
   }
 
   @Test

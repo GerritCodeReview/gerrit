@@ -46,6 +46,30 @@
       },
       "revId": "7c2dbf43b57eaf9989cf4398b5a8c25c426ab311",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a844ebc4_8ea8bcec",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeIndexer.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 695,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-05-07T22:02:22Z",
+      "side": 1,
+      "message": "\u003e I opted to keep the same behaviour\n\nLooking again now, I might have mixed multi-site and gerrit-core responsabilities, as currently in multi-site we just assume that the project name is an empty string.\n\nFact remains, that for some code-paths unrelated to issue the project name seems to be empty, so this might require a bigger refactor which I still think is worth doing but in a separate change.",
+      "parentUuid": "b8e0e6b0_edf19342",
+      "range": {
+        "startLine": 695,
+        "startChar": 48,
+        "endLine": 695,
+        "endChar": 92
+      },
+      "revId": "7c2dbf43b57eaf9989cf4398b5a8c25c426ab311",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,6 +1,292 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "752e8547_0420f5f8",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 4815,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-07T19:43:39Z",
+      "side": 1,
+      "message": "```suggestion\ncaller\u0027s `aiReview` permission for the change. The entry is omitted when the\n`aiReview` permission is allowed (default) or there are permission backend errors.\n```",
+      "range": {
+        "startLine": 4814,
+        "startChar": 47,
+        "endLine": 4815,
+        "endChar": 26
+      },
+      "revId": "52bba8d49924668b54c40f9b3b676cdc309a3b79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba99c294_a9488125",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 4823,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-07T19:43:39Z",
+      "side": 1,
+      "message": "```suggestion\n    \"enabled\": false\n```",
+      "range": {
+        "startLine": 4823,
+        "startChar": 15,
+        "endLine": 4823,
+        "endChar": 19
+      },
+      "revId": "52bba8d49924668b54c40f9b3b676cdc309a3b79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62ade5f3_ab14ec8e",
+        "filename": "java/com/google/gerrit/server/change/ActionJson.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-07T19:43:39Z",
+      "side": 1,
+      "message": "AI review is enabled by default, therefore there\u0027s no value in returning the payload and making the UI interaction slower if we rely on default enabled.\n\n```suggestion\n      if (!permitted) {\n        UiAction.Description aiReview \u003d\n            clientSideAction(AI_REVIEW_ACTION_ID, \"AI Review\", \"Run AI Review on this change\");\n        aiReview.setEnabled(permitted);\n        descs \u003d Iterables.concat(descs, Collections.singleton(aiReview));\n      }\n```",
+      "range": {
+        "startLine": 254,
+        "startChar": 0,
+        "endLine": 257,
+        "endChar": 71
+      },
+      "revId": "52bba8d49924668b54c40f9b3b676cdc309a3b79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40ab25ad_7672a1af",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/AiReviewPermissionIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-07T19:43:39Z",
+      "side": 1,
+      "message": "If there are no rules, I\u0027d expect no reference to the AI Review action because the front-end shows the actions by default anyway.\n\n\n\n```suggestion\n  public void aiReviewActionAbsentByDefault() throws Exception {\n    String changeId \u003d createChange().getChangeId();\n\n    Map\u003cString, ActionInfo\u003e actions \u003d gApi.changes().id(changeId).current().actions();\n\n    assertThat(actions).doesNotContainKey(AI_REVIEW);\n  }\n```",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 3
+      },
+      "revId": "52bba8d49924668b54c40f9b3b676cdc309a3b79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a74d5e8_cf826ad1",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/AiReviewPermissionIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-07T19:43:39Z",
+      "side": 1,
+      "message": "I don\u0027t believe this test is needed: granting explicit `AI Review` is a no-op because that\u0027s the default behaviour.",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 3
+      },
+      "revId": "52bba8d49924668b54c40f9b3b676cdc309a3b79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6073f6d_99e3ea91",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/AiReviewPermissionIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-07T19:43:39Z",
+      "side": 1,
+      "message": "The overall assumption is that if you don\u0027t define any extra ACL, the client shows the AI review functions and the payload is unchanged, as Google requested.\n\n```suggestion\n  public void aiReviewActionAbsentWhenUserNotInDeniedGroup() throws Exception {\n```",
+      "range": {
+        "startLine": 99,
+        "startChar": 28,
+        "endLine": 99,
+        "endChar": 35
+      },
+      "revId": "52bba8d49924668b54c40f9b3b676cdc309a3b79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e89fd021_5a8babd6",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/AiReviewPermissionIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-07T19:43:39Z",
+      "side": 1,
+      "message": "```suggestion\n    assertThat(actions).doesNotContainKey(AI_REVIEW);\n```",
+      "range": {
+        "startLine": 111,
+        "startChar": 0,
+        "endLine": 111,
+        "endChar": 56
+      },
+      "revId": "52bba8d49924668b54c40f9b3b676cdc309a3b79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d22e06c0_1e1ecd98",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/AiReviewPermissionIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-07T19:43:39Z",
+      "side": 1,
+      "message": "```suggestion\n  public void aiReviewActionAbsentWhenUserNotInBlockedGroup() throws Exception {\n```",
+      "revId": "52bba8d49924668b54c40f9b3b676cdc309a3b79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce83b880_69696999",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/AiReviewPermissionIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-07T19:43:39Z",
+      "side": 1,
+      "message": "The `user.id()` is not in the blocked group, therefore the ACL definition is basically a noop.",
+      "revId": "52bba8d49924668b54c40f9b3b676cdc309a3b79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f0e0414_a7387d23",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/AiReviewPermissionIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-07T19:43:39Z",
+      "side": 1,
+      "message": "There are no AI Review-specific ACLs defined for the `user.id()`; therefore, I would expect the default behavior, with the AI Review action not present and enabled by default.\n\n\n\n```suggestion\n    assertThat(actions).doesNotContainKey(AI_REVIEW);\n```",
+      "revId": "52bba8d49924668b54c40f9b3b676cdc309a3b79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1df42db2_71163fbf",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/AiReviewPermissionIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-07T19:43:39Z",
+      "side": 1,
+      "message": "If the AI Review action is enabled, it can be omitted from the actions because it would be shown anyway by the UI by default.\n\n\n\n```suggestion\n    assertThat(actions).doesNotContainKey(AI_REVIEW);\n```",
+      "revId": "52bba8d49924668b54c40f9b3b676cdc309a3b79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c453a39b_804bebc4",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/AiReviewPermissionIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-07T19:43:39Z",
+      "side": 1,
+      "message": "Why are we changing this test? We said that the \"AI Review\" permission is not mandatory and if not defined, it is not returned and the UI assumes that the AI prompt button and the AI chat are visible.\n\n\n\n```suggestion\n  public void aiReviewActionAbsentByDefault() throws Exception {\n    String changeId \u003d createChange().getChangeId();\n\n    Map\u003cString, ActionInfo\u003e actions \u003d gApi.changes().id(changeId).current().actions();\n\n    assertThat(actions).doesNotContainKey(AI_REVIEW);\n```",
+      "range": {
+        "startLine": 230,
+        "startChar": 0,
+        "endLine": 236,
+        "endChar": 68
+      },
+      "revId": "52bba8d49924668b54c40f9b3b676cdc309a3b79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79c85fb9_d0a6cf63",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-07T19:43:39Z",
+      "side": 1,
+      "message": "I wouldn\u0027t expect this test to change.",
+      "revId": "52bba8d49924668b54c40f9b3b676cdc309a3b79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "813f1e9f_29d13309",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ActionsIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-07T19:43:39Z",
+      "side": 1,
+      "message": "I wouldn\u0027t expect this test to change.",
+      "revId": "52bba8d49924668b54c40f9b3b676cdc309a3b79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "9073f056_5dd7f646",

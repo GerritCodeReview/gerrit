@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1a03e5e_1d6445b7",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 1055,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-07T19:43:39Z",
+      "side": 1,
+      "message": "👍\n\nThe visibility of the AI Chat was unrelated with the permission of sharing the code with an external AI review agent.",
+      "range": {
+        "startLine": 1054,
+        "startChar": 0,
+        "endLine": 1055,
+        "endChar": 22
+      },
+      "revId": "492c199c5d604204ec97efc200ca217308f47b42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "734e1e75_2aa17dc5",
@@ -44,6 +67,23 @@
         "endLine": 270,
         "endChar": 5
       },
+      "revId": "492c199c5d604204ec97efc200ca217308f47b42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d565835_cb29381c",
+        "filename": "java/com/google/gerrit/server/experiments/ExperimentFeaturesConstants.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-07T19:43:39Z",
+      "side": 1,
+      "message": "Optional: We could leave this constant for documentation purposes, even if the feature flag is used and enforced on the frontend only.",
       "revId": "492c199c5d604204ec97efc200ca217308f47b42",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

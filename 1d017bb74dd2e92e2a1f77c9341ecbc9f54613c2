@@ -34,6 +34,24 @@
       "parentUuid": "26d36d87_c829de7c",
       "revId": "1d017bb74dd2e92e2a1f77c9341ecbc9f54613c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd6f11b6_81472ecb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-05-08T07:54:21Z",
+      "side": 1,
+      "message": "@ifrade@google.com The below might help get an overview.\nhttps://www.gerritcodereview.com/design-docs/support-jujutsu-solution.html\n\nAs well as the previous changes in this chain.",
+      "parentUuid": "a07bedfd_aaf36c8a",
+      "revId": "1d017bb74dd2e92e2a1f77c9341ecbc9f54613c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

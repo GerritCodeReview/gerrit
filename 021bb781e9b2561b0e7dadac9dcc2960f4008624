@@ -121,6 +121,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8dc19293_ba05ff24",
+        "filename": "java/com/google/gerrit/extensions/events/ChangeIndexedListener.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-05-08T10:40:48Z",
+      "side": 1,
+      "message": "There are valid uses cases, for example, the index change api accepts changeId in deprecated formats, mainly:\n\n\u003e a Change-Id if it uniquely identifies one change (\"I8473b95934b5732ac55d26311a706c9c2bde9940\")\n\u003e \n\u003e a change number if it uniquely identifies one change (\"4247\")\n\nThe \"if it uniquely identifies\" parts of this statement is what has become ambiguous now when deleting changes.",
+      "parentUuid": "5be6ffe9_99297045",
+      "range": {
+        "startLine": 46,
+        "startChar": 31,
+        "endLine": 46,
+        "endChar": 49
+      },
+      "revId": "021bb781e9b2561b0e7dadac9dcc2960f4008624",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "498c3760_4a2a1b86",
         "filename": "java/com/google/gerrit/server/index/change/ChangeIndexer.java",
         "patchSetId": 6

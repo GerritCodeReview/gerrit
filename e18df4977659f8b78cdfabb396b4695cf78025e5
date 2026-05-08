@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bbe772a4_db0dcfc2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-05-08T06:47:25Z",
+      "side": 1,
+      "message": "What backend can you clarify? The are currently two AI related buttons:\n\n1. Create AI Review Prompt -\u003e pure client side operation, that show the diff\n2. AI Chat -\u003e only visible if experiment feature is enabled and ai-review plugin is installed",
+      "range": {
+        "startLine": 23,
+        "startChar": 8,
+        "endLine": 23,
+        "endChar": 68
+      },
+      "revId": "e18df4977659f8b78cdfabb396b4695cf78025e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b41c2c7_4b7373b5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-05-08T06:47:25Z",
+      "side": 1,
+      "message": "This was already reverted in previous change, may be:\n\nFix issue by returning AI review permission revision actions response",
+      "range": {
+        "startLine": 33,
+        "startChar": 25,
+        "endLine": 33,
+        "endChar": 83
+      },
+      "revId": "e18df4977659f8b78cdfabb396b4695cf78025e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d37b2213_f6470072",
+        "filename": "java/com/google/gerrit/server/change/ActionJson.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-05-08T06:47:25Z",
+      "side": 1,
+      "message": "This is unusual abbreviation. Call it `actions` or `uiActions`?",
+      "range": {
+        "startLine": 243,
+        "startChar": 35,
+        "endLine": 243,
+        "endChar": 40
+      },
+      "revId": "e18df4977659f8b78cdfabb396b4695cf78025e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "725c8850_c99b2bf9",
+        "filename": "java/com/google/gerrit/server/change/ActionJson.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-05-08T06:47:25Z",
+      "side": 1,
+      "message": "Extract method in `addAiReviewAction`?",
+      "range": {
+        "startLine": 245,
+        "startChar": 4,
+        "endLine": 264,
+        "endChar": 5
+      },
+      "revId": "e18df4977659f8b78cdfabb396b4695cf78025e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74566b55_ae8f30fc",
+        "filename": "java/com/google/gerrit/server/change/ActionJson.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-05-08T06:47:25Z",
+      "side": 1,
+      "message": "This is a no-op now an can be removed. `setEnabled` is set unconditionally to `false` on line 258.",
+      "range": {
+        "startLine": 273,
+        "startChar": 48,
+        "endLine": 273,
+        "endChar": 65
+      },
+      "revId": "e18df4977659f8b78cdfabb396b4695cf78025e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

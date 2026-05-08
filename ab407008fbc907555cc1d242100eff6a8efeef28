@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c6cf000_fca47bb5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-08T11:15:04Z",
+      "side": 1,
+      "message": "I am in favor of removing the feature flag, but I\u0027d wait for a Googler to review and approve it.\n\n@milutin@google.com @beckysiegel@google.com what\u0027s your view on this?",
+      "revId": "ab407008fbc907555cc1d242100eff6a8efeef28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

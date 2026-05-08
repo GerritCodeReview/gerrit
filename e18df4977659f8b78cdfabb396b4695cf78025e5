@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8063193f_ff63aa7d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2026-05-08T07:26:42Z",
+      "side": 1,
+      "message": "Neither 😊 google has a habit of deploying FE independently from BE - it means just that - removed it.",
+      "parentUuid": "bbe772a4_db0dcfc2",
+      "range": {
+        "startLine": 23,
+        "startChar": 8,
+        "endLine": 23,
+        "endChar": 68
+      },
+      "revId": "e18df4977659f8b78cdfabb396b4695cf78025e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3b41c2c7_4b7373b5",
@@ -61,6 +85,30 @@
       "writtenOn": "2026-05-08T06:47:25Z",
       "side": 1,
       "message": "This was already reverted in previous change, may be:\n\nFix issue by returning AI review permission revision actions response",
+      "range": {
+        "startLine": 33,
+        "startChar": 25,
+        "endLine": 33,
+        "endChar": 83
+      },
+      "revId": "e18df4977659f8b78cdfabb396b4695cf78025e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "29dd0fd2_06369611",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2026-05-08T07:26:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b41c2c7_4b7373b5",
       "range": {
         "startLine": 33,
         "startChar": 25,
@@ -141,6 +189,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "34d4772c_80691715",
+        "filename": "java/com/google/gerrit/server/change/ActionJson.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2026-05-08T07:26:42Z",
+      "side": 1,
+      "message": "removed this part from this comment",
+      "parentUuid": "b46c5114_adb7e50c",
+      "range": {
+        "startLine": 248,
+        "startChar": 11,
+        "endLine": 248,
+        "endChar": 26
+      },
+      "revId": "e18df4977659f8b78cdfabb396b4695cf78025e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "725c8850_c99b2bf9",
@@ -188,6 +260,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3741db3c_ca27e734",
+        "filename": "java/com/google/gerrit/server/change/ActionJson.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2026-05-08T07:26:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "725c8850_c99b2bf9",
+      "range": {
+        "startLine": 245,
+        "startChar": 4,
+        "endLine": 264,
+        "endChar": 5
+      },
+      "revId": "e18df4977659f8b78cdfabb396b4695cf78025e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "74566b55_ae8f30fc",
@@ -201,6 +297,30 @@
       "writtenOn": "2026-05-08T06:47:25Z",
       "side": 1,
       "message": "This is a no-op now an can be removed. `setEnabled` is set unconditionally to `false` on line 258.",
+      "range": {
+        "startLine": 273,
+        "startChar": 48,
+        "endLine": 273,
+        "endChar": 65
+      },
+      "revId": "e18df4977659f8b78cdfabb396b4695cf78025e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "081f465d_8f80ae2b",
+        "filename": "java/com/google/gerrit/server/change/ActionJson.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2026-05-08T07:26:42Z",
+      "side": 1,
+      "message": "We are betting on convention then - nobody will remember it later but sure 😜",
+      "parentUuid": "74566b55_ae8f30fc",
       "range": {
         "startLine": 273,
         "startChar": 48,

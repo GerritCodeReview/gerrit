@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1efade5b_035b5365",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2026-05-08T18:30:34Z",
+      "side": 1,
+      "message": "As discussed, approving to unblock the change, but I have not verified it.",
+      "revId": "563116a08c6d77a0223f8403642faccc9cbfd79e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

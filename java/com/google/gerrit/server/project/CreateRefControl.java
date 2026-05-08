@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import static com.google.gerrit.server.experiments.ExperimentFeaturesConstants.GERRIT_BACKEND_FEATURE_ALLOW_CREATE_BRANCH_FROM_BRANCH_HEADS;
 import static com.google.gerrit.server.project.ProjectCache.noSuchProject;
 
 import com.google.common.collect.ImmutableList;
@@ -24,6 +25,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.experiments.ExperimentFeatures;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
@@ -52,6 +54,12 @@ public class CreateRefControl {
 
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  public static final String REFS_BRANCH_HEADS = "refs/branch-heads/";
+  private static final ArrayList<String> refsFromWhichTheCommitMustBeReachable =
+      new ArrayList<>(Arrays.asList(Constants.R_HEADS, Constants.R_TAGS, RefNames.REFS_CONFIG));
+
+  private final ExperimentFeatures experimentFeatures;
+
   private final PermissionBackend permissionBackend;
   private final ProjectCache projectCache;
   private final Reachable reachable;
@@ -62,11 +70,13 @@ public class CreateRefControl {
       PermissionBackend permissionBackend,
       ProjectCache projectCache,
       Reachable reachable,
-      RetryHelper retryHelper) {
+      RetryHelper retryHelper,
+      ExperimentFeatures experimentFeatures) {
     this.permissionBackend = permissionBackend;
     this.projectCache = projectCache;
     this.reachable = reachable;
     this.retryHelper = retryHelper;
+    this.experimentFeatures = experimentFeatures;
   }
 
   /**
@@ -101,6 +111,10 @@ public class CreateRefControl {
     ps.checkStatePermitsWrite();
 
     PermissionBackend.ForRef perm = permissionBackend.user(user.get()).ref(destBranch);
+    if (experimentFeatures.isFeatureEnabled(
+        GERRIT_BACKEND_FEATURE_ALLOW_CREATE_BRANCH_FROM_BRANCH_HEADS)) {
+      refsFromWhichTheCommitMustBeReachable.add(REFS_BRANCH_HEADS);
+    }
     if (object instanceof RevCommit) {
       perm.check(RefPermission.CREATE);
       if (sourceBranches.length == 0) {
@@ -180,6 +194,10 @@ public class CreateRefControl {
       PermissionBackend.ForRef forRef,
       boolean forPush)
       throws PermissionBackendException, IOException, UnprocessableEntityException {
+    if (experimentFeatures.isFeatureEnabled(
+        com.google.gerrit.server.experiments.ExperimentFeaturesConstants.GERRIT_BACKEND_FEATURE_ALLOW_CREATE_BRANCH_FROM_BRANCH_HEADS)) {
+      refsFromWhichTheCommitMustBeReachable.add(REFS_BRANCH_HEADS);
+    }
     // If the user has UPDATE (push) permission, they can set the ref to an arbitrary commit:
     //
     //  * if they don't have access, we don't advertise the data, and a conforming git client
@@ -206,7 +224,7 @@ public class CreateRefControl {
         project,
         repo,
         commit,
-        repo.getRefDatabase().getRefsByPrefix(Constants.R_HEADS, Constants.R_TAGS),
+        repo.getRefDatabase().getRefsByPrefix(refsFromWhichTheCommitMustBeReachable.toArray(new String[0])),
         Optional.of(user.get()))) {
       // If the user has no push permissions, check whether the object is
       // merged into a branch or tag readable by this user. If so, they are

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "16cc3d1c_c6eecce0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2026-05-08T09:08:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "196e3dcc_f40f6fd9",
+      "revId": "a5f096cb4973ec3e75c207ae58e2b08d5214a7e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a123c6d4_8198dccc",
@@ -31,6 +49,30 @@
       "writtenOn": "2026-05-08T08:48:54Z",
       "side": 1,
       "message": "This isn\u0027t correct anymore now that we have to disable the AI review action if not enabled.\n\nBefore, the absence was always an implicit _deny_, but now the absence of AI review action is an _allow_ action.\n\n```suggestion\n    Iterable\u003cUiAction.Description\u003e uiActionsDescs \u003d\n        addAiReviewAction(\n            rsrc,\n            rsrc.getUser().isIdentifiedUser() ? uiActions.from(revisionViews, rsrc) : List.of());\n```\n\nI would also expect to have an explicit test for it, saying that if you deny access to the AI Review, then the anonymous user should have the action with enabled \u003d false.",
+      "range": {
+        "startLine": 239,
+        "startChar": 0,
+        "endLine": 244,
+        "endChar": 69
+      },
+      "revId": "a5f096cb4973ec3e75c207ae58e2b08d5214a7e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8046b607_aa6ad8df",
+        "filename": "java/com/google/gerrit/server/change/ActionJson.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2026-05-08T09:08:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a123c6d4_8198dccc",
       "range": {
         "startLine": 239,
         "startChar": 0,

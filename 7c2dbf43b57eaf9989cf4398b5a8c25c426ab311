@@ -70,6 +70,30 @@
       },
       "revId": "7c2dbf43b57eaf9989cf4398b5a8c25c426ab311",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "618a306a_d868b388",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeIndexer.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 695,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-08T05:30:50Z",
+      "side": 1,
+      "message": "\u003e \u003e I opted to keep the same behaviour\n\u003e \n\u003e Looking again now, I might have mixed multi-site and gerrit-core responsabilities, as currently in multi-site we just assume that the project name is an empty string.\n\nMulti-site is neither a core component nor a core plugin, therefore this change should not rely on it.\n\n\u003e Fact remains, that for some code-paths unrelated to issue the project name seems to be empty\n\nWhat are those paths? Can you list them and address them?\n\n\u003e so this might require a bigger refactor which I still think is worth doing but in a separate change.\n\nI believe we should first fix those paths and then enforce the project name to be present.",
+      "parentUuid": "a844ebc4_8ea8bcec",
+      "range": {
+        "startLine": 695,
+        "startChar": 48,
+        "endLine": 695,
+        "endChar": 92
+      },
+      "revId": "7c2dbf43b57eaf9989cf4398b5a8c25c426ab311",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5e961b9_f5357512",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2026-05-08T06:22:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "08b10fd2_35a1d1b1",
+      "revId": "12a2a26a19fa01a9a54733f6a3a6470066b080ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5165a129_8227437e",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-05-07T19:46:31Z",
       "side": 1,
       "message": "We should explain why.\n\n\n\n```suggestion\nthe explicit denied state for aiReview via a localized override.\nThis is needed because Google explicitly would like to preserve\nthe enablement of the AI review feature by default when there are\nno ACLs or with a backend that doesn\u0027t provide any AI review action.\n```",
+      "revId": "12a2a26a19fa01a9a54733f6a3a6470066b080ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac25b192_af48eaec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2026-05-08T06:22:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5165a129_8227437e",
       "revId": "12a2a26a19fa01a9a54733f6a3a6470066b080ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

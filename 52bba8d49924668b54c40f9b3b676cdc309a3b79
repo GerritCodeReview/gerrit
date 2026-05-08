@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1987bc62_2c0639e0",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 4815,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2026-05-08T06:22:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "752e8547_0420f5f8",
+      "range": {
+        "startLine": 4814,
+        "startChar": 47,
+        "endLine": 4815,
+        "endChar": 26
+      },
+      "revId": "52bba8d49924668b54c40f9b3b676cdc309a3b79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ba99c294_a9488125",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-05-07T19:43:39Z",
       "side": 1,
       "message": "```suggestion\n    \"enabled\": false\n```",
+      "range": {
+        "startLine": 4823,
+        "startChar": 15,
+        "endLine": 4823,
+        "endChar": 19
+      },
+      "revId": "52bba8d49924668b54c40f9b3b676cdc309a3b79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ccea311_ba8ac8aa",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 4823,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2026-05-08T06:22:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba99c294_a9488125",
       "range": {
         "startLine": 4823,
         "startChar": 15,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1adff35_128982a0",
+        "filename": "java/com/google/gerrit/server/change/ActionJson.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2026-05-08T06:22:54Z",
+      "side": 1,
+      "message": "I would rather say that it is a payload optimization but sure, why not. It will have to go back once it is decided (probably never 😊) that it should behave like regular permission IOW that it has to be granted first 😄",
+      "parentUuid": "62ade5f3_ab14ec8e",
+      "range": {
+        "startLine": 254,
+        "startChar": 0,
+        "endLine": 257,
+        "endChar": 71
+      },
+      "revId": "52bba8d49924668b54c40f9b3b676cdc309a3b79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "40ab25ad_7672a1af",
@@ -83,6 +155,30 @@
       "writtenOn": "2026-05-07T19:43:39Z",
       "side": 1,
       "message": "If there are no rules, I\u0027d expect no reference to the AI Review action because the front-end shows the actions by default anyway.\n\n\n\n```suggestion\n  public void aiReviewActionAbsentByDefault() throws Exception {\n    String changeId \u003d createChange().getChangeId();\n\n    Map\u003cString, ActionInfo\u003e actions \u003d gApi.changes().id(changeId).current().actions();\n\n    assertThat(actions).doesNotContainKey(AI_REVIEW);\n  }\n```",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 3
+      },
+      "revId": "52bba8d49924668b54c40f9b3b676cdc309a3b79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d060851_ea92c5c9",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/AiReviewPermissionIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2026-05-08T06:22:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "40ab25ad_7672a1af",
       "range": {
         "startLine": 40,
         "startChar": 0,
@@ -116,6 +212,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "65261dcd_0f8b1ab0",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/AiReviewPermissionIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2026-05-08T06:22:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a74d5e8_cf826ad1",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 3
+      },
+      "revId": "52bba8d49924668b54c40f9b3b676cdc309a3b79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d6073f6d_99e3ea91",
@@ -129,6 +249,30 @@
       "writtenOn": "2026-05-07T19:43:39Z",
       "side": 1,
       "message": "The overall assumption is that if you don\u0027t define any extra ACL, the client shows the AI review functions and the payload is unchanged, as Google requested.\n\n```suggestion\n  public void aiReviewActionAbsentWhenUserNotInDeniedGroup() throws Exception {\n```",
+      "range": {
+        "startLine": 99,
+        "startChar": 28,
+        "endLine": 99,
+        "endChar": 35
+      },
+      "revId": "52bba8d49924668b54c40f9b3b676cdc309a3b79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e9ef7b8_43c67585",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/AiReviewPermissionIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2026-05-08T06:22:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6073f6d_99e3ea91",
       "range": {
         "startLine": 99,
         "startChar": 28,
@@ -162,6 +306,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "88c992db_e0777598",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/AiReviewPermissionIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2026-05-08T06:22:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e89fd021_5a8babd6",
+      "range": {
+        "startLine": 111,
+        "startChar": 0,
+        "endLine": 111,
+        "endChar": 56
+      },
+      "revId": "52bba8d49924668b54c40f9b3b676cdc309a3b79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d22e06c0_1e1ecd98",
@@ -175,6 +343,24 @@
       "writtenOn": "2026-05-07T19:43:39Z",
       "side": 1,
       "message": "```suggestion\n  public void aiReviewActionAbsentWhenUserNotInBlockedGroup() throws Exception {\n```",
+      "revId": "52bba8d49924668b54c40f9b3b676cdc309a3b79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8afeb19b_7711f38e",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/AiReviewPermissionIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2026-05-08T06:22:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d22e06c0_1e1ecd98",
       "revId": "52bba8d49924668b54c40f9b3b676cdc309a3b79",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -213,6 +399,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c8a7327_52dba726",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/AiReviewPermissionIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2026-05-08T06:22:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f0e0414_a7387d23",
+      "revId": "52bba8d49924668b54c40f9b3b676cdc309a3b79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1df42db2_71163fbf",
@@ -226,6 +430,24 @@
       "writtenOn": "2026-05-07T19:43:39Z",
       "side": 1,
       "message": "If the AI Review action is enabled, it can be omitted from the actions because it would be shown anyway by the UI by default.\n\n\n\n```suggestion\n    assertThat(actions).doesNotContainKey(AI_REVIEW);\n```",
+      "revId": "52bba8d49924668b54c40f9b3b676cdc309a3b79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6844937d_9307396b",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/AiReviewPermissionIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2026-05-08T06:22:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1df42db2_71163fbf",
       "revId": "52bba8d49924668b54c40f9b3b676cdc309a3b79",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -253,6 +475,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3eb7a72c_5b73b622",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/AiReviewPermissionIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2026-05-08T06:22:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c453a39b_804bebc4",
+      "range": {
+        "startLine": 230,
+        "startChar": 0,
+        "endLine": 236,
+        "endChar": 68
+      },
+      "revId": "52bba8d49924668b54c40f9b3b676cdc309a3b79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "79c85fb9_d0a6cf63",
@@ -270,6 +516,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e2f3589_39ea5dcd",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2026-05-08T06:22:54Z",
+      "side": 1,
+      "message": "Removing FF from [ActionJson.java](java/com/google/gerrit/server/change/ActionJson.java) means that AI review action is always returned - not returning it (by default `enabled` would make this change no longer needed).",
+      "parentUuid": "79c85fb9_d0a6cf63",
+      "revId": "52bba8d49924668b54c40f9b3b676cdc309a3b79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "813f1e9f_29d13309",
@@ -283,6 +547,24 @@
       "writtenOn": "2026-05-07T19:43:39Z",
       "side": 1,
       "message": "I wouldn\u0027t expect this test to change.",
+      "revId": "52bba8d49924668b54c40f9b3b676cdc309a3b79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "54c5b597_11756066",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ActionsIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2026-05-08T06:22:54Z",
+      "side": 1,
+      "message": "Same as above.",
+      "parentUuid": "813f1e9f_29d13309",
       "revId": "52bba8d49924668b54c40f9b3b676cdc309a3b79",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

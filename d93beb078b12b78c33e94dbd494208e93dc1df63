@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7dd7c09e_874720ff",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 32
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-05-08T21:52:01Z",
+      "side": 1,
+      "message": "Cannot debug screenshots since no artifacts are uploaded and they fully pass locally. I have a new bug filed to investigate this further but don\u0027t want to block this CL any longer.",
+      "revId": "d93beb078b12b78c33e94dbd494208e93dc1df63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

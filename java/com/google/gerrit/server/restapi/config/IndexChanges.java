@@ -31,6 +31,7 @@ import com.google.inject.Singleton;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import com.google.common.annotations.VisibleForTesting;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
 @Singleton
@@ -39,7 +40,8 @@ public class IndexChanges implements RestModifyView<ConfigResource, Input> {
 
   public static class Input {
     public Set<String> changes;
-    boolean deleteMissing;
+    @VisibleForTesting
+    public boolean deleteMissing;
   }
 
   private final ChangeFinder changeFinder;
@@ -66,7 +68,9 @@ public class IndexChanges implements RestModifyView<ConfigResource, Input> {
       if (notes.isEmpty()) {
         logger.atWarning().log("Change %s missing in NoteDb", id);
         if (input.deleteMissing) {
-          Optional<Change.Id> changeId = Change.Id.tryParse(id);
+          int tilde = id.lastIndexOf('~');
+          String numericPart = tilde >= 0 ? id.substring(tilde + 1) : id;
+          Optional<Change.Id> changeId = Change.Id.tryParse(numericPart);
           if (changeId.isPresent()) {
             logger.atWarning().log("Deleting change %s from index", changeId.get());
             indexer.delete(changeId.get());

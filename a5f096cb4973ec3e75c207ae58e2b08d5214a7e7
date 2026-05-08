@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "196e3dcc_f40f6fd9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-08T08:48:54Z",
+      "side": 1,
+      "message": "Still fails for me when trying to disable the AI review action for anonymous users.",
+      "revId": "a5f096cb4973ec3e75c207ae58e2b08d5214a7e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a123c6d4_8198dccc",
+        "filename": "java/com/google/gerrit/server/change/ActionJson.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-08T08:48:54Z",
+      "side": 1,
+      "message": "This isn\u0027t correct anymore now that we have to disable the AI review action if not enabled.\n\nBefore, the absence was always an implicit _deny_, but now the absence of AI review action is an _allow_ action.\n\n```suggestion\n    Iterable\u003cUiAction.Description\u003e uiActionsDescs \u003d\n        addAiReviewAction(\n            rsrc,\n            rsrc.getUser().isIdentifiedUser() ? uiActions.from(revisionViews, rsrc) : List.of());\n```\n\nI would also expect to have an explicit test for it, saying that if you deny access to the AI Review, then the anonymous user should have the action with enabled \u003d false.",
+      "range": {
+        "startLine": 239,
+        "startChar": 0,
+        "endLine": 244,
+        "endChar": 69
+      },
+      "revId": "a5f096cb4973ec3e75c207ae58e2b08d5214a7e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

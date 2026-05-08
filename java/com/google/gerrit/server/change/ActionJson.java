@@ -204,7 +204,7 @@ public class ActionJson {
         return out;
       }
 
-      Iterable<UiAction.Description> descs =
+      Iterable<UiAction.Description> uiActionsDescs =
           uiActions.from(changeViews, changeResourceFactory.create(changeData, user));
 
       // The followup action is a client-side only operation that does not
@@ -214,11 +214,11 @@ public class ActionJson {
         UiAction.Description followup =
             clientSideAction("followup", "Follow-Up", "Create follow-up change");
         PrivateInternals_UiActionDescription.setMethod(followup, "POST");
-        descs = Iterables.concat(descs, Collections.singleton(followup));
+        uiActionsDescs = Iterables.concat(uiActionsDescs, Collections.singleton(followup));
       }
 
       ACTION:
-      for (UiAction.Description d : descs) {
+      for (UiAction.Description d : uiActionsDescs) {
         ActionInfo actionInfo = new ActionInfo(d);
         for (ActionVisitor visitor : visitors) {
           if (!visitor.visit(d.getId(), actionInfo, changeInfo)) {
@@ -240,11 +240,29 @@ public class ActionJson {
       return ImmutableMap.of();
     }
 
-    Iterable<UiAction.Description> descs =
-        addAiReviewAction(rsrc, uiActions.from(revisionViews, rsrc));
+    Iterable<UiAction.Description> uiActionsDescs = uiActions.from(revisionViews, rsrc);
+
+    // The aiReview action is a client-side only operation that does not have a
+    // server side handler. It must be manually registered into the resulting
+    // action map.
+    try {
+      boolean permitted =
+          permissionBackend
+              .user(rsrc.getUser())
+              .change(rsrc.getChangeResource().getChangeData())
+              .test(ChangePermission.AI_REVIEW);
+      UiAction.Description aiReview =
+          clientSideAction(AI_REVIEW_ACTION_ID, "AI Review", "Run AI Review on this change");
+      aiReview.setEnabled(permitted);
+      uiActionsDescs = Iterables.concat(uiActionsDescs, Collections.singleton(aiReview));
+    } catch (PermissionBackendException e) {
+      logger.atWarning().withCause(e).log(
+          "Failed to check AI review permission for change %s", rsrc.getChange().getId());
+    }
+
     Map<String, ActionInfo> out = new LinkedHashMap<>();
     ACTION:
-    for (UiAction.Description d : descs) {
+    for (UiAction.Description d : uiActionsDescs) {
       ActionInfo actionInfo = new ActionInfo(d);
       // Preserve explicit Description.enabled=false for aiReview; see
       // ActionInfo(Description) which otherwise maps it to null and would

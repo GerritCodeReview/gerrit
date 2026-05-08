@@ -143,6 +143,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ecd95f76_cd8fe217",
+        "filename": "java/com/google/gerrit/extensions/events/ChangeIndexedListener.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-05-08T10:42:19Z",
+      "side": 1,
+      "message": "Did not mean to publish the above. Let me resolve and carry on in other comment thread.",
+      "parentUuid": "8dc19293_ba05ff24",
+      "range": {
+        "startLine": 46,
+        "startChar": 31,
+        "endLine": 46,
+        "endChar": 49
+      },
+      "revId": "021bb781e9b2561b0e7dadac9dcc2960f4008624",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "498c3760_4a2a1b86",

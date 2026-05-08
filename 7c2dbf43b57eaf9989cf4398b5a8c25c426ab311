@@ -94,6 +94,30 @@
       },
       "revId": "7c2dbf43b57eaf9989cf4398b5a8c25c426ab311",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68b299e9_b1d6af55",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeIndexer.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 695,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-05-08T11:00:06Z",
+      "side": 1,
+      "message": "\u003e Multi-site is neither a core component nor a core plugin, therefore this change should not rely on it.\n\nAgreed, I\u0027ve reintroduced the previous way of emitting a delete change event with no project name and using that if the project isn\u0027t present.\n\n\u003e What are those paths? Can you list them and address them?\n\nThere are valid uses cases[1], for example, the index change api still accepts changeId in deprecated formats, mainly:\n\n\u003ea Change-Id if it uniquely identifies one change (\"I8473b95934b5732ac55d26311a706c9c2bde9940\")\n\u003e\n\u003e a change number if it uniquely identifies one change (\"4247\")\n\nNow, as far as I can tell, at L693, when deleting changes we do not check if there is only a single change with that id, but rather delete all changes with that id.\n\nSo, to me this opens two issues:\n1. How Gerrit handles deletion of changes if the change id isn\u0027t unique\n2. How subscribers of this event handle a situation where the project cannot be uniquely be identified.\n\nI believe issue number one is important, but should be addressed separately as it might require further discussion. i.e. do we force everyone to pass the project name, do we simply fail if the change id is not unique to a single change?\n\nCurrently we NEVER emit the project name, while now, I\u0027m aiming to emit the project name when available and let subscribers deal with the current situation(no project name specified) when it arises.\n\nShall I update the commit message to make it clearer that I\u0027m only adding the projectName to the event when is present?\n\n[1]https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#index-change",
+      "parentUuid": "618a306a_d868b388",
+      "range": {
+        "startLine": 695,
+        "startChar": 48,
+        "endLine": 695,
+        "endChar": 92
+      },
+      "revId": "7c2dbf43b57eaf9989cf4398b5a8c25c426ab311",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

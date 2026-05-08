@@ -204,7 +204,7 @@ public class ActionJson {
         return out;
       }
 
-      Iterable<UiAction.Description> descs =
+      Iterable<UiAction.Description> uiActionsDescs =
           uiActions.from(changeViews, changeResourceFactory.create(changeData, user));
 
       // The followup action is a client-side only operation that does not
@@ -214,11 +214,11 @@ public class ActionJson {
         UiAction.Description followup =
             clientSideAction("followup", "Follow-Up", "Create follow-up change");
         PrivateInternals_UiActionDescription.setMethod(followup, "POST");
-        descs = Iterables.concat(descs, Collections.singleton(followup));
+        uiActionsDescs = Iterables.concat(uiActionsDescs, Collections.singleton(followup));
       }
 
       ACTION:
-      for (UiAction.Description d : descs) {
+      for (UiAction.Description d : uiActionsDescs) {
         ActionInfo actionInfo = new ActionInfo(d);
         for (ActionVisitor visitor : visitors) {
           if (!visitor.visit(d.getId(), actionInfo, changeInfo)) {
@@ -236,13 +236,29 @@ public class ActionJson {
       List<ActionVisitor> visitors,
       ChangeInfo changeInfo,
       RevisionInfo revisionInfo) {
+<<<<<<< PATCH SET (fe7e2260338e49fe777bed5684d0c94380d8cbc2 Give uiActionsDescs as meaninful name for actions descs in A)
+    if (!rsrc.getUser().isIdentifiedUser()) {
+      return ImmutableMap.of();
+    }
+
+    Iterable<UiAction.Description> uiActionsDescs =
+        addAiReviewAction(rsrc, uiActions.from(revisionViews, rsrc));
+||||||| BASE      (91d4d43527242cdd317951bf58b65ef1f648efa6 Emit aiReview action with permission gate)
+    if (!rsrc.getUser().isIdentifiedUser()) {
+      return ImmutableMap.of();
+    }
+
+    Iterable<UiAction.Description> descs =
+        addAiReviewAction(rsrc, uiActions.from(revisionViews, rsrc));
+=======
     Iterable<UiAction.Description> descs =
         addAiReviewAction(
             rsrc,
             rsrc.getUser().isIdentifiedUser() ? uiActions.from(revisionViews, rsrc) : List.of());
+>>>>>>> BASE      (339b13e1022daca1c1e0b0c03dad63dc87f31519 Emit aiReview action with permission gate)
     Map<String, ActionInfo> out = new LinkedHashMap<>();
     ACTION:
-    for (UiAction.Description d : descs) {
+    for (UiAction.Description d : uiActionsDescs) {
       ActionInfo actionInfo = new ActionInfo(d);
       // Preserve explicit Description.enabled=false for aiReview; see
       // ActionInfo(Description) which otherwise maps it to null and would
@@ -261,7 +277,7 @@ public class ActionJson {
   }
 
   private Iterable<UiAction.Description> addAiReviewAction(
-      RevisionResource rsrc, Iterable<UiAction.Description> descs) {
+      RevisionResource rsrc, Iterable<UiAction.Description> uiActionsDescs) {
     // The aiReview action is a client-side only operation that does not have a
     // server side handler. It is emitted only when AI review is denied; the
     // frontend treats an absent entry as the default-allow state.
@@ -275,13 +291,13 @@ public class ActionJson {
         UiAction.Description aiReview =
             clientSideAction(AI_REVIEW_ACTION_ID, "AI Review", "Run AI Review on this change");
         aiReview.setEnabled(false);
-        descs = Iterables.concat(descs, Collections.singleton(aiReview));
+        uiActionsDescs = Iterables.concat(uiActionsDescs, Collections.singleton(aiReview));
       }
     } catch (PermissionBackendException e) {
       logger.atWarning().withCause(e).log(
           "Failed to check AI review permission for change %s", rsrc.getChange().getId());
     }
-    return descs;
+    return uiActionsDescs;
   }
 
   private static UiAction.Description clientSideAction(String id, String label, String title) {

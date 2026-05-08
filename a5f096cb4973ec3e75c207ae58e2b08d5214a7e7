@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c3358f2d_2a27e4bb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2026-05-08T09:12:22Z",
+      "side": 1,
+      "message": "Added also test for it see PS#14",
+      "parentUuid": "073bb8c7_bf5db234",
+      "revId": "a5f096cb4973ec3e75c207ae58e2b08d5214a7e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a123c6d4_8198dccc",
         "filename": "java/com/google/gerrit/server/change/ActionJson.java",
         "patchSetId": 13

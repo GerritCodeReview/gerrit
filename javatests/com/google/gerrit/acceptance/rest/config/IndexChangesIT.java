@@ -23,26 +23,41 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.ChangeIndexedCounter;
 import com.google.gerrit.acceptance.ExtensionRegistry;
 import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
+import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Permission;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.index.IndexConfig;
+import com.google.gerrit.index.QueryOptions;
+import com.google.gerrit.server.index.change.ChangeIndex;
+import com.google.gerrit.server.index.change.ChangeIndexCollection;
+import com.google.gerrit.server.index.change.IndexedChangeQuery;
 import com.google.gerrit.server.restapi.config.IndexChanges;
 import com.google.inject.Inject;
+import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.Repository;
 import org.junit.Test;
 
 public class IndexChangesIT extends AbstractDaemonTest {
 
   @Inject private ProjectOperations projectOperations;
   @Inject private ExtensionRegistry extensionRegistry;
+  @Inject private ChangeIndexCollection changeIndexCollection;
+  @Inject private IndexConfig indexConfig;
+
+  private String targetRefName = "master";
+  private String targetRefSpace = "refs/for/master";
 
   @Test
   public void indexRequestFromNonAdminRejected() throws Exception {
     ChangeIndexedCounter changeIndexedCounter = new ChangeIndexedCounter();
     try (Registration registration =
         extensionRegistry.newRegistration().add(changeIndexedCounter)) {
-      String changeId = createChange().getChangeId();
+      String changeId = createChange(targetRefSpace).getChangeId();
       IndexChanges.Input in = new IndexChanges.Input();
-      in.changes = ImmutableSet.of(changeId);
+      in.changes = ImmutableSet.of(tripletChangeId(changeId));
       changeIndexedCounter.clear();
       userRestSession.post("/config/server/index.changes", in).assertForbidden();
       assertThat(changeIndexedCounter.getCount(info(changeId))).isEqualTo(0);
@@ -56,7 +71,7 @@ public class IndexChangesIT extends AbstractDaemonTest {
         extensionRegistry.newRegistration().add(changeIndexedCounter)) {
       String changeId = createChange().getChangeId();
       IndexChanges.Input in = new IndexChanges.Input();
-      in.changes = ImmutableSet.of(changeId);
+      in.changes = ImmutableSet.of(tripletChangeId(changeId));
       changeIndexedCounter.clear();
       adminRestSession.post("/config/server/index.changes", in).assertOK();
       assertThat(changeIndexedCounter.getCount(info(changeId))).isEqualTo(1);
@@ -77,10 +92,68 @@ public class IndexChangesIT extends AbstractDaemonTest {
           .update();
       IndexChanges.Input in = new IndexChanges.Input();
       changeIndexedCounter.clear();
-      in.changes = ImmutableSet.of(changeId);
+      in.changes = ImmutableSet.of(tripletChangeId(changeId));
       adminRestSession.post("/config/server/index.changes", in).assertOK();
       assertThat(changeIndexedCounter.getCount(changeInfo)).isEqualTo(1);
     }
+  }
+
+  @Test
+  public void deleteMissingChangeFromIndexByNumericId() throws Exception {
+    PushOneCommit.Result result = createChange();
+    Change.Id changeId = result.getChange().getId();
+
+    ChangeIndex idx = changeIndexCollection.getSearchIndex();
+    QueryOptions opts = IndexedChangeQuery.createOptions(indexConfig, 0, 1, ImmutableSet.of());
+    assertThat(idx.get(changeId, opts)).isPresent();
+
+    // Remove the change from NoteDb without going through the normal delete API,
+    // leaving a stale entry in the index.
+    try (Repository repo = repoManager.openRepository(project);
+        TestRepository<Repository> testRepo = new TestRepository<>(repo)) {
+      testRepo.delete(RefNames.changeMetaRef(changeId));
+    }
+
+    assertThat(idx.get(changeId, opts)).isPresent();
+
+    IndexChanges.Input in = new IndexChanges.Input();
+    in.changes = ImmutableSet.of(String.valueOf(changeId.get()));
+    in.deleteMissing = true;
+    adminRestSession.post("/config/server/index.changes", in).assertOK();
+
+    assertThat(idx.get(changeId, opts)).isEmpty();
+  }
+
+  @Test
+  public void deleteMissingChangeFromIndexByProjectAndNumericIdorTripleId() throws Exception {
+    PushOneCommit.Result result1 = createChange();
+    PushOneCommit.Result result2 = createChange();
+    Change.Id changeId1 = result1.getChange().getId();
+    Change.Id changeId2 = result2.getChange().getId();
+
+    ChangeIndex idx = changeIndexCollection.getSearchIndex();
+    QueryOptions opts = IndexedChangeQuery.createOptions(indexConfig, 0, 1, ImmutableSet.of());
+    assertThat(idx.get(changeId1, opts)).isPresent();
+    assertThat(idx.get(changeId2, opts)).isPresent();
+
+    // Remove the change from NoteDb without going through the normal delete API,
+    // leaving a stale entry in the index.
+    try (Repository repo = repoManager.openRepository(project);
+        TestRepository<Repository> testRepo = new TestRepository<>(repo)) {
+      testRepo.delete(RefNames.changeMetaRef(changeId1));
+      testRepo.delete(RefNames.changeMetaRef(changeId2));
+    }
+
+    assertThat(idx.get(changeId1, opts)).isPresent();
+    assertThat(idx.get(changeId2, opts)).isPresent();
+
+    IndexChanges.Input in = new IndexChanges.Input();
+    in.changes = ImmutableSet.of(project.get() + "~" + changeId1.get(), tripletChangeId(changeId2.toString()));
+    in.deleteMissing = true;
+    adminRestSession.post("/config/server/index.changes", in).assertOK();
+
+    assertThat(idx.get(changeId1, opts)).isEmpty();
+    assertThat(idx.get(changeId2, opts)).isEmpty();
   }
 
   @Test
@@ -90,15 +163,20 @@ public class IndexChangesIT extends AbstractDaemonTest {
         extensionRegistry.newRegistration().add(changeIndexedCounter)) {
       ImmutableSet.Builder<String> changeIds = ImmutableSet.builder();
       for (int i = 0; i < 10; i++) {
-        changeIds.add(createChange().getChangeId());
+        changeIds.add(tripletChangeId(createChange().getChangeId()));
       }
       IndexChanges.Input in = new IndexChanges.Input();
       in.changes = changeIds.build();
       changeIndexedCounter.clear();
       adminRestSession.post("/config/server/index.changes", in).assertOK();
-      for (String changeId : in.changes) {
+      for (String id : in.changes) {
+        String changeId = id.substring(id.lastIndexOf('~') + 1);
         assertThat(changeIndexedCounter.getCount(info(changeId))).isEqualTo(1);
       }
     }
+  }
+
+  private String tripletChangeId(String changeId) {
+    return String.format("%s~%s~%s", project.get(), targetRefName, changeId);
   }
 }

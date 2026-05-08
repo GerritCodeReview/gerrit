@@ -16,6 +16,24 @@
       "message": "Missing `Release-Notes: skip`",
       "revId": "2dbd8c094206695e2b29beaf9aa62be3654f3a01",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "33876a8a_92be4f72",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-05-08T08:28:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2377c98b_5c9655f6",
+      "revId": "2dbd8c094206695e2b29beaf9aa62be3654f3a01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

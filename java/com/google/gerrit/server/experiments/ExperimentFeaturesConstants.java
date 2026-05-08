@@ -73,6 +73,10 @@ public class ExperimentFeaturesConstants {
   public static final String CONSIDER_VOTES_OF_DELETED_ACCOUNTS =
       "GerritBackendFeature__consider_votes_of_deleted_accounts";
 
+  /** Whether we allow creating branches from branch-heads. */
+  public static final String GERRIT_BACKEND_FEATURE_ALLOW_CREATE_BRANCH_FROM_BRANCH_HEADS =
+      "GerritBackendFeature__allow_create_branch_from_branch_heads";
+
   /** Whether AI chat/review features are enabled in the UI. */
   public static final String ENABLE_AI_CHAT = "UiFeature__enable_ai_chat";
 

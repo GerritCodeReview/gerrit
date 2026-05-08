@@ -47,6 +47,8 @@ public class ListExperimentsIT extends AbstractDaemonTest {
         gApi.config().server().listExperiments().get();
     assertThat(experiments.keySet())
         .containsAtLeast(
+            ExperimentFeaturesConstants
+                .GERRIT_BACKEND_FEATURE_ALLOW_CREATE_BRANCH_FROM_BRANCH_HEADS,
             ExperimentFeaturesConstants.ALLOW_FIX_SUGGESTIONS_IN_COMMENTS,
             ExperimentFeaturesConstants
                 .GERRIT_BACKEND_FEATURE_ALWAYS_REJECT_IMPLICIT_MERGES_ON_MERGE,
@@ -86,6 +88,12 @@ public class ListExperimentsIT extends AbstractDaemonTest {
             experiments.get(
                     ExperimentFeaturesConstants
                         .GERRIT_BACKEND_FEATURE_ATTACH_NONCE_TO_DOCUMENTATION)
+                .enabled)
+        .isFalse();
+    assertThat(
+            experiments.get(
+                    ExperimentFeaturesConstants
+                        .GERRIT_BACKEND_FEATURE_ALLOW_CREATE_BRANCH_FROM_BRANCH_HEADS)
                 .enabled)
         .isFalse();
   }

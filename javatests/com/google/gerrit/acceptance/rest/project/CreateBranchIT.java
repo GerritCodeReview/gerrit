@@ -33,6 +33,7 @@ import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
@@ -53,6 +54,7 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.events.RefReceivedEvent;
 import com.google.gerrit.server.git.validators.RefOperationValidationListener;
 import com.google.gerrit.server.git.validators.ValidationMessage;
+import com.google.gerrit.server.project.CreateRefControl;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
@@ -256,6 +258,80 @@ public class CreateBranchIT extends AbstractDaemonTest {
     // new branch
     pushTo("refs/heads/master");
     assertThat(projectOperations.project(project).getHead("master")).isNotEqualTo(revision);
+
+    BranchInput input = new BranchInput();
+    input.revision = revision.name();
+    BranchInfo created = branch(testBranch).create(input).get();
+    assertThat(created.ref).isEqualTo(testBranch.branch());
+    assertThat(created.revision).isEqualTo(revision.name());
+    assertThat(projectOperations.project(project).getHead(testBranch.branch())).isEqualTo(revision);
+  }
+
+  @Test
+  @GerritConfig(
+      name = "experiments.disabled",
+      values = {"GerritBackendFeature__allow_create_branch_from_branch_heads"})
+  public void createWithRevisionFromRefsBranchHeadsFails() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(
+            allow(Permission.CREATE)
+                .ref(CreateRefControl.REFS_BRANCH_HEADS + "*")
+                .group(REGISTERED_USERS))
+        .add(
+            allow(Permission.PUSH)
+                .ref(CreateRefControl.REFS_BRANCH_HEADS + "*")
+                .group(REGISTERED_USERS))
+        .update();
+    String branchName = CreateRefControl.REFS_BRANCH_HEADS + "abc";
+    BranchNameKey testBranchHeads = BranchNameKey.create(project, branchName);
+    assertCreateSucceeds(testBranchHeads);
+    createCommitAndPush(
+        testRepo, testBranchHeads.branch(), "Commit Message", "file.txt", "content");
+
+    RevCommit revision = projectOperations.project(project).getHead(branchName);
+
+    RevCommit otherRevision = projectOperations.project(project).getHead("master");
+
+    assertThat(revision).isNotEqualTo(otherRevision);
+
+    assertCreateFails(
+        testBranch,
+        revision.name(),
+        UnprocessableEntityException.class,
+        "Check that the commit exists on the server and that it's reachable from a branch/tag that"
+            + " is visible to you");
+  }
+
+  @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      values = {"GerritBackendFeature__allow_create_branch_from_branch_heads"})
+  public void createWithRevisionFromRefsBranchHeads() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(
+            allow(Permission.CREATE)
+                .ref(CreateRefControl.REFS_BRANCH_HEADS + "*")
+                .group(REGISTERED_USERS))
+        .add(
+            allow(Permission.PUSH)
+                .ref(CreateRefControl.REFS_BRANCH_HEADS + "*")
+                .group(REGISTERED_USERS))
+        .update();
+    String branchName = CreateRefControl.REFS_BRANCH_HEADS + "abc";
+    BranchNameKey testBranchHeads = BranchNameKey.create(project, branchName);
+    assertCreateSucceeds(testBranchHeads);
+    createCommitAndPush(
+        testRepo, testBranchHeads.branch(), "Commit Message", "file.txt", "content");
+
+    RevCommit revision = projectOperations.project(project).getHead(branchName);
+
+    RevCommit otherRevision = projectOperations.project(project).getHead("master");
+
+    assertThat(revision).isNotEqualTo(otherRevision);
 
     BranchInput input = new BranchInput();
     input.revision = revision.name();

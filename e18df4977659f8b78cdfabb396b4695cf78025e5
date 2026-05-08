@@ -72,6 +72,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b46c5114_adb7e50c",
+        "filename": "java/com/google/gerrit/server/change/ActionJson.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-05-08T06:53:13Z",
+      "side": 1,
+      "message": "Same question as in the commit message: could you clarify what “unaware-backend” refers to here?\n\nDo you mean the case where the AI review plugin is not installed on the backend? If so, it would help to state that explicitly.",
+      "range": {
+        "startLine": 248,
+        "startChar": 11,
+        "endLine": 248,
+        "endChar": 26
+      },
+      "revId": "e18df4977659f8b78cdfabb396b4695cf78025e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "725c8850_c99b2bf9",
         "filename": "java/com/google/gerrit/server/change/ActionJson.java",
         "patchSetId": 10

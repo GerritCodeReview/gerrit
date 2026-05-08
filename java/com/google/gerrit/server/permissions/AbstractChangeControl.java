@@ -108,10 +108,7 @@ abstract class AbstractChangeControl {
     }
   }
 
-  /**
-   * TODO(AI review experiment): When {@code UiFeature__enable_ai_chat} is removed, replace with
-   * {@code refControl.canPerform(Permission.AI_REVIEW)} to use standard default-deny model.
-   */
+  /** Can this user perform AI review for this change? */
   private boolean canAiReview() {
     return refControl.canPerformDefaultAllow(Permission.AI_REVIEW);
   }

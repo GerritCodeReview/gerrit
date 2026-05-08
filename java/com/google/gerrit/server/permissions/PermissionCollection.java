@@ -171,12 +171,7 @@ public class PermissionCollection {
     }
   }
 
-  /**
-   * Returns DENY rules for the given permission.
-   *
-   * <p>TODO(AI review experiment): Remove when {@code UiFeature__enable_ai_chat} is removed. Only
-   * used by {@link RefControl#canPerformDefaultAllow}.
-   */
+  /** Returns DENY rules for the given permission. */
   List<PermissionRule> getDenyRules(String perm) {
     List<PermissionRule> result = new ArrayList<>();
     for (AccessSection s : accessSectionsUpward) {

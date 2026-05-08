@@ -712,8 +712,16 @@ export class GrFileList extends LitElement {
           color: var(--primary-text-color);
           & gr-icon {
             font-size: var(--line-height-small);
+            --gr-icon-size: var(--line-height-small);
           }
           &.info {
+            border-color: var(--info-foreground);
+            background-color: var(--info-background);
+            & gr-icon {
+              color: var(--info-foreground);
+            }
+          }
+          &.ai {
             border-color: var(--info-foreground);
             background-color: var(--info-background);
             & gr-icon {
@@ -1847,7 +1855,7 @@ export class GrFileList extends LitElement {
       ) {
         continue;
       }
-      const icon = iconFor(result.category);
+      const icon = iconFor(result.category, result.isAiPowered);
       iconsByName[icon.name] ??= [];
       iconsByName[icon.name].push(icon);
     }

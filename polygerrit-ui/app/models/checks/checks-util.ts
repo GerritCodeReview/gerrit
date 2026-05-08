@@ -266,7 +266,13 @@ export function labelFor(catStat: Category | RunStatus) {
   }
 }
 
-export function iconFor(catStat: Category | RunStatus): ChecksIcon {
+export function iconFor(
+  catStat: Category | RunStatus,
+  isAiPowered?: boolean
+): ChecksIcon {
+  if (isAiPowered) {
+    return {name: 'ai', filled: true};
+  }
   switch (catStat) {
     case Category.ERROR:
       return {name: 'error', filled: true};

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c020ba7_54943a8c",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 4665459
+      },
+      "writtenOn": "2026-05-08T20:35:22Z",
+      "side": 1,
+      "message": "Should be final?\n\n```suggestion\n      private final AtomicBoolean isParked \u003d new AtomicBoolean(true);\n```",
+      "range": {
+        "startLine": 351,
+        "startChar": 0,
+        "endLine": 351,
+        "endChar": 63
+      },
+      "revId": "43ab8e54bc5fcaa1f56bb2a48e0eb7f1e680a1e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9849fb3_3921e9fe",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 4665459
+      },
+      "writtenOn": "2026-05-08T20:35:22Z",
+      "side": 1,
+      "message": "This method does more than what its name suggests, i.e it also calls `cancel()`. Should we rename it?",
+      "revId": "43ab8e54bc5fcaa1f56bb2a48e0eb7f1e680a1e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

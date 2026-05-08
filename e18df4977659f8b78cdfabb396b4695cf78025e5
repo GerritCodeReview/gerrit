@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b5a052e0_be4f885f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-08T07:19:14Z",
+      "side": 1,
+      "message": "@geminica.programs@gmail.com are you referring to an older backend without knowledge of the AI review action JSON?",
+      "parentUuid": "bbe772a4_db0dcfc2",
+      "range": {
+        "startLine": 23,
+        "startChar": 8,
+        "endLine": 23,
+        "endChar": 68
+      },
+      "revId": "e18df4977659f8b78cdfabb396b4695cf78025e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3b41c2c7_4b7373b5",
         "filename": "/COMMIT_MSG",
         "patchSetId": 10
@@ -95,6 +119,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4e094560_0393ad24",
+        "filename": "java/com/google/gerrit/server/change/ActionJson.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-08T07:19:14Z",
+      "side": 1,
+      "message": "The ACLs are unrelated to any plugins installed or not. @geminica.programs@gmail.com I believe you\u0027re referring to an older backend without the AI review actions deployed yet?",
+      "parentUuid": "b46c5114_adb7e50c",
+      "range": {
+        "startLine": 248,
+        "startChar": 11,
+        "endLine": 248,
+        "endChar": 26
+      },
+      "revId": "e18df4977659f8b78cdfabb396b4695cf78025e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "725c8850_c99b2bf9",
         "filename": "java/com/google/gerrit/server/change/ActionJson.java",
         "patchSetId": 10
@@ -106,6 +154,30 @@
       "writtenOn": "2026-05-08T06:47:25Z",
       "side": 1,
       "message": "Extract method in `addAiReviewAction`?",
+      "range": {
+        "startLine": 245,
+        "startChar": 4,
+        "endLine": 264,
+        "endChar": 5
+      },
+      "revId": "e18df4977659f8b78cdfabb396b4695cf78025e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d60e45a_ee50960c",
+        "filename": "java/com/google/gerrit/server/change/ActionJson.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-08T07:19:14Z",
+      "side": 1,
+      "message": "Not sure it\u0027s worth it: it\u0027s just 3 lines of code and not repeated anywhere.",
+      "parentUuid": "725c8850_c99b2bf9",
       "range": {
         "startLine": 245,
         "startChar": 4,

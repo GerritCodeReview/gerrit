@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ee09c56_ee81a7e2",
+        "filename": "polygerrit-ui/app/models/checks/checks-util.ts",
+        "patchSetId": 27
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-05-08T20:36:56Z",
+      "side": 1,
+      "message": "There are other checks that have isAiPowered set to true besides ours. Do you have any concern with forcing them to use this UI? I think it\u0027s probably ok, but I could also imagine them wanting it to specifically be a warning or something. I guess they could always remove isAiPowered in that case.",
+      "range": {
+        "startLine": 273,
+        "startChar": 6,
+        "endLine": 273,
+        "endChar": 17
+      },
+      "revId": "71734a9cd77010368c15d88ed71bd54b16a86841",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

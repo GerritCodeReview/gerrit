@@ -16,6 +16,24 @@
       "message": "update commit message to include UI changes",
       "revId": "7591ec4552034da4768a55862327ecaee9a38b98",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f18b5353_b35842a8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-05-08T12:33:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7b819114_618bdf3d",
+      "revId": "7591ec4552034da4768a55862327ecaee9a38b98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -195,7 +195,8 @@ public class CreateRefControl {
       boolean forPush)
       throws PermissionBackendException, IOException, UnprocessableEntityException {
     if (experimentFeatures.isFeatureEnabled(
-        com.google.gerrit.server.experiments.ExperimentFeaturesConstants.GERRIT_BACKEND_FEATURE_ALLOW_CREATE_BRANCH_FROM_BRANCH_HEADS)) {
+        com.google.gerrit.server.experiments.ExperimentFeaturesConstants
+            .GERRIT_BACKEND_FEATURE_ALLOW_CREATE_BRANCH_FROM_BRANCH_HEADS)) {
       refsFromWhichTheCommitMustBeReachable.add(REFS_BRANCH_HEADS);
     }
     // If the user has UPDATE (push) permission, they can set the ref to an arbitrary commit:
@@ -224,7 +225,8 @@ public class CreateRefControl {
         project,
         repo,
         commit,
-        repo.getRefDatabase().getRefsByPrefix(refsFromWhichTheCommitMustBeReachable.toArray(new String[0])),
+        repo.getRefDatabase()
+            .getRefsByPrefix(refsFromWhichTheCommitMustBeReachable.toArray(new String[0])),
         Optional.of(user.get()))) {
       // If the user has no push permissions, check whether the object is
       // merged into a branch or tag readable by this user. If so, they are

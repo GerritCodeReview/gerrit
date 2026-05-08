@@ -34,6 +34,24 @@
       "parentUuid": "0374a19c_e4f11489",
       "revId": "a805dc402ac5b62bae9592e9ed8e44af0c3f34e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bdd9c8f0_e73c6fd5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-05-08T03:36:55Z",
+      "side": 1,
+      "message": "Thanks for checking on it and unblocking us!",
+      "parentUuid": "9a0993a0_005384c6",
+      "revId": "a805dc402ac5b62bae9592e9ed8e44af0c3f34e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

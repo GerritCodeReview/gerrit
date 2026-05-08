@@ -74,19 +74,16 @@ suite('gr-diff-check-result tests', () => {
     assert.shadowDom.equal(
       element,
       `
-        <div class="container font-normal warning">
+        <div class="ai-powered container font-normal warning">
           <div class="header">
             <div class="icon">
-              <gr-icon icon="warning" filled></gr-icon>
+              <gr-icon custom="" filled="" icon="ai"></gr-icon>
             </div>
             <div class="name">
               <gr-hovercard-run> </gr-hovercard-run>
               <div class="name" role="button" tabindex="0">
                 FAKE Super Check
               </div>
-            </div>
-            <div class="ai-icon-wrapper">
-              <gr-icon custom="" icon="ai" small></gr-icon>
             </div>
             <div class="summary">We think that you could improve this.</div>
             <div class="message">

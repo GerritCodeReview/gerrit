@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a5b2467_034d9cd4",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-05-08T23:34:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6c020ba7_54943a8c",
+      "range": {
+        "startLine": 351,
+        "startChar": 0,
+        "endLine": 351,
+        "endChar": 63
+      },
+      "revId": "43ab8e54bc5fcaa1f56bb2a48e0eb7f1e680a1e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a9849fb3_3921e9fe",
@@ -37,6 +61,24 @@
       "writtenOn": "2026-05-08T20:35:22Z",
       "side": 1,
       "message": "This method does more than what its name suggests, i.e it also calls `cancel()`. Should we rename it?",
+      "revId": "43ab8e54bc5fcaa1f56bb2a48e0eb7f1e680a1e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa15c1a1_bb7ef66a",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-05-08T23:34:37Z",
+      "side": 1,
+      "message": "Remove this part to simplify things in this \"fix change\".",
+      "parentUuid": "a9849fb3_3921e9fe",
       "revId": "43ab8e54bc5fcaa1f56bb2a48e0eb7f1e680a1e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

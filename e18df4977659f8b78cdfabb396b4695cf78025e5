@@ -166,6 +166,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "540cdf46_66b987cb",
+        "filename": "java/com/google/gerrit/server/change/ActionJson.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-08T07:31:11Z",
+      "side": 1,
+      "message": "Let me rename them in a follow-up change, both of them :-)",
+      "parentUuid": "f4052f10_1f746233",
+      "range": {
+        "startLine": 243,
+        "startChar": 35,
+        "endLine": 243,
+        "endChar": 40
+      },
+      "revId": "e18df4977659f8b78cdfabb396b4695cf78025e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b46c5114_adb7e50c",

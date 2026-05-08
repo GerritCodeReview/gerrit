@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00bb524f_69c18ea0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-05-08T17:26:52Z",
+      "side": 1,
+      "message": "Tests will actually fail, as `Change.Id.tryParse` only expects numeric change ids.\n\nWas the expectation that this API would never be called with `project~changeNumber`?",
+      "revId": "29a567bcbfcdc66e98d2af1e98fcf3b999ae7c87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

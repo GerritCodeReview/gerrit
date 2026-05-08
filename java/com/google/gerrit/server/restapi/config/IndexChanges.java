@@ -39,7 +39,7 @@ public class IndexChanges implements RestModifyView<ConfigResource, Input> {
 
   public static class Input {
     public Set<String> changes;
-    boolean deleteMissing;
+    public boolean deleteMissing;
   }
 
   private final ChangeFinder changeFinder;

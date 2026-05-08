@@ -11,6 +11,7 @@ import {
   AttemptChoice,
   computeIsExpandable,
   LATEST_ATTEMPT,
+  pleaseFixMessage,
   rectifyFix,
   reportAiAgentCommentDraft,
   reportAiAgentGetAIFix,
@@ -19,7 +20,7 @@ import {
   toComment,
 } from './checks-util';
 import {Interaction} from '../../constants/reporting';
-import {Fix, Replacement} from '../../api/checks';
+import {Category, Fix, Replacement} from '../../api/checks';
 import {PROVIDED_FIX_ID} from '../../utils/comment-util';
 import {CommentRange, RevisionPatchSetNum} from '../../api/rest-api';
 import {ReportingService} from '../../services/gr-reporting/gr-reporting';
@@ -351,6 +352,36 @@ suite('checks-util tests', () => {
 
       reportAiAgentGetAIFix(reporting, runResult);
       assert.isFalse(reportInteractionStub.called);
+    });
+  });
+
+  suite('pleaseFixMessage', () => {
+    test('when summary and message are the same', () => {
+      const result: RunResult = {
+        ...createRunResult(),
+        category: Category.WARNING,
+        checkName: 'test-check-name',
+        summary: 'this is the warning text',
+        message: 'this is the warning text',
+      };
+      assert.equal(
+        pleaseFixMessage(result),
+        'Please fix this WARNING reported by test-check-name: this is the warning text'
+      );
+    });
+
+    test('when summary and message are not the same', () => {
+      const result: RunResult = {
+        ...createRunResult(),
+        category: Category.ERROR,
+        checkName: 'test-check-name',
+        summary: 'this is the summary text',
+        message: 'this is the message body text',
+      };
+      assert.equal(
+        pleaseFixMessage(result),
+        'Please fix this ERROR reported by test-check-name: this is the summary text\n\nthis is the message body text'
+      );
     });
   });
 });

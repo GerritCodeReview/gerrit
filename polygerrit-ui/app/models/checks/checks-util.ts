@@ -95,10 +95,12 @@ export function tooltipForLink(linkIcon?: LinkIcon) {
   }
 }
 
-function pleaseFixMessage(result: RunResult) {
-  return `Please fix this ${result.category} reported by ${result.checkName}: ${result.summary}
-
-${result.message}`;
+export function pleaseFixMessage(result: RunResult) {
+  const message =
+    result.summary === result.message
+      ? result.message
+      : `${result.summary}\n\n${result.message}`;
+  return `Please fix this ${result.category} reported by ${result.checkName}: ${message}`;
 }
 
 /**

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "393b15c8_bcaeed0c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-05-08T07:49:06Z",
+      "side": 1,
+      "message": "Sorry, my wording wasn\u0027t good, here is improved version:\n\nFix issue by correctly returning AI review permission in the revision actions response.",
+      "revId": "91d4d43527242cdd317951bf58b65ef1f648efa6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f40ce51_2dd5d542",
+        "filename": "java/com/google/gerrit/server/change/ActionJson.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-05-08T07:49:06Z",
+      "side": 1,
+      "message": "Should this no-op condition be removed?",
+      "range": {
+        "startLine": 252,
+        "startChar": 48,
+        "endLine": 252,
+        "endChar": 65
+      },
+      "revId": "91d4d43527242cdd317951bf58b65ef1f648efa6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

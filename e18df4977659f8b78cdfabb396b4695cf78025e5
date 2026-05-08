@@ -144,6 +144,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f4052f10_1f746233",
+        "filename": "java/com/google/gerrit/server/change/ActionJson.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2026-05-08T07:30:15Z",
+      "side": 1,
+      "message": "See line #207 I\u0027m following convention in the file 😊",
+      "parentUuid": "d37b2213_f6470072",
+      "range": {
+        "startLine": 243,
+        "startChar": 35,
+        "endLine": 243,
+        "endChar": 40
+      },
+      "revId": "e18df4977659f8b78cdfabb396b4695cf78025e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b46c5114_adb7e50c",
         "filename": "java/com/google/gerrit/server/change/ActionJson.java",
         "patchSetId": 10

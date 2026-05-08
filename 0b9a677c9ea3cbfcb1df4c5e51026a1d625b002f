@@ -16,6 +16,24 @@
       "message": "UI change looks good to me but i\u0027ll defer to Sasa for the backend.",
       "revId": "0b9a677c9ea3cbfcb1df4c5e51026a1d625b002f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "51c01a66_27f57858",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-05-08T13:47:49Z",
+      "side": 1,
+      "message": "Exactly, I was expecting UI changes review from your side. Sasa will review backend changes.",
+      "parentUuid": "3c3f30de_ceb9adb3",
+      "revId": "0b9a677c9ea3cbfcb1df4c5e51026a1d625b002f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

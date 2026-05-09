@@ -372,6 +372,14 @@ public class WorkQueue {
         latch.cancel();
       }
 
+      public boolean cancelIfNeeded() {
+        if (Task.State.CANCELLED.equals(task.getState())) {
+          cancel();
+          return true;
+        }
+        return false;
+      }
+
       public boolean isEqualTo(Task<?> task) {
         return this.task.taskId == task.taskId;
       }
@@ -734,24 +742,18 @@ public class WorkQueue {
 
     public void updateParked() {
       List<ParkedTask> notReady = new ArrayList<>();
-      ParkedTask ready;
-
-      while ((ready = parked.poll()) != null) {
-        if (Task.State.CANCELLED.equals(ready.task.getState())) {
-          ready.cancel(); // In case a cancelled task is polled before cleanup
-        } else if (isReadyToStart(ready.task)) {
-          break;
-        } else if (Task.State.CANCELLED.equals(ready.task.getState())) {
-          ready.cancel(); // In case the task is cancelled while evaluating isReadyToStart
-        } else {
-          notReady.add(ready);
+      for (ParkedTask ready; (ready = parked.poll()) != null; ) {
+        if (!ready.cancelIfNeeded()) { // Cancelled before cleanup?
+          if (isReadyToStart(ready.task)) {
+            ready.unpark();
+          } else if (!ready.cancelIfNeeded()) { // Cancelled during isReadyToStart()?
+            notReady.add(ready);
+            continue;
+          }
         }
+        break;
       }
       parked.addAll(notReady);
-
-      if (ready != null) {
-        ready.unpark();
-      }
     }
 
     public synchronized void incrementCorePoolSizeBy(int i) {

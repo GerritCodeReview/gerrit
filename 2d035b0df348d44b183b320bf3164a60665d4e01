@@ -16,6 +16,24 @@
       "message": "I think this still leaves an opportunity for too many tasks to run because although we have decremented the pool size here nicely and therefore no new tasks will be started if we are at the limit, the cancelled task is still getting the opportunity to run and we are potentially still unparking a task in updateParked(). So, although this fixes the original problem introduced with the original parking code, and it additionally fixes it in a way that handles the needed decrements for the cancel checks in updateParked(), it does not fix that cancelling was introduced by allowing a parked cancelled task to actually run which in itself could exceed the thread limit.",
       "revId": "2d035b0df348d44b183b320bf3164a60665d4e01",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d13dc81_8d78886e",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-05-09T00:49:55Z",
+      "side": 1,
+      "message": "Should be resolved with https://gerrit-review.googlesource.com/c/gerrit/+/581381/1",
+      "parentUuid": "78ab7a91_679530ca",
+      "revId": "2d035b0df348d44b183b320bf3164a60665d4e01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

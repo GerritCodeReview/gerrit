@@ -77,6 +77,20 @@ public class RegexPathPredicateTest {
     assertFalse(p.match(change("bar.c")));
   }
 
+  @Test
+  public void ignoresMagicFiles() {
+    // Predicate looking for standard files starting with "/"
+    RegexPathPredicate p = predicate("^/.*");
+    // Should NOT match because magic virtual files are filtered out by default
+    assertFalse(p.match(change("/COMMIT_MSG")));
+    assertFalse(p.match(change("/MERGE_LIST")));
+    assertFalse(p.match(change("/PATCHSET_LEVEL")));
+
+    // Verify it still detects real files even if magic files are present in the list
+    RegexPathPredicate p2 = predicate("^a/.*");
+    assertTrue(p2.match(change("/COMMIT_MSG", "a/b/source.c")));
+  }
+
   private static RegexPathPredicate predicate(String pattern) {
     return new RegexPathPredicate(pattern);
   }

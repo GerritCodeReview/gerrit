@@ -14,8 +14,10 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.gerrit.entities.Patch;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.ioutil.RegexListSearcher;
+import java.util.stream.Collectors;
 
 public class RegexPathPredicate extends ChangeRegexPredicate {
   public RegexPathPredicate(String re) {
@@ -25,7 +27,10 @@ public class RegexPathPredicate extends ChangeRegexPredicate {
   @Override
   public boolean match(ChangeData object) {
     return RegexListSearcher.ofStrings(getValue())
-        .search(object.currentFilePaths())
+        .search(
+            object.currentFilePaths().stream()
+                .filter(f -> !Patch.isMagic(f))
+                .collect(Collectors.toList()))
         .findAny()
         .isPresent();
   }

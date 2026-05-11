@@ -18,6 +18,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.change.ChangeFinder;
@@ -55,7 +56,7 @@ public class IndexChanges implements RestModifyView<ConfigResource, Input> {
   }
 
   @Override
-  public Response<String> apply(ConfigResource resource, Input input) {
+  public Response<String> apply(ConfigResource resource, Input input) throws BadRequestException {
     if (input == null || input.changes == null) {
       return Response.ok("Nothing to index");
     }
@@ -66,13 +67,18 @@ public class IndexChanges implements RestModifyView<ConfigResource, Input> {
       if (notes.isEmpty()) {
         logger.atWarning().log("Change %s missing in NoteDb", id);
         if (input.deleteMissing) {
-          int tilde = id.lastIndexOf('~');
+          int tilde = id.indexOf('~');
           String numericPart = tilde >= 0 ? id.substring(tilde + 1) : id;
           Optional<Change.Id> changeId = Change.Id.tryParse(numericPart);
-          if (changeId.isPresent()) {
-            logger.atWarning().log("Deleting change %s from index", changeId.get());
-            indexer.delete(changeId.get());
+          if (tilde < 0 || id.indexOf('~', tilde + 1) >= 0 || changeId.isEmpty()) {
+            logger.atSevere().log(
+                "When deleteMissing is true, Change ID must be in form"
+                    + " project~changeNumber,skipping indexing for change %s",
+                id);
+            continue;
           }
+          logger.atWarning().log("Deleting change %s from index", changeId.get());
+          indexer.delete(changeId.get());
         }
         continue;
       }

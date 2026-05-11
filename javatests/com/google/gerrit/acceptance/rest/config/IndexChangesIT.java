@@ -16,7 +16,9 @@ package com.google.gerrit.acceptance.rest.config;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
+import static com.google.gerrit.entities.RefNames.changeMetaRef;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.testing.TestActionRefUpdateContext.openTestRefUpdateContext;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -24,9 +26,11 @@ import com.google.gerrit.acceptance.ChangeIndexedCounter;
 import com.google.gerrit.acceptance.ExtensionRegistry;
 import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Permission;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.index.IndexConfig;
@@ -35,30 +39,45 @@ import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.IndexedChangeQuery;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.ChangeNumberVirtualIdAlgorithm;
 import com.google.gerrit.server.restapi.config.IndexChanges;
 import com.google.inject.Inject;
 import java.util.Optional;
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Test;
 
 public class IndexChangesIT extends AbstractDaemonTest {
+  private static final String TEST_CHANGE_NUM = "1";
+  private static final String TEST_CHANGE_ID = "I8350971af868ee34b17fc8703aa9ef40c03f5ec5";
 
   @Inject private ProjectOperations projectOperations;
   @Inject private ExtensionRegistry extensionRegistry;
   @Inject private ChangeIndexCollection changeIndexCollection;
   @Inject private IndexConfig indexConfig;
+  @Inject private ChangeNumberVirtualIdAlgorithm changeNumberVirtualIdAlgorithm;
 
   @Test
   public void indexRequestFromNonAdminRejected() throws Exception {
     ChangeIndexedCounter changeIndexedCounter = new ChangeIndexedCounter();
     try (Registration registration =
         extensionRegistry.newRegistration().add(changeIndexedCounter)) {
-      String changeId = createChange().getChangeId();
-      IndexChanges.Input in = new IndexChanges.Input(ImmutableSet.of(changeId), false);
+      PushOneCommit.Result change = createChange();
+      IndexChanges.Input in =
+          new IndexChanges.Input(
+              ImmutableSet.of(projectAndChangeNumId(project, change.getChange().getId())), false);
       changeIndexedCounter.clear();
       userRestSession.post("/config/server/index.changes", in).assertForbidden();
-      assertThat(changeIndexedCounter.getCount(info(changeId))).isEqualTo(0);
+      assertThat(changeIndexedCounter.getCount(info(change.getChangeId()))).isEqualTo(0);
     }
   }
 
@@ -67,12 +86,30 @@ public class IndexChangesIT extends AbstractDaemonTest {
     ChangeIndexedCounter changeIndexedCounter = new ChangeIndexedCounter();
     try (Registration registration =
         extensionRegistry.newRegistration().add(changeIndexedCounter)) {
-      String changeId = createChange().getChangeId();
-      IndexChanges.Input in = new IndexChanges.Input(ImmutableSet.of(changeId), false);
+      PushOneCommit.Result change = createChange();
+      IndexChanges.Input in =
+          new IndexChanges.Input(
+              ImmutableSet.of(projectAndChangeNumId(project, change.getChange().getId())), false);
       changeIndexedCounter.clear();
       adminRestSession.post("/config/server/index.changes", in).assertOK();
-      assertThat(changeIndexedCounter.getCount(info(changeId))).isEqualTo(1);
+      assertThat(changeIndexedCounter.getCount(info(change.getChangeId()))).isEqualTo(1);
     }
+  }
+
+  @Test
+  public void indexChangeNotInIndex() throws Exception {
+    PushOneCommit.Result change = createChange();
+    Change.Id changeId = change.getChange().getId();
+
+    assertThat(getChangeFromIndex(changeId)).isPresent();
+    indexer.delete(changeId);
+    assertThat(getChangeFromIndex(changeId)).isEmpty();
+
+    IndexChanges.Input in =
+        new IndexChanges.Input(ImmutableSet.of(projectAndChangeNumId(project, changeId)), false);
+    adminRestSession.post("/config/server/index.changes", in).assertOK();
+
+    assertThat(getChangeFromIndex(changeId)).isPresent();
   }
 
   @Test
@@ -80,7 +117,7 @@ public class IndexChangesIT extends AbstractDaemonTest {
     ChangeIndexedCounter changeIndexedCounter = new ChangeIndexedCounter();
     try (Registration registration =
         extensionRegistry.newRegistration().add(changeIndexedCounter)) {
-      String changeId = createChange().getChangeId();
+      String changeId = projectAndChangeNumId(project, createChange().getChange().getId());
       ChangeInfo changeInfo = info(changeId);
       projectOperations
           .project(project)
@@ -95,19 +132,32 @@ public class IndexChangesIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void deleteMissingChangeFromIndexByNumericId() throws Exception {
-    PushOneCommit.Result result = createChange();
-    Change.Id changeId = result.getChange().getId();
-
-    assertThat(getChangeFromIndex(changeId)).isPresent();
-    deleteChangeFromNoteDbWithoutUpdatingIndex(changeId);
-    assertThat(getChangeFromIndex(changeId)).isPresent();
-
+  public void indexChangeWithPlainNumericIdAccepted() throws Exception {
+    Change.Id changeId = createChange().getChange().getId();
     IndexChanges.Input in =
-        new IndexChanges.Input(ImmutableSet.of(String.valueOf(changeId.get())), true);
+        new IndexChanges.Input(ImmutableSet.of(String.valueOf(changeId.get())), false);
     adminRestSession.post("/config/server/index.changes", in).assertOK();
+  }
 
-    assertThat(getChangeFromIndex(changeId)).isEmpty();
+  @Test
+  public void deleteMissingChangeFromIndexWithPlainNumericIdRejected() throws Exception {
+    IndexChanges.Input in = new IndexChanges.Input(ImmutableSet.of(TEST_CHANGE_NUM), true);
+    adminRestSession.post("/config/server/index.changes", in).assertBadRequest();
+  }
+
+  @Test
+  public void indexChangeWithTripletIdAccepted() throws Exception {
+    String changeId = createChange().getChangeId();
+    IndexChanges.Input in =
+        new IndexChanges.Input(ImmutableSet.of(project + "~master~" + changeId), false);
+    adminRestSession.post("/config/server/index.changes", in).assertOK();
+  }
+
+  @Test
+  public void deleteMissingChangeFromIndexWithTripletIdRejected() throws Exception {
+    IndexChanges.Input in =
+        new IndexChanges.Input(ImmutableSet.of(project + "~master~" + TEST_CHANGE_ID), true);
+    adminRestSession.post("/config/server/index.changes", in).assertBadRequest();
   }
 
   @Test
@@ -120,7 +170,7 @@ public class IndexChangesIT extends AbstractDaemonTest {
     assertThat(getChangeFromIndex(changeId)).isPresent();
 
     IndexChanges.Input in =
-        new IndexChanges.Input(ImmutableSet.of(project.get() + "~" + changeId.get()), true);
+        new IndexChanges.Input(ImmutableSet.of(projectAndChangeNumId(project, changeId)), true);
     adminRestSession.post("/config/server/index.changes", in).assertOK();
 
     assertThat(getChangeFromIndex(changeId)).isEmpty();
@@ -133,7 +183,7 @@ public class IndexChangesIT extends AbstractDaemonTest {
         extensionRegistry.newRegistration().add(changeIndexedCounter)) {
       ImmutableSet.Builder<String> changeIds = ImmutableSet.builder();
       for (int i = 0; i < 10; i++) {
-        changeIds.add(createChange().getChangeId());
+        changeIds.add(projectAndChangeNumId(project, createChange().getChange().getId()));
       }
       IndexChanges.Input in = new IndexChanges.Input(changeIds.build(), false);
       changeIndexedCounter.clear();
@@ -142,6 +192,62 @@ public class IndexChangesIT extends AbstractDaemonTest {
         assertThat(changeIndexedCounter.getCount(info(changeId))).isEqualTo(1);
       }
     }
+  }
+
+  @Test
+  @GerritConfig(name = "gerrit.importedServerId", value = "imported-server-id")
+  public void deleteMissingImportedChangeFromIndex() throws Exception {
+    PushOneCommit.Result result = createImportedChange();
+    Change.Id changeId = result.getChange().getId();
+    Change.Id virtualId =
+        changeNumberVirtualIdAlgorithm.apply(() -> "imported-server-id", changeId);
+
+    assertThat(getChangeFromIndex(virtualId)).isPresent();
+    deleteChangeFromNoteDbWithoutUpdatingIndex(changeId);
+    assertThat(getChangeFromIndex(virtualId)).isPresent();
+
+    IndexChanges.Input in =
+        new IndexChanges.Input(ImmutableSet.of(projectAndChangeNumId(project, changeId)), true);
+    adminRestSession.post("/config/server/index.changes", in).assertOK();
+
+    assertThat(getChangeFromIndex(virtualId)).isEmpty();
+  }
+
+  private PushOneCommit.Result createImportedChange() throws Exception {
+    PushOneCommit.Result change = createChange();
+    Change.Id changeId = change.getChange().getId();
+    String metaRef = changeMetaRef(changeId);
+
+    try (Repository repo = repoManager.openRepository(project);
+        ObjectInserter inserter = repo.newObjectInserter();
+        ObjectReader reader = repo.newObjectReader();
+        RevWalk revWalk = new RevWalk(reader);
+        var ignored = openTestRefUpdateContext()) {
+
+      Ref ref = repo.getRefDatabase().exactRef(metaRef);
+      RevCommit tip = revWalk.parseCommit(ref.getObjectId());
+
+      CommitBuilder commit = new CommitBuilder();
+      commit.setTreeId(tip.getTree());
+      commit.setAuthor(
+          new PersonIdent("Gerrit User " + admin.id(), admin.id() + "@imported-server-id"));
+      commit.setCommitter(new PersonIdent("Gerrit Code Review", admin.email()));
+      commit.setMessage(tip.getFullMessage());
+
+      ObjectId commitId = inserter.insert(commit);
+      inserter.flush();
+
+      RefUpdate refUpdate = repo.updateRef(metaRef);
+      refUpdate.setNewObjectId(commitId);
+      refUpdate.forceUpdate();
+    }
+
+    // Re-index after rewriting the meta-ref so the index reflects the imported serverId,
+    // ensuring the virtualId in the index matches what the API will compute at delete time.
+    indexer.delete(changeId);
+    indexer.index(project, changeId);
+
+    return change;
   }
 
   private void deleteChangeFromNoteDbWithoutUpdatingIndex(Change.Id changeId) throws Exception {
@@ -155,5 +261,9 @@ public class IndexChangesIT extends AbstractDaemonTest {
     ChangeIndex idx = changeIndexCollection.getSearchIndex();
     QueryOptions opts = IndexedChangeQuery.createOptions(indexConfig, 0, 1, ImmutableSet.of());
     return idx.get(changeId, opts);
+  }
+
+  String projectAndChangeNumId(Project.NameKey project, Change.Id changeNum) {
+    return project + "~" + changeNum;
   }
 }

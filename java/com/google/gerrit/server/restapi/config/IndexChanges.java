@@ -18,7 +18,9 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.change.ChangeFinder;
@@ -29,8 +31,8 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.restapi.config.IndexChanges.Input;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
@@ -56,34 +58,47 @@ public class IndexChanges implements RestModifyView<ConfigResource, Input> {
   }
 
   @Override
-  public Response<String> apply(ConfigResource resource, Input input) {
+  public Response<String> apply(ConfigResource resource, Input input) throws BadRequestException {
     if (input == null || input.changes == null) {
       return Response.ok("Nothing to index");
     }
 
+    List<ChangeInfo> changeIds = new ArrayList<>();
     for (String id : input.changes) {
-      List<ChangeNotes> notes = changeFinder.find(id);
+      changeIds.add(getChangeIdentifier(id));
+    }
+
+    for (ChangeInfo changeInfo : changeIds) {
+      List<ChangeNotes> notes = changeFinder.find(String.valueOf(changeInfo.changeId().get()));
 
       if (notes.isEmpty()) {
-        logger.atWarning().log("Change %s missing in NoteDb", id);
+        logger.atWarning().log("Change %s missing in NoteDb", changeInfo.changeId());
         if (input.deleteMissing) {
-          int tilde = id.lastIndexOf('~');
-          String numericPart = tilde >= 0 ? id.substring(tilde + 1) : id;
-          Optional<Change.Id> changeId = Change.Id.tryParse(numericPart);
-          if (changeId.isPresent()) {
-            logger.atWarning().log("Deleting change %s from index", changeId.get());
-            indexer.delete(changeId.get());
-          }
+          logger.atWarning().log("Deleting change %s from index", changeInfo.changeId());
+          indexer.delete(changeInfo.changeId());
         }
         continue;
       }
 
       for (ChangeNotes n : notes) {
         indexer.index(changeDataFactory.create(n));
-        logger.atFine().log("Indexed change %s", id);
+        logger.atFine().log("Indexed change %s", changeInfo.changeId());
       }
     }
 
     return Response.ok("Indexed changes " + input.changes);
+  }
+
+  record ChangeInfo(Project.NameKey project, Change.Id changeId) {}
+
+  ChangeInfo getChangeIdentifier(String id) throws BadRequestException {
+    int tilde = id.indexOf('~');
+    Change.Id changeId =
+        Change.Id.tryParse(tilde >= 0 ? id.substring(tilde + 1) : "")
+            .orElseThrow(
+                () ->
+                    new BadRequestException(
+                        "Change ID must be in project~changeNumber format: " + id));
+    return new ChangeInfo(Project.nameKey(id.substring(0, tilde)), changeId);
   }
 }

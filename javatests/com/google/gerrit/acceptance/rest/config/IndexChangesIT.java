@@ -54,12 +54,12 @@ public class IndexChangesIT extends AbstractDaemonTest {
     ChangeIndexedCounter changeIndexedCounter = new ChangeIndexedCounter();
     try (Registration registration =
         extensionRegistry.newRegistration().add(changeIndexedCounter)) {
-      String changeId = createChange().getChangeId();
+      PushOneCommit.Result change = createChange();
       IndexChanges.Input in = new IndexChanges.Input();
-      in.changes = ImmutableSet.of(changeId);
+      in.changes = ImmutableSet.of(projectAndChangeNumId(change.getChange().getId().get()));
       changeIndexedCounter.clear();
       userRestSession.post("/config/server/index.changes", in).assertForbidden();
-      assertThat(changeIndexedCounter.getCount(info(changeId))).isEqualTo(0);
+      assertThat(changeIndexedCounter.getCount(info(change.getChangeId()))).isEqualTo(0);
     }
   }
 
@@ -68,12 +68,12 @@ public class IndexChangesIT extends AbstractDaemonTest {
     ChangeIndexedCounter changeIndexedCounter = new ChangeIndexedCounter();
     try (Registration registration =
         extensionRegistry.newRegistration().add(changeIndexedCounter)) {
-      String changeId = createChange().getChangeId();
+      PushOneCommit.Result change = createChange();
       IndexChanges.Input in = new IndexChanges.Input();
-      in.changes = ImmutableSet.of(changeId);
+      in.changes = ImmutableSet.of(projectAndChangeNumId(change.getChange().getId().get()));
       changeIndexedCounter.clear();
       adminRestSession.post("/config/server/index.changes", in).assertOK();
-      assertThat(changeIndexedCounter.getCount(info(changeId))).isEqualTo(1);
+      assertThat(changeIndexedCounter.getCount(info(change.getChangeId()))).isEqualTo(1);
     }
   }
 
@@ -82,7 +82,7 @@ public class IndexChangesIT extends AbstractDaemonTest {
     ChangeIndexedCounter changeIndexedCounter = new ChangeIndexedCounter();
     try (Registration registration =
         extensionRegistry.newRegistration().add(changeIndexedCounter)) {
-      String changeId = createChange().getChangeId();
+      String changeId = projectAndChangeNumId(createChange().getChange().getId().get());
       ChangeInfo changeInfo = info(changeId);
       projectOperations
           .project(project)
@@ -98,20 +98,19 @@ public class IndexChangesIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void deleteMissingChangeFromIndexByNumericId() throws Exception {
-    PushOneCommit.Result result = createChange();
-    Change.Id changeId = result.getChange().getId();
-
-    assertThat(getChangeFromIndex(changeId)).isPresent();
-    deleteChangeFromNoteDbWithoutUpdatingIndex(changeId);
-    assertThat(getChangeFromIndex(changeId)).isPresent();
-
+  public void indexChangeWithPlainNumericIdRejected() throws Exception {
+    Change.Id changeId = createChange().getChange().getId();
     IndexChanges.Input in = new IndexChanges.Input();
     in.changes = ImmutableSet.of(String.valueOf(changeId.get()));
-    in.deleteMissing = true;
-    adminRestSession.post("/config/server/index.changes", in).assertOK();
+    adminRestSession.post("/config/server/index.changes", in).assertBadRequest();
+  }
 
-    assertThat(getChangeFromIndex(changeId)).isEmpty();
+  @Test
+  public void indexChangeWithTripletIdRejected() throws Exception {
+    String changeId = createChange().getChangeId();
+    IndexChanges.Input in = new IndexChanges.Input();
+    in.changes = ImmutableSet.of(project + "~master~" + changeId);
+    adminRestSession.post("/config/server/index.changes", in).assertBadRequest();
   }
 
   @Test
@@ -124,7 +123,7 @@ public class IndexChangesIT extends AbstractDaemonTest {
     assertThat(getChangeFromIndex(changeId)).isPresent();
 
     IndexChanges.Input in = new IndexChanges.Input();
-    in.changes = ImmutableSet.of(project.get() + "~" + changeId.get());
+    in.changes = ImmutableSet.of(projectAndChangeNumId(changeId.get()));
     in.deleteMissing = true;
     adminRestSession.post("/config/server/index.changes", in).assertOK();
 
@@ -138,7 +137,7 @@ public class IndexChangesIT extends AbstractDaemonTest {
         extensionRegistry.newRegistration().add(changeIndexedCounter)) {
       ImmutableSet.Builder<String> changeIds = ImmutableSet.builder();
       for (int i = 0; i < 10; i++) {
-        changeIds.add(createChange().getChangeId());
+        changeIds.add(projectAndChangeNumId(createChange().getChange().getId().get()));
       }
       IndexChanges.Input in = new IndexChanges.Input();
       in.changes = changeIds.build();
@@ -161,5 +160,9 @@ public class IndexChangesIT extends AbstractDaemonTest {
     ChangeIndex idx = changeIndexCollection.getSearchIndex();
     QueryOptions opts = IndexedChangeQuery.createOptions(indexConfig, 0, 1, ImmutableSet.of());
     return idx.get(changeId, opts);
+  }
+
+  String projectAndChangeNumId(int changeNum) {
+    return project + "~" + changeNum;
   }
 }

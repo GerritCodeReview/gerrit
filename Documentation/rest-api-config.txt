@@ -1549,11 +1549,12 @@ Using this endpoint Gerrit admins can also index change(s) which are not visible
     "changes": [
       "foo~101",
       "bar~202",
-      "303"
     ],
     "delete_missing": "true"
   }
 ----
+
+Note, only Change-IDs in the format project~changeNumber are accepted.
 
 .Response
 ----

@@ -96,7 +96,7 @@ public class IndexChangesIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void deleteMissingChangeFromIndexByNumericId() throws Exception {
+  public void deleteMissingChangeFromIndexByNumericIdDoesNothing() throws Exception {
     PushOneCommit.Result result = createChange();
     Change.Id changeId = result.getChange().getId();
 
@@ -118,7 +118,7 @@ public class IndexChangesIT extends AbstractDaemonTest {
     in.deleteMissing = true;
     adminRestSession.post("/config/server/index.changes", in).assertOK();
 
-    assertThat(idx.get(changeId, opts)).isEmpty();
+    assertThat(idx.get(changeId, opts)).isPresent();
   }
 
   @Test

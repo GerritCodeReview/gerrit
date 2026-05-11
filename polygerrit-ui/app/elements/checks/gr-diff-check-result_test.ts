@@ -242,4 +242,17 @@ suite('gr-diff-check-result tests', () => {
       )
     );
   });
+
+  test('renders attempt number for older collapsed runs', async () => {
+    element.result = {
+      ...checkRun1,
+      ...checkRun1.results?.[0],
+      isLatestAttempt: false,
+      attempt: 2,
+    } as RunResult;
+    await element.updateComplete;
+
+    const note = queryAndAssert(element, 'span.note');
+    assert.dom.equal(note, '<span class="note">(Attempt 2)</span>');
+  });
 });

@@ -245,7 +245,7 @@ export class GrDiffCheckResult extends LitElement {
               tabindex="0"
               @keydown=${this.toggleExpandedPress}
             >
-              ${this.result.checkName}${this.renderDetail(this.result.tags)}
+              ${this.result.checkName}${this.renderDetail(this.result)}
             </div>
           </div>
           <!-- The &nbsp; is for being able to shrink a tiny amount without
@@ -301,13 +301,18 @@ export class GrDiffCheckResult extends LitElement {
     ></gr-checks-fix-preview>`;
   }
 
-  private renderDetail(tags: Tag[] | undefined) {
-    for (const tag of tags ?? []) {
+  private renderDetail(result: RunResult) {
+    const details = [];
+    if (!result.isLatestAttempt && result.attempt !== undefined) {
+      details.push(`Attempt ${result.attempt}`);
+    }
+    for (const tag of result.tags ?? []) {
       if (tag.name === 'Unpublished') {
-        return html`<span class="note">(${tag.name})</span>`;
+        details.push(tag.name);
       }
     }
-    return nothing;
+    if (details.length === 0) return nothing;
+    return html`<span class="note">(${details.join(', ')})</span>`;
   }
 
   private renderTags() {

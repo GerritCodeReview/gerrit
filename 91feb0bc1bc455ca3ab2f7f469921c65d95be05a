@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "3836b805_d4b2b746",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3385516
+      },
+      "writtenOn": "2026-05-11T00:15:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4afc7eab_4d117e9e",
+      "revId": "91feb0bc1bc455ca3ab2f7f469921c65d95be05a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "aaa28ce2_b3b12518",
         "filename": "java/com/google/gerrit/server/query/change/RegexPathPredicate.java",
         "patchSetId": 1

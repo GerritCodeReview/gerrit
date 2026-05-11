@@ -98,20 +98,11 @@ public class IndexChangesIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void deleteMissingChangeFromIndexByNumericId() throws Exception {
-    PushOneCommit.Result result = createChange();
-    Change.Id changeId = result.getChange().getId();
-
-    assertThat(getChangeFromIndex(changeId)).isPresent();
-    deleteChangeFromNoteDbWithoutUpdatingIndex(changeId);
-    assertThat(getChangeFromIndex(changeId)).isPresent();
-
+  public void indexChangeWithPlainNumericIdRejected() throws Exception {
+    Change.Id changeId = createChange().getChange().getId();
     IndexChanges.Input in = new IndexChanges.Input();
     in.changes = ImmutableSet.of(String.valueOf(changeId.get()));
-    in.deleteMissing = true;
-    adminRestSession.post("/config/server/index.changes", in).assertOK();
-
-    assertThat(getChangeFromIndex(changeId)).isEmpty();
+    adminRestSession.post("/config/server/index.changes", in).assertBadRequest();
   }
 
   @Test

@@ -15,7 +15,6 @@ PLUGIN_TEST_DEPS = [
 def gerrit_plugin(
         name,
         deps = [],
-        provided_deps = [],
         srcs = [],
         resources = [],
         resource_jars = [],
@@ -33,7 +32,6 @@ def gerrit_plugin(
     _gerrit_plugin(
         name = name,
         deps = deps,
-        provided_deps = provided_deps,
         srcs = srcs,
         resources = resources,
         resource_jars = resource_jars,

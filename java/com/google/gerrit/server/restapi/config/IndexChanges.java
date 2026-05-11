@@ -18,6 +18,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.change.ChangeFinder;
@@ -55,9 +56,16 @@ public class IndexChanges implements RestModifyView<ConfigResource, Input> {
   }
 
   @Override
-  public Response<String> apply(ConfigResource resource, Input input) {
+  public Response<String> apply(ConfigResource resource, Input input) throws BadRequestException {
     if (input == null || input.changes == null) {
       return Response.ok("Nothing to index");
+    }
+
+    for (String id : input.changes) {
+      if (id.indexOf('~') < 0) {
+        throw new BadRequestException(
+            "Change ID must be in project~changeNumber or project~branch~changeId format: " + id);
+      }
     }
 
     for (String id : input.changes) {

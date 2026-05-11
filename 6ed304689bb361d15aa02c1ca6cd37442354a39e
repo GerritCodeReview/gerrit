@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "947c07b0_4dd38f9b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-05-11T14:47:45Z",
+      "side": 1,
+      "message": "Is there additional context here (a bug maybe)? I\u0027m not very familiar with Gerrit backend.",
+      "revId": "6ed304689bb361d15aa02c1ca6cd37442354a39e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

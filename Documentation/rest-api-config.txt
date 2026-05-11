@@ -1548,8 +1548,7 @@ Using this endpoint Gerrit admins can also index change(s) which are not visible
   {
     "changes": [
       "foo~101",
-      "bar~202",
-      "303"
+      "bar~202"
     ],
     "delete_missing": "true"
   }
@@ -1561,8 +1560,13 @@ Using this endpoint Gerrit admins can also index change(s) which are not visible
   Content-Disposition: attachment
 ----
 
-When `delete_missing` is set to `true` changes to be reindexed which are missing in NoteDb
-will be deleted in the index.
+[NOTE]
+When `delete_missing` is set to `true`, only Change-IDs in the format
+project~changeNumber are accepted. Changes to be reindexed which are
+missing in NoteDb will be deleted in the index. If any of the Change-IDs
+are in an incorrect format, the server will return a 400 - Bad Request,
+and none of the operations will be executed.
+
 
 [[list-indexes]]
 === List Indexes
@@ -2573,11 +2577,11 @@ The `IndexChangesInput` contains a list of change numbers of changes to index.
 |================================
 |Field Name         ||Description
 |`changes`   ||
-List of link:rest-api-changes.html#change-id[change-ids]
+List of link:rest-api-changes.html#change-id[change-ids]. When `delete_missing` is `true`, each entry must be in `project~changeNumber` format.
 |`delete_missing`  |optional|
 Delete changes which are missing in NoteDb from the index. This can be used
 to get rid of stale index entries. Possible values are `true` and `false`.
-By default set to `false`.
+By default set to `false`. When `true`, all entries in `changes` must be in `project~changeNumber` format; otherwise the request fails with `400 Bad Request` and no operations are executed.
 |================================
 
 [[jvm-summary-info]]

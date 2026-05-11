@@ -1549,7 +1549,6 @@ Using this endpoint Gerrit admins can also index change(s) which are not visible
     "changes": [
       "foo~101",
       "bar~202",
-      "303"
     ],
     "delete_missing": "true"
   }
@@ -1561,8 +1560,13 @@ Using this endpoint Gerrit admins can also index change(s) which are not visible
   Content-Disposition: attachment
 ----
 
-When `delete_missing` is set to `true` changes to be reindexed which are missing in NoteDb
-will be deleted in the index.
+[NOTE]
+When `delete_missing` is set to `true`, only Change-IDs in the format
+project~changeNumber are accepted. changes to be reindexed which are
+missing in NoteDb will be deleted in the index. If any of the Change-IDs
+are in an incorrect format, the server will return a 400 - Bad Request,
+and none of the operations will be executed.
+
 
 [[list-indexes]]
 === List Indexes

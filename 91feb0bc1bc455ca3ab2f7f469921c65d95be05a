@@ -50,6 +50,24 @@
       "message": "Instead of pre-filtering the file list and allocating a new ArrayList via `Collectors.toList()` (which enforces a full iteration and memory allocation), you can apply the magic file filter directly to the stream returned by `search()`. \n\nThis preserves the short-circuiting lazy evaluation naturally provided by the search stream and fully leverages `RegexListSearcher`\u0027s optimizations while avoiding upfront memory allocations.\n\n```java\n  @Override\n  public boolean match(ChangeData object) {\n    return RegexListSearcher.ofStrings(getValue())\n        .search(object.currentFilePaths())\n        .anyMatch(f -\u003e !Patch.isMagic(f));\n  }\n```",
       "revId": "91feb0bc1bc455ca3ab2f7f469921c65d95be05a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "996b8f4a_bbaa65f1",
+        "filename": "java/com/google/gerrit/server/query/change/RegexPathPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 3385516
+      },
+      "writtenOn": "2026-05-11T00:02:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "575f6018_cc5008c1",
+      "revId": "91feb0bc1bc455ca3ab2f7f469921c65d95be05a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

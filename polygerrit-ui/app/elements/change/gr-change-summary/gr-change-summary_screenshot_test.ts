@@ -97,22 +97,4 @@ suite('gr-change-summary screenshot tests', () => {
       'gr-change-summary-with-ai-review-prompt'
     );
   });
-
-  test('screenshot with AI powered check runs', async () => {
-    element.runs = [
-      createRun({
-        status: RunStatus.COMPLETED,
-        checkName: 'ai-warning-check',
-        isAiPowered: true,
-        results: [createCheckResult({category: Category.WARNING})],
-      }),
-    ];
-    await element.updateComplete;
-
-    await visualDiff(element, 'gr-change-summary-with-ai-powered-check-runs');
-    await visualDiffDarkTheme(
-      element,
-      'gr-change-summary-with-ai-powered-check-runs'
-    );
-  });
 });

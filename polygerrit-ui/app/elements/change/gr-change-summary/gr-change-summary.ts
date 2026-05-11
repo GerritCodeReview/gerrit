@@ -514,11 +514,9 @@ export class GrChangeSummary extends LitElement {
       (sum, run) => sum + (resultFilter(run).length || 1),
       0
     );
-    const hasAiPowered = runs.some(run => run.isAiPowered);
     if (count === 0) return;
     const handler = () => this.onChipClick({statusOrCategory});
     return html`<gr-checks-chip
-      .isAiPowered=${hasAiPowered}
       .statusOrCategory=${statusOrCategory}
       .text=${`${count}`}
       @click=${handler}
@@ -551,7 +549,6 @@ export class GrChangeSummary extends LitElement {
     const links = [];
     if (run.statusLink) links.push(run.statusLink);
     const text = `${run.checkName}`;
-    const isAiPowered = run.isAiPowered;
     const tabState: ChecksTabState = {
       checkName: run.checkName,
       statusOrCategory,
@@ -567,7 +564,6 @@ export class GrChangeSummary extends LitElement {
     const handler = () => this.onChipClick(tabState);
     return html`<gr-checks-chip
       .statusOrCategory=${statusOrCategory}
-      .isAiPowered=${isAiPowered}
       .text=${text}
       .links=${links}
       @click=${handler}

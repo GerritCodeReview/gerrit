@@ -28,9 +28,6 @@ export class GrChecksChip extends LitElement {
   @property({type: Array})
   links: string[] = [];
 
-  @property({type: Boolean})
-  isAiPowered = false;
-
   private readonly reporting = getAppContext().reportingService;
 
   static override get styles() {
@@ -78,7 +75,6 @@ export class GrChecksChip extends LitElement {
         }
         gr-icon {
           font-size: var(--line-height-small);
-          --gr-icon-size: var(--line-height-small);
         }
         .checksChip a gr-icon.launch {
           color: var(--link-color);
@@ -112,22 +108,18 @@ export class GrChecksChip extends LitElement {
         .checksChip.warning gr-icon {
           color: var(--warning-foreground);
         }
-        .checksChip.info,
-        .checksChip.ai {
+        .checksChip.info {
           border-color: var(--info-foreground);
           background: var(--info-background);
         }
-        .checksChip.info:hover,
-        .checksChip.ai:hover {
+        .checksChip.info:hover {
           background: var(--info-background-hover);
           box-shadow: var(--elevation-level-1);
         }
-        .checksChip.info:focus-within,
-        .checksChip.ai:focus-within {
+        .checksChip.info:focus-within {
           background: var(--info-background-focus);
         }
-        .checksChip.info gr-icon,
-        .checksChip.ai gr-icon {
+        .checksChip.info gr-icon {
           color: var(--info-foreground);
         }
         .checksChip.check_circle {
@@ -169,7 +161,7 @@ export class GrChecksChip extends LitElement {
   override render() {
     if (!this.text) return;
     if (!this.statusOrCategory) return;
-    const icon = iconFor(this.statusOrCategory, this.isAiPowered);
+    const icon = iconFor(this.statusOrCategory);
     const ariaLabel = this.computeAriaLabel();
     const chipClass = `checksChip font-small ${icon.name}`;
     const chipClassFullLength = `${chipClass} hoverFullLength`;

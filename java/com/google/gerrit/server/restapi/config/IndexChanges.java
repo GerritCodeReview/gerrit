@@ -15,22 +15,27 @@
 package com.google.gerrit.server.restapi.config;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Preconditions;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.gerrit.server.change.ChangeFinder;
 import com.google.gerrit.server.config.ConfigResource;
 import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.restapi.config.IndexChanges.Input;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
@@ -43,47 +48,71 @@ public class IndexChanges implements RestModifyView<ConfigResource, Input> {
     @VisibleForTesting public boolean deleteMissing;
   }
 
-  private final ChangeFinder changeFinder;
-  private final ChangeData.Factory changeDataFactory;
+  private final Provider<InternalChangeQuery> queryProvider;
+  private final ChangeNotes.Factory notesFactory;
   private final ChangeIndexer indexer;
 
   @Inject
   IndexChanges(
-      ChangeFinder changeFinder, ChangeData.Factory changeDataFactory, ChangeIndexer indexer) {
-    this.changeFinder = changeFinder;
-    this.changeDataFactory = changeDataFactory;
+      Provider<InternalChangeQuery> queryProvider,
+      ChangeNotes.Factory notesFactory,
+      ChangeIndexer indexer) {
+    this.queryProvider = queryProvider;
+    this.notesFactory = notesFactory;
     this.indexer = indexer;
   }
 
   @Override
-  public Response<String> apply(ConfigResource resource, Input input) {
+  public Response<String> apply(ConfigResource resource, Input input) throws Exception {
     if (input == null || input.changes == null) {
       return Response.ok("Nothing to index");
     }
 
+    List<ChangeIdentifier> changeIds = new ArrayList<>();
     for (String id : input.changes) {
-      List<ChangeNotes> notes = changeFinder.find(id);
+      changeIds.add(getChangeIdentifier(id));
+    }
 
-      if (notes.isEmpty()) {
-        logger.atWarning().log("Change %s missing in NoteDb", id);
-        if (input.deleteMissing) {
-          int tilde = id.lastIndexOf('~');
-          String numericPart = tilde >= 0 ? id.substring(tilde + 1) : id;
-          Optional<Change.Id> changeId = Change.Id.tryParse(numericPart);
-          if (changeId.isPresent()) {
-            logger.atWarning().log("Deleting change %s from index", changeId.get());
-            indexer.delete(changeId.get());
-          }
+    for (ChangeIdentifier changeInfo : changeIds) {
+      List<ChangeData> changes =
+          queryProvider.get().byProjectChangeNumber(changeInfo.project(), changeInfo.changeId());
+      Preconditions.checkState(
+          changes.size() <= 1,
+          "Ambiguous change ID %s in project %s",
+          changeInfo.changeId(),
+          changeInfo.project());
+
+      if (!changes.isEmpty() && input.deleteMissing) {
+        try {
+          var unused = notesFactory.create(changeInfo.project(), changeInfo.changeId());
+        } catch (NoSuchChangeException e) {
+          logger.atWarning().log(
+              "Change %s~%s missing in NoteDb", changeInfo.project(), changeInfo.changeId());
+          ChangeData cd = changes.getFirst();
+          logger.atWarning().log(
+              "Deleting change %s~%s from index", cd.project(), cd.change().getChangeId());
+          indexer.delete(cd.virtualId());
+          continue;
         }
-        continue;
       }
 
-      for (ChangeNotes n : notes) {
-        indexer.index(changeDataFactory.create(n));
-        logger.atFine().log("Indexed change %s", id);
-      }
+      indexer.index(changeInfo.project(), changeInfo.changeId());
+      logger.atFine().log("Indexed change %s", changeInfo.changeId());
     }
 
     return Response.ok("Indexed changes " + input.changes);
+  }
+
+  record ChangeIdentifier(Project.NameKey project, Change.Id changeId) {}
+
+  ChangeIdentifier getChangeIdentifier(String id) throws BadRequestException {
+    int tilde = id.indexOf('~');
+    Change.Id changeId =
+        Change.Id.tryParse(tilde >= 0 ? id.substring(tilde + 1) : "")
+            .orElseThrow(
+                () ->
+                    new BadRequestException(
+                        "Change ID must be in project~changeNumber format: " + id));
+    return new ChangeIdentifier(Project.nameKey(id.substring(0, tilde)), changeId);
   }
 }

@@ -63,6 +63,54 @@
       ],
       "revId": "8047da5ee09a7765b9b52ab459be05f0db7ee4e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d030459_f7eee0a5",
+        "filename": "polygerrit-ui/app/utils/link-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1081020
+      },
+      "writtenOn": "2026-05-12T17:29:16Z",
+      "side": 1,
+      "message": "Good point. I\u0027ve updated the logic in the latest patchset to match any attribute followed by quotes (checking for `\u003d\"` or `\u003d\u0027` before the match). This should cover `src`, `action`, and other attributes, as well as supporting single quotes. Thanks!",
+      "parentUuid": "22085d3b_57a58eea",
+      "range": {
+        "startLine": 45,
+        "startChar": 29,
+        "endLine": 45,
+        "endChar": 33
+      },
+      "revId": "8047da5ee09a7765b9b52ab459be05f0db7ee4e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5709d5a0_20c487d3",
+        "filename": "polygerrit-ui/app/utils/link-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1081020
+      },
+      "writtenOn": "2026-05-12T17:29:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e6fc309_afff082c",
+      "range": {
+        "startLine": 45,
+        "startChar": 34,
+        "endLine": 45,
+        "endChar": 40
+      },
+      "revId": "8047da5ee09a7765b9b52ab459be05f0db7ee4e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

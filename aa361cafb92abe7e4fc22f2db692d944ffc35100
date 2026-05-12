@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "80db3c0a_27439474",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-05-12T10:09:08Z",
+      "side": 1,
+      "message": "No, this is needed as I\u0027m now setting it in the tests.",
+      "parentUuid": "3d7e7721_9d50b1a2",
+      "range": {
+        "startLine": 42,
+        "startChar": 4,
+        "endLine": 42,
+        "endChar": 10
+      },
+      "revId": "aa361cafb92abe7e4fc22f2db692d944ffc35100",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "09bcfe5b_8bbe33e3",
@@ -49,6 +73,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ac39c9d6_74511b3e",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/config/IndexChangesIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-05-12T10:09:08Z",
+      "side": 1,
+      "message": "I\u0027m reusing idx and opts in other assertions throughout this method, maybe I could extract these 2 lines to be instance variables, but not sure that\u0027s much better?",
+      "parentUuid": "09bcfe5b_8bbe33e3",
+      "range": {
+        "startLine": 103,
+        "startChar": 0,
+        "endLine": 105,
+        "endChar": 52
+      },
+      "revId": "aa361cafb92abe7e4fc22f2db692d944ffc35100",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ca780d80_5e71439b",
         "filename": "javatests/com/google/gerrit/acceptance/rest/config/IndexChangesIT.java",
         "patchSetId": 10
@@ -60,6 +108,30 @@
       "writtenOn": "2026-05-12T09:52:37Z",
       "side": 1,
       "message": "If you DRY this up into a self-documenting method name, you won\u0027t need any comment and won\u0027t need to repeat it twice.",
+      "range": {
+        "startLine": 107,
+        "startChar": 0,
+        "endLine": 112,
+        "endChar": 5
+      },
+      "revId": "aa361cafb92abe7e4fc22f2db692d944ffc35100",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "729a7da7_f23f28da",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/config/IndexChangesIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-05-12T10:09:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca780d80_5e71439b",
       "range": {
         "startLine": 107,
         "startChar": 0,

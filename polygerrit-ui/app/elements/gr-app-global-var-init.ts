@@ -23,6 +23,7 @@ import {
   initWebVitals,
 } from '../services/gr-reporting/gr-reporting_impl';
 import {Finalizable} from '../types/types';
+import {css, html, LitElement} from 'lit';
 
 export function initGlobalVariables(
   appContext: AppContext & Finalizable,
@@ -39,6 +40,9 @@ export function initGlobalVariables(
     initInteractionReporter(reportingService);
   }
   window.GrPluginActionContext = GrPluginActionContext;
+  window.LitElement = LitElement;
+  window.html = html;
+  window.css = css;
 }
 
 export function initGerrit(pluginLoader: PluginLoader) {

@@ -7,8 +7,9 @@ import * as sinon from 'sinon';
 import '../../../test/common-test-setup';
 import './gr-selection-action-box';
 import {GrSelectionActionBox} from './gr-selection-action-box';
-import {queryAndAssert} from '../../../test/test-utils';
+import {listenOnce, queryAndAssert} from '../../../test/test-utils';
 import {assert, fixture, html} from '@open-wc/testing';
+import {Side} from '../../../api/diff';
 
 suite('gr-selection-action-box', () => {
   let container: HTMLDivElement;
@@ -120,6 +121,138 @@ suite('gr-selection-action-box', () => {
           </slot>
         `
       );
+    });
+
+    test('fires selection-action-box-visible event with correct target and properties', async () => {
+      dispatchEventStub.restore();
+      const visibleEventPromise = listenOnce<CustomEvent>(
+        document,
+        'selection-action-box-visible'
+      );
+
+      element.getSelectionContext = () =>
+        Promise.resolve({
+          path: 'test-path.txt',
+          side: Side.LEFT,
+          range: {
+            start_line: 1,
+            start_character: 2,
+            end_line: 3,
+            end_character: 4,
+          },
+          text: 'selected text',
+        });
+
+      await element.placeAbove(target);
+
+      const ev = await visibleEventPromise;
+
+      const targetEl = ev.target as HTMLElement;
+      assert.equal(targetEl, element);
+      assert.isDefined(ev.detail.getSelectionContext);
+      const context = await ev.detail.getSelectionContext!();
+      assert.equal(context.path, 'test-path.txt');
+      assert.equal(context.side, Side.LEFT);
+      assert.deepEqual(context.range, {
+        start_line: 1,
+        start_character: 2,
+        end_line: 3,
+        end_character: 4,
+      });
+      assert.equal(context.text, 'selected text');
+    });
+
+    test('event retargeting in shadow DOM', async () => {
+      dispatchEventStub.restore();
+
+      // Create a host element with shadow DOM
+      const host = document.createElement('div');
+      const shadow = host.attachShadow({mode: 'open'});
+
+      // Put the action box and a target inside shadow DOM
+      const box = document.createElement('gr-selection-action-box');
+      const shadowTarget = document.createElement('div');
+      shadowTarget.textContent = 'shadow text';
+      shadow.appendChild(box);
+      shadow.appendChild(shadowTarget);
+
+      // Append host to body so it is in the document
+      document.body.appendChild(host);
+      try {
+        await box.updateComplete;
+
+        // Stub necessary methods on the new box instance
+        sinon
+          .stub(box, 'tooltip' as keyof GrSelectionActionBox)
+          .value(element.tooltip);
+        sinon.stub(box, 'getTargetBoundingRect').returns({
+          top: 42,
+          bottom: 20,
+          left: 30,
+          right: 40,
+          width: 100,
+          height: 60,
+        } as DOMRect);
+
+        let capturedPath: EventTarget[] = [];
+        const visibleEventPromise = new Promise<CustomEvent>(resolve => {
+          const listener = (e: Event) => {
+            capturedPath = e.composedPath();
+            document.removeEventListener(
+              'selection-action-box-visible',
+              listener
+            );
+            resolve(e as CustomEvent);
+          };
+          document.addEventListener('selection-action-box-visible', listener);
+        });
+
+        box.getSelectionContext = () =>
+          Promise.resolve({
+            path: 'shadow-path.txt',
+            side: Side.RIGHT,
+            range: {
+              start_line: 5,
+              start_character: 6,
+              end_line: 7,
+              end_character: 8,
+            },
+            text: 'shadow selected text',
+          });
+
+        await box.placeAbove(shadowTarget);
+
+        const ev = await visibleEventPromise;
+
+        // ev.target should be the host 'div' because of retargeting!
+        assert.equal(ev.target, host);
+        assert.isUndefined(
+          (ev.target as unknown as Record<string, unknown>).path
+        );
+        assert.isUndefined(
+          (ev.target as unknown as Record<string, unknown>).side
+        );
+
+        // Assert on event detail (should be preserved despite retargeting!)
+        assert.isDefined(ev.detail.getSelectionContext);
+        const context = await ev.detail.getSelectionContext!();
+        assert.equal(context.path, 'shadow-path.txt');
+        assert.equal(context.side, Side.RIGHT);
+        assert.deepEqual(context.range, {
+          start_line: 5,
+          start_character: 6,
+          end_line: 7,
+          end_character: 8,
+        });
+        assert.equal(context.text, 'shadow selected text');
+
+        // The actual target can be found in capturedPath
+        assert.isAbove(capturedPath.length, 0);
+        const actualTarget = capturedPath[0] as HTMLElement;
+        assert.equal(actualTarget, box);
+      } finally {
+        host.remove();
+      }
     });
 
     test('placeAbove for Element argument', async () => {

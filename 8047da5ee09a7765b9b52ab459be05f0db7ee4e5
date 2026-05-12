@@ -1,0 +1,68 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22085d3b_57a58eea",
+        "filename": "polygerrit-ui/app/utils/link-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 4580685
+      },
+      "writtenOn": "2026-05-12T17:20:00Z",
+      "side": 1,
+      "message": "Technically, there are other standard attributes that take links, like src, action, data, etc. Not sure where to draw the line, though. Did you consider just matching against \u0027\u003d\u0026quot;\u0027?",
+      "range": {
+        "startLine": 45,
+        "startChar": 29,
+        "endLine": 45,
+        "endChar": 33
+      },
+      "revId": "8047da5ee09a7765b9b52ab459be05f0db7ee4e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e6fc309_afff082c",
+        "filename": "polygerrit-ui/app/utils/link-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 4580685
+      },
+      "writtenOn": "2026-05-12T17:20:00Z",
+      "side": 1,
+      "message": "You might want to apply the same for single quotes, too (\u0027\u0026#39;\u0027);",
+      "range": {
+        "startLine": 45,
+        "startChar": 34,
+        "endLine": 45,
+        "endChar": 40
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "676192aa_893f2e60",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/utils/link-util.ts",
+              "range": {
+                "startLine": 45,
+                "startChar": 0,
+                "endLine": 46,
+                "endChar": 0
+              },
+              "replacement": "      if (\n        (preMatch.endsWith(\u0027href\u003d\u0026quot;\u0027) \u0026\u0026 postMatch.startsWith(\u0027\u0026quot;\u0027)) ||\n        (preMatch.endsWith(\"href\u003d\u0026#39;\") \u0026\u0026 postMatch.startsWith(\"\u0026#39;\"))\n      ) {\n"
+            }
+          ]
+        }
+      ],
+      "revId": "8047da5ee09a7765b9b52ab459be05f0db7ee4e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

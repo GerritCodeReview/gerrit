@@ -39,6 +39,20 @@ function getRewriteResultsFromConfig(
     let match: RegExpExecArray | null;
 
     while ((match = regexp.exec(base)) !== null) {
+      // Skip linkification if the match is inside an escaped HTML attribute.
+      const preMatch = base.substring(0, match.index);
+      const postMatch = base.substring(match.index + match[0].length);
+
+      const isDoubleQuotedAttr =
+        (preMatch.endsWith('=&quot;') && postMatch.startsWith('&quot;')) ||
+        (preMatch.endsWith('=&#34;') && postMatch.startsWith('&#34;'));
+      const isSingleQuotedAttr =
+        (preMatch.endsWith('=&#39;') && postMatch.startsWith('&#39;')) ||
+        (preMatch.endsWith('=&apos;') && postMatch.startsWith('&apos;'));
+      if (isDoubleQuotedAttr || isSingleQuotedAttr) {
+        continue;
+      }
+
       const fullReplacementText = getReplacementText(match[0], rewrite);
       // The replacement may not be changing the entire matched substring so we
       // "trim" the replacement position and text to the part that is actually

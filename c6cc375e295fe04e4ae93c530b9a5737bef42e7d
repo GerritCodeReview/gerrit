@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db188568_148fc79e",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-12T07:37:44Z",
+      "side": 1,
+      "message": "How are you sure that this is going to be numeric?\nYou are using a triplet in the tests, meaning that this is a string Change-Id.",
+      "range": {
+        "startLine": 70,
+        "startChar": 17,
+        "endLine": 70,
+        "endChar": 28
+      },
+      "revId": "c6cc375e295fe04e4ae93c530b9a5737bef42e7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

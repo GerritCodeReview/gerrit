@@ -6,7 +6,6 @@
 import '../../../styles/shared-styles';
 import '../../../styles/gr-font-styles';
 import '../../../styles/gr-change-metadata-shared-styles';
-import '../../../styles/gr-change-view-integration-shared-styles';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../../shared/gr-account-chip/gr-account-chip';

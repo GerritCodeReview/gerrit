@@ -34,6 +34,24 @@
       "parentUuid": "1997ffcf_861db498",
       "revId": "e48cb495d466aeaf03d9fd5f941a50a40952d972",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a93bbae_7dc370e0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-05-12T15:28:29Z",
+      "side": 1,
+      "message": "Oops I meant for this on my CL (sorry for merging), but confirmed the screenshots that failed here are the existing ones.",
+      "parentUuid": "944255f7_ba235815",
+      "revId": "e48cb495d466aeaf03d9fd5f941a50a40952d972",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

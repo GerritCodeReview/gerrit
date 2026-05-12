@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "632acab1_4b07d10c",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-05-12T09:57:31Z",
+      "side": 1,
+      "message": "Currently I\u0027ve decided to log that we\u0027re not going to delete the change in question, but keep processing the request and only log an error.\nBut the request\u0027s return code will be 200, which can be deceiving.\n\n\nAnother option would be to preliminary check all changes in the payload and return a bad request if any of them is not in the format we expect, but maybe this is overly strict?\n\nHappy to take feedback.",
+      "range": {
+        "startLine": 73,
+        "startChar": 9,
+        "endLine": 79,
+        "endChar": 11
+      },
+      "revId": "27a4a16e918b221d43729dc5a0802dd68fe7002b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

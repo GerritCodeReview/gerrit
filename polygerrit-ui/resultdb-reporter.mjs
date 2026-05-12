@@ -1,5 +1,8 @@
 import fs from 'fs';
 import path from 'path';
+import { URL } from 'url';
+
+const uiDir = path.dirname(new URL(import.meta.url).pathname);
 
 function getExistingDir(dirPath) {
   if (fs.existsSync(dirPath)) return dirPath;
@@ -27,7 +30,7 @@ function attachVisualDiff(test, artifacts) {
 
 function attachSideBySideScreenshots(test, testFile, artifacts) {
   try {
-    const failedDir = getExistingDir('screenshots/Chromium/failed');
+    const failedDir = getExistingDir(path.join(uiDir, 'screenshots/Chromium/failed'));
     if (!failedDir) return '';
 
     const files = fs.readdirSync(failedDir).filter(f => f.endsWith('.png') && !f.endsWith('-diff.png'));
@@ -56,7 +59,7 @@ function attachSideBySideScreenshots(test, testFile, artifacts) {
     if (!bestFile) return '';
 
     const actualPath = path.join(failedDir, bestFile);
-    const baselineDir = getExistingDir('screenshots/baseline/Chromium');
+    const baselineDir = getExistingDir(path.join(uiDir, 'screenshots/baseline/Chromium'));
     const baselinePath = baselineDir ? path.join(baselineDir, bestFile) : null;
 
     let html = '';

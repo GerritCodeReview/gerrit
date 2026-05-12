@@ -174,10 +174,7 @@ export function resultDbReporter() {
             expected,
             summaryHtml,
             artifacts: Object.keys(artifacts).length > 0 ? artifacts : undefined,
-            duration: test.duration ? {
-              seconds: String(Math.floor(test.duration / 1000)),
-              nanos: (test.duration % 1000) * 1000000,
-            } : undefined,
+            duration: test.duration ? `${(test.duration / 1000).toFixed(9)}s` : undefined,
           });
         }
       }

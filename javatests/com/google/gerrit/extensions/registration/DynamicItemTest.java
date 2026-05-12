@@ -28,7 +28,10 @@ import com.google.inject.ProvisionException;
 import com.google.inject.TypeLiteral;
 import java.util.function.Consumer;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
+@RunWith(JUnit4.class)
 public class DynamicItemTest {
   private static final String PLUGIN_NAME = "plugin-name";
   private static final String ANOTHER_PLUGIN = "another-plugin";
@@ -57,12 +60,12 @@ public class DynamicItemTest {
   }
 
   @Test
-  public void shouldAssignDynamicItemTwice_GerritCoreThenPlugin() {
+  public void shouldAssignDynamicItemTwice_gerritCoreThenPlugin() {
     shouldAssignDynamicItemTwice(PluginName.GERRIT, ANOTHER_PLUGIN);
   }
 
   @Test
-  public void shouldAssignDynamicItemTwice_PluginOverridesPlugin() {
+  public void shouldAssignDynamicItemTwice_pluginOverridesPlugin() {
     shouldAssignDynamicItemTwice(PLUGIN_NAME, ANOTHER_PLUGIN);
   }
 

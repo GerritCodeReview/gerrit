@@ -40,6 +40,8 @@ web_test_runner(
         "//polygerrit-ui/app:web-test-runner_app-sources",
         "@ui_dev_npm//:node_modules",
         "@ui_npm//:node_modules",
+        "//lib/fonts:robotofonts",
+        "//lib/fonts:material-icons",
     ],
 )
 

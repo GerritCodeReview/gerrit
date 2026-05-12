@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "37b5b6f6_2f4991a4",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeIndexer.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-12T07:43:44Z",
+      "side": 1,
+      "message": "Use parameters position consistently: it is project then id at L441.\n\n\n\n```suggestion\n  private void fireChangeDeletedFromIndexEvent(String projectName, int id) {\n```",
+      "range": {
+        "startLine": 379,
+        "startChar": 47,
+        "endLine": 379,
+        "endChar": 73
+      },
+      "revId": "fb9db227f5cfe4b5e8e54a5d36345040f1938acb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f109064c_48cb72dc",
         "filename": "javatests/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
         "patchSetId": 34

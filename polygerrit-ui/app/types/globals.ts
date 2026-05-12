@@ -5,6 +5,7 @@
  */
 import {ParsedJSON} from './common';
 import {HighlightJS} from './types';
+import {LitElement, html, css} from 'lit';
 
 export {};
 
@@ -12,6 +13,9 @@ declare global {
   interface Window {
     CANONICAL_PATH?: string;
     INITIAL_DATA?: {[key: string]: ParsedJSON};
+    LitElement?: typeof LitElement;
+    html?: typeof html;
+    css?: typeof css;
     HTMLImports?: {whenReady: (cb: () => void) => void};
     linkify(
       text: string,

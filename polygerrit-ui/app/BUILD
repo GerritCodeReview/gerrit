@@ -225,6 +225,7 @@ filegroup(
         [
             "**/*.ts",
             "**/*.js",
+            "**/*.css",
             "**/tsconfig.json",
         ],
         exclude = ["node_modules/**/*"],

@@ -39,6 +39,7 @@ import {
   PatchSetNumber,
   RevisionPatchSetNum,
 } from '../../api/rest-api';
+
 import {when} from 'lit/directives/when.js';
 import {fireAlert} from '../../utils/event-util';
 
@@ -46,7 +47,6 @@ import {fireAlert} from '../../utils/event-util';
 export class GrDiffCheckResult extends LitElement {
   @property({attribute: false})
   result?: RunResult;
-
   /**
    * This is required by <gr-diff> as an identifier for this component. It will
    * be set to the internalResultId of the check result.
@@ -173,6 +173,7 @@ export class GrDiffCheckResult extends LitElement {
         div.footer {
           display: flex;
           justify-content: space-between;
+          margin-top: var(--spacing-m);
         }
         div.tags {
           display: flex;
@@ -182,6 +183,10 @@ export class GrDiffCheckResult extends LitElement {
         div.actions {
           display: flex;
           justify-content: flex-end;
+          gap: var(--spacing-m);
+        }
+        .action {
+          margin-left: var(--spacing-s);
         }
         .ai-icon-wrapper {
           margin-right: var(--spacing-s);

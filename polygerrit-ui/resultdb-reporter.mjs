@@ -1,6 +1,86 @@
 import fs from 'fs';
 import path from 'path';
 
+function getExistingDir(dirPath) {
+  if (fs.existsSync(dirPath)) return dirPath;
+  const lowerPath = dirPath.toLowerCase();
+  if (fs.existsSync(lowerPath)) return lowerPath;
+  return null;
+}
+
+function attachVisualDiff(test, artifacts) {
+  const match = test.error.message.match(/See diff for details: (\S+)/);
+  if (!match || !match[1]) return '';
+  const diffPath = match[1];
+  if (!fs.existsSync(diffPath)) return '';
+  try {
+    artifacts['visual_diff'] = {
+      contents: fs.readFileSync(diffPath).toString('base64'),
+      contentType: 'image/png',
+    };
+    return `<br><b>Visual Diff:</b><br><img src="artifact://visual_diff">`;
+  } catch (e) {
+    console.error('Failed to read visual diff artifact', e);
+    return '';
+  }
+}
+
+function attachSideBySideScreenshots(test, testFile, artifacts) {
+  try {
+    const failedDir = getExistingDir('screenshots/Chromium/failed');
+    if (!failedDir) return '';
+
+    const files = fs.readdirSync(failedDir).filter(f => f.endsWith('.png') && !f.endsWith('-diff.png'));
+    if (files.length === 0) return '';
+
+    let bestFile = null;
+    let bestScore = -9999;
+    const testBase = path.basename(testFile, path.extname(testFile)).replace('_screenshot_test', '');
+    const testNameLower = `${testBase} ${test.suiteName ? test.suiteName : ''} ${test.name}`.toLowerCase();
+
+    for (const file of files) {
+      const fileTokens = file.replace(/\.png$/, '').split(/[-_]/).filter(Boolean);
+      let matchedCount = 0;
+      for (const token of fileTokens) {
+        if (testNameLower.includes(token.toLowerCase())) matchedCount++;
+      }
+      if (matchedCount > 0) {
+        const score = matchedCount * 100 - fileTokens.length;
+        if (score > bestScore) {
+          bestScore = score;
+          bestFile = file;
+        }
+      }
+    }
+
+    if (!bestFile) return '';
+
+    const actualPath = path.join(failedDir, bestFile);
+    const baselineDir = getExistingDir('screenshots/baseline/Chromium');
+    const baselinePath = baselineDir ? path.join(baselineDir, bestFile) : null;
+
+    let html = '';
+    if (fs.existsSync(actualPath)) {
+      artifacts['actual_screenshot'] = {
+        contents: fs.readFileSync(actualPath).toString('base64'),
+        contentType: 'image/png',
+      };
+      html += `<br><b>Actual Screenshot:</b><br><img src="artifact://actual_screenshot">`;
+    }
+    if (baselinePath && fs.existsSync(baselinePath)) {
+      artifacts['baseline_screenshot'] = {
+        contents: fs.readFileSync(baselinePath).toString('base64'),
+        contentType: 'image/png',
+      };
+      html += `<br><b>Baseline Screenshot:</b><br><img src="artifact://baseline_screenshot">`;
+    }
+    return html;
+  } catch (e) {
+    console.error('Failed to find screenshot artifacts', e);
+    return '';
+  }
+}
+
 export function resultDbReporter() {
   let sinkCtx = null;
 
@@ -72,24 +152,16 @@ export function resultDbReporter() {
           let summaryHtml = `<pre>${test.error?.message || ''}\n${test.error?.stack || ''}</pre>`;
           const artifacts = {};
 
-          // 3. If visual diff failed, extract the diff image and upload it
-          if (!test.passed && test.error && test.error.message.includes('Visual diff failed')) {
-            const match = test.error.message.match(/See diff for details: (\S+)/);
-            if (match && match[1]) {
-              const diffPath = match[1];
-              try {
-                if (fs.existsSync(diffPath)) {
-                  const content = fs.readFileSync(diffPath);
-                  artifacts['visual_diff'] = {
-                    contents: content.toString('base64'), // Bytes must be base64 encoded for JSON pRPC
-                    contentType: 'image/png',
-                  };
-                  // Inline the artifact directly in the summary!
-                  summaryHtml += `<br><b>Visual Diff:</b><br><img src="artifact://visual_diff">`;
-                }
-              } catch (e) {
-                console.error('Failed to read visual diff artifact', e);
+          // 3. If visual diff failed or dimension mismatched, extract images and upload them
+          if (!test.passed && test.error) {
+            const isVisualDiff = test.error.message.includes('Visual diff failed');
+            const isDimMismatch = test.error.message.includes('Screenshot is not the same width and height as the baseline');
+
+            if (isVisualDiff || isDimMismatch) {
+              if (isVisualDiff) {
+                summaryHtml += attachVisualDiff(test, artifacts);
               }
+              summaryHtml += attachSideBySideScreenshots(test, testFile, artifacts);
             }
           }
 

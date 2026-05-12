@@ -23,8 +23,15 @@ import com.google.gerrit.server.account.storage.notedb.validators.AccountMergeVa
 import com.google.gerrit.server.account.storage.notedb.validators.ExternalIdUpdateValidator;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
 import com.google.gerrit.server.git.validators.MergeValidationListener;
+import com.google.gerrit.server.index.account.AccountIndexCollection;
+import com.google.gerrit.server.index.account.AccountIndexRewriter;
+import com.google.gerrit.server.index.account.AccountIndexer;
+import com.google.gerrit.server.index.account.AccountIndexerImpl;
 import com.google.gerrit.server.index.account.ReindexAccountsAfterRefUpdate;
 import com.google.inject.AbstractModule;
+import com.google.inject.Provides;
+import com.google.inject.Singleton;
+import com.google.inject.assistedinject.FactoryModuleBuilder;
 
 /** Module that binds {@link AccountsUpdate} */
 public class AccountNoteDbWriteStorageModule extends AbstractModule {
@@ -44,5 +51,16 @@ public class AccountNoteDbWriteStorageModule extends AbstractModule {
     DynamicSet.bind(binder(), CommitValidationListener.class).to(AccountCommitValidator.class);
     DynamicSet.bind(binder(), CommitValidationListener.class).to(ExternalIdUpdateValidator.class);
     DynamicSet.bind(binder(), MergeValidationListener.class).to(AccountMergeValidator.class);
+
+    // Indexing
+    install(new FactoryModuleBuilder().build(AccountIndexerImpl.Factory.class));
+    bind(AccountIndexRewriter.class);
+  }
+
+  @Provides
+  @Singleton
+  AccountIndexer getAccountIndexer(
+      AccountIndexerImpl.Factory factory, AccountIndexCollection indexes) {
+    return factory.create(indexes);
   }
 }

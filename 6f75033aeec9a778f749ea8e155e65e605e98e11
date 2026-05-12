@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef7b69b1_5e615939",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-05-12T17:55:11Z",
+      "side": 1,
+      "message": "Screenshot tests are already failing. the goal of this is to make them easier to debug.",
+      "revId": "6f75033aeec9a778f749ea8e155e65e605e98e11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

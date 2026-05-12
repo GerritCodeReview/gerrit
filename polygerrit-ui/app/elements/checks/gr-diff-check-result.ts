@@ -111,7 +111,6 @@ export class GrDiffCheckResult extends LitElement {
           color: var(--info-foreground);
         }
         .container .note {
-          font-style: italic;
           margin-left: var(--spacing-s);
         }
         .container.error {

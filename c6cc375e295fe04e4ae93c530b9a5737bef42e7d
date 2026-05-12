@@ -22,6 +22,30 @@
       },
       "revId": "c6cc375e295fe04e4ae93c530b9a5737bef42e7d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b3e2117_b0302d00",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-05-12T07:46:50Z",
+      "side": 1,
+      "message": "Good point, :facepalm:\n\nThis passes because `changeId` in the test actually returns the numeric id. So the triple is badly constructed. Let me sort it out.\n\nGood spot.",
+      "parentUuid": "db188568_148fc79e",
+      "range": {
+        "startLine": 70,
+        "startChar": 17,
+        "endLine": 70,
+        "endChar": 28
+      },
+      "revId": "c6cc375e295fe04e4ae93c530b9a5737bef42e7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

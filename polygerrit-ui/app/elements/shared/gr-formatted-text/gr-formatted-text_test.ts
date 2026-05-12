@@ -669,6 +669,70 @@ suite('gr-formatted-text tests', () => {
       );
     });
 
+    test('renders inline links with auto-linked URLs correctly', async () => {
+      element.content =
+        '[build page](https://cr-buildbucket.appspot.com/build/8682334566330890001)';
+      await element.updateComplete;
+
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ `
+          <gr-endpoint-decorator name="formatted-text-endpoint">
+            <gr-marked-element>
+              <div slot="markdown-html" class="markdown-html">
+                <p>
+                  <a
+                    href="https://cr-buildbucket.appspot.com/build/8682334566330890001"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                    >build page</a
+                  >
+                </p>
+              </div>
+            </gr-marked-element>
+          </gr-endpoint-decorator>
+        `
+      );
+    });
+
+    test('renders raw HTML link with URL correctly', async () => {
+      const eventPromise = new Promise(resolve => {
+        element.addEventListener('marked-render-complete', resolve, {
+          once: true,
+        });
+      });
+      element.content =
+        '<a href="https://cr-buildbucket.appspot.com/build/8682334566330890001">build page</a>';
+      await eventPromise;
+
+      const div = element.shadowRoot!.querySelector('.markdown-html');
+      assert.isNotNull(div);
+      assert.equal(
+        div.innerHTML,
+        '<p>&lt;a href="https://cr-buildbucket.appspot.com/build/8682334566330890001"&gt;build page&lt;/a&gt;</p>\n'
+      );
+    });
+
+    test('renders raw HTML link with single quotes correctly', async () => {
+      const eventPromise = new Promise(resolve => {
+        element.addEventListener('marked-render-complete', resolve, {
+          once: true,
+        });
+      });
+      element.content =
+        '<a href=\'https://cr-buildbucket.appspot.com/build/8682334566330890001\'>' +
+        'build page</a>';
+      await eventPromise;
+
+      const div = element.shadowRoot!.querySelector('.markdown-html');
+      assert.isNotNull(div);
+      assert.equal(
+        div.innerHTML,
+        "<p>&lt;a href='https://cr-buildbucket.appspot.com/build/8682334566330890001'&gt;" +
+          'build page&lt;/a&gt;</p>\n'
+      );
+    });
+
     test('renders block quotes with links and rewrites', async () => {
       element.content = `> block quote
         \n> block quote with plain link: http://google.com

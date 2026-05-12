@@ -46,6 +46,30 @@
       },
       "revId": "c6cc375e295fe04e4ae93c530b9a5737bef42e7d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9b44457_3993605e",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-05-12T08:00:40Z",
+      "side": 1,
+      "message": "As discussed, don\u0027t think we can support triplet Ids here. Will remove.",
+      "parentUuid": "7b3e2117_b0302d00",
+      "range": {
+        "startLine": 70,
+        "startChar": 17,
+        "endLine": 70,
+        "endChar": 28
+      },
+      "revId": "c6cc375e295fe04e4ae93c530b9a5737bef42e7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -84,6 +84,7 @@ export class GrDiffCheckResult extends LitElement {
     return [
       fontStyles,
       css`
+
         .container {
           /* Allows hiding the check results along with the comments
              when the user presses the keyboard shortcut 'h'. */
@@ -173,6 +174,7 @@ export class GrDiffCheckResult extends LitElement {
         div.footer {
           display: flex;
           justify-content: space-between;
+          margin-top: var(--spacing-m);
         }
         div.tags {
           display: flex;
@@ -182,6 +184,10 @@ export class GrDiffCheckResult extends LitElement {
         div.actions {
           display: flex;
           justify-content: flex-end;
+          gap: var(--spacing-m);
+        }
+        .action {
+          margin-left: var(--spacing-s);
         }
         .ai-icon-wrapper {
           margin-right: var(--spacing-s);

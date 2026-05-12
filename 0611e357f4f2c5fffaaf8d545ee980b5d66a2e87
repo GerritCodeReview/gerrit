@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "67adc9dc_05f79b67",
+        "filename": "java/com/google/gerrit/server/change/ActionJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-12T11:46:24Z",
+      "side": 1,
+      "message": "This will actually *show* the AI review action, because it\u0027s enabled by default.",
+      "range": {
+        "startLine": 239,
+        "startChar": 0,
+        "endLine": 241,
+        "endChar": 5
+      },
+      "revId": "0611e357f4f2c5fffaaf8d545ee980b5d66a2e87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

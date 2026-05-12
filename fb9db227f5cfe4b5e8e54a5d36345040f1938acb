@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f109064c_48cb72dc",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 34
+      },
+      "lineNbr": 1086,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-12T07:41:42Z",
+      "side": 1,
+      "message": "`change.getChange()` can be DRYed out.\n\n\n\n```suggestion\n    ChangeData changeData \u003d change.getChange();\n    changeIndex.delete(changeData.project(), changeData.getId());\n```",
+      "range": {
+        "startLine": 1086,
+        "startChar": 23,
+        "endLine": 1086,
+        "endChar": 41
+      },
+      "revId": "fb9db227f5cfe4b5e8e54a5d36345040f1938acb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

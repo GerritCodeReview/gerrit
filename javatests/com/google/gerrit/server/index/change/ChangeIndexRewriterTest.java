@@ -209,11 +209,7 @@ public class ChangeIndexRewriterTest {
   public void emptyOrPredicateInsideAnd() throws Exception {
     Predicate<ChangeData> fileA = parse("file:a");
     Predicate<ChangeData> in = Predicate.and(fileA, Predicate.or(ImmutableList.of()));
-    Predicate<ChangeData> out = rewrite(in);
-    assertThat(out.getClass()).isSameInstanceAs(AndChangeSource.class);
-    assertThat(out.getChildren())
-        .containsExactly(query(fileA), ChangeIndexPredicate.none())
-        .inOrder();
+    assertThat(rewrite(in)).isEqualTo(query(ChangeIndexPredicate.none()));
   }
 
   @Test

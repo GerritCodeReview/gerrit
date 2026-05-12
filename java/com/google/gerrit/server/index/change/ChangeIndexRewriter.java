@@ -242,6 +242,11 @@ public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
       }
     }
 
+    if (in instanceof AndPredicate
+        && newChildren.stream().anyMatch(c -> c.equals(ChangeIndexPredicate.none()))) {
+      ++leafTerms.value;
+      return ChangeIndexPredicate.none();
+    }
     if (isIndexed.cardinality() == n) {
       return in; // All children are indexed, leave as-is for parent.
     } else if (notIndexed.cardinality() == n) {

@@ -22,6 +22,30 @@
       },
       "revId": "0611e357f4f2c5fffaaf8d545ee980b5d66a2e87",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "600e35ac_b65561c8",
+        "filename": "java/com/google/gerrit/server/change/ActionJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-05-12T12:43:44Z",
+      "side": 1,
+      "message": "Not with this change:\n\npolygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts\n```typescript\nprivate get canShowAiReview(): boolean {\n  return !!this.selfAccount \u0026\u0026 this.canAiReview;\n}\n```\n\nWith this condition, both AI related actions (\"Create AI Review Prompt\" and \"AI Chat\") are only shown to authenticated users and remain hidden for anonymous users.",
+      "parentUuid": "67adc9dc_05f79b67",
+      "range": {
+        "startLine": 239,
+        "startChar": 0,
+        "endLine": 241,
+        "endChar": 5
+      },
+      "revId": "0611e357f4f2c5fffaaf8d545ee980b5d66a2e87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

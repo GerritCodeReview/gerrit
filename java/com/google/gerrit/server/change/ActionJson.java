@@ -236,11 +236,12 @@ public class ActionJson {
       List<ActionVisitor> visitors,
       ChangeInfo changeInfo,
       RevisionInfo revisionInfo) {
+    if (!rsrc.getUser().isIdentifiedUser()) {
+      return ImmutableMap.of();
+    }
 
     Iterable<UiAction.Description> uiActionsDescs =
-        addAiReviewAction(
-            rsrc,
-            rsrc.getUser().isIdentifiedUser() ? uiActions.from(revisionViews, rsrc) : List.of());
+        addAiReviewAction(rsrc, uiActions.from(revisionViews, rsrc));
     Map<String, ActionInfo> out = new LinkedHashMap<>();
     ACTION:
     for (UiAction.Description d : uiActionsDescs) {

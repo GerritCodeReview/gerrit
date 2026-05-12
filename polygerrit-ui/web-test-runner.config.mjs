@@ -55,7 +55,8 @@ function getArgValue(flag) {
   return undefined;
 }
 
-const pathPrefix = runUnderBazel ? 'polygerrit-ui/' : '';
+const isCwdPolygerritUi = path.basename(process.cwd()) === 'polygerrit-ui';
+const pathPrefix = runUnderBazel && !isCwdPolygerritUi ? 'polygerrit-ui/' : '';
 const testFiles = getArgValue('--test-files');
 const runScreenshots = process.argv.includes('--run-screenshots');
 const rootDir = getArgValue('--root-dir') ?? `${path.resolve(process.cwd())}/`;

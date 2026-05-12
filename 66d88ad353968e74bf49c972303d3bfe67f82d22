@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2856da13_4a075aff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-05-12T09:01:01Z",
+      "side": 1,
+      "message": "NIT: This should be b/510899910\n+ you could also format commit message.",
+      "range": {
+        "startLine": 27,
+        "startChar": 15,
+        "endLine": 27,
+        "endChar": 24
+      },
+      "revId": "66d88ad353968e74bf49c972303d3bfe67f82d22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

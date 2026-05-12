@@ -208,7 +208,9 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
   }
 
   void start() {
+    logger.atFine().log("Opening disk cache %s...", cacheName);
     store.open();
+    logger.atFine().log("Finished opening disk cache %s...", cacheName);
   }
 
   void stop() {

@@ -115,6 +115,24 @@ public class H2CacheModule extends LifecycleModule {
   }
 
   @Provides
+  @Singleton
+  @Nullable
+  @CacheStoreStartupExecutor
+  ExecutorService createDiskCacheStoreStartupExecutor(
+      @Nullable @CacheDir Path cacheDir, @GerritServerConfig Config cfg) {
+    if (cacheDir == null) {
+      return null;
+    }
+    int startupThreads = cfg.getInt("cache", null, "startupThreads", 1);
+    if (startupThreads > 1) {
+      return new LoggingContextAwareExecutorService(
+          Executors.newFixedThreadPool(
+              1, new ThreadFactoryBuilder().setNameFormat("DiskCache-Store-Startup-%d").build()));
+    }
+    return null;
+  }
+
+  @Provides
   Set<CacheOptions> getOptions() {
     return options;
   }

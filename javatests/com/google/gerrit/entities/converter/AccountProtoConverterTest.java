@@ -23,6 +23,8 @@ import com.google.gerrit.proto.testing.SerializedClassSubject;
 import java.lang.reflect.Type;
 import java.time.Instant;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 /**
  * Tests for {@link AccountProtoConverter}.
@@ -32,8 +34,9 @@ import org.junit.Test;
  * {@code SafeProtoConverter} because proto3 cannot distinguish between unset and empty string
  * fields, while Account treats null and empty string differently.
  */
+@RunWith(JUnit4.class)
 public class AccountProtoConverterTest {
-  private final AccountProtoConverter converter = AccountProtoConverter.INSTANCE;
+  private static final AccountProtoConverter converter = AccountProtoConverter.INSTANCE;
 
   @Test
   public void allFieldsConvertedToProtoAndBack() {
@@ -133,6 +136,6 @@ public class AccountProtoConverterTest {
                 .put("status", String.class)
                 .put("metaId", String.class)
                 .put("uniqueTag", String.class)
-                .build());
+                .buildOrThrow());
   }
 }

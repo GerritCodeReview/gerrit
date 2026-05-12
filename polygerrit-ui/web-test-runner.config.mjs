@@ -1,5 +1,6 @@
 import path from 'path';
 import fs from 'fs';
+import { URL } from 'url';
 import { esbuildPlugin } from '@web/dev-server-esbuild';
 import { defaultReporter, summaryReporter } from '@web/test-runner';
 import { resultDbReporter } from './resultdb-reporter.mjs';
@@ -128,6 +129,7 @@ const config = {
       tsconfig: tsConfig,
     }),
     visualRegressionPlugin({
+      baseDir: path.dirname(new URL(import.meta.url).pathname),
       // TODO(milutin): Tweak these values - diffOptions threshold is for color change
       // and failureThreshold is for pixel change. We need to find a balance to allow
       // CI to pass, but also catch regressions.

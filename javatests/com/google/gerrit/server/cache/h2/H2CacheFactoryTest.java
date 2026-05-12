@@ -56,6 +56,7 @@ public class H2CacheFactoryTest {
             DynamicMap.emptyMap(),
             null,
             null,
+            null,
             cacheDir,
             EnumSet.noneOf(CacheOptions.class),
             new AtomicBoolean(false));

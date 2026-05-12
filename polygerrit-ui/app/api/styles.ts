@@ -32,6 +32,7 @@ export declare interface Styles {
   subPage: Style;
   table: Style;
   modal: Style;
+  changeViewIntegration: Style;
 }
 
 /** Accessible via `window.Gerrit.install(plugin => {plugin.styleApi()})`. */

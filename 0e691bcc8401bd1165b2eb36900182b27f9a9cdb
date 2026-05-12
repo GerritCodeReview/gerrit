@@ -1,0 +1,45 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "459de358_bbf14926",
+        "filename": "polygerrit-ui/app/utils/link-util.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 4580685
+      },
+      "writtenOn": "2026-05-12T17:52:35Z",
+      "side": 1,
+      "message": "Single quotes are one of the characters that get escaped, so not sure we should be allowing unescaped ones here.\n\nFWIW, markedJS does escape them: http://google3/third_party/javascript/marked/current/marked.umd.js;l\u003d446;rcl\u003d768038714",
+      "range": {
+        "startLine": 49,
+        "startChar": 29,
+        "endLine": 49,
+        "endChar": 30
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "2985d8d6_4467f7b5",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/utils/link-util.ts",
+              "range": {
+                "startLine": 48,
+                "startChar": 0,
+                "endLine": 50,
+                "endChar": 0
+              },
+              "replacement": "        preMatch.endsWith(\u0027\u003d\u0026#39;\u0027) \u0026\u0026 postMatch.startsWith(\u0027\u0026#39;\u0027);\n"
+            }
+          ]
+        }
+      ],
+      "revId": "0e691bcc8401bd1165b2eb36900182b27f9a9cdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

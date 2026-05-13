@@ -36,7 +36,7 @@ import org.junit.runners.JUnit4;
  */
 @RunWith(JUnit4.class)
 public class AccountProtoConverterTest {
-  private static final AccountProtoConverter converter = AccountProtoConverter.INSTANCE;
+  private static final AccountProtoConverter CONVERTER = AccountProtoConverter.INSTANCE;
 
   @Test
   public void allFieldsConvertedToProtoAndBack() {
@@ -52,7 +52,7 @@ public class AccountProtoConverterTest {
             .setUniqueTag("unique-123")
             .build();
 
-    Account roundTripped = converter.fromProto(converter.toProto(account));
+    Account roundTripped = CONVERTER.fromProto(CONVERTER.toProto(account));
 
     assertThat(roundTripped).isEqualTo(account);
   }
@@ -64,7 +64,7 @@ public class AccountProtoConverterTest {
             .setInactive(false)
             .build();
 
-    Account roundTripped = converter.fromProto(converter.toProto(account));
+    Account roundTripped = CONVERTER.fromProto(CONVERTER.toProto(account));
 
     assertThat(roundTripped.fullName()).isNull();
     assertThat(roundTripped.displayName()).isNull();
@@ -82,7 +82,7 @@ public class AccountProtoConverterTest {
             .setInactive(false)
             .build();
 
-    Account roundTripped = converter.fromProto(converter.toProto(account));
+    Account roundTripped = CONVERTER.fromProto(CONVERTER.toProto(account));
 
     assertThat(roundTripped.avatarEmail()).isEqualTo("avatar@example.com");
     assertThat(roundTripped.preferredEmail()).isEqualTo("preferred@example.com");
@@ -97,7 +97,7 @@ public class AccountProtoConverterTest {
             .setInactive(false)
             .build();
 
-    Account roundTripped = converter.fromProto(converter.toProto(account));
+    Account roundTripped = CONVERTER.fromProto(CONVERTER.toProto(account));
 
     assertThat(roundTripped.avatarEmail()).isNull();
     assertThat(roundTripped.effectiveAvatarEmail()).isEqualTo("preferred@example.com");
@@ -110,8 +110,8 @@ public class AccountProtoConverterTest {
     Account inactive =
         Account.builder(Account.id(2), Instant.ofEpochMilli(1L)).setInactive(true).build();
 
-    assertThat(converter.fromProto(converter.toProto(active)).inactive()).isFalse();
-    assertThat(converter.fromProto(converter.toProto(inactive)).inactive()).isTrue();
+    assertThat(CONVERTER.fromProto(CONVERTER.toProto(active)).inactive()).isFalse();
+    assertThat(CONVERTER.fromProto(CONVERTER.toProto(inactive)).inactive()).isTrue();
   }
 
   /**

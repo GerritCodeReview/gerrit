@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9eb150c8_1594e90d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1081020
+      },
+      "writtenOn": "2026-05-13T16:08:51Z",
+      "side": 1,
+      "message": "Becky reached out to let me know that the snapshot tests were an unrelated KI, not an issue with this CL. I\u0027ll remove the snapshot fixes from this CL.",
+      "revId": "945b20fa582480a48179502b5b2bbe8e1439f006",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

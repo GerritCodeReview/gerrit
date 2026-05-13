@@ -85,7 +85,7 @@ suite('gr-edit-controls tests', () => {
           role="button"
           tabindex="0"
         >
-          Add/Open/Upload
+          Edit
         </gr-button>
         <gr-button
           aria-disabled="false"

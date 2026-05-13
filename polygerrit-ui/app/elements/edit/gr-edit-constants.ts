@@ -12,7 +12,7 @@ export interface GrEditAction {
 export const GrEditConstants = {
   // Order corresponds to order in the UI.
   Actions: {
-    OPEN: {label: 'Add/Open/Upload', id: 'open'},
+    OPEN: {label: 'Edit', id: 'open'},
     DELETE: {label: 'Delete', id: 'delete'},
     RENAME: {label: 'Rename', id: 'rename'},
     RESTORE: {label: 'Restore', id: 'restore'},

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ec637e3_ff8e8e07",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 4844987
+      },
+      "writtenOn": "2026-05-13T20:41:16Z",
+      "side": 1,
+      "message": "The message is hard to understand for the deleted commit due to tip is irrelevant \n\nhttps://screenshot.googleplex.com/3Q9dr5xqiGXoBDT\n\nRecommendation is to show meaningful error first and tip after (if available)",
+      "range": {
+        "startLine": 57,
+        "startChar": 16,
+        "endLine": 57,
+        "endChar": 39
+      },
+      "revId": "1f30903beaa97a960d3f3f380648af9098afba12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

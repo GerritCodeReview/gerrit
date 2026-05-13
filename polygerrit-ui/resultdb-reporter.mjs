@@ -6,8 +6,8 @@ const uiDir = path.dirname(new URL(import.meta.url).pathname);
 
 function getExistingDir(dirPath) {
   if (fs.existsSync(dirPath)) return dirPath;
-  const lowerPath = dirPath.toLowerCase();
-  if (fs.existsSync(lowerPath)) return lowerPath;
+  const lowerChromium = dirPath.replace('screenshots/Chromium', 'screenshots/chromium');
+  if (fs.existsSync(lowerChromium)) return lowerChromium;
   return null;
 }
 
@@ -17,11 +17,11 @@ function attachVisualDiff(test, artifacts) {
   const diffPath = match[1];
   if (!fs.existsSync(diffPath)) return '';
   try {
-    artifacts['visual_diff'] = {
+    artifacts['image_diff'] = {
       contents: fs.readFileSync(diffPath).toString('base64'),
       contentType: 'image/png',
     };
-    return `<br><b>Visual Diff:</b><br><img src="artifact://visual_diff">`;
+    return '';
   } catch (e) {
     console.error('Failed to read visual diff artifact', e);
     return '';
@@ -61,27 +61,37 @@ function attachSideBySideScreenshots(test, testFile, artifacts) {
     const actualPath = path.join(failedDir, bestFile);
     const baselineDir = getExistingDir(path.join(uiDir, 'screenshots/Chromium/baseline'));
     const baselinePath = baselineDir ? path.join(baselineDir, bestFile) : null;
+    const diffPath = path.join(failedDir, bestFile.replace(/\.png$/, '-diff.png'));
 
-    let html = '';
+    if (!artifacts['image_diff'] && fs.existsSync(diffPath)) {
+      artifacts['image_diff'] = {
+        contents: fs.readFileSync(diffPath).toString('base64'),
+        contentType: 'image/png',
+      };
+    }
     if (fs.existsSync(actualPath)) {
-      artifacts['actual_screenshot'] = {
+      artifacts['actual_image'] = {
         contents: fs.readFileSync(actualPath).toString('base64'),
         contentType: 'image/png',
       };
-      html += `<br><b>Actual Screenshot:</b><br><img src="artifact://actual_screenshot">`;
     }
     if (baselinePath && fs.existsSync(baselinePath)) {
-      artifacts['baseline_screenshot'] = {
+      artifacts['expected_image'] = {
         contents: fs.readFileSync(baselinePath).toString('base64'),
         contentType: 'image/png',
       };
-      html += `<br><b>Baseline Screenshot:</b><br><img src="artifact://baseline_screenshot">`;
     }
-    return html;
+
+    return '';
   } catch (e) {
     console.error('Failed to find screenshot artifacts', e);
     return '';
   }
+}
+
+function escapeHtml(str) {
+  if (!str) return '';
+  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
 export function resultDbReporter() {
@@ -121,64 +131,99 @@ export function resultDbReporter() {
     }
   }
 
+  let pendingUploads = Promise.resolve();
+
   return {
-    async onTestRunFinished({ testRun, sessions }) {
+    onTestRunFinished({ testRun, sessions }) {
       if (!sinkCtx) return;
 
-      for (const session of sessions) {
-        if (!session.testResults) continue;
-        const testFile = session.testFile;
+      pendingUploads = pendingUploads.then(async () => {
+        for (const session of sessions) {
+          const testFile = session.testFile;
 
-        // 2. Flatten the nested Mocha suites/tests
-        const tests = [];
-        function collectTests(suite, parentName = '') {
-          const name = suite.name ? (parentName ? `${parentName} > ${suite.name}` : suite.name) : parentName;
-          if (suite.tests) {
-            for (const t of suite.tests) {
-              tests.push({ ...t, suiteName: name });
+          // 1. Report session-level hook / setup errors if any
+          if (session.errors && session.errors.length > 0) {
+            for (let i = 0; i < session.errors.length; i++) {
+              const err = session.errors[i];
+              const testId = `gerrit > polygerrit-ui > ${testFile} > setup error ${i + 1}`;
+              const summaryHtml = `<pre>${escapeHtml(err.message)}\n${escapeHtml(err.stack)}</pre>`;
+              await uploadToResultSink({
+                testId,
+                status: 'FAIL',
+                expected: false,
+                summaryHtml,
+                failureReason: err.message ? { primaryErrorMessage: err.message } : undefined,
+              });
             }
           }
-          if (suite.suites) {
-            for (const s of suite.suites) {
-              collectTests(s, name);
-            }
-          }
-        }
-        collectTests(session.testResults);
 
-        for (const test of tests) {
-          const testName = test.suiteName ? `${test.suiteName} > ${test.name}` : test.name;
-          const testId = `gerrit > polygerrit-ui > ${testFile} > ${testName}`;
+          if (!session.testResults) continue;
 
-          const status = test.passed ? 'PASS' : 'FAIL';
-          const expected = test.passed;
-
-          let summaryHtml = `<pre>${test.error?.message || ''}\n${test.error?.stack || ''}</pre>`;
-          const artifacts = {};
-
-          // 3. If visual diff failed or dimension mismatched, extract images and upload them
-          if (!test.passed && test.error) {
-            const isVisualDiff = test.error.message.includes('Visual diff failed');
-            const isDimMismatch = test.error.message.includes('Screenshot is not the same width and height as the baseline');
-
-            if (isVisualDiff || isDimMismatch) {
-              if (isVisualDiff) {
-                summaryHtml += attachVisualDiff(test, artifacts);
+          // 2. Flatten the nested Mocha suites/tests
+          const tests = [];
+          function collectTests(suite, parentName = '') {
+            const name = suite.name ? (parentName ? `${parentName} > ${suite.name}` : suite.name) : parentName;
+            if (suite.tests) {
+              for (const t of suite.tests) {
+                tests.push({ ...t, suiteName: name });
               }
-              summaryHtml += attachSideBySideScreenshots(test, testFile, artifacts);
+            }
+            if (suite.suites) {
+              for (const s of suite.suites) {
+                collectTests(s, name);
+              }
             }
           }
+          collectTests(session.testResults);
 
-          await uploadToResultSink({
-            testId,
-            status,
-            expected,
-            summaryHtml,
-            artifacts: Object.keys(artifacts).length > 0 ? artifacts : undefined,
-            duration: test.duration ? `${(test.duration / 1000).toFixed(9)}s` : undefined,
-          });
+          for (const test of tests) {
+            const testName = test.suiteName ? `${test.suiteName} > ${test.name}` : test.name;
+            const testId = `gerrit > polygerrit-ui > ${testFile} > ${testName}`;
+
+            let status = 'PASS';
+            let expected = true;
+            if (test.skipped) {
+              status = 'SKIP';
+              expected = true;
+            } else if (!test.passed) {
+              status = 'FAIL';
+              expected = false;
+            }
+
+            let summaryHtml = '';
+            if (test.error) {
+              summaryHtml = `<pre>${escapeHtml(test.error.message)}\n${escapeHtml(test.error.stack)}</pre>`;
+            }
+            const artifacts = {};
+
+            // 3. If visual diff failed or dimension mismatched, extract images and upload them
+            if (!test.passed && test.error) {
+              const isVisualDiff = test.error.message.includes('Visual diff failed');
+              const isDimMismatch = test.error.message.includes('Screenshot is not the same width and height as the baseline');
+
+              if (isVisualDiff || isDimMismatch) {
+                if (isVisualDiff) {
+                  attachVisualDiff(test, artifacts);
+                }
+                attachSideBySideScreenshots(test, testFile, artifacts);
+              }
+            }
+
+            await uploadToResultSink({
+              testId,
+              status,
+              expected,
+              summaryHtml: summaryHtml || undefined,
+              artifacts: Object.keys(artifacts).length > 0 ? artifacts : undefined,
+              duration: test.duration ? `${(test.duration / 1000).toFixed(9)}s` : undefined,
+              failureReason: test.error?.message ? { primaryErrorMessage: test.error.message } : undefined,
+            });
+          }
         }
-      }
+      });
+    },
+    async stop() {
+      await pendingUploads;
     }
   };
 }

@@ -246,7 +246,7 @@ export class GrConfirmSubmitDialog
     if (!this.change) return;
     const url = createChangeUrl({
       change: this.change,
-      edit: true,
+      patchNum: EDIT,
       forceReload: true,
     });
     this.getNavigation().setUrl(url);

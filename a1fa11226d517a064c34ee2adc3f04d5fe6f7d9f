@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "804e4aaf_01a8542f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 4580685
+      },
+      "writtenOn": "2026-05-13T21:01:03Z",
+      "side": 1,
+      "message": "I don\u0027t quite understand the reason behind this negative lookahead assertion. Do you know why is it here? Are there really links like \u0027http://\u003e...\u0027 and \u0027http://\u003c...\u0027 that appear, for which the rewrites need to be disabled?\n\nIf you know the reason, consider dropping a short comment.\n\nAlso, if it\u0027s needed, consider adding #34, too (for \u0027).",
+      "range": {
+        "startLine": 138,
+        "startChar": 29,
+        "endLine": 138,
+        "endChar": 56
+      },
+      "revId": "a1fa11226d517a064c34ee2adc3f04d5fe6f7d9f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

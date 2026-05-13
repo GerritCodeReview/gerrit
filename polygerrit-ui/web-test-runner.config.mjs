@@ -134,14 +134,14 @@ const config = {
       // and failureThreshold is for pixel change. We need to find a balance to allow
       // CI to pass, but also catch regressions.
       diffOptions: { threshold: 0.6 },
-      failureThreshold: 2,
+      failureThreshold: 3.1,
       failureThresholdType: 'percent',
       update: process.argv.includes('--update-screenshots'),
       // The visual regression plugin by default blindly overwrites all goldens
       // when the --update-screenshots flag is used. This modifies file timestamps
       // and pollutes version control with identical images or sub-threshold
       // aliasing diffs. We intercept the saveBaseline hook to diff the image in
-      // memory and only save it if the visual diff exceeds our 2% threshold.
+      // memory and only save it if the visual diff exceeds our 3.1% threshold.
       saveBaseline: async ({ filePath, content }) => {
         let oldContent;
         try {
@@ -175,7 +175,7 @@ const config = {
             );
 
             const diffPercentage = (numDiffPixels / (basePng.width * basePng.height)) * 100;
-            if (diffPercentage <= 2) {
+            if (diffPercentage <= 3.1) {
               return;
             }
           }

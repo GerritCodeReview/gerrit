@@ -46,7 +46,11 @@ public class ChangeCleanupRunner implements Runnable {
   public interface Factory {
     ChangeCleanupRunner create();
 
-    ChangeCleanupRunner create(long abandonAfterMillis, boolean abandonIfMergeable, String message);
+    ChangeCleanupRunner create(
+        long abandonAfterMillis,
+        boolean abandonIfMergeable,
+        @Assisted("message") String message,
+        @Assisted("query") String query);
   }
 
   static class Lifecycle implements LifecycleListener {
@@ -79,6 +83,7 @@ public class ChangeCleanupRunner implements Runnable {
   private final long abandonAfterMillis;
   private final boolean abandonIfMergeable;
   @Nullable private final String message;
+  private final String query;
 
   @AssistedInject
   ChangeCleanupRunner(
@@ -88,7 +93,8 @@ public class ChangeCleanupRunner implements Runnable {
       LockManager lockManager,
       @Assisted long abandonAfterMillis,
       @Assisted boolean abandonIfMergeable,
-      @Assisted @Nullable String message) {
+      @Assisted("message") @Nullable String message,
+      @Assisted("query") String query) {
     this.oneOffRequestContext = oneOffRequestContext;
     this.abandonUtil = abandonUtil;
     this.retryHelper = retryHelper;
@@ -96,6 +102,7 @@ public class ChangeCleanupRunner implements Runnable {
     this.abandonAfterMillis = abandonAfterMillis;
     this.abandonIfMergeable = abandonIfMergeable;
     this.message = message;
+    this.query = query;
   }
 
   @AssistedInject
@@ -112,6 +119,7 @@ public class ChangeCleanupRunner implements Runnable {
     this.abandonAfterMillis = cfg.getAbandonAfter();
     this.abandonIfMergeable = cfg.getAbandonIfMergeable();
     this.message = cfg.getAbandonMessage();
+    this.query = cfg.getQuery();
   }
 
   @Override
@@ -136,7 +144,7 @@ public class ChangeCleanupRunner implements Runnable {
                   "abandonInactiveOpenChanges",
                   updateFactory -> {
                     abandonUtil.abandonInactiveOpenChanges(
-                        updateFactory, abandonAfterMillis, abandonIfMergeable, message);
+                        updateFactory, abandonAfterMillis, abandonIfMergeable, message, query);
                     return null;
                   })
               .call();

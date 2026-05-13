@@ -40,6 +40,7 @@ public class CleanupChanges implements RestModifyView<ConfigResource, Input> {
     boolean ifMergeable;
     String message;
     int batchSize;
+    String skipQuery;
   }
 
   @Inject
@@ -61,7 +62,8 @@ public class CleanupChanges implements RestModifyView<ConfigResource, Input> {
             ConfigUtil.getTimeUnit(input.after, 0, TimeUnit.MILLISECONDS),
             input.ifMergeable,
             input.message,
-            input.batchSize);
+            input.batchSize,
+            input.skipQuery);
     @SuppressWarnings("unused")
     Future<?> possiblyIgnoredError = workQueue.getDefaultQueue().submit(() -> runner.run());
     return Response.accepted("Change cleaner task added to work queue.");

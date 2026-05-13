@@ -1977,6 +1977,20 @@ be abandoned at once.
 +
 By default `0`, meaning all matching changes are abandoned in a single run.
 
+[[changeCleanup.skipQuery]]changeCleanup.skipQuery::
++
+A change query whose matches are excluded from auto-abandonment. Any valid
+link:user-search.html[change search] expression is accepted. This can be used
+to protect changes that should never be auto-abandoned, for example changes
+carrying a specific hashtag:
++
+----
+  [changeCleanup]
+    skipQuery = hashtag:keep-alive
+----
++
+By default unset, meaning no changes are excluded.
+
 [[changeCleanup.startTime]]changeCleanup.startTime::
 +
 The link:#schedule-configuration-startTime[start time] for running

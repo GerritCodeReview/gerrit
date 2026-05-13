@@ -47,7 +47,11 @@ public class ChangeCleanupRunner implements Runnable {
     ChangeCleanupRunner create();
 
     ChangeCleanupRunner create(
-        long abandonAfterMillis, boolean abandonIfMergeable, String message, int batchSize);
+        long abandonAfterMillis,
+        boolean abandonIfMergeable,
+        @Assisted("message") String message,
+        int batchSize,
+        @Assisted("skipQuery") String skipQuery);
   }
 
   static class Lifecycle implements LifecycleListener {
@@ -81,6 +85,7 @@ public class ChangeCleanupRunner implements Runnable {
   private final boolean abandonIfMergeable;
   @Nullable private final String message;
   private final int batchSize;
+  private final String skipQuery;
 
   @AssistedInject
   ChangeCleanupRunner(
@@ -90,8 +95,9 @@ public class ChangeCleanupRunner implements Runnable {
       LockManager lockManager,
       @Assisted long abandonAfterMillis,
       @Assisted boolean abandonIfMergeable,
-      @Assisted @Nullable String message,
-      @Assisted int batchSize) {
+      @Assisted("message") @Nullable String message,
+      @Assisted int batchSize,
+      @Assisted("skipQuery") String skipQuery) {
     this.oneOffRequestContext = oneOffRequestContext;
     this.abandonUtil = abandonUtil;
     this.retryHelper = retryHelper;
@@ -100,6 +106,7 @@ public class ChangeCleanupRunner implements Runnable {
     this.abandonIfMergeable = abandonIfMergeable;
     this.message = message;
     this.batchSize = batchSize;
+    this.skipQuery = skipQuery;
   }
 
   @AssistedInject
@@ -117,6 +124,7 @@ public class ChangeCleanupRunner implements Runnable {
     this.abandonIfMergeable = cfg.getAbandonIfMergeable();
     this.message = cfg.getAbandonMessage();
     this.batchSize = cfg.getAbandonBatchSize();
+    this.skipQuery = cfg.getSkipQuery();
   }
 
   @Override
@@ -141,7 +149,12 @@ public class ChangeCleanupRunner implements Runnable {
                   "abandonInactiveOpenChanges",
                   updateFactory -> {
                     abandonUtil.abandonInactiveOpenChanges(
-                        updateFactory, abandonAfterMillis, abandonIfMergeable, message, batchSize);
+                        updateFactory,
+                        abandonAfterMillis,
+                        abandonIfMergeable,
+                        message,
+                        batchSize,
+                        skipQuery);
                     return null;
                   })
               .call();

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.common.base.Strings;
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
 import com.google.common.collect.ImmutableList;
@@ -61,7 +62,8 @@ public class AbandonUtil {
       long abandonAfterMillis,
       boolean abandonIfMergeable,
       String message,
-      int batchSize) {
+      int batchSize,
+      String skipQuery) {
     if (abandonAfterMillis <= 0) {
       return;
     }
@@ -72,6 +74,9 @@ public class AbandonUtil {
       }
       if (batchSize > 0) {
         query += " limit:" + batchSize;
+      }
+      if (!Strings.isNullOrEmpty(skipQuery)) {
+        query += " -(" + skipQuery + ")";
       }
 
       ImmutableList<ChangeData> changesToAbandon =

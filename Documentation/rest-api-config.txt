@@ -2936,6 +2936,8 @@ that are mergeable
 cleanup
 |`batchSize`|optional|Maximum number of changes to abandon.
 When set to `0` (default), all matching changes are abandoned at once.
+|`skipQuery`|optional|change query whose matches are excluded from
+abandonment
 |=============================
 
 [[migrate-passwords-to-tokens-input]]

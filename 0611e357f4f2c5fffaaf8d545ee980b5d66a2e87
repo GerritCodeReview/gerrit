@@ -103,6 +103,30 @@
       },
       "revId": "0611e357f4f2c5fffaaf8d545ee980b5d66a2e87",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "65a66a8e_e251c4b5",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-05-13T11:43:30Z",
+      "side": 1,
+      "message": "I think `!!this.selfAccount` is intentional here: it checks whether `selfAccount` is truthy before showing the AI review option.\n\nReplacing it with `this.selfAccount !\u003d\u003d undefined` is not equivalent, because `null !\u003d\u003d undefined` is true while `!!null` is false. Unless the type guarantees that `selfAccount` can never be null, I’d prefer to keep the current boolean guard.\n\nI also checked usage in polygerrit-ui/app: explicit undefined checks appear 121 times, while !!... truthiness checks appear 379 times, so the current style does not seem unusual in the polygerrit codebase.",
+      "parentUuid": "4df1154c_d3dbca0c",
+      "range": {
+        "startLine": 123,
+        "startChar": 11,
+        "endLine": 123,
+        "endChar": 29
+      },
+      "revId": "0611e357f4f2c5fffaaf8d545ee980b5d66a2e87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

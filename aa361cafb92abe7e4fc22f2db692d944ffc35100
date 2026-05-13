@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "45141213_5538526d",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-13T21:52:07Z",
+      "side": 1,
+      "message": "Maybe adding `@VisibleForTesting` then?",
+      "parentUuid": "80db3c0a_27439474",
+      "range": {
+        "startLine": 42,
+        "startChar": 4,
+        "endLine": 42,
+        "endChar": 10
+      },
+      "revId": "aa361cafb92abe7e4fc22f2db692d944ffc35100",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "09bcfe5b_8bbe33e3",
         "filename": "javatests/com/google/gerrit/acceptance/rest/config/IndexChangesIT.java",
         "patchSetId": 10
@@ -85,6 +109,30 @@
       "side": 1,
       "message": "I\u0027m reusing idx and opts in other assertions throughout this method, maybe I could extract these 2 lines to be instance variables, but not sure that\u0027s much better?",
       "parentUuid": "09bcfe5b_8bbe33e3",
+      "range": {
+        "startLine": 103,
+        "startChar": 0,
+        "endLine": 105,
+        "endChar": 52
+      },
+      "revId": "aa361cafb92abe7e4fc22f2db692d944ffc35100",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15568caa_b3db0a4b",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/config/IndexChangesIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-13T21:52:07Z",
+      "side": 1,
+      "message": "For instance, you could do:\n\n```java\n    Optional\u003cChangeData\u003e getChangeFromIndex(Change.Id changeId) {\n      ChangeIndex idx \u003d changeIndexCollection.getSearchIndex();\n      QueryOptions opts \u003d IndexedChangeQuery.createOptions(indexConfig, 0, 1, ImmutableSet.of());\n      return idx.get(changeId, opts);\n```\n\nand the test becomes:\n\n```suggestion\n    assertThat(getChangeFromIndex(changeId)).isPresent();\n```",
+      "parentUuid": "ac39c9d6_74511b3e",
       "range": {
         "startLine": 103,
         "startChar": 0,

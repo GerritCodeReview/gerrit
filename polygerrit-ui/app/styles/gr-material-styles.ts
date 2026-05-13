@@ -7,6 +7,7 @@ import {css} from 'lit';
 
 export const materialStyles = css`
   md-switch {
+    background-color: transparent;
     --md-sys-color-surface-container-highest: var(
       --switch-color-surface-container-highest
     );

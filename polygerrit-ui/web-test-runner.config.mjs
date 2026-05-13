@@ -128,6 +128,7 @@ const config = {
       tsconfig: tsConfig,
     }),
     visualRegressionPlugin({
+      baseDir: pathPrefix ? `${pathPrefix}screenshots` : 'screenshots',
       // TODO(milutin): Tweak these values - diffOptions threshold is for color change
       // and failureThreshold is for pixel change. We need to find a balance to allow
       // CI to pass, but also catch regressions.

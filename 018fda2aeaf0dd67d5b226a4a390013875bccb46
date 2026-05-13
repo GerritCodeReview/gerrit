@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5af38d7c_d86d911d",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-13T21:54:56Z",
+      "side": 1,
+      "message": "This is risky, because the call doesn\u0027t fail and the user is unaware that some of the changes were not deleted from the index. It would be best to make the call fail IMHO.\n\nAlso, for preventing an intermediate execution, all the IDs need to be checked upfront and if some of them aren\u0027t suitable, then the call should fail without executing any action.",
+      "revId": "018fda2aeaf0dd67d5b226a4a390013875bccb46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

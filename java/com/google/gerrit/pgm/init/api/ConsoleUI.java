@@ -242,7 +242,8 @@ public abstract class ConsoleUI {
     }
 
     @Override
-    public void message(String fmt, Object... args) {
+    @FormatMethod
+    public void message(@FormatString String fmt, Object... args) {
       console.printf(fmt, args);
     }
   }

@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7760ade8_72e84568",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-05-13T09:13:31Z",
+      "side": 1,
+      "message": "@milutin@google.com, @dhruvsri@google.com\n\nWould you agree with this behavioural change for the upcoming release 3.14.0? From the Google perspective, does it make sense to hide the action for anonymous users, given that submitting AI review feedback already requires login?",
+      "revId": "0611e357f4f2c5fffaaf8d545ee980b5d66a2e87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "67adc9dc_05f79b67",

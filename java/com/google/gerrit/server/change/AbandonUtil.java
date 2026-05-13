@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.change;
 
+import com.google.common.base.Strings;
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
 import com.google.common.collect.ImmutableList;
@@ -60,14 +61,21 @@ public class AbandonUtil {
       BatchUpdate.Factory updateFactory,
       long abandonAfterMillis,
       boolean abandonIfMergeable,
-      String message) {
-    if (abandonAfterMillis <= 0) {
+      String message,
+      String additionalQuery) {
+    if (abandonAfterMillis <= 0 && Strings.isNullOrEmpty(additionalQuery)) {
       return;
     }
     try {
-      String query = "status:new age:" + TimeUnit.MILLISECONDS.toMinutes(abandonAfterMillis) + "m";
+      String query = "status:new";
+      if (abandonAfterMillis > 0) {
+        query += " age:" + TimeUnit.MILLISECONDS.toMinutes(abandonAfterMillis) + "m";
+      }
       if (!abandonIfMergeable) {
         query += " -is:mergeable";
+      }
+      if (!Strings.isNullOrEmpty(additionalQuery)) {
+        query += " (%s)".formatted(additionalQuery);
       }
 
       ImmutableList<ChangeData> changesToAbandon =

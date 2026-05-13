@@ -1798,8 +1798,9 @@ The change cleanup will run asynchronously.
   {
     "after": "3 months",
     "if_mergeable": true,
-    "message": "Abandoning stale changes."
-  }
+    "message": "Abandoning stale changes.",
+    "query": "age:4w limit:100 -project:some/repo -hashtag:keep-alive"
+}
 ----
 
 .Response
@@ -2728,6 +2729,9 @@ timespan given here
 that are mergeable
 |`message`|optional|Message to post to changes abandoned by the
 cleanup
+|`query`|optional|Additional query predicates appended to the base cleanup
+query. Can be used to limit the batch size, exclude changes, or both, e.g.
+`age:4w limit:100 -project:some/repo -hashtag:keep-alive`. By default unset.
 |=============================
 
 

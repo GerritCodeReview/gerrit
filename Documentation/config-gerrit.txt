@@ -1860,17 +1860,24 @@ Default is `false`.
 
 This section allows to configure change cleanups and schedules them to
 run periodically.
++
+Cleanup only runs if link:#changeCleanup.startTime[startTime]
+and link:#changeCleanup.interval[interval] are configured and at least one of
+link:#changeCleanup.abandonAfter[abandonAfter] or
+link:#changeCleanup.query[query] is set.
++
+[WARNING] Auto-Abandoning changes may confuse/annoy users. When
+enabling this, make sure to choose a reasonably large grace period and
+inform users in advance.
 
 [[changeCleanup.abandonAfter]]changeCleanup.abandonAfter::
 +
 Period of inactivity after which open changes should be abandoned
 automatically.
 +
-By default `0`, never abandon open changes.
-+
-[WARNING] Auto-Abandoning changes may confuse/annoy users. When
-enabling this, make sure to choose a reasonably large grace period and
-inform users in advance.
+By default `0`, meaning no age constraint is applied. An age constraint can
+alternatively be expressed via link:#changeCleanup.query[changeCleanup.query]
+(e.g. `age:4w`).
 +
 The following suffixes are supported to define the time unit:
 +
@@ -1908,6 +1915,30 @@ Change message that should be posted when a change is abandoned.
 By default "Auto-Abandoned due to inactivity, see
 ${URL}Documentation/user-change-cleanup.html#auto-abandon\n\n
 If this change is still wanted it should be restored.".
+
+[[changeCleanup.query]]changeCleanup.query::
++
+Additional query predicates appended to the query used for selecting changes to
+auto-abandon. The configured query is combined with the built-in predicates
+that always restrict cleanup to open changes (`status:new`) and may additionally
+include predicates derived from other cleanup options such as
+link:#changeCleanup.abandonAfter[abandonAfter] and
+link:#changeCleanup.abandonIfMergeable[abandonIfMergeable].
+
+Any valid link:user-search.html[change search] expression is accepted. This
+allows limiting the batch size, excluding specific changes, or combining both:
++
+----
+  [changeCleanup]
+    query = age:4w limit:100 -project:some/repo -hashtag:keep-alive
+----
++
+Setting this option enables cleanup even if
+link:#changeCleanup.abandonAfter[changeCleanup.abandonAfter] is not set. In
+that case the query is solely responsible for determining which changes are
+abandoned, so it should include an appropriate age constraint, e.g. `age:4w`.
++
+By default unset, meaning no extra constraints are applied.
 
 [[changeCleanup.startTime]]changeCleanup.startTime::
 +

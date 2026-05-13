@@ -549,12 +549,9 @@ public class FileDiffCacheImpl implements FileDiffCache {
             result.add(AugmentedFileDiffCacheKey.builder().key(key).ignoreRebase(true).build());
           }
         } catch (IOException e) {
-          logger.atWarning().log(
-              "Failed to evaluate commits relation for key "
-                  + key
-                  + ". Skipping this key: "
-                  + e.getMessage(),
-              e);
+          logger.atWarning().withCause(e).log(
+              "Failed to evaluate commits relation for key %s. Skipping this key: %s",
+              key, e.getMessage());
           result.add(AugmentedFileDiffCacheKey.builder().key(key).ignoreRebase(true).build());
         }
       }

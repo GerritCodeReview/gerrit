@@ -6,6 +6,7 @@ load("//tools/bzl:war_checks.bzl", "war_jars_allowlist_test")
 package(default_visibility = ["//visibility:public"])
 
 exports_files([
+    "licenses.txt",
     "replace_macros.py",
 ])
 

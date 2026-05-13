@@ -25,6 +25,7 @@ import static org.eclipse.jgit.lib.Constants.HEAD;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Sets;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.UseClockStep;
@@ -33,6 +34,7 @@ import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -317,6 +319,50 @@ public class AbandonIT extends AbstractDaemonTest {
     AuthException thrown =
         assertThrows(AuthException.class, () -> gApi.changes().id(changeId).restore());
     assertThat(thrown).hasMessageThat().contains("restore not permitted");
+  }
+
+  @Test
+  @UseClockStep
+  @GerritConfig(name = "changeCleanup.abandonAfter", value = "1w")
+  @GerritConfig(name = "changeCleanup.query", value = "-(hashtag:keep-alive)")
+  public void abandonQueryExcludesChanges() throws Exception {
+    int id1 = createChange().getChange().getId().get();
+    int id2 = createChange().getChange().getId().get();
+
+    // Mark id2 with the hashtag that should be excluded from cleanup
+    HashtagsInput hashtags = new HashtagsInput();
+    hashtags.add = Sets.newHashSet("keep-alive");
+    gApi.changes().id(project.get(), id2).setHashtags(hashtags);
+
+    TestTimeUtil.incrementClock(7 * 24, HOURS);
+
+    assertThat(toChangeNumbers(query("is:open"))).containsExactly(id1, id2);
+    assertThat(query("is:abandoned")).isEmpty();
+
+    cleanupRunner.create().run();
+
+    assertThat(toChangeNumbers(query("is:open"))).containsExactly(id2);
+    assertThat(toChangeNumbers(query("is:abandoned"))).containsExactly(id1);
+  }
+
+  @Test
+  @UseClockStep
+  @GerritConfig(name = "changeCleanup.abandonAfter", value = "1w")
+  @GerritConfig(name = "changeCleanup.query", value = "limit:2")
+  public void abandonQueryLimitsChanges() throws Exception {
+    int id1 = createChange().getChange().getId().get();
+    int id2 = createChange().getChange().getId().get();
+    int id3 = createChange().getChange().getId().get();
+
+    TestTimeUtil.incrementClock(7 * 24, HOURS);
+
+    assertThat(toChangeNumbers(query("is:open"))).containsExactly(id1, id2, id3);
+    assertThat(query("is:abandoned")).isEmpty();
+
+    cleanupRunner.create().run();
+
+    assertThat(toChangeNumbers(query("is:abandoned"))).hasSize(2);
+    assertThat(toChangeNumbers(query("is:open"))).hasSize(1);
   }
 
   private List<Integer> toChangeNumbers(List<ChangeInfo> changes) {

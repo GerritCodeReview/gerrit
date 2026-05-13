@@ -63,9 +63,6 @@ export function constructServerErrorMsg({
   tip,
 }: ErrorMsg) {
   let err = '';
-  if (tip) {
-    err += `${tip}\n\n`;
-  }
   err += `Error ${status}`;
   if (statusText) {
     err += ` (${statusText})`;
@@ -75,6 +72,9 @@ export function constructServerErrorMsg({
   }
   if (errorText) {
     err += errorText;
+  }
+  if (tip) {
+    err += `\n${tip}\n\n`;
   }
   if (url) {
     err += `\nEndpoint: ${url}`;

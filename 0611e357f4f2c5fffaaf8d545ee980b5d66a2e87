@@ -18,6 +18,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "70867b7a_bfe17926",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-13T10:09:02Z",
+      "side": 1,
+      "message": "I am in favour of removing the \"Create AI Review Prompt\" button for anonymous users, but that would create a regression for Google. So I am waiting for @dhruvsri@google.com or @milutin@google.com to express their views.",
+      "revId": "0611e357f4f2c5fffaaf8d545ee980b5d66a2e87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "67adc9dc_05f79b67",
@@ -60,6 +77,29 @@
         "startChar": 0,
         "endLine": 241,
         "endChar": 5
+      },
+      "revId": "0611e357f4f2c5fffaaf8d545ee980b5d66a2e87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4df1154c_d3dbca0c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-change-summary.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-13T10:09:02Z",
+      "side": 1,
+      "message": "This isn\u0027t very readable to me. Why not check for `undefined`?\n\n\n\n```suggestion\n    return this.selfAccount !\u003d\u003d undefined \u0026\u0026 this.canAiReview;\n```",
+      "range": {
+        "startLine": 123,
+        "startChar": 11,
+        "endLine": 123,
+        "endChar": 29
       },
       "revId": "0611e357f4f2c5fffaaf8d545ee980b5d66a2e87",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

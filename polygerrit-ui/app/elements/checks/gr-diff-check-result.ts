@@ -22,7 +22,7 @@ import './gr-checks-results';
 import './gr-hovercard-run';
 import './gr-checks-tag';
 import {fontStyles} from '../../styles/gr-font-styles';
-import {Action, Category, Tag} from '../../api/checks';
+import {Action, Category} from '../../api/checks';
 import {assertIsDefined} from '../../utils/common-util';
 import {resolve} from '../../models/dependency';
 import {commentsModelToken} from '../../models/comments/comments-model';
@@ -96,13 +96,6 @@ export class GrDiffCheckResult extends LitElement {
           padding: var(--spacing-xs) var(--spacing-m);
           border: 1px solid #888;
         }
-        .container.warning {
-          border-color: var(--warning-foreground);
-          background-color: var(--warning-background);
-        }
-        .container.warning gr-icon {
-          color: var(--warning-foreground);
-        }
         .container.info {
           border-color: var(--info-foreground);
           background-color: var(--info-background);
@@ -110,9 +103,12 @@ export class GrDiffCheckResult extends LitElement {
         .container.info gr-icon {
           color: var(--info-foreground);
         }
-        .container .note {
-          font-style: italic;
-          margin-left: var(--spacing-s);
+        .container.warning {
+          border-color: var(--warning-foreground);
+          background-color: var(--warning-background);
+        }
+        .container.warning gr-icon {
+          color: var(--warning-foreground);
         }
         .container.error {
           border-color: var(--error-foreground);
@@ -120,13 +116,6 @@ export class GrDiffCheckResult extends LitElement {
         }
         .container.error gr-icon {
           color: var(--error-foreground);
-        }
-        .container.ai-powered {
-          border-color: var(--info-foreground);
-          background-color: var(--info-background);
-        }
-        .container.ai-powered gr-icon {
-          color: var(--info-foreground);
         }
         .header {
           display: flex;
@@ -162,11 +151,9 @@ export class GrDiffCheckResult extends LitElement {
         }
         gr-icon {
           font-size: var(--line-height-normal);
-          --gr-icon-size: var(--line-height-normal);
         }
         .icon gr-icon {
           font-size: calc(var(--line-height-normal) - 4px);
-          --gr-icon-size: calc(var(--line-height-normal) - 4px);
           position: relative;
           top: 2px;
         }
@@ -225,14 +212,14 @@ export class GrDiffCheckResult extends LitElement {
   override render() {
     if (!this.result) return;
     const cat = this.result.category.toLowerCase();
-    const icon = iconFor(this.result.category, this.result.isAiPowered);
+    const icon = iconFor(this.result.category);
+    const aiIcon = this.result.isAiPowered
+      ? html`<div class="ai-icon-wrapper">
+          <gr-icon small icon="ai"></gr-icon>
+        </div>`
+      : nothing;
     return html`
-      <div
-        class="${cat} container font-normal ${this.result.isAiPowered
-          ? 'ai-powered'
-          : ''}"
-        @copy=${this.handleCopy}
-      >
+      <div class="${cat} container font-normal" @copy=${this.handleCopy}>
         <div class="header" @click=${this.toggleExpandedClick}>
           <div class="icon">
             <gr-icon icon=${icon.name} ?filled=${!!icon.filled}></gr-icon>
@@ -245,9 +232,10 @@ export class GrDiffCheckResult extends LitElement {
               tabindex="0"
               @keydown=${this.toggleExpandedPress}
             >
-              ${this.result.checkName}${this.renderDetail(this.result.tags)}
+              ${this.result.checkName}
             </div>
           </div>
+          ${aiIcon}
           <!-- The &nbsp; is for being able to shrink a tiny amount without
                 the text itself getting shrunk with an ellipsis. -->
           <div class="summary">${this.result.summary}&nbsp;</div>
@@ -301,21 +289,8 @@ export class GrDiffCheckResult extends LitElement {
     ></gr-checks-fix-preview>`;
   }
 
-  private renderDetail(tags: Tag[] | undefined) {
-    for (const tag of tags ?? []) {
-      if (tag.name === 'Unpublished') {
-        return html`<span class="note">(${tag.name})</span>`;
-      }
-    }
-    return nothing;
-  }
-
   private renderTags() {
-    // Filter out the "Unpublished" tag as it is rendered in the header via
-    // renderDetail.
-    const tags = (this.result?.tags ?? []).filter(
-      tag => tag.name !== 'Unpublished'
-    );
+    const tags = this.result?.tags ?? [];
     return html`<div class="tags">
       ${tags.map(tag => html`<gr-checks-tag .tag=${tag}></gr-checks-tag>`)}
     </div>`;

@@ -16,6 +16,24 @@
       "message": "Needs Release-Notes: footer.",
       "revId": "bfeff96c0cc913fb1c5e3a0a3d53b12443e26197",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "72a629d6_d42ddf54",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 3260485
+      },
+      "writtenOn": "2026-05-13T20:14:00Z",
+      "side": 1,
+      "message": "Thanks, I just dded `skip` as the release note since this seems too small to warrant a full note. If you want an actual note, would something like \"Changed the text of the \u0027Add/Open/Upload\u0027 button to \u0027Edit\u0027\" be appropriate?",
+      "parentUuid": "e87c80c7_520c5081",
+      "revId": "bfeff96c0cc913fb1c5e3a0a3d53b12443e26197",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

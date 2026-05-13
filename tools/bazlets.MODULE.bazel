@@ -6,7 +6,7 @@ GERRIT_VERSION = "3.15.0-SNAPSHOT"
 bazel_dep(name = "com_googlesource_gerrit_bazlets")
 git_override(
     module_name = "com_googlesource_gerrit_bazlets",
-    commit = "1c2c915a84126e21f6d2cbb4fa3c62ab3fbd047f",
+    commit = "deb84b49d7a53978bc2baac702201d0d3999e6c5",
     remote = "https://gerrit.googlesource.com/bazlets",
 )
 
@@ -18,5 +18,4 @@ gerrit_api_version = use_repo_rule(
 gerrit_api_version(
     name = "gerrit_api_version",
     version = GERRIT_VERSION,
-    visibility = ["//visibility:public"],
 )

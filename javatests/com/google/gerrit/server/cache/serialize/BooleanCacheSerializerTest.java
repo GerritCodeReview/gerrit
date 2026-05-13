@@ -23,10 +23,8 @@ import org.junit.Test;
 public class BooleanCacheSerializerTest {
   @Test
   public void serialize() throws Exception {
-    assertThat(BooleanCacheSerializer.INSTANCE.serialize(true))
-        .isEqualTo(new byte[] {'t', 'r', 'u', 'e'});
-    assertThat(BooleanCacheSerializer.INSTANCE.serialize(false))
-        .isEqualTo(new byte[] {'f', 'a', 'l', 's', 'e'});
+    assertThat(BooleanCacheSerializer.INSTANCE.serialize(true)).isEqualTo("true".getBytes(UTF_8));
+    assertThat(BooleanCacheSerializer.INSTANCE.serialize(false)).isEqualTo("false".getBytes(UTF_8));
   }
 
   @Test

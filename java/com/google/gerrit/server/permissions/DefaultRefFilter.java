@@ -349,7 +349,7 @@ public class DefaultRefFilter {
       boolean canRead =
           permissionBackendForProject.ref(dest.branch()).test(RefPermission.READ_PRIVATE_CHANGES);
       logger.atFinest().log(
-          "Foreign change edit ref is " + (canRead ? "visible" : "invisible") + ": %s", name);
+          "Foreign change edit ref is %s: %s", canRead ? "visible" : "invisible", name);
       return canRead;
     }
 
@@ -359,7 +359,7 @@ public class DefaultRefFilter {
 
   private boolean isMetadata(String name) {
     boolean isMetaData = RefNames.isRefsChanges(name) || RefNames.isRefsEdit(name);
-    logger.atFinest().log("ref %s is " + (isMetaData ? "" : "not ") + "a metadata ref", name);
+    logger.atFinest().log("ref %s is %sa metadata ref", isMetaData ? "" : "not ", name);
     return isMetaData;
   }
 

@@ -22,13 +22,14 @@ import java.nio.charset.StandardCharsets;
 import org.junit.Test;
 
 public class StringCacheSerializerTest {
+  private static final byte[] ABC = {'a', 'b', 'c'};
+  private static final byte[] A_1234_C = {'a', (byte) 0xe1, (byte) 0x88, (byte) 0xb4, 'c'};
+
   @Test
   public void serialize() {
     assertThat(StringCacheSerializer.INSTANCE.serialize("")).isEmpty();
-    assertThat(StringCacheSerializer.INSTANCE.serialize("abc"))
-        .isEqualTo(new byte[] {'a', 'b', 'c'});
-    assertThat(StringCacheSerializer.INSTANCE.serialize("a\u1234c"))
-        .isEqualTo(new byte[] {'a', (byte) 0xe1, (byte) 0x88, (byte) 0xb4, 'c'});
+    assertThat(StringCacheSerializer.INSTANCE.serialize("abc")).isEqualTo(ABC);
+    assertThat(StringCacheSerializer.INSTANCE.serialize("a\u1234c")).isEqualTo(A_1234_C);
   }
 
   @Test
@@ -44,12 +45,8 @@ public class StringCacheSerializerTest {
   @Test
   public void deserialize() {
     assertThat(StringCacheSerializer.INSTANCE.deserialize(new byte[0])).isEmpty();
-    assertThat(StringCacheSerializer.INSTANCE.deserialize(new byte[] {'a', 'b', 'c'}))
-        .isEqualTo("abc");
-    assertThat(
-            StringCacheSerializer.INSTANCE.deserialize(
-                new byte[] {'a', (byte) 0xe1, (byte) 0x88, (byte) 0xb4, 'c'}))
-        .isEqualTo("a\u1234c");
+    assertThat(StringCacheSerializer.INSTANCE.deserialize(ABC)).isEqualTo("abc");
+    assertThat(StringCacheSerializer.INSTANCE.deserialize(A_1234_C)).isEqualTo("a\u1234c");
   }
 
   @Test

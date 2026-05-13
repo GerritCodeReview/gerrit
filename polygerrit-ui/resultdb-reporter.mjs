@@ -59,7 +59,7 @@ function attachSideBySideScreenshots(test, testFile, artifacts) {
     if (!bestFile) return '';
 
     const actualPath = path.join(failedDir, bestFile);
-    const baselineDir = getExistingDir(path.join(uiDir, 'screenshots/baseline/Chromium'));
+    const baselineDir = getExistingDir(path.join(uiDir, 'screenshots/Chromium/baseline'));
     const baselinePath = baselineDir ? path.join(baselineDir, bestFile) : null;
 
     let html = '';
@@ -122,11 +122,12 @@ export function resultDbReporter() {
   }
 
   return {
-    async reportTestFileResults({ testFile, sessions }) {
+    async onTestRunFinished({ testRun, sessions }) {
       if (!sinkCtx) return;
 
       for (const session of sessions) {
         if (!session.testResults) continue;
+        const testFile = session.testFile;
 
         // 2. Flatten the nested Mocha suites/tests
         const tests = [];

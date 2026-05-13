@@ -1969,6 +1969,19 @@ By default "Auto-Abandoned due to inactivity, see
 ${URL}Documentation/user-change-cleanup.html#auto-abandon\n\n
 If this change is still wanted it should be restored.".
 
+[[changeCleanup.query]]changeCleanup.query::
++
+Additional query predicates appended to the base cleanup query. Any valid
+link:user-search.html[change search] expression is accepted. This allows
+limiting the batch size, excluding specific changes, or combining both:
++
+----
+  [changeCleanup]
+    query = limit:100 -(project:some/repo) -(hashtag:keep-alive)
+----
++
+By default unset, meaning no extra constraints are applied.
+
 [[changeCleanup.startTime]]changeCleanup.startTime::
 +
 The link:#schedule-configuration-startTime[start time] for running

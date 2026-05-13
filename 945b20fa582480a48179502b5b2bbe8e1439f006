@@ -16,6 +16,24 @@
       "message": "Becky reached out to let me know that the snapshot tests were an unrelated KI, not an issue with this CL. I\u0027ll remove the snapshot fixes from this CL.",
       "revId": "945b20fa582480a48179502b5b2bbe8e1439f006",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f761cbf_5527de76",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1081020
+      },
+      "writtenOn": "2026-05-13T18:02:49Z",
+      "side": 1,
+      "message": "In my local environment, I see 47 passing and 1 failing. The failing test is in `gr-label-scores`, which is unrelated to the auto-linker fix in `gr-formatted-text`.\n\n```\n$ yarn --cwd\u003dpolygerrit-ui test:screenshot\n$ web-test-runner --run-screenshots\n\n...\n\nChromium: |██████████████████████████████| 20/20 test files | 47 passed, 1 failed\n\nFinished running tests in 27.9s with 1 failed tests.\n\nErrors Reported in Tests:\n\n ❌ gr-label-scores screenshot tests \u003e submit requirements and trigger votes with long label name\n      Error: Visual diff failed. New screenshot is 3.50% different.\n      See diff for details: .../gr-label-scores-long-trigger-vote-label-dark-diff.png\n        at async visualDiffDarkTheme (app/test/test-utils.ts:332:2)\n        at async n4.\u003canonymous\u003e (app/elements/change/gr-label-scores/gr-label-scores_screenshot_test.ts:86:4)\n\n ❌ AssertionError: The following node remains in document after the test: DIV\n      Outer HTML: \u003cdiv style\u003d\"width: 700px; display: inline-block;\"\u003e\u003cgr-label-scores\u003e\u003c/gr-label-scores\u003e\u003c/div\u003e\n      at checkChildAllowed (app/test/common-test-setup.ts:157:9)\n      at checkGlobalSpace (app/test/common-test-setup.ts:166:4)\n      at Ka.\u003canonymous\u003e (app/test/common-test-setup.ts:181:2)\n```\n\nBacky, can you confirm whether this is OK to submit with, given the screenshot bug context?",
+      "parentUuid": "9eb150c8_1594e90d",
+      "revId": "945b20fa582480a48179502b5b2bbe8e1439f006",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

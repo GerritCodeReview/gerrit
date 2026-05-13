@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dadd260c_9c2346fe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-13T21:52:35Z",
+      "side": 1,
+      "message": "```suggestion\nRelease-Notes: Breaking change: require tilde changeIds in config/server/index.changes and reject legacy numeric-only ids.\n```",
+      "revId": "5505873671ad2a17e019026c52f401692fbf8b59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b63061cf_240a9d05",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-13T21:52:35Z",
+      "side": 1,
+      "message": "The description isn\u0027t accurate: it could also be a `project~changeNum` format isn\u0027t it?",
+      "range": {
+        "startLine": 67,
+        "startChar": 12,
+        "endLine": 67,
+        "endChar": 98
+      },
+      "revId": "5505873671ad2a17e019026c52f401692fbf8b59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

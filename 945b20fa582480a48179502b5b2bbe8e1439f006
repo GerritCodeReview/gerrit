@@ -52,6 +52,24 @@
       "parentUuid": "9f761cbf_5527de76",
       "revId": "945b20fa582480a48179502b5b2bbe8e1439f006",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3c3fef4_4c694f8f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1081020
+      },
+      "writtenOn": "2026-05-13T19:40:51Z",
+      "side": 1,
+      "message": "Awesome thanks. I\u0027m not familiar with this gerrit host, is there any way we can override the Frontend-Verified -1 vote?",
+      "parentUuid": "c7a8543e_5f0d52b9",
+      "revId": "945b20fa582480a48179502b5b2bbe8e1439f006",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

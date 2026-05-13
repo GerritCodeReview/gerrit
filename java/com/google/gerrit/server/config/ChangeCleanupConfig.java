@@ -34,6 +34,7 @@ public class ChangeCleanupConfig {
   private static final String KEY_ABANDON_IF_MERGEABLE = "abandonIfMergeable";
   private static final String KEY_ABANDON_MESSAGE = "abandonMessage";
   private static final String KEY_CLEANUP_ACCOUNT_PATCH_REVIEW = "cleanupAccountPatchReview";
+  private static final String KEY_QUERY = "query";
   private static final String DEFAULT_ABANDON_MESSAGE =
       "Auto-Abandoned due to inactivity, see "
           + "${URL}\n"
@@ -46,6 +47,7 @@ public class ChangeCleanupConfig {
   private final boolean abandonIfMergeable;
   private final boolean cleanupAccountPatchReview;
   private final String abandonMessage;
+  private final String query;
 
   @Inject
   ChangeCleanupConfig(@GerritServerConfig Config cfg, DynamicItem<UrlFormatter> urlFormatter) {
@@ -66,6 +68,7 @@ public class ChangeCleanupConfig {
     cleanupAccountPatchReview =
         cfg.getBoolean(SECTION, null, KEY_CLEANUP_ACCOUNT_PATCH_REVIEW, false);
     abandonMessage = readAbandonMessage(cfg);
+    query = Strings.nullToEmpty(cfg.getString(SECTION, null, KEY_QUERY));
   }
 
   private boolean readAbandonIfMergeable(Config cfg) {
@@ -97,6 +100,10 @@ public class ChangeCleanupConfig {
 
   public boolean getCleanupAccountPatchReview() {
     return cleanupAccountPatchReview;
+  }
+
+  public String getQuery() {
+    return query;
   }
 
   public String getAbandonMessage() {

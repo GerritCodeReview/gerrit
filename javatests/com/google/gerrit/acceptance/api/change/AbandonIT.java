@@ -319,6 +319,26 @@ public class AbandonIT extends AbstractDaemonTest {
     assertThat(thrown).hasMessageThat().contains("restore not permitted");
   }
 
+  @Test
+  @UseClockStep
+  @GerritConfig(name = "changeCleanup.abandonAfter", value = "1w")
+  @GerritConfig(name = "changeCleanup.abandonBatchSize", value = "2")
+  public void abandonInactiveOpenChanges_limitRestrictsNumberAbandoned() throws Exception {
+    int id1 = createChange().getChange().getId().get();
+    int id2 = createChange().getChange().getId().get();
+    int id3 = createChange().getChange().getId().get();
+
+    TestTimeUtil.incrementClock(7 * 24, HOURS);
+
+    assertThat(toChangeNumbers(query("is:open"))).containsExactly(id1, id2, id3);
+    assertThat(query("is:abandoned")).isEmpty();
+
+    cleanupRunner.create().run();
+
+    assertThat(toChangeNumbers(query("is:abandoned"))).hasSize(2);
+    assertThat(toChangeNumbers(query("is:open"))).hasSize(1);
+  }
+
   private List<Integer> toChangeNumbers(List<ChangeInfo> changes) {
     return changes.stream().map(i -> i._number).collect(toList());
   }

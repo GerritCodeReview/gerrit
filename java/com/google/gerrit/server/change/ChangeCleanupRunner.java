@@ -46,7 +46,8 @@ public class ChangeCleanupRunner implements Runnable {
   public interface Factory {
     ChangeCleanupRunner create();
 
-    ChangeCleanupRunner create(long abandonAfterMillis, boolean abandonIfMergeable, String message);
+    ChangeCleanupRunner create(
+        long abandonAfterMillis, boolean abandonIfMergeable, String message, int batchSize);
   }
 
   static class Lifecycle implements LifecycleListener {
@@ -79,6 +80,7 @@ public class ChangeCleanupRunner implements Runnable {
   private final long abandonAfterMillis;
   private final boolean abandonIfMergeable;
   @Nullable private final String message;
+  private final int batchSize;
 
   @AssistedInject
   ChangeCleanupRunner(
@@ -88,7 +90,8 @@ public class ChangeCleanupRunner implements Runnable {
       LockManager lockManager,
       @Assisted long abandonAfterMillis,
       @Assisted boolean abandonIfMergeable,
-      @Assisted @Nullable String message) {
+      @Assisted @Nullable String message,
+      @Assisted int batchSize) {
     this.oneOffRequestContext = oneOffRequestContext;
     this.abandonUtil = abandonUtil;
     this.retryHelper = retryHelper;
@@ -96,6 +99,7 @@ public class ChangeCleanupRunner implements Runnable {
     this.abandonAfterMillis = abandonAfterMillis;
     this.abandonIfMergeable = abandonIfMergeable;
     this.message = message;
+    this.batchSize = batchSize;
   }
 
   @AssistedInject
@@ -112,6 +116,7 @@ public class ChangeCleanupRunner implements Runnable {
     this.abandonAfterMillis = cfg.getAbandonAfter();
     this.abandonIfMergeable = cfg.getAbandonIfMergeable();
     this.message = cfg.getAbandonMessage();
+    this.batchSize = cfg.getAbandonBatchSize();
   }
 
   @Override
@@ -136,7 +141,7 @@ public class ChangeCleanupRunner implements Runnable {
                   "abandonInactiveOpenChanges",
                   updateFactory -> {
                     abandonUtil.abandonInactiveOpenChanges(
-                        updateFactory, abandonAfterMillis, abandonIfMergeable, message);
+                        updateFactory, abandonAfterMillis, abandonIfMergeable, message, batchSize);
                     return null;
                   })
               .call();

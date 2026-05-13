@@ -1926,7 +1926,8 @@ The change cleanup will run asynchronously.
   {
     "after": "3 months",
     "if_mergeable": true,
-    "message": "Abandoning stale changes."
+    "message": "Abandoning stale changes.",
+    "batchSize": 100
   }
 ----
 
@@ -2933,6 +2934,8 @@ timespan given here
 that are mergeable
 |`message`|optional|Message to post to changes abandoned by the
 cleanup
+|`batchSize`|optional|Maximum number of changes to abandon.
+When set to `0` (default), all matching changes are abandoned at once.
 |=============================
 
 [[migrate-passwords-to-tokens-input]]

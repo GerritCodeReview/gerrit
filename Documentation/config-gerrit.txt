@@ -1969,6 +1969,14 @@ By default "Auto-Abandoned due to inactivity, see
 ${URL}Documentation/user-change-cleanup.html#auto-abandon\n\n
 If this change is still wanted it should be restored.".
 
+[[changeCleanup.abandonBatchSize]]changeCleanup.abandonBatchSize::
++
+Maximum number of changes to auto-abandon in a single cleanup run. Use this
+to limit the load on the server when a large number of changes would otherwise
+be abandoned at once.
++
+By default `0`, meaning all matching changes are abandoned in a single run.
+
 [[changeCleanup.startTime]]changeCleanup.startTime::
 +
 The link:#schedule-configuration-startTime[start time] for running

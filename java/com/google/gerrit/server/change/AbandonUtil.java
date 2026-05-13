@@ -60,7 +60,8 @@ public class AbandonUtil {
       BatchUpdate.Factory updateFactory,
       long abandonAfterMillis,
       boolean abandonIfMergeable,
-      String message) {
+      String message,
+      int batchSize) {
     if (abandonAfterMillis <= 0) {
       return;
     }
@@ -68,6 +69,9 @@ public class AbandonUtil {
       String query = "status:new age:" + TimeUnit.MILLISECONDS.toMinutes(abandonAfterMillis) + "m";
       if (!abandonIfMergeable) {
         query += " -is:mergeable";
+      }
+      if (batchSize > 0) {
+        query += " limit:" + batchSize;
       }
 
       ImmutableList<ChangeData> changesToAbandon =

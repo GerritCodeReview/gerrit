@@ -18,7 +18,6 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Stopwatch;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
-import com.google.gerrit.server.account.storage.notedb.AccountsNoteDbImpl;
 import com.google.gerrit.server.git.MultiProgressMonitor;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
 import com.google.gerrit.server.git.MultiProgressMonitor.TaskKind;
@@ -44,7 +43,7 @@ public class MaxAuthTokenLifetimeApplier implements Runnable {
   private final MultiProgressMonitor.Factory multiProgressMonitorFactory;
   private final AuthTokenAccessor tokenAccessor;
   private final LockManager lockManager;
-  private final AccountsNoteDbImpl accounts;
+  private final Accounts accounts;
   private final Instant expiryInstant;
 
   private MultiProgressMonitor mpm;
@@ -60,7 +59,7 @@ public class MaxAuthTokenLifetimeApplier implements Runnable {
       MultiProgressMonitor.Factory multiProgressMonitorFactory,
       AuthTokenAccessor tokenAccessor,
       LockManager lockManager,
-      AccountsNoteDbImpl accounts,
+      Accounts accounts,
       @Assisted Instant expiryInstant) {
     this.multiProgressMonitorFactory = multiProgressMonitorFactory;
     this.tokenAccessor = tokenAccessor;

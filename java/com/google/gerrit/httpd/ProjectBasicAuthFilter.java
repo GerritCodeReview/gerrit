@@ -200,7 +200,7 @@ class ProjectBasicAuthFilter implements Filter {
     } catch (AuthenticationFailedException e) {
       // This exception is thrown if the user provided wrong credentials, we don't need to log a
       // stacktrace for it.
-      logger.atWarning().log(authenticationFailedMsg(username, req) + ": %s", e.getMessage());
+      logger.atWarning().log("%s: %s", authenticationFailedMsg(username, req), e.getMessage());
       rsp.sendError(SC_UNAUTHORIZED);
       return false;
     } catch (AuthenticationUnavailableException e) {

@@ -1,7 +1,6 @@
 common --lockfile_mode=error
 # Enable Gerrit-tree-only plugin checks (standalone plugin builds skip them).
 common --@com_googlesource_gerrit_bazlets//flags:in_gerrit_tree=true
-common --incompatible_disallow_struct_provider_syntax=false
 common --incompatible_disallow_empty_glob=false
 common --@aspect_rules_ts//ts:default_to_tsc_transpiler
 

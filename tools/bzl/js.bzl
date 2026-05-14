@@ -175,6 +175,7 @@ def web_test_runner(name, srcs, data):
             "$(location //polygerrit-ui:web-test-runner.config.mjs)",
         ],
         data = data + [
+            "//polygerrit-ui:resultdb-reporter.mjs",
             "//polygerrit-ui:web_test_runner_bin",
             "//polygerrit-ui:web-test-runner.config.mjs",
         ],

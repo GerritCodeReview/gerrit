@@ -72,6 +72,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "333da389_ba28fecd",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-05-14T07:18:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45141213_5538526d",
+      "range": {
+        "startLine": 42,
+        "startChar": 4,
+        "endLine": 42,
+        "endChar": 10
+      },
+      "revId": "aa361cafb92abe7e4fc22f2db692d944ffc35100",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "09bcfe5b_8bbe33e3",
@@ -133,6 +157,30 @@
       "side": 1,
       "message": "For instance, you could do:\n\n```java\n    Optional\u003cChangeData\u003e getChangeFromIndex(Change.Id changeId) {\n      ChangeIndex idx \u003d changeIndexCollection.getSearchIndex();\n      QueryOptions opts \u003d IndexedChangeQuery.createOptions(indexConfig, 0, 1, ImmutableSet.of());\n      return idx.get(changeId, opts);\n```\n\nand the test becomes:\n\n```suggestion\n    assertThat(getChangeFromIndex(changeId)).isPresent();\n```",
       "parentUuid": "ac39c9d6_74511b3e",
+      "range": {
+        "startLine": 103,
+        "startChar": 0,
+        "endLine": 105,
+        "endChar": 52
+      },
+      "revId": "aa361cafb92abe7e4fc22f2db692d944ffc35100",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "44a73ceb_1ffe6d70",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/config/IndexChangesIT.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-05-14T07:18:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "15568caa_b3db0a4b",
       "range": {
         "startLine": 103,
         "startChar": 0,

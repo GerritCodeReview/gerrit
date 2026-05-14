@@ -64,6 +64,8 @@ import {
   ChangeModel,
   changeModelToken,
 } from '../../../models/change/change-model';
+import {chatModelToken} from '../../../models/chat/chat-model';
+import {GrContentWithSidebar} from '../../shared/gr-content-with-sidebar/gr-content-with-sidebar';
 import {FocusTarget} from '../gr-reply-dialog/gr-reply-dialog';
 import {GrChangeStar} from '../../shared/gr-change-star/gr-change-star';
 import {GrThreadList} from '../gr-thread-list/gr-thread-list';
@@ -1498,5 +1500,26 @@ suite('gr-change-view tests', () => {
       shortcut: 'u',
       value: 'http://localhost:9876/review/c/test-project/+/42',
     });
+  });
+
+  test('explain-code-requested opens sidebar and starts chat', async () => {
+    const chatModel = testResolver(chatModelToken);
+    const processChatRequestStub = sinon.stub(chatModel, 'processChatRequest');
+    const contentWithSidebar = queryAndAssert<GrContentWithSidebar>(
+      element,
+      'gr-content-with-sidebar'
+    );
+    assert.isTrue(contentWithSidebar.hideSide);
+
+    const event = new CustomEvent('explain-code-requested', {
+      detail: {prompt: 'Explain this code'},
+      bubbles: true,
+      composed: true,
+    });
+    element.dispatchEvent(event);
+    await element.updateComplete;
+
+    assert.isFalse(contentWithSidebar.hideSide);
+    assert.isTrue(processChatRequestStub.calledOnceWithExactly(event.detail));
   });
 });

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dde57e84_7867918d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-05-14T07:33:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dadd260c_9c2346fe",
+      "revId": "5505873671ad2a17e019026c52f401692fbf8b59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b63061cf_240a9d05",
@@ -31,6 +49,30 @@
       "writtenOn": "2026-05-13T21:52:35Z",
       "side": 1,
       "message": "The description isn\u0027t accurate: it could also be a `project~changeNum` format isn\u0027t it?",
+      "range": {
+        "startLine": 67,
+        "startChar": 12,
+        "endLine": 67,
+        "endChar": 98
+      },
+      "revId": "5505873671ad2a17e019026c52f401692fbf8b59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "03d9e230_6c0e74fc",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-05-14T07:33:14Z",
+      "side": 1,
+      "message": "Isn\u0027t that the same as project~changeNumber?\n\nBut you\u0027re right that it\u0027s wrong, it can\u0027t be `project~branch~changeId`",
+      "parentUuid": "b63061cf_240a9d05",
       "range": {
         "startLine": 67,
         "startChar": 12,

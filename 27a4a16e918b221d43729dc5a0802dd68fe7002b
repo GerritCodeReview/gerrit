@@ -22,6 +22,30 @@
       },
       "revId": "27a4a16e918b221d43729dc5a0802dd68fe7002b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c24fbe0d_88862348",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-14T07:27:53Z",
+      "side": 1,
+      "message": "\u003e Currently I\u0027ve decided to log that we\u0027re not going to delete the change in question, but keep processing the request and only log an error.\n\u003e But the request\u0027s return code will be 200, which can be deceiving.\n\nIndeed, therefore I wouldn\u0027t pursue that path.\n\n\u003e Another option would be to preliminary check all changes in the payload and return a bad request if any of them is not in the format we expect, but maybe this is overly strict?\n\nNo, I believe it\u0027s best to fail *explicitly* rather than dropping silently.\nIf the syntax is invalid, the caller should know and it should be amended.",
+      "parentUuid": "632acab1_4b07d10c",
+      "range": {
+        "startLine": 73,
+        "startChar": 9,
+        "endLine": 79,
+        "endChar": 11
+      },
+      "revId": "27a4a16e918b221d43729dc5a0802dd68fe7002b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -348,6 +348,17 @@ suite('chat-model tests', () => {
     assert.equal(state.turns[0].geminiMessage.regenerationIndex, 0);
   });
 
+  test('handleEvent delegates explain-code-requested to startNewChatWithUserInput', () => {
+    const startNewChatStub = sinon.stub(model, 'startNewChatWithUserInput');
+    const event = new CustomEvent('explain-code-requested', {
+      detail: {prompt: 'explain this'},
+    });
+    model.handleEvent(event);
+    assert.isTrue(
+      startNewChatStub.calledOnceWith('explain this', undefined, [])
+    );
+  });
+
   suite('telemetry reporting', () => {
     let timeStub: sinon.SinonStub;
     let timeEndStub: sinon.SinonStub;

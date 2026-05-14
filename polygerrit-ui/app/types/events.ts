@@ -43,6 +43,7 @@ declare global {
     'confirm': CustomEvent<{}>;
     // prettier-ignore
     'drop': DropEvent;
+    'explain-code-requested': ExplainCodeRequestedEvent;
     'hide-alert': CustomEvent<{}>;
     'location-change': LocationChangeEvent;
     'iron-announce': IronAnnounceEvent;
@@ -262,3 +263,9 @@ export interface TitleChangeEventDetail {
 export type TitleChangeEvent = CustomEvent<TitleChangeEventDetail>;
 
 export type ValueChangedEvent<T = string> = CustomEvent<{value: T}>;
+
+export interface ExplainCodeRequestedEventDetail {
+  prompt?: string;
+}
+export type ExplainCodeRequestedEvent =
+  CustomEvent<ExplainCodeRequestedEventDetail>;

@@ -230,6 +230,10 @@ export const initialConversationState: ConversationState = {
   },
 };
 
+export interface ChatTriggerParams {
+  prompt?: string;
+}
+
 export const chatModelToken = define<ChatModel>('chat-model');
 
 export class ChatModel extends Model<ChatState> {
@@ -718,6 +722,12 @@ export class ChatModel extends Model<ChatState> {
     });
 
     if (userInput) this.sendChatRequest(0);
+  }
+
+  processChatRequest(params: ChatTriggerParams) {
+    if (params.prompt) {
+      this.startNewChatWithUserInput(params.prompt, undefined, [], false);
+    }
   }
 
   addContextItem(contextItem: ContextItem) {

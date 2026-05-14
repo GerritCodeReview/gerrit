@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe529eef_6fa4f0b6",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1993,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-05-14T01:42:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "40f97d51_53348c21",
+      "revId": "4eff6cdf1d0c3763668de2e13397639350575491",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ac10b779_23d0dc3c",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-05-14T01:31:51Z",
       "side": 1,
       "message": "You probably want to put parens around this, or an \u0027OR\u0027 could subvert this AND.",
+      "revId": "4eff6cdf1d0c3763668de2e13397639350575491",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "620a6241_5e5bea2b",
+        "filename": "java/com/google/gerrit/server/change/AbandonUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-05-14T01:42:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ac10b779_23d0dc3c",
       "revId": "4eff6cdf1d0c3763668de2e13397639350575491",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

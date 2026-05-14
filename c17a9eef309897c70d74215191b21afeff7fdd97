@@ -16,6 +16,24 @@
       "message": "I am assuming from the docs (although it is not 100% clear), that change cleanup was previously only enabled if changeCleanup.abandonAfter was set, even if other things like changeCleanup.startTime were set?\n\nI think it would make sense that setting this query should enable cleanup, even if changeCleanup.abandonAfter is not set. Can we do that, and document that here?",
       "revId": "c17a9eef309897c70d74215191b21afeff7fdd97",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6e5fbe3_2c8f9bad",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1972,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-05-14T01:04:17Z",
+      "side": 1,
+      "message": "Good catch, Done.",
+      "parentUuid": "77d23417_42f8a929",
+      "revId": "c17a9eef309897c70d74215191b21afeff7fdd97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

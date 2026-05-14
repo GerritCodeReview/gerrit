@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e54f8c5d_10e68f6e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-05-14T22:36:43Z",
+      "side": 1,
+      "message": "Should say enough to be able to look for this fix in the log.\n\nRelease-Notes?",
+      "revId": "c7a7fdac6ab1828b7459c78966e4d8c5b4c10694",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

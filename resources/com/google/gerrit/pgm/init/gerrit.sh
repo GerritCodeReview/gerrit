@@ -51,7 +51,7 @@ fi
 
 usage() {
     me=`basename "$0"`
-    echo >&2 "Usage: $me {start|stop|restart|check|status|run|supervise|threads} [-d site] [--debug [--debug_port|--debug_address ...] [--suspend]]"
+    echo >&2 "Usage: $me {start|stop|restart|check|status|run|supervise|threads} [-d site] [--debug [--debug-port|--debug-address ...] [--suspend]]"
     exit 1
 }
 

@@ -124,6 +124,7 @@ import {commentsModelToken} from '../../../models/comments/comments-model';
 import {resolve} from '../../../models/dependency';
 import {checksModelToken} from '../../../models/checks/checks-model';
 import {changeModelToken} from '../../../models/change/change-model';
+import {chatModelToken} from '../../../models/chat/chat-model';
 import {css, html, LitElement, nothing} from 'lit';
 import {a11yStyles} from '../../../styles/gr-a11y-styles';
 import {materialStyles} from '../../../styles/gr-material-styles';
@@ -410,6 +411,8 @@ export class GrChangeView extends LitElement {
 
   private readonly getChangeModel = resolve(this, changeModelToken);
 
+  private readonly getChatModel = resolve(this, chatModelToken);
+
   private readonly getCommentsModel = resolve(this, commentsModelToken);
 
   private readonly getConfigModel = resolve(this, configModelToken);
@@ -488,6 +491,10 @@ export class GrChangeView extends LitElement {
       'close-chat-panel',
       () => (this.showSidebarChat = false)
     );
+    this.addEventListener('explain-code-requested', e => {
+      this.showSidebarChat = true;
+      this.getChatModel().processChatRequest(e.detail);
+    });
   }
 
   private setupShortcuts() {

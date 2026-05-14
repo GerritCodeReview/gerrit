@@ -720,6 +720,16 @@ export class ChatModel extends Model<ChatState> {
     if (userInput) this.sendChatRequest(0);
   }
 
+  handleEvent(e: Event) {
+    if (e.type === 'explain-code-requested') {
+      const customEvent = e as CustomEvent<{prompt?: string}>;
+      const prompt = customEvent.detail?.prompt;
+      if (prompt) {
+        this.startNewChatWithUserInput(prompt, undefined, []);
+      }
+    }
+  }
+
   addContextItem(contextItem: ContextItem) {
     const state = this.getState();
     const currentItems = state.draftUserMessage.contextItems;

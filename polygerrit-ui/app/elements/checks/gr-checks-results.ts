@@ -811,7 +811,14 @@ export class GrResultExpanded extends LitElement {
           .content=${this.result.message ?? ''}
         ></gr-formatted-text>
       </gr-endpoint-decorator>
-      ${this.renderFix()} ${this.renderNotUseful()}
+      ${this.renderFix()}
+      <gr-endpoint-decorator name="check-result-feedback">
+        <gr-endpoint-param
+          name="result"
+          .value=${this.result}
+        ></gr-endpoint-param>
+        ${this.renderNotUseful()}
+      </gr-endpoint-decorator>
     `;
   }
 

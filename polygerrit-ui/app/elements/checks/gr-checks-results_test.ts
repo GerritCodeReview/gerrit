@@ -348,11 +348,14 @@ suite('gr-result-expanded test', () => {
           <gr-endpoint-param name="result"> </gr-endpoint-param>
           <gr-formatted-text class="message"> </gr-formatted-text>
         </gr-endpoint-decorator>
-        <div class="useful">
-          <div class="title">Was this helpful?</div>
-          <gr-checks-action icon="thumb_up"> </gr-checks-action>
-          <gr-checks-action icon="thumb_down"> </gr-checks-action>
-        </div>
+        <gr-endpoint-decorator name="check-result-feedback">
+          <gr-endpoint-param name="result"> </gr-endpoint-param>
+          <div class="useful">
+            <div class="title">Was this helpful?</div>
+            <gr-checks-action icon="thumb_up"> </gr-checks-action>
+            <gr-checks-action icon="thumb_down"> </gr-checks-action>
+          </div>
+        </gr-endpoint-decorator>
       `
     );
   });
@@ -378,11 +381,14 @@ suite('gr-result-expanded test', () => {
           <gr-formatted-text class="message"> </gr-formatted-text>
         </gr-endpoint-decorator>
         <gr-checks-fix-preview> </gr-checks-fix-preview>
-        <div class="useful">
-          <div class="title">Was this helpful?</div>
-          <gr-checks-action icon="thumb_up"> </gr-checks-action>
-          <gr-checks-action icon="thumb_down"> </gr-checks-action>
-        </div>
+        <gr-endpoint-decorator name="check-result-feedback">
+          <gr-endpoint-param name="result"> </gr-endpoint-param>
+          <div class="useful">
+            <div class="title">Was this helpful?</div>
+            <gr-checks-action icon="thumb_up"> </gr-checks-action>
+            <gr-checks-action icon="thumb_down"> </gr-checks-action>
+          </div>
+        </gr-endpoint-decorator>
       `
     );
   });
@@ -412,6 +418,9 @@ suite('gr-result-expanded test', () => {
           <gr-endpoint-param name="run"> </gr-endpoint-param>
           <gr-endpoint-param name="result"> </gr-endpoint-param>
           <gr-formatted-text class="message"> </gr-formatted-text>
+        </gr-endpoint-decorator>
+        <gr-endpoint-decorator name="check-result-feedback">
+          <gr-endpoint-param name="result"> </gr-endpoint-param>
         </gr-endpoint-decorator>
       `
     );

@@ -124,6 +124,21 @@ Same as `result`. The `CheckRun` object is not passed to the endpoint.
 The end point contains the `<gr-formatted-text>` element holding the
 `CheckResult.message` (if any was set).
 
+=== check-result-feedback
+The `check-result-feedback` extension point is located at the bottom of the
+result details in the expanded state of the
+link:pg-plugin-checks-api.html[ChecksAPI]. It wraps the default feedback area
+(thumbs up/down controls). This can be used by plugins to fully customize or
+replace the result-level interaction mechanisms.
+
+In addition to default parameters, the following are available:
+
+* `result`
++
+The `CheckResult` object for the currently expanded result row.
+
+The end point contains the default feedback controls.
+
 === repo-command
 This endpoint is situated among the repository commands.
 

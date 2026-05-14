@@ -26,6 +26,7 @@ import {
 import {ChangeInfo, CommentInfo, FileInfoStatus} from '../../api/rest-api';
 import {PreferencesInfo} from '../../types/common';
 import {isDefined} from '../../types/types';
+import {ExplainCodeRequestedEvent} from '../../types/events';
 import {assert, assertIsDefined, cryptoUuid} from '../../utils/common-util';
 import {select} from '../../utils/observable-util';
 import {Model} from '../base/model';
@@ -718,6 +719,16 @@ export class ChatModel extends Model<ChatState> {
     });
 
     if (userInput) this.sendChatRequest(0);
+  }
+
+  handleChatEvent(e: Event) {
+    if (e.type === 'explain-code-requested') {
+      const customEvent = e as ExplainCodeRequestedEvent;
+      const prompt = customEvent.detail?.prompt;
+      if (prompt) {
+        this.startNewChatWithUserInput(prompt, undefined, []);
+      }
+    }
   }
 
   addContextItem(contextItem: ContextItem) {

@@ -677,6 +677,40 @@ If not set or if a value <= 0 is used, tokens can have an unlimited lifetime.
 +
 Existing tokens will not be affected by changing this value.
 
+[[auth.tokenExpiryNotificationStartDays]]auth.tokenExpiryNotificationStartDays::
++
+The number of days before token expiration to start sending notification
+emails to users. This value determines when the first notification in the
+countdown sequence is sent.
++
+Notifications are sent at intervals defined by
+link:#auth.tokenExpiryNotificationIntervalDays[`auth.tokenExpiryNotificationIntervalDays`].
+For example, with `startDays = 21` and `intervalDays = 7`, users will receive
+notifications at 21 days, 14 days, and 7 days before token expiration.
++
+The notification system runs daily at midnight (00:00) and sends at most one
+email per token per day.
++
+Set to 0 or a negative value to disable token expiration notifications entirely.
++
+Default is 21 days.
+
+[[auth.tokenExpiryNotificationIntervalDays]]auth.tokenExpiryNotificationIntervalDays::
++
+The interval in days between repeated token expiration notification emails.
+This value is subtracted from the previous notification time to calculate when
+the next notification should be sent.
++
+For example, with `startDays = 30` and `intervalDays = 10`, notifications will
+be sent at 30 days, 20 days, and 10 days before token expiration.
++
+The countdown stops when the next notification time would be at or after the
+token expiration date (i.e., when days before expiry becomes <= 0).
++
+Set to 0 or a negative value to disable token expiration notifications entirely.
++
+Default is 7 days.
+
 [[auth.httpPasswordFallbackEnabled]]auth.httpPasswordFallbackEnabled::
 +
 To provide backward compatibility Gerrit will automatically fall back to

@@ -23,6 +23,7 @@ import com.google.auto.factory.Provided;
 import com.google.common.base.Throwables;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.Account;
@@ -58,6 +59,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.StringJoiner;
+import java.util.concurrent.Future;
 import org.apache.james.mime4j.dom.field.FieldName;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.util.SystemReader;
@@ -201,6 +203,50 @@ public final class OutgoingEmail {
       Throwables.throwIfUnchecked(e);
       Throwables.throwIfInstanceOf(e, EmailException.class);
       throw new EmailException("sending email failed", e);
+    }
+  }
+
+  /**
+   * Send the email asynchronously via the injected SendEmailExecutor.
+   *
+   * <p>This method submits the email sending task to a background thread pool, allowing the caller
+   * to continue without waiting for SMTP operations to complete. Exception handling and logging are
+   * handled automatically within the async task.
+   *
+   * <p>The executor is injected via EmailArguments and configured through {@code
+   * sendemail.threadPoolSize} in gerrit.config.
+   *
+   * @return Future representing the async operation (return value can be ignored)
+   */
+  @CanIgnoreReturnValue
+  public Future<?> sendAsync() {
+    AsyncEmailSender sender = new AsyncEmailSender(this);
+    @SuppressWarnings("unused")
+    Future<?> possiblyIgnoredError = args.sendEmailExecutor.submit(sender);
+    return possiblyIgnoredError;
+  }
+
+  /** Async email sender that wraps the synchronous send() call with proper exception handling. */
+  private static class AsyncEmailSender implements Runnable {
+    private final OutgoingEmail email;
+
+    AsyncEmailSender(OutgoingEmail email) {
+      this.email = email;
+    }
+
+    @Override
+    public void run() {
+      try {
+        email.send();
+      } catch (Exception e) {
+        logger.atSevere().withCause(e).log(
+            "Failed to send email asynchronously (class: %s)", email.messageClass);
+      }
+    }
+
+    @Override
+    public String toString() {
+      return "send-email " + email.messageClass;
     }
   }
 

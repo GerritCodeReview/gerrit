@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "94bb4d07_bc93fb27",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-05-15T18:33:43Z",
+      "side": 1,
+      "message": "Added a couple AI comments that seem worth considering.",
+      "revId": "4ca1811547af82dbb14f688cf1e38ffd1bea0ef8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a2ceeb9_8cde0624",
+        "filename": "polygerrit-ui/app/models/chat/chat-model.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 724,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-05-15T18:33:43Z",
+      "side": 1,
+      "message": "Please fix this WARNING reported by autoreview issue finding: Passing a raw DOM `Event` to the Model layer is unusual in PolyGerrit. Usually, the component (GrChangeView) extracts the necessary data from the event and calls a specific method on the model. This keeps the model layer decoupled from the DOM event system.",
+      "range": {
+        "startLine": 724,
+        "startChar": 0,
+        "endLine": 724,
+        "endChar": 0
+      },
+      "revId": "4ca1811547af82dbb14f688cf1e38ffd1bea0ef8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2591c4dc_ebb7a811",
+        "filename": "polygerrit-ui/app/models/chat/chat-model.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 729,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-05-15T18:33:43Z",
+      "side": 1,
+      "message": "Please fix this WARNING reported by autoreview issue finding: The contextItems argument ([]) is currently ignored because startNewChatWithUserInput defaults useCurrentContext to true. If you want this action to start with a truly empty context, pass `false` as the 4th argument: `this.startNewChatWithUserInput(prompt, undefined, [], false);`",
+      "range": {
+        "startLine": 729,
+        "startChar": 0,
+        "endLine": 729,
+        "endChar": 0
+      },
+      "revId": "4ca1811547af82dbb14f688cf1e38ffd1bea0ef8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

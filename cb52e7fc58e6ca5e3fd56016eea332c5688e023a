@@ -3,6 +3,42 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "15274940_b231b126",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-05-15T09:18:45Z",
+      "side": 1,
+      "message": "nit: feel free to address in a follow-up.",
+      "parentUuid": "84969ed0_f186b529",
+      "revId": "cb52e7fc58e6ca5e3fd56016eea332c5688e023a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "099ce712_66d87e88",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-05-15T09:18:45Z",
+      "side": 1,
+      "message": "nit: minor formatting suggestion, non-blocking.",
+      "parentUuid": "01134b4b_6b551776",
+      "revId": "cb52e7fc58e6ca5e3fd56016eea332c5688e023a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "84969ed0_f186b529",
         "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.ts",
         "patchSetId": 2

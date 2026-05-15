@@ -86,6 +86,37 @@ public class AuthTokenExpiryNotificationTest {
   }
 
   @Test
+  public void shouldNotifyExpiredReturnsTrueWithinOneDayWindow() {
+    Instant checkTime = Instant.now();
+    assertThat(
+            AuthTokenExpiryNotifier.shouldNotifyExpired(
+                checkTime, checkTime.minus(1, ChronoUnit.MINUTES)))
+        .isTrue();
+    assertThat(
+            AuthTokenExpiryNotifier.shouldNotifyExpired(
+                checkTime, checkTime.minus(23, ChronoUnit.HOURS)))
+        .isTrue();
+  }
+
+  @Test
+  public void shouldNotifyExpiredReturnsFalseOutsideOneDayWindow() {
+    Instant checkTime = Instant.now();
+    assertThat(
+            AuthTokenExpiryNotifier.shouldNotifyExpired(
+                checkTime, checkTime.minus(25, ChronoUnit.HOURS)))
+        .isFalse();
+  }
+
+  @Test
+  public void shouldNotifyExpiredReturnsFalseForFutureExpiry() {
+    Instant checkTime = Instant.now();
+    assertThat(
+            AuthTokenExpiryNotifier.shouldNotifyExpired(
+                checkTime, checkTime.plus(1, ChronoUnit.HOURS)))
+        .isFalse();
+  }
+
+  @Test
   public void runSkipsAllWhenDisabled() throws Exception {
     Config cfg = new Config();
     cfg.setBoolean(
@@ -157,12 +188,34 @@ public class AuthTokenExpiryNotificationTest {
   }
 
   @Test
-  public void runSkipsAlreadyExpiredToken() throws Exception {
+  public void runSendsExpiryEmailForRecentlyExpiredToken() throws Exception {
     Account account = buildAccount(1004, "Dave");
     AccountState accountState = AccountState.forAccount(account);
 
+    // Expired 1 hour ago — within the 24-hour expiry-notification window
     Instant expiry = Instant.now().minus(1, ChronoUnit.HOURS);
     AuthToken token = AuthToken.create("token-dave", "hashed", Optional.of(expiry));
+
+    when(accounts.all()).thenReturn(List.of(accountState));
+    when(tokenAccessor.getTokens(account.id())).thenReturn(List.of(token));
+    when(emailFactories.createAuthTokenExpiredEmail(account, token)).thenReturn(emailDecorator);
+    when(emailFactories.createOutgoingEmail(
+            eq(EmailFactories.AUTH_TOKEN_EXPIRED), eq(emailDecorator)))
+        .thenReturn(outgoingEmail);
+
+    new AuthTokenExpiryNotifier(accounts, tokenAccessor, emailFactories, defaultConfig).run();
+
+    verify(outgoingEmail, times(1)).send();
+  }
+
+  @Test
+  public void runSkipsTokenExpiredMoreThanOneDayAgo() throws Exception {
+    Account account = buildAccount(1011, "Eve");
+    AccountState accountState = AccountState.forAccount(account);
+
+    // Expired 25 hours ago — outside the expiry-notification window
+    Instant expiry = Instant.now().minus(25, ChronoUnit.HOURS);
+    AuthToken token = AuthToken.create("token-eve", "hashed", Optional.of(expiry));
 
     when(accounts.all()).thenReturn(List.of(accountState));
     when(tokenAccessor.getTokens(account.id())).thenReturn(List.of(token));

@@ -761,6 +761,25 @@ If not set or if a value <= 0 is used, tokens can have an unlimited lifetime.
 +
 Existing tokens will not be affected by changing this value.
 
+[[auth.tokenExpiryNoficationEnabled]]auth.tokenExpiryNoficationEnabled::
++
+Whether to send out email notifications when an authentication token is about
+to expire. Notification intervals can be configured using
+link:#auth.tokenExpiryNoficationDaysBefore[`auth.tokenExpiryNoficationDaysBefore`].
++
+Defaults to `true`.
+
+[[auth.tokenExpiryNoficationDaysBefore]]auth.tokenExpiryNoficationDaysBefore::
++
+A list of days before token expiration on which to send notification
+emails to users. Can be provided multiple times to send multiple
+notifications. Negative values will be ignored.
++
+The notification system runs daily at midnight (00:00) and sends at most one
+email per token per day.
++
+Defaults to 0, 7, 14 and 21 days.
+
 [[auth.httpPasswordFallbackEnabled]]auth.httpPasswordFallbackEnabled::
 +
 To provide backward compatibility Gerrit will automatically fall back to

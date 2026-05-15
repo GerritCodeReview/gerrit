@@ -19,7 +19,6 @@ import static com.google.gerrit.server.mail.EmailFactories.AUTH_TOKEN_WILL_EXPIR
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
-import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.ScheduleConfig;
@@ -125,6 +124,10 @@ public class AuthTokenExpiryNotifier implements Runnable {
    *       </ul>
    * </ol>
    *
+   * <p><b>Email Sending:</b> Emails are sent asynchronously via the {@code @SendEmailExecutor}
+   * thread pool. This prevents blocking the scheduled task and enables parallel email sending when
+   * the pool size is configured > 1. Configure via {@code sendemail.threadPoolSize} (default: 1).
+   *
    * @throws RuntimeException if accounts cannot be read from NoteDB
    */
   @Override
@@ -158,34 +161,22 @@ public class AuthTokenExpiryNotifier implements Runnable {
 
   private void notifyExpiring(Account account, AuthToken token, Instant expirationDate) {
     logger.atInfo().log(
-        "Token %s for account %s is expiring on %s. Sending notification.",
+        "Token %s for account %s is expiring on %s. Submitting notification.",
         token.id(), account.id(), expirationDate);
-    try {
-      emailFactories
-          .createOutgoingEmail(
-              AUTH_TOKEN_WILL_EXPIRE, emailFactories.createAuthTokenWillExpireEmail(account, token))
-          .send();
-    } catch (EmailException e) {
-      logger.atSevere().withCause(e).log(
-          "Failed to send token expiry notification email for token %s of account %s",
-          token.id(), account.id());
-    }
+    emailFactories
+        .createOutgoingEmail(
+            AUTH_TOKEN_WILL_EXPIRE, emailFactories.createAuthTokenWillExpireEmail(account, token))
+        .sendAsync();
   }
 
   private void notifyExpired(Account account, AuthToken token, Instant expirationDate) {
     logger.atInfo().log(
-        "Token %s for account %s has expired on %s. Sending expiration notification.",
+        "Token %s for account %s has expired on %s. Submitting expiration notification.",
         token.id(), account.id(), expirationDate);
-    try {
-      emailFactories
-          .createOutgoingEmail(
-              AUTH_TOKEN_EXPIRED, emailFactories.createAuthTokenExpiredEmail(account, token))
-          .send();
-    } catch (EmailException e) {
-      logger.atSevere().withCause(e).log(
-          "Failed to send token expired notification email for token %s of account %s",
-          token.id(), account.id());
-    }
+    emailFactories
+        .createOutgoingEmail(
+            AUTH_TOKEN_EXPIRED, emailFactories.createAuthTokenExpiredEmail(account, token))
+        .sendAsync();
   }
 
   /**

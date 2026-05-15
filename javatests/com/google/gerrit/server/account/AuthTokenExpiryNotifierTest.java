@@ -112,4 +112,49 @@ public class AuthTokenExpiryNotifierTest {
                 notificationTimes, NOW, LOWER_BOUND, UPPER_BOUND))
         .isTrue();
   }
+
+  @Test
+  public void shouldNotifyExpiredReturnsTrueWhenTokenExpiredWithinLast24Hours() {
+    // Token expired 12 hours ago
+    Instant expirationDate = NOW.minus(12, ChronoUnit.HOURS);
+
+    assertThat(AuthTokenExpiryNotifier.shouldNotifyExpired(expirationDate, NOW, LOWER_BOUND))
+        .isTrue();
+  }
+
+  @Test
+  public void shouldNotifyExpiredReturnsFalseWhenTokenExpiredMoreThan24HoursAgo() {
+    // Token expired 30 hours ago (more than 24 hours)
+    Instant expirationDate = NOW.minus(30, ChronoUnit.HOURS);
+
+    assertThat(AuthTokenExpiryNotifier.shouldNotifyExpired(expirationDate, NOW, LOWER_BOUND))
+        .isFalse();
+  }
+
+  @Test
+  public void shouldNotifyExpiredReturnsFalseWhenTokenNotYetExpired() {
+    // Token expires in the future
+    Instant expirationDate = NOW.plus(7, ChronoUnit.DAYS);
+
+    assertThat(AuthTokenExpiryNotifier.shouldNotifyExpired(expirationDate, NOW, LOWER_BOUND))
+        .isFalse();
+  }
+
+  @Test
+  public void shouldNotifyExpiredReturnsTrueWhenTokenJustExpired() {
+    // Token expired exactly NOW
+    Instant expirationDate = NOW;
+
+    assertThat(AuthTokenExpiryNotifier.shouldNotifyExpired(expirationDate, NOW, LOWER_BOUND))
+        .isTrue();
+  }
+
+  @Test
+  public void shouldNotifyExpiredReturnsTrueAtBoundary() {
+    // Token expired exactly 24 hours ago (at the boundary)
+    Instant expirationDate = LOWER_BOUND;
+
+    assertThat(AuthTokenExpiryNotifier.shouldNotifyExpired(expirationDate, NOW, LOWER_BOUND))
+        .isTrue();
+  }
 }

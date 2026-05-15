@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.account;
 
+import static com.google.gerrit.server.mail.EmailFactories.AUTH_TOKEN_EXPIRED;
 import static com.google.gerrit.server.mail.EmailFactories.AUTH_TOKEN_WILL_EXPIRE;
 
 import com.google.common.flogger.FluentLogger;
@@ -73,7 +74,9 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
  * <h3>Behavior</h3>
  *
  * <ul>
- *   <li>Only one email is sent per token per day
+ *   <li>Tokens that expired within the last 24 hours receive an expiration notification
+ *   <li>Tokens approaching expiration receive countdown notifications based on the schedule
+ *   <li>Only one email is sent per token per day (either expired or countdown notification)
  *   <li>Tokens without expiration dates are skipped
  *   <li>Notifications are sent only if they fall within the 24-hour window (with 1-hour buffer)
  *   <li>The task uses boundary checks to optimize performance when processing many tokens
@@ -143,8 +146,11 @@ public class AuthTokenExpiryNotifier implements Runnable {
    * <ol>
    *   <li>Checks if notifications are enabled via configuration
    *   <li>Iterates through all user accounts and their authentication tokens
-   *   <li>Calculates the notification schedule for each expiring token
-   *   <li>Sends an email if a notification is due today (within the 24-hour window)
+   *   <li>For each token with an expiration date:
+   *       <ul>
+   *         <li>If expired within last 24 hours: sends expiration notification
+   *         <li>Else, calculates notification schedule and sends countdown notification if due
+   *       </ul>
    * </ol>
    *
    * @throws RuntimeException if accounts cannot be read from NoteDB
@@ -169,8 +175,24 @@ public class AuthTokenExpiryNotifier implements Runnable {
           Instant expirationDate = token.expirationDate().get();
           List<Instant> notificationTimes = config.calculateNotificationTimes(expirationDate);
 
-          // Check if any notification should be sent today (optimized check)
-          if (shouldNotifyForToken(notificationTimes, now, oneDayAgo, oneHourFromNow)) {
+          // Check if token has expired within the last 24 hours
+          if (shouldNotifyExpired(expirationDate, now, oneDayAgo)) {
+            logger.atInfo().log(
+                "Token %s for account %s has expired on %s. Sending expiration notification.",
+                token.id(), account.account().id(), expirationDate);
+            try {
+              emailFactories
+                  .createOutgoingEmail(
+                      AUTH_TOKEN_EXPIRED,
+                      emailFactories.createAuthTokenExpiredEmail(account.account(), token))
+                  .send();
+            } catch (EmailException e) {
+              logger.atSevere().withCause(e).log(
+                  "Failed to send token expired notification email for token %s of account %s",
+                  token.id(), account.account().id());
+            }
+          } else if (shouldNotifyForToken(notificationTimes, now, oneDayAgo, oneHourFromNow)) {
+            // Check if any notification should be sent today (optimized check)
             logger.atInfo().log(
                 "Token %s for account %s is expiring on %s. Sending notification.",
                 token.id(), account.account().id(), expirationDate);
@@ -240,5 +262,37 @@ public class AuthTokenExpiryNotifier implements Runnable {
     }
 
     return false;
+  }
+
+  /**
+   * Determines if a token has expired within the last 24 hours and should receive an expiration
+   * notification.
+   *
+   * <p>A token is considered recently expired if its expiration date is:
+   *
+   * <ul>
+   *   <li>At or after the lower bound (now - 24 hours)
+   *   <li>Before or equal to now
+   * </ul>
+   *
+   * <p>This ensures that:
+   *
+   * <ul>
+   *   <li>Users are notified on the day their token expires
+   *   <li>If the task failed to run, the next run will still notify for tokens that expired in the
+   *       last 24 hours
+   *   <li>Tokens that expired more than 24 hours ago are not notified (user likely already knows)
+   *   <li>Tokens that haven't expired yet are not notified as expired
+   * </ul>
+   *
+   * @param expirationDate the token's expiration date
+   * @param now the current time
+   * @param lowerBound the lower bound for the notification window (typically now - 24 hours)
+   * @return true if an expiration notification should be sent, false otherwise
+   */
+  static boolean shouldNotifyExpired(Instant expirationDate, Instant now, Instant lowerBound) {
+    // Token must have expired (at or before now) and within the last 24 hours (at or after
+    // lowerBound)
+    return !expirationDate.isAfter(now) && !expirationDate.isBefore(lowerBound);
   }
 }

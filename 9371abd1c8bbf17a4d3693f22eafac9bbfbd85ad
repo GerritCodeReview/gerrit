@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d73311d7_60cb4e1c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 76
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-05-15T09:40:04Z",
+      "side": 1,
+      "message": "@milutin@google.com Could you also provide LC+1?",
+      "revId": "9371abd1c8bbf17a4d3693f22eafac9bbfbd85ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d663781f_f8cdeba6",
@@ -14,6 +31,24 @@
       "writtenOn": "2026-05-15T09:22:37Z",
       "side": 1,
       "message": "nit: Typo in class name `InsalledPackagesBuilder` -\u003e `InstalledPackagesBuilder`.",
+      "revId": "9371abd1c8bbf17a4d3693f22eafac9bbfbd85ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d1eeda7_58f70cbb",
+        "filename": "tools/node_tools/node_modules_licenses/installed-node-modules-map.ts",
+        "patchSetId": 76
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-05-15T09:40:04Z",
+      "side": 1,
+      "message": "Done in change 584022. Once it\u0027s merged I will rebase this series.",
+      "parentUuid": "d663781f_f8cdeba6",
       "revId": "9371abd1c8bbf17a4d3693f22eafac9bbfbd85ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

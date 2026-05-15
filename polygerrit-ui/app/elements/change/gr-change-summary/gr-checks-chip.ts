@@ -54,6 +54,10 @@ export class GrChecksChip extends LitElement {
           position: relative;
           top: 2px;
         }
+        :host(:hover),
+        :host(:focus-within) {
+          z-index: 10;
+        }
         .checksChip.hoverFullLength {
           position: absolute;
           z-index: 1;

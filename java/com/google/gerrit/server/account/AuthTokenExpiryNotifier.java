@@ -17,6 +17,7 @@ package com.google.gerrit.server.account;
 import static com.google.gerrit.server.mail.EmailFactories.AUTH_TOKEN_WILL_EXPIRE;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
@@ -30,18 +31,39 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
+/**
+ * Scheduled task that sends notification emails to users when their authentication tokens are
+ * approaching expiration.
+ *
+ * <p>This notifier runs daily at midnight (00:00) and checks all user authentication tokens with
+ * expiration dates. Based on the configured notification schedule, it sends reminder emails at the
+ * configured days before tokens expire.
+ *
+ * <h3>Behavior</h3>
+ *
+ * <ul>
+ *   <li>Tokens that expired within the last 24 hours receive an expiration notification
+ *   <li>Tokens approaching expiration receive countdown notifications based on the schedule
+ *   <li>Tokens without expiration dates are skipped
+ * </ul>
+ */
 @Singleton
 public class AuthTokenExpiryNotifier implements Runnable {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-  private static final long FIRST_NOTIFICATION_BEFORE_EXPIRY = 7L; // 7 days
+
+  private static final long START_HOURS = 0L;
+  private static final long START_MIN = 0L;
+  private static final Schedule SCHEDULE =
+      ScheduleConfig.Schedule.createOrFail(
+          TimeUnit.DAYS.toMillis(1), String.format("%02d:%02d", START_HOURS, START_MIN));
 
   private final Accounts accounts;
   private final AuthTokenAccessor tokenAccessor;
   private final EmailFactories emailFactories;
+  private final AuthTokenExpiryNotificationConfig config;
 
   public static Module module() {
     return new LifecycleModule() {
@@ -56,20 +78,16 @@ public class AuthTokenExpiryNotifier implements Runnable {
   static class Lifecycle implements LifecycleListener {
     private final WorkQueue queue;
     private final AuthTokenExpiryNotifier notifier;
-    private final Optional<Schedule> schedule;
 
     @Inject
     Lifecycle(WorkQueue queue, AuthTokenExpiryNotifier notifier) {
       this.queue = queue;
       this.notifier = notifier;
-      schedule = ScheduleConfig.Schedule.create(TimeUnit.DAYS.toMillis(1), "00:00");
     }
 
     @Override
     public void start() {
-      if (schedule.isPresent()) {
-        queue.scheduleAtFixedRate(notifier, schedule.get());
-      }
+      queue.scheduleAtFixedRate(notifier, SCHEDULE);
     }
 
     @Override
@@ -80,15 +98,39 @@ public class AuthTokenExpiryNotifier implements Runnable {
 
   @Inject
   public AuthTokenExpiryNotifier(
-      Accounts accounts, AuthTokenAccessor tokenAccessor, EmailFactories emailFactories) {
+      Accounts accounts,
+      AuthTokenAccessor tokenAccessor,
+      EmailFactories emailFactories,
+      AuthTokenExpiryNotificationConfig config) {
     this.accounts = accounts;
     this.tokenAccessor = tokenAccessor;
     this.emailFactories = emailFactories;
+    this.config = config;
   }
 
+  /**
+   * Executes the daily token expiry notification check.
+   *
+   * <p>This method:
+   *
+   * <ol>
+   *   <li>Checks if notifications are enabled via configuration
+   *   <li>Iterates through all user accounts and their authentication tokens
+   *   <li>Calculates the notification schedule for each expiring token
+   *   <li>Sends an email if a notification is due today (within the 24-hour window)
+   * </ol>
+   *
+   * @throws RuntimeException if accounts cannot be read from NoteDB
+   */
   @Override
   public void run() {
-    Instant now = Instant.now();
+    if (!config.isEnabled()) {
+      logger.atFine().log("Auth token expiry notifications are disabled.");
+      return;
+    }
+
+    Instant checkTime = Instant.now().truncatedTo(ChronoUnit.DAYS);
+
     try {
       for (AccountState account : accounts.all()) {
         for (AuthToken token : tokenAccessor.getTokens(account.account().id())) {
@@ -96,27 +138,30 @@ public class AuthTokenExpiryNotifier implements Runnable {
             continue;
           }
           Instant expirationDate = token.expirationDate().get();
-          if (expirationDate.isBefore(now.plus(FIRST_NOTIFICATION_BEFORE_EXPIRY, ChronoUnit.DAYS))
-              && expirationDate.isAfter(
-                  now.plus(FIRST_NOTIFICATION_BEFORE_EXPIRY - 1, ChronoUnit.DAYS))) {
-            logger.atInfo().log(
-                "Token %s for account %s is expiring soon.", token.id(), account.account().id());
-            try {
-              emailFactories
-                  .createOutgoingEmail(
-                      AUTH_TOKEN_WILL_EXPIRE,
-                      emailFactories.createAuthTokenWillExpireEmail(account.account(), token))
-                  .send();
-            } catch (EmailException e) {
-              logger.atSevere().withCause(e).log(
-                  "Failed to send token expiry notification email for token %s of account %s",
-                  token.id(), account.account().id());
-            }
+
+          if (config.shouldBeNotified(checkTime, expirationDate)) {
+            notifyExpiring(account.account(), token, expirationDate);
           }
         }
       }
     } catch (IOException | ConfigInvalidException e) {
       throw new RuntimeException("Failed to read accounts from NoteDB", e);
+    }
+  }
+
+  private void notifyExpiring(Account account, AuthToken token, Instant expirationDate) {
+    logger.atInfo().log(
+        "Token %s for account %s is expiring on %s. Sending notification.",
+        token.id(), account.id(), expirationDate);
+    try {
+      emailFactories
+          .createOutgoingEmail(
+              AUTH_TOKEN_WILL_EXPIRE, emailFactories.createAuthTokenWillExpireEmail(account, token))
+          .send();
+    } catch (EmailException e) {
+      logger.atSevere().withCause(e).log(
+          "Failed to send token expiry notification email for token %s of account %s",
+          token.id(), account.id());
     }
   }
 }

@@ -18,14 +18,17 @@ import static com.google.gerrit.server.mail.EmailFactories.AUTH_TOKEN_EXPIRED;
 import static com.google.gerrit.server.mail.EmailFactories.AUTH_TOKEN_WILL_EXPIRE;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.account.storage.notedb.AccountsNoteDbImpl;
 import com.google.gerrit.server.config.ScheduleConfig;
 import com.google.gerrit.server.config.ScheduleConfig.Schedule;
+import com.google.gerrit.server.config.SendEmailExecutor;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.mail.EmailFactories;
+import com.google.gerrit.server.mail.send.OutgoingEmail;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
@@ -34,6 +37,7 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
@@ -80,6 +84,19 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
  *   <li>Tokens without expiration dates are skipped
  *   <li>Notifications are sent only if they fall within the 24-hour window (with 1-hour buffer)
  *   <li>The task uses boundary checks to optimize performance when processing many tokens
+ *   <li><b>Emails are sent asynchronously</b> via the {@code @SendEmailExecutor} thread pool to
+ *       prevent blocking and enable parallel sending
+ * </ul>
+ *
+ * <h3>Email Sending Performance</h3>
+ *
+ * Email sending is performed asynchronously using the {@code @SendEmailExecutor} thread pool:
+ *
+ * <ul>
+ *   <li>Configure thread pool size via {@code sendemail.threadPoolSize} (default: 1)
+ *   <li>Increase pool size for parallel email sending in large deployments
+ *   <li>Each email task is submitted to the executor and runs independently
+ *   <li>Failed emails are logged but don't block other notifications
  * </ul>
  */
 @Singleton
@@ -90,6 +107,7 @@ public class AuthTokenExpiryNotifier implements Runnable {
   private final AuthTokenAccessor tokenAccessor;
   private final EmailFactories emailFactories;
   private final AuthTokenExpiryNotificationConfig config;
+  private final java.util.concurrent.ExecutorService sendEmailExecutor;
 
   public static Module module() {
     return new LifecycleModule() {
@@ -131,11 +149,13 @@ public class AuthTokenExpiryNotifier implements Runnable {
       AccountsNoteDbImpl accounts,
       AuthTokenAccessor tokenAccessor,
       EmailFactories emailFactories,
-      AuthTokenExpiryNotificationConfig config) {
+      AuthTokenExpiryNotificationConfig config,
+      @SendEmailExecutor ExecutorService sendEmailExecutor) {
     this.accounts = accounts;
     this.tokenAccessor = tokenAccessor;
     this.emailFactories = emailFactories;
     this.config = config;
+    this.sendEmailExecutor = sendEmailExecutor;
   }
 
   /**
@@ -148,10 +168,16 @@ public class AuthTokenExpiryNotifier implements Runnable {
    *   <li>Iterates through all user accounts and their authentication tokens
    *   <li>For each token with an expiration date:
    *       <ul>
-   *         <li>If expired within last 24 hours: sends expiration notification
-   *         <li>Else, calculates notification schedule and sends countdown notification if due
+   *         <li>If expired within last 24 hours: submits expiration notification task to
+   *             SendEmailExecutor
+   *         <li>Else, calculates notification schedule and submits countdown notification task if
+   *             due
    *       </ul>
    * </ol>
+   *
+   * <p><b>Email Sending:</b> Emails are sent asynchronously via the {@code @SendEmailExecutor}
+   * thread pool. This prevents blocking the scheduled task and enables parallel email sending when
+   * the pool size is configured > 1. Configure via {@code sendemail.threadPoolSize} (default: 1).
    *
    * @throws RuntimeException if accounts cannot be read from NoteDB
    */
@@ -178,35 +204,22 @@ public class AuthTokenExpiryNotifier implements Runnable {
           // Check if token has expired within the last 24 hours
           if (shouldNotifyExpired(expirationDate, now, oneDayAgo)) {
             logger.atInfo().log(
-                "Token %s for account %s has expired on %s. Sending expiration notification.",
+                "Token %s for account %s has expired on %s. Submitting expiration notification.",
                 token.id(), account.account().id(), expirationDate);
-            try {
-              emailFactories
-                  .createOutgoingEmail(
-                      AUTH_TOKEN_EXPIRED,
-                      emailFactories.createAuthTokenExpiredEmail(account.account(), token))
-                  .send();
-            } catch (EmailException e) {
-              logger.atSevere().withCause(e).log(
-                  "Failed to send token expired notification email for token %s of account %s",
-                  token.id(), account.account().id());
-            }
+            @SuppressWarnings("unused")
+            var unused =
+                sendEmailExecutor.submit(
+                    new AsyncSender(emailFactories, account.account(), token, AUTH_TOKEN_EXPIRED));
           } else if (shouldNotifyForToken(notificationTimes, now, oneDayAgo, oneHourFromNow)) {
             // Check if any notification should be sent today (optimized check)
             logger.atInfo().log(
-                "Token %s for account %s is expiring on %s. Sending notification.",
+                "Token %s for account %s is expiring on %s. Submitting notification.",
                 token.id(), account.account().id(), expirationDate);
-            try {
-              emailFactories
-                  .createOutgoingEmail(
-                      AUTH_TOKEN_WILL_EXPIRE,
-                      emailFactories.createAuthTokenWillExpireEmail(account.account(), token))
-                  .send();
-            } catch (EmailException e) {
-              logger.atSevere().withCause(e).log(
-                  "Failed to send token expiry notification email for token %s of account %s",
-                  token.id(), account.account().id());
-            }
+            @SuppressWarnings("unused")
+            var unused =
+                sendEmailExecutor.submit(
+                    new AsyncSender(
+                        emailFactories, account.account(), token, AUTH_TOKEN_WILL_EXPIRE));
           }
         }
       }
@@ -294,5 +307,58 @@ public class AuthTokenExpiryNotifier implements Runnable {
     // Token must have expired (at or before now) and within the last 24 hours (at or after
     // lowerBound)
     return !expirationDate.isAfter(now) && !expirationDate.isBefore(lowerBound);
+  }
+
+  /**
+   * Asynchronous email sender for auth token expiry notifications.
+   *
+   * <p>This class implements Runnable to be executed in the SendEmailExecutor thread pool. All
+   * fields must be thread-safe (immutable or properly synchronized).
+   */
+  static class AsyncSender implements Runnable {
+    private final EmailFactories emailFactories;
+    private final Account account;
+    private final AuthToken token;
+    private final String messageClass;
+
+    AsyncSender(
+        EmailFactories emailFactories, Account account, AuthToken token, String messageClass) {
+      this.emailFactories = emailFactories;
+      this.account = account;
+      this.token = token;
+      this.messageClass = messageClass;
+    }
+
+    @Override
+    public void run() {
+      try {
+        OutgoingEmail outgoingEmail;
+        if (AUTH_TOKEN_EXPIRED.equals(messageClass)) {
+          outgoingEmail =
+              emailFactories.createOutgoingEmail(
+                  AUTH_TOKEN_EXPIRED, emailFactories.createAuthTokenExpiredEmail(account, token));
+        } else if (AUTH_TOKEN_WILL_EXPIRE.equals(messageClass)) {
+          outgoingEmail =
+              emailFactories.createOutgoingEmail(
+                  AUTH_TOKEN_WILL_EXPIRE,
+                  emailFactories.createAuthTokenWillExpireEmail(account, token));
+        } else {
+          logger.atSevere().log("Unknown message class: %s", messageClass);
+          return;
+        }
+        outgoingEmail.send();
+        logger.atFine().log(
+            "Sent %s email for token %s of account %s", messageClass, token.id(), account.id());
+      } catch (EmailException e) {
+        logger.atSevere().withCause(e).log(
+            "Failed to send %s email for token %s of account %s",
+            messageClass, token.id(), account.id());
+      }
+    }
+
+    @Override
+    public String toString() {
+      return "send-email auth-token " + messageClass;
+    }
   }
 }

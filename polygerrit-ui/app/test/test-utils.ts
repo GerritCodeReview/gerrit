@@ -329,7 +329,10 @@ export async function visualDiffDarkTheme(
 ) {
   applyDarkTheme();
   document.documentElement.classList.add('darkTheme');
-  await visualDiff(element, `${name}-dark`);
-  removeDarkTheme();
-  document.documentElement.classList.remove('darkTheme');
+  try {
+    await visualDiff(element, `${name}-dark`);
+  } finally {
+    removeDarkTheme();
+    document.documentElement.classList.remove('darkTheme');
+  }
 }

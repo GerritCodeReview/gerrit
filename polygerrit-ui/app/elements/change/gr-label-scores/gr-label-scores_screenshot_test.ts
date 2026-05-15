@@ -82,12 +82,14 @@ suite('gr-label-scores screenshot tests', () => {
     container.appendChild(element);
     document.body.appendChild(container);
 
-    await visualDiff(container, 'gr-label-scores-long-trigger-vote-label');
-    await visualDiffDarkTheme(
-      container,
-      'gr-label-scores-long-trigger-vote-label'
-    );
-
-    document.body.removeChild(container);
+    try {
+      await visualDiff(container, 'gr-label-scores-long-trigger-vote-label');
+      await visualDiffDarkTheme(
+        container,
+        'gr-label-scores-long-trigger-vote-label'
+      );
+    } finally {
+      document.body.removeChild(container);
+    }
   });
 });

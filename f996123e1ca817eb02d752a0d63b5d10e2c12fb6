@@ -112,6 +112,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0201158e_47426f23",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1993,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-05-15T17:51:26Z",
+      "side": 1,
+      "message": "Not an error.",
+      "parentUuid": "263eedaa_561e5967",
+      "revId": "f996123e1ca817eb02d752a0d63b5d10e2c12fb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "79dfaf01_57e75fc1",
         "filename": "Documentation/rest-api-config.txt",
         "patchSetId": 3

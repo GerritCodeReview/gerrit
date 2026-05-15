@@ -16,6 +16,24 @@
       "message": "Don\u0027t have unnecessary parens in your examples.\n```suggestion\n    query \u003d limit:100 age:5w -project:some/repo -hashtag:keep-alive\n```",
       "revId": "cdb2204f79f8098343dcd1d39d11d6c24252cf84",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "24d1eca3_afbd5b7e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-05-15T18:16:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "018f6ba9_03f794b5",
+      "revId": "cdb2204f79f8098343dcd1d39d11d6c24252cf84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

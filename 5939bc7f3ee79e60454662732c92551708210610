@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2152bd2_df6b1b38",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1993,
+      "author": {
+        "id": 1073779
+      },
+      "writtenOn": "2026-05-15T21:16:27Z",
+      "side": 1,
+      "message": "so age:4w will overwrite changeCleanup.abandonAfter?",
+      "revId": "5939bc7f3ee79e60454662732c92551708210610",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

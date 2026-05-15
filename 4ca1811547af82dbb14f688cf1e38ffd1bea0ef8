@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f31f3b9f_40e9a00e",
+        "filename": "polygerrit-ui/app/models/chat/chat-model.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 724,
+      "author": {
+        "id": 3001824
+      },
+      "writtenOn": "2026-05-15T21:36:32Z",
+      "side": 1,
+      "message": "I\u0027ve updated it so the change view translates it to a chat-model defined type. That handles the \"raw event\" part.",
+      "parentUuid": "4a2ceeb9_8cde0624",
+      "range": {
+        "startLine": 724,
+        "startChar": 0,
+        "endLine": 724,
+        "endChar": 0
+      },
+      "revId": "4ca1811547af82dbb14f688cf1e38ffd1bea0ef8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2591c4dc_ebb7a811",
@@ -54,6 +78,30 @@
       "writtenOn": "2026-05-15T18:33:43Z",
       "side": 1,
       "message": "Please fix this WARNING reported by autoreview issue finding: The contextItems argument ([]) is currently ignored because startNewChatWithUserInput defaults useCurrentContext to true. If you want this action to start with a truly empty context, pass `false` as the 4th argument: `this.startNewChatWithUserInput(prompt, undefined, [], false);`",
+      "range": {
+        "startLine": 729,
+        "startChar": 0,
+        "endLine": 729,
+        "endChar": 0
+      },
+      "revId": "4ca1811547af82dbb14f688cf1e38ffd1bea0ef8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "23e7db62_7263f390",
+        "filename": "polygerrit-ui/app/models/chat/chat-model.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 729,
+      "author": {
+        "id": 3001824
+      },
+      "writtenOn": "2026-05-15T21:36:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2591c4dc_ebb7a811",
       "range": {
         "startLine": 729,
         "startChar": 0,

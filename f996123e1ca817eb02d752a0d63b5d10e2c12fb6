@@ -34,6 +34,114 @@
       "parentUuid": "42806b51_3c7378d4",
       "revId": "f996123e1ca817eb02d752a0d63b5d10e2c12fb6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0991288c_ef07e69c",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1940,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-05-15T17:47:49Z",
+      "side": 1,
+      "message": "Maybe move this above `abandonAfter` since it applies to cleanup in general?",
+      "range": {
+        "startLine": 1938,
+        "startChar": 0,
+        "endLine": 1940,
+        "endChar": 24
+      },
+      "revId": "f996123e1ca817eb02d752a0d63b5d10e2c12fb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8da664e_70029d32",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1981,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-05-15T17:47:49Z",
+      "side": 1,
+      "message": "Similar to L1931, you probably want to clearly state this query will only match against open changes with the intent to abandon any that match.\n\nAlso, instead of \"base cleanup query\", I would be specific about how it always will be ANDed with `status:new` and then combined with the other options above (`abandonAfter` and `abandonIfMergeable`) depending on their values.",
+      "revId": "f996123e1ca817eb02d752a0d63b5d10e2c12fb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f370255_f3c9b370",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1987,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-05-15T17:47:49Z",
+      "side": 1,
+      "message": "Don\u0027t use unnecessary parens in your examples\n```suggestion\n    query \u003d age:4w limit:100 -project:some/repo -hashtag:keep-alive\n```",
+      "revId": "f996123e1ca817eb02d752a0d63b5d10e2c12fb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "263eedaa_561e5967",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1993,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-05-15T17:47:49Z",
+      "side": 1,
+      "message": "Is it an error if no `age:` operator is given?",
+      "revId": "f996123e1ca817eb02d752a0d63b5d10e2c12fb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79dfaf01_57e75fc1",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1930,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-05-15T17:47:49Z",
+      "side": 1,
+      "message": "Use the same query as the config doc? (with `age:` included)\n```suggestion\n    \"query\": \"age:4w limit:100 -project:some/repo -hashtag:keep-alive\"\n```",
+      "revId": "f996123e1ca817eb02d752a0d63b5d10e2c12fb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da128a97_eebbcfb2",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 2939,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-05-15T17:47:49Z",
+      "side": 1,
+      "message": "```suggestion\n`age:4w limit:100 -project:some/repo -hashtag:keep-alive`. By default unset.\n```",
+      "revId": "f996123e1ca817eb02d752a0d63b5d10e2c12fb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

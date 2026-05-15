@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "018f6ba9_03f794b5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-05-15T17:47:49Z",
+      "side": 1,
+      "message": "Don\u0027t have unnecessary parens in your examples.\n```suggestion\n    query \u003d limit:100 age:5w -project:some/repo -hashtag:keep-alive\n```",
+      "revId": "cdb2204f79f8098343dcd1d39d11d6c24252cf84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

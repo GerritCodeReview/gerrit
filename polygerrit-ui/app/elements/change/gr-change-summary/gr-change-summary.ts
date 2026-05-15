@@ -333,6 +333,10 @@ export class GrChangeSummary extends LitElement {
         gr-checks-chip {
           z-index: 2;
         }
+        gr-checks-chip:hover,
+        gr-checks-chip:focus-within {
+          z-index: 10;
+        }
       `,
     ];
   }

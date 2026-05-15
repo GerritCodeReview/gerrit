@@ -260,6 +260,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ef65986_a2ba6817",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1993,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-05-15T21:31:05Z",
+      "side": 1,
+      "message": "I think we shouldn\u0027t assume that an age criteria is ever desired (after all, we allow that to be turned off). Maybe there is some other weird criteria, or maybe there are different ages desired for different projects?",
+      "parentUuid": "a7e7a3c5_1885e2ed",
+      "revId": "f996123e1ca817eb02d752a0d63b5d10e2c12fb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "79dfaf01_57e75fc1",

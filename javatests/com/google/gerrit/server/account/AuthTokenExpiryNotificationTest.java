@@ -17,7 +17,6 @@ package com.google.gerrit.server.account;
 import static com.google.common.truth.Truth.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -25,7 +24,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.google.gerrit.entities.Account;
-import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.server.mail.EmailFactories;
 import com.google.gerrit.server.mail.send.OutgoingEmail;
 import com.google.gerrit.server.mail.send.OutgoingEmail.EmailDecorator;
@@ -152,7 +150,7 @@ public class AuthTokenExpiryNotificationTest {
 
     new AuthTokenExpiryNotifier(accounts, tokenAccessor, emailFactories, defaultConfig).run();
 
-    verify(outgoingEmail, times(1)).send();
+    verify(outgoingEmail, times(1)).sendAsync();
   }
 
   @Test
@@ -205,7 +203,7 @@ public class AuthTokenExpiryNotificationTest {
 
     new AuthTokenExpiryNotifier(accounts, tokenAccessor, emailFactories, defaultConfig).run();
 
-    verify(outgoingEmail, times(1)).send();
+    verify(outgoingEmail, times(1)).sendAsync();
   }
 
   @Test
@@ -266,48 +264,10 @@ public class AuthTokenExpiryNotificationTest {
 
     new AuthTokenExpiryNotifier(accounts, tokenAccessor, emailFactories, defaultConfig).run();
 
-    verify(aliceEmail, times(1)).send();
-    verify(bobEmail, times(1)).send();
+    verify(aliceEmail, times(1)).sendAsync();
+    verify(bobEmail, times(1)).sendAsync();
     // aliceToken2 is off-schedule — no email
     verify(emailFactories, never()).createAuthTokenWillExpireEmail(alice, aliceToken2);
-  }
-
-  @Test
-  public void runContinuesAfterEmailFailure() throws Exception {
-    Account alice = buildAccount(1007, "Alice");
-    Account bob = buildAccount(1008, "Bob");
-    AccountState aliceState = AccountState.forAccount(alice);
-    AccountState bobState = AccountState.forAccount(bob);
-
-    Instant expiry = Instant.now().plus(7, ChronoUnit.DAYS).plus(1, ChronoUnit.HOURS);
-    AuthToken aliceToken = AuthToken.create("alice-token", "hashed", Optional.of(expiry));
-    AuthToken bobToken = AuthToken.create("bob-token", "hashed", Optional.of(expiry));
-
-    EmailDecorator aliceDecorator = mock(EmailDecorator.class);
-    EmailDecorator bobDecorator = mock(EmailDecorator.class);
-    OutgoingEmail aliceEmail = mock(OutgoingEmail.class);
-    OutgoingEmail bobEmail = mock(OutgoingEmail.class);
-
-    when(accounts.all()).thenReturn(List.of(aliceState, bobState));
-    when(tokenAccessor.getTokens(alice.id())).thenReturn(List.of(aliceToken));
-    when(tokenAccessor.getTokens(bob.id())).thenReturn(List.of(bobToken));
-
-    when(emailFactories.createAuthTokenWillExpireEmail(alice, aliceToken))
-        .thenReturn(aliceDecorator);
-    when(emailFactories.createOutgoingEmail(
-            eq(EmailFactories.AUTH_TOKEN_WILL_EXPIRE), eq(aliceDecorator)))
-        .thenReturn(aliceEmail);
-    doThrow(new EmailException("smtp down")).when(aliceEmail).send();
-
-    when(emailFactories.createAuthTokenWillExpireEmail(bob, bobToken)).thenReturn(bobDecorator);
-    when(emailFactories.createOutgoingEmail(
-            eq(EmailFactories.AUTH_TOKEN_WILL_EXPIRE), eq(bobDecorator)))
-        .thenReturn(bobEmail);
-
-    // Should not throw even though Alice's email failed
-    new AuthTokenExpiryNotifier(accounts, tokenAccessor, emailFactories, defaultConfig).run();
-
-    verify(bobEmail, times(1)).send();
   }
 
   @Test
@@ -348,7 +308,7 @@ public class AuthTokenExpiryNotificationTest {
 
     new AuthTokenExpiryNotifier(accounts, tokenAccessor, emailFactories, defaultConfig).run();
 
-    verify(bobEmail, times(1)).send();
+    verify(bobEmail, times(1)).sendAsync();
   }
 
   private static Account buildAccount(int id, String fullName) {

@@ -102,18 +102,22 @@ public class AuthTokenExpiryNotifier implements Runnable {
                   now.plus(FIRST_NOTIFICATION_BEFORE_EXPIRY - 1, ChronoUnit.DAYS))) {
             logger.atInfo().log(
                 "Token %s for account %s is expiring soon.", token.id(), account.account().id());
-            emailFactories
-                .createOutgoingEmail(
-                    AUTH_TOKEN_WILL_EXPIRE,
-                    emailFactories.createAuthTokenWillExpireEmail(account.account(), token))
-                .send();
+            try {
+              emailFactories
+                  .createOutgoingEmail(
+                      AUTH_TOKEN_WILL_EXPIRE,
+                      emailFactories.createAuthTokenWillExpireEmail(account.account(), token))
+                  .send();
+            } catch (EmailException e) {
+              logger.atSevere().withCause(e).log(
+                  "Failed to send token expiry notification email for token %s of account %s",
+                  token.id(), account.account().id());
+            }
           }
         }
       }
     } catch (IOException | ConfigInvalidException e) {
       throw new RuntimeException("Failed to read accounts from NoteDB", e);
-    } catch (EmailException e) {
-      logger.atSevere().withCause(e).log("Failed to send token expiry notification email");
     }
   }
 }

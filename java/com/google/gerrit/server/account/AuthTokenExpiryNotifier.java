@@ -31,18 +31,62 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
+/**
+ * Scheduled task that sends notification emails to users when their authentication tokens are
+ * approaching expiration.
+ *
+ * <p>This notifier runs daily at midnight (00:00) and checks all user authentication tokens with
+ * expiration dates. Based on the configured notification schedule, it sends reminder emails at
+ * regular intervals before tokens expire.
+ *
+ * <h3>Configuration</h3>
+ *
+ * The notification schedule is controlled by two configuration parameters:
+ *
+ * <ul>
+ *   <li>{@code auth.tokenExpiryNotificationStartDays} - Days before expiration to send the first
+ *       notification (default: 21)
+ *   <li>{@code auth.tokenExpiryNotificationIntervalDays} - Days between subsequent notifications
+ *       (default: 7)
+ * </ul>
+ *
+ * <h3>Example</h3>
+ *
+ * With default settings (startDays=21, intervalDays=7), a token expiring in 30 days will receive
+ * notifications at:
+ *
+ * <ul>
+ *   <li>21 days before expiration
+ *   <li>14 days before expiration
+ *   <li>7 days before expiration
+ * </ul>
+ *
+ * <h3>Disabling Notifications</h3>
+ *
+ * Set either parameter to 0 or a negative value to disable the feature entirely.
+ *
+ * <h3>Behavior</h3>
+ *
+ * <ul>
+ *   <li>Only one email is sent per token per day
+ *   <li>Tokens without expiration dates are skipped
+ *   <li>Notifications are sent only if they fall within the 24-hour window (with 1-hour buffer)
+ *   <li>The task uses boundary checks to optimize performance when processing many tokens
+ * </ul>
+ */
 @Singleton
 public class AuthTokenExpiryNotifier implements Runnable {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-  private static final long FIRST_NOTIFICATION_BEFORE_EXPIRY = 7L; // 7 days
 
   private final AccountsNoteDbImpl accounts;
   private final AuthTokenAccessor tokenAccessor;
   private final EmailFactories emailFactories;
+  private final AuthTokenExpiryNotificationConfig config;
 
   public static Module module() {
     return new LifecycleModule() {
@@ -81,15 +125,41 @@ public class AuthTokenExpiryNotifier implements Runnable {
 
   @Inject
   public AuthTokenExpiryNotifier(
-      AccountsNoteDbImpl accounts, AuthTokenAccessor tokenAccessor, EmailFactories emailFactories) {
+      AccountsNoteDbImpl accounts,
+      AuthTokenAccessor tokenAccessor,
+      EmailFactories emailFactories,
+      AuthTokenExpiryNotificationConfig config) {
     this.accounts = accounts;
     this.tokenAccessor = tokenAccessor;
     this.emailFactories = emailFactories;
+    this.config = config;
   }
 
+  /**
+   * Executes the daily token expiry notification check.
+   *
+   * <p>This method:
+   *
+   * <ol>
+   *   <li>Checks if notifications are enabled via configuration
+   *   <li>Iterates through all user accounts and their authentication tokens
+   *   <li>Calculates the notification schedule for each expiring token
+   *   <li>Sends an email if a notification is due today (within the 24-hour window)
+   * </ol>
+   *
+   * @throws RuntimeException if accounts cannot be read from NoteDB
+   */
   @Override
   public void run() {
+    if (!config.isEnabled()) {
+      logger.atFine().log("Auth token expiry notifications are disabled.");
+      return;
+    }
+
     Instant now = Instant.now();
+    Instant oneHourFromNow = now.plus(1, ChronoUnit.HOURS);
+    Instant oneDayAgo = now.minus(24, ChronoUnit.HOURS);
+
     try {
       for (AccountState account : accounts.all()) {
         for (AuthToken token : tokenAccessor.getTokens(account.account().id())) {
@@ -97,11 +167,13 @@ public class AuthTokenExpiryNotifier implements Runnable {
             continue;
           }
           Instant expirationDate = token.expirationDate().get();
-          if (expirationDate.isBefore(now.plus(FIRST_NOTIFICATION_BEFORE_EXPIRY, ChronoUnit.DAYS))
-              && expirationDate.isAfter(
-                  now.plus(FIRST_NOTIFICATION_BEFORE_EXPIRY - 1, ChronoUnit.DAYS))) {
+          List<Instant> notificationTimes = config.calculateNotificationTimes(expirationDate);
+
+          // Check if any notification should be sent today (optimized check)
+          if (shouldNotifyForToken(notificationTimes, now, oneDayAgo, oneHourFromNow)) {
             logger.atInfo().log(
-                "Token %s for account %s is expiring soon.", token.id(), account.account().id());
+                "Token %s for account %s is expiring on %s. Sending notification.",
+                token.id(), account.account().id(), expirationDate);
             try {
               emailFactories
                   .createOutgoingEmail(
@@ -119,5 +191,54 @@ public class AuthTokenExpiryNotifier implements Runnable {
     } catch (IOException | ConfigInvalidException e) {
       throw new RuntimeException("Failed to read accounts from NoteDB", e);
     }
+  }
+
+  /**
+   * Determines if a notification should be sent for a token today.
+   *
+   * <p>This method uses boundary checks to optimize performance when checking notification
+   * schedules:
+   *
+   * <ol>
+   *   <li>If the list is empty, no notification is needed
+   *   <li>If the earliest notification is still in the future (beyond upperBound), skip entirely
+   *   <li>If the latest notification is already past (before lowerBound), all notifications were
+   *       missed
+   *   <li>Otherwise, iterate through the list to find a notification due today
+   * </ol>
+   *
+   * <p>This avoids iterating through potentially large lists of notification times when we can
+   * quickly determine that no notification is due.
+   *
+   * @param notificationTimes list of notification times in chronological order (earliest first)
+   * @param now the current time
+   * @param lowerBound the lower bound for notification window (typically now - 24 hours)
+   * @param upperBound the upper bound for notification window (typically now + 1 hour)
+   * @return true if a notification should be sent today, false otherwise
+   */
+  static boolean shouldNotifyForToken(
+      List<Instant> notificationTimes, Instant now, Instant lowerBound, Instant upperBound) {
+    if (notificationTimes.isEmpty()) {
+      return false;
+    }
+
+    // Quick check: if the first (earliest) notification is still in the future, nothing to send
+    if (notificationTimes.get(0).isAfter(upperBound)) {
+      return false;
+    }
+
+    // Quick check: if the last (most recent) notification is in the past, all are missed
+    if (notificationTimes.get(notificationTimes.size() - 1).isBefore(lowerBound)) {
+      return false;
+    }
+
+    // At least one notification is within the window, find it
+    for (Instant notificationTime : notificationTimes) {
+      if (notificationTime.isAfter(lowerBound) && notificationTime.isBefore(upperBound)) {
+        return true;
+      }
+    }
+
+    return false;
   }
 }

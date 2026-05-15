@@ -116,9 +116,7 @@ public class AuthTokenExpiryNotificationConfig {
 
     while (daysBeforeExpiry > 0) {
       Instant notificationTime = expirationDate.minus(daysBeforeExpiry, ChronoUnit.DAYS);
-      if (notificationTime.isAfter(now)) {
-        notificationTimes.add(notificationTime);
-      }
+      notificationTimes.add(notificationTime);
       daysBeforeExpiry -= intervalDays;
     }
 

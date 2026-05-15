@@ -244,6 +244,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d260eaca_9b097410",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1993,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-05-15T21:28:14Z",
+      "side": 1,
+      "message": "\u003e same could happen with abandonAfter\n\nThat\u0027s my point. `abandonAfter` had this safeguard and required the user to input something like `1minute` (though I notice the supported suffixes listed above starts with \"days\", so maybe not?).",
+      "parentUuid": "a7e7a3c5_1885e2ed",
+      "revId": "f996123e1ca817eb02d752a0d63b5d10e2c12fb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "79dfaf01_57e75fc1",
         "filename": "Documentation/rest-api-config.txt",
         "patchSetId": 3

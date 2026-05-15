@@ -16,6 +16,24 @@
       "message": "so age:4w will overwrite changeCleanup.abandonAfter?",
       "revId": "5939bc7f3ee79e60454662732c92551708210610",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f248de19_2d1d654b",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1993,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-05-15T21:28:14Z",
+      "side": 1,
+      "message": "No, they\u0027ll be ANDed together, so the change needs to match both (i.e. the older age wins).",
+      "parentUuid": "d2152bd2_df6b1b38",
+      "revId": "5939bc7f3ee79e60454662732c92551708210610",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

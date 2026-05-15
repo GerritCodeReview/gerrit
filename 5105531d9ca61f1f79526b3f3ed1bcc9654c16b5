@@ -16,6 +16,23 @@
       "message": "@sasa.zivkov@sap.com The reason being this class is relatively big as that of GetSubmitRequirement.java is we want to fetch Submit requirement template from current project + its parents. \nI have address refactored method to reuse common method blocks for SR and SRT",
       "revId": "5105531d9ca61f1f79526b3f3ed1bcc9654c16b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a493bf12_bb0a34a1",
+        "filename": "java/com/google/gerrit/server/restapi/project/GetSubmitRequirementTemplates.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-05-15T11:14:25Z",
+      "side": 1,
+      "message": "Refactor this code to match to that of Submit requirement pattern. E.g. GetSubmitRequirement.java",
+      "revId": "5105531d9ca61f1f79526b3f3ed1bcc9654c16b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

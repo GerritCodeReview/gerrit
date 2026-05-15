@@ -33,6 +33,7 @@ import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.GerritInstanceName;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.config.SendEmailExecutor;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -55,6 +56,7 @@ import com.google.template.soy.jbcsrc.api.SoySauce;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
 import org.apache.http.client.utils.URIBuilder;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
@@ -104,6 +106,7 @@ public class EmailArguments {
   public final String instanceName;
   public final Provider<CurrentUser> currentUserProvider;
   public final RetryHelper retryHelper;
+  public final ExecutorService sendEmailExecutor;
 
   @Inject
   EmailArguments(
@@ -137,7 +140,8 @@ public class EmailArguments {
       @GerritInstanceName String instanceName,
       @GerritServerConfig Config cfg,
       Provider<CurrentUser> currentUserProvider,
-      RetryHelper retryHelper) {
+      RetryHelper retryHelper,
+      @SendEmailExecutor ExecutorService sendEmailExecutor) {
     this.server = server;
     this.projectCache = projectCache;
     this.permissionBackend = permissionBackend;
@@ -169,6 +173,7 @@ public class EmailArguments {
     this.addInstanceNameInSubject = cfg.getBoolean("sendemail", "addInstanceNameInSubject", false);
     this.currentUserProvider = currentUserProvider;
     this.retryHelper = retryHelper;
+    this.sendEmailExecutor = sendEmailExecutor;
   }
 
   /** Fetch ChangeData for the specified change. */

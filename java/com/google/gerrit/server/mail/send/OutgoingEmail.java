@@ -182,7 +182,7 @@ public final class OutgoingEmail {
     return soyHtmlTemplate("EmailHtml").toString();
   }
 
-  /** Format and enqueue the message for delivery. */
+  /** Format and send the message synchronously. */
   public void send() throws EmailException {
     try {
       @SuppressWarnings("unused")

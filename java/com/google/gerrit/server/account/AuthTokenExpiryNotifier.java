@@ -30,18 +30,66 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
+/**
+ * Scheduled task that sends notification emails to users when their authentication tokens are
+ * approaching expiration.
+ *
+ * <p>This notifier runs daily at midnight (00:00) and checks all user authentication tokens with
+ * expiration dates. Based on the configured notification schedule, it sends reminder emails at
+ * regular intervals before tokens expire.
+ *
+ * <h3>Configuration</h3>
+ *
+ * The notification schedule is controlled by two configuration parameters:
+ *
+ * <ul>
+ *   <li>{@code auth.tokenExpiryNotificationStartDays} - Days before expiration to send the first
+ *       notification (default: 21)
+ *   <li>{@code auth.tokenExpiryNotificationIntervalDays} - Days between subsequent notifications
+ *       (default: 7)
+ * </ul>
+ *
+ * <h3>Example</h3>
+ *
+ * With default settings (startDays=21, intervalDays=7), a token expiring in 30 days will receive
+ * notifications at:
+ *
+ * <ul>
+ *   <li>21 days before expiration
+ *   <li>14 days before expiration
+ *   <li>7 days before expiration
+ * </ul>
+ *
+ * <h3>Disabling Notifications</h3>
+ *
+ * Set either parameter to 0 or a negative value to disable the feature entirely.
+ *
+ * <h3>Behavior</h3>
+ *
+ * <ul>
+ *   <li>Only one email is sent per token per day
+ *   <li>Tokens without expiration dates are skipped
+ *   <li>Notifications are sent only if they fall within the 24-hour window (with 1-hour buffer)
+ *   <li>The task uses boundary checks to optimize performance when processing many tokens
+ * </ul>
+ */
 @Singleton
 public class AuthTokenExpiryNotifier implements Runnable {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-  private static final long FIRST_NOTIFICATION_BEFORE_EXPIRY = 7L; // 7 days
+
+  private static final long START_HOURS = 0L;
+  private static final long START_MIN = 0L;
+  private static final Schedule SCHEDULE =
+      ScheduleConfig.Schedule.createOrFail(
+          TimeUnit.DAYS.toMillis(1), String.format("%02d:%02d", START_HOURS, START_MIN));
 
   private final Accounts accounts;
   private final AuthTokenAccessor tokenAccessor;
   private final EmailFactories emailFactories;
+  private final AuthTokenExpiryNotificationConfig config;
 
   public static Module module() {
     return new LifecycleModule() {
@@ -56,20 +104,16 @@ public class AuthTokenExpiryNotifier implements Runnable {
   static class Lifecycle implements LifecycleListener {
     private final WorkQueue queue;
     private final AuthTokenExpiryNotifier notifier;
-    private final Optional<Schedule> schedule;
 
     @Inject
     Lifecycle(WorkQueue queue, AuthTokenExpiryNotifier notifier) {
       this.queue = queue;
       this.notifier = notifier;
-      schedule = ScheduleConfig.Schedule.create(TimeUnit.DAYS.toMillis(1), "00:00");
     }
 
     @Override
     public void start() {
-      if (schedule.isPresent()) {
-        queue.scheduleAtFixedRate(notifier, schedule.get());
-      }
+      queue.scheduleAtFixedRate(notifier, SCHEDULE);
     }
 
     @Override
@@ -80,15 +124,39 @@ public class AuthTokenExpiryNotifier implements Runnable {
 
   @Inject
   public AuthTokenExpiryNotifier(
-      Accounts accounts, AuthTokenAccessor tokenAccessor, EmailFactories emailFactories) {
+      Accounts accounts,
+      AuthTokenAccessor tokenAccessor,
+      EmailFactories emailFactories,
+      AuthTokenExpiryNotificationConfig config) {
     this.accounts = accounts;
     this.tokenAccessor = tokenAccessor;
     this.emailFactories = emailFactories;
+    this.config = config;
   }
 
+  /**
+   * Executes the daily token expiry notification check.
+   *
+   * <p>This method:
+   *
+   * <ol>
+   *   <li>Checks if notifications are enabled via configuration
+   *   <li>Iterates through all user accounts and their authentication tokens
+   *   <li>Calculates the notification schedule for each expiring token
+   *   <li>Sends an email if a notification is due today (within the 24-hour window)
+   * </ol>
+   *
+   * @throws RuntimeException if accounts cannot be read from NoteDB
+   */
   @Override
   public void run() {
-    Instant now = Instant.now();
+    if (!config.isEnabled()) {
+      logger.atFine().log("Auth token expiry notifications are disabled.");
+      return;
+    }
+
+    Instant checkTime = Instant.now().truncatedTo(ChronoUnit.DAYS);
+
     try {
       for (AccountState account : accounts.all()) {
         for (AuthToken token : tokenAccessor.getTokens(account.account().id())) {
@@ -96,11 +164,12 @@ public class AuthTokenExpiryNotifier implements Runnable {
             continue;
           }
           Instant expirationDate = token.expirationDate().get();
-          if (expirationDate.isBefore(now.plus(FIRST_NOTIFICATION_BEFORE_EXPIRY, ChronoUnit.DAYS))
-              && expirationDate.isAfter(
-                  now.plus(FIRST_NOTIFICATION_BEFORE_EXPIRY - 1, ChronoUnit.DAYS))) {
+
+          // Check if any notification should be sent today (optimized check)
+          if (config.shouldBeNotified(checkTime, expirationDate)) {
             logger.atInfo().log(
-                "Token %s for account %s is expiring soon.", token.id(), account.account().id());
+                "Token %s for account %s is expiring on %s. Sending notification.",
+                token.id(), account.account().id(), expirationDate);
             try {
               emailFactories
                   .createOutgoingEmail(

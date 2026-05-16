@@ -139,7 +139,7 @@ export function resultDbReporter() {
 
       pendingUploads = pendingUploads.then(async () => {
         for (const session of sessions) {
-          const testFile = session.testFile;
+          const testFile = path.basename(session.testFile);
 
           // 1. Report session-level hook / setup errors if any
           if (session.errors && session.errors.length > 0) {

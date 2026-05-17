@@ -1006,6 +1006,30 @@ Delete Own Changes] permission.
 
 Administrators may always delete changes without having this permission.
 
+
+[[category_delete_comment]]
+=== Delete Comment
+
+This category permits users to delete (redact) published comments and
+change messages on any change in the project.
+
+Deleting a comment replaces its content with a placeholder message that
+records who performed the deletion, when it was deleted, and the
+optional reason supplied by the caller.  The original text is
+permanently removed from NoteDb.
+
+Site administrators can always delete comments without having this
+permission explicitly granted.
+
+[NOTE]
+This permission controls a destructive, irreversible operation.
+It should be granted only to trusted groups (e.g. a dedicated moderation
+group), and not to `Registered Users` at large.
+
+Must be assigned on the target branch ref (i.e. on `refs/heads/*` or a
+more specific pattern); it is not a global capability.
+
+
 [[category_edit_topic_name]]
 === Edit Topic Name
 

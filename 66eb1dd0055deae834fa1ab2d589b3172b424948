@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1eddcca9_b67c475c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 23
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1120740
+      },
+      "writtenOn": "2026-05-17T14:01:05Z",
+      "side": 1,
+      "message": "@martin.woelfle@gmx.de\n\nI am a gerrit user on Windows OS. This issue has been occurring since 3.12.\nIt has been merged into master branch, but it would be appreciated if you could also commit it into the stable-3.12 branch.",
+      "revId": "66eb1dd0055deae834fa1ab2d589b3172b424948",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

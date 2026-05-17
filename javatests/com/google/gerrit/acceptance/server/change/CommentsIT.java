@@ -19,8 +19,10 @@ import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
 import static com.google.gerrit.acceptance.PushOneCommit.SUBJECT;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.entities.Patch.COMMIT_MSG;
 import static com.google.gerrit.entities.Patch.PATCHSET_LEVEL;
+import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static com.google.gerrit.truth.MapSubject.assertThatMap;
 import static java.util.stream.Collectors.toList;
@@ -44,6 +46,8 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.entities.Permission;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.DeleteCommentInput;
 import com.google.gerrit.extensions.api.changes.DraftInput;
@@ -82,6 +86,8 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -1936,6 +1942,58 @@ public class CommentsIT extends AbstractDaemonTest {
     assertThrows(
         AuthException.class,
         () -> gApi.changes().id(result.getChangeId()).current().comment(uuid).delete(input));
+  }
+
+  @Test
+  public void deleteCommentCanBeAppliedByUserWithDeleteComment() throws Exception {
+    PushOneCommit.Result result = createChange();
+    CommentInput targetComment = CommentsUtil.addComment(gApi, result.getChangeId());
+    Map<String, List<CommentInfo>> commentsMap =
+        getPublishedComments(result.getChangeId(), result.getCommit().name());
+    String uuid = commentsMap.get(targetComment.path).get(0).id;
+
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.DELETE_COMMENT).ref("refs/heads/*").group(REGISTERED_USERS))
+        .update();
+
+    requestScopeOperations.setApiUser(user.id());
+
+    DeleteCommentInput input = new DeleteCommentInput("contains confidential information");
+    CommentInfo updated =
+        gApi.changes().id(result.getChangeId()).current().comment(uuid).delete(input);
+    assertThat(updated.message).contains("Comment removed by:");
+    assertThat(updated.message).contains("Reason: " + input.reason);
+  }
+
+  @Test
+  public void deleteCommentPermissionOnProjectADoesNotApplyToProjectB() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.DELETE_COMMENT).ref("refs/heads/*").group(REGISTERED_USERS))
+        .update();
+
+    Project.NameKey otherProject = projectOperations.newProject().create();
+    TestRepository<InMemoryRepository> otherRepo = cloneProject(otherProject);
+    PushOneCommit.Result otherResult =
+        pushFactory.create(admin.newIdent(), otherRepo).to("refs/for/master");
+    CommentInput targetComment = CommentsUtil.addComment(gApi, otherResult.getChangeId());
+
+    Map<String, List<CommentInfo>> commentsMap =
+        getPublishedComments(otherResult.getChangeId(), otherResult.getCommit().name());
+    String uuid = commentsMap.get(targetComment.path).get(0).id;
+
+    requestScopeOperations.setApiUser(user.id());
+
+    DeleteCommentInput input = new DeleteCommentInput("should not work");
+    AuthException thrown =
+        assertThrows(
+            AuthException.class,
+            () ->
+                gApi.changes().id(otherResult.getChangeId()).current().comment(uuid).delete(input));
+    assertThat(thrown).hasMessageThat().isEqualTo("delete comment not permitted");
   }
 
   @Test

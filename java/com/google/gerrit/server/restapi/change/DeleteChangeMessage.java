@@ -35,7 +35,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.change.ChangeMessageResource;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.update.BatchUpdate;
@@ -84,7 +84,10 @@ public class DeleteChangeMessage
       ChangeMessageResource resource, DeleteChangeMessageInput input)
       throws RestApiException, PermissionBackendException, UpdateException, IOException {
     CurrentUser user = userProvider.get();
-    permissionBackend.user(user).check(GlobalPermission.ADMINISTRATE_SERVER);
+    permissionBackend
+        .user(user)
+        .change(resource.getChangeResource().getNotes())
+        .check(ChangePermission.DELETE_COMMENT);
 
     String newChangeMessage =
         createNewChangeMessage(user.asIdentifiedUser().getAccountId(), input.reason);

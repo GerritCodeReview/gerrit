@@ -17,7 +17,9 @@ package com.google.gerrit.acceptance.rest.change;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_ACCOUNTS;
 import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
@@ -38,8 +40,11 @@ import com.google.gerrit.acceptance.UseTimezone;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.GlobalCapability;
+import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelId;
+import com.google.gerrit.entities.Permission;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.changes.DeleteChangeMessageInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -55,6 +60,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.junit.Test;
@@ -193,13 +200,13 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void deleteCannotBeAppliedWithoutAdministrateServerCapability() throws Exception {
+  public void deleteCannotBeAppliedByRegularUser() throws Exception {
     int changeNum = createOneChangeWithMultipleChangeMessagesInHistory();
     requestScopeOperations.setApiUser(user.id());
 
     AuthException thrown =
         assertThrows(AuthException.class, () -> deleteOneChangeMessage(changeNum, 0, user, "spam"));
-    assertThat(thrown).hasMessageThat().isEqualTo("administrate server not permitted");
+    assertThat(thrown).hasMessageThat().isEqualTo("delete comment not permitted");
   }
 
   @Test
@@ -211,6 +218,104 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
     int changeNum = createOneChangeWithMultipleChangeMessagesInHistory();
     requestScopeOperations.setApiUser(user.id());
     deleteOneChangeMessage(changeNum, 0, user, "spam");
+  }
+
+  @Test
+  public void deleteCanBeAppliedByUserWithDeleteCommentPermission() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.DELETE_COMMENT).ref("refs/heads/*").group(REGISTERED_USERS))
+        .update();
+    int changeNum = createOneChangeWithMultipleChangeMessagesInHistory();
+    requestScopeOperations.setApiUser(user.id());
+    deleteOneChangeMessage(changeNum, 0, user, "spam");
+  }
+
+  @Test
+  public void deleteCommentPermissionIsScopedToProject() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.DELETE_COMMENT).ref("refs/heads/*").group(REGISTERED_USERS))
+        .update();
+
+    Project.NameKey otherProject = projectOperations.newProject().create();
+    TestRepository<InMemoryRepository> otherRepo = cloneProject(otherProject);
+    PushOneCommit.Result otherResult =
+        pushFactory.create(admin.newIdent(), otherRepo).to("refs/for/master");
+    String otherChangeId = otherResult.getChangeId();
+    String otherMessageId = gApi.changes().id(otherChangeId).messages().get(0).id;
+
+    requestScopeOperations.setApiUser(user.id());
+
+    AuthException thrown =
+        assertThrows(
+            AuthException.class,
+            () ->
+                gApi.changes()
+                    .id(otherChangeId)
+                    .message(otherMessageId)
+                    .delete(new DeleteChangeMessageInput("should not work")));
+    assertThat(thrown).hasMessageThat().isEqualTo("delete comment not permitted");
+  }
+
+  @Test
+  public void deleteCommentPermissionRespectsRefPattern() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.DELETE_COMMENT).ref("refs/heads/master").group(REGISTERED_USERS))
+        .update();
+    createBranch(BranchNameKey.create(project, "stable"));
+
+    PushOneCommit.Result onMaster = createChange("refs/for/master");
+    PushOneCommit.Result onStable = createChange("refs/for/stable");
+    String masterMsgId = gApi.changes().id(onMaster.getChangeId()).messages().get(0).id;
+    String stableMsgId = gApi.changes().id(onStable.getChangeId()).messages().get(0).id;
+
+    requestScopeOperations.setApiUser(user.id());
+    DeleteChangeMessageInput input = new DeleteChangeMessageInput("spam");
+
+    ChangeMessageInfo updated =
+        gApi.changes().id(onMaster.getChangeId()).message(masterMsgId).delete(input);
+    assertThat(updated.message).contains("Change message removed by");
+
+    AuthException thrown =
+        assertThrows(
+            AuthException.class,
+            () -> gApi.changes().id(onStable.getChangeId()).message(stableMsgId).delete(input));
+    assertThat(thrown).hasMessageThat().isEqualTo("delete comment not permitted");
+  }
+
+  @Test
+  public void deleteCommentPermissionRespectsBlockRule() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.DELETE_COMMENT).ref("refs/heads/*").group(REGISTERED_USERS))
+        .add(block(Permission.DELETE_COMMENT).ref("refs/heads/sensitive").group(REGISTERED_USERS))
+        .update();
+    createBranch(BranchNameKey.create(project, "sensitive"));
+
+    PushOneCommit.Result onMaster = createChange("refs/for/master");
+    PushOneCommit.Result onSensitive = createChange("refs/for/sensitive");
+    String masterMsgId = gApi.changes().id(onMaster.getChangeId()).messages().get(0).id;
+    String sensitiveMsgId = gApi.changes().id(onSensitive.getChangeId()).messages().get(0).id;
+
+    requestScopeOperations.setApiUser(user.id());
+    DeleteChangeMessageInput input = new DeleteChangeMessageInput("spam");
+
+    ChangeMessageInfo updated =
+        gApi.changes().id(onMaster.getChangeId()).message(masterMsgId).delete(input);
+    assertThat(updated.message).contains("Change message removed by");
+
+    AuthException thrown =
+        assertThrows(
+            AuthException.class,
+            () ->
+                gApi.changes().id(onSensitive.getChangeId()).message(sensitiveMsgId).delete(input));
+    assertThat(thrown).hasMessageThat().isEqualTo("delete comment not permitted");
   }
 
   @Test

@@ -86,6 +86,7 @@ abstract class AbstractChangeControl {
         case READ -> isVisible();
         case ABANDON -> canAbandon();
         case DELETE -> projectControl.isAdmin() || refControl.canDeleteChanges(isOwner);
+        case DELETE_COMMENT -> canDeleteComment();
         case ADD_PATCH_SET -> canAddPatchSet();
         case EDIT_DESCRIPTION -> canEditDescription();
         case EDIT_HASHTAGS -> canEditHashtags();
@@ -215,6 +216,11 @@ abstract class AbstractChangeControl {
         || projectControl.isOwner()
         || refControl.canPerform(Permission.TOGGLE_WORK_IN_PROGRESS_STATE)
         || projectControl.isAdmin();
+  }
+
+  /** Can this user delete published comments or change messages on this change? */
+  private boolean canDeleteComment() {
+    return refControl.canPerform(Permission.DELETE_COMMENT) || projectControl.isAdmin();
   }
 
   private boolean can(AbstractLabelPermission perm) {

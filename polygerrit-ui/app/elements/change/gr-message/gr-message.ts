@@ -51,6 +51,7 @@ import {fire} from '../../../utils/event-util';
 import {ChangeMessageDeletedEventDetail} from '../../../types/events';
 import {configModelToken} from '../../../models/config/config-model';
 import {userModelToken} from '../../../models/user/user-model';
+import {computeMainCodeBrowserWeblink} from '../../../utils/weblink-util';
 import {subscribe} from '../../lit/subscription-controller';
 import {LABEL_TITLE_SCORE_PATTERN} from '../../../utils/message-util';
 
@@ -687,7 +688,63 @@ export class GrMessage extends LitElement {
       }
       return line;
     });
-    return mappedLines.join('\n').trim();
+    let result = mappedLines.join('\n').trim();
+    if (isExpanded) {
+      result = this.linkifyCommitHashes(result);
+    }
+    return result;
+  }
+
+  /**
+   * Converts commit SHAs in "submitted as <sha>" messages into markdown
+   * links using the configured code browser weblinks.
+   */
+  private linkifyCommitHashes(text: string): string {
+    // Match "submitted as <40-char hex sha>"
+    return text.replace(
+      /submitted as ([0-9a-f]{40})/g,
+      (_match, sha: string) => {
+        const url = this.getCommitUrl(sha);
+        if (url) {
+          return `submitted as [${sha}](${url})`;
+        }
+        return `submitted as ${sha}`;
+      }
+    );
+  }
+
+  private getCommitUrl(sha: string): string | undefined {
+    // Prefer the explicit submitCommitUrl from gerrit.config.
+    const submitCommitUrl = this.config?.gerrit?.submit_commit_url;
+    if (submitCommitUrl) {
+      const urlWithCommit = submitCommitUrl.includes('${commit}')
+        ? submitCommitUrl.replace('${commit}', sha)
+        : `${submitCommitUrl.replace(/\/+$/, '')}/${sha}`;
+      try {
+        const url = new URL(urlWithCommit);
+        if (url.protocol === 'http:' || url.protocol === 'https:') {
+          return url.toString();
+        }
+      } catch {
+        // Fall back to the revision's weblinks.
+      }
+    }
+    // Fall back to deriving a URL from the revision's weblinks.
+    if (this.change?.revisions) {
+      for (const rev of Object.values(this.change.revisions)) {
+        const weblink = computeMainCodeBrowserWeblink(
+          rev.commit?.web_links,
+          this.config
+        );
+        if (weblink?.url) {
+          const revSha = rev.commit?.commit;
+          if (revSha && weblink.url.includes(revSha)) {
+            return weblink.url.replace(revSha, sha);
+          }
+        }
+      }
+    }
+    return undefined;
   }
 
   // private but used in tests

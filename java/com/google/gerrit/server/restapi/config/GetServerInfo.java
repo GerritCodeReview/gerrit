@@ -302,6 +302,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.primaryWeblinkName = config.getString("gerrit", null, "primaryWeblinkName");
     info.instanceId = instanceId;
     info.defaultBranch = config.getString("gerrit", null, "defaultBranch");
+    info.submitCommitUrl = config.getString("gerrit", null, "submitCommitUrl");
     info.projectStatePredicateEnabled =
         config.getBoolean("gerrit", null, "projectStatePredicateEnabled", true);
     return info;

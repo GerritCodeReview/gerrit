@@ -793,6 +793,7 @@ export declare interface GerritInfo {
   primary_weblink_name?: string;
   instance_id?: string;
   default_branch?: string;
+  submit_commit_url?: string;
 }
 
 export type GitRef = BrandType<string, '_gitRef'>;

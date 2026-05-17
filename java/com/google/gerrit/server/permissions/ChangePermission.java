@@ -30,6 +30,7 @@ public enum ChangePermission implements ChangePermissionOrLabel {
    */
   RESTORE,
   DELETE,
+  DELETE_COMMENT,
   /**
    * The change can't be abandoned if its current patch set is locked.
    *

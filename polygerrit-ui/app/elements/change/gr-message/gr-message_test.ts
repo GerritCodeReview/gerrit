@@ -34,6 +34,7 @@ import {
   ReviewInputTag,
   RevisionPatchSetNum,
   SavingState,
+  ServerInfo,
   Timestamp,
   UrlEncodedCommentId,
 } from '../../../types/common';
@@ -684,6 +685,88 @@ suite('gr-message tests', () => {
           labels
         );
         assert.equal(actual, expected);
+      });
+
+      suite('submitted commit links', () => {
+        const sha = '0123456789abcdef0123456789abcdef01234567';
+        const message = `Change has been successfully rebased and submitted as ${sha}`;
+
+        test('uses configured URL placeholder', () => {
+          element.config = {
+            gerrit: {
+              submit_commit_url: 'https://example.com/commit/${commit}',
+            },
+          } as ServerInfo;
+
+          assert.equal(
+            element.computeMessageContent(true, message),
+            `Change has been successfully rebased and submitted as [${sha}](https://example.com/commit/${sha})`
+          );
+        });
+
+        test('links cherry-picked commit', () => {
+          element.config = {
+            gerrit: {
+              submit_commit_url: 'https://example.com/commit/${commit}',
+            },
+          } as ServerInfo;
+          const cherryPickedMessage =
+            `Change has been successfully cherry-picked as ${sha}`;
+
+          assert.equal(
+            element.computeMessageContent(true, cherryPickedMessage),
+            `Change has been successfully cherry-picked as [${sha}](https://example.com/commit/${sha})`
+          );
+        });
+
+        test('links SHA-256 commit', () => {
+          element.config = {
+            gerrit: {
+              submit_commit_url: 'https://example.com/commit/${commit}',
+            },
+          } as ServerInfo;
+          const sha256 = `${sha}0123456789abcdef01234567`;
+          const sha256Message =
+            `Change has been successfully rebased and submitted as ${sha256}`;
+
+          assert.equal(
+            element.computeMessageContent(true, sha256Message),
+            `Change has been successfully rebased and submitted as [${sha256}](https://example.com/commit/${sha256})`
+          );
+        });
+
+        test('appends commit to configured URL without trailing slash', () => {
+          element.config = {
+            gerrit: {submit_commit_url: 'https://example.com/commit'},
+          } as ServerInfo;
+
+          assert.equal(
+            element.computeMessageContent(true, message),
+            `Change has been successfully rebased and submitted as [${sha}](https://example.com/commit/${sha})`
+          );
+        });
+
+        test('rejects configured non-HTTP URL', () => {
+          element.config = {
+            gerrit: {submit_commit_url: 'javascript:${commit}'},
+          } as ServerInfo;
+
+          assert.equal(element.computeMessageContent(true, message), message);
+        });
+
+        test('only links hashes in submitted commit messages', () => {
+          element.config = {
+            gerrit: {
+              submit_commit_url: 'https://example.com/commit/${commit}',
+            },
+          } as ServerInfo;
+
+          const unrelatedMessage = `Tree ID: ${sha}`;
+          assert.equal(
+            element.computeMessageContent(true, unrelatedMessage),
+            unrelatedMessage
+          );
+        });
       });
     });
   });

@@ -26,4 +26,9 @@ public class GerritInfo {
   public String instanceId;
   public String defaultBranch;
   public Boolean projectStatePredicateEnabled;
+  /**
+   * Optional URL pattern for linking submitted commit hashes. Use {@code ${commit}} as placeholder
+   * for the SHA-1 hash. Example: {@code https://chromiumdash.appspot.com/commit/${commit}}.
+   */
+  public String submitCommitUrl;
 }

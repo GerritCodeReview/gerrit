@@ -59,12 +59,22 @@ public class SubmitDryRun {
     final CodeReviewRevWalk rw;
     final MergeUtil mergeUtil;
     final MergeSorter mergeSorter;
+    final Provider<InternalChangeQuery> queryProvider;
+    final BranchNameKey destBranch;
 
-    Arguments(Repository repo, CodeReviewRevWalk rw, MergeUtil mergeUtil, MergeSorter mergeSorter) {
+    Arguments(
+        Repository repo,
+        CodeReviewRevWalk rw,
+        MergeUtil mergeUtil,
+        MergeSorter mergeSorter,
+        Provider<InternalChangeQuery> queryProvider,
+        BranchNameKey destBranch) {
       this.repo = repo;
       this.rw = rw;
       this.mergeUtil = mergeUtil;
       this.mergeSorter = mergeSorter;
+      this.queryProvider = queryProvider;
+      this.destBranch = destBranch;
     }
   }
 
@@ -135,7 +145,9 @@ public class SubmitDryRun {
                 alreadyAccepted,
                 canMerge,
                 queryProvider,
-                ImmutableSet.of(toMergeCommit)));
+                ImmutableSet.of(toMergeCommit)),
+            queryProvider,
+            destBranch);
 
     switch (submitType) {
       case CHERRY_PICK:
@@ -147,9 +159,9 @@ public class SubmitDryRun {
       case MERGE_IF_NECESSARY:
         return MergeIfNecessary.dryRun(args, tipCommit, toMergeCommit);
       case REBASE_IF_NECESSARY:
-        return RebaseIfNecessary.dryRun(args, repo, tipCommit, toMergeCommit);
+        return RebaseIfNecessary.dryRun(args, tipCommit, toMergeCommit);
       case REBASE_ALWAYS:
-        return RebaseAlways.dryRun(args, repo, tipCommit, toMergeCommit);
+        return RebaseAlways.dryRun(args, tipCommit, toMergeCommit);
       case INHERIT:
       default:
         String errorMsg = "No submit strategy for: " + submitType;

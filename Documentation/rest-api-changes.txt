@@ -2997,6 +2997,56 @@ returned that contains all the validation options.
   }
 ----
 
+[[get-change-permissions]]
+=== Get Change Permissions
+--
+'GET /changes/link:#change-id[\{change-id\}]/permissions'
+--
+
+Retrieves the change-scoped permissions the calling user has on the
+change, for permissions that are not exposed through the change's
+link:#change-info[`actions`] map.
+
+[NOTE]
+Most change-scoped permissions (e.g. `abandon`, `delete`, `revert`,
+`rebase`, `submit`, `topic`, `hashtags`, ...) reach the client today
+via the link:#change-info[`actions`] field on `ChangeInfo` or the
+link:#revision-info[`actions`] field on `RevisionInfo`. Those entries
+are produced by REST handlers that implement `UiAction<ChangeResource>`
+and carry richer information than a boolean permission bit (label,
+title, HTTP method, conditional `enabled` state). They remain the
+canonical source for those permissions and are NOT duplicated here.
+
+This endpoint surfaces change-scoped permissions whose REST handlers
+do not naturally fit the `UiAction` pattern, typically because the
+handler is keyed by a child resource id (e.g. `comment-id`,
+`change-message-id`) rather than by the change itself. Currently it
+exposes the link:access-control.html#category_delete_comment[
+`deleteComment`] permission. Additional permissions that share this
+shape may be added in the future; the response is extensible.
+
+.Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/permissions HTTP/1.0
+----
+
+As response a link:#change-permissions-info[ChangePermissionsInfo] entity is
+returned describing the permissions of the calling user on the change.
+Fields are omitted when the corresponding permission is not granted, so
+callers should treat a missing field as "not granted".
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "delete_comment": true
+  }
+----
+
 [[list-change-messages]]
 === List Change Messages
 --
@@ -7977,6 +8027,29 @@ Gerrit core doesn't support any validation options, but commit validation
 listeners that are implemented in plugins may. Please refer to the
 documentation of the installed plugins to learn whether they support validation
 options. Unknown validation options are silently ignored.
+|===========================
+
+[[change-permissions-info]]
+=== ChangePermissionsInfo
+The `ChangePermissionsInfo` entity describes the change-scoped permissions
+the calling user has on a change.
+
+Fields are omitted when the corresponding permission is not granted; callers
+should treat a missing field as "not granted".
+
+For permissions that are exposed through the change or revision
+link:#change-info[`actions`] map (e.g. `abandon`, `delete`, `revert`,
+`rebase`, `submit`), this entity is not the canonical source -- see
+link:#get-change-permissions[Get Change Permissions] for the scope of
+this endpoint.
+
+[options="header",cols="1,^1,5"]
+|===========================
+|Field Name      ||Description
+|`delete_comment`|optional, not set if `false`|
+Whether the user can delete published comments or change messages on this
+change. Controlled by the link:access-control.html#category_delete_comment[
+`deleteComment`] permission.
 |===========================
 
 [[comment-info]]

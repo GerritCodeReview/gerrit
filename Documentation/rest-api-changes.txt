@@ -3018,11 +3018,14 @@ title, HTTP method, conditional `enabled` state). They remain the
 canonical source for those permissions and are NOT duplicated here.
 
 This endpoint surfaces change-scoped permissions whose REST handlers
-do not naturally fit the `UiAction` pattern -- for example because the
-action is purely client-side and has no server handler at all.
-Currently it exposes the link:access-control.html#category_ai_review[
-`aiReview`] permission. Additional permissions that share this shape
-may be added in the future; the response is extensible.
+do not naturally fit the `UiAction` pattern. This covers actions that
+are purely client-side with no server handler (e.g. `aiReview`) and
+handlers keyed by a child resource id rather than the change itself
+(e.g. `deleteComment`). Currently it exposes the
+link:access-control.html#category_ai_review[`aiReview`] and
+link:access-control.html#category_delete_comment[`deleteComment`]
+permissions. Additional permissions that share this shape may be added
+in the future; the response is extensible.
 
 .Request
 ----
@@ -3043,7 +3046,8 @@ if and only if it is granted.
   )]}'
   {
     "permissions": [
-      "aiReview"
+      "aiReview",
+      "deleteComment"
     ]
   }
 ----
@@ -8078,7 +8082,7 @@ the calling user has on a change.
 
 For permissions that are exposed through the change or revision
 link:#change-info[`actions`] map (e.g. `abandon`, `delete`, `revert`,
-`rebase`, `submit`), this entity is not the canonical source -- see
+`rebase`, `submit`), this entity is not the canonical source; see
 link:#get-change-permissions[Get Change Permissions] for the scope of
 this endpoint.
 
@@ -8087,8 +8091,8 @@ this endpoint.
 |Field Name    ||Description
 |`permissions` ||
 The names of the change-scoped permissions the calling user has on the
-change (e.g. `aiReview`). A permission name is present if and only if it
-is granted; an absent name means "not granted".
+change (e.g. `aiReview`, `deleteComment`). A permission name is present
+if and only if it is granted; an absent name means "not granted".
 |===========================
 
 [[comment-info]]

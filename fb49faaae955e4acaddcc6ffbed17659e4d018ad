@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12b45457_17b27990",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-18T21:14:34Z",
+      "side": 1,
+      "message": "Does this mean that only the UI-specific permissions are available through this endpoint? What about the other permissions on the change?",
+      "range": {
+        "startLine": 17,
+        "startChar": 51,
+        "endLine": 18,
+        "endChar": 58
+      },
+      "revId": "fb49faaae955e4acaddcc6ffbed17659e4d018ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

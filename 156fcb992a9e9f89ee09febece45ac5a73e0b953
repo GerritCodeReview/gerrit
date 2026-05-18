@@ -16,6 +16,23 @@
       "message": "Ok, blocking until we have backend change released to production",
       "revId": "156fcb992a9e9f89ee09febece45ac5a73e0b953",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9c5a687_cb339c92",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-05-18T19:23:41Z",
+      "side": 1,
+      "message": "Superseded by change 584843.",
+      "revId": "156fcb992a9e9f89ee09febece45ac5a73e0b953",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.submit.CommitMergeStatus.EMPTY_COMMIT;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.PatchSet;
@@ -34,16 +35,21 @@ import com.google.gerrit.server.patch.DiffNotAvailableException;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.PostUpdateContext;
 import com.google.gerrit.server.update.RepoContext;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
-import org.eclipse.jgit.lib.Repository;
+import java.util.Optional;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 
 /** This strategy covers RebaseAlways and RebaseIfNecessary ones. */
 public class RebaseSubmitStrategy extends SubmitStrategy {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private final boolean rebaseAlways;
 
   RebaseSubmitStrategy(SubmitStrategy.Arguments args, boolean rebaseAlways) {
@@ -226,12 +232,102 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
   }
 
   static boolean dryRun(
-      SubmitDryRun.Arguments args,
-      Repository repo,
-      CodeReviewCommit mergeTip,
-      CodeReviewCommit toMerge) {
+      SubmitDryRun.Arguments args, CodeReviewCommit mergeTip, CodeReviewCommit toMerge) {
+    if (toMerge.getParentCount() == 0) {
+      return false;
+    }
     // Test for merge instead of cherry pick to avoid false negatives
     // on commit chains.
-    return args.mergeUtil.canMerge(args.mergeSorter, repo, mergeTip, toMerge);
+    if (args.mergeUtil.canMerge(args.mergeSorter, args.repo, mergeTip, toMerge)) {
+      return true;
+    }
+    // If an ancestor change in the stack was rebased when submitted onto the target branch, its
+    // SHA changed, so ThreeWayMerger's default Git-graph LCA fell back to a commit before that
+    // ancestor and re-applied its delta. Retry with the nearest such ancestor as the explicit
+    // merge base.
+    Optional<RevCommit> base = findRebasedAncestorBase(args, mergeTip, toMerge);
+    if (base.isPresent()) {
+      return args.mergeUtil.canMerge(args.repo, mergeTip, toMerge, base.get());
+    }
+    return false;
+  }
+
+  private static Optional<RevCommit> findRebasedAncestorBase(
+      SubmitDryRun.Arguments args, CodeReviewCommit mergeTip, CodeReviewCommit toMerge) {
+    // Use a separate RevWalk sharing the existing ObjectReader so MergeBaseGenerator's REWRITE
+    // flags in isMergedInto do not mutate args.rw before MergeSorter runs.
+    try (RevWalk rw = new RevWalk(args.rw.getObjectReader())) {
+      RevCommit mergeTipCommit = rw.parseCommit(mergeTip);
+      RevCommit current = rw.parseCommit(toMerge);
+
+      while (current.getParentCount() == 1) {
+        RevCommit parent = rw.parseCommit(current.getParent(0));
+
+        // If parent is already reachable from mergeTip in the commit graph, no ancestor at or
+        // below it was rewritten on submit; ThreeWayMerger's default LCA in canMerge will already
+        // find parent (or toMerge itself when ConflictsPredicate checks an ancestor against one of
+        // its descendants).
+        if (rw.isMergedInto(parent, mergeTipCommit)) {
+          return Optional.empty();
+        }
+
+        // Look up the parent change on the destination branch by its patchset commit SHA.
+        List<ChangeData> changes =
+            args.queryProvider.get().byBranchCommit(args.destBranch, parent.name());
+
+        boolean hasOpenChange = false;
+        for (ChangeData cd : changes) {
+          switch (getAncestorState(rw, cd, mergeTipCommit)) {
+            case MERGED_INTO_TIP -> {
+              return Optional.of(parent);
+            }
+            case OPEN -> hasOpenChange = true;
+            case OTHER -> {}
+          }
+        }
+        if (!hasOpenChange) {
+          return Optional.empty();
+        }
+        current = parent;
+      }
+    } catch (IOException | StorageException e) {
+      logger.atWarning().withCause(e).log(
+          "Error checking if ancestor commit of %s was merged", toMerge.name());
+    }
+    return Optional.empty();
+  }
+
+  private enum AncestorState {
+    MERGED_INTO_TIP,
+    OPEN,
+    OTHER
+  }
+
+  private static AncestorState getAncestorState(
+      RevWalk rw, ChangeData cd, RevCommit mergeTipCommit) {
+    try {
+      // Reload from NoteDb so asynchronous index lag right after an ancestor is submitted cannot
+      // return a stale NEW status and poison the immutable MergeabilityCache.
+      cd.reloadChange();
+      if (cd.change() == null) {
+        return AncestorState.OTHER;
+      }
+      if (cd.change().isMerged() && cd.currentPatchSet() != null) {
+        RevCommit mergedCommit = rw.parseCommit(cd.currentPatchSet().commitId());
+        if (rw.isMergedInto(mergedCommit, mergeTipCommit)) {
+          return AncestorState.MERGED_INTO_TIP;
+        }
+      } else if (cd.change().isNew()) {
+        return AncestorState.OPEN;
+      }
+    } catch (IOException | StorageException e) {
+      // If one candidate commit is missing (e.g. due to replication
+      // delays) or NoteDb queries fail, log a warning and continue
+      // checking the other candidates instead of crashing the entire
+      // dry-run check.
+      logger.atWarning().withCause(e).log(
+          "Error checking/parsing candidate ancestor change %s", cd.getId());
+    }
+    return AncestorState.OTHER;
   }
 }

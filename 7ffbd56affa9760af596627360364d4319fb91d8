@@ -90,6 +90,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c627627b_901bb26a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-05-18T19:22:54Z",
+      "side": 1,
+      "message": "Done in change 584841.",
+      "parentUuid": "b0fba336_a31be84b",
+      "revId": "7ffbd56affa9760af596627360364d4319fb91d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0902ba00_807061b3",

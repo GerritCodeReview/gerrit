@@ -181,9 +181,9 @@ suite('gr-comment tests', () => {
       );
     });
 
-    test('renders expanded admin', async () => {
+    test('renders expanded with delete-comment permission', async () => {
       element.initiallyCollapsed = false;
-      element.isAdmin = true;
+      element.hasDeleteComment = true;
       await element.updateComplete;
       assert.dom.equal(
         queryAndAssert(element, 'gr-button.delete'),
@@ -472,7 +472,7 @@ suite('gr-comment tests', () => {
 
   test('delete comment', async () => {
     element.changeNum = 42 as NumericChangeId;
-    element.isAdmin = true;
+    element.hasDeleteComment = true;
     await element.updateComplete;
 
     const deleteButton = queryAndAssert<GrButton>(element, '.action.delete');

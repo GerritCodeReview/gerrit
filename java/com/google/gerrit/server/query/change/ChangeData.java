@@ -37,7 +37,6 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Table;
 import com.google.common.flogger.FluentLogger;
-import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.UsedAt;
@@ -1279,9 +1278,7 @@ public class ChangeData {
       if (!lazyload()) {
         return null;
       }
-
-      // Fail on overflow.
-      totalCommentCount = Ints.checkedCast((long) publishedComments().size());
+      totalCommentCount = publishedComments().size();
     }
     return totalCommentCount;
   }

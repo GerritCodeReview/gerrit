@@ -59,19 +59,29 @@ public class SubmitDryRun {
     final CodeReviewRevWalk rw;
     final MergeUtil mergeUtil;
     final MergeSorter mergeSorter;
+    final Provider<InternalChangeQuery> queryProvider;
+    final BranchNameKey destBranch;
 
-    Arguments(Repository repo, CodeReviewRevWalk rw, MergeUtil mergeUtil, MergeSorter mergeSorter) {
+    Arguments(
+        Repository repo,
+        CodeReviewRevWalk rw,
+        MergeUtil mergeUtil,
+        MergeSorter mergeSorter,
+        Provider<InternalChangeQuery> queryProvider,
+        BranchNameKey destBranch) {
       this.repo = repo;
       this.rw = rw;
       this.mergeUtil = mergeUtil;
       this.mergeSorter = mergeSorter;
+      this.queryProvider = queryProvider;
+      this.destBranch = destBranch;
     }
   }
 
   public static Set<ObjectId> getAlreadyAccepted(Repository repo) throws IOException {
     return Streams.concat(
-            repo.getRefDatabase().getRefsByPrefix(Constants.R_HEADS).stream(),
-            repo.getRefDatabase().getRefsByPrefix(Constants.R_TAGS).stream())
+        repo.getRefDatabase().getRefsByPrefix(Constants.R_HEADS).stream(),
+        repo.getRefDatabase().getRefsByPrefix(Constants.R_TAGS).stream())
         .map(Ref::getObjectId)
         .filter(Objects::nonNull)
         .collect(toSet());
@@ -124,18 +134,19 @@ public class SubmitDryRun {
     CodeReviewCommit toMergeCommit = rw.parseCommit(toMerge);
     RevFlag canMerge = rw.newFlag("CAN_MERGE");
     toMergeCommit.add(canMerge);
-    Arguments args =
-        new Arguments(
+    Arguments args = new Arguments(
             repo,
-            rw,
+        rw,
             mergeUtilFactory.create(getProject(destBranch)),
-            new MergeSorter(
-                caller,
-                rw,
-                alreadyAccepted,
-                canMerge,
-                queryProvider,
-                ImmutableSet.of(toMergeCommit)));
+        new MergeSorter(
+            caller,
+            rw,
+            alreadyAccepted,
+            canMerge,
+            queryProvider,
+            ImmutableSet.of(toMergeCommit)),
+        queryProvider,
+        destBranch);
 
     switch (submitType) {
       case CHERRY_PICK:

@@ -18,8 +18,11 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.submit.CommitMergeStatus.EMPTY_COMMIT;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.BooleanProjectConfig;
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -34,6 +37,7 @@ import com.google.gerrit.server.patch.DiffNotAvailableException;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.PostUpdateContext;
 import com.google.gerrit.server.update.RepoContext;
@@ -41,9 +45,13 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 
 /** This strategy covers RebaseAlways and RebaseIfNecessary ones. */
 public class RebaseSubmitStrategy extends SubmitStrategy {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private final boolean rebaseAlways;
 
   RebaseSubmitStrategy(SubmitStrategy.Arguments args, boolean rebaseAlways) {
@@ -230,8 +238,50 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
       Repository repo,
       CodeReviewCommit mergeTip,
       CodeReviewCommit toMerge) {
+    // If the parent of this change has already been merged on the target branch
+    // (possibly with a different commit SHA but matching Change-Id), we can safely
+    // check mergeability by simulating a cherry-pick/rebase of this commit.
+    if (mergeTip != null
+        && toMerge.getParentCount() == 1
+        && isParentMerged(args, mergeTip, toMerge)) {
+      return args.mergeUtil.canCherryPick(args.mergeSorter, repo, mergeTip, args.rw, toMerge);
+    }
     // Test for merge instead of cherry pick to avoid false negatives
     // on commit chains.
     return args.mergeUtil.canMerge(args.mergeSorter, repo, mergeTip, toMerge);
+  }
+
+  private static boolean isParentMerged(
+      SubmitDryRun.Arguments args, CodeReviewCommit mergeTip, CodeReviewCommit toMerge) {
+    try (RevWalk rw = new RevWalk(args.rw.getObjectReader().newReader())) {
+      RevCommit parent = toMerge.getParent(0);
+      RevCommit mergeTipCommit = rw.parseCommit(mergeTip);
+      RevCommit parentCommit = rw.parseCommit(parent);
+      // Fast-path: if the parent commit is already reachable from the target
+      // branch tip, we can bypass history walking entirely. This occurs when
+      // the parent was merged without rewriting.
+      if (rw.isMergedInto(parentCommit, mergeTipCommit)) {
+        return true;
+      }
+      rw.parseBody(parentCommit);
+      List<String> parentChangeIds = parentCommit.getFooterLines(FooterConstants.CHANGE_ID);
+      if (!parentChangeIds.isEmpty()) {
+        String parentChangeId = parentChangeIds.get(parentChangeIds.size() - 1);
+        List<ChangeData> changes =
+            args.queryProvider.get().byBranchKey(args.destBranch, Change.key(parentChangeId));
+        for (ChangeData cd : changes) {
+          if (cd.change().isMerged()) {
+            RevCommit mergedCommit = rw.parseCommit(cd.currentPatchSet().commitId());
+            if (rw.isMergedInto(mergedCommit, mergeTipCommit)) {
+              return true;
+            }
+          }
+        }
+      }
+    } catch (IOException e) {
+      logger.atWarning().withCause(e).log(
+          "Error checking if parent commit of %s was merged", toMerge.name());
+    }
+    return false;
   }
 }

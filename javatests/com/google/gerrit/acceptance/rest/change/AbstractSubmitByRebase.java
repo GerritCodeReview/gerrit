@@ -497,4 +497,210 @@ public abstract class AbstractSubmitByRebase extends AbstractSubmit {
     assertRefUpdatedEvents();
     assertChangeMergedEvents();
   }
+
+  @Test
+  @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
+  public void submitStackedChanges() throws Throwable {
+    PushOneCommit.Result change1 = createChange("Change 1", "a.txt", "content 1");
+    PushOneCommit.Result change2 = createChange("Change 2", "a.txt", "content 1\ncontent 2");
+
+    assertThat(gApi.changes().id(change1.getChangeId()).current().mergeable().mergeable).isTrue();
+    assertThat(gApi.changes().id(change2.getChangeId()).current().mergeable().mergeable).isTrue();
+
+    approve(change1.getChangeId());
+    gApi.changes().id(change1.getChangeId()).current().submit();
+
+    assertThat(gApi.changes().id(change2.getChangeId()).current().mergeable().mergeable).isTrue();
+
+    approve(change2.getChangeId());
+    gApi.changes().id(change2.getChangeId()).current().submit();
+
+    verifyStackedSubmissionHistory(change1, change2, /* hasConcurrentCommit= */ false);
+  }
+
+  @Test
+  @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
+  public void submitStackedChangesWithConcurrentCommit() throws Throwable {
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
+
+    // Create stacked changes Change 1 -> Change 2
+    PushOneCommit.Result change1 = createChange("Change 1", "a.txt", "content 1");
+    PushOneCommit.Result change2 = createChange("Change 2", "a.txt", "content 1\ncontent 2");
+
+    // Push a non-conflicting concurrent commit directly to master
+    testRepo.reset(initialHead);
+    PushOneCommit.Result concurrent =
+        createChange("Concurrent Commit", "b.txt", "concurrent content");
+    approve(concurrent.getChangeId());
+    gApi.changes().id(concurrent.getChangeId()).current().submit();
+
+    // Both changes must still report as mergeable
+    assertThat(gApi.changes().id(change1.getChangeId()).current().mergeable().mergeable).isTrue();
+    assertThat(gApi.changes().id(change2.getChangeId()).current().mergeable().mergeable).isTrue();
+
+    // Submit Change 1 (forces rebase under both strategies)
+    approve(change1.getChangeId());
+    gApi.changes().id(change1.getChangeId()).current().submit();
+
+    // Stacked child Change 2 must remain mergeable
+    assertThat(gApi.changes().id(change2.getChangeId()).current().mergeable().mergeable).isTrue();
+
+    // Submit Change 2 (forces rebase)
+    approve(change2.getChangeId());
+    gApi.changes().id(change2.getChangeId()).current().submit();
+
+    verifyStackedSubmissionHistory(change1, change2, /* hasConcurrentCommit= */ true);
+  }
+
+  @Test
+  @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
+  public void submitStackedChangesTogether() throws Throwable {
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
+
+    PushOneCommit.Result change1 = createChange("Change 1", "a.txt", "content 1");
+    PushOneCommit.Result change2 = createChange("Change 2", "a.txt", "content 1\ncontent 2");
+
+    // Push a concurrent commit to master
+    testRepo.reset(initialHead);
+    PushOneCommit.Result concurrent =
+        createChange("Concurrent Commit", "b.txt", "concurrent content");
+    approve(concurrent.getChangeId());
+    gApi.changes().id(concurrent.getChangeId()).current().submit();
+
+    // Approve both changes
+    approve(change1.getChangeId());
+    approve(change2.getChangeId());
+
+    // Submit child Change 2 directly. This triggers submission/rebase of both changes in Git order.
+    gApi.changes().id(change2.getChangeId()).current().submit();
+
+    verifyStackedSubmissionHistory(change1, change2, /* hasConcurrentCommit= */ true);
+  }
+
+  @Test
+  @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
+  public void submitStackedChangesWithContentMergeConflict() throws Throwable {
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
+
+    PushOneCommit.Result change1 = createChange("Change 1", "a.txt", "content 1");
+    PushOneCommit.Result change2 = createChange("Change 2", "a.txt", "content 1\ncontent 2");
+
+    // Push a conflicting concurrent commit directly to master
+    testRepo.reset(initialHead);
+    PushOneCommit.Result concurrent =
+        createChange("Conflicting Commit", "a.txt", "conflicting content");
+    approve(concurrent.getChangeId());
+    gApi.changes().id(concurrent.getChangeId()).current().submit();
+
+    RevCommit headAfterConcurrent = projectOperations.project(project).getHead("master");
+
+    // Submitting change1 should fail due to rebase/merge conflict
+    submitWithConflict(
+        change1.getChangeId(),
+        String.format(
+            """
+            Cannot rebase %s: Change %s could not be rebased due to a conflict during merge.
+
+            merge conflict(s):
+            * a.txt
+            """,
+            change1.getCommit().name(), change1.getChange().getId()));
+
+    // Verify master HEAD remains unchanged
+    assertThat(projectOperations.project(project).getHead("master")).isEqualTo(headAfterConcurrent);
+
+    // Verify changes remain in NEW status
+    assertNew(change1.getChangeId());
+    assertNew(change2.getChangeId());
+  }
+
+  @Test
+  @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
+  public void submitDeeplyStackedChanges() throws Throwable {
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
+
+    PushOneCommit.Result change1 = createChange("Change 1", "a.txt", "content 1");
+    PushOneCommit.Result change2 = createChange("Change 2", "a.txt", "content 1\ncontent 2");
+    PushOneCommit.Result change3 =
+        createChange("Change 3", "a.txt", "content 1\ncontent 2\ncontent 3");
+
+    // Push a concurrent commit to master
+    testRepo.reset(initialHead);
+    PushOneCommit.Result concurrent =
+        createChange("Concurrent Commit", "b.txt", "concurrent content");
+    approve(concurrent.getChangeId());
+    gApi.changes().id(concurrent.getChangeId()).current().submit();
+
+    // Submit grandparent, parent, and child one by one
+    approve(change1.getChangeId());
+    gApi.changes().id(change1.getChangeId()).current().submit();
+
+    approve(change2.getChangeId());
+    gApi.changes().id(change2.getChangeId()).current().submit();
+
+    approve(change3.getChangeId());
+    gApi.changes().id(change3.getChangeId()).current().submit();
+
+    // Assert full history structure and lineage
+    RevCommit masterHead = parse(projectOperations.project(project).getHead("master"));
+    assertThat(masterHead.getShortMessage()).isEqualTo("Change 3");
+
+    RevCommit masterParent = parse(masterHead.getParent(0));
+    assertThat(masterParent.getShortMessage()).isEqualTo("Change 2");
+
+    RevCommit masterGrandparent = parse(masterParent.getParent(0));
+    assertThat(masterGrandparent.getShortMessage()).isEqualTo("Change 1");
+
+    RevCommit masterGreatGrandparent = parse(masterGrandparent.getParent(0));
+    assertThat(masterGreatGrandparent.getShortMessage()).isEqualTo("Concurrent Commit");
+
+    // Both strategies rebase deep chains to Patchset 2 when forced by concurrent commits
+    assertCurrentRevision(change3.getChangeId(), 2, masterHead);
+    assertCurrentRevision(change2.getChangeId(), 2, masterParent);
+    assertCurrentRevision(change1.getChangeId(), 2, masterGrandparent);
+  }
+
+  private void verifyStackedSubmissionHistory(
+      PushOneCommit.Result change1, PushOneCommit.Result change2, boolean hasConcurrentCommit)
+      throws Throwable {
+    RevCommit masterHead = parse(projectOperations.project(project).getHead("master"));
+
+    // 1. master HEAD points to the submitted rebased/merged child commit.
+    assertThat(masterHead.getShortMessage()).isEqualTo("Change 2");
+
+    // 2. The first parent of master HEAD is the submitted rebased/merged parent commit.
+    assertThat(masterHead.getParentCount()).isEqualTo(1);
+    RevCommit masterParent = parse(masterHead.getParent(0));
+    assertThat(masterParent.getShortMessage()).isEqualTo("Change 1");
+
+    // 3. The parent of the rebased parent commit is the concurrent commit (or initial master
+    // commit).
+    assertThat(masterParent.getParentCount()).isEqualTo(1);
+    RevCommit masterGrandparent = parse(masterParent.getParent(0));
+
+    SubmitType submitType = getSubmitType();
+
+    if (submitType == SubmitType.REBASE_ALWAYS) {
+      // REBASE_ALWAYS always forces a rebase, creating a new PatchSet (PatchSet 2)
+      assertCurrentRevision(change2.getChangeId(), 2, masterHead);
+      assertCurrentRevision(change1.getChangeId(), 2, masterParent);
+
+      if (hasConcurrentCommit) {
+        assertThat(masterGrandparent.getShortMessage()).isEqualTo("Concurrent Commit");
+      }
+    } else if (submitType == SubmitType.REBASE_IF_NECESSARY) {
+      if (hasConcurrentCommit) {
+        // Concurrent commit forces a rebase for both changes (PatchSet 2)
+        assertCurrentRevision(change2.getChangeId(), 2, masterHead);
+        assertCurrentRevision(change1.getChangeId(), 2, masterParent);
+        assertThat(masterGrandparent.getShortMessage()).isEqualTo("Concurrent Commit");
+      } else {
+        // Without a concurrent commit, both changes can fast-forward (PatchSet 1)
+        assertCurrentRevision(change2.getChangeId(), 1, masterHead);
+        assertCurrentRevision(change1.getChangeId(), 1, masterParent);
+        assertThat(masterHead.getId()).isEqualTo(change2.getCommit());
+        assertThat(masterParent.getId()).isEqualTo(change1.getCommit());
+      }
+    }
+  }
 }

@@ -18,6 +18,8 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.submit.CommitMergeStatus.EMPTY_COMMIT;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.PatchSet;
@@ -41,9 +43,13 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 
 /** This strategy covers RebaseAlways and RebaseIfNecessary ones. */
 public class RebaseSubmitStrategy extends SubmitStrategy {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private final boolean rebaseAlways;
 
   RebaseSubmitStrategy(SubmitStrategy.Arguments args, boolean rebaseAlways) {
@@ -230,8 +236,65 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
       Repository repo,
       CodeReviewCommit mergeTip,
       CodeReviewCommit toMerge) {
+    // If the parent of this change has already been merged on the target branch
+    // (possibly with a different commit SHA but matching Change-Id), we can safely
+    // check mergeability by simulating a cherry-pick/rebase of this commit.
+    if (mergeTip != null
+        && toMerge.getParentCount() == 1
+        && isParentMerged(args, mergeTip, toMerge)) {
+      return args.mergeUtil.canCherryPick(args.mergeSorter, repo, mergeTip, args.rw, toMerge);
+    }
     // Test for merge instead of cherry pick to avoid false negatives
     // on commit chains.
     return args.mergeUtil.canMerge(args.mergeSorter, repo, mergeTip, toMerge);
+  }
+
+  private static boolean isParentMerged(
+      SubmitDryRun.Arguments args, CodeReviewCommit mergeTip, CodeReviewCommit toMerge) {
+    // A root commit has no parent, and an empty branch has no commits, so the
+    // parent cannot have been merged.
+    if (toMerge.getParentCount() == 0 || mergeTip == null) {
+      return false;
+    }
+    try {
+      RevCommit parent = toMerge.getParent(0);
+      // Fast-path: if the parent commit is already reachable from the target
+      // branch tip, we can bypass history walking entirely. This occurs when
+      // the parent was merged without rewriting.
+      if (args.rw.isMergedInto(parent, mergeTip)) {
+        return true;
+      }
+      args.rw.parseBody(parent);
+      List<String> parentChangeIds = parent.getFooterLines(FooterConstants.CHANGE_ID);
+      if (!parentChangeIds.isEmpty()) {
+        String parentChangeId = parentChangeIds.get(parentChangeIds.size() - 1);
+        try (RevWalk rw = new RevWalk(args.rw.getObjectReader())) {
+          rw.markStart(rw.parseCommit(mergeTip));
+          // Exclude history reachable from the parent commit, as we only need
+          // to search concurrent commits that were landed on the target branch.
+          rw.markUninteresting(rw.parseCommit(parent));
+          // Limit search depth to prevent excessive CPU usage and latency in
+          // the mergeability cache loader if the branch has hundreds of
+          // divergent concurrent commits.
+          int maxCommits = 500;
+          RevCommit commit;
+          while ((commit = rw.next()) != null) {
+            if (--maxCommits < 0) {
+              break;
+            }
+            rw.parseBody(commit);
+            List<String> changeIds = commit.getFooterLines(FooterConstants.CHANGE_ID);
+            if (!changeIds.isEmpty()
+                && changeIds.get(changeIds.size() - 1).equals(parentChangeId)) {
+              return true;
+            }
+          }
+        }
+      }
+    } catch (IOException e) {
+      logger.atWarning().withCause(e).log(
+          "Error checking if parent commit of %s was merged", toMerge.name());
+    }
+    return false;
   }
 }

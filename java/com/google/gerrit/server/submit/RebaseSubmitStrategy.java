@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.submit.CommitMergeStatus.EMPTY_COMMIT;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.PatchSet;
@@ -34,16 +35,20 @@ import com.google.gerrit.server.patch.DiffNotAvailableException;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.PostUpdateContext;
 import com.google.gerrit.server.update.RepoContext;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
-import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 
 /** This strategy covers RebaseAlways and RebaseIfNecessary ones. */
 public class RebaseSubmitStrategy extends SubmitStrategy {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private final boolean rebaseAlways;
 
   RebaseSubmitStrategy(SubmitStrategy.Arguments args, boolean rebaseAlways) {
@@ -226,12 +231,65 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
   }
 
   static boolean dryRun(
-      SubmitDryRun.Arguments args,
-      Repository repo,
-      CodeReviewCommit mergeTip,
-      CodeReviewCommit toMerge) {
+      SubmitDryRun.Arguments args, CodeReviewCommit mergeTip, CodeReviewCommit toMerge) {
+    if (toMerge.getParentCount() == 0) {
+      return false;
+    }
+    // If the parent change was already merged onto the target branch (including when rebased on
+    // submit with a new SHA), simulate a cherry-pick so ThreeWayMerger uses the original parent as
+    // the merge base instead of the Git graph LCA.
+    if (toMerge.getParentCount() == 1 && isParentMerged(args, mergeTip, toMerge)) {
+      return args.mergeUtil.canCherryPick(args.mergeSorter, args.repo, mergeTip, args.rw, toMerge);
+    }
     // Test for merge instead of cherry pick to avoid false negatives
     // on commit chains.
-    return args.mergeUtil.canMerge(args.mergeSorter, repo, mergeTip, toMerge);
+    return args.mergeUtil.canMerge(args.mergeSorter, args.repo, mergeTip, toMerge);
+  }
+
+  private static boolean isParentMerged(
+      SubmitDryRun.Arguments args, CodeReviewCommit mergeTip, CodeReviewCommit toMerge) {
+    // Use a separate RevWalk sharing the existing ObjectReader so MergeBaseGenerator's REWRITE
+    // flags in isMergedInto do not mutate args.rw before MergeSorter runs.
+    try (RevWalk rw = new RevWalk(args.rw.getObjectReader())) {
+      RevCommit mergeTipCommit = rw.parseCommit(mergeTip);
+      RevCommit parentCommit = rw.parseCommit(toMerge.getParent(0));
+
+      // Fast-path: if the parent commit is already reachable from the target
+      // branch tip, we can bypass index lookup entirely. This occurs when
+      // the parent was merged without rewriting.
+      if (rw.isMergedInto(parentCommit, mergeTipCommit)) {
+        return true;
+      }
+
+      // If the parent commit was rebased on submit, its SHA changed, so look up the parent change
+      // on the destination branch by its historical patchset commit SHA.
+      List<ChangeData> changes =
+          args.queryProvider.get().byBranchCommit(args.destBranch, parentCommit.name());
+
+      for (ChangeData cd : changes) {
+        try {
+          // Reload from NoteDb so asynchronous index lag right after the parent is submitted cannot
+          // return a stale NEW status and poison the immutable MergeabilityCache.
+          cd.reloadChange();
+          if (cd.change() != null && cd.change().isMerged() && cd.currentPatchSet() != null) {
+            RevCommit mergedCommit = rw.parseCommit(cd.currentPatchSet().commitId());
+            if (rw.isMergedInto(mergedCommit, mergeTipCommit)) {
+              return true;
+            }
+          }
+        } catch (IOException | StorageException e) {
+          // If one candidate commit is missing (e.g. due to replication
+          // delays) or NoteDb queries fail, log a warning and continue
+          // checking the other candidates instead of crashing the entire
+          // dry-run check.
+          logger.atWarning().withCause(e).log(
+              "Error checking/parsing candidate merged commit for change %s", cd.getId());
+        }
+      }
+    } catch (IOException | StorageException e) {
+      logger.atWarning().withCause(e).log(
+          "Error checking if parent commit of %s was merged", toMerge.name());
+    }
+    return false;
   }
 }

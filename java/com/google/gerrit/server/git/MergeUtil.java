@@ -799,8 +799,20 @@ public class MergeUtil {
   }
 
   private boolean canMerge(CodeReviewCommit mergeTip, Repository repo, CodeReviewCommit toMerge) {
+    return canMerge(repo, mergeTip, toMerge, /* base= */ null);
+  }
+
+  public boolean canMerge(
+      Repository repo,
+      CodeReviewCommit mergeTip,
+      CodeReviewCommit toMerge,
+      @Nullable RevCommit base) {
     try (ObjectInserter ins = new InMemoryInserter(repo)) {
-      return newThreeWayMerger(ins, repo).merge(mergeTip, toMerge);
+      ThreeWayMerger m = newThreeWayMerger(ins, repo);
+      if (base != null) {
+        m.setBase(base);
+      }
+      return m.merge(mergeTip, toMerge);
     } catch (LargeObjectException e) {
       logger.atWarning().log("%s cannot be merged due to LargeObjectException", toMerge.name());
       return false;

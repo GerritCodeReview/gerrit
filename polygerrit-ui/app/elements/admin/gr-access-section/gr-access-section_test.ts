@@ -156,6 +156,9 @@ suite('gr-access-section tests', () => {
                     <md-select-option md-menu-item="" value="deleteChanges">
                       <div slot="headline">Delete Changes</div>
                     </md-select-option>
+                    <md-select-option md-menu-item="" value="deleteComment">
+                      <div slot="headline">Delete Comment</div>
+                    </md-select-option>
                     <md-select-option md-menu-item="" value="deleteOwnChanges">
                       <div slot="headline">Delete Own Changes</div>
                     </md-select-option>

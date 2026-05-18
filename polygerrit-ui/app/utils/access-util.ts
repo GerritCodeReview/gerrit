@@ -13,6 +13,7 @@ export enum AccessPermissionId {
   CREATE_SIGNED_TAG = 'createSignedTag',
   DELETE = 'delete',
   DELETE_CHANGES = 'deleteChanges',
+  DELETE_COMMENT = 'deleteComment',
   DELETE_OWN_CHANGES = 'deleteOwnChanges',
   EDIT_HASHTAGS = 'editHashtags',
   EDIT_TOPIC_NAME = 'editTopicName',
@@ -63,6 +64,10 @@ export const AccessPermissions: {[id: string]: AccessPermission} = {
   [AccessPermissionId.DELETE_CHANGES]: {
     id: AccessPermissionId.DELETE_CHANGES,
     name: 'Delete Changes',
+  },
+  [AccessPermissionId.DELETE_COMMENT]: {
+    id: AccessPermissionId.DELETE_COMMENT,
+    name: 'Delete Comment',
   },
   [AccessPermissionId.DELETE_OWN_CHANGES]: {
     id: AccessPermissionId.DELETE_OWN_CHANGES,
@@ -185,6 +190,7 @@ const DocsDocAnchors: Record<string, string> = {
   [AccessPermissionId.CREATE_SIGNED_TAG]: 'category_create_signed',
   [AccessPermissionId.DELETE]: 'category_delete',
   [AccessPermissionId.DELETE_CHANGES]: 'category_delete_changes',
+  [AccessPermissionId.DELETE_COMMENT]: 'category_delete_comment',
   [AccessPermissionId.DELETE_OWN_CHANGES]: 'category_delete_own_changes',
   [AccessPermissionId.EDIT_HASHTAGS]: 'category_edit_hashtags',
   [AccessPermissionId.EDIT_TOPIC_NAME]: 'category_edit_topic_name',

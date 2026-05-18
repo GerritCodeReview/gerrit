@@ -21,6 +21,7 @@ import {
   BranchInfo,
   CapabilityInfoMap,
   ChangeInfo,
+  ChangePermissionsInfo,
   CommentInfo,
   CommitInfo,
   ConfigInfo,
@@ -477,6 +478,9 @@ export const grRestApiMock: RestApiService = {
     return Promise.resolve([]);
   },
   getValidationOptions(): Promise<ValidationOptionsInfo | undefined> {
+    return Promise.resolve(undefined);
+  },
+  getChangePermissions(): Promise<ChangePermissionsInfo | undefined> {
     return Promise.resolve(undefined);
   },
   getVersion(): Promise<string | undefined> {

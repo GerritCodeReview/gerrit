@@ -1188,6 +1188,17 @@ export declare interface ValidationOptionsInfo {
 }
 
 /**
+ * Describes the change-scoped permissions of the calling user on a change.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#change-permissions-info
+ *
+ * Fields are omitted when the corresponding permission is not granted, so
+ * callers should treat a missing field as "not granted".
+ */
+export declare interface ChangePermissionsInfo {
+  delete_comment?: boolean;
+}
+
+/**
  * The push options that can be specified by the user on push
  * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#validation-option-info
  */

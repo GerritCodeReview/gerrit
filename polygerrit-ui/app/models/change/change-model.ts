@@ -450,6 +450,13 @@ export class ChangeModel extends Model<ChangeState> {
       permissions?.permissions?.includes(AccessPermissionId.AI_REVIEW) ?? false
   );
 
+  public readonly hasDeleteComment$ = select(
+    this.permissions$,
+    permissions =>
+      permissions?.permissions?.includes(AccessPermissionId.DELETE_COMMENT) ??
+      false
+  );
+
   public readonly branch$ = select(this.change$, change => change?.branch);
 
   public readonly changeNum$ = select(this.change$, change => change?._number);

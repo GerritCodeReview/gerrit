@@ -1199,6 +1199,17 @@ export declare interface ValidationOptionsInfo {
 }
 
 /**
+ * Describes the change-scoped permissions of the calling user on a change.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#change-permissions-info
+ *
+ * `permissions` lists the names of the granted permissions (e.g.
+ * 'deleteComment'); a name is present iff the permission is granted.
+ */
+export declare interface ChangePermissionsInfo {
+  permissions?: string[];
+}
+
+/**
  * The push options that can be specified by the user on push
  * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#validation-option-info
  */

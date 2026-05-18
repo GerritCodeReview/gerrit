@@ -33,6 +33,7 @@ import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
+import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
@@ -59,12 +60,25 @@ public class SubmitDryRun {
     final CodeReviewRevWalk rw;
     final MergeUtil mergeUtil;
     final MergeSorter mergeSorter;
+    final Provider<InternalChangeQuery> queryProvider;
+    final OneOffRequestContext oneOffRequestContext;
+    final BranchNameKey destBranch;
 
-    Arguments(Repository repo, CodeReviewRevWalk rw, MergeUtil mergeUtil, MergeSorter mergeSorter) {
+    Arguments(
+        Repository repo,
+        CodeReviewRevWalk rw,
+        MergeUtil mergeUtil,
+        MergeSorter mergeSorter,
+        Provider<InternalChangeQuery> queryProvider,
+        OneOffRequestContext oneOffRequestContext,
+        BranchNameKey destBranch) {
       this.repo = repo;
       this.rw = rw;
       this.mergeUtil = mergeUtil;
       this.mergeSorter = mergeSorter;
+      this.queryProvider = queryProvider;
+      this.oneOffRequestContext = oneOffRequestContext;
+      this.destBranch = destBranch;
     }
   }
 
@@ -99,15 +113,18 @@ public class SubmitDryRun {
   private final ProjectCache projectCache;
   private final MergeUtilFactory mergeUtilFactory;
   private final Provider<InternalChangeQuery> queryProvider;
+  private final OneOffRequestContext oneOffRequestContext;
 
   @Inject
   SubmitDryRun(
       ProjectCache projectCache,
       MergeUtilFactory mergeUtilFactory,
-      Provider<InternalChangeQuery> queryProvider) {
+      Provider<InternalChangeQuery> queryProvider,
+      OneOffRequestContext oneOffRequestContext) {
     this.projectCache = projectCache;
     this.mergeUtilFactory = mergeUtilFactory;
     this.queryProvider = queryProvider;
+    this.oneOffRequestContext = oneOffRequestContext;
   }
 
   public boolean run(
@@ -135,7 +152,10 @@ public class SubmitDryRun {
                 alreadyAccepted,
                 canMerge,
                 queryProvider,
-                ImmutableSet.of(toMergeCommit)));
+                ImmutableSet.of(toMergeCommit)),
+            queryProvider,
+            oneOffRequestContext,
+            destBranch);
 
     switch (submitType) {
       case CHERRY_PICK:
@@ -147,9 +167,9 @@ public class SubmitDryRun {
       case MERGE_IF_NECESSARY:
         return MergeIfNecessary.dryRun(args, tipCommit, toMergeCommit);
       case REBASE_IF_NECESSARY:
-        return RebaseIfNecessary.dryRun(args, repo, tipCommit, toMergeCommit);
+        return RebaseIfNecessary.dryRun(args, tipCommit, toMergeCommit);
       case REBASE_ALWAYS:
-        return RebaseAlways.dryRun(args, repo, tipCommit, toMergeCommit);
+        return RebaseAlways.dryRun(args, tipCommit, toMergeCommit);
       case INHERIT:
       default:
         String errorMsg = "No submit strategy for: " + submitType;

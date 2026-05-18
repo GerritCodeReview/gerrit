@@ -292,15 +292,21 @@ public class AccountManager {
       accountUpdates.add(a -> a.setFullName(who.getDisplayName()));
     }
 
-    if (!realm.allowsEdit(AccountFieldName.USER_NAME)
-        && who.getUserName().isPresent()
-        && !who.getUserName().equals(user.getUserName())) {
+    if (who.getUserName().isPresent() && !who.getUserName().equals(user.getUserName())) {
       if (user.getUserName().isPresent()) {
-        logger.atWarning().log(
-            "Not changing already set username %s to %s",
-            user.getUserName().get(), who.getUserName().get());
+        if (!realm.allowsEdit(AccountFieldName.USER_NAME)) {
+          logger.atWarning().log(
+              "Not changing already set username %s to %s",
+              user.getUserName().get(), who.getUserName().get());
+        }
       } else {
-        logger.atWarning().log("Not setting username to %s", who.getUserName().get());
+        String username = who.getUserName().get();
+        ExternalId userNameExtId = createUsername(user.getAccountId(), username);
+        accountUpdates.add(u -> u.addExternalId(userNameExtId));
+        sshKeyCache.evict(username);
+        logger.atInfo().log(
+            "Backfilling missing username external ID %s for account %s",
+            username, user.getAccountId());
       }
     }
 

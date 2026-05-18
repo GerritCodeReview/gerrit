@@ -18,8 +18,11 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.submit.CommitMergeStatus.EMPTY_COMMIT;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.BooleanProjectConfig;
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -34,16 +37,26 @@ import com.google.gerrit.server.patch.DiffNotAvailableException;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.PostUpdateContext;
 import com.google.gerrit.server.update.RepoContext;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
-import org.eclipse.jgit.lib.Repository;
+import java.util.Set;
+import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevSort;
+import org.eclipse.jgit.revwalk.RevWalk;
 
 /** This strategy covers RebaseAlways and RebaseIfNecessary ones. */
 public class RebaseSubmitStrategy extends SubmitStrategy {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
+  private static final int MERGED_PARENT_LOOKBACK_WINDOW = 3 * 24 * 60 * 60; // 3 days in seconds
+
   private final boolean rebaseAlways;
 
   RebaseSubmitStrategy(SubmitStrategy.Arguments args, boolean rebaseAlways) {
@@ -226,12 +239,95 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
   }
 
   static boolean dryRun(
-      SubmitDryRun.Arguments args,
-      Repository repo,
-      CodeReviewCommit mergeTip,
-      CodeReviewCommit toMerge) {
+      SubmitDryRun.Arguments args, CodeReviewCommit mergeTip, CodeReviewCommit toMerge) {
+    // If the parent of this change has already been merged on the target branch
+    // (possibly with a different commit SHA but matching Change-Id), we can safely
+    // check mergeability by simulating a cherry-pick/rebase of this commit.
+    if (mergeTip != null
+        && toMerge.getParentCount() == 1
+        && isParentMerged(args, mergeTip, toMerge)) {
+      return args.mergeUtil.canCherryPick(args.mergeSorter, args.repo, mergeTip, args.rw, toMerge);
+    }
     // Test for merge instead of cherry pick to avoid false negatives
     // on commit chains.
-    return args.mergeUtil.canMerge(args.mergeSorter, repo, mergeTip, toMerge);
+    return args.mergeUtil.canMerge(args.mergeSorter, args.repo, mergeTip, toMerge);
+  }
+
+  private static boolean isParentMerged(
+      SubmitDryRun.Arguments args, CodeReviewCommit mergeTip, CodeReviewCommit toMerge) {
+    try (ObjectReader or = args.rw.getObjectReader().newReader();
+        RevWalk rw = new RevWalk(or)) {
+      RevCommit parent = toMerge.getParent(0);
+      RevCommit mergeTipCommit = rw.parseCommit(mergeTip);
+      RevCommit parentCommit = rw.parseCommit(parent);
+
+      // Fast-path: if the parent commit is already reachable from the target
+      // branch tip, we can bypass history walking entirely. This occurs when
+      // the parent was merged without rewriting.
+      if (rw.isMergedInto(parentCommit, mergeTipCommit)) {
+        return true;
+      }
+
+      // If the fast-path is false, the parent commit might have been merged with a
+      // different commit SHA but matching Change-Id (e.g. due to a rebase/rewrite).
+      // We query the change index for merged changes on the destination branch with
+      // the parent change's Change-Id footer.
+      rw.parseBody(parentCommit);
+      List<String> parentChangeIds = parentCommit.getFooterLines(FooterConstants.CHANGE_ID);
+      if (!parentChangeIds.isEmpty()) {
+        String parentChangeId = parentChangeIds.get(parentChangeIds.size() - 1);
+        List<ChangeData> changes =
+            args.queryProvider.get().byBranchKey(args.destBranch, Change.key(parentChangeId));
+
+        // Reset the RevWalk to clear flags set during the isMergedInto() fast-path check.
+        rw.reset();
+        // Set chronological sorting to ensure that the walk returns commits in
+        // reverse chronological order. This is critical because RevSort.NONE is
+        // not guaranteed to be chronological in complex graphs, which could
+        // cause the lookback cutoff to break the loop prematurely.
+        rw.sort(RevSort.COMMIT_TIME_DESC, true);
+        Set<RevCommit> targets = new HashSet<>();
+        int oldestTime = parentCommit.getCommitTime();
+
+        for (ChangeData cd : changes) {
+          try {
+            // Read from NoteDb directly to prevent index eventual consistency bugs.
+            if (cd.notes().getChange().isMerged() && cd.currentPatchSet() != null) {
+              RevCommit mergedCommit = rw.parseCommit(cd.currentPatchSet().commitId());
+              targets.add(mergedCommit);
+              oldestTime = Math.min(oldestTime, mergedCommit.getCommitTime());
+            }
+          } catch (IOException | StorageException e) {
+            // If one candidate commit is missing (e.g. due to replication
+            // delays) or NoteDb queries fail, log a warning and continue
+            // checking the other candidates instead of crashing the entire
+            // dry-run check.
+            logger.atWarning().withCause(e).log(
+                "Error checking/parsing candidate merged commit for change %s", cd.getId());
+          }
+        }
+
+        if (!targets.isEmpty()) {
+          // Subtract the lookback window to handle potential clock skews
+          // between committers' machines.
+          int timeCutoff = oldestTime - MERGED_PARENT_LOOKBACK_WINDOW;
+          rw.markStart(mergeTipCommit);
+          RevCommit c;
+          while ((c = rw.next()) != null) {
+            if (targets.contains(c)) {
+              return true;
+            }
+            // Prevent unbounded walks on disjoint history by cutting off early.
+            if (c.getCommitTime() < timeCutoff) {
+              break;
+            }
+          }
+        }
+      }
+    } catch (IOException e) {
+      logger.atWarning().withCause(e).log(
+          "Error checking if parent commit of %s was merged", toMerge.name());
+    }
+    return false;
   }
 }

@@ -187,6 +187,53 @@ public class AccountManagerIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void authenticateBackfillsMissingUsernameExternalId() throws Exception {
+    String username = "foo";
+    Account.Id accountId = Account.id(seq.nextAccountId());
+    ExternalId.Key gerritExtIdKey = externalIdKeyFactory.create(ExternalId.SCHEME_GERRIT, username);
+    ExternalId.Key usernameExtIdKey =
+        externalIdKeyFactory.create(ExternalId.SCHEME_USERNAME, username);
+    accountsUpdate.insert(
+        "Create Test Account",
+        accountId,
+        u -> u.addExternalId(externalIdFactory.create(gerritExtIdKey, accountId)));
+    assertNoSuchExternalIds(usernameExtIdKey);
+
+    AuthRequest who = authRequestFactory.createForUser(username);
+    AuthResult authResult = accountManager.authenticate(who);
+
+    assertAuthResultForExistingAccount(authResult, accountId, gerritExtIdKey);
+    assertExternalId(usernameExtIdKey, accountId, null);
+  }
+
+  @Test
+  public void authenticateDoesNotRenameExistingUsername() throws Exception {
+    String existingUsername = "foo";
+    String renamedUsername = "bar";
+    Account.Id accountId = Account.id(seq.nextAccountId());
+    ExternalId.Key gerritExtIdKey =
+        externalIdKeyFactory.create(ExternalId.SCHEME_GERRIT, existingUsername);
+    ExternalId.Key existingUsernameExtIdKey =
+        externalIdKeyFactory.create(ExternalId.SCHEME_USERNAME, existingUsername);
+    ExternalId.Key renamedUsernameExtIdKey =
+        externalIdKeyFactory.create(ExternalId.SCHEME_USERNAME, renamedUsername);
+    accountsUpdate.insert(
+        "Create Test Account",
+        accountId,
+        u ->
+            u.addExternalId(externalIdFactory.create(gerritExtIdKey, accountId))
+                .addExternalId(externalIdFactory.create(existingUsernameExtIdKey, accountId)));
+
+    AuthRequest who = authRequestFactory.createForUser(existingUsername);
+    who.setUserName(renamedUsername);
+    AuthResult authResult = accountManager.authenticate(who);
+
+    assertAuthResultForExistingAccount(authResult, accountId, gerritExtIdKey);
+    assertExternalId(existingUsernameExtIdKey, accountId, null);
+    assertNoSuchExternalIds(renamedUsernameExtIdKey);
+  }
+
+  @Test
   public void authenticateWithExternalUser() throws Exception {
     String username = "foo";
     Account.Id accountId = Account.id(seq.nextAccountId());

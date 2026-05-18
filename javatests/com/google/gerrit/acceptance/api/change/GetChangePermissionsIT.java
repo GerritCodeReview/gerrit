@@ -20,6 +20,7 @@ import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.b
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.deny;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.permissionKey;
 import static com.google.gerrit.entities.Permission.AI_REVIEW;
+import static com.google.gerrit.entities.Permission.DELETE_COMMENT;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -40,6 +41,63 @@ public class GetChangePermissionsIT extends AbstractDaemonTest {
 
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
+
+  @Test
+  public void deleteCommentFalseByDefault() throws Exception {
+    String changeId = createChange().getChangeId();
+    requestScopeOperations.setApiUser(user.id());
+
+    ChangePermissionsInfo info = gApi.changes().id(changeId).permissions();
+
+    assertThat(info.permissions).doesNotContain(DELETE_COMMENT);
+  }
+
+  @Test
+  public void deleteCommentTrueWhenGranted() throws Exception {
+    String changeId = createChange().getChangeId();
+
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(DELETE_COMMENT).ref("refs/heads/*").group(REGISTERED_USERS))
+        .update();
+
+    requestScopeOperations.setApiUser(user.id());
+
+    ChangePermissionsInfo info = gApi.changes().id(changeId).permissions();
+
+    assertThat(info.permissions).contains(DELETE_COMMENT);
+  }
+
+  @Test
+  public void deleteCommentTrueForAdmin() throws Exception {
+    String changeId = createChange().getChangeId();
+
+    ChangePermissionsInfo info = gApi.changes().id(changeId).permissions();
+
+    assertThat(info.permissions).contains(DELETE_COMMENT);
+  }
+
+  @Test
+  public void deleteCommentRespectsBlockRule() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(DELETE_COMMENT).ref("refs/heads/*").group(REGISTERED_USERS))
+        .add(block(DELETE_COMMENT).ref("refs/heads/sensitive").group(REGISTERED_USERS))
+        .update();
+    createBranch(BranchNameKey.create(project, "sensitive"));
+
+    PushOneCommit.Result onMaster = createChange("refs/for/master");
+    PushOneCommit.Result onSensitive = createChange("refs/for/sensitive");
+
+    requestScopeOperations.setApiUser(user.id());
+
+    assertThat(gApi.changes().id(onMaster.getChangeId()).permissions().permissions)
+        .contains(DELETE_COMMENT);
+    assertThat(gApi.changes().id(onSensitive.getChangeId()).permissions().permissions)
+        .doesNotContain(DELETE_COMMENT);
+  }
 
   @Test
   public void aiReviewTrueByDefaultForRegisteredUser() throws Exception {

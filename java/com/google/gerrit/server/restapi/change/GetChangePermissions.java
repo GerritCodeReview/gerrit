@@ -30,7 +30,7 @@ public class GetChangePermissions implements RestReadView<ChangeResource> {
 
   /** Change-scoped permissions surfaced through this endpoint. */
   private static final ImmutableSet<ChangePermission> EXPOSED_PERMISSIONS =
-      Sets.immutableEnumSet(ChangePermission.AI_REVIEW);
+      Sets.immutableEnumSet(ChangePermission.DELETE_COMMENT, ChangePermission.AI_REVIEW);
 
   @Override
   public Response<ChangePermissionsInfo> apply(ChangeResource rsrc)

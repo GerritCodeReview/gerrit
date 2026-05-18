@@ -2997,6 +2997,41 @@ returned that contains all the validation options.
   }
 ----
 
+[[get-change-permissions]]
+=== Get Change Permissions
+--
+'GET /changes/link:#change-id[\{change-id\}]/permissions'
+--
+
+Retrieves the change-scoped permissions the calling user has on the change.
+
+Currently exposes the link:access-control.html#category_delete_comment[
+`deleteComment`] permission only; additional change-scoped permissions may be
+added to the response in the future as they are wired through to the
+frontend.
+
+.Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/permissions HTTP/1.0
+----
+
+As response a link:#change-permissions-info[ChangePermissionsInfo] entity is
+returned describing the permissions of the calling user on the change.
+Fields are omitted when the corresponding permission is not granted, so
+callers should treat a missing field as "not granted".
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "delete_comment": true
+  }
+----
+
 [[list-change-messages]]
 === List Change Messages
 --
@@ -7958,6 +7993,23 @@ Gerrit core doesn't support any validation options, but commit validation
 listeners that are implemented in plugins may. Please refer to the
 documentation of the installed plugins to learn whether they support validation
 options. Unknown validation options are silently ignored.
+|===========================
+
+[[change-permissions-info]]
+=== ChangePermissionsInfo
+The `ChangePermissionsInfo` entity describes the change-scoped permissions
+the calling user has on a change.
+
+Fields are omitted when the corresponding permission is not granted; callers
+should treat a missing field as "not granted".
+
+[options="header",cols="1,^1,5"]
+|===========================
+|Field Name      ||Description
+|`delete_comment`|optional, not set if `false`|
+Whether the user can delete published comments or change messages on this
+change. Controlled by the link:access-control.html#category_delete_comment[
+`deleteComment`] permission.
 |===========================
 
 [[comment-info]]

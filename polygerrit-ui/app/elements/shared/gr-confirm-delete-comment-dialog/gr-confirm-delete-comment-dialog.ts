@@ -82,8 +82,8 @@ export class GrConfirmDeleteCommentDialog extends LitElement {
       <div class="header" slot="header">Delete Comment</div>
       <div class="main" slot="main">
         <p>
-          This is an admin function. Please only use in exceptional
-          circumstances.
+          Deleting a comment is a moderation action. Please only use in
+          exceptional circumstances.
         </p>
         <label for="messageInput">Enter comment delete reason</label>
         <gr-autogrow-textarea

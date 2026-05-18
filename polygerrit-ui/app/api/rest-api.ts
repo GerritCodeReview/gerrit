@@ -1212,7 +1212,8 @@ export declare interface ValidationOptionsInfo {
  * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#change-permissions-info
  *
  * `permissions` lists the names of the granted permissions (e.g.
- * 'aiReview'); a name is present if and only if the permission is granted.
+ * 'aiReview', 'deleteComment'); a name is present if and only if the
+ * permission is granted.
  */
 export declare interface ChangePermissionsInfo {
   permissions?: string[];

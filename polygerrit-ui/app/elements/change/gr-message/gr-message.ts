@@ -49,6 +49,7 @@ import {resolve} from '../../../models/dependency';
 import {createChangeUrl} from '../../../models/views/change';
 import {fire} from '../../../utils/event-util';
 import {ChangeMessageDeletedEventDetail} from '../../../types/events';
+import {changeModelToken} from '../../../models/change/change-model';
 import {configModelToken} from '../../../models/config/config-model';
 import {userModelToken} from '../../../models/user/user-model';
 import {subscribe} from '../../lit/subscription-controller';
@@ -117,7 +118,7 @@ export class GrMessage extends LitElement {
   config?: ServerInfo;
 
   @state()
-  isAdmin = false;
+  hasDeleteComment = false;
 
   @state()
   private isDeletingChangeMsg = false;
@@ -125,6 +126,8 @@ export class GrMessage extends LitElement {
   private readonly restApiService = getAppContext().restApiService;
 
   private readonly getNavigation = resolve(this, navigationToken);
+
+  private readonly getChangeModel = resolve(this, changeModelToken);
 
   private readonly getConfigModel = resolve(this, configModelToken);
 
@@ -145,8 +148,8 @@ export class GrMessage extends LitElement {
     );
     subscribe(
       this,
-      () => this.getUserModel().isAdmin$,
-      x => (this.isAdmin = x)
+      () => this.getChangeModel().hasDeleteComment$,
+      x => (this.hasDeleteComment = x)
     );
   }
 
@@ -450,7 +453,7 @@ export class GrMessage extends LitElement {
   }
 
   private renderActionContainer() {
-    if (!this.isAdmin || !this.loggedIn || this.computeIsAutomated()) {
+    if (!this.hasDeleteComment || !this.loggedIn || this.computeIsAutomated()) {
       return nothing;
     }
     return html` <div class="replyActionContainer">

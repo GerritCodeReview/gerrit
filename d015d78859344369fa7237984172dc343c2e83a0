@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f843d88_80e8499c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-05-19T22:18:59Z",
+      "side": 1,
+      "message": "Since this is intended as a performance improvement, can you add some numbers here to show that this is helpful?",
+      "revId": "d015d78859344369fa7237984172dc343c2e83a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

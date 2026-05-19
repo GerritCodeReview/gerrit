@@ -656,7 +656,7 @@ export class GrComment extends LitElement {
         }
         .headerLeft gr-account-label {
           --account-max-length: 130px;
-          width: 150px;
+          width: auto;
         }
         .headerLeft gr-account-label::part(gr-account-label-text) {
           font-weight: var(--font-weight-medium);
@@ -701,6 +701,12 @@ export class GrComment extends LitElement {
           position: relative;
           /* Making up for the 2px reduced height above. */
           top: 1px;
+        }
+        .ai-icon {
+          color: var(--primary-text-color);
+          vertical-align: top;
+          margin-left: var(--spacing-xs);
+          --gr-icon-size: 16px;
         }
         gr-suggestion-diff-preview,
         gr-fix-suggestions {
@@ -768,7 +774,18 @@ export class GrComment extends LitElement {
     return html`
       <gr-account-label .account=${this.comment?.author ?? this.account}>
       </gr-account-label>
+      ${this.isAiComment()
+        ? html`<gr-icon
+            icon="spark"
+            class="ai-icon"
+            title="AI comment"
+          ></gr-icon>`
+        : ''}
     `;
+  }
+
+  private isAiComment(): boolean {
+    return !!this.comment?.is_ai;
   }
 
   private renderPortedCommentMessage() {

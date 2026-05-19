@@ -245,9 +245,15 @@ export class GrMessage extends LitElement {
           margin-right: var(--spacing-s);
         }
         .authorLabel {
-          min-width: 130px;
+          min-width: auto;
           --account-max-length: 120px;
           margin-right: var(--spacing-s);
+        }
+        .ai-icon {
+          color: var(--primary-text-color);
+          vertical-align: top;
+          margin-left: var(--spacing-xs);
+          --gr-icon-size: 16px;
         }
         .expanded .author {
           cursor: pointer;
@@ -349,6 +355,14 @@ export class GrMessage extends LitElement {
         .change=${this.change}
         class="authorLabel"
       ></gr-account-label>
+      ${when(
+        this.isAllCommentsAi(),
+        () => html`<gr-icon
+            icon="spark"
+            class="ai-icon"
+            title="AI comments"
+          ></gr-icon>`
+      )}
       <gr-message-scores
         .labelExtremes=${this.labelExtremes}
         .message=${this.message}
@@ -772,5 +786,12 @@ export class GrMessage extends LitElement {
     e.stopPropagation();
     if (!this.message) return;
     this.message = {...this.message, expanded: !this.message.expanded};
+  }
+
+  private isAllCommentsAi(): boolean {
+    if (!this.commentThreads || this.commentThreads.length === 0) return false;
+    return this.commentThreads.every(thread =>
+      thread.comments.every(comment => !!comment.is_ai)
+    );
   }
 }

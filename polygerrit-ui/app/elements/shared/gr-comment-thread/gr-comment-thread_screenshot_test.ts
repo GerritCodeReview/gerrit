@@ -55,6 +55,15 @@ const c3: DraftInfo = {
   savingState: SavingState.OK,
 };
 
+const c_ai: CommentInfo = {
+  author: createAccountDetailWithId(3),
+  id: 'the-ai-comment' as UrlEncodedCommentId,
+  message: 'I am an AI assistant, here to help!',
+  updated: '2021-11-04 10:11:12.000000000' as Timestamp,
+  in_reply_to: 'the-reply' as UrlEncodedCommentId,
+  is_ai: true,
+};
+
 suite('gr-comment-thread screenshot tests', () => {
   let element: GrCommentThread;
 
@@ -95,5 +104,13 @@ suite('gr-comment-thread screenshot tests', () => {
 
     await visualDiff(element, 'gr-comment-thread-with-draft');
     await visualDiffDarkTheme(element, 'gr-comment-thread-with-draft');
+  });
+
+  test('with AI comment', async () => {
+    element.thread = createThread(c1, c2, c_ai);
+    await element.updateComplete;
+
+    await visualDiff(element, 'gr-comment-thread-with-ai');
+    await visualDiffDarkTheme(element, 'gr-comment-thread-with-ai');
   });
 });

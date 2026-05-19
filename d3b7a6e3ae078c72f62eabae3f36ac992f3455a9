@@ -1,0 +1,79 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea723204_2e72cfeb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-05-19T18:34:09Z",
+      "side": 1,
+      "message": "Looks good",
+      "revId": "d3b7a6e3ae078c72f62eabae3f36ac992f3455a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "728a356a_78570166",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 780,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-05-19T18:34:09Z",
+      "side": 1,
+      "message": "Have you considered to you if some commentThreads and some comments?",
+      "range": {
+        "startLine": 780,
+        "startChar": 31,
+        "endLine": 780,
+        "endChar": 36
+      },
+      "revId": "d3b7a6e3ae078c72f62eabae3f36ac992f3455a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b20801b_2da59d37",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 705,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-05-19T18:34:09Z",
+      "side": 1,
+      "message": "Nit: you can remove this empty line.",
+      "fixSuggestions": [
+        {
+          "fixId": "35a75704_0c18b989",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+              "range": {
+                "startLine": 705,
+                "startChar": 0,
+                "endLine": 706,
+                "endChar": 0
+              },
+              "replacement": ""
+            }
+          ]
+        }
+      ],
+      "revId": "d3b7a6e3ae078c72f62eabae3f36ac992f3455a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

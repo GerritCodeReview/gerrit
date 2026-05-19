@@ -280,6 +280,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e1817302_80ae1fdb",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1993,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-05-19T19:22:09Z",
+      "side": 1,
+      "message": "\u003e I think we shouldn\u0027t assume that an age criteria is ever desired (after all, we allow that to be turned off).\n\nIt was previously required. If you turned it off, you disabled the feature. I\u0027d like to relax that, but I\u0027m nervous about admins abandoning a ton of changes by accident. Keeping it as required, but potentially a \"no-op\" (i.e. admins could set a very short age), seems like a reasonable safety check.",
+      "parentUuid": "4ef65986_a2ba6817",
+      "revId": "f996123e1ca817eb02d752a0d63b5d10e2c12fb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "79dfaf01_57e75fc1",
         "filename": "Documentation/rest-api-config.txt",
         "patchSetId": 3

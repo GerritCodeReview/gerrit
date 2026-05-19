@@ -948,6 +948,7 @@ export interface CommentInput {
   message?: string;
   tag?: string;
   unresolved?: boolean;
+  is_ai?: boolean;
   fix_suggestions?: FixSuggestionInfo[];
 }
 

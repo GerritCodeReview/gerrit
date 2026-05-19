@@ -766,9 +766,16 @@ export class GrComment extends LitElement {
   private renderAuthor() {
     if (isDraft(this.comment)) return;
     return html`
-      <gr-account-label .account=${this.comment?.author ?? this.account}>
+      <gr-account-label
+        .account=${this.comment?.author ?? this.account}
+        ?is-ai=${this.isAiComment()}
+      >
       </gr-account-label>
     `;
+  }
+
+  private isAiComment(): boolean {
+    return !!this.comment?.is_ai;
   }
 
   private renderPortedCommentMessage() {

@@ -348,6 +348,7 @@ export class GrMessage extends LitElement {
         .account=${this.author}
         .change=${this.change}
         class="authorLabel"
+        ?is-ai=${this.hasAiComments()}
       ></gr-account-label>
       <gr-message-scores
         .labelExtremes=${this.labelExtremes}
@@ -772,5 +773,12 @@ export class GrMessage extends LitElement {
     e.stopPropagation();
     if (!this.message) return;
     this.message = {...this.message, expanded: !this.message.expanded};
+  }
+
+  private hasAiComments(): boolean {
+    if (!this.commentThreads || this.commentThreads.length === 0) return false;
+    return this.commentThreads.some(thread =>
+      thread.comments.some(comment => !!comment.is_ai)
+    );
   }
 }

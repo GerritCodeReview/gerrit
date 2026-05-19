@@ -16,6 +16,24 @@
       "message": "Why doesn\u0027t this existing `tag` field cover the use case here?",
       "revId": "9cbaa995beb679f78675bc1f0f3fd8d9b5ab8348",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ff61aed_466e1ef1",
+        "filename": "java/com/google/gerrit/entities/Comment.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-05-19T19:51:41Z",
+      "side": 1,
+      "message": "preferred for this to be structured and not impact other potential tags",
+      "parentUuid": "6d531c0c_5ce7acc8",
+      "revId": "9cbaa995beb679f78675bc1f0f3fd8d9b5ab8348",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

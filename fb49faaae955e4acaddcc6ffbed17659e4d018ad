@@ -22,6 +22,30 @@
       },
       "revId": "fb49faaae955e4acaddcc6ffbed17659e4d018ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb50ef00_6f241c0f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-05-19T07:52:37Z",
+      "side": 1,
+      "message": "Other change-scoped permissions reach the client today through the actions map on ChangeInfo and RevisionInfo, populated by handlers that implement UiAction\u003cChangeResource\u003e (or \u003cRevisionResource\u003e). For example, abandon is exposed via Abandon#getDescription setting setVisible(perm.testCond(ABANDON)), and the UI reads changeInfo.actions[\"abandon\"]. Almost every ChangePermission enum value maps to a UiAction-based entry today (table in the change\u0027s review thread). Plugins can provide their own UIActions.\n\nDELETE_COMMENT permission doesn\u0027t fit that pattern because the REST handlers (DeleteComment, DeleteChangeMessage) are keyed by comment-id / change-message-id — they\u0027re not UiAction\u003cChangeResource\u003es. That\u0027s why we need a separate endpoint for it.\n\nI\u0027m not proposing to move the other permissions to GET /changes/{id}/permissions: the actions map carries more than just permissions (label, title, enabled/disabled with handler-side logic), it\u0027s been part of the public REST API for years, and migrating would break every plugin that reads it.\n\nThe new endpoint is meant specifically for change-scoped permissions whose REST handler doesn\u0027t naturally fit the UiAction pattern, or are UI specific action only, that don\u0027t have REST endpoint handlers at all, like recently introduced AiReview change-scoped permission. I\u0027ll tighten the commit message to make that intent explicit and also extend REST API documentation.",
+      "parentUuid": "12b45457_17b27990",
+      "range": {
+        "startLine": 17,
+        "startChar": 51,
+        "endLine": 18,
+        "endChar": 58
+      },
+      "revId": "fb49faaae955e4acaddcc6ffbed17659e4d018ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

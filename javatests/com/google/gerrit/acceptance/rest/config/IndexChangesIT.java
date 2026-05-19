@@ -18,11 +18,15 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
+import static com.google.gerrit.entities.RefNames.changeMetaRef;
+import static com.google.gerrit.testing.TestActionRefUpdateContext.openTestRefUpdateContext;
+
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.ChangeIndexedCounter;
 import com.google.gerrit.acceptance.ExtensionRegistry;
 import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.entities.Change;
@@ -40,7 +44,16 @@ import com.google.gerrit.server.restapi.config.IndexChanges;
 import com.google.inject.Inject;
 import java.util.Optional;
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Test;
 
 public class IndexChangesIT extends AbstractDaemonTest {
@@ -148,6 +161,56 @@ public class IndexChangesIT extends AbstractDaemonTest {
         assertThat(changeIndexedCounter.getCount(info(changeId))).isEqualTo(1);
       }
     }
+  }
+
+  @Test
+  @GerritConfig(name = "gerrit.importedServerId", value = "imported-server-id")
+  public void deleteMissingImportedChangeFromIndex() throws Exception {
+    PushOneCommit.Result result = createImportedChange();
+    Change.Id changeId = result.getChange().getId();
+
+    assertThat(getChangeFromIndex(changeId)).isPresent();
+    deleteChangeFromNoteDbWithoutUpdatingIndex(changeId);
+    assertThat(getChangeFromIndex(changeId)).isPresent();
+
+    IndexChanges.Input in = new IndexChanges.Input();
+    in.changes = ImmutableSet.of(projectAndChangeNumId(project, changeId));
+    in.deleteMissing = true;
+    adminRestSession.post("/config/server/index.changes", in).assertOK();
+
+    assertThat(getChangeFromIndex(changeId)).isEmpty();
+  }
+
+  private PushOneCommit.Result createImportedChange() throws Exception {
+    PushOneCommit.Result change = createChange();
+    Change.Id changeId = change.getChange().getId();
+    String metaRef = changeMetaRef(changeId);
+
+    try (Repository repo = repoManager.openRepository(project);
+        ObjectInserter inserter = repo.newObjectInserter();
+        ObjectReader reader = repo.newObjectReader();
+        RevWalk revWalk = new RevWalk(reader);
+        var ignored = openTestRefUpdateContext()) {
+
+      Ref ref = repo.getRefDatabase().exactRef(metaRef);
+      RevCommit tip = revWalk.parseCommit(ref.getObjectId());
+
+      CommitBuilder commit = new CommitBuilder();
+      commit.setTreeId(tip.getTree());
+      commit.setAuthor(
+          new PersonIdent("Gerrit User " + admin.id(), admin.id() + "@imported-server-id"));
+      commit.setCommitter(new PersonIdent("Gerrit Code Review", admin.email()));
+      commit.setMessage(tip.getFullMessage());
+
+      ObjectId commitId = inserter.insert(commit);
+      inserter.flush();
+
+      RefUpdate refUpdate = repo.updateRef(metaRef);
+      refUpdate.setNewObjectId(commitId);
+      refUpdate.forceUpdate();
+    }
+
+    return change;
   }
 
   private void deleteChangeFromNoteDbWithoutUpdatingIndex(Change.Id changeId) throws Exception {

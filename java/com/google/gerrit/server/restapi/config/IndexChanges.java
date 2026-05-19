@@ -23,13 +23,16 @@ import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.gerrit.server.change.ChangeFinder;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.server.config.ConfigResource;
 import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.restapi.config.IndexChanges.Input;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,20 +48,22 @@ public class IndexChanges implements RestModifyView<ConfigResource, Input> {
     @VisibleForTesting public boolean deleteMissing;
   }
 
-  private final ChangeFinder changeFinder;
-  private final ChangeData.Factory changeDataFactory;
+  private final Provider<InternalChangeQuery> queryProvider;
+  private final ChangeNotes.Factory notesFactory;
   private final ChangeIndexer indexer;
 
   @Inject
   IndexChanges(
-      ChangeFinder changeFinder, ChangeData.Factory changeDataFactory, ChangeIndexer indexer) {
-    this.changeFinder = changeFinder;
-    this.changeDataFactory = changeDataFactory;
+      Provider<InternalChangeQuery> queryProvider,
+      ChangeNotes.Factory notesFactory,
+      ChangeIndexer indexer) {
+    this.queryProvider = queryProvider;
+    this.notesFactory = notesFactory;
     this.indexer = indexer;
   }
 
   @Override
-  public Response<String> apply(ConfigResource resource, Input input) throws BadRequestException {
+  public Response<String> apply(ConfigResource resource, Input input) throws Exception {
     if (input == null || input.changes == null) {
       return Response.ok("Nothing to index");
     }
@@ -69,19 +74,20 @@ public class IndexChanges implements RestModifyView<ConfigResource, Input> {
     }
 
     for (ChangeInfo changeInfo : changeIds) {
-      List<ChangeNotes> notes = changeFinder.find(String.valueOf(changeInfo.changeId().get()));
-
-      if (notes.isEmpty()) {
-        logger.atWarning().log("Change %s missing in NoteDb", changeInfo.changeId());
-        if (input.deleteMissing) {
+      List<ChangeData> changes = queryProvider.get().byProjectChangeNumber(changeInfo.project(), changeInfo.changeId());
+       if (!changes.isEmpty() && input.deleteMissing) {
+        try {
+          var unused = notesFactory.create(changeInfo.project(), changeInfo.changeId());
+        } catch (NoSuchChangeException e) {
+          logger.atWarning().log("Change %s missing in NoteDb", changeInfo.changeId());
           logger.atWarning().log("Deleting change %s from index", changeInfo.changeId());
           indexer.delete(changeInfo.project, changeInfo.changeId());
         }
         continue;
       }
 
-      for (ChangeNotes n : notes) {
-        indexer.index(changeDataFactory.create(n));
+      for (ChangeData cd : changes) {
+        indexer.index(cd);
         logger.atFine().log("Indexed change %s", changeInfo.changeId());
       }
     }

@@ -134,15 +134,15 @@ enum NoMergeBaseReason {
   COMPUTED_BASE = 2;
   ONE_SIDED_MERGE_STRATEGY = 3;
   NO_MERGE_PERFORMED = 4;
- }
+}
 
 // Serialized form of com.google.gerrit.extensions.common.MergeInput.
 // Next ID: 5
 message MergeInput {
- optional string source = 1;
- optional string source_branch = 2;
- optional string strategy = 3;
- optional bool allow_conflicts = 4;
+  optional string source = 1;
+  optional string source_branch = 2;
+  optional string strategy = 3;
+  optional bool allow_conflicts = 4;
 }
 
 // Serialized form of com.google.gerrit.extensions.api.changes.ApplyPatchInput.
@@ -309,7 +309,8 @@ message Branch_NameKey {
 // Next ID: 2
 message ObjectId {
   // Hex string representation of the ID.
-  optional string name = 1 [default="0000000000000000000000000000000000000000"];
+  optional string name = 1
+      [default = "0000000000000000000000000000000000000000"];
 }
 
 // Serialized form of a continuation token used for pagination.
@@ -548,8 +549,9 @@ message HumanComment {
   // Next Id: 4
   message FixSuggestion {
     optional string fix_id = 1;
-    optional string  description = 2;
+    optional string description = 2;
     repeated FixReplacement replacements = 3;
   }
   repeated FixSuggestion fix_suggestions = 13;
+  optional bool is_ai = 14;
 }

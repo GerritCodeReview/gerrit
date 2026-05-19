@@ -1256,6 +1256,7 @@ public class ChangeNotesStateTest {
                 .put("parentUuid", String.class)
                 .put("range", Comment.Range.class)
                 .put("tag", String.class)
+                .put("isAi", Boolean.class)
                 .put("revId", String.class)
                 .put("serverId", String.class)
                 .put("unresolved", boolean.class)

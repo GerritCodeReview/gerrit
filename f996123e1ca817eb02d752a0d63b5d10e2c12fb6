@@ -298,6 +298,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ae321d50_6cf20ccb",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1993,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-05-19T20:11:27Z",
+      "side": 1,
+      "message": "I don\u0027t think that logic really applies to this new feature. If you previously had an age requirement, it will still be there. I don\u0027t anticipate that someone would turn off the age requirement and then turn on this feature without one by accident. It certainly can happen, but it doesn\u0027t seem like any more of a footgun than the current age feature. We turned on the age requirement, and it was a bit of a disaster for us, so I understand the potential pain, but that pain is already potentially there, this feature doesn\u0027t make it new.",
+      "parentUuid": "e1817302_80ae1fdb",
+      "revId": "f996123e1ca817eb02d752a0d63b5d10e2c12fb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "79dfaf01_57e75fc1",
         "filename": "Documentation/rest-api-config.txt",
         "patchSetId": 3

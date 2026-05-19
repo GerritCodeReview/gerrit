@@ -793,4 +793,63 @@ suite('gr-message tests', () => {
       );
     });
   });
+
+  suite('hasAiComments', () => {
+    setup(async () => {
+      element = await fixture<GrMessage>(html`<gr-message></gr-message>`);
+    });
+
+    test('is false when there are no comment threads', () => {
+      element.commentThreads = [];
+      assert.isFalse((element as any).hasAiComments());
+    });
+
+    test('is false when all comments are human', () => {
+      element.commentThreads = [
+        createCommentThread([
+          createComment({message: 'hello 1'}),
+          createComment({message: 'hello 2'}),
+        ]),
+      ];
+      assert.isFalse((element as any).hasAiComments());
+    });
+
+    test('is false when some comments are AI but some are human', () => {
+      element.commentThreads = [
+        createCommentThread([
+          createComment({
+            id: '111' as UrlEncodedCommentId,
+            message: 'hello 1',
+            is_ai: true,
+          }),
+          createComment({
+            in_reply_to: '111' as UrlEncodedCommentId,
+            message: 'hello 2',
+          }),
+        ]),
+      ];
+      assert.isFalse((element as any).hasAiComments());
+    });
+
+    test('is true when all comments in all threads are AI', () => {
+      element.commentThreads = [
+        createCommentThread([
+          createComment({
+            id: '111' as UrlEncodedCommentId,
+            message: 'hello 1',
+            is_ai: true,
+          }),
+          createComment({
+            in_reply_to: '111' as UrlEncodedCommentId,
+            message: 'hello 2',
+            is_ai: true,
+          }),
+        ]),
+        createCommentThread([
+          createComment({message: 'hello 3', is_ai: true}),
+        ]),
+      ];
+      assert.isTrue((element as any).hasAiComments());
+    });
+  });
 });

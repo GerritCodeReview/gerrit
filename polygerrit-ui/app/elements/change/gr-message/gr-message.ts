@@ -28,6 +28,7 @@ import {
   ServerInfo,
 } from '../../../types/common';
 import {
+  isAiGenerated,
   isFormattedReviewerUpdate,
   isUnresolved,
   LabelExtreme,
@@ -98,6 +99,13 @@ export class GrMessage extends LitElement {
 
   get author() {
     return this.message?.author || this.message?.updated_by;
+  }
+
+  get isAI() {
+    if (this.commentThreads.length === 0) return false;
+    return this.commentThreads.every(thread =>
+      thread.comments.every(comment => isAiGenerated(comment))
+    );
   }
 
   @property({type: Boolean})

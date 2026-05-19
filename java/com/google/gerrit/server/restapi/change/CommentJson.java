@@ -217,6 +217,7 @@ public class CommentJson {
       r.updated = c.writtenOn;
       r.range = toRange(c.range);
       r.tag = c.tag;
+      r.isAi = c.isAi;
       if (loader != null) {
         r.author = loader.get(c.author.getId());
       }

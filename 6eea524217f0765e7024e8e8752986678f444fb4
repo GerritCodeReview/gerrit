@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97571a17_32d79f90",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-05-19T07:49:39Z",
+      "side": 1,
+      "message": "I could throw the exception directly in getChangeId, let me do that.",
+      "range": {
+        "startLine": 69,
+        "startChar": 6,
+        "endLine": 71,
+        "endChar": 7
+      },
+      "revId": "6eea524217f0765e7024e8e8752986678f444fb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b6e51e5_516e64e3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-05-19T15:44:32Z",
+      "side": 1,
+      "message": "CL description is missing the motivation behind the change\n\nWhy is this required? What end goal will be achieved by adding this field?\n\nA small summary would be useful\n\nThanks!",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 43
+      },
+      "revId": "2ebe3019189f659e1dedf5a758e68e84a711ce8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

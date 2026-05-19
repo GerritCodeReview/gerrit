@@ -65,6 +65,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e689af46_3f68bb5c",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 780,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-05-19T23:39:22Z",
+      "side": 1,
+      "message": "I realized I got this backwards- followed up in https://gerrit-review.git.corp.google.com/c/gerrit/+/585466",
+      "parentUuid": "e7568b65_67392771",
+      "range": {
+        "startLine": 780,
+        "startChar": 31,
+        "endLine": 780,
+        "endChar": 36
+      },
+      "revId": "d3b7a6e3ae078c72f62eabae3f36ac992f3455a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8b20801b_2da59d37",

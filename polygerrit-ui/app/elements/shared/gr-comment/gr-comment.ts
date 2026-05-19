@@ -702,6 +702,12 @@ export class GrComment extends LitElement {
           /* Making up for the 2px reduced height above. */
           top: 1px;
         }
+        .ai-icon {
+          color: var(--selected-foreground);
+          vertical-align: top;
+          margin-left: var(--spacing-xs);
+          --gr-icon-size: 16px;
+        }
         gr-suggestion-diff-preview,
         gr-fix-suggestions {
           margin-top: var(--spacing-s);
@@ -768,7 +774,18 @@ export class GrComment extends LitElement {
     return html`
       <gr-account-label .account=${this.comment?.author ?? this.account}>
       </gr-account-label>
+      ${this.isAiComment()
+        ? html`<gr-icon
+            icon="auto_awesome"
+            class="ai-icon"
+            title="AI comment"
+          ></gr-icon>`
+        : ''}
     `;
+  }
+
+  private isAiComment(): boolean {
+    return !!this.comment?.is_ai;
   }
 
   private renderPortedCommentMessage() {

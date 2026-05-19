@@ -20,7 +20,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
-import com.google.gerrit.server.account.storage.notedb.AccountsNoteDbImpl;
+import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.config.ScheduleConfig;
 import com.google.gerrit.server.config.ScheduleConfig.Schedule;
 import com.google.gerrit.server.git.WorkQueue;
@@ -40,7 +40,7 @@ public class AuthTokenExpiryNotifier implements Runnable {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   private static final long FIRST_NOTIFICATION_BEFORE_EXPIRY = 7L; // 7 days
 
-  private final AccountsNoteDbImpl accounts;
+  private final Accounts accounts;
   private final AuthTokenAccessor tokenAccessor;
   private final EmailFactories emailFactories;
 
@@ -81,7 +81,7 @@ public class AuthTokenExpiryNotifier implements Runnable {
 
   @Inject
   public AuthTokenExpiryNotifier(
-      AccountsNoteDbImpl accounts, AuthTokenAccessor tokenAccessor, EmailFactories emailFactories) {
+      Accounts accounts, AuthTokenAccessor tokenAccessor, EmailFactories emailFactories) {
     this.accounts = accounts;
     this.tokenAccessor = tokenAccessor;
     this.emailFactories = emailFactories;

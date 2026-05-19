@@ -16,6 +16,24 @@
       "message": "Missing reference to Bug: 507078595",
       "revId": "9ea700854a7a447d344cc9cecf5ae11725650241",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "49852bc2_12f4f0de",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-05-19T07:45:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ae64660_a37caf58",
+      "revId": "9ea700854a7a447d344cc9cecf5ae11725650241",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

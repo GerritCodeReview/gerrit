@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f95a0422_986dab19",
+        "filename": "java/com/google/gerrit/acceptance/ChangeIndexedCounter.java",
+        "patchSetId": 52
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-05-19T15:31:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f336f353_fa4aec6b",
+      "range": {
+        "startLine": 33,
+        "startChar": 30,
+        "endLine": 33,
+        "endChar": 56
+      },
+      "revId": "ca5f07f6273aa84e02942df094b536dcae5cbae5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4024a2b0_48d1bef2",
@@ -41,6 +65,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "458c7ba7_60fff093",
+        "filename": "java/com/google/gerrit/extensions/events/ChangeIndexedListener.java",
+        "patchSetId": 52
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-05-19T15:31:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4024a2b0_48d1bef2",
+      "revId": "ca5f07f6273aa84e02942df094b536dcae5cbae5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2ee371f6_619481f4",
@@ -54,6 +96,30 @@
       "writtenOn": "2026-05-19T11:29:52Z",
       "side": 1,
       "message": "```suggestion\n    public void onChangeDeleted(String projectName, int id) {}\n```",
+      "range": {
+        "startLine": 1198,
+        "startChar": 32,
+        "endLine": 1198,
+        "endChar": 58
+      },
+      "revId": "ca5f07f6273aa84e02942df094b536dcae5cbae5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9d0d6d8_079f9ab9",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/TraceIT.java",
+        "patchSetId": 52
+      },
+      "lineNbr": 1198,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-05-19T15:31:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ee371f6_619481f4",
       "range": {
         "startLine": 1198,
         "startChar": 32,

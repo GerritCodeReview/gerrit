@@ -375,7 +375,7 @@ suite('gr-change-actions tests', () => {
       test('chatCapabilitiesLoaded', async () => {
         stubFlags('isEnabled').returns(true);
         element.aiPluginsRegistered = true;
-        element.change = {...element.change!, can_ai_review: true};
+        element.revisionActions = {};
         chatModel.updateState({
           models: undefined,
           actions: undefined,
@@ -401,6 +401,45 @@ suite('gr-change-actions tests', () => {
         element.requestUpdate();
         await element.updateComplete;
         assert.isFalse(chatButton.hasAttribute('loading'));
+      });
+    });
+
+    suite('AI review button visibility', () => {
+      setup(() => {
+        stubFlags('isEnabled').returns(true);
+        element.aiPluginsRegistered = true;
+      });
+
+      test('hidden when aiReview action has enabled: false', async () => {
+        element.revisionActions = {
+          aiReview: {enabled: false} as ActionInfo,
+        };
+        await element.updateComplete;
+        assert.isUndefined(query(element, 'gr-button[data-action-key="chat"]'));
+      });
+
+      test('hidden while revisionActions is undefined', async () => {
+        element.revisionActions = undefined;
+        await element.updateComplete;
+        assert.isUndefined(query(element, 'gr-button[data-action-key="chat"]'));
+      });
+
+      test('shown when revisionActions has no aiReview entry', async () => {
+        element.revisionActions = {};
+        await element.updateComplete;
+        assert.isDefined(
+          queryAndAssert(element, 'gr-button[data-action-key="chat"]')
+        );
+      });
+
+      test('shown when aiReview action has enabled: true', async () => {
+        element.revisionActions = {
+          aiReview: {enabled: true} as ActionInfo,
+        };
+        await element.updateComplete;
+        assert.isDefined(
+          queryAndAssert(element, 'gr-button[data-action-key="chat"]')
+        );
       });
     });
 
@@ -597,13 +636,12 @@ suite('gr-change-actions tests', () => {
       // Create 'reland' via addActionButton to mimic plugin behavior
       const relandKey = element.addActionButton(ActionType.CHANGE, 'Reland');
 
-      // Mock AI Chat action - set can_ai_review before actions to avoid
+      // Mock AI Chat action - set revisionActions before actions to avoid
       // change setter overwriting element.actions
       stubFlags('isEnabled').returns(true);
       element.aiPluginsRegistered = true;
       element.change = {
         ...element.change!,
-        can_ai_review: true,
         actions: {
           abandon: {
             method: HttpMethod.POST,

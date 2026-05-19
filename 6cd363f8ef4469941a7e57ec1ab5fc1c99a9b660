@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3899400_152a9637",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3117294
+      },
+      "writtenOn": "2026-05-19T13:10:45Z",
+      "side": 1,
+      "message": "@milutin@google.com - first of all, feel free to abandon, its just a try to fix one of the things that always kill me.\n\n\ni open a CL that has been landed like weeks ago (researching some regression/revert), and i want to see in which chrome version it landed, go to the CL copy the hash, and then open a new tab to https://chromiumdash.appspot.com/commit/a266895e21e455b6101e834d1780d526aab67fdd\n\n\nits a pretty small problem, but the CL here, would allow the gerrit instance to configure a URL to linkify it.\n\n\ncould you tell me if this could be maybe considered to land (for sure, i am happy to address/change, whatever needed)?",
+      "revId": "6cd363f8ef4469941a7e57ec1ab5fc1c99a9b660",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

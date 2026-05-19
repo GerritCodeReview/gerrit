@@ -51,6 +51,9 @@ export class GrAccountLabel extends LitElement {
   @property({type: Boolean})
   forceAttention = false;
 
+  @property({type: Boolean, attribute: 'is-ai'})
+  isAi = false;
+
   /**
    * Only show the first name in the account label.
    */
@@ -198,6 +201,11 @@ export class GrAccountLabel extends LitElement {
         :host([clickable]) a.ownerLink:hover .name {
           text-decoration: underline;
         }
+        .ai-icon {
+          color: var(--primary-text-color);
+          vertical-align: top;
+          --gr-icon-size: 16px;
+        }
       `,
     ];
   }
@@ -310,6 +318,13 @@ export class GrAccountLabel extends LitElement {
             >
               ${this.computeName(account, this.firstName, this.config)}
             </span>
+            ${this.isAi
+              ? html`<gr-icon
+                  icon="spark"
+                  class="ai-icon"
+                  title="AI designation"
+                ></gr-icon>`
+              : ''}
             ${this.renderAccountStatusPlugins()}
           </span>
         `)}

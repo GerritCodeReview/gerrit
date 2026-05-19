@@ -702,6 +702,7 @@ export class GrComment extends LitElement {
           /* Making up for the 2px reduced height above. */
           top: 1px;
         }
+
         gr-suggestion-diff-preview,
         gr-fix-suggestions {
           margin-top: var(--spacing-s);
@@ -766,9 +767,16 @@ export class GrComment extends LitElement {
   private renderAuthor() {
     if (isDraft(this.comment)) return;
     return html`
-      <gr-account-label .account=${this.comment?.author ?? this.account}>
+      <gr-account-label
+        .account=${this.comment?.author ?? this.account}
+        ?is-ai=${this.isAiComment()}
+      >
       </gr-account-label>
     `;
+  }
+
+  private isAiComment(): boolean {
+    return !!this.comment?.is_ai;
   }
 
   private renderPortedCommentMessage() {

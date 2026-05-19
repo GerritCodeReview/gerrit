@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d53324cf_88bf7d9a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 20
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-05-19T08:09:53Z",
+      "side": 1,
+      "message": "You\u0027re missing it because this API was never documented",
+      "parentUuid": "b9895c81_fca248e5",
+      "revId": "6eea524217f0765e7024e8e8752986678f444fb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "97571a17_32d79f90",
         "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
         "patchSetId": 20

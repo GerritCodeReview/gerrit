@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "65030ab6_59230b93",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 23
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-05-19T15:08:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cc779daf_4fbe7648",
+      "range": {
+        "startLine": 13,
+        "startChar": 25,
+        "endLine": 13,
+        "endChar": 57
+      },
+      "revId": "933895f3929b8c669d23a42f8af15ab87dae3dd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e0221ef8_7dfb8140",
@@ -66,6 +90,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "09f551d8_37ba8b63",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-05-19T15:08:50Z",
+      "side": 1,
+      "message": "Great spot.\n\nAFAICT, ChangeData doesn\u0027t check on disk, only in memory, HOWEVER, when we have imported changes, then `cd.virtualId` does actually go on disk and breaks.\n\nI will go back to what we had here before with the change id, and then the proper fix will follow in the follow-up change where we will use project/changeId.",
+      "parentUuid": "b2a830ee_82914382",
+      "range": {
+        "startLine": 78,
+        "startChar": 26,
+        "endLine": 78,
+        "endChar": 91
+      },
+      "revId": "933895f3929b8c669d23a42f8af15ab87dae3dd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "08ba18f6_ab305532",
         "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
         "patchSetId": 23
@@ -77,6 +125,30 @@
       "writtenOn": "2026-05-19T11:27:48Z",
       "side": 1,
       "message": "How do you check if the `id` contains two `~`?",
+      "range": {
+        "startLine": 96,
+        "startChar": 4,
+        "endLine": 96,
+        "endChar": 32
+      },
+      "revId": "933895f3929b8c669d23a42f8af15ab87dae3dd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "657ac660_5f6859c7",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-05-19T15:08:50Z",
+      "side": 1,
+      "message": "In that case whatever is passed to `Change.Id.tryParse` will fail.",
+      "parentUuid": "08ba18f6_ab305532",
       "range": {
         "startLine": 96,
         "startChar": 4,

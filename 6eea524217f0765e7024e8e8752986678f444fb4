@@ -39,6 +39,29 @@
       },
       "revId": "6eea524217f0765e7024e8e8752986678f444fb4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0176f6ca_86b59a98",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-19T07:53:20Z",
+      "side": 1,
+      "message": "This is incorrect: the document id is the virtual id, not the regular changeId.",
+      "range": {
+        "startLine": 82,
+        "startChar": 10,
+        "endLine": 82,
+        "endChar": 35
+      },
+      "revId": "6eea524217f0765e7024e8e8752986678f444fb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

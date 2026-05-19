@@ -316,6 +316,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5dde5030_c6e84c70",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1993,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-05-19T20:40:47Z",
+      "side": 1,
+      "message": "Ok, fair. Let\u0027s tweak \"must\" then:\n```suggestion\nabandoned, so it should include an appropriate age constraint, e.g. `age:4w`.\n```",
+      "parentUuid": "ae321d50_6cf20ccb",
+      "revId": "f996123e1ca817eb02d752a0d63b5d10e2c12fb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "79dfaf01_57e75fc1",
         "filename": "Documentation/rest-api-config.txt",
         "patchSetId": 3

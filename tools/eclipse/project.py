@@ -192,6 +192,7 @@ def gen_plugin_classpath(root):
 def gen_classpath(exec_root, output_base):
     def make_classpath():
         impl = xml.dom.minidom.getDOMImplementation()
+        assert impl is not None
         return impl.createDocument(None, 'classpath', None)
 
     def import_jgit_sources():
@@ -393,7 +394,9 @@ def _prefer_unprocessed_jar(ext, jar):
 
 
 def gen_factorypath(exec_root, output_base):
-    doc = xml.dom.minidom.getDOMImplementation().createDocument(
+    impl = xml.dom.minidom.getDOMImplementation()
+    assert impl is not None
+    doc = impl.createDocument(
         None, 'factorypath', None)
 
     try:

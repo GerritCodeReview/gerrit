@@ -230,6 +230,7 @@ public abstract class Comment {
   public String parentUuid;
   public Range range;
   public String tag;
+  public Boolean isAi;
 
   @Nullable public List<FixSuggestion> fixSuggestions;
 
@@ -258,6 +259,7 @@ public abstract class Comment {
         c.realAuthor == null ? null : c.realAuthor.getId());
     this.lineNbr = c.lineNbr;
     this.range = c.range != null ? new Range(c.range) : null;
+    this.isAi = c.isAi;
   }
 
   public Comment(
@@ -379,7 +381,8 @@ public abstract class Comment {
         && Objects.equals(tag, c.tag)
         && Objects.equals(revId, c.revId)
         && Objects.equals(serverId, c.serverId)
-        && Objects.equals(fixSuggestions, c.fixSuggestions);
+        && Objects.equals(fixSuggestions, c.fixSuggestions)
+        && Objects.equals(isAi, c.isAi);
   }
 
   @Override
@@ -397,7 +400,8 @@ public abstract class Comment {
         tag,
         revId,
         serverId,
-        fixSuggestions);
+        fixSuggestions,
+        isAi);
   }
 
   @Override
@@ -418,6 +422,7 @@ public abstract class Comment {
         .add("range", Objects.toString(range, ""))
         .add("revId", Objects.toString(revId, ""))
         .add("tag", Objects.toString(tag, ""))
+        .add("isAi", Objects.toString(isAi, ""))
         .add("fixSuggestions", Objects.toString(fixSuggestions, ""));
   }
 }

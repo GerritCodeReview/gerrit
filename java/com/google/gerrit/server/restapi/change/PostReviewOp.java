@@ -467,6 +467,7 @@ public class PostReviewOp implements BatchUpdateOp {
         commentsUtil.setCommentCommitId(comment, ctx.getChange(), ps);
         comment.setLineNbrAndRange(inputComment.line, inputComment.range);
         comment.tag = in.tag;
+        comment.isAi = inputComment.isAi;
 
         if (existingComments.contains(CommentSetEntry.create(comment))) {
           continue;

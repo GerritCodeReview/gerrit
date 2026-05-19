@@ -1296,6 +1296,63 @@ public class PostReviewIT extends AbstractDaemonTest {
     }
   }
 
+  @Test
+  public void postCommentWithIsAi() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String filePath = r.getChange().currentFilePaths().get(0);
+
+    CommentInput comment = new CommentInput();
+    comment.line = 1;
+    comment.message = "AI comment";
+    comment.path = filePath;
+    comment.isAi = true;
+
+    ReviewInput input = new ReviewInput();
+    input.comments = ImmutableMap.of(filePath, ImmutableList.of(comment));
+    gApi.changes().id(r.getChangeId()).current().review(input);
+
+    List<com.google.gerrit.extensions.common.CommentInfo> comments =
+        gApi.changes().id(r.getChangeId()).commentsAsList();
+    assertThat(comments).hasSize(1);
+    com.google.gerrit.extensions.common.CommentInfo commentInfo = comments.get(0);
+    assertThat(commentInfo.message).isEqualTo("AI comment");
+    assertThat(commentInfo.isAi).isTrue();
+  }
+
+  @Test
+  public void createDraftWithIsAiAndPublish() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String filePath = r.getChange().currentFilePaths().get(0);
+
+    DraftInput draft = new DraftInput();
+    draft.line = 1;
+    draft.message = "AI draft";
+    draft.path = filePath;
+    draft.isAi = true;
+
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().getName()).createDraft(draft);
+
+    List<com.google.gerrit.extensions.common.CommentInfo> drafts =
+        gApi.changes().id(r.getChangeId()).draftsAsList();
+    assertThat(drafts).hasSize(1);
+    com.google.gerrit.extensions.common.CommentInfo draftInfo = drafts.get(0);
+    assertThat(draftInfo.message).isEqualTo("AI draft");
+    assertThat(draftInfo.isAi).isTrue();
+
+    // Publish drafts
+    ReviewInput reviewInput = new ReviewInput();
+    reviewInput.drafts = DraftHandling.PUBLISH;
+    gApi.changes().id(r.getChangeId()).current().review(reviewInput);
+
+    // Verify published comment has isAi = true
+    List<com.google.gerrit.extensions.common.CommentInfo> comments =
+        gApi.changes().id(r.getChangeId()).commentsAsList();
+    assertThat(comments).hasSize(1);
+    com.google.gerrit.extensions.common.CommentInfo commentInfo = comments.get(0);
+    assertThat(commentInfo.message).isEqualTo("AI draft");
+    assertThat(commentInfo.isAi).isTrue();
+  }
+
   private static void assertAttentionSet(
       ImmutableSet<AttentionSetUpdate> attentionSet, Account.Id... accounts) {
     assertThat(attentionSet.stream().map(AttentionSetUpdate::account).collect(Collectors.toList()))

@@ -61,6 +61,9 @@ public enum HumanCommentProtoConverter
             .setUnresolved(val.unresolved)
             .setWrittenOnMillis(val.writtenOn.toInstant().toEpochMilli())
             .setServerId(val.serverId);
+    if (val.isAi != null) {
+      res.setIsAi(val.isAi);
+    }
     if (!val.key.filename.equals(PATCHSET_LEVEL)) {
       InFilePosition.Builder inFilePos =
           InFilePosition.newBuilder()
@@ -150,6 +153,9 @@ public enum HumanCommentProtoConverter
       // Not setting real author from the constructor because if the proto has a value - we want to
       // set it even if it's the same as the `author`.
       res.realAuthor = new Comment.Identity(accountIdConverter.fromProto(proto.getRealAuthor()));
+    }
+    if (proto.hasIsAi()) {
+      res.isAi = proto.getIsAi();
     }
 
     optInFilePosition.ifPresent(

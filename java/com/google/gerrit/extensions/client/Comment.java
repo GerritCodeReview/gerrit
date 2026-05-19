@@ -54,6 +54,8 @@ public abstract class Comment {
 
   public List<FixSuggestionInfo> fixSuggestions;
 
+  public Boolean isAi;
+
   // TODO(issue-40014498): Migrate timestamp fields in *Info/*Input classes from type Timestamp to
   // Instant
   @SuppressWarnings("JdkObsolete")
@@ -157,7 +159,8 @@ public abstract class Comment {
           && Objects.equals(updated, c.updated)
           && Objects.equals(message, c.message)
           && Objects.equals(commitId, c.commitId)
-          && Objects.equals(fixSuggestions, c.fixSuggestions);
+          && Objects.equals(fixSuggestions, c.fixSuggestions)
+          && Objects.equals(isAi, c.isAi);
     }
     return false;
   }
@@ -165,6 +168,17 @@ public abstract class Comment {
   @Override
   public int hashCode() {
     return Objects.hash(
-        patchSet, id, path, side, parent, line, range, inReplyTo, updated, message, fixSuggestions);
+        patchSet,
+        id,
+        path,
+        side,
+        parent,
+        line,
+        range,
+        inReplyTo,
+        updated,
+        message,
+        fixSuggestions,
+        isAi);
   }
 }

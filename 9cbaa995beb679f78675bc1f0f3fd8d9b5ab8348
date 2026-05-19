@@ -34,6 +34,24 @@
       "parentUuid": "6d531c0c_5ce7acc8",
       "revId": "9cbaa995beb679f78675bc1f0f3fd8d9b5ab8348",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5da2ec6_52ae8131",
+        "filename": "java/com/google/gerrit/entities/Comment.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-05-19T20:35:52Z",
+      "side": 1,
+      "message": "Ok, thanks for explaining. Also as an aside, it is strange to consider `isAi\u003d\u003dtrue` on `HumanComment`. Those don\u0027t seem like they belong together.\n\nShould we be bringing back [`RobotComment`](https://gerrit.googlesource.com/gerrit/+/stable-3.12/java/com/google/gerrit/entities/RobotComment.java)?\n\nOr pushing the `unresolved` field up to `Comment` and removing `HumanComment`?",
+      "parentUuid": "1ff61aed_466e1ef1",
+      "revId": "9cbaa995beb679f78675bc1f0f3fd8d9b5ab8348",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

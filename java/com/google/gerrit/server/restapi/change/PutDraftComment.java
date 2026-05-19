@@ -180,6 +180,9 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
     if (in.unresolved != null) {
       e.unresolved = in.unresolved;
     }
+    if (in.isAi != null) {
+      e.isAi = in.isAi;
+    }
     if (in.fixSuggestions != null) {
       e.fixSuggestions = CommentsUtil.createFixSuggestionsFromInput(in.fixSuggestions);
     } else {

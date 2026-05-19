@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7568b65_67392771",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 780,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-05-19T19:53:26Z",
+      "side": 1,
+      "message": "In this case, it will only show the AI sparkle if every comment included is AI generated. I this would include both comments (a single comment in a thread) or threads.",
+      "parentUuid": "728a356a_78570166",
+      "range": {
+        "startLine": 780,
+        "startChar": 31,
+        "endLine": 780,
+        "endChar": 36
+      },
+      "revId": "d3b7a6e3ae078c72f62eabae3f36ac992f3455a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8b20801b_2da59d37",
@@ -72,6 +96,24 @@
           ]
         }
       ],
+      "revId": "d3b7a6e3ae078c72f62eabae3f36ac992f3455a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "272f7d5a_aa74eb74",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 705,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-05-19T19:53:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b20801b_2da59d37",
       "revId": "d3b7a6e3ae078c72f62eabae3f36ac992f3455a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

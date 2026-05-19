@@ -553,6 +553,7 @@ export declare interface CommentInfo {
   author?: AccountInfo;
   tag?: string;
   unresolved?: boolean;
+  is_ai?: boolean;
   change_message_id?: string;
   commit_id?: string;
   context_lines?: ContextLine[];

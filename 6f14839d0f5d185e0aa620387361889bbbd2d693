@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc4b5607_d243d6fa",
+        "filename": "java/com/google/gerrit/server/submit/RebaseSubmitStrategy.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-05-19T19:30:05Z",
+      "side": 1,
+      "message": "How about: 1) query using the parent\u0027s commit-id + project + branch and then 2) check if the returned change\u0027s status is MERGED and if yes, then 3) check if the return change\u0027s latest PS commit-id is merged into the branch.\n\nI think that simplifies this whole method significantly.",
+      "revId": "6f14839d0f5d185e0aa620387361889bbbd2d693",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

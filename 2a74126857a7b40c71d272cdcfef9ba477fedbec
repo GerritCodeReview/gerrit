@@ -20,6 +20,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8e74f5ae_93e78c91",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 66
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-05-20T18:48:58Z",
+      "side": 1,
+      "message": "Looks like this change has removed the support for defining `local.properties` with customer maven mirrors. Are there any plans to re introduce that support ? \n\nThere seems to be --downloader_config rewriter with bazel that would help solve but documenting and testing would be great.",
+      "revId": "2a74126857a7b40c71d272cdcfef9ba477fedbec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "52ac26c7_b199742b",
         "filename": "plugins/gitiles",
         "patchSetId": 66

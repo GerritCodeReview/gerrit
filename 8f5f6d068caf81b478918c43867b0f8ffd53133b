@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "29010a67_dbc9058c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-05-20T17:29:38Z",
+      "side": 1,
+      "message": "Yes, this will be removed by https://gerrit-review.git.corp.google.com/q/change:553181+OR+change:553022  \n\nMy main goal is to remove dependencies in google",
+      "parentUuid": "61c10fb9_5bbfbfa1",
+      "revId": "8f5f6d068caf81b478918c43867b0f8ffd53133b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b40f0eae_d247f04e",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-05-20T17:08:26Z",
       "side": 1,
       "message": "Since `safeTypesBridge` is no longer imported here or used by Polymer Resin, are `safeTypesBridge` (and `safe-types-util.ts` / its tests) still needed? If they were only used for the Resin bridge, we should probably delete them in this CL or a follow-up.",
+      "revId": "8f5f6d068caf81b478918c43867b0f8ffd53133b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7c2df56_76608c8b",
+        "filename": "polygerrit-ui/app/elements/gr-app.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-05-20T17:29:38Z",
+      "side": 1,
+      "message": "Yes, they will be removed. THis will be removed by https://gerrit-review.git.corp.google.com/q/change:553181+OR+change:553022",
+      "parentUuid": "b40f0eae_d247f04e",
       "revId": "8f5f6d068caf81b478918c43867b0f8ffd53133b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

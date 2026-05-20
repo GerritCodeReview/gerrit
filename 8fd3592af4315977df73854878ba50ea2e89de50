@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "27d74c77_dbf21c29",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-05-20T14:44:27Z",
+      "side": 1,
+      "message": "No problem, thanks!",
+      "parentUuid": "3b24dd58_b219ce2e",
+      "revId": "8fd3592af4315977df73854878ba50ea2e89de50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "60a2f976_5c9d7973",
@@ -37,6 +55,78 @@
         "endLine": 804,
         "endChar": 0
       },
+      "revId": "8fd3592af4315977df73854878ba50ea2e89de50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb8fecfd_2fccc3aa",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 804,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-05-20T14:44:27Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "60a2f976_5c9d7973",
+      "range": {
+        "startLine": 804,
+        "startChar": 0,
+        "endLine": 804,
+        "endChar": 0
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "17ed8f3b_9bdfb26b",
+          "description": "GET_AI_FIX_FOR_COMMENT prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-message/gr-message_test.ts",
+              "range": {
+                "startLine": 804,
+                "startChar": 0,
+                "endLine": 806,
+                "endChar": 0
+              },
+              "replacement": "      assert.isFalse((element as any).hasAiComments());\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-message/gr-message_test.ts",
+              "range": {
+                "startLine": 815,
+                "startChar": 0,
+                "endLine": 817,
+                "endChar": 0
+              },
+              "replacement": "      assert.isFalse((element as any).hasAiComments());\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-message/gr-message_test.ts",
+              "range": {
+                "startLine": 833,
+                "startChar": 0,
+                "endLine": 835,
+                "endChar": 0
+              },
+              "replacement": "      assert.isFalse((element as any).hasAiComments());\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/change/gr-message/gr-message_test.ts",
+              "range": {
+                "startLine": 853,
+                "startChar": 0,
+                "endLine": 855,
+                "endChar": 0
+              },
+              "replacement": "      assert.isTrue((element as any).hasAiComments());\n"
+            }
+          ]
+        }
+      ],
       "revId": "8fd3592af4315977df73854878ba50ea2e89de50",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

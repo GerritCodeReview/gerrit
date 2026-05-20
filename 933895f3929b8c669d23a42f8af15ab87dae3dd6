@@ -132,6 +132,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0659d7a1_12bdb141",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-05-20T10:14:59Z",
+      "side": 1,
+      "message": "This brings up the very valid point of \"how can this API work with imported changes\". I\u0027ve created a wip change I703b29ead9 to give an idea of what we\u0027d need to support imported changes, however, the `delete_missing` part of this API cannot work, as byChangeNumber() does not go on disk to look for changes in and doesn\u0027t use the now inaccurate changeIdProjectCache that the ChangeFinder does in the code path of `project~changeNumber`, hence, it would always find the changes we\u0027re trying to reindex.",
+      "parentUuid": "09f551d8_37ba8b63",
+      "range": {
+        "startLine": 78,
+        "startChar": 26,
+        "endLine": 78,
+        "endChar": 91
+      },
+      "revId": "933895f3929b8c669d23a42f8af15ab87dae3dd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "08ba18f6_ab305532",
         "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
         "patchSetId": 23

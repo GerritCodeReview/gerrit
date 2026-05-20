@@ -44,6 +44,12 @@ yarn compile
 - `yarn test:screenshot`: Run visual regression tests.
 - `yarn test:screenshot-update`: Run visual regression tests and update baseline images.
 
+Bazel equivalents (what CI runs; all three are tagged `manual` and must be named explicitly):
+
+- `bazelisk test //polygerrit-ui:web_test_runner`: Unit tests only — same set as `yarn test`.
+- `bazelisk test //polygerrit-ui:web_test_runner_screenshots`: Screenshot regression tests only — same set as `yarn test:screenshot`.
+- `bazelisk test //polygerrit-ui:web_test_runner_all`: Both buckets in one invocation.
+
 ## Running Single Tests
 
 Running the full test suite can be slow. For a faster feedback loop during development, you can run tests for a single file. Use the `test:single:nowatch` script with the path to the test file. This will run the test once and exit.

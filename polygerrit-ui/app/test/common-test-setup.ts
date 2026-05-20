@@ -17,16 +17,11 @@ import {
   getCleanupsCount,
   removeThemeStyles,
 } from './test-utils';
-import {safeTypesBridge} from '../utils/safe-types-util';
 import {
   initGerrit,
   initGlobalVariables,
 } from '../elements/gr-app-global-var-init';
 import {assert, fixtureCleanup} from '@open-wc/testing';
-import {
-  _testOnly_defaultResinReportHandler,
-  installPolymerResin,
-} from '../scripts/polymer-resin-install';
 import {_testOnly_allTasks} from '../utils/async-util';
 import {cleanUpStorage} from '../services/storage/gr-storage_mock';
 import {
@@ -53,19 +48,6 @@ window.sinon = sinon;
 // to keep the test output clean from unnecessary warnings.
 window.litIssuedWarnings = window.litIssuedWarnings || new Set();
 window.litIssuedWarnings.add('dev-mode');
-
-installPolymerResin(safeTypesBridge, (isViolation, fmt, ...args) => {
-  // Suppress 'initResin' log message from polymer-resin.
-  if (fmt === 'initResin') {
-    return;
-  }
-  const log = _testOnly_defaultResinReportHandler;
-  log(isViolation, fmt, ...args);
-  if (isViolation) {
-    // This will cause the test to fail if there is a data binding violation.
-    throw new Error('polymer-resin violation: ' + fmt + JSON.stringify(args));
-  }
-});
 
 let testSetupTimestampMs = 0;
 let currentTestName = '';

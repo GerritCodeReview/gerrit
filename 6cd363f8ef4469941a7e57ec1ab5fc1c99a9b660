@@ -34,6 +34,24 @@
       "parentUuid": "a3899400_152a9637",
       "revId": "6cd363f8ef4469941a7e57ec1ab5fc1c99a9b660",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9bba014d_36fb9cb9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3117294
+      },
+      "writtenOn": "2026-05-20T18:11:36Z",
+      "side": 1,
+      "message": "awesome, that sounds great, if it is possible to proceed :) \n\n\nissue: https://issues.gerritcodereview.com/issues/514979798\n\nScreenshots are attached to the bug.\n\nThe reason we can\u0027t just reuse the existing commit linkify/weblinks is that those resolve to gitiles (or whatever gitweb is configured to). For Chromium, the existing weblink for a commit SHA would point to:\n\n  https://chromium.googlesource.com/chromium/src/+/\u003csha\u003e (gitiles)\n\nBut what i actually would love is:\n\n  https://chromiumdash.appspot.com/commit/\u003csha\u003e (ChromiumDash)\n\nChromiumDash shows usefull info in what milestone the CL landed (https://chromiumdash.appspot.com/commit/a266895e21e455b6101e834d1780d526aab67fdd)\n\nthats the reason for `gerrit.submitCommitUrl` as a new config option it falls back to deriving a URL from the existing revision weblinks.",
+      "parentUuid": "f4001bba_eb677b4d",
+      "revId": "6cd363f8ef4469941a7e57ec1ab5fc1c99a9b660",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

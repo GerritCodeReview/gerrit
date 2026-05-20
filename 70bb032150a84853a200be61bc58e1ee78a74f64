@@ -70,6 +70,41 @@
       "parentUuid": "793f4929_80b07b1f",
       "revId": "70bb032150a84853a200be61bc58e1ee78a74f64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6bf63709_34dc77ed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-20T19:49:59Z",
+      "side": 1,
+      "message": "Up to you, if you guys are on stable-3.11 and you would like to fix the bug there, I don\u0027t have any objection.",
+      "parentUuid": "de646b1b_82159387",
+      "revId": "70bb032150a84853a200be61bc58e1ee78a74f64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6acbbb6a_040038fe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-20T19:49:59Z",
+      "side": 1,
+      "message": "```suggestion\nBug: Issue 514855585\nChange-Id: I680311f96b167842e1b0ab290b57b437b2b0b042\n```",
+      "revId": "70bb032150a84853a200be61bc58e1ee78a74f64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

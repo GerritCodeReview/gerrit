@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b24dd58_b219ce2e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-05-20T08:23:03Z",
+      "side": 1,
+      "message": "Oh, sorry for suggesting some - but now we know `every` is what we really want",
+      "revId": "8fd3592af4315977df73854878ba50ea2e89de50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "60a2f976_5c9d7973",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message_test.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 804,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-05-20T08:23:03Z",
+      "side": 1,
+      "message": "Please fix this WARNING reported by autoreview issue finding: Using `// @ts-expect-error` suppresses *all* TypeScript errors on the next line (e.g., if there were a typo in `assert.isFalse`). Consider casting `(element as any).hasAiComments()` instead to specifically bypass the `private` visibility check without losing other type safety. \n\n(Applies here and to the other test cases below).",
+      "range": {
+        "startLine": 804,
+        "startChar": 0,
+        "endLine": 804,
+        "endChar": 0
+      },
+      "revId": "8fd3592af4315977df73854878ba50ea2e89de50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

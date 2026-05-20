@@ -52,6 +52,24 @@
       "parentUuid": "e39636c8_93c3ff24",
       "revId": "70bb032150a84853a200be61bc58e1ee78a74f64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de646b1b_82159387",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-05-20T15:51:58Z",
+      "side": 1,
+      "message": "@luca.milanesio@gmail.com would you rather this target 3.12? It\u0027s clearly a bug that you can get stuck without a username, but I agree this approach to fixing would be a behavior difference for someone stuck in this situation. Is that really a concern on 3.11?",
+      "parentUuid": "793f4929_80b07b1f",
+      "revId": "70bb032150a84853a200be61bc58e1ee78a74f64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -777,8 +777,8 @@ export class GrMessage extends LitElement {
 
   private hasAiComments(): boolean {
     if (!this.commentThreads || this.commentThreads.length === 0) return false;
-    return this.commentThreads.some(thread =>
-      thread.comments.some(comment => !!comment.is_ai)
+    return this.commentThreads.every(thread =>
+      thread.comments.every(comment => !!comment.is_ai)
     );
   }
 }

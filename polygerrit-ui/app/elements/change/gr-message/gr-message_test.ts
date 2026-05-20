@@ -793,4 +793,75 @@ suite('gr-message tests', () => {
       );
     });
   });
+
+  suite('hasAiComments', () => {
+    setup(async () => {
+      element = await fixture<GrMessage>(html`<gr-message></gr-message>`);
+      element.message = createChangeMessage();
+      await element.updateComplete;
+    });
+
+    test('is false when there are no comment threads', async () => {
+      element.commentThreads = [];
+      await element.updateComplete;
+
+      const accountLabel = queryAndAssert<HTMLElement>(element, '.authorLabel');
+      assert.isFalse(accountLabel.hasAttribute('is-ai'));
+    });
+
+    test('is false when all comments are human', async () => {
+      element.commentThreads = [
+        createCommentThread([
+          createComment({message: 'hello 1'}),
+          createComment({message: 'hello 2'}),
+        ]),
+      ];
+      await element.updateComplete;
+
+      const accountLabel = queryAndAssert<HTMLElement>(element, '.authorLabel');
+      assert.isFalse(accountLabel.hasAttribute('is-ai'));
+    });
+
+    test('is false when some comments are AI but some are human', async () => {
+      element.commentThreads = [
+        createCommentThread([
+          createComment({
+            id: '111' as UrlEncodedCommentId,
+            message: 'hello 1',
+            is_ai: true,
+          }),
+          createComment({
+            in_reply_to: '111' as UrlEncodedCommentId,
+            message: 'hello 2',
+          }),
+        ]),
+      ];
+      await element.updateComplete;
+
+      const accountLabel = queryAndAssert<HTMLElement>(element, '.authorLabel');
+      assert.isFalse(accountLabel.hasAttribute('is-ai'));
+    });
+
+    test('is true when all comments in all threads are AI', async () => {
+      element.commentThreads = [
+        createCommentThread([
+          createComment({
+            id: '111' as UrlEncodedCommentId,
+            message: 'hello 1',
+            is_ai: true,
+          }),
+          createComment({
+            in_reply_to: '111' as UrlEncodedCommentId,
+            message: 'hello 2',
+            is_ai: true,
+          }),
+        ]),
+        createCommentThread([createComment({message: 'hello 3', is_ai: true})]),
+      ];
+      await element.updateComplete;
+
+      const accountLabel = queryAndAssert<HTMLElement>(element, '.authorLabel');
+      assert.isTrue(accountLabel.hasAttribute('is-ai'));
+    });
+  });
 });

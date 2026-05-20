@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7f9b234_dfd8b56f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-20T07:53:16Z",
+      "side": 1,
+      "message": "Can you raise a bug on this issue? Bear in mind that Gerrit v3.11 is EOL, so whilst we are happy to still provide bug fixes on a best-effort basis, we should not change existing functionality.",
+      "revId": "70bb032150a84853a200be61bc58e1ee78a74f64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

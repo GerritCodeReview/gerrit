@@ -1,6 +1,24 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f813a7de_b5ac1e65",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4856407
+      },
+      "writtenOn": "2026-05-20T17:30:50Z",
+      "side": 1,
+      "message": "Acknowledged. Thanks for the clarification!",
+      "parentUuid": "29010a67_dbc9058c",
+      "revId": "8f5f6d068caf81b478918c43867b0f8ffd53133b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "61c10fb9_5bbfbfa1",
@@ -32,6 +50,24 @@
       "side": 1,
       "message": "Yes, this will be removed by https://gerrit-review.git.corp.google.com/q/change:553181+OR+change:553022  \n\nMy main goal is to remove dependencies in google",
       "parentUuid": "61c10fb9_5bbfbfa1",
+      "revId": "8f5f6d068caf81b478918c43867b0f8ffd53133b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "38b36e58_d376689a",
+        "filename": "polygerrit-ui/app/elements/gr-app.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4856407
+      },
+      "writtenOn": "2026-05-20T17:30:50Z",
+      "side": 1,
+      "message": "Acknowledged. Thanks!",
+      "parentUuid": "e7c2df56_76608c8b",
       "revId": "8f5f6d068caf81b478918c43867b0f8ffd53133b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

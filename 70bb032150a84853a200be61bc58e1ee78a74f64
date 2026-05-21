@@ -105,6 +105,24 @@
       "message": "```suggestion\nBug: Issue 514855585\nChange-Id: I680311f96b167842e1b0ab290b57b437b2b0b042\n```",
       "revId": "70bb032150a84853a200be61bc58e1ee78a74f64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "761b7476_96980da5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2026-05-21T06:04:57Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "6acbbb6a_040038fe",
+      "revId": "70bb032150a84853a200be61bc58e1ee78a74f64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

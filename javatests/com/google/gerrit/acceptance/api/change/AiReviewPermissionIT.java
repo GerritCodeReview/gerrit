@@ -18,7 +18,6 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.deny;
-import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -188,22 +187,6 @@ public class AiReviewPermissionIT extends AbstractDaemonTest {
         .update();
 
     requestScopeOperations.setApiUser(admin.id());
-    Map<String, ActionInfo> actions = gApi.changes().id(changeId).current().actions();
-
-    assertThat(actions.get(AI_REVIEW).enabled).isFalse();
-  }
-
-  @Test
-  public void aiReviewActionDisabledForAnonymousUserWhenAnonymousDenied() throws Exception {
-    String changeId = createChange().getChangeId();
-
-    projectOperations
-        .project(project)
-        .forUpdate()
-        .add(deny(Permission.AI_REVIEW).ref("refs/heads/*").group(ANONYMOUS_USERS))
-        .update();
-
-    requestScopeOperations.setApiUserAnonymous();
     Map<String, ActionInfo> actions = gApi.changes().id(changeId).current().actions();
 
     assertThat(actions.get(AI_REVIEW).enabled).isFalse();

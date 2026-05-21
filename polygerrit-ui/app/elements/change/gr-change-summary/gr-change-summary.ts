@@ -119,6 +119,10 @@ export class GrChangeSummary extends LitElement {
     );
   }
 
+  private get canShowAiReview(): boolean {
+    return !!this.selfAccount && this.canAiReview;
+  }
+
   @query('#aiPromptModal')
   aiPromptModal?: HTMLDialogElement;
 
@@ -614,7 +618,7 @@ export class GrChangeSummary extends LitElement {
                   showCommentCategoryName
                   clickableChips
                 ></gr-comments-summary>
-                ${this.canAiReview
+                ${this.canShowAiReview
                   ? html`<gr-button link @click=${this.handleOpenAiPromptDialog}
                       >Create AI Review Prompt</gr-button
                     >`
@@ -625,7 +629,7 @@ export class GrChangeSummary extends LitElement {
           ${this.renderChecksSummary()} ${this.renderFlowsSummary()}
         </table>
       </div>
-      ${this.canAiReview
+      ${this.canShowAiReview
         ? html`<dialog id="aiPromptModal" tabindex="-1">
             <gr-ai-prompt-dialog
               id="aiPromptDialog"

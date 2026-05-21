@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "734bd608_d7688226",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 35
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-05-21T12:34:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9034fdf7_e44727f5",
+      "range": {
+        "startLine": 9,
+        "startChar": 28,
+        "endLine": 9,
+        "endChar": 35
+      },
+      "revId": "5f93b96b1b0e418a9b087be3f1cafa240a110bd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "833736ce_68208026",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-05-21T08:01:02Z",
       "side": 1,
       "message": "```suggestion\nformats that could lead to Gerrit deleting the wrong document from the\n```",
+      "range": {
+        "startLine": 11,
+        "startChar": 53,
+        "endLine": 11,
+        "endChar": 59
+      },
+      "revId": "5f93b96b1b0e418a9b087be3f1cafa240a110bd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "66fb1728_df4ae5e0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 35
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-05-21T12:34:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "833736ce_68208026",
       "range": {
         "startLine": 11,
         "startChar": 53,
@@ -87,6 +135,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4304e4a_a0786801",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 35
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-05-21T12:34:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47f6a94f_257b4fd6",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 8
+      },
+      "revId": "5f93b96b1b0e418a9b087be3f1cafa240a110bd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "80dfb5ab_b8608147",
@@ -100,6 +172,30 @@
       "writtenOn": "2026-05-21T08:01:02Z",
       "side": 1,
       "message": "Format as a note.\n\n\n\n```suggestion\n[NOTE]\nOnly Change-IDs in the format project~changeNumber are accepted.\nIf any of the Change-IDs are in an incorrect format, the server will return a\n400 - Bad Request, and none of the operations will be executed.\n```",
+      "range": {
+        "startLine": 1557,
+        "startChar": 0,
+        "endLine": 1559,
+        "endChar": 18
+      },
+      "revId": "5f93b96b1b0e418a9b087be3f1cafa240a110bd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "618f70a9_e61d7721",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 35
+      },
+      "lineNbr": 1559,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-05-21T12:34:31Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "80dfb5ab_b8608147",
       "range": {
         "startLine": 1557,
         "startChar": 0,

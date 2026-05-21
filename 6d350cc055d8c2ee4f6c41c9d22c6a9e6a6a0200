@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5193bc8f_5f6d715a",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/config/IndexChangesIT.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-21T18:20:21Z",
+      "side": 1,
+      "message": "Can we use this test case in Issue 515272357 as an example of how to reproduce the issue?",
+      "range": {
+        "startLine": 167,
+        "startChar": 0,
+        "endLine": 185,
+        "endChar": 3
+      },
+      "revId": "6d350cc055d8c2ee4f6c41c9d22c6a9e6a6a0200",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

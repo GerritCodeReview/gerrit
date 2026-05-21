@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "56fb7cd5_7fe2555d",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-05-21T22:50:28Z",
+      "side": 1,
+      "message": "Because we first want to iterate over all the changes to ensure they are all in the correct format, before continuing, otherwise we would only partially process the payload, which is confusing.",
+      "parentUuid": "3aa11aab_04074e7d",
+      "range": {
+        "startLine": 70,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 5
+      },
+      "revId": "6d350cc055d8c2ee4f6c41c9d22c6a9e6a6a0200",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1c12a53a_89b64e1c",
         "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
         "patchSetId": 40
@@ -49,6 +73,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b710ffc0_23ca54a2",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-05-21T22:50:28Z",
+      "side": 1,
+      "message": "Agreed, so if it happens something is wrong and we should stop. No? Don\u0027t see anything wrong with checking this?",
+      "parentUuid": "1c12a53a_89b64e1c",
+      "range": {
+        "startLine": 78,
+        "startChar": 0,
+        "endLine": 80,
+        "endChar": 100
+      },
+      "revId": "6d350cc055d8c2ee4f6c41c9d22c6a9e6a6a0200",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9f406851_5c3ac22a",
         "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
         "patchSetId": 40
@@ -60,6 +108,30 @@
       "writtenOn": "2026-05-21T21:05:34Z",
       "side": 1,
       "message": "No, this is the changeId. The `virtualId` is the document id used to store the document in Lucene.\n\n\n\n```suggestion\n          logger.atWarning().log(\"Deleting change %s~%s from index\", cd.project(), cd.changeId());\n```",
+      "range": {
+        "startLine": 89,
+        "startChar": 86,
+        "endLine": 89,
+        "endChar": 95
+      },
+      "revId": "6d350cc055d8c2ee4f6c41c9d22c6a9e6a6a0200",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "377751ec_bb7f7a35",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-05-21T22:50:28Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "9f406851_5c3ac22a",
       "range": {
         "startLine": 89,
         "startChar": 86,
@@ -95,6 +167,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4e2d3516_23ccab89",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-05-21T22:50:28Z",
+      "side": 1,
+      "message": "Good catch, again, looks like we\u0027re missing a test.",
+      "parentUuid": "600e527d_bf093353",
+      "range": {
+        "startLine": 95,
+        "startChar": 27,
+        "endLine": 95,
+        "endChar": 34
+      },
+      "revId": "6d350cc055d8c2ee4f6c41c9d22c6a9e6a6a0200",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "443ca7bb_9ccdec0e",
         "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
         "patchSetId": 40
@@ -106,6 +202,30 @@
       "writtenOn": "2026-05-21T21:05:34Z",
       "side": 1,
       "message": "That\u0027s not true: we actually did not indexed `input.changes` but `changes`.",
+      "range": {
+        "startLine": 101,
+        "startChar": 24,
+        "endLine": 101,
+        "endChar": 57
+      },
+      "revId": "6d350cc055d8c2ee4f6c41c9d22c6a9e6a6a0200",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69089b55_516e58d6",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-05-21T22:50:28Z",
+      "side": 1,
+      "message": "Which is derived from `input.changes`, the list of changes indexed is the same no?",
+      "parentUuid": "443ca7bb_9ccdec0e",
       "range": {
         "startLine": 101,
         "startChar": 24,

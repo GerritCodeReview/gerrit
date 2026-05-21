@@ -225,6 +225,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "113f3364_6562d229",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-21T21:05:34Z",
+      "side": 1,
+      "message": "\u003e In that case whatever is passed to `Change.Id.tryParse` will fail.\n\nAck.",
+      "parentUuid": "657ac660_5f6859c7",
+      "range": {
+        "startLine": 96,
+        "startChar": 4,
+        "endLine": 96,
+        "endChar": 32
+      },
+      "revId": "933895f3929b8c669d23a42f8af15ab87dae3dd6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "320622ff_5b2b039c",

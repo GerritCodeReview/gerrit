@@ -5109,6 +5109,28 @@ As response a link:#mergeable-info[MergeableInfo] entity is returned.
   }
 ----
 
+If the change has already been merged, the endpoint still returns
+`200 OK`. In that case the change is considered mergeable because its
+revision is already integrated into the destination branch. The response
+also sets `commit_merged` and `content_merged`, so clients can tell this
+case apart from an open change that could still be submitted.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    submit_type: "MERGE_IF_NECESSARY",
+    strategy: "recursive",
+    mergeable: true,
+    commit_merged: true,
+    content_merged: true
+  }
+----
+
 If the `other-branches` parameter is specified, the mergeability will also be
 checked for all other branches which are listed in the
 link:config-project-config.html#branchOrder-section[branchOrder] section in the
@@ -8381,7 +8403,7 @@ Submit type used for this change, can be `MERGE_IF_NECESSARY`,
 The strategy of the merge, can be `recursive`, `resolve`,
 `simple-two-way-in-core`, `ours` or `theirs`.
 |`mergeable`     ||
-`true` if this change is cleanly mergeable, `false` otherwise
+`true` if this change is cleanly mergeable or already merged, `false` otherwise
 |`commit_merged` |optional|
 `true` if this change is already merged, `false` otherwise
 |`content_merged`|optional|

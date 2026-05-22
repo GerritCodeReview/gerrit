@@ -102,9 +102,10 @@ public class Mergeable implements RestReadView<RevisionResource> {
     PatchSet ps = resource.getPatchSet();
     MergeableInfo result = new MergeableInfo();
 
-    if (!change.isNew()) {
+    if (change.isAbandoned()) {
       throw new ResourceConflictException("change is " + ChangeUtil.status(change));
-    } else if (!ps.id().equals(change.currentPatchSetId())) {
+    }
+    if (!ps.id().equals(change.currentPatchSetId())) {
       // Only the current revision is mergeable. Others always fail.
       return Response.ok(result);
     }
@@ -119,6 +120,14 @@ public class Mergeable implements RestReadView<RevisionResource> {
           projectCache.get(change.getProject()).orElseThrow(illegalState(change.getProject()));
       String strategy = mergeUtilFactory.create(projectState).mergeStrategyName();
       result.strategy = strategy;
+
+      if (change.isMerged()) {
+        result.mergeable = true;
+        result.commitMerged = true;
+        result.contentMerged = true;
+        return Response.ok(result);
+      }
+
       result.mergeable = isMergable(git, change, commit, ref, result.submitType, strategy);
 
       if (otherBranches) {

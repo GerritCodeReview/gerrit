@@ -6864,6 +6864,51 @@ notifications if the full name of the user is not set.
 +
 By default "Name of user not set" is used.
 
+[[workQueueSnapshot]]
+=== Section workQueueSnapshot
+
+This section configures the periodic work queue snapshot logger, which
+samples the contents of the background work queue (the same queue exposed
+by the SSH `gerrit show-queue` command) and writes one structured event
+per task to `$site_path/logs/workqueue_log` (and `workqueue_log.json` when
+link:#log.jsonLogging[log.jsonLogging] is enabled).
+
+Each snapshot is a point-in-time capture: only tasks present in the queue
+at the moment the snapshot is taken are recorded. Tasks that start and
+finish entirely between two snapshots are not captured.
+
+Snapshots are intended for post-incident forensics, allowing administrators
+to look back at what was queued or running while the system was in a
+degraded state.
+
+[[workQueueSnapshot.enabled]]workQueueSnapshot.enabled::
++
+Whether to capture periodic work queue snapshots. Disabled by default.
++
+When enabled, link:#workQueueSnapshot.interval[workQueueSnapshot.interval]
+must also be set, otherwise no snapshots will be taken.
++
+By default "`false`".
+
+[[workQueueSnapshot.interval]]workQueueSnapshot.interval::
++
+The link:#schedule-configuration-interval[interval] between consecutive
+snapshots. Supports the same time-unit suffixes as other interval values
+(`s`, `m`, `h`, `d`, ...). Example: `30 s`.
++
+Has no effect unless link:#workQueueSnapshot.enabled[workQueueSnapshot.enabled]
+is set to "`true`".
+
+[[workQueueSnapshot.startTime]]workQueueSnapshot.startTime::
++
+The link:#schedule-configuration-startTime[start time] anchoring the
+schedule. If unset, defaults to `00:00`, which combined with a short
+interval causes the first snapshot to be taken within one interval after
+the daemon starts.
+
+link:#schedule-configuration-examples[Schedule examples] can be found
+in the link:#schedule-configuration[Schedule Configuration] section.
+
 [[schedule-configuration]]
 === Schedule Configuration
 

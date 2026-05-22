@@ -167,6 +167,65 @@ Log format:
 * `level`: log level (ERROR, WARN, INFO, DEBUG).
 * `message`: log message.
 
+=== Work Queue Snapshot Log
+
+The work queue snapshot log periodically captures a point-in-time view of
+the background work queue (the same queue exposed by the SSH `gerrit
+show-queue` command) and is written to `$site_path/logs/workqueue_log`.
+The log is intended for post-incident forensics, allowing administrators
+to look back at what was queued or running while the system was in a
+degraded state.
+
+It is disabled by default and enabled via
+link:config-gerrit.html#workQueueSnapshot.enabled[workQueueSnapshot.enabled],
+together with a sampling
+link:config-gerrit.html#workQueueSnapshot.interval[interval]. Each
+snapshot emits one event per task present at the instant of the snapshot
+plus a single summary event. Tasks that start and finish entirely
+between two snapshots are not captured.
+
+Every event carries the following common fields:
+
+* `event`: `snapshot_task` for one of the per-task events,
+  `snapshot_end` for the per-snapshot summary event.
+* `snapshot_id`: unique identifier shared by every event emitted from
+  the same sampling tick. Use it to correlate all rows of a single
+  snapshot.
+* `snapshot_seq`: monotonically increasing sequence number assigned to
+  each snapshot since process start. Gaps indicate that the sampler
+  itself did not run on schedule.
+* `snapshot_at`: timestamp at which the snapshot was taken.
+
+A `snapshot_task` event adds:
+
+* `task_id`: unique task identifier on this server (same format as
+  shown by `gerrit show-queue`).
+* `state`: raw task state, one of `DONE`, `CANCELLED`, `STOPPING`,
+  `RUNNING`, `STARTING`, `PARKED`, `READY`, `SLEEPING`, `OTHER`.
+* `queue_name`: name of the executor queue the task is scheduled in.
+* `start_time`: time at which the task was added to the queue.
+* `delay_ms`: remaining delay until execution in milliseconds (negative
+  for tasks already eligible to run).
+* `command`: short text description of the task.
+* `project`: project the task is associated with, if any.
+* `remote_name`: remote name the task is associated with, if any.
+
+A `snapshot_end` event adds:
+
+* `task_count`: total number of tasks present in the queue when the
+  snapshot was taken.
+* `sample_duration_ms`: time the sampler took to enumerate the queue.
+
+A `snapshot_end` event is emitted for every snapshot, including snapshots
+where the queue was empty, so an empty queue at time `T` is recorded as a
+positive forensic signal rather than silence.
+
+Format follows the link:#log.textLogging[textLogging] and
+link:#log.jsonLogging[jsonLogging] settings: text events are written as a
+single line of space-separated `key=value` pairs to `workqueue_log`, and
+JSON events are written as one newline-delimited JSON object per line to
+`workqueue_log.json`.
+
 === Plugin Logs
 
 Some plugins write their own log file.

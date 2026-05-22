@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a98ff31_f7af3405",
+        "filename": "configs/agent_configs.textproto",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-05-22T19:10:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0484f8ba_60eebf12",
+      "revId": "32c7b4759f939148b0140e84f4c8cf624dd0afa2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "656628e5_400b5831",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-05-22T18:17:47Z",
       "side": 1,
       "message": "The skill description here (`Identifies noise, outliers, and low-quality comments...`) does not match the actual chapters and rules defined inside the file. The rules are about code guidelines (formatting, parallelization, internal URL leaks, etc.) rather than analyzing/filtering comment quality. Please update the description and metadata to accurately reflect that this is a code hygiene and release synchronization guide.",
+      "revId": "32c7b4759f939148b0140e84f4c8cf624dd0afa2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc54a4fa_18a68ee4",
+        "filename": "configs/skills/gerrit_noise_outliers/SKILL.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-05-22T19:10:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "656628e5_400b5831",
       "revId": "32c7b4759f939148b0140e84f4c8cf624dd0afa2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

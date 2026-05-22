@@ -14,7 +14,6 @@ import {
   createCheckResult,
   createComment,
   createDraft,
-  createParsedChange,
   createRun,
 } from '../../../test/test-data-generators';
 import {testResolver} from '../../../test/common-test-setup';
@@ -23,7 +22,6 @@ import {checksModelToken} from '../../../models/checks/checks-model';
 import {Category, RunStatus} from '../../../api/checks';
 import {CheckRun} from '../../../models/checks/checks-model';
 import {visualDiffDarkTheme} from '../../../test/test-utils';
-import {changeModelToken} from '../../../models/change/change-model';
 
 suite('gr-change-summary screenshot tests', () => {
   let element: GrChangeSummary;
@@ -82,14 +80,7 @@ suite('gr-change-summary screenshot tests', () => {
   });
 
   test('screenshot with AI Review Prompt', async () => {
-    const changeModel = testResolver(changeModelToken);
-    changeModel.updateState({
-      change: {
-        ...createParsedChange(),
-        can_ai_review: undefined as unknown as boolean,
-      },
-    });
-
+    element.revisionActions = {aiReview: {label: 'AI Review', enabled: true}};
     await element.updateComplete;
     await visualDiff(element, 'gr-change-summary-with-ai-review-prompt');
     await visualDiffDarkTheme(

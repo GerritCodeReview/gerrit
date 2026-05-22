@@ -10,7 +10,7 @@ import '../../shared/gr-icon/gr-icon';
 import '../../checks/gr-checks-action';
 import '../gr-ai-prompt-dialog/gr-ai-prompt-dialog';
 import {css, html, LitElement, nothing} from 'lit';
-import {customElement, query, state} from 'lit/decorators.js';
+import {customElement, property, query, state} from 'lit/decorators.js';
 import {subscribe} from '../../lit/subscription-controller';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {modalStyles} from '../../../styles/gr-modal-styles';
@@ -29,7 +29,12 @@ import {
   isRunningScheduledOrCompleted,
 } from '../../../models/checks/checks-util';
 import {getMentionedThreads, isUnresolved} from '../../../utils/comment-util';
-import {AccountInfo, CommentThread, DropdownLink} from '../../../types/common';
+import {
+  AccountInfo,
+  ActionNameToActionInfoMap,
+  CommentThread,
+  DropdownLink,
+} from '../../../types/common';
 import {FlowInfo, FlowStageState} from '../../../api/rest-api';
 import {Tab} from '../../../constants/constants';
 import {ChecksTabState} from '../../../types/events';
@@ -104,8 +109,19 @@ export class GrChangeSummary extends LitElement {
   @state()
   flows: FlowInfo[] = [];
 
-  @state()
-  canAiReview = false;
+  @property({type: Object}) revisionActions?: ActionNameToActionInfoMap;
+
+  // Hide until the actions endpoint responds; then hide only on explicit deny.
+  private get canAiReview(): boolean {
+    return (
+      this.revisionActions !== undefined &&
+      this.revisionActions.aiReview?.enabled !== false
+    );
+  }
+
+  private get canShowAiReview(): boolean {
+    return !!this.selfAccount && this.canAiReview;
+  }
 
   @query('#aiPromptModal')
   aiPromptModal?: HTMLDialogElement;
@@ -204,13 +220,6 @@ export class GrChangeSummary extends LitElement {
       this,
       () => this.getFlowsModel().flows$,
       x => (this.flows = x)
-    );
-    subscribe(
-      this,
-      () => this.getChangeModel().change$,
-      change => {
-        this.canAiReview = change?.can_ai_review !== false;
-      }
     );
   }
 
@@ -613,7 +622,7 @@ export class GrChangeSummary extends LitElement {
                   showCommentCategoryName
                   clickableChips
                 ></gr-comments-summary>
-                ${this.canAiReview
+                ${this.canShowAiReview
                   ? html`<gr-button link @click=${this.handleOpenAiPromptDialog}
                       >Create AI Review Prompt</gr-button
                     >`
@@ -624,7 +633,7 @@ export class GrChangeSummary extends LitElement {
           ${this.renderChecksSummary()} ${this.renderFlowsSummary()}
         </table>
       </div>
-      ${this.canAiReview
+      ${this.canShowAiReview
         ? html`<dialog id="aiPromptModal" tabindex="-1">
             <gr-ai-prompt-dialog
               id="aiPromptDialog"

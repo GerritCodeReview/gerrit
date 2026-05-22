@@ -1,0 +1,40 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c07cc23d_e425e062",
+        "filename": "configs/agent_configs.textproto",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4856407
+      },
+      "writtenOn": "2026-05-22T19:11:41Z",
+      "side": 1,
+      "message": "Thanks! This looks great and perfectly resolves the mismatch.",
+      "parentUuid": "0484f8ba_60eebf12",
+      "revId": "aa5aad1efe24a5e9861b393b7e9bacc0a78451fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a981f6d_6a6252c9",
+        "filename": "configs/skills/gerrit_noise_outliers/SKILL.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4856407
+      },
+      "writtenOn": "2026-05-22T19:11:41Z",
+      "side": 1,
+      "message": "Thanks! The updated name and description look much cleaner and accurately reflect the contents of the guide.",
+      "parentUuid": "656628e5_400b5831",
+      "revId": "aa5aad1efe24a5e9861b393b7e9bacc0a78451fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -76,6 +76,30 @@
       },
       "revId": "aa5aad1efe24a5e9861b393b7e9bacc0a78451fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e2777b3_94d3ecad",
+        "filename": "configs/skills/gerrit_system_logic/SKILL.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-05-22T20:03:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de7b63be_b1dae19a",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 0
+      },
+      "revId": "aa5aad1efe24a5e9861b393b7e9bacc0a78451fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

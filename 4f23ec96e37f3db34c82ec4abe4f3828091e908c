@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2642c5b_461146fe",
+        "filename": "configs/skills/gerrit_system_logic/SKILL.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4856407
+      },
+      "writtenOn": "2026-05-22T20:04:46Z",
+      "side": 1,
+      "message": "Thanks! The updated, inclusive wording looks great.",
+      "parentUuid": "29fc2b08_22775ee3",
+      "revId": "4f23ec96e37f3db34c82ec4abe4f3828091e908c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

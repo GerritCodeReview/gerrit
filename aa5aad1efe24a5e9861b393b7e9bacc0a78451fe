@@ -35,6 +35,29 @@
       "parentUuid": "656628e5_400b5831",
       "revId": "aa5aad1efe24a5e9861b393b7e9bacc0a78451fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29fc2b08_22775ee3",
+        "filename": "configs/skills/gerrit_system_logic/SKILL.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1159190
+      },
+      "writtenOn": "2026-05-22T19:49:47Z",
+      "side": 1,
+      "message": "This guide refers specifically to the \u0027Android codebase\u0027s repository management\u0027. If this guide is for the general Gerrit project, you might want to use a more inclusive description.",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 0
+      },
+      "revId": "aa5aad1efe24a5e9861b393b7e9bacc0a78451fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

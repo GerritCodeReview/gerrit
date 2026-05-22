@@ -1,0 +1,37 @@
+# Frontend Engineering Agent
+configs: {
+  id: "gerrit-frontend-engineering"
+  display_name: "Gerrit Frontend Engineering"
+  description: "Analyzes Polygerrit UI, frontend TypeScript/JavaScript files, and UI elements for architecture and style correctness."
+  skills: "gerrit_frontend_engineering"
+  include_filters: {
+    project: "gerrit"
+    path_regex: "polygerrit-ui/.*"
+  }
+  automatic: true
+}
+
+# System Logic Agent
+configs: {
+  id: "gerrit-system-logic"
+  display_name: "Gerrit System Logic & Correctness"
+  description: "Analyzes Gerrit backend logic, Java sources, database transactions, and correctness rules."
+  skills: "gerrit_system_logic"
+  include_filters: {
+    project: "gerrit"
+    path_regex: ".*\\.java"
+  }
+  automatic: true
+}
+
+# Hygiene & Operations Agent
+configs: {
+  id: "gerrit-hygiene-operations"
+  display_name: "Gerrit Hygiene & Operations"
+  description: "Analyzes code hygiene, formatting, release preparation, and downstream dependencies."
+  skills: "gerrit_hygiene_operations"
+  include_filters: {
+    project: "gerrit"
+  }
+  automatic: true
+}

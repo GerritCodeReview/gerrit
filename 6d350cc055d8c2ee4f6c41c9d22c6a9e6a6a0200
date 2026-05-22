@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d917b4ad_9ec6cb7e",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-22T08:00:17Z",
+      "side": 1,
+      "message": "Ack.",
+      "parentUuid": "56fb7cd5_7fe2555d",
+      "range": {
+        "startLine": 70,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 5
+      },
+      "revId": "6d350cc055d8c2ee4f6c41c9d22c6a9e6a6a0200",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1c12a53a_89b64e1c",
@@ -85,6 +109,30 @@
       "side": 1,
       "message": "Agreed, so if it happens something is wrong and we should stop. No? Don\u0027t see anything wrong with checking this?",
       "parentUuid": "1c12a53a_89b64e1c",
+      "range": {
+        "startLine": 78,
+        "startChar": 0,
+        "endLine": 80,
+        "endChar": 100
+      },
+      "revId": "6d350cc055d8c2ee4f6c41c9d22c6a9e6a6a0200",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5002140_0330f2b4",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-22T08:00:17Z",
+      "side": 1,
+      "message": "Gotcha, so this is just a defensive assertion? If so, you should use https://guava.dev/releases/19.0/api/docs/com/google/common/base/Preconditions.html#checkState(boolean,%20java.lang.Object) instead.",
+      "parentUuid": "b710ffc0_23ca54a2",
       "range": {
         "startLine": 78,
         "startChar": 0,
@@ -156,6 +204,30 @@
       "side": 1,
       "message": "There is cd.changeId().",
       "parentUuid": "377751ec_bb7f7a35",
+      "range": {
+        "startLine": 89,
+        "startChar": 86,
+        "endLine": 89,
+        "endChar": 95
+      },
+      "revId": "6d350cc055d8c2ee4f6c41c9d22c6a9e6a6a0200",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9f6360d_a8cc03bc",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-22T08:00:17Z",
+      "side": 1,
+      "message": "No, the fix hasn\u0027t been applied.",
+      "parentUuid": "fcc8471c_2cee639c",
       "range": {
         "startLine": 89,
         "startChar": 86,
@@ -297,6 +369,30 @@
       "side": 1,
       "message": "Not sure what you mean?",
       "parentUuid": "5193bc8f_5f6d715a",
+      "range": {
+        "startLine": 167,
+        "startChar": 0,
+        "endLine": 185,
+        "endChar": 3
+      },
+      "revId": "6d350cc055d8c2ee4f6c41c9d22c6a9e6a6a0200",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0cd6c1db_1c5c2681",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/config/IndexChangesIT.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-22T08:00:17Z",
+      "side": 1,
+      "message": "The Issue 515272357 does not include the steps on how to reproduce the problem. My suggestion was to translate this test case into _words_ and add it to the issue, so that we are able to verify E2E that:\n\n1. There is a problem\n2. We can reproduce the problem *without* this patch\n3. The problem goes away *after* this patch\n\nDoes the above make sense?",
+      "parentUuid": "bf390656_7bc922f3",
       "range": {
         "startLine": 167,
         "startChar": 0,

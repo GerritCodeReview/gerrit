@@ -238,6 +238,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e88f809_93c25610",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-05-22T21:39:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c9f6360d_a8cc03bc",
+      "range": {
+        "startLine": 89,
+        "startChar": 86,
+        "endLine": 89,
+        "endChar": 95
+      },
+      "revId": "6d350cc055d8c2ee4f6c41c9d22c6a9e6a6a0200",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "600e527d_bf093353",
@@ -275,6 +299,30 @@
       "side": 1,
       "message": "Good catch, again, looks like we\u0027re missing a test.",
       "parentUuid": "600e527d_bf093353",
+      "range": {
+        "startLine": 95,
+        "startChar": 27,
+        "endLine": 95,
+        "endChar": 34
+      },
+      "revId": "6d350cc055d8c2ee4f6c41c9d22c6a9e6a6a0200",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bcdc6fb7_9fc8481c",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-05-22T21:39:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4e2d3516_23ccab89",
       "range": {
         "startLine": 95,
         "startChar": 27,

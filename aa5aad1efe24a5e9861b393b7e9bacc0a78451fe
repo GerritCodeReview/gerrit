@@ -39,6 +39,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "de7b63be_b1dae19a",
+        "filename": "configs/skills/gerrit_system_logic/SKILL.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4856407
+      },
+      "writtenOn": "2026-05-22T19:50:20Z",
+      "side": 1,
+      "message": "Agreed. Since this skill is designed for the general Gerrit repository, we should generalize the wording here (e.g. \"within Gerrit\u0027s repository management and code review infrastructure\") to make it inclusive and applicable across all deployments.",
+      "parentUuid": "29fc2b08_22775ee3",
+      "revId": "aa5aad1efe24a5e9861b393b7e9bacc0a78451fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "29fc2b08_22775ee3",
         "filename": "configs/skills/gerrit_system_logic/SKILL.md",
         "patchSetId": 6

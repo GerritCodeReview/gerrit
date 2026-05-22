@@ -28,7 +28,6 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.change.MergeabilityCache;
 import com.google.gerrit.server.change.MergeabilityComputationBehavior;
 import com.google.gerrit.server.change.RevisionResource;
@@ -102,9 +101,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
     PatchSet ps = resource.getPatchSet();
     MergeableInfo result = new MergeableInfo();
 
-    if (!change.isNew()) {
-      throw new ResourceConflictException("change is " + ChangeUtil.status(change));
-    } else if (!ps.id().equals(change.currentPatchSetId())) {
+    if (!ps.id().equals(change.currentPatchSetId())) {
       // Only the current revision is mergeable. Others always fail.
       return Response.ok(result);
     }
@@ -119,6 +116,14 @@ public class Mergeable implements RestReadView<RevisionResource> {
           projectCache.get(change.getProject()).orElseThrow(illegalState(change.getProject()));
       String strategy = mergeUtilFactory.create(projectState).mergeStrategyName();
       result.strategy = strategy;
+
+      if (change.isMerged()) {
+        result.mergeable = false;
+        result.commitMerged = true;
+        result.contentMerged = true;
+        return Response.ok(result);
+      }
+
       result.mergeable = isMergable(git, change, commit, ref, result.submitType, strategy);
 
       if (otherBranches) {

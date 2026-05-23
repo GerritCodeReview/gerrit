@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7fee445b_fac1c9c3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 78
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-05-23T08:09:51Z",
+      "side": 1,
+      "message": "@milutin@google.com Can we merge this series now? LC+1 is still missing.",
+      "revId": "e6336ebb18b12a09007fa4af1e935d21afc76b6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

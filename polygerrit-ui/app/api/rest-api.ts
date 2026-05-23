@@ -273,6 +273,7 @@ export declare interface ActionInfo {
 export declare interface ActionNameToActionInfoMap {
   [actionType: string]: ActionInfo | undefined;
   // List of actions explicitly used in code:
+  aiReview?: ActionInfo;
   wip?: ActionInfo;
   publishEdit?: ActionInfo;
   rebaseEdit?: ActionInfo;
@@ -427,7 +428,6 @@ export declare interface ChangeInfo {
   contains_git_conflicts?: boolean;
   submit_requirements?: SubmitRequirementResultInfo[];
   submit_records?: SubmitRecordInfo[];
-  can_ai_review?: boolean;
 }
 
 // The ID of the change in the format "'<project>~<branch>~<Change-Id>'"

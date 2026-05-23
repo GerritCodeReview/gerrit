@@ -201,16 +201,12 @@ public class RefControl {
   /**
    * Default-allow variant of {@link #canPerform}: grants access unless explicitly restricted.
    *
-   * <p>Unlike standard Gerrit permissions which are default-deny (require an explicit ALLOW), this
-   * method defaults to granting access. It only denies when the user matches an explicit DENY or
-   * BLOCK rule. When ALLOW rules are configured, it falls back to standard {@link #canPerform}
-   * evaluation.
+   * <p>Unlike standard Gerrit permissions which are default-deny, this method defaults to granting
+   * access. It denies when the user matches an explicit DENY or BLOCK rule. When ALLOW rules are
+   * configured, it falls back to standard {@link #canPerform} evaluation.
    *
-   * <p>This exists because the AI review feature uses an opt-out model during the experiment phase:
-   * all users have access unless an admin explicitly restricts specific groups via DENY or BLOCK.
-   *
-   * <p>TODO(AI review experiment): Remove when {@code UiFeature__enable_ai_chat} is removed.
-   * Replace call sites with {@link #canPerform}.
+   * <p>This is used for opt-out permissions such as AI Review, where access is available by default
+   * unless an admin explicitly restricts it.
    */
   boolean canPerformDefaultAllow(String permissionName) {
     if (!relevant.getAllowRules(permissionName).isEmpty()) {

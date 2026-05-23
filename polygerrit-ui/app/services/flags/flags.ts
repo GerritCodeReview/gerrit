@@ -21,7 +21,6 @@ export enum KnownExperimentId {
   ML_SUGGESTED_EDIT_UNCHECK_BY_DEFAULT = 'UiFeature__ml_suggested_edit_uncheck_by_default',
   ML_SUGGESTED_EDIT_FEEDBACK = 'UiFeature__ml_suggested_edit_feedback',
   ML_SUGGESTED_EDIT_EDITABLE_SUGGESTION = 'UiFeature__ml_suggested_edit_editable_suggestion',
-  ENABLE_AI_CHAT = 'UiFeature__enable_ai_chat',
   ML_SUGGESTED_EDIT_GET_FIX = 'UiFeature__ml_suggested_edit_get_fix',
   DASHBOARD_LAZY_LOADING = 'UiFeature__dashboard_lazy_loading',
 }

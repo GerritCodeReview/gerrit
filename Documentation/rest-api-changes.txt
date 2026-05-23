@@ -3018,12 +3018,14 @@ title, HTTP method, conditional `enabled` state). They remain the
 canonical source for those permissions and are NOT duplicated here.
 
 This endpoint surfaces change-scoped permissions whose REST handlers
-do not naturally fit the `UiAction` pattern, typically because the
+do not naturally fit the `UiAction` pattern -- either because the
 handler is keyed by a child resource id (e.g. `comment-id`,
-`change-message-id`) rather than by the change itself. Currently it
-exposes the link:access-control.html#category_delete_comment[
-`deleteComment`] permission. Additional permissions that share this
-shape may be added in the future; the response is extensible.
+`change-message-id`) rather than by the change itself, or because the
+action is purely client-side and has no server handler at all.
+Currently it exposes the link:access-control.html#category_delete_comment[
+`deleteComment`] and link:access-control.html#category_ai_review[
+`aiReview`] permissions. Additional permissions that share this shape
+may be added in the future; the response is extensible.
 
 .Request
 ----
@@ -3043,7 +3045,8 @@ callers should treat a missing field as "not granted".
 
   )]}'
   {
-    "delete_comment": true
+    "delete_comment": true,
+    "ai_review": true
   }
 ----
 
@@ -8033,6 +8036,10 @@ this endpoint.
 Whether the user can delete published comments or change messages on this
 change. Controlled by the link:access-control.html#category_delete_comment[
 `deleteComment`] permission.
+|`ai_review`     |optional, not set if `false`|
+Whether the user can use AI-assisted review features on this change.
+Controlled by the link:access-control.html#category_ai_review[`aiReview`]
+permission.
 |===========================
 
 [[comment-info]]

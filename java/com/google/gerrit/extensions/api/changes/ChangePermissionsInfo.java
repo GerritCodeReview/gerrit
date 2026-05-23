@@ -26,8 +26,19 @@ public class ChangePermissionsInfo {
    */
   public Boolean deleteComment;
 
+  /**
+   * Whether the calling user can use AI-assisted review features on this change.
+   *
+   * <p>Omitted (i.e. {@code null}) when the user does not have the permission. Callers should treat
+   * {@code null} as "not granted".
+   */
+  public Boolean aiReview;
+
   @Override
   public String toString() {
-    return MoreObjects.toStringHelper(this).add("deleteComment", deleteComment).toString();
+    return MoreObjects.toStringHelper(this)
+        .add("deleteComment", deleteComment)
+        .add("aiReview", aiReview)
+        .toString();
   }
 }

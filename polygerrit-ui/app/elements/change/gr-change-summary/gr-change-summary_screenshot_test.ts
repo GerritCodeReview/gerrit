@@ -80,7 +80,7 @@ suite('gr-change-summary screenshot tests', () => {
   });
 
   test('screenshot with AI Review Prompt', async () => {
-    element.revisionActions = {aiReview: {label: 'AI Review', enabled: true}};
+    element.canAiReview = true;
     await element.updateComplete;
     await visualDiff(element, 'gr-change-summary-with-ai-review-prompt');
     await visualDiffDarkTheme(

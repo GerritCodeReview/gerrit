@@ -426,6 +426,11 @@ export class ChangeModel extends Model<ChangeState> {
     permissions => permissions?.delete_comment ?? false
   );
 
+  public readonly canAiReview$ = select(
+    this.permissions$,
+    permissions => permissions?.ai_review ?? false
+  );
+
   public readonly branch$ = select(this.change$, change => change?.branch);
 
   public readonly changeNum$ = select(this.change$, change => change?._number);

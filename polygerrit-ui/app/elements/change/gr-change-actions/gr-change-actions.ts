@@ -505,6 +505,8 @@ export class GrChangeActions
 
   @state() chatCapabilitiesLoaded = false;
 
+  @state() canAiReview = false;
+
   @state() deletedReviewers: AccountInfo[] = [];
 
   private aiChatLoadingCleanup?: () => void;
@@ -568,6 +570,11 @@ export class GrChangeActions
       this,
       () => this.getChangeModel().mergeable$,
       x => (this.mergeable = x)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().canAiReview$,
+      x => (this.canAiReview = x)
     );
     subscribe(
       this,
@@ -1278,12 +1285,7 @@ export class GrChangeActions
   }
 
   private getAiChatAction(): UIActionInfo | null {
-    // Wait for the actions endpoint to respond before deciding visibility.
-    if (this.revisionActions === undefined) {
-      return null;
-    }
-    // Hide only when the server explicitly denies AI review.
-    if (this.revisionActions.aiReview?.enabled === false) {
+    if (!this.canAiReview) {
       return null;
     }
     if (!this.aiPluginsRegistered) {

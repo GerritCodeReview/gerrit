@@ -375,7 +375,7 @@ suite('gr-change-actions tests', () => {
       test('chatCapabilitiesLoaded', async () => {
         stubFlags('isEnabled').returns(true);
         element.aiPluginsRegistered = true;
-        element.revisionActions = {};
+        element.canAiReview = true;
         chatModel.updateState({
           models: undefined,
           actions: undefined,
@@ -410,32 +410,14 @@ suite('gr-change-actions tests', () => {
         element.aiPluginsRegistered = true;
       });
 
-      test('hidden when aiReview action has enabled: false', async () => {
-        element.revisionActions = {
-          aiReview: {enabled: false} as ActionInfo,
-        };
+      test('hidden when canAiReview is false', async () => {
+        element.canAiReview = false;
         await element.updateComplete;
         assert.isUndefined(query(element, 'gr-button[data-action-key="chat"]'));
       });
 
-      test('hidden while revisionActions is undefined', async () => {
-        element.revisionActions = undefined;
-        await element.updateComplete;
-        assert.isUndefined(query(element, 'gr-button[data-action-key="chat"]'));
-      });
-
-      test('shown when revisionActions has no aiReview entry', async () => {
-        element.revisionActions = {};
-        await element.updateComplete;
-        assert.isDefined(
-          queryAndAssert(element, 'gr-button[data-action-key="chat"]')
-        );
-      });
-
-      test('shown when aiReview action has enabled: true', async () => {
-        element.revisionActions = {
-          aiReview: {enabled: true} as ActionInfo,
-        };
+      test('shown when canAiReview is true', async () => {
+        element.canAiReview = true;
         await element.updateComplete;
         assert.isDefined(
           queryAndAssert(element, 'gr-button[data-action-key="chat"]')
@@ -636,10 +618,11 @@ suite('gr-change-actions tests', () => {
       // Create 'reland' via addActionButton to mimic plugin behavior
       const relandKey = element.addActionButton(ActionType.CHANGE, 'Reland');
 
-      // Mock AI Chat action - set revisionActions before actions to avoid
+      // Mock AI Chat action - set canAiReview before actions to avoid
       // change setter overwriting element.actions
       stubFlags('isEnabled').returns(true);
       element.aiPluginsRegistered = true;
+      element.canAiReview = true;
       element.change = {
         ...element.change!,
         actions: {

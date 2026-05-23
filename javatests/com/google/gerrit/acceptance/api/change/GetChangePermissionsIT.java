@@ -17,6 +17,8 @@ package com.google.gerrit.acceptance.api.change;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.deny;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.permissionKey;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -128,5 +130,106 @@ public class GetChangePermissionsIT extends AbstractDaemonTest {
 
     assertThat(gApi.changes().id(onMaster.getChangeId()).permissions().deleteComment).isTrue();
     assertThat(gApi.changes().id(onSensitive.getChangeId()).permissions().deleteComment).isNull();
+  }
+
+  @Test
+  public void aiReviewTrueByDefaultForRegisteredUser() throws Exception {
+    String changeId = createChange().getChangeId();
+    requestScopeOperations.setApiUser(user.id());
+
+    ChangePermissionsInfo info = gApi.changes().id(changeId).permissions();
+
+    assertThat(info.aiReview).isTrue();
+  }
+
+  @Test
+  public void aiReviewTrueForAdmin() throws Exception {
+    String changeId = createChange().getChangeId();
+
+    ChangePermissionsInfo info = gApi.changes().id(changeId).permissions();
+
+    assertThat(info.aiReview).isTrue();
+  }
+
+  @Test
+  public void aiReviewNullWhenDenied() throws Exception {
+    String changeId = createChange().getChangeId();
+
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(deny(Permission.AI_REVIEW).ref("refs/heads/*").group(REGISTERED_USERS))
+        .update();
+
+    requestScopeOperations.setApiUser(user.id());
+
+    ChangePermissionsInfo info = gApi.changes().id(changeId).permissions();
+
+    assertThat(info.aiReview).isNull();
+  }
+
+  @Test
+  public void aiReviewNullWhenBlocked() throws Exception {
+    String changeId = createChange().getChangeId();
+
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.AI_REVIEW).ref("refs/heads/*").group(REGISTERED_USERS))
+        .update();
+
+    requestScopeOperations.setApiUser(user.id());
+
+    ChangePermissionsInfo info = gApi.changes().id(changeId).permissions();
+
+    assertThat(info.aiReview).isNull();
+  }
+
+  @Test
+  public void aiReviewRespectsBlockOnRefPattern() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.AI_REVIEW).ref("refs/heads/sensitive").group(REGISTERED_USERS))
+        .update();
+    createBranch(BranchNameKey.create(project, "sensitive"));
+
+    PushOneCommit.Result onMaster = createChange("refs/for/master");
+    PushOneCommit.Result onSensitive = createChange("refs/for/sensitive");
+
+    requestScopeOperations.setApiUser(user.id());
+
+    assertThat(gApi.changes().id(onMaster.getChangeId()).permissions().aiReview).isTrue();
+    assertThat(gApi.changes().id(onSensitive.getChangeId()).permissions().aiReview).isNull();
+  }
+
+  @Test
+  public void aiReviewNullWhenAllProjectsGrantRemoved() throws Exception {
+    String changeId = createChange().getChangeId();
+
+    projectOperations
+        .allProjectsForUpdate()
+        .remove(permissionKey(Permission.AI_REVIEW).ref("refs/heads/*"))
+        .update();
+
+    requestScopeOperations.setApiUser(user.id());
+
+    ChangePermissionsInfo info = gApi.changes().id(changeId).permissions();
+
+    assertThat(info.aiReview).isNull();
+  }
+
+  @Test
+  public void aiReviewInheritedByOtherProjectsFromAllProjects() throws Exception {
+    Project.NameKey otherProject = projectOperations.newProject().create();
+    TestRepository<InMemoryRepository> otherRepo = cloneProject(otherProject);
+    String otherChangeId =
+        pushFactory.create(admin.newIdent(), otherRepo).to("refs/for/master").getChangeId();
+
+    requestScopeOperations.setApiUser(user.id());
+
+    ChangePermissionsInfo info = gApi.changes().id(otherChangeId).permissions();
+
+    assertThat(info.aiReview).isTrue();
   }
 }

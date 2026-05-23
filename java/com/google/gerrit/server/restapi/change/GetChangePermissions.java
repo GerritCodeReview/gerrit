@@ -32,6 +32,9 @@ public class GetChangePermissions implements RestReadView<ChangeResource> {
     if (rsrc.permissions().testOrFalse(ChangePermission.DELETE_COMMENT)) {
       info.deleteComment = true;
     }
+    if (rsrc.permissions().testOrFalse(ChangePermission.AI_REVIEW)) {
+      info.aiReview = true;
+    }
     return Response.ok(info);
   }
 }

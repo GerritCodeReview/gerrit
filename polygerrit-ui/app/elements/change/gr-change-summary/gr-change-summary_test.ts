@@ -68,7 +68,7 @@ suite('gr-change-summary test', () => {
       createCommentThread([createComment()]),
       createCommentThread([{...createComment(), unresolved: true}]),
     ];
-    element.revisionActions = {};
+    element.canAiReview = true;
     await element.updateComplete;
     assert.shadowDom.equal(
       element,
@@ -106,7 +106,7 @@ suite('gr-change-summary test', () => {
     );
   });
 
-  test('renders AI review button when revisionActions allow AI review', async () => {
+  test('renders AI review button when canAiReview is true', async () => {
     commentsModel.setState({
       drafts: {
         a: [createDraft(), createDraft(), createDraft()],
@@ -118,7 +118,7 @@ suite('gr-change-summary test', () => {
       createCommentThread([createComment()]),
       createCommentThread([{...createComment(), unresolved: true}]),
     ];
-    element.revisionActions = {aiReview: {label: 'AI Review', enabled: true}};
+    element.canAiReview = true;
     await element.updateComplete;
     assert.shadowDom.equal(
       element,
@@ -156,7 +156,7 @@ suite('gr-change-summary test', () => {
     );
   });
 
-  test('hides AI review button when revisionActions deny AI review', async () => {
+  test('hides AI review button when canAiReview is false', async () => {
     commentsModel.setState({
       drafts: {
         a: [createDraft(), createDraft(), createDraft()],
@@ -168,7 +168,7 @@ suite('gr-change-summary test', () => {
       createCommentThread([createComment()]),
       createCommentThread([{...createComment(), unresolved: true}]),
     ];
-    element.revisionActions = {aiReview: {label: 'AI Review', enabled: false}};
+    element.canAiReview = false;
     await element.updateComplete;
     assert.isUndefined(query(element, 'gr-button'));
   });

@@ -273,7 +273,6 @@ export declare interface ActionInfo {
 export declare interface ActionNameToActionInfoMap {
   [actionType: string]: ActionInfo | undefined;
   // List of actions explicitly used in code:
-  aiReview?: ActionInfo;
   wip?: ActionInfo;
   publishEdit?: ActionInfo;
   rebaseEdit?: ActionInfo;

@@ -243,6 +243,9 @@ suite('gr-change-view screenshot tests', () => {
 
     const changeModel = testResolver(changeModelToken);
     changeModel.updateStateChange(change);
+    // The "Review Agent" action and "Create AI Review Prompt" link are
+    // gated on the ai_review permission from /changes/{id}/permissions.
+    changeModel.updateState({permissions: {ai_review: true}});
 
     // Set comments model to a settled state (not loading)
     const commentsModel = testResolver(commentsModelToken);

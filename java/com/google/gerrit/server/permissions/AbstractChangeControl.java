@@ -98,20 +98,14 @@ abstract class AbstractChangeControl {
         case REVERT -> canRevert();
         case SUBMIT -> refControl.canSubmit(isOwner);
         case TOGGLE_WORK_IN_PROGRESS_STATE -> canToggleWorkInProgressState();
-        case REMOVE_REVIEWER -> refControl.canPerform(changePermissionName(perm));
+        case REMOVE_REVIEWER, AI_REVIEW -> refControl.canPerform(changePermissionName(perm));
         case SUBMIT_AS ->
             permissionBackend.user(getUser()).test(GlobalPermission.RUN_AS)
                 || refControl.canPerform(changePermissionName(perm));
-        case AI_REVIEW -> canAiReview();
       };
     } catch (StorageException e) {
       throw new PermissionBackendException("unavailable", e);
     }
-  }
-
-  /** Can this user perform AI review for this change? */
-  private boolean canAiReview() {
-    return refControl.canPerformDefaultAllow(Permission.AI_REVIEW);
   }
 
   /** Can this user see this change? */

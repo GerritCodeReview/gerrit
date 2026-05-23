@@ -17,6 +17,10 @@ package com.google.gerrit.acceptance.api.change;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.deny;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.permissionKey;
+import static com.google.gerrit.entities.Permission.AI_REVIEW;
+import static com.google.gerrit.entities.Permission.DELETE_COMMENT;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -24,7 +28,6 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.BranchNameKey;
-import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.changes.ChangePermissionsInfo;
 import com.google.inject.Inject;
@@ -44,7 +47,7 @@ public class GetChangePermissionsIT extends AbstractDaemonTest {
 
     ChangePermissionsInfo info = gApi.changes().id(changeId).permissions();
 
-    assertThat(info.permissions).doesNotContain("deleteComment");
+    assertThat(info.permissions).doesNotContain(DELETE_COMMENT);
   }
 
   @Test
@@ -54,14 +57,14 @@ public class GetChangePermissionsIT extends AbstractDaemonTest {
     projectOperations
         .project(project)
         .forUpdate()
-        .add(allow(Permission.DELETE_COMMENT).ref("refs/heads/*").group(REGISTERED_USERS))
+        .add(allow(DELETE_COMMENT).ref("refs/heads/*").group(REGISTERED_USERS))
         .update();
 
     requestScopeOperations.setApiUser(user.id());
 
     ChangePermissionsInfo info = gApi.changes().id(changeId).permissions();
 
-    assertThat(info.permissions).contains("deleteComment");
+    assertThat(info.permissions).contains(DELETE_COMMENT);
   }
 
   @Test
@@ -70,7 +73,7 @@ public class GetChangePermissionsIT extends AbstractDaemonTest {
 
     ChangePermissionsInfo info = gApi.changes().id(changeId).permissions();
 
-    assertThat(info.permissions).contains("deleteComment");
+    assertThat(info.permissions).contains(DELETE_COMMENT);
   }
 
   @Test
@@ -78,7 +81,7 @@ public class GetChangePermissionsIT extends AbstractDaemonTest {
     projectOperations
         .project(project)
         .forUpdate()
-        .add(allow(Permission.DELETE_COMMENT).ref("refs/heads/*").group(REGISTERED_USERS))
+        .add(allow(DELETE_COMMENT).ref("refs/heads/*").group(REGISTERED_USERS))
         .update();
 
     Project.NameKey otherProject = projectOperations.newProject().create();
@@ -90,7 +93,7 @@ public class GetChangePermissionsIT extends AbstractDaemonTest {
 
     ChangePermissionsInfo info = gApi.changes().id(otherChangeId).permissions();
 
-    assertThat(info.permissions).doesNotContain("deleteComment");
+    assertThat(info.permissions).doesNotContain(DELETE_COMMENT);
   }
 
   @Test
@@ -98,7 +101,7 @@ public class GetChangePermissionsIT extends AbstractDaemonTest {
     projectOperations
         .project(project)
         .forUpdate()
-        .add(allow(Permission.DELETE_COMMENT).ref("refs/heads/master").group(REGISTERED_USERS))
+        .add(allow(DELETE_COMMENT).ref("refs/heads/master").group(REGISTERED_USERS))
         .update();
     createBranch(BranchNameKey.create(project, "stable"));
 
@@ -107,8 +110,10 @@ public class GetChangePermissionsIT extends AbstractDaemonTest {
 
     requestScopeOperations.setApiUser(user.id());
 
-    assertThat(gApi.changes().id(onMaster.getChangeId()).permissions().permissions).contains("deleteComment");
-    assertThat(gApi.changes().id(onStable.getChangeId()).permissions().permissions).doesNotContain("deleteComment");
+    assertThat(gApi.changes().id(onMaster.getChangeId()).permissions().permissions)
+        .contains(DELETE_COMMENT);
+    assertThat(gApi.changes().id(onStable.getChangeId()).permissions().permissions)
+        .doesNotContain(DELETE_COMMENT);
   }
 
   @Test
@@ -116,8 +121,8 @@ public class GetChangePermissionsIT extends AbstractDaemonTest {
     projectOperations
         .project(project)
         .forUpdate()
-        .add(allow(Permission.DELETE_COMMENT).ref("refs/heads/*").group(REGISTERED_USERS))
-        .add(block(Permission.DELETE_COMMENT).ref("refs/heads/sensitive").group(REGISTERED_USERS))
+        .add(allow(DELETE_COMMENT).ref("refs/heads/*").group(REGISTERED_USERS))
+        .add(block(DELETE_COMMENT).ref("refs/heads/sensitive").group(REGISTERED_USERS))
         .update();
     createBranch(BranchNameKey.create(project, "sensitive"));
 
@@ -126,7 +131,112 @@ public class GetChangePermissionsIT extends AbstractDaemonTest {
 
     requestScopeOperations.setApiUser(user.id());
 
-    assertThat(gApi.changes().id(onMaster.getChangeId()).permissions().permissions).contains("deleteComment");
-    assertThat(gApi.changes().id(onSensitive.getChangeId()).permissions().permissions).doesNotContain("deleteComment");
+    assertThat(gApi.changes().id(onMaster.getChangeId()).permissions().permissions)
+        .contains(DELETE_COMMENT);
+    assertThat(gApi.changes().id(onSensitive.getChangeId()).permissions().permissions)
+        .doesNotContain(DELETE_COMMENT);
+  }
+
+  @Test
+  public void aiReviewTrueByDefaultForRegisteredUser() throws Exception {
+    String changeId = createChange().getChangeId();
+    requestScopeOperations.setApiUser(user.id());
+
+    ChangePermissionsInfo info = gApi.changes().id(changeId).permissions();
+
+    assertThat(info.permissions).contains(AI_REVIEW);
+  }
+
+  @Test
+  public void aiReviewTrueForAdmin() throws Exception {
+    String changeId = createChange().getChangeId();
+
+    ChangePermissionsInfo info = gApi.changes().id(changeId).permissions();
+
+    assertThat(info.permissions).contains(AI_REVIEW);
+  }
+
+  @Test
+  public void aiReviewNullWhenDenied() throws Exception {
+    String changeId = createChange().getChangeId();
+
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(deny(AI_REVIEW).ref("refs/heads/*").group(REGISTERED_USERS))
+        .update();
+
+    requestScopeOperations.setApiUser(user.id());
+
+    ChangePermissionsInfo info = gApi.changes().id(changeId).permissions();
+
+    assertThat(info.permissions).doesNotContain(AI_REVIEW);
+  }
+
+  @Test
+  public void aiReviewNullWhenBlocked() throws Exception {
+    String changeId = createChange().getChangeId();
+
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(AI_REVIEW).ref("refs/heads/*").group(REGISTERED_USERS))
+        .update();
+
+    requestScopeOperations.setApiUser(user.id());
+
+    ChangePermissionsInfo info = gApi.changes().id(changeId).permissions();
+
+    assertThat(info.permissions).doesNotContain(AI_REVIEW);
+  }
+
+  @Test
+  public void aiReviewRespectsBlockOnRefPattern() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(AI_REVIEW).ref("refs/heads/sensitive").group(REGISTERED_USERS))
+        .update();
+    createBranch(BranchNameKey.create(project, "sensitive"));
+
+    PushOneCommit.Result onMaster = createChange("refs/for/master");
+    PushOneCommit.Result onSensitive = createChange("refs/for/sensitive");
+
+    requestScopeOperations.setApiUser(user.id());
+
+    assertThat(gApi.changes().id(onMaster.getChangeId()).permissions().permissions)
+        .contains(AI_REVIEW);
+    assertThat(gApi.changes().id(onSensitive.getChangeId()).permissions().permissions)
+        .doesNotContain(AI_REVIEW);
+  }
+
+  @Test
+  public void aiReviewNullWhenAllProjectsGrantRemoved() throws Exception {
+    String changeId = createChange().getChangeId();
+
+    projectOperations
+        .allProjectsForUpdate()
+        .remove(permissionKey(AI_REVIEW).ref("refs/heads/*"))
+        .update();
+
+    requestScopeOperations.setApiUser(user.id());
+
+    ChangePermissionsInfo info = gApi.changes().id(changeId).permissions();
+
+    assertThat(info.permissions).doesNotContain(AI_REVIEW);
+  }
+
+  @Test
+  public void aiReviewInheritedByOtherProjectsFromAllProjects() throws Exception {
+    Project.NameKey otherProject = projectOperations.newProject().create();
+    TestRepository<InMemoryRepository> otherRepo = cloneProject(otherProject);
+    String otherChangeId =
+        pushFactory.create(admin.newIdent(), otherRepo).to("refs/for/master").getChangeId();
+
+    requestScopeOperations.setApiUser(user.id());
+
+    ChangePermissionsInfo info = gApi.changes().id(otherChangeId).permissions();
+
+    assertThat(info.permissions).contains(AI_REVIEW);
   }
 }

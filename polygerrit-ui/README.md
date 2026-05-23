@@ -185,6 +185,17 @@ To run the screenshot tests:
 yarn test:screenshot
 ```
 
+Or via Bazel, which matches what CI runs and uses the Bazel-managed
+dependency tree:
+```sh
+bazelisk test //polygerrit-ui:web_test_runner_screenshots
+```
+
+The `//polygerrit-ui:web_test_runner_all` target runs both the unit and
+screenshot buckets in a single invocation. Both screenshot targets are
+tagged `manual`, so they are never picked up by a bare `bazel test //...`
+and must be named explicitly.
+
 If a test fails, it means the component's appearance has changed. New screenshots will be generated in the `polygerrit-ui/screenshots/Chromium/failed/` directory. In case of a mismatch with an existing baseline, a diff image will also be created there.
 
 If the change is intended, you need to approve the new screenshots as the baseline. To do this, move the new screenshot files from the `failed` directory to the `baseline` directory, overwriting the old ones. The diff images in the `failed` directory can be deleted.

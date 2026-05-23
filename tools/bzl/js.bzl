@@ -149,7 +149,7 @@ def gerrit_js_bundle(name, entry_point, srcs = []):
         ]),
     )
 
-def web_test_runner(name, srcs, data):
+def web_test_runner(name, srcs, data, args = []):
     """Creates a Web Test Runner test target.
 
     It can be used both for the main Gerrit js bundle, but also for plugins. So
@@ -164,6 +164,9 @@ def web_test_runner(name, srcs, data):
       srcs: The shell script to invoke, where you can set command line
         arguments for Web Test Runner and its config.
       data: The bundle of JavaScript files with the tests included.
+      args: Additional command-line arguments appended after the runner bin
+        and config paths. Useful for enabling test modes such as
+        --run-screenshots.
     """
 
     native.sh_test(
@@ -173,7 +176,7 @@ def web_test_runner(name, srcs, data):
         args = [
             "$(location //polygerrit-ui:web_test_runner_bin)",
             "$(location //polygerrit-ui:web-test-runner.config.mjs)",
-        ],
+        ] + args,
         data = data + [
             "//polygerrit-ui:resultdb-reporter.mjs",
             "//polygerrit-ui:web_test_runner_bin",

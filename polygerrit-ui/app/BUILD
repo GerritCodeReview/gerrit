@@ -218,13 +218,16 @@ nodejs_test(
     ],
 )
 
-# app code including tests and tsconfig.json
+# app code including tests, tsconfig.json, and the CSS sheets the
+# Web Test Runner HTML loads (main.css, fonts.css, material-icons.css
+# under styles/).
 filegroup(
     name = "web-test-runner_app-sources",
     srcs = glob(
         [
             "**/*.ts",
             "**/*.js",
+            "**/*.css",
             "**/tsconfig.json",
         ],
         exclude = ["node_modules/**/*"],

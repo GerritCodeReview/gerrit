@@ -43,5 +43,43 @@ web_test_runner(
     ],
 )
 
+# Baseline PNGs used by *_screenshot_test.ts files. The failed/ directory is
+# gitignored and intentionally excluded.
+filegroup(
+    name = "screenshot_baselines",
+    srcs = glob(["screenshots/**/baseline/**"]),
+)
+
+web_test_runner(
+    name = "web_test_runner_screenshots",
+    srcs = ["web_test_runner.sh"],
+    args = ["--run-screenshots"],
+    data = [
+        "//polygerrit-ui/app:web-test-runner_app-sources",
+        "@ui_dev_npm//:node_modules",
+        "@ui_npm//:node_modules",
+        ":screenshot_baselines",
+        # fonts.css references /polygerrit-ui/app/fonts/, which the runtime
+        # middleware in web-test-runner.config.mjs rewrites to /lib/fonts/.
+        # Pull the actual font files into the runfiles so that rewrite
+        # resolves to a real path; otherwise glyphs fall back to system
+        # fonts and every screenshot differs in height by a few pixels.
+        "//lib/fonts:robotofonts",
+        "//lib/fonts:material-icons",
+    ],
+)
+
+# Convenience target that runs both the regular unit tests and the screenshot
+# regression tests. Tagged manual so it is not picked up by `bazel test //...`;
+# CI invokes it explicitly.
+test_suite(
+    name = "web_test_runner_all",
+    tags = ["manual"],
+    tests = [
+        ":web_test_runner",
+        ":web_test_runner_screenshots",
+    ],
+)
+
 # This is used by plugins.
 exports_files(["web-test-runner.config.mjs"])

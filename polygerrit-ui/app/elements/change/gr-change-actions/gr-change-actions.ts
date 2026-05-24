@@ -212,6 +212,16 @@ const INCLUDED_IN_ACTION: UIActionInfo = {
   __type: ActionType.CHANGE,
 };
 
+const FOLLOW_UP_ACTION: UIActionInfo = {
+  enabled: true,
+  label: 'Follow-Up',
+  title: 'Create follow-up change',
+  __key: 'followup',
+  __primary: false,
+  __type: ActionType.CHANGE,
+  method: HttpMethod.POST,
+};
+
 const REBASE_EDIT: UIActionInfo = {
   enabled: true,
   label: 'Rebase edit',
@@ -920,6 +930,9 @@ export class GrChangeActions
     if (changedProperties.has('change')) {
       this.reload();
       this.actions = this.change?.actions ?? {};
+      if (this.change?.status !== ChangeStatus.ABANDONED) {
+        this.actions = {...this.actions, followup: FOLLOW_UP_ACTION};
+      }
     }
 
     this.editStatusChanged();

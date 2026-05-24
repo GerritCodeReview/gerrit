@@ -263,11 +263,11 @@ public class ActionsIT extends AbstractDaemonTest {
       public boolean visit(String name, ActionInfo actionInfo, ChangeInfo changeInfo) {
         assertThat(changeInfo).isNotNull();
         assertThat(changeInfo._number).isEqualTo(origChange._number);
-        if (name.equals("followup")) {
+        if (name.equals("abandon")) {
           return false;
         }
-        if (name.equals("abandon")) {
-          actionInfo.label = "Abandon All Hope";
+        if (name.equals("topic")) {
+          actionInfo.label = "Rename Topic";
         }
         return true;
       }
@@ -280,20 +280,20 @@ public class ActionsIT extends AbstractDaemonTest {
     }
 
     Map<String, ActionInfo> origActions = origChange.actions;
-    assertThat(origActions.keySet()).containsAtLeast("followup", "abandon");
-    assertThat(origActions.get("abandon").label).isEqualTo("Abandon");
+    assertThat(origActions.keySet()).containsAtLeast("abandon", "topic");
+    assertThat(origActions.get("topic").label).isEqualTo("Edit Topic");
 
     try (Registration registration = extensionRegistry.newRegistration().add(new Visitor())) {
       Map<String, ActionInfo> newActions =
           gApi.changes().id(id).get(EnumSet.of(ListChangesOption.CHANGE_ACTIONS)).actions;
 
       Set<String> expectedNames = new TreeSet<>(origActions.keySet());
-      expectedNames.remove("followup");
+      expectedNames.remove("abandon");
       assertThat(newActions.keySet()).isEqualTo(expectedNames);
 
-      ActionInfo abandon = newActions.get("abandon");
-      assertThat(abandon).isNotNull();
-      assertThat(abandon.label).isEqualTo("Abandon All Hope");
+      ActionInfo topic = newActions.get("topic");
+      assertThat(topic).isNotNull();
+      assertThat(topic.label).isEqualTo("Rename Topic");
     }
   }
 

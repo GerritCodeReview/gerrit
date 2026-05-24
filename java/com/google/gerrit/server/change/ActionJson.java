@@ -27,7 +27,6 @@ import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.RestView;
-import com.google.gerrit.extensions.webui.PrivateInternals_UiActionDescription;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.extensions.webui.UiActions;
@@ -39,7 +38,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -193,21 +191,9 @@ public class ActionJson {
         return out;
       }
 
-      Iterable<UiAction.Description> uiActionsDescs =
-          uiActions.from(changeViews, changeResourceFactory.create(changeData, user));
-
-      // The followup action is a client-side only operation that does not
-      // have a server side handler. It must be manually registered into the
-      // resulting action map.
-      if (!changeData.change().isAbandoned()) {
-        UiAction.Description followup =
-            clientSideAction("followup", "Follow-Up", "Create follow-up change");
-        PrivateInternals_UiActionDescription.setMethod(followup, "POST");
-        uiActionsDescs = Iterables.concat(uiActionsDescs, Collections.singleton(followup));
-      }
-
       ACTION:
-      for (UiAction.Description d : uiActionsDescs) {
+      for (UiAction.Description d :
+          uiActions.from(changeViews, changeResourceFactory.create(changeData, user))) {
         ActionInfo actionInfo = new ActionInfo(d);
         for (ActionVisitor visitor : visitors) {
           if (!visitor.visit(d.getId(), actionInfo, changeInfo)) {
@@ -241,13 +227,5 @@ public class ActionJson {
       out.put(d.getId(), actionInfo);
     }
     return ImmutableMap.copyOf(out);
-  }
-
-  private static UiAction.Description clientSideAction(String id, String label, String title) {
-    UiAction.Description descr = new UiAction.Description();
-    PrivateInternals_UiActionDescription.setId(descr, id);
-    descr.setLabel(label);
-    descr.setTitle(title);
-    return descr;
   }
 }

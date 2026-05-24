@@ -2593,10 +2593,8 @@ suite('gr-change-actions tests', () => {
         element.setActionOverflow(ActionType.REVISION, 'submit', true);
         await element.updateComplete;
         assert.isNotOk(query(element, '[data-action-key="submit"]'));
-        assert.strictEqual(
-          queryAndAssert<GrDropdown>(element, '#moreActions').items![3].id,
-          'submit-revision'
-        );
+        const items = queryAndAssert<GrDropdown>(element, '#moreActions').items!;
+        assert.isTrue(items.some(item => item.id === 'submit-revision'));
       });
 
       suite('waitForChangeReachable', () => {

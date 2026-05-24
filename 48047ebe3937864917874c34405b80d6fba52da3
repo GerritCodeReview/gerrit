@@ -16,6 +16,24 @@
       "message": "It seems like this could also be used to help solve the issue discussed in https://gerrit-review.googlesource.com/c/gerrit/+/574541/comment/aab982e7_cb171af5/ ?",
       "revId": "48047ebe3937864917874c34405b80d6fba52da3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4841449f_e682dc9b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-05-24T18:46:51Z",
+      "side": 1,
+      "message": "Yes, exactly — that was the design intent. There is a follow-up series that does this for `aiReview` and finishes off the `ActionJson` cleanup:\n\n* [change 586901] — Switch aiReview to standard default-deny semantics + seed an explicit Registered Users grant in All-Projects (bootstrap + `Schema_187`). This drops the ActionJson smuggling from change 574541 along with the default-allow special case in RefControl.\n* [change 586902] — Extend `ChangePermissionsInfo` (the DTO returned by this endpoint) with an `ai_review` field.\n* [change 586903] — PolyGerrit: read aiReview from /permissions instead of `revisionActions.aiReview`.\n* [change 586904] — Move the parallel Follow-Up injection out of `ActionJson` too. Follow-Up carries change state (`!isAbandoned`) rather than a permission, so it goes to `gr-change-actions` directly — adding a `can_follow_up` field to /permissions would have type-confused the endpoint by mixing state with ACLs.\n\nAfter the series, `ActionJson` is back to being a pure `UiAction` → `ActionInfo` mapper with no client-side action special-casing.",
+      "parentUuid": "96af6d31_57a61d73",
+      "revId": "48047ebe3937864917874c34405b80d6fba52da3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

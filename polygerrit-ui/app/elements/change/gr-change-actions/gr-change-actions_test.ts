@@ -658,6 +658,18 @@ suite('gr-change-actions tests', () => {
       assert.deepEqual(keys, [relandKey, 'chat', 'rebase', 'abandon']);
     });
 
+    test('followup action is injected only when logged in', async () => {
+      element.loggedIn = true;
+      element.change = {...createChangeViewChange(), actions: {}};
+      await element.updateComplete;
+      assert.isOk(element.actions['followup']);
+
+      element.loggedIn = false;
+      element.change = {...createChangeViewChange(), actions: {}};
+      await element.updateComplete;
+      assert.isNotOk(element.actions['followup']);
+    });
+
     test('submit change', async () => {
       const showSpy = sinon.spy(element, 'showActionDialog');
       stubRestApi('getRepoName').returns(Promise.resolve('test' as RepoName));

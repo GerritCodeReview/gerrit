@@ -16,6 +16,24 @@
       "message": "This probably should explain that setting to 2 creates 2 new threads in a separate pool from the current h2 pool",
       "revId": "8073d8f06831e5bf0e498fb38a048226f7f70c52",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0dc43c4e_f3c5ea97",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 921,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-05-25T20:33:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0c54136c_680e9a55",
+      "revId": "8073d8f06831e5bf0e498fb38a048226f7f70c52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -344,7 +344,7 @@ public class WorkQueue {
   }
 
   /** An isolated queue. */
-  private class Executor extends ScheduledThreadPoolExecutor {
+  public class Executor extends ScheduledThreadPoolExecutor {
     private class ParkedTask implements Comparable<ParkedTask> {
       public final CancellableCountDownLatch latch = new CancellableCountDownLatch(1);
       public final Task<?> task;
@@ -524,19 +524,19 @@ public class WorkQueue {
       metricsRegistrationHandles.add(
           metrics.newCallbackMetric(
               getMetricName(queueName, "max_pool_size"),
-              Long.class,
+              Integer.class,
               new Description("Maximum allowed number of non parked threads in the pool")
                   .setGauge()
                   .setUnit("threads"),
-              () -> (long) getMaximumPoolSize() - parked.size()));
+              this::unparkedMaxPoolSize));
       metricsRegistrationHandles.add(
           metrics.newCallbackMetric(
               getMetricName(queueName, "pool_size"),
-              Long.class,
+              Integer.class,
               new Description("Current number of non parked threads in the pool")
                   .setGauge()
                   .setUnit("threads"),
-              () -> (long) getPoolSize() - parked.size()));
+              this::unparkedPoolSize));
       metricsRegistrationHandles.add(
           metrics.newCallbackMetric(
               getMetricName(queueName, "parked_threads"),
@@ -548,11 +548,11 @@ public class WorkQueue {
       metricsRegistrationHandles.add(
           metrics.newCallbackMetric(
               getMetricName(queueName, "active_threads"),
-              Long.class,
+              Integer.class,
               new Description("Current number of threads that are actively executing tasks")
                   .setGauge()
                   .setUnit("threads"),
-              () -> (long) getActiveCount() - parked.size()));
+              this::getActiveThreadCount));
       metricsRegistrationHandles.add(
           metrics.newCallbackMetric(
               getMetricName(queueName, "scheduled_tasks"),
@@ -601,6 +601,18 @@ public class WorkQueue {
           CaseFormat.UPPER_CAMEL.to(
               CaseFormat.LOWER_UNDERSCORE, queueName.replaceFirst("SSH", "Ssh").replace("-", ""));
       return metrics.sanitizeMetricName(String.format("queue/%s/%s", name, metricName));
+    }
+
+    public int unparkedMaxPoolSize() {
+      return getMaximumPoolSize() - parked.size();
+    }
+
+    public int unparkedPoolSize() {
+      return getPoolSize() - parked.size();
+    }
+
+    public int getActiveThreadCount() {
+      return getActiveCount() - parked.size();
     }
 
     @Override

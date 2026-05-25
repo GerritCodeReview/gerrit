@@ -14,6 +14,7 @@ export enum AccessPermissionId {
   DELETE = 'delete',
   DELETE_CHANGES = 'deleteChanges',
   DELETE_OWN_CHANGES = 'deleteOwnChanges',
+  DELETE_VOTE_ON_MERGED_CHANGES = 'deleteVoteOnMergedChanges',
   EDIT_HASHTAGS = 'editHashtags',
   EDIT_TOPIC_NAME = 'editTopicName',
   FORGE_AUTHOR = 'forgeAuthor',
@@ -67,6 +68,10 @@ export const AccessPermissions: {[id: string]: AccessPermission} = {
   [AccessPermissionId.DELETE_OWN_CHANGES]: {
     id: AccessPermissionId.DELETE_OWN_CHANGES,
     name: 'Delete Own Changes',
+  },
+  [AccessPermissionId.DELETE_VOTE_ON_MERGED_CHANGES]: {
+    id: AccessPermissionId.DELETE_VOTE_ON_MERGED_CHANGES,
+    name: 'Delete Vote On Merged Changes',
   },
   [AccessPermissionId.EDIT_HASHTAGS]: {
     id: AccessPermissionId.EDIT_HASHTAGS,
@@ -186,6 +191,8 @@ const DocsDocAnchors: Record<string, string> = {
   [AccessPermissionId.DELETE]: 'category_delete',
   [AccessPermissionId.DELETE_CHANGES]: 'category_delete_changes',
   [AccessPermissionId.DELETE_OWN_CHANGES]: 'category_delete_own_changes',
+  [AccessPermissionId.DELETE_VOTE_ON_MERGED_CHANGES]:
+    'category_delete_vote_on_merged_changes',
   [AccessPermissionId.EDIT_HASHTAGS]: 'category_edit_hashtags',
   [AccessPermissionId.EDIT_TOPIC_NAME]: 'category_edit_topic_name',
   [AccessPermissionId.FORGE_AUTHOR]: 'category_forge_author',

@@ -87,6 +87,7 @@ abstract class AbstractChangeControl {
         case ABANDON -> canAbandon();
         case DELETE -> projectControl.isAdmin() || refControl.canDeleteChanges(isOwner);
         case DELETE_COMMENT -> canDeleteComment();
+        case DELETE_VOTE_ON_MERGED_CHANGES -> canDeleteVoteOnMergedChanges();
         case ADD_PATCH_SET -> canAddPatchSet();
         case EDIT_DESCRIPTION -> canEditDescription();
         case EDIT_HASHTAGS -> canEditHashtags();
@@ -215,6 +216,12 @@ abstract class AbstractChangeControl {
   /** Can this user delete published comments or change messages on this change? */
   private boolean canDeleteComment() {
     return refControl.canPerform(Permission.DELETE_COMMENT) || projectControl.isAdmin();
+  }
+
+  /** Can this user delete votes from merged changes (i.e. bypass the post-submission lock)? */
+  private boolean canDeleteVoteOnMergedChanges() {
+    return refControl.canPerform(Permission.DELETE_VOTE_ON_MERGED_CHANGES)
+        || projectControl.isAdmin();
   }
 
   private boolean can(AbstractLabelPermission perm) {

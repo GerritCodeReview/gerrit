@@ -58,7 +58,10 @@ public class RemoveReviewerControl {
       throws PermissionBackendException, AuthException, ResourceConflictException {
     if (notes.getChange().isMerged()
         && approval.value() != 0
-        && !permissionBackend.user(currentUser).test(GlobalPermission.ADMINISTRATE_SERVER)) {
+        && !permissionBackend
+            .user(currentUser)
+            .change(notes)
+            .test(ChangePermission.DELETE_VOTE_ON_MERGED_CHANGES)) {
       throw new ResourceConflictException("cannot remove votes from merged change");
     }
 
@@ -102,7 +105,10 @@ public class RemoveReviewerControl {
       throws PermissionBackendException {
     if (cd.change().isMerged()
         && value != 0
-        && !permissionBackend.user(currentUser).test(GlobalPermission.ADMINISTRATE_SERVER)) {
+        && !permissionBackend
+            .user(currentUser)
+            .change(cd)
+            .test(ChangePermission.DELETE_VOTE_ON_MERGED_CHANGES)) {
       return false;
     }
 

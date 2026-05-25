@@ -886,9 +886,10 @@ Users without this access right can still remove their own votes.
 Note, removing votes is generally disallowed for merged changes as this could
 remove approvals that were necessary for the submission and it's confusing to
 see a merged change which doesn't have the necessary approvals to fulfill the
-submit requirements. As an exception, users with the
-link:#capability_administrateServer[Administrate Server] global capability may
-remove votes from merged changes.
+submit requirements. Users with the
+link:#category_delete_vote_on_merged_changes[Delete Vote On Merged Changes]
+permission may remove votes from merged changes. Site administrators retain
+this ability without needing the permission granted.
 
 [[category_remove_reviewer]]
 === Remove Reviewer
@@ -908,9 +909,10 @@ reviewer list on a change.
 Note, removing reviewers with non-zero votes is generally disallowed for merged
 changes as this could remove approvals that were necessary for the submission
 and it's confusing to see a merged change which doesn't have the necessary
-approvals to fulfill the submit requirements. As an exception, users with the
-link:#capability_administrateServer[Administrate Server] global capability may
-remove reviewers with non-zero votes from merged changes.
+approvals to fulfill the submit requirements. Users with the
+link:#category_delete_vote_on_merged_changes[Delete Vote On Merged Changes]
+permission may remove reviewers with non-zero votes from merged changes. Site
+administrators retain this ability without needing the permission granted.
 
 [[category_review_labels]]
 === Review Labels
@@ -1028,6 +1030,37 @@ permission explicitly granted.
 This permission controls a destructive, irreversible operation.
 It should be granted only to trusted groups (e.g. a dedicated moderation
 group), and not to `Registered Users` at large.
+
+Must be assigned on the target branch ref (i.e. on `refs/heads/*` or a
+more specific pattern); it is not a global capability.
+
+
+[[category_delete_vote_on_merged_changes]]
+=== Delete Vote On Merged Changes
+
+This permission lifts the post-submission lock that otherwise rejects vote
+removal on merged changes. It governs both endpoints that strip approvals
+after submission:
+
+* link:rest-api-changes.html#delete-vote[Delete Vote]
+* link:rest-api-changes.html#delete-reviewer[Delete Reviewer], when the
+  reviewer has a non-zero vote (removing a zero-vote reviewer from a merged
+  change is already allowed and does not require this permission).
+
+The general permissions still apply on top: a user who lacks
+link:#category_remove_label[Remove Label] or
+link:#category_remove_reviewer[Remove Reviewer] cannot remove votes or
+reviewers regardless of this permission. Granting `Delete Vote On Merged
+Changes` only widens the merged-change restriction; it does not bypass the
+underlying remove-vote or remove-reviewer checks.
+
+Site administrators can always remove votes from merged changes without
+having this permission explicitly granted.
+
+[NOTE]
+This permission allows rewriting the post-submission approval state of a
+change. It should be granted only to trusted groups (e.g. a dedicated
+moderation or compliance group), and not to `Registered Users` at large.
 
 Must be assigned on the target branch ref (i.e. on `refs/heads/*` or a
 more specific pattern); it is not a global capability.

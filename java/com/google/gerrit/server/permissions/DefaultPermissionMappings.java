@@ -112,6 +112,9 @@ public class DefaultPermissionMappings {
           .put(ChangePermission.RESTORE, "restore")
           .put(ChangePermission.DELETE, Permission.DELETE)
           .put(ChangePermission.DELETE_COMMENT, Permission.DELETE_COMMENT)
+          .put(
+              ChangePermission.DELETE_VOTE_ON_MERGED_CHANGES,
+              Permission.DELETE_VOTE_ON_MERGED_CHANGES)
           .put(ChangePermission.ABANDON, Permission.ABANDON)
           .put(ChangePermission.EDIT_DESCRIPTION, "editDescription")
           .put(ChangePermission.EDIT_CUSTOM_KEYED_VALUES, Permission.EDIT_CUSTOM_KEYED_VALUES)

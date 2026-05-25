@@ -4408,6 +4408,20 @@ An email will be sent using the "newchange" template.
 Deletes a reviewer from a change.
 Deleting a reviewer also removes that user from the attention set.
 
+Removing a reviewer who has cast a non-zero vote is generally disallowed for
+merged changes as this could remove approvals that were necessary for the
+submission and it's confusing to see a merged change which doesn't have the
+necessary approvals to fulfill the submit requirements. Users with the
+link:access-control.html#category_delete_vote_on_merged_changes[Delete Vote
+On Merged Changes] permission may remove reviewers with non-zero votes from
+merged changes. Site administrators retain this ability without needing the
+permission granted. Removing a reviewer whose votes are all zero is always
+allowed and does not require this permission.
+
+The request fails with '409 Conflict' when the change is merged, the
+reviewer has a non-zero vote, and the caller is not permitted to delete
+votes from merged changes.
+
 .Request
 ----
   DELETE /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/reviewers/John%20Doe HTTP/1.0
@@ -4495,8 +4509,9 @@ Note, removing votes is generally disallowed for merged changes as this could
 remove approvals that were necessary for the submission and it's confusing to
 see a merged change which doesn't have the necessary approvals to fulfill the
 submit requirements. Users with the
-link:access-control.html#capability_administrateServer[Administrate Server]
-global capability may delete votes from merged changes.
+link:access-control.html#category_delete_vote_on_merged_changes[Delete Vote
+On Merged Changes] permission may delete votes from merged changes. Site
+administrators retain this ability without needing the permission granted.
 
 See the description of the link:access-control.html#category_remove_label[
 Remove Label] permission for when users are allowed to remove votes.

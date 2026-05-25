@@ -839,7 +839,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void removeReviewerWithVoteOnMergedChangeForAdministrateServerSucceeds() throws Exception {
+  public void removeReviewerWithVoteOnMergedChangeForAdminSucceeds() throws Exception {
     PushOneCommit.Result r = createChange();
 
     requestScopeOperations.setApiUser(user.id());
@@ -856,6 +856,43 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     gApi.changes().id(r.getChangeId()).current().submit();
 
     gApi.changes().id(r.getChangeId()).reviewer(user.email()).remove();
+
+    ChangeInfo changeInfo = gApi.changes().id(r.getChangeId()).get(DETAILED_LABELS);
+    assertThat(changeInfo).hasExactlyVotes(vote(LabelId.CODE_REVIEW, admin.id(), 2));
+  }
+
+  @Test
+  public void removeReviewerWithVoteOnMergedChangeWithPermissionSucceeds() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(
+            allow(Permission.DELETE_VOTE_ON_MERGED_CHANGES)
+                .ref("refs/heads/*")
+                .group(REGISTERED_USERS))
+        .add(allow(Permission.REMOVE_REVIEWER).ref("refs/heads/*").group(REGISTERED_USERS))
+        .update();
+
+    PushOneCommit.Result r = createChange();
+    TestAccount voter = accountCreator.create(name("voter"), "voter@example.com", "Voter", null);
+
+    requestScopeOperations.setApiUser(voter.id());
+    gApi.changes()
+        .id(r.getChangeId())
+        .current()
+        .review(new ReviewInput().label(LabelId.CODE_REVIEW, 1));
+
+    requestScopeOperations.setApiUser(admin.id());
+    gApi.changes()
+        .id(r.getChangeId())
+        .current()
+        .review(new ReviewInput().label(LabelId.CODE_REVIEW, 2));
+    gApi.changes().id(r.getChangeId()).current().submit();
+
+    // A non-admin user with the new permission (plus Remove Reviewer) can remove a voting
+    // reviewer from a merged change.
+    requestScopeOperations.setApiUser(user.id());
+    gApi.changes().id(r.getChangeId()).reviewer(voter.email()).remove();
 
     ChangeInfo changeInfo = gApi.changes().id(r.getChangeId()).get(DETAILED_LABELS);
     assertThat(changeInfo).hasExactlyVotes(vote(LabelId.CODE_REVIEW, admin.id(), 2));

@@ -163,6 +163,12 @@ suite('gr-access-section tests', () => {
                     <md-select-option md-menu-item="" value="deleteOwnChanges">
                       <div slot="headline">Delete Own Changes</div>
                     </md-select-option>
+                    <md-select-option
+                      md-menu-item=""
+                      value="deleteVoteOnMergedChanges"
+                    >
+                      <div slot="headline">Delete Vote On Merged Changes</div>
+                    </md-select-option>
                     <md-select-option md-menu-item="" value="editHashtags">
                       <div slot="headline">Edit Hashtags</div>
                     </md-select-option>

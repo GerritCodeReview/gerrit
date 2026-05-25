@@ -2708,6 +2708,76 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void deleteVoteFromMergedChangePossibleWithPermission() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(
+            allowLabel(LabelId.CODE_REVIEW)
+                .ref("refs/heads/*")
+                .group(REGISTERED_USERS)
+                .range(-2, 2))
+        .add(
+            allow(Permission.DELETE_VOTE_ON_MERGED_CHANGES)
+                .ref("refs/heads/*")
+                .group(REGISTERED_USERS))
+        .update();
+
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    requestScopeOperations.setApiUser(user.id());
+    approve(changeId);
+
+    requestScopeOperations.setApiUser(admin.id());
+    gApi.changes().id(changeId).current().submit();
+
+    // A non-admin user with the new permission can delete the vote.
+    requestScopeOperations.setApiUser(user.id());
+    gApi.changes()
+        .id(r.getChangeId())
+        .reviewer(user.id().toString())
+        .deleteVote(LabelId.CODE_REVIEW);
+
+    assertThat(gApi.changes().id(r.getChangeId()).reviewer(user.id().toString()).votes())
+        .containsEntry(LabelId.CODE_REVIEW, (short) 0);
+  }
+
+  @Test
+  public void deleteVoteFromMergedChangeWithoutPermissionFails() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(
+            allowLabel(LabelId.CODE_REVIEW)
+                .ref("refs/heads/*")
+                .group(REGISTERED_USERS)
+                .range(-2, 2))
+        .update();
+
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    requestScopeOperations.setApiUser(user.id());
+    approve(changeId);
+
+    requestScopeOperations.setApiUser(admin.id());
+    gApi.changes().id(changeId).current().submit();
+
+    // Without the new permission, a non-admin user cannot delete a vote on a merged change.
+    requestScopeOperations.setApiUser(user.id());
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () ->
+                gApi.changes()
+                    .id(r.getChangeId())
+                    .reviewer(user.id().toString())
+                    .deleteVote(LabelId.CODE_REVIEW));
+    assertThat(thrown).hasMessageThat().contains("cannot remove votes from merged change");
+  }
+
+  @Test
   public void nonVotingReviewerStaysAfterSubmit() throws Exception {
     LabelType verified =
         label(LabelId.VERIFIED, value(1, "Passes"), value(0, "No score"), value(-1, "Failed"));

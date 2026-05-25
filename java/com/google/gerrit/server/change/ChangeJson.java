@@ -1040,6 +1040,8 @@ public class ChangeJson {
                   .ref(cd.change().getDest().branch())
                   .test(RefPermission.WRITE_CONFIG)
               || withUser.test(GlobalPermission.ADMINISTRATE_SERVER);
+      boolean canDeleteVoteOnMergedChanges =
+          withUser.change(cd).test(ChangePermission.DELETE_VOTE_ON_MERGED_CHANGES);
 
       for (LabelInfo label : labels) {
         if (label.all == null) {
@@ -1053,7 +1055,7 @@ public class ChangeJson {
           }
 
           int value = MoreObjects.firstNonNull(ai.value, 0);
-          if ((cd.change().isMerged() && value != 0)
+          if ((cd.change().isMerged() && value != 0 && !canDeleteVoteOnMergedChanges)
               || (!canRemoveAnyReviewer
                   && !RemoveReviewerControl.canRemoveReviewerWithoutPermissionCheck(
                       cd.change(), user, id, value))) {

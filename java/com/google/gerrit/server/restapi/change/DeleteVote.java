@@ -32,9 +32,7 @@ import com.google.gerrit.server.change.AttentionSetUnchangedOp;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.ReviewerResource;
 import com.google.gerrit.server.change.VoteResource;
-import com.google.gerrit.server.permissions.GlobalPermission;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.update.context.RefUpdateContext;
@@ -51,7 +49,6 @@ public class DeleteVote implements RestModifyView<VoteResource, DeleteVoteInput>
   private final NotifyResolver notifyResolver;
 
   private final AddToAttentionSetOp.Factory attentionSetOpFactory;
-  private final PermissionBackend permissionBackend;
   private final Provider<CurrentUser> currentUserProvider;
   private final DeleteVoteOp.Factory deleteVoteOpFactory;
 
@@ -60,24 +57,18 @@ public class DeleteVote implements RestModifyView<VoteResource, DeleteVoteInput>
       BatchUpdate.Factory updateFactory,
       NotifyResolver notifyResolver,
       AddToAttentionSetOp.Factory attentionSetOpFactory,
-      PermissionBackend permissionBackend,
       Provider<CurrentUser> currentUserProvider,
       DeleteVoteOp.Factory deleteVoteOpFactory) {
     this.updateFactory = updateFactory;
     this.notifyResolver = notifyResolver;
     this.attentionSetOpFactory = attentionSetOpFactory;
-    this.permissionBackend = permissionBackend;
     this.currentUserProvider = currentUserProvider;
     this.deleteVoteOpFactory = deleteVoteOpFactory;
   }
 
   @Override
   public Response<Object> apply(VoteResource rsrc, DeleteVoteInput input)
-      throws RestApiException,
-          UpdateException,
-          IOException,
-          ConfigInvalidException,
-          PermissionBackendException {
+      throws RestApiException, UpdateException, IOException, ConfigInvalidException {
     if (input == null) {
       input = new DeleteVoteInput();
     }
@@ -92,7 +83,9 @@ public class DeleteVote implements RestModifyView<VoteResource, DeleteVoteInput>
     CurrentUser user = currentUserProvider.get();
 
     if (change.isMerged()
-        && !permissionBackend.user(user).test(GlobalPermission.ADMINISTRATE_SERVER)) {
+        && !r.getChangeResource()
+            .permissions()
+            .testOrFalse(ChangePermission.DELETE_VOTE_ON_MERGED_CHANGES)) {
       throw new ResourceConflictException("cannot remove votes from merged change");
     }
 

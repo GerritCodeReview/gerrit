@@ -3615,6 +3615,23 @@ thread pool waiting for a worker thread to become available.
 +
 By default 200.
 
+[[httpd.useWorkQueue]]httpd.useWorkQueue::
++
+If `true`, the HTTP request thread pool is created via Gerrit's
+internal WorkQueue (named `HTTP`) instead of Jetty's
+`QueuedThreadPool`. This makes HTTP worker threads visible to
+`gerrit show-queue`, exposes WorkQueue thread-pool metrics, and
+lets `TaskListener` plugins observe HTTP work alongside SSH
+commands and background tasks.
++
+When enabled, `httpd.maxThreads` sizes the WorkQueue executor.
+`httpd.minThreads` and `httpd.maxQueued` have no effect in this
+mode (the WorkQueue uses an unbounded delay queue and a fixed
+core pool size). `TaskListener` plugins will see every Runnable
+Jetty submits.
++
+By default, `false` (Jetty's `QueuedThreadPool` is used).
+
 [[httpd.maxWait]]httpd.maxWait::
 +
 Maximum amount of time a client will wait for an available

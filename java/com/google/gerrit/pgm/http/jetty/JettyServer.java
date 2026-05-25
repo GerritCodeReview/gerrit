@@ -21,12 +21,15 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.pgm.http.jetty.HttpLog.HttpLogFactory;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.config.ThreadSettingsConfig;
+import com.google.gerrit.server.git.WorkQueue;
+import com.google.gerrit.server.git.WorkQueue.Executor;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Singleton;
@@ -76,11 +79,15 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.BlockingArrayQueue;
 import org.eclipse.jetty.util.log.Log;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
+import org.eclipse.jetty.util.thread.ExecutorThreadPool;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
+import org.eclipse.jetty.util.thread.ThreadPool;
 import org.eclipse.jgit.lib.Config;
 
 @Singleton
 public class JettyServer {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   static class Lifecycle implements LifecycleListener {
     private final JettyServer server;
     private final Config cfg;
@@ -126,10 +133,10 @@ public class JettyServer {
   }
 
   static class Metrics {
-    private final QueuedThreadPool threadPool;
+    private final ThreadPool threadPool;
     private ConnectionStatistics connStats;
 
-    Metrics(QueuedThreadPool threadPool, ConnectionStatistics connStats) {
+    Metrics(ThreadPool threadPool, ConnectionStatistics connStats) {
       this.threadPool = threadPool;
       this.connStats = connStats;
     }
@@ -139,27 +146,60 @@ public class JettyServer {
     }
 
     public int getBusyThreads() {
-      return threadPool.getBusyThreads();
+      if (threadPool instanceof QueuedThreadPool qtp) {
+        return qtp.getBusyThreads();
+      }
+      if (threadPool instanceof WorkQueueThreadPool wqtp) {
+        return wqtp.getBusyThreads();
+      }
+
+      return -1;
     }
 
     public int getReservedThreads() {
-      return threadPool.getReservedThreads();
+      if (threadPool instanceof QueuedThreadPool qtp) {
+        return qtp.getReservedThreads();
+      }
+      return -1;
     }
 
     public int getMinThreads() {
-      return threadPool.getMinThreads();
+      if (threadPool instanceof QueuedThreadPool qtp) {
+        return qtp.getMinThreads();
+      }
+      return -1;
     }
 
     public int getMaxThreads() {
-      return threadPool.getMaxThreads();
+      if (threadPool instanceof QueuedThreadPool qtp) {
+        return qtp.getMaxThreads();
+      }
+      if (threadPool instanceof WorkQueueThreadPool wqtp) {
+        return wqtp.getMaxThreads();
+      }
+
+      return -1;
     }
 
     public int getThreads() {
-      return threadPool.getThreads();
+      if (threadPool instanceof QueuedThreadPool qtp) {
+        return qtp.getThreads();
+      }
+      if (threadPool instanceof WorkQueueThreadPool wqtp) {
+        return wqtp.getThreads();
+      }
+
+      return -1;
     }
 
     public int getQueueSize() {
-      return threadPool.getQueueSize();
+      if (threadPool instanceof QueuedThreadPool) {
+        return ((QueuedThreadPool) threadPool).getQueueSize();
+      }
+      if (threadPool instanceof WorkQueueThreadPool) {
+        return ((WorkQueueThreadPool) threadPool).getQueueSize();
+      }
+      return -1;
     }
 
     public boolean isLowOnThreads() {
@@ -217,10 +257,10 @@ public class JettyServer {
       ThreadSettingsConfig threadSettingsConfig,
       SitePaths site,
       JettyEnv env,
-      HttpLogFactory httpLogFactory) {
+      HttpLogFactory httpLogFactory,
+      WorkQueue workQueue) {
     this.site = site;
-
-    QueuedThreadPool pool = threadPool(cfg, threadSettingsConfig);
+    ThreadPool pool = threadPool(cfg, threadSettingsConfig, workQueue);
     httpd = new Server(pool);
     httpd.setConnectors(listen(httpd, cfg));
     connStats = new ConnectionStatistics();
@@ -469,8 +509,21 @@ public class JettyServer {
     return site.resolve(path);
   }
 
-  private QueuedThreadPool threadPool(Config cfg, ThreadSettingsConfig threadSettingsConfig) {
+  @VisibleForTesting
+  static ThreadPool threadPool(
+      Config cfg, ThreadSettingsConfig threadSettingsConfig, WorkQueue workQueue) {
     int maxThreads = threadSettingsConfig.getHttpdMaxThreads();
+    if (cfg.getBoolean("httpd", null, "useWorkQueue", false)) {
+      logger.atInfo().log(
+          "httpd.useWorkQueue=true; routing Jetty thread pool through WorkQueue."
+              + " httpd.minthreads and httpd.maxqueued are ignored in this mode.");
+      WorkQueueThreadPool pool =
+          new WorkQueueThreadPool(
+              (Executor) workQueue.createQueue(maxThreads, "HTTP", /* withMetrics= */ true));
+      pool.setName("HTTP");
+      return pool;
+    }
+
     int minThreads = cfg.getInt("httpd", null, "minthreads", 5);
     int maxQueued = cfg.getInt("httpd", null, "maxqueued", 200);
     int idleTimeout = (int) MILLISECONDS.convert(60, SECONDS);
@@ -487,6 +540,34 @@ public class JettyServer {
                 ));
     pool.setName("HTTP");
     return pool;
+  }
+
+  /** Maps the WorkQueue metrics to Jetty metrics. */
+  static final class WorkQueueThreadPool extends ExecutorThreadPool {
+    private final WorkQueue.Executor executor;
+
+    WorkQueueThreadPool(WorkQueue.Executor executor) {
+      super(executor);
+      this.executor = executor;
+    }
+
+    public int getQueueSize() {
+      return executor.getQueue().size();
+    }
+
+    public int getBusyThreads() {
+      return executor.getActiveThreadCount();
+    }
+
+    @Override
+    public int getMaxThreads() {
+      return executor.unparkedMaxPoolSize();
+    }
+
+    @Override
+    public int getThreads() {
+      return executor.unparkedPoolSize();
+    }
   }
 
   private Handler makeContext(JettyEnv env, Config cfg, SessionHandler sessionHandler) {

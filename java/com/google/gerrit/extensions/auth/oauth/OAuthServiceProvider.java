@@ -84,4 +84,17 @@ public interface OAuthServiceProvider {
    * @return name of the service
    */
   String getName();
+
+  /**
+   * Returns a path to an icon for this provider, rendered alongside the provider name on the OAuth
+   * login form. May be either an absolute URL (starting with {@code http://} or {@code https://}),
+   * a path starting with {@code /}, or a relative path; relative paths are resolved against the
+   * plugin's static resource directory ({@code /plugins/<pluginName>/static/}).
+   *
+   * @return path to the provider icon, or {@code null} if no icon should be rendered
+   */
+  @Nullable
+  default String getIconUrl() {
+    return null;
+  }
 }

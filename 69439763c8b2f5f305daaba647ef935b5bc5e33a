@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a7b4bf5_91ba8f75",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-05-26T15:57:50Z",
+      "side": 1,
+      "message": "Why do you need `username` separately from `backfilledUsername`?\n```suggestion\n        backfilledUsername \u003d who.getUserName().get();\n        ExternalId userNameExtId \u003d createUsername(user.getAccountId(), backfilledUsername);\n        accountUpdates.add(u -\u003e u.addExternalId(userNameExtId));\n```",
+      "range": {
+        "startLine": 306,
+        "startChar": 8,
+        "endLine": 309,
+        "endChar": 38
+      },
+      "revId": "69439763c8b2f5f305daaba647ef935b5bc5e33a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

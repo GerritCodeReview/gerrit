@@ -75,7 +75,8 @@ class OAuthWebFilter implements Filter {
   }
 
   @Override
-  public void destroy() {}
+  public void destroy() {
+  }
 
   @Override
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
@@ -90,8 +91,7 @@ class OAuthWebFilter implements Filter {
     }
 
     String provider = httpRequest.getParameter("provider");
-    OAuthServiceProvider service =
-        ssoProvider == null ? oauthSession.getServiceProvider() : ssoProvider;
+    OAuthServiceProvider service = ssoProvider == null ? oauthSession.getServiceProvider() : ssoProvider;
 
     if (isGerritLogin(httpRequest) || oauthSession.isOAuthFinal(httpRequest)) {
       if (service == null && Strings.isNullOrEmpty(provider)) {
@@ -148,21 +148,44 @@ class OAuthWebFilter implements Filter {
     for (String pluginName : plugins) {
       Map<String, Provider<OAuthServiceProvider>> m = oauthServiceProviders.byPlugin(pluginName);
       for (Map.Entry<String, Provider<OAuthServiceProvider>> e : m.entrySet()) {
-        addProvider(providers, pluginName, e.getKey(), e.getValue().get().getName());
+        OAuthServiceProvider service = e.getValue().get();
+        addProvider(
+            providers, pluginName, e.getKey(), service.getName(), service.getIconUrl());
       }
     }
 
     sendHtml(res, doc);
   }
 
-  private static void addProvider(Element form, String pluginName, String id, String serviceName) {
+  private static void addProvider(
+      Element form,
+      String pluginName,
+      String id,
+      String serviceName,
+      @Nullable String iconUrl) {
     Element div = form.getOwnerDocument().createElement("div");
     div.setAttribute("id", id);
     Element hyperlink = form.getOwnerDocument().createElement("a");
     hyperlink.setAttribute("href", String.format("?provider=%s_%s", pluginName, id));
-    hyperlink.setTextContent(serviceName + " (" + pluginName + " plugin)");
+    if (!Strings.isNullOrEmpty(iconUrl)) {
+      Element img = form.getOwnerDocument().createElement("img");
+      img.setAttribute("src", resolveIconUrl(pluginName, iconUrl));
+      img.setAttribute("alt", "");
+      img.setAttribute("class", "providerIcon");
+      hyperlink.appendChild(img);
+    }
+    hyperlink.appendChild(form.getOwnerDocument().createTextNode(serviceName));
     div.appendChild(hyperlink);
     form.appendChild(div);
+  }
+
+  private static String resolveIconUrl(String pluginName, String iconUrl) {
+    if (iconUrl.startsWith("http://")
+        || iconUrl.startsWith("https://")
+        || iconUrl.startsWith("/")) {
+      return iconUrl;
+    }
+    return String.format("/plugins/%s/static/%s", pluginName, iconUrl);
   }
 
   private static void sendHtml(HttpServletResponse res, Document doc) throws IOException {
@@ -182,8 +205,8 @@ class OAuthWebFilter implements Filter {
       throw new ServletException("OAuth service provider wasn't installed");
     }
     if (plugins.size() == 1) {
-      NavigableMap<String, Provider<OAuthServiceProvider>> services =
-          oauthServiceProviders.byPlugin(Iterables.getOnlyElement(plugins));
+      NavigableMap<String, Provider<OAuthServiceProvider>> services = oauthServiceProviders
+          .byPlugin(Iterables.getOnlyElement(plugins));
       if (services.size() == 1) {
         ssoProvider = Iterables.getOnlyElement(services.values()).get();
       }

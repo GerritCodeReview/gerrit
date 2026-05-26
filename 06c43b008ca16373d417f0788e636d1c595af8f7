@@ -16,6 +16,24 @@
       "message": "Can you include a screenshot of the new looking page?",
       "revId": "06c43b008ca16373d417f0788e636d1c595af8f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "58abd990_602e626f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4866787
+      },
+      "writtenOn": "2026-05-26T15:54:28Z",
+      "side": 1,
+      "message": "Before and after here: https://gist.github.com/niclimcy/3d9da17c30549bc32e7256bab6c4eb7e\n\nWhat I would like is to add icons of each provider but I am not sure if that should be provided by the plugin or LoginForm",
+      "parentUuid": "c5a03e4f_a2ea0331",
+      "revId": "06c43b008ca16373d417f0788e636d1c595af8f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

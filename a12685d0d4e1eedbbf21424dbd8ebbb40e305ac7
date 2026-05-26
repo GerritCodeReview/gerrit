@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "61a480f2_7597ac33",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 79
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-05-26T10:40:35Z",
+      "side": 1,
+      "message": "Rebased and resolved conflicts.\n\n@milutin@google.com Could you please restore LC+1?",
+      "revId": "a12685d0d4e1eedbbf21424dbd8ebbb40e305ac7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

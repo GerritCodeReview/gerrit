@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c68ac5a4_8bebfb7f",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1030,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-26T20:50:12Z",
+      "side": 1,
+      "message": "I believe this statement is redundant.\n\n\n\n```suggestion\nmore specific pattern).\n```",
+      "range": {
+        "startLine": 1030,
+        "startChar": 24,
+        "endLine": 1030,
+        "endChar": 54
+      },
+      "revId": "e0da34c920ab2ca008b0a30838f1249e94dd0449",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c21bc428_e9cf8b1f",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 3098,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-26T20:50:12Z",
+      "side": 1,
+      "message": "This is redundant IMHO.\n\n\n\n```suggestion\nglobal capability.\n```",
+      "range": {
+        "startLine": 3098,
+        "startChar": 18,
+        "endLine": 3098,
+        "endChar": 59
+      },
+      "revId": "e0da34c920ab2ca008b0a30838f1249e94dd0449",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "deebebc1_ae3a9a44",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 5985,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-26T20:50:12Z",
+      "side": 1,
+      "message": "This is redundant IMHO.\n\n\n\n```suggestion\nglobal capability.\n```",
+      "range": {
+        "startLine": 5985,
+        "startChar": 18,
+        "endLine": 5985,
+        "endChar": 58
+      },
+      "revId": "e0da34c920ab2ca008b0a30838f1249e94dd0449",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57cf222e_5e9623fa",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeMessagesIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-26T20:50:12Z",
+      "side": 1,
+      "message": "```suggestion\n  public void deleteCannotBeAppliedByNonAdminUser() throws Exception {\n```",
+      "range": {
+        "startLine": 203,
+        "startChar": 35,
+        "endLine": 203,
+        "endChar": 48
+      },
+      "revId": "e0da34c920ab2ca008b0a30838f1249e94dd0449",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "74fbb044_50128b97",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4577988
+      },
+      "writtenOn": "2026-05-26T20:35:42Z",
+      "side": 1,
+      "message": "git fetch https://gerrit.googlesource.com/gerrit refs/changes/63/450463/16 \u0026\u0026 git checkout -b change-450463 FETCH_HEAD",
+      "revId": "8426105fb380e5226a418a1ce98d62b53f80a92a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

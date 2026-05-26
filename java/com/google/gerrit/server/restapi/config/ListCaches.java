@@ -35,6 +35,7 @@ import com.google.gerrit.server.config.ConfigResource;
 import com.google.inject.Inject;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 import org.kohsuke.args4j.Option;
 
@@ -61,11 +62,17 @@ public class ListCaches implements RestReadView<ConfigResource> {
   }
 
   public Map<String, CacheInfo> getCacheInfos() {
+    return getCacheInfos(name -> true);
+  }
+
+  public Map<String, CacheInfo> getCacheInfos(Predicate<String> nameFilter) {
     Map<String, CacheInfo> cacheInfos = new TreeMap<>();
     for (Extension<Cache<?, ?>> e : cacheMap) {
-      cacheInfos.put(
-          cacheNameOf(e.getPluginName(), e.getExportName()),
-          CacheInfoFactory.create(e.getProvider().get()));
+      String name = cacheNameOf(e.getPluginName(), e.getExportName());
+      if (!nameFilter.test(name)) {
+        continue;
+      }
+      cacheInfos.put(name, CacheInfoFactory.create(e.getProvider().get()));
     }
     return cacheInfos;
   }

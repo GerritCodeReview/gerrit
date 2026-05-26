@@ -45,8 +45,13 @@ import java.io.IOException;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.apache.sshd.common.io.IoAcceptor;
 import org.apache.sshd.common.io.IoSession;
 import org.apache.sshd.mina.MinaSession;
@@ -78,6 +83,12 @@ final class ShowCaches extends SshCommand {
 
   @Option(name = "--show-threads", usage = "show detailed thread counts")
   private boolean showThreads;
+
+  @Option(
+      name = "--cache",
+      usage = "show the named cache; may be supplied more than once",
+      metaVar = "NAME")
+  private List<String> caches = new ArrayList<>();
 
   @Inject private SshDaemon daemon;
   @Inject private ListCaches listCaches;
@@ -153,14 +164,19 @@ final class ShowCaches extends SshCommand {
   }
 
   private Collection<CacheInfo> getCaches() {
-    @SuppressWarnings("unchecked")
-    Map<String, CacheInfo> caches =
-        (Map<String, CacheInfo>) listCaches.apply(new ConfigResource()).value();
-    for (Map.Entry<String, CacheInfo> entry : caches.entrySet()) {
+    Map<String, CacheInfo> selected;
+    if (caches.isEmpty()) {
+      selected = listCaches.getCacheInfos();
+    } else {
+      Set<String> filter =
+          caches.stream().map(n -> n.toLowerCase(Locale.US)).collect(Collectors.toSet());
+      selected = listCaches.getCacheInfos(n -> filter.contains(n.toLowerCase(Locale.US)));
+    }
+    for (Map.Entry<String, CacheInfo> entry : selected.entrySet()) {
       CacheInfo cache = entry.getValue();
       cache.name = entry.getKey();
     }
-    return caches.values();
+    return selected.values();
   }
 
   private void memSummary(MemSummaryInfo memSummary) {

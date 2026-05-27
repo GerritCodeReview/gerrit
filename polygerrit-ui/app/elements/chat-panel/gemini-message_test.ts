@@ -295,7 +295,7 @@ suite('gemini-message tests', () => {
     assert.isOk(commentContainer);
 
     sinon.stub(commentsModel, 'reloadAllComments');
-    saveDraftStub.resolves({});
+    saveDraftStub.resolves({id: 'test-comment-id'});
 
     const button = commentContainer?.querySelector('gr-button');
     assert.isOk(button);
@@ -311,6 +311,7 @@ suite('gemini-message tests', () => {
     const details = call.args[1] as AiAgentEventDetails;
     assert.equal(details.conversationId, 'test-conversation-id');
     assert.equal(details.agentId, 'custom-agent-id');
+    assert.equal(details.commentId, 'test-comment-id');
     assert.isUndefined(details.commentCount);
   });
 

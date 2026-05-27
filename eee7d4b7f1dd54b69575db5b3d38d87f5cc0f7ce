@@ -52,6 +52,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "38972f8f_535eb04e",
+        "filename": "polygerrit-ui/app/elements/checks/gr-diff-check-result.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 3399425
+      },
+      "writtenOn": "2026-05-27T20:41:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d79f133d_6c186991",
+      "range": {
+        "startLine": 362,
+        "startChar": 7,
+        "endLine": 366,
+        "endChar": 13
+      },
+      "revId": "eee7d4b7f1dd54b69575db5b3d38d87f5cc0f7ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2995ea9a_44e87c27",
@@ -65,6 +89,30 @@
       "writtenOn": "2026-05-27T20:04:51Z",
       "side": 1,
       "message": "Please fix this WARNING reported by autoreview issue finding: Since `AiAgentEventDetails` defines `commentId` as optional, and `JSON.stringify` naturally removes undefined properties, you can simplify this to just include `commentId` directly in the object literal (similar to how `suggestionId` is handled here and how it\u0027s done in `gemini-message.ts`).\n\n```typescript\n    return {\n      \u0027agentId\u0027: agentId,\n      \u0027conversationId\u0027: conversationId,\n      \u0027turnIndex\u0027: Number(turnIndex),\n      \u0027suggestionId\u0027: suggestionId,\n      \u0027commentId\u0027: commentId,\n    };\n```",
+      "range": {
+        "startLine": 623,
+        "startChar": 0,
+        "endLine": 623,
+        "endChar": 0
+      },
+      "revId": "eee7d4b7f1dd54b69575db5b3d38d87f5cc0f7ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d8c07ba_7ada79c4",
+        "filename": "polygerrit-ui/app/models/checks/checks-util.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 623,
+      "author": {
+        "id": 3399425
+      },
+      "writtenOn": "2026-05-27T20:41:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2995ea9a_44e87c27",
       "range": {
         "startLine": 623,
         "startChar": 0,

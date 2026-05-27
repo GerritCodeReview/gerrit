@@ -182,7 +182,8 @@ export class ChatPanel extends LitElement {
     `;
   }
 
-  private renderContent() {
+  // Private
+  renderContent() {
     switch (this.mode) {
       case Mode.HISTORY:
         return html`<chat-history></chat-history>`;

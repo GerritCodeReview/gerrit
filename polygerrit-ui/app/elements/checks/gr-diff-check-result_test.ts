@@ -18,9 +18,11 @@ import {
 } from '../../services/suggestions/suggestions-service';
 import {testResolver} from '../../test/common-test-setup';
 import {checksModelToken} from '../../models/checks/checks-model';
+import {commentsModelToken} from '../../models/comments/comments-model';
+import {SavingState} from '../../types/common';
 import {Interaction} from '../../constants/reporting';
 import {getAppContext} from '../../services/app-context';
-import {FixId, NumericChangeId} from '../../api/rest-api';
+import {FixId, NumericChangeId, UrlEncodedCommentId} from '../../api/rest-api';
 
 suite('gr-diff-check-result tests', () => {
   let element: GrDiffCheckResult;
@@ -209,12 +211,28 @@ suite('gr-diff-check-result tests', () => {
     element.isOwner = true;
     await element.updateComplete;
 
+    const commentsModel = testResolver(commentsModelToken);
+    sinon.stub(commentsModel, 'saveDraft').resolves({
+      id: 'test-please-fix-draft-id' as UrlEncodedCommentId,
+      savingState: SavingState.OK,
+    });
+
     const pleaseFixButton = queryAndAssert(element, '#please-fix');
     const button = queryAndAssert<GrButton>(pleaseFixButton, 'gr-button');
     button.click();
 
+    await new Promise(resolve => setTimeout(resolve, 0));
+
     assert.isTrue(
-      reportingStub.calledWith(Interaction.AI_AGENT_SUGGESTION_TO_COMMENT)
+      reportingStub.calledWith(
+        Interaction.AI_AGENT_SUGGESTION_TO_COMMENT,
+        sinon.match({
+          agentId: 'test-agent',
+          conversationId: 'test-conv',
+          turnIndex: 1,
+          commentId: 'test-please-fix-draft-id',
+        })
+      )
     );
   });
 

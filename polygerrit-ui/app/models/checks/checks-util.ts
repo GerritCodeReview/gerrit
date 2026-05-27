@@ -598,7 +598,8 @@ export function computeIsExpandable(result?: CheckResultApi) {
 }
 
 function getAiAgentEventDetails(
-  runResult: RunResult
+  runResult: RunResult,
+  commentId?: string
 ): AiAgentEventDetails | undefined {
   const externalId = runResult.externalId;
   if (!externalId) return;
@@ -619,12 +620,14 @@ function getAiAgentEventDetails(
     }
     /* eslint-disable object-shorthand */
     // prettier-ignore
-    return {
+    const eventDetails: AiAgentEventDetails = {
       'agentId': agentId,
       'conversationId': conversationId,
       'turnIndex': Number(turnIndex),
       'suggestionId': suggestionId,
+      'commentId': commentId,
     };
+    return eventDetails;
     /* eslint-enable object-shorthand */
   } catch (e) {
     return undefined;
@@ -651,9 +654,10 @@ export function reportAiAgentGetAIFix(
  */
 export function reportAiAgentCommentDraft(
   reporting: Reporting,
-  runResult: RunResult
+  runResult: RunResult,
+  commentId?: string
 ) {
-  const eventDetails = getAiAgentEventDetails(runResult);
+  const eventDetails = getAiAgentEventDetails(runResult, commentId);
   if (!eventDetails) return;
   reporting.reportInteraction(
     Interaction.AI_AGENT_SUGGESTION_TO_COMMENT,

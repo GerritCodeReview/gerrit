@@ -239,9 +239,9 @@ export class GeminiMessage extends LitElement {
     if (draft.range && draft.range.end_line < draft.range.start_line) {
       draft.range.end_line = draft.range.start_line;
     }
-    await this.getCommentsModel().saveDraft(draft);
+    const savedDraft = await this.getCommentsModel().saveDraft(draft);
     this.getCommentsModel().reloadAllComments();
-    this.reportSuggestionToComment(part.id);
+    this.reportSuggestionToComment(part.id, savedDraft.id);
   }
 
   private onRetry() {
@@ -450,13 +450,17 @@ export class GeminiMessage extends LitElement {
     };
   }
 
-  getAiAgentReportingDetails(suggestionId?: number): AiAgentEventDetails {
+  getAiAgentReportingDetails(
+    suggestionId?: number,
+    commentId?: string
+  ): AiAgentEventDetails {
     const agentId = this.turns[this.turnIndex]?.userMessage?.actionId ?? '';
     return {
       agentId,
       conversationId: this.conversationId ?? '',
       turnIndex: this.turnIndex,
       suggestionId,
+      commentId,
     };
   }
 
@@ -473,10 +477,10 @@ export class GeminiMessage extends LitElement {
     );
   }
 
-  private reportSuggestionToComment(suggestionId: number) {
+  private reportSuggestionToComment(suggestionId: number, commentId?: string) {
     this.reportingService.reportInteraction(
       Interaction.AI_AGENT_SUGGESTION_TO_COMMENT,
-      this.getAiAgentReportingDetails(suggestionId)
+      this.getAiAgentReportingDetails(suggestionId, commentId)
     );
   }
 

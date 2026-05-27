@@ -300,7 +300,7 @@ suite('checks-util tests', () => {
         }),
       };
 
-      reportAiAgentCommentDraft(reporting, runResult);
+      reportAiAgentCommentDraft(reporting, runResult, 'test-comment-id');
 
       assert.isTrue(reportInteractionStub.calledOnce);
       assert.equal(
@@ -312,6 +312,7 @@ suite('checks-util tests', () => {
         conversationId: 'test-conv',
         turnIndex: 2,
         suggestionId: undefined,
+        commentId: 'test-comment-id',
       });
     });
 

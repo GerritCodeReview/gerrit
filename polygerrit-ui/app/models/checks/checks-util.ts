@@ -598,7 +598,8 @@ export function computeIsExpandable(result?: CheckResultApi) {
 }
 
 function getAiAgentEventDetails(
-  runResult: RunResult
+  runResult: RunResult,
+  commentId?: string
 ): AiAgentEventDetails | undefined {
   const externalId = runResult.externalId;
   if (!externalId) return;
@@ -624,6 +625,7 @@ function getAiAgentEventDetails(
       'conversationId': conversationId,
       'turnIndex': Number(turnIndex),
       'suggestionId': suggestionId,
+      'commentId': commentId,
     };
     /* eslint-enable object-shorthand */
   } catch (e) {
@@ -651,9 +653,10 @@ export function reportAiAgentGetAIFix(
  */
 export function reportAiAgentCommentDraft(
   reporting: Reporting,
-  runResult: RunResult
+  runResult: RunResult,
+  commentId?: string
 ) {
-  const eventDetails = getAiAgentEventDetails(runResult);
+  const eventDetails = getAiAgentEventDetails(runResult, commentId);
   if (!eventDetails) return;
   reporting.reportInteraction(
     Interaction.AI_AGENT_SUGGESTION_TO_COMMENT,

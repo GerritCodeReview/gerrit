@@ -182,7 +182,8 @@ export class ChatPanel extends LitElement {
     `;
   }
 
-  private renderContent() {
+  // Private
+  renderContent() {
     switch (this.mode) {
       case Mode.HISTORY:
         return html`<chat-history></chat-history>`;
@@ -196,7 +197,8 @@ export class ChatPanel extends LitElement {
     }
   }
 
-  private renderChatContent() {
+  // Protected
+  renderChatContent() {
     return html`
       <div id="scrollableDiv" class="messages-container">
         ${this.turns.map(

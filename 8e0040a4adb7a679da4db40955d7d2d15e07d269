@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84015792_b95af9d4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-27T20:08:46Z",
+      "side": 1,
+      "message": "```suggestion\nReturn MergeableInfo for already merged revisions\n```",
+      "range": {
+        "startLine": 7,
+        "startChar": 7,
+        "endLine": 7,
+        "endChar": 16
+      },
+      "revId": "8e0040a4adb7a679da4db40955d7d2d15e07d269",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "400cabb5_a5c2ea1a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-27T20:08:46Z",
+      "side": 1,
+      "message": "This would still represent an anomaly IMHO for two reasons:\n\n1. The REST-API documentation doesn\u0027t say that the API could return a 409 under certain conditions, therefore the status is unexpected\n2. The HTTP status 409 is typically returned by PUT or POST requests, whilst returning it for a GET is unusual and, again, unexpected.",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 46
+      },
+      "revId": "8e0040a4adb7a679da4db40955d7d2d15e07d269",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a71f56c1_74da191a",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 5136,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-27T20:08:46Z",
+      "side": 1,
+      "message": "This is inconsistent, we should return an HTTP 200 here as well IMHO.\nReturning a 409 would cause a pop-up on the Gerrit UX.",
+      "range": {
+        "startLine": 5134,
+        "startChar": 0,
+        "endLine": 5136,
+        "endChar": 77
+      },
+      "revId": "8e0040a4adb7a679da4db40955d7d2d15e07d269",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8571c057_438c658a",
+        "filename": "java/com/google/gerrit/server/restapi/change/Mergeable.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-27T20:08:46Z",
+      "side": 1,
+      "message": "```suggestion\n    if (!ps.id().equals(change.currentPatchSetId())) {\n```",
+      "range": {
+        "startLine": 105,
+        "startChar": 0,
+        "endLine": 108,
+        "endChar": 54
+      },
+      "revId": "8e0040a4adb7a679da4db40955d7d2d15e07d269",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "60e203f2_45214dca",
+        "filename": "java/com/google/gerrit/server/restapi/change/Mergeable.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-27T20:08:46Z",
+      "side": 1,
+      "message": "We should also decide what to return in case of abandoned changes.",
+      "range": {
+        "startLine": 124,
+        "startChar": 0,
+        "endLine": 129,
+        "endChar": 7
+      },
+      "revId": "8e0040a4adb7a679da4db40955d7d2d15e07d269",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3897dccf_0da6f736",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1755,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-27T20:08:46Z",
+      "side": 1,
+      "message": "See my comments on abandoned changes.",
+      "range": {
+        "startLine": 1744,
+        "startChar": 0,
+        "endLine": 1755,
+        "endChar": 3
+      },
+      "revId": "8e0040a4adb7a679da4db40955d7d2d15e07d269",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

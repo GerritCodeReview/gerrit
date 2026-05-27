@@ -22,11 +22,23 @@
     "https://bcr.bazel.build/modules/apple_support/1.16.0/MODULE.bazel": "e785295d21ccab339c3af131752bfbe50fc33dd8215b357492d05bfad0232400",
     "https://bcr.bazel.build/modules/apple_support/1.23.1/MODULE.bazel": "53763fed456a968cf919b3240427cf3a9d5481ec5466abc9d5dc51bc70087442",
     "https://bcr.bazel.build/modules/apple_support/1.23.1/source.json": "d888b44312eb0ad2c21a91d026753f330caa48a25c9b2102fae75eb2b0dcfdd2",
+    "https://bcr.bazel.build/modules/aspect_bazel_lib/2.11.0/MODULE.bazel": "cb1ba9f9999ed0bc08600c221f532c1ddd8d217686b32ba7d45b0713b5131452",
     "https://bcr.bazel.build/modules/aspect_bazel_lib/2.14.0/MODULE.bazel": "2b31ffcc9bdc8295b2167e07a757dbbc9ac8906e7028e5170a3708cecaac119f",
+    "https://bcr.bazel.build/modules/aspect_bazel_lib/2.19.2/MODULE.bazel": "30dfabbfae0139b1f0036e01c201dd4c0167da3017f0b7ef3820d78e07622989",
     "https://bcr.bazel.build/modules/aspect_bazel_lib/2.19.3/MODULE.bazel": "253d739ba126f62a5767d832765b12b59e9f8d2bc88cc1572f4a73e46eb298ca",
     "https://bcr.bazel.build/modules/aspect_bazel_lib/2.22.5/MODULE.bazel": "004ba890363d05372a97248c37205ae64b6fa31047629cd2c0895a9d0c7779e8",
     "https://bcr.bazel.build/modules/aspect_bazel_lib/2.22.5/source.json": "ac2c3213df8f985785f1d0aeb7f0f73d5324e6e67d593d9b9470fb74a25d4a9b",
+    "https://bcr.bazel.build/modules/aspect_bazel_lib/2.7.7/MODULE.bazel": "491f8681205e31bb57892d67442ce448cda4f472a8e6b3dc062865e29a64f89c",
     "https://bcr.bazel.build/modules/aspect_bazel_lib/2.8.1/MODULE.bazel": "812d2dd42f65dca362152101fbec418029cc8fd34cbad1a2fde905383d705838",
+    "https://bcr.bazel.build/modules/aspect_rules_js/2.0.0/MODULE.bazel": "b45b507574aa60a92796e3e13c195cd5744b3b8aff516a9c0cb5ae6a048161c5",
+    "https://bcr.bazel.build/modules/aspect_rules_js/3.0.3/MODULE.bazel": "28a30e8fc33bf64a67835d64d124f6e05a7d59648dcb27b110fb3502f761e503",
+    "https://bcr.bazel.build/modules/aspect_rules_js/3.0.3/source.json": "bb8fff9a304452e1042af9522ad1d54d6f1d1fdf71c5127deadb6fd156654193",
+    "https://bcr.bazel.build/modules/aspect_rules_rollup/2.0.1/MODULE.bazel": "296e3a053658c2af989ba9bd62a205e6d1fa84bdd6dd5249196546e6b84770ec",
+    "https://bcr.bazel.build/modules/aspect_rules_rollup/2.0.1/source.json": "2fe8ac1ccb4de74bf884761e070010280b272d94e3997205b361b91c75409726",
+    "https://bcr.bazel.build/modules/aspect_rules_ts/3.8.8/MODULE.bazel": "b52b929a948438665809d49af610f58d1b14f63d6d21ab748f47b6050be4c1f6",
+    "https://bcr.bazel.build/modules/aspect_rules_ts/3.8.8/source.json": "5414530b761a45ab7ca6c49f0a2a9cf8dc0da772f5037cf05ca18aaa64bb1b19",
+    "https://bcr.bazel.build/modules/aspect_tools_telemetry/0.3.3/MODULE.bazel": "37c764292861c2f70314efa9846bb6dbb44fc0308903b3285da6528305450183",
+    "https://bcr.bazel.build/modules/aspect_tools_telemetry/0.3.3/source.json": "605086bbc197743a0d360f7ddc550a1d4dfa0441bc807236e17170f636153348",
     "https://bcr.bazel.build/modules/bazel_features/1.1.0/MODULE.bazel": "cfd42ff3b815a5f39554d97182657f8c4b9719568eb7fded2b9135f084bf760b",
     "https://bcr.bazel.build/modules/bazel_features/1.1.1/MODULE.bazel": "27b8c79ef57efe08efccbd9dd6ef70d61b4798320b8d3c134fd571f78963dbcd",
     "https://bcr.bazel.build/modules/bazel_features/1.10.0/MODULE.bazel": "f75e8807570484a99be90abcd52b5e1f390362c258bcb73106f4544957a48101",
@@ -44,13 +56,17 @@
     "https://bcr.bazel.build/modules/bazel_features/1.3.0/MODULE.bazel": "cdcafe83ec318cda34e02948e81d790aab8df7a929cec6f6969f13a489ccecd9",
     "https://bcr.bazel.build/modules/bazel_features/1.30.0/MODULE.bazel": "a14b62d05969a293b80257e72e597c2da7f717e1e69fa8b339703ed6731bec87",
     "https://bcr.bazel.build/modules/bazel_features/1.33.0/MODULE.bazel": "8b8dc9d2a4c88609409c3191165bccec0e4cb044cd7a72ccbe826583303459f6",
+    "https://bcr.bazel.build/modules/bazel_features/1.34.0/MODULE.bazel": "e8475ad7c8965542e0c7aac8af68eb48c4af904be3d614b6aa6274c092c2ea1e",
     "https://bcr.bazel.build/modules/bazel_features/1.39.0/MODULE.bazel": "28739425c1fc283c91931619749c832b555e60bcd1010b40d8441ce0a5cf726d",
-    "https://bcr.bazel.build/modules/bazel_features/1.39.0/source.json": "f63cbeb4c602098484d57001e5a07d31cb02bbccde9b5e2c9bf0b29d05283e93",
     "https://bcr.bazel.build/modules/bazel_features/1.4.1/MODULE.bazel": "e45b6bb2350aff3e442ae1111c555e27eac1d915e77775f6fdc4b351b758b5d7",
+    "https://bcr.bazel.build/modules/bazel_features/1.41.0/MODULE.bazel": "6e0f87fafed801273c371d41e22a15a6f8abf83fdd7f87d5e44ad317b94433d0",
+    "https://bcr.bazel.build/modules/bazel_features/1.41.0/source.json": "8fd525b31b0883c47e0593443cdd10219b94a7556b3195fc02d75c86c66cfe30",
     "https://bcr.bazel.build/modules/bazel_features/1.9.0/MODULE.bazel": "885151d58d90d8d9c811eb75e3288c11f850e1d6b481a8c9f766adee4712358b",
     "https://bcr.bazel.build/modules/bazel_features/1.9.1/MODULE.bazel": "8f679097876a9b609ad1f60249c49d68bfab783dd9be012faf9d82547b14815a",
+    "https://bcr.bazel.build/modules/bazel_lib/3.0.0-rc.0/MODULE.bazel": "d6e00979a98ac14ada5e31c8794708b41434d461e7e7ca39b59b765e6d233b18",
     "https://bcr.bazel.build/modules/bazel_lib/3.0.0/MODULE.bazel": "22b70b80ac89ad3f3772526cd9feee2fa412c2b01933fea7ed13238a448d370d",
-    "https://bcr.bazel.build/modules/bazel_lib/3.0.0/source.json": "895f21909c6fba01d7c17914bb6c8e135982275a1b18cdaa4e62272217ef1751",
+    "https://bcr.bazel.build/modules/bazel_lib/3.2.2/MODULE.bazel": "e2c890c8a515d6bca9c66d47718aa9e44b458fde64ec7204b8030bf2d349058c",
+    "https://bcr.bazel.build/modules/bazel_lib/3.2.2/source.json": "9e84e115c20e14652c5c21401ae85ff4daa8702e265b5c0b3bf89353f17aa212",
     "https://bcr.bazel.build/modules/bazel_skylib/1.0.3/MODULE.bazel": "bcb0fd896384802d1ad283b4e4eb4d718eebd8cb820b0a2c3a347fb971afd9d8",
     "https://bcr.bazel.build/modules/bazel_skylib/1.1.1/MODULE.bazel": "1add3e7d93ff2e6998f9e118022c84d163917d912f5afafb3058e3d2f1545b5e",
     "https://bcr.bazel.build/modules/bazel_skylib/1.2.0/MODULE.bazel": "44fe84260e454ed94ad326352a698422dbe372b21a1ac9f3eab76eb531223686",
@@ -91,7 +107,8 @@
     "https://bcr.bazel.build/modules/googletest/1.17.0/MODULE.bazel": "dbec758171594a705933a29fcf69293d2468c49ec1f2ebca65c36f504d72df46",
     "https://bcr.bazel.build/modules/googletest/1.17.0/source.json": "38e4454b25fc30f15439c0378e57909ab1fd0a443158aa35aec685da727cd713",
     "https://bcr.bazel.build/modules/jq.bzl/0.1.0/MODULE.bazel": "2ce69b1af49952cd4121a9c3055faa679e748ce774c7f1fda9657f936cae902f",
-    "https://bcr.bazel.build/modules/jq.bzl/0.1.0/source.json": "746bf13cac0860f091df5e4911d0c593971cd8796b5ad4e809b2f8e133eee3d5",
+    "https://bcr.bazel.build/modules/jq.bzl/0.4.0/MODULE.bazel": "a7b39b37589f2b0dad53fd6c1ccaabbdb290330caa920d7ef3e6aad068cd4ab2",
+    "https://bcr.bazel.build/modules/jq.bzl/0.4.0/source.json": "52ec7530c4618e03f634b30ff719814a68d7d39c235938b7aa2abbfe1eb1c52c",
     "https://bcr.bazel.build/modules/jsoncpp/1.9.5/MODULE.bazel": "31271aedc59e815656f5736f282bb7509a97c7ecb43e927ac1a37966e0578075",
     "https://bcr.bazel.build/modules/jsoncpp/1.9.6.bcr.1/MODULE.bazel": "be2a0db3289111ad410f91ca7e9a84da2dec4441a53a4026892cb29c92a60ca7",
     "https://bcr.bazel.build/modules/jsoncpp/1.9.6.bcr.1/source.json": "089bd0e9656760a0b872bb78d6e2694820170a76edd10adf368f08ab2d246360",
@@ -156,7 +173,8 @@
     "https://bcr.bazel.build/modules/rules_cc/0.1.5/MODULE.bazel": "88dfc9361e8b5ae1008ac38f7cdfd45ad738e4fa676a3ad67d19204f045a1fd8",
     "https://bcr.bazel.build/modules/rules_cc/0.2.0/MODULE.bazel": "b5c17f90458caae90d2ccd114c81970062946f49f355610ed89bebf954f5783c",
     "https://bcr.bazel.build/modules/rules_cc/0.2.14/MODULE.bazel": "353c99ed148887ee89c54a17d4100ae7e7e436593d104b668476019023b58df8",
-    "https://bcr.bazel.build/modules/rules_cc/0.2.14/source.json": "55d0a4587c5592fad350f6e698530f4faf0e7dd15e69d43f8d87e220c78bea54",
+    "https://bcr.bazel.build/modules/rules_cc/0.2.16/MODULE.bazel": "9242fa89f950c6ef7702801ab53922e99c69b02310c39fb6e62b2bd30df2a1d4",
+    "https://bcr.bazel.build/modules/rules_cc/0.2.16/source.json": "d03d5cde49376d87e14ec14b666c56075e5e3926930327fd5d0484a1ff2ac1cc",
     "https://bcr.bazel.build/modules/rules_cc/0.2.8/MODULE.bazel": "f1df20f0bf22c28192a794f29b501ee2018fa37a3862a1a2132ae2940a23a642",
     "https://bcr.bazel.build/modules/rules_foreign_cc/0.9.0/MODULE.bazel": "c9e8c682bf75b0e7c704166d79b599f93b72cfca5ad7477df596947891feeef6",
     "https://bcr.bazel.build/modules/rules_fuzzing/0.5.2/MODULE.bazel": "40c97d1144356f52905566c55811f13b299453a14ac7769dfba2ac38192337a8",
@@ -210,6 +228,10 @@
     "https://bcr.bazel.build/modules/rules_license/0.0.7/MODULE.bazel": "088fbeb0b6a419005b89cf93fe62d9517c0a2b8bb56af3244af65ecfe37e7d5d",
     "https://bcr.bazel.build/modules/rules_license/1.0.0/MODULE.bazel": "a7fda60eefdf3d8c827262ba499957e4df06f659330bbe6cdbdb975b768bb65c",
     "https://bcr.bazel.build/modules/rules_license/1.0.0/source.json": "a52c89e54cc311196e478f8382df91c15f7a2bfdf4c6cd0e2675cc2ff0b56efb",
+    "https://bcr.bazel.build/modules/rules_nodejs/6.2.0/MODULE.bazel": "ec27907f55eb34705adb4e8257952162a2d4c3ed0f0b3b4c3c1aad1fac7be35e",
+    "https://bcr.bazel.build/modules/rules_nodejs/6.7.3/MODULE.bazel": "c22a48b2a0dbf05a9dc5f83837bbc24c226c1f6e618de3c3a610044c9f336056",
+    "https://bcr.bazel.build/modules/rules_nodejs/6.7.4/MODULE.bazel": "e6a241a55c82e999145553d2e00a08fc6ebadf62b63d108fb5e984696ffd0bd2",
+    "https://bcr.bazel.build/modules/rules_nodejs/6.7.4/source.json": "34e7a8a3b4c8d630ac0e0492b3fed9dba41fe008a0edf220b7d88fa38ac53698",
     "https://bcr.bazel.build/modules/rules_pkg/0.7.0/MODULE.bazel": "df99f03fc7934a4737122518bb87e667e62d780b610910f0447665a7e2be62dc",
     "https://bcr.bazel.build/modules/rules_pkg/1.0.1/MODULE.bazel": "5b1df97dbc29623bccdf2b0dcd0f5cb08e2f2c9050aab1092fd39a41e82686ff",
     "https://bcr.bazel.build/modules/rules_pkg/1.0.1/source.json": "bd82e5d7b9ce2d31e380dd9f50c111d678c3bdaca190cb76b0e1c71b05e1ba8a",
@@ -244,12 +266,12 @@
     "https://bcr.bazel.build/modules/rules_shell/0.3.0/MODULE.bazel": "de4402cd12f4cc8fda2354fce179fdb068c0b9ca1ec2d2b17b3e21b24c1a937b",
     "https://bcr.bazel.build/modules/rules_shell/0.4.1/MODULE.bazel": "00e501db01bbf4e3e1dd1595959092c2fadf2087b2852d3f553b5370f5633592",
     "https://bcr.bazel.build/modules/rules_shell/0.6.1/MODULE.bazel": "72e76b0eea4e81611ef5452aa82b3da34caca0c8b7b5c0c9584338aa93bae26b",
-    "https://bcr.bazel.build/modules/rules_shell/0.7.1/MODULE.bazel": "257dd8d667371de804918dfceb86f6ddd2e1b5e025f5d9322878d4a73dc8aa58",
-    "https://bcr.bazel.build/modules/rules_shell/0.7.1/source.json": "9e6c3ea5766b584f60a44dd36520c4be16a12bb173aad238e018f73083e8feb6",
+    "https://bcr.bazel.build/modules/rules_shell/0.6.1/source.json": "20ec05cd5e592055e214b2da8ccb283c7f2a421ea0dc2acbf1aa792e11c03d0c",
     "https://bcr.bazel.build/modules/rules_swift/1.16.0/MODULE.bazel": "4a09f199545a60d09895e8281362b1ff3bb08bbde69c6fc87aff5b92fcc916ca",
     "https://bcr.bazel.build/modules/rules_swift/2.1.1/MODULE.bazel": "494900a80f944fc7aa61500c2073d9729dff0b764f0e89b824eb746959bc1046",
     "https://bcr.bazel.build/modules/stardoc/0.5.1/MODULE.bazel": "1a05d92974d0c122f5ccf09291442580317cdd859f07a8655f1db9a60374f9f8",
     "https://bcr.bazel.build/modules/stardoc/0.5.3/MODULE.bazel": "c7f6948dae6999bf0db32c1858ae345f112cacf98f174c7a8bb707e41b974f1c",
+    "https://bcr.bazel.build/modules/stardoc/0.5.4/MODULE.bazel": "6569966df04610b8520957cb8e97cf2e9faac2c0309657c537ab51c16c18a2a4",
     "https://bcr.bazel.build/modules/stardoc/0.5.6/MODULE.bazel": "c43dabc564990eeab55e25ed61c07a1aadafe9ece96a4efabb3f8bf9063b71ef",
     "https://bcr.bazel.build/modules/stardoc/0.6.2/MODULE.bazel": "7060193196395f5dd668eda046ccbeacebfd98efc77fed418dbe2b82ffaa39fd",
     "https://bcr.bazel.build/modules/stardoc/0.7.0/MODULE.bazel": "05e3d6d30c099b6770e97da986c53bd31844d7f13d41412480ea265ac9e8079c",
@@ -259,11 +281,13 @@
     "https://bcr.bazel.build/modules/swift_argument_parser/1.3.1.1/MODULE.bazel": "5e463fbfba7b1701d957555ed45097d7f984211330106ccd1352c6e0af0dcf91",
     "https://bcr.bazel.build/modules/tar.bzl/0.2.1/MODULE.bazel": "52d1c00a80a8cc67acbd01649e83d8dd6a9dc426a6c0b754a04fe8c219c76468",
     "https://bcr.bazel.build/modules/tar.bzl/0.5.1/MODULE.bazel": "7c2eb3dcfc53b0f3d6f9acdfd911ca803eaf92aadf54f8ca6e4c1f3aee288351",
-    "https://bcr.bazel.build/modules/tar.bzl/0.5.1/source.json": "deed3094f7cc779ed1d37a68403847b0e38d9dd9d931e03cb90825f3368b515f",
+    "https://bcr.bazel.build/modules/tar.bzl/0.6.0/MODULE.bazel": "a3584b4edcfafcabd9b0ef9819808f05b372957bbdff41601429d5fd0aac2e7c",
+    "https://bcr.bazel.build/modules/tar.bzl/0.6.0/source.json": "4a620381df075a16cb3a7ed57bd1d05f7480222394c64a20fa51bdb636fda658",
     "https://bcr.bazel.build/modules/upb/0.0.0-20220923-a547704/MODULE.bazel": "7298990c00040a0e2f121f6c32544bab27d4452f80d9ce51349b1a28f3005c43",
     "https://bcr.bazel.build/modules/upb/0.0.0-20230516-61a97ef/MODULE.bazel": "c0df5e35ad55e264160417fd0875932ee3c9dda63d9fccace35ac62f45e1b6f9",
     "https://bcr.bazel.build/modules/yq.bzl/0.1.1/MODULE.bazel": "9039681f9bcb8958ee2c87ffc74bdafba9f4369096a2b5634b88abc0eaefa072",
-    "https://bcr.bazel.build/modules/yq.bzl/0.1.1/source.json": "2d2bad780a9f2b9195a4a370314d2c17ae95eaa745cefc2e12fbc49759b15aa3",
+    "https://bcr.bazel.build/modules/yq.bzl/0.3.2/MODULE.bazel": "0384efa70e8033d842ea73aa4b7199fa099709e236a7264345c03937166670b6",
+    "https://bcr.bazel.build/modules/yq.bzl/0.3.2/source.json": "c4ec3e192477e154f08769e29d69e8fd36e8a4f0f623997f3e1f6f7d328f7d7d",
     "https://bcr.bazel.build/modules/zlib/1.2.11/MODULE.bazel": "07b389abc85fdbca459b69e2ec656ae5622873af3f845e1c9d80fe179f3effa0",
     "https://bcr.bazel.build/modules/zlib/1.2.12/MODULE.bazel": "3b1a8834ada2a883674be8cbd36ede1b6ec481477ada359cd2d3ddc562340b27",
     "https://bcr.bazel.build/modules/zlib/1.3.1.bcr.5/MODULE.bazel": "eec517b5bbe5492629466e11dae908d043364302283de25581e3eb944326c4ca",
@@ -272,6 +296,75 @@
   },
   "selectedYankedVersions": {},
   "moduleExtensions": {
+    "@@aspect_rules_ts+//ts:extensions.bzl%ext": {
+      "general": {
+        "bzlTransitiveDigest": "dhTbv9E6UfT1WJmmu3ORRPO6AKFJvgBjBxu+BO+u1RY=",
+        "usagesDigest": "wmTY4QJrwyD3VUSOHaA0OPkvX0ywR/XPM2EecaJ8yGk=",
+        "recordedFileInputs": {
+          "@@//package.json": "f230bdb8c76c59a925ec0727a1decc727388d47d4b20d95b4e5bcf328edc0c79"
+        },
+        "recordedDirentsInputs": {},
+        "envVariables": {},
+        "generatedRepoSpecs": {
+          "npm_typescript": {
+            "repoRuleId": "@@aspect_rules_ts+//ts/private:npm_repositories.bzl%http_archive_version",
+            "attributes": {
+              "version": "",
+              "version_from": "@@//:package.json",
+              "integrity": "",
+              "urls": [
+                "https://registry.npmjs.org/typescript/-/typescript-{}.tgz"
+              ]
+            }
+          }
+        },
+        "recordedRepoMappingEntries": [
+          [
+            "aspect_rules_ts+",
+            "aspect_rules_ts",
+            "aspect_rules_ts+"
+          ],
+          [
+            "aspect_rules_ts+",
+            "bazel_tools",
+            "bazel_tools"
+          ]
+        ]
+      }
+    },
+    "@@aspect_tools_telemetry+//:extension.bzl%telemetry": {
+      "general": {
+        "bzlTransitiveDigest": "cl5A2O84vDL6Tt+Qga8FCj1DUDGqn+e7ly5rZ+4xvcc=",
+        "usagesDigest": "mUE7TK/Hw4jOMe0LLCju5evCpF36GFqxeruiv8gPJ08=",
+        "recordedFileInputs": {},
+        "recordedDirentsInputs": {},
+        "envVariables": {},
+        "generatedRepoSpecs": {
+          "aspect_tools_telemetry_report": {
+            "repoRuleId": "@@aspect_tools_telemetry+//:extension.bzl%tel_repository",
+            "attributes": {
+              "deps": {
+                "aspect_rules_js": "3.0.3",
+                "aspect_rules_ts": "3.8.8",
+                "aspect_tools_telemetry": "0.3.3"
+              }
+            }
+          }
+        },
+        "recordedRepoMappingEntries": [
+          [
+            "aspect_tools_telemetry+",
+            "bazel_lib",
+            "bazel_lib+"
+          ],
+          [
+            "aspect_tools_telemetry+",
+            "bazel_skylib",
+            "bazel_skylib+"
+          ]
+        ]
+      }
+    },
     "@@protobuf+//python/dist:system_python.bzl%system_python_extension": {
       "general": {
         "bzlTransitiveDigest": "qh0n9IrXU/xS94wxKQrG1J63zrLkA1Wy2Y3BQxptPcI=",
@@ -381,6 +474,428 @@
           "androidsdk": {
             "repoRuleId": "@@rules_android+//rules/android_sdk_repository:rule.bzl%_android_sdk_repository",
             "attributes": {}
+          }
+        },
+        "recordedRepoMappingEntries": []
+      }
+    },
+    "@@rules_nodejs+//nodejs:extensions.bzl%node": {
+      "general": {
+        "bzlTransitiveDigest": "oZFClfRhTTwsYzpxVPkOpOt/r0+OzEfEV37au0jFZ0s=",
+        "usagesDigest": "a45mOhMotVLUg4hDZfmiBvLMS6oc1CgLVcTACIvW1hU=",
+        "recordedFileInputs": {},
+        "recordedDirentsInputs": {},
+        "envVariables": {},
+        "generatedRepoSpecs": {
+          "nodejs_linux_amd64": {
+            "repoRuleId": "@@rules_nodejs+//nodejs:repositories.bzl%_nodejs_repositories",
+            "attributes": {
+              "node_download_auth": {},
+              "node_repositories": {
+                "24.14.1-darwin_arm64": [
+                  "node-v24.14.1-darwin-arm64.tar.gz",
+                  "node-v24.14.1-darwin-arm64",
+                  "25495ff85bd89e2d8a24d88566d7e2f827c6b0d3d872b2cebf75371f93fcb1fe"
+                ],
+                "24.14.1-darwin_amd64": [
+                  "node-v24.14.1-darwin-x64.tar.gz",
+                  "node-v24.14.1-darwin-x64",
+                  "2526230ad7d922be82d4fdb1e7ee1e84303e133e3b4b0ec4c2897ab31de0253d"
+                ],
+                "24.14.1-linux_arm64": [
+                  "node-v24.14.1-linux-arm64.tar.xz",
+                  "node-v24.14.1-linux-arm64",
+                  "71e427e28b78846f201d4d5ecc30cb13d1508ca099ef3871889a1256c7d6f67e"
+                ],
+                "24.14.1-linux_ppc64le": [
+                  "node-v24.14.1-linux-ppc64le.tar.xz",
+                  "node-v24.14.1-linux-ppc64le",
+                  "95bf0c8dbb73144edb79a57399f03c70af6995b78e1c632926e53e6404662ef5"
+                ],
+                "24.14.1-linux_s390x": [
+                  "node-v24.14.1-linux-s390x.tar.xz",
+                  "node-v24.14.1-linux-s390x",
+                  "ed3bfbc0ff418b0ec4633f23d53a12a691717a34b041c3fbdb296c8774e5a98a"
+                ],
+                "24.14.1-linux_amd64": [
+                  "node-v24.14.1-linux-x64.tar.xz",
+                  "node-v24.14.1-linux-x64",
+                  "84d38715d449447117d05c3e71acd78daa49d5b1bfa8aacf610303920c3322be"
+                ],
+                "24.14.1-windows_amd64": [
+                  "node-v24.14.1-win-x64.zip",
+                  "node-v24.14.1-win-x64",
+                  "6e50ce5498c0cebc20fd39ab3ff5df836ed2f8a31aa093cecad8497cff126d70"
+                ]
+              },
+              "node_urls": [
+                "https://nodejs.org/dist/v{version}/{filename}"
+              ],
+              "node_version": "24.14.1",
+              "include_headers": false,
+              "platform": "linux_amd64"
+            }
+          },
+          "nodejs_linux_arm64": {
+            "repoRuleId": "@@rules_nodejs+//nodejs:repositories.bzl%_nodejs_repositories",
+            "attributes": {
+              "node_download_auth": {},
+              "node_repositories": {
+                "24.14.1-darwin_arm64": [
+                  "node-v24.14.1-darwin-arm64.tar.gz",
+                  "node-v24.14.1-darwin-arm64",
+                  "25495ff85bd89e2d8a24d88566d7e2f827c6b0d3d872b2cebf75371f93fcb1fe"
+                ],
+                "24.14.1-darwin_amd64": [
+                  "node-v24.14.1-darwin-x64.tar.gz",
+                  "node-v24.14.1-darwin-x64",
+                  "2526230ad7d922be82d4fdb1e7ee1e84303e133e3b4b0ec4c2897ab31de0253d"
+                ],
+                "24.14.1-linux_arm64": [
+                  "node-v24.14.1-linux-arm64.tar.xz",
+                  "node-v24.14.1-linux-arm64",
+                  "71e427e28b78846f201d4d5ecc30cb13d1508ca099ef3871889a1256c7d6f67e"
+                ],
+                "24.14.1-linux_ppc64le": [
+                  "node-v24.14.1-linux-ppc64le.tar.xz",
+                  "node-v24.14.1-linux-ppc64le",
+                  "95bf0c8dbb73144edb79a57399f03c70af6995b78e1c632926e53e6404662ef5"
+                ],
+                "24.14.1-linux_s390x": [
+                  "node-v24.14.1-linux-s390x.tar.xz",
+                  "node-v24.14.1-linux-s390x",
+                  "ed3bfbc0ff418b0ec4633f23d53a12a691717a34b041c3fbdb296c8774e5a98a"
+                ],
+                "24.14.1-linux_amd64": [
+                  "node-v24.14.1-linux-x64.tar.xz",
+                  "node-v24.14.1-linux-x64",
+                  "84d38715d449447117d05c3e71acd78daa49d5b1bfa8aacf610303920c3322be"
+                ],
+                "24.14.1-windows_amd64": [
+                  "node-v24.14.1-win-x64.zip",
+                  "node-v24.14.1-win-x64",
+                  "6e50ce5498c0cebc20fd39ab3ff5df836ed2f8a31aa093cecad8497cff126d70"
+                ]
+              },
+              "node_urls": [
+                "https://nodejs.org/dist/v{version}/{filename}"
+              ],
+              "node_version": "24.14.1",
+              "include_headers": false,
+              "platform": "linux_arm64"
+            }
+          },
+          "nodejs_linux_s390x": {
+            "repoRuleId": "@@rules_nodejs+//nodejs:repositories.bzl%_nodejs_repositories",
+            "attributes": {
+              "node_download_auth": {},
+              "node_repositories": {
+                "24.14.1-darwin_arm64": [
+                  "node-v24.14.1-darwin-arm64.tar.gz",
+                  "node-v24.14.1-darwin-arm64",
+                  "25495ff85bd89e2d8a24d88566d7e2f827c6b0d3d872b2cebf75371f93fcb1fe"
+                ],
+                "24.14.1-darwin_amd64": [
+                  "node-v24.14.1-darwin-x64.tar.gz",
+                  "node-v24.14.1-darwin-x64",
+                  "2526230ad7d922be82d4fdb1e7ee1e84303e133e3b4b0ec4c2897ab31de0253d"
+                ],
+                "24.14.1-linux_arm64": [
+                  "node-v24.14.1-linux-arm64.tar.xz",
+                  "node-v24.14.1-linux-arm64",
+                  "71e427e28b78846f201d4d5ecc30cb13d1508ca099ef3871889a1256c7d6f67e"
+                ],
+                "24.14.1-linux_ppc64le": [
+                  "node-v24.14.1-linux-ppc64le.tar.xz",
+                  "node-v24.14.1-linux-ppc64le",
+                  "95bf0c8dbb73144edb79a57399f03c70af6995b78e1c632926e53e6404662ef5"
+                ],
+                "24.14.1-linux_s390x": [
+                  "node-v24.14.1-linux-s390x.tar.xz",
+                  "node-v24.14.1-linux-s390x",
+                  "ed3bfbc0ff418b0ec4633f23d53a12a691717a34b041c3fbdb296c8774e5a98a"
+                ],
+                "24.14.1-linux_amd64": [
+                  "node-v24.14.1-linux-x64.tar.xz",
+                  "node-v24.14.1-linux-x64",
+                  "84d38715d449447117d05c3e71acd78daa49d5b1bfa8aacf610303920c3322be"
+                ],
+                "24.14.1-windows_amd64": [
+                  "node-v24.14.1-win-x64.zip",
+                  "node-v24.14.1-win-x64",
+                  "6e50ce5498c0cebc20fd39ab3ff5df836ed2f8a31aa093cecad8497cff126d70"
+                ]
+              },
+              "node_urls": [
+                "https://nodejs.org/dist/v{version}/{filename}"
+              ],
+              "node_version": "24.14.1",
+              "include_headers": false,
+              "platform": "linux_s390x"
+            }
+          },
+          "nodejs_linux_ppc64le": {
+            "repoRuleId": "@@rules_nodejs+//nodejs:repositories.bzl%_nodejs_repositories",
+            "attributes": {
+              "node_download_auth": {},
+              "node_repositories": {
+                "24.14.1-darwin_arm64": [
+                  "node-v24.14.1-darwin-arm64.tar.gz",
+                  "node-v24.14.1-darwin-arm64",
+                  "25495ff85bd89e2d8a24d88566d7e2f827c6b0d3d872b2cebf75371f93fcb1fe"
+                ],
+                "24.14.1-darwin_amd64": [
+                  "node-v24.14.1-darwin-x64.tar.gz",
+                  "node-v24.14.1-darwin-x64",
+                  "2526230ad7d922be82d4fdb1e7ee1e84303e133e3b4b0ec4c2897ab31de0253d"
+                ],
+                "24.14.1-linux_arm64": [
+                  "node-v24.14.1-linux-arm64.tar.xz",
+                  "node-v24.14.1-linux-arm64",
+                  "71e427e28b78846f201d4d5ecc30cb13d1508ca099ef3871889a1256c7d6f67e"
+                ],
+                "24.14.1-linux_ppc64le": [
+                  "node-v24.14.1-linux-ppc64le.tar.xz",
+                  "node-v24.14.1-linux-ppc64le",
+                  "95bf0c8dbb73144edb79a57399f03c70af6995b78e1c632926e53e6404662ef5"
+                ],
+                "24.14.1-linux_s390x": [
+                  "node-v24.14.1-linux-s390x.tar.xz",
+                  "node-v24.14.1-linux-s390x",
+                  "ed3bfbc0ff418b0ec4633f23d53a12a691717a34b041c3fbdb296c8774e5a98a"
+                ],
+                "24.14.1-linux_amd64": [
+                  "node-v24.14.1-linux-x64.tar.xz",
+                  "node-v24.14.1-linux-x64",
+                  "84d38715d449447117d05c3e71acd78daa49d5b1bfa8aacf610303920c3322be"
+                ],
+                "24.14.1-windows_amd64": [
+                  "node-v24.14.1-win-x64.zip",
+                  "node-v24.14.1-win-x64",
+                  "6e50ce5498c0cebc20fd39ab3ff5df836ed2f8a31aa093cecad8497cff126d70"
+                ]
+              },
+              "node_urls": [
+                "https://nodejs.org/dist/v{version}/{filename}"
+              ],
+              "node_version": "24.14.1",
+              "include_headers": false,
+              "platform": "linux_ppc64le"
+            }
+          },
+          "nodejs_darwin_amd64": {
+            "repoRuleId": "@@rules_nodejs+//nodejs:repositories.bzl%_nodejs_repositories",
+            "attributes": {
+              "node_download_auth": {},
+              "node_repositories": {
+                "24.14.1-darwin_arm64": [
+                  "node-v24.14.1-darwin-arm64.tar.gz",
+                  "node-v24.14.1-darwin-arm64",
+                  "25495ff85bd89e2d8a24d88566d7e2f827c6b0d3d872b2cebf75371f93fcb1fe"
+                ],
+                "24.14.1-darwin_amd64": [
+                  "node-v24.14.1-darwin-x64.tar.gz",
+                  "node-v24.14.1-darwin-x64",
+                  "2526230ad7d922be82d4fdb1e7ee1e84303e133e3b4b0ec4c2897ab31de0253d"
+                ],
+                "24.14.1-linux_arm64": [
+                  "node-v24.14.1-linux-arm64.tar.xz",
+                  "node-v24.14.1-linux-arm64",
+                  "71e427e28b78846f201d4d5ecc30cb13d1508ca099ef3871889a1256c7d6f67e"
+                ],
+                "24.14.1-linux_ppc64le": [
+                  "node-v24.14.1-linux-ppc64le.tar.xz",
+                  "node-v24.14.1-linux-ppc64le",
+                  "95bf0c8dbb73144edb79a57399f03c70af6995b78e1c632926e53e6404662ef5"
+                ],
+                "24.14.1-linux_s390x": [
+                  "node-v24.14.1-linux-s390x.tar.xz",
+                  "node-v24.14.1-linux-s390x",
+                  "ed3bfbc0ff418b0ec4633f23d53a12a691717a34b041c3fbdb296c8774e5a98a"
+                ],
+                "24.14.1-linux_amd64": [
+                  "node-v24.14.1-linux-x64.tar.xz",
+                  "node-v24.14.1-linux-x64",
+                  "84d38715d449447117d05c3e71acd78daa49d5b1bfa8aacf610303920c3322be"
+                ],
+                "24.14.1-windows_amd64": [
+                  "node-v24.14.1-win-x64.zip",
+                  "node-v24.14.1-win-x64",
+                  "6e50ce5498c0cebc20fd39ab3ff5df836ed2f8a31aa093cecad8497cff126d70"
+                ]
+              },
+              "node_urls": [
+                "https://nodejs.org/dist/v{version}/{filename}"
+              ],
+              "node_version": "24.14.1",
+              "include_headers": false,
+              "platform": "darwin_amd64"
+            }
+          },
+          "nodejs_darwin_arm64": {
+            "repoRuleId": "@@rules_nodejs+//nodejs:repositories.bzl%_nodejs_repositories",
+            "attributes": {
+              "node_download_auth": {},
+              "node_repositories": {
+                "24.14.1-darwin_arm64": [
+                  "node-v24.14.1-darwin-arm64.tar.gz",
+                  "node-v24.14.1-darwin-arm64",
+                  "25495ff85bd89e2d8a24d88566d7e2f827c6b0d3d872b2cebf75371f93fcb1fe"
+                ],
+                "24.14.1-darwin_amd64": [
+                  "node-v24.14.1-darwin-x64.tar.gz",
+                  "node-v24.14.1-darwin-x64",
+                  "2526230ad7d922be82d4fdb1e7ee1e84303e133e3b4b0ec4c2897ab31de0253d"
+                ],
+                "24.14.1-linux_arm64": [
+                  "node-v24.14.1-linux-arm64.tar.xz",
+                  "node-v24.14.1-linux-arm64",
+                  "71e427e28b78846f201d4d5ecc30cb13d1508ca099ef3871889a1256c7d6f67e"
+                ],
+                "24.14.1-linux_ppc64le": [
+                  "node-v24.14.1-linux-ppc64le.tar.xz",
+                  "node-v24.14.1-linux-ppc64le",
+                  "95bf0c8dbb73144edb79a57399f03c70af6995b78e1c632926e53e6404662ef5"
+                ],
+                "24.14.1-linux_s390x": [
+                  "node-v24.14.1-linux-s390x.tar.xz",
+                  "node-v24.14.1-linux-s390x",
+                  "ed3bfbc0ff418b0ec4633f23d53a12a691717a34b041c3fbdb296c8774e5a98a"
+                ],
+                "24.14.1-linux_amd64": [
+                  "node-v24.14.1-linux-x64.tar.xz",
+                  "node-v24.14.1-linux-x64",
+                  "84d38715d449447117d05c3e71acd78daa49d5b1bfa8aacf610303920c3322be"
+                ],
+                "24.14.1-windows_amd64": [
+                  "node-v24.14.1-win-x64.zip",
+                  "node-v24.14.1-win-x64",
+                  "6e50ce5498c0cebc20fd39ab3ff5df836ed2f8a31aa093cecad8497cff126d70"
+                ]
+              },
+              "node_urls": [
+                "https://nodejs.org/dist/v{version}/{filename}"
+              ],
+              "node_version": "24.14.1",
+              "include_headers": false,
+              "platform": "darwin_arm64"
+            }
+          },
+          "nodejs_windows_amd64": {
+            "repoRuleId": "@@rules_nodejs+//nodejs:repositories.bzl%_nodejs_repositories",
+            "attributes": {
+              "node_download_auth": {},
+              "node_repositories": {
+                "24.14.1-darwin_arm64": [
+                  "node-v24.14.1-darwin-arm64.tar.gz",
+                  "node-v24.14.1-darwin-arm64",
+                  "25495ff85bd89e2d8a24d88566d7e2f827c6b0d3d872b2cebf75371f93fcb1fe"
+                ],
+                "24.14.1-darwin_amd64": [
+                  "node-v24.14.1-darwin-x64.tar.gz",
+                  "node-v24.14.1-darwin-x64",
+                  "2526230ad7d922be82d4fdb1e7ee1e84303e133e3b4b0ec4c2897ab31de0253d"
+                ],
+                "24.14.1-linux_arm64": [
+                  "node-v24.14.1-linux-arm64.tar.xz",
+                  "node-v24.14.1-linux-arm64",
+                  "71e427e28b78846f201d4d5ecc30cb13d1508ca099ef3871889a1256c7d6f67e"
+                ],
+                "24.14.1-linux_ppc64le": [
+                  "node-v24.14.1-linux-ppc64le.tar.xz",
+                  "node-v24.14.1-linux-ppc64le",
+                  "95bf0c8dbb73144edb79a57399f03c70af6995b78e1c632926e53e6404662ef5"
+                ],
+                "24.14.1-linux_s390x": [
+                  "node-v24.14.1-linux-s390x.tar.xz",
+                  "node-v24.14.1-linux-s390x",
+                  "ed3bfbc0ff418b0ec4633f23d53a12a691717a34b041c3fbdb296c8774e5a98a"
+                ],
+                "24.14.1-linux_amd64": [
+                  "node-v24.14.1-linux-x64.tar.xz",
+                  "node-v24.14.1-linux-x64",
+                  "84d38715d449447117d05c3e71acd78daa49d5b1bfa8aacf610303920c3322be"
+                ],
+                "24.14.1-windows_amd64": [
+                  "node-v24.14.1-win-x64.zip",
+                  "node-v24.14.1-win-x64",
+                  "6e50ce5498c0cebc20fd39ab3ff5df836ed2f8a31aa093cecad8497cff126d70"
+                ]
+              },
+              "node_urls": [
+                "https://nodejs.org/dist/v{version}/{filename}"
+              ],
+              "node_version": "24.14.1",
+              "include_headers": false,
+              "platform": "windows_amd64"
+            }
+          },
+          "nodejs_windows_arm64": {
+            "repoRuleId": "@@rules_nodejs+//nodejs:repositories.bzl%_nodejs_repositories",
+            "attributes": {
+              "node_download_auth": {},
+              "node_repositories": {
+                "24.14.1-darwin_arm64": [
+                  "node-v24.14.1-darwin-arm64.tar.gz",
+                  "node-v24.14.1-darwin-arm64",
+                  "25495ff85bd89e2d8a24d88566d7e2f827c6b0d3d872b2cebf75371f93fcb1fe"
+                ],
+                "24.14.1-darwin_amd64": [
+                  "node-v24.14.1-darwin-x64.tar.gz",
+                  "node-v24.14.1-darwin-x64",
+                  "2526230ad7d922be82d4fdb1e7ee1e84303e133e3b4b0ec4c2897ab31de0253d"
+                ],
+                "24.14.1-linux_arm64": [
+                  "node-v24.14.1-linux-arm64.tar.xz",
+                  "node-v24.14.1-linux-arm64",
+                  "71e427e28b78846f201d4d5ecc30cb13d1508ca099ef3871889a1256c7d6f67e"
+                ],
+                "24.14.1-linux_ppc64le": [
+                  "node-v24.14.1-linux-ppc64le.tar.xz",
+                  "node-v24.14.1-linux-ppc64le",
+                  "95bf0c8dbb73144edb79a57399f03c70af6995b78e1c632926e53e6404662ef5"
+                ],
+                "24.14.1-linux_s390x": [
+                  "node-v24.14.1-linux-s390x.tar.xz",
+                  "node-v24.14.1-linux-s390x",
+                  "ed3bfbc0ff418b0ec4633f23d53a12a691717a34b041c3fbdb296c8774e5a98a"
+                ],
+                "24.14.1-linux_amd64": [
+                  "node-v24.14.1-linux-x64.tar.xz",
+                  "node-v24.14.1-linux-x64",
+                  "84d38715d449447117d05c3e71acd78daa49d5b1bfa8aacf610303920c3322be"
+                ],
+                "24.14.1-windows_amd64": [
+                  "node-v24.14.1-win-x64.zip",
+                  "node-v24.14.1-win-x64",
+                  "6e50ce5498c0cebc20fd39ab3ff5df836ed2f8a31aa093cecad8497cff126d70"
+                ]
+              },
+              "node_urls": [
+                "https://nodejs.org/dist/v{version}/{filename}"
+              ],
+              "node_version": "24.14.1",
+              "include_headers": false,
+              "platform": "windows_arm64"
+            }
+          },
+          "nodejs": {
+            "repoRuleId": "@@rules_nodejs+//nodejs/private:nodejs_repo_host_os_alias.bzl%nodejs_repo_host_os_alias",
+            "attributes": {
+              "user_node_repository_name": "nodejs"
+            }
+          },
+          "nodejs_host": {
+            "repoRuleId": "@@rules_nodejs+//nodejs/private:nodejs_repo_host_os_alias.bzl%nodejs_repo_host_os_alias",
+            "attributes": {
+              "user_node_repository_name": "nodejs"
+            }
+          },
+          "nodejs_toolchains": {
+            "repoRuleId": "@@rules_nodejs+//nodejs/private:nodejs_toolchains_repo.bzl%nodejs_toolchains_repo",
+            "attributes": {
+              "user_node_repository_name": "nodejs"
+            }
           }
         },
         "recordedRepoMappingEntries": []
@@ -662,54 +1177,74 @@
         ]
       }
     },
-    "@@tar.bzl+//tar:extensions.bzl%toolchains": {
+    "@@yq.bzl+//yq:extensions.bzl%yq": {
       "general": {
-        "bzlTransitiveDigest": "/2afh6fPjq/rcyE/jztQDK3ierehmFFngfvmqyRv72M=",
-        "usagesDigest": "maF8qsAIqeH1ey8pxP0gNZbvJt34kLZvTFeQ0ntrJVA=",
+        "bzlTransitiveDigest": "61Uz+o5PnlY0jJfPZEUNqsKxnM/UCLeWsn5VVCc8u5Y=",
+        "usagesDigest": "d6LYc0jBWHeivnXQugRBrSwkM83GSDwge0l8buSqero=",
         "recordedFileInputs": {},
         "recordedDirentsInputs": {},
         "envVariables": {},
         "generatedRepoSpecs": {
-          "bsd_tar_toolchains": {
-            "repoRuleId": "@@tar.bzl+//tar/toolchain:toolchain.bzl%tar_toolchains_repo",
+          "yq_darwin_amd64": {
+            "repoRuleId": "@@yq.bzl+//yq/toolchain:platforms.bzl%yq_platform_repo",
             "attributes": {
-              "user_repository_name": "bsd_tar_toolchains"
+              "platform": "darwin_amd64",
+              "version": "4.45.1"
             }
           },
-          "bsd_tar_toolchains_darwin_amd64": {
-            "repoRuleId": "@@tar.bzl+//tar/toolchain:platforms.bzl%bsdtar_binary_repo",
+          "yq_darwin_arm64": {
+            "repoRuleId": "@@yq.bzl+//yq/toolchain:platforms.bzl%yq_platform_repo",
             "attributes": {
-              "platform": "darwin_amd64"
+              "platform": "darwin_arm64",
+              "version": "4.45.1"
             }
           },
-          "bsd_tar_toolchains_darwin_arm64": {
-            "repoRuleId": "@@tar.bzl+//tar/toolchain:platforms.bzl%bsdtar_binary_repo",
+          "yq_linux_amd64": {
+            "repoRuleId": "@@yq.bzl+//yq/toolchain:platforms.bzl%yq_platform_repo",
             "attributes": {
-              "platform": "darwin_arm64"
+              "platform": "linux_amd64",
+              "version": "4.45.1"
             }
           },
-          "bsd_tar_toolchains_linux_amd64": {
-            "repoRuleId": "@@tar.bzl+//tar/toolchain:platforms.bzl%bsdtar_binary_repo",
+          "yq_linux_arm64": {
+            "repoRuleId": "@@yq.bzl+//yq/toolchain:platforms.bzl%yq_platform_repo",
             "attributes": {
-              "platform": "linux_amd64"
+              "platform": "linux_arm64",
+              "version": "4.45.1"
             }
           },
-          "bsd_tar_toolchains_linux_arm64": {
-            "repoRuleId": "@@tar.bzl+//tar/toolchain:platforms.bzl%bsdtar_binary_repo",
+          "yq_linux_s390x": {
+            "repoRuleId": "@@yq.bzl+//yq/toolchain:platforms.bzl%yq_platform_repo",
             "attributes": {
-              "platform": "linux_arm64"
+              "platform": "linux_s390x",
+              "version": "4.45.1"
             }
           },
-          "bsd_tar_toolchains_windows_amd64": {
-            "repoRuleId": "@@tar.bzl+//tar/toolchain:platforms.bzl%bsdtar_binary_repo",
+          "yq_linux_riscv64": {
+            "repoRuleId": "@@yq.bzl+//yq/toolchain:platforms.bzl%yq_platform_repo",
             "attributes": {
-              "platform": "windows_amd64"
+              "platform": "linux_riscv64",
+              "version": "4.45.1"
             }
           },
-          "bsd_tar_toolchains_windows_arm64": {
-            "repoRuleId": "@@tar.bzl+//tar/toolchain:platforms.bzl%bsdtar_binary_repo",
+          "yq_linux_ppc64le": {
+            "repoRuleId": "@@yq.bzl+//yq/toolchain:platforms.bzl%yq_platform_repo",
             "attributes": {
-              "platform": "windows_arm64"
+              "platform": "linux_ppc64le",
+              "version": "4.45.1"
+            }
+          },
+          "yq_windows_amd64": {
+            "repoRuleId": "@@yq.bzl+//yq/toolchain:platforms.bzl%yq_platform_repo",
+            "attributes": {
+              "platform": "windows_amd64",
+              "version": "4.45.1"
+            }
+          },
+          "yq_toolchains": {
+            "repoRuleId": "@@yq.bzl+//yq/toolchain:toolchain.bzl%yq_toolchains_repo",
+            "attributes": {
+              "user_repository_name": "yq"
             }
           }
         },

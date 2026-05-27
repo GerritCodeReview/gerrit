@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d79f133d_6c186991",
+        "filename": "polygerrit-ui/app/elements/checks/gr-diff-check-result.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-05-27T20:04:51Z",
+      "side": 1,
+      "message": "NIT: maybe this can be async",
+      "range": {
+        "startLine": 362,
+        "startChar": 7,
+        "endLine": 366,
+        "endChar": 13
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "04be83be_eafff71b",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/checks/gr-diff-check-result.ts",
+              "range": {
+                "startLine": 359,
+                "startChar": 0,
+                "endLine": 360,
+                "endChar": 0
+              },
+              "replacement": "      callback: async () \u003d\u003e {\n"
+            },
+            {
+              "path": "polygerrit-ui/app/elements/checks/gr-diff-check-result.ts",
+              "range": {
+                "startLine": 362,
+                "startChar": 0,
+                "endLine": 367,
+                "endChar": 0
+              },
+              "replacement": "        const savedDraft \u003d await this.getCommentsModel().saveDraft(\n          createPleaseFixComment(result)\n        );\n        reportAiAgentCommentDraft(this.reporting, result, savedDraft.id);\n"
+            }
+          ]
+        }
+      ],
+      "revId": "eee7d4b7f1dd54b69575db5b3d38d87f5cc0f7ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2995ea9a_44e87c27",
+        "filename": "polygerrit-ui/app/models/checks/checks-util.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 623,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-05-27T20:04:51Z",
+      "side": 1,
+      "message": "Please fix this WARNING reported by autoreview issue finding: Since `AiAgentEventDetails` defines `commentId` as optional, and `JSON.stringify` naturally removes undefined properties, you can simplify this to just include `commentId` directly in the object literal (similar to how `suggestionId` is handled here and how it\u0027s done in `gemini-message.ts`).\n\n```typescript\n    return {\n      \u0027agentId\u0027: agentId,\n      \u0027conversationId\u0027: conversationId,\n      \u0027turnIndex\u0027: Number(turnIndex),\n      \u0027suggestionId\u0027: suggestionId,\n      \u0027commentId\u0027: commentId,\n    };\n```",
+      "range": {
+        "startLine": 623,
+        "startChar": 0,
+        "endLine": 623,
+        "endChar": 0
+      },
+      "revId": "eee7d4b7f1dd54b69575db5b3d38d87f5cc0f7ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

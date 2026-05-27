@@ -356,11 +356,14 @@ export class GrDiffCheckResult extends LitElement {
   private renderPleaseFixButton() {
     const action: Action = {
       name: 'Please Fix',
-      callback: () => {
-        assertIsDefined(this.result, 'result');
-        reportAiAgentCommentDraft(this.reporting, this.result);
-        this.getCommentsModel().saveDraft(createPleaseFixComment(this.result));
-        return undefined;
+      callback: async () => {
+        const result = this.result;
+        assertIsDefined(result, 'result');
+        const savedDraft = await this.getCommentsModel().saveDraft(
+          createPleaseFixComment(result)
+        );
+        reportAiAgentCommentDraft(this.reporting, result, savedDraft.id);
+        return {};
       },
     };
     return html`

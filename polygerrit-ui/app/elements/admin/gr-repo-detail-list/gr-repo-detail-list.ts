@@ -59,6 +59,8 @@ export class GrRepoDetailList extends LitElement {
   @property({type: Object})
   params?: RepoViewState;
 
+  @property() newItemName = false;
+
   @state() detailType?: RepoDetailView.BRANCHES | RepoDetailView.TAGS;
 
   @state() isOwner = false;
@@ -78,8 +80,6 @@ export class GrRepoDetailList extends LitElement {
   @state() filter?: string;
 
   @state() refName?: GitRef;
-
-  @state() newItemName = false;
 
   @state() isEditing = false;
 

@@ -22,6 +22,30 @@
       },
       "revId": "a12685d0d4e1eedbbf21424dbd8ebbb40e305ac7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3bfefd88_662a4c78",
+        "filename": "Documentation/licenses.txt",
+        "patchSetId": 24
+      },
+      "lineNbr": 2884,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-05-27T21:54:51Z",
+      "side": 0,
+      "message": "I should have mentioned this in the commit message.\n\nStarting with `aspect_rules_js` 3.x, markdown files (*.md) are no longer fetched. The rationale upstream was to reduce bandwidth and avoid downloading large changelogs and other project metadata unrelated to frontend builds.\n\nOne regression from this optimization is that the `marked` project shipped its `LICENSE.md` file as markdown, so it disappeared as well.\n\nUpstream references: [1], [2] and PR: [3].\n\n[1]: https://github.com/aspect-build/rules_js/issues/2806\n[2]: https://github.com/markedjs/marked/issues/3949\n[3]: https://github.com/markedjs/marked/pull/3950",
+      "parentUuid": "c7b1fd36_abe40109",
+      "range": {
+        "startLine": 2884,
+        "startChar": 0,
+        "endLine": 2884,
+        "endChar": 12
+      },
+      "revId": "a12685d0d4e1eedbbf21424dbd8ebbb40e305ac7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -357,9 +357,13 @@ export class GrDiffCheckResult extends LitElement {
     const action: Action = {
       name: 'Please Fix',
       callback: () => {
-        assertIsDefined(this.result, 'result');
-        reportAiAgentCommentDraft(this.reporting, this.result);
-        this.getCommentsModel().saveDraft(createPleaseFixComment(this.result));
+        const result = this.result;
+        assertIsDefined(result, 'result');
+        this.getCommentsModel()
+          .saveDraft(createPleaseFixComment(result))
+          .then(savedDraft => {
+            reportAiAgentCommentDraft(this.reporting, result, savedDraft.id);
+          });
         return undefined;
       },
     };

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7b1fd36_abe40109",
+        "filename": "Documentation/licenses.txt",
+        "patchSetId": 24
+      },
+      "lineNbr": 2884,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-05-27T21:36:45Z",
+      "side": 0,
+      "message": "why was this removed?\n\nAsking because some internal linters are firing because of this",
+      "range": {
+        "startLine": 2884,
+        "startChar": 0,
+        "endLine": 2884,
+        "endChar": 12
+      },
+      "revId": "a12685d0d4e1eedbbf21424dbd8ebbb40e305ac7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

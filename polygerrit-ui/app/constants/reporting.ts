@@ -203,4 +203,6 @@ export type AiAgentEventDetails = {
   commentCount?: number;
   // The response part ID which identifies the specific suggestion/comment in a turn.
   suggestionId?: number;
+  // Unique ID of the saved comment draft promoted from the suggestion.
+  commentId?: string;
 };

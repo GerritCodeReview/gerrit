@@ -33,6 +33,92 @@
       "message": "@ifrade@google.com are we ok to submit this now?",
       "revId": "8426105fb380e5226a418a1ce98d62b53f80a92a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "23466543_fe807c9c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-05-28T08:41:42Z",
+      "side": 1,
+      "message": "I installed a new Gerrit site using this version and tried to configure All-Projects to block a user via singleusergroup plugin from posting comments:\n\n- block `Post Review Comments` on `refs/*` for user `user/test`\n- block `Label Code Review -2 .. +2` on `refs/heads/*` and `refs/meta/config` for user `user/test`\n\nWith that the user `test` was still able to post comments.\nWhat did I miss ?\n\nI think the rule that users which can vote on any label implicitly have the permission to post reviews makes it unnecessarily complex to block a user or group of users from posting review comments. At least the documentation should describe how to achieve that.",
+      "revId": "8426105fb380e5226a418a1ce98d62b53f80a92a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d0542bd_b2a79100",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 702,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-05-28T08:41:42Z",
+      "side": 1,
+      "message": "I think this should block ANONYMOUS_USERS",
+      "range": {
+        "startLine": 702,
+        "startChar": 71,
+        "endLine": 702,
+        "endChar": 87
+      },
+      "revId": "8426105fb380e5226a418a1ce98d62b53f80a92a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e0814e1_2c3b73c4",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 743,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-05-28T08:41:42Z",
+      "side": 1,
+      "message": "I think this should block ANONYMOUS_USERS",
+      "range": {
+        "startLine": 743,
+        "startChar": 71,
+        "endLine": 743,
+        "endChar": 87
+      },
+      "revId": "8426105fb380e5226a418a1ce98d62b53f80a92a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c4ee2f3_73127854",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 767,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-05-28T08:41:42Z",
+      "side": 1,
+      "message": "I think this should block ANONYMOUS_USERS",
+      "range": {
+        "startLine": 767,
+        "startChar": 71,
+        "endLine": 767,
+        "endChar": 87
+      },
+      "revId": "8426105fb380e5226a418a1ce98d62b53f80a92a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

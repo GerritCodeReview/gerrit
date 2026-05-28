@@ -39,9 +39,9 @@ export class GrRegistrationDialog extends LitElement {
 
   @property() settingsUrl?: string;
 
-  @state() account: Partial<AccountDetailInfo> = {};
+  @property({type: Object}) account: Partial<AccountDetailInfo> = {};
 
-  @state() loading = true;
+  @property({type: Boolean}) loading = true;
 
   @state() saving = false;
 

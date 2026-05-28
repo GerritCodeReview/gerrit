@@ -95,6 +95,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b82fa7a2_84361177",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-05-28T07:17:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "60d6dfda_10f0c7f7",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 46
+      },
+      "revId": "8e0040a4adb7a679da4db40955d7d2d15e07d269",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a71f56c1_74da191a",
@@ -132,6 +156,30 @@
       "side": 1,
       "message": "Yes, I wanted this change to addressed only `merged` changes.\nThat\u0027s why I left the behaviour of `abandoned` changes untouched.\n\nAgreed that this should not be documented though.\nI will remove it.",
       "parentUuid": "a71f56c1_74da191a",
+      "range": {
+        "startLine": 5134,
+        "startChar": 0,
+        "endLine": 5136,
+        "endChar": 77
+      },
+      "revId": "8e0040a4adb7a679da4db40955d7d2d15e07d269",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2f49e56_03dedd73",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 5136,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-05-28T07:17:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6448e005_f20ad969",
       "range": {
         "startLine": 5134,
         "startChar": 0,
@@ -189,6 +237,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4625e0d_5a86ec80",
+        "filename": "java/com/google/gerrit/server/restapi/change/Mergeable.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-05-28T07:17:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "edf7849d_4166bbc4",
+      "range": {
+        "startLine": 105,
+        "startChar": 0,
+        "endLine": 108,
+        "endChar": 54
+      },
+      "revId": "8e0040a4adb7a679da4db40955d7d2d15e07d269",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "60e203f2_45214dca",
@@ -226,6 +298,30 @@
       "side": 1,
       "message": "My suggestion is to do the same thing we are doing at `L108-110`\n```\n// Only the current revision is mergeable. Others always fail.\nreturn Response.ok(result);\n```\n\nThat empty response maps to:\n\n```\n        result.mergeable \u003d false;\n        result.commitMerged \u003d false;\n        result.contentMerged \u003d false;\n```\n\nI think it is appropriate because this represents and unmerged change that is not mergeable.\n\nWDYT?\n\nLet me propose a follow up change",
       "parentUuid": "60e203f2_45214dca",
+      "range": {
+        "startLine": 124,
+        "startChar": 0,
+        "endLine": 129,
+        "endChar": 7
+      },
+      "revId": "8e0040a4adb7a679da4db40955d7d2d15e07d269",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c4ee065_f9bfac0e",
+        "filename": "java/com/google/gerrit/server/restapi/change/Mergeable.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-05-28T07:17:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b474d0e0_edd643c1",
       "range": {
         "startLine": 124,
         "startChar": 0,

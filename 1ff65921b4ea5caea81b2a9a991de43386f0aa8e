@@ -1,0 +1,114 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1bd77738_fc57bc8b",
+        "filename": "configs/skills/gerrit_commit_message_review/SKILL.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-05-28T23:01:49Z",
+      "side": 1,
+      "message": "I think this also should mention that it checks for completeness and accuracy.",
+      "range": {
+        "startLine": 3,
+        "startChar": 13,
+        "endLine": 3,
+        "endChar": 117
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "85d4b8db_d1e28dde",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "configs/skills/gerrit_commit_message_review/SKILL.md",
+              "range": {
+                "startLine": 3,
+                "startChar": 0,
+                "endLine": 4,
+                "endChar": 0
+              },
+              "replacement": "description: Proofreads and suggests structural improvements for Git commit messages to ensure style guide compliance, completeness, and accuracy.\n"
+            }
+          ]
+        }
+      ],
+      "revId": "1ff65921b4ea5caea81b2a9a991de43386f0aa8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8650d31_8e653cef",
+        "filename": "configs/skills/gerrit_commit_message_review/SKILL.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-05-28T23:01:49Z",
+      "side": 1,
+      "message": "maybe outside the scope of this first change, but it would be nice to reference any linkd bugs or docs when checking \"why\".",
+      "range": {
+        "startLine": 77,
+        "startChar": 87,
+        "endLine": 77,
+        "endChar": 90
+      },
+      "revId": "1ff65921b4ea5caea81b2a9a991de43386f0aa8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84a179b9_cce2f669",
+        "filename": "configs/skills/gerrit_commit_message_review/SKILL.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-05-28T23:01:49Z",
+      "side": 1,
+      "message": "Please fix this WARNING reported by gerrit-hygiene-operations: [gerrit-hygiene-operations] The phrase \"lifecycle hook.\" is duplicated on consec...\n\n[gerrit-hygiene-operations] The phrase \"lifecycle hook.\" is duplicated on consecutive lines.\n\n**Suggestion**\n\nRemove the duplicate line.\n```markdown\non rapid page transitions due to a race condition in the reactive\nlifecycle hook.\n\nThis change moves property assignments out of firstUpdated to avoid\n```",
+      "range": {
+        "startLine": 100,
+        "startChar": 0,
+        "endLine": 102,
+        "endChar": 0
+      },
+      "revId": "1ff65921b4ea5caea81b2a9a991de43386f0aa8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63022ee0_291014fd",
+        "filename": "configs/skills/gerrit_commit_message_review/SKILL.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-05-28T23:01:49Z",
+      "side": 1,
+      "message": "Please fix this WARNING reported by gerrit-hygiene-operations: [gerrit-hygiene-operations] The example labeled for \"GitHub/GitLab tracker forma...\n\n[gerrit-hygiene-operations] The example labeled for \"GitHub/GitLab tracker format\" uses `Google-Bug-Id`, which is specific to Google\u0027s internal issue tracker. GitHub and GitLab conventionally use keywords like `Fixes #\u003cID\u003e` or `Closes #\u003cID\u003e`.\n\n**Suggestion**\n\nUpdate the example to use a standard GitHub/GitLab closing reference.\n```markdown\nCloses #1234567\nChange-Id: Iab12cd34ef56gh78ij90kl12mn34op56qr78st90\n```",
+      "range": {
+        "startLine": 185,
+        "startChar": 0,
+        "endLine": 187,
+        "endChar": 0
+      },
+      "revId": "1ff65921b4ea5caea81b2a9a991de43386f0aa8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

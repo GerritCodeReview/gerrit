@@ -445,36 +445,44 @@ manual intervention.
 #### T6-01: Mandatory Release-Notes Footer Injection
 
 > **Rule:** Always append a properly formatted, single-line `Release-Notes:`
-> footer to commits introducing user-facing changes or configuration updates.
+> footer to all commits. While a descriptive note is valuable for significant
+> updates, using `Release-Notes: skip` is completely acceptable and common for
+> minor UI changes, styling tweaks, small fixes, or any change where a detailed
+> public changelog entry is not necessary.
 >
 > **What:** Commit messages must include a properly formatted, single-line
 > 'Release-Notes:' footer to satisfy CI/CD submit requirements and trigger
-> automated changelog generation.
+> automated changelog generation. If a change is minor or a public release note
+> is not needed (even for user-facing adjustments like adding spacing to prevent
+> accidental clicks), using the value 'skip' is fully valid and acceptable.
 >
-> **Applies To:** Git commit messages for user-facing changes, features, or
-> significant configuration updates.
+> **Applies To:** Git commit messages for all changes, including frontend UI,
+> backend, and configuration updates.
 >
-> **Why:** Without a dedicated footer, automated release note parsers missed key
-> configuration updates (like review footer controls), requiring manual
-> intervention and auditing during the release phase. Failing to adhere to this
-> typically results in **Pipeline Submission Failure**.
+> **Why:** Without a dedicated footer, automated release note parsers or submission
+> checks can fail. However, not every commit needs a public release note; hence,
+> `Release-Notes: skip` is supported to keep git history clean and satisfy automation
+> without generating unnecessary public changelog entries.
 
 **Trap 1: Omitting the footer entirely or formatting the release note
 description as a multi-line paragraph.**
 
 **Don't:**
 
-*   Submit a commit without explicit release notes tagging, or spread the
-    release note description across multiple separated lines in the commit body.
+*   Submit a commit without an explicit `Release-Notes:` footer, or spread the
+    release note description across multiple lines in the commit body.
 
 **Do:**
 
-*   Append a strict single-line footer at the bottom of the commit message:
-    `Release-Notes: Add config to control if review footers should be included
-    into the commit message on submit`
+*   For major features or configuration changes: Append a single-line footer with a
+    descriptive summary, e.g.:
+    `Release-Notes: Add config to control if review footers should be included into the commit message on submit`
+*   For minor adjustments (such as fixing accidental clicks by adding spacing),
+    trivial fixes, or refactorings: A detailed release note description can still be
+    provided if desired, but appending `Release-Notes: skip` is completely acceptable.
 
-**Exceptions:** Internal refactoring or trivial formatting fixes that do not
-impact user behavior or configuration.
+**Exceptions:** None. The `Release-Notes:` footer must be present on all commits,
+but the value `skip` is always acceptable.
 
 ## Chapter: Visual Regression Test Determinism
 

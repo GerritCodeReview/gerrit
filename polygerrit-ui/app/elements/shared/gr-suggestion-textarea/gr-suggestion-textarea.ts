@@ -118,7 +118,7 @@ export class GrSuggestionTextarea extends LitElement {
 
   @state() suggestions: (Item | EmojiSuggestion)[] = [];
 
-  @state() private isDragging = false;
+  @property({type: Boolean}) private isDragging = false;
 
   @state() private allowMarkdownBase64ImagesInComments = false;
 

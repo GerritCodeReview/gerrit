@@ -41,7 +41,7 @@ export class GrAccountEntry extends LitElement {
   querySuggestions: AutocompleteQuery<SuggestedReviewerInfo> = () =>
     Promise.resolve([]);
 
-  @state() private inputText = '';
+  @property({type: String}) private inputText = '';
 
   static override get styles() {
     return [

@@ -56,7 +56,7 @@ export class GeminiMessage extends LitElement {
    */
   @property({type: Boolean}) isBackgroundRequest = false;
 
-  @state() turns: readonly Turn[] = [];
+  @property({type: Array}) turns: readonly Turn[] = [];
 
   @state() fileEntities: {[path: string]: NormalizedFileInfo} = {};
 

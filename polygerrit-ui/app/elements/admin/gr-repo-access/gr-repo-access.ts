@@ -96,7 +96,7 @@ export class GrRepoAccess extends LitElement {
   @state() local?: EditableLocalAccessSectionInfo;
 
   // private but used in test
-  @state() editing = false;
+  @property({type: Boolean}) editing = false;
 
   // private but used in test
   @state() modified = false;

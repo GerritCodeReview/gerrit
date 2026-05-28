@@ -28,7 +28,6 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
-import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.change.MergeabilityCache;
 import com.google.gerrit.server.change.MergeabilityComputationBehavior;
 import com.google.gerrit.server.change.RevisionResource;
@@ -102,11 +101,9 @@ public class Mergeable implements RestReadView<RevisionResource> {
     PatchSet ps = resource.getPatchSet();
     MergeableInfo result = new MergeableInfo();
 
-    if (change.isAbandoned()) {
-      throw new ResourceConflictException("change is " + ChangeUtil.status(change));
-    }
-    if (!ps.id().equals(change.currentPatchSetId())) {
-      // Only the current revision is mergeable. Others always fail.
+    if (!ps.id().equals(change.currentPatchSetId()) || change.isAbandoned()) {
+      // Only the current revision of non-abandoned changes is mergeable.
+      // Others always fail.
       return Response.ok(result);
     }
 

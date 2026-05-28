@@ -5131,6 +5131,25 @@ case apart from an open change that could still be submitted.
   }
 ----
 
+If the change is abandoned, then by definition the change is not mergeable.
+The endpoint returns `200 OK` with:
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    submit_type: "MERGE_IF_NECESSARY",
+    strategy: "recursive",
+    mergeable: false,
+    commit_merged: false,
+    content_merged: false
+  }
+----
+
 If the `other-branches` parameter is specified, the mergeability will also be
 checked for all other branches which are listed in the
 link:config-project-config.html#branchOrder-section[branchOrder] section in the

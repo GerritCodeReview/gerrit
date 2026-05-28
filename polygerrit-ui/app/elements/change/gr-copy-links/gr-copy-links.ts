@@ -43,7 +43,7 @@ export class GrCopyLinks extends LitElement {
   @property({type: Number})
   verticalOffset = 10;
 
-  @state() isDropdownOpen = false;
+  @property({type: Boolean}) isDropdownOpen = false;
 
   // private but used in screenshot tests
   @query('md-menu') dropdown?: MdMenu;

@@ -172,7 +172,7 @@ export class GrDropdown extends LitElement {
   @property({type: Number, attribute: 'vertical-offset'})
   verticalOffset = 0;
 
-  @state()
+  @property({type: Boolean})
   private opened = false;
 
   /**

@@ -109,7 +109,7 @@ export class GrEditableContent extends LitElement {
   /** If false, then the "Show more" button was used to expand. */
   @state() commitCollapsed = true;
 
-  @state() newContent = '';
+  @property({type: String}) newContent = '';
 
   @state()
   emails: EmailInfo[] = [];

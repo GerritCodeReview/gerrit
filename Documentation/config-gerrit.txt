@@ -101,6 +101,52 @@ Values should use common unit suffixes to express their setting:
 If a unit suffix is not specified, `milliseconds` is assumed.
 Default is `30 seconds`.
 
+[[accountPatchReviewDb.h2LockType]]accountPatchReviewDb.h2LockType::
++
+Selects the locking mechanism used to serialise access to the H2 database file,
+replacing H2's built-in file locking.
++
+When set, no connection pool is maintained. Each operation opens a fresh
+connection, holds the lock for the duration of that operation, and closes the
+connection immediately on completion.
++
+Supported values:
++
+--
+`git`:::
+Uses git-style lock files for inter-process mutual exclusion. H2 is opened with
+`FILE_LOCK=NO`; a `.lock` sidecar file is atomically created before opening each
+connection and deleted when the connection is closed. The maximum time to spend
+retrying the lock before failing is controlled by
+<<accountPatchReviewDb.h2LockTimeout, accountPatchReviewDb.h2LockTimeout>>.
++
+For this locking to work correctly across multiple Gerrit primaries, the `.lock`
+file must reside on a shared filesystem (e.g. NFS) accessible to all primaries.
+By default the lock file is placed next to the H2 database in the `db` directory;
+if that directory is already on a shared filesystem no further configuration is
+needed. If the H2 database (configured via `accountPatchReviewDb.url`) and the
+lock file need to live in different locations, set `accountPatchReviewDb.h2LockFile`
+to a common shared path on all primaries.
+--
++
+Default is unset (H2's built-in file locking is used).
+
+[[accountPatchReviewDb.h2LockFile]]accountPatchReviewDb.h2LockFile::
++
+Absolute path to the lock file used when `accountPatchReviewDb.h2LockType = git`.
+All Gerrit primaries must point to the same path on a shared filesystem for
+mutual exclusion to be effective.
++
+Default is `<site>/db/account_patch_reviews.lock`.
+
+[[accountPatchReviewDb.h2LockTimeout]]accountPatchReviewDb.h2LockTimeout::
++
+Maximum time to spend retrying the external lock before giving up with an error.
+Only applies when `accountPatchReviewDb.h2LockType` is set. Retries use
+exponential backoff starting at 1 ms, capped at 500 ms per sleep.
++
+Default is `30 seconds`.
+
 [[accounts]]
 === Section accounts
 

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6cf1b446_dcac4594",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-05-28T07:17:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84015792_b95af9d4",
+      "range": {
+        "startLine": 7,
+        "startChar": 7,
+        "endLine": 7,
+        "endChar": 16
+      },
+      "revId": "8e0040a4adb7a679da4db40955d7d2d15e07d269",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "400cabb5_a5c2ea1a",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-05-27T20:08:46Z",
       "side": 1,
       "message": "This would still represent an anomaly IMHO for two reasons:\n\n1. The REST-API documentation doesn\u0027t say that the API could return a 409 under certain conditions, therefore the status is unexpected\n2. The HTTP status 409 is typically returned by PUT or POST requests, whilst returning it for a GET is unusual and, again, unexpected.",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 46
+      },
+      "revId": "8e0040a4adb7a679da4db40955d7d2d15e07d269",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "60d6dfda_10f0c7f7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-05-28T07:17:17Z",
+      "side": 1,
+      "message": "I wanted this change to addressed only `merged` changes (this is what issue `515480627` is for). That\u0027s why I left the behaviour of `abandoned` changes untouched.\n\nI think we should fix abandoned changes as a followup?",
+      "parentUuid": "400cabb5_a5c2ea1a",
       "range": {
         "startLine": 24,
         "startChar": 0,
@@ -72,6 +120,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6448e005_f20ad969",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 5136,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-05-28T07:17:17Z",
+      "side": 1,
+      "message": "Yes, I wanted this change to addressed only `merged` changes.\nThat\u0027s why I left the behaviour of `abandoned` changes untouched.\n\nAgreed that this should not be documented though.\nI will remove it.",
+      "parentUuid": "a71f56c1_74da191a",
+      "range": {
+        "startLine": 5134,
+        "startChar": 0,
+        "endLine": 5136,
+        "endChar": 77
+      },
+      "revId": "8e0040a4adb7a679da4db40955d7d2d15e07d269",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8571c057_438c658a",
         "filename": "java/com/google/gerrit/server/restapi/change/Mergeable.java",
         "patchSetId": 3
@@ -83,6 +155,30 @@
       "writtenOn": "2026-05-27T20:08:46Z",
       "side": 1,
       "message": "```suggestion\n    if (!ps.id().equals(change.currentPatchSetId())) {\n```",
+      "range": {
+        "startLine": 105,
+        "startChar": 0,
+        "endLine": 108,
+        "endChar": 54
+      },
+      "revId": "8e0040a4adb7a679da4db40955d7d2d15e07d269",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "edf7849d_4166bbc4",
+        "filename": "java/com/google/gerrit/server/restapi/change/Mergeable.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-05-28T07:17:17Z",
+      "side": 1,
+      "message": "Yes this endpoint is broken for both `merged` and `abandoned`.\nShould we decide what is the right thing to do for abandoned changes as a follow up and keep this change aligned to its issue?",
+      "parentUuid": "8571c057_438c658a",
       "range": {
         "startLine": 105,
         "startChar": 0,
@@ -118,6 +214,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b474d0e0_edd643c1",
+        "filename": "java/com/google/gerrit/server/restapi/change/Mergeable.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-05-28T07:17:17Z",
+      "side": 1,
+      "message": "My suggestion is to do the same thing we are doing at `L108-110`\n```\n// Only the current revision is mergeable. Others always fail.\nreturn Response.ok(result);\n```\n\nThat empty response maps to:\n\n```\n        result.mergeable \u003d false;\n        result.commitMerged \u003d false;\n        result.contentMerged \u003d false;\n```\n\nI think it is appropriate because this represents and unmerged change that is not mergeable.\n\nWDYT?\n\nLet me propose a follow up change",
+      "parentUuid": "60e203f2_45214dca",
+      "range": {
+        "startLine": 124,
+        "startChar": 0,
+        "endLine": 129,
+        "endChar": 7
+      },
+      "revId": "8e0040a4adb7a679da4db40955d7d2d15e07d269",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3897dccf_0da6f736",
         "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
         "patchSetId": 3
@@ -129,6 +249,30 @@
       "writtenOn": "2026-05-27T20:08:46Z",
       "side": 1,
       "message": "See my comments on abandoned changes.",
+      "range": {
+        "startLine": 1744,
+        "startChar": 0,
+        "endLine": 1755,
+        "endChar": 3
+      },
+      "revId": "8e0040a4adb7a679da4db40955d7d2d15e07d269",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8816aa5d_4859017d",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1755,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-05-28T07:17:17Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "3897dccf_0da6f736",
       "range": {
         "startLine": 1744,
         "startChar": 0,

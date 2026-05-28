@@ -38,16 +38,16 @@ export class GrAccountInfo extends LitElement {
   @property({type: Boolean}) hasUnsavedChanges = false;
 
   // private but used in test
-  @state() hasNameChange = false;
+  @property() hasNameChange = false;
 
   // private but used in test
-  @state() hasUsernameChange = false;
+  @property() hasUsernameChange = false;
 
   // private but used in test
-  @state() hasDisplayNameChange = false;
+  @property() hasDisplayNameChange = false;
 
   // private but used in test
-  @state() hasStatusChange = false;
+  @property() hasStatusChange = false;
 
   // private but used in test
   @state() loading = false;

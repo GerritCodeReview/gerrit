@@ -54,7 +54,7 @@ export class PromptBox extends LitElement {
 
   @state() selectedModel?: ModelInfo;
 
-  @state() userInput = '';
+  @property() userInput = '';
 
   @state() previousMessageIndex = -1;
 
@@ -70,7 +70,7 @@ export class PromptBox extends LitElement {
 
   @state() showAllContextItems = false;
 
-  @state() contextItemTypes: readonly ContextItemType[] = [];
+  @property() contextItemTypes: readonly ContextItemType[] = [];
 
   @state() private change?: ParsedChangeInfo;
 

@@ -219,14 +219,14 @@ export class GrComment extends LitElement {
   @state()
   changeNum?: NumericChangeId;
 
-  @state()
+  @property()
   editing = false;
 
   @state()
   repoName?: RepoName;
 
   /* The 'dirty' state of the comment.message, which will be saved on demand. */
-  @state()
+  @property()
   messageText = '';
 
   /**
@@ -247,7 +247,7 @@ export class GrComment extends LitElement {
   private generateSuggestionPromise?: Promise<FixSuggestionInfo | undefined>;
 
   /* The 'dirty' state of !comment.unresolved, which will be saved on demand. */
-  @state()
+  @property()
   unresolved = true;
 
   @state()

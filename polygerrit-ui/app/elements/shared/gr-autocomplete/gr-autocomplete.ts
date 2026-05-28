@@ -160,7 +160,7 @@ export class GrAutocomplete extends LitElement {
   @property({type: String})
   label? = '';
 
-  @state() suggestions: AutocompleteSuggestion[] = [];
+  @property() suggestions: AutocompleteSuggestion[] = [];
 
   @state() queryStatus?: AutocompleteQueryStatus;
 

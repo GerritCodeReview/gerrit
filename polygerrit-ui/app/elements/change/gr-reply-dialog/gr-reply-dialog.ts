@@ -202,7 +202,7 @@ export class GrReplyDialog extends LitElement {
   @property({type: Boolean, reflect: true})
   disabled = false;
 
-  @state()
+  @property()
   draftCommentThreads: CommentThread[] = [];
 
   @property({type: Object})
@@ -229,7 +229,7 @@ export class GrReplyDialog extends LitElement {
 
   @state() private docsBaseUrl = '';
 
-  @state()
+  @property()
   patchsetLevelDraftMessage = '';
 
   @state()
@@ -290,13 +290,13 @@ export class GrReplyDialog extends LitElement {
   @state()
   mentionedUsers: AccountInput[] = [];
 
-  @state()
+  @property()
   mentionedUsersInUnresolvedDrafts: AccountInfo[] = [];
 
   @state()
   attentionCcsCount = 0;
 
-  @state()
+  @property()
   ccPendingConfirmation: SuggestedReviewerGroupInfo | null = null;
 
   @state()
@@ -308,15 +308,15 @@ export class GrReplyDialog extends LitElement {
   @state()
   pendingConfirmationDetails: SuggestedReviewerGroupInfo | null = null;
 
-  @state()
+  @property()
   includeComments = true;
 
   @state()
   autosubmitChecked = false;
 
-  @state() reviewers: AccountInput[] = [];
+  @property() reviewers: AccountInput[] = [];
 
-  @state()
+  @property()
   reviewerPendingConfirmation: SuggestedReviewerGroupInfo | null = null;
 
   @state()
@@ -330,7 +330,7 @@ export class GrReplyDialog extends LitElement {
    * not yet voted on a label) if a selected vote is different from the default
    * vote.
    */
-  @state()
+  @property()
   labelsChanged = false;
 
   @state()

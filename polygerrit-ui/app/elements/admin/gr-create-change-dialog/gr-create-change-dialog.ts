@@ -57,10 +57,10 @@ export class GrCreateChangeDialog extends LitElement {
   repoName?: RepoName;
 
   // private but used in test
-  @state() branch = '' as BranchName;
+  @property({type: String}) branch = '' as BranchName;
 
   // private but used in test
-  @state() subject = '';
+  @property({type: String}) subject = '';
 
   // private but used in test
   @state() topic?: string;

@@ -101,7 +101,7 @@ import {resolve} from '../../../models/dependency';
 import {changeModelToken} from '../../../models/change/change-model';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {css, html, LitElement, nothing, PropertyValues} from 'lit';
-import {customElement, query, state} from 'lit/decorators.js';
+import {customElement, property, query, state} from 'lit/decorators.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {assertIsDefined, queryAll, uuid} from '../../../utils/common-util';
 import {Interaction} from '../../../constants/reporting';
@@ -393,7 +393,7 @@ export class GrChangeActions
 
   @state() change?: ParsedChangeInfo;
 
-  @state() actions: ActionNameToActionInfoMap = {};
+  @property({type: Object}) actions: ActionNameToActionInfoMap = {};
 
   @state() primaryActionKeys: PrimaryActionKey[] = [
     ChangeActions.READY,
@@ -483,7 +483,7 @@ export class GrChangeActions
 
   @state() actionPriorityOverrides: ActionPriorityOverride[] = [];
 
-  @state() additionalActions: UIActionInfo[] = [];
+  @property({type: Array}) additionalActions: UIActionInfo[] = [];
 
   @state() hiddenActions: string[] = [];
 

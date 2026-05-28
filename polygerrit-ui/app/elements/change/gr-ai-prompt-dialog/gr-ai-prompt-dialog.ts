@@ -9,7 +9,7 @@ import {fontStyles} from '../../../styles/gr-font-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {modalStyles} from '../../../styles/gr-modal-styles';
 import {css, html, LitElement, PropertyValues} from 'lit';
-import {customElement, query, state} from 'lit/decorators.js';
+import {customElement, property, query, state} from 'lit/decorators.js';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {getAppContext} from '../../../services/app-context';
 import {fireError} from '../../../utils/event-util';
@@ -81,12 +81,12 @@ export class GrAiPromptDialog extends LitElement {
 
   @state() loading = false;
 
-  @state() selectedTemplate: PromptTemplateId = 'HELP_REVIEW';
+  @property({type: String}) selectedTemplate: PromptTemplateId = 'HELP_REVIEW';
 
-  @state() private context = 3;
+  @property({type: Number}) private context = 3;
 
   // private but used in tests
-  @state() threads: CommentThread[] = [];
+  @property({type: Array}) threads: CommentThread[] = [];
 
   @state() private promptContent = '';
 

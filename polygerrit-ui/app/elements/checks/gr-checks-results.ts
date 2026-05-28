@@ -962,7 +962,7 @@ export class GrChecksResults extends LitElement {
   @query('#filterInput')
   filterInput?: HTMLInputElement;
 
-  @state()
+  @property({type: String})
   filterRegExp = '';
 
   /** All runs. Shown should only the selected/filtered ones. */

@@ -10,7 +10,7 @@ import {
 } from '../gr-autocomplete/gr-autocomplete';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {css, html, LitElement, PropertyValues} from 'lit';
-import {customElement, property, query, state} from 'lit/decorators.js';
+import {customElement, property, query} from 'lit/decorators.js';
 import {
   AddAccountEvent,
   AutocompleteCommitEvent,
@@ -41,7 +41,7 @@ export class GrAccountEntry extends LitElement {
   querySuggestions: AutocompleteQuery<SuggestedReviewerInfo> = () =>
     Promise.resolve([]);
 
-  @state() private inputText = '';
+  @property({type: String}) private inputText = '';
 
   static override get styles() {
     return [

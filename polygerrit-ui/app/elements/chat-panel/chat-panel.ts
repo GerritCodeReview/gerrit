@@ -12,7 +12,13 @@ import './splash-page';
 import './user-message';
 
 import {css, html, LitElement} from 'lit';
-import {customElement, query, queryAll, state} from 'lit/decorators.js';
+import {
+  customElement,
+  property,
+  query,
+  queryAll,
+  state,
+} from 'lit/decorators.js';
 
 import {
   chatModelToken,
@@ -37,7 +43,7 @@ export class ChatPanel extends LitElement {
 
   @queryAll('gemini-message') private geminiMessages?: NodeListOf<HTMLElement>;
 
-  @state() turns: readonly Turn[] = [];
+  @property({type: Array}) turns: readonly Turn[] = [];
 
   @state() conversationId?: string;
 

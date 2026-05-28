@@ -7,7 +7,7 @@
 import '../../shared/gr-copy-clipboard/gr-copy-clipboard';
 import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {createRef, ref, Ref} from 'lit/directives/ref.js';
-import {customElement, property, query, state} from 'lit/decorators.js';
+import {customElement, property, query} from 'lit/decorators.js';
 import {strToClassName} from '../../../utils/dom-util';
 import {copyToClipboard, queryAndAssert} from '../../../utils/common-util';
 import {formStyles} from '../../../styles/form-styles';
@@ -43,7 +43,7 @@ export class GrCopyLinks extends LitElement {
   @property({type: Number})
   verticalOffset = 10;
 
-  @state() isDropdownOpen = false;
+  @property({type: Boolean}) isDropdownOpen = false;
 
   // private but used in screenshot tests
   @query('md-menu') dropdown?: MdMenu;

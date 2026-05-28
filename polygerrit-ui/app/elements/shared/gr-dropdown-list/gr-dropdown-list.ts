@@ -96,7 +96,7 @@ export class GrDropdownList extends LitElement {
   @state()
   selectedIndex = 0;
 
-  @state()
+  @property({type: Boolean})
   private opened = false;
 
   @state() private hadKeyboardEvent = false;

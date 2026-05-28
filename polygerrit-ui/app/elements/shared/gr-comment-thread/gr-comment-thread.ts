@@ -246,7 +246,7 @@ export class GrCommentThread extends LitElement {
    * We are listening on the <gr-comment> of the draft, so we even know when the
    * checkbox is checked, even if not yet saved.
    */
-  @state()
+  @property({type: Boolean})
   unresolved = true;
 
   /**

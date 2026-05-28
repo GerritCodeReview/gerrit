@@ -108,7 +108,7 @@ export class GrCreateFlow extends LitElement {
 
   @state() private serverConfig?: ServerInfo;
 
-  @state() flowString = '';
+  @property({type: String}) flowString = '';
 
   @state()
   // private but used in tests

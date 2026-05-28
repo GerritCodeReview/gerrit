@@ -147,7 +147,7 @@ export class GrChangeMetadata extends LitElement {
 
   @state() repoConfig?: ConfigInfo;
 
-  @state() mutable = false;
+  @property({type: Boolean}) mutable = false;
 
   @state() readonly notCurrentMessage = NOT_CURRENT_MESSAGE;
 

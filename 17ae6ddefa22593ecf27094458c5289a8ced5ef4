@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "658e448a_9ab89a7f",
+        "filename": "polygerrit-ui/app/elements/checks/gr-diff-check-result.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-05-28T21:16:52Z",
+      "side": 1,
+      "message": "test",
+      "isAi": true,
+      "revId": "17ae6ddefa22593ecf27094458c5289a8ced5ef4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

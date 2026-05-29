@@ -89,6 +89,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4fab6b9c_a3961ba4",
+        "filename": "configs/skills/gerrit_commit_message_review/SKILL.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1131691
+      },
+      "writtenOn": "2026-05-29T16:33:09Z",
+      "side": 1,
+      "message": "I took a pass on this. I went with a gentler ask instead of a hard requirement for things like trivial bugs. Happy to iterate",
+      "parentUuid": "e8650d31_8e653cef",
+      "range": {
+        "startLine": 77,
+        "startChar": 87,
+        "endLine": 77,
+        "endChar": 90
+      },
+      "revId": "1ff65921b4ea5caea81b2a9a991de43386f0aa8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "84a179b9_cce2f669",

@@ -497,6 +497,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "90fa86a1_b0270d04",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-29T20:23:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9d18db04_755cd780",
+      "range": {
+        "startLine": 106,
+        "startChar": 9,
+        "endLine": 106,
+        "endChar": 25
+      },
+      "revId": "cb052d46f321418539448df96b8ebf98834ede1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ed6fbd65_cfac089e",
@@ -605,6 +629,30 @@
       "side": 1,
       "message": "You can use the same logic and bail out if `tilde \u003c 0`",
       "parentUuid": "70ce83a4_98df8d9c",
+      "range": {
+        "startLine": 111,
+        "startChar": 66,
+        "endLine": 111,
+        "endChar": 68
+      },
+      "revId": "cb052d46f321418539448df96b8ebf98834ede1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1551d150_4c4edb33",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-29T20:23:13Z",
+      "side": 1,
+      "message": "The whole function can be simplified with a simple regex matching of `^([^~]+)~(\\d+)$`",
+      "parentUuid": "f263c945_988fc531",
       "range": {
         "startLine": 111,
         "startChar": 66,

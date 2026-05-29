@@ -1808,6 +1808,28 @@ public class RevisionIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void mergeableForMergedChange() throws Exception {
+    PushOneCommit.Result r = createChange();
+    merge(r);
+
+    MergeableInfo mergeableInfo = gApi.changes().id(r.getChangeId()).current().mergeable();
+    assertThat(mergeableInfo.mergeable).isTrue();
+    assertThat(mergeableInfo.commitMerged).isTrue();
+    assertThat(mergeableInfo.contentMerged).isTrue();
+  }
+
+  @Test
+  public void mergeableForAbandonedChange() throws Exception {
+    PushOneCommit.Result r = createChange();
+    gApi.changes().id(r.getChangeId()).abandon();
+
+    MergeableInfo mergeableInfo = gApi.changes().id(r.getChangeId()).current().mergeable();
+    assertThat(mergeableInfo.mergeable).isFalse();
+    assertThat(mergeableInfo.commitMerged).isFalse();
+    assertThat(mergeableInfo.contentMerged).isFalse();
+  }
+
+  @Test
   public void mergeableOtherBranches() throws Exception {
     String head = getHead(repo(), HEAD).name();
     createBranchWithRevision(BranchNameKey.create(project, "mergeable-other-branch"), head);

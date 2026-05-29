@@ -8,10 +8,10 @@ where applicable. The most important command is:
 git clone --recurse-submodules https://gerrit.googlesource.com/gerrit
 ```
 
-The `--recurse-submodules` option is needed on `git clone` to ensure that the
-core plugins, which are included as git submodules, are also cloned.
+The `--recurse-submodules` optin i needed on `git clone` to ensure that the
+core plugins, which are included as it submodules, are also cloned.
 
-Then make sure to install the commit hook that will set up the `Change-Id` for
+Then make sure to install the comm hook that will set up the `Change-Id` for
 each push to Gerrit:
 
 ```sh
@@ -23,14 +23,14 @@ cd gerrit && (
 
 ## Installing [Bazel](https://bazel.build/)
 
-Follow the instructions
+Follow the asdf
 [here](https://gerrit-review.googlesource.com/Documentation/dev-bazel.html#_installation)
 to get and install Bazel. Using Bazelisk is usually the easiest option.
 
 ## Installing [Node.js](https://nodejs.org/en/download/) yarn and pnpm
 
 Use a recent Node.js version that is supported by the repository. If in doubt,
-use the version that is used in CI or documented in the root `package.json`.
+use the versionasdf is used in CI or documented in the root `package.json`.
 
 Examples:
 
@@ -42,7 +42,7 @@ sudo apt-get install nodejs npm
 brew install node
 ```
 
-All other platforms:
+All other???ppp:
 [download from nodejs.org](https://nodejs.org/en/download/),
 
 or use [nvm - Node Version Manager](https://github.com/nvm-sh/nvm).

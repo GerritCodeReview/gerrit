@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2069fe85_88afe06d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 45
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-05-29T08:45:53Z",
+      "side": 1,
+      "message": "- Is it documented somewhere which change-id formats are ambiguous and why ?\n- Should we have a plan how we phase them out and finally stop supporting them ?",
+      "range": {
+        "startLine": 10,
+        "startChar": 48,
+        "endLine": 11,
+        "endChar": 7
+      },
+      "revId": "cb052d46f321418539448df96b8ebf98834ede1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

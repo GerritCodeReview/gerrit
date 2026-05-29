@@ -285,6 +285,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a78b7bb7_35e965d2",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-05-29T15:09:14Z",
+      "side": 1,
+      "message": "Yep just wanted to double check e weere doiing it on purpose",
+      "parentUuid": "500344ee_d4f02d3b",
+      "range": {
+        "startLine": 73,
+        "startChar": 20,
+        "endLine": 73,
+        "endChar": 39
+      },
+      "revId": "cb052d46f321418539448df96b8ebf98834ede1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b2573571_92d0bead",
@@ -533,6 +557,30 @@
       "side": 1,
       "message": "Maybe yeah, but then I need to add a bunch of logic to figure out the format. Relying on the parsing logic to either fail or pass made for simpler reading in my mind.",
       "parentUuid": "a354081b_1ce27a54",
+      "range": {
+        "startLine": 111,
+        "startChar": 66,
+        "endLine": 111,
+        "endChar": 68
+      },
+      "revId": "cb052d46f321418539448df96b8ebf98834ede1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f263c945_988fc531",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-05-29T15:09:14Z",
+      "side": 1,
+      "message": "You can use the same logic and bail out if `tilde \u003c 0`",
+      "parentUuid": "70ce83a4_98df8d9c",
       "range": {
         "startLine": 111,
         "startChar": 66,

@@ -775,6 +775,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c2f1ead_6ffa48a5",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/config/IndexChangesIT.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-29T22:01:02Z",
+      "side": 1,
+      "message": "\u003e I think we are missing a test for:\n\u003e \n\u003e - deleteMissing\u003dtrue with a valid nonexistent `project~changeNumber`\n\u003e - deleteMissing\u003dfalse with a valid nonexistent `project~changeNumber`\n\nDone, they are covered in `deleteMissingImportedChangeFromIndex`",
+      "parentUuid": "52a3841e_7c39aca6",
+      "revId": "cb052d46f321418539448df96b8ebf98834ede1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5bf15ffa_c64d0ed1",

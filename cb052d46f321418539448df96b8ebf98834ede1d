@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d67cb69_4098cd35",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 45
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-29T14:40:18Z",
+      "side": 1,
+      "message": "There are many references, including in the documentation.\nYet another example: https://gerrit-documentation.storage.googleapis.com/Documentation/3.14.0/json.html#change\n\nJust doing a bit of _grep_ around and you\u0027ll find many more.",
+      "parentUuid": "00d7610e_6c9384c1",
+      "range": {
+        "startLine": 10,
+        "startChar": 48,
+        "endLine": 11,
+        "endChar": 7
+      },
+      "revId": "cb052d46f321418539448df96b8ebf98834ede1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9d044f6e_21c33552",
@@ -61,6 +85,30 @@
       "writtenOn": "2026-05-29T14:20:18Z",
       "side": 1,
       "message": "Why a `side-effect`?",
+      "range": {
+        "startLine": 14,
+        "startChar": 28,
+        "endLine": 14,
+        "endChar": 39
+      },
+      "revId": "cb052d46f321418539448df96b8ebf98834ede1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a656fd6_8d7af271",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 45
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-29T14:40:18Z",
+      "side": 1,
+      "message": "It is explained in the commit message indirectly, but let me extend the description.",
+      "parentUuid": "9d044f6e_21c33552",
       "range": {
         "startLine": 14,
         "startChar": 28,

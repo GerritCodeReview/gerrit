@@ -404,6 +404,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "afae9c49_a7d2da98",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 40
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-29T07:57:57Z",
+      "side": 1,
+      "message": "Ack.",
+      "parentUuid": "69089b55_516e58d6",
+      "range": {
+        "startLine": 101,
+        "startChar": 24,
+        "endLine": 101,
+        "endChar": 57
+      },
+      "revId": "6d350cc055d8c2ee4f6c41c9d22c6a9e6a6a0200",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5193bc8f_5f6d715a",

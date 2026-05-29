@@ -71,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9b99065_01764617",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 61
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-29T22:15:29Z",
+      "side": 1,
+      "message": "I don\u0027t believe we are fixing that behaviour: we are simply adding one additional piece of information to an event listener.\n\nThe description is provided to give context; it\u0027s not the purpose of the change.",
+      "parentUuid": "2982f62f_bbde0f09",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 52
+      },
+      "revId": "4e30250f3bc333dafcd3fb2fc26a0b3db2ff12b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "24e8014c_eb1b4a49",
@@ -84,6 +108,30 @@
       "writtenOn": "2026-05-29T14:01:29Z",
       "side": 1,
       "message": "This is not true anymore, right?",
+      "range": {
+        "startLine": 15,
+        "startChar": 41,
+        "endLine": 16,
+        "endChar": 34
+      },
+      "revId": "4e30250f3bc333dafcd3fb2fc26a0b3db2ff12b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "216643bb_d42c5c7f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 61
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-29T22:15:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24e8014c_eb1b4a49",
       "range": {
         "startLine": 15,
         "startChar": 41,
@@ -117,6 +165,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "19200edd_e6d7e2ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 61
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-29T22:15:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2969be9f_cb65b036",
+      "range": {
+        "startLine": 22,
+        "startChar": 15,
+        "endLine": 22,
+        "endChar": 22
+      },
+      "revId": "4e30250f3bc333dafcd3fb2fc26a0b3db2ff12b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "55450537_6811290a",
@@ -130,6 +202,30 @@
       "writtenOn": "2026-05-29T14:01:29Z",
       "side": 1,
       "message": "nit, I think this `withProject` suffix/infix throughout the code is no longer necessary, since we do not need to distinguish between `with` and `without` project names.\n\nConsider renaming the variables/methods without the need for this extra specification.",
+      "range": {
+        "startLine": 5466,
+        "startChar": 37,
+        "endLine": 5466,
+        "endChar": 48
+      },
+      "revId": "4e30250f3bc333dafcd3fb2fc26a0b3db2ff12b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4546aa8_61592392",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 61
+      },
+      "lineNbr": 5466,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-29T22:15:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "55450537_6811290a",
       "range": {
         "startLine": 5466,
         "startChar": 37,

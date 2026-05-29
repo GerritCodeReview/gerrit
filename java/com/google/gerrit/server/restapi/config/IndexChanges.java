@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.restapi.config;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.Change;
@@ -29,6 +28,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.restapi.config.IndexChanges.Input;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -38,9 +38,11 @@ import java.util.Set;
 public class IndexChanges implements RestModifyView<ConfigResource, Input> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  public static class Input {
-    public Set<String> changes;
-    @VisibleForTesting public boolean deleteMissing;
+  public record Input(Set<String> changes, boolean deleteMissing) {
+
+    public Input() {
+      this(Collections.emptySet(), false);
+    }
   }
 
   private final ChangeFinder changeFinder;

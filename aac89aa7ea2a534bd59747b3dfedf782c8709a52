@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "78f2d4d1_e6cb8e7a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2026-05-29T07:23:44Z",
+      "side": 1,
+      "message": "Adding the labels manually, since CI does not seem to be working for this change.",
+      "revId": "aac89aa7ea2a534bd59747b3dfedf782c8709a52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

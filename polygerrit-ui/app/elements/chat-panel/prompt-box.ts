@@ -8,29 +8,29 @@ import '@material/web/chips/chip-set.js';
 import './context-chip';
 import './context-input-chip';
 
-import {css, html, LitElement, nothing} from 'lit';
-import {customElement, property, query, state} from 'lit/decorators.js';
-import {when} from 'lit/directives/when.js';
-import {repeat} from 'lit/directives/repeat.js';
+import { css, html, LitElement, nothing } from 'lit';
+import { customElement, property, query, state } from 'lit/decorators.js';
+import { when } from 'lit/directives/when.js';
+import { repeat } from 'lit/directives/repeat.js';
 
 import {
   ContextItem,
   ContextItemType,
   ModelInfo,
 } from '../../api/ai-code-review';
-import {chatModelToken, Turn} from '../../models/chat/chat-model';
-import {changeModelToken} from '../../models/change/change-model';
+import { chatModelToken, Turn } from '../../models/chat/chat-model';
+import { changeModelToken } from '../../models/change/change-model';
 import {
   contextItemEquals,
   searchForBugsInCommitMessage,
   searchForContextLinks,
 } from '../../models/chat/context-item-util';
-import {resolve} from '../../models/dependency';
-import {ParsedChangeInfo} from '../../types/types';
-import {debounce, DelayedTask} from '../../utils/async-util';
-import {fire} from '../../utils/event-util';
-import {subscribe} from '../lit/subscription-controller';
-import {materialStyles} from '../../styles/gr-material-styles';
+import { resolve } from '../../models/dependency';
+import { ParsedChangeInfo } from '../../types/types';
+import { debounce, DelayedTask } from '../../utils/async-util';
+import { fire } from '../../utils/event-util';
+import { subscribe } from '../lit/subscription-controller';
+import { materialStyles } from '../../styles/gr-material-styles';
 
 const MAX_VISIBLE_CONTEXT_ITEMS_COLLAPSED = 3;
 const MAX_VISIBLE_SUGGESTED_CONTEXT_ITEMS_COLLAPSED = 1;
@@ -44,17 +44,17 @@ interface PromptBoxContextItem extends ContextItem {
 export class PromptBox extends LitElement {
   @query('#promptInput') promptInput?: HTMLTextAreaElement;
 
-  @property({type: Boolean})
+  @property({ type: Boolean })
   isDisabled = false;
 
-  @property({type: String})
+  @property({ type: String })
   disabledMessage = 'Review Agent is disabled.';
 
   @state() hasModelLoadingError = false;
 
   @state() selectedModel?: ModelInfo;
 
-  @property({type: String}) userInput = '';
+  @property({ type: String }) userInput = '';
 
   @state() previousMessageIndex = -1;
 
@@ -70,8 +70,9 @@ export class PromptBox extends LitElement {
 
   @state() showAllContextItems = false;
 
-  @property({type: Array}) contextItemTypes: readonly ContextItemType[] = [];
+  @property({ type: Array }) contextItemTypes: readonly ContextItemType[] = [];
 
+  // This should definitely be public.
   @state() private change?: ParsedChangeInfo;
 
   // TODO(milutin): Find out if we need this.
@@ -220,7 +221,7 @@ export class PromptBox extends LitElement {
       Math.max(
         0,
         suggestedContextItems.length -
-          MAX_VISIBLE_SUGGESTED_CONTEXT_ITEMS_COLLAPSED
+        MAX_VISIBLE_SUGGESTED_CONTEXT_ITEMS_COLLAPSED
       )
     );
   }
@@ -394,7 +395,7 @@ export class PromptBox extends LitElement {
       <md-chip-set class="context-chip-set">
         <context-input-chip
           @context-item-added=${(e: CustomEvent<ContextItem>) =>
-            this.onContextItemAdded(e.detail)}
+        this.onContextItemAdded(e.detail)}
         ></context-input-chip>
         ${this.renderThisChangeChip()}
         ${repeat(
@@ -416,9 +417,9 @@ export class PromptBox extends LitElement {
           this.showAllContextItems
             ? this.suggestedContextItems
             : this.suggestedContextItems.slice(
-                0,
-                MAX_VISIBLE_SUGGESTED_CONTEXT_ITEMS_COLLAPSED
-              ),
+              0,
+              MAX_VISIBLE_SUGGESTED_CONTEXT_ITEMS_COLLAPSED
+            ),
           item => `${item.type_id}:${item.identifier}`,
           contextItem => html`
             <context-chip
@@ -428,7 +429,7 @@ export class PromptBox extends LitElement {
               .isSuggestion=${true}
               .tooltip=${`Add this ${contextItem.title} as context`}
               @accept-context-item-suggestion=${() =>
-                this.acceptContextItemSuggestion(contextItem)}
+              this.acceptContextItemSuggestion(contextItem)}
             ></context-chip>
           `
         )}
@@ -489,7 +490,7 @@ export class PromptBox extends LitElement {
     this.userInput = (e.target as HTMLTextAreaElement).value;
     this.adjustInputHeight();
     this.updateDynamicContextItemsDebounced();
-    fire(this, 'user-input-change', {value: this.userInput});
+    fire(this, 'user-input-change', { value: this.userInput });
   }
 
   private placeHolderText() {
@@ -735,7 +736,7 @@ export interface ContextItemAddedEvent extends CustomEvent<ContextItem> {
   type: 'context-item-added';
 }
 
-export interface UserInputChangedEvent extends CustomEvent<{value: string}> {
+export interface UserInputChangedEvent extends CustomEvent<{ value: string }> {
   type: 'user-input-change';
 }
 

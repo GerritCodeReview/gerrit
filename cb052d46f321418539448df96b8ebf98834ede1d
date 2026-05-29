@@ -663,6 +663,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "78f8def0_db9058f3",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-29T21:27:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "05ebaece_c4244241",
+      "range": {
+        "startLine": 111,
+        "startChar": 34,
+        "endLine": 111,
+        "endChar": 35
+      },
+      "revId": "cb052d46f321418539448df96b8ebf98834ede1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "544cf674_3381e873",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-29T21:27:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1551d150_4c4edb33",
+      "range": {
+        "startLine": 111,
+        "startChar": 66,
+        "endLine": 111,
+        "endChar": 68
+      },
+      "revId": "cb052d46f321418539448df96b8ebf98834ede1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cdd74a01_5ffa238c",
@@ -676,6 +724,30 @@
       "writtenOn": "2026-05-29T13:51:48Z",
       "side": 1,
       "message": "See my comment above. Do we really need to stop supporting `project~branch~change-id`?",
+      "range": {
+        "startLine": 115,
+        "startChar": 46,
+        "endLine": 115,
+        "endChar": 66
+      },
+      "revId": "cb052d46f321418539448df96b8ebf98834ede1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a2ae969_329025e6",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-29T21:27:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cdd74a01_5ffa238c",
       "range": {
         "startLine": 115,
         "startChar": 46,
@@ -740,6 +812,30 @@
       "side": 1,
       "message": "+1",
       "parentUuid": "5bf15ffa_c64d0ed1",
+      "range": {
+        "startLine": 143,
+        "startChar": 0,
+        "endLine": 143,
+        "endChar": 66
+      },
+      "revId": "cb052d46f321418539448df96b8ebf98834ede1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c0f21a6_a265651c",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/config/IndexChangesIT.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-29T21:27:12Z",
+      "side": 1,
+      "message": "There\u0027s a chicken\u0026egg problem when trying to reindex a change without using a primary key.\n\nThe `project~branch~changeId` isn\u0027t assured to be unique, as I\u0027ve described in Issue 313935024. To find the change, you cannot just go to NoteDb as-is, but you need a reverse lookup through the index.\n\nIf you call the \u0027index.changes` API is because you believe a change hasn\u0027t been indexed; however, if you need a reverse lookup through the index, how can you find a non-indexed change?\n\nSee also the full explanation at https://gerrit-documentation.storage.googleapis.com/Documentation/3.14.0/rest-api-changes.html#change-id.\n\nHowever, I see that *IF* the triplet was returning more than one change, it was previously indexing all of them, which is, in the worst-case scenario, a noop.\n\nPossibly, the restriction would make sense only when passing the `deleteMissing` flag, where deleting unexpected changes can be a more serious issue.\n\nI\u0027ve kept the current logic, if there is no request to delete anything, it would require a strict `project~changeNum` format.\n\nHope that makes everyone happy 😄",
+      "parentUuid": "e36b8ba1_e03abfec",
       "range": {
         "startLine": 143,
         "startChar": 0,

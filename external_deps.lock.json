@@ -197,11 +197,11 @@
     "org.ow2.asm:asm-util": 838800782,
     "org.roaringbitmap:RoaringBitmap": -1626007605,
     "org.roaringbitmap:shims": 1581618356,
-    "org.slf4j:jcl-over-slf4j": -509492287,
-    "org.slf4j:slf4j-api": -197708565,
-    "org.slf4j:slf4j-ext": 890682116,
+    "org.slf4j:jcl-over-slf4j": 1978020546,
+    "org.slf4j:slf4j-api": -2005163028,
+    "org.slf4j:slf4j-ext": -916772347,
     "org.slf4j:slf4j-log4j12": -630224096,
-    "org.slf4j:slf4j-reload4j": -1466046388,
+    "org.slf4j:slf4j-reload4j": 1021466445,
     "org.slf4j:slf4j-simple": -487947767,
     "org.tukaani:xz": -1743168321,
     "repositories": 2019057769,
@@ -299,7 +299,7 @@
     "com.h2database:h2:jar:sources": -675004040,
     "com.ibm.icu:icu4j": -1964869803,
     "com.ibm.icu:icu4j:jar:sources": 864352766,
-    "com.icegreen:greenmail": 798674118,
+    "com.icegreen:greenmail": 537606032,
     "com.icegreen:greenmail:jar:sources": -1978817971,
     "com.jcraft:jsch": 1986987929,
     "com.jcraft:jsch:jar:sources": 707308247,
@@ -330,8 +330,8 @@
     "commons-validator:commons-validator:jar:sources": 1267489728,
     "dk.brics:automaton": 1622735787,
     "dk.brics:automaton:jar:sources": 1946522418,
-    "eu.medsea.mimeutil:mime-util": 1650226474,
-    "io.dropwizard.metrics:metrics-core": -392790881,
+    "eu.medsea.mimeutil:mime-util": 1812001452,
+    "io.dropwizard.metrics:metrics-core": -1856132969,
     "io.dropwizard.metrics:metrics-core:jar:sources": 159424675,
     "io.github.java-diff-utils:java-diff-utils": 457660153,
     "io.github.java-diff-utils:java-diff-utils:jar:sources": -619235043,
@@ -397,13 +397,13 @@
     "org.apache.lucene:lucene-misc:jar:sources": -128984682,
     "org.apache.lucene:lucene-queryparser": -1416736164,
     "org.apache.lucene:lucene-queryparser:jar:sources": 1960943881,
-    "org.apache.mina:mina-core": -1457162716,
+    "org.apache.mina:mina-core": 603384434,
     "org.apache.mina:mina-core:jar:sources": 1763715353,
-    "org.apache.sshd:sshd-mina": -1732444781,
+    "org.apache.sshd:sshd-mina": 707703392,
     "org.apache.sshd:sshd-mina:jar:sources": 458343698,
-    "org.apache.sshd:sshd-osgi": -1946993842,
+    "org.apache.sshd:sshd-osgi": 1463287175,
     "org.apache.sshd:sshd-osgi:jar:sources": -1934894876,
-    "org.apache.sshd:sshd-sftp": 2069855147,
+    "org.apache.sshd:sshd-sftp": -1455178358,
     "org.apache.sshd:sshd-sftp:jar:sources": 1450030982,
     "org.asciidoctor:asciidoctorj": -943976727,
     "org.asciidoctor:asciidoctorj:jar:sources": -1022891917,
@@ -429,11 +429,11 @@
     "org.commonmark:commonmark-ext-gfm-tables": -435057552,
     "org.commonmark:commonmark-ext-gfm-tables:jar:sources": -1247551792,
     "org.commonmark:commonmark:jar:sources": -1275158082,
-    "org.eclipse.jetty.ee8:jetty-ee8-nested": 134721126,
+    "org.eclipse.jetty.ee8:jetty-ee8-nested": -937999467,
     "org.eclipse.jetty.ee8:jetty-ee8-nested:jar:sources": 1857707413,
-    "org.eclipse.jetty.ee8:jetty-ee8-security": 467549301,
+    "org.eclipse.jetty.ee8:jetty-ee8-security": -1357485120,
     "org.eclipse.jetty.ee8:jetty-ee8-security:jar:sources": -946021443,
-    "org.eclipse.jetty.ee8:jetty-ee8-servlet": -313969048,
+    "org.eclipse.jetty.ee8:jetty-ee8-servlet": -1729254347,
     "org.eclipse.jetty.ee8:jetty-ee8-servlet:jar:sources": 450880365,
     "org.eclipse.jetty.toolchain:jetty-servlet-api": 380579650,
     "org.eclipse.jetty.toolchain:jetty-servlet-api:jar:sources": 212656908,
@@ -449,7 +449,7 @@
     "org.eclipse.jetty:jetty-server:jar:sources": -710016839,
     "org.eclipse.jetty:jetty-servlet": -974397932,
     "org.eclipse.jetty:jetty-servlet:jar:sources": 1281350506,
-    "org.eclipse.jetty:jetty-session": -559237008,
+    "org.eclipse.jetty:jetty-session": -891670874,
     "org.eclipse.jetty:jetty-session:jar:sources": -351578476,
     "org.eclipse.jetty:jetty-util": 2086696316,
     "org.eclipse.jetty:jetty-util-ajax": -451213174,
@@ -491,15 +491,15 @@
     "org.roaringbitmap:RoaringBitmap:jar:sources": 1956160126,
     "org.roaringbitmap:shims": -1352997269,
     "org.roaringbitmap:shims:jar:sources": -981899312,
-    "org.slf4j:jcl-over-slf4j": 877987105,
-    "org.slf4j:jcl-over-slf4j:jar:sources": -1530791116,
-    "org.slf4j:slf4j-api": -1567566485,
-    "org.slf4j:slf4j-api:jar:sources": -1906225874,
-    "org.slf4j:slf4j-ext": -795464934,
-    "org.slf4j:slf4j-ext:jar:sources": 1756640360,
-    "org.slf4j:slf4j-reload4j": 874028571,
-    "org.slf4j:slf4j-reload4j:jar:sources": 1517828526,
-    "org.slf4j:slf4j-simple": 2142683014,
+    "org.slf4j:jcl-over-slf4j": 429539128,
+    "org.slf4j:jcl-over-slf4j:jar:sources": 619461888,
+    "org.slf4j:slf4j-api": -630423788,
+    "org.slf4j:slf4j-api:jar:sources": -1112457040,
+    "org.slf4j:slf4j-ext": -1747709512,
+    "org.slf4j:slf4j-ext:jar:sources": 2070817143,
+    "org.slf4j:slf4j-reload4j": -1999639452,
+    "org.slf4j:slf4j-reload4j:jar:sources": -1774817644,
+    "org.slf4j:slf4j-simple": -1220154160,
     "org.slf4j:slf4j-simple:jar:sources": 334190933,
     "org.tukaani:xz": 1514570375,
     "org.tukaani:xz:jar:sources": -610773207,
@@ -1506,31 +1506,31 @@
     },
     "org.slf4j:jcl-over-slf4j": {
       "shasums": {
-        "jar": "affd06771589ebfe454bb11315a4f466ecaa135b95f3e7939534cf1d2fd7064c",
-        "sources": "197984bfbccbf5c9201b8152c98d0d8f77253fb4ef1c59a57cf3e28d5ecf119c"
+        "jar": "ec5c36d57d2dbe100f84878f944575cb7871da32c7a115b8d7e0721277045d67",
+        "sources": "d0a96716020e44f95f1d94c4d2deeda009056847a125453010d4258db6b53776"
       },
-      "version": "2.0.17"
+      "version": "2.0.18"
     },
     "org.slf4j:slf4j-api": {
       "shasums": {
-        "jar": "7b751d952061954d5abfed7181c1f645d336091b679891591d63329c622eb832",
-        "sources": "db0d08d8efa05ad19d174d747bd9d8e68dbb02b596812fe7b3a681656e346694"
+        "jar": "44508fd1576500688c790b190acdd16fec4f8c79a3e0b900afd70503cf055f55",
+        "sources": "192e007cf7f2be41d40574e44521fc0b7ce55e01f13dbe0fa8707c8ae3329075"
       },
-      "version": "2.0.17"
+      "version": "2.0.18"
     },
     "org.slf4j:slf4j-ext": {
       "shasums": {
-        "jar": "e2e4fc169a0b65df4f12f7c577efd4f47619914eb8c5571418b65769d6ff9cb4",
-        "sources": "828b2e58bf64bcaae4ee98c84372a27e1307b35e0903a972b266f33c551d2479"
+        "jar": "75b7945f29a915c0bb984b195d9e60eaca51a57f0b4a2617a8e1f8bc4a4b1b98",
+        "sources": "e60d1f5e66607a182d10597f2d67b7d6db5f10ffbfd4459ee2a7b4eedba5db4c"
       },
-      "version": "2.0.17"
+      "version": "2.0.18"
     },
     "org.slf4j:slf4j-reload4j": {
       "shasums": {
-        "jar": "62dfd069563dbce91d276c9a38d557da49df7be15b03bb898b63b5390c6bb889",
-        "sources": "58faf8a8a2892fae5b699277c20c38291da093444a0618b2ba08aca016e6d6c5"
+        "jar": "37dc7cb891448c3c0db454d9e84c54b3f4e6a5f84b0db35917e7d0f322ae60df",
+        "sources": "b9ce8823a81f3fdc44e017c25ac78ca856cc1cddef1bf85b05f0cbea84b7d57f"
       },
-      "version": "2.0.17"
+      "version": "2.0.18"
     },
     "org.slf4j:slf4j-simple": {
       "shasums": {

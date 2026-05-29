@@ -11,7 +11,7 @@ flogger = "0.8"
 guava = "33.5.0-jre"
 guice = "6.0.0"
 lucene = "10.4.0"
-slf4j = "2.0.17"
+slf4j = "2.0.18"
 sshd = "2.17.1"
 truth = "1.4.4"
 
@@ -21,14 +21,14 @@ auto-factory = { module = "com.google.auto.factory:auto-factory", version.ref = 
 auto-service-annotations = { module = "com.google.auto.service:auto-service-annotations", version.ref = "autoFactory" }
 auto-value = { module = "com.google.auto.value:auto-value", version.ref = "autoValue" }
 auto-value-annotations = { module = "com.google.auto.value:auto-value-annotations", version.ref = "autoValue" }
-commons-io = { module = "commons-io:commons-io", version = "2.21.0" }
+commons-io = { module = "commons-io:commons-io", version = "2.22.0" }
 dropwizard-core = { module = "io.dropwizard.metrics:metrics-core", version = "4.2.37" }
 error-prone-annotations = { module = "com.google.errorprone:error_prone_annotations", version = "2.46.0" }
 flogger = { module = "com.google.flogger:flogger", version.ref = "flogger" }
 flogger-google-extensions = { module = "com.google.flogger:google-extensions", version.ref = "flogger" }
 flogger-log4j-backend = { module = "com.google.flogger:flogger-log4j-backend", version.ref = "flogger" }
 flogger-system-backend = { module = "com.google.flogger:flogger-system-backend", version.ref = "flogger" }
-gson = { module = "com.google.code.gson:gson", version = "2.13.2" }
+gson = { module = "com.google.code.gson:gson", version = "2.14.0" }
 guava = { module = "com.google.guava:guava", version.ref = "guava" }
 guava-testlib = { module = "com.google.guava:guava-testlib", version.ref = "guava" }
 guice-assistedinject = { module = "com.google.inject.extensions:guice-assistedinject", version.ref = "guice" }

@@ -14,7 +14,7 @@
     "com.google.auto.value:auto-value-annotations": -1101276935,
     "com.google.auto:auto-common": -832702775,
     "com.google.code.findbugs:jsr305": -1992157670,
-    "com.google.code.gson:gson": 245099245,
+    "com.google.code.gson:gson": 2063056812,
     "com.google.common.html.types:types": 1474029483,
     "com.google.errorprone:error_prone_annotations": -1409032738,
     "com.google.errorprone:error_prone_type_annotations": -1223112919,
@@ -236,8 +236,8 @@
     "com.google.auto:auto-common:jar:sources": 1238804620,
     "com.google.code.findbugs:jsr305": 1028218835,
     "com.google.code.findbugs:jsr305:jar:sources": 1130389911,
-    "com.google.code.gson:gson": -1287986166,
-    "com.google.code.gson:gson:jar:sources": -1236668210,
+    "com.google.code.gson:gson": 1676184452,
+    "com.google.code.gson:gson:jar:sources": -1194250318,
     "com.google.common.html.types:types": -1195124169,
     "com.google.common.html.types:types:jar:sources": 1541167117,
     "com.google.errorprone:error_prone_annotations": -2118374750,
@@ -275,7 +275,7 @@
     "com.google.jsinterop:jsinterop-annotations:jar:sources": -1738684177,
     "com.google.protobuf:protobuf-java": -1979841029,
     "com.google.protobuf:protobuf-java:jar:sources": 1539671335,
-    "com.google.template:soy": 1532649956,
+    "com.google.template:soy": 1725524315,
     "com.google.template:soy:jar:sources": 934091432,
     "com.google.truth.extensions:truth-java8-extension": 2072975728,
     "com.google.truth.extensions:truth-java8-extension:jar:sources": -404559504,
@@ -305,11 +305,11 @@
     "com.jcraft:jsch:jar:sources": 707308247,
     "com.jcraft:jzlib": 1581025040,
     "com.jcraft:jzlib:jar:sources": 807243431,
-    "com.ryanharter.auto.value:auto-value-gson-extension": -887048407,
+    "com.ryanharter.auto.value:auto-value-gson-extension": 1639397257,
     "com.ryanharter.auto.value:auto-value-gson-extension:jar:sources": 1925708692,
-    "com.ryanharter.auto.value:auto-value-gson-factory": -1576123811,
+    "com.ryanharter.auto.value:auto-value-gson-factory": 1817252669,
     "com.ryanharter.auto.value:auto-value-gson-factory:jar:sources": -768025607,
-    "com.ryanharter.auto.value:auto-value-gson-runtime": 1467427582,
+    "com.ryanharter.auto.value:auto-value-gson-runtime": 1015116695,
     "com.ryanharter.auto.value:auto-value-gson-runtime:jar:sources": -831897407,
     "com.squareup:javapoet": 1313128977,
     "com.squareup:javapoet:jar:sources": -1200205912,
@@ -606,10 +606,10 @@
     },
     "com.google.code.gson:gson": {
       "shasums": {
-        "jar": "dd0ce1b55a3ed2080cb70f9c655850cda86c206862310009dcb5e5c95265a5e0",
-        "sources": "058974b69cb7b0a04712278e11870e84ee8cd8fb5f551bd8401e72ba6638bfef"
+        "jar": "2cbd119bf1961c28788310963dc80ba65f58cdeec1dd139c8bdb1240faa2c36f",
+        "sources": "a4873f0ef88981cab520c3d7449cd89a68e605f15e9fe46e1aa2c77d5f87eb6f"
       },
-      "version": "2.13.2"
+      "version": "2.14.0"
     },
     "com.google.common.html.types:types": {
       "shasums": {

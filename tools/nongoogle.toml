@@ -21,7 +21,7 @@ auto-factory = { module = "com.google.auto.factory:auto-factory", version.ref = 
 auto-service-annotations = { module = "com.google.auto.service:auto-service-annotations", version.ref = "autoFactory" }
 auto-value = { module = "com.google.auto.value:auto-value", version.ref = "autoValue" }
 auto-value-annotations = { module = "com.google.auto.value:auto-value-annotations", version.ref = "autoValue" }
-commons-io = { module = "commons-io:commons-io", version = "2.21.0" }
+commons-io = { module = "commons-io:commons-io", version = "2.22.0" }
 dropwizard-core = { module = "io.dropwizard.metrics:metrics-core", version = "4.2.37" }
 error-prone-annotations = { module = "com.google.errorprone:error_prone_annotations", version = "2.46.0" }
 flogger = { module = "com.google.flogger:flogger", version.ref = "flogger" }

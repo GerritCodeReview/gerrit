@@ -108,7 +108,7 @@
     "commons-collections:commons-collections": -1308259318,
     "commons-dbcp:commons-dbcp": -873877417,
     "commons-digester:commons-digester": 1688456634,
-    "commons-io:commons-io": -1192334111,
+    "commons-io:commons-io": 1305681826,
     "commons-logging:commons-logging": 243315756,
     "commons-net:commons-net": 1227155931,
     "commons-pool:commons-pool": -2015226625,
@@ -320,8 +320,8 @@
     "commons-codec:commons-codec:jar:sources": -1637317619,
     "commons-dbcp:commons-dbcp": -1946826524,
     "commons-dbcp:commons-dbcp:jar:sources": -1238094905,
-    "commons-io:commons-io": -344095518,
-    "commons-io:commons-io:jar:sources": 1651105036,
+    "commons-io:commons-io": 1463238719,
+    "commons-io:commons-io:jar:sources": -120466886,
     "commons-net:commons-net": 29132340,
     "commons-net:commons-net:jar:sources": 1898783167,
     "commons-pool:commons-pool": -3173032,
@@ -369,7 +369,7 @@
     "org.antlr:antlr:jar:sources": -1207538557,
     "org.antlr:stringtemplate": -1826141279,
     "org.antlr:stringtemplate:jar:sources": 831821310,
-    "org.apache.commons:commons-compress": -1341777504,
+    "org.apache.commons:commons-compress": -2083070990,
     "org.apache.commons:commons-compress:jar:sources": 128824058,
     "org.apache.commons:commons-lang3": 1593572986,
     "org.apache.commons:commons-lang3:jar:sources": 1589181154,
@@ -905,10 +905,10 @@
     },
     "commons-io:commons-io": {
       "shasums": {
-        "jar": "7d643a2afea8b058b762aa6fb90e5b256f6c729739f8b3784c3370ddc609e88d",
-        "sources": "5fd4d4493dd1eee5c6f314159dbac7fda1988a4ab037feacbeb2ecb3033c43b4"
+        "jar": "2b9a7b1f726fb86216dbd2c8321eabe0221dbd5b1be81c18e1cb53811b104758",
+        "sources": "de5acfae5fa2735276df7facf46cdb0347374208ea47db246b554fae59277fb5"
       },
-      "version": "2.21.0"
+      "version": "2.22.0"
     },
     "commons-net:commons-net": {
       "shasums": {

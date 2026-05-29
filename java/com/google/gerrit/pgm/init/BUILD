@@ -1,0 +1,32 @@
+load("@rules_java//java:defs.bzl", "java_library")
+
+java_library(
+    name = "init",
+    srcs = glob(["**/*.java"]),
+    resource_strip_prefix = "resources",
+    resources = ["//resources/com/google/gerrit/pgm/init"],
+    visibility = ["//visibility:public"],
+    deps = [
+        "//java/com/google/gerrit/common:annotations",
+        "//java/com/google/gerrit/common:server",
+        "//java/com/google/gerrit/entities",
+        "//java/com/google/gerrit/exceptions",
+        "//java/com/google/gerrit/extensions:api",
+        "//java/com/google/gerrit/index",
+        "//java/com/google/gerrit/launcher",
+        "//java/com/google/gerrit/metrics",
+        "//java/com/google/gerrit/pgm/init/api",
+        "//java/com/google/gerrit/pgm/util",
+        "//java/com/google/gerrit/server",
+        "//java/com/google/gerrit/server/ioutil",
+        "//java/com/google/gerrit/server/schema",
+        "//java/com/google/gerrit/server/util/time",
+        "//lib:guava",
+        "//lib:jgit",
+        "//lib/commons:validator",
+        "//lib/errorprone:annotations",
+        "//lib/flogger:api",
+        "//lib/guice",
+        "//lib/guice:guice-assistedinject",
+    ],
+)

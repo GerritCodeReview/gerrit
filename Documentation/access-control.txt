@@ -1,3 +1,4 @@
+:linkattrs:
 = Gerrit Code Review - Access Controls
 
 Access controls in Gerrit are group based.  Every user account is a
@@ -5,6 +6,12 @@ member of one or more groups, and access and privileges are granted
 to those groups.  Access rights cannot be granted to individual
 users.
 
+To view/edit the access controls for a specific project, first
+navigate to the projects page: for example,
+https://gerrit-review.googlesource.com/admin/repos/[role=external,window=_blank]. Then click on
+the individual project, and then click Access. This will bring you
+to a url that looks like
+https://gerrit-review.googlesource.com/admin/repos/gerrit,access[role=external,window=_blank]
 
 [[system_groups]]
 == System Groups
@@ -86,14 +93,15 @@ on any change in any project they have `Read` access to.
 == Predefined Groups
 
 Predefined groups differs from system groups by the fact that they
-exist in the ACCOUNT_GROUPS table (like normal groups) but predefined groups
-are created on Gerrit site initialization and unique UUIDs are assigned
+exist in NoteDb under refs/meta/group-names (like normal groups) but predefined
+groups are created on Gerrit site initialization and unique UUIDs are assigned
 to those groups. These UUIDs are different on different Gerrit sites.
 
-Gerrit comes with two predefined groups:
+Gerrit comes with three predefined groups:
 
-* Administrators
-* Non-Interactive Users
+* link:#administrators[Administrators]
+* link:#service_users[Service Users]
+* link:#blocked_users[Blocked Users]
 
 
 [[administrators]]
@@ -108,26 +116,66 @@ the 'Administrate Server' capability from it, its members are no longer
 Gerrit administrators, despite the group name. The group may also be
 renamed.
 
+anchor:non-interactive_users[]
 
-[[non-interactive_users]]
-=== Non-Interactive Users
+[[service_users]]
+=== Service Users
 
-This is the Gerrit "batch" identity. The capabilities
-link:access-control.html#capability_priority['Priority BATCH'] and
-link:access-control.html#capability_streamEvents['Stream Events']
-are assigned to this predefined group on Gerrit site creation.
+The `Service Users` group is used to identify service users (aka bots).
 
-The members of this group are not expected to perform interactive
-operations on the Gerrit web front-end.
+All service users should be added to this group so that they can be identified
+as such.
 
-However, sometimes such a user may need a separate thread pool in
-order to prevent it from grabbing threads from the interactive users.
+The members of this group are not expected to perform interactive operations on
+the Gerrit web UI.
 
-These users live in a second thread pool, which separates operations
-made by the non-interactive users from the ones made by the interactive
-users. This ensures that the interactive users can keep working when
-resources are tight.
+Service users have the following special behaviour:
 
+* They are link:user-attention-set.html#bots[never added to the attention set].
+* They are not suggested as reviewers on changes (unless
+  link:config-gerrit.html#suggest.skipServiceUsers[suggest.skipServiceUsers] in
+  the Gerrit config is set to `false`).
+* Their vote is not required when
+  link:config-submit-requirements.html#require-code-review-approvals-from-all-human-reviewers-example[
+  requiring `Code-Review` approvals from all reviewers].
+* In the REST API, service user accounts are tagged with `SERVICE_USER` (see the
+  `tags` field in link:rest-api-accounts.html#account-info[AccountInfo]).
+* Change indexing is done synchronously for service users only if
+  link:config-gerrit.html#index.indexChangesAsync[asynchronous change indexing]
+  is enabled in the Gerrit config (and the
+  `GerritBackendFeature__do_change_indexing_asynchronously_for_non_service_users`
+  experiment is enabled).
+* For Gerrit servers at Google, querying the change index uses strong reads only
+  for service users. Other users may get results that are stale by a few
+  seconds.
+* Some metrics allow to distinguish between requests from service users and
+  other users: the
+  link:metrics.html#rest-api-latency[http/server/rest_api/server_latency]
+  metric (see field `user_kind`), the
+  link:metrics.html#push-latency[receivecommits/latency_per_push] metric (see
+  field `user_kind`), the
+  link:metrics.html#per-change-push-latency[receivecommits/latency_per_push_per_change]
+  metric (see field `user_kind`), the
+  link:metrics.html#push-reject-count[receivecommits/reject_count] metric (see
+  field `kind`)
+
+By default the `Service Users` group has:
+
+* The `BATCH` link:access-control.html#capability_priority['Priority'] global
+  capability so that requests of these users are served from a separate thread
+  pool (prevents that service users exhaust all threads for interactive users).
+
+* The link:access-control.html#capability_streamEvents['Stream Events'] global
+  capability so that these users can listen to stream events.
+
+[[blocked_users]]
+=== Blocked Users
+
+This is a predefined group, created on Gerrit site initialization, for which
+the link:#category_read[Read] access right is globally blocked.
+
+link:#administrators[Administrators] can add spammers to this group in order to
+block them from accessing Gerrit so that they cannot post any further spam.
 
 == Account Groups
 
@@ -179,6 +227,10 @@ A system wide access control list affecting all projects is stored in
 project "`All-Projects`".  This inheritance can be configured
 through link:cmd-set-project-parent.html[gerrit set-project-parent].
 
+When projects are set as parent projects, the child projects inherit
+all of the parent's access rights. "`All-Projects`" is treated as a
+parent of all projects.
+
 Per-project access control lists are also supported.
 
 Users are permitted to use the maximum range granted to any of their
@@ -201,6 +253,7 @@ to any group).
 
 Reference-level access control is also possible.
 
+[[reference_patterns]]
 Permissions can be set on a single reference name to match one
 branch (e.g. `refs/heads/master`), or on a reference namespace
 (e.g. `+refs/heads/*+`) to match any branch starting with that
@@ -212,7 +265,7 @@ by prefixing the reference name with `^`.  For example
 `^refs/heads/[a-z]{1,8}` matches all lower case branch names
 between 1 and 8 characters long.  Within a regular expression `.`
 is a wildcard matching any character, but may be escaped as `\.`.
-The link:http://www.brics.dk/automaton/[dk.brics.automaton library]
+The link:http://www.brics.dk/automaton/[dk.brics.automaton library,role=external,window=_blank]
 is used for evaluation of regular expression access control
 rules. See the library documentation for details on this
 particular regular expression flavor. One quirk is that the
@@ -251,6 +304,7 @@ Then the effective range permitted to be used by the user is
 `-2..+2`, as the user's membership of `Foo Leads` effectively grant
 them access to the entire reference space, thanks to the wildcard.
 
+[[exclusive]]
 Gerrit also supports exclusive reference-level access control.
 
 It is possible to configure Gerrit to grant an exclusive ref level
@@ -404,6 +458,10 @@ the branch it's uploaded to.
 Further documentation on how to push can be found on the
 link:user-upload.html#push_create[Upload changes] page.
 
+**NOTE**: All change related permissions should normally set using
+"refs/heads/<ref>" branch and not using "refs/for/<ref>". Unless specifically
+stated otherwise.
+
 
 [[access_categories]]
 == Access Categories
@@ -416,8 +474,8 @@ within projects, enabling functionality for that group's members.
 === Abandon
 
 This category controls whether users are allowed to abandon changes
-to projects in Gerrit. It can give permission to abandon a specific
-change to a given ref.
+to projects in Gerrit. If granted, it gives permission to abandon
+changes against the specified ref.
 
 The uploader of a change, anyone granted the <<category_owner,`Owner`>>
 permission at the ref or project level, and anyone granted the
@@ -430,13 +488,13 @@ ref.
 
 
 [[category_create]]
-=== Create Reference
+=== Create (aka Create Reference)
 
-The create reference category controls whether it is possible to
-create new references, branches or tags.  This implies that the
-reference must not already exist, it's not a destructive permission
-in that you can't overwrite or remove any previously existing
-references (and also discard any commits in the process).
+The create category controls whether it is possible to create new
+references, branches or tags.  This implies that the reference must not
+already exist, it's not a destructive permission in that you can't
+overwrite or remove any previously existing references (and also
+discard any commits in the process).
 
 It's probably most common to either permit the creation of a single
 branch in many gits (by granting permission on a parent project), or
@@ -464,11 +522,16 @@ to create new branches. This is done by using the special
 `+refs/heads/sandbox/${username}/*+`. If you do, it's also recommended
 you grant the users the push force permission to be able to clean up
 stale branches.
+If link:config-gerrit.html#auth.userNameCaseInsensitive[auth.userNameCaseInsensitive]
+is enabled, the `${username}` is still case sensitive and will use
+the capitalization used during account creation. This is done, since
+git branches are case sensitive, so that sandbox branches containing
+`${username}` are still reachable by the users.
 
 [[category_delete]]
-=== Delete Reference
+=== Delete (aka Delete Reference)
 
-The delete reference category controls whether it is possible to delete
+The delete category controls whether it is possible to delete
 references, branches or tags. It doesn't allow any other update of
 references.
 
@@ -532,28 +595,45 @@ Review server.
 [[category_owner]]
 === Owner
 
-The `Owner` category controls which groups can modify the project's
-configuration.  Users who are members of an owner group can:
+The `Owner` category on `refs/*` controls which groups own the project,
+i.e. the users who are members of an owner group are called the
+`project owners`.
 
-* Change the project description
-* Grant/revoke any access rights, including `Owner`
+Project owners can change the link:config-project-config.html[project
+configuration], including:
 
-To get SSH branch access project owners must grant an access right to a group
-they are a member of, just like for any other user.
+* Granting/revoking any access rights (including the `Owner` access
+  right)
+* Changing the project description
+* Changing the link to the parent project
+* Changing the project options
+* Changing link:config-labels.html[labels]
+* Changing link:config-submit-requirements.html[submit requirements]
 
-Ownership over a particular branch subspace may be delegated by
-entering a branch pattern.  To delegate control over all branches
-that begin with `qa/` to the QA group, add `Owner` category
-for reference `+refs/heads/qa/*+`.  Members of the QA group can
-further refine access, but only for references that begin with
-`refs/heads/qa/`. See <<project_owners,project owners>> to find
-out more about this role.
+[NOTE]
+Access rights that are assigned to the magic
+link:#project_owners[Project Owners] group are resolved to the users
+that are project owners by having the `Owner` permission assigned on
+`refs/*`.
 
+[NOTE]
+To get branch access via Git project owners must grant an access right
+to a group they are a member of, just like for any other user.
+
+[NOTE]
 For the `All-Projects` root project any `Owner` access right on
 'refs/*' is ignored since this permission would allow users to edit the
 global capabilities, which is the same as being able to administrate
 the Gerrit server (e.g. the user could assign the `Administrate Server`
 capability to the own account).
+
+Ownership over a particular branch subspace may be delegated by
+entering a branch pattern. E.g. to delegate control over all branches
+that begin with `qa/` to the QA group, add the `Owner` category
+for reference `+refs/heads/qa/*+`. Members of the QA group can
+further refine access, but only for references that begin with
+`refs/heads/qa/`. See <<project_owners,project owners>> to find
+out more about this role.
 
 
 [[category_push]]
@@ -721,12 +801,33 @@ changes, comments, code diffs, and Git access over SSH or HTTP.
 A user must have this access granted in order to see a project, its
 changes, or any of its data.
 
-This category has a special behavior, where the per-project ACL is
-evaluated before the global all projects ACL.  If the per-project
-ACL has granted `Read` with 'DENY', and does not otherwise grant
-`Read` with 'ALLOW', then a `Read` in the all projects ACL
-is ignored.  This behavior is useful to hide a handful of projects
+Users that have the link:#capability_administrateServer[Administrate
+Server] global capability can always read all changes, branches and
+tag, including private change and `refs/meta/config` branches, even
+if the `Read` access right is not assigned or blocked.
+
+[[read_special_behaviors]]
+==== Special behaviors
+
+This category has multiple special behaviors:
+
+The per-project ACL is evaluated before the global all projects ACL.
+If the per-project ACL has granted `Read` with 'DENY', and does not
+otherwise grant `Read` with 'ALLOW', then a `Read` in the all projects
+ACL is ignored.  This behavior is useful to hide a handful of projects
 on an otherwise public server.
+
+You cannot grant `Read` on the `refs/tags/` namespace.  Visibility to
+`refs/tags/` is derived from `Read` grants on refs namespaces other than
+`refs/tags/`, `refs/changes/`, and `refs/cache-automerge/` by finding
+tags reachable from those refs.  For example, if a tag `refs/tags/test`
+points to a commit on the branch `refs/heads/master`, then allowing
+`Read` access to `refs/heads/master` would also allow access to
+`refs/tags/test`.  If a tag is reachable from multiple refs, allowing
+access to any of those refs allows access to the tag.
+
+[[read_typical_usage]]
+==== Typical usage
 
 For an open source, public Gerrit installation it is common to grant
 `Read` to `Anonymous Users` in the `All-Projects` ACL, enabling
@@ -748,7 +849,7 @@ is already restricted to the correct set of users.
 === Rebase
 
 This category permits users to rebase changes via the web UI by pushing
-the `Rebase Change` button.
+the `REBASE` button.
 
 The change owner and submitters can always rebase changes in the web UI
 (even without having the `Rebase` access right assigned).
@@ -757,12 +858,41 @@ Users without this access right who are able to upload new patch sets
 can still do the rebase locally and upload the rebased commit as a new
 patch set.
 
+[[category_revert]]
+=== Revert
+
+This category permits users to revert changes via the web UI by pushing
+the `Revert Change` button.
+
+Users without this access right who are able to upload changes can
+still do the revert locally and upload the revert commit as a new change.
+
+[[category_remove_label]]
+=== Remove Label (Remove Vote)
+
+For every configured label `My-Name` in the project, there is a
+corresponding permission `removeLabel-My-Name` with a range corresponding to
+the defined values. For these values, the users are permitted to remove
+other users' votes from a change.
+
+Change owners can always remove zero or positive votes (even without
+having the `Remove Vote` access right assigned).
+
+Project owners and site administrators can always remove any vote (even
+without having the `Remove Vote` access right assigned).
+
+Users without this access right can still remove their own votes.
+
+Note, removing votes is generally disallowed for merged changes as this could
+remove approvals that were necessary for the submission and it's confusing to
+see a merged change which doesn't have the necessary approvals to fulfill the
+submit requirements.
 
 [[category_remove_reviewer]]
 === Remove Reviewer
 
 This category permits users to remove other users from the list of
-reviewers on a change.
+reviewers on a change, including their votes.
 
 Change owners can always remove reviewers who have given a zero or positive
 score (even without having the `Remove Reviewer` access right assigned).
@@ -772,6 +902,11 @@ without having the `Remove Reviewer` access right assigned).
 
 Users without this access right can only remove themselves from the
 reviewer list on a change.
+
+Note, removing reviewers with non-zero votes is generally disallowed for merged
+changes as this could remove approvals that were necessary for the submission
+and it's confusing to see a merged change which doesn't have the necessary
+approvals to fulfill the submit requirements.
 
 
 [[category_review_labels]]
@@ -822,18 +957,37 @@ permission to submit changes on behalf of another user, by using the
 `on_behalf_of` field in link:rest-api-changes.html#submit-input[SubmitInput]
 when link:rest-api-changes.html#submit-change[submitting using the REST API].
 
+The user in the `on_behalf_of` field, does not need to have `Submit` permission
+themselves, however they should be able to `read` the changes being submitted.
+
 Note that this permission is named `submitAs` in the `project.config`
 file.
 
 [[category_view_private_changes]]
 === View Private Changes
 
-This category permits users to view all private changes.
+This category permits users to view all private changes and all change edit refs.
 
 The change owner and any explicitly added reviewers can always see
 private changes (even without having the `View Private Changes` access
 right assigned).
 
+**NOTE**: If link:config-gerrit.html#auth.skipFullRefEvaluationIfAllRefsAreVisible[
+auth.skipFullRefEvaluationIfAllRefsAreVisible] is `true` (which is the case by
+default) privates changes and all change edit refs are also visible to users
+that have read access on `refs/*`.
+
+[[category_toggle_work_in_progress_state]]
+=== Toggle Work In Progress state
+
+This category controls who is able to flip the Work In Progress bit.
+
+Change owner, server administrators and project owners can always flip
+the Work In Progress bit of the change (even without having the
+`Toggle Work In Progress state` access right assigned).
+
+Must be assigned on the target branch ref (i.e. on 'refs/heads/\*', not on
+'refs/for/*').
 
 [[category_delete_own_changes]]
 === Delete Own Changes
@@ -877,14 +1031,64 @@ The change owner, branch owners, project owners, and site administrators
 can always edit or remove hashtags (even without having the `Edit Hashtags`
 access right assigned).
 
-[[category_edit_assigned_to]]
-=== Edit Assignee
 
-This category permits users to set who is assigned to a change that is
-uploaded for review.
+[[category_edit_custom_keyed_values]]
+=== Edit Custom Keyed Values
 
-The change owner, ref owners, and the user currently assigned to a change
-can always change the assignee.
+This category permits users to add or remove
+custom keyed values on a change that is uploaded for review. Custom Keyed Values
+are used by plugins to store extra data. They are not surfaced in the UI, unless
+a plugin explicitly does so.
+
+The change owner and site administrators can always edit or remove custom
+keyed values (even without having the `Edit Custom Keyed Values` access right
+assigned).
+
+
+[[category_ai_review]]
+=== AI Review
+
+This category controls who is able to use AI-assisted review features,
+such as the "Review Agent" and "Create AI Review Prompt" buttons.
+
+[NOTE]
+Unlike all other Gerrit permissions which use a default-deny model
+(access is denied unless an explicit 'ALLOW' rule grants it), the
+`aiReview` permission uses a *default-allow* model during the experiment
+phase. This means:
+
+* When no `aiReview` rules are configured, all users have access.
+* 'DENY' and 'BLOCK' rules can be used on their own to restrict specific
+  groups, without needing to first grant 'ALLOW' to everyone else.
+* When 'ALLOW' rules are present, the permission switches to the standard
+  model: only users matching an 'ALLOW' rule have access.
+* Site administrators are subject to the same rules as other users.
+
+This non-standard behavior will be removed when the experiment ends, at
+which point `aiReview` will follow the standard default-deny model like
+all other permissions.
+
+To restrict AI review to a specific group on all branches:
+
+----
+  [access "refs/heads/*"]
+    aiReview = group AI Reviewers
+----
+
+To deny a specific group while keeping access for everyone else:
+
+----
+  [access "refs/heads/*"]
+    aiReview = deny group Restricted Users
+----
+
+To block a group across all child projects (cannot be overridden):
+
+----
+  [access "refs/heads/*"]
+    aiReview = block group Restricted Users
+----
+
 
 [[example_roles]]
 == Examples of typical roles in a project
@@ -905,7 +1109,7 @@ any changes.
 
 Suggested access rights to grant:
 
-* xref:category_read[`Read`] on 'refs/heads/\*' and 'refs/tags/*'
+* xref:category_read[`Read`] on 'refs/heads/*'
 * xref:category_push[`Push`] to 'refs/for/refs/heads/*'
 * link:config-labels.html#label_Code-Review[`Code-Review`] with range '-1' to '+1' for 'refs/heads/*'
 
@@ -933,7 +1137,7 @@ exclusively.
 
 Suggested access rights to grant:
 
-* xref:category_read[`Read`] on 'refs/heads/\*' and 'refs/tags/*'
+* xref:category_read[`Read`] on 'refs/heads/*'
 * xref:category_push[`Push`] to 'refs/for/refs/heads/*'
 * xref:category_push_merge[`Push merge commit`] to 'refs/for/refs/heads/*'
 * xref:category_forge_author[`Forge Author Identity`] to 'refs/heads/*'
@@ -957,7 +1161,7 @@ A typical Continuous Integration system should be able to download new changes
 to build and then leave a verdict somehow.
 
 As an example, the popular
-link:https://wiki.jenkins-ci.org/display/JENKINS/Gerrit+Trigger[gerrit-trigger plugin]
+link:https://wiki.jenkins-ci.org/display/JENKINS/Gerrit+Trigger[gerrit-trigger plugin,role=external,window=_blank]
 for Jenkins/Hudson can set labels at:
 
 * The start of a build
@@ -988,7 +1192,7 @@ and so the push right can be found under the optional section.
 
 Suggested access rights to grant, that won't block changes:
 
-* xref:category_read[`Read`] on 'refs/heads/\*' and 'refs/tags/*'
+* xref:category_read[`Read`] on 'refs/heads/*'
 * link:config-labels.html#label_Code-Review[`Label: Code-Review`] with range '-1' to '0' for 'refs/heads/*'
 * link:config-labels.html#label_Verified[`Label: Verified`] with range '0' to '+1' for 'refs/heads/*'
 
@@ -1011,7 +1215,7 @@ Suggested access rights to grant:
 * <<examples_developer,Developer rights>>
 * <<category_push,`Push`>> to 'refs/heads/*'
 * <<category_push_merge,`Push merge commit`>> to 'refs/heads/*'
-* <<category_forge_committer,`Forge Committer Identity`>> to 'refs/for/refs/heads/*'
+* <<category_forge_committer,`Forge Committer Identity`>> to 'refs/heads/*'
 * <<category_create,`Create Reference`>> to 'refs/heads/*'
 * <<category_create_annotated,`Create Annotated Tag`>> to 'refs/tags/*'
 
@@ -1083,21 +1287,43 @@ non-blocked rules as they wish. This gives best of both worlds:
 [[block]]
 === 'BLOCK' access rule
 
-The 'BLOCK' rule blocks a permission globally. An inherited 'BLOCK'
-rule cannot be overridden in the inheriting project. Any 'ALLOW' rule
-from an inheriting project, which conflicts with an inherited 'BLOCK'
-rule will not be honored. Searching for 'BLOCK' rules, in the chain
-of parent projects, ignores the Exclusive flag, unless the rule with
-the Exclusive flag is defined on the same project as the 'BLOCK'
-rule. This means within the same project a 'BLOCK' rule can be
-overruled by 'ALLOW' rules on the same access section and 'ALLOW'
-rules with Exclusive flag on access section for more specific refs.
+The 'BLOCK' rule can be used to take away rights from users. The BLOCK rule
+works across project inheritance, from the top down, so an administrator can
+use 'BLOCK' rules to enforce site-wide restrictions.
+
+For example, if a user in the 'Foo Users' group tries to push to
+'refs/heads/master' with the permissions below, that user will be blocked
+
+[options="header"]
+|=========================================================================
+|Project      | Inherits From    |Reference Name |Permissions            |
+|All-Projects | -                |refs/*         |push = block Foo Users |
+|Foo          | All-Projects     |refs/heads/*   |push = Foo Users       |
+|=========================================================================
+
+'BLOCK' rules are evaluated starting from the parent project, and after a 'BLOCK'
+rule is found to apply, further rules are ignored. Hence, in this example, the
+permissions on child-project is ignored.
+
+----
+All-Projects: project.config
+  [access "refs/heads/*"]
+    push = block group X
+
+child-project: project.config
+  [access "refs/heads/*"]
+    exclusiveGroupPermissions = push
+    push = group X
+----
+
+In this case push for group 'X' will be blocked, even though the Exclusive
+flag was set for the child-project.
 
 A 'BLOCK' rule that blocks the 'push' permission blocks any type of push,
 force or not. A blocking force push rule blocks only force pushes, but
 allows non-forced pushes if an 'ALLOW' rule would have permitted it.
 
-It is also possible to block label ranges.  To block a group 'X' from voting
+It is also possible to block label ranges. To block a group 'X' from voting
 '-2' and '+2', but keep their existing voting permissions for the '-1..+1'
 range intact we would define:
 
@@ -1123,6 +1349,24 @@ the same permission then this 'ALLOW' rule overrides the 'BLOCK' rule:
 
 In this case a user which is a member of the group 'Y' will still be allowed to
 push to 'refs/heads/*' even if it is a member of the group 'X'.
+
+=== 'BLOCK' and 'ALLOW' rules in the same project with the Exclusive flag
+
+When a project contains a 'BLOCK' and 'ALLOW' that uses the Exclusive flag in a
+more specific reference, the 'ALLOW' rule with the Exclusive flag will override
+the 'BLOCK' rule:
+
+----
+  [access "refs/*"]
+    read = block group X
+
+  [access "refs/heads/*"]
+    exclusiveGroupPermissions = read
+    read = group X
+----
+
+In this case a user which is a member of the group 'X' will still be allowed to
+read 'refs/heads/*'.
 
 [NOTE]
 An 'ALLOW' rule overrides a 'BLOCK' rule only when both of them are
@@ -1198,8 +1442,7 @@ Below you find a list of capabilities available:
 [[capability_accessDatabase]]
 === Access Database
 
-Allow users to access the database using the `gsql` command, and view code
-review metadata refs in repositories.
+Allow users to view code review metadata refs in repositories.
 
 
 [[capability_administrateServer]]
@@ -1213,7 +1456,9 @@ capabilities granted to them automatically.
 In most installations only those users who have direct filesystem and
 database access should be granted this capability.
 
-This capability does not imply any other access rights. Users that have
+This capability includes read access to all changes, branches and tags,
+including private changes and `refs/meta/config` branches. Beyond that,
+this capability does not imply any other access rights. Users that have
 this capability do not automatically get code review approval or submit
 rights in projects. This is a feature designed to permit administrative
 users to otherwise access Gerrit as any other normal user would,
@@ -1241,7 +1486,7 @@ Allow link:cmd-create-account.html[account creation over the ssh prompt].
 This capability allows the granted group members to create non-interactive
 service accounts.  These service accounts are generally used for automation
 and made to be members of the
-link:access-control.html#non-interactive_users['Non-Interactive users'] group.
+link:access-control.html#service_users['Service users'] group.
 
 
 [[capability_createGroup]]
@@ -1249,15 +1494,33 @@ link:access-control.html#non-interactive_users['Non-Interactive users'] group.
 
 Allow group creation.  Groups are used to grant users access to different
 actions in projects.  This capability allows the granted group members to
-either link:cmd-create-group.html[create new groups via ssh] or via the web UI.
+either link:cmd-create-group.html[create new groups via ssh] or via the web UI
+by navigating at the top of the page to BROWSE -> Groups, and then pushing the
+"CREATE NEW" button.
 
 
 [[capability_createProject]]
 === Create Project
 
-Allow project creation.  This capability allows the granted group to
-either link:cmd-create-project.html[create new git projects via ssh]
-or via the web UI.
+Allow project creation.
+
+This capability allows the granted group to create projects via the web UI, via
+link:rest-api-projects.html#create-project][REST] and via
+link:cmd-create-project.html[SSH].
+
+
+[[capability_deleteGroup]]
+=== Delete Group
+
+Allow deletion of internal groups. Groups are used to grant users access to
+different actions in projects. This capability allows the granted group members
+to delete Gerrit internal groups via the
+link:rest-api-groups.html#delete-group[REST API].
+
+By default this action is limited to users with the
+link:#capability_administrateServer[Administrate Server] capability.
+
+This capability is only effective when `groups.enableDeleteGroup` is enabled.
 
 
 [[capability_emailReviewers]]
@@ -1310,14 +1573,15 @@ Implies the following capabilities:
 
 Allow to link:cmd-set-account.html[modify accounts over the ssh prompt].
 This capability allows the granted group members to modify any user account
-setting.
+setting. In addition this capability allows to view secondary emails of other
+accounts.
 
 [[capability_priority]]
 === Priority
 
 This capability allows users to use
 link:config-gerrit.html#sshd.batchThreads[the thread pool reserved] for
-link:access-control.html#non-interactive_users['Non-Interactive Users'].
+link:access-control.html#service_users['Service Users'].
 It's a binary value in that granted users either have access to the thread
 pool, or they don't.
 
@@ -1329,7 +1593,7 @@ The user isn't a member of a group with any priority capability granted. By
 default the user is then in the 'INTERACTIVE' thread pool.
 
 'BATCH'::
-If there's a thread pool configured for 'Non-Interactive Users' and a user is
+If there's a thread pool configured for 'Service Users' and a user is
 granted the priority capability with the 'BATCH' mode selected, the user ends
 up in the separate batch user thread pool. This is true unless the user is
 also granted the below 'INTERACTIVE' option.
@@ -1355,12 +1619,20 @@ This limit applies not only to the link:cmd-query.html[`gerrit query`]
 command, but also to the web UI results pagination size.
 
 
+[[capability_readAs]]
+=== Read As
+
+Allow users to impersonate any user to see which refs they can read.
+
+
 [[capability_runAs]]
 === Run As
 
 Allow users to impersonate any other user with the `X-Gerrit-RunAs`
 HTTP header on REST API calls, or the link:cmd-suexec.html[suexec]
-SSH command.
+SSH command. When having Run As capability the user is considered to implicitly
+have other more narrow impersonation capabilities as well, such as
+Submitting/Voting on behalf of another user.
 
 When impersonating an administrator the Administrate Server capability
 is not honored.  This security feature tries to prevent a role with
@@ -1390,12 +1662,24 @@ allows the granted group to
 link:cmd-stream-events.html[stream Gerrit events via ssh].
 
 
+[[capability_viewAccess]]
+=== View Access
+
+Allow checking access rights for arbitrary (user, project) pairs,
+using the link:rest-api-projects.html#check-access[check.access]
+endpoint.
+
 [[capability_viewAllAccounts]]
 === View All Accounts
 
 Allow viewing all accounts for purposes of auto-completion, regardless
 of link:config-gerrit.html#accounts.visibility[accounts.visibility]
 setting.
+
+This capability allows to view all accounts but not all account data.
+E.g. secondary emails of all accounts can only be viewed with the
+link:#capability_viewSecondaryEmails[View Secondary Emails] capability
+or the link:#capability_modifyAccount[Modify Account] capability.
 
 
 [[capability_viewCaches]]
@@ -1426,6 +1710,195 @@ Allow viewing the list of installed plugins.
 Allow querying for status of Gerrit's internal task queue.  This capability
 allows the granted group to
 link:cmd-show-queue.html[look at the Gerrit task queue via ssh].
+
+
+[[capability_viewSecondaryEmails]]
+=== View Secondary Emails
+
+Allows viewing secondary emails of other accounts.
+
+Users with the link:#capability_modifyAccount[Modify Account] capability have
+this capability implicitly.
+
+
+[[reference]]
+== Permission evaluation reference
+
+Permission evaluation is expressed in the following concepts:
+
+* PermisssionRule: a single combination of {ALLOW, DENY, BLOCK} and
+group, and optionally a vote range and an 'exclusive' bit.
+
+* Permission: groups PermissionRule by permission name. All
+PermissionRules for same access type (eg. "read", "push") are grouped
+into a Permission implicitly. The exclusive bit lives here.
+
+* AccessSection: ties a list of Permissions to a single ref pattern.
+Each AccessSection comes from a single project.
+
+
+
+Here is how these play out in a link:config-project-config.html[project.config] file:
+
+----
+  # An AccessSection
+  [access "refs/heads/stable/*"]
+     exclusiveGroupPermissions = create
+
+     # Each of the following lines corresponds to a PermissionRule
+     # The next two PermissionRule together form the "read" Permission
+     read = group Administrators
+     read = group Registered Users
+
+     # A Permission with a block and block-override
+     create = block group Registered Users
+     create = group Project Owners
+
+     # A Permission and PermissionRule for a label
+     label-Code-Review = -2..+2 group Project Owners
+----
+
+=== Ref permissions
+
+Access to refs can be blocked, allowed or denied.
+
+[[block-rule]]
+==== BLOCK
+
+For blocking access, all rules marked BLOCK are tested, and if one
+such rule matches, the user is denied access.
+
+The rules are ordered by inheritance, starting from All-Projects down.
+Within a project, more specific ref patterns come first. The downward
+ordering lets administrators enforce access rules across all projects
+in a site.
+
+BLOCK rules can have exceptions defined on the same project (eg. BLOCK
+anonymous users, ie. everyone, but make an exception for Admin users),
+either by:
+
+1. adding ALLOW PermissionRules in the same Permission. This implies
+they apply to the same ref pattern.
+
+2. adding an ALLOW Permission in the same project with a more specific
+ref pattern, but marked "exclusive". This allows them to apply to
+different ref patterns.
+
+Such additions not only bypass BLOCK rules, but they will also grant
+permissions when they are processed in the ALLOW/DENY processing, as
+described in the next subsection.
+
+[[allow-rule]]
+==== ALLOW
+
+For allowing access, all ALLOW/DENY rules that might apply to a ref
+are tested until one granting access is found, or until either an
+"exclusive" rule ends the search, or all rules have been tested.
+
+The rules are ordered from specific ref patterns to general patterns,
+and for equally specific patterns, from originating project up to
+All-Projects.
+
+This ordering lets project owners apply permissions specific to their
+project, overwriting the site defaults specified in All-Projects.
+
+[[deny-rule]]
+==== DENY
+
+DENY is processed together with ALLOW.
+
+As said, during ALLOW/DENY processing, rules are tried out one by one.
+For each (permission, ref-pattern, group) only a single rule
+ALLOW/DENY rule is picked. If that first rule is a DENY rule, any
+following ALLOW rules for the same (permission, ref-pattern, group)
+will be ignored, canceling out their effect.
+
+DENY is confusing because it only works on a specific (ref-pattern,
+group) pair. The parent project can undo the effect of a DENY rule by
+introducing an extra rule which features a more general ref pattern or
+a different group.
+
+==== DENY/ALLOW example
+
+Consider the ref "refs/a" and the following configuration:
+----
+
+child-project: project.config
+    [access "refs/a"]
+      read = deny group A
+
+All-Projects: project.config
+    [access "refs/a"]
+      read = group A      # ALLOW
+    [access "refs/*"]
+      read = group B      # ALLOW
+----
+
+When determining access, first "read = DENY group A" on "refs/a" is
+encountered. The following rule to consider is "ALLOW read group A" on
+"refs/a". The latter rule applies to the same (permission,
+ref-pattern, group) tuple, so it is ignored.
+
+The DENY rule does not affect the last rule for "refs/*", since that
+has a different ref pattern and a different group. If group B is a
+superset of group A, the last rule will still grant group A access to
+"refs/a".
+
+
+==== Double use of exclusive
+
+An 'exclusive' permission is evaluated both during BLOCK processing
+and during ALLOW/DENY: when looking BLOCK, 'exclusive' stops the
+search downward, while the same permission in the ALLOW/DENY
+processing will stop looking upward for further rule matches
+
+==== Force permission
+
+The 'force' setting may be set on ALLOW and BLOCK rules. In the case
+of ALLOW, the 'force' option makes the permission stronger (allowing
+both forced and unforced actions). For BLOCK, the 'force' option makes
+it weaker (the BLOCK with 'force' only blocks forced actions).
+
+
+=== Labels
+
+Labels use the same mechanism, with the following observations:
+
+* The 'force' setting has no effect on label ranges.
+
+* BLOCK specifies the values that a group cannot vote, eg.
++
+----
+  label-Code-Review = block -2..+2 group Anonymous Users
+----
++
+prevents all users from voting -2 or +2.
+
+* DENY works for votes too, with the same caveats
+
+* The blocked vote range is the union of the all the blocked vote
+ranges across projects, so in
++
+----
+All-Projects: project.config
+     label-Code-Review = block -2..+1 group A
+
+Child-Project: project-config
+     label-Code-Review = block -1..+2 group A
+----
++
+members of group A cannot vote at all in the Child-Project.
+
+
+* The allowed vote range is the union of vote ranges allowed by all of
+the ALLOW rules. For example, in
++
+----
+     label-Code-Review = -2..+1 group A
+     label-Code-Review = -1..+2 group B
+----
++
+a user that is both in A and B can vote -2..2.
 
 
 GERRIT

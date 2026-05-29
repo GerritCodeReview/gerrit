@@ -1,32 +1,18 @@
 #!/usr/bin/env bash
 
-npm_bin=$(which npm)
-if [[ -z "$npm_bin" ]]; then
-    echo "NPM must be on the path. (https://www.npmjs.com/)"
-    exit 1
-fi
-
-wct_bin=$(which wct)
-if [[ -z "$wct_bin" ]]; then
-    echo "WCT must be on the path. (https://github.com/Polymer/web-component-tester)"
-    exit 1
-fi
-
 bazel_bin=$(which bazelisk 2>/dev/null)
 if [[ -z "$bazel_bin" ]]; then
     echo "Warning: bazelisk is not installed; falling back to bazel."
     bazel_bin=bazel
 fi
 
-# WCT tests are not hermetic, and need extra environment variables.
-# TODO(hanwen): does $DISPLAY even work on OSX?
+# At least temporarily we want to know what is going on even when all tests are
+# passing, so we have a better chance of debugging what happens in CI test runs
+# that were supposed to catch test failures, but did not.
+# Run type checker before testing
+${bazel_bin} build //polygerrit-ui/app:compile_pg_with_tests && \
 ${bazel_bin} test \
-      --test_env="HOME=$HOME" \
-      --test_env="WCT=${wct_bin}" \
-      --test_env="WCT_ARGS=${WCT_ARGS}" \
-      --test_env="NPM=${npm_bin}" \
-      --test_env="DISPLAY=${DISPLAY}" \
-      --test_env="WCT_HEADLESS_MODE=${WCT_HEADLESS_MODE}" \
       "$@" \
-      //polygerrit-ui/app:embed_test \
-      //polygerrit-ui/app:wct_test
+      --test_verbose_timeout_warnings \
+      --test_output=all \
+      //polygerrit-ui:web_test_runner

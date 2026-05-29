@@ -1,0 +1,26 @@
+= gerrit cleanup-draft-comments
+
+== NAME
+gerrit cleanup-draft-comments - Cleanup draft comments that are already published.
+
+== SYNOPSIS
+[verse]
+--
+_ssh_ -p <port> <host> _gerrit cleanup-draft-comments_
+--
+
+== DESCRIPTION
+Cleanup draft comments that are already published.
+
+== ACCESS
+Caller must have the 'Maintain Server' capability.
+
+== SCRIPTING
+This command is intended to be used in scripts.
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

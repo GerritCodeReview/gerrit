@@ -1,0 +1,69 @@
+= Gerrit Code Review - Searching Projects
+
+[[search-operators]]
+== Search Operators
+
+Operators act as restrictions on the search. As more operators
+are added to the same query string, they further restrict the
+returned results.
+
+[[name]]
+name:'NAME'::
++
+Matches projects that have exactly the name 'NAME'.
+
+[[prefix]]
+prefix:'PREFIX'::
++
+Matches projects that have a name that starts with 'PREFIX' (may be
+case-sensitive, depending on which index backend is used).
+
+[[substring]]
+substring:'SUBSTRING'::
++
+Matches projects that have a name that contains 'SUBSTRING' (case-insensitive).
+
+[[parent]]
+parent:'PARENT'::
++
+Matches projects that have 'PARENT' as parent project.
+
+[[inname]]
+inname:'NAME'::
++
+Matches projects that a name part that starts with 'NAME' (case
+insensitive).
+
+[[description]]
+description:'DESCRIPTION'::
++
+Matches projects whose description contains 'DESCRIPTION', using a
+full-text search.
+
+[[state]]
+state:'STATE'::
++
+Matches project's state. Can be either 'active' or 'read-only'.
+
+== Magical Operators
+
+[[is-visible]]
+is:visible::
++
+Magical internal flag to prove the current user has access to read
+the projects and all the refs. This flag is always added to any query.
+
+[[limit]]
+limit:'CNT'::
++
+Limit the returned results to no more than 'CNT' records. This is
+automatically set to the page size configured in the current user's
+preferences. Including it in a web query may lead to unpredictable
+results with regards to pagination.
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

@@ -1,0 +1,1431 @@
+// Copyright (C) 2013 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package com.google.gerrit.acceptance.api.project;
+
+import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.GitUtil.pushHead;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
+import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.server.project.ProjectState.INHERITED_FROM_GLOBAL;
+import static com.google.gerrit.server.project.ProjectState.INHERITED_FROM_PARENT;
+import static com.google.gerrit.server.project.ProjectState.OVERRIDDEN_BY_GLOBAL;
+import static com.google.gerrit.server.project.ProjectState.OVERRIDDEN_BY_PARENT;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static java.util.stream.Collectors.toSet;
+import static org.eclipse.jgit.lib.Constants.R_HEADS;
+import static org.eclipse.jgit.lib.Constants.R_TAGS;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Lists;
+import com.google.common.util.concurrent.AtomicLongMap;
+import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.ExtensionRegistry;
+import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
+import com.google.gerrit.acceptance.GitUtil;
+import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.config.GerritConfig;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
+import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.entities.BranchNameKey;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.GroupReference;
+import com.google.gerrit.entities.LabelId;
+import com.google.gerrit.entities.Permission;
+import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.extensions.annotations.Exports;
+import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.projects.BranchInput;
+import com.google.gerrit.extensions.api.projects.CommentLinkInfo;
+import com.google.gerrit.extensions.api.projects.CommentLinkInput;
+import com.google.gerrit.extensions.api.projects.ConfigInfo;
+import com.google.gerrit.extensions.api.projects.ConfigInput;
+import com.google.gerrit.extensions.api.projects.ConfigValue;
+import com.google.gerrit.extensions.api.projects.DescriptionInput;
+import com.google.gerrit.extensions.api.projects.ProjectInput;
+import com.google.gerrit.extensions.client.InheritableBoolean;
+import com.google.gerrit.extensions.client.ProjectState;
+import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.extensions.common.ActionInfo;
+import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.GroupInfo;
+import com.google.gerrit.extensions.common.ProjectInfo;
+import com.google.gerrit.extensions.events.ChangeIndexedListener;
+import com.google.gerrit.extensions.events.ProjectIndexedListener;
+import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.server.config.ProjectConfigEntry;
+import com.google.gerrit.server.git.meta.MetaDataUpdate;
+import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.gerrit.server.project.ProjectConfig;
+import com.google.inject.AbstractModule;
+import com.google.inject.Inject;
+import com.google.inject.Module;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.transport.PushResult;
+import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
+import org.junit.Test;
+
+public class ProjectIT extends AbstractDaemonTest {
+  private static final String BUGZILLA = "bugzilla";
+  private static final String BUGZILLA_LINK = "http://bugzilla.example.com/?id=$2";
+  private static final String BUGZILLA_MATCH = "(bug\\\\s+#?)(\\\\d+)";
+  private static final String JIRA = "jira";
+  private static final String JIRA_LINK = "http://jira.example.com/?id=$2";
+  private static final String JIRA_MATCH = "(jira\\\\s+#?)(\\\\d+)";
+  private static final String R_HEADS_MASTER = R_HEADS + "master";
+
+  @Inject private ProjectOperations projectOperations;
+  @Inject private RequestScopeOperations requestScopeOperations;
+  @Inject private ExtensionRegistry extensionRegistry;
+
+  @Override
+  public Module createModule() {
+    return new AbstractModule() {
+      @Override
+      protected void configure() {
+        bind(ProjectConfigEntry.class)
+            .annotatedWith(Exports.named("test-plugin-key"))
+            .toInstance(new ProjectConfigEntry("Test Plugin Config Item", true));
+      }
+    };
+  }
+
+  @Test
+  public void createProject() throws Exception {
+    ProjectIndexedCounter projectIndexedCounter = new ProjectIndexedCounter();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(projectIndexedCounter)) {
+      String name = name("foo");
+      assertThat(gApi.projects().create(name).get().name).isEqualTo(name);
+      assertHead(name, "refs/heads/master");
+      RevCommit head = getRemoteHead(name, RefNames.REFS_CONFIG);
+      eventRecorder.assertRefUpdatedEvents(name, RefNames.REFS_CONFIG, null, head);
+
+      eventRecorder.assertRefUpdatedEvents(name, "refs/heads/master", new String[] {});
+      projectIndexedCounter.assertReindexOf(name);
+    }
+  }
+
+  @Test
+  @GerritConfig(name = "gerrit.defaultBranch", value = "main")
+  public void createProject_WhenDefaultBranchIsSetInConfig() throws Exception {
+    ProjectIndexedCounter projectIndexedCounter = new ProjectIndexedCounter();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(projectIndexedCounter)) {
+      String name = name("foo");
+      assertThat(gApi.projects().create(name).get().name).isEqualTo(name);
+      assertHead(name, "refs/heads/main");
+      RevCommit head = getRemoteHead(name, RefNames.REFS_CONFIG);
+      eventRecorder.assertRefUpdatedEvents(name, RefNames.REFS_CONFIG, null, head);
+
+      eventRecorder.assertRefUpdatedEvents(name, "refs/heads/main", new String[] {});
+      projectIndexedCounter.assertReindexOf(name);
+    }
+  }
+
+  @Test
+  public void createProjectWithInitialBranches() throws Exception {
+    ProjectIndexedCounter projectIndexedCounter = new ProjectIndexedCounter();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(projectIndexedCounter)) {
+
+      String name = name("foo");
+      ProjectInput input = new ProjectInput();
+      input.name = name;
+      input.createEmptyCommit = true;
+      input.branches = ImmutableList.of("foo", "master");
+      assertThat(gApi.projects().create(input).get().name).isEqualTo(name);
+      assertThat(
+              gApi.projects().name(name).branches().get().stream().map(b -> b.ref).collect(toSet()))
+          .containsExactly("refs/heads/foo", "refs/heads/master", "HEAD", RefNames.REFS_CONFIG);
+
+      assertHead(name, "refs/heads/foo");
+      RevCommit head = getRemoteHead(name, RefNames.REFS_CONFIG);
+      eventRecorder.assertRefUpdatedEvents(name, RefNames.REFS_CONFIG, null, head);
+
+      head = getRemoteHead(name, "refs/heads/foo");
+      eventRecorder.assertRefUpdatedEvents(name, "refs/heads/foo", null, head);
+
+      head = getRemoteHead(name, "refs/heads/master");
+      eventRecorder.assertRefUpdatedEvents(name, "refs/heads/master", null, head);
+
+      projectIndexedCounter.assertReindexOf(name);
+    }
+  }
+
+  @Test
+  public void createProjectWithGitSuffix() throws Exception {
+    String name = name("foo");
+    assertThat(gApi.projects().create(name + ".git").get().name).isEqualTo(name);
+
+    RevCommit head = getRemoteHead(name, RefNames.REFS_CONFIG);
+    eventRecorder.assertRefUpdatedEvents(name, RefNames.REFS_CONFIG, null, head);
+
+    eventRecorder.assertRefUpdatedEvents(name, "refs/heads/master", new String[] {});
+  }
+
+  @Test
+  public void createProjectWithInitialCommit() throws Exception {
+    String name = name("foo");
+    ProjectInput input = new ProjectInput();
+    input.name = name;
+    input.createEmptyCommit = true;
+    assertThat(gApi.projects().create(input).get().name).isEqualTo(name);
+
+    RevCommit head = getRemoteHead(name, RefNames.REFS_CONFIG);
+    eventRecorder.assertRefUpdatedEvents(name, RefNames.REFS_CONFIG, null, head);
+
+    head = getRemoteHead(name, "refs/heads/master");
+    eventRecorder.assertRefUpdatedEvents(name, "refs/heads/master", null, head);
+  }
+
+  @Test
+  public void createProjectWithPluginConfigs() throws Exception {
+    String name = name("foo");
+    ProjectInput input = new ProjectInput();
+    input.name = name;
+    input.description = "foo description";
+    input.pluginConfigValues = newPluginConfigValues();
+    ProjectInfo info = gApi.projects().create(input).get();
+    assertThat(info.description).isEqualTo(input.description);
+  }
+
+  @Test
+  public void createProjectWithMismatchedInput() throws Exception {
+    ProjectInput in = new ProjectInput();
+    in.name = name("foo");
+    BadRequestException thrown =
+        assertThrows(BadRequestException.class, () -> gApi.projects().name("bar").create(in));
+    assertThat(thrown).hasMessageThat().contains("name must match input.name");
+  }
+
+  @Test
+  public void createProjectNoNameInInput() throws Exception {
+    ProjectInput in = new ProjectInput();
+    BadRequestException thrown =
+        assertThrows(BadRequestException.class, () -> gApi.projects().create(in));
+    assertThat(thrown).hasMessageThat().contains("input.name is required");
+  }
+
+  @Test
+  public void createProjectDuplicate() throws Exception {
+    ProjectInput in = new ProjectInput();
+    in.name = name("baz");
+    gApi.projects().create(in);
+    ResourceConflictException thrown =
+        assertThrows(ResourceConflictException.class, () -> gApi.projects().create(in));
+    assertThat(thrown).hasMessageThat().contains("Project already exists");
+  }
+
+  @Test
+  public void createProjectWithNonExistingParent() throws Exception {
+    ProjectInput in = new ProjectInput();
+    in.name = name("baz");
+    in.parent = "non-existing";
+
+    UnprocessableEntityException thrown =
+        assertThrows(UnprocessableEntityException.class, () -> gApi.projects().create(in));
+    assertThat(thrown).hasMessageThat().contains("Project Not Found: " + in.parent);
+  }
+
+  @Test
+  public void createProjectWithSelfAsParentNotPossible() throws Exception {
+    ProjectInput in = new ProjectInput();
+    in.name = name("baz");
+    in.parent = in.name;
+
+    UnprocessableEntityException thrown =
+        assertThrows(UnprocessableEntityException.class, () -> gApi.projects().create(in));
+    assertThat(thrown).hasMessageThat().contains("Project Not Found: " + in.parent);
+  }
+
+  @Test
+  public void createProjectUnderAllUsersNotAllowed() throws Exception {
+    ProjectInput in = new ProjectInput();
+    in.name = name("foo");
+    in.parent = allUsers.get();
+    ResourceConflictException thrown =
+        assertThrows(ResourceConflictException.class, () -> gApi.projects().create(in));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains(String.format("Cannot inherit from '%s' project", allUsers.get()));
+  }
+
+  @Test
+  public void createAndDeleteBranch() throws Exception {
+    ProjectIndexedCounter projectIndexedCounter = new ProjectIndexedCounter();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(projectIndexedCounter)) {
+
+      assertThat(hasHead(project, "foo")).isFalse();
+
+      gApi.projects().name(project.get()).branch("foo").create(new BranchInput());
+      assertThat(getRemoteHead(project.get(), "foo")).isNotNull();
+      projectIndexedCounter.assertNoReindex();
+
+      gApi.projects().name(project.get()).branch("foo").delete();
+      assertThat(hasHead(project, "foo")).isFalse();
+      projectIndexedCounter.assertNoReindex();
+    }
+  }
+
+  @Test
+  public void createAndDeleteBranchByPush() throws Exception {
+    ProjectIndexedCounter projectIndexedCounter = new ProjectIndexedCounter();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(projectIndexedCounter)) {
+      projectOperations
+          .project(project)
+          .forUpdate()
+          .add(allow(Permission.PUSH).ref("refs/*").group(adminGroupUuid()).force(true))
+          .update();
+      projectIndexedCounter.clear();
+
+      assertThat(hasHead(project, "foo")).isFalse();
+
+      PushOneCommit.Result r = pushTo("refs/heads/foo");
+      r.assertOkStatus();
+      assertThat(getRemoteHead(project.get(), "foo")).isEqualTo(r.getCommit());
+      projectIndexedCounter.assertNoReindex();
+
+      PushResult r2 = GitUtil.pushOne(testRepo, null, "refs/heads/foo", false, true, null);
+      assertThat(r2.getRemoteUpdate("refs/heads/foo").getStatus()).isEqualTo(Status.OK);
+      assertThat(hasHead(project, "foo")).isFalse();
+      projectIndexedCounter.assertNoReindex();
+    }
+  }
+
+  @Test
+  public void descriptionChangeCausesRefUpdate() throws Exception {
+    RevCommit initialHead = projectOperations.project(project).getHead(RefNames.REFS_CONFIG);
+    assertThat(gApi.projects().name(project.get()).description()).isEmpty();
+    DescriptionInput in = new DescriptionInput();
+    in.description = "new project description";
+    gApi.projects().name(project.get()).description(in);
+    assertThat(gApi.projects().name(project.get()).description()).isEqualTo(in.description);
+
+    RevCommit updatedHead = projectOperations.project(project).getHead(RefNames.REFS_CONFIG);
+    eventRecorder.assertRefUpdatedEvents(
+        project.get(), RefNames.REFS_CONFIG, initialHead, updatedHead);
+  }
+
+  @Test
+  public void descriptionIsDeletedWhenNotSpecified() throws Exception {
+    assertThat(gApi.projects().name(project.get()).description()).isEmpty();
+    DescriptionInput in = new DescriptionInput();
+    in.description = "new project description";
+    gApi.projects().name(project.get()).description(in);
+    assertThat(gApi.projects().name(project.get()).description()).isEqualTo(in.description);
+    in.description = null;
+    gApi.projects().name(project.get()).description(in);
+    assertThat(gApi.projects().name(project.get()).description()).isEmpty();
+  }
+
+  @Test
+  public void configChangeCausesRefUpdate() throws Exception {
+    RevCommit initialHead = projectOperations.project(project).getHead(RefNames.REFS_CONFIG);
+
+    ConfigInfo info = gApi.projects().name(project.get()).config();
+    assertThat(info.defaultSubmitType.value).isEqualTo(SubmitType.MERGE_IF_NECESSARY);
+    ConfigInput input = new ConfigInput();
+    input.submitType = SubmitType.CHERRY_PICK;
+    info = gApi.projects().name(project.get()).config(input);
+    assertThat(info.defaultSubmitType.value).isEqualTo(SubmitType.CHERRY_PICK);
+    info = gApi.projects().name(project.get()).config();
+    assertThat(info.defaultSubmitType.value).isEqualTo(SubmitType.CHERRY_PICK);
+
+    RevCommit updatedHead = projectOperations.project(project).getHead(RefNames.REFS_CONFIG);
+    eventRecorder.assertRefUpdatedEvents(
+        project.get(), RefNames.REFS_CONFIG, initialHead, updatedHead);
+  }
+
+  @Test
+  @SuppressWarnings("deprecation")
+  public void setConfig() throws Exception {
+    ConfigInput input = createTestConfigInput();
+    ConfigInfo info = gApi.projects().name(project.get()).config(input);
+    assertThat(info.description).isEqualTo(input.description);
+    assertThat(info.useContributorAgreements.configuredValue)
+        .isEqualTo(input.useContributorAgreements);
+    assertThat(info.useContentMerge.configuredValue).isEqualTo(input.useContentMerge);
+    assertThat(info.useSignedOffBy.configuredValue).isEqualTo(input.useSignedOffBy);
+    assertThat(info.createNewChangeForAllNotInTarget.configuredValue)
+        .isEqualTo(input.createNewChangeForAllNotInTarget);
+    assertThat(info.requireChangeId.configuredValue).isEqualTo(input.requireChangeId);
+    assertThat(info.rejectImplicitMerges.configuredValue).isEqualTo(input.rejectImplicitMerges);
+    assertThat(info.enableReviewerByEmail.configuredValue).isEqualTo(input.enableReviewerByEmail);
+    assertThat(info.createNewChangeForAllNotInTarget.configuredValue)
+        .isEqualTo(input.createNewChangeForAllNotInTarget);
+    assertThat(info.maxObjectSizeLimit.configuredValue).isEqualTo(input.maxObjectSizeLimit);
+    assertThat(info.submitType).isEqualTo(input.submitType);
+    assertThat(info.defaultSubmitType.value).isEqualTo(input.submitType);
+    assertThat(info.defaultSubmitType.inheritedValue).isEqualTo(SubmitType.MERGE_IF_NECESSARY);
+    assertThat(info.defaultSubmitType.configuredValue).isEqualTo(input.submitType);
+    assertThat(info.state).isEqualTo(input.state);
+  }
+
+  @Test
+  @GerritConfig(name = "gerrit.requireChangeForConfigUpdate", value = "true")
+  public void requireChangeForConfigUpdate_setConfigRejected() {
+    ConfigInput input = createTestConfigInput();
+    MethodNotAllowedException e =
+        assertThrows(
+            MethodNotAllowedException.class,
+            () -> gApi.projects().name(project.get()).config(input));
+    assertThat(e.getMessage()).contains("Updating project config without review is disabled");
+  }
+
+  @SuppressWarnings("deprecation")
+  @Test
+  public void setPartialConfig() throws Exception {
+    ConfigInput input = createTestConfigInput();
+    gApi.projects().name(project.get()).config(input);
+
+    ConfigInput partialInput = new ConfigInput();
+    partialInput.useContributorAgreements = InheritableBoolean.FALSE;
+    ConfigInfo info = gApi.projects().name(project.get()).config(partialInput);
+
+    assertThat(info.description).isNull();
+    assertThat(info.useContributorAgreements.configuredValue)
+        .isEqualTo(partialInput.useContributorAgreements);
+    assertThat(info.useContentMerge.configuredValue).isEqualTo(input.useContentMerge);
+    assertThat(info.useSignedOffBy.configuredValue).isEqualTo(input.useSignedOffBy);
+    assertThat(info.createNewChangeForAllNotInTarget.configuredValue)
+        .isEqualTo(input.createNewChangeForAllNotInTarget);
+    assertThat(info.requireChangeId.configuredValue).isEqualTo(input.requireChangeId);
+    assertThat(info.rejectImplicitMerges.configuredValue).isEqualTo(input.rejectImplicitMerges);
+    assertThat(info.enableReviewerByEmail.configuredValue).isEqualTo(input.enableReviewerByEmail);
+    assertThat(info.createNewChangeForAllNotInTarget.configuredValue)
+        .isEqualTo(input.createNewChangeForAllNotInTarget);
+    assertThat(info.maxObjectSizeLimit.configuredValue).isEqualTo(input.maxObjectSizeLimit);
+    assertThat(info.submitType).isEqualTo(input.submitType);
+    assertThat(info.defaultSubmitType.value).isEqualTo(input.submitType);
+    assertThat(info.defaultSubmitType.inheritedValue).isEqualTo(SubmitType.MERGE_IF_NECESSARY);
+    assertThat(info.defaultSubmitType.configuredValue).isEqualTo(input.submitType);
+    assertThat(info.state).isEqualTo(input.state);
+  }
+
+  @Test
+  public void nonOwnerCannotSetConfig() throws Exception {
+    ConfigInput input = createTestConfigInput();
+    requestScopeOperations.setApiUser(user.id());
+    AuthException thrown =
+        assertThrows(AuthException.class, () -> gApi.projects().name(project.get()).config(input));
+    assertThat(thrown).hasMessageThat().contains("write refs/meta/config not permitted");
+  }
+
+  @Test
+  public void setHead() throws Exception {
+    assertThat(gApi.projects().name(project.get()).head()).isEqualTo("refs/heads/master");
+    gApi.projects().name(project.get()).branch("test1").create(new BranchInput());
+    gApi.projects().name(project.get()).branch("test2").create(new BranchInput());
+    for (String head : new String[] {"test1", "refs/heads/test2"}) {
+      gApi.projects().name(project.get()).head(head);
+      assertThat(gApi.projects().name(project.get()).head()).isEqualTo(RefNames.fullName(head));
+    }
+  }
+
+  @Test
+  public void setHeadToNonexistentBranch() throws Exception {
+    assertThrows(
+        UnprocessableEntityException.class,
+        () -> gApi.projects().name(project.get()).head("does-not-exist"));
+  }
+
+  @Test
+  public void setHeadToSameBranch() throws Exception {
+    gApi.projects().name(project.get()).branch("test").create(new BranchInput());
+    for (String head : new String[] {"test", "refs/heads/test"}) {
+      gApi.projects().name(project.get()).head(head);
+      assertThat(gApi.projects().name(project.get()).head()).isEqualTo(RefNames.fullName(head));
+    }
+  }
+
+  @Test
+  public void setHeadNotAllowed() throws Exception {
+    gApi.projects().name(project.get()).branch("test").create(new BranchInput());
+    requestScopeOperations.setApiUser(user.id());
+    AuthException thrown =
+        assertThrows(AuthException.class, () -> gApi.projects().name(project.get()).head("test"));
+    assertThat(thrown).hasMessageThat().contains("not permitted: set HEAD on refs/heads/test");
+  }
+
+  @Test
+  public void nonActiveProjectCanBeMadeActive() throws Exception {
+    for (ProjectState nonActiveState :
+        ImmutableList.of(ProjectState.READ_ONLY, ProjectState.HIDDEN)) {
+      // ACTIVE => NON_ACTIVE
+      ConfigInput ci1 = new ConfigInput();
+      ci1.state = nonActiveState;
+      gApi.projects().name(project.get()).config(ci1);
+      assertThat(gApi.projects().name(project.get()).config().state).isEqualTo(nonActiveState);
+      // NON_ACTIVE => ACTIVE
+      ConfigInput ci2 = new ConfigInput();
+      ci2.state = ProjectState.ACTIVE;
+      gApi.projects().name(project.get()).config(ci2);
+      // ACTIVE is represented as null in the API
+      assertThat(gApi.projects().name(project.get()).config().state).isNull();
+    }
+  }
+
+  @Test
+  public void nonActiveProjectCanBeMadeActiveByHostAdmin() throws Exception {
+    // ACTIVE => HIDDEN
+    ConfigInput ci1 = new ConfigInput();
+    ci1.state = ProjectState.HIDDEN;
+    gApi.projects().name(project.get()).config(ci1);
+    assertThat(gApi.projects().name(project.get()).config().state).isEqualTo(ProjectState.HIDDEN);
+
+    // Revoke OWNER permission for admin and block them from reading the project's refs
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(
+            block(Permission.OWNER)
+                .ref(RefNames.REFS + "*")
+                .group(SystemGroupBackend.REGISTERED_USERS))
+        .add(
+            block(Permission.READ)
+                .ref(RefNames.REFS + "*")
+                .group(SystemGroupBackend.REGISTERED_USERS))
+        .update();
+
+    // HIDDEN => ACTIVE
+    ConfigInput ci2 = new ConfigInput();
+    ci2.state = ProjectState.ACTIVE;
+    gApi.projects().name(project.get()).config(ci2);
+    // ACTIVE is represented as null in the API
+    assertThat(gApi.projects().name(project.get()).config().state).isNull();
+  }
+
+  @Test
+  public void nonActiveProjectCanBeMadeActiveThroughCodeReview() throws Exception {
+    for (ProjectState nonActiveState :
+        ImmutableList.of(ProjectState.READ_ONLY, ProjectState.HIDDEN)) {
+      // ACTIVE => NON_ACTIVE
+      ConfigInput ci1 = new ConfigInput();
+      ci1.state = nonActiveState;
+      gApi.projects().name(project.get()).config(ci1);
+      assertThat(gApi.projects().name(project.get()).config().state).isEqualTo(nonActiveState);
+      // NON_ACTIVE => ACTIVE
+      ConfigInput ci2 = new ConfigInput();
+      ci2.state = ProjectState.ACTIVE;
+      ChangeInfo changeInfo = gApi.projects().name(project.get()).configReview(ci2);
+      ReviewInput reviewInput = new ReviewInput();
+      reviewInput.label("Code-Review", 2);
+      gApi.changes().id(changeInfo.project, changeInfo._number).current().review(reviewInput);
+
+      // check that the submit action is enabled
+      Map<String, ActionInfo> actions =
+          gApi.changes().id(changeInfo.project, changeInfo._number).current().actions();
+      assertThat(actions).containsKey("submit");
+      ActionInfo submitAction = actions.get("submit");
+      assertThat(submitAction.enabled).isTrue();
+
+      gApi.changes().id(changeInfo.project, changeInfo._number).current().submit();
+
+      // ACTIVE is represented as null in the API
+      assertThat(gApi.projects().name(project.get()).config().state).isNull();
+    }
+  }
+
+  @Test
+  public void reindexProject() throws Exception {
+    ProjectIndexedCounter projectIndexedCounter = new ProjectIndexedCounter();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(projectIndexedCounter)) {
+
+      projectOperations.newProject().parent(project).create();
+      projectIndexedCounter.clear();
+
+      gApi.projects().name(allProjects.get()).index(false);
+      projectIndexedCounter.assertReindexOf(allProjects.get());
+    }
+  }
+
+  @Test
+  public void reindexProjectWithChildren() throws Exception {
+    ProjectIndexedCounter projectIndexedCounter = new ProjectIndexedCounter();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(projectIndexedCounter)) {
+
+      Project.NameKey middle = projectOperations.newProject().parent(project).create();
+      Project.NameKey leave = projectOperations.newProject().parent(middle).create();
+      projectIndexedCounter.clear();
+
+      gApi.projects().name(project.get()).index(true);
+      projectIndexedCounter.assertReindexExactly(
+          ImmutableMap.of(project.get(), 1L, middle.get(), 1L, leave.get(), 1L));
+    }
+  }
+
+  @Test
+  public void reindexChangesOfProject() throws Exception {
+    Change.Id changeId1 = createChange().getChange().getId();
+    Change.Id changeId2 = createChange().getChange().getId();
+
+    ChangeIndexedListener changeIndexedListener = mock(ChangeIndexedListener.class);
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(changeIndexedListener)) {
+      gApi.projects().name(project.get()).indexChanges();
+
+      verify(changeIndexedListener, times(1))
+          .onChangeScheduledForIndexing(project.get(), changeId1.get());
+      verify(changeIndexedListener, times(1))
+          .onChangeScheduledForIndexing(project.get(), changeId2.get());
+    }
+  }
+
+  @Test
+  public void maxObjectSizeIsNotSetByDefault() throws Exception {
+    ConfigInfo info = getConfig();
+    assertThat(info.maxObjectSizeLimit.value).isNull();
+    assertThat(info.maxObjectSizeLimit.configuredValue).isNull();
+    assertThat(info.maxObjectSizeLimit.summary).isNull();
+  }
+
+  @Test
+  public void maxObjectSizeCanBeSetAndCleared() throws Exception {
+    // Set a value
+    ConfigInfo info = setMaxObjectSize("100k");
+    assertThat(info.maxObjectSizeLimit.value).isEqualTo("102400");
+    assertThat(info.maxObjectSizeLimit.configuredValue).isEqualTo("100k");
+    assertThat(info.maxObjectSizeLimit.summary).isNull();
+
+    // Clear the value
+    info = setMaxObjectSize("0");
+    assertThat(info.maxObjectSizeLimit.value).isNull();
+    assertThat(info.maxObjectSizeLimit.configuredValue).isNull();
+    assertThat(info.maxObjectSizeLimit.summary).isNull();
+  }
+
+  @Test
+  @GerritConfig(name = "receive.inheritProjectMaxObjectSizeLimit", value = "true")
+  public void maxObjectSizeIsInheritedFromParentProject() throws Exception {
+    Project.NameKey child = projectOperations.newProject().parent(project).create();
+
+    ConfigInfo info = setMaxObjectSize("100k");
+    assertThat(info.maxObjectSizeLimit.value).isEqualTo("102400");
+    assertThat(info.maxObjectSizeLimit.configuredValue).isEqualTo("100k");
+    assertThat(info.maxObjectSizeLimit.summary).isNull();
+
+    info = getConfig(child);
+    assertThat(info.maxObjectSizeLimit.value).isEqualTo("102400");
+    assertThat(info.maxObjectSizeLimit.configuredValue).isNull();
+    assertThat(info.maxObjectSizeLimit.summary)
+        .isEqualTo(String.format(INHERITED_FROM_PARENT, project));
+  }
+
+  @Test
+  public void maxObjectSizeIsNotInheritedFromParentProject() throws Exception {
+    Project.NameKey child = projectOperations.newProject().parent(project).create();
+
+    ConfigInfo info = setMaxObjectSize("100k");
+    assertThat(info.maxObjectSizeLimit.value).isEqualTo("102400");
+    assertThat(info.maxObjectSizeLimit.configuredValue).isEqualTo("100k");
+    assertThat(info.maxObjectSizeLimit.summary).isNull();
+
+    info = getConfig(child);
+    assertThat(info.maxObjectSizeLimit.value).isNull();
+    assertThat(info.maxObjectSizeLimit.configuredValue).isNull();
+    assertThat(info.maxObjectSizeLimit.summary).isNull();
+  }
+
+  @Test
+  public void maxObjectSizeOverridesParentProjectWhenNotSetOnParent() throws Exception {
+    Project.NameKey child = projectOperations.newProject().parent(project).create();
+
+    ConfigInfo info = setMaxObjectSize("0");
+    assertThat(info.maxObjectSizeLimit.value).isNull();
+    assertThat(info.maxObjectSizeLimit.configuredValue).isNull();
+    assertThat(info.maxObjectSizeLimit.summary).isNull();
+
+    info = setMaxObjectSize(child, "100k");
+    assertThat(info.maxObjectSizeLimit.value).isEqualTo("102400");
+    assertThat(info.maxObjectSizeLimit.configuredValue).isEqualTo("100k");
+    assertThat(info.maxObjectSizeLimit.summary).isNull();
+  }
+
+  @Test
+  public void maxObjectSizeOverridesParentProjectWhenLower() throws Exception {
+    Project.NameKey child = projectOperations.newProject().parent(project).create();
+
+    ConfigInfo info = setMaxObjectSize("200k");
+    assertThat(info.maxObjectSizeLimit.value).isEqualTo("204800");
+    assertThat(info.maxObjectSizeLimit.configuredValue).isEqualTo("200k");
+    assertThat(info.maxObjectSizeLimit.summary).isNull();
+
+    info = setMaxObjectSize(child, "100k");
+    assertThat(info.maxObjectSizeLimit.value).isEqualTo("102400");
+    assertThat(info.maxObjectSizeLimit.configuredValue).isEqualTo("100k");
+    assertThat(info.maxObjectSizeLimit.summary).isNull();
+  }
+
+  @Test
+  @GerritConfig(name = "receive.inheritProjectMaxObjectSizeLimit", value = "true")
+  public void maxObjectSizeDoesNotOverrideParentProjectWhenHigher() throws Exception {
+    Project.NameKey child = projectOperations.newProject().parent(project).create();
+
+    ConfigInfo info = setMaxObjectSize("100k");
+    assertThat(info.maxObjectSizeLimit.value).isEqualTo("102400");
+    assertThat(info.maxObjectSizeLimit.configuredValue).isEqualTo("100k");
+    assertThat(info.maxObjectSizeLimit.summary).isNull();
+
+    info = setMaxObjectSize(child, "200k");
+    assertThat(info.maxObjectSizeLimit.value).isEqualTo("102400");
+    assertThat(info.maxObjectSizeLimit.configuredValue).isEqualTo("200k");
+    assertThat(info.maxObjectSizeLimit.summary)
+        .isEqualTo(String.format(OVERRIDDEN_BY_PARENT, project));
+  }
+
+  @Test
+  @GerritConfig(name = "receive.maxObjectSizeLimit", value = "200k")
+  public void maxObjectSizeIsInheritedFromGlobalConfig() throws Exception {
+    Project.NameKey child = projectOperations.newProject().parent(project).create();
+
+    ConfigInfo info = getConfig();
+    assertThat(info.maxObjectSizeLimit.value).isEqualTo("204800");
+    assertThat(info.maxObjectSizeLimit.configuredValue).isNull();
+    assertThat(info.maxObjectSizeLimit.summary).isEqualTo(INHERITED_FROM_GLOBAL);
+
+    info = getConfig(child);
+    assertThat(info.maxObjectSizeLimit.value).isEqualTo("204800");
+    assertThat(info.maxObjectSizeLimit.configuredValue).isNull();
+    assertThat(info.maxObjectSizeLimit.summary).isEqualTo(INHERITED_FROM_GLOBAL);
+  }
+
+  @Test
+  @GerritConfig(name = "receive.maxObjectSizeLimit", value = "200k")
+  public void maxObjectSizeOverridesGlobalConfigWhenLower() throws Exception {
+    ConfigInfo info = setMaxObjectSize("100k");
+    assertThat(info.maxObjectSizeLimit.value).isEqualTo("102400");
+    assertThat(info.maxObjectSizeLimit.configuredValue).isEqualTo("100k");
+    assertThat(info.maxObjectSizeLimit.summary).isNull();
+  }
+
+  @Test
+  @GerritConfig(name = "receive.maxObjectSizeLimit", value = "300k")
+  public void inheritedMaxObjectSizeOverridesGlobalConfigWhenLower() throws Exception {
+    Project.NameKey child = projectOperations.newProject().parent(project).create();
+
+    ConfigInfo info = setMaxObjectSize("200k");
+    assertThat(info.maxObjectSizeLimit.value).isEqualTo("204800");
+    assertThat(info.maxObjectSizeLimit.configuredValue).isEqualTo("200k");
+    assertThat(info.maxObjectSizeLimit.summary).isNull();
+
+    info = setMaxObjectSize(child, "100k");
+    assertThat(info.maxObjectSizeLimit.value).isEqualTo("102400");
+    assertThat(info.maxObjectSizeLimit.configuredValue).isEqualTo("100k");
+    assertThat(info.maxObjectSizeLimit.summary).isNull();
+  }
+
+  @Test
+  @GerritConfig(name = "receive.maxObjectSizeLimit", value = "200k")
+  @GerritConfig(name = "receive.inheritProjectMaxObjectSizeLimit", value = "true")
+  public void maxObjectSizeDoesNotOverrideGlobalConfigWhenHigher() throws Exception {
+    Project.NameKey child = projectOperations.newProject().parent(project).create();
+
+    ConfigInfo info = setMaxObjectSize("300k");
+    assertThat(info.maxObjectSizeLimit.value).isEqualTo("204800");
+    assertThat(info.maxObjectSizeLimit.configuredValue).isEqualTo("300k");
+    assertThat(info.maxObjectSizeLimit.summary).isEqualTo(OVERRIDDEN_BY_GLOBAL);
+
+    info = getConfig(child);
+    assertThat(info.maxObjectSizeLimit.value).isEqualTo("204800");
+    assertThat(info.maxObjectSizeLimit.configuredValue).isNull();
+    assertThat(info.maxObjectSizeLimit.summary).isEqualTo(OVERRIDDEN_BY_GLOBAL);
+  }
+
+  @Test
+  public void invalidMaxObjectSizeIsRejected() throws Exception {
+    ResourceConflictException thrown =
+        assertThrows(ResourceConflictException.class, () -> setMaxObjectSize("100 foo"));
+    assertThat(thrown).hasMessageThat().contains("100 foo");
+  }
+
+  @Test
+  public void pluginConfigsReturnedWhenRefsMetaConfigReadable() throws Exception {
+    ProjectConfigEntry entry = new ProjectConfigEntry("enabled", "true");
+    try (Registration ignored =
+        extensionRegistry.newRegistration().add(entry, "test-config-entry")) {
+      // The admin can see refs/meta/config and hence has the READ_CONFIG permission.
+      requestScopeOperations.setApiUser(admin.id());
+      ConfigInfo configInfo = getConfig();
+      assertThat(configInfo.pluginConfig).isNotNull();
+      assertThat(configInfo.pluginConfig).isNotEmpty();
+    }
+  }
+
+  @Test
+  public void pluginConfigsNotReturnedWhenRefsMetaConfigNotReadable() throws Exception {
+    ProjectConfigEntry entry = new ProjectConfigEntry("enabled", "true");
+    try (Registration ignored =
+        extensionRegistry.newRegistration().add(entry, "test-config-entry")) {
+      // This user cannot see refs/meta/config and hence does not have the READ_CONFIG permission.
+      requestScopeOperations.setApiUser(user.id());
+      ConfigInfo configInfo = getConfig();
+      assertThat(configInfo.pluginConfig).isNull();
+    }
+  }
+
+  @Test
+  public void noCommentlinksByDefault() throws Exception {
+    assertThat(getConfig().commentlinks).isEmpty();
+  }
+
+  @Test
+  @GerritConfig(name = "commentlink.bugzilla.match", value = BUGZILLA_MATCH)
+  @GerritConfig(name = "commentlink.bugzilla.link", value = BUGZILLA_LINK)
+  @GerritConfig(name = "commentlink.jira.match", value = JIRA_MATCH)
+  @GerritConfig(name = "commentlink.jira.link", value = JIRA_LINK)
+  public void projectConfigUsesCommentlinksFromGlobalConfig() throws Exception {
+    Map<String, CommentLinkInfo> expected = new HashMap<>();
+    expected.put(BUGZILLA, commentLinkInfo(BUGZILLA, BUGZILLA_MATCH, BUGZILLA_LINK));
+    expected.put(JIRA, commentLinkInfo(JIRA, JIRA_MATCH, JIRA_LINK));
+    assertCommentLinks(getConfig(), expected);
+  }
+
+  @Test
+  public void projectConfigUsesLocallySetCommentlinks() throws Exception {
+    ConfigInput input = new ConfigInput();
+    addCommentLink(input, BUGZILLA, BUGZILLA_MATCH, BUGZILLA_LINK);
+    addCommentLink(input, JIRA, JIRA_MATCH, JIRA_LINK);
+    ConfigInfo info = setConfig(project, input);
+
+    Map<String, CommentLinkInfo> expected = new HashMap<>();
+    expected.put(BUGZILLA, commentLinkInfo(BUGZILLA, BUGZILLA_MATCH, BUGZILLA_LINK));
+    expected.put(JIRA, commentLinkInfo(JIRA, JIRA_MATCH, JIRA_LINK));
+    assertCommentLinks(info, expected);
+    assertCommentLinks(getConfig(), expected);
+  }
+
+  @Test
+  public void projectConfigUsesLocallySetCommentlinksWithOptionalFields() throws Exception {
+    ConfigInput input = new ConfigInput();
+    CommentLinkInput bugzillaInput = new CommentLinkInput();
+    String match = "(^|\\\\s)(bug\\\\s+#?)(\\\\d+)($|\\\\s)";
+    String link = "http://bugzilla.example.com/?id=$3";
+    String prefix = "$1";
+    String suffix = "$4";
+    String text = "$2$3";
+    bugzillaInput.match = match;
+    bugzillaInput.link = link;
+    bugzillaInput.prefix = prefix;
+    bugzillaInput.suffix = suffix;
+    bugzillaInput.text = text;
+    addCommentLink(input, BUGZILLA, bugzillaInput);
+    addCommentLink(input, JIRA, JIRA_MATCH, JIRA_LINK);
+
+    ConfigInfo info = setConfig(project, input);
+
+    Map<String, CommentLinkInfo> expected = new HashMap<>();
+    CommentLinkInfo bugzillaInfo = new CommentLinkInfo();
+    bugzillaInfo.name = BUGZILLA;
+    bugzillaInfo.match = match;
+    bugzillaInfo.link = link;
+    bugzillaInfo.prefix = prefix;
+    bugzillaInfo.suffix = suffix;
+    bugzillaInfo.text = text;
+    expected.put(BUGZILLA, bugzillaInfo);
+    expected.put(JIRA, commentLinkInfo(JIRA, JIRA_MATCH, JIRA_LINK));
+    assertCommentLinks(info, expected);
+    assertCommentLinks(getConfig(), expected);
+  }
+
+  @Test
+  @GerritConfig(name = "commentlink.bugzilla.match", value = BUGZILLA_MATCH)
+  @GerritConfig(name = "commentlink.bugzilla.link", value = BUGZILLA_LINK)
+  public void projectConfigUsesCommentLinksFromGlobalAndLocal() throws Exception {
+    Map<String, CommentLinkInfo> expected = new HashMap<>();
+    expected.put(BUGZILLA, commentLinkInfo(BUGZILLA, BUGZILLA_MATCH, BUGZILLA_LINK));
+    assertCommentLinks(getConfig(), expected);
+
+    ConfigInput input = new ConfigInput();
+    addCommentLink(input, JIRA, JIRA_MATCH, JIRA_LINK);
+    ConfigInfo info = setConfig(project, input);
+    expected.put(JIRA, commentLinkInfo(JIRA, JIRA_MATCH, JIRA_LINK));
+
+    assertCommentLinks(info, expected);
+    assertCommentLinks(getConfig(), expected);
+  }
+
+  @Test
+  @GerritConfig(name = "commentlink.bugzilla.match", value = BUGZILLA_MATCH)
+  @GerritConfig(name = "commentlink.bugzilla.link", value = BUGZILLA_LINK)
+  public void localCommentLinkOverridesGlobalConfig() throws Exception {
+    String otherLink = "https://other.example.com";
+    ConfigInput input = new ConfigInput();
+    addCommentLink(input, BUGZILLA, BUGZILLA_MATCH, otherLink);
+
+    Map<String, CommentLinkInfo> expected = new HashMap<>();
+    expected.put(BUGZILLA, commentLinkInfo(BUGZILLA, BUGZILLA_MATCH, otherLink));
+
+    ConfigInfo info = setConfig(project, input);
+    assertCommentLinks(info, expected);
+    assertCommentLinks(getConfig(), expected);
+  }
+
+  @Test
+  public void localCommentLinksAreInheritedFromParent() throws Exception {
+    ConfigInput input = new ConfigInput();
+    addCommentLink(input, BUGZILLA, BUGZILLA_MATCH, BUGZILLA_LINK);
+    addCommentLink(input, JIRA, JIRA_MATCH, JIRA_LINK);
+    ConfigInfo info = setConfig(project, input);
+
+    Map<String, CommentLinkInfo> expected = new HashMap<>();
+    expected.put(BUGZILLA, commentLinkInfo(BUGZILLA, BUGZILLA_MATCH, BUGZILLA_LINK));
+    expected.put(JIRA, commentLinkInfo(JIRA, JIRA_MATCH, JIRA_LINK));
+    assertCommentLinks(info, expected);
+
+    Project.NameKey child = projectOperations.newProject().parent(project).create();
+    assertCommentLinks(getConfig(child), expected);
+  }
+
+  @Test
+  public void localCommentLinkOverridesParentCommentLink() throws Exception {
+    ConfigInput input = new ConfigInput();
+    addCommentLink(input, BUGZILLA, BUGZILLA_MATCH, BUGZILLA_LINK);
+    addCommentLink(input, JIRA, JIRA_MATCH, JIRA_LINK);
+    ConfigInfo info = setConfig(project, input);
+
+    Map<String, CommentLinkInfo> expected = new HashMap<>();
+    expected.put(BUGZILLA, commentLinkInfo(BUGZILLA, BUGZILLA_MATCH, BUGZILLA_LINK));
+    expected.put(JIRA, commentLinkInfo(JIRA, JIRA_MATCH, JIRA_LINK));
+    assertCommentLinks(info, expected);
+
+    Project.NameKey child = projectOperations.newProject().parent(project).create();
+
+    String otherLink = "https://other.example.com";
+    input = new ConfigInput();
+    addCommentLink(input, BUGZILLA, BUGZILLA_MATCH, otherLink);
+    setConfig(child, input);
+
+    expected = new HashMap<>();
+    expected.put(BUGZILLA, commentLinkInfo(BUGZILLA, BUGZILLA_MATCH, otherLink));
+    expected.put(JIRA, commentLinkInfo(JIRA, JIRA_MATCH, JIRA_LINK));
+
+    assertCommentLinks(getConfig(child), expected);
+  }
+
+  @Test
+  public void updateExistingCommentLink() throws Exception {
+    ConfigInput input = new ConfigInput();
+    addCommentLink(input, BUGZILLA, BUGZILLA_MATCH, BUGZILLA_LINK);
+    addCommentLink(input, JIRA, JIRA_MATCH, JIRA_LINK);
+    ConfigInfo info = setConfig(project, input);
+
+    Map<String, CommentLinkInfo> expected = new HashMap<>();
+    expected.put(BUGZILLA, commentLinkInfo(BUGZILLA, BUGZILLA_MATCH, BUGZILLA_LINK));
+    expected.put(JIRA, commentLinkInfo(JIRA, JIRA_MATCH, JIRA_LINK));
+    assertCommentLinks(info, expected);
+
+    String otherLink = "https://other.example.com";
+    input = new ConfigInput();
+    addCommentLink(input, BUGZILLA, BUGZILLA_MATCH, otherLink);
+    setConfig(project, input);
+
+    expected = new HashMap<>();
+    expected.put(BUGZILLA, commentLinkInfo(BUGZILLA, BUGZILLA_MATCH, otherLink));
+    expected.put(JIRA, commentLinkInfo(JIRA, JIRA_MATCH, JIRA_LINK));
+    assertCommentLinks(getConfig(project), expected);
+  }
+
+  @Test
+  public void removeCommentLink() throws Exception {
+    ConfigInput input = new ConfigInput();
+    addCommentLink(input, BUGZILLA, BUGZILLA_MATCH, BUGZILLA_LINK);
+    addCommentLink(input, JIRA, JIRA_MATCH, JIRA_LINK);
+    ConfigInfo info = setConfig(project, input);
+
+    Map<String, CommentLinkInfo> expected = new HashMap<>();
+    expected.put(BUGZILLA, commentLinkInfo(BUGZILLA, BUGZILLA_MATCH, BUGZILLA_LINK));
+    expected.put(JIRA, commentLinkInfo(JIRA, JIRA_MATCH, JIRA_LINK));
+    assertCommentLinks(info, expected);
+
+    input = new ConfigInput();
+    addCommentLink(input, BUGZILLA, null);
+    setConfig(project, input);
+
+    expected = new HashMap<>();
+    expected.put(JIRA, commentLinkInfo(JIRA, JIRA_MATCH, JIRA_LINK));
+    assertCommentLinks(getConfig(project), expected);
+  }
+
+  @Test
+  public void cannotPushLabelDefinitionWithDuplicateValues() throws Exception {
+    Config cfg = new Config();
+    cfg.fromText(projectOperations.project(allProjects).getConfig().toText());
+    cfg.setStringList(
+        "label",
+        LabelId.CODE_REVIEW,
+        "value",
+        ImmutableList.of("+1 LGTM", "1 LGTM", "0 No Value", "-1 Looks Bad"));
+
+    TestRepository<InMemoryRepository> repo = cloneProject(allProjects);
+    GitUtil.fetch(repo, RefNames.REFS_CONFIG + ":" + RefNames.REFS_CONFIG);
+    repo.reset(RefNames.REFS_CONFIG);
+    PushOneCommit.Result r =
+        pushFactory
+            .create(admin.newIdent(), repo, "Subject", "project.config", cfg.toText())
+            .to(RefNames.REFS_CONFIG);
+    r.assertErrorStatus("invalid project configuration");
+    r.assertMessage("project.config: duplicate value \"1 lgtm\" for label \"code-review\"");
+  }
+
+  @Test
+  public void invalidJgitConfigFile_canNotPushToProjectConfig() throws Exception {
+    TestRepository<InMemoryRepository> repo = cloneProject(allProjects);
+    GitUtil.fetch(repo, RefNames.REFS_CONFIG + ":" + RefNames.REFS_CONFIG);
+    repo.reset(RefNames.REFS_CONFIG);
+    PushOneCommit.Result r =
+        pushFactory
+            .create(admin.newIdent(), repo, "Subject", "project.config", "jgit config")
+            .to(RefNames.REFS_CONFIG);
+    r.assertErrorStatus("invalid project configuration");
+    r.assertMessage(
+        "Invalid config file project.config in project All-Projects in branch refs/meta/config");
+    r.assertMessage("Invalid line in config file");
+  }
+
+  @Test
+  public void getProjectThatHasLabelDefinitionWithDuplicateValues() throws Exception {
+    // Update the definition of the Code-Review label so that it has the value "+1 LGTM" twice.
+    // This update bypasses all validation checks so that the duplicate label value doesn't get
+    // rejected.
+    projectOperations
+        .project(allProjects)
+        .forInvalidation()
+        .addProjectConfigUpdater(
+            cfg ->
+                cfg.setStringList(
+                    "label",
+                    LabelId.CODE_REVIEW,
+                    "value",
+                    ImmutableList.of("+1 LGTM", "1 LGTM", "0 No Value", "-1 Looks Bad")))
+        .invalidate();
+
+    // Verify that project info can be retrieved and that the label value "+1 LGTM" appears only
+    // once.
+    ProjectInfo projectInfo = gApi.projects().name(allProjects.get()).get();
+    assertThat(projectInfo.labels.keySet()).containsExactly(LabelId.CODE_REVIEW);
+    assertThat(projectInfo.labels.get(LabelId.CODE_REVIEW).values)
+        .containsExactly("+1", "LGTM", " 0", "No Value", "-1", "Looks Bad");
+  }
+
+  @Test
+  public void getProjectThatHasInvalidProjectConfig() throws Exception {
+    projectOperations
+        .project(allProjects)
+        .forInvalidation()
+        .makeProjectConfigInvalid()
+        .invalidate();
+
+    // We must test this via the REST API since ExceptionHook is not invoked from the Java API.
+    RestResponse r = adminRestSession.get("/projects/" + allProjects.get());
+    r.assertConflict();
+    assertThat(r.getEntityContent())
+        .contains(
+            String.format(
+                "Invalid config file %s in project %s in branch %s in commit %s: "
+                    + "Bad entry delimiter\n"
+                    + "Please contact the project owner.",
+                ProjectConfig.PROJECT_CONFIG,
+                allProjects.get(),
+                RefNames.REFS_CONFIG,
+                projectOperations.project(allProjects).getHead(RefNames.REFS_CONFIG).name()));
+  }
+
+  @Test
+  public void renamingGroupGetsPersisted() throws Exception {
+    String name = name("Name1");
+    GroupInfo group = gApi.groups().create(name).get();
+
+    // Use group in a permission
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.READ).ref(RefNames.REFS_CONFIG).group(AccountGroup.uuid(group.id)))
+        .update();
+    Optional<String> beforeRename =
+        projectCache.get(project).get().getLocalGroups().stream()
+            .filter(g -> g.getUUID().get().equals(group.id))
+            .map(GroupReference::getName)
+            .findAny();
+    // Groups created with ProjectOperations always have their UUID as local name
+    assertThat(beforeRename).hasValue(group.id);
+
+    // Rename the group directly on the project config
+    String newName = name("Name2");
+    try (MetaDataUpdate md = metaDataUpdateFactory.create(project)) {
+      ProjectConfig config = projectConfigFactory.read(md);
+      config.renameGroup(AccountGroup.uuid(group.id), newName);
+      config.commit(md);
+      projectCache.evictAndReindex(config.getProject());
+    }
+
+    Optional<String> afterRename =
+        projectCache.get(project).get().getLocalGroups().stream()
+            .filter(g -> g.getUUID().get().equals(group.id))
+            .map(GroupReference::getName)
+            .findAny();
+    assertThat(afterRename).hasValue(newName);
+  }
+
+  @Test
+  public void commitsIncludedInRefsEmptyCommitAndEmptyRefs() throws Exception {
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class,
+            () -> getCommitsIncludedInRefs(Collections.emptyList(), Arrays.asList(R_HEADS_MASTER)));
+    assertThat(thrown).hasMessageThat().contains("commit is required");
+    PushOneCommit.Result result = createChange();
+    thrown =
+        assertThrows(
+            BadRequestException.class,
+            () -> getCommitsIncludedInRefs(result.getCommit().getName(), Collections.emptyList()));
+    assertThat(thrown).hasMessageThat().contains("ref is required");
+  }
+
+  @Test
+  public void commitsIncludedInRefsNonExistentCommits() throws Exception {
+    assertThat(
+            getCommitsIncludedInRefs(
+                Arrays.asList("foo", "4fa12ab8f257034ec793dacb2ae2752ae2e9f5f3"),
+                Arrays.asList(R_HEADS_MASTER)))
+        .isEmpty();
+  }
+
+  @Test
+  public void commitsIncludedInRefsNonExistentRefs() throws Exception {
+    PushOneCommit.Result change = createChange();
+    assertThat(
+            getCommitsIncludedInRefs(
+                Arrays.asList(change.getCommit().getName()), Arrays.asList(R_HEADS + "foo")))
+        .isEmpty();
+  }
+
+  @Test
+  public void commitsIncludedInRefsOpenChange() throws Exception {
+    PushOneCommit.Result change1 = createChange();
+    testRepo.reset(change1.getCommit().getParent(0));
+    PushOneCommit.Result change2 = createChange();
+
+    Map<String, Set<String>> refsByCommit =
+        getCommitsIncludedInRefs(
+            Arrays.asList(change1.getCommit().getName(), change2.getCommit().getName()),
+            Arrays.asList(
+                R_HEADS_MASTER, change1.getPatchSet().refName(), change2.getPatchSet().refName()));
+    assertThat(refsByCommit.get(change2.getCommit().getName()))
+        .containsExactly(change2.getPatchSet().refName());
+    assertThat(refsByCommit.get(change1.getCommit().getName()))
+        .containsExactly(change1.getPatchSet().refName());
+  }
+
+  @Test
+  public void commitsIncludedInRefsMergedChange() throws Exception {
+    String branchWithoutChanges = R_HEADS + "branch-without-changes";
+    String tagWithChange1 = R_TAGS + "tag-with-change1";
+    String branchWithChange1 = R_HEADS + "branch-with-change1";
+
+    createBranch(BranchNameKey.create(project, "branch-without-changes"));
+    PushOneCommit.Result change1 = createAndSubmitChange("refs/for/master");
+
+    assertThat(
+            getCommitsIncludedInRefs(change1.getCommit().getName(), Arrays.asList(R_HEADS_MASTER)))
+        .containsExactly(R_HEADS_MASTER);
+    assertThat(
+            getCommitsIncludedInRefs(
+                change1.getCommit().getName(), Arrays.asList(R_HEADS_MASTER, branchWithoutChanges)))
+        .containsExactly(R_HEADS_MASTER);
+
+    pushHead(testRepo, tagWithChange1, false, false);
+    createBranch(BranchNameKey.create(project, "branch-with-change1"));
+
+    PushOneCommit.Result change2 = createAndSubmitChange("refs/for/master");
+    Map<String, Set<String>> refsByCommit =
+        getCommitsIncludedInRefs(
+            Arrays.asList(change1.getCommit().getName(), change2.getCommit().getName()),
+            Arrays.asList(R_HEADS_MASTER, tagWithChange1, branchWithoutChanges, branchWithChange1));
+    assertThat(refsByCommit.get(change1.getCommit().getName()))
+        .containsExactly(R_HEADS_MASTER, tagWithChange1, branchWithChange1);
+    assertThat(refsByCommit.get(change2.getCommit().getName())).containsExactly(R_HEADS_MASTER);
+  }
+
+  @Test
+  @GerritConfig(
+      name = "experiments.disabled",
+      // The test intentionally create an implicit merge change.
+      value = "GerritBackendFeature__reject_implicit_merges_on_merge")
+  @GerritConfig(name = "repository.*.defaultConfig", value = "receive.rejectImplicitMerges=false")
+  public void commitsIncludedInRefsMergedChangeNonTipCommit() throws Exception {
+    String branchWithChange1 = R_HEADS + "branch-with-change1";
+    String tagWithChange1 = R_TAGS + "tag-with-change1";
+    String branchWithChange1Change2 = R_HEADS + "branch-with-change1-change2";
+    String tagWithChange1Change2 = R_TAGS + "tag-with-change1-change2";
+
+    createBranch(BranchNameKey.create(project, "branch-with-change1"));
+    PushOneCommit.Result change1 = createAndSubmitChange("refs/for/branch-with-change1");
+    pushHead(testRepo, tagWithChange1, false, false);
+    createBranch(BranchNameKey.create(project, "branch-with-change1-change2"));
+    PushOneCommit.Result change2 = createAndSubmitChange("refs/for/branch-with-change1-change2");
+    pushHead(testRepo, tagWithChange1Change2, false, false);
+
+    Map<String, Set<String>> refsByCommit =
+        getCommitsIncludedInRefs(
+            Arrays.asList(change1.getCommit().getName(), change2.getCommit().getName()),
+            Arrays.asList(
+                branchWithChange1,
+                branchWithChange1Change2,
+                tagWithChange1,
+                tagWithChange1Change2));
+    assertThat(refsByCommit.get(change1.getCommit().getName()))
+        .containsExactly(
+            branchWithChange1, branchWithChange1Change2, tagWithChange1, tagWithChange1Change2);
+    assertThat(refsByCommit.get(change2.getCommit().getName()))
+        .containsExactly(branchWithChange1Change2, tagWithChange1Change2);
+  }
+
+  @Test
+  public void commitsIncludedInRefsMergedChangeFilterNonVisibleBranchRef() throws Exception {
+    String nonVisibleBranch = R_HEADS + "non-visible-branch";
+    PushOneCommit.Result change = createAndSubmitChange("refs/for/master");
+    createBranch(BranchNameKey.create(project, "non-visible-branch"));
+    blockReadPermission(nonVisibleBranch);
+
+    // Use a non-admin user, since admins can always see all branches.
+    requestScopeOperations.setApiUser(user.id());
+    assertThat(
+            getCommitsIncludedInRefs(
+                change.getCommit().getName(), Arrays.asList(R_HEADS_MASTER, nonVisibleBranch)))
+        .containsExactly(R_HEADS_MASTER);
+  }
+
+  @Test
+  public void commitsIncludedInRefsMergedChangeFilterNonVisibleTagRef() throws Exception {
+    String nonVisibleTag = R_TAGS + "non-visible-tag";
+    PushOneCommit.Result change = createAndSubmitChange("refs/for/master");
+    pushHead(testRepo, nonVisibleTag, false, false);
+    // Tag permissions are controlled by read permissions on branches. Blocking read permission
+    // on master so that tag-with-change becomes non-visible
+    blockReadPermission(R_HEADS_MASTER);
+
+    // Use a non-admin user, since admins can always see all tags.
+    requestScopeOperations.setApiUser(user.id());
+    assertThat(
+            getCommitsIncludedInRefs(
+                change.getCommit().getName(), Arrays.asList(R_HEADS_MASTER, nonVisibleTag)))
+        .isNull();
+  }
+
+  @Test
+  public void commitsIncludedInRefsFilterNonVisibleChangeRef() throws Exception {
+    PushOneCommit.Result change = createChange("refs/for/master");
+    // change ref permissions are controlled by read permissions on destination branch.
+    // Blocking read permission on master so that refs/changes/01/1/1 becomes non-visible
+    blockReadPermission(R_HEADS_MASTER);
+
+    // Use a non-admin user, since admins can always see all changes.
+    requestScopeOperations.setApiUser(user.id());
+    assertThat(
+            getCommitsIncludedInRefs(
+                change.getCommit().getName(), Arrays.asList(change.getPatchSet().refName())))
+        .isNull();
+  }
+
+  @Test
+  public void queryProjectsLimit() throws Exception {
+    for (int i = 0; i < 3; i++) {
+      projectOperations.newProject().create();
+    }
+    List<ProjectInfo> resultsLimited = gApi.projects().query().withLimit(1).get();
+    List<ProjectInfo> resultsUnlimited = gApi.projects().query().get();
+    assertThat(resultsLimited).hasSize(1);
+    assertThat(resultsUnlimited.size()).isAtLeast(3);
+  }
+
+  @Test
+  @GerritConfig(name = "index.defaultLimit", value = "2")
+  public void queryProjectsLimitDefault() throws Exception {
+    for (int i = 0; i < 4; i++) {
+      projectOperations.newProject().create();
+    }
+    List<ProjectInfo> resultsLimited = gApi.projects().query().withLimit(1).get();
+    List<ProjectInfo> resultsUnlimited = gApi.projects().query().get();
+    List<ProjectInfo> resultsLimitedAboveDefault = gApi.projects().query().withLimit(3).get();
+    assertThat(resultsLimited).hasSize(1);
+    assertThat(resultsUnlimited).hasSize(2);
+    assertThat(resultsLimitedAboveDefault).hasSize(3);
+  }
+
+  private CommentLinkInfo commentLinkInfo(String name, String match, String link) {
+    CommentLinkInfo info = new CommentLinkInfo();
+    info.name = name;
+    info.match = match;
+    info.link = link;
+    return info;
+  }
+
+  private void assertCommentLinks(ConfigInfo actual, Map<String, CommentLinkInfo> expected) {
+    assertThat(actual.commentlinks).containsExactlyEntriesIn(expected);
+  }
+
+  private void addCommentLink(ConfigInput configInput, String name, String match, String link) {
+    CommentLinkInput commentLinkInput = new CommentLinkInput();
+    commentLinkInput.match = match;
+    commentLinkInput.link = link;
+    addCommentLink(configInput, name, commentLinkInput);
+  }
+
+  private void addCommentLink(
+      ConfigInput configInput, String name, CommentLinkInput commentLinkInput) {
+    if (configInput.commentLinks == null) {
+      configInput.commentLinks = new HashMap<>();
+    }
+    configInput.commentLinks.put(name, commentLinkInput);
+  }
+
+  private ConfigInfo setConfig(Project.NameKey name, ConfigInput input) throws Exception {
+    return gApi.projects().name(name.get()).config(input);
+  }
+
+  private ConfigInfo getConfig(Project.NameKey name) throws Exception {
+    return gApi.projects().name(name.get()).config();
+  }
+
+  private ConfigInfo getConfig() throws Exception {
+    return getConfig(project);
+  }
+
+  private Set<String> getCommitsIncludedInRefs(String commit, List<String> refs) throws Exception {
+    return getCommitsIncludedInRefs(Lists.newArrayList(commit), refs).get(commit);
+  }
+
+  private Map<String, Set<String>> getCommitsIncludedInRefs(List<String> commits, List<String> refs)
+      throws Exception {
+    return gApi.projects().name(project.get()).commitsIn(commits, refs);
+  }
+
+  private PushOneCommit.Result createAndSubmitChange(String branch) throws Exception {
+    PushOneCommit.Result r = createChange(branch);
+    approve(r.getChangeId());
+    gApi.changes().id(r.getChangeId()).current().submit();
+    return r;
+  }
+
+  private void blockReadPermission(String ref) {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.READ).ref(ref).group(REGISTERED_USERS))
+        .update();
+  }
+
+  private ConfigInput createTestConfigInput() {
+    ConfigInput input = new ConfigInput();
+    input.description = "some description";
+    input.useContributorAgreements = InheritableBoolean.TRUE;
+    input.useContentMerge = InheritableBoolean.TRUE;
+    input.useSignedOffBy = InheritableBoolean.TRUE;
+    input.createNewChangeForAllNotInTarget = InheritableBoolean.TRUE;
+    input.requireChangeId = InheritableBoolean.TRUE;
+    input.rejectImplicitMerges = InheritableBoolean.TRUE;
+    input.enableReviewerByEmail = InheritableBoolean.TRUE;
+    input.createNewChangeForAllNotInTarget = InheritableBoolean.TRUE;
+    input.maxObjectSizeLimit = "5m";
+    input.submitType = SubmitType.CHERRY_PICK;
+    input.state = ProjectState.HIDDEN;
+    return input;
+  }
+
+  private ConfigInfo setMaxObjectSize(String value) throws Exception {
+    return setMaxObjectSize(project, value);
+  }
+
+  private ConfigInfo setMaxObjectSize(Project.NameKey name, String value) throws Exception {
+    ConfigInput input = new ConfigInput();
+    input.maxObjectSizeLimit = value;
+    return setConfig(name, input);
+  }
+
+  private static Map<String, Map<String, ConfigValue>> newPluginConfigValues() {
+    Map<String, Map<String, ConfigValue>> pluginConfigValues = new HashMap<>();
+    Map<String, ConfigValue> configValues = new HashMap<>();
+    ConfigValue value = new ConfigValue();
+    value.value = "true";
+    configValues.put("test-plugin-key", value);
+    pluginConfigValues.put("gerrit", configValues);
+    return pluginConfigValues;
+  }
+
+  private static class ProjectIndexedCounter implements ProjectIndexedListener {
+    private final AtomicLongMap<String> countsByProject = AtomicLongMap.create();
+
+    @Override
+    public void onProjectIndexed(String project) {
+      countsByProject.incrementAndGet(project);
+    }
+
+    void clear() {
+      countsByProject.clear();
+    }
+
+    void assertReindexOf(String projectName) {
+      assertReindexOf(projectName, 1);
+    }
+
+    void assertReindexOf(String projectName, long expectedCount) {
+      assertThat(countsByProject.asMap()).containsExactly(projectName, expectedCount);
+      clear();
+    }
+
+    void assertNoReindex() {
+      assertThat(countsByProject.asMap()).isEmpty();
+    }
+
+    void assertReindexExactly(ImmutableMap<String, Long> expected) {
+      assertThat(countsByProject.asMap()).containsExactlyEntriesIn(expected);
+      clear();
+    }
+  }
+
+  protected RevCommit getRemoteHead(String project, String branch) throws Exception {
+    return projectOperations.project(Project.nameKey(project)).getHead(branch);
+  }
+
+  boolean hasHead(Project.NameKey k, String b) {
+    return projectOperations.project(k).hasHead(b);
+  }
+}

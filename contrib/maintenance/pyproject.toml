@@ -1,0 +1,12 @@
+[project]
+name = "gerrit-maintenance"
+description = "Suite of tools to maintain a Gerrit site"
+
+[tool.pytest.ini_options]
+addopts = [
+    "--import-mode=importlib",
+]
+log_cli = "True"
+log_cli_level = "DEBUG"
+pythonpath = "."
+testpaths = ["tests"]

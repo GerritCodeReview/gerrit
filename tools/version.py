@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # Copyright (C) 2014 The Android Open Source Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,42 +14,36 @@
 # limitations under the License.
 
 from __future__ import print_function
-from optparse import OptionParser
+import argparse
 import os.path
 import re
 import sys
 
-parser = OptionParser()
-opts, args = parser.parse_args()
+parser = argparse.ArgumentParser()
+parser.add_argument('version')
+args = parser.parse_args()
 
-if not len(args):
-  parser.error('not enough arguments')
-elif len(args) > 1:
-  parser.error('too many arguments')
-
-DEST_PATTERN = r'\g<1>%s\g<3>' % args[0]
-
+DEST_PATTERN = r'\g<1>%s\g<3>' % args.version
 
 def replace_in_file(filename, src_pattern):
-  try:
-    f = open(filename, "r")
-    s = f.read()
-    f.close()
-    s = re.sub(src_pattern, DEST_PATTERN, s)
-    f = open(filename, "w")
-    f.write(s)
-    f.close()
-  except IOError as err:
-    print('error updating %s: %s' % (filename, err), file=sys.stderr)
+    try:
+        f = open(filename, "r")
+        s = f.read()
+        f.close()
+        s = re.sub(src_pattern, DEST_PATTERN, s)
+        f = open(filename, "w")
+        f.write(s)
+        f.close()
+    except IOError as err:
+        print('error updating %s: %s' % (filename, err), file=sys.stderr)
 
 
 src_pattern = re.compile(r'^(\s*<version>)([-.\w]+)(</version>\s*)$',
                          re.MULTILINE)
 for project in ['gerrit-acceptance-framework', 'gerrit-extension-api',
-                'gerrit-plugin-api', 'gerrit-plugin-gwtui',
-                'gerrit-war']:
-  pom = os.path.join(project, 'pom.xml')
-  replace_in_file(pom, src_pattern)
+                'gerrit-plugin-api', 'gerrit-war']:
+    pom = os.path.join('tools', 'maven', '%s_pom.xml' % project)
+    replace_in_file(pom, src_pattern)
 
 src_pattern = re.compile(r'^(GERRIT_VERSION = ")([-.\w]+)(")$', re.MULTILINE)
-replace_in_file('version.bzl', src_pattern)
+replace_in_file('tools/bazlets.MODULE.bazel', src_pattern)

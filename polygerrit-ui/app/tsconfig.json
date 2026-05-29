@@ -1,0 +1,110 @@
+{
+  "compilerOptions": {
+    /* Basic Options */
+    "target": "es2021", /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', 'ES2018', 'ES2019', 'ES2020', 'ES2021' or 'ESNEXT'. */
+    "module": "es2020", /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', 'es2020', or 'ESNext'. */
+    "allowJs": true, /* Allow javascript files to be compiled. */
+    "checkJs": false, /* Report errors in .js files. */
+    "declaration": false, /* Temporary disabled - generates corresponding '.d.ts' file. */
+    "declarationMap": false, /* Generates a sourcemap for each corresponding '.d.ts' file. */
+    "inlineSourceMap": true, /* Generates corresponding '.map' file. */
+    "outDir": "../../.ts-out/polygerrit-ui/app", /* Not used in bazel. Redirect output structure to the directory. */
+    "rootDir": ".", /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */
+    "removeComments": false, /* Emit comments to output*/
+
+    /* Strict Type-Checking Options */
+    "strict": true, /* Enable all strict type-checking options. */
+    "noImplicitAny": true, /* Raise error on expressions and declarations with an implied 'any' type. */
+    "strictNullChecks": true, /* Enable strict null checks. */
+    "strictFunctionTypes": true, /* Enable strict checking of function types. */
+    "strictBindCallApply": true, /* Enable strict 'bind', 'call', and 'apply' methods on functions. */
+    "strictPropertyInitialization": true, /* Enable strict checking of property initialization in classes. */
+    "noImplicitThis": true, /* Raise error on 'this' expressions with an implied 'any' type. */
+    "isolatedModules": true, /* Require re-exports of types to use "export type {...}" syntax, for dev server compatibility (esbuild) */
+
+    /* Additional Checks */
+    "noUnusedLocals": true, /* Report errors on unused locals. */
+    "noUnusedParameters": true, /* Report errors on unused parameters. */
+    "noImplicitReturns": true, /* Report error when not all code paths in function return a value. */
+    "noImplicitOverride": true,
+    "noFallthroughCasesInSwitch": true,/* Report errors for fallthrough cases in switch statement. */
+
+    "skipLibCheck": true, /* Do not check node_modules */
+
+    /* Module Resolution Options */
+    "moduleResolution": "node", /* Specify module resolution strategy: 'node' (Node.js) or 'classic' (TypeScript pre-1.6). */
+    "esModuleInterop": true, /* Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'. */
+    "preserveSymlinks": false, /* Do not resolve the real path of symlinks. */
+
+    /* Advanced Options */
+    "forceConsistentCasingInFileNames": true, /* Disallow inconsistently-cased references to the same file. */
+    "incremental": true,
+    "experimentalDecorators": true,
+
+    "allowUmdGlobalAccess": true,
+
+    /* We cannot just use the defaults, because of "webworker". */
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "es2021",
+      "webworker"
+    ],
+
+    /* typeRoots for IDE (see tsconfig_bazel.json for Bazel) */
+    "typeRoots": [
+      "node_modules/@types",
+      "../node_modules/@types"
+    ],
+
+    "plugins": [
+      {
+        "name": "ts-lit-plugin",
+        "strict": true,
+        "rules": {
+          "no-unknown-tag-name": "off",
+          "no-unclosed-tag": "error",
+          "no-unknown-property": "off",
+          "no-unintended-mixed-binding": "error",
+          "no-invalid-boolean-binding": "error",
+          "no-expressionless-property-binding": "error",
+          "no-noncallable-event-binding": "error",
+          "no-boolean-in-attribute-binding": "error",
+          "no-complex-attribute-binding": "error",
+          "no-nullable-attribute-binding": "error",
+          "no-incompatible-type-binding": "off",
+          "no-invalid-directive-binding": "error",
+          "no-incompatible-property-type": "off",
+          "no-unknown-property-converter": "error",
+          "no-invalid-attribute-name": "error",
+          "no-invalid-tag-name": "error",
+          "no-property-visibility-mismatch": "off",
+          "no-unknown-attribute": "off",
+        }
+      }
+    ]
+  },
+  // With the * pattern (without an extension), only supported files
+  // are included. The supported files are .ts, .tsx, .d.ts.
+  // If allowJs is set to true, .js and .jsx files are included as well.
+  // Note: gerrit doesn't have .tsx and .jsx files
+  "include": [
+    // Items below must be in sync with the src_dirs list in the BUILD file
+    // Also items must be in sync with tsconfig_bazel.json, tsconfig_bazel_test.json
+    // (include and exclude arrays are overridden when extends)
+    "api/**/*",
+    "constants/**/*",
+    "elements/**/*",
+    "embed/**/*",
+    "gr-diff/**/*",
+    "mixins/**/*",
+    "models/**/*",
+    "scripts/**/*",
+    "services/**/*",
+    "styles/**/*",
+    "types/**/*",
+    "utils/**/*",
+    "test/**/*",
+    "workers/**/*"
+  ]
+}

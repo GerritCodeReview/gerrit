@@ -1,56 +1,15 @@
-load("@rules_java//java:defs.bzl", "java_binary", "java_library")
-
-java_binary(
-    name = "asciidoc",
-    main_class = "AsciiDoctor",
-    visibility = ["//visibility:public"],
-    runtime_deps = [":asciidoc_lib"],
-)
-
-java_library(
-    name = "asciidoc_lib",
-    srcs = ["java/AsciiDoctor.java"],
-    visibility = ["//visibility:public"],
-    deps = [
-        ":asciidoctor",
-        "//lib:args4j",
-        "//lib:guava",
-        "//lib/log:api",
-        "//lib/log:nop",
-    ],
-)
-
-java_binary(
-    name = "doc_indexer",
-    main_class = "DocIndexer",
-    visibility = ["//visibility:public"],
-    runtime_deps = [":doc_indexer_lib"],
-)
-
-java_library(
-    name = "doc_indexer_lib",
-    srcs = ["java/DocIndexer.java"],
-    visibility = ["//visibility:public"],
-    deps = [
-        ":asciidoc_lib",
-        "//gerrit-server:constants",
-        "//lib:args4j",
-        "//lib:guava",
-        "//lib/lucene:lucene-analyzers-common",
-        "//lib/lucene:lucene-core-and-backward-codecs",
-    ],
-)
+load("@rules_java//java:defs.bzl", "java_library")
 
 java_library(
     name = "asciidoctor",
     data = ["//lib:LICENSE-asciidoctor"],
-    visibility = ["//visibility:public"],
-    exports = ["@asciidoctor//jar"],
+    visibility = ["//java/com/google/gerrit/asciidoctor:__pkg__"],
+    exports = ["@external_deps//:org_asciidoctor_asciidoctorj"],
     runtime_deps = [":jruby"],
 )
 
 java_library(
     name = "jruby",
     data = ["//lib:LICENSE-DO_NOT_DISTRIBUTE"],
-    exports = ["@jruby//jar"],
+    exports = ["@external_deps//:org_jruby_jruby_complete"],
 )

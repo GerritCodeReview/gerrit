@@ -1,0 +1,797 @@
+// Copyright (C) 2018 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto3";
+
+package gerrit.cache;
+
+option java_package = "com.google.gerrit.server.cache.proto";
+
+import "proto/entities.proto";
+
+// Serialized form of com.google.gerrit.server.change.ChangeKindCacheImpl.Key.
+// Next ID: 4
+message ChangeKindKeyProto {
+  bytes prior = 1;
+  bytes next = 2;
+  string strategy_name = 3;
+}
+
+// Serialized form of
+// com.google.gerrit.server.change.MergeabilityCacheImpl.EntryKey.
+// Next ID: 5
+message MergeabilityKeyProto {
+  bytes commit = 1;
+  bytes into = 2;
+  string submit_type = 3;
+  string merge_strategy = 4;
+}
+
+// Serialized form of com.google.gerrit.extensions.auth.oauth.OAuthToken.
+// Next ID: 6
+message OAuthTokenProto {
+  string token = 1;
+  string secret = 2;
+  string raw = 3;
+  // Epoch millis.
+  int64 expires_at_millis = 4;
+  string provider_id = 5;
+}
+
+
+// Serialized form of com.google.gerrit.server.notedb.ChangeNotesCache.Key.
+// Next ID: 4
+message ChangeNotesKeyProto {
+  string project = 1;
+  int32 change_id = 2;
+  bytes id = 3;
+}
+
+// Serialized from of com.google.gerrit.server.notedb.ChangeNotesState.
+//
+// Note on embedded protos: this is just for storing in a cache, so some formats
+// were chosen ease of coding the initial implementation. In particular, where
+// there already exists another serialization mechanism in Gerrit for
+// serializing a particular field, we use that rather than defining a new proto
+// type. This includes types that can be serialized to proto using
+// ProtoConverters as well as NoteDb and indexed types that are serialized using
+// JSON. We can always revisit this decision later; it just requires bumping the
+// cache version.
+//
+// Note on nullability: there are a lot of nullable fields in ChangeNotesState
+// and its dependencies. It's likely we could make some of them non-nullable,
+// but each one of those would be a potentially significant amount of cleanup,
+// and there's no guarantee we'd be able to eliminate all of them. (For a less
+// complex class, it's likely the cleanup would be more feasible.)
+//
+// Instead, we just take the tedious yet simple approach of having a "has_foo"
+// field for each nullable field "foo", indicating whether or not foo is null.
+//
+// Next ID: 29
+message ChangeNotesStateProto {
+  // Effectively required, even though the corresponding ChangeNotesState field
+  // is optional, since the field is only absent when NoteDb is disabled, in
+  // which case attempting to use the ChangeNotesCache is programmer error.
+  bytes meta_id = 1;
+
+  int32 change_id = 2;
+
+  // Next ID: 26
+  message ChangeColumnsProto {
+    string change_key = 1;
+
+    // Epoch millis.
+    int64 created_on_millis = 2;
+
+    // Epoch millis.
+    int64 last_updated_on_millis = 3;
+
+    int32 owner = 4;
+
+    string branch = 5;
+
+    int32 current_patch_set_id = 6;
+    bool has_current_patch_set_id = 7;
+
+    string subject = 8;
+
+    string topic = 9;
+    bool has_topic = 10;
+
+    string original_subject = 11;
+    bool has_original_subject = 12;
+
+    string submission_id = 13;
+    bool has_submission_id = 14;
+
+    reserved 15;  // assignee
+    reserved 16;  // has_assignee
+
+    string status = 17;
+    bool has_status = 18;
+
+    bool is_private = 19;
+
+    bool work_in_progress = 20;
+
+    bool review_started = 21;
+
+    int32 revert_of = 22;
+    bool has_revert_of = 23;
+
+    string cherry_pick_of = 24;
+    bool has_cherry_pick_of = 25;
+  }
+  // Effectively required, even though the corresponding ChangeNotesState field
+  // is optional, since the field is only absent when NoteDb is disabled, in
+  // which case attempting to use the ChangeNotesCache is programmer error.
+  ChangeColumnsProto columns = 3;
+
+  reserved 4; // past_assignee
+
+  repeated string hashtag = 5;
+
+  map<string, string> custom_keyed_values = 28;
+
+  repeated devtools.gerritcodereview.PatchSet patch_set = 6;
+
+  repeated devtools.gerritcodereview.PatchSetApproval approval = 7;
+
+  // Next ID: 4
+  message ReviewerSetEntryProto {
+    string state = 1;
+    int32 account_id = 2;
+    // Epoch millis.
+    int64 timestamp_millis = 3;
+  }
+  repeated ReviewerSetEntryProto reviewer = 8;
+
+  // Next ID: 4
+  message ReviewerByEmailSetEntryProto {
+    string state = 1;
+    string address = 2;
+    // Epoch millis.
+    int64 timestamp_millis = 3;
+  }
+  repeated ReviewerByEmailSetEntryProto reviewer_by_email = 9;
+
+  repeated ReviewerSetEntryProto pending_reviewer = 10;
+
+  repeated ReviewerByEmailSetEntryProto pending_reviewer_by_email = 11;
+
+  repeated int32 past_reviewer = 12;
+
+  // Next ID: 9
+  message ReviewerStatusUpdateProto {
+    // Epoch millis.
+    int64 timestamp_millis = 1;
+    // The user that performed the reviewer update.
+    int32 updated_by = 2;
+    // The real user that performed the reviewer update.
+    // This field is only set in case of impersonation using the RUN_AS
+    // permission.
+    // In case of impersonation, `updated_by` will store the user that is being
+    // impersonated, and this field will store the caller. I.e. if User X is
+    // impersonating User Y, then `updated_by` will be Y and `real_updated_by`
+    // will be X.
+    int32 real_updated_by = 8;
+
+    // Account ID of the reviewer.
+    // Not set if a reviewer for which no Gerrit account exists is added by email.
+    int32 reviewer = 3;
+    bool has_reviewer = 5;
+
+    // Address of the reviewer by email (can be "Full Name <full.name@example.com>" or
+    // "full.name@example.com").
+    // Only set for reviewers that have no Gerrit account and that have been added by email.
+    string reviewer_by_email = 6;
+    bool has_reviewer_by_email = 7;
+
+    string state = 4;
+  }
+  repeated ReviewerStatusUpdateProto reviewer_update = 13;
+
+  // JSON produced from
+  // com.google.gerrit.server.index.change.ChangeField.StoredSubmitRecord.
+  repeated string submit_record = 14;
+
+  repeated devtools.gerritcodereview.ChangeMessage change_message = 15;
+
+  // JSON produced from com.google.gerrit.entities.Comment.
+  repeated string published_comment = 16;
+
+  reserved 17;  // read_only_until
+  reserved 18;  // has_read_only_until
+
+  // Number of updates to the change's meta ref.
+  int32 update_count = 19;
+
+  string server_id = 20;
+  bool has_server_id = 21;
+
+  reserved 22;  // assignee_update;
+
+  // An update to the attention set of the change. See class AttentionSetUpdate
+  // for context.
+  message AttentionSetUpdateProto {
+    // Epoch millis.
+    int64 timestamp_millis = 1;
+    int32 account = 2;
+    // Maps to enum AttentionSetUpdate.Operation
+    string operation = 3;
+    string reason = 4;
+  }
+  // Only includes the most recent attention set update for each user.
+  repeated AttentionSetUpdateProto attention_set_update = 23;
+
+  // Includes all attention set updates.
+  repeated AttentionSetUpdateProto all_attention_set_update = 24;
+
+  // Epoch millis.
+  int64 merged_on_millis = 25;
+  bool has_merged_on = 26;
+
+  repeated SubmitRequirementResultProto submit_requirement_result = 27;
+}
+
+// Serialized form of com.google.gerrit.server.query.change.ConflictKey
+message ConflictKeyProto {
+  bytes commit = 1;
+  bytes other_commit = 2;
+  string submit_type = 3;
+  bool content_merge = 4;
+}
+
+// Serialized form of com.google.gerrit.server.query.git.TagSetHolder.
+// Next ID: 3
+message TagSetHolderProto {
+  string project_name = 1;
+
+  // Next ID: 4
+  message TagSetProto {
+    string project_name = 1;
+
+    // Next ID: 3
+    message CachedRefProto {
+      bytes id = 1;
+      int32 flag = 2;
+    }
+    map<string, CachedRefProto> ref = 2;
+
+    // Next ID: 3
+    message TagProto {
+      bytes id = 1;
+      bytes flags = 2; // org.roaringbitmap.RoaringBitmap serialized as ByteString
+    }
+    repeated TagProto tag = 3;
+  }
+  TagSetProto tags = 2;
+}
+
+// Serialized form of
+// com.google.gerrit.server.account.externalids.AllExternalIds.
+// Next ID: 2
+message AllExternalIdsProto {
+  // Next ID: 7
+  message ExternalIdProto {
+    string key = 1;
+    int32 accountId = 2;
+    string email = 3;
+    string password = 4;
+    bytes blobId = 5;
+    bool isCaseInsensitive = 6;
+  }
+  repeated ExternalIdProto external_id = 1;
+}
+
+// Serialized form of a list of com.google.gerrit.entities.AccountGroup.UUID
+// Next ID: 2
+message AllExternalGroupsProto {
+  message ExternalGroupProto {
+    string groupUuid = 1;
+  }
+  repeated ExternalGroupProto external_group = 1;
+}
+
+// Serialized key for com.google.gerrit.server.account.GroupCacheImpl.
+// Next ID: 3
+message GroupKeyProto {
+  string uuid = 1;
+  bytes revision = 2;
+}
+
+
+// Serialized form of com.google.gerrit.entities.InternalGroup.
+// Next ID: 11
+message InternalGroupProto {
+  int32 id = 1;
+  string name = 2;
+  string description = 3;
+  string owner_group_uuid = 4;
+  bool is_visible_to_all = 5;
+  string group_uuid = 6;
+  int64 created_on = 7;
+  repeated int32 members_ids = 8;
+  repeated string subgroup_uuids = 9;
+  bytes ref_state = 10;
+}
+
+// Key for com.google.gerrit.server.git.PureRevertCache.
+// Next ID: 4
+message PureRevertKeyProto {
+  string project = 1;
+  bytes claimed_original = 2;
+  bytes claimed_revert = 3;
+}
+
+// Key for com.google.gerrit.server.account.ProjectWatches.
+// Next ID: 4
+message ProjectWatchProto {
+  string project = 1;
+  string filter = 2;
+  repeated string notify_type = 3;
+}
+
+// Serialized user preferences.
+// Next ID: 3
+message CachedPreferencesProto {
+  oneof Preferences {
+    devtools.gerritcodereview.UserPreferences user_preferences = 1;
+    string legacy_git_config = 2;
+  }
+}
+
+// Serialized form of
+// com.google.gerrit.entities.Account.
+// Next ID: 9
+message AccountProto {
+  int32 id = 1;
+  int64 registered_on = 2;
+  string full_name = 3;
+  string display_name = 4;
+  string preferred_email = 5;
+  bool inactive = 6;
+  string status = 7;
+  string meta_id = 8;
+  string unique_tag = 9;
+  string avatar_email = 10;
+}
+
+// Serialized form of com.google.gerrit.server.account.CachedAccountDetails.Key.
+// Next ID: 3
+message AccountKeyProto {
+  int32 account_id = 1;
+  bytes id = 2;
+}
+
+// Serialized form of com.google.gerrit.server.account.CachedAccountDetails.
+// Next ID: 5
+message AccountDetailsProto {
+  AccountProto account = 1;
+  repeated ProjectWatchProto project_watch_proto = 2;
+  CachedPreferencesProto user_preferences = 4;
+  reserved 3;
+}
+
+// Serialized form of com.google.gerrit.entities.Project.
+// Next ID: 11
+message ProjectProto {
+  string name = 1;
+  string description = 2;
+  map<string, string> boolean_configs = 3;
+  string submit_type = 4; // ENUM as String
+  string state = 5; // ENUM as String
+  string parent = 6;
+  string max_object_size_limit = 7;
+  string default_dashboard = 8;
+  string local_default_dashboard = 9;
+  string config_ref_state = 10;
+}
+
+// Serialized form of com.google.gerrit.common.data.GroupReference.
+// Next ID: 3
+message GroupReferenceProto {
+  string uuid = 1;
+  string name = 2;
+}
+
+// Serialized form of com.google.gerrit.common.data.PermissionRule.
+// Next ID: 6
+message PermissionRuleProto {
+  string action = 1; // ENUM as String
+  bool force = 2;
+  int32 min = 3;
+  int32 max = 4;
+  GroupReferenceProto group = 5;
+}
+
+// Serialized form of com.google.gerrit.common.data.Permission.
+// Next ID: 4
+message PermissionProto {
+  string name = 1;
+  bool exclusive_group = 2;
+  repeated PermissionRuleProto rules = 3;
+}
+
+// Serialized form of com.google.gerrit.common.data.AccessSection.
+// Next ID: 3
+message AccessSectionProto {
+  string name = 1;
+  repeated PermissionProto permissions = 2;
+}
+
+// Serialized form of com.google.gerrit.server.git.BranchOrderSection.
+// Next ID: 2
+message BranchOrderSectionProto {
+  repeated string branches_in_order = 1;
+}
+
+// Serialized form of com.google.gerrit.common.data.ContributorAgreement.
+// Next ID: 8
+message ContributorAgreementProto {
+  string name = 1;
+  string description = 2;
+  repeated PermissionRuleProto accepted = 3;
+  GroupReferenceProto auto_verify = 4;
+  string url = 5;
+  repeated string exclude_regular_expressions = 6;
+  repeated string match_regular_expressions = 7;
+}
+
+// Serialized form of com.google.gerrit.entities.Address.
+// Next ID: 3
+message AddressProto {
+  string name = 1;
+  string email = 2;
+}
+
+// Serialized form of com.google.gerrit.entities.NotifyConfig.
+// Next ID: 7
+message NotifyConfigProto {
+  string name = 1;
+  repeated string type = 2; // ENUM as String
+  string filter = 3;
+  string header = 4; // ENUM as String
+  repeated GroupReferenceProto groups = 5;
+  repeated AddressProto addresses = 6;
+}
+
+// Serialized form of com.google.gerrit.entities.LabelValue.
+// Next ID: 3
+message LabelValueProto {
+  string text = 1;
+  int32 value = 2;
+}
+
+// Serialized form of com.google.gerrit.common.data.LabelType.
+// Next ID: 22
+message LabelTypeProto {
+  string name = 1;
+  string function = 2; // ENUM as String
+  reserved 3; // copy_any_score
+  reserved 4; // copy_min_score
+  reserved 5; // copy_max_score
+  reserved 6; // copy_all_scores_on_merge_first_parent_update
+  reserved 7; // copy_all_scores_on_trivial_rebase
+  reserved 8; // copy_all_scores_if_no_code_change
+  reserved 9; // copy_all_scores_if_no_change
+  reserved 10; // copy_values
+  bool allow_post_submit = 11;
+  bool ignore_self_approval = 12;
+  int32 default_value = 13;
+  repeated LabelValueProto values = 14;
+  int32 max_negative = 15;
+  int32 max_positive = 16;
+  bool can_override = 17;
+  repeated string ref_patterns = 18;
+  reserved 19; // copy_all_scores_if_list_of_files_did_not_change
+  string copy_condition = 20;
+  string description = 21;
+}
+
+// Serialized form of com.google.gerrit.entities.SubmitRequirement.
+// Next ID: 7
+message SubmitRequirementProto {
+  string name = 1;
+  string description = 2;
+  string applicability_expression = 3;
+  string submittability_expression = 4;
+  string override_expression = 5;
+  bool allow_override_in_child_projects = 6;
+}
+
+// Serialized form of com.google.gerrit.entities.SubmitRequirementResult.
+// Next ID: 9
+message SubmitRequirementResultProto {
+  SubmitRequirementProto submit_requirement = 1;
+  SubmitRequirementExpressionResultProto applicability_expression_result = 2;
+  SubmitRequirementExpressionResultProto submittability_expression_result = 3;
+  SubmitRequirementExpressionResultProto override_expression_result = 4;
+
+  // Patchset commit ID at which the submit requirements are evaluated.
+  bytes commit = 5;
+
+  // Whether this result was created from a legacy submit record.
+  bool legacy = 6;
+
+  // Whether the submit requirement was bypassed during submission (i.e. by
+  // performing a push with the %submit option).
+  bool forced = 7;
+  // Whether this submit requirement result should be filtered out when returned
+  // from REST API.
+  bool hidden = 8;
+}
+
+// Serialized form of com.google.gerrit.entities.SubmitRequirementExpressionResult.
+// Next ID: 7
+message SubmitRequirementExpressionResultProto {
+  string expression = 1;
+  string status = 2;  // enum as string
+  string error_message = 3;
+  repeated string passing_atoms = 4;
+  repeated string failing_atoms = 5;
+  map<string, string> atom_explanations = 6;
+}
+
+// Serialized form of com.google.gerrit.server.project.ConfiguredMimeTypes.
+// Next ID: 4
+message ConfiguredMimeTypeProto {
+  string type = 1;
+  string pattern = 2;
+  bool is_regular_expression = 3;
+}
+
+// Serialized form of com.google.gerrit.common.data.SubscribeSection.
+// Next ID: 4
+message SubscribeSectionProto {
+  string project_name = 1;
+  repeated string multi_match_ref_specs = 2;
+  repeated string matching_ref_specs = 3;
+}
+
+// Serialized form of com.google.gerrit.entities.StoredCommentLinkInfo.
+// Next ID: 10
+message StoredCommentLinkInfoProto {
+  reserved 4;  // html
+
+  string name = 1;
+  string match = 2;
+  bool enabled = 5;
+  bool override_only = 6;
+  string link = 3;
+  string prefix = 7;
+  string suffix = 8;
+  string text = 9;
+}
+
+// Serialized form of com.google.gerrit.entities.CachedProjectConfigProto.
+// Next ID: 20
+message CachedProjectConfigProto {
+  ProjectProto project = 1;
+  repeated GroupReferenceProto group_list = 2;
+  repeated PermissionRuleProto accounts_section = 3;
+  repeated AccessSectionProto access_sections = 4;
+  BranchOrderSectionProto branch_order_section = 5;
+  repeated ContributorAgreementProto contributor_agreements = 6;
+  repeated NotifyConfigProto notify_configs = 7;
+  repeated LabelTypeProto label_sections = 8;
+  repeated ConfiguredMimeTypeProto mime_types = 9;
+  repeated SubscribeSectionProto subscribe_sections = 10;
+  repeated StoredCommentLinkInfoProto comment_links = 11;
+  bytes rules_id = 12;
+  bytes revision = 13;
+  int64 max_object_size_limit = 14;
+  bool check_received_objects = 15;
+  map<string, ExtensionPanelSectionProto> extension_panels = 16;
+  map<string, string> plugin_configs = 17;
+  map<string, string> project_level_configs = 18;
+  repeated SubmitRequirementProto submit_requirement_sections = 19;
+
+  // Next ID: 2
+  message ExtensionPanelSectionProto {
+    repeated string section = 1;
+  }
+}
+
+// Serialized key for com.google.gerrit.server.project.ProjectCacheImpl.
+// Next ID: 4
+message ProjectCacheKeyProto {
+  string project = 1;
+  bytes revision = 2;
+  bytes global_config_revision = 3; // Hash of All-Projects-projects.config. This
+                                    // will only be populated for All-Projects.
+}
+
+// Serialized form of com.google.gerrit.server.comment.CommentContextCacheImpl.Key
+// Next ID: 7
+message CommentContextKeyProto {
+  string project = 1;
+  string change_id = 2;
+  int32 patchset = 3;
+  string commentId = 4;
+
+  // hashed with the murmur3_128 hash function
+  string path_hash = 5;
+
+  int32 context_padding = 6;
+}
+
+// Serialized form of a list of com.google.gerrit.extensions.common.ContextLineInfo
+// Next ID: 3
+message AllCommentContextProto {
+  message CommentContextProto {
+    int32 line_number = 1;
+    string context_line = 2;
+  }
+  repeated CommentContextProto context = 1;
+  string content_type = 2;
+}
+
+// Serialized key for
+// com.google.gerrit.server.patch.gitdiff.GitModifiedFilesCacheKey
+// Next ID: 5
+message GitModifiedFilesKeyProto {
+  string project = 1;
+  bytes a_tree = 2; // SHA-1 hash of the left git tree ID in the diff
+  bytes b_tree = 3; // SHA-1 hash of the right git tree ID in the diff
+  int32 rename_score = 4;
+}
+
+// Serialized key for
+// com.google.gerrit.server.patch.diff.ModifiedFilesCacheKey
+// Next ID: 5
+message ModifiedFilesKeyProto {
+  string project = 1;
+  bytes a_commit = 2; // SHA-1 hash of the left commit ID in the diff
+  bytes b_commit = 3; // SHA-1 hash of the right commit ID in the diff
+  int32 rename_score = 4;
+}
+
+// Serialized form of com.google.gerrit.server.patch.gitdiff.ModifiedFile
+// Next ID: 4
+message ModifiedFileProto {
+  string change_type = 1; // ENUM as string
+  string old_path = 2;
+  string new_path = 3;
+}
+
+// Serialized form of a collection of
+// com.google.gerrit.server.patch.gitdiff.ModifiedFile
+// Next ID: 2
+message ModifiedFilesProto {
+  repeated ModifiedFileProto modifiedFile = 1;
+}
+
+// Serialized form of a collection of
+// com.google.gerrit.server.patch.gitfilediff.GitFileDiffCacheImpl.Key
+// Next ID: 9
+message GitFileDiffKeyProto {
+  string project = 1;
+  bytes a_tree = 2;
+  bytes b_tree = 3;
+  string file_path = 4;
+  int32 rename_score = 5;
+  string diff_algorithm = 6; // ENUM as string
+  string whitepsace = 7; // ENUM as string
+  bool useTimeout = 8;
+}
+
+// Serialized form of com.google.gerrit.server.patch.gitfilediff.GitFileDiff
+// Next ID: 12
+message GitFileDiffProto {
+  message Edit {
+    int32 begin_a = 1;
+    int32 end_a = 2;
+    int32 begin_b = 3;
+    int32 end_b = 4;
+  }
+  repeated Edit edits = 1;
+  string file_header = 2;
+  string old_path = 3;
+  string new_path = 4;
+  bytes old_id = 5;
+  bytes new_id = 6;
+  string old_mode = 7; // ENUM as string
+  string new_mode = 8; // ENUM as string
+  string change_type = 9; // ENUM as string
+  string patch_type = 10; // ENUM as string
+  bool negative = 11;
+}
+
+// Serialized form of
+// com.google.gerrit.server.patch.fileDiff.FileDiffCacheKey
+// Next ID: 9
+message FileDiffKeyProto {
+  string project = 1;
+  bytes old_commit = 2;
+  bytes new_commit = 3;
+  string file_path = 4;
+  int32 rename_score = 5;
+  string diff_algorithm = 6;
+  string whitespace = 7;
+  bool useTimeout = 8;
+}
+
+// Serialized form of
+// com.google.gerrit.server.patch.filediff.FileDiffOutput
+// Next ID: 17
+message FileDiffOutputProto {
+  // Next ID: 5
+  message Edit {
+    int32 begin_a = 1;
+    int32 end_a = 2;
+    int32 begin_b = 3;
+    int32 end_b = 4;
+  }
+  // Serialized form  of com.google.gerrit.server.patch.filediff.TaggedEdit
+  // Next ID: 3
+  message TaggedEdit {
+    Edit edit = 1;
+    bool due_to_rebase = 2;
+  }
+  // Next ID: 3
+  message ComparisonType {
+    int32 parent_num = 1;
+    bool auto_merge = 2;
+  }
+  string old_path = 1;
+  string new_path = 2;
+  string change_type = 3;
+  string patch_type = 4;
+  repeated string header_lines = 5;
+  int64 size = 6;
+  int64 size_delta = 7;
+  repeated TaggedEdit edits = 8;
+  bytes old_commit = 9;
+  bytes new_commit = 10;
+  ComparisonType comparison_type = 11;
+  bool negative = 12;
+  string old_mode = 13; // ENUM as string
+  string new_mode = 14; // ENUM as string
+  bytes old_sha = 15;
+  bytes new_sha = 16;
+  bool diffs_too_expensive_to_compute = 17;
+}
+
+// Serialized form of com.google.gerrit.server.ReviewerSet
+// Next ID: 2
+message ReviewerSetProto {
+  // Next ID: 4
+  message ReviewerProto {
+    devtools.gerritcodereview.Account_Id account_id = 1;
+    string state = 2;
+    int64 timestamp = 3;
+  }
+  repeated ReviewerProto reviewers = 1;
+}
+
+// Serialized form of com.google.gerrit.server.git.ChangesByProjectCacheImpl.CachedProjectChanges
+// Next ID: 3
+message CachedProjectChangesProto {
+  // Next ID: 2
+  message NonPrivateChangesProto {
+    map<int32, bytes> changes = 1;
+  }
+
+  // Serialized form of com.google.gerrit.server.git.ChangesByProjectCacheImpl.PrivateChange
+  // Next ID: 4
+  message PrivateChangeProto {
+    devtools.gerritcodereview.Change change = 1;
+    ReviewerSetProto reviewers = 2;
+    bytes meta_revision = 3;
+  }
+
+  map<string, NonPrivateChangesProto> non_private_changes_by_branch = 1;
+  map<int32, PrivateChangeProto> private_changes = 2;
+}

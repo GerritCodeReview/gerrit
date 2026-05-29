@@ -6,11 +6,20 @@ Gerrit can automatically notify users by email when new changes are
 uploaded for review, after comments have been posted on a change,
 or after the change has been submitted to a branch.
 
+[[recipient-types]]
+== Recipient Type
+
+Those are the available recipient types:
+
+* `TO`: The standard To field is used; addresses are visible to all.
+* `CC`: The standard CC field is used; addresses are visible to all.
+* `BCC`: SMTP RCPT TO is used to hide the address.
+
 [[user]]
 == User Level Settings
 
-Individual users can configure email subscriptions by editing
-watched projects through Settings > Watched Projects with the web UI.
+Individual users can configure email subscriptions by editing their
+notifications in the Web UI under `Settings` > `Notifications`.
 
 Specific projects may be watched, or the special project
 `All-Projects` can be watched to watch all projects that
@@ -114,10 +123,8 @@ Like email, this variable may be a list of options.
 Email header used to list the destination. If not set BCC is used.
 Only one value may be specified. To use different headers for each
 address list them in different notify blocks.
-+
-* `to`: The standard To field is used; addresses are visible to all.
-* `cc`: The standard CC field is used; addresses are visible to all.
-* `bcc`: SMTP RCPT TO is used to hide the address.
+
+The possible options are the link:#recipient-types[recipient types].
 
 [[notify.name.filter]]notify.<name>.filter::
 +
@@ -125,6 +132,7 @@ link:user-search.html[Change search expression] to match changes that
 should be sent to the emails named in this section. Within a Git-style
 configuration file double quotes around complex operator values may
 need to be escaped, e.g. `filter = branch:\"^(maint|stable)-.*\"`.
+Single quotes are illegal and must be omitted.
 
 When sending email to a bare email address in a notify block, Gerrit
 Code Review ignores read access controls and assumes the administrator
@@ -173,7 +181,6 @@ of the following values.
 * newpatchset
 * restore
 * revert
-* setassignee
 
 [[Gerrit-Change-Id]]Gerrit-Change-Id::
 
@@ -182,7 +189,7 @@ The change ID footer states the ID of the change, such as
 
 [[Gerrit-Change-Number]]Gerrit-Change-Number::
 
-The change number footer states the numeric ID of the change, for
+The change number footer states the change number of the change, for
 example `92191`.
 
 [[Gerrit-PatchSet]]Gerrit-PatchSet::
@@ -238,11 +245,22 @@ In comment emails, the has-comments footer states whether inline
 comments had been posted in that notification using "Yes" or "No", for
 example `Gerrit-HasComments: Yes`.
 
-[[Gerrit-HasLabels]]Gerrit-HasLabels::
+[[Gerrit-Has-Labels]]Gerrit-Has-Labels::
 
 In comment emails, the has-labels footer states whether label votes had
 been posted in that notification using "Yes" or "No", for
-example `Gerrit-HasLabels: No`.
+example `Gerrit-Has-Labels: No`.
+
+[[Gerrit-Comment-In-Reply-To]]Gerrit-Comment-In-Reply-To::
+
+In comment emails, a comment-in-reply-to footer is present for each
+account who has a comment that is replied-to in that set of comments.
+For example, to apply a filter to Gerrit messages in which your own diff
+comments are responded to, you might search for the following:
+
+----
+  Gerrit-Comment-In-Reply-To: User Name <user@example.com>
+----
 
 GERRIT
 ------

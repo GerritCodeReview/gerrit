@@ -1,0 +1,981 @@
+/**
+ * @license
+ * Copyright 2022 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+import * as sinon from 'sinon';
+import '../../../test/common-test-setup';
+import {assert, fixture, html} from '@open-wc/testing';
+import {changeModelToken} from '../../../models/change/change-model';
+import {
+  ConfigModel,
+  configModelToken,
+} from '../../../models/config/config-model';
+import {wrapInProvider} from '../../../models/di-provider-element';
+import {getAppContext} from '../../../services/app-context';
+import './gr-formatted-text';
+import {GrFormattedText} from './gr-formatted-text';
+import {createComment, createConfig} from '../../../test/test-data-generators';
+import {
+  query,
+  queryAndAssert,
+  waitUntilObserved,
+} from '../../../test/test-utils';
+import {CommentLinks, EmailAddress} from '../../../api/rest-api';
+import {testResolver} from '../../../test/common-test-setup';
+import {GrAccountChip} from '../gr-account-chip/gr-account-chip';
+import {
+  CommentModel,
+  commentModelToken,
+} from '../gr-comment-model/gr-comment-model';
+
+suite('gr-formatted-text tests', () => {
+  let element: GrFormattedText;
+  let configModel: ConfigModel;
+
+  async function setCommentLinks(commentlinks: CommentLinks) {
+    configModel.updateRepoConfig({...createConfig(), commentlinks});
+    await waitUntilObserved(
+      configModel.repoCommentLinks$,
+      links => links === commentlinks
+    );
+  }
+
+  setup(async () => {
+    configModel = new ConfigModel(
+      testResolver(changeModelToken),
+      getAppContext().restApiService
+    );
+    const commentModel = new CommentModel(getAppContext().restApiService);
+    commentModel.updateState({
+      comment: createComment(),
+    });
+    await setCommentLinks({
+      customLinkRewrite: {
+        match: '(LinkRewriteMe)',
+        link: 'http://google.com/$1',
+      },
+      complexLinkRewrite: {
+        match: '(^|\\s)A Link (\\d+)($|\\s)',
+        link: '/page?id=$2',
+        text: 'Link $2',
+        prefix: '$1A ',
+        suffix: '$3',
+      },
+    });
+    self.CANONICAL_PATH = 'http://localhost';
+    element = (
+      await fixture(
+        wrapInProvider(
+          wrapInProvider(
+            html`<gr-formatted-text></gr-formatted-text>`,
+            configModelToken,
+            configModel
+          ),
+          commentModelToken,
+          commentModel
+        )
+      )
+    ).querySelector('gr-formatted-text')!;
+  });
+
+  suite('as plaintext', () => {
+    setup(async () => {
+      element.markdown = false;
+      await element.updateComplete;
+    });
+
+    test('does not apply rewrites within links', async () => {
+      element.content = 'http://google.com/LinkRewriteMe';
+      await element.updateComplete;
+
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ `
+          <gr-endpoint-decorator name="formatted-text-endpoint">
+            <pre class="plaintext">
+            <a
+              href="http://google.com/LinkRewriteMe"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+            http://google.com/LinkRewriteMe
+            </a>
+          </pre>
+          </gr-endpoint-decorator>
+        `
+      );
+    });
+
+    test('does not apply rewrites on rewritten text', async () => {
+      await setCommentLinks({
+        capitalizeFoo: {
+          match: 'foo',
+          prefix: 'FOO',
+          link: 'a.b.c',
+        },
+        lowercaseFoo: {
+          match: 'FOO',
+          prefix: 'foo',
+          link: 'c.d.e',
+        },
+      });
+      element.content = 'foo';
+      await element.updateComplete;
+
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ `
+          <gr-endpoint-decorator name="formatted-text-endpoint">
+            <pre class="plaintext">
+          FOO<a href="a.b.c" rel="noopener noreferrer" target="_blank">foo</a>
+        </pre>
+          </gr-endpoint-decorator>
+        `
+      );
+    });
+
+    test('supports overlapping rewrites', async () => {
+      await setCommentLinks({
+        bracketNum: {
+          match: '(Start:) ([0-9]+)',
+          prefix: '$1 ',
+          link: 'bug/$2',
+          text: 'bug/$2',
+        },
+        bracketNum2: {
+          match: '(Start: [0-9]+) ([0-9]+)',
+          prefix: '$1 ',
+          link: 'bug/$2',
+          text: 'bug/$2',
+        },
+      });
+      element.content = 'Start: 123 456';
+      await element.updateComplete;
+
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ `
+          <gr-endpoint-decorator name="formatted-text-endpoint">
+            <pre class="plaintext">
+            Start:
+            <a href="bug/123" rel="noopener noreferrer" target="_blank">
+              bug/123
+            </a>
+            <a href="bug/456" rel="noopener noreferrer" target="_blank">
+              bug/456
+            </a>
+          </pre>
+          </gr-endpoint-decorator>
+        `
+      );
+    });
+
+    test('renders text with links and rewrites', async () => {
+      element.content = `
+        text with plain link: http://google.com
+        text with config link: LinkRewriteMe
+        text with complex link: A Link 12`;
+      await element.updateComplete;
+
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ `
+          <gr-endpoint-decorator name="formatted-text-endpoint">
+            <pre class="plaintext">
+          text with plain link:
+          <a
+            href="http://google.com"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            http://google.com
+          </a>
+          text with config link:
+            <a
+              href="http://google.com/LinkRewriteMe"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              LinkRewriteMe
+            </a>
+            text with complex link: A
+            <a
+              href="http://localhost/page?id=12"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+              Link 12
+            </a>
+          </pre>
+          </gr-endpoint-decorator>
+        `
+      );
+    });
+
+    test('does not render typed html', async () => {
+      element.content = 'plain text <div>foo</div>';
+      await element.updateComplete;
+
+      const escapedDiv = '&lt;div&gt;foo&lt;/div&gt;';
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ `<gr-endpoint-decorator name="formatted-text-endpoint">
+          <pre class="plaintext">plain text ${escapedDiv}</pre>
+        </gr-endpoint-decorator>`
+      );
+    });
+
+    test('does not render markdown', async () => {
+      element.content = '# A Markdown Heading';
+      await element.updateComplete;
+
+      assert.shadowDom.equal(
+        element,
+        /* HTML */
+        `<gr-endpoint-decorator name="formatted-text-endpoint">
+          <pre class="plaintext"># A Markdown Heading</pre>
+        </gr-endpoint-decorator>`
+      );
+    });
+
+    test('does default linking', async () => {
+      const checkLinking = async (url: string, expectLinkified = true) => {
+        element.content = url;
+        await element.updateComplete;
+        const a = query<HTMLElement>(element, 'a');
+
+        if (expectLinkified) {
+          assert.isDefined<HTMLElement | undefined>(a);
+          // URLs without scheme are upgraded to https:// by the
+          // ALWAYS_LINK_SCHEMELESS rule. URLs with http:// or https://
+          // are preserved by the ALWAYS_LINK_HTTP rule.
+          const isSchemeless =
+            !url.startsWith('http://') &&
+            !url.startsWith('https://') &&
+            !url.startsWith('mailto:') &&
+            !url.startsWith('/');
+          const expectedHref = isSchemeless ? `http://${url}` : url;
+
+          assert.equal(a.getAttribute('href'), expectedHref);
+          assert.equal(a.innerText, url);
+        } else {
+          assert.isUndefined(a);
+        }
+      };
+
+      const getLinkifiedUrl = async (url: string) => {
+        element.content = url;
+        await element.updateComplete;
+        const a = query<HTMLElement>(element, 'a');
+
+        assert.isDefined<HTMLElement | undefined>(a);
+        return a.innerText;
+      };
+
+      await checkLinking('http://www.google.com');
+      await checkLinking('https://www.google.com');
+      await checkLinking('https://www.google.com/');
+      await checkLinking('https://www.google.com/asdf~');
+      await checkLinking('https://www.google.com/asdf-');
+      // We DO NOT want to linkify URLs ending with `)`, even though the URL
+      // spec does allow it. Links ending with `)` are extremely rare, and
+      // users putting links into parenthesis happens extremely often. :-)
+      assert.equal(
+        await getLinkifiedUrl('https://www.google.com/asdf)'),
+        'https://www.google.com/asdf'
+      );
+      assert.equal(
+        await getLinkifiedUrl('hello gerrit.com/asdf,'),
+        'gerrit.com/asdf'
+      );
+      assert.equal(
+        await getLinkifiedUrl('hello gerrit.com/asdf.),'),
+        'gerrit.com/asdf'
+      );
+      assert.equal(
+        await getLinkifiedUrl('hello gerrit.com/asdf),'),
+        'gerrit.com/asdf'
+      );
+      assert.equal(
+        await getLinkifiedUrl('hello gerrit.com/foo,bar'),
+        'gerrit.com/foo,bar'
+      );
+      // matches & part as well, even we first linkify and then htmlEscape
+      await checkLinking(
+        'https://google.com/traces/list?project=gerrit&tid=123'
+      );
+
+      await checkLinking('www.google.com/path');
+      await checkLinking('www.google-foo.com/path');
+      await checkLinking('google.co.uk/path?q=1#frag');
+
+      // Do not linkify URLs without `/`.
+      await checkLinking('google.com', false);
+      await checkLinking('com.google.gerrit.server.Event', false);
+
+      // Do not linkify URLs without a recognized TLD.
+      await checkLinking('google.foogle/path', false);
+      await checkLinking('google.com.blah/path', false);
+    });
+  });
+
+  suite('as markdown', () => {
+    setup(async () => {
+      element.markdown = true;
+      await element.updateComplete;
+    });
+
+    test('applies overflow-wrap: break-word to markdown-html', async () => {
+      element.content = 'text';
+      await element.updateComplete;
+      const div = queryAndAssert<HTMLElement>(element, 'div.markdown-html');
+      const style = window.getComputedStyle(div);
+      assert.equal(style.overflowWrap, 'break-word');
+    });
+
+    test('renders text with links and rewrites', async () => {
+      element.content = `text
+        \ntext with plain link: http://google.com
+        \ntext with config link: LinkRewriteMe
+        \ntext without a link: NotA Link 15 cats
+        \ntext with complex link: A Link 12`;
+      await element.updateComplete;
+
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ `
+          <gr-endpoint-decorator name="formatted-text-endpoint">
+            <gr-marked-element>
+              <div slot="markdown-html" class="markdown-html">
+                <p>text</p>
+                <p>
+                  text with plain link:
+                  <a
+                    href="http://google.com"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    http://google.com
+                  </a>
+                </p>
+                <p>
+                  text with config link:
+                  <a
+                    href="http://google.com/LinkRewriteMe"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    LinkRewriteMe
+                  </a>
+                </p>
+                <p>text without a link: NotA Link 15 cats</p>
+                <p>
+                  text with complex link: A
+                  <a
+                    href="http://localhost/page?id=12"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    Link 12
+                  </a>
+                </p>
+              </div>
+            </gr-marked-element>
+          </gr-endpoint-decorator>
+        `
+      );
+    });
+
+    test('does not render if too long', async () => {
+      element.content = `text
+        text with plain link: http://google.com
+        text with config link: LinkRewriteMe
+        text without a link: NotA Link 15 cats
+        text with complex link: A Link 12`;
+      element.MARKDOWN_LIMIT = 10;
+      await element.updateComplete;
+
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ `
+          <gr-endpoint-decorator name="formatted-text-endpoint">
+            <pre class="plaintext">
+          text
+        text with plain link:
+        <a
+          href="http://google.com"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          http://google.com
+        </a>
+        text with config link:
+          <a
+            href="http://google.com/LinkRewriteMe"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            LinkRewriteMe
+          </a>
+        text without a link: NotA Link 15 cats
+        text with complex link: A
+          <a
+            href="http://localhost/page?id=12"
+            rel="noopener noreferrer"
+            target="_blank"
+          >
+            Link 12
+          </a>
+        </pre>
+          </gr-endpoint-decorator>
+        `
+      );
+    });
+
+    test('renders headings with links and rewrites', async () => {
+      element.content = `# h1-heading
+        \n## h2-heading
+        \n### h3-heading
+        \n#### h4-heading
+        \n##### h5-heading
+        \n###### h6-heading
+        \n# heading with plain link: http://google.com
+        \n# heading with config link: LinkRewriteMe`;
+      await element.updateComplete;
+
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ `
+          <gr-endpoint-decorator name="formatted-text-endpoint">
+            <gr-marked-element>
+              <div slot="markdown-html" class="markdown-html">
+                <h1>h1-heading</h1>
+                <h2>h2-heading</h2>
+                <h3>h3-heading</h3>
+                <h4>h4-heading</h4>
+                <h5>h5-heading</h5>
+                <h6>h6-heading</h6>
+                <h1>
+                  heading with plain link:
+                  <a
+                    href="http://google.com"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    http://google.com
+                  </a>
+                </h1>
+                <h1>
+                  heading with config link:
+                  <a
+                    href="http://google.com/LinkRewriteMe"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    LinkRewriteMe
+                  </a>
+                </h1>
+              </div>
+            </gr-marked-element>
+          </gr-endpoint-decorator>
+        `
+      );
+    });
+
+    test('renders inline-code without linking or rewriting', async () => {
+      element.content = `\`inline code\`
+        \n\`inline code with plain link: google.com\`
+        \n\`inline code with config link: LinkRewriteMe\``;
+      await element.updateComplete;
+
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ `
+          <gr-endpoint-decorator name="formatted-text-endpoint">
+            <gr-marked-element>
+              <div slot="markdown-html" class="markdown-html">
+                <p>
+                  <code>inline code</code>
+                </p>
+                <p>
+                  <code>inline code with plain link: google.com</code>
+                </p>
+                <p>
+                  <code>inline code with config link: LinkRewriteMe</code>
+                </p>
+              </div>
+            </gr-marked-element>
+          </gr-endpoint-decorator>
+        `
+      );
+    });
+
+    test('renders multiline-code without linking or rewriting', async () => {
+      element.content = `\`\`\`\nmultiline code\n\`\`\`
+        \n\`\`\`\nmultiline code with plain link: google.com\n\`\`\`
+        \n\`\`\`\nmultiline code with config link: LinkRewriteMe\n\`\`\``;
+      await element.updateComplete;
+
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ `
+          <gr-endpoint-decorator name="formatted-text-endpoint">
+            <gr-marked-element>
+              <div slot="markdown-html" class="markdown-html">
+                <pre>
+              <code>multiline code</code>
+            </pre>
+                <pre>
+              <code>multiline code with plain link: google.com</code>
+            </pre>
+                <pre>
+              <code>multiline code with config link: LinkRewriteMe</code>
+            </pre>
+              </div>
+            </gr-marked-element>
+          </gr-endpoint-decorator>
+        `
+      );
+    });
+
+    test('does not render inline images into <img> tags', async () => {
+      element.content = '![img](google.com/img.png)';
+      await element.updateComplete;
+
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ `
+          <gr-endpoint-decorator name="formatted-text-endpoint">
+            <gr-marked-element>
+              <div slot="markdown-html" class="markdown-html">
+                <p>![img](google.com/img.png)</p>
+              </div>
+            </gr-marked-element>
+          </gr-endpoint-decorator>
+        `
+      );
+    });
+
+    test('handles @mentions', async () => {
+      element.content = '@someone@google.com';
+      await element.updateComplete;
+
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ `
+          <gr-endpoint-decorator name="formatted-text-endpoint">
+            <gr-marked-element>
+              <div slot="markdown-html" class="markdown-html">
+                <p>
+                  <gr-account-chip></gr-account-chip>
+                </p>
+              </div>
+            </gr-marked-element>
+          </gr-endpoint-decorator>
+        `
+      );
+      const accountChip = queryAndAssert<GrAccountChip>(
+        element,
+        'gr-account-chip'
+      );
+      assert.equal(
+        accountChip.account?.email,
+        'someone@google.com' as EmailAddress
+      );
+    });
+
+    test('does not handle @mentions that is part of a code block', async () => {
+      element.content = '`@`someone@google.com';
+      await element.updateComplete;
+
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ `
+          <gr-endpoint-decorator name="formatted-text-endpoint">
+            <gr-marked-element>
+              <div slot="markdown-html" class="markdown-html">
+                <p>
+                  <code>@</code>
+                  <a
+                    href="mailto:someone@google.com"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                  >
+                    someone@google.com
+                  </a>
+                </p>
+              </div>
+            </gr-marked-element>
+          </gr-endpoint-decorator>
+        `
+      );
+    });
+
+    test('renders inline links into <a> tags', async () => {
+      const origin = window.location.origin;
+      element.content = `[myLink1](https://www.google.com)
+        [myLink2](/destiny)
+        [myLink3](${origin}/destiny)
+        [myLink4](google.com)
+        [myLink5](http://google.com)
+        [myLink6](mailto:google@google.com)
+      `;
+      await element.updateComplete;
+
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ `
+          <gr-endpoint-decorator name="formatted-text-endpoint">
+            <gr-marked-element>
+              <div slot="markdown-html" class="markdown-html">
+                <p>
+                  <a
+                    href="https://www.google.com"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                    >myLink1</a
+                  >
+                  <br />
+                  <a href="/destiny">myLink2</a>
+                  <br />
+                  <a href="${origin}/destiny">myLink3</a>
+                  <br />
+                  <a
+                    href="https://google.com"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                    >myLink4</a
+                  >
+                  <br />
+                  <a
+                    href="http://google.com"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                    >myLink5</a
+                  >
+                  <br />
+                  <a
+                    href="mailto:google@google.com"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                    >myLink6</a
+                  >
+                </p>
+              </div>
+            </gr-marked-element>
+          </gr-endpoint-decorator>
+        `
+      );
+    });
+
+    test('renders block quotes with links and rewrites', async () => {
+      element.content = `> block quote
+        \n> block quote with plain link: http://google.com
+        \n> block quote with config link: LinkRewriteMe`;
+      await element.updateComplete;
+
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ `
+          <gr-endpoint-decorator name="formatted-text-endpoint">
+            <gr-marked-element>
+              <div slot="markdown-html" class="markdown-html">
+                <blockquote>
+                  <p>block quote</p>
+                </blockquote>
+                <blockquote>
+                  <p>
+                    block quote with plain link:
+                    <a
+                      href="http://google.com"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      http://google.com
+                    </a>
+                  </p>
+                </blockquote>
+                <blockquote>
+                  <p>
+                    block quote with config link:
+                    <a
+                      href="http://google.com/LinkRewriteMe"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      LinkRewriteMe
+                    </a>
+                  </p>
+                </blockquote>
+              </div>
+            </gr-marked-element>
+          </gr-endpoint-decorator>
+        `
+      );
+    });
+
+    test('never renders typed html', async () => {
+      element.content = `plain text <div>foo</div>
+        \n\`inline code <div>foo</div>\`
+        \n\`\`\`\nmultiline code <div>foo</div>\n\`\`\`
+        \n> block quote <div>foo</div>
+        \n[inline link <div>foo</div>](http://google.com)`;
+      await element.updateComplete;
+
+      const escapedDiv = '&lt;div&gt;foo&lt;/div&gt;';
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ `
+          <gr-endpoint-decorator name="formatted-text-endpoint">
+            <gr-marked-element>
+              <div slot="markdown-html" class="markdown-html">
+                <p>plain text ${escapedDiv}</p>
+                <p>
+                  <code>inline code ${escapedDiv}</code>
+                </p>
+                <pre>
+              <code>
+                multiline code ${escapedDiv}
+              </code>
+            </pre>
+                <blockquote>
+                  <p>block quote ${escapedDiv}</p>
+                </blockquote>
+                <p>
+                  <a
+                    href="http://google.com"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                    >inline link ${escapedDiv}</a
+                  >
+                </p>
+              </div>
+            </gr-marked-element>
+          </gr-endpoint-decorator>
+        `
+      );
+    });
+
+    test('treats HTML outside code blocks as text', async () => {
+      element.content = `
+<div>
+  Hello
+</div>
+
+<div>
+  Hello
+</div>
+with text
+afterwards.
+
+
+<div>Single-line block</div>
+
+Text with <span>inline HTML</span>
+and more text.
+
+Some
+<div>text in div</div>
+on several lines.
+
+Some
+\\<div>text in escaped div</div>
+on several lines.
+
+<div>**markdown** and <b>HTML</b> in HTML blocks stay as-is</div>
+
+An <a href="example.com">inline HTML link</a>.
+
+An <a href="example.com">inline HTML link with **markup**</a>.
+
+An <a href="example.com">inline HTML link with [markup link](http://google.com)</a>.
+`;
+      await element.updateComplete;
+
+      const escapedHtml = '&lt;div&gt;<br>  Hello<br>&lt;/div&gt;';
+      const escapedHtmlWithMixedContent =
+        '&lt;div&gt;' +
+        '**markdown** and &lt;b&gt;HTML&lt;/b&gt; in HTML blocks stay as-is' +
+        '&lt;/div&gt;';
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ `
+          <gr-endpoint-decorator name="formatted-text-endpoint">
+            <gr-marked-element>
+              <div slot="markdown-html" class="markdown-html">
+                <p>${escapedHtml}</p>
+                <p>
+                  ${escapedHtml}<br />
+                  with text<br />
+                  afterwards.
+                </p>
+                <p>&lt;div&gt;Single-line block&lt;/div&gt;</p>
+                <p>
+                  Text with &lt;span&gt;inline HTML&lt;/span&gt;<br />
+                  and more text.
+                </p>
+                <p>Some</p>
+                <p>
+                  &lt;div&gt;text in div&lt;/div&gt;<br />
+                  on several lines.
+                </p>
+                <p>
+                  Some<br />
+                  &lt;div&gt;text in escaped div&lt;/div&gt;<br />
+                  on several lines.
+                </p>
+                <p>${escapedHtmlWithMixedContent}</p>
+                <p>
+                  An &lt;a href="example.com"&gt;inline HTML link&lt;/a&gt;.
+                </p>
+                <p>
+                  An &lt;a href="example.com"&gt;inline HTML link with
+                  <strong>markup</strong>&lt;/a&gt;.
+                </p>
+                <p>
+                  An &lt;a href="example.com"&gt;inline HTML link with
+                  <a
+                    href="http://google.com"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                    >markup link</a
+                  >&lt;/a&gt;.
+                </p>
+              </div>
+            </gr-marked-element>
+          </gr-endpoint-decorator>
+        `
+      );
+    });
+
+    test('renders nested block quotes', async () => {
+      element.content = '> > > block quote';
+      await element.updateComplete;
+
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ `
+          <gr-endpoint-decorator name="formatted-text-endpoint">
+            <gr-marked-element>
+              <div slot="markdown-html" class="markdown-html">
+                <blockquote>
+                  <blockquote>
+                    <blockquote>
+                      <p>block quote</p>
+                    </blockquote>
+                  </blockquote>
+                </blockquote>
+              </div>
+            </gr-marked-element>
+          </gr-endpoint-decorator>
+        `
+      );
+    });
+
+    test('renders rewrites with an asterisk', async () => {
+      await setCommentLinks({
+        customLinkRewrite: {
+          match: 'asterisks (\\*) rule',
+          link: 'http://google.com',
+        },
+      });
+
+      element.content = 'I think asterisks * rule';
+      await element.updateComplete;
+
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ `
+          <gr-endpoint-decorator name="formatted-text-endpoint">
+            <gr-marked-element>
+              <div slot="markdown-html" class="markdown-html">
+                <p>
+                  I think
+                  <a
+                    href="http://google.com"
+                    rel="noopener noreferrer"
+                    target="_blank"
+                    >asterisks * rule</a
+                  >
+                </p>
+              </div>
+            </gr-marked-element>
+          </gr-endpoint-decorator>
+        `
+      );
+    });
+
+    test('does default linking', async () => {
+      const checkLinking = async (url: string, expectLinkified = true) => {
+        element.content = url;
+        await element.updateComplete;
+        const a = query<HTMLElement>(element, 'a');
+        const p = queryAndAssert<HTMLElement>(element, 'p');
+        assert.equal(p.innerText, url);
+
+        if (expectLinkified) {
+          assert.isDefined<HTMLElement | undefined>(a);
+          // URLs without scheme are upgraded to https:// by the
+          // ALWAYS_LINK_SCHEMELESS rule. URLs with http:// or https://
+          // are preserved by the ALWAYS_LINK_HTTP rule.
+          const isSchemeless =
+            !url.startsWith('http://') &&
+            !url.startsWith('https://') &&
+            !url.startsWith('mailto:') &&
+            !url.startsWith('/');
+          const expectedHref = isSchemeless ? `http://${url}` : url;
+
+          assert.equal(a.getAttribute('href'), expectedHref);
+        } else {
+          assert.isUndefined(a);
+        }
+      };
+
+      await checkLinking('http://www.google.com');
+      await checkLinking('https://www.google.com');
+      await checkLinking('https://www.google.com/');
+      // matches & part as well, even we first linkify and then htmlEscape
+      await checkLinking(
+        'https://google.com/traces/list?project=gerrit&tid=123'
+      );
+
+      await checkLinking('www.google.com/path');
+      await checkLinking('www.google-foo.com/path');
+      await checkLinking('google.co.uk/path?q=1#frag');
+
+      // Do not linkify URLs without `/`.
+      await checkLinking('google.com', false);
+      await checkLinking('com.google.gerrit.server.Event', false);
+
+      // Do not linkify URLs without a recognized TLD.
+      await checkLinking('google.foogle/path', false);
+      await checkLinking('google.com.blah/path', false);
+    });
+
+    suite('user suggest fix', () => {
+      setup(async () => {
+        const flagsService = getAppContext().flagsService;
+        sinon.stub(flagsService, 'isEnabled').returns(true);
+      });
+
+      test('renders', async () => {
+        element.content = '```suggestion\nHello World\n```';
+        await element.updateComplete;
+        assert.shadowDom.equal(
+          element,
+          /* HTML */
+          `
+            <gr-endpoint-decorator name="formatted-text-endpoint">
+              <gr-marked-element>
+                <div class="markdown-html" slot="markdown-html">
+                  <gr-user-suggestion-fix>Hello World</gr-user-suggestion-fix>
+                </div>
+              </gr-marked-element>
+            </gr-endpoint-decorator>
+          `
+        );
+      });
+    });
+  });
+});

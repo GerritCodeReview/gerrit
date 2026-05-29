@@ -1,3 +1,4 @@
+:linkattrs:
 = Project Owner Guide
 
 This is a Gerrit guide that is dedicated to project owners. It
@@ -43,7 +44,7 @@ Access Control] chapter explains all the details.
 To see the access rights of your project
 
 - go to the Gerrit Web UI
-- click on the `Projects` > `List` menu entry
+- click on the `BROWSE` > `Repositories` menu entry
 - find your project in the project list and click on it
 - click on the `Access` menu entry
 
@@ -88,7 +89,7 @@ get informed about it by email.
 Normally when a new project is created in Gerrit it already has some
 access rights which are inherited from the parent projects.
 Projects in Gerrit are organized hierarchically as a tree with the
-`All-Projects' project as root from which all projects inherit. Each
+`All-Projects` project as root from which all projects inherit. Each
 project can have only a single parent project, multi-inheritance is
 not supported.
 
@@ -123,6 +124,13 @@ under `refs/heads/` and all tags under `refs/tags/`. In addition there
 are a number of link:access-control.html#references_special[special refs]
 and link:access-control.html#references_magic[magic refs].
 
+Gerrit only supports tags that are reachable by any ref not owned by
+Gerrit. This includes branches (refs/heads/\*) or custom ref namespaces
+(refs/my-company/*). Tagging a change ref is not supported.
+When filtering tags by visibility, Gerrit performs a reachability check
+and will present the user ony with tags that are reachable by any ref
+they can see.
+
 Access rights can be assigned on a concrete ref, e.g.
 `refs/heads/master` but also on ref patterns and regular expressions
 for ref names.
@@ -142,7 +150,7 @@ maintains its own groups internally but also supports different external
 group backends.
 
 The Gerrit internal groups can be seen in the Gerrit Web UI by clicking
-on the `Groups` > `List` menu entry. By clicking on a group you can
+on the `BROWSE` > `Groups` menu entry. By clicking on a group you can
 edit the group members (`Members` tab) and the group options
 (`General` tab).
 
@@ -160,8 +168,9 @@ An important setting on a group is the option
 `Make group visible to all registered users.`, which defines whether
 non-members can see who is member of the group.
 
-New internal Gerrit groups can be created under `Groups` >
-`Create New Group`. This menu is only available if you have the global
+New internal Gerrit groups can be created under `BROWSE` > `Groups`
+and then clicking on the `CREATE NEW` button in the upper right corner.
+The `CREATE NEW` button is only available if you have the global
 capability link:access-control.html#capability_createGroup[Create Group]
 assigned.
 
@@ -174,7 +183,7 @@ them, e.g. link:access-control.html#ldap_groups[LDAP group names] need
 to be prefixed with `ldap/`.
 
 If the link:https://gerrit-review.googlesource.com/admin/repos/plugins/singleusergroup[
-singleusergroup] plugin is installed you can also directly assign
+singleusergroup,role=external,window=_blank] plugin is installed you can also directly assign
 access rights to users, by prefixing the username with `user/` or the
 user's account ID by `userid/`.
 
@@ -209,7 +218,7 @@ verifications from a build server] before changes are merged. In
 addition you can benefit from Gerrit's merge strategies that can
 automatically merge/rebase commits on server side if necessary. You can
 control the merge strategy by configuring the
-link:project-configuration.html#submit_type[submit type] on the project. If you
+link:config-project-config.html#submit-type[submit type] on the project. If you
 bypass code review you always need to merge/rebase manually if the tip
 of the destination branch has moved. Please keep this in mind if you
 choose to not work with code review because you think it's easier to
@@ -227,19 +236,19 @@ As project owner you can control several options on your project.
 The different options are described in the
 link:project-configuration.html#project_options[Project Options] section.
 
-To see the options of your project
+To see the options of your project:
 
-- go to the Gerrit Web UI
-- click on the `Projects` > `List` menu entry
-- find your project in the project list and click on it
-- click on the `General` menu entry
+. Go to the Gerrit Web UI.
+. Click on the `BROWSE` > `Repositories` menu entry.
+. Find your project in the project list and click it.
+. Click the `General` menu entry.
 
 [[submit-type]]
 === Submit Type
 
 An important decision for a project is the choice of the submit type
 and the content merge setting (see the `Allow content merges` option).
-The link:project-configuration.html#submit_type[submit type] is the method
+The link:config-project-config.html#submit-type[submit type] is the method
 Gerrit uses to submit a change to the project. The submit type defines
 what Gerrit should do on submit of a change if the destination branch
 has moved while the change was in review. The
@@ -276,12 +285,8 @@ development branches. You likely want to start with
 more restrictive policy if you are facing issues with the build and
 test stability of the destination branches.
 
-It is also possible to define the submit type dynamically via
-link:#prolog-submit-type[Prolog]. This way you can use different submit
-types for different branches.
-
 Please note that there are other submit types available; they are
-described in the link:project-configuration.html#submit_type[Submit Type]
+described in the link:config-project-config.html#submit-type[Submit Type]
 section.
 
 [[labels]]
@@ -298,59 +303,37 @@ project-specific workflows. For example if a project requires an IP
 approval from a special IP-team, it can define an `IP-Review` label
 and grant permissions to the IP-team to vote on this label.
 
-The behavior of a label can be controlled by its
-link:config-labels.html#label_function[function], e.g. it can be
-configured whether a max positive voting on the label is required for
-submit or if the voting on the label is optional.
-
-By using a custom link:#submit-rules[submit rule] it can be controlled
-per change whether a label is required for submit or not.
+The behavior of a label can be controlled by
+link:config-submit-requirements.html#labels[submit requirements], e.g. it can
+be configured whether a max positive voting on the label is required for
+submit or if only votes from certain users count or if the voting on
+the label is optional.
 
 A useful feature on labels is the possibility to automatically copy
 scores forward to new patch sets if it was a
-link:config-labels.html#label_copyAllScoresOnTrivialRebase[trivial
-rebase] or if link:config-labels.html#label_copyAllScoresIfNoCodeChange[
-there was no code change] (e.g. only the commit message was edited).
+link:config-labels.html#trivial_rebase[trivial rebase] or if
+link:config-labels.html#no_code_change[there was no code change] (e.g.
+only the commit message was edited).
 
-[[submit-rules]]
-== Submit Rules
+[[submit-requirements]]
+== Submit requirements
 
-A link:prolog-cookbook.html#SubmitRule[submit rule] in Gerrit is logic
-that defines when a change is submittable. By default, a change is
-submittable when it gets at least one highest vote on each label and
-has no lowest vote (aka veto vote) on any label.
+Submit requirements is a powerful and lightweight way of configuring, per
+project, what is required for a change to be submittable.
+It replaces legacy ways of configuring submittability (such as prolog rules and
+label functions).
 
-The submit rules in Gerrit are implemented in link:prolog-cookbook.html[
-Prolog] and projects that need more flexibility can define their own
-submit rules to decide when a change should be submittable. A good
-link:prolog-cookbook.html#NonAuthorCodeReview[example] from the Prolog
-cookbook shows how to allow submit only if a change has a
-`Code-Review+2` vote from a person that is not the change author. This
-way a four-eyes principle for the reviews can be enforced.
+Read more in the
+link:config-submit-requirements.html[Submit Requirements documentation].
 
-A Prolog submit rule has access to link:prolog-change-facts.html[
-information] about the change for which it is testing the
-submittability. Among others the list of the modified files can be
-accessed, which allows special logic if certain files are touched. For
-example, a common practice is to require a vote on an additional label,
-like `Library-Compliance`, if the dependencies of the project are
-changed.
+== Prolog Submit Rules (DEPRECATED)
 
-[[prolog-submit-type]]
-It is also possible to control the link:prolog-cookbook.html#SubmitType[
-submit type] from Prolog. For example this can be used to define a more
-restrictive submit type such as `Fast Forward Only` for stable branches
-while using a more liberal submit type, e.g. `Merge If Necessary` with
-content merge, for development branches. How this can be done can be
-seen from an link:prolog-cookbook.html#SubmitTypePerBranch[example] in
-the Prolog cookbook.
+The ability to configure submit rules with prolog is deprecated and replaced
+by link:#submit-requirements[Submit Requirements].
 
-Submit rules are maintained in the link:prolog-cookbook.html#RulesFile[
-rules.pl] file in the `refs/meta/config` branch of the project. How to
-write submit rules is explained in the
-link:prolog-cookbook.html#HowToWriteSubmitRules[Prolog cookbook]. There
-is also good support for link:prolog-cookbook.html#TestingSubmitRules[
-testing submit rules] while developing them.
+If you wish to read more about the deprecated feature, read about it in
+link:prolog-cookbook.html[the Prolog cookbook].
+
 
 [[continuous-integration]]
 == Continuous Integration
@@ -366,11 +349,11 @@ link:config-labels.html#label_Verified[Verified] label on the change.
 There are several solutions for integrating continuous integration
 systems. The most commonly used are:
 
-- link:https://wiki.jenkins-ci.org/display/JENKINS/Gerrit+Trigger[
-  Gerrit Trigger] plugin for link:http://jenkins-ci.org/[Jenkins]
+- link:https://plugins.jenkins.io/gerrit-trigger/[
+  Gerrit Trigger,role=external,window=_blank] plugin for link:http://jenkins-ci.org/[Jenkins,role=external,window=_blank]
 
 - link:http://www.mediawiki.org/wiki/Continuous_integration/Zuul[
-  Zuul] for link:http://jenkins-ci.org/[Jenkins]
+  Zuul,role=external,window=_blank] for link:http://jenkins-ci.org/[Jenkins,role=external,window=_blank]
 
 For the integration with the continuous integration system you must
 have a service user that is able to access Gerrit. To create a service
@@ -380,7 +363,7 @@ Create Account] global capability is granted. If not, you need to ask
 a Gerrit administrator to create the service user.
 
 If the link:https://gerrit-review.googlesource.com/admin/repos/plugins/serviceuser[
-serviceuser] plugin is installed you can also create new service users
+serviceuser,role=external,window=_blank] plugin is installed you can also create new service users
 in the Gerrit Web UI under `People` > `Create Service User`. For this
 the `Create Service User` global capability must be assigned.
 
@@ -400,7 +383,7 @@ capability assigned.
 
 Gerrit provides an
 link:https://gerrit-review.googlesource.com/Documentation/config-validation.html#new-commit-validation[
-extension point to do validation of new commits]. A Gerrit plugin
+extension point to do validation of new commits,role=external,window=_blank]. A Gerrit plugin
 implementing this extension point can perform validation checks when
 new commits are pushed to Gerrit. The plugin can either provide a
 message to the client or reject the commit and cause the push to fail.
@@ -408,13 +391,13 @@ message to the client or reject the commit and cause the push to fail.
 There are some plugins available that provide commit validation:
 
 - link:https://gerrit-review.googlesource.com/admin/repos/plugins/uploadvalidator[
-  uploadvalidator]:
+  uploadvalidator,role=external,window=_blank]:
 +
 The `uploadvalidator` plugin allows project owners to configure blocked
 file extensions, required footers and a maximum allowed path length.
 
 - link:https://gerrit-review.googlesource.com/admin/repos/plugins/commit-message-length-validator[
-  commit-message-length-validator]
+  commit-message-length-validator,role=external,window=_blank]
 +
 The `commit-message-length-validator` core plugin validates that commit
 messages conform to line length limits.
@@ -423,7 +406,7 @@ messages conform to line length limits.
 == Branch Administration
 
 As project owner you can administrate the branches of your project in
-the Gerrit Web UI under `Projects` > `List` > <your project> >
+the Gerrit Web UI under `BROWSE` > `Repositories` > <your project> >
 `Branches`. In the Web UI link:project-configuration.html#branch-creation[
 branch creation] is allowed if you have
 link:access-control.html#category_create[Create Reference] access right and
@@ -442,7 +425,7 @@ this default branch and checks it out.
 
 With Gerrit individual users control their own email subscriptions. By
 editing the link:user-notify.html#user[watched projects] in the Web UI
-under `Settings` > `Watched Projects` users can decide which events to
+under `Settings` > `Notifications` users can decide which events to
 be informed about by email. The change notifications can be filtered by
 link:user-search.html[change search expressions].
 
@@ -468,8 +451,8 @@ configure such custom dashboards on
 link:user-dashboards.html#project-dashboards[project level]. This way
 you can define a view of the changes that are relevant for your
 project and share this dashboard with all users. The project dashboards
-can be seen in the Web UI under `Projects` > `List` > <your project> >
-`Dashboards`.
+can be seen in the Web UI under `BROWSE` > `Repositories` > <your project>
+> `Dashboards`.
 
 [[issue-tracker-integration]]
 == Issue Tracker Integration
@@ -494,14 +477,14 @@ only be done globally by a Gerrit administrator.
 - Issue Tracker System Plugins
 +
 There are Gerrit plugins for a tight integration with
-link:https://gerrit-review.googlesource.com//admin/repos/plugins/its-jira[Jira],
-link:https://gerrit-review.googlesource.com/admin/repos/plugins/its-bugzilla[Bugzilla] and
-link:https://gerrit-review.googlesource.com/admin/repos/plugins/its-rtc[IBM Rational Team Concert].
+link:https://gerrit-review.googlesource.com//admin/repos/plugins/its-jira[Jira,role=external,window=_blank],
+link:https://gerrit-review.googlesource.com/admin/repos/plugins/its-bugzilla[Bugzilla,role=external,window=_blank] and
+link:https://gerrit-review.googlesource.com/admin/repos/plugins/its-rtc[IBM Rational Team Concert,role=external,window=_blank].
 If installed, these plugins can e.g. be used to automatically add links
 to Gerrit changes to the issues in the issue tracker system or to
 automatically close an issue if the corresponding change is merged.
 If installed, project owners may enable/disable the issue tracker
-integration from the Gerrit Web UI under `Projects` > `Lists` >
+integration from the Gerrit Web UI under `BROWSE` > `Repositories` >
 <your project> > `General`.
 
 [[comment-links]]
@@ -544,20 +527,20 @@ by adding this person in the Gerrit Web UI as a reviewer on the change.
 Gerrit will then notify this person by email about the review request.
 
 With the link:https://gerrit-review.googlesource.com/admin/repos/plugins/reviewers[
-reviewers] plugin it is possible to configure default reviewers who
+reviewers,role=external,window=_blank] plugin it is possible to configure default reviewers who
 will be automatically added to each change. The default reviewers can
-be configured in the Gerrit Web UI under `Projects` > `List` >
+be configured in the Gerrit Web UI under `BROWSE` > `Repositories` >
 <your project> > `General` in the `reviewers Plugin` section.
 
 The link:https://gerrit-review.googlesource.com/admin/repos/plugins/reviewers-by-blame[
-reviewers-by-blame] plugin can automatically add reviewers to changes
+reviewers-by-blame,role=external,window=_blank] plugin can automatically add reviewers to changes
 based on the link:https://www.kernel.org/pub/software/scm/git/docs/git-blame.html[
-git blame] computation on the changed files. This means that the plugin
+git blame,role=external,window=_blank] computation on the changed files. This means that the plugin
 will add those users as reviewer that authored most of the lines
 touched by the change, since these users should be familiar with the
 code and can most likely review the change. How many reviewers the
 plugin will add to a change at most can be configured in the Gerrit
-Web UI under `Projects` > `List` > <your project> > `General` in the
+Web UI under `BROWSE` > `Repositories` > <your project> > `General` in the
 `reviewers-by-blame Plugin` section.
 
 [[download-commands]]
@@ -571,7 +554,7 @@ that the available download commands depend on the installed Gerrit
 plugins:
 
 - link:https://gerrit-review.googlesource.com/admin/repos/plugins/download-commands[
-  download-commands] plugin:
+  download-commands,role=external,window=_blank] plugin:
 +
 The `download-commands` plugin provides the default download commands
 (`Checkout`, `Cherry Pick`, `Format Patch` and `Pull`).
@@ -579,15 +562,8 @@ The `download-commands` plugin provides the default download commands
 Gerrit administrators may configure which of the commands are shown on
 the change screen.
 
-- link:https://gerrit-review.googlesource.com/admin/repos/plugins/egit[
-  egit] plugin:
-+
-The `egit` plugin provides the change ref as a download command, which is
-needed for downloading a change from within
-link:https://www.eclipse.org/egit/[EGit].
-
 - link:https://gerrit-review.googlesource.com/admin/repos/plugins/project-download-commands[
-  project-download-commands] plugin:
+  project-download-commands,role=external,window=_blank] plugin:
 +
 The `project-download-commands` plugin enables project owners to
 configure project-specific download commands. For example, a
@@ -607,18 +583,6 @@ Project-specific download commands that are defined on a parent project
 are inherited by the child projects. A child project can overwrite an
 inherited download command, or remove it by assigning no value to it.
 
-[[theme]]
-== Theme
-
-Gerrit supports project-specific themes for customizing the appearance
-of the change screen and the diff screens. It is possible to define an
-HTML header and footer and to adapt Gerrit's CSS. Details about themes
-are explained in the link:config-themes.html[Themes] section.
-
-Project-specific themes can only be installed by Gerrit administrators
-since the theme files must be copied into the Gerrit installation
-folder.
-
 [[tool-integration]]
 == Integration with other tools
 
@@ -637,7 +601,7 @@ global capability is required for using the `stream-events` command.
 - REST API:
 +
 Gerrit provides a rich link:rest-api.html[REST API] that other tools
-can use to query information from Gerrit and and to trigger actions in
+can use to query information from Gerrit and to trigger actions in
 Gerrit.
 
 - Gerrit Plugins:
@@ -645,9 +609,9 @@ Gerrit.
 The Gerrit functionality can be extended by plugins and there are many
 extension points, e.g. plugins can
 +
-** link:dev-plugins.html#top-menu-extensions[add new menu entries]
-** link:dev-plugins.html#ui_extension[extend existing screens] and
-   link:dev-plugins.html#screen[add new screens]
+** link:pg-plugin-admin-api.html[add new menu entries]
+** link:pg-plugin-endpoints.html[hook into DOM elements] and
+   link:pg-plugin-dev.html#plugin-screen[add new pages]
 ** link:config-validation.html[do validation], e.g. of new commits
 ** add new REST endpoints and link:dev-plugins.html#ssh[SSH commands]
 
@@ -661,9 +625,10 @@ Plugin Development] section.
 [[project-creation]]
 === Project Creation
 
-New projects can be created in the Gerrit Web UI under `Projects` >
-`Create Project`. The `Create Project` menu entry is only available if
-you have the link:access-control.html#capability_createProject[
+New projects can be created in the Gerrit Web UI under `BROWSE` >
+`Repositories` and then clicking on the `CREATE NEW` button in the
+upper right corner. The `CREATE NEW` button is only available if you
+have the link:access-control.html#capability_createProject[
 Create Project] global capability assigned.
 
 Projects can also be created via REST or SSH as described in the
@@ -683,14 +648,14 @@ project. To do this you need to have a local Git repository that
 contains this history. If your existing codebase is in another VCS you
 must migrate it to Git first. For Subversion you can use the
 link:http://git-scm.com/book/en/Git-and-Other-Systems-Git-and-Subversion[
-git svn] command as described in the
+git svn,role=external,window=_blank] command as described in the
 link:http://git-scm.com/book/en/Git-and-Other-Systems-Migrating-to-Git#Subversion[
-Subversion migration guide]. An importer for Perforce is available in
+Subversion migration guide,role=external,window=_blank]. An importer for Perforce is available in
 the `contrib` section of the Git source code; how to use
-link:http://git-scm.com/docs/git-p4[git p4] to do the import from
+link:http://git-scm.com/docs/git-p4[git p4,role=external,window=_blank] to do the import from
 Perforce is described in the
 link:http://git-scm.com/book/en/Git-and-Other-Systems-Migrating-to-Git#Perforce[
-Perforce migration guide].
+Perforce migration guide,role=external,window=_blank].
 
 To import an existing history into a Gerrit project you bypass code
 review and push it directly to `refs/heads/<branch>`. For this you must
@@ -704,7 +669,7 @@ Some Gerrit servers may disallow forging committers by blocking the
 link:access-control.html#category_forge_committer[Forge Committer]
 access right globally. In this case you must use the
 link:https://www.kernel.org/pub/software/scm/git/docs/git-filter-branch.html[
-git filter-branch] command to rewrite the committer information for all
+git filter-branch,role=external,window=_blank] command to rewrite the committer information for all
 commits (the author information that records who was writing the code
 stays intact; signed tags will lose their signature):
 
@@ -746,8 +711,8 @@ have been rewritten are removed.
 Gerrit core does not support the deletion of projects.
 
 If the link:https://gerrit-review.googlesource.com/admin/repos/plugins/delete-project[
-delete-project] plugin is installed, projects can be deleted from the
-Gerrit Web UI under `Projects` > `List` > <project> > `General` by
+delete-project,role=external,window=_blank] plugin is installed, projects can be deleted from the
+Gerrit Web UI under `BROWSE` > `Repositories` > <project> > `General` by
 clicking on the `Delete` command under `Project Commands`. The `Delete`
 command is only available if you have the `Delete Projects` global
 capability assigned, or if you own the project and you have the
@@ -756,7 +721,7 @@ capabilities is granted, you need to contact a Gerrit administrator to
 request the deletion of your project.
 
 Instead of deleting a project you may set the
-link:project-configuration.html#project-state[project state] to `ReadOnly` or
+link:config-project-config.html#project-section[project state] to `ReadOnly` or
 `Hidden`.
 
 [[project-rename]]
@@ -764,19 +729,23 @@ link:project-configuration.html#project-state[project state] to `ReadOnly` or
 
 Gerrit core does not support the renaming of projects.
 
-As workaround you may
+If the link:https://gerrit-review.googlesource.com/admin/repos/plugins/rename-project[rename-project]
+plugin is installed, projects can be renamed using the
+link:https://gerrit.googlesource.com/plugins/rename-project/+/refs/heads/master/src/main/resources/Documentation/cmd-rename.md[rename-project]
+ssh command.
 
-. link:#project-creation[create a new project] with the new name
-. link:#import-history[import the history of the old project]
-. link:#project-deletion[delete the old project]
+Find details about prerequisites in the
+link:https://gerrit.googlesource.com/plugins/rename-project/+/refs/heads/master/src/main/resources/Documentation/about.md[plugin documentation].
+
+If you don't want to use the rename-project plugin you can perform the following steps as
+a workaround:
+
+. link:#project-creation[Create a new project] with the new name.
+. link:#import-history[Import the history of the old project].
+. link:#project-deletion[Delete the old project].
 
 Please note that a drawback of this workaround is that the whole review
 history (changes, review comments) is lost.
-
-Alternatively, you can use the
-link:https://gerrit.googlesource.com/plugins/importer/[importer] plugin
-to copy the project _including the review history_, and then
-link:#project-deletion[delete the old project].
 
 GERRIT
 ------

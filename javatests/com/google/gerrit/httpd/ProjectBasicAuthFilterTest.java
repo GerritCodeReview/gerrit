@@ -1,0 +1,437 @@
+// Copyright (C) 2021 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package com.google.gerrit.httpd;
+
+import static com.google.common.truth.Truth.assertThat;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+
+import com.google.common.collect.ImmutableSet;
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.extensions.client.GitBasicAuthPolicy;
+import com.google.gerrit.extensions.registration.DynamicItem;
+import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.AccountException;
+import com.google.gerrit.server.account.AccountManager;
+import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.account.AuthRequest;
+import com.google.gerrit.server.account.AuthResult;
+import com.google.gerrit.server.account.AuthToken;
+import com.google.gerrit.server.account.AuthTokenAccessor;
+import com.google.gerrit.server.account.AuthTokenVerifier;
+import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.server.account.externalids.ExternalIdFactory;
+import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
+import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdFactoryNoteDbImpl;
+import com.google.gerrit.server.config.AuthConfig;
+import com.google.gerrit.util.http.testutil.FakeHttpServletRequest;
+import com.google.gerrit.util.http.testutil.FakeHttpServletResponse;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.time.Instant;
+import java.util.Base64;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletResponse;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
+
+@RunWith(MockitoJUnitRunner.class)
+public class ProjectBasicAuthFilterTest {
+  private static final Base64.Encoder B64_ENC = Base64.getEncoder();
+  private static final Account.Id AUTH_ACCOUNT_ID = Account.id(1000);
+  private static final String AUTH_USER = "johndoe";
+  private static final String AUTH_USER_B64 =
+      B64_ENC.encodeToString(AUTH_USER.getBytes(StandardCharsets.UTF_8));
+  private static final String AUTH_PASSWORD = "jd123";
+  private static final String AUTH_PASSWORD_72_CHARS = "1".repeat(72);
+  private static final String GERRIT_COOKIE_KEY = "GerritAccount";
+  private static final String AUTH_COOKIE_VALUE = "gerritcookie";
+
+  @Mock private DynamicItem<WebSession> webSessionItem;
+
+  @Mock private AccountCache accountCache;
+
+  @Mock private AccountManager accountManager;
+
+  @Mock private AuthConfig authConfig;
+
+  @Mock private FilterChain chain;
+
+  @Captor private ArgumentCaptor<HttpServletResponse> filterResponseCaptor;
+
+  @Mock private IdentifiedUser.RequestFactory userRequestFactory;
+
+  @Mock private WebSessionManager webSessionManager;
+
+  @Mock private AuthTokenAccessor tokenAccessor;
+
+  private WebSession webSession;
+  private FakeHttpServletRequest req;
+  private HttpServletResponse res;
+  private AuthResult authSuccessful;
+  private ExternalIdFactory extIdFactory;
+  private ExternalIdKeyFactory extIdKeyFactory;
+  private AuthTokenVerifier tokenVerifier;
+  private AuthRequest.Factory authRequestFactory;
+
+  @Before
+  public void setUp() throws Exception {
+    req = new FakeHttpServletRequest("gerrit.example.com", 80, "", "");
+    res = new FakeHttpServletResponse();
+
+    extIdKeyFactory = new ExternalIdKeyFactory(new ExternalIdKeyFactory.ConfigImpl(authConfig));
+    extIdFactory = new ExternalIdFactoryNoteDbImpl(extIdKeyFactory, authConfig);
+    authRequestFactory = new AuthRequest.Factory(extIdKeyFactory);
+    tokenVerifier = new AuthTokenVerifier(tokenAccessor);
+
+    authSuccessful =
+        new AuthResult(AUTH_ACCOUNT_ID, extIdKeyFactory.create("username", AUTH_USER), false);
+    doReturn(authSuccessful).when(accountManager).authenticate(any());
+
+    doReturn(new WebSessionManager.Key(AUTH_COOKIE_VALUE)).when(webSessionManager).createKey(any());
+    WebSessionManager.Val webSessionValue =
+        new WebSessionManager.Val(AUTH_ACCOUNT_ID, 0L, false, null, 0L, "", "");
+    doReturn(webSessionValue)
+        .when(webSessionManager)
+        .createVal(any(), any(), eq(false), any(), any(), any());
+    doReturn(List.of(AuthToken.createWithPlainToken("token", AUTH_PASSWORD)))
+        .when(tokenAccessor)
+        .getValidTokens(AUTH_ACCOUNT_ID);
+  }
+
+  @Test
+  public void shouldAllowAnonymousRequest() throws Exception {
+    initAccount();
+    initMockedWebSession();
+    res.setStatus(HttpServletResponse.SC_OK);
+
+    ProjectBasicAuthFilter basicAuthFilter =
+        new ProjectBasicAuthFilter(
+            webSessionItem,
+            accountCache,
+            accountManager,
+            authConfig,
+            authRequestFactory,
+            tokenVerifier);
+
+    basicAuthFilter.doFilter(req, res, chain);
+
+    verify(chain).doFilter(eq(req), filterResponseCaptor.capture());
+    assertThat(res.getStatus()).isEqualTo(HttpServletResponse.SC_OK);
+  }
+
+  @Test
+  public void shouldRequestAuthenticationForBasicAuthRequest() throws Exception {
+    initAccount();
+    initMockedWebSession();
+    req.addHeader("Authorization", "Basic " + AUTH_USER_B64);
+    res.setStatus(HttpServletResponse.SC_OK);
+
+    ProjectBasicAuthFilter basicAuthFilter =
+        new ProjectBasicAuthFilter(
+            webSessionItem,
+            accountCache,
+            accountManager,
+            authConfig,
+            authRequestFactory,
+            tokenVerifier);
+
+    basicAuthFilter.doFilter(req, res, chain);
+
+    verify(chain, never()).doFilter(any(), any());
+    assertThat(res.getStatus()).isEqualTo(HttpServletResponse.SC_UNAUTHORIZED);
+    assertThat(res.getHeader("WWW-Authenticate")).contains("Basic realm=");
+  }
+
+  @Test
+  public void shouldRequestAuthenticationForBasicAuthRequestWithLongInvalidPassword()
+      throws Exception {
+    initAccount();
+    initMockedWebSession();
+    req.addHeader(
+        "Authorization",
+        "Basic "
+            + B64_ENC.encodeToString(
+                (AUTH_USER + ":" + AUTH_PASSWORD_72_CHARS).getBytes(StandardCharsets.UTF_8)));
+    res.setStatus(HttpServletResponse.SC_OK);
+
+    ExternalId extId = createUsernamePasswordExternalId();
+    initAccount(ImmutableSet.of(extId));
+    doReturn(GitBasicAuthPolicy.HTTP).when(authConfig).getGitBasicAuthPolicy();
+
+    ProjectBasicAuthFilter basicAuthFilter =
+        new ProjectBasicAuthFilter(
+            webSessionItem,
+            accountCache,
+            accountManager,
+            authConfig,
+            authRequestFactory,
+            tokenVerifier);
+
+    basicAuthFilter.doFilter(req, res, chain);
+
+    verify(chain, never()).doFilter(any(), any());
+    assertThat(res.getStatus()).isEqualTo(HttpServletResponse.SC_UNAUTHORIZED);
+    assertThat(res.getHeader("WWW-Authenticate")).contains("Basic realm=");
+  }
+
+  @Test
+  public void shouldAuthenticateWithRealmEvenIfGerritUserDoesNotExist() throws Exception {
+    initWebSessionWithoutCookie();
+    requestBasicAuth(req);
+    doReturn(authSuccessful).when(accountManager).authenticate(any());
+    doReturn(GitBasicAuthPolicy.LDAP).when(authConfig).getGitBasicAuthPolicy();
+
+    ProjectBasicAuthFilter basicAuthFilter =
+        new ProjectBasicAuthFilter(
+            webSessionItem,
+            accountCache,
+            accountManager,
+            authConfig,
+            authRequestFactory,
+            tokenVerifier);
+
+    basicAuthFilter.doFilter(req, res, chain);
+    assertThat(res.getStatus()).isEqualTo(HttpServletResponse.SC_OK);
+  }
+
+  @Test
+  public void shouldFailAuthenticationIfGerritUserDoesNotExist() throws Exception {
+    doReturn(Optional.empty()).when(accountCache).getByUsername(AUTH_USER);
+    initWebSessionWithoutCookie();
+    requestBasicAuth(req);
+    doReturn(GitBasicAuthPolicy.HTTP).when(authConfig).getGitBasicAuthPolicy();
+
+    ProjectBasicAuthFilter basicAuthFilter =
+        new ProjectBasicAuthFilter(
+            webSessionItem,
+            accountCache,
+            accountManager,
+            authConfig,
+            authRequestFactory,
+            tokenVerifier);
+
+    basicAuthFilter.doFilter(req, res, chain);
+    assertThat(res.getStatus()).isEqualTo(HttpServletResponse.SC_UNAUTHORIZED);
+  }
+
+  @Test
+  public void shouldAuthenticateSucessfullyAgainstRealmAndReturnCookie() throws Exception {
+    initAccount();
+    initWebSessionWithoutCookie();
+    requestBasicAuth(req);
+    res.setStatus(HttpServletResponse.SC_OK);
+
+    doReturn(GitBasicAuthPolicy.LDAP).when(authConfig).getGitBasicAuthPolicy();
+
+    ProjectBasicAuthFilter basicAuthFilter =
+        new ProjectBasicAuthFilter(
+            webSessionItem,
+            accountCache,
+            accountManager,
+            authConfig,
+            authRequestFactory,
+            tokenVerifier);
+
+    basicAuthFilter.doFilter(req, res, chain);
+
+    verify(accountManager).authenticate(any());
+
+    verify(chain).doFilter(eq(req), any());
+    assertThat(res.getStatus()).isEqualTo(HttpServletResponse.SC_OK);
+    assertThat(res.getHeader("Set-Cookie")).contains(GERRIT_COOKIE_KEY);
+  }
+
+  @Test
+  public void shouldValidateUserPasswordAndNotReturnCookie() throws Exception {
+    ExternalId extId = createUsernamePasswordExternalId();
+    initAccount(ImmutableSet.of(extId));
+    initWebSessionWithoutCookie();
+    requestBasicAuth(req);
+    doReturn(GitBasicAuthPolicy.HTTP).when(authConfig).getGitBasicAuthPolicy();
+    res.setStatus(HttpServletResponse.SC_OK);
+
+    ProjectBasicAuthFilter basicAuthFilter =
+        new ProjectBasicAuthFilter(
+            webSessionItem,
+            accountCache,
+            accountManager,
+            authConfig,
+            authRequestFactory,
+            tokenVerifier);
+
+    basicAuthFilter.doFilter(req, res, chain);
+
+    verify(accountManager, never()).authenticate(any());
+
+    verify(chain).doFilter(eq(req), any());
+    assertThat(res.getStatus()).isEqualTo(HttpServletResponse.SC_OK);
+    assertThat(res.getHeader("Set-Cookie")).isNull();
+  }
+
+  @Test
+  public void shouldNotReauthenticateForGitPostRequest() throws Exception {
+    initAccount();
+    req.setPathInfo("/a/project.git/git-upload-pack");
+    req.setMethod("POST");
+    req.addHeader("Content-Type", "application/x-git-upload-pack-request");
+    doFilterForRequestWhenAlreadySignedIn();
+
+    verify(accountManager, never()).authenticate(any());
+    verify(chain).doFilter(eq(req), any());
+    assertThat(res.getStatus()).isEqualTo(HttpServletResponse.SC_OK);
+  }
+
+  @Test
+  public void shouldReauthenticateForRegularRequestEvenIfAlreadySignedIn() throws Exception {
+    initAccount();
+    doReturn(GitBasicAuthPolicy.LDAP).when(authConfig).getGitBasicAuthPolicy();
+    doFilterForRequestWhenAlreadySignedIn();
+
+    verify(accountManager).authenticate(any());
+    verify(chain).doFilter(eq(req), any());
+    assertThat(res.getStatus()).isEqualTo(HttpServletResponse.SC_OK);
+  }
+
+  @Test
+  public void shouldReauthenticateEvenIfHasExistingCookie() throws Exception {
+    initAccount();
+    initWebSessionWithCookie("GerritAccount=" + AUTH_COOKIE_VALUE);
+    res.setStatus(HttpServletResponse.SC_OK);
+    requestBasicAuth(req);
+    doReturn(GitBasicAuthPolicy.LDAP).when(authConfig).getGitBasicAuthPolicy();
+
+    ProjectBasicAuthFilter basicAuthFilter =
+        new ProjectBasicAuthFilter(
+            webSessionItem,
+            accountCache,
+            accountManager,
+            authConfig,
+            authRequestFactory,
+            tokenVerifier);
+
+    basicAuthFilter.doFilter(req, res, chain);
+
+    verify(accountManager).authenticate(any());
+    verify(chain).doFilter(eq(req), any());
+    assertThat(res.getStatus()).isEqualTo(HttpServletResponse.SC_OK);
+  }
+
+  @Test
+  public void shouldFailedAuthenticationAgainstRealm() throws Exception {
+    initAccount();
+    initMockedWebSession();
+    requestBasicAuth(req);
+
+    doThrow(new AccountException("Authentication error")).when(accountManager).authenticate(any());
+    doReturn(GitBasicAuthPolicy.LDAP).when(authConfig).getGitBasicAuthPolicy();
+
+    ProjectBasicAuthFilter basicAuthFilter =
+        new ProjectBasicAuthFilter(
+            webSessionItem,
+            accountCache,
+            accountManager,
+            authConfig,
+            authRequestFactory,
+            tokenVerifier);
+
+    basicAuthFilter.doFilter(req, res, chain);
+
+    verify(accountManager).authenticate(any());
+
+    verify(chain, never()).doFilter(any(), any());
+    assertThat(res.getStatus()).isEqualTo(HttpServletResponse.SC_UNAUTHORIZED);
+  }
+
+  private void initAccount() throws Exception {
+    initAccount(ImmutableSet.of());
+  }
+
+  private void initAccount(Collection<ExternalId> extIds) throws Exception {
+    Account account = Account.builder(AUTH_ACCOUNT_ID, Instant.now()).build();
+    AccountState accountState = AccountState.forAccount(account, extIds);
+    doReturn(Optional.of(accountState)).when(accountCache).getByUsername(AUTH_USER);
+    doReturn(Optional.of(accountState)).when(accountCache).get(AUTH_ACCOUNT_ID);
+  }
+
+  private void doFilterForRequestWhenAlreadySignedIn()
+      throws IOException, ServletException, AccountException {
+    initMockedWebSession();
+    doReturn(true).when(webSession).isSignedIn();
+    doReturn(authSuccessful).when(accountManager).authenticate(any());
+    requestBasicAuth(req);
+    res.setStatus(HttpServletResponse.SC_OK);
+
+    ProjectBasicAuthFilter basicAuthFilter =
+        new ProjectBasicAuthFilter(
+            webSessionItem,
+            accountCache,
+            accountManager,
+            authConfig,
+            authRequestFactory,
+            tokenVerifier);
+
+    basicAuthFilter.doFilter(req, res, chain);
+  }
+
+  private void initWebSessionWithCookie(String cookie) {
+    req.addHeader("Cookie", cookie);
+    initWebSessionWithoutCookie();
+  }
+
+  private void initWebSessionWithoutCookie() {
+    webSession =
+        new CacheBasedWebSession(
+            req, res, webSessionManager, authConfig, null, userRequestFactory, accountCache) {};
+    doReturn(webSession).when(webSessionItem).get();
+  }
+
+  private void initMockedWebSession() {
+    webSession = mock(WebSession.class);
+    doReturn(webSession).when(webSessionItem).get();
+  }
+
+  @Deprecated
+  private ExternalId createUsernamePasswordExternalId() {
+    return extIdFactory.createWithPassword(
+        extIdKeyFactory.create(ExternalId.SCHEME_USERNAME, AUTH_USER),
+        AUTH_ACCOUNT_ID,
+        null,
+        AUTH_PASSWORD);
+  }
+
+  private void requestBasicAuth(FakeHttpServletRequest fakeReq) {
+    fakeReq.addHeader(
+        "Authorization",
+        "Basic "
+            + B64_ENC.encodeToString(
+                (AUTH_USER + ":" + AUTH_PASSWORD).getBytes(StandardCharsets.UTF_8)));
+  }
+}

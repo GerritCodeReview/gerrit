@@ -1,0 +1,4 @@
+# Module fragment used to wire plugin Bazel modules into the Gerrit
+# in-tree build. Plugins that declare external dependencies can expose
+# their repositories (e.g. repositories created via rules_jvm_external)
+# through this file.

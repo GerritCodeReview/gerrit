@@ -1,0 +1,53 @@
+#!/bin/bash
+#
+# Example usage only-
+# 1. Optional: replace test@mail.com below with your own, reachable locally.
+# 2. Use the '>>' operator below instead to not overwrite your known_hosts; keep '>' otherwise.
+# 3. Note that appending as proposed above may potentially repeat the same line multiple times.
+# 4. Init your local Gerrit test site then start it; you may refer to [1] below.
+# 5. Set GIT_HTTP_PASSWORD below to yours, from [2].
+# 6. Change to this directory to execute ./README (this executable file) in its own terminal.
+# 7. Install sbt if missing, based on your operating system; re-run to compile.
+# 8. Optional: add the below generated (displayed) key to your local admin user [3].
+# 9. Otherwise keep the lines below that use your existing user ssh keys for admin testing.
+# 10. This script assumes the google-sourced version of the example json file [4].
+# 11. If running that scenario locally as below reports authentication failures, [4] may be a fork.
+# 12. Uncomment any one of the below sbt commands at will; you may add some locally.
+# 13. See [5] for how to start using JAVA_OPTS below; you may leave it empty for these sbt commands.
+# 14. You can initialize an IDE sbt (Scala) project from/in this root folder; see [6].
+#
+# [1] https://gerrit-review.googlesource.com/Documentation/dev-readme.html#init
+# [2] http://localhost:8080/settings/#HTTPCredentials
+# [3] http://localhost:8080/settings/#SSHKeys
+# [4] ./src/test/resources/data/com/google/gerrit/scenarios/CloneUsingBothProtocols.json
+# [5] https://gerrit-review.googlesource.com/Documentation/dev-e2e-tests.html#_environment_properties
+# [6] https://gerrit-review.googlesource.com/Documentation/dev-e2e-tests.html#_ide_intellij
+
+# DO NOT change this (assumed) directory; force-removed *recursively* below!
+gatlingGitKeys=/tmp/ssh-keys
+
+userSshDir=$HOME/.ssh
+
+# Comment this group of lines out if willing to generate other keys as below.
+rm -f $gatlingGitKeys
+ln -s "$userSshDir" $gatlingGitKeys
+
+# Comment this group of lines out if keys already generated, as either below or above.
+#rm -fr $gatlingGitKeys
+#mkdir $gatlingGitKeys
+#ssh-keygen -m PEM -t rsa -C "test@mail.com" -f $gatlingGitKeys/id_rsa
+
+ssh-keyscan -t rsa -p 29418 localhost > "$userSshDir"/known_hosts
+cat $gatlingGitKeys/id_rsa.pub
+
+export GIT_HTTP_USERNAME="admin"
+export GIT_HTTP_PASSWORD="TODO"
+export JAVA_OPTS="\
+"
+#-Dx=y \
+
+#sbt clean
+#sbt update
+sbt compile
+#sbt "gatling:testOnly com.google.gerrit.scenarios.CloneUsingBothProtocols"
+#sbt "gatling:lastReport"

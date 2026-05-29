@@ -1,0 +1,362 @@
+// Copyright (C) 2013 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package com.google.gerrit.server.git.validators;
+
+import com.google.common.collect.ImmutableList;
+import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.entities.BranchNameKey;
+import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.exceptions.StorageException;
+import com.google.gerrit.extensions.api.projects.ProjectConfigEntryType;
+import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.registration.Extension;
+import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.IdentifiedUser.ImpersonationPermissionMode;
+import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.config.PluginConfig;
+import com.google.gerrit.server.config.ProjectConfigEntry;
+import com.google.gerrit.server.git.CodeReviewCommit;
+import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
+import com.google.gerrit.server.group.db.GroupConfig;
+import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.ProjectPermission;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectConfig;
+import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.inject.Inject;
+import java.io.IOException;
+import java.util.Objects;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
+
+/**
+ * Collection of validators that run inside Gerrit before a change is submitted. The main purpose is
+ * to ensure that NoteDb data is mutated in a controlled way.
+ *
+ * <p>The difference between this and {@link OnSubmitValidators} is that this validates the original
+ * commit. Depending on the {@link com.google.gerrit.server.submit.SubmitStrategy} that the project
+ * chooses, the resulting commit in the repo might differ from this original commit. In case you
+ * want to validate the resulting commit, use {@link OnSubmitValidators}
+ */
+public class MergeValidators {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
+  private final PluginSetContext<MergeValidationListener> mergeValidationListeners;
+  private final ProjectConfigValidator.Factory projectConfigValidatorFactory;
+  private final GroupMergeValidator.Factory groupValidatorFactory;
+
+  public interface Factory {
+    MergeValidators create();
+  }
+
+  @Inject
+  MergeValidators(
+      PluginSetContext<MergeValidationListener> mergeValidationListeners,
+      ProjectConfigValidator.Factory projectConfigValidatorFactory,
+      GroupMergeValidator.Factory groupValidatorFactory) {
+    this.mergeValidationListeners = mergeValidationListeners;
+    this.projectConfigValidatorFactory = projectConfigValidatorFactory;
+    this.groupValidatorFactory = groupValidatorFactory;
+  }
+
+  /**
+   * Runs all validators and throws a {@link MergeValidationException} for the first validator that
+   * failed. Only the first violation is propagated and processing is stopped thereafter.
+   */
+  public void validatePreMerge(
+      Repository repo,
+      CodeReviewRevWalk revWalk,
+      CodeReviewCommit commit,
+      ProjectState destProject,
+      BranchNameKey destBranch,
+      PatchSet.Id patchSetId,
+      IdentifiedUser caller)
+      throws MergeValidationException {
+    ImmutableList<MergeValidationListener> validators =
+        ImmutableList.of(
+            new PluginMergeValidationListener(mergeValidationListeners),
+            projectConfigValidatorFactory.create(),
+            groupValidatorFactory.create(),
+            new DestBranchRefValidator());
+
+    for (MergeValidationListener validator : validators) {
+      validator.onPreMerge(repo, revWalk, commit, destProject, destBranch, patchSetId, caller);
+    }
+  }
+
+  /** Validator for any commits to {@code refs/meta/config}. */
+  public static class ProjectConfigValidator implements MergeValidationListener {
+    private static final String INVALID_CONFIG =
+        "Change contains an invalid project configuration.";
+    private static final String PARENT_NOT_FOUND =
+        "Change contains an invalid project configuration:\nParent project does not exist.";
+    private static final String PLUGIN_VALUE_NOT_EDITABLE =
+        "Change contains an invalid project configuration:\n"
+            + "One of the plugin configuration parameters is not editable.";
+    private static final String PLUGIN_VALUE_NOT_PERMITTED =
+        "Change contains an invalid project configuration:\n"
+            + "One of the plugin configuration parameters has a value that is not"
+            + " permitted.";
+    private static final String ROOT_NO_PARENT =
+        "Change contains an invalid project configuration:\n"
+            + "The root project cannot have a parent.";
+    private static final String SET_BY_ADMIN =
+        "Change contains a project configuration that changes the parent"
+            + " project.\n"
+            + "The change must be submitted by a Gerrit administrator.";
+    private static final String SET_BY_OWNER =
+        "Change contains a project configuration that changes the parent"
+            + " project.\n"
+            + "The change must be submitted by a Gerrit administrator or the project owner.";
+
+    private final AllProjectsName allProjectsName;
+    private final AllUsersName allUsersName;
+    private final ProjectCache projectCache;
+    private final PermissionBackend permissionBackend;
+    private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
+    private final ProjectConfig.Factory projectConfigFactory;
+    private final boolean allowProjectOwnersToChangeParent;
+
+    public interface Factory {
+      ProjectConfigValidator create();
+    }
+
+    @Inject
+    public ProjectConfigValidator(
+        AllProjectsName allProjectsName,
+        AllUsersName allUsersName,
+        ProjectCache projectCache,
+        PermissionBackend permissionBackend,
+        DynamicMap<ProjectConfigEntry> pluginConfigEntries,
+        ProjectConfig.Factory projectConfigFactory,
+        @GerritServerConfig Config config) {
+      this.allProjectsName = allProjectsName;
+      this.allUsersName = allUsersName;
+      this.projectCache = projectCache;
+      this.permissionBackend = permissionBackend;
+      this.pluginConfigEntries = pluginConfigEntries;
+      this.projectConfigFactory = projectConfigFactory;
+      this.allowProjectOwnersToChangeParent =
+          config.getBoolean("receive", "allowProjectOwnersToChangeParent", false);
+    }
+
+    @Override
+    public void onPreMerge(
+        Repository repo,
+        CodeReviewRevWalk revWalk,
+        CodeReviewCommit commit,
+        ProjectState destProject,
+        BranchNameKey destBranch,
+        PatchSet.Id patchSetId,
+        IdentifiedUser caller)
+        throws MergeValidationException {
+      if (RefNames.REFS_CONFIG.equals(destBranch.branch())) {
+        final Project.NameKey newParent;
+        try {
+          ProjectConfig cfg = projectConfigFactory.create(destProject.getNameKey());
+          cfg.load(destProject.getNameKey(), repo, commit);
+          newParent = cfg.getProject().getParent(allProjectsName);
+          final Project.NameKey oldParent = destProject.getProject().getParent(allProjectsName);
+          if (oldParent == null) {
+            // update of the 'All-Projects' project
+            if (newParent != null) {
+              throw new MergeValidationException(ROOT_NO_PARENT);
+            }
+          } else {
+            if (!oldParent.equals(newParent)) {
+              if (!allowProjectOwnersToChangeParent) {
+                try {
+                  if (!permissionBackend
+                      .user(caller, ImpersonationPermissionMode.REAL_USER)
+                      .test(GlobalPermission.ADMINISTRATE_SERVER)) {
+                    throw new MergeValidationException(SET_BY_ADMIN);
+                  }
+                } catch (PermissionBackendException e) {
+                  logger.atWarning().withCause(e).log("Cannot check ADMINISTRATE_SERVER");
+                  throw new MergeValidationException("validation unavailable", e);
+                }
+              } else {
+                try {
+                  permissionBackend
+                      .user(caller, ImpersonationPermissionMode.REAL_USER)
+                      .project(destProject.getNameKey())
+                      .check(ProjectPermission.WRITE_CONFIG);
+                } catch (AuthException e) {
+                  throw new MergeValidationException(SET_BY_OWNER, e);
+                } catch (PermissionBackendException e) {
+                  logger.atWarning().withCause(e).log("Cannot check WRITE_CONFIG");
+                  throw new MergeValidationException("validation unavailable", e);
+                }
+              }
+              if (allUsersName.equals(destProject.getNameKey())
+                  && !allProjectsName.equals(newParent)) {
+                throw new MergeValidationException(
+                    String.format(
+                        " %s must inherit from %s", allUsersName.get(), allProjectsName.get()));
+              }
+              if (!projectCache.get(newParent).isPresent()) {
+                throw new MergeValidationException(PARENT_NOT_FOUND);
+              }
+            }
+          }
+
+          for (Extension<ProjectConfigEntry> e : pluginConfigEntries) {
+            PluginConfig pluginCfg = cfg.getPluginConfig(e.getPluginName());
+            ProjectConfigEntry configEntry = e.getProvider().get();
+
+            String value = pluginCfg.getString(e.getExportName());
+            String oldValue =
+                destProject.getPluginConfig(e.getPluginName()).getString(e.getExportName());
+
+            if (!Objects.equals(value, oldValue) && !configEntry.isEditable(destProject)) {
+              throw new MergeValidationException(PLUGIN_VALUE_NOT_EDITABLE);
+            }
+
+            if (ProjectConfigEntryType.LIST.equals(configEntry.getType())
+                && value != null
+                && !configEntry.getPermittedValues().contains(value)) {
+              throw new MergeValidationException(PLUGIN_VALUE_NOT_PERMITTED);
+            }
+          }
+        } catch (ConfigInvalidException | IOException e) {
+          throw new MergeValidationException(INVALID_CONFIG, e);
+        }
+      }
+    }
+  }
+
+  /** Validator that calls to plugins that provide additional validators. */
+  public static class PluginMergeValidationListener implements MergeValidationListener {
+    private final PluginSetContext<MergeValidationListener> mergeValidationListeners;
+
+    public PluginMergeValidationListener(
+        PluginSetContext<MergeValidationListener> mergeValidationListeners) {
+      this.mergeValidationListeners = mergeValidationListeners;
+    }
+
+    @Override
+    public void onPreMerge(
+        Repository repo,
+        CodeReviewRevWalk revWalk,
+        CodeReviewCommit commit,
+        ProjectState destProject,
+        BranchNameKey destBranch,
+        PatchSet.Id patchSetId,
+        IdentifiedUser caller)
+        throws MergeValidationException {
+      mergeValidationListeners.runEach(
+          l -> l.onPreMerge(repo, revWalk, commit, destProject, destBranch, patchSetId, caller),
+          MergeValidationException.class);
+    }
+  }
+
+  /** Validator to ensure that group refs are not mutated. */
+  public static class GroupMergeValidator implements MergeValidationListener {
+    public interface Factory {
+      GroupMergeValidator create();
+    }
+
+    private final AllUsersName allUsersName;
+    private final ChangeData.Factory changeDataFactory;
+
+    @Inject
+    public GroupMergeValidator(AllUsersName allUsersName, ChangeData.Factory changeDataFactory) {
+      this.allUsersName = allUsersName;
+      this.changeDataFactory = changeDataFactory;
+    }
+
+    @Override
+    public void onPreMerge(
+        Repository repo,
+        CodeReviewRevWalk revWalk,
+        CodeReviewCommit commit,
+        ProjectState destProject,
+        BranchNameKey destBranch,
+        PatchSet.Id patchSetId,
+        IdentifiedUser caller)
+        throws MergeValidationException {
+      // Groups are stored inside the 'All-Users' repository.
+      if (!allUsersName.equals(destProject.getNameKey())
+          || !RefNames.isGroupRef(destBranch.branch())) {
+        return;
+      }
+
+      // Update to group files is not supported because there are no validations
+      // on the changes being done to these files, without which the group data
+      // might get corrupted. Thus don't allow merges into All-Users group refs
+      // which updates group files (i.e., group.config, members and subgroups).
+      // But it is still useful to allow users to update files apart from group
+      // files. For example, users can upload named destinations into group refs.
+      ChangeData cd =
+          changeDataFactory.create(destProject.getProject().getNameKey(), patchSetId.changeId());
+      try {
+        if (cd.currentFilePaths().contains(GroupConfig.GROUP_CONFIG_FILE)
+            || cd.currentFilePaths().contains(GroupConfig.MEMBERS_FILE)
+            || cd.currentFilePaths().contains(GroupConfig.SUBGROUPS_FILE)) {
+          throw new MergeValidationException(
+              String.format(
+                  "update to group files (%s, %s, %s) not allowed",
+                  GroupConfig.GROUP_CONFIG_FILE,
+                  GroupConfig.MEMBERS_FILE,
+                  GroupConfig.SUBGROUPS_FILE));
+        }
+      } catch (StorageException e) {
+        logger.atSevere().withCause(e).log("Cannot validate group update");
+        throw new MergeValidationException("group validation unavailable", e);
+      }
+    }
+  }
+
+  /**
+   * Validator to ensure that destBranch is not a symbolic reference (an attempt to merge into a
+   * symbolic ref branch leads to LOCK_FAILURE exception).
+   */
+  private static class DestBranchRefValidator implements MergeValidationListener {
+    @Override
+    public void onPreMerge(
+        Repository repo,
+        CodeReviewRevWalk revWalk,
+        CodeReviewCommit commit,
+        ProjectState destProject,
+        BranchNameKey destBranch,
+        PatchSet.Id patchSetId,
+        IdentifiedUser caller)
+        throws MergeValidationException {
+      try {
+        Ref ref = repo.exactRef(destBranch.branch());
+        // Usually the target branch exists, but there is an exception for some branches (see
+        // {@link com.google.gerrit.server.git.receive.ReceiveCommits} for details).
+        // Such non-existing branches should be ignored.
+        if (ref != null && ref.isSymbolic()) {
+          throw new MergeValidationException("the target branch is a symbolic ref");
+        }
+      } catch (IOException e) {
+        logger.atSevere().withCause(e).log("Cannot validate destination branch");
+        throw new MergeValidationException("symref validation unavailable", e);
+      }
+    }
+  }
+}

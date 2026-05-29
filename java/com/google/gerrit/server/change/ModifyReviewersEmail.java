@@ -1,0 +1,125 @@
+// Copyright (C) 2018 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package com.google.gerrit.server.change;
+
+import static com.google.common.collect.ImmutableList.toImmutableList;
+import static com.google.gerrit.server.mail.EmailFactories.REVIEW_REQUESTED;
+
+import com.google.common.collect.ImmutableList;
+import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.Address;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.config.SendEmailEnabled;
+import com.google.gerrit.server.config.SendEmailExecutor;
+import com.google.gerrit.server.mail.EmailFactories;
+import com.google.gerrit.server.mail.send.ChangeEmail;
+import com.google.gerrit.server.mail.send.MessageIdGenerator;
+import com.google.gerrit.server.mail.send.OutgoingEmail;
+import com.google.gerrit.server.mail.send.StartReviewChangeEmailDecorator;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import java.util.Collection;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
+
+@Singleton
+public class ModifyReviewersEmail {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
+  private final EmailFactories emailFactories;
+  private final ExecutorService sendEmailsExecutor;
+  private final MessageIdGenerator messageIdGenerator;
+  private final boolean sendEmailEnabled;
+
+  @Inject
+  ModifyReviewersEmail(
+      EmailFactories emailFactories,
+      @SendEmailExecutor ExecutorService sendEmailsExecutor,
+      @SendEmailEnabled Boolean sendEmailEnabled,
+      MessageIdGenerator messageIdGenerator) {
+    this.emailFactories = emailFactories;
+    this.sendEmailsExecutor = sendEmailsExecutor;
+    this.sendEmailEnabled = sendEmailEnabled;
+    this.messageIdGenerator = messageIdGenerator;
+  }
+
+  public void emailReviewersAsync(
+      IdentifiedUser user,
+      Change change,
+      Collection<Account.Id> added,
+      Collection<Account.Id> copied,
+      Collection<Account.Id> removed,
+      Collection<Address> addedByEmail,
+      Collection<Address> copiedByEmail,
+      Collection<Address> removedByEmail,
+      NotifyResolver.Result notify) {
+    if (!sendEmailEnabled) {
+      return;
+    }
+    // The user knows they added/removed themselves, don't bother emailing them.
+    Account.Id userId = user.getAccountId();
+    ImmutableList<Account.Id> immutableToMail =
+        added.stream().filter(id -> !id.equals(userId)).collect(toImmutableList());
+    ImmutableList<Account.Id> immutableToCopy =
+        copied.stream().filter(id -> !id.equals(userId)).collect(toImmutableList());
+    ImmutableList<Account.Id> immutableToRemove =
+        removed.stream().filter(id -> !id.equals(userId)).collect(toImmutableList());
+    if (immutableToMail.isEmpty()
+        && immutableToCopy.isEmpty()
+        && immutableToRemove.isEmpty()
+        && addedByEmail.isEmpty()
+        && copiedByEmail.isEmpty()
+        && removedByEmail.isEmpty()) {
+      return;
+    }
+
+    // Make immutable copies of collections and hand over only immutable data types to the other
+    // thread.
+    ImmutableList<Address> immutableAddedByEmail = ImmutableList.copyOf(addedByEmail);
+    ImmutableList<Address> immutableCopiedByEmail = ImmutableList.copyOf(copiedByEmail);
+    ImmutableList<Address> immutableRemovedByEmail = ImmutableList.copyOf(removedByEmail);
+
+    @SuppressWarnings("unused")
+    Future<?> possiblyIgnoredError =
+        sendEmailsExecutor.submit(
+            () -> {
+              try {
+                StartReviewChangeEmailDecorator startReviewEmail =
+                    emailFactories.createStartReviewChangeEmail();
+                startReviewEmail.addReviewers(immutableToMail);
+                startReviewEmail.addReviewersByEmail(immutableAddedByEmail);
+                startReviewEmail.addExtraCC(immutableToCopy);
+                startReviewEmail.addExtraCCByEmail(immutableCopiedByEmail);
+                startReviewEmail.addRemovedReviewers(immutableToRemove);
+                startReviewEmail.addRemovedByEmailReviewers(immutableRemovedByEmail);
+                ChangeEmail changeEmail =
+                    emailFactories.createChangeEmail(change, startReviewEmail);
+                OutgoingEmail outgoingEmail =
+                    emailFactories.createOutgoingEmail(REVIEW_REQUESTED, changeEmail);
+                outgoingEmail.setNotify(notify);
+                outgoingEmail.setFrom(userId);
+                outgoingEmail.setMessageId(
+                    messageIdGenerator.fromChangeUpdate(
+                        change.getProject(), change.currentPatchSetId()));
+                outgoingEmail.send();
+              } catch (Exception err) {
+                logger.atSevere().withCause(err).log(
+                    "Cannot send email to new reviewers of change %s", change.getId());
+              }
+            });
+  }
+}

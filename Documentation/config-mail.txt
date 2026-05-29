@@ -1,14 +1,16 @@
+:linkattrs:
 = Gerrit Code Review - Mail Templates
 
-Gerrit uses link:https://developers.google.com/closure/templates/[Closure Templates]
+Gerrit uses link:https://developers.google.com/closure/templates/[Closure Templates,role=external,window=_blank]
 (Soy) for the bulk of the standard mails it sends out.
 There are builtin default templates which are used if they are not overridden.
 These defaults are also provided as examples so that administrators may copy
 them and easily modify them to tweak their contents.
 
 *Compatibility Note:* previously, Velocity Template Language (VTL) was used as
-the template language for Gerrit emails. VTL has now been deprecated in favor of
-Soy, but Velocity templates that modify text emails remain supported for now.
+the template language for Gerrit emails. Support for VTL has now been removed
+in favor of Soy, and Velocity templates that modify text emails are no longer
+supported.
 
 == Template Locations and Extensions
 
@@ -17,6 +19,11 @@ terminated with the double extension `.soy.example`. Modifying these example
 files will have no effect on the behavior of Gerrit.  However, copying an
 example template to an equivalently named file without the `.example` extension
 and modifying it will allow an administrator to customize the template.
+
+[NOTE]
+The content of the templates at `'$site_path'/etc/mail/.*\.soy` are cached at
+startup by Gerrit. If they are modified Gerrit needs to be restarted before the
+changes takes effect.
 
 == Supported Mail Templates
 
@@ -88,6 +95,11 @@ a user removing a reviewer (with a vote) from a change.  It is a
 The Footer templates will determine the contents of the footer text appended to
 the end of all outgoing emails after the ChangeFooter and CommentFooter.
 
+=== AuthTokenUpdate.soy and AuthTokenUpdateHtml.soy
+
+AuthTokenUpdate templates will determine the contents of the email related to adding,
+changing or deleting an authentication token on a user account.
+
 === HttpPasswordUpdate.soy and HttpPasswordUpdateHtml.soy
 
 HttpPasswordUpdate templates will determine the contents of the email related to adding,
@@ -107,10 +119,10 @@ actions made by the user in the Web UI such as cherry picking a commit or
 reverting a change.  It is a `ChangeEmail`: see `ChangeSubject.soy` and
 ChangeFooter.
 
-=== RegisterNewEmail.soy
+=== RegisterNewEmail.soy and RegisterNewEmailHtml.soy
 
-The `RegisterNewEmail.soy` template will determine the contents of the email
-related to registering new email accounts.
+Those templates will determine the contents of the email related to registering
+new email accounts.
 
 === ReplacePatchSet.soy and ReplacePatchSetHtml.soy
 
@@ -131,12 +143,6 @@ ChangeFooter.
 The Reverted templates will determine the contents of the email related to a
 change being reverted.  It is a `ChangeEmail`: see `ChangeSubject.soy` and
 ChangeFooter.
-
-=== SetAssignee.soy and SetAssigneeHtml.soy
-
-The SetAssignee templates will determine the contents of the email related to a
-user being assigned to a change. It is a `ChangeEmail`: see `ChangeSubject.soy`
-and ChangeFooter.
 
 
 == Mail Variables and Methods
@@ -168,6 +174,10 @@ The URL to the Gerrit web UI.
 $messageClass::
 +
 A String containing the messageClass.
+
+$messageClassDisplay::
++
+A String containing the messageClass display text.
 
 === Change Emails
 
@@ -214,6 +224,15 @@ $change.shortSubject::
 +
 The subject limited to 72 characters, with an ellipsis if it exceeds that.
 
+$change.shortOriginalSubject::
++
+The original subject limited to 72 characters, with an ellipsis if it exceeds
+that.
+
+$change.sizeBucket::
++
+Human-readable size bucket of the current change.
+
 $change.ownerEmail::
 +
 The email address of the owner of the change.
@@ -230,6 +249,14 @@ $shortProjectName::
 +
 The project name with the path abbreviated.
 
+$instanceAndProjectName::
++
+The Gerrit instance name, followed by the short project name
+
+$addInstanceNameInSubject::
++
+Whether the instance name should be included in the email subject.
+
 $sshHost::
 +
 SSH hostname for the Gerrit instance.
@@ -241,6 +268,14 @@ The current patch set number.
 $patchSet.refname::
 +
 The refname of the patch set.
+
+$patchSetInfo.authorName::
++
+The name of the author of the patch set.
+
+$patchSetInfo.authorEmail::
++
+The email address of the author of the patch set.
 
 GERRIT
 ------

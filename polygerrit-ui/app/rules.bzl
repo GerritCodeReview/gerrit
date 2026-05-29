@@ -1,59 +1,85 @@
-load("@io_bazel_rules_closure//closure:defs.bzl", "closure_js_binary", "closure_js_library")
-load("//tools/bzl:genrule2.bzl", "genrule2")
-load(
-    "//tools/bzl:js.bzl",
-    "vulcanize",
-)
+"""Build rules for polygerrit."""
 
-def polygerrit_bundle(name, srcs, outs, app):
-    appName = app.split(".html")[0].split("/").pop()  # eg: gr-app
+load("@aspect_rules_rollup//rollup:defs.bzl", "rollup")
+load("@com_googlesource_gerrit_bazlets//tools:genrule2.bzl", "genrule2")
 
-    closure_js_binary(
-        name = name + "_closure_bin",
-        # Known issue: Closure compilation not compatible with Polymer behaviors.
-        # See: https://github.com/google/closure-compiler/issues/2042
-        compilation_level = "WHITESPACE_ONLY",
-        defs = [
-            "--polymer_pass",
-            "--jscomp_off=duplicate",
-            "--force_inject_library=es6_runtime",
+def polygerrit_bundle(name, srcs, outs, entry_point, app_name):
+    """Build .zip bundle from source code
+
+    Args:
+        name: rule name
+        srcs: source files
+        outs: array with a single item - the output file name
+        entry_point: application js entry-point
+        app_name: defines the application name. Bundled js code is added to .zip
+          archive with this name.
+    """
+
+    native.filegroup(
+        name = app_name + "-full-src",
+        srcs = srcs + [
+            "//polygerrit-ui/app:node_modules",
         ],
-        language = "ECMASCRIPT5",
-        deps = [name + "_closure_lib"],
     )
 
-    # TODO(davido): Remove JSC_REFERENCE_BEFORE_DECLARE when this is fixed upstream:
-    # https://github.com/Polymer/polymer-resin/issues/7
-    closure_js_library(
-        name = name + "_closure_lib",
-        srcs = [appName + ".js"],
-        convention = "GOOGLE",
-        # TODO(davido): Clean up these issues: http://paste.openstack.org/show/608548
-        # and remove this supression
-        suppress = [
-            "JSC_JSDOC_MISSING_TYPE_WARNING",
-            "JSC_REFERENCE_BEFORE_DECLARE",
-            "JSC_UNNECESSARY_ESCAPE",
-            "JSC_UNUSED_LOCAL_ASSIGNMENT",
+    rollup(
+        name = app_name + "-bundle-js",
+        srcs = [app_name + "-full-src"],
+        node_modules = "//tools/node_tools:node_modules",
+        args = [
+            "--bundleConfigAsCjs=true",
         ],
+        config_file = ":rollup.config.js",
+        entry_point = entry_point,
+        silent = True,
+        sourcemap = "hidden",
         deps = [
-            "//lib/polymer_externs:polymer_closure",
-            "@io_bazel_rules_closure//closure/library",
+            "//tools/node_tools:node_modules/@rollup/plugin-replace",
+            "//tools/node_tools:node_modules/@rollup/plugin-node-resolve",
+            "//tools/node_tools:node_modules/@rollup/plugin-terser",
         ],
     )
 
-    vulcanize(
-        name = appName,
-        srcs = srcs,
-        app = app,
-        deps = ["//polygerrit-ui:polygerrit_components.bower_components"],
+    rollup(
+        name = "syntax-worker",
+        srcs = [app_name + "-full-src"],
+        node_modules = "//tools/node_tools:node_modules",
+        args = [
+            "--bundleConfigAsCjs=true",
+        ],
+        config_file = ":rollup.config.js",
+        entry_point = "_pg_ts_out/workers/syntax-worker.js",
+        silent = True,
+        sourcemap = "hidden",
+        deps = [
+            "//tools/node_tools:node_modules/@rollup/plugin-replace",
+            "//tools/node_tools:node_modules/@rollup/plugin-node-resolve",
+            "//tools/node_tools:node_modules/@rollup/plugin-terser",
+        ],
+    )
+
+    rollup(
+        name = "service-worker",
+        srcs = [app_name + "-full-src"],
+        node_modules = "//tools/node_tools:node_modules",
+        args = [
+            "--bundleConfigAsCjs=true",
+        ],
+        config_file = ":rollup.config.js",
+        entry_point = "_pg_ts_out/workers/service-worker.js",
+        silent = True,
+        sourcemap = "hidden",
+        deps = [
+            "//tools/node_tools:node_modules/@rollup/plugin-replace",
+            "//tools/node_tools:node_modules/@rollup/plugin-node-resolve",
+            "//tools/node_tools:node_modules/@rollup/plugin-terser",
+        ],
     )
 
     native.filegroup(
         name = name + "_app_sources",
         srcs = [
-            name + "_closure_bin.js",
-            appName + ".html",
+            app_name + "-bundle-js.js",
         ],
     )
 
@@ -63,34 +89,52 @@ def polygerrit_bundle(name, srcs, outs, app):
     )
 
     native.filegroup(
-        name = name + "_top_sources",
+        name = name + "_worker_sources",
         srcs = [
-            "favicon.ico",
-            "index.html",
+            "syntax-worker.js",
+            "service-worker.js",
         ],
     )
 
+    native.filegroup(
+        name = name + "_top_sources",
+        srcs = [
+            "favicon.ico",
+        ],
+    )
+
+    # Preserve bower_components directory in the final directory layout to
+    # avoid plugins break
     genrule2(
         name = name,
         srcs = [
             name + "_app_sources",
             name + "_css_sources",
             name + "_top_sources",
+            name + "_worker_sources",
+            "//lib/fonts:material-icons",
             "//lib/fonts:robotofonts",
-            "//lib/js:highlightjs_files",
-            # we extract from the zip, but depend on the component for license checking.
-            "@webcomponentsjs//:zipfile",
-            "//lib/js:webcomponentsjs",
+            "//lib/js:highlightjs__files",
+            "//lib/js:emojis__files",
+            "//polygerrit-ui/app:node_modules/resemblejs/dir",
+            "//polygerrit-ui/app:node_modules/@polymer/font-roboto-local/dir",
         ],
         outs = outs,
         cmd = " && ".join([
-            "mkdir -p $$TMP/polygerrit_ui/{styles,fonts,bower_components/{highlightjs,webcomponentsjs},elements}",
-            "for f in $(locations " + name + "_app_sources); do ext=$${f##*.}; cp -p $$f $$TMP/polygerrit_ui/elements/" + appName + ".$$ext; done",
+            "FONT_DIR=$(location //polygerrit-ui/app:node_modules/@polymer/font-roboto-local/dir)/fonts",
+            "RESEMBLEJS_DIR=$(location //polygerrit-ui/app:node_modules/resemblejs/dir)",
+            "mkdir -p $$TMP/polygerrit_ui/{workers,styles/themes,fonts/{roboto,robotomono},bower_components/{emojis,highlightjs,resemblejs},elements}",
+            "for f in $(locations " + name + "_app_sources); do ext=$${f##*.}; cp -p $$f $$TMP/polygerrit_ui/elements/" + app_name + ".$$ext; done",
             "cp $(locations //lib/fonts:robotofonts) $$TMP/polygerrit_ui/fonts/",
+            "cp $(locations //lib/fonts:material-icons) $$TMP/polygerrit_ui/fonts/",
             "for f in $(locations " + name + "_top_sources); do cp $$f $$TMP/polygerrit_ui/; done",
             "for f in $(locations " + name + "_css_sources); do cp $$f $$TMP/polygerrit_ui/styles; done",
-            "for f in $(locations //lib/js:highlightjs_files); do cp $$f $$TMP/polygerrit_ui/bower_components/highlightjs/ ; done",
-            "unzip -qd $$TMP/polygerrit_ui/bower_components $(location @webcomponentsjs//:zipfile) webcomponentsjs/webcomponents-lite.js",
+            "for f in $(locations " + name + "_worker_sources); do cp $$f $$TMP/polygerrit_ui/workers; done",
+            "for f in $(locations //lib/js:highlightjs__files); do cp $$f $$TMP/polygerrit_ui/bower_components/highlightjs/ ; done",
+            "for f in $(locations //lib/js:emojis__files); do cp $$f $$TMP/polygerrit_ui/bower_components/emojis/ ; done",
+            "cp $$RESEMBLEJS_DIR/resemble.js $$TMP/polygerrit_ui/bower_components/resemblejs/resemble.js",
+            "cp $$FONT_DIR/roboto/*.ttf $$TMP/polygerrit_ui/fonts/roboto/",
+            "cp $$FONT_DIR/robotomono/*.ttf $$TMP/polygerrit_ui/fonts/robotomono/",
             "cd $$TMP",
             "find . -exec touch -t 198001010000 '{}' ';'",
             "zip -qr $$ROOT/$@ *",

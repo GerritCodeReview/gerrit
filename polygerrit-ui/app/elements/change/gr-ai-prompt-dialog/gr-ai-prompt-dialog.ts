@@ -1,0 +1,448 @@
+/**
+ * @license
+ * Copyright 2025 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import {fire} from '../../../utils/event-util';
+import {fontStyles} from '../../../styles/gr-font-styles';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {modalStyles} from '../../../styles/gr-modal-styles';
+import {css, html, LitElement, PropertyValues} from 'lit';
+import {customElement, property, query, state} from 'lit/decorators.js';
+import {GrButton} from '../../shared/gr-button/gr-button';
+import {getAppContext} from '../../../services/app-context';
+import {fireError} from '../../../utils/event-util';
+import {subscribe} from '../../lit/subscription-controller';
+import {resolve} from '../../../models/dependency';
+import {changeModelToken} from '../../../models/change/change-model';
+import {commentsModelToken} from '../../../models/comments/comments-model';
+import {CommentThread} from '../../../types/common';
+import {isUnresolved} from '../../../utils/comment-util';
+import {ParsedChangeInfo} from '../../../types/types';
+import {PatchSetNum} from '../../../types/common';
+import {HELP_ME_REVIEW_PROMPT, IMPROVE_COMMIT_MESSAGE} from './prompts';
+import {when} from 'lit/directives/when.js';
+import {copyToClipboard} from '../../../utils/common-util';
+import {Interaction} from '../../../constants/reporting';
+import '@material/web/select/outlined-select';
+import '@material/web/select/select-option';
+import {materialStyles} from '../../../styles/gr-material-styles';
+import '@material/web/radio/radio';
+
+const PROMPT_TEMPLATES = {
+  HELP_REVIEW: {
+    id: 'help_review',
+    label: 'Help me with review',
+    prompt: HELP_ME_REVIEW_PROMPT,
+  },
+  IMPROVE_COMMIT_MESSAGE: {
+    id: 'improve_commit_message',
+    label: 'Improve commit message',
+    prompt: IMPROVE_COMMIT_MESSAGE,
+  },
+  PATCH_ONLY: {
+    id: 'patch_only',
+    label: 'Just patch content',
+    prompt: '{{patch}}',
+  },
+  RESOLVE_COMMENTS: {
+    id: 'resolve_comments',
+    label: 'Unresolved Comments',
+    prompt: '{{comments}}',
+  },
+};
+
+const CONTEXT_OPTIONS = [
+  {label: '3 lines (default)', value: 3},
+  {label: '10 lines', value: 10},
+  {label: '25 lines', value: 25},
+  {label: '50 lines', value: 50},
+  {label: '100 lines', value: 100},
+];
+
+type PromptTemplateId = keyof typeof PROMPT_TEMPLATES;
+
+@customElement('gr-ai-prompt-dialog')
+export class GrAiPromptDialog extends LitElement {
+  /**
+   * Fired when the user presses the close button.
+   *
+   * @event close
+   */
+
+  @query('#closeButton') protected closeButton?: GrButton;
+
+  @state() change?: ParsedChangeInfo;
+
+  @state() patchNum?: PatchSetNum;
+
+  @state() patchContent?: string;
+
+  @state() loading = false;
+
+  @property({type: String}) selectedTemplate: PromptTemplateId = 'HELP_REVIEW';
+
+  @property({type: Number}) private context = 3;
+
+  // private but used in tests
+  @property({type: Array}) threads: CommentThread[] = [];
+
+  @state() private promptContent = '';
+
+  @state() private promptSize = '';
+
+  private readonly getChangeModel = resolve(this, changeModelToken);
+
+  private readonly getCommentsModel = resolve(this, commentsModelToken);
+
+  private readonly restApiService = getAppContext().restApiService;
+
+  private readonly reporting = getAppContext().reportingService;
+
+  constructor() {
+    super();
+    subscribe(
+      this,
+      () => this.getChangeModel().change$,
+      x => (this.change = x)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().patchNum$,
+      x => (this.patchNum = x)
+    );
+    subscribe(
+      this,
+      () => this.getCommentsModel().threads$,
+      x => (this.threads = x)
+    );
+  }
+
+  static override get styles() {
+    return [
+      fontStyles,
+      sharedStyles,
+      modalStyles,
+      materialStyles,
+      css`
+        :host {
+          display: block;
+          padding: var(--spacing-m) 0;
+        }
+        section {
+          display: flex;
+          padding: var(--spacing-m) var(--spacing-xl);
+        }
+        .flexContainer {
+          display: flex;
+          justify-content: space-between;
+          padding-top: var(--spacing-m);
+        }
+        .footer {
+          justify-content: flex-end;
+        }
+        .info-text {
+          font-size: var(--font-size-small);
+          color: var(--deactivated-text-color);
+          max-width: 420px;
+        }
+        .closeButtonContainer {
+          align-items: flex-end;
+          display: flex;
+          flex: 0;
+          justify-content: flex-end;
+        }
+        .content {
+          width: 100%;
+        }
+        .options-bar {
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-start;
+          margin-bottom: var(--spacing-m);
+        }
+        .template-options {
+          display: flex;
+          flex-direction: column;
+          gap: var(--spacing-s);
+        }
+        .template-option {
+          display: flex;
+          align-items: center;
+          gap: var(--spacing-m);
+          margin-bottom: 0.5em;
+        }
+        textarea {
+          width: 550px;
+          height: 300px;
+          font-family: var(--monospace-font-family);
+          font-size: var(--font-size-mono);
+          line-height: var(--line-height-mono);
+          padding: var(--spacing-s);
+          border: 1px solid var(--border-color);
+          border-radius: var(--border-radius);
+          resize: vertical;
+        }
+        .toolbar {
+          display: flex;
+          gap: var(--spacing-s);
+          margin-top: var(--spacing-s);
+          justify-content: space-between;
+          align-items: center;
+        }
+        .actions {
+          display: flex;
+          align-items: center;
+          gap: var(--spacing-l);
+        }
+        .size {
+          color: var(--deactivated-text-color);
+        }
+        .context-selector {
+          display: flex;
+          align-items: center;
+          gap: var(--spacing-s);
+        }
+      `,
+    ];
+  }
+
+  override render() {
+    return html`
+      <section>
+        <h3 class="heading-3">Copy AI Prompt (experimental)</h3>
+      </section>
+      ${when(
+        this.loading,
+        () => html` <div class="loading">Loading patch ...</div>`,
+        () => html` <section class="flexContainer">
+          <div class="content">
+            ${when(
+              this.getNumParents() === 1,
+              () => html`<div class="options-bar">
+                  <div class="template-selector">
+                    <div class="template-options">
+                      ${Object.entries(PROMPT_TEMPLATES).map(
+                        ([key, template]) => html`
+                          <label class="template-option">
+                            <md-radio
+                              name="template"
+                              .value=${key}
+                              ?checked=${this.selectedTemplate === key}
+                              @change=${(e: Event) => {
+                                const input = e.target as HTMLInputElement;
+                                this.selectedTemplate =
+                                  input.value as PromptTemplateId;
+                              }}
+                            >
+                            </md-radio>
+                            ${template.label}
+                          </label>
+                        `
+                      )}
+                    </div>
+                  </div>
+                  <div class="context-selector">
+                    <md-outlined-select
+                      label="Context"
+                      value=${this.context.toString()}
+                      @change=${(e: Event) => {
+                        const select = e.target as HTMLSelectElement;
+                        this.context = Number(select.value);
+                      }}
+                    >
+                      ${CONTEXT_OPTIONS.map(
+                        option =>
+                          html`<md-select-option
+                            .value=${option.value.toString()}
+                          >
+                            <div slot="headline">${option.label}</div>
+                          </md-select-option>`
+                      )}
+                    </md-outlined-select>
+                  </div>
+                </div>
+                <textarea
+                  .value=${this.promptContent}
+                  readonly
+                  placeholder="Patch content will appear here..."
+                ></textarea>
+                <div class="toolbar">
+                  <div class="info-text">
+                    You can paste this prompt in an AI Model if your project
+                    code can be shared with AI. We recommend a thinking model.
+                    You can also use it for an AI Agent as context (a reference
+                    to a git change).
+                  </div>
+                  <div class="actions">
+                    <div class="size">${this.promptSize}</div>
+                    <gr-button @click=${this.handleCopyPatch}>
+                      <gr-icon icon="content_copy" small></gr-icon>
+                      Copy Prompt
+                    </gr-button>
+                  </div>
+                </div>`,
+              () => html`
+                <div class="info-text">
+                  This change has multiple parents. Currently, the "Create AI
+                  Review Prompt" feature does not support multiple parents.
+                </div>
+              `
+            )}
+          </div>
+        </section>`
+      )}
+      <section class="footer">
+        <span class="closeButtonContainer">
+          <gr-button
+            id="closeButton"
+            link
+            @click=${(e: Event) => {
+              this.handleCloseTap(e);
+            }}
+            >Close</gr-button
+          >
+        </span>
+      </section>
+    `;
+  }
+
+  override firstUpdated(changedProperties: PropertyValues) {
+    super.firstUpdated(changedProperties);
+    if (!this.getAttribute('role')) this.setAttribute('role', 'dialog');
+  }
+
+  override willUpdate(changedProperties: PropertyValues) {
+    if (
+      changedProperties.has('patchContent') ||
+      changedProperties.has('selectedTemplate') ||
+      changedProperties.has('threads')
+    ) {
+      this.updatePromptContent();
+    }
+    if (changedProperties.has('context')) {
+      this.loadPatchContent();
+    }
+  }
+
+  open() {
+    if (this.getNumParents() === 1) {
+      this.loadPatchContent();
+    }
+  }
+
+  private getNumParents() {
+    if (
+      !this.change ||
+      !this.change.current_revision ||
+      !this.change.revisions
+    ) {
+      return 0;
+    }
+    const revision = this.change.revisions[this.change.current_revision];
+    return revision?.commit?.parents.length ?? 0;
+  }
+
+  private async loadPatchContent() {
+    if (!this.change || !this.patchNum) return;
+    this.loading = true;
+    const content = await this.restApiService.getPatchContent(
+      this.change._number,
+      this.patchNum,
+      this.context,
+      () => fireError(this, 'Failed to get patch content')
+    );
+    this.loading = false;
+    if (!content) return;
+    this.patchContent = content;
+  }
+
+  private getUnresolvedCommentsFormatted(): string {
+    const unresolvedThreads = this.threads.filter(isUnresolved);
+    if (unresolvedThreads.length === 0) return 'No unresolved comments.';
+
+    return unresolvedThreads
+      .map(thread => {
+        const comments = thread.comments.map(
+          c => `${c.author?.name ?? 'Unknown'}:\n${c.message}`
+        );
+        let loc = '';
+        if (thread.line) {
+          loc = `Line ${thread.line}`;
+        } else if (thread.range) {
+          loc = `Lines ${thread.range.start_line}-${thread.range.end_line}`;
+        } else {
+          loc = 'File level';
+        }
+        return `* File: ${thread.path} (${loc})
+${comments.join('\n\n')}`;
+      })
+      .join('\n\n');
+  }
+
+  private updatePromptContent() {
+    if (!this.patchContent) {
+      this.promptContent = '';
+      this.promptSize = '';
+      return;
+    }
+    const template = PROMPT_TEMPLATES[this.selectedTemplate];
+
+    // Security compliance: Removing 2nd line of patchContent as it contains personal data.
+    const lines = this.patchContent.split('\n');
+    if (lines.length > 1 && lines[1].toLowerCase().startsWith('from:')) {
+      lines.splice(1, 1);
+    }
+    const sanitizedPatchContent = lines.join('\n');
+
+    this.promptContent = template.prompt.replace(
+      '{{patch}}',
+      () => sanitizedPatchContent
+    );
+    if (this.selectedTemplate === 'RESOLVE_COMMENTS') {
+      this.promptContent = this.promptContent.replace('{{comments}}', () =>
+        this.getUnresolvedCommentsFormatted()
+      );
+    }
+    // Inserts a space before each capital letter to handle CamelCase
+    const textWithSpaces = this.promptContent.replace(/([A-Z])/g, ' $1');
+
+    // Splits by whitespace, symbols, and now slashes
+    const size = textWithSpaces
+      .split(/["\s.(){}[\]\\/-]+/)
+      .filter(Boolean).length;
+    if (size === 0) {
+      this.promptSize = '';
+    } else if (size < 1000) {
+      this.promptSize = `${size} words`;
+    } else {
+      this.promptSize = `${(size / 1000).toFixed(1)}k words`;
+    }
+  }
+
+  private async handleCopyPatch(e: Event) {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!this.promptContent) return;
+
+    this.reporting.reportInteraction(Interaction.COPY_AI_PROMPT, {
+      template: this.selectedTemplate,
+      context: this.context,
+    });
+
+    await copyToClipboard(this.promptContent, 'AI Prompt');
+  }
+
+  private handleCloseTap(e: Event) {
+    e.preventDefault();
+    e.stopPropagation();
+    fire(this, 'close', {});
+  }
+}
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-ai-prompt-dialog': GrAiPromptDialog;
+  }
+}

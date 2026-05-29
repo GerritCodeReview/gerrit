@@ -1,0 +1,56 @@
+# TODO(davido): Migrate all dependencies from WORKSPACE to MODULE.bazel
+# https://issues.gerritcodereview.com/issues/303819949
+module(name = "gerrit")
+
+# Core Bazel deps.
+bazel_dep(name = "bazel_features", version = "1.41.0")
+bazel_dep(name = "platforms", version = "1.0.0")
+bazel_dep(name = "rules_jvm_external", version = "6.10")
+
+# Language rules.
+bazel_dep(name = "aspect_bazel_lib", version = "2.22.5")
+bazel_dep(name = "aspect_rules_js", version = "3.0.3")
+bazel_dep(name = "aspect_rules_rollup", version = "2.0.1")
+bazel_dep(name = "aspect_rules_ts", version = "3.8.8")
+bazel_dep(name = "rules_go", version = "0.51.0-rc2")
+bazel_dep(name = "rules_nodejs", version = "6.7.4")
+bazel_dep(name = "rules_java", version = "8.16.1")
+bazel_dep(name = "rules_proto", version = "7.1.0")
+bazel_dep(name = "rules_python", version = "1.8.0-rc1")
+bazel_dep(name = "rules_shell", version = "0.6.1")
+
+# Libraries / toolchains.
+bazel_dep(name = "protobuf", version = "34.1")
+
+# In-tree modules.
+bazel_dep(name = "jgit")
+local_path_override(
+    module_name = "jgit",
+    path = "./modules/jgit",
+)
+
+# Toolchain setup.
+bazel_dep(name = "rbe_autoconfig")
+git_override(
+    module_name = "rbe_autoconfig",
+    commit = "c4d733d0399ebf2ee1ffb897be5fbaba23738e04",
+    remote = "https://github.com/davido/rbe_autoconfig.git",
+)
+
+register_toolchains("//tools:all")
+
+# Plugin packaging support: bazlets pin and generated Gerrit API version repo.
+include("//tools:bazlets.MODULE.bazel")
+
+# Repository rules for in-tree sources.
+include("//tools:repos.MODULE.bazel")
+
+# External dependency wiring is split out.
+include("//tools:java_deps.MODULE.bazel")
+
+# PolyGerrit dependency wiring is split out.
+include("//polygerrit-ui:polygerrit.MODULE.bazel")
+
+# Wiring for external dependencies contributed by in-tree plugins.
+include("//plugins:external_plugin_deps.MODULE.bazel")
+

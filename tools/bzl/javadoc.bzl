@@ -14,10 +14,12 @@
 
 # Javadoc rule.
 
+load("@rules_java//java:defs.bzl", "JavaInfo", "java_common")
+
 def _impl(ctx):
     zip_output = ctx.outputs.zip
 
-    transitive_jars = depset(transitive = [j[JavaInfo].transitive_deps for j in ctx.attr.libs])
+    transitive_jars = depset(transitive = [j[JavaInfo].transitive_compile_time_jars for j in ctx.attr.libs])
 
     # TODO(davido): Remove list to depset conversion on source_jars, when this issue is fixed:
     # https://github.com/bazelbuild/bazel/issues/4221
@@ -26,17 +28,18 @@ def _impl(ctx):
     transitive_jar_paths = [j.path for j in transitive_jars.to_list()]
     dir = ctx.outputs.zip.path + ".dir"
     source = ctx.outputs.zip.path + ".source"
-    external_docs = ["https://docs.oracle.com/javase/8/docs/api"] + ctx.attr.external_docs
+    external_docs = ["https://docs.oracle.com/en/java/javase/11/docs/api"] + ctx.attr.external_docs
     cmd = [
         "TZ=UTC",
         "export TZ",
         "rm -rf %s" % source,
         "mkdir %s" % source,
-        " && ".join(["unzip -qud %s %s" % (source, j.path) for j in source_jars.to_list()]),
+        " && ".join(["unzip -qoud %s %s" % (source, j.path) for j in source_jars.to_list()]),
         "rm -rf %s" % dir,
         "mkdir %s" % dir,
         " ".join([
             "%s/bin/javadoc" % ctx.attr._jdk[java_common.JavaRuntimeInfo].java_home,
+            " ".join(["-J%s" % opt for opt in ctx.fragments.java.default_jvm_opts]),
             "-Xdoclint:-missing",
             "-protected",
             "-encoding UTF-8",
@@ -75,4 +78,5 @@ java_doc = rule(
     },
     outputs = {"zip": "%{name}.zip"},
     implementation = _impl,
+    fragments = ["java"],
 )

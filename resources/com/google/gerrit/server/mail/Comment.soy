@@ -1,0 +1,96 @@
+/**
+ * Copyright (C) 2016 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+{namespace com.google.gerrit.server.mail.template.Comment}
+
+/**
+ * The .Comment template will determine the contents of the email related to a
+ * user submitting comments on changes.
+ */
+{template Comment kind="text"}
+  {@param change: ?}
+  {@param coverLetter: ?}
+  {@param email: ?}
+  {@param fromName: ?}
+  {@param commentFiles: ?}
+  {@param unsatisfiedSubmitRequirements: ?}
+  {@param oldSubmitRequirements: ?}
+  {@param newSubmitRequirements: ?}
+  {$fromName} has posted comments on this change by {$change.ownerName}.
+  {if $email.changeUrl} ( {$email.changeUrl} ){/if}{\n}
+  {if $unsatisfiedSubmitRequirements}
+    {\n}
+    The change is no longer submittable:{sp}
+    {if length($unsatisfiedSubmitRequirements) > 0}
+      {for $unsatisfiedSubmitRequirement, $index in $unsatisfiedSubmitRequirements}
+        {if $index > 0}
+          {if $index == length($unsatisfiedSubmitRequirements) - 1}
+            {sp}and{sp}
+          {else}
+            ,{sp}
+          {/if}
+        {/if}
+        {$unsatisfiedSubmitRequirement}
+      {/for}
+      {sp}
+      {if length($unsatisfiedSubmitRequirements) == 1}
+        is
+      {else}
+        are
+      {/if}
+      {sp}unsatisfied now.{\n}
+    {/if}
+  {/if}
+  {\n}
+  Change subject: {$change.subject}{\n}
+  ......................................................................{\n}
+  {if $coverLetter}
+    {\n}
+    {\n}
+    {$coverLetter}{\n}
+    {\n}
+  {/if}
+
+  {for $group in $commentFiles}
+    {$group.title}:{\n}
+    {\n}
+
+    {for $comment in $group.comments}
+      {for $line, $index in $comment.lines}
+        {if $index == 0}
+          {if $comment.startLine != 0}
+            {$comment.link}{sp}:{\n}
+          {/if}
+          {$comment.linePrefix}
+        {else}
+          {$comment.linePrefixEmpty}
+        {/if}
+        {$line}{\n}
+      {/for}
+      {if length($comment.lines) == 0}
+        {$comment.linePrefix}{\n}
+      {/if}
+
+      {if $comment.parentMessage}
+        >{sp}{$comment.parentMessage}{\n}
+      {/if}
+      {$comment.message}{\n}
+      {\n}
+      {\n}
+    {/for}
+  {/for}
+  {\n}
+{/template}

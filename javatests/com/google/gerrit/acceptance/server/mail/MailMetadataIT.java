@@ -1,0 +1,159 @@
+// Copyright (C) 2016 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package com.google.gerrit.acceptance.server.mail;
+
+import static com.google.common.truth.Truth.assertThat;
+
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
+import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.UseClockStep;
+import com.google.gerrit.acceptance.UseTimezone;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
+import com.google.gerrit.entities.EmailHeader;
+import com.google.gerrit.entities.EmailHeader.StringEmailHeader;
+import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.common.ChangeMessageInfo;
+import com.google.gerrit.mail.MailProcessingUtil;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.testing.FakeEmailSender;
+import com.google.inject.Inject;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+import org.junit.Test;
+
+/** Tests the presence of required metadata in email headers, text and html. */
+@UseClockStep
+@UseTimezone(timezone = "US/Eastern")
+public class MailMetadataIT extends AbstractDaemonTest {
+  @Inject private RequestScopeOperations requestScopeOperations;
+
+  @Test
+  public void metadataOnNewChange() throws Exception {
+    PushOneCommit.Result newChange = createChange();
+    gApi.changes().id(newChange.getChangeId()).addReviewer(user.id().toString());
+
+    ImmutableList<FakeEmailSender.Message> emails = sender.getMessages();
+    assertThat(emails).hasSize(1);
+    FakeEmailSender.Message message = emails.get(0);
+
+    String changeURL = "<" + getChangeUrl(newChange.getChange()) + "?usp=email>";
+
+    Map<String, Object> expectedHeaders = new HashMap<>();
+    expectedHeaders.put("Gerrit-PatchSet", "1");
+    expectedHeaders.put(
+        "Gerrit-Change-Number", String.valueOf(newChange.getChange().getId().get()));
+    expectedHeaders.put("Gerrit-MessageType", "newchange");
+    expectedHeaders.put("Gerrit-Commit", newChange.getCommit().getId().name());
+    expectedHeaders.put("Gerrit-ChangeURL", changeURL);
+
+    assertHeaders(message.headers(), expectedHeaders);
+
+    // Remove metadata that is not present in email
+    expectedHeaders.remove("Gerrit-ChangeURL");
+    expectedHeaders.remove("Gerrit-Commit");
+    assertTextFooter(message.body(), expectedHeaders);
+  }
+
+  @Test
+  public void metadataOnNewComment() throws Exception {
+    PushOneCommit.Result newChange = createChange();
+    gApi.changes().id(newChange.getChangeId()).addReviewer(user.id().toString());
+    sender.clear();
+
+    // Review change
+    ReviewInput input = new ReviewInput();
+    input.message = "Test";
+    revision(newChange).review(input);
+    requestScopeOperations.setApiUser(user.id());
+    Collection<ChangeMessageInfo> result =
+        gApi.changes().id(newChange.getChangeId()).get().messages;
+    assertThat(result).isNotEmpty();
+
+    ImmutableList<FakeEmailSender.Message> emails = sender.getMessages();
+    assertThat(emails).hasSize(1);
+    FakeEmailSender.Message message = emails.get(0);
+
+    String changeURL = "<" + getChangeUrl(newChange.getChange()) + "?usp=email>";
+    Map<String, Object> expectedHeaders = new HashMap<>();
+    expectedHeaders.put("Gerrit-PatchSet", "1");
+    expectedHeaders.put(
+        "Gerrit-Change-Number", String.valueOf(newChange.getChange().getId().get()));
+    expectedHeaders.put("Gerrit-MessageType", "comment");
+    expectedHeaders.put("Gerrit-Commit", newChange.getCommit().getId().name());
+    expectedHeaders.put("Gerrit-ChangeURL", changeURL);
+    expectedHeaders.put("Gerrit-Comment-Date", Iterables.getLast(result).date.toInstant());
+
+    assertHeaders(message.headers(), expectedHeaders);
+
+    // Remove metadata that is not present in email
+    expectedHeaders.remove("Gerrit-ChangeURL");
+    expectedHeaders.remove("Gerrit-Commit");
+    assertTextFooter(message.body(), expectedHeaders);
+  }
+
+  private static void assertHeaders(Map<String, EmailHeader> have, Map<String, Object> want)
+      throws Exception {
+    for (Map.Entry<String, Object> entry : want.entrySet()) {
+      if (entry.getValue() instanceof String) {
+        assertThat(have)
+            .containsEntry("X-" + entry.getKey(), new StringEmailHeader((String) entry.getValue()));
+      } else if (entry.getValue() instanceof Instant) {
+        assertThat(have)
+            .containsEntry("X-" + entry.getKey(), new EmailHeader.Date((Instant) entry.getValue()));
+      } else {
+        throw new Exception(
+            "Object has unsupported type: "
+                + entry.getValue().getClass().getName()
+                + " must be java.time.Instant or java.lang.String for key "
+                + entry.getKey());
+      }
+    }
+  }
+
+  private static void assertTextFooter(String body, Map<String, Object> want) throws Exception {
+    for (Map.Entry<String, Object> entry : want.entrySet()) {
+      if (entry.getValue() instanceof String) {
+        assertThat(body).contains(entry.getKey() + ": " + entry.getValue());
+      } else if (entry.getValue() instanceof Instant) {
+        assertThat(body)
+            .contains(
+                entry.getKey()
+                    + ": "
+                    + MailProcessingUtil.rfcDateformatter.format(
+                        ZonedDateTime.ofInstant((Instant) entry.getValue(), ZoneId.of("UTC"))));
+      } else {
+        throw new Exception(
+            "Object has unsupported type: "
+                + entry.getValue().getClass().getName()
+                + " must be java.time.Instant or java.lang.String for key "
+                + entry.getKey());
+      }
+    }
+  }
+
+  private String getChangeUrl(ChangeData changeData) {
+    return canonicalWebUrl.get()
+        + "c/"
+        + changeData.project().get()
+        + "/+/"
+        + changeData.getId().get();
+  }
+}

@@ -14,74 +14,102 @@ filegroup(
 )
 
 java_library(
-    name = "servlet-api-3_1",
+    name = "servlet-api",
     data = ["//lib:LICENSE-Apache2.0"],
     neverlink = 1,
     visibility = ["//visibility:public"],
-    exports = ["@servlet-api-3_1//jar"],
+    exports = ["@external_deps//:javax_servlet_javax_servlet_api"],
 )
 
 java_library(
-    name = "servlet-api-3_1-without-neverlink",
+    name = "servlet-api-without-neverlink",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@servlet-api-3_1//jar"],
-)
-
-java_library(
-    name = "gwtjsonrpc",
-    data = ["//lib:LICENSE-Apache2.0"],
-    visibility = ["//visibility:public"],
-    exports = ["@gwtjsonrpc//jar"],
-)
-
-java_library(
-    name = "gwtjsonrpc_src",
-    data = ["//lib:LICENSE-Apache2.0"],
-    visibility = ["//visibility:public"],
-    exports = ["@gwtjsonrpc//jar:src"],
+    exports = ["@external_deps//:javax_servlet_javax_servlet_api"],
 )
 
 java_library(
     name = "gson",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@gson//jar"],
+    exports = ["@external_deps//:com_google_code_gson_gson"],
 )
 
 java_library(
-    name = "gwtorm-client",
-    data = ["//lib:LICENSE-Apache2.0"],
+    name = "jgit",
+    data = ["//lib:LICENSE-jgit"],
     visibility = ["//visibility:public"],
-    exports = ["@gwtorm-client//jar"],
+    exports = ["@jgit//org.eclipse.jgit:jgit"],
+    runtime_deps = [
+        ":javaewah",
+        "//lib/log:api",
+    ],
 )
 
 java_library(
-    name = "gwtorm-client_src",
+    name = "jgit-ssh-apache",
+    data = ["//lib:LICENSE-jgit"],
+    visibility = ["//visibility:public"],
+    exports = ["@jgit//org.eclipse.jgit.ssh.apache:ssh-apache"],
+    runtime_deps = [
+        "//lib/mina:sshd-sftp",
+    ],
+)
+
+java_library(
+    name = "jgit-archive",
+    data = ["//lib:LICENSE-jgit"],
+    visibility = ["//visibility:public"],
+    exports = ["@jgit//org.eclipse.jgit.archive:jgit-archive"],
+    runtime_deps = [
+        ":jgit",
+        "//lib/commons:compress",
+    ],
+)
+
+java_library(
+    name = "jgit-junit",
+    testonly = True,
+    data = ["//lib:LICENSE-DO_NOT_DISTRIBUTE"],
+    visibility = ["//visibility:public"],
+    exports = ["@jgit//org.eclipse.jgit.junit:junit"],
+    runtime_deps = [":jgit"],
+)
+
+java_library(
+    name = "jgit-servlet",
+    data = ["//lib:LICENSE-jgit"],
+    visibility = ["//visibility:public"],
+    exports = ["@jgit//org.eclipse.jgit.http.server:jgit-servlet"],
+    runtime_deps = [":jgit"],
+)
+
+java_library(
+    name = "javaewah",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@gwtorm-client//jar:src"],
+    exports = ["@external_deps//:com_googlecode_javaewah_JavaEWAH"],
 )
 
 java_library(
     name = "protobuf",
     data = ["//lib:LICENSE-protobuf"],
     visibility = ["//visibility:public"],
-    exports = ["@com_google_protobuf//:protobuf_java"],
+    exports = ["@external_deps//:com_google_protobuf_protobuf_java"],
 )
 
 java_library(
-    name = "gwtorm",
+    name = "guava-failureaccess",
+    data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = [":gwtorm-client"],
-    runtime_deps = [":protobuf"],
+    exports = ["@external_deps//:com_google_guava_failureaccess"],
 )
 
 java_library(
     name = "j2objc",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@j2objc//jar"],
+    exports = ["@external_deps//:com_google_j2objc_j2objc_annotations"],
 )
 
 java_library(
@@ -89,99 +117,88 @@ java_library(
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
     exports = [
+        ":guava-failureaccess",
         ":j2objc",
-        "@guava//jar",
+        "@external_deps//:com_google_guava_guava",
     ],
 )
 
 java_library(
-    name = "velocity",
+    name = "guava-testlib",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@velocity//jar"],
-    runtime_deps = [
-        "//lib/commons:collections",
-        "//lib/commons:lang",
-        "//lib/commons:oro",
+    exports = [
+        "@external_deps//:com_google_guava_guava_testlib",
     ],
 )
 
 java_library(
-    name = "jsch",
-    data = ["//lib:LICENSE-jsch"],
-    visibility = ["//visibility:public"],
-    exports = ["@jsch//jar"],
+    name = "caffeine",
+    data = ["//lib:LICENSE-Apache2.0"],
+    visibility = [
+        "//java/com/google/gerrit/acceptance:__pkg__",
+        "//java/com/google/gerrit/server/cache/mem:__pkg__",
+    ],
+    exports = ["@external_deps//:com_github_ben_manes_caffeine_caffeine"],
 )
 
 java_library(
-    name = "juniversalchardet",
-    data = ["//lib:LICENSE-MPL1.1"],
-    visibility = ["//visibility:public"],
-    exports = ["@juniversalchardet//jar"],
+    name = "caffeine-guava",
+    data = ["//lib:LICENSE-Apache2.0"],
+    visibility = [
+        "//java/com/google/gerrit/acceptance:__pkg__",
+        "//java/com/google/gerrit/server/cache/mem:__pkg__",
+    ],
+    exports = ["@external_deps//:com_github_ben_manes_caffeine_guava"],
 )
 
 java_library(
     name = "args4j",
     data = ["//lib:LICENSE-args4j"],
     visibility = ["//visibility:public"],
-    exports = ["@args4j//jar"],
+    exports = ["@external_deps//:args4j_args4j"],
 )
 
 java_library(
     name = "automaton",
     data = ["//lib:LICENSE-automaton"],
     visibility = ["//visibility:public"],
-    exports = ["@automaton//jar"],
+    exports = ["@external_deps//:dk_brics_automaton"],
 )
 
 java_library(
-    name = "pegdown",
-    data = ["//lib:LICENSE-Apache2.0"],
+    name = "flexmark-all-lib",
+    data = ["//lib:LICENSE-flexmark"],
     visibility = ["//visibility:public"],
-    exports = ["@pegdown//jar"],
-    runtime_deps = [":grappa"],
+    exports = ["@external_deps//:com_vladsch_flexmark_flexmark_all_lib"],
 )
 
 java_library(
-    name = "grappa",
-    data = ["//lib:LICENSE-Apache2.0"],
+    name = "autolink",
+    data = ["//lib:LICENSE-autolink"],
     visibility = ["//visibility:public"],
-    exports = ["@grappa//jar"],
-    runtime_deps = [
-        ":jitescript",
-        "//lib/ow2:ow2-asm",
-        "//lib/ow2:ow2-asm-analysis",
-        "//lib/ow2:ow2-asm-tree",
-        "//lib/ow2:ow2-asm-util",
-    ],
-)
-
-java_library(
-    name = "jitescript",
-    data = ["//lib:LICENSE-Apache2.0"],
-    visibility = ["//visibility:public"],
-    exports = ["@jitescript//jar"],
+    exports = ["@external_deps//:org_nibor_autolink_autolink"],
 )
 
 java_library(
     name = "tukaani-xz",
     data = ["//lib:LICENSE-xz"],
     visibility = ["//visibility:public"],
-    exports = ["@tukaani-xz//jar"],
+    exports = ["@external_deps//:org_tukaani_xz"],
 )
 
 java_library(
     name = "mime-util",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@mime-util//jar"],
+    exports = ["@external_deps//:eu_medsea_mimeutil_mime_util"],
 )
 
 java_library(
     name = "guava-retrying",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@guava-retrying//jar"],
+    exports = ["@external_deps//:com_github_rholder_guava_retrying"],
     runtime_deps = [":jsr305"],
 )
 
@@ -189,28 +206,28 @@ java_library(
     name = "jsr305",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@jsr305//jar"],
+    exports = ["@external_deps//:com_google_code_findbugs_jsr305"],
 )
 
 java_library(
     name = "blame-cache",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@blame-cache//jar"],
+    exports = ["@external_deps//:com_google_gitiles_blame_cache"],
 )
 
 java_library(
     name = "h2",
     data = ["//lib:LICENSE-h2"],
     visibility = ["//visibility:public"],
-    exports = ["@h2//jar"],
+    exports = ["@external_deps//:com_h2database_h2"],
 )
 
 java_library(
     name = "jimfs",
     data = ["//lib:LICENSE-DO_NOT_DISTRIBUTE"],
     visibility = ["//visibility:public"],
-    exports = ["@jimfs//jar"],
+    exports = ["@external_deps//:com_google_jimfs_jimfs"],
     runtime_deps = [":guava"],
 )
 
@@ -219,60 +236,24 @@ java_library(
     data = ["//lib:LICENSE-DO_NOT_DISTRIBUTE"],
     visibility = ["//visibility:public"],
     exports = [
-        ":hamcrest-core",
-        "@junit//jar",
+        ":hamcrest",
+        "@external_deps//:junit_junit",
     ],
-    runtime_deps = [":hamcrest-core"],
+    runtime_deps = [":hamcrest"],
 )
 
 java_library(
-    name = "hamcrest-core",
+    name = "hamcrest",
     data = ["//lib:LICENSE-DO_NOT_DISTRIBUTE"],
     visibility = ["//visibility:public"],
-    exports = ["@hamcrest-core//jar"],
-)
-
-java_library(
-    name = "truth",
-    data = ["//lib:LICENSE-DO_NOT_DISTRIBUTE"],
-    visibility = ["//visibility:public"],
-    exports = [
-        ":guava",
-        ":junit",
-        "@truth//jar",
-    ],
-)
-
-java_library(
-    name = "truth-java8-extension",
-    data = ["//lib:LICENSE-DO_NOT_DISTRIBUTE"],
-    visibility = ["//visibility:public"],
-    exports = [
-        ":guava",
-        ":truth",
-        "@truth-java8-extension//jar",
-    ],
-)
-
-java_library(
-    name = "javassist",
-    data = ["//lib:LICENSE-DO_NOT_DISTRIBUTE"],
-    visibility = ["//visibility:public"],
-    exports = ["@javassist//jar"],
-)
-
-java_library(
-    name = "derby",
-    data = ["//lib:LICENSE-Apache2.0"],
-    visibility = ["//visibility:public"],
-    exports = ["@derby//jar"],
+    exports = ["@external_deps//:org_hamcrest_hamcrest"],
 )
 
 java_library(
     name = "soy",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@soy//jar"],
+    exports = ["@external_deps//:com_google_template_soy"],
     runtime_deps = [
         ":args4j",
         ":gson",
@@ -281,9 +262,10 @@ java_library(
         ":icu4j",
         ":jsr305",
         ":protobuf",
+        "//lib/flogger:api",
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
-        "//lib/guice:javax-inject",
+        "//lib/guice:javax_inject",
         "//lib/ow2:ow2-asm",
         "//lib/ow2:ow2-asm-analysis",
         "//lib/ow2:ow2-asm-commons",
@@ -295,19 +277,28 @@ java_library(
     name = "html-types",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@html-types//jar"],
+    exports = ["@external_deps//:com_google_common_html_types_types"],
 )
 
 java_library(
     name = "icu4j",
     data = ["//lib:LICENSE-icu4j"],
     visibility = ["//visibility:public"],
-    exports = ["@icu4j//jar"],
+    exports = ["@external_deps//:com_ibm_icu_icu4j"],
 )
 
 java_library(
-    name = "postgresql",
-    data = ["//lib:LICENSE-postgresql"],
+    name = "roaringbitmap",
+    data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@postgresql//jar"],
+    exports = [
+        "@external_deps//:org_roaringbitmap_RoaringBitmap",
+        "@external_deps//:org_roaringbitmap_shims",
+    ],
+)
+
+sh_test(
+    name = "nongoogle_test",
+    srcs = ["nongoogle_test.sh"],
+    data = ["//tools:nongoogle.toml"],
 )

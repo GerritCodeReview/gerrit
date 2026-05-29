@@ -24,11 +24,17 @@ limitations under the License.
 
 html {
   -webkit-text-size-adjust: none;
+  /*
+   * Default browser fonts are 16px. We want users with default settings to see
+   * a base font of 14px. 14/16 = .875. This needs to be in html because
+   * can use rems based on this font-size throughout the app.
+   */
+  font-size: .875em;
 }
 html,
 body {
   height: 100%;
-  transition: none; /* Override the default Polymer fade-in. */
+  transition: none;
 }
 body {
   /*
@@ -36,7 +42,8 @@ body {
    * Work around this using font-size and font-family.
    */
   -webkit-text-size-adjust: none;
-  font-size: 13px;
-  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
-  line-height: 1.4;
+  font-family: var(--font-family, ''), 'Roboto', Arial, sans-serif;
+  font-size: var(--font-size-normal, 1rem);
+  line-height: var(--line-height-normal, 1.4);
+  color: var(--primary-text-color, black);
 }

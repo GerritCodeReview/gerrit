@@ -1,0 +1,230 @@
+/**
+ * @license
+ * Copyright 2016 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+import '../../shared/gr-button/gr-button';
+import {EmailInfo} from '../../../types/common';
+import {getAppContext} from '../../../services/app-context';
+import {css, html, LitElement} from 'lit';
+import {customElement, state} from 'lit/decorators.js';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {grFormStyles} from '../../../styles/gr-form-styles';
+import {ValueChangedEvent} from '../../../types/events';
+import {fire} from '../../../utils/event-util';
+import {deepClone} from '../../../utils/deep-util';
+import {userModelToken} from '../../../models/user/user-model';
+import {resolve} from '../../../models/dependency';
+import {subscribe} from '../../lit/subscription-controller';
+import '@material/web/radio/radio';
+import {MdRadio} from '@material/web/radio/radio';
+import {materialStyles} from '../../../styles/gr-material-styles';
+
+@customElement('gr-email-editor')
+export class GrEmailEditor extends LitElement {
+  @state() private originalEmails: EmailInfo[] = [];
+
+  /* private but used in test */
+  @state() emails: EmailInfo[] = [];
+
+  /* private but used in test */
+  @state() emailsToRemove: EmailInfo[] = [];
+
+  /* private but used in test */
+  @state() newPreferred = '';
+
+  /* private but used in test */
+  @state() newAvatar = '';
+
+  readonly restApiService = getAppContext().restApiService;
+
+  private readonly getUserModel = resolve(this, userModelToken);
+
+  constructor() {
+    super();
+    subscribe(
+      this,
+      () => this.getUserModel().emails$,
+      x => {
+        if (!x) return;
+        this.originalEmails = deepClone<EmailInfo[]>(x);
+        this.emails = deepClone<EmailInfo[]>(x);
+      }
+    );
+  }
+
+  static override get styles() {
+    return [
+      sharedStyles,
+      grFormStyles,
+      materialStyles,
+      css`
+        th {
+          color: var(--deemphasized-text-color);
+          text-align: left;
+        }
+        #emailTable .emailColumn {
+          min-width: 32.5em;
+          width: auto;
+        }
+        #emailTable .preferredHeader,
+        #emailTable .avatarHeader {
+          text-align: center;
+          width: 6em;
+        }
+        #emailTable .preferredControl,
+        #emailTable .avatarControl {
+          height: auto;
+          text-align: center;
+        }
+      `,
+    ];
+  }
+
+  override render() {
+    return html`<div class="gr-form-styles">
+      <table id="emailTable">
+        <thead>
+          <tr>
+            <th class="emailColumn">Email</th>
+            <th class="preferredHeader">Preferred</th>
+            <th class="avatarHeader">Avatar</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          ${this.emails.map((email, index) => this.renderEmail(email, index))}
+        </tbody>
+      </table>
+    </div>`;
+  }
+
+  private renderEmail(email: EmailInfo, index: number) {
+    return html`<tr>
+      <td class="emailColumn">${email.email}</td>
+      <td class="preferredControl">
+        <md-radio
+          class="preferredRadio"
+          name="preferred"
+          .value=${email.email}
+          ?checked=${!!email.preferred}
+          @change=${this.handlePreferredChange}
+        >
+        </md-radio>
+      </td>
+      <td class="avatarControl">
+        <md-radio
+          class="avatarRadio"
+          name="avatar"
+          .value=${email.email}
+          ?checked=${!!email.avatar}
+          @change=${this.handleAvatarChange}
+        >
+        </md-radio>
+      </td>
+      <td>
+        <gr-button
+          @click=${() => this.handleDeleteButton(index)}
+          ?disabled=${this.checkPreferred(email.preferred)}
+          class="remove-button"
+          >Delete</gr-button
+        >
+      </td>
+    </tr>`;
+  }
+
+  save() {
+    const promises: Promise<unknown>[] = [];
+
+    for (const emailObj of this.emailsToRemove) {
+      promises.push(this.restApiService.deleteAccountEmail(emailObj.email));
+    }
+
+    if (this.newPreferred) {
+      promises.push(
+        this.restApiService.setPreferredAccountEmail(this.newPreferred)
+      );
+    }
+
+    if (this.newAvatar) {
+      promises.push(this.restApiService.setAvatarAccountEmail(this.newAvatar));
+    }
+
+    return Promise.all(promises).then(async () => {
+      this.emailsToRemove = [];
+      this.newPreferred = '';
+      this.newAvatar = '';
+      await this.getUserModel().loadEmails(true);
+      this.setHasUnsavedChanges();
+    });
+  }
+
+  private handleDeleteButton(index: number) {
+    const email = this.emails[index];
+    // Don't add project to emailsToRemove if it wasn't in
+    // emails.
+    // We have to use JSON.stringify as we cloned the array
+    // so the reference is not the same.
+    const emails = this.emails.some(
+      x => JSON.stringify(email) === JSON.stringify(x)
+    );
+    if (emails) this.emailsToRemove.push(email);
+    this.emails.splice(index, 1);
+    this.requestUpdate();
+    this.setHasUnsavedChanges();
+  }
+
+  private handlePreferredChange(e: Event) {
+    if (!(e.target instanceof MdRadio)) return;
+    const preferred = e.target.value;
+    for (let i = 0; i < this.emails.length; i++) {
+      if (preferred === this.emails[i].email) {
+        this.emails[i].preferred = true;
+        this.requestUpdate();
+        this.newPreferred = preferred;
+        this.setHasUnsavedChanges();
+      } else if (this.emails[i].preferred) {
+        delete this.emails[i].preferred;
+        this.setHasUnsavedChanges();
+        this.requestUpdate();
+      }
+    }
+  }
+
+  private handleAvatarChange(e: Event) {
+    if (!(e.target instanceof MdRadio)) return;
+    const avatar = e.target.value;
+    for (let i = 0; i < this.emails.length; i++) {
+      if (avatar === this.emails[i].email) {
+        this.emails[i].avatar = true;
+        this.requestUpdate();
+        this.newAvatar = avatar;
+        this.setHasUnsavedChanges();
+      } else if (this.emails[i].avatar) {
+        delete this.emails[i].avatar;
+        this.setHasUnsavedChanges();
+        this.requestUpdate();
+      }
+    }
+  }
+
+  private checkPreferred(preferred?: boolean) {
+    return preferred ?? false;
+  }
+
+  private setHasUnsavedChanges() {
+    const hasUnsavedChanges =
+      JSON.stringify(this.originalEmails) !== JSON.stringify(this.emails) ||
+      this.emailsToRemove.length > 0;
+    fire(this, 'has-unsaved-changes-changed', {value: hasUnsavedChanges});
+  }
+}
+
+declare global {
+  interface HTMLElementEventMap {
+    'has-unsaved-changes-changed': ValueChangedEvent<boolean>;
+  }
+  interface HTMLElementTagNameMap {
+    'gr-email-editor': GrEmailEditor;
+  }
+}

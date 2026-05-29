@@ -1,5 +1,6 @@
 load("//tools/bzl:asciidoc.bzl", "documentation_attributes", "genasciidoc", "genasciidoc_zip")
 load("//tools/bzl:license.bzl", "license_map")
+load("//tools/bzl:war_checks.bzl", "war_jars_allowlist_test")
 
 package(default_visibility = ["//visibility:public"])
 
@@ -17,62 +18,96 @@ filegroup(
 
 genrule(
     name = "prettify_min_css",
-    srcs = ["//gerrit-prettify:src/main/resources/com/google/gerrit/prettify/client/prettify.css"],
+    srcs = ["//resources/com/google/gerrit/prettify:client/prettify.css"],
     outs = ["prettify.min.css"],
     cmd = "cp $< $@",
 )
 
 genrule(
     name = "prettify_min_js",
-    srcs = ["//gerrit-prettify:src/main/resources/com/google/gerrit/prettify/client/prettify.js"],
+    srcs = ["//resources/com/google/gerrit/prettify:client/prettify.js"],
     outs = ["prettify.min.js"],
     cmd = "cp $< $@",
 )
 
 filegroup(
     name = "resources",
-    srcs = glob([
-        "images/*.jpg",
-        "images/*.png",
-    ]) + [
+    srcs = glob(
+        [
+            "images/*.jpg",
+            "images/*.png",
+        ],
+        allow_empty = True,
+    ) + [
         ":prettify_files",
         "//:LICENSES.txt",
     ],
 )
 
+war_jars_allowlist_test(
+    name = "check_release_war_jars",
+    allowlist = ":release_war_jars.txt",
+    war_jars_manifest = "//:release.war.jars.txt",
+)
+
 license_map(
     name = "licenses",
+    json_maps = [
+        "//polygerrit-ui/app/node_modules_licenses:polygerrit-licenses.json",
+    ],
     opts = ["--asciidoctor"],
     targets = [
-        "//gerrit-pgm:pgm",
-        "//gerrit-gwtui:ui_module",
         "//polygerrit-ui/app:polygerrit_ui",
+        "//java/com/google/gerrit/pgm",
+    ],
+)
+
+license_map(
+    name = "backend_licenses",
+    opts = ["--asciidoctor"],
+    targets = [
+        "//java/com/google/gerrit/pgm",
     ],
 )
 
 license_map(
     name = "js_licenses",
+    json_maps = [
+        "//polygerrit-ui/app/node_modules_licenses:polygerrit-licenses.json",
+    ],
     targets = [
-        "//gerrit-gwtui:ui_module",
         "//polygerrit-ui/app:polygerrit_ui",
+    ],
+)
+
+sh_test(
+    name = "check_licenses",
+    srcs = ["check_licenses_test.sh"],
+    data = [
+        "backend_licenses.gen.txt",
+        "backend_licenses.txt",
+        "js_licenses.gen.txt",
+        "js_licenses.txt",
+        "licenses.gen.txt",
+        "licenses.txt",
     ],
 )
 
 DOC_DIR = "Documentation"
 
-SRCS = glob(["*.txt"]) + [":licenses.txt"]
+SRCS = glob(["*.txt"])
 
 genrule(
     name = "index",
     srcs = SRCS,
     outs = ["index.jar"],
-    cmd = "$(location //lib/asciidoctor:doc_indexer) " +
+    cmd = "$(location //java/com/google/gerrit/asciidoctor:doc_indexer) " +
           "-o $(OUTS) " +
           "--prefix \"%s/\" " % DOC_DIR +
           "--in-ext \".txt\" " +
           "--out-ext \".html\" " +
           "$(SRCS)",
-    tools = ["//lib/asciidoctor:doc_indexer"],
+    tools = ["//java/com/google/gerrit/asciidoctor:doc_indexer"],
 )
 
 # For the same srcs, we can have multiple genasciidoc_zip rules, but only one
@@ -100,4 +135,14 @@ genasciidoc_zip(
     backend = "html5",
     directory = DOC_DIR,
     searchbox = False,
+)
+
+genasciidoc_zip(
+    name = "searchfree_safe",
+    srcs = SRCS,
+    attributes = documentation_attributes(),
+    backend = "html5",
+    directory = DOC_DIR,
+    searchbox = False,
+    webfonts = False,
 )

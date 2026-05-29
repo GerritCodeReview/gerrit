@@ -1,0 +1,551 @@
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+import '../../shared/gr-autocomplete/gr-autocomplete';
+import '../../shared/gr-button/gr-button';
+import '../../shared/gr-copy-clipboard/gr-copy-clipboard';
+import {AutocompleteQuery} from '../../shared/gr-autocomplete/gr-autocomplete';
+import {AutocompleteSuggestion} from '../../../utils/autocomplete-util';
+import {GroupId, GroupInfo, GroupName} from '../../../types/common';
+import {fire, firePageError, fireTitleChange} from '../../../utils/event-util';
+import {resolve} from '../../../models/dependency';
+import {getAppContext} from '../../../services/app-context';
+import {ErrorCallback} from '../../../api/rest';
+import {ValueChangedEvent} from '../../../types/events';
+import {fontStyles} from '../../../styles/gr-font-styles';
+import {grFormStyles} from '../../../styles/gr-form-styles';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {navigationToken} from '../../core/gr-navigation/gr-navigation';
+import {subpageStyles} from '../../../styles/gr-subpage-styles';
+import {css, html, LitElement, PropertyValues} from 'lit';
+import {customElement, property, query, state} from 'lit/decorators.js';
+import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
+import '../../shared/gr-autogrow-textarea/gr-autogrow-textarea';
+import {GrAutogrowTextarea} from '../../shared/gr-autogrow-textarea/gr-autogrow-textarea';
+import {formStyles} from '../../../styles/form-styles';
+import {modalStyles} from '../../../styles/gr-modal-styles';
+import {configModelToken} from '../../../models/config/config-model';
+import {subscribe} from '../../lit/subscription-controller';
+import {when} from 'lit/directives/when.js';
+import {AdminChildView, createAdminUrl} from '../../../models/views/admin';
+import '@material/web/checkbox/checkbox';
+import {MdCheckbox} from '@material/web/checkbox/checkbox';
+import {materialStyles} from '../../../styles/gr-material-styles';
+
+const INTERNAL_GROUP_REGEX = /^[\da-f]{40}$/;
+
+export interface GroupNameChangedDetail {
+  name: GroupName;
+  external: boolean;
+}
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-group': GrGroup;
+  }
+  interface HTMLElementEventMap {
+    'name-changed': CustomEvent<GroupNameChangedDetail>;
+  }
+}
+
+@customElement('gr-group')
+export class GrGroup extends LitElement {
+  private readonly query: AutocompleteQuery;
+
+  @query('#deleteGroupModal')
+  deleteGroupModal?: HTMLDialogElement;
+
+  @property({type: String})
+  groupId?: GroupId;
+
+  @property({type: Boolean})
+  canDelete?: boolean;
+
+  @state() private originalOwnerName?: string;
+
+  @state() private originalDescriptionName?: string;
+
+  @state() private originalOptionsVisibleToAll?: boolean;
+
+  // private but used in test
+  @state() isAdmin = false;
+
+  // private but used in test
+  @state() groupOwner = false;
+
+  // private but used in test
+  @state() groupIsInternal = false;
+
+  // private but used in test
+  @state() loading = true;
+
+  // private but used in test
+  @state() groupConfig?: GroupInfo;
+
+  // private but used in test
+  @state() groupConfigOwner?: string;
+
+  // private but used in test
+  @state() originalName?: GroupName;
+
+  @state() enableDeleteGroup?: boolean;
+
+  private readonly restApiService = getAppContext().restApiService;
+
+  private readonly getNavigation = resolve(this, navigationToken);
+
+  private readonly getConfigModel = resolve(this, configModelToken);
+
+  constructor() {
+    super();
+    subscribe(
+      this,
+      () => this.getConfigModel().serverConfig$,
+      config => {
+        this.enableDeleteGroup = !!config?.groups.enable_delete_group;
+      }
+    );
+    this.query = (input: string) => this.getGroupSuggestions(input);
+  }
+
+  override connectedCallback() {
+    super.connectedCallback();
+  }
+
+  static override get styles() {
+    return [
+      modalStyles,
+      fontStyles,
+      grFormStyles,
+      formStyles,
+      sharedStyles,
+      subpageStyles,
+      materialStyles,
+      css`
+        h3.edited:after {
+          color: var(--deemphasized-text-color);
+          content: ' *';
+        }
+        gr-autogrow-textarea {
+          background-color: var(--view-background-color);
+          width: 100%;
+        }
+        gr-autogrow-textarea:focus {
+          border: 2px solid var(--input-focus-border-color);
+        }
+      `,
+    ];
+  }
+
+  override render() {
+    return html`
+      <div class="main gr-form-styles read-only">
+        <div id="loading" class=${this.computeLoadingClass()}>Loading...</div>
+        <div id="loadedContent" class=${this.computeLoadingClass()}>
+          <h1 id="Title" class="heading-1">${this.originalName}</h1>
+          <h2 id="configurations" class="heading-2">General</h2>
+          <div id="form">
+            <fieldset>
+              ${this.renderGroupUUID()} ${this.renderGroupName()}
+              ${this.renderGroupOwner()} ${this.renderGroupDescription()}
+              ${this.renderGroupOptions()}${this.renderGroupDeleteButton()}
+            </fieldset>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
+  private renderGroupUUID() {
+    return html`
+      <h3 id="groupUUID" class="heading-3">Group UUID</h3>
+      <fieldset>
+        <gr-copy-clipboard
+          id="uuid"
+          .text=${this.getGroupUUID()}
+        ></gr-copy-clipboard>
+      </fieldset>
+    `;
+  }
+
+  private renderGroupName() {
+    const groupNameEdited = this.originalName !== this.groupConfig?.name;
+    return html`
+      <h3
+        id="groupName"
+        class="heading-3 ${this.computeHeaderClass(groupNameEdited)}"
+      >
+        Group Name
+      </h3>
+      <fieldset>
+        <span class="value">
+          <gr-autocomplete
+            id="groupNameInput"
+            .text=${this.groupConfig?.name ?? ''}
+            .showBlueFocusBorder=${true}
+            ?disabled=${this.computeGroupDisabled()}
+            @text-changed=${this.handleNameTextChanged}
+          ></gr-autocomplete>
+        </span>
+        <span class="value">
+          <gr-button
+            id="inputUpdateNameBtn"
+            ?disabled=${!groupNameEdited}
+            @click=${this.handleSaveName}
+          >
+            Rename Group</gr-button
+          >
+        </span>
+      </fieldset>
+    `;
+  }
+
+  private renderGroupOwner() {
+    const groupOwnerNameEdited =
+      this.originalOwnerName !== this.groupConfig?.owner;
+    return html`
+      <h3
+        id="groupOwner"
+        class="heading-3 ${this.computeHeaderClass(groupOwnerNameEdited)}"
+      >
+        Owners
+      </h3>
+      <fieldset>
+        <span class="value">
+          <gr-autocomplete
+            id="groupOwnerInput"
+            .text=${this.groupConfig?.owner ?? ''}
+            .value=${this.groupConfigOwner ?? ''}
+            .query=${this.query}
+            .showBlueFocusBorder=${true}
+            ?disabled=${this.computeGroupDisabled()}
+            @text-changed=${this.handleOwnerTextChanged}
+            @value-changed=${this.handleOwnerValueChanged}
+          >
+          </gr-autocomplete>
+        </span>
+        <span class="value">
+          <gr-button
+            id="inputUpdateOwnerBtn"
+            ?disabled=${!groupOwnerNameEdited}
+            @click=${this.handleSaveOwner}
+          >
+            Change Owners</gr-button
+          >
+        </span>
+      </fieldset>
+    `;
+  }
+
+  private renderGroupDescription() {
+    const groupDescriptionEdited =
+      this.originalDescriptionName !== this.groupConfig?.description;
+    return html`
+      <h3 class="heading-3 ${this.computeHeaderClass(groupDescriptionEdited)}">
+        Description
+      </h3>
+      <fieldset>
+        <div>
+          <gr-autogrow-textarea
+            id="descriptionInput"
+            class="description"
+            autocomplete="on"
+            placeholder="&lt;Insert group description here&gt;"
+            .rows=${4}
+            .maxRows=${10}
+            .value=${this.groupConfig?.description ?? ''}
+            ?disabled=${this.computeGroupDisabled()}
+            @input=${this.handleDescriptionInput}
+          ></gr-autogrow-textarea>
+        </div>
+        <span class="value">
+          <gr-button
+            ?disabled=${!groupDescriptionEdited}
+            @click=${this.handleSaveDescription}
+          >
+            Save Description
+          </gr-button>
+        </span>
+      </fieldset>
+    `;
+  }
+
+  private renderGroupOptions() {
+    // We make sure the value is a boolean
+    // this is done so undefined is converted to false.
+    const groupOptionsEdited =
+      Boolean(this.originalOptionsVisibleToAll) !==
+      Boolean(this.groupConfig?.options?.visible_to_all);
+
+    // We have to convert boolean to string in order
+    // for the selection to work correctly.
+    // We also convert undefined to false using boolean.
+    return html`
+      <h3
+        id="options"
+        class="heading-3 ${this.computeHeaderClass(groupOptionsEdited)}"
+      >
+        Group Options
+      </h3>
+      <fieldset>
+        <section>
+          <span class="title">
+            Make group visible to all registered users
+          </span>
+          <span class="value">
+            <md-checkbox
+              id="visibleToAll"
+              ?checked=${Boolean(this.groupConfig?.options?.visible_to_all)}
+              ?disabled=${this.computeGroupDisabled()}
+              @change=${this.handleOptionsChange}
+            ></md-checkbox>
+          </span>
+        </section>
+        <span class="value">
+          <gr-button
+            ?disabled=${!groupOptionsEdited}
+            @click=${this.handleSaveOptions}
+          >
+            Save Group Options
+          </gr-button>
+        </span>
+      </fieldset>
+    `;
+  }
+
+  private renderGroupDeleteButton() {
+    return when(
+      !this.computeGroupDisabled() && this.canDelete && this.enableDeleteGroup,
+      () => html`
+        <div id="deleteGroupContainer">
+          <h3
+            id="deleteGroup"
+            class="heading-3 ${this.computeHeaderClass(false)}"
+          >
+            Delete Group
+          </h3>
+          <fieldset>
+            <span class="value">
+              <gr-button
+                @click=${() => {
+                  this.deleteGroupModal?.showModal();
+                }}
+              >
+                Delete Group
+              </gr-button>
+            </span>
+          </fieldset>
+          <dialog id="deleteGroupModal">
+            <gr-dialog
+              id="deleteGroupDialog"
+              confirm-label="Delete"
+              @confirm=${this.handleDeleteGroup}
+              @cancel=${() => this.deleteGroupModal?.close()}
+            >
+              <div class="header" slot="header">
+                Are you really sure you want to delete the group
+                "${this.originalName}"?
+              </div>
+            </gr-dialog>
+          </dialog>
+        </div>
+      `
+    );
+  }
+
+  override willUpdate(changedProperties: PropertyValues) {
+    if (changedProperties.has('groupId')) {
+      this.loadGroup();
+    }
+  }
+
+  // private but used in test
+  async loadGroup() {
+    if (!this.groupId) return;
+
+    const promises: Promise<unknown>[] = [];
+
+    const errFn: ErrorCallback = response => {
+      firePageError(response);
+    };
+
+    const config = await this.restApiService.getGroupConfig(
+      this.groupId,
+      errFn
+    );
+    if (!config || !config.name) {
+      this.loading = false;
+      return;
+    }
+
+    if (config.description === undefined) {
+      config.description = '';
+    }
+
+    this.originalName = config.name;
+    this.originalOwnerName = config.owner;
+    this.originalDescriptionName = config.description;
+    this.groupIsInternal = !!config.id.match(INTERNAL_GROUP_REGEX);
+
+    promises.push(
+      this.restApiService.getIsAdmin().then(isAdmin => {
+        this.isAdmin = !!isAdmin;
+      })
+    );
+
+    promises.push(
+      this.restApiService.getIsGroupOwner(config.name).then(isOwner => {
+        this.groupOwner = !!isOwner;
+      })
+    );
+
+    this.groupConfig = config;
+    this.originalOptionsVisibleToAll = config?.options?.visible_to_all;
+
+    fireTitleChange(config.name);
+
+    await Promise.all(promises);
+    this.loading = false;
+  }
+
+  // private but used in test
+  computeLoadingClass() {
+    return this.loading ? 'loading' : '';
+  }
+
+  // private but used in test
+  async handleSaveName() {
+    const groupConfig = this.groupConfig;
+    if (!this.groupId || !groupConfig || !groupConfig.name) {
+      return Promise.reject(new Error('invalid groupId or config name'));
+    }
+    const groupName = groupConfig.name;
+    const config = await this.restApiService.saveGroupName(
+      this.groupId,
+      groupName
+    );
+    if (config.status === 200) {
+      this.originalName = groupName;
+      const detail: GroupNameChangedDetail = {
+        name: groupName,
+        external: !this.groupIsInternal,
+      };
+      fire(this, 'name-changed', detail);
+      this.requestUpdate();
+    }
+
+    return;
+  }
+
+  // private but used in test
+  async handleSaveOwner() {
+    if (!this.groupId || !this.groupConfig) return;
+    let owner = this.groupConfig.owner;
+    if (this.groupConfigOwner) {
+      owner = decodeURIComponent(this.groupConfigOwner);
+    }
+    if (!owner) return;
+    await this.restApiService.saveGroupOwner(this.groupId, owner);
+    this.originalOwnerName = this.groupConfig?.owner;
+    this.groupConfigOwner = undefined;
+  }
+
+  // private but used in test
+  async handleSaveDescription() {
+    if (
+      !this.groupId ||
+      !this.groupConfig ||
+      this.groupConfig.description === undefined
+    )
+      return;
+    await this.restApiService.saveGroupDescription(
+      this.groupId,
+      this.groupConfig.description
+    );
+    this.originalDescriptionName = this.groupConfig.description;
+  }
+
+  // private but used in test
+  async handleSaveOptions() {
+    if (!this.groupId || !this.groupConfig || !this.groupConfig.options) return;
+    const visible = this.groupConfig.options.visible_to_all;
+    const options = {visible_to_all: visible};
+    await this.restApiService.saveGroupOptions(this.groupId, options);
+    this.originalOptionsVisibleToAll = visible;
+  }
+
+  async handleDeleteGroup() {
+    if (!this.originalName) return;
+    await this.restApiService.deleteGroup(this.originalName);
+    this.restApiService.invalidateGroupsCache();
+    this.deleteGroupModal?.close();
+    this.getNavigation().setUrl(
+      createAdminUrl({adminView: AdminChildView.GROUPS})
+    );
+  }
+
+  private computeHeaderClass(configChanged: boolean) {
+    return configChanged ? 'edited' : '';
+  }
+
+  private getGroupSuggestions(input: string) {
+    return this.restApiService
+      .getSuggestedGroups(
+        input,
+        /* project=*/ undefined,
+        /* n=*/ undefined,
+        throwingErrorCallback
+      )
+      .then(response => {
+        const groups: AutocompleteSuggestion[] = [];
+        for (const [name, group] of Object.entries(response ?? {})) {
+          groups.push({name, value: decodeURIComponent(group.id)});
+        }
+        return groups;
+      });
+  }
+
+  // private but used in test
+  computeGroupDisabled() {
+    return !(this.groupIsInternal && (this.isAdmin || this.groupOwner));
+  }
+
+  private getGroupUUID() {
+    const id = this.groupConfig?.id;
+    if (!id) return;
+    return id.match(INTERNAL_GROUP_REGEX) ? id : decodeURIComponent(id);
+  }
+
+  private handleNameTextChanged(e: ValueChangedEvent) {
+    if (!this.groupConfig || this.loading) return;
+    this.groupConfig.name = e.detail.value as GroupName;
+    this.requestUpdate();
+  }
+
+  private handleOwnerTextChanged(e: ValueChangedEvent) {
+    if (!this.groupConfig || this.loading) return;
+    this.groupConfig.owner = e.detail.value;
+    this.requestUpdate();
+  }
+
+  private handleOwnerValueChanged(e: ValueChangedEvent) {
+    if (this.loading) return;
+    this.groupConfigOwner = e.detail.value;
+    this.requestUpdate();
+  }
+
+  private handleDescriptionInput(e: InputEvent) {
+    if (!this.groupConfig || this.loading) return;
+    const value = (e.target as GrAutogrowTextarea).value ?? '';
+    this.groupConfig.description = value;
+    this.requestUpdate();
+  }
+
+  private handleOptionsChange(e: Event) {
+    if (!this.groupConfig || this.loading) return;
+    this.groupConfig.options!.visible_to_all = (e.target as MdCheckbox).checked;
+    this.requestUpdate();
+  }
+}

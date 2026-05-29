@@ -1,0 +1,178 @@
+// Copyright (C) 2013 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package com.google.gerrit.sshd.commands;
+
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
+
+import com.google.common.base.MoreObjects;
+import com.google.common.collect.Streams;
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.entities.InternalGroup;
+import com.google.gerrit.extensions.restapi.IdString;
+import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.TopLevelResource;
+import com.google.gerrit.server.account.AccountCache;
+import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.account.GroupCache;
+import com.google.gerrit.server.group.GroupResource;
+import com.google.gerrit.server.restapi.group.AddMembers;
+import com.google.gerrit.server.restapi.group.AddSubgroups;
+import com.google.gerrit.server.restapi.group.DeleteMembers;
+import com.google.gerrit.server.restapi.group.DeleteSubgroups;
+import com.google.gerrit.server.restapi.group.GroupsCollection;
+import com.google.gerrit.sshd.CommandMetaData;
+import com.google.gerrit.sshd.SshCommand;
+import com.google.inject.Inject;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import org.kohsuke.args4j.Argument;
+import org.kohsuke.args4j.Option;
+
+@CommandMetaData(
+    name = "set-members",
+    description = "Modify members of specific group or number of groups")
+public class SetMembersCommand extends SshCommand {
+
+  @Option(
+      name = "--add",
+      aliases = {"-a"},
+      metaVar = "USER",
+      usage = "users that should be added as group member")
+  private List<Account.Id> accountsToAdd = new ArrayList<>();
+
+  @Option(
+      name = "--remove",
+      aliases = {"-r"},
+      metaVar = "USER",
+      usage = "users that should be removed from the group")
+  private List<Account.Id> accountsToRemove = new ArrayList<>();
+
+  @Option(
+      name = "--include",
+      aliases = {"-i"},
+      metaVar = "GROUP",
+      usage = "group that should be included as group member")
+  private List<AccountGroup.UUID> groupsToInclude = new ArrayList<>();
+
+  @Option(
+      name = "--exclude",
+      aliases = {"-e"},
+      metaVar = "GROUP",
+      usage = "group that should be excluded from the group")
+  private List<AccountGroup.UUID> groupsToRemove = new ArrayList<>();
+
+  @Argument(
+      index = 0,
+      required = true,
+      multiValued = true,
+      metaVar = "GROUP",
+      usage = "groups to modify")
+  private List<AccountGroup.UUID> groups = new ArrayList<>();
+
+  @Inject private AddMembers addMembers;
+
+  @Inject private DeleteMembers deleteMembers;
+
+  @Inject private AddSubgroups addSubgroups;
+
+  @Inject private DeleteSubgroups deleteSubgroups;
+
+  @Inject private GroupsCollection groupsCollection;
+
+  @Inject private GroupCache groupCache;
+
+  @Inject private AccountCache accountCache;
+
+  @Override
+  protected void run() throws UnloggedFailure, Failure, Exception {
+    enableGracefulStop();
+    try {
+      for (AccountGroup.UUID groupUuid : groups) {
+        GroupResource resource =
+            groupsCollection.parse(TopLevelResource.INSTANCE, IdString.fromUrl(groupUuid.get()));
+        if (!accountsToRemove.isEmpty()) {
+          @SuppressWarnings("unused")
+          var unused = deleteMembers.apply(resource, fromMembers(accountsToRemove));
+
+          reportMembersAction("removed from", resource, accountsToRemove);
+        }
+        if (!groupsToRemove.isEmpty()) {
+          @SuppressWarnings("unused")
+          var unused = deleteSubgroups.apply(resource, fromGroups(groupsToRemove));
+
+          reportGroupsAction("excluded from", resource, groupsToRemove);
+        }
+        if (!accountsToAdd.isEmpty()) {
+          @SuppressWarnings("unused")
+          var unused = addMembers.apply(resource, fromMembers(accountsToAdd));
+
+          reportMembersAction("added to", resource, accountsToAdd);
+        }
+        if (!groupsToInclude.isEmpty()) {
+          @SuppressWarnings("unused")
+          var unused = addSubgroups.apply(resource, fromGroups(groupsToInclude));
+
+          reportGroupsAction("included to", resource, groupsToInclude);
+        }
+      }
+    } catch (RestApiException e) {
+      throw die(e.getMessage());
+    }
+  }
+
+  private void reportMembersAction(
+      String action, GroupResource group, List<Account.Id> accountIdList)
+      throws UnsupportedEncodingException, IOException {
+    String names =
+        accountIdList.stream()
+            .map(
+                accountId -> {
+                  Optional<AccountState> accountState = accountCache.get(accountId);
+                  if (!accountState.isPresent()) {
+                    return "n/a";
+                  }
+                  return MoreObjects.firstNonNull(
+                      accountState.get().account().preferredEmail(), "n/a");
+                })
+            .collect(joining(", "));
+    out.write(
+        String.format("Members %s group %s: %s\n", action, group.getName(), names).getBytes(ENC));
+  }
+
+  private void reportGroupsAction(
+      String action, GroupResource group, List<AccountGroup.UUID> groupUuidList)
+      throws UnsupportedEncodingException, IOException {
+    String names =
+        groupUuidList.stream()
+            .map(uuid -> groupCache.get(uuid).map(InternalGroup::getName))
+            .flatMap(Streams::stream)
+            .collect(joining(", "));
+    out.write(
+        String.format("Groups %s group %s: %s\n", action, group.getName(), names).getBytes(ENC));
+  }
+
+  private AddSubgroups.Input fromGroups(List<AccountGroup.UUID> accounts) {
+    return AddSubgroups.Input.fromGroups(accounts.stream().map(Object::toString).collect(toList()));
+  }
+
+  private AddMembers.Input fromMembers(List<Account.Id> accounts) {
+    return AddMembers.Input.fromMembers(accounts.stream().map(Object::toString).collect(toList()));
+  }
+}

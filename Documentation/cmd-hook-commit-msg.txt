@@ -1,3 +1,4 @@
+:linkattrs:
 = commit-msg Hook
 
 
@@ -20,24 +21,24 @@ After the hook has been installed in the user's local Git repository
 for a project, the hook will modify a commit message such as:
 
 ----
-  Improve foo widget by attaching a bar.
+Improve foo widget by attaching a bar.
 
-  We want a bar, because it improves the foo by providing more
-  wizbangery to the dowhatimeanery.
+We want a bar, because it improves the foo by providing more
+wizbangery to the dowhatimeanery.
 
-  Signed-off-by: A. U. Thor <author@example.com>
+Signed-off-by: A. U. Thor <author@example.com>
 ----
 
 by inserting a new `Change-Id: ` line in the footer:
 
 ----
-  Improve foo widget by attaching a bar.
+Improve foo widget by attaching a bar.
 
-  We want a bar, because it improves the foo by providing more
-  wizbangery to the dowhatimeanery.
+We want a bar, because it improves the foo by providing more
+wizbangery to the dowhatimeanery.
 
-  Change-Id: Ic8aaa0728a43936cd4c6e1ed590e01ba8f0fbf5b
-  Signed-off-by: A. U. Thor <author@example.com>
+Change-Id: Ic8aaa0728a43936cd4c6e1ed590e01ba8f0fbf5b
+Signed-off-by: A. U. Thor <author@example.com>
 ----
 
 The hook implementation is reasonably intelligent at inserting the
@@ -55,8 +56,33 @@ change viewed on the web.
 The `Change-Id` will not be added if `gerrit.createChangeId` is set
 to `false` in the git config.
 
-== OBTAINING
+The `Change-Id` will not be added to temporary commits created by
+`git commit --fixup` or `git commit --squash`, as well as commits
+with a subject line that begins with a lowercase word followed by
+an exclamation mark (e.g., `nopush!`). To override this behavior,
+set `gerrit.createChangeId` to `always` in the git config.
 
+If `gerrit.reviewUrl` is set to the base URL of the Gerrit server that
+changes are uploaded to (e.g. `https://gerrit-review.googlesource.com/`)
+in the git config, then instead of adding a `Change-Id` trailer, a `Link`
+trailer will be inserted that will look like this:
+
+----
+Improve foo widget by attaching a bar.
+
+We want a bar, because it improves the foo by providing more
+wizbangery to the dowhatimeanery.
+
+Link: https://gerrit-review.googlesource.com/id/Ic8aaa0728a43936cd4c6e1ed590e01ba8f0fbf5b
+Signed-off-by: A. U. Thor <author@example.com>
+----
+
+This link will become a valid link to the review page once the change is
+uploaded to the Gerrit server. Newer versions of the Gerrit server will read
+the change identifier out of the appropriate `Link` trailer and treat it in
+the same way as the change identifier in a `Change-Id` trailer.
+
+== OBTAINING
 
 To obtain the `commit-msg` script use `scp`, `wget` or `curl` to download
 it to your local system from your Gerrit server.
@@ -64,32 +90,31 @@ it to your local system from your Gerrit server.
 You can use either of the below commands:
 
 ----
-  $ scp -p -P 29418 <your username>@<your Gerrit review server>:hooks/commit-msg <local path to your git>/.git/hooks/
+$ scp -p -P 29418 <your username>@<your Gerrit review server>:hooks/commit-msg <local path to your git>/.git/hooks/
 
-  $ curl -Lo <local path to your git>/.git/hooks/commit-msg <your Gerrit http URL>/tools/hooks/commit-msg
+$ curl -Lo <local path to your git>/.git/hooks/commit-msg <your Gerrit http URL>/tools/hooks/commit-msg
 ----
 
 A specific example of this might look something like this:
 
-.Example
 ----
-  $ scp -p -P 29418 john.doe@review.example.com:hooks/commit-msg ~/duhproject/.git/hooks/
+$ scp -p -P 29418 john.doe@review.example.com:hooks/commit-msg ~/duhproject/.git/hooks/
 
-  $ curl -Lo ~/duhproject/.git/hooks/commit-msg http://review.example.com/tools/hooks/commit-msg
+$ curl -Lo ~/duhproject/.git/hooks/commit-msg http://review.example.com/tools/hooks/commit-msg
 ----
 
 Make sure the hook file is executable:
 
 ----
-  $ chmod u+x ~/duhproject/.git/hooks/commit-msg
+$ chmod u+x ~/duhproject/.git/hooks/commit-msg
 ----
 
 == SEE ALSO
 
 
 * link:user-changeid.html[Change-Id Lines]
-* link:http://www.kernel.org/pub/software/scm/git/docs/git-commit.html[git-commit(1)]
-* link:http://www.kernel.org/pub/software/scm/git/docs/githooks.html[githooks(5)]
+* link:http://www.kernel.org/pub/software/scm/git/docs/git-commit.html[git-commit(1),role=external,window=_blank]
+* link:http://www.kernel.org/pub/software/scm/git/docs/githooks.html[githooks(5),role=external,window=_blank]
 
 == IMPLEMENTATION
 

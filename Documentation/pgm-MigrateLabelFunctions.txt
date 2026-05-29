@@ -1,0 +1,44 @@
+= MigrateLabelFunctions
+
+== NAME
+MigrateLabelFunctions - Migrates label functions to submit requirements
+
+== SYNOPSIS
+[verse]
+--
+_java_ -jar gerrit.war MigrateLabelFunctions_
+  -d <SITE_PATH>
+--
+
+== DESCRIPTION
+Migrates label functions to submit requirements and resetting the label
+functions to `NO_BLOCK`.
+
+NOTE: If a project has Prolog based submit rules, its label functions will not
+be migrated because the newly created submit requirements might not behave as
+intended.
+
+For labels that were skipped, i.e. had only one "zero" predefined value, the
+migrator creates a non-applicable submit-requirement for them. This is done so
+that if a parent project had a submit-requirement with the same name, then it's
+not inherited by this project.
+
+If there is an existing label and there exists a "submit requirement" with the
+same name, the migrator checks if the submit-requirement to be created matches
+the one in project.config. If they don't match, a warning message is printed,
+otherwise nothing happens. In either cases, the existing submit-requirement is
+not altered.
+
+== OPTIONS
+
+-d::
+--site-path::
+	Location of the gerrit.config file, and all other per-site
+	configuration data, supporting libraries and log files.
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

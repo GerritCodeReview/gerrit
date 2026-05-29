@@ -1,0 +1,102 @@
+/**
+ * Copyright (C) 2018 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+{namespace com.google.gerrit.server.mail.template.InboundEmailRejectionHtml}
+
+import * as noReplyFooter from 'com/google/gerrit/server/mail/NoReplyFooter.soy';
+import * as noReplyFooterHtml from 'com/google/gerrit/server/mail/NoReplyFooterHtml.soy';
+
+
+{template InboundEmailRejectionFooterHtml}
+  <p>
+    Thus, no actions were taken by Gerrit in response to this email,
+    and you should use the Gerrit website to continue.
+  </p>
+  <p>
+    In case you did not send Gerrit an email, feel free to ignore this.
+  </p>
+  {call noReplyFooterHtml.NoReplyFooterHtml /}
+{/template}
+
+/**
+ * The .InboundEmailRejection templates will determine the contents of the email related
+ * to warning users of error in inbound emails
+ */
+
+{template InboundEmailRejectionHtml_PARSING_ERROR}
+  <p>
+    Gerrit Code Review was unable to parse your email.
+  </p>
+  <p>
+    This might be because your email did not quote Gerrit's email,
+    because you are using an unsupported email client,
+    or because of a bug.
+  </p>
+  {call InboundEmailRejectionFooterHtml /}
+{/template}
+
+{template InboundEmailRejectionHtml_UNKNOWN_ACCOUNT}
+  <p>
+    Gerrit Code Review was unable to match your email to an account.
+  </p>
+  <p>
+    This may happen if several accounts are linked to this email address.
+  </p>
+  {call InboundEmailRejectionFooterHtml /}
+{/template}
+
+{template InboundEmailRejectionHtml_INACTIVE_ACCOUNT}
+  <p>
+    Your account on this Gerrit Code Review instance is marked as inactive,
+    so your email has been ignored.
+  </p>
+  <p>
+    If you think this is an error, please contact your Gerrit instance administrator.
+  </p>
+  <p>
+    In case you did not send Gerrit an email, feel free to ignore this.
+  </p>
+  {call noReplyFooter.NoReplyFooter /}
+{/template}
+
+{template InboundEmailRejectionHtml_INTERNAL_EXCEPTION}
+  <p>
+    Gerrit Code Review encountered an internal exception and was unable to fulfil your request.
+  </p>
+  <p>
+    This might be caused by an ongoing maintenance or a data corruption.
+  <p>
+  {call InboundEmailRejectionFooterHtml /}
+{/template}
+
+{template InboundEmailRejectionHtml_CHANGE_NOT_FOUND}
+  <p>
+    Gerrit Code Review was unable to process your email because the change was not found.
+  </p>
+  <p>
+    Maybe the project doesn't exist or is not visible? Maybe the change is not visible or got
+    deleted?
+  <p>
+  {call InboundEmailRejectionFooterHtml /}
+{/template}
+
+{template InboundEmailRejectionHtml_COMMENT_REJECTED}
+  <p>
+    Gerrit Code Review rejected one or more comments because they did not pass validation, or
+    because the maximum number of comments per change would be exceeded.
+  </p>
+  {call InboundEmailRejectionFooterHtml /}
+{/template}

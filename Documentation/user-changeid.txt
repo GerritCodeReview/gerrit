@@ -39,7 +39,7 @@ prefixed with an uppercase `I`.
 
 Note that a Change-Id is not necessarily unique within a Gerrit instance. It can
 be reused among different repositories or branches (see below,
-link:user-changeid.html[change-upload]).
+link:user-changeid.html#change-upload[change-upload]).
 
 [[creation]]
 == Creation

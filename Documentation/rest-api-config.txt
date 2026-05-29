@@ -30,6 +30,32 @@ Returns the version of the Gerrit server.
   "2.7"
 ----
 
+The `verbose` option can be used to provide a verbose version output as
+link:#version-info[VersionInfo].
+
+.Request
+----
+  GET /config/server/version?verbose HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "gerrit_version": "3.8.0",
+    "note_db_version": 185,
+    "change_index_version": 83,
+    "account_index_version": 13,
+    "project_index_version": 6,
+    "group_index_version": 10
+  }
+----
+
+
+
 [[get-info]]
 === Get Server Info
 --
@@ -127,18 +153,37 @@ As result a link:#server-info[ServerInfo] entity is returned.
       "all_projects": "All-Projects",
       "all_users": "All-Users"
       "doc_search": true,
-      "web_uis": [
-        "gwt"
-      ]
+      "project_state_predicate_enabled": true
     },
     "sshd": {},
     "suggest": {
       "from": 0
     },
     "user": {
-      "anonymous_coward_name": "Anonymous Coward"
+      "anonymous_coward_name": "Name of user not set"
     }
   }
+----
+
+[[account-deactivation]]
+=== AccountDeactivation
+--
+'POST /config/server/deactivate.stale.accounts'
+--
+Queues the link:config-gerrit.html#accountDeactivation[account deactivator] task.
+
+.Request
+----
+  POST /config/server/deactivate.stale.accounts HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 202 Accepted
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  "Account deactivator task added to work queue."
 ----
 
 [[check-consistency]]
@@ -190,6 +235,51 @@ is returned that contains detected consistency problems.
         }
       ]
     }
+  }
+----
+
+
+[[reload-config]]
+=== Reload Config
+--
+'POST /config/server/reload'
+--
+
+Reloads the gerrit.config configuration.
+
+Not all configuration value can be picked up by this command. Which config
+sections and values that are supported is documented here:
+link:config-gerrit.html[Configuration]
+
+_The output shows only modified config values that are picked up by Gerrit
+and applied._
+
+If a config entry is added or removed from gerrit.config, but still brings
+no effect due to a matching default value, no output for this entry is shown.
+
+.Request
+----
+  POST /config/server/reload HTTP/1.0
+----
+
+As result a link:#config-update-info[ConfigUpdateInfo] entity is returned that
+contains information about how the updated config entries were handled.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "rejected": [],
+    "applied": [
+      {
+        "config_key": "addreviewer.maxAllowed",
+        "old_value": "20",
+        "new_value": "15"
+      }
+    ]
   }
 ----
 
@@ -363,16 +453,6 @@ The entries in the map are sorted by cache name.
       "entries": {},
       "hit_ratio": {}
     },
-    groups_subgroups": {
-      "type": "MEM",
-      "entries": {
-        "mem": 4
-      },
-      "average_get": "697.8us",
-      "hit_ratio": {
-        "mem": 82
-      }
-    },
     "permission_sort": {
       "type": "MEM",
       "entries": {
@@ -407,6 +487,16 @@ The entries in the map are sorted by cache name.
         "mem": 35
       },
       "average_get": "8.6ms",
+      "hit_ratio": {
+        "mem": 99
+      }
+    },
+    "prolog_rules": {
+      "type": "MEM",
+      "entries": {
+        "mem": 35
+      },
+      "average_get": "103.0ms",
       "hit_ratio": {
         "mem": 99
       }
@@ -477,11 +567,11 @@ The cache names are lexicographically sorted.
     "groups_bysubgroup",
     "groups_byuuid",
     "groups_external",
-    "groups_subgroups",
     "permission_sort",
     "plugin_resources",
     "project_list",
     "projects",
+    "prolog_rules",
     "quota-repo_size",
     "sshkeys",
     "web_sessions"
@@ -653,11 +743,6 @@ The following options are supported:
 +
 Includes a JVM summary.
 
-* `gc`:
-+
-Requests a Java garbage collection before computing the information
-about the Java memory heap.
-
 .Request
 ----
   GET /config/server/summary?jvm HTTP/1.0
@@ -812,6 +897,128 @@ The entries in the map are sorted by capability ID.
   }
 ----
 
+[[list-experiments]]
+=== List Experiments
+--
+'GET /config/server/experiments'
+--
+
+Lists the experiments that are available in the system.
+
+Requires the caller to have the link:access-control.html#capability_administrateServer[
+Administrate Server] global capability.
+
+As result a map of experiment names to link:#experiment-info[Experiment] entities is returned.
+
+The entries in the map are sorted by experiment name.
+
+.Request
+----
+  GET /config/server/experiments/ HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "GerritBackendFeature__allow_fix_suggestions_in_comments": {
+      "enabled": false
+    },
+    "GerritBackendFeature__attach_nonce_to_documentation": {
+      "enabled": true
+    }
+  }
+----
+
+It is possible to specify the following options:
+
+[[list-experiments-enabled-only]]
+--
+* `enabled-only`: If specified only enabled experiments are listed.
+--
+
+[[list-global-labels]]
+=== List Global Labels
+--
+'GET /config/server/labels'
+--
+
+Lists the globally defined labels (labels that are added programatically via the
+link:dev-plugins.html#label-type[LabelType] extension point).
+
+As result a list of labels as link:rest-api-projects.html#label-definition-info[
+LabelDefinitionInfo] entities is returned.
+
+The entries in the list are sorted by label name.
+
+.Request
+----
+  GET /config/server/labels/ HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  [
+    {
+      "name": "Global-Label",
+      "function": "NoBlock",
+      "values": {
+        " 0": "No score",
+        "-1": "Rejected",
+        "+1": "Approved",
+      },
+      "default_value": 0,
+      "can_override": false,
+      "copy_condition": "changekind:NO_CHANGE OR changekind:TRIVIAL_REBASE or is:MIN",
+      "allow_post_submit": true
+    }
+  ]
+----
+
+[[list-global-submit-requirements]]
+=== List Global Submit Requirements
+--
+'GET /config/server/submit-requirements'
+--
+
+Lists the globally defined submit requirements (submit requirements that are
+added programatically via the
+link:dev-plugins.html#submit-requirement[SubmitRequirement] extension point).
+
+As result a list of submit-requirements as
+link:rest-api-projects.html#submit-requirement-info[ SubmitRequirementInfo]
+entities is returned.
+
+The entries in the list are sorted by submit requirement name.
+
+.Request
+----
+  GET /config/server/submit-requirements/ HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  [
+    {
+      "name": "Global-Submit-Requirement",
+      "description": "A global submit requirement",
+      "submittability_expression": "label:Global-Label=+2",
+      "allow_override_in_child_projects": false
+    }
+  ]
+----
+
 [[list-tasks]]
 === List Tasks
 --
@@ -868,7 +1075,7 @@ command.
       "state": "SLEEPING",
       "start_time": "2014-06-11 12:58:51.508000000",
       "delay": 3287966,
-      "command": "Log File Compressor"
+      "command": "Log File Manager"
     }
   ]
 ----
@@ -1012,14 +1219,11 @@ PreferencesInfo] is returned.
   )]}'
   {
     "changes_per_page": 25,
-    "show_site_header": true,
-    "use_flash_clipboard": true,
     "download_command": "CHECKOUT",
     "date_format": "STD",
     "time_format": "HHMM_12",
     "diff_view": "SIDE_BY_SIDE",
     "size_bar_in_change_table": true,
-    "review_category_strategy": "NONE",
     "mute_common_path_prefixes": true,
     "publish_comments_on_push": true,
     "my": [
@@ -1091,14 +1295,11 @@ PreferencesInfo] is returned.
   )]}'
   {
     "changes_per_page": 50,
-    "show_site_header": true,
-    "use_flash_clipboard": true,
     "download_command": "CHECKOUT",
     "date_format": "STD",
     "time_format": "HHMM_12",
     "diff_view": "SIDE_BY_SIDE",
     "size_bar_in_change_table": true,
-    "review_category_strategy": "NONE",
     "mute_common_path_prefixes": true,
     "publish_comments_on_push": true,
     "my": [
@@ -1234,6 +1435,614 @@ DiffPreferencesInfo] is returned.
   }
 ----
 
+[[get-edit-preferences]]
+=== Get Default Edit Preferences
+
+--
+'GET /config/server/preferences.edit'
+--
+
+Returns the default edit preferences for the server.
+
+.Request
+----
+  GET /a/config/server/preferences.edit HTTP/1.0
+----
+
+As response a link:rest-api-accounts.html#edit-preferences-info[
+EditPreferencesInfo] is returned.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "tab_size": 8,
+    "line_length": 100,
+    "indent_unit": 2,
+    "cursor_blink_rate": 0,
+    "show_tabs": true,
+    "syntax_highlighting": true,
+    "match_brackets": true,
+    "auto_close_brackets": true,
+    "theme": "DEFAULT",
+    "key_map_type": "DEFAULT"
+  }
+----
+
+[[set-edit-preferences]]
+=== Set Default Edit Preferences
+
+--
+'PUT /config/server/preferences.edit'
+--
+
+Sets the default edit preferences for the server.
+
+The new edit preferences must be provided in the request body as a
+link:rest-api-accounts.html#edit-preferences-input[
+EditPreferencesInput] entity.
+
+To be allowed to set default edit preferences, a user must be a member
+of a group that is granted the
+link:access-control.html#capability_administrateServer[
+Administrate Server] capability.
+
+.Request
+----
+  PUT /a/config/server/preferences.edit HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "tab_size": 8,
+    "line_length": 80,
+    "indent_unit": 2,
+    "cursor_blink_rate": 0,
+    "show_tabs": true,
+    "syntax_highlighting": true,
+    "match_brackets": true,
+    "auto_close_brackets": true,
+    "theme": "DEFAULT",
+    "key_map_type": "DEFAULT"
+  }
+----
+
+As response a link:rest-api-accounts.html#edit-preferences-info[
+EditPreferencesInfo] is returned.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "tab_size": 8,
+    "line_length": 80,
+    "indent_unit": 2,
+    "cursor_blink_rate": 0,
+    "show_tabs": true,
+    "syntax_highlighting": true,
+    "match_brackets": true,
+    "auto_close_brackets": true,
+    "theme": "DEFAULT",
+    "key_map_type": "DEFAULT"
+  }
+----
+
+[[index.changes]]
+=== Index a set of changes
+
+This endpoint allows Gerrit admins to index a set of changes with one request
+by providing a link:#index-changes-input[IndexChangesInput] entity.
+
+Using this endpoint Gerrit admins can also index change(s) which are not visible to them.
+
+.Request
+----
+  POST /config/server/index.changes HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "changes": [
+      "foo~101",
+      "bar~202",
+      "303"
+    ],
+    "delete_missing": "true"
+  }
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+----
+
+When `delete_missing` is set to `true` changes to be reindexed which are missing in NoteDb
+will be deleted in the index.
+
+[[list-indexes]]
+=== List Indexes
+--
+'GET /config/server/indexes'
+--
+
+Lists the indexes used by Gerrit. It provides details about the index versions,
+which index version is used to search and which versions are written to.
+
+This endpoint requires the
+link:access-control.html#capability_maintainServer[Maintain Server]
+capability.
+
+.Request
+----
+  GET /config/server/indexes/ HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  [
+    {
+      "name": "accounts",
+      "versions": {
+        "13": {
+          "is_write": true,
+          "is_search": true,
+          "num_docs": 3250
+        }
+      }
+    },
+    {
+      "name": "changes",
+      "versions": {
+        "83": {
+          "is_write": true,
+          "is_search": true,
+          "num_docs": 250000
+        },
+        "84": {
+          "is_write": true,
+          "is_search": false,
+          "num_docs": 150000
+        }
+      }
+    },
+    {
+      "name": "groups",
+      "versions": {
+        "10": {
+          "is_write": true,
+          "is_search": true,
+          "num_docs": 500
+        }
+      }
+    },
+    {
+      "name": "projects",
+      "versions": {
+        "8": {
+          "is_write": true,
+          "is_search": true,
+          "num_docs": 90
+        }
+      }
+    }
+  [
+----
+
+=== Get Index
+--
+'GET /config/server/indexes/changes'
+--
+
+Get an index used by Gerrit. It provides details about the index versions, which
+index version is used to search and which versions are written to.
+
+.Request
+----
+  'GET /config/server/indexes/changes'
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "name": "changes",
+    "versions": {
+      "83": {
+        "is_write": true,
+        "is_search": true,
+        "num_docs": 250000
+      },
+      "84": {
+        "is_write": true,
+        "is_search": false,
+        "num_docs": 150000
+      }
+    }
+  }
+----
+
+=== List Index Versions
+--
+'GET /config/server/indexes/changes/versions'
+--
+
+Lists versions of an index used by Gerrit.
+
+.Request
+----
+  'GET /config/server/indexes/changes/versions'
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "83": {
+      "is_write": true,
+      "is_search": true,
+      "num_docs": 250000
+    },
+    "84": {
+      "is_write": true,
+      "is_search": false,
+      "num_docs": 150000
+    }
+  }
+----
+
+=== Get Index Version
+--
+'GET /config/server/indexes/changes/versions/85'
+--
+
+Get info about one version of an index used by Gerrit.
+
+.Request
+----
+  'GET /config/server/indexes/changes/versions/84'
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "is_write": true,
+    "is_search": false,
+    "num_docs": 150000
+  }
+----
+
+[[snapshot-index]]
+=== Create Index Snapshot
+
+These endpoints allow Gerrit admins to create index snapshots.
+Created snapshots can be used as a backup of the index.
+
+It is possible to create a snapshot of all indexes, snapshot of one index or
+snapshot of one index version.
+
+The snapshots will be stored on the server at `$SITE/index/snapshots/$ID`.
+The `$ID` can be optionally provided in link:#snapshot-index-input[SnapshotIndex.Input]
+or will default to the current local time in ISO8601 format.
+
+Only snapshots of indexes that Gerrit currently writes to can be created.
+
+Note, that the creation of multiple snapshots, e.g. of different index
+versions, is not atomic. If a consistent state over multiple indexes is
+required, the server has to be put into read-only mode before creating
+the snapshot.
+
+==== Create Snapshot of All Indexes
+--
+'POST /config/server/snapshot.indexes HTTP/1.0'
+--
+
+.Request
+----
+  POST /config/server/snapshot.indexes HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "id": "snapshot-1"
+  }
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "id": "snapshot-1"
+  }
+----
+
+==== Create Snapshot of one Index
+--
+'POST /config/server/indexes/link:#index-name[\{index-name\}]/snapshot'
+--
+
+This creates a snapshot of all write index versions of the specified index.
+
+.Request
+----
+  POST /config/server/indexes/accounts/snapshot HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "id": "snapshot-1"
+  }
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "id": "snapshot-1"
+  }
+----
+
+==== Create Snapshot of one Index Version
+--
+'POST /config/server/indexes/link:#index-name[\{index-name\}]/versions/#index-version[\{index-version\}]/snapshot'
+--
+
+This creates a snapshot of one index version of the specified index.
+
+.Request
+----
+  POST /config/server/indexes/changes/versions/84/snapshot HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "id": "snapshot-1"
+  }
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "id": "snapshot-1"
+  }
+----
+
+=== Reindex an Index Version
+--
+'POST /config/server/indexes/link:#index-name[\{index-name\}]/versions/#index-version[\{index-version\}]/reindex'
+--
+
+This endpoint allows to trigger background reindexing of an index version.  It is
+also supported to specify whether to reuse existing up-to-date (non-stale) index
+documents and whether to notifyListeners or not.
+
+.Request
+----
+  POST /config/server/indexes/changes/versions/84/reindex HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "reuse": "true",
+    "notifyListeners": "false"
+  }
+----
+
+.Response
+----
+  HTTP/1.1 202 Accepted
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+----
+
+[[flush-index]]
+=== Flush Index
+--
+'POST /config/server/indexes/link:#index-name[{index-name}]/flush'
+--
+
+Flushes all pending index updates to persistent storage immediately.
+In contrast to link:config-gerrit.html#index.name.commitWithin[index.name.commitWithin],
+which schedules index commits, this API forces the flush at call time.
+
+This endpoint allows administrators to explicitly finalize buffered index
+updates. While Gerrit normally manages index commits automatically, this
+endpoint can be used for maintenance or integration workflows that require
+all pending updates to be durably written.
+
+This endpoint is available for all index types whose backend supports the `flushAndCommit` capability:
+
+* `changes`
+* `accounts`
+* `groups`
+* `projects`
+
+The default Lucene index backend supports `flushAndCommit`.
+
+This endpoint requires the
+link:access-control.html#capability_maintainServer[Maintain Server]
+capability.
+
+.Request
+----
+  POST /config/server/indexes/changes/flush HTTP/1.1
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
+.Error Responses
+
+* `404 Not Found`
+  Returned if the specified index name does not exist.
+
+* `501 Not Implemented`
+  Returned if the index backend does not support the `flushAndCommit` operation.
+
+* `500 Internal Server Error`
+  Returned if an `IOException` occurs while flushing or committing index data.
+
+[[cleanup.changes]]
+=== Cleanup of stale changes
+
+This endpoint allows Gerrit administrators to abandon changes older than some given
+time. This allows to run change cleanup manually outside of the configured schedule or
+if change cleanup has been deactivated.
+
+The change cleanup will run asynchronously.
+
+.Request
+----
+  POST /config/server/cleanup.changes HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "after": "3 months",
+    "if_mergeable": true,
+    "message": "Abandoning stale changes.",
+    "query": "age:4w limit:100 -project:some/repo -hashtag:keep-alive"
+}
+----
+
+.Response
+----
+  HTTP/1.1 202 Accepted
+  Content-Disposition: attachment
+----
+
+[[cleanup.draft.comments]]
+=== Cleanup of already published draft comments
+
+This endpoint allows Gerrit administrators to cleanup already published draft
+comments that were not deleted.
+
+This cleanup task will run asynchronously.
+
+.Request
+----
+  POST /config/server/cleanup.draft.comments HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 202 Accepted
+  Content-Disposition: attachment
+----
+
+[[passwords.to.tokens]]
+=== Migration of HTTP passwords to authentication tokens
+
+This endpoint allows Gerrit administrators to migrate remaining HTTP passwords
+to authentication tokens. For the user the migration is invisible, i.e. the
+same credential is still valid.
+
+An optional lifetime for the credential can be set in the
+link:#migrate-passwords-to-tokens-input[MigratePasswordsToTokens.Input].
+
+This migration task will run asynchronously.
+
+.Request
+----
+  POST /config/server/passwords.to.tokens HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "lifetime": "3 months",
+  }
+----
+
+.Response
+----
+  HTTP/1.1 202 Accepted
+  Content-Disposition: attachment
+----
+
+[[reduce.token.lifetime]]
+=== Apply maximum lifetime to authentication tokens
+
+This endpoint allows Gerrit administrators to apply a shorter maximum lifetime
+to existing authentication tokens. This is required, when a shorter maximum
+lifetime is enforced. Changing the configuration will not apply that maximum
+to existing tokens. These have to be adapted using this REST API endpoint.
+
+This migration task will run asynchronously.
+
+.Request
+----
+  POST /config/server/reduce.token.lifetime HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "lifetime": "3 months",
+  }
+----
+
+.Response
+----
+  HTTP/1.1 202 Accepted
+  Content-Disposition: attachment
+----
+
+[[experiment-endpoints]]
+== Experiment Endpoints
+
+[[get-experiment]]
+=== Get Experiment
+--
+'GET /config/server/experiments/link:#experiment-name[\{experiment-name\}]
+--
+
+Retrieves the details of the experiment with the given name.
+
+Requires the caller to have the link:access-control.html#capability_administrateServer[
+Administrate Server] global capability.
+
+.Request
+----
+  GET /config/server/experiments/mGerritBackendFeature__attach_nonce_to_documentation HTTP/1.0
+----
+
+As response an link:#experiment-info[Experiment] entity is returned that
+describes the experiment.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "enabled": true
+  }
+----
 
 [[ids]]
 == IDs
@@ -1248,10 +2057,21 @@ plugin name: "<plugin-name>-<cache-name>".
 Gerrit core caches can optionally be prefixed with "gerrit":
 "gerrit-<cache-name>".
 
+[[experiment-name]]
+=== \{experiment-name\}
+The name of the experiment.
+
 [[task-id]]
 === \{task-id\}
 The ID of the task (hex string).
 
+[[index-name]]
+=== \{index-name\}
+The name of the index. Can be any of: "accounts", "changes", "groups", "projects".
+
+[[index-version]]
+=== \{index-version\}
+The version of the index. This is an integer.
 
 [[json-entities]]
 == JSON Entities
@@ -1264,10 +2084,13 @@ section.
 
 [options="header",cols="1,6"]
 |=============================
-|Field Name           |Description
-|`visibility`         |
+|Field Name            |Description
+|`visibility`          |
 link:config-gerrit.html#accounts.visibility[Visibility setting for
 accounts].
+|`default_display_name`|The default strategy for choosing the display
+name in the UI, see also
+link:config-gerrit.html#accounts.defaultDisplayName[gerrit.config].
 |=============================
 
 [[auth-info]]
@@ -1322,8 +2145,11 @@ type] is `CUSTOM_EXTENSION`.
 |`git_basic_auth_policy`      |optional|
 The link:config-gerrit.html#auth.gitBasicAuthPolicy[policy] to authenticate
 Git over HTTP and REST API requests when
-link:config-gerrit.html#auth.type[authentication type] is `LDAP`.
-Can be `HTTP`, `LDAP` or `HTTP_LDAP`.
+link:config-gerrit.html#auth.type[authentication type] is `LDAP`,
+`LDAP_BIND` or `OAUTH`. Can be `HTTP`, `LDAP`, `HTTP_LDAP` or `OAUTH`.
+|`max_token_lifetime`         |optional|
+The link:config-gerrit.html#auth.maxAuthTokenLifetime[maximum lifetime]
+of authentication tokens.
 |==========================================
 
 [[cache-info]]
@@ -1394,36 +2220,89 @@ section.
 |`allow_blame`        |not set if `false`|
 link:config-gerrit.html#change.allowBlame[Whether blame on side by side diff is
 allowed].
-|`large_change`       ||
-link:config-gerrit.html#change.largeChange[Number of changed lines from
-which on a change is considered as a large change].
-|`reply_label`        ||
-link:config-gerrit.html#change.replyTooltip[Label name for the reply
-button].
-|`reply_tooltip`      ||
-link:config-gerrit.html#change.replyTooltip[Tooltip for the reply
-button].
 |`update_delay`       ||
 link:config-gerrit.html#change.updateDelay[How often in seconds the web
 interface should poll for updates to the currently open change].
-|`submit_whole_topic` ||
+|`submit_whole_topic` |not set if `false`|
 link:config-gerrit.html#change.submitWholeTopic[A configuration if
 the whole topic is submitted].
 |`disable_private_changes` |not set if `false`|
 Returns true if private changes are disabled.
+|`mergeability_computation_behavior` ||
+Value of the link:config-gerrit.html#change.mergeabilityComputationBehavior[
+configuration parameter] that controls whether the mergeability bit in
+link:rest-api-changes.html#change-info[ChangeInfo] will never be set and if the
+bit is indexed.
+|`conflicts_predicate_enabled`|not set if `false`|
+link:config-gerrit.html#change.conflictsPredicateEnabled[Are conflicts enabled?].
+|`allow_markdown_base64_images_in_comments`|not set if `false`|
+link:config-gerrit.html#change.allowMarkdownBase64ImagesInComments[Are markdown base64 images in comments allowed?].
+|=============================
+
+[[change-index-config-info]]
+=== ChangeIndexConfigInfo
+The `ChangeIndexConfigInfo` entity contains information about Gerrit
+configuration from the link:config-gerrit.html#index.change[index.change]
+section.
+
+[options="header",cols="1,^1,5"]
+|=============================
+|Field Name           ||Description
+|`index_mergeable`        |not set if `false`|
+Value of the link:config-gerrit.html#index.change.indexMergeable[
+configuration parameter] that controls whether the mergeability bit is
+indexed (hence queryable using `is:mergeable`).
 |=============================
 
 [[check-account-external-ids-input]]
 === CheckAccountExternalIdsInput
 The `CheckAccountExternalIdsInput` entity contains input for the
-account external IDs consistency check.
+account external ID consistency check.
 
 Currently this entity contains no fields.
 
 [[check-account-external-ids-result-info]]
 === CheckAccountExternalIdsResultInfo
 The `CheckAccountExternalIdsResultInfo` entity contains the result of
-running the account external IDs consistency check.
+running the account external ID consistency check.
+
+[options="header",cols="1,6"]
+|======================
+|Field Name|Description
+|`problems`|A list of link:#consistency-problem-info[
+ConsistencyProblemInfo] entities.
+|======================
+
+[[check-accounts-input]]
+=== CheckAccountsInput
+The `CheckAccountsInput` entity contains input for the account consistency
+check.
+
+Currently this entity contains no fields.
+
+[[check-accounts-result-info]]
+=== CheckAccountsResultInfo
+The `CheckAccountsResultInfo` entity contains the result of running the
+account consistency check.
+
+[options="header",cols="1,6"]
+|======================
+|Field Name|Description
+|`problems`|A list of link:#consistency-problem-info[
+ConsistencyProblemInfo] entities.
+|======================
+
+[[check-groups-input]]
+=== CheckGroupsInput
+The `CheckGroupsInput` entity contains input for the group consistency
+check.
+
+Currently this entity contains no fields.
+
+[[check-groups-result-info]]
+=== CheckGroupsResultInfo
+The `CheckGroupsResultInfo` entity contains the result of running the
+group consistency check.
 
 [options="header",cols="1,6"]
 |======================
@@ -1447,6 +2326,9 @@ link:#check-accounts-result-info[CheckAccountsResultInfo] entity.
 The result of running the account external ID consistency check as a
 link:#check-account-external-ids-result-info[
 CheckAccountExternalIdsResultInfo] entity.
+|`check_groups_result`              |optional|
+The result of running the group consistency check as a
+link:#check-groups-result-info[CheckGroupsResultInfo] entity.
 |================================================
 
 [[consistency-check-input]]
@@ -1464,6 +2346,9 @@ link:#check-accounts-input[CheckAccountsInput] entity.
 Input for the account external ID consistency check as
 link:#check-account-external-ids-input[CheckAccountExternalIdsInput]
 entity.
+|`check_groups`              |optional|
+Input for the group consistency check as link:#check-groups-input[
+CheckGroupsInput] entity.
 |=========================================
 
 [[consistency-problem-info]]
@@ -1475,9 +2360,52 @@ consistency problem.
 |======================
 |Field Name|Description
 |`status`  |The status of the consistency problem. +
-Possible values are `ERROR` and `WARNING`.
+Possible values are `FATAL`, `ERROR` and `WARNING`.
 |`message` |Message describing the consistency problem.
 |======================
+
+[[config-update-info]]
+=== ConfigUpdateInfo
+The entity describes the result of a reload of gerrit.config.
+
+If a changed config value is missing from the `applied` and the `rejected`
+lists there are no guarantees to whether they have or have not taken effect.
+
+[options="header",cols="1,6"]
+|======================
+|Field Name|Description
+|`applied` |A list of link:#config-update-entry-info[ConfigUpdateEntryInfos]
+describing the applied configuration changes. +
+Every config value change representation present in this list is guaranteed to
+have taken effect.
+|`rejected` |A list of link:#config-update-entry-info[ConfigUpdateEntryInfos]
+describing the rejected configuration changes.  +
+Every config value change representation present in this list is guaranteed not
+to have taken effect.
+|======================
+
+[[config-update-entry-info]]
+=== ConfigUpdateEntryInfo
+The entity describes an updated config value.
+
+[options="header",cols="1,6"]
+|======================
+|Field Name|Description
+|`config_key` |The config key that contains the value.
+|`old_value`  |The old config value. +
+Missing if value was not previously configured.
+|`new_value`  |The new config value, picked up after reload.
+|======================
+
+[[experiment-info]]
+=== ExperimentInfo
+The `ExperimentInfo` entity contains information about an experiment.
+
+[options="header",cols="1,6"]
+|============================
+|Field Name |Description
+|`enabled`  |Whether the experiment is enabled.
+|============================
 
 [[download-info]]
 === DownloadInfo
@@ -1506,6 +2434,9 @@ download scheme and its commands.
 |`url`               ||
 The URL of the download scheme, where '${project}' is used as
 placeholder for the project name.
+|`description`       |optional|
+An optional description of how the scheme works and maybe comparing
+it to other schemes, explaining the pros and cons of each option.
 |`is_auth_required`  |not set if `false`|
 Whether this download scheme requires authentication.
 |`is_auth_supported` |not set if `false`|
@@ -1581,15 +2512,43 @@ Custom base URL where Gerrit server documentation is located.
 Gerrit base path even if this value is unset.)
 |`edit_gpg_keys`     |not set if `false`|
 Whether to enable the web UI for editing GPG keys.
+|`project_state_predicate_enabled` ||
+link:config-gerrit.html#gerrit.projectStatePredicateEnabled[Whether the instance supports filtering projects by state].
 |`report_bug_url`    |optional|
 link:config-gerrit.html#gerrit.reportBugUrl[URL to report bugs].
-|`report_bug_text`   |optional, not set if default|
-link:config-gerrit.html#gerrit.reportBugText[Display text for report
-bugs link].
-|`web_uis`           ||
-List of web UIs supported by the HTTP server. Possible values are `GWT`
-and `POLYGERRIT`.
+|`instance_id`       |optional|
+link:config-gerrit.html#gerrit.instanceId[Short identifier for this Gerrit installation].
+|`default_branch`       |optional|
+link:config-gerrit.html#gerrit.defaultBranch[Name of the default branch to use on the project creation].
 |=================================
+
+[[groups-config-info]]
+=== GroupsConfigInfo
+The `GroupsConfigInfo` entity contains information about Gerrit
+configuration from the link:config-gerrit.html#groups[groups]
+section.
+
+[options="header",cols="1,6"]
+|=============================
+|Field Name            |Description
+|`enable_delete_group`   |
+link:config-gerrit.html#groups.enableDeleteGroup[gerrit.config].
+|=============================
+
+[[index-config-info]]
+=== IndexConfigInfo
+The `IndexConfigInfo` entity contains information about Gerrit
+configuration from the link:config-gerrit.html#index[index]
+section.
+
+[options="header",cols="1,^1,5"]
+|=============================
+|Field Name           ||Description
+|`change`                  ||
+Information about the configuration from the
+link:config-gerrit.html#index.change[index.change] section as
+link:#index.change[ChangeIndexConfigInfo] entity.
+|=============================
 
 [[hit-ration-info]]
 === HitRatioInfo
@@ -1605,6 +2564,21 @@ Hit ratio for cache entries that are held in memory (0 \<= value \<= 100).
 Hit ratio for cache entries that are held on disk (0 \<= value \<= 100).
 Only set for disk caches.
 |==================================
+
+[[index-changes-input]]
+=== IndexChangesInput
+The `IndexChangesInput` contains a list of change numbers of changes to index.
+
+[options="header",cols="1,^2,4"]
+|================================
+|Field Name         ||Description
+|`changes`   ||
+List of link:rest-api-changes.html#change-id[change-ids]
+|`delete_missing`  |optional|
+Delete changes which are missing in NoteDb from the index. This can be used
+to get rid of stale index entries. Possible values are `true` and `false`.
+By default set to `false`.
+|================================
 
 [[jvm-summary-info]]
 === JvmSummaryInfo
@@ -1653,6 +2627,21 @@ The maximal memory size. The value is returned with a unit abbreviation
 The number of open files.
 |============================
 
+[[metadata-info]]
+=== MetadataInfo
+The `MetadataInfo` entity contains metadata provided by plugins.
+
+[options="header",cols="1,^2,4"]
+|==========================
+|Field Name   ||Description
+|`name`       ||The metadata name. Not guaranteed to be unique, e.g. multiple
+metadata entries with the same name may be returned.
+|`value`      |optional|The metadata value.
+|`description`|optional|A description of the metadata.
+|`web_links`  |optional|A list of web links as
+link:rest-api-changes.html#web-link-info[WebLinkInfo] entities.
+|==========================
+
 [[plugin-config-info]]
 === PluginConfigInfo
 The `PluginConfigInfo` entity contains information about Gerrit
@@ -1663,6 +2652,9 @@ extensions by plugins.
 |Field Name    ||Description
 |`has_avatars` |not set if `false`|
 Whether an avatar provider is registered.
+|`js_resource_paths`||
+A list of relative paths (strings). Each path points to a frontend plugin that
+should be loaded, e.g. `plugins/codemirror_editor/static/codemirror_editor.js`.
 |===========================
 
 [[receive-info]]
@@ -1677,6 +2669,22 @@ of git-receive-pack behavior on the server.
 Whether signed push validation support is enabled on the server; see the
 link:config-gerrit.html#receive.certNonceSeed[global configuration] for
 details.
+|=======================================
+
+[[version-info]]
+=== VersionInfo
+The `VersionInfo` entity contains information about the version of the
+Gerrit server.
+
+[options="header",cols="1,^1,5"]
+|=======================================
+|Field Name                ||Description
+|`gerrit_version`          ||Gerrit server version
+|`note_db_version`         ||NoteDb version
+|`change_index_version`    ||Change index version
+|`account_index_version`   ||Account index version
+|`project_index_version`   ||Project index version
+|`group_index_version`     ||Group index version
 |=======================================
 
 [[server-info]]
@@ -1706,6 +2714,14 @@ information about Gerrit
 Information about the configuration from the
 link:config-gerrit.html#gerrit[gerrit] section as link:#gerrit-info[
 GerritInfo] entity.
+|`groups`                ||
+Information about the configuration from the
+link:config-gerrit.html#groups[groups] section as
+link:#groups-config-info[GroupsConfigInfo] entity.
+|`index`                  ||
+Information about the configuration from the
+link:config-gerrit.html#index[index] section as link:#index[
+IndexConfigInfo] entity.
 |`note_db_enabled`         |not set if `false`|
 Whether the NoteDb storage backend is fully enabled.
 |`plugin`                  ||
@@ -1722,19 +2738,37 @@ entity. Not set if SSHD is disabled.
 Information about the configuration from the
 link:config-gerrit.html#suggest[suggest] section as link:#suggest-info[
 SuggestInfo] entity.
-|`url_aliases`             |optional|
-A map of URL aliases, where a regular expression for an URL token is
-mapped to a target URL token. The target URL token can contain
-placeholders for the groups matched by the regular expression: `$1` for
-the first matched group, `$2` for the second matched group, etc.
 |`user`                    ||
 Information about the configuration from the
 link:config-gerrit.html#user[user] section as link:#user-config-info[
 UserConfigInfo] entity.
 |`default_theme`           |optional|
-URL to a default PolyGerrit UI theme plugin, if available.
-Located in `/static/gerrit-theme.html` by default.
+URL to a default Gerrit UI theme plugin, if available.
+Located in `/static/gerrit-theme.js` by default.
+|`submit_requirement_dashboard_columns` ||
+The list of submit requirement names that should be displayed as separate
+columns in the dashboard. If empty, the default is to display all submit
+requirements that are applicable for changes appearing in the dashboard.
+|`dashboard_show_all_labels` |not set if `false`|
+Whether to show all labels in the dashboard, even if they are not submit
+requirements.
+|`metadata`                ||
+Optional server metadata as a list of link:#metadata-info[MetadataInfo]
+entities. If and which metadata is provided depends on the Gerrit setup.
 |=======================================
+
+[[snapshot-index-input]]
+=== SnapshotIndex.Input
+The `SnapshotIndex.Input` entity contains the parameters used to create an
+index snapshot.
+
+[options="header",cols="1,^1,5"]
+|=======================
+|Field Name ||Description
+|`id` | optional |
+A string ID that will be used as the folder name containing the
+snapshots. Defaults to current timestamp.
+|=======================
 
 [[sshd-info]]
 === SshdInfo
@@ -1797,10 +2831,11 @@ The state of the task, can be `DONE`, `CANCELLED`, `RUNNING`, `READY`,
 |`start_time` ||The start time of the task.
 |`delay`      ||The remaining delay of the task.
 |`command`    ||The command of the task.
+|`queue_name` ||The work queue the task is associated with.
 |`remote_name`|optional|
 The remote name. May only be set for tasks that are associated with a
 project.
-|`project`    |optional|The project the task is associated with.
+|`project_name`    |optional|The project the task is associated with.
 |====================================
 
 [[task-summary-info]]
@@ -1885,6 +2920,35 @@ displayed in the Gerrit Web UI and in e-mail notifications if the full
 name of the user is not set.
 |====================================
 
+[[clean-changes-input]]
+=== CleanChanges.Input
+The `CleanChanges.Input` entity is being used to configure a run
+of change cleanup.
+
+[options="header",cols="1,^1,5"]
+|=============================
+|Field Name||Description
+|`after`||Abandon all changes that weren't updated in the
+timespan given here
+|`if_mergeable`|default: `false`|Whether to also abandon changes
+that are mergeable
+|`message`|optional|Message to post to changes abandoned by the
+cleanup
+|`query`|optional|Additional query predicates appended to the base cleanup
+query. Can be used to limit the batch size, exclude changes, or both, e.g.
+`age:4w limit:100 -project:some/repo -hashtag:keep-alive`. By default unset.
+|=============================
+
+[[migrate-passwords-to-tokens-input]]
+=== MigratePasswordsToTokens.Input
+The `MigratePasswordsToTokens.Input` entity is being used to configure the
+migration of HTTP passwords to auth tokens.
+
+[options="header",cols="1,^1,5"]
+|=============================
+|Field Name||Description
+|`lifetime`||Lifetime of the migrated token.
+|=============================
 
 GERRIT
 ------

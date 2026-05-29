@@ -20,7 +20,11 @@ default this is `All-Projects`.  This command sets
 the project to inherit through another one.
 
 == ACCESS
-Caller must be a member of the privileged 'Administrators' group.
+Caller must be a member of the privileged 'Administrators' group
+or, if
+link:config-gerrit.html#receive.allowProjectOwnersToChangeParent[receive.allowProjectOwnersToChangeParent]
+is enabled, be a project owner of the projects that is getting their
+parent updated.
 
 == SCRIPTING
 This command is intended to be used in scripts.
@@ -47,14 +51,14 @@ This command is intended to be used in scripts.
 Configure `kernel/omap` to inherit permissions from `kernel/common`:
 
 ----
-	$ ssh -p 29418 review.example.com gerrit set-project-parent --parent kernel/common kernel/omap
+$ ssh -p 29418 review.example.com gerrit set-project-parent --parent kernel/common kernel/omap
 ----
 
 Reparent all children of `myParent` to `myOtherParent`:
 
 ----
-	$ ssh -p 29418 review.example.com gerrit set-project-parent \
-	  --children-of myParent --parent myOtherParent
+$ ssh -p 29418 review.example.com gerrit set-project-parent \
+  --children-of myParent --parent myOtherParent
 ----
 
 == SEE ALSO

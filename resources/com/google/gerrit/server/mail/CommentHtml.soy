@@ -1,0 +1,205 @@
+/**
+ * Copyright (C) 2016 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+{namespace com.google.gerrit.server.mail.template.CommentHtml}
+
+import * as mailTemplate from 'com/google/gerrit/server/mail/Private.soy';
+
+{template CommentHtml}
+  {@param commentFiles: ?}
+  {@param commentCount: ?}
+  {@param email: ?}
+  {@param labels: ?}
+  {@param patchSet: ?}
+  {@param patchSetCommentBlocks: ?}
+  {@param unsatisfiedSubmitRequirements: ?}
+  {@param oldSubmitRequirements: ?}
+  {@param newSubmitRequirements: ?}
+  {@param fromName: ?}
+  {@param change: ?}
+  {let $commentHeaderStyle kind="css"}
+    margin-bottom: 4px;
+  {/let}
+
+  {let $blockquoteStyle kind="css"}
+    border-left: 1px solid #aaa;
+    margin: 10px 0;
+    padding: 0 10px;
+  {/let}
+
+  {let $ulStyle kind="css"}
+    list-style: none;
+    padding: 0;
+  {/let}
+
+  {let $fileLiStyle kind="css"}
+    margin: 0;
+    padding: 0;
+  {/let}
+
+  {let $commentLiStyle kind="css"}
+    margin: 0;
+    padding: 0 0 0 16px;
+  {/let}
+
+  {let $voteStyle kind="css"}
+    border-radius: 3px;
+    display: inline-block;
+    margin: 0 2px;
+    padding: 4px;
+  {/let}
+
+  {let $positiveVoteStyle kind="css"}
+    {$voteStyle}
+    background-color: #d4ffd4;
+  {/let}
+
+  {let $negativeVoteStyle kind="css"}
+    {$voteStyle}
+    background-color: #ffd4d4;
+  {/let}
+
+  {let $neutralVoteStyle kind="css"}
+    {$voteStyle}
+    background-color: #ddd;
+  {/let}
+
+  {if $fromName && $change}
+    <p>{$fromName} has posted comments on this change by {$change.ownerName}.</p>
+  {/if}
+
+  {if $patchSetCommentBlocks}
+    {call mailTemplate.WikiFormat}
+      {param content: $patchSetCommentBlocks /}
+    {/call}
+  {/if}
+
+  {if length($labels) > 0}
+    <p>
+      Patch set {$patchSet.patchSetId}:
+      {for $label in $labels}
+        {if $label.value > 0}
+          <span style="{$positiveVoteStyle}">
+            {$label.label}{sp}+{$label.value}
+          </span>
+        {elseif $label.value < 0}
+          <span style="{$negativeVoteStyle}">
+            {$label.label}{sp}{$label.value}
+          </span>
+        {else}
+          <span style="{$neutralVoteStyle}">
+            -{$label.label}
+          </span>
+        {/if}
+      {/for}
+    </p>
+  {/if}
+
+  {if $unsatisfiedSubmitRequirements}
+    <p>
+      The change is no longer submittable:{sp}
+      {if length($unsatisfiedSubmitRequirements) > 0}
+        {for $unsatisfiedSubmitRequirement, $index in $unsatisfiedSubmitRequirements}
+          {if $index > 0}
+            {if $index == length($unsatisfiedSubmitRequirements) - 1}
+              {sp}and{sp}
+            {else}
+              ,{sp}
+            {/if}
+          {/if}
+          {$unsatisfiedSubmitRequirement}
+        {/for}
+        {sp}
+        {if length($unsatisfiedSubmitRequirements) == 1}
+          is
+        {else}
+          are
+        {/if}
+        {sp}unsatisfied now.
+      {/if}
+    </p>
+  {/if}
+
+  {if $email.changeUrl}
+    <p>
+      {call mailTemplate.ViewChangeButton data="all" /}
+    </p>
+  {/if}
+
+  {if $commentCount == 1}
+    <p>1 comment:</p>
+  {elseif $commentCount > 1}
+    <p>{$commentCount} comments:</p>
+  {/if}
+
+  <ul style="{$ulStyle}">
+    {for $group in $commentFiles}
+      <li style="{$fileLiStyle}">
+        <p>
+          {$group.title}:
+        </p>
+
+        <ul style="{$ulStyle}">
+          {for $comment in $group.comments}
+            <li style="{$commentLiStyle}">
+              <p style="{$commentHeaderStyle}">
+                <a href="{$comment.link}">
+                  {if $comment.startLine == 0}
+                    Patch Set #{$group.patchSetId}:
+                  {else}
+                    Patch Set #{$group.patchSetId},{sp}
+                    Line {$comment.startLine}:
+                  {/if}
+                </a>{sp}
+                {if length($comment.lines) == 1}
+                  <code style="font-family:monospace,monospace">
+                    {$comment.lines[0]}
+                  </code>
+                {/if}
+              </p>
+
+              {if length($comment.lines) > 1}
+                <p>
+                  <blockquote style="{$blockquoteStyle}">
+                    {call mailTemplate.Pre}
+                      {param content kind="html"}
+                        {for $line in $comment.lines}
+                          {$line}{\n}
+                        {/for}
+                      {/param}
+                    {/call}
+                  </blockquote>
+                </p>
+              {/if}
+
+              {if $comment.parentMessage}
+                <p>
+                  <blockquote style="{$blockquoteStyle}">
+                    {$comment.parentMessage}
+                  </blockquote>
+                </p>
+              {/if}
+
+              {call mailTemplate.WikiFormat}
+                {param content: $comment.messageBlocks /}
+              {/call}
+            </li>
+          {/for}
+        </ul>
+      </li>
+    {/for}
+  </ul>
+{/template}

@@ -8,11 +8,11 @@ from Gerrit's daemon, and then executed on the client system.
 To download a client command or hook, use scp or an http client:
 
 ----
-  $ scp -p -P 29418 john.doe@review.example.com:bin/gerrit-cherry-pick ~/bin/
-  $ scp -p -P 29418 john.doe@review.example.com:hooks/commit-msg .git/hooks/
+$ scp -p -P 29418 john.doe@review.example.com:bin/gerrit-cherry-pick ~/bin/
+$ scp -p -P 29418 john.doe@review.example.com:hooks/commit-msg .git/hooks/
 
-  $ curl -Lo ~/bin/gerrit-cherry-pick http://review.example.com/tools/bin/gerrit-cherry-pick
-  $ curl -Lo .git/hooks/commit-msg http://review.example.com/tools/hooks/commit-msg
+$ curl -Lo ~/bin/gerrit-cherry-pick http://review.example.com/tools/bin/gerrit-cherry-pick
+$ curl -Lo .git/hooks/commit-msg http://review.example.com/tools/hooks/commit-msg
 ----
 
 For more details on how to determine the correct SSH port number,
@@ -32,7 +32,7 @@ the developer experience when working with a Gerrit Code Review
 server.
 
 link:cmd-hook-commit-msg.html[commit-msg]::
-	Automatically generate `Change-Id: ` tags in commit messages.
+	Automatically generate `Change-Id:` tags in commit messages.
 
 
 == Server
@@ -58,6 +58,9 @@ link:cmd-apropos.html[gerrit apropos]::
 link:cmd-ban-commit.html[gerrit ban-commit]::
 	Bans a commit from a project's repository.
 
+link:cmd-check-project-access.html[gerrit check-project-access]::
+	Check if user(s) can read non-config refs of a project
+
 link:cmd-create-branch.html[gerrit create-branch]::
 	Create a new project branch.
 
@@ -71,7 +74,7 @@ link:cmd-ls-projects.html[gerrit ls-projects]::
 	List projects visible to the caller.
 
 link:cmd-query.html[gerrit query]::
-	Query the change database.
+	Query the change search index.
 
 'gerrit receive-pack'::
 	'Deprecated alias for `git receive-pack`.'
@@ -88,8 +91,14 @@ link:cmd-set-head.html[gerrit set-head]::
 link:cmd-set-project.html[gerrit set-project]::
 	Change a project's settings.
 
+link:cmd-set-project-parent.html[gerrit set-project-parent]::
+	Change the project permissions are inherited from.
+
 link:cmd-set-reviewers.html[gerrit set-reviewers]::
 	Add or remove reviewers on a change.
+
+link:cmd-set-topic.html[gerrit set-topic]::
+	Set the topic for a change.
 
 link:cmd-stream-events.html[gerrit stream-events]::
 	Monitor events occurring in real time.
@@ -109,8 +118,14 @@ git upload-pack::
 [[admin_commands]]
 === Administrator Commands
 
+link:cmd-cleanup-draft-comments.html[gerrit cleanup-draft-comments]::
+  Cleanup draft comments that are already published.
+
 link:cmd-close-connection.html[gerrit close-connection]::
 	Close the specified SSH connection.
+
+link:cmd-convert-ref-storage.html[gerrit convert-ref-storage]::
+	Convert ref storage to reftable (experimental).
 
 link:cmd-create-account.html[gerrit create-account]::
 	Create a new user account.
@@ -127,9 +142,6 @@ link:cmd-flush-caches.html[gerrit flush-caches]::
 link:cmd-gc.html[gerrit gc]::
 	Run the Git garbage collection.
 
-link:cmd-gsql.html[gerrit gsql]::
-	Administrative interface to active database.
-
 link:cmd-index-activate.html[gerrit index activate]::
 	Activate the latest index version available.
 
@@ -139,7 +151,7 @@ link:cmd-index-start.html[gerrit index start]::
 link:cmd-index-changes.html[gerrit index changes]::
 	Index one or more changes.
 
-link:cmd-index-project.html[gerrit index project]::
+link:cmd-index-changes-in-project.html[gerrit index changes-in-project]::
 	Index all the changes in one or more projects.
 
 link:cmd-logging-ls-level.html[gerrit logging ls-level]::
@@ -150,6 +162,9 @@ link:cmd-logging-set-level.html[gerrit logging set-level]::
 
 link:cmd-ls-user-refs.html[gerrit ls-user-refs]::
 	Lists refs visible for a specified user.
+
+link:cmd-migrate-externalids-to-insensitive.html[gerrit migrate-externalids-to-insensitive]::
+	Migrate external-ids to case insensitive.
 
 link:cmd-plugin-install.html[gerrit plugin add]::
 	Alias for 'gerrit plugin install'.
@@ -172,14 +187,20 @@ link:cmd-plugin-remove.html[gerrit plugin remove]::
 link:cmd-plugin-remove.html[gerrit plugin rm]::
 	Alias for 'gerrit plugin remove'.
 
+link:cmd-reload-config.html[gerrit reload-config]::
+	Apply an updated gerrit.config.
+
 link:cmd-set-account.html[gerrit set-account]::
 	Change an account's settings.
 
+link:cmd-sequence-set.html[gerrit sequence set]::
+        Set new sequence value.
+
+link:cmd-sequence-show.html[gerrit sequence show]::
+	Display current sequence value.
+
 link:cmd-set-members.html[gerrit set-members]::
 	Set group members.
-
-link:cmd-set-project-parent.html[gerrit set-project-parent]::
-	Change the project permissions are inherited from.
 
 link:cmd-show-caches.html[gerrit show-caches]::
 	Display current cache statistics.
@@ -204,6 +225,48 @@ link:cmd-show-queue.html[ps]::
 
 link:cmd-suexec.html[suexec]::
 	Execute a command as any registered user account.
+
+[[trace]]
+=== Trace
+
+For executing SSH commands tracing can be enabled by setting the
+`--trace` and `--trace-id <trace-id>` options. It is recommended to use
+the ID of the issue that is being investigated as trace ID.
+
+----
+  $ ssh -p 29418 review.example.com gerrit create-project --trace --trace-id issue/123 foo/bar
+----
+
+It is also possible to omit the trace ID and get a unique trace ID
+generated.
+
+----
+  $ ssh -p 29418 review.example.com gerrit create-project --trace foo/bar
+----
+
+Enabling tracing results in additional logs with debug information that
+are written to the `error_log`. All logs that correspond to the traced
+request are associated with the trace ID. The trace ID is printed to
+the stderr command output:
+
+----
+  TRACE_ID: 1534174322774-7edf2a7b
+----
+
+Given the trace ID an administrator can find the corresponding logs and
+investigate issues more easily.
+
+[[deadline]]
+=== Setting a deadline
+
+When invoking an SSH command it's possible that the client sets a deadline
+after which the request should be aborted. To do this the
+`--deadline <deadline>` option must be set on the request. Values must be
+specified using standard time unit abbreviations ('ms', 'sec', 'min', etc.).
+
+----
+  $ ssh -p 29418 review.example.com gerrit create-project --deadline 5m foo/bar
+----
 
 GERRIT
 ------

@@ -1,0 +1,5 @@
+{
+  "project": "${project}",
+  "branch": "${branch}",
+  "subject": "Change"
+}

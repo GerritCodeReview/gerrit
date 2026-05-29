@@ -1,3 +1,4 @@
+:linkattrs:
 = Gerrit Code Review - REST API
 
 Gerrit Code Review comes with a REST like API available over HTTP.
@@ -32,10 +33,10 @@ By default all REST endpoints assume anonymous access and filter
 results to correspond to what anonymous users can read (which may
 be nothing at all).
 
-Users (and programs) can authenticate with HTTP passwords by prefixing
+Users (and programs) can authenticate with authentication tokens by prefixing
 the endpoint URL with `/a/`. For example to authenticate to
 `/projects/`, request the URL `/a/projects/`. Gerrit will use HTTP basic
-authentication with the HTTP password from the user's account settings
+authentication with the tokens from the user's account settings
 page. This form of authentication bypasses the need for XSRF tokens.
 
 An authorization cookie may be presented in the request URL inside the
@@ -74,6 +75,16 @@ Clients can request PUT to create a new resource and not overwrite
 an existing one by adding `If-None-Match: *` to the request HTTP
 headers. If the named resource already exists the server will respond
 with HTTP 412 Precondition Failed.
+
+[[backwards-compatibility]]
+=== Backwards Compatibility
+
+The REST API is regularly extended (e.g. addition of new REST endpoints or new fields in existing
+JSON entities). Callers of the REST API must be able to deal with this (e.g. ignore unknown fields
+in the REST responses). Incompatible changes (e.g. removal of REST endpoints, altering/removal of
+existing fields in JSON entities) are avoided if possible, but can happen in rare cases. If they
+happen, they are announced in the link:https://www.gerritcodereview.com/releases-readme.html[release
+notes].
 
 [[output]]
 === Output Format
@@ -116,7 +127,7 @@ map keys.
 [[timestamp]]
 === Timestamp
 Timestamps are given in UTC and have the format
-"'yyyy-mm-dd hh:mm:ss.fffffffff'" where "'ffffffffff'" represents
+"'yyyy-mm-dd hh:mm:ss.fffffffff'" where "'fffffffff'" represents
 nanoseconds.
 
 [[encoding]]
@@ -128,7 +139,7 @@ must be URL encoded.
 === Response Codes
 The Gerrit REST endpoints use HTTP status codes as described
 in the link:http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html[
-HTTP specification].
+HTTP specification,role=external,window=_blank].
 
 In most cases, the response body of an error response will be a
 plaintext, human-readable error message.
@@ -190,6 +201,112 @@ Preconditions] section.
 ==== 422 Unprocessable Entity
 "`422 Unprocessable Entity`" is returned if the ID of a resource that is
 specified in the request body cannot be resolved.
+
+==== 429 Too Many Requests
+"`429 Too Many Requests`" is returned if the request exhausted any set
+quota limits. Depending on the exhausted quota, the request may be retried
+with exponential backoff.
+
+[[tracing]]
+=== Request Tracing
+For each REST endpoint tracing can be enabled by setting the
+`trace=<trace-id>` request parameter. It is recommended to use the ID
+of the issue that is being investigated as trace ID.
+
+.Example Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/suggest_reviewers?trace=issue/123&q=J
+----
+
+It is also possible to omit the trace ID and get a unique trace ID
+generated.
+
+.Example Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/suggest_reviewers?trace&q=J
+----
+
+Alternatively request tracing can also be enabled by setting the
+`X-Gerrit-Trace` header:
+
+.Example Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/suggest_reviewers?q=J
+  X-Gerrit-Trace: issue/123
+----
+
+Enabling tracing results in additional logs with debug information that
+are written to the `error_log`. All logs that correspond to the traced
+request are associated with the trace ID. The trace ID is returned with
+the REST response in the `X-Gerrit-Trace` header.
+
+.Example Response
+----
+HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+  X-Gerrit-Trace: 1533885943749-8257c498
+
+  )]}'
+  ... <json> ...
+----
+
+Given the trace ID an administrator can find the corresponding logs and
+investigate issues more easily.
+
+[[deadline]]
+=== Setting a deadline
+
+When invoking a REST endpoint it's possible that the client sets a deadline
+after which the request should be aborted. To do this the `X-Gerrit-Deadline`
+header must be set on the request. Values must be specified using standard time
+unit abbreviations ('ms', 'sec', 'min', etc.).
+
+.Example Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/suggest_reviewers?q=J
+  X-Gerrit-Deadline: 5m
+----
+
+
+Setting a deadline on the request overrides any
+link:config-gerrit.html#deadline.id[server-side deadline] that has been
+configured on the host.
+
+[[updated-refs]]
+=== X-Gerrit-UpdatedRef
+This is only enabled when "X-Gerrit-UpdatedRef-Enabled" is set to "true" in the
+request header.
+
+For each write REST request, we return X-Gerrit-UpdatedRef headers as the refs
+that were updated in the current request (involved in a ref transaction in the
+current request).
+
+The format of those headers is `PROJECT_NAME\~REF_NAME\~OLD_SHA-1\~NEW_SHA-1`.
+The project and ref names are URL-encoded, and must use %7E for '~'.
+
+A new SHA-1 of `0000000000000000000000000000000000000000` is treated as a
+deleted ref.
+If the new SHA-1 is not `0000000000000000000000000000000000000000`, the ref was
+either updated or created.
+If the old SHA-1 is `0000000000000000000000000000000000000000`, the ref was
+created.
+
+.Example Request
+----
+  DELETE /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940
+----
+
+.Example Response
+----
+HTTP/1.1 204 NO CONTENT
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+  X-Gerrit-UpdatedRef: myProject~refs%2Fchanges%2F01%2F1%2F1~deadbeefdeadbeefdeadbeefdeadbeefdeadbeef~0000000000000000000000000000000000000000
+  X-Gerrit-UpdatedRef: myProject~refs%2Fchanges%2F01%2F1%2Fmeta~deadbeefdeadbeefdeadbeefdeadbeefdeadbeef~0000000000000000000000000000000000000000
+
+  )]}'
+----
 
 GERRIT
 ------

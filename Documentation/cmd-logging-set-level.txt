@@ -1,9 +1,9 @@
 = gerrit logging set-level
 
 == NAME
-gerrit logging set-level - set the logging level
+gerrit logging set-level - set the logging level.
 
-gerrit logging set - set the logging level
+gerrit logging set - set the logging level.
 
 == SYNOPSIS
 [verse]
@@ -34,14 +34,12 @@ Caller must have the ADMINISTRATE_SERVER capability.
 
 Change the logging level of the loggers in the package com.google to DEBUG.
 ----
-    $ssh -p 29418 review.example.com gerrit logging set-level \
-     debug com.google.
+$ssh -p 29418 review.example.com gerrit logging set-level debug com.google.
 ----
 
 Reset the logging level of every logger to what they were at deployment time.
 ----
-    $ssh -p 29418 review.example.com gerrit logging set-level \
-     reset
+$ssh -p 29418 review.example.com gerrit logging set-level reset
 ----
 
 GERRIT

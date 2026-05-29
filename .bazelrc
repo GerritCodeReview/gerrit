@@ -1,8 +1,72 @@
-build --workspace_status_command="python ./tools/workspace_status.py" --strategy=Closure=worker
+# TODO(davido): Migrate all dependencies from WORKSPACE to MODULE.bazel
+# https://issues.gerritcodereview.com/issues/303819949
+# Remove hybrid mode option once bzlmod migration is completed
+common --enable_workspace
+common --enable_bzlmod --lockfile_mode=error
+common --incompatible_enable_proto_toolchain_resolution
+# Enable Gerrit-tree-only plugin checks (standalone plugin builds skip them).
+common --@com_googlesource_gerrit_bazlets//flags:in_gerrit_tree=true
+common --incompatible_disallow_struct_provider_syntax=false
+common --incompatible_disallow_empty_glob=false
+common --@aspect_rules_ts//ts:default_to_tsc_transpiler
+
+build --workspace_status_command="python3 ./tools/workspace_status.py"
 build --repository_cache=~/.gerritcodereview/bazel-cache/repository
 build --action_env=PATH
 build --disk_cache=~/.gerritcodereview/bazel-cache/cas
-build --java_toolchain //tools:error_prone_warnings_toolchain
+
+# Builds using remotejdk_25, executes using remotejdk_25 or local_jdk
+build --java_language_version=25
+build --java_runtime_version=remotejdk_25
+build --tool_java_language_version=25
+build --tool_java_runtime_version=remotejdk_25
+
+# Enables builds and execution on RBE
+build:remote --config=config_gcp
+
+# Define remote_gcp configuration alias
+build:remote_gcp --config=remote
+
+# Enables builds and execution on BuildBuddy RBE
+build:remote_bb --config=config_bb
+
+# Builds using remotejdk_21, executes using remotejdk_21 or local_jdk
+build:build_java21_shared --java_language_version=21
+build:build_java21_shared --java_runtime_version=remotejdk_21
+build:build_java21_shared --tool_java_language_version=21
+build:build_java21_shared --tool_java_runtime_version=remotejdk_21
+
+build:java21 --config=build_java21_shared
+
+# Builds and executes on RBE using remotejdk_21
+build:remote21 --config=remote
+build:remote21 --config=build_java21_shared
+
+# Define remote21 configuration alias
+build:remote21_gcp --config=remote21
+
+# Builds and executes on BuildBuddy RBE using remotejdk_21
+build:remote21_bb --config=remote_bb
+build:remote21_bb --config=build_java21_shared
+
+# Builds using remotejdk_25, executes using remotejdk_25 or local_jdk
+build:build_java25_shared --java_language_version=25
+build:build_java25_shared --java_runtime_version=remotejdk_25
+build:build_java25_shared --tool_java_language_version=25
+build:build_java25_shared --tool_java_runtime_version=remotejdk_25
+
+build:java25 --config=build_java25_shared
+
+# Builds and executes on RBE using remotejdk_25
+build:remote25 --config=remote
+build:remote25 --config=build_java25_shared
+
+# Define remote25 configuration alias
+build:remote25_gcp --config=remote25
+
+# Builds and executes on BuildBuddy RBE using remotejdk_25
+build:remote25_bb --config=remote_bb
+build:remote25_bb --config=build_java25_shared
 
 # Enable strict_action_env flag to. For more information on this feature see
 # https://groups.google.com/forum/#!topic/bazel-discuss/_VmRfMyyHBk.
@@ -11,7 +75,12 @@ build --java_toolchain //tools:error_prone_warnings_toolchain
 # this flag here once flipped in Bazel again.
 build --incompatible_strict_action_env
 
+build --announce_rc
+
 test --build_tests_only
 test --test_output=errors
 
 import %workspace%/tools/remote-bazelrc
+
+# User-specific .bazelrc
+try-import %workspace%/user.bazelrc

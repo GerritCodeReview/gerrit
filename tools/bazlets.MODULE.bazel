@@ -1,0 +1,22 @@
+# Plugin packaging support kept outside the root module declaration:
+# - bazlets dependency pin
+# - generated Gerrit API version repo for artifact versioning and stamping
+GERRIT_VERSION = "3.15.0-SNAPSHOT"
+
+bazel_dep(name = "com_googlesource_gerrit_bazlets")
+git_override(
+    module_name = "com_googlesource_gerrit_bazlets",
+    commit = "774491d949e05f3d6157f6714f44003f7884f131",
+    remote = "https://gerrit.googlesource.com/bazlets",
+)
+
+gerrit_api_version = use_repo_rule(
+    "@com_googlesource_gerrit_bazlets//:gerrit_api_version.bzl",
+    "gerrit_api_version",
+)
+
+gerrit_api_version(
+    name = "gerrit_api_version",
+    version = GERRIT_VERSION,
+    visibility = ["//visibility:public"],
+)

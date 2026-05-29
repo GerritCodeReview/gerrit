@@ -287,12 +287,12 @@ The entries in the map are sorted by project name.
          "15bfcd8a6de1a69c50b30cedcdcc951c15703152": {
            "url": "#/admin/groups/uuid-15bfcd8a6de1a69c50b30cedcdcc951c15703152",
            "options": {},
-           "description": "Users who perform batch actions on Gerrit",
+           "description": "Service accounts that interact with Gerrit",
            "group_id": 2,
            "owner": "Administrators",
            "owner_id": "53a4f647a89ea57992571187d8025f830625192a",
            "created_on": "2009-06-08 23:31:00.000000000",
-           "name": "Non-Interactive Users"
+           "name": "Service Users"
          },
          "global:Anonymous-Users": {
            "options": {},
@@ -352,7 +352,7 @@ Whether this permission is assigned exclusively.
 |`rules`        ||
 The rules assigned for this permission as a map that maps the UUIDs of
 the groups for which the permission are assigned to
-link:#permission-info[PermissionRuleInfo] entities.
+link:#permission-rule-info[PermissionRuleInfo] entities.
 |==================================
 
 [[permission-rule-info]]
@@ -388,7 +388,7 @@ rights for a project.
 |`revision`           ||
 The revision of the `refs/meta/config` branch from which the access
 rights were loaded.
-|`inherits_from`      |not set for the `All-Project` project|
+|`inherits_from`      |not set for the `All-Projects` project|
 The parent project from which permissions are inherited as a
 link:rest-api-projects.html#project-info[ProjectInfo] entity.
 |`local`              ||
@@ -406,10 +406,18 @@ Whether the calling user can add any tag ref.
 |`config_visible`     |not set if `false`|
 Whether the calling user can see the `refs/meta/config` branch of the
 project.
-|`groups`            |A map of group UUID to
-link:rest-api-groups.html#group-info[GroupInfo] objects, describing
-the group UUIDs used in the `local` map. Groups that are not visible
-are omitted from the `groups` map.
+|`groups`             ||A map of group UUID to
+link:rest-api-groups.html#group-info[GroupInfo] objects, with names and
+URLs for the group UUIDs used in the `local` map.
+This will include names for groups that might
+be invisible to the caller.
+|`config_web_links`   |optional|
+Links to the history of the configuration file governing this project's access
+rights as list of link:rest-api-changes.html#web-link-info[WebLinkInfo]
+entities.
+|`require_change_for_config_update`       |not set if `false`|
+Whether the calling user must create a change for updating project config.
+If true, all API requests which directly update project config are rejected.
 |==================================
 
 

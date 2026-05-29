@@ -1,0 +1,135 @@
+// Copyright (C) 2021 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package com.google.gerrit.server.account.externalids;
+
+import com.google.common.annotations.VisibleForTesting;
+import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.UsedAt;
+import com.google.gerrit.common.UsedAt.Project;
+import com.google.gerrit.server.config.AuthConfig;
+import com.google.inject.ImplementedBy;
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+@Singleton
+public class ExternalIdKeyFactory {
+  @ImplementedBy(ConfigImpl.class)
+  public interface Config {
+    boolean isUserNameCaseInsensitive();
+  }
+
+  /**
+   * Default implementation {@link Config}
+   *
+   * <p>Internally in google we are using different implementation.
+   */
+  @Singleton
+  public static class ConfigImpl implements Config {
+    private final boolean isUserNameCaseInsensitive;
+
+    @VisibleForTesting
+    @Inject
+    public ConfigImpl(AuthConfig authConfig) {
+      this.isUserNameCaseInsensitive = authConfig.isUserNameCaseInsensitive();
+    }
+
+    @Override
+    public boolean isUserNameCaseInsensitive() {
+      return isUserNameCaseInsensitive;
+    }
+  }
+
+  private final boolean isUserNameCaseInsensitive;
+
+  @Inject
+  public ExternalIdKeyFactory(Config config) {
+    this.isUserNameCaseInsensitive = config.isUserNameCaseInsensitive();
+  }
+
+  /**
+   * Creates an external ID key.
+   *
+   * @param scheme the scheme name, must not contain colons (':'). E.g. {@link
+   *     ExternalId#SCHEME_USERNAME}.
+   * @param id the external ID, must not contain colons (':')
+   * @return the created external ID key
+   */
+  public ExternalId.Key create(@Nullable String scheme, String id) {
+    return create(scheme, id, isUserNameCaseInsensitive);
+  }
+
+  /**
+   * Creates an external ID key.
+   *
+   * @param scheme the scheme name, must not contain colons (':'). E.g. {@link
+   *     ExternalId#SCHEME_USERNAME}.
+   * @param id the external ID, must not contain colons (':')
+   * @param userNameCaseInsensitive whether the external ID key is matched case insensitively
+   * @return the created external ID key
+   */
+  public ExternalId.Key create(
+      @Nullable String scheme, String id, boolean userNameCaseInsensitive) {
+    return createKey(scheme, id, userNameCaseInsensitive);
+  }
+
+  /**
+   * Parses an external ID key from its String representation
+   *
+   * @param externalId String representation of external ID key (e.g. username:johndoe)
+   * @return the external Id key object
+   */
+  public ExternalId.Key parse(String externalId) {
+    return parse(externalId, isUserNameCaseInsensitive);
+  }
+
+  /**
+   * Parses an external ID key from its String representation. Prefer the non-static {@link
+   * #parse(String)} when possible
+   *
+   * @param externalId String representation of external ID key (e.g. username:johndoe)
+   * @param isUserNameCaseInsensitive whether the scheme used by the target host is case sensitive
+   * @return the external Id key object
+   */
+  @UsedAt(Project.GOOGLE)
+  public static ExternalId.Key parse(String externalId, boolean isUserNameCaseInsensitive) {
+    int c = externalId.indexOf(':');
+    if (c < 1 || c >= externalId.length() - 1) {
+      return createKey(null, externalId, isUserNameCaseInsensitive);
+    }
+    return createKey(
+        externalId.substring(0, c), externalId.substring(c + 1), isUserNameCaseInsensitive);
+  }
+
+  /**
+   * Creates an external ID key.
+   *
+   * @param scheme the scheme name, must not contain colons (':'). E.g. {@link
+   *     ExternalId#SCHEME_USERNAME}.
+   * @param id the external ID, must not contain colons (':')
+   * @param userNameCaseInsensitive whether the external ID key is matched case insensitively
+   * @return the created external ID key
+   */
+  private static ExternalId.Key createKey(
+      @Nullable String scheme, String id, boolean userNameCaseInsensitive) {
+    if (scheme != null
+        && (scheme.equals(ExternalId.SCHEME_USERNAME)
+            || scheme.equals(
+                com.google.gerrit.server.account.externalids.ExternalId.SCHEME_GERRIT))) {
+      return ExternalId.Key.create(scheme, id, userNameCaseInsensitive);
+    }
+
+    return ExternalId.Key.create(scheme, id, false);
+  }
+}

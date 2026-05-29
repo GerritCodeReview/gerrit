@@ -1,0 +1,109 @@
+// Copyright (C) 2009 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package com.google.gerrit.index.query;
+
+import static com.google.gerrit.index.query.Predicate.or;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+
+import com.google.common.collect.ImmutableList;
+import java.util.List;
+import org.junit.Test;
+
+public class OrPredicateTest extends PredicateTest {
+  @Test
+  public void children() {
+    final TestPredicate<String> a = f("author", "alice");
+    final TestPredicate<String> b = f("author", "bob");
+    final Predicate<String> n = or(a, b);
+    assertEquals(2, n.getChildCount());
+    assertSame(a, n.getChild(0));
+    assertSame(b, n.getChild(1));
+  }
+
+  @Test
+  public void childrenUnmodifiable() {
+    final TestPredicate<String> a = f("author", "alice");
+    final TestPredicate<String> b = f("author", "bob");
+    final Predicate<String> n = or(a, b);
+
+    assertThrows(UnsupportedOperationException.class, () -> n.getChildren().clear());
+    assertChildren("clear", n, ImmutableList.of(a, b));
+
+    assertThrows(UnsupportedOperationException.class, () -> n.getChildren().remove(0));
+    assertChildren("remove(0)", n, ImmutableList.of(a, b));
+
+    assertThrows(UnsupportedOperationException.class, () -> n.getChildren().iterator().remove());
+    assertChildren("iterator().remove()", n, ImmutableList.of(a, b));
+  }
+
+  private static void assertChildren(
+      String o, Predicate<String> p, List<? extends Predicate<String>> l) {
+    assertEquals(o + " did not affect child", l, p.getChildren());
+  }
+
+  @Test
+  public void testToString() {
+    final TestPredicate<String> a = f("q", "alice");
+    final TestPredicate<String> b = f("q", "bob");
+    final TestPredicate<String> c = f("q", "charlie");
+    assertEquals("(q:alice OR q:bob)", or(a, b).toString());
+    assertEquals("(q:alice OR q:bob OR q:charlie)", or(a, b, c).toString());
+  }
+
+  @Test
+  public void testEquals() {
+    final TestPredicate<String> a = f("author", "alice");
+    final TestPredicate<String> b = f("author", "bob");
+    final TestPredicate<String> c = f("author", "charlie");
+
+    assertTrue(or(a, b).equals(or(a, b)));
+    assertTrue(or(a, b, c).equals(or(a, b, c)));
+
+    assertFalse(or(a, b).equals(or(b, a)));
+    assertFalse(or(a, c).equals(or(a, b)));
+
+    assertFalse(or(a, c).equals(a));
+  }
+
+  @Test
+  public void testHashCode() {
+    final TestPredicate<String> a = f("author", "alice");
+    final TestPredicate<String> b = f("author", "bob");
+    final TestPredicate<String> c = f("author", "charlie");
+
+    assertTrue(or(a, b).hashCode() == or(a, b).hashCode());
+    assertTrue(or(a, b, c).hashCode() == or(a, b, c).hashCode());
+    assertFalse(or(a, c).hashCode() == or(a, b).hashCode());
+  }
+
+  @Test
+  public void testCopy() {
+    final TestPredicate<String> a = f("author", "alice");
+    final TestPredicate<String> b = f("author", "bob");
+    final TestPredicate<String> c = f("author", "charlie");
+    final ImmutableList<TestPredicate<String>> s2 = ImmutableList.of(a, b);
+    final ImmutableList<TestPredicate<String>> s3 = ImmutableList.of(a, b, c);
+    final Predicate<String> n2 = or(a, b);
+
+    assertNotSame(n2, n2.copy(s2));
+    assertEquals(s2, n2.copy(s2).getChildren());
+    assertEquals(s3, n2.copy(s3).getChildren());
+  }
+}

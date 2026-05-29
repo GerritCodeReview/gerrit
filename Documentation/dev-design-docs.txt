@@ -1,0 +1,162 @@
+:linkattrs:
+= Gerrit Code Review - Design Docs
+
+For the link:dev-contributing.html#design-driven-contribution-process[
+design-driven contribution process] it is required to specify features
+upfront in a design doc.
+
+[[structure]]
+== Design Doc Structure
+
+A design doc should discuss the following aspects:
+
+* Use-Cases:
+  The interactions between a user and a system to attain particular
+  goals.
+* Acceptance Criteria:
+  Conditions that must be satisfied to consider the feature as done.
+* Background:
+  Stuff one needs to know to understand the use-cases (e.g. motivating
+  examples, previous versions and problems, links to related
+  changes/design docs, etc.)
+* Possible Solutions:
+  Possible solutions with the pros and cons, and explanation of
+  implementation details.
+* Conclusion:
+  Which decision was made and what were the reasons for it.
+
+[[collaboration]]
+As community we want to collaborate on design docs as much as possible
+and write them together, in an iterative manner. To make this work well
+design docs are split into multiple files that can be written and
+refined by several persons in parallel:
+
+* `index.md`:
+  Entry file that links to the files below (also see
+  'dev-design-doc-index-template.md').
+* `use-cases.md`:
+  Describes the use-cases, acceptance criteria and background (also see
+  'dev-design-doc-use-cases-template.md').
+* `solution-<n>.md`:
+  Each possible solution (with the pros and cons, and implementation
+  details) is described in a separate file (also see
+  'dev-design-doc-solution-template.md').
+* `conclusion.md`:
+  Describes the conclusion of the design discussion (also see
+  'dev-design-doc-conclusion-template.md').
+
+[[expectation]]
+It is expected that:
+
+* An agreement on the use-cases is achieved before solutions are being
+  discussed in detail.
+* Anyone who has ideas for an alternative solution uploads a change
+  with a `solution-<n>.md` that describes their solution. In case of
+  doubt whether an idea is a refinement of an existing solution or an
+  alternative solution, it's up to the owner of the discussed solution
+  to decide if the solution should be updated, or if the proposer
+  should start a new alternative solution.
+* All possible solutions are fairly discussed with their pros and cons,
+  and treated equally until a conclusion is made.
+* Unrelated issues (judged by the design doc owner) that are identified
+  during discussions may be extracted into new design docs (initially
+  consisting only of an `index.md` and a `use-cases.md` file). Doing so
+  is optional yet can be done by either the design owner or reviewers.
+* Changes making iterative improvements can be submitted frequently
+  (e.g. additional uses-cases can be added later, solutions can be
+  submitted without describing implementation details, etc.).
+* After a conclusion has been approved contributors are expected to
+  keep the design doc updated and fill in gaps while they go forward
+  with the implementation.
+
+[[propose]]
+== How to propose a new design?
+
+To propose a new design, upload a change to the
+link:https://gerrit-review.googlesource.com/admin/repos/homepage[
+homepage,role=external,window=_blank] repository that adds a new folder under `pages/design-docs/`
+which contains at least an `index.md` and a `uses-cases.md` file (see
+link:#structure[design doc structure] above).
+
+Pushing a design doc for review requires to be a
+link:dev-roles.html#contributor[contributor].
+
+When contributing design docs, contributors should make clear whether
+they are committed to do the implementation. It is possible to
+contribute designs without having resources to do the implementation,
+but in this case the implementation is only done if someone volunteers
+to do it (which is not guaranteed to happen).
+
+Only very few maintainers actively watch out for uploaded design docs.
+To raise awareness you may want to send a notification to the
+link:https://groups.google.com/d/forum/repo-discuss[repo-discuss,role=external,window=_blank]
+mailing list about your uploaded design doc. But the discussion should
+not take place on the mailing list, comments should be made by reviewing
+the change in Gerrit.
+
+[[review]]
+== Design doc review
+
+Everyone in the link:dev-roles.html[Gerrit community] is welcome to
+take part in the design review and comment on the design. As such, every
+design reviewer is expected to respect the community
+link:https://www.gerritcodereview.com/codeofconduct.html[Code of Conduct,role=external,window=_blank].
+
+Positive `Code-Review` votes on changes that add/modify design docs are
+sticky. This means any `Code-Review+1` and `Code-Review+2` vote is
+preserved when a new patch set is uploaded. If a new patch set makes
+significant changes, the uploader of the new patch set must start a new
+review round by removing all positive `Code-Review` votes from the
+change manually.
+
+Ideas for alternative solutions should be uploaded as a change that
+describes the solution (see link:#collaboration[above]). This should be
+done as early as possible during the review process, so that related
+comment threads stop there and do not clutter the current review. It is up
+to the alternative reviews to then host their related comments.
+
+Verification should be based on the generated `jekyll` site using the
+local `docker`, rather than via the rendering in `gitiles` (via
+`gerrit-review`).
+
+Changes which make a conclusion on a design (changes that add/change
+the `conclusion.md` file, see link:#structure[Design Doc Structure])
+should stay open for a minimum of 10 calendar days so that everyone has
+a fair chance to see them. It is important that concerns regarding a
+feature are raised during this time frame since once a conclusion is
+approved and submitted the implementation may start immediately.
+
+Other design doc changes can and should be submitted quickly so that
+collaboration and iterative refinements work smoothly (see
+link:#collaboration[above]).
+
+For proposed features the contributor should hear back from the
+link:dev-processes.html#steering-committee[engineering steering
+committee] within 30 calendar days whether the proposed feature is in
+scope of the project and if it can be accepted.
+
+[[meetings]]
+=== Meeting discussions
+
+If the Gerrit review doesn't start efficiently enough, stalls, gets off-track
+too much or becomes overly complex, one can use a meeting to refocus it. From
+that review thread, the organizer can volunteer oneself, or be proposed (even
+requested) by a reviewer. link:https://www.gerritcodereview.com/members.html#community-managers[
+Community managers,role=external,window=_blank] may help facilitate that if
+ultimately necessary.
+
+[[watch-designs]]
+== How to get notified for new design docs?
+
+. Go to the
+  link:https://gerrit-review.googlesource.com/settings/#Notifications[
+  notification settings,role=external,window=_blank]
+. Add a project watch for the `homepage` repository with the following
+  query: `dir:pages/design-docs`
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

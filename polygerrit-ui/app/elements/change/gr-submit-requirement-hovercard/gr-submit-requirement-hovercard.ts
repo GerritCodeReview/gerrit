@@ -1,0 +1,470 @@
+/**
+ * @license
+ * Copyright 2021 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+import {css, html, LitElement} from 'lit';
+import {customElement, property} from 'lit/decorators.js';
+import {join} from 'lit/directives/join.js';
+import '../../shared/gr-button/gr-button';
+import '../../shared/gr-icon/gr-icon';
+import '../../shared/gr-label-info/gr-label-info';
+import {
+  AccountInfo,
+  ChangeStatus,
+  SubmitRequirementExpressionInfo,
+  SubmitRequirementResultInfo,
+  SubmitRequirementStatus,
+} from '../../../api/rest-api';
+import {
+  canReviewerVote,
+  extractAssociatedLabels,
+  getApprovalInfo,
+  hasVotes,
+  iconForRequirement,
+} from '../../../utils/label-util';
+import {ParsedChangeInfo} from '../../../types/types';
+import {HovercardMixin} from '../../../mixins/hovercard-mixin/hovercard-mixin';
+import {fontStyles} from '../../../styles/gr-font-styles';
+import {DraftsAction} from '../../../constants/constants';
+import {ReviewInput} from '../../../types/common';
+import {getAppContext} from '../../../services/app-context';
+import {assertIsDefined} from '../../../utils/common-util';
+import {fireReload} from '../../../utils/event-util';
+import {submitRequirementsStyles} from '../../../styles/gr-submit-requirements-styles';
+import {
+  atomizeExpression,
+  SubmitRequirementExpressionAtomStatus,
+  SubmitRequirementExpressionPart,
+} from '../../../utils/submit-requirement-util';
+
+function getRequirementErrorMessage(requirement: SubmitRequirementResultInfo) {
+  if (requirement.submittability_expression_result.error_message) {
+    return requirement.submittability_expression_result.error_message;
+  }
+  if (requirement.applicability_expression_result?.error_message) {
+    return requirement.applicability_expression_result?.error_message;
+  }
+  if (requirement.override_expression_result?.error_message) {
+    return requirement.override_expression_result?.error_message;
+  }
+  return undefined;
+}
+
+// This avoids JSC_DYNAMIC_EXTENDS_WITHOUT_JSDOC closure compiler error.
+const base = HovercardMixin(LitElement);
+
+@customElement('gr-submit-requirement-hovercard')
+export class GrSubmitRequirementHovercard extends base {
+  @property({type: Object})
+  requirement?: SubmitRequirementResultInfo;
+
+  @property({type: Object})
+  change?: ParsedChangeInfo;
+
+  @property({type: Object})
+  account?: AccountInfo;
+
+  @property({type: Boolean})
+  mutable = false;
+
+  @property({type: Boolean})
+  expanded = false;
+
+  private readonly restApiService = getAppContext().restApiService;
+
+  static override get styles() {
+    return [
+      fontStyles,
+      submitRequirementsStyles,
+      base.styles || [],
+      css`
+        #container {
+          min-width: 356px;
+          max-width: 356px;
+          padding: var(--spacing-xl) 0 var(--spacing-m) 0;
+        }
+        section.label {
+          display: table-row;
+        }
+        .label-title {
+          min-width: 10em;
+          padding-top: var(--spacing-s);
+        }
+        .label-value {
+          padding-top: var(--spacing-s);
+        }
+        .label-title,
+        .label-value {
+          display: table-cell;
+          vertical-align: top;
+        }
+        .row {
+          display: flex;
+        }
+        .title {
+          color: var(--deemphasized-text-color);
+          margin-right: var(--spacing-m);
+        }
+        div.section {
+          margin: 0 var(--spacing-xl) var(--spacing-m) var(--spacing-xl);
+          display: flex;
+          align-items: flex-start;
+        }
+        .sectionContent {
+          flex: 1;
+          min-width: 0;
+        }
+        div.sectionIcon {
+          flex: 0 0 30px;
+        }
+        div.sectionIcon gr-icon {
+          position: relative;
+        }
+        .section.condition > .sectionContent {
+          background-color: var(--gray-background);
+          padding: var(--spacing-m);
+        }
+        .button ~ .condition {
+          margin-top: var(--spacing-m);
+        }
+        .expression {
+          color: var(--gray-foreground);
+        }
+        .expression .failing.atom {
+          border-bottom: 2px solid var(--error-foreground);
+        }
+        .expression .passing.atom {
+          border-bottom: 2px solid var(--success-foreground);
+        }
+        .explanations .failing.atom {
+          border-bottom: 2px solid var(--error-foreground);
+        }
+        .explanations .passing.atom {
+          border-bottom: 2px solid var(--success-foreground);
+        }
+        .button gr-icon {
+          color: inherit;
+        }
+        div.button {
+          border-top: 1px solid var(--border-color);
+          margin-top: var(--spacing-m);
+          padding: var(--spacing-m) var(--spacing-xl) 0;
+        }
+        gr-formatted-text {
+          overflow-wrap: anywhere;
+        }
+      `,
+    ];
+  }
+
+  override render() {
+    if (!this.requirement) return;
+    return html` <div id="container" role="tooltip" tabindex="-1">
+      <div class="section">
+        <div class="sectionIcon">${this.renderStatus(this.requirement)}</div>
+        <div class="sectionContent">
+          <h3 class="name heading-3">
+            <span>${this.requirement.name}</span>
+          </h3>
+        </div>
+      </div>
+      <div class="section">
+        <div class="sectionIcon">
+          <gr-icon class="small" icon="info"></gr-icon>
+        </div>
+        <div class="sectionContent">
+          <div class="row">
+            <div class="title">Status</div>
+            <div>${this.requirement.status}</div>
+          </div>
+        </div>
+      </div>
+      ${this.renderLabelSection()}${this.renderDescription()}
+      ${this.renderShowHideConditionButton()}${this.renderConditionSection()}
+      ${this.renderVotingButtons()}
+    </div>`;
+  }
+
+  private renderStatus(requirement: SubmitRequirementResultInfo) {
+    const icon = iconForRequirement(requirement);
+    return html`<gr-icon
+      class=${icon.icon}
+      icon=${icon.icon}
+      ?filled=${!!icon.filled}
+      role="img"
+      aria-label=${requirement.status.toLowerCase()}
+    ></gr-icon>`;
+  }
+
+  private renderDescription() {
+    let description = this.requirement?.description;
+    if (this.requirement?.status === SubmitRequirementStatus.ERROR) {
+      const error_message = getRequirementErrorMessage(this.requirement);
+      if (error_message) {
+        description = error_message;
+      }
+    }
+    if (!description) return;
+    return html`<div class="section description">
+      <div class="sectionIcon">
+        <gr-icon icon="description"></gr-icon>
+      </div>
+      <div class="sectionContent">
+        <gr-formatted-text
+          .markdown=${true}
+          .content=${description}
+        ></gr-formatted-text>
+      </div>
+    </div>`;
+  }
+
+  private renderLabelSection() {
+    if (!this.requirement) return;
+    const requirementLabels = extractAssociatedLabels(this.requirement, {
+      extractFromSubmittability: true,
+      extractFromOverride: 'onlyIfOverridden',
+    });
+    const allLabels = this.change?.labels ?? {};
+    const labels: string[] = [];
+    for (const label of Object.keys(allLabels)) {
+      if (requirementLabels.includes(label)) {
+        const labelInfo = allLabels[label];
+        const canSomeoneVote = (this.change?.reviewers['REVIEWER'] ?? []).some(
+          reviewer => canReviewerVote(labelInfo, reviewer)
+        );
+        if (hasVotes(labelInfo) || canSomeoneVote) {
+          labels.push(label);
+        }
+      }
+    }
+
+    if (labels.length === 0) return;
+    const showLabelName = labels.length >= 2;
+    return html` <div class="section">
+      <div class="sectionIcon"></div>
+      <div class="row">
+        <div>${labels.map(l => this.renderLabel(l, showLabelName))}</div>
+      </div>
+    </div>`;
+  }
+
+  private renderLabel(labelName: string, showLabelName: boolean) {
+    const labels = this.change?.labels ?? {};
+    return html`
+      ${showLabelName ? html`<div>${labelName} votes</div>` : ''}
+      <gr-label-info
+        .change=${this.change}
+        .account=${this.account}
+        .mutable=${this.mutable}
+        .label=${labelName}
+        .labelInfo=${labels[labelName]}
+      ></gr-label-info>
+    `;
+  }
+
+  private renderShowHideConditionButton() {
+    const buttonText = this.expanded ? 'Hide Conditions' : 'View Conditions';
+    const icon = this.expanded ? 'expand_less' : 'expand_more';
+
+    return html` <div class="button">
+      <gr-button
+        link=""
+        id="toggleConditionsButton"
+        @click=${(_: MouseEvent) => this.toggleConditionsVisibility()}
+      >
+        ${buttonText}
+        <gr-icon .icon=${icon}></gr-icon>
+      </gr-button>
+    </div>`;
+  }
+
+  private renderVotingButtons() {
+    if (!this.requirement) return;
+    if (!this.account) return;
+    if (this.change?.status === ChangeStatus.MERGED) return;
+
+    const submittabilityLabels = extractAssociatedLabels(this.requirement, {
+      extractFromSubmittability: true,
+      extractFromOverride: false,
+    });
+    const submittabilityVotes = submittabilityLabels.map(labelName =>
+      this.renderLabelVote(labelName, 'submittability')
+    );
+
+    const overrideLabels = extractAssociatedLabels(this.requirement, {
+      extractFromSubmittability: false,
+      extractFromOverride: 'onlyIfOverridden',
+    });
+    const overrideVotes = overrideLabels.map(labelName =>
+      this.renderLabelVote(labelName, 'override')
+    );
+
+    return submittabilityVotes.concat(overrideVotes);
+  }
+
+  private renderLabelVote(
+    labelName: string,
+    type: 'override' | 'submittability'
+  ) {
+    if (!this.account) return;
+    const votes = this.change?.permitted_labels?.[labelName];
+    if (!votes || votes.length < 1) return;
+    const maxVote = Number(votes[votes.length - 1]);
+    if (maxVote <= 0) return;
+
+    const labels = this.change?.labels ?? {};
+    const labelInfo = labels[labelName];
+    const approvalInfo = getApprovalInfo(labelInfo, this.account);
+    if (approvalInfo?.value === maxVote) return; // Already voted maxVote
+
+    return html` <div class="button quickApprove">
+      <gr-button
+        link=""
+        @click=${(_: MouseEvent) => this.quickApprove(labelName, maxVote)}
+      >
+        ${this.computeVoteButtonName(labelName, maxVote, type)}
+      </gr-button>
+    </div>`;
+  }
+
+  private computeVoteButtonName(
+    labelName: string,
+    maxVote: number,
+    type: 'override' | 'submittability'
+  ) {
+    if (type === 'override') {
+      return `Override (${labelName})`;
+    } else {
+      return `Vote ${labelName} +${maxVote}`;
+    }
+  }
+
+  private quickApprove(label: string, score: number) {
+    assertIsDefined(this.change, 'change');
+    const review: ReviewInput = {
+      drafts: DraftsAction.PUBLISH_ALL_REVISIONS,
+      labels: {
+        [label]: score,
+      },
+    };
+    return this.restApiService
+      .saveChangeReview(
+        this.change._number,
+        this.change.current_revision,
+        review
+      )
+      .then(() => {
+        fireReload(this);
+      });
+  }
+
+  private renderConditionSection() {
+    if (!this.expanded) return;
+    return html`
+      ${this.renderCondition(
+        'Submit condition',
+        this.requirement?.submittability_expression_result
+      )}
+      ${this.renderCondition(
+        'Application condition',
+        this.requirement?.applicability_expression_result
+      )}
+      ${this.renderCondition(
+        'Override condition',
+        this.requirement?.override_expression_result
+      )}
+    `;
+  }
+
+  private getClassFromAtomStatus(
+    status: SubmitRequirementExpressionAtomStatus
+  ) {
+    switch (status) {
+      case SubmitRequirementExpressionAtomStatus.PASSING:
+        return 'passing atom';
+      case SubmitRequirementExpressionAtomStatus.FAILING:
+        return 'failing atom';
+      default:
+        return 'atom';
+    }
+  }
+
+  private getTitleFromPart(part: SubmitRequirementExpressionPart) {
+    const title = this.getTitleFromAtomStatus(part.atomStatus!);
+    return title;
+  }
+
+  private getTitleFromAtomStatus(
+    status: SubmitRequirementExpressionAtomStatus
+  ) {
+    switch (status) {
+      case SubmitRequirementExpressionAtomStatus.PASSING:
+        return 'Atom evaluates to True';
+      case SubmitRequirementExpressionAtomStatus.FAILING:
+        return 'Atom evaluates to False';
+      default:
+        return 'Atom value is unknown';
+    }
+  }
+
+  private renderCondition(
+    name: string,
+    expression?: SubmitRequirementExpressionInfo
+  ) {
+    if (!expression?.expression) return '';
+    const atoms = atomizeExpression(expression);
+    let explanations = html``;
+    if (atoms.some(part => part.atomExplanation)) {
+      explanations = html`
+        <br /><br />
+        Atom explanations:<br />
+        <span class="explanations">
+          ${join(
+            atoms
+              .filter(part => part.atomExplanation)
+              .map(
+                part => html`
+                  <span
+                    class=${this.getClassFromAtomStatus(part.atomStatus!)}
+                    title=${this.getTitleFromPart(part)}
+                    >${part.value}</span
+                  >: <span class="explanation">${part.atomExplanation}</span>
+                `
+              ),
+            html`<br />`
+          )}
+        </span>
+      `;
+    }
+    return html`
+      <div class="section condition">
+        <div class="sectionContent">
+          ${name}:<br />
+          <span class="expression">
+            ${atoms.map(part =>
+              part.isAtom
+                ? html`<span
+                    class=${this.getClassFromAtomStatus(part.atomStatus!)}
+                    title=${this.getTitleFromPart(part)}
+                    >${part.value}</span
+                  >`
+                : part.value
+            )}
+          </span>
+          ${explanations}
+        </div>
+      </div>
+    `;
+  }
+
+  private toggleConditionsVisibility() {
+    this.expanded = !this.expanded;
+  }
+}
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-submit-requirement-hovercard': GrSubmitRequirementHovercard;
+  }
+}

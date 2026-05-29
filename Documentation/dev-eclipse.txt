@@ -1,16 +1,16 @@
+:linkattrs:
 = Gerrit Code Review - Eclipse Setup
 
 This document is about configuring Gerrit Code Review into an
-Eclipse workspace for development and debugging with GWT.
+Eclipse workspace for development.
 
-Java 6 or later SDK is also required to run GWT's compiler and
-runtime debugging environment.
-
+Java 11 or later SDK is required.
+Otherwise, java 8 can still be used for now as described below.
 
 [[setup]]
 == Project Setup
 
-In your Eclipse installation's link:https://wiki.eclipse.org/Eclipse.ini[`eclipse.ini`] file,
+In your Eclipse installation's link:https://wiki.eclipse.org/Eclipse.ini[`eclipse.ini`,role=external,window=_blank] file,
 add the following line in the `vmargs` section:
 
 ----
@@ -31,6 +31,7 @@ and
 ----
 
 First, generate the Eclipse project by running the `tools/eclipse/project.py` script.
+
 Then, in Eclipse, choose 'Import existing project' and select the `gerrit` project
 from the current working directory.
 
@@ -42,6 +43,38 @@ that get saved to the `.project` file, for example adding Resource
 Filters on a folder, they will be overwritten the next time you run
 `tools/eclipse/project.py`.
 
+=== Eclipse project on MacOS
+
+By default, bazel uses `/private/var/tmp` as the
+link:https://docs.bazel.build/versions/master/output_directories.html[outputRoot on MacOS].
+This means that the eclipse project will reference libraries stored under that directory.
+However, MacOS runs periodic cleanup task which deletes the content under `/private/var/tmp`
+which wasn't accessed or modified for some days, by default 3 days. This can lead to a broken
+Eclipse project as referenced libraries get deleted.
+
+There are two possibilities to mitigate this issue.
+
+==== Change the location of the bazel output directory
+On Linux, the output directory defaults to `$HOME/.cache/bazel` and the same can be configured
+on Mac too. Edit, or create, the `$HOME/.bazelrc` file and add the following line:
+----
+startup --output_user_root=/Users/johndoe/.cache/bazel
+----
+
+==== Increase the threshold for the cleanup of temporary files
+The default threshold for the cleanup can be overridden by creating a configuration
+file under `/etc/periodic.conf` and setting a larger value for the
+`daily_clean_tmps_days`.
+
+An example `/etc/periodic.conf` file:
+
+----
+# This file overrides the settings from /etc/defaults/periodic.conf
+daily_clean_tmps_days="45"                              # If not accessed for
+----
+
+For more details about the proposed workaround see link:https://superuser.com/a/187105[this post]
+
 === Eclipse project with custom plugins ===
 
 To add custom plugins to the eclipse project add them to `tools/bzl/plugins.bzl`
@@ -49,18 +82,32 @@ the same way you would when
 link:dev-build-plugins.html#_bundle_custom_plugin_in_release_war[bundling in release.war]
 and run `tools/eclipse/project.py`.
 
+If a plugin requires additional test dependencies (not available in the Gerrit),
+then in order to execute tests directly from Eclipse, that plugin must be also
+added to `CUSTOM_PLUGINS_TEST_DEPS` list in `tools/bzl/plugins.bzl` and Eclipse
+project configuration needs to be updated by running `tools/eclipse/project.py`.
+
+== Java Versions
+
+Java 11 is supported as a default, but some adjustments must be done for other JDKs:
+
+* Add JRE, e.g.: directory: /usr/lib64/jvm/java-9-openjdk, name: java-9-openjdk-9
+* Change execution environment for gerrit project to: JavaSE-9 (java-9-openjdk-9)
+* Check that compiler compliance level in gerrit project is set to: 9
+
+Moreover, the actual java 11 language features are not supported yet.
 
 [[Formatting]]
 == Code Formatter Settings
 
 To format source code, Gerrit uses the
-link:https://github.com/google/google-java-format[`google-java-format`]
-tool (version 1.7), which automatically formats code to follow the
-style guide. See link:dev-contributing.html#style[Code Style] for the
+link:https://github.com/google/google-java-format[`google-java-format`,role=external,window=_blank]
+tool (version 1.35.0), which automatically formats code to follow the
+style guide. See link:dev-crafting-changes.html#style[Code Style] for the
 instruction how to set up command line tool that uses this formatter.
 The Eclipse plugin is provided that allows to format with the same
 formatter from within the Eclipse IDE. See
-link:https://github.com/google/google-java-format#eclipse[Eclipse plugin]
+link:https://github.com/google/google-java-format#eclipse[Eclipse plugin,role=external,window=_blank]
 for details how to install it. It's important to use the same plugin version
 as the `google-java-format` script.
 
@@ -73,6 +120,13 @@ Developer Setup guide to configure a local site for testing.
 
 
 == Testing
+
+=== The Gerrit web app UI is served by `Web Dev Server`. To launch it,
+run this command:
+
+----
+  $ npm run start
+----
 
 === Running the Daemon
 
@@ -90,61 +144,6 @@ Duplicate the existing launch configuration:
 * Switch to Common tab.
 * Change Save as to be Local file.
 * Close the Debug Configurations dialog and save the changes when prompted.
-
-
-=== Running GWT Debug Mode
-
-The `gerrit_gwt_debug` launch configuration uses GWT's
-link:http://www.gwtproject.org/articles/superdevmode.html[Super Dev Mode].
-
-* Make a local copy of the `gerrit_gwt_debug` configuration, using the
-process described for `gerrit_daemon` above.
-* Launch the local copy of `gerrit_gwt_debug` from the Eclipse debug menu.
-* If debugging GWT for the first time:
-
-** Open the link:http://localhost:9876/[codeserver URL] and add the `Dev Mode On`
-and `Dev Mode Off` bookmarklet to your bookmark bar.
-
-** Activate the source maps feature in your browser. Refer to the
-link:https://developer.chrome.com/devtools/docs/javascript-debugging#source-maps[
-Chrome] and
-link:https://developer.mozilla.org/en-US/docs/Tools/Debugger#Use_a_source_map[
-Firefox] developer documentation.
-
-* Load the link:http://localhost:8080[Gerrit page].
-* Open the source tab in developer tools.
-* Click the `Dev Mode On` bookmark to incrementally recompile changed files.
-* Select the `gerrit_ui` module to compile (the `Compile` button can also be used
-as a bookmarklet).
-* In the developer tools source tab, open a file and set a breakpoint.
-* Navigate to the UI and confirm that the breakpoint is hit.
-* To end the debugging session, click the `Dev Mode Off` bookmark.
-
-.After changing the client side code:
-
-* Hitting `F5` in the browser only reloads the last compile output, without
-recompiling.
-* To reflect your changes in the debug session, click `Dev Mode On` then `Compile`.
-
-
-=== Running GWT Debug Mode for Gerrit plugins
-
-A Gerrit plugin can expose GWT module and its implementation can be inspected
-in the SDM debug session.
-
-`codeserver` needs two additional inputs to expose the plugin module in the SDM
-debug session: the module name and the source folder location. For example the
-module name and source folder of any GWT plugin should be added in the local
-copy of the `gerrit_gwt_debug` configuration:
-
-----
-  com.googlesource.gerrit.plugins.myplugin.HelloForm \
-  -src ${resource_loc:/gerrit}/plugins/myplugin/src/main/java \
-  -- --console-log [...]
-----
-
-After doing that, both the Gerrit core and plugin GWT modules can be activated
-during SDM (debug session).
 
 GERRIT
 ------

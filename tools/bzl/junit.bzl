@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Skylark rule to generate a Junit4 TestSuite
+# Starlark rule to generate a Junit4 TestSuite
 # Assumes srcs are all .java Test files
 # Assumes junit4 is already added to deps by the user.
 
@@ -25,6 +25,7 @@ import org.junit.runner.RunWith;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({%s})
+@SuppressWarnings("DefaultPackage")
 public class %s {}
 """
 
@@ -73,9 +74,11 @@ def junit_tests(name, srcs, **kwargs):
         srcs = srcs,
         outname = s_name,
     )
+    jvm_flags = kwargs.get("jvm_flags", [])
+    jvm_flags = jvm_flags
     java_test(
         name = name,
         test_class = s_name,
         srcs = srcs + [":" + s_name],
-        **kwargs
+        **dict(kwargs, jvm_flags = jvm_flags)
     )

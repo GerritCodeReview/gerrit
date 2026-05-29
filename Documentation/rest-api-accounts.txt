@@ -1,3 +1,4 @@
+:linkattrs:
 = Gerrit Code Review - /accounts/ REST API
 
 This page describes the account related REST endpoints.
@@ -17,6 +18,11 @@ Queries accounts visible to the caller. The
 link:user-search-accounts.html#_search_operators[query string] must be
 provided by the `q` parameter. The `n` parameter can be used to limit
 the returned results.
+
+[NOTE]
+Searching for accounts by email address can have different case sensitivity
+behavior depending on site configuration. See
+link:user-search-accounts.html#email[email operator] for details.
 
 As result a list of link:#account-info[AccountInfo] entities is
 returned.
@@ -51,19 +57,21 @@ object has a `_more_accounts: true` JSON field set.
 The `S` or `start` query parameter can be supplied to skip a number
 of accounts from the list.
 
+[[query-options]]
 Additional fields can be obtained by adding `o` parameters, each
 option slows down the query response time to the client so they are
 generally disabled by default. Optional fields are:
 
 [[details]]
 --
-* `DETAILS`: Includes full name, preferred email, username and avatars
-for each account.
+* `DETAILS`: Includes full name, preferred email, username, display
+name, avatars, status, state, tags and a deleted flag for each account.
 --
 
 [[all-emails]]
 --
-* `ALL_EMAILS`: Includes all registered emails.
+* `ALL_EMAILS`: Includes all registered emails. Requires the caller
+to have the link:access-control.html#capability_viewSecondaryEmails[View Secondary Emails] global capability.
 --
 
 [[suggest-account]]
@@ -79,6 +87,10 @@ link:#all-emails[all emails] are always returned.
   GET /accounts/?suggest&q=John HTTP/1.0
 ----
 
+Secondary emails are only included if the calling user has the
+link:access-control.html#capability_viewSecondaryEmails[View Secondary Emails]
+capability.
+
 .Response
 ----
   HTTP/1.1 200 OK
@@ -92,12 +104,14 @@ link:#all-emails[all emails] are always returned.
       "name": "John Doe",
       "email": "john.doe@example.com",
       "username": "john"
+      "display_name": "John D"
     },
     {
       "_account_id": 1001439,
       "name": "John Smith",
       "email": "john.smith@example.com",
       "username": "jsmith"
+      "display_name": "Johnny"
     },
   ]
 ----
@@ -127,6 +141,7 @@ Returns an account as an link:#account-info[AccountInfo] entity.
     "name": "John Doe",
     "email": "john.doe@example.com",
     "username": "john"
+    "display_name": "Super John"
   }
 ----
 
@@ -148,14 +163,20 @@ link:#account-input[AccountInput].
 
   {
     "name": "John Doe",
+    "display_name": "Super John",
     "email": "john.doe@example.com",
     "ssh_key": "ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA0T...YImydZAw==",
-    "http_password": "19D9aIn7zePb",
+    "tokens": [{
+        "id": "token1",
+        "token": "19D9aIn7zePb"
+    }],
     "groups": [
       "MyProject-Owners"
     ]
   }
 ----
+
+> **NOTE** The http_password parameter is limited to 71 characters.
 
 As response a detailed link:#account-info[AccountInfo] entity is
 returned that describes the created account.
@@ -172,6 +193,28 @@ returned that describes the created account.
     "name": "John Doe",
     "email": "john.doe@example.com"
   }
+----
+
+[[delete-account]]
+=== Delete Account
+--
+'DELETE /accounts/link:#account-id[\{account-id\}]'
+--
+
+Deletes the given account if config `enableDelete` under
+link:#config-gerrit.html#accounts[accounts] section is enabled.
+
+Currently only supporting self deletion (regardless of the way
+link:#account-id[\{account-id\}] is provided).
+
+.Request
+----
+  DELETE /accounts/self HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
 ----
 
 [[get-detail]]
@@ -200,7 +243,9 @@ AccountDetailInfo] entity.
     "_account_id": 1000096,
     "name": "John Doe",
     "email": "john.doe@example.com",
-    "username": "john"
+    "secondary_emails": [],
+    "username": "john",
+    "display_name": "Super John"
   }
 ----
 
@@ -343,7 +388,7 @@ As response the new account status is returned.
   "Out Of Office"
 ----
 
-If the name was deleted the response is "`204 No Content`".
+If the status was deleted the response is "`204 No Content`".
 
 [[get-username]]
 === Get Username
@@ -393,6 +438,29 @@ fails with "`405 Method Not Allowed`".
 ----
 
 As response the new username is returned.
+
+[[set-display-name]]
+=== Set Display Name
+--
+'PUT /accounts/link:#account-id[\{account-id\}]/displayname'
+--
+
+The new display name must be provided in the request body inside
+a link:#display-name-input[DisplayNameInput] entity.
+
+.Request
+----
+  PUT /accounts/self/displayname HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "display_name": "John"
+  }
+----
+
+As response the new display name is returned.
+
+If the Display Name was deleted the response is "`204 No Content`".
 
 [[get-active]]
 === Get Active
@@ -463,11 +531,17 @@ If the account was already inactive the response is "`409 Conflict`".
 
 [[set-http-password]]
 === Set/Generate HTTP Password
+
+*Note*: The use of HTTP passwords is deprecated. It is recommended to use
+authentication tokens instead. See link:#create-token[Create Authentication
+token]. This endpoint serves as an alias for link:#create-token[Create
+Authentication token] to provide backwards compatibility.
+
 --
 'PUT /accounts/link:#account-id[\{account-id\}]/password.http'
 --
 
-Sets/Generates the HTTP password of an account.
+Sets/Generates an authentication token with id `legacy` for an account.
 
 The options for setting/generating the HTTP password must be provided
 in the request body inside a link:#http-password-input[
@@ -485,7 +559,7 @@ The account must have a username.
   }
 ----
 
-As response the new HTTP password is returned.
+As response the new token is returned.
 
 .Response
 ----
@@ -497,19 +571,135 @@ As response the new HTTP password is returned.
   "ETxgpih8xrNs"
 ----
 
-If the HTTP password was deleted the response is "`204 No Content`".
+If the token was deleted the response is "`204 No Content`".
 
 [[delete-http-password]]
 === Delete HTTP Password
+
+*Note*: The use of HTTP passwords is deprecated. It is recommended to use
+authentication tokens instead. See link:#delete-token[Delete Authentication
+token]. This endpoint serves as an alias for link:#delete-token[Delete
+Authentication token] to provide backwards compatibility.
+
 --
 'DELETE /accounts/link:#account-id[\{account-id\}]/password.http'
 --
 
-Deletes the HTTP password of an account.
+Deletes the token with id `legacy` of an account.
 
 .Request
 ----
   DELETE /accounts/self/password.http HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
+[[create-token]]
+=== Create Authentication token
+--
+'PUT /accounts/link:#account-id[\{account-id\}]/tokens/\{token-id\}'
+--
+
+Creates a new token for an account. The token is usually generated.
+Administrators can also set a specific token for an account.
+
+The options for setting the token must be provided in the
+request body inside a link:#auth-token-input[AuthTokenInput] entity.
+
+The account must have a username.
+The token-id must be unique among other token-ids used by the account. It has to
+start with a letter and must only contain upper- or lowercase letters, digits,
+`-` or `_`.
+
+Optionally, a lifetime for the token can be configured. The minimum lifetime is
+1 minute. The lifetime has to be provided using the following unit format:
+
+* m, min, minute, minutes
+* h, hr, hour, hours
+* d, day, days
+* w, week, weeks (`1 week` is treated as `7 days`)
+* mon, month, months (`1 month` is treated as `30 days`)
+* y, year, years (`1 year` is treated as `365 days`)
+
+If no lifetime is provided, the token's lifetime will be unlimited.
+
+.Request
+----
+  PUT /accounts/self/tokens/example HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "id": "example",
+    "token": "secret_token_123",
+    "lifetime": "30d"
+  }
+----
+
+As response a link:#auth-token-info[AuthTokenInfo] containing the new token
+is returned. Note, that this is the only time the plain text token
+will be returned by Gerrit.
+
+.Response
+----
+  HTTP/1.1 201 Created
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "id": "example",
+    "token": "someRandomToken",
+    "expiration": "2025-05-02 08:54:35.198000000"
+  }
+----
+
+[[get-tokens]]
+=== List Authentication Tokens
+--
+'GET /accounts/link:#account-id[\{account-id\}]/tokens'
+--
+
+Lists the token ids of an account as a list of link:#auth-token-info[AuthTokenInfos].
+The plain text token will never be returned.
+
+.Request
+----
+  GET /accounts/self/tokens HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  [
+    {
+        "id": "example",
+        "expiration": "2025-05-02 08:54:35.198000000"
+    },
+    {
+        "id": "another",
+        "expiration": "2025-05-04 08:54:35.198000000"
+    }
+  ]
+----
+
+[[delete-token]]
+=== Delete Authentication Token
+--
+'DELETE /accounts/link:#account-id[\{account-id\}]/tokens/\{token-id\}'
+--
+
+Deletes the token with the given `token-id` of an account.
+
+.Request
+----
+  DELETE /accounts/self/tokens/example HTTP/1.0
 ----
 
 .Response
@@ -554,6 +744,91 @@ If there is no token available, or the token has already expired,
 "`404 Not Found`" is returned as response. Requests to obtain an access
 token of another user are rejected with "`403 Forbidden`".
 
+[[get-state]]
+=== Get Account State
+--
+'GET /accounts/link:#account-id[\{account-id\}]/state'
+--
+
+Retrieves the superset of all information related to an account. This
+information is useful to inspect issues with the account and its permissions.
+The account state is returned as an link:#account-state-info[AccountStateInfo]
+entity.
+
+Users can only get the own account state. Getting the account state of other
+users is not allowed. To invoke the REST endpoint users can use 'self' as
+account-id in the URL, which resolves to the calling user.
+
+.Request
+----
+  GET /accounts/self/state HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "account": {
+      "registered_on": "2015-07-23 07:01:09.296000000",
+      "_account_id": 1000096,
+      "name": "John Doe",
+      "email": "john.doe@example.com",
+      "secondary_emails": [],
+      "username": "john",
+      "display_name": "Super John"
+    },
+    "capabilities": {
+      "queryLimit": {
+        "min": 0,
+        "max": 500
+      },
+      "emailReviewers": true
+    },
+    "groups": [
+      {
+        "options": {},
+        "id": "global%3AAnonymous-Users",
+        "name": "Anonymous Users"
+      },
+      {
+        "options": {},
+        "id": "global%3ARegistered-Users",
+        "name": "Registered Users"
+      },
+      {
+        "url": "#/admin/groups/uuid-834ec36dd5e0ed21a2ff5d7e2255da082d63bbd7",
+        "options": {
+          "visible_to_all": true,
+        },
+        "description": "Users that maintain the project",
+        "group_id": 6,
+        "owner": "Administrators",
+        "owner_id": "834ec36dd5e0ed21a2ff5d7e2255da082d63bbd7"
+        "created_on": "2023-08-08 15:53:56.000000000",
+        "id": "834ec36dd5e0ed21a2ff5d7e2255da082d63bbd7",
+        "name": "Maintainers"
+      }
+    ],
+    "external_ids": [
+      {
+        "identity": "username:john",
+        "trusted": true
+      },
+      {
+        "identity": "mailto:john.doe@example.com",
+        "email_address": "john.doe@example.com",
+        "trusted": true,
+        "can_delete": true
+      }
+    ],
+    "metadata": {}
+  }
+----
+
 [[list-account-emails]]
 === List Account Emails
 --
@@ -561,6 +836,9 @@ token of another user are rejected with "`403 Forbidden`".
 --
 
 Returns the email addresses that are configured for the specified user.
+
+link:access-control.html#capability_modifyAccount[ModifyAccount]
+capability is required to view emails of other users.
 
 .Request
 ----
@@ -633,6 +911,9 @@ link:#email-input[EmailInput].
 If link:config-gerrit.html#sendemail.allowrcpt[sendemail.allowrcpt] is
 configured, the added email address must belong to a domain that is
 allowed, unless `no_confirmation` is set.
+If link:config-gerrit.html#sendemail.denyrcpt[sendemail.denyrcpt]
+is configured, make sure that the added email address is *not* disallowed or
+belongs to a domain that is disallowed.
 
 The link:#email-input[EmailInput] object in the request body may
 contain additional options for the email address.
@@ -727,8 +1008,8 @@ link:#ssh-key-info[SshKeyInfo] entities.
   [
     {
       "seq": 1,
-      "ssh_public_key": "ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA0T...YImydZAw\u003d\u003d john.doe@example.com",
-      "encoded_key": "AAAAB3NzaC1yc2EAAAABIwAAAQEA0T...YImydZAw\u003d\u003d",
+      "ssh_public_key": "ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA0T...YImydZAw== john.doe@example.com",
+      "encoded_key": "AAAAB3NzaC1yc2EAAAABIwAAAQEA0T...YImydZAw==",
       "algorithm": "ssh-rsa",
       "comment": "john.doe@example.com",
       "valid": true
@@ -761,8 +1042,8 @@ describes the SSH key.
   )]}'
   {
     "seq": 1,
-    "ssh_public_key": "ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA0T...YImydZAw\u003d\u003d john.doe@example.com",
-    "encoded_key": "AAAAB3NzaC1yc2EAAAABIwAAAQEA0T...YImydZAw\u003d\u003d",
+    "ssh_public_key": "ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA0T...YImydZAw== john.doe@example.com",
+    "encoded_key": "AAAAB3NzaC1yc2EAAAABIwAAAQEA0T...YImydZAw==",
     "algorithm": "ssh-rsa",
     "comment": "john.doe@example.com",
     "valid": true
@@ -785,9 +1066,9 @@ key is persisted.
 .Request
 ----
   POST /accounts/self/sshkeys HTTP/1.0
-  Content-Type: plain/text
+  Content-Type: text/plain
 
-  AAAAB3NzaC1yc2EAAAABIwAAAQEA0T...YImydZAw\u003d\u003d
+  ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA0T...YImydZAw== john.doe@example.com
 ----
 
 As response an link:#ssh-key-info[SshKeyInfo] entity is returned that
@@ -802,8 +1083,8 @@ describes the new SSH key.
   )]}'
   {
     "seq": 2,
-    "ssh_public_key": "ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA0T...YImydZAw\u003d\u003d john.doe@example.com",
-    "encoded_key": "AAAAB3NzaC1yc2EAAAABIwAAAQEA0T...YImydZAw\u003d\u003d",
+    "ssh_public_key": "ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA0T...YImydZAw== john.doe@example.com",
+    "encoded_key": "AAAAB3NzaC1yc2EAAAABIwAAAQEA0T...YImydZAw==",
     "algorithm": "ssh-rsa",
     "comment": "john.doe@example.com",
     "valid": true
@@ -1131,31 +1412,27 @@ entries is returned.
   )]}'
   [
     {
+      "options": {},
       "id": "global%3AAnonymous-Users",
-      "url": "#/admin/groups/uuid-global%3AAnonymous-Users",
-      "options": {
-      },
-      "description": "Any user, signed-in or not",
-      "group_id": 2,
-      "owner_id": "6a1e70e1a88782771a91808c8af9bbb7a9871389"
+      "name": "Anonymous Users"
     },
     {
-      "id": "834ec36dd5e0ed21a2ff5d7e2255da082d63bbd7",
+      "options": {},
+      "id": "global%3ARegistered-Users",
+      "name": "Registered Users"
+    },
+    {
       "url": "#/admin/groups/uuid-834ec36dd5e0ed21a2ff5d7e2255da082d63bbd7",
       "options": {
         "visible_to_all": true,
       },
+      "description": "Gerrit Site Administrators",
       "group_id": 6,
+      "owner": "Administrators",
       "owner_id": "834ec36dd5e0ed21a2ff5d7e2255da082d63bbd7"
-    },
-    {
-      "id": "global%3ARegistered-Users",
-      "url": "#/admin/groups/uuid-global%3ARegistered-Users",
-      "options": {
-      },
-      "description": "Any signed-in user",
-      "group_id": 3,
-      "owner_id": "6a1e70e1a88782771a91808c8af9bbb7a9871389"
+      "created_on": "2023-08-08 15:53:56.000000000",
+      "id": "834ec36dd5e0ed21a2ff5d7e2255da082d63bbd7",
+      "name": "Administrators"
     }
   ]
 ----
@@ -1244,17 +1521,19 @@ any account.
   )]}'
   {
     "changes_per_page": 25,
-    "show_site_header": true,
-    "use_flash_clipboard": true,
-    "download_command": "CHECKOUT",
+    "theme": "AUTO",
     "date_format": "STD",
     "time_format": "HHMM_12",
     "diff_view": "SIDE_BY_SIDE",
     "size_bar_in_change_table": true,
-    "review_category_strategy": "ABBREV",
     "mute_common_path_prefixes": true,
     "publish_comments_on_push": true,
     "work_in_progress_by_default": true,
+    "allow_browser_notifications": true,
+    "allow_suggest_code_while_commenting": true,
+    "allow_autocompleting_comments": true,
+    "ai_chat_selected_model": "test-ai-model",
+    "diff_page_sidebar": "plugin-foo",
     "default_base_for_merges": "FIRST_PARENT",
     "my": [
       {
@@ -1300,14 +1579,18 @@ link:#preferences-input[PreferencesInput] entity.
 
   {
     "changes_per_page": 50,
-    "show_site_header": true,
-    "use_flash_clipboard": true,
+    "theme": "DARK",
     "expand_inline_diffs": true,
-    "download_command": "CHECKOUT",
     "date_format": "STD",
     "time_format": "HHMM_12",
     "size_bar_in_change_table": true,
-    "review_category_strategy": "NAME",
+    "disable_keyboard_shortcuts": true,
+    "disable_token_highlighting": true,
+    "allow_browser_notifications": false,
+    "allow_suggest_code_while_commenting": false,
+    "allow_autocompleting_comments": false,
+    "ai_chat_selected_model": "test-ai-model",
+    "diff_page_sidebar": "NONE",
     "diff_view": "SIDE_BY_SIDE",
     "mute_common_path_prefixes": true,
     "my": [
@@ -1351,16 +1634,15 @@ link:#preferences-info[PreferencesInfo] entity.
   )]}'
   {
     "changes_per_page": 50,
-    "show_site_header": true,
-    "use_flash_clipboard": true,
+    "theme" "DARK",
     "expand_inline_diffs": true,
-    "download_command": "CHECKOUT",
     "date_format": "STD",
     "time_format": "HHMM_12",
     "size_bar_in_change_table": true,
-    "review_category_strategy": "NAME",
     "diff_view": "SIDE_BY_SIDE",
     "publish_comments_on_push": true,
+    "disable_keyboard_shortcuts": true,
+    "disable_token_highlighting": true,
     "work_in_progress_by_default": true,
     "mute_common_path_prefixes": true,
     "my": [
@@ -1417,7 +1699,6 @@ link:#diff-preferences-info[DiffPreferencesInfo] entity.
   )]}'
   {
     "context": 10,
-    "theme": "DEFAULT",
     "ignore_whitespace": "IGNORE_ALL",
     "intraline_difference": true,
     "line_length": 100,
@@ -1448,7 +1729,6 @@ link:#diff-preferences-input[DiffPreferencesInput] entity.
 
   {
     "context": 10,
-    "theme": "ECLIPSE",
     "ignore_whitespace": "IGNORE_ALL",
     "intraline_difference": true,
     "line_length": 100,
@@ -1474,7 +1754,6 @@ link:#diff-preferences-info[DiffPreferencesInfo] entity.
   )]}'
   {
     "context": 10,
-    "theme": "ECLIPSE",
     "ignore_whitespace": "IGNORE_ALL",
     "intraline_difference": true,
     "line_length": 100,
@@ -1511,8 +1790,6 @@ link:#edit-preferences-info[EditPreferencesInfo] entity.
 
   )]}'
   {
-    "theme": "ECLIPSE",
-    "key_map_type": "VIM",
     "tab_size": 4,
     "line_length": 80,
     "indent_unit": 2,
@@ -1544,8 +1821,6 @@ link:#edit-preferences-info[EditPreferencesInfo] entity.
   Content-Type: application/json;charset=UTF-8
 
   {
-    "theme": "ECLIPSE",
-    "key_map_type": "VIM",
     "tab_size": 4,
     "line_length": 80,
     "indent_unit": 2,
@@ -1572,8 +1847,6 @@ link:#edit-preferences-info[EditPreferencesInfo] entity.
 
   )]}'
   {
-    "theme": "ECLIPSE",
-    "key_map_type": "VIM",
     "tab_size": 4,
     "line_length": 80,
     "cursor_blink_rate": 530,
@@ -1716,6 +1989,10 @@ can contain a list of link:#project-watch-info[ProjectWatchInfo] entities.
 
 Retrieves the external ids of a user account.
 
+Only external ids belonging to the caller may be requested. Users that have
+link:access-control.html#capability_modifyAccount[Modify Account] can request
+external ids that belong to other accounts.
+
 .Request
 ----
   GET /a/accounts/self/external.ids HTTP/1.0
@@ -1734,7 +2011,7 @@ link:#account-external-id-info[AccountExternalIdInfo] entities.
   [
     {
       "identity": "username:john",
-      "email": "john.doe@example.com",
+      "email_address": "john.doe@example.com",
       "trusted": true
     }
   ]
@@ -1749,7 +2026,18 @@ link:#account-external-id-info[AccountExternalIdInfo] entities.
 Delete a list of external ids for a user account. The target external ids must
 be provided as a list in the request body.
 
-Only external ids belonging to the caller may be deleted.
+Only external ids belonging to the caller may be deleted. Users that have
+link:access-control.html#capability_modifyAccount[Modify Account] can delete
+external ids that belong to other accounts. External ids in the 'username:'
+scheme can only be deleted by users that have
+link:access-control.html#capability_administrateServer[Administrate Server]
+or both
+link:access-control.html#capability_maintainServer[Maintain Server] and
+link:access-control.html#capability__modifyAccount[Modify Account]
+since the user may not be able to login anymore, after the removal of the
+external id with scheme 'username:'. Users cannot delete their own external id
+with scheme 'username:' in order to prevent they can lock themselves out
+since they may not be able to login anymore.
 
 .Request
 ----
@@ -1759,6 +2047,152 @@ Only external ids belonging to the caller may be deleted.
   [
     "mailto:john.doe@example.com"
   ]
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
+[[list-contributor-agreements]]
+=== List Contributor Agreements
+--
+'GET /accounts/link:#account-id[\{account-id\}]/agreements'
+--
+
+Gets a list of the user's signed contributor agreements.
+
+.Request
+----
+  GET /a/accounts/self/agreements HTTP/1.0
+----
+
+As response the user's signed agreements are returned as a list
+of link:#contributor-agreement-info[ContributorAgreementInfo] entities.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  [
+    {
+      "name": "Individual",
+      "description": "If you are going to be contributing code on your own, this is the one you want. You can sign this one online.",
+      "url": "static/cla_individual.html"
+    }
+  ]
+----
+
+[delete-draft-comments]
+=== Delete Draft Comments
+--
+'POST /accounts/link:#account-id[\{account-id\}]/drafts:delete'
+--
+
+Deletes some or all of a user's draft comments. The set of comments to delete is
+specified as a link:#delete-draft-comments-input[DeleteDraftCommentsInput]
+entity. An empty input entity deletes all comments.
+
+Only drafts belonging to the caller may be deleted.
+
+.Request
+----
+  POST /accounts/self/drafts.delete HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "query": "is:abandoned"
+  }
+----
+
+As a response, a list of
+link:#deleted-draft-comment-info[DeletedDraftCommentInfo] entities is returned.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+   )]}'
+   [
+     {
+       "change": {
+         "id": "myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940",
+         "project": "myProject",
+         "branch": "master",
+         "change_id": "I8473b95934b5732ac55d26311a706c9c2bde9940",
+         "subject": "Implementing Feature X",
+         "status": "ABANDONED",
+         "created": "2013-02-01 09:59:32.126000000",
+         "updated": "2013-02-21 11:16:36.775000000",
+         "insertions": 34,
+         "deletions": 101,
+         "_number": 3965,
+         "owner": {
+           "name": "John Doe"
+         }
+       },
+       "deleted": [
+         {
+           "id": "TvcXrmjM",
+           "path": "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
+           "line": 23,
+           "message": "[nit] trailing whitespace",
+           "updated": "2013-02-26 15:40:43.986000000"
+         }
+       ]
+     }
+   ]
+----
+
+[[sign-contributor-agreement]]
+=== Sign Contributor Agreement
+--
+'PUT /accounts/link:#account-id[\{account-id\}]/agreements'
+--
+
+Signs a contributor agreement.
+
+The contributor agreement must be provided in the request body as
+a link:#contributor-agreement-input[ContributorAgreementInput].
+
+.Request
+----
+  PUT /accounts/self/agreements HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "name": "Individual"
+  }
+----
+
+As response the contributor agreement name is returned.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  "Individual"
+----
+
+[[index-account]]
+=== Index Account
+--
+'POST /accounts/link:#account-id[\{account-id\}]/index'
+--
+
+Adds or updates the account in the secondary index.
+
+.Request
+----
+  POST /accounts/1000096/index HTTP/1.0
 ----
 
 .Response
@@ -1825,7 +2259,7 @@ of link:rest-api-changes.html#change-info[ChangeInfo] entities.
 --
 
 Star a change with the default label. Changes starred with the default
-label are returned for the search query `is:starred` or `starredby:USER`
+label are returned for the search query `is:starred` or `has:star`
 and automatically notify the user whenever updates are made to the
 change.
 
@@ -1857,214 +2291,6 @@ Remove the default star label from a change. This stops notifications.
   HTTP/1.1 204 No Content
 ----
 
-[[star-endpoints]]
-== Star Endpoints
-
-[[get-starred-changes]]
-=== Get Starred Changes
---
-'GET /accounts/link:#account-id[\{account-id\}]/stars.changes'
---
-
-Gets the changes that were starred with any label by the identified
-user account. This URL endpoint is functionally identical to the
-changes query `GET /changes/?q=has:stars`. The result is a list of
-link:rest-api-changes.html#change-info[ChangeInfo] entities.
-
-.Request
-----
-  GET /a/accounts/self/stars.changes
-----
-
-.Response
-----
-  HTTP/1.1 200 OK
-  Content-Disposition: attachment
-  Content-Type: application/json; charset=UTF-8
-
-  )]}'
-  [
-    {
-      "id": "myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940",
-      "project": "myProject",
-      "branch": "master",
-      "change_id": "I8473b95934b5732ac55d26311a706c9c2bde9940",
-      "subject": "Implementing Feature X",
-      "status": "NEW",
-      "created": "2013-02-01 09:59:32.126000000",
-      "updated": "2013-02-21 11:16:36.775000000",
-      "stars": [
-        "ignore",
-        "risky"
-      ],
-      "mergeable": true,
-      "submittable": false,
-      "insertions": 145,
-      "deletions": 12,
-      "_number": 3965,
-      "owner": {
-        "name": "John Doe"
-      }
-    }
-  ]
-----
-
-[[get-stars]]
-=== Get Star Labels From Change
---
-'GET /accounts/link:#account-id[\{account-id\}]/stars.changes/link:rest-api-changes.html#change-id[\{change-id\}]'
---
-
-Get star labels from a change.
-
-.Request
-----
-  GET /a/accounts/self/stars.changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940 HTTP/1.0
-----
-
-As response the star labels that the user applied on the change are
-returned. The labels are lexicographically sorted.
-
-.Response
-----
-  HTTP/1.1 200 OK
-  Content-Disposition: attachment
-  Content-Type: application/json; charset=UTF-8
-
-  )]}'
-  [
-    "blue",
-    "green",
-    "red"
-  ]
-----
-
-[[set-stars]]
-=== Update Star Labels On Change
---
-'POST /accounts/link:#account-id[\{account-id\}]/stars.changes/link:rest-api-changes.html#change-id[\{change-id\}]'
---
-
-Update star labels on a change. The star labels to be added/removed
-must be specified in the request body as link:#stars-input[StarsInput]
-entity. Starred changes are returned for the search query `has:stars`.
-
-.Request
-----
-  POST /a/accounts/self/stars.changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940 HTTP/1.0
-  Content-Type: application/json; charset=UTF-8
-
-  {
-    "add": [
-      "blue",
-      "red"
-    ],
-    "remove": [
-      "yellow"
-    ]
-  }
-----
-
-As response the star labels that the user applied on the change are
-returned. The labels are lexicographically sorted.
-
-.Response
-----
-  HTTP/1.1 200 OK
-  Content-Disposition: attachment
-  Content-Type: application/json; charset=UTF-8
-
-  )]}'
-  [
-    "blue",
-    "green",
-    "red"
-  ]
-----
-
-[[list-contributor-agreements]]
-=== List Contributor Agreements
---
-'GET /accounts/link:#account-id[\{account-id\}]/agreements'
---
-
-Gets a list of the user's signed contributor agreements.
-
-.Request
-----
-  GET /a/accounts/self/agreements HTTP/1.0
-----
-
-As response the user's signed agreements are returned as a list
-of link:#contributor-agreement-info[ContributorAgreementInfo] entities.
-
-.Response
-----
-  HTTP/1.1 200 OK
-  Content-Disposition: attachment
-  Content-Type: application/json; charset=UTF-8
-
-  )]}'
-  [
-    {
-      "name": "Individual",
-      "description": "If you are going to be contributing code on your own, this is the one you want. You can sign this one online.",
-      "url": "static/cla_individual.html"
-    }
-  ]
-----
-
-[[sign-contributor-agreement]]
-=== Sign Contributor Agreement
---
-'PUT /accounts/link:#account-id[\{account-id\}]/agreements'
---
-
-Signs a contributor agreement.
-
-The contributor agreement must be provided in the request body as
-a link:#contributor-agreement-input[ContributorAgreementInput].
-
-.Request
-----
-  PUT /accounts/self/agreements HTTP/1.0
-  Content-Type: application/json; charset=UTF-8
-
-  {
-    "name": "Individual"
-  }
-----
-
-As response the contributor agreement name is returned.
-
-.Response
-----
-  HTTP/1.1 200 OK
-  Content-Disposition: attachment
-  Content-Type: application/json; charset=UTF-8
-
-  )]}'
-  "Individual"
-----
-
-[[index-account]]
-=== Index Account
---
-'POST /accounts/link:#account-id[\{account-id\}]/index'
---
-
-Adds or updates the account in the secondary index.
-
-.Request
-----
-  POST /accounts/1000096/index HTTP/1.0
-----
-
-.Response
-----
-  HTTP/1.1 204 No Content
-----
-
 [[ids]]
 == IDs
 
@@ -2074,12 +2300,37 @@ Identifier that uniquely identifies one account.
 
 This can be:
 
+* `self` or `me` for the calling user
+* a bare account ID ("18419")
+* an account ID following a name in parentheses ("Full Name (18419)")
 * a string of the format "Full Name <email@example.com>"
 * just the email address ("email@example")
-* a full name if it is unique ("Full Name")
-* an account ID ("18419")
+* a full name ("Full Name")
 * a user name ("username")
-* `self` for the calling user
+
+In all cases, accounts that are not
+link:config-gerrit.html#accounts.visibility[visible] to the calling user are not
+considered.
+
+In all cases _except_ a bare account ID and `self`/`me`, inactive accounts are
+not considered. Inactive accounts should only be referenced by bare ID.
+
+If the input is a bare account ID, this will always resolve to exactly
+one account if there is a visible account with that ID, and zero accounts
+otherwise. (This is true even in corner cases like a user having a full name
+which is exactly a numeric account ID belonging to a different user; such a user
+cannot be identified by this number.)
+
+If the identifier is ambiguous or only refers to inactive accounts, the error
+message from the API should contain a human-readable description of how to
+disambiguate the request.
+
+*Note*: Except as noted above, callers should not rely on the particular
+priorities of any of the identifiers in the account resolution algorithm. Any
+other formats may be subject to future deprecation. If callers require specific
+searching semantics, they should use the link:#query-account[Query Account]
+endpoint to resolve a string to one or more accounts, then access the API using
+the account ID.
 
 [[capability-id]]
 === \{capability-id\}
@@ -2115,7 +2366,7 @@ The `AccountDetailInfo` entity contains detailed information about an
 account.
 
 `AccountDetailInfo` has the same fields as link:#account-info[
-AccountInfo]. In addition `AccountDetailInfo` has the following fields:
+AccountInfo]. In addition `AccountDetailInfo` has the following field:
 
 [options="header",cols="1,^1,5"]
 |=================================
@@ -2123,8 +2374,6 @@ AccountInfo]. In addition `AccountDetailInfo` has the following fields:
 |`registered_on`     ||
 The link:rest-api.html#timestamp[timestamp] of when the account was
 registered.
-|`inactive`          |not set if `false`|
-Whether the account is inactive.
 |=================================
 
 [[account-external-id-info]]
@@ -2136,7 +2385,7 @@ an account.
 |============================
 |Field Name        ||Description
 |`identity`        ||The account external id.
-|`email`           |optional|The email address for the external id.
+|`email_address`   |optional|The email address for the external id.
 |`trusted`         |not set if `false`|
 Whether the external id is trusted.
 |`can_delete`      |not set if `false`|
@@ -2156,6 +2405,11 @@ Only set if detailed account information is requested. +
 See option link:rest-api-changes.html#detailed-accounts[
 DETAILED_ACCOUNTS] for change queries +
 and option link:#details[DETAILS] for account queries.
+|`display_name`    |optional|The display name of the user. +
+Only set if detailed account information is requested. +
+See option link:rest-api-changes.html#detailed-accounts[
+DETAILED_ACCOUNTS] for change queries +
+and option link:#details[DETAILS] for account queries.
 |`email`           |optional|
 The email address the user prefers to be contacted through. +
 Only set if detailed account information is requested. +
@@ -2166,15 +2420,34 @@ ALL_EMAILS] for account queries.
 |`secondary_emails`|optional|
 A list of the secondary email addresses of the user. +
 Only set for account queries when the link:#all-emails[ALL_EMAILS]
-option is set.
+option or the link:#suggest-account[suggest] parameter is set. +
+Secondary emails are only included if the calling user has the
+link:access-control.html#capability_modifyAccount[Modify Account], and
+hence is allowed to see secondary emails of other users.
 |`username`        |optional|The username of the user. +
 Only set if detailed account information is requested. +
 See option link:rest-api-changes.html#detailed-accounts[
 DETAILED_ACCOUNTS] for change queries +
 and option link:#details[DETAILS] for account queries.
+|`avatars`         |optional|List of link:#avatar-info[AvatarInfo] +
+entities that provide information about avatar images of the account.
 |`_more_accounts`  |optional, not set if `false`|
 Whether the query would deliver more results if not limited. +
 Only set on the last account that is returned.
+|`status`          |optional|Status message of the account.
+|`inactive`        |not set if `false`|
+Whether the account is inactive.
+|`deleted`        |not set if `false`|
+Whether the account is deleted. +
+Only set if detailed account information is requested. +
+See option link:rest-api-changes.html#detailed-accounts[
+DETAILED_ACCOUNTS]
+|`tags`      |optional, not set if empty|
+List of additional tags that this account has. The only +
+current tag an account can have is `SERVICE_USER`. +
+Only set if detailed account information is requested. +
+See option link:rest-api-changes.html#detailed-accounts[
+DETAILED_ACCOUNTS]
 |===============================
 
 [[account-input]]
@@ -2188,9 +2461,12 @@ a new account.
 |`username`     |optional|
 The user name. If provided, must match the user name from the URL.
 |`name`         |optional|The full name of the user.
+|`display_name` |optional|The display name of the user.
 |`email`        |optional|The email address of the user.
 |`ssh_key`      |optional|The public SSH key of the user.
-|`http_password`|optional|The HTTP password of the user.
+|`http_password`|optional|The HTTP password of the user. (deprecated)
+|`tokens`       |optional|
+A list of tokens in the form of link:#auth-token-input[AuthTokenInputs] to assign to the user.
 |`groups`       |optional|
 A list of link:rest-api-groups.html#group-id[group IDs] that identify
 the groups to which the user should be added.
@@ -2208,6 +2484,32 @@ for an account.
 If not set or if set to an empty string, the account name is deleted.
 |=============================
 
+[[account-state-info]]
+=== AccountStateInfo
+The `AccountStateInfo` entity contains the superset of all information related
+to an account.
+
+[options="header",cols="1,^2,4"]
+|==========================
+|Field Name    ||Description
+|`account`     ||
+The account details as link:#account-detail-info[AccountDetailInfo] entity.
+|`capabilities`|optional|
+The global capabilities of the account as a
+link:#capability-info[CapabilityInfo] entity. Not set if the permission backend
+doesn't use default capabilities.
+|`groups`      ||
+The groups that contain the account as a member as a list of
+link:rest-api-groups.html#group-info[GroupInfo] entries.
+|`external_ids`||
+The external IDs of the account as a list of
+link:#account-external-id-info[AccountExternalIdInfo] entities.
+|`metadata`    ||
+Optional account metadata as a list of
+link:rest-api-config.html#metadata-info[MetadataInfo] entities. If and which
+metadata is provided depends on the Gerrit setup.
+|==========================
+
 [[account-status-input]]
 === AccountStatusInput
 The `AccountStatusInput` entity contains information for setting a status
@@ -2219,6 +2521,18 @@ for an account.
 |`status`   |optional|The new status of the account. +
 If not set or if set to an empty string, the account status is deleted.
 |=============================
+
+[[avatar-info]]
+=== AvatarInfo
+The `AvatarInfo` entity contains information about an avatar image of
+an account.
+
+[options="header",cols="1,6"]
+|======================
+|Field Name|Description
+|`url`     |The URL to the avatar image.
+|`height`  |The height of the avatar image in pixels.
+|======================
 
 [[capability-info]]
 === CapabilityInfo
@@ -2279,6 +2593,9 @@ capability.
 link:access-control.html#capability_viewPlugins[View Plugins] capability.
 |`viewQueue`         |not set if `false`|Whether the user has the
 link:access-control.html#capability_viewQueue[View Queue] capability.
+|`viewSecondaryEmails`|not set if `false`|Whether the user has the
+link:access-control.html#capability_viewSecondaryEmails[View Secondary
+Emails] capability.
 |=================================
 
 [[contributor-agreement-info]]
@@ -2287,13 +2604,18 @@ link:access-control.html#capability_viewQueue[View Queue] capability.
 The `ContributorAgreementInfo` entity contains information about a
 contributor agreement.
 
-[options="header",cols="1,6"]
-|=================================
-|Field Name                 |Description
-|`name`                     |The name of the agreement.
-|`description`              |The description of the agreement.
-|`url`                      |The URL of the agreement.
-|=================================
+[options="header",cols="1,^1,5"]
+|================================
+|Field Name         ||Description
+|`name`             ||The unique name of the contributor agreement.
+|`description`      ||The description of the contributor agreement.
+|`url`              ||The URL of the contributor agreement.
+|`auto_verify_group`|optional|
+The group to which a user that signs the contributor agreement online
+is added automatically as a link:rest-api-groups.html#group-info[
+GroupInfo] entity. If not set, users cannot sign the contributor
+agreement online.
+|================================
 
 [[contributor-agreement-input]]
 === ContributorAgreementInput
@@ -2306,6 +2628,37 @@ new contributor agreement.
 |`name`                     |The name of the agreement.
 |=================================
 
+[[delete-draft-comments-input]]
+=== DeleteDraftCommentsInput
+The `DeleteDraftCommentsInput` entity contains information specifying a set of
+draft comments that should be deleted.
+
+[options="header",cols="1,^1,5"]
+|=================================
+|Field Name                 ||Description
+|`query`                    |optional|
+A link:user-search.html[change query] limiting results to changes matching this
+query; `has:draft` is implied and not necessary to list explicitly. If not set,
+matches all changes with drafts.
+|=================================
+
+[[deleted-draft-comment-info]]
+=== DeletedDraftCommentInfo
+The `DeletedDraftCommentInfo` entity contains information about draft comments
+that were deleted.
+
+[options="header",cols="1,6"]
+|=================================
+|Field Name                 |Description
+|`change`                   |
+link:rest-api-changes.html#change-info[ChangeInfo] entity describing the change
+on which one or more comments was deleted. Populated with no change list
+options.
+|`deleted`                  |
+List of link:rest-api-changes.html#comment-info[CommentInfo] entities for each
+comment that was deleted.
+|=================================
+
 [[diff-preferences-info]]
 === DiffPreferencesInfo
 The `DiffPreferencesInfo` entity contains information about the diff
@@ -2316,9 +2669,6 @@ preferences of a user.
 |Field Name                    ||Description
 |`context`                     ||
 The number of lines of context when viewing a patch.
-|`theme`                       ||
-The CodeMirror theme name in upper case, for example `DEFAULT`. All the themes
-from the CodeMirror release that Gerrit is using are available.
 |`expand_all_comments`         |not set if `false`|
 Whether all inline comments should be automatically expanded.
 |`ignore_whitespace`           ||
@@ -2440,12 +2790,6 @@ preferences of a user.
 [options="header",cols="1,^1,5"]
 |===========================================
 |Field Name                    ||Description
-|`theme`                       ||
-The CodeMirror theme name in upper case, for example `DEFAULT`. All the themes
-from the CodeMirror release that Gerrit is using are available.
-|`key_map_type`                ||
-The CodeMirror key map. Currently only a subset of key maps are
-supported: `DEFAULT`, `EMACS`, `SUBLIME`, `VIM`.
 |`tab_size`                    ||
 Number of spaces that should be used to display one tab.
 |`line_length`                 ||
@@ -2526,7 +2870,7 @@ The `GpgKeyInfo` entity contains information about a GPG public key.
 |`id`         |Not set in map context|The 8-char hex GPG key ID.
 |`fingerprint`|Not set for deleted keys|The 40-char (plus spaces) hex GPG key fingerprint.
 |`user_ids`   |Not set for deleted keys|
-link:https://tools.ietf.org/html/rfc4880#section-5.11[OpenPGP User IDs]
+link:https://tools.ietf.org/html/rfc4880#section-5.11[OpenPGP User IDs,role=external,window=_blank]
 associated with the public key.
 |`key`        |Not set for deleted keys|ASCII armored public key material.
 |`status`     |Not set for deleted keys|
@@ -2568,6 +2912,37 @@ If empty or not set and `generate` is false or not set, the HTTP
 password is deleted.
 |============================
 
+[[auth-token-input]]
+=== AuthTokenInput
+The `AuthTokenInput` entity contains information for setting/generating
+an authentication token.
+
+[options="header",cols="1,^1,5"]
+|============================
+|Field Name     ||Description
+|`id`           |If not set, the id in the URL will be used.|
+Must be the same as the id used in the URL.
+|`token`        |optional|
+The new token. Only Gerrit administrators may set the token directly.
+|`lifetime`     |optional|
+Lifetime of the token. After the given duration the token will be invalid.
+|============================
+
+[[auth-token-info]]
+=== AuthTokenInfo
+The `AuthTokenInfo` entity contains information about an authentication token.
+
+[options="header",cols="1,^1,5"]
+|============================
+|Field Name     ||Description
+|`id`           ||The id of the token.
+|`token`        |optional|
+The token in plain text. Will only be returned once when creating the token.
+|`expiration`   |optional|
+The timestamp at which the token will expire or has been expired. If `null`, token
+lifetime is unlimited.
+|============================
+
 [[oauth-token-info]]
 === OAuthTokenInfo
 The `OAuthTokenInfo` entity contains information about an OAuth access token.
@@ -2594,19 +2969,16 @@ The `PreferencesInfo` entity contains information about a user's preferences.
 |`changes_per_page`             ||
 The number of changes to show on each page.
 Allowed values are `10`, `25`, `50`, `100`.
-|`show_site_header`             |not set if `false`|
-Whether the site header should be shown.
-|`use_flash_clipboard`          |not set if `false`|
-Whether to use the flash clipboard widget.
+|`theme`                        ||
+Which theme to use.
+Allowed values are `AUTO` or `DARK` or `LIGHT`.
 |`expand_inline_diffs`          |not set if `false`|
 Whether to expand diffs inline instead of opening as separate page
-(PolyGerrit only).
+(Gerrit web app UI only).
 |`download_scheme`              |optional|
 The type of download URL the user prefers to use. May be any key from
 the `schemes` map in
 link:rest-api-config.html#download-info[DownloadInfo].
-|`download_command`             ||
-The type of download command the user prefers to use.
 |`date_format`                  ||
 The format to display the date in.
 Allowed values are `STD`, `US`, `ISO`, `EURO`, `UK`.
@@ -2622,33 +2994,48 @@ Allowed values are `SIDE_BY_SIDE`, `UNIFIED_DIFF`.
 Whether to show the change sizes as colored bars in the change table.
 |`legacycid_in_change_table`    |not set if `false`|
 Whether to show change number in the change table.
-|`review_category_strategy`     ||
-The strategy used to displayed info in the review category column.
-Allowed values are `NONE`, `NAME`, `EMAIL`, `USERNAME`, `ABBREV`.
 |`mute_common_path_prefixes`    |not set if `false`|
 Whether to mute common path prefixes in file names in the file table.
 |`signed_off_by`                |not set if `false`|
 Whether to insert Signed-off-by footer in changes created with the
 inline edit feature.
+|`allow_browser_notifications`  |not set if `false`|
+Whether to prompt user to enable browser notification in browser.
+|`allow_suggest_code_while_commenting`  |not set if `false`|
+Whether to receive suggested code while writing comments. This feature needs
+a plugin implementation.
+|`allow_autocompleting_comments`  |not set if `false`|
+Whether to receive autocompletions while writing comments. This feature needs
+a plugin implementation.
+|`ai_chat_selected_model`           |optional|
+The name of the AI model selected for the AI chat. This feature needs a plugin
+implementation.
+|`diff_page_sidebar`            |optional|
+String indicating which sidebar should be open on the diff page. Set to "NONE"
+if no sidebars should be open. Plugin-supplied sidebars will be prefixed with
+"plugin-".
 |`my`                           ||
 The menu items of the `MY` top menu as a list of
 link:rest-api-config.html#top-menu-item-info[TopMenuItemInfo] entities.
 |`change_table`                           ||
-The columns to display in the change table (PolyGerrit only). The default is
-empty, which will default columns as determined by the frontend.
-|`url_aliases`                  |optional|
-A map of URL path pairs, where the first URL path is an alias for the
-second URL path.
+The columns to display in the change table (Gerrit web app UI only). The
+default is empty, which will default columns as determined by the frontend.
 |`email_strategy`               ||
 The type of email strategy to use. On `ENABLED`, the user will receive emails
 from Gerrit. On `CC_ON_OWN_COMMENTS` the user will also receive emails for
-their own comments. On `DISABLED` the user will not receive any email
-notifications from Gerrit.
-Allowed values are `ENABLED`, `CC_ON_OWN_COMMENTS`, `DISABLED`.
+their own comments. On `ATTENTION_SET_ONLY`, on emails about changes, the user
+will receive emails only if they are in the attention set of that change.
+On `DISABLED` the user will not receive any email notifications from Gerrit.
+Allowed values are `ENABLED`, `CC_ON_OWN_COMMENTS`, `ATTENTION_SET_ONLY`,
+`DISABLED`.
 |`default_base_for_merges`      ||
 The base which should be pre-selected in the 'Diff Against' drop-down
 list when the change screen is opened for a merge commit.
 Allowed values are `AUTO_MERGE` and `FIRST_PARENT`.
+|`disable_keyboard_shortcuts`     |not set if `false`|
+Whether to disable all keyboard shortcuts.
+|`disable_token_highlighting`     [not set if `false`]
+Whether to disable token highlighting on hover.
 |`publish_comments_on_push`     |not set if `false`|
 Whether to link:user-upload.html#publish-comments[publish draft comments] on
 push by default.
@@ -2668,17 +3055,14 @@ user preferences. Fields which are not set will not be updated.
 |`changes_per_page`             |optional|
 The number of changes to show on each page.
 Allowed values are `10`, `25`, `50`, `100`.
-|`show_site_header`             |optional|
-Whether the site header should be shown.
-|`use_flash_clipboard`          |optional|
-Whether to use the flash clipboard widget.
+|`theme`                        |optional|
+Which theme to use.
+Allowed values are `AUTO` or `DARK` or `LIGHT`.
 |`expand_inline_diffs`          |not set if `false`|
 Whether to expand diffs inline instead of opening as separate page
-(PolyGerrit only).
+(Gerrit web app UI only).
 |`download_scheme`              |optional|
 The type of download URL the user prefers to use.
-|`download_command`             |optional|
-The type of download command the user prefers to use.
 |`date_format`                  |optional|
 The format to display the date in.
 Allowed values are `STD`, `US`, `ISO`, `EURO`, `UK`.
@@ -2694,33 +3078,43 @@ Allowed values are `SIDE_BY_SIDE`, `UNIFIED_DIFF`.
 Whether to show the change sizes as colored bars in the change table.
 |`legacycid_in_change_table`    |optional|
 Whether to show change number in the change table.
-|`review_category_strategy`     |optional|
-The strategy used to displayed info in the review category column.
-Allowed values are `NONE`, `NAME`, `EMAIL`, `USERNAME`, `ABBREV`.
 |`mute_common_path_prefixes`    |optional|
 Whether to mute common path prefixes in file names in the file table.
 |`signed_off_by`                |optional|
 Whether to insert Signed-off-by footer in changes created with the
 inline edit feature.
+|`allow_browser_notifications`  |not set if `false`|
+Whether to prompt user to enable browser notification in browser.
+|`allow_suggest_code_while_commenting`  |not set if `false`|
+Whether to receive suggested code while writing comments. This feature needs
+a plugin implementation.
+|`allow_autocompleting_comments`  |not set if `false`|
+Whether to receive autocompletions while writing comments. This feature needs
+a plugin implementation.
+|`diff_page_sidebar`            |optional|
+String indicating which sidebar should be open on the diff page. Set to "NONE"
+if no sidebars should be open. Plugin-supplied sidebars will be prefixed with
+"plugin-".
 |`my`                           |optional|
 The menu items of the `MY` top menu as a list of
 link:rest-api-config.html#top-menu-item-info[TopMenuItemInfo] entities.
 |`change_table`                           ||
-The columns to display in the change table (PolyGerrit only). The default is
-empty, which will default columns as determined by the frontend.
-|`url_aliases`                  |optional|
-A map of URL path pairs, where the first URL path is an alias for the
-second URL path.
+The columns to display in the change table (Gerrit web app UI only). The
+default is empty, which will default columns as determined by the frontend.
 |`email_strategy`               |optional|
 The type of email strategy to use. On `ENABLED`, the user will receive emails
 from Gerrit. On `CC_ON_OWN_COMMENTS` the user will also receive emails for
-their own comments. On `DISABLED` the user will not receive any email
-notifications from Gerrit.
-Allowed values are `ENABLED`, `CC_ON_OWN_COMMENTS`, `DISABLED`.
+their own comments. On `ATTENTION_SET_ONLY`, on emails about changes, the user
+will receive emails only if they are in the attention set of that change.
+On `DISABLED` the user will not receive any email notifications from Gerrit.
+Allowed values are `ENABLED`, `CC_ON_OWN_COMMENTS`, `ATTENTION_SET_ONLY`,
+`DISABLED`.
 |`default_base_for_merges`      |optional|
 The base which should be pre-selected in the 'Diff Against' drop-down
 list when the change screen is opened for a merge commit.
 Allowed values are `AUTO_MERGE` and `FIRST_PARENT`.
+|`disable_keyboard_shortcuts`     |not set if `false`|
+Whether to disable all keyboard shortcuts.
 |============================================
 
 [[query-limit-info]]
@@ -2751,18 +3145,6 @@ user.
 |`valid`         ||Whether the SSH key is valid.
 |=============================
 
-[[stars-input]]
-=== StarsInput
-The `StarsInput` entity contains star labels that should be added to
-or removed from a change.
-
-[options="header",cols="1,^1,5"]
-|========================
-|Field Name ||Description
-|`add`      |optional|List of labels to add to the change.
-|`remove`   |optional|List of labels to remove from the change.
-|========================
-
 [[username-input]]
 === UsernameInput
 The `UsernameInput` entity contains information for setting the
@@ -2772,6 +3154,17 @@ username for an account.
 |=======================
 |Field Name |Description
 |`username` |The new username of the account.
+|=======================
+
+[[display-name-input]]
+=== DisplayNameInput
+The `DisplayNameInput` entity contains information for setting the
+display name for an account.
+
+[options="header",cols="1,6"]
+|=======================
+|Field Name     |Description
+|`display_name` |The new display name of the account.
 |=======================
 
 [[project-watch-info]]
@@ -2784,6 +3177,7 @@ for a user.
 |Field Name                 |        |Description
 |`project`                  |        |The name of the project.
 |`filter`                   |optional|A filter string to be applied to the project.
+|`problem`                  |optional|An error message when project is for example hidden or deleted.
 |`notify_new_changes`       |optional|Notify on new changes.
 |`notify_new_patch_sets`    |optional|Notify on new patch sets.
 |`notify_all_comments`      |optional|Notify on comments.

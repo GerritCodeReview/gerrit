@@ -67,12 +67,12 @@ by group name.
       "owner_id": "834ec36dd5e0ed21a2ff5d7e2255da082d63bbd7",
       "created_on": "2013-02-01 09:59:32.126000000"
     },
-    "Non-Interactive Users": {
+    "Service Users": {
       "id": "5057f3cbd3519d6ab69364429a89ffdffba50f73",
       "url": "#/admin/groups/uuid-5057f3cbd3519d6ab69364429a89ffdffba50f73",
       "options": {
       },
-      "description": "Users who perform batch actions on Gerrit",
+      "description": "Service accounts that interact with Gerrit",
       "group_id": 4,
       "owner": "Administrators",
       "owner_id": "6a1e70e1a88782771a91808c8af9bbb7a9871389",
@@ -123,6 +123,40 @@ client so they are generally disabled by default. Optional fields are:
 --
 * `MEMBERS`: include list of direct group members.
 --
+
+==== Find groups that are owned by another group
+
+By setting `owned-by` and specifying the link:#group-id[\{group-id\}] of another
+group, it is possible to find all the groups for which the owning group is the
+given group.
+
+.Request
+----
+  GET /groups/?owned-by=7ca042f4d5847936fcb90ca91057673157fd06fc HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "MyProject-Committers": {
+      "id": "9999c971bb4ab872aab759d8c49833ee6b9ff320",
+      "url": "#/admin/groups/uuid-9999c971bb4ab872aab759d8c49833ee6b9ff320",
+      "options": {
+        "visible_to_all": true
+      },
+      "description":"contains all committers for MyProject",
+      "group_id": 551,
+      "owner": "MyProject-Owners",
+      "owner_id": "7ca042f4d5847936fcb90ca91057673157fd06fc",
+      "created_on": "2013-02-01 09:59:32.126000000"
+    }
+  }
+----
 
 ==== Check if a group is owned by the calling user
 By setting the option `owned` and specifying a group to inspect with
@@ -307,24 +341,19 @@ List all groups that match substring `test/`:
 [[query-groups]]
 === Query Groups
 --
-'GET /groups/?query2=<query>'
+'GET /groups/?query=<query>'
 --
 
 Queries internal groups visible to the caller. The
 link:user-search-groups.html#_search_operators[query string] must be
-provided by the `query2` parameter. The `start` and `limit` parameters
+provided by the `query` parameter. The `start` and `limit` parameters
 can be used to skip/limit results.
 
 As result a list of link:#group-info[GroupInfo] entities is returned.
 
-[NOTE] `query2` is a temporary name and in future this option may be
-renamed to `query`. `query2` was chosen to maintain backwards
-compatibility with the deprecated `query` parameter on the
-link:#list-groups[List Groups] endpoint.
-
 .Request
 ----
-  GET /groups/?query2=inname:test HTTP/1.0
+  GET /groups/?query=inname:test HTTP/1.0
 ----
 
 .Response
@@ -364,12 +393,12 @@ a `_more_groups: true` JSON field set.
 
 [[group-query-limit]]
 ==== Group Limit
-The `/groups/?query2=<query>` URL also accepts a limit integer in the
+The `/groups/?query=<query>` URL also accepts a limit integer in the
 `limit` parameter. This limits the results to `limit` groups.
 
 Query the first 25 groups in group list.
 ----
-  GET /groups/?query2=<query>&limit=25 HTTP/1.0
+  GET /groups/?query=<query>&limit=25 HTTP/1.0
 ----
 
 The `/groups/` URL also accepts a start integer in the `start`
@@ -377,7 +406,7 @@ parameter. The results will skip `start` groups from group list.
 
 Query 25 groups starting from index 50.
 ----
-  GET /groups/?query2=<query>&limit=25&start=50 HTTP/1.0
+  GET /groups/?query=<query>&limit=25&start=50 HTTP/1.0
 ----
 
 [[group-query-options]]
@@ -474,8 +503,50 @@ describes the created group.
   }
 ----
 
-If the group creation fails because the name is already in use the
-response is "`409 Conflict`".
+If the group creation fails because the name is already in use, or the
+UUID was specified and the UUID is already in use, the response is
+"`409 Conflict`".
+
+[[delete-group]]
+=== Delete Group
+--
+'DELETE /groups/link:#group-id[\{group-id\}]'
+--
+
+Delete group.
+The group to delete must be internal group.
+
+This endpoint is only allowed for Gerrit's internal groups; attempting to call on a
+non-internal group will return 405 Method Not Allowed.
+
+.Request
+----
+  DELETE /groups/MyProject-Committers HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
+[[delete-internal-group]]
+=== Delete Internal Group
+--
+'POST /groups/link:#group-id[\{group-id\}].delete'
+--
+
+Delete group.
+The deleted group must be internal group.
+
+.Request
+----
+  POST /groups/MyProject-Committers.delete HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
 
 [[get-group-detail]]
 === Get Group Detail
@@ -563,6 +634,9 @@ Renames a Gerrit internal group.
 
 The new group name must be provided in the request body.
 
+This endpoint is only allowed for Gerrit internal groups; attempting to call on a
+non-internal group will return 405 Method Not Allowed.
+
 .Request
 ----
   PUT /groups/MyProject-Committers/name HTTP/1.0
@@ -596,6 +670,9 @@ response is "`409 Conflict`".
 
 Retrieves the description of a group.
 
+This endpoint is only allowed for Gerrit internal groups; attempting to call on a
+non-internal group will return 405 Method Not Allowed.
+
 .Request
 ----
   GET /groups/9999c971bb4ab872aab759d8c49833ee6b9ff320/description HTTP/1.0
@@ -622,6 +699,9 @@ If the group does not have a description an empty string is returned.
 Sets the description of a Gerrit internal group.
 
 The new group description must be provided in the request body.
+
+This endpoint is only allowed for Gerrit internal groups; attempting to call on a
+non-internal group will return 405 Method Not Allowed.
 
 .Request
 ----
@@ -704,6 +784,9 @@ Sets the options of a Gerrit internal group.
 The new group options must be provided in the request body as a
 link:#group-options-input[GroupOptionsInput] entity.
 
+This endpoint is only allowed for Gerrit internal groups; attempting to call on a
+non-internal group will return 405 Method Not Allowed.
+
 .Request
 ----
   PUT /groups/9999c971bb4ab872aab759d8c49833ee6b9ff320/options HTTP/1.0
@@ -736,6 +819,9 @@ link:#group-options-info[GroupOptionsInfo] entity.
 --
 
 Retrieves the owner group of a Gerrit internal group.
+
+This endpoint is only allowed for Gerrit internal groups; attempting to call on a
+non-internal group will return 405 Method Not Allowed.
 
 .Request
 ----
@@ -779,6 +865,9 @@ The new owner group must be provided in the request body.
 The new owner can be specified by name, by group UUID or by the legacy
 numeric group ID.
 
+This endpoint is only allowed for Gerrit internal groups; attempting to call on a
+non-internal group will return 405 Method Not Allowed.
+
 .Request
 ----
   PUT /groups/9999c971bb4ab872aab759d8c49833ee6b9ff320/owner HTTP/1.0
@@ -820,6 +909,9 @@ describes the new owner group.
 --
 
 Gets the audit log of a Gerrit internal group.
+
+This endpoint is only allowed for Gerrit internal groups; attempting to call on a
+non-internal group will return 405 Method Not Allowed.
 
 .Request
 ----
@@ -930,6 +1022,9 @@ Lists the direct members of a Gerrit internal group.
 As result a list of detailed link:rest-api-accounts.html#account-info[
 AccountInfo] entries is returned. The entries in the list are sorted by
 full name, preferred email and id.
+
+This endpoint is only allowed for Gerrit internal groups; attempting to call on a
+non-internal group will return 405 Method Not Allowed.
 
 .Request
 ----
@@ -1043,6 +1138,9 @@ AccountInfo] entity is returned that describes the group member.
 
 Adds a user as member to a Gerrit internal group.
 
+This endpoint is only allowed for Gerrit internal groups; attempting to call on a
+non-internal group will return 405 Method Not Allowed.
+
 .Request
 ----
   PUT /groups/MyProject-Committers/members/John%20Doe HTTP/1.0
@@ -1137,6 +1235,9 @@ already a member of the group.
 
 Removes a user from a Gerrit internal group.
 
+This endpoint is only allowed for Gerrit internal groups; attempting to call on a
+non-internal group will return 405 Method Not Allowed.
+
 .Request
 ----
   DELETE /groups/MyProject-Committers/members/John%20Doe HTTP/1.0
@@ -1189,6 +1290,9 @@ Lists the direct subgroups of a group.
 
 As result a list of link:#group-info[GroupInfo] entries is returned.
 The entries in the list are sorted by group name and UUID.
+
+This endpoint is only allowed for Gerrit internal groups; attempting to call on a
+non-internal group will return 405 Method Not Allowed.
 
 .Request
 ----
@@ -1261,6 +1365,9 @@ describes the subgroup.
 
 Adds an internal or external group as subgroup to a Gerrit internal group.
 External groups must be specified using the UUID.
+
+This endpoint is only allowed for Gerrit internal groups; attempting to call on a
+non-internal group will return 405 Method Not Allowed.
 
 .Request
 ----
@@ -1371,6 +1478,9 @@ group was already a subgroup of the group.
 
 Removes a subgroup from a Gerrit internal group.
 
+This endpoint is only allowed for Gerrit internal groups; attempting to call on a
+non-internal group will return 405 Method Not Allowed.
+
 .Request
 ----
   DELETE /groups/MyProject-Committers/groups/MyGroup HTTP/1.0
@@ -1445,7 +1555,9 @@ The group member that is added/removed. If `type` is `ADD_USER` or
 `REMOVE_USER` the member is returned as detailed
 link:rest-api-accounts.html#account-info[AccountInfo] entity, if `type`
 is `ADD_GROUP` or `REMOVE_GROUP` the member is returned as
-link:#group-info[GroupInfo] entity.
+link:#group-info[GroupInfo] entity. Note that the `name` in
+link:#group-info[GroupInfo] will not be set if the member group is not
+available.
 |`type`    |
 The event type, can be: `ADD_USER`, `REMOVE_USER`, `ADD_GROUP` or
 `REMOVE_GROUP`.
@@ -1521,6 +1633,7 @@ a new internal group.
 |Field Name      ||Description
 |`name`          |optional|The name of the group (not encoded). +
 If set, must match the group name in the URL.
+|`uuid`          |optional|The UUID of the group.
 |`description`   |optional|The description of the group.
 |`visible_to_all`|optional|
 Whether the group is visible to all registered users. +

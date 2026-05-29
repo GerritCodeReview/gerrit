@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # coding=utf-8
 # Copyright (C) 2013 The Android Open Source Project
 #
@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from optparse import OptionParser
+import argparse
 import re
 import sys
 
@@ -87,9 +87,15 @@ SEARCH_BOX = """
   id="searchBox">
   Search
 </button>
+  %s
+</div>
+++++
+"""
+
+BUILTIN_SEARCH = """
 <script type="text/javascript">
 var f = function() {
-  window.location = '../#/Documentation/' +
+  window.location = '../#/Documentation/q/' +
     encodeURIComponent(document.getElementById("docSearch").value);
 }
 document.getElementById("searchBox").onclick = f;
@@ -99,10 +105,24 @@ document.getElementById("docSearch").onkeypress = function(e) {
   }
 }
 </script>
-</div>
-++++
-
 """
+
+GOOGLE_SITE_SEARCH = """
+<script type="text/javascript">
+var f = function() {
+  window.location = 'https://www.google.com/search?q=' +
+     encodeURIComponent(document.getElementById("docSearch").value +
+     ' site:@SITE@');
+}
+document.getElementById("searchBox").onclick = f;
+document.getElementById("docSearch").onkeypress = function(e) {
+  if (13 == (e.keyCode ? e.keyCode : e.which)) {
+    f();
+  }
+}
+</script>
+"""
+
 
 LINK_SCRIPT = """
 
@@ -183,7 +203,8 @@ LINK_SCRIPT = """
           element.insertBefore(a, element.firstChild);
 
           // remove the link icon when the mouse is moved away,
-          // but keep it shown if the mouse is over the element, the link or the icon
+          // but keep it shown if the mouse is over the element, the link or
+          // the icon
           hide = function(evt) {
             if (document.elementFromPoint(evt.clientX, evt.clientY) != element
                 && document.elementFromPoint(evt.clientX, evt.clientY) != a
@@ -218,65 +239,76 @@ LINK_SCRIPT = """
 
 """
 
-opts = OptionParser()
-opts.add_option('-o', '--out', help='output file')
-opts.add_option('-s', '--src', help='source file')
-opts.add_option('-x', '--suffix', help='suffix for included filenames')
-opts.add_option('-b', '--searchbox', action="store_true", default=True,
+parser = argparse.ArgumentParser()
+parser.add_argument('-o', '--out', help='output file')
+parser.add_argument('-s', '--src', help='source file')
+parser.add_argument('-x', '--suffix', help='suffix for included filenames')
+parser.add_argument('-b', '--searchbox', action="store_true", default=True,
                 help="generate the search boxes")
-opts.add_option('--no-searchbox', action="store_false", dest='searchbox',
+parser.add_argument('--no-searchbox', action="store_false", dest='searchbox',
                 help="don't generate the search boxes")
-options, _ = opts.parse_args()
+parser.add_argument('--site-search', action="store", metavar="SITE",
+                help=("generate the search box using google. SITE should " +
+                      "point to the domain/path of the site, eg. " +
+                      "gerrit-review.googlesource.com/Documentation"))
+args = parser.parse_args()
+
+if args.site_search:
+  SEARCH_BOX = (SEARCH_BOX %
+                GOOGLE_SITE_SEARCH.replace("@SITE@", args.site_search))
+else:
+  SEARCH_BOX = SEARCH_BOX % BUILTIN_SEARCH
+
 
 try:
-  try:
-    out_file = open(options.out, 'w', errors='ignore')
-    src_file = open(options.src, 'r', errors='ignore')
-  except TypeError:
-    out_file = open(options.out, 'w')
-    src_file = open(options.src, 'r')
-  last_line = ''
-  ignore_next_line = False
-  last_title = ''
-  for line in src_file:
-    if PAT_GERRIT.match(last_line):
-      # Case of "GERRIT\n------" at the footer
-      out_file.write(GERRIT_UPLINK)
-      last_line = ''
-    elif PAT_SEARCHBOX.match(last_line):
-      # Case of 'SEARCHBOX\n---------'
-      if options.searchbox:
-        out_file.write(SEARCH_BOX)
-      last_line = ''
-    elif PAT_INCLUDE.match(line):
-      # Case of 'include::<filename>'
-      match = PAT_INCLUDE.match(line)
-      out_file.write(last_line)
-      last_line = match.group(1) + options.suffix + match.group(2) + '\n'
-    elif PAT_STARS.match(line):
-      if PAT_TITLE.match(last_line):
-        # Case of the title in '.<title>\n****\nget::<url>\n****'
-        match = PAT_TITLE.match(last_line)
-        last_title = GET_TITLE % match.group(1)
-      else:
-        out_file.write(last_line)
-        last_title = ''
-    elif PAT_GET.match(line):
-      # Case of '****\nget::<url>\n****' in rest api
-      url = PAT_GET.match(line).group(1)
-      out_file.write(GET_MACRO.format(url) % last_title)
-      ignore_next_line = True
-    elif ignore_next_line:
-      # Handle the trailing '****' of the 'get::' case
-      last_line = ''
-      ignore_next_line = False
-    else:
-      out_file.write(last_line)
-      last_line = line
-  out_file.write(last_line)
-  out_file.write(LINK_SCRIPT)
-  out_file.close()
+    try:
+        out_file = open(args.out, 'w', errors='ignore')
+        src_file = open(args.src, 'r', errors='ignore')
+    except TypeError:
+        out_file = open(args.out, 'w')
+        src_file = open(args.src, 'r')
+    last_line = ''
+    ignore_next_line = False
+    last_title = ''
+    for line in src_file:
+        if PAT_GERRIT.match(last_line):
+            # Case of "GERRIT\n------" at the footer
+            out_file.write(GERRIT_UPLINK)
+            last_line = ''
+        elif PAT_SEARCHBOX.match(last_line):
+            # Case of 'SEARCHBOX\n---------'
+            if args.searchbox:
+                out_file.write(SEARCH_BOX)
+            last_line = ''
+        elif PAT_INCLUDE.match(line):
+            # Case of 'include::<filename>'
+            match = PAT_INCLUDE.match(line)
+            out_file.write(last_line)
+            last_line = match.group(1) + args.suffix + match.group(2) + '\n'
+        elif PAT_STARS.match(line):
+            if PAT_TITLE.match(last_line):
+                # Case of the title in '.<title>\n****\nget::<url>\n****'
+                match = PAT_TITLE.match(last_line)
+                last_title = GET_TITLE % match.group(1)
+            else:
+                out_file.write(last_line)
+                last_title = ''
+        elif PAT_GET.match(line):
+            # Case of '****\nget::<url>\n****' in rest api
+            url = PAT_GET.match(line).group(1)
+            out_file.write(GET_MACRO.format(url) % last_title)
+            ignore_next_line = True
+        elif ignore_next_line:
+            # Handle the trailing '****' of the 'get::' case
+            last_line = ''
+            ignore_next_line = False
+        else:
+            out_file.write(last_line)
+            last_line = line
+    out_file.write(last_line)
+    out_file.write(LINK_SCRIPT)
+    out_file.close()
 except IOError as err:
-  sys.stderr.write(
-      "error while expanding %s to %s: %s" % (options.src, options.out, err))
-  exit(1)
+    sys.stderr.write(
+        "error while expanding %s to %s: %s" % (args.src, args.out, err))
+    exit(1)

@@ -1,116 +1,138 @@
-= Gerrit Code Review - Developer Setup
+:linkattrs:
+= Gerrit Code Review: Developer Setup
 
-Google Bazel is needed to compile the code, and an SQL database to
-house the review metadata.  H2 is recommended for development
-databases, as it requires no external server process.
+To build a developer instance, you'll need link:https://bazel.build/[Bazel,role=external,window=_blank] to
+compile the code, preferably launched with link:https://github.com/bazelbuild/bazelisk[Bazelisk,role=external,window=_blank].
 
+== Git Setup
 
-== Getting the Source
+[[clone]]
+=== Getting the Source
 
 Create a new client workspace:
 
 ----
-  git clone --recursive https://gerrit.googlesource.com/gerrit
-  cd gerrit
+  git clone --recurse-submodules https://gerrit.googlesource.com/gerrit
 ----
 
-The `--recursive` option is needed on `git clone` to ensure that
-the core plugins, which are included as git submodules, are also
-cloned.
+The `--recurse-submodules` option is needed on `git clone` to ensure that the
+core plugins, which are included as git submodules, are also cloned.
+
+Next setup the commit-hook. This is necessary to ensure that each commit has a
+`Change-Id`.
+
+----
+  cd gerrit && (
+    cd .git/hooks
+    ln -s ../../resources/com/google/gerrit/server/tools/root/hooks/commit-msg
+  )
+----
+
+=== Switching between branches
+
+When using `git checkout` without `--recurse-submodules` to switch between
+branches, submodule revisions are not altered, which can result in:
+
+*  Incorrect or unneeded plugin revisions.
+*  Missing plugins.
+
+After you switch branches, ensure that you have the correct versions of
+the submodules.
+
+CAUTION: If you store Eclipse or IntelliJ project files in the Gerrit source
+directories, do *_not_* run `git clean -fdx`. Doing so may remove untracked files and damage your project. For more information, see
+link:https://git-scm.com/docs/git-clean[git-clean,role=external,window=_blank].
+
+Run the following:
+
+----
+  git submodule update
+  git clean -ffd
+----
 
 [[compile_project]]
 == Compiling
 
-Please refer to <<dev-bazel#,Building with Bazel>>.
-
-== Switching between branches
-
-When switching between branches with `git checkout`, be aware that
-submodule revisions are not altered.  This may result in the wrong
-plugin revisions being present, unneeded plugins being present, or
-expected plugins being missing.
-
-After switching branches, make sure the submodules are at the correct
-revisions for the new branch with the commands:
-
-----
-  git submodule update
-  git clean -fdx
-----
-
-CAUTION: If you decide to store your Eclipse/IntelliJ project files in the
-Gerrit source directories, executing `git clean -fdx` will remove them and hence
-screw up your project.
+For details, see <<dev-bazel#,Building with Bazel>>.
 
 
-== Configuring Eclipse
+== Testing
 
-To use the Eclipse IDE for development, please see
-link:dev-eclipse.html[Eclipse Setup].
+[[tests]]
+=== Running the acceptance tests
 
-For details on how to configure the Eclipse workspace with Bazel,
-refer to: link:dev-bazel.html#eclipse[Eclipse integration with Bazel].
+Gerrit contains acceptance tests that validate the Gerrit daemon via REST, SSH,
+and the Git protocol.
+
+A new review site is created for each test and the Gerrit daemon is
+then started on that site. When the test is completed, the Gerrit daemon is
+shut down.
+
+For instructions on running the acceptance tests with Bazel,
+see <<dev-bazel#tests,Running Unit Tests with Bazel>>.
+
+[[e2e]]
+=== End-to-end tests
+
+<<dev-e2e-tests#,This document>> describes how `e2e` (load or functional) test
+scenarios are implemented using link:https://gatling.io/[`Gatling`,role=external,window=_blank].
 
 
-== Configuring IntelliJ IDEA
-
-Please refer to <<dev-intellij#,IntelliJ Setup>> for detailed
-instructions.
-
-== Mac OS X
-
-On Mac OS X ensure "Java For Mac OS X 10.5 Update 4" (or later) has
-been installed, and that `JAVA_HOME` is set to the
-link:install.html#Requirements[required Java version].
-
-Java installations can typically be found in
-"/System/Library/Frameworks/JavaVM.framework/Versions".
-
-You can check the installed Java version by running `java -version` in
-the terminal.
+== Local server
 
 [[init]]
-== Site Initialization
+=== Site Initialization
 
-After compiling <<compile_project,(above)>>, run Gerrit's 'init' command to
-create a testing site for development use:
+After you compile the project <<compile_project,(above)>>, run the Gerrit
+`init`
+command to create a test site:
 
 ----
+  export GERRIT_SITE=~/gerrit_testsite
   $(bazel info output_base)/external/local_jdk/bin/java \
-     -jar bazel-bin/gerrit.war init -d ../gerrit_testsite
+      -jar bazel-bin/gerrit.war init --batch --dev -d $GERRIT_SITE
 ----
 
 [[special_bazel_java_version]]
-NOTE: You must use the same Java version that Bazel used for the build.
-This Java version is available at
-`$(bazel info output_base)/external/local_jdk/bin/java`.
+NOTE: You must use the same Java version that Bazel used for the build, which
+is available at `$(bazel info output_base)/external/local_jdk/bin/java`.
 
-During initialization, make two changes to the default settings:
+This command takes two parameters:
 
-* Change the listen addresses from '*' to 'localhost' to prevent outside
-  connections from contacting the development instance; and
-* Change the auth type from 'OPENID' to 'DEVELOPMENT_BECOME_ANY_ACCOUNT' to
-  allow yourself to create and act as arbitrary test accounts on your
-  development instance.
+* `--batch` assigns default values to several Gerrit configuration
+    options. To learn more about these options, see
+    link:config-gerrit.html[Configuration].
+* `--dev` configures the Gerrit server to use the authentication
+  option, `DEVELOPMENT_BECOME_ANY_ACCOUNT`, which enables you to
+  switch between different users to explore how Gerrit works. To learn more
+  about setting up Gerrit for development, see
+  link:dev-readme.html[Gerrit Code Review: Developer Setup].
 
-Continue through init until it completes. The daemon will automatically start in
-the background and a web browser will launch to the start page. From here you
-can sign in as the account created during init, register additional accounts,
-create projects, and more.
+After initializing the test site, Gerrit starts serving in the background. A
+web browser displays the Start page.
 
-When you want to shut down the daemon, simply run:
+On the Start page, you can:
+
+.  Log in as the account you created during the initialization process.
+.  Register additional accounts.
+.  Create projects.
+
+To shut down the daemon, run:
 
 ----
-  ../gerrit_testsite/bin/gerrit.sh stop
+  $GERRIT_SITE/bin/gerrit.sh stop
 ----
 
 
 [[localdev]]
-== Working with the Local Server
+=== Working with the Local Server
 
-If you need to create additional accounts on your development instance, click
-'become' in the upper right corner, select 'Switch User', and then register
-a new account.
+To create more accounts on your development instance:
+
+.  Click 'become' in the upper right corner.
+.  Select 'Switch User'.
+.  Register a new account.
+.  link:user-upload.html#ssh[Configure your SSH key].
 
 Use the `ssh` protocol to clone from and push to the local server. For
 example, to clone a repository that you've created through the admin
@@ -120,167 +142,154 @@ interface, run:
 git clone ssh://username@localhost:29418/projectname
 ----
 
-Then you'll be able to create changes the same way users do, with
+To use the `HTTP` protocol, run:
+
+----
+git clone http://username@localhost:8080/projectname
+----
+
+The default token for user `admin` is `secret`. You can generate tokens
+in the UI under User Settings -- HTTP credentials. The tokens can be
+stored locally to avoid retyping it:
+
+----
+git config --global credential.helper store
+git pull
+----
+
+To create changes as users of Gerrit would, run:
 
 ----
 git push origin HEAD:refs/for/master
 ----
 
-
-
-== Testing
-
-
-[[tests]]
-=== Running the Acceptance Tests
-
-Gerrit has a set of integration tests that test the Gerrit daemon via
-REST, SSH and the git protocol.
-
-A new review site is created for each test and the Gerrit daemon is
-started on that site. When the test has finished the Gerrit daemon is
-shutdown.
-
-For instructions on running the integration tests with Bazel,
-please refer to:  <<dev-bazel#tests,Running Unit Tests with Bazel>>.
-
 [[run_daemon]]
 === Running the Daemon
 
-The daemon can be directly launched from the build area, without
+The daemon can be launched directly from the build area, without
 copying to the test site:
 
 ----
   $(bazel info output_base)/external/local_jdk/bin/java \
-     -jar bazel-bin/gerrit.war daemon -d ../gerrit_testsite \
+     -jar bazel-bin/gerrit.war daemon -d $GERRIT_SITE \
      --console-log
 ----
 
-NOTE: Please refer to <<special_bazel_java_version,this explanation>>
-for details why using `java -jar` isn't sufficient.
+NOTE: To learn why using `java -jar` isn't sufficient, see
+<<special_bazel_java_version,this explanation>>.
 
-If you want to debug the Gerrit server of this test site, you can open a debug
-port (for example port 5005) by inserting
+NOTE: When launching the daemon this way, the settings from the `[container]` section from the
+`$GERRIT_SITE/etc/gerrit.config` are not honored.
+
+To debug the Gerrit server of this test site:
+
+.  Open a debug port (such as port 5005). To do so, insert the following code
+immediately after `-jar` in the previous command. To learn how to attach
+IntelliJ, see <<dev-intellij#remote-debug,Debugging a remote Gerrit server>>.
 
 ----
 -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005
 ----
 
-directly after `-jar` of the previous command. Please refer to
-<<dev-intellij#remote-debug,Debugging a remote Gerrit server>> for instructions
-of how to attach IntelliJ.
+=== Running the Daemon honoring the [container] section settings
+
+To run the Daemon and honor the `[container]` section settings use the `gerrit.sh` script:
+
+----
+  $ cd $GERRIT_SITE
+  $ bin/gerrit.sh run
+----
+
+To run the Daemon in debug mode use the `--debug` option:
+
+----
+  $ bin/gerrit.sh run --debug
+----
+
+The default debug port is `8000`. To specify a different debug port use the `--debug-port` option:
+
+----
+  $ bin/gerrit.sh run --debug --debug-port=5005
+----
+
+The `--debug-address` option also exists and is a synonym for the ``--debug-port` option:
+
+----
+  $ bin/gerrit.sh run --debug --debug-address=5005
+----
+
+Note that, by default, the debugger will only accept connections from the localhost. To enable
+debug connections from other host(s) provide also a host name or wildcard in the `--debug-address`
+value:
+
+----
+  $ bin/gerrit.sh run --debug --debug-address=*:5005
+----
+
+Debugging the Daemon startup requires starting the JVM in suspended debug mode. The JVM will await
+for a debugger to attach before proceeding with the start. Use the `--suspend` option for that
+scenario:
+
+----
+  $ bin/gerrit.sh run --debug --suspend
+----
 
 === Running the Daemon with Gerrit Inspector
 
 link:dev-inspector.html[Gerrit Inspector] is an interactive scriptable
-environment to inspect and modify internal state of the system.
+environment you can use to inspect and modify the internal state of the system.
 
-This environment is available on the system console after
-the system starts. Leaving the Inspector will shutdown the Gerrit
-instance.
+Gerrit Inspector appears on the system console whenever the system starts.
+Leaving the Inspector shuts down the Gerrit instance.
 
-The environment allows interactive work as well as running of
-Python scripts for troubleshooting.
+To troubleshoot, the Inspector enables interactive work as well as running of
+Python scripts.
 
-Gerrit Inspect can be started by adding '-s' option to the
-command used to launch the daemon:
+To start the Inspector, add the '-s' option to the daemon start command:
 
 ----
   $(bazel info output_base)/external/local_jdk/bin/java \
-     -jar bazel-bin/gerrit.war daemon -d ../gerrit_testsite -s
+     -jar bazel-bin/gerrit.war daemon -d $GERRIT_SITE -s
 ----
 
-NOTE: Please refer to <<special_bazel_java_version,this explanation>>
-for details why using `java -jar` isn't sufficient.
+NOTE: To learn why using `java -jar` isn't sufficient, see
+<<special_bazel_java_version,this explanation>>.
 
-Gerrit Inspector examines Java libraries first, then loads
-its initialization scripts and then starts a command line
-prompt on the console:
+Inspector examines Java libraries, loads the initialization scripts, and
+starts a command line prompt on the console:
 
 ----
   Welcome to the Gerrit Inspector
   Enter help() to see the above again, EOF to quit and stop Gerrit
   Jython 2.5.2 (Release_2_5_2:7206, Mar 2 2011, 23:12:06)
-  [OpenJDK 64-Bit Server VM (Sun Microsystems Inc.)] on java1.6.0 running for Gerrit 2.3-rc0-163-g01967ef
+  [OpenJDK 64-Bit Server VM (Sun Microsystems Inc.)] on java1.6.0 running for
+  Gerrit 2.3-rc0-163-g01967ef
   >>>
 ----
 
-With the Inspector enabled Gerrit can be used normally and all
-interfaces (HTTP, SSH etc.) are available.
+When the Inspector is enabled, you can use Gerrit as usual and all
+interfaces (including HTTP and SSH) are available.
 
-Care must be taken not to modify internal state of the system
-when using the Inspector.
-
-=== Querying the Database
-
-The embedded H2 database can be queried and updated from the
-command line.  If the daemon is not currently running:
-
-----
-  $(bazel info output_base)/external/local_jdk/bin/java \
-     -jar bazel-bin/gerrit.war gsql -d ../gerrit_testsite -s
-----
-
-NOTE: Please refer to <<special_bazel_java_version,this explanation>>
-for details why using `java -jar` isn't sufficient.
-
-Or, if it is running and the database is in use, connect over SSH
-using an administrator user account:
-
-----
-  ssh -p 29418 user@localhost gerrit gsql
-----
+CAUTION: When using the Inspector, be careful not to modify the internal state
+of the system.
 
 
-[[debug-javascript]]
-=== Debugging JavaScript
+== Setup for backend developers
 
-When debugging browser specific issues add `?dbg=1` to the URL so the
-resulting JavaScript more closely matches the Java sources.  The debug
-pages use the GWT pretty format, where function and variable names
-match the Java sources.
+=== Configuring Eclipse
 
-----
-  http://localhost:8080/?dbg=1
-----
+To use the Eclipse IDE for development, see
+link:dev-eclipse.html[Eclipse Setup].
 
+To configure the Eclipse workspace with Bazel, see
+link:dev-bazel.html#eclipse[Eclipse integration with Bazel].
 
-== Client-Server RPC
+=== Configuring IntelliJ IDEA
 
-The client-server RPC implementation is gwtjsonrpc, not the stock RPC
-system that comes with GWT.  This buys us automatic XSRF protection.
-It also makes all of the messages readable and writable by any JSON
-implementation, facilitating "mashups" and 3rd party clients.
+See <<dev-intellij#,IntelliJ Setup>> for details.
 
-The programming API is virtually identical, except service interfaces
-extend RemoteJsonService instead of RemoteService.
-
-
-== Why GWT?
-
-We like it.  Plus we can write Java code once and run it both in
-the browser and on the server side.
-
-
-== External Links
-
-Google Web Toolkit:
-
-* http://www.gwtproject.org/download.html[Download]
-
-Apache SSHD:
-
-* http://mina.apache.org/sshd/[SSHD]
-
-H2:
-
-* http://www.h2database.com/[H2]
-* http://www.h2database.com/html/grammar.html[SQL Reference]
-
-PostgreSQL:
-
-* http://www.postgresql.org/download/[Download]
-* http://www.postgresql.org/docs/[Documentation]
+== Setup for frontend developers
+See link:https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/README.md[Frontend Developer Setup].
 
 
 GERRIT

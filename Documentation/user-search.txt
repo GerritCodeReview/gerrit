@@ -1,3 +1,4 @@
+:linkattrs:
 = Gerrit Code Review - Searching Changes
 
 == Default Searches
@@ -7,16 +8,18 @@ menu bar.  The link will prefill the search box with a common search
 query, execute it, and present the results.
 
 [options="header"]
-|=================================================
-|Description          | Default Query
-|All > Open           | status:open '(or is:open)'
-|All > Merged         | status:merged
-|All > Abandoned      | status:abandoned
-|My > Watched Changes | is:watched is:open
-|My > Starred Changes | is:starred
-|My > Draft Comments  | has:draft
-|Open changes in Foo  | status:open project:Foo
-|=================================================
+|=======================================================
+|Description                | Default Query
+|Changes > Open             | status:open '(or is:open)'
+|Changes > Merged           | status:merged
+|Changes > Abandoned        | status:abandoned
+|Your > Watched Changes     | is:watched is:open
+|Your > Starred Changes     | is:starred
+|Your > Draft Comments      | has:draft
+|Your > Edits               | has:edit
+|Your > All Visible Changes | is:visible
+|Open changes in Foo        | status:open project:Foo
+|=======================================================
 
 
 == Basic Change Search
@@ -27,18 +30,29 @@ text and let Gerrit figure out the meaning:
 [options="header"]
 |=============================================================
 |Description                      | Examples
-|Legacy numerical id              | 15183
+|Change Id                        | 15183
 |Full or abbreviated Change-Id    | Ic0ff33
 |Full or abbreviated commit SHA-1 | d81b32ef
 |Email address                    | user@example.com
 |=============================================================
 
-For change searches (i.e. those using a numerical id, Change-Id, or commit
-SHA1), if the search results in a single change that change will be
+For change searches (i.e. those using a change number, Change-Id, or commit
+SHA-1), if the search results in a single change that change will be
 presented instead of a list.
 
 For more predictable results, use explicit search operators as described
 in the following section.
+
+[IMPORTANT]
+--
+The change search API is backed by a secondary index and might sometimes return
+stale results if the re-indexing operation failed for a change update.
+
+Please also note that changes are not re-indexed if the project configuration
+is updated with newly added or modified
+link:config-submit-requirements.html[submit requirements].
+--
+
 
 [[search-operators]]
 == Search Operators
@@ -48,12 +62,16 @@ are added to the same query string, they further restrict the
 returned results. Search can also be performed by typing only a
 text with no operator, which will match against a variety of fields.
 
+Characters in operator values can be escaped by enclosing the value with
+double quotes and escaping characters with a backslash. For example
+`message:"This \"is\" fixing a bug"`.
+
 [[age]]
 age:'AGE'::
 +
 Amount of time that has expired since the change was last updated
 with a review comment or new patch set.  The age must be specified
-to include a unit suffix, for example `age:2d`:
+to include a unit suffix, for example `-age:2d`:
 +
 * s, sec, second, seconds
 * m, min, minute, minutes
@@ -63,10 +81,14 @@ to include a unit suffix, for example `age:2d`:
 * mon, month, months (`1 month` is treated as `30 days`)
 * y, year, years (`1 year` is treated as `365 days`)
 
-[[assignee]]
-assignee:'USER'::
+`age` can be used both forward and backward looking: `age:2d`
+means 'everything older than 2 days' while `-age:2d` means
+'everything with an age of at most 2 days'.
+
+[[attention]]
+attention:'USER'::
 +
-Changes assigned to the given user.
+Changes whose attention set includes the given user.
 
 [[before_until]]
 before:'TIME'/until:'TIME'::
@@ -82,23 +104,37 @@ Changes modified after the given 'TIME', inclusive. Must be in the
 format `2006-01-02[ 15:04:05[.890][ -0700]]`; omitting the time defaults
 to 00:00:00 and omitting the timezone defaults to UTC.
 
+[[mergedbefore]]
+mergedbefore:'TIME'::
++
+Changes merged before the given 'TIME'. The matching behaviour is consistent
+with `before:'TIME'`.
+
+[[mergedafter]]
+mergedafter:'TIME'::
++
+Changes merged after the given 'TIME'. The matching behaviour is consistent
+with `after:'TIME'`.
+
 [[change]]
 change:'ID'::
 +
-Either a legacy numerical 'ID' such as 15183, or a newer style
-Change-Id that was scraped out of the commit message.
+Either a change number such as 15183, or a Change-Id from the Change-Id footer.
 
 [[conflicts]]
 conflicts:'ID'::
 +
 Changes that conflict with change 'ID'. Change 'ID' can be specified
-as a legacy numerical 'ID' such as 15183, or a newer style Change-Id
-that was scraped out of the commit message.
+as a change number such as 15183, or a Change-Id from the Change-Id footer.
 
 [[destination]]
-destination:'NAME'::
+destination:'[name=]NAME[,user=USER|,group=GROUP]'::
 +
-Changes which match the current user's destination named 'NAME'.
+Changes which match the specified USER's or GROUP's destination named 'NAME'.
+If 'USER' is unspecified, the current user is used. The named destinations can
+be publicly accessible by other users.
+The value may be wrapped in double quotes to include spaces. For example,
+`destination:"myreviews,group=My Group"`
 (see link:user-named-destinations.html[Named Destinations]).
 
 [[owner]]
@@ -110,14 +146,29 @@ Changes originally submitted by 'USER'. The special case of
 [[ownerin]]
 ownerin:'GROUP'::
 +
-Changes originally submitted by a user in 'GROUP'. When no other index
-predicate is explicitly added in the query, defaults to only include
-changes in status 'OPEN'.
+Changes originally submitted by a user in 'GROUP'.
+
+[[uploader]]
+uploader:'USER'::
++
+Changes where the latest patch set was uploaded by 'USER'.
+The special case of `uploader:self` will find changes uploaded
+by the caller.
+
+[[uploaderin]]
+uploaderin:'GROUP'::
++
+Changes where the latest patch set was uploaded by a user in
+'GROUP'.
 
 [[query]]
-query:'NAME'::
+query:'[name=]NAME[,user=USER|,group=GROUP]'::
 +
-Changes which match the current user's query named 'NAME'
+Changes which match the specified USER's or GROUP's query named 'NAME'.
+If neither 'USER' nor 'GROUP' is specified, the current user is used.
+The named queries can be publicly accessible by other users.
+The value may be wrapped in double quotes to include spaces. For example,
+`query:"myquery,group=My Group"`
 (see link:user-named-queries.html[Named Queries]).
 
 [[reviewer]]
@@ -136,19 +187,34 @@ will find changes where the caller has been CC'ed.
 [[revertof]]
 revertof:'ID'::
 +
-Changes that revert the change specified by the numeric 'ID'.
+Changes that revert the change specified by the change number.
+
+[[submissionid]]
+submissionid:'ID'::
++
+Changes that have the specified submission 'ID'.
 
 [[reviewerin]]
 reviewerin:'GROUP'::
 +
-Changes that have been, or need to be, reviewed by a user in 'GROUP'. When
-no other index predicate is explicitly added in the query, defaults to only
-include changes in status 'OPEN'.
+Changes that have been, or need to be, reviewed by a user in 'GROUP'.
+
+[[reviewercount]]
+reviewercount:'RELATION''COUNT'::
++
+True if the number of reviewers satisfies the given relation
+for the given number of reviewers.
++
+For example, reviewers:>2 will be true for any change which has at least
+3 reviewers.
++
+Valid relations are >=, >, \<=, <, or no relation, which will match if the
+number of reviewers is exactly equal.
 
 [[commit]]
-commit:'SHA1'::
+commit:'SHA-1'::
 +
-Changes where 'SHA1' is one of the patch sets of the change.
+Changes where 'SHA-1' is one of the patch sets of the change.
 
 [[project]]
 project:'PROJECT', p:'PROJECT'::
@@ -156,18 +222,44 @@ project:'PROJECT', p:'PROJECT'::
 Changes occurring in 'PROJECT'. If 'PROJECT' starts with `^` it
 matches project names by regular expression.  The
 link:http://www.brics.dk/automaton/[dk.brics.automaton
-library] is used for evaluation of such patterns.
+library,role=external,window=_blank] is used for evaluation of such patterns.
 
 [[projects]]
 projects:'PREFIX'::
 +
 Changes occurring in projects starting with 'PREFIX'.
 
+[[parentof]]
+parentof:'ID'::
+Changes which are parent to the change specified by 'ID'. Change 'ID' can be
+specified as a change number such as 15183, or a Change-Id from the 'Change-Id'
+footer of the commit message. This operator will return immediate parents
+and will not return grand parents or higher level ancestors of the given change.
+
 [[parentproject]]
 parentproject:'PROJECT'::
 +
 Changes occurring in 'PROJECT' or in one of the child projects of
 'PROJECT'.
+
+[[repository]]
+repository:'REPOSITORY', repo:'REPOSITORY'::
++
+Changes occurring in 'REPOSITORY'. If 'REPOSITORY' starts with `^` it
+matches repository names by regular expression.  The
+link:http://www.brics.dk/automaton/[dk.brics.automaton
+library,role=external,window=_blank] is used for evaluation of such patterns.
+
+[[repositories]]
+repositories:'PREFIX', repos:'PREFIX'::
++
+Changes occurring in repositories starting with 'PREFIX'.
+
+[[parentrepository]]
+parentrepository:'REPOSITORY', parentrepo:'REPOSITORY'::
++
+Changes occurring in 'REPOSITORY' or in one of the child repositories of
+'REPOSITORY'.
 
 [[branch]]
 branch:'BRANCH'::
@@ -179,7 +271,7 @@ the traditional 'refs/heads/' prefix.
 If 'BRANCH' starts with `^` it matches branch names by regular
 expression patterns.  The
 link:http://www.brics.dk/automaton/[dk.brics.automaton
-library] is used for evaluation of such patterns.
+library,role=external,window=_blank] is used for evaluation of such patterns.
 
 [[intopic]]
 intopic:'TOPIC'::
@@ -189,7 +281,7 @@ Changes whose designated topic contains 'TOPIC', using a full-text search.
 If 'TOPIC' starts with `^` it matches topic names by regular
 expression patterns.  The
 link:http://www.brics.dk/automaton/[dk.brics.automaton
-library] is used for evaluation of such patterns.
+library,role=external,window=_blank] is used for evaluation of such patterns.
 
 [[topic]]
 topic:'TOPIC'::
@@ -198,11 +290,42 @@ Changes whose designated topic matches 'TOPIC' exactly.  This is
 often combined with 'branch:' and 'project:' operators to select
 all related changes in a series.
 
+[[prefixtopic]]
+prefixtopic:'TOPIC'::
++
+Changes whose designated topic start with 'TOPIC'.
+
+[[inhashtag]]
+inhashtag:'HASHTAG'::
++
+Changes where any hashtag contains 'HASHTAG', using a full-text search.
++
+If 'HASHTAG' starts with `^` it matches hashtag names by regular
+expression patterns.  The
+link:http://www.brics.dk/automaton/[dk.brics.automaton
+library,role=external,window=_blank] is used for evaluation of such patterns.
+
 [[hashtag]]
 hashtag:'HASHTAG'::
 +
 Changes whose link:intro-user.html#hashtags[hashtag] matches 'HASHTAG'.
 The match is case-insensitive.
+
+[[prefixhashtag]]
+prefixhashtag:'HASHTAG'::
++
+Changes whose link:intro-user.html#hashtags[hashtag] start with 'HASHTAG'.
+The match is case-insensitive.
+
+[[cherrypickof]]
+cherrypickof:'CHANGE[,PATCHSET]'::
++
+Changes which were created using the 'cherry-pick' functionality and
+whose source change number matches 'CHANGE' and source patchset number
+matches 'PATCHSET'. Note that 'PATCHSET' is optional. For example, a
+`cherrypickof:12345` matches all changes which were cherry-picked from
+change 12345 and `cherrypickof:12345,2` matches all changes which were
+cherry-picked from the 2nd patchset of change 12345.
 
 [[ref]]
 ref:'REF'::
@@ -214,7 +337,7 @@ must start with 'refs/'.
 If 'REF' starts with `^` it matches reference names by regular
 expression patterns.  The
 link:http://www.brics.dk/automaton/[dk.brics.automaton
-library] is used for evaluation of such patterns.
+library,role=external,window=_blank] is used for evaluation of such patterns.
 
 [[tr,bug]]
 tr:'ID', bug:'ID'::
@@ -234,9 +357,27 @@ a review.  See <<labels,labels>> below for more detail on the format
 of the argument.
 
 [[message]]
-message:'MESSAGE'::
+message:'MESSAGE'::, m:'MESSAGE'::, description:'MESSAGE'::, d:'MESSAGE'::
 +
 Changes that match 'MESSAGE' arbitrary string in the commit message body.
+By default full text matching is used, but regular expressions can be
+enabled by starting with `^`.
+The link:http://www.brics.dk/automaton/[dk.brics.automaton library,role=external,window=_blank]
+is used for the evaluation of such patterns. Note, that searching with
+regular expressions is limited to the first 32766 bytes of the
+commit message due to limitations in Lucene.
+
+[[subject]]
+subject:'SUBJECT'::
++
+Changes that have a commit message where the first line (aka the subject)
+matches 'SUBJECT'. The matching is done by full text search over the subject.
+
+[[prefixsubject]]
+prefixsubject:'PREFIX'::
++
+Changes that have a commit message where the first line (aka the subject)
+has the prefix 'PREFIX'.
 
 [[comment]]
 comment:'TEXT'::
@@ -248,9 +389,13 @@ path:'PATH'::
 +
 Matches any change touching file at 'PATH'. By default exact path
 matching is used, but regular expressions can be enabled by starting
-with `^`.  For example, to match all XML files use `file:^.*\.xml$`.
-The link:http://www.brics.dk/automaton/[dk.brics.automaton library]
+with `^`.  For example, to match all XML files use `file:"^.*\.xml$"`.
+The link:http://www.brics.dk/automaton/[dk.brics.automaton library,role=external,window=_blank]
 is used for the evaluation of such patterns.
++
+Note that the Gerrit host may not support regular expression search.
+You will then see an error dialog when using expressions starting with
+`^`.
 +
 The `^` required at the beginning of the regular expression not only
 denotes a regular expression, but it also has the usual meaning of
@@ -258,10 +403,15 @@ anchoring the match to the start of the string.  To match all Java
 files, use `file:^.*\.java`.
 +
 The entire regular expression pattern, including the `^` character,
-should be double quoted when using more complex construction (like
-ones using a bracket expression). For example, to match all XML
+can be double quoted. For example, to match all XML
 files named like 'name1.xml', 'name2.xml', and 'name3.xml' use
 `file:"^name[1-3].xml"`.
++
+Slash ('/') is used path separator.
++
+*More examples:*
+
+* `-path:^path/.*` - changes that do not modify files from `path/`.
 
 [[file]]
 file:'NAME', f:'NAME'::
@@ -275,16 +425,55 @@ named exactly `Foo.java` and does not match `AbstractFoo.java`.
 Regular expression matching can be enabled by starting the string
 with `^`. In this mode `file:` is an alias of `path:` (see above).
 
-[[star]]
-star:'LABEL'::
+[[extension]]
+extension:'EXT', ext:'EXT'::
 +
-Matches any change that was starred by the current user with the label
-'LABEL'.
+Matches any change touching a file with extension 'EXT', case-insensitive. The
+extension is defined as the portion of the filename following the final `.`.
+Files with no `.` in their name have no extension and can be matched by an
+empty string.
+
+[[onlyextensions]]
+onlyextensions:'EXT_LIST', onlyexts:'EXT_LIST'::
 +
-E.g. if changes that are not interesting are marked with an `ignore`
-star, they could be filtered out by '-star:ignore'.
+Matches any change touching only files with extensions that are listed in
+'EXT_LIST' (comma-separated list). The matching is done case-insensitive.
+An extension is defined as the portion of the filename following the final `.`.
+Files with no `.` in their name have no extension and can be matched by an
+empty string.
+
+[[directory]]
+directory:'DIR', dir:'DIR'::
 +
-'star:star' is the same as 'has:star' and 'is:starred'.
+Matches any change where the current patch set touches a file in the directory
+'DIR'. The matching is done case-insensitive. 'DIR' can be a full directory
+name, a directory prefix or any combination of intermediate directory segments.
+E.g. a change that touches a file in the directory 'a/b/c' matches for 'a/b/c',
+'a', 'a/b', 'b', 'b/c' and 'c'.
++
+Slash ('/') is used path separator. Leading and trailing slashes are allowed
+but are not mandatory.
++
+If 'DIR' starts with `^` it matches directories and directory segments by
+regular expression. The link:http://www.brics.dk/automaton/[dk.brics.automaton
+library,role=external,window=_blank] is used for evaluation of such patterns.
+
+[[footer-operator]]
+footer:'FOOTER'::
++
+Matches any change that has 'FOOTER' as footer in the commit message of the
+current patch set. 'FOOTER' can be specified verbatim ('<key>: <value>', must
+be quoted) or as '<key>=<value>'. The matching is done case-insensitive.
+
+Note, the matching doesn't work for the footer keys that contain underscores.
+
+[[hasfooter-operator]]
+hasfooter:'FOOTERNAME'::
++
+Matches any change that has a commit message with a footer where the footer
+name is equal to 'FOOTERNAME'.The matching is done case-sensitive.
+
+Note, the matching doesn't work for the footer keys that contain underscores.
 
 [[has]]
 has:draft::
@@ -294,13 +483,8 @@ True if there is a draft comment saved by the current user.
 [[has-star]]
 has:star::
 +
-Same as 'is:starred' and 'star:star', true if the change has been
-starred by the current user with the default label.
-
-[[has-stars]]
-has:stars::
-+
-True if the change has been starred by the current user with any label.
+Same as 'is:starred', true if the change has been starred by the current user
+with the default label.
 
 has:edit::
 +
@@ -310,20 +494,21 @@ has:unresolved::
 +
 True if the change has unresolved comments.
 
-[[is]]
-is:assigned::
+has:attention::
 +
-True if the change has an assignee.
+True if the change has attention by the current user.
 
+
+[[is]]
 [[is-starred]]
 is:starred::
 +
 Same as 'has:star', true if the change has been starred by the
 current user with the default label.
 
-is:unassigned::
+is:attention::
 +
-True if the change does not have an assignee.
+True if the change has attention by the current user.
 
 is:watched::
 +
@@ -340,6 +525,12 @@ is:owner::
 True on any change where the current user is the change owner.
 Same as `owner:self`.
 
+is:uploader::
++
+True on any change where the current user is the uploader of
+the latest patch set.
+Same as `uploader:self`.
+
 is:reviewer::
 +
 True on any change where the current user is a reviewer.
@@ -350,7 +541,7 @@ is:cc::
 True on any change where the current user is in CC.
 Same as `cc:self`.
 
-is:open, is:pending::
+is:open, is:pending, is:new::
 +
 True if the change is open.
 
@@ -362,6 +553,7 @@ is:merged, is:abandoned::
 +
 Same as <<status,status:'STATE'>>.
 
+[[is-submittable]]
 is:submittable::
 +
 True if the change is submittable according to the submit rules for
@@ -373,8 +565,6 @@ appear for matching changes. To check whether a submit button appears,
 use the
 link:rest-api-changes.html#get-revision-actions[Get Revision Actions]
 API.
-+
-Equivalent to <<submittable,submittable:ok>>.
 
 [[mergeable]]
 is:mergeable::
@@ -384,11 +574,10 @@ destination branch.
 +
 Mergeability of abandoned changes is not computed. This operator will
 not find any abandoned but mergeable changes.
-
-[[ignored]]
-is:ignored::
 +
-True if the change is ignored. Same as `star:ignore`.
+This operator only works if Gerrit indexes 'mergeable'. See
+link:config-gerrit.html#change.mergeabilityComputationBehavior[change.mergeabilityComputationBehavior]
+for details.
 
 [[private]]
 is:private::
@@ -401,8 +590,43 @@ is:wip::
 +
 True if the change is Work In Progress.
 
+[[merge]]
+is:merge::
++
+True if the change is a merge commit.
+
+[[cherrypick]]
+is:cherrypick::
++
+True if the change is a cherrypick of an another change.
+
+This is limited to changes which are cherrypicked using REST API
+or WebUI only. It is not able to identify changes which are
+cherry-picked locally using the git cherry-pick command and then
+pushed to Gerrit.
+
+[[pure-revert]]
+is:pure-revert::
++
+True if the change is a pure revert.
+
+[[consistent]]
+is:consistent::
++
+True if the change returned by the index is aligned with its underlying Git repository
+and therefore is fully consistent. Can be used to exclude changes that cannot be fully read
+and parsed from the Git repository (e.g.: because of incomplete or broken NoteDB data on the
+`/meta` ref) and therefore would otherwise be dropped during result formatting.
+This allows queries to return the maximum number of valid changes even when some indexed
+entries are corrupt.
++
+The introduction of the 'is:consistent' predicate has a measurable performance cost, especially
+on cold caches. In a benchmark with a query returning 500 changes (250 of which were inconsistent),
+the filter roughly tripled the latency on cold caches, while it increased latency by about 20% on
+warm caches.
+
 [[status]]
-status:open, status:pending::
+status:open, status:pending, status:new::
 +
 True if the change state is 'review in progress'.
 
@@ -433,7 +657,7 @@ for the given number of lines.
 For example, added:>50 will be true for any change which adds at least 50
 lines.
 +
-Valid relations are >=, >, <=, <, or no relation, which will match if the
+Valid relations are >=, >, \<=, <, or no relation, which will match if the
 number of lines is exactly equal.
 
 [[commentby]]
@@ -441,7 +665,7 @@ commentby:'USER'::
 +
 Changes containing a top-level or inline comment by 'USER'. The special
 case of `commentby:self` will find changes where the caller has
-commented.
+commented. Note that setting a vote is also considered as a comment.
 
 [[from]]
 from:'USER'::
@@ -456,26 +680,34 @@ Changes where 'USER' has commented on the change more recently than the
 last update (comment or patch set) from the change owner.
 
 [[author]]
-author:'AUTHOR'::
+author:'AUTHOR', a:'AUTHOR'::
 +
 Changes where 'AUTHOR' is the author of the current patch set. 'AUTHOR' may be
-the author's exact email address, or part of the name or email address.
+the author's exact email address, or part of the name or email address. The
+special case of `author:self` will find changes authored by the caller.
 
 [[committer]]
 committer:'COMMITTER'::
 +
 Changes where 'COMMITTER' is the committer of the current patch set.
 'COMMITTER' may be the committer's exact email address, or part of the name or
-email address.
+email address. The special case of `committer:self` will find changes committed
+by the caller.
 
-[[submittable]]
-submittable:'SUBMIT_STATUS'::
+[[rule]]
+rule:'SUBMIT_RULE_NAME'::
 +
-Changes having the given submit record status after applying submit
-rules. Valid statuses are in the `status` field of
-link:rest-api-changes.html#submit-record[SubmitRecord]. This operator
-only applies to the top-level status; individual label statuses can be
-searched link:#labels[by label].
+Changes where 'SUBMIT_RULE_NAME' returns a submit record with status in {OK,
+FORCED}. This means that the submit rule has passed and is not blocking the
+change submission. 'SUBMIT_RULE_NAME' should be in the form of
+'$plugin_name~$rule_name'. For gerrit core rules, 'SUBMIT_RULE_NAME' should
+be in the form of 'gerrit~$rule_name' (example: `gerrit~DefaultSubmitRule`).
+
+rule:'SUBMIT_RULE_NAME'='STATUS'::
++
+Changes where 'SUBMIT_RULE_NAME' returns a submit record with status equals to
+'STATUS'. The status can be any of the statuses that are documented for the
+`status` field of link:rest-api-changes.html#submit-record[SubmitRecord].
 
 [[unresolved]]
 unresolved:'RELATION''NUMBER'::
@@ -485,7 +717,7 @@ True if the number of unresolved comments satisfies the given relation for the g
 For example, unresolved:>0 will be true for any change which has at least one unresolved
 comment while unresolved:0 will be true for any change which has all comments resolved.
 +
-Valid relations are >=, >, <=, <, or no relation, which will match if the number of unresolved
+Valid relations are >=, >, \<=, <, or no relation, which will match if the number of unresolved
 comments is exactly equal.
 
 == Argument Quoting
@@ -511,17 +743,20 @@ Any operator can be negated by prefixing it with `-`, for example
 `-is:starred` is the exact opposite of `is:starred` and will
 therefore return changes that are *not* starred by the current user.
 
-The operator `NOT` (in all caps) is a synonym.
+The operator `NOT` (in all caps) or `not` (all lower case) is a
+synonym.
 
 === AND
-The boolean operator `AND` (in all caps) can be used to join two
-other operators together.  This results in a restriction of the
-results, returning only changes that match both operators.
+The boolean operator `AND` (in all caps) or `and` (all lower case)
+can be used to join two other operators together.  This results in
+a restriction of the results, returning only changes that match both
+operators.
 
 === OR
-The boolean operator `OR` (in all caps) can be used to find changes
-that match either operator.  This increases the number of results
-that are returned, as more changes are considered.
+The boolean operator `OR` (in all caps) or `or` (all lower case)
+can be used to find changes that match either operator. This
+increases the number of results that are returned, as more changes
+are considered.
 
 
 [[labels]]
@@ -535,11 +770,13 @@ A label name is any of the following:
 
 * The label name.  Example: `label:Code-Review`.
 
-* The label name followed by a ',' followed by a reviewer id or a
+* The label name followed by a '&' followed by a reviewer id or a
   group id.  To make it clear whether a user or group is being looked
   for, precede the value by a user or group argument identifier
   ('user=' or 'group=').  If an LDAP group is being referenced make
   sure to use 'ldap/<groupname>'.
+
+* ',' has been deprecated as a separator in favour of '&'.
 
 A label name must be followed by either a score with optional operator,
 or a label status. The easiest way to explain this is by example.
@@ -573,45 +810,96 @@ Instead of a numeric vote, you can provide a label status corresponding
 to one of the fields in the
 link:rest-api-changes.html#submit-record[SubmitRecord] REST API entity.
 
-`label:Non-Author-Code-Review=need`::
+`label:Code-Review\<=-1`::
++
+Matches changes with either a -1, -2, or any lower score.
+
+`label:Code-Review=MAX`::
++
+Matches changes with label voted with the highest possible score.
+
+`label:Code-Review=MIN`::
++
+Matches changes with label voted with the lowest possible score.
+
+`label:Code-Review=ANY`::
++
+Matches changes with label voted with any score.
+
+`label:Code-Review=+1&count=2`::
++
+Matches changes with exactly two +1 votes to the code-review label. The {MAX,
+MIN, ANY} votes can also be used, for example `label:Code-Review=MAX&count=2` is
+equivalent to `label:Code-Review=2&count=2` (if 2 is the maximum positive vote
+for the code review label). The maximum supported value for `count` is 5.
+`count=0` is not allowed and the query request will fail with `400 Bad Request`.
+
+`label:Code-Review=+1&count>=2`::
++
+Matches changes having two or more +1 votes to the code-review label. Can also
+be used with the {MAX, MIN, ANY} label votes. All operators `>`, `>=`, `<`, `<=`
+are supported.
+Note that a query like `label:Code-Review=+1&count<x` will not match with
+changes having zero +1 votes to this label.
+
+`label:Non-Author-Code-Review=need` (deprecated)::
 +
 Matches changes where the submit rules indicate that a label named
 `Non-Author-Code-Review` is needed. (See the
 link:prolog-cookbook.html#NonAuthorCodeReview[Prolog Cookbook] for how
 this label can be configured.)
++
+This operator is also compatible with
+link:config-submit-requirements.html[submit requirement] results. A submit
+requirement name could be used instead of the label name. The submit record
+statuses are mapped to submit requirement result statuses as follows:
++
+  * {`need`, `reject`} -> {`UNSATISFED`}
+  * {`ok`, `may`} -> {`SATISFIED`, `OVERRIDDEN`}
++
+For example, a query like `label:Code-Review=ok` will also match changes
+having a submit requirement with a result that is either `SATISFIED` or
+`OVERRIDDEN`. Users are encouraged not to rely on this operator since submit
+records are deprecated.
 
-`label:Code-Review=+2,aname`::
-`label:Code-Review=ok,aname`::
+`label:Code-Review=+2&aname`::
+`label:Code-Review=ok&aname`::
 +
 Matches changes with a +2 code review where the reviewer or group is aname.
 
-`label:Code-Review=2,user=jsmith`::
+`label:Code-Review=2&user=jsmith`::
 +
 Matches changes with a +2 code review where the reviewer is jsmith.
 
-`label:Code-Review=+2,user=owner`::
-`label:Code-Review=ok,user=owner`::
-`label:Code-Review=+2,owner`::
-`label:Code-Review=ok,owner`::
+`label:Code-Review=+2&user=owner`::
+`label:Code-Review=ok&user=owner`::
+`label:Code-Review=+2&owner`::
+`label:Code-Review=ok&owner`::
 +
 The special "owner" parameter corresponds to the change owner.  Matches
 all changes that have a +2 vote from the change owner.
 
-`label:Code-Review=+1,group=ldap/linux.workflow`::
+[[non_uploader]]
+`label:Code-Review=+2&user=non_uploader`::
+`label:Code-Review=ok&user=non_uploader`::
+`label:Code-Review=+2&non_uploader`::
+`label:Code-Review=ok&non_uploader`::
++
+The special "non_uploader" parameter corresponds to any user who's not the
+uploader of the latest patchset. Matches all changes that have a +2 vote from
+a non upoader.
+
+`label:Code-Review=+1&group=ldap/linux.workflow`::
 +
 Matches changes with a +1 code review where the reviewer is in the
 ldap/linux.workflow group.
-
-`label:Code-Review<=-1`::
-+
-Matches changes with either a -1, -2, or any lower score.
 
 `is:open label:Code-Review+2 label:Verified+1 NOT label:Verified-1 NOT label:Code-Review-2`::
 `is:open label:Code-Review=ok label:Verified=ok`::
 +
 Matches changes that are ready to be submitted according to one common
 label configuration. (For a more general check, use
-link:#submittable[submittable:ok].)
+link:#is-submittable[is:submittable].)
 
 `is:open (label:Verified-1 OR label:Code-Review-2)`::
 `is:open (label:Verified=reject OR label:Code-Review=reject)`::
@@ -643,24 +931,6 @@ is:visible::
 +
 Magical internal flag to prove the current user has access to read
 the change.  This flag is always added to any query.
-
-starredby:'USER'::
-+
-Matches changes that have been starred by 'USER' with the default label.
-The special case `starredby:self` applies to the caller.
-
-watchedby:'USER'::
-+
-Matches changes that 'USER' has configured watch filters for.
-The special case `watchedby:self` applies to the caller.
-
-draftby:'USER'::
-+
-Matches changes that 'USER' has left unpublished draft comments on.
-Since the drafts are unpublished, it is not possible to see the
-draft text, or even how many drafts there are. The special case
-of `draftby:self` will find changes where the caller has created
-a draft comment.
 
 [[limit]]
 limit:'CNT'::

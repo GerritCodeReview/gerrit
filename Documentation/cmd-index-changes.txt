@@ -16,8 +16,7 @@ Changes can be specified in the link:rest-api-changes.html#change-id[same format
 supported by the REST API.
 
 == ACCESS
-Caller must have the 'Maintain Server' capability, or be the owner of the change
-to be indexed.
+Caller must have the 'Maintain Server' capability.
 
 == SCRIPTING
 This command is intended to be used in scripts.
@@ -30,7 +29,7 @@ This command is intended to be used in scripts.
 Index changes with legacy ID numbers 1 and 2.
 
 ----
-    $ ssh -p 29418 user@review.example.com gerrit index changes 1 2
+$ ssh -p 29418 user@review.example.com gerrit index changes 1 2
 ----
 
 GERRIT

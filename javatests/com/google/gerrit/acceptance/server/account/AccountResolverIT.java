@@ -1,0 +1,439 @@
+// Copyright (C) 2019 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package com.google.gerrit.acceptance.server.account;
+
+import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+
+import com.google.common.base.Splitter;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
+import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.config.GerritConfig;
+import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
+import com.google.gerrit.acceptance.testsuite.account.TestAccount;
+import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.extensions.common.AccountVisibility;
+import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.Sequences;
+import com.google.gerrit.server.ServerInitiated;
+import com.google.gerrit.server.account.AccountControl;
+import com.google.gerrit.server.account.AccountResolver;
+import com.google.gerrit.server.account.AccountResolver.Result;
+import com.google.gerrit.server.account.AccountResolver.UnresolvableAccountException;
+import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.account.AccountsUpdate;
+import com.google.gerrit.server.account.externalids.ExternalId;
+import com.google.gerrit.testing.ConfigSuite;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+import java.util.Locale;
+import java.util.Optional;
+import org.eclipse.jgit.lib.Config;
+import org.junit.Test;
+
+public class AccountResolverIT extends AbstractDaemonTest {
+  @ConfigSuite.Default
+  public static Config defaultConfig() {
+    Config cfg = new Config();
+    cfg.setEnum("accounts", null, "visibility", AccountVisibility.SAME_GROUP);
+    return cfg;
+  }
+
+  @Inject @ServerInitiated private Provider<AccountsUpdate> accountsUpdateProvider;
+  @Inject private AccountOperations accountOperations;
+  @Inject private AccountResolver accountResolver;
+  @Inject private AccountControl.Factory accountControlFactory;
+  @Inject private Provider<CurrentUser> self;
+  @Inject private GroupOperations groupOperations;
+  @Inject private RequestScopeOperations requestScopeOperations;
+  @Inject private Sequences sequences;
+
+  @Test
+  public void bySelf() throws Exception {
+    assertThat(resolve("Self")).isEmpty();
+    accountOperations.newAccount().fullname("self").create();
+
+    Result result = resolveAsResult("self");
+    assertThat(result.asIdSet()).containsExactly(admin.id());
+    assertThat(result.isSelf()).isTrue();
+    assertThat(result.asUniqueUser()).isSameInstanceAs(self.get());
+
+    result = resolveAsResult("me");
+    assertThat(result.asIdSet()).containsExactly(admin.id());
+    assertThat(result.isSelf()).isTrue();
+    assertThat(result.asUniqueUser()).isSameInstanceAs(self.get());
+
+    requestScopeOperations.setApiUserAnonymous();
+    checkBySelfFails();
+
+    requestScopeOperations.setApiUserInternal();
+    checkBySelfFails();
+  }
+
+  private void checkBySelfFails() throws Exception {
+    for (String input : ImmutableList.of("self", "me")) {
+      Result result = resolveAsResult(input);
+      assertThat(result.asIdSet()).isEmpty();
+      assertThat(result.isSelf()).isTrue();
+      UnresolvableAccountException thrown =
+          assertThrows(UnresolvableAccountException.class, () -> result.asUnique());
+      assertThat(thrown)
+          .hasMessageThat()
+          .isEqualTo(String.format("Resolving account '%s' requires login", input));
+      assertThat(thrown.isSelf()).isTrue();
+    }
+  }
+
+  @Test
+  public void bySelfInactive() throws Exception {
+    gApi.accounts().id(user.id().get()).setActive(false);
+
+    requestScopeOperations.setApiUser(user.id());
+    assertThat(gApi.accounts().self().getActive()).isFalse();
+
+    Result result = resolveAsResult("self");
+    assertThat(result.asIdSet()).containsExactly(user.id());
+    assertThat(result.isSelf()).isTrue();
+    assertThat(result.asUniqueUser()).isSameInstanceAs(self.get());
+  }
+
+  @Test
+  public void byExactAccountId() throws Exception {
+    Account.Id existingId = accountOperations.newAccount().create();
+    Account.Id idWithExistingIdAsFullname =
+        accountOperations.newAccount().fullname(existingId.toString()).create();
+
+    Account.Id nonexistentId = Account.id(sequences.nextAccountId());
+    accountOperations.newAccount().fullname(nonexistentId.toString()).create();
+
+    assertThat(resolve(existingId)).containsExactly(existingId);
+    assertThat(resolve(nonexistentId)).isEmpty();
+
+    assertThat(resolveByNameOrEmail(existingId)).containsExactly(idWithExistingIdAsFullname);
+  }
+
+  @Test
+  public void byParenthesizedAccountId() throws Exception {
+    Account.Id existingId = accountOperations.newAccount().fullname("Test User").create();
+    accountOperations.newAccount().fullname(existingId.toString()).create();
+
+    Account.Id nonexistentId = Account.id(sequences.nextAccountId());
+    accountOperations.newAccount().fullname("Any Name (" + nonexistentId + ")").create();
+    accountOperations.newAccount().fullname(nonexistentId.toString()).create();
+
+    String existingInput = "Any Name (" + existingId + ")";
+    assertThat(resolve(existingInput)).containsExactly(existingId);
+    assertThat(resolve("Any Name (" + nonexistentId + ")")).isEmpty();
+
+    assertThat(resolveByNameOrEmail(existingInput)).isEmpty();
+  }
+
+  @Test
+  public void byUsername() throws Exception {
+    String existingUsername = "myusername";
+    Account.Id idWithUsername = accountOperations.newAccount().username(existingUsername).create();
+    Account.Id idWithExistingUsernameAsFullname =
+        accountOperations.newAccount().fullname(existingUsername).create();
+
+    String nonexistentUsername = "anotherusername";
+    Account.Id idWithFullname = accountOperations.newAccount().fullname("anotherusername").create();
+
+    assertThat(resolve(existingUsername)).containsExactly(idWithUsername);
+
+    // Doesn't short-circuit just because the input looks like a valid username.
+    assertThat(ExternalId.isValidUsername(nonexistentUsername)).isTrue();
+    assertThat(resolve(nonexistentUsername)).containsExactly(idWithFullname);
+
+    assertThat(resolveByNameOrEmail(existingUsername))
+        .containsExactly(idWithExistingUsernameAsFullname);
+  }
+
+  @Test
+  @GerritConfig(name = "auth.userNameCaseInsensitive", value = "true")
+  public void byUsernameCaseInsensitive() throws Exception {
+    String existingUsername = "myusername";
+    Account.Id idWithUsername = accountOperations.newAccount().username(existingUsername).create();
+
+    String existingMixedCaseUsername = "MyMixedCaseUsername";
+    Account.Id idWithMixedCaseUsername =
+        accountOperations.newAccount().username(existingMixedCaseUsername).create();
+
+    assertThat(resolve(existingUsername)).containsExactly(idWithUsername);
+    assertThat(resolve(existingMixedCaseUsername)).containsExactly(idWithMixedCaseUsername);
+    assertThat(resolve(existingMixedCaseUsername.toLowerCase(Locale.US)))
+        .containsExactly(idWithMixedCaseUsername);
+  }
+
+  @Test
+  public void byNameAndEmail() throws Exception {
+    String email = name("user@example.com");
+    Account.Id idWithEmail = accountOperations.newAccount().preferredEmail(email).create();
+    accountOperations.newAccount().fullname(email).create();
+
+    String input = "First Last <" + email + ">";
+    assertThat(resolve(input)).containsExactly(idWithEmail);
+    assertThat(resolveByNameOrEmail(input)).containsExactly(idWithEmail);
+  }
+
+  @Test
+  public void byUserNameOrFullNameOrEmailExact() throws Exception {
+    String userName = "UserFoo";
+    String fullName = "Name Foo";
+    String email = "emailfoo@something.com";
+    Account.Id id =
+        accountOperations
+            .newAccount()
+            .username(userName)
+            .fullname(fullName)
+            .preferredEmail(email)
+            .create();
+
+    // resolver returns results for exact matches
+    assertThat(resolveByExactNameOrEmail(userName)).containsExactly(id);
+    assertThat(resolveByExactNameOrEmail(fullName)).containsExactly(id);
+    assertThat(resolveByExactNameOrEmail(email)).containsExactly(id);
+
+    // resolver does not match with prefixes
+    assertThat(resolveByExactNameOrEmail("UserF")).isEmpty();
+    assertThat(resolveByExactNameOrEmail("Name F")).isEmpty();
+    assertThat(resolveByExactNameOrEmail("emailf")).isEmpty();
+
+    /* The default name/email resolver accepts prefix matches */
+    assertThat(resolveByNameOrEmail("emai")).containsExactly(id);
+  }
+
+  @Test
+  public void byNameAndEmailPrefersAccountsWithMatchingFullName() throws Exception {
+    String email = name("user@example.com");
+    Account.Id id1 = accountOperations.newAccount().fullname("Aaa Bbb").create();
+    setPreferredEmailBypassingUniquenessCheck(id1, email);
+    Account.Id id2 = accountOperations.newAccount().fullname("Ccc Ddd").create();
+    setPreferredEmailBypassingUniquenessCheck(id2, email);
+
+    String input = "First Last <" + email + ">";
+    assertThat(resolve(input)).containsExactly(id1, id2);
+    assertThat(resolveByNameOrEmail(input)).containsExactly(id1, id2);
+
+    Account.Id id3 = accountOperations.newAccount().fullname("First Last").create();
+    setPreferredEmailBypassingUniquenessCheck(id3, email);
+    assertThat(resolve(input)).containsExactly(id3);
+    assertThat(resolveByNameOrEmail(input)).containsExactly(id3);
+
+    Account.Id id4 = accountOperations.newAccount().fullname("First Last").create();
+    setPreferredEmailBypassingUniquenessCheck(id4, email);
+    assertThat(resolve(input)).containsExactly(id3, id4);
+    assertThat(resolveByNameOrEmail(input)).containsExactly(id3, id4);
+  }
+
+  @Test
+  public void byEmail() throws Exception {
+    String email = name("user@example.com");
+    Account.Id idWithEmail = accountOperations.newAccount().preferredEmail(email).create();
+    accountOperations.newAccount().fullname(email).create();
+
+    assertThat(resolve(email)).containsExactly(idWithEmail);
+    assertThat(resolveByNameOrEmail(email)).containsExactly(idWithEmail);
+  }
+
+  // Can't test for ByRealm because DefaultRealm with the default (OPENID) auth type doesn't support
+  // email expansion, so anything that would return a non-null value from DefaultRealm#lookup would
+  // just be an email address, handled by other tests. This could be avoided if we inject some sort
+  // of custom test realm instance, but the ugliness is not worth it for this small bit of test
+  // coverage.
+
+  @Test
+  public void byFullName() throws Exception {
+    Account.Id id1 = accountOperations.newAccount().fullname("Somebodys Name").create();
+    accountOperations.newAccount().fullname("A totally different name").create();
+    String input = "Somebodys name";
+    assertThat(resolve(input)).containsExactly(id1);
+    assertThat(resolveByNameOrEmail(input)).containsExactly(id1);
+  }
+
+  @Test
+  public void byDefaultSearch() throws Exception {
+    Account.Id id1 = accountOperations.newAccount().fullname("John Doe").create();
+    Account.Id id2 = accountOperations.newAccount().fullname("Jane Doe").create();
+    assertThat(resolve("doe")).containsExactly(id1, id2);
+    assertThat(resolveByNameOrEmail("doe")).containsExactly(id1, id2);
+  }
+
+  @Test
+  public void onlyExactIdReturnsInactiveAccounts() throws Exception {
+    TestAccount account =
+        accountOperations
+            .account(
+                accountOperations
+                    .newAccount()
+                    .fullname("Inactiveuser Name")
+                    .preferredEmail("inactiveuser@example.com")
+                    .username("inactiveusername")
+                    .create())
+            .get();
+    Account.Id id = account.accountId();
+    String nameEmail = account.fullname().get() + " <" + account.preferredEmail().get() + ">";
+    ImmutableList<String> inputs =
+        ImmutableList.of(
+            account.fullname().get() + " (" + account.accountId() + ")",
+            account.fullname().get(),
+            account.preferredEmail().get(),
+            nameEmail,
+            Splitter.on(' ').splitToList(account.fullname().get()).get(0));
+
+    assertThat(resolve(account.accountId())).containsExactly(id);
+    for (String input : inputs) {
+      assertWithMessage("results for %s (active)", input).that(resolve(input)).containsExactly(id);
+    }
+
+    gApi.accounts().id(id.get()).setActive(false);
+    assertThat(resolve(account.accountId())).containsExactly(id);
+    for (String input : inputs) {
+      Result result = accountResolver.resolve(input);
+      assertWithMessage("results for %s (inactive)", input).that(result.asIdSet()).isEmpty();
+      UnresolvableAccountException thrown =
+          assertThrows(UnresolvableAccountException.class, () -> result.asUnique());
+      assertThat(thrown)
+          .hasMessageThat()
+          .isEqualTo(
+              "Account '"
+                  + input
+                  + "' only matches inactive accounts. To use an inactive account, retry"
+                  + " with one of the following exact account IDs:\n"
+                  + id
+                  + ": "
+                  + nameEmail);
+      assertWithMessage("results by name or email for %s (inactive)", input)
+          .that(resolveByNameOrEmail(input))
+          .isEmpty();
+    }
+  }
+
+  @Test
+  public void filterVisibility() throws Exception {
+    Account.Id id1 =
+        accountOperations
+            .newAccount()
+            .fullname("John Doe")
+            .preferredEmail("johndoe@example.com")
+            .create();
+    Account.Id id2 =
+        accountOperations
+            .newAccount()
+            .fullname("Jane Doe")
+            .preferredEmail("janedoe@example.com")
+            .create();
+
+    // Admin can see all accounts. Use a variety of searches, including with/without
+    // callerMayAssumeCandidatesAreVisible.
+    assertThat(resolve(id1)).containsExactly(id1);
+    assertThat(resolve("John Doe")).containsExactly(id1);
+    assertThat(resolve("johndoe@example.com")).containsExactly(id1);
+    assertThat(resolve(id2)).containsExactly(id2);
+    assertThat(resolve("Jane Doe")).containsExactly(id2);
+    assertThat(resolve("janedoe@example.com")).containsExactly(id2);
+    assertThat(resolve("doe")).containsExactly(id1, id2);
+
+    // id2 can't see id1, and vice versa.
+    requestScopeOperations.setApiUser(id1);
+    assertThat(resolve(id1)).containsExactly(id1);
+    assertThat(resolve("John Doe")).containsExactly(id1);
+    assertThat(resolve("johndoe@example.com")).containsExactly(id1);
+    assertThat(resolve(id2)).isEmpty();
+    assertThat(resolve("Jane Doe")).isEmpty();
+    assertThat(resolve("janedoe@example.com")).isEmpty();
+    assertThat(resolve("doe")).containsExactly(id1);
+
+    requestScopeOperations.setApiUser(id2);
+    assertThat(resolve(id1)).isEmpty();
+    assertThat(resolve("John Doe")).isEmpty();
+    assertThat(resolve("johndoe@example.com")).isEmpty();
+    assertThat(resolve(id2)).containsExactly(id2);
+    assertThat(resolve("Jane Doe")).containsExactly(id2);
+    assertThat(resolve("janedoe@example.com")).containsExactly(id2);
+    assertThat(resolve("doe")).containsExactly(id2);
+  }
+
+  @Test
+  @GerritConfig(name = "accounts.visibility", value = "SAME_GROUP")
+  public void resolveAsUser_byFullName_accountThatIsNotVisibleToCurrentUserIsFound()
+      throws Exception {
+    Account.Id currentUser = accountOperations.newAccount().create();
+    Account.Id resolveAsUser = accountOperations.newAccount().create();
+    Account.Id userToBeFound = accountOperations.newAccount().fullname("Somebodys Name").create();
+
+    // Create a group that contains resolveAsUser and userToBeFound, so that resolveAsUser can see
+    // userToBeFound.
+    groupOperations.newGroup().addMember(resolveAsUser).addMember(userToBeFound).create();
+
+    // Verify that resolveAsUser can see userToBeFound.
+    assertThat(canSee(resolveAsUser, userToBeFound)).isTrue();
+
+    // Verify that currentUser cannot see userToBeFound
+    assertThat(canSee(currentUser, userToBeFound)).isFalse();
+
+    // Resolving userToBeFound as resolveAsUser should work even if the currentUser cannot see
+    // userToBeFound.
+    requestScopeOperations.setApiUser(currentUser);
+    String input = accountOperations.account(userToBeFound).get().fullname().get();
+    assertThat(resolveAsUser(resolveAsUser, input)).containsExactly(userToBeFound);
+  }
+
+  private boolean canSee(Account.Id currentUser, Account.Id userToBeSeen) {
+    return accountControlFactory
+        .get(identifiedUserFactory.create(currentUser))
+        .canSee(userToBeSeen);
+  }
+
+  private ImmutableSet<Account.Id> resolve(Object input) throws Exception {
+    return resolveAsResult(input).asIdSet();
+  }
+
+  private Result resolveAsResult(Object input) throws Exception {
+    return accountResolver.resolve(input.toString());
+  }
+
+  private ImmutableSet<Account.Id> resolveAsUser(Account.Id resolveAsUser, Object input)
+      throws Exception {
+    return resolveAsUserAsResult(resolveAsUser, input).asIdSet();
+  }
+
+  private Result resolveAsUserAsResult(Account.Id resolveAsUser, Object input) throws Exception {
+    return accountResolver.resolveAsUser(
+        identifiedUserFactory.create(resolveAsUser), input.toString());
+  }
+
+  @SuppressWarnings("deprecation")
+  private ImmutableSet<Account.Id> resolveByNameOrEmail(Object input) throws Exception {
+    return accountResolver.resolveByNameOrEmail(input.toString()).asIdSet();
+  }
+
+  @SuppressWarnings("deprecation")
+  private ImmutableSet<Account.Id> resolveByExactNameOrEmail(Object input) throws Exception {
+    return accountResolver.resolveByExactNameOrEmail(input.toString()).asIdSet();
+  }
+
+  private void setPreferredEmailBypassingUniquenessCheck(Account.Id id, String email)
+      throws Exception {
+    Optional<AccountState> result =
+        accountsUpdateProvider
+            .get()
+            .update("Force set preferred email", id, u -> u.setPreferredEmail(email));
+    assertThat(result.map(a -> a.account().preferredEmail())).hasValue(email);
+  }
+}

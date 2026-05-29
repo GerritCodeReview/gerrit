@@ -1,0 +1,55 @@
+# This BUILD file is only for publishing the
+# "Gerrit Frontend Plugin TypeScript API" as an npm package.
+#
+# Publishing procedure:
+# - Execute the `publish.sh` script from the Gerrit root dir.
+# - Verify that the contents look good.
+# - Increment the version in package.json.
+# - Execute `publish.sh --upload`.
+#
+# NB: Renaming to 'BUILD' breaks the app/BUILD, because then the api/ sources
+# are not visible anymore to the parent BUILD. And if ts_projects depend on each
+# other, then the api/ files would have to be imported with their full package
+# names.
+load("@aspect_rules_js//npm:defs.bzl", "npm_package")
+load("@aspect_rules_ts//ts:defs.bzl", "ts_config", "ts_project")
+
+filegroup(
+    name = "js_plugin_api_srcs",
+    srcs = glob(["**/*.ts"]),
+)
+
+ts_config(
+    name = "ts_config",
+    src = "tsconfig.publish.json",
+    deps = [
+        ":tsconfig-plugins-base.json",
+    ],
+)
+
+ts_project(
+    name = "js_plugin_api_compiled",
+    srcs = glob(["**/*.ts"]),
+    incremental = True,
+    tsconfig = ":ts_config",
+)
+
+# Use this rule for publishing the js plugin api as a package to the npm repo.
+npm_package(
+    name = "js_plugin_api_npm_package",
+    package = "@gerritcodereview/typescript-api",
+    publishable = True,
+    srcs = glob(
+        ["**/*"],
+        exclude = [
+            "BUILD",
+            "BUILD_for_publishing_api_only",
+            "tsconfig.json",
+            "tsconfig.publish.json",
+            "publish.sh",
+        ],
+    ) + [
+        ":js_plugin_api_compiled",
+        "//plugins:tsconfig-plugins-base.json",
+    ],
+)

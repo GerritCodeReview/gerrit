@@ -3,6 +3,7 @@ Short Version:
  - Make small logical changes.
  - Provide a meaningful commit message.
  - Make sure all code is under the Apache License, 2.0.
+ - Make sure all commit messages have a Change-Id.
  - Publish your changes for review:
 
    git push https://gerrit.googlesource.com/gerrit HEAD:refs/for/master
@@ -48,6 +49,16 @@ changes under the license covering each file *prior* to submitting
 your patch.  It is virtually impossible to remove a patch once it
 has been applied and pushed out.
 
+In order to contribute to Gerrit a Contributor License Agreement (CLA)
+must be completed before contributions are accepted, see
+https://gerrit-review.googlesource.com/Documentation/dev-cla.html.
+
+All submissions to Google Open Source projects need to follow Google’s
+Contributor License Agreement (CLA), in which contributors agree that
+their contribution is an original work of authorship. This doesn’t
+prohibit the use of coding assistance tools, but what’s submitted does
+need to be a contributor’s original creation.
+
 
 (3) Sending your patches.
 
@@ -61,11 +72,18 @@ Ensure you have completed one of the necessary contributor
 agreements, providing documentation to the project maintainers that
 they have right to redistribute your work under the Apache License:
 
-  https://gerrit-review.googlesource.com/#/settings/agreements
+  https://gerrit-review.googlesource.com/settings/#Agreements
 
 Ensure you have obtained a unique HTTP password to identify yourself:
 
-  https://gerrit-review.googlesource.com/#/settings/http-password
+  https://gerrit-review.googlesource.com/settings/#HTTPCredentials
+
+Ensure you have installed the commit-msg hook that automatically
+generates and inserts a Change-Id line during "git commit".  This can
+be done from the root directory of the local Git repository:
+
+   curl -Lo .git/hooks/commit-msg https://gerrit-review.googlesource.com/tools/hooks/commit-msg
+   chmod +x .git/hooks/commit-msg
 
 Push your patches over HTTPS to the review server, possibly through
 a remembered remote to make this easier in the future:

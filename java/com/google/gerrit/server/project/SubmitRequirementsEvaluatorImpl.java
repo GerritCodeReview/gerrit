@@ -1,0 +1,351 @@
+// Copyright (C) 2021 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package com.google.gerrit.server.project;
+
+import static com.google.common.collect.ImmutableMap.toImmutableMap;
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
+
+import com.google.common.annotations.VisibleForTesting;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.flogger.FluentLogger;
+import com.google.common.util.concurrent.MoreExecutors;
+import com.google.gerrit.entities.PredicateResult;
+import com.google.gerrit.entities.SubmitRequirement;
+import com.google.gerrit.entities.SubmitRequirementExpression;
+import com.google.gerrit.entities.SubmitRequirementExpressionResult;
+import com.google.gerrit.entities.SubmitRequirementResult;
+import com.google.gerrit.extensions.config.FactoryModule;
+import com.google.gerrit.index.query.Predicate;
+import com.google.gerrit.index.query.QueryParseException;
+import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.git.WorkQueue;
+import com.google.gerrit.server.logging.Metadata;
+import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.logging.TraceContext.TraceTimer;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.SubmitRequirementChangeQueryBuilder;
+import com.google.gerrit.server.util.ManualRequestContext;
+import com.google.gerrit.server.util.OneOffRequestContext;
+import com.google.inject.Inject;
+import com.google.inject.Module;
+import com.google.inject.Provides;
+import com.google.inject.Scopes;
+import com.google.inject.Singleton;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+import java.util.function.Function;
+import java.util.stream.Stream;
+import org.eclipse.jgit.lib.Config;
+
+/** Evaluates submit requirements for different change data. */
+public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvaluator {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
+  private final SubmitRequirementChangeQueryBuilder.Factory queryBuilderFactory;
+  private final ProjectCache projectCache;
+  private final PluginSetContext<SubmitRequirement> globalSubmitRequirements;
+  private final Config config;
+  private final boolean requireOperatorForUpdate;
+  private final boolean requireOperatorForEvaluation;
+  private final ExecutorService executor;
+  // Use a request context to execute predicates as an internal user with expanded visibility.
+  // This is so that the evaluation does not depend on who is running the current request (e.g.
+  // a "ownerin" predicate with group that is not visible to the person making this request).
+  private final OneOffRequestContext requestContext;
+  private final long executionTimeout;
+
+  public static Module module() {
+    return new FactoryModule() {
+      @Override
+      protected void configure() {
+        bind(SubmitRequirementsEvaluator.class)
+            .to(SubmitRequirementsEvaluatorImpl.class)
+            .in(Scopes.SINGLETON);
+
+        factory(SubmitRequirementChangeQueryBuilder.Factory.class);
+      }
+
+      @Provides
+      @Singleton
+      @SubmitRequirementExecutor
+      ExecutorService provideSubmitRequirementExecutor(
+          WorkQueue workQueue, @GerritServerConfig Config config) {
+        int evaluationThreads = config.getInt("submitRequirement", null, "evaluationThreads", -1);
+
+        if (evaluationThreads < 0) {
+          return MoreExecutors.newDirectExecutorService();
+        }
+
+        if (evaluationThreads == 0) {
+          evaluationThreads = Runtime.getRuntime().availableProcessors();
+        }
+
+        return MoreExecutors.listeningDecorator(
+            workQueue.createQueue(evaluationThreads, "submit-requirement-evaluator"));
+      }
+    };
+  }
+
+  @Inject
+  public SubmitRequirementsEvaluatorImpl(
+      SubmitRequirementChangeQueryBuilder.Factory queryBuilderFactory,
+      ProjectCache projectCache,
+      PluginSetContext<SubmitRequirement> globalSubmitRequirements,
+      @GerritServerConfig Config config,
+      OneOffRequestContext requestContext,
+      @SubmitRequirementExecutor ExecutorService executor) {
+    this.queryBuilderFactory = queryBuilderFactory;
+    this.projectCache = projectCache;
+    this.globalSubmitRequirements = globalSubmitRequirements;
+    this.config = config;
+    this.requestContext = requestContext;
+    this.requireOperatorForUpdate = requireOperatorForUpdate();
+    this.requireOperatorForEvaluation = requireOperatorForEvaluation();
+    this.executor = executor;
+    this.executionTimeout =
+        config.getTimeUnit("submitRequirement", null, "executionTimeout", 0, TimeUnit.MILLISECONDS);
+  }
+
+  @Override
+  public void validateExpression(SubmitRequirementExpression expression)
+      throws QueryParseException {
+    try (ManualRequestContext ignored = requestContext.open()) {
+      @SuppressWarnings("unused")
+      var unused =
+          queryBuilderFactory.create(requireOperatorForUpdate).parse(expression.expressionString());
+    }
+  }
+
+  private boolean requireOperatorForUpdate() {
+    return requiredOperator("requireOperatorForUpdate");
+  }
+
+  private boolean requireOperatorForEvaluation() {
+    return requiredOperator("requireOperatorForEvaluation");
+  }
+
+  private boolean requiredOperator(String configName) {
+    return config.getBoolean("submitRequirement", null, configName, false);
+  }
+
+  @Override
+  public ImmutableMap<SubmitRequirement, SubmitRequirementResult> evaluateAllRequirements(
+      ChangeData cd) {
+    try (ManualRequestContext ignored = requestContext.open()) {
+      return getRequirements(cd);
+    }
+  }
+
+  @Override
+  public SubmitRequirementResult evaluateRequirement(SubmitRequirement sr, ChangeData cd) {
+    try (ManualRequestContext ignored = requestContext.open()) {
+      return evaluateRequirementInternal(sr, cd);
+    }
+  }
+
+  /** Evaluate a {@link SubmitRequirementExpression} using change data. */
+  @VisibleForTesting
+  public SubmitRequirementExpressionResult evaluateExpression(
+      SubmitRequirementExpression expression, ChangeData changeData) {
+    try {
+      Predicate<ChangeData> predicate =
+          queryBuilderFactory
+              .create(requireOperatorForEvaluation)
+              .parse(expression.expressionString());
+      PredicateResult predicateResult = changeData.evaluatePredicateTree(predicate);
+      return SubmitRequirementExpressionResult.create(expression, predicateResult);
+    } catch (QueryParseException | SubmitRequirementEvaluationException e) {
+      logger.atWarning().withCause(e).log(
+          "Failed to evaluate submit requirement expression: %s", expression.expressionString());
+      return SubmitRequirementExpressionResult.error(expression, e.getMessage());
+    }
+  }
+
+  private SubmitRequirementResult evaluateRequirementInternal(SubmitRequirement sr, ChangeData cd) {
+    try (TraceTimer timer =
+        TraceContext.newTimer(
+            "Evaluate submit requirement " + sr.name(),
+            Metadata.builder().changeId(cd.change().getId().get()).build())) {
+      Callable<SubmitRequirementResult> task =
+          () -> {
+            try (ManualRequestContext ctx = requestContext.open()) {
+              Optional<SubmitRequirementExpressionResult> applicabilityResult =
+                  sr.applicabilityExpression().isPresent()
+                      ? Optional.of(evaluateExpression(sr.applicabilityExpression().get(), cd))
+                      : Optional.empty();
+
+              Optional<SubmitRequirementExpressionResult> submittabilityResult =
+                  Optional.of(
+                      SubmitRequirementExpressionResult.notEvaluated(
+                          sr.submittabilityExpression()));
+
+              Optional<SubmitRequirementExpressionResult> overrideResult =
+                  sr.overrideExpression().isPresent()
+                      ? Optional.of(
+                          SubmitRequirementExpressionResult.notEvaluated(
+                              sr.overrideExpression().get()))
+                      : Optional.empty();
+
+              if (!sr.applicabilityExpression().isPresent()
+                  || SubmitRequirementResult.assertPass(applicabilityResult)) {
+                submittabilityResult =
+                    Optional.of(evaluateExpression(sr.submittabilityExpression(), cd));
+                overrideResult =
+                    sr.overrideExpression().isPresent()
+                        ? Optional.of(evaluateExpression(sr.overrideExpression().get(), cd))
+                        : Optional.empty();
+              }
+
+              if (applicabilityResult.isPresent()) {
+                logger.atFine().log(
+                    "Applicability expression result for SR name '%s':"
+                        + " passing atoms: %s, failing atoms: %s",
+                    sr.name(),
+                    applicabilityResult.get().passingAtoms(),
+                    applicabilityResult.get().failingAtoms());
+              }
+              if (submittabilityResult.isPresent()) {
+                logger.atFine().log(
+                    "Submittability expression result for SR name '%s':"
+                        + " passing atoms: %s, failing atoms: %s",
+                    sr.name(),
+                    submittabilityResult.get().passingAtoms(),
+                    submittabilityResult.get().failingAtoms());
+              }
+              if (overrideResult.isPresent()) {
+                logger.atFine().log(
+                    "Override expression result for SR name '%s':"
+                        + " passing atoms: %s, failing atoms: %s",
+                    sr.name(),
+                    overrideResult.get().passingAtoms(),
+                    overrideResult.get().failingAtoms());
+              }
+
+              return SubmitRequirementResult.builder()
+                  .legacy(Optional.of(false))
+                  .submitRequirement(sr)
+                  .patchSetCommitId(cd.currentPatchSet().commitId())
+                  .submittabilityExpressionResult(submittabilityResult)
+                  .applicabilityExpressionResult(applicabilityResult)
+                  .overrideExpressionResult(overrideResult)
+                  .build();
+            }
+          };
+      Future<SubmitRequirementResult> future = executor.submit(task);
+
+      try {
+        return future.get(executionTimeout, TimeUnit.MILLISECONDS);
+      } catch (TimeoutException e) {
+        future.cancel(true);
+        logger.atWarning().log("Submit requirement '%s' evaluation timed out", sr.name());
+
+        return timeoutResult(sr, cd);
+      } catch (ExecutionException | InterruptedException e) {
+        logger.atSevere().log("Error evaluating Submit requirement: %s", sr.name());
+        throw new RuntimeException(e);
+      }
+    }
+  }
+
+  private SubmitRequirementResult timeoutResult(SubmitRequirement sr, ChangeData cd) {
+    SubmitRequirementExpressionResult timeout =
+        SubmitRequirementExpressionResult.create(
+            sr.submittabilityExpression(),
+            SubmitRequirementExpressionResult.Status.TIMEOUT,
+            ImmutableList.of(),
+            ImmutableList.of("Execution timeout exceeded"));
+
+    return SubmitRequirementResult.builder()
+        .legacy(Optional.of(false))
+        .submitRequirement(sr)
+        .patchSetCommitId(cd.currentPatchSet().commitId())
+        .submittabilityExpressionResult(Optional.of(timeout))
+        .applicabilityExpressionResult(
+            sr.applicabilityExpression().map(SubmitRequirementExpressionResult::notEvaluated))
+        .overrideExpressionResult(
+            sr.overrideExpression().map(SubmitRequirementExpressionResult::notEvaluated))
+        .build();
+  }
+
+  /**
+   * Evaluate and return all {@link SubmitRequirement}s.
+   *
+   * <p>This includes all globally bound {@link SubmitRequirement}s, as well as requirements stored
+   * in this project's config and its parents.
+   *
+   * <p>The behaviour in case of the name match is controlled by {@link
+   * SubmitRequirement#allowOverrideInChildProjects} of global {@link SubmitRequirement}.
+   */
+  private ImmutableMap<SubmitRequirement, SubmitRequirementResult> getRequirements(ChangeData cd) {
+    try (TraceTimer timer =
+        TraceContext.newTimer(
+            "Evaluate submit requirements",
+            Metadata.builder().changeId(cd.change().getId().get()).build())) {
+      ImmutableMap<String, SubmitRequirement> globalRequirements;
+      Map<String, SubmitRequirement> projectConfigRequirements;
+      try (TraceTimer timer2 =
+          TraceContext.newTimer(
+              "Read submit requirement definitions",
+              Metadata.builder().changeId(cd.change().getId().get()).build())) {
+        globalRequirements = getGlobalRequirements();
+        ProjectState state = projectCache.get(cd.project()).orElseThrow(illegalState(cd.project()));
+        projectConfigRequirements = state.getSubmitRequirements();
+      }
+
+      ImmutableMap<String, SubmitRequirement> requirements =
+          Stream.concat(
+                  globalRequirements.entrySet().stream(),
+                  projectConfigRequirements.entrySet().stream())
+              .collect(
+                  toImmutableMap(
+                      Map.Entry::getKey,
+                      Map.Entry::getValue,
+                      (globalSubmitRequirement, projectConfigRequirement) ->
+                          // Override with projectConfigRequirement if allowed by
+                          // globalSubmitRequirement configuration
+                          globalSubmitRequirement.allowOverrideInChildProjects()
+                              ? projectConfigRequirement
+                              : globalSubmitRequirement));
+      ImmutableMap.Builder<SubmitRequirement, SubmitRequirementResult> results =
+          ImmutableMap.builder();
+      for (SubmitRequirement requirement : requirements.values()) {
+        results.put(requirement, evaluateRequirementInternal(requirement, cd));
+      }
+      return results.build();
+    }
+  }
+
+  /**
+   * Returns a map of all global {@link SubmitRequirement}s, keyed by their lower-case name.
+   *
+   * <p>The global {@link SubmitRequirement}s apply to all projects and can be bound by plugins.
+   */
+  private ImmutableMap<String, SubmitRequirement> getGlobalRequirements() {
+    return globalSubmitRequirements.stream()
+        .collect(
+            toImmutableMap(
+                globalRequirement -> globalRequirement.name().toLowerCase(Locale.US),
+                Function.identity()));
+  }
+}

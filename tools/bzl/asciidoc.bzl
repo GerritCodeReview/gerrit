@@ -1,7 +1,7 @@
 def documentation_attributes():
     return [
         "toc2",
-        'newline="\\n"',
+        "newline=\"\\n\"",
         'asterisk="&#42;"',
         'plus="&#43;"',
         'caret="&#94;"',
@@ -17,24 +17,8 @@ def documentation_attributes():
         "revnumber=%s",
     ]
 
-def release_notes_attributes():
-    return [
-        "toc",
-        'newline="\\n"',
-        'asterisk="&#42;"',
-        'plus="&#43;"',
-        'caret="&#94;"',
-        'startsb="&#91;"',
-        'endsb="&#93;"',
-        'tilde="&#126;"',
-        "last-update-label!",
-        "stylesheet=DEFAULT",
-        "linkcss=true",
-    ]
-
 def _replace_macros_impl(ctx):
-    cmd = [
-        ctx.file._exe.path,
+    args = [
         "--suffix",
         ctx.attr.suffix,
         "-s",
@@ -43,13 +27,14 @@ def _replace_macros_impl(ctx):
         ctx.outputs.out.path,
     ]
     if ctx.attr.searchbox:
-        cmd.append("--searchbox")
+        args.append("--searchbox")
     else:
-        cmd.append("--no-searchbox")
-    ctx.actions.run_shell(
+        args.append("--no-searchbox")
+    ctx.actions.run(
         inputs = [ctx.file._exe, ctx.file.src],
         outputs = [ctx.outputs.out],
-        command = cmd,
+        executable = ctx.file._exe.path,
+        arguments = args,
         use_default_shell_env = True,
         progress_message = "Replacing macros in %s" % ctx.file.src.short_path,
     )
@@ -136,8 +121,8 @@ _asciidoc_attrs = {
         allow_single_file = True,
     ),
     "_exe": attr.label(
-        default = Label("//lib/asciidoctor:asciidoc"),
-        cfg = "host",
+        default = Label("//java/com/google/gerrit/asciidoctor:asciidoc"),
+        cfg = "exec",
         allow_files = True,
         executable = True,
     ),
@@ -224,8 +209,8 @@ def _asciidoc_html_zip_impl(ctx):
     args.extend(_generate_asciidoc_args(ctx))
     ctx.actions.run(
         inputs = ctx.files.srcs + [ctx.file.version],
-        tools = [ctx.executable._exe],
         outputs = [ctx.outputs.out],
+        tools = [ctx.executable._exe],
         executable = ctx.executable._exe,
         arguments = args,
         progress_message = "Rendering asciidoctor files for %s" % ctx.label.name,
@@ -315,13 +300,14 @@ def genasciidoc_zip(
         backend = None,
         searchbox = True,
         resources = True,
+        webfonts = True,
         **kwargs):
     SUFFIX = "_htmlonly"
 
     _genasciidoc_htmlonly_zip(
         name = name + SUFFIX if resources else name,
         srcs = srcs,
-        attributes = attributes,
+        attributes = attributes + ([] if webfonts else ["webfonts!"]),
         backend = backend,
         searchbox = searchbox,
         **kwargs

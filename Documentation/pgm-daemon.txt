@@ -10,8 +10,12 @@ _java_ -jar gerrit.war _daemon_
   -d <SITE_PATH>
   [--enable-httpd | --disable-httpd]
   [--enable-sshd | --disable-sshd]
+  [--debug]
+  [--debug-port]
+  [--debug_address]
+  [--suspend]
   [--console-log]
-  [--slave]
+  [--replica]
   [--headless]
   [--init]
   [-s]
@@ -19,14 +23,8 @@ _java_ -jar gerrit.war _daemon_
 
 == DESCRIPTION
 Runs the Gerrit network daemon on the local system, configured as
-per the local copy of link:config-gerrit.html[gerrit.config].
-
-The path to gerrit.config is read from the metadata database,
-which requires that all slaves (and master) reading from the same
-database must place gerrit.config at the same location on the local
-filesystem.  However, any option within gerrit.config, including
-link:config-gerrit.html#gerrit.basePath[gerrit.basePath] may be set
-to different values.
+per the local copy of link:config-gerrit.html[gerrit.config] located under
+`<SITE_PATH>/etc`.
 
 == OPTIONS
 
@@ -38,15 +36,26 @@ to different values.
 --enable-httpd::
 --disable-httpd::
 	Enable (or disable) the internal HTTP daemon, answering
-	web requests. Enabled by default when --slave is not used.
+	web requests. Enabled by default when --replica is not used.
 
 --enable-sshd::
 --disable-sshd::
 	Enable (or disable) the internal SSH daemon, answering SSH
 	clients and remotely executed commands.  Enabled by default.
 
---slave::
-	Run in slave mode, permitting only read operations
+--debug::
+	Start JVM in debug mode.
+
+--debug-port::
+--debug_address:
+	Specify which JVM debug port/address to use. The default debug address is 8000.
+
+--suspend::
+	Start JVM debug in suspended mode. The JVM will await for a debugger
+	to attach before proceeding with the start.
+
+--replica::
+	Run in replica mode, permitting only read operations
     by clients.  Commands which modify state such as
     link:cmd-receive-pack.html[receive-pack] (creates new changes
     or updates existing ones) or link:cmd-review.html[review]
@@ -55,8 +64,9 @@ to different values.
 This option automatically implies '--enable-sshd'.
 
 --console-log::
-	Send log messages to the console, instead of to the standard
-	log file '$site_path/logs/error_log'.
+	Send log messages to the console. Log files will still be written to
+	the error log file, if log.textLogging and/or log.jsonLogging is set to
+	'true'.
 
 --headless::
 	Don't start the default Gerrit UI. May be useful when Gerrit is
@@ -66,7 +76,7 @@ This option automatically implies '--enable-sshd'.
 	Run init before starting the daemon. This will create a new site or
 	upgrade an existing site.
 
---s::
+-s::
 	Start link:dev-inspector.html[Gerrit Inspector] on the console, a
 	built-in interactive inspection environment to assist debugging and
 	troubleshooting of Gerrit code.
@@ -86,9 +96,9 @@ is automatically rotated at 12:00 AM GMT each day, allowing an
 external log cleaning service to clean up the prior logs.
 
 == KNOWN ISSUES
-Slave daemon caches can quickly become out of date when modifications
-are made on the master.  The following configuration is suggested in
-a slave to reduce the maxAge for each cache entry, so that changes
+Replica daemon caches can quickly become out of date when modifications
+are made on the primary node.  The following configuration is suggested in
+a replica to reduce the maxAge for each cache entry, so that changes
 are recognized in a reasonable period of time:
 
 ----
@@ -112,7 +122,7 @@ and if LDAP support was enabled, also include:
   maxAge = 5 min
 ----
 
-Automatic cache coherency between master and slave systems is
+Automatic cache coherency between primary and replica systems is
 planned to be implemented in a future version.
 
 GERRIT

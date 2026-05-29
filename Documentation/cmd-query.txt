@@ -1,7 +1,7 @@
 = gerrit query
 
 == NAME
-gerrit query - Query the change database
+gerrit query - Query the change search index
 
 == SYNOPSIS
 [verse]
@@ -17,6 +17,7 @@ _ssh_ -p <port> <host> _gerrit query_
   [--submit-records]
   [--all-reviewers]
   [--start <n> | -S <n>]
+  [--no-limit]
   [--]
   <query>
   [limit:<n>]
@@ -24,7 +25,7 @@ _ssh_ -p <port> <host> _gerrit query_
 
 == DESCRIPTION
 
-Queries the change database and returns results describing changes
+Queries the change search index and returns results describing changes
 that match the input query.  More recently updated changes appear
 before older changes, which is the same order presented in the
 web interface.  For each matching change, the result contains data
@@ -101,6 +102,9 @@ command line parser in the server).
 -S::
 	Number of changes to skip.
 
+--no-limit::
+	Return all results, overriding the default limit.
+
 limit:<n>::
 	Maximum number of results to return.  This is actually a
 	query operator, and not a command line option.	If more
@@ -117,18 +121,18 @@ This command is intended to be used in scripts.
 
 Find the 2 most recent open changes in the tools/gerrit project:
 ----
-  $ ssh -p 29418 review.example.com gerrit query --format=JSON status:open project:tools/gerrit limit:2
-  {"project":"tools/gerrit", ...}
-  {"project":"tools/gerrit", ...}
-  {"type":"stats","rowCount":2,"runningTimeMilliseconds:15}
+$ ssh -p 29418 review.example.com gerrit query --format=JSON status:open project:tools/gerrit limit:2
+{"project":"tools/gerrit", ...}
+{"project":"tools/gerrit", ...}
+{"type":"stats","rowCount":2,"runningTimeMilliseconds:15}
 ----
 
 Skip number of changes:
 ----
-  $ ssh -p 29418 review.example.com gerrit query --format=JSON --start 42 status:open project:tools/gerrit limit:2
-  {"project":"tools/gerrit", ...}
-  {"project":"tools/gerrit", ...}
-  {"type":"stats","rowCount":1,"runningTimeMilliseconds:15}
+$ ssh -p 29418 review.example.com gerrit query --format=JSON --start 42 status:open project:tools/gerrit limit:2
+{"project":"tools/gerrit", ...}
+{"project":"tools/gerrit", ...}
+{"type":"stats","rowCount":1,"runningTimeMilliseconds:15}
 ----
 
 

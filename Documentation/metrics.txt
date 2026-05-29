@@ -12,13 +12,158 @@ The following metrics are reported.
 
 * `build/label`: Version of Gerrit server software.
 * `events`: Triggered events.
+** `type`:
+   The type of the event.
+
+=== Actions
+
+* `action/retry_attempt_count`: Number of retry attempts made
+  by RetryHelper to execute an action (0 == single attempt, no retry)
+** `action_type`:
+   The type of the action that was retried.
+** `operation_name`:
+   The name of the operation that was retried.
+** `cause`:
+   The original cause that triggered the retry.
+* `action/retry_timeout_count`: Number of action executions of RetryHelper
+  that ultimately timed out
+** `action_type`:
+   The type of the action that was retried.
+** `operation_name`:
+   The name of the operation that was retried.
+** `cause`:
+   The original cause that triggered the retry.
+* `action/auto_retry_count`: Number of automatic retries with tracing
+** `action_type`:
+   The type of the action that was retried.
+** `operation_name`:
+   The name of the operation that was retried.
+** `cause`:
+   The cause for the retry.
+* `action/failures_on_auto_retry_count`: Number of failures on auto retry
+** `action_type`:
+   The type of the action that was retried.
+** `operation_name`:
+   The name of the operation that was retried.
+** `cause`:
+   The cause for the retry.
+
+[[cancellations]]
+=== Cancellations
+
+* `cancellation/advisory_deadline_count`: Exceeded advisory deadlines by request
+** `request_type`:
+   The type of the request to which the advisory deadline applied.
+** `request_uri`:
+   The redacted URI of the request to which the advisory deadline applied (only
+   set for request_type = REST).
+** `deadline_id`:
+   The ID of the advisory deadline.
+* `cancellation/cancelled_requests_count`: Number of request cancellations by
+  request
+** `request_type`:
+   The type of the request that was cancelled.
+** `request_uri`:
+   The redacted URI of the request that was cancelled (only set for
+   request_type = REST).
+** `cancellation_reason`:
+   The reason why the request was cancelled.
+* `cancellation/receive_timeout_count`: Number of requests that are cancelled
+  because link:config.html#receive.timeout[receive.timout] is exceeded
+** `cancellation_type`:
+   The cancellation type (graceful or forceful).
+
+[[performance]]
+=== Performance
+
+* `performance/operations`: Latency of performing operations
+  (what's the latency of an operation)
+** `operation_name`:
+   The operation that was performed.
+** `request`:
+   The request for which the operation was performed (format = '<request-type>
+   <redacted-request-uri>').
+** `plugin`:
+   The name of the plugin that performed the operation.
+* `performance/operations_count`: Number of performed operations
+** `operation_name`:
+   The operation that was performed.
+** `request`:
+   The request for which the operation was performed (format = '<request-type>
+   <redacted-request-uri>').
+** `plugin`:
+   The name of the plugin that performed the operation.
+* `performance/operations-per-endpoint`: Per endpoint latency of performing operations
+   (how much latency does calling an operation contribute to the latency of an endpoint)
+** `operation_name`:
+   The operation that was performed.
+** `request`:
+   The request for which the operation was performed (format = '<request-type>
+   <redacted-request-uri>').
+** `plugin`:
+   The name of the plugin that performed the operation.
+
+=== Pushes
+
+* `receivecommits/changes`: histogram of number of changes processed in a single
+   upload
+** `type`:
+   type of push (create/replace, autoclose)
+
+[[push-latency]]
+* `receivecommits/latency_per_push`: processing delay for a processing single
+  push
+** `type`:
+   type of push (create/replace, autoclose, normal)
+** `user_kind`:
+   User kind (SERVICE_USER: member of the Gerrit internal 'Service Users' group,
+   HUMAN_USER: any user that was not classified as a service user).
+
+[[per-change-push-latency]]
+* `receivecommits/latency_per_push_per_change`: Processing delay per push
+  divided by the number of changes in said push. (Only includes pushes which
+  contain changes.)
+** `type`:
+   type of push (create/replace, autoclose, normal)
+** `user_kind`:
+   User kind (SERVICE_USER: member of the Gerrit internal 'Service Users' group,
+   HUMAN_USER: any user that was not classified as a service user).
+
+* `receivecommits/latency_for_scheduling`: Delay for scheduling ReceiveCommits
+  (how long it takes from ReceiveCommits being submitted to the executor to the
+  executor running it).
+* `receivecommits/timeout`: rate of push timeouts
+* `receivecommits/ps_revision_missing`: errors due to patch set revision missing
+* `receivecommits/push_count`: number of pushes
+** `kind`:
+   The push kind (magic, direct or direct_submit).
+** `project`:
+   The name of the project for which the push is done.
+** `type`:
+   The type of the update (CREATE, UPDATE, CREATE/UPDATE, UPDATE_NONFASTFORWARD,
+   DELETE).
+
+[[push-reject-count]]
+* `receivecommits/reject_count`: number of rejected pushes
+** `kind`:
+   The push kind ('magic push'/'magic push by service user' if it was a push for
+   code review, 'direct push'/'direct push by service user' if it was a direct
+   push, 'magic push by service, 'magic or direct push'/'magic or direct push by
+   service user' if the push kind couldn't be detected).
+** `reason`:
+   The rejection reason.
+** `status`:
+   The HTTP status code.
 
 === Process
 
 * `proc/birth_timestamp`: Time at which the Gerrit process started.
 * `proc/uptime`: Uptime of the Gerrit process.
+* `proc/cpu/num_cores`: Number of processors available to the Java virtual machine.
 * `proc/cpu/usage`: CPU time used by the Gerrit process.
+* `proc/cpu/system_load`: System load average for the last minute.
 * `proc/num_open_fds`: Number of open file descriptors.
+* `proc/jvm/memory/allocated`: Total memory allocated by all threads since Gerrit process started.
 * `proc/jvm/memory/heap_committed`: Amount of memory guaranteed for user objects.
 * `proc/jvm/memory/heap_used`: Amount of memory holding user objects.
 * `proc/jvm/memory/non_heap_committed`: Amount of memory guaranteed for classes,
@@ -27,31 +172,207 @@ etc.
 * `proc/jvm/memory/object_pending_finalization_count`: Approximate number of
 objects needing finalization.
 * `proc/jvm/gc/count`: Number of GCs.
+** `gc_name`:
+   The name of the garbage collector.
 * `proc/jvm/gc/time`: Approximate accumulated GC elapsed time.
+** `gc_name`:
+   The name of the garbage collector.
+* `proc/jvm/memory/pool/committed`: Committed amount of memory for pool.
+** `pool_name`:
+   The name of the memory pool.
+* `proc/jvm/memory/pool/max`: Maximum amount of memory for pool.
+** `pool_name`:
+   The name of the memory pool.
+* `proc/jvm/memory/pool/used`: Used amount of memory for pool.
+** `pool_name`:
+   The name of the memory pool.
 * `proc/jvm/thread/num_live`: Current live thread count.
+* `proc/jvm/thread/num_daemon_live`: Current live daemon threads count.
+* `proc/jvm/thread/num_peak_live`: Peak live thread count since the Java virtual
+  machine started or peak was reset.
+* `proc/jvm/thread/num_total_started`: Total number of threads created and also
+  started since the Java virtual machine started.
+* `proc/jvm/thread/num_deadlocked_threads`: Number of threads that are
+  deadlocked waiting for object monitors or ownable synchronizers.
+  If deadlocks waiting for ownable synchronizers can be monitored depends on the
+  capabilities of the used JVM.
 
 === Caches
 
 * `caches/memory_cached`: Memory entries.
+** `cache_name`:
+   The name of the cache.
 * `caches/memory_hit_ratio`: Memory hit ratio.
+** `cache_name`:
+   The name of the cache.
 * `caches/memory_eviction_count`: Memory eviction count.
+** `cache_name`:
+   The name of the cache.
 * `caches/disk_cached`: Disk entries used by persistent cache.
+** `cache_name`:
+   The name of the cache.
 * `caches/disk_hit_ratio`: Disk hit ratio for persistent cache.
+** `cache_name`:
+   The name of the cache.
+* `caches/refresh_count`: The number of refreshes per cache with an indicator if
+  a reload was necessary.
+** `cache`:
+   The name of the cache.
+** `outdated`:
+   Whether the cache entry was outdated on reload.
+* `caches/diff/timeouts`: The number of git file diff computations that resulted
+  in timeouts.
+* `caches/diff/legacy/timeouts`: The number of git file diff computations (using
+  the legacy cache) that resulted in timeouts.
+
+Cache disk metrics are expensive to compute on larger installations and are not
+computed by default. They can be enabled via the
+link:config.gerrit.html#cache.enableDiskStatMetrics[`cache.enableDiskStatMetrics`]
+setting.
+
+=== Change
+
+* `change/count_rebases`: Total number of rebases
+** `on_behalf_of_uploader`:
+   Whether the rebase was done on behalf of the uploader.
+   If the uploader does a rebase with '`on_behalf_of_uploader = true`', the flag
+   is ignored and a normal rebase is done, hence such rebases are recorded as
+   '`on_behalf_of_uploader` = false`'.
+** `rebase_chain`:
+   Whether a chain was rebased.
+** `allow_conflicts`:
+   Whether the rebase was done with allowing conflicts.
+* `change/submitted_with_rebaser_approval`: Number of rebased changes that were
+  submitted with a Code-Review approval of the rebaser that would not have been
+  submittable if the rebase was not done on behalf of the uploader.
+* `change/submit_rule_evaluation`: Latency for evaluating submit rules on a
+  change.
+* `change/submit_type_evaluation`: Latency for evaluating the submit type on a
+  change.
+* `change/post_review/draft_handling`: Total number of draft handling option
+  (KEEP, PUBLISH, PUBLISH_ALL_REVISIONS) selected by users while posting a
+  review.
+** `type`:
+  The type of the draft handling option (KEEP, PUBLISH, PUBLISH_ALL_REVISIONS).
+
+=== Comments
+
+* `ported_comments/as_patchset_level`: Total number of comments ported as
+  patchset-level comments.
+* `ported_comments/as_file_level`: Total number of comments ported as file-level
+  comments.
+* `ported_comments/as_range_comments`: Total number of comments having
+  line/range values in the ported patchset.
 
 === HTTP
 
+==== Jetty
+
+* `http/server/jetty/connections/connections`: The current number of open
+  connections
+* `http/server/jetty/connections/connections_total`: The total number of
+  connections opened
+* `http/server/jetty/connections/connections_duration_max`: The max duration of
+  a connection in ms
+* `http/server/jetty/connections/connections_duration_mean`: The mean duration
+  of a connection in ms
+* `http/server/jetty/connections/connections_duration_stdev`: The standard
+  deviation of the duration of a connection in ms
+* `http/server/jetty/connections/received_messages`: The total number of
+  messages received
+* `http/server/jetty/connections/sent_messages`: The total number of messages
+  sent
+* `http/server/jetty/connections/received_bytes`: Total number of bytes received
+  by tracked connections
+* `http/server/jetty/connections/sent_bytes`: Total number of bytes sent by
+  tracked connections
+* `http/server/jetty/threadpool/active_threads`: Active threads
+* `http/server/jetty/threadpool/idle_threads`: Idle threads
+* `http/server/jetty/threadpool/reserved_threads`: Reserved threads
+* `http/server/jetty/threadpool/max_pool_size`: Maximum thread pool size
+* `http/server/jetty/threadpool/min_pool_size`: Minimum thread pool size
+* `http/server/jetty/threadpool/pool_size`: Current thread pool size
+* `http/server/jetty/threadpool/queue_size`: Queued requests waiting for a
+  thread
+* `http/server/jetty/threadpool/is_low_on_threads`: Whether thread pool is low
+  on threads
+
+==== LDAP
+
+* `ldap/login_latency`: Latency of logins.
+* `ldap/user_search_latency`: Latency for searching the user account.
+* `ldap/group_search_latency`: Latency for querying the group memberships of an
+  account.
+* `ldap/group_expansion_latency`: Latency for expanding nested groups.
+
+==== REST API
+
 * `http/server/error_count`: Rate of REST API error responses.
+** `status`:
+   HTTP status code
 * `http/server/success_count`: Rate of REST API success responses.
+** `status`:
+   HTTP status code
 * `http/server/rest_api/count`: Rate of REST API calls by view.
+** `view`:
+   view implementation class
+* `http/server/rest_api/change_id_type`: Rate of REST API calls by change ID type.
+** `change_id_type`:
+   The type of the change identifier.
 * `http/server/rest_api/error_count`: Rate of REST API calls by view.
+** `view`:
+   view implementation class
+** `error_code`:
+   HTTP status code
+** `cause`:
+   The cause of the error.
+
+[[rest-api-latency]]
 * `http/server/rest_api/server_latency`: REST API call latency by view.
+** `view`:
+   view implementation class
+** `access_path`:
+   The access path through which the user accessed Gerrit (REST_API, WEB_BROWSER
+   or UNKNOWN).
+** `user_kind`:
+   User kind (SERVICE_USER: member of the Gerrit internal 'Service Users' group,
+   HUMAN_USER: any user that was not classified as a service user and anonymous
+   users).
+
 * `http/server/rest_api/response_bytes`: Size of REST API response on network
-(may be gzip compressed) by view.
+  (may be gzip compressed) by view.
+** `view`:
+   view implementation class
+* `http/server/rest_api/change_json/to_change_info_latency`: Latency for
+  toChangeInfo invocations in ChangeJson.
+* `http/server/rest_api/change_json/to_change_info_latency/parent_data_computation`:
+   Latency for computing parent data information in toRevisionInfo invocations
+   in RevisionJson. See link:rest-api-changes.html#parent-info[ParentInfo].
+* `http/server/rest_api/change_json/to_change_infos_latency`: Latency for
+  toChangeInfos invocations in ChangeJson.
+* `http/server/rest_api/change_json/format_query_results_latency`: Latency for
+  formatQueryResults invocations in ChangeJson.
+* `http/server/rest_api/ui_actions/latency`: Latency for RestView#getDescription
+  calls.
+** `view`:
+   view implementation class
+
+=== SSH
+
+* `ssh/success_count`: Rate of successful SSH requests
+** `command_name`:
+   Name of the SSH command
+* `ssh/error_count`: Rate of SSH error responses
+** `command_name`:
+   Name of the SSH command
+** `exception`:
+   Name of the exception which has caused the request to fail.
 
 === Query
 
 * `query/query_latency`: Successful query latency, accumulated over the life
-of the process.
+  of the process.
+** `index`: index name
 
 === Core Queues
 
@@ -69,12 +390,17 @@ The following queues support metrics:
 
 Each queue provides the following metrics:
 
-* `queue/<queue_name>/pool_size`: Current number of threads in the pool
-* `queue/<queue_name>/max_pool_size`: Maximum allowed number of threads in the pool
-* `queue/<queue_name>/active_threads`: Number of threads that are actively executing tasks
-* `queue/<queue_name>/scheduled_tasks`: Number of scheduled tasks in the queue
-* `queue/<queue_name>/total_scheduled_tasks_count`: Total number of tasks that have been scheduled
-* `queue/<queue_name>/total_completed_tasks_count`: Total number of tasks that have completed execution
+* `queue/<queue_name>/pool_size`: Current number of non parked threads in the pool
+* `queue/<queue_name>/max_pool_size`: Maximum allowed number of non parked threads in the
+  pool
+* `queue/<queue_name>/parked_threads`: Current number of threads that are parked
+* `queue/<queue_name>/active_threads`: Current number of threads that are actively
+  executing tasks
+* `queue/<queue_name>/scheduled_tasks`: Current number of scheduled tasks in the queue
+* `queue/<queue_name>/total_scheduled_tasks_count`: Total number of tasks that
+  have been scheduled
+* `queue/<queue_name>/total_completed_tasks_count`: Total number of tasks that
+  have completed execution
 
 === SSH sessions
 
@@ -82,78 +408,191 @@ Each queue provides the following metrics:
 * `sshd/sessions/created`: Rate of new SSH sessions.
 * `sshd/sessions/authentication_failures`: Rate of SSH authentication failures.
 
-=== SQL connections
-
-* `sql/connection_pool/connections`: SQL database connections.
-
 === Topics
 
 * `topic/cross_project_submit`: number of cross-project topic submissions.
 * `topic/cross_project_submit_completed`: number of cross-project
-topic submissions that concluded successfully.
+  topic submissions that concluded successfully.
 
 === JGit
 
-* `jgit/block_cache/cache_used`: Bytes of memory retained in JGit block cache.
-* `jgit/block_cache/open_files`: File handles held open by JGit block cache.
+* `jgit/block_cache/cache_used` : Bytes of memory retained in JGit block cache.
+* `jgit/block_cache/open_files` : File handles held open by JGit block cache.
+* `avg_load_time` : Average time to load a cache entry for JGit block cache.
+* `total_load_time` : Total time to load cache entries for JGit block cache.
+* `eviction_count` : Cache evictions for JGit block cache.
+* `eviction_ratio` : Cache eviction ratio for JGit block cache.
+* `hit_count` : Cache hits for JGit block cache.
+* `hit_ratio` : Cache hit ratio for JGit block cache.
+* `load_failure_count` : Failed cache loads for JGit block cache.
+* `load_failure_ratio` : Failed cache load ratio for JGit block cache.
+* `load_success_count` : Successful cache loads for JGit block cache.
+* `miss_count` : Cache misses for JGit block cache.
+* `miss_ratio` : Cache miss ratio for JGit block cache.
+* `cache_used_per_repository` : Bytes of memory retained per repository for the
+  top N repositories having most data in the cache. The number N of reported
+  repositories is limited to 1000.
+** `repository_name`: The name of the repository. Note that it is a subject of
+   sanitization in order to avoid collision between repository names. Rules
+   are:
+*** any character outside `[a-zA-Z0-9_-]+([a-zA-Z0-9_-]+)*` pattern is replaced
+    with `\_0x[HEX CODE]_` (code is capitalized) string
+*** for instance `repo/name` is sanitized to `repo_0x2F_name`
+*** if repository name contains the replacement prefix (`_0x`) it is prefixed
+    with another `_0x` e.g. `repo_0x2F_name` becomes `repo_0x_0x2F_name`
 
 === Git
 
 * `git/upload-pack/request_count`: Total number of git-upload-pack requests.
+** `operation`:
+   The name of the operation (CLONE, FETCH).
+* `git/upload-pack/bitmap_index_misses_count`: Number of bitmap index misses per request.
+** `operation`:
+   The name of the operation (CLONE, FETCH).
+* `git/upload-pack/no_bitmap_index`: Total number of requests executed without a bitmap index.
+** `operation`:
+   The name of the operation (CLONE, FETCH).
 * `git/upload-pack/phase_counting`: Time spent in the 'Counting...' phase.
+** `operation`:
+   The name of the operation (CLONE, FETCH).
 * `git/upload-pack/phase_compressing`: Time spent in the 'Compressing...' phase.
+** `operation`:
+   The name of the operation (CLONE, FETCH).
+* `git/upload-pack/phase_negotiating`: Time spent in the negotiation phase.
+** `operation`:
+   The name of the operation (CLONE, FETCH).
+* `git/upload-pack/phase_searching_for_reuse`: Time spent in the 'Finding sources...' while searching for reuse phase.
+** `operation`:
+   The name of the operation (CLONE, FETCH).
+* `git/upload-pack/phase_searching_for_sizes`: Time spent in the 'Finding sources...' while searching for sizes phase.
+** `operation`:
+   The name of the operation (CLONE, FETCH).
 * `git/upload-pack/phase_writing`: Time spent transferring bytes to client.
+** `operation`:
+   The name of the operation (CLONE, FETCH).
 * `git/upload-pack/pack_bytes`: Distribution of sizes of packs sent to clients.
-
-=== BatchUpdate
-
-* `batch_update/execute_change_ops`: BatchUpdate change update latency,
-excluding reindexing
-* `batch_update/retry_attempt_counts`: Distribution of number of attempts made
-by RetryHelper (1 == single attempt, no retry)
-* `batch_update/retry_timeout_count`: Number of executions of RetryHelper that
-ultimately timed out
+** `operation`:
+   The name of the operation (CLONE, FETCH).
+* `git/auto-merge/num_operations`: Number of auto merge operations and context.
+** `operation`:
+   The type of the operation (CACHE_LOAD, IN_MEMORY_WRITE, ON_DISK_WRITE).
+* `git/auto-merge/latency`: Latency of auto merge operations and context.
+** `operation`:
+   The type of the operation (CACHE_LOAD, IN_MEMORY_WRITE, ON_DISK_WRITE).
 
 === NoteDb
 
-* `notedb/update_latency`: NoteDb update latency by table.
-* `notedb/stage_update_latency`: Latency for staging updates to NoteDb by table.
-* `notedb/read_latency`: NoteDb read latency by table.
-* `notedb/parse_latency`: NoteDb parse latency by table.
-* `notedb/auto_rebuild_latency`: NoteDb auto-rebuilding latency by table.
-* `notedb/auto_rebuild_failure_count`: NoteDb auto-rebuilding attempts that
-failed by table.
+* `notedb/update_latency`: NoteDb update latency for changes.
+* `notedb/stage_update_latency`: Latency for staging change updates to NoteDb.
+* `notedb/read_latency`: NoteDb read latency for changes.
+* `notedb/parse_latency`: NoteDb parse latency for changes.
+* `notedb/external_id_cache_load_count`: Total number of times the external ID
+  cache loader was called.
+** `partial`:
+   Whether the reload was partial.
+* `notedb/external_id_partial_read_latency`: Latency for generating a new
+  external ID cache state from a prior state.
 * `notedb/external_id_update_count`: Total number of external ID updates.
 * `notedb/read_all_external_ids_latency`: Latency for reading all
-external ID's from NoteDb.
+  external ID's from NoteDb.
+* `notedb/read_single_account_config_latency`: Latency for reading a single
+  account config from NoteDb.
+* `notedb/read_single_external_id_latency`: Latency for reading a single
+  external ID from NoteDb.
+
+=== Permissions
+
+* `permissions/permission_collection/filter_latency`: Latency for access filter
+  computations in PermissionCollection
+* `permissions/ref_filter/full_filter_count`: Rate of full ref filter operations
+* `permissions/ref_filter/skip_filter_count`: Rate of ref filter operations
+  where we skip full evaluation because the user can read all refs
+
+=== Validation
+
+* `validation/file_count`: Track number of files per change during commit
+  validation, if it exceeds the FILE_COUNT_WARNING_THRESHOLD threshold.
+** `file_count`: number of files in the patchset
+** `host_repo`: host and repository of the change in the format 'host/repo'
 
 === Reviewer Suggestion
 
 * `reviewer_suggestion/query_accounts`: Latency for querying accounts for
-reviewer suggestion.
+  reviewer suggestion.
 * `reviewer_suggestion/recommend_accounts`: Latency for recommending accounts
-for reviewer suggestion.
+  for reviewer suggestion.
 * `reviewer_suggestion/load_accounts`: Latency for loading accounts for
-reviewer suggestion.
+  reviewer suggestion.
 * `reviewer_suggestion/query_groups`: Latency for querying groups for reviewer
-suggestion.
+  suggestion.
+* `reviewer_suggestion/filter_visibility`: Latency for removing users that can't
+  see the change
 
 === Repo Sequences
 
 * `sequence/next_id_latency`: Latency of requesting IDs from repo sequences.
+** `sequence`:
+   The sequence from which IDs were retrieved.
+** `multiple`:
+   Whether more than one ID was retrieved.
+
+=== Plugin
+
+* `plugin/latency`: Latency for plugin invocation.
+** `plugin_name`"
+   The name of the plugin.
+** `class`:
+   The class of the plugin that was invoked.
+** `export_value`:
+   The export name under which the invoked class is registered.
+* `plugin/error_count`: Number of plugin errors.
+** `plugin_name`"
+   The name of the plugin.
+** `class`:
+   The class of the plugin that was invoked.
+** `export_value`:
+   The export name under which the invoked class is registered.
+
+=== Group
+
+* `group/guess_relevant_groups_latency`: Latency for guessing relevant groups.
+* `group/handles_count`: Number of calls to GroupBackend.handles.
+* `group/get_count`: Number of calls to GroupBackend.get.
+* `group/suggest_count`: Number of calls to GroupBackend.suggest.
+* `group/contains_count`: Number of calls to GroupMemberships.contains.
+* `group/contains_any_of_count`: Number of calls to
+  GroupMemberships.containsAnyOf.
+* `group/intersection_count`: Number of calls to GroupMemberships.intersection.
+* `group/known_groups_count`: Number of calls to GroupMemberships.getKnownGroups.
+
 
 === Replication Plugin
 
 * `plugins/replication/replication_latency`: Time spent pushing to remote
-destination.
+  destination.
+** `destination`: The destination of the replication.
 * `plugins/replication/replication_delay`: Time spent waiting before pushing to
-remote destination.
+  remote destination.
+** `destination`: The destination of the replication.
 * `plugins/replication/replication_retries`: Number of retries when pushing to
-remote destination.
+  remote destination.
+** `destination`: The destination of the replication.
+* `plugins/replication/latency_slower_than_threshold`: latency for project to
+  destination, where latency was slower than threshold
+** `slow_threshold`: The threshold.
+** `project`: The name of the project.
+** `destination`: The destination of the replication.
 
 === License
 
 * `license/cla_check_count`: Total number of CLA check requests.
+
+=== Lucene
+
+* `index/lucene/accounts`: Total number documents in account search index.
+* `index/lucene/changes`: Total number documents in change search index.
+* `index/lucene/groups`: Total number documents in group search index.
+* `index/lucene/projects`: Total number documents in project search index.
 
 GERRIT
 ------

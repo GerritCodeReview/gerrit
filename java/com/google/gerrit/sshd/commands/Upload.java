@@ -1,0 +1,157 @@
+// Copyright (C) 2008 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package com.google.gerrit.sshd.commands;
+
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
+import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.server.RequestInfo;
+import com.google.gerrit.server.RequestListener;
+import com.google.gerrit.server.git.PermissionAwareRepositoryManager;
+import com.google.gerrit.server.git.TracingHook;
+import com.google.gerrit.server.git.TransferConfig;
+import com.google.gerrit.server.git.UploadPackInitializer;
+import com.google.gerrit.server.git.UsersSelfAdvertiseRefsHook;
+import com.google.gerrit.server.git.validators.UploadValidationException;
+import com.google.gerrit.server.git.validators.UploadValidators;
+import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.ProjectPermission;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
+import com.google.gerrit.sshd.AbstractGitCommand;
+import com.google.gerrit.sshd.SshMetrics;
+import com.google.inject.Inject;
+import java.io.IOException;
+import java.util.List;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.storage.pack.PackStatistics;
+import org.eclipse.jgit.transport.PostUploadHook;
+import org.eclipse.jgit.transport.PostUploadHookChain;
+import org.eclipse.jgit.transport.PreUploadHook;
+import org.eclipse.jgit.transport.PreUploadHookChain;
+import org.eclipse.jgit.transport.UploadPack;
+
+/** Publishes Git repositories over SSH using the Git upload-pack protocol. */
+final class Upload extends AbstractGitCommand {
+  @Inject private TransferConfig config;
+  @Inject private DynamicSet<PreUploadHook> preUploadHooks;
+  @Inject private DynamicSet<PostUploadHook> postUploadHooks;
+  @Inject private DynamicSet<UploadPackInitializer> uploadPackInitializers;
+  @Inject private PluginSetContext<RequestListener> requestListeners;
+  @Inject private UploadValidators.Factory uploadValidatorsFactory;
+  @Inject private PermissionBackend permissionBackend;
+  @Inject private UsersSelfAdvertiseRefsHook usersSelfAdvertiseRefsHook;
+  @Inject private SshMetrics sshMetrics;
+
+  private PackStatistics stats;
+
+  @Override
+  protected void runImpl() throws IOException, Failure {
+    PermissionBackend.ForProject perm =
+        permissionBackend.user(user).project(projectState.getNameKey());
+    try {
+      perm.check(ProjectPermission.RUN_UPLOAD_PACK);
+    } catch (AuthException e) {
+      throw new Failure(1, "fatal: upload-pack not permitted on this server", e);
+    } catch (PermissionBackendException e) {
+      throw new Failure(1, "fatal: unable to check permissions ", e);
+    }
+
+    Repository permissionAwareRepo = PermissionAwareRepositoryManager.wrap(repo, perm);
+    UploadPack up = new UploadPack(permissionAwareRepo);
+
+    up.setPackConfig(config.getPackConfig());
+    up.setTimeout(config.getTimeout());
+    up.setPostUploadHook(PostUploadHookChain.newChain(Lists.newArrayList(postUploadHooks)));
+    if (projectState.isAllUsers()) {
+      up.setAdvertiseRefsHook(usersSelfAdvertiseRefsHook);
+    }
+    if (extraParameters != null) {
+      up.setExtraParameters(ImmutableList.copyOf(extraParameters));
+    }
+
+    List<PreUploadHook> allPreUploadHooks = Lists.newArrayList(preUploadHooks);
+    allPreUploadHooks.add(
+        uploadValidatorsFactory.create(
+            project, permissionAwareRepo, session.getRemoteAddressAsString()));
+    up.setPreUploadHook(PreUploadHookChain.newChain(allPreUploadHooks));
+    for (UploadPackInitializer initializer : uploadPackInitializers) {
+      initializer.init(projectState.getNameKey(), up);
+    }
+    try (TraceContext traceContext = TraceContext.open();
+        TracingHook tracingHook = new TracingHook((name, id) -> setTraceId(id))) {
+      RequestInfo requestInfo =
+          RequestInfo.builder(RequestInfo.RequestType.GIT_UPLOAD, getName(), user, traceContext)
+              .project(projectState.getNameKey())
+              .build();
+      Throwable error = null;
+      try {
+        requestListeners.runEach(l -> l.onRequest(requestInfo));
+        up.setProtocolV2Hook(tracingHook);
+        up.upload(in, out, err);
+        session.setPeerAgent(up.getPeerUserAgent());
+        stats = up.getStatistics();
+      } catch (UploadValidationException e) {
+        error = e;
+        // UploadValidationException is used by the UploadValidators to
+        // stop the uploadPack. We do not want this exception to go beyond this
+        // point otherwise it would print a stacktrace in the logs and return an
+        // internal server error to the client.
+        if (!e.isOutput()) {
+          up.sendMessage(e.getMessage());
+        }
+      } catch (RuntimeException e) {
+        error = e;
+        throw e;
+      } finally {
+        sshMetrics.countRequest(requestInfo, error);
+      }
+    }
+  }
+
+  @Override
+  protected void onExit(int rc) {
+    exit.onExit(
+        rc,
+        stats != null
+            ? stats.getTimeNegotiating()
+                + "ms "
+                + stats.getTimeSearchingForReuse()
+                + "ms "
+                + stats.getTimeSearchingForSizes()
+                + "ms "
+                + stats.getTimeCounting()
+                + "ms "
+                + stats.getTimeCompressing()
+                + "ms "
+                + stats.getTimeWriting()
+                + "ms "
+                + stats.getTimeTotal()
+                + "ms "
+                + stats.getBitmapIndexMisses()
+                + " "
+                + stats.getTotalDeltas()
+                + " "
+                + stats.getTotalObjects()
+                + " "
+                + stats.getTotalBytes()
+            : "-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1");
+    if (cleanup != null) {
+      cleanup.run();
+    }
+  }
+}

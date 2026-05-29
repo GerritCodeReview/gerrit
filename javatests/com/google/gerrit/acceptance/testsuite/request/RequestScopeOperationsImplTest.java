@@ -1,0 +1,134 @@
+// Copyright (C) 2019 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package com.google.gerrit.acceptance.testsuite.request;
+
+import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+
+import com.google.common.collect.ImmutableSet;
+import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.UseSsh;
+import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
+import com.google.gerrit.acceptance.testsuite.account.TestAccount;
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.extensions.common.ChangeInput;
+import com.google.gerrit.server.AnonymousUser;
+import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.Sequences;
+import com.google.gerrit.server.util.RequestContext;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import org.junit.Test;
+
+@UseSsh
+public class RequestScopeOperationsImplTest extends AbstractDaemonTest {
+  private static final AtomicInteger changeCounter = new AtomicInteger();
+
+  @Inject private AccountOperations accountOperations;
+  @Inject private Provider<CurrentUser> userProvider;
+  @Inject private RequestScopeOperationsImpl requestScopeOperations;
+  @Inject private Sequences sequences;
+
+  @Test
+  public void setApiUserToExistingUserById() throws Exception {
+    fastCheckCurrentUser(admin.id());
+    assertThat(localCtx.getContext().getUser().getAccountId()).isEqualTo(admin.id());
+    requestScopeOperations.setApiUser(user.id());
+    checkCurrentUser(user.id());
+  }
+
+  @Test
+  public void setApiUserToExistingUserByTestAccount() throws Exception {
+    fastCheckCurrentUser(admin.id());
+    TestAccount testAccount =
+        accountOperations.account(accountOperations.newAccount().username("tester").create()).get();
+    assertThat(localCtx.getContext().getUser().getAccountId()).isEqualTo(admin.id());
+    requestScopeOperations.setApiUser(testAccount);
+    checkCurrentUser(testAccount.accountId());
+  }
+
+  @Test
+  public void setApiUserToNonExistingUser() throws Exception {
+    fastCheckCurrentUser(admin.id());
+    assertThrows(
+        RuntimeException.class,
+        () -> requestScopeOperations.setApiUser(Account.id(sequences.nextAccountId())));
+    checkCurrentUser(admin.id());
+  }
+
+  @Test
+  public void setApiUserAnonymousSetsAnonymousUser() throws Exception {
+    fastCheckCurrentUser(admin.id());
+    requestScopeOperations.setApiUserAnonymous();
+    assertThat(userProvider.get()).isInstanceOf(AnonymousUser.class);
+  }
+
+  private void fastCheckCurrentUser(Account.Id expected) {
+    // Check current user quickly, since the full check requires creating changes and is quite slow.
+    assertWithMessage("user from provider is an IdentifiedUser")
+        .that(userProvider.get().isIdentifiedUser())
+        .isTrue();
+    assertWithMessage("user from provider")
+        .that(userProvider.get().getAccountId())
+        .isEqualTo(expected);
+  }
+
+  private void checkCurrentUser(Account.Id expected) throws Exception {
+    // Test all supported ways that an acceptance test might query the active user.
+    fastCheckCurrentUser(expected);
+    assertWithMessage("user from GerritApi")
+        .that(gApi.accounts().self().get()._accountId)
+        .isEqualTo(expected.get());
+    RequestContext ctx = localCtx.getContext();
+    assertWithMessage("user from AcceptanceTestRequestScope.Context is an IdentifiedUser")
+        .that(ctx.getUser().isIdentifiedUser())
+        .isTrue();
+    assertWithMessage("user from AcceptanceTestRequestScope.Context")
+        .that(ctx.getUser().getAccountId())
+        .isEqualTo(expected);
+    checkSshUser(expected);
+  }
+
+  private void checkSshUser(Account.Id expected) throws Exception {
+    // No "gerrit whoami" command, so the simplest way to check who the user is over SSH is to query
+    // for owner:self.
+    ChangeInput cin = new ChangeInput();
+    cin.project = project.get();
+    cin.branch = "master";
+    cin.subject = "Test change " + changeCounter.incrementAndGet();
+    String changeId = gApi.changes().create(cin).get().changeId;
+    assertThat(gApi.changes().id(changeId).get().owner._accountId).isEqualTo(expected.get());
+    String queryResults =
+        server
+            .getOrCreateSshSessionForContext(localCtx.getContext())
+            .exec("gerrit query owner:self change:" + changeId);
+    assertWithMessage("Change-Ids in query results:\n%s", queryResults)
+        .that(findDistinct(queryResults, "I[0-9a-f]{40}"))
+        .containsExactly(changeId);
+  }
+
+  private static ImmutableSet<String> findDistinct(String input, String pattern) {
+    Matcher m = Pattern.compile(pattern).matcher(input);
+    ImmutableSet.Builder<String> b = ImmutableSet.builder();
+    while (m.find()) {
+      b.add(m.group(0));
+    }
+    return b.build();
+  }
+}

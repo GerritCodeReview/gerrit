@@ -1,3 +1,4 @@
+:linkattrs:
 = Gerrit Code Review - J2EE Installation
 
 == Description
@@ -14,22 +15,14 @@ any commercial server which supports the J2EE servlet specification.
 
 == Installation
 
-* Complete the link:install.html#createdb[database setup] and
-  link:install.html#init[site initialization] tasks described
-  in the standard installation documentation.
+* Complete the link:install.html#init[site initialization] task
+  described in the standard installation documentation.
 
 * Stop the embedded daemon that was automatically started by 'init':
 +
 ----
   review_site/bin/gerrit.sh stop
 ----
-
-* Configure JNDI DataSource 'jdbc/ReviewDb'.
-+
-This DataSource must point to the database you created above.
-Don't forget to ensure your JNDI configuration can load the
-necessary JDBC drivers.  You may wish to ensure connection pooling
-is configured and enabled within the DataSource.
 
 * Deploy the 'gerrit.war' file to your application server.
 +
@@ -55,7 +48,7 @@ directly to change 4543.
 Download and unzip a release version of Jetty.  From here on we
 call the unpacked directory `$JETTY_HOME`.
 
-* link:http://www.eclipse.org/jetty/downloads.php[Jetty Downloads]
+* link:http://www.eclipse.org/jetty/downloads.php[Jetty Downloads,role=external,window=_blank]
 
 If this is a fresh installation of Jetty, move into the installation
 directory and do some cleanup to remove the sample webapps:
@@ -70,20 +63,8 @@ Copy Gerrit Code Review into the deployment:
   java -jar webapps/gerrit.war cat extra/jetty7/gerrit.xml >contexts/gerrit.xml
 ----
 
-Install the required additional libraries by copying them into the
-`'$JETTY_HOME'/lib/ext` directory:
-
-----
-  cp ../review_db/lib/* lib/ext/
-  java -jar webapps/gerrit.war cat lib/commons-dbcp-1.2.2.jar >lib/ext/commons-dbcp-1.2.2.jar
-  java -jar webapps/gerrit.war cat lib/commons-pool-1.5.4.jar >lib/ext/commons-pool-1.5.4.jar
-  java -jar webapps/gerrit.war cat lib/h2-1.2.128.jar >lib/ext/h2-1.2.128.jar
-  java -jar webapps/gerrit.war cat lib/postgresql-8.4-701.jdbc4.jar >lib/ext/postgresql-8.4-701.jdbc4.jar
-----
-
 Edit `'$JETTY_HOME'/contexts/gerrit.xml` to correctly configure
-the database and outgoing SMTP connections, especially the user
-and password fields.
+outgoing SMTP connections.
 
 If OpenID authentication (or certain enterprise single-sign-on
 solutions) is being used, you may need to increase the
@@ -105,9 +86,8 @@ script and modify it for your configuration:
 ----
 
 [TIP]
-Under Jetty, restarting the web application (e.g. after modifying
-`system_config`) is as simple as touching the context config file:
-`'$JETTY_HOME'/contexts/gerrit.xml`
+Under Jetty, restarting the web application is as simple as
+touching the context config file: `'$JETTY_HOME'/contexts/gerrit.xml`
 
 [[tomcat]]
 == Tomcat 7.x
@@ -120,7 +100,7 @@ slashes]. Otherwise Tomcat must be configured to encode slashes, by adding
 
 Excerpt from the
 link:https://tomcat.apache.org/tomcat-7.0-doc/config/systemprops.html[
-documentation]:
+documentation,role=external,window=_blank]:
 
 ----
 Property org.apache.tomcat.util.buf.UDecoder.ALLOW_ENCODED_SLASH:

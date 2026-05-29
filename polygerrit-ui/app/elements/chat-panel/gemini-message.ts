@@ -1,0 +1,506 @@
+/**
+ * @license
+ * Copyright 2025 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+import '@material/web/progress/circular-progress.js';
+import '@material/web/button/filled-button.js';
+import '@material/web/button/text-button.js';
+import '../shared/gr-icon/gr-icon';
+import '../shared/gr-button/gr-button';
+import '../shared/gr-formatted-text/gr-formatted-text';
+import './citations-box';
+import './references-dropdown';
+import './message-actions';
+
+import {css, html, LitElement, PropertyValues} from 'lit';
+import {customElement, property, state} from 'lit/decorators.js';
+import {when} from 'lit/directives/when.js';
+
+import {AiAgentEventDetails, Interaction} from '../../constants/reporting';
+import {changeModelToken} from '../../models/change/change-model';
+import {
+  filesModelToken,
+  NormalizedFileInfo,
+} from '../../models/change/files-model';
+import {
+  chatModelToken,
+  CreateCommentPart,
+  GeminiMessage as GeminiMessageModel,
+  ResponsePartType,
+  Turn,
+} from '../../models/chat/chat-model';
+import {commentsModelToken} from '../../models/comments/comments-model';
+import {resolve} from '../../models/dependency';
+import {getAppContext} from '../../services/app-context';
+import {NumericChangeId, PatchSetNumber} from '../../types/common';
+import {
+  compareComments,
+  computeDisplayLine,
+  createNew,
+} from '../../utils/comment-util';
+import {assert} from '../../utils/common-util';
+import {fire} from '../../utils/event-util';
+import {subscribe} from '../lit/subscription-controller';
+import {materialStyles} from '../../styles/gr-material-styles';
+
+@customElement('gemini-message')
+export class GeminiMessage extends LitElement {
+  @property({type: Number}) turnIndex = 0;
+
+  @property({type: Boolean}) isLatest = false;
+
+  /**
+   * A background request is a request that is not part of an active ongoing
+   * chat conversation, but just kicked off from the splash page.
+   */
+  @property({type: Boolean}) isBackgroundRequest = false;
+
+  @property({type: Array}) turns: readonly Turn[] = [];
+
+  @state() fileEntities: {[path: string]: NormalizedFileInfo} = {};
+
+  @state() currentClNumber?: NumericChangeId;
+
+  @state() showErrorDetails = false;
+
+  @state() latestPatchNum?: PatchSetNumber;
+
+  @state() private conversationId?: string;
+
+  private reportedSuggestionsShown = false;
+
+  private readonly getChatModel = resolve(this, chatModelToken);
+
+  private readonly getCommentsModel = resolve(this, commentsModelToken);
+
+  private readonly getChangeModel = resolve(this, changeModelToken);
+
+  private readonly getFilesModel = resolve(this, filesModelToken);
+
+  private readonly reportingService = getAppContext().reportingService;
+
+  static override styles = [
+    materialStyles,
+    css`
+      :host {
+        display: block;
+        padding-top: var(--spacing-s);
+        padding-bottom: var(--spacing-s);
+      }
+      .material-icon {
+        vertical-align: middle;
+      }
+      .suggested-comment {
+        padding: 10px;
+        background-color: var(--background-color-tertiary);
+        border: 1px solid var(--border-color);
+        border-radius: 5px;
+        margin-bottom: 10px;
+        overflow-x: auto;
+        scrollbar-width: thin;
+      }
+      .thinking-indicator {
+        display: flex;
+        align-items: center;
+      }
+      .gemini-icon {
+        color: var(--link-color);
+      }
+      .thinking-spinner {
+        --md-circular-progress-size: 24px;
+        margin-left: 10px;
+      }
+      .server-error {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-s);
+        font-weight: 500;
+        color: var(--error-foreground);
+        margin-bottom: var(--spacing-s);
+      }
+      .error-icon {
+        color: var(--error-foreground);
+      }
+      .error-message {
+        margin-bottom: var(--spacing-m);
+        color: var(--deemphasized-text-color);
+      }
+      .error-details {
+        margin-top: var(--spacing-s);
+        margin-bottom: var(--spacing-s);
+        font-family: var(--monospace-font-family);
+        font-size: var(--font-size-small);
+        white-space: pre-wrap;
+        background-color: var(--background-color-tertiary);
+        padding: var(--spacing-s);
+        border-radius: var(--border-radius);
+      }
+      .error-actions {
+        display: flex;
+        gap: var(--spacing-m);
+        margin-top: var(--spacing-s);
+      }
+      .user-info {
+        margin-bottom: var(--spacing-m);
+      }
+      .text-response {
+        margin-top: var(--spacing-s);
+        margin-bottom: var(--spacing-xl);
+      }
+      references-dropdown {
+        margin-bottom: var(--spacing-l);
+      }
+      .text-content {
+        overflow-x: auto;
+        scrollbar-width: thin;
+      }
+      .comment-path,
+      .comment-line {
+        display: flex;
+        align-items: center;
+        gap: var(--spacing-s);
+        margin-bottom: var(--spacing-xs);
+        color: var(--link-color);
+        text-decoration: none;
+      }
+      .comment-path gr-icon,
+      .comment-line gr-icon {
+        font-size: 16px;
+      }
+      .link-button {
+        display: flex;
+        font-family: inherit;
+        font-size: inherit;
+        font-weight: inherit;
+        color: var(--link-color);
+        padding: 0;
+        margin: 0;
+        border: none;
+        background: none;
+        cursor: pointer;
+        text-decoration: none;
+        text-align: left;
+      }
+      .link-button:hover {
+        text-decoration: underline;
+      }
+      .suggested-comment-message {
+        margin-top: var(--spacing-s);
+        margin-bottom: var(--spacing-m);
+      }
+    `,
+  ];
+
+  constructor() {
+    super();
+    subscribe(
+      this,
+      () => this.getChatModel().turns$,
+      x => (this.turns = x ?? [])
+    );
+    subscribe(
+      this,
+      () => this.getFilesModel().files$,
+      x => {
+        const fileEntities: {[path: string]: NormalizedFileInfo} = {};
+        for (const file of x) {
+          fileEntities[file.__path] = file;
+        }
+        this.fileEntities = fileEntities;
+      }
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().changeNum$,
+      x => (this.currentClNumber = x)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().latestPatchNum$,
+      x => (this.latestPatchNum = x)
+    );
+    subscribe(
+      this,
+      () => this.getChatModel().conversationId$,
+      x => (this.conversationId = x)
+    );
+  }
+
+  private async onAddAsComment(part: CreateCommentPart) {
+    const draft = {
+      ...part.comment,
+      ...createNew(part.comment.message, true),
+    };
+    if (!draft.patch_set) {
+      draft.patch_set = this.latestPatchNum;
+    }
+    // TODO(milutin): Remove this once Gemini or backend fixes the issue.
+    if (draft.range && draft.range.end_line < draft.range.start_line) {
+      draft.range.end_line = draft.range.start_line;
+    }
+    const savedDraft = await this.getCommentsModel().saveDraft(draft);
+    this.getCommentsModel().reloadAllComments();
+    this.reportSuggestionToComment(part.id, savedDraft.id);
+  }
+
+  private onRetry() {
+    this.getChatModel().regenerateMessage(this.turnId());
+  }
+
+  private toggleShowErrorDetails() {
+    this.showErrorDetails = !this.showErrorDetails;
+  }
+
+  private handleFileClick(path: string, lineNum?: number) {
+    fire(this, 'open-diff-in-change-view', {path, lineNum});
+  }
+
+  override updated(changedProperties: PropertyValues) {
+    if (changedProperties.has('turns') && !this.reportedSuggestionsShown) {
+      if (
+        this.turnIndex < this.turns.length &&
+        this.message()?.responseComplete
+      ) {
+        this.reportSuggestionsShown();
+      }
+    }
+  }
+
+  override render() {
+    if (this.turnIndex >= this.turns.length) return;
+    const message = this.message();
+    if (!message) return;
+    const responseParts = message.responseParts;
+    const textParts = responseParts.filter(
+      part => part.type === ResponsePartType.TEXT
+    );
+
+    return html`
+      ${when(
+        !this.isBackgroundRequest,
+        () => html`
+          <div class="user-info">
+            <gr-icon
+              class="gemini-icon"
+              icon="ai"
+              .title=${message.timestamp
+                ? new Date(message.timestamp).toLocaleString()
+                : ''}
+            ></gr-icon>
+          </div>
+        `
+      )}
+      ${when(
+        message.errorMessage,
+        () => html`
+          <div class="server-error text-content">
+            <gr-icon icon="error" class="error-icon"></gr-icon>
+            Server error
+          </div>
+          <div class="error-message">
+            We were unable to fulfill your request.
+            ${when(
+              this.showErrorDetails,
+              () => html`<p class="error-details">${message.errorMessage}</p>`
+            )}
+            <div class="error-actions">
+              <gr-button @click=${() => this.onRetry()} link>Retry</gr-button>
+              <gr-button @click=${() => this.toggleShowErrorDetails()} link>
+                ${this.showErrorDetails ? 'Hide details' : 'Show details'}
+              </gr-button>
+            </div>
+          </div>
+        `
+      )}
+      ${when(!message.errorMessage && responseParts.length === 0, () =>
+        when(
+          message.responseComplete,
+          () => html`<p class="text-content">
+            The server did not return any response.
+          </p>`,
+          () => html`<div class="thinking-indicator">
+            <p class="text-content">Thinking ...</p>
+            ${when(
+              !this.isBackgroundRequest,
+              () => html`
+                <md-circular-progress
+                  class="thinking-spinner"
+                  indeterminate
+                  size="small"
+                ></md-circular-progress>
+              `
+            )}
+          </div>`
+        )
+      )}
+      ${when(
+        !message.errorMessage && responseParts.length > 0,
+        () => html`
+          <div @copy=${this.reportContentCopied}>
+            ${textParts.map(
+              responsePart => html`
+                <p class="text-content text-response">
+                  <gr-formatted-text
+                    .markdown=${true}
+                    .content=${responsePart.content}
+                  ></gr-formatted-text>
+                </p>
+              `
+            )}
+            ${when(!this.isBackgroundRequest, () =>
+              this.sortedComments().map(comment => {
+                const displayLine = computeDisplayLine(comment.comment);
+                const lineNum =
+                  typeof displayLine === 'string' && displayLine.startsWith('#')
+                    ? Number(displayLine.substring(1))
+                    : typeof displayLine === 'number'
+                    ? displayLine
+                    : undefined;
+                return html`
+                  ${when(
+                    comment.comment.path,
+                    () => html`
+                      <button
+                        class="comment-path link-button"
+                        @click=${() =>
+                          this.handleFileClick(
+                            comment.comment.path as string,
+                            lineNum
+                          )}
+                      >
+                        <gr-icon icon="description"></gr-icon>
+                        ${comment.comment.path}
+                      </button>
+                    `
+                  )}
+                  ${when(
+                    displayLine,
+                    () => html`
+                      <button
+                        class="comment-line link-button"
+                        @click=${() =>
+                          this.handleFileClick(
+                            comment.comment.path as string,
+                            lineNum
+                          )}
+                      >
+                        <gr-icon icon="code"></gr-icon>
+                        ${displayLine}
+                      </button>
+                    `
+                  )}
+                  <div class="suggested-comment">
+                    <p class="suggested-comment-message">
+                      <gr-formatted-text
+                        .markdown=${true}
+                        .content=${comment.comment.message}
+                      ></gr-formatted-text>
+                    </p>
+                    <gr-button
+                      primary
+                      class="add-as-comment-button"
+                      @click=${() => this.onAddAsComment(comment)}
+                      >Add as Comment
+                    </gr-button>
+                  </div>
+                `;
+              })
+            )}
+            ${when(
+              message.responseComplete && !this.isBackgroundRequest,
+              () => html`
+                <citations-box .turnIndex=${this.turnIndex}></citations-box>
+                <references-dropdown
+                  .turnIndex=${this.turnIndex}
+                ></references-dropdown>
+                <message-actions
+                  .turnId=${this.turnId()}
+                  .isLatest=${this.isLatest}
+                  @item-copied=${this.reportCopyButtonClicked}
+                ></message-actions>
+              `
+            )}
+          </div>
+        `
+      )}
+    `;
+  }
+
+  private message(): GeminiMessageModel {
+    assert(this.turnIndex < this.turns.length, 'turnIndex out of bounds');
+    return this.turns[this.turnIndex].geminiMessage;
+  }
+
+  private sortedComments() {
+    const parts = this.message()?.responseParts ?? [];
+    return parts
+      .filter(part => part.type === ResponsePartType.CREATE_COMMENT)
+      .sort((p1, p2) => {
+        const c1 = {...createNew(p1.comment.message), ...p1.comment};
+        const c2 = {...createNew(p2.comment.message), ...p2.comment};
+        return compareComments(c1, c2);
+      });
+  }
+
+  private turnId() {
+    return {
+      turnIndex: this.turnIndex,
+      regenerationIndex: this.message()?.regenerationIndex ?? 0,
+    };
+  }
+
+  getAiAgentReportingDetails(
+    suggestionId?: number,
+    commentId?: string
+  ): AiAgentEventDetails {
+    const agentId = this.turns[this.turnIndex]?.userMessage?.actionId ?? '';
+    return {
+      agentId,
+      conversationId: this.conversationId ?? '',
+      turnIndex: this.turnIndex,
+      suggestionId,
+      commentId,
+    };
+  }
+
+  private reportSuggestionsShown() {
+    if (!this.conversationId) return;
+    this.reportedSuggestionsShown = true;
+
+    this.reportingService.reportInteraction(
+      Interaction.AI_AGENT_SUGGESTIONS_SHOWN,
+      {
+        ...this.getAiAgentReportingDetails(),
+        commentCount: this.sortedComments().length,
+      }
+    );
+  }
+
+  private reportSuggestionToComment(suggestionId: number, commentId?: string) {
+    this.reportingService.reportInteraction(
+      Interaction.AI_AGENT_SUGGESTION_TO_COMMENT,
+      this.getAiAgentReportingDetails(suggestionId, commentId)
+    );
+  }
+
+  private reportCopyButtonClicked() {
+    this.reportingService.reportInteraction(
+      Interaction.AI_AGENT_SUGGESTION_COPY_BUTTON_CLICKED,
+      this.getAiAgentReportingDetails()
+    );
+  }
+
+  private reportContentCopied() {
+    this.reportingService.reportInteraction(
+      Interaction.AI_AGENT_SUGGESTION_CONTENT_COPIED,
+      this.getAiAgentReportingDetails()
+    );
+  }
+}
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'gemini-message': GeminiMessage;
+  }
+}

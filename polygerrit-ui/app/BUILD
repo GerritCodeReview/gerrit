@@ -1,38 +1,117 @@
-load("//tools/bzl:genrule2.bzl", "genrule2")
-load(
-    "//tools/bzl:js.bzl",
-    "bower_component_bundle",
-)
+load("@aspect_rules_ts//ts:defs.bzl", "ts_config", "ts_project")
+load("@npm//:lit-analyzer/package_json.bzl", lit_analyzer_bin = "bin")
+load("@ui_npm//:defs.bzl", "npm_link_all_packages")
+load("//tools/js:eslint.bzl", "eslint")
 load(":rules.bzl", "polygerrit_bundle")
+
+npm_link_all_packages(name = "node_modules")
 
 package(default_visibility = ["//visibility:public"])
 
+# This list must be in sync with the "include" list in the follwoing files:
+# tsconfig.json, tsconfig_bazel.json, tsconfig_bazel_test.json
+src_dirs = [
+    "api",
+    "constants",
+    "elements",
+    "embed",
+    "mixins",
+    "models",
+    "scripts",
+    "services",
+    "styles",
+    "types",
+    "utils",
+    "workers",
+]
+
+ts_config(
+    name = "ts_config_bazel",
+    src = "tsconfig_bazel.json",
+    deps = [
+        "tsconfig.json",
+    ],
+)
+
+ts_project(
+    name = "compile_pg",
+    srcs = glob(
+        [src_dir + "/**/*" + ext for src_dir in src_dirs for ext in [
+            ".js",
+            ".ts",
+        ]],
+        allow_empty = True,
+        exclude = [
+            "**/*_test.js",
+            "**/*_test.ts",
+        ],
+    ),
+    allow_js = True,
+    incremental = True,
+    out_dir = "_pg_ts_out",
+    tsconfig = ":ts_config_bazel",
+    deps = [
+        ":node_modules",
+    ],
+)
+
+ts_config(
+    name = "ts_config_bazel_test",
+    src = "tsconfig_bazel_test.json",
+    deps = [
+        "tsconfig.json",
+        "tsconfig_bazel.json",
+    ],
+)
+
+ts_project(
+    name = "compile_pg_with_tests",
+    srcs = glob(
+        [
+            "**/*.js",
+            "**/*.ts",
+        ],
+        exclude = [
+            "node_modules/**",
+            "node_modules_licenses/**",
+            "rollup.config.js",
+            "eslint-bazel.config.js",
+            "eslint.config.js",
+        ],
+    ),
+    allow_js = True,
+    incremental = True,
+    out_dir = "_pg_with_tests_out",
+    tsconfig = ":ts_config_bazel_test",
+    deps = [
+        ":node_modules",
+        "//polygerrit-ui:node_modules",
+    ],
+)
+
 polygerrit_bundle(
     name = "polygerrit_ui",
+    srcs = [":compile_pg"],
+    outs = ["polygerrit_ui.zip"],
+    app_name = "gr-app",
+    entry_point = "_pg_ts_out/elements/gr-app-entry-point.js",
+)
+
+filegroup(
+    name = "eslint_src_code",
     srcs = glob(
         [
             "**/*.html",
             "**/*.js",
+            "**/*.ts",
         ],
         exclude = [
-            "bower_components/**",
-            "index.html",
-            "test/**",
-            "**/*_test.html",
+            "node_modules/**",
+            "node_modules_licenses/**",
         ],
-    ),
-    outs = ["polygerrit_ui.zip"],
-    app = "elements/gr-app.html",
-)
-
-bower_component_bundle(
-    name = "test_components",
-    testonly = 1,
-    deps = [
-        "//lib/js:iron-test-helpers",
-        "//lib/js:test-fixture",
-        "//lib/js:web-component-tester",
-        "//polygerrit-ui:polygerrit_components.bower_components",
+    ) + [
+        ":node_modules",
+        "//polygerrit-ui:node_modules",
     ],
 )
 
@@ -41,165 +120,114 @@ filegroup(
     srcs = glob(
         [
             "**/*.html",
-            "**/*.js",
         ],
+        allow_empty = True,
         exclude = [
-            "bower_components/**",
+            "node_modules/**",
+            "node_modules_licenses/**",
         ],
-    ),
+    ) + [":compile_pg_with_tests"],
 )
 
+# Workaround for https://github.com/bazelbuild/bazel/issues/1305
 filegroup(
-    name = "bower_components",
-    srcs = glob(
-        [
-            "bower_components/**/*.html",
-            "bower_components/**/*.js",
-        ],
-    ),
-)
-
-genrule2(
-    name = "pg_code_zip",
-    srcs = [":pg_code"],
-    outs = ["pg_code.zip"],
-    cmd = " && ".join([
-        ("tar -hcf- $(locations :pg_code) |" +
-         " tar --strip-components=2 -C $$TMP/ -xf-"),
-        "cd $$TMP",
-        "TZ=UTC",
-        "export TZ",
-        "find . -exec touch -t 198001010000 '{}' ';'",
-        "zip -rq $$ROOT/$@ *",
-    ]),
-)
-
-sh_test(
-    name = "wct_test",
-    size = "enormous",
-    srcs = ["wct_test.sh"],
-    data = [
-        "test/common-test-setup.html",
-        "test/index.html",
-        ":pg_code.zip",
-        ":test_components.zip",
-    ],
-    # Should not run sandboxed.
-    tags = [
-        "local",
-        "manual",
-    ],
-)
-
-sh_test(
-    name = "lint_test",
-    size = "large",
-    srcs = ["lint_test.sh"],
-    data = [
-        ".eslintrc.json",
-        ":pg_code",
-    ],
-    # Should not run sandboxed.
-    tags = [
-        "local",
-        "manual",
-    ],
-)
-
-sh_test(
-    name = "polylint_test",
-    size = "large",
-    srcs = ["polylint_test.sh"],
-    data = [
-        ":pg_code",
-        "//polygerrit-ui:polygerrit_components.bower_components.zip",
-    ],
-    # Should not run sandboxed.
-    tags = [
-        "local",
-        "manual",
-    ],
-)
-
-DIRECTORIES = [
-    "admin",
-    "change",
-    "change-list",
-    "core",
-    "diff",
-    "plugins",
-    "settings",
-    "shared",
-    "gr-app",
-]
-
-[sh_test(
-    name = "template_test_" + directory,
-    size = "enormous",
-    srcs = ["template_test.sh"],
-    args = [directory],
-    data = [
-        ":pg_code",
-        ":template_test_srcs",
-        "//polygerrit-ui:polygerrit_components.bower_components.zip",
-    ],
-    tags = [
-        # Should not run sandboxed.
-        "local",
-        "template",
-    ],
-) for directory in DIRECTORIES]
-
-# Embed bundle
-polygerrit_bundle(
-    name = "polygerrit_embed_ui",
-    srcs = glob(
-        [
-            "**/*.html",
-            "**/*.js",
-        ],
-        exclude = [
-            "bower_components/**",
-            "index.html",
-            "test/**",
-            "**/*_test.html",
-        ],
-    ),
-    outs = ["polygerrit_embed_ui.zip"],
-    app = "embed/change-diff-views.html",
-)
-
-filegroup(
-    name = "embed_test_files",
-    srcs = glob(
-        [
-            "embed/**/*_test.html",
-        ],
-    ),
-)
-
-filegroup(
-    name = "template_test_srcs",
+    name = "test-srcs-fg",
     srcs = [
-        "template_test_srcs/convert_for_template_tests.py",
-        "template_test_srcs/template_test.js",
+        "rollup.config.js",
+        ":node_modules",
+        ":pg_code",
+        "//polygerrit-ui:node_modules",
     ],
 )
 
-sh_test(
-    name = "embed_test",
-    size = "small",
-    srcs = ["embed_test.sh"],
+# Define the eslinter for polygerrit-ui app
+# The eslint macro creates 2 rules: lint_test and lint_bin
+eslint(
+    name = "lint",
+    srcs = [":eslint_src_code"],
+    config = "eslint-bazel.config.js",
     data = [
-        "embed/test.html",
-        "test/common-test-setup.html",
-        ":embed_test_files",
-        ":polygerrit_embed_ui.zip",
-        ":test_components.zip",
+        # The eslint-bazel.config.js extends the eslint.config.js config, pass it as a dependency
+        "eslint.config.js",
+        ".prettierrc.js",
+        ".eslint-ts-resolver.config.js",
+        "tsconfig_eslint.json",
+        # tsconfig_eslint.json extends tsconfig.json, pass it as a dependency
+        "tsconfig.json",
+        "//:node_modules/typescript",
     ],
-    # Should not run sandboxed.
+    extensions = [
+        ".html",
+        ".js",
+        ".ts",
+    ],
+    plugins = [
+        "//:node_modules/@typescript-eslint/eslint-plugin",
+        "//:node_modules/eslint-config-google",
+        "//:node_modules/eslint-plugin-html",
+        "//:node_modules/eslint-plugin-import",
+        "//:node_modules/eslint-plugin-jsdoc",
+        "//:node_modules/eslint-plugin-lit",
+        "//:node_modules/eslint-plugin-n",
+        "//:node_modules/eslint-plugin-prettier",
+        "//:node_modules/eslint-plugin-regex",
+        "//:node_modules/eslint-plugin-es-x",
+        "//:node_modules/gts",
+    ],
+)
+
+filegroup(
+    name = "lit_analysis_src_code",
+    srcs = glob(
+        ["**/*.ts"],
+        exclude = [
+            "**/*_html.ts",
+            "**/*_test.ts",
+        ],
+    ) + [
+        "//:node_modules/typescript",
+        "//polygerrit-ui:node_modules",
+    ],
+)
+
+lit_analyzer_bin.lit_analyzer_test(
+    name = "lit_analysis",
+    args = [
+        "**/elements/**/*.ts",
+        "--strict",
+        "--rules.no-property-visibility-mismatch",
+        "off",
+        "--rules.no-incompatible-property-type",
+        "off",
+        "--rules.no-incompatible-type-binding",
+        "off",
+        "--rules.no-unknown-attribute",
+        "off",
+        "--rules.no-unknown-tag-name",
+        "off",
+    ],
+    chdir = package_name(),
+    data = [
+        ":lit_analysis_src_code",
+    ],
     tags = [
         "local",
         "manual",
     ],
+)
+
+# app code including tests, tsconfig.json, and the CSS sheets the
+# Web Test Runner HTML loads (main.css, fonts.css, material-icons.css
+# under styles/).
+filegroup(
+    name = "web-test-runner_app-sources",
+    srcs = glob(
+        [
+            "**/*.ts",
+            "**/*.js",
+            "**/*.css",
+            "**/tsconfig.json",
+        ],
+        exclude = ["node_modules/**/*"],
+    ),
 )

@@ -1,12 +1,14 @@
 = gerrit version
 
 == NAME
-gerrit version - Show the version of the currently executing Gerrit server
+gerrit version - Show the version of the currently executing Gerrit server.
 
 == SYNOPSIS
 [verse]
 --
 _ssh_ -p <port> <host> _gerrit version_
+  [--verbose | -v]
+  [--json]
 --
 
 == DESCRIPTION
@@ -31,11 +33,19 @@ Any user who has SSH access to Gerrit.
 == SCRIPTING
 This command is intended to be used in scripts.
 
+== OPTIONS
+--verbose::
+-v::
+  Verbose output, include also the NoteDb version and the version of each index.
+
+--json::
+  Json output format. Assumes verbose output.
+
 == EXAMPLES
 
 ----
-	$ ssh -p 29418 review.example.com gerrit version
-	gerrit version 2.4.2
+$ ssh -p 29418 review.example.com gerrit version
+gerrit version 2.4.2
 ----
 
 GERRIT

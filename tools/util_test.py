@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # Copyright (C) 2013 The Android Open Source Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,28 +16,32 @@
 import unittest
 from util import resolve_url
 
+
 class TestResolveUrl(unittest.TestCase):
-  """ run to test:
-    python -m unittest -v util_test
-  """
+    """ run to test:
+      python -m unittest -v util_test
+    """
 
-  def testKnown(self):
-    url = resolve_url('GERRIT:foo.jar', {})
-    self.assertEqual(url, 'https://gerrit-maven.storage.googleapis.com/foo.jar')
+    def testKnown(self):
+        url = resolve_url('GERRIT:foo.jar', {})
+        self.assertEqual(url,
+                         'http://gerrit-maven.storage.googleapis.com/foo.jar')
 
-  def testKnownRedirect(self):
-    url = resolve_url('MAVEN_CENTRAL:foo.jar',
-                      {'MAVEN_CENTRAL': 'https://my.company.mirror/maven2'})
-    self.assertEqual(url, 'https://my.company.mirror/maven2/foo.jar')
+    def testKnownRedirect(self):
+        url = resolve_url('MAVEN_CENTRAL:foo.jar',
+                          {'MAVEN_CENTRAL': 'https://my.company.mirror/maven2'})
+        self.assertEqual(url, 'https://my.company.mirror/maven2/foo.jar')
 
-  def testCustom(self):
-    url = resolve_url('https://maven.example.com/release/foo.jar', {})
-    self.assertEqual(url, 'https://maven.example.com/release/foo.jar')
+    def testCustom(self):
+        url = resolve_url('https://maven.example.com/release/foo.jar', {})
+        self.assertEqual(url, 'https://maven.example.com/release/foo.jar')
 
-  def testCustomRedirect(self):
-    url = resolve_url('MAVEN_EXAMPLE:foo.jar',
-                      {'MAVEN_EXAMPLE': 'https://maven.example.com/release'})
-    self.assertEqual(url, 'https://maven.example.com/release/foo.jar')
+    def testCustomRedirect(self):
+        url = resolve_url('MAVEN_EXAMPLE:foo.jar',
+                          {'MAVEN_EXAMPLE':
+                           'https://maven.example.com/release'})
+        self.assertEqual(url, 'https://maven.example.com/release/foo.jar')
+
 
 if __name__ == '__main__':
-  unittest.main()
+    unittest.main()

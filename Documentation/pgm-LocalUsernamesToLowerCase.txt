@@ -14,7 +14,11 @@ _java_ -jar gerrit.war _LocalUsernamesToLowerCase_
 == DESCRIPTION
 Converts the local username for every account to lower case. The
 local username is the username that is used to login into the Gerrit
-Web UI.
+Web UI. The local username is stored a external ID with scheme
+`gerrit`.
+
+[IMPORTANT]
+This program does not modify usernames in the `username` scheme.
 
 This task is only intended to be run if the configuration parameter
 link:config-gerrit.html#ldap.localUsernameToLowerCase[ldap.localUsernameToLowerCase]
@@ -24,9 +28,13 @@ Web UI.
 Please be aware that the conversion of the local usernames to lower
 case can't be undone.
 
-The program will produce errors if there are accounts that have the
+The program will produce errors if there are accounts with a different
+account-id or other properties (e.g. email, password) that have the
 same local username, but with different case. In this case the local
 username for these accounts is not converted to lower case.
+
+The program will automatically remove duplicates where the username
+differs only in case but all other attributes are identical.
 
 After all usernames have been migrated, the link:pgm-reindex.html[
 reindex] program is automatically invoked to reindex all accounts.
@@ -43,7 +51,7 @@ it must be run by itself.
 
 == CONTEXT
 This command can only be run on a server which has direct
-connectivity to the metadata database.
+connectivity to the managed Git repositories.
 
 == EXAMPLES
 To convert the local username of every account to lower case:

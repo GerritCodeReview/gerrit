@@ -1,0 +1,460 @@
+// Copyright (C) 2009 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package com.google.gerrit.server.mail.send;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
+
+import com.google.common.flogger.FluentLogger;
+import com.google.common.io.BaseEncoding;
+import com.google.common.primitives.Ints;
+import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.Version;
+import com.google.gerrit.entities.Address;
+import com.google.gerrit.entities.EmailHeader;
+import com.google.gerrit.entities.EmailHeader.StringEmailHeader;
+import com.google.gerrit.exceptions.EmailException;
+import com.google.gerrit.server.config.ConfigUtil;
+import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.config.SendEmailEnabled;
+import com.google.gerrit.server.mail.Encryption;
+import com.google.gerrit.server.util.time.TimeUtil;
+import com.google.inject.AbstractModule;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.Writer;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.TimeUnit;
+import org.apache.commons.net.smtp.AuthSMTPClient;
+import org.apache.commons.net.smtp.SMTPClient;
+import org.apache.commons.net.smtp.SMTPReply;
+import org.apache.james.mime4j.codec.QuotedPrintableOutputStream;
+import org.eclipse.jgit.lib.Config;
+
+/**
+ * Sends email via a nearby SMTP server.
+ *
+ * <p>Doesn't support including EmailResource in the payload.
+ */
+@Singleton
+public class SmtpEmailSender implements EmailSender {
+  /** The socket's connect timeout (0 = infinite timeout) */
+  private static final int DEFAULT_CONNECT_TIMEOUT = 10000;
+
+  /** The socket's socket read timeout (0 = infinite timeout) */
+  private static final int DEFAULT_SOCKET_TIMEOUT = 10000;
+
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
+  public static class SmtpEmailSenderModule extends AbstractModule {
+    @Override
+    protected void configure() {
+      bind(EmailSender.class).to(SmtpEmailSender.class);
+    }
+  }
+
+  private final boolean enabled;
+  private final int connectTimeout;
+  private final int socketTimeout;
+
+  private String smtpHost;
+  private int smtpPort;
+  private String smtpUser;
+  private String smtpPass;
+  private Encryption smtpEncryption;
+  private boolean sslVerify;
+  private Set<String> allowrcpt;
+  private Set<String> denyrcpt;
+  private String importance;
+  private int expiryDays;
+
+  @Inject
+  SmtpEmailSender(@GerritServerConfig Config cfg, @SendEmailEnabled Boolean enabled) {
+    this.enabled = enabled;
+    connectTimeout =
+        Ints.checkedCast(
+            ConfigUtil.getTimeUnit(
+                cfg,
+                "sendemail",
+                null,
+                "connectTimeout",
+                DEFAULT_CONNECT_TIMEOUT,
+                TimeUnit.MILLISECONDS));
+    socketTimeout =
+        Ints.checkedCast(
+            ConfigUtil.getTimeUnit(
+                cfg,
+                "sendemail",
+                null,
+                "socketTimeout",
+                DEFAULT_SOCKET_TIMEOUT,
+                TimeUnit.MILLISECONDS));
+
+    smtpHost = cfg.getString("sendemail", null, "smtpserver");
+    if (smtpHost == null) {
+      smtpHost = "127.0.0.1";
+    }
+
+    smtpEncryption = cfg.getEnum("sendemail", null, "smtpencryption", Encryption.NONE);
+    sslVerify = cfg.getBoolean("sendemail", null, "sslverify", true);
+
+    final int defaultPort;
+    switch (smtpEncryption) {
+      case SSL:
+        defaultPort = 465;
+        break;
+
+      case NONE:
+      case TLS:
+      default:
+        defaultPort = 25;
+        break;
+    }
+    smtpPort = cfg.getInt("sendemail", null, "smtpserverport", defaultPort);
+
+    smtpUser = cfg.getString("sendemail", null, "smtpuser");
+    smtpPass = cfg.getString("sendemail", null, "smtppass");
+
+    Set<String> rcpt = new HashSet<>();
+    Collections.addAll(rcpt, cfg.getStringList("sendemail", null, "allowrcpt"));
+    allowrcpt = Collections.unmodifiableSet(rcpt);
+    Set<String> rcptdeny = new HashSet<>();
+    Collections.addAll(rcptdeny, cfg.getStringList("sendemail", null, "denyrcpt"));
+    denyrcpt = Collections.unmodifiableSet(rcptdeny);
+    importance = cfg.getString("sendemail", null, "importance");
+    expiryDays = cfg.getInt("sendemail", null, "expiryDays", 0);
+  }
+
+  @Override
+  public boolean isEnabled() {
+    return enabled;
+  }
+
+  @Override
+  public boolean canEmail(String address) {
+    if (!isEnabled()) {
+      logger.atFine().log("Not emailing %s (email is disabled)", address);
+      return false;
+    }
+
+    String domain = address.substring(address.lastIndexOf('@') + 1);
+    if (isDenied(address, domain)) {
+      return false;
+    }
+
+    return isAllowed(address, domain);
+  }
+
+  private boolean isDenied(String address, String domain) {
+
+    if (denyrcpt.isEmpty()) {
+      return false;
+    }
+
+    if (denyrcpt.contains(address)
+        || denyrcpt.contains(domain)
+        || denyrcpt.contains("@" + domain)) {
+      logger.atFine().log("Not emailing %s (prohibited by sendemail.denyrcpt)", address);
+      return true;
+    }
+
+    return false;
+  }
+
+  private boolean isAllowed(String address, String domain) {
+
+    if (allowrcpt.isEmpty()) {
+      return true;
+    }
+
+    if (allowrcpt.contains(address)
+        || allowrcpt.contains(domain)
+        || allowrcpt.contains("@" + domain)) {
+      return true;
+    }
+
+    logger.atFine().log("Not emailing %s (prohibited by sendemail.allowrcpt)", address);
+    return false;
+  }
+
+  @Override
+  public void send(
+      final Address from,
+      Collection<Address> rcpt,
+      final Map<String, EmailHeader> callerHeaders,
+      String body)
+      throws EmailException {
+    send(from, rcpt, callerHeaders, body, null);
+  }
+
+  @Override
+  public void send(
+      final Address from,
+      Collection<Address> rcpt,
+      final Map<String, EmailHeader> callerHeaders,
+      String textBody,
+      @Nullable String htmlBody)
+      throws EmailException {
+    if (!isEnabled()) {
+      throw new EmailException("Sending email is disabled");
+    }
+
+    StringBuilder rejected = new StringBuilder();
+    try {
+      final SMTPClient client = open();
+      try {
+        if (!client.setSender(from.email())) {
+          throw new EmailException("Server " + smtpHost + " rejected from address " + from.email());
+        }
+
+        /* Do not prevent the email from being sent to "good" users simply
+         * because some users get rejected.  If not, a single rejected
+         * project watcher could prevent email for most actions on a project
+         * from being sent to any user!  Instead, queue up the errors, and
+         * throw an exception after sending the email to get the rejected
+         * error(s) logged.
+         */
+        for (Address addr : rcpt) {
+          if (!client.addRecipient(addr.email())) {
+            String error = client.getReplyString();
+            rejected
+                .append("Server ")
+                .append(smtpHost)
+                .append(" rejected recipient ")
+                .append(addr)
+                .append(": ")
+                .append(error);
+          }
+        }
+
+        try (Writer messageDataWriter = client.sendMessageData()) {
+          if (messageDataWriter == null) {
+            /* Include rejected recipient error messages here to not lose that
+             * information. That piece of the puzzle is vital if zero recipients
+             * are accepted and the server consequently rejects the DATA command.
+             */
+            throw new EmailException(
+                rejected
+                    .append("Server ")
+                    .append(smtpHost)
+                    .append(" rejected DATA command: ")
+                    .append(client.getReplyString())
+                    .toString());
+          }
+
+          render(messageDataWriter, callerHeaders, textBody, htmlBody);
+
+          if (!client.completePendingCommand()) {
+            throw new EmailException(
+                "Server " + smtpHost + " rejected message body: " + client.getReplyString());
+          }
+
+          @SuppressWarnings("unused")
+          var unused = client.logout();
+          if (rejected.length() > 0) {
+            throw new EmailException(rejected.toString());
+          }
+        }
+      } finally {
+        client.disconnect();
+      }
+    } catch (IOException e) {
+      throw new EmailException("Cannot send outgoing email", e);
+    }
+  }
+
+  private void render(
+      Writer out,
+      Map<String, EmailHeader> callerHeaders,
+      String textBody,
+      @Nullable String htmlBody)
+      throws IOException, EmailException {
+    final Map<String, EmailHeader> hdrs = new LinkedHashMap<>(callerHeaders);
+    setMissingHeader(hdrs, "MIME-Version", "1.0");
+    setMissingHeader(hdrs, "Content-Transfer-Encoding", "8bit");
+    setMissingHeader(hdrs, "Content-Disposition", "inline");
+    setMissingHeader(hdrs, "User-Agent", "Gerrit/" + Version.getVersion());
+    if (importance != null) {
+      setMissingHeader(hdrs, "Importance", importance);
+    }
+    if (expiryDays > 0) {
+      Instant expiry = Instant.ofEpochMilli(TimeUtil.nowMs() + expiryDays * 24 * 60 * 60 * 1000L);
+      DateTimeFormatter fmt =
+          DateTimeFormatter.ofPattern("EEE, dd MMM yyyy HH:mm:ss Z")
+              .withZone(ZoneId.systemDefault());
+      setMissingHeader(hdrs, "Expiry-Date", fmt.format(expiry));
+    }
+
+    String encodedBody;
+    if (htmlBody == null) {
+      setMissingHeader(hdrs, "Content-Type", "text/plain; charset=UTF-8");
+      encodedBody = textBody;
+    } else {
+      String boundary = generateMultipartBoundary(textBody, htmlBody);
+      setMissingHeader(
+          hdrs,
+          "Content-Type",
+          "multipart/alternative; boundary=\"" + boundary + "\"; charset=UTF-8");
+      encodedBody = buildMultipartBody(boundary, textBody, htmlBody);
+    }
+
+    try (Writer w = new BufferedWriter(out)) {
+      for (Map.Entry<String, EmailHeader> h : hdrs.entrySet()) {
+        if (!h.getValue().isEmpty()) {
+          w.write(h.getKey());
+          w.write(": ");
+          h.getValue().write(w);
+          w.write("\r\n");
+        }
+      }
+
+      w.write("\r\n");
+      w.write(encodedBody);
+      w.flush();
+    }
+  }
+
+  public static String generateMultipartBoundary(String textBody, String htmlBody)
+      throws EmailException {
+    byte[] bytes = new byte[8];
+    ThreadLocalRandom rng = ThreadLocalRandom.current();
+
+    // The probability of the boundary being valid is approximately
+    // (2^64 - len(message)) / 2^64.
+    //
+    // The message is much shorter than 2^64 bytes, so if two tries don't
+    // suffice, something is seriously wrong.
+    for (int i = 0; i < 2; i++) {
+      rng.nextBytes(bytes);
+      String boundary = BaseEncoding.base64().encode(bytes);
+      String encBoundary = "--" + boundary;
+      if (textBody.contains(encBoundary) || htmlBody.contains(encBoundary)) {
+        continue;
+      }
+      return boundary;
+    }
+    throw new EmailException("Gave up generating unique MIME boundary");
+  }
+
+  protected String buildMultipartBody(String boundary, String textPart, String htmlPart)
+      throws IOException {
+    String encodedTextPart = quotedPrintableEncode(textPart);
+    String encodedHtmlPart = quotedPrintableEncode(htmlPart);
+
+    // Only declare quoted-printable encoding if there are characters that need to be encoded.
+    String textTransferEncoding = textPart.equals(encodedTextPart) ? "7bit" : "quoted-printable";
+    String htmlTransferEncoding = htmlPart.equals(encodedHtmlPart) ? "7bit" : "quoted-printable";
+
+    return
+    // Output the text part:
+    "--"
+        + boundary
+        + "\r\n"
+        + "Content-Type: text/plain; charset=UTF-8\r\n"
+        + "Content-Transfer-Encoding: "
+        + textTransferEncoding
+        + "\r\n"
+        + "\r\n"
+        + encodedTextPart
+        + "\r\n"
+
+        // Output the HTML part:
+        + "--"
+        + boundary
+        + "\r\n"
+        + "Content-Type: text/html; charset=UTF-8\r\n"
+        + "Content-Transfer-Encoding: "
+        + htmlTransferEncoding
+        + "\r\n"
+        + "\r\n"
+        + encodedHtmlPart
+        + "\r\n"
+
+        // Output the closing boundary.
+        + "--"
+        + boundary
+        + "--\r\n";
+  }
+
+  protected String quotedPrintableEncode(String input) throws IOException {
+    ByteArrayOutputStream s = new ByteArrayOutputStream();
+    try (QuotedPrintableOutputStream qp = new QuotedPrintableOutputStream(s, false)) {
+      qp.write(input.getBytes(UTF_8));
+    }
+    return s.toString(UTF_8);
+  }
+
+  private static void setMissingHeader(Map<String, EmailHeader> hdrs, String name, String value) {
+    if (!hdrs.containsKey(name) || hdrs.get(name).isEmpty()) {
+      hdrs.put(name, new StringEmailHeader(value));
+    }
+  }
+
+  private SMTPClient open() throws EmailException {
+    final AuthSMTPClient client = new AuthSMTPClient(smtpEncryption == Encryption.SSL, sslVerify);
+
+    client.setConnectTimeout(connectTimeout);
+    try {
+      client.connect(smtpHost, smtpPort);
+      client.setSoTimeout(socketTimeout);
+      int replyCode = client.getReplyCode();
+      String replyString = client.getReplyString();
+      if (!SMTPReply.isPositiveCompletion(replyCode)) {
+        throw new EmailException(
+            String.format("SMTP server rejected connection: %d: %s", replyCode, replyString));
+      }
+      if (!client.login()) {
+        throw new EmailException("SMTP server rejected HELO/EHLO greeting: " + replyString);
+      }
+
+      if (smtpEncryption == Encryption.TLS) {
+        if (!client.execTLS()) {
+          throw new EmailException("SMTP server does not support TLS");
+        }
+        if (!client.login()) {
+          throw new EmailException("SMTP server rejected login: " + replyString);
+        }
+      }
+
+      if (smtpUser != null && !client.auth(smtpUser, smtpPass)) {
+        throw new EmailException("SMTP server rejected auth: " + replyString);
+      }
+      return client;
+    } catch (IOException | EmailException e) {
+      if (client.isConnected()) {
+        try {
+          client.disconnect();
+        } catch (IOException e2) {
+          // Ignored
+        }
+      }
+      if (e instanceof EmailException) {
+        throw (EmailException) e;
+      }
+      throw new EmailException(e.getMessage(), e);
+    }
+  }
+}

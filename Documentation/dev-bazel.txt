@@ -1,31 +1,118 @@
+:linkattrs:
 = Gerrit Code Review - Building with Bazel
 
+[[summary]]
+== TL;DR
+
+If you have the prerequisites, running
+
+```
+  $ bazel build gerrit
+```
+
+should generate a .war file under `bazel-bin/gerrit.war`.
+
 [[installation]]
-== Installation
+== Prerequisites
 
-You need to use Python (2 or 3), Java 8, and Node.js for building gerrit.
+To build Gerrit from source, you need:
 
-You can install Bazel from the bazel.io:
-https://www.bazel.io/versions/master/docs/install.html
+* A Linux or macOS system (Windows is not supported)
+* A JDK for Java 25
+* Python 3
+* link:https://github.com/nodesource/distributions/blob/master/README.md[Node.js (including npm),role=external,window=_blank]
+* Yarn (`npm install -g yarn`)
+* link:https://bazel.build/install[Bazel,role=external,window=_blank] -launched with
+link:https://github.com/bazelbuild/bazelisk[Bazelisk,role=external,window=_blank]
+* Maven
+* zip, unzip
+* curl
+* gcc
 
-Alternatively use Bazelisk to use the latest supported Bazel version on
-different stable branches: https://github.com/bazelbuild/bazelisk.
+[[bazel]]
+=== Bazel
+
+link:https://github.com/bazelbuild/bazelisk[Bazelisk,role=external,window=_blank] is a version
+manager for link:https://bazel.build/[Bazel,role=external,window=_blank], similar to how `nvm`
+manages `npm` versions. It takes care of downloading and installing Bazel itself, so you don't have
+to worry about using the correct version of Bazel. One particular advantage to
+using Bazelisk is that you can jump between different versions of Gerrit and not
+worry about which version of Bazel you need.
+
+Bazelisk can be installed in different ways:
+link:https://bazel.build/install/bazelisk[Bazelisk Installation,role=external,window=_blank].
+To execute the correct version of Bazel using Bazelisk you simply replace
+the `bazel` command with `bazelisk`.
+
+[[java]]
+=== Java
+
+Ensure that the link:install.html#prerequisites[required Java version]
+is installed and that `JAVA_HOME` is set to it.
+
+To check the installed version of Java, open a terminal window and run:
+
+`java -version`
+
+[[java-25]]
+==== Java 25 support
+
+To build Gerrit with Java 25 language level, run:
+
+```
+  $ bazelisk build :release
+```
+
+To execute the tests run:
+
+```
+  $ bazelisk test //...
+```
+
+=== Node.js and npm packages
+See link:https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/README.md#installing-node_js-and-npm-packages[Installing Node.js and npm packages,role=external,window=_blank].
 
 [[build]]
 == Building on the Command Line
 
+=== Bazel module lockfile strictness
+
+Gerrit uses Bazel modules with a checked-in lockfile (`MODULE.bazel.lock`).
+To avoid accidental desynchronization between `MODULE.bazel` and the lockfile,
+the build runs with strict lockfile checking:
+
+----
+--lockfile_mode=error
+----
+
+With this mode, Bazel will fail the build if the lockfile is out of date.
+
+If you see an error like:
+
+----
+ERROR: Missing checksum for registry file ... not permitted with --lockfile_mode=error
+----
+
+it means that `MODULE.bazel.lock` needs to be updated.
+
+To update the lockfile explicitly, run:
+
+```
+  $ bazelisk mod deps --lockfile_mode=update
+```
+
+and commit the resulting changes to `MODULE.bazel.lock`.
+
+Note: Changes that do not modify `MODULE.bazel` should normally not modify
+`MODULE.bazel.lock`. Any lockfile update should be intentional and reviewed.
+
 === Gerrit Development WAR File
 
-To build the Gerrit web application that includes the GWT UI and the
-PolyGerrit UI:
+To build the Gerrit web application:
 
 ----
-  bazel build gerrit
+  bazelisk build gerrit
 ----
-
-[NOTE]
-PolyGerrit UI may require additional tools (such as npm). Please read
-the polygerrit-ui/README.md for more info.
 
 The output executable WAR will be placed in:
 
@@ -36,11 +123,11 @@ The output executable WAR will be placed in:
 [[release]]
 === Gerrit Release WAR File
 
-To build the Gerrit web application that includes the GWT UI, the
-PolyGerrit UI, core plugins and documentation:
+To build the Gerrit web application that includes the Gerrit UI,
+core plugins and documentation:
 
 ----
-  bazel build release
+  bazelisk build release
 ----
 
 The output executable WAR will be placed in:
@@ -51,10 +138,10 @@ The output executable WAR will be placed in:
 
 === Headless Mode
 
-To build Gerrit in headless mode, i.e. without the GWT Web UI:
+To build Gerrit in headless mode, i.e. without the Gerrit UI:
 
 ----
-  bazel build headless
+  bazelisk build headless
 ----
 
 The output executable WAR will be placed in:
@@ -65,10 +152,10 @@ The output executable WAR will be placed in:
 
 === Extension and Plugin API JAR Files
 
-To build the extension, plugin and GWT API JAR files:
+To build the extension, plugin and acceptance-framework JAR files:
 
 ----
-  bazel build api
+  bazelisk build api
 ----
 
 The output archive that contains Java binaries, Java sources and
@@ -78,7 +165,8 @@ Java docs will be placed in:
   bazel-bin/api.zip
 ----
 
-Install {extension,plugin,gwt}-api to the local maven repository:
+Install {extension,plugin,acceptance-framework}-api to the local
+maven repository:
 
 ----
   tools/maven/api.sh install
@@ -93,7 +181,7 @@ Install gerrit.war to the local maven repository:
 === Plugins
 
 ----
-  bazel build plugins:core
+  bazelisk build plugins:core
 ----
 
 The output JAR files for individual plugins will be placed in:
@@ -111,10 +199,10 @@ The JAR files will also be packaged in:
 To build a specific plugin:
 
 ----
-  bazel build plugins/<name>
+  bazelisk build plugins/<name>
 ----
 
-The output JAR file will be be placed in:
+The output JAR file will be placed in:
 
 ----
   bazel-bin/plugins/<name>/<name>.jar
@@ -123,19 +211,12 @@ The output JAR file will be be placed in:
 Note that when building an individual plugin, the `core.zip` package
 is not regenerated.
 
-To build with all Error Prone warnings activated, run:
-
-----
-  bazel build --java_toolchain //tools:error_prone_warnings_toolchain //...
-----
-
-
 [[IDEs]]
 == Using an IDE.
 
 === IntelliJ
 
-The Gerrit build works with Bazel's link:https://ij.bazel.io[IntelliJ plugin].
+The Gerrit build works with Bazel's link:https://ij.bazel.build[IntelliJ plugin,role=external,window=_blank].
 Please follow the instructions on <<dev-intellij#,IntelliJ Setup>>.
 
 === Eclipse
@@ -155,15 +236,15 @@ and then follow the link:dev-eclipse.html#setup[setup instructions].
 If an updated classpath is needed, the Eclipse project can be
 refreshed and missing dependency JARs can be downloaded by running
 `project.py` again. For IntelliJ, you need to click the `Sync Project
-with BUILD Files` button of link:https://ij.bazel.io[IntelliJ plugin].
+with BUILD Files` button of link:https://ij.bazel.build[Bazel plugin,role=external,window=_blank].
 
 [[documentation]]
-=== Documentation
+== Documentation
 
 To build only the documentation for testing or static hosting:
 
 ----
-  bazel build Documentation:searchfree
+  bazelisk build Documentation:searchfree
 ----
 
 The html files will be bundled into `searchfree.zip` in this location:
@@ -172,10 +253,31 @@ The html files will be bundled into `searchfree.zip` in this location:
   bazel-bin/Documentation/searchfree.zip
 ----
 
-To build the executable WAR with the documentation included:
+To use local fonts with the searchfree target:
 
 ----
-  bazel build withdocs
+  bazel build Documentation:searchfree_safe
+----
+
+The html files will be bundled into `searchfree.zip` or `searchfree_safe.zip` in this location:
+
+----
+  bazel-bin/Documentation/searchfree.zip
+  bazel-bin/Documentation/searchfree_safe.zip
+----
+
+To generate HTML files skipping the zip archiving:
+
+----
+  bazelisk build Documentation
+----
+
+And open `bazel-bin/Documentation/index.html`.
+
+To build the Gerrit executable WAR with the documentation included:
+
+----
+  bazelisk build withdocs
 ----
 
 The WAR file will be placed in:
@@ -184,110 +286,303 @@ The WAR file will be placed in:
   bazel-bin/withdocs.war
 ----
 
+Alternatively, one can generate the documentation as flat files:
+
+----
+  bazelisk build Documentation:Documentation
+----
+
+The html, css, js files are placed in:
+
+----
+ `bazel-bin/Documentation/`
+----
+
+[[license]]
+== License
+
+To check that licenses are up to date, run:
+
+----
+  bazelisk test Documentation:check_licenses
+----
+
+You can then copy by doing:
+
+----
+  cp bazel-bin/Documentation/licenses.gen.txt Documentation/licenses.txt
+  cp bazel-bin/Documentation/backend_licenses.gen.txt Documentation/backend_licenses.txt
+  cp bazel-bin/Documentation/js_licenses.gen.txt Documentation/js_licenses.txt
+----
+
+Note: Follow link:#npm-binary[NPM Binaries] for adding npm package dependencies licenses.
+      This is for js_licenses.txt.
+
+[[release-war-metadata]]
+== Release WAR metadata outputs
+
+The `pkg_war` rule emits deterministic metadata files describing the
+contents of a generated WAR. These files are produced without
+materializing or unpacking the WAR archive and are intended for checks
+and diagnostics.
+
+=== <name>.war.jars.txt
+
+This file contains the normalized, version-agnostic identifiers of
+third-party JARs that would be packaged into the WAR.
+
+It is used by the `//Documentation:check_release_war_jars` test as a
+guardrail against unintended changes to the runtime dependency set
+shipped in `release.war`.
+
+The identifiers are normalized to remain stable across dependency
+upgrades (for example by stripping version suffixes and excluding
+Gerrit-internal artifacts).
+
+=== <name>.war.entries.txt
+
+This file lists the full entry paths of all JAR files as they would
+appear inside the WAR (for example `WEB-INF/lib/foo.jar` or
+`WEB-INF/pgm-lib/bar.jar`).
+
+This output is intended as a lightweight diagnostic aid and for future
+checks on WAR layout. It allows inspection of:
+* which JARs are packaged
+* where they are placed inside the WAR (lib vs pgm-lib)
+* whether duplicate entries or unintended version skews (multiple
+  versions of the same library) are introduced
+
+without requiring the WAR to be built or unpacked.
+
+At present, this file is not consumed by an automated test, but it is
+kept to support debugging and potential future validation of WAR
+structure.
+
+[[release-war-jars]]
+== Release WAR dependency allowlist
+
+The set of third-party JARs packaged into `release.war` is checked by the
+`//Documentation:check_release_war_jars` test. This test acts as a guardrail
+to detect unintended changes to the runtime dependency set shipped in Gerrit
+releases.
+
+To run the check:
+
+----
+  bazelisk test //Documentation:check_release_war_jars
+----
+
+If the test fails with:
+
+----
+  WAR packaged third-party JAR set changed
+----
+
+the runtime dependency set of `release.war` has changed.
+
+If the change is expected and has been reviewed, refresh the allowlist:
+
+----
+  bazelisk build //:release.war.jars.txt
+  cp bazel-bin/release.war.jars.txt Documentation/release_war_jars.txt
+----
+
+Changes to the packaged dependency set may also require updating license
+metadata. All runtime dependencies that are shipped in `release.war` must be
+reachable from the Bazel dependency graph so that license checks can locate
+them.
+
+When adding or modifying dependencies:
+* Ensure new runtime dependencies are wired explicitly (for example as
+  `runtime_deps`) into the appropriate `//lib` wrapper targets.
+* Update or add license metadata as needed.
+* Run the license check:
+
+----
+  bazelisk test //Documentation:check_licenses
+----
+
 [[tests]]
 == Running Unit Tests
 
-----
-  bazel test --build_tests_only //...
-----
-
-Debugging tests:
+Bazel BUILD files define test targets for Gerrit. You can run all declared
+test targets with:
 
 ----
-  bazel test --test_output=streamed --test_filter=com.gerrit.TestClass.testMethod  testTarget
+  bazelisk test --build_tests_only //...
 ----
 
-Debug test example:
+[[testgroups]]
+=== Running Test Groups
+
+To run one or more specific labeled groups of tests:
 
 ----
-  bazel test --test_output=streamed --test_filter=com.google.gerrit.acceptance.api.change.ChangeIT.getAmbiguous //gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/api/change:api_change
+  bazelisk test --test_tag_filters=api,git //...
 ----
 
-To run a specific test group, e.g. the rest-account test group:
-
-----
-  bazel test //gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/rest/account:rest_account
-----
-
-To run the tests against NoteDb backend with write
-to NoteDb, but not read from it:
-
-----
-  bazel test --test_env=GERRIT_NOTEDB=WRITE //...
-----
-
-Write and read from NoteDb:
-
-----
-  bazel test --test_env=GERRIT_NOTEDB=READ_WRITE //...
-----
-
-Primary storage NoteDb:
-
-----
-  bazel test --test_env=GERRIT_NOTEDB=PRIMARY //...
-----
-
-Primary storage NoteDb and ReviewDb disabled:
-
-----
-  bazel test --test_env=GERRIT_NOTEDB=ON //...
-----
-
-To run only tests that do not use SSH:
-
-----
-  bazel test --test_env=GERRIT_USE_SSH=NO //...
-----
-
-To exclude tests that have been marked as flaky:
-
-----
-  bazel test --test_tag_filters=-flaky //...
-----
-
-To exclude tests that require a Docker host:
-
-----
-  bazel test --test_tag_filters=-docker //...
-----
-
-To ignore cached test results:
-
-----
-  bazel test --cache_test_results=NO //...
-----
-
-To run one or more specific groups of tests:
-
-----
-  bazel test --test_tag_filters=api,git //...
-----
-
-The following values are currently supported for the group name:
+The following label values are currently supported for the group name:
 
 * annotation
 * api
-* docker
 * edit
-* elastic
 * git
+* git-protocol-v2
+* git-upload-archive
 * notedb
 * pgm
 * rest
 * server
 * ssh
 
-[[elasticsearch]]
-=== Elasticsearch
+We can also select tests within a specific BUILD target group. For example
+`javatests/com/google/gerrit/acceptance/rest/account/BUILD` declares a
+rest_account test target group:
 
-Successfully running the Elasticsearch tests requires Docker, and
-may require setting the local
-link:https://www.elastic.co/guide/en/elasticsearch/reference/current/vm-max-map-count.html[virtual memory].
+----
+  bazelisk test //javatests/com/google/gerrit/acceptance/rest/account:rest_account
+----
 
-If Docker is not available, the Elasticsearch tests will be skipped.
-Note that Bazel currently does not show
-link:https://github.com/bazelbuild/bazel/issues/3476[the skipped tests].
+[[debugtests]]
+=== Debugging Tests
+
+To debug specific tests you will need to select the test target containing
+that test then use `--test_filter` to select the specific test you want.
+This `--test_filter` is a regex and can be used to select multiple tests
+out of the target:
+
+----
+  bazelisk test --test_output=streamed --test_filter=com.gerrit.TestClass.testMethod testTarget
+----
+
+For example `javatests/com/google/gerrit/acceptance/api/change/BUILD`
+defines a test target group for every `*IT.java` file in the directory.
+We can execute the single `getAmbiguous()` test found in ChangeIT.java using
+this `--test_filter` and target:
+
+----
+  bazelisk test --test_output=streamed \
+    --test_filter=com.google.gerrit.acceptance.api.change.ChangeIT.getAmbiguous \
+    //javatests/com/google/gerrit/acceptance/api/change:ChangeIT
+----
+
+[[additionaltestfiltering]]
+=== Additional Test Filtering
+
+To run only tests that do not use SSH:
+
+----
+  bazelisk test --test_env=GERRIT_USE_SSH=NO //...
+----
+
+To exclude tests that have been marked as flaky:
+
+----
+  bazelisk test --test_tag_filters=-flaky //...
+----
+
+To exclude tests that require very recent git client version:
+
+----
+  bazelisk test --test_tag_filters=-git-protocol-v2 //...
+----
+
+To run the tests against a specific index backend (LUCENE, FAKE):
+----
+  bazelisk test --test_env=GERRIT_INDEX_TYPE=LUCENE //...
+----
+
+Bazel itself supports a multitude of ways to
+link:https://bazel.build/run/build#specifying-build-targets[specify targets,role=external,window=_blank]
+for fine-grained test selection that can be combined with many of the examples
+above.
+
+[[testcaching]]
+=== Test Caching
+
+By default Bazel caches test results and will not reexecute tests unless they
+or their dependencies have been modified. To ignore cached test results and
+force the tests to rerun:
+
+----
+  bazelisk test --cache_test_results=NO //...
+----
+
+[[plugintests]]
+=== Running Plugin Tests
+
+Running tests for Gerrit plugins follows the process above. From within the
+Gerrit project root with the desired plugins checked out into `plugins/` we
+execute Bazel with the appropriate target:
+
+----
+  bazelisk test //plugins/replication/...
+----
+
+[[known-issues]]
+=== Known Issues
+
+[[byte-buddy-not-initialized-or-unavailable]]
+==== The Byte Buddy agent is not initialized or unavailable
+
+If running tests that make use of mocks fail with the exception below, set the
+`sandbox_tmpfs_path` flag for running tests in `.bazelrc` as described in this
+link:https://github.com/mockito/mockito/issues/1879#issuecomment-922459131[
+issue], e.g. add this line: `test --sandbox_tmpfs_path=/tmp`
+
+.Exception:
+----
+...
+Caused by: org.mockito.exceptions.base.MockitoInitializationException:
+Could not initialize inline Byte Buddy mock maker.
+
+It appears as if your JDK does not supply a working agent attachment mechanism.
+...
+Caused by: java.lang.IllegalStateException: The Byte Buddy agent is not initialized or unavailable
+at net.bytebuddy.agent.ByteBuddyAgent.getInstrumentation(ByteBuddyAgent.java:230)
+at net.bytebuddy.agent.ByteBuddyAgent.install(ByteBuddyAgent.java:617)
+at net.bytebuddy.agent.ByteBuddyAgent.install(ByteBuddyAgent.java:568)
+at net.bytebuddy.agent.ByteBuddyAgent.install(ByteBuddyAgent.java:545)
+at org.mockito.internal.creation.bytebuddy.InlineDelegateByteBuddyMockMaker.<clinit>(InlineDelegateByteBuddyMockMaker.java:115)
+... 47 more
+----
+
+[[debugging-tests]]
+== Debugging Unit Tests
+In some cases it may be necessary to debug a test while running it in bazel. For example, when we
+observe a different test result in Eclipse and bazel. Using the `--java_debug` option will start the
+JVM in debug mode and await for a remote debugger to attach.
+
+Example:
+[source,bash]
+----
+  bazelisk test --java_debug --test_tag_filters=delete-project //...
+  ...
+  Listening for transport dt_socket at address: 5005
+  ...
+----
+
+Now attach with a debugger to the port `5005`. For example use "Remote Java Application" launch
+configuration in Eclipse and specify the port `5005`.
+
+[[logging]]
+=== Controlling logging level
+
+Per default, logging level is set to `INFO` level for all tests. The `DEBUG`
+log level can be enabled for the tests.
+
+In IDE, set `-Dgerrit.logLevel=debug` as a VM argument. With `bazel`, pass
+`GERRIT_LOG_LEVEL=debug` environment variable:
+
+----
+  bazelisk test --test_filter=com.google.gerrit.server.notedb.ChangeNotesTest \
+    --test_env=GERRIT_LOG_LEVEL=debug \
+    javatests/com/google/gerrit/server:server_tests
+----
+
+The log results can be found in:
+`bazel-testlogs/javatests/com/google/gerrit/server/server_tests/test.log`.
+
 
 == Dependencies
 
@@ -296,7 +591,7 @@ download everything upfront.  This is useful to enable
 subsequent builds to run without network access:
 
 ----
-  bazel fetch //...
+  bazelisk fetch //...
 ----
 
 When downloading from behind a proxy (which is common in some corporate
@@ -307,95 +602,186 @@ is then used by `curl`:
   export http_proxy=http://<proxy_user_id>:<proxy_password>@<proxy_server>:<proxy_port>
 ----
 
-Redirection to local mirrors of Maven Central and the Gerrit storage
-bucket is supported by defining specific properties in
-`local.properties`, a file that is not tracked by Git:
+== Adding and/or updating Maven dependencies
 
+Maven dependencies are maintained in two separate files: `tools/deps.toml` and
+`tools/nongoogle.toml`. Depending on whether Google will use the dependency
+or not, dependencies should be added to one or the other file. If unsure, the
+dependency should be added to `tools/deps.toml`. A Googler will check the dependency
+during review and provide feedback.
+
+When adding a new maven dependency add a line like this:
+
+[source,toml]
 ----
-  echo download.GERRIT = http://nexus.my-company.com/ >>local.properties
-  echo download.MAVEN_CENTRAL = http://nexus.my-company.com/ >>local.properties
+[libraries]
+commons-codec = { module = "commons-codec:commons-codec", version = "1.15" }
 ----
 
-The `local.properties` file may be placed in the root of the gerrit repository
-being built, or in `~/.gerritcodereview/`.  The file in the root of the gerrit
-repository has precedence.
+To update a dependency, change the corresponding version in the above mentioned
+toml-files.
+
+In both cases, the dependencies have to be repinned. To do that, run:
+
+[source,bash]
+----
+REPIN=1 bazel run @external_deps//:pin
+----
 
 == Building against unpublished Maven JARs
 
-To build against unpublished Maven JARs, like gwtorm or PrologCafe, the custom
-JARs must be installed in the local Maven repository (`mvn clean install`) and
-`maven_jar()` must be updated to point to the `MAVEN_LOCAL` Maven repository for
-that artifact:
+To build against unpublished Maven JARs, like PrologCafe, the custom JARs must
+be installed in the local Maven repository (`mvn clean install`) and the local
+repository has to be added to the `maven.install()`-call in `MODULE.bazel`:
 
 [source,python]
 ----
- maven_jar(
-   name = 'gwtorm',
-   artifact = 'gwtorm:gwtorm:42',
-   repository = MAVEN_LOCAL,
- )
+  maven.install(
+      artifacts = [],
+      repositories = [
+          "file://$HOME/.m2/repository",
+          "https://repo1.maven.org/maven2",
+          "https://gerrit-maven.storage.googleapis.com",
+      ],
+      ...
+  )
 ----
 
 == Building against artifacts from custom Maven repositories
 
-To build against custom Maven repositories, two modes of operations are
-supported: with rewrite in local.properties and without.
-
-Without rewrite the URL of custom Maven repository can be directly passed
-to the maven_jar() function:
+The URL of custom Maven repository can be directly passed to the `maven.install`
+function:
 
 [source,python]
 ----
   GERRIT_FORGE = 'http://gerritforge.com/snapshot'
 
-  maven_jar(
-    name = 'gitblit',
-    artifact = 'com.gitblit:gitblit:1.4.0',
-    sha1 = '1b130dbf5578ace37507430a4a523f6594bf34fa',
-    repository = GERRIT_FORGE,
- )
+  maven.install(
+      artifacts = [],
+      repositories = [
+          GERRIT_FORGE,
+          "https://repo1.maven.org/maven2",
+          "https://gerrit-maven.storage.googleapis.com",
+      ],
+      ...
+  )
 ----
 
-When the custom URL has to be rewritten, then the same logic as with Gerrit
-known Maven repository is used: Repo name must be defined that matches an entry
-in local.properties file:
+Note, that these repositories will apply to all artifacts being used.
 
+== Building against SNAPSHOT Maven JARs
+
+To build against SNAPSHOT Maven JARs, the complete SNAPSHOT version must be used:
+
+[source,toml]
 ----
-  download.GERRIT_FORGE = http://my.company.mirror/gerrit-forge
+[libraries]
+commons-codec = { module = "commons-codec:commons-codec", version = "1.15-SNAPSHOT-20190112.120241-16" }
 ----
-
-And corresponding WORKSPACE excerpt:
-
-[source,python]
-----
-  GERRIT_FORGE = 'GERRIT_FORGE:'
-
-  maven_jar(
-    name = 'gitblit',
-    artifact = 'com.gitblit:gitblit:1.4.0',
-    sha1 = '1b130dbf5578ace37507430a4a523f6594bf34fa',
-    repository = GERRIT_FORGE,
- )
-----
-
-[[consume-jgit-from-development-tree]]
-
-To consume the JGit dependency from the development tree, edit
-`lib/jgit/jgit.bzl` setting LOCAL_JGIT_REPO to a directory holding a
-JGit repository.
 
 [[bazel-local-caches]]
 
 To accelerate builds, several caches are activated per default:
 
-* ~/.gerritcodereview/bazel-cache/downloaded-artifacts
 * ~/.gerritcodereview/bazel-cache/repository
 * ~/.gerritcodereview/bazel-cache/cas
 
+The cache locations can be adjusted with `bazelisk build` options
+`--repository_cache` and `--disk_cache` respectively.
+
 Currently none of these caches have a maximum size limit. See
-link:https://github.com/bazelbuild/bazel/issues/5139[this bazel issue] for
+link:https://github.com/bazelbuild/bazel/issues/5139[this bazel issue,role=external,window=_blank] for
 details. Users should watch the cache sizes and clean them manually if
 necessary.
+
+[[npm-binary]]
+== NPM Binaries
+
+Parts of the Gerrit web app build require running NPM-based JavaScript programs
+as "binaries". We don't attempt to resolve and download NPM dependencies at
+build time, but instead use pre-built bundles of the NPM binary along with all
+its dependencies. Some packages on
+link:https://docs.npmjs.com/misc/registry[registry.npmjs.org,role=external,window=_blank] come with their
+dependencies bundled, but this is the exception rather than the rule. More
+commonly, to add a new binary to this list, you will need to bundle the binary
+yourself.
+
+[NOTE]
+We can only use binaries that meet certain licensing requirements, and that do
+not include any native code.
+
+Start by checking that the license and file types of the bundle are acceptable:
+[source,bash]
+----
+  gerrit_repo=/path/to/gerrit
+  package=some-npm-package
+  version=1.2.3
+
+  # Note - yarn must be installed before running the following commands
+  yarn global add license-checker && \
+  rm -rf /tmp/$package-$version && mkdir -p /tmp/$package-$version && \
+  cd /tmp/$package-$version && \
+  yarn add $package@$version && \
+  license-checker | grep licenses: | sort -u
+----
+
+This will output a list of the different licenses used by the package and all
+its transitive dependencies. We can only legally distribute a bundle via our
+storage bucket if the licenses allow us to do so. As long as all of the listed
+license are allowed by
+link:https://opensource.google.com/docs/thirdparty/licenses/[Google's
+standards,role=external,window=_blank]. Any `by_exception_only`, commercial, prohibited, or unlisted
+licenses are not allowed; otherwise, it is ok to distribute the source. If in
+doubt, contact a maintainer who is a Googler.
+
+Next, check the file types:
+[source,bash]
+----
+  cd /tmp/$package-$version
+  find . -type f | xargs file | grep -v 'ASCII\|UTF-8\|empty$'
+----
+
+If you see anything that looks like a native library or binary, then we can't
+use the bundle.
+
+If everything looks good, install the package with the following command:
+[source, bash]
+----
+# Add to ui_npm. Other packages.json can be updated in the same way
+cd $gerrit_repo/polygerrit-ui/app
+bazelisk run @yarn//:yarn add $package
+----
+
+Update the `polygerrit-ui/app/node_modules_licenses/licenses.ts` file. You should add licenses
+for the package itself and for all transitive dependencies. If you forgot to add a license, the
+`Documentation:check_licenses` test will fail.
+
+After the update, commit all changes to the repository (including `yarn.lock`).
+
+[NOTE]
+====
+If a npm package has transitive dependencies (or just several files) with a not allowed
+license and you can't avoid use it in release, then you can add this package.
+For example some packages contain demo-code with a different license. Another example - optional
+dependencies, which are not needed to build the Gerrit web app, but they are installed together
+with the package anyway.
+
+In this case you should exclude all files and/or transitive dependencies with a not allowed license.
+Adding such package requires additional updates:
+
+- Add dependencies (or files) to the license.ts with an appropriate license marked with
+`allowed: false`.
+
+- update package.json postinstall script to remove all non-allowed files (if you don't
+update postinstall script, `Documentation:check_licenses` test will fail.)
+====
+
+=== Update NPM Binaries
+To update a NPM binary the same actions as for a new one must be done (check licenses,
+update `licenses.ts` file, etc...). The only difference is a command to install a package: instead
+of `bazelisk run @yarn//:yarn add $package` you should run the `bazelisk run @yarn//:yarn upgrade ...`
+command with correct arguments. You can find the list of arguments in the
+link:https://classic.yarnpkg.com/en/docs/cli/upgrade/[yarn upgrade doc,role=external,window=_blank].
 
 
 [[RBE]]
@@ -419,19 +805,56 @@ gcloud alpha remote-build-execution worker-pools create default \
     --project=${PROJECT} \
     --instance=default_instance \
     --worker-count=50 \
-    --machine-type=n1-highcpu-4 \
+    --machine-type=e2-standard-4 \
     --disk-size=200
 ```
+
+Note, that we are using Ubuntu2204 docker image from bazel project:
+
+
+```
+docker pull gcr.io/bazel-public/ubuntu2204-java17@sha256:ffe37746a34537d8e73cef5a20ccd3a4e3ec7af3e7410cba87387ba97c0e520f
+```
+
+Re-build rbe_autoconfig project, conduct a new release and switch to using it
+in `WORKSPACE` file. For more details see this
+link:https://github.com/davido/rbe_autoconfig[repository,role=external,window=_blank]
+
+Note, to authenticate to the gcr.io registry, the following command must be
+used:
+
+```
+gcloud auth configure-docker
+```
+
+To see the documentation, developer must be added to this group:
+https://groups.google.com/forum/#!forum/rbe-alpha-customers.
+
+Documentation can be found at:
+https://cloud.google.com/remote-build-execution/docs.
 
 To use RBE, execute
 
 ```
-bazel test --config=remote \
+bazelisk test --config=remote \
     --remote_instance_name=projects/${PROJECT}/instances/default_instance \
     javatests/...
 ```
 
 
+== BuildBuddy Remote Build Support
+
+To utilize the BuildBuddy Remote Build Execution service, please consult the
+documentation available at the following link: https://www.buildbuddy.io[BuildBuddy].
+
+To use RBE, execute
+
+```
+bazelisk test --config=remote_bb \
+    --remote_instance_name=projects/${PROJECT}/instances/default_instance \
+    --remote_header=x-buildbuddy-api-key=YOUR_API_KEY \
+    javatests/...
+```
 
 
 GERRIT

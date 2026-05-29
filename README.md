@@ -3,7 +3,8 @@
 [Gerrit](https://www.gerritcodereview.com) is a code review and project
 management tool for Git based projects.
 
-[![Build Status](https://gerrit-ci.gerritforge.com/job/Gerrit-master/badge/icon)](https://gerrit-ci.gerritforge.com/job/Gerrit-master/)
+[![Build Status](https://gerrit-ci.gerritforge.com/view/Gerrit/job/Gerrit-bazel-master/badge/icon)](https://gerrit-ci.gerritforge.com/view/Gerrit/job/Gerrit-bazel-master/)
+![Maven Central](https://img.shields.io/maven-central/v/com.google.gerrit/gerrit-war)
 
 ## Objective
 
@@ -49,17 +50,17 @@ Gerrit is provided under the Apache License 2.0.
 
 Install [Bazel](https://bazel.build/versions/master/docs/install.html) and run the following:
 
-        git clone --recursive https://gerrit.googlesource.com/gerrit
+        git clone --recurse-submodules https://gerrit.googlesource.com/gerrit
         cd gerrit && bazel build release
 
 ## Install binary packages (Deb/Rpm)
 
 The instruction how to configure GerritForge/BinTray repositories is
-[here](http://gitenterprise.me/2015/02/27/gerrit-2-10-rpm-and-debian-packages-available)
+[here](https://gitenterprise.me/2015/02/27/gerrit-2-10-rpm-and-debian-packages-available/)
 
 On Debian/Ubuntu run:
 
-        apt-get update & apt-get install gerrit=<version>-<release>
+        apt-get update && apt-get install gerrit=<version>-<release>
 
 _NOTE: release is a counter that starts with 1 and indicates the number of packages that have
 been released with the same version of the software._
@@ -76,13 +77,13 @@ On Fedora run:
 
 Docker images of Gerrit are available on [DockerHub](https://hub.docker.com/u/gerritforge/)
 
-To run a CentOS 7 based Gerrit image:
+To run a CentOS 8 based Gerrit image:
 
-        docker run -p 8080:8080 gerritforge/gerrit-centos7[:version]
+        docker run -p 8080:8080 gerritcodereview/gerrit[:version]-centos8
 
-To run a Ubuntu 15.04 based Gerrit image:
+To run a Ubuntu 20.04 based Gerrit image:
 
-        docker run -p 8080:8080 gerritforge/gerrit-ubuntu15.04[:version]
+        docker run -p 8080:8080 gerritcodereview/gerrit[:version]-ubuntu20
 
 _NOTE: release is optional. Last released package of the version is installed if the release
 number is omitted._

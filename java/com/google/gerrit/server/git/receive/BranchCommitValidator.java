@@ -1,0 +1,236 @@
+// Copyright (C) 2018 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+package com.google.gerrit.server.git.receive;
+
+import static com.google.gerrit.git.ObjectIds.abbreviateName;
+import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_OTHER_REASON;
+
+import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableListMultimap;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.BranchNameKey;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Project;
+import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.events.CommitReceivedEvent;
+import com.google.gerrit.server.git.validators.CommitValidationException;
+import com.google.gerrit.server.git.validators.CommitValidationInfo;
+import com.google.gerrit.server.git.validators.CommitValidationInfoListener;
+import com.google.gerrit.server.git.validators.CommitValidationMessage;
+import com.google.gerrit.server.git.validators.CommitValidators;
+import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.logging.TraceContext.TraceTimer;
+import com.google.gerrit.server.patch.DiffOperationsForCommitValidation;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.project.ProjectState;
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
+import java.io.IOException;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.notes.NoteMap;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.transport.ReceiveCommand;
+
+/** Validates single commits for a branch. */
+public class BranchCommitValidator {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
+  private final CommitValidators.Factory commitValidatorsFactory;
+  private final IdentifiedUser user;
+  private final PermissionBackend.ForProject permissions;
+  private final Project project;
+  private final BranchNameKey branch;
+
+  interface Factory {
+    BranchCommitValidator create(
+        ProjectState projectState, BranchNameKey branch, IdentifiedUser user);
+  }
+
+  /** A boolean validation status and a list of additional messages. */
+  @AutoValue
+  abstract static class Result {
+    static Result create(
+        boolean isValid,
+        ImmutableMap<String, CommitValidationInfo> validationInfos,
+        ImmutableList<CommitValidationMessage> messages) {
+      return new AutoValue_BranchCommitValidator_Result(isValid, validationInfos, messages);
+    }
+
+    /** Whether the commit is valid. */
+    abstract boolean isValid();
+
+    /**
+     * Map that maps a validator name to a {@link CommitValidationInfo} (result of running the
+     * validator).
+     */
+    abstract ImmutableMap<String, CommitValidationInfo> validationInfos();
+
+    /**
+     * A list of messages related to the validation. Messages may be present regardless of the
+     * {@link #isValid()} status.
+     */
+    abstract ImmutableList<CommitValidationMessage> messages();
+  }
+
+  @Inject
+  BranchCommitValidator(
+      CommitValidators.Factory commitValidatorsFactory,
+      PermissionBackend permissionBackend,
+      @Assisted ProjectState projectState,
+      @Assisted BranchNameKey branch,
+      @Assisted IdentifiedUser user) {
+    this.user = user;
+    this.branch = branch;
+    this.commitValidatorsFactory = commitValidatorsFactory;
+    project = projectState.getProject();
+    permissions = permissionBackend.user(user).project(project.getNameKey());
+  }
+
+  /**
+   * Validates a single commit. If the commit does not validate, the command is rejected.
+   *
+   * @param repository the repository
+   * @param objectReader the object reader to use.
+   * @param cmd the ReceiveCommand executing the push.
+   * @param commit the commit being validated.
+   * @param isMerged whether this is a merge commit created by magicBranch --merge option
+   * @param invokeCommitValidationInfoListeners whether the {@link CommitValidationInfoListener}'s
+   *     should be invoked when the validation is done
+   * @param change the change for which this is a new patchset.
+   * @return The validation {@link Result}.
+   */
+  Result validateCommit(
+      Repository repository,
+      ObjectReader objectReader,
+      DiffOperationsForCommitValidation diffOperationsForCommitValidation,
+      ReceiveCommand cmd,
+      RevCommit commit,
+      ImmutableListMultimap<String, String> pushOptions,
+      boolean isMerged,
+      NoteMap rejectCommits,
+      boolean invokeCommitValidationInfoListeners,
+      @Nullable Change change)
+      throws IOException {
+    return validateCommit(
+        repository,
+        objectReader,
+        diffOperationsForCommitValidation,
+        cmd,
+        commit,
+        pushOptions,
+        isMerged,
+        rejectCommits,
+        invokeCommitValidationInfoListeners,
+        change,
+        false);
+  }
+
+  /**
+   * Validates a single commit. If the commit does not validate, the command is rejected.
+   *
+   * @param repository the repository
+   * @param objectReader the object reader to use.
+   * @param cmd the ReceiveCommand executing the push.
+   * @param commit the commit being validated.
+   * @param isMerged whether this is a merge commit created by magicBranch --merge option
+   * @param invokeCommitValidationInfoListeners whether the {@link CommitValidationInfoListener}'s
+   *     should be invoked when the validation is done
+   * @param change the change for which this is a new patchset.
+   * @param skipValidation whether 'skip-validation' was requested.
+   * @return The validation {@link Result}.
+   */
+  Result validateCommit(
+      Repository repository,
+      ObjectReader objectReader,
+      DiffOperationsForCommitValidation diffOperationsForCommitValidation,
+      ReceiveCommand cmd,
+      RevCommit commit,
+      ImmutableListMultimap<String, String> pushOptions,
+      boolean isMerged,
+      NoteMap rejectCommits,
+      boolean invokeCommitValidationInfoListeners,
+      @Nullable Change change,
+      boolean skipValidation)
+      throws IOException {
+    try (TraceTimer traceTimer = TraceContext.newTimer("BranchCommitValidator#validateCommit")) {
+      ImmutableMap<String, CommitValidationInfo> validationInfos = ImmutableMap.of();
+      ImmutableList.Builder<CommitValidationMessage> messages = new ImmutableList.Builder<>();
+      try (CommitReceivedEvent receiveEvent =
+          new CommitReceivedEvent(
+              cmd,
+              project,
+              branch.branch(),
+              pushOptions,
+              new Config(repository.getConfig()),
+              objectReader,
+              commit,
+              user,
+              change != null ? change.getCherryPickOf() : null,
+              diffOperationsForCommitValidation)) {
+        CommitValidators validators;
+        if (isMerged) {
+          validators =
+              commitValidatorsFactory.forMergedCommits(
+                  permissions, branch, user.asIdentifiedUser());
+        } else {
+          validators =
+              commitValidatorsFactory.forReceiveCommits(
+                  permissions,
+                  branch,
+                  user.asIdentifiedUser(),
+                  rejectCommits,
+                  receiveEvent.revWalk,
+                  change,
+                  skipValidation);
+        }
+
+        validationInfos =
+            validators
+                .invokeCommitValidationInfoListeners(invokeCommitValidationInfoListeners)
+                .validate(receiveEvent);
+        for (CommitValidationInfo validatioInfo : validationInfos.values()) {
+          for (CommitValidationMessage m : validatioInfo.validationMessages()) {
+            messages.add(
+                new CommitValidationMessage(
+                    messageForCommit(commit, m.getMessage(), objectReader), m.getType()));
+          }
+        }
+      } catch (CommitValidationException e) {
+        logger.atFine().log("Commit validation failed on %s", commit.name());
+        for (CommitValidationMessage m : e.getMessages()) {
+          // The non-error messages may contain background explanation for the
+          // fatal error, so have to preserve all messages.
+          messages.add(
+              new CommitValidationMessage(
+                  messageForCommit(commit, m.getMessage(), objectReader), m.getType()));
+        }
+        cmd.setResult(
+            REJECTED_OTHER_REASON, messageForCommit(commit, e.getMessage(), objectReader));
+        return Result.create(false, ImmutableMap.of(), messages.build());
+      }
+      return Result.create(true, validationInfos, messages.build());
+    }
+  }
+
+  private String messageForCommit(RevCommit c, String msg, ObjectReader objectReader)
+      throws IOException {
+    return String.format("commit %s: %s", abbreviateName(c, objectReader), msg);
+  }
+}

@@ -1,0 +1,301 @@
+= Gerrit Code Review - JavaScript Plugin Endpoints
+
+This document describes Gerrit JavaScript plugin endpoints that you can hook
+into for customizing the UI. It is assumed that you are familiar with
+link:pg-plugin-dev.html#loading[the general dev guide].
+
+You can either hook into an endpoint by calling `plugin.hook(endpoint)` and
+then interact with the returned `HookApi`, which has `onAttached(callback)` and
+`onDetached(callback)` methods.
+
+Or you can define a
+link:https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_custom_elements[Web Component,role=external,window=_blank]
+and register it directly using
+`plugin.registerCustomComponent(endpoint, elementName)`.
+
+Sample code for using an endpoint:
+
+``` js
+Gerrit.install(plugin => {
+  const endpoint = 'change-metadata-item';
+  plugin.hook(endpoint).onAttached(element => {
+    const el = element.appendChild(document.createElement('div'));
+    el.textContent = 'Ah, there it is. Lovely.';
+    el.style = 'background: pink; line-height: 4em; text-align: center;';
+  });
+});
+```
+
+== Default parameters
+All endpoints receive the following parameters, set as attributes to custom
+components that are instantiated at the endpoint:
+
+* `plugin`
++
+the current plugin instance, the one that is used by `Gerrit.install()`.
+
+* `content`
++
+decorated DOM Element, is only set for registrations that decorate existing
+components.
+
+== Plugin endpoints
+
+The following endpoints are available to plugins.
+
+=== auth-link
+The `auth-link` extension point is located in the top right corner of anonymous
+pages. The purpose is to improve user experience for custom OAuth providers by
+providing custom components and/or visual feedback of authentication progress.
+
+=== banner
+The `banner` extension point is located at the top of all pages. The purpose
+is to allow plugins to show outage information and important announcements to
+all users.
+
+=== change-view-integration
+The `change-view-integration` extension point is located between `Files` and
+`Change Log` section on the change view page, and it may take full page's
+width.
+
+* `change`
++
+current change displayed, an instance of
+link:rest-api-changes.html#change-info[ChangeInfo]
+
+* `revision`
++
+current revision displayed, an instance of
+link:rest-api-changes.html#revision-info[RevisionInfo]
+
+=== change-metadata-item
+The `change-metadata-item` extension point is located on the change view
+left panel, below the `Submit Requirements` and `Links` sections by default.
+Its width is equal to the left panel's, and its primary purpose is to allow
+plugins to add sections of metadata to the left panel.
+
+Plugins can set `slot` to `above-submit-requirements` to place the item above
+the `Submit Requirements` and `Links` sections.
+
+Sample code which sets the `slot`:
+
+``` js
+Gerrit.install(
+  plugin => {
+    plugin.registerCustomComponent(
+      'change-metadata-item', 'module-name',
+        {'slot': "above-submit-requirements"});
+});
+```
+
+In addition to default parameters, the following are available:
+
+* `change`
++
+current change displayed, an instance of
+link:rest-api-changes.html#change-info[ChangeInfo]
+
+* `revision`
++
+current revision displayed, an instance of
+link:rest-api-changes.html#revision-info[RevisionInfo]
+
+* `labels`
++
+labels with scores applied to the change, map of the label names to
+link:rest-api-changes.html#label-info[LabelInfo] entries
+
+=== check-result-expanded
+The `check-result-expanded` extension point is attached to a result
+of the link:pg-plugin-checks-api.html[ChecksAPI] when it is expanded. This can
+be used to attach a Web Component displaying results instead of the
+`CheckResult.message` field which is limited to raw unformatted text.
+
+In addition to default parameters, the following are available:
+
+* `result`
++
+The `CheckResult` object for the currently expanded result row.
+
+* `run`
++
+Same as `result`. The `CheckRun` object is not passed to the endpoint.
+
+The end point contains the `<gr-formatted-text>` element holding the
+`CheckResult.message` (if any was set).
+
+=== check-result-feedback
+The `check-result-feedback` extension point is located at the bottom of the
+result details in the expanded state of the
+link:pg-plugin-checks-api.html[ChecksAPI]. It wraps the default feedback area
+(thumbs up/down controls). This can be used by plugins to fully customize or
+replace the result-level interaction mechanisms.
+
+In addition to default parameters, the following are available:
+
+* `result`
++
+The `CheckResult` object for the currently expanded result row.
+
+The end point contains the default feedback controls.
+
+=== repo-command
+This endpoint is situated among the repository commands.
+
+In addition to default parameters, the following are available:
+
+* `repoName`
++
+String name of the repository currently being configured.
+
+* `config`
++
+The object representing the repo config.
+
+=== repo-config
+The `repo-config` extension point is located at the bottom of the repository
+configuration settings screen.
+
+In addition to default parameters, the following are available:
+
+* `repoName`
++
+String name of the repository currently being configured.
+
+* `readOnly`
++
+Boolean whether the repository configuration is read only by the logged in user.
+
+=== settings-menu-item
+This endpoint is situated at the end of the navigation menu in the settings
+screen.
+
+=== settings-screen
+This endpoint is situated at the end of the body of the settings screen.
+
+=== profile
+This endpoint is situated at the top of the Profile section of the settings
+screen below the section description text.
+
+=== reply-text
+This endpoint wraps the textarea in the reply dialog.
+
+=== reply-label-scores
+This endpoint decorator wraps the voting buttons in the reply dialog.
+
+=== formatted-text-endpoint
+This endpoint decorator wraps the formatted text.
+
+=== header-title
+This endpoint wraps the title-text in the application header.
+
+=== footer-left
+This endpoint allows to add custom html elements next to the Gerrit version in the left side of the
+footer.
+
+=== footer-right
+This endpoint allows to add custom html elements next to the keyboard shortcuts prompt in the right
+side of the footer.
+
+=== cherrypick-main
+This endpoint is located in the cherrypick dialog. It has two slots `top`
+and `bottom` and `changes` as a parameter with the list of changes (or
+just the one change) to be cherrypicked.
+
+=== confirm-revert-change
+This endpoint is inside the confirm revert dialog. By default it displays a
+generic confirmation message regarding reverting the change. Plugins may add
+content to this message or replace it entirely.
+
+=== confirm-submit-change
+This endpoint is inside the confirm submit dialog. By default it displays a
+generic confirmation message regarding submission of the change. Plugins may add
+content to this message or replace it entirely.
+
+In addition to default parameters, the following are available:
+
+* `change`
++
+The change being potentially submitted, an instance of
+link:rest-api-changes.html#change-info[ChangeInfo]
+
+* `action`
++
+The submit action, including the title and label, an instance of
+link:rest-api-changes.html#action-info[ActionInfo]
+
+=== commit-container
+The `commit-container` extension point adds content at the end of the commit
+message to the change view.
+
+In addition to default parameters, the following are available:
+
+* `change`
++
+current change displayed, an instance of
+link:rest-api-changes.html#change-info[ChangeInfo]
+
+* `revision`
++
+current revision displayed, an instance of
+link:rest-api-changes.html#revision-info[RevisionInfo]
+
+== Dynamic Plugin endpoints
+
+The following dynamic endpoints are available to plugins by calling
+`plugin.registerDynamicCustomComponent(endpoint, elementName)`.
+
+=== change-list-header
+The `change-list-header` extension point adds a header to the change list view.
+
+=== change-list-item-cell
+The `change-list-item-cell` extension point adds a cell to the change list item.
+
+In addition to default parameters, the following are available:
+
+* `change`
++
+current change of the row, an instance of
+link:rest-api-changes.html#change-info[ChangeInfo]
+
+=== change-view-tab-header
+The `change-view-tab-header` extension point adds a primary tab to the change
+view. This must be used in conjunction with `change-view-tab-content`.
+
+In addition to default parameters, the following are available:
+
+* `change`
++
+current change displayed, an instance of
+link:rest-api-changes.html#change-info[ChangeInfo]
+
+* `revision`
++
+current revision displayed, an instance of
+link:rest-api-changes.html#revision-info[RevisionInfo]
+
+=== change-view-tab-content
+The `change-view-tab-content` extension point adds primary tab content to
+the change view. This must be used in conjunction with `change-view-tab-header`.
+
+In addition to default parameters, the following are available:
+
+* `change`
++
+current change displayed, an instance of
+link:rest-api-changes.html#change-info[ChangeInfo]
+
+* `revision`
++
+current revision displayed, an instance of
+link:rest-api-changes.html#revision-info[RevisionInfo]
+
+=== account-status-icon
+The `account-status-icon` extension point adds an icon to all account chips and
+labels.
+
+In addition to default parameters, the following are available:
+
+* `accountId`
++
+the Id of the account that the status icon should correspond to.

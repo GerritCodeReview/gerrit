@@ -14,7 +14,11 @@ _ssh_ -p <port> <host> _gerrit set-account_
   [--delete-ssh-key - | <KEY> | ALL]
   [--generate-http-password]
   [--http-password <PASSWORD>]
-  [--clear-http-password] <USER>
+  [--clear-http-password]
+  [--token <TOKEN>]
+  [--generate-token <TOKEN-ID>]
+  [--delete-token <TOKEN-ID>]
+  [--delete-external-id <EXTERNALID>] <USER>
 --
 
 == DESCRIPTION
@@ -102,15 +106,35 @@ This most likely requires double quoting the value, for example
 
 --http-password::
     Set the HTTP password for the user account.
+    **NOTE** The password is limited to 71 characters.
 
 --clear-http-password::
     Clear the HTTP password for the user account.
+
+--token::
+    Authorization token for the user account. Multiple --token
+    options may be specified to add multiple tokens to an account.
+    Requires administrator privileges.
+
+--generate-token::
+    Generate a new random token for the user account. The token
+    will be output to the user on success.
+
+--delete-token::
+    Delete a token from a user's account.
+
+--delete-external-id::
+    Delete an external ID from a user's account if it exists.
+    If the external ID provided is 'ALL', all associated
+    external IDs are deleted from this account.
+    May be supplied more than once to remove multiple external
+    IDs from an account in a single command execution.
 
 == EXAMPLES
 Add an email and SSH key to `watcher`'s account:
 
 ----
-    $ cat ~/.ssh/id_watcher.pub | ssh -p 29418 review.example.com gerrit set-account --add-ssh-key - --add-email mail@example.com watcher
+$ cat ~/.ssh/id_watcher.pub | ssh -p 29418 review.example.com gerrit set-account --add-ssh-key - --add-email mail@example.com watcher
 ----
 
 GERRIT

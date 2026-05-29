@@ -1,3 +1,4 @@
+:linkattrs:
 == Gitweb Integration
 
 Gerrit Code Review can manage and generate hyperlinks to gitweb,
@@ -167,21 +168,21 @@ link:http://localhost/gitweb[http://localhost/gitweb]
 Instructions are available for installing the gitweb module distributed with
 MsysGit:
 
-link:https://github.com/msysgit/msysgit/wiki/GitWeb[GitWeb]
+link:https://github.com/msysgit/msysgit/wiki/GitWeb[GitWeb,role=external,window=_blank]
 
 If you don't have Apache installed, you can download the appropriate build for
 Windows from link:http://www.apachelounge.com/download[apachelounge.org].
 
 After you have installed Apache, you will want to create a link:http://httpd.apache.org/docs/2.0/platform/windows.html#winsvc[new service user
-account] to use with Apache.
+account,role=external,window=_blank] to use with Apache.
 
 If you're still having difficulty setting up permissions, you may find this
 tech note useful for configuring Apache Service to run under another account.
-You must grant the new account link:http://technet.microsoft.com/en-us/library/cc794944(WS.10).aspx["run as service"] permission:
+You must grant the new account link:http://technet.microsoft.com/en-us/library/cc794944(WS.10).aspx["run as service",role=external,window=_blank] permission:
 
 The gitweb version in msysgit is missing several important and required
 perl modules, including CGI.pm. The perl included with the msysgit distro 1.7.8
-is broken.. The link:http://groups.google.com/group/msysgit/browse_thread/thread/ba3501f1f0ed95af[unicore folder is missing along with utf8_heavy.pl and CGI.pm]. You can
+is broken.. The link:http://groups.google.com/group/msysgit/browse_thread/thread/ba3501f1f0ed95af[unicore folder is missing along with utf8_heavy.pl and CGI.pm,role=external,window=_blank]. You can
 verify by checking for perl modules. From an msys console, execute the
 following to check:
 
@@ -202,13 +203,19 @@ failed--compilation aborted.
 If you're missing CGI.pm, you'll have to deploy the module to the msys
 environment: You will have to retrieve them from the 5.8.8 distro on :
 
-http://strawberryperl.com/releases.html
+http://strawberryperl.com/releases.html[role=external,window=_blank]
 
 File: strawberry-perl-5.8.8.3.zip
 
 contents: `bin/` `lib/` `site/`
 
 copy the contents of lib into `msysgit/lib/perl5/5.8.8` and overwrite existing files.
+
+**NOTE**: Windows is not recommended as a server-side platform for
+running Gerrit Code Review, because of the lack of adoption from the Gerrit Community,
+incomplete functional validation and lack of security testing. Gerrit on
+Windows Server is not actively supported even though it may still be
+fully or partially functioning as expected.
 
 ==== Enable Gitweb Integration
 
@@ -267,12 +274,27 @@ Gerrit, such as cgit.
 
 cgit can be used by specifying `gitweb.type` to be 'cgit'.
 
-It is also possible to define custom patterns.
+It is also possible to define custom patterns. Gitea can be used
+with custom patterns for example:
+
+----
+  git config -f $site_path/etc/gerrit.config gitweb.type custom
+  git config -f $site_path/etc/gerrit.config gitweb.urlEncode false
+  git config -f $site_path/etc/gerrit.config gitweb.linkname gitea
+  git config -f $site_path/etc/gerrit.config gitweb.url https://gitea.example.org/
+  git config -f $site_path/etc/gerrit.config gitweb.branch ${project}/src/branch/${branch}
+  git config -f $site_path/etc/gerrit.config gitweb.file ${project}/src/commit/${hash}/${file}
+  git config -f $site_path/etc/gerrit.config gitweb.filehistory ${project}/commits/branch/${branch}/${file}
+  git config -f $site_path/etc/gerrit.config gitweb.project ${project}
+  git config -f $site_path/etc/gerrit.config gitweb.revision ${project}/commit/${commit}
+  git config -f $site_path/etc/gerrit.config gitweb.roottree ${project}/src/commit/${commit}
+  git config -f $site_path/etc/gerrit.config gitweb.tag ${project}/src/tag/${tag}
+----
 
 === SEE ALSO
 
 * link:config-gerrit.html#gitweb[Section gitweb]
-* link:http://git.zx2c4.com/cgit/about/[cgit]
+* link:http://git.zx2c4.com/cgit/about/[cgit,role=external,window=_blank]
 
 GERRIT
 ------

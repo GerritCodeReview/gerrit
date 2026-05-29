@@ -1,0 +1,27 @@
+{
+  "extends": "./tsconfig_bazel.json",
+  "compilerOptions": {
+    "typeRoots": [
+      "node_modules/@types",
+      "../node_modules/@types"
+    ],
+    "types": ["mocha"]
+  },
+  "include": [
+    "api/**/*",
+    "constants/**/*",
+    "elements/**/*",
+    "embed/**/*",
+    "gr-diff/**/*",
+    "mixins/**/*",
+    "models/**/*",
+    "scripts/**/*",
+    "services/**/*",
+    "styles/**/*",
+    "test/**/*",
+    "types/**/*",
+    "utils/**/*",
+    "workers/**/*"
+  ],
+  "exclude": []
+}

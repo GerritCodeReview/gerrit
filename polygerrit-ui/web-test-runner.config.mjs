@@ -1,0 +1,234 @@
+import path from 'path';
+import fs from 'fs';
+import { esbuildPlugin } from '@web/dev-server-esbuild';
+import { defaultReporter, summaryReporter } from '@web/test-runner';
+import { resultDbReporter } from './resultdb-reporter.mjs';
+import { visualRegressionPlugin } from '@web/test-runner-visual-regression/plugin';
+import pixelmatch from 'pixelmatch';
+import { PNG } from 'pngjs';
+import { playwrightLauncher } from '@web/test-runner-playwright';
+
+const runUnderBazel = !!process.env['RUNFILES_DIR'];
+const diffThreshold = 0.01;
+
+function testRunnerHtmlFactory(prefix) {
+  return (testFramework) => `
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <link rel="stylesheet" href="${prefix}app/styles/main.css">
+        <link rel="stylesheet" href="${prefix}app/styles/fonts.css">
+        <link rel="stylesheet" href="${prefix}app/styles/material-icons.css">
+      </head>
+      <body>
+        <script type="module" src="${testFramework}"></script>
+      </body>
+    </html>
+  `;
+}
+
+function getModulesDir() {
+  if (!runUnderBazel) {
+    return [
+      path.join(process.cwd(), 'plugins/node_modules'),
+      path.join(process.cwd(), 'app/node_modules'),
+      path.join(process.cwd(), 'node_modules'),
+    ];
+  }
+
+  const runfilesRoot = path.dirname(process.cwd());
+  return [
+    path.join(runfilesRoot, 'plugins_npm', 'node_modules'),
+    path.join(runfilesRoot, 'ui_npm', 'node_modules'),
+    path.join(runfilesRoot, 'ui_dev_npm', 'node_modules'),
+  ];
+}
+
+function getArgValue(flag) {
+  const withEquals = process.argv.find((arg) => arg.startsWith(`${flag}=`));
+  if (withEquals) return withEquals.split('=')[1];
+
+  const index = process.argv.indexOf(flag);
+  if (index !== -1 && process.argv[index + 1] && !process.argv[index + 1].startsWith('--')) {
+    return process.argv[index + 1];
+  }
+
+  return undefined;
+}
+
+const pathPrefix = runUnderBazel ? 'polygerrit-ui/' : '';
+const testFiles = getArgValue('--test-files');
+const runScreenshots = process.argv.includes('--run-screenshots');
+const rootDir = getArgValue('--root-dir') ?? `${path.resolve(process.cwd())}/`;
+const tsConfig = getArgValue('--ts-config') ?? `${pathPrefix}app/tsconfig.json`;
+
+// When running screenshots, we serve from the root directory, so we need to
+// prepend polygerrit-ui/ to the path.
+// When running under Bazel, we also need strictly fully qualified paths.
+const stylePathPrefix = 'polygerrit-ui/';
+
+const chromeExecutablePath = [
+  process.env['CHROME_BIN'],
+  process.env['CI_CHROME_BIN'],
+  '/usr/bin/google-chrome',
+].find(p => p && fs.existsSync(p));
+
+/** @type {import('@web/test-runner').TestRunnerConfig} */
+const config = {
+  // Default is CPU cores / 2. Use default
+  ...(runUnderBazel ? { concurrency: 1 } : {}),
+  // WORKAROUND: Prevents tests from failing or timing out when run concurrently.
+  // Recent Chrome versions aggressively throttle inactive tabs, which interferes with
+  // parallel tests. These flags disable that behavior, ensuring tests that rely on
+  // visibility or timers run reliably.
+  // Some details: https://g-issues.gerritcodereview.com/issues/365565157
+  browsers: [
+    playwrightLauncher({
+      product: 'chromium',
+      launchOptions: {
+        ...(chromeExecutablePath ? { executablePath: chromeExecutablePath } : {}),
+        args: [
+          '--no-sandbox',
+          '--disable-dev-shm-usage',
+          '--disable-background-timer-throttling',
+          '--disable-backgrounding-occluded-windows',
+          '--disable-renderer-backgrounding',
+          '--font-render-hinting=none',
+          '--disable-font-subpixel-rendering',
+          '--disable-lcd-text',
+        ],
+      },
+    }),
+  ],
+
+  files: runScreenshots
+    ? [
+      // If --run-screenshots is set, ONLY run screenshot tests.
+      testFiles ?? `${pathPrefix}app/**/*_screenshot_test.{ts,js}`,
+      `!${pathPrefix}**/node_modules/**/*`,
+    ]
+    : [
+      // Otherwise, run all tests EXCEPT screenshot tests
+      testFiles ?? `${pathPrefix}app/**/*_test.{ts,js}`,
+      `!${pathPrefix}**/node_modules/**/*`,
+      `!${pathPrefix}app/**/*_screenshot_test.{ts,js}`,
+    ],
+
+  port: 9876,
+
+  nodeResolve: {
+    modulePaths: getModulesDir(),
+    dedupe: [
+      'lit',
+      'lit-html',
+      'lit-element',
+      '@open-wc/testing',
+      '@open-wc/testing-helpers',
+      'sinon',
+    ],
+  },
+
+  testFramework: {
+    config: {
+      ui: 'tdd',
+      timeout: runScreenshots ? 10000 : 2000,
+    },
+  },
+
+  coverageConfig: {
+    report: true,
+    reportDir: 'coverage',
+    reporters: ['lcov', 'text'],
+  },
+
+  plugins: [
+    esbuildPlugin({
+      ts: true,
+      target: 'es2020',
+      tsconfig: tsConfig,
+    }),
+    visualRegressionPlugin({
+      baseDir: pathPrefix ? `${pathPrefix}screenshots` : 'screenshots',
+      // TODO(milutin): Tweak these values - diffOptions threshold is for color change
+      // and failureThreshold is for pixel change. We need to find a balance to allow
+      // CI to pass, but also catch regressions.
+      diffOptions: { threshold: 0.6 },
+      failureThreshold: diffThreshold,
+      failureThresholdType: 'percent',
+      update: process.argv.includes('--update-screenshots'),
+      // The visual regression plugin by default blindly overwrites all goldens
+      // when the --update-screenshots flag is used. This modifies file timestamps
+      // and pollutes version control with identical images or sub-threshold
+      // aliasing diffs. We intercept the saveBaseline hook to diff the image in
+      // memory and only save it if the visual diff exceeds our 2% threshold.
+      saveBaseline: async ({ filePath, content }) => {
+        let oldContent;
+        try {
+          oldContent = await fs.promises.readFile(filePath);
+        } catch (e) {
+          // file doesn't exist
+        }
+
+        if (oldContent) {
+          if (content.equals(oldContent)) {
+            return;
+          }
+
+          let basePng;
+          let newPng;
+          try {
+            basePng = PNG.sync.read(oldContent);
+            newPng = PNG.sync.read(content);
+          } catch (e) {
+            console.warn('Failed to parse PNGs for diff checking', e);
+          }
+
+          if (basePng && newPng && basePng.width === newPng.width && basePng.height === newPng.height) {
+            const numDiffPixels = pixelmatch(
+              basePng.data,
+              newPng.data,
+              null,
+              basePng.width,
+              basePng.height,
+              { threshold: 0.6 }
+            );
+
+            const diffPercentage = (numDiffPixels / (basePng.width * basePng.height)) * 100;
+            if (diffPercentage <= diffThreshold) {
+              return;
+            }
+          }
+        }
+
+        await fs.promises.mkdir(path.dirname(filePath), { recursive: true });
+        await fs.promises.writeFile(filePath, content);
+      },
+    }),
+  ],
+
+  // serve from gerrit root directory so that we can serve fonts from
+  // /lib/fonts/ for screenshots tests, see middleware.
+  rootDir: runUnderBazel ? rootDir : '..',
+
+  reporters: [
+    defaultReporter(),
+    summaryReporter(),
+    resultDbReporter(),
+  ],
+
+  middleware: [
+    // Fonts are in /lib/fonts/, but css tries to load from
+    // /polygerrit-ui/app/fonts/. In production this works because our build
+    // copies them over, see /polygerrit-ui/BUILD
+    async (context, next) => {
+      if (context.url.startsWith('/polygerrit-ui/app/fonts/')) {
+        context.url = context.url.replace('/polygerrit-ui/app/', '/lib/');
+      }
+      await next();
+    },
+  ],
+
+  testRunnerHtml: testRunnerHtmlFactory(stylePathPrefix),
+};
+
+export default config;

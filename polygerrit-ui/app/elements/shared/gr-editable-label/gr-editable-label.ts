@@ -1,0 +1,396 @@
+/**
+ * @license
+ * Copyright 2016 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import '../gr-button/gr-button';
+import '../gr-icon/gr-icon';
+import '../../shared/gr-autocomplete/gr-autocomplete';
+import {
+  AutocompleteQuery,
+  GrAutocomplete,
+} from '../gr-autocomplete/gr-autocomplete';
+import {Key} from '../../../utils/dom-util';
+import {queryAndAssert} from '../../../utils/common-util';
+import {css, html, LitElement, nothing} from 'lit';
+import {customElement, property, query, state} from 'lit/decorators.js';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {ShortcutController} from '../../lit/shortcut-controller';
+import {ValueChangedEvent} from '../../../types/events';
+import {fire} from '../../../utils/event-util';
+import '@material/web/menu/menu';
+import {MdMenu} from '@material/web/menu/menu';
+import '@material/web/textfield/filled-text-field';
+import {MdFilledTextField} from '@material/web/textfield/filled-text-field';
+import {materialStyles} from '../../../styles/gr-material-styles';
+
+const AWAIT_MAX_ITERS = 10;
+const AWAIT_STEP = 5;
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-editable-label': GrEditableLabel;
+  }
+}
+
+@customElement('gr-editable-label')
+export class GrEditableLabel extends LitElement {
+  /**
+   * Fired when the value is changed.
+   *
+   * @event changed
+   */
+
+  @query('#dropdown')
+  dropdown?: MdMenu;
+
+  @property()
+  labelText = '';
+
+  @property({type: Boolean})
+  editing = false;
+
+  @property()
+  value?: string;
+
+  @property()
+  placeholder = '';
+
+  @property({type: Boolean})
+  readOnly = false;
+
+  @property({type: Number})
+  maxLength?: number;
+
+  @property({type: String})
+  confirmLabel = 'Save';
+
+  /* private but used in test */
+  @state() inputText = '';
+
+  @property({type: Boolean})
+  showAsEditPencil = false;
+
+  @property({type: Boolean})
+  autocomplete = false;
+
+  @property({type: Object})
+  query: AutocompleteQuery = () => Promise.resolve([]);
+
+  @query('#input')
+  input?: MdFilledTextField;
+
+  @query('#autocomplete')
+  grAutocomplete?: GrAutocomplete;
+
+  private readonly shortcuts = new ShortcutController(this);
+
+  static override get styles() {
+    return [
+      materialStyles,
+      sharedStyles,
+      css`
+        :host {
+          align-items: center;
+          display: inline-flex;
+        }
+        input,
+        label {
+          width: 100%;
+        }
+        label {
+          color: var(--deemphasized-text-color);
+          display: inline-block;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+        label.editable {
+          color: var(--link-color);
+          cursor: pointer;
+        }
+        #dropdown {
+          box-shadow: var(--elevation-level-2);
+          --md-menu-container-color: var(--dialog-background-color);
+          --md-menu-top-space: 0px;
+          --md-menu-bottom-space: 0px;
+        }
+        .inputContainer {
+          background-color: var(--dialog-background-color);
+          padding: var(--spacing-m);
+          white-space: nowrap;
+        }
+        /* This makes inputContainer on one line. */
+        .inputContainer gr-autocomplete,
+        .inputContainer .buttons {
+          display: inline-block;
+        }
+        .buttons gr-button {
+          margin-left: var(--spacing-m);
+        }
+        md-filled-text-field {
+          min-width: 15em;
+          --md-filled-text-field-container-color: rgba(0, 0, 0, 0);
+          --md-filled-text-field-focus-active-indicator-color: var(
+            --link-color
+          );
+          --md-filled-text-field-hover-state-layer-color: rgba(0, 0, 0, 0);
+          --md-filled-field-top-space: var(--spacing-m);
+          --md-filled-field-bottom-space: var(--spacing-m);
+          --md-filled-field-leading-space: 8px;
+          --md-filled-field-active-indicator-color: var(--link-color);
+          --md-filled-field-hover-active-indicator-color: var(--link-color);
+          --md-sys-color-primary: var(--primary-text-color);
+          --md-sys-color-on-surface: var(--primary-text-color);
+          --md-sys-color-on-surface-variant: var(--deemphasized-text-color);
+          --md-filled-text-field-label-text-color: var(
+            --deemphasized-text-color
+          );
+          --md-filled-text-field-focus-label-text-color: var(
+            --deemphasized-text-color
+          );
+          --md-filled-text-field-hover-label-text-color: var(
+            --deemphasized-text-color
+          );
+        }
+        gr-button gr-icon {
+          color: inherit;
+        }
+        gr-button.pencil {
+          --gr-button-padding: var(--spacing-s);
+          --margin: calc(0px - var(--spacing-s));
+        }
+        .dropdown-content {
+          width: max-content;
+        }
+      `,
+    ];
+  }
+
+  override render() {
+    this.setAttribute('title', this.computeLabel());
+    return html`<div style="position: relative;">
+      ${this.renderActivateButton()}
+      <md-menu
+        id="dropdown"
+        anchor="button"
+        tabindex="-1"
+        .quick=${true}
+        @closing=${() => {
+          this.cancel();
+        }}
+      >
+        <div class="dropdown-content">
+          <div class="inputContainer" part="input-container">
+            ${this.renderInputBox()}
+            <div class="buttons">
+              <gr-button primary id="saveBtn" @click=${this.save}
+                >${this.confirmLabel}</gr-button
+              >
+              <gr-button id="cancelBtn" @click=${this.cancel}>Cancel</gr-button>
+            </div>
+          </div>
+        </div>
+      </md-menu>
+    </div>`;
+  }
+
+  private renderActivateButton() {
+    if (this.showAsEditPencil) {
+      return html`<gr-button
+        id="button"
+        link=""
+        class="pencil ${this.computeLabelClass()}"
+        @click=${this.showDropdown}
+        title=${this.computeLabel()}
+      >
+        <div>
+          <gr-icon icon="edit" filled small></gr-icon>
+        </div>
+      </gr-button>`;
+    } else {
+      return html`<label
+        id="button"
+        class=${this.computeLabelClass()}
+        title=${this.computeLabel()}
+        aria-label=${this.computeLabel()}
+        @click=${this.showDropdown}
+        part="label"
+        >${this.computeLabel()}</label
+      >`;
+    }
+  }
+
+  private renderInputBox() {
+    if (this.autocomplete) {
+      return html`<gr-autocomplete
+        .label=${this.labelText}
+        .placeholder=${this.placeholder}
+        id="autocomplete"
+        .text=${this.inputText}
+        .query=${this.query}
+        @cancel=${this.cancel}
+        @text-changed=${(e: ValueChangedEvent) => {
+          this.inputText = e.detail.value;
+        }}
+      >
+      </gr-autocomplete>`;
+    } else {
+      return html`
+        <md-filled-text-field
+          id="input"
+          .label=${this.labelText}
+          .placeholder=${this.placeholder}
+          .maxlength=${this.maxLength}
+          .value=${this.inputText}
+          aria-label=${this.labelText || this.placeholder || nothing}
+        >
+        </md-filled-text-field>
+      `;
+    }
+  }
+
+  constructor() {
+    super();
+    this.shortcuts.addLocal({key: Key.ENTER}, e => this.handleEnter(e));
+    this.shortcuts.addLocal({key: Key.ESC}, e => this.handleEsc(e));
+  }
+
+  override disconnectedCallback() {
+    super.disconnectedCallback();
+  }
+
+  override connectedCallback() {
+    super.connectedCallback();
+    if (!this.getAttribute('tabindex')) {
+      this.setAttribute('tabindex', '0');
+    }
+    if (!this.getAttribute('id')) {
+      this.setAttribute('id', 'global');
+    }
+  }
+
+  private usePlaceholder(value?: string, placeholder?: string) {
+    return (!value || !value.length) && placeholder;
+  }
+
+  private computeLabel(): string {
+    const {value, placeholder} = this;
+    if (this.usePlaceholder(value, placeholder)) {
+      return placeholder;
+    }
+    return value || '';
+  }
+
+  private showDropdown() {
+    if (this.readOnly || this.editing) return;
+    return this.openDropdown().then(() => {
+      this.nativeInput.focus();
+      if (!this.input?.value) return;
+      this.nativeInput.setSelectionRange(0, this.input.value.length);
+    });
+  }
+
+  open() {
+    return this.openDropdown().then(() => {
+      this.nativeInput.focus();
+    });
+  }
+
+  private openDropdown() {
+    this.dropdown?.show();
+    this.inputText = this.value || '';
+    this.editing = true;
+
+    return new Promise<void>(resolve => {
+      this.awaitOpen(resolve);
+    });
+  }
+
+  /**
+   * NOTE: (wyatta) Slightly hacky way to listen to the overlay actually
+   * opening. Eventually replace with a direct way to listen to the overlay.
+   */
+  private awaitOpen(fn: () => void) {
+    let iters = 0;
+    const step = () => {
+      setTimeout(() => {
+        if (this.dropdown?.style.display !== 'none') {
+          fn.call(this);
+        } else if (iters++ < AWAIT_MAX_ITERS) {
+          step.call(this);
+        }
+      }, AWAIT_STEP);
+    };
+    step.call(this);
+  }
+
+  private save() {
+    if (!this.editing) {
+      return;
+    }
+    this.dropdown?.close();
+    if (this.input) {
+      this.value = this.input.value ?? undefined;
+    } else {
+      this.value = this.inputText || '';
+    }
+    this.editing = false;
+    // TODO: This event seems to be unused (no listener). Remove?
+    fire(this, 'changed', this.value);
+  }
+
+  private cancel() {
+    if (!this.editing) {
+      return;
+    }
+    this.dropdown?.close();
+    this.editing = false;
+    this.inputText = this.value || '';
+  }
+
+  private get nativeInput(): HTMLInputElement {
+    if (this.autocomplete) {
+      return this.grAutocomplete!.nativeInput;
+    } else {
+      return this.input!.shadowRoot!.querySelector('input')!;
+    }
+  }
+
+  private handleEnter(event: KeyboardEvent) {
+    const inputContainer = queryAndAssert(this, '.inputContainer');
+    const isEventFromInput = event
+      .composedPath()
+      .some(element => element === inputContainer);
+    if (isEventFromInput) {
+      this.save();
+    }
+  }
+
+  private handleEsc(event: KeyboardEvent) {
+    // If autocomplete is used, it's handling the ESC instead.
+    if (this.autocomplete) {
+      return;
+    }
+    const inputContainer = queryAndAssert(this, '.inputContainer');
+    const isEventFromInput = event
+      .composedPath()
+      .some(element => element === inputContainer);
+    if (isEventFromInput) {
+      this.cancel();
+    }
+  }
+
+  private computeLabelClass() {
+    const {readOnly, value, placeholder} = this;
+    const classes = [];
+    if (!readOnly) {
+      classes.push('editable');
+    }
+    if (this.usePlaceholder(value, placeholder)) {
+      classes.push('placeholder');
+    }
+    return classes.join(' ');
+  }
+}

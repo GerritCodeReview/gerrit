@@ -33,10 +33,10 @@ of them we must use a qualified name like `gerrit:change_branch(X)`.
     |ID, full name and the email of the commit author.  The full name and the
     email are string atoms
 
-|`commit_committer/1` |`commit_committer()`
+|`commit_committer/1` |`commit_committer(user(100000)).`
     |Committer of the commit as `user(ID)` term. ID is the numeric account ID
 
-|`commit_committer/3` |`commit_committer()`
+|`commit_committer/3` |`commit_committer(user(100000), 'John Doe', 'john.doe@example.com').`
     |ID, full name and the email of the commit committer. The full name and the
     email are string atoms
 
@@ -48,15 +48,22 @@ of them we must use a qualified name like `gerrit:change_branch(X)`.
 |`commit_message/1`   |`commit_message('Fix bug X').`
     |Commit message as string atom
 
+|`commit_parent_count/1`   |`commit_parent_count(1).`
+    |Number of parent commits of a commit. Can be used to detect merge commits
+
 |`commit_stats/3`   |`commit_stats(5,20,50).`
     |Number of files modified, number of insertions and the number of deletions.
 
-.4+|`current_user/1`  |`current_user(user(1000000)).`
-    .4+|Current user as one of the four given possibilities
+|`files/3` |`files(file('modules/jgit', 'A', 'SUBMODULE')).`
 
-                      |`current_user(user(anonymous)).`
-                      |`current_user(user(peer_daemon)).`
-                      |`current_user(user(replication)).`
+           |`files(file('a.txt', 'M', 'REGULAR')).'
+
+    A list of tuples: The first argument is a file name of the current patchset.
+    The second argument is the modification type of this file, with the options being
+    'A' for 'added', 'M' for 'modified', 'D' for 'deleted', 'R' for 'renamed', 'C' for
+    'COPIED' and 'W' for 'rewrite'.
+    The third argument is the type of file, with the options being a submodule file
+    'SUBMODULE' and a non-submodule file being 'REGULAR'.
 
 |`pure_revert/1`     |`pure_revert(1).`
     |link:rest-api-changes.html#get-pure-revert[Pure revert] as integer atom (1 if

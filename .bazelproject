@@ -1,9 +1,10 @@
 # The project view file (.bazelproject) is used to import Gerrit Bazel packages into the IDE.
 #
-# See: https://ij.bazel.io/docs/project-views.html
+# See: https://ij.bazel.build/docs/project-views.html
 
 directories:
   .
+  -bin
   -eclipse-out
   -contrib
   -gerrit-package-plugins
@@ -15,9 +16,13 @@ directories:
 targets:
   //...:all
 
-java_language_level: 8
+java_language_level: 21
 
 workspace_type: java
 
 build_flags:
   --javacopt=-g
+
+ts_config_rules:
+  //tools/node_tools/node_modules_licenses:tsconfig_editor
+  //polygerrit-ui/app/node_modules_licenses:tsconfig_editor

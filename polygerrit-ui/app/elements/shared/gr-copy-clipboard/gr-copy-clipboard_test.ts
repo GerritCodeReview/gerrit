@@ -1,0 +1,152 @@
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+import * as sinon from 'sinon';
+import '../../../test/common-test-setup';
+import './gr-copy-clipboard';
+import {GrCopyClipboard} from './gr-copy-clipboard';
+import {queryAndAssert} from '../../../test/test-utils';
+import {assert, fixture, html} from '@open-wc/testing';
+import {GrButton} from '../gr-button/gr-button';
+import {MdOutlinedTextField} from '@material/web/textfield/outlined-text-field';
+
+suite('gr-copy-clipboard tests', () => {
+  let element: GrCopyClipboard;
+  let clipboardSpy: sinon.SinonStub;
+
+  setup(async () => {
+    clipboardSpy = sinon
+      .stub(navigator.clipboard, 'writeText')
+      .returns(Promise.resolve());
+    sinon.spy(document, 'dispatchEvent');
+    element = await fixture(html`<gr-copy-clipboard></gr-copy-clipboard>`);
+    element.text = `git fetch http://gerrit@localhost:8080/a/test-project
+        refs/changes/05/5/1 && git checkout FETCH_HEAD`;
+    await element.updateComplete;
+  });
+
+  test('render', () => {
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <div class="text">
+          <md-outlined-text-field
+            autocomplete=""
+            class="copyText"
+            id="input"
+            inputmode=""
+            part="text-container-wrapper-style"
+            readonly=""
+            type="text"
+          >
+          </md-outlined-text-field>
+          <gr-tooltip-content>
+            <gr-button
+              aria-description="Click to copy to clipboard"
+              aria-disabled="false"
+              aria-label="copy"
+              class="copyToClipboard"
+              id="copy-clipboard-button"
+              link=""
+              role="button"
+              tabindex="0"
+            >
+              <div>
+                <gr-icon icon="content_copy" id="icon" small=""> </gr-icon>
+              </div>
+            </gr-button>
+          </gr-tooltip-content>
+        </div>
+      `
+    );
+  });
+
+  test('render with label and shortcut', async () => {
+    element.label = 'Label';
+    element.shortcut = 'l - l';
+    await element.updateComplete;
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <div class="text">
+          <label for="input"> Label </label>
+          <md-outlined-text-field
+            autocomplete=""
+            class="copyText"
+            id="input"
+            inputmode=""
+            part="text-container-wrapper-style"
+            readonly=""
+            type="text"
+          >
+          </md-outlined-text-field>
+          <span class="shortcut"> l - l </span>
+          <gr-tooltip-content>
+            <gr-button
+              aria-description="Click to copy to clipboard"
+              aria-disabled="false"
+              aria-label="copy"
+              class="copyToClipboard"
+              id="copy-clipboard-button"
+              link=""
+              role="button"
+              tabindex="0"
+            >
+              <div>
+                <gr-icon icon="content_copy" id="icon" small=""> </gr-icon>
+              </div>
+            </gr-button>
+          </gr-tooltip-content>
+        </div>
+      `
+    );
+  });
+
+  test('copy to clipboard', () => {
+    queryAndAssert<GrButton>(element, '.copyToClipboard').click();
+    assert.isTrue(clipboardSpy.called);
+  });
+
+  test('focusOnCopy', () => {
+    element.focusOnCopy();
+    const activeElement = element.shadowRoot!.activeElement;
+    const button = queryAndAssert(element, '.copyToClipboard');
+    assert.deepEqual(activeElement, button);
+  });
+
+  test('handleInputClick', () => {
+    const mdOutlinedTextField = queryAndAssert<MdOutlinedTextField>(
+      element,
+      'md-outlined-text-field'
+    );
+    assert.notEqual(getComputedStyle(mdOutlinedTextField).display, 'none');
+
+    mdOutlinedTextField.click();
+    assert.equal(mdOutlinedTextField.selectionStart, 0);
+    assert.equal(mdOutlinedTextField.selectionEnd, element.text!.length - 1);
+  });
+
+  test('hideInput', async () => {
+    const mdOutlinedTextField = queryAndAssert<MdOutlinedTextField>(
+      element,
+      'md-outlined-text-field'
+    );
+    assert.notEqual(getComputedStyle(mdOutlinedTextField).display, 'none');
+
+    assert.notEqual(getComputedStyle(mdOutlinedTextField).display, 'none');
+    element.hideInput = true;
+    await element.updateComplete;
+    assert.equal(getComputedStyle(mdOutlinedTextField).display, 'none');
+  });
+
+  test('stop events propagation', () => {
+    const divParent = document.createElement('div');
+    divParent.appendChild(element);
+    const clickStub = sinon.stub();
+    divParent.addEventListener('click', clickStub);
+    queryAndAssert<GrButton>(element, '.copyToClipboard').click();
+    assert.isFalse(clickStub.called);
+  });
+});

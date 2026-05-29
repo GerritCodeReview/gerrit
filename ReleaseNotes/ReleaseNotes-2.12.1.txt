@@ -1,5 +1,0 @@
-= Release notes for Gerrit 2.12.1
-
-Release notes have been moved to the project homepage:
-link:https://www.gerritcodereview.com/releases/2.12.md#2.12.1[
-Release notes for Gerrit 2.12.1].

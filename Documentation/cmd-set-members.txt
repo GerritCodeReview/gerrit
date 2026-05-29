@@ -1,7 +1,7 @@
 = gerrit set-members
 
 == NAME
-gerrit set-members - Set group members
+gerrit set-members - Set group members.
 
 == SYNOPSIS
 [verse]
@@ -59,16 +59,16 @@ This command is intended to be used in scripts.
 Add alice and bob, but remove eve from the groups my-committers and
 my-verifiers.
 ----
-	$ ssh -p 29418 review.example.com gerrit set-members \
-	  -a alice@example.com -a bob@example.com \
-	  -r eve@example.com my-committers my-verifiers
+$ ssh -p 29418 review.example.com gerrit set-members \
+  -a alice@example.com -a bob@example.com \
+  -r eve@example.com my-committers my-verifiers
 ----
 
 Include the group my-friends into the group my-committers, but
 exclude the included group my-testers from the group my-committers.
 ----
-	$ ssh -p 29418 review.example.com gerrit set-members \
-	  -i my-friends -e my-testers my-committers
+$ ssh -p 29418 review.example.com gerrit set-members \
+  -i my-friends -e my-testers my-committers
 ----
 
 GERRIT

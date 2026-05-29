@@ -1,0 +1,60 @@
+= Gerrit Code Review - User suggested edits
+
+Easy and fast way for reviewers to suggest code changes that can be easily applied
+by the change owner.
+
+== Reviewer workflow
+
+** Select line or multiple lines of diff and start comment
+
+image::images/user-suggest-edits-reviewer-comment.png["Comment example", align="center", width=400]
+
+** Click on suggest fix - that copies whole selected line/lines
+
+image::images/user-suggest-edits-reviewer-suggest-fix.png["Comment example", align="center", width=400]
+
+** Modify lines in the suggestion block. Optionally add more details as normal comment text before or after
+the suggestion block.
+
+image::images/user-suggest-edits-suggestion.png["Suggestion example", align="center", width=400]
+
+** Optionally you can preview suggested edit by clicking on Preview fix when you stop editing comment
+
+image::images/user-suggest-edits-reviewer-preview.png["Suggestion Draft example", align="center", width=400]
+
+image::images/user-suggest-edits-preview.png["Suggestion Preview", align="center", width=400]
+
+== Author workflow
+
+You can apply one or more suggested edits. When a suggested edit is applied it
+creates a change edit that you can further modify in Gerrit. You can read more
+about all the features of link:user-inline-edit.html#editing-change[change edit mode].
+
+FYI: Publishing a new patchset in Gerrit will make your Gerrit change out of
+sync with your local git commit. You can checkout the latest Gerrit patchset
+by using the commands from the link:user-review-ui.html#download[download drop-down panel].
+
+Alternatively, you can use the copy to clipboard button to copy a suggested
+edit to your clipboard and then you can paste it into your editor.
+
+== Generate Suggestion
+
+Following UI needs to be activated by a plugin that implements SuggestionsProvider. Gerrit is providing just UI.
+
+** When a user types a comment, Gerrit queries a plugin for a code snippet. When there is a snippet, the user can see a preview of snippet under comment.
+
+image::images/generated-suggested-edit-preview.png["Generate Suggested Edit", align="center", width=400]
+
+** A user needs to click on "ADD SUGGESTION TO COMMENT" button if they want to use this suggestion. Otherwise the suggestion is never used.
+
+image::images/generated-suggested-edit-added.png["Added Generated Suggested Edit", align="center", width=400]
+
+** By clicking on "ADD SUGGESTION TO COMMENT" button, the suggestion is added to end of comment. The user can then edit the suggestion, if needed.
+
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

@@ -1,93 +1,495 @@
-= Gerrit Code Review - Project Configuration File Format
+= Gerrit Code Review - Project Configuration
 
-This page explains the storage format of Gerrit's project configuration
-and access control models.
+Every project has a configuration that defines access rights and controls
+project-specific behavior.
 
-The web UI access control panel is a front end for human-readable
-configuration files under the +refs/meta/config+ namespace in the
-affected project.  Direct manipulation of these files is mainly
-relevant in an automation scenario of the access controls.
+The project configuration is stored inside the git repository inside the
+`refs/meta/config` branch.
 
+[[refs-meta-config]]
+== The `refs/meta/config` branch
 
-== The +refs/meta/config+ namespace
+The `refs/meta/config` branch contains configuration files. It is disconnected
+from the normal branches under `refs/heads/` that contain the source code.
 
-The namespace contains three different files that play different
-roles in the permission model.  With read permission to that reference,
-it is possible to fetch the +refs/meta/config+ reference to a local
-repository.  A nice side effect is that you can also upload changes
-to project permissions and review them just like with regular code
-changes. The preview changes option is also provided on the UI. Please note
-that you will have to configure push rights for the +refs/meta/config+ name
-space if you'd like to use the possibility to automate permission updates.
+The files inside the `refs/meta/config` branch are versioned just like any
+other file in the repository. This means from the git history of the
+`refs/meta/config` branch it can be seen how the configuration changed
+over time and which configuration was active when.
 
-== Property inheritance
+[[configuration-files]]
+== Configuration files
 
-If a property is set to INHERIT, then the value from the parent project is
-used. If the property is not set in any parent project, the default value is
-FALSE.
+The project configuration is stored in the following files (these files are
+stored inside the `refs/meta/config` branch, see
+link:#refs-meta-config[above]):
+
+* link:#file-project_config[project.config]:
+  Contains the link to the parent project, the project description, access
+  rights, label definitions, submit requirements and options to control
+  project-specific behavior.
+* link:#file-groups[groups]:
+  Resolves group names that are mentioned in `project.config` to group UUIDs.
+* [DEPRECATED] link:#file-rules_pl[rules.pl]:
+  Contains Prolog rules that control when a change becomes ready to submit.
+  Note, Prolog rules are deprecated and have been replaced by
+  link:config-submit-requirements.html[submit requirements].
+
+In addition, there can be configuration files from Gerrit plugins, usually they
+are named `<PLUGIN-NAME>.config`.
+
+[[update]]
+== Updating the project configuration
+
+There are several possibilities to update the project configuration:
+
+[[update-through-web-ui]]
+* Through the Gerrit web UI:
++
+[[update-through-general-screen]]
+--
+* On the project's `General` screen:
++
+The `General` screen can be found under:
+`BROWSE` > `Repositories` > `<project-name>` > `General`
++
+In the `Configurations` section this screen allows to edit the project
+description and change repository options.
++
+Note, this screen only supports changing the most important repository options,
+but it doesn't expose all options that exist.
++
+All changes are directly applied (without code review).
+--
++
+[[update-through-access-screen]]
+--
+* On the project's `Access` screen:
++
+The `Access` screen can be found under:
+`BROWSE` > `Repositories` > `<project-name>` > `Access`
++
+This screen allows to edit the project's access rights and the parent project.
++
+Updating access rights via the `Access` screen updates the
+link:#file-groups[groups] file automatically.
++
+Modifications can either be applied directly (`SAVE` button) or saved for
+review (`SAVE FOR REVIEW` button).
++
+Saving access modification for review (`SAVE FOR REVIEW` button) creates an
+open change for the `refs/meta/config` branch where the modifications can be
+reviewed by a project owner. The modifications become effective only after a
+project owner submits the change.
+--
++
+[[update-via-online-editing]]
+--
+** Via online editing:
++
+The project's `Commands` screen, that can be found under `BROWSE` >
+`Repositories` > `<project-name>` > `Commands`, offers an `EDIT REPO CONFIG`
+command that allows to edit the `project.config` file directly in the Gerrit
+web UI.
++
+The `EDIT REPO CONFIG` command creates a new work-in-progress change with a
+change edit that contains the `project.config` file. Clicking on the command
+opens an online editor for the `project.config` file, allowing the user to make
+modifications to it.
++
+Modifications need to be saved and published ("saving" saves the modifications
+in the change edit, "publishing" publishes the change edit to make it visible
+to other users). While the change edit is not published yet, it's possible to
+add further files to it (e.g. the link:#file-groups[groups] file if it needs to
+be modified, in contrast to making access rights changes through the `Access`
+screen the `groups` file is not automatically updated). For further details how
+to work with change edits see the link:user-inline-edit.html[inline edit user
+guide]. After publishing the change edit, the change should be set to ready by
+clicking on `START REVIEW` > `SEND AND START REVIEW`. At this time you also
+want to add a project owner as a reviewer so that they can review and approve
+the change.
+--
+
+[[update-by-git-push]]
+* By pushing updates via Git:
++
+Since the configuration files are stored in a git branch, it's possible to
+update them via normal git operations:
++
+--
+1. Clone the repository if you don't have it available yet. The clone command
+   can be found in the `Download` section of project's `General` screen
+   (`BROWSE` > `Repositories` > `<project-name>` > `General`).
+2. Fetch and checkout the `refs/meta/config branch`, e.g. by `git fetch origin
+   refs/meta/config && git checkout FETCH_HEAD`.
+3. Edit the `project.config` file or other configuration files and commit the
+   changes, e.g. by `git commit --all`. Note, since the `project.config` file
+   uses the format of a git config file you can also edit it via the
+   `git config` command (e.g. to set a project description do: `git config -f
+   project.config project.description "My project description"`).
+4. Push the newly created commit, either to update the `refs/meta/config`
+   branch directly without code-review (e.g. `git push origin
+   HEAD:refs/meta/config`), or for review (e.g. `git push origin
+   HEAD:refs/for/refs/meta/config`).
+--
++
+[NOTE]
+Updates to access right may require changes in the link:#file-groups[groups]
+file. In contrast to making access rights changes through the `Access` screen
+the `groups` file is not automatically updated.
+
+[[update-through-rest-api]]
+* Through the Gerrit REST API:
++
+Gerrit offers several REST endpoints to modify the project configuration:
++
+** link:rest-api-projects.html#set-config[Set Config] REST endpoint:
+   Allows to edit the project description and change repository options.
+** link:rest-api-projects.html#set-project-description[Set Project Description]
+   REST endpoint:
+   Allows to set the project description.
+** link:rest-api-projects.html#delete-project-description[Delete Project
+   Description] REST endpoint:
+   Allows to unset the project description.
+** link:rest-api-projects.html#set-access[Add, Update and Delete Access Rights
+   for Project] REST endpoint:
+   Allows to edit the access rights of the project.
+** link:rest-api-projects.html#create-access-change[Create Access Rights Change
+   for review] REST endpoint:
+   Allows to create a change with access right modifications that can be
+   reviewed and submitted by a project owner.
+** link:rest-api-projects.html#create-label[Create Label] REST endpoint:
+   Allows to create a new label definition.
+** link:rest-api-projects.html#set-label[Set Label] REST endpoint:
+   Allows to update an existing label definition.
+** link:rest-api-projects.html#delete-label[Delete Label] REST endpoint:
+   Allows to delete an existing label definition.
+** link:rest-api-projects.html#create-submit-requirement[Create Submit
+   Requirement] REST endpoint:
+   Allows to create a new submit requirement.
+** link:rest-api-projects.html#update-submit-requirement[Update Submit
+   Requirement] REST endpoint:
+   Allows to update an existing submit requirement.
+** link:rest-api-projects.html#delete-submit-requirement[Delete Submit
+   Requirement] REST endpoint:
+   Allows to delete an existing submit requirement.
+
+[[required-permissions]]
+== Required permissions
+
+Depending on how the project configuration is changed different access rights
+are required:
+
+* Direct updates through the web UI (link:#update-through-general-screen[
+  updates through the `General` screen] and link:#update-through-access-screen[
+  direct updates of access rights through the `Access` screen via the `SAVE`
+  button]) and direct updates through the REST API (via the
+  link:rest-api-projects.html#set-config[Set Config] REST endpoint or the
+  link:rest-api-projects.html#set-access[Add, Update and Delete Access Rights
+  for Project] REST endpoint) require the user to be a project owner (have the
+  link:access-control.html#category_owner[Owner] access right assigned on
+  `refs/*` or have the link:access-control.html#capability_administrateServer[
+  Administrate Server] global capability assigned on the `All-Projects` root
+  project).
+* link:#update-by-git-push[Direct updates through `git push`] require the
+  user to have the link:access-control.html#category_push[Push] access right
+  assigned on `refs/meta/config` and be a project owner (have the
+  link:access-control.html#category_owner[Owner] access right assigned on
+  `refs/*` or have the link:access-control.html#capability_administrateServer[
+  Administrate Server] global capability assigned on the `All-Projects` root
+  project).
+* Creating changes for updates through the web UI
+  (link:#update-through-access-screen[proposing updates of access rights
+  through the `Access` screen via the `SAVE FOR REVIEW` button] and
+  link:#update-via-online-editing[proposing updates via the `EDIT REPO CONFIG`
+  command]), creating changes for updates through the REST API (via the
+  link:rest-api-projects.html#create-access-change[Create Access Rights Change
+  for review] REST endpoint) and link:#update-by-git-push[pushing changes for
+  review] require the user to be able to see the `refs/meta/config` branch
+  (have the link:access-control.html#category_read[Read] access right assigned
+  on `refs/meta/config`) and be allowed to create changes for it (have the
+  link:access-control.html#category_push[Push] access right assigned on
+  `refs/for/refs/meta/config` or be a project owner or be an administrator).
+
+[[comments]]
+=== Comments in project configuration files
+
+In principle it's possible to have comments in the project configuration files
+(lines starting with '#'), however if any Gerrit API is used that lead to
+modifications in the configuration files the comments may be dropped. This is
+because when Gerrit parses the configuration files and writes them back with
+updates, comments are not preserved.
+
+[TIP]
+When updating the project configuration use the commit message to record the
+reason for the settings so that this information is preserved in the git
+history. For example, this allows using `git blame` to inspect why
+configuration values have been set.
+
+[[inheritance]]
+== Inheritance
+
+Projects in Gerrit are organized hierarchically in a tree with the
+`All-Projects` project as the root project. The parent project is defined in
+the link:#access.inheritFrom[access section] of the `project.config` file.
+
+Projects inherit access rights and options from their parent project, but not
+all options are inheritable. See the description of the options in the
+link:#file-project_config[project.config] file to learn whether they are
+inherited or not.
+
+Options with boolean values support a special `INHERIT` value to make them
+inherit the value that is set in the parent project.
+
+Some settings can be enforced for child projects (or if set on the
+`All-Projects` root project for all projects), e.g. access right restrictions
+via link:access-control#block[BLOCK rules] or
+link:config-submit-requirements.html#submit_requirement_can_override_in_child_projects[
+non-overridable] submit requirements.
+
+[NOTE]
+The parent project for an existing project can be changed via the
+link:update-through-access-screen[Access] screen (by default this is only
+allowed for administrators).
+
+[NOTE]
+Project owners can be allowed to change the parent of projects that they own
+(see link:config-gerrit.html#receive.allowProjectOwnersToChangeParent[
+receive.allowProjectOwnersToChangeParent] setting which is `false` by default).
+In this case project owners may escape the settings that are enforced by their
+parent project by choosing a different parent project.
 
 [[file-project_config]]
-== The file +project.config+
+== The file `project.config`
 
-The +project.config+ file contains the link between groups and their
-permitted actions on reference patterns in this project and any projects
-that inherit its permissions.
+The `project.config` file contains the link to the parent project, the project
+description, access rights, link:config-labels.html[label definitions],
+link:config-submit-requirements.html[submit requirements] and options to
+control project-specific behavior.
 
-The format in this file corresponds to the Git config file format, so
-if you want to automate your permissions it is a good idea to use the
-+git config+ command when writing to the file. This way you know you
-don't accidentally break the format of the file.
+The format in this file corresponds to the Git config file format.
 
-Here follows a +git config+ command example:
+[TIP]
+--
+Since the format of the `project.config` file adheres to the Git config file
+format, utilizing the `git config` command when modifying the file is
+recommended. This way you can avoid breaking the format of the file
+accidentally.
+
+Here is an example of a `git config` command that updates the project
+description:
 
 ----
-$ git config -f project.config project.description "Rights inherited by all other projects"
+$ git config -f project.config project.description "Foo Bar"
 ----
+--
 
-Below you will find an example of the +project.config+ file format:
+This is an example of a `project.config` file:
 
 ----
 [project]
-       description = Rights inherited by all other projects
+  description = Collection of scripts for setting up foo bar.
 [access "refs/*"]
-       read = group Administrators
+  read = group Registered Users
 [access "refs/heads/*"]
-        label-Your-Label-Here = -1..+1 group Administrators
-[capability]
-       administrateServer = group Administrators
+  label-Code-Review = -2..+2 group Maintainers
+  label-Code-Review = -1..+1 group Registered Users
+  label-Your-Label = -1..+1 group Maintainers
 [receive]
-       requireContributorAgreement = false
-[label "Your-Label-Here"]
-        function = MaxWithBlock
-        value = -1 Your -1 Description
-        value =  0 Your No score Description
-        value = +1 Your +1 Description
+  requireChangeId = true
+[label "Your-Label"]
+  function = NoOp
+  value = -1 Your -1 Description
+  value =  0 Your No score Description
+  value = +1 Your +1 Description
+[submit-requirement "Your-Label"]
+  description = At least one maximum vote for label 'Your-Label' is required
+  applicableIf = -branch:refs/meta/config
+  submittableIf = label:Your-Label=MAX AND -label:Your-Label=MIN
 ----
 
-As you can see, there are several sections.
+The sections that can appear in the `project.config` file are explained below.
 
-The link:#project-section[+project+ section] appears once per project.
+[[access-section]]
+=== Access section
 
-The link:#access-section[+access+ section] appears once per reference pattern,
-such as `+refs/*+` or `+refs/heads/*+`.  Only one access section per pattern is
-allowed.
+[[access.inheritFrom]]access.inheritFrom::
++
+Name of the parent project from which access rights are inherited.
++
+If not set, access rights are inherited from the `All-Projects` root project.
 
-The link:#receive-section[+receive+ section] appears once per project.
+[[access-subsection]]
+==== Access subsection
 
-The link:#submit-section[+submit+ section] appears once per project.
+`access` subsections define access rules for a ref or a ref namespace. The ref
+or ref namespace is specified as the subsection name and can be a concrete ref
+(e.g. `refs/heads/master`), a ref pattern (last path segment is '\*', e.g.
+`refs/heads/*`) or a regular expression (must start with '^', e.g.
+`^refs/heads/rel-.*`).
 
-The link:#capability-section[+capability+] section only appears once, and only
-in the +All-Projects+ repository.  It controls core features that are configured
-on a global level.
+[NOTE]
+For ref patterns '\*' can only appear as the last path segment. If a '*' is
+required in any other place the ref namespace must be specified as a regular
+expression (must start with '^', '\*' must follow what's being matched, e.g.
+".*" to match any string).
 
-The link:#label-section[+label+] section can appear multiple times. You can
-also redefine the text and behavior of the built in label types `Code-Review`
-and `Verified`.
+[NOTE]
+Only one access subsection per ref and per ref namespace is allowed.
 
-Optionally a +commentlink+ section can be added to define project-specific
-comment links. The +commentlink+ section has the same format as the
-link:config-gerrit.html#commentlink[+commentlink+ section in gerrit.config]
+The `access` subsections contain access rules that apply to the ref or ref
+namespace of the `access` subsections. The format of the access rules is: +
+`<accessCategoryId> = (block|deny)? <range>? group <group-name>`
+
+* `<accessCategoryId>`: ID of the link:access-control.html#access_categories[
+  access category] for which the access rule should be defined. The ID of the
+  access category is the name of the access category in lowerCamelCase (e.g.
+  `createTag`), except for label permissions where it is `label-<label-Name>`
+  (e.g. `label-Code-Review`).
+* `(block|deny)?`: `block` defines a link:access-control.html#block-rule[BLOCK]
+  rule, `deny` defines a link:access-control.html#deny-rule[DENY] rule, if
+  neither `block` or `deny` is specified an link:access-control.html#allow-rule[
+  ALLOW] rule is defined.
+* `<range>?`: Only set for label permission. The voting range in the format
+  `<min-vote>..<max-vote>` (e.g. `-1..+1`).
+* `group <group-name>`: The (local) name of the group to which the access rule
+  should apply (e.g. `group Foo Bar`). The (local) group name must exist in the
+  link:#file-groups[groups] file, so that Gerrit can resolve it to the group
+  UUID.
+
+To make access rules link:access-control.html#exclusive[exclusive] they need to
+be included into the value of the `exclusiveGroupPermissions` key: +
+`exclusiveGroupPermissions = <space-separated-list-of-access-category-ids>`
+
+.Example access subsections
+----
+  [access "refs/heads/*"]
+    create = group Administrators
+    delete = group Administrators
+    deleteChanges = group Administrators
+    label-Code-Review = -2..+2 group Maintainers
+    label-Code-Review = -1..+1 group Registered Users
+    label-Verified = -1..+1 group Registered Users
+    push = block Registered Users
+    submit = group Maintainers
+    exclusiveGroupPermissions = deleteChanges submit
+  [access "^refs/tags/rel-.*"]
+    createTag = group Maintainers
+    createSignedTag = group Maintainers
+----
+
+[[branchOrder-section]]
+=== branchOrder section
+
+Defines a branch ordering which is used for backporting of changes.
+Backporting will be offered for a change (in the Gerrit UI) for all
+more stable branches where the change can merge cleanly.
+
+[[branchOrder.branch]]branchOrder.branch::
+
+A branch name, typically multiple values will be defined. The order of branch
+names in this section defines the branch order. The topmost is considered to be
+the least stable branch (typically the master branch) and the last one the
+most stable (typically the last maintained release branch).
+
+.Example:
+----
+[branchOrder]
+  branch = master
+  branch = stable-2.9
+  branch = stable-2.8
+  branch = stable-2.7
+----
+
+The `branchOrder` section is inheritable. This is useful when multiple or all
+projects follow the same branch rules. A `branchOrder` section in a child
+project completely overrides any `branchOrder` section from a parent i.e. there
+is no merging of `branchOrder` sections. A present but empty `branchOrder`
+section removes all inherited branch order.
+
+Branches not listed in this section will not be included in the mergeability
+check. If the `branchOrder` section is not defined then the mergeability of a
+change into other branches will not be computed.
+
+[[capability-section]]
+=== Capability section
+
+The `capability` section only appears once, and only in the `project.config`
+file of the `All-Projects` root project. It controls Gerrit administration
+capabilities that are configured on a global level.
+
+.Example:
+----
+[capability]
+  administrateServer = group Administrators
+----
+
+[NOTE]
+The (local) group names for which capabilities are assigned must exist in the
+link:#file-groups[groups] file, so that Gerrit can resolve them to their group
+UUID.
+
+Please refer to the
+link:access-control.html#global_capabilities[Global Capabilities]
+documentation for a full list of available capabilities.
+
+[[change-section]]
+=== Change section
+
+The change section includes configuration for project-specific change settings:
+
+[[change.privateByDefault]]change.privateByDefault::
++
+Controls whether all new changes in the project are set as private by default.
++
+Note that a new change will be public if the `is_private` field in
+link:rest-api-changes.html#change-input[ChangeInput] is set to `false` explicitly
+when calling the link:rest-api-changes.html#create-change[CreateChange] REST API
+or the `remove-private` link:user-upload.html#private[PushOption] is used during
+the Git push.
++
+Default is `INHERIT`, which means that this property is inherited from
+the parent project.
+
+[[change.workInProgressByDefault]]change.workInProgressByDefault::
++
+Controls whether all new changes in the project are set as WIP by default.
++
+Note that a new change will be ready if the `workInProgress` field in
+link:rest-api-changes.html#change-input[ChangeInput] is set to `false` explicitly
+when calling the link:rest-api-changes.html#create-change[CreateChange] REST API
+or the `ready` link:user-upload.html#wip[PushOption] is used during
+the Git push.
++
+Default is `INHERIT`, which means that this property is inherited from
+the parent project.
+
+[[commentlink-section]]
+=== Commentlink section
+
+Optionally a `commentlink` section can be added to define project-specific
+comment links. The `commentlink` section has the same format as the
+link:config-gerrit.html#commentlink[commentlink] section in `gerrit.config`
 which is used to define global comment links.
+
+[[label-section]]
+=== Label section
+
+Please refer to link:config-labels.html#label_custom[Custom Labels] documentation.
+
+[[mimetype-section]]
+=== MIME Types section
+
+The +mimetype+ section may be configured to force the web code
+reviewer to return certain MIME types by file path. MIME types
+may be used to activate syntax highlighting.
+
+----
+[mimetype "text/x-c"]
+  path = *.pkt
+[mimetype "text/x-java"]
+  path = api/current.txt
+----
 
 [[project-section]]
 === Project section
@@ -96,7 +498,42 @@ The project section includes configuration of project settings.
 
 These are the keys:
 
-- Description
+[[description]]description::
++
+A description for the project.
+
+[[state]]state::
++
+This setting defines the state of the project. A project can have the
+following states:
+
+- `Active`:
++
+The project is active and users can see and modify the project according
+to their access rights on the project.
+
+- `Read Only`:
++
+The project is read only and all modifying operations on it are
+disabled. E.g. this means that pushing to this project fails for all
+users even if they have push permissions assigned on it.
++
+Setting a project to this state is an easy way to temporary close a
+project, as you can keep all write access rights in place and they will
+become active again as soon as the project state is set back to
+`Active`.
++
+This state also makes sense if a project was moved to another location.
+In this case all new development should happen in the new project and
+you want to prevent that somebody accidentally works on the old
+project, while keeping the old project around for old references.
+
+- `Hidden`:
++
+The project is hidden; It will not appear in any searches and is only visible
+to project owners by going directly to the repository admin page. Other users
+are not able to see the project even if they have read permissions granted on
+the project.
 
 
 [[receive-section]]
@@ -108,7 +545,7 @@ receive settings:
 [[receive.requireContributorAgreement]]receive.requireContributorAgreement::
 +
 Controls whether or not a user must complete a contributor agreement before
-they can upload changes. Default is `INHERIT`. If `All-Project` enables this
+they can upload changes. Default is `INHERIT`. If `All-Projects` enables this
 option then the dependent project must set it to false if users are not
 required to sign a contributor agreement prior to submitting changes for that
 specific project. To use that feature the global option in `gerrit.config`
@@ -125,9 +562,29 @@ property is inherited from the parent project.
 
 [[receive.requireChangeId]]receive.requireChangeId::
 +
-Controls whether or not the Change-Id must be included in the commit message
-in the last paragraph. Default is `INHERIT`, which means that this property
-is inherited from the parent project.
+The `Require Change-Id in commit message` option defines whether a
+link:user-changeid.html[Change-Id] in the commit message is required
+for pushing a commit for review. If this option is set, trying to push
+a commit for review that doesn't contain a Change-Id in the commit
+message fails with link:error-missing-changeid.html[missing Change-Id
+in commit message footer].
++
+It is recommended to set this option and use a
+link:user-changeid.html#create[commit-msg hook] (or other client side
+tooling like EGit) to automatically generate Change-Id's for new
+commits. This way the Change-Id is automatically in place when changes
+are reworked or rebased and uploading new patch sets gets easy.
++
+If this option is not set, commits can be uploaded without a Change-Id,
+but then users have to remember to copy the assigned Change-Id from the
+change screen and insert it manually into the commit message when they
+want to upload a second patch set.
++
+Default is `INHERIT`, which means that this property is inherited from
+the parent project. The global default for new hosts is `true`
++
+This option is deprecated and future releases will behave as if this
+is always `true`.
 
 [[receive.maxObjectSizeLimit]]receive.maxObjectSizeLimit::
 +
@@ -206,134 +663,24 @@ the implicit merge check.
 Default is `INHERIT`, which means that this property is inherited from
 the parent project.
 
-[[change-section]]
-=== Change section
-
-The change section includes configuration for project-specific change settings:
-
-[[change.privateByDefault]]change.privateByDefault::
+[[receive.createNewChangeForAllNotInTarget]]receive.createNewChangeForAllNotInTarget::
 +
-Controls whether all new changes in the project are set as private by default.
+This option provides a convenience for selecting
+link:user-upload.html#base[the merge base] by setting it automatically
+to the target branch's tip so you can create new changes for all
+commits not in the target branch.
 +
-Note that a new change will be public if the `is_private` field in
-link:rest-api-changes.html#change-input[ChangeInput] is set to `false` explicitly
-when calling the link:rest-api-changes.html#create-change[CreateChange] REST API
-or the `remove-private` link:user-upload.html#private[PushOption] is used during
-the Git push.
+This option is disabled if the tip of the push is a merge commit.
 +
-Default is `INHERIT`, which means that this property is inherited from
-the parent project.
-
-[[change.workInProgressByDefault]]change.workInProgressByDefault::
+This option also only works if there are no merge commits in the
+commit chain, in such cases it fails warning the user that such
+pushes can only be performed by manually specifying
+link:user-upload.html#base[bases]
 +
-Controls whether all new changes in the project are set as WIP by default.
-+
-Note that a new change will be ready if the `workInProgress` field in
-link:rest-api-changes.html#change-input[ChangeInput] is set to `false` explicitly
-when calling the link:rest-api-changes.html#create-change[CreateChange] REST API
-or the `ready` link:user-upload.html#wip[PushOption] is used during
-the Git push.
-+
-Default is `INHERIT`, which means that this property is inherited from
-the parent project.
-
-[[submit-section]]
-=== Submit section
-
-The submit section includes configuration of project-specific
-submit settings:
-
-- 'mergeContent': Defines whether to automatically merge changes.  Valid values
-are 'true', 'false', or 'INHERIT'.  Default is 'INHERIT'.
-
-- 'action': defines the link:project-configuration.html#submit_type[submit type].  Valid
-values are 'fast forward only', 'merge if necessary', 'rebase if necessary',
-'rebase always', 'merge always' and 'cherry pick'.  The default is 'merge if necessary'.
-
-- 'matchAuthorToCommitterDate': Defines whether to the author date will be changed to match the
-submitter date upon submit, so that git log shows when the change was submitted instead of when the
-author last committed. Valid values are 'true', 'false', or 'INHERIT'. The default is 'INHERIT'.
-This option only takes effect in submit strategies which already modify the commit, i.e.
-Cherry Pick, Rebase Always, and (perhaps) Rebase If Necessary.
-
-Merge strategy
-
-
-[[access-section]]
-=== Access section
-
-Each +access+ section includes a reference and access rights connected
-to groups.  Each group listed must exist in the link:#file-groups[+groups+ file].
-
-Please refer to the
-link:access-control.html#access_categories[Access Categories]
-documentation for a full list of available access rights.
-
-
-[[mimetype-section]]
-=== MIME Types section
-
-The +mimetype+ section may be configured to force the web code
-reviewer to return certain MIME types by file path. MIME types
-may be used to activate syntax highlighting.
-
-----
-[mimetype "text/x-c"]
-  path = *.pkt
-[mimetype "text/x-java"]
-  path = api/current.txt
-----
-
-
-[[capability-section]]
-=== Capability section
-
-The +capability+ section only appears once, and only in the +All-Projects+
-repository.  It controls Gerrit administration capabilities that are configured
-on a global level.
-
-Please refer to the
-link:access-control.html#global_capabilities[Global Capabilities]
-documentation for a full list of available capabilities.
-
-[[label-section]]
-=== Label section
-
-Please refer to link:config-labels.html#label_custom[Custom Labels] documentation.
-
-[[branchOrder-section]]
-=== branchOrder section
-
-Defines a branch ordering which is used for backporting of changes.
-Backporting will be offered for a change (in the Gerrit UI) for all
-more stable branches where the change can merge cleanly.
-
-[[branchOrder.branch]]branchOrder.branch::
-+
-A branch name, typically multiple values will be defined. The order of branch
-names in this section defines the branch order. The topmost is considered to be
-the least stable branch (typically the master branch) and the last one the
-most stable (typically the last maintained release branch).
-
-Example:
-
-----
-[branchOrder]
-  branch = master
-  branch = stable-2.9
-  branch = stable-2.8
-  branch = stable-2.7
-----
-
-The `branchOrder` section is inheritable. This is useful when multiple or all
-projects follow the same branch rules. A `branchOrder` section in a child
-project completely overrides any `branchOrder` section from a parent i.e. there
-is no merging of `branchOrder` sections. A present but empty `branchOrder`
-section removes all inherited branch order.
-
-Branches not listed in this section will not be included in the mergeability
-check. If the `branchOrder` section is not defined then the mergeability of a
-change into other branches will not be done.
+This option is useful if you want to push a change to your personal
+branch first and for review to another branch for example. Or in cases
+where a commit is already merged into a branch and you want to create
+a new open change for that commit on another branch.
 
 [[reviewer-section]]
 === reviewer section
@@ -345,21 +692,370 @@ reviewers and CCs by email.
 +
 A boolean indicating if reviewers and CCs that do not currently have a Gerrit
 account can be added to a change by providing their email address.
-
-This setting only takes affect for changes that are readable by anonymous users.
-
++
+This setting only takes effect for changes that are readable by anonymous users.
++
 Default is `INHERIT`, which means that this property is inherited from
 the parent project. If the property is not set in any parent project, the
 default value is `FALSE`.
 
+[[reviewer.skipAddingAuthorAndCommitterAsReviewers]]reviewer.skipAddingAuthorAndCommitterAsReviewers::
++
+Whether to skip adding the Git commit author and committer as reviewers for
+a new change.
++
+Default is `INHERIT`, which means that this property is inherited from
+the parent project. If the property is not set in any parent project, the
+default value is `FALSE`.
+
+[[submit-section]]
+=== Submit section
+
+The submit section includes configuration of project-specific
+submit settings:
+
+[[content_merge]]
+
+[[submit.mergeContent]]submit.mergeContent::
++
+Defines whether Gerrit will try to do a content merge when a path conflict
+occurs while submitting a change.
++
+A path conflict occurs when the same file has been changed on both sides of a
+merge, e.g. when the same file has been touched in a change and concurrently in
+the target branch.
++
+Doing a content merge means that Gerrit attempts to merge the conflicting file
+contents from both sides of the merge. This is successful if the touched lines
+(plus some surrounding context lines) do not overlap (i.e. both sides touch
+distinct lines).
++
+NOTE: The content merge setting is not relevant when
+link:#fast_forward_only[fast forward only] is configured as the
+link:#submit.action[submit action] because in this case Gerrit will never
+perform a merge, rebase or cherry-pick on submit.
++
+If content merges are disabled, the submit button in the Gerrit web UI is
+disabled, if any path conflict would occur on submitting the change. Users then
+need to rebase the change manually to resolve the path conflict and then get
+the change re-approved so that they can submit it.
++
+NOTE: If only distinct lines have been touched on both sides, rebasing the
+change from the Gerrit UI is sufficient to resolve the path conflict, since the
+rebase action always does the rebase with content merge enabled.
++
+The advantage of enabling content merges on submit is that it makes it less
+likely that change submissions are rejected due to conflicts. Each change
+submission that goes through with content merge, but would be rejected
+otherwise, saves the user from needing to do extra work to get the change
+submitted (rebase the change, get it re-approved and then submit it again).
++
+On the other hand, disabling content merges decreases the chance of breaking
+branches by submitting content merges of incompatible modifications in the same
+file, e.g. a function is removed on one side and a new usage of that function
+is added on the other side. Note, that the chance of breaking a branch by
+incompatible modifications is only reduced, but not eliminated, e.g. even with
+content merges disabled it's possible that a function is removed in one file
+and a new usage of that function is added in another file.
++
+The huge drawback of disabling content merge is that users need to do extra
+work when a change isn't submittable due to a path conflict which could be
+avoided if content merge was enabled (see above). In addition to this, it also
+confuses and frustrates users if a change submission is rejected by Gerrit due
+to a path conflict, but then when they rebase the change manually they do not
+see any conflict (because manual rebases are always done with content merge
+enabled).
++
+In general, the stability gain of disabling content merges is not worth the
+overhead and confusion that this adds for users, which is why disabling content
+merges is highly discouraged.
++
+Valid values are `true`, `false`, or `INHERIT`.
++
+The default is `INHERIT`.
++
+NOTE: Project owners can also set this option in the Gerrit UI:
+`Browse` > `Repositories` > my/repository > `Allow content merges`.
+
+[[submit.action]]submit.action::
++
+Defines the submit action aka submit type aka submit strategy that Gerrit
+should use to integrate changes into the target branch when they are submitted.
++
+In general, submitting a change only merges the change if all its dependencies
+are also submitted. The only exception is the `cherry pick` submit action which
+ignores dependencies and hence is not recommended to be used (see
+link:#cherry_pick[below]).
++
+[[submit-type]]
+--
+The following submit actions are supported:
+
+[[merge_if_necessary]]
+* 'merge if necessary':
++
+With this action, when a change is being submitted, Gerrit fast-forwards the
+target branch if possible, and otherwise creates a merge commit automatically.
++
+A fast-forward is possible if the commit that represents the current patch set
+of the change has the current head of the target branch in its parent lineage.
++
+If a fast-forward is not possible, Gerrit automatically creates a merge commit
+that merges the current patch set of the change into the target branch and then
+the target branch is fast-forwarded to the merge commit.
++
+The behavior of this submit action is identical with the classical `git merge`
+behavior, or
+link:https://git-scm.com/docs/git-merge#Documentation/git-merge.txt---ff[git
+merge --ff].
++
+With this submit action the commits that have been reviewed and approved are
+retained in the git history of the target branch. This means, by looking at the
+history of the target branch, you can see for all commits when they were
+originally committed and on which parent commit they were originally based.
+
+[[always_merge]]
+[[merge_always]]
+* 'merge always':
++
+With this action, when a change is being submitted, Gerrit always creates a
+merge commit, even if a fast-forward is possible.
++
+This is identical to the behavior of
+link:https://git-scm.com/docs/git-merge#Documentation/git-merge.txt---no-ff[git merge --no-ff].
++
+With this submit action the commits that have been reviewed and approved are
+retained in the git history of the target branch. This means, by looking at the
+history of the target branch, you can see for all commits when they were
+originally committed and on which parent commit they were originally based. In
+addition, from the merge commits you can see when the changes were submitted
+and it's possible to follow submissions with `git log --first-parent`.
+
+[[rebase_if_necessary]]
+* 'rebase if necessary':
++
+With this action, when a change is being submitted, Gerrit fast-forwards the
+target branch if possible, and otherwise does a rebase automatically.
++
+A fast-forward is possible if the commit that represents the current patch set
+of the change has the current head of the target branch in its parent lineage.
++
+If a fast-forward is not possible, Gerrit automatically rebases the current
+patch set of the change on top of the current head of the target branch and
+then the target branch is fast-forwarded to the rebased commit.
++
+With this submit action, when a rebase is performed, the original commits that
+have been reviewed and approved do not become part of the target branch's
+history. This means the information on when the original commits were committed
+and on which parent they were based is not retained in the branch history.
++
+Using this submit action results in a linear history of the target branch,
+unless merge commits are being submitted. For some people this is an advantage
+since they find the linear history easier to read.
++
+NOTE: Rebasing merge commits is done by rebasing their first parent commit,
+i.e. the first parent is updated to the new base while the second parent stays
+intact.
+
+[[rebase_always]]
+* 'rebase always':
++
+With this action, when a change is being submitted, Gerrit always does a
+rebase, even if a fast-forward is possible.
++
+With this submit action, the original commits that have been reviewed and
+approved do not become part of the target branch's history. This means the
+information on when the original commits were committed and on which parent
+they were based is not retained in the branch history.
++
+Using this submit action results in a linear history of the target branch,
+unless merge commits are being submitted. For some people this is an advantage
+since they find the linear history easier to read.
++
+NOTE: Rebasing merge commits is done by rebasing their first parent commit,
+i.e. the first parent is updated to the new base while the second parent stays
+intact.
++
+When rebasing the patchset, Gerrit automatically appends onto the end of the
+commit message a short summary of the change's approvals, and a URL link back
+to the change in the web UI (see link:#submit-footers[below]).
++
+The footers that are added are exactly the same footers that are also added by
+the link:#cherry_pick[cherry pick] action. Thus, the `rebase always` action can
+be considered similar to the `cherry pick` action, but with the important
+distinction that `rebase always` does not ignore dependencies, which is why
+using the `rebase always` action should be preferred over the `cherry pick`
+submit action.
+
+[[fast_forward_only]]
+* 'fast forward only' (usage generally not recommended):
++
+With this action a change can only be submitted if at submit time the target
+branch can be fast-forwarded to the commit that represents the current patch
+set of the change. This means in order for a change to be submittable its
+current patch set must have the current head of the target branch in its parent
+lineage.
++
+The advantage of using this action is that the target branch is always updated
+to the exact commit that has been reviewed and approved. In particular, if CI
+verification is configured, this means that the CI verified the exact commit to
+which the target branch is being fast-forwarded on submit (assuming no approval
+copying is configured for CI votes).
++
+The huge drawback of using this action is that whenever one change is submitted
+all other open changes for the same branch, that are not successors of the
+submitted change, become non-submittable, since the target branch can no longer
+be fast-forwarded to their current patch sets. Making these changes submittable
+again requires rebasing and re-approving/re-verifying them. For most projects
+this causes an unreasonable amount of overhead that doesn't justify the
+stability gain by verifying exact commits so that using this submit action is
+generally discouraged. Using this action should only be considered for projects
+that have a low frequency of changes and that have special requirements to
+never break any target branch.
++
+NOTE: With this submit action Gerrit does not create merge commits on
+submitting a change, but merge commits that are created on the client, prior to
+uploading to Gerrit for review, may still be submitted.
+
+[[cherry_pick]]
+* 'cherry pick' (usage not recommended, use link:#rebase_always[rebase always]
+instead):
++
+With this submit action Gerrit always performs a cherry pick of the current
+patch set when a change is submitted. This ignores the parent lineage and
+instead creates a brand new commit on top of the current head of the target
+branch. The submitter becomes the committer of the new commit and the original
+commit author is retained.
++
+Ignoring change dependencies on submit is often confusing for users. For users
+that stack changes on top of each other, it's unexpected that these
+dependencies are ignored on submit. Ignoring dependencies also means that
+submitters need to submit the changes individually in the correct order.
+Otherwise it's likely that submissions fail due to conflicts or that the
+target branch gets broken (because it contains the submitted change, but not
+its predecessors which may be required for the submitted change to work
+correctly).
++
+If link:config-gerrit.html#change.submitWholeTopic[`change.submitWholeTopic`]
+is enabled changes that have the same topic are submitted together, the same as
+with all other submit actions. This means by setting the same topic on all
+dependent changes it's possible to submit a stack of changes together and
+overcome the limitation that change dependencies are ignored.
++
+When cherry picking the patchset, Gerrit automatically appends onto the end of
+the commit message a short summary of the change's approvals, and a URL link
+back to the change in the web UI (see link:#submit-footers[below]).
++
+Using this submit action is not recommended because it ignores change
+dependencies, instead link:#rebase_always[rebase always] should be used which
+behaves the same way except that it respects change dependencies (in particular
+`rebase always` adds the same kind of footers to the merged commit as
+`cherry pick`).
+
+--
++
+[[submit_type_inherit]]
+In addition the submit action can be set to `Inherit`, which means that the
+value that is configured in the parent project applies. For new projects
+`Inherit` is the default, unless the default is overridden by the global
+link:config-gerrit.html#repository.name.defaultSubmitType[defaultSubmitType]
+configuration. Configuring `Inherit` for the `All-Projects` root project is
+equivalent to configuring link:#merge_if_necessary[merge if necessary].
++
+If `submit.action` is not set, the default is 'merge if necessary'.
++
+NOTE: The different submit actions are also described in the
+link:https://docs.google.com/presentation/d/1C73UgQdzZDw0gzpaEqIC6SPujZJhqamyqO1XOHjH-uk/edit#slide=id.g4d6c16487b_1_800[Gerrit - Concepts and Workflows]
+presentation, where their behavior is visualized by git commit graphs.
++
+NOTE: If Gerrit performs a merge, rebase or cherry-pick as part of the
+change submission (true for all submit actions, except for
+link:#fast_forward_only[fast forward only]), it is controlled by the
+link:#submit.mergeContent[mergeContent] setting whether a content merge is
+performed when there is a path conflict.
++
+NOTE: If Gerrit performs a merge, rebase or cherry-pick as part of the
+change submission (true for all submit actions, except for
+link:#fast_forward_only[fast forward only]), it can be that trying to submit
+a change would fail due to Git conflicts (if the same lines were modified
+concurrently, or if link:#submit.mergeContent[mergeContent] is disabled also if
+the same files were modified concurrently). In this case the submit button in
+the Gerrit web UI is disabled and a tooltip on the disabled submit button
+informs about the change being non-mergeable.
++
+[[submit-footers]]
+--
+NOTE: If Gerrit performs a rebase or cherry-pick as part of the change
+submission (true for link:#rebase_if_necessary[rebase if necessary],
+link:#rebase_always[rebase always] and link:#cherry_pick[cherry pick]) Gerrit
+inserts additional footers into the commit message of the newly created
+commit: +
+ +
+* `Change-Id: <change-id>` (only if this footer is not already present, see
+  link:user-changeid.html[Change-Id]) +
+* `Reviewed-on: <change-url>` (links to the change in Gerrit where this commit
+  was reviewed) +
+* `Reviewed-by: <reviewer>` (once for every reviewer with a positive
+  `Code-Review` vote) +
+* `Tested-by: <reviewer>` (once for every reviewer with a positive `Verified`
+  vote) +
+* `<label-name>: <reviewer>` (once for every reviewer with a positive vote on
+  any other label) +
+ +
+In addition, plugins that implement a
+link:dev-plugins.html#change-message-modifier[Change Message Modifier] may add
+additional custom footers.
+--
++
+NOTE: For the value of `submit.action` in `project.config` use the exact
+spelling as given above, e.g. 'merge if necessary' (without the single quotes,
+but with the spaces).
++
+NOTE: Project owners can also set the submit action in the Gerrit UI:
+`Browse` > `Repositories` > my/repository > `Submit type`
+
+[[submit.matchAuthorToCommitterDate]]submit.matchAuthorToCommitterDate::
++
+Defines whether the author date will be changed to match the submitter date upon submit, so that
+git log shows when the change was submitted instead of when the author last committed. Valid
+values are 'true', 'false', or 'INHERIT'. The default is 'INHERIT'. This option only takes effect
+in submit strategies which already modify the commit, i.e. Cherry Pick, Rebase Always, and
+(when rebase is necessary) Rebase If Necessary.
+
+[[submit.rejectEmptyCommit]]submit.rejectEmptyCommit::
++
+Defines whether empty commits should be rejected when a change is merged. When using
+link:#submit.action[submit action] Cherry Pick, Rebase If Necessary or Rebase Always changes may
+become empty upon submit, since the rebase|cherry-pick can lead to an empty commit. If this option
+is set to 'true' the merge would fail in such a case. An empty commit is still allowed as the
+initial commit on a branch.
+
+[[submit-requirement-section]]
+=== Submit Requirement section
+
+Please refer to link:config-submit-requirements.html[Configuring Submit
+Requirements] documentation.
+
 [[file-groups]]
-== The file +groups+
+== The file `groups`
 
-Each group in this list is linked with its UUID so that renaming of
-groups is possible without having to rewrite every +groups+ file
-in every repository where it's used.
+The `groups` file resolves group names that are mentioned in
+link:#access-subsection[access subsections] of the link:#file-project_config[
+project.config] file to group UUIDs.
 
-This is what the default groups file for +All-Projects.git+ looks like:
+In the access subsections access rights are assigned to group names. These
+group names are local to the project configuration and do not need to match
+with the actual group names. To enable Gerrit to resolve the local group names
+they must be mapped to group UUIDs in the `groups` file.
+
+The access sections use local group names, rather than requiring the actual
+group names, to allow renaming groups in Gerrit without having to rewrite every
+`project.config` file using the group.
+
+The content of the `groups` file is a simple table of group UUID to group name,
+separated by a tab.
+
+This is how the default `groups` file for `All-Projects` project looks like:
 
 ----
 # UUID                                         Group Name
@@ -371,29 +1067,37 @@ global:Project-Owners                          Project Owners
 global:Registered-Users                        Registered Users
 ----
 
-This file can't be written to by the +git config+ command.
+Since the `groups` file has a custom format it can't be edited using the
+`git config` command.
 
-In order to reference a group in +project.config+, it must be listed in
-the +groups+ file.  When editing permissions through the web UI this
-file is maintained automatically, but when pushing updates to
-+refs/meta/config+ this must be dealt with by hand.  Gerrit will refuse
-+project.config+ files that refer to groups not listed in +groups+.
+Whenever access rights in the `project.config` file are assigned to new groups
+mapping entries for the new groups must be added to the `groups` file. The
+modifications to the `groups` file must be included in the same commit that
+updates the `project.config` file. Pushing updates to `project.config` files
+that refer to groups not listed in the `groups` file are rejected by Gerrit.
 
-The UUID of a group can be found on the General tab of the group's page
-in the web UI or via the +-v+ option to
-link:cmd-ls-groups.html[the +ls-groups+ SSH command].
+When link:#update-through-access-screen[editing access rights through the web
+UI] the `groups` file is automatically updated by Gerrit.
 
+The UUID of a group can be found on the group screen (`BROWSE` > `Groups` >
+`<group-name>` ). Alternatively the group can be looked up via the
+link:rest-api-groups.html#get-group[Get Group] REST endpoint (note that the
+`group-id` in the URL can be the group name). The group UUID is contained as
+`id` field in the return link:rest-api-groups.html#group-info[GroupInfo] JSON.
 
 [[file-rules_pl]]
-== The file +rules.pl+
+== The file `rules.pl`
 
-The +rules.pl+ files allows you to replace or amend the default Prolog
-rules that control e.g. what conditions need to be fulfilled for a
-change to be submittable.  This file content should be
-interpretable by the 'Prolog Cafe' interpreter.
+The `rules.pl` file allows to replace or amend the default Prolog rules that
+control what conditions need to be fulfilled for a change to be submittable.
+This file should be interpretable by the 'Prolog Cafe' interpreter.
 
-You can read more about the +rules.pl+ file and the prolog rules on
-link:prolog-cookbook.html[the Prolog cookbook page].
+You can read more about prolog rules on the link:prolog-cookbook.html[Prolog
+cookbook] page.
+
+[NOTE]
+Prolog rules are deprecated and have been replaced by
+link:config-submit-requirements.html[submit requirements].
 
 GERRIT
 ------

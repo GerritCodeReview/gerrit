@@ -35,7 +35,7 @@ This command is intended to be used in scripts.
 Change HEAD of project `example` to `stable-2.11` branch:
 
 ----
-    $ ssh -p 29418 review.example.com gerrit set-head example --new-head stable-2.11
+$ ssh -p 29418 review.example.com gerrit set-head example --new-head stable-2.11
 ----
 
 GERRIT

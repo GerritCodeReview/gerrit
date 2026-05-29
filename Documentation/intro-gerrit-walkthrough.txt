@@ -1,3 +1,4 @@
+:linkattrs:
 = Working with Gerrit: An example
 
 To understand how Gerrit works, let's follow a change through its entire
@@ -28,7 +29,7 @@ project he works on. His first step is to get the source code that he wants to
 modify. To get this code, he runs the following `git clone` command:
 
 ----
-clone ssh://gerrithost:29418/RecipeBook.git RecipeBook
+git clone ssh://gerrithost:29418/RecipeBook.git RecipeBook
 ----
 
 After he clones the repository, he runs a couple of commands to add a
@@ -129,8 +130,8 @@ accepted. The default Gerrit workflow requires two checks:
 In general, the *Code-Review* check requires an individual to look at the code,
 while the *Verified* check is done by an automated build server, through a
 mechanism such as the
-link:https://wiki.jenkins-ci.org/display/JENKINS/Gerrit+Trigger[Gerrit Trigger
-Jenkins Plugin].
+link:https://plugins.jenkins.io/gerrit-trigger/[Gerrit Trigger
+Jenkins Plugin,role=external,window=_blank].
 
 IMPORTANT: The Code-Review and Verified checks require different permissions
 in Gerrit. This requirement allows teams to separate these tasks. For example,
@@ -160,8 +161,8 @@ and 2. The possible options are:
 * `+2 Looks good to me, approved`
 * `+1 Looks good to me, but someone else must approve`
 * `0 No score`
-* `-1 I would prefer that you didn't submit this`
-* `-2 Do not submit`
+* `-1 I would prefer this is not submitted as is`
+* `-2 This shall not be submitted`
 
 In addition, a change must have at least one `+2` vote and no `-2` votes before
 it can be submitted. These numerical values do not accumulate. Two
@@ -175,17 +176,18 @@ Hannah notices a possible issue with Max's change, so she selects a `-1` vote.
 She uses the *Cover Message* text box to provide Max with some additional
 feedback. When she is satisfied with her review, Hannah clicks the
 *SEND* button. At this point, her vote and cover message become
-visible to to all users.
+visible to all users.
 
 == Reworking the Change
 
 Later in the day, Max decides to check on his change and notices Hannah's
 feedback. He opens up the source file and incorporates her feedback. Because
-Max's change includes a change-id, all he has to is follow the typical git
+Max's change includes a change-id, all he has to do is follow the typical git
 workflow for updating a commit:
 
 * Check out the commit
 * Amend the commit
+* Rebase the commit if needed
 * Push the commit to Gerrit
 
 ----
@@ -195,6 +197,20 @@ $ git commit --amend
 [master 30a6f44] Change to a proper, yeast based pizza dough.
  Date: Fri Jun 8 16:28:23 2018 +0200
  1 file changed, 10 insertions(+), 5 deletions(-)
+----
+
+At this point Max wants to make sure that his change is on top of the branch.
+
+----
+$ git fetch
+$
+----
+
+Max got no output from the fetch command, which is good news.
+This means that the master branch has not progressed and there is no need for link:intro-user.html#rebase[*rebase*].
+Max is now ready to push his change:
+
+----
 $ git push origin HEAD:refs/for/master
 Counting objects: 3, done.
 Delta compression using up to 8 threads.
@@ -237,7 +253,7 @@ NOTE: Remember that this walkthrough uses Gerrit's default workflow. Projects
 can add custom checks or even remove the Verified check entirely.
 
 Verification is typically an automated process using the
-link:https://wiki.jenkins-ci.org/display/JENKINS/Gerrit+Trigger[Gerrit Trigger Jenkins Plugin]
+link:https://plugins.jenkins.io/gerrit-trigger/[Gerrit Trigger Jenkins Plugin,role=external,window=_blank]
 or a similar mechanism. However, there are still times when a change requires
 manual verification, or a reviewer needs to check how or if a change works.
 To accommodate these and other similar circumstances, Gerrit exposes each change
@@ -280,6 +296,10 @@ through the default Gerrit workflow. At this point, you can:
 * Review the link:intro-project-owner.html[Project Owners guide] to learn more
   about configuring projects in Gerrit, including setting user permissions and
   configuring verification checks
+* Read through the Git and Gerrit training slides that explain concepts and
+  workflows in detail. They are meant for self-studying how Git and Gerrit work:
+** link:https://docs.google.com/presentation/d/1IQCRPHEIX-qKo7QFxsD3V62yhyGA9_5YsYXFOiBpgkk/edit?usp=sharing[Git explained: Git Concepts and Workflows]
+** link:https://docs.google.com/presentation/d/1C73UgQdzZDw0gzpaEqIC6SPujZJhqamyqO1XOHjH-uk/edit?usp=sharing[Gerrit explained: Gerrit Concepts and Workflows]
 
 GERRIT
 ------

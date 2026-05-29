@@ -1,7 +1,7 @@
 = gerrit create-branch
 
 == NAME
-gerrit create-branch - Create a new branch
+gerrit create-branch - Create a new branch.
 
 == SYNOPSIS
 [verse]
@@ -40,7 +40,7 @@ Create a new branch called 'newbranch' from the 'master' branch of
 the project 'myproject'.
 
 ----
-    $ ssh -p 29418 review.example.com gerrit create-branch myproject newbranch master
+$ ssh -p 29418 review.example.com gerrit create-branch myproject newbranch master
 ----
 
 GERRIT

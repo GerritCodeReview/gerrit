@@ -1,0 +1,1011 @@
+/**
+ * @license
+ * Copyright 2025 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+import {customElement, property, query, state} from 'lit/decorators.js';
+import {css, html, LitElement, PropertyValues} from 'lit';
+import {sharedStyles} from '../../../styles/shared-styles';
+import {materialStyles} from '../../../styles/gr-material-styles';
+import {grFormStyles} from '../../../styles/gr-form-styles';
+import {
+  ChangeInfo,
+  FlowActionInfo,
+  FlowInput,
+  LabelDefinitionInfo,
+} from '../../../api/rest-api';
+import {getAppContext} from '../../../services/app-context';
+import {NumericChangeId, ServerInfo} from '../../../types/common';
+import '../../shared/gr-button/gr-button';
+import '../../shared/gr-dialog/gr-dialog';
+import '../../shared/gr-icon/gr-icon';
+import '../../core/gr-search-autocomplete/gr-search-autocomplete';
+import '@material/web/select/outlined-select.js';
+import '@material/web/select/select-option.js';
+import '@material/web/textfield/outlined-text-field.js';
+import '../../shared/gr-copy-clipboard/gr-copy-clipboard';
+import {resolve} from '../../../models/dependency';
+import {configModelToken} from '../../../models/config/config-model';
+import {
+  flowsModelToken,
+  getChangePrefix,
+} from '../../../models/flows/flows-model';
+import './gr-flow-rule';
+import {subscribe} from '../../lit/subscription-controller';
+import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
+import {modalStyles} from '../../../styles/gr-modal-styles';
+import {
+  AutocompleteSuggestion,
+  fetchAccountSuggestions,
+} from '../../../utils/autocomplete-util';
+import {ValueChangedEvent} from '../../../types/events';
+import {SuggestionProvider} from '../../core/gr-search-autocomplete/gr-search-autocomplete';
+import {when} from 'lit/directives/when.js';
+import {ifDefined} from 'lit/directives/if-defined.js';
+import {MdOutlinedTextField} from '@material/web/textfield/outlined-text-field.js';
+import {
+  computeFlowString,
+  Stage,
+  STAGE_SEPARATOR,
+} from '../../../utils/flows-util';
+import {FlowCustomConditionInfo} from '../../../api/flows';
+import {changeModelToken} from '../../../models/change/change-model';
+import {combineLatest} from 'rxjs';
+import {getUserName} from '../../../utils/display-name-util';
+import {LabelSuggestionsProvider} from '../../../services/label-suggestions-provider';
+import {queryAndAssert, unique} from '../../../utils/common-util';
+import {fireAlert} from '../../../utils/event-util';
+import {MdOutlinedSelect} from '@material/web/select/outlined-select.js';
+import {Interaction} from '../../../constants/reporting';
+import {isDefined} from '../../../types/types';
+
+const MAX_AUTOCOMPLETE_RESULTS = 10;
+
+@customElement('gr-create-flow')
+export class GrCreateFlow extends LitElement {
+  @property({type: Number}) changeNum?: NumericChangeId;
+
+  // Property so that we can mock it in tests
+  @property({type: String}) hostUrl?: string;
+
+  @query('#createModal')
+  private createModal?: HTMLDialogElement;
+
+  @state()
+  // private but used in tests
+  stages: Stage[] = [];
+
+  @state()
+  // private but used in tests
+  currentCondition = '';
+
+  @state()
+  // private but used in tests
+  currentAction = '';
+
+  @state()
+  // private but used in tests
+  currentParameter = '';
+
+  @state()
+  // private but used in tests
+  repoLabels?: (Pick<LabelDefinitionInfo, 'name'> &
+    Pick<LabelDefinitionInfo, 'values'>)[];
+
+  @state()
+  private selectedLabelForVote?: string;
+
+  @state()
+  private selectedValueForVote?: string;
+
+  @state() private currentConditionPrefix = 'Gerrit';
+
+  @state() private guidedBuilderExpanded = true;
+
+  @state() copyPasteExpanded = false;
+
+  @state() private loading = false;
+
+  @state() private serverConfig?: ServerInfo;
+
+  @property({type: String}) flowString = '';
+
+  @state()
+  // private but used in tests
+  flowActions: FlowActionInfo[] = [];
+
+  @state() documentationLink?: string;
+
+  private readonly restApiService = getAppContext().restApiService;
+
+  private readonly reportingService = getAppContext().reportingService;
+
+  private readonly getConfigModel = resolve(this, configModelToken);
+
+  private readonly getFlowsModel = resolve(this, flowsModelToken);
+
+  private readonly getChangeModel = resolve(this, changeModelToken);
+
+  private readonly labelSuggestionsProvider = new LabelSuggestionsProvider(
+    this.restApiService
+  );
+
+  private readonly projectSuggestions: SuggestionProvider = (
+    predicate,
+    expression
+  ) => this.fetchProjects(predicate, expression);
+
+  private readonly groupSuggestions: SuggestionProvider = (
+    predicate,
+    expression
+  ) => this.fetchGroups(predicate, expression);
+
+  private readonly labelSuggestions: SuggestionProvider = (
+    predicate,
+    expression
+  ) => this.labelSuggestionsProvider.getSuggestions(predicate, expression);
+
+  private customConditions: FlowCustomConditionInfo[] = [];
+
+  @state() private disabledActions: string[] = [];
+
+  private readonly accountSuggestions: SuggestionProvider = (
+    predicate,
+    expression
+  ) => {
+    const accountFetcher = (expr: string) =>
+      this.restApiService.queryAccounts(
+        expr,
+        MAX_AUTOCOMPLETE_RESULTS,
+        undefined,
+        undefined,
+        throwingErrorCallback
+      );
+    return fetchAccountSuggestions(
+      accountFetcher,
+      predicate,
+      expression,
+      this.serverConfig
+    );
+  };
+
+  private readonly reviewerSuggestions: SuggestionProvider = expression => {
+    const accountFetcher = (expr: string) =>
+      this.restApiService.queryAccounts(
+        expr,
+        MAX_AUTOCOMPLETE_RESULTS,
+        undefined,
+        undefined,
+        throwingErrorCallback
+      );
+    const emails = expression.split(',');
+    const emailToAutocomplete = emails.pop() ?? '';
+    return accountFetcher(emailToAutocomplete.trim()).then(accounts => {
+      if (!accounts) {
+        return [];
+      }
+      return accounts
+        .filter(account => !!account.email)
+        .map(account => {
+          const userName = getUserName(this.serverConfig, account);
+          return {
+            label: `${userName}`,
+            text: account.email,
+            value: account.email, // value that will be emitted by the autocomplete
+            name: account.email,
+          };
+        });
+    });
+  };
+
+  constructor() {
+    super();
+    subscribe(
+      this,
+      () => this.getConfigModel().serverConfig$,
+      config => (this.serverConfig = config)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().change$,
+      change => {
+        if (change) {
+          this.labelSuggestionsProvider.setRepoName(change.project);
+          const permittedLabels = change.permitted_labels ?? {};
+          this.repoLabels = Object.entries(permittedLabels)
+            .sort(([nameA], [nameB]) => nameA.localeCompare(nameB))
+            .map(([name, values]) => {
+              return {
+                name,
+                values: Object.fromEntries(values.map(v => [v, ''])),
+              };
+            });
+        } else {
+          this.repoLabels = undefined;
+        }
+      }
+    );
+    subscribe(
+      this,
+      () =>
+        combineLatest([
+          this.getChangeModel().change$,
+          this.getFlowsModel().providers$,
+        ]),
+      async ([change, providers]) => {
+        this.documentationLink = providers
+          .map(p => p.getDocumentation())
+          .find(doc => !!doc);
+        if (!change || providers.length === 0) {
+          this.customConditions = [];
+          return;
+        }
+        const conditionsPromises = providers.map(provider =>
+          provider.getCustomConditions(change as ChangeInfo)
+        );
+        const allConditions = await Promise.all(conditionsPromises);
+        this.customConditions = allConditions.flat();
+
+        const disabledActions = providers
+          .map(
+            provider =>
+              provider.getDisabledActions && provider.getDisabledActions()
+          )
+          .flat();
+        this.disabledActions = Array.from(disabledActions).filter(isDefined);
+      }
+    );
+
+    this.hostUrl = getChangePrefix();
+  }
+
+  static override get styles() {
+    return [
+      materialStyles,
+      sharedStyles,
+      grFormStyles,
+      modalStyles,
+      css`
+        .create-flow-header {
+          display: flex;
+          align-items: center;
+        }
+        md-outlined-text-field,
+        gr-search-autocomplete,
+        md-outlined-select {
+          --md-outlined-field-top-space: 10px;
+          --md-outlined-field-bottom-space: 10px;
+        }
+        .raw-flow-container {
+          display: flex;
+          align-items: center;
+          gap: var(--spacing-s);
+        }
+        .main {
+          width: 680px; /* 85ch equivalent to prevent screenshot flakiness */
+        }
+        .section-header {
+          display: flex;
+          align-items: center;
+          gap: var(--spacing-s);
+          justify-content: center;
+          color: var(--link-color);
+          margin-top: var(--spacing-l);
+          margin-bottom: var(--spacing-m);
+          border: 1px solid var(--border-color);
+          border-radius: var(--border-radius, 4px);
+          padding: var(--spacing-m);
+          cursor: pointer;
+          user-select: none;
+        }
+        .add-stage-box {
+          display: flex;
+          flex-direction: column;
+          gap: var(--spacing-s);
+          background-color: var(--background-color-secondary);
+          border: 1px solid var(--border-color);
+          border-radius: var(--border-radius, 4px);
+          padding: var(--spacing-m);
+          margin-top: var(--spacing-m);
+        }
+        .add-stage-box md-outlined-text-field,
+        .add-stage-box gr-search-autocomplete,
+        .add-stage-box md-outlined-select {
+          background-color: var(--background-color-primary);
+          border-radius: var(--border-radius, 4px);
+        }
+        .stage-label {
+          color: var(--deemphasized-text-color);
+          font-size: var(--font-size-small);
+        }
+        .stage-row {
+          display: flex;
+          align-items: center;
+          gap: var(--spacing-s);
+          margin-bottom: var(--spacing-m);
+        }
+        .stage-row:last-child {
+          margin-bottom: 0;
+        }
+        .stage-row > md-outlined-select {
+          width: 15em;
+        }
+        .stage-row > .vote-parameter-input {
+          flex: 1;
+        }
+        .stage-row > md-outlined-text-field {
+          background-color: var(--background-color-primary);
+          border-radius: var(--border-radius, 4px);
+        }
+        .stage-row > gr-search-autocomplete {
+          background-color: var(--background-color-primary);
+          --gr-search-bar-border-radius: var(--border-radius, 4px);
+          --view-background-color: transparent;
+          --gr-autocomplete-height: 42px;
+        }
+        .stage-row > md-outlined-text-field,
+        .stage-row > gr-search-autocomplete,
+        .stage-row > gr-autocomplete {
+          flex: 1;
+        }
+        .stage-row > gr-autocomplete {
+          background-color: var(--background-color-primary);
+          --gr-autocomplete-border-radius: var(--border-radius, 4px);
+          --view-background-color: transparent;
+          --gr-autocomplete-height: 42px;
+        }
+        .stages-list {
+          display: flex;
+          flex-direction: column;
+          gap: var(--spacing-m);
+        }
+        .stage-list-item {
+          display: flex;
+          align-items: center;
+          gap: var(--spacing-m);
+        }
+        .stage-number {
+          font-weight: var(--font-weight-bold);
+          color: var(--deemphasized-text-color);
+          min-width: 1.5em;
+        }
+        .preview-label {
+          margin-top: var(--spacing-l);
+        }
+        .flow-rule {
+          flex: 1;
+        }
+        .full-width-text-field {
+          width: 100%;
+          margin-top: var(--spacing-s);
+          margin-bottom: var(--spacing-m);
+        }
+        md-icon-button {
+          --md-icon-button-icon-size: 20px;
+        }
+        .info {
+          padding: var(--spacing-m);
+          width: fit-content;
+        }
+        .info-text {
+          font-weight: 300;
+          padding-left: var(--spacing-s);
+        }
+        .info-title {
+          font-weight: var(--font-weight-bold);
+        }
+      `,
+    ];
+  }
+
+  protected override firstUpdated() {
+    this.reportingService.reportInteraction(Interaction.FLOWS_TAB_RENDERED);
+  }
+
+  override willUpdate(changedProperties: PropertyValues) {
+    if (changedProperties.has('changeNum')) {
+      this.getFlowActions();
+    }
+    if (
+      changedProperties.has('stages') &&
+      !changedProperties.has('flowString')
+    ) {
+      this.flowString = computeFlowString(this.stages);
+    }
+  }
+
+  private async getFlowActions() {
+    if (!this.changeNum) return;
+    const actions = await this.restApiService.listFlowActions(this.changeNum);
+    this.flowActions = (actions ?? [])
+      .filter(action => !this.disabledActions.includes(action.name))
+      .sort((a, b) => a.name.localeCompare(b.name));
+  }
+
+  private renderStages() {
+    return when(
+      this.stages.length > 0,
+      () => html`
+        <div class="stage-label preview-label">Preview</div>
+        <div class="stages-list">
+          ${this.stages.map(
+            (stage, index) => html`
+              <div class="stage-list-item">
+                <span class="stage-number">${index + 1}</span>
+                <gr-flow-rule
+                  class="flow-rule"
+                  .condition=${stage.condition}
+                  .action=${stage.action}
+                  .parameterStr=${stage.parameterStr}
+                ></gr-flow-rule>
+                <gr-button
+                  link
+                  @click=${() => this.handleRemoveStage(index)}
+                  title="Delete stage"
+                >
+                  <gr-icon icon="delete" filled></gr-icon>
+                </gr-button>
+              </div>
+            `
+          )}
+        </div>
+      `
+    );
+  }
+
+  private parseStagesFromRawFlow(rawFlow: string) {
+    if (!rawFlow) {
+      this.stages = [];
+      return;
+    }
+    const stageStrings = rawFlow.split(STAGE_SEPARATOR);
+    this.stages = stageStrings.map(stageStr => {
+      const stage = {
+        condition: '',
+        action: '',
+        parameterStr: '',
+      };
+      if (stageStr.includes('->')) {
+        const [condition, actionStr] = stageStr.split('->').map(s => s.trim());
+        stage.condition = condition;
+        const actionParts = actionStr.split(' ').filter(part => part);
+        stage.action = actionParts[0] ?? '';
+        if (actionParts.length > 1) {
+          stage.parameterStr = actionParts.slice(1).join(' ');
+        }
+      } else {
+        stage.condition = stageStr.trim();
+      }
+      return stage;
+    });
+  }
+
+  override render() {
+    return html`
+      <div class="info">
+        <span class="info-title"> Flows: </span>
+        <span class="info-text">
+          Automate your workflow such as adding reviewers, starting reviews,
+          submitting changes and more
+        </span>
+      </div>
+
+      <div class="create-flow-header">
+        <gr-button
+          aria-label="Create Flow"
+          @click=${() => {
+            this.reportingService.reportInteraction(
+              Interaction.CREATE_FLOW_DIALOG_OPENED
+            );
+            this.createModal?.showModal();
+          }}
+        >
+          Create Flow
+        </gr-button>
+        ${this.renderDocumentationLink(this.documentationLink)}
+      </div>
+      ${this.renderCreateFlowDialog()}
+    `;
+  }
+
+  private renderCustomConditions() {
+    return this.customConditions.map(
+      condition => html`<md-select-option value=${condition.name}>
+        <div slot="headline">${condition.name}</div>
+      </md-select-option>`
+    );
+  }
+
+  private renderConditions() {
+    return html`<md-select-option value="Gerrit">
+        <div slot="headline">Gerrit</div>
+      </md-select-option>
+      ${this.renderCustomConditions()}`;
+  }
+
+  private renderDocumentationLink(link?: string, slot?: string) {
+    if (!link) return;
+    return html` <a
+      class="help"
+      slot=${ifDefined(slot)}
+      href=${link}
+      target="_blank"
+      rel="noopener noreferrer"
+      tabindex="-1"
+      @click=${() =>
+        this.reportingService.reportInteraction(
+          'flows-documentation-link-clicked'
+        )}
+    >
+      <md-icon-button touch-target="none" type="button">
+        <gr-icon icon="help" title="read documentation"></gr-icon>
+      </md-icon-button>
+    </a>`;
+  }
+
+  private renderCreateFlowDialog() {
+    return html`
+      <dialog id="createModal" tabindex="-1">
+        <gr-dialog
+          confirm-label="Create flow"
+          cancel-label="Close"
+          ?disabled=${this.loading}
+          @confirm=${this.handleCreateFlow}
+          @cancel=${() => {
+            this.createModal?.close();
+          }}
+        >
+          <div slot="header">Create new flow</div>
+          <div class="main" slot="main">
+            <div
+              class="section-header"
+              @click=${(e: Event) => this.toggleGuidedBuilder(e)}
+              @keydown=${(e: KeyboardEvent) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  this.toggleGuidedBuilder(e);
+                }
+              }}
+              role="button"
+              tabindex="0"
+              aria-expanded=${this.guidedBuilderExpanded ? 'true' : 'false'}
+            >
+              <span>Guided Builder</span>
+              <gr-icon
+                icon=${this.guidedBuilderExpanded
+                  ? 'expand_less'
+                  : 'expand_more'}
+                filled
+              ></gr-icon>
+            </div>
+            ${when(
+              this.guidedBuilderExpanded,
+              () => html`
+                <div class="add-stage-box">
+                  <div class="stage-label">Condition: IF</div>
+                  <div class="stage-row">
+                    <md-outlined-select
+                      value=${this.currentConditionPrefix}
+                      @change=${(e: Event) => {
+                        const select = e.target as HTMLSelectElement;
+                        this.currentConditionPrefix = select.value;
+                      }}
+                    >
+                      ${this.renderConditions()}
+                    </md-outlined-select>
+                    ${this.currentConditionPrefix === 'Gerrit'
+                      ? html`<gr-search-autocomplete
+                          .placeholder=${'Create condition'}
+                          .value=${this.currentCondition}
+                          .projectSuggestions=${this.projectSuggestions}
+                          .groupSuggestions=${this.groupSuggestions}
+                          .accountSuggestions=${this.accountSuggestions}
+                          .labelSuggestions=${this.labelSuggestions}
+                          @text-changed=${this.handleGerritConditionTextChanged}
+                        ></gr-search-autocomplete>`
+                      : html`<md-outlined-text-field
+                          label="Condition"
+                          .value=${this.currentCondition}
+                          @input=${(e: InputEvent) =>
+                            (this.currentCondition = (
+                              e.target as MdOutlinedTextField
+                            ).value)}
+                        >
+                          ${this.renderDocumentationLink(
+                            this.customConditions.find(
+                              c => c.name === this.currentConditionPrefix
+                            )?.documentation,
+                            'trailing-icon'
+                          )}
+                        </md-outlined-text-field>`}
+                  </div>
+                  <div class="stage-label">Action: Then</div>
+                  <div class="stage-row">
+                    <md-outlined-select
+                      label="Action"
+                      .value=${this.currentAction}
+                      @change=${this.handleActionChanged}
+                    >
+                      ${this.flowActions.map(
+                        action => html`
+                          <md-select-option .value=${action.name}>
+                            <div slot="headline">${action.name}</div>
+                          </md-select-option>
+                        `
+                      )}
+                    </md-outlined-select>
+                    ${this.renderParameterInputField()}
+                  </div>
+                  <div class="stage-row" style="margin-top: var(--spacing-m);">
+                    <gr-button
+                      link
+                      aria-label="Add Stage"
+                      @click=${this.handleAddStage}
+                      >Add Stage</gr-button
+                    >
+                  </div>
+                </div>
+                ${this.renderStages()}
+              `
+            )}
+            <div
+              class="section-header"
+              @click=${(e: Event) => this.toggleCopyPaste(e)}
+              @keydown=${(e: KeyboardEvent) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  this.toggleCopyPaste(e);
+                }
+              }}
+              role="button"
+              tabindex="0"
+              aria-expanded=${this.copyPasteExpanded ? 'true' : 'false'}
+            >
+              <span>Copy and Paste existing Flows</span>
+              <gr-icon
+                icon=${this.copyPasteExpanded ? 'expand_less' : 'expand_more'}
+                filled
+              ></gr-icon>
+            </div>
+            ${when(
+              this.copyPasteExpanded,
+              () => html`
+                <div class="raw-flow-container">
+                  <md-outlined-text-field
+                    class="full-width-text-field"
+                    type="textarea"
+                    rows="4"
+                    label="Copy and Paste existing flows"
+                    .value=${this.flowString}
+                    @input=${(e: InputEvent) => {
+                      this.flowString = (e.target as MdOutlinedTextField).value;
+                      this.parseStagesFromRawFlow(this.flowString);
+                    }}
+                  ></md-outlined-text-field>
+                  <gr-copy-clipboard
+                    .text=${this.flowString}
+                    buttonTitle="Copy raw flow to clipboard"
+                    hideinput
+                  ></gr-copy-clipboard>
+                </div>
+              `
+            )}
+          </div>
+        </gr-dialog>
+      </dialog>
+    `;
+  }
+
+  private toggleGuidedBuilder(e: Event) {
+    e.stopPropagation();
+    e.preventDefault();
+    this.guidedBuilderExpanded = !this.guidedBuilderExpanded;
+  }
+
+  private toggleCopyPaste(e: Event) {
+    e.stopPropagation();
+    e.preventDefault();
+    this.copyPasteExpanded = !this.copyPasteExpanded;
+  }
+
+  private setDefaultVoteLabelAndValue() {
+    const firstLabel = this.repoLabels?.[0];
+    if (firstLabel) {
+      this.selectedLabelForVote = firstLabel.name;
+      const labelValues = Object.keys(firstLabel.values ?? {});
+      if (labelValues.length > 0) {
+        this.selectedValueForVote = labelValues[0];
+      }
+    }
+  }
+
+  private handleActionChanged(e: Event) {
+    const select = e.target as HTMLSelectElement;
+    this.currentAction = select.value;
+    this.currentParameter = '';
+    this.selectedLabelForVote = undefined;
+    this.selectedValueForVote = undefined;
+
+    if (this.currentAction === 'vote') {
+      this.setDefaultVoteLabelAndValue();
+      this.updateCurrentParameterForVote();
+    }
+  }
+
+  private updateCurrentParameterForVote() {
+    if (this.currentAction !== 'vote') return;
+
+    if (this.selectedLabelForVote && this.selectedValueForVote) {
+      let value = this.selectedValueForVote;
+      // Returned value from labels[value] has an extra space
+      if (value.trim() === '0') {
+        value = '+0';
+      }
+      this.currentParameter = `${this.selectedLabelForVote}${value}`;
+    } else {
+      this.currentParameter = '';
+    }
+  }
+
+  private handleGerritConditionTextChanged(e: ValueChangedEvent) {
+    this.currentCondition = e.detail.value ?? '';
+  }
+
+  // TODO: Move into the common util file
+  fetchProjects(
+    predicate: string,
+    expression: string
+  ): Promise<AutocompleteSuggestion[]> {
+    return this.restApiService
+      .getSuggestedRepos(
+        expression,
+        MAX_AUTOCOMPLETE_RESULTS,
+        throwingErrorCallback
+      )
+      .then(projects => {
+        if (!projects) {
+          return [];
+        }
+        const keys = Object.keys(projects);
+        return keys.map(key => {
+          return {text: predicate + ':' + key};
+        });
+      });
+  }
+
+  fetchGroups(
+    predicate: string,
+    expression: string
+  ): Promise<AutocompleteSuggestion[]> {
+    if (expression.length === 0) {
+      return Promise.resolve([]);
+    }
+    return this.restApiService
+      .getSuggestedGroups(
+        expression,
+        undefined,
+        MAX_AUTOCOMPLETE_RESULTS,
+        throwingErrorCallback
+      )
+      .then(groups => {
+        if (!groups) {
+          return [];
+        }
+        const keys = Object.keys(groups);
+        return keys.map(key => {
+          return {text: predicate + ':' + key};
+        });
+      });
+  }
+
+  private handleAddStage() {
+    if (this.currentCondition.trim() === '') {
+      fireAlert(this, 'Condition string cannot be empty.');
+      return;
+    }
+    const condition =
+      this.currentConditionPrefix === 'Gerrit'
+        ? `${this.hostUrl} is ${this.currentCondition}`
+        : this.currentCondition;
+    this.stages = [
+      ...this.stages,
+      {
+        condition,
+        action: this.currentAction,
+        parameterStr: this.currentParameter,
+      },
+    ];
+    this.currentCondition = '';
+    this.currentAction = '';
+    this.resetActionDropdown();
+    this.currentParameter = '';
+  }
+
+  private resetActionDropdown() {
+    const actionDropdown = queryAndAssert<MdOutlinedSelect>(
+      this,
+      'md-outlined-select[label="Action"]'
+    );
+    actionDropdown.reset();
+  }
+
+  private handleRemoveStage(index: number) {
+    this.stages = this.stages.filter((_, i) => i !== index);
+  }
+
+  private async handleCreateFlow() {
+    if (!this.changeNum) return;
+
+    const allStages = [...this.stages];
+
+    if (this.currentCondition.trim() !== '') {
+      const condition =
+        this.currentConditionPrefix === 'Gerrit'
+          ? `${this.hostUrl} is ${this.currentCondition}`
+          : this.currentCondition;
+      allStages.push({
+        condition,
+        action: this.currentAction,
+        parameterStr: this.currentParameter,
+      });
+    }
+
+    if (allStages.some(s => s.condition.trim() === '')) {
+      fireAlert(this, 'All stages must have a condition.');
+      return;
+    }
+
+    this.loading = true;
+    const flowInput: FlowInput = {
+      stage_expressions: allStages.map(stage => {
+        if (stage.action) {
+          const action: {name: string; parameters?: string[]} = {
+            name: stage.action,
+          };
+          if (stage.parameterStr.length > 0) {
+            action.parameters = stage.parameterStr
+              .split(/[\s,]+/)
+              .filter(p => p.length > 0);
+          }
+          return {
+            condition: stage.condition,
+            action,
+          };
+        }
+        return {condition: stage.condition};
+      }),
+    };
+    await this.getFlowsModel().createFlow(flowInput);
+    this.reportingService.reportInteraction(Interaction.FLOW_CREATED);
+    this.stages = [];
+    this.currentCondition = '';
+    this.currentAction = '';
+    this.currentParameter = '';
+    this.loading = false;
+    this.createModal?.close();
+  }
+
+  // TODO: remove eventually when we fully migrated to fetching placeholders from the backend.
+  private getParametersPlaceholder(actionName: string) {
+    const action = this.flowActions.find(a => a.name === actionName);
+    if (action?.parameters_placeholder) return action.parameters_placeholder;
+
+    if (actionName === 'add-reviewer') return 'user@example.com';
+    if (actionName === 'vote') return '<Label>+/-<Value>';
+    return 'Parameters';
+  }
+
+  private renderAddReviewerParameterInputField() {
+    return html`<gr-autocomplete
+      class="parameter-input autocomplete-input"
+      label="Parameters"
+      .placeholder=${this.getParametersPlaceholder(this.currentAction)}
+      .text=${this.currentParameter}
+      .query=${this.reviewerSuggestions}
+      ?multi=${true}
+      @text-changed=${(e: ValueChangedEvent) => {
+        this.currentParameter = e.detail.value ?? '';
+      }}
+    ></gr-autocomplete>`;
+  }
+
+  private renderVoteParameterInputField() {
+    const labelNames = (this.repoLabels ?? []).map(l => l.name).filter(unique);
+    if (!this.repoLabels || this.repoLabels.length === 0) {
+      // Fallback to text input if labels aren't loaded.
+      return this.renderDefaultParameterInputField();
+    }
+
+    const selectedLabelInfo = this.selectedLabelForVote
+      ? this.repoLabels?.find(l => l.name === this.selectedLabelForVote)
+      : undefined;
+    const labelValues = selectedLabelInfo
+      ? Object.keys(selectedLabelInfo.values)
+      : [];
+
+    return html`
+      <md-outlined-select
+        class="vote-parameter-input"
+        label="Label"
+        value=${this.selectedLabelForVote ?? ''}
+        @change=${(e: Event) => {
+          // TODO: Remove the reading from attribute
+          // For some reason in the test, the value is only read from the attribute and not from the value property
+          this.selectedLabelForVote =
+            ((e.target as HTMLSelectElement).value ||
+              (e.target as HTMLSelectElement).getAttribute('value')) ??
+            '';
+          const newSelectedLabelInfo = this.repoLabels?.find(
+            l => l.name === this.selectedLabelForVote
+          );
+          const newLabelValues = newSelectedLabelInfo
+            ? Object.keys(newSelectedLabelInfo.values)
+            : [];
+          this.selectedValueForVote = newLabelValues[0] ?? undefined;
+          this.updateCurrentParameterForVote();
+        }}
+      >
+        ${labelNames.map(
+          label => html`
+            <md-select-option value=${label}>
+              <div slot="headline">${label}</div>
+            </md-select-option>
+          `
+        )}
+      </md-outlined-select>
+      <md-outlined-select
+        class="vote-parameter-input"
+        label="Value"
+        value=${this.selectedValueForVote ?? ''}
+        @change=${(e: Event) => {
+          // TODO: Remove the reading from attribute
+          // For some reason in the test, the value is only read from the attribute and not from the value property
+          this.selectedValueForVote =
+            ((e.target as HTMLSelectElement).value ||
+              (e.target as HTMLSelectElement).getAttribute('value')) ??
+            '';
+          this.updateCurrentParameterForVote();
+        }}
+      >
+        ${labelValues.map(
+          val => html`
+            <md-select-option value=${val}>
+              <div slot="headline">${val}</div>
+            </md-select-option>
+          `
+        )}
+      </md-outlined-select>
+    `;
+  }
+
+  private renderDefaultParameterInputField() {
+    return html`<md-outlined-text-field
+      class="parameter-input textfield-input"
+      label="Parameters"
+      .placeholder=${this.getParametersPlaceholder(this.currentAction)}
+      .value=${this.currentParameter}
+      ?disabled=${!this.currentAction}
+      @input=${(e: InputEvent) =>
+        (this.currentParameter = (e.target as MdOutlinedTextField).value)}
+    ></md-outlined-text-field>`;
+  }
+
+  private renderParameterInputField() {
+    if (this.currentAction === 'submit') return undefined;
+    if (
+      this.currentAction === 'add-reviewer' ||
+      this.currentAction === 'add-to-attention-set' ||
+      this.currentAction === 'remove-from-attention-set'
+    ) {
+      return this.renderAddReviewerParameterInputField();
+    }
+    if (this.currentAction === 'vote') {
+      return this.renderVoteParameterInputField();
+    }
+    return this.renderDefaultParameterInputField();
+  }
+}
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-create-flow': GrCreateFlow;
+  }
+}

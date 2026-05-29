@@ -1,0 +1,169 @@
+/**
+ * Copyright (C) 2017 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+{namespace com.google.gerrit.httpd.raw}
+
+{template Index}
+  {@param canonicalPath: ?}
+  {@param staticResourcePath: ?}
+  {@param gerritInitialData: /** {string} map of REST endpoint to response for startup. */ ?}
+  {@param? enabledExperiments: /** A list of enabled experiments for current user. */ ?}
+  {@param? assetsPath: ?}  /** {string} URL to static assets root, if served from CDN. */
+  {@param? assetsBundle: ?}  /** {string} Assets bundle .html file, served from $assetsPath. */
+  {@param? faviconPath: ?}
+  {@param? manifestPath: ?}
+  {@param? versionInfo: ?}
+  {@param? useGoogleFonts: ?}
+  {@param? changeNum: ?}
+  {@param? changeRequestsPath: ?}
+  {@param? defaultChangeDetailHex: ?}
+  {@param? defaultDashboardHex: ?}
+  {@param? dashboardQuery: ?}
+  {@param? userIsAuthenticated: ?}
+  {@param? submitRequirementsHex: ?}
+  <!DOCTYPE html>{\n}
+  <html lang="en">{\n}
+  <meta charset="utf-8">{\n}
+  <meta name="description" content="Gerrit Code Review">{\n}
+  <meta name="referrer" content="never">{\n}
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">{\n}
+
+  <noscript>
+    To use PolyGerrit, please enable JavaScript in your browser settings, and then refresh this page.
+  </noscript>
+
+  <script>
+    window.polymerSkipLoadingFontRoboto = true;
+    window.CLOSURE_NO_DEPS = true;
+    window.DEFAULT_DETAIL_HEXES = {lb}
+      {if $defaultChangeDetailHex}
+        changePage: '{$defaultChangeDetailHex}',
+      {/if}
+      {if $defaultDashboardHex}
+        dashboardPage: '{$defaultDashboardHex}',
+      {/if}
+    {rb};
+    window.PRELOADED_QUERIES = {lb}
+      {if $userIsAuthenticated && $defaultDashboardHex && $dashboardQuery}
+        dashboardQuery: [{for $query in $dashboardQuery}{$query},{/for}],
+      {/if}
+    {rb};
+    {if $canonicalPath != ''}window.CANONICAL_PATH = '{$canonicalPath}';{/if}
+    {if $versionInfo}window.VERSION_INFO = '{$versionInfo}';{/if}
+    {if $staticResourcePath != ''}window.STATIC_RESOURCE_PATH = '{$staticResourcePath}';{/if}
+    {if $assetsPath}window.ASSETS_PATH = '{$assetsPath}';{/if}
+    {if $gerritInitialData}
+      // INITIAL_DATA is a string that represents a JSON map. It's inlined here so that we can
+      // spare calls to the API when starting up the app.
+      // The map maps from endpoint to returned value. This matches Gerrit's REST API 1:1, so the
+      // values here can be used as a drop-in replacement for calls to the API.
+      //
+      // Example:
+      // '/config/server/version' => '3.0.0-468-g0757b52a7d'
+      // '/accounts/self/detail' => { 'username' : 'gerrit-user' }
+      window.INITIAL_DATA = JSON.parse({$gerritInitialData});
+    {/if}
+    {if $enabledExperiments}
+      // ENABLED_EXPERIMENTS is a list of string that contains all enabled experiments
+      // for the given user.
+      window.ENABLED_EXPERIMENTS = JSON.parse({$enabledExperiments});
+    {/if}
+  </script>{\n}
+  {if $faviconPath}
+    <link rel="icon" type="image/x-icon" href="{$canonicalPath}/{$faviconPath}">{\n}
+  {else}
+    <link rel="icon" type="image/x-icon" href="{$canonicalPath}/favicon.ico">{\n}
+  {/if}
+  <link rel="manifest" href="{$manifestPath}">{\n}
+  {if $changeRequestsPath}
+    {if $defaultChangeDetailHex}
+      <link rel="preload" href="{$canonicalPath}/{$changeRequestsPath}/detail?O={$defaultChangeDetailHex}" as="fetch" type="application/json" crossorigin="anonymous"/>{\n}
+      {if $userIsAuthenticated}
+        <link rel="preload" href="{$canonicalPath}/{$changeRequestsPath}/edit/?download-commands=true" as="fetch" type="application/json" crossorigin="anonymous"/>{\n}
+      {/if}
+      {if $submitRequirementsHex}
+        <link rel="preload" href="{$canonicalPath}/{$changeRequestsPath}?O={$submitRequirementsHex}" as="fetch" type="application/json" crossorigin="anonymous"/>{\n}
+      {/if}
+    {/if}
+    <link rel="preload" href="{$canonicalPath}/{$changeRequestsPath}/comments?enable-context=true&context-padding=3" as="fetch" type="application/json" crossorigin="anonymous"/>{\n}
+    <link rel="preload" href="{$canonicalPath}/changes/?q=change:{$changeNum}" as="fetch" type="application/json" crossorigin="anonymous"/>{\n}
+    {if $userIsAuthenticated}
+      <link rel="preload" href="{$canonicalPath}/{$changeRequestsPath}/drafts?enable-context=true&context-padding=3" as="fetch" type="application/json" crossorigin="anonymous"/>{\n}
+    {/if}
+  {/if}
+  {if $userIsAuthenticated && $defaultDashboardHex && $dashboardQuery}
+    {for $query in $dashboardQuery}
+      <link rel="preload" href="{$canonicalPath}/changes/?O={$defaultDashboardHex}&S=0&q={$query}&allow-incomplete-results=true" as="fetch" type="application/json" crossorigin="anonymous"/>{\n}
+    {/for}
+  {/if}
+
+  {if $useGoogleFonts}
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Roboto+Mono:400,500,700|Roboto:400,500,700|Open+Sans:400,500,600,700&display=swap">
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0..1,0" />{\n}
+  {else}
+    // $useGoogleFonts only exists so that hosts can opt-out of loading fonts from fonts.googleapis.com.
+    // fonts.css and the woff2 files in the fonts/ directory are only relevant, if $useGoogleFonts is false.
+
+    // @see https://github.com/w3c/preload/issues/32 regarding crossorigin
+    <link rel="preload" href="{$staticResourcePath}/fonts/opensans-latin-400.woff2"        as="font" type="font/woff2" crossorigin="anonymous">{\n}
+    <link rel="preload" href="{$staticResourcePath}/fonts/opensans-latin-500.woff2"        as="font" type="font/woff2" crossorigin="anonymous">{\n}
+    <link rel="preload" href="{$staticResourcePath}/fonts/opensans-latin-600.woff2"        as="font" type="font/woff2" crossorigin="anonymous">{\n}
+    <link rel="preload" href="{$staticResourcePath}/fonts/opensans-latin-700.woff2"        as="font" type="font/woff2" crossorigin="anonymous">{\n}
+    <link rel="preload" href="{$staticResourcePath}/fonts/opensans-latin-ext-400.woff2"    as="font" type="font/woff2" crossorigin="anonymous">{\n}
+    <link rel="preload" href="{$staticResourcePath}/fonts/opensans-latin-ext-500.woff2"    as="font" type="font/woff2" crossorigin="anonymous">{\n}
+    <link rel="preload" href="{$staticResourcePath}/fonts/opensans-latin-ext-600.woff2"    as="font" type="font/woff2" crossorigin="anonymous">{\n}
+    <link rel="preload" href="{$staticResourcePath}/fonts/opensans-latin-ext-700.woff2"    as="font" type="font/woff2" crossorigin="anonymous">{\n}
+    <link rel="preload" href="{$staticResourcePath}/fonts/roboto-latin-400.woff2"          as="font" type="font/woff2" crossorigin="anonymous">{\n}
+    <link rel="preload" href="{$staticResourcePath}/fonts/roboto-latin-500.woff2"          as="font" type="font/woff2" crossorigin="anonymous">{\n}
+    <link rel="preload" href="{$staticResourcePath}/fonts/roboto-latin-700.woff2"          as="font" type="font/woff2" crossorigin="anonymous">{\n}
+    <link rel="preload" href="{$staticResourcePath}/fonts/roboto-latin-ext-400.woff2"      as="font" type="font/woff2" crossorigin="anonymous">{\n}
+    <link rel="preload" href="{$staticResourcePath}/fonts/roboto-latin-ext-500.woff2"      as="font" type="font/woff2" crossorigin="anonymous">{\n}
+    <link rel="preload" href="{$staticResourcePath}/fonts/roboto-latin-ext-700.woff2"      as="font" type="font/woff2" crossorigin="anonymous">{\n}
+    <link rel="preload" href="{$staticResourcePath}/fonts/roboto-mono-latin-400.woff2"     as="font" type="font/woff2" crossorigin="anonymous">{\n}
+    <link rel="preload" href="{$staticResourcePath}/fonts/roboto-mono-latin-500.woff2"     as="font" type="font/woff2" crossorigin="anonymous">{\n}
+    <link rel="preload" href="{$staticResourcePath}/fonts/roboto-mono-latin-700.woff2"     as="font" type="font/woff2" crossorigin="anonymous">{\n}
+    <link rel="preload" href="{$staticResourcePath}/fonts/roboto-mono-latin-ext-400.woff2" as="font" type="font/woff2" crossorigin="anonymous">{\n}
+    <link rel="preload" href="{$staticResourcePath}/fonts/roboto-mono-latin-ext-500.woff2" as="font" type="font/woff2" crossorigin="anonymous">{\n}
+    <link rel="preload" href="{$staticResourcePath}/fonts/roboto-mono-latin-ext-700.woff2" as="font" type="font/woff2" crossorigin="anonymous">{\n}
+    <link rel="preload" href="{$staticResourcePath}/fonts/material-icons.woff2"            as="font" type="font/woff2" crossorigin="anonymous">{\n}
+    <link rel="preload" as="style" href="{$staticResourcePath}/styles/fonts.css">{\n}
+    <link rel="preload" as="style" href="{$staticResourcePath}/styles/material-icons.css">{\n}
+  {/if}
+  <link rel="preload" as="style" href="{$staticResourcePath}/styles/main.css">{\n}
+
+  // Optional host-specific asset bundle loaded before gr-app.js.
+  // Be careful when changing this, because it affects early page startup.
+  {if $assetsPath && $assetsBundle}
+    <link rel="import" href="{$assetsPath}/{$assetsBundle}">{\n}
+  {/if}
+
+  // Now use preloaded resources
+  {if $useGoogleFonts}
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Mono:400,500,700|Roboto:400,500,700|Open+Sans:400,500,600,700&display=swap">{\n}
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0..1,0" />{\n}
+  {else}
+    <link rel="stylesheet" href="{$staticResourcePath}/styles/fonts.css">{\n}
+    <link rel="stylesheet" href="{$staticResourcePath}/styles/material-icons.css">{\n}
+  {/if}
+  <link rel="stylesheet" href="{$staticResourcePath}/styles/main.css">{\n}
+
+  <body unresolved>{\n}
+  <gr-app id="pg-app"></gr-app>{\n}
+
+  // Load gr-app.js after <gr-app ...> tag because gr-router expects that
+  // <gr-app ...> already exists in the document when script is executed.
+  <script src="{$staticResourcePath}/elements/gr-app.js" crossorigin="anonymous"></script>{\n}
+{/template}

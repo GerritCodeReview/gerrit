@@ -1,0 +1,470 @@
+/**
+ * @license
+ * Copyright 2025 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+import '../../test/common-test-setup';
+import {assert, fixture, html} from '@open-wc/testing';
+import sinon from 'sinon';
+import {
+  ChatModel,
+  chatModelToken,
+  CreateCommentPart,
+  GeminiMessage as GeminiMessageModel,
+  ResponsePartType,
+  TextPart,
+  Turn,
+  UserType,
+} from '../../models/chat/chat-model';
+import './gemini-message';
+import {Reference} from '../../api/ai-code-review';
+import {commentsModelToken} from '../../models/comments/comments-model';
+import {changeModelToken} from '../../models/change/change-model';
+import {GeminiMessage} from './gemini-message';
+import {testResolver} from '../../test/common-test-setup';
+import {pluginLoaderToken} from '../shared/gr-js-api-interface/gr-plugin-loader';
+import {chatProvider, createChange} from '../../test/test-data-generators';
+import {ParsedChangeInfo} from '../../types/types';
+import {CommentsModel} from '../../models/comments/comments-model';
+import {AiAgentEventDetails, Interaction} from '../../constants/reporting';
+import {getAppContext} from '../../services/app-context';
+
+suite('gemini-message tests', () => {
+  let element: GeminiMessage;
+  let chatModel: ChatModel;
+  let commentsModel: CommentsModel;
+  let saveDraftStub: sinon.SinonStub;
+
+  setup(async () => {
+    const pluginLoader = testResolver(pluginLoaderToken);
+    pluginLoader.pluginsModel.aiCodeReviewRegister({
+      pluginName: 'test-plugin',
+      provider: chatProvider,
+    });
+
+    const changeModel = testResolver(changeModelToken);
+    changeModel.updateState({
+      change: createChange() as ParsedChangeInfo,
+    });
+
+    chatModel = testResolver(chatModelToken);
+    commentsModel = testResolver(commentsModelToken);
+    saveDraftStub = sinon.stub(commentsModel, 'saveDraft');
+
+    element = await fixture<GeminiMessage>(
+      html`<gemini-message .turnIndex=${0}></gemini-message>`
+    );
+  });
+
+  function createTurn(message: Partial<GeminiMessageModel>): Turn {
+    return {
+      userMessage: {
+        userType: UserType.USER,
+        content: 'test',
+        contextItems: [],
+      },
+      geminiMessage: {
+        userType: UserType.GEMINI,
+        responseParts: [],
+        regenerationIndex: 0,
+        references: [],
+        citations: [],
+        ...message,
+      },
+    };
+  }
+
+  const RESPONSE_TEXT: TextPart = {
+    id: 0,
+    type: ResponsePartType.TEXT,
+    content: 'test message',
+  };
+  const RESPONSE_CREATE_COMMENT: CreateCommentPart = {
+    id: 1,
+    type: ResponsePartType.CREATE_COMMENT,
+    content: 'test comment',
+    commentCreationId: 'test-id',
+    comment: {
+      message: 'test comment',
+      path: '/test/path',
+    },
+  };
+
+  test('renders thinking', async () => {
+    const turn = createTurn({responseComplete: false});
+    chatModel.updateState({...chatModel.getState(), turns: [turn]});
+    await element.updateComplete;
+
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <div class="user-info">
+          <gr-icon class="gemini-icon" custom="" icon="ai" title=""></gr-icon>
+        </div>
+        <div class="thinking-indicator">
+          <p class="text-content">Thinking ...</p>
+          <md-circular-progress
+            class="thinking-spinner"
+            indeterminate=""
+            size="small"
+          ></md-circular-progress>
+        </div>
+      `
+    );
+  });
+
+  test('renders empty response', async () => {
+    const turn = createTurn({responseComplete: true});
+    chatModel.updateState({...chatModel.getState(), turns: [turn]});
+    await element.updateComplete;
+
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <div class="user-info">
+          <gr-icon class="gemini-icon" custom="" icon="ai" title=""></gr-icon>
+        </div>
+        <p class="text-content">The server did not return any response.</p>
+      `
+    );
+  });
+
+  test('renders text response', async () => {
+    const turn = createTurn({
+      responseComplete: true,
+      responseParts: [RESPONSE_TEXT],
+    });
+    chatModel.updateState({...chatModel.getState(), turns: [turn]});
+    await element.updateComplete;
+
+    const formattedText =
+      element.shadowRoot?.querySelector('gr-formatted-text');
+    assert.isOk(formattedText);
+    assert.equal(formattedText?.content, 'test message');
+  });
+
+  test('renders error', async () => {
+    const turn = createTurn({errorMessage: 'test error'});
+    chatModel.updateState({...chatModel.getState(), turns: [turn]});
+    await element.updateComplete;
+
+    const error = element.shadowRoot?.querySelector('.server-error');
+    assert.isOk(error);
+    assert.include(error?.textContent, 'Server error');
+
+    const retryButton = element.shadowRoot?.querySelector(
+      'gr-button'
+    ) as HTMLElement;
+    assert.isOk(retryButton);
+    assert.equal(retryButton.textContent, 'Retry');
+
+    const spy = sinon.spy(chatModel, 'regenerateMessage');
+    retryButton.click();
+    assert.isTrue(spy.calledOnce);
+    assert.deepEqual(spy.firstCall.args[0], {
+      turnIndex: 0,
+      regenerationIndex: 0,
+    });
+  });
+
+  test('renders suggested comment', async () => {
+    const turn = createTurn({
+      responseComplete: true,
+      responseParts: [RESPONSE_CREATE_COMMENT],
+    });
+    chatModel.updateState({...chatModel.getState(), turns: [turn]});
+    await element.updateComplete;
+
+    const commentContainer =
+      element.shadowRoot?.querySelector('.suggested-comment');
+    assert.isOk(commentContainer);
+
+    const reloadStub = sinon.stub(commentsModel, 'reloadAllComments');
+    saveDraftStub.resolves({});
+
+    const button = commentContainer?.querySelector('gr-button');
+    assert.isOk(button);
+    (button as HTMLElement).click();
+
+    await new Promise(resolve => setTimeout(resolve, 0));
+
+    assert.isTrue(saveDraftStub.called);
+    const draft = saveDraftStub.lastCall.args[0];
+    assert.equal(draft.message, 'test comment');
+    assert.isTrue(reloadStub.called);
+  });
+
+  test('renders citations', async () => {
+    const turn = createTurn({
+      responseComplete: true,
+      responseParts: [RESPONSE_TEXT],
+      citations: ['http://example.com'],
+    });
+    chatModel.updateState({...chatModel.getState(), turns: [turn]});
+    element.isLatest = true;
+    await element.updateComplete;
+
+    const citationsBox = element.shadowRoot?.querySelector('citations-box');
+    assert.isOk(citationsBox);
+  });
+
+  test('renders references', async () => {
+    const references: Reference[] = [
+      {
+        type: 'test',
+        displayText: 'test',
+        externalUrl: 'http://example.com',
+      },
+    ];
+    const turn = createTurn({
+      responseComplete: true,
+      responseParts: [RESPONSE_TEXT],
+      references,
+    });
+    chatModel.updateState({...chatModel.getState(), turns: [turn]});
+    element.isLatest = true;
+    await element.updateComplete;
+
+    const referencesDropdown = element.shadowRoot?.querySelector(
+      'references-dropdown'
+    );
+    assert.isOk(referencesDropdown);
+  });
+
+  test('reports AI_AGENT_SUGGESTIONS_SHOWN interaction', async () => {
+    chatModel.updateState({
+      ...chatModel.getState(),
+      id: 'test-conversation-id',
+      selectedModelId: 'gemini-model-id',
+    });
+
+    const reportStub = sinon.stub(
+      getAppContext().reportingService,
+      'reportInteraction'
+    );
+
+    const turn = createTurn({
+      responseComplete: true,
+      responseParts: [RESPONSE_TEXT, RESPONSE_CREATE_COMMENT],
+    });
+    const updatedTurn = {
+      ...turn,
+      userMessage: {...turn.userMessage, actionId: 'custom-agent-id'},
+    };
+
+    chatModel.updateState({...chatModel.getState(), turns: [updatedTurn]});
+    await element.updateComplete;
+
+    assert.isTrue(reportStub.calledOnce);
+    assert.equal(
+      reportStub.firstCall.args[0],
+      Interaction.AI_AGENT_SUGGESTIONS_SHOWN
+    );
+    const details = reportStub.firstCall.args[1] as AiAgentEventDetails;
+    assert.equal(details.conversationId, 'test-conversation-id');
+    assert.equal(details.agentId, 'custom-agent-id');
+    assert.equal(details.commentCount, 1);
+  });
+
+  test('reports AI_AGENT_SUGGESTION_TO_COMMENT interaction', async () => {
+    chatModel.updateState({
+      ...chatModel.getState(),
+      id: 'test-conversation-id',
+      selectedModelId: 'gemini-model-id',
+    });
+
+    const reportStub = sinon.stub(
+      getAppContext().reportingService,
+      'reportInteraction'
+    );
+
+    const turn = createTurn({
+      responseComplete: true,
+      responseParts: [RESPONSE_CREATE_COMMENT],
+    });
+    const updatedTurn = {
+      ...turn,
+      userMessage: {...turn.userMessage, actionId: 'custom-agent-id'},
+    };
+
+    chatModel.updateState({...chatModel.getState(), turns: [updatedTurn]});
+    await element.updateComplete;
+
+    const commentContainer =
+      element.shadowRoot?.querySelector('.suggested-comment');
+    assert.isOk(commentContainer);
+
+    sinon.stub(commentsModel, 'reloadAllComments');
+    saveDraftStub.resolves({id: 'test-comment-id'});
+
+    const button = commentContainer?.querySelector('gr-button');
+    assert.isOk(button);
+    (button as HTMLElement).click();
+
+    await new Promise(resolve => setTimeout(resolve, 0));
+
+    const call = reportStub
+      .getCalls()
+      .find(c => c.args[0] === Interaction.AI_AGENT_SUGGESTION_TO_COMMENT);
+    assert.isOk(call, 'Expected AI_AGENT_SUGGESTION_TO_COMMENT to be reported');
+
+    const details = call.args[1] as AiAgentEventDetails;
+    assert.equal(details.conversationId, 'test-conversation-id');
+    assert.equal(details.agentId, 'custom-agent-id');
+    assert.equal(details.commentId, 'test-comment-id');
+    assert.isUndefined(details.commentCount);
+  });
+
+  test('reports AI_AGENT_SUGGESTION_COPY_BUTTON_CLICKED interaction', async () => {
+    chatModel.updateState({
+      ...chatModel.getState(),
+      id: 'test-conversation-id',
+      selectedModelId: 'gemini-model-id',
+    });
+    const reportStub = sinon.stub(
+      getAppContext().reportingService,
+      'reportInteraction'
+    );
+    const turn = createTurn({
+      responseComplete: true,
+      responseParts: [RESPONSE_TEXT],
+    });
+    const updatedTurn = {
+      ...turn,
+      userMessage: {...turn.userMessage, actionId: 'custom-agent-id'},
+    };
+    chatModel.updateState({...chatModel.getState(), turns: [updatedTurn]});
+    element.isLatest = true;
+    await element.updateComplete;
+    const messageActions = element.shadowRoot?.querySelector('message-actions');
+    assert.isOk(messageActions);
+    messageActions?.dispatchEvent(
+      new CustomEvent('item-copied', {bubbles: true, composed: true})
+    );
+
+    const call = reportStub
+      .getCalls()
+      .find(
+        c => c.args[0] === Interaction.AI_AGENT_SUGGESTION_COPY_BUTTON_CLICKED
+      );
+    assert.isOk(
+      call,
+      'Expected AI_AGENT_SUGGESTION_COPY_BUTTON_CLICKED to be reported'
+    );
+
+    const details = call.args[1] as AiAgentEventDetails;
+    assert.equal(details.conversationId, 'test-conversation-id');
+    assert.equal(details.agentId, 'custom-agent-id');
+  });
+
+  test('reports AI_AGENT_SUGGESTION_CONTENT_COPIED on text response copy', async () => {
+    chatModel.updateState({
+      ...chatModel.getState(),
+      id: 'test-conversation-id',
+      selectedModelId: 'gemini-model-id',
+    });
+    const reportStub = sinon.stub(
+      getAppContext().reportingService,
+      'reportInteraction'
+    );
+    const turn = createTurn({
+      responseComplete: true,
+      responseParts: [RESPONSE_TEXT],
+    });
+    const updatedTurn = {
+      ...turn,
+      userMessage: {...turn.userMessage, actionId: 'custom-agent-id'},
+    };
+    chatModel.updateState({...chatModel.getState(), turns: [updatedTurn]});
+    await element.updateComplete;
+    const textResponse = element.shadowRoot?.querySelector('.text-response');
+    assert.isOk(textResponse);
+
+    textResponse?.dispatchEvent(
+      new CustomEvent('copy', {bubbles: true, composed: true})
+    );
+
+    const call = reportStub
+      .getCalls()
+      .find(c => c.args[0] === Interaction.AI_AGENT_SUGGESTION_CONTENT_COPIED);
+    assert.isOk(
+      call,
+      'Expected AI_AGENT_SUGGESTION_CONTENT_COPIED to be reported'
+    );
+  });
+
+  test('reports AI_AGENT_SUGGESTION_CONTENT_COPIED on suggested comment copy', async () => {
+    chatModel.updateState({
+      ...chatModel.getState(),
+      id: 'test-conversation-id',
+      selectedModelId: 'gemini-model-id',
+    });
+    const reportStub = sinon.stub(
+      getAppContext().reportingService,
+      'reportInteraction'
+    );
+    const turn = createTurn({
+      responseComplete: true,
+      responseParts: [RESPONSE_CREATE_COMMENT],
+    });
+    const updatedTurn = {
+      ...turn,
+      userMessage: {...turn.userMessage, actionId: 'custom-agent-id'},
+    };
+    chatModel.updateState({...chatModel.getState(), turns: [updatedTurn]});
+    await element.updateComplete;
+    const commentContainer =
+      element.shadowRoot?.querySelector('.suggested-comment');
+    assert.isOk(commentContainer);
+
+    commentContainer?.dispatchEvent(
+      new CustomEvent('copy', {bubbles: true, composed: true})
+    );
+
+    const call = reportStub
+      .getCalls()
+      .find(c => c.args[0] === Interaction.AI_AGENT_SUGGESTION_CONTENT_COPIED);
+    assert.isOk(
+      call,
+      'Expected AI_AGENT_SUGGESTION_CONTENT_COPIED to be reported'
+    );
+  });
+
+  test('reports AI_AGENT_SUGGESTION_CONTENT_COPIED on citations copy', async () => {
+    chatModel.updateState({
+      ...chatModel.getState(),
+      id: 'test-conversation-id',
+      selectedModelId: 'gemini-model-id',
+    });
+    const reportStub = sinon.stub(
+      getAppContext().reportingService,
+      'reportInteraction'
+    );
+    const turn = createTurn({
+      responseComplete: true,
+      responseParts: [RESPONSE_TEXT],
+      citations: ['http://example.com'],
+    });
+    const updatedTurn = {
+      ...turn,
+      userMessage: {...turn.userMessage, actionId: 'custom-agent-id'},
+    };
+    chatModel.updateState({...chatModel.getState(), turns: [updatedTurn]});
+    element.isLatest = true;
+    await element.updateComplete;
+    const citationsBox = element.shadowRoot?.querySelector('citations-box');
+    assert.isOk(citationsBox);
+
+    citationsBox?.dispatchEvent(
+      new CustomEvent('copy', {bubbles: true, composed: true})
+    );
+
+    const call = reportStub
+      .getCalls()
+      .find(c => c.args[0] === Interaction.AI_AGENT_SUGGESTION_CONTENT_COPIED);
+    assert.isOk(
+      call,
+      'Expected AI_AGENT_SUGGESTION_CONTENT_COPIED to be reported'
+    );
+  });
+});

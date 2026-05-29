@@ -1,3 +1,4 @@
+:linkattrs:
 = no new changes
 
 With this error message Gerrit rejects to push a commit if the pushed
@@ -22,8 +23,8 @@ commit ID and search for the corresponding change in Gerrit. To do
 this simply paste the commit ID in the Gerrit Web UI into the search
 field. Details about how to search in Gerrit are explained link:user-search.html[here].
 
-Please note that each commit can really be pushed only once. This
-means:
+Please note that generally it only makes sense for each commit to
+be pushed only once. This means:
 
 . you cannot push a commit again even if the change for which the
   commit was pushed before was abandoned (but you may restore the
@@ -31,20 +32,31 @@ means:
 . you cannot reset a change to an old patch set by pushing the old
   commit for this change again
 . if a commit was pushed to one branch you cannot push this commit
-  to another branch in project scope.
+  to another branch in project scope (see link:user-upload.html#base[exception]).
 . if a commit was pushed directly to a branch (without going through
   code review) you cannot push this commit once again for code
   review (please note that in this case searching by the commit ID
-  in the Gerrit Web UI will not find any change)
+  in the Gerrit Web UI will not find any change), see
+  link:user-upload.html#base[exception].
 
 If you need to re-push a commit you may rewrite this commit by
-link:http://www.kernel.org/pub/software/scm/git/docs/git-commit.html[amending] it or doing an interactive link:http://www.kernel.org/pub/software/scm/git/docs/git-rebase.html[git rebase]. By rewriting the
-commit you actually create a new commit (with a new commit ID in
-project scope) which can then be pushed to Gerrit.
+link:http://www.kernel.org/pub/software/scm/git/docs/git-commit.html[amending,role=external,window=_blank]
+it or doing an interactive
+link:http://www.kernel.org/pub/software/scm/git/docs/git-rebase.html[git rebase,role=external,window=_blank],
+or see link:user-upload.html#base[exception,role=external,window=_blank].
+By rewriting the commit you actually create a new commit
+(with a new commit ID in project scope) which can then be pushed to Gerrit.
 
 If you are pushing the new change to the same destination branch as
 the old commit (case 1 above), you also need to replace it with a new
 Change-Id, otherwise the push will fail with another error message.
+
+Sometimes a change no longer makes sense to be destined for a specific
+branch, and instead of trying to re-push the commit for a different
+branch, it makes more sense to move the change to the preferred branch
+(where it will now likely need a rebase). Moving the change instead of
+pushing a rebased commit to the preferred branch helps to retain code
+review comments and any previous patchsets on the original change.
 
 == Fast-forward merges
 

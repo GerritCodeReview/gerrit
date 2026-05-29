@@ -1,0 +1,181 @@
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+import {getAppContext} from '../services/app-context';
+import {
+  createTestAppContext,
+  createTestDependencies,
+} from './test-app-context-init';
+import {testOnlyResetGrRestApiSharedObjects} from '../services/gr-rest-api/gr-rest-api-impl';
+import {
+  cleanupTestUtils,
+  getCleanupsCount,
+  removeThemeStyles,
+} from './test-utils';
+import {
+  initGerrit,
+  initGlobalVariables,
+} from '../elements/gr-app-global-var-init';
+import {assert, fixtureCleanup} from '@open-wc/testing';
+import {_testOnly_allTasks} from '../utils/async-util';
+import {cleanUpStorage} from '../services/storage/gr-storage_mock';
+import {
+  DependencyError,
+  DependencyRequestEvent,
+  DependencyToken,
+  Provider,
+} from '../models/dependency';
+import * as sinon from 'sinon';
+import '../styles/themes/app-theme';
+import {Creator} from '../services/app-context-init';
+import {pluginLoaderToken} from '../elements/shared/gr-js-api-interface/gr-plugin-loader';
+import {Finalizable} from '../types/types';
+
+declare global {
+  interface Window {
+    sinon: typeof sinon;
+    litIssuedWarnings?: Set<string>;
+  }
+}
+
+window.sinon = sinon;
+// Suppress 'Lit is in dev mode' warning. This is a development build, but we want
+// to keep the test output clean from unnecessary warnings.
+window.litIssuedWarnings = window.litIssuedWarnings || new Set();
+window.litIssuedWarnings.add('dev-mode');
+
+let testSetupTimestampMs = 0;
+let currentTestName = '';
+
+const injectedDependencies: Map<
+  DependencyToken<unknown>,
+  Provider<unknown>
+> = new Map();
+
+const finalizers: Finalizable[] = [];
+
+function injectDependency<T>(
+  dependency: DependencyToken<T>,
+  creator: Creator<T>
+) {
+  let service: (T & Finalizable) | undefined = undefined;
+  injectedDependencies.set(dependency, () => {
+    if (service) return service;
+    service = creator();
+    finalizers.push(service);
+    return service;
+  });
+}
+
+export function testResolver<T>(token: DependencyToken<T>): T {
+  const provider = injectedDependencies.get(token);
+  if (provider) {
+    return provider() as T;
+  } else {
+    throw new DependencyError(token, 'Forgot to set up dependency for tests');
+  }
+}
+
+function resolveDependency(evt: DependencyRequestEvent<unknown>) {
+  evt.callback(() => testResolver(evt.dependency));
+}
+
+setup(async function () {
+  await document.fonts?.ready;
+  testSetupTimestampMs = new Date().getTime();
+  currentTestName = this.currentTest?.title || 'unknown test';
+
+  // If the following asserts fails - then window.stub is
+  // overwritten by some other code.
+  assert.equal(getCleanupsCount(), 0);
+  initGlobalVariables(createTestAppContext(), false);
+
+  finalizers.push(getAppContext());
+  const dependencies = createTestDependencies(getAppContext(), testResolver);
+  for (const [token, provider] of dependencies) {
+    injectDependency(token, provider);
+  }
+  document.addEventListener('request-dependency', resolveDependency);
+  initGerrit(testResolver(pluginLoaderToken));
+
+  // The following calls is necessary to avoid influence of previously executed
+  // tests.
+  const selection = document.getSelection();
+  if (selection) {
+    selection.removeAllRanges();
+  }
+  // For testing, always init with empty plugin list
+  // Since when serve in gr-app, we always retrieve the list
+  // from project config and init loading after that, all
+  // `awaitPluginsLoaded` will rely on that to kick off,
+  // in testing, we want to kick start this earlier.
+  testResolver(pluginLoaderToken).loadPlugins([]);
+  window.emojis = [];
+  testOnlyResetGrRestApiSharedObjects(getAppContext().authService);
+});
+
+export function removeRequestDependencyListener() {
+  document.removeEventListener('request-dependency', resolveDependency);
+}
+
+// Very simple function to catch unexpected elements in documents body.
+// It can't catch everything, but in most cases it is enough.
+function checkChildAllowed(element: Element) {
+  const allowedTags = ['SCRIPT', 'GR-A11Y-ANNOUNCER', 'LINK'];
+  if (allowedTags.includes(element.tagName)) {
+    return;
+  }
+  if (
+    element.tagName === 'DIV' &&
+    element.id === 'gr-hovercard-container' &&
+    element.childNodes.length === 0
+  ) {
+    return;
+  }
+  assert.fail(
+    `The following node remains in document after the test:
+      ${element.tagName}
+      Outer HTML:
+      ${element.outerHTML}`
+  );
+}
+function checkGlobalSpace() {
+  for (const child of document.body.children) {
+    checkChildAllowed(child);
+  }
+}
+
+function cancelAllTasks() {
+  for (const task of _testOnly_allTasks.values()) {
+    console.warn('ATTENTION! A task was still active at the end of the test!');
+    task.cancel();
+  }
+}
+
+teardown(() => {
+  sinon.restore();
+  fixtureCleanup();
+  cleanupTestUtils();
+  checkGlobalSpace();
+  removeThemeStyles();
+  cleanUpStorage();
+  removeRequestDependencyListener();
+  injectedDependencies.clear();
+  // Reset state
+  for (const f of finalizers) {
+    f.finalize();
+  }
+  // run `cancelAllTasks` after service finalizers. This allows services to clean up their own
+  // internal state before the global task cancellation occurs
+  cancelAllTasks();
+  const testTeardownTimestampMs = new Date().getTime();
+  const elapsedMs = testTeardownTimestampMs - testSetupTimestampMs;
+  if (elapsedMs > 1000) {
+    console.warn(
+      `ATTENTION! Test "${currentTestName}" took longer than 1 second: ${elapsedMs} ms`
+    );
+  }
+  currentTestName = '';
+});

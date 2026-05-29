@@ -1,0 +1,557 @@
+// Copyright (C) 2018 The Android Open Source Project
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+syntax = "proto2";
+
+package devtools.gerritcodereview;
+
+option java_package = "com.google.gerrit.proto";
+
+// Serialized form of com.google.gerrit.entities.Change.Id.
+// Next ID: 2
+message Change_Id {
+  required int32 id = 1;
+}
+
+// Serialized form of com.google.gerrit.entities.Change.Key.
+// Next ID: 2
+message Change_Key {
+  optional string id = 1;
+}
+
+// Serialized form of com.google.gerrit.entities.Change.
+// Next ID: 26
+message Change {
+  required Change_Id change_id = 1;
+  optional Change_Key change_key = 2;
+  optional fixed64 created_on = 4;
+  optional fixed64 last_updated_on = 5;
+  optional Account_Id owner_account_id = 7;
+  optional Branch_NameKey dest = 8;
+  optional uint32 status = 10;
+  optional int32 current_patch_set_id = 12;
+  optional string subject = 13;
+  optional string topic = 14;
+  optional string original_subject = 17;
+  optional string submission_id = 18;
+  optional bool is_private = 20;
+  optional bool work_in_progress = 21;
+  optional bool review_started = 22;
+  optional Change_Id revert_of = 23;
+  optional PatchSet_Id cherry_pick_of = 24;
+  optional string server_id = 25;
+
+  // Deleted fields, should not be reused:
+  reserved 3;    // row_version
+  reserved 6;    // sortkey
+  reserved 9;    // open
+  reserved 11;   // nbrPatchSets
+  reserved 15;   // lastSha1MergeTested
+  reserved 16;   // mergeable
+  reserved 19;   // assignee
+  reserved 101;  // note_db_state
+}
+
+// Serialized form of com.google.gerrit.extensions.common.ChangeInput.
+// Next ID: 19
+message ChangeInput {
+  optional string project = 1;
+  optional string branch = 2;
+  optional string subject = 3;
+  optional string topic = 4;
+  optional ChangeStatus status = 5;
+  optional bool is_private = 6;
+  optional bool work_in_progress = 7;
+  optional string base_change = 8;
+  optional string base_commit = 9;
+  optional bool new_branch = 10;
+  map<string, string> validation_options = 11;
+  map<string, string> custom_keyed_values = 12;
+  optional MergeInput merge = 13;
+  optional ApplyPatchInput patch = 14;
+  optional AccountInput author = 15;
+  repeated ListChangesOption response_format_options = 16;
+  optional NotifyHandling notify = 17 [default = ALL];
+  // The key is the string representation of the RecipientType enum.
+  // We use a string here because proto does not allow enum keys in maps.
+  map<string, NotifyInfo> notify_details = 18;
+}
+
+// Serialized form of com.google.gerrit.enities.ChangeMessage.
+// Next ID: 3
+message ChangeMessage_Key {
+  required Change_Id change_id = 1;
+  required string uuid = 2;
+}
+
+// Serialized form of com.google.gerrit.entities.ChangeMessage.
+// Next ID: 8
+message ChangeMessage {
+  required ChangeMessage_Key key = 1;
+  optional Account_Id author_id = 2;
+  optional fixed64 written_on = 3;
+  optional string message = 4;
+  optional PatchSet_Id patchset = 5;
+  optional string tag = 6;
+  optional Account_Id real_author = 7;
+}
+
+// Serialized form of com.google.gerrit.extensions.client.ChangeStatus.
+// Next ID: 3
+enum ChangeStatus {
+  NEW = 0;
+  MERGED = 1;
+  ABANDONED = 2;
+}
+
+// Serialized form of com.google.gerrit.entities.PatchSet.Conflicts.
+// Next ID: 7
+message Conflicts {
+  optional ObjectId base = 4;
+  optional ObjectId ours = 1;
+  optional ObjectId theirs = 2;
+  optional bool containsConflicts = 3;
+  optional string merge_strategy = 5;
+  optional NoMergeBaseReason noBaseReason = 6;
+}
+
+// Serialized form of com.google.gerrit.extensions.common.NoMergeBaseReason.
+// Next ID: 3
+enum NoMergeBaseReason {
+  HISTORIC_DATA_WITHOUT_BASE = 0;
+  NO_COMMON_ANCESTOR = 1;
+  COMPUTED_BASE = 2;
+  ONE_SIDED_MERGE_STRATEGY = 3;
+  NO_MERGE_PERFORMED = 4;
+}
+
+// Serialized form of com.google.gerrit.extensions.common.MergeInput.
+// Next ID: 5
+message MergeInput {
+  optional string source = 1;
+  optional string source_branch = 2;
+  optional string strategy = 3;
+  optional bool allow_conflicts = 4;
+}
+
+// Serialized form of com.google.gerrit.extensions.api.changes.ApplyPatchInput.
+// Next ID: 3
+message ApplyPatchInput {
+  optional string patch = 1;
+  optional bool allow_conflicts = 2;
+}
+
+// Serialized form of com.google.gerrit.extensions.api.accounts.AccountInput.
+// Next ID: 9
+message AccountInput {
+  optional string username = 1;
+  optional string name = 2;
+  optional string display_name = 3;
+  optional string email = 4;
+  optional string ssh_key = 5;
+  optional string http_password = 6;
+  repeated string groups = 7;
+  repeated AuthTokenInput tokens = 8;
+}
+
+// Serialized form of com.google.gerrit.extensions.auth.AuthTokenInput.
+// Next ID: 4
+message AuthTokenInput {
+  optional string id = 1;
+  optional string token = 2;
+  optional string lifetime = 3;
+}
+
+// Serialized form of com.google.gerrit.extensions.client.ListChangesOption.
+// Next ID: 28
+enum ListChangesOption {
+  LABELS = 0;
+  CURRENT_REVISION = 1;
+  ALL_REVISIONS = 2;
+  CURRENT_COMMIT = 3;
+  ALL_COMMITS = 4;
+  CURRENT_FILES = 5;
+  ALL_FILES = 6;
+  DETAILED_ACCOUNTS = 7;
+  DETAILED_LABELS = 8;
+  MESSAGES = 9;
+  CURRENT_ACTIONS = 10;
+  REVIEWED = 11;
+  DRAFT_COMMENTS = 12;
+  DOWNLOAD_COMMANDS = 13;
+  WEB_LINKS = 14;
+  CHECK = 15;
+  CHANGE_ACTIONS = 16;
+  COMMIT_FOOTERS = 17;
+  PUSH_CERTIFICATES = 18;
+  REVIEWER_UPDATES = 19;
+  SUBMITTABLE = 20;
+  TRACKING_IDS = 21;
+  SKIP_MERGEABLE = 22;
+  SKIP_DIFFSTAT = 23;
+  SUBMIT_REQUIREMENTS = 24;
+  CUSTOM_KEYED_VALUES = 25;
+  STAR = 26;
+  PARENTS = 27;
+}
+
+// Serialized form of com.google.gerrit.extensions.api.changes.NotifyHandling.
+// Next ID: 4
+enum NotifyHandling {
+  NONE = 0;
+  OWNER = 1;
+  OWNER_REVIEWERS = 2;
+  ALL = 3;
+}
+
+// Serialized form of com.google.gerrit.extensions.api.changes.RecipientType.
+// Next ID: 3
+enum RecipientType {
+  TO = 0;
+  CC = 1;
+  BCC = 2;
+}
+
+// Serialized form of com.google.gerrit.extensions.api.changes.NotifyInfo.
+// Next ID: 2
+message NotifyInfo {
+  repeated string accounts = 1;
+}
+
+// Serialized form of com.google.gerrit.entities.PatchSet.Id.
+// Next ID: 3
+message PatchSet_Id {
+  required Change_Id change_id = 1;
+  required int32 id = 2;
+}
+
+// Serialized form of com.google.gerrit.entities.PatchSet.
+// Next ID: 13
+message PatchSet {
+  required PatchSet_Id id = 1;
+  optional ObjectId commitId = 2;
+  optional Account_Id uploader_account_id = 3;
+  optional fixed64 created_on = 4;
+  optional string groups = 6;
+  optional string push_certificate = 8;
+  optional string description = 9;
+  optional Account_Id real_uploader_account_id = 10;
+  optional string branch = 11;
+  optional Conflicts conflicts = 12;
+
+  // Deleted fields, should not be reused:
+  reserved 5;  // draft
+  reserved 7;  // pushCertficate
+}
+
+// Serialized form of com.google.gerrit.entities.Account.Id.
+// Next ID: 2
+message Account_Id {
+  required int32 id = 1;
+}
+
+// Serialized form of com.google.gerrit.entities.LabelId.
+// Next ID: 2
+message LabelId {
+  required string id = 1;
+}
+
+// Serialized form of com.google.gerrit.entities.PatchSetApproval.Key.
+// Next ID: 4
+message PatchSetApproval_Key {
+  required PatchSet_Id patch_set_id = 1;
+  required Account_Id account_id = 2;
+  required LabelId label_id = 3;
+}
+
+// Serialized form of com.google.gerrit.entities.PatchSetApproval.
+// Next ID: 11
+message PatchSetApproval {
+  required PatchSetApproval_Key key = 1;
+  optional int32 value = 2;
+  optional fixed64 granted = 3;
+  optional string tag = 6;
+  optional Account_Id real_account_id = 7;
+  optional bool post_submit = 8;
+  optional bool copied = 9;
+  optional string uuid = 10;
+
+  // Deleted fields, should not be reused:
+  reserved 4;  // changeOpen
+  reserved 5;  // changeSortKey
+}
+
+// Serialized form of com.google.gerrit.entities.Project.NameKey.
+// Next ID: 2
+message Project_NameKey {
+  optional string name = 1;
+}
+
+// Serialized form of com.google.gerrit.entities.Branch.NameKey.
+// Next ID: 3
+message Branch_NameKey {
+  optional Project_NameKey project = 1;
+  optional string branch = 2;
+}
+
+// Serialized form of org.eclipse.jgit.lib.ObjectId.
+// Next ID: 2
+message ObjectId {
+  // Hex string representation of the ID.
+  optional string name = 1
+      [default = "0000000000000000000000000000000000000000"];
+}
+
+// Serialized form of a continuation token used for pagination.
+// Next ID: 2
+message PaginationToken {
+  optional string next_page_token = 1;
+}
+
+// Proto representation of the User preferences classes
+// Next ID: 4
+message UserPreferences {
+  // Next ID: 28
+  message GeneralPreferencesInfo {
+    // Number of changes to show in a screen.
+    optional int32 changes_per_page = 1 [default = 25];
+
+    // Type of download URL the user prefers to use. */
+    optional string download_scheme = 2;
+
+    enum Theme {
+      AUTO = 0;
+      DARK = 1;
+      LIGHT = 2;
+    }
+    optional Theme theme = 3;
+
+    enum DateFormat {
+      STD = 0;
+      US = 1;
+      ISO = 2;
+      EURO = 3;
+      UK = 4;
+    }
+    optional DateFormat date_format = 4;
+
+    enum TimeFormat {
+      HHMM_12 = 0;
+      HHMM_24 = 1;
+    }
+    optional TimeFormat time_format = 5;
+
+    optional bool expand_inline_diffs = 6;
+    optional bool relative_date_in_change_table = 20;
+
+    enum DiffView {
+      SIDE_BY_SIDE = 0;
+      UNIFIED_DIFF = 1;
+    }
+    optional DiffView diff_view = 21;
+
+    optional bool size_bar_in_change_table = 22 [default = true];
+    optional bool legacycid_in_change_table = 7;
+    optional bool mute_common_path_prefixes = 8 [default = true];
+    optional bool signed_off_by = 9;
+
+    enum EmailStrategy {
+      ENABLED = 0;
+      CC_ON_OWN_COMMENTS = 1;
+      ATTENTION_SET_ONLY = 2;
+      DISABLED = 3;
+    }
+    optional EmailStrategy email_strategy = 10;
+
+    enum EmailFormat {
+      PLAINTEXT = 0;
+      HTML_PLAINTEXT = 1;
+    }
+    optional EmailFormat email_format = 11 [default = HTML_PLAINTEXT];
+
+    enum DefaultBase {
+      AUTO_MERGE = 0;
+      FIRST_PARENT = 1;
+    }
+    optional DefaultBase default_base_for_merges = 12 [default = FIRST_PARENT];
+
+    optional bool publish_comments_on_push = 13;
+    optional bool disable_keyboard_shortcuts = 14;
+    optional bool disable_token_highlighting = 15;
+    optional bool work_in_progress_by_default = 16;
+
+    message MenuItem {
+      optional string url = 1;
+      optional string name = 2;
+      optional string target = 3;
+      optional string id = 4;
+    }
+    repeated MenuItem my_menu_items = 17;
+
+    repeated string change_table = 18;
+    optional bool allow_browser_notifications = 19 [default = true];
+    optional bool allow_suggest_code_while_commenting = 24 [default = true];
+    optional bool allow_autocompleting_comments = 25 [default = true];
+    optional string diff_page_sidebar = 23 [default = "NONE"];
+    optional string ai_chat_selected_model = 26;
+    optional string label_filter = 27;
+  }
+  optional GeneralPreferencesInfo general_preferences_info = 1;
+
+  // Next ID: 26
+  message DiffPreferencesInfo {
+    optional int32 context = 1 [default = 10];
+    optional int32 tab_size = 2 [default = 8];
+    optional int32 font_size = 3 [default = 12];
+    optional int32 line_length = 4 [default = 100];
+    optional int32 cursor_blink_rate = 5;
+    optional bool expand_all_comments = 6;
+    optional bool intraline_difference = 7 [default = true];
+    optional bool manual_review = 8;
+    optional bool show_line_endings = 9 [default = true];
+    optional bool show_tabs = 10 [default = true];
+    optional bool show_whitespace_errors = 11 [default = true];
+    optional bool syntax_highlighting = 12 [default = true];
+    optional bool hide_top_menu = 13;
+    optional bool auto_hide_diff_table_header = 14 [default = true];
+    optional bool hide_line_numbers = 15;
+    optional bool render_entire_file = 16;
+    optional bool hide_empty_pane = 17;
+    optional bool match_brackets = 18;
+    optional bool line_wrapping = 19;
+
+    enum Whitespace {
+      IGNORE_NONE = 0;
+      IGNORE_TRAILING = 1;
+      IGNORE_LEADING_AND_TRAILING = 2;
+      IGNORE_ALL = 3;
+    }
+    optional Whitespace ignore_whitespace = 20;
+
+    optional bool retain_header = 21;
+    optional bool skip_deleted = 22;
+    optional bool skip_unchanged = 23;
+    optional bool skip_uncommented = 24;
+
+    enum ResponsiveMode {
+      NONE = 0;
+      SHRINK_ONLY = 1;
+      FULL_RESPONSIVE = 2;
+    }
+    optional ResponsiveMode responsive_mode = 25;
+  }
+  optional DiffPreferencesInfo diff_preferences_info = 2;
+
+  // Next ID: 15
+  message EditPreferencesInfo {
+    optional int32 tab_size = 1 [default = 8];
+    optional int32 line_length = 2 [default = 100];
+    optional int32 indent_unit = 3 [default = 2];
+    optional int32 cursor_blink_rate = 4;
+    optional bool hide_top_menu = 5;
+    optional bool show_tabs = 6 [default = true];
+    optional bool show_whitespace_errors = 7;
+    optional bool syntax_highlighting = 8 [default = true];
+    optional bool hide_line_numbers = 9;
+    optional bool match_brackets = 10 [default = true];
+    optional bool line_wrapping = 11;
+    optional bool indent_with_tabs = 12;
+    optional bool auto_close_brackets = 13;
+    optional bool show_base = 14;
+  }
+  optional EditPreferencesInfo edit_preferences_info = 3;
+}
+
+// Next Id: 14
+message HumanComment {
+  // Required. Note that the equivalent Java struct does not contain the change
+  // ID, so we keep the same format here.
+  optional int32 patchset_id = 1;
+  optional ObjectId dest_commit_id = 2;
+  // Required.
+  optional Account_Id account_id = 3;
+  optional Account_Id real_author = 4;
+
+  message Range {
+    // 1-based
+    optional int32 start_line = 1 [default = 1];
+    // 0-based
+    optional int32 start_char = 2;
+    // 1-based
+    optional int32 end_line = 3 [default = 1];
+    // 0-based
+    optional int32 end_char = 4;
+  }
+
+  // Next Id: 6
+  message InFilePosition {
+    optional string file_path = 1;
+    enum Side {
+      // Should match the logic in
+      // http://google3/third_party/java_src/gerritcodereview/gerrit/java/com/google/gerrit/extensions/client/Side.java?rcl=579772037&l=24
+      PARENT = 0;
+      REVISION = 1;
+    }
+    // Default should match
+    // http://google3/third_party/java_src/gerritcodereview/gerrit/Documentation/rest-api-changes.txt?l=7423
+    optional Side side = 2 [default = REVISION];
+
+    // If neither range nor line number set, the comment is on the file level.
+    // It is possible (though not required) for both values to be set. in this
+    // case, it is expected that the line number is identical to the range's end
+    // line.
+    optional Range position_range = 3;
+    // 1-based
+    optional int32 line_number = 4 [default = 1];
+    // 1-based. If side is PARENT, this field denotes which parent (1, 2, ...).
+    // If not set and side is PARENT, it refers to the Base (0).
+    optional int32 parent_number = 5;
+  }
+
+  // If not set, the comment is on the patchset level.
+  optional InFilePosition in_file_position = 5;
+
+  // Required.
+  optional string comment_text = 6;
+  // Might be set by the user while creating the draft.
+  // See http://go/gerrit-rest-api-change#comment-info.
+  optional string tag = 7;
+  optional bool unresolved = 8 [default = false];
+
+  // Required.
+  optional string comment_uuid = 9;
+  // Required.
+  optional string parent_comment_uuid = 10;
+
+  // Required. Epoch millis.
+  optional fixed64 written_on_millis = 11;
+  // Required.
+  optional string server_id = 12;
+
+  // Next Id: 4
+  message FixReplacement {
+    optional string path = 1;
+    optional Range range = 2;
+    optional string replacement = 3;
+  }
+
+  // Next Id: 4
+  message FixSuggestion {
+    optional string fix_id = 1;
+    optional string description = 2;
+    repeated FixReplacement replacements = 3;
+  }
+  repeated FixSuggestion fix_suggestions = 13;
+  optional bool is_ai = 14;
+}

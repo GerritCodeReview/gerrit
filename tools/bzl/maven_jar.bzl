@@ -8,6 +8,10 @@ MAVEN_LOCAL = "MAVEN_LOCAL:"
 
 ECLIPSE = "ECLIPSE:"
 
+MAVEN_SNAPSHOT = "https://ossrh-staging-api.central.sonatype.com/content/repositories/snapshots"
+
+SNAPSHOT = "-SNAPSHOT-"
+
 def _maven_release(ctx, parts):
     """induce jar and url name from maven coordinates."""
     if len(parts) not in [3, 4]:
@@ -20,9 +24,25 @@ def _maven_release(ctx, parts):
         group, artifact, version = parts
         file_version = version
 
+    repository = ctx.attr.repository
+
+    if "-SNAPSHOT-" in version:
+        start = version.index(SNAPSHOT)
+        end = start + len(SNAPSHOT) - 1
+
+        # file version without snapshot constant, but with post snapshot suffix
+        file_version = version[:start] + version[end:]
+
+        # version without post snapshot suffix
+        version = version[:end]
+
+        # overwrite the repository with Maven snapshot repository
+        repository = MAVEN_SNAPSHOT
+
     jar = artifact.lower() + "-" + file_version
+
     url = "/".join([
-        ctx.attr.repository,
+        repository,
         group.replace(".", "/"),
         artifact,
         version,
@@ -40,7 +60,7 @@ def _create_coordinates(fully_qualified_name):
     if len(parts) == 3:
         group_id, artifact_id, version = parts
     elif len(parts) == 4:
-        group_id, artifact_id, version, packaging = parts
+        group_id, artifact_id, version, classifier = parts
     elif len(parts) == 5:
         group_id, artifact_id, version, packaging, classifier = parts
     else:
@@ -74,6 +94,7 @@ def _generate_build_files(ctx, binjar, srcjar):
         srcjar_attr = 'srcjar = "%s",' % srcjar
     contents = """
 {header}
+load("@rules_java//java:defs.bzl", "java_import")
 package(default_visibility = ['//visibility:public'])
 java_import(
     name = 'jar',
@@ -105,18 +126,6 @@ java_import(
 """.format(srcjar = srcjar)
     ctx.file("%s/BUILD" % ctx.path("jar"), contents, False)
 
-    # Compatibility layer for java_import_external from rules_closure
-    contents = """
-{header}
-package(default_visibility = ['//visibility:public'])
-
-alias(
-    name = "{rule_name}",
-    actual = "@{rule_name}//jar",
-)
-\n""".format(rule_name = ctx.name, header = header)
-    ctx.file("BUILD", contents, False)
-
 def _maven_jar_impl(ctx):
     """rule to download a Maven archive."""
     coordinates = _create_coordinates(ctx.attr.artifact)
@@ -126,21 +135,18 @@ def _maven_jar_impl(ctx):
 
     parts = ctx.attr.artifact.split(":")
 
-    # TODO(davido): Only releases for now, implement handling snapshots
     jar, url = _maven_release(ctx, parts)
 
     binjar = jar + ".jar"
     binjar_path = ctx.path("/".join(["jar", binjar]))
     binurl = url + ".jar"
 
-    python = ctx.which("python")
+    python = ctx.which("python3")
     script = ctx.path(ctx.attr._download_script)
 
     args = [python, script, "-o", binjar_path, "-u", binurl]
     if ctx.attr.sha1:
         args.extend(["-v", sha1])
-    if ctx.attr.unsign:
-        args.append("--unsign")
     for x in ctx.attr.exclude:
         args.extend(["-x", x])
 
@@ -152,7 +158,10 @@ def _maven_jar_impl(ctx):
     srcjar = None
     if ctx.attr.src_sha1 or ctx.attr.attach_source:
         srcjar = jar + "-src.jar"
-        srcurl = url + "-sources.jar"
+        srcurl = url
+        if coordinates.classifier != None:
+            srcurl = url.replace("-" + coordinates.classifier, "")
+        srcurl += "-sources.jar"
         srcjar_path = ctx.path("jar/" + srcjar)
         args = [python, script, "-o", srcjar_path, "-u", srcurl]
         if ctx.attr.src_sha1:
@@ -171,7 +180,6 @@ maven_jar = repository_rule(
         "repository": attr.string(default = MAVEN_CENTRAL),
         "sha1": attr.string(),
         "src_sha1": attr.string(),
-        "unsign": attr.bool(default = False),
         "exports": attr.string_list(),
         "deps": attr.string_list(),
         "_download_script": attr.label(default = Label("//tools:download_file.py")),

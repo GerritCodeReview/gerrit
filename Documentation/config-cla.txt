@@ -25,13 +25,15 @@ Download the existing configuration from Gerrit:
 ----
 
 Contributor agreements are defined as contributor-agreement sections in
-`project.config`:
+`project.config` of `All-Projects`:
 ----
   [contributor-agreement "Individual"]
     description = If you are going to be contributing code on your own, this is the one you want. You can sign this one online.
     agreementUrl = static/cla_individual.html
     autoVerify = group CLA Accepted - Individual
     accepted = group CLA Accepted - Individual
+    matchProjects = ^/.*$
+    excludeProjects = ^/not/my/project/
 ----
 
 Each `contributor-agreement` section within the `project.config` file must
@@ -74,6 +76,16 @@ agreement. The group's UUID must also appear in the `groups` file.
 List of groups that will be considered when verifying that a
 contributor agreement has been accepted. The groups' UUID must also
 appear in the `groups` file.
+
+[[contributor-agreement.name.matchProjects]]contributor-agreement.<name>.matchProjects::
++
+List of project regular expressions identifying projects where the
+agreement is required. Defaults to every project when omitted.
+
+[[contributor-agreement.name.excludeProjects]]contributor-agreement.<name>.excludeProjects::
++
+List of project regular expressions identifying projects where the
+agreement does not apply. Defaults to empty. i.e. no projects excluded.
 
 GERRIT
 ------

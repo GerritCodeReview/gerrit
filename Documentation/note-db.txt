@@ -1,8 +1,10 @@
+:linkattrs:
 = Gerrit Code Review - NoteDb Backend
 
-NoteDb is the next generation of Gerrit storage backend, which replaces the
-traditional SQL backend for change and account metadata with storing data in the
-same repository as code changes.
+NoteDb is the storage backend for code review metadata. It is based on
+Git, so code reviews are stored together with the code under review.
+NoteDb replaced the traditional SQL backend for change, account and group
+metadata that was used in the 2.x series.
 
 .Advantages
 - *Simplicity*: All data is stored in one location in the site directory, rather
@@ -21,34 +23,73 @@ same repository as code changes.
 - *New features*: Enables simple federation between Gerrit servers, as well as
   offline code review and interoperation with other tools.
 
-== Current Status
-
-- Storing change metadata is fully implemented in the 2.15 release, and is the
-  default for new sites.
-- Admins may use an link:#offline-migration[offline] or
-  link:#online-migration[online] tool to migrate change data in an existing
-  site from ReviewDb.
-- Storing link:config-accounts.html[account data] is fully implemented in the
-  2.15 release. Account data is migrated automatically during the upgrade
-  process by running `gerrit.war init`.
-- Account and change metadata on the servers behind `googlesource.com` is fully
-  migrated to NoteDb. In other words, if you use
-  link:https://gerrit-review.googlesource.com/[gerrit-review], you're already
-  using NoteDb.
-
 For an example NoteDb change, poke around at this one:
 ----
   git fetch https://gerrit.googlesource.com/gerrit refs/changes/70/98070/meta \
       && git log -p FETCH_HEAD
 ----
 
-== Future Work ("Gerrit 3.0")
+== Current Status
 
-- Storing group data is a work in progress. Like account data, it will be
-  migrated automatically.
-- NoteDb will be the only database format supported by Gerrit 3.0. The offline
-  change data migration tool will be included in Gerrit 3.0, but online
-  migration will only be available in the 2.x line.
+NoteDb is the only database format supported by Gerrit 3.0+. The
+change data migration tools are only included in Gerrit 2.16; they are
+not available in 3.0, so any upgrade from Gerrit 2.x to 3.x must go through
+2.16 to effect the NoteDb upgrade.
+
+== Format
+
+Each review ("change") in Gerrit is numbered. The different revisions
+("patchsets") of a change 12345 are stored under
+----
+  refs/changes/45/12345/${PATCHSET_NUMBER}
+----
+
+The revisions are stored as commits to the main project, ie. if you
+fetch this ref, you can check out the proposed change.
+
+A change 12345 has its review metadata under
+----
+  refs/changes/45/12345/meta
+----
+The metadata is a notes branch. The commit messages on the branch hold
+modifications to global data of the change (votes, global comments). The inline
+comments are in a
+link:https://eclipse.gerrithub.io/plugins/gitiles/eclipse-jgit/jgit/\+/refs/heads/master/org.eclipse.jgit/src/org/eclipse/jgit/notes/NoteMap.java[NoteMap],
+where the key is the commit SHA-1 of the patchset
+that the comment refers to, and the value is JSON data. The format of the
+JSON is in the
+link:https://gerrit.googlesource.com/gerrit/\+/master/java/com/google/gerrit/server/notedb/RevisionNoteData.java[RevisionNoteData]
+which contains 
+link:https://gerrit.googlesource.com/gerrit/\+/master/java/com/google/gerrit/entities/Comment.java[Comment] entities.
+
+For example:
+----
+   {
+      "key": {
+        "uuid": "c7be1334_47885e36",
+        "filename":
+"java/com/google/gerrit/server/restapi/project/CommitsCollection.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-11-06T09:00:50Z",
+      "side": 1,
+      "message": "nit: factor this out in a variable, use
+toImmutableList as collector",
+      "range": {
+        "startLine": 156,
+        "startChar": 32,
+        "endLine": 158,
+        "endChar": 66
+      },
+      "revId": "071c601d6ee1a2a9f520415fd9efef8e00f9cf60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+----
 
 [[migration]]
 == Migration
@@ -62,6 +103,9 @@ and group data is migrated automatically by `gerrit.war init`.
 
 [[online-migration]]
 === Online
+
+Note that online migration is only available in 2.x. To do the online migration
+from 2.14.x or 2.15.x to 3.0, it is necessary to first upgrade to 2.16.x.
 
 To start the online migration, set the `noteDb.changes.autoMigrate` option in
 `gerrit.config` and restart Gerrit:
@@ -86,7 +130,7 @@ off. Migration progress will be reported to the Gerrit logs.
 
 *Disadvantages*
 
-* Only available in 2.x; will not be available in Gerrit 3.0.
+* Only available in 2.x; not available in Gerrit 3.0.
 * Much slower than offline; uses only a single thread, to leave resources
   available for serving traffic.
 * Performance may be degraded, particularly of updates; data needs to be written
@@ -108,18 +152,25 @@ Migration requires a heap size comparable to running a Gerrit server. If you
 normally run `gerrit.war daemon` with an `-Xmx` flag, pass that to the migration
 tool as well.
 
+[NOTE]
+Note that by appending `--reindex false` to the above command, you can skip the
+lengthy, implicit reindexing step of the migration. This is useful if you plan
+to perform further Gerrit upgrades while the server is offline and have to
+reindex later anyway (E.g.: a follow-up upgrade to Gerrit 3.2 or newer, which
+requires to reindex changes anyway).
+
 *Advantages*
 
 * Much faster than online; can use all available CPUs, since no live traffic
   needs to be served.
 * No degraded performance of live servers due to writing data to 2 locations.
-* Available in both Gerrit 2.x and 3.0.
 
 *Disadvantages*
 
+* Available in Gerrit 2.15 and 2.16 only.
 * May require substantial downtime; takes about twice as long as an
-  link:pgm-reindex.html[offline reindex]. (In fact, one of the migration steps
-  is a full reindex, so it can't possibly take less time.)
+  link:pgm-reindex.html[offline reindex]. (In fact, one of the migration steps is a
+  full reindex, so it can't possibly take less time.)
 
 [[trial-migration]]
 ==== Trial mode
@@ -142,7 +193,7 @@ There are several use cases for trial mode:
 
 * Help test early releases of the migration tool for bugs with lower risk.
 * Try out new NoteDb-only features like
-  link:rest-api-changes.txt#get-hashtags[hashtags] without running the full
+  link:rest-api-changes.html#get-hashtags[hashtags] without running the full
   migration.
 
 To continue with the full migration after running the trial migration, use
@@ -191,3 +242,10 @@ section serves primarily as a reference.
   of all changes in NoteDb is accurate, and so is only safe once all changes are
   NoteDb primary. Otherwise, reading changes only from NoteDb might result in
   inaccurate results, and writing to NoteDb would compound the problem. +
+
+== NoteDB to ReviewDB rollback
+
+In case of rollback from NoteDB to ReviewDB, all the meta refs and the
+sequence ref need to be removed.
+The link:https://gerrit.googlesource.com/gerrit/+/refs/heads/master/contrib/remove-notedb-refs.sh[remove-notedb-refs.sh,role=external,window=_blank]
+script has been written to automate this process.

@@ -1,10 +1,11 @@
+:linkattrs:
 = User Guide
 
 This is a Gerrit guide that is dedicated to Gerrit end-users. It
 explains the standard Gerrit workflows and how a user can adapt Gerrit
 to personal preferences.
 
-It is expected that readers know about link:http://git-scm.com/[Git]
+It is expected that readers know about link:http://git-scm.com/[Git,role=external,window=_blank]
 and that they are familiar with basic git commands and workflows.
 
 [[gerrit]]
@@ -19,23 +20,18 @@ link:#no-code-review[work without code review].
 [[tools]]
 == Tools
 
-Gerrit speaks the git protocol. This means in order to work with Gerrit
+Gerrit uses the git protocol. This means in order to work with Gerrit
 you do *not* need to install any Gerrit client, but having a regular
-git client, such as the link:http://git-scm.com/[git command line] or
-link:http://eclipse.org/egit/[EGit] in Eclipse, is sufficient.
+git client, such as the link:http://git-scm.com/[git command line,role=external,window=_blank] or
+link:http://eclipse.org/egit/[EGit,role=external,window=_blank] in Eclipse, is sufficient.
 
 Still there are some client-side tools for Gerrit, which can be used
 optionally:
 
-* link:http://eclipse.org/mylyn/[Mylyn Gerrit Connector]: Gerrit
-  integration with Mylyn
 * link:https://github.com/uwolfer/gerrit-intellij-plugin[Gerrit
-  IntelliJ Plugin]: Gerrit integration with the
-  link:http://www.jetbrains.com/idea/[IntelliJ Platform]
-* link:https://play.google.com/store/apps/details?id=com.jbirdvegas.mgerrit[
-  mGerrit]: Android client for Gerrit
-* link:https://github.com/stackforge/gertty[Gertty]: Console-based
-  interface for Gerrit
+  IntelliJ Plugin,role=external,window=_blank]: Gerrit integration with the
+  link:http://www.jetbrains.com/idea/[IntelliJ Platform,role=external,window=_blank]
+* link:https://opendev.org/ttygroup/gertty[gertty]: Console-based interface for Gerrit
 
 [[clone]]
 == Clone Gerrit Project
@@ -113,12 +109,15 @@ explains the link:error-messages.html[error messages].
 
 [[change-ref]]
 When a commit is pushed for review, Gerrit stores it in a staging area
-which is a branch in the special `refs/changes/` namespace. A change
-ref has the format `refs/changes/XX/YYYY/ZZ` where `YYYY` is the
-numeric change number, `ZZ` is the patch set number and `XX` is the
-last two digits of the numeric change number, e.g.
-`refs/changes/20/884120/1`. Understanding the format of this ref is not
-required for working with Gerrit.
+which is a branch in the special `refs/changes/` namespace. Understanding
+the format of this ref is not required for working with Gerrit, but it
+is explained below.
+
+A change ref has the format `refs/changes/X/Y/Z` where `X` is the last
+two digits of the change number, `Y` is the entire change number, and `Z`
+is the patch set. For example, if the change number is
+link:https://gerrit-review.googlesource.com/c/gerrit/+/263270[263270,role=external,window=_blank],
+the ref would be `refs/changes/70/263270/2` for the second patch set.
 
 [[fetch-change]]
 Using the change ref git clients can fetch the corresponding commit,
@@ -184,9 +183,7 @@ when pushing the very first patch set. This reduces the risk of
 accidentally creating a new change instead of uploading a new patch
 set. Any push without Change-Id then fails with
 link:error-missing-changeid.html[missing Change-Id in commit message
-footer]. New patch sets can always be uploaded to a specific change
-(even without any Change-Id) by pushing to the change ref, e.g.
-`refs/changes/74/67374`.
+footer].
 
 Amending and rebasing a commit preserves the Change-Id so that the new
 commit automatically becomes a new patch set of the existing change,
@@ -211,7 +208,7 @@ documentation].
 Instead of manually installing the `commit-msg` hook for each git
 repository, you can copy it into the
 link:http://git-scm.com/docs/git-init#_template_directory[git template
-directory]. Then it is automatically copied to every newly cloned
+directory,role=external,window=_blank]. Then it is automatically copied to every newly cloned
 repository.
 
 [[review-change]]
@@ -280,7 +277,7 @@ also possible to base a new feature on an open change. This will create
 a dependency between the changes in Gerrit and each change can only be
 applied if all its predecessor are applied as well. Dependencies
 between changes can be seen from the
-link:user-review-ui.html#related-changes-tab[Related Changes] tab on
+link:user-review-ui.html#related-changes[Related Changes] tab on
 the change screen.
 
 [[watch]]
@@ -366,6 +363,10 @@ link:user-dashboards.html#project-dashboards[dashboards on
 project-level]. The project dashboards can be seen in the web UI under
 `Projects` > `List` > <project-name> > `Dashboards`.
 
+All dashboards and search pages allow an action to be applied to multiple
+changes at once. Select the changes with the checkboxes on the left side and
+choose the action from the action bar at the top of the change section.
+
 [[submit]]
 == Submit a Change
 
@@ -385,7 +386,7 @@ rules] to control when a change becomes submittable.
 
 How the code modification is applied to the target branch when a change
 is submitted is controlled by the
-link:project-configuration.html#submit_type[submit type] which can be
+link:config-project-config.html#submit-type[submit type] which can be
 link:intro-project-owner.html#submit-type[configured on project-level].
 
 Submitting a change may fail with conflicts. In this case you need to
@@ -442,6 +443,23 @@ that there is still an interest in this change.
 [NOTE]
 Never rebase commits that are already part of a central branch.
 
+[[move]]
+== Move a Change
+
+Changes can be link:rest-api-changes.html#move-change[moved] to a desired
+destination branch in the same project. This is useful in cases where
+development activity switches from one branch to another and there is a
+need to move open changes on the inactive branch to the new active one.
+Another useful case is to move changes from a newer branch back to an older
+bugfix branch where an issue first appeared.
+
+Users can move a change only if they have link:access-control.html#category_abandon[
+abandon permission] on the change and link:access-control.html#category_push[
+push permission] on the destination branch.
+
+The move operation will not update the change's parent and users will have
+to link:#rebase[rebase] the change.
+
 [[abandon]]
 [[restore]]
 == Abandon/Restore a Change
@@ -453,6 +471,15 @@ in list of open changes anymore.
 
 Abandoned changes can be link:user-review-ui.html#restore[restored] if
 later they are needed again.
+
+[[cherrypickof]]
+== Cherry-Pick changes of a Change
+
+When a change is created/updated using the 'cherry-pick' functionality,
+the original change and patchset details are recorded in the Change's
+cherrypick field. This field cannot be set or updated by the user in
+any way. It is set automatically after the cherry-pick operation completes
+successfully.
 
 [[topics]]
 == Using Topics
@@ -486,6 +513,9 @@ span multiple projects.
   $ git push origin HEAD:refs/heads/master -o topic=multi-master
 ----
 
+For more information about using topics, see the user guide:
+link:cross-repository-changes.html[Submitting Changes Across Repositories by using Topics].
+
 [[hashtags]]
 == Using Hashtags
 
@@ -498,9 +528,6 @@ to search using the link:user-search.html#hashtag[`hashtag:`] operator. Unlike
 topics, a change can have multiple hashtags, and they are only used for
 informational grouping; changes with the same hashtags are not necessarily
 submitted together.
-
-The hashtag feature is only available when running under
-link:note-db.html[NoteDb].
 
 .Set Hashtag on Push
 ----
@@ -540,7 +567,9 @@ the command line or the user interface. To use the command line, append
 ----
   $ git push origin HEAD:refs/for/master%wip
 ----
-Alternatively, click *WIP* from the Change screen.
+Alternatively, click *WIP* from the *More* menu on the Change screen.
+The Change screen updates with a yellow header, indicating that
+the change is in a Work-in-Progress state.
 
 To mark the change as ready for review, append `%ready` to your push
 request.
@@ -548,22 +577,32 @@ request.
 ----
   $ git push origin HEAD:refs/for/master%ready
 ----
-Alternatively, click *Ready* from the Change screen.
+There are two options for marking the change ready for review from the Change
+screen:
 
-Only change owners, project owners and site administrators can mark changes as
-`work-in-progress` and `ready`.
+1. Click *Start Review* (the primary action *Reply* is renamed when in WIP
+state).
++
+This will open the reply-modal and allow you to add reviewers and/or CC
+before you start review.
 
-[[wip-polygerrit]]
-In the new PolyGerrit UI, you can mark a change as WIP, by selecting *WIP* from
-the *More* menu. The Change screen updates with a yellow header, indicating that
-the change is in a Work-in-Progress state. To mark a change as ready for review,
-click *Start Review*.
+2. Click button *Mark As Active*.
++
+This will only change the state from WIP to ready, without opening the
+reply-modal.
+
+Change owners, project owners, site administrators and members of a group that
+was granted link:access-control.html#category_toggle_work_in_progress_state[
+Toggle Work In Progress state] permission can mark changes as `work-in-progress`
+and `ready`.
 
 [[private-changes]]
 == Private Changes
 
-Private changes are changes that are only visible to their owners and
-reviewers. Private changes are useful in a number of cases:
+Private changes are changes that are only visible to their owners, reviewers
+and users with the link:access-control.html#category_view_private_changes[
+View Private Changes] global capability. Private changes are useful in a number
+of cases:
 
 * You want a set of collaborators to review the change before formal review
   starts. By creating a Private change and adding only a selected few as
@@ -578,10 +617,9 @@ reviewers. Private changes are useful in a number of cases:
   creating a private throwaway change without reviewers, you can push
   from one device, and fetch to another device.
 
-* You want to do code review on a change that has sensitive
-  aspects. By reviewing a security fix in a private change,
-  outsiders can't discover the fix before it is pushed out. Even after
-  merging the change, the review can be kept private.
+Do *not* use private changes for making security fixes (see
+link:#private-changes-pitfalls[pitfalls] below). How to make security
+fixes is explained link:#security-fixes[below].
 
 To create a private change, you push it with the `private` option.
 
@@ -605,18 +643,33 @@ can be granted
 In that case, care should be taken to prevent the CI system from
 exposing secret details.
 
-[[ignore]]
-== Ignoring Or Marking Changes As 'Reviewed'
+[[private-changes-pitfalls]]
+=== Pitfalls
 
-Changes can be ignored, which means they will not appear in the 'Incoming
-Reviews' dashboard and any related email notifications will be suppressed.
-This can be useful when you are added as a reviewer to a change on which
-you do not actively participate in the review, but do not want to completely
-remove yourself.
+If private changes are used, be aware of the following pitfalls:
 
-Alternatively, rather than completely ignoring the change, it can be marked
-as 'Reviewed'. Marking a change as 'Reviewed' means it will not be highlighted
-in the dashboard, until a new patch set is uploaded.
+* If a private change gets merged the corresponding commit gets visible
+  for all users that can access the target branch and the private flag
+  from the change is automatically removed. This makes private changes
+  a bad choice for security fixes, as the security fix will be
+  accessible as soon as the change was merged, but for security issues
+  you want to keep an embargo until new releases have been made
+  available.
+* If you push a non-private change on top of a private change the
+  commit of the private change gets implicitly visible through the
+  parent relationship of the follow-up change.
+* If you have a series of private changes and share one with reviewers,
+  the reviewers can also see the commits of the predecessor private
+  changes through the commit parent relationship.
+* Users who would have permission to access the change except for its
+  private status and knowledge of its commit ID (e.g. through CI logs
+  or build artifacts containing build numbers) can fetch the code
+  using the commit ID.
+* Refs that store private changes are visible to users that have the
+  link:access-control.html#category_read[Read] access right on
+  'refs/*', unless
+  link:config-gerrit.html#auth.skipFullRefEvaluationIfAllRefsAreVisible[auth.skipFullRefEvaluationIfAllRefsAreVisible]
+  is disabled.
 
 [[inline-edit]]
 == Inline Edit
@@ -627,6 +680,49 @@ corrections immediately and publish them as a new patch set.
 
 It is also possible to link:user-inline-edit.html#create-change[create
 new changes inline].
+
+[[roles]]
+== Roles
+
+Making and reviewing changes usually involves multiple users that
+assume different roles:
+
+- Author:
++
+The person who wrote the code change. Recorded as author in the Git
+commit.
+
+- Committer:
++
+The person who created the Git commit, e.g. the person that executed
+the `git commit` command. Recorded as committer in the Git commit.
+
+- Uploader:
++
+The user that uploaded the commit as a patch set to Gerrit, e.g. the
+user that executed the `git push` command. For commits that are created through
+an action in the web UI the uploader is the user that triggered the action (e.g.
+if a commit is created by clicking on the `REBASE` button, the user clicking on
+the button becomes the uploader of the newly created commit).
++
+The uploader of the first patch set is the change owner.
++
+The uploader of the latest patch set, the user that uploaded the
+current patch set, is relevant when
+link:config-labels.html#label_ignoreSelfApproval[self approvals on labels are
+ignored], as in this case approvals from the uploader of the latest patch set
+are ignored.
+
+- Change Owner:
++
+The user that created the change, e.g. uploaded the first patch set.
+
+- Reviewer:
++
+A user that has reviewed the change or has been asked to review the change.
+
+Often one user assumes several of these roles, but it's possible that each role
+is assumed by a different user.
 
 [[project-administration]]
 == Project Administration
@@ -693,36 +789,6 @@ The user's preferences are stored in a `git config` style file named
 
 The following preferences can be configured:
 
-- [[review-category]]`Display In Review Category`:
-+
-This setting controls how the values of the review labels in change
-lists and dashboards are visualized.
-+
-** `None`:
-+
-For each review label only the voting value is shown. Approvals are
-rendered as a green check mark icon, vetoes as a red X icon.
-+
-** `Show Name`:
-+
-For each review label the voting value is shown together with the full
-name of the voting user.
-+
-** `Show Email`:
-+
-For each review label the voting value is shown together with the email
-address of the voting user.
-+
-** `Show Username`:
-+
-For each review label the voting value is shown together with the
-username of the voting user.
-+
-** `Show Abbreviated Name`:
-+
-For each review label the voting value is shown together with the
-initials of the full name of the voting user.
-
 - [[page-size]]`Maximum Page Size`:
 +
 The maximum number of entries that are shown on one page, e.g. used
@@ -736,16 +802,21 @@ The format that should be used to render dates and timestamps.
 +
 This setting controls the email notifications.
 +
-** `Enabled`:
-+
-Email notifications are enabled.
-+
 ** [[cc-me]]`Every comment`:
 +
 Email notifications are enabled and you get notified by email as CC
 on comments that you write yourself.
 +
-** `Disabled`:
+** `Only comments left by others`
++
+Email notifications are enabled for all activities excluding comments or
+reviews authored by you.
++
+** `Only when I am in the attention set`
++
+Email notifications are only sent if the recipient is in the attention set.
++
+** `None`:
 +
 Email notifications are disabled.
 
@@ -803,8 +874,8 @@ the numbers of added and deleted lines are shown as text, e.g.
 
 - [[show-change-number]]`Show Change Number In Changes Table`:
 +
-Whether in change lists and dashboards an `ID` column with the numeric
-change IDs should be shown.
+Whether in change lists and dashboards an `ID` column with the change numbers
+should be shown.
 
 - [[mute-common-path-prefixes]]`Mute Common Path Prefixes In File List`:
 +
@@ -818,7 +889,7 @@ changes that are created from the web UI (e.g. by the `Create Change`
 and `Edit Config` buttons on the project screen, and the `Follow-Up`
 button on the change screen).
 
-- [[publish-comments-on-push]]`Publish Draft Comments When a Change Is Updated by Push`:
+- [[publish-comments-on-push]]`Publish comments on push`:
 +
 Whether to publish any outstanding draft comments by default when pushing
 updates to open changes. This preference just sets the default; the behavior can
@@ -942,6 +1013,29 @@ In this case, Gerrit will persist a change message ("Thanks, I'll fix it."),
 a file comment ("Rename this file to File.java") as well as a reply to an
 inline comment ("Yeah, I see why, let me try again.").
 
+[[security-fixes]]
+== Security Fixes
+
+If a security vulnerability is discovered you normally want to have an
+embargo about it until fixed releases have been made available. This
+means you want to develop and review security fixes in private.
+
+If your repository is public or grants broad read access it is
+recommended to fix security issues in a copy of your repository which
+has very restricted read permissions (e.g. `myproject-security-fixes`).
+You can then implement, review and submit the security fix in this
+repository, make and publish a new release and only then integrate the
+security fix back into the normal (public) repository.
+
+Alternatively you can do the security fix in your normal repository in
+a branch with restricted read permissions. We don't recommend this
+because there is a risk of configuring the access rights wrongly and
+unintentionally granting read access to the wrong people.
+
+Using private changes for security fixes is *not* recommended due to
+the link:#private-changes-pitfalls[pitfalls] discussed above.
+Especially you don't want the fix to become visible after submit and
+before you had a chance to make and publish a new release.
 
 GERRIT
 ------

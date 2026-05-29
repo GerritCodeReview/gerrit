@@ -1,0 +1,18 @@
+# Systemd unit file for gerrit
+
+[Unit]
+Description=Gerrit Code Review
+After=syslog.target network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/gerritsrv/
+ExecStart=/opt/gerritsrv/bin/gerrit.sh run
+ExecStop=/opt/gerritsrv/bin/gerrit.sh stop
+User=gerritsrv
+SyslogIdentifier=GerritCodeReview
+StandardInput=socket
+OOMScoreAdjust=-1000
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,27 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+  <head>
+    <title>Gerrit Code Review</title>
+    <script type="text/javascript">
+      var href = window.location.href;
+      var query = "";
+      var q = href.indexOf('?');
+      if (q >= 0) {
+        query = href.substring(q);
+        href = href.substring(0,q);
+      }
+      var p = href.indexOf('#');
+      var token;
+      if (p >= 0) {
+        token = href.substring(p);
+        href = href.substring(0, p);
+      } else {
+        token = '';
+      }
+      window.location.replace(href + 'login/' + token + query);
+    </script>
+  </head>
+  <body>
+    <p>Redirecting to <a href="login/">Gerrit Code Review</a>.</p>
+  </body>
+</html>

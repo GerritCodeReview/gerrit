@@ -1,0 +1,209 @@
+:linkattrs:
+= Gerrit Code Review - Core Plugins
+
+[[definition]]
+== What are core plugins?
+
+Core plugins are plugins that are packaged within the Gerrit war file. This
+means during the link:pgm-init.html[Gerrit initialization] they can be easily
+installed without downloading any additional files.
+
+To make working with core plugins easy, they are linked as
+link:https://gerrit.googlesource.com/gerrit/+/refs/heads/master/.gitmodules[Git
+submodules,role=external,window=_blank] in the `gerrit` repository. E.g. this means they can be easily
+link:dev-readme.html#clone[cloned] together with Gerrit.
+
+All core plugins are developed and maintained by the
+link:dev-roles.html#maintainers[Gerrit maintainers] and everyone can
+link:dev-contributing.html[contribute] to them.
+
+Adding a new core plugin feature that is large or complex requires a
+link:dev-design-doc.html[design doc] (also see
+link:dev-contributing.html#design-driven-contribution-process[design-driven
+contribution process]). The link:dev-processes.html#steering-committee[
+engineering steering committee (ESC)] is the authority that approves the design
+docs. The ESC is also in charge of adding and removing core plugins.
+
+Non-Gerrit maintainers cannot have link:access-control.html#category_owner[
+Owner] permissions for core plugins.
+
+[[list]]
+== Which core plugins exist?
+
+See link:config-plugins.html#core-plugins[here].
+
+[[criteria]]
+=== Criteria for Core Plugins
+
+To be considered as a core plugin, a plugin must fulfill the following
+criteria:
+
+1. License:
++
+The plugin code is available under the
+link:http://www.apache.org/licenses/LICENSE-2.0[Apache License Version 2.0,role=external,window=_blank].
+
+2. Hosting:
++
+The plugin development is hosted on the
+link:https://gerrit-review.googlesource.com[gerrit-review,role=external,window=_blank] Gerrit Server.
+
+3. Scope:
++
+The plugin functionality is Gerrit-related, has a clear scope and does not
+conflict with other core plugins or existing and planned Gerrit core features.
+
+4. Relevance:
++
+The plugin functionality is relevant to a majority of the Gerrit community:
++
+--
+** An out of the box Gerrit installation would seem like it is missing
+   something if the plugin is not installed.
+** It's expected that most sites would use the plugin.
+** Multiple parties (different organizations/companies) already use the plugin
+   and agree that it should be offered as core plugin.
+** If the same or similar functionality is provided by multiple plugins,
+   the plugin is the clear recommended solution by the community.
+--
++
+Whether a plugin is relevant to a majority of the Gerrit community must be
+discussed on a case-by-case basis. In case of doubt, it's up to the
+link:dev-processes.html#steering-committee[engineering steering committee] to
+make a decision.
+
+5. Code Quality:
++
+The plugin code is mature and has a good test coverage. Maintaining the plugin
+code creates only little overhead for the Gerrit maintainers.
+
+6. Documentation:
++
+The plugin functionality is fully documented.
+
+7. Ownership:
++
+Existing plugin owners which are not Gerrit maintainers must agree to give up
+their ownership. If the current plugin owners disagree, forking the plugin is
+possible, but this should happen only in exceptional cases.
+
+[[process-to-make-a-plugin-a-core-plugin]]
+== Process to make a plugin a core plugin
+
+Anyone can propose to make a plugin a core plugin, but to be accepted as core
+plugin the plugin must fulfill certain link:#criteria[criteria].
+
+1. Propose a plugin as core plugin:
++
+File a link:https://issues.gerritcodereview.com/issues/new?component=1371029&template=1834214[
+Core Plugin Request] in the issue tracker and provide the information that is
+being asked for in the request template.
+
+2. Community Feedback:
++
+Anyone can comment on the issue to raise concerns or to support the request.
+The issue should stay open for at least 10 calendar days so that everyone in
+the community has a chance to comment.
+
+3. ESC Decision:
++
+The ESC should discuss the request and reject/approve it or ask for further
+information that the reporter or commenters should provide.
++
+Any decision must be based on the link:#criteria[criteria] that core plugins
+are expected to fulfill and should take the feedback from the community into
+account.
++
+Accepting the request is only possible if the issue was open for at least 10
+calendar days (see 2., this gives the community time to comment).
++
+When the ESC approves/rejects the request a summary of the reasons for the
+decision should be added to the issue.
++
+If a request is rejected, it's possible to ask for a revalidation if the
+concerns that led to the rejection have been addressed (e.g. the plugin was
+rejected due to missing tests, but tests have been added afterwards).
+
+4. Add plugin as core plugin:
++
+If the request was accepted, a Gerrit maintainer should add the plugin as
+core plugin:
++
+--
+** Host the plugin repo on link:https://gerrit-review.googlesource.com/[
+   gerrit-review].
+** Ensure that the plugin repo inherits from the
+   link:https://gerrit-review.googlesource.com/admin/repos/Public-Plugins[
+   Public-Plugins] repo.
+** Remove all permissions on the plugin repo (the inherited permissions from
+   `Public-Plugins` should be enough). Especially make sure that there are no
+   link:access-control.html#category_owner[Owner],
+   link:access-control.html#category_push_direct[Direct Push],
+   link:access-control.html#category_submit[Submit] or
+   link:access-control.html#category_review_labels[Code-Review+2]
+   permissions for non-Gerrit maintainers.
+** Create a component for the plugin in
+   link:https://bugs.chromium.org/p/gerrit/adminComponents[Monorail] and assign
+   all issues that already exist for the plugin to this component.
+** Add the plugin as
+   link:https://gerrit.googlesource.com/gerrit/+/refs/heads/master/.gitmodules[Git
+   submodule].
+** Register the plugin as core plugin in
+   link:https://gerrit.googlesource.com/gerrit/+/refs/heads/master/tools/bzl/plugins.bzl[
+   plugins.bzl].
+** Announce the new core plugin in the
+   link:https://www.gerritcodereview.com/news.html[project news].
+--
+
+[[removing]]
+=== Removing Core Plugins
+
+A core plugin could be subject to NOT be considered core anymore if:
+
+1. Does not respect the license:
++
+The plugin code or the libraries used are not following anymore the
+Apache License Version 2.0.
+
+2. Is out of scope:
++
+The plugin functionality has gone outside the Gerrit-related scope,
+has a clear scope or conflict with other core plugins or existing and
+planned Gerrit core features.
++
+NOTE: The plugin would need to remain core until the planned replacement gets
+implemented. Otherwise the feature is likely missing between the removal and
+planned implementation times.
+
+3. Is not relevant:
++
+The plugin functionality is no more relevant to a majority of the Gerrit community:
++
+--
+** An out of the box Gerrit installation won’t be missing anything if the plugin is
+   not installed.
+** It isn’t anymore used by most sites.
+** Multiple parties (different organizations/companies) have abandoned the use of
+   the plugin and agree that it should not be anymore a core plugin.
+** If the same or similar functionality is provided by multiple plugins, the plugin
+   is not a clear recommended solution anymore by the community.
+** Whether a plugin is no more relevant to a majority of the Gerrit community must be
+   discussed on a case-by-case basis. In case of doubt, it’s up to the engineering
+   steering committee to make a decision.
+--
+
+4. Degraded code quality:
++
+The plugin code maintenance is lacking and has not anymore good test coverage.
+Maintaining the plugin code creates a significant overhead for the Gerrit maintainers.
+
+5. Outdated documentation:
++
+The plugin functionality documented is significantly outdated.
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

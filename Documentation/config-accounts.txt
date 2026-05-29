@@ -1,15 +1,15 @@
+:linkattrs:
 = Gerrit Code Review - Accounts
 
 == Overview
 
-Starting from 2.15 Gerrit accounts are fully stored in
-link:note-db.html[NoteDb].
+Gerrit accounts are stored in link:note-db.html[NoteDb].
 
 The account data consists of a sequence number (account ID), account
-properties (full name, preferred email, registration date, status,
-inactive flag), preferences (general, diff and edit preferences),
-project watches, SSH keys, external IDs, starred changes and reviewed
-flags.
+properties (full name, display name, preferred email, registration
+date, status, inactive flag), preferences (general, diff and edit
+preferences), project watches, SSH keys, external IDs, starred changes
+and reviewed flags.
 
 Most account data is stored in a special link:#all-users[All-Users]
 repository, which has one branch per user. Within the user branch there
@@ -111,8 +111,8 @@ e.g.:
 Accessing the account data in Git is not fast enough for account
 queries, since it requires accessing all user branches and parsing
 all files in each of them. To overcome this Gerrit has a secondary
-index for accounts. The account index is either based on
-link:config-gerrit.html#index.type[Lucene or Elasticsearch].
+index for accounts. The account index is based on
+link:config-gerrit.html#index.type[Lucene].
 
 Via the link:rest-api-accounts.html#query-account[Query Account] REST
 endpoint link:user-search-accounts.html[generic account queries] are
@@ -141,9 +141,14 @@ Stores the link:#preferences[user preferences] of the account.
 +
 Stores the link:#project-watches[project watches] of the account.
 
+
+* `tokens.config`:
++
+Stores the link:#authentication-tokens[authentication tokens] of the account.
+
 In addition it contains an
 link:https://en.wikibooks.org/wiki/OpenSSH/Client_Configuration_Files#.7E.2F.ssh.2Fauthorized_keys[
-authorized_keys] file with the link:#ssh-keys[SSH keys] of the account.
+authorized_keys,role=external,window=_blank] file with the link:#ssh-keys[SSH keys] of the account.
 
 [[account-properties]]
 === Account Properties
@@ -154,6 +159,7 @@ The account properties are stored in the user branch in the
 ----
 [account]
   fullName = John Doe
+  displayName = John
   preferredEmail = john.doe@example.com
   status = OOO
   active = false
@@ -185,8 +191,6 @@ link:intro-user.html#preferences[general],
 link:user-review-ui.html#diff-preferences[diff] and edit preferences:
 
 ----
-[general]
-  showSiteHeader = false
 [diff]
   hideTopMenu = true
 [edit]
@@ -202,9 +206,8 @@ The parameter names match the names that are used in the preferences REST API:
 If the value for a preference is the same as the default value for this
 preference, it can be omitted in the `preferences.config` file.
 
-Defaults for general and diff preferences that apply for all accounts
-can be configured in the `refs/users/default` branch in the `All-Users`
-repository.
+Defaults for preferences that apply for all accounts can be configured
+in the `refs/users/default` branch in the `All-Users` repository.
 
 [[project-watches]]
 === Project Watches
@@ -253,13 +256,46 @@ been retrieved from the index, the complete watch configuration is
 available from the account cache and Gerrit can check if any watch
 matches the change and the event.
 
+[[authentication-tokens]]
+=== Authentication Tokens
+
+When `auth.gitBasicAuthPolicy` is set to `HTTP` or `HTTP_LDAP`, Gerrit requires
+users to authenticate with an authentication token generated in Gerrit when
+using the REST API or Git to communicate with the Gerrit server.
+
+These authentication tokens are stored in the user branch in the `tokens.config`
+file. The file uses the Git config format:
+
+----
+[token "some-token-id"]
+  hash = bcrypt0:4:....
+  expiration = 2025-07-30T07:14:10.745274Z
+----
+
+Each subsection represents a token. The subsection name represents an ID that
+is unique for the user.
+
+The token is never stored in plain text. Only the serialized hash of the token
+will be stored which can be used to verify the token during authentication.
+
+A token may have an expiration timestamp. This timestamp is always in UTC and
+uses the DateTimeFormatter#ISO_INSTANT format. A token is considered valid if
+the expiration timestamp is in the future. If no expiration timestamp is
+provided the token is considered to be valid forever or until it is deleted.
+
+When a token is deleted, the respective subsection is removed from the file.
+
+During authentication Gerrit will verify the provided token against all valid
+tokens present in the account. If any token matches the provided token,
+authentication will succeed.
+
 [[ssh-keys]]
 === SSH Keys
 
 SSH keys are stored in the user branch in an `authorized_keys` file,
 which is the
 link:https://en.wikibooks.org/wiki/OpenSSH/Client_Configuration_Files#.7E.2F.ssh.2Fauthorized_keys[
-standard OpenSSH file format] for storing SSH keys:
+standard OpenSSH file format,role=external,window=_blank] for storing SSH keys:
 
 ----
 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQCgug5VyMXQGnem2H1KVC4/HcRcD4zzBqSuJBRWVonSSoz3RoAZ7bWXCVVGwchtXwUURD689wFYdiPecOrWOUgeeyRq754YWRhU+W28vf8IZixgjCmiBhaL2gt3wff6pP+NXJpTSA4aeWE5DfNK5tZlxlSxqkKOS8JRSUeNQov5Tw== john.doe@example.com
@@ -276,7 +312,7 @@ branch is fast.
 To identify SSH keys in the REST API Gerrit uses
 link:rest-api-accounts.html#ssh-key-id[sequence numbers per account].
 This is why the order of the keys in the `authorized_keys` file is
-used to determines the sequence numbers of the keys (the sequence
+used to determine the sequence numbers of the keys (the sequence
 numbers start at 1).
 
 To keep the sequence numbers intact when a key is deleted, a
@@ -287,15 +323,39 @@ Invalid keys are marked with the prefix '# INVALID'.
 [[external-ids]]
 == External IDs
 
-External IDs are used to link external identities, such as an LDAP
-account or an OAUTH identity, to an account in Gerrit.
+External IDs are used to link identities, such as the username and email
+addresses, and external identities such as an LDAP account or an OAUTH
+identity, to an account in Gerrit.
 
 External IDs are stored as Git Notes in the `All-Users` repository. The
 name of the notes branch is `refs/meta/external-ids`.
 
-As note key the SHA1 of the external ID key is used. This ensures that
-an external ID is used only once (e.g. an external ID can never be
-assigned to multiple accounts at a point in time).
+As note key the SHA-1 of the external ID key is used, for example the key
+for the external ID `username:jdoe` is `e0b751ae90ef039f320e097d7d212f490e933706`.
+This ensures that an external ID is used only once (e.g. an external ID can
+never be assigned to multiple accounts at a point in time).
+
+By default, the SHA-1 sum is computed preserving the case of the external ID. If
+auth.userNameCaseInsensitive` is set to `true`, the SHA-1 sum of external IDs
+in the `gerrit:` and `username:` schemes are computed from the all lowercase
+external ID. This enables case insensitive username handling. The case of the
+external ID is however preserved by using the original capitalization in the
+note content.
+
+The following commands show how to find the SHA-1 of an external ID:
+
+----
+$ echo -n 'gerrit:jdoe' | shasum
+7c2a55657d911109dbc930836e7a770fb946e8ef  -
+
+$ echo -n 'username:jdoe' | shasum
+e0b751ae90ef039f320e097d7d212f490e933706  -
+----
+
+[IMPORTANT]
+If the external ID key is changed manually you must adapt the note key
+to the new SHA-1, otherwise the external ID becomes inconsistent and is
+ignored by Gerrit.
 
 The note content is a Git config file:
 
@@ -306,14 +366,36 @@ The note content is a Git config file:
   password = bcrypt:4:LCbmSBDivK/hhGVQMfkDpA==:XcWn0pKYSVU/UJgOvhidkEtmqCp6oKB7
 ----
 
-The config file has one `externalId` section. The external ID key which
-consists of scheme and ID in the format '<scheme>:<id>' is used as
+Once SHA-1 of an external ID is known the following command can be used to
+show the content of the note:
+
+----
+$ echo -n 'gerrit:jdoe' | shasum
+7c2a55657d911109dbc930836e7a770fb946e8ef  -
+
+$ git show refs/meta/external-ids:7c/2a55657d911109dbc930836e7a770fb946e8ef
+[externalId "username:jdoe"]
+  accountId = 1003407
+  email = jdoe@example.com
+  password = bcrypt:4:LCbmSBDivK/hhGVQMfkDpA==:XcWn0pKYSVU/UJgOvhidkEtmqCp6oKB7
+----
+
+The config file has one `externalId` section. The external ID key, which
+consists of scheme and ID in the format '<scheme>:<id>', is used as
 subsection name.
 
-The `accountId` field is mandatory, the `email` and `password` fields
-are optional.
+The `accountId` field is mandatory. The `email` and `password` fields
+are optional. The `password` field is deprecated, because passwords
+are being replaced by tokens, which are stored in the account's user
+reference.
 
-The external IDs are maintained by Gerrit, this means users are not
+Note that git will automatically nest these notes at varying levels. If
+refs/meta/external-ids:7c/2a55657d911109dbc930836e7a770fb946e8ef is not
+found then check
+refs/meta/external-ids:7c/2a/55657d911109dbc930836e7a770fb946e8ef and
+so on.
+
+The external IDs are maintained by Gerrit. This means users are not
 allowed to manually edit their external IDs. Only users with the
 link:access-control.html#capability_accessDatabase[Access Database]
 global capability can push updates to the `refs/meta/external-ids`
@@ -329,11 +411,28 @@ branch. However Gerrit rejects pushes if:
 * hashed passwords of external IDs with scheme `username` cannot be
   decoded
 
+Users can edit some external IDs via the user settings page or the
+REST API. Note that email addresses cannot be deleted if they are
+associated with the user's login credentials external ID, for
+example the email address associated with an OpenId or OAUTH external
+ID. If users wish to remove these email addresses from Gerrit they must
+first update the external authentication record in that system,
+log in to Gerrit, then Gerrit will update the external ID record with
+the new email address.
+
+=== Transition from LDAP to Google OAuth
+
+When authentication is changed from LDAP to Google Oauth gerrit will automatically
+adjust the external IDs in the `refs/meta/external-ids` branch. Gerrit will re-use
+the same account ID that was used by the LDAP account. Transition to other OAuth
+mechanisms will fail and require manual changes to the `refs/meta/external-ids` branch.
+The LDAP e-mail and Google OAuth e-mail must be the same.
+
 [[starred-changes]]
 == Starred Changes
 
-link:dev-stars.html[Starred changes] allow users to mark changes as
-favorites and receive email notifications for them.
+Starred changes allow users to mark changes as favorites and receive email
+notifications for them.
 
 Each starred change is a tuple of an account ID, a change ID and a
 label.
@@ -351,8 +450,7 @@ Since JGit has explicit optimizations for looking up refs by prefix
 when the prefix ends with '/', this ref format is optimized to find
 starred changes by change ID. Finding starred changes by change ID is
 e.g. needed when a change is updated so that all users that have
-the link:dev-stars.html#default-star[default star] on the change can be
-notified by email.
+the star on the change can be notified by email.
 
 Gerrit also needs an efficient way to find all changes that were
 starred by an account, e.g. to provide results for the
@@ -382,10 +480,10 @@ stored in a local H2 database, but there is an extension point that
 allows to plug in alternate implementations for storing the reviewed
 flags. To replace the storage for reviewed flags a plugin needs to
 implement the link:dev-plugins.html#account-patch-review-store[
-AccountPatchReviewStore] interface. E.g. to support a multi-master
-setup where reviewed flags should be replicated between the master
-nodes one could implement a store for the reviewed flags that is
-based on MySQL with replication.
+AccountPatchReviewStore] interface. E.g. to support a cluster setup with
+multiple primary servers handling write operations where reviewed flags should
+be replicated between the primary nodes one could implement a store for the
+reviewed flags that is based on MySQL with replication.
 
 [[account-sequence]]
 == Account Sequence
@@ -413,7 +511,7 @@ repository must be replicated:
 * `refs/meta/external-ids` (external IDs)
 * `refs/starred-changes/*` (star labels)
 * `refs/sequences/accounts` (account sequence numbers, not needed for Gerrit
-  slaves)
+  replicas)
 
 GERRIT
 ------

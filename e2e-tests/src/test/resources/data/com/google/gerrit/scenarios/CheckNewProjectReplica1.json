@@ -1,0 +1,6 @@
+[
+  {
+    "url": "HTTP_SCHEME://REPLICA_HOSTNAME:HTTP_PORT1/_PROJECT",
+    "cmd": "clone"
+  }
+]

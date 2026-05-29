@@ -5,24 +5,22 @@ java_library(
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
     exports = [
-        ":eddsa",
-        "@sshd//jar",
+        "@external_deps//:org_apache_sshd_sshd_mina",
+        "@external_deps//:org_apache_sshd_sshd_osgi",
     ],
     runtime_deps = [":core"],
 )
 
 java_library(
-    name = "eddsa",
-    data = ["//lib:LICENSE-CC0-1.0"],
+    name = "sshd-sftp",
+    data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = [
-        "@eddsa//jar",
-    ],
+    exports = ["@external_deps//:org_apache_sshd_sshd_sftp"],
 )
 
 java_library(
     name = "core",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@mina-core//jar"],
+    exports = ["@external_deps//:org_apache_mina_mina_core"],
 )

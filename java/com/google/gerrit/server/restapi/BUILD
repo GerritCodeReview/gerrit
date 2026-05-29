@@ -1,0 +1,70 @@
+load("@rules_java//java:defs.bzl", "java_library")
+
+package(
+    default_visibility = ["//visibility:public"],
+)
+
+java_library(
+    name = "restapi",
+    srcs = glob(
+        ["**/*.java"],
+        exclude = ["project/ProjectAccessModifier.java"],
+    ),
+    deps = [
+        "//antlr3:query_parser",
+        "//java/com/google/gerrit/common:annotations",
+        "//java/com/google/gerrit/common:server",
+        "//java/com/google/gerrit/entities",
+        "//java/com/google/gerrit/entities/converter:converters",
+        "//java/com/google/gerrit/exceptions",
+        "//java/com/google/gerrit/extensions:api",
+        "//java/com/google/gerrit/git",
+        "//java/com/google/gerrit/gpg",
+        "//java/com/google/gerrit/index",
+        "//java/com/google/gerrit/index:query_exception",
+        "//java/com/google/gerrit/index/project",
+        "//java/com/google/gerrit/json",
+        "//java/com/google/gerrit/metrics",
+        "//java/com/google/gerrit/proto",
+        "//java/com/google/gerrit/server",
+        "//java/com/google/gerrit/server/flow",
+        "//java/com/google/gerrit/server/ioutil",
+        "//java/com/google/gerrit/server/logging",
+        "//java/com/google/gerrit/server/schema",
+        "//java/com/google/gerrit/server/util/time",
+        "//lib:args4j",
+        "//lib:blame-cache",
+        "//lib:gson",
+        "//lib:guava",
+        "//lib:jgit",
+        "//lib:servlet-api",
+        "//lib/antlr:java-runtime",
+        "//lib/auto:auto-factory",
+        "//lib/auto:auto-value",
+        "//lib/auto:auto-value-annotations",
+        "//lib/bouncycastle:bcprov-neverlink",
+        "//lib/commons:codec",
+        "//lib/commons:lang3",
+        "//lib/errorprone:annotations",
+        "//lib/flogger:api",
+        "//lib/guice",
+        "//lib/guice:guice-assistedinject",
+        "//proto:entities_java_proto",
+    ],
+)
+
+java_library(
+    name = "project_access_modifier",
+    srcs = glob(["project/ProjectAccessModifier.java"]),
+    visibility = ["//visibility:public"],
+    deps = [
+        ":restapi",
+        "//java/com/google/gerrit/entities",
+        "//java/com/google/gerrit/entities/converter:converters",
+        "//java/com/google/gerrit/exceptions",
+        "//java/com/google/gerrit/extensions:api",
+        "//java/com/google/gerrit/server",
+        "//lib:guava",
+        "//lib/guice",
+    ],
+)

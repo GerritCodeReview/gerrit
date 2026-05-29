@@ -7,11 +7,13 @@ reindex - Rebuild the secondary index
 [verse]
 --
 _java_ -jar gerrit.war _reindex_
+  -d <SITE_PATH>
   [--threads]
   [--changes-schema-version]
   [--verbose]
   [--list]
   [--index]
+  [--read-only-disk-caches]
 --
 
 == DESCRIPTION
@@ -19,7 +21,8 @@ Rebuilds the secondary index.
 
 == OPTIONS
 --threads::
-	Number of threads to use for indexing.
+	Number of threads to use for indexing. Default is
+	link:config-gerrit.html#index.batchThreads[index.batchThreads]
 
 --changes-schema-version::
 	Schema version to reindex; default is most recent version.
@@ -33,6 +36,30 @@ Rebuilds the secondary index.
 --index::
 	Reindex only index with given name. This option can be supplied
 	more than once to reindex multiple indices.
+
+--show-cache-stats::
+	Show cache statistics at the end of program.
+
+--build-bloom-filter::
+	Whether to build bloom filters for H2 disk caches. When using fully
+	populated disk caches on large Gerrit sites, it is recommended that
+	bloom filters are disabled to improve performance.
+
+--reuse::
+	Reuse the change documents that already exist instead of
+	recreating the whole index from scratch. Each existing document in
+	the index will be checked and reindexed if found to be stale.
+
+	NOTE: Only supported when reindexing changes.
+
+	Use this option if offline reindexing is restarted or crashed.
+	Without this option a restart recreates the complete index
+	from scratch without reusing existing index documents.
+
+--read-only-disk-caches|--ro-disk-caches::
+    Use read-only disk caches for the reindexing process. This option
+    can be used to avoid writing old data into caches, which might
+    cause performance issues and a lot of disk space being used.
 
 == CONTEXT
 The secondary index must be enabled. See

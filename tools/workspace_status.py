@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # This script will be run by bazel when the build process starts to
 # generate key-value information that represents the status of the
@@ -16,7 +16,7 @@ import subprocess
 import sys
 
 ROOT = os.path.abspath(__file__)
-while not os.path.exists(os.path.join(ROOT, 'WORKSPACE')):
+while not os.path.exists(os.path.join(ROOT, 'MODULE.bazel')):
     ROOT = os.path.dirname(ROOT)
 CMD = ['git', 'describe', '--always', '--match', 'v[0-9].*', '--dirty']
 
@@ -36,9 +36,11 @@ def revision(directory, parent):
 
 
 print("STABLE_BUILD_GERRIT_LABEL %s" % revision(ROOT, ROOT))
-for d in os.listdir(os.path.join(ROOT, 'plugins')):
-    p = os.path.join('plugins', d)
-    if os.path.isdir(p):
-        v = revision(p, ROOT)
-        print('STABLE_BUILD_%s_LABEL %s' % (os.path.basename(p).upper(),
-                                            v if v else 'unknown'))
+for kind in ['modules', 'plugins']:
+    kind_dir = os.path.join(ROOT, kind)
+    for d in os.listdir(kind_dir):
+        p = os.path.join(kind_dir, d)
+        if os.path.isdir(p):
+            v = revision(p, ROOT)
+            print('STABLE_BUILD_%s_LABEL %s' % (os.path.basename(p).upper(),
+                                                v if v else 'unknown'))

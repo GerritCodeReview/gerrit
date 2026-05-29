@@ -1,0 +1,61 @@
+:linkattrs:
+= Gerrit Code Review - Continuous Integration
+
+[[summary]]
+== TL;DR
+
+All the Gerrit incoming changes and stable branches are built on the
+link:https://gerrit-ci.gerritforge.com[Gerrit CI].
+
+The link:https://gerrit.googlesource.com/gerrit-ci-scripts[gerrit-ci-scripts]
+project contains all the YAML files definitions associated with the
+link:https://docs.openstack.org/infra/jenkins-job-builder/attic/[Jenkins Job Builder]
+definition of the continuous integration Jobs.
+
+Gerrit maintainers are responsible for making sure that the CI jobs are
+up-to-date by triggering the
+link:https://gerrit-ci.gerritforge.com/job/gerrit-ci-scripts/[Gerrit-CI scripts job]
+upon new commits to the master branch of the gerrit-ci-scripts project.
+
+[[sign-up]]
+== Signing up as maintainer on Gerrit-CI
+
+The link:https://gerrit-ci.gerritforge.com/job/gerrit-ci-scripts/[Gerrit-CI]
+controller allows the Gerrit maintainers to sign-in using their GitHub
+accounts and have their username defined in the list of Users.
+
+*****
+NOTE: Because of recent link:https://docs.google.com/document/d/1vDjunjDrLYYpVoVON-B_c83f56Nhm-lMDMjXmYmFYk4[security issues]
+      found on Jenkins and future potential risks, only the Gerrit
+      maintainers and contributors are allowed to access the Jenkins UI and
+      sign-up for creating an account.
+*****
+
+Once the sign-up phase is complete, the maintainer needs to grant
+himself permissions on Jenkins by creating a change to add their names into
+the Jenkins
+link:https://gerrit.googlesource.com/gerrit-ci-scripts/+/refs/heads/master/jenkins-docker/server/config-external.xml#11[config.xml]
+in the permissions XML Section.
+
+== Applying changes to Jenkins on Gerrit-CI
+
+The Jenkins setup link:https://gerrit-ci.gerritforge.com[Gerrit-CI] adopts
+a link:https://www.ncsc.gov.uk/collection/zero-trust-architecture[Zero-Trust-Architecture]
+and therefore assumes that any access could be potentially malicious.
+
+- To limit the impact of future attacks or zero-days vulnerabilities the controller
+  must not have any meaningful secret or key which could be stolen.
+- It must not be possible for anyone to change anything on the Gerrit-CI
+  infrastructure without authenticating with their credentials.
+- No credentials should be stored anywhere on the Jenkins controller.
+- Everything should be coming from the link:https://gerrit.googlesource.com/gerrit-ci-scripts[gerrit-ci-scripts] project
+  and the infrastructure must be immutable and ephemeral.
+
+Gerrit maintainers can apply the latest changes on the Jenkins controller on Gerrit-CI by performing the following
+actions:
+
+- Generate a personal API account token by authenticating to
+  link:https://gerrit-ci.gerritforge.com/user/lucamilanesio/configure[Gerrit CI user's settings]
+  and generating a new API token.
+- Trigger the link:https://gerrit-ci.gerritforge.com/job/gerrit-ci-scripts/build?delay=0sec[gerrit-ci-scripts] job
+  entering their GitHub username and their API account token

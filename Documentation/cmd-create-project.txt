@@ -1,7 +1,7 @@
 = gerrit create-project
 
 == NAME
-gerrit create-project - Create a new hosted project
+gerrit create-project - Create a new hosted project.
 
 == SYNOPSIS
 [verse]
@@ -28,9 +28,8 @@ _ssh_ -p <port> <host> _gerrit create-project_
 == DESCRIPTION
 Creates a new bare Git repository under `gerrit.basePath`, using
 the project name supplied.  The newly created repository is empty
-(has no commits), but is registered in the Gerrit database so that
-the initial commit may be uploaded for review, or initial content
-can be pushed directly into a branch.
+(has no commits), and the initial content may either be uploaded for
+review, or pushed directly to a branch.
 
 If replication is enabled, this command also connects to each of
 the configured remote systems over SSH and uses command line git
@@ -54,22 +53,25 @@ This command is intended to be used in scripts.
 -b::
 	Name of the initial branch(es) in the newly created project.
 	Several branches can be specified on the command line.
-	If several branches are specified then the first one becomes HEAD
-	of the project. If none branches are specified then default value
-	('master') is used.
+	If several branches are specified then the first one becomes
+	link:project-configuration.html#default-branch[HEAD] of the project.
+	If none branches are specified then link:config-gerrit.html#gerrit.defaultBranch[host-level default]
+	is used.
 
 --owner::
 -o::
 	Identifier of the group(s) which will initially own this repository.
++
+--
+This can be:
 
-        This can be:
-
-        * the UUID of the group
-        * the legacy numeric ID of the group
-        * the name of the group if it is unique
-
-	The specified group(s) must already be defined within Gerrit.
-	Several groups can be specified on the command line.
+* the UUID of the group
+* the legacy numeric ID of the group
+* the name of the group if it is unique
+--
++
+The specified group(s) must already be defined within Gerrit.
+Several groups can be specified on the command line.
 +
 Defaults to what is specified by `repository.*.ownerGroup`
 in gerrit.config.
@@ -106,6 +108,7 @@ Description values containing spaces should be quoted in single quotes
 	Action used by Gerrit to submit an approved change to its
 	destination branch.  Supported options are:
 +
+* INHERIT: inherits the submit-type from the parent project.
 * FAST_FORWARD_ONLY: produces a strictly linear history.
 * MERGE_IF_NECESSARY: create a merge commit when required.
 * REBASE_IF_NECESSARY: rebase the commit when required.
@@ -114,10 +117,10 @@ Description values containing spaces should be quoted in single quotes
 * CHERRY_PICK: always cherry-pick the commit.
 
 +
-Defaults to MERGE_IF_NECESSARY unless
+Defaults to INHERIT unless
 link:config-gerrit.html#repository.name.defaultSubmitType[
 repository.<name>.defaultSubmitType] is set to a different value.
-For more details see link:project-configuration.html#submit_type[
+For more details see link:config-project-config.html#submit-type[
 Submit Types].
 
 --use-content-merge::
@@ -134,13 +137,13 @@ Submit Types].
 	project.  Disabled by default.
 
 --use-signed-off-by::
---so:
+--so::
 	If enabled, each change must contain a Signed-off-by line
 	from either the author or the uploader in the commit message.
 	Disabled by default.
 
 --create-new-change-for-all-not-in-target::
---ncfa:
+--ncfa::
 	If enabled, a new change is created for every commit that is not in
 	the target branch. If the pushed commit is a merge commit, this flag is
 	ignored for that push. To avoid accidental creation of a large number
@@ -180,13 +183,13 @@ Common unit suffixes of 'k', 'm', or 'g' are supported.
 Create a new project called `tools/gerrit`:
 
 ----
-	$ ssh -p 29418 review.example.com gerrit create-project tools/gerrit.git
+$ ssh -p 29418 review.example.com gerrit create-project tools/gerrit.git
 ----
 
 Create a new project with a description:
 
 ----
-	$ ssh -p 29418 review.example.com gerrit create-project tool.git --description "'Tools used by build system'"
+$ ssh -p 29418 review.example.com gerrit create-project tool.git --description "'Tools used by build system'"
 ----
 
 Note that it is necessary to quote the description twice.  The local
@@ -199,7 +202,7 @@ If the replication plugin is installed, the plugin will attempt to
 perform remote repository creation by a Bourne shell script:
 
 ----
-  mkdir -p '/base/project.git' && cd '/base/project.git' && git init --bare && git update-ref HEAD refs/heads/master
+mkdir -p '/base/project.git' && cd '/base/project.git' && git init --bare && git update-ref HEAD refs/heads/master
 ----
 
 For this to work successfully the remote system must be able to run

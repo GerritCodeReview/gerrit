@@ -353,7 +353,9 @@ class Helper {
         try {
           while (groups.hasMore()) {
             final String nextDN = (String) groups.next();
-            recursivelyExpandGroups(groupDNs, schema, ctx, nextDN);
+            try (Timer0.Context ignored = groupExpansionLatencyTimer.start()) {
+              recursivelyExpandGroups(groupDNs, schema, ctx, nextDN);
+            }
           }
         } catch (PartialResultException e) {
           // Ignored

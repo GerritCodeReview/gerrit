@@ -104,6 +104,7 @@ import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.PaginationType;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.IndexPredicate;
+import com.google.gerrit.index.query.PostFilterPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.lifecycle.LifecycleManager;
@@ -163,6 +164,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.junit.TestRepository;
@@ -863,6 +865,18 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  public void byOwnerIn_emptyGroupDoesNotRunPostFilterMatches() throws Exception {
+    Project.NameKey project = Project.nameKey("repo");
+    repo = createAndOpenProject(project);
+    insert(project, newChange(repo), userId);
+
+    String emptyGroup = createGroup("empty-owner-group", "Administrators");
+    Predicate<ChangeData> ownerIn = queryBuilderProvider.get().parse("ownerin:" + emptyGroup);
+
+    assertNoPostFilterMatches(ownerIn);
+  }
+
+  @Test
   public void byUploaderIn() throws Exception {
     assume().that(getSchema().hasField(ChangeField.UPLOADER_SPEC)).isTrue();
     Project.NameKey project = Project.nameKey("repo");
@@ -908,6 +922,19 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
       testGroupBackend.removeMembershipsOf(user2);
       testGroupBackend.remove(externalGroup.getGroupUUID());
     }
+  }
+
+  @Test
+  public void byUploaderIn_emptyGroupDoesNotRunPostFilterMatches() throws Exception {
+    assume().that(getSchema().hasField(ChangeField.UPLOADER_SPEC)).isTrue();
+    Project.NameKey project = Project.nameKey("repo");
+    repo = createAndOpenProject(project);
+    insert(project, newChange(repo), userId);
+
+    String emptyGroup = createGroup("empty-uploader-group", "Administrators");
+    Predicate<ChangeData> uploaderIn = queryBuilderProvider.get().parse("uploaderin:" + emptyGroup);
+
+    assertNoPostFilterMatches(uploaderIn);
   }
 
   @Test
@@ -4819,6 +4846,26 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
         .that(actualIds)
         .containsExactlyElementsIn(expectedIds)
         .inOrder();
+  }
+
+  private void assertNoPostFilterMatches(Predicate<ChangeData> predicate) throws Exception {
+    AtomicInteger postFilterMatches = new AtomicInteger();
+    Predicate<ChangeData> countingPostFilter =
+        new PostFilterPredicate<ChangeData>("post_filter_probe", "post_filter_probe") {
+          @Override
+          public boolean match(ChangeData object) {
+            postFilterMatches.incrementAndGet();
+            return true;
+          }
+
+          @Override
+          public int getCost() {
+            return 1;
+          }
+        };
+
+    assertQuery(Predicate.and(predicate, countingPostFilter));
+    assertThat(postFilterMatches.get()).isEqualTo(0);
   }
 
   private String format(String query, Iterable<Change> actualChanges, Change... expectedChanges) {

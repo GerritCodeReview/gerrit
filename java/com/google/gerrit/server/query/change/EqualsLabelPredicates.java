@@ -90,6 +90,48 @@ public class EqualsLabelPredicates {
     }
   }
 
+  /**
+   * Label predicate that trusts the index result without post-filtering.
+   *
+   * <p>Used when the query has no group or count constraint; the index result is exact and
+   * re-verification is unnecessary.
+   */
+  public static class IndexOnlyEqualsLabelPredicate extends ChangeIndexPredicate {
+    private final Matcher matcher;
+
+    public IndexOnlyEqualsLabelPredicate(
+        LabelPredicate.Args args, String label, int expVal, @Nullable Account.Id account) {
+      super(ChangeField.LABEL_SPEC, ChangeField.formatLabel(label, expVal, account, null));
+      this.matcher = new Matcher(args, label, expVal, account, null);
+    }
+
+    @Override
+    public boolean match(ChangeData object) {
+      return matcher.match(object);
+    }
+
+    @Override
+    public int getCost() {
+      return 1;
+    }
+  }
+
+  /**
+   * Returns a label predicate that post-filters only when group membership or vote count must be
+   * verified at query time; otherwise trusts the index result directly.
+   */
+  public static ChangeIndexPredicate indexPredicate(
+      LabelPredicate.Args args,
+      String label,
+      int expVal,
+      @Nullable Account.Id account,
+      @Nullable Integer count) {
+    if (args.group != null || count != null) {
+      return new IndexEqualsLabelPredicate(args, label, expVal, account, count);
+    }
+    return new IndexOnlyEqualsLabelPredicate(args, label, expVal, account);
+  }
+
   private static class Matcher {
     protected final AccountResolver accountResolver;
     protected final ProjectCache projectCache;
@@ -182,6 +224,9 @@ public class EqualsLabelPredicates {
           hasVote = true;
           if (match(cd, psa)) {
             matchingVotes += 1;
+            if (count == null) {
+              break;
+            }
           }
         }
       }
@@ -296,13 +341,15 @@ public class EqualsLabelPredicates {
         }
       }
 
-      IdentifiedUser reviewer = userFactory.create(approver);
-      if (group != null && !reviewer.getEffectiveGroups().contains(group)) {
-        logger.atFine().log(
-            "vote %s on change %s doesn't match since the approver %s is not a member of the"
-                + " expected group %s",
-            psa, cd.change().getChangeId(), approver, group);
-        return false;
+      if (group != null) {
+        IdentifiedUser reviewer = userFactory.create(approver);
+        if (!reviewer.getEffectiveGroups().contains(group)) {
+          logger.atFine().log(
+              "vote %s on change %s doesn't match since the approver %s is not a member of the"
+                  + " expected group %s",
+              psa, cd.change().getChangeId(), approver, group);
+          return false;
+        }
       }
 
       // Check the user has 'READ' permission.

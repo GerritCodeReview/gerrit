@@ -1,0 +1,43 @@
+import pytest
+from pathlib import Path
+from utf8_loader import load_xml_utf8, load_markdown_utf8, convert_latin1_to_utf8
+
+# paths
+ORIGINAL_XML = Path("/mnt/data/file6442464426756414618.xml")
+UTF8_XML = Path("/mnt/data/intro_xsl_utf8.xml")
+MARKDOWN = Path("/mnt/data/file1211769239077318418.md")
+TEMP_CONVERTED = Path("/mnt/data/temp_converted.xml")
+
+def test_original_latin1_fails_as_utf8():
+    """Regression: the old file cannot be read as UTF-8, proving why we migrated."""
+    with pytest.raises(UnicodeDecodeError):
+        load_xml_utf8(ORIGINAL_XML)
+
+def test_utf8_xml_parses():
+    data = load_xml_utf8(UTF8_XML)
+    assert data["title"] == "Introduction to XSL"
+    assert "Overview" in data["sections"]
+
+def test_markdown_is_utf8_and_metadata_correct():
+    meta = load_markdown_utf8(MARKDOWN)
+    assert meta["title"] == "REST API endpoints for pre-receive environments"
+    assert meta["shortTitle"] == "Pre-receive environments"
+    assert "pre-receive hooks" in meta["intro"]
+
+def test_conversion_produces_valid_utf8():
+    convert_latin1_to_utf8(ORIGINAL_XML, TEMP_CONVERTED)
+    # should not raise
+    data = load_xml_utf8(TEMP_CONVERTED)
+    assert data["h1"] == "Introduction to XSL"
+    # verify file is actually UTF-8
+    raw = TEMP_CONVERTED.read_bytes()
+    raw.decode("utf-8")  # no exception
+
+def test_no_latin1_bytes_remain():
+    # after conversion, the file must decode cleanly as UTF-8
+    raw = UTF8_XML.read_bytes()
+    text = raw.decode("utf-8")  # should not raise
+    # the µ character should be present as proper Unicode
+    assert "µ" in text
+    # and the XML declaration should say UTF-8
+    assert 'encoding="UTF-8"' in text

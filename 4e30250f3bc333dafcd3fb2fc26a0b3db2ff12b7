@@ -3,6 +3,52 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bf2f0445_543f41aa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 61
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-05-29T14:27:23Z",
+      "side": 1,
+      "message": "```suggestion\nWhen this was first introduced with I87de17de2, change numbers were\n```",
+      "range": {
+        "startLine": 9,
+        "startChar": 63,
+        "endLine": 9,
+        "endChar": 68
+      },
+      "revId": "4e30250f3bc333dafcd3fb2fc26a0b3db2ff12b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2982f62f_bbde0f09",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 61
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-05-29T14:27:23Z",
+      "side": 1,
+      "message": "Since we are fixing this behaviour, I believe we should have a test for it which we don\u0027t at the moment.",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 52
+      },
+      "revId": "4e30250f3bc333dafcd3fb2fc26a0b3db2ff12b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "24e8014c_eb1b4a49",
         "filename": "/COMMIT_MSG",
         "patchSetId": 61
@@ -19,6 +65,29 @@
         "startChar": 41,
         "endLine": 16,
         "endChar": 34
+      },
+      "revId": "4e30250f3bc333dafcd3fb2fc26a0b3db2ff12b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2969be9f_cb65b036",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 61
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-05-29T14:27:23Z",
+      "side": 1,
+      "message": "Should we highlight this is a breaking change?",
+      "range": {
+        "startLine": 22,
+        "startChar": 15,
+        "endLine": 22,
+        "endChar": 22
       },
       "revId": "4e30250f3bc333dafcd3fb2fc26a0b3db2ff12b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

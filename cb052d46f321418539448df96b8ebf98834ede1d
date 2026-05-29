@@ -26,6 +26,53 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "00d7610e_6c9384c1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 45
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-05-29T14:20:18Z",
+      "side": 1,
+      "message": "\u003e Is it documented somewhere which change-id formats are ambiguous and why ?\n\nWe deprecated the usage of `ChangeFinder::find` [1]. This is the only documentation we have AFAIK\n\n\n[1]: https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:java/com/google/gerrit/server/change/ChangeFinder.java;l\u003d221",
+      "parentUuid": "2069fe85_88afe06d",
+      "range": {
+        "startLine": 10,
+        "startChar": 48,
+        "endLine": 11,
+        "endChar": 7
+      },
+      "revId": "cb052d46f321418539448df96b8ebf98834ede1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d044f6e_21c33552",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 45
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-05-29T14:20:18Z",
+      "side": 1,
+      "message": "Why a `side-effect`?",
+      "range": {
+        "startLine": 14,
+        "startChar": 28,
+        "endLine": 14,
+        "endChar": 39
+      },
+      "revId": "cb052d46f321418539448df96b8ebf98834ede1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4c9439dc_76cadce9",
         "filename": "Documentation/rest-api-config.txt",
         "patchSetId": 45
@@ -42,6 +89,191 @@
         "startChar": 0,
         "endLine": 1558,
         "endChar": 64
+      },
+      "revId": "cb052d46f321418539448df96b8ebf98834ede1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5e7d716_9e390faa",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 45
+      },
+      "lineNbr": 1558,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-05-29T14:20:18Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "4c9439dc_76cadce9",
+      "range": {
+        "startLine": 1558,
+        "startChar": 0,
+        "endLine": 1558,
+        "endChar": 64
+      },
+      "revId": "cb052d46f321418539448df96b8ebf98834ede1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a972050c_0db5980e",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-05-29T14:20:18Z",
+      "side": 1,
+      "message": "Here we are failing fast. Is this done on purpose? As in, do we want to enforce all the data is correctly formatted?",
+      "range": {
+        "startLine": 73,
+        "startChar": 20,
+        "endLine": 73,
+        "endChar": 39
+      },
+      "revId": "cb052d46f321418539448df96b8ebf98834ede1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b2573571_92d0bead",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-05-29T14:20:18Z",
+      "side": 1,
+      "message": "Does `checkState` logs it in the logs? If not it might be worth logging it since it is an unexpected situation.\n\nAlso I think we should add this in the documentation. At the moment we are just saying we return `200` or `400`.",
+      "range": {
+        "startLine": 79,
+        "startChar": 20,
+        "endLine": 79,
+        "endChar": 30
+      },
+      "revId": "cb052d46f321418539448df96b8ebf98834ede1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5eb887c3_75093d22",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-05-29T14:20:18Z",
+      "side": 1,
+      "message": "atFine()",
+      "range": {
+        "startLine": 89,
+        "startChar": 17,
+        "endLine": 89,
+        "endChar": 26
+      },
+      "revId": "cb052d46f321418539448df96b8ebf98834ede1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aaebe931_0d1d5ed4",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-05-29T14:20:18Z",
+      "side": 1,
+      "message": "atFine()",
+      "range": {
+        "startLine": 92,
+        "startChar": 17,
+        "endLine": 92,
+        "endChar": 26
+      },
+      "revId": "cb052d46f321418539448df96b8ebf98834ede1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51a29890_e5dc0fd4",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-05-29T14:20:18Z",
+      "side": 1,
+      "message": "There is already a `ChangeIdentifier` class [1]. Why not reusing it?\n\n[1]: https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:java/com/google/gerrit/extensions/api/changes/ChangeIdentifier.java;l\u003d48",
+      "range": {
+        "startLine": 106,
+        "startChar": 9,
+        "endLine": 106,
+        "endChar": 25
+      },
+      "revId": "cb052d46f321418539448df96b8ebf98834ede1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed6fbd65_cfac089e",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-05-29T14:20:18Z",
+      "side": 1,
+      "message": "I think this should be `\u003e0`, otherwise we would include cases like: `~123`",
+      "range": {
+        "startLine": 111,
+        "startChar": 34,
+        "endLine": 111,
+        "endChar": 35
+      },
+      "revId": "cb052d46f321418539448df96b8ebf98834ede1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a354081b_1ce27a54",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-05-29T14:20:18Z",
+      "side": 1,
+      "message": "Why we are trying to parse an empty `Change.Id`? We can just bail out if the `id` is not in the correct form at the beginning of the method.",
+      "range": {
+        "startLine": 111,
+        "startChar": 66,
+        "endLine": 111,
+        "endChar": 68
       },
       "revId": "cb052d46f321418539448df96b8ebf98834ede1d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
@@ -72,6 +304,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "52a3841e_7c39aca6",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/config/IndexChangesIT.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-05-29T14:20:18Z",
+      "side": 1,
+      "message": "I think we are missing a test for:\n\n- deleteMissing\u003dtrue with a valid nonexistent `project~changeNumber`\n- deleteMissing\u003dfalse with a valid nonexistent `project~changeNumber`",
+      "revId": "cb052d46f321418539448df96b8ebf98834ede1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5bf15ffa_c64d0ed1",
         "filename": "javatests/com/google/gerrit/acceptance/rest/config/IndexChangesIT.java",
         "patchSetId": 45
@@ -83,6 +332,30 @@
       "writtenOn": "2026-05-29T13:51:48Z",
       "side": 1,
       "message": "Why do we want to forbid this change-id format?\n`project+branch+changeId` always uniquely identifies a change (even in a system where projects have been imported).",
+      "range": {
+        "startLine": 143,
+        "startChar": 0,
+        "endLine": 143,
+        "endChar": 66
+      },
+      "revId": "cb052d46f321418539448df96b8ebf98834ede1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e36b8ba1_e03abfec",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/config/IndexChangesIT.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-05-29T14:20:18Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "5bf15ffa_c64d0ed1",
       "range": {
         "startLine": 143,
         "startChar": 0,

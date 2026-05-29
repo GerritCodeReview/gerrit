@@ -190,6 +190,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d149842_ab9fd20d",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 45
+      },
+      "lineNbr": 1558,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-29T14:46:32Z",
+      "side": 1,
+      "message": "\u003e There are other documented alternative change-id formats that are unambiguous and should be accepted [1]. For example, project~branch~changeId\n\nUnfortunately, that\u0027s not the case: you can have two changes with different change numbers and the same `project~branch~changeId`.\nSee the Issue 313935024.\n\nThe only unambiguous reference to a change *is* `project~changeNum` because it\u0027s enforced by the underlying Git refdb. The others are secondary index lookups, which aren\u0027t unique.",
+      "parentUuid": "c5e7d716_9e390faa",
+      "range": {
+        "startLine": 1558,
+        "startChar": 0,
+        "endLine": 1558,
+        "endChar": 64
+      },
+      "revId": "cb052d46f321418539448df96b8ebf98834ede1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a972050c_0db5980e",
@@ -213,6 +237,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "042bf3ab_6226b912",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-29T14:46:32Z",
+      "side": 1,
+      "message": "Why would you do otherwise? Returning success and half-failing the data is worse than just failing fast.",
+      "parentUuid": "a972050c_0db5980e",
+      "range": {
+        "startLine": 73,
+        "startChar": 20,
+        "endLine": 73,
+        "endChar": 39
+      },
+      "revId": "cb052d46f321418539448df96b8ebf98834ede1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b2573571_92d0bead",
@@ -226,6 +274,30 @@
       "writtenOn": "2026-05-29T14:20:18Z",
       "side": 1,
       "message": "Does `checkState` logs it in the logs? If not it might be worth logging it since it is an unexpected situation.\n\nAlso I think we should add this in the documentation. At the moment we are just saying we return `200` or `400`.",
+      "range": {
+        "startLine": 79,
+        "startChar": 20,
+        "endLine": 79,
+        "endChar": 30
+      },
+      "revId": "cb052d46f321418539448df96b8ebf98834ede1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a90d1eb6_5c43e14b",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-29T14:46:32Z",
+      "side": 1,
+      "message": "\u003e Does `checkState` logs it in the logs? If not it might be worth logging it since it is an unexpected situation.\n\nYes, the preconditions are throwing exceptions that are logged.\n \n\u003e Also I think we should add this in the documentation. At the moment we are just saying we return `200` or `400`.\n\nThat\u0027s not an expected situation but rather an internal error in case of unexpected behaviour that should never happen.\n\nIt should not return a status code other than `500` like any other unexpected errors.",
+      "parentUuid": "b2573571_92d0bead",
       "range": {
         "startLine": 79,
         "startChar": 20,

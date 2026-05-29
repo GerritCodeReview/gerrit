@@ -35,3 +35,16 @@ configs: {
   }
   automatic: true
 }
+
+# Commit Message Reviewer Agent
+configs: {
+  id: "gerrit-commit-message-review"
+  display_name: "Gerrit Commit Message Reviewer"
+  description: "Reviews the CL commit message for correctness, grammar, formatting compliance, and clarity."
+  skills: "gerrit_commit_message_review"
+  include_filters: {
+    project: "gerrit"
+    path_regex: "^/?COMMIT_MSG$"
+  }
+  automatic: true
+}

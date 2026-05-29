@@ -263,6 +263,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "500344ee_d4f02d3b",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-05-29T14:48:22Z",
+      "side": 1,
+      "message": "Yes. Otherwise we partially apply the payload and that\u0027s confusing.",
+      "parentUuid": "a972050c_0db5980e",
+      "range": {
+        "startLine": 73,
+        "startChar": 20,
+        "endLine": 73,
+        "endChar": 39
+      },
+      "revId": "cb052d46f321418539448df96b8ebf98834ede1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b2573571_92d0bead",
         "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
         "patchSetId": 45
@@ -331,6 +355,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8468a9b0_fd64b8de",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-05-29T14:48:22Z",
+      "side": 1,
+      "message": "warning is consistent with what we had before.",
+      "parentUuid": "5eb887c3_75093d22",
+      "range": {
+        "startLine": 89,
+        "startChar": 17,
+        "endLine": 89,
+        "endChar": 26
+      },
+      "revId": "cb052d46f321418539448df96b8ebf98834ede1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aaebe931_0d1d5ed4",
@@ -344,6 +392,30 @@
       "writtenOn": "2026-05-29T14:20:18Z",
       "side": 1,
       "message": "atFine()",
+      "range": {
+        "startLine": 92,
+        "startChar": 17,
+        "endLine": 92,
+        "endChar": 26
+      },
+      "revId": "cb052d46f321418539448df96b8ebf98834ede1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5bb8c324_b36a6cb6",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-05-29T14:48:22Z",
+      "side": 1,
+      "message": "Warning is consistent with what we had before.",
+      "parentUuid": "aaebe931_0d1d5ed4",
       "range": {
         "startLine": 92,
         "startChar": 17,
@@ -413,6 +485,54 @@
       "writtenOn": "2026-05-29T14:20:18Z",
       "side": 1,
       "message": "Why we are trying to parse an empty `Change.Id`? We can just bail out if the `id` is not in the correct form at the beginning of the method.",
+      "range": {
+        "startLine": 111,
+        "startChar": 66,
+        "endLine": 111,
+        "endChar": 68
+      },
+      "revId": "cb052d46f321418539448df96b8ebf98834ede1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "05ebaece_c4244241",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-05-29T14:48:22Z",
+      "side": 1,
+      "message": "But that would be fine no? The parsing would then fail.",
+      "parentUuid": "ed6fbd65_cfac089e",
+      "range": {
+        "startLine": 111,
+        "startChar": 34,
+        "endLine": 111,
+        "endChar": 35
+      },
+      "revId": "cb052d46f321418539448df96b8ebf98834ede1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70ce83a4_98df8d9c",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 45
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-05-29T14:48:22Z",
+      "side": 1,
+      "message": "Maybe yeah, but then I need to add a bunch of logic to figure out the format. Relying on the parsing logic to either fail or pass made for simpler reading in my mind.",
+      "parentUuid": "a354081b_1ce27a54",
       "range": {
         "startLine": 111,
         "startChar": 66,

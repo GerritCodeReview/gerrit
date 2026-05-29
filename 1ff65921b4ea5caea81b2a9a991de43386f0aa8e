@@ -42,6 +42,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "969e4741_59ac8c57",
+        "filename": "configs/skills/gerrit_commit_message_review/SKILL.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1131691
+      },
+      "writtenOn": "2026-05-29T16:23:31Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "1bd77738_fc57bc8b",
+      "range": {
+        "startLine": 3,
+        "startChar": 13,
+        "endLine": 3,
+        "endChar": 117
+      },
+      "revId": "1ff65921b4ea5caea81b2a9a991de43386f0aa8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e8650d31_8e653cef",
@@ -88,6 +112,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8c571bd_ef02f951",
+        "filename": "configs/skills/gerrit_commit_message_review/SKILL.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1131691
+      },
+      "writtenOn": "2026-05-29T16:23:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84a179b9_cce2f669",
+      "range": {
+        "startLine": 100,
+        "startChar": 0,
+        "endLine": 102,
+        "endChar": 0
+      },
+      "revId": "1ff65921b4ea5caea81b2a9a991de43386f0aa8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "63022ee0_291014fd",
@@ -101,6 +149,30 @@
       "writtenOn": "2026-05-28T23:01:49Z",
       "side": 1,
       "message": "Please fix this WARNING reported by gerrit-hygiene-operations: [gerrit-hygiene-operations] The example labeled for \"GitHub/GitLab tracker forma...\n\n[gerrit-hygiene-operations] The example labeled for \"GitHub/GitLab tracker format\" uses `Google-Bug-Id`, which is specific to Google\u0027s internal issue tracker. GitHub and GitLab conventionally use keywords like `Fixes #\u003cID\u003e` or `Closes #\u003cID\u003e`.\n\n**Suggestion**\n\nUpdate the example to use a standard GitHub/GitLab closing reference.\n```markdown\nCloses #1234567\nChange-Id: Iab12cd34ef56gh78ij90kl12mn34op56qr78st90\n```",
+      "range": {
+        "startLine": 185,
+        "startChar": 0,
+        "endLine": 187,
+        "endChar": 0
+      },
+      "revId": "1ff65921b4ea5caea81b2a9a991de43386f0aa8e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e9ef85b_e0d244ae",
+        "filename": "configs/skills/gerrit_commit_message_review/SKILL.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1131691
+      },
+      "writtenOn": "2026-05-29T16:23:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "63022ee0_291014fd",
       "range": {
         "startLine": 185,
         "startChar": 0,

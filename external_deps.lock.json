@@ -201,7 +201,7 @@
     "org.slf4j:slf4j-ext": -916772347,
     "org.slf4j:slf4j-log4j12": -630224096,
     "org.slf4j:slf4j-reload4j": 1021466445,
-    "org.slf4j:slf4j-simple": -487947767,
+    "org.slf4j:slf4j-simple": 1999565066,
     "org.tukaani:xz": -1743168321,
     "repositories": 2019057769,
     "xerces:xercesImpl": -1165914651,
@@ -496,8 +496,8 @@
     "org.slf4j:slf4j-ext:jar:sources": 194861628,
     "org.slf4j:slf4j-reload4j": -1779685465,
     "org.slf4j:slf4j-reload4j:jar:sources": -1558574593,
-    "org.slf4j:slf4j-simple": -444090931,
-    "org.slf4j:slf4j-simple:jar:sources": 1767487902,
+    "org.slf4j:slf4j-simple": -1055624668,
+    "org.slf4j:slf4j-simple:jar:sources": 751828941,
     "org.tukaani:xz": -321288404,
     "org.tukaani:xz:jar:sources": -893332662,
     "xerces:xercesImpl": -1852819301,
@@ -1524,10 +1524,10 @@
     },
     "org.slf4j:slf4j-simple": {
       "shasums": {
-        "jar": "ddfea59ac074c6d3e24ac2c38622d2d963895e17f70b38ed4bdae4d780be6964",
-        "sources": "30b660e79419bfcebd678e75bdfe3644eaf325f50253a68395d93634da5953df"
+        "jar": "8268bd018a5709b07209e0d8ca6221a37584ba1bc12ba985b8335a82c648bdd0",
+        "sources": "977f636bc90dc879c56cd6b6158abf0ee77a6f4619ab23342781a273b743786b"
       },
-      "version": "2.0.17"
+      "version": "2.0.18"
     },
     "org.tukaani:xz": {
       "shasums": {

@@ -34,7 +34,7 @@ import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.gerrit.server.config.GerritInstanceNameProvider;
 import com.google.gerrit.server.config.GerritOptions;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.config.ServerConfigCacheImpl;
+import com.google.gerrit.server.config.ServerConfigCache;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.experiments.ExperimentFeatures;
 import com.google.inject.Inject;
@@ -276,8 +276,8 @@ public class StaticModule extends ServletModule {
         @GerritServerConfig Config cfg,
         GerritApi gerritApi,
         ExperimentFeatures experimentFeatures,
-        @Named(ServerConfigCacheImpl.CACHE_CONFIG)
-            Cache<String, ServerConfigCacheImpl.ServerConfigData> serverConfigCache) {
+        @Named(ServerConfigCache.CACHE_CONFIG)
+            Cache<String, ServerConfigCache.ServerConfigData> serverConfigCache) {
       String cdnPath = options.devCdn().orElseGet(() -> cfg.getString("gerrit", null, "cdnPath"));
       String faviconPath = cfg.getString("gerrit", null, "faviconPath");
       return new IndexServlet(

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31edc1fc_6869f242",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 70
+      },
+      "lineNbr": 5463,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-05-30T07:02:28Z",
+      "side": 0,
+      "message": "Revert the unrelated reorder of `getSingleChangeDeletedFiredCount()` and `getReceivedProjectName()`.\n\nPure diff noise introduced by this commit.",
+      "range": {
+        "startLine": 5460,
+        "startChar": 0,
+        "endLine": 5463,
+        "endChar": 0
+      },
+      "revId": "c7e114b68c802a22fe9a97b43a72cdc59712086f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

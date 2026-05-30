@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "95ce989e_7a615e22",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-05-30T07:11:04Z",
+      "side": 1,
+      "message": "This change broke the download-commands plugin and causes Issue 514817934.\nReverted this in I2ed3c034b73a7b79ee18d368681f692b50410fa1 to fix this issue.",
+      "revId": "5038f41224845cee85e3a1e8fa62eaa59ddcd165",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

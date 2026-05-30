@@ -69,7 +69,7 @@ public class ThreadLocalRequestContext {
   private static final ThreadLocal<RequestContext> local = new ThreadLocal<>();
 
   @Inject
-  ThreadLocalRequestContext() {}
+  public ThreadLocalRequestContext() {}
 
   public RequestContext setContext(@Nullable RequestContext ctx) {
     RequestContext old = getContext();

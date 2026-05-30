@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d705fe8e_72ce46ab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 63
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-05-30T07:23:11Z",
+      "side": 1,
+      "message": "```suggestion\nis a side-effect rather than a direct contract behaviour.\n```",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 60
+      },
+      "revId": "c7e114b68c802a22fe9a97b43a72cdc59712086f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb59886f_f2e58ef0",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 63
+      },
+      "lineNbr": 1551,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-05-30T07:23:11Z",
+      "side": 1,
+      "message": "Remove the trailing comma in the JSON example (now invalid since the third element was dropped):\n\n```suggestion\n      \"bar~202\"\n```",
+      "range": {
+        "startLine": 1551,
+        "startChar": 0,
+        "endLine": 1551,
+        "endChar": 16
+      },
+      "revId": "c7e114b68c802a22fe9a97b43a72cdc59712086f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b1b05ca_e11860b1",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 63
+      },
+      "lineNbr": 1565,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-05-30T07:23:11Z",
+      "side": 1,
+      "message": "Capitalize Changes after the period inside the new [NOTE] block:\n\n```suggestion\nproject~changeNumber are accepted. Changes to be reindexed which are\n```",
+      "range": {
+        "startLine": 1565,
+        "startChar": 0,
+        "endLine": 1565,
+        "endChar": 68
+      },
+      "revId": "c7e114b68c802a22fe9a97b43a72cdc59712086f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e0b7363_ff182f68",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 63
+      },
+      "lineNbr": 2573,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-05-30T07:23:11Z",
+      "side": 1,
+      "message": "Update the `IndexChangesInput` entity reference as well.\n\nThis commit added the [NOTE] to the prose but did not update the formal field-by-field spec.",
+      "revId": "c7e114b68c802a22fe9a97b43a72cdc59712086f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bba3ae01_0371706d",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 63
+      },
+      "lineNbr": 2580,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-05-30T07:23:11Z",
+      "side": 1,
+      "message": "```suggestion\nList of link:rest-api-changes.html#change-id[change-ids]. When `delete_missing` is `true`, each entry must be in `project~changeNumber` format.\n```",
+      "range": {
+        "startLine": 2580,
+        "startChar": 0,
+        "endLine": 2580,
+        "endChar": 56
+      },
+      "revId": "c7e114b68c802a22fe9a97b43a72cdc59712086f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a7f9f0f_910b0d54",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 63
+      },
+      "lineNbr": 2584,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-05-30T07:23:11Z",
+      "side": 1,
+      "message": "```suggestion\nBy default set to `false`. When `true`, all entries in `changes` must be in `project~changeNumber` format; otherwise the request fails with `400 Bad Request` and no operations are executed.\n```",
+      "range": {
+        "startLine": 2584,
+        "startChar": 0,
+        "endLine": 2584,
+        "endChar": 26
+      },
+      "revId": "c7e114b68c802a22fe9a97b43a72cdc59712086f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aad158e9_1e3a5340",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 63
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-05-30T07:23:11Z",
+      "side": 1,
+      "message": "Make the throwaway-probe intent explicit:\n\n```suggestion\n          // Probe NoteDb: NoSuchChangeException means the change is in the index\n          // but absent from disk, so it should be deleted.\n          var \u003d notesFactory.create(changeInfo.project(), changeInfo.changeId());\n```\n\nOr, keep semantic and type, like it\u0027s usually done in the code base, with explicit suppression:\n\n\n```java\n      // Probe NoteDb: NoSuchChangeException means the change is in the index\n      // but absent from disk, so it should be deleted.\n      @SuppressWarnings(\"unused\")\n      ChangeNotes ignored \u003d notesFactory.create(changeInfo.project(), changeInfo.changeId());\n```",
+      "range": {
+        "startLine": 100,
+        "startChar": 12,
+        "endLine": 100,
+        "endChar": 90
+      },
+      "revId": "c7e114b68c802a22fe9a97b43a72cdc59712086f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

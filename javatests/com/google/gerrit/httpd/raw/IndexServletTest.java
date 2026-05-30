@@ -138,7 +138,12 @@ public class IndexServletTest {
     serverConfig.setStringList(
         "experiments", null, "disabled", ImmutableList.of("DisabledFeature"));
     ExperimentFeatures experimentFeatures = new ConfigExperimentFeatures(serverConfig);
-    ServerConfigCache serverConfigCache = new ServerConfigCacheImpl(cache, gerritApi);
+    ServerConfigCache serverConfigCache =
+        new ServerConfigCacheImpl(
+            cache,
+            gerritApi,
+            downloadInfoProviderMock,
+            IndexServletTest::anonymousUserThreadLocalContext);
     IndexServlet servlet =
         new IndexServlet(
             testCanonicalUrl,
@@ -186,7 +191,9 @@ public class IndexServletTest {
   public void serverConfigIsCached() throws Exception {
     GerritApi gerritApi = mockGerritApi(ANONYMOUS_USER);
 
-    ServerConfigCache serverConfigCache = new ServerConfigCacheImpl(cache, gerritApi);
+    ServerConfigCache serverConfigCache =
+        new ServerConfigCacheImpl(
+            cache, gerritApi, downloadInfoProviderMock, localContextProviderMock);
 
     IndexServlet servlet =
         new IndexServlet(
@@ -209,7 +216,9 @@ public class IndexServletTest {
   @Test
   public void downloadInfoIsCachedForAnonymousUsers() throws Exception {
     GerritApi gerritApi = mockGerritApi(ANONYMOUS_USER);
-    ServerConfigCache serverConfigCache = new ServerConfigCacheImpl(cache, gerritApi);
+    ServerConfigCache serverConfigCache =
+        new ServerConfigCacheImpl(
+            cache, gerritApi, downloadInfoProviderMock, localContextProviderMock);
 
     IndexServlet servlet =
         new IndexServlet(
@@ -235,7 +244,9 @@ public class IndexServletTest {
     when(downloadInfoProviderMock.get()).thenReturn(DOWNLOAD_INFO_USER1, DOWNLOAD_INFO_USER2);
     GerritApi gerritApi = mockGerritApi(IDENTIFIED_USER);
 
-    ServerConfigCache serverConfigCache = new ServerConfigCacheImpl(cache, gerritApi);
+    ServerConfigCache serverConfigCache =
+        new ServerConfigCacheImpl(
+            cache, gerritApi, downloadInfoProviderMock, localContextProviderMock);
 
     IndexServlet servlet =
         new IndexServlet(

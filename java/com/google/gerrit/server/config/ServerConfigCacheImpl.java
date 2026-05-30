@@ -14,26 +14,21 @@
 
 package com.google.gerrit.server.config;
 
-import com.google.auto.value.AutoValue;
-import com.google.gerrit.extensions.common.ServerInfo;
+import com.google.common.annotations.VisibleForTesting;
+import com.google.common.cache.Cache;
+import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.server.cache.CacheModule;
+import com.google.inject.Inject;
 import com.google.inject.Module;
+import com.google.inject.Scopes;
+import com.google.inject.name.Named;
 import java.time.Duration;
+import java.util.concurrent.ExecutionException;
 
-public class ServerConfigCacheImpl {
-  public static final String CACHE_CONFIG = "server_config";
-  public static final String SINGLETON_KEY = "GLOBAL";
-
-  @AutoValue
-  public abstract static class ServerConfigData {
-    public abstract ServerInfo serverInfo();
-
-    public abstract String serverVersion();
-
-    public static ServerConfigData create(ServerInfo serverInfo, String serverVersion) {
-      return new AutoValue_ServerConfigCacheImpl_ServerConfigData(serverInfo, serverVersion);
-    }
-  }
+public class ServerConfigCacheImpl implements ServerConfigCache {
+  private static final String SINGLETON_KEY = "GLOBAL";
+  private final Cache<String, ServerConfigData> serverConfigCache;
+  private final GerritApi gerritApi;
 
   public static Module module() {
     return new CacheModule() {
@@ -41,7 +36,26 @@ public class ServerConfigCacheImpl {
       protected void configure() {
         cache(CACHE_CONFIG, String.class, ServerConfigData.class)
             .expireAfterWrite(Duration.ofMinutes(5));
+        bind(ServerConfigCache.class).to(ServerConfigCacheImpl.class).in(Scopes.SINGLETON);
       }
     };
+  }
+
+  @VisibleForTesting
+  @Inject
+  public ServerConfigCacheImpl(
+      @Named(ServerConfigCache.CACHE_CONFIG) Cache<String, ServerConfigData> serverConfigCache,
+      GerritApi gerritApi) {
+    this.serverConfigCache = serverConfigCache;
+    this.gerritApi = gerritApi;
+  }
+
+  @Override
+  public ServerConfigData get() throws ExecutionException {
+    return serverConfigCache.get(
+        SINGLETON_KEY,
+        () ->
+            new ServerConfigData(
+                gerritApi.config().server().getInfo(), gerritApi.config().server().getVersion()));
   }
 }

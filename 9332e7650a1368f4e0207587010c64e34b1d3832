@@ -16,6 +16,24 @@
       "message": "I don\u0027t believe we need this revert: the workaround is quite simple:\n\n```\n[cache \"server_config\"]\n   memoryLimit \u003d 0\n```\n\nAlso, I\u0027m about to fix the issue on master, so that we can fix it on the next forthcoming v3.14.1.",
       "revId": "9332e7650a1368f4e0207587010c64e34b1d3832",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6438c7f7_d7b924bf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-30T20:51:35Z",
+      "side": 1,
+      "message": "I\u0027ve also added a specific section in the Gerrit v3.14 release notes:\nhttps://gerrit-review.googlesource.com/c/homepage/+/589241",
+      "parentUuid": "0b747261_e45ea057",
+      "revId": "9332e7650a1368f4e0207587010c64e34b1d3832",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

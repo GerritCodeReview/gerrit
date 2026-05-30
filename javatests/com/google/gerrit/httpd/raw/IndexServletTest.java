@@ -15,12 +15,10 @@
 package com.google.gerrit.httpd.raw;
 
 import static com.google.common.truth.Truth.assertThat;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.extensions.api.GerritApi;
@@ -29,37 +27,56 @@ import com.google.gerrit.extensions.api.config.Config;
 import com.google.gerrit.extensions.api.config.Server;
 import com.google.gerrit.extensions.common.ServerInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.config.ServerConfigCache;
 import com.google.gerrit.server.config.ServerConfigCacheImpl;
 import com.google.gerrit.server.experiments.ConfigExperimentFeatures;
 import com.google.gerrit.server.experiments.ExperimentFeatures;
 import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
+import com.google.gerrit.testing.InMemoryModule;
 import com.google.gerrit.util.http.testutil.FakeHttpServletRequest;
 import com.google.gerrit.util.http.testutil.FakeHttpServletResponse;
+import com.google.inject.Guice;
+import com.google.inject.Inject;
+import com.google.inject.Injector;
 import java.util.ArrayList;
 import java.util.List;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 
+@RunWith(MockitoJUnitRunner.class)
 public class IndexServletTest {
+
+  @Mock GerritApi gerritApi;
+
+  @Mock Server serverApi;
+
+  @Mock Config configApi;
+
+  @Mock Accounts accountsApi;
+
+  @Inject ServerConfigCache serverConfigCache;
+
+  @Before
+  public void setup() throws RestApiException {
+    mockGerritApi();
+    Injector injector =
+        Guice.createInjector(
+            new InMemoryModule() {
+              @Override
+              protected void configure() {
+                configure(false);
+                bind(GerritApi.class).toInstance(gerritApi);
+              }
+            });
+    injector.injectMembers(this);
+  }
 
   @Test
   public void renderTemplate() throws Exception {
-    Accounts accountsApi = mock(Accounts.class);
-    when(accountsApi.self()).thenThrow(new AuthException("user needs to be authenticated"));
-
-    Server serverApi = mock(Server.class);
-    when(serverApi.getVersion()).thenReturn("123");
-    when(serverApi.topMenus()).thenReturn(ImmutableList.of());
-    ServerInfo serverInfo = new ServerInfo();
-    serverInfo.defaultTheme = "my-default-theme";
-    when(serverApi.getInfo()).thenReturn(serverInfo);
-
-    Config configApi = mock(Config.class);
-    when(configApi.server()).thenReturn(serverApi);
-
-    GerritApi gerritApi = mock(GerritApi.class);
-    when(gerritApi.accounts()).thenReturn(accountsApi);
-    when(gerritApi.config()).thenReturn(configApi);
-
     String testCanonicalUrl = "foo-url";
     String testCdnPath = "bar-cdn";
     String testFaviconURL = "zaz-url";
@@ -72,9 +89,8 @@ public class IndexServletTest {
     serverConfig.setStringList(
         "experiments", null, "disabled", ImmutableList.of("DisabledFeature"));
     ExperimentFeatures experimentFeatures = new ConfigExperimentFeatures(serverConfig);
-    com.google.common.cache.Cache<
-            String, com.google.gerrit.server.config.ServerConfigCacheImpl.ServerConfigData>
-        serverConfigCache = com.google.common.cache.CacheBuilder.newBuilder().build();
+    ServerInfo serverInfo = new ServerInfo();
+    serverInfo.defaultTheme = "my-default-theme";
     IndexServlet servlet =
         new IndexServlet(
             testCanonicalUrl,
@@ -82,7 +98,7 @@ public class IndexServletTest {
             testFaviconURL,
             gerritApi,
             experimentFeatures,
-            serverConfigCache);
+            () -> ServerConfigCacheImpl.ServerConfigData.create(serverInfo, "123"));
 
     FakeHttpServletResponse response = new FakeHttpServletResponse();
 
@@ -120,25 +136,7 @@ public class IndexServletTest {
 
   @Test
   public void serverConfigIsCached() throws Exception {
-    Accounts accountsApi = mock(Accounts.class);
-    when(accountsApi.self()).thenThrow(new AuthException("user needs to be authenticated"));
-
-    Server serverApi = mock(Server.class);
-    when(serverApi.getVersion()).thenReturn("123");
     when(serverApi.topMenus()).thenReturn(ImmutableList.of(), ImmutableList.of());
-    ServerInfo serverInfo = new ServerInfo();
-    serverInfo.defaultTheme = "my-default-theme";
-    when(serverApi.getInfo()).thenReturn(serverInfo);
-
-    Config configApi = mock(Config.class);
-    when(configApi.server()).thenReturn(serverApi);
-
-    GerritApi gerritApi = mock(GerritApi.class);
-    when(gerritApi.accounts()).thenReturn(accountsApi);
-    when(gerritApi.config()).thenReturn(configApi);
-
-    Cache<String, ServerConfigCacheImpl.ServerConfigData> serverConfigCache =
-        com.google.common.cache.CacheBuilder.newBuilder().build();
 
     IndexServlet servlet =
         new IndexServlet(
@@ -156,5 +154,16 @@ public class IndexServletTest {
     verify(serverApi, times(1)).getVersion();
     // topMenus is no longer cached, so it should be called dynamically per user request
     verify(serverApi, times(2)).topMenus();
+  }
+
+  private void mockGerritApi() throws RestApiException {
+    when(accountsApi.self()).thenThrow(new AuthException("user needs to be authenticated"));
+    when(serverApi.getVersion()).thenReturn("123");
+    ServerInfo serverInfo = new ServerInfo();
+    serverInfo.defaultTheme = "my-default-theme";
+    when(serverApi.getInfo()).thenReturn(serverInfo);
+    when(configApi.server()).thenReturn(serverApi);
+    when(gerritApi.accounts()).thenReturn(accountsApi);
+    when(gerritApi.config()).thenReturn(configApi);
   }
 }

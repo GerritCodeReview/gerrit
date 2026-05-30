@@ -9,6 +9,7 @@ junit_tests(
         "//java/com/google/gerrit/httpd",
         "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/testing:gerrit-junit",
+        "//java/com/google/gerrit/testing:gerrit-test-util",
         "//javatests/com/google/gerrit/util/http/testutil",
         "//lib:gson",
         "//lib:guava",

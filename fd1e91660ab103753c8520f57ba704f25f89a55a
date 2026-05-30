@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1928f2b7_66bac10c",
+        "filename": "configs/skills/gerrit_commit_message_review/SKILL.md",
+        "patchSetId": 9
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-05-30T01:37:31Z",
+      "side": 1,
+      "message": "Please fix this WARNING reported by gerrit-hygiene-operations: [gerrit-hygiene-operations] This trap is numbered as `Trap 3`, but `Trap 3: Addi...\n\n[gerrit-hygiene-operations] This trap is numbered as `Trap 3`, but `Trap 3: Adding vacuous or low-value bug/issue references to the commit body` was already introduced earlier in the same section (line 149).\n\n**Suggestion**\n\nRenumber this to `Trap 4` to maintain sequential numbering and avoid duplicate trap identifiers.\n\n```markdown\n**Trap 4: Over-explaining straightforward changes, using sequential narrations (\"First\", \"Second\"), or explaining obvious developer-experience benefits.**\n```",
+      "range": {
+        "startLine": 315,
+        "startChar": 0,
+        "endLine": 316,
+        "endChar": 0
+      },
+      "revId": "fd1e91660ab103753c8520f57ba704f25f89a55a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9cf039d_1fe51190",
+        "filename": "configs/skills/gerrit_commit_message_review/SKILL.md",
+        "patchSetId": 9
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-05-30T01:37:31Z",
+      "side": 1,
+      "message": "Please fix this WARNING reported by gerrit-hygiene-operations: [gerrit-hygiene-operations] The newly added chapter uses rule IDs `T4-01` and `T...\n\n[gerrit-hygiene-operations] The newly added chapter uses rule IDs `T4-01` and `T4-02`, but the `T4` prefix is already assigned to the \u0027Client-Side Request Parallelization\u0027 chapter.\n\n**Suggestion**\n\nUpdate the rule IDs to use the next available prefix (e.g., `T8-01` and `T8-02`) to prevent ID collision. Be sure to update the IDs in the summary table as well as the rule headings (lines 420, 421, 427, and 474).\n\n```markdown\n| **T8-01** | Provide a Complete Suggested Commit Message | High | ...\n| **T8-02** | Pragmatic Tolerance \u0026 Anti-Noise | High | ...\n```",
+      "range": {
+        "startLine": 420,
+        "startChar": 0,
+        "endLine": 422,
+        "endChar": 0
+      },
+      "revId": "fd1e91660ab103753c8520f57ba704f25f89a55a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

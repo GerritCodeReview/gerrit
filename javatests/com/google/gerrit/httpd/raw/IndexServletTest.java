@@ -29,6 +29,7 @@ import com.google.gerrit.extensions.api.config.Config;
 import com.google.gerrit.extensions.api.config.Server;
 import com.google.gerrit.extensions.common.ServerInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.server.config.ServerConfigCache;
 import com.google.gerrit.server.config.ServerConfigCacheImpl;
 import com.google.gerrit.server.experiments.ConfigExperimentFeatures;
 import com.google.gerrit.server.experiments.ExperimentFeatures;
@@ -72,9 +73,9 @@ public class IndexServletTest {
     serverConfig.setStringList(
         "experiments", null, "disabled", ImmutableList.of("DisabledFeature"));
     ExperimentFeatures experimentFeatures = new ConfigExperimentFeatures(serverConfig);
-    com.google.common.cache.Cache<
-            String, com.google.gerrit.server.config.ServerConfigCacheImpl.ServerConfigData>
-        serverConfigCache = com.google.common.cache.CacheBuilder.newBuilder().build();
+    Cache<String, ServerConfigCache.ServerConfigData> cache =
+        com.google.common.cache.CacheBuilder.newBuilder().build();
+    ServerConfigCache serverConfigCache = new ServerConfigCacheImpl(cache, gerritApi);
     IndexServlet servlet =
         new IndexServlet(
             testCanonicalUrl,
@@ -137,8 +138,9 @@ public class IndexServletTest {
     when(gerritApi.accounts()).thenReturn(accountsApi);
     when(gerritApi.config()).thenReturn(configApi);
 
-    Cache<String, ServerConfigCacheImpl.ServerConfigData> serverConfigCache =
+    Cache<String, ServerConfigCache.ServerConfigData> cache =
         com.google.common.cache.CacheBuilder.newBuilder().build();
+    ServerConfigCache serverConfigCache = new ServerConfigCacheImpl(cache, gerritApi);
 
     IndexServlet servlet =
         new IndexServlet(

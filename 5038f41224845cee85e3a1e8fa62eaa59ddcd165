@@ -16,6 +16,52 @@
       "message": "This change broke the download-commands plugin and causes Issue 514817934.\nReverted this in I2ed3c034b73a7b79ee18d368681f692b50410fa1 to fix this issue.",
       "revId": "5038f41224845cee85e3a1e8fa62eaa59ddcd165",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "914da05a_22e70ce1",
+        "filename": "javatests/com/google/gerrit/httpd/raw/IndexServletTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-30T15:27:38Z",
+      "side": 1,
+      "message": "This can be imported.",
+      "range": {
+        "startLine": 138,
+        "startChar": 4,
+        "endLine": 138,
+        "endChar": 33
+      },
+      "revId": "5038f41224845cee85e3a1e8fa62eaa59ddcd165",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c9d094a_bdd777f5",
+        "filename": "javatests/com/google/gerrit/httpd/raw/IndexServletTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-30T15:27:38Z",
+      "side": 1,
+      "message": "This can be imported",
+      "range": {
+        "startLine": 139,
+        "startChar": 20,
+        "endLine": 139,
+        "endChar": 73
+      },
+      "revId": "5038f41224845cee85e3a1e8fa62eaa59ddcd165",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

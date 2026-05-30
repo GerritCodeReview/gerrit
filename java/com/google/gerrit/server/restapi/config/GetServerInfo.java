@@ -15,7 +15,6 @@
 package com.google.gerrit.server.restapi.config;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
-import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Strings;
@@ -29,7 +28,6 @@ import com.google.gerrit.extensions.common.AccountsInfo;
 import com.google.gerrit.extensions.common.AuthInfo;
 import com.google.gerrit.extensions.common.ChangeConfigInfo;
 import com.google.gerrit.extensions.common.DownloadInfo;
-import com.google.gerrit.extensions.common.DownloadSchemeInfo;
 import com.google.gerrit.extensions.common.GerritInfo;
 import com.google.gerrit.extensions.common.GroupsInfo;
 import com.google.gerrit.extensions.common.MetadataInfo;
@@ -39,9 +37,6 @@ import com.google.gerrit.extensions.common.ServerInfo;
 import com.google.gerrit.extensions.common.SshdInfo;
 import com.google.gerrit.extensions.common.SuggestInfo;
 import com.google.gerrit.extensions.common.UserConfigInfo;
-import com.google.gerrit.extensions.config.CloneCommand;
-import com.google.gerrit.extensions.config.DownloadCommand;
-import com.google.gerrit.extensions.config.DownloadScheme;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.webui.WebUiPlugin;
@@ -50,7 +45,6 @@ import com.google.gerrit.server.ServerStateProvider;
 import com.google.gerrit.server.account.AccountVisibilityProvider;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.avatar.AvatarProvider;
-import com.google.gerrit.server.change.ArchiveFormatInternal;
 import com.google.gerrit.server.change.MergeabilityComputationBehavior;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
@@ -64,17 +58,15 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.documentation.QueryDocumentationExecutor;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.plugincontext.PluginItemContext;
-import com.google.gerrit.server.plugincontext.PluginMapContext;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.project.ProjectCache;
-import com.google.gerrit.server.restapi.change.AllowedFormats;
 import com.google.gerrit.server.submit.MergeSuperSet;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
@@ -85,11 +77,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   private final AccountDefaultDisplayName accountDefaultDisplayName;
   private final AuthConfig authConfig;
   private final Realm realm;
-  private final PluginMapContext<DownloadScheme> downloadSchemes;
-  private final PluginMapContext<DownloadCommand> downloadCommands;
-  private final PluginMapContext<CloneCommand> cloneCommands;
   private final PluginSetContext<WebUiPlugin> plugins;
-  private final AllowedFormats archiveFormats;
   private final AllProjectsName allProjectsName;
   private final AllUsersName allUsersName;
   private final String anonymousCowardName;
@@ -101,6 +89,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   private final SitePaths sitePaths;
   private final @Nullable @GerritInstanceId String instanceId;
   private final PluginSetContext<ServerStateProvider> serverStateProviders;
+  private final Provider<DownloadInfo> downloadInfoProvider;
 
   @Inject
   public GetServerInfo(
@@ -109,11 +98,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
       AccountDefaultDisplayName accountDefaultDisplayName,
       AuthConfig authConfig,
       Realm realm,
-      PluginMapContext<DownloadScheme> downloadSchemes,
-      PluginMapContext<DownloadCommand> downloadCommands,
-      PluginMapContext<CloneCommand> cloneCommands,
       PluginSetContext<WebUiPlugin> webUiPlugins,
-      AllowedFormats archiveFormats,
       AllProjectsName allProjectsName,
       AllUsersName allUsersName,
       @AnonymousCowardName String anonymousCowardName,
@@ -124,17 +109,14 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
       AgreementJson agreementJson,
       SitePaths sitePaths,
       @Nullable @GerritInstanceId String instanceId,
-      PluginSetContext<ServerStateProvider> serverStateProviders) {
+      PluginSetContext<ServerStateProvider> serverStateProviders,
+      Provider<DownloadInfo> downloadInfoProvider) {
     this.config = config;
     this.accountVisibilityProvider = accountVisibilityProvider;
     this.accountDefaultDisplayName = accountDefaultDisplayName;
     this.authConfig = authConfig;
     this.realm = realm;
-    this.downloadSchemes = downloadSchemes;
-    this.downloadCommands = downloadCommands;
-    this.cloneCommands = cloneCommands;
     this.plugins = webUiPlugins;
-    this.archiveFormats = archiveFormats;
     this.allProjectsName = allProjectsName;
     this.allUsersName = allUsersName;
     this.anonymousCowardName = anonymousCowardName;
@@ -146,6 +128,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     this.sitePaths = sitePaths;
     this.instanceId = instanceId;
     this.serverStateProviders = serverStateProviders;
+    this.downloadInfoProvider = downloadInfoProvider;
   }
 
   @Override
@@ -154,7 +137,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.accounts = getAccountsInfo();
     info.auth = getAuthInfo();
     info.change = getChangeInfo();
-    info.download = getDownloadInfo();
+    info.download = downloadInfoProvider.get();
     info.gerrit = getGerritInfo();
     info.groups = getGroupsInfo();
     info.noteDbEnabled = true;
@@ -235,58 +218,6 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
         toBoolean(config.getBoolean("change", "conflictsPredicateEnabled", true));
     info.allowMarkdownBase64ImagesInComments =
         toBoolean(config.getBoolean("change", "allowMarkdownBase64ImagesInComments", false));
-    return info;
-  }
-
-  private DownloadInfo getDownloadInfo() {
-    DownloadInfo info = new DownloadInfo();
-    info.schemes = new HashMap<>();
-    downloadSchemes.runEach(
-        extension -> {
-          DownloadScheme scheme = extension.get();
-          if (scheme.isEnabled() && !scheme.isHidden() && scheme.getUrl("${project}") != null) {
-            info.schemes.put(extension.getExportName(), getDownloadSchemeInfo(scheme));
-          }
-        });
-    info.archives =
-        archiveFormats.getAllowed().stream()
-            .map(ArchiveFormatInternal::getShortName)
-            .collect(toList());
-    return info;
-  }
-
-  private DownloadSchemeInfo getDownloadSchemeInfo(DownloadScheme scheme) {
-    DownloadSchemeInfo info = new DownloadSchemeInfo();
-    info.url = scheme.getUrl("${project}");
-    info.description = scheme.getDescription();
-    info.isAuthRequired = toBoolean(scheme.isAuthRequired());
-    info.isAuthSupported = toBoolean(scheme.isAuthSupported());
-
-    info.commands = new HashMap<>();
-    downloadCommands.runEach(
-        extension -> {
-          String commandName = extension.getExportName();
-          DownloadCommand command = extension.get();
-          String c = command.getCommand(scheme, "${project}", "${ref}");
-          if (c != null) {
-            info.commands.put(commandName, c);
-          }
-        });
-
-    info.cloneCommands = new HashMap<>();
-    cloneCommands.runEach(
-        extension -> {
-          String commandName = extension.getExportName();
-          CloneCommand command = extension.getProvider().get();
-          String c = command.getCommand(scheme, "${project-path}/${project-base-name}");
-          if (c != null) {
-            c =
-                c.replaceAll(
-                    "\\$\\{project-path\\}/\\$\\{project-base-name\\}", "\\$\\{project\\}");
-            info.cloneCommands.put(commandName, c);
-          }
-        });
-
     return info;
   }
 

@@ -15,29 +15,186 @@
 package com.google.gerrit.httpd.raw;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
+import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.api.GerritApi;
+import com.google.gerrit.extensions.api.accounts.AccountApi;
 import com.google.gerrit.extensions.api.accounts.Accounts;
 import com.google.gerrit.extensions.api.config.Config;
 import com.google.gerrit.extensions.api.config.Server;
 import com.google.gerrit.extensions.common.ServerInfo;
+import com.google.gerrit.extensions.config.CloneCommand;
+import com.google.gerrit.extensions.config.DownloadCommand;
+import com.google.gerrit.extensions.config.DownloadScheme;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.AnonymousUser;
+import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.account.GroupMembership;
+import com.google.gerrit.server.account.ListGroupMembership;
+import com.google.gerrit.server.config.ConfigResource;
+import com.google.gerrit.server.config.ServerConfigCacheImpl;
 import com.google.gerrit.server.experiments.ConfigExperimentFeatures;
 import com.google.gerrit.server.experiments.ExperimentFeatures;
 import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
+import com.google.gerrit.server.restapi.config.GetServerInfo;
+import com.google.gerrit.server.util.ManualRequestContext;
+import com.google.gerrit.server.util.ThreadLocalRequestContext;
+import com.google.gerrit.testing.InMemoryModule;
 import com.google.gerrit.util.http.testutil.FakeHttpServletRequest;
 import com.google.gerrit.util.http.testutil.FakeHttpServletResponse;
+import com.google.inject.Guice;
+import com.google.inject.Inject;
+import com.google.inject.Injector;
+import com.google.inject.Provider;
+import com.google.inject.name.Named;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 
+@RunWith(MockitoJUnitRunner.class)
 public class IndexServletTest {
+  private static final FakeCurrentUser FAKE_CURRENT_USER1 = new FakeCurrentUser("user1");
+  private static final FakeCurrentUser FAKE_CURRENT_USER2 = new FakeCurrentUser("user2");
+
+  @Mock Server serverApi;
+
+  @Mock GerritApi gerritApi;
+
+  @Mock Config configApi;
+
+  @Mock Accounts accountsApi;
+
+  @Inject
+  @Named(ServerConfigCacheImpl.CACHE_CONFIG)
+  Cache<String, ServerConfigCacheImpl.ServerConfigData> serverConfigCache;
+
+  @Inject ThreadLocalRequestContext threadLocalRequestContext;
+
+  @Inject GetServerInfo getServerInfo;
+
+  private static class FakeCurrentUser extends CurrentUser {
+    private static final GroupMembership groups = new ListGroupMembership(List.of());
+
+    private final String username;
+
+    FakeCurrentUser(String name) {
+      username = name;
+    }
+
+    @Override
+    public GroupMembership getEffectiveGroups() {
+      return groups;
+    }
+
+    @Override
+    public Object getCacheKey() {
+      return new Object();
+    }
+
+    @Override
+    public Optional<String> getUserName() {
+      return Optional.ofNullable(username);
+    }
+
+    @Override
+    public boolean isIdentifiedUser() {
+      return true;
+    }
+  }
+
+  private static class FakeDownloadScheme extends DownloadScheme {
+    @Override
+    public String getUrl(String project) {
+      return "some-protocol://" + project;
+    }
+
+    @Override
+    public boolean isAuthRequired() {
+      return true;
+    }
+
+    @Override
+    public boolean isAuthSupported() {
+      return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+      return true;
+    }
+
+    @Override
+    public boolean isHidden() {
+      return false;
+    }
+  }
+
+  private static class FakeDownloadCommand extends DownloadCommand {
+
+    @Inject Provider<CurrentUser> currentUserProvider;
+
+    @Override
+    public String getCommand(DownloadScheme scheme, String project, String ref) {
+      CurrentUser currentUser = currentUserProvider.get();
+      String url = scheme.getUrl(project);
+      if (currentUser.isIdentifiedUser()) {
+        url = url + "/" + currentUser.getUserName().orElseThrow();
+      }
+      return String.format("fake git fetch %s %s", url, ref);
+    }
+  }
+
+  private static class FakeCloneCommand extends CloneCommand {
+
+    @Inject Provider<CurrentUser> currentUserProvider;
+
+    @Override
+    public String getCommand(DownloadScheme scheme, String project) {
+      CurrentUser currentUser = currentUserProvider.get();
+      String url = scheme.getUrl(project);
+      if (currentUser.isIdentifiedUser()) {
+        url = url + "/" + currentUser.getUserName().orElseThrow();
+      }
+      return String.format("fake git clone %s", url);
+    }
+  }
+
+  @Before
+  public void setup() throws RestApiException {
+    Injector injector =
+        Guice.createInjector(
+            new InMemoryModule() {
+              @Override
+              protected void configure() {
+                configure(false);
+                bind(GerritApi.class).toInstance(gerritApi);
+                bind(DownloadScheme.class)
+                    .annotatedWith(Exports.named("testscheme"))
+                    .to(FakeDownloadScheme.class);
+                bind(DownloadCommand.class)
+                    .annotatedWith(Exports.named("checkout"))
+                    .to(FakeDownloadCommand.class);
+                bind(CloneCommand.class)
+                    .annotatedWith(Exports.named("clone"))
+                    .to(FakeCloneCommand.class);
+              }
+            });
+    injector.injectMembers(this);
+  }
 
   @Test
   public void renderTemplate() throws Exception {
@@ -118,26 +275,57 @@ public class IndexServletTest {
 
   @Test
   public void serverConfigIsCached() throws Exception {
-    Accounts accountsApi = mock(Accounts.class);
-    when(accountsApi.self()).thenThrow(new AuthException("user needs to be authenticated"));
+    try (ManualRequestContext ctx = mockGerritApi(new AnonymousUser())) {
+      when(serverApi.topMenus()).thenReturn(ImmutableList.of(), ImmutableList.of());
 
-    Server serverApi = mock(Server.class);
-    when(serverApi.getVersion()).thenReturn("123");
-    when(serverApi.topMenus()).thenReturn(ImmutableList.of(), ImmutableList.of());
-    ServerInfo serverInfo = new ServerInfo();
-    serverInfo.defaultTheme = "my-default-theme";
-    when(serverApi.getInfo()).thenReturn(serverInfo);
+      IndexServlet servlet =
+          new IndexServlet(
+              "foo-url",
+              "bar-cdn",
+              "zaz-url",
+              gerritApi,
+              new ConfigExperimentFeatures(new org.eclipse.jgit.lib.Config()),
+              serverConfigCache);
 
-    Config configApi = mock(Config.class);
-    when(configApi.server()).thenReturn(serverApi);
+      servlet.doGet(new FakeHttpServletRequest(), new FakeHttpServletResponse());
+      servlet.doGet(new FakeHttpServletRequest(), new FakeHttpServletResponse());
 
-    GerritApi gerritApi = mock(GerritApi.class);
-    when(gerritApi.accounts()).thenReturn(accountsApi);
-    when(gerritApi.config()).thenReturn(configApi);
+      verify(serverApi, times(1)).getInfo();
+      verify(serverApi, times(1)).getVersion();
+      // topMenus is no longer cached, so it should be called dynamically per user request
+      verify(serverApi, times(2)).topMenus();
+    }
+  }
 
-    com.google.common.cache.Cache<
-            String, com.google.gerrit.server.config.ServerConfigCacheImpl.ServerConfigData>
-        serverConfigCache = com.google.common.cache.CacheBuilder.newBuilder().build();
+  @Test
+  public void downloadInfoIsCachedForAnonymousUsers() throws Exception {
+    try (ManualRequestContext ctx = mockGerritApi(new AnonymousUser())) {
+
+      IndexServlet servlet =
+          new IndexServlet(
+              "foo-url",
+              "bar-cdn",
+              "zaz-url",
+              gerritApi,
+              new ConfigExperimentFeatures(new org.eclipse.jgit.lib.Config()),
+              serverConfigCache);
+
+      FakeHttpServletResponse indexHtmlResponse1 = new FakeHttpServletResponse();
+      servlet.doGet(new FakeHttpServletRequest(), indexHtmlResponse1);
+      FakeHttpServletResponse indexHtmlResponse2 = new FakeHttpServletResponse();
+      servlet.doGet(new FakeHttpServletRequest(), indexHtmlResponse2);
+
+      assertThat(indexHtmlResponse1.getActualBodyString())
+          .isEqualTo(indexHtmlResponse2.getActualBodyString());
+    }
+  }
+
+  @Test
+  //  @Ignore // Failing due to Issue 514817934; once the issue if fixed this test can be enabled
+  // again.
+  public void downloadInfoIsNotCachedForIdentifiedUsers() throws Exception {
+    FakeHttpServletResponse indexHtmlResponse1 = new FakeHttpServletResponse();
+    FakeHttpServletResponse indexHtmlResponse2 = new FakeHttpServletResponse();
 
     IndexServlet servlet =
         new IndexServlet(
@@ -148,12 +336,37 @@ public class IndexServletTest {
             new ConfigExperimentFeatures(new org.eclipse.jgit.lib.Config()),
             serverConfigCache);
 
-    servlet.doGet(new FakeHttpServletRequest(), new FakeHttpServletResponse());
-    servlet.doGet(new FakeHttpServletRequest(), new FakeHttpServletResponse());
+    try (ManualRequestContext ctx = mockGerritApi(FAKE_CURRENT_USER1)) {
+      servlet.doGet(new FakeHttpServletRequest(), indexHtmlResponse1);
+    }
 
-    verify(serverApi, times(1)).getInfo();
-    verify(serverApi, times(1)).getVersion();
-    // topMenus is no longer cached, so it should be called dynamically per user request
-    verify(serverApi, times(2)).topMenus();
+    try (ManualRequestContext ctx = mockGerritApi(FAKE_CURRENT_USER2)) {
+      servlet.doGet(new FakeHttpServletRequest(), indexHtmlResponse2);
+    }
+
+    assertThat(indexHtmlResponse1.getActualBodyString())
+        .isNotEqualTo(indexHtmlResponse2.getActualBodyString());
+  }
+
+  private ManualRequestContext mockGerritApi(CurrentUser currentUser) throws RestApiException {
+    ManualRequestContext ctx = new ManualRequestContext(currentUser, threadLocalRequestContext);
+    if (currentUser.isIdentifiedUser()) {
+      AccountApi accountApi = mock(AccountApi.class);
+      lenient().when(accountsApi.self()).thenReturn(accountApi);
+    } else {
+      lenient()
+          .when(accountsApi.self())
+          .thenThrow(new AuthException("user needs to be authenticated"));
+    }
+
+    lenient().when(serverApi.getVersion()).thenReturn("123");
+    lenient().when(serverApi.topMenus()).thenReturn(ImmutableList.of(), ImmutableList.of());
+    lenient()
+        .when(serverApi.getInfo())
+        .thenAnswer((m) -> getServerInfo.apply(new ConfigResource()).value());
+    lenient().when(configApi.server()).thenReturn(serverApi);
+    lenient().when(gerritApi.accounts()).thenReturn(accountsApi);
+    lenient().when(gerritApi.config()).thenReturn(configApi);
+    return ctx;
   }
 }

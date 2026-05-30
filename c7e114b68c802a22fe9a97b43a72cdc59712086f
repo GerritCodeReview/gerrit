@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "49d96e60_7283cb05",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 63
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-30T08:27:50Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "d705fe8e_72ce46ab",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 60
+      },
+      "revId": "c7e114b68c802a22fe9a97b43a72cdc59712086f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bb59886f_f2e58ef0",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb4f98fb_ff5ce431",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 63
+      },
+      "lineNbr": 1551,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-30T08:27:50Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "bb59886f_f2e58ef0",
+      "range": {
+        "startLine": 1551,
+        "startChar": 0,
+        "endLine": 1551,
+        "endChar": 16
+      },
+      "revId": "c7e114b68c802a22fe9a97b43a72cdc59712086f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5b1b05ca_e11860b1",
@@ -60,6 +108,30 @@
       "writtenOn": "2026-05-30T07:23:11Z",
       "side": 1,
       "message": "Capitalize Changes after the period inside the new [NOTE] block:\n\n```suggestion\nproject~changeNumber are accepted. Changes to be reindexed which are\n```",
+      "range": {
+        "startLine": 1565,
+        "startChar": 0,
+        "endLine": 1565,
+        "endChar": 68
+      },
+      "revId": "c7e114b68c802a22fe9a97b43a72cdc59712086f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "88fdd252_9acb0cf8",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 63
+      },
+      "lineNbr": 1565,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-30T08:27:50Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "5b1b05ca_e11860b1",
       "range": {
         "startLine": 1565,
         "startChar": 0,
@@ -110,6 +182,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4f2f1db_79d64290",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 63
+      },
+      "lineNbr": 2580,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-30T08:27:50Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "bba3ae01_0371706d",
+      "range": {
+        "startLine": 2580,
+        "startChar": 0,
+        "endLine": 2580,
+        "endChar": 56
+      },
+      "revId": "c7e114b68c802a22fe9a97b43a72cdc59712086f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9a7f9f0f_910b0d54",
@@ -133,6 +229,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c4bd67d_04b02573",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 63
+      },
+      "lineNbr": 2584,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-30T08:27:50Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "9a7f9f0f_910b0d54",
+      "range": {
+        "startLine": 2584,
+        "startChar": 0,
+        "endLine": 2584,
+        "endChar": 26
+      },
+      "revId": "c7e114b68c802a22fe9a97b43a72cdc59712086f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aad158e9_1e3a5340",
@@ -146,6 +266,30 @@
       "writtenOn": "2026-05-30T07:23:11Z",
       "side": 1,
       "message": "Make the throwaway-probe intent explicit:\n\n```suggestion\n          // Probe NoteDb: NoSuchChangeException means the change is in the index\n          // but absent from disk, so it should be deleted.\n          var \u003d notesFactory.create(changeInfo.project(), changeInfo.changeId());\n```\n\nOr, keep semantic and type, like it\u0027s usually done in the code base, with explicit suppression:\n\n\n```java\n      // Probe NoteDb: NoSuchChangeException means the change is in the index\n      // but absent from disk, so it should be deleted.\n      @SuppressWarnings(\"unused\")\n      ChangeNotes ignored \u003d notesFactory.create(changeInfo.project(), changeInfo.changeId());\n```",
+      "range": {
+        "startLine": 100,
+        "startChar": 12,
+        "endLine": 100,
+        "endChar": 90
+      },
+      "revId": "c7e114b68c802a22fe9a97b43a72cdc59712086f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e930880_7b4f2bc4",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 63
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-30T08:27:50Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "aad158e9_1e3a5340",
       "range": {
         "startLine": 100,
         "startChar": 12,

@@ -17,9 +17,16 @@ package com.google.gerrit.server.config;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.cache.Cache;
 import com.google.gerrit.extensions.api.GerritApi;
+import com.google.gerrit.extensions.api.config.Server;
+import com.google.gerrit.extensions.common.DownloadInfo;
+import com.google.gerrit.extensions.common.ServerInfo;
+import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.cache.CacheModule;
+import com.google.gerrit.server.util.ManualRequestContext;
+import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.inject.Inject;
 import com.google.inject.Module;
+import com.google.inject.Provider;
 import com.google.inject.Scopes;
 import com.google.inject.name.Named;
 import java.time.Duration;
@@ -29,6 +36,8 @@ public class ServerConfigCacheImpl implements ServerConfigCache {
   private static final String SINGLETON_KEY = "GLOBAL";
   private final Cache<String, ServerConfigData> serverConfigCache;
   private final GerritApi gerritApi;
+  private final Provider<DownloadInfo> downloadInfoProvider;
+  private final Provider<ThreadLocalRequestContext> requestContextProvider;
 
   public static Module module() {
     return new CacheModule() {
@@ -45,17 +54,55 @@ public class ServerConfigCacheImpl implements ServerConfigCache {
   @Inject
   public ServerConfigCacheImpl(
       @Named(ServerConfigCache.CACHE_CONFIG) Cache<String, ServerConfigData> serverConfigCache,
-      GerritApi gerritApi) {
+      GerritApi gerritApi,
+      Provider<DownloadInfo> downloadInfoProvider,
+      Provider<ThreadLocalRequestContext> requestContextProvider) {
     this.serverConfigCache = serverConfigCache;
     this.gerritApi = gerritApi;
+    this.downloadInfoProvider = downloadInfoProvider;
+    this.requestContextProvider = requestContextProvider;
   }
 
   @Override
   public ServerConfigData get() throws ExecutionException {
-    return serverConfigCache.get(
-        SINGLETON_KEY,
-        () ->
-            new ServerConfigData(
-                gerritApi.config().server().getInfo(), gerritApi.config().server().getVersion()));
+    ServerConfigData cachedConfig =
+        serverConfigCache.get(SINGLETON_KEY, this::getServerConfigDataAsAnonymousUser);
+
+    if (!requestContextProvider.get().getContext().getUser().isIdentifiedUser()) {
+      return cachedConfig;
+    }
+
+    ServerInfo serverInfo = copyServerInfo(cachedConfig);
+    serverInfo.download = downloadInfoProvider.get();
+    return new ServerConfigData(serverInfo, cachedConfig.serverVersion());
+  }
+
+  private static ServerInfo copyServerInfo(ServerConfigData cachedConfig) {
+    ServerInfo serverInfo = new ServerInfo();
+    serverInfo.accounts = cachedConfig.serverInfo().accounts;
+    serverInfo.auth = cachedConfig.serverInfo().auth;
+    serverInfo.change = cachedConfig.serverInfo().change;
+    serverInfo.gerrit = cachedConfig.serverInfo().gerrit;
+    serverInfo.groups = cachedConfig.serverInfo().groups;
+    serverInfo.noteDbEnabled = cachedConfig.serverInfo().noteDbEnabled;
+    serverInfo.plugin = cachedConfig.serverInfo().plugin;
+    serverInfo.sshd = cachedConfig.serverInfo().sshd;
+    serverInfo.suggest = cachedConfig.serverInfo().suggest;
+    serverInfo.user = cachedConfig.serverInfo().user;
+    serverInfo.receive = cachedConfig.serverInfo().receive;
+    serverInfo.defaultTheme = cachedConfig.serverInfo().defaultTheme;
+    serverInfo.submitRequirementDashboardColumns =
+        cachedConfig.serverInfo().submitRequirementDashboardColumns;
+    serverInfo.dashboardShowAllLabels = cachedConfig.serverInfo().dashboardShowAllLabels;
+    serverInfo.metadata = cachedConfig.serverInfo().metadata;
+    return serverInfo;
+  }
+
+  private ServerConfigData getServerConfigDataAsAnonymousUser() throws Exception {
+    try (AutoCloseable unused =
+        new ManualRequestContext(new AnonymousUser(), requestContextProvider.get())) {
+      Server serverApi = gerritApi.config().server();
+      return new ServerConfigData(serverApi.getInfo(), serverApi.getVersion());
+    }
   }
 }

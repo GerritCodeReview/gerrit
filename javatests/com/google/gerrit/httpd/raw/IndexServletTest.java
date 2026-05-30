@@ -16,8 +16,6 @@ package com.google.gerrit.httpd.raw;
 
 import static com.google.common.truth.Truth.assertThat;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.google.common.collect.ImmutableList;
@@ -70,17 +68,9 @@ public class IndexServletTest {
     serverConfig.setStringList(
         "experiments", null, "disabled", ImmutableList.of("DisabledFeature"));
     ExperimentFeatures experimentFeatures = new ConfigExperimentFeatures(serverConfig);
-    com.google.common.cache.Cache<
-            String, com.google.gerrit.server.config.ServerConfigCacheImpl.ServerConfigData>
-        serverConfigCache = com.google.common.cache.CacheBuilder.newBuilder().build();
     IndexServlet servlet =
         new IndexServlet(
-            testCanonicalUrl,
-            testCdnPath,
-            testFaviconURL,
-            gerritApi,
-            experimentFeatures,
-            serverConfigCache);
+            testCanonicalUrl, testCdnPath, testFaviconURL, gerritApi, experimentFeatures);
 
     FakeHttpServletResponse response = new FakeHttpServletResponse();
 
@@ -114,46 +104,5 @@ public class IndexServletTest {
             "window.ENABLED_EXPERIMENTS = JSON.parse('\\x5b\\x22"
                 + String.join("\\x22,\\x22", expectedEnabled)
                 + "\\x22\\x5d');</script>");
-  }
-
-  @Test
-  public void serverConfigIsCached() throws Exception {
-    Accounts accountsApi = mock(Accounts.class);
-    when(accountsApi.self()).thenThrow(new AuthException("user needs to be authenticated"));
-
-    Server serverApi = mock(Server.class);
-    when(serverApi.getVersion()).thenReturn("123");
-    when(serverApi.topMenus()).thenReturn(ImmutableList.of(), ImmutableList.of());
-    ServerInfo serverInfo = new ServerInfo();
-    serverInfo.defaultTheme = "my-default-theme";
-    when(serverApi.getInfo()).thenReturn(serverInfo);
-
-    Config configApi = mock(Config.class);
-    when(configApi.server()).thenReturn(serverApi);
-
-    GerritApi gerritApi = mock(GerritApi.class);
-    when(gerritApi.accounts()).thenReturn(accountsApi);
-    when(gerritApi.config()).thenReturn(configApi);
-
-    com.google.common.cache.Cache<
-            String, com.google.gerrit.server.config.ServerConfigCacheImpl.ServerConfigData>
-        serverConfigCache = com.google.common.cache.CacheBuilder.newBuilder().build();
-
-    IndexServlet servlet =
-        new IndexServlet(
-            "foo-url",
-            "bar-cdn",
-            "zaz-url",
-            gerritApi,
-            new ConfigExperimentFeatures(new org.eclipse.jgit.lib.Config()),
-            serverConfigCache);
-
-    servlet.doGet(new FakeHttpServletRequest(), new FakeHttpServletResponse());
-    servlet.doGet(new FakeHttpServletRequest(), new FakeHttpServletResponse());
-
-    verify(serverApi, times(1)).getInfo();
-    verify(serverApi, times(1)).getVersion();
-    // topMenus is no longer cached, so it should be called dynamically per user request
-    verify(serverApi, times(2)).topMenus();
   }
 }

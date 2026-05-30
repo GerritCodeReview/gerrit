@@ -284,7 +284,6 @@ public class GerritGlobalModule extends FactoryModule {
     install(PureRevertCache.module());
     install(CommentContextCacheImpl.module());
     install(SubmitRequirementsEvaluatorImpl.module());
-    install(ServerConfigCacheImpl.module());
 
     install(new AccessControlModule());
     install(new AccountModule());

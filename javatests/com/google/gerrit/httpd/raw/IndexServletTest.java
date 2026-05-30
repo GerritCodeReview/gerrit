@@ -28,6 +28,8 @@ import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.accounts.Accounts;
 import com.google.gerrit.extensions.api.config.Config;
 import com.google.gerrit.extensions.api.config.Server;
+import com.google.gerrit.extensions.common.DownloadInfo;
+import com.google.gerrit.extensions.common.DownloadSchemeInfo;
 import com.google.gerrit.extensions.common.ServerInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.config.ServerConfigCache;
@@ -37,11 +39,19 @@ import com.google.gerrit.server.experiments.ExperimentFeatures;
 import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.gerrit.util.http.testutil.FakeHttpServletRequest;
 import com.google.gerrit.util.http.testutil.FakeHttpServletResponse;
+import com.google.inject.Provider;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 
+@RunWith(MockitoJUnitRunner.class)
 public class IndexServletTest {
+
+  @Mock Provider<DownloadInfo> downloadInfoProviderMock;
 
   @Test
   public void renderTemplate() throws Exception {
@@ -157,5 +167,56 @@ public class IndexServletTest {
     verify(serverApi, times(1)).getVersion();
     // topMenus is no longer cached, so it should be called dynamically per user request
     verify(serverApi, times(2)).topMenus();
+  }
+
+  @Test
+  public void downloadInfoIsNotCached() throws Exception {
+    DownloadInfo downloadInfo1 = new DownloadInfo();
+    DownloadSchemeInfo downloadSchemeInfo1 = new DownloadSchemeInfo();
+    downloadSchemeInfo1.url = "http://user1@gerrit/a/repo";
+    downloadInfo1.schemes = Map.of("http", downloadSchemeInfo1);
+
+    DownloadInfo downloadInfo2 = new DownloadInfo();
+    DownloadSchemeInfo downloadSchemeInfo2 = new DownloadSchemeInfo();
+    downloadSchemeInfo2.url = "http://user2@gerrit/a/repo";
+    downloadInfo2.schemes = Map.of("http", downloadSchemeInfo2);
+
+    when(downloadInfoProviderMock.get()).thenReturn(downloadInfo1, downloadInfo2);
+    Accounts accountsApi = mock(Accounts.class);
+    when(accountsApi.self()).thenThrow(new AuthException("user needs to be authenticated"));
+
+    Server serverApi = mock(Server.class);
+    when(serverApi.getVersion()).thenReturn("123");
+    when(serverApi.topMenus()).thenReturn(ImmutableList.of(), ImmutableList.of());
+    ServerInfo serverInfo = new ServerInfo();
+    serverInfo.defaultTheme = "my-default-theme";
+    when(serverApi.getInfo()).thenReturn(serverInfo);
+
+    Config configApi = mock(Config.class);
+    when(configApi.server()).thenReturn(serverApi);
+
+    GerritApi gerritApi = mock(GerritApi.class);
+    when(gerritApi.accounts()).thenReturn(accountsApi);
+    when(gerritApi.config()).thenReturn(configApi);
+
+    Cache<String, ServerConfigCache.ServerConfigData> cache = CacheBuilder.newBuilder().build();
+    ServerConfigCache serverConfigCache = new ServerConfigCacheImpl(cache, gerritApi);
+
+    IndexServlet servlet =
+        new IndexServlet(
+            "foo-url",
+            "bar-cdn",
+            "zaz-url",
+            gerritApi,
+            new ConfigExperimentFeatures(new org.eclipse.jgit.lib.Config()),
+            serverConfigCache);
+
+    FakeHttpServletResponse indexHtmlResponse1 = new FakeHttpServletResponse();
+    servlet.doGet(new FakeHttpServletRequest(), indexHtmlResponse1);
+    FakeHttpServletResponse indexHtmlResponse2 = new FakeHttpServletResponse();
+    servlet.doGet(new FakeHttpServletRequest(), indexHtmlResponse2);
+
+    assertThat(indexHtmlResponse1.getActualBodyString())
+        .isNotEqualTo(indexHtmlResponse2.getActualBodyString());
   }
 }

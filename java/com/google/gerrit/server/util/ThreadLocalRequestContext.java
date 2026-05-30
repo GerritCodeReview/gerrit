@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.util;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.MoreObjects;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.exceptions.NotSignedInException;
@@ -69,7 +70,8 @@ public class ThreadLocalRequestContext {
   private static final ThreadLocal<RequestContext> local = new ThreadLocal<>();
 
   @Inject
-  ThreadLocalRequestContext() {}
+  @VisibleForTesting
+  public ThreadLocalRequestContext() {}
 
   public RequestContext setContext(@Nullable RequestContext ctx) {
     RequestContext old = getContext();

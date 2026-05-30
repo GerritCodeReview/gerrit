@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "62cf8591_672708da",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 70
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-30T08:34:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c448d317_ea3039bb",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 27
+      },
+      "revId": "4e337e6661419adb00e728664d0b24743c15bd43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "965c6543_8db602c1",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-05-30T07:02:28Z",
       "side": 1,
       "message": "Add a one-line comment to preserve the rationale from the comment block this commit removed.\n\n```suggestion\n          // Always go through deleteByValue: i.delete(id) forces an expensive\n          // changeId -\u003e projectKey index lookup in some index backends.\n          i.deleteByValue(changeDataFactory.create(project, id));\n```",
+      "range": {
+        "startLine": 676,
+        "startChar": 0,
+        "endLine": 676,
+        "endChar": 65
+      },
+      "revId": "4e337e6661419adb00e728664d0b24743c15bd43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "08a221ae_5b7dd06f",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeIndexer.java",
+        "patchSetId": 70
+      },
+      "lineNbr": 676,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-30T08:34:54Z",
+      "side": 1,
+      "message": "No, the comment isn\u0027t needed anymore because the deletion isn\u0027t conditional on the project\u0027s presence.",
+      "parentUuid": "965c6543_8db602c1",
       "range": {
         "startLine": 676,
         "startChar": 0,

@@ -22,6 +22,7 @@ import static com.google.gerrit.server.config.IndexResource.INDEX_KIND;
 import static com.google.gerrit.server.config.IndexVersionResource.INDEX_VERSION_KIND;
 import static com.google.gerrit.server.config.TaskResource.TASK_KIND;
 
+import com.google.gerrit.extensions.common.DownloadInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
 import com.google.gerrit.server.config.CapabilityResource;
@@ -55,6 +56,7 @@ public class ConfigRestApiModule extends RestApiModule {
     post(INDEX_KIND, "flush").to(FlushIndex.class);
     get(INDEX_KIND).to(GetIndex.class);
 
+    bind(DownloadInfo.class).toProvider(DownloadInfoProvider.class);
     get(CONFIG_KIND, "info").to(GetServerInfo.class);
 
     child(CONFIG_KIND, "labels").to(GlobalLabelsCollection.class);

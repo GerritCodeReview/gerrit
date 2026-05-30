@@ -14,18 +14,17 @@
 
 package com.google.gerrit.httpd.raw;
 
-import static com.google.gerrit.server.config.ServerConfigCacheImpl.SINGLETON_KEY;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static javax.servlet.http.HttpServletResponse.SC_OK;
 
-import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.io.Resources;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.common.ServerInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.server.config.ServerConfigCacheImpl.ServerConfigData;
+import com.google.gerrit.server.config.ServerConfigCache;
+import com.google.gerrit.server.config.ServerConfigCache.ServerConfigData;
 import com.google.gerrit.server.experiments.ExperimentFeatures;
 import com.google.template.soy.SoyFileSet;
 import com.google.template.soy.data.SanitizedContent;
@@ -53,7 +52,7 @@ public class IndexServlet extends HttpServlet {
   private final ExperimentFeatures experimentFeatures;
   private final SoySauce soySauce;
   private final Function<String, SanitizedContent> urlOrdainer;
-  private final Cache<String, ServerConfigData> serverConfigCache;
+  private final ServerConfigCache serverConfigCache;
 
   IndexServlet(
       @Nullable String canonicalUrl,
@@ -61,7 +60,7 @@ public class IndexServlet extends HttpServlet {
       @Nullable String faviconPath,
       GerritApi gerritApi,
       ExperimentFeatures experimentFeatures,
-      Cache<String, ServerConfigData> serverConfigCache) {
+      ServerConfigCache serverConfigCache) {
     this.canonicalUrl = canonicalUrl;
     this.cdnPath = cdnPath;
     this.faviconPath = faviconPath;
@@ -83,13 +82,7 @@ public class IndexServlet extends HttpServlet {
   protected void doGet(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
     SoySauce.Renderer renderer;
     try {
-      ServerConfigData configData =
-          serverConfigCache.get(
-              SINGLETON_KEY,
-              () ->
-                  ServerConfigData.create(
-                      gerritApi.config().server().getInfo(),
-                      gerritApi.config().server().getVersion()));
+      ServerConfigData configData = serverConfigCache.get();
 
       ServerInfo serverInfo = configData.serverInfo();
       String serverVersion = configData.serverVersion();

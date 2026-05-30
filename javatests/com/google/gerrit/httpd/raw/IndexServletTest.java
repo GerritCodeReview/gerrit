@@ -20,6 +20,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.extensions.api.GerritApi;
@@ -28,6 +29,7 @@ import com.google.gerrit.extensions.api.config.Config;
 import com.google.gerrit.extensions.api.config.Server;
 import com.google.gerrit.extensions.common.ServerInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.server.config.ServerConfigCacheImpl;
 import com.google.gerrit.server.experiments.ConfigExperimentFeatures;
 import com.google.gerrit.server.experiments.ExperimentFeatures;
 import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
@@ -135,9 +137,8 @@ public class IndexServletTest {
     when(gerritApi.accounts()).thenReturn(accountsApi);
     when(gerritApi.config()).thenReturn(configApi);
 
-    com.google.common.cache.Cache<
-            String, com.google.gerrit.server.config.ServerConfigCacheImpl.ServerConfigData>
-        serverConfigCache = com.google.common.cache.CacheBuilder.newBuilder().build();
+    Cache<String, ServerConfigCacheImpl.ServerConfigData> serverConfigCache =
+        com.google.common.cache.CacheBuilder.newBuilder().build();
 
     IndexServlet servlet =
         new IndexServlet(

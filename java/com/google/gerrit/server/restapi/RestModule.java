@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi;
 
+import com.google.gerrit.extensions.common.DownloadInfo;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.gpg.PublicKeyStore;
@@ -48,6 +49,7 @@ import com.google.gerrit.server.project.RefValidationHelper;
 import com.google.gerrit.server.restapi.change.DeleteVoteOp;
 import com.google.gerrit.server.restapi.change.PostReviewOp;
 import com.google.gerrit.server.restapi.change.PreviewFix;
+import com.google.gerrit.server.restapi.config.DownloadInfoProvider;
 import com.google.gerrit.server.restapi.project.CreateProject;
 import com.google.gerrit.server.restapi.project.ProjectNode;
 import com.google.gerrit.server.restapi.project.SetParent;
@@ -95,6 +97,8 @@ public class RestModule extends FactoryModule {
     DynamicSet.bind(binder(), GerritConfigListener.class).to(SetParent.class);
     DynamicSet.bind(binder(), ProjectCreationValidationListener.class)
         .to(CreateProject.ValidBranchListener.class);
+
+    bind(DownloadInfo.class).toProvider(DownloadInfoProvider.class);
 
     OptionalBinder.newOptionalBinder(binder(), PublicKeyStore.class)
         .setDefault()

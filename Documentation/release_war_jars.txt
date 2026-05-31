@@ -48,12 +48,16 @@ JavaEWAH
 javax.inject
 javax.servlet-api
 jcl-over-slf4j
+jetty-ee8-nested
+jetty-ee8-security
+jetty-ee8-servlet
 jetty-http
 jetty-io
 jetty-jmx
 jetty-security
 jetty-server
-jetty-servlet
+jetty-servlet-api
+jetty-session
 jetty-util
 jetty-util-ajax
 jgit

@@ -30,8 +30,6 @@ import javax.servlet.AsyncContext;
 import javax.servlet.AsyncEvent;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
-import org.eclipse.jetty.server.Request;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -163,12 +161,8 @@ public class ProjectQoSFilterTest {
     }
   }
 
-  private static final class FakeHttpServletRequest extends HttpServletRequestWrapper {
-
-    FakeHttpServletRequest() {
-      super(new Request(null, null));
-    }
-
+  private static final class FakeHttpServletRequest
+      extends com.google.gerrit.util.http.testutil.FakeHttpServletRequest {
     @Override
     public String getRemoteHost() {
       return "1.2.3.4";

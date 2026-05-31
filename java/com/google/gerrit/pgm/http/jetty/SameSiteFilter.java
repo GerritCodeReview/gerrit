@@ -28,12 +28,22 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
-import org.eclipse.jetty.http.HttpCookie;
 import org.eclipse.jgit.lib.Config;
 
 @Singleton
 public class SameSiteFilter implements Filter {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
+  // Magic strings inherited from Jetty 9's HttpCookie.SAME_SITE_*_COMMENT
+  // public constants. In Jetty 12 these constants moved to
+  // org.eclipse.jetty.ee{8,9}.nested.Response as protected fields, so they are
+  // no longer accessible from application code -- but the underlying mechanism
+  // is preserved: the ee8 nested Response inspects a Cookie's comment for
+  // these markers and emits a proper SameSite attribute on the wire.
+  // See org.eclipse.jetty.ee8.nested.Response (the values are kept verbatim).
+  private static final String SAME_SITE_LAX_COMMENT = "__SAME_SITE_LAX__";
+  private static final String SAME_SITE_STRICT_COMMENT = "__SAME_SITE_STRICT__";
+  private static final String SAME_SITE_NONE_COMMENT = "__SAME_SITE_NONE__";
 
   private final String sameSite;
 
@@ -55,9 +65,9 @@ public class SameSiteFilter implements Filter {
     }
     String sameSiteComment =
         switch (sameSite.toLowerCase()) {
-          case "lax" -> HttpCookie.SAME_SITE_LAX_COMMENT;
-          case "strict" -> HttpCookie.SAME_SITE_STRICT_COMMENT;
-          case "none" -> HttpCookie.SAME_SITE_NONE_COMMENT;
+          case "lax" -> SAME_SITE_LAX_COMMENT;
+          case "strict" -> SAME_SITE_STRICT_COMMENT;
+          case "none" -> SAME_SITE_NONE_COMMENT;
           default ->
               throw new ServletException(String.format("Invalid sameSite value: %s", sameSite));
         };

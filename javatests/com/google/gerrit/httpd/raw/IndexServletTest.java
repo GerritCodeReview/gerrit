@@ -71,6 +71,8 @@ public class IndexServletTest {
 
   @Mock Provider<DownloadInfo> downloadInfoProviderMock;
 
+  @Mock Provider<RequestContext> requestContextProviderMock;
+
   @Mock Provider<ThreadLocalRequestContext> localContextProviderMock;
 
   @Mock Server serverApi;
@@ -143,6 +145,7 @@ public class IndexServletTest {
             cache,
             gerritApi,
             downloadInfoProviderMock,
+            IndexServletTest::anonymousUserRequestContext,
             IndexServletTest::anonymousUserThreadLocalContext);
     IndexServlet servlet =
         new IndexServlet(
@@ -193,7 +196,11 @@ public class IndexServletTest {
 
     ServerConfigCache serverConfigCache =
         new ServerConfigCacheImpl(
-            cache, gerritApi, downloadInfoProviderMock, localContextProviderMock);
+            cache,
+            gerritApi,
+            downloadInfoProviderMock,
+            requestContextProviderMock,
+            localContextProviderMock);
 
     IndexServlet servlet =
         new IndexServlet(
@@ -218,7 +225,11 @@ public class IndexServletTest {
     GerritApi gerritApi = mockGerritApi(ANONYMOUS_USER);
     ServerConfigCache serverConfigCache =
         new ServerConfigCacheImpl(
-            cache, gerritApi, downloadInfoProviderMock, localContextProviderMock);
+            cache,
+            gerritApi,
+            downloadInfoProviderMock,
+            requestContextProviderMock,
+            localContextProviderMock);
 
     IndexServlet servlet =
         new IndexServlet(
@@ -246,7 +257,11 @@ public class IndexServletTest {
 
     ServerConfigCache serverConfigCache =
         new ServerConfigCacheImpl(
-            cache, gerritApi, downloadInfoProviderMock, localContextProviderMock);
+            cache,
+            gerritApi,
+            downloadInfoProviderMock,
+            requestContextProviderMock,
+            localContextProviderMock);
 
     IndexServlet servlet =
         new IndexServlet(
@@ -273,14 +288,14 @@ public class IndexServletTest {
     if (isIdentifiedUser) {
       AccountApi accountApi = mock(AccountApi.class);
       when(accountsApi.self()).thenReturn(accountApi);
-      when(localContextProviderMock.get())
+      when(requestContextProviderMock.get())
           .thenReturn(
-              userThreadLocalContext(FAKE_CURRENT_USER1),
-              userThreadLocalContext(FAKE_CURRENT_USER2));
+              userRequestContext(FAKE_CURRENT_USER1), userRequestContext(FAKE_CURRENT_USER2));
     } else {
       when(accountsApi.self()).thenThrow(new AuthException("user needs to be authenticated"));
-      when(localContextProviderMock.get()).thenReturn(anonymousUserThreadLocalContext());
+      when(requestContextProviderMock.get()).thenReturn(anonymousUserRequestContext());
     }
+    when(localContextProviderMock.get()).thenReturn(new ThreadLocalRequestContext());
 
     when(serverApi.getVersion()).thenReturn("123");
     when(serverApi.topMenus()).thenReturn(ImmutableList.of(), ImmutableList.of());
@@ -305,15 +320,17 @@ public class IndexServletTest {
     return downloadInfo1;
   }
 
+  private static RequestContext anonymousUserRequestContext() {
+    return AnonymousUser::new;
+  }
+
+  private static RequestContext userRequestContext(CurrentUser user) {
+    return () -> user;
+  }
+
   private static ThreadLocalRequestContext anonymousUserThreadLocalContext() {
     ThreadLocalRequestContext ctx = new ThreadLocalRequestContext();
     RequestContext ignored = ctx.setContext(AnonymousUser::new);
-    return ctx;
-  }
-
-  private static ThreadLocalRequestContext userThreadLocalContext(CurrentUser user) {
-    ThreadLocalRequestContext ctx = new ThreadLocalRequestContext();
-    RequestContext ignored = ctx.setContext(() -> user);
     return ctx;
   }
 }

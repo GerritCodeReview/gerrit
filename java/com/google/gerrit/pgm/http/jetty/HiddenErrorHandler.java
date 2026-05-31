@@ -20,14 +20,14 @@ import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.util.http.CacheHeaders;
 import java.io.IOException;
+import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.eclipse.jetty.ee8.nested.ErrorHandler;
+import org.eclipse.jetty.ee8.nested.Request;
 import org.eclipse.jetty.http.HttpHeader;
 import org.eclipse.jetty.http.HttpStatus;
-import org.eclipse.jetty.server.HttpConnection;
-import org.eclipse.jetty.server.Request;
-import org.eclipse.jetty.server.handler.ErrorHandler;
 
 class HiddenErrorHandler extends ErrorHandler {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
@@ -35,19 +35,18 @@ class HiddenErrorHandler extends ErrorHandler {
   @Override
   public void handle(
       String target, Request baseRequest, HttpServletRequest req, HttpServletResponse res)
-      throws IOException {
-    HttpConnection conn = HttpConnection.getCurrentConnection();
-    baseRequest.setHandled(true);
+      throws IOException, ServletException {
     try {
       log(req);
     } finally {
-      reply(conn, res);
+      res.setHeader(HttpHeader.CONTENT_TYPE.asString(), "text/plain; charset=ISO-8859-1");
+      reply(res);
     }
+    baseRequest.setHandled(true);
   }
 
-  private void reply(HttpConnection conn, HttpServletResponse res) throws IOException {
-    byte[] msg = message(conn);
-    res.setHeader(HttpHeader.CONTENT_TYPE.asString(), "text/plain; charset=ISO-8859-1");
+  private void reply(HttpServletResponse res) throws IOException {
+    byte[] msg = message(res);
     res.setContentLength(msg.length);
     try {
       CacheHeaders.setNotCacheable(res);
@@ -58,15 +57,10 @@ class HiddenErrorHandler extends ErrorHandler {
     }
   }
 
-  private static byte[] message(HttpConnection conn) {
-    String msg;
-    if (conn == null) {
+  private static byte[] message(HttpServletResponse res) {
+    String msg = HttpStatus.getMessage(res.getStatus());
+    if (msg == null) {
       msg = "";
-    } else {
-      msg = conn.getHttpChannel().getResponse().getReason();
-      if (msg == null) {
-        msg = HttpStatus.getMessage(conn.getHttpChannel().getResponse().getStatus());
-      }
     }
     return msg.getBytes(ISO_8859_1);
   }

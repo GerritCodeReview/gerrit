@@ -68,6 +68,144 @@
       },
       "revId": "c96d927c6e7981301a7c64a3859d01c6445794a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23e03355_0535625e",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 3008,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-31T19:55:17Z",
+      "side": 1,
+      "message": "I\u0027d suggest to return *ALL* permissions here, keeping the existing `actions` API. I know there is some duplication, however, moving forward the UI should use this endpoint mainly, and the actions just for the top-button bar with HTTP associated actions.",
+      "range": {
+        "startLine": 3007,
+        "startChar": 8,
+        "endLine": 3008,
+        "endChar": 32
+      },
+      "revId": "c96d927c6e7981301a7c64a3859d01c6445794a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61b5c716_dc3ae9e8",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 3030,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-31T19:55:17Z",
+      "side": 1,
+      "message": "Do not use this format as example, but the `project~changeNum` which is directly using NoteDb, rather than using an index lookup.\n\nWe should use ourselves the preferred format and suggest to use it in our examples.",
+      "range": {
+        "startLine": 3030,
+        "startChar": 15,
+        "endLine": 3030,
+        "endChar": 73
+      },
+      "revId": "c96d927c6e7981301a7c64a3859d01c6445794a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52d8d516_584eba7a",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 8038,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-31T19:55:17Z",
+      "side": 1,
+      "message": "We should give the negatives as well, for allowing the _AI Review_ permission model where default is enabled.",
+      "range": {
+        "startLine": 8037,
+        "startChar": 0,
+        "endLine": 8038,
+        "endChar": 46
+      },
+      "revId": "c96d927c6e7981301a7c64a3859d01c6445794a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6178b7de_f9306d1f",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 8044,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-31T19:55:17Z",
+      "side": 1,
+      "message": "See my previous comment: we should return them all IMHO.",
+      "range": {
+        "startLine": 8040,
+        "startChar": 0,
+        "endLine": 8044,
+        "endChar": 14
+      },
+      "revId": "c96d927c6e7981301a7c64a3859d01c6445794a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5bcafd80_d2722af0",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ChangePermissionsInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-31T19:55:17Z",
+      "side": 1,
+      "message": "I disagree with using a record with fields, as we risk duplicating all existing change permissions.\n\nWhy not simply return a map of `String`/`Boolean`, where the permission is one of the strings declared in the `com.google.gerrit.entities.Permission`?",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 31
+      },
+      "revId": "c96d927c6e7981301a7c64a3859d01c6445794a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5db550cc_30dad773",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetChangePermissions.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-31T19:55:17Z",
+      "side": 1,
+      "message": "If we follow this pattern, this code will become a giant if/then/else.\n\nSee my suggestion to simply returning a map of permissions.",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 5
+      },
+      "revId": "c96d927c6e7981301a7c64a3859d01c6445794a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

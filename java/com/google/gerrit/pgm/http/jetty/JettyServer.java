@@ -52,7 +52,14 @@ import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
+import org.eclipse.jetty.ee8.nested.SessionHandler;
+import org.eclipse.jetty.ee8.servlet.DefaultServlet;
+import org.eclipse.jetty.ee8.servlet.FilterHolder;
+import org.eclipse.jetty.ee8.servlet.ServletContextHandler;
+import org.eclipse.jetty.ee8.servlet.ServletHolder;
 import org.eclipse.jetty.http.HttpScheme;
+import org.eclipse.jetty.http.HttpURI;
+import org.eclipse.jetty.http.UriCompliance;
 import org.eclipse.jetty.io.ConnectionStatistics;
 import org.eclipse.jetty.jmx.MBeanContainer;
 import org.eclipse.jetty.server.Connector;
@@ -60,21 +67,14 @@ import org.eclipse.jetty.server.ForwardedRequestCustomizer;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.HttpConfiguration;
 import org.eclipse.jetty.server.HttpConnectionFactory;
+import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.SecureRequestCustomizer;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.server.SslConnectionFactory;
-import org.eclipse.jetty.server.handler.ContextHandler;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
-import org.eclipse.jetty.server.handler.RequestLogHandler;
 import org.eclipse.jetty.server.handler.StatisticsHandler;
-import org.eclipse.jetty.server.session.SessionHandler;
-import org.eclipse.jetty.servlet.DefaultServlet;
-import org.eclipse.jetty.servlet.FilterHolder;
-import org.eclipse.jetty.servlet.ServletContextHandler;
-import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.BlockingArrayQueue;
-import org.eclipse.jetty.util.log.Log;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.eclipse.jgit.lib.Config;
@@ -259,15 +259,11 @@ public class JettyServer {
 
     Handler app = makeContext(env, cfg, sessionHandler);
     if (cfg.getBoolean("httpd", "requestLog", !reverseProxy)) {
-      RequestLogHandler handler = new RequestLogHandler();
-      handler.setRequestLog(httpLogFactory.get());
-      handler.setHandler(app);
-      app = handler;
+      httpd.setRequestLog(httpLogFactory.get());
     }
     if (cfg.getBoolean("httpd", "registerMBeans", false)) {
       MBeanContainer mbean = new MBeanContainer(ManagementFactory.getPlatformMBeanServer());
       httpd.addEventListener(mbean);
-      httpd.addBean(Log.getRootLogger());
       httpd.addBean(mbean);
     }
 
@@ -312,6 +308,24 @@ public class JettyServer {
       final int defaultPort;
       final ServerConnector c;
       HttpConfiguration config = defaultConfig(requestHeaderSize);
+
+      // Jetty 12 changed the default UriCompliance to RFC3986 (strict),
+      // which rejects two URI shapes Gerrit's REST API depends on:
+      //   - AMBIGUOUS_PATH_SEPARATOR: encoded '/' (%2F) inside a path
+      //     segment, used for project/branch names (e.g.
+      //     DELETE /projects/foo%2Fbar/branches/refs%2Fheads%2Ftest);
+      //   - AMBIGUOUS_PATH_ENCODING: an encoded character that itself
+      //     decodes to a reserved one (e.g. %25 decoding to '%'),
+      //     hit by /changes/%3C%25%3DFOO%25%3E~1/detail where the
+      //     decoded identifier '<%=FOO%>' contains a literal '%'.
+      // Allow exactly these two violations; broader presets like LEGACY
+      // also permit suspicious characters, USER_INFO, FRAGMENT etc. that
+      // Gerrit's REST surface does not need.
+      config.setUriCompliance(
+          UriCompliance.from(
+              EnumSet.of(
+                  UriCompliance.Violation.AMBIGUOUS_PATH_SEPARATOR,
+                  UriCompliance.Violation.AMBIGUOUS_PATH_ENCODING)));
 
       if (AuthType.CLIENT_SSL_CERT_LDAP.equals(authType) && !"https".equals(u.getScheme())) {
         throw new IllegalArgumentException(
@@ -373,11 +387,27 @@ public class JettyServer {
       } else if ("proxy-https".equals(u.getScheme())) {
         defaultPort = 8080;
         config.addCustomizer(new ForwardedRequestCustomizer());
+        // For a proxy that terminates TLS, mark every request as HTTPS
+        // unconditionally. ForwardedRequestCustomizer alone only sets
+        // isSecure() when the proxy sends X-Forwarded-Proto=https or
+        // X-Proxied-Https=on; this wrapper covers proxies that don't.
+        // Jetty 12's HttpConfiguration.Customizer returns a (possibly
+        // wrapped) Request, so wrap the URI's scheme and override isSecure().
         config.addCustomizer(
-            (connector, channelConfig, request) -> {
-              request.setScheme(HttpScheme.HTTPS.asString());
-              request.setSecure(true);
-            });
+            (request, responseHeaders) ->
+                new Request.Wrapper(request) {
+                  @Override
+                  public HttpURI getHttpURI() {
+                    return HttpURI.build(super.getHttpURI())
+                        .scheme(HttpScheme.HTTPS.asString())
+                        .asImmutable();
+                  }
+
+                  @Override
+                  public boolean isSecure() {
+                    return true;
+                  }
+                });
         c = newServerConnector(server, acceptors, config);
 
       } else {
@@ -428,9 +458,21 @@ public class JettyServer {
   private HttpConfiguration defaultConfig(int requestHeaderSize) {
     HttpConfiguration config = new HttpConfiguration();
     config.setRequestHeaderSize(requestHeaderSize);
+    // Jetty 12 changed the default for relativeRedirectAllowed from false to
+    // true (https://github.com/jetty/jetty.project/issues/11947); restore the
+    // pre-Jetty-12 behaviour Gerrit's redirect handling expects.
+    config.setRelativeRedirectAllowed(false);
     config.setSendServerVersion(false);
     config.setSendDateHeader(true);
-    config.setBlockingTimeout(0);
+    // TODO(davido): consider configuring HttpConfiguration.setMinResponseDataRate
+    // and setMinRequestDataRate. Jetty 12 removed setBlockingTimeout (deprecated
+    // in Jetty 9) in favour of these minimum bytes/sec knobs. Gerrit's previous
+    // setBlockingTimeout(0) was an explicit opt-in to Jetty 9's special
+    // "0 == use idle timeout" semantic (the Jetty 9 default was -1, i.e.
+    // blocking-timeout disabled). In Jetty 12 the blocking-timeout knob no
+    // longer exists; the connector's idle timeout governs all stalled IO.
+    // Revisit if slow-client mitigation becomes desirable.
+
     return config;
   }
 
@@ -469,6 +511,13 @@ public class JettyServer {
     return site.resolve(path);
   }
 
+  // BlockingArrayQueue's 3-arg constructor is deprecated for removal in
+  // Jetty 12.1.2+ -- the public API no longer offers a bounded-but-growable
+  // queue matching Gerrit's historical (initial = minThreads, grow up to
+  // maxCapacity) semantics. Revisit when Jetty 12.2 drops it: either switch
+  // to the unbounded constructor (Jetty's own recommendation) or to the
+  // fixed-size 1-arg one.
+  @SuppressWarnings("removal")
   private QueuedThreadPool threadPool(Config cfg, ThreadSettingsConfig threadSettingsConfig) {
     int maxThreads = threadSettingsConfig.getHttpdMaxThreads();
     int minThreads = cfg.getInt("httpd", null, "minthreads", 5);
@@ -502,7 +551,7 @@ public class JettyServer {
       paths.add(p);
     }
 
-    final List<ContextHandler> all = new ArrayList<>();
+    final List<Handler> all = new ArrayList<>();
     for (String path : paths) {
       all.add(makeContext(path, env, cfg, sessionHandler));
     }
@@ -522,7 +571,7 @@ public class JettyServer {
     return r;
   }
 
-  private ContextHandler makeContext(
+  private Handler makeContext(
       final String contextPath, JettyEnv env, Config cfg, SessionHandler sessionHandler) {
     final ServletContextHandler app = new ServletContextHandler();
 
@@ -601,6 +650,8 @@ public class JettyServer {
     ds.setInitParameter("gzip", "true");
 
     app.setWelcomeFiles(new String[0]);
-    return app;
+    // ee8 ContextHandler implements Supplier<org.eclipse.jetty.server.Handler>;
+    // unwrap to the core Handler for installation into the server's handler tree.
+    return app.get();
   }
 }

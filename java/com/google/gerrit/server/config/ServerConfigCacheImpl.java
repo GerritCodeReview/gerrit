@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.config;
 
-import com.google.auto.value.AutoValue;
 import com.google.common.cache.Cache;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.common.ServerInfo;
@@ -30,25 +29,16 @@ import java.util.concurrent.ExecutionException;
 public class ServerConfigCacheImpl implements ServerConfigCache {
   private static final String CACHE_CONFIG = "server_config";
   private static final String SINGLETON_KEY = "GLOBAL";
-  private final Cache<String, ServerConfigData> serverConfigCache;
+  private final Cache<String, ServerInfoAndVersion> serverConfigCache;
   private final GerritApi gerritApi;
 
-  @AutoValue
-  public abstract static class ServerConfigData {
-    public abstract ServerInfo serverInfo();
-
-    public abstract String serverVersion();
-
-    public static ServerConfigData create(ServerInfo serverInfo, String serverVersion) {
-      return new AutoValue_ServerConfigCacheImpl_ServerConfigData(serverInfo, serverVersion);
-    }
-  }
+  public record ServerInfoAndVersion(ServerInfo serverInfo, String serverVersion) {}
 
   public static Module module() {
     return new CacheModule() {
       @Override
       protected void configure() {
-        cache(CACHE_CONFIG, String.class, ServerConfigData.class)
+        cache(CACHE_CONFIG, String.class, ServerInfoAndVersion.class)
             .expireAfterWrite(Duration.ofMinutes(5));
         bind(ServerConfigCache.class).to(ServerConfigCacheImpl.class).in(Scopes.SINGLETON);
       }
@@ -57,18 +47,19 @@ public class ServerConfigCacheImpl implements ServerConfigCache {
 
   @Inject
   ServerConfigCacheImpl(
-      @Named(CACHE_CONFIG) Cache<String, ServerConfigData> serverConfigCache, GerritApi gerritApi) {
+      @Named(CACHE_CONFIG) Cache<String, ServerInfoAndVersion> serverConfigCache,
+      GerritApi gerritApi) {
     this.serverConfigCache = serverConfigCache;
     this.gerritApi = gerritApi;
   }
 
   @Override
-  public ServerConfigData get() throws IOException {
+  public ServerInfoAndVersion get() throws IOException {
     try {
       return serverConfigCache.get(
           SINGLETON_KEY,
           () ->
-              new AutoValue_ServerConfigCacheImpl_ServerConfigData(
+              new ServerInfoAndVersion(
                   gerritApi.config().server().getInfo(), gerritApi.config().server().getVersion()));
     } catch (ExecutionException e) {
       throw new IOException(e);

@@ -18,5 +18,5 @@ import java.io.IOException;
 
 public interface ServerConfigCache {
 
-  ServerConfigCacheImpl.ServerConfigData get() throws IOException;
+  ServerConfigCacheImpl.ServerInfoAndVersion get() throws IOException;
 }

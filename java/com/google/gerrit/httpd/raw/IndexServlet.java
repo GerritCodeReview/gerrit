@@ -24,7 +24,7 @@ import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.common.ServerInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.config.ServerConfigCache;
-import com.google.gerrit.server.config.ServerConfigCacheImpl.ServerConfigData;
+import com.google.gerrit.server.config.ServerConfigCacheImpl.ServerInfoAndVersion;
 import com.google.gerrit.server.experiments.ExperimentFeatures;
 import com.google.template.soy.SoyFileSet;
 import com.google.template.soy.data.SanitizedContent;
@@ -81,7 +81,7 @@ public class IndexServlet extends HttpServlet {
   protected void doGet(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
     SoySauce.Renderer renderer;
     try {
-      ServerConfigData configData = serverConfigCache.get();
+      ServerInfoAndVersion configData = serverConfigCache.get();
 
       ServerInfo serverInfo = configData.serverInfo();
       String serverVersion = configData.serverVersion();

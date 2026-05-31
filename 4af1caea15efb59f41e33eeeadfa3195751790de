@@ -16,6 +16,23 @@
       "message": "Before proceeding, we should clarify the target branch for this series. Given that the original change 565681 was cherry-picked to stable-3.14, it would make sense to retarget this series to stable-3.14 as well.",
       "revId": "4af1caea15efb59f41e33eeeadfa3195751790de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "da218640_a0c8abc1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4880957
+      },
+      "writtenOn": "2026-05-31T14:59:59Z",
+      "side": 1,
+      "message": "536481: Introduce flushAndCommit() in Index interface | https://gerrit-review.googlesource.com/c/gerrit/+/536481",
+      "revId": "4af1caea15efb59f41e33eeeadfa3195751790de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

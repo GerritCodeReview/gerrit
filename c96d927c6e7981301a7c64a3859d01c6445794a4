@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac5ebc5f_cee9e690",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-31T19:46:16Z",
+      "side": 1,
+      "message": "I see, however, this can be misleading because some of the permissions are exposed as actions others are exposed as permissions.\n\nI would recommend to expose *ALL* permissions on this endpoint and gradually move the UI to use this endpoint instead.",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 63
+      },
+      "revId": "c96d927c6e7981301a7c64a3859d01c6445794a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ac8ab76_e58a7aff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-31T19:46:16Z",
+      "side": 1,
+      "message": "This is confusing IMHO.",
+      "range": {
+        "startLine": 39,
+        "startChar": 4,
+        "endLine": 39,
+        "endChar": 47
+      },
+      "revId": "c96d927c6e7981301a7c64a3859d01c6445794a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1f4dddd_3b6d905f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-31T19:46:16Z",
+      "side": 1,
+      "message": "This logic wouldn\u0027t work for the `AI Review` permission, where Google wants the opposite, where an empty value means that permission is granted.",
+      "range": {
+        "startLine": 44,
+        "startChar": 50,
+        "endLine": 45,
+        "endChar": 30
+      },
+      "revId": "c96d927c6e7981301a7c64a3859d01c6445794a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

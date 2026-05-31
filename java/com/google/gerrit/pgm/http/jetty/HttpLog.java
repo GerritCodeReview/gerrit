@@ -100,26 +100,27 @@ class HttpLog extends AbstractLifeCycle implements RequestLog {
             null // MDC properties
             );
 
-    String uri = req.getRequestURI();
-    if (!Strings.isNullOrEmpty(req.getQueryString())) {
-      uri += "?" + LogRedactUtil.redactQueryString(req.getQueryString());
-    }
+    String path = req.getHttpURI().getPath();
+    String query = req.getHttpURI().getQuery();
+    String uri =
+        Strings.isNullOrEmpty(query) ? path : path + "?" + LogRedactUtil.redactQueryString(query);
+
     String user = (String) req.getAttribute(GetUserFilter.USER_ATTR_KEY);
     if (user != null) {
       event.setProperty(P_USER, user);
     }
 
-    set(event, P_HOST, req.getRemoteAddr());
+    set(event, P_HOST, Request.getRemoteAddr(req));
     set(event, P_METHOD, req.getMethod());
     set(event, P_RESOURCE, uri);
-    set(event, P_PROTOCOL, req.getProtocol());
+    set(event, P_PROTOCOL, req.getConnectionMetaData().getProtocol());
     set(event, P_STATUS, rsp.getStatus());
-    set(event, P_CONTENT_LENGTH, rsp.getContentCount());
-    set(event, P_LATENCY, System.currentTimeMillis() - req.getTimeStamp());
-    set(event, P_REFERER, req.getHeader("Referer"));
-    set(event, P_USER_AGENT, req.getHeader("User-Agent"));
-    set(event, P_COMMAND_STATUS, rsp.getHeader(GIT_COMMAND_STATUS_HEADER));
-    String traceId = rsp.getHeader(RestApiServlet.X_GERRIT_TRACE);
+    set(event, P_CONTENT_LENGTH, Response.getContentBytesWritten(rsp));
+    set(event, P_LATENCY, System.currentTimeMillis() - Request.getTimeStamp(req));
+    set(event, P_REFERER, req.getHeaders().get("Referer"));
+    set(event, P_USER_AGENT, req.getHeaders().get("User-Agent"));
+    set(event, P_COMMAND_STATUS, rsp.getHeaders().get(GIT_COMMAND_STATUS_HEADER));
+    String traceId = rsp.getHeaders().get(RestApiServlet.X_GERRIT_TRACE);
     if (traceId != null) {
       set(event, P_TRACE_ID, traceId);
     }

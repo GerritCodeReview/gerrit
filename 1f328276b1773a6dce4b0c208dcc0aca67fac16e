@@ -16,6 +16,24 @@
       "message": "`DownloadInfoProvider` is not a REST endpoint. `RestApiModule` says shared REST _support_ classes should be bound in `RestModule`. Move this binding to RestModule, to `java/com/google/gerrit/server/restapi/RestModule.java`, around line 97.",
       "revId": "1f328276b1773a6dce4b0c208dcc0aca67fac16e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2271466c_5be72de3",
+        "filename": "java/com/google/gerrit/server/restapi/config/ConfigRestApiModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-31T20:18:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bbb7d46c_d763fa40",
+      "revId": "1f328276b1773a6dce4b0c208dcc0aca67fac16e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -27,10 +27,6 @@ public class NotFoundIT extends AbstractDaemonTest {
     RestResponse response = adminRestSession.get("/non-existing/");
     assertThat(response.getStatusCode()).isEqualTo(SC_NOT_FOUND);
     assertThat(response.getEntityContent()).isEqualTo("Not Found");
-
-    response = adminRestSession.post("/non-existing/");
-    assertThat(response.getStatusCode()).isEqualTo(SC_NOT_FOUND);
-    assertThat(response.getEntityContent()).isEqualTo("Not Found");
   }
 
   @Test

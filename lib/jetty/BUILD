@@ -6,16 +6,29 @@ java_library(
     visibility = ["//visibility:public"],
     exports = [
         ":util-ajax",
-        "@external_deps//:org_eclipse_jetty_jetty_servlet",
+        "@external_deps//:org_eclipse_jetty_ee8_jetty_ee8_servlet",
     ],
-    runtime_deps = [":security"],
+    runtime_deps = [
+        ":nested",
+        ":security",
+    ],
+)
+
+java_library(
+    name = "nested",
+    data = ["//lib:LICENSE-Apache2.0"],
+    visibility = ["//visibility:public"],
+    exports = ["@external_deps//:org_eclipse_jetty_ee8_jetty_ee8_nested"],
 )
 
 java_library(
     name = "security",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@external_deps//:org_eclipse_jetty_jetty_security"],
+    exports = [
+        "@external_deps//:org_eclipse_jetty_ee8_jetty_ee8_security",
+        "@external_deps//:org_eclipse_jetty_jetty_security",
+    ],
     runtime_deps = [":server"],
 )
 
@@ -25,6 +38,7 @@ java_library(
     visibility = ["//visibility:public"],
     exports = [
         ":http",
+        ":session",
         "@external_deps//:org_eclipse_jetty_jetty_server",
     ],
 )
@@ -62,6 +76,12 @@ java_library(
     name = "util",
     data = ["//lib:LICENSE-Apache2.0"],
     exports = ["@external_deps//:org_eclipse_jetty_jetty_util"],
+)
+
+java_library(
+    name = "session",
+    data = ["//lib:LICENSE-Apache2.0"],
+    exports = ["@external_deps//:org_eclipse_jetty_jetty_session"],
 )
 
 java_library(

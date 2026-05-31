@@ -98,7 +98,7 @@ public class IndexServletTest {
             testFaviconURL,
             gerritApi,
             experimentFeatures,
-            () -> ServerConfigCacheImpl.ServerConfigData.create(serverInfo, "123"));
+            () -> new ServerConfigCacheImpl.ServerInfoAndVersion(serverInfo, "123"));
 
     FakeHttpServletResponse response = new FakeHttpServletResponse();
 

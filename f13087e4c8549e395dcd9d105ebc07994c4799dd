@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65b7b899_d12cfb61",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-05-31T11:21:32Z",
+      "side": 1,
+      "message": "This CL only modifies tests and probably should not include user-visible release notes.\n\nSince this is effectively a proof-of-failure change added to demonstrate the issue via `downloadInfoIsNotCachedForIdentifiedUsers`, and it is expected to fail verification, it may be better squashed into the follow-up change that implements the fix.",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 116
+      },
+      "revId": "f13087e4c8549e395dcd9d105ebc07994c4799dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2a75c84_a39a7da3",
+        "filename": "java/com/google/gerrit/server/util/ThreadLocalRequestContext.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-05-31T11:21:32Z",
+      "side": 1,
+      "message": "The widening of the ctor visibility is not required for that test and could be avoided.\n\nThe index servlet tests do not need to construct a real ThreadLocalRequestContext. \n\nServerConfigCacheImpl only needs the provider so ManualRequestContext can temporarily install an anonymous context while loading cached server info.\n\nYou could just use mocked `ThreadLocalRequestContext` like this:\n\n```diff\n  -  private static ThreadLocalRequestContext anonymousUserThreadLocalContext() {\n  -    ThreadLocalRequestContext ctx \u003d new ThreadLocalRequestContext();\n  -    RequestContext ignored \u003d ctx.setContext(AnonymousUser::new);\n  -    return ctx;\n  +  private static ThreadLocalRequestContext mockThreadLocalRequestContext() {\n  +    return mock(ThreadLocalRequestContext.class);\n     }\n```\n\nCorrect?",
+      "range": {
+        "startLine": 73,
+        "startChar": 2,
+        "endLine": 74,
+        "endChar": 39
+      },
+      "revId": "f13087e4c8549e395dcd9d105ebc07994c4799dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21d9c584_abc6ebae",
+        "filename": "javatests/com/google/gerrit/httpd/raw/IndexServletTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-05-31T11:21:32Z",
+      "side": 1,
+      "message": "This proves the provider is called twice, but not that DownloadInfo belongs to the active user.\n\nCan we derive the mocked DownloadInfo URL from the active CurrentUser and assert user1/user2 responses do not leak into each other.\n\nSomething like this: [1]?\n\n[1]: https://paste.opendev.org/show/bK82zugbBNWk0nka23W8/",
+      "range": {
+        "startLine": 235,
+        "startChar": 4,
+        "endLine": 235,
+        "endChar": 94
+      },
+      "revId": "f13087e4c8549e395dcd9d105ebc07994c4799dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "474a132e_68daeefd",
+        "filename": "javatests/com/google/gerrit/httpd/raw/IndexServletTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-05-31T11:21:32Z",
+      "side": 1,
+      "message": "Nit: `baz-url` 😊",
+      "range": {
+        "startLine": 244,
+        "startChar": 13,
+        "endLine": 244,
+        "endChar": 16
+      },
+      "revId": "f13087e4c8549e395dcd9d105ebc07994c4799dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

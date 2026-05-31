@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.common.ServerInfo;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.util.ManualRequestContext;
+import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.inject.Inject;
 import com.google.inject.Module;
@@ -37,7 +38,8 @@ public class ServerConfigCacheImpl implements ServerConfigCache {
   private final Cache<String, ServerConfigData> serverConfigCache;
   private final GerritApi gerritApi;
   private final Provider<DownloadInfo> downloadInfoProvider;
-  private final Provider<ThreadLocalRequestContext> requestContextProvider;
+  private final Provider<RequestContext> requestContextProvider;
+  private final Provider<ThreadLocalRequestContext> threadLocalRequestContextProvider;
 
   public static Module module() {
     return new CacheModule() {
@@ -56,11 +58,13 @@ public class ServerConfigCacheImpl implements ServerConfigCache {
       @Named(ServerConfigCache.CACHE_CONFIG) Cache<String, ServerConfigData> serverConfigCache,
       GerritApi gerritApi,
       Provider<DownloadInfo> downloadInfoProvider,
-      Provider<ThreadLocalRequestContext> requestContextProvider) {
+      Provider<RequestContext> requestContextProvider,
+      Provider<ThreadLocalRequestContext> threadLocalRequestContextProvider) {
     this.serverConfigCache = serverConfigCache;
     this.gerritApi = gerritApi;
     this.downloadInfoProvider = downloadInfoProvider;
     this.requestContextProvider = requestContextProvider;
+    this.threadLocalRequestContextProvider = threadLocalRequestContextProvider;
   }
 
   @Override
@@ -68,7 +72,7 @@ public class ServerConfigCacheImpl implements ServerConfigCache {
     ServerConfigData cachedConfig =
         serverConfigCache.get(SINGLETON_KEY, this::getServerConfigDataAsAnonymousUser);
 
-    if (!requestContextProvider.get().getContext().getUser().isIdentifiedUser()) {
+    if (!requestContextProvider.get().getUser().isIdentifiedUser()) {
       return cachedConfig;
     }
 
@@ -100,7 +104,7 @@ public class ServerConfigCacheImpl implements ServerConfigCache {
 
   private ServerConfigData getServerConfigDataAsAnonymousUser() throws Exception {
     try (AutoCloseable unused =
-        new ManualRequestContext(new AnonymousUser(), requestContextProvider.get())) {
+        new ManualRequestContext(new AnonymousUser(), threadLocalRequestContextProvider.get())) {
       Server serverApi = gerritApi.config().server();
       return new ServerConfigData(serverApi.getInfo(), serverApi.getVersion());
     }

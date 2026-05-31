@@ -126,12 +126,6 @@ _GERRIT_FORCED_ARTIFACTS = [
     "com.googlecode.javaewah:JavaEWAH",
     "commons-codec:commons-codec",
     "org.apache.commons:commons-lang3",
-    "org.eclipse.jetty:jetty-http",
-    "org.eclipse.jetty:jetty-io",
-    "org.eclipse.jetty:jetty-security",
-    "org.eclipse.jetty:jetty-server",
-    "org.eclipse.jetty:jetty-util",
-    "org.eclipse.jetty:jetty-util-ajax",
 ]
 
 [

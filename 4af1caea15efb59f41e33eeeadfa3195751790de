@@ -50,6 +50,24 @@
       "message": "FTB",
       "revId": "4af1caea15efb59f41e33eeeadfa3195751790de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "591889e7_a6a2755a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-05-31T18:11:17Z",
+      "side": 1,
+      "message": "I believe the cherry-pick to stable-3.14 was a mistake, so we could either revert that on stable-3.14 or set the default cache size to zero to make it safe.\n\nWith regards to master, I believe this feature makes sense and is worth fixing it.",
+      "parentUuid": "eeb95ddd_56880ae4",
+      "revId": "4af1caea15efb59f41e33eeeadfa3195751790de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

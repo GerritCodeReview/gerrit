@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6375dcf_fde1fe8c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-05-31T12:06:25Z",
+      "side": 1,
+      "message": "```suggestion\nintroduced an issue where multiple users are seeing other users\u0027\n```",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 10
+      },
+      "revId": "6510df15485a8fc1ff1e82613ba9487ebd261a9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b29e93be_98f90a74",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-05-31T12:06:25Z",
+      "side": 1,
+      "message": "The whole statement is a bit awkward. Use this:\n\nThe serverInfo cache introduced by I56fc13b60 caused users to see download URLs computed for other users when the download-commands plugin was installed.",
+      "revId": "6510df15485a8fc1ff1e82613ba9487ebd261a9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6efa9a7b_d97ac3c9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-05-31T12:06:25Z",
+      "side": 1,
+      "message": "The release note is too implementation-specific:\n\n```suggestion\nRelease-Notes: Fix user-specific download command URLs on the initial page load.\n```",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 83
+      },
+      "revId": "6510df15485a8fc1ff1e82613ba9487ebd261a9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a2dfba31_ec4fcef5",
+        "filename": "java/com/google/gerrit/server/config/ServerConfigCacheImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-05-31T12:06:25Z",
+      "side": 1,
+      "message": "Consider naming it `threadLocalRequestContextProvider` to avoid a potential clash with a future `Provider\u003cRequestContext\u003e requestContextProvider` injection.",
+      "range": {
+        "startLine": 59,
+        "startChar": 42,
+        "endLine": 59,
+        "endChar": 64
+      },
+      "revId": "6510df15485a8fc1ff1e82613ba9487ebd261a9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a744652_14a6a09d",
+        "filename": "java/com/google/gerrit/server/config/ServerConfigCacheImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-05-31T12:06:25Z",
+      "side": 1,
+      "message": "This directly calls `ThreadLocalRequestContext#getContext()`, which may be `null` outside an HTTP request scope.\n\nAs a possible improvement, I uploaded a small follow-up change 589261 that uses `Provider\u003cRequestContext\u003e` for the current-user lookup instead.\n\nIf you think that approach makes sense, we could squash it into this change.",
+      "range": {
+        "startLine": 71,
+        "startChar": 4,
+        "endLine": 73,
+        "endChar": 5
+      },
+      "revId": "6510df15485a8fc1ff1e82613ba9487ebd261a9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15f61268_ab9fde7f",
+        "filename": "java/com/google/gerrit/server/config/ServerConfigCacheImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-05-31T12:06:25Z",
+      "side": 1,
+      "message": "This manual copy should document its contract, similar to the comment in  `ActionJson#copy()`.\n\nOtherwise future ServerInfo fields may be added to `GetServerInfo#apply` but forgotten here.\n\n```suggestion\n  private static ServerInfo copyServerInfo(ServerConfigData cachedConfig) {\n    // Include all fields from GetServerInfo#apply except download. DownloadInfo\n    // may be user-specific, so identified-user requests replace it below.\n```\n\nIt would also be useful to add focused coverage that representative cached fields survive this path while download is replaced. Similarly how it was done in ActionsIT tests, e.g.:\n\n```\n    changeActionVisitor()\n    currentRevisionActionVisitor()\n    oldRevisionActionVisitor()\n```\n\nSee my suggestion to add one small test.",
+      "range": {
+        "startLine": 80,
+        "startChar": 2,
+        "endLine": 80,
+        "endChar": 75
+      },
+      "revId": "6510df15485a8fc1ff1e82613ba9487ebd261a9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "32e57124_1975d129",
+        "filename": "javatests/com/google/gerrit/httpd/raw/IndexServletTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-05-31T12:06:25Z",
+      "side": 1,
+      "message": "```suggestion\n  @Test\n  public void identifiedUserServerInfoPreservesCachedFieldsExceptDownload() throws Exception {\n    when(downloadInfoProviderMock.get()).thenReturn(DOWNLOAD_INFO_USER1);\n    ServerInfo cachedServerInfo \u003d new ServerInfo();\n    cachedServerInfo.defaultTheme \u003d \"my-default-theme\";\n    cachedServerInfo.submitRequirementDashboardColumns \u003d ImmutableList.of(\"Code-Review\");\n    cachedServerInfo.metadata \u003d ImmutableList.of();\n    cachedServerInfo.download \u003d DOWNLOAD_INFO_USER2;\n\n    when(serverApi.getVersion()).thenReturn(\"123\");\n    when(serverApi.getInfo()).thenReturn(cachedServerInfo);\n\n    Config configApi \u003d mock(Config.class);\n    when(configApi.server()).thenReturn(serverApi);\n\n    GerritApi gerritApi \u003d mock(GerritApi.class);\n    when(gerritApi.config()).thenReturn(configApi);\n\n    ServerConfigCache serverConfigCache \u003d\n        new ServerConfigCacheImpl(\n            cache,\n            gerritApi,\n            downloadInfoProviderMock,\n            () -\u003e () -\u003e FAKE_CURRENT_USER1,\n            IndexServletTest::anonymousUserThreadLocalContext);\n\n    ServerInfo actualServerInfo \u003d serverConfigCache.get().serverInfo();\n\n    assertThat(actualServerInfo.defaultTheme).isEqualTo(cachedServerInfo.defaultTheme);\n    assertThat(actualServerInfo.submitRequirementDashboardColumns)\n        .isEqualTo(cachedServerInfo.submitRequirementDashboardColumns);\n    assertThat(actualServerInfo.metadata).isEqualTo(cachedServerInfo.metadata);\n    assertThat(actualServerInfo.download).isEqualTo(DOWNLOAD_INFO_USER1);\n  }\n\n  private GerritApi mockGerritApi(boolean isIdentifiedUser) throws RestApiException {\n```",
+      "range": {
+        "startLine": 270,
+        "startChar": 2,
+        "endLine": 270,
+        "endChar": 85
+      },
+      "revId": "6510df15485a8fc1ff1e82613ba9487ebd261a9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

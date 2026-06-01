@@ -68,6 +68,23 @@
       "parentUuid": "eeb95ddd_56880ae4",
       "revId": "4af1caea15efb59f41e33eeeadfa3195751790de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f33fa66_f5428a2d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-01T19:10:16Z",
+      "side": 1,
+      "message": "@milutin@google.com saw no improvements after the introduction of ServerConfigCacheImpl, then I\u0027d opt for just reverting it on both stable-3.14 and master.",
+      "revId": "4af1caea15efb59f41e33eeeadfa3195751790de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

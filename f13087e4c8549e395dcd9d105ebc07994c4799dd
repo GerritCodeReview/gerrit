@@ -142,6 +142,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "492653b3_552d7130",
+        "filename": "javatests/com/google/gerrit/httpd/raw/IndexServletTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-01T21:21:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21d9c584_abc6ebae",
+      "range": {
+        "startLine": 235,
+        "startChar": 4,
+        "endLine": 235,
+        "endChar": 94
+      },
+      "revId": "f13087e4c8549e395dcd9d105ebc07994c4799dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "474a132e_68daeefd",
@@ -155,6 +179,30 @@
       "writtenOn": "2026-05-31T11:21:32Z",
       "side": 1,
       "message": "Nit: `baz-url` 😊",
+      "range": {
+        "startLine": 244,
+        "startChar": 13,
+        "endLine": 244,
+        "endChar": 16
+      },
+      "revId": "f13087e4c8549e395dcd9d105ebc07994c4799dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f737a0d_8664207e",
+        "filename": "javatests/com/google/gerrit/httpd/raw/IndexServletTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-01T21:21:48Z",
+      "side": 1,
+      "message": "All the values aren\u0027t relevant for this test :-) let me get rid of them.",
+      "parentUuid": "474a132e_68daeefd",
       "range": {
         "startLine": 244,
         "startChar": 13,

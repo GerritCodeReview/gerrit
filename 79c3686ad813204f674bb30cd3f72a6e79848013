@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d7dac8d_288845f8",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexServlet.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-06-01T08:39:51Z",
+      "side": 1,
+      "message": "Please fix this WARNING reported by autoreview issue finding: By catching `IOException` here, you are double-wrapping the exception. The `IOException` thrown by `serverConfigCache.get()` currently has `ExecutionException` as its cause, so `e.getCause() instanceof RestApiException` will be false. This results in throwing `new IOException(ExecutionException)` instead of unwrapping the actual cause.\n\nInstead of catching and re-wrapping `IOException` here, you can remove this `catch` block completely and let the `IOException` from `serverConfigCache.get()` propagate. Then, unwrap the `ExecutionException` inside `ServerConfigCacheImpl` so it throws the `IOException` with the correct underlying cause.",
+      "range": {
+        "startLine": 106,
+        "startChar": 0,
+        "endLine": 106,
+        "endChar": 0
+      },
+      "revId": "79c3686ad813204f674bb30cd3f72a6e79848013",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16a021a6_16e643a5",
+        "filename": "java/com/google/gerrit/server/config/ServerConfigCacheImpl.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-06-01T08:39:51Z",
+      "side": 1,
+      "message": "Please fix this WARNING reported by autoreview issue finding: Since `ServerConfigData` already provides a `create()` factory method, it\u0027s better to use it here instead of instantiating the AutoValue implementation class directly:\n```java\n              ServerConfigData.create(\n                  gerritApi.config().server().getInfo(), gerritApi.config().server().getVersion()));\n```",
+      "range": {
+        "startLine": 71,
+        "startChar": 0,
+        "endLine": 71,
+        "endChar": 0
+      },
+      "revId": "79c3686ad813204f674bb30cd3f72a6e79848013",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "705fd312_763bf407",
+        "filename": "java/com/google/gerrit/server/config/ServerConfigCacheImpl.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-06-01T08:39:51Z",
+      "side": 1,
+      "message": "Please fix this WARNING reported by autoreview issue finding: To maintain the original behavior where the underlying cause (like `RestApiException`) was exposed as the cause of the `IOException`, you should unwrap the `ExecutionException` here:\n```java\n      throw new IOException(e.getCause() !\u003d null ? e.getCause() : e);\n```\nThis allows you to completely remove the `catch (IOException e)` block in `IndexServlet`.",
+      "range": {
+        "startLine": 74,
+        "startChar": 0,
+        "endLine": 74,
+        "endChar": 0
+      },
+      "revId": "79c3686ad813204f674bb30cd3f72a6e79848013",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

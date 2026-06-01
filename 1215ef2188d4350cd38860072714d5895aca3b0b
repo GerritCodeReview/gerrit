@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c102a5c5_23889f8e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-01T22:26:05Z",
+      "side": 1,
+      "message": "Note for the reviewer: I am expecting this execution to succeed after the rebase on top of the ServerInfo cache revert.\nI had to disable one assertion on the fact that calling the index servlet twice for the anonymous user won\u0027t cache the ServerInfo, which is, unfortunately, expected.\n\nIf we try in the future to implement a caching layer, we\u0027ll have a validation test to ensure that the user-specific download info isn\u0027t cached across users.",
+      "revId": "1215ef2188d4350cd38860072714d5895aca3b0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

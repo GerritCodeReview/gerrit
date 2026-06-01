@@ -10,6 +10,7 @@ import '@material/web/iconbutton/icon-button.js';
 import '@material/web/progress/circular-progress.js';
 import './gemini-message';
 import './splash-page-action';
+import '../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 
 import {css, html, LitElement} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
@@ -255,8 +256,10 @@ export class SplashPage extends LitElement {
       `;
     }
     return html`
-      ${this.renderBackgroundRequest()} ${this.renderCustomActions()}
-      ${this.renderActions()}
+      ${this.renderBackgroundRequest()}
+      <gr-endpoint-decorator name="chat-panel-splash-extra">
+      </gr-endpoint-decorator>
+      ${this.renderCustomActions()} ${this.renderActions()}
     `;
   }
 

@@ -53,6 +53,8 @@ suite('splash-page tests', () => {
         <div class="splash-container">
           <h1 class="splash-greeting">Hello,</h1>
           <p class="splash-question">How can I help you today?</p>
+          <gr-endpoint-decorator name="chat-panel-splash-extra">
+          </gr-endpoint-decorator>
           <div class="action-container-title suggested-actions-title">
             Capabilities
           </div>

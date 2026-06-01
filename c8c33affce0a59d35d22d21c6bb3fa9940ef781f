@@ -16,6 +16,29 @@
       "message": "Here is the sole autovalue to the Java record change promised.",
       "revId": "c8c33affce0a59d35d22d21c6bb3fa9940ef781f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4cd7fa7_a00240a1",
+        "filename": "java/com/google/gerrit/server/config/ServerConfigCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-06-01T07:01:39Z",
+      "side": 1,
+      "message": "One possible follow-up: since `ServerConfigCache` exposes `ServerConfigCacheImpl.ServerInfoAndVersion`, the interface now depends on a type nested in its implementation.\n\nThat arguably leaks implementation details.\n\nWould it be cleaner to move `ServerInfoAndVersion` out of `ServerConfigCacheImpl` and make it a package-level record in `com.google.gerrit.server.config`? That would keep the interface independent of the implementation class.",
+      "range": {
+        "startLine": 21,
+        "startChar": 2,
+        "endLine": 21,
+        "endChar": 23
+      },
+      "revId": "c8c33affce0a59d35d22d21c6bb3fa9940ef781f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

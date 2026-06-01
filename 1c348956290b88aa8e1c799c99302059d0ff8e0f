@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb5d779d_6eb0200c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-01T21:24:35Z",
+      "side": 1,
+      "message": "Note for the reviewer: I am expecting this execution to fail.\nI\u0027ll then rebase on top of the revert of the ServerInfo caching, and the same validation should succeed.",
+      "revId": "1c348956290b88aa8e1c799c99302059d0ff8e0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

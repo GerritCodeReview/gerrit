@@ -81,6 +81,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0dccb8bd_97ce2a20",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-06-01T08:28:44Z",
+      "side": 1,
+      "message": "Sorry for breaking download plugin. I am ok with reverting caching - I haven\u0027t seen any impact on performance. However not caching downloadinfo is ok as well if you want to add this complexity",
+      "revId": "6510df15485a8fc1ff1e82613ba9487ebd261a9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a2dfba31_ec4fcef5",
@@ -99,6 +116,29 @@
         "startChar": 42,
         "endLine": 59,
         "endChar": 64
+      },
+      "revId": "6510df15485a8fc1ff1e82613ba9487ebd261a9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e323f1f7_eedb14db",
+        "filename": "java/com/google/gerrit/server/config/ServerConfigCacheImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-06-01T08:28:44Z",
+      "side": 1,
+      "message": "Please fix this WARNING reported by autoreview issue finding: `requestContextProvider.get().getContext()` can return `null` if called outside of a request scope, which would result in a `NullPointerException` when calling `.getUser()`.\n\nYou should check for null before accessing the user:\n\n```java\nRequestContext context \u003d requestContextProvider.get().getContext();\nif (context \u003d\u003d null || !context.getUser().isIdentifiedUser()) {\n  return cachedConfig;\n}\n```\n\nAlternatively, you could inject `Provider\u003cCurrentUser\u003e currentUserProvider` instead of getting it from the `RequestContext`. Guice is configured to return an `AnonymousUser` via `FallbackRequestContext` when outside of a request scope, meaning `currentUserProvider.get().isIdentifiedUser()` will safely return `false` without throwing an exception.",
+      "range": {
+        "startLine": 71,
+        "startChar": 0,
+        "endLine": 71,
+        "endChar": 0
       },
       "revId": "6510df15485a8fc1ff1e82613ba9487ebd261a9a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

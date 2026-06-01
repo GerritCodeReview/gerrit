@@ -146,6 +146,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a699e61a_1605a6fe",
+        "filename": "java/com/google/gerrit/server/config/ServerConfigCacheImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-06-01T08:40:44Z",
+      "side": 1,
+      "message": "I already addressed it in the follow-up change 😊",
+      "parentUuid": "e323f1f7_eedb14db",
+      "range": {
+        "startLine": 71,
+        "startChar": 0,
+        "endLine": 71,
+        "endChar": 0
+      },
+      "revId": "6510df15485a8fc1ff1e82613ba9487ebd261a9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0a744652_14a6a09d",
         "filename": "java/com/google/gerrit/server/config/ServerConfigCacheImpl.java",
         "patchSetId": 8

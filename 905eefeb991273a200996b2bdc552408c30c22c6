@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bbd1ac2d_8f4b6396",
+        "filename": "tools/download_file.py",
+        "patchSetId": 44
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-06-01T10:07:51Z",
+      "side": 1,
+      "message": "Please fix this WARNING reported by autoreview issue finding: `path.split(root_dir)` splits the path into `(dirname, basename)` pairs, so `n` will iterate over the names of the directories in the path of `args.o`. \n\nA directory named literally `MODULE.bazel` is highly unlikely to exist, so this loop will always traverse all the way up to the filesystem root `/` before breaking, which means `download_properties()` will only check for `local.properties` in `/` and `~/.gerritcodereview`.\n\nIf the intent here is to find the workspace root by looking for the `MODULE.bazel` file, you should use `path.exists` instead:\n```python\nif path.exists(path.join(root_dir, \u0027MODULE.bazel\u0027)):\n```\n(Note that the previous `n \u003d\u003d \u0027WORKSPACE\u0027` logic had the exact same bug if it was intending to look for the `WORKSPACE` file).",
+      "range": {
+        "startLine": 92,
+        "startChar": 0,
+        "endLine": 92,
+        "endChar": 0
+      },
+      "revId": "905eefeb991273a200996b2bdc552408c30c22c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

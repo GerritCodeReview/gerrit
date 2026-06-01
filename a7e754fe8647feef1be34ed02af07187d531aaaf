@@ -64,6 +64,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "788a7d93_e90ae859",
+        "filename": "javatests/com/google/gerrit/httpd/raw/IndexServletTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-06-01T13:44:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fda287be_0fc5eb68",
+      "range": {
+        "startLine": 149,
+        "startChar": 0,
+        "endLine": 149,
+        "endChar": 0
+      },
+      "revId": "a7e754fe8647feef1be34ed02af07187d531aaaf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b4b2a77_7322a30f",
+        "filename": "javatests/com/google/gerrit/httpd/raw/IndexServletTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-06-01T13:44:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7592c05f_f308614b",
+      "range": {
+        "startLine": 149,
+        "startChar": 0,
+        "endLine": 149,
+        "endChar": 0
+      },
+      "revId": "a7e754fe8647feef1be34ed02af07187d531aaaf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6aae91d8_e7a1576a",
@@ -77,6 +125,30 @@
       "writtenOn": "2026-06-01T10:11:18Z",
       "side": 1,
       "message": "Please fix this WARNING reported by autoreview issue finding: If you apply the suggestion above, you can safely remove this method entirely to prevent it from accidentally leaking `AnonymousUser` into the static `ThreadLocalRequestContext.local`.",
+      "range": {
+        "startLine": 331,
+        "startChar": 0,
+        "endLine": 331,
+        "endChar": 0
+      },
+      "revId": "a7e754fe8647feef1be34ed02af07187d531aaaf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d33188ea_2a2df230",
+        "filename": "javatests/com/google/gerrit/httpd/raw/IndexServletTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-06-01T13:44:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6aae91d8_e7a1576a",
       "range": {
         "startLine": 331,
         "startChar": 0,

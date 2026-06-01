@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "83826b59_e1daff72",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-01T07:06:26Z",
+      "side": 1,
+      "message": "Let me disable the test and remove the release notes. I can then enable it again in the next change in the chain.",
+      "parentUuid": "65b7b899_d12cfb61",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 116
+      },
+      "revId": "f13087e4c8549e395dcd9d105ebc07994c4799dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c2a75c84_a39a7da3",

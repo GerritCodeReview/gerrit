@@ -69,6 +69,24 @@
       "parentUuid": "4f611a02_464d1034",
       "revId": "e2e915c3600b9c6e85285a6af531030f62ca0ecb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "502eee49_d997b20c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-06-01T08:42:24Z",
+      "side": 1,
+      "message": "Sorry for missing this when implementing caching. I am ok to revert or fix it with the one Luca did",
+      "parentUuid": "e9f700e9_3eeba87d",
+      "revId": "e2e915c3600b9c6e85285a6af531030f62ca0ecb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31995113_cec42d55",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-06-01T08:34:28Z",
+      "side": 1,
+      "message": "```suggestion\nAllow to retrieve DownloadInfo separately from GetServerInfo, preparing\n```",
+      "range": {
+        "startLine": 9,
+        "startChar": 31,
+        "endLine": 9,
+        "endChar": 42
+      },
+      "revId": "ac700301f1ea9d7799305ca3165ad0ee61dfd6b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "834f247e_c1452ddc",
+        "filename": "java/com/google/gerrit/server/restapi/config/DownloadInfoProvider.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-06-01T08:34:28Z",
+      "side": 1,
+      "message": "Please fix this WARNING reported by autoreview issue finding: Since this provider does not hold any request-specific state, consider annotating it with `@Singleton` so that Guice does not create a new instance of the provider on every request to `/config/server/info`.\\n\\n```java\\nimport com.google.inject.Singleton;\\n\\n@Singleton\\npublic class DownloadInfoProvider implements Provider\u003cDownloadInfo\u003e {\\n```",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 0
+      },
+      "revId": "ac700301f1ea9d7799305ca3165ad0ee61dfd6b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

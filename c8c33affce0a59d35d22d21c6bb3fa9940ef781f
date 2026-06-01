@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a63cbcce_c932537f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-01T06:19:02Z",
+      "side": 1,
+      "message": "Here is the sole autovalue to the Java record change promised.",
+      "revId": "c8c33affce0a59d35d22d21c6bb3fa9940ef781f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

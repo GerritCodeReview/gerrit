@@ -16,6 +16,24 @@
       "message": "@sasa.zivkov@sap.com \nI thought about further refactoring. e.g. \nIntroducing common class which is used by SR and SRT impl to check \n1. identifiedUser\n2. checkCanReadConfig\n\nBut did not follow the path since it should be a refactored in another PR if required as well as that refactoring is not bring much more on the table.\nWDUT?",
       "revId": "d3c6d135d9b3ea325646d7acaac116c8a91014b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dcf5c274_280bd969",
+        "filename": "java/com/google/gerrit/server/restapi/project/SubmitRequirementTemplateLoader.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-06-01T12:41:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "427f1d65_b25160e0",
+      "revId": "d3c6d135d9b3ea325646d7acaac116c8a91014b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

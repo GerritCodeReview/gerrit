@@ -16,6 +16,24 @@
       "message": "Are we intentionally skipping to find atleast one unparkable task ?",
       "revId": "0b992fe1cb09faff6a59ea6f9692c10002f87a32",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "994af463_0f6291e7",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 746,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-06-01T22:18:45Z",
+      "side": 1,
+      "message": "Nope, the break should move after the unpark(). Done.",
+      "parentUuid": "f817e288_94002ddc",
+      "revId": "0b992fe1cb09faff6a59ea6f9692c10002f87a32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

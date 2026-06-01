@@ -78,10 +78,19 @@ local_repository(
     path = "modules/java-prettify",
 )
 
-# JGit external repository consumed from git submodule
-local_repository(
+# JGit consumed via http_archive with build-time patches. See tools/jgit/.
+http_archive(
     name = "jgit",
-    path = "modules/jgit",
+    patch_args = ["-p1"],
+    patch_tool = "patch",
+    patches = [
+        "//tools/jgit:0001-Revert-Update-jakarta.servlet-jakarta.servlet-api-to.patch",
+        "//tools/jgit:0002-Revert-Bump-jetty-version-to-12.0.9-and-servlet-api-.patch",
+        "//tools/jgit:0003-Revert-Bump-jetty-version-to-11.0.20.patch",
+    ],
+    sha256 = "a61f3e31a6e4e63d1913f345128753e08c38a4d10645ee87aff3abd920fcfb97",
+    strip_prefix = "jgit-f1082306d497793a7f4bdc09354fd6d55ef3f422",
+    urls = ["https://github.com/eclipse-jgit/jgit/archive/f1082306d497793a7f4bdc09354fd6d55ef3f422.tar.gz"],
 )
 
 java_dependencies()

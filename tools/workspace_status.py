@@ -12,6 +12,7 @@
 
 from __future__ import print_function
 import os
+import re
 import subprocess
 import sys
 
@@ -35,7 +36,19 @@ def revision(directory, parent):
         os.chdir(parent)
 
 
+def jgit_label_from_workspace():
+    # JGit is fetched via http_archive (no .git, so git describe cannot run).
+    # Read the pinned SHA from the strip_prefix in WORKSPACE.
+    try:
+        with open(os.path.join(ROOT, 'WORKSPACE')) as f:
+            m = re.search(r'strip_prefix\s*=\s*"jgit-([0-9a-f]{40})"', f.read())
+        return m.group(1)[:12] if m else 'unknown'
+    except OSError:
+        return 'unknown'
+
+
 print("STABLE_BUILD_GERRIT_LABEL %s" % revision(ROOT, ROOT))
+print("STABLE_BUILD_JGIT_LABEL %s" % jgit_label_from_workspace())
 for kind in ['modules', 'plugins']:
     kind_dir = os.path.join(ROOT, kind)
     for d in os.listdir(kind_dir):

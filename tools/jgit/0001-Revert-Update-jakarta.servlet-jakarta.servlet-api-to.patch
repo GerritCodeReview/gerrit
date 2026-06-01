@@ -1,0 +1,131 @@
+From 6a816ac324d5f001408ff03fd28197e0b644f2b7 Mon Sep 17 00:00:00 2001
+From: David Ostrovsky <david@ostrovsky.org>
+Date: Mon, 1 Jun 2026 16:47:10 +0200
+Subject: [PATCH 1/3] Revert "Update jakarta.servlet:jakarta.servlet-api to
+ 6.1.0"
+
+This reverts commit f13a655c56a63a367d74e22e3f39f08a0f787b45.
+
+Change-Id: I8e162a3240058355caab32f78a64271eadb1def5
+---
+ .../org.eclipse.jgit.target/jgit-4.32.target                | 2 +-
+ .../org.eclipse.jgit.target/jgit-4.33.target                | 2 +-
+ .../org.eclipse.jgit.target/jgit-4.34.target                | 2 +-
+ .../org.eclipse.jgit.target/jgit-4.35.target                | 2 +-
+ .../org.eclipse.jgit.target/jgit-4.36.target                | 2 +-
+ .../org.eclipse.jgit.target/jgit-4.37.target                | 2 +-
+ .../org.eclipse.jgit.target/maven/dependencies.tpd          | 2 +-
+ pom.xml                                                     | 6 +++---
+ 8 files changed, 10 insertions(+), 10 deletions(-)
+
+diff --git a/org.eclipse.jgit.packaging/org.eclipse.jgit.target/jgit-4.32.target b/org.eclipse.jgit.packaging/org.eclipse.jgit.target/jgit-4.32.target
+index 47656026d..0067f92f8 100644
+--- a/org.eclipse.jgit.packaging/org.eclipse.jgit.target/jgit-4.32.target
++++ b/org.eclipse.jgit.packaging/org.eclipse.jgit.target/jgit-4.32.target
+@@ -151,7 +151,7 @@
+         <dependency>
+           <groupId>jakarta.servlet</groupId>
+           <artifactId>jakarta.servlet-api</artifactId>
+-          <version>6.1.0</version>
++          <version>6.0.0</version>
+           <type>jar</type>
+         </dependency>
+       </dependencies>
+diff --git a/org.eclipse.jgit.packaging/org.eclipse.jgit.target/jgit-4.33.target b/org.eclipse.jgit.packaging/org.eclipse.jgit.target/jgit-4.33.target
+index eb2f21f2f..71d691b2a 100644
+--- a/org.eclipse.jgit.packaging/org.eclipse.jgit.target/jgit-4.33.target
++++ b/org.eclipse.jgit.packaging/org.eclipse.jgit.target/jgit-4.33.target
+@@ -151,7 +151,7 @@
+         <dependency>
+           <groupId>jakarta.servlet</groupId>
+           <artifactId>jakarta.servlet-api</artifactId>
+-          <version>6.1.0</version>
++          <version>6.0.0</version>
+           <type>jar</type>
+         </dependency>
+       </dependencies>
+diff --git a/org.eclipse.jgit.packaging/org.eclipse.jgit.target/jgit-4.34.target b/org.eclipse.jgit.packaging/org.eclipse.jgit.target/jgit-4.34.target
+index aa318cfb7..dcddfc48e 100644
+--- a/org.eclipse.jgit.packaging/org.eclipse.jgit.target/jgit-4.34.target
++++ b/org.eclipse.jgit.packaging/org.eclipse.jgit.target/jgit-4.34.target
+@@ -151,7 +151,7 @@
+         <dependency>
+           <groupId>jakarta.servlet</groupId>
+           <artifactId>jakarta.servlet-api</artifactId>
+-          <version>6.1.0</version>
++          <version>6.0.0</version>
+           <type>jar</type>
+         </dependency>
+       </dependencies>
+diff --git a/org.eclipse.jgit.packaging/org.eclipse.jgit.target/jgit-4.35.target b/org.eclipse.jgit.packaging/org.eclipse.jgit.target/jgit-4.35.target
+index 604969491..6eb042707 100644
+--- a/org.eclipse.jgit.packaging/org.eclipse.jgit.target/jgit-4.35.target
++++ b/org.eclipse.jgit.packaging/org.eclipse.jgit.target/jgit-4.35.target
+@@ -151,7 +151,7 @@
+         <dependency>
+           <groupId>jakarta.servlet</groupId>
+           <artifactId>jakarta.servlet-api</artifactId>
+-          <version>6.1.0</version>
++          <version>6.0.0</version>
+           <type>jar</type>
+         </dependency>
+       </dependencies>
+diff --git a/org.eclipse.jgit.packaging/org.eclipse.jgit.target/jgit-4.36.target b/org.eclipse.jgit.packaging/org.eclipse.jgit.target/jgit-4.36.target
+index cd2bc2b3e..2dd8986fa 100644
+--- a/org.eclipse.jgit.packaging/org.eclipse.jgit.target/jgit-4.36.target
++++ b/org.eclipse.jgit.packaging/org.eclipse.jgit.target/jgit-4.36.target
+@@ -151,7 +151,7 @@
+         <dependency>
+           <groupId>jakarta.servlet</groupId>
+           <artifactId>jakarta.servlet-api</artifactId>
+-          <version>6.1.0</version>
++          <version>6.0.0</version>
+           <type>jar</type>
+         </dependency>
+       </dependencies>
+diff --git a/org.eclipse.jgit.packaging/org.eclipse.jgit.target/jgit-4.37.target b/org.eclipse.jgit.packaging/org.eclipse.jgit.target/jgit-4.37.target
+index 54bccddec..aafe2ea01 100644
+--- a/org.eclipse.jgit.packaging/org.eclipse.jgit.target/jgit-4.37.target
++++ b/org.eclipse.jgit.packaging/org.eclipse.jgit.target/jgit-4.37.target
+@@ -151,7 +151,7 @@
+         <dependency>
+           <groupId>jakarta.servlet</groupId>
+           <artifactId>jakarta.servlet-api</artifactId>
+-          <version>6.1.0</version>
++          <version>6.0.0</version>
+           <type>jar</type>
+         </dependency>
+       </dependencies>
+diff --git a/org.eclipse.jgit.packaging/org.eclipse.jgit.target/maven/dependencies.tpd b/org.eclipse.jgit.packaging/org.eclipse.jgit.target/maven/dependencies.tpd
+index f9014544e..10231b60c 100644
+--- a/org.eclipse.jgit.packaging/org.eclipse.jgit.target/maven/dependencies.tpd
++++ b/org.eclipse.jgit.packaging/org.eclipse.jgit.target/maven/dependencies.tpd
+@@ -194,7 +194,7 @@ maven jetty
+ 	dependency {
+ 		groupId = "jakarta.servlet"
+ 		artifactId = "jakarta.servlet-api"
+-		version = "6.1.0"
++		version = "6.0.0"
+ 	}
+ }
+ 
+diff --git a/pom.xml b/pom.xml
+index 016ef83bc..86871b8de 100644
+--- a/pom.xml
++++ b/pom.xml
+@@ -129,9 +129,9 @@
+     <args4j-version>2.37</args4j-version>
+     <commons-compress-version>1.28.0</commons-compress-version>
+     <osgi-core-version>6.0.0</osgi-core-version>
+-    <servlet-api-version>6.1.0</servlet-api-version>
+-    <jetty-version>12.1.0</jetty-version>
+-    <japicmp-version>0.23.1</japicmp-version>
++    <servlet-api-version>6.0.0</servlet-api-version>
++    <jetty-version>12.0.12</jetty-version>
++    <japicmp-version>0.21.2</japicmp-version>
+     <httpclient-version>4.5.14</httpclient-version>
+     <httpcore-version>4.4.16</httpcore-version>
+     <slf4j-version>1.7.36</slf4j-version>
+-- 
+2.54.0
+

@@ -22,6 +22,30 @@
       },
       "revId": "905eefeb991273a200996b2bdc552408c30c22c6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4773c0b3_246f97c5",
+        "filename": "tools/download_file.py",
+        "patchSetId": 44
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-06-01T12:36:34Z",
+      "side": 1,
+      "message": "Done. Fixed the workspace root lookup to check for `MODULE.bazel` with `path.exists(path.join(root_dir, \u0027MODULE.bazel\u0027))` while walking up from the output file directory.",
+      "parentUuid": "bbd1ac2d_8f4b6396",
+      "range": {
+        "startLine": 92,
+        "startChar": 0,
+        "endLine": 92,
+        "endChar": 0
+      },
+      "revId": "905eefeb991273a200996b2bdc552408c30c22c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

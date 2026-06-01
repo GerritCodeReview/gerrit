@@ -98,6 +98,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "df8d61d8_d7853b74",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-01T19:07:55Z",
+      "side": 1,
+      "message": "If you saw no improvements after the introduction of ServerConfigCacheImpl, then I\u0027d opt for just reverting it on both stable-3.14 and master.\n\nI don\u0027t like complexity, and if we can kill it at the source, I\u0027d prefer to do it.\n\nI would like to just then keep the change the introduce the additional validation, so that we won\u0027t forget to verify future caching mechanism against it.",
+      "parentUuid": "0dccb8bd_97ce2a20",
+      "revId": "6510df15485a8fc1ff1e82613ba9487ebd261a9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a2dfba31_ec4fcef5",

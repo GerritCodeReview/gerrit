@@ -73,6 +73,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9818cfdb_776931b8",
+        "filename": "java/com/google/gerrit/server/util/ThreadLocalRequestContext.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-01T19:57:20Z",
+      "side": 1,
+      "message": "The tests are now using an InMemoryModule, and therefore, you are right that I don\u0027t need to instantiate it explicitly.",
+      "parentUuid": "c2a75c84_a39a7da3",
+      "range": {
+        "startLine": 73,
+        "startChar": 2,
+        "endLine": 74,
+        "endChar": 39
+      },
+      "revId": "f13087e4c8549e395dcd9d105ebc07994c4799dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "21d9c584_abc6ebae",
         "filename": "javatests/com/google/gerrit/httpd/raw/IndexServletTest.java",
         "patchSetId": 9

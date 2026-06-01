@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "98c3842b_5edc555c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-06-01T10:16:39Z",
+      "side": 1,
+      "message": "I am sorry I broke download-commands plugin. I haven\u0027t realized download commands can be different for different users",
+      "parentUuid": "95ce989e_7a615e22",
+      "revId": "5038f41224845cee85e3a1e8fa62eaa59ddcd165",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "914da05a_22e70ce1",
@@ -31,6 +49,30 @@
       "writtenOn": "2026-05-30T15:27:38Z",
       "side": 1,
       "message": "This can be imported.",
+      "range": {
+        "startLine": 138,
+        "startChar": 4,
+        "endLine": 138,
+        "endChar": 33
+      },
+      "revId": "5038f41224845cee85e3a1e8fa62eaa59ddcd165",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82048a90_e180f6c6",
+        "filename": "javatests/com/google/gerrit/httpd/raw/IndexServletTest.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-06-01T10:16:39Z",
+      "side": 1,
+      "message": "Yes, sorry for thata",
+      "parentUuid": "914da05a_22e70ce1",
       "range": {
         "startLine": 138,
         "startChar": 4,

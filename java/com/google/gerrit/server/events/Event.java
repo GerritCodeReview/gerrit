@@ -28,4 +28,8 @@ public abstract class Event {
   public String getType() {
     return type;
   }
+
+  public String getInstanceId() {
+    return instanceId;
+  }
 }

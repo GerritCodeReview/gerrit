@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df17f77b_bded8f9e",
+        "filename": "javatests/com/google/gerrit/httpd/raw/IndexServletTest.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-01T22:02:38Z",
+      "side": 1,
+      "message": "The caching has been reverted; however, we can still assert that it\u0027s the same for two invocations for the anonymous user.",
+      "range": {
+        "startLine": 264,
+        "startChar": 26,
+        "endLine": 264,
+        "endChar": 33
+      },
+      "revId": "cbe469fc94e2bc0aa56e8060c2c57bc615866dda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b47b56b4_793847e9",
+        "filename": "javatests/com/google/gerrit/httpd/raw/IndexServletTest.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-01T22:02:38Z",
+      "side": 1,
+      "message": "Comment out and specify why this isn\u0027t true anymore.",
+      "range": {
+        "startLine": 283,
+        "startChar": 6,
+        "endLine": 283,
+        "endChar": 44
+      },
+      "revId": "cbe469fc94e2bc0aa56e8060c2c57bc615866dda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

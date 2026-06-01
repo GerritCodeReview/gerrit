@@ -1,0 +1,1855 @@
+From fb6c5d7c4c6b0200646b2e3707b5500d9dc9f759 Mon Sep 17 00:00:00 2001
+From: David Ostrovsky <david@ostrovsky.org>
+Date: Mon, 1 Jun 2026 17:03:45 +0200
+Subject: [PATCH 3/3] Revert "Bump jetty version to 11.0.20"
+
+This reverts commit a31580f459b0ae24b51c519ce71ad728ff156c8f.
+
+Change-Id: Id27ef30953cab3e27e6baaa3637ea2e8777a61fc
+---
+ .../META-INF/MANIFEST.MF                      | 20 ++++++-------
+ .../jgit/http/server/AsIsFileFilter.java      | 20 ++++++-------
+ .../jgit/http/server/ClientVersionUtil.java   |  3 +-
+ .../eclipse/jgit/http/server/FileSender.java  |  8 +++---
+ .../eclipse/jgit/http/server/GitFilter.java   | 12 ++++----
+ .../eclipse/jgit/http/server/GitServlet.java  | 14 ++++------
+ .../jgit/http/server/GitSmartHttpTools.java   | 17 ++++-------
+ .../jgit/http/server/InfoPacksServlet.java    |  6 ++--
+ .../jgit/http/server/InfoRefsServlet.java     |  6 ++--
+ .../jgit/http/server/IsLocalFilter.java       | 16 +++++------
+ .../jgit/http/server/NoCacheFilter.java       | 14 +++++-----
+ .../jgit/http/server/ObjectFileServlet.java   | 12 ++++----
+ .../http/server/ReceivePackErrorHandler.java  |  5 ++--
+ .../jgit/http/server/ReceivePackServlet.java  | 26 ++++++++---------
+ .../jgit/http/server/RepositoryFilter.java    | 26 ++++++++---------
+ .../jgit/http/server/ServletUtils.java        | 11 ++------
+ .../jgit/http/server/SmartOutputStream.java   |  4 +--
+ .../http/server/SmartServiceInfoRefs.java     | 20 ++++++-------
+ .../jgit/http/server/TextFileServlet.java     |  8 +++---
+ .../http/server/UploadPackErrorHandler.java   | 11 ++++----
+ .../jgit/http/server/UploadPackServlet.java   | 24 ++++++++--------
+ .../jgit/http/server/glue/ErrorServlet.java   |  8 +++---
+ .../jgit/http/server/glue/MetaFilter.java     | 18 ++++++------
+ .../jgit/http/server/glue/MetaServlet.java    | 18 ++++++------
+ .../server/glue/NoParameterFilterConfig.java  |  4 +--
+ .../http/server/glue/RegexGroupFilter.java    | 12 ++++----
+ .../jgit/http/server/glue/RegexPipeline.java  | 12 ++++----
+ .../jgit/http/server/glue/ServletBinder.java  |  6 ++--
+ .../http/server/glue/ServletBinderImpl.java   |  6 ++--
+ .../jgit/http/server/glue/SuffixPipeline.java | 10 +++----
+ .../jgit/http/server/glue/UrlPipeline.java    | 20 ++++++-------
+ .../jgit/http/server/glue/WrappedRequest.java |  5 ++--
+ .../http/server/resolver/AsIsFileService.java |  3 +-
+ .../resolver/DefaultReceivePackFactory.java   |  7 ++---
+ .../resolver/DefaultUploadPackFactory.java    |  5 +---
+ .../META-INF/MANIFEST.MF                      | 28 +++++++++----------
+ .../http/test/TestRepositoryResolver.java     |  2 +-
+ .../jgit/http/test/AdvertiseErrorTest.java    |  2 +-
+ .../jgit/http/test/AsIsServiceTest.java       |  2 +-
+ .../test/DefaultReceivePackFactoryTest.java   |  4 +--
+ .../test/DefaultUploadPackFactoryTest.java    |  4 +--
+ .../jgit/http/test/GitServletInitTest.java    |  2 +-
+ .../http/test/GitServletResponseTests.java    |  2 +-
+ .../jgit/http/test/HookMessageTest.java       |  2 +-
+ .../jgit/http/test/HttpClientTests.java       |  2 +-
+ .../jgit/http/test/MeasurePackSizeTest.java   |  2 +-
+ .../jgit/http/test/ProtocolErrorTest.java     |  2 +-
+ .../jgit/http/test/RegexPipelineTest.java     |  6 ++--
+ .../test/SmartClientSmartServerSslTest.java   | 18 ++++++------
+ .../http/test/SmartClientSmartServerTest.java | 20 ++++++-------
+ .../META-INF/MANIFEST.MF                      | 28 +++++++++----------
+ .../jgit/junit/http/MockServletConfig.java    |  4 +--
+ .../jgit/junit/http/SimpleHttpServer.java     |  2 +-
+ .../jgit/junit/http/TestRequestLog.java       |  8 +++---
+ .../META-INF/MANIFEST.MF                      | 28 +++++++++----------
+ .../META-INF/MANIFEST.MF                      | 18 ++++++------
+ .../jgit/lfs/server/LfsProtocolServlet.java   |  8 +++---
+ .../jgit/lfs/server/TransferHandler.java      |  2 +-
+ .../jgit/lfs/server/fs/FileLfsServlet.java    | 16 +++++------
+ .../lfs/server/fs/ObjectDownloadListener.java |  9 +++---
+ .../lfs/server/fs/ObjectUploadListener.java   | 17 ++++++-----
+ .../jgit/lfs/server/s3/S3Repository.java      |  2 +-
+ .../maven/dependencies.tpd                    | 14 +++++-----
+ org.eclipse.jgit.pgm/META-INF/MANIFEST.MF     | 12 ++++----
+ org.eclipse.jgit/.settings/.api_filters       |  8 ++++++
+ pom.xml                                       |  4 +--
+ 66 files changed, 333 insertions(+), 362 deletions(-)
+
+diff --git a/org.eclipse.jgit.http.server/META-INF/MANIFEST.MF b/org.eclipse.jgit.http.server/META-INF/MANIFEST.MF
+index e4000dadc..526a8028b 100644
+--- a/org.eclipse.jgit.http.server/META-INF/MANIFEST.MF
++++ b/org.eclipse.jgit.http.server/META-INF/MANIFEST.MF
+@@ -6,22 +6,18 @@ Bundle-SymbolicName: org.eclipse.jgit.http.server
+ Bundle-Version: 7.4.1.qualifier
+ Bundle-Localization: OSGI-INF/l10n/plugin
+ Bundle-Vendor: %Bundle-Vendor
+-Bundle-ActivationPolicy: lazy
+-Bundle-RequiredExecutionEnvironment: JavaSE-17
+-Bundle-SCM: url=https://github.com/eclipse-jgit/jgit, connection=scm:git:https://eclipse.gerrithub.io/eclipse-jgit/jgit.git, developerConnection=scm:git:https://eclipse.gerrithub.io/a/eclipse-jgit/jgit.git
+-Export-Package: org.eclipse.jgit.http.server;version="7.4.1",
+- org.eclipse.jgit.http.server.glue;version="7.4.1";
+-  uses:="jakarta.servlet,
+-  	jakarta.servlet.http",
+- org.eclipse.jgit.http.server.resolver;version="7.4.1";
+-  uses:="jakarta.servlet.http
+-   org.eclipse.jgit.transport.resolver,
++Export-Package: org.eclipse.jgit.http.server;version="7.0.0",
++ org.eclipse.jgit.http.server.glue;version="7.0.0";
++  uses:="javax.servlet,javax.servlet.http",
++ org.eclipse.jgit.http.server.resolver;version="7.0.0";
++  uses:="org.eclipse.jgit.transport.resolver,
+    org.eclipse.jgit.lib,
+    org.eclipse.jgit.transport,
++   javax.servlet.http"
+ Bundle-ActivationPolicy: lazy
+ Bundle-RequiredExecutionEnvironment: JavaSE-17
+-Import-Package: jakarta.servlet;version="[5.0.0,6.0.0)",
+- jakarta.servlet.http;version="[5.0.0,6.0.0)",
++Import-Package: javax.servlet;version="[2.5.0,5.0.0)",
++ javax.servlet.http;version="[2.5.0,5.0.0)",
+  org.eclipse.jgit.annotations;version="[7.0.0,7.1.0)",
+  org.eclipse.jgit.errors;version="[7.0.0,7.1.0)",
+  org.eclipse.jgit.internal.storage.dfs;version="[7.0.0,7.1.0)",
+diff --git a/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/AsIsFileFilter.java b/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/AsIsFileFilter.java
+index add535307..fb74dc702 100644
+--- a/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/AsIsFileFilter.java
++++ b/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/AsIsFileFilter.java
+@@ -10,20 +10,20 @@
+ 
+ package org.eclipse.jgit.http.server;
+ 
+-import static jakarta.servlet.http.HttpServletResponse.SC_FORBIDDEN;
+-import static jakarta.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
++import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
++import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
+ import static org.eclipse.jgit.http.server.ServletUtils.getRepository;
+ 
+ import java.io.IOException;
+ 
+-import jakarta.servlet.Filter;
+-import jakarta.servlet.FilterChain;
+-import jakarta.servlet.FilterConfig;
+-import jakarta.servlet.ServletException;
+-import jakarta.servlet.ServletRequest;
+-import jakarta.servlet.ServletResponse;
+-import jakarta.servlet.http.HttpServletRequest;
+-import jakarta.servlet.http.HttpServletResponse;
++import javax.servlet.Filter;
++import javax.servlet.FilterChain;
++import javax.servlet.FilterConfig;
++import javax.servlet.ServletException;
++import javax.servlet.ServletRequest;
++import javax.servlet.ServletResponse;
++import javax.servlet.http.HttpServletRequest;
++import javax.servlet.http.HttpServletResponse;
+ 
+ import org.eclipse.jgit.http.server.resolver.AsIsFileService;
+ import org.eclipse.jgit.lib.Repository;
+diff --git a/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ClientVersionUtil.java b/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ClientVersionUtil.java
+index 22fa34594..99ff653f5 100644
+--- a/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ClientVersionUtil.java
++++ b/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ClientVersionUtil.java
+@@ -10,7 +10,7 @@
+ 
+ package org.eclipse.jgit.http.server;
+ 
+-import jakarta.servlet.http.HttpServletRequest;
++import javax.servlet.http.HttpServletRequest;
+ 
+ /**
+  * Parses Git client User-Agent strings.
+@@ -154,7 +154,6 @@ public static boolean hasPushStatusBug(int[] version) {
+ 	 *            incoming HTTP request.
+ 	 * @return true if the client has the chunked encoding bug.
+ 	 * @deprecated no widely used Git versions need this any more
+-	 * @since 7.0
+ 	 */
+ 	@Deprecated
+ 	public static boolean hasChunkedEncodingRequestBug(
+diff --git a/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/FileSender.java b/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/FileSender.java
+index 941e8adae..ec531822f 100644
+--- a/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/FileSender.java
++++ b/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/FileSender.java
+@@ -10,8 +10,8 @@
+ 
+ package org.eclipse.jgit.http.server;
+ 
+-import static jakarta.servlet.http.HttpServletResponse.SC_PARTIAL_CONTENT;
+-import static jakarta.servlet.http.HttpServletResponse.SC_REQUESTED_RANGE_NOT_SATISFIABLE;
++import static javax.servlet.http.HttpServletResponse.SC_PARTIAL_CONTENT;
++import static javax.servlet.http.HttpServletResponse.SC_REQUESTED_RANGE_NOT_SATISFIABLE;
+ import static org.eclipse.jgit.util.HttpSupport.HDR_ACCEPT_RANGES;
+ import static org.eclipse.jgit.util.HttpSupport.HDR_CONTENT_LENGTH;
+ import static org.eclipse.jgit.util.HttpSupport.HDR_CONTENT_RANGE;
+@@ -28,8 +28,8 @@
+ import java.time.Instant;
+ import java.util.Enumeration;
+ 
+-import jakarta.servlet.http.HttpServletRequest;
+-import jakarta.servlet.http.HttpServletResponse;
++import javax.servlet.http.HttpServletRequest;
++import javax.servlet.http.HttpServletResponse;
+ 
+ import org.eclipse.jgit.lib.ObjectId;
+ import org.eclipse.jgit.util.FS;
+diff --git a/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/GitFilter.java b/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/GitFilter.java
+index 8adeddd9d..703c0be8d 100644
+--- a/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/GitFilter.java
++++ b/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/GitFilter.java
+@@ -15,11 +15,11 @@
+ import java.util.ArrayList;
+ import java.util.List;
+ 
+-import jakarta.servlet.Filter;
+-import jakarta.servlet.FilterConfig;
+-import jakarta.servlet.ServletException;
+-import jakarta.servlet.http.HttpServletRequest;
+-import jakarta.servlet.http.HttpServletResponse;
++import javax.servlet.Filter;
++import javax.servlet.FilterConfig;
++import javax.servlet.ServletException;
++import javax.servlet.http.HttpServletRequest;
++import javax.servlet.http.HttpServletResponse;
+ 
+ import org.eclipse.jgit.http.server.glue.ErrorServlet;
+ import org.eclipse.jgit.http.server.glue.MetaFilter;
+@@ -139,7 +139,6 @@ public void setUploadPackErrorHandler(UploadPackErrorHandler h) {
+ 	 *            filter to apply before any of the UploadPack operations. The
+ 	 *            UploadPack instance is available in the request attribute
+ 	 *            {@link org.eclipse.jgit.http.server.ServletUtils#ATTRIBUTE_HANDLER}.
+-	 * @since 7.0
+ 	 */
+ 	public void addUploadPackFilter(Filter filter) {
+ 		assertNotInitialized();
+@@ -179,7 +178,6 @@ public void setReceivePackErrorHandler(ReceivePackErrorHandler h) {
+ 	 *            filter to apply before any of the ReceivePack operations. The
+ 	 *            ReceivePack instance is available in the request attribute
+ 	 *            {@link org.eclipse.jgit.http.server.ServletUtils#ATTRIBUTE_HANDLER}.
+-	 * @since 7.0
+ 	 */
+ 	public void addReceivePackFilter(Filter filter) {
+ 		assertNotInitialized();
+diff --git a/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/GitServlet.java b/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/GitServlet.java
+index eadab2184..0157dff9f 100644
+--- a/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/GitServlet.java
++++ b/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/GitServlet.java
+@@ -12,12 +12,12 @@
+ 
+ import java.util.Enumeration;
+ 
+-import jakarta.servlet.Filter;
+-import jakarta.servlet.FilterConfig;
+-import jakarta.servlet.ServletConfig;
+-import jakarta.servlet.ServletContext;
+-import jakarta.servlet.ServletException;
+-import jakarta.servlet.http.HttpServletRequest;
++import javax.servlet.Filter;
++import javax.servlet.FilterConfig;
++import javax.servlet.ServletConfig;
++import javax.servlet.ServletContext;
++import javax.servlet.ServletException;
++import javax.servlet.http.HttpServletRequest;
+ 
+ import org.eclipse.jgit.http.server.glue.MetaServlet;
+ import org.eclipse.jgit.http.server.resolver.AsIsFileService;
+@@ -130,7 +130,6 @@ public void setUploadPackErrorHandler(UploadPackErrorHandler h) {
+ 	 *            filter to apply before any of the UploadPack operations. The
+ 	 *            UploadPack instance is available in the request attribute
+ 	 *            {@link org.eclipse.jgit.http.server.ServletUtils#ATTRIBUTE_HANDLER}.
+-	 * @since 7.0
+ 	 */
+ 	public void addUploadPackFilter(Filter filter) {
+ 		gitFilter.addUploadPackFilter(filter);
+@@ -166,7 +165,6 @@ public void setReceivePackErrorHandler(ReceivePackErrorHandler h) {
+ 	 *            filter to apply before any of the ReceivePack operations. The
+ 	 *            ReceivePack instance is available in the request attribute
+ 	 *            {@link org.eclipse.jgit.http.server.ServletUtils#ATTRIBUTE_HANDLER}.
+-	 * @since 7.0
+ 	 */
+ 	public void addReceivePackFilter(Filter filter) {
+ 		gitFilter.addReceivePackFilter(filter);
+diff --git a/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/GitSmartHttpTools.java b/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/GitSmartHttpTools.java
+index bf3da4b5d..d80aeef6e 100644
+--- a/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/GitSmartHttpTools.java
++++ b/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/GitSmartHttpTools.java
+@@ -10,9 +10,9 @@
+ 
+ package org.eclipse.jgit.http.server;
+ 
+-import static jakarta.servlet.http.HttpServletResponse.SC_FORBIDDEN;
+-import static jakarta.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+-import static jakarta.servlet.http.HttpServletResponse.SC_NOT_FOUND;
++import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
++import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
++import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
+ import static org.eclipse.jgit.http.server.ServletUtils.ATTRIBUTE_HANDLER;
+ import static org.eclipse.jgit.transport.GitProtocolConstants.CAPABILITY_SIDE_BAND_64K;
+ import static org.eclipse.jgit.transport.SideBandOutputStream.CH_ERROR;
+@@ -25,8 +25,8 @@
+ import java.util.Collections;
+ import java.util.List;
+ 
+-import jakarta.servlet.http.HttpServletRequest;
+-import jakarta.servlet.http.HttpServletResponse;
++import javax.servlet.http.HttpServletRequest;
++import javax.servlet.http.HttpServletResponse;
+ 
+ import org.eclipse.jgit.internal.transport.parser.FirstCommand;
+ import org.eclipse.jgit.lib.Constants;
+@@ -83,7 +83,6 @@ public class GitSmartHttpTools {
+ 	 * @param req
+ 	 *            the current HTTP request that may have been made by Git.
+ 	 * @return true if the request is likely made by a Git client program.
+-	 * @since 7.0
+ 	 */
+ 	public static boolean isGitClient(HttpServletRequest req) {
+ 		return isInfoRefs(req) || isUploadPack(req) || isReceivePack(req);
+@@ -105,7 +104,6 @@ public static boolean isGitClient(HttpServletRequest req) {
+ 	 *            HTTP status code to set if the client is not a Git client.
+ 	 * @throws IOException
+ 	 *             the response cannot be sent.
+-	 * @since 7.0
+ 	 */
+ 	public static void sendError(HttpServletRequest req,
+ 			HttpServletResponse res, int httpStatus) throws IOException {
+@@ -138,7 +136,6 @@ public static void sendError(HttpServletRequest req,
+ 	 *            response code.
+ 	 * @throws IOException
+ 	 *             the response cannot be sent.
+-	 * @since 7.0
+ 	 */
+ 	public static void sendError(HttpServletRequest req,
+ 			HttpServletResponse res, int httpStatus, String textForGit)
+@@ -277,7 +274,6 @@ private static void send(HttpServletRequest req, HttpServletResponse res,
+ 	 * @throws IllegalArgumentException
+ 	 *             the request is not a Git client request. See
+ 	 *             {@link #isGitClient(HttpServletRequest)}.
+-	 * @since 7.0
+ 	 */
+ 	public static String getResponseContentType(HttpServletRequest req) {
+ 		if (isInfoRefs(req))
+@@ -319,7 +315,6 @@ public static String stripServiceSuffix(String path) {
+ 	 * @param req
+ 	 *            current request.
+ 	 * @return true if the request is for the /info/refs service.
+-	 * @since 7.0
+ 	 */
+ 	public static boolean isInfoRefs(HttpServletRequest req) {
+ 		return req.getRequestURI().endsWith(INFO_REFS_PATH)
+@@ -343,7 +338,6 @@ public static boolean isUploadPack(String pathOrUri) {
+ 	 * @param req
+ 	 *            current request.
+ 	 * @return true if the request is for the /git-upload-pack handler.
+-	 * @since 7.0
+ 	 */
+ 	public static boolean isUploadPack(HttpServletRequest req) {
+ 		return isUploadPack(req.getRequestURI())
+@@ -356,7 +350,6 @@ public static boolean isUploadPack(HttpServletRequest req) {
+ 	 * @param req
+ 	 *            current request.
+ 	 * @return true if the request is for the /git-receive-pack handler.
+-	 * @since 7.0
+ 	 */
+ 	public static boolean isReceivePack(HttpServletRequest req) {
+ 		String uri = req.getRequestURI();
+diff --git a/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/InfoPacksServlet.java b/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/InfoPacksServlet.java
+index 74a6da966..d94cc4126 100644
+--- a/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/InfoPacksServlet.java
++++ b/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/InfoPacksServlet.java
+@@ -15,9 +15,9 @@
+ 
+ import java.io.IOException;
+ 
+-import jakarta.servlet.http.HttpServlet;
+-import jakarta.servlet.http.HttpServletRequest;
+-import jakarta.servlet.http.HttpServletResponse;
++import javax.servlet.http.HttpServlet;
++import javax.servlet.http.HttpServletRequest;
++import javax.servlet.http.HttpServletResponse;
+ 
+ import org.eclipse.jgit.internal.storage.file.ObjectDirectory;
+ import org.eclipse.jgit.internal.storage.file.Pack;
+diff --git a/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/InfoRefsServlet.java b/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/InfoRefsServlet.java
+index 632cbaf91..4d86be191 100644
+--- a/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/InfoRefsServlet.java
++++ b/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/InfoRefsServlet.java
+@@ -16,9 +16,9 @@
+ import java.io.IOException;
+ import java.io.OutputStreamWriter;
+ 
+-import jakarta.servlet.http.HttpServlet;
+-import jakarta.servlet.http.HttpServletRequest;
+-import jakarta.servlet.http.HttpServletResponse;
++import javax.servlet.http.HttpServlet;
++import javax.servlet.http.HttpServletRequest;
++import javax.servlet.http.HttpServletResponse;
+ 
+ import org.eclipse.jgit.lib.Constants;
+ import org.eclipse.jgit.lib.Repository;
+diff --git a/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/IsLocalFilter.java b/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/IsLocalFilter.java
+index 2a65a7fba..434cdb48d 100644
+--- a/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/IsLocalFilter.java
++++ b/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/IsLocalFilter.java
+@@ -10,18 +10,18 @@
+ 
+ package org.eclipse.jgit.http.server;
+ 
+-import static jakarta.servlet.http.HttpServletResponse.SC_FORBIDDEN;
++import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
+ import static org.eclipse.jgit.http.server.ServletUtils.getRepository;
+ 
+ import java.io.IOException;
+ 
+-import jakarta.servlet.Filter;
+-import jakarta.servlet.FilterChain;
+-import jakarta.servlet.FilterConfig;
+-import jakarta.servlet.ServletException;
+-import jakarta.servlet.ServletRequest;
+-import jakarta.servlet.ServletResponse;
+-import jakarta.servlet.http.HttpServletResponse;
++import javax.servlet.Filter;
++import javax.servlet.FilterChain;
++import javax.servlet.FilterConfig;
++import javax.servlet.ServletException;
++import javax.servlet.ServletRequest;
++import javax.servlet.ServletResponse;
++import javax.servlet.http.HttpServletResponse;
+ 
+ import org.eclipse.jgit.internal.storage.file.ObjectDirectory;
+ import org.eclipse.jgit.lib.Repository;
+diff --git a/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/NoCacheFilter.java b/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/NoCacheFilter.java
+index 65ec579fd..b1a2b3099 100644
+--- a/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/NoCacheFilter.java
++++ b/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/NoCacheFilter.java
+@@ -16,13 +16,13 @@
+ 
+ import java.io.IOException;
+ 
+-import jakarta.servlet.Filter;
+-import jakarta.servlet.FilterChain;
+-import jakarta.servlet.FilterConfig;
+-import jakarta.servlet.ServletException;
+-import jakarta.servlet.ServletRequest;
+-import jakarta.servlet.ServletResponse;
+-import jakarta.servlet.http.HttpServletResponse;
++import javax.servlet.Filter;
++import javax.servlet.FilterChain;
++import javax.servlet.FilterConfig;
++import javax.servlet.ServletException;
++import javax.servlet.ServletRequest;
++import javax.servlet.ServletResponse;
++import javax.servlet.http.HttpServletResponse;
+ 
+ /** Add HTTP response headers to prevent caching by proxies/browsers. */
+ class NoCacheFilter implements Filter {
+diff --git a/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ObjectFileServlet.java b/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ObjectFileServlet.java
+index 81ff9630d..e581707cc 100644
+--- a/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ObjectFileServlet.java
++++ b/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ObjectFileServlet.java
+@@ -10,8 +10,8 @@
+ 
+ package org.eclipse.jgit.http.server;
+ 
+-import static jakarta.servlet.http.HttpServletResponse.SC_NOT_FOUND;
+-import static jakarta.servlet.http.HttpServletResponse.SC_NOT_MODIFIED;
++import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
++import static javax.servlet.http.HttpServletResponse.SC_NOT_MODIFIED;
+ import static org.eclipse.jgit.http.server.ServletUtils.getRepository;
+ import static org.eclipse.jgit.util.HttpSupport.HDR_ETAG;
+ import static org.eclipse.jgit.util.HttpSupport.HDR_IF_MODIFIED_SINCE;
+@@ -23,10 +23,10 @@
+ import java.io.IOException;
+ import java.time.Instant;
+ 
+-import jakarta.servlet.ServletException;
+-import jakarta.servlet.http.HttpServlet;
+-import jakarta.servlet.http.HttpServletRequest;
+-import jakarta.servlet.http.HttpServletResponse;
++import javax.servlet.ServletException;
++import javax.servlet.http.HttpServlet;
++import javax.servlet.http.HttpServletRequest;
++import javax.servlet.http.HttpServletResponse;
+ 
+ import org.eclipse.jgit.internal.storage.file.ObjectDirectory;
+ import org.eclipse.jgit.lib.Repository;
+diff --git a/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ReceivePackErrorHandler.java b/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ReceivePackErrorHandler.java
+index 843a11556..09bb78eef 100644
+--- a/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ReceivePackErrorHandler.java
++++ b/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ReceivePackErrorHandler.java
+@@ -11,8 +11,8 @@
+ 
+ import java.io.IOException;
+ 
+-import jakarta.servlet.http.HttpServletRequest;
+-import jakarta.servlet.http.HttpServletResponse;
++import javax.servlet.http.HttpServletRequest;
++import javax.servlet.http.HttpServletResponse;
+ 
+ import org.eclipse.jgit.transport.ReceivePack;
+ import org.eclipse.jgit.transport.ServiceMayNotContinueException;
+@@ -45,7 +45,6 @@ public interface ReceivePackErrorHandler {
+ 	 *            A continuation that handles a git-receive-pack request.
+ 	 * @throws IOException
+ 	 *             if an IO error occurred
+-	 * @since 7.0
+ 	 */
+ 	void receive(HttpServletRequest req, HttpServletResponse rsp,
+ 			ReceivePackRunnable r) throws IOException;
+diff --git a/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ReceivePackServlet.java b/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ReceivePackServlet.java
+index 959d6a54c..56b4c8074 100644
+--- a/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ReceivePackServlet.java
++++ b/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ReceivePackServlet.java
+@@ -10,10 +10,10 @@
+ 
+ package org.eclipse.jgit.http.server;
+ 
+-import static jakarta.servlet.http.HttpServletResponse.SC_FORBIDDEN;
+-import static jakarta.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+-import static jakarta.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
+-import static jakarta.servlet.http.HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE;
++import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
++import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
++import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
++import static javax.servlet.http.HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE;
+ import static org.eclipse.jgit.http.server.GitSmartHttpTools.RECEIVE_PACK;
+ import static org.eclipse.jgit.http.server.GitSmartHttpTools.RECEIVE_PACK_REQUEST_TYPE;
+ import static org.eclipse.jgit.http.server.GitSmartHttpTools.RECEIVE_PACK_RESULT_TYPE;
+@@ -28,15 +28,15 @@
+ import java.text.MessageFormat;
+ import java.util.List;
+ 
+-import jakarta.servlet.Filter;
+-import jakarta.servlet.FilterChain;
+-import jakarta.servlet.FilterConfig;
+-import jakarta.servlet.ServletException;
+-import jakarta.servlet.ServletRequest;
+-import jakarta.servlet.ServletResponse;
+-import jakarta.servlet.http.HttpServlet;
+-import jakarta.servlet.http.HttpServletRequest;
+-import jakarta.servlet.http.HttpServletResponse;
++import javax.servlet.Filter;
++import javax.servlet.FilterChain;
++import javax.servlet.FilterConfig;
++import javax.servlet.ServletException;
++import javax.servlet.ServletRequest;
++import javax.servlet.ServletResponse;
++import javax.servlet.http.HttpServlet;
++import javax.servlet.http.HttpServletRequest;
++import javax.servlet.http.HttpServletResponse;
+ 
+ import org.eclipse.jgit.annotations.Nullable;
+ import org.eclipse.jgit.errors.CorruptObjectException;
+diff --git a/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/RepositoryFilter.java b/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/RepositoryFilter.java
+index ab45b460f..9ff922bd7 100644
+--- a/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/RepositoryFilter.java
++++ b/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/RepositoryFilter.java
+@@ -10,25 +10,25 @@
+ 
+ package org.eclipse.jgit.http.server;
+ 
+-import static jakarta.servlet.http.HttpServletResponse.SC_FORBIDDEN;
+-import static jakarta.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+-import static jakarta.servlet.http.HttpServletResponse.SC_NOT_FOUND;
+-import static jakarta.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
++import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
++import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
++import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
++import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
+ import static org.eclipse.jgit.http.server.GitSmartHttpTools.sendError;
+ import static org.eclipse.jgit.http.server.ServletUtils.ATTRIBUTE_REPOSITORY;
+ 
+ import java.io.IOException;
+ import java.text.MessageFormat;
+ 
+-import jakarta.servlet.Filter;
+-import jakarta.servlet.FilterChain;
+-import jakarta.servlet.FilterConfig;
+-import jakarta.servlet.ServletContext;
+-import jakarta.servlet.ServletException;
+-import jakarta.servlet.ServletRequest;
+-import jakarta.servlet.ServletResponse;
+-import jakarta.servlet.http.HttpServletRequest;
+-import jakarta.servlet.http.HttpServletResponse;
++import javax.servlet.Filter;
++import javax.servlet.FilterChain;
++import javax.servlet.FilterConfig;
++import javax.servlet.ServletContext;
++import javax.servlet.ServletException;
++import javax.servlet.ServletRequest;
++import javax.servlet.ServletResponse;
++import javax.servlet.http.HttpServletRequest;
++import javax.servlet.http.HttpServletResponse;
+ 
+ import org.eclipse.jgit.errors.RepositoryNotFoundException;
+ import org.eclipse.jgit.lib.Repository;
+diff --git a/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ServletUtils.java b/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ServletUtils.java
+index 79815c2c0..ba143d4c9 100644
+--- a/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ServletUtils.java
++++ b/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/ServletUtils.java
+@@ -27,9 +27,9 @@
+ import java.util.zip.GZIPInputStream;
+ import java.util.zip.GZIPOutputStream;
+ 
+-import jakarta.servlet.ServletRequest;
+-import jakarta.servlet.http.HttpServletRequest;
+-import jakarta.servlet.http.HttpServletResponse;
++import javax.servlet.ServletRequest;
++import javax.servlet.http.HttpServletRequest;
++import javax.servlet.http.HttpServletResponse;
+ 
+ import org.eclipse.jgit.lib.Constants;
+ import org.eclipse.jgit.lib.ObjectId;
+@@ -56,7 +56,6 @@ public final class ServletUtils {
+ 	 *             being invoked incorrectly and the programmer should ensure
+ 	 *             the filter runs before the servlet.
+ 	 * @see #ATTRIBUTE_REPOSITORY
+-	 * @since 7.0
+ 	 */
+ 	public static Repository getRepository(ServletRequest req) {
+ 		Repository db = (Repository) req.getAttribute(ATTRIBUTE_REPOSITORY);
+@@ -77,7 +76,6 @@ public static Repository getRepository(ServletRequest req) {
+ 	 * @return an input stream to read the raw, uncompressed request body.
+ 	 * @throws IOException
+ 	 *             if an input or output exception occurred.
+-	 * @since 7.0
+ 	 */
+ 	public static InputStream getInputStream(HttpServletRequest req)
+ 			throws IOException {
+@@ -96,7 +94,6 @@ else if (enc != null)
+ 	 *
+ 	 * @param req
+ 	 *            the request whose body must be consumed.
+-	 * @since 7.0
+ 	 */
+ 	public static void consumeRequestBody(HttpServletRequest req) {
+ 		if (0 < req.getContentLength() || isChunked(req)) {
+@@ -157,7 +154,6 @@ public static void consumeRequestBody(InputStream in) {
+ 	 *            the outgoing response.
+ 	 * @throws IOException
+ 	 *             the servlet API rejected sending the body.
+-	 * @since 7.0
+ 	 */
+ 	public static void sendPlainText(final String content,
+ 			final HttpServletRequest req, final HttpServletResponse rsp)
+@@ -187,7 +183,6 @@ public static void sendPlainText(final String content,
+ 	 *            the outgoing response.
+ 	 * @throws IOException
+ 	 *             the servlet API rejected sending the body.
+-	 * @since 7.0
+ 	 */
+ 	public static void send(byte[] content, final HttpServletRequest req,
+ 			final HttpServletResponse rsp) throws IOException {
+diff --git a/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/SmartOutputStream.java b/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/SmartOutputStream.java
+index 19df895aa..fdac79d4b 100644
+--- a/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/SmartOutputStream.java
++++ b/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/SmartOutputStream.java
+@@ -18,8 +18,8 @@
+ import java.io.OutputStream;
+ import java.util.zip.GZIPOutputStream;
+ 
+-import jakarta.servlet.http.HttpServletRequest;
+-import jakarta.servlet.http.HttpServletResponse;
++import javax.servlet.http.HttpServletRequest;
++import javax.servlet.http.HttpServletResponse;
+ 
+ import org.eclipse.jgit.util.TemporaryBuffer;
+ 
+diff --git a/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/SmartServiceInfoRefs.java b/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/SmartServiceInfoRefs.java
+index d2d601537..aa0443128 100644
+--- a/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/SmartServiceInfoRefs.java
++++ b/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/SmartServiceInfoRefs.java
+@@ -10,8 +10,8 @@
+ 
+ package org.eclipse.jgit.http.server;
+ 
+-import static jakarta.servlet.http.HttpServletResponse.SC_FORBIDDEN;
+-import static jakarta.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
++import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
++import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
+ import static org.eclipse.jgit.http.server.GitSmartHttpTools.infoRefsResultType;
+ import static org.eclipse.jgit.http.server.GitSmartHttpTools.sendError;
+ import static org.eclipse.jgit.http.server.ServletUtils.ATTRIBUTE_HANDLER;
+@@ -20,14 +20,14 @@
+ import java.io.IOException;
+ import java.util.List;
+ 
+-import jakarta.servlet.Filter;
+-import jakarta.servlet.FilterChain;
+-import jakarta.servlet.FilterConfig;
+-import jakarta.servlet.ServletException;
+-import jakarta.servlet.ServletRequest;
+-import jakarta.servlet.ServletResponse;
+-import jakarta.servlet.http.HttpServletRequest;
+-import jakarta.servlet.http.HttpServletResponse;
++import javax.servlet.Filter;
++import javax.servlet.FilterChain;
++import javax.servlet.FilterConfig;
++import javax.servlet.ServletException;
++import javax.servlet.ServletRequest;
++import javax.servlet.ServletResponse;
++import javax.servlet.http.HttpServletRequest;
++import javax.servlet.http.HttpServletResponse;
+ 
+ import org.eclipse.jgit.lib.Repository;
+ import org.eclipse.jgit.transport.PacketLineOut;
+diff --git a/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/TextFileServlet.java b/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/TextFileServlet.java
+index b85782733..0b225e769 100644
+--- a/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/TextFileServlet.java
++++ b/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/TextFileServlet.java
+@@ -10,7 +10,7 @@
+ 
+ package org.eclipse.jgit.http.server;
+ 
+-import static jakarta.servlet.http.HttpServletResponse.SC_NOT_FOUND;
++import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
+ import static org.eclipse.jgit.http.server.ServletUtils.getRepository;
+ import static org.eclipse.jgit.http.server.ServletUtils.send;
+ 
+@@ -18,9 +18,9 @@
+ import java.io.FileNotFoundException;
+ import java.io.IOException;
+ 
+-import jakarta.servlet.http.HttpServlet;
+-import jakarta.servlet.http.HttpServletRequest;
+-import jakarta.servlet.http.HttpServletResponse;
++import javax.servlet.http.HttpServlet;
++import javax.servlet.http.HttpServletRequest;
++import javax.servlet.http.HttpServletResponse;
+ 
+ import org.eclipse.jgit.util.HttpSupport;
+ import org.eclipse.jgit.util.IO;
+diff --git a/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/UploadPackErrorHandler.java b/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/UploadPackErrorHandler.java
+index 5159f6cba..cff1fa9a3 100644
+--- a/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/UploadPackErrorHandler.java
++++ b/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/UploadPackErrorHandler.java
+@@ -9,14 +9,14 @@
+  */
+ package org.eclipse.jgit.http.server;
+ 
+-import static jakarta.servlet.http.HttpServletResponse.SC_FORBIDDEN;
+-import static jakarta.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
+-import static jakarta.servlet.http.HttpServletResponse.SC_OK;
++import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
++import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
++import static javax.servlet.http.HttpServletResponse.SC_OK;
+ 
+ import java.io.IOException;
+ 
+-import jakarta.servlet.http.HttpServletRequest;
+-import jakarta.servlet.http.HttpServletResponse;
++import javax.servlet.http.HttpServletRequest;
++import javax.servlet.http.HttpServletResponse;
+ 
+ import org.eclipse.jgit.errors.PackProtocolException;
+ import org.eclipse.jgit.transport.ServiceMayNotContinueException;
+@@ -70,7 +70,6 @@ public static int statusCodeForThrowable(Throwable error) {
+ 	 *            A continuation that handles a git-upload-pack request.
+ 	 * @throws IOException
+ 	 *             if an IO error occurred
+-	 * @since 7.0
+ 	 */
+ 	void upload(HttpServletRequest req, HttpServletResponse rsp,
+ 			UploadPackRunnable r) throws IOException;
+diff --git a/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/UploadPackServlet.java b/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/UploadPackServlet.java
+index 3665d35c0..74419a50d 100644
+--- a/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/UploadPackServlet.java
++++ b/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/UploadPackServlet.java
+@@ -10,9 +10,9 @@
+ 
+ package org.eclipse.jgit.http.server;
+ 
+-import static jakarta.servlet.http.HttpServletResponse.SC_FORBIDDEN;
+-import static jakarta.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
+-import static jakarta.servlet.http.HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE;
++import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
++import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
++import static javax.servlet.http.HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE;
+ import static org.eclipse.jgit.http.server.GitSmartHttpTools.UPLOAD_PACK;
+ import static org.eclipse.jgit.http.server.GitSmartHttpTools.UPLOAD_PACK_REQUEST_TYPE;
+ import static org.eclipse.jgit.http.server.GitSmartHttpTools.UPLOAD_PACK_RESULT_TYPE;
+@@ -28,15 +28,15 @@
+ import java.text.MessageFormat;
+ import java.util.List;
+ 
+-import jakarta.servlet.Filter;
+-import jakarta.servlet.FilterChain;
+-import jakarta.servlet.FilterConfig;
+-import jakarta.servlet.ServletException;
+-import jakarta.servlet.ServletRequest;
+-import jakarta.servlet.ServletResponse;
+-import jakarta.servlet.http.HttpServlet;
+-import jakarta.servlet.http.HttpServletRequest;
+-import jakarta.servlet.http.HttpServletResponse;
++import javax.servlet.Filter;
++import javax.servlet.FilterChain;
++import javax.servlet.FilterConfig;
++import javax.servlet.ServletException;
++import javax.servlet.ServletRequest;
++import javax.servlet.ServletResponse;
++import javax.servlet.http.HttpServlet;
++import javax.servlet.http.HttpServletRequest;
++import javax.servlet.http.HttpServletResponse;
+ 
+ import org.eclipse.jgit.annotations.Nullable;
+ import org.eclipse.jgit.errors.PackProtocolException;
+diff --git a/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/glue/ErrorServlet.java b/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/glue/ErrorServlet.java
+index 1852f6c56..822bb7964 100644
+--- a/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/glue/ErrorServlet.java
++++ b/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/glue/ErrorServlet.java
+@@ -12,10 +12,10 @@
+ 
+ import java.io.IOException;
+ 
+-import jakarta.servlet.ServletException;
+-import jakarta.servlet.http.HttpServlet;
+-import jakarta.servlet.http.HttpServletRequest;
+-import jakarta.servlet.http.HttpServletResponse;
++import javax.servlet.ServletException;
++import javax.servlet.http.HttpServlet;
++import javax.servlet.http.HttpServletRequest;
++import javax.servlet.http.HttpServletResponse;
+ 
+ /**
+  * Send a fixed status code to the client.
+diff --git a/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/glue/MetaFilter.java b/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/glue/MetaFilter.java
+index 98111050f..7cd1ecf69 100644
+--- a/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/glue/MetaFilter.java
++++ b/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/glue/MetaFilter.java
+@@ -20,15 +20,15 @@
+ import java.util.Set;
+ import java.util.regex.Pattern;
+ 
+-import jakarta.servlet.Filter;
+-import jakarta.servlet.FilterChain;
+-import jakarta.servlet.FilterConfig;
+-import jakarta.servlet.ServletContext;
+-import jakarta.servlet.ServletException;
+-import jakarta.servlet.ServletRequest;
+-import jakarta.servlet.ServletResponse;
+-import jakarta.servlet.http.HttpServletRequest;
+-import jakarta.servlet.http.HttpServletResponse;
++import javax.servlet.Filter;
++import javax.servlet.FilterChain;
++import javax.servlet.FilterConfig;
++import javax.servlet.ServletContext;
++import javax.servlet.ServletException;
++import javax.servlet.ServletRequest;
++import javax.servlet.ServletResponse;
++import javax.servlet.http.HttpServletRequest;
++import javax.servlet.http.HttpServletResponse;
+ 
+ import org.eclipse.jgit.http.server.HttpServerText;
+ 
+diff --git a/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/glue/MetaServlet.java b/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/glue/MetaServlet.java
+index f577c6950..9a1a24960 100644
+--- a/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/glue/MetaServlet.java
++++ b/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/glue/MetaServlet.java
+@@ -10,18 +10,18 @@
+ 
+ package org.eclipse.jgit.http.server.glue;
+ 
+-import static jakarta.servlet.http.HttpServletResponse.SC_NOT_FOUND;
++import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
+ 
+ import java.io.IOException;
+ 
+-import jakarta.servlet.ServletConfig;
+-import jakarta.servlet.ServletContext;
+-import jakarta.servlet.ServletException;
+-import jakarta.servlet.ServletRequest;
+-import jakarta.servlet.ServletResponse;
+-import jakarta.servlet.http.HttpServlet;
+-import jakarta.servlet.http.HttpServletRequest;
+-import jakarta.servlet.http.HttpServletResponse;
++import javax.servlet.ServletConfig;
++import javax.servlet.ServletContext;
++import javax.servlet.ServletException;
++import javax.servlet.ServletRequest;
++import javax.servlet.ServletResponse;
++import javax.servlet.http.HttpServlet;
++import javax.servlet.http.HttpServletRequest;
++import javax.servlet.http.HttpServletResponse;
+ 
+ /**
+  * Generic container servlet to manage routing to different pipelines.
+diff --git a/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/glue/NoParameterFilterConfig.java b/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/glue/NoParameterFilterConfig.java
+index 82cf7a885..3f7ee2a66 100644
+--- a/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/glue/NoParameterFilterConfig.java
++++ b/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/glue/NoParameterFilterConfig.java
+@@ -13,8 +13,8 @@
+ import java.util.Enumeration;
+ import java.util.NoSuchElementException;
+ 
+-import jakarta.servlet.FilterConfig;
+-import jakarta.servlet.ServletContext;
++import javax.servlet.FilterConfig;
++import javax.servlet.ServletContext;
+ 
+ final class NoParameterFilterConfig implements FilterConfig {
+ 	private final String filterName;
+diff --git a/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/glue/RegexGroupFilter.java b/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/glue/RegexGroupFilter.java
+index 1c540714f..68adc2d66 100644
+--- a/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/glue/RegexGroupFilter.java
++++ b/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/glue/RegexGroupFilter.java
+@@ -13,12 +13,12 @@
+ import java.io.IOException;
+ import java.text.MessageFormat;
+ 
+-import jakarta.servlet.Filter;
+-import jakarta.servlet.FilterChain;
+-import jakarta.servlet.FilterConfig;
+-import jakarta.servlet.ServletException;
+-import jakarta.servlet.ServletRequest;
+-import jakarta.servlet.ServletResponse;
++import javax.servlet.Filter;
++import javax.servlet.FilterChain;
++import javax.servlet.FilterConfig;
++import javax.servlet.ServletException;
++import javax.servlet.ServletRequest;
++import javax.servlet.ServletResponse;
+ 
+ import org.eclipse.jgit.http.server.HttpServerText;
+ 
+diff --git a/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/glue/RegexPipeline.java b/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/glue/RegexPipeline.java
+index 7b856c742..5baa14a61 100644
+--- a/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/glue/RegexPipeline.java
++++ b/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/glue/RegexPipeline.java
+@@ -10,18 +10,18 @@
+ 
+ package org.eclipse.jgit.http.server.glue;
+ 
+-import static jakarta.servlet.http.HttpServletResponse.SC_NOT_FOUND;
++import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
+ import static org.eclipse.jgit.http.server.glue.MetaFilter.REGEX_GROUPS;
+ 
+ import java.io.IOException;
+ import java.util.regex.Matcher;
+ import java.util.regex.Pattern;
+ 
+-import jakarta.servlet.Filter;
+-import jakarta.servlet.ServletException;
+-import jakarta.servlet.http.HttpServlet;
+-import jakarta.servlet.http.HttpServletRequest;
+-import jakarta.servlet.http.HttpServletResponse;
++import javax.servlet.Filter;
++import javax.servlet.ServletException;
++import javax.servlet.http.HttpServlet;
++import javax.servlet.http.HttpServletRequest;
++import javax.servlet.http.HttpServletResponse;
+ 
+ /**
+  * Selects requests by matching the URI against a regular expression.
+diff --git a/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/glue/ServletBinder.java b/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/glue/ServletBinder.java
+index 06993eae9..81509fbd9 100644
+--- a/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/glue/ServletBinder.java
++++ b/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/glue/ServletBinder.java
+@@ -10,8 +10,8 @@
+ 
+ package org.eclipse.jgit.http.server.glue;
+ 
+-import jakarta.servlet.Filter;
+-import jakarta.servlet.http.HttpServlet;
++import javax.servlet.Filter;
++import javax.servlet.http.HttpServlet;
+ 
+ /**
+  * Binds a servlet to a URL.
+@@ -23,7 +23,6 @@ public interface ServletBinder {
+ 	 * @param filter
+ 	 *            the filter to trigger while processing the path.
+ 	 * @return {@code this}.
+-	 * @since 7.0
+ 	 */
+ 	ServletBinder through(Filter filter);
+ 
+@@ -32,7 +31,6 @@ public interface ServletBinder {
+ 	 *
+ 	 * @param servlet
+ 	 *            the servlet to execute on this path.
+-	 * @since 7.0
+ 	 */
+ 	void with(HttpServlet servlet);
+ }
+diff --git a/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/glue/ServletBinderImpl.java b/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/glue/ServletBinderImpl.java
+index 814a9003a..e77de2b18 100644
+--- a/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/glue/ServletBinderImpl.java
++++ b/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/glue/ServletBinderImpl.java
+@@ -13,9 +13,9 @@
+ import java.util.ArrayList;
+ import java.util.List;
+ 
+-import jakarta.servlet.Filter;
+-import jakarta.servlet.http.HttpServlet;
+-import jakarta.servlet.http.HttpServletResponse;
++import javax.servlet.Filter;
++import javax.servlet.http.HttpServlet;
++import javax.servlet.http.HttpServletResponse;
+ 
+ import org.eclipse.jgit.http.server.HttpServerText;
+ 
+diff --git a/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/glue/SuffixPipeline.java b/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/glue/SuffixPipeline.java
+index f2db9c7b3..39d57b59e 100644
+--- a/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/glue/SuffixPipeline.java
++++ b/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/glue/SuffixPipeline.java
+@@ -12,11 +12,11 @@
+ 
+ import java.io.IOException;
+ 
+-import jakarta.servlet.Filter;
+-import jakarta.servlet.ServletException;
+-import jakarta.servlet.http.HttpServlet;
+-import jakarta.servlet.http.HttpServletRequest;
+-import jakarta.servlet.http.HttpServletResponse;
++import javax.servlet.Filter;
++import javax.servlet.ServletException;
++import javax.servlet.http.HttpServlet;
++import javax.servlet.http.HttpServletRequest;
++import javax.servlet.http.HttpServletResponse;
+ 
+ /**
+  * Selects requests by matching the suffix of the URI.
+diff --git a/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/glue/UrlPipeline.java b/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/glue/UrlPipeline.java
+index a27935f82..7c5170d0f 100644
+--- a/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/glue/UrlPipeline.java
++++ b/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/glue/UrlPipeline.java
+@@ -15,16 +15,16 @@
+ import java.util.NoSuchElementException;
+ import java.util.Set;
+ 
+-import jakarta.servlet.Filter;
+-import jakarta.servlet.FilterChain;
+-import jakarta.servlet.ServletConfig;
+-import jakarta.servlet.ServletContext;
+-import jakarta.servlet.ServletException;
+-import jakarta.servlet.ServletRequest;
+-import jakarta.servlet.ServletResponse;
+-import jakarta.servlet.http.HttpServlet;
+-import jakarta.servlet.http.HttpServletRequest;
+-import jakarta.servlet.http.HttpServletResponse;
++import javax.servlet.Filter;
++import javax.servlet.FilterChain;
++import javax.servlet.ServletConfig;
++import javax.servlet.ServletContext;
++import javax.servlet.ServletException;
++import javax.servlet.ServletRequest;
++import javax.servlet.ServletResponse;
++import javax.servlet.http.HttpServlet;
++import javax.servlet.http.HttpServletRequest;
++import javax.servlet.http.HttpServletResponse;
+ 
+ /**
+  * Encapsulates the entire serving stack for a single URL.
+diff --git a/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/glue/WrappedRequest.java b/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/glue/WrappedRequest.java
+index 5d41791da..4bac04023 100644
+--- a/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/glue/WrappedRequest.java
++++ b/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/glue/WrappedRequest.java
+@@ -10,8 +10,8 @@
+ 
+ package org.eclipse.jgit.http.server.glue;
+ 
+-import jakarta.servlet.http.HttpServletRequest;
+-import jakarta.servlet.http.HttpServletRequestWrapper;
++import javax.servlet.http.HttpServletRequest;
++import javax.servlet.http.HttpServletRequestWrapper;
+ 
+ /**
+  * Overrides the path and path info.
+@@ -30,7 +30,6 @@ public class WrappedRequest extends HttpServletRequestWrapper {
+ 	 *            new servlet path to report to callers.
+ 	 * @param pathInfo
+ 	 *            new path info to report to callers.
+-	 * @since 7.0
+ 	 */
+ 	public WrappedRequest(final HttpServletRequest originalRequest,
+ 			final String path, final String pathInfo) {
+diff --git a/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/resolver/AsIsFileService.java b/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/resolver/AsIsFileService.java
+index 69918c015..4d00aa5ac 100644
+--- a/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/resolver/AsIsFileService.java
++++ b/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/resolver/AsIsFileService.java
+@@ -10,7 +10,7 @@
+ 
+ package org.eclipse.jgit.http.server.resolver;
+ 
+-import jakarta.servlet.http.HttpServletRequest;
++import javax.servlet.http.HttpServletRequest;
+ 
+ import org.eclipse.jgit.lib.Config;
+ import org.eclipse.jgit.lib.Repository;
+@@ -81,7 +81,6 @@ protected static boolean isEnabled(Repository db) {
+ 	 * @throws ServiceNotAuthorizedException
+ 	 *             bare file access is not allowed for this HTTP request and
+ 	 *             repository, such as due to a permission error.
+-	 * @since 7.0
+ 	 */
+ 	public void access(HttpServletRequest req, Repository db)
+ 			throws ServiceNotEnabledException, ServiceNotAuthorizedException {
+diff --git a/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/resolver/DefaultReceivePackFactory.java b/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/resolver/DefaultReceivePackFactory.java
+index 0bf09f7ed..0bf10cbd7 100644
+--- a/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/resolver/DefaultReceivePackFactory.java
++++ b/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/resolver/DefaultReceivePackFactory.java
+@@ -10,7 +10,7 @@
+ 
+ package org.eclipse.jgit.http.server.resolver;
+ 
+-import jakarta.servlet.http.HttpServletRequest;
++import javax.servlet.http.HttpServletRequest;
+ 
+ import org.eclipse.jgit.lib.Config;
+ import org.eclipse.jgit.lib.PersonIdent;
+@@ -27,7 +27,7 @@
+  * Writing by receive-pack is permitted if any of the following is true:
+  * <ul>
+  * <li>The container has authenticated the user and set
+- * {@link jakarta.servlet.http.HttpServletRequest#getRemoteUser()} to the
++ * {@link javax.servlet.http.HttpServletRequest#getRemoteUser()} to the
+  * authenticated name.
+  * <li>The repository configuration file has {@code http.receivepack} explicitly
+  * set to true.
+@@ -47,9 +47,6 @@ private static class ServiceConfig {
+ 		}
+ 	}
+ 
+-	/**
+-	 * @since 7.0
+-	 */
+ 	@Override
+ 	public ReceivePack create(HttpServletRequest req, Repository db)
+ 			throws ServiceNotEnabledException, ServiceNotAuthorizedException {
+diff --git a/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/resolver/DefaultUploadPackFactory.java b/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/resolver/DefaultUploadPackFactory.java
+index 10a1b3e5f..29314359c 100644
+--- a/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/resolver/DefaultUploadPackFactory.java
++++ b/org.eclipse.jgit.http.server/src/org/eclipse/jgit/http/server/resolver/DefaultUploadPackFactory.java
+@@ -12,7 +12,7 @@
+ 
+ import java.util.Arrays;
+ 
+-import jakarta.servlet.http.HttpServletRequest;
++import javax.servlet.http.HttpServletRequest;
+ 
+ import org.eclipse.jgit.lib.Config;
+ import org.eclipse.jgit.lib.Repository;
+@@ -38,9 +38,6 @@ private static class ServiceConfig {
+ 		}
+ 	}
+ 
+-	/**
+-	 * @since 7.0
+-	 */
+ 	@Override
+ 	public UploadPack create(HttpServletRequest req, Repository db)
+ 			throws ServiceNotEnabledException, ServiceNotAuthorizedException {
+diff --git a/org.eclipse.jgit.http.test/META-INF/MANIFEST.MF b/org.eclipse.jgit.http.test/META-INF/MANIFEST.MF
+index 018688fd0..aaadc3a49 100644
+--- a/org.eclipse.jgit.http.test/META-INF/MANIFEST.MF
++++ b/org.eclipse.jgit.http.test/META-INF/MANIFEST.MF
+@@ -10,25 +10,25 @@ Bundle-RequiredExecutionEnvironment: JavaSE-17
+ Bundle-SCM: url=https://github.com/eclipse-jgit/jgit, connection=scm:git:https://eclipse.gerrithub.io/eclipse-jgit/jgit.git, developerConnection=scm:git:https://eclipse.gerrithub.io/a/eclipse-jgit/jgit.git
+ Require-Bundle: org.hamcrest.core;bundle-version="[1.3.0,2.0.0)",
+  org.hamcrest.library;bundle-version="[1.3.0,2.0.0)"
+-Import-Package: jakarta.servlet;version="[5.0.0,6.0.0)",
+- jakarta.servlet.http;version="[5.0.0,6.0.0)",
++Import-Package: javax.servlet;version="[2.5.0,5.0.0)",
++ javax.servlet.http;version="[2.5.0,5.0.0)",
+  org.apache.commons.codec;version="[1.6.0,2.0.0)",
+  org.apache.commons.codec.binary;version="[1.6.0,2.0.0)",
+  org.apache.http;version="[4.3.0,5.0.0)",
+  org.apache.http.client;version="[4.4.0,5.0.0)",
+  org.apache.http.message;version="[4.3.0,5.0.0)",
+- org.eclipse.jetty.http;version="[11.0.0,12.0.0)",
+- org.eclipse.jetty.io;version="[11.0.0,12.0.0)",
+- org.eclipse.jetty.security;version="[11.0.0,12.0.0)",
+- org.eclipse.jetty.security.authentication;version="[11.0.0,12.0.0)",
+- org.eclipse.jetty.server;version="[11.0.0,12.0.0)",
+- org.eclipse.jetty.server.handler;version="[11.0.0,12.0.0)",
+- org.eclipse.jetty.servlet;version="[11.0.0,12.0.0)",
+- org.eclipse.jetty.util;version="[11.0.0,12.0.0)",
+- org.eclipse.jetty.util.component;version="[11.0.0,12.0.0)",
+- org.eclipse.jetty.util.log;version="[11.0.0,12.0.0)",
+- org.eclipse.jetty.util.security;version="[11.0.0,12.0.0)",
+- org.eclipse.jetty.util.thread;version="[11.0.0,12.0.0)",
++ org.eclipse.jetty.http;version="[10.0.0,11.0.0)",
++ org.eclipse.jetty.io;version="[10.0.0,11.0.0)",
++ org.eclipse.jetty.security;version="[10.0.0,11.0.0)",
++ org.eclipse.jetty.security.authentication;version="[10.0.0,11.0.0)",
++ org.eclipse.jetty.server;version="[10.0.0,11.0.0)",
++ org.eclipse.jetty.server.handler;version="[10.0.0,11.0.0)",
++ org.eclipse.jetty.servlet;version="[10.0.0,11.0.0)",
++ org.eclipse.jetty.util;version="[10.0.0,11.0.0)",
++ org.eclipse.jetty.util.component;version="[10.0.0,11.0.0)",
++ org.eclipse.jetty.util.log;version="[10.0.0,11.0.0)",
++ org.eclipse.jetty.util.security;version="[10.0.0,11.0.0)",
++ org.eclipse.jetty.util.thread;version="[10.0.0,11.0.0)",
+  org.eclipse.jgit.api;version="[7.0.0,7.1.0)",
+  org.eclipse.jgit.errors;version="[7.0.0,7.1.0)",
+  org.eclipse.jgit.http.server;version="[7.0.0,7.1.0)",
+diff --git a/org.eclipse.jgit.http.test/src/org/eclipse/jgit/http/test/TestRepositoryResolver.java b/org.eclipse.jgit.http.test/src/org/eclipse/jgit/http/test/TestRepositoryResolver.java
+index d3a85d1a1..82168d1c5 100644
+--- a/org.eclipse.jgit.http.test/src/org/eclipse/jgit/http/test/TestRepositoryResolver.java
++++ b/org.eclipse.jgit.http.test/src/org/eclipse/jgit/http/test/TestRepositoryResolver.java
+@@ -9,7 +9,7 @@
+  */
+ package org.eclipse.jgit.http.test;
+ 
+-import jakarta.servlet.http.HttpServletRequest;
++import javax.servlet.http.HttpServletRequest;
+ 
+ import org.eclipse.jgit.errors.RepositoryNotFoundException;
+ import org.eclipse.jgit.junit.TestRepository;
+diff --git a/org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/AdvertiseErrorTest.java b/org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/AdvertiseErrorTest.java
+index 5a1241027..c873be7a4 100644
+--- a/org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/AdvertiseErrorTest.java
++++ b/org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/AdvertiseErrorTest.java
+@@ -15,7 +15,7 @@
+ 
+ import java.util.Collections;
+ 
+-import jakarta.servlet.http.HttpServletRequest;
++import javax.servlet.http.HttpServletRequest;
+ 
+ import org.eclipse.jetty.servlet.ServletContextHandler;
+ import org.eclipse.jetty.servlet.ServletHolder;
+diff --git a/org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/AsIsServiceTest.java b/org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/AsIsServiceTest.java
+index 062d6248c..c5fc5a6ed 100644
+--- a/org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/AsIsServiceTest.java
++++ b/org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/AsIsServiceTest.java
+@@ -14,7 +14,7 @@
+ 
+ import java.io.IOException;
+ 
+-import jakarta.servlet.http.HttpServletRequestWrapper;
++import javax.servlet.http.HttpServletRequestWrapper;
+ 
+ import org.eclipse.jetty.server.Request;
+ import org.eclipse.jgit.http.server.resolver.AsIsFileService;
+diff --git a/org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/DefaultReceivePackFactoryTest.java b/org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/DefaultReceivePackFactoryTest.java
+index 304256427..a017fa49d 100644
+--- a/org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/DefaultReceivePackFactoryTest.java
++++ b/org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/DefaultReceivePackFactoryTest.java
+@@ -17,8 +17,8 @@
+ 
+ import java.io.IOException;
+ 
+-import jakarta.servlet.http.HttpServletRequest;
+-import jakarta.servlet.http.HttpServletRequestWrapper;
++import javax.servlet.http.HttpServletRequest;
++import javax.servlet.http.HttpServletRequestWrapper;
+ 
+ import org.eclipse.jetty.server.Request;
+ import org.eclipse.jgit.http.server.resolver.DefaultReceivePackFactory;
+diff --git a/org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/DefaultUploadPackFactoryTest.java b/org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/DefaultUploadPackFactoryTest.java
+index c5007aabb..1d433e299 100644
+--- a/org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/DefaultUploadPackFactoryTest.java
++++ b/org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/DefaultUploadPackFactoryTest.java
+@@ -16,8 +16,8 @@
+ 
+ import java.io.IOException;
+ 
+-import jakarta.servlet.http.HttpServletRequest;
+-import jakarta.servlet.http.HttpServletRequestWrapper;
++import javax.servlet.http.HttpServletRequest;
++import javax.servlet.http.HttpServletRequestWrapper;
+ 
+ import org.eclipse.jetty.server.Request;
+ import org.eclipse.jgit.http.server.resolver.DefaultUploadPackFactory;
+diff --git a/org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/GitServletInitTest.java b/org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/GitServletInitTest.java
+index 4d51bec85..5453a10a7 100644
+--- a/org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/GitServletInitTest.java
++++ b/org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/GitServletInitTest.java
+@@ -15,7 +15,7 @@
+ 
+ import java.util.List;
+ 
+-import jakarta.servlet.ServletException;
++import javax.servlet.ServletException;
+ 
+ import org.eclipse.jetty.servlet.ServletContextHandler;
+ import org.eclipse.jetty.servlet.ServletHolder;
+diff --git a/org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/GitServletResponseTests.java b/org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/GitServletResponseTests.java
+index 12bfac6ff..8fde56f39 100644
+--- a/org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/GitServletResponseTests.java
++++ b/org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/GitServletResponseTests.java
+@@ -15,7 +15,7 @@
+ import java.util.Collection;
+ import java.util.Collections;
+ 
+-import jakarta.servlet.http.HttpServletRequest;
++import javax.servlet.http.HttpServletRequest;
+ 
+ import org.eclipse.jetty.servlet.ServletContextHandler;
+ import org.eclipse.jetty.servlet.ServletHolder;
+diff --git a/org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/HookMessageTest.java b/org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/HookMessageTest.java
+index 5bb6c45ab..20de2567c 100644
+--- a/org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/HookMessageTest.java
++++ b/org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/HookMessageTest.java
+@@ -20,7 +20,7 @@
+ import java.util.Collections;
+ import java.util.List;
+ 
+-import jakarta.servlet.http.HttpServletRequest;
++import javax.servlet.http.HttpServletRequest;
+ 
+ import org.eclipse.jetty.servlet.ServletContextHandler;
+ import org.eclipse.jetty.servlet.ServletHolder;
+diff --git a/org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/HttpClientTests.java b/org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/HttpClientTests.java
+index 8c0d7ecce..6b067273a 100644
+--- a/org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/HttpClientTests.java
++++ b/org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/HttpClientTests.java
+@@ -28,7 +28,7 @@
+ import java.util.List;
+ import java.util.Set;
+ 
+-import jakarta.servlet.http.HttpServletRequest;
++import javax.servlet.http.HttpServletRequest;
+ 
+ import org.eclipse.jetty.servlet.DefaultServlet;
+ import org.eclipse.jetty.servlet.ServletContextHandler;
+diff --git a/org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/MeasurePackSizeTest.java b/org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/MeasurePackSizeTest.java
+index 9030f51b3..000eecdcc 100644
+--- a/org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/MeasurePackSizeTest.java
++++ b/org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/MeasurePackSizeTest.java
+@@ -14,7 +14,7 @@
+ import java.util.Collection;
+ import java.util.Collections;
+ 
+-import jakarta.servlet.http.HttpServletRequest;
++import javax.servlet.http.HttpServletRequest;
+ 
+ import org.eclipse.jetty.servlet.ServletContextHandler;
+ import org.eclipse.jetty.servlet.ServletHolder;
+diff --git a/org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/ProtocolErrorTest.java b/org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/ProtocolErrorTest.java
+index 9fa8584b3..9b3e9d3d4 100644
+--- a/org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/ProtocolErrorTest.java
++++ b/org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/ProtocolErrorTest.java
+@@ -20,7 +20,7 @@
+ import java.net.HttpURLConnection;
+ import java.net.URL;
+ 
+-import jakarta.servlet.http.HttpServletRequest;
++import javax.servlet.http.HttpServletRequest;
+ 
+ import org.eclipse.jetty.servlet.ServletContextHandler;
+ import org.eclipse.jetty.servlet.ServletHolder;
+diff --git a/org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/RegexPipelineTest.java b/org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/RegexPipelineTest.java
+index e30212de8..59c2b4e67 100644
+--- a/org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/RegexPipelineTest.java
++++ b/org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/RegexPipelineTest.java
+@@ -55,9 +55,9 @@
+ import java.net.HttpURLConnection;
+ import java.net.URI;
+ 
+-import jakarta.servlet.http.HttpServlet;
+-import jakarta.servlet.http.HttpServletRequest;
+-import jakarta.servlet.http.HttpServletResponse;
++import javax.servlet.http.HttpServlet;
++import javax.servlet.http.HttpServletRequest;
++import javax.servlet.http.HttpServletResponse;
+ 
+ import org.eclipse.jetty.servlet.ServletContextHandler;
+ import org.eclipse.jetty.servlet.ServletHolder;
+diff --git a/org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/SmartClientSmartServerSslTest.java b/org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/SmartClientSmartServerSslTest.java
+index 19f6bcd46..7bc50cad8 100644
+--- a/org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/SmartClientSmartServerSslTest.java
++++ b/org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/SmartClientSmartServerSslTest.java
+@@ -19,15 +19,15 @@
+ import java.util.EnumSet;
+ import java.util.List;
+ 
+-import jakarta.servlet.DispatcherType;
+-import jakarta.servlet.Filter;
+-import jakarta.servlet.FilterChain;
+-import jakarta.servlet.FilterConfig;
+-import jakarta.servlet.ServletException;
+-import jakarta.servlet.ServletRequest;
+-import jakarta.servlet.ServletResponse;
+-import jakarta.servlet.http.HttpServletRequest;
+-import jakarta.servlet.http.HttpServletResponse;
++import javax.servlet.DispatcherType;
++import javax.servlet.Filter;
++import javax.servlet.FilterChain;
++import javax.servlet.FilterConfig;
++import javax.servlet.ServletException;
++import javax.servlet.ServletRequest;
++import javax.servlet.ServletResponse;
++import javax.servlet.http.HttpServletRequest;
++import javax.servlet.http.HttpServletResponse;
+ 
+ import org.eclipse.jetty.servlet.FilterHolder;
+ import org.eclipse.jetty.servlet.ServletContextHandler;
+diff --git a/org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/SmartClientSmartServerTest.java b/org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/SmartClientSmartServerTest.java
+index 5a81c91a9..aab1aad36 100644
+--- a/org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/SmartClientSmartServerTest.java
++++ b/org.eclipse.jgit.http.test/tst/org/eclipse/jgit/http/test/SmartClientSmartServerTest.java
+@@ -41,16 +41,16 @@
+ import java.util.regex.Matcher;
+ import java.util.regex.Pattern;
+ 
+-import jakarta.servlet.DispatcherType;
+-import jakarta.servlet.Filter;
+-import jakarta.servlet.FilterChain;
+-import jakarta.servlet.FilterConfig;
+-import jakarta.servlet.RequestDispatcher;
+-import jakarta.servlet.ServletException;
+-import jakarta.servlet.ServletRequest;
+-import jakarta.servlet.ServletResponse;
+-import jakarta.servlet.http.HttpServletRequest;
+-import jakarta.servlet.http.HttpServletResponse;
++import javax.servlet.DispatcherType;
++import javax.servlet.Filter;
++import javax.servlet.FilterChain;
++import javax.servlet.FilterConfig;
++import javax.servlet.RequestDispatcher;
++import javax.servlet.ServletException;
++import javax.servlet.ServletRequest;
++import javax.servlet.ServletResponse;
++import javax.servlet.http.HttpServletRequest;
++import javax.servlet.http.HttpServletResponse;
+ 
+ import org.eclipse.jetty.servlet.FilterHolder;
+ import org.eclipse.jetty.servlet.ServletContextHandler;
+diff --git a/org.eclipse.jgit.junit.http/META-INF/MANIFEST.MF b/org.eclipse.jgit.junit.http/META-INF/MANIFEST.MF
+index 717788157..66c079750 100644
+--- a/org.eclipse.jgit.junit.http/META-INF/MANIFEST.MF
++++ b/org.eclipse.jgit.junit.http/META-INF/MANIFEST.MF
+@@ -8,19 +8,19 @@ Bundle-Localization: OSGI-INF/l10n/plugin
+ Bundle-Vendor: %Bundle-Vendor
+ Bundle-ActivationPolicy: lazy
+ Bundle-RequiredExecutionEnvironment: JavaSE-17
+-Import-Package: jakarta.servlet;version="[5.0.0,6.0.0)",
+- jakarta.servlet.http;version="[5.0.0,6.0.0)",
++Import-Package: javax.servlet;version="[2.5.0,5.0.0)",
++ javax.servlet.http;version="[2.5.0,5.0.0)",
+  org.apache.commons.logging;version="[1.1.1,2.0.0)",
+- org.eclipse.jetty.http;version="[11.0.0,12.0.0)",
+- org.eclipse.jetty.security;version="[11.0.0,12.0.0)",
+- org.eclipse.jetty.security.authentication;version="[11.0.0,12.0.0)",
+- org.eclipse.jetty.server;version="[11.0.0,12.0.0)",
+- org.eclipse.jetty.server.handler;version="[11.0.0,12.0.0)",
+- org.eclipse.jetty.servlet;version="[11.0.0,12.0.0)",
+- org.eclipse.jetty.util.component;version="[11.0.0,12.0.0)",
+- org.eclipse.jetty.util.log;version="[11.0.0,12.0.0)",
+- org.eclipse.jetty.util.security;version="[11.0.0,12.0.0)",
+- org.eclipse.jetty.util.ssl;version="[11.0.0,12.0.0)",
++ org.eclipse.jetty.http;version="[10.0.0,11.0.0)",
++ org.eclipse.jetty.security;version="[10.0.0,11.0.0)",
++ org.eclipse.jetty.security.authentication;version="[10.0.0,11.0.0)",
++ org.eclipse.jetty.server;version="[10.0.0,11.0.0)",
++ org.eclipse.jetty.server.handler;version="[10.0.0,11.0.0)",
++ org.eclipse.jetty.servlet;version="[10.0.0,11.0.0)",
++ org.eclipse.jetty.util.component;version="[10.0.0,11.0.0)",
++ org.eclipse.jetty.util.log;version="[10.0.0,11.0.0)",
++ org.eclipse.jetty.util.security;version="[10.0.0,11.0.0)",
++ org.eclipse.jetty.util.ssl;version="[10.0.0,11.0.0)",
+  org.eclipse.jgit.errors;version="[7.0.0,7.1.0)",
+  org.eclipse.jgit.http.server;version="[7.0.0,7.1.0)",
+  org.eclipse.jgit.internal.storage.file;version="[7.0.0,7.1.0)",
+@@ -33,13 +33,13 @@ Import-Package: jakarta.servlet;version="[5.0.0,6.0.0)",
+  org.slf4j.helpers;version="[1.7.0,3.0.0)"
+ Export-Package: org.eclipse.jgit.junit.http;version="7.4.1";
+   uses:="org.eclipse.jgit.transport,
+-   jakarta.servlet,
+-   jakarta.servlet.http,
+    org.eclipse.jgit.junit,
++   javax.servlet.http,
+    org.eclipse.jgit.lib,
+    org.eclipse.jgit.revwalk,
+    org.eclipse.jetty.server.handler,
+    org.eclipse.jetty.security,
++   javax.servlet,
+    org.eclipse.jetty.server,
+    org.eclipse.jetty.util.log,
+    org.eclipse.jetty.servlet"
+diff --git a/org.eclipse.jgit.junit.http/src/org/eclipse/jgit/junit/http/MockServletConfig.java b/org.eclipse.jgit.junit.http/src/org/eclipse/jgit/junit/http/MockServletConfig.java
+index 808b07694..cd1eba4bf 100644
+--- a/org.eclipse.jgit.junit.http/src/org/eclipse/jgit/junit/http/MockServletConfig.java
++++ b/org.eclipse.jgit.junit.http/src/org/eclipse/jgit/junit/http/MockServletConfig.java
+@@ -15,8 +15,8 @@
+ import java.util.Iterator;
+ import java.util.Map;
+ 
+-import jakarta.servlet.ServletConfig;
+-import jakarta.servlet.ServletContext;
++import javax.servlet.ServletConfig;
++import javax.servlet.ServletContext;
+ 
+ /**
+  * Mock ServletConfig
+diff --git a/org.eclipse.jgit.junit.http/src/org/eclipse/jgit/junit/http/SimpleHttpServer.java b/org.eclipse.jgit.junit.http/src/org/eclipse/jgit/junit/http/SimpleHttpServer.java
+index 790a6eb65..01f18dab7 100644
+--- a/org.eclipse.jgit.junit.http/src/org/eclipse/jgit/junit/http/SimpleHttpServer.java
++++ b/org.eclipse.jgit.junit.http/src/org/eclipse/jgit/junit/http/SimpleHttpServer.java
+@@ -13,7 +13,7 @@
+ import java.net.URI;
+ import java.net.URISyntaxException;
+ 
+-import jakarta.servlet.http.HttpServletRequest;
++import javax.servlet.http.HttpServletRequest;
+ 
+ import org.eclipse.jetty.servlet.ServletContextHandler;
+ import org.eclipse.jetty.servlet.ServletHolder;
+diff --git a/org.eclipse.jgit.junit.http/src/org/eclipse/jgit/junit/http/TestRequestLog.java b/org.eclipse.jgit.junit.http/src/org/eclipse/jgit/junit/http/TestRequestLog.java
+index 799decafa..afa8c35bb 100644
+--- a/org.eclipse.jgit.junit.http/src/org/eclipse/jgit/junit/http/TestRequestLog.java
++++ b/org.eclipse.jgit.junit.http/src/org/eclipse/jgit/junit/http/TestRequestLog.java
+@@ -15,10 +15,10 @@
+ import java.util.List;
+ import java.util.concurrent.Semaphore;
+ 
+-import jakarta.servlet.DispatcherType;
+-import jakarta.servlet.ServletException;
+-import jakarta.servlet.http.HttpServletRequest;
+-import jakarta.servlet.http.HttpServletResponse;
++import javax.servlet.DispatcherType;
++import javax.servlet.ServletException;
++import javax.servlet.http.HttpServletRequest;
++import javax.servlet.http.HttpServletResponse;
+ 
+ import org.eclipse.jetty.server.Request;
+ import org.eclipse.jetty.server.Response;
+diff --git a/org.eclipse.jgit.lfs.server.test/META-INF/MANIFEST.MF b/org.eclipse.jgit.lfs.server.test/META-INF/MANIFEST.MF
+index f71947359..c5e309335 100644
+--- a/org.eclipse.jgit.lfs.server.test/META-INF/MANIFEST.MF
++++ b/org.eclipse.jgit.lfs.server.test/META-INF/MANIFEST.MF
+@@ -7,25 +7,25 @@ Bundle-Version: 7.4.1.qualifier
+ Bundle-Vendor: %Bundle-Vendor
+ Bundle-Localization: plugin
+ Bundle-RequiredExecutionEnvironment: JavaSE-17
+-Import-Package: jakarta.servlet;version="[5.0.0,6.0.0)",
+- jakarta.servlet.http;version="[5.0.0,6.0.0)",
++Import-Package: javax.servlet;version="[3.1.0,5.0.0)",
++ javax.servlet.http;version="[3.1.0,5.0.0)",
+  org.apache.http;version="[4.4.0,5.0.0)",
+  org.apache.http.client;version="[4.4.0,5.0.0)",
+  org.apache.http.client.methods;version="[4.4.0,5.0.0)",
+  org.apache.http.entity;version="[4.4.0,5.0.0)",
+  org.apache.http.impl.client;version="[4.4.0,5.0.0)",
+- org.eclipse.jetty.http;version="[11.0.0,12.0.0)",
+- org.eclipse.jetty.io;version="[11.0.0,12.0.0)",
+- org.eclipse.jetty.security;version="[11.0.0,12.0.0)",
+- org.eclipse.jetty.security.authentication;version="[11.0.0,12.0.0)",
+- org.eclipse.jetty.server;version="[11.0.0,12.0.0)",
+- org.eclipse.jetty.server.handler;version="[11.0.0,12.0.0)",
+- org.eclipse.jetty.servlet;version="[11.0.0,12.0.0)",
+- org.eclipse.jetty.util;version="[11.0.0,12.0.0)",
+- org.eclipse.jetty.util.component;version="[11.0.0,12.0.0)",
+- org.eclipse.jetty.util.log;version="[11.0.0,12.0.0)",
+- org.eclipse.jetty.util.security;version="[11.0.0,12.0.0)",
+- org.eclipse.jetty.util.thread;version="[11.0.0,12.0.0)",
++ org.eclipse.jetty.http;version="[10.0.0,11.0.0)",
++ org.eclipse.jetty.io;version="[10.0.0,11.0.0)",
++ org.eclipse.jetty.security;version="[10.0.0,11.0.0)",
++ org.eclipse.jetty.security.authentication;version="[10.0.0,11.0.0)",
++ org.eclipse.jetty.server;version="[10.0.0,11.0.0)",
++ org.eclipse.jetty.server.handler;version="[10.0.0,11.0.0)",
++ org.eclipse.jetty.servlet;version="[10.0.0,11.0.0)",
++ org.eclipse.jetty.util;version="[10.0.0,11.0.0)",
++ org.eclipse.jetty.util.component;version="[10.0.0,11.0.0)",
++ org.eclipse.jetty.util.log;version="[10.0.0,11.0.0)",
++ org.eclipse.jetty.util.security;version="[10.0.0,11.0.0)",
++ org.eclipse.jetty.util.thread;version="[10.0.0,11.0.0)",
+  org.eclipse.jgit.api;version="[7.0.0,7.1.0)",
+  org.eclipse.jgit.api.errors;version="[7.0.0,7.1.0)",
+  org.eclipse.jgit.internal.storage.file;version="[7.0.0,7.1.0)",
+diff --git a/org.eclipse.jgit.lfs.server/META-INF/MANIFEST.MF b/org.eclipse.jgit.lfs.server/META-INF/MANIFEST.MF
+index c5e5512e5..d35f05562 100644
+--- a/org.eclipse.jgit.lfs.server/META-INF/MANIFEST.MF
++++ b/org.eclipse.jgit.lfs.server/META-INF/MANIFEST.MF
+@@ -6,14 +6,12 @@ Bundle-SymbolicName: org.eclipse.jgit.lfs.server
+ Bundle-Version: 7.4.1.qualifier
+ Bundle-Localization: OSGI-INF/l10n/plugin
+ Bundle-Vendor: %Bundle-Vendor
+-Bundle-RequiredExecutionEnvironment: JavaSE-17
+-Bundle-SCM: url=https://github.com/eclipse-jgit/jgit, connection=scm:git:https://eclipse.gerrithub.io/eclipse-jgit/jgit.git, developerConnection=scm:git:https://eclipse.gerrithub.io/a/eclipse-jgit/jgit.git
+-Export-Package: org.eclipse.jgit.lfs.server;version="7.4.1";
+-  uses:="jakarta.servlet.http,
++Export-Package: org.eclipse.jgit.lfs.server;version="7.0.0";
++  uses:="javax.servlet.http,
+    org.eclipse.jgit.lfs.lib",
+- org.eclipse.jgit.lfs.server.fs;version="7.4.1";
+-  uses:="jakarta.servlet,
+-   jakarta.servlet.http,
++ org.eclipse.jgit.lfs.server.fs;version="7.0.0";
++  uses:="javax.servlet,
++   javax.servlet.http,
+    org.eclipse.jgit.lfs.server,
+    org.eclipse.jgit.lfs.lib",
+  org.eclipse.jgit.lfs.server.internal;version="7.4.1";x-internal:=true,
+@@ -21,9 +19,9 @@ Export-Package: org.eclipse.jgit.lfs.server;version="7.4.1";
+   uses:="org.eclipse.jgit.lfs.server,
+    org.eclipse.jgit.lfs.lib"
+ Import-Package: com.google.gson;version="[2.8.0,3.0.0)",
+- jakarta.servlet;version="[5.0.0,6.0.0)",
+- jakarta.servlet.annotation;version="[5.0.0,6.0.0)",
+- jakarta.servlet.http;version="[5.0.0,6.0.0)",
++ javax.servlet;version="[3.1.0,5.0.0)",
++ javax.servlet.annotation;version="[3.1.0,5.0.0)",
++ javax.servlet.http;version="[3.1.0,5.0.0)",
+  org.apache.http;version="[4.3.0,5.0.0)",
+  org.eclipse.jgit.annotations;version="[7.4.1,7.5.0)",
+  org.eclipse.jgit.internal;version="[7.4.1,7.5.0)",
+diff --git a/org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/LfsProtocolServlet.java b/org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/LfsProtocolServlet.java
+index 1d245a0a9..84bab5b9f 100644
+--- a/org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/LfsProtocolServlet.java
++++ b/org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/LfsProtocolServlet.java
+@@ -33,10 +33,10 @@
+ import java.text.MessageFormat;
+ import java.util.List;
+ 
+-import jakarta.servlet.ServletException;
+-import jakarta.servlet.http.HttpServlet;
+-import jakarta.servlet.http.HttpServletRequest;
+-import jakarta.servlet.http.HttpServletResponse;
++import javax.servlet.ServletException;
++import javax.servlet.http.HttpServlet;
++import javax.servlet.http.HttpServletRequest;
++import javax.servlet.http.HttpServletResponse;
+ 
+ import org.eclipse.jgit.lfs.errors.LfsBandwidthLimitExceeded;
+ import org.eclipse.jgit.lfs.errors.LfsException;
+diff --git a/org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/TransferHandler.java b/org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/TransferHandler.java
+index 466283068..b84228b9e 100644
+--- a/org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/TransferHandler.java
++++ b/org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/TransferHandler.java
+@@ -10,7 +10,7 @@
+ 
+ package org.eclipse.jgit.lfs.server;
+ 
+-import static jakarta.servlet.http.HttpServletResponse.SC_NOT_FOUND;
++import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
+ import static org.eclipse.jgit.lfs.lib.Constants.DOWNLOAD;
+ import static org.eclipse.jgit.lfs.lib.Constants.UPLOAD;
+ import static org.eclipse.jgit.lfs.lib.Constants.VERIFY;
+diff --git a/org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/fs/FileLfsServlet.java b/org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/fs/FileLfsServlet.java
+index e95122da5..e7cdf9d2d 100644
+--- a/org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/fs/FileLfsServlet.java
++++ b/org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/fs/FileLfsServlet.java
+@@ -13,12 +13,12 @@
+ import java.io.PrintWriter;
+ import java.text.MessageFormat;
+ 
+-import jakarta.servlet.AsyncContext;
+-import jakarta.servlet.ServletException;
+-import jakarta.servlet.annotation.WebServlet;
+-import jakarta.servlet.http.HttpServlet;
+-import jakarta.servlet.http.HttpServletRequest;
+-import jakarta.servlet.http.HttpServletResponse;
++import javax.servlet.AsyncContext;
++import javax.servlet.ServletException;
++import javax.servlet.annotation.WebServlet;
++import javax.servlet.http.HttpServlet;
++import javax.servlet.http.HttpServletRequest;
++import javax.servlet.http.HttpServletResponse;
+ 
+ import org.apache.http.HttpStatus;
+ import org.eclipse.jgit.lfs.errors.InvalidLongObjectIdException;
+@@ -93,7 +93,7 @@ protected void doGet(HttpServletRequest req,
+ 	 *         retrieved
+ 	 * @throws java.io.IOException
+ 	 *             if an I/O error occurs
+-	 * @since 7.0
++	 * @since 4.6
+ 	 */
+ 	protected AnyLongObjectId getObjectToTransfer(HttpServletRequest req,
+ 			HttpServletResponse rsp) throws IOException {
+@@ -140,7 +140,7 @@ protected void doPut(HttpServletRequest req,
+ 	 *            error message
+ 	 * @throws java.io.IOException
+ 	 *             on failure to send the response
+-	 * @since 7.0
++	 * @since 4.6
+ 	 */
+ 	protected static void sendError(HttpServletResponse rsp, int status, String message)
+ 			throws IOException {
+diff --git a/org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/fs/ObjectDownloadListener.java b/org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/fs/ObjectDownloadListener.java
+index c826aa66e..2ea92da82 100644
+--- a/org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/fs/ObjectDownloadListener.java
++++ b/org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/fs/ObjectDownloadListener.java
+@@ -17,10 +17,10 @@
+ import java.util.logging.Level;
+ import java.util.logging.Logger;
+ 
+-import jakarta.servlet.AsyncContext;
+-import jakarta.servlet.ServletOutputStream;
+-import jakarta.servlet.WriteListener;
+-import jakarta.servlet.http.HttpServletResponse;
++import javax.servlet.AsyncContext;
++import javax.servlet.ServletOutputStream;
++import javax.servlet.WriteListener;
++import javax.servlet.http.HttpServletResponse;
+ 
+ import org.apache.http.HttpStatus;
+ import org.eclipse.jgit.lfs.lib.AnyLongObjectId;
+@@ -64,7 +64,6 @@ public class ObjectDownloadListener implements WriteListener {
+ 	 *            id of the object to be downloaded
+ 	 * @throws java.io.IOException
+ 	 *             if an IO error occurred
+-	 * @since 7.0
+ 	 */
+ 	public ObjectDownloadListener(FileLfsRepository repository,
+ 			AsyncContext context, HttpServletResponse response,
+diff --git a/org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/fs/ObjectUploadListener.java b/org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/fs/ObjectUploadListener.java
+index d0c07fb25..1ac2b2072 100644
+--- a/org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/fs/ObjectUploadListener.java
++++ b/org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/fs/ObjectUploadListener.java
+@@ -19,11 +19,11 @@
+ import java.util.logging.Level;
+ import java.util.logging.Logger;
+ 
+-import jakarta.servlet.AsyncContext;
+-import jakarta.servlet.ReadListener;
+-import jakarta.servlet.ServletInputStream;
+-import jakarta.servlet.http.HttpServletRequest;
+-import jakarta.servlet.http.HttpServletResponse;
++import javax.servlet.AsyncContext;
++import javax.servlet.ReadListener;
++import javax.servlet.ServletInputStream;
++import javax.servlet.http.HttpServletRequest;
++import javax.servlet.http.HttpServletResponse;
+ 
+ import org.apache.http.HttpStatus;
+ import org.eclipse.jgit.lfs.errors.CorruptLongObjectException;
+@@ -84,18 +84,17 @@ public interface Callback {
+ 	 * @param repository
+ 	 *            the repository storing large objects
+ 	 * @param context
+-	 *            a {@link jakarta.servlet.AsyncContext} object.
++	 *            a {@link javax.servlet.AsyncContext} object.
+ 	 * @param request
+-	 *            a {@link jakarta.servlet.http.HttpServletRequest} object.
++	 *            a {@link javax.servlet.http.HttpServletRequest} object.
+ 	 * @param response
+-	 *            a {@link jakarta.servlet.http.HttpServletResponse} object.
++	 *            a {@link javax.servlet.http.HttpServletResponse} object.
+ 	 * @param id
+ 	 *            a {@link org.eclipse.jgit.lfs.lib.AnyLongObjectId} object.
+ 	 * @throws java.io.FileNotFoundException
+ 	 *             if file wasn't found
+ 	 * @throws java.io.IOException
+ 	 *             if an IO error occurred
+-	 * @since 7.0
+ 	 */
+ 	public ObjectUploadListener(FileLfsRepository repository,
+ 			AsyncContext context, HttpServletRequest request,
+diff --git a/org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/s3/S3Repository.java b/org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/s3/S3Repository.java
+index 01ddc9531..5ebce5d8c 100644
+--- a/org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/s3/S3Repository.java
++++ b/org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/s3/S3Repository.java
+@@ -10,7 +10,7 @@
+  */
+ package org.eclipse.jgit.lfs.server.s3;
+ 
+-import static jakarta.servlet.http.HttpServletResponse.SC_OK;
++import static javax.servlet.http.HttpServletResponse.SC_OK;
+ import static org.eclipse.jgit.lfs.server.s3.SignerV4.UNSIGNED_PAYLOAD;
+ import static org.eclipse.jgit.lfs.server.s3.SignerV4.X_AMZ_CONTENT_SHA256;
+ import static org.eclipse.jgit.lfs.server.s3.SignerV4.X_AMZ_EXPIRES;
+diff --git a/org.eclipse.jgit.packaging/org.eclipse.jgit.target/maven/dependencies.tpd b/org.eclipse.jgit.packaging/org.eclipse.jgit.target/maven/dependencies.tpd
+index cfed7394c..fbfa7a197 100644
+--- a/org.eclipse.jgit.packaging/org.eclipse.jgit.target/maven/dependencies.tpd
++++ b/org.eclipse.jgit.packaging/org.eclipse.jgit.target/maven/dependencies.tpd
+@@ -154,27 +154,27 @@ maven jetty
+ 	dependency {
+ 		groupId = "org.eclipse.jetty"
+ 		artifactId = "jetty-http"
+-		version = "11.0.20"
++		version = "10.0.20"
+ 	}
+ 	dependency {
+ 		groupId = "org.eclipse.jetty"
+ 		artifactId = "jetty-io"
+-		version = "11.0.20"
++		version = "10.0.20"
+ 	}
+ 	dependency {
+ 		groupId = "org.eclipse.jetty"
+ 		artifactId = "jetty-security"
+-		version = "12.1.0"
++		version = "10.0.20"
+ 	}
+ 	dependency {
+ 		groupId = "org.eclipse.jetty"
+ 		artifactId = "jetty-server"
+-		version = "11.0.20"
++		version = "10.0.20"
+ 	}
+ 	dependency {
+ 		groupId = "org.eclipse.jetty"
+ 		artifactId = "jetty-servlet"
+-		version = "11.0.20"
++		version = "10.0.20"
+ 	}
+ 	dependency {
+ 		groupId = "org.eclipse.jetty"
+@@ -184,12 +184,12 @@ maven jetty
+ 	dependency {
+ 		groupId = "org.eclipse.jetty"
+ 		artifactId = "jetty-util-ajax"
+-		version = "11.0.20"
++		version = "10.0.20"
+ 	}
+ 	dependency {
+ 		groupId = "jakarta.servlet"
+ 		artifactId = "jakarta.servlet-api"
+-		version = "5.0.0"
++		version = "4.0.4"
+ 	}
+ }
+ 
+diff --git a/org.eclipse.jgit.pgm/META-INF/MANIFEST.MF b/org.eclipse.jgit.pgm/META-INF/MANIFEST.MF
+index 479c144eb..b138089dd 100644
+--- a/org.eclipse.jgit.pgm/META-INF/MANIFEST.MF
++++ b/org.eclipse.jgit.pgm/META-INF/MANIFEST.MF
+@@ -7,13 +7,13 @@ Bundle-Version: 7.4.1.qualifier
+ Bundle-Vendor: %Bundle-Vendor
+ Bundle-Localization: OSGI-INF/l10n/plugin
+ Bundle-RequiredExecutionEnvironment: JavaSE-17
+-Import-Package: jakarta.servlet;version="[5.0.0,6.0.0)",
++Import-Package: javax.servlet;version="[3.1.0,5.0.0)",
+  org.apache.commons.logging;version="[1.2,2.0)",
+- org.eclipse.jetty.server;version="[11.0.0,12.0.0)",
+- org.eclipse.jetty.server.handler;version="[11.0.0,12.0.0)",
+- org.eclipse.jetty.servlet;version="[11.0.0,12.0.0)",
+- org.eclipse.jetty.util;version="[11.0.0,12.0.0)",
+- org.eclipse.jetty.util.component;version="[11.0.0,12.0.0)",
++ org.eclipse.jetty.server;version="[10.0.0,11.0.0)",
++ org.eclipse.jetty.server.handler;version="[10.0.0,11.0.0)",
++ org.eclipse.jetty.servlet;version="[10.0.0,11.0.0)",
++ org.eclipse.jetty.util;version="[10.0.0,11.0.0)",
++ org.eclipse.jetty.util.component;version="[10.0.0,11.0.0)",
+  org.eclipse.jgit.api;version="[7.0.0,7.1.0)",
+  org.eclipse.jgit.api.errors;version="[7.0.0,7.1.0)",
+  org.eclipse.jgit.archive;version="[7.0.0,7.1.0)",
+diff --git a/org.eclipse.jgit/.settings/.api_filters b/org.eclipse.jgit/.settings/.api_filters
+index eeed75f64..23cf0de22 100644
+--- a/org.eclipse.jgit/.settings/.api_filters
++++ b/org.eclipse.jgit/.settings/.api_filters
+@@ -71,4 +71,12 @@
+             </message_arguments>
+         </filter>
+     </resource>
++    <resource path="src/org/eclipse/jgit/storage/pack/PackConfig.java" type="org.eclipse.jgit.storage.pack.PackConfig">
++        <filter id="336658481">
++            <message_arguments>
++                <message_argument value="org.eclipse.jgit.storage.pack.PackConfig"/>
++                <message_argument value="DEFAULT_BITMAP_EXCESSIVE_BRANCH_TIP_COUNT"/>
++            </message_arguments>
++        </filter>
++    </resource>
+ </component>
+diff --git a/pom.xml b/pom.xml
+index 84c95dfbc..a3b5e84d5 100644
+--- a/pom.xml
++++ b/pom.xml
+@@ -129,8 +129,8 @@
+     <args4j-version>2.37</args4j-version>
+     <commons-compress-version>1.28.0</commons-compress-version>
+     <osgi-core-version>6.0.0</osgi-core-version>
+-    <servlet-api-version>5.0.0</servlet-api-version>
+-    <jetty-version>11.0.20</jetty-version>
++    <servlet-api-version>4.0.4</servlet-api-version>
++    <jetty-version>10.0.20</jetty-version>
+     <japicmp-version>0.18.5</japicmp-version>
+     <httpclient-version>4.5.14</httpclient-version>
+     <httpcore-version>4.4.16</httpcore-version>
+-- 
+2.54.0
+

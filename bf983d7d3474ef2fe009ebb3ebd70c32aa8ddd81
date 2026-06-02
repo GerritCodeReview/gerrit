@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a01c538_cffb5d09",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 52
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-06-02T08:48:54Z",
+      "side": 1,
+      "message": "@matthias.sohn@gmail.com Could you please restore your CRVW+2?",
+      "revId": "bf983d7d3474ef2fe009ebb3ebd70c32aa8ddd81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

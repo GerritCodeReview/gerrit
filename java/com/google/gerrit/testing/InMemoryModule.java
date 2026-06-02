@@ -190,6 +190,11 @@ public class InMemoryModule extends FactoryModule {
 
   @Override
   protected void configure() {
+    configure(true);
+  }
+
+  protected void configure(boolean bindGerritApi) {
+
     // Do NOT bind @RemotePeer, as it is bound in a child injector of
     // ChangeMergeQueue (bound via GerritGlobalModule below), so there cannot be
     // a binding in the parent injector. If you need @RemotePeer, you must bind
@@ -226,7 +231,11 @@ public class InMemoryModule extends FactoryModule {
 
     AuthConfig authConfig = cfgInjector.getInstance(AuthConfig.class);
     install(new AuthModule(authConfig));
-    install(new GerritApiModule());
+
+    if (bindGerritApi) {
+      install(new GerritApiModule());
+    }
+
     install(new ProjectQueryBuilderModule());
     install(new DefaultRefLogIdentityProvider.Module());
     factory(PluginUser.Factory.class);

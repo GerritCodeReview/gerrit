@@ -48,3 +48,17 @@ configs: {
   }
   automatic: true
 }
+
+# TypeScript Style Review Agent
+configs: {
+  id: "gerrit-typescript-style-review"
+  display_name: "TypeScript Style Review"
+  description: "Checks TypeScript files against style guide, focusing on property visibility and bypasses."
+  skills: "typescript_style_review"
+  include_filters: {
+    project: "gerrit"
+    project: "TestRepo"
+    path_regex: ".*\\.ts$"
+  }
+}
+

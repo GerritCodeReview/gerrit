@@ -1,3 +1,4 @@
+load("@rules_shell//shell:sh_test.bzl", "sh_test")
 load("//tools/bzl:asciidoc.bzl", "documentation_attributes", "genasciidoc", "genasciidoc_zip")
 load("//tools/bzl:license.bzl", "license_map")
 load("//tools/bzl:war_checks.bzl", "war_jars_allowlist_test")

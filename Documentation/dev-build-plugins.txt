@@ -83,13 +83,6 @@ in `tools/BUILD`.
 
 === Plugins with external dependencies ===
 
-[NOTE]
-As of Gerrit 3.14 using the `external_plugin_deps.bzl` file for adding external
-dependencies of plugins to the build has been deprecated. This feature will be
-removed with Gerrit 3.15. Please migrate to using Bazel modules as described
-below. The documentation of the deprecated `external_plugin_deps.bzl`
-functionality has been moved to a dedicated section below.
-
 If a plugin requires external Java dependencies, it can install them in its
 `MODULE.bazel` using `rules_jvm_external`. The Maven repository containing the
 plugin runtime dependencies must be plugin-scoped (for example
@@ -267,51 +260,6 @@ Only few plugins support that mode for now:
 ----
 cd reviewers
 bazel build reviewers
-----
-
-== Managing external dependencies using `external_plugin_deps.bzl` ==
-
-[NOTE]
-This functionality has been deprecated.
-
-If the plugin has external dependencies, then they can be included from Gerrit's
-own WORKSPACE file. This can be achieved by including them in `external_plugin_deps.bzl`.
-During the build in Gerrit tree, this file must be copied over the dummy one in
-`plugins` directory.
-
-Example for content of `external_plugin_deps.bzl` file:
-
-----
-load("//tools/bzl:maven_jar.bzl", "maven_jar")
-
-def external_plugin_deps():
-  maven_jar(
-      name = 'org_apache_tika_tika_core',
-      artifact = 'org.apache.tika:tika-core:1.12',
-      sha1 = '5ab95580d22fe1dee79cffbcd98bb509a32da09b',
-  )
-----
-
-If the plugin(s) being bundled in the release have external dependencies, include them
-in `plugins/external_plugin_deps`. Create symbolic link from plugin's own
-`external_plugin_deps()` file in plugins directory and prefix the file with
-plugin name, e.g.:
-
-----
-  $ cd plugins
-  $ ln -s oauth/external_plugin_deps.bzl oauth_external_plugin_deps.bzl
-  $ ln -s uploadvalidator/external_plugin_deps.bzl uploadvalidator_external_plugin_deps.bzl
-----
-
-Now the plugin specific dependency files can be imported:
-
-----
-load(":oauth_external_plugin_deps.bzl", oauth_deps="external_plugin_deps")
-load(":uploadvalidator_external_plugin_deps.bzl", uploadvalidator_deps="external_plugin_deps")
-
-def external_plugin_deps():
-  oauth_deps()
-  uploadvalidator_deps()
 ----
 
 GERRIT

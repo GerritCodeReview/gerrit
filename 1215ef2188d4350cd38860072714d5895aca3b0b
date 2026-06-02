@@ -16,6 +16,69 @@
       "message": "Note for the reviewer: I am expecting this execution to succeed after the rebase on top of the ServerInfo cache revert.\nI had to disable one assertion on the fact that calling the index servlet twice for the anonymous user won\u0027t cache the ServerInfo, which is, unfortunately, expected.\n\nIf we try in the future to implement a caching layer, we\u0027ll have a validation test to ensure that the user-specific download info isn\u0027t cached across users.",
       "revId": "1215ef2188d4350cd38860072714d5895aca3b0b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "61ecab39_90432a03",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-06-02T08:23:41Z",
+      "side": 1,
+      "message": "Thanks for making test to not regress again here.",
+      "revId": "1215ef2188d4350cd38860072714d5895aca3b0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "395300b2_15e0370d",
+        "filename": "javatests/com/google/gerrit/httpd/raw/IndexServletTest.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-06-02T08:23:41Z",
+      "side": 1,
+      "message": "Please fix this WARNING reported by autoreview issue finding: Returning `new Object()` on every invocation means the cache key will never match itself in subsequent lookups, as `Object.equals` uses reference equality. This might defeat or introduce flaky behavior in caching mechanisms that rely on this key. Consider returning `this` or `username` instead to ensure a stable cache key.",
+      "range": {
+        "startLine": 100,
+        "startChar": 0,
+        "endLine": 100,
+        "endChar": 0
+      },
+      "revId": "1215ef2188d4350cd38860072714d5895aca3b0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6a83ca9_bb5529f8",
+        "filename": "javatests/com/google/gerrit/httpd/raw/IndexServletTest.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-06-02T08:23:41Z",
+      "side": 1,
+      "message": "Please fix this WARNING reported by autoreview issue finding: It is generally better to remove dead code instead of leaving it commented out. \n\nAdditionally, the comment here contradicts the commit message, which states: \"Complete the validation of the ServerInfo caching to validate that despite the caching enablement...\". If caching was indeed reverted, please check if the commit message needs to be updated to reflect the current state.",
+      "range": {
+        "startLine": 285,
+        "startChar": 0,
+        "endLine": 285,
+        "endChar": 0
+      },
+      "revId": "1215ef2188d4350cd38860072714d5895aca3b0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

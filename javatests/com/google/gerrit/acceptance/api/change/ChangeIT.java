@@ -42,6 +42,7 @@ import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_ACTI
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_COMMIT;
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
+import static com.google.gerrit.extensions.client.ListChangesOption.DOWNLOAD_COMMANDS;
 import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
 import static com.google.gerrit.extensions.client.ListChangesOption.PUSH_CERTIFICATES;
 import static com.google.gerrit.extensions.client.ListChangesOption.REVIEWED;
@@ -155,6 +156,7 @@ import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.common.TrackingIdInfo;
+import com.google.gerrit.extensions.config.DownloadScheme;
 import com.google.gerrit.extensions.events.AttentionSetListener;
 import com.google.gerrit.extensions.events.ChangeIndexedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -2968,6 +2970,30 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void queryChangesOptionsBulk() throws Exception {
+    int numChanges = 20;
+    for (int i = 0; i < numChanges; i++) {
+      createChange();
+    }
+
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(new TestDownloadScheme(), "test-scheme")) {
+      List<ChangeInfo> results =
+          gApi.changes()
+              .query("project:" + project.get() + " status:open")
+              .withOptions(CHANGE_ACTIONS, CURRENT_REVISION, CURRENT_ACTIONS, DOWNLOAD_COMMANDS)
+              .get();
+      assertThat(results).hasSize(numChanges);
+      for (ChangeInfo result : results) {
+        assertThat(result.actions).containsKey("abandon");
+        RevisionInfo rev = Iterables.getOnlyElement(result.revisions.values());
+        assertThat(rev.actions).isNotEmpty();
+        assertThat(rev.fetch).isNotEmpty();
+      }
+    }
+  }
+
+  @Test
   public void queryChangesOwnerWithDifferentUsers() throws Exception {
     PushOneCommit.Result r = createChange();
     assertThat(
@@ -5469,5 +5495,32 @@ public class ChangeIT extends AbstractDaemonTest {
 
   private void voteLabel(String changeId, String labelName, int score) throws RestApiException {
     gApi.changes().id(changeId).current().review(new ReviewInput().label(labelName, score));
+  }
+
+  private static class TestDownloadScheme extends DownloadScheme {
+    @Override
+    public String getUrl(String project) {
+      return "http://foo/" + project;
+    }
+
+    @Override
+    public boolean isAuthRequired() {
+      return true;
+    }
+
+    @Override
+    public boolean isAuthSupported() {
+      return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+      return true;
+    }
+
+    @Override
+    public boolean isHidden() {
+      return false;
+    }
   }
 }

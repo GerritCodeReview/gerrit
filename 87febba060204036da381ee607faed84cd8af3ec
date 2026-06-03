@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a2ba79f_c820e50e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-06-03T07:58:13Z",
+      "side": 1,
+      "message": "Comment removed by: Dhruv Srivastava; Reason: incorrect",
+      "revId": "87febba060204036da381ee607faed84cd8af3ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

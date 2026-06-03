@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25c2a6ce_d14ac3e5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-06-03T08:10:33Z",
+      "side": 1,
+      "message": "you need a `Release-Notes: ` footer here.\n\nCan be just `skip` for this change I think",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 52
+      },
+      "revId": "b37dac23719425969d68d91868b28319ef75ce49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

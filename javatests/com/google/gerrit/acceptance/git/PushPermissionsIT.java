@@ -422,17 +422,18 @@ public class PushPermissionsIT extends AbstractDaemonTest {
         .add(allow(Permission.PUSH).ref("refs/*").group(REGISTERED_USERS))
         .update();
 
-    // We use "refs/main" instead of "refs/heads/main", because the latter only allows commits.
+    // We use "refs/other/main" instead of "refs/heads/main", because the latter only allows
+    // commits.
     {
       // An extra colon (:) makes it a tree reference
-      PushResult r = push(commit.getId().getName() + "::refs/main");
+      PushResult r = push(commit.getId().getName() + "::refs/other/main");
       RemoteRefUpdate refUpdate = r.getRemoteUpdates().stream().findFirst().get();
       assertThat(refUpdate.getStatus()).isEqualTo(Status.REJECTED_OTHER_REASON);
       assertThat(refUpdate.getMessage()).contains("is neither Commit or Tag");
     }
 
     {
-      PushResult r = push(commit.getTree().getId().getName() + ":refs/main");
+      PushResult r = push(commit.getTree().getId().getName() + ":refs/other/main");
       RemoteRefUpdate refUpdate = r.getRemoteUpdates().stream().findFirst().get();
       assertThat(refUpdate.getStatus()).isEqualTo(Status.REJECTED_OTHER_REASON);
       assertThat(refUpdate.getMessage()).contains("is neither Commit or Tag");

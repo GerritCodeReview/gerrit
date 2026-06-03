@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8fdd5d0f_7df19541",
+        "filename": "configs/skills/typescript_style_review/SKILL.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-06-03T11:15:33Z",
+      "side": 1,
+      "message": "NIT: Is it ok that it was not formatted to have max width? Some lines are very long. Maybe we can in future introduce linter for md files.",
+      "revId": "17e3d29cc6c3f96743d8e362599387ebf49657f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

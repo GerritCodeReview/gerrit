@@ -46,6 +46,30 @@
       },
       "revId": "2b96af180fe64326ef30a8fc4eab239525b8b688",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0fd5aec3_3be2e01d",
+        "filename": "MODULE.bazel.lock",
+        "patchSetId": 3
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-06-03T12:03:54Z",
+      "side": 1,
+      "message": "Gotcha.\nCan you upload the follow up and mention it in this change?",
+      "parentUuid": "b5c3b3d4_d89f62a2",
+      "range": {
+        "startLine": 292,
+        "startChar": 0,
+        "endLine": 293,
+        "endChar": 137
+      },
+      "revId": "2b96af180fe64326ef30a8fc4eab239525b8b688",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

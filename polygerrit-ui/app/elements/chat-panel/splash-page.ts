@@ -21,6 +21,8 @@ import {Action} from '../../api/ai-code-review';
 import {chatModelToken, Turn} from '../../models/chat/chat-model';
 import {resolve} from '../../models/dependency';
 import {userModelToken} from '../../models/user/user-model';
+import {CheckRun, checksModelToken} from '../../models/checks/checks-model';
+import {changeModelToken} from '../../models/change/change-model';
 import {AccountDetailInfo, ServerInfo} from '../../types/common';
 import {subscribe} from '../lit/subscription-controller';
 import {getDisplayName} from '../../utils/display-name-util';
@@ -47,9 +49,17 @@ export class SplashPage extends LitElement {
 
   @property({type: Boolean}) isChangePrivate = false;
 
+  @state() runs: readonly CheckRun[] = [];
+
+  @state() changeNum?: number;
+
   private readonly getChatModel = resolve(this, chatModelToken);
 
   private readonly getUserModel = resolve(this, userModelToken);
+
+  private readonly getChecksModel = resolve(this, checksModelToken);
+
+  private readonly getChangeModel = resolve(this, changeModelToken);
 
   constructor() {
     super();
@@ -87,6 +97,16 @@ export class SplashPage extends LitElement {
       this,
       () => this.getUserModel().account$,
       x => (this.account = x)
+    );
+    subscribe(
+      this,
+      () => this.getChecksModel().allRunsSelectedPatchset$,
+      x => (this.runs = x ?? [])
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().changeNum$,
+      x => (this.changeNum = x)
     );
   }
 
@@ -258,6 +278,11 @@ export class SplashPage extends LitElement {
     return html`
       ${this.renderBackgroundRequest()}
       <gr-endpoint-decorator name="chat-panel-splash-extra">
+        <gr-endpoint-param name="runs" .value=${this.runs}></gr-endpoint-param>
+        <gr-endpoint-param
+          name="changeNum"
+          .value=${this.changeNum}
+        ></gr-endpoint-param>
       </gr-endpoint-decorator>
       ${this.renderCustomActions()} ${this.renderActions()}
     `;

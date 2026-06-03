@@ -122,6 +122,8 @@ import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeData.ChangedLines;
 import com.google.gerrit.server.util.AttentionSetUtil;
+import com.google.gerrit.server.util.ManualRequestContext;
+import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -249,6 +251,7 @@ public class ChangeJson {
   private final Metrics metrics;
   private final RevisionJson revisionJson;
   private final Optional<PluginDefinedInfosFactory> pluginDefinedInfosFactory;
+  private final ThreadLocalRequestContext requestContext;
   private final boolean includeMergeable;
   private final boolean lazyLoad;
   private final boolean cacheQueryResultsByChangeNum;
@@ -274,6 +277,7 @@ public class ChangeJson {
       RemoveReviewerControl removeReviewerControl,
       TrackingFooters trackingFooters,
       Metrics metrics,
+      ThreadLocalRequestContext requestContext,
       RevisionJson.Factory revisionJsonFactory,
       @GerritServerConfig Config cfg,
       ExperimentFeatures experimentFeatures,
@@ -294,6 +298,7 @@ public class ChangeJson {
     this.removeReviewerControl = removeReviewerControl;
     this.trackingFooters = trackingFooters;
     this.metrics = metrics;
+    this.requestContext = requestContext;
     this.revisionJson = revisionJsonFactory.create(options);
     this.options = Sets.immutableEnumSet(options);
     this.includeMergeable = MergeabilityComputationBehavior.fromConfig(cfg).includeInApi();
@@ -367,8 +372,12 @@ public class ChangeJson {
     List<ChangeInfo> out =
         in.parallelStream()
             .map(
-                cd ->
-                    format(cd, Optional.empty(), false, pluginInfosByChange.get(cd.getId()), user))
+                cd -> {
+                  try (ManualRequestContext ctx = new ManualRequestContext(user, requestContext)) {
+                    return format(
+                        cd, Optional.empty(), false, pluginInfosByChange.get(cd.getId()), user);
+                  }
+                })
             .collect(toList());
     accountLoader.fill();
     return out;
@@ -571,46 +580,48 @@ public class ChangeJson {
               .parallel()
               .mapToObj(
                   i -> {
-                    ChangeData cd = changes.get(i);
-                    // We can only cache and re-use an entity if it's not the last in the list. The
-                    // last entity may later get _moreChanges set. If it was cached or re-used, that
-                    // setting would propagate to the original entity yielding wrong results.
-                    // This problem has two sides where 'last in the list' has to be respected:
-                    // (1) Caching
-                    // (2) Reusing
-                    boolean isCacheable = cacheQueryResultsByChangeNum && (i != changes.size() - 1);
-                    if (cd.hasFailedParsingFromIndex()) {
-                      return createFaultyChangeInfo(cd).orElse(null);
-                    }
-                    try {
-                      Change.Id cdUniqueId = cd.virtualId();
-                      if (isCacheable) {
-                        ChangeInfo info = cache.get(cdUniqueId);
-                        if (info != null) {
-                          return info;
+                    try (ManualRequestContext ctx =
+                        new ManualRequestContext(user, requestContext)) {
+                      ChangeData cd = changes.get(i);
+                      // Cache/re-use only if it is not the last entity in the list.
+                      // The last entity may have _moreChanges set later, which would
+                      // propagate to the original cached/re-used entity, yielding
+                      // incorrect results. This applies to both caching and reusing.
+                      boolean isCacheable =
+                          cacheQueryResultsByChangeNum && (i != changes.size() - 1);
+                      if (cd.hasFailedParsingFromIndex()) {
+                        return createFaultyChangeInfo(cd).orElse(null);
+                      }
+                      try {
+                        Change.Id cdUniqueId = cd.virtualId();
+                        if (isCacheable) {
+                          ChangeInfo info = cache.get(cdUniqueId);
+                          if (info != null) {
+                            return info;
+                          }
                         }
-                      }
 
-                      ChangeInfo info =
-                          format(
-                              cd,
-                              Optional.empty(),
-                              false,
-                              pluginInfosByChange.get(cd.getId()),
-                              user);
-                      if (isCacheable) {
-                        cache.put(cdUniqueId, info);
+                        ChangeInfo info =
+                            format(
+                                cd,
+                                Optional.empty(),
+                                false,
+                                pluginInfosByChange.get(cd.getId()),
+                                user);
+                        if (isCacheable) {
+                          cache.put(cdUniqueId, info);
+                        }
+                        return info;
+                      } catch (RuntimeException e) {
+                        Optional<RequestCancelledException> requestCancelledException =
+                            RequestCancelledException.getFromCausalChain(e);
+                        if (requestCancelledException.isPresent()) {
+                          throw e;
+                        }
+                        logger.atWarning().withCause(e).log(
+                            "Omitting corrupt change %s from results", cd.getId());
+                        return null;
                       }
-                      return info;
-                    } catch (RuntimeException e) {
-                      Optional<RequestCancelledException> requestCancelledException =
-                          RequestCancelledException.getFromCausalChain(e);
-                      if (requestCancelledException.isPresent()) {
-                        throw e;
-                      }
-                      logger.atWarning().withCause(e).log(
-                          "Omitting corrupt change %s from results", cd.getId());
-                      return null;
                     }
                   })
               .filter(java.util.Objects::nonNull)

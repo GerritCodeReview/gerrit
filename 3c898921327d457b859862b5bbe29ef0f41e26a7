@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "77debbfc_ea7db7d9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-06-03T04:57:28Z",
+      "side": 1,
+      "message": "@ifrade@google.com @milutin@google.com\n\nImplementing @matthias.sohn@gmail.com\u0027s suggestion to update Jetty to a current LTS version (12.1.9) while preserving the `javax.servlet` 4.0.1 API that the Gerrit/Gitiles distribution consumes today.\n\nJetty 12 with the jetty-ee8-* adapter modules is the Jetty project\u0027s documented interim path for Servlet 4 / javax applications onto Jetty 12 core without requiring a jakarta migration.\n\nWorth noting that Jetty itself is not used inside Google — the embedded-Jetty integration (pgm/http/jetty/ in Gerrit, dev/ in Gitiles) ships only in the open source distribution. The Jetty-side changes can be reverted on import into google3 without affecting Google\u0027s internal serving stack.\n\nCould this Jetty update series be reviewed in both Gerrit and Gitiles, and a Library-Compliance +1 granted if the new artifacts satisfy the compliance requirements?",
+      "revId": "3c898921327d457b859862b5bbe29ef0f41e26a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

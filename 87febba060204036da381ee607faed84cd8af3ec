@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4593d09_6a4f63af",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-06-04T20:39:28Z",
+      "side": 1,
+      "message": "nit: remove the empty line and add `Issue` to the Bug footer\n```suggestion\nBug: Issue 509525282\nChange-Id: Ieae9945f5ed34d882c9397019c05ba9b6d9c5147\n```",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 52
+      },
+      "revId": "87febba060204036da381ee607faed84cd8af3ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "9a2ba79f_c820e50e",

@@ -54,6 +54,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "42ce55f3_b0c46d98",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-06-04T15:49:38Z",
+      "side": 1,
+      "message": "(marking unresolved since this seems like a real issue)\n\nIf `test` has permission to vote on any other label (like `Verified`) they\u0027ll still have permission to comment.\n\nDid you use default settings for everything else when you created the site? Anything special about the branch the change was uploaded to?\n\nI didn\u0027t test this with the singleusergroup plugin, so maybe there\u0027s an issue there? But it shouldn\u0027t be different than any other grop.",
+      "parentUuid": "23466543_fe807c9c",
+      "revId": "8426105fb380e5226a418a1ce98d62b53f80a92a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1d0542bd_b2a79100",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 17
@@ -65,6 +83,30 @@
       "writtenOn": "2026-05-28T08:41:42Z",
       "side": 1,
       "message": "I think this should block ANONYMOUS_USERS",
+      "range": {
+        "startLine": 702,
+        "startChar": 71,
+        "endLine": 702,
+        "endChar": 87
+      },
+      "revId": "8426105fb380e5226a418a1ce98d62b53f80a92a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98c1d7d2_ed537472",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 702,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-06-04T15:49:38Z",
+      "side": 1,
+      "message": "I don\u0027t think that\u0027s correct. An anonymous user can\u0027t post a comment anyway. You must be logged in to do that.",
+      "parentUuid": "1d0542bd_b2a79100",
       "range": {
         "startLine": 702,
         "startChar": 71,

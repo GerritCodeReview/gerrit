@@ -33,6 +33,23 @@
       "message": "Kurang paham",
       "revId": "8dc35366753d4722738a72ced0ea961ad095ca16",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7800910_5026733e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4888115
+      },
+      "writtenOn": "2026-06-04T07:25:09Z",
+      "side": 1,
+      "message": "https://source.android.com/docs/setup/reference/repo?hl\u003des-419#upload",
+      "revId": "8dc35366753d4722738a72ced0ea961ad095ca16",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

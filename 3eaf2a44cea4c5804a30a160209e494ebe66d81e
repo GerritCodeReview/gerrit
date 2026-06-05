@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec3b7d55_58f7a90f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-06-05T22:09:42Z",
+      "side": 1,
+      "message": "You could split these into 3 separate commits so that they have a clear Release-Notes footer for each (and we avoid reverting everything if only 1 causes a problem).",
+      "revId": "3eaf2a44cea4c5804a30a160209e494ebe66d81e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53b53720_0d79eb1c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-06-05T22:09:42Z",
+      "side": 1,
+      "message": "nit: keep on one line\n```suggestion\n\nRelease-Notes: Deprecate RestReadView.apply(HttpServletRequest, R); migrate to @RootRelative HttpServletRequest injection.\n```",
+      "range": {
+        "startLine": 80,
+        "startChar": 0,
+        "endLine": 82,
+        "endChar": 56
+      },
+      "revId": "3eaf2a44cea4c5804a30a160209e494ebe66d81e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

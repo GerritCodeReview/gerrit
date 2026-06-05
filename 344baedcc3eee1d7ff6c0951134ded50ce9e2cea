@@ -1,5 +1,29 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9d5445b_9ffefc5f",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-05T21:18:59Z",
+      "side": 1,
+      "message": "How can reviewers check the lockfile entries? Should the reviewer check them one by one? Can the check be automated somehow?",
+      "range": {
+        "startLine": 107,
+        "startChar": 41,
+        "endLine": 107,
+        "endChar": 76
+      },
+      "revId": "344baedcc3eee1d7ff6c0951134ded50ce9e2cea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

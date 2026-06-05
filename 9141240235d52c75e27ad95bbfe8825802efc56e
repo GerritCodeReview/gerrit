@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36efeec2_e9f78db2",
+        "filename": "MODULE.bazel.lock",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-05T21:00:31Z",
+      "side": 0,
+      "message": "Why was `rules_java/8.11.0` removed from the `MODULE.bazel.lock`?\nI cannot build from master anymore because of the lock file out of sync.\n\nWhen cloning a brand-new environment and running `bazelisk build gerrit` I get:\n```\nERROR: Error computing the main repository mapping: Missing checksum for registry file https://bcr.bazel.build/modules/rules_java/8.11.0/MODULE.bazel not permitted with --lockfile_mode\u003derror. Please run `bazel mod deps --lockfile_mode\u003dupdate` to update your lockfile.\n```\n\nThen I have to run `bazel mod deps --lockfile_mode\u003dupdate` and the entry gets reintroduced.",
+      "revId": "9141240235d52c75e27ad95bbfe8825802efc56e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

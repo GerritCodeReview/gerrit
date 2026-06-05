@@ -22,6 +22,30 @@
       },
       "revId": "2d72e177f0a4ee71b2f2dcbfa64823ef31664809",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6384f66_f5e73afb",
+        "filename": "javatests/com/google/gerrit/pgm/http/jetty/ProjectQoSFilterTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-06-05T05:47:12Z",
+      "side": 0,
+      "message": "HttpServletRequestWrapper itself does still exist — it\u0027s part of the servlet API, not Jetty. The reason this changed is that the old code did super(new Request(null, null)), and Jetty 12\u0027s org.eclipse.jetty.server.Request became an interface (no longer a concrete class), so that constructor call no longer compiles.\n\nRather than figure out a new Jetty-12 way to fabricate an empty Request, the test now extends Gerrit\u0027s own version-agnostic test fixture com.google.gerrit.util.http.testutil.FakeHttpServletRequest.\n\nThis is covered in the commit message under \"Test adaptation for Jetty 12\".",
+      "parentUuid": "bf59f4ff_266b951d",
+      "range": {
+        "startLine": 166,
+        "startChar": 0,
+        "endLine": 170,
+        "endChar": 5
+      },
+      "revId": "2d72e177f0a4ee71b2f2dcbfa64823ef31664809",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

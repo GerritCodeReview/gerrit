@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aca4c3e8_5a24c66a",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/HiddenErrorHandler.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-06-05T05:47:12Z",
+      "side": 1,
+      "message": "The previous `conn \u003d\u003d null` check guarded `HttpConnection.getCurrentConnection()` — a ThreadLocal lookup that could legitimately return null. The new `baseRequest` is the parameter Jetty passes into `ErrorHandler.handle(target, baseRequest, req, res)`, and Jetty\u0027s contract guarantees its non-null for the duration of the call.\n\nA precondition check here would be guarding against a Jetty contract violation rather than a legitimate code path, so I\u0027d prefer not to add one — that way a real Jetty bug would surface as an NPE we can debug, rather than silently falling back to an empty error message. Happy to add a defensive `requireNonNull` if you still prefer the explicit crash for clarity.",
+      "parentUuid": "12db88eb_279b76bf",
+      "range": {
+        "startLine": 63,
+        "startChar": 17,
+        "endLine": 63,
+        "endChar": 28
+      },
+      "revId": "dcb1e7bf94f42f73de30f7a0e86b52ef2d227466",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5f987918_3f60130d",
@@ -37,6 +61,54 @@
       "writtenOn": "2026-06-04T14:41:48Z",
       "side": 1,
       "message": "```suggestion\n    if (msg \u003d\u003d null) {\n\n Strings.nullToEmpty(HttpStatus.getMessage(baseRequest.getResponse().getStatus()));\n```",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 15
+      },
+      "revId": "dcb1e7bf94f42f73de30f7a0e86b52ef2d227466",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8720a66_11207212",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/HiddenErrorHandler.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-06-05T05:47:12Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "5f987918_3f60130d",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 15
+      },
+      "revId": "dcb1e7bf94f42f73de30f7a0e86b52ef2d227466",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "13c06763_14007bf6",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/HiddenErrorHandler.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-06-05T05:47:12Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "5f987918_3f60130d",
       "range": {
         "startLine": 64,
         "startChar": 0,
@@ -70,6 +142,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8bc20e0b_2bb7ecb1",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/HttpLog.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-06-05T05:47:12Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "55757594_303efffa",
+      "range": {
+        "startLine": 103,
+        "startChar": 11,
+        "endLine": 103,
+        "endChar": 14
+      },
+      "revId": "dcb1e7bf94f42f73de30f7a0e86b52ef2d227466",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "27b2b89d_b6db3063",
@@ -83,6 +179,30 @@
       "writtenOn": "2026-06-04T14:41:48Z",
       "side": 1,
       "message": "In Jetty 9 the default `blockingTimeout` was `-1`, not `0`, that\u0027s why we need to change the setting.\n\nCan you point to the place in Jetty 12 where it says that the default is using `idleTimeout`?",
+      "range": {
+        "startLine": 471,
+        "startChar": 32,
+        "endLine": 472,
+        "endChar": 26
+      },
+      "revId": "dcb1e7bf94f42f73de30f7a0e86b52ef2d227466",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "afd8554f_af09faa9",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 472,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-06-05T05:47:12Z",
+      "side": 1,
+      "message": "You\u0027re right about the precision. Jetty 9\u0027s default for blockingTimeout was -1 (blocking-timeout disabled); the setBlockingTimeout(0) call was Gerrit explicitly opting into Jetty 9\u0027s special \"0 \u003d\u003d use idle timeout\" semantic. Rewording the TODO to make that distinction explicit and to avoid the unverified \"Jetty 12 default\" claim.",
+      "parentUuid": "27b2b89d_b6db3063",
       "range": {
         "startLine": 471,
         "startChar": 32,

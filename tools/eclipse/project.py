@@ -171,16 +171,21 @@ def gen_classpath(ext):
         return impl.createDocument(None, 'classpath', None)
 
     def import_jgit_sources():
-        classpathentry('src', 'modules/jgit/org.eclipse.jgit/src')
-        classpathentry('src', 'modules/jgit/org.eclipse.jgit/resources')
-        classpathentry('src', 'modules/jgit/org.eclipse.jgit.archive/src',
+        # JGit is consumed via http_archive + build-time patches in tools/jgit/.
+        # The patched source is materialized by Bazel into
+        # $(bazel info output_base)/external/jgit/; point classpath entries at
+        # that path directly so Eclipse sees the same source tree Bazel reads.
+        jgit = os.fsdecode(ext) + '/external/jgit'
+        classpathentry('src', jgit + '/org.eclipse.jgit/src')
+        classpathentry('src', jgit + '/org.eclipse.jgit/resources')
+        classpathentry('src', jgit + '/org.eclipse.jgit.archive/src',
             excluding='org/eclipse/jgit/archive/FormatActivator.java')
-        classpathentry('src', 'modules/jgit/org.eclipse.jgit.archive/resources')
-        classpathentry('src', 'modules/jgit/org.eclipse.jgit.http.server/src')
-        classpathentry('src', 'modules/jgit/org.eclipse.jgit.http.server/resources')
-        classpathentry('src', 'modules/jgit/org.eclipse.jgit.junit/src')
-        classpathentry('src', 'modules/jgit/org.eclipse.jgit.ssh.apache/src')
-        classpathentry('src', 'modules/jgit/org.eclipse.jgit.ssh.apache/resources')
+        classpathentry('src', jgit + '/org.eclipse.jgit.archive/resources')
+        classpathentry('src', jgit + '/org.eclipse.jgit.http.server/src')
+        classpathentry('src', jgit + '/org.eclipse.jgit.http.server/resources')
+        classpathentry('src', jgit + '/org.eclipse.jgit.junit/src')
+        classpathentry('src', jgit + '/org.eclipse.jgit.ssh.apache/src')
+        classpathentry('src', jgit + '/org.eclipse.jgit.ssh.apache/resources')
 
     def classpathentry(kind, path, src=None, out=None, exported=None, excluding=None):
         e = doc.createElement('classpathentry')
@@ -203,7 +208,7 @@ def gen_classpath(ext):
             testAtt.setAttribute('name', 'test')
             testAtt.setAttribute('value', 'true')
             atts.appendChild(testAtt)
-        if "apt_generated" in path or "modules/jgit" in path:
+        if "apt_generated" in path or "/external/jgit" in path:
             if not atts:
                 atts = doc.createElement('attributes')
             ignoreOptionalProblems = doc.createElement('attribute')

@@ -16,6 +16,24 @@
       "message": "The revert of f13a655c56a63a367d74e22e3f39f08a0f787b45 on top of stable-7.4 gives a lot of conflicts, I get:\n\n```\n   org.eclipse.jgit.packaging/org.eclipse.jgit.target/jgit-4.32.target\n   org.eclipse.jgit.packaging/org.eclipse.jgit.target/jgit-4.33.target\n   org.eclipse.jgit.packaging/org.eclipse.jgit.target/jgit-4.34.target\n   org.eclipse.jgit.packaging/org.eclipse.jgit.target/jgit-4.35.target\n   org.eclipse.jgit.packaging/org.eclipse.jgit.target/jgit-4.36.target\n   org.eclipse.jgit.packaging/org.eclipse.jgit.target/jgit-4.37.target\n   pom.xml\n```\n\nDid you resolve all of them manually somewhere?",
       "revId": "ba2254a782cbaea32ba1ff29f3262a6d94fe61e6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "423889bd_4ab4e15b",
+        "filename": "tools/jgit/0001-Revert-Update-jakarta.servlet-jakarta.servlet-api-to.patch",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-06-06T20:02:58Z",
+      "side": 1,
+      "message": "The revert series lives in my local JGit tree — I rebased onto stable-7.4 there and resolved the conflicts manually, since the patches in gerrit\u0027s `tools/jgit/` are applied at build time rather than landing as commits on a JGit branch.\n\nTangential, if useful: I could push the conflict-resolved series as a [DO-NOT-MERGE]/%wip reference on refs/for/stable-7.4 — three commits in a stack, one per upstream commit being reverted, mirroring `tools/jgit/0001-*.patch` 1:1. Two possible upsides:\n\n- Easier to read in gerrit-review than as unified patches.\n- Gerrit auto-flags the series as conflicting when upstream stable-7.4 evolves in a way that breaks the patches — free drift detection.\n\nWorth it, or just noise on the review queue? Happy to skip if it would clutter the dashboard.",
+      "parentUuid": "c12430fd_8b3edae6",
+      "revId": "ba2254a782cbaea32ba1ff29f3262a6d94fe61e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

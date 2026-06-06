@@ -207,6 +207,17 @@ refreshed and missing dependency JARs can be downloaded by running
 `project.py` again. For IntelliJ, you need to click the `Sync Project
 with BUILD Files` button of link:https://ij.bazel.build[Bazel plugin,role=external,window=_blank].
 
+=== Developing against patched JGit
+
+On stable-3.13 JGit is consumed via `http_archive` with build-time patches
+in `tools/jgit/`. `tools/eclipse/project.py` already points the generated
+`.classpath` entries at the patched source Bazel materializes — Eclipse
+breakpoints, type navigation, and source search work out of the box (the
+IntelliJ Bazel plugin sees the same source independently). See
+link:dev-jgit.html[Developing against patched JGit] for the full workflow
+and the optional `--override_repository=jgit=<clone>` setup that enables
+`git bisect` across JGit history.
+
 [[documentation]]
 == Documentation
 

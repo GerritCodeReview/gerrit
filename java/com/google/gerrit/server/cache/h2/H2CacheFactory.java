@@ -88,6 +88,7 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
   private final Schedule schedule;
   private final AtomicBoolean isDiskCacheReadOnly;
   @Nullable private final ExecutorService startupExecutor;
+  private final boolean preWarmForBloomFilter;
 
   @Inject
   H2CacheFactory(
@@ -104,6 +105,7 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
     h2CacheSize = cfg.getLong("cache", null, "h2CacheSize", -1);
     h2AutoServer = cfg.getBoolean("cache", null, "h2AutoServer", false);
     pruneOnStartup = cfg.getBoolean("cachePruning", null, "pruneOnStartup", true);
+    preWarmForBloomFilter = cfg.getBoolean("cache", null, "preWarmForBloomFilter", true);
     caches = new ArrayList<>();
     schedule =
         ScheduleConfig.createSchedule(cfg, "cachePruning")
@@ -224,14 +226,10 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
   }
 
   private <V, K> SqlStore<K, V> newSqlStore(PersistentCacheDef<K, V> def, long maxSize) {
+    String cacheName = def.name() + "-v" + COMPATIBILITY_VERSION;
     StringBuilder url = new StringBuilder();
     url.append("jdbc:h2:file:")
-        .append(
-            cacheDir
-                .resolve(def.name() + "-v" + COMPATIBILITY_VERSION)
-                .toAbsolutePath()
-                .toString()
-                .replace(";", "\\;"));
+        .append(cacheDir.resolve(cacheName).toAbsolutePath().toString().replace(";", "\\;"));
     if (h2CacheSize >= 0) {
       url.append(";CACHE_SIZE=");
       // H2 CACHE_SIZE is always given in KB
@@ -269,7 +267,9 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
         refreshAfterWrite,
         options.contains(CacheOptions.BUILD_BLOOM_FILTER),
         options.contains(CacheOptions.TRACK_LAST_ACCESS),
-        isDiskCacheReadOnly);
+        isDiskCacheReadOnly,
+        preWarmForBloomFilter,
+        cacheDir.resolve(cacheName + ".mv.db"));
   }
 
   private boolean has(String name, String var) {

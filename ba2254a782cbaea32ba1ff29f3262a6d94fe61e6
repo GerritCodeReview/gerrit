@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c12430fd_8b3edae6",
+        "filename": "tools/jgit/0001-Revert-Update-jakarta.servlet-jakarta.servlet-api-to.patch",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-06T17:12:53Z",
+      "side": 1,
+      "message": "The revert of f13a655c56a63a367d74e22e3f39f08a0f787b45 on top of stable-7.4 gives a lot of conflicts, I get:\n\n```\n   org.eclipse.jgit.packaging/org.eclipse.jgit.target/jgit-4.32.target\n   org.eclipse.jgit.packaging/org.eclipse.jgit.target/jgit-4.33.target\n   org.eclipse.jgit.packaging/org.eclipse.jgit.target/jgit-4.34.target\n   org.eclipse.jgit.packaging/org.eclipse.jgit.target/jgit-4.35.target\n   org.eclipse.jgit.packaging/org.eclipse.jgit.target/jgit-4.36.target\n   org.eclipse.jgit.packaging/org.eclipse.jgit.target/jgit-4.37.target\n   pom.xml\n```\n\nDid you resolve all of them manually somewhere?",
+      "revId": "ba2254a782cbaea32ba1ff29f3262a6d94fe61e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

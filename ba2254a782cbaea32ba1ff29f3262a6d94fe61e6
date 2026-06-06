@@ -34,6 +34,24 @@
       "parentUuid": "c12430fd_8b3edae6",
       "revId": "ba2254a782cbaea32ba1ff29f3262a6d94fe61e6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4f66692_3fec185c",
+        "filename": "tools/jgit/0001-Revert-Update-jakarta.servlet-jakarta.servlet-api-to.patch",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-06T21:11:30Z",
+      "side": 1,
+      "message": "\u003e The revert series lives in my local JGit tree — I rebased onto stable-7.4 there and resolved the conflicts manually, since the patches in gerrit\u0027s `tools/jgit/` are applied at build time rather than landing as commits on a JGit branch.\n\nBasically, these patches are JGit cherry-picks with manually resolved commits that live in the Gerrit tree. Would you then envisage continuing in the same way for future JGit patches as well? Instead of having commits in JGit to archive them as build-time patches in Gerrit?\n\nI believe this is the same as branching JGit, but keeping the branch in Gerrit rather than the JGit repository.",
+      "parentUuid": "423889bd_4ab4e15b",
+      "revId": "ba2254a782cbaea32ba1ff29f3262a6d94fe61e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

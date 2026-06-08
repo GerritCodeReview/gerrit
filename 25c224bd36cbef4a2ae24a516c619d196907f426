@@ -1,0 +1,45 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b507b5e_e14dcac9",
+        "filename": "polygerrit-ui/app/elements/chat-panel/splash-page.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-06-08T23:40:32Z",
+      "side": 1,
+      "message": "This suggestion doesn\u0027t look correct?\n\nPlease fix this WARNING reported by gerrit-hygiene-operations: [gerrit-hygiene-operations] This empty line contains trailing whitespace, which ...\n\n[gerrit-hygiene-operations] This empty line contains trailing whitespace, which violates TypeScript structural style and linting mandates.\n\n**Suggestion**\n\nRemove the trailing whitespace so the line is completely empty.\n\n**Reference**\n\nT2-01: Strict Trailing Whitespace and Line Length Formatting",
+      "range": {
+        "startLine": 59,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 0
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "5de4c742_a4e3e69e",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/chat-panel/splash-page.ts",
+              "range": {
+                "startLine": 59,
+                "startChar": 0,
+                "endLine": 60,
+                "endChar": 0
+              },
+              "replacement": ""
+            }
+          ]
+        }
+      ],
+      "revId": "25c224bd36cbef4a2ae24a516c619d196907f426",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

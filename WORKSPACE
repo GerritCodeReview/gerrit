@@ -78,19 +78,12 @@ local_repository(
     path = "modules/java-prettify",
 )
 
-# JGit consumed via http_archive with build-time patches. See tools/jgit/.
+# JGit consumed via http_archive eclipse-jgit with 3 reverts applied.
 http_archive(
     name = "jgit",
-    patch_args = ["-p1"],
-    patch_tool = "patch",
-    patches = [
-        "//tools/jgit:0001-Revert-Update-jakarta.servlet-jakarta.servlet-api-to.patch",
-        "//tools/jgit:0002-Revert-Bump-jetty-version-to-12.0.9-and-servlet-api-.patch",
-        "//tools/jgit:0003-Revert-Bump-jetty-version-to-11.0.20.patch",
-    ],
-    sha256 = "a61f3e31a6e4e63d1913f345128753e08c38a4d10645ee87aff3abd920fcfb97",
-    strip_prefix = "jgit-f1082306d497793a7f4bdc09354fd6d55ef3f422",
-    urls = ["https://github.com/eclipse-jgit/jgit/archive/f1082306d497793a7f4bdc09354fd6d55ef3f422.tar.gz"],
+    sha256 = "cd78c13a3b3f2ffa6ba5e3b1505595d1881c1e9e6823ccce741bb7307cd5c6ea",
+    strip_prefix = "jgit-354a978be10667a09cd7d3a9aedb300bc35522c5",
+    urls = ["https://github.com/eclipse-jgit/jgit/archive/354a978be10667a09cd7d3a9aedb300bc35522c5.tar.gz"],
 )
 
 java_dependencies()

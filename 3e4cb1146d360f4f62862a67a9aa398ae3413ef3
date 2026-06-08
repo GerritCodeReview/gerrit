@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a021cbd2_9e6693a7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-06-08T22:14:15Z",
+      "side": 1,
+      "message": "Goes with the update in ci scripts: 515361: set-java: Remove Bazel tmp workaround | https://gerrit-review.googlesource.com/c/gerrit-ci-scripts/+/515361",
+      "revId": "3e4cb1146d360f4f62862a67a9aa398ae3413ef3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

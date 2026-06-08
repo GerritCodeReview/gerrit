@@ -21,7 +21,7 @@ import {Action} from '../../api/ai-code-review';
 import {chatModelToken, Turn} from '../../models/chat/chat-model';
 import {resolve} from '../../models/dependency';
 import {userModelToken} from '../../models/user/user-model';
-import {CheckRun, checksModelToken} from '../../models/checks/checks-model';
+import {CheckRun, checksModelToken, RunResult} from '../../models/checks/checks-model';
 import {changeModelToken} from '../../models/change/change-model';
 import {AccountDetailInfo, ServerInfo} from '../../types/common';
 import {subscribe} from '../lit/subscription-controller';
@@ -50,6 +50,8 @@ export class SplashPage extends LitElement {
   @property({type: Boolean}) isChangePrivate = false;
 
   @state() runs: readonly CheckRun[] = [];
+
+  @state() results: readonly RunResult[] = [];
 
   @state() changeNum?: number;
 
@@ -102,6 +104,11 @@ export class SplashPage extends LitElement {
       this,
       () => this.getChecksModel().allRunsSelectedPatchset$,
       x => (this.runs = x ?? [])
+    );
+    subscribe(
+      this,
+      () => this.getChecksModel().allResultsSelected$,
+      x => (this.results = x ?? [])
     );
     subscribe(
       this,
@@ -279,6 +286,7 @@ export class SplashPage extends LitElement {
       ${this.renderBackgroundRequest()}
       <gr-endpoint-decorator name="chat-panel-splash-extra">
         <gr-endpoint-param name="runs" .value=${this.runs}></gr-endpoint-param>
+        <gr-endpoint-param name="results" .value=${this.results}></gr-endpoint-param>
         <gr-endpoint-param
           name="changeNum"
           .value=${this.changeNum}

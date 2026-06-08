@@ -52,6 +52,24 @@
       "parentUuid": "423889bd_4ab4e15b",
       "revId": "ba2254a782cbaea32ba1ff29f3262a6d94fe61e6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63d6351e_a9bf563d",
+        "filename": "tools/jgit/0001-Revert-Update-jakarta.servlet-jakarta.servlet-api-to.patch",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-06-08T05:32:26Z",
+      "side": 1,
+      "message": "Pushed a follow-up change that addresses this concern directly change 591581.\n\nYour framing is exactly right — this is effectively a JGit branch — but the follow-up moves that branch out of Gerrit\u0027s tree onto the fork. The WORKSPACE jgit http_archive now points at a stable-7.4 SHA on a fork branch that already carries the three reverts as pre-applied commits.\n\nResult: Gerrit\u0027s tree no longer carries any JGit cherry-picks. The `tools/jgit/` directory and its three patch files become dead code (cleanup in a follow-up).\n\n\u003e Would you then envisage continuing in the same way for future JGit patches as well?\n\nScope is bounded: these three reverts are the entire set of JGit-side changes we need, and we don\u0027t expect future additions to the fork.\n\nGerrit stable-3.13 can\u0027t consume JGit\u0027s servlet-4 branch directly — it diverges on two axes:\n\n* (a) javax.servlet 4 / Jetty 9.x vs JGit\u0027s jakarta.servlet 6.1 / Jetty 12, and\n* (b) WORKSPACE-mode build vs bzlmod.\n\nThat\u0027s why we consume stable-7.4 + three reverts instead. Both Gerrit stable-3.13 and JGit stable-7.4 are still on WORKSPACE (no bzlmod migration on either side), so axis (b) requires zero JGit-side work; the three reverts cover axis (a) entirely. \n\nOnce stable-3.13 ages out and aligns on the modern stack, the fork branch goes away entirely.\n\nMaintenance: three reverts to rebase as stable-7.4 advances. The rebase happens on the fork branch ahead of bumping the consumed SHA in WORKSPACE, rather than as a patch-file refresh in tools/jgit/ after.\n\nSame pattern that was accepted for rules_nodejs on stable-3.14, change 571802 (I0d88e1d9d6) — a Gerrit-specific patched fork SHA consumed instead of build-time patches.\n\nSee my fork of rules_nodejs, that is still used on stable-3.14 branch: [1].\n\n[1]: https://github.com/davido/rules_nodejs/releases/tag/5.8.4_patched_node_versions",
+      "parentUuid": "f4f66692_3fec185c",
+      "revId": "ba2254a782cbaea32ba1ff29f3262a6d94fe61e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

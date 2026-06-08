@@ -2,7 +2,10 @@ load("@rules_java//java:defs.bzl", "java_library")
 load("//javatests/com/google/gerrit/acceptance:tests.bzl", "acceptance_tests")
 
 acceptance_tests(
-    srcs = glob(["*IT.java"]),
+    srcs = glob(
+        ["*IT.java"],
+        exclude = ["AbstractAccountIT.java"],
+    ),
     group = "api_account",
     labels = [
         "api",
@@ -20,7 +23,10 @@ acceptance_tests(
 java_library(
     name = "util",
     testonly = True,
-    srcs = glob(["TestRealm.java"]),
+    srcs = [
+        "AbstractAccountIT.java",
+        "TestRealm.java",
+    ],
     deps = [
         "//java/com/google/gerrit/acceptance:lib",
     ],

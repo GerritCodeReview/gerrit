@@ -33,6 +33,7 @@ import {ChangeModel} from '../change/change-model';
 import {define} from '../dependency';
 import {PluginsModel} from '../plugins/plugins-model';
 import {UserModel} from '../user/user-model';
+import {CommentsModel, commentsModelToken} from '../comments/comments-model';
 
 import {contextItemEquals} from './context-item-util';
 import {FilesModel, NormalizedFileInfo} from '../change/files-model';
@@ -345,11 +346,14 @@ export class ChatModel extends Model<ChatState> {
 
   private files: NormalizedFileInfo[] = [];
 
+  private comments: CommentInfo[] = [];
+
   constructor(
     private readonly pluginsModel: PluginsModel,
     private readonly changeModel: ChangeModel,
     private readonly filesModel: FilesModel,
-    private readonly userModel: UserModel
+    private readonly userModel: UserModel,
+    private readonly commentsModel: CommentsModel
   ) {
     super({
       mode: ChatPanelMode.CONVERSATION,
@@ -395,6 +399,9 @@ export class ChatModel extends Model<ChatState> {
     });
 
     this.filesModel.files$.subscribe(files => (this.files = files ?? []));
+    this.commentsModel.comments$.subscribe(comments => {
+      this.comments = Object.values(comments ?? {}).flat();
+    });
     this.changeModel.change$.subscribe(change => {
       const isNewChange = change?._number !== this.change?._number;
       this.change = change as ChangeInfo;
@@ -592,6 +599,7 @@ export class ChatModel extends Model<ChatState> {
       conversation_id: conversationId,
       change,
       files,
+      comments: this.comments,
       turn_index: turnIndex,
       regeneration_index: turn.geminiMessage.regenerationIndex,
       client_data: JSON.stringify(clientData),

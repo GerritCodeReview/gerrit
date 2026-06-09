@@ -379,7 +379,7 @@ export class GrCommentThread extends LitElement {
           padding: var(--spacing-s) var(--spacing-m);
         }
         .comment-box {
-          width: 80ch;
+          width: var(--gr-comment-thread-width, 80ch);
           max-width: 100%;
           background-color: var(--comment-background-color);
           color: var(--comment-text-color);
@@ -431,7 +431,7 @@ export class GrCommentThread extends LitElement {
           border: 1px solid var(--border-color);
           flex-grow: 1;
           flex-shrink: 1;
-          max-width: 1200px;
+          max-width: var(--gr-comment-thread-diff-max-width, 1200px);
         }
         .view-diff-button {
           margin: var(--spacing-s) var(--spacing-m);

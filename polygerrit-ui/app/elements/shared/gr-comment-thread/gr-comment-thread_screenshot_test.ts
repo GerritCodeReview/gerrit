@@ -113,4 +113,16 @@ suite('gr-comment-thread screenshot tests', () => {
     await visualDiff(element, 'gr-comment-thread-with-ai');
     await visualDiffDarkTheme(element, 'gr-comment-thread-with-ai');
   });
+
+  test('unresolved inline code review', async () => {
+    // Simulate inline context by setting custom properties
+    element.style.setProperty('--gr-comment-thread-width', '100%');
+    element.style.setProperty('--gr-comment-thread-diff-max-width', '100%');
+
+    element.thread = createThread(c1, {...c2, unresolved: true});
+    await element.updateComplete;
+
+    await visualDiff(element, 'gr-comment-thread-unresolved-inline');
+    await visualDiffDarkTheme(element, 'gr-comment-thread-unresolved-inline');
+  });
 });

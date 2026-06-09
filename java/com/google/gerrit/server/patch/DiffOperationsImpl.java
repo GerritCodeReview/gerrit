@@ -306,8 +306,21 @@ public class DiffOperationsImpl implements DiffOperations {
       ObjectId oldCommit = diffParams.baseCommit();
       ComparisonType cmp = diffParams.comparisonType();
 
-      ImmutableList<ModifiedFile> modifiedFiles =
-          modifiedFilesCache.get(createModifiedFilesKey(project, oldCommit, newCommit));
+      ImmutableList<ModifiedFile> modifiedFiles;
+      if (diffOptions.skipRebaseFiltering()) {
+        try (Repository repo = repoManager.openRepository(project);
+            RevWalk revWalk = new RevWalk(repo)) {
+          ModifiedFilesLoader loader =
+              modifiedFilesLoaderFactory
+                  .createWithRetrievingModifiedFilesForTreesFromGitModifiedFilesCache()
+                  .withSkipRebaseFiltering(true);
+          loader.withRenameDetection(RENAME_SCORE);
+          modifiedFiles = loader.load(project, repo.getConfig(), revWalk, oldCommit, newCommit);
+        }
+      } else {
+        modifiedFiles =
+            modifiedFilesCache.get(createModifiedFilesKey(project, oldCommit, newCommit));
+      }
 
       boolean useTimeout =
           experimentFeatures.isFeatureEnabled(

@@ -98,7 +98,8 @@ public class ModifiedFilesLoader {
      * trees that are newly created or that were created in memory only. Also see the javadoc on
      * this class.
      */
-    ModifiedFilesLoader createWithRetrievingModifiedFilesForTreesFromGitModifiedFilesCache() {
+    public ModifiedFilesLoader
+        createWithRetrievingModifiedFilesForTreesFromGitModifiedFilesCache() {
       return new ModifiedFilesLoader(gitModifiedFilesCache);
     }
   }
@@ -106,6 +107,8 @@ public class ModifiedFilesLoader {
   @Nullable private final GitModifiedFilesCache gitModifiedFilesCache;
 
   @Nullable private Integer renameScore = null;
+
+  private boolean skipRebaseFiltering = false;
 
   ModifiedFilesLoader(@Nullable GitModifiedFilesCache gitModifiedFilesCache) {
     this.gitModifiedFilesCache = gitModifiedFilesCache;
@@ -120,6 +123,12 @@ public class ModifiedFilesLoader {
   public ModifiedFilesLoader withRenameDetection(int renameScore) {
     checkState(renameScore >= 0);
     this.renameScore = renameScore;
+    return this;
+  }
+
+  @CanIgnoreReturnValue
+  public ModifiedFilesLoader withSkipRebaseFiltering(boolean skipRebaseFiltering) {
+    this.skipRebaseFiltering = skipRebaseFiltering;
     return this;
   }
 
@@ -153,6 +162,9 @@ public class ModifiedFilesLoader {
                   getModifiedFiles(
                       project, repoConfig, revWalk.getObjectReader(), baseTree, newTree)));
       if (baseCommit.equals(ObjectId.zeroId())) {
+        return modifiedFiles;
+      }
+      if (skipRebaseFiltering) {
         return modifiedFiles;
       }
       RevCommit revCommitBase = DiffUtil.getRevCommit(revWalk, baseCommit);

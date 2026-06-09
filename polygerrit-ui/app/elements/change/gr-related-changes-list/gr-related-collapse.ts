@@ -39,10 +39,14 @@ export class GrRelatedCollapse extends LitElement {
       sharedStyles,
       fontStyles,
       css`
+        .title-container {
+          display: flex;
+          align-items: center;
+          gap: var(--spacing-s);
+        }
         .title {
           color: var(--deemphasized-text-color);
           display: flex;
-          align-self: flex-end;
         }
         gr-button {
           display: flex;
@@ -54,6 +58,7 @@ export class GrRelatedCollapse extends LitElement {
         .container {
           justify-content: space-between;
           display: flex;
+          align-items: center;
           margin-bottom: var(--spacing-s);
         }
         :host(.first) .container {
@@ -80,7 +85,13 @@ export class GrRelatedCollapse extends LitElement {
       ></gr-button>`;
     }
 
-    return html`<div class="container">${title}${button}</div>
+    return html`<div class="container">
+        <div class="title-container">
+          ${title}
+          <slot name="header-action"></slot>
+        </div>
+        ${button}
+      </div>
       <div><slot></slot></div>`;
   }
 

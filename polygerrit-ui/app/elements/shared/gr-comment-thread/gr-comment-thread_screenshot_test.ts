@@ -66,6 +66,7 @@ const c_ai: CommentInfo = {
 
 suite('gr-comment-thread screenshot tests', () => {
   let element: GrCommentThread;
+  let styleEl: HTMLStyleElement;
 
   setup(async () => {
     testResolver(changeViewModelToken).setState({
@@ -74,12 +75,31 @@ suite('gr-comment-thread screenshot tests', () => {
       changeNum: 1 as NumericChangeId,
       repo: 'test-repo-name' as RepoName,
     });
+    styleEl = document.createElement('style');
+    styleEl.textContent = `
+      gr-comment-thread {
+        --comment-background-color: #e8eaed;
+        --unresolved-comment-background-color: #fef7e0;
+        --elevation-level-2: 0px 4px 8px rgba(0,0,0,0.15);
+        --border-radius: 4px;
+      }
+      .darkTheme gr-comment-thread {
+        --comment-background-color: #3c3f43;
+        --unresolved-comment-background-color: #614a19;
+      }
+    `;
+    document.head.appendChild(styleEl);
+
     element = await fixture(html`<gr-comment-thread></gr-comment-thread>`);
     element.changeNum = 1 as NumericChangeId;
     element.showFileName = true;
     element.showFilePath = true;
     element.repoName = 'test-repo-name' as RepoName;
     await element.updateComplete;
+  });
+
+  teardown(() => {
+    styleEl?.remove();
   });
 
   test('unresolved', async () => {

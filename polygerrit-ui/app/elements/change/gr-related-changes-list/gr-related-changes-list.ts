@@ -5,13 +5,18 @@
  */
 import './gr-related-change';
 import './gr-related-collapse';
+import './gr-stack-diff-dialog';
+import {GrStackDiffDialog} from './gr-stack-diff-dialog';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../../plugins/gr-endpoint-slot/gr-endpoint-slot';
 import '../../shared/gr-icon/gr-icon';
 import {classMap} from 'lit/directives/class-map.js';
 import {css, html, LitElement, TemplateResult} from 'lit';
-import {customElement, state} from 'lit/decorators.js';
+import {customElement, query, state} from 'lit/decorators.js';
+import {when} from 'lit/directives/when.js';
+import {getAppContext} from '../../../services/app-context';
+import {KnownExperimentId} from '../../../services/flags/flags';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {
   ChangeInfo,
@@ -49,6 +54,11 @@ export enum Section {
 
 @customElement('gr-related-changes-list')
 export class GrRelatedChangesList extends LitElement {
+  @query('#stackDiffDialog')
+  private stackDiffDialog?: GrStackDiffDialog;
+
+  private readonly flagsService = getAppContext().flagsService;
+
   @state()
   change?: ParsedChangeInfo;
 
@@ -252,7 +262,23 @@ export class GrRelatedChangesList extends LitElement {
       <gr-endpoint-slot name="top"></gr-endpoint-slot>
       ${sections}
       <gr-endpoint-slot name="bottom"></gr-endpoint-slot>
+      ${when(
+        this.flagsService.isEnabled(KnownExperimentId.STACK_DIFF),
+        () => html`
+          <gr-stack-diff-dialog
+            id="stackDiffDialog"
+            .repo=${this.change?.project}
+            .relatedChanges=${this.relatedChanges}
+          ></gr-stack-diff-dialog>
+        `
+      )}
     </gr-endpoint-decorator>`;
+  }
+
+  private openStackDiff(e: Event) {
+    e.preventDefault();
+    e.stopPropagation();
+    this.stackDiffDialog?.open();
   }
 
   private renderRelationChain(
@@ -283,6 +309,19 @@ export class GrRelatedChangesList extends LitElement {
         .length=${this.relatedChanges.length}
         .numChangesWhenCollapsed=${sectionSize(Section.RELATED_CHANGES)}
       >
+        ${when(
+          this.flagsService.isEnabled(KnownExperimentId.STACK_DIFF),
+          () => html`
+            <gr-button
+              id="openStackDiffButton"
+              slot="header-action"
+              link
+              @click=${this.openStackDiff}
+            >
+              Diff
+            </gr-button>
+          `
+        )}
         ${this.relatedChanges.map(
           (change, index) =>
             html`<div

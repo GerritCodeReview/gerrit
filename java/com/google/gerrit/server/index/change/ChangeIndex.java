@@ -35,7 +35,7 @@ public interface ChangeIndex extends Index<Change.Id, ChangeData> {
     return ChangePredicates.idStr(id);
   }
 
-  Function<ChangeData, Change.Id> ENTITY_TO_KEY = ChangeData::getId;
+  Function<ChangeData, Change.Id> ENTITY_TO_KEY = ChangeData::virtualId;
 
   public void deleteAllForProject(Project.NameKey project);
 }

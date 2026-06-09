@@ -24,7 +24,10 @@ suite('gr-related-collapse', () => {
       element,
       /* HTML */ `
         <div class="container">
-          <h3 class="heading-3 title">Related Changes</h3>
+          <div class="title-container">
+            <h3 class="heading-3 title">Related Changes</h3>
+            <slot name="header-action"> </slot>
+          </div>
         </div>
         <div>
           <slot> </slot>

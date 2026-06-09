@@ -18,6 +18,44 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6110e17_ab31a1d5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2026-06-09T11:07:25Z",
+      "side": 1,
+      "message": "Done. Added test revertDoesNotAddDeletedReviewersOrCcs in RevertIT.java.",
+      "parentUuid": "d2c0d9ab_36d2e1b7",
+      "isAi": true,
+      "revId": "e5856527679ec531c617d689148ae514ad158a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9309970f_edfd70d7",
+        "filename": "java/com/google/gerrit/server/git/CommitUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2026-06-09T11:07:25Z",
+      "side": 1,
+      "message": "Done. Refactored CommitUtil to inject and use AccountCache instead of AccountResolver.",
+      "parentUuid": "885e4cbd_6ca59a50",
+      "isAi": true,
+      "revId": "e5856527679ec531c617d689148ae514ad158a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "885e4cbd_6ca59a50",

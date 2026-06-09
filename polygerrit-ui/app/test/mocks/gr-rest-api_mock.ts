@@ -446,6 +446,15 @@ export const grRestApiMock: RestApiService = {
   getRepoBranches(): Promise<BranchInfo[] | undefined> {
     return Promise.resolve([]);
   },
+  getRepoBranch(): Promise<BranchInfo | undefined> {
+    return Promise.resolve(undefined);
+  },
+  getProjectCommitDiff(): Promise<FileNameToFileInfoMap | undefined> {
+    return Promise.resolve(undefined);
+  },
+  getProjectCommitFileDiff(): Promise<DiffInfo | undefined> {
+    return Promise.resolve(undefined);
+  },
   getRepoDashboards(): Promise<DashboardInfo[] | undefined> {
     return Promise.resolve([]);
   },

@@ -227,7 +227,8 @@ export function createAppDependencies(
           resolver(pluginLoaderToken).pluginsModel,
           resolver(changeModelToken),
           resolver(filesModelToken),
-          resolver(userModelToken)
+          resolver(commentsModelToken),
+          resolver(userModelToken),
         ),
     ],
     [

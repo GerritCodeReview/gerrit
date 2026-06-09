@@ -330,6 +330,7 @@ export class GrCommentThread extends LitElement {
           // set line_wrapping to true so that the context can take all the
           // remaining space after comment card has rendered
           line_wrapping: true,
+          responsive_mode: 'FULL_RESPONSIVE',
         };
       }
     );
@@ -379,7 +380,7 @@ export class GrCommentThread extends LitElement {
           padding: var(--spacing-s) var(--spacing-m);
         }
         .comment-box {
-          width: 80ch;
+          width: 100%;
           max-width: 100%;
           background-color: var(--comment-background-color);
           color: var(--comment-text-color);
@@ -431,7 +432,7 @@ export class GrCommentThread extends LitElement {
           border: 1px solid var(--border-color);
           flex-grow: 1;
           flex-shrink: 1;
-          max-width: 1200px;
+          max-width: 100%;
         }
         .view-diff-button {
           margin: var(--spacing-s) var(--spacing-m);

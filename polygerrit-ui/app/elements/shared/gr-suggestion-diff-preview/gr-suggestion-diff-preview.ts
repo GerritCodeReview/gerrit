@@ -418,6 +418,7 @@ export class GrSuggestionDiffPreview extends LitElement {
       context: 0,
       line_length: Math.min(this.diffPrefs.line_length, 100),
       line_wrapping: true,
+      responsive_mode: 'FULL_RESPONSIVE',
     };
   }
 }

@@ -107,6 +107,8 @@ public class ModifiedFilesLoader {
 
   @Nullable private Integer renameScore = null;
 
+  private boolean skipRebaseFiltering = false;
+
   ModifiedFilesLoader(@Nullable GitModifiedFilesCache gitModifiedFilesCache) {
     this.gitModifiedFilesCache = gitModifiedFilesCache;
   }
@@ -120,6 +122,12 @@ public class ModifiedFilesLoader {
   public ModifiedFilesLoader withRenameDetection(int renameScore) {
     checkState(renameScore >= 0);
     this.renameScore = renameScore;
+    return this;
+  }
+
+  @CanIgnoreReturnValue
+  public ModifiedFilesLoader withSkipRebaseFiltering(boolean skipRebaseFiltering) {
+    this.skipRebaseFiltering = skipRebaseFiltering;
     return this;
   }
 
@@ -157,7 +165,7 @@ public class ModifiedFilesLoader {
       }
       RevCommit revCommitBase = DiffUtil.getRevCommit(revWalk, baseCommit);
       RevCommit revCommitNew = DiffUtil.getRevCommit(revWalk, newCommit);
-      if (DiffUtil.areRelated(revCommitBase, revCommitNew)) {
+      if (skipRebaseFiltering || DiffUtil.areRelated(revCommitBase, revCommitNew)) {
         return modifiedFiles;
       }
       Set<String> touchedFiles =

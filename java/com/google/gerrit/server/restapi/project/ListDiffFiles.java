@@ -112,7 +112,10 @@ public class ListDiffFiles implements RestReadView<CommitResource> {
       // Don't skip files due to rebase - this is a direct commit comparison, not patchset
       // comparison
       DiffOptions diffOptions =
-          DiffOptions.builder().skipFilesWithAllEditsDueToRebase(false).build();
+          DiffOptions.builder()
+              .skipFilesWithAllEditsDueToRebase(false)
+              .skipRebaseFiltering(true)
+              .build();
       Map<String, FileDiffOutput> fileDiffs =
           diffOperations.listModifiedFiles(project, baseCommitId, newCommitId, diffOptions);
 

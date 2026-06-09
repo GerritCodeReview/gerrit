@@ -1776,6 +1776,39 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     }) as Promise<BranchInfo[] | undefined>;
   }
 
+
+  getProjectCommitDiff(
+    repo: RepoName,
+    commitId: CommitId,
+    baseCommitId: CommitId
+  ): Promise<FileNameToFileInfoMap | undefined> {
+    const encodeName = encodeURIComponent(repo);
+    return this._restApiHelper.fetchJSON({
+      url: `/projects/${encodeName}/commits/${commitId}/diff`,
+      params: {
+        base: baseCommitId,
+        'name-only': true,
+      },
+      anonymizedUrl: '/projects/*/commits/*/diff',
+    }) as Promise<FileNameToFileInfoMap | undefined>;
+  }
+
+  getProjectCommitFileDiff(
+    repo: RepoName,
+    commitId: CommitId,
+    baseCommitId: CommitId,
+    fileId: string
+  ): Promise<DiffInfo | undefined> {
+    const encodeName = encodeURIComponent(repo);
+    return this._restApiHelper.fetchJSON({
+      url: `/projects/${encodeName}/commits/${commitId}/files/${encodeURIComponent(
+        fileId
+      )}/diff`,
+      params: {base: baseCommitId},
+      anonymizedUrl: '/projects/*/commits/*/files/*/diff',
+    }) as Promise<DiffInfo | undefined>;
+  }
+
   getRepoTags(
     filter: string,
     repo: RepoName,

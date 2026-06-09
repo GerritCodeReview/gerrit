@@ -173,6 +173,30 @@ suite('gr-comment-thread tests', () => {
     );
   });
 
+  test('comment box spans 100% of container width', async () => {
+    const wrapper = await fixture(html`
+      <div style="width: 500px;">
+        <gr-comment-thread></gr-comment-thread>
+      </div>
+    `);
+    const commentThread = wrapper.querySelector(
+      'gr-comment-thread'
+    ) as GrCommentThread;
+    commentThread.thread = createThread(c1);
+    await commentThread.updateComplete;
+
+    const commentBox = queryAndAssert<HTMLElement>(
+      commentThread,
+      '.comment-box'
+    );
+    const computedWidth = getComputedStyle(commentBox).width;
+    assert.isTrue(
+      computedWidth.endsWith('px') &&
+        Math.abs(parseFloat(computedWidth) - 500) < 30,
+      `Expected comment box width to span container width, but got: ${computedWidth}`
+    );
+  });
+
   test('renders with actions resolved', async () => {
     element.thread = createThread(c1, c2);
     await element.updateComplete;

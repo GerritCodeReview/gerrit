@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance.api.change;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
@@ -545,13 +546,15 @@ public class RevertIT extends AbstractDaemonTest {
     // Only the change owner (admin) should be added as reviewer (since they are not deleted).
     // Reverter (admin2) is the new owner, so they are not in reviewers list.
     if (result.containsKey(ReviewerState.REVIEWER)) {
-      List<Integer> reviewers =
-          result.get(ReviewerState.REVIEWER).stream().map(a -> a._accountId).collect(toList());
+      ImmutableList<Integer> reviewers =
+          result.get(ReviewerState.REVIEWER).stream()
+              .map(a -> a._accountId)
+              .collect(toImmutableList());
       assertThat(reviewers).containsExactly(admin.id().get());
     }
     if (result.containsKey(ReviewerState.CC)) {
-      List<Integer> ccs =
-          result.get(ReviewerState.CC).stream().map(a -> a._accountId).collect(toList());
+      ImmutableList<Integer> ccs =
+          result.get(ReviewerState.CC).stream().map(a -> a._accountId).collect(toImmutableList());
       assertThat(ccs).isEmpty();
     }
   }

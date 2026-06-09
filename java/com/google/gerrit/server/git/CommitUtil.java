@@ -41,6 +41,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.Sequences;
+import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.approval.ApprovalsUtil;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeMessages;
@@ -115,6 +116,7 @@ public class CommitUtil {
   private final ChangeReverted changeReverted;
   private final BatchUpdate.Factory updateFactory;
   private final MessageIdGenerator messageIdGenerator;
+  private final AccountCache accountCache;
 
   @Inject
   CommitUtil(
@@ -129,7 +131,8 @@ public class CommitUtil {
       ChangeNotes.Factory changeNotesFactory,
       ChangeReverted changeReverted,
       BatchUpdate.Factory updateFactory,
-      MessageIdGenerator messageIdGenerator) {
+      MessageIdGenerator messageIdGenerator,
+      AccountCache accountCache) {
     this.repoManager = repoManager;
     this.serverIdent = serverIdent;
     this.seq = seq;
@@ -142,6 +145,7 @@ public class CommitUtil {
     this.changeReverted = changeReverted;
     this.updateFactory = updateFactory;
     this.messageIdGenerator = messageIdGenerator;
+    this.accountCache = accountCache;
   }
 
   public static CommitInfo toCommitInfo(RevCommit commit) throws IOException {
@@ -473,12 +477,25 @@ public class CommitUtil {
         ValidationOptionsUtil.getValidateOptionsAsMultimap(input.validationOptions));
 
     ReviewerSet reviewerSet = approvalsUtil.getReviewers(notes);
-
     Set<Account.Id> reviewers = new HashSet<>();
-    reviewers.add(changeToRevert.getOwner());
-    reviewers.addAll(reviewerSet.byState(ReviewerStateInternal.REVIEWER));
+    if (accountExists(changeToRevert.getOwner())) {
+      reviewers.add(changeToRevert.getOwner());
+    }
+    for (Account.Id reviewer : reviewerSet.byState(ReviewerStateInternal.REVIEWER)) {
+      // Add the original reviewers only if they exist, to avoid adding deleted accounts.
+      if (accountExists(reviewer)) {
+        reviewers.add(reviewer);
+      }
+    }
     reviewers.remove(user.getAccountId());
-    Set<Account.Id> ccs = new HashSet<>(reviewerSet.byState(ReviewerStateInternal.CC));
+
+    Set<Account.Id> ccs = new HashSet<>();
+    for (Account.Id cc : reviewerSet.byState(ReviewerStateInternal.CC)) {
+      // Add the original CCs only if they exist, to avoid adding deleted accounts.
+      if (accountExists(cc)) {
+        ccs.add(cc);
+      }
+    }
     ccs.remove(user.getAccountId());
     ins.setReviewersAndCcsIgnoreVisibility(reviewers, ccs);
     ins.setRevertOf(notes.getChangeId());
@@ -513,6 +530,10 @@ public class CommitUtil {
       String revertingChangeKey) {
     bu.addOp(revertingChangeId, new ChangeRevertedNotifyOp(revertedChangeId, revertingChangeId));
     bu.addOp(revertedChangeId, new PostRevertedMessageOp(revertingChangeKey));
+  }
+
+  private boolean accountExists(Account.Id accountId) {
+    return accountCache.get(accountId).isPresent();
   }
 
   private class ChangeRevertedNotifyOp implements BatchUpdateOp {

@@ -313,7 +313,7 @@ public class RevertSubmission
     RevCommit baseCommit = null;
     if (cherryPickInput.base != null) {
       try (Repository git = repoManager.openRepository(changeNotes.getProjectName());
-          RevWalk revWalk = new RevWalk(git.newObjectReader())) {
+          RevWalk revWalk = new RevWalk(git)) {
         baseCommit = revWalk.parseCommit(ObjectId.fromString(cherryPickInput.base));
       }
     }

@@ -116,7 +116,7 @@ public class ModifiedFilesCacheImpl implements ModifiedFilesCache {
     public ImmutableList<ModifiedFile> load(ModifiedFilesCacheKey key)
         throws IOException, DiffNotAvailableException {
       try (Repository repo = repoManager.openRepository(key.project());
-          RevWalk revWalk = new RevWalk(repo.newObjectReader())) {
+          RevWalk revWalk = new RevWalk(repo)) {
         ModifiedFilesLoader loader =
             modifiedFilesLoaderFactory
                 .createWithRetrievingModifiedFilesForTreesFromGitModifiedFilesCache();

@@ -34,6 +34,24 @@
       "parentUuid": "3fc9f264_32b33491",
       "revId": "a4e634a2b0afaa4196cd4cb141927679c6a44036",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d226398e_d9a90abb",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 748,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-06-09T22:09:35Z",
+      "side": 1,
+      "message": "\u003e Separately: unparking before parked.addAll(notReady) re-adds the not-ready tasks leaves a brief window where they\u0027re absent from parked. Since updateParked() isn\u0027t synchronized and the unparked task\u0027s onStop() can re-enter it, the old ordering (parked.addAll() then ready.unpark()) seems safer here. Was the reorder deliberate?\n\nThe reordering was deliberate as it simplifies the code. There is indeed a race there, and I guess your concern is that this makes the race a bit longer? I don\u0027t know if it actually does, because I suspect the compiler can re-order those as it wishes anyway. As you probably are aware, the intent was to address the race in this series: https://gerrit-review.googlesource.com/c/gerrit/+/442764 which may need to be re-checked if it still makes sense based on all the changes since it was created.",
+      "parentUuid": "304473bb_c6026772",
+      "revId": "a4e634a2b0afaa4196cd4cb141927679c6a44036",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

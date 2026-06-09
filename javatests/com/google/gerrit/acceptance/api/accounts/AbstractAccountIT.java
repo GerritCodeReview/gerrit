@@ -234,7 +234,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class AccountIT extends AbstractDaemonTest {
+public abstract class AbstractAccountIT extends AbstractDaemonTest {
   @ConfigSuite.Default
   public static Config enableSignedPushConfig() {
     Config cfg = new Config();

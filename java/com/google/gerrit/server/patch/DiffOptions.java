@@ -19,17 +19,31 @@ import com.google.auto.value.AutoValue;
 @AutoValue
 public abstract class DiffOptions {
   public static final DiffOptions DEFAULTS =
-      DiffOptions.builder().skipFilesWithAllEditsDueToRebase(true).build();
+      DiffOptions.builder()
+          .skipFilesWithAllEditsDueToRebase(true)
+          .skipRebaseFiltering(false)
+          .build();
 
   public abstract boolean skipFilesWithAllEditsDueToRebase();
 
+  /**
+   * Whether to skip the rebase-filtering algorithm in ModifiedFilesLoader.
+   *
+   * <p>If true, the full list of files changed between the two commits will be returned, even if
+   * they are not parent-child or do not share a common parent (e.g. general repository-level
+   * diffs).
+   */
+  public abstract boolean skipRebaseFiltering();
+
   public static DiffOptions.Builder builder() {
-    return new AutoValue_DiffOptions.Builder();
+    return new AutoValue_DiffOptions.Builder().skipRebaseFiltering(false);
   }
 
   @AutoValue.Builder
   public abstract static class Builder {
     public abstract Builder skipFilesWithAllEditsDueToRebase(boolean value);
+
+    public abstract Builder skipRebaseFiltering(boolean value);
 
     public abstract DiffOptions build();
   }

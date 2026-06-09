@@ -65,7 +65,26 @@ suite('gr-comment-thread screenshot tests', () => {
       changeNum: 1 as NumericChangeId,
       repo: 'test-repo-name' as RepoName,
     });
-    element = await fixture(html`<gr-comment-thread></gr-comment-thread>`);
+    const wrapper = await fixture(
+      html`
+        <div>
+          <style>
+            gr-comment-thread {
+              --comment-background-color: #e8eaed;
+              --unresolved-comment-background-color: #fef7e0;
+              --elevation-level-2: 0px 4px 8px rgba(0,0,0,0.15);
+              --border-radius: 4px;
+            }
+            .darkTheme gr-comment-thread {
+              --comment-background-color: #3c3f43;
+              --unresolved-comment-background-color: #614a19;
+            }
+          </style>
+          <gr-comment-thread></gr-comment-thread>
+        </div>
+      `
+    );
+    element = wrapper.querySelector('gr-comment-thread') as GrCommentThread;
     element.changeNum = 1 as NumericChangeId;
     element.showFileName = true;
     element.showFilePath = true;

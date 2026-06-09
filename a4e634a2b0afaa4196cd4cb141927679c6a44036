@@ -16,6 +16,24 @@
       "message": "Other than moving this here so that you unpark before doing `parked.addAll(notReady)`, I don\u0027t see any functional difference in the code. What am I missing?\n\nI ran my comment above ^ through an AI reviewer with your patch and it couldn\u0027t find a difference either. Here\u0027s its rewritten comment with some additional details:\n\nOther than moving `ready.unpark()` inside the loop so it runs before `parked.addAll(notReady)`, I don\u0027t see a functional difference. Both before and after this change, when the queue is `[CANCELLED, READY]` we `cancel()` the cancelled task (releasing it to run its cleanup) and `unpark()` the ready one, which is exactly the \"one extra task over the limit\" scenario the commit message describes. What prevents that double-release here? If the intent is that cancelling a task consumes the freed slot, shouldn\u0027t we stop before unparking another (e.g. break/skip the unpark on cancel)?\n\nSeparately: unparking before `parked.addAll(notReady)` re-adds the not-ready tasks leaves a brief window where they\u0027re absent from parked. Since `updateParked()` isn\u0027t synchronized and the unparked task\u0027s `onStop()` can re-enter it, the old ordering (`parked.addAll()` then `ready.unpark()`) seems safer here. Was the reorder deliberate?",
       "revId": "a4e634a2b0afaa4196cd4cb141927679c6a44036",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "304473bb_c6026772",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 748,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-06-09T21:59:13Z",
+      "side": 1,
+      "message": "Yeah, I think you are right, PS1 actually looks like it was correct because we end up breaking after either of the cancels.",
+      "parentUuid": "3fc9f264_32b33491",
+      "revId": "a4e634a2b0afaa4196cd4cb141927679c6a44036",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

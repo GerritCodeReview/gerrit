@@ -25,6 +25,7 @@ import {
   ChangeMessageId,
   CommentInfo,
   CommentInput,
+  CommitId,
   CommitInfo,
   ConfigInfo,
   ConfigInput,
@@ -208,6 +209,20 @@ export interface RestApiService extends Finalizable {
     offset?: number,
     errFn?: ErrorCallback
   ): Promise<BranchInfo[] | undefined>;
+
+
+  getProjectCommitDiff(
+    repo: RepoName,
+    commitId: CommitId,
+    baseCommitId: CommitId
+  ): Promise<FileNameToFileInfoMap | undefined>;
+
+  getProjectCommitFileDiff(
+    repo: RepoName,
+    commitId: CommitId,
+    baseCommitId: CommitId,
+    fileId: string
+  ): Promise<DiffInfo | undefined>;
 
   getChangeDetail(
     changeNum?: number | string,

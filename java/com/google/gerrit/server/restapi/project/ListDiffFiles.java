@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.project;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.common.FileInfo;
@@ -59,11 +60,13 @@ public class ListDiffFiles implements RestReadView<CommitResource> {
   @Option(name = "--name-only", usage = "return only the list of files")
   private boolean nameOnly;
 
+  @CanIgnoreReturnValue
   public ListDiffFiles setBase(String baseSha) {
     this.baseSha = baseSha;
     return this;
   }
 
+  @CanIgnoreReturnValue
   public ListDiffFiles setNameOnly(boolean nameOnly) {
     this.nameOnly = nameOnly;
     return this;

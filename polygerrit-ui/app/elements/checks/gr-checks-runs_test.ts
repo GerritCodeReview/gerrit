@@ -199,6 +199,29 @@ suite('gr-checks-run test', () => {
     );
   });
 
+  test('renders running check immediately', async () => {
+    element.run = {
+      ...checkRun0,
+      status: RunStatus.RUNNING,
+    };
+    await element.updateComplete;
+    assert.isTrue(element.shouldRender);
+  });
+
+  test('renders running check with number finishedTimestamp without crashing', async () => {
+    element.run = {
+      ...checkRun0,
+      status: RunStatus.RUNNING,
+      // 10 seconds in the future
+      finishedTimestamp: (new Date().getTime() + 10000) as unknown as Date,
+    };
+    await element.updateComplete;
+    assert.isTrue(element.shouldRender);
+    const eta = element.shadowRoot?.querySelector('.eta');
+    assert.isOk(eta);
+    assert.include(eta?.textContent, 'ETA:');
+  });
+
   test('renders checkRun0', async () => {
     element.shouldRender = true;
     element.run = checkRun0;

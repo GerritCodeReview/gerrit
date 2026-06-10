@@ -228,7 +228,20 @@ export class GrChecksRun extends LitElement {
     );
   }
 
+  override willUpdate(changedProperties: PropertyValues) {
+    super.willUpdate(changedProperties);
+    if (changedProperties.has('run') && this.run) {
+      if (
+        this.run.status === RunStatus.RUNNING ||
+        this.run.status === RunStatus.SCHEDULED
+      ) {
+        this.shouldRender = true;
+      }
+    }
+  }
+
   override firstUpdated() {
+    if (this.shouldRender) return;
     assertIsDefined(this.chipElement, 'chip element');
     whenVisible(this.chipElement, () => (this.shouldRender = true), 200);
   }
@@ -346,8 +359,10 @@ export class GrChecksRun extends LitElement {
     if (this.run.status !== RunStatus.RUNNING) return;
     if (!this.run.finishedTimestamp) return;
     const now = new Date();
-    if (this.run.finishedTimestamp.getTime() < now.getTime()) return;
-    const eta = durationString(new Date(), this.run.finishedTimestamp);
+    const finished = new Date(this.run.finishedTimestamp);
+    if (isNaN(finished.getTime())) return;
+    if (finished.getTime() < now.getTime()) return;
+    const eta = durationString(new Date(), finished);
     return html`<span class="eta">ETA: ${eta}</span>`;
   }
 

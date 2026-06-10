@@ -34,6 +34,24 @@
       "parentUuid": "3e600880_de129ede",
       "revId": "627ce6c5f2977f85e8cd4548151c00570fb8deea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c95124db_909f1947",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-10T12:51:15Z",
+      "side": 1,
+      "message": "\u003e \u003e This would break a lot of plugin;\n\u003e \n\u003e What plugin build breakage are you referring to?\n\u003e \n\u003e If the concern is the coordinate change from `@gson//jar` to `//lib:gson`, this should not affect most plugin builds.\n\u003e \n\u003e This change is largely a no-op because WORKSPACE-mode dependencies through external_plugin_deps.bzl remain fully supported, the same as on stable-3.14.\n\u003e \n\u003e Could you provide a specific example of a plugin that would break?\n\nOne example: https://gerrit-review.googlesource.com/c/plugins/owners/+/565721\n\nThere are many more breakages we fixed in stable-3.14 on the plugins side. That was expected for a brand-new version of Gerrit, not a problem at all. The community won\u0027t expect similar breakages on a stable-3.12, which has been around for over one year.",
+      "parentUuid": "f286189e_3356a50a",
+      "revId": "627ce6c5f2977f85e8cd4548151c00570fb8deea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

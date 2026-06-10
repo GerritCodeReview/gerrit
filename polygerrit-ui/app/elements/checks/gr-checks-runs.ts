@@ -228,7 +228,20 @@ export class GrChecksRun extends LitElement {
     );
   }
 
+  override willUpdate(changedProperties: PropertyValues) {
+    super.willUpdate(changedProperties);
+    if (changedProperties.has('run') && this.run) {
+      if (
+        this.run.status === RunStatus.RUNNING ||
+        this.run.status === RunStatus.SCHEDULED
+      ) {
+        this.shouldRender = true;
+      }
+    }
+  }
+
   override firstUpdated() {
+    if (this.shouldRender) return;
     assertIsDefined(this.chipElement, 'chip element');
     whenVisible(this.chipElement, () => (this.shouldRender = true), 200);
   }

@@ -199,6 +199,15 @@ suite('gr-checks-run test', () => {
     );
   });
 
+  test('renders running check immediately', async () => {
+    element.run = {
+      ...checkRun0,
+      status: RunStatus.RUNNING,
+    };
+    await element.updateComplete;
+    assert.isTrue(element.shouldRender);
+  });
+
   test('renders checkRun0', async () => {
     element.shouldRender = true;
     element.run = checkRun0;

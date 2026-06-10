@@ -30,65 +30,67 @@ and fortifies the integrity of our continuous integration pipelines.
 
 ## Summary
 
-| Chapter Theme / Title               | Scope & Objective                      |
-| :---------------------------------- | :------------------------------------- |
-| **Downstream Ecosystem Deployment   | Governs the coordination of release    |
-: Synchronization**                   : timelines and cross-project dependency :
-:                                     : management for external plugins across :
-:                                     : isolated, downstream Gerrit            :
-:                                     : deployments. Requires strict auditing  :
-:                                     : to prevent integration failures during :
-:                                     : core platform rollouts.                :
-| **TypeScript Code Formatting &      | Defines structural code style and      |
-: Syntax Normalization**              : linting mandates for frontend          :
-:                                     : TypeScript components. Strict          :
-:                                     : enforcement of formatting rules, such  :
-:                                     : as whitespace removal and line-length  :
-:                                     : constraints, ensures optimal diff      :
-:                                     : readability and prevents automated CI  :
-:                                     : pipeline failures.                     :
-| **Proprietary Infrastructure        | Establishes strict boundaries for      |
-: Encapsulation**                     : documenting public APIs by forbidding  :
-:                                     : the leakage of proprietary backend     :
-:                                     : paths or internal corporate URLs.      :
-:                                     : Ensures environment encapsulation and  :
-:                                     : prevents exposing dead links or opaque :
-:                                     : references to open-source              :
-:                                     : contributors.                          :
-| **Client-Side Request               | Governs the optimization of frontend   |
-: Parallelization**                   : loading metrics by transitioning       :
-:                                     : monolithic or batched server-side      :
-:                                     : queries into parallelized,             :
-:                                     : asynchronous client-side fan-out       :
-:                                     : requests. Mandates concurrent          :
-:                                     : execution to improve performance and   :
-:                                     : simplify caching logic.                :
-| **Experiment Decommissioning & Dead | Dictates the mandatory cleanup         |
-: Code Elimination**                  : required when promoting successful     :
-:                                     : experimental features to default       :
-:                                     : behavior. Enforces the strict          :
-:                                     : elimination of legacy fallback         :
-:                                     : methods, feature flag evaluations, and :
-:                                     : outdated service dependencies to       :
-:                                     : prevent dead code accumulation.        :
-| **Commit Metadata & Release Note    | Mandates the injection of structured   |
-: Automation**                        : git footers into commit messages.      :
-:                                     : Strict adherence ensures that          :
-:                                     : automated CI/CD pipelines successfully :
-:                                     : parse and generate accurate changelogs :
-:                                     : and release notes without manual       :
-:                                     : intervention.                          :
-| **Visual Regression Test            | Governs strategies for eliminating     |
-: Determinism**                       : visual regression test flakiness by    :
-:                                     : deliberately orchestrating             :
-:                                     : deterministic, transitional UI states. :
-:                                     : Establishes the standard of            :
-:                                     : intentionally omitting API mocks to    :
-:                                     : reliably capture loading states during :
-:                                     : screenshot baseline generation.        :
+| Chapter Theme / Title               | Scope & Objective                   |
+| :---------------------------------- | :---------------------------------- |
+| \*\*Downstream Ecosystem Deployment | Governs the coordination of release |
 
---------------------------------------------------------------------------------
---------------------------------------------------------------------------------
+: Synchronization** : timelines and cross-project dependency :
+: : management for external plugins across :
+: : isolated, downstream Gerrit :
+: : deployments. Requires strict auditing :
+: : to prevent integration failures during :
+: : core platform rollouts. :
+| **TypeScript Code Formatting & | Defines structural code style and |
+: Syntax Normalization** : linting mandates for frontend :
+: : TypeScript components. Strict :
+: : enforcement of formatting rules, such :
+: : as whitespace removal and line-length :
+: : constraints, ensures optimal diff :
+: : readability and prevents automated CI :
+: : pipeline failures. :
+| **Proprietary Infrastructure | Establishes strict boundaries for |
+: Encapsulation** : documenting public APIs by forbidding :
+: : the leakage of proprietary backend :
+: : paths or internal corporate URLs. :
+: : Ensures environment encapsulation and :
+: : prevents exposing dead links or opaque :
+: : references to open-source :
+: : contributors. :
+| **Client-Side Request | Governs the optimization of frontend |
+: Parallelization** : loading metrics by transitioning :
+: : monolithic or batched server-side :
+: : queries into parallelized, :
+: : asynchronous client-side fan-out :
+: : requests. Mandates concurrent :
+: : execution to improve performance and :
+: : simplify caching logic. :
+| **Experiment Decommissioning & Dead | Dictates the mandatory cleanup |
+: Code Elimination** : required when promoting successful :
+: : experimental features to default :
+: : behavior. Enforces the strict :
+: : elimination of legacy fallback :
+: : methods, feature flag evaluations, and :
+: : outdated service dependencies to :
+: : prevent dead code accumulation. :
+| **Commit Metadata & Release Note | Mandates the injection of structured |
+: Automation** : git footers into commit messages. :
+: : Strict adherence ensures that :
+: : automated CI/CD pipelines successfully :
+: : parse and generate accurate changelogs :
+: : and release notes without manual :
+: : intervention. :
+| **Visual Regression Test | Governs strategies for eliminating |
+: Determinism\*\* : visual regression test flakiness by :
+: : deliberately orchestrating :
+: : deterministic, transitional UI states. :
+: : Establishes the standard of :
+: : intentionally omitting API mocks to :
+: : reliably capture loading states during :
+: : screenshot baseline generation. :
+
+---
+
+---
 
 ## Chapter: Downstream Ecosystem Deployment Synchronization
 
@@ -99,14 +101,15 @@ required to prevent integration failures when rolling out core platform updates.
 
 ### Summary
 
-| Rule ID   | Principle / Constraint  | Priority | Primary Symptom / Trap      |
-| :-------- | :---------------------- | :------- | :-------------------------- |
-| **T1-01** | Downstream Plugin       | High     | Proceeding with a core      |
-:           : Dependency Verification :          : release timeline without    :
-:           : During Core Rollout     :          : verifying downstream custom :
-:           :                         :          : plugin compatibility.       :
+| Rule ID   | Principle / Constraint | Priority | Primary Symptom / Trap |
+| :-------- | :--------------------- | :------- | :--------------------- |
+| **T1-01** | Downstream Plugin      | High     | Proceeding with a core |
 
---------------------------------------------------------------------------------
+: : Dependency Verification : : release timeline without :
+: : During Core Rollout : : verifying downstream custom :
+: : : : plugin compatibility. :
+
+---
 
 ### Rules
 
@@ -133,13 +136,13 @@ custom plugin compatibility.**
 
 **Don't:**
 
-*   Roll out the core release independently of external plugin compatibility
-    states.
+- Roll out the core release independently of external plugin compatibility
+  states.
 
 **Do:**
 
-*   Audit and flag downstream plugin requirements (e.g., avatars-external) for
-    updates prior to or alongside the core release.
+- Audit and flag downstream plugin requirements (e.g., avatars-external) for
+  updates prior to or alongside the core release.
 
 ## Chapter: TypeScript Code Formatting & Syntax Normalization
 
@@ -150,15 +153,16 @@ readability and prevents automated CI pipeline failures.
 
 ### Summary
 
-| Rule ID   | Principle / Constraint | Priority | Primary Symptom / Trap    |
-| :-------- | :--------------------- | :------- | :------------------------ |
-| **T2-01** | Strict Trailing        | Medium   | Chaining long promise     |
-:           : Whitespace and Line    :          : callbacks or variable     :
-:           : Length Formatting      :          : assignments on a single   :
-:           :                        :          : line, or leaving trailing :
-:           :                        :          : spaces on empty lines.    :
+| Rule ID   | Principle / Constraint | Priority | Primary Symptom / Trap |
+| :-------- | :--------------------- | :------- | :--------------------- |
+| **T2-01** | Strict Trailing        | Medium   | Chaining long promise  |
 
---------------------------------------------------------------------------------
+: : Whitespace and Line : : callbacks or variable :
+: : Length Formatting : : assignments on a single :
+: : : : line, or leaving trailing :
+: : : : spaces on empty lines. :
+
+---
 
 ### Rules
 
@@ -206,19 +210,20 @@ exposing dead links or opaque references to open-source contributors.
 
 ### Summary
 
-| Rule ID   | Principle / Constraint    | Priority | Primary Symptom / Trap    |
-| :-------- | :------------------------ | :------- | :------------------------ |
-| **T3-01** | Omission of Proprietary   | Medium   | Pasting internal          |
-:           : Infrastructure Paths from :          : repository file paths     :
-:           : Enum Documentation        :          : into the docblock of an   :
-:           :                           :          : interface or Enum.        :
-| **T3-02** | Exclusion of Internal     | Medium   | Using proprietary         |
-:           : Code Search URIs from     :          : internal code search URLs :
-:           : Interface Types           :          : to provide examples of    :
-:           :                           :          : acceptable payload        :
-:           :                           :          : strings.                  :
+| Rule ID   | Principle / Constraint  | Priority | Primary Symptom / Trap |
+| :-------- | :---------------------- | :------- | :--------------------- |
+| **T3-01** | Omission of Proprietary | Medium   | Pasting internal       |
 
---------------------------------------------------------------------------------
+: : Infrastructure Paths from : : repository file paths :
+: : Enum Documentation : : into the docblock of an :
+: : : : interface or Enum. :
+| **T3-02** | Exclusion of Internal | Medium | Using proprietary |
+: : Code Search URIs from : : internal code search URLs :
+: : Interface Types : : to provide examples of :
+: : : : acceptable payload :
+: : : : strings. :
+
+---
 
 ### Rules
 
@@ -305,11 +310,12 @@ caching logic.
 | Rule ID   | Principle / Constraint  | Priority | Primary Symptom / Trap |
 | :-------- | :---------------------- | :------- | :--------------------- |
 | **T4-01** | Client-Side Fan-out for | High     | Forwarding an array of |
-:           : Dashboard Query         :          : queries to a dedicated :
-:           : Processing              :          : multi-query endpoint   :
-:           :                         :          : method.                :
 
---------------------------------------------------------------------------------
+: : Dashboard Query : : queries to a dedicated :
+: : Processing : : multi-query endpoint :
+: : : : method. :
+
+---
 
 ### Rules
 
@@ -337,29 +343,34 @@ method.**
 **Don't:**
 
 ```typescript
-return this.getChangesForMultipleQueries(changesPerPage, queries, offset, options);
+return this.getChangesForMultipleQueries(
+  changesPerPage,
+  queries,
+  offset,
+  options
+);
 ```
 
 **Do:**
 
 ```typescript
-const requestPromises = queries.map(query =>
+const requestPromises = queries.map((query) =>
   this.getChanges(changesPerPage, query, offset, options)
 );
-return Promise.all(requestPromises).then(results => {
+return Promise.all(requestPromises).then((results) => {
   if (results.includes(undefined)) return undefined;
   return results as ChangeInfo[][];
 });
 ```
 
---------------------------------------------------------------------------------
+---
 
 ### Cross-Domain Dependencies
 
-*   **Downstream:** T5 | Experiment Decommissioning & Dead Code Elimination -
-    *Transitioning to client-side fan-outs routinely exposes obsolete backend
-    batching mechanisms and experimental feature flags that must be subsequently
-    purged.*
+- **Downstream:** T5 | Experiment Decommissioning & Dead Code Elimination -
+  _Transitioning to client-side fan-outs routinely exposes obsolete backend
+  batching mechanisms and experimental feature flags that must be subsequently
+  purged._
 
 ## Chapter: Experiment Decommissioning & Dead Code Elimination
 
@@ -370,15 +381,16 @@ service dependencies to prevent dead code accumulation.
 
 ### Summary
 
-| Rule ID   | Principle / Constraint    | Priority | Primary Symptom / Trap    |
-| :-------- | :------------------------ | :------- | :------------------------ |
-| **T5-01** | Aggressive Pruning of     | Medium   | Leaving the legacy        |
-:           : Decommissioned Experiment :          : fallback method in the    :
-:           : Fallbacks                 :          : class after removing the  :
-:           :                           :          : experiment flag toggle    :
-:           :                           :          : and its invocation block. :
+| Rule ID   | Principle / Constraint | Priority | Primary Symptom / Trap |
+| :-------- | :--------------------- | :------- | :--------------------- |
+| **T5-01** | Aggressive Pruning of  | Medium   | Leaving the legacy     |
 
---------------------------------------------------------------------------------
+: : Decommissioned Experiment : : fallback method in the :
+: : Fallbacks : : class after removing the :
+: : : : experiment flag toggle :
+: : : : and its invocation block. :
+
+---
 
 ### Rules
 
@@ -406,21 +418,21 @@ experiment flag toggle and its invocation block.**
 
 **Don't:**
 
-*   Remove the `if (experimentEnabled)` evaluation, but leave
-    `getChangesForMultipleQueries(queries)` declared in the class definition.
+- Remove the `if (experimentEnabled)` evaluation, but leave
+  `getChangesForMultipleQueries(queries)` declared in the class definition.
 
 **Do:**
 
-*   Delete the deprecated fallback method `getChangesForMultipleQueries`
-    entirely to ensure no other components attempt to invoke it.
+- Delete the deprecated fallback method `getChangesForMultipleQueries`
+  entirely to ensure no other components attempt to invoke it.
 
---------------------------------------------------------------------------------
+---
 
 ### Cross-Domain Dependencies
 
-*   **Upstream:** T4 | Client-Side Request Parallelization - *Transitioning to
-    parallelized client-side requests triggers the deprecation and subsequent
-    cleanup of legacy monolithic server-side queries.*
+- **Upstream:** T4 | Client-Side Request Parallelization - _Transitioning to
+  parallelized client-side requests triggers the deprecation and subsequent
+  cleanup of legacy monolithic server-side queries._
 
 ## Chapter: Commit Metadata & Release Note Automation
 
@@ -431,14 +443,15 @@ manual intervention.
 
 ### Summary
 
-| Rule ID   | Principle / Constraint  | Priority | Primary Symptom / Trap      |
-| :-------- | :---------------------- | :------- | :-------------------------- |
-| **T6-01** | Mandatory Release-Notes | High     | Omitting the footer         |
-:           : Footer Injection        :          : entirely or formatting the  :
-:           :                         :          : release note description as :
-:           :                         :          : a multi-line paragraph.     :
+| Rule ID   | Principle / Constraint  | Priority | Primary Symptom / Trap |
+| :-------- | :---------------------- | :------- | :--------------------- |
+| **T6-01** | Mandatory Release-Notes | High     | Omitting the footer    |
 
---------------------------------------------------------------------------------
+: : Footer Injection : : entirely or formatting the :
+: : : : release note description as :
+: : : : a multi-line paragraph. :
+
+---
 
 ### Rules
 
@@ -469,17 +482,17 @@ description as a multi-line paragraph.**
 
 **Don't:**
 
-*   Submit a commit without an explicit `Release-Notes:` footer, or spread the
-    release note description across multiple lines in the commit body.
+- Submit a commit without an explicit `Release-Notes:` footer, or spread the
+  release note description across multiple lines in the commit body.
 
 **Do:**
 
-*   For major features or configuration changes: Append a single-line footer with a
-    descriptive summary, e.g.:
-    `Release-Notes: Add config to control if review footers should be included into the commit message on submit`
-*   For minor adjustments (such as fixing accidental clicks by adding spacing),
-    trivial fixes, or refactorings: A detailed release note description can still be
-    provided if desired, but appending `Release-Notes: skip` is completely acceptable.
+- For major features or configuration changes: Append a single-line footer with a
+  descriptive summary, e.g.:
+  `Release-Notes: Add config to control if review footers should be included into the commit message on submit`
+- For minor adjustments (such as fixing accidental clicks by adding spacing),
+  trivial fixes, or refactorings: A detailed release note description can still be
+  provided if desired, but appending `Release-Notes: skip` is completely acceptable.
 
 **Exceptions:** None. The `Release-Notes:` footer must be present on all commits,
 but the value `skip` is always acceptable.
@@ -497,13 +510,14 @@ screenshot baseline generation.
 | Rule ID   | Principle / Constraint  | Priority | Primary Symptom / Trap      |
 | :-------- | :---------------------- | :------- | :-------------------------- |
 | **T7-01** | Intentional Omission of | High     | Mocking all APIs by default |
-:           : Mocks for Deterministic :          : in a screenshot test,       :
-:           : UI Baselines            :          : causing a race condition    :
-:           :                         :          : where the mock resolves     :
-:           :                         :          : faster than the screenshot  :
-:           :                         :          : is taken.                   :
 
---------------------------------------------------------------------------------
+: : Mocks for Deterministic : : in a screenshot test, :
+: : UI Baselines : : causing a race condition :
+: : : : where the mock resolves :
+: : : : faster than the screenshot :
+: : : : is taken. :
+
+---
 
 ### Rules
 
@@ -532,11 +546,11 @@ condition where the mock resolves faster than the screenshot is taken.**
 
 **Don't:**
 
-*   Providing mock responses for the API in order to capture the transitional
-    loading state, introducing timing-based flakiness.
+- Providing mock responses for the API in order to capture the transitional
+  loading state, introducing timing-based flakiness.
 
 **Do:**
 
-*   Leave the data-fetching API unmocked so the component indefinitely hangs in
-    its transitional `loading` state, yielding a 100% deterministic screenshot
-    of the loader.
+- Leave the data-fetching API unmocked so the component indefinitely hangs in
+  its transitional `loading` state, yielding a 100% deterministic screenshot
+  of the loader.

@@ -52,6 +52,24 @@
       "parentUuid": "f286189e_3356a50a",
       "revId": "627ce6c5f2977f85e8cd4548151c00570fb8deea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f0ef83c1_c7ebbd93",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-06-10T14:26:46Z",
+      "side": 1,
+      "message": "Thanks for the concrete example — but I don\u0027t think it argues against the backport.\n\nThe owners breakage you cited isn\u0027t `bzlmod`-specific. It comes from the plugin reaching into the external repository directly:\n\n```\n    \"@prolog-runtime//jar:neverlink\"\n```\n\nThat tight coupling was always brittle — *any* change to how Gerrit sources third-party libraries (a `maven_jar` rename, switching resolvers, or `bzlmod`) would surface as a plugin break. The cherry-pick you linked doesn\u0027t actually solve that; it hand-rolls a wrapper that re-exports `@external_deps//:com_googlecode_prolog_cafe_prolog_runtime` — still tightly coupled to the new resolver\u0027s repo name.\n\nGerrit already exposes the canonical in-tree label `//lib/prolog:runtime-neverlink`, exactly so plugins don\u0027t need to know how the runtime is sourced. One-line fix on today\u0027s stable-3.12, no backport needed:\n\n```\n    -        \"@prolog-runtime//jar:neverlink\",\n    +        \"//lib/prolog:runtime-neverlink\",\n```\n\nI\u0027ve staged this on stable-3.12: change 593281. It applies cleanly without the `bzlmod` backport AND survives the backport unchanged — it is neutral to the migration. So that example reflects a pre-existing layering problem, *not* a `bzlmod`-induced regression.\n\nCould you point at a plugin where the `bzlmod` backport itself (not pre-existing direct reaches into internal repo aliases) actually breaks something? Happy to evaluate concrete cases — but for cases like the above the right fix is the same regardless of whether the backport lands.",
+      "parentUuid": "c95124db_909f1947",
+      "revId": "627ce6c5f2977f85e8cd4548151c00570fb8deea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

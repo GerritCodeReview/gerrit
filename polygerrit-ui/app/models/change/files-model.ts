@@ -116,7 +116,7 @@ export interface FilesState {
    * Basic file and diff information of all files for the currently chosen
    * patch range.
    */
-  files: NormalizedFileInfo[];
+  rawFiles: NormalizedFileInfo[];
 
   /**
    * Basic file and diff information of all files for the left chosen patchset
@@ -133,18 +133,47 @@ export interface FilesState {
    * Empty if the left chosen patchset is PARENT.
    */
   filesRightBase: NormalizedFileInfo[];
+  loadAllFiles: boolean;
 }
 
 const initialState: FilesState = {
-  files: [],
+  rawFiles: [],
   filesLeftBase: [],
   filesRightBase: [],
+  loadAllFiles: false,
 };
 
 export const filesModelToken = define<FilesModel>('files-model');
 
+/** Maximum number of files to show in the file list to prevent browser OOM. */
+export const MAX_FILES_LIMIT = 1000;
+
 export class FilesModel extends Model<FilesState> {
-  public readonly files$ = select(this.state$, state => state.files);
+  readonly rawFiles$ = select(this.state$, state => state.rawFiles);
+
+  readonly loadAllFiles$ = select(this.state$, state => state.loadAllFiles);
+
+  readonly files$ = select(
+    combineLatest([this.rawFiles$, this.loadAllFiles$]),
+    ([rawFiles, loadAllFiles]) => {
+      if (!loadAllFiles && rawFiles.length > MAX_FILES_LIMIT) {
+        return rawFiles.slice(0, MAX_FILES_LIMIT);
+      }
+      return rawFiles;
+    }
+  );
+
+  readonly filesTruncated$ = select(
+    combineLatest([this.rawFiles$, this.loadAllFiles$]),
+    ([rawFiles, loadAllFiles]) => {
+      return !loadAllFiles && rawFiles.length > MAX_FILES_LIMIT;
+    }
+  );
+
+  readonly totalFilesCount$ = select(
+    this.state$,
+    state => state.rawFiles.length
+  );
 
   public file$ = (path$: Observable<string | undefined>) =>
     combineLatest([path$, this.files$]).pipe(
@@ -191,7 +220,7 @@ export class FilesModel extends Model<FilesState> {
           return {basePatchNum: psLeft, patchNum: psRight};
         },
         files => {
-          return {files: [...files]};
+          return {rawFiles: [...files]};
         }
       ),
       this.subscribeToFiles(
@@ -235,6 +264,11 @@ export class FilesModel extends Model<FilesState> {
         }
       }
     );
+  }
+
+  /** Toggles whether to load all files, bypassing the safety limit. */
+  setLoadAllFiles(loadAll: boolean) {
+    this.updateState({loadAllFiles: loadAll});
   }
 
   private subscribeToFiles(

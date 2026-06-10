@@ -359,6 +359,7 @@ export class GrCommentThread extends LitElement {
           font-size: var(--font-size-normal);
           font-weight: var(--font-weight-normal);
           line-height: var(--line-height-normal);
+          container-type: inline-size;
         }
         gr-diff#diff {
           /* Explicitly set the background color of the diff. We
@@ -421,7 +422,7 @@ export class GrCommentThread extends LitElement {
         .fileName {
           padding: var(--spacing-m) var(--spacing-s) var(--spacing-m);
         }
-        @media only screen and (max-width: 1200px) {
+        @container (max-width: 1200px) {
           .diff-container {
             display: none;
           }

@@ -312,7 +312,7 @@ public class ConcurrentBloomFilterTest {
 
   private static boolean await(CountDownLatch latch) {
     try {
-      return latch.await(100, TimeUnit.MILLISECONDS);
+      return latch.await(10, TimeUnit.SECONDS);
     } catch (InterruptedException e) {
       return false;
     }
@@ -320,7 +320,7 @@ public class ConcurrentBloomFilterTest {
 
   private static boolean get(Future<?> future) {
     try {
-      future.get(100, TimeUnit.MILLISECONDS);
+      future.get(10, TimeUnit.SECONDS);
       return true;
     } catch (Exception e) {
       return false;

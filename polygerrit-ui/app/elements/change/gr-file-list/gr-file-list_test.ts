@@ -51,7 +51,7 @@ import {GrFileList, NormalizedFileInfo} from './gr-file-list';
 import {FileInfo, PatchSetNumber} from '../../../api/rest-api';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {ParsedChangeInfo} from '../../../types/types';
-import {normalize} from '../../../models/change/files-model';
+import {normalize, FilesModel, filesModelToken} from '../../../models/change/files-model';
 import {GrDiffHost} from '../../diff/gr-diff-host/gr-diff-host';
 import {GrEditFileControls} from '../../edit/gr-edit-file-controls/gr-edit-file-controls';
 import {GrIcon} from '../../shared/gr-icon/gr-icon';
@@ -2400,6 +2400,68 @@ suite('gr-file-list tests', () => {
         'invisible'
       );
       assert.equal(element.computeClass('', 'file.java'), '');
+    });
+  });
+
+  suite('safety limit warning', () => {
+    let filesModel: FilesModel;
+
+    setup(async () => {
+      filesModel = testResolver(filesModelToken);
+      filesModel.updateState({
+        rawFiles: [],
+        loadAllFiles: false,
+      });
+      await element.updateComplete;
+    });
+
+    test('warning banner is hidden by default', () => {
+      assert.shadowDom.notIncludes(element, '.warning-banner');
+    });
+
+    test('warning banner is shown when truncated', async () => {
+      const mockFiles = createFiles(1200);
+      filesModel.updateState({
+        rawFiles: mockFiles,
+      });
+      await element.updateComplete;
+
+      const banner = queryAndAssert(element, '.warning-banner');
+      assert.dom.equal(
+        banner,
+        /* HTML */ `
+          <div class="warning-banner">
+            <gr-icon icon="warning" class="warning-icon"></gr-icon>
+            <span>
+              Warning: This change has 1200 files. PolyGerrit only displays the first 1000 files to prevent browser performance issues.
+            </span>
+            <gr-button link="">
+              Load all files (may crash browser)
+            </gr-button>
+          </div>
+        `
+      );
+    });
+
+    test('clicking load all button loads all files', async () => {
+      const mockFiles = createFiles(1200);
+      filesModel.updateState({
+        rawFiles: mockFiles,
+      });
+      await element.updateComplete;
+
+      const setLoadAllSpy = sinon.spy(filesModel, 'setLoadAllFiles');
+
+      const loadAllButton = queryAndAssert<GrButton>(
+        element,
+        '.warning-banner gr-button'
+      );
+      loadAllButton.click();
+
+      assert.isTrue(setLoadAllSpy.calledWith(true));
+
+      await element.updateComplete;
+      assert.shadowDom.notIncludes(element, '.warning-banner');
     });
   });
 });

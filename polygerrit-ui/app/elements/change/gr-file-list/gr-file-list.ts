@@ -237,6 +237,14 @@ export class GrFileList extends LitElement {
   @state()
   files: NormalizedFileInfo[] = [];
 
+  // tslint:disable-next-line:no-new-decorators
+  @state()
+  private filesTruncated = false;
+
+  // tslint:disable-next-line:no-new-decorators
+  @state()
+  private totalFilesCount = 0;
+
   @state()
   private modifiedFiles: NormalizedFileInfo[] = [];
 
@@ -735,6 +743,23 @@ export class GrFileList extends LitElement {
             }
           }
         }
+        .warning-banner {
+          background-color: var(--warning-background);
+          border: 1px solid var(--warning-foreground);
+          padding: var(--spacing-m);
+          margin: var(--spacing-m) 0;
+          display: flex;
+          align-items: center;
+          gap: var(--spacing-m);
+        }
+        .warning-banner gr-icon {
+          color: var(--warning-foreground);
+          font-size: 20px;
+        }
+        .warning-banner gr-button {
+          margin-left: auto;
+          --gr-button-text-color: var(--warning-foreground);
+        }
       `,
     ];
   }
@@ -921,6 +946,20 @@ export class GrFileList extends LitElement {
       () => this.getChangeModel().basePatchNum$,
       x => (this.basePatchNum = x)
     );
+    subscribe(
+      this,
+      () => this.getFilesModel().filesTruncated$,
+      truncated => {
+        this.filesTruncated = truncated;
+      }
+    );
+    subscribe(
+      this,
+      () => this.getFilesModel().totalFilesCount$,
+      count => {
+        this.totalFilesCount = count;
+      }
+    );
   }
 
   override willUpdate(changedProperties: PropertyValues): void {
@@ -1047,12 +1086,34 @@ export class GrFileList extends LitElement {
         role="grid"
         aria-label="Files list"
       >
-        ${this.renderHeaderRow()} ${this.renderShownFiles()}
+        ${this.renderHeaderRow()}
+        ${this.renderWarningRow()}
+        ${this.renderShownFiles()}
         ${when(this.computeShowNumCleanlyMerged(), () =>
           this.renderCleanlyMerged()
         )}
       </div>
     `;
+  }
+
+  private renderWarningRow() {
+    if (!this.filesTruncated) return nothing;
+
+    return html`
+      <div class="warning-banner" role="row">
+        <gr-icon icon="warning" class="warning-icon"></gr-icon>
+        <span>
+          Warning: This change has ${this.totalFilesCount} files. PolyGerrit only displays the first 1000 files to prevent browser performance issues.
+        </span>
+        <gr-button link @click=${this.handleLoadAllFiles}>
+          Load all files (may crash browser)
+        </gr-button>
+      </div>
+    `;
+  }
+
+  private handleLoadAllFiles() {
+    this.getFilesModel().setLoadAllFiles(true);
   }
 
   private renderHeaderRow() {

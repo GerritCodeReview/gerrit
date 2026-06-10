@@ -102,7 +102,7 @@ public class DiffOperationsImpl implements DiffOperations {
   }
 
   @Inject
-  public DiffOperationsImpl(
+  DiffOperationsImpl(
       GitRepositoryManager repoManager,
       ModifiedFilesCache modifiedFilesCache,
       ModifiedFilesCacheImpl modifiedFilesCacheImpl,
@@ -147,6 +147,80 @@ public class DiffOperationsImpl implements DiffOperations {
               "Unable to load modified files of commit %s in project %s",
               newCommit.name(), project),
           e);
+    }
+  }
+
+  private ImmutableMap<String, FileDiffOutput> getModifiedFiles(
+      DiffParameters diffParams, DiffOptions diffOptions) throws DiffNotAvailableException {
+    logger.atFine().log(
+        "getModifiedFiles (diffParams: %s, diffOptions: %s)", diffParams, diffOptions);
+    try {
+      Project.NameKey project = diffParams.project();
+      ObjectId newCommit = diffParams.newCommit();
+      ObjectId oldCommit = diffParams.baseCommit();
+      ComparisonType cmp = diffParams.comparisonType();
+
+      ImmutableList<ModifiedFile> modifiedFiles;
+      if (diffOptions.skipRebaseFiltering()) {
+        try (Repository repo = repoManager.openRepository(project);
+            RevWalk revWalk = new RevWalk(repo)) {
+          ModifiedFilesLoader loader =
+              modifiedFilesLoaderFactory
+                  .createWithRetrievingModifiedFilesForTreesFromGitModifiedFilesCache()
+                  .withSkipRebaseFiltering(true);
+          loader.withRenameDetection(RENAME_SCORE);
+          modifiedFiles = loader.load(project, repo.getConfig(), revWalk, oldCommit, newCommit);
+        }
+      } else {
+        modifiedFiles =
+            modifiedFilesCache.get(createModifiedFilesKey(project, oldCommit, newCommit));
+      }
+
+      boolean useTimeout =
+          experimentFeatures.isFeatureEnabled(
+              ExperimentFeaturesConstants.TIMEOUT_FILE_DIFF_COMPUTATION, project);
+      List<FileDiffCacheKey> fileCacheKeys = new ArrayList<>();
+      fileCacheKeys.add(
+          createFileDiffCacheKey(
+              project,
+              oldCommit,
+              newCommit,
+              COMMIT_MSG,
+              DEFAULT_DIFF_ALGORITHM,
+              useTimeout,
+              /* whitespace= */ null));
+
+      if (cmp.isAgainstAutoMerge() || isMergeAgainstParent(cmp, project, newCommit)) {
+        fileCacheKeys.add(
+            createFileDiffCacheKey(
+                project,
+                oldCommit,
+                newCommit,
+                MERGE_LIST,
+                DEFAULT_DIFF_ALGORITHM,
+                useTimeout,
+                /* whitespace= */ null));
+      }
+
+      if (diffParams.skipFiles() == null) {
+        modifiedFiles.stream()
+            .map(
+                entity ->
+                    createFileDiffCacheKey(
+                        project,
+                        oldCommit,
+                        newCommit,
+                        entity.newPath().isPresent()
+                            ? entity.newPath().get()
+                            : entity.oldPath().get(),
+                        DEFAULT_DIFF_ALGORITHM,
+                        useTimeout,
+                        /* whitespace= */ null))
+            .forEach(fileCacheKeys::add);
+      }
+      return getModifiedFilesForKeys(fileCacheKeys, diffOptions);
+    } catch (IOException e) {
+      throw new DiffNotAvailableException(e);
     }
   }
 
@@ -296,80 +370,6 @@ public class DiffOperationsImpl implements DiffOperations {
     return getModifiedFileForKey(key, diffOptions);
   }
 
-  private ImmutableMap<String, FileDiffOutput> getModifiedFiles(
-      DiffParameters diffParams, DiffOptions diffOptions) throws DiffNotAvailableException {
-    logger.atFine().log(
-        "getModifiedFiles (diffParams: %s, diffOptions: %s)", diffParams, diffOptions);
-    try {
-      Project.NameKey project = diffParams.project();
-      ObjectId newCommit = diffParams.newCommit();
-      ObjectId oldCommit = diffParams.baseCommit();
-      ComparisonType cmp = diffParams.comparisonType();
-
-      ImmutableList<ModifiedFile> modifiedFiles;
-      if (diffOptions.skipRebaseFiltering()) {
-        try (Repository repo = repoManager.openRepository(project);
-            RevWalk revWalk = new RevWalk(repo)) {
-          ModifiedFilesLoader loader =
-              modifiedFilesLoaderFactory
-                  .createWithRetrievingModifiedFilesForTreesFromGitModifiedFilesCache()
-                  .withSkipRebaseFiltering(true);
-          loader.withRenameDetection(RENAME_SCORE);
-          modifiedFiles = loader.load(project, repo.getConfig(), revWalk, oldCommit, newCommit);
-        }
-      } else {
-        modifiedFiles =
-            modifiedFilesCache.get(createModifiedFilesKey(project, oldCommit, newCommit));
-      }
-
-      boolean useTimeout =
-          experimentFeatures.isFeatureEnabled(
-              ExperimentFeaturesConstants.TIMEOUT_FILE_DIFF_COMPUTATION, project);
-      List<FileDiffCacheKey> fileCacheKeys = new ArrayList<>();
-      fileCacheKeys.add(
-          createFileDiffCacheKey(
-              project,
-              oldCommit,
-              newCommit,
-              COMMIT_MSG,
-              DEFAULT_DIFF_ALGORITHM,
-              useTimeout,
-              /* whitespace= */ null));
-
-      if (cmp.isAgainstAutoMerge() || isMergeAgainstParent(cmp, project, newCommit)) {
-        fileCacheKeys.add(
-            createFileDiffCacheKey(
-                project,
-                oldCommit,
-                newCommit,
-                MERGE_LIST,
-                DEFAULT_DIFF_ALGORITHM,
-                useTimeout,
-                /* whitespace= */ null));
-      }
-
-      if (diffParams.skipFiles() == null) {
-        modifiedFiles.stream()
-            .map(
-                entity ->
-                    createFileDiffCacheKey(
-                        project,
-                        oldCommit,
-                        newCommit,
-                        entity.newPath().isPresent()
-                            ? entity.newPath().get()
-                            : entity.oldPath().get(),
-                        DEFAULT_DIFF_ALGORITHM,
-                        useTimeout,
-                        /* whitespace= */ null))
-            .forEach(fileCacheKeys::add);
-      }
-      return getModifiedFilesForKeys(fileCacheKeys, diffOptions);
-    } catch (IOException e) {
-      throw new DiffNotAvailableException(e);
-    }
-  }
-
   private FileDiffOutput getModifiedFileForKey(FileDiffCacheKey key, DiffOptions diffOptions)
       throws DiffNotAvailableException {
     ImmutableMap<String, FileDiffOutput> diffList =
@@ -438,7 +438,7 @@ public class DiffOperationsImpl implements DiffOperations {
         diffs.put(fileDiffOutput.newPath().get(), fileDiffOutput);
       }
     }
-    return diffs.build();
+    return diffs.buildOrThrow();
   }
 
   private static boolean allDueToRebase(FileDiffOutput fileDiffOutput) {

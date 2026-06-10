@@ -31,6 +31,7 @@ import com.google.gerrit.server.patch.FilePathAdapter;
 import com.google.gerrit.server.patch.filediff.FileDiffOutput;
 import com.google.gerrit.server.project.CommitResource;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.HashMap;
@@ -59,11 +60,13 @@ public class ListDiffFiles implements RestReadView<CommitResource> {
   @Option(name = "--name-only", usage = "return only the list of files")
   private boolean nameOnly;
 
+  @CanIgnoreReturnValue
   public ListDiffFiles setBase(String baseSha) {
     this.baseSha = baseSha;
     return this;
   }
 
+  @CanIgnoreReturnValue
   public ListDiffFiles setNameOnly(boolean nameOnly) {
     this.nameOnly = nameOnly;
     return this;

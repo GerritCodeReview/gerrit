@@ -3,12 +3,35 @@
  * Copyright 2015 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+import {assert, fixture, html} from '@open-wc/testing';
 import * as sinon from 'sinon';
+import {SinonStubbedMember} from 'sinon';
+import {FileInfo, PatchSetNumber} from '../../../api/rest-api';
+import {
+  createDefaultDiffPrefs,
+  DiffViewMode,
+  SpecialFilePath,
+} from '../../../constants/constants';
+import {GrDiffCursor} from '../../../embed/diff/gr-diff-cursor/gr-diff-cursor';
+import {
+  FilesModel,
+  filesModelToken,
+  normalize,
+} from '../../../models/change/files-model';
+import {
+  ChangeChildView,
+  changeViewModelToken,
+} from '../../../models/views/change';
+import {GerritView} from '../../../services/router/router-model';
 import '../../../test/common-test-setup';
-import '../../shared/gr-date-formatter/gr-date-formatter';
-import './gr-file-list';
-import {FilesExpandedState} from '../gr-file-list-constants';
-import {navigationToken} from '../../core/gr-navigation/gr-navigation';
+import {testResolver} from '../../../test/common-test-setup';
+import {
+  createChangeComments,
+  createCommit,
+  createDiff,
+  createParsedChange,
+  createRevision,
+} from '../../../test/test-data-generators';
 import {
   mockPromise,
   pressKey,
@@ -29,49 +52,30 @@ import {
   Timestamp,
   UrlEncodedCommentId,
 } from '../../../types/common';
+import {ParsedChangeInfo} from '../../../types/types';
 import {createCommentThreads} from '../../../utils/comment-util';
-import {
-  createChangeComments,
-  createCommit,
-  createDiff,
-  createParsedChange,
-  createRevision,
-} from '../../../test/test-data-generators';
-import {
-  createDefaultDiffPrefs,
-  DiffViewMode,
-  SpecialFilePath,
-} from '../../../constants/constants';
 import {
   assertIsDefined,
   queryAll,
   queryAndAssert,
 } from '../../../utils/common-util';
-import {GrFileList, NormalizedFileInfo} from './gr-file-list';
-import {FileInfo, PatchSetNumber} from '../../../api/rest-api';
-import {GrButton} from '../../shared/gr-button/gr-button';
-import {ParsedChangeInfo} from '../../../types/types';
-import {normalize} from '../../../models/change/files-model';
+import {Modifier} from '../../../utils/dom-util';
+import {FileMode} from '../../../utils/file-util';
+import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {GrDiffHost} from '../../diff/gr-diff-host/gr-diff-host';
 import {GrEditFileControls} from '../../edit/gr-edit-file-controls/gr-edit-file-controls';
+import {GrButton} from '../../shared/gr-button/gr-button';
+import '../../shared/gr-date-formatter/gr-date-formatter';
 import {GrIcon} from '../../shared/gr-icon/gr-icon';
 import {GrTooltipContent} from '../../shared/gr-tooltip-content/gr-tooltip-content';
-import {assert, fixture, html} from '@open-wc/testing';
-import {Modifier} from '../../../utils/dom-util';
-import {testResolver} from '../../../test/common-test-setup';
-import {FileMode} from '../../../utils/file-util';
-import {SinonStubbedMember} from 'sinon';
-import {GrDiffCursor} from '../../../embed/diff/gr-diff-cursor/gr-diff-cursor';
-import {
-  ChangeChildView,
-  changeViewModelToken,
-} from '../../../models/views/change';
-import {GerritView} from '../../../services/router/router-model';
+import {FilesExpandedState} from '../gr-file-list-constants';
+import './gr-file-list';
+import {GrFileList, NormalizedFileInfo} from './gr-file-list';
 
 suite('gr-diff a11y test', () => {
   test('audit', async () => {
     const element = await fixture<GrFileList>(
-      html`<gr-file-list></gr-file-list>`
+      html`<gr-file-list></gr-file-list>`,
     );
     await element.updateComplete;
     await assert.isAccessible(element);
@@ -80,7 +84,7 @@ suite('gr-diff a11y test', () => {
 
 function createFiles(
   count: number,
-  fileInfo: FileInfo = {}
+  fileInfo: FileInfo = {},
 ): NormalizedFileInfo[] {
   const files = Array(count).fill({});
   return files.map((_, idx) => normalize(fileInfo, `path/file${idx}`));
@@ -177,7 +181,7 @@ suite('gr-file-list tests', () => {
           </div>
           <gr-diff-preferences-dialog
             id="diffPreferencesDialog"
-          ></gr-diff-preferences-dialog>`
+          ></gr-diff-preferences-dialog>`,
       );
     });
 
@@ -280,13 +284,13 @@ suite('gr-file-list tests', () => {
               ></gr-icon>
             </span>
           </div>
-        </div>`
+        </div>`,
       );
       // <svg> and contents are ignored by assert.dom.equal() above, so we need
       // a separate assert.lightDom.equal() for it here.
       const sizeBarsSVG = queryAndAssert<SVGSVGElement>(
         element,
-        '.sizeBars > svg'
+        '.sizeBars > svg',
       );
       assert.lightDom.equal(
         sizeBarsSVG,
@@ -305,7 +309,7 @@ suite('gr-file-list tests', () => {
             y="0"
             fill="var(--positive-green-text-color)"
           ></rect>
-        `
+        `,
       );
     });
 
@@ -329,7 +333,7 @@ suite('gr-file-list tests', () => {
               <gr-copy-clipboard hideinput=""> </gr-copy-clipboard>
             </a>
           </span>
-        `
+        `,
       );
       // The second row will have a matchingFilePath instead of newFilePath.
       assert.dom.equal(
@@ -347,7 +351,7 @@ suite('gr-file-list tests', () => {
               <gr-copy-clipboard hideinput=""> </gr-copy-clipboard>
             </a>
           </span>
-        `
+        `,
       );
     });
 
@@ -369,7 +373,7 @@ suite('gr-file-list tests', () => {
             ></gr-icon>
             <gr-file-status></gr-file-status>
           </div>
-        `
+        `,
       );
     });
 
@@ -382,7 +386,7 @@ suite('gr-file-list tests', () => {
       const fileRows = queryAll<HTMLDivElement>(element, '.file-row');
       const fileMode = queryAndAssert(
         fileRows?.[0],
-        '.path gr-tooltip-content'
+        '.path gr-tooltip-content',
       );
       assert.dom.equal(
         fileMode,
@@ -396,7 +400,7 @@ suite('gr-file-list tests', () => {
               (executable)
             </div>
           </gr-tooltip-content>
-        `
+        `,
       );
     });
 
@@ -438,7 +442,7 @@ suite('gr-file-list tests', () => {
               </gr-tooltip-content>
             </div>
           </div>
-        `
+        `,
       );
     });
 
@@ -465,7 +469,7 @@ suite('gr-file-list tests', () => {
               <div class="content">2</div>
             </gr-tooltip-content>
           </div>
-        `
+        `,
       );
     });
 
@@ -479,20 +483,20 @@ suite('gr-file-list tests', () => {
 
       assert.equal(
         queryAll<HTMLDivElement>(element, '.file-row').length,
-        element.numFilesShown
+        element.numFilesShown,
       );
       const controlRow = queryAndAssert<HTMLDivElement>(element, '.controlRow');
       assert.isFalse(controlRow.classList.contains('invisible'));
       assert.equal(
         queryAndAssert<GrButton>(
           element,
-          '#incrementButton'
+          '#incrementButton',
         ).textContent!.trim(),
-        'Show 50 More'
+        'Show 50 More',
       );
       assert.equal(
         queryAndAssert<GrButton>(element, '#showAllButton').textContent!.trim(),
-        'Show All 250 Files'
+        'Show All 250 Files',
       );
 
       queryAndAssert<GrButton>(element, '#showAllButton').click();
@@ -741,7 +745,7 @@ suite('gr-file-list tests', () => {
       for (const item of table) {
         assert.equal(
           element.formatPercentage(item.size, item.delta),
-          item.display
+          item.display,
         );
       }
     });
@@ -757,7 +761,7 @@ suite('gr-file-list tests', () => {
           size: 0,
           size_delta: 0,
         }),
-        '2c'
+        '2c',
       );
 
       element.basePatchNum = 1 as BasePatchSetNum;
@@ -768,7 +772,7 @@ suite('gr-file-list tests', () => {
           size: 0,
           size_delta: 0,
         }),
-        '3c'
+        '3c',
       );
 
       element.basePatchNum = PARENT;
@@ -779,7 +783,7 @@ suite('gr-file-list tests', () => {
           size: 0,
           size_delta: 0,
         }),
-        '1d'
+        '1d',
       );
 
       element.basePatchNum = 1 as BasePatchSetNum;
@@ -790,7 +794,7 @@ suite('gr-file-list tests', () => {
           size: 0,
           size_delta: 0,
         }),
-        '1d'
+        '1d',
       );
 
       element.basePatchNum = PARENT;
@@ -801,7 +805,7 @@ suite('gr-file-list tests', () => {
           size: 0,
           size_delta: 0,
         }),
-        '1c'
+        '1c',
       );
 
       element.basePatchNum = 1 as BasePatchSetNum;
@@ -812,7 +816,7 @@ suite('gr-file-list tests', () => {
           size: 0,
           size_delta: 0,
         }),
-        '3c'
+        '3c',
       );
 
       element.basePatchNum = PARENT;
@@ -823,7 +827,7 @@ suite('gr-file-list tests', () => {
           size: 0,
           size_delta: 0,
         }),
-        ''
+        '',
       );
 
       element.basePatchNum = 1 as BasePatchSetNum;
@@ -834,7 +838,7 @@ suite('gr-file-list tests', () => {
           size: 0,
           size_delta: 0,
         }),
-        ''
+        '',
       );
 
       element.basePatchNum = PARENT;
@@ -845,7 +849,7 @@ suite('gr-file-list tests', () => {
           size: 0,
           size_delta: 0,
         }),
-        ''
+        '',
       );
 
       element.basePatchNum = 1 as BasePatchSetNum;
@@ -856,7 +860,7 @@ suite('gr-file-list tests', () => {
           size: 0,
           size_delta: 0,
         }),
-        ''
+        '',
       );
 
       element.basePatchNum = PARENT;
@@ -867,7 +871,7 @@ suite('gr-file-list tests', () => {
           size: 0,
           size_delta: 0,
         }),
-        ''
+        '',
       );
 
       element.basePatchNum = 1 as BasePatchSetNum;
@@ -878,7 +882,7 @@ suite('gr-file-list tests', () => {
           size: 0,
           size_delta: 0,
         }),
-        ''
+        '',
       );
 
       element.basePatchNum = PARENT;
@@ -889,7 +893,7 @@ suite('gr-file-list tests', () => {
           size: 0,
           size_delta: 0,
         }),
-        '1c'
+        '1c',
       );
 
       element.basePatchNum = 1 as BasePatchSetNum;
@@ -900,7 +904,7 @@ suite('gr-file-list tests', () => {
           size: 0,
           size_delta: 0,
         }),
-        '3c'
+        '3c',
       );
 
       element.basePatchNum = PARENT;
@@ -911,7 +915,7 @@ suite('gr-file-list tests', () => {
           size: 0,
           size_delta: 0,
         }),
-        '2d'
+        '2d',
       );
 
       element.basePatchNum = 1 as BasePatchSetNum;
@@ -922,7 +926,7 @@ suite('gr-file-list tests', () => {
           size: 0,
           size_delta: 0,
         }),
-        '2d'
+        '2d',
       );
 
       element.basePatchNum = PARENT;
@@ -933,7 +937,7 @@ suite('gr-file-list tests', () => {
           size: 0,
           size_delta: 0,
         }),
-        '2c'
+        '2c',
       );
 
       element.basePatchNum = 1 as BasePatchSetNum;
@@ -944,7 +948,7 @@ suite('gr-file-list tests', () => {
           size: 0,
           size_delta: 0,
         }),
-        '3c'
+        '3c',
       );
 
       element.basePatchNum = PARENT;
@@ -955,7 +959,7 @@ suite('gr-file-list tests', () => {
           size: 0,
           size_delta: 0,
         }),
-        ''
+        '',
       );
 
       element.basePatchNum = 1 as BasePatchSetNum;
@@ -966,7 +970,7 @@ suite('gr-file-list tests', () => {
           size: 0,
           size_delta: 0,
         }),
-        ''
+        '',
       );
     });
 
@@ -1041,7 +1045,7 @@ suite('gr-file-list tests', () => {
         assert.equal(setUrlStub.callCount, 1);
         assert.equal(
           setUrlStub.lastCall.firstArg,
-          '/c/gerrit/+/42/1/file_added_in_rev2.txt'
+          '/c/gerrit/+/42/1/file_added_in_rev2.txt',
         );
 
         pressKey(element, 'k');
@@ -1053,14 +1057,14 @@ suite('gr-file-list tests', () => {
 
         const createCommentInPlaceStub = sinon.stub(
           element.diffCursor,
-          'createCommentInPlace'
+          'createCommentInPlace',
         );
         pressKey(element, 'c');
         assert.isTrue(createCommentInPlaceStub.called);
       });
 
       test('i key shows/hides selected inline diff', async () => {
-        const paths = element.files.map(f => f.__path);
+        const paths = element.files.map((f) => f.__path);
         sinon.stub(element, 'expandedFilesChanged');
         const files = [...queryAll<HTMLDivElement>(element, '.file-row')];
         element.fileCursor.stops = files;
@@ -1094,7 +1098,9 @@ suite('gr-file-list tests', () => {
         assert.equal(element.diffs.length, paths.length);
         assert.equal(element.expandedFiles.length, paths.length);
         for (const diff of element.diffs) {
-          assert.isTrue(element.expandedFiles.some(f => f.path === diff.path));
+          assert.isTrue(
+            element.expandedFiles.some((f) => f.path === diff.path),
+          );
         }
         // since _expandedFilesChanged is stubbed
         element.filesExpanded = FilesExpandedState.ALL;
@@ -1123,7 +1129,7 @@ suite('gr-file-list tests', () => {
 
         assert.isTrue(saveStub.called);
         assert.isTrue(
-          saveStub.lastCall.calledWithExactly('/COMMIT_MSG', false)
+          saveStub.lastCall.calledWithExactly('/COMMIT_MSG', false),
         );
       });
 
@@ -1275,7 +1281,7 @@ suite('gr-file-list tests', () => {
 
       const row = queryAndAssert(
         element,
-        '.row[data-file=\'{"path":"f1.txt"}\']'
+        '.row[data-file=\'{"path":"f1.txt"}\']',
       );
 
       // Click on the expand button, resulting in toggleFileExpanded being
@@ -1331,7 +1337,7 @@ suite('gr-file-list tests', () => {
       // Because the label surrounds the input, the tap event is triggered
       // there first.
       const showHideCheck = fileRows[0].querySelector(
-        'span.show-hide[role="switch"]'
+        'span.show-hide[role="switch"]',
       );
       const showHideLabel =
         showHideCheck!.querySelector<GrIcon>('.show-hide-icon');
@@ -1341,8 +1347,8 @@ suite('gr-file-list tests', () => {
 
       assert.equal(showHideCheck!.getAttribute('aria-checked'), 'true');
       assert.notEqual(
-        element.expandedFiles.findIndex(f => f.path === 'myfile.txt'),
-        -1
+        element.expandedFiles.findIndex((f) => f.path === 'myfile.txt'),
+        -1,
       );
     });
 
@@ -1358,7 +1364,7 @@ suite('gr-file-list tests', () => {
       // Tap on a file to generate the diff.
       const row = queryAll<HTMLSpanElement>(
         element,
-        '.row:not(.header-row) span.show-hide'
+        '.row:not(.header-row) span.show-hide',
       )[0];
 
       row.click();
@@ -1383,7 +1389,7 @@ suite('gr-file-list tests', () => {
       await element.updateComplete;
       const commitMsgFile = queryAll<HTMLAnchorElement>(
         element,
-        '.row:not(.header-row) a.pathLink'
+        '.row:not(.header-row) a.pathLink',
       )[0];
 
       // Remove href attribute so the app doesn't route to a diff view
@@ -1396,7 +1402,7 @@ suite('gr-file-list tests', () => {
       assert.isNotOk(query(element, '.expanded'));
       assert.notEqual(
         getComputedStyle(queryAndAssert(element, '.show-hide')).display,
-        'none'
+        'none',
       );
     });
 
@@ -1411,7 +1417,7 @@ suite('gr-file-list tests', () => {
 
       assert.equal(
         queryAndAssert<GrIcon>(element, 'gr-icon').icon,
-        'expand_more'
+        'expand_more',
       );
       assert.equal(element.expandedFiles.length, 0);
       element.toggleFileExpanded({path});
@@ -1421,11 +1427,11 @@ suite('gr-file-list tests', () => {
 
       assert.equal(
         queryAndAssert<GrIcon>(element, 'gr-icon').icon,
-        'expand_less'
+        'expand_less',
       );
 
       assert.equal(renderSpy.callCount, 1);
-      assert.isTrue(element.expandedFiles.some(f => f.path === path));
+      assert.isTrue(element.expandedFiles.some((f) => f.path === path));
       element.toggleFileExpanded({path});
       await element.updateComplete;
       // Wait for expandedFilesChanged to finish.
@@ -1433,10 +1439,10 @@ suite('gr-file-list tests', () => {
 
       assert.equal(
         queryAndAssert<GrIcon>(element, 'gr-icon').icon,
-        'expand_more'
+        'expand_more',
       );
       assert.equal(renderSpy.callCount, 1);
-      assert.isFalse(element.expandedFiles.some(f => f.path === path));
+      assert.isFalse(element.expandedFiles.some((f) => f.path === path));
     });
 
     test('expandAllDiffs and collapseAllDiffs', async () => {
@@ -1554,7 +1560,7 @@ suite('gr-file-list tests', () => {
       ] as any;
       await element.renderInOrder(
         [{path: 'p2'}, {path: 'p1'}, {path: 'p0'}],
-        diffs
+        diffs,
       );
       await element.updateComplete;
       assert.isFalse(reviewStub.called);
@@ -1665,7 +1671,7 @@ suite('gr-file-list tests', () => {
 
         const message = queryAndAssert<HTMLSpanElement>(
           element,
-          '.cleanlyMergedText'
+          '.cleanlyMergedText',
         ).textContent!.trim();
         assert.equal(message, '1 file merged cleanly in Parent 1');
       });
@@ -1685,7 +1691,7 @@ suite('gr-file-list tests', () => {
 
         const message = queryAndAssert(
           element,
-          '.cleanlyMergedText'
+          '.cleanlyMergedText',
         ).textContent!.trim();
         assert.equal(message, '2 files merged cleanly in Parent 1');
       });
@@ -1809,12 +1815,12 @@ suite('gr-file-list tests', () => {
 
       const tooltip = queryAndAssert<GrTooltipContent>(
         separator,
-        'gr-tooltip-content'
+        'gr-tooltip-content',
       );
       assert.equal(
         tooltip.title,
         'Files not modified in this patchset, but referenced by a check or a comment.' +
-          ' May include files outside of this change, also virtual or generated files.'
+          ' May include files outside of this change, also virtual or generated files.',
       );
     });
   });
@@ -1832,7 +1838,7 @@ suite('gr-file-list tests', () => {
       element.editMode = false;
       assert.equal(
         element.computeDiffURL(path),
-        '/c/gerrit/+/42/1//COMMIT_MSG'
+        '/c/gerrit/+/42/1//COMMIT_MSG',
       );
     });
 
@@ -1848,7 +1854,7 @@ suite('gr-file-list tests', () => {
       const path = 'index.php';
       assert.equal(
         element.computeDiffURL(path),
-        '/c/gerrit/+/42/1/index.php,edit'
+        '/c/gerrit/+/42/1/index.php,edit',
       );
     });
 
@@ -1864,7 +1870,7 @@ suite('gr-file-list tests', () => {
       const path = '/COMMIT_MSG';
       assert.equal(
         element.computeDiffURL(path),
-        '/c/gerrit/+/42/1//COMMIT_MSG,edit'
+        '/c/gerrit/+/42/1//COMMIT_MSG,edit',
       );
     });
   });
@@ -2026,12 +2032,12 @@ suite('gr-file-list tests', () => {
       element.showSizeBars = false;
       assert.equal(
         element.computeSizeBarsClass('foo/bar.baz'),
-        'sizeBars hide'
+        'sizeBars hide',
       );
       element.showSizeBars = true;
       assert.equal(
         element.computeSizeBarsClass('/COMMIT_MSG'),
-        'sizeBars invisible'
+        'sizeBars invisible',
       );
       assert.equal(element.computeSizeBarsClass('foo/bar.baz'), 'sizeBars ');
     });
@@ -2180,17 +2186,17 @@ suite('gr-file-list tests', () => {
 
       // No line number is selected.
       assert.isFalse(
-        (diffStops[10] as HTMLElement).classList.contains('target-row')
+        (diffStops[10] as HTMLElement).classList.contains('target-row'),
       );
 
       // Tapping content on a line selects the line number.
       queryAll<HTMLDivElement>(
         diffStops[10] as HTMLElement,
-        '.contentText'
+        '.contentText',
       )[0].click();
       await element.updateComplete;
       assert.isTrue(
-        (diffStops[10] as HTMLElement).classList.contains('target-row')
+        (diffStops[10] as HTMLElement).classList.contains('target-row'),
       );
 
       // Keyboard shortcuts are still moving the file cursor, not the diff
@@ -2198,10 +2204,10 @@ suite('gr-file-list tests', () => {
       pressKey(element, 'j');
       await element.updateComplete;
       assert.isTrue(
-        (diffStops[10] as HTMLElement).classList.contains('target-row')
+        (diffStops[10] as HTMLElement).classList.contains('target-row'),
       );
       assert.isFalse(
-        (diffStops[11] as HTMLElement).classList.contains('target-row')
+        (diffStops[11] as HTMLElement).classList.contains('target-row'),
       );
 
       // The file cursor is now at 1.
@@ -2218,10 +2224,10 @@ suite('gr-file-list tests', () => {
 
       // The line on the first diff is still selected
       assert.isTrue(
-        (diffStopsFirst[10] as HTMLElement).classList.contains('target-row')
+        (diffStopsFirst[10] as HTMLElement).classList.contains('target-row'),
       );
       assert.isFalse(
-        (diffStopsSecond[10] as HTMLElement).classList.contains('target-row')
+        (diffStopsSecond[10] as HTMLElement).classList.contains('target-row'),
       );
     });
 
@@ -2238,17 +2244,17 @@ suite('gr-file-list tests', () => {
 
       // No line number is selected.
       assert.isFalse(
-        (diffStops[10] as HTMLElement).classList.contains('target-row')
+        (diffStops[10] as HTMLElement).classList.contains('target-row'),
       );
 
       // Tapping content on a line selects the line number.
       queryAll<HTMLDivElement>(
         diffStops[10] as HTMLElement,
-        '.contentText'
+        '.contentText',
       )[0].click();
       await element.updateComplete;
       assert.isTrue(
-        (diffStops[10] as HTMLElement).classList.contains('target-row')
+        (diffStops[10] as HTMLElement).classList.contains('target-row'),
       );
 
       // Keyboard shortcuts are still moving the file cursor, not the diff
@@ -2256,10 +2262,10 @@ suite('gr-file-list tests', () => {
       pressKey(element, 'j');
       await element.updateComplete;
       assert.isFalse(
-        (diffStops[10] as HTMLElement).classList.contains('target-row')
+        (diffStops[10] as HTMLElement).classList.contains('target-row'),
       );
       assert.isTrue(
-        (diffStops[11] as HTMLElement).classList.contains('target-row')
+        (diffStops[11] as HTMLElement).classList.contains('target-row'),
       );
 
       // The file cursor is still at 0.
@@ -2276,7 +2282,7 @@ suite('gr-file-list tests', () => {
         assertIsDefined(element.diffCursor);
         nextCommentStub = sinon.stub(
           element.diffCursor,
-          'moveToNextCommentThread'
+          'moveToNextCommentThread',
         );
         nextChunkStub = sinon.stub(element.diffCursor, 'moveToNextChunk');
         fileRows = queryAll<HTMLDivElement>(element, '.row:not(.header-row)');
@@ -2359,7 +2365,7 @@ suite('gr-file-list tests', () => {
     test('editing actions', async () => {
       // Edit controls are guarded behind a dom-if initially and not rendered.
       assert.isNotOk(
-        query<GrEditFileControls>(element, 'gr-edit-file-controls')
+        query<GrEditFileControls>(element, 'gr-edit-file-controls'),
       );
 
       element.editMode = true;
@@ -2367,8 +2373,8 @@ suite('gr-file-list tests', () => {
 
       // Commit message can have edit controls.
       const editControls = Array.from(
-        queryAll(element, '.row:not(.header-row)')
-      ).map(row => row.querySelector('gr-edit-file-controls'));
+        queryAll(element, '.row:not(.header-row)'),
+      ).map((row) => row.querySelector('gr-edit-file-controls'));
       assert.isFalse(editControls[0]!.classList.contains('invisible'));
     });
   });
@@ -2379,27 +2385,89 @@ suite('gr-file-list tests', () => {
         element.computeClass(
           '',
           SpecialFilePath.MERGE_LIST,
-          /* showForCommitMessage */ true
+          /* showForCommitMessage */ true,
         ),
-        'invisible'
+        'invisible',
       );
       assert.equal(
         element.computeClass(
           '',
           SpecialFilePath.COMMIT_MESSAGE,
-          /* showForCommitMessage */ true
+          /* showForCommitMessage */ true,
         ),
-        ''
+        '',
       );
       assert.equal(
         element.computeClass(
           '',
           SpecialFilePath.COMMIT_MESSAGE,
-          /* showForCommitMessage */ false
+          /* showForCommitMessage */ false,
         ),
-        'invisible'
+        'invisible',
       );
       assert.equal(element.computeClass('', 'file.java'), '');
+    });
+  });
+
+  suite('safety limit warning', () => {
+    let filesModel: FilesModel;
+
+    setup(async () => {
+      filesModel = testResolver(filesModelToken);
+      filesModel.updateState({
+        rawFiles: [],
+        loadAllFiles: false,
+      });
+      await element.updateComplete;
+    });
+
+    test('warning banner is hidden by default', () => {
+      assert.shadowDom.notIncludes(element, '.warning-banner');
+    });
+
+    test('warning banner is shown when truncated', async () => {
+      const mockFiles = createFiles(1200);
+      filesModel.updateState({
+        rawFiles: mockFiles,
+      });
+      await element.updateComplete;
+
+      const banner = queryAndAssert(element, '.warning-banner');
+      assert.dom.equal(
+        banner,
+        /* HTML */ `
+          <div class="warning-banner">
+            <gr-icon icon="warning" class="warning-icon"></gr-icon>
+            <span>
+              Warning: This change has 1200 files. PolyGerrit only displays the first 1000 files to prevent browser performance issues.
+            </span>
+            <gr-button link="">
+              Load all files (may crash browser)
+            </gr-button>
+          </div>
+        `,
+      );
+    });
+
+    test('clicking load all button loads all files', async () => {
+      const mockFiles = createFiles(1200);
+      filesModel.updateState({
+        rawFiles: mockFiles,
+      });
+      await element.updateComplete;
+
+      const setLoadAllSpy = sinon.spy(filesModel, 'setLoadAllFiles');
+
+      const loadAllButton = queryAndAssert<GrButton>(
+        element,
+        '.warning-banner gr-button',
+      );
+      loadAllButton.click();
+
+      assert.isTrue(setLoadAllSpy.calledWith(true));
+
+      await element.updateComplete;
+      assert.shadowDom.notIncludes(element, '.warning-banner');
     });
   });
 });

@@ -3,6 +3,12 @@
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+import {combineLatest, from, Observable, of} from 'rxjs';
+import {map, switchMap} from 'rxjs/operators';
+import {FileInfoStatus, SpecialFilePath} from '../../constants/constants';
+import {Timing} from '../../constants/reporting';
+import {ReportingService} from '../../services/gr-reporting/gr-reporting';
+import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {
   BasePatchSetNum,
   FileInfo,
@@ -12,20 +18,13 @@ import {
   PatchSetNumber,
   RevisionPatchSetNum,
 } from '../../types/common';
-import {combineLatest, from, Observable, of} from 'rxjs';
-import {map, switchMap} from 'rxjs/operators';
-import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {select} from '../../utils/observable-util';
-import {FileInfoStatus, SpecialFilePath} from '../../constants/constants';
 import {specialFilePathCompare} from '../../utils/path-list-util';
 import {Model} from '../base/model';
+import {ChecksModel, RunResult} from '../checks/checks-model';
+import {CommentsModel} from '../comments/comments-model';
 import {define} from '../dependency';
 import {ChangeModel} from './change-model';
-import {CommentsModel} from '../comments/comments-model';
-import {Timing} from '../../constants/reporting';
-import {ReportingService} from '../../services/gr-reporting/gr-reporting';
-import {RunResult} from '../checks/checks-model';
-import {ChecksModel} from '../checks/checks-model';
 
 export type FileNameToNormalizedFileInfoMap = {
   [name: string]: NormalizedFileInfo;
@@ -64,22 +63,23 @@ function mapToList(map?: FileNameToFileInfoMap): NormalizedFileInfo[] {
 export function addUnmodified(
   files: NormalizedFileInfo[],
   commentedPaths: string[],
-  checkResults?: RunResult[]
+  checkResults?: RunResult[],
 ) {
   const combined = [...files];
   // Add paths from comments
   for (const commentedPath of commentedPaths) {
     if (commentedPath === SpecialFilePath.PATCHSET_LEVEL_COMMENTS) continue;
-    if (files.some(f => f.__path === commentedPath)) continue;
+    if (files.some((f) => f.__path === commentedPath)) continue;
     if (
       files.some(
-        f => f.status === FileInfoStatus.RENAMED && f.old_path === commentedPath
+        (f) =>
+          f.status === FileInfoStatus.RENAMED && f.old_path === commentedPath,
       )
     ) {
       continue;
     }
     combined.push(
-      normalize({status: FileInfoStatus.UNMODIFIED}, commentedPath)
+      normalize({status: FileInfoStatus.UNMODIFIED}, commentedPath),
     );
   }
 
@@ -90,15 +90,15 @@ export function addUnmodified(
       for (const pointer of result.codePointers) {
         const path = pointer.path;
         if (!path) continue;
-        if (files.some(f => f.__path === path)) continue;
+        if (files.some((f) => f.__path === path)) continue;
         if (
           files.some(
-            f => f.status === FileInfoStatus.RENAMED && f.old_path === path
+            (f) => f.status === FileInfoStatus.RENAMED && f.old_path === path,
           )
         ) {
           continue;
         }
-        if (combined.some(f => f.__path === path)) continue;
+        if (combined.some((f) => f.__path === path)) continue;
         combined.push(normalize({status: FileInfoStatus.UNMODIFIED}, path));
       }
     }
@@ -116,7 +116,7 @@ export interface FilesState {
    * Basic file and diff information of all files for the currently chosen
    * patch range.
    */
-  files: NormalizedFileInfo[];
+  rawFiles: NormalizedFileInfo[];
 
   /**
    * Basic file and diff information of all files for the left chosen patchset
@@ -133,22 +133,56 @@ export interface FilesState {
    * Empty if the left chosen patchset is PARENT.
    */
   filesRightBase: NormalizedFileInfo[];
+  loadAllFiles: boolean;
 }
 
 const initialState: FilesState = {
-  files: [],
+  rawFiles: [],
   filesLeftBase: [],
   filesRightBase: [],
+  loadAllFiles: false,
 };
 
 export const filesModelToken = define<FilesModel>('files-model');
 
+/** Maximum number of files to show in the file list to prevent browser OOM. */
+export const MAX_FILES_LIMIT = 1000;
+
 export class FilesModel extends Model<FilesState> {
-  public readonly files$ = select(this.state$, state => state.files);
+  /** Observable of all raw files from the API. */
+  readonly rawFiles$ = select(this.state$, (state) => state.rawFiles);
+
+  /** Observable of whether the user has chosen to bypass the safety limit. */
+  readonly loadAllFiles$ = select(this.state$, (state) => state.loadAllFiles);
+
+  /** Observable of the files list (capped by MAX_FILES_LIMIT unless loadAllFiles is true). */
+  readonly files$ = select(
+    combineLatest([this.rawFiles$, this.loadAllFiles$]),
+    ([rawFiles, loadAllFiles]) => {
+      if (!loadAllFiles && rawFiles.length > MAX_FILES_LIMIT) {
+        return rawFiles.slice(0, MAX_FILES_LIMIT);
+      }
+      return rawFiles;
+    },
+  );
+
+  /** Observable of whether the files list is currently truncated. */
+  readonly filesTruncated$ = select(
+    combineLatest([this.rawFiles$, this.loadAllFiles$]),
+    ([rawFiles, loadAllFiles]) => {
+      return !loadAllFiles && rawFiles.length > MAX_FILES_LIMIT;
+    },
+  );
+
+  /** Observable of the total count of files. */
+  readonly totalFilesCount$ = select(
+    this.state$,
+    (state) => state.rawFiles.length,
+  );
 
   public file$ = (path$: Observable<string | undefined>) =>
     combineLatest([path$, this.files$]).pipe(
-      map(([path, files]) => files.find(f => f.__path === path))
+      map(([path, files]) => files.find((f) => f.__path === path)),
     );
 
   /**
@@ -167,7 +201,7 @@ export class FilesModel extends Model<FilesState> {
     readonly commentsModel: CommentsModel,
     readonly checksModel: ChecksModel,
     readonly restApiService: RestApiService,
-    private readonly reporting: ReportingService
+    private readonly reporting: ReportingService,
   ) {
     super(initialState);
 
@@ -178,10 +212,10 @@ export class FilesModel extends Model<FilesState> {
         this.checksModel.allResults$,
       ]),
       ([files, commentedPaths, checkResults]) =>
-        addUnmodified(files, commentedPaths, checkResults)
+        addUnmodified(files, commentedPaths, checkResults),
     );
-    this.filesLeftBase$ = select(this.state$, state => state.filesLeftBase);
-    this.filesRightBase$ = select(this.state$, state => state.filesRightBase);
+    this.filesLeftBase$ = select(this.state$, (state) => state.filesLeftBase);
+    this.filesRightBase$ = select(this.state$, (state) => state.filesRightBase);
 
     this.subscriptions = [
       this.reportChangeDataStart(),
@@ -190,9 +224,9 @@ export class FilesModel extends Model<FilesState> {
         (psLeft, psRight) => {
           return {basePatchNum: psLeft, patchNum: psRight};
         },
-        files => {
-          return {files: [...files]};
-        }
+        (files) => {
+          return {rawFiles: [...files]};
+        },
       ),
       this.subscribeToFiles(
         (psLeft, _) => {
@@ -200,9 +234,9 @@ export class FilesModel extends Model<FilesState> {
             return undefined;
           return {basePatchNum: PARENT, patchNum: psLeft as PatchSetNumber};
         },
-        files => {
+        (files) => {
           return {filesLeftBase: [...files]};
-        }
+        },
       ),
       this.subscribeToFiles(
         (psLeft, psRight) => {
@@ -210,9 +244,9 @@ export class FilesModel extends Model<FilesState> {
             return undefined;
           return {basePatchNum: PARENT, patchNum: psRight as PatchSetNumber};
         },
-        files => {
+        (files) => {
           return {filesRightBase: [...files]};
-        }
+        },
       ),
     ];
   }
@@ -223,7 +257,7 @@ export class FilesModel extends Model<FilesState> {
         if (changeLoading) {
           this.reporting.time(Timing.CHANGE_DATA);
         }
-      }
+      },
     );
   }
 
@@ -233,16 +267,21 @@ export class FilesModel extends Model<FilesState> {
         if (!changeLoading && files.length > 0) {
           this.reporting.timeEnd(Timing.CHANGE_DATA);
         }
-      }
+      },
     );
+  }
+
+  /** Toggles whether to load all files, bypassing the safety limit. */
+  setLoadAllFiles(loadAll: boolean) {
+    this.updateState({loadAllFiles: loadAll});
   }
 
   private subscribeToFiles(
     rangeChooser: (
       basePatchNum: BasePatchSetNum,
-      patchNum: RevisionPatchSetNum
+      patchNum: RevisionPatchSetNum,
     ) => PatchRange | undefined,
-    filesToState: (files: NormalizedFileInfo[]) => Partial<FilesState>
+    filesToState: (files: NormalizedFileInfo[]) => Partial<FilesState>,
   ) {
     return combineLatest([
       this.changeModel.changeNum$,
@@ -255,13 +294,13 @@ export class FilesModel extends Model<FilesState> {
           const range = rangeChooser(basePatchNum, patchNum);
           if (!range) return of({});
           return from(
-            this.restApiService.getChangeOrEditFiles(changeNum, range)
+            this.restApiService.getChangeOrEditFiles(changeNum, range),
           );
         }),
         map(mapToList),
-        map(filesToState)
+        map(filesToState),
       )
-      .subscribe(state => {
+      .subscribe((state) => {
         this.updateState(state);
       });
   }

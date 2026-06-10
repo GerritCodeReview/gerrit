@@ -237,6 +237,14 @@ export class GrFileList extends LitElement {
   @state()
   files: NormalizedFileInfo[] = [];
 
+  // tslint:disable-next-line:no-new-decorators
+  @state()
+  private filesTruncated = false;
+
+  // tslint:disable-next-line:no-new-decorators
+  @state()
+  private totalFilesCount = 0;
+
   @state()
   private modifiedFiles: NormalizedFileInfo[] = [];
 
@@ -735,6 +743,20 @@ export class GrFileList extends LitElement {
             }
           }
         }
+        .warning-banner {
+          background-color: var(--warning-background);
+          color: var(--warning-foreground);
+          padding: var(--spacing-m);
+          border: 1px solid var(--warning-foreground);
+          border-radius: var(--border-radius);
+          margin: var(--spacing-m);
+          display: flex;
+          align-items: center;
+          gap: var(--spacing-s);
+        }
+        .warning-icon {
+          color: var(--warning-foreground);
+        }
       `,
     ];
   }
@@ -856,6 +878,20 @@ export class GrFileList extends LitElement {
           f => f.status === FileInfoStatus.UNMODIFIED
         );
         this.files = [...this.modifiedFiles, ...this.unmodifiedFiles];
+      }
+    );
+    subscribe(
+      this,
+      () => this.getFilesModel().filesTruncated$,
+      truncated => {
+        this.filesTruncated = truncated;
+      }
+    );
+    subscribe(
+      this,
+      () => this.getFilesModel().totalFilesCount$,
+      count => {
+        this.totalFilesCount = count;
       }
     );
     subscribe(
@@ -1039,6 +1075,18 @@ export class GrFileList extends LitElement {
     `;
   }
 
+  private renderWarningRow() {
+    if (!this.filesTruncated) return nothing;
+    return html`
+      <div class="warning-banner">
+        <gr-icon icon="warning" class="warning-icon"></gr-icon>
+        <span>
+          Warning: This change has ${this.totalFilesCount} files. PolyGerrit only displays the first ${this.files.length} files to prevent browser performance issues. Use the CLI to view the full change.
+        </span>
+      </div>
+    `;
+  }
+
   private renderContainer() {
     return html`
       <div
@@ -1047,6 +1095,7 @@ export class GrFileList extends LitElement {
         role="grid"
         aria-label="Files list"
       >
+        ${this.renderWarningRow()}
         ${this.renderHeaderRow()} ${this.renderShownFiles()}
         ${when(this.computeShowNumCleanlyMerged(), () =>
           this.renderCleanlyMerged()

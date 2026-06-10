@@ -133,18 +133,27 @@ export interface FilesState {
    * Empty if the left chosen patchset is PARENT.
    */
   filesRightBase: NormalizedFileInfo[];
+  filesTruncated: boolean;
+  totalFilesCount: number;
 }
 
 const initialState: FilesState = {
   files: [],
   filesLeftBase: [],
   filesRightBase: [],
+  filesTruncated: false,
+  totalFilesCount: 0,
 };
 
 export const filesModelToken = define<FilesModel>('files-model');
 
+/** Maximum number of files to show in the file list to prevent browser OOM. */
+export const MAX_FILES_LIMIT = 1000;
+
 export class FilesModel extends Model<FilesState> {
   public readonly files$ = select(this.state$, state => state.files);
+  readonly filesTruncated$ = select(this.state$, state => state.filesTruncated);
+  readonly totalFilesCount$ = select(this.state$, state => state.totalFilesCount);
 
   public file$ = (path$: Observable<string | undefined>) =>
     combineLatest([path$, this.files$]).pipe(
@@ -191,7 +200,14 @@ export class FilesModel extends Model<FilesState> {
           return {basePatchNum: psLeft, patchNum: psRight};
         },
         files => {
-          return {files: [...files]};
+          const totalCount = files.length;
+          const truncated = totalCount > MAX_FILES_LIMIT;
+          const limitedFiles = truncated ? files.slice(0, MAX_FILES_LIMIT) : files;
+          return {
+            files: limitedFiles,
+            filesTruncated: truncated,
+            totalFilesCount: totalCount,
+          };
         }
       ),
       this.subscribeToFiles(

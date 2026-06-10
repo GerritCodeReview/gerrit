@@ -105,6 +105,11 @@ export declare interface ChatRequest {
    */
   files: {path: string; status: FileInfoStatus}[];
   /**
+   * List of comments in the change.
+   * I'm adding a typo heer. And heer.
+   */
+  comments?: CommentInfo[];
+  /**
    * The 0-based turn index of the request. The caller should set it based on
    * the history of the conversation. It should be one more than the last known
    * turn. For new conversations, it should be 0.

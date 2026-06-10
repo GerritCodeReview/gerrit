@@ -10,6 +10,7 @@ import {PluginsModel} from '../plugins/plugins-model';
 import {ChangeModel} from '../change/change-model';
 import {FilesModel} from '../change/files-model';
 import {UserModel} from '../user/user-model';
+import {CommentsModel} from '../comments/comments-model';
 import {BehaviorSubject} from 'rxjs';
 import {createParsedChange} from '../../test/test-data-generators';
 import {AiCodeReviewProvider, ChatRequest} from '../../api/ai-code-review';
@@ -25,6 +26,7 @@ suite('chat-model tests', () => {
   let changeModel: ChangeModel;
   let filesModel: FilesModel;
   let userModel: UserModel;
+  let commentsModel: CommentsModel;
   let updatePreferencesStub: sinon.SinonStub;
   let provider: AiCodeReviewProvider;
 
@@ -50,6 +52,9 @@ suite('chat-model tests', () => {
       preferences$: new BehaviorSubject({}),
       updatePreferences: updatePreferencesStub,
     } as unknown as UserModel;
+    commentsModel = {
+      comments$: new BehaviorSubject({}),
+    } as unknown as CommentsModel;
     provider = {
       chat: sinon.stub(),
       listChatConversations: sinon.stub().resolves([]),
@@ -62,7 +67,13 @@ suite('chat-model tests', () => {
       .stub(pluginsModel, 'aiCodeReviewPlugins$')
       .get(() => new BehaviorSubject([{pluginName: 'test-plugin', provider}]));
 
-    model = new ChatModel(pluginsModel, changeModel, filesModel, userModel);
+    model = new ChatModel(
+      pluginsModel,
+      changeModel,
+      filesModel,
+      userModel,
+      commentsModel
+    );
   });
 
   test('initial state', () => {

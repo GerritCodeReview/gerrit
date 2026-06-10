@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e4ee222_9db0f623",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-06-10T22:54:55Z",
+      "side": 1,
+      "message": "looking at the failing screenshots, the gr-user-suggestion one especially looks like it could be a regression.",
+      "revId": "20c64fc8668dd5fc3bab3d6ec549def267d46c05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

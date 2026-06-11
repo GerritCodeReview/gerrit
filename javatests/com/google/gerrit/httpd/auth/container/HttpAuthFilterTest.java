@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static org.mockito.Mockito.doReturn;
 
 import com.google.gerrit.extensions.registration.DynamicItem;
+import com.google.gerrit.httpd.RemoteUserUtil;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
 import com.google.gerrit.server.config.AuthConfig;
@@ -37,13 +38,14 @@ public class HttpAuthFilterTest {
   @Mock private DynamicItem<WebSession> webSession;
   @Mock private ExternalIdKeyFactory externalIdKeyFactory;
   @Mock private AuthConfig authConfig;
+  @Mock private RemoteUserUtil remoteUserUtil;
 
   @Test
   public void getRemoteDisplaynameShouldReturnDisplaynameHeaderWhenHeaderIsConfiguredAndSet()
       throws IOException {
     doReturn(DISPLAYNAME_HEADER).when(authConfig).getHttpDisplaynameHeader();
     HttpAuthFilter httpAuthFilter =
-        new HttpAuthFilter(webSession, authConfig, externalIdKeyFactory);
+        new HttpAuthFilter(webSession, authConfig, externalIdKeyFactory, remoteUserUtil);
 
     FakeHttpServletRequest req = new FakeHttpServletRequest();
     req.addHeader(DISPLAYNAME_HEADER, DISPLAYNAME);
@@ -56,7 +58,7 @@ public class HttpAuthFilterTest {
       throws IOException {
     doReturn(DISPLAYNAME_HEADER).when(authConfig).getHttpDisplaynameHeader();
     HttpAuthFilter httpAuthFilter =
-        new HttpAuthFilter(webSession, authConfig, externalIdKeyFactory);
+        new HttpAuthFilter(webSession, authConfig, externalIdKeyFactory, remoteUserUtil);
 
     FakeHttpServletRequest req = new FakeHttpServletRequest();
 
@@ -68,7 +70,7 @@ public class HttpAuthFilterTest {
       throws IOException {
     doReturn(DISPLAYNAME_HEADER).when(authConfig).getHttpDisplaynameHeader();
     HttpAuthFilter httpAuthFilter =
-        new HttpAuthFilter(webSession, authConfig, externalIdKeyFactory);
+        new HttpAuthFilter(webSession, authConfig, externalIdKeyFactory, remoteUserUtil);
 
     FakeHttpServletRequest req = new FakeHttpServletRequest();
     req.addHeader(DISPLAYNAME_HEADER, "");

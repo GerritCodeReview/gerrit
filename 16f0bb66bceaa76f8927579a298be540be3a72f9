@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8dfba7e6_e5996ff6",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-06-11T15:04:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "75a422b5_21d97274",
+      "range": {
+        "startLine": 226,
+        "startChar": 45,
+        "endLine": 226,
+        "endChar": 55
+      },
+      "revId": "16f0bb66bceaa76f8927579a298be540be3a72f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dfc64682_492ee86c",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-06-11T12:19:14Z",
       "side": 1,
       "message": "The new test covers removal by username, which is likely the most common path. Since DeleteMembers accepts nameOrEmail, it may be worth adding coverage for removing an inactive member by email as well, especially because account resolution behavior can differ between username, email and numeric ID. For example:\n\n```\ngApi.groups().id(group.get()).removeMembers(inactiveEmail);\n```",
+      "range": {
+        "startLine": 228,
+        "startChar": 48,
+        "endLine": 228,
+        "endChar": 56
+      },
+      "revId": "16f0bb66bceaa76f8927579a298be540be3a72f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eeb5c325_e98b4b93",
+        "filename": "javatests/com/google/gerrit/acceptance/api/group/GroupsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-06-11T15:04:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dfc64682_492ee86c",
       "range": {
         "startLine": 228,
         "startChar": 48,

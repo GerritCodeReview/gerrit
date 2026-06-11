@@ -12,6 +12,7 @@ import {CommitId, PatchSetNum} from '../../../api/rest-api';
 import {stubRestApi, waitUntil} from '../../../test/test-utils';
 import {testResolver} from '../../../test/common-test-setup';
 import {commentsModelToken} from '../../../models/comments/comments-model';
+import {ChangeModel, changeModelToken} from '../../../models/change/change-model';
 import {of} from 'rxjs';
 
 suite('gr-ai-prompt-dialog test', () => {
@@ -235,5 +236,68 @@ test comment`;
 
     const promptContent = Reflect.get(element, 'promptContent') as string;
     assert.include(promptContent, expected);
+  });
+
+  suite('eager loading prevention', () => {
+    let changeModel: ChangeModel;
+
+    setup(() => {
+      changeModel = testResolver(changeModelToken);
+    });
+
+    test('does not load patch content on initialization', async () => {
+      const change = createParsedChange();
+      change.revisions['abc'].commit!.parents = [
+        {
+          commit: 'def' as CommitId,
+          subject: 'Parent',
+        },
+      ];
+      Object.defineProperty(changeModel, 'change$', {
+        value: of(change),
+        writable: true,
+      });
+      Object.defineProperty(changeModel, 'patchNum$', {
+        value: of(1 as PatchSetNum),
+        writable: true,
+      });
+
+      const testElement = await fixture<GrAiPromptDialog>(
+        html`<gr-ai-prompt-dialog></gr-ai-prompt-dialog>`
+      );
+      await testElement.updateComplete;
+
+      assert.isFalse(getPatchContentStub.called);
+    });
+
+    test('loads patch content when open is called', async () => {
+      const change = createParsedChange();
+      change.revisions['abc'].commit!.parents = [
+        {
+          commit: 'def' as CommitId,
+          subject: 'Parent',
+        },
+      ];
+      Object.defineProperty(changeModel, 'change$', {
+        value: of(change),
+        writable: true,
+      });
+      Object.defineProperty(changeModel, 'patchNum$', {
+        value: of(1 as PatchSetNum),
+        writable: true,
+      });
+
+      const testElement = await fixture<GrAiPromptDialog>(
+        html`<gr-ai-prompt-dialog></gr-ai-prompt-dialog>`
+      );
+      await testElement.updateComplete;
+
+      assert.isFalse(getPatchContentStub.called);
+
+      testElement.open();
+      await testElement.updateComplete;
+
+      assert.isTrue(getPatchContentStub.called);
+    });
   });
 });

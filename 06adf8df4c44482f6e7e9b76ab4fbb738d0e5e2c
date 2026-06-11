@@ -130,6 +130,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eddc2734_bb1fcb43",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-11T12:12:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7bc45cd_b728d529",
+      "range": {
+        "startLine": 432,
+        "startChar": 13,
+        "endLine": 432,
+        "endChar": 21
+      },
+      "revId": "06adf8df4c44482f6e7e9b76ab4fbb738d0e5e2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d6c49317_0d6b5305",
@@ -143,6 +167,30 @@
       "writtenOn": "2026-06-11T11:26:44Z",
       "side": 1,
       "message": "```suggestion\nAccepting a trusted authentication HTTP header involves a leap of faith in the security\n```",
+      "range": {
+        "startLine": 437,
+        "startChar": 72,
+        "endLine": 437,
+        "endChar": 74
+      },
+      "revId": "06adf8df4c44482f6e7e9b76ab4fbb738d0e5e2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "07247ff4_65ce8725",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-11T12:12:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6c49317_0d6b5305",
       "range": {
         "startLine": 437,
         "startChar": 72,
@@ -176,6 +224,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fbbf6c26_664f625c",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-11T12:12:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "85956db2_fc341c9e",
+      "range": {
+        "startLine": 438,
+        "startChar": 30,
+        "endLine": 438,
+        "endChar": 40
+      },
+      "revId": "06adf8df4c44482f6e7e9b76ab4fbb738d0e5e2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "52bb6c8d_933df80d",
@@ -189,6 +261,30 @@
       "writtenOn": "2026-06-11T11:26:44Z",
       "side": 1,
       "message": "```suggestion\nthe connection between the proxy and Gerrit is in doubt, and this can be mitigated by\n```",
+      "range": {
+        "startLine": 441,
+        "startChar": 47,
+        "endLine": 441,
+        "endChar": 67
+      },
+      "revId": "06adf8df4c44482f6e7e9b76ab4fbb738d0e5e2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9b153ba_4760ac88",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-11T12:12:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "52bb6c8d_933df80d",
       "range": {
         "startLine": 441,
         "startChar": 47,
@@ -222,6 +318,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "36a3deda_09962ce7",
+        "filename": "java/com/google/gerrit/httpd/IPAddressMatcher.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-11T12:12:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d494ac6e_63e91aea",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 53
+      },
+      "revId": "06adf8df4c44482f6e7e9b76ab4fbb738d0e5e2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a3450ffd_506b76b3",
@@ -235,6 +355,30 @@
       "writtenOn": "2026-06-11T11:26:44Z",
       "side": 1,
       "message": "These are not used, let\u0027s GJF the whole patch.",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 51
+      },
+      "revId": "06adf8df4c44482f6e7e9b76ab4fbb738d0e5e2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "687461a2_d71a424a",
+        "filename": "java/com/google/gerrit/httpd/RemoteUserUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-11T12:12:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3450ffd_506b76b3",
       "range": {
         "startLine": 24,
         "startChar": 0,
@@ -268,6 +412,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "af1868b0_d8e89c18",
+        "filename": "java/com/google/gerrit/httpd/RemoteUserUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-11T12:12:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee025eb2_81097d29",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 33,
+        "endChar": 2
+      },
+      "revId": "06adf8df4c44482f6e7e9b76ab4fbb738d0e5e2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cfe0a9b0_85e33228",
@@ -291,6 +459,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9022cc4d_72e14615",
+        "filename": "java/com/google/gerrit/httpd/RemoteUserUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-11T12:12:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cfe0a9b0_85e33228",
+      "range": {
+        "startLine": 70,
+        "startChar": 0,
+        "endLine": 72,
+        "endChar": 51
+      },
+      "revId": "06adf8df4c44482f6e7e9b76ab4fbb738d0e5e2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "21f63206_fa94fd46",
@@ -304,6 +496,30 @@
       "writtenOn": "2026-06-11T11:26:44Z",
       "side": 1,
       "message": "Why going through all of them to make sure none matches?\nWe could just stop eagerly as soon as we find one that _does_ match, no?",
+      "range": {
+        "startLine": 91,
+        "startChar": 0,
+        "endLine": 95,
+        "endChar": 0
+      },
+      "revId": "06adf8df4c44482f6e7e9b76ab4fbb738d0e5e2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "447db2d8_a07e2ac5",
+        "filename": "java/com/google/gerrit/httpd/RemoteUserUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-11T12:12:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21f63206_fa94fd46",
       "range": {
         "startLine": 91,
         "startChar": 0,
@@ -355,6 +571,30 @@
         "startChar": 17,
         "endLine": 133,
         "endChar": 44
+      },
+      "revId": "06adf8df4c44482f6e7e9b76ab4fbb738d0e5e2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1ece6c4_d869924e",
+        "filename": "java/com/google/gerrit/httpd/RemoteUserUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-11T12:12:47Z",
+      "side": 1,
+      "message": "You\u0027ll never receive a request from the broadcast IP.",
+      "parentUuid": "45265d5e_3060d146",
+      "range": {
+        "startLine": 133,
+        "startChar": 45,
+        "endLine": 133,
+        "endChar": 54
       },
       "revId": "06adf8df4c44482f6e7e9b76ab4fbb738d0e5e2c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

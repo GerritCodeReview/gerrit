@@ -65,6 +65,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4562c81d_0944d5ef",
+        "filename": "java/com/google/gerrit/httpd/RemoteUserUtil.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-11T13:54:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fbc6beed_52f81225",
+      "revId": "25201f07d7c2bf149c506fc575ae5d19acfe60a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "37542a7f_ea466852",
@@ -78,6 +96,24 @@
       "writtenOn": "2026-06-11T12:53:15Z",
       "side": 1,
       "message": "nit: empty line",
+      "revId": "25201f07d7c2bf149c506fc575ae5d19acfe60a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8bbf3d1a_f833e079",
+        "filename": "java/com/google/gerrit/httpd/RemoteUserUtil.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-11T13:54:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37542a7f_ea466852",
       "revId": "25201f07d7c2bf149c506fc575ae5d19acfe60a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

@@ -28,20 +28,14 @@ import {
   isLongCommentRange,
   isResponsive,
 } from '../gr-diff/gr-diff-utils';
-import {resolve} from '../../../models/dependency';
 import {
   ColumnsToShow,
-  diffModelToken,
   NO_COLUMNS,
 } from '../gr-diff-model/gr-diff-model';
 import {when} from 'lit/directives/when.js';
 import {isDefined} from '../../../types/types';
-import {BehaviorSubject, combineLatest} from 'rxjs';
 import '../../../elements/shared/gr-hovercard/gr-hovercard';
 import {GrDiffLine} from '../gr-diff/gr-diff-line';
-import {distinctUntilChanged, map} from 'rxjs/operators';
-import {deepEqual} from '../../../utils/deep-util';
-import {subscribe} from '../../../elements/lit/subscription-controller';
 
 export class GrDiffRow extends LitElement {
   contentLeftRef: Ref<LitElement> = createRef();
@@ -63,12 +57,8 @@ export class GrDiffRow extends LitElement {
   @property({type: Object})
   left?: GrDiffLine;
 
-  private left$ = new BehaviorSubject<GrDiffLine | undefined>(undefined);
-
   @property({type: Object})
   right?: GrDiffLine;
-
-  private right$ = new BehaviorSubject<GrDiffLine | undefined>(undefined);
 
   @property({type: Object})
   responsiveMode?: DiffResponsiveMode;
@@ -88,6 +78,15 @@ export class GrDiffRow extends LitElement {
   @property({type: Object})
   layers: DiffLayer[] = [];
 
+  @property({type: Array})
+  comments: GrDiffCommentThread[] = [];
+
+  @property({type: Array})
+  blameInfos: BlameInfo[] = [];
+
+  @property({type: Object})
+  columns: ColumnsToShow = NO_COLUMNS;
+
   /**
    * Semantic DOM diff testing does not work with just table fragments, so when
    * running such tests the render() method has to wrap the DOM in a proper
@@ -98,8 +97,6 @@ export class GrDiffRow extends LitElement {
   @state() leftComments: GrDiffCommentThread[] = [];
 
   @state() rightComments: GrDiffCommentThread[] = [];
-
-  @state() columns: ColumnsToShow = NO_COLUMNS;
 
   @state() blameInfo?: BlameInfo;
 
@@ -115,57 +112,22 @@ export class GrDiffRow extends LitElement {
    */
   private layersApplied = false;
 
-  private readonly getDiffModel = resolve(this, diffModelToken);
-
-  constructor() {
-    super();
-    subscribe(
-      this,
-      () =>
-        combineLatest([this.left$, this.getDiffModel().comments$]).pipe(
-          map(([left, comments]) =>
-            comments.filter(
-              c =>
-                c.line === left?.lineNumber(Side.LEFT) && c.side === Side.LEFT
-            )
-          ),
-          distinctUntilChanged(deepEqual)
-        ),
-      leftComments => (this.leftComments = leftComments)
-    );
-    subscribe(
-      this,
-      () =>
-        combineLatest([this.right$, this.getDiffModel().comments$]).pipe(
-          map(([right, comments]) =>
-            comments.filter(
-              c =>
-                c.line === right?.lineNumber(Side.RIGHT) &&
-                c.side === Side.RIGHT
-            )
-          ),
-          distinctUntilChanged(deepEqual)
-        ),
-      rightComments => (this.rightComments = rightComments)
-    );
-    subscribe(
-      this,
-      () => this.getDiffModel().columnsToShow$,
-      columnsToShow => (this.columns = columnsToShow)
-    );
-    subscribe(
-      this,
-      () => this.getDiffModel().blameInfo$,
-      blameInfos => {
-        const line = this.left?.lineNumber(Side.LEFT);
-        this.blameInfo = findBlame(blameInfos, line);
-      }
-    );
-  }
-
   override willUpdate(changedProperties: PropertyValues) {
-    if (changedProperties.has('left')) this.left$.next(this.left);
-    if (changedProperties.has('right')) this.right$.next(this.right);
+    super.willUpdate(changedProperties);
+    if (changedProperties.has('comments') || changedProperties.has('left')) {
+      this.leftComments = this.comments.filter(
+        c => c.line === this.left?.lineNumber(Side.LEFT) && c.side === Side.LEFT
+      );
+    }
+    if (changedProperties.has('comments') || changedProperties.has('right')) {
+      this.rightComments = this.comments.filter(
+        c => c.line === this.right?.lineNumber(Side.RIGHT) && c.side === Side.RIGHT
+      );
+    }
+    if (changedProperties.has('blameInfos') || changedProperties.has('left')) {
+      const line = this.left?.lineNumber(Side.LEFT);
+      this.blameInfo = findBlame(this.blameInfos, line);
+    }
   }
 
   /**
@@ -375,7 +337,7 @@ export class GrDiffRow extends LitElement {
         aria-label=${ifDefined(
           this.computeLineNumberAriaLabel(line, lineNumber)
     )}
-        @click=${() => this.getDiffModel().createCommentOnLine(lineNumber, side)}
+        @click=${() => fire(this, 'create-comment-request', {lineNum: lineNumber, side})}
         @mouseenter=${() =>
           fire(this, 'line-mouse-enter', {lineNum: lineNumber, side})}
         @mouseleave=${() =>
@@ -435,7 +397,7 @@ export class GrDiffRow extends LitElement {
         class=${extras.join(' ')}
         @click=${() => {
           if (lineNumber) {
-            this.getDiffModel().selectLine(lineNumber, side);
+            fire(this, 'line-selected-request', {number: lineNumber, side});
           }
         }}
         @mouseenter=${() => {

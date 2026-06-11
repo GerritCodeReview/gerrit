@@ -12,16 +12,20 @@ suite('link-util tests', () => {
     return `<a href="${href}" rel="noopener noreferrer" target="_blank">${text}</a>`;
   }
 
+  function internalLink(text: string, href: string) {
+    return `<a href="${href}">${text}</a>`;
+  }
+
   suite('link rewrites', () => {
     test('without text', () => {
       assert.equal(
         linkifyUrlsAndApplyRewrite('foo', {
           fooLinkWithoutText: {
             match: 'foo',
-            link: 'foo.gov',
+            link: 'http://foo.gov',
           },
         }),
-        link('foo', 'foo.gov')
+        link('foo', 'http://foo.gov')
       );
     });
 
@@ -30,11 +34,11 @@ suite('link-util tests', () => {
         linkifyUrlsAndApplyRewrite('foo', {
           fooLinkWithText: {
             match: 'foo',
-            link: 'foo.gov',
+            link: 'http://foo.gov',
             text: 'foo site',
           },
         }),
-        link('foo site', 'foo.gov')
+        link('foo site', 'http://foo.gov')
       );
     });
 
@@ -43,13 +47,13 @@ suite('link-util tests', () => {
         linkifyUrlsAndApplyRewrite('there are 12 foos here', {
           fooLinkWithText: {
             match: '(.*)(bug|foo)s(.*)',
-            link: '$2.gov',
+            link: 'http://$2.gov',
             text: '$2 list',
             prefix: '$1on the ',
             suffix: '$3',
           },
         }),
-        `there are 12 on the ${link('foo list', 'foo.gov')} here`
+        `there are 12 on the ${link('foo list', 'http://foo.gov')} here`
       );
     });
 
@@ -58,10 +62,10 @@ suite('link-util tests', () => {
         linkifyUrlsAndApplyRewrite('foo foo', {
           foo: {
             match: 'foo',
-            link: 'foo.gov',
+            link: 'http://foo.gov',
           },
         }),
-        `${link('foo', 'foo.gov')} ${link('foo', 'foo.gov')}`
+        `${link('foo', 'http://foo.gov')} ${link('foo', 'http://foo.gov')}`
       );
     });
   });
@@ -71,18 +75,18 @@ suite('link-util tests', () => {
       linkifyUrlsAndApplyRewrite('foobarbaz', {
         foo: {
           match: 'foo',
-          link: 'foo.gov',
+          link: 'http://foo.gov',
         },
         foobarbaz: {
           match: 'foobarbaz',
-          link: 'foobarbaz.gov',
+          link: 'http://foobarbaz.gov',
         },
         foobar: {
           match: 'foobar',
-          link: 'foobar.gov',
+          link: 'http://foobar.gov',
         },
       }),
-      link('foobarbaz', 'foobarbaz.gov')
+      link('foobarbaz', 'http://foobarbaz.gov')
     );
   });
 
@@ -91,18 +95,18 @@ suite('link-util tests', () => {
       linkifyUrlsAndApplyRewrite('foobarbaz', {
         foo: {
           match: 'baz',
-          link: 'Baz.gov',
+          link: 'http://Baz.gov',
         },
         foobarbaz: {
           match: 'foobarbaz',
-          link: 'FooBarBaz.gov',
+          link: 'http://FooBarBaz.gov',
         },
         foobar: {
           match: 'barbaz',
-          link: 'BarBaz.gov',
+          link: 'http://BarBaz.gov',
         },
       }),
-      link('foobarbaz', 'FooBarBaz.gov')
+      link('foobarbaz', 'http://FooBarBaz.gov')
     );
   });
 
@@ -111,18 +115,18 @@ suite('link-util tests', () => {
       linkifyUrlsAndApplyRewrite('foobarbaz', {
         foo: {
           match: 'foo',
-          link: 'FOO',
+          link: 'http://FOO',
         },
         oobarba: {
           match: 'oobarba',
-          link: 'OOBARBA',
+          link: 'http://OOBARBA',
         },
         baz: {
           match: 'baz',
-          link: 'BAZ',
+          link: 'http://BAZ',
         },
       }),
-      `${link('foo', 'FOO')}bar${link('baz', 'BAZ')}`
+      `${link('foo', 'http://FOO')}bar${link('baz', 'http://BAZ')}`
     );
   });
 
@@ -148,10 +152,10 @@ suite('link-util tests', () => {
           text: 'bug/$4',
         },
       }),
-      `bugs: ${link('bug/123', 'bug/123')} ${link('bug/234', 'bug/234')} ${link(
-        'bug/345',
-        'bug/345'
-      )}`
+      `bugs: ${internalLink('bug/123', 'bug/123')} ${internalLink(
+        'bug/234',
+        'bug/234'
+      )} ${internalLink('bug/345', 'bug/345')}`
     );
   });
 });

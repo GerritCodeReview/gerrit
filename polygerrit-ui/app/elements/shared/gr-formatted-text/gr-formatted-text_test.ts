@@ -3,6 +3,7 @@
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+
 import * as sinon from 'sinon';
 import '../../../test/common-test-setup';
 import {assert, fixture, html} from '@open-wc/testing';
@@ -951,6 +952,50 @@ An <a href="example.com">inline HTML link with [markup link](http://google.com)<
       // Do not linkify URLs without a recognized TLD.
       await checkLinking('google.foogle/path', false);
       await checkLinking('google.com.blah/path', false);
+    });
+
+    test('reproduce b/519426997: linkification in loose list', async () => {
+      element.content = '1. A Link 1234\n\n2. aaa';
+      await element.updateComplete;
+      await new Promise<void>(resolve => {
+        const listener = () => {
+          element.removeEventListener('marked-render-complete', listener);
+          resolve();
+        };
+        element.addEventListener('marked-render-complete', listener);
+        setTimeout(() => {
+          element.removeEventListener('marked-render-complete', listener);
+          resolve();
+        }, 100);
+      });
+
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ `
+          <gr-endpoint-decorator name="formatted-text-endpoint">
+            <gr-marked-element>
+              <div slot="markdown-html" class="markdown-html">
+                <ol>
+                  <li>
+                    <p>
+                      A
+                      <a
+                        href="http://localhost/page?id=1234"
+                        rel="noopener noreferrer"
+                        target="_blank"
+                        >Link 1234</a
+                      >
+                    </p>
+                  </li>
+                  <li>
+                    <p>aaa</p>
+                  </li>
+                </ol>
+              </div>
+            </gr-marked-element>
+          </gr-endpoint-decorator>
+        `
+      );
     });
 
     suite('user suggest fix', () => {

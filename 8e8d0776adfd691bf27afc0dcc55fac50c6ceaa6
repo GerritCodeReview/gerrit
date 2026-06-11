@@ -22,6 +22,29 @@
       },
       "revId": "8e8d0776adfd691bf27afc0dcc55fac50c6ceaa6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff67c769_f428ee00",
+        "filename": "java/com/google/gerrit/httpd/RemoteUserUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-11T10:44:39Z",
+      "side": 1,
+      "message": "This is expensive when performed for every incoming HTTP request.",
+      "range": {
+        "startLine": 137,
+        "startChar": 11,
+        "endLine": 137,
+        "endChar": 42
+      },
+      "revId": "8e8d0776adfd691bf27afc0dcc55fac50c6ceaa6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

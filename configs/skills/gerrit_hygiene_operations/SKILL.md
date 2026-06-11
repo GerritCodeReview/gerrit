@@ -43,10 +43,9 @@ and fortifies the integrity of our continuous integration pipelines.
 : Syntax Normalization**              : linting mandates for frontend          :
 :                                     : TypeScript components. Strict          :
 :                                     : enforcement of formatting rules, such  :
-:                                     : as whitespace removal and line-length  :
-:                                     : constraints, ensures optimal diff      :
-:                                     : readability and prevents automated CI  :
-:                                     : pipeline failures.                     :
+:                                     : as line-length constraints, ensures    :
+:                                     : optimal diff readability and prevents  :
+:                                     : automated CI pipeline failures.        :
 | **Proprietary Infrastructure        | Establishes strict boundaries for      |
 : Encapsulation**                     : documenting public APIs by forbidding  :
 :                                     : the leakage of proprietary backend     :
@@ -145,43 +144,40 @@ custom plugin compatibility.**
 
 **Context:** This section defines the structural code style and linting mandates
 for frontend TypeScript components. Strict enforcement of formatting rules, such
-as whitespace removal and line-length constraints, ensures optimal diff
-readability and prevents automated CI pipeline failures.
+as line-length constraints, ensures optimal diff readability and prevents
+automated CI pipeline failures.
 
 ### Summary
 
 | Rule ID   | Principle / Constraint | Priority | Primary Symptom / Trap    |
 | :-------- | :--------------------- | :------- | :------------------------ |
-| **T2-01** | Strict Trailing        | Medium   | Chaining long promise     |
-:           : Whitespace and Line    :          : callbacks or variable     :
-:           : Length Formatting      :          : assignments on a single   :
-:           :                        :          : line, or leaving trailing :
-:           :                        :          : spaces on empty lines.    :
+| **T2-01** | Strict Line Length     | Medium   | Chaining long promise     |
+:           : Formatting             :          : callbacks or variable     :
+:           :                        :          : assignments on a single   :
+:           :                        :          : line.                     :
 
 --------------------------------------------------------------------------------
 
 ### Rules
 
-#### T2-01: Strict Trailing Whitespace and Line Length Formatting
+#### T2-01: Strict Line Length Formatting
 
 > **Rule:** Always format TypeScript files to strictly adhere to linting limits
-> by wrapping long chained expressions and stripping trailing whitespace from
-> empty lines. Never commit code that triggers structural style violations.
+> by wrapping long chained expressions. Never commit code that triggers structural
+> style violations.
 >
 > **What:** TypeScript frontend files must strictly adhere to linting standards
-> by removing trailing whitespaces on empty lines and properly wrapping long
-> chained expressions.
+> by properly wrapping long chained expressions.
 >
 > **Applies To:** TypeScript UI components (e.g., Lit elements like
 > `gr-reply-dialog.ts`).
 >
-> **Why:** Inconsistent formatting, trailing whitespaces, and over-extended
-> lines caused unnecessary diff noise and failed automated linting checks in the
-> frontend CI pipeline. Failing to adhere to this typically results in **Linting
-> Pipeline Failure**.
+> **Why:** Inconsistent formatting and over-extended lines caused unnecessary diff
+> noise and failed automated linting checks in the frontend CI pipeline. Failing
+> to adhere to this typically results in **Linting Pipeline Failure**.
 
 **Trap 1: Chaining long promise callbacks or variable assignments on a single
-line, or leaving trailing spaces on empty lines.**
+line.**
 
 **Don't:**
 

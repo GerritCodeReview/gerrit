@@ -438,6 +438,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b159e6b6_5cc9c378",
+        "filename": "java/com/google/gerrit/httpd/RemoteUserUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-06-11T12:53:15Z",
+      "side": 1,
+      "message": "Looks like now we are only checking non standard headers and `Authorization` header bypasses the validation? Should we not check both?",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 0
+      },
+      "revId": "06adf8df4c44482f6e7e9b76ab4fbb738d0e5e2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cfe0a9b0_85e33228",
         "filename": "java/com/google/gerrit/httpd/RemoteUserUtil.java",
         "patchSetId": 3

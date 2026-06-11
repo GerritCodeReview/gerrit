@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "620344dd_684344f6",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-06-11T12:53:15Z",
+      "side": 1,
+      "message": "shouldn\u0027t this be used also when auth.type is `HTTP_LDAP`?",
+      "range": {
+        "startLine": 435,
+        "startChar": 25,
+        "endLine": 435,
+        "endChar": 53
+      },
+      "revId": "25201f07d7c2bf149c506fc575ae5d19acfe60a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fbc6beed_52f81225",
+        "filename": "java/com/google/gerrit/httpd/RemoteUserUtil.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-06-11T12:53:15Z",
+      "side": 1,
+      "message": "nit: empty line",
+      "revId": "25201f07d7c2bf149c506fc575ae5d19acfe60a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37542a7f_ea466852",
+        "filename": "java/com/google/gerrit/httpd/RemoteUserUtil.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-06-11T12:53:15Z",
+      "side": 1,
+      "message": "nit: empty line",
+      "revId": "25201f07d7c2bf149c506fc575ae5d19acfe60a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63e4cc28_e24caee4",
+        "filename": "javatests/com/google/gerrit/httpd/RemoteUserUtilTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-06-11T12:53:15Z",
+      "side": 1,
+      "message": "This is not used and can be removed",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 55
+      },
+      "revId": "25201f07d7c2bf149c506fc575ae5d19acfe60a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

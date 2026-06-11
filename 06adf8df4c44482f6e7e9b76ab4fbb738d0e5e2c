@@ -459,6 +459,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9cdf4f1_b77f19d1",
+        "filename": "java/com/google/gerrit/httpd/RemoteUserUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-11T13:58:31Z",
+      "side": 1,
+      "message": "I thought about it, but this is the path used also when the HTTP header authentication isn\u0027t used.\n\nThis method does two things:\na) Extraction of the user from an already authenticated flow\nb) Extraction of the user from an HTTP header\n\nThe issue has been reported against b) and not a); therefore, I\u0027m focusing on this code path.\n\nIn case a), I agree that a misconfigured hardening of the system could also expose a vulnerability there. This is simply a mitigation that cannot replace the system\u0027s hardening.",
+      "parentUuid": "b159e6b6_5cc9c378",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 0
+      },
+      "revId": "06adf8df4c44482f6e7e9b76ab4fbb738d0e5e2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cfe0a9b0_85e33228",

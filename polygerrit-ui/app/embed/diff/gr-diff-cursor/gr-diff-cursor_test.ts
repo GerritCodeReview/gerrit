@@ -26,27 +26,35 @@ suite('gr-diff-cursor tests', () => {
   let cursor: GrDiffCursor;
   let diffElement: GrDiff;
 
+  async function waitForRender(element: GrDiff, oldGroups?: any[]) {
+    await element.updateComplete;
+    const diffElement = (element as any).diffElement;
+    assert.isOk(diffElement, 'diffElement should be present');
+    if (oldGroups) {
+      await waitUntil(() => diffElement.groups !== oldGroups, 'Timeout waiting for groups to change');
+    }
+    await waitUntil(() => {
+      const expected = diffElement.groups.length;
+      if (expected === 0) return false;
+      const actual = diffElement.querySelectorAll('gr-diff-section').length;
+      return actual === expected;
+    }, 'Timeout waiting for gr-diff-section elements to render');
+  }
+
   setup(async () => {
     diffElement = await fixture(html`<gr-diff></gr-diff>`);
     diffElement.path = 'some/path.ts';
     cursor = new GrDiffCursor();
     cursor.replaceDiffs([diffElement]);
 
-    const promise = mockPromise();
-    const setupDone = () => {
-      cursor.updateStops();
-      cursor.moveToFirstChunk();
-      diffElement.removeEventListener('render', setupDone);
-      promise.resolve();
-    };
-    diffElement.addEventListener('render', setupDone);
-
     diffElement.diffModel.updateState({
       diff: createDiff(),
       path: 'some/path.ts',
       diffPrefs: createDefaultDiffPrefs(),
     });
-    await promise;
+    await waitForRender(diffElement);
+    cursor.updateStops();
+    cursor.moveToFirstChunk();
   });
 
   test('diff cursor functionality (side-by-side)', () => {
@@ -163,10 +171,10 @@ suite('gr-diff-cursor tests', () => {
         {b: ['new line 3']},
       ],
     };
+    const oldGroups = (diffElement as any).diffElement.groups;
     diffElement.diffModel.updateState({diff});
 
-    await waitForEventOnce(diffElement, 'render');
-    await waitForEventOnce(diffElement, 'render');
+    await waitForRender(diffElement, oldGroups);
     cursor.updateStops();
 
     const chunks = [
@@ -207,7 +215,7 @@ suite('gr-diff-cursor tests', () => {
     assert.equal(cursor.cursorManager.scrollMode, 'never');
     assert.isFalse(cursor.cursorManager.focusOnMove);
 
-    diffElement.dispatchEvent(new Event('render-content'));
+    diffElement.dispatchEvent(new Event('render-done'));
     assert.isTrue(cursor.cursorManager.focusOnMove);
 
     cursor.reInitCursor();
@@ -531,8 +539,8 @@ suite('gr-diff-cursor tests', () => {
     test('do not skip loading diffs', async () => {
       diffElements[0].diff = createDiff();
       diffElements[2].diff = createDiff();
-      await waitForEventOnce(diffElements[0], 'render');
-      await waitForEventOnce(diffElements[2], 'render');
+      await waitForRender(diffElements[0]);
+      await waitForRender(diffElements[2]);
 
       const lastLine = diffElements[0].diff.meta_b?.lines;
       assertIsDefined(lastLine);
@@ -553,7 +561,7 @@ suite('gr-diff-cursor tests', () => {
 
       // Diff 1 finishing to load
       diffElements[1].diff = createDiff();
-      await waitForEventOnce(diffElements[1], 'render');
+      await waitForRender(diffElements[1]);
 
       // Now we can go down
       cursor.moveDown(); // LOST

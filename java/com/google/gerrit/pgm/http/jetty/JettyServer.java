@@ -20,9 +20,11 @@ import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.extensions.events.LifecycleListener;
+import com.google.gerrit.httpd.ProxyAddressProvider;
 import com.google.gerrit.pgm.http.jetty.HttpLog.HttpLogFactory;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
@@ -48,6 +50,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 import org.eclipse.jetty.http.HttpScheme;
@@ -58,6 +61,7 @@ import org.eclipse.jetty.server.ForwardedRequestCustomizer;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.HttpConfiguration;
 import org.eclipse.jetty.server.HttpConnectionFactory;
+import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.SecureRequestCustomizer;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
@@ -78,7 +82,11 @@ import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.eclipse.jgit.lib.Config;
 
 @Singleton
-public class JettyServer {
+public class JettyServer implements ProxyAddressProvider {
+
+  private static final String PROXY_REMOTE_ADDRESS =
+      "com.google.gerrit.pgm.http.jetty.proxyRemoteAddress";
+
   static class Lifecycle implements LifecycleListener {
     private final JettyServer server;
     private final Config cfg;
@@ -201,6 +209,17 @@ public class JettyServer {
     }
   }
 
+  static class PreserveProxyAddressForwardedRequestCustomizer extends ForwardedRequestCustomizer {
+
+    @Override
+    public void customize(Connector connector, HttpConfiguration config, Request request) {
+      String proxyAddress = request.getRemoteAddr();
+      request.setAttribute(PROXY_REMOTE_ADDRESS, proxyAddress);
+
+      super.customize(connector, config, request);
+    }
+  }
+
   private final SitePaths site;
   private final Server httpd;
   private final Metrics metrics;
@@ -280,6 +299,12 @@ public class JettyServer {
 
     httpd.setHandler(app);
     httpd.setStopAtShutdown(false);
+  }
+
+  @Override
+  public String getRemoteAddr(HttpServletRequest request) {
+    return MoreObjects.firstNonNull(
+        (String) request.getAttribute(PROXY_REMOTE_ADDRESS), request.getRemoteAddr());
   }
 
   @VisibleForTesting
@@ -365,12 +390,12 @@ public class JettyServer {
 
       } else if ("proxy-http".equals(u.getScheme())) {
         defaultPort = 8080;
-        config.addCustomizer(new ForwardedRequestCustomizer());
+        config.addCustomizer(new PreserveProxyAddressForwardedRequestCustomizer());
         c = newServerConnector(server, acceptors, config);
 
       } else if ("proxy-https".equals(u.getScheme())) {
         defaultPort = 8080;
-        config.addCustomizer(new ForwardedRequestCustomizer());
+        config.addCustomizer(new PreserveProxyAddressForwardedRequestCustomizer());
         config.addCustomizer(
             (connector, channelConfig, request) -> {
               request.setScheme(HttpScheme.HTTPS.asString());

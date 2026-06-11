@@ -18,6 +18,7 @@ interface RepeatOptions<T> {
   targetFrameRate?: number;
   startAt?: number;
   endAt?: number;
+  onComplete?: () => void;
 }
 
 interface RepeatState<T> {
@@ -28,6 +29,7 @@ interface RepeatState<T> {
   incrementAmount: number;
   lastRenderedAt: number;
   targetFrameRate: number;
+  onComplete?: () => void;
 }
 
 // This directive supports incrementally rendering a list of elements.
@@ -60,7 +62,7 @@ class IncrementalRepeat<T> extends AsyncDirective {
   override update(part: ChildPart, [options]: DirectiveParameters<this>) {
     if (options.values !== this.state?.values) {
       if (this.nextScheduledFrameWork !== undefined)
-        cancelAnimationFrame(this.nextScheduledFrameWork);
+        window.clearTimeout(this.nextScheduledFrameWork);
       this.part = part;
       this.clearParts();
       this.state = {
@@ -71,21 +73,32 @@ class IncrementalRepeat<T> extends AsyncDirective {
         incrementAmount: options.initialCount,
         lastRenderedAt: performance.now(),
         targetFrameRate: options.targetFrameRate ?? 30,
+        onComplete: options.onComplete,
       };
-      this.nextScheduledFrameWork = requestAnimationFrame(
-        this.animationFrameHandler
-      );
+      if (this.state.startAt < this.state.endAt) {
+        this.nextScheduledFrameWork = window.setTimeout(
+          this.animationFrameHandler,
+          0
+        );
+      } else {
+        this.nextScheduledFrameWork = window.setTimeout(() => {
+          this.nextScheduledFrameWork = undefined;
+          options.onComplete?.();
+        }, 0);
+      }
     } else {
+      this.state.onComplete = options.onComplete;
       this.updateParts();
       // TODO: Deal with updates to startAt by removing children and then
       // trimming the child where the new startAt falls into.
       if ((options.endAt ?? options.values.length) >= this.state.endAt) {
         this.state.endAt = options.endAt ?? options.values.length;
         if (this.nextScheduledFrameWork) {
-          cancelAnimationFrame(this.nextScheduledFrameWork);
+          window.clearTimeout(this.nextScheduledFrameWork);
         }
-        this.nextScheduledFrameWork = requestAnimationFrame(
-          this.animationFrameHandler
+        this.nextScheduledFrameWork = window.setTimeout(
+          this.animationFrameHandler,
+          0
         );
       }
     }
@@ -117,6 +130,7 @@ class IncrementalRepeat<T> extends AsyncDirective {
   private animationFrameHandler = () => {
     if (this.state.startAt >= this.state.endAt) {
       this.nextScheduledFrameWork = undefined;
+      this.state.onComplete?.();
       return;
     }
     const now = performance.now();
@@ -141,11 +155,13 @@ class IncrementalRepeat<T> extends AsyncDirective {
 
     this.state.startAt += this.state.incrementAmount;
     if (this.state.startAt < this.state.endAt) {
-      this.nextScheduledFrameWork = requestAnimationFrame(
-        this.animationFrameHandler
+      this.nextScheduledFrameWork = window.setTimeout(
+        this.animationFrameHandler,
+        0
       );
     } else {
       this.nextScheduledFrameWork = undefined;
+      this.state.onComplete?.();
     }
   };
 }

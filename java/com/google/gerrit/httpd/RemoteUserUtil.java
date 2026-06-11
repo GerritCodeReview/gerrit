@@ -22,9 +22,11 @@ import com.google.common.flogger.FluentLogger;
 import com.google.common.io.BaseEncoding;
 import com.google.gerrit.common.Nullable;
 import java.util.Set;
+import javax.inject.Singleton;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.net.util.SubnetUtils;
 
+@Singleton
 public class RemoteUserUtil {
   private static FluentLogger logger = FluentLogger.forEnclosingClass();
 
@@ -44,7 +46,7 @@ public class RemoteUserUtil {
    * @return the extracted username or null.
    */
   @Nullable
-  public static String getRemoteUser(
+  public String getRemoteUser(
       HttpServletRequest req, String loginHeader, Set<String> trustedProxyNetworks) {
     if (AUTHORIZATION.equals(loginHeader)) {
       String user = emptyToNull(req.getRemoteUser());

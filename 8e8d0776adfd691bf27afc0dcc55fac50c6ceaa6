@@ -26,6 +26,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b9c8e3d4_58862f1a",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-11T10:47:28Z",
+      "side": 1,
+      "message": "Also mentioned that this can only be used with IPv4 addresses and isn\u0027t supported for IPv6.\n\n\n\n```suggestion\nIt can be used only when `auth.type` is set to `HTTP` and `httpd.listenUrl` is an IPv4 address, and would fail when using IPv6.\n```",
+      "revId": "8e8d0776adfd691bf27afc0dcc55fac50c6ceaa6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ff67c769_f428ee00",
         "filename": "java/com/google/gerrit/httpd/RemoteUserUtil.java",
         "patchSetId": 5

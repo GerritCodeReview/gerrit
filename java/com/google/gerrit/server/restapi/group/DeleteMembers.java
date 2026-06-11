@@ -76,7 +76,8 @@ public class DeleteMembers implements RestModifyView<GroupResource, Input> {
       if (Strings.isNullOrEmpty(nameOrEmail)) {
         continue;
       }
-      membersToRemove.add(accountResolver.resolve(nameOrEmail).asUnique().account().id());
+      membersToRemove.add(
+          accountResolver.resolveIncludeInactive(nameOrEmail).asUnique().account().id());
     }
     AccountGroup.UUID groupUuid = internalGroup.getGroupUUID();
     try {

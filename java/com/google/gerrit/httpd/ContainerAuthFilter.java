@@ -66,18 +66,21 @@ class ContainerAuthFilter implements Filter {
   private final AccountCache accountCache;
   private final Config config;
   private final String loginHttpHeader;
+  private final RemoteUserUtil remoteUserUtil;
 
   @Inject
   ContainerAuthFilter(
       DynamicItem<WebSession> session,
       AccountCache accountCache,
       AuthConfig authConfig,
-      @GerritServerConfig Config config) {
+      @GerritServerConfig Config config,
+      RemoteUserUtil remoteUserUtil) {
     this.session = session;
     this.accountCache = accountCache;
     this.config = config;
 
     loginHttpHeader = firstNonNull(emptyToNull(authConfig.getLoginHttpHeader()), AUTHORIZATION);
+    this.remoteUserUtil = remoteUserUtil;
   }
 
   @Override
@@ -98,7 +101,7 @@ class ContainerAuthFilter implements Filter {
   }
 
   private boolean verify(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
-    String username = RemoteUserUtil.getRemoteUser(req, loginHttpHeader);
+    String username = remoteUserUtil.getRemoteUser(req, loginHttpHeader);
     if (username == null) {
       if (isLfsOverSshRequest(req)) {
         // LFS-over-SSH auth request cannot be authorized by container

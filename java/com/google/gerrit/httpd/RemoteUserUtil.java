@@ -20,8 +20,10 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.io.BaseEncoding;
 import com.google.gerrit.common.Nullable;
+import javax.inject.Singleton;
 import javax.servlet.http.HttpServletRequest;
 
+@Singleton
 public class RemoteUserUtil {
   /**
    * Tries to get username from a request with following strategies:
@@ -37,7 +39,7 @@ public class RemoteUserUtil {
    * @return the extracted username or null.
    */
   @Nullable
-  public static String getRemoteUser(HttpServletRequest req, String loginHeader) {
+  public String getRemoteUser(HttpServletRequest req, String loginHeader) {
     if (AUTHORIZATION.equals(loginHeader)) {
       String user = emptyToNull(req.getRemoteUser());
       if (user != null) {

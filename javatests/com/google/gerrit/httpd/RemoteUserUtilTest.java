@@ -16,15 +16,83 @@ package com.google.gerrit.httpd;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.httpd.RemoteUserUtil.extractUsername;
+import static com.google.gerrit.httpd.RemoteUserUtil.getRemoteUser;
 
+import com.google.gerrit.util.http.testutil.FakeHttpServletRequest;
+import java.util.Set;
 import org.junit.Test;
 
 public class RemoteUserUtilTest {
+  private static final String CUSTOM_LOGIN_HEADER = "MY_HEADER";
+  private static final String EXPECTED_USER = "user";
+
   @Test
   public void testExtractUsername() {
     assertThat(extractUsername(null)).isNull();
     assertThat(extractUsername("")).isNull();
     assertThat(extractUsername("Basic dXNlcjpwYXNzd29yZA==")).isEqualTo("user");
     assertThat(extractUsername("Digest username=\"user\", realm=\"test\"")).isEqualTo("user");
+  }
+
+  @Test
+  public void testExtractUserFromRequestAllowedByDefault() throws Exception {
+    FakeHttpServletRequest fakeRequest = new FakeHttpServletRequest();
+    fakeRequest.addHeader(CUSTOM_LOGIN_HEADER, EXPECTED_USER);
+    assertThat(getRemoteUser(fakeRequest, CUSTOM_LOGIN_HEADER, Set.of())).isEqualTo(EXPECTED_USER);
+  }
+
+  @Test
+  public void testExtractUserFromRequestAllowedWithExactIPv4Matching() throws Exception {
+    String remoteIp = "192.168.1.2";
+    assertThat(
+            getRemoteUser(
+                newFakeHttpRequest(remoteIp, EXPECTED_USER),
+                CUSTOM_LOGIN_HEADER,
+                Set.of(remoteIp + "/32")))
+        .isEqualTo(EXPECTED_USER);
+  }
+
+  @Test
+  public void testExtractUserFromRequestAllowedWithExactIPv4InAcceptedRange() throws Exception {
+    assertThat(
+            getRemoteUser(
+                newFakeHttpRequest("10.16.5.1", EXPECTED_USER),
+                CUSTOM_LOGIN_HEADER,
+                Set.of("10.16.0.0/16", "192.168.1.0/24", "8.8.8.8/32")))
+        .isEqualTo(EXPECTED_USER);
+  }
+
+  @Test
+  public void testExtractUserFromRequestRejectedWithNonMatchingExactIPv4() throws Exception {
+    FakeHttpServletRequest fakeRequest = new FakeHttpServletRequest();
+    fakeRequest.addHeader(CUSTOM_LOGIN_HEADER, "user");
+    assertThat(
+            getRemoteUser(
+                newFakeHttpRequest("1.1.1.1", EXPECTED_USER),
+                CUSTOM_LOGIN_HEADER,
+                Set.of("2.2.2.2/32")))
+        .isNull();
+  }
+
+  @Test
+  public void testExtractUserFromRequestRejectedWithIPv6() throws Exception {
+    assertThat(
+            getRemoteUser(
+                newFakeHttpRequest("2001:0db8:85a3:0000:0000:8a2e:0370:7334", "user"),
+                CUSTOM_LOGIN_HEADER,
+                Set.of("255.255.255.255/32")))
+        .isNull();
+  }
+
+  private static FakeHttpServletRequest newFakeHttpRequest(String remoteIp, String expectedUser) {
+    FakeHttpServletRequest fakeRequest =
+        new FakeHttpServletRequest() {
+          @Override
+          public String getRemoteAddr() {
+            return remoteIp;
+          }
+        };
+    fakeRequest.addHeader(CUSTOM_LOGIN_HEADER, expectedUser);
+    return fakeRequest;
   }
 }

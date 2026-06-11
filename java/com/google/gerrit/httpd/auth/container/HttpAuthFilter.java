@@ -38,6 +38,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Locale;
 import java.util.Optional;
+import java.util.Set;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -67,6 +68,7 @@ class HttpAuthFilter implements Filter {
   private final String externalIdHeader;
   private final boolean userNameToLowerCase;
   private final ExternalIdKeyFactory externalIdKeyFactory;
+  private final Set<String> trustedProxyAddress;
 
   @Inject
   HttpAuthFilter(
@@ -90,6 +92,7 @@ class HttpAuthFilter implements Filter {
     emailHeader = emptyToNull(authConfig.getHttpEmailHeader());
     externalIdHeader = emptyToNull(authConfig.getHttpExternalIdHeader());
     userNameToLowerCase = authConfig.isUserNameToLowerCase();
+    trustedProxyAddress = authConfig.getTrustedProxyNetworks();
   }
 
   @Override
@@ -138,7 +141,7 @@ class HttpAuthFilter implements Filter {
   }
 
   String getRemoteUser(HttpServletRequest req) {
-    String remoteUser = RemoteUserUtil.getRemoteUser(req, loginHeader);
+    String remoteUser = RemoteUserUtil.getRemoteUser(req, loginHeader, trustedProxyAddress);
     return (userNameToLowerCase && remoteUser != null)
         ? remoteUser.toLowerCase(Locale.US)
         : remoteUser;

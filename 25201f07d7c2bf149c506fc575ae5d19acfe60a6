@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe226f12_4ab0939d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-11T13:53:01Z",
+      "side": 1,
+      "message": "I made a mistake; this depends on `auth.httpHeader` set.",
+      "parentUuid": "620344dd_684344f6",
+      "range": {
+        "startLine": 435,
+        "startChar": 25,
+        "endLine": 435,
+        "endChar": 53
+      },
+      "revId": "25201f07d7c2bf149c506fc575ae5d19acfe60a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fbc6beed_52f81225",

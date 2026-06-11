@@ -1,0 +1,297 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85fe161b_dc61b482",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-06-11T11:26:44Z",
+      "side": 1,
+      "message": "Did you mean `using` here?",
+      "range": {
+        "startLine": 10,
+        "startChar": 26,
+        "endLine": 10,
+        "endChar": 33
+      },
+      "revId": "06adf8df4c44482f6e7e9b76ab4fbb738d0e5e2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79225c34_24257c80",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-06-11T11:26:44Z",
+      "side": 1,
+      "message": "Any chance to add some test to cover username headers from trusted/untrusted networks?",
+      "revId": "06adf8df4c44482f6e7e9b76ab4fbb738d0e5e2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7bc45cd_b728d529",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-06-11T11:26:44Z",
+      "side": 1,
+      "message": "```suggestion\nList of IPv4 network CIDRs that are trusted for receiving HTTP header authentication.\n```",
+      "range": {
+        "startLine": 432,
+        "startChar": 13,
+        "endLine": 432,
+        "endChar": 21
+      },
+      "revId": "06adf8df4c44482f6e7e9b76ab4fbb738d0e5e2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6c49317_0d6b5305",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-06-11T11:26:44Z",
+      "side": 1,
+      "message": "```suggestion\nAccepting a trusted authentication HTTP header involves a leap of faith in the security\n```",
+      "range": {
+        "startLine": 437,
+        "startChar": 72,
+        "endLine": 437,
+        "endChar": 74
+      },
+      "revId": "06adf8df4c44482f6e7e9b76ab4fbb738d0e5e2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85956db2_fc341c9e",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-06-11T11:26:44Z",
+      "side": 1,
+      "message": "```suggestion\nof the incoming HTTP traffic. By default, the only secure way to ensure that all the\n```",
+      "range": {
+        "startLine": 438,
+        "startChar": 30,
+        "endLine": 438,
+        "endChar": 40
+      },
+      "revId": "06adf8df4c44482f6e7e9b76ab4fbb738d0e5e2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52bb6c8d_933df80d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-06-11T11:26:44Z",
+      "side": 1,
+      "message": "```suggestion\nthe connection between the proxy and Gerrit is in doubt, and this can be mitigated by\n```",
+      "range": {
+        "startLine": 441,
+        "startChar": 47,
+        "endLine": 441,
+        "endChar": 67
+      },
+      "revId": "06adf8df4c44482f6e7e9b76ab4fbb738d0e5e2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d494ac6e_63e91aea",
+        "filename": "java/com/google/gerrit/httpd/IPAddressMatcher.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-06-11T11:26:44Z",
+      "side": 1,
+      "message": "This is not used anywhere and `RemoteUserUtil` instead defines its own `matchesIpv4Cidr()` using `SubnetUtils`.\n\nLeftover?",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 53
+      },
+      "revId": "06adf8df4c44482f6e7e9b76ab4fbb738d0e5e2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3450ffd_506b76b3",
+        "filename": "java/com/google/gerrit/httpd/RemoteUserUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-06-11T11:26:44Z",
+      "side": 1,
+      "message": "These are not used, let\u0027s GJF the whole patch.",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 51
+      },
+      "revId": "06adf8df4c44482f6e7e9b76ab4fbb738d0e5e2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee025eb2_81097d29",
+        "filename": "java/com/google/gerrit/httpd/RemoteUserUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-06-11T11:26:44Z",
+      "side": 1,
+      "message": "```suggestion\n\n```",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 33,
+        "endChar": 2
+      },
+      "revId": "06adf8df4c44482f6e7e9b76ab4fbb738d0e5e2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cfe0a9b0_85e33228",
+        "filename": "java/com/google/gerrit/httpd/RemoteUserUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-06-11T11:26:44Z",
+      "side": 1,
+      "message": "The documentation says `auth.httpheaderTrustedNetworks` restricts which IPs may provide HTTP header authentication, but the code only checks trusted networks when loginHeader is `Authorization`.\n\nFor a custom header (i.e. `X-Remote-User`), we are still vulnerable to spoofing.\nIs this intentional? If so can you explain the rationale behind this and update the documentation accordingly?",
+      "range": {
+        "startLine": 70,
+        "startChar": 0,
+        "endLine": 72,
+        "endChar": 51
+      },
+      "revId": "06adf8df4c44482f6e7e9b76ab4fbb738d0e5e2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21f63206_fa94fd46",
+        "filename": "java/com/google/gerrit/httpd/RemoteUserUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-06-11T11:26:44Z",
+      "side": 1,
+      "message": "Why going through all of them to make sure none matches?\nWe could just stop eagerly as soon as we find one that _does_ match, no?",
+      "range": {
+        "startLine": 91,
+        "startChar": 0,
+        "endLine": 95,
+        "endChar": 0
+      },
+      "revId": "06adf8df4c44482f6e7e9b76ab4fbb738d0e5e2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45265d5e_3060d146",
+        "filename": "java/com/google/gerrit/httpd/RemoteUserUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-06-11T11:26:44Z",
+      "side": 1,
+      "message": "`SubnetUtils.SubnetInfo.isInRange()` documents that network and broadcast addresses are excluded, unless inclusive-host-count mode is enabled, like:\n\n```\n192.168.1.0, the subnet itself\n192.168.1.255 is, all hosts on that subnet\n```\n\nConsider setting:\n```\nsubnet.setInclusiveHostCount(true);\n```",
+      "range": {
+        "startLine": 133,
+        "startChar": 45,
+        "endLine": 133,
+        "endChar": 54
+      },
+      "revId": "06adf8df4c44482f6e7e9b76ab4fbb738d0e5e2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31d64732_bb6c8e6e",
+        "filename": "java/com/google/gerrit/httpd/RemoteUserUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-06-11T11:26:44Z",
+      "side": 1,
+      "message": "We are parsing each CIDR for every request.\n\nAn invalid configuration should cause Gerrit to fail startup with a clear error rather than discovering invalid values while serving traffic repeatedly constructing failing SubnetUtils instances.\n\nWDYT?",
+      "range": {
+        "startLine": 133,
+        "startChar": 17,
+        "endLine": 133,
+        "endChar": 44
+      },
+      "revId": "06adf8df4c44482f6e7e9b76ab4fbb738d0e5e2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

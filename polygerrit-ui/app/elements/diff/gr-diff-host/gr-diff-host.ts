@@ -119,6 +119,9 @@ declare global {
   interface HTMLElementEventMap {
     // prettier-ignore
     'render': CustomEvent<{}>;
+    'render-done': CustomEvent<{}>;
+    'line-selected-request': CustomEvent<{number: LineNumber; side: Side}>;
+    'create-comment-request': CustomEvent<{lineNum: LineNumber; side: Side}>;
     'create-comment': CustomEvent<CreateCommentEventDetail>;
     'range-selected': CustomEvent<RangeSelectedEventDetail>;
     'is-blame-loaded-changed': ValueChangedEvent<boolean>;
@@ -241,6 +244,13 @@ export class GrDiffHost extends LitElement {
   // then the name to look for in willUpdate/update/updated is '_diff'.
   private _diff?: DiffInfo;
 
+  private cachedDiffStats?: {
+    metaLines: number;
+    contentLines: number;
+    contentUnchanged: number;
+    contentChanged: number;
+  };
+
   get diff() {
     return this._diff;
   }
@@ -249,6 +259,7 @@ export class GrDiffHost extends LitElement {
     if (this._diff === diff) return;
     const oldDiff = this._diff;
     this._diff = diff;
+    this.cachedDiffStats = undefined;
     fire(this, 'diff-changed', {value: this._diff});
     this.requestUpdate('diff', oldDiff);
   }
@@ -599,16 +610,22 @@ export class GrDiffHost extends LitElement {
       // Not waiting for coverage ranges intentionally as
       // plugin loading should not block the content rendering
 
-      this.editWeblinks = this.getEditWeblinks(diff);
-      this.filesWeblinks = this.getFilesWeblinks(diff);
-      this.diff = diff;
-      this.reporting.timeEnd(Timing.DIFF_LOAD, this.timingDetails());
-
-      this.reporting.time(Timing.DIFF_CONTENT);
       this.syntaxLayer.setEnabled(this.isSyntaxHighlightingEnabled());
       const syntaxLayerPromise = this.syntaxLayer.process(diff);
       syntaxLayerPromise.catch(() => {});
-      await waitForEventOnce(this, 'render');
+
+      this.reporting.time(Timing.DIFF_SYNTAX);
+      await syntaxLayerPromise;
+      this.reporting.timeEnd(Timing.DIFF_SYNTAX, this.timingDetails());
+
+      this.editWeblinks = this.getEditWeblinks(diff);
+      this.filesWeblinks = this.getFilesWeblinks(diff);
+      
+      this.reporting.time(Timing.DIFF_CONTENT);
+      this.diff = diff;
+      this.reporting.timeEnd(Timing.DIFF_LOAD, this.timingDetails());
+
+      await waitForEventOnce(this, 'render-done');
       this.subscribeToChecks();
       this.reporting.timeEnd(Timing.DIFF_CONTENT, this.timingDetails());
 
@@ -617,10 +634,6 @@ export class GrDiffHost extends LitElement {
         // by params changed - expected only on Diff Page.
         this.reporting.diffViewContentDisplayed();
       }
-
-      this.reporting.time(Timing.DIFF_SYNTAX);
-      await syntaxLayerPromise;
-      this.reporting.timeEnd(Timing.DIFF_SYNTAX, this.timingDetails());
     } catch (e: unknown) {
       if (e instanceof Response) {
         this.handleGetDiffError(e);
@@ -634,15 +647,14 @@ export class GrDiffHost extends LitElement {
         );
       }
     } finally {
-      this.reporting.timeEnd(Timing.DIFF_TOTAL, this.timingDetails());
+      this.reporting.timeEnd(Timing.DIFF_TOTAL, this.timingDetails(true));
     }
   }
 
-  /**
-   * Produces an event detail object for reporting.
-   */
-  private timingDetails() {
-    if (!this.diff) return {};
+  private getDiffStats() {
+    if (!this.diff) return undefined;
+    if (this.cachedDiffStats) return this.cachedDiffStats;
+
     const metaLines =
       (this.diff.meta_a?.lines ?? 0) + (this.diff.meta_b?.lines ?? 0);
 
@@ -657,14 +669,27 @@ export class GrDiffHost extends LitElement {
       contentChanged += a + b;
       contentUnchanged += ab + ab;
     }
-    return {
+    this.cachedDiffStats = {
       metaLines,
       contentLines,
       contentUnchanged,
       contentChanged,
-      height:
-        this.diffElement?.shadowRoot?.querySelector('.diffContainer')
-          ?.clientHeight,
+    };
+    return this.cachedDiffStats;
+  }
+
+  /**
+   * Produces an event detail object for reporting.
+   */
+  private timingDetails(includeHeight = false) {
+    const stats = this.getDiffStats();
+    if (!stats) return {};
+    return {
+      ...stats,
+      height: includeHeight
+        ? this.diffElement?.shadowRoot?.querySelector('.diffContainer')
+            ?.clientHeight
+        : undefined,
     };
   }
 

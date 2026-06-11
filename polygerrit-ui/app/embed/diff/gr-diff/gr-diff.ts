@@ -329,6 +329,12 @@ export class GrDiff extends LitElement implements GrDiffApi {
     this.addEventListener('moved-link-clicked', (e: MovedLinkClickedEvent) => {
       this.diffModel.selectLine(e.detail.lineNum, e.detail.side);
     });
+    this.addEventListener('line-selected-request', (e: CustomEvent<{number: LineNumber, side: Side}>) => {
+      this.diffModel.selectLine(e.detail.number, e.detail.side);
+    });
+    this.addEventListener('create-comment-request', (e: CustomEvent<{lineNum: LineNumber, side: Side}>) => {
+      this.diffModel.createCommentOnLine(e.detail.lineNum, e.detail.side);
+    });
     this.addEventListener(
       'diff-context-expanded-internal-new',
       this.onDiffContextExpanded
@@ -1078,6 +1084,7 @@ declare global {
      * renders and for partial rerenders.
      */
     'render-content': CustomEvent<{}>;
+    'render-done': CustomEvent<{}>;
     'diff-context-expanded': CustomEvent<DiffContextExpandedExternalDetail>;
     'diff-context-expanded-internal-new': CustomEvent<DiffContextExpandedEventDetail>;
     'content-load-needed': CustomEvent<ContentLoadNeededEventDetail>;

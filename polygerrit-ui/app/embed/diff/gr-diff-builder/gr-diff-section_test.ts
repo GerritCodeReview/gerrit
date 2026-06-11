@@ -22,6 +22,15 @@ suite('gr-diff-section test', () => {
       html`<gr-diff-section></gr-diff-section>`
     );
     element.addTableWrapperForTesting = true;
+    element.columns = {
+      blame: false,
+      leftNumber: true,
+      leftSign: false,
+      leftContent: true,
+      rightNumber: true,
+      rightSign: false,
+      rightContent: true,
+    };
     await element.updateComplete;
   });
 
@@ -75,6 +84,17 @@ suite('gr-diff-section test', () => {
     test('unified', async () => {
       const diffModel = testResolver(diffModelToken);
       diffModel.updateState({renderPrefs: {view_mode: DiffViewMode.UNIFIED}});
+      element.viewMode = DiffViewMode.UNIFIED;
+      element.columns = {
+        blame: false,
+        leftNumber: true,
+        leftSign: false,
+        leftContent: false,
+        rightNumber: true,
+        rightSign: false,
+        rightContent: true,
+      };
+      await element.updateComplete;
       const row = await waitQueryAndAssert(element, 'tr.moveControls');
       // Semantic dom diff has a problem with just comparing table rows or
       // cells directly. So as a workaround put the row into an empty test

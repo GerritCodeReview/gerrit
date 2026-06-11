@@ -487,7 +487,7 @@ export class GrDiffCursor implements GrDiffCursorApi {
     );
     diff.removeEventListener('render-start', this.boundHandleDiffRenderStart);
     diff.removeEventListener(
-      'render-content',
+      'render-done',
       this.boundHandleDiffRenderContent
     );
     diff.removeEventListener('line-selected', this.boundHandleDiffLineSelected);
@@ -499,7 +499,7 @@ export class GrDiffCursor implements GrDiffCursorApi {
       this.boundHandleDiffLoadingChanged
     );
     diff.addEventListener('render-start', this.boundHandleDiffRenderStart);
-    diff.addEventListener('render-content', this.boundHandleDiffRenderContent);
+    diff.addEventListener('render-done', this.boundHandleDiffRenderContent);
     diff.addEventListener('line-selected', this.boundHandleDiffLineSelected);
   }
 

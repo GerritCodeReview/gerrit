@@ -199,6 +199,18 @@ suite('gr-diff tests', () => {
       assert.equal(cols.length, 4);
     });
 
+    async function waitForRender(element: GrDiff) {
+      await element.updateComplete;
+      const diffElement = (element as any).diffElement;
+      assert.isOk(diffElement, 'diffElement should be present');
+      await waitUntil(() => {
+        const expected = diffElement.groups.length;
+        if (expected === 0) return false;
+        const actual = diffElement.querySelectorAll('gr-diff-section').length;
+        return actual === expected;
+      }, 'Timeout waiting for gr-diff-section elements to render');
+    }
+
     suite('getCursorStops', () => {
       async function setupDiff() {
         element.diff = createDiff();
@@ -232,8 +244,7 @@ suite('gr-diff tests', () => {
       test('returns one stop per line and one for the file row', async () => {
         await setupDiff();
         element.loading = false;
-        await waitUntil(() => element.groups.length > 2);
-        await element.updateComplete;
+        await waitForRender(element);
         const ROWS = 48;
         const FILE_ROW = 1;
         const LOST_ROW = 1;
@@ -246,8 +257,7 @@ suite('gr-diff tests', () => {
       test('returns an additional AbortStop when still loading', async () => {
         await setupDiff();
         element.loading = true;
-        await waitUntil(() => element.groups.length > 2);
-        await element.updateComplete;
+        await waitForRender(element);
         const ROWS = 48;
         const FILE_ROW = 1;
         const LOST_ROW = 1;

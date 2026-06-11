@@ -18,6 +18,15 @@ suite('gr-diff-row test', () => {
   setup(async () => {
     element = await fixture<GrDiffRow>(html`<gr-diff-row></gr-diff-row>`);
     element.addTableWrapperForTesting = true;
+    element.columns = {
+      blame: false,
+      leftNumber: true,
+      leftSign: false,
+      leftContent: true,
+      rightNumber: true,
+      rightSign: false,
+      rightContent: true,
+    };
     await element.updateComplete;
   });
 
@@ -97,6 +106,15 @@ suite('gr-diff-row test', () => {
     const diffModel = testResolver(diffModelToken);
     diffModel.updateState({renderPrefs: {view_mode: DiffViewMode.UNIFIED}});
     element.unifiedDiff = true;
+    element.columns = {
+      blame: false,
+      leftNumber: true,
+      leftSign: false,
+      leftContent: false,
+      rightNumber: true,
+      rightSign: false,
+      rightContent: true,
+    };
     await element.updateComplete;
     assert.lightDom.equal(
       element,

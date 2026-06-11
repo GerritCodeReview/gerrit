@@ -23,13 +23,12 @@ import '../gr-range-header/gr-range-header';
 import './gr-diff-row';
 import {when} from 'lit/directives/when.js';
 import {fire} from '../../../utils/event-util';
-import {resolve} from '../../../models/dependency';
 import {
   ColumnsToShow,
-  diffModelToken,
   NO_COLUMNS,
 } from '../gr-diff-model/gr-diff-model';
-import {subscribe} from '../../../elements/lit/subscription-controller';
+import {BlameInfo} from '../../../types/common';
+import {GrDiffCommentThread} from '../gr-diff/gr-diff-utils';
 
 export class GrDiffSection extends LitElement {
   @queryAll('gr-diff-row')
@@ -38,22 +37,32 @@ export class GrDiffSection extends LitElement {
   @property({type: Object})
   group?: GrDiffGroup;
 
-  @state()
+  @property({type: Object})
   diff?: DiffInfo;
 
-  @state()
+  @property({type: Object})
   renderPrefs?: RenderPreferences;
 
-  @state()
+  @property({type: Object})
   diffPrefs?: DiffPreferencesInfo;
 
-  @state()
+  @property({type: Array})
   layers: DiffLayer[] = [];
 
-  @state()
+  @property({type: Number})
   lineLength = 100;
 
-  @state() columns: ColumnsToShow = NO_COLUMNS;
+  @property({type: Object})
+  columns: ColumnsToShow = NO_COLUMNS;
+
+  @property({type: String})
+  viewMode: DiffViewMode = DiffViewMode.SIDE_BY_SIDE;
+
+  @property({type: Array})
+  comments: GrDiffCommentThread[] = [];
+
+  @property({type: Array})
+  blameInfos: BlameInfo[] = [];
 
   /**
    * Semantic DOM diff testing does not work with just table fragments, so when
@@ -63,48 +72,7 @@ export class GrDiffSection extends LitElement {
   @state()
   addTableWrapperForTesting = false;
 
-  @state() viewMode: DiffViewMode = DiffViewMode.SIDE_BY_SIDE;
 
-  private readonly getDiffModel = resolve(this, diffModelToken);
-
-  constructor() {
-    super();
-    subscribe(
-      this,
-      () => this.getDiffModel().lineLength$,
-      lineLength => (this.lineLength = lineLength)
-    );
-    subscribe(
-      this,
-      () => this.getDiffModel().viewMode$,
-      viewMode => (this.viewMode = viewMode)
-    );
-    subscribe(
-      this,
-      () => this.getDiffModel().diff$,
-      diff => (this.diff = diff)
-    );
-    subscribe(
-      this,
-      () => this.getDiffModel().renderPrefs$,
-      renderPrefs => (this.renderPrefs = renderPrefs)
-    );
-    subscribe(
-      this,
-      () => this.getDiffModel().diffPrefs$,
-      diffPrefs => (this.diffPrefs = diffPrefs)
-    );
-    subscribe(
-      this,
-      () => this.getDiffModel().layers$,
-      layers => (this.layers = layers)
-    );
-    subscribe(
-      this,
-      () => this.getDiffModel().columnsToShow$,
-      columnsToShow => (this.columns = columnsToShow)
-    );
-  }
 
   /**
    * The browser API for handling selection does not (yet) work for selection
@@ -156,6 +124,9 @@ export class GrDiffSection extends LitElement {
               .unifiedDiff=${this.isUnifiedDiff()}
               .responsiveMode=${responsiveMode}
               .hideFileCommentButton=${hideFileCommentButton}
+              .comments=${this.comments}
+              .blameInfos=${this.blameInfos}
+              .columns=${this.columns}
             >
             </gr-diff-row>
           `;

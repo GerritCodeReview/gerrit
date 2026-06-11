@@ -25,6 +25,15 @@ import {wrapInProvider} from '../../../models/di-provider-element';
 
 const DEFAULT_PREFS = createDefaultDiffPrefs();
 
+async function waitForRender(element: GrDiffElement) {
+  await waitUntil(() => {
+    const expected = element.groups.length;
+    if (expected === 0) return false;
+    const actual = element.querySelectorAll('gr-diff-section').length;
+    return actual === expected;
+  }, 'Timeout waiting for gr-diff-section elements to render');
+}
+
 suite('gr-diff-element tests', () => {
   let element: GrDiffElement;
   let model: DiffModel;
@@ -76,8 +85,7 @@ suite('gr-diff-element tests', () => {
         diffPrefs: {...MINIMAL_PREFS},
         renderPrefs: {view_mode: DiffViewMode.UNIFIED},
       });
-      await element.updateComplete;
-      await waitForEventOnce(element, 'render');
+      await waitForRender(element);
       assert.lightDom.equal(
         element,
         /* HTML */ `
@@ -1264,8 +1272,7 @@ suite('gr-diff-element tests', () => {
         diffPrefs: {...MINIMAL_PREFS},
         renderPrefs: {view_mode: DiffViewMode.SIDE_BY_SIDE},
       });
-      await element.updateComplete;
-      await waitForEventOnce(element, 'render');
+      await waitForRender(element);
       assert.lightDom.equal(
         element,
         /* HTML */ `
@@ -2751,7 +2758,7 @@ suite('gr-diff-element tests', () => {
           },
           diffPrefs: {...MINIMAL_PREFS},
         });
-        await waitForEventOnce(element, 'render');
+        await waitForEventOnce(element, 'render-done');
 
         assert.lightDom.equal(
           element,
@@ -2873,7 +2880,7 @@ suite('gr-diff-element tests', () => {
           revisionImage: mockFile2,
         });
 
-        await waitForEventOnce(element, 'render');
+        await waitForEventOnce(element, 'render-done');
         const imageDiffSection = queryAndAssert(element, 'tbody.image-diff');
         assert.lightDom.equal(
           imageDiffSection,
@@ -2957,7 +2964,7 @@ suite('gr-diff-element tests', () => {
           revisionImage: {...mockFile1, _name: 'carrot2.jpg'},
         });
 
-        await waitForEventOnce(element, 'render');
+        await waitForEventOnce(element, 'render-done');
         const imageDiffSection = queryAndAssert(element, 'tbody.image-diff');
         const leftLabel = queryAndAssert(imageDiffSection, 'td.left label');
         const rightLabel = queryAndAssert(imageDiffSection, 'td.right label');
@@ -3008,7 +3015,7 @@ suite('gr-diff-element tests', () => {
           revisionImage: mockFile2,
         });
 
-        await waitForEventOnce(element, 'render');
+        await waitForEventOnce(element, 'render-done');
         const imageDiffSection = queryAndAssert(element, 'tbody.image-diff');
         const leftImage = query(imageDiffSection, 'td.left img');
         const rightImage = queryAndAssert(imageDiffSection, 'td.right img');
@@ -3049,7 +3056,7 @@ suite('gr-diff-element tests', () => {
           baseImage: mockFile1,
         });
 
-        await waitForEventOnce(element, 'render');
+        await waitForEventOnce(element, 'render-done');
         const imageDiffSection = queryAndAssert(element, 'tbody.image-diff');
         const leftImage = queryAndAssert(imageDiffSection, 'td.left img');
         const rightImage = query(imageDiffSection, 'td.right img');
@@ -3090,7 +3097,7 @@ suite('gr-diff-element tests', () => {
           baseImage: {...mockFile1, type: 'image/jpeg-evil'},
         });
 
-        await waitForEventOnce(element, 'render');
+        await waitForEventOnce(element, 'render-done');
         const imageDiffSection = queryAndAssert(element, 'tbody.image-diff');
         const leftImage = query(imageDiffSection, 'td.left img');
         assert.isNotOk(leftImage);

@@ -35,7 +35,6 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Locale;
 import java.util.Optional;
-import java.util.Set;
 import java.util.regex.Pattern;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -67,7 +66,6 @@ class ContainerAuthFilter implements Filter {
   private final AccountCache accountCache;
   private final Config config;
   private final String loginHttpHeader;
-  private final Set<String> trustedProxyNetworks;
   private final RemoteUserUtil remoteUserUtil;
 
   @Inject
@@ -82,7 +80,6 @@ class ContainerAuthFilter implements Filter {
     this.config = config;
 
     loginHttpHeader = firstNonNull(emptyToNull(authConfig.getLoginHttpHeader()), AUTHORIZATION);
-    trustedProxyNetworks = authConfig.getTrustedProxyNetworks();
     this.remoteUserUtil = remoteUserUtil;
   }
 
@@ -104,7 +101,7 @@ class ContainerAuthFilter implements Filter {
   }
 
   private boolean verify(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
-    String username = remoteUserUtil.getRemoteUser(req, loginHttpHeader, trustedProxyNetworks);
+    String username = remoteUserUtil.getRemoteUser(req, loginHttpHeader);
     if (username == null) {
       if (isLfsOverSshRequest(req)) {
         // LFS-over-SSH auth request cannot be authorized by container

@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9ac7a505_7cc20357",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-11T12:06:06Z",
+      "side": 1,
+      "message": "No, it\u0027s really misusing.",
+      "parentUuid": "85fe161b_dc61b482",
+      "range": {
+        "startLine": 10,
+        "startChar": 26,
+        "endLine": 10,
+        "endChar": 33
+      },
+      "revId": "06adf8df4c44482f6e7e9b76ab4fbb738d0e5e2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "79225c34_24257c80",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
@@ -37,6 +61,24 @@
       "writtenOn": "2026-06-11T11:26:44Z",
       "side": 1,
       "message": "Any chance to add some test to cover username headers from trusted/untrusted networks?",
+      "revId": "06adf8df4c44482f6e7e9b76ab4fbb738d0e5e2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a349cf1_4b004b74",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-11T12:06:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "79225c34_24257c80",
       "revId": "06adf8df4c44482f6e7e9b76ab4fbb738d0e5e2c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

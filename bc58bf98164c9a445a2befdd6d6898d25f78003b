@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c06f99cd_cea33956",
+        "filename": "java/com/google/gerrit/httpd/RemoteUserUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-06-11T13:56:38Z",
+      "side": 1,
+      "message": "What error do we get when a CIDR has been misconfigured?\n\nI believe `RemoteUserUtil` won\u0027t be constructed and the Guice injection chain will fail.\n\nIf that\u0027s the case, perhaps we should catch errors and propagate a meaningful error:\n\n```\nthrow new IllegalArgumentException(\n    \"Invalid auth.httpheaderTrustedNetworks CIDR: \" + cidr, e);\n```\n\nCan you double-check this behaviour and add a test to document it?",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 3
+      },
+      "revId": "bc58bf98164c9a445a2befdd6d6898d25f78003b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "message": "looking at the failing screenshots, the gr-user-suggestion one especially looks like it could be a regression.",
       "revId": "20c64fc8668dd5fc3bab3d6ec549def267d46c05",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3544478d_9ee1fd07",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4870948
+      },
+      "writtenOn": "2026-06-11T20:59:21Z",
+      "side": 1,
+      "message": "Yeah, the initial change wasn\u0027t scoped to only inline comments, which ended up impacting the Comments tab section, too. I\u0027ve updated to scope the change more narrowly.",
+      "parentUuid": "3e4ee222_9db0f623",
+      "revId": "20c64fc8668dd5fc3bab3d6ec549def267d46c05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

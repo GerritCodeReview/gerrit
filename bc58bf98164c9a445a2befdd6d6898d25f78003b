@@ -46,6 +46,30 @@
       },
       "revId": "bc58bf98164c9a445a2befdd6d6898d25f78003b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7bf00780_42272560",
+        "filename": "java/com/google/gerrit/httpd/RemoteUserUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-11T14:31:50Z",
+      "side": 1,
+      "message": "It now fails to start with:\n\n```\njava.lang.IllegalStateException: Cannot start HTTP daemon\n\tat com.google.gerrit.pgm.http.jetty.JettyServer$Lifecycle.start(JettyServer.java:111)\n\tat com.google.gerrit.lifecycle.LifecycleManager.start(LifecycleManager.java:95)\n\tat com.google.gerrit.pgm.Daemon.start(Daemon.java:415)\n\tat com.google.gerrit.pgm.Daemon.run(Daemon.java:303)\n\tat com.google.gerrit.pgm.util.AbstractProgram.main(AbstractProgram.java:62)\n\tat java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)\n\tat java.base/java.lang.reflect.Method.invoke(Method.java:580)\n\tat com.google.gerrit.launcher.GerritLauncher.invokeProgram(GerritLauncher.java:251)\n\tat com.google.gerrit.launcher.GerritLauncher.mainImpl(GerritLauncher.java:147)\n\tat com.google.gerrit.launcher.GerritLauncher.main(GerritLauncher.java:92)\n\tat Main.main(Main.java:30)\nCaused by: com.google.inject.ProvisionException: Unable to provision, see the following errors:\n\n1) Invalid auth trusted proxy definition: Could not parse [foobar]\n```",
+      "parentUuid": "8cbf5137_e55ccc43",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 3
+      },
+      "revId": "bc58bf98164c9a445a2befdd6d6898d25f78003b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

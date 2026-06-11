@@ -217,6 +217,37 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void removeInactiveMemberByUserName() throws Exception {
+    String inactiveMemberUserName = name("inactiveUser");
+    Account.Id inactiveAccountId =
+        accountOperations.newAccount().username(inactiveMemberUserName).inactive().create();
+    AccountGroup.UUID group = groupOperations.newGroup().addMember(inactiveAccountId).create();
+
+    gApi.groups().id(group.get()).removeMembers(inactiveMemberUserName);
+
+    ImmutableSet<Account.Id> members = groupOperations.group(group).get().members();
+    assertThat(members).isEmpty();
+  }
+
+  @Test
+  public void removeInactiveMemberByEmail() throws Exception {
+    String inactiveMemberEmail = "inactiveUser@example.com";
+    Account.Id inactiveAccountId =
+        accountOperations
+            .newAccount()
+            .username(name("inactiveUser"))
+            .inactive()
+            .preferredEmail(inactiveMemberEmail)
+            .create();
+    AccountGroup.UUID group = groupOperations.newGroup().addMember(inactiveAccountId).create();
+
+    gApi.groups().id(group.get()).removeMembers(inactiveMemberEmail);
+
+    ImmutableSet<Account.Id> members = groupOperations.group(group).get().members();
+    assertThat(members).isEmpty();
+  }
+
+  @Test
   public void addExternalGroups() throws Exception {
     AccountGroup.UUID group1 = groupOperations.newGroup().create();
     AccountGroup.UUID group2 = groupOperations.newGroup().create();

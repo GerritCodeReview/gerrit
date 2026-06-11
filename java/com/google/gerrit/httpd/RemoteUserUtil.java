@@ -18,11 +18,16 @@ import static com.google.common.base.Strings.emptyToNull;
 import static com.google.common.net.HttpHeaders.AUTHORIZATION;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.common.io.BaseEncoding;
 import com.google.gerrit.common.Nullable;
+import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
+import org.apache.commons.net.util.SubnetUtils;
 
 public class RemoteUserUtil {
+  private static FluentLogger logger = FluentLogger.forEnclosingClass();
+
   /**
    * Tries to get username from a request with following strategies:
    *
@@ -34,10 +39,13 @@ public class RemoteUserUtil {
    *
    * @param req request to extract username from.
    * @param loginHeader name of header which is used for extracting username.
+   * @param trustedProxyNetworks the trusted reverse proxy networks that performed the user
+   *     authentication
    * @return the extracted username or null.
    */
   @Nullable
-  public static String getRemoteUser(HttpServletRequest req, String loginHeader) {
+  public static String getRemoteUser(
+      HttpServletRequest req, String loginHeader, Set<String> trustedProxyNetworks) {
     if (AUTHORIZATION.equals(loginHeader)) {
       String user = emptyToNull(req.getRemoteUser());
       if (user != null) {
@@ -51,11 +59,45 @@ public class RemoteUserUtil {
       // have done it in the front-end web server. Try to split
       // the identity out of the Authorization header and honor it.
       String auth = req.getHeader(AUTHORIZATION);
+
       return extractUsername(auth);
     }
+
     // Nonstandard HTTP header. We have been told to trust this
     // header blindly as-is.
-    return emptyToNull(req.getHeader(loginHeader));
+    if (isRequestFromTrustedProxyNetworks(req, trustedProxyNetworks)) {
+      return emptyToNull(req.getHeader(loginHeader));
+    }
+
+    return null;
+  }
+
+  private static boolean isRequestFromTrustedProxyNetworks(
+      HttpServletRequest req, Set<String> trustedProxyNetworks) {
+    if (trustedProxyNetworks.isEmpty()) {
+      return true;
+    }
+
+    String remoteAddress = req.getRemoteAddr();
+    if (isIpv6Address(remoteAddress)) {
+      logger.atWarning().log(
+          "IPv6 remote address: %s - trusted proxy enforcement supports only IPv4, HTTP header"
+              + " rejected",
+          remoteAddress);
+      return false;
+    }
+
+    if (trustedProxyNetworks.contains(remoteAddress + "/32")) {
+      return true;
+    }
+
+    if (trustedProxyNetworks.stream().anyMatch(cidr -> matchesIpv4Cidr(remoteAddress, cidr))) {
+      return true;
+    }
+
+    logger.atWarning().log(
+        "Untrusted remote address: %s - authentication via HTTP header rejected", remoteAddress);
+    return false;
   }
 
   /**
@@ -89,5 +131,13 @@ public class RemoteUserUtil {
     } else {
       return null;
     }
+  }
+
+  private static boolean matchesIpv4Cidr(String ipAddress, String cidr) {
+    return new SubnetUtils(cidr).getInfo().isInRange(ipAddress);
+  }
+
+  private static boolean isIpv6Address(String ipAddress) {
+    return ipAddress.contains(":");
   }
 }

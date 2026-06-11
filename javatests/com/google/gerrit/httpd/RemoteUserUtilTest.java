@@ -16,15 +16,49 @@ package com.google.gerrit.httpd;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.httpd.RemoteUserUtil.extractUsername;
+import static com.google.gerrit.httpd.RemoteUserUtil.getRemoteUser;
 
+import com.google.gerrit.util.http.testutil.FakeHttpServletRequest;
 import org.junit.Test;
 
+import java.util.Set;
+
 public class RemoteUserUtilTest {
+  private static final String CUSTOM_LOGIN_HEADER = "MY_HEADER";
+
   @Test
   public void testExtractUsername() {
     assertThat(extractUsername(null)).isNull();
     assertThat(extractUsername("")).isNull();
     assertThat(extractUsername("Basic dXNlcjpwYXNzd29yZA==")).isEqualTo("user");
     assertThat(extractUsername("Digest username=\"user\", realm=\"test\"")).isEqualTo("user");
+  }
+
+  @Test
+  public void testExtractUserFromRequestAllowedByDefault()
+    throws Exception {
+    FakeHttpServletRequest fakeRequest = new FakeHttpServletRequest();
+    String expectedUser = "user";
+    fakeRequest.addHeader(CUSTOM_LOGIN_HEADER, expectedUser);
+    assertThat(getRemoteUser(fakeRequest, CUSTOM_LOGIN_HEADER, Set.of())).isEqualTo(expectedUser);
+  }
+
+  @Test
+  public void testExtractUserFromRequestAllowedWithExactIPv4Matching()
+          throws Exception {
+    FakeHttpServletRequest fakeRequest = new FakeHttpServletRequest();
+    String expectedUser = "user";
+    String remoteIp = fakeRequest.getRemoteAddr();
+    fakeRequest.addHeader(CUSTOM_LOGIN_HEADER, expectedUser);
+    assertThat(getRemoteUser(fakeRequest, CUSTOM_LOGIN_HEADER, Set.of(remoteIp + "/32"))).isEqualTo(expectedUser);
+  }
+
+  @Test
+  public void testExtractUserFromRequestRejectedWithNonMatchingExactIPv4()
+          throws Exception {
+    FakeHttpServletRequest fakeRequest = new FakeHttpServletRequest();
+    String expectedUser = "user";
+    fakeRequest.addHeader(CUSTOM_LOGIN_HEADER, expectedUser);
+    assertThat(getRemoteUser(fakeRequest, CUSTOM_LOGIN_HEADER, Set.of("255.255.255.255/32"))).isNull();
   }
 }

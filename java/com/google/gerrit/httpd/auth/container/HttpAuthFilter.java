@@ -69,12 +69,14 @@ class HttpAuthFilter implements Filter {
   private final boolean userNameToLowerCase;
   private final ExternalIdKeyFactory externalIdKeyFactory;
   private final Set<String> trustedProxyAddress;
+  private final RemoteUserUtil remoteUserUtil;
 
   @Inject
   HttpAuthFilter(
       DynamicItem<WebSession> webSession,
       AuthConfig authConfig,
-      ExternalIdKeyFactory externalIdKeyFactory)
+      ExternalIdKeyFactory externalIdKeyFactory,
+      RemoteUserUtil remoteUserUtil)
       throws IOException {
     this.sessionProvider = webSession;
     this.externalIdKeyFactory = externalIdKeyFactory;
@@ -93,6 +95,7 @@ class HttpAuthFilter implements Filter {
     externalIdHeader = emptyToNull(authConfig.getHttpExternalIdHeader());
     userNameToLowerCase = authConfig.isUserNameToLowerCase();
     trustedProxyAddress = authConfig.getTrustedProxyNetworks();
+    this.remoteUserUtil = remoteUserUtil;
   }
 
   @Override
@@ -141,7 +144,7 @@ class HttpAuthFilter implements Filter {
   }
 
   String getRemoteUser(HttpServletRequest req) {
-    String remoteUser = RemoteUserUtil.getRemoteUser(req, loginHeader, trustedProxyAddress);
+    String remoteUser = remoteUserUtil.getRemoteUser(req, loginHeader, trustedProxyAddress);
     return (userNameToLowerCase && remoteUser != null)
         ? remoteUser.toLowerCase(Locale.US)
         : remoteUser;

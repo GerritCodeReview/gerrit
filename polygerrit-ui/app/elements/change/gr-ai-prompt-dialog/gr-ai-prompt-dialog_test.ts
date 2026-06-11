@@ -7,11 +7,18 @@ import '../../../test/common-test-setup';
 import './gr-ai-prompt-dialog';
 import {assert, fixture, html} from '@open-wc/testing';
 import {GrAiPromptDialog} from './gr-ai-prompt-dialog';
-import {createParsedChange} from '../../../test/test-data-generators';
-import {CommitId, PatchSetNum} from '../../../api/rest-api';
+import {
+  createParsedChange,
+  createThread,
+} from '../../../test/test-data-generators';
+import {AccountInfo, CommitId, PatchSetNum} from '../../../api/rest-api';
 import {stubRestApi, waitUntil} from '../../../test/test-utils';
 import {testResolver} from '../../../test/common-test-setup';
 import {commentsModelToken} from '../../../models/comments/comments-model';
+import {
+  ChangeModel,
+  changeModelToken,
+} from '../../../models/change/change-model';
 import {of} from 'rxjs';
 
 suite('gr-ai-prompt-dialog test', () => {
@@ -28,6 +35,7 @@ suite('gr-ai-prompt-dialog test', () => {
 
     element = await fixture(html`<gr-ai-prompt-dialog></gr-ai-prompt-dialog>`);
     element.change = createParsedChange();
+    element.change.current_revision = 'abc' as CommitId;
     element.change.revisions['abc'].commit!.parents = [
       {
         commit: 'def' as CommitId,
@@ -35,9 +43,9 @@ suite('gr-ai-prompt-dialog test', () => {
       },
     ];
     element.patchNum = 1 as PatchSetNum;
-    element.patchContent = 'test code';
     element.selectedTemplate = 'PATCH_ONLY';
-    await element.updateComplete;
+    element.open();
+    await waitUntil(() => !!element.patchContent);
   });
 
   test('renders', async () => {
@@ -93,27 +101,42 @@ suite('gr-ai-prompt-dialog test', () => {
                  label="Context"
                  value="3"
                >
-                 <md-select-option md-menu-item="">
+                 <md-select-option
+                   md-menu-item=""
+                   tabindex="0"
+                 >
                    <div slot="headline">
                      3 lines (default)
                    </div>
                  </md-select-option>
-                 <md-select-option md-menu-item="">
+                 <md-select-option
+                   md-menu-item=""
+                   tabindex="-1"
+                 >
                    <div slot="headline">
                      10 lines
                    </div>
                  </md-select-option>
-                 <md-select-option md-menu-item="">
+                 <md-select-option
+                   md-menu-item=""
+                   tabindex="-1"
+                 >
                    <div slot="headline">
                      25 lines
                    </div>
                  </md-select-option>
-                 <md-select-option md-menu-item="">
+                 <md-select-option
+                   md-menu-item=""
+                   tabindex="-1"
+                 >
                    <div slot="headline">
                      50 lines
                    </div>
                  </md-select-option>
-                 <md-select-option md-menu-item="">
+                 <md-select-option
+                   md-menu-item=""
+                   tabindex="-1"
+                 >
                    <div slot="headline">
                      100 lines
                    </div>
@@ -188,8 +211,7 @@ suite('gr-ai-prompt-dialog test', () => {
     element.selectedTemplate = 'HELP_REVIEW';
     await element.updateComplete;
     assert.include(
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (element as any).promptContent,
+      Reflect.get(element, 'promptContent') as string,
       'You are a highly experienced code reviewer'
     );
   });
@@ -197,34 +219,30 @@ suite('gr-ai-prompt-dialog test', () => {
   test('renders resolve comments prompt', async () => {
     element.selectedTemplate = 'RESOLVE_COMMENTS';
     await element.updateComplete;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    assert.include((element as any).promptContent, 'No unresolved comments.');
+    assert.include(
+      Reflect.get(element, 'promptContent') as string,
+      'No unresolved comments.'
+    );
   });
 
   test('renders resolve comments prompt with comments', async () => {
     element.threads = [
       {
-        comments: [
-          {
-            message: 'test comment',
-            author: {name: 'Tester'},
-            updated: '2025-01-01 10:00:00.000000000',
-            unresolved: true,
-          },
-        ],
+        ...createThread({
+          message: 'test comment',
+          author: {name: 'Tester'} as AccountInfo,
+          unresolved: true,
+        }),
         path: 'test.txt',
         line: 1,
-        rootId: '1',
       },
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    ] as any[];
+    ];
     element.selectedTemplate = 'RESOLVE_COMMENTS';
     await element.updateComplete;
     const expected = `* File: test.txt (Line 1)
 Tester:
 test comment`;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    assert.include((element as any).promptContent, expected);
+    assert.include(Reflect.get(element, 'promptContent') as string, expected);
   });
 
   test('preserves dollar signs in patch content', async () => {
@@ -235,5 +253,69 @@ test comment`;
 
     const promptContent = Reflect.get(element, 'promptContent') as string;
     assert.include(promptContent, expected);
+  });
+
+  suite('eager loading prevention', () => {
+    let changeModel: ChangeModel;
+
+    setup(() => {
+      getPatchContentStub.resetHistory();
+      changeModel = testResolver(changeModelToken);
+    });
+
+    test('does not load patch content on initialization', async () => {
+      const change = createParsedChange();
+      change.revisions['abc'].commit!.parents = [
+        {
+          commit: 'def' as CommitId,
+          subject: 'Parent',
+        },
+      ];
+      Object.defineProperty(changeModel, 'change$', {
+        value: of(change),
+        writable: true,
+      });
+      Object.defineProperty(changeModel, 'patchNum$', {
+        value: of(1 as PatchSetNum),
+        writable: true,
+      });
+
+      const testElement = await fixture<GrAiPromptDialog>(
+        html`<gr-ai-prompt-dialog></gr-ai-prompt-dialog>`
+      );
+      await testElement.updateComplete;
+
+      assert.isFalse(getPatchContentStub.called);
+    });
+
+    test('loads patch content when open is called', async () => {
+      const change = createParsedChange();
+      change.revisions['abc'].commit!.parents = [
+        {
+          commit: 'def' as CommitId,
+          subject: 'Parent',
+        },
+      ];
+      Object.defineProperty(changeModel, 'change$', {
+        value: of(change),
+        writable: true,
+      });
+      Object.defineProperty(changeModel, 'patchNum$', {
+        value: of(1 as PatchSetNum),
+        writable: true,
+      });
+
+      const testElement = await fixture<GrAiPromptDialog>(
+        html`<gr-ai-prompt-dialog></gr-ai-prompt-dialog>`
+      );
+      await testElement.updateComplete;
+
+      assert.isFalse(getPatchContentStub.called);
+
+      testElement.open();
+      await testElement.updateComplete;
+
+      assert.isTrue(getPatchContentStub.called);
+    });
   });
 });

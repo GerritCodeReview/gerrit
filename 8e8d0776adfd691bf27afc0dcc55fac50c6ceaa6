@@ -58,6 +58,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "225995ad_635f7e59",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-11T10:48:58Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "b9c8e3d4_58862f1a",
+      "revId": "8e8d0776adfd691bf27afc0dcc55fac50c6ceaa6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "383b7481_af98fda1",
@@ -71,6 +89,24 @@
       "writtenOn": "2026-06-11T10:48:27Z",
       "side": 1,
       "message": "```suggestion\nthe connection between the proxy and Gerrit is in doubt, and this can be mitigated by\n```",
+      "revId": "8e8d0776adfd691bf27afc0dcc55fac50c6ceaa6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "87d26cfe_cd6d2b2f",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-11T10:48:58Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "383b7481_af98fda1",
       "revId": "8e8d0776adfd691bf27afc0dcc55fac50c6ceaa6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

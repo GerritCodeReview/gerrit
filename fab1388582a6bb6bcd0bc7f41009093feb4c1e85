@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1538fd4_287c2d9b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-06-11T08:07:28Z",
+      "side": 1,
+      "message": "nit: b/522377648",
+      "range": {
+        "startLine": 28,
+        "startChar": 15,
+        "endLine": 28,
+        "endChar": 24
+      },
+      "revId": "fab1388582a6bb6bcd0bc7f41009093feb4c1e85",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "014f4d73_e1c149ac",

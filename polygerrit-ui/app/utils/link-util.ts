@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {CommentLinkInfo, CommentLinks} from '../types/common';
-import {getBaseUrl} from './url-util';
+import {getBaseUrl, sameOrigin} from './url-util';
 
 /**
  * Finds links within the base string and convert them to HTML. Config-based
@@ -115,15 +115,23 @@ function getReplacementText(
   const replacementHref = rewrite.link.startsWith('/')
     ? `${getBaseUrl()}${rewrite.link}`
     : rewrite.link;
-  const regexp = new RegExp(rewrite.match, 'g');
-  return matchedText.replace(
-    regexp,
-    createLinkTemplate(
-      replacementHref,
-      rewrite.text ?? '$&',
-      rewrite.prefix,
-      rewrite.suffix
-    )
+  // Use regexp without 'g' flag for replacement to avoid lastIndex issues
+  // when running replace multiple times.
+  const regexp = new RegExp(rewrite.match);
+  const resolvedHref = matchedText.replace(regexp, replacementHref);
+  const resolvedText = matchedText.replace(regexp, rewrite.text ?? '$&');
+  const resolvedPrefix = rewrite.prefix
+    ? matchedText.replace(regexp, rewrite.prefix)
+    : undefined;
+  const resolvedSuffix = rewrite.suffix
+    ? matchedText.replace(regexp, rewrite.suffix)
+    : undefined;
+
+  return createLinkTemplate(
+    resolvedHref,
+    resolvedText,
+    resolvedPrefix,
+    resolvedSuffix
   );
 }
 
@@ -133,9 +141,10 @@ function createLinkTemplate(
   prefix?: string,
   suffix?: string
 ) {
-  return `${
-    prefix ?? ''
-  }<a href="${href}" rel="noopener noreferrer" target="_blank">${displayText}</a>${
+  const attributes = sameOrigin(href)
+    ? ''
+    : ' rel="noopener noreferrer" target="_blank"';
+  return `${prefix ?? ''}<a href="${href}"${attributes}>${displayText}</a>${
     suffix ?? ''
   }`;
 }

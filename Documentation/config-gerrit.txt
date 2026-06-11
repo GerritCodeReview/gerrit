@@ -427,6 +427,26 @@ The "Sign In" link will send users directly to this URL.
 HTTP header to trust the username from, or unset to select HTTP basic
 authentication.  Only used if `auth.type` is set to `HTTP`.
 
+[[auth.httpTrustedProxyNetworks]]auth.httpTrustedProxyNetworks::
++
+List of IPv4 networks CIDRs (e.g., `192.168.0.0/16`) that are trusted proxies for receiving
+HTTP header authentication.  Specify multiple networks by adding multiple entries.
+It applies only when `auth.type` is set to `HTTP` or `HTTP_LDAP`. The trusted-proxy
+remote address must be IPv4; if Gerrit is reached over IPv6, header-based
+authentication is rejected.
++
+[NOTE]
+====
+Accepting a trusted authentication HTTP header involves a leap of faith in the security
+of the incoming HTTP traffic. By default, the only secure way to ensure that all the
+traffic is coming from a trusted authentication proxy is via firewall rules or using
+a local proxy on the loopback interface. When using a remote proxy, the security of
+the connection between the proxy and Gerrit is in doubt, and this can be mitigated by
+the use of `auth.httpTrustedProxyNetworks`.
+====
++
+Default: accept any incoming IPs.
+
 [[auth.httpDisplaynameHeader]]auth.httpDisplaynameHeader::
 +
 HTTP header to retrieve the user's display name from.  Only used if `auth.type`

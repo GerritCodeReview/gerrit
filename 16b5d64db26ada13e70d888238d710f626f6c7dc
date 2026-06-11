@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0033d296_ed9e4536",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-06-11T09:08:20Z",
+      "side": 1,
+      "message": "I filed issue https://issues.gerritcodereview.com/issues/522454844 to ask Google to fix the unreliable replication of jgit from gerrithub to googlesource",
+      "revId": "16b5d64db26ada13e70d888238d710f626f6c7dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

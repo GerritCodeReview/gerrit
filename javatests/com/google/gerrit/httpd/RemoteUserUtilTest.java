@@ -16,21 +16,32 @@ package com.google.gerrit.httpd;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.httpd.RemoteUserUtil.extractUsername;
+import static org.mockito.Mockito.when;
 
+import com.google.common.base.Supplier;
+import com.google.common.base.Suppliers;
+import com.google.common.collect.ImmutableSet;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.util.http.testutil.FakeHttpServletRequest;
 import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 
+@RunWith(MockitoJUnitRunner.class)
 public class RemoteUserUtilTest {
   private static final String CUSTOM_LOGIN_HEADER = "MY_HEADER";
   private static final String EXPECTED_USER = "user";
 
-  RemoteUserUtil remoteUserUtil;
+  Supplier<RemoteUserUtil> remoteUserUtil;
+
+  @Mock AuthConfig authConfigMock;
 
   @Before
   public void setUp() throws Exception {
-    remoteUserUtil = new RemoteUserUtil();
+    remoteUserUtil = Suppliers.memoize(() -> new RemoteUserUtil(authConfigMock));
   }
 
   @Test
@@ -43,50 +54,62 @@ public class RemoteUserUtilTest {
 
   @Test
   public void testExtractUserFromRequestAllowedByDefault() throws Exception {
+    when(authConfigMock.getTrustedProxyNetworks()).thenReturn(ImmutableSet.of());
     FakeHttpServletRequest fakeRequest = new FakeHttpServletRequest();
     fakeRequest.addHeader(CUSTOM_LOGIN_HEADER, EXPECTED_USER);
-    assertThat(remoteUserUtil.getRemoteUser(fakeRequest, CUSTOM_LOGIN_HEADER, Set.of()))
+    assertThat(remoteUserUtil.get().getRemoteUser(fakeRequest, CUSTOM_LOGIN_HEADER))
         .isEqualTo(EXPECTED_USER);
   }
 
   @Test
   public void testExtractUserFromRequestAllowedWithExactIPv4Matching() throws Exception {
     String remoteIp = "192.168.1.2";
+    when(authConfigMock.getTrustedProxyNetworks()).thenReturn(Set.of(remoteIp + "/32"));
     assertThat(
-            remoteUserUtil.getRemoteUser(
-                newFakeHttpRequest(remoteIp, EXPECTED_USER),
-                CUSTOM_LOGIN_HEADER,
-                Set.of(remoteIp + "/32")))
+            remoteUserUtil
+                .get()
+                .getRemoteUser(newFakeHttpRequest(remoteIp, EXPECTED_USER), CUSTOM_LOGIN_HEADER))
         .isEqualTo(EXPECTED_USER);
   }
 
   @Test
   public void testExtractUserFromRequestAllowedWithExactIPv4InAcceptedRange() throws Exception {
+    when(authConfigMock.getTrustedProxyNetworks())
+        .thenReturn(Set.of("10.16.0.0/16", "192.168.1.0/24", "8.8.8.8/32"));
     assertThat(
-            remoteUserUtil.getRemoteUser(
-                newFakeHttpRequest("10.16.5.1", EXPECTED_USER),
-                CUSTOM_LOGIN_HEADER,
-                Set.of("10.16.0.0/16", "192.168.1.0/24", "8.8.8.8/32")))
+            remoteUserUtil
+                .get()
+                .getRemoteUser(newFakeHttpRequest("10.16.5.1", EXPECTED_USER), CUSTOM_LOGIN_HEADER))
         .isEqualTo(EXPECTED_USER);
   }
 
   @Test
   public void testExtractUserFromRequestRejectedWithNonMatchingExactIPv4() throws Exception {
+<<<<<<< PATCH SET (bc58bf98164c9a445a2befdd6d6898d25f78003b Parse httpheaderTrustedProxyNetworks in RemoteUserUtil once)
+    when(authConfigMock.getTrustedProxyNetworks()).thenReturn(Set.of("2.2.2.2/32"));
+    FakeHttpServletRequest fakeRequest = new FakeHttpServletRequest();
+    fakeRequest.addHeader(CUSTOM_LOGIN_HEADER, "user");
+||||||| BASE      (a5076f4eb99170bc7626a3beeb49f06f35f5d877 Make RemoteUserUtil a singleton rather than static)
+    FakeHttpServletRequest fakeRequest = new FakeHttpServletRequest();
+    fakeRequest.addHeader(CUSTOM_LOGIN_HEADER, "user");
+=======
+>>>>>>> BASE      (5b934635b7f30e4b7ddc5b30c07f03be1ab417ca Make RemoteUserUtil a singleton rather than static)
     assertThat(
-            remoteUserUtil.getRemoteUser(
-                newFakeHttpRequest("1.1.1.1", EXPECTED_USER),
-                CUSTOM_LOGIN_HEADER,
-                Set.of("2.2.2.2/32")))
+            remoteUserUtil
+                .get()
+                .getRemoteUser(newFakeHttpRequest("1.1.1.1", EXPECTED_USER), CUSTOM_LOGIN_HEADER))
         .isNull();
   }
 
   @Test
   public void testExtractUserFromRequestRejectedWithIPv6() throws Exception {
+    when(authConfigMock.getTrustedProxyNetworks()).thenReturn(Set.of("255.255.255.255/32"));
     assertThat(
-            remoteUserUtil.getRemoteUser(
-                newFakeHttpRequest("2001:0db8:85a3:0000:0000:8a2e:0370:7334", "user"),
-                CUSTOM_LOGIN_HEADER,
-                Set.of("255.255.255.255/32")))
+            remoteUserUtil
+                .get()
+                .getRemoteUser(
+                    newFakeHttpRequest("2001:0db8:85a3:0000:0000:8a2e:0370:7334", "user"),
+                    CUSTOM_LOGIN_HEADER))
         .isNull();
   }
 

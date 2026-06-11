@@ -645,6 +645,30 @@
       },
       "revId": "06adf8df4c44482f6e7e9b76ab4fbb738d0e5e2c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf39acac_0ee1addc",
+        "filename": "java/com/google/gerrit/httpd/RemoteUserUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-11T14:00:02Z",
+      "side": 1,
+      "message": "Addressed with I70eb5a617.",
+      "parentUuid": "31d64732_bb6c8e6e",
+      "range": {
+        "startLine": 133,
+        "startChar": 17,
+        "endLine": 133,
+        "endChar": 44
+      },
+      "revId": "06adf8df4c44482f6e7e9b76ab4fbb738d0e5e2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

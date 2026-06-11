@@ -18,13 +18,51 @@ import static com.google.common.base.Strings.emptyToNull;
 import static com.google.common.net.HttpHeaders.AUTHORIZATION;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.common.io.BaseEncoding;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.server.config.AuthConfig;
+import com.google.inject.ProvisionException;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.servlet.http.HttpServletRequest;
+import org.apache.commons.net.util.SubnetUtils;
 
 @Singleton
 public class RemoteUserUtil {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
+  private final Set<SubnetUtils.SubnetInfo> trustedProxySubnets;
+  private final Set<String> trustedProxyNetworks;
+  private final ProxyAddressProvider proxyAddressProvider;
+
+  @Inject
+  RemoteUserUtil(AuthConfig authConfig, ProxyAddressProvider proxyAddressProvider) {
+    // Single-IP matching (networks ending with '/32') are evaluated
+    // faster via O(1) String matching against trustedProxyNetworks.
+    trustedProxyNetworks = authConfig.getTrustedProxyNetworks();
+
+    try {
+      trustedProxySubnets =
+          trustedProxyNetworks.stream()
+              .filter(Predicate.not(RemoteUserUtil::isSingleIp)) // Handled by O(1) String matching
+              .map(SubnetUtils::new)
+              .map(SubnetUtils::getInfo)
+              .collect(Collectors.toSet());
+      this.proxyAddressProvider = proxyAddressProvider;
+    } catch (IllegalArgumentException e) {
+      throw new ProvisionException("Invalid auth trusted proxy definition: " + e.getMessage(), e);
+    }
+  }
+
+  private static boolean isSingleIp(String network) {
+    return network.endsWith("/32");
+  }
+
   /**
    * Tries to get username from a request with following strategies:
    *
@@ -35,12 +73,14 @@ public class RemoteUserUtil {
    * </ul>
    *
    * @param req request to extract username from.
-   * @param loginHeader name of header which is used for extracting username.
+   * @param loginHeader name of header which is used for extracting username. authentication
    * @return the extracted username or null.
    */
   @Nullable
   public String getRemoteUser(HttpServletRequest req, String loginHeader) {
-    if (AUTHORIZATION.equals(loginHeader)) {
+    boolean isAuthorizationHeader = AUTHORIZATION.equals(loginHeader);
+
+    if (isAuthorizationHeader) {
       String user = emptyToNull(req.getRemoteUser());
       if (user != null) {
         // The container performed the authentication, and has the user
@@ -48,16 +88,50 @@ public class RemoteUserUtil {
         // configured to honor HTTP authentication.
         return user;
       }
-
-      // If the container didn't do the authentication we might
-      // have done it in the front-end web server. Try to split
-      // the identity out of the Authorization header and honor it.
-      String auth = req.getHeader(AUTHORIZATION);
-      return extractUsername(auth);
     }
-    // Nonstandard HTTP header. We have been told to trust this
-    // header blindly as-is.
-    return emptyToNull(req.getHeader(loginHeader));
+
+    if (!isRequestFromTrustedProxyNetworks(req)) {
+      return null;
+    }
+
+    String auth = req.getHeader(loginHeader);
+    return isAuthorizationHeader
+        ?
+        // If the container didn't do the authentication we might
+        // have done it in the front-end web server. Try to split
+        // the identity out of the Authorization header and honor it.
+        extractUsername(auth)
+        :
+        // Nonstandard HTTP header. We have been told to trust this
+        // header blindly as-is.
+        emptyToNull(auth);
+  }
+
+  private boolean isRequestFromTrustedProxyNetworks(HttpServletRequest req) {
+    if (trustedProxyNetworks.isEmpty()) {
+      return true;
+    }
+
+    String remoteAddress = proxyAddressProvider.getRemoteAddr(req);
+    if (isIpv6Address(remoteAddress)) {
+      logger.atWarning().atMostEvery(1, TimeUnit.MINUTES).log(
+          "IPv6 remote address: %s - trusted proxy enforcement supports only IPv4, HTTP header"
+              + " rejected",
+          remoteAddress);
+      return false;
+    }
+
+    if (trustedProxyNetworks.contains(remoteAddress + "/32")) {
+      return true;
+    }
+
+    if (trustedProxySubnets.stream().anyMatch(subnet -> subnet.isInRange(remoteAddress))) {
+      return true;
+    }
+
+    logger.atWarning().atMostEvery(1, TimeUnit.MINUTES).log(
+        "Untrusted remote address: %s - authentication via HTTP header rejected", remoteAddress);
+    return false;
   }
 
   /**
@@ -91,5 +165,9 @@ public class RemoteUserUtil {
     } else {
       return null;
     }
+  }
+
+  private static boolean isIpv6Address(String ipAddress) {
+    return ipAddress.contains(":");
   }
 }

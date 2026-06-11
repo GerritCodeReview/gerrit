@@ -21,7 +21,11 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.io.BaseEncoding;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.server.config.AuthConfig;
+import com.google.inject.ProvisionException;
 import java.util.Set;
+import java.util.stream.Collectors;
+import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.net.util.SubnetUtils;
@@ -29,6 +33,23 @@ import org.apache.commons.net.util.SubnetUtils;
 @Singleton
 public class RemoteUserUtil {
   private static FluentLogger logger = FluentLogger.forEnclosingClass();
+  private final Set<SubnetUtils.SubnetInfo> trustedProxySubnets;
+  private final Set<String> trustedProxyNetworks;
+
+  @Inject
+  RemoteUserUtil(AuthConfig authConfig) {
+    trustedProxyNetworks = authConfig.getTrustedProxyNetworks();
+
+    try {
+      trustedProxySubnets =
+          trustedProxyNetworks.stream()
+              .map(SubnetUtils::new)
+              .map(SubnetUtils::getInfo)
+              .collect(Collectors.toSet());
+    } catch (IllegalArgumentException e) {
+      throw new ProvisionException("Invalid auth trusted proxy definition", e);
+    }
+  }
 
   /**
    * Tries to get username from a request with following strategies:
@@ -41,13 +62,10 @@ public class RemoteUserUtil {
    *
    * @param req request to extract username from.
    * @param loginHeader name of header which is used for extracting username.
-   * @param trustedProxyNetworks the trusted reverse proxy networks that performed the user
-   *     authentication
    * @return the extracted username or null.
    */
   @Nullable
-  public String getRemoteUser(
-      HttpServletRequest req, String loginHeader, Set<String> trustedProxyNetworks) {
+  public String getRemoteUser(HttpServletRequest req, String loginHeader) {
     if (AUTHORIZATION.equals(loginHeader)) {
       String user = emptyToNull(req.getRemoteUser());
       if (user != null) {
@@ -67,16 +85,15 @@ public class RemoteUserUtil {
 
     // Nonstandard HTTP header. We have been told to trust this
     // header blindly as-is.
-    if (isRequestFromTrustedProxyNetworks(req, trustedProxyNetworks)) {
+    if (isRequestFromTrustedProxyNetworks(req)) {
       return emptyToNull(req.getHeader(loginHeader));
     }
 
     return null;
   }
 
-  private static boolean isRequestFromTrustedProxyNetworks(
-      HttpServletRequest req, Set<String> trustedProxyNetworks) {
-    if (trustedProxyNetworks.isEmpty()) {
+  private boolean isRequestFromTrustedProxyNetworks(HttpServletRequest req) {
+    if (trustedProxySubnets.isEmpty()) {
       return true;
     }
 
@@ -93,7 +110,7 @@ public class RemoteUserUtil {
       return true;
     }
 
-    if (trustedProxyNetworks.stream().anyMatch(cidr -> matchesIpv4Cidr(remoteAddress, cidr))) {
+    if (trustedProxySubnets.stream().anyMatch(subnet -> subnet.isInRange(remoteAddress))) {
       return true;
     }
 
@@ -133,10 +150,6 @@ public class RemoteUserUtil {
     } else {
       return null;
     }
-  }
-
-  private static boolean matchesIpv4Cidr(String ipAddress, String cidr) {
-    return new SubnetUtils(cidr).getInfo().isInRange(ipAddress);
   }
 
   private static boolean isIpv6Address(String ipAddress) {

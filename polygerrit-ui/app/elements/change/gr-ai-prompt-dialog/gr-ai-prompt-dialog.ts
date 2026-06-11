@@ -92,6 +92,8 @@ export class GrAiPromptDialog extends LitElement {
 
   @state() private promptSize = '';
 
+  @state() private opened = false;
+
   private readonly getChangeModel = resolve(this, changeModelToken);
 
   private readonly getCommentsModel = resolve(this, commentsModelToken);
@@ -314,6 +316,8 @@ export class GrAiPromptDialog extends LitElement {
   }
 
   override willUpdate(changedProperties: PropertyValues) {
+    console.log('[GrAiPromptDialog] willUpdate, opened=', this.opened, 'changedProperties=', [...changedProperties.keys()]);
+    if (!this.opened) return;
     if (
       changedProperties.has('patchContent') ||
       changedProperties.has('selectedTemplate') ||
@@ -327,6 +331,7 @@ export class GrAiPromptDialog extends LitElement {
   }
 
   open() {
+    this.opened = true;
     if (this.getNumParents() === 1) {
       this.loadPatchContent();
     }
@@ -382,6 +387,7 @@ ${comments.join('\n\n')}`;
   }
 
   private updatePromptContent() {
+    console.log('[GrAiPromptDialog] updatePromptContent called, patchContent length=', this.patchContent?.length);
     if (!this.patchContent) {
       this.promptContent = '';
       this.promptSize = '';
@@ -437,6 +443,10 @@ ${comments.join('\n\n')}`;
   private handleCloseTap(e: Event) {
     e.preventDefault();
     e.stopPropagation();
+    this.opened = false;
+    this.patchContent = undefined;
+    this.promptContent = '';
+    this.promptSize = '';
     fire(this, 'close', {});
   }
 }

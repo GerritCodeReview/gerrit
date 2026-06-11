@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ccb8314_88eb382b",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-11T10:43:08Z",
+      "side": 1,
+      "message": "Also specify an example.\n\n\n\n```suggestion\nList of IPv4 networks CIDRs (e.g., `192.168.0.0/16`) that are trusted for receiving HTTP header authentication. Specify multiple networks by adding multiple `httpheaderTrustedNetworks` entries.\n```",
+      "range": {
+        "startLine": 432,
+        "startChar": 8,
+        "endLine": 432,
+        "endChar": 27
+      },
+      "revId": "8e8d0776adfd691bf27afc0dcc55fac50c6ceaa6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

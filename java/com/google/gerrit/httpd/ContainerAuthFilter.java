@@ -33,6 +33,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.Set;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.regex.Pattern;
@@ -66,6 +67,7 @@ class ContainerAuthFilter implements Filter {
   private final AccountCache accountCache;
   private final Config config;
   private final String loginHttpHeader;
+  private final Set<String> trustedProxyNetworks;
 
   @Inject
   ContainerAuthFilter(
@@ -78,6 +80,7 @@ class ContainerAuthFilter implements Filter {
     this.config = config;
 
     loginHttpHeader = firstNonNull(emptyToNull(authConfig.getLoginHttpHeader()), AUTHORIZATION);
+    trustedProxyNetworks = authConfig.getTrustedProxyNetworks();
   }
 
   @Override
@@ -98,7 +101,7 @@ class ContainerAuthFilter implements Filter {
   }
 
   private boolean verify(HttpServletRequest req, HttpServletResponse rsp) throws IOException {
-    String username = RemoteUserUtil.getRemoteUser(req, loginHttpHeader);
+    String username = RemoteUserUtil.getRemoteUser(req, loginHttpHeader, trustedProxyNetworks);
     if (username == null) {
       if (isLfsOverSshRequest(req)) {
         // LFS-over-SSH auth request cannot be authorized by container

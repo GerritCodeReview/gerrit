@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "53f64678_e6618d80",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-06-12T11:49:10Z",
+      "side": 1,
+      "message": "👍 Could you also take a look at the Jetty version bump in the `gitiles` project (change 590141)? Since Jetty is only used there for development purposes, it would be great to get your feedback on that change as well. Thanks!",
+      "parentUuid": "7f86f88f_32c7a9e5",
+      "revId": "20839d6c7404dae46ff6f39dd00ad8866bb5fb40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c9cff234_31ca90a4",
@@ -31,6 +49,30 @@
       "writtenOn": "2026-06-12T10:14:14Z",
       "side": 1,
       "message": "import this package ?",
+      "range": {
+        "startLine": 165,
+        "startChar": 14,
+        "endLine": 165,
+        "endChar": 50
+      },
+      "revId": "20839d6c7404dae46ff6f39dd00ad8866bb5fb40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6593afd3_0d388874",
+        "filename": "javatests/com/google/gerrit/pgm/http/jetty/ProjectQoSFilterTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-06-12T11:49:10Z",
+      "side": 1,
+      "message": "Good point. I tried that first. The local nested class is also named FakeHttpServletRequest, so adding\n\n```\nimport com.google.gerrit.util.http.testutil.FakeHttpServletRequest;\n```\n\ndoesn\u0027t help: the import is shadowed by the local declaration in the same file, and `extends FakeHttpServletRequest` would then resolve to the local class (illegal self-extension).\n\nTwo ways to avoid the inline FQN:\n\n* (a) rename the local class (e.g. ProjectQoSFakeRequest);\n* (b) keep the FQN at the single `extends` site.\n\nI went with (b) since the parent type is referenced exactly once in this file and (a) would churn the rest of the test for a stylistic gain. Happy to switch to (a) if you\u0027d prefer — just wanted to flag the shadowing constraint so the trade-off is visible.",
+      "parentUuid": "c9cff234_31ca90a4",
       "range": {
         "startLine": 165,
         "startChar": 14,

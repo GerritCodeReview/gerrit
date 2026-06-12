@@ -15,7 +15,6 @@
 package com.google.gerrit.extensions.restapi;
 
 import static com.google.common.base.Preconditions.checkState;
-import static javax.servlet.http.HttpServletResponse.SC_INTERNAL_SERVER_ERROR;
 
 import com.google.common.collect.ImmutableMultimap;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -23,6 +22,10 @@ import java.util.concurrent.TimeUnit;
 
 /** Special return value to mean specific HTTP status codes in a REST API. */
 public abstract class Response<T> {
+  // Intentionally keep this constant local to avoid introducing an HTTP library
+  // dependency into the public gerrit-extension-api.
+  private static final int HTTP_INTERNAL_SERVER_ERROR = 500;
+
   @SuppressWarnings({"rawtypes"})
   private static final Response NONE = new None();
 
@@ -74,7 +77,7 @@ public abstract class Response<T> {
   /** Arbitrary status code with wrapped result. */
   public static <T> Response<T> withStatusCode(int statusCode, T value) {
     checkState(
-        statusCode < SC_INTERNAL_SERVER_ERROR,
+        statusCode < HTTP_INTERNAL_SERVER_ERROR,
         "Status code must be < 500. To return an internal server error REST endpoint"
             + " implementations should throw an exception");
     return new Impl<>(statusCode, value);

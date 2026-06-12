@@ -2235,6 +2235,48 @@ If a plugin implements a screen for administrating its settings that is
 available under "#/x/<plugin-name>/settings" it is automatically linked
 from the plugin list screen.
 
+[[rest-view-http-request]]
+== Accessing HTTP Requests in REST Views
+
+Plugins can contribute REST API endpoints by binding `RestReadView`,
+`RestModifyView`, `RestCollection` and related REST view types in a
+`RestApiModule`.
+
+`RestReadView` implementations should implement `apply(R resource)`. If a
+view needs access to the original HTTP request, inject it as a root-relative
+request provider instead of overriding the deprecated request-typed
+`apply(HttpServletRequest, R)` method:
+
+[source,java]
+----
+import com.google.gerrit.extensions.annotations.RootRelative;
+import com.google.gerrit.extensions.restapi.Response;
+import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+import javax.servlet.http.HttpServletRequest;
+
+public class MyView implements RestReadView<MyResource> {
+  private final Provider<HttpServletRequest> req;
+
+  @Inject
+  MyView(@RootRelative Provider<HttpServletRequest> req) {
+    this.req = req;
+  }
+
+  @Override
+  public Response<?> apply(MyResource resource) {
+    HttpServletRequest request = req.get();
+    [...]
+  }
+}
+----
+
+`Provider<HttpServletRequest>` is required because Gerrit binds
+`HttpServletRequest` in request scope while REST views are commonly
+singleton-scoped. Injecting the request object directly into a singleton view
+fails when the view is created outside an active HTTP request.
+
 [[http]]
 == HTTP Servlets
 

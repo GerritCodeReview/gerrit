@@ -33,6 +33,23 @@
       "message": "any updates on this?",
       "revId": "e826efb5bb991a9780aba2c6ae3e2e7750014394",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7310c82_c2978ff4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-12T23:58:41Z",
+      "side": 1,
+      "message": "Why removing the OAuth logo?",
+      "revId": "e826efb5bb991a9780aba2c6ae3e2e7750014394",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -63,6 +63,9 @@ public interface RestReadView<R extends RestResource> extends RestView<R> {
    * <p>Throwing a subclass of {@link RestApiException} results in a 4XX response to the client. For
    * any other exception the client will get a {@code 500 Internal Server Error} response.
    *
+   * @deprecated This method couples the extensions API to the servlet namespace. Plugins that need
+   *     the {@code HttpServletRequest} should inject it via {@code @RootRelative
+   *     Provider<HttpServletRequest>} instead. This method will be removed in the next release.
    * @param req original request that has been processed by all the applicable Filters
    * @param resource resource to read
    * @return response to return to the client
@@ -74,6 +77,7 @@ public interface RestReadView<R extends RestResource> extends RestView<R> {
    * @throws Exception the implementation of the view failed. The exception will be logged and HTTP
    *     500 Internal Server Error will be returned to the client.
    */
+  @Deprecated(since = "3.15", forRemoval = true)
   default Response<?> apply(HttpServletRequest req, R resource)
       throws AuthException, BadRequestException, ResourceConflictException, Exception {
     return apply(resource);

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a5ade3e_c35a5f0d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4335701
+      },
+      "writtenOn": "2026-06-13T12:08:20Z",
+      "side": 1,
+      "message": "Óbito",
+      "revId": "c2bdeef7b81dbed864531956aa857799aca0820f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

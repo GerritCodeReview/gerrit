@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "364086bf_d807e3a5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 36
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-06-13T10:11:43Z",
+      "side": 1,
+      "message": "```suggestion\nIn case of JettyServer, we need to extend the ForwardedRequestCustomizer\n```",
+      "revId": "0660a8ed34b51c54fe491e25aa046c9b9135a5af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5beceda8_dbdba481",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 36
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-06-13T10:11:43Z",
+      "side": 1,
+      "message": "```suggestion\na request attribute. The runtime filter then accesses the attribute\n```",
+      "revId": "0660a8ed34b51c54fe491e25aa046c9b9135a5af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ee2eb6e_16e49e91",
+        "filename": "java/com/google/gerrit/httpd/RemoteUserUtil.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-06-13T10:11:43Z",
+      "side": 1,
+      "message": "Remove trailing \"authentication\".\n\n```suggestion\n   * @param loginHeader name of header which is used for extracting username.\n```",
+      "revId": "0660a8ed34b51c54fe491e25aa046c9b9135a5af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f53f504_9a3f8f2a",
+        "filename": "java/com/google/gerrit/httpd/RemoteUserUtil.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-06-13T10:11:43Z",
+      "side": 1,
+      "message": "HttpServletRequest.getRemoteAddr() can return null (Jetty edge cases, request fakes).\n\nThe previous code NPE\u0027d in isIpv6Address() before reaching the trust check. Treat a null peer address as untrusted and emit a rate-limited warning? Also a test could be added for that.\n\n```suggestion\n    String remoteAddress \u003d proxyAddressProvider.getRemoteAddr(req);\n    if (remoteAddress \u003d\u003d null) {\n      logger.atWarning().atMostEvery(1, TimeUnit.MINUTES).log(\n          \"Null remote address - HTTP header authentication rejected\");\n      return false;\n    }\n```",
+      "range": {
+        "startLine": 115,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 67
+      },
+      "revId": "0660a8ed34b51c54fe491e25aa046c9b9135a5af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84e2501d_1b137623",
+        "filename": "javatests/com/google/gerrit/httpd/RemoteUserUtilTest.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-06-13T10:11:43Z",
+      "side": 1,
+      "message": "Add a regression test asserting the null-peer-address path returns\n    null rather than throwing?\n\n```suggestion\n  @Test\n  public void testExtractUserFromRequestRejectedWhenRemoteAddrIsNull() throws Exception {\n    when(authConfigMock.getTrustedProxyNetworks()).thenReturn(Set.of(\"10.0.0.0/8\"));\n    when(proxyAddressProviderMock.getRemoteAddr(any(HttpServletRequest.class))).thenReturn(null);\n    FakeHttpServletRequest fakeRequest \u003d new FakeHttpServletRequest();\n    fakeRequest.addHeader(CUSTOM_LOGIN_HEADER, EXPECTED_USER);\n    assertThat(remoteUserUtil.get().getRemoteUser(fakeRequest, CUSTOM_LOGIN_HEADER)).isNull();\n  }\n\n  @Test\n```",
+      "range": {
+        "startLine": 71,
+        "startChar": 0,
+        "endLine": 71,
+        "endChar": 7
+      },
+      "revId": "0660a8ed34b51c54fe491e25aa046c9b9135a5af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

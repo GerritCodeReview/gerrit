@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a39ec44_5c4f919c",
+        "filename": "java/com/google/gerrit/httpd/RemoteUserUtil.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-13T00:31:58Z",
+      "side": 1,
+      "message": "What happens if the reverse proxy propagate the real client-IP address via `X-Forwarded-For`? Would this be the client IP instead of the proxy IP?",
+      "range": {
+        "startLine": 112,
+        "startChar": 27,
+        "endLine": 112,
+        "endChar": 46
+      },
+      "revId": "b286d55bf41f4b006b0038c24ea8ab857baaf686",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

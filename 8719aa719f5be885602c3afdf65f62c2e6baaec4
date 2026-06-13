@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e074afb6_92d616b1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-06-13T12:57:26Z",
+      "side": 1,
+      "message": "This is a major dependency upgrade on a stable branch -- outside the normal \"bug fixes only\" policy. I\u0027d like to flag the reasoning so the exception is deliberate.\n\n3.14.0 has shipped, so this rolls out starting with 3.14.1 - unusual for a point release. But the alternative (Jetty 9 across the remaining 3.14.x lifecycle) is worse: Jetty 9 is EOL, the 9.4.x patches available now are customer-sponsored extended-support only, and Maven Central stops publishing them in early 2026. After that cutoff we cannot bump Jetty 9 even if a CVE requires it.\n\nWhat makes the risk acceptable: no source-level API break for plugins (javax.servlet + Guice preserved; the ee8 adapter is the Jetty project\u0027s documented Servlet-4 interim path), and the diff is scope-bounded - see commit message.\n\nI wouldn\u0027t normally backport a change of this size. The EOL clock on Jetty 9 is what shifts the trade-off.",
+      "revId": "8719aa719f5be885602c3afdf65f62c2e6baaec4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

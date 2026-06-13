@@ -50,6 +50,24 @@
       "message": "Why removing the OAuth logo?",
       "revId": "e826efb5bb991a9780aba2c6ae3e2e7750014394",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0816c56a_d19af34d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4866787
+      },
+      "writtenOn": "2026-06-13T01:19:28Z",
+      "side": 1,
+      "message": "Doesn\u0027t it look tacky?\n\nIt also feels weird having a base64 image in here, which I don\u0027t mind replacing with an SVG version if we still want the logo",
+      "parentUuid": "d7310c82_c2978ff4",
+      "revId": "e826efb5bb991a9780aba2c6ae3e2e7750014394",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

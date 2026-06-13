@@ -22,6 +22,30 @@
       },
       "revId": "b286d55bf41f4b006b0038c24ea8ab857baaf686",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e625eecc_e4ba6ca2",
+        "filename": "java/com/google/gerrit/httpd/RemoteUserUtil.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-13T00:36:54Z",
+      "side": 1,
+      "message": "I believe here we need to request Jetty\u0027s socket and get the remote IP from there. The issue I see is the coupling with the underlying implementation (Jetty), which can break in other cases (e.g. Google).\n\nTherefore this must be implemented through an interface with a default implementation that falls back to `req.getRemoteAddr()`.",
+      "parentUuid": "4a39ec44_5c4f919c",
+      "range": {
+        "startLine": 112,
+        "startChar": 27,
+        "endLine": 112,
+        "endChar": 46
+      },
+      "revId": "b286d55bf41f4b006b0038c24ea8ab857baaf686",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

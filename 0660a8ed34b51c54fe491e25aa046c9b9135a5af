@@ -60,6 +60,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fbc4cd1f_75097824",
+        "filename": "java/com/google/gerrit/httpd/BUILD",
+        "patchSetId": 36
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-06-13T10:58:20Z",
+      "side": 1,
+      "message": "Avoid leaking external repository names — it complicates future `bzlmod` / `rules_jvm_external` migration.\n\n```suggestion\n        \"//lib/commons:lang3\",\n        \"//lib/commons:net\",\n        \"//lib/errorprone:annotations\",\n        \"//lib/flogger:api\",\n        \"//lib/guice\",\n        \"//lib/guice:guice-assistedinject\",\n        \"//lib/guice:guice-servlet\",\n        \"//lib/jsoup\",\n```",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 28
+      },
+      "revId": "0660a8ed34b51c54fe491e25aa046c9b9135a5af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6ee2eb6e_16e49e91",
         "filename": "java/com/google/gerrit/httpd/RemoteUserUtil.java",
         "patchSetId": 36

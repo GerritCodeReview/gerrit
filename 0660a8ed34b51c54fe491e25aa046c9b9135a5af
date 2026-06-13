@@ -37,6 +37,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "eddfaabd_69ed0295",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 36
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-06-13T10:29:40Z",
+      "side": 1,
+      "message": "Reword this sentence.\n\n```suggestion\nIt applies only when `auth.type` is set to `HTTP` or `HTTP_LDAP`. The trusted-proxy\nremote address must be IPv4; if Gerrit is reached over IPv6, header-based\nauthentication is rejected and the request is unauthenticated.\n\n```",
+      "range": {
+        "startLine": 434,
+        "startChar": 0,
+        "endLine": 435,
+        "endChar": 45
+      },
+      "revId": "0660a8ed34b51c54fe491e25aa046c9b9135a5af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6ee2eb6e_16e49e91",
         "filename": "java/com/google/gerrit/httpd/RemoteUserUtil.java",
         "patchSetId": 36

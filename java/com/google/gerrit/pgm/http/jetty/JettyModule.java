@@ -14,7 +14,6 @@
 
 package com.google.gerrit.pgm.http.jetty;
 
-import com.google.gerrit.httpd.ProxyAddressProvider;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.pgm.http.jetty.HttpLog.HttpLogFactory;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
@@ -30,7 +29,6 @@ public class JettyModule extends LifecycleModule {
   protected void configure() {
     bind(JettyEnv.class).toInstance(env);
     bind(JettyServer.class);
-    bind(ProxyAddressProvider.class).to(JettyServer.class);
     listener().to(JettyServer.Lifecycle.class);
     install(new FactoryModuleBuilder().build(HttpLogFactory.class));
     bind(JettyMetrics.class);

@@ -15,9 +15,9 @@
 package com.google.gerrit.httpd;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.httpd.RemoteUserUtil.PROXY_REMOTE_ADDRESS_ATTR;
 import static com.google.gerrit.httpd.RemoteUserUtil.extractUsername;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import com.google.common.base.Suppliers;
@@ -29,7 +29,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Set;
 import java.util.function.Supplier;
-import javax.servlet.http.HttpServletRequest;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -49,15 +48,10 @@ public class RemoteUserUtilTest {
 
   @Mock AuthConfig authConfigMock;
 
-  @Mock ProxyAddressProvider proxyAddressProviderMock;
-
   @Before
   public void setup() {
     when(authConfigMock.getTrustedProxyNetworks()).thenReturn(Set.of());
-    when(proxyAddressProviderMock.getRemoteAddr(any(HttpServletRequest.class)))
-        .thenCallRealMethod();
-    remoteUserUtil =
-        Suppliers.memoize(() -> new RemoteUserUtil(authConfigMock, proxyAddressProviderMock));
+    remoteUserUtil = Suppliers.memoize(() -> new RemoteUserUtil(authConfigMock));
   }
 
   @Test
@@ -91,11 +85,9 @@ public class RemoteUserUtilTest {
     String clientIP = "192.168.1.2";
     String proxyId = "80.78.1.3";
     when(authConfigMock.getTrustedProxyNetworks()).thenReturn(Set.of(proxyId + "/32"));
-    when(proxyAddressProviderMock.getRemoteAddr(any(HttpServletRequest.class))).thenReturn(proxyId);
-    assertThat(
-            remoteUserUtil
-                .get()
-                .getRemoteUser(newFakeHttpRequest(clientIP, EXPECTED_USER), CUSTOM_LOGIN_HEADER))
+    FakeHttpServletRequest fakeRequest = newFakeHttpRequest(clientIP, EXPECTED_USER);
+    fakeRequest.setAttribute(PROXY_REMOTE_ADDRESS_ATTR, proxyId);
+    assertThat(remoteUserUtil.get().getRemoteUser(fakeRequest, CUSTOM_LOGIN_HEADER))
         .isEqualTo(EXPECTED_USER);
   }
 

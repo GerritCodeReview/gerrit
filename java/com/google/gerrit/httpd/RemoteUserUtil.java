@@ -36,16 +36,30 @@ import org.apache.commons.net.util.SubnetUtils;
 public class RemoteUserUtil {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  /**
+   * Request attribute carrying the TCP-peer address before any X-Forwarded-* rewrite.
+   *
+   * <p>HTTP layers that want their requests evaluated against {@code
+   * auth.httpTrustedProxyNetworks} must set this attribute on each request. If the attribute is
+   * unset, {@link HttpServletRequest#getRemoteAddr()} is used as the peer address.
+   *
+   * <p>Gerrit's default Jetty container wires this automatically (see {@code
+   * JettyServer.PreserveProxyAddressForwardedRequestCustomizer}). Other servlet containers
+   * (Tomcat, embedded netty, etc.) can opt in by installing a {@code Filter} or equivalent that
+   * runs <em>before</em> any X-Forwarded-* rewrite (e.g., Tomcat's {@code RemoteIpValve}) and
+   * sets this attribute to {@code request.getRemoteAddr()}.
+   */
+  public static final String PROXY_REMOTE_ADDRESS_ATTR =
+      "com.google.gerrit.httpd.proxyRemoteAddress";
+
   private final Set<SubnetUtils.SubnetInfo> trustedProxySubnets;
   private final Set<String> trustedProxyNetworks;
-  private final ProxyAddressProvider proxyAddressProvider;
 
   @Inject
-  RemoteUserUtil(AuthConfig authConfig, ProxyAddressProvider proxyAddressProvider) {
+  RemoteUserUtil(AuthConfig authConfig) {
     // Single-IP matching (networks ending with '/32') are evaluated
     // faster via O(1) String matching against trustedProxyNetworks.
     trustedProxyNetworks = authConfig.getTrustedProxyNetworks();
-    this.proxyAddressProvider = proxyAddressProvider;
 
     try {
       trustedProxySubnets =
@@ -112,7 +126,8 @@ public class RemoteUserUtil {
       return true;
     }
 
-    String remoteAddress = proxyAddressProvider.getRemoteAddr(req);
+    String attr = (String) req.getAttribute(PROXY_REMOTE_ADDRESS_ATTR);
+    String remoteAddress = attr != null ? attr : req.getRemoteAddr();
     if (isIpv6Address(remoteAddress)) {
       logger.atWarning().atMostEvery(1, TimeUnit.MINUTES).log(
           "IPv6 remote address: %s - trusted proxy enforcement supports only IPv4, HTTP header"

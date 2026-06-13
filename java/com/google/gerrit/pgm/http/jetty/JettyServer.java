@@ -20,11 +20,10 @@ import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.extensions.events.LifecycleListener;
-import com.google.gerrit.httpd.ProxyAddressProvider;
+import com.google.gerrit.httpd.RemoteUserUtil;
 import com.google.gerrit.pgm.http.jetty.HttpLog.HttpLogFactory;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
@@ -50,7 +49,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 import org.eclipse.jetty.http.HttpScheme;
@@ -82,10 +80,7 @@ import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.eclipse.jgit.lib.Config;
 
 @Singleton
-public class JettyServer implements ProxyAddressProvider {
-
-  private static final String PROXY_REMOTE_ADDRESS =
-      "com.google.gerrit.pgm.http.jetty.proxyRemoteAddress";
+public class JettyServer {
 
   static class Lifecycle implements LifecycleListener {
     private final JettyServer server;
@@ -213,9 +208,7 @@ public class JettyServer implements ProxyAddressProvider {
 
     @Override
     public void customize(Connector connector, HttpConfiguration config, Request request) {
-      String proxyAddress = request.getRemoteAddr();
-      request.setAttribute(PROXY_REMOTE_ADDRESS, proxyAddress);
-
+      request.setAttribute(RemoteUserUtil.PROXY_REMOTE_ADDRESS_ATTR, request.getRemoteAddr());
       super.customize(connector, config, request);
     }
   }
@@ -299,12 +292,6 @@ public class JettyServer implements ProxyAddressProvider {
 
     httpd.setHandler(app);
     httpd.setStopAtShutdown(false);
-  }
-
-  @Override
-  public String getRemoteAddr(HttpServletRequest request) {
-    return MoreObjects.firstNonNull(
-        (String) request.getAttribute(PROXY_REMOTE_ADDRESS), request.getRemoteAddr());
   }
 
   @VisibleForTesting

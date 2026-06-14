@@ -23,6 +23,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.extensions.events.LifecycleListener;
+import com.google.gerrit.httpd.RemoteUserUtil;
 import com.google.gerrit.pgm.http.jetty.HttpLog.HttpLogFactory;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
@@ -60,6 +61,7 @@ import org.eclipse.jetty.server.ForwardedRequestCustomizer;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.HttpConfiguration;
 import org.eclipse.jetty.server.HttpConnectionFactory;
+import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.SecureRequestCustomizer;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
@@ -81,6 +83,16 @@ import org.eclipse.jgit.lib.Config;
 
 @Singleton
 public class JettyServer {
+
+  private static final ForwardedRequestCustomizer FORWARDED_REQUEST_CUSTOMIZER =
+      new ForwardedRequestCustomizer() {
+        @Override
+        public void customize(Connector connector, HttpConfiguration config, Request request) {
+          request.setAttribute(RemoteUserUtil.PROXY_REMOTE_ADDRESS_ATTR, request.getRemoteAddr());
+          super.customize(connector, config, request);
+        }
+      };
+
   static class Lifecycle implements LifecycleListener {
     private final JettyServer server;
     private final Config cfg;
@@ -367,12 +379,12 @@ public class JettyServer {
 
       } else if ("proxy-http".equals(u.getScheme())) {
         defaultPort = 8080;
-        config.addCustomizer(new ForwardedRequestCustomizer());
+        config.addCustomizer(FORWARDED_REQUEST_CUSTOMIZER);
         c = newServerConnector(server, acceptors, config);
 
       } else if ("proxy-https".equals(u.getScheme())) {
         defaultPort = 8080;
-        config.addCustomizer(new ForwardedRequestCustomizer());
+        config.addCustomizer(FORWARDED_REQUEST_CUSTOMIZER);
         config.addCustomizer(
             (connector, channelConfig, request) -> {
               request.setScheme(HttpScheme.HTTPS.asString());

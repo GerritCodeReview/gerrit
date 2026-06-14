@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "42b3bf4d_2bddd447",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4917211
+      },
+      "writtenOn": "2026-06-14T09:50:53Z",
+      "side": 1,
+      "message": "Revok",
+      "revId": "9f320587547dbb8be1ea9315d8fa7f5498812b19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

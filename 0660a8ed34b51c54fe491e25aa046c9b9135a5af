@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "929f3d4f_3082dcd4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 36
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-14T20:25:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "364086bf_d807e3a5",
+      "revId": "0660a8ed34b51c54fe491e25aa046c9b9135a5af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5beceda8_dbdba481",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-06-13T10:11:43Z",
       "side": 1,
       "message": "```suggestion\na request attribute. The runtime filter then accesses the attribute\n```",
+      "revId": "0660a8ed34b51c54fe491e25aa046c9b9135a5af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "30587b72_d0de15a9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 36
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-14T20:25:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5beceda8_dbdba481",
       "revId": "0660a8ed34b51c54fe491e25aa046c9b9135a5af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c51473f_fed84f5c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 36
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-14T20:25:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca865829_ba162ad5",
+      "revId": "0660a8ed34b51c54fe491e25aa046c9b9135a5af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eddfaabd_69ed0295",
@@ -65,6 +119,30 @@
       "writtenOn": "2026-06-13T10:29:40Z",
       "side": 1,
       "message": "Reword this sentence.\n\n```suggestion\nIt applies only when `auth.type` is set to `HTTP` or `HTTP_LDAP`. The trusted-proxy\nremote address must be IPv4; if Gerrit is reached over IPv6, header-based\nauthentication is rejected and the request is unauthenticated.\n\n```",
+      "range": {
+        "startLine": 434,
+        "startChar": 0,
+        "endLine": 435,
+        "endChar": 45
+      },
+      "revId": "0660a8ed34b51c54fe491e25aa046c9b9135a5af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4a7ed16_d71979c9",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 36
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-14T20:25:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eddfaabd_69ed0295",
       "range": {
         "startLine": 434,
         "startChar": 0,
@@ -98,6 +176,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "79de76d8_693ed6bb",
+        "filename": "java/com/google/gerrit/httpd/BUILD",
+        "patchSetId": 36
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-14T20:25:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fbc4cd1f_75097824",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 28
+      },
+      "revId": "0660a8ed34b51c54fe491e25aa046c9b9135a5af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6ee2eb6e_16e49e91",
@@ -111,6 +213,24 @@
       "writtenOn": "2026-06-13T10:11:43Z",
       "side": 1,
       "message": "Remove trailing \"authentication\".\n\n```suggestion\n   * @param loginHeader name of header which is used for extracting username.\n```",
+      "revId": "0660a8ed34b51c54fe491e25aa046c9b9135a5af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "79fe7aee_2c6ad33c",
+        "filename": "java/com/google/gerrit/httpd/RemoteUserUtil.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-14T20:25:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6ee2eb6e_16e49e91",
       "revId": "0660a8ed34b51c54fe491e25aa046c9b9135a5af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -138,6 +258,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "65a91a1b_a45e1fdc",
+        "filename": "java/com/google/gerrit/httpd/RemoteUserUtil.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-14T20:25:12Z",
+      "side": 1,
+      "message": "AFAIK, the `getRemoteAddr()` isn\u0027t nullable, and the `MoreObjects.firstNotNull()` provides protection against null values.",
+      "parentUuid": "2f53f504_9a3f8f2a",
+      "range": {
+        "startLine": 115,
+        "startChar": 0,
+        "endLine": 115,
+        "endChar": 67
+      },
+      "revId": "0660a8ed34b51c54fe491e25aa046c9b9135a5af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "84e2501d_1b137623",
@@ -151,6 +295,30 @@
       "writtenOn": "2026-06-13T10:11:43Z",
       "side": 1,
       "message": "Add a regression test asserting the null-peer-address path returns\n    null rather than throwing?\n\n```suggestion\n  @Test\n  public void testExtractUserFromRequestRejectedWhenRemoteAddrIsNull() throws Exception {\n    when(authConfigMock.getTrustedProxyNetworks()).thenReturn(Set.of(\"10.0.0.0/8\"));\n    when(proxyAddressProviderMock.getRemoteAddr(any(HttpServletRequest.class))).thenReturn(null);\n    FakeHttpServletRequest fakeRequest \u003d new FakeHttpServletRequest();\n    fakeRequest.addHeader(CUSTOM_LOGIN_HEADER, EXPECTED_USER);\n    assertThat(remoteUserUtil.get().getRemoteUser(fakeRequest, CUSTOM_LOGIN_HEADER)).isNull();\n  }\n\n  @Test\n```",
+      "range": {
+        "startLine": 71,
+        "startChar": 0,
+        "endLine": 71,
+        "endChar": 7
+      },
+      "revId": "0660a8ed34b51c54fe491e25aa046c9b9135a5af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f6acc9a8_802f3c8b",
+        "filename": "javatests/com/google/gerrit/httpd/RemoteUserUtilTest.java",
+        "patchSetId": 36
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-14T20:25:12Z",
+      "side": 1,
+      "message": "That looks like a testing and impossible situation: in which case would an incoming request come with a null remote address?",
+      "parentUuid": "84e2501d_1b137623",
       "range": {
         "startLine": 71,
         "startChar": 0,

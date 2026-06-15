@@ -14,18 +14,47 @@ filegroup(
     visibility = ["//visibility:public"],
 )
 
+package_group(
+    name = "servlet-api-users",
+    packages = [
+        "//java/com/google/gerrit/acceptance",
+        "//java/com/google/gerrit/auth",
+        "//java/com/google/gerrit/common",
+        "//java/com/google/gerrit/extensions",
+        "//java/com/google/gerrit/httpd/...",
+        "//java/com/google/gerrit/pgm/http/jetty",
+        "//java/com/google/gerrit/server/...",
+        "//java/com/google/gerrit/sshd",
+        "//java/com/google/gerrit/util/http",
+        "//javatests/com/google/gerrit/pgm",
+        "//javatests/com/google/gerrit/util/http/testutil",
+        "//modules/jgit/...",
+    ],
+)
+
+package_group(
+    name = "servlet-api-without-neverlink-users",
+    packages = [
+        "//java/com/google/gerrit/pgm",
+        "//javatests/com/google/gerrit/httpd",
+        "//javatests/com/google/gerrit/util/concurrent",
+        "//javatests/com/google/gerrit/util/http",
+        "//plugins",
+    ],
+)
+
 java_library(
     name = "servlet-api",
     data = ["//lib:LICENSE-Apache2.0"],
     neverlink = 1,
-    visibility = ["//visibility:public"],
+    visibility = [":servlet-api-users"],
     exports = ["@external_deps//:javax_servlet_javax_servlet_api"],
 )
 
 java_library(
     name = "servlet-api-without-neverlink",
     data = ["//lib:LICENSE-Apache2.0"],
-    visibility = ["//visibility:public"],
+    visibility = [":servlet-api-without-neverlink-users"],
     exports = ["@external_deps//:javax_servlet_javax_servlet_api"],
 )
 

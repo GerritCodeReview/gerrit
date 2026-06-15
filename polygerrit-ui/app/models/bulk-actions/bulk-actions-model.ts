@@ -97,6 +97,7 @@ export class BulkActionsModel extends Model<BulkActionsState> {
     const selectedChangeNums = [...current.selectedChangeNums];
     selectedChangeNums.push(changeNum);
     this.setState({...current, selectedChangeNums});
+    this.fetchActionsForSelectedChanges();
   }
 
   removeSelectedChangeNum(changeNum: NumericChangeId) {
@@ -122,6 +123,7 @@ export class BulkActionsModel extends Model<BulkActionsState> {
     this.updateState({
       selectedChangeNums: Array.from(current.allChanges.keys()),
     });
+    this.fetchActionsForSelectedChanges();
   }
 
   abandonChanges(
@@ -242,47 +244,55 @@ export class BulkActionsModel extends Model<BulkActionsState> {
   }
 
   async sync(changes: (ChangeInfo | RelatedChangeAndCommitInfo)[]) {
-    const basicChanges = new Map(changes.map(c => [getChangeNumber(c), c]));
-    let currentState = this.getState();
+    const basicChanges = new Map(
+      changes.map(c => [getChangeNumber(c), c as ChangeInfo])
+    );
+    const currentState = this.getState();
     const selectedChangeNums = currentState.selectedChangeNums.filter(
       changeNum => basicChanges.has(changeNum)
     );
     const selectableChangeNums = changes.map(c => getChangeNumber(c));
-    this.updateState({
-      loadingState: LoadingState.LOADING,
-      selectedChangeNums,
-      selectableChangeNums,
-      allChanges: new Map(),
-    });
-
-    if (changes.length === 0) {
-      return;
-    }
-
-    // Don't ask for SUBMIT_REQUIREMENTS if it is already available.
-    const needsSubmitRequirements = !this.hasSubmitRequirements(changes[0]);
-    const changeDetails =
-      await this.restApiService.getDetailedChangesWithActions(
-        changes.map(c => getChangeNumber(c)),
-        needsSubmitRequirements
-      );
-    currentState = this.getState();
-    // Return early if sync has been called again since starting the load.
-    if (!deepEqual(selectableChangeNums, currentState.selectableChangeNums)) {
-      return;
-    }
-    const allDetailedChanges: Map<NumericChangeId, ChangeInfo> = new Map();
-    for (const detailedChange of changeDetails ?? []) {
-      allDetailedChanges.set(detailedChange._number, {
-        ...detailedChange,
-        submit_requirements: needsSubmitRequirements
-          ? detailedChange.submit_requirements
-          : (basicChanges.get(detailedChange._number) as ChangeInfo)
-              ?.submit_requirements,
-      });
-    }
     this.setState({
       ...currentState,
+      loadingState: LoadingState.LOADED,
+      selectedChangeNums,
+      selectableChangeNums,
+      allChanges: basicChanges,
+    });
+  }
+
+  private async fetchActionsForSelectedChanges() {
+    const current = this.getState();
+    const changesToFetch = current.selectedChangeNums.filter(
+      changeNum => !current.allChanges.get(changeNum)?.actions
+    );
+    if (changesToFetch.length === 0) {
+      return;
+    }
+    this.updateState({loadingState: LoadingState.LOADING});
+    const needsSubmitRequirements = !this.hasSubmitRequirements(
+      current.allChanges.get(changesToFetch[0])!
+    );
+    const changeDetails =
+      await this.restApiService.getDetailedChangesWithActions(
+        changesToFetch,
+        needsSubmitRequirements
+      );
+    const latestState = this.getState();
+    const allDetailedChanges = new Map(latestState.allChanges);
+    for (const detailedChange of changeDetails ?? []) {
+      if (allDetailedChanges.has(detailedChange._number)) {
+        allDetailedChanges.set(detailedChange._number, {
+          ...detailedChange,
+          submit_requirements: needsSubmitRequirements
+            ? detailedChange.submit_requirements
+            : (allDetailedChanges.get(detailedChange._number) as ChangeInfo)
+                ?.submit_requirements,
+        });
+      }
+    }
+    this.setState({
+      ...latestState,
       loadingState: LoadingState.LOADED,
       allChanges: allDetailedChanges,
     });

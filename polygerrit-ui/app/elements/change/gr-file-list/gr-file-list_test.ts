@@ -52,6 +52,7 @@ import {FileInfo, PatchSetNumber} from '../../../api/rest-api';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {ParsedChangeInfo} from '../../../types/types';
 import {normalize} from '../../../models/change/files-model';
+import {changeModelToken} from '../../../models/change/change-model';
 import {GrDiffHost} from '../../diff/gr-diff-host/gr-diff-host';
 import {GrEditFileControls} from '../../edit/gr-edit-file-controls/gr-edit-file-controls';
 import {GrIcon} from '../../shared/gr-icon/gr-icon';
@@ -1256,6 +1257,68 @@ suite('gr-file-list tests', () => {
 
       assert.isTrue(commitReviewLabel.classList.contains('isReviewed'));
       assert.equal(markReviewLabel.textContent, 'MARK UNREVIEWED');
+    });
+
+    test('file review status expanded collapse and scroll', async () => {
+      const changeModel = testResolver(changeModelToken);
+      changeModel.updateStateReviewedFiles([]);
+      element.diffPrefs = {
+        ...element.diffPrefs,
+        manual_review: true,
+      };
+      element.reviewed = [];
+      element.files = [
+        normalize({}, '/COMMIT_MSG'),
+        normalize({}, 'file_added_in_rev2.txt'),
+        normalize({}, 'myfile.txt'),
+      ];
+      element.changeNum = 42 as NumericChangeId;
+      element.basePatchNum = PARENT;
+      element.patchNum = 2 as RevisionPatchSetNum;
+      element.fileCursor.setCursorAtIndex(0);
+      await element.updateComplete;
+
+      // Expand the first file
+      element.expandedFiles = [element.computePatchSetFile(element.files[0])];
+      await element.updateComplete;
+      await waitEventLoop();
+
+      const fileRows = queryAll(element, '.row:not(.header-row)');
+      const markReviewLabel =
+        fileRows[0].querySelector<HTMLSpanElement>('.markReviewed');
+      assert.isOk(markReviewLabel);
+
+      const toggleExpandSpy = sinon.spy(element, 'toggleFileExpanded');
+      const scrollStub = sinon.stub(HTMLElement.prototype, 'scrollIntoView');
+
+      // Mark reviewed
+      markReviewLabel.click();
+
+      // We need to wait for the async handleReviewFileExplicit to finish.
+      // It eventually updates the cursor index.
+      await waitUntil(() => element.fileCursor.index === 1);
+
+      // Verify it was saved as reviewed
+      assert.isTrue(saveStub.lastCall.calledWithExactly('/COMMIT_MSG', true));
+
+      // Verify it was collapsed
+      assert.isTrue(toggleExpandSpy.calledOnce);
+      assert.isFalse(element.expandedFiles.some(f => f.path === '/COMMIT_MSG'));
+      const targetRow = fileRows[1];
+      assert.isTrue(scrollStub.called);
+      const calledOnTarget = scrollStub.thisValues.some(
+        val => val === targetRow
+      );
+      assert.isTrue(
+        calledOnTarget,
+        'scrollIntoView should be called on the next unreviewed file row'
+      );
+      assert.isTrue(
+        scrollStub.calledWith({block: 'start'}),
+        'scrollIntoView should be called with block: start'
+      );
+
+      scrollStub.restore();
     });
 
     test('handleFileListClick', async () => {

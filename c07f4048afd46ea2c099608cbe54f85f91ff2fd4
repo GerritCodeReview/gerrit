@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "75379c8c_6649d4e8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-15T20:09:10Z",
+      "side": 1,
+      "message": "@milutin@google.com can you also approve with Library-Compliance this JGit bump? 🙏",
+      "revId": "c07f4048afd46ea2c099608cbe54f85f91ff2fd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

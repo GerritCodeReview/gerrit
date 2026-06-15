@@ -52,7 +52,6 @@ import com.google.common.math.IntMath;
 import com.google.common.net.HttpHeaders;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
@@ -1197,11 +1196,30 @@ public class RestApiServlet extends HttpServlet {
     for (Field f : obj.getClass().getDeclaredFields()) {
       if (f.getType() == RawInput.class) {
         f.setAccessible(true);
-        f.set(obj, RawInputUtil.create(req));
+        f.set(obj, createRawInput(req));
         return obj;
       }
     }
     throw new MethodNotAllowedException("raw input not supported");
+  }
+
+  private static RawInput createRawInput(HttpServletRequest req) {
+    return new RawInput() {
+      @Override
+      public String getContentType() {
+        return req.getContentType();
+      }
+
+      @Override
+      public long getContentLength() {
+        return req.getContentLength();
+      }
+
+      @Override
+      public InputStream getInputStream() throws IOException {
+        return req.getInputStream();
+      }
+    };
   }
 
   private Object parseString(String value, Type type)

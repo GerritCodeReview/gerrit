@@ -14,26 +14,13 @@
 
 package com.google.gerrit.server.audit;
 
-import static java.util.Objects.requireNonNull;
-
 import com.google.common.collect.ListMultimap;
 import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.server.CurrentUser;
-import javax.servlet.http.HttpServletRequest;
 
 /** Extended audit event. Adds request, resource and view data to HttpAuditEvent. */
 public class ExtendedHttpAuditEvent extends HttpAuditEvent {
-  /**
-   * Original HTTP request.
-   *
-   * @deprecated use {@link #what} for the request URI and {@link #httpMethod} for the request
-   *     method. This field exposes the servlet namespace through the audit extension point and will
-   *     be removed in the next release.
-   */
-  @Deprecated(since = "3.15", forRemoval = true)
-  public final HttpServletRequest httpRequest;
-
   public final RestResource resource;
   public final RestView<? extends RestResource> view;
 
@@ -42,7 +29,8 @@ public class ExtendedHttpAuditEvent extends HttpAuditEvent {
    *
    * @param sessionId session id the event belongs to
    * @param who principal that has generated the event
-   * @param httpRequest the HttpServletRequest
+   * @param requestUri request URI
+   * @param httpMethod HTTP method
    * @param when time-stamp of when the event started
    * @param params parameters of the event
    * @param input input
@@ -54,7 +42,8 @@ public class ExtendedHttpAuditEvent extends HttpAuditEvent {
   public ExtendedHttpAuditEvent(
       String sessionId,
       CurrentUser who,
-      HttpServletRequest httpRequest,
+      String requestUri,
+      String httpMethod,
       long when,
       ListMultimap<String, ?> params,
       Object input,
@@ -62,17 +51,7 @@ public class ExtendedHttpAuditEvent extends HttpAuditEvent {
       Object result,
       RestResource resource,
       RestView<RestResource> view) {
-    super(
-        sessionId,
-        who,
-        httpRequest.getRequestURI(),
-        when,
-        params,
-        httpRequest.getMethod(),
-        input,
-        status,
-        result);
-    this.httpRequest = requireNonNull(httpRequest);
+    super(sessionId, who, requestUri, when, params, httpMethod, input, status, result);
     this.resource = resource;
     this.view = view;
   }

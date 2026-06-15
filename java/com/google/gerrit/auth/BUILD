@@ -26,7 +26,6 @@ java_library(
         "//lib:guava",
         "//lib:jgit",
         "//lib:protobuf",
-        "//lib:servlet-api",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",
         "//lib/errorprone:annotations",

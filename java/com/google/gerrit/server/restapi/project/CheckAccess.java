@@ -39,7 +39,7 @@ import com.google.gerrit.server.project.ProjectResource;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.Optional;
-import javax.servlet.http.HttpServletResponse;
+import org.apache.http.HttpStatus;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Repository;
 import org.kohsuke.args4j.Option;
@@ -92,7 +92,7 @@ public class CheckAccess implements RestReadView<ProjectResource> {
           .test(ProjectPermission.ACCESS)) {
         return Response.ok(
             createInfo(
-                HttpServletResponse.SC_FORBIDDEN,
+                HttpStatus.SC_FORBIDDEN,
                 String.format("user %s cannot see project %s", match, rsrc.getName())));
       }
       RefPermission refPerm;
@@ -119,7 +119,7 @@ public class CheckAccess implements RestReadView<ProjectResource> {
               .test(refPerm)) {
         return Response.ok(
             createInfo(
-                HttpServletResponse.SC_FORBIDDEN,
+                HttpStatus.SC_FORBIDDEN,
                 String.format(
                     "user %s lacks permission %s for %s in project %s",
                     match, input.permission, input.ref, rsrc.getName())));
@@ -132,7 +132,7 @@ public class CheckAccess implements RestReadView<ProjectResource> {
           message = "access is OK, but repository has no branches under refs/heads/";
         }
       }
-      return Response.ok(createInfo(HttpServletResponse.SC_OK, message));
+      return Response.ok(createInfo(HttpStatus.SC_OK, message));
     }
   }
 

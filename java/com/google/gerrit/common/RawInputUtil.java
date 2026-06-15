@@ -21,7 +21,6 @@ import com.google.gerrit.extensions.restapi.RawInput;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import javax.servlet.http.HttpServletRequest;
 
 public class RawInputUtil {
   public static RawInput create(String content) {
@@ -52,22 +51,4 @@ public class RawInputUtil {
     return create(bytes, "application/octet-stream");
   }
 
-  public static RawInput create(HttpServletRequest req) {
-    return new RawInput() {
-      @Override
-      public String getContentType() {
-        return req.getContentType();
-      }
-
-      @Override
-      public long getContentLength() {
-        return req.getContentLength();
-      }
-
-      @Override
-      public InputStream getInputStream() throws IOException {
-        return req.getInputStream();
-      }
-    };
-  }
 }

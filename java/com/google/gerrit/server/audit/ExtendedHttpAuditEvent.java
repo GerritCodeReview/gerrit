@@ -24,7 +24,16 @@ import javax.servlet.http.HttpServletRequest;
 
 /** Extended audit event. Adds request, resource and view data to HttpAuditEvent. */
 public class ExtendedHttpAuditEvent extends HttpAuditEvent {
+  /**
+   * Original HTTP request.
+   *
+   * @deprecated use {@link #what} for the request URI and {@link #httpMethod} for the request
+   *     method. This field exposes the servlet namespace through the audit extension point and will
+   *     be removed in the next release.
+   */
+  @Deprecated(since = "3.15", forRemoval = true)
   public final HttpServletRequest httpRequest;
+
   public final RestResource resource;
   public final RestView<? extends RestResource> view;
 

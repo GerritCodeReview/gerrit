@@ -108,6 +108,30 @@
       },
       "revId": "d6c2a10a05c16daf46c01d0848410edb53e194f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8dbfe7c_0b263d4c",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-06-15T08:51:36Z",
+      "side": 1,
+      "message": "While `getRemoteAddr()` does return the default TCP peer address initially, calling it here is crucial because of the order of execution.\n\nRight after this line, we call `super.customize(connector, config, request)`, line below.\n\nJetty\u0027s standard `ForwardedRequestCustomizer` will intercept the X-Forwarded-For header and overwrite the remote address on the request object with the client\u0027s original IP.\n\nWe are explicitly saving `request.getRemoteAddr()` into the attribute *before* that happens so that `RemoteUserUtil` can later access the actual, pre-rewrite TCP peer address (the proxy\u0027s IP) to validate it against the trusted CIDR blocks. Without this line, that original proxy IP is lost.\n\nSee also change 595181 for detailed explanation, how it worked before.",
+      "parentUuid": "ceb5c1ff_6e0bfe53",
+      "range": {
+        "startLine": 89,
+        "startChar": 0,
+        "endLine": 89,
+        "endChar": 98
+      },
+      "revId": "d6c2a10a05c16daf46c01d0848410edb53e194f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

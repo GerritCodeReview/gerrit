@@ -20,7 +20,6 @@ package_group(
         "//java/com/google/gerrit/acceptance",
         "//java/com/google/gerrit/auth",
         "//java/com/google/gerrit/common",
-        "//java/com/google/gerrit/extensions",
         "//java/com/google/gerrit/httpd/...",
         "//java/com/google/gerrit/pgm/http/jetty",
         "//java/com/google/gerrit/server/...",

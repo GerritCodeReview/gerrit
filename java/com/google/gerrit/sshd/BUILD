@@ -29,7 +29,6 @@ java_library(
         "//lib:guava",
         "//lib:jgit",
         "//lib:jgit-ssh-apache",
-        "//lib:servlet-api",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",
         "//lib/bouncycastle:bcprov-neverlink",

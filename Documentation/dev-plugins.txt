@@ -2244,8 +2244,7 @@ Plugins can contribute REST API endpoints by binding `RestReadView`,
 
 `RestReadView` implementations should implement `apply(R resource)`. If a
 view needs access to the original HTTP request, inject it as a root-relative
-request provider instead of overriding the deprecated request-typed
-`apply(HttpServletRequest, R)` method:
+request provider:
 
 [source,java]
 ----

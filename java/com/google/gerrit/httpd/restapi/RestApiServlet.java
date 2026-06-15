@@ -846,7 +846,7 @@ public class RestApiServlet extends HttpServlet {
         traceContext,
         getViewName(viewData),
         ActionType.REST_READ_REQUEST,
-        () -> view.apply(req, rsrc));
+        () -> view.apply(rsrc));
   }
 
   private Response<?> invokeRestModifyViewWithRetry(

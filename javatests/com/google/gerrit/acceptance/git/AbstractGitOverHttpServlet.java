@@ -33,7 +33,7 @@ import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
 import java.util.Collection;
 import java.util.Optional;
-import javax.servlet.http.HttpServletResponse;
+import org.apache.http.HttpStatus;
 import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
@@ -85,13 +85,13 @@ public class AbstractGitOverHttpServlet extends AbstractPushForReview {
     assertThat(lsRemote.who.getAccountId()).isEqualTo(admin.id());
     assertThat(lsRemote.what).endsWith("/info/refs?service=git-receive-pack");
     assertThat(lsRemote.params).containsExactly("service", "git-receive-pack");
-    assertThat(lsRemote.httpStatus).isEqualTo(HttpServletResponse.SC_OK);
+    assertThat(lsRemote.httpStatus).isEqualTo(HttpStatus.SC_OK);
 
     HttpAuditEvent receivePack = auditEvents.get(1);
     assertThat(receivePack.who.getAccountId()).isEqualTo(admin.id());
     assertThat(receivePack.what).endsWith("/git-receive-pack");
     assertThat(receivePack.params).isEmpty();
-    assertThat(receivePack.httpStatus).isEqualTo(HttpServletResponse.SC_OK);
+    assertThat(receivePack.httpStatus).isEqualTo(HttpStatus.SC_OK);
     assertThat(jettyServer.numActiveSessions()).isEqualTo(0);
   }
 
@@ -149,7 +149,7 @@ public class AbstractGitOverHttpServlet extends AbstractPushForReview {
 
     assertThat(
             auditService.drainHttpAuditEvents().stream()
-                .allMatch(e -> e.httpStatus == HttpServletResponse.SC_OK))
+                .allMatch(e -> e.httpStatus == HttpStatus.SC_OK))
         .isTrue();
   }
 
@@ -215,7 +215,7 @@ public class AbstractGitOverHttpServlet extends AbstractPushForReview {
             accountId.map(id -> "IdentifiedUser[account " + id.get() + "]").orElse("ANONYMOUS"));
     assertThat(infoRef.what).endsWith("/info/refs?service=git-upload-pack");
     assertThat(infoRef.params).containsExactly("service", "git-upload-pack");
-    assertThat(infoRef.httpStatus).isEqualTo(HttpServletResponse.SC_OK);
+    assertThat(infoRef.httpStatus).isEqualTo(HttpStatus.SC_OK);
 
     // Smart service negotiations, as described here
     // https://git-scm.com/docs/http-protocol#_smart_service_git_upload_pack
@@ -226,12 +226,12 @@ public class AbstractGitOverHttpServlet extends AbstractPushForReview {
 
     assertThat(uploadPackLsRef.what).endsWith("/git-upload-pack");
     assertThat(uploadPackLsRef.params).isEmpty();
-    assertThat(uploadPackLsRef.httpStatus).isEqualTo(HttpServletResponse.SC_OK);
+    assertThat(uploadPackLsRef.httpStatus).isEqualTo(HttpStatus.SC_OK);
     HttpAuditEvent uploadPackFetch = auditEvents.get(2);
 
     assertThat(uploadPackFetch.what).endsWith("/git-upload-pack");
     assertThat(uploadPackFetch.params).isEmpty();
-    assertThat(uploadPackFetch.httpStatus).isEqualTo(HttpServletResponse.SC_OK);
+    assertThat(uploadPackFetch.httpStatus).isEqualTo(HttpStatus.SC_OK);
     assertThat(jettyServer.numActiveSessions()).isEqualTo(0);
   }
 

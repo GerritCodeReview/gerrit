@@ -181,7 +181,7 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.StreamSupport;
-import javax.servlet.http.HttpServletResponse;
+import org.apache.http.HttpStatus;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.BasicCookieStore;
@@ -627,12 +627,12 @@ public abstract class AbstractAccountIT extends AbstractDaemonTest {
 
     webLogin(accountId);
     assertThat(getCookiesNames()).contains(CacheBasedWebSession.ACCOUNT_COOKIE);
-    httpGetAndAssertStatus("accounts/self/detail", HttpServletResponse.SC_OK);
+    httpGetAndAssertStatus("accounts/self/detail", HttpStatus.SC_OK);
 
     accountIdApi().setActive(false);
     assertThat(accountIdApi().getActive()).isFalse();
 
-    httpGetAndAssertStatus("accounts/self/detail", HttpServletResponse.SC_FORBIDDEN);
+    httpGetAndAssertStatus("accounts/self/detail", HttpStatus.SC_FORBIDDEN);
   }
 
   @Test
@@ -3365,7 +3365,7 @@ public abstract class AbstractAccountIT extends AbstractDaemonTest {
 
   private void webLogin(Integer accountId) throws IOException {
     httpGetAndAssertStatus(
-        "login?account_id=" + accountId, HttpServletResponse.SC_MOVED_TEMPORARILY);
+        "login?account_id=" + accountId, HttpStatus.SC_MOVED_TEMPORARILY);
   }
 
   private AccountsUpdate getAccountsUpdateWithRunnables(

@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c16253a_511e3006",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 38
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-06-15T07:58:50Z",
+      "side": 1,
+      "message": "or `HTTP_LDAP`",
+      "range": {
+        "startLine": 9,
+        "startChar": 11,
+        "endLine": 9,
+        "endChar": 22
+      },
+      "revId": "d6c2a10a05c16daf46c01d0848410edb53e194f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "ce04a795_664896f7",
@@ -14,6 +37,75 @@
       "writtenOn": "2026-06-14T21:09:40Z",
       "side": 1,
       "message": "Verified E2E",
+      "revId": "d6c2a10a05c16daf46c01d0848410edb53e194f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a56a09f8_fe9f7914",
+        "filename": "java/com/google/gerrit/httpd/RemoteUserUtil.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-06-15T07:58:50Z",
+      "side": 1,
+      "message": "nit: this is redundant, as it is already commented at L68.\nConsider dropping one of the two comments.",
+      "range": {
+        "startLine": 61,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 68
+      },
+      "revId": "d6c2a10a05c16daf46c01d0848410edb53e194f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e052ce0_b767d97c",
+        "filename": "java/com/google/gerrit/httpd/RemoteUserUtil.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-06-15T07:58:50Z",
+      "side": 1,
+      "message": "I understand this is preventing log flooding from an attacker.\nHowever, it is also shielding us from seeing a malicious attempt, if it happens in the 1 minute window.",
+      "range": {
+        "startLine": 132,
+        "startChar": 25,
+        "endLine": 132,
+        "endChar": 57
+      },
+      "revId": "d6c2a10a05c16daf46c01d0848410edb53e194f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ceb5c1ff_6e0bfe53",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
+        "patchSetId": 38
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-06-15T07:58:50Z",
+      "side": 1,
+      "message": "nit: getRemoteAddress is already documented to be the default, what\u0027s the purpose of setting this explicitly for Jetty?",
+      "range": {
+        "startLine": 89,
+        "startChar": 0,
+        "endLine": 89,
+        "endChar": 98
+      },
       "revId": "d6c2a10a05c16daf46c01d0848410edb53e194f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -22,7 +22,6 @@ package_group(
         "//java/com/google/gerrit/httpd/...",
         "//java/com/google/gerrit/pgm/http/jetty",
         "//java/com/google/gerrit/server",
-        "//java/com/google/gerrit/server/audit",
         "//java/com/google/gerrit/util/http",
         "//javatests/com/google/gerrit/pgm",
         "//javatests/com/google/gerrit/util/http/testutil",

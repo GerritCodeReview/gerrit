@@ -12,7 +12,6 @@ java_library(
         "//java/com/google/gerrit/server",
         "//lib:guava",
         "//lib:jgit",
-        "//lib:servlet-api",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",
         "//lib/errorprone:annotations",

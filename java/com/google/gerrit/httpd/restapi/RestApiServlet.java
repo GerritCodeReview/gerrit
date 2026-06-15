@@ -780,7 +780,8 @@ public class RestApiServlet extends HttpServlet {
           new ExtendedHttpAuditEvent(
               sessionId,
               currentUser,
-              req,
+              req.getRequestURI(),
+              req.getMethod(),
               auditStartTs,
               qp != null ? qp.params() : ImmutableListMultimap.of(),
               inputRequestBody,

@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.restapi.config;
 
-import static javax.servlet.http.HttpServletResponse.SC_CONFLICT;
+import static org.apache.http.HttpStatus.SC_CONFLICT;
 
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;

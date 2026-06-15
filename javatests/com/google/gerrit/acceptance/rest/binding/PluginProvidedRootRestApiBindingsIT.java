@@ -14,7 +14,7 @@
 
 package com.google.gerrit.acceptance.rest.binding;
 
-import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
+import static org.apache.http.HttpStatus.SC_NOT_FOUND;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;

@@ -15,7 +15,7 @@
 package com.google.gerrit.server.restapi.config;
 
 import static com.google.gerrit.common.data.GlobalCapability.MAINTAIN_SERVER;
-import static javax.servlet.http.HttpServletResponse.SC_CONFLICT;
+import static org.apache.http.HttpStatus.SC_CONFLICT;
 
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.restapi.Response;

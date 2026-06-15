@@ -37,7 +37,6 @@ java_library(
         "//lib:gson",
         "//lib:guava",
         "//lib:jgit",
-        "//lib:servlet-api",
         "//lib/antlr:java-runtime",
         "//lib/auto:auto-factory",
         "//lib/auto:auto-value",
@@ -49,6 +48,7 @@ java_library(
         "//lib/flogger:api",
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
+        "//lib/httpcomponents:httpcore",
         "//proto:entities_java_proto",
     ],
 )

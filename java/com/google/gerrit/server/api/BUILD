@@ -18,9 +18,9 @@ java_library(
         "//lib:args4j",
         "//lib:guava",
         "//lib:jgit",
-        "//lib:servlet-api",
         "//lib/errorprone:annotations",
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
+        "//lib/httpcomponents:httpcore",
     ],
 )

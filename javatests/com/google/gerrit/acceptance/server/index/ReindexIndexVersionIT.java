@@ -33,7 +33,7 @@ import com.google.gerrit.server.config.IndexVersionResource;
 import com.google.gerrit.server.restapi.config.ReindexIndexVersion;
 import com.google.inject.Inject;
 import java.util.Collection;
-import javax.servlet.http.HttpServletResponse;
+import org.apache.http.HttpStatus;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -81,7 +81,7 @@ public class ReindexIndexVersionIT extends AbstractDaemonTest {
         extensionRegistry.newRegistration().add(changeIndexedListener)) {
       Response<?> rsp =
           reindexIndexVersion.apply(new IndexVersionResource(def, changeIndex), input);
-      assertThat(rsp.statusCode()).isEqualTo(HttpServletResponse.SC_ACCEPTED);
+      assertThat(rsp.statusCode()).isEqualTo(HttpStatus.SC_ACCEPTED);
     }
   }
 }

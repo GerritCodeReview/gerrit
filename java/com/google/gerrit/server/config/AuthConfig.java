@@ -18,6 +18,7 @@ import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_MAI
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_UUID;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.extensions.client.GitBasicAuthPolicy;
 import com.google.gerrit.server.account.externalids.ExternalId;
@@ -33,6 +34,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
 
@@ -41,6 +43,7 @@ import org.eclipse.jgit.lib.Config;
 public class AuthConfig {
   private final AuthType authType;
   private final String httpHeader;
+  private final ImmutableSet<String> trustedProxyNetworks;
   private final String httpDisplaynameHeader;
   private final String httpEmailHeader;
   private final String httpExternalIdHeader;
@@ -78,6 +81,8 @@ public class AuthConfig {
   AuthConfig(@GerritServerConfig Config cfg) throws XsrfException {
     authType = toType(cfg);
     httpHeader = cfg.getString("auth", null, "httpheader");
+    trustedProxyNetworks =
+        ImmutableSet.copyOf(cfg.getStringList("auth", null, "httpTrustedProxyNetworks"));
     httpDisplaynameHeader = cfg.getString("auth", null, "httpdisplaynameheader");
     httpEmailHeader = cfg.getString("auth", null, "httpemailheader");
     httpExternalIdHeader = cfg.getString("auth", null, "httpexternalidheader");
@@ -383,5 +388,9 @@ public class AuthConfig {
 
   public boolean isHttpPasswordFallbackEnabled() {
     return httpPasswordFallbackEnabled;
+  }
+
+  public Set<String> getTrustedProxyNetworks() {
+    return trustedProxyNetworks;
   }
 }

@@ -18,7 +18,6 @@ package_group(
     name = "servlet-api-users",
     packages = [
         "//java/com/google/gerrit/acceptance",
-        "//java/com/google/gerrit/common",
         "//java/com/google/gerrit/httpd/...",
         "//java/com/google/gerrit/pgm/http/jetty",
         "//java/com/google/gerrit/server",

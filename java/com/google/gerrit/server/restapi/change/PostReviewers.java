@@ -15,7 +15,7 @@
 package com.google.gerrit.server.restapi.change;
 
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
-import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
+import static org.apache.http.HttpStatus.SC_BAD_REQUEST;
 
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;

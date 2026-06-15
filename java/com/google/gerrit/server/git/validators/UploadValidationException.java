@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.git.validators;
 
-import static javax.servlet.http.HttpServletResponse.SC_OK;
+import static org.apache.http.HttpStatus.SC_OK;
 
 import org.eclipse.jgit.transport.ServiceMayNotContinueException;
 

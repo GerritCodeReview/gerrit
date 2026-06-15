@@ -24,6 +24,7 @@ java_library(
         "//lib/guice:guice-assistedinject",
         "//lib/guice:guice-servlet",
         "//lib/jetty:jmx",
+        "//lib/jetty:nested",
         "//lib/jetty:server",
         "//lib/jetty:servlet",
         "//lib/log:log4j",

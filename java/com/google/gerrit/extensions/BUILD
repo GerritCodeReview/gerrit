@@ -22,7 +22,6 @@ java_library(
     exports = [
         ":api",
         "//lib:guava",
-        "//lib:servlet-api",
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
         "//lib/guice:guice-servlet",
@@ -36,7 +35,6 @@ java_library(
     deps = [
         "//java/com/google/gerrit/common:annotations",
         "//lib:guava",
-        "//lib:servlet-api",
         "//lib/auto:auto-value-annotations",
         "//lib/errorprone:annotations",
         "//lib/flogger:api",

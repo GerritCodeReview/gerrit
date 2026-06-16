@@ -97,11 +97,11 @@ suite('gr-selection-action-box', () => {
         .stub(element, 'getTargetBoundingRect')
         .returns({
           top: 42,
-          bottom: 20,
+          bottom: 60,
           left: 30,
-          right: 40,
+          right: 130,
           width: 100,
-          height: 60,
+          height: 18,
         } as DOMRect);
       assert.isOk(element.tooltip);
       sinon
@@ -269,13 +269,13 @@ suite('gr-selection-action-box', () => {
 
     test('placeBelow for Element argument', async () => {
       await element.placeBelow(target);
-      assert.equal(element.style.top, '45px');
+      assert.equal(element.style.top, '65px');
       assert.equal(element.style.left, '72px');
     });
 
     test('placeBelow for Text Node argument', async () => {
       await element.placeBelow(target.firstElementChild!);
-      assert.equal(element.style.top, '45px');
+      assert.equal(element.style.top, '65px');
       assert.equal(element.style.left, '72px');
     });
 

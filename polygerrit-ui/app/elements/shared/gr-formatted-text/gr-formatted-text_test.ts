@@ -3,6 +3,7 @@
  * Copyright 2022 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+
 import * as sinon from 'sinon';
 import '../../../test/common-test-setup';
 import {assert, fixture, html} from '@open-wc/testing';
@@ -63,7 +64,7 @@ suite('gr-formatted-text tests', () => {
         suffix: '$3',
       },
     });
-    self.CANONICAL_PATH = 'http://localhost';
+    self.CANONICAL_PATH = '';
     element = (
       await fixture(
         wrapInProvider(
@@ -128,7 +129,7 @@ suite('gr-formatted-text tests', () => {
         /* HTML */ `
           <gr-endpoint-decorator name="formatted-text-endpoint">
             <pre class="plaintext">
-          FOO<a href="a.b.c" rel="noopener noreferrer" target="_blank">foo</a>
+          FOO<a href="a.b.c">foo</a>
         </pre>
           </gr-endpoint-decorator>
         `
@@ -159,10 +160,10 @@ suite('gr-formatted-text tests', () => {
           <gr-endpoint-decorator name="formatted-text-endpoint">
             <pre class="plaintext">
             Start:
-            <a href="bug/123" rel="noopener noreferrer" target="_blank">
+            <a href="bug/123">
               bug/123
             </a>
-            <a href="bug/456" rel="noopener noreferrer" target="_blank">
+            <a href="bug/456">
               bug/456
             </a>
           </pre>
@@ -200,13 +201,7 @@ suite('gr-formatted-text tests', () => {
               LinkRewriteMe
             </a>
             text with complex link: A
-            <a
-              href="http://localhost/page?id=12"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              Link 12
-            </a>
+            <a href="/page?id=12">Link 12</a>
           </pre>
           </gr-endpoint-decorator>
         `
@@ -372,13 +367,7 @@ suite('gr-formatted-text tests', () => {
                 <p>text without a link: NotA Link 15 cats</p>
                 <p>
                   text with complex link: A
-                  <a
-                    href="http://localhost/page?id=12"
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    Link 12
-                  </a>
+                  <a href="/page?id=12">Link 12</a>
                 </p>
               </div>
             </gr-marked-element>
@@ -420,13 +409,7 @@ suite('gr-formatted-text tests', () => {
           </a>
         text without a link: NotA Link 15 cats
         text with complex link: A
-          <a
-            href="http://localhost/page?id=12"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            Link 12
-          </a>
+          <a href="/page?id=12">Link 12</a>
         </pre>
           </gr-endpoint-decorator>
         `
@@ -951,6 +934,45 @@ An <a href="example.com">inline HTML link with [markup link](http://google.com)<
       // Do not linkify URLs without a recognized TLD.
       await checkLinking('google.foogle/path', false);
       await checkLinking('google.com.blah/path', false);
+    });
+
+    test('reproduce b/519426997: linkification in loose list', async () => {
+      element.content = '1. A Link 1234\n\n2. aaa';
+      await element.updateComplete;
+      await new Promise<void>(resolve => {
+        const listener = () => {
+          element.removeEventListener('marked-render-complete', listener);
+          resolve();
+        };
+        element.addEventListener('marked-render-complete', listener);
+        setTimeout(() => {
+          element.removeEventListener('marked-render-complete', listener);
+          resolve();
+        }, 100);
+      });
+
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ `
+          <gr-endpoint-decorator name="formatted-text-endpoint">
+            <gr-marked-element>
+              <div slot="markdown-html" class="markdown-html">
+                <ol>
+                  <li>
+                    <p>
+                      A
+                      <a href="/page?id=1234">Link 1234</a>
+                    </p>
+                  </li>
+                  <li>
+                    <p>aaa</p>
+                  </li>
+                </ol>
+              </div>
+            </gr-marked-element>
+          </gr-endpoint-decorator>
+        `
+      );
     });
 
     suite('user suggest fix', () => {

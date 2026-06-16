@@ -22,6 +22,30 @@
       },
       "revId": "66760e6468c6ad7e51a2df1bb7a2c8ede80c9a8f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2499ac59_50621221",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-06-16T21:03:16Z",
+      "side": 1,
+      "message": "This change does not migrate external dependencies to `bzlmod` directly. It is a cleanup that became necessary as a consequence of the `bzlmod` migration.\n\nThe `bzlmod` transition required updating parts of the Bazel toolchain (including `rules_java`), which pulled in a newer Error Prone release with stricter checks. As a result, several tests started failing Error Prone validation and had to be cleaned up.\n\nAlso note that this is a cherry-pick to the stable branch from an earlier attempt to backport `bzlmod` to stable (to use `servlet-4` JGit branch), which was ultimately abandoned (change 588622). This change was retained because it is a standalone cleanup and fixes issues exposed by the toolchain update.",
+      "parentUuid": "c1598606_2eeeb7a3",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 59
+      },
+      "revId": "66760e6468c6ad7e51a2df1bb7a2c8ede80c9a8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

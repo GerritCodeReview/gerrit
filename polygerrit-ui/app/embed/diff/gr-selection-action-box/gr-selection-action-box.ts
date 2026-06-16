@@ -8,6 +8,7 @@ import {GrTooltip} from '../../../elements/shared/gr-tooltip/gr-tooltip';
 import {fire} from '../../../utils/event-util';
 import {html, LitElement} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
+import {computeTooltipPosition} from '../../../utils/dom-util';
 import {Side} from '../../../api/diff';
 import {CommentRange} from '../../../api/rest-api';
 
@@ -111,10 +112,22 @@ export class GrSelectionActionBox extends LitElement {
     if (parentRect === null) {
       return;
     }
-    this.style.top = `${rect.top - parentRect.top - boxRect.height - 6}px`;
-    this.style.left = `${
-      rect.left - parentRect.left + (rect.width - boxRect.width) / 2
-    }px`;
+    const {top, left, isBelow, arrowCenterOffset} = computeTooltipPosition(
+      rect,
+      boxRect,
+      parentRect,
+      parentRect.width,
+      {
+        positionBelow: false,
+        arrowHeight: 6,
+      }
+    );
+    this.style.top = `${top}px`;
+    this.style.left = `${left}px`;
+    if (this.tooltip) {
+      this.tooltip.arrowCenterOffset = `${arrowCenterOffset}px`;
+      this.tooltip.positionBelow = isBelow;
+    }
     this.invisible = false;
     fire(this, 'selection-action-box-visible', {
       getSelectionContext: this.getSelectionContext,
@@ -131,10 +144,23 @@ export class GrSelectionActionBox extends LitElement {
     if (parentRect === null) {
       return;
     }
-    this.style.top = `${rect.top - parentRect.top + boxRect.height - 6}px`;
-    this.style.left = `${
-      rect.left - parentRect.left + (rect.width - boxRect.width) / 2
-    }px`;
+    const {top, left, isBelow, arrowCenterOffset} = computeTooltipPosition(
+      rect,
+      boxRect,
+      parentRect,
+      parentRect.width,
+      {
+        positionBelow: true,
+        arrowHeight: 6,
+        legacyPlaceBelow: true,
+      }
+    );
+    this.style.top = `${top}px`;
+    this.style.left = `${left}px`;
+    if (this.tooltip) {
+      this.tooltip.arrowCenterOffset = `${arrowCenterOffset}px`;
+      this.tooltip.positionBelow = isBelow;
+    }
     this.invisible = false;
     fire(this, 'selection-action-box-visible', {
       getSelectionContext: this.getSelectionContext,

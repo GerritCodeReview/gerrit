@@ -376,6 +376,19 @@ public class BatchUpdate implements AutoCloseable {
     return executed;
   }
 
+  /**
+   * Resets pending ref commands so they can be re-registered by {@code updateRepo()} on retry.
+   *
+   * <p>Must be called after a failed {@link #execute()} before retrying, to avoid the "cannot chain
+   * ref update CREATE with different new ID" error from {@link ChainedReceiveCommands} when the
+   * same CREATE commands are re-added.
+   */
+  public void resetRepoViewForRetry() {
+    if (repoView != null && !repoView.getCommands().isEmpty()) {
+      repoView.getCommands().reset();
+    }
+  }
+
   @CanIgnoreReturnValue
   public BatchUpdate setRepository(Repository repo, RevWalk revWalk, ObjectInserter inserter) {
     checkState(this.repoView == null, "repo already set");

@@ -25,6 +25,7 @@ import static org.mockito.Mockito.verify;
 import com.github.rholder.retry.Attempt;
 import com.github.rholder.retry.RetryException;
 import com.github.rholder.retry.RetryListener;
+import com.google.common.base.Throwables;
 import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
@@ -704,6 +705,114 @@ public class BatchUpdateTest {
     // Check that the BatchUpdate updated the change.
     notes = changeNotesFactory.create(project, changeId);
     assertThat(notes.getChange().getStatus()).isEqualTo(Change.Status.ABANDONED);
+  }
+
+  @Test
+  public void retryNewChangeInsertionReusingBatchUpdateOnLockFailure() throws Exception {
+    // Mirrors ReceiveCommits#insertChangesAndPatchSets for the new-change path: a single
+    // BatchUpdate is created once and re-executed by RetryHelper on LOCK_FAILURE (rather than
+    // recreated on each attempt). On every retry the pending ref commands must be reset via
+    // resetRepoViewForRetry() so that updateRepo() can re-register the patch set CREATE command
+    // without hitting the "cannot chain ref update CREATE with different new ID" error.
+    Change.Id id = Change.id(sequences.nextChangeId());
+    RevCommit commit = repo.commit().message("Change").insertChangeId().create();
+
+    AtomicBoolean failedOnce = new AtomicBoolean(false);
+    AtomicInteger attempts = new AtomicInteger();
+
+    try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.now())) {
+      bu.insertChange(changeInserterFactory.create(id, commit, "refs/heads/master"));
+
+      @SuppressWarnings("unused")
+      var unused =
+          retryHelper
+              .changeUpdate(
+                  "insertChanges",
+                  updateFactory -> {
+                    attempts.incrementAndGet();
+                    try {
+                      bu.execute(injectLockFailureOnce(failedOnce));
+                    } catch (UpdateException e) {
+                      bu.resetRepoViewForRetry();
+                      throw e;
+                    }
+                    return null;
+                  })
+              .defaultTimeoutMultiplier(5)
+              .call();
+    }
+
+    // The first attempt failed with LOCK_FAILURE and exactly one retry was performed.
+    assertThat(failedOnce.get()).isTrue();
+    assertThat(attempts.get()).isEqualTo(2);
+
+    // Despite re-executing the same BatchUpdate, the change was created successfully.
+    ChangeNotes notes = changeNotesFactory.create(project, id);
+    assertThat(notes.getChange().getStatus()).isEqualTo(Change.Status.NEW);
+    assertThat(getMetaId(id)).isNotNull();
+    assertThat(repo.getRepository().exactRef(PatchSet.id(id, 1).toRefName())).isNotNull();
+  }
+
+  @Test
+  public void newChangeInsertionWithoutRepoViewResetFailsToChainRefUpdateOnRetry()
+      throws Exception {
+    // Demonstrates why resetRepoViewForRetry() is required: without resetting the pending ref
+    // commands between retries, re-executing the same BatchUpdate re-registers the patch set
+    // CREATE command and fails in ChainedReceiveCommands#add.
+    Change.Id id = Change.id(sequences.nextChangeId());
+    RevCommit commit = repo.commit().message("Change").insertChangeId().create();
+
+    AtomicBoolean failedOnce = new AtomicBoolean(false);
+
+    Exception thrown =
+        assertThrows(
+            Exception.class,
+            () -> {
+              try (BatchUpdate bu =
+                  batchUpdateFactory.create(project, user.get(), TimeUtil.now())) {
+                bu.insertChange(changeInserterFactory.create(id, commit, "refs/heads/master"));
+                @SuppressWarnings("unused")
+                var unused =
+                    retryHelper
+                        .changeUpdate(
+                            "insertChanges",
+                            updateFactory -> {
+                              // Intentionally do NOT call bu.resetRepoViewForRetry() here.
+                              bu.execute(injectLockFailureOnce(failedOnce));
+                              return null;
+                            })
+                        .defaultTimeoutMultiplier(5)
+                        .call();
+              }
+            });
+
+    assertThat(failedOnce.get()).isTrue();
+    assertThat(
+            Throwables.getCausalChain(thrown).stream()
+                .map(Throwable::getMessage)
+                .filter(m -> m != null)
+                .anyMatch(m -> m.contains("cannot chain ref update")))
+        .isTrue();
+
+    // The change was not created.
+    assertThat(repo.getRepository().exactRef(RefNames.changeMetaRef(id))).isNull();
+  }
+
+  /**
+   * Returns a listener that injects a transient {@link LockFailureException} on the first attempt,
+   * before any ref is updated, so that the first attempt leaves nothing committed and RetryHelper
+   * retries.
+   */
+  private BatchUpdateListener injectLockFailureOnce(AtomicBoolean failedOnce) {
+    return new BatchUpdateListener() {
+      @Override
+      public void afterUpdateRepos() throws Exception {
+        if (!failedOnce.getAndSet(true)) {
+          throw new LockFailureException(
+              "injected lock failure", repo.getRepository().getRefDatabase().newBatchUpdate());
+        }
+      }
+    };
   }
 
   @Test

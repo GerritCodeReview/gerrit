@@ -4297,7 +4297,7 @@ describing the outcome of the migration.
 
 .Request
 ----
-  POST /projects/testproj/migrate-labels HTTP/1.0
+  POST /projects/testproj/migrate-labels:review HTTP/1.0
   Content-Type: application/json; charset=UTF-8
 ----
 

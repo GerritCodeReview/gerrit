@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a2004f8_25ce9338",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-06-16T17:56:32Z",
+      "side": 1,
+      "message": "I think this is ok, but I\u0027m adding Laura to take a look because I think she recently made changes to the diff view settings and might have more insight.",
+      "revId": "6561a4f9b115ec5839a08c372b2d713ebabc580a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

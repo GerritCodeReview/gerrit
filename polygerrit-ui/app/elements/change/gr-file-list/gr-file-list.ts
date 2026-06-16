@@ -406,6 +406,9 @@ export class GrFileList extends LitElement {
         }
         .file-row {
           cursor: pointer;
+          scroll-margin-top: calc(
+            var(--main-header-height) + var(--change-header-height, 38px)
+          );
         }
         .file-row.expanded {
           border-bottom: 1px solid var(--border-color);
@@ -1976,7 +1979,7 @@ export class GrFileList extends LitElement {
   }
 
   // private but used in test
-  toggleFileExpanded(file: PatchSetFile) {
+  async toggleFileExpanded(file: PatchSetFile, skipScroll?: boolean) {
     // Is the path in the list of expanded diffs? If so, remove it, otherwise
     // add it to the list.
     const indexInExpanded = this.expandedFiles.findIndex(
@@ -1991,6 +1994,8 @@ export class GrFileList extends LitElement {
         (_val, idx) => idx !== indexInExpanded
       );
     }
+    if (skipScroll) return;
+    await this.updateComplete;
     const indexInAll = this.files.findIndex(f => f.__path === file.path);
     this.shadowRoot!.querySelectorAll(`.${FILE_ROW_CLASS}`)[
       indexInAll
@@ -2081,6 +2086,69 @@ export class GrFileList extends LitElement {
     );
   }
 
+  private getNextUnreviewedFile(path: string): NormalizedFileInfo | undefined {
+    const index = this.files.findIndex(f => f.__path === path);
+    if (index === -1) return undefined;
+
+    // Search forward
+    for (let i = index + 1; i < this.files.length; i++) {
+      const file = this.files[i];
+      if (!this.reviewed.includes(file.__path)) {
+        return file;
+      }
+    }
+
+    // Wrap around to the beginning
+    for (let i = 0; i < index; i++) {
+      const file = this.files[i];
+      if (!this.reviewed.includes(file.__path)) {
+        return file;
+      }
+    }
+
+    return undefined;
+  }
+
+  private async collapseAndScrollToNext(path: string) {
+    if (this.isFileExpanded(path)) {
+      const file = this.files.find(f => f.__path === path);
+      if (file) {
+        await this.toggleFileExpanded(this.computePatchSetFile(file), true);
+      }
+    }
+
+    await this.updateComplete;
+
+    const nextUnreviewedFile = this.getNextUnreviewedFile(path);
+    if (nextUnreviewedFile) {
+      const index = this.files.findIndex(
+        f => f.__path === nextUnreviewedFile.__path
+      );
+      if (index !== -1) {
+        if (index >= this.fileCursor.stops.length) {
+          this.numFilesShown = Math.max(this.numFilesShown, index + 1);
+          await this.updateComplete;
+          this.fileCursor.stops = Array.from(
+            this.shadowRoot?.querySelectorAll(`.${FILE_ROW_CLASS}`) ?? []
+          );
+        }
+        this.fileCursor.setCursorAtIndex(index, false);
+        this.selectedIndex = index;
+      }
+    }
+  }
+
+  private async handleSaveReviewedFile(file: PatchSetFile) {
+    const isCurrentlyReviewed = this.reviewed.includes(file.path);
+    if (isCurrentlyReviewed) {
+      await this.reviewFile(file.path, false);
+      return;
+    }
+
+    await this.reviewFile(file.path, true);
+    await this.collapseAndScrollToNext(file.path);
+  }
+
   /**
    * Returns true if the event e is a click on an element.
    *
@@ -2116,7 +2184,7 @@ export class GrFileList extends LitElement {
 
   // Private but used in tests.
   reviewedClick(e: MouseEvent | KeyboardEvent) {
-    this.fileActionClick(e, file => this.reviewFile(file.path));
+    this.fileActionClick(e, file => this.handleSaveReviewedFile(file));
   }
 
   private expandedClick(e: MouseEvent | KeyboardEvent) {
@@ -2277,7 +2345,9 @@ export class GrFileList extends LitElement {
     if (!this.files[this.fileCursor.index]) {
       return;
     }
-    this.reviewFile(this.files[this.fileCursor.index].__path);
+    this.handleSaveReviewedFile(
+      this.computePatchSetFile(this.files[this.fileCursor.index])
+    );
   }
 
   private handleToggleLeftPane() {

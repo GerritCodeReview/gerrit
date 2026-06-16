@@ -1258,6 +1258,142 @@ suite('gr-file-list tests', () => {
       assert.equal(markReviewLabel.textContent, 'MARK UNREVIEWED');
     });
 
+    suite('mark reviewed collapse and scroll', () => {
+      let toggleFileExpandedSpy: sinon.SinonSpy;
+      let setCursorAtIndexSpy: sinon.SinonSpy;
+
+      setup(async () => {
+        const filesChangedSpy = sinon.spy(element, 'filesChanged');
+        element.files = [
+          normalize({}, 'file1.txt'),
+          normalize({}, 'file2.txt'),
+          normalize({}, 'file3.txt'),
+        ];
+        element.changeNum = 42 as NumericChangeId;
+        element.basePatchNum = PARENT;
+        element.patchNum = 2 as RevisionPatchSetNum;
+        element.reviewed = [];
+        await element.updateComplete;
+        if (filesChangedSpy.called) {
+          await filesChangedSpy.lastCall.returnValue;
+        }
+
+        // Wait for stops to be populated
+        element.fileCursor.stops = Array.from(
+          element.shadowRoot?.querySelectorAll('.file-row') ?? []
+        );
+
+        toggleFileExpandedSpy = sinon.spy(element, 'toggleFileExpanded');
+        setCursorAtIndexSpy = sinon.spy(element.fileCursor, 'setCursorAtIndex');
+      });
+
+      test('marking expanded file reviewed collapses and scrolls to next unreviewed', async () => {
+        const collapseSpy = sinon.spy(
+          element as unknown as {
+            collapseAndScrollToNext: (path: string) => Promise<void>;
+          },
+          'collapseAndScrollToNext'
+        );
+
+        // Expand file1
+        element.expandedFiles = [{path: 'file1.txt'}];
+        await element.updateComplete;
+
+        // Stub scrollIntoView on the rows
+        const rows = Array.from(
+          element.shadowRoot?.querySelectorAll('.file-row') ?? []
+        );
+        const scrollStubs = rows.map(r => sinon.stub(r, 'scrollIntoView'));
+
+        // Mark file1 reviewed
+        const fileRows = queryAll(element, '.row:not(.header-row)');
+        const markReviewLabel =
+          fileRows[0].querySelector<HTMLSpanElement>('.markReviewed');
+        markReviewLabel!.click();
+
+        // Wait for collapseAndScrollToNext to resolve
+        await waitUntil(() => collapseSpy.calledOnce);
+        await collapseSpy.lastCall.returnValue;
+
+        // Verify it was marked reviewed
+        assert.isTrue(saveStub.calledWithExactly('file1.txt', true));
+
+        // Verify it collapsed (toggleFileExpanded called with skipScroll=true)
+        assert.isTrue(toggleFileExpandedSpy.calledOnce);
+        assert.deepEqual(toggleFileExpandedSpy.lastCall.args[0], {
+          path: 'file1.txt',
+        });
+        assert.isTrue(toggleFileExpandedSpy.lastCall.args[1]); // skipScroll
+
+        // Verify scrollIntoView was not called on any row (since we skipped scroll on collapse, and cursor uses window.scrollTo)
+        scrollStubs.forEach(stub => assert.isFalse(stub.called));
+
+        // Verify cursor moved to next unreviewed file (file2, index 1)
+        assert.isTrue(setCursorAtIndexSpy.calledOnce);
+        assert.equal(setCursorAtIndexSpy.lastCall.args[0], 1);
+        assert.isFalse(setCursorAtIndexSpy.lastCall.args[1]); // do scroll
+
+        // Verify selectedIndex updated
+        assert.equal(element.selectedIndex, 1);
+      });
+
+      test('marking file reviewed when all files reviewed collapses but does not scroll', async () => {
+        const collapseSpy = sinon.spy(
+          element as unknown as {
+            collapseAndScrollToNext: (path: string) => Promise<void>;
+          },
+          'collapseAndScrollToNext'
+        );
+
+        // All files except file1 are already reviewed
+        element.reviewed = ['file2.txt', 'file3.txt'];
+        await element.updateComplete;
+
+        // Expand file1
+        element.expandedFiles = [{path: 'file1.txt'}];
+        await element.updateComplete;
+
+        // Mark file1 reviewed
+        const fileRows = queryAll(element, '.row:not(.header-row)');
+        const markReviewLabel =
+          fileRows[0].querySelector<HTMLSpanElement>('.markReviewed');
+        markReviewLabel!.click();
+
+        // Wait for collapseAndScrollToNext to resolve
+        await waitUntil(() => collapseSpy.calledOnce);
+        await collapseSpy.lastCall.returnValue;
+
+        // Verify it was marked reviewed
+        assert.isTrue(saveStub.calledWithExactly('file1.txt', true));
+
+        // Verify it collapsed
+        assert.isTrue(toggleFileExpandedSpy.calledOnce);
+        assert.isTrue(toggleFileExpandedSpy.lastCall.args[1]); // skipScroll
+
+        // Verify cursor did not move (no setCursorAtIndex called since no unreviewed files left)
+        assert.isFalse(setCursorAtIndexSpy.called);
+      });
+
+      test('manual collapse scrolls collapsed row into view', async () => {
+        // Expand file1
+        element.expandedFiles = [{path: 'file1.txt'}];
+        await element.updateComplete;
+
+        // Stub scrollIntoView on file1 row
+        const rows = Array.from(
+          element.shadowRoot?.querySelectorAll('.file-row') ?? []
+        );
+        const scrollStub = sinon.stub(rows[0], 'scrollIntoView');
+
+        // Collapse file1
+        await element.toggleFileExpanded({path: 'file1.txt'});
+
+        // Verify it scrolled to the row after updateComplete
+        assert.isTrue(scrollStub.calledOnce);
+        assert.deepEqual(scrollStub.lastCall.args[0], {block: 'nearest'});
+      });
+    });
+
     test('handleFileListClick', async () => {
       element.files = [
         normalize({}, '/COMMIT_MSG'),

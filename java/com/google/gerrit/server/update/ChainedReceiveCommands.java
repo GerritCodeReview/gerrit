@@ -62,6 +62,11 @@ public class ChainedReceiveCommands implements RefCache {
     return commands.isEmpty();
   }
 
+  /** Clears all pending commands so the command set can be rebuilt on retry. */
+  public void reset() {
+    commands.clear();
+  }
+
   /**
    * Add a command.
    *

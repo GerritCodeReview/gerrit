@@ -1185,11 +1185,8 @@ class ReceiveCommits {
         }
         try {
           if (!newChanges.isEmpty()) {
-            // TODO: Retry lock failures on new change insertions. The retry will
-            //  likely have to move to a higher layer to be able to achieve that
-            //  due to state that needs to be reset with each retry attempt.
             insertChangesAndPatchSets(
-                globalRevWalk, ins, magicBranchCmd, newChanges, replaceProgress);
+                globalRevWalk, ins, magicBranchCmd, newChanges, replaceProgress, true);
           } else {
             @SuppressWarnings("unused")
             var unused =
@@ -1198,7 +1195,7 @@ class ReceiveCommits {
                         "insertPatchSets",
                         updateFactory -> {
                           insertChangesAndPatchSets(
-                              globalRevWalk, ins, magicBranchCmd, newChanges, replaceProgress);
+                              globalRevWalk, ins, magicBranchCmd, newChanges, replaceProgress, false);
                           return null;
                         })
                     .defaultTimeoutMultiplier(5)
@@ -1246,7 +1243,8 @@ class ReceiveCommits {
       ObjectInserter ins,
       ReceiveCommand magicBranchCmd,
       List<CreateRequest> newChanges,
-      Task replaceProgress)
+      Task replaceProgress,
+      boolean retryOnLockFailure)
       throws RestApiException, IOException {
     try (BatchUpdate bu =
             batchUpdateFactory.create(
@@ -1295,7 +1293,26 @@ class ReceiveCommits {
 
       logger.atFine().log("Executing batch");
       try {
-        bu.execute();
+        if (retryOnLockFailure) {
+          @SuppressWarnings("unused")
+          var unused =
+              retryHelper
+                  .changeUpdate(
+                      "insertChanges",
+                      updateFactory -> {
+                        try {
+                          bu.execute();
+                        } catch (UpdateException e) {
+                          bu.resetRepoViewForRetry();
+                          throw e;
+                        }
+                        return null;
+                      })
+                  .defaultTimeoutMultiplier(5)
+                  .call();
+        } else {
+          bu.execute();
+        }
       } catch (UpdateException e) {
         throw asRestApiException(e);
       }

@@ -8,6 +8,7 @@ import '../gr-tooltip/gr-tooltip';
 import {GrTooltip} from '../gr-tooltip/gr-tooltip';
 import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
+import {computeTooltipPosition} from '../../../utils/dom-util';
 
 const ARROW_HEIGHT = 7.2; // Height of the arrow in tooltip.
 
@@ -229,53 +230,20 @@ export class GrTooltipContent extends LitElement {
     // Use clientWidth to not include the scrollbars
     const parentWidth = tooltip.parentElement.clientWidth;
 
-    const hoveredCenter =
-      0.5 * (hoveredRect.left + hoveredRect.right) - parentRect.left;
-    const left = this.computeLeft(tooltipRect, hoveredCenter, parentWidth);
-    const {isBelow, top} = this.computeTop(
-      tooltipRect,
+    const {top, left, isBelow, arrowCenterOffset} = computeTooltipPosition(
       hoveredRect,
-      parentRect
+      tooltipRect,
+      parentRect,
+      parentWidth,
+      {
+        positionBelow: this.positionBelow,
+        arrowHeight: ARROW_HEIGHT,
+      }
     );
-    const tooltipCenter = left + 0.5 * tooltipRect.width;
 
-    tooltip.arrowCenterOffset = `${hoveredCenter - tooltipCenter}px`;
+    tooltip.arrowCenterOffset = `${arrowCenterOffset}px`;
     tooltip.positionBelow = isBelow;
     tooltip.style.top = `${top}px`;
     tooltip.style.left = `${left}px`;
-  }
-
-  private computeLeft(
-    tooltipRect: DOMRect,
-    hoveredCenter: number,
-    parentWidth: number
-  ) {
-    let left = hoveredCenter - 0.5 * tooltipRect.width;
-    if (left + tooltipRect.width > parentWidth - 1) {
-      // Add 1px of extra padding. Without it on some browser zoom levels
-      // the hovercard is still considered going out of bounds and gets
-      // reshaped.
-      left = parentWidth - tooltipRect.width - 1;
-    }
-    return Math.max(0, left);
-  }
-
-  private computeTop(
-    tooltipRect: DOMRect,
-    hoveredRect: DOMRect,
-    parentRect: DOMRect
-  ): {
-    isBelow: boolean;
-    top: number;
-  } {
-    const top =
-      hoveredRect.top - parentRect.top - tooltipRect.height - ARROW_HEIGHT;
-    if (this.positionBelow || top < 0) {
-      return {
-        isBelow: true,
-        top: hoveredRect.bottom - parentRect.top + ARROW_HEIGHT,
-      };
-    }
-    return {isBelow: false, top};
   }
 }

@@ -540,3 +540,57 @@ export function getShadowOrDocumentSelection(
   // Firefox and non chrome/safari browsers will use this.
   return document.getSelection();
 }
+
+export interface TooltipPosition {
+  top: number;
+  left: number;
+  isBelow: boolean;
+  arrowCenterOffset: number;
+}
+
+export function computeTooltipPosition(
+  targetRect: DOMRect,
+  tooltipRect: DOMRect,
+  parentRect: DOMRect,
+  parentWidth: number,
+  options: {
+    positionBelow?: boolean;
+    arrowHeight?: number;
+    legacyPlaceBelow?: boolean;
+  } = {}
+): TooltipPosition {
+  const arrowHeight = options.arrowHeight ?? 7.2;
+  const positionBelow = options.positionBelow ?? false;
+
+  // Left calculation
+  const hoveredCenter =
+    0.5 * (targetRect.left + targetRect.right) - parentRect.left;
+  let left = hoveredCenter - 0.5 * tooltipRect.width;
+  if (left + tooltipRect.width > parentWidth - 1) {
+    left = parentWidth - tooltipRect.width - 1;
+  }
+  left = Math.max(0, left);
+
+  const tooltipCenter = left + 0.5 * tooltipRect.width;
+  const arrowCenterOffset = hoveredCenter - tooltipCenter;
+
+  // Top calculation
+  let top = targetRect.top - parentRect.top - tooltipRect.height - arrowHeight;
+  let isBelow = positionBelow;
+
+  if (positionBelow || top < 0) {
+    isBelow = true;
+    if (options.legacyPlaceBelow) {
+      top = targetRect.top - parentRect.top + tooltipRect.height - arrowHeight;
+    } else {
+      top = targetRect.bottom - parentRect.top + arrowHeight;
+    }
+  }
+
+  return {
+    top,
+    left,
+    isBelow,
+    arrowCenterOffset,
+  };
+}

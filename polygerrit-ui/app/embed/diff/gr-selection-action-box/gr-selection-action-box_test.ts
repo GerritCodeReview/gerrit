@@ -87,19 +87,19 @@ suite('gr-selection-action-box', () => {
       target = queryAndAssert<HTMLDivElement>(container, '.target');
       sinon.stub(container, 'getBoundingClientRect').returns({
         top: 1,
-        bottom: 2,
+        bottom: 100,
         left: 3,
-        right: 4,
-        width: 50,
-        height: 6,
+        right: 203,
+        width: 200,
+        height: 99,
       } as DOMRect);
       getTargetBoundingRectStub = sinon
         .stub(element, 'getTargetBoundingRect')
         .returns({
           top: 42,
-          bottom: 20,
+          bottom: 102,
           left: 30,
-          right: 40,
+          right: 130,
           width: 100,
           height: 60,
         } as DOMRect);

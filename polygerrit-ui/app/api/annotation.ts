@@ -3,8 +3,10 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
+
 import {
   CoverageRange,
+  DiffLayer,
   FileRange,
   GrDiff,
   TokenHighlightEventDetails,
@@ -22,8 +24,11 @@ export type CoverageProvider = (
   basePatchNum?: number,
   patchNum?: number,
   change?: ChangeInfo
-) => Promise<Array<CoverageRange> | undefined>;
+) => Promise<CoverageRange[] | undefined>;
 
+/**
+ * Details of the diff.
+ */
 export declare interface DiffDetails {
   change: ChangeInfo;
   basePatchNum: BasePatchSetNum;
@@ -34,10 +39,18 @@ export declare interface DiffDetails {
   diffElement: GrDiff;
 }
 
+/**
+ * Listener for token hover events.
+ */
 export declare type TokenHoverListener = (
   diff: DiffDetails,
   highlight?: TokenHighlightEventDetails
 ) => void;
+
+/**
+ * Factory function to create a DiffLayer.
+ */
+export type DiffLayerFactory = (details: DiffDetails) => DiffLayer;
 
 export declare interface AnnotationPluginApi {
   /**
@@ -60,4 +73,10 @@ export declare interface AnnotationPluginApi {
    * TODO: Replace with a more general addDiffLayer() endpoint.
    */
   addTokenHoverListener(callback: TokenHoverListener): void;
+
+  /**
+   * Register a factory that creates a DiffLayer for each diff view.
+   */
+  addDiffLayer(factory: DiffLayerFactory): void;
 }
+

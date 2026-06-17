@@ -53,7 +53,7 @@ import {assertIsDefined} from '../../../utils/common-util';
 import {assert, fixture, html} from '@open-wc/testing';
 import {testResolver} from '../../../test/common-test-setup';
 import {UserModel, userModelToken} from '../../../models/user/user-model';
-import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
+import {pluginLoaderToken, PluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
 import {
@@ -1472,6 +1472,49 @@ suite('gr-diff-host tests', () => {
         assert.isNull(element.hasTrailingNewlines(diff, false));
         assert.isFalse(element.hasTrailingNewlines(diff, true));
       });
+    });
+  });
+
+  suite('plugin layers', () => {
+    let pluginLoader: PluginLoader;
+
+    setup(() => {
+      pluginLoader = testResolver(pluginLoaderToken);
+    });
+
+    test('adds plugin layers to diff element', async () => {
+      const mockLayer = {
+        annotate: sinon.spy(),
+      };
+      const factoryStub = sinon.stub().returns(mockLayer);
+
+      pluginLoader.pluginsModel.diffLayerRegister({
+        pluginName: 'test-plugin',
+        factory: factoryStub,
+      });
+
+      element.patchRange = createPatchRange();
+      element.change = createChange();
+      element.prefs = createDefaultDiffPrefs();
+      element.path = 'some/path';
+
+      getDiffRestApiStub.returns(Promise.resolve(createDiff()));
+      await element.reload();
+
+      assertIsDefined(element.diffElement);
+      assertIsDefined(element.diffElement.layers);
+
+      assert.isTrue(factoryStub.calledOnce);
+      const details = factoryStub.firstCall.args[0];
+      assert.equal(details.path, 'some/path');
+      assert.equal(details.change, element.change);
+
+      assert.include(element.diffElement.layers, mockLayer);
+
+      const pluginLayerIndex = element.diffElement.layers.indexOf(mockLayer);
+      const syntaxLayerIndex =
+        element.diffElement.layers.indexOf(element.syntaxLayer);
+      assert.isTrue(syntaxLayerIndex > pluginLayerIndex);
     });
   });
 });

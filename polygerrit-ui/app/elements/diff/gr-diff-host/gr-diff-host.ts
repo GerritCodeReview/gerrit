@@ -71,6 +71,7 @@ import {
   RangeSelectedEventDetail,
   RenderPreferences,
 } from '../../../api/diff';
+import {DiffDetails} from '../../../api/annotation';
 import {resolve} from '../../../models/dependency';
 import {browserModelToken} from '../../../models/browser/browser-model';
 import {commentsModelToken} from '../../../models/comments/comments-model';
@@ -529,6 +530,7 @@ export class GrDiffHost extends LitElement {
     const enableTokenHighlight = !prefs?.disable_token_highlighting;
 
     assertIsDefined(this.path, 'path');
+    await this.getPluginLoader().awaitPluginsLoaded();
     this.layers = this.getLayers(enableTokenHighlight);
     this.coverageRanges = [];
     // We kick off fetching the data here, but we don't return the promise,
@@ -689,6 +691,34 @@ export class GrDiffHost extends LitElement {
           }
         })
       );
+    }
+    // Add layers from plugins
+    if (
+      this.change &&
+      this.patchRange &&
+      this.file &&
+      this.path &&
+      this.diffElement
+    ) {
+      const details: DiffDetails = {
+        change: this.change,
+        basePatchNum: this.patchRange.basePatchNum,
+        patchNum: this.patchRange.patchNum,
+        fileRange: this.file,
+        path: this.path,
+        diffElement: this.diffElement,
+      };
+      for (const plugin of this.getPluginLoader().pluginsModel.getState()
+        .diffLayerPlugins) {
+        try {
+          layers.push(plugin.factory(details));
+        } catch (e) {
+          console.error(
+            `Error creating diff layer from plugin ${plugin.pluginName}:`,
+            e
+          );
+        }
+      }
     }
     layers.push(this.syntaxLayer);
     return layers;
@@ -1275,3 +1305,4 @@ declare global {
     'gr-diff-host': GrDiffHost;
   }
 }
+

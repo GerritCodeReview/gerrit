@@ -29,6 +29,13 @@ export default {
         const fontFile = path.join( "lib/fonts", path.basename(context.url) );
         context.body = fs.createReadStream( fontFile );
       }
+      if ( context.url.includes( "highlight.min.js" ) ) {
+        const hljsFile = path.join( "bazel-bin/lib/highlightjs/highlight.min.js" );
+        if (fs.existsSync(hljsFile)) {
+          context.body = fs.createReadStream( hljsFile );
+          context.set('Content-Type', 'application/javascript; charset=utf-8');
+        }
+      }
       await next();
     },
     // The issue solved here is that our production index.html does not load

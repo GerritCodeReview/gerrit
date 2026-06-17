@@ -11,6 +11,7 @@ import {strToClassName} from '../../../utils/dom-util';
 import {Side} from '../../../constants/constants';
 import {CommentRange} from '../../../types/common';
 import {fire} from '../../../utils/event-util';
+import '../../../types/events';
 import {GrSelectionActionBox} from '../gr-selection-action-box/gr-selection-action-box';
 import {
   getLineElByChild,
@@ -92,6 +93,10 @@ export class GrDiffHighlight {
       'create-comment-requested',
       this.handleRangeCommentRequest
     );
+    diffTable.addEventListener(
+      'add-to-chat-requested',
+      this.handleAddToChatRequest
+    );
   }
 
   cleanup() {
@@ -108,6 +113,10 @@ export class GrDiffHighlight {
       this.diffTable.removeEventListener(
         'create-comment-requested',
         this.handleRangeCommentRequest
+      );
+      this.diffTable.removeEventListener(
+        'add-to-chat-requested',
+        this.handleAddToChatRequest
       );
     }
   }
@@ -475,6 +484,18 @@ export class GrDiffHighlight {
     assertIsDefined(this.selectedRange, 'selectedRange');
     const {side, range} = this.selectedRange;
     this.createRangeComment(side, range);
+  };
+
+  private handleAddToChatRequest = async (e: Event) => {
+    e.stopPropagation();
+    const actionBox = this.diffTable?.querySelector(
+      'gr-selection-action-box'
+    ) as GrSelectionActionBox | null;
+    if (actionBox && actionBox.getSelectionContext) {
+      const context = await actionBox.getSelectionContext();
+      fire(this.diffTable, 'add-to-chat', {context});
+      this.removeActionBox();
+    }
   };
 
   // visible for testing

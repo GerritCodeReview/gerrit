@@ -38,7 +38,16 @@ suite('gr-selection-action-box', () => {
       /* HTML */ `
         <!---->
         <slot name="selectionActionBox" invisible="">
-          <gr-tooltip id="tooltip" text="Press c to comment"></gr-tooltip>
+          <div id="container" class="invisible">
+            <button class="action-btn">
+              <gr-icon icon="chat_bubble"></gr-icon>
+              Comment (c)
+            </button>
+            <button class="action-btn">
+              <gr-icon icon="smart_toy"></gr-icon>
+              Add to Chat
+            </button>
+          </div>
         </slot>
       `
     );
@@ -50,32 +59,43 @@ suite('gr-selection-action-box', () => {
     assert.isFalse(dispatchEventStub.called);
   });
 
-  suite('mousedown reacts only to main button', () => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    let e: any;
+  suite('button clicks', () => {
+    test('clicking comment button fires create-comment-requested', () => {
+      const commentBtn = queryAndAssert<HTMLButtonElement>(
+        element,
+        '.action-btn:nth-of-type(1)'
+      );
+      const e = new MouseEvent('mousedown', {button: 0});
+      const preventDefaultSpy = sinon.spy(e, 'preventDefault');
+      const stopPropagationSpy = sinon.spy(e, 'stopPropagation');
 
-    setup(() => {
-      e = {
-        button: 0,
-        preventDefault: sinon.stub(),
-        stopPropagation: sinon.stub(),
-      };
-    });
+      commentBtn.dispatchEvent(e);
 
-    test('event handled if main button', () => {
-      element.handleMouseDown(e);
-      assert.isTrue(e.preventDefault.called);
+      assert.isTrue(preventDefaultSpy.called);
+      assert.isTrue(stopPropagationSpy.called);
       assert.equal(
         dispatchEventStub.lastCall.args[0].type,
         'create-comment-requested'
       );
     });
 
-    test('event ignored if not main button', () => {
-      e.button = 1;
-      element.handleMouseDown(e);
-      assert.isFalse(e.preventDefault.called);
-      assert.isFalse(dispatchEventStub.called);
+    test('clicking chat button fires add-to-chat-requested', () => {
+      const chatBtn = queryAndAssert<HTMLButtonElement>(
+        element,
+        '.action-btn:nth-of-type(2)'
+      );
+      const e = new MouseEvent('mousedown', {button: 0});
+      const preventDefaultSpy = sinon.spy(e, 'preventDefault');
+      const stopPropagationSpy = sinon.spy(e, 'stopPropagation');
+
+      chatBtn.dispatchEvent(e);
+
+      assert.isTrue(preventDefaultSpy.called);
+      assert.isTrue(stopPropagationSpy.called);
+      assert.equal(
+        dispatchEventStub.lastCall.args[0].type,
+        'add-to-chat-requested'
+      );
     });
   });
 
@@ -103,9 +123,9 @@ suite('gr-selection-action-box', () => {
           width: 100,
           height: 60,
         } as DOMRect);
-      assert.isOk(element.tooltip);
+      assert.isOk(element.container);
       sinon
-        .stub(element.tooltip, 'getBoundingClientRect')
+        .stub(element.container, 'getBoundingClientRect')
         .returns({width: 10, height: 10} as DOMRect);
     });
 
@@ -117,7 +137,16 @@ suite('gr-selection-action-box', () => {
         /* HTML */ `
           <!---->
           <slot name="selectionActionBox">
-            <gr-tooltip id="tooltip" text="Press c to comment"></gr-tooltip>
+            <div id="container" class="">
+              <button class="action-btn">
+                <gr-icon icon="chat_bubble"></gr-icon>
+                Comment (c)
+              </button>
+              <button class="action-btn">
+                <gr-icon icon="smart_toy"></gr-icon>
+                Add to Chat
+              </button>
+            </div>
           </slot>
         `
       );
@@ -183,8 +212,8 @@ suite('gr-selection-action-box', () => {
 
         // Stub necessary methods on the new box instance
         sinon
-          .stub(box, 'tooltip' as keyof GrSelectionActionBox)
-          .value(element.tooltip);
+          .stub(box, 'container' as keyof GrSelectionActionBox)
+          .value(element.container);
         sinon.stub(box, 'getTargetBoundingRect').returns({
           top: 42,
           bottom: 20,

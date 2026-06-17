@@ -87,10 +87,36 @@ export const grDiffElementStyles = css`
   gr-diff-element gr-selection-action-box slot[invisible] {
     visibility: hidden;
   }
-  gr-diff-element gr-selection-action-box gr-tooltip {
+  gr-diff-element gr-selection-action-box #container {
     position: absolute;
-    width: 22ch;
+    display: flex;
+    background-color: var(--tooltip-background-color);
+    box-shadow: var(--elevation-level-2);
+    border-radius: 4px;
+    padding: var(--spacing-xs);
+    z-index: 1000;
+  }
+  gr-diff-element gr-selection-action-box #container.invisible {
+    visibility: hidden;
+  }
+  gr-diff-element gr-selection-action-box .action-btn {
+    background: none;
+    border: none;
+    color: var(--tooltip-text-color);
+    padding: var(--spacing-s) var(--spacing-m);
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    font-size: var(--font-size-small);
+  }
+  gr-diff-element gr-selection-action-box .action-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  gr-diff-element gr-selection-action-box gr-icon {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
   }
 `;
 

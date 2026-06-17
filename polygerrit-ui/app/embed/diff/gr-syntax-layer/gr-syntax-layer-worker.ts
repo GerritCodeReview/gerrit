@@ -73,6 +73,8 @@ const LANGUAGE_MAP = new Map<string, string>([
   ['text/x-nix', 'nix'],
   ['text/x-nsis', 'nsis'],
   ['text/x-objectivec', 'objectivec'],
+  ['text/x-objectivec++', 'objectivec'],
+  ['text/x-objective-c++', 'objectivec'],
   ['text/x-ocaml', 'ocaml'],
   ['text/x-perl', 'perl'],
   ['text/x-pgsql', 'pgsql'], // postgresql

@@ -5,6 +5,8 @@
  */
 import {BehaviorSubject} from 'rxjs';
 import '../../../styles/gr-a11y-styles';
+import {ContextItem} from '../../../api/ai-code-review';
+import {SelectionContext} from '../../../types/events';
 import '../../../styles/gr-material-styles';
 import '../../../styles/shared-styles';
 import '../../chat-panel/chat-panel';
@@ -69,6 +71,7 @@ import {
   NumericChangeId,
   PARENT,
   QuickLabelInfo,
+  RelatedChangeAndCommitInfo,
   RevisionInfo,
   RevisionPatchSetNum,
   ServerInfo,
@@ -495,6 +498,9 @@ export class GrChangeView extends LitElement {
       this.showSidebarChat = true;
       this.getChatModel().processChatRequest(e.detail);
     });
+    this.addEventListener('add-to-chat', e =>
+      this.handleAddToChat(e as CustomEvent<{context: SelectionContext}>)
+    );
   }
 
   private setupShortcuts() {
@@ -1426,7 +1432,10 @@ export class GrChangeView extends LitElement {
             </gr-endpoint-decorator>
           </div>
           <div class="relatedChanges">
-            <gr-related-changes-list></gr-related-changes-list>
+            <gr-related-changes-list
+              @cherry-pick-chain-requested=${this
+                .handleCherryPickChainRequested}
+            ></gr-related-changes-list>
           </div>
           <div class="emptySpace"></div>
         </div>
@@ -1726,6 +1735,34 @@ export class GrChangeView extends LitElement {
       e.stopPropagation();
       (e.currentTarget as HTMLElement).click();
     }
+  }
+
+  private handleCherryPickChainRequested(
+    e: CustomEvent<{changes: RelatedChangeAndCommitInfo[]}>
+  ) {
+    this.actions?.handleCherryPickChainRequested(e);
+  }
+
+  private handleAddToChat(e: CustomEvent<{context: SelectionContext}>) {
+    const context = e.detail.context;
+    if (!context.text) return;
+
+    const rangeStr = context.range
+      ? `:${context.range.start_line}-${context.range.end_line}`
+      : '';
+    const title = `${context.path}${rangeStr}`;
+
+    const contextItem: ContextItem = {
+      type_id: 'code_snippet',
+      link: '',
+      title,
+      identifier: JSON.stringify(context),
+      tooltip: `Code snippet from ${context.path}`,
+    };
+
+    this.getChatModel().addContextItem(contextItem);
+    this.showSidebarChat = true;
+    window.getSelection()?.removeAllRanges();
   }
 
   private handleEditingChanged(e: ValueChangedEvent<boolean>) {

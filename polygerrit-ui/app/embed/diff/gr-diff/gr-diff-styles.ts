@@ -346,6 +346,10 @@ export const grDiffRowStyles = css`
     display: block;
     margin-top: var(--spacing-xs);
   }
+  ::slotted(.comment-thread) {
+    --gr-comment-thread-width: 100%;
+    --gr-comment-thread-diff-max-width: 100%;
+  }
   gr-diff-row td.content div.contentText {
     background-color: var(--view-background-color);
   }

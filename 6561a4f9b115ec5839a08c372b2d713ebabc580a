@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d1bfa28_50c6a7a3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4870948
+      },
+      "writtenOn": "2026-06-17T22:44:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a2004f8_25ce9338",
+      "revId": "6561a4f9b115ec5839a08c372b2d713ebabc580a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "01d02a35_62ddc9e3",
@@ -31,6 +49,30 @@
       "writtenOn": "2026-06-17T20:57:28Z",
       "side": 1,
       "message": "How does this end up looking when shrinking the window?\n\nThe current behaviour is when \"fit to screen\" is None it doesn\u0027t shrink, but it does for the responsive options.\n\nI assume it\u0027s the same with this change?",
+      "range": {
+        "startLine": 382,
+        "startChar": 10,
+        "endLine": 382,
+        "endChar": 15
+      },
+      "revId": "6561a4f9b115ec5839a08c372b2d713ebabc580a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4c12313_bb3a17e8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 4870948
+      },
+      "writtenOn": "2026-06-17T22:44:05Z",
+      "side": 1,
+      "message": "Yes, it behaves exactly the same. Since the comment thread width is now bound to 100% of the code pane\u0027s cell, it naturally inherits the pane\u0027s behavior. If \u0027Fit to Screen\u0027 is set to None, the cell (and thus the comment) won\u0027t shrink when the window is resized. If set to a responsive option, the cell shrinks, and the comment thread will shrink and wrap along with it.",
+      "parentUuid": "01d02a35_62ddc9e3",
       "range": {
         "startLine": 382,
         "startChar": 10,

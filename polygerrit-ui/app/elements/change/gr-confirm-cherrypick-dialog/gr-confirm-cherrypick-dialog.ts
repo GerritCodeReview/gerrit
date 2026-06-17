@@ -55,9 +55,10 @@ import '@material/web/checkbox/checkbox';
 
 const SUGGESTIONS_LIMIT = 15;
 const CHANGE_SUBJECT_LIMIT = 50;
-enum CherryPickType {
+export enum CherryPickType {
   SINGLE_CHANGE = 1,
   TOPIC,
+  RELATION_CHAIN,
 }
 
 export type Statuses = {[changeId: string]: Status};
@@ -125,6 +126,10 @@ export class GrConfirmCherrypickDialog
 
   @state()
   cherryPickType = CherryPickType.SINGLE_CHANGE;
+
+  @state()
+  private bulkType: CherryPickType.TOPIC | CherryPickType.RELATION_CHAIN =
+    CherryPickType.TOPIC;
 
   @state()
   private duplicateProjectChanges = false;
@@ -311,7 +316,11 @@ export class GrConfirmCherrypickDialog
                 CherryPickType.SINGLE_CHANGE,
                 () => this.renderCherrypickSingleChangeInputs(),
               ],
-              [CherryPickType.TOPIC, () => this.renderCherrypickTopicTable()],
+              [CherryPickType.TOPIC, () => this.renderCherrypickTable()],
+              [
+                CherryPickType.RELATION_CHAIN,
+                () => this.renderCherrypickTable(),
+              ],
             ])}
             <gr-endpoint-slot name="bottom"></gr-endpoint-slot>
           </gr-endpoint-decorator>
@@ -321,12 +330,16 @@ export class GrConfirmCherrypickDialog
   }
 
   private renderCherrypickTopicLayout() {
+    const labelText =
+      this.bulkType === CherryPickType.RELATION_CHAIN
+        ? `Cherry Pick entire relation chain (${this.changesCount} Changes)`
+        : `Cherry Pick entire topic (${this.changesCount} Changes)`;
     return html`
       <div class="cherryPickTopicLayout">
         <md-radio
           name="cherryPickOptions"
           id="cherryPickSingleChange"
-          checked
+          ?checked=${this.cherryPickType === CherryPickType.SINGLE_CHANGE}
           @change=${this.handlecherryPickSingleChangeClicked}
         >
         </md-radio>
@@ -338,11 +351,12 @@ export class GrConfirmCherrypickDialog
         <md-radio
           name="cherryPickOptions"
           id="cherryPickTopic"
-          @change=${this.handlecherryPickTopicClicked}
+          ?checked=${this.cherryPickType === this.bulkType}
+          @change=${this.handlecherryPickBulkClicked}
         >
         </md-radio>
         <label for="cherryPickTopic" class="cherryPickTopic">
-          Cherry Pick entire topic (${this.changesCount} Changes)
+          ${labelText}
         </label>
       </div>
     `;
@@ -390,7 +404,7 @@ export class GrConfirmCherrypickDialog
     `;
   }
 
-  private renderCherrypickTopicTable() {
+  private renderCherrypickTable() {
     return html`
       <span class="error-message">${this.computeTopicErrorMessage()}</span>
       <span class="cherry-pick-topic-message">
@@ -480,7 +494,10 @@ export class GrConfirmCherrypickDialog
     return false;
   }
 
-  updateChanges(changes: (ParsedChangeInfo | ChangeInfo)[]) {
+  updateChanges(
+    changes: (ParsedChangeInfo | ChangeInfo)[],
+    type?: CherryPickType
+  ) {
     this.changes = changes;
     this.statuses = {};
     changes.forEach(change => {
@@ -489,6 +506,13 @@ export class GrConfirmCherrypickDialog
     this.duplicateProjectChanges = this.containsDuplicateProject(changes);
     this.changesCount = changes.length;
     this.showCherryPickTopic = changes.length > 1;
+    if (
+      type === CherryPickType.RELATION_CHAIN ||
+      type === CherryPickType.TOPIC
+    ) {
+      this.bulkType = type;
+      this.cherryPickType = type;
+    }
   }
 
   private updateBranch() {
@@ -516,7 +540,10 @@ export class GrConfirmCherrypickDialog
   }
 
   private computeTopicErrorMessage() {
-    if (this.duplicateProjectChanges) {
+    if (
+      this.cherryPickType === CherryPickType.TOPIC &&
+      this.duplicateProjectChanges
+    ) {
       return 'Two changes cannot be of the same project';
     }
     return '';
@@ -592,8 +619,8 @@ export class GrConfirmCherrypickDialog
     this.cherryPickType = CherryPickType.SINGLE_CHANGE;
   }
 
-  private handlecherryPickTopicClicked() {
-    this.cherryPickType = CherryPickType.TOPIC;
+  private handlecherryPickBulkClicked() {
+    this.cherryPickType = this.bulkType;
   }
 
   private computeMessage() {
@@ -689,8 +716,86 @@ export class GrConfirmCherrypickDialog
       this.handleCherryPickTopic();
       return;
     }
+    if (this.cherryPickType === CherryPickType.RELATION_CHAIN) {
+      this.reporting.reportInteraction('cherry-pick-chain-clicked', {});
+      this.handleCherryPickChain();
+      return;
+    }
     // Cherry pick single change
     fireNoBubble(this, 'confirm', {});
+  }
+
+  private async handleCherryPickChain() {
+    const changes = this.changes.filter(change =>
+      this.selectedChangeIds.has(change.id)
+    );
+    if (!changes.length) {
+      return;
+    }
+
+    const topic = this.generateRandomCherryPickTopic(changes[0]);
+    let currentBase: CommitId | undefined = undefined;
+
+    for (const change of changes) {
+      this.updateStatus(change, {status: ProgressStatus.RUNNING});
+      const payload = {
+        destination: this.branch,
+        base: currentBase,
+        topic,
+        allow_conflicts: true,
+        allow_empty: true,
+      };
+
+      const handleError = (response?: Response | null) => {
+        this.handleCherryPickFailed(change, response);
+      };
+
+      const patchNum = change.revisions![change.current_revision!]._number;
+
+      try {
+        const response = await this.restApiService.executeChangeAction(
+          change._number,
+          HttpMethod.POST,
+          '/cherrypick',
+          patchNum,
+          payload,
+          handleError
+        );
+
+        if (!response.ok) {
+          break;
+        }
+
+        const text = await response.text();
+        const jsonText = text.startsWith(")]}'") ? text.substring(4) : text;
+        const result = JSON.parse(jsonText);
+
+        if (result && result.current_revision) {
+          currentBase = result.current_revision;
+        } else {
+          this.updateStatus(change, {
+            status: ProgressStatus.FAILED,
+            msg: 'Could not get new commit hash from response.',
+          });
+          break;
+        }
+
+        this.updateStatus(change, {status: ProgressStatus.SUCCESSFUL});
+      } catch (err) {
+        this.updateStatus(change, {
+          status: ProgressStatus.FAILED,
+          msg: (err as Error).message,
+        });
+        break;
+      }
+    }
+
+    const failedOrPending = Object.values(this.statuses).find(
+      v => v.status !== ProgressStatus.SUCCESSFUL
+    );
+    if (!failedOrPending) {
+      this.getNavigation().setUrl(createSearchUrl({topic: topic as TopicName}));
+    }
   }
 
   private handleCancelTap(e: Event) {

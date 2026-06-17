@@ -80,7 +80,11 @@ export class GrRelatedCollapse extends LitElement {
       ></gr-button>`;
     }
 
-    return html`<div class="container">${title}${button}</div>
+    return html`<div class="container">
+        ${title}
+        <slot name="actions"></slot>
+        ${button}
+      </div>
       <div><slot></slot></div>`;
   }
 

@@ -51,6 +51,7 @@ import {
   ListChangesOption,
   NumericChangeId,
   PatchSetNumber,
+  RelatedChangeAndCommitInfo,
   RequestPayload,
   RevertSubmissionInfo,
   ReviewInput,
@@ -66,7 +67,10 @@ import {
   RevertType,
 } from '../gr-confirm-revert-dialog/gr-confirm-revert-dialog';
 import {GrConfirmMoveDialog} from '../gr-confirm-move-dialog/gr-confirm-move-dialog';
-import {GrConfirmCherrypickDialog} from '../gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog';
+import {
+  CherryPickType,
+  GrConfirmCherrypickDialog,
+} from '../gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog';
 import {GrConfirmCherrypickConflictDialog} from '../gr-confirm-cherrypick-conflict-dialog/gr-confirm-cherrypick-conflict-dialog';
 import {
   ConfirmRebaseEventDetail,
@@ -116,7 +120,7 @@ import {modalStyles} from '../../../styles/gr-modal-styles';
 import {subscribe} from '../../lit/subscription-controller';
 import {chatModelToken} from '../../../models/chat/chat-model';
 import {userModelToken} from '../../../models/user/user-model';
-import {ParsedChangeInfo} from '../../../types/types';
+import {isDefined, ParsedChangeInfo} from '../../../types/types';
 import {readJSONResponsePayload} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 import {commentsModelToken} from '../../../models/comments/comments-model';
 import {when} from 'lit/directives/when.js';
@@ -2211,6 +2215,35 @@ export class GrChangeActions
     const changes = await this.getCherryPickChanges();
     if (!changes.length) return;
     this.confirmCherrypick.updateChanges(changes);
+    this.showActionDialog(this.confirmCherrypick);
+  }
+
+  async handleCherryPickChainRequested(
+    e: CustomEvent<{changes: RelatedChangeAndCommitInfo[]}>
+  ) {
+    const relatedChanges = e.detail.changes;
+    const changeNums = relatedChanges
+      .map(c => c._change_number)
+      .filter(isDefined);
+    if (changeNums.length === 0) return;
+
+    const detailedChanges =
+      await this.restApiService.getDetailedChangesWithActions(changeNums);
+    if (!detailedChanges || detailedChanges.length === 0) return;
+
+    // Sort to match relation chain order, then reverse to get parent-first
+    const orderedDetails = relatedChanges
+      .map(rc => detailedChanges.find(dc => dc._number === rc._change_number))
+      .filter(isDefined);
+
+    const parentFirstChanges = orderedDetails.reverse();
+
+    assertIsDefined(this.confirmCherrypick, 'confirmCherrypick');
+    this.confirmCherrypick.branch = '' as BranchName;
+    this.confirmCherrypick.updateChanges(
+      parentFirstChanges,
+      CherryPickType.RELATION_CHAIN
+    );
     this.showActionDialog(this.confirmCherrypick);
   }
 

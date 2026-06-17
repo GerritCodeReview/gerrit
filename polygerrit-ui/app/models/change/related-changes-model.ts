@@ -143,10 +143,40 @@ export class RelatedChangesModel extends Model<RelatedChangesState> {
               .getRelatedChanges(changeNum, latestPatchNum)
               .then(info => info?.changes ?? [])
           );
+        }),
+        switchMap(relatedChanges => {
+          if (!relatedChanges || relatedChanges.length === 0) {
+            return of(relatedChanges);
+          }
+          const changeNums = relatedChanges
+            .map(c => c._change_number)
+            .filter(isDefined);
+          if (changeNums.length === 0) {
+            return of(relatedChanges);
+          }
+          return from(
+            this.restApiService.getDetailedChangesWithActions(changeNums)
+          ).pipe(
+            map(details => {
+              if (!details) return relatedChanges;
+              const detailsMap = new Map(details.map(d => [d._number, d]));
+              return relatedChanges.map(c => {
+                if (c._change_number && detailsMap.has(c._change_number)) {
+                  const detail = detailsMap.get(c._change_number)!;
+                  return {
+                    ...c,
+                    labels: detail.labels,
+                    unresolved_comment_count: detail.unresolved_comment_count,
+                  };
+                }
+                return c;
+              });
+            })
+          );
         })
       )
       .subscribe(relatedChanges => {
-        this.updateState({relatedChanges});
+        this.updateState({relatedChanges: relatedChanges ?? undefined});
       });
   }
 
@@ -156,7 +186,12 @@ export class RelatedChangesModel extends Model<RelatedChangesState> {
         switchMap(changeNum => {
           if (!changeNum) return of(undefined);
           return from(
-            this.restApiService.getChangesSubmittedTogether(changeNum)
+            this.restApiService.getChangesSubmittedTogether(changeNum, [
+              'NON_VISIBLE_CHANGES',
+              'LABELS',
+              'DETAILED_LABELS',
+              'SUBMITTABLE',
+            ])
           );
         })
       )

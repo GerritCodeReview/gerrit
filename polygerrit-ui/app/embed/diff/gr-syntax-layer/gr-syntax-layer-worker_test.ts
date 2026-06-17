@@ -91,6 +91,21 @@ suite('gr-syntax-layer-worker tests', () => {
     );
   });
 
+  test('_getLanguage mapping', () => {
+    assert.equal(
+      layer._getLanguage({content_type: 'text/x-objectivec++'}),
+      'objectivec'
+    );
+    assert.equal(
+      layer._getLanguage({content_type: 'text/x-objective-c++'}),
+      'objectivec'
+    );
+    assert.equal(
+      layer._getLanguage({content_type: 'text/x-objectivec'}),
+      'objectivec'
+    );
+  });
+
   test('cancel processing', async () => {
     const mockPromise1 = mockPromise<SyntaxLayerLine[]>();
     const mockPromise2 = mockPromise<SyntaxLayerLine[]>();

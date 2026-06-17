@@ -33,6 +33,23 @@
       "message": "@milutin@google.com can you help with the Library-Compliance +1 so that we can release the next v3.14.1?  Thanks!",
       "revId": "4ec6fe4812b95fb9adb9123ed67b9b09417ce658",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "223fbbbe_c5820c96",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4915858
+      },
+      "writtenOn": "2026-06-17T01:53:45Z",
+      "side": 1,
+      "message": "https://community.oppo.com/thread/1903041980913418248 [ดาวโหลด อัพเดทซอฟแวร์]",
+      "revId": "4ec6fe4812b95fb9adb9123ed67b9b09417ce658",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

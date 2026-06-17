@@ -9,8 +9,10 @@ import {
   DropdownLink,
   FixSuggestionInfo,
   PatchSetNum,
+  RelatedChangeAndCommitInfo,
 } from './common';
 import {FetchRequest} from './types';
+import {CommentRange} from '../api/rest-api';
 import {
   LineNumberEventDetail,
   MovedLinkClickedEventDetail,
@@ -26,6 +28,7 @@ import {Category, RunStatus} from '../api/checks';
 declare global {
   interface HTMLElementEventMap {
     'add-reviewer': AddReviewerEvent;
+    'add-to-chat': AddToChatEvent;
     'bind-value-changed': BindValueChangeEvent;
     /** Fired when a 'cancel' button in a dialog was pressed. */
     // prettier-ignore
@@ -34,6 +37,7 @@ declare global {
     'change': ChangeEvent;
     // prettier-ignore
     'changed': ChangedEvent;
+    'cherry-pick-chain-requested': CherryPickChainRequestedEvent;
     // prettier-ignore
     'close': CustomEvent<{}>;
     // prettier-ignore
@@ -269,3 +273,21 @@ export interface ExplainCodeRequestedEventDetail {
 }
 export type ExplainCodeRequestedEvent =
   CustomEvent<ExplainCodeRequestedEventDetail>;
+
+export interface SelectionContext {
+  path?: string;
+  side?: Side;
+  range?: CommentRange;
+  text?: string;
+}
+
+export interface AddToChatEventDetail {
+  context: SelectionContext;
+}
+export type AddToChatEvent = CustomEvent<AddToChatEventDetail>;
+
+export interface CherryPickChainRequestedEventDetail {
+  changes: RelatedChangeAndCommitInfo[];
+}
+export type CherryPickChainRequestedEvent =
+  CustomEvent<CherryPickChainRequestedEventDetail>;

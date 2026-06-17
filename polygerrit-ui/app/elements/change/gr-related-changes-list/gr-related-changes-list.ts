@@ -13,6 +13,8 @@ import {classMap} from 'lit/directives/class-map.js';
 import {css, html, LitElement, TemplateResult} from 'lit';
 import {customElement, state} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
+import '../../shared/gr-button/gr-button';
+import {fire} from '../../../utils/event-util';
 import {
   ChangeInfo,
   CommitId,
@@ -283,6 +285,11 @@ export class GrRelatedChangesList extends LitElement {
         .length=${this.relatedChanges.length}
         .numChangesWhenCollapsed=${sectionSize(Section.RELATED_CHANGES)}
       >
+        <div slot="actions">
+          <gr-button link @click=${this.handleCherryPickChain}>
+            Cherry Pick Chain
+          </gr-button>
+        </div>
         ${this.relatedChanges.map(
           (change, index) =>
             html`<div
@@ -712,6 +719,14 @@ export class GrRelatedChangesList extends LitElement {
       --pos;
     }
     return connected;
+  }
+
+  private handleCherryPickChain(e: MouseEvent) {
+    e.preventDefault();
+    e.stopPropagation();
+    fire(this, 'cherry-pick-chain-requested', {
+      changes: this.relatedChanges,
+    });
   }
 }
 

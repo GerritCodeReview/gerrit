@@ -1378,6 +1378,8 @@ export declare interface RelatedChangeAndCommitInfo {
   // it and this property is added here to keep related frontend code unchanged.
   submittable?: boolean;
   work_in_progress?: boolean;
+  labels?: LabelNameToInfoMap;
+  unresolved_comment_count?: number;
 }
 
 /**

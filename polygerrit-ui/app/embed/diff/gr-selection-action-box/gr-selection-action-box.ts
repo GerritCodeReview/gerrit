@@ -3,8 +3,7 @@
  * Copyright 2016 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '../../../elements/shared/gr-tooltip/gr-tooltip';
-import {GrTooltip} from '../../../elements/shared/gr-tooltip/gr-tooltip';
+import '../../../elements/shared/gr-icon/gr-icon';
 import {fire} from '../../../utils/event-util';
 import {html, LitElement} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
@@ -32,13 +31,16 @@ declare global {
 
     /** Fired when the selection action box is visible. */
     'selection-action-box-visible': CustomEvent<SelectionActionBoxVisibleEventDetail>;
+
+    /** Fired when the add to chat action was taken (click). */
+    'add-to-chat-requested': CustomEvent<{}>;
   }
 }
 
 @customElement('gr-selection-action-box')
 export class GrSelectionActionBox extends LitElement {
-  @query('#tooltip')
-  tooltip?: GrTooltip;
+  @query('#container')
+  container?: HTMLElement;
 
   @state() private isSlotAssigned = false;
 
@@ -61,24 +63,28 @@ export class GrSelectionActionBox extends LitElement {
 
   constructor() {
     super();
-    // See https://crbug.com/gerrit/4767
-    this.addEventListener('mousedown', e => this.handleMouseDown(e));
   }
 
   override render() {
-    // We create the gr-tooltip anyway even if the slot is assigned so that
-    // we reuse the logic for positioning the tooltip (in placeAbove/Below).
     return html`
       <slot
         name="selectionActionBox"
         ?invisible=${this.invisible}
         @slotchange=${this.handleSlotChange}
       >
-        <gr-tooltip
-          id="tooltip"
-          text=${this.hoverCardText}
-          ?position-below=${this.positionBelow}
-        ></gr-tooltip>
+        <div
+          id="container"
+          class=${this.invisible ? 'invisible' : ''}
+        >
+          <button class="action-btn" @mousedown=${this.handleCommentClick}>
+            <gr-icon icon="chat_bubble"></gr-icon>
+            Comment (c)
+          </button>
+          <button class="action-btn" @mousedown=${this.handleChatClick}>
+            <gr-icon icon="smart_toy"></gr-icon>
+            Add to Chat
+          </button>
+        </div>
       </slot>
     `;
   }
@@ -103,10 +109,9 @@ export class GrSelectionActionBox extends LitElement {
   //   We should figure out a way to reuse as much of the logic as possible.
   async placeAbove(el: Text | Element | Range) {
     await this.updateComplete;
-    if (!this.tooltip) return;
-    await this.tooltip.updateComplete;
+    if (!this.container) return;
     const rect = this.getTargetBoundingRect(el);
-    const boxRect = this.tooltip.getBoundingClientRect();
+    const boxRect = this.container.getBoundingClientRect();
     const parentRect = this.getParentBoundingClientRect();
     if (parentRect === null) {
       return;
@@ -123,10 +128,9 @@ export class GrSelectionActionBox extends LitElement {
 
   async placeBelow(el: Text | Element | Range) {
     await this.updateComplete;
-    if (!this.tooltip) return;
-    await this.tooltip.updateComplete;
+    if (!this.container) return;
     const rect = this.getTargetBoundingRect(el);
-    const boxRect = this.tooltip.getBoundingClientRect();
+    const boxRect = this.container.getBoundingClientRect();
     const parentRect = this.getParentBoundingClientRect();
     if (parentRect === null) {
       return;
@@ -167,16 +171,17 @@ export class GrSelectionActionBox extends LitElement {
     return rect;
   }
 
-  // visible for testing
-  handleMouseDown(e: MouseEvent) {
-    if (this.isSlotAssigned) {
-      return;
-    }
-    if (e.button !== 0) {
-      return;
-    } // 0 = main button
+  private handleCommentClick(e: MouseEvent) {
+    if (e.button !== 0) return;
     e.preventDefault();
     e.stopPropagation();
     fire(this, 'create-comment-requested', {});
+  }
+
+  private handleChatClick(e: MouseEvent) {
+    if (e.button !== 0) return;
+    e.preventDefault();
+    e.stopPropagation();
+    fire(this, 'add-to-chat-requested', {});
   }
 }

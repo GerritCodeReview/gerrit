@@ -3,17 +3,22 @@
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {css, html, LitElement} from 'lit';
+import {css, html, LitElement, TemplateResult} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {
   ChangeInfo,
   CommitId,
   RelatedChangeAndCommitInfo,
+  isDetailedLabelInfo,
+  LabelInfo,
+  QuickLabelInfo,
 } from '../../../types/common';
 import {ChangeStatus} from '../../../constants/constants';
 import {isChangeInfo} from '../../../utils/change-util';
 import {ifDefined} from 'lit/directives/if-defined.js';
+import {isDefined} from '../../../types/types';
+import '../../shared/gr-icon/gr-icon';
 
 @customElement('gr-related-change')
 export class GrRelatedChange extends LitElement {
@@ -87,13 +92,35 @@ export class GrRelatedChange extends LitElement {
         .mobile {
           display: none;
         }
-        .submittableCheck {
-          padding-left: var(--spacing-s);
-          color: var(--positive-green-text-color);
-          display: none;
+        .badge {
+          display: inline-flex;
+          align-items: center;
+          gap: 2px;
+          border-radius: 4px;
+          padding: 2px 4px;
+          font-size: var(--font-size-small);
+          font-weight: var(--font-weight-bold);
+          margin-left: var(--spacing-s);
+          height: 16px;
+          line-height: 16px;
+          align-self: center;
         }
-        .submittableCheck.submittable {
-          display: inline;
+        .badge.unresolved {
+          background-color: var(--unresolved-comment-background-color);
+          color: var(--primary-text-color);
+        }
+        .badge.approval.positive {
+          background-color: var(--success-background);
+          color: var(--success-foreground);
+        }
+        .badge.approval.negative {
+          background-color: var(--error-background);
+          color: var(--error-foreground);
+        }
+        .unresolved-icon {
+          font-size: 14px;
+          width: 14px;
+          height: 14px;
         }
       `,
     ];
@@ -126,6 +153,8 @@ export class GrRelatedChange extends LitElement {
               (${this.computeChangeStatus(change)})
             </span>`
           : ''}
+        ${this.renderApprovals()}
+        ${this.renderUnresolvedComments()}
         <slot name="extra"></slot>
       </div>
     `;
@@ -193,6 +222,68 @@ export class GrRelatedChange extends LitElement {
       this.connectedRevisions &&
       !this.connectedRevisions.includes(change.commit.commit)
     );
+  }
+
+  private getLabelScore(label: LabelInfo): number {
+    if (isDetailedLabelInfo(label) && label.all) {
+      const votes = label.all.map(a => a.value).filter(isDefined);
+      if (votes.length === 0) return 0;
+      const minVote = Math.min(...votes);
+      const maxVote = Math.max(...votes);
+      if (minVote < 0) {
+        if (minVote === -2) return -2;
+        if (maxVote === 2) return 2;
+        return minVote;
+      }
+      return maxVote;
+    }
+    const quick = label as QuickLabelInfo;
+    if (quick.rejected) return -2;
+    if (quick.approved) return 2;
+    if (quick.disliked) return -1;
+    if (quick.recommended) return 1;
+    return 0;
+  }
+
+  private renderApprovalBadge(labelAbbr: string, score: number) {
+    const className = score > 0 ? 'positive' : 'negative';
+    const sign = score > 0 ? '+' : '';
+    return html`
+      <span class="badge approval ${className}" title="${labelAbbr}: ${sign}${score}">
+        ${labelAbbr} ${sign}${score}
+      </span>
+    `;
+  }
+
+  private renderApprovals() {
+    if (!this.change || !this.change.labels) return '';
+    const badges: TemplateResult[] = [];
+    const cr = this.change.labels['Code-Review'];
+    const v = this.change.labels['Verified'];
+
+    if (cr) {
+      const score = this.getLabelScore(cr);
+      if (score !== 0) {
+        badges.push(this.renderApprovalBadge('CR', score));
+      }
+    }
+    if (v) {
+      const score = this.getLabelScore(v);
+      if (score !== 0) {
+        badges.push(this.renderApprovalBadge('V', score));
+      }
+    }
+    return badges;
+  }
+
+  private renderUnresolvedComments() {
+    if (!this.change || !this.change.unresolved_comment_count) return '';
+    return html`
+      <span class="badge unresolved" title="Unresolved comments">
+        <gr-icon icon="rate_review" class="unresolved-icon"></gr-icon>
+        ${this.change.unresolved_comment_count}
+      </span>
+    `;
   }
 }
 

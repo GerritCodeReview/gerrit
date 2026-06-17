@@ -196,6 +196,72 @@ suite('chat-model tests', () => {
     assert.equal(request.model_name, 'advanced-model');
   });
 
+  test('chat with code_snippet context items serializes them into prompt', async () => {
+    const models = {
+      models: [{model_id: 'default-model'}],
+      default_model_id: 'default-model',
+    };
+    const actions = {
+      actions: [
+        {
+          id: 'default-action',
+          display_text: 'Default Action',
+          initial_user_prompt: 'Hello',
+        },
+      ],
+      default_action_id: 'default-action',
+    };
+    (provider.getActions as sinon.SinonStub).resolves(actions);
+    (provider.getModels as sinon.SinonStub).resolves(models);
+
+    changeModel.updateStateChange(createParsedChange());
+    await new Promise(resolve => setTimeout(resolve, 0));
+
+    model.updateUserInput('explain this');
+
+    const fileItem = {
+      type_id: 'file',
+      link: 'link',
+      title: 'file.txt',
+      identifier: 'file.txt',
+    };
+    model.addContextItem(fileItem);
+
+    const snippetContext = {
+      path: 'foo/bar.ts',
+      side: 'REVISION',
+      range: {
+        start_line: 10,
+        start_character: 0,
+        end_line: 12,
+        end_character: 0,
+      },
+      text: 'const x = 1;\nconst y = 2;',
+    };
+    const snippetItem = {
+      type_id: 'code_snippet',
+      link: '',
+      title: 'foo/bar.ts:10-12',
+      identifier: JSON.stringify(snippetContext),
+    };
+    model.addContextItem(snippetItem);
+
+    model.chat('explain this', 'default-action', 0);
+
+    assert.isTrue((provider.chat as sinon.SinonStub).called);
+    const request = (provider.chat as sinon.SinonStub).lastCall
+      .args[0] as ChatRequest;
+
+    assert.include(request.prompt, 'explain this');
+    assert.include(request.prompt, '## Context Code Snippets:');
+    assert.include(request.prompt, '### File: foo/bar.ts (REVISION)');
+    assert.include(request.prompt, 'Lines: 10-12');
+    assert.include(request.prompt, 'const x = 1;\nconst y = 2;');
+
+    assert.lengthOf(request.external_contexts ?? [], 1);
+    assert.equal(request.external_contexts![0].type_id, 'file');
+  });
+
   test('selectedModelId$ falls back when preferred model is unavailable', async () => {
     const models = {
       models: [

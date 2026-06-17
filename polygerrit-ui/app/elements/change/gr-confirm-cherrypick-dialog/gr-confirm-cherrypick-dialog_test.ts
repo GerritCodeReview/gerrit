@@ -12,7 +12,10 @@ import {
   queryAndAssert,
   stubRestApi,
 } from '../../../test/test-utils';
-import {GrConfirmCherrypickDialog} from './gr-confirm-cherrypick-dialog';
+import {
+  GrConfirmCherrypickDialog,
+  CherryPickType,
+} from './gr-confirm-cherrypick-dialog';
 import {
   BranchName,
   ChangeId,
@@ -33,10 +36,7 @@ import {ProgressStatus} from '../../../constants/constants';
 import {assert, fixture, html} from '@open-wc/testing';
 import {GrDropdownList} from '../../shared/gr-dropdown-list/gr-dropdown-list';
 
-const CHERRY_PICK_TYPES = {
-  SINGLE_CHANGE: 1,
-  TOPIC: 2,
-};
+// Removed local CHERRY_PICK_TYPES
 
 const changes: ChangeInfo[] = [
   {
@@ -204,8 +204,7 @@ suite('gr-confirm-cherrypick-dialog tests', () => {
 
   suite('cherry pick topic', () => {
     setup(async () => {
-      element.updateChanges(changes);
-      element.cherryPickType = CHERRY_PICK_TYPES.TOPIC;
+      element.updateChanges(changes, CherryPickType.TOPIC);
       await element.updateComplete;
     });
 
@@ -255,7 +254,7 @@ suite('gr-confirm-cherrypick-dialog tests', () => {
       await element.updateComplete;
       const checkboxes = queryAll<HTMLInputElement>(element, 'md-checkbox');
       assert.equal(checkboxes.length, 2);
-      assert.equal(element.cherryPickType, CHERRY_PICK_TYPES.TOPIC);
+      assert.equal(element.cherryPickType, CherryPickType.TOPIC);
       checkboxes[0].click();
       await element.updateComplete;
       checkboxes[1].click();
@@ -298,6 +297,64 @@ suite('gr-confirm-cherrypick-dialog tests', () => {
       element.updateStatus(changes[0], {status: ProgressStatus.RUNNING});
       await element.updateComplete;
       assert.isTrue(confirmButton!.hasAttribute('disabled'));
+    });
+  });
+
+  suite('cherry pick relation chain', () => {
+    setup(async () => {
+      element.updateChanges(changes, CherryPickType.RELATION_CHAIN);
+      await element.updateComplete;
+    });
+
+    test('cherry pick relation chain submit sequential', async () => {
+      element.branch = 'master' as BranchName;
+      await element.updateComplete;
+
+      const response1 = new Response(
+        ")]}'\n" + JSON.stringify({current_revision: 'new-commit-1'})
+      );
+      const response2 = new Response(
+        ")]}'\n" + JSON.stringify({current_revision: 'new-commit-2'})
+      );
+
+      const executeChangeActionStub = stubRestApi('executeChangeAction');
+      executeChangeActionStub.onCall(0).resolves(response1);
+      executeChangeActionStub.onCall(1).resolves(response2);
+
+      queryAndAssert<GrDialog>(element, 'gr-dialog').confirmButton!.click();
+
+      // Wait for async loop to finish.
+      await element.updateComplete;
+      await new Promise(resolve => setTimeout(resolve, 100));
+
+      assert.equal(executeChangeActionStub.callCount, 2);
+
+      // First call
+      const args1 = executeChangeActionStub.args[0];
+      assert.equal(args1[0], 1);
+      assert.equal((args1[4] as any).destination, 'master');
+      assert.isNull((args1[4] as any).base);
+
+      // Second call
+      const args2 = executeChangeActionStub.args[1];
+      assert.equal(args2[0], 2);
+      assert.equal((args2[4] as any).destination, 'master');
+      assert.equal((args2[4] as any).base, 'new-commit-1');
+    });
+
+    test('cherry pick relation chain stops on failure', async () => {
+      element.branch = 'master' as BranchName;
+      await element.updateComplete;
+
+      const executeChangeActionStub = stubRestApi('executeChangeAction')
+        .onCall(0).resolves(new Response(null, {status: 400}));
+
+      queryAndAssert<GrDialog>(element, 'gr-dialog').confirmButton!.click();
+
+      await element.updateComplete;
+      await new Promise(resolve => setTimeout(resolve, 100));
+
+      assert.equal(executeChangeActionStub.callCount, 1);
     });
   });
 

@@ -204,6 +204,16 @@ suite('gr-related-changes-list', () => {
                 class="first"
                 title="parent changes appear below child changes"
               >
+                <div slot="actions">
+                  <gr-button
+                    aria-disabled="false"
+                    link=""
+                    role="button"
+                    tabindex="0"
+                  >
+                    Cherry Pick Chain
+                  </gr-button>
+                </div>
                 <div class="relatedChangeLine show-when-collapsed">
                   <span class="marker space"> </span>
                   <gr-related-change

@@ -586,9 +586,55 @@ export class ChatModel extends Model<ChatState> {
       clientData.isBackgroundRequest = isBackgroundRequest;
     }
 
+    const apiContextItems = contextItems.filter(
+      item => item.type_id !== 'code_snippet'
+    );
+    const codeSnippetItems = contextItems.filter(
+      item => item.type_id === 'code_snippet'
+    );
+
+    let promptWithSnippets = userMessage.content;
+    if (codeSnippetItems.length > 0) {
+      interface CodeSnippetContext {
+        path?: string;
+        side?: string;
+        range?: {
+          start_line: number;
+          start_character: number;
+          end_line: number;
+          end_character: number;
+        };
+        text?: string;
+      }
+      const snippetsMarkdown = codeSnippetItems
+        .map(item => {
+          try {
+            const context = JSON.parse(
+              item.identifier ?? '{}'
+            ) as CodeSnippetContext;
+            if (context.text) {
+              const fileHeader = `### File: ${context.path} (${
+                context.side ?? 'REVISION'
+              })\n`;
+              const lineInfo = context.range
+                ? `Lines: ${context.range.start_line}-${context.range.end_line}\n`
+                : '';
+              return `${fileHeader}${lineInfo}\`\`\`\n${context.text}\n\`\`\``;
+            }
+          } catch (e) {
+            return `### Context Code:\n\`\`\`\n${item.title}\n\`\`\``;
+          }
+          return '';
+        })
+        .filter(Boolean)
+        .join('\n\n');
+
+      promptWithSnippets = `${userMessage.content}\n\n## Context Code Snippets:\n${snippetsMarkdown}`;
+    }
+
     const request: ChatRequest = {
       action,
-      prompt: userMessage.content,
+      prompt: promptWithSnippets,
       conversation_id: conversationId,
       change,
       files,
@@ -599,7 +645,7 @@ export class ChatModel extends Model<ChatState> {
         state,
         this.userModel.getState().preferences
       ),
-      external_contexts: contextItems,
+      external_contexts: apiContextItems,
     };
     const listener: ChatResponseListener = {
       emitResponse: (response: ChatResponse) => {

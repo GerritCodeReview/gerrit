@@ -2213,7 +2213,9 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       ListChangesOption.CURRENT_REVISION,
       ListChangesOption.CURRENT_COMMIT,
       ListChangesOption.SUBMITTABLE,
-      ListChangesOption.SKIP_DIFFSTAT
+      ListChangesOption.SKIP_DIFFSTAT,
+      ListChangesOption.LABELS,
+      ListChangesOption.DETAILED_LABELS
     );
     const params = {
       O: options,
@@ -2234,7 +2236,9 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     const options = listChangesOptionsToHex(
       ListChangesOption.CURRENT_REVISION,
       ListChangesOption.CURRENT_COMMIT,
-      ListChangesOption.SKIP_DIFFSTAT
+      ListChangesOption.SKIP_DIFFSTAT,
+      ListChangesOption.LABELS,
+      ListChangesOption.DETAILED_LABELS
     );
     const query = [
       `project:${repo}`,

@@ -1005,6 +1005,18 @@ export class GrChangeView extends LitElement {
           margin: var(--spacing-l) 0;
           padding: 0 var(--spacing-l);
         }
+        .relatedChanges gr-endpoint-decorator[name='change-view-commit-aside'] {
+          display: block;
+          margin-bottom: var(--spacing-l);
+        }
+        gr-endpoint-decorator[name='change-view-commit-aside'] {
+          display: none;
+        }
+        gr-endpoint-decorator[name='change-view-commit-aside']:has(
+            :not(gr-endpoint-param)
+          ) {
+          display: block;
+        }
         .showOnEdit {
           display: none;
         }
@@ -1116,6 +1128,7 @@ export class GrChangeView extends LitElement {
             margin: 0;
             padding: var(--spacing-l);
           }
+
           .changeMetadata {
             margin-top: var(--spacing-xs);
             max-width: none;
@@ -1426,6 +1439,12 @@ export class GrChangeView extends LitElement {
             </gr-endpoint-decorator>
           </div>
           <div class="relatedChanges">
+            <gr-endpoint-decorator name="change-view-commit-aside">
+              <gr-endpoint-param name="change" .value=${this.change}>
+              </gr-endpoint-param>
+              <gr-endpoint-param name="revision" .value=${this.revision}>
+              </gr-endpoint-param>
+            </gr-endpoint-decorator>
             <gr-related-changes-list></gr-related-changes-list>
           </div>
           <div class="emptySpace"></div>

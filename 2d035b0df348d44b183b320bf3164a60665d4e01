@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "538e7c2d_8573c1e5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4934894
+      },
+      "writtenOn": "2026-06-18T18:41:06Z",
+      "side": 1,
+      "message": "Acer Chromebase\n\nAcer Chromebook 11 (CB3-131 C735)\n\nAcer Chromebook 14 (CB3-431)\n\nAcer Chromebook 15 (CB3-531)\n\nAcer Chromebook 15 (CB315-1H CB315-1HT)\n\nAcer Chromebook 15 (CB5-571 C910)\n\nAcer Chromebase 24\n\nAcer Chromebook R11 (CB5-132T C738T)\n\nAcer Chromebook R13 (CB5-312T)\n\nAcer Chromebook Spin 15 (CP315)\n\nAcer Chromebox CXI2 / CXV2\n\nAOpen Chromebase Commercial\n\nAOpen Chromebase Mini\n\nAOpen Chromebox Commercial\n\nAOpen Chromebox Mini\n\nASI Chromebook\n\nASUS Chromebit CS10\n\nASUS Chromebook Flip C100PA\n\nASUS Chromebook C300\n\nASUS Chromebook C201PA\n\nASUS Chromebook C200\n\nASUS Chromebox 2 (CN62)\n\nBobicus Chromebook 11\n\nConsumer Chromebook\n\nCrambo Chromebook\n\nCTL J2 / J4 Chromebook\n\nCTL N6 Education Chromebook\n\nDell Chromebook 13 (7310)\n\nDell Chromebox\n\nDell Chromebook 11 (3120)\n\nEpik 11.6\" Chromebook ELB1101\n\nEducation Chromebook\n\nEduGear Chromebook K\n\nEduGear Chromebook M\n\nEduGear Chromebook R\n\nEdxis Chromebook\n\nEdxis Education Chromebook (NL6)\n\nGoogle Chromebook Pixel (2015)\n\nHaier Chromebook 11\n\nHaier Chromebook 11e\n\nHaier Chromebook 11 G2\n\nHEXA Chromebook Pi\n\nHiSense Chromebook 11\n\nHP Chromebook 11 2100-2199 / HP Chromebook 11 G3\n\nHP Chromebook 11 G3/G4/G4 EE\n\nHP Chromebook 14 G4\n\nJP Sa Couto Chromebook\n\nLava Xolo Chromebook\n\nLenovo Flex 11 Chromebook\n\nLenovo ThinkCentre Chromebox\n\nLenovo 100S Chromebook\n\nLenovo 300e/N23 Yoga/Flex 11 Chromebook\n\nLG Chromebase (22CB25S)\n\nLG Chromebase (22CV241)\n\nLumos Education Chromebook\n\nMecer Chromebook\n\nMedion Chromebook Akoya S2013\n\nMedion Chromebook S2015\n\nMultilaser Chromebook 11\n\nM\u0026A Chromebook\n\nNComputing Chromebook CX100\n\nNexian Chromebook 11.6\"\n\nPCMerge Chromebook PCM-116E/PCM-116EB\n\nPoin2 Chromebook 11C\n\nPositivo Chromebook CH1190\n\nPoin2 Chromebook 11\n\nProwise Chromebook Eduline / Prowise Chromebook Eduline 360\n\nProwise Chromebook Entryline\n\nRGS Education Chromebook\n\nSenkatel C1101 Chromebook\n\nSector 5 E1 Rugged Chromebook\n\nSamsung Chromebook Plus\n\nSamsung Chromebook 2 11\" (XE500C12)\n\nToshiba Chromebook 2\n\nToshiba Chromebook 2 (2015 Edition)\n\nTrue IDC Chromebook\n\nTrue IDC Chromebook 11\n\nVideonet Chromebook\n\nVideoNet Chromebook BL10\n\nViglen Chromebook 11/home/ec2-user/phpall/openapi/open_game.php",
+      "revId": "2d035b0df348d44b183b320bf3164a60665d4e01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "78ab7a91_679530ca",

@@ -29,6 +29,7 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive", "http_file"
 load("//plugins:external_plugin_deps.bzl", "external_plugin_deps")
 load("//tools:nongoogle.bzl", "declare_nongoogle_deps")
 load("//tools:deps.bzl", "CAFFEINE_VERS", "java_dependencies")
+load("//tools:bazlets.bzl", "load_bazlets")
 
 http_archive(
     name = "build_bazel_rules_nodejs",
@@ -78,10 +79,16 @@ local_repository(
     path = "modules/java-prettify",
 )
 
+# JGit's generated EE8 servlet modules are built with the shared
+# servlet-flavour transform toolchain in bazlets, so that repository must be
+# available here. The version pin lives in tools/bazlets.bzl.
+load_bazlets()
+
 # JGit external repository consumed from git submodule
 local_repository(
     name = "jgit",
     path = "modules/jgit",
+    repo_mapping = {"@javax-servlet-api": "@servlet-api"},
 )
 
 java_dependencies()

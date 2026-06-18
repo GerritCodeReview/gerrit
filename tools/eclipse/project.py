@@ -176,8 +176,6 @@ def gen_classpath(ext):
         classpathentry('src', 'modules/jgit/org.eclipse.jgit.archive/src',
             excluding='org/eclipse/jgit/archive/FormatActivator.java')
         classpathentry('src', 'modules/jgit/org.eclipse.jgit.archive/resources')
-        classpathentry('src', 'modules/jgit/org.eclipse.jgit.http.server/src')
-        classpathentry('src', 'modules/jgit/org.eclipse.jgit.http.server/resources')
         classpathentry('src', 'modules/jgit/org.eclipse.jgit.junit/src')
         classpathentry('src', 'modules/jgit/org.eclipse.jgit.ssh.apache/src')
         classpathentry('src', 'modules/jgit/org.eclipse.jgit.ssh.apache/resources')
@@ -228,8 +226,27 @@ def gen_classpath(ext):
     java_library = re.compile('bazel-out/.*?-fastbuild/bin/(.*)/[^/]+[.]jar$')
     proto_library = re.compile('bazel-out/.*?-fastbuild/bin/(.*)proto/(.*)_proto-speed[.]jar$')
     srcs = re.compile('(.*/external/[^/]+)/jar/(.*)[.]jar')
+    generated_jgit_sources = {
+        "org.eclipse.jgit.http.server.ee8/libjgit-servlet-ee8.jar":
+            "org.eclipse.jgit.http.server.ee8/jgit-http-server-ee8-srcs.srcjar",
+        "org.eclipse.jgit.lfs.server.ee8/libjgit-lfs-server-ee8.jar":
+            "org.eclipse.jgit.lfs.server.ee8/jgit-lfs-server-ee8-srcs.srcjar",
+    }
+
+    def generated_jgit_source(jar):
+        for jar_suffix, src_suffix in generated_jgit_sources.items():
+            if jar.endswith(jar_suffix):
+                candidate = jar[:-len(jar_suffix)] + src_suffix
+                if os.path.exists(candidate):
+                    return candidate
+        return None
+
     for p in _query_classpath(MAIN):
         if p.endswith('-src.jar'):
+            continue
+
+        if generated_jgit_source(p):
+            lib.add(p)
             continue
 
         m = java_library.match(p)
@@ -290,14 +307,15 @@ def gen_classpath(ext):
 
     for libs in [lib]:
         for j in sorted(libs):
-            s = None
-            m = srcs.match(j)
-            if m:
-                prefix = m.group(1)
-                suffix = m.group(2)
-                p = os.path.join(prefix, "jar", "%s-src.jar" % suffix)
-                if os.path.exists(p):
-                    s = p
+            s = generated_jgit_source(j)
+            if not s:
+                m = srcs.match(j)
+                if m:
+                    prefix = m.group(1)
+                    suffix = m.group(2)
+                    p = os.path.join(prefix, "jar", "%s-src.jar" % suffix)
+                    if os.path.exists(p):
+                        s = p
             if args.plugins:
                 classpathentry('lib', j, s, exported=True)
             else:

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b32602ab_15d184bf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-18T09:25:23Z",
+      "side": 1,
+      "message": "@milutin@google.com could you 🙏 apply LC +1?",
+      "revId": "6033d3746a921873b8b1b6933df72ea755cfc700",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

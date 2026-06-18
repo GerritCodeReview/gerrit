@@ -71,6 +71,9 @@ THIRD_PARTY_EXCLUDE_ID_EXACT = [
     "libgerrit-prolog-common",
     "libjgit-archive",
     "libjgit-servlet",
+    # Core WARs do not package JGit LFS server jars today. If that changes,
+    # exclude both the canonical and EE8 LFS jars here as Gerrit-internal jars.
+    "libjgit-servlet-ee8",
     "libquery_parser",
     "libssh-apache",
     "log4j-config",

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3fafb112_8ec4093f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-06-18T05:15:03Z",
+      "side": 1,
+      "message": "The web_test_runner tests for plugins seem to be quite broken. This was likely not noticed, since they have to be run manually. For delete-projects for example the types for sinon are not found.",
+      "revId": "1b4066b9aad2c664b6bc5631a816349b9ecbdc97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

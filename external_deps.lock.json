@@ -109,7 +109,7 @@
     "commons-dbcp:commons-dbcp": -873877417,
     "commons-digester:commons-digester": 1688456634,
     "commons-io:commons-io": 1305681826,
-    "commons-logging:commons-logging": 243315756,
+    "commons-logging:commons-logging": -264381874,
     "commons-net:commons-net": 1227155931,
     "commons-pool:commons-pool": -2015226625,
     "commons-validator:commons-validator": -89255997,
@@ -119,6 +119,7 @@
     "io.github.java-diff-utils:java-diff-utils": 1296992014,
     "io.sweers.autotransient:autotransient": 1591678970,
     "jakarta.inject:jakarta.inject-api": 190564362,
+    "jakarta.servlet:jakarta.servlet-api": -3550902,
     "javax.activation:activation": -940616209,
     "javax.annotation:jsr250-api": -593155132,
     "javax.inject:javax.inject": -297932879,
@@ -168,6 +169,7 @@
     "org.commonmark:commonmark-ext-autolink": -1853742120,
     "org.commonmark:commonmark-ext-gfm-strikethrough": 350394231,
     "org.commonmark:commonmark-ext-gfm-tables": 1881582931,
+    "org.eclipse.jetty.ee10:jetty-ee10-servlet": 835495267,
     "org.eclipse.jetty.ee8:jetty-ee8-nested": -1627496831,
     "org.eclipse.jetty.ee8:jetty-ee8-security": 1632270986,
     "org.eclipse.jetty.ee8:jetty-ee8-servlet": -1338697711,
@@ -338,6 +340,8 @@
     "io.sweers.autotransient:autotransient:jar:sources": -703216994,
     "jakarta.inject:jakarta.inject-api": 188991469,
     "jakarta.inject:jakarta.inject-api:jar:sources": -1584622703,
+    "jakarta.servlet:jakarta.servlet-api": -1421863120,
+    "jakarta.servlet:jakarta.servlet-api:jar:sources": -2084357823,
     "javax.activation:activation": 1998212823,
     "javax.activation:activation:jar:sources": 2062811499,
     "javax.inject:javax.inject": 698155243,
@@ -428,6 +432,8 @@
     "org.commonmark:commonmark-ext-gfm-tables": -1205584749,
     "org.commonmark:commonmark-ext-gfm-tables:jar:sources": 1341057091,
     "org.commonmark:commonmark:jar:sources": -1511261547,
+    "org.eclipse.jetty.ee10:jetty-ee10-servlet": -117453373,
+    "org.eclipse.jetty.ee10:jetty-ee10-servlet:jar:sources": 501419503,
     "org.eclipse.jetty.ee8:jetty-ee8-nested": -1480285467,
     "org.eclipse.jetty.ee8:jetty-ee8-nested:jar:sources": -2141029892,
     "org.eclipse.jetty.ee8:jetty-ee8-security": -1089777429,
@@ -969,6 +975,13 @@
       },
       "version": "2.0.1"
     },
+    "jakarta.servlet:jakarta.servlet-api": {
+      "shasums": {
+        "jar": "8a31f465f3593bf2351531a5c952014eb839da96a605b5825b93dd54714c48c4",
+        "sources": "6eb958543e0548bb93d2519e40224d13c8003b10cc615b5652bfd9899350bfb4"
+      },
+      "version": "6.1.0"
+    },
     "javax.activation:activation": {
       "shasums": {
         "jar": "ae475120e9fcd99b4b00b38329bd61cdc5eb754eee03fe66c01f50e137724f99",
@@ -1283,6 +1296,13 @@
         "sources": "15525448cb137992c00ece73d320f45187a187bc906ba967ccc958f42e92c3b9"
       },
       "version": "0.24.0"
+    },
+    "org.eclipse.jetty.ee10:jetty-ee10-servlet": {
+      "shasums": {
+        "jar": "05cccc74bbe1478ceb765e967b1cb1a3c8d9b51e99acf586190887e467ffd87d",
+        "sources": "51a734b4bc04235b24ccd759515dd2947e5b675c227c556f02262b765bce47eb"
+      },
+      "version": "12.1.10"
     },
     "org.eclipse.jetty.ee8:jetty-ee8-nested": {
       "shasums": {
@@ -1794,6 +1814,13 @@
     ],
     "org.commonmark:commonmark-ext-gfm-tables": [
       "org.commonmark:commonmark"
+    ],
+    "org.eclipse.jetty.ee10:jetty-ee10-servlet": [
+      "jakarta.servlet:jakarta.servlet-api",
+      "org.eclipse.jetty:jetty-security",
+      "org.eclipse.jetty:jetty-server",
+      "org.eclipse.jetty:jetty-session",
+      "org.slf4j:slf4j-api"
     ],
     "org.eclipse.jetty.ee8:jetty-ee8-nested": [
       "org.eclipse.jetty.toolchain:jetty-servlet-api",
@@ -2591,6 +2618,12 @@
     ],
     "jakarta.inject:jakarta.inject-api": [
       "jakarta.inject"
+    ],
+    "jakarta.servlet:jakarta.servlet-api": [
+      "jakarta.servlet",
+      "jakarta.servlet.annotation",
+      "jakarta.servlet.descriptor",
+      "jakarta.servlet.http"
     ],
     "javax.activation:activation": [
       "com.sun.activation.registries",
@@ -3749,6 +3782,15 @@
       "org.commonmark.ext.gfm.tables",
       "org.commonmark.ext.gfm.tables.internal"
     ],
+    "org.eclipse.jetty.ee10:jetty-ee10-servlet": [
+      "org.eclipse.jetty.ee10.servlet",
+      "org.eclipse.jetty.ee10.servlet.internal",
+      "org.eclipse.jetty.ee10.servlet.jmx",
+      "org.eclipse.jetty.ee10.servlet.listener",
+      "org.eclipse.jetty.ee10.servlet.security",
+      "org.eclipse.jetty.ee10.servlet.security.authentication",
+      "org.eclipse.jetty.ee10.servlet.util"
+    ],
     "org.eclipse.jetty.ee8:jetty-ee8-nested": [
       "org.eclipse.jetty.ee8.nested",
       "org.eclipse.jetty.ee8.nested.jmx"
@@ -4421,6 +4463,8 @@
       "io.sweers.autotransient:autotransient:jar:sources",
       "jakarta.inject:jakarta.inject-api",
       "jakarta.inject:jakarta.inject-api:jar:sources",
+      "jakarta.servlet:jakarta.servlet-api",
+      "jakarta.servlet:jakarta.servlet-api:jar:sources",
       "javax.activation:activation",
       "javax.activation:activation:jar:sources",
       "javax.inject:javax.inject",
@@ -4511,6 +4555,8 @@
       "org.commonmark:commonmark-ext-gfm-tables",
       "org.commonmark:commonmark-ext-gfm-tables:jar:sources",
       "org.commonmark:commonmark:jar:sources",
+      "org.eclipse.jetty.ee10:jetty-ee10-servlet",
+      "org.eclipse.jetty.ee10:jetty-ee10-servlet:jar:sources",
       "org.eclipse.jetty.ee8:jetty-ee8-nested",
       "org.eclipse.jetty.ee8:jetty-ee8-nested:jar:sources",
       "org.eclipse.jetty.ee8:jetty-ee8-security",
@@ -4717,6 +4763,8 @@
       "io.sweers.autotransient:autotransient:jar:sources",
       "jakarta.inject:jakarta.inject-api",
       "jakarta.inject:jakarta.inject-api:jar:sources",
+      "jakarta.servlet:jakarta.servlet-api",
+      "jakarta.servlet:jakarta.servlet-api:jar:sources",
       "javax.activation:activation",
       "javax.activation:activation:jar:sources",
       "javax.inject:javax.inject",
@@ -4807,6 +4855,8 @@
       "org.commonmark:commonmark-ext-gfm-tables",
       "org.commonmark:commonmark-ext-gfm-tables:jar:sources",
       "org.commonmark:commonmark:jar:sources",
+      "org.eclipse.jetty.ee10:jetty-ee10-servlet",
+      "org.eclipse.jetty.ee10:jetty-ee10-servlet:jar:sources",
       "org.eclipse.jetty.ee8:jetty-ee8-nested",
       "org.eclipse.jetty.ee8:jetty-ee8-nested:jar:sources",
       "org.eclipse.jetty.ee8:jetty-ee8-security",

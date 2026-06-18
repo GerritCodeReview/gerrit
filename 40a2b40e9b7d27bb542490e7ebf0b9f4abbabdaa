@@ -16,6 +16,24 @@
       "message": "Discussed offline, will see if this can also be up streamed but highlight.js seems pretty dead right now",
       "revId": "40a2b40e9b7d27bb542490e7ebf0b9f4abbabdaa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da30ca5f_215b179b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-06-18T18:27:04Z",
+      "side": 1,
+      "message": "I\u0027m wondering if we should either switch to a different library, use codemirror or fork highlight.js.",
+      "parentUuid": "833f33a1_2aa42ab0",
+      "revId": "40a2b40e9b7d27bb542490e7ebf0b9f4abbabdaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

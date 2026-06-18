@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b9495348_d3305998",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-18T09:41:47Z",
+      "side": 1,
+      "message": "```suggestion\n[DO NOT SUBMIT] Bazel: Move Gerrit off JGit servlet-4 via EE8 bridge\n```\n\nThis change cannot be submitted until [1] is merged.\n\n[1] https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1239724",
+      "revId": "a0ade96a915f915cafa2af9cde9135e0de6f70e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "720a5cf0_e9a355f3",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -20,6 +37,23 @@
         "endLine": 15,
         "endChar": 34
       },
+      "revId": "a0ade96a915f915cafa2af9cde9135e0de6f70e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50bf40c2_99294e5c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-18T09:41:47Z",
+      "side": 1,
+      "message": "Add a `Depends-On` footer to indicate that it needs the JGit change [1] to be merged.\n\n[1] https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1239724",
       "revId": "a0ade96a915f915cafa2af9cde9135e0de6f70e1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

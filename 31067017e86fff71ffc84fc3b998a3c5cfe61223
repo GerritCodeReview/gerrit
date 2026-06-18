@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5cfa5b93_d68873a4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-18T09:26:56Z",
+      "side": 1,
+      "message": "```suggestion\n[DO NOT SUBMIT] Fetch JGit from eclipse.gerrithub.io\n```",
+      "revId": "31067017e86fff71ffc84fc3b998a3c5cfe61223",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5de2357_0d524f58",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-18T09:26:56Z",
+      "side": 1,
+      "message": "Blocking from merge: Google requires the use of the JGit repository at gerrit-review, not eclipse.gerrithub.io.\n\nThis change is needed only to have the verification from the CI.",
+      "revId": "31067017e86fff71ffc84fc3b998a3c5cfe61223",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

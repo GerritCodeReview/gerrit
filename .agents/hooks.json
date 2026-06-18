@@ -1,0 +1,14 @@
+{
+  "auto-upload-rationale": {
+    "PostToolUse": [
+      {
+        "matcher": "run_command",
+        "hooks": [
+          {
+            "command": "/google/bin/releases/gemini-agents-gerrit/gerrit post-push-hook"
+          }
+        ]
+      }
+    ]
+  }
+}

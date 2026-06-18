@@ -337,13 +337,19 @@ suite('gr-change-view tests', () => {
                             Reply
                           </gr-button>
                         </div>
-                        <div class="commitMessage" id="commitMessage">
-                          <gr-editable-content
-                            id="commitMessageEditor"
-                            remove-zero-width-space=""
-                          >
-                            <gr-formatted-text> </gr-formatted-text>
-                          </gr-editable-content>
+                        <div class="commitAndAside">
+                          <div class="commitMessage" id="commitMessage">
+                            <gr-editable-content
+                              id="commitMessageEditor"
+                              remove-zero-width-space=""
+                            >
+                              <gr-formatted-text> </gr-formatted-text>
+                            </gr-editable-content>
+                          </div>
+                          <gr-endpoint-decorator name="change-view-commit-aside">
+                            <gr-endpoint-param name="change"> </gr-endpoint-param>
+                            <gr-endpoint-param name="revision"> </gr-endpoint-param>
+                          </gr-endpoint-decorator>
                         </div>
                         <h3 class="assistive-tech-only">
                           Comments and Checks Summary

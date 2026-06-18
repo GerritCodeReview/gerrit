@@ -1005,6 +1005,20 @@ export class GrChangeView extends LitElement {
           margin: var(--spacing-l) 0;
           padding: 0 var(--spacing-l);
         }
+        .commitAndAside {
+          display: flex;
+          flex-direction: row;
+          gap: var(--spacing-l);
+          align-items: stretch;
+        }
+        gr-endpoint-decorator[name='change-view-commit-aside'] {
+          display: block;
+          flex: 1 1 360px;
+          max-width: 480px;
+        }
+        gr-endpoint-decorator[name='change-view-commit-aside']:empty {
+          display: none;
+        }
         .showOnEdit {
           display: none;
         }
@@ -1115,6 +1129,14 @@ export class GrChangeView extends LitElement {
           .commitContainer {
             margin: 0;
             padding: var(--spacing-l);
+          }
+          .commitAndAside {
+            flex-direction: column;
+          }
+          gr-endpoint-decorator[name='change-view-commit-aside'] {
+            max-width: none;
+            flex: none;
+            width: 100%;
           }
           .changeMetadata {
             margin-top: var(--spacing-xs);
@@ -1396,23 +1418,31 @@ export class GrChangeView extends LitElement {
                 >${this.computeReplyButtonLabel()}</gr-button
               >
             </div>
-            <div id="commitMessage" class="commitMessage">
-              <gr-editable-content
-                id="commitMessageEditor"
-                .editing=${this.editingCommitMessage}
-                .content=${this.latestCommitMessage}
-                @editing-changed=${this.handleEditingChanged}
-                @content-changed=${this.handleContentChanged}
-                .storageKey=${`c${this.change?._number}_rev${this.change?.current_revision}`}
-                .hideEditCommitMessage=${hideEditCommitMessage}
-                .commitCollapsible=${this.computeCommitCollapsible()}
-                remove-zero-width-space=""
-              >
-                <gr-formatted-text
+            <div class="commitAndAside">
+              <div id="commitMessage" class="commitMessage">
+                <gr-editable-content
+                  id="commitMessageEditor"
+                  .editing=${this.editingCommitMessage}
                   .content=${this.latestCommitMessage}
-                  .markdown=${false}
-                ></gr-formatted-text>
-              </gr-editable-content>
+                  @editing-changed=${this.handleEditingChanged}
+                  @content-changed=${this.handleContentChanged}
+                  .storageKey=${`c${this.change?._number}_rev${this.change?.current_revision}`}
+                  .hideEditCommitMessage=${hideEditCommitMessage}
+                  .commitCollapsible=${this.computeCommitCollapsible()}
+                  remove-zero-width-space=""
+                >
+                  <gr-formatted-text
+                    .content=${this.latestCommitMessage}
+                    .markdown=${false}
+                  ></gr-formatted-text>
+                </gr-editable-content>
+              </div>
+              <gr-endpoint-decorator name="change-view-commit-aside">
+                <gr-endpoint-param name="change" .value=${this.change}>
+                </gr-endpoint-param>
+                <gr-endpoint-param name="revision" .value=${this.revision}>
+                </gr-endpoint-param>
+              </gr-endpoint-decorator>
             </div>
             <h3 class="assistive-tech-only">Comments and Checks Summary</h3>
             <gr-change-summary

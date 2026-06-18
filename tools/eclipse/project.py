@@ -200,8 +200,6 @@ def gen_classpath(exec_root, output_base):
         classpathentry('src', 'modules/jgit/org.eclipse.jgit.archive/src',
             excluding='org/eclipse/jgit/archive/FormatActivator.java')
         classpathentry('src', 'modules/jgit/org.eclipse.jgit.archive/resources')
-        classpathentry('src', 'modules/jgit/org.eclipse.jgit.http.server/src')
-        classpathentry('src', 'modules/jgit/org.eclipse.jgit.http.server/resources')
         classpathentry('src', 'modules/jgit/org.eclipse.jgit.junit/src')
         classpathentry('src', 'modules/jgit/org.eclipse.jgit.ssh.apache/src')
         classpathentry('src', 'modules/jgit/org.eclipse.jgit.ssh.apache/resources')
@@ -260,6 +258,21 @@ def gen_classpath(exec_root, output_base):
     source_by_basename = {}
     for p in source_cp:
         source_by_basename[_normalize_jar_basename(p)] = p
+
+    generated_jgit_sources = {
+        "org.eclipse.jgit.http.server.ee8/libjgit-servlet-ee8.jar":
+            "org.eclipse.jgit.http.server.ee8/jgit-http-server-ee8-srcs.srcjar",
+        "org.eclipse.jgit.lfs.server.ee8/libjgit-lfs-server-ee8.jar":
+            "org.eclipse.jgit.lfs.server.ee8/jgit-lfs-server-ee8-srcs.srcjar",
+    }
+
+    def generated_jgit_source(jar):
+        for jar_suffix, src_suffix in generated_jgit_sources.items():
+            if jar.endswith(jar_suffix):
+                candidate = jar[:-len(jar_suffix)] + src_suffix
+                if os.path.exists(candidate):
+                    return candidate
+        return None
 
     for p in runtime_cp:
         if p.endswith('-src.jar'):
@@ -339,12 +352,12 @@ def gen_classpath(exec_root, output_base):
             if os.path.basename(j) == "libjava-prettify.jar" and "/external/" in j:
                 continue
 
-            s = None
+            s = generated_jgit_source(j)
 
             # Attach sources using the classpath_collector output from rules_jvm_external.
             # This replaces the previous heuristic-based source lookup.
             key = _normalize_jar_basename(j)
-            if key in source_by_basename:
+            if not s and key in source_by_basename:
                 sp = _resolve_repo_path(output_base, source_by_basename[key])
                 s = sp
 
@@ -441,4 +454,3 @@ try:
 except KeyboardInterrupt:
     print('Interrupted by user', file=sys.stderr)
     exit(1)
-

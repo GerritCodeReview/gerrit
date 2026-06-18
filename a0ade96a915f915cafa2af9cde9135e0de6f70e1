@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "720a5cf0_e9a355f3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-18T09:38:42Z",
+      "side": 1,
+      "message": "The link is broken. Please use the full URL pointing to GerritHub.io.",
+      "range": {
+        "startLine": 15,
+        "startChar": 23,
+        "endLine": 15,
+        "endChar": 34
+      },
+      "revId": "a0ade96a915f915cafa2af9cde9135e0de6f70e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7f3f62b_8cf2511e",
+        "filename": "Documentation/dev-eclipse.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-18T09:38:42Z",
+      "side": 1,
+      "message": "What about IntelliJ?",
+      "range": {
+        "startLine": 63,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 29
+      },
+      "revId": "a0ade96a915f915cafa2af9cde9135e0de6f70e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

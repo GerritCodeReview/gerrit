@@ -43,6 +43,35 @@ that get saved to the `.project` file, for example adding Resource
 Filters on a folder, they will be overwritten the next time you run
 `tools/eclipse/project.py`.
 
+=== JGit servlet-facing sources
+
+Gerrit consumes JGit from source through `modules/jgit`, but JGit master uses
+`jakarta.servlet` in servlet-facing modules while Gerrit still runs on Jetty 12
+EE8 and `javax.servlet`.
+
+For those modules, Gerrit uses JGit-provided Bazel EE8 bridge targets:
+
+----
+  @jgit//org.eclipse.jgit.http.server.ee8:jgit-servlet-ee8
+  @jgit//org.eclipse.jgit.lfs.server.ee8:jgit-lfs-server-ee8
+----
+
+The generated artifacts keep the original JGit Java packages and source line
+numbers. They only rewrite servlet imports from `jakarta.servlet` to
+`javax.servlet`, so Gerrit Java code keeps its existing imports.
+
+The Eclipse project generator does not import
+`modules/jgit/org.eclipse.jgit.http.server/src` as a source folder. Instead, it
+attaches the generated EE8 source jar when the generated servlet jar is on the
+classpath. Put breakpoints in the generated source attachment when debugging
+runtime HTTP servlet classes.
+
+The same source attachment rule applies to
+`org.eclipse.jgit.lfs.server.ee8:jgit-lfs-server-ee8` for plugin consumers such
+as the Gerrit LFS plugin. Core Gerrit does not depend on that jar today, but the
+Eclipse generator is prepared to attach its generated source jar when a plugin
+classpath includes it.
+
 === Eclipse project on MacOS
 
 By default, bazel uses `/private/var/tmp` as the

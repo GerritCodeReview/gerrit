@@ -36,11 +36,11 @@ function getModulesDir() {
     ];
   }
 
-  const runfilesRoot = path.dirname(process.cwd());
+  const cwd = process.cwd();
   return [
-    path.join(runfilesRoot, 'plugins_npm', 'node_modules'),
-    path.join(runfilesRoot, 'ui_npm', 'node_modules'),
-    path.join(runfilesRoot, 'ui_dev_npm', 'node_modules'),
+    path.join(cwd, 'plugins/node_modules'),
+    path.join(cwd, 'polygerrit-ui/node_modules'),
+    path.join(cwd, 'polygerrit-ui/app/node_modules'),
   ];
 }
 

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "867f6fe0_6ade7d8e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1159190
+      },
+      "writtenOn": "2026-06-18T18:01:25Z",
+      "side": 1,
+      "message": "Ran the library compliance tests I could find\n\n//Documentation:check_release_war_jars (PASSED)\n//Documentation:check_licenses (PASSED)",
+      "revId": "3cbd3dbf05cacbc9c59407c9835cf48c2ce3daa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

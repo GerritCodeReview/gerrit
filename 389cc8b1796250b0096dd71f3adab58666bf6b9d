@@ -24,6 +24,31 @@
       "isAi": true,
       "revId": "389cc8b1796250b0096dd71f3adab58666bf6b9d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ea429df_337bb1dd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-06-19T09:32:12Z",
+      "side": 1,
+      "message": "Here are numbers from our PLX investigation (gerritcodereview.tmp_pg_weblog):\n\nBackend latency samples for CreateDraftComment show that NoteDb update dominates:\n- CreateDraftComment: 580ms total, notedb/update_latency: 574ms (99%)\n- CreateDraftComment: 387ms total, notedb/update_latency: 374ms (97%)\n\nFrontend-observed p99 network latency (6000+ samples from client logs):\n- CreateDraftComment - network p99: 3264ms\n- UpdateDraftComment - network p99: 2288ms\n\nThe redundant Factory.create() call adds the repo-open + ref-resolution overhead on top of the already-expensive NoteDb write path. While this overhead might be small relative to the NoteDb write itself, it\u0027s pure waste since rsrc.getNotes() is already loaded.\n\nOn high-comment changes (e.g. Chromium, Android), the ChangeNotes object is more expensive to construct even with the cache, as the cache lookup still requires repo access to obtain the meta ref ObjectId for the cache key.\n\nData source: go/gerrit-performance, PLX scripts at experimental/users/milutin/plx_scripts/performance/backend_draft_latency.sql",
+      "parentUuid": "46fe644f_55d9b626",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 15
+      },
+      "isAi": true,
+      "revId": "389cc8b1796250b0096dd71f3adab58666bf6b9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

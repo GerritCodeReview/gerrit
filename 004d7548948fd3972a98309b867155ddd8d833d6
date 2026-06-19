@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "961cce9c_fa24a25c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-19T08:02:07Z",
+      "side": 1,
+      "message": "Why don\u0027t you just upload a change that replaces everywhere in Gerrit the HTTP status code of `import static javax.servlet.http.HttpServletResponse` with ``import static javax.servlet.http.HttpServletResponse `import static org.apache.http.HttpStatus`.",
+      "revId": "004d7548948fd3972a98309b867155ddd8d833d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8815b754_50b0c3c8",
         "filename": "java/com/google/gerrit/extensions/restapi/Response.java",
         "patchSetId": 2

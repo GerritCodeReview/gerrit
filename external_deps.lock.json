@@ -125,10 +125,10 @@
     "javax.servlet:javax.servlet-api": 669233360,
     "junit:junit": -744267592,
     "log4j:log4j": 182326902,
-    "net.bytebuddy:byte-buddy": 731630558,
-    "net.bytebuddy:byte-buddy-agent": 294689510,
-    "net.java.dev.jna:jna": 929040997,
-    "net.java.dev.jna:jna-platform": 1235639073,
+    "net.bytebuddy:byte-buddy": -67913315,
+    "net.bytebuddy:byte-buddy-agent": -728183915,
+    "net.java.dev.jna:jna": 939544101,
+    "net.java.dev.jna:jna-platform": 1246142177,
     "net.minidev:json-smart": -1043043954,
     "net.sf.jopt-simple:jopt-simple": 906822697,
     "net.sourceforge.nekohtml:nekohtml": 1723624706,
@@ -155,9 +155,9 @@
     "org.apache.mina:mina-core": -955969490,
     "org.apache.sshd:sshd-common": 1844247612,
     "org.apache.sshd:sshd-core": 602454664,
-    "org.apache.sshd:sshd-mina": -1925771193,
-    "org.apache.sshd:sshd-osgi": 1671034928,
-    "org.apache.sshd:sshd-sftp": 2079258759,
+    "org.apache.sshd:sshd-mina": -1915268089,
+    "org.apache.sshd:sshd-osgi": 1681538032,
+    "org.apache.sshd:sshd-sftp": 2089761863,
     "org.asciidoctor:asciidoctorj": -457860213,
     "org.assertj:assertj-core": -1145412507,
     "org.bouncycastle:bcpg-jdk18on": -1572213535,
@@ -346,14 +346,14 @@
     "javax.servlet:javax.servlet-api:jar:sources": -2015355058,
     "junit:junit": -1256429642,
     "junit:junit:jar:sources": 940567721,
-    "net.bytebuddy:byte-buddy": 1329808931,
-    "net.bytebuddy:byte-buddy-agent": -1607725611,
-    "net.bytebuddy:byte-buddy-agent:jar:sources": -744055721,
-    "net.bytebuddy:byte-buddy:jar:sources": -1701033570,
-    "net.java.dev.jna:jna": 154162148,
-    "net.java.dev.jna:jna-platform": 2091983071,
-    "net.java.dev.jna:jna-platform:jar:sources": -840497222,
-    "net.java.dev.jna:jna:jar:sources": -1131590933,
+    "net.bytebuddy:byte-buddy": -645553046,
+    "net.bytebuddy:byte-buddy-agent": 567350281,
+    "net.bytebuddy:byte-buddy-agent:jar:sources": 467108684,
+    "net.bytebuddy:byte-buddy:jar:sources": -315779909,
+    "net.java.dev.jna:jna": 1254948548,
+    "net.java.dev.jna:jna-platform": 653780437,
+    "net.java.dev.jna:jna-platform:jar:sources": 194874308,
+    "net.java.dev.jna:jna:jar:sources": -1685556831,
     "net.minidev:json-smart": 1099098947,
     "net.minidev:json-smart:jar:sources": 1458315043,
     "net.sf.jopt-simple:jopt-simple": -1677351973,
@@ -398,15 +398,15 @@
     "org.apache.lucene:lucene-queryparser:jar:sources": 1992621418,
     "org.apache.mina:mina-core": 314726127,
     "org.apache.mina:mina-core:jar:sources": 758815578,
-    "org.apache.sshd:sshd-mina": 155118541,
-    "org.apache.sshd:sshd-mina:jar:sources": -920781119,
-    "org.apache.sshd:sshd-osgi": 425304104,
-    "org.apache.sshd:sshd-osgi:jar:sources": -1265230417,
-    "org.apache.sshd:sshd-sftp": 1061623621,
-    "org.apache.sshd:sshd-sftp:jar:sources": -490397747,
+    "org.apache.sshd:sshd-mina": -734078396,
+    "org.apache.sshd:sshd-mina:jar:sources": -506380854,
+    "org.apache.sshd:sshd-osgi": 1092773821,
+    "org.apache.sshd:sshd-osgi:jar:sources": -2061003935,
+    "org.apache.sshd:sshd-sftp": -70173235,
+    "org.apache.sshd:sshd-sftp:jar:sources": 1034555480,
     "org.asciidoctor:asciidoctorj": 1685789893,
     "org.asciidoctor:asciidoctorj:jar:sources": 2091708864,
-    "org.assertj:assertj-core": -911235250,
+    "org.assertj:assertj-core": -923964809,
     "org.assertj:assertj-core:jar:sources": -697161745,
     "org.bouncycastle:bcpg-jdk18on": -1258294405,
     "org.bouncycastle:bcpg-jdk18on:jar:sources": -1733408473,
@@ -462,7 +462,7 @@
     "org.jsoup:jsoup:jar:sources": -2058254438,
     "org.jspecify:jspecify": 117231129,
     "org.jspecify:jspecify:jar:sources": -2134060298,
-    "org.mockito:mockito-core": 2139578936,
+    "org.mockito:mockito-core": -287830973,
     "org.mockito:mockito-core:jar:sources": 1900207417,
     "org.nibor.autolink:autolink": -443901116,
     "org.nibor.autolink:autolink:jar:sources": -1863403724,
@@ -999,31 +999,31 @@
     },
     "net.bytebuddy:byte-buddy": {
       "shasums": {
-        "jar": "227d3e0ad51915809143f6a744ac0f4cb21f03214dab28e52ee7007c5ad7e9d9",
-        "sources": "8529b9ec93e698165dde6fddfd57e0820bb8f6d17f91ada1d8c525563636dc4d"
+        "jar": "8b31f4ea806afaa900b67bffd8498760d1f65464f4c2ea78cdbda2f3e633898b",
+        "sources": "d40bbc426b8e79a026b4e570e6f57b0a8659b122864c874cfa309121066f1fb1"
       },
-      "version": "1.18.8"
+      "version": "1.18.10"
     },
     "net.bytebuddy:byte-buddy-agent": {
       "shasums": {
-        "jar": "e303594d597de090abcb54580aa788478fc5e58f259e6ae914a1115f207c43af",
-        "sources": "881b5f123cefa2afc4ed89f8662da3ef9975e3a6e00f8f563b0470caf34b9511"
+        "jar": "9cfa3c71c8f07bfb5f4c3c68db7715940d792801eba82d346fc343f7bd7c2401",
+        "sources": "af62bcc1d124110ee1917f61d4cf3c19eb832f9213a555a1d375b743327345a8"
       },
-      "version": "1.18.8"
+      "version": "1.18.10"
     },
     "net.java.dev.jna:jna": {
       "shasums": {
-        "jar": "260c4b1e22b1db9e110ee441c4f13ce115f841fa48c41d78750986214b395557",
-        "sources": "0b9224e215b3c6a464959e3f994ddd64c14d46fb4014facd6afa1cc18e469466"
+        "jar": "f05122f39e2fd8aa1bfbdb2b0306034e2b20dc92817eba119f8c0c2f3399bf3a",
+        "sources": "3e0371bec33252b88cede182bd653ea0580063b3ebc1d97dea2122b2639675e7"
       },
-      "version": "5.18.1"
+      "version": "5.19.0"
     },
     "net.java.dev.jna:jna-platform": {
       "shasums": {
-        "jar": "ad14c1b1ec4f43d396231219dfa635ebf828f738eac9f890ea1bc07795892d9a",
-        "sources": "5ffcac4b35114c6539ab9485592a90153ddeefb60e675dd9e8a2ee24e54ec1bc"
+        "jar": "44ceeb7a0f3f9c1e74b96ecdce047f8cc85a8c72c491f7662ba64db899559870",
+        "sources": "8288e781424a34b0478928be5664b01ace168e80608178d37d02464041528940"
       },
-      "version": "5.18.1"
+      "version": "5.19.0"
     },
     "net.minidev:json-smart": {
       "shasums": {
@@ -1181,24 +1181,24 @@
     },
     "org.apache.sshd:sshd-mina": {
       "shasums": {
-        "jar": "9ac956852adadcc5857e702bbc3accd0b4f22dc95b4d32a3c3e7d842478cabe6",
-        "sources": "763d0820dfc362c8ae6cfa5b10a49b349d855f60e5f792dad0a0497c13dc2f75"
+        "jar": "7399961346882ef50952ae9774e8dd1eac7ce232d2f82c058ade2c20c02591f1",
+        "sources": "cc526f8a54d375e87b21419e1c3ce7462637718c6e692fce3940cff98a5151a5"
       },
-      "version": "2.17.1"
+      "version": "2.18.0"
     },
     "org.apache.sshd:sshd-osgi": {
       "shasums": {
-        "jar": "77c7c19d86dd59c63cedc9fea79708df264ea779c30076ce5dcfc51dc941a78b",
-        "sources": "b51cb4bc79d4b63b5ba1f72bb8e71b24f85597f1d1a8de4f49b5adb452d3a6cb"
+        "jar": "e771c4239b1c4818c102368d57d0cc082c224eefb76224524473bf7021d1a32f",
+        "sources": "dd5838716293c8aeaf9487c50c6b313dff304e7ddca84ce16923f73865ba4d1d"
       },
-      "version": "2.17.1"
+      "version": "2.18.0"
     },
     "org.apache.sshd:sshd-sftp": {
       "shasums": {
-        "jar": "84727e3ac45458e1efde1058269964e2526aa3d520584870ba007adb20534b3c",
-        "sources": "6282c3628c62cfcec6578611b0c106f206fc418385b06b899cb8fb79aece5200"
+        "jar": "bf52fd81d63337cb40050c70ee460c80e78a0a4b77f15da7125eb1841f527e93",
+        "sources": "5171d9bac4ee76a013beccc1fdeab93fb43aeb84172d19b929ee158b9281c648"
       },
-      "version": "2.17.1"
+      "version": "2.18.0"
     },
     "org.asciidoctor:asciidoctorj": {
       "shasums": {
@@ -5176,7 +5176,7 @@
     },
     "org.apache.sshd:sshd-sftp": {
       "java.nio.file.spi.FileSystemProvider": [
-        "org.apache.sshd.sftp.client.fs.SftpFileSystemProvider"
+        "org.apache.sshd.sftp.client.fs.SftpFileSystemProviderFacade"
       ],
       "org.apache.sshd.server.subsystem.SubsystemFactory": [
         "org.apache.sshd.sftp.server.SftpSubsystemFactory"
@@ -5184,7 +5184,7 @@
     },
     "org.apache.sshd:sshd-sftp:jar:sources": {
       "java.nio.file.spi.FileSystemProvider": [
-        "org.apache.sshd.sftp.client.fs.SftpFileSystemProvider"
+        "org.apache.sshd.sftp.client.fs.SftpFileSystemProviderFacade"
       ],
       "org.apache.sshd.server.subsystem.SubsystemFactory": [
         "org.apache.sshd.sftp.server.SftpSubsystemFactory"

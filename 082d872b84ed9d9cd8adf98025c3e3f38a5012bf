@@ -1,5 +1,86 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a787bdbe_5f6bdcc1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-19T13:33:47Z",
+      "side": 1,
+      "message": "I believe we should give the chance to the wider Gerrit community to express their views before changing the recommendation about using Gerrit and extending it.\n\nThis change was uploaded at 12:07 and merged in less than 20 minutes ... I would have provided my feedback sooner, but I was driving.\n\nCan we please check my comments and provide your views?",
+      "revId": "082d872b84ed9d9cd8adf98025c3e3f38a5012bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e860b219_9ac6a0f3",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-19T13:33:47Z",
+      "side": 1,
+      "message": "We introduced the Gerrit API for plugins exactly for avoiding that decoupling.",
+      "range": {
+        "startLine": 39,
+        "startChar": 96,
+        "endLine": 39,
+        "endChar": 183
+      },
+      "revId": "082d872b84ed9d9cd8adf98025c3e3f38a5012bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f411744_f6afa042",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-19T13:33:47Z",
+      "side": 1,
+      "message": "Using the SSH stream events is problematic and should not be suggested as a better alternative.\n\nThere are multiple issues with it:\n\na. They are coupled with a stateful SSH stream: if nodes are restarted because of maintenance or temporary unavailability, the stream will be broken.\nb. They keep a permanent SSH thread occupied, limiting the overall scalability\nc. They lose events when the client is disconnected or restarts\n\nWe should be suggesting to use the [event-broker](https://gerrit.googlesource.com/modules/events-broker/)\u0027s based plugins",
+      "range": {
+        "startLine": 42,
+        "startChar": 41,
+        "endLine": 42,
+        "endChar": 63
+      },
+      "revId": "082d872b84ed9d9cd8adf98025c3e3f38a5012bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "693692ab_d3d249c6",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-19T13:33:47Z",
+      "side": 1,
+      "message": "The use of REST-API is always a good alternative; however, it isn\u0027t guaranteed to remain always 100% compatible between Gerrit versions.",
+      "revId": "082d872b84ed9d9cd8adf98025c3e3f38a5012bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

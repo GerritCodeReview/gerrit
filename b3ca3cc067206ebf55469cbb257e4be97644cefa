@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "626fbb53_9b3f58e7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-06-19T09:38:53Z",
+      "side": 1,
+      "message": "Update to accomodate JGit bump up: https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1239680/2",
+      "revId": "b3ca3cc067206ebf55469cbb257e4be97644cefa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

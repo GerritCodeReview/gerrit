@@ -90,8 +90,8 @@ importers:
         specifier: ^6.40.0
         version: 6.40.0
       '@gerritcodereview/typescript-api':
-        specifier: 3.13.0
-        version: 3.13.0
+        specifier: 3.14.0
+        version: 3.14.0
       '@lezer/highlight':
         specifier: ^1.2.3
         version: 1.2.3
@@ -379,8 +379,8 @@ packages:
   '@esm-bundle/chai@4.3.4-fix.0':
     resolution: {integrity: sha512-26SKdM4uvDWlY8/OOOxSB1AqQWeBosCX3wRYUZO7enTAj03CtVxIiCimYVG2WpULcyV51qapK4qTovwkUr5Mlw==}
 
-  '@gerritcodereview/typescript-api@3.13.0':
-    resolution: {integrity: sha512-1TvqARSNO9SXnnCzJKZVz9SFTr4hx1ZzBR0jyRZM6Xd4lLw3YwCfXozD9E8Pm4pfBWmN9WDkURboEG85p7ICag==}
+  '@gerritcodereview/typescript-api@3.14.0':
+    resolution: {integrity: sha512-GhYzh6h/bHUz2cU1pzHwlfWDeGSkGAlBulfvrUyG4N3tuA/jqUp5LSBDeeJHzXgmOSdNE7Qyravjh3wDd0REyg==}
 
   '@hapi/bourne@3.0.0':
     resolution: {integrity: sha512-Waj1cwPXJDucOib4a3bAISsKJVb15MKi9IvmTI/7ssVEm6sywXGjVJDhl6/umt1pK1ZS7PacXU3A1PmFKHEZ2w==}
@@ -2457,7 +2457,7 @@ snapshots:
     dependencies:
       '@types/chai': 4.3.20
 
-  '@gerritcodereview/typescript-api@3.13.0': {}
+  '@gerritcodereview/typescript-api@3.14.0': {}
 
   '@hapi/bourne@3.0.0': {}
 

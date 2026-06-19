@@ -22,6 +22,30 @@
       },
       "revId": "d765cea9f553ed0129b7ef2f284a17aed93c5112",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7087db2_7ed19dfa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2026-06-19T09:09:36Z",
+      "side": 1,
+      "message": "There is a ChangeNotesCache already\n\nhttp://google3/third_party/java_src/gerritcodereview/gerrit/java/com/google/gerrit/server/notedb/ChangeNotesCache.java?rcl\u003d934802863\u0026l\u003d51\n\nCan you specify in the commit message why this cache is not being used?",
+      "parentUuid": "bedc4351_1c488e37",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 15
+      },
+      "revId": "d765cea9f553ed0129b7ef2f284a17aed93c5112",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

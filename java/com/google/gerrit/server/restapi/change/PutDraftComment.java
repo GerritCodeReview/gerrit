@@ -33,7 +33,6 @@ import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.DraftCommentsReader;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.DraftCommentResource;
-import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
@@ -58,7 +57,6 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
   private final DraftCommentsReader draftCommentsReader;
   private final PatchSetUtil psUtil;
   private final Provider<CommentJson> commentJson;
-  private final ChangeNotes.Factory changeNotesFactory;
   private final PluginSetContext<CommentValidator> commentValidators;
 
   @Inject
@@ -69,7 +67,6 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
       DraftCommentsReader draftCommentsReader,
       PatchSetUtil psUtil,
       Provider<CommentJson> commentJson,
-      ChangeNotes.Factory changeNotesFactory,
       PluginSetContext<CommentValidator> commentValidators) {
     this.updateFactory = updateFactory;
     this.delete = delete;
@@ -77,7 +74,6 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
     this.draftCommentsReader = draftCommentsReader;
     this.psUtil = psUtil;
     this.commentJson = commentJson;
-    this.changeNotesFactory = changeNotesFactory;
     this.commentValidators = commentValidators;
   }
 
@@ -101,7 +97,7 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
           String.format("Invalid inReplyTo, comment %s not found", in.inReplyTo));
     }
     CreateDraftComment.validateDraftComment(
-        rsrc.getRevisionResource(), in, changeNotesFactory, commentValidators, commentsUtil);
+        rsrc.getRevisionResource(), in, commentValidators, commentsUtil);
     try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
       try (BatchUpdate bu =
           updateFactory.create(rsrc.getChange().getProject(), rsrc.getUser(), TimeUtil.now())) {

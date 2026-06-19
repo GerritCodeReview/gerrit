@@ -66,7 +66,6 @@ public class CreateDraftComment implements RestModifyView<RevisionResource, Draf
   private final Provider<CommentJson> commentJson;
   private final CommentsUtil commentsUtil;
   private final PatchSetUtil psUtil;
-  private final ChangeNotes.Factory changeNotesFactory;
   private final PluginSetContext<CommentValidator> commentValidators;
 
   @Inject
@@ -75,13 +74,11 @@ public class CreateDraftComment implements RestModifyView<RevisionResource, Draf
       Provider<CommentJson> commentJson,
       CommentsUtil commentsUtil,
       PatchSetUtil psUtil,
-      ChangeNotes.Factory changeNotesFactory,
       PluginSetContext<CommentValidator> commentValidators) {
     this.updateFactory = updateFactory;
     this.commentJson = commentJson;
     this.commentsUtil = commentsUtil;
     this.psUtil = psUtil;
-    this.changeNotesFactory = changeNotesFactory;
     this.commentValidators = commentValidators;
   }
 
@@ -104,7 +101,7 @@ public class CreateDraftComment implements RestModifyView<RevisionResource, Draf
       throw new BadRequestException(
           String.format("Invalid inReplyTo, comment %s not found", in.inReplyTo));
     }
-    validateDraftComment(rsrc, in, changeNotesFactory, commentValidators, commentsUtil);
+    validateDraftComment(rsrc, in, commentValidators, commentsUtil);
     try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
       try (BatchUpdate bu =
           updateFactory.create(rsrc.getProject(), rsrc.getUser(), TimeUtil.now())) {
@@ -120,13 +117,12 @@ public class CreateDraftComment implements RestModifyView<RevisionResource, Draf
   static void validateDraftComment(
       RevisionResource rsrc,
       DraftInput in,
-      ChangeNotes.Factory changeNotesFactory,
       PluginSetContext<CommentValidator> commentValidators,
       CommentsUtil commentsUtil)
       throws BadRequestException {
     HumanComment comment =
         createDraftComment(
-            changeNotesFactory.create(rsrc.getProject(), rsrc.getChange().getId()),
+            rsrc.getNotes(),
             rsrc.getUser(),
             TimeUtil.now(),
             in,

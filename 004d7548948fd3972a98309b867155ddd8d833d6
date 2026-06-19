@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8815b754_50b0c3c8",
+        "filename": "java/com/google/gerrit/extensions/restapi/Response.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-19T07:58:49Z",
+      "side": 1,
+      "message": "Can we use an Apache HTTP constant instead?\n\n\n\n```suggestion\nimport static com.google.common.base.Preconditions.checkState;\nimport static org.apache.http.HttpStatus;\n\nimport com.google.common.collect.ImmutableMultimap;\nimport com.google.errorprone.annotations.CanIgnoreReturnValue;\nimport java.util.concurrent.TimeUnit;\n\n/** Special return value to mean specific HTTP status codes in a REST API. */\npublic abstract class Response\u003cT\u003e {\n```",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 60
+      },
+      "revId": "004d7548948fd3972a98309b867155ddd8d833d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -125,8 +125,8 @@
     "javax.servlet:javax.servlet-api": 669233360,
     "junit:junit": -744267592,
     "log4j:log4j": 182326902,
-    "net.bytebuddy:byte-buddy": 731630558,
-    "net.bytebuddy:byte-buddy-agent": 294689510,
+    "net.bytebuddy:byte-buddy": -67913315,
+    "net.bytebuddy:byte-buddy-agent": -728183915,
     "net.java.dev.jna:jna": 929040997,
     "net.java.dev.jna:jna-platform": 1235639073,
     "net.minidev:json-smart": -1043043954,
@@ -346,10 +346,10 @@
     "javax.servlet:javax.servlet-api:jar:sources": -2015355058,
     "junit:junit": -1256429642,
     "junit:junit:jar:sources": 940567721,
-    "net.bytebuddy:byte-buddy": 1329808931,
-    "net.bytebuddy:byte-buddy-agent": -1607725611,
-    "net.bytebuddy:byte-buddy-agent:jar:sources": -744055721,
-    "net.bytebuddy:byte-buddy:jar:sources": -1701033570,
+    "net.bytebuddy:byte-buddy": -645553046,
+    "net.bytebuddy:byte-buddy-agent": 567350281,
+    "net.bytebuddy:byte-buddy-agent:jar:sources": 467108684,
+    "net.bytebuddy:byte-buddy:jar:sources": -315779909,
     "net.java.dev.jna:jna": 154162148,
     "net.java.dev.jna:jna-platform": 2091983071,
     "net.java.dev.jna:jna-platform:jar:sources": -840497222,
@@ -406,7 +406,7 @@
     "org.apache.sshd:sshd-sftp:jar:sources": 1034555480,
     "org.asciidoctor:asciidoctorj": 1685789893,
     "org.asciidoctor:asciidoctorj:jar:sources": 2091708864,
-    "org.assertj:assertj-core": -911235250,
+    "org.assertj:assertj-core": -923964809,
     "org.assertj:assertj-core:jar:sources": -697161745,
     "org.bouncycastle:bcpg-jdk18on": -1258294405,
     "org.bouncycastle:bcpg-jdk18on:jar:sources": -1733408473,
@@ -462,7 +462,7 @@
     "org.jsoup:jsoup:jar:sources": -2058254438,
     "org.jspecify:jspecify": 117231129,
     "org.jspecify:jspecify:jar:sources": -2134060298,
-    "org.mockito:mockito-core": 2139578936,
+    "org.mockito:mockito-core": -287830973,
     "org.mockito:mockito-core:jar:sources": 1900207417,
     "org.nibor.autolink:autolink": -443901116,
     "org.nibor.autolink:autolink:jar:sources": -1863403724,
@@ -999,17 +999,17 @@
     },
     "net.bytebuddy:byte-buddy": {
       "shasums": {
-        "jar": "227d3e0ad51915809143f6a744ac0f4cb21f03214dab28e52ee7007c5ad7e9d9",
-        "sources": "8529b9ec93e698165dde6fddfd57e0820bb8f6d17f91ada1d8c525563636dc4d"
+        "jar": "8b31f4ea806afaa900b67bffd8498760d1f65464f4c2ea78cdbda2f3e633898b",
+        "sources": "d40bbc426b8e79a026b4e570e6f57b0a8659b122864c874cfa309121066f1fb1"
       },
-      "version": "1.18.8"
+      "version": "1.18.10"
     },
     "net.bytebuddy:byte-buddy-agent": {
       "shasums": {
-        "jar": "e303594d597de090abcb54580aa788478fc5e58f259e6ae914a1115f207c43af",
-        "sources": "881b5f123cefa2afc4ed89f8662da3ef9975e3a6e00f8f563b0470caf34b9511"
+        "jar": "9cfa3c71c8f07bfb5f4c3c68db7715940d792801eba82d346fc343f7bd7c2401",
+        "sources": "af62bcc1d124110ee1917f61d4cf3c19eb832f9213a555a1d375b743327345a8"
       },
-      "version": "1.18.8"
+      "version": "1.18.10"
     },
     "net.java.dev.jna:jna": {
       "shasums": {

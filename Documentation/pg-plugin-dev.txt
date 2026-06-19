@@ -437,3 +437,10 @@ if you need to access the Gerrit host info.
 self.url();                    // "https://gerrit-review.googlesource.com/plugins/demo/"
 self.url('/static/icon.png');  // "https://gerrit-review.googlesource.com/plugins/demo/static/icon.png"
 ```
+
+== See Also
+
+*   link:dev-plugins.html[Gerrit - Plugin Development]
+*   link:config-plugins.html[Gerrit - Plugins Configuration]
+*   link:rest-api-plugins.html[Gerrit - /plugins/ REST API]
+

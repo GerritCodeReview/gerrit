@@ -70,6 +70,30 @@
       },
       "revId": "d765cea9f553ed0129b7ef2f284a17aed93c5112",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bcfbefe9_3821ec2d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-06-19T09:16:11Z",
+      "side": 1,
+      "message": "Good questions! I updated commit message to answer them with links to code",
+      "parentUuid": "44a6a23a_e7b09bb3",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 15
+      },
+      "revId": "d765cea9f553ed0129b7ef2f284a17aed93c5112",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

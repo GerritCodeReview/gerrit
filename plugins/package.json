@@ -31,7 +31,7 @@
     "@codemirror/state": "^6.6.0",
     "@codemirror/view": "^6.40.0",
     "@lezer/highlight": "^1.2.3",
-    "@gerritcodereview/typescript-api": "3.13.0",
+    "@gerritcodereview/typescript-api": "3.14.0",
     "@material/web": "^2.4.1",
     "@open-wc/testing": "^4.0.0",
     "@web/dev-server-esbuild": "^1.0.4",

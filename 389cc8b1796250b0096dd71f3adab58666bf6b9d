@@ -1,0 +1,29 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "644b3291_43916a79",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-06-19T09:27:10Z",
+      "side": 1,
+      "message": "Good point about the RefCache path. In this case, Factory.create() [1] passes refs\u003dnull to the ChangeNotes constructor [2], so readRef() [3] takes the super.readRef() fallback which does repo.getRefDatabase().exactRef() — meaning the repository IS opened.\n\nThe full call chain is:\n1. Factory.create(project, changeId) passes refs\u003dnull\n2. Constructor stores this.refs \u003d null\n3. load() calls openRepository() to get the repo\n4. openHandle() calls readRef(repo)\n5. readRef() sees refs\u003d\u003dnull, falls through to super.readRef() which does repo.getRefDatabase().exactRef()\n\nI don\u0027t have a specific trace/log for this particular path but it follows directly from the code: Factory.create() always passes null for RefCache, so the optimization in readRef() (line 672) never kicks in for this call.\n\n[1] https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:java/com/google/gerrit/server/notedb/ChangeNotes.java;l\u003d165\n[2] https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:java/com/google/gerrit/server/notedb/ChangeNotes.java;l\u003d406\n[3] https://cs.opensource.google/gerrit/gerrit/gerrit/+/master:java/com/google/gerrit/server/notedb/ChangeNotes.java;l\u003d672",
+      "parentUuid": "46fe644f_55d9b626",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 15
+      },
+      "isAi": true,
+      "revId": "389cc8b1796250b0096dd71f3adab58666bf6b9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

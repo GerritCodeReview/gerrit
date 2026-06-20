@@ -71,6 +71,13 @@ def java_dependencies():
         sha1 = "3cd63d075497751784b2fa84be59432f4905bf7c",
     )
 
+    # Required to compile JGit's EE8 servlet bridge targets.
+    maven_jar(
+        name = "javax-servlet-api",
+        artifact = "javax.servlet:javax.servlet-api:3.1.0",
+        sha1 = "3cd63d075497751784b2fa84be59432f4905bf7c",
+    )
+
     maven_jar(
         name = "jakarta-inject-api",
         artifact = "jakarta.inject:jakarta.inject-api:2.0.1",

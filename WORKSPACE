@@ -82,6 +82,7 @@ local_repository(
 local_repository(
     name = "jgit",
     path = "modules/jgit",
+    repo_mapping = {"@javax-servlet-api": "@servlet-api"},
 )
 
 java_dependencies()

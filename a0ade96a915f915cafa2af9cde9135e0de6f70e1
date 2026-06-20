@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f114382_8fe58ae8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-06-20T11:05:31Z",
+      "side": 1,
+      "message": "I think the Depends-On footer already captures the relationship between the two changes.\n\nTo me, [DO NOT SUBMIT] commit-message prefix is more appropriate for changes that should not be submitted in their current state. This change is otherwise ready; it simply depends on the JGit change being merged first.\n\nI\u0027d prefer not to add a temporary commit-message prefix that would require additional churn later just to remove it.",
+      "parentUuid": "b9495348_d3305998",
+      "revId": "a0ade96a915f915cafa2af9cde9135e0de6f70e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "720a5cf0_e9a355f3",
@@ -31,6 +49,30 @@
       "writtenOn": "2026-06-18T09:38:42Z",
       "side": 1,
       "message": "The link is broken. Please use the full URL pointing to GerritHub.io.",
+      "range": {
+        "startLine": 15,
+        "startChar": 23,
+        "endLine": 15,
+        "endChar": 34
+      },
+      "revId": "a0ade96a915f915cafa2af9cde9135e0de6f70e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "997f52b4_24aa84b1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-06-20T11:05:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "720a5cf0_e9a355f3",
       "range": {
         "startLine": 15,
         "startChar": 23,
@@ -58,6 +100,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7baf39b7_d2b6dcc6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-06-20T11:05:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50bf40c2_99294e5c",
+      "revId": "a0ade96a915f915cafa2af9cde9135e0de6f70e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c7f3f62b_8cf2511e",
@@ -71,6 +131,30 @@
       "writtenOn": "2026-06-18T09:38:42Z",
       "side": 1,
       "message": "What about IntelliJ?",
+      "range": {
+        "startLine": 63,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 29
+      },
+      "revId": "a0ade96a915f915cafa2af9cde9135e0de6f70e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a53578c1_eac504c2",
+        "filename": "Documentation/dev-eclipse.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-06-20T11:05:31Z",
+      "side": 1,
+      "message": "I haven\u0027t tried it with IntelliJ, so I can\u0027t say for sure.\n\nConceptually, the generated source JAR should work the same way in any IDE that supports source attachments. If IntelliJ handles attached source JARs similarly to Eclipse, debugging should work without any special configuration. If someone can verify the IntelliJ behavior, I\u0027m happy to update the documentation accordingly.",
+      "parentUuid": "c7f3f62b_8cf2511e",
       "range": {
         "startLine": 63,
         "startChar": 0,

@@ -69,6 +69,23 @@
       "message": "@milutin@google.com anyhing from my side i can do?",
       "revId": "6cd363f8ef4469941a7e57ec1ab5fc1c99a9b660",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a930c49d_6b4a1bbc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3117294
+      },
+      "writtenOn": "2026-06-20T08:14:26Z",
+      "side": 1,
+      "message": "ping",
+      "revId": "6cd363f8ef4469941a7e57ec1ab5fc1c99a9b660",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

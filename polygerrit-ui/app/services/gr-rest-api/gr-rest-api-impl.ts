@@ -129,7 +129,11 @@ import {ErrorCallback} from '../../api/rest';
 import {addDraftProp} from '../../utils/comment-util';
 import {BaseScheduler, Scheduler} from '../scheduler/scheduler';
 import {MaxInFlightScheduler} from '../scheduler/max-in-flight-scheduler';
-import {escapeAndWrapSearchOperatorValue} from '../../utils/string-util';
+import {
+  escapeAndWrapSearchOperatorValue,
+  hasMeInQuery,
+  translateMeInQuery,
+} from '../../utils/string-util';
 import {RetryScheduler} from '../scheduler/retry-scheduler';
 import {
   BatchLabelInput,
@@ -1237,40 +1241,45 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
    * If options is undefined then default options (see getListChangesOptionsHex) is
    * used.
    */
-  getChanges(
+  async getChanges(
     changesPerPage?: number,
     query?: string,
     offset?: 'n,z' | number,
     options?: string,
     errFn?: ErrorCallback
   ): Promise<ChangeInfo[] | undefined> {
+    let translatedQuery = query;
+    if (query && hasMeInQuery(query)) {
+      const account = await this.getAccount();
+      if (account?.email) {
+        translatedQuery = translateMeInQuery(query, account.email);
+      }
+    }
     const request = this.getRequestForGetChanges(
       changesPerPage,
-      query,
+      translatedQuery,
       offset,
       options
     );
 
-    return Promise.resolve(
-      this._restApiHelper.fetchJSON(
-        {
-          ...request,
-          errFn,
-        },
-        true
-      ) as Promise<ChangeInfo[] | undefined>
-    ).then(response => {
-      if (!response) {
-        return;
+    const response = (await this._restApiHelper.fetchJSON(
+      {
+        ...request,
+        errFn,
+      },
+      true
+    )) as ChangeInfo[] | undefined;
+
+    if (!response) {
+      return;
+    }
+    const iterateOverChanges = (arr: ChangeInfo[]) => {
+      for (const change of arr) {
+        this._maybeInsertInLookup(change);
       }
-      const iterateOverChanges = (arr: ChangeInfo[]) => {
-        for (const change of arr) {
-          this._maybeInsertInLookup(change);
-        }
-      };
-      iterateOverChanges(response);
-      return response;
-    });
+    };
+    iterateOverChanges(response);
+    return response;
   }
 
   async getDetailedChangesWithActions(

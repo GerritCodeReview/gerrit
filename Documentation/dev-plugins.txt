@@ -33,17 +33,6 @@ of server versions.
 
 Most of this documentation refers to either type as a plugin.
 
-[[alternatives]]
-=== Alternatives to Backend Plugins
-
-Developing and maintaining backend plugins (especially those using the `gerrit-plugin-api.jar`) introduces significant maintenance overhead due to tight coupling with Gerrit internals. For integration tasks (such as triggering CI/CD, updating issue trackers, or sending notifications), it is highly recommended to use decoupled alternatives:
-
-*   **Webhooks:** Use the link:config-plugins.html#webhooks[webhooks] plugin to propagate events to external services.
-*   **Event Stream:** Listen to the link:cmd-stream-events.html[event stream] to react to Gerrit events.
-*   **REST API:** Use the link:rest-api.html[REST API] for querying and mutating Gerrit state from external systems.
-
-Backend plugins should only be used when deep integration with Gerrit's internal logic (e.g., custom authentication, complex submit rules) is required.
-
 [[getting-started]]
 == Getting started
 
@@ -2844,7 +2833,6 @@ All other files are clustered under a 'Documentation' section.
 
 Compiled plugins and extensions can be deployed to a running Gerrit
 server using the link:cmd-plugin-install.html[plugin install] command.
-Alternatively, they can be managed using the link:rest-api-plugins.html[Plugins REST API].
 
 Web UI plugins distributed as a single `.js` file can be deployed without the
 overhead of JAR packaging. For more information refer to

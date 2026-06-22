@@ -3825,6 +3825,36 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     testByCommitsOnBranchNotMerged(project, ImmutableSet.of(missing));
   }
 
+  @Test
+  public void byCommitsOnBranchNotMergedPartitioned() throws Exception {
+    Project.NameKey project = Project.nameKey("repo");
+    createProject(project);
+    int n = 10;
+    List<String> shas = new ArrayList<>(n);
+    List<Integer> expectedIds = new ArrayList<>(n);
+    BranchNameKey dest = null;
+    try (TestRepository<Repository> repository =
+        new TestRepository<>(repoManager.openRepository(project))) {
+      for (int i = 0; i < n; i++) {
+        ChangeInserter ins = newChange(repository);
+        insert(project, ins);
+        if (dest == null) {
+          dest = ins.getChange().getDest();
+        }
+        shas.add(ins.getCommitId().name());
+        expectedIds.add(ins.getChange().getId().get());
+      }
+    }
+    try (Repository repository = repoManager.openRepository(project)) {
+      InternalChangeQuery query = queryProvider.get();
+      query.setBatchSizeForTesting(3); // Force partitioning
+      Iterable<ChangeData> cds = query.byCommitsOnBranchNotMerged(repository, dest, shas, 11);
+      Iterable<Integer> ids = FluentIterable.from(cds).transform(in -> in.getId().get());
+      assertThat(ids).hasSize(n);
+      assertThat(ids).containsExactlyElementsIn(expectedIds);
+    }
+  }
+
   private void testByCommitsOnBranchNotMerged(Project.NameKey project, Collection<ObjectId> extra)
       throws Exception {
     int n = 10;

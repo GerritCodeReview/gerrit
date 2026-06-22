@@ -3484,23 +3484,23 @@ public abstract class AbstractAccountIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(user.id());
 
     // Querying for user2 should return nothing
-    List<AccountInfo> result = gApi.accounts().query("username:" + user2.username()).get();
+    List<AccountInfo> result = gApi.accounts().query("email:" + user2.email()).get();
     assertThat(result).isEmpty();
 
     // Querying for user2 with details should also return nothing (reproduces Bypass 1)
     result =
         gApi.accounts()
-            .query("username:" + user2.username())
+            .query("email:" + user2.email())
             .withOption(ListAccountsOption.DETAILS)
             .get();
     assertThat(result).isEmpty();
 
     // Suggesting for user2 should also return nothing (reproduces Bypass 2)
-    result = gApi.accounts().suggestAccounts("username:" + user2.username()).get();
+    result = gApi.accounts().suggestAccounts(user2.email()).get();
     assertThat(result).isEmpty();
 
     // Querying for self should still work
-    result = gApi.accounts().query("username:" + user.username()).get();
+    result = gApi.accounts().query("email:" + user.email()).get();
     assertThat(result).hasSize(1);
     assertThat(result.get(0)._accountId).isEqualTo(user.id().get());
   }

@@ -16,6 +16,24 @@
       "message": "What\u0027s wrong with `self`?",
       "revId": "c28330dd7ffac9638ec8dd17823f4ccf1ebb4040",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2aac149_4fa66645",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1159190
+      },
+      "writtenOn": "2026-06-22T20:31:13Z",
+      "side": 1,
+      "message": "I didn\u0027t realize self was already supported. I don\u0027t think this code is necessary.",
+      "parentUuid": "567565f0_6cb2a105",
+      "revId": "c28330dd7ffac9638ec8dd17823f4ccf1ebb4040",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

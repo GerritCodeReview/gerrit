@@ -314,6 +314,36 @@ suite('gr-rest-api-service-impl tests', () => {
     assert.equal(stub.lastCall.args[0].params!.S, 0);
   });
 
+  test('me queries are translated to user email', async () => {
+    sinon
+      .stub(element, 'getAccount')
+      .resolves({email: 'user@example.com'} as AccountDetailInfo);
+    const stub = sinon
+      .stub(element._restApiHelper, 'fetchJSON')
+      .resolves([] as unknown as ParsedJSON);
+    await element.getChanges(1, 'uploader:me');
+    assert.equal(stub.lastCall.args[0].params!.q, 'uploader:user@example.com');
+  });
+
+  test('me queries are left alone if email undefined', async () => {
+    sinon.stub(element, 'getAccount').resolves(undefined);
+    const stub = sinon
+      .stub(element._restApiHelper, 'fetchJSON')
+      .resolves([] as unknown as ParsedJSON);
+    await element.getChanges(1, 'uploader:me');
+    assert.equal(stub.lastCall.args[0].params!.q, 'uploader:me');
+  });
+
+  test('queries without me do not call getAccount', async () => {
+    const getAccountSpy = sinon.spy(element, 'getAccount');
+    const stub = sinon
+      .stub(element._restApiHelper, 'fetchJSON')
+      .resolves([] as unknown as ParsedJSON);
+    await element.getChanges(1, 'uploader:other@example.com');
+    assert.isFalse(getAccountSpy.called);
+    assert.equal(stub.lastCall.args[0].params!.q, 'uploader:other@example.com');
+  });
+
   test('saveDiffPreferences invalidates cache line', () => {
     const cacheKey = '/accounts/self/preferences.diff';
     const fetchStub = sinon.stub(element._restApiHelper, 'fetch');

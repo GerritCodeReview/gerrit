@@ -163,3 +163,60 @@ export function levenshteinDistance(str1: string, str2: string): number {
   // Return the final edit distance
   return dp[m][n];
 }
+
+const USER_OPERATORS = [
+  'owner',
+  'reviewer',
+  'cc',
+  'reviewerin',
+  'author',
+  'committer',
+  'uploader',
+  'assignee',
+  'commentby',
+  'watchedby',
+  'starredby',
+  'added',
+  'removed',
+  'draftby',
+  'reviewedby',
+  'attention',
+];
+
+/**
+ * Checks if the search query contains a "me" keyword in any user or label operator.
+ */
+export function hasMeInQuery(query: string): boolean {
+  const opsPattern = USER_OPERATORS.join('|');
+  const regex = new RegExp(
+    `\\b(${opsPattern}):\\s*(?:"me"|'me'|(?<![@\\.\\-\\+_\\/\\w])me(?![@\\.\\-\\+_\\/\\w]))|\\blabel:([a-zA-Z0-9-+=<>]+),\\s*(?:"me"|'me'|(?<![@\\.\\-\\+_\\/\\w])me(?![@\\.\\-\\+_\\/\\w]))`,
+    'i'
+  );
+  return regex.test(query);
+}
+
+/**
+ * Translates the keyword "me" into the user's email address if it is present
+ * in search query predicates (e.g. uploader:me -> uploader:email@example.com).
+ * If email is undefined, the query is returned unchanged.
+ */
+export function translateMeInQuery(query: string, email?: string): string {
+  if (!email) return query;
+
+  const opsPattern = USER_OPERATORS.join('|');
+  const regex = new RegExp(
+    `\\b(${opsPattern}):\\s*(?:"me"|'me'|(?<![@\\.\\-\\+_\\/\\w])me(?![@\\.\\-\\+_\\/\\w]))`,
+    'gi'
+  );
+  let translated = query.replace(regex, (_, op) => `${op}:${email}`);
+
+  // Also replace in labels, e.g. label:Code-Review+2,me or label:Code-Review=approve,me
+  const labelRegex =
+    /\blabel:([a-zA-Z0-9-+=<>]+),\s*(?:"me"|'me'|(?<![@\\.\\-\\+_\\/\\w])me(?![@\\.\\-\\+_\\/\\w]))/gi;
+  translated = translated.replace(
+    labelRegex,
+    (_, label) => `label:${label},${email}`
+  );
+
+  return translated;
+}

@@ -30,6 +30,7 @@ import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.index.query.QueryResult;
+import com.google.gerrit.server.account.AccountControl;
 import com.google.gerrit.server.account.AccountDirectory.FillOptions;
 import com.google.gerrit.server.account.AccountInfoComparator;
 import com.google.gerrit.server.account.AccountLoader;
@@ -69,6 +70,7 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
   private final Provider<AccountQueryProcessor> queryProcessorProvider;
   private final boolean suggestConfig;
   private final int suggestFrom;
+  private final AccountControl.Factory accountControlFactory;
 
   private AccountLoader accountLoader;
   private boolean suggest;
@@ -134,11 +136,13 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
       AccountLoader.Factory accountLoaderFactory,
       AccountQueryBuilder queryBuilder,
       Provider<AccountQueryProcessor> queryProcessorProvider,
-      @GerritServerConfig Config cfg) {
+      @GerritServerConfig Config cfg,
+      AccountControl.Factory accountControlFactory) {
     this.permissionBackend = permissionBackend;
     this.accountLoaderFactory = accountLoaderFactory;
     this.queryBuilder = queryBuilder;
     this.queryProcessorProvider = queryProcessorProvider;
+    this.accountControlFactory = accountControlFactory;
     this.suggestFrom = cfg.getInt("suggest", null, "from", 0);
     this.options = EnumSet.noneOf(ListAccountsOption.class);
 
@@ -220,10 +224,13 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
         // active accounts should be queried
         queryPred = AccountPredicates.andActive(queryPred);
       }
+      AccountControl accountControl = accountControlFactory.get();
       QueryResult<AccountState> result = queryProcessor.query(queryPred);
       for (AccountState accountState : result.entities()) {
         Account.Id id = accountState.account().id();
-        matches.put(id, accountLoader.get(id));
+        if (accountControl.canSee(accountState)) {
+          matches.put(id, accountLoader.get(id));
+        }
       }
 
       accountLoader.fill();

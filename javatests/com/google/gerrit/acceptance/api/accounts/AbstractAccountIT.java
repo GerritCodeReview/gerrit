@@ -104,6 +104,7 @@ import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.ConsistencyProblemInfo;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInput;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInput.CheckAccountsInput;
+import com.google.gerrit.extensions.client.ListAccountsOption;
 import com.google.gerrit.extensions.common.AccountDetailInfo;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.AccountStateInfo;
@@ -3472,5 +3473,35 @@ public abstract class AbstractAccountIT extends AbstractDaemonTest {
     public ImmutableList<MetadataInfo> getMetadata(Account.Id accountId) {
       return ImmutableList.copyOf(metadataList);
     }
+  }
+
+  @Test
+  @GerritConfig(name = "accounts.visibility", value = "SAME_GROUP")
+  public void queryAccountsVisibilitySameGroup() throws Exception {
+    TestAccount user2 = accountCreator.user2();
+
+    // Switch to user context (user and user2 are not in the same group by default)
+    requestScopeOperations.setApiUser(user.id());
+
+    // Querying for user2 should return nothing
+    List<AccountInfo> result = gApi.accounts().query("username:" + user2.username()).get();
+    assertThat(result).isEmpty();
+
+    // Querying for user2 with details should also return nothing (reproduces Bypass 1)
+    result =
+        gApi.accounts()
+            .query("username:" + user2.username())
+            .withOption(ListAccountsOption.DETAILS)
+            .get();
+    assertThat(result).isEmpty();
+
+    // Suggesting for user2 should also return nothing (reproduces Bypass 2)
+    result = gApi.accounts().suggestAccounts("username:" + user2.username()).get();
+    assertThat(result).isEmpty();
+
+    // Querying for self should still work
+    result = gApi.accounts().query("username:" + user.username()).get();
+    assertThat(result).hasSize(1);
+    assertThat(result.get(0)._accountId).isEqualTo(user.id().get());
   }
 }

@@ -127,8 +127,8 @@
     "log4j:log4j": 182326902,
     "net.bytebuddy:byte-buddy": -67913315,
     "net.bytebuddy:byte-buddy-agent": -728183915,
-    "net.java.dev.jna:jna": 939544101,
-    "net.java.dev.jna:jna-platform": 1246142177,
+    "net.java.dev.jna:jna": -867910362,
+    "net.java.dev.jna:jna-platform": -561312286,
     "net.minidev:json-smart": -1043043954,
     "net.sf.jopt-simple:jopt-simple": 906822697,
     "net.sourceforge.nekohtml:nekohtml": 1723624706,
@@ -350,10 +350,10 @@
     "net.bytebuddy:byte-buddy-agent": 567350281,
     "net.bytebuddy:byte-buddy-agent:jar:sources": 467108684,
     "net.bytebuddy:byte-buddy:jar:sources": -315779909,
-    "net.java.dev.jna:jna": 1254948548,
-    "net.java.dev.jna:jna-platform": 653780437,
-    "net.java.dev.jna:jna-platform:jar:sources": 194874308,
-    "net.java.dev.jna:jna:jar:sources": -1685556831,
+    "net.java.dev.jna:jna": 1622514527,
+    "net.java.dev.jna:jna-platform": 1756885266,
+    "net.java.dev.jna:jna-platform:jar:sources": -507721531,
+    "net.java.dev.jna:jna:jar:sources": -902150228,
     "net.minidev:json-smart": 1099098947,
     "net.minidev:json-smart:jar:sources": 1458315043,
     "net.sf.jopt-simple:jopt-simple": -1677351973,
@@ -1013,17 +1013,17 @@
     },
     "net.java.dev.jna:jna": {
       "shasums": {
-        "jar": "f05122f39e2fd8aa1bfbdb2b0306034e2b20dc92817eba119f8c0c2f3399bf3a",
-        "sources": "3e0371bec33252b88cede182bd653ea0580063b3ebc1d97dea2122b2639675e7"
+        "jar": "4fb141dd8ef6b0585ffceea4bc49602fbc6312fa977e2c488794ea3e6aafecae",
+        "sources": "0136f719ddd91d92d2368aa2c59a0c436810ac0b9c29024044383758b0e99786"
       },
-      "version": "5.19.0"
+      "version": "5.19.1"
     },
     "net.java.dev.jna:jna-platform": {
       "shasums": {
-        "jar": "44ceeb7a0f3f9c1e74b96ecdce047f8cc85a8c72c491f7662ba64db899559870",
+        "jar": "3b3864f5b449e9c3c24b16861524b622b086563f44e0cd8384c8efc5a6052f82",
         "sources": "8288e781424a34b0478928be5664b01ace168e80608178d37d02464041528940"
       },
-      "version": "5.19.0"
+      "version": "5.19.1"
     },
     "net.minidev:json-smart": {
       "shasums": {

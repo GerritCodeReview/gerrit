@@ -18,6 +18,24 @@
       "isAi": true,
       "revId": "69e18414050b9cbda587d8cfe1475a4747376d7b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba66500b_272f065b",
+        "filename": "java/com/google/gerrit/server/restapi/account/QueryAccounts.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-06-22T10:18:44Z",
+      "side": 1,
+      "message": "Thank you, that\u0027s good idea",
+      "parentUuid": "802816d2_5b7082d6",
+      "revId": "69e18414050b9cbda587d8cfe1475a4747376d7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

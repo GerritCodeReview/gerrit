@@ -1,0 +1,23 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "802816d2_5b7082d6",
+        "filename": "java/com/google/gerrit/server/restapi/account/QueryAccounts.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-06-22T10:11:09Z",
+      "side": 1,
+      "message": "Added a filter_visibility timer around the loop using MetricMaker to measure the latency, as requested. This will help us monitor performance and decide if batch-check optimizations are needed.",
+      "parentUuid": "a12be9a7_120788e1",
+      "isAi": true,
+      "revId": "69e18414050b9cbda587d8cfe1475a4747376d7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -68,6 +68,20 @@ suite('link-util tests', () => {
         `${link('foo', 'http://foo.gov')} ${link('foo', 'http://foo.gov')}`
       );
     });
+
+    test('boundary match with trailing non-word character in match group', () => {
+      assert.equal(
+        linkifyUrlsAndApplyRewrite('Flag: build.RELEASE', {
+          flag: {
+            match: '(^|\\s)([fF][lL][aA][gG][:=]\\s*)([a-z0-9_\\.]+)\\b',
+            link: 'http://flag/$3',
+            prefix: '$1$2',
+            text: '$3',
+          },
+        }),
+        `Flag: ${link('build.', 'http://flag/build.')}RELEASE`
+      );
+    });
   });
 
   test('for overlapping rewrites prefer the latest ending', () => {

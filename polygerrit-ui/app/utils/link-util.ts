@@ -39,7 +39,7 @@ function getRewriteResultsFromConfig(
     let match: RegExpExecArray | null;
 
     while ((match = regexp.exec(base)) !== null) {
-      const fullReplacementText = getReplacementText(match[0], rewrite);
+      const fullReplacementText = getReplacementText(match, rewrite);
       // The replacement may not be changing the entire matched substring so we
       // "trim" the replacement position and text to the part that is actually
       // different. This makes sure that unchanged portions are still eligible
@@ -104,31 +104,41 @@ function applyRewrites(base: string, rewriteResults: RewriteResult[]): string {
   );
 }
 
+function resolveTemplate(template: string, match: RegExpExecArray): string {
+  return template.replace(/\$(\$|&|\d+)/g, (placeholder, p1) => {
+    if (p1 === '$') return '$';
+    if (p1 === '&') return match[0];
+    const index = parseInt(p1, 10);
+    if (!isNaN(index)) {
+      return match[index] ?? '';
+    }
+    return placeholder;
+  });
+}
+
 /**
  * For a given regexp match, apply the rewrite based on the rewrite's type and
  * return the resulting string.
  */
 function getReplacementText(
-  matchedText: string,
+  match: RegExpExecArray,
   rewrite: CommentLinkInfo
 ): string {
-  const replacementHref = rewrite.link.startsWith('/')
-    ? `${getBaseUrl()}${rewrite.link}`
-    : rewrite.link;
-  // Use regexp without 'g' flag for replacement to avoid lastIndex issues
-  // when running replace multiple times.
-  const regexp = new RegExp(rewrite.match);
-  const resolvedHref = matchedText.replace(regexp, replacementHref);
-  const resolvedText = matchedText.replace(regexp, rewrite.text ?? '$&');
+  const resolvedHref = resolveTemplate(rewrite.link, match);
+  const resolvedText = resolveTemplate(rewrite.text ?? '$&', match);
   const resolvedPrefix = rewrite.prefix
-    ? matchedText.replace(regexp, rewrite.prefix)
+    ? resolveTemplate(rewrite.prefix, match)
     : undefined;
   const resolvedSuffix = rewrite.suffix
-    ? matchedText.replace(regexp, rewrite.suffix)
+    ? resolveTemplate(rewrite.suffix, match)
     : undefined;
 
+  const replacementHref = resolvedHref.startsWith('/')
+    ? `${getBaseUrl()}${resolvedHref}`
+    : resolvedHref;
+
   return createLinkTemplate(
-    resolvedHref,
+    replacementHref,
     resolvedText,
     resolvedPrefix,
     resolvedSuffix

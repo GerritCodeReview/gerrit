@@ -1,0 +1,59 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a12be9a7_120788e1",
+        "filename": "java/com/google/gerrit/server/restapi/account/QueryAccounts.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1146706
+      },
+      "writtenOn": "2026-06-22T09:54:50Z",
+      "side": 1,
+      "message": "Can you please add a timer around this loop, so that we can measure the latency? I suspect we might have to make some batch-check optimizations here.",
+      "fixSuggestions": [
+        {
+          "fixId": "a789463b_5e6883ed",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "java/com/google/gerrit/server/restapi/account/QueryAccounts.java",
+              "range": {
+                "startLine": 1,
+                "startChar": 0,
+                "endLine": 1,
+                "endChar": 0
+              },
+              "replacement": "import com.google.common.base.Stopwatch;\n"
+            },
+            {
+              "path": "java/com/google/gerrit/server/restapi/account/QueryAccounts.java",
+              "range": {
+                "startLine": 1,
+                "startChar": 0,
+                "endLine": 1,
+                "endChar": 0
+              },
+              "replacement": "      Stopwatch stopwatch \u003d Stopwatch.createStarted();\n"
+            },
+            {
+              "path": "java/com/google/gerrit/server/restapi/account/QueryAccounts.java",
+              "range": {
+                "startLine": 1,
+                "startChar": 0,
+                "endLine": 1,
+                "endChar": 0
+              },
+              "replacement": "      stopwatch.stop();\n      // TODO(user): Log the elapsed time: stopwatch.elapsed().\n"
+            }
+          ]
+        }
+      ],
+      "revId": "50da69abaf7e6e4e8922c131b81e7e5c3a7ecdaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -36,6 +36,23 @@
       "parentUuid": "802816d2_5b7082d6",
       "revId": "69e18414050b9cbda587d8cfe1475a4747376d7b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9647f03f_e273efdf",
+        "filename": "java/com/google/gerrit/server/restapi/account/QueryAccounts.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-06-23T22:32:41Z",
+      "side": 1,
+      "message": "Why not use `queryProcessor.enforceVisibility(true)`?",
+      "revId": "69e18414050b9cbda587d8cfe1475a4747376d7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

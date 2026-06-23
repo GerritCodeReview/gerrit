@@ -16,6 +16,29 @@
       "message": "The web_test_runner tests for plugins seem to be quite broken. This was likely not noticed, since they have to be run manually. For delete-projects for example the types for sinon are not found.",
       "revId": "1b4066b9aad2c664b6bc5631a816349b9ecbdc97",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cadd0d45_daf3890b",
+        "filename": "polygerrit-ui/web-test-runner.config.mjs",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-06-23T22:03:08Z",
+      "side": 1,
+      "message": "Doesn\u0027t this match lines 32-36 now?",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 4
+      },
+      "revId": "1b4066b9aad2c664b6bc5631a816349b9ecbdc97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

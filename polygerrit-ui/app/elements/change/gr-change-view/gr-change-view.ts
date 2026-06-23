@@ -1923,7 +1923,7 @@ export class GrChangeView extends LitElement {
     const fileIndex = this.fileList.files.findIndex(f => f.__path === path);
     if (fileIndex !== -1) {
       this.fileList.fileCursor.setCursorAtIndex(fileIndex, true);
-      const isExpanded = this.fileList.expandedFiles.some(f => f.path === path);
+      const isExpanded = this.fileList.expandedFiles.has(path);
       if (!isExpanded) {
         this.fileList.toggleFileExpandedByIndex(fileIndex);
         await this.fileList.updateComplete;

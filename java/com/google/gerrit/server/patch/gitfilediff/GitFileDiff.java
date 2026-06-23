@@ -32,6 +32,7 @@ import com.google.gerrit.server.cache.serialize.ObjectIdConverter;
 import com.google.gerrit.server.patch.filediff.Edit;
 import com.google.protobuf.Descriptors.FieldDescriptor;
 import java.util.Optional;
+import org.eclipse.jgit.attributes.Attribute;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.lib.AbbreviatedObjectId;
 import org.eclipse.jgit.lib.FileMode;
@@ -66,8 +67,20 @@ public abstract class GitFileDiff {
    * parameters.
    */
   static GitFileDiff create(DiffEntry diffEntry, FileHeader fileHeader) {
+    Attribute diffAttr = diffEntry.getDiffAttribute();
+    // Treat the file as binary if .gitattributes explicitly unsets diffing (e.g. "-diff"
+    // or the "binary" macro which JGit expands to "-diff -merge -text") or sets it to "false".
+    boolean isBinary =
+        diffAttr != null
+            && (diffAttr.getState() == Attribute.State.UNSET
+                || "false".equals(diffAttr.getValue()));
+
     ImmutableList<Edit> edits =
-        fileHeader.toEditList().stream().map(Edit::fromJGitEdit).collect(toImmutableList());
+        isBinary
+            ? ImmutableList.of()
+            : fileHeader.toEditList().stream().map(Edit::fromJGitEdit).collect(toImmutableList());
+
+    PatchType patchType = isBinary ? PatchType.BINARY : FileHeaderUtil.getPatchType(fileHeader);
 
     return builder()
         .edits(edits)
@@ -77,7 +90,7 @@ public abstract class GitFileDiff {
         .oldPath(FileHeaderUtil.getOldPath(fileHeader))
         .newPath(FileHeaderUtil.getNewPath(fileHeader))
         .changeType(FileHeaderUtil.getChangeType(fileHeader))
-        .patchType(Optional.of(FileHeaderUtil.getPatchType(fileHeader)))
+        .patchType(Optional.of(patchType))
         .oldMode(Optional.of(mapFileMode(diffEntry.getOldMode())))
         .newMode(Optional.of(mapFileMode(diffEntry.getNewMode())))
         .build();

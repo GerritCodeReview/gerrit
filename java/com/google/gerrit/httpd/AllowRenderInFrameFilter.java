@@ -14,9 +14,13 @@
 
 package com.google.gerrit.httpd;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
@@ -25,35 +29,91 @@ import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jgit.lib.Config;
 
 public class AllowRenderInFrameFilter extends AllRequestFilter {
-  static final String X_FRAME_OPTIONS_HEADER_NAME = "X-Frame-Options";
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  static final String X_FRAME_OPTIONS_HEADER_NAME = "X-Frame-Options";
+  static final String CONTENT_SECURITY_POLICY_HEADER_NAME = "Content-Security-Policy";
+
+  private static final String SELF = "'self'";
+  private static final String NONE = "'none'";
+
+  // Kept for backward compatible mapping only
   public static enum XFrameOption {
     ALLOW,
     SAMEORIGIN;
   }
 
-  private final String xframeOptionString;
-  private final boolean skipXFrameOption;
+  private final String cspFrameAncestors;
+  private final Optional<String> xFrameOptionsValue;
 
   @Inject
   public AllowRenderInFrameFilter(@GerritServerConfig Config cfg) {
-    XFrameOption xframeOption =
-        cfg.getEnum("gerrit", null, "xframeOption", XFrameOption.SAMEORIGIN);
-    boolean canLoadInIFrame = cfg.getBoolean("gerrit", "canLoadInIFrame", false);
-    xframeOptionString = canLoadInIFrame ? xframeOption.name() : "DENY";
+    String[] frameAncestorsValues = cfg.getStringList("gerrit", null, "frameAncestors");
 
-    skipXFrameOption = xframeOption.equals(XFrameOption.ALLOW) && canLoadInIFrame;
+    List<String> origins;
+    if (frameAncestorsValues.length > 0) {
+      // New config wins outright; no deprecation warning.
+      origins = Arrays.asList(frameAncestorsValues);
+    } else if (cfg.getString("gerrit", null, "canLoadInIFrame") != null) {
+      // Legacy key explicitly set — map it and warn. xframeOption only matters when
+      // canLoadInIFrame is true, so it is read solely in that branch below.
+      boolean canLoadInIFrame = cfg.getBoolean("gerrit", "canLoadInIFrame", false);
+      XFrameOption xframeOption =
+          cfg.getEnum("gerrit", null, "xframeOption", XFrameOption.SAMEORIGIN);
+
+      if (!canLoadInIFrame) {
+        origins = List.of(NONE);
+      } else if (xframeOption == XFrameOption.ALLOW) {
+        origins = List.of("*");
+      } else {
+        origins = List.of(SELF);
+      }
+
+      String warning =
+          "gerrit.canLoadInIFrame and gerrit.xframeOption are deprecated and will be removed in"
+              + " the next release; migrate to gerrit.frameAncestors (resolved value: %s). See"
+              + " Documentation/config-gerrit.txt for details.";
+      if (origins.equals(List.of(SELF))) {
+        warning +=
+            " This resolved value matches the new default, so the deprecated keys can simply be"
+                + " removed.";
+      }
+      logger.atWarning().log(warning, String.join(" ", origins));
+    } else {
+      origins = List.of(SELF);
+    }
+
+    validateOrigins(origins);
+
+    cspFrameAncestors = "frame-ancestors " + String.join(" ", origins);
+
+    if (origins.equals(List.of(SELF))) {
+      xFrameOptionsValue = Optional.of("SAMEORIGIN");
+    } else if (origins.equals(List.of(NONE))) {
+      xFrameOptionsValue = Optional.of("DENY");
+    } else {
+      xFrameOptionsValue = Optional.empty();
+    }
+  }
+
+  private static void validateOrigins(List<String> origins) {
+    if (origins.isEmpty()) {
+      throw new IllegalArgumentException("gerrit.frameAncestors must contain at least one value");
+    }
+    for (String origin : origins) {
+      if (origin.isEmpty()) {
+        throw new IllegalArgumentException("gerrit.frameAncestors contains an empty value");
+      }
+    }
   }
 
   @Override
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
       throws IOException, ServletException {
-    if (skipXFrameOption) {
-      chain.doFilter(request, response);
-    } else {
-      HttpServletResponse httpResponse = (HttpServletResponse) response;
-      httpResponse.addHeader(X_FRAME_OPTIONS_HEADER_NAME, xframeOptionString);
-      chain.doFilter(request, httpResponse);
-    }
+    HttpServletResponse httpResponse = (HttpServletResponse) response;
+    httpResponse.addHeader(CONTENT_SECURITY_POLICY_HEADER_NAME, cspFrameAncestors);
+    xFrameOptionsValue.ifPresent(
+        value -> httpResponse.addHeader(X_FRAME_OPTIONS_HEADER_NAME, value));
+    chain.doFilter(request, httpResponse);
   }
 }

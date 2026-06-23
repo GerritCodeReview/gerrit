@@ -2905,31 +2905,58 @@ file containing the class must be placed in the `$site_path/lib` folder.
 +
 If not specified, the default no-op implementation is used.
 
+[[gerrit.frameAncestors]]gerrit.frameAncestors::
++
+Controls the `Content-Security-Policy: frame-ancestors` directive emitted on every
+HTTP response, which determines which origins may embed Gerrit in a frame or iframe.
++
+Accepted value forms:
++
+* `'self'` — only the same origin as Gerrit itself (quoted keyword).
+* `'none'` — no origin may frame Gerrit (quoted keyword).
+* `*` — any origin (wildcard).
+* Explicit origins, e.g. `https://portal.example.com`.
++
+Multiple values may be specified (one per line in `gerrit.config`) and are joined
+into a single directive, for example:
++
+----
+[gerrit]
+  frameAncestors = 'self'
+  frameAncestors = https://portal.example.com
+----
++
+For the single-value `'self'` and `'none'` cases, a legacy
+`X-Frame-Options: SAMEORIGIN` or `X-Frame-Options: DENY` header is also emitted as
+a fallback for older clients. When multiple values or a wildcard are configured the
+`X-Frame-Options` header is omitted.
++
+Defaults to `'self'`.
++
+When the deprecated `gerrit.canLoadInIFrame` and `gerrit.xframeOption` keys are
+explicitly set and `gerrit.frameAncestors` is not, they override this default for
+backward compatibility, mapping as follows:
++
+* `canLoadInIFrame = false` (default) → `'none'` (same as the old
+  `X-Frame-Options: DENY`).
+* `canLoadInIFrame = true` with `gerrit.xframeOption=SAMEORIGIN` or unset → `'self'`.
+* `canLoadInIFrame = true` with `gerrit.xframeOption=ALLOW` → `*`.
+
 [[gerrit.canLoadInIFrame]]gerrit.canLoadInIFrame::
 +
-For security reasons Gerrit will always jump out of iframe.
-Setting this option to `true` will prevent this behavior.
+DEPRECATED: use link:#gerrit.frameAncestors[`gerrit.frameAncestors`] instead.
+This key will be removed in the next release. A deprecation warning is logged at
+startup when it is set.
 +
-By default `false`.
+See link:#gerrit.frameAncestors[`gerrit.frameAncestors`] for the backward-compatible mapping.
 
 [[gerrit.xframeOption]]gerrit.xframeOption::
 +
-Add link:https://tools.ietf.org/html/rfc7034[`X-Frame-Options`] header to all HTTP
-responses. The `X-Frame-Options` HTTP response header can be used to indicate
-whether or not a browser should be allowed to render a page in a
-`<frame>`, `<iframe>`, `<embed>` or `<object>`.
+DEPRECATED: use link:#gerrit.frameAncestors[`gerrit.frameAncestors`] instead.
+This key will be removed in the next release. A deprecation warning is logged at
+startup when it is set.
 +
-Available values:
-+
-1. ALLOW - The page can be displayed in a frame.
-2. SAMEORIGIN - The page can only be displayed in a frame on the same origin as the page itself.
-+
-If link:#gerrit.canLoadInIFrame is set to `false` this option is ignored and the
-`X-Frame-Options` header is always set to `DENY`.
-Setting this option to `ALLOW` will cause the `X-Frame-Options` header to be omitted
-the page can be displayed in a frame.
-+
-By default SAMEORIGIN.
+See link:#gerrit.frameAncestors[`gerrit.frameAncestors`] for the backward-compatible mapping.
 
 [[gerrit.cdnPath]]gerrit.cdnPath::
 +

@@ -73,6 +73,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d5c07b2b_9933e623",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-23T07:34:39Z",
+      "side": 1,
+      "message": "I don\u0027t see the issue created and included here. Can you please raise it on issues.gerritcodereview.com?",
+      "parentUuid": "5d63471f_0a3a9b0e",
+      "revId": "e7e6e1fea71a1ba422692be0165fa102fa03cae1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "aca6d47f_5a08bc97",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

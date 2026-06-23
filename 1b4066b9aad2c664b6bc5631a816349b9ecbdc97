@@ -39,6 +39,30 @@
       },
       "revId": "1b4066b9aad2c664b6bc5631a816349b9ecbdc97",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3cd4aa2_9daf7f4a",
+        "filename": "polygerrit-ui/web-test-runner.config.mjs",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-06-23T22:12:51Z",
+      "side": 1,
+      "message": "Line 41 matches line 33. But line 42/43 use polygerrit-ui/.",
+      "parentUuid": "cadd0d45_daf3890b",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 4
+      },
+      "revId": "1b4066b9aad2c664b6bc5631a816349b9ecbdc97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

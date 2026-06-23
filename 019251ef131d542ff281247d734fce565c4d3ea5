@@ -1,0 +1,169 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1419eb3a_8e378c32",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2934,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-06-23T20:20:14Z",
+      "side": 1,
+      "message": "Mention backward-compatible override when `gerrit.canLoadInIFrame` and `gerrit.xframeOption` are set.",
+      "revId": "019251ef131d542ff281247d734fce565c4d3ea5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e61df5d_abc1dc7c",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2946,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-06-23T20:20:14Z",
+      "side": 1,
+      "message": "Move this into the `frameAncestors` section and replace with pointer?\n```suggestion\n+\nSee link:#gerrit.canLoadInIFrame[`gerrit.canLoadInIFrame`] for the backward-compatible mapping.\n```",
+      "range": {
+        "startLine": 2941,
+        "startChar": 0,
+        "endLine": 2946,
+        "endChar": 48
+      },
+      "revId": "019251ef131d542ff281247d734fce565c4d3ea5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f549179_e7a19f23",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2954,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-06-23T20:20:14Z",
+      "side": 1,
+      "message": "```suggestion\nSee link:#gerrit.canLoadInIFrame[`gerrit.canLoadInIFrame`] for the backward-compatible mapping.\n```",
+      "revId": "019251ef131d542ff281247d734fce565c4d3ea5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91a504ee_9034a32c",
+        "filename": "java/com/google/gerrit/httpd/AllowRenderInFrameFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-06-23T20:20:14Z",
+      "side": 1,
+      "message": "```suggestion\n  // Kept for backward compatible mapping only\n```",
+      "revId": "019251ef131d542ff281247d734fce565c4d3ea5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9d2a50b_172a1a57",
+        "filename": "java/com/google/gerrit/httpd/AllowRenderInFrameFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-06-23T20:20:14Z",
+      "side": 1,
+      "message": "Use an Optional instead of null?",
+      "revId": "019251ef131d542ff281247d734fce565c4d3ea5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9cb75bb_84af963c",
+        "filename": "java/com/google/gerrit/httpd/AllowRenderInFrameFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-06-23T20:20:14Z",
+      "side": 1,
+      "message": "If `canLoadInIFrame` isn\u0027t explicitly set, the value of `xframeOption` doesn\u0027t matter, since `canLoadInIFrame` defaulted to `false`. Consider only `canLoadInIFrame` here so that we don\u0027t get buggy behavior on L60 with the get on L56 defaulting to false.\n```suggestion\n    } else if (cfg.getString(\"gerrit\", null, \"canLoadInIFrame\") !\u003d null) {\n```",
+      "range": {
+        "startLine": 53,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 67
+      },
+      "revId": "019251ef131d542ff281247d734fce565c4d3ea5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21a04acf_c903192b",
+        "filename": "java/com/google/gerrit/httpd/AllowRenderInFrameFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-06-23T20:20:14Z",
+      "side": 1,
+      "message": "This isn\u0027t correct since it defaults to `false` in the get on L56, which masks it potentially being unset, which we don\u0027t care about.",
+      "revId": "019251ef131d542ff281247d734fce565c4d3ea5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1262be3_e8389dce",
+        "filename": "java/com/google/gerrit/httpd/AllowRenderInFrameFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-06-23T20:20:14Z",
+      "side": 1,
+      "message": "Should we adjust the warning text in this case to reflect that this matches the new default?",
+      "revId": "019251ef131d542ff281247d734fce565c4d3ea5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ecf26879_d8e650b4",
+        "filename": "java/com/google/gerrit/httpd/AllowRenderInFrameFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-06-23T20:20:14Z",
+      "side": 1,
+      "message": "Use a constant for `\"\u0027self\u0027\"`",
+      "revId": "019251ef131d542ff281247d734fce565c4d3ea5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

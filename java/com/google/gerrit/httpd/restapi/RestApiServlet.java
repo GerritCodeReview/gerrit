@@ -326,10 +326,14 @@ public class RestApiServlet extends HttpServlet {
     long auditStartTs = TimeUtil.nowMs();
     res.setHeader("X-Content-Type-Options", "nosniff");
     // Nobody should be loading HTML from our API server, but if for some reason that happens, stop
-    // it having any capabilities
-    res.setHeader("Content-Security-Policy", "default-src 'none'; sandbox");
+    // it having any capabilities. Nobody should be iframing our API server either, so deny framing
+    // outright: frame-ancestors has no default-src fallback, so it must be set explicitly. This
+    // setHeader intentionally overrides the relaxed frame-ancestors that AllowRenderInFrameFilter
+    // sets for the UI; the API always denies framing regardless of gerrit.frameAncestors.
+    res.setHeader("Content-Security-Policy", "default-src 'none'; frame-ancestors 'none'; sandbox");
     res.setHeader("Referrer-Policy", "no-referrer");
-    // Nobody should be iframing our API server.
+    // X-Frame-Options is deprecated in favor of CSP frame-ancestors, but kept here as a legacy
+    // fallback for clients that ignore CSP.
     res.setHeader("X-Frame-Options", "deny");
     int statusCode = SC_OK;
     long responseBytes = -1;

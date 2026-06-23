@@ -102,6 +102,9 @@ public class AllowRenderInFrameFilter extends AllRequestFilter {
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
       throws IOException, ServletException {
     HttpServletResponse httpResponse = (HttpServletResponse) response;
+    // This sets the framing policy for the UI and other non-API responses. RestApiServlet
+    // overrides Content-Security-Policy (and X-Frame-Options) for API responses to always deny
+    // framing, regardless of gerrit.frameAncestors.
     httpResponse.addHeader(CONTENT_SECURITY_POLICY_HEADER_NAME, cspFrameAncestors);
     if (xFrameOptionsValue != null) {
       httpResponse.addHeader(X_FRAME_OPTIONS_HEADER_NAME, xFrameOptionsValue);

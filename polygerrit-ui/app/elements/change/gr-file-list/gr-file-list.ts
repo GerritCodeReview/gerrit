@@ -269,7 +269,7 @@ export class GrFileList extends LitElement {
 
   // Private but used in tests.
   @state()
-  expandedFiles: PatchSetFile[] = [];
+  expandedFiles: Set<string> = new Set();
 
   // Private but used in tests.
   @state()
@@ -1976,29 +1976,26 @@ export class GrFileList extends LitElement {
   }
 
   // private but used in test
-  toggleFileExpanded(file: PatchSetFile) {
+  toggleFileExpanded(path: string) {
     // Is the path in the list of expanded diffs? If so, remove it, otherwise
     // add it to the list.
-    const indexInExpanded = this.expandedFiles.findIndex(
-      f => f.path === file.path
-    );
-    if (indexInExpanded === -1) {
+    const newExpandedFiles = new Set(this.expandedFiles);
+    if (!newExpandedFiles.has(path)) {
       this.reporting.reportInteraction(Interaction.FILE_LIST_DIFF_EXPANDED);
-      this.expandedFiles = this.expandedFiles.concat([file]);
+      newExpandedFiles.add(path);
     } else {
       this.reporting.reportInteraction(Interaction.FILE_LIST_DIFF_COLLAPSED);
-      this.expandedFiles = this.expandedFiles.filter(
-        (_val, idx) => idx !== indexInExpanded
-      );
+      newExpandedFiles.delete(path);
     }
-    const indexInAll = this.files.findIndex(f => f.__path === file.path);
+    this.expandedFiles = newExpandedFiles;
+    const indexInAll = this.files.findIndex(f => f.__path === path);
     this.shadowRoot!.querySelectorAll(`.${FILE_ROW_CLASS}`)[
       indexInAll
     ].scrollIntoView({block: 'nearest'});
   }
 
   toggleFileExpandedByIndex(index: number) {
-    this.toggleFileExpanded(this.computePatchSetFile(this.files[index]));
+    this.toggleFileExpanded(this.files[index].__path);
   }
 
   // Private but used in tests.
@@ -2007,23 +2004,22 @@ export class GrFileList extends LitElement {
       return;
     }
     // Re-render all expanded diffs sequentially.
-    this.renderInOrder(this.expandedFiles, this.diffs);
+    this.renderInOrder([...this.expandedFiles], this.diffs);
   }
 
   expandAllDiffs() {
-    const newFiles = this.files
-      .slice(0, this.numFilesShown)
-      // TODO(b/419187980): Refactor expandedFiles to use a Set for efficiency.
-      .filter(file => !this.expandedFiles.some(f => f.path === file.__path))
-      .map(file => this.computePatchSetFile(file));
+    const newExpandedFiles = new Set(this.expandedFiles);
+    this.files.slice(0, this.numFilesShown).forEach(file => {
+      newExpandedFiles.add(file.__path);
+    });
 
     this.reporting.reportInteraction(Interaction.FILE_LIST_ALL_DIFFS_EXPANDED);
-    this.expandedFiles = newFiles.concat(this.expandedFiles);
+    this.expandedFiles = newExpandedFiles;
   }
 
   collapseAllDiffs() {
     this.reporting.reportInteraction(Interaction.FILE_LIST_ALL_DIFFS_COLLAPSED);
-    this.expandedFiles = [];
+    this.expandedFiles = new Set();
   }
 
   /**
@@ -2119,8 +2115,8 @@ export class GrFileList extends LitElement {
     this.fileActionClick(e, file => this.reviewFile(file.path));
   }
 
-  private expandedClick(e: MouseEvent | KeyboardEvent) {
-    this.fileActionClick(e, file => this.toggleFileExpanded(file));
+  expandedClick(e: MouseEvent | KeyboardEvent) {
+    this.fileActionClick(e, file => this.toggleFileExpanded(file.path));
   }
 
   /**
@@ -2152,7 +2148,7 @@ export class GrFileList extends LitElement {
 
     e.preventDefault();
     this.fileCursor.setCursor(fileRow.element);
-    this.toggleFileExpanded(file);
+    this.toggleFileExpanded(path);
   }
 
   private getFileRowFromEvent(e: Event): FileRow | null {
@@ -2424,7 +2420,7 @@ export class GrFileList extends LitElement {
   }
 
   async filesChanged() {
-    if (this.expandedFiles.length > 0) this.expandedFiles = [];
+    if (this.expandedFiles.size > 0) this.expandedFiles = new Set();
     await this.updateCleanlyMergedPaths();
     if (!this.files || this.files.length === 0) return;
     await this.updateComplete;
@@ -2490,18 +2486,18 @@ export class GrFileList extends LitElement {
     return val ? 'true' : 'false';
   }
 
-  private isFileExpanded(path: string | undefined) {
-    return this.expandedFiles.some(f => f.path === path);
+  isFileExpanded(path: string | undefined) {
+    return path !== undefined && this.expandedFiles.has(path);
   }
 
-  private isFileExpandedStr(path: string | undefined) {
+  isFileExpandedStr(path: string | undefined) {
     return this.booleanToString(this.isFileExpanded(path));
   }
 
   private computeExpandedFiles(): FilesExpandedState {
-    if (this.expandedFiles.length === 0) {
+    if (this.expandedFiles.size === 0) {
       return FilesExpandedState.NONE;
-    } else if (this.expandedFiles.length === this.files.length) {
+    } else if (this.expandedFiles.size === this.files.length) {
       return FilesExpandedState.ALL;
     }
     return FilesExpandedState.SOME;
@@ -2516,18 +2512,21 @@ export class GrFileList extends LitElement {
    * @param newFiles The new files that have been added.
    * Private but used in tests.
    */
-  async expandedFilesChanged(oldFiles: Array<PatchSetFile>) {
+  async expandedFilesChanged(oldFiles?: Set<string>) {
     this.filesExpanded = this.computeExpandedFiles();
 
-    const newFiles = this.expandedFiles.filter(
-      file => (oldFiles ?? []).findIndex(f => f.path === file.path) === -1
-    );
+    const newPaths: string[] = [];
+    for (const path of this.expandedFiles) {
+      if (!oldFiles || !oldFiles.has(path)) {
+        newPaths.push(path);
+      }
+    }
 
     // Required so that the newly created diff view is included in this.diffs.
     await this.updateComplete;
 
-    if (newFiles.length) {
-      await this.renderInOrder(newFiles, this.diffs);
+    if (newPaths.length) {
+      await this.renderInOrder(newPaths, this.diffs);
     }
     this.updateDiffCursor();
     this.diffCursor?.reInitAndUpdateStops();
@@ -2542,11 +2541,10 @@ export class GrFileList extends LitElement {
    *
    * @param initialCount The total number of paths in the pass.
    */
-  async renderInOrder(files: PatchSetFile[], diffElements: GrDiffHost[]) {
+  async renderInOrder(paths: string[], diffElements: GrDiffHost[]) {
     this.reporting.time(Timing.FILE_EXPAND_ALL);
 
-    for (const file of files) {
-      const path = file.path;
+    for (const path of paths) {
       const diffElem = this.findDiffByPath(path, diffElements);
       if (!diffElem) {
         this.reporting.error(
@@ -2558,8 +2556,7 @@ export class GrFileList extends LitElement {
       diffElem.prefetchDiff();
     }
 
-    await asyncForeach(files, async (file, cancel) => {
-      const path = file.path;
+    await asyncForeach(paths, async (path, cancel) => {
       this.cancelForEachDiff = cancel;
 
       const diffElem = this.findDiffByPath(path, diffElements);
@@ -2582,7 +2579,7 @@ export class GrFileList extends LitElement {
       if (
         this.loggedIn &&
         !this.diffPrefs.manual_review &&
-        files.length === 1
+        paths.length === 1
       ) {
         await this.reviewFile(path, true);
       }
@@ -2591,7 +2588,7 @@ export class GrFileList extends LitElement {
 
     this.cancelForEachDiff = undefined;
     this.reporting.timeEnd(Timing.FILE_EXPAND_ALL, {
-      count: files.length,
+      count: paths.length,
       height: this.clientHeight,
     });
     /*

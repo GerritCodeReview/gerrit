@@ -66,6 +66,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6a4c89c6_a2004d5a",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-06-23T22:22:16Z",
+      "side": 1,
+      "message": "There are options, like the [events plugin](https://gerrit.googlesource.com/plugins/events), that addresses a) and c). I don\u0027t think b) is quite the issue you describe, since it counts against the connection limit, but not the running SSH threads limit. So I don\u0027t think listing event stream here is a concern.",
+      "parentUuid": "5f411744_f6afa042",
+      "range": {
+        "startLine": 42,
+        "startChar": 41,
+        "endLine": 42,
+        "endChar": 63
+      },
+      "revId": "082d872b84ed9d9cd8adf98025c3e3f38a5012bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "693692ab_d3d249c6",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 2
@@ -77,6 +101,23 @@
       "writtenOn": "2026-06-19T13:33:47Z",
       "side": 1,
       "message": "The use of REST-API is always a good alternative; however, it isn\u0027t guaranteed to remain always 100% compatible between Gerrit versions.",
+      "revId": "082d872b84ed9d9cd8adf98025c3e3f38a5012bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df5feba7_243b1582",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-06-23T22:22:16Z",
+      "side": 1,
+      "message": "There\u0027s a lot of plugin use cases enabled by the APIs below that may not all be captured by \"deep integration\" or the couple of examples you list. Can we expand this further if there are specific usages you think shouldn\u0027t be implemented as plugins?",
       "revId": "082d872b84ed9d9cd8adf98025c3e3f38a5012bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

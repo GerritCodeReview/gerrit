@@ -19,10 +19,14 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableMap;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.ParameterizedString;
 import com.google.gerrit.entities.AccessSection;
 import com.google.gerrit.exceptions.InvalidNameException;
 import dk.brics.automaton.RegExp;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -31,6 +35,41 @@ import org.eclipse.jgit.lib.Repository;
 public class RefPattern {
   public static final String USERID_SHARDED = "shardeduserid";
   public static final String USERNAME = "username";
+
+  public static boolean matches(String branchName, @Nullable Collection<String> refPatterns) {
+    if (refPatterns == null || refPatterns.isEmpty()) {
+      return true;
+    }
+    List<String> positive = new ArrayList<>();
+    List<String> negative = new ArrayList<>();
+    for (String p : refPatterns) {
+      if (p.startsWith("-")) {
+        negative.add(p.substring(1));
+      } else {
+        positive.add(p);
+      }
+    }
+
+    boolean matchesPositive = positive.isEmpty();
+    for (String p : positive) {
+      if (AccessSection.isValidRefSectionName(p)
+          && RefPatternMatcher.getMatcher(p).match(branchName, null)) {
+        matchesPositive = true;
+        break;
+      }
+    }
+
+    boolean matchesNegative = false;
+    for (String n : negative) {
+      if (AccessSection.isValidRefSectionName(n)
+          && RefPatternMatcher.getMatcher(n).match(branchName, null)) {
+        matchesNegative = true;
+        break;
+      }
+    }
+
+    return matchesPositive && !matchesNegative;
+  }
 
   private static final LoadingCache<String, String> exampleCache =
       CacheBuilder.newBuilder()

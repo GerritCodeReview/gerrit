@@ -733,6 +733,7 @@ public class ChangeData {
       }
       if (refStates != null) {
         ImmutableSet<RefState> refs = refStates.get(project);
+        //TODO(dani) remove redundant if statement
         if (refs != null) {
           String metaRef = RefNames.changeMetaRef(getId());
           for (RefState r : refs) {

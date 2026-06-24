@@ -46,6 +46,7 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.ProjectChangeKey;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -84,8 +85,10 @@ import java.util.Optional;
 import java.util.TreeMap;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.PushCertificate;
@@ -251,23 +254,25 @@ public class BatchUpdate implements AutoCloseable {
   }
 
   private class PostUpdateContextImpl extends ContextImpl implements PostUpdateContext {
-    private final Map<Change.Id, ChangeData> changeDatas;
+    private final Map<ObjectId, ChangeData> changeDatas;
 
     PostUpdateContextImpl(
-        @Nullable CurrentUser contextUser, Map<Change.Id, ChangeData> changeDatas) {
+        @Nullable CurrentUser contextUser, Map<ObjectId, ChangeData> changeDatas) {
       super(contextUser);
       this.changeDatas = changeDatas;
     }
 
     @Override
     public ChangeData getChangeData(Project.NameKey projectName, Change.Id changeId) {
+      ObjectId metaSha1 = batchUpdates.readCurrentMetaSha1(projectName, changeId);
       return changeDatas.computeIfAbsent(
-          changeId, id -> changeDataFactory.create(projectName, changeId));
+          metaSha1, sha1 -> changeDataFactory.create(projectName, changeId));
     }
 
     @Override
     public ChangeData getChangeData(Change change) {
-      return changeDatas.computeIfAbsent(change.getId(), id -> changeDataFactory.create(change));
+      ObjectId metaSha1 = batchUpdates.readCurrentMetaSha1(change.getProject(), change.getId());
+      return changeDatas.computeIfAbsent(metaSha1, sha1 -> changeDataFactory.create(change));
     }
   }
 
@@ -569,11 +574,13 @@ public class BatchUpdate implements AutoCloseable {
         (projectName, bru) -> gitRefUpdated.fire(projectName, bru, getAccount().orElse(null)));
   }
 
-  private void fireAttentionSetUpdateEvents(Map<Change.Id, ChangeData> changeDatas) {
+  private void fireAttentionSetUpdateEvents(Map<ObjectId, ChangeData> changeDatas) {
     for (ProjectChangeKey key : attentionSetUpdates.keySet()) {
+      ObjectId metaSha1 = batchUpdates.readCurrentMetaSha1(key.projectName(), key.changeId());
       ChangeData change =
           changeDatas.computeIfAbsent(
-              key.changeId(), id -> changeDataFactory.create(key.projectName(), key.changeId()));
+              metaSha1,
+              sha1 -> changeDataFactory.create(key.projectName(), key.changeId()));
       for (AttentionSetUpdate update : attentionSetUpdates.get(key)) {
         attentionSetObserver.fire(
             change, accountCache.getEvenIfMissing(update.account()), update, when);
@@ -790,7 +797,7 @@ public class BatchUpdate implements AutoCloseable {
     return new ChangeContextImpl(contextUser, notes);
   }
 
-  void executePostOps(Map<Change.Id, ChangeData> changeDatas) throws Exception {
+  void executePostOps(Map<ObjectId, ChangeData> changeDatas) throws Exception {
     for (OpData<BatchUpdateOp> opData : ops.values()) {
       PostUpdateContextImpl ctx = new PostUpdateContextImpl(opData.user(), changeDatas);
       try (TraceContext.TraceTimer ignored =

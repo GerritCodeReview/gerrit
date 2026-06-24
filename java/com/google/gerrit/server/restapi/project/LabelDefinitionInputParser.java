@@ -77,15 +77,18 @@ public class LabelDefinitionInputParser {
       if (newBranch.isEmpty()) {
         continue;
       }
-      if (!RefPattern.isRE(newBranch)) {
-        newBranch = RefNames.fullName(newBranch);
+      boolean isNegative = newBranch.startsWith("-");
+      String pattern = isNegative ? newBranch.substring(1) : newBranch;
+
+      if (!RefPattern.isRE(pattern)) {
+        pattern = RefNames.fullName(pattern);
       }
       try {
-        RefPattern.validate(newBranch);
+        RefPattern.validate(pattern);
       } catch (InvalidNameException e) {
         throw new BadRequestException("invalid branch: " + branch, e);
       }
-      validBranches.add(newBranch);
+      validBranches.add(isNegative ? "-" + pattern : pattern);
     }
     return validBranches.build();
   }

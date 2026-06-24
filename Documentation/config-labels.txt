@@ -572,6 +572,26 @@ the `branch` as:
 Then *only* changes in above branch scope of parent project and child
 projects will be affected by `Video-Qualify`.
 
+It is also possible to exclude branches by prefixing the ref pattern with `-`.
+If a branch matches a negative pattern, the label will not apply to it, even
+if it also matches a positive pattern. If only negative patterns are specified,
+the label applies to all branches except those matching the negative patterns.
+
+E.g. to make a label applicable to all branches except `refs/meta/config`:
+
+----
+  [label "Code-Review"]
+      branch = -refs/meta/config
+----
+
+To make a label applicable to all release branches except `refs/heads/release/secret`:
+
+----
+  [label "QA-Review"]
+      branch = refs/heads/release/*
+      branch = -refs/heads/release/secret
+----
+
 [NOTE]
 The `branch` is independent from the branch scope defined in `access`
 parts in `project.config` file. That means from the UI a user can always

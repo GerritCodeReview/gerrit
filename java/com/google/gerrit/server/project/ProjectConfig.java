@@ -1171,9 +1171,11 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         label.setRefPatterns(null);
       } else {
         for (String pattern : refPatterns) {
-          if (pattern.startsWith("^")) {
+          boolean isNegative = pattern.startsWith("-");
+          String actualPattern = isNegative ? pattern.substring(1) : pattern;
+          if (actualPattern.startsWith("^")) {
             try {
-              Pattern.compile(pattern);
+              Pattern.compile(actualPattern);
             } catch (PatternSyntaxException e) {
               error(
                   String.format(

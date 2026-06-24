@@ -16,6 +16,24 @@
       "message": "I\u0027m not sure if this was intended to be ready for review or not yet, but wanted to share my initial thought--\n\nI\u0027m concerned about blocking on plugins loading to render diffs.\n\nLooking at some metrics for Android internal, P50, P90, P99 plugin load latency is 1.2s, 3.3s, and 9.7s respectively. It probably makes sense to make this nonblocking in some way.",
       "revId": "9ecef302b4fb730d23373bac0ae28e66ba92af93",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3da1e108_d6b62486",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4924225
+      },
+      "writtenOn": "2026-06-24T23:09:28Z",
+      "side": 1,
+      "message": "Thanks for the thoughts, Becky! Those are good points, i will look into this and optimize it. I\u0027ll send it over for review once it\u0027s done. Thanks!",
+      "parentUuid": "5687474f_91ab9e9a",
+      "revId": "9ecef302b4fb730d23373bac0ae28e66ba92af93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

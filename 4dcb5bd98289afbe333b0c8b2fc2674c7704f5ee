@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "058a7dfa_073522b9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-24T19:30:03Z",
+      "side": 1,
+      "message": "You may specify that before that change, the submit requirements were *always* recomputed twice, even when the computation wasn\u0027t needed.\nHowever, in the case of Issue 525330157, the 2nd computation of the submit requirements was actually needed.",
+      "range": {
+        "startLine": 12,
+        "startChar": 28,
+        "endLine": 13,
+        "endChar": 34
+      },
+      "revId": "4dcb5bd98289afbe333b0c8b2fc2674c7704f5ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "608642ea_7fbc86ba",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-24T19:30:03Z",
+      "side": 1,
+      "message": "These two methods are called a lot of times, not just when performing `PostReview`.\nI would be more comfortable with a change that involves only the class that has the problem, without introducing unwanted effects all throughout Gerrit.",
+      "range": {
+        "startLine": 263,
+        "startChar": 0,
+        "endLine": 275,
+        "endChar": 3
+      },
+      "revId": "4dcb5bd98289afbe333b0c8b2fc2674c7704f5ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -456,6 +456,7 @@ public class ProjectState {
       if (refs == null) {
         r.add(l);
       } else {
+        List<String> filteredRefs = new ArrayList<>();
         for (String refPattern : refs) {
           if (refPattern.contains("${")) {
             logger.atWarning().log(
@@ -464,11 +465,10 @@ public class ProjectState {
                 l, getName(), refPattern);
             continue;
           }
-
-          if (AccessSection.isValidRefSectionName(refPattern) && match(destination, refPattern)) {
-            r.add(l);
-            break;
-          }
+          filteredRefs.add(refPattern);
+        }
+        if (RefPattern.matches(destination.branch(), filteredRefs)) {
+          r.add(l);
         }
       }
     }
@@ -575,9 +575,5 @@ public class ProjectState {
       project = new ProjectData(state.getProject(), Optional.ofNullable(project));
     }
     return project;
-  }
-
-  private boolean match(BranchNameKey destination, String refPattern) {
-    return RefPatternMatcher.getMatcher(refPattern).match(destination.branch(), null);
   }
 }

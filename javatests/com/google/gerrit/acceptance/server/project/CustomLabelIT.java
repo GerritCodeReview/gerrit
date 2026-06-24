@@ -32,6 +32,7 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.acceptance.ExtensionRegistry;
 import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -384,5 +385,41 @@ public class CustomLabelIT extends AbstractDaemonTest {
 
   private ChangeInfo getWithLabels(String changeId) throws Exception {
     return get(changeId, LABELS, DETAILED_LABELS, SUBMITTABLE);
+  }
+
+  @Test
+  public void customLabel_withNegativeBranchPattern() throws Exception {
+    saveLabelConfig(LABEL.toBuilder().setRefPatterns(ImmutableList.of("-refs/heads/secret")));
+
+    // Change on refs/heads/master should have the label
+    PushOneCommit.Result r1 = createChange("refs/for/master");
+    assertThat(getWithLabels(r1).labels.keySet()).contains(LABEL_NAME);
+
+    // Change on refs/heads/secret should NOT have the label
+    createBranch(BranchNameKey.create(project, "refs/heads/secret"));
+    PushOneCommit.Result r2 = createChange("refs/for/secret");
+    assertThat(getWithLabels(r2).labels.keySet()).doesNotContain(LABEL_NAME);
+  }
+
+  @Test
+  public void customLabel_withPositiveAndNegativeBranchPattern() throws Exception {
+    saveLabelConfig(
+        LABEL.toBuilder()
+            .setRefPatterns(
+                ImmutableList.of("refs/heads/release/*", "-refs/heads/release/secret")));
+
+    // Change on refs/heads/release/1.0 should have the label
+    createBranch(BranchNameKey.create(project, "refs/heads/release/1.0"));
+    PushOneCommit.Result r1 = createChange("refs/for/release/1.0");
+    assertThat(getWithLabels(r1).labels.keySet()).contains(LABEL_NAME);
+
+    // Change on refs/heads/release/secret should NOT have the label
+    createBranch(BranchNameKey.create(project, "refs/heads/release/secret"));
+    PushOneCommit.Result r2 = createChange("refs/for/release/secret");
+    assertThat(getWithLabels(r2).labels.keySet()).doesNotContain(LABEL_NAME);
+
+    // Change on refs/heads/master should NOT have the label
+    PushOneCommit.Result r3 = createChange("refs/for/master");
+    assertThat(getWithLabels(r3).labels.keySet()).doesNotContain(LABEL_NAME);
   }
 }

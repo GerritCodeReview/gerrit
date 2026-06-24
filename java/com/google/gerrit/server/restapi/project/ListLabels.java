@@ -38,6 +38,7 @@ import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.project.LabelDefinitionJson;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.RefPattern;
 import com.google.gerrit.server.project.RefPatternMatcher;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -197,15 +198,6 @@ public class ListLabels implements RestReadView<ProjectResource> {
   }
 
   private boolean matchesAnyRefPattern(LabelType labelType, String branchName) {
-    if (labelType.getRefPatterns() == null) {
-      return true;
-    }
-
-    for (String refPattern : labelType.getRefPatterns()) {
-      if (RefPatternMatcher.getMatcher(refPattern).match(branchName, null)) {
-        return true;
-      }
-    }
-    return false;
+    return RefPattern.matches(branchName, labelType.getRefPatterns());
   }
 }

@@ -27,10 +27,13 @@ import com.google.common.util.concurrent.ListenableFuture;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.LimitExceededException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -40,6 +43,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.update.BatchUpdate.ChangesHandle;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -47,6 +51,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.Repository;
 
 /**
  * Runs execute methods of a collection of {@link BatchUpdate}s calling listeners when appropriate.
@@ -59,13 +66,13 @@ import java.util.function.Function;
 @Singleton
 public class BatchUpdates {
   public class Result {
-    private final Map<Change.Id, ChangeData> changeDatas;
+    private final Map<ObjectId, ChangeData> changeDatas;
 
     private Result() {
       this(new HashMap<>());
     }
 
-    private Result(Map<Change.Id, ChangeData> changeDatas) {
+    private Result(Map<ObjectId, ChangeData> changeDatas) {
       this.changeDatas = changeDatas;
     }
 
@@ -77,16 +84,19 @@ public class BatchUpdates {
      * {@link ChangeData} is loaded and put into the cache.
      */
     public ChangeData getChangeData(Project.NameKey projectName, Change.Id changeId) {
+      ObjectId metaSha1 = readCurrentMetaSha1(projectName, changeId);
       return changeDatas.computeIfAbsent(
-          changeId, id -> changeDataFactory.create(projectName, changeId));
+          metaSha1, sha1 -> changeDataFactory.create(projectName, changeId));
     }
   }
 
   private final ChangeData.Factory changeDataFactory;
+  private final GitRepositoryManager repoManager;
 
   @Inject
-  BatchUpdates(ChangeData.Factory changeDataFactory) {
+  BatchUpdates(ChangeData.Factory changeDataFactory, GitRepositoryManager repoManager) {
     this.changeDataFactory = changeDataFactory;
+    this.repoManager = repoManager;
   }
 
   @CanIgnoreReturnValue
@@ -125,11 +135,14 @@ public class BatchUpdates {
         }
       }
 
-      Map<Change.Id, ChangeData> changeDatas =
+      Map<ObjectId, ChangeData> changeDatas =
           Futures.allAsList(indexFutures).get().stream()
               // filter out null values that were returned for change deletions
               .filter(Objects::nonNull)
-              .collect(toMap(cd -> cd.change().getId(), Function.identity()));
+              .collect(
+                  toMap(
+                      cd -> readCurrentMetaSha1(cd.change().getProject(), cd.change().getId()),
+                      Function.identity()));
 
       // Fire ref update events only after all mutations are finished, since callers may assume a
       // patch set ref being created means the change was created, or a branch advancing meaning
@@ -146,6 +159,20 @@ public class BatchUpdates {
     } catch (Exception e) {
       wrapAndThrowException(e);
       return new Result();
+    }
+  }
+
+  ObjectId readCurrentMetaSha1(Project.NameKey projectName, Change.Id changeId) {
+    try (Repository repo = repoManager.openRepository(projectName)) {
+      Ref metaRef = repo.exactRef(RefNames.changeMetaRef(changeId));
+      if (metaRef == null) {
+        throw new StorageException(
+            "Cannot read meta ref for change " + changeId + " in " + projectName);
+      }
+      return metaRef.getObjectId();
+    } catch (IOException e) {
+      throw new StorageException(
+          "Cannot read meta ref for change " + changeId + " in " + projectName, e);
     }
   }
 

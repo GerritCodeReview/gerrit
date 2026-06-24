@@ -16,6 +16,11 @@ https://gerrit-review.googlesource.com/admin/repos/gerrit,access[role=external,w
 [[system_groups]]
 == System Groups
 
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
+eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+aliquip ex ea commodo consequat.
+
 Gerrit comes with the following system groups:
 
 * Anonymous Users

@@ -1067,41 +1067,41 @@ suite('gr-file-list tests', () => {
         element.fileCursor.setCursorAtIndex(0);
         await element.updateComplete;
         assert.equal(element.diffs.length, 0);
-        assert.equal(element.expandedFiles.length, 0);
+        assert.equal(element.expandedFiles.size, 0);
 
         pressKey(element, 'i');
         await element.updateComplete;
         assert.equal(element.diffs.length, 1);
         assert.equal(element.diffs[0].path, paths[0]);
-        assert.equal(element.expandedFiles.length, 1);
-        assert.equal(element.expandedFiles[0].path, paths[0]);
+        assert.equal(element.expandedFiles.size, 1);
+        assert.isTrue(element.expandedFiles.has(paths[0]));
 
         pressKey(element, 'i');
         await element.updateComplete;
         assert.equal(element.diffs.length, 0);
-        assert.equal(element.expandedFiles.length, 0);
+        assert.equal(element.expandedFiles.size, 0);
 
         element.fileCursor.setCursorAtIndex(1);
         pressKey(element, 'i');
         await element.updateComplete;
         assert.equal(element.diffs.length, 1);
         assert.equal(element.diffs[0].path, paths[1]);
-        assert.equal(element.expandedFiles.length, 1);
-        assert.equal(element.expandedFiles[0].path, paths[1]);
+        assert.equal(element.expandedFiles.size, 1);
+        assert.isTrue(element.expandedFiles.has(paths[1]));
 
         pressKey(element, 'I');
         await element.updateComplete;
         assert.equal(element.diffs.length, paths.length);
-        assert.equal(element.expandedFiles.length, paths.length);
+        assert.equal(element.expandedFiles.size, paths.length);
         for (const diff of element.diffs) {
-          assert.isTrue(element.expandedFiles.some(f => f.path === diff.path));
+          assert.isTrue(element.expandedFiles.has(diff.path!));
         }
         // since _expandedFilesChanged is stubbed
         element.filesExpanded = FilesExpandedState.ALL;
         pressKey(element, 'I');
         await element.updateComplete;
         assert.equal(element.diffs.length, 0);
-        assert.equal(element.expandedFiles.length, 0);
+        assert.equal(element.expandedFiles.size, 0);
       });
 
       test('r key sets reviewed flag', async () => {
@@ -1340,10 +1340,7 @@ suite('gr-file-list tests', () => {
       await element.updateComplete;
 
       assert.equal(showHideCheck!.getAttribute('aria-checked'), 'true');
-      assert.notEqual(
-        element.expandedFiles.findIndex(f => f.path === 'myfile.txt'),
-        -1
-      );
+      assert.isTrue(element.expandedFiles.has('myfile.txt'));
     });
 
     test('diff mode correctly toggles the diffs', async () => {
@@ -1413,8 +1410,8 @@ suite('gr-file-list tests', () => {
         queryAndAssert<GrIcon>(element, 'gr-icon').icon,
         'expand_more'
       );
-      assert.equal(element.expandedFiles.length, 0);
-      element.toggleFileExpanded({path});
+      assert.equal(element.expandedFiles.size, 0);
+      element.toggleFileExpanded(path);
       await element.updateComplete;
       // Wait for expandedFilesChanged to finish.
       await waitEventLoop();
@@ -1425,8 +1422,8 @@ suite('gr-file-list tests', () => {
       );
 
       assert.equal(renderSpy.callCount, 1);
-      assert.isTrue(element.expandedFiles.some(f => f.path === path));
-      element.toggleFileExpanded({path});
+      assert.isTrue(element.expandedFiles.has(path));
+      element.toggleFileExpanded(path);
       await element.updateComplete;
       // Wait for expandedFilesChanged to finish.
       await waitEventLoop();
@@ -1436,7 +1433,7 @@ suite('gr-file-list tests', () => {
         'expand_more'
       );
       assert.equal(renderSpy.callCount, 1);
-      assert.isFalse(element.expandedFiles.some(f => f.path === path));
+      assert.isFalse(element.expandedFiles.has(path));
     });
 
     test('expandAllDiffs and collapseAllDiffs', async () => {
@@ -1459,7 +1456,7 @@ suite('gr-file-list tests', () => {
       await element.updateComplete;
       // Wait for expandedFilesChanged to finish.
       await waitEventLoop();
-      assert.equal(element.expandedFiles.length, 0);
+      assert.equal(element.expandedFiles.size, 0);
       assert.equal(element.filesExpanded, FilesExpandedState.NONE);
     });
 
@@ -1490,7 +1487,7 @@ suite('gr-file-list tests', () => {
         },
       ];
       sinon.stub(element, 'diffs').get(() => diffs);
-      element.expandedFiles = element.expandedFiles.concat([{path}]);
+      element.expandedFiles = new Set([path]);
       await element.updateComplete;
       await waitEventLoop();
       await promise;
@@ -1500,12 +1497,12 @@ suite('gr-file-list tests', () => {
       element.files = [normalize({}, 'foo.bar'), normalize({}, 'baz.bar')];
       await element.updateComplete;
       assert.equal(element.filesExpanded, FilesExpandedState.NONE);
-      element.expandedFiles.push({path: 'baz.bar'});
-      element.expandedFilesChanged([{path: 'baz.bar'}]);
+      element.expandedFiles.add('baz.bar');
+      element.expandedFilesChanged(new Set(['baz.bar']));
       await element.updateComplete;
       assert.equal(element.filesExpanded, FilesExpandedState.SOME);
-      element.expandedFiles.push({path: 'foo.bar'});
-      element.expandedFilesChanged([{path: 'foo.bar'}]);
+      element.expandedFiles.add('foo.bar');
+      element.expandedFilesChanged(new Set(['baz.bar', 'foo.bar']));
       await element.updateComplete;
       assert.equal(element.filesExpanded, FilesExpandedState.ALL);
       element.collapseAllDiffs();
@@ -1552,10 +1549,7 @@ suite('gr-file-list tests', () => {
         },
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       ] as any;
-      await element.renderInOrder(
-        [{path: 'p2'}, {path: 'p1'}, {path: 'p0'}],
-        diffs
-      );
+      await element.renderInOrder(['p2', 'p1', 'p0'], diffs);
       await element.updateComplete;
       assert.isFalse(reviewStub.called);
     });
@@ -1574,7 +1568,7 @@ suite('gr-file-list tests', () => {
         },
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       ] as any;
-      await element.renderInOrder([{path: 'p2'}], diffs);
+      await element.renderInOrder(['p2'], diffs);
       await element.updateComplete;
       assert.equal(reviewStub.callCount, 1);
     });
@@ -1610,11 +1604,11 @@ suite('gr-file-list tests', () => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       ] as any;
 
-      await element.renderInOrder([{path: 'p'}], diffs);
+      await element.renderInOrder(['p'], diffs);
       await element.updateComplete;
       assert.isFalse(reviewStub.called);
       delete element.diffPrefs.manual_review;
-      await element.renderInOrder([{path: 'p'}], diffs);
+      await element.renderInOrder(['p'], diffs);
       await element.updateComplete;
       // Wait for renderInOrder to finish
       await waitEventLoop();

@@ -355,7 +355,12 @@ suite('gr-change-view tests', () => {
                           </gr-endpoint-param>
                         </gr-endpoint-decorator>
                       </div>
-                      <div class="relatedChanges">
+                      <div class="commitAside">
+                        <gr-endpoint-decorator name="change-view-commit-aside">
+                          <gr-endpoint-param name="change"> </gr-endpoint-param>
+                          <gr-endpoint-param name="revision">
+                          </gr-endpoint-param>
+                        </gr-endpoint-decorator>
                         <gr-related-changes-list> </gr-related-changes-list>
                       </div>
                       <div class="emptySpace"></div>

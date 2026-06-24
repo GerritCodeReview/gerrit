@@ -981,7 +981,7 @@ export class GrChangeView extends LitElement {
           flex: 1;
           overflow-x: hidden;
         }
-        .relatedChanges {
+        .commitAside {
           flex: 0 1 auto;
           overflow: hidden;
           padding: var(--spacing-l) 0;
@@ -1004,6 +1004,18 @@ export class GrChangeView extends LitElement {
           flex-shrink: 0;
           margin: var(--spacing-l) 0;
           padding: 0 var(--spacing-l);
+        }
+        .commitAside gr-endpoint-decorator[name='change-view-commit-aside'] {
+          display: block;
+          margin-bottom: var(--spacing-l);
+        }
+        gr-endpoint-decorator[name='change-view-commit-aside'] {
+          display: none;
+        }
+        gr-endpoint-decorator[name='change-view-commit-aside']:has(
+            :not(gr-endpoint-param)
+          ) {
+          display: block;
         }
         .showOnEdit {
           display: none;
@@ -1055,10 +1067,10 @@ export class GrChangeView extends LitElement {
           position: relative;
         }
         @media screen and (max-width: 75em) {
-          .relatedChanges {
+          .commitAside {
             padding: 0;
           }
-          .relatedChanges gr-related-changes-list {
+          .commitAside gr-related-changes-list {
             padding-top: var(--spacing-l);
           }
           #commitAndRelated {
@@ -1425,7 +1437,13 @@ export class GrChangeView extends LitElement {
               </gr-endpoint-param>
             </gr-endpoint-decorator>
           </div>
-          <div class="relatedChanges">
+          <div class="commitAside">
+            <gr-endpoint-decorator name="change-view-commit-aside">
+              <gr-endpoint-param name="change" .value=${this.change}>
+              </gr-endpoint-param>
+              <gr-endpoint-param name="revision" .value=${this.revision}>
+              </gr-endpoint-param>
+            </gr-endpoint-decorator>
             <gr-related-changes-list></gr-related-changes-list>
           </div>
           <div class="emptySpace"></div>

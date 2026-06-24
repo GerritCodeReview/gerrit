@@ -6,6 +6,7 @@
 import {
   AnnotationPluginApi,
   CoverageProvider,
+  DiffLayerFactory,
   TokenHoverListener,
 } from '../../../api/annotation';
 import {PluginApi} from '../../../api/plugin';
@@ -34,6 +35,14 @@ export class GrAnnotationActionsInterface implements AnnotationPluginApi {
     this.pluginsModel.tokenHoverListenerRegister({
       pluginName: this.plugin.getPluginName(),
       listener,
+    });
+  }
+
+  addDiffLayer(factory: DiffLayerFactory): void {
+    this.reporting.trackApi(this.plugin, 'annotation', 'addDiffLayer');
+    this.pluginsModel.diffLayerRegister({
+      pluginName: this.plugin.getPluginName(),
+      factory,
     });
   }
 }

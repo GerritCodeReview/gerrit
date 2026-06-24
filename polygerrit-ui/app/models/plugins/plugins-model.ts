@@ -12,7 +12,11 @@ import {
 } from '../../api/checks';
 import {Model} from '../base/model';
 import {select} from '../../utils/observable-util';
-import {CoverageProvider, TokenHoverListener} from '../../api/annotation';
+import {
+  CoverageProvider,
+  DiffLayerFactory,
+  TokenHoverListener,
+} from '../../api/annotation';
 import {SuggestionsProvider} from '../../api/suggestions';
 import {ChangeUpdatesPublisher} from '../../api/change-updates';
 import {AiCodeReviewProvider} from '../../api/ai-code-review';
@@ -57,6 +61,11 @@ export interface SuggestionPlugin {
 export interface TokenHoverListenerPlugin {
   pluginName: string;
   listener: TokenHoverListener;
+}
+
+export interface DiffLayerPlugin {
+  pluginName: string;
+  factory: DiffLayerFactory;
 }
 
 export interface ChecksUpdate {
@@ -111,6 +120,11 @@ interface PluginsState {
    * annotationApi().addTokenHoverListener().
    */
   tokenHighlightPlugins: TokenHoverListenerPlugin[];
+
+  /**
+   * List of plugins that have registered a diff layer factory.
+   */
+  diffLayerPlugins: DiffLayerPlugin[];
 }
 
 export class PluginsModel extends Model<PluginsState> {
@@ -154,6 +168,11 @@ export class PluginsModel extends Model<PluginsState> {
     state => state.suggestionsPlugins
   );
 
+  public diffLayerPlugins$ = select(
+    this.state$,
+    state => state.diffLayerPlugins
+  );
+
   public pluginsLoaded$ = select(this.state$, state => state.pluginsLoaded);
 
   constructor() {
@@ -167,6 +186,7 @@ export class PluginsModel extends Model<PluginsState> {
       flowsAutosubmitPlugins: [],
       suggestionsPlugins: [],
       tokenHighlightPlugins: [],
+      diffLayerPlugins: [],
     });
   }
 
@@ -299,6 +319,22 @@ export class PluginsModel extends Model<PluginsState> {
       return;
     }
     nextState.tokenHighlightPlugins.push(plugin);
+    this.setState(nextState);
+  }
+
+  diffLayerRegister(plugin: DiffLayerPlugin) {
+    const nextState = {...this.getState()};
+    nextState.diffLayerPlugins = [...nextState.diffLayerPlugins];
+    const alreadyRegistered = nextState.diffLayerPlugins.some(
+      p => p.pluginName === plugin.pluginName
+    );
+    if (alreadyRegistered) {
+      console.warn(
+        `${plugin.pluginName} tried to register twice as a diff layer provider. Ignored.`
+      );
+      return;
+    }
+    nextState.diffLayerPlugins.push(plugin);
     this.setState(nextState);
   }
 

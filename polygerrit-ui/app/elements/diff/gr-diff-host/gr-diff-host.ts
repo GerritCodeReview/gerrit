@@ -71,6 +71,7 @@ import {
   RangeSelectedEventDetail,
   RenderPreferences,
 } from '../../../api/diff';
+import {DiffDetails} from '../../../api/annotation';
 import {resolve} from '../../../models/dependency';
 import {browserModelToken} from '../../../models/browser/browser-model';
 import {commentsModelToken} from '../../../models/comments/comments-model';
@@ -287,6 +288,8 @@ export class GrDiffHost extends LitElement {
   @state()
   private layers: DiffLayer[] = [];
 
+  private layersComputedWithPlugins = false;
+
   @state()
   private renderPrefs: RenderPreferences = {
     num_lines_rendered_at_once: 128,
@@ -376,6 +379,23 @@ export class GrDiffHost extends LitElement {
         this.prefs = diffPreferences;
       }
     );
+    subscribe(
+      this,
+      () => this.getPluginLoader().pluginsModel.pluginsLoaded$,
+      async pluginsLoaded => {
+        if (
+          pluginsLoaded &&
+          this.path &&
+          this.diffElement &&
+          !this.layersComputedWithPlugins
+        ) {
+          const prefs = await this.restApiService.getPreferences();
+          const enableTokenHighlight = !prefs?.disable_token_highlighting;
+          this.layers = this.getLayers(enableTokenHighlight);
+          this.layersComputedWithPlugins = true;
+        }
+      }
+    );
   }
 
   override connectedCallback() {
@@ -443,6 +463,22 @@ export class GrDiffHost extends LitElement {
         this.path,
         this.changeNum
       );
+    }
+  }
+
+  override updated(changedProperties: PropertyValues) {
+    super.updated(changedProperties);
+    if (
+      this.path &&
+      this.diffElement &&
+      this.getPluginLoader().pluginsModel.getState().pluginsLoaded &&
+      !this.layersComputedWithPlugins
+    ) {
+      this.layersComputedWithPlugins = true;
+      this.restApiService.getPreferences().then(prefs => {
+        const enableTokenHighlight = !prefs?.disable_token_highlighting;
+        this.layers = this.getLayers(enableTokenHighlight);
+      });
     }
   }
 
@@ -530,6 +566,9 @@ export class GrDiffHost extends LitElement {
 
     assertIsDefined(this.path, 'path');
     this.layers = this.getLayers(enableTokenHighlight);
+    this.layersComputedWithPlugins =
+      !!this.diffElement &&
+      this.getPluginLoader().pluginsModel.getState().pluginsLoaded;
     this.coverageRanges = [];
     // We kick off fetching the data here, but we don't return the promise,
     // so awaiting initLayers() will not wait for coverage data to be
@@ -690,12 +729,41 @@ export class GrDiffHost extends LitElement {
         })
       );
     }
+    // Add layers from plugins
+    if (
+      this.change &&
+      this.patchRange &&
+      this.file &&
+      this.path &&
+      this.diffElement
+    ) {
+      const details: DiffDetails = {
+        change: this.change,
+        basePatchNum: this.patchRange.basePatchNum,
+        patchNum: this.patchRange.patchNum,
+        fileRange: this.file,
+        path: this.path,
+        diffElement: this.diffElement,
+      };
+      for (const plugin of this.getPluginLoader().pluginsModel.getState()
+        .diffLayerPlugins) {
+        try {
+          layers.push(plugin.factory(details));
+        } catch (e) {
+          console.error(
+            `Error creating diff layer from plugin ${plugin.pluginName}:`,
+            e
+          );
+        }
+      }
+    }
     layers.push(this.syntaxLayer);
     return layers;
   }
 
   clear() {
     this.layers = [];
+    this.layersComputedWithPlugins = false;
   }
 
   /**

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b0b3741c_ab27f841",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-06-24T16:49:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc8d6ae9_d3174416",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 7
+      },
+      "revId": "bd646b419a9d4095035f8ff2286bdcc565e3eea3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ab8fd9d9_d1c06268",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-06-24T16:41:12Z",
       "side": 1,
       "message": "Consider something more precise like:\n\n```\nFix review responses that could show a stale change status\nafter a synchronous post-review update\n```",
+      "range": {
+        "startLine": 16,
+        "startChar": 15,
+        "endLine": 16,
+        "endChar": 59
+      },
+      "revId": "bd646b419a9d4095035f8ff2286bdcc565e3eea3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "61663ea3_0ac7026a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-06-24T16:49:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab8fd9d9_d1c06268",
       "range": {
         "startLine": 16,
         "startChar": 15,

@@ -1,0 +1,166 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "98a67dca_fd5fcc45",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2934,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-06-24T03:28:52Z",
+      "side": 1,
+      "message": "Done. Added a paragraph after the default noting that the deprecated keys override it for back-compat, with the mapping listed inline.",
+      "parentUuid": "1419eb3a_8e378c32",
+      "revId": "5e84f85673f886480019698c900aada36e081805",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "78181576_f19a74fd",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2946,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-06-24T03:28:52Z",
+      "side": 1,
+      "message": "Done. Moved the back-compat mapping into the frameAncestors section and replaced both deprecated-key sections with a pointer to it.",
+      "parentUuid": "9e61df5d_abc1dc7c",
+      "revId": "5e84f85673f886480019698c900aada36e081805",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aea0df71_2ad13e2d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2954,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-06-24T03:28:52Z",
+      "side": 1,
+      "message": "Done. Now points to the frameAncestors section, which holds the back-compat mapping.",
+      "parentUuid": "2f549179_e7a19f23",
+      "revId": "5e84f85673f886480019698c900aada36e081805",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3882f5aa_cd41e7b4",
+        "filename": "java/com/google/gerrit/httpd/AllowRenderInFrameFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-06-24T03:28:52Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "91a504ee_9034a32c",
+      "revId": "5e84f85673f886480019698c900aada36e081805",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "89be4328_fe43c55d",
+        "filename": "java/com/google/gerrit/httpd/AllowRenderInFrameFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-06-24T03:28:52Z",
+      "side": 1,
+      "message": "Done. Changed to Optional\u003cString\u003e and use ifPresent() in doFilter.",
+      "parentUuid": "d9d2a50b_172a1a57",
+      "revId": "5e84f85673f886480019698c900aada36e081805",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d64f5c4_973a7011",
+        "filename": "java/com/google/gerrit/httpd/AllowRenderInFrameFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-06-24T03:28:52Z",
+      "side": 1,
+      "message": "Done. Branch now keys only on canLoadInIFrame !\u003d null; xframeOption is read solely in the canLoadInIFrame\u003d\u003dtrue sub-branch.",
+      "parentUuid": "e9cb75bb_84af963c",
+      "revId": "5e84f85673f886480019698c900aada36e081805",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3da80787_7a299fa4",
+        "filename": "java/com/google/gerrit/httpd/AllowRenderInFrameFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-06-24T03:28:52Z",
+      "side": 1,
+      "message": "Done. Since the branch is now entered only when canLoadInIFrame is explicitly set, the default-false get no longer masks an unset value.",
+      "parentUuid": "21a04acf_c903192b",
+      "revId": "5e84f85673f886480019698c900aada36e081805",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ff2fe70_74def348",
+        "filename": "java/com/google/gerrit/httpd/AllowRenderInFrameFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-06-24T03:28:52Z",
+      "side": 1,
+      "message": "Done. When the resolved value is \u0027self\u0027, the warning now adds that it matches the new default and the deprecated keys can simply be removed.",
+      "parentUuid": "b1262be3_e8389dce",
+      "revId": "5e84f85673f886480019698c900aada36e081805",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0e1b3ac_9d07917c",
+        "filename": "java/com/google/gerrit/httpd/AllowRenderInFrameFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-06-24T03:28:52Z",
+      "side": 1,
+      "message": "Done. Extracted SELF (and NONE) constants.",
+      "parentUuid": "ecf26879_d8e650b4",
+      "revId": "5e84f85673f886480019698c900aada36e081805",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

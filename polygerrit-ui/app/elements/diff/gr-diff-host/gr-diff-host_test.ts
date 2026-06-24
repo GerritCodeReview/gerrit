@@ -1364,6 +1364,133 @@ suite('gr-diff-host tests', () => {
     });
   });
 
+  suite('plugins-diff-layers', () => {
+    setup(async () => {
+      element.path = 'some/path';
+      element.change = createChange();
+      element.patchRange = createPatchRange();
+      await element.updateComplete;
+    });
+
+    teardown(() => {
+      const pluginsModel = testResolver(pluginLoaderToken).pluginsModel;
+      pluginsModel.setState({
+        pluginsLoaded: false,
+        coveragePlugins: [],
+        changeUpdatesPlugins: [],
+        checksPlugins: [],
+        aiCodeReviewPlugins: [],
+        flowsPlugins: [],
+        flowsAutosubmitPlugins: [],
+        suggestionsPlugins: [],
+        tokenHighlightPlugins: [],
+        diffLayerPlugins: [],
+      });
+    });
+
+    test(
+        'reports diff layers from registered plugins after pluginsLoaded is set to true',
+        async () => {
+          const layerMock = {annotate: sinon.stub()};
+          const factoryMock = sinon.stub().returns(layerMock);
+
+          const pluginsModel = testResolver(pluginLoaderToken).pluginsModel;
+          pluginsModel.diffLayerRegister({
+            pluginName: 'test-plugin',
+            factory: factoryMock as any,
+          });
+
+          assert.isFalse((element as any).layers.includes(layerMock as any));
+
+          pluginsModel.updateState({pluginsLoaded: true});
+
+          // Wait for async getPreferences and state update to complete
+          await element.updateComplete;
+          await new Promise(resolve => setTimeout(resolve, 0));
+
+          assert.isTrue((element as any).layers.includes(layerMock as any));
+          assert.isTrue(factoryMock.calledOnce);
+          const details = factoryMock.firstCall.args[0];
+          assert.equal(details.change, element.change);
+          assert.equal(details.path, element.path);
+          assert.equal(details.diffElement, element.diffElement);
+        });
+
+    test(
+        'computes diff layers on update if plugins are already loaded',
+        async () => {
+          const layerMock = {annotate: sinon.stub()};
+          const factoryMock = sinon.stub().returns(layerMock);
+
+          const pluginsModel = testResolver(pluginLoaderToken).pluginsModel;
+          pluginsModel.updateState({pluginsLoaded: true});
+          pluginsModel.diffLayerRegister({
+            pluginName: 'test-plugin',
+            factory: factoryMock as any,
+          });
+
+          // Clear computed state
+          element.clear();
+          assert.isFalse((element as any).layers.includes(layerMock as any));
+
+          // Trigger update by setting path
+          element.path = 'new/path';
+          await element.updateComplete;
+          await new Promise(resolve => setTimeout(resolve, 0));
+
+          assert.isTrue((element as any).layers.includes(layerMock as any));
+        });
+
+    test('handles plugin factory errors gracefully', () => {
+      const errorMsg = 'Factory failed';
+      const consoleErrorStub = sinon.stub(console, 'error');
+
+      const badFactoryMock = sinon.stub().throws(new Error(errorMsg));
+      const goodLayerMock = {annotate: sinon.stub()};
+      const goodFactoryMock = sinon.stub().returns(goodLayerMock);
+
+      const pluginsModel = testResolver(pluginLoaderToken).pluginsModel;
+      pluginsModel.updateState({
+        diffLayerPlugins: [
+          {pluginName: 'bad-plugin', factory: badFactoryMock as any},
+          {pluginName: 'good-plugin', factory: goodFactoryMock as any},
+        ],
+      });
+
+      const layers = (element as any).getLayers(true);
+
+      assert.isTrue(consoleErrorStub.calledOnce);
+      assert.include(
+          consoleErrorStub.firstCall.args[0],
+          'Error creating diff layer from plugin bad-plugin:');
+      assert.isTrue(layers.includes(goodLayerMock as any));
+
+      consoleErrorStub.restore();
+    });
+
+    test('resets computed state on clear', async () => {
+      const layerMock = {annotate: sinon.stub()};
+      const factoryMock = sinon.stub().returns(layerMock);
+
+      const pluginsModel = testResolver(pluginLoaderToken).pluginsModel;
+      pluginsModel.updateState({pluginsLoaded: true});
+      pluginsModel.diffLayerRegister({
+        pluginName: 'test-plugin',
+        factory: factoryMock as any,
+      });
+
+      element.path = 'some/path';
+      await element.updateComplete;
+      await new Promise(resolve => setTimeout(resolve, 0));
+
+      assert.isTrue((element as any).layers.includes(layerMock as any));
+
+      element.clear();
+      assert.isFalse((element as any).layers.includes(layerMock as any));
+      assert.isFalse((element as any).layersComputedWithPlugins);
+    });
+  });
+
   suite('trailing newlines', () => {
     setup(() => {});
 
@@ -1475,3 +1602,4 @@ suite('gr-diff-host tests', () => {
     });
   });
 });
+

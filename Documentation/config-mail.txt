@@ -226,7 +226,7 @@ The subject limited to 72 characters, with an ellipsis if it exceeds that.
 
 $change.shortOriginalSubject::
 +
-The original subject limited to 72 characters, with an ellipsis if it exceeds
+The original subject limited to 72 characters, with an ellipsis if it exceeds.
 that.
 
 $change.sizeBucket::
@@ -251,7 +251,7 @@ The project name with the path abbreviated.
 
 $instanceAndProjectName::
 +
-The Gerrit instance name, followed by the short project name
+The Gerrit instance name, followed by the short project name.
 
 $addInstanceNameInSubject::
 +

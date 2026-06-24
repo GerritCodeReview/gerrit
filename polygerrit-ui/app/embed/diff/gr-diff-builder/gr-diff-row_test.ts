@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../../test/common-test-setup';
+import * as sinon from 'sinon';
 import './gr-diff-row';
 import {GrDiffRow} from './gr-diff-row';
 import {assert, fixture, html} from '@open-wc/testing';
@@ -238,5 +239,26 @@ suite('gr-diff-row test', () => {
         </table>
       `
     );
+  });
+
+  test('LOST line (fallback to contentCellRef)', async () => {
+    const line = new GrDiffLine(GrDiffLineType.BOTH, 'LOST', 'LOST');
+    element.left = line;
+    element.right = line;
+
+    const annotateSpy = sinon.spy();
+    element.layers = [
+      {
+        annotate: annotateSpy,
+      },
+    ];
+
+    await element.updateComplete;
+
+    assert.isTrue(annotateSpy.called);
+    const firstCall = annotateSpy.firstCall;
+    const contentEl = firstCall.args[0];
+    assert.equal(contentEl.tagName, 'TD');
+    assert.isTrue(contentEl.classList.contains('content'));
   });
 });

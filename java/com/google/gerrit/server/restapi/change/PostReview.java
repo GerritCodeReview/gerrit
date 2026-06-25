@@ -41,6 +41,7 @@ import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.LabelTypes;
 import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
@@ -83,6 +84,7 @@ import com.google.gerrit.server.change.WorkInProgressOp;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.extensions.events.ReviewerAdded;
 import com.google.gerrit.server.git.CommitUtil;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
@@ -112,6 +114,10 @@ import java.util.Objects;
 import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevWalk;
 
 @Singleton
 public class PostReview implements RestModifyView<RevisionResource, ReviewInput> {
@@ -165,6 +171,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   private final CommentsValidator commentsValidator;
   private final CommitUtil commitUtil;
 
+  private final GitRepositoryManager gitManager;
+
   @Inject
   PostReview(
       RetryHelper retryHelper,
@@ -185,7 +193,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       ReviewerAdded reviewerAdded,
       ChangeJson.Factory changeJsonFactory,
       CommentsValidator commentsValidator,
-      CommitUtil commitUtil) {
+      CommitUtil commitUtil,
+      GitRepositoryManager gitManager) {
     this.retryHelper = retryHelper;
     this.postReviewOpFactory = postReviewOpFactory;
     this.changeResourceFactory = changeResourceFactory;
@@ -205,6 +214,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     this.changeJsonFactory = changeJsonFactory;
     this.commentsValidator = commentsValidator;
     this.commitUtil = commitUtil;
+    this.gitManager = gitManager;
   }
 
   @Override
@@ -343,23 +353,34 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       }
     }
 
-    BatchUpdates.Result batchUpdateResult =
-        runBatchUpdate(projectState, revision, input, ts, notify, reviewerResults, ccOrReviewer);
-    ChangeData cd =
-        batchUpdateResult.getChangeData(revision.getProject(), revision.getChange().getId());
-    for (ReviewerModification reviewerResult : reviewerResults) {
-      reviewerResult.gatherResults(cd);
-    }
+    try (Repository repo = gitManager.openRepository(projectState.getProject().getNameKey())) {
+      BatchUpdates.Result batchUpdateResult =
+          runBatchUpdate(
+              projectState, revision, input, ts, notify, reviewerResults, ccOrReviewer, repo);
+      ChangeData cd =
+          batchUpdateResult.getChangeData(revision.getProject(), revision.getChange().getId());
+      ObjectId oldId = cd.metaRevisionOrThrow();
+      ObjectId newId = repo.exactRef(RefNames.changeMetaRef(cd.change().getId())).getObjectId();
 
-    // Sending emails and events from ReviewersOps was suppressed so we can send a single batch
-    // email/event here.
-    batchEmailReviewers(revision.getUser(), revision.getChange(), reviewerResults, notify);
-    batchReviewerEvents(revision.getUser(), cd, revision.getPatchSet(), reviewerResults, ts);
+      if (!oldId.equals(newId)) {
+        // Re-read change to take into account results of the update.
+        cd.reloadChange();
+      }
 
-    if (input.responseFormatOptions != null) {
-      output.changeInfo = changeJsonFactory.create(input.responseFormatOptions).format(cd);
-    } else {
-      output.changeInfo = changeJsonFactory.noOptions().format(cd);
+      for (ReviewerModification reviewerResult : reviewerResults) {
+        reviewerResult.gatherResults(cd);
+      }
+
+      // Sending emails and events from ReviewersOps was suppressed so we can send a single batch
+      // email/event here.
+      batchEmailReviewers(revision.getUser(), revision.getChange(), reviewerResults, notify);
+      batchReviewerEvents(revision.getUser(), cd, revision.getPatchSet(), reviewerResults, ts);
+
+      if (input.responseFormatOptions != null) {
+        output.changeInfo = changeJsonFactory.create(input.responseFormatOptions).format(cd);
+      } else {
+        output.changeInfo = changeJsonFactory.noOptions().format(cd);
+      }
     }
 
     return Response.ok(output);
@@ -372,7 +393,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       Instant ts,
       NotifyResolver.Result notify,
       List<ReviewerModification> reviewerResults,
-      boolean ccOrReviewer)
+      boolean ccOrReviewer,
+      Repository repo)
       throws UpdateException, RestApiException {
     return retryHelper
         .changeUpdate(
@@ -380,8 +402,11 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
             updateFactory -> {
               try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
                 try (BatchUpdate bu =
-                    updateFactory.create(
-                        revision.getChange().getProject(), revision.getUser(), ts)) {
+                        updateFactory.create(
+                            revision.getChange().getProject(), revision.getUser(), ts);
+                    ObjectInserter oi = repo.newObjectInserter();
+                    RevWalk revWalk = new RevWalk(oi.newReader())) {
+                  bu.setRepository(repo, revWalk, oi);
                   bu.setNotify(notify);
 
                   // Apply reviewer changes first. Revision emails should be sent to the

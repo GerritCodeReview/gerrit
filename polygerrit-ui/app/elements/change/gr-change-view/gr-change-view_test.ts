@@ -1369,6 +1369,91 @@ suite('gr-change-view tests', () => {
     });
   });
 
+  suite('change-view-commit-aside visibility', () => {
+    let decorator: HTMLElement;
+
+    setup(async () => {
+      element.change = {...createChangeViewChange(), labels: {}};
+      element.revision = createRevision();
+      await element.updateComplete;
+      decorator = element.shadowRoot!.querySelector(
+        'gr-endpoint-decorator[name="change-view-commit-aside"]'
+      )!;
+    });
+
+    test('hidden by default', () => {
+      assert.equal(getComputedStyle(decorator).display, 'none');
+    });
+
+    test('hidden if plugin component is hidden', async () => {
+      const promise = mockPromise();
+      window.Gerrit.install(
+        promise.resolve,
+        '0.1',
+        'http://some/plugins/url.js'
+      );
+      const plugin = (await promise) as PluginApi;
+
+      const dummyTagName = 'dummy-aside-component-hidden';
+      if (!customElements.get(dummyTagName)) {
+        customElements.define(
+          dummyTagName,
+          class extends HTMLElement {
+            connectedCallback() {
+              this.setAttribute('hidden', '');
+            }
+          }
+        );
+      }
+
+      plugin.registerCustomComponent('change-view-commit-aside', dummyTagName);
+
+      await new Promise<void>(resolve => {
+        const observer = new MutationObserver(() => {
+          if (decorator.querySelector(dummyTagName)) {
+            observer.disconnect();
+            resolve();
+          }
+        });
+        observer.observe(decorator, {childList: true});
+      });
+
+      await element.updateComplete;
+      assert.equal(getComputedStyle(decorator).display, 'none');
+    });
+
+    test('visible if plugin component is visible', async () => {
+      const promise = mockPromise();
+      window.Gerrit.install(
+        promise.resolve,
+        '0.1',
+        'http://some/plugins/url.js'
+      );
+      const plugin = (await promise) as PluginApi;
+
+      const dummyTagName = 'dummy-aside-component-visible';
+      if (!customElements.get(dummyTagName)) {
+        customElements.define(dummyTagName, class extends HTMLElement {});
+      }
+
+      plugin.registerCustomComponent('change-view-commit-aside', dummyTagName);
+
+      await new Promise<void>(resolve => {
+        const observer = new MutationObserver(() => {
+          if (decorator.querySelector(dummyTagName)) {
+            observer.disconnect();
+            resolve();
+          }
+        });
+        observer.observe(decorator, {childList: true});
+      });
+
+      await element.updateComplete;
+      assert.equal(getComputedStyle(decorator).display, 'block');
+      assert.notEqual(getComputedStyle(decorator).marginBottom, '0px');
+    });
+  });
+
   test('handleToggleStar called when star is tapped', async () => {
     element.change = {
       ...createChangeViewChange(),

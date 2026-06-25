@@ -1006,16 +1006,14 @@ export class GrChangeView extends LitElement {
           padding: 0 var(--spacing-l);
         }
         .commitAside gr-endpoint-decorator[name='change-view-commit-aside'] {
-          display: block;
-          margin-bottom: var(--spacing-l);
-        }
-        gr-endpoint-decorator[name='change-view-commit-aside'] {
           display: none;
         }
-        gr-endpoint-decorator[name='change-view-commit-aside']:has(
-            :not(gr-endpoint-param)
+        .commitAside
+          gr-endpoint-decorator[name='change-view-commit-aside']:has(
+            :not(gr-endpoint-param):not([hidden])
           ) {
           display: block;
+          margin-bottom: var(--spacing-l);
         }
         .showOnEdit {
           display: none;

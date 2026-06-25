@@ -28,11 +28,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.ReachabilityChecker;
-import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 @Singleton
@@ -70,19 +67,12 @@ public class ParentDataProvider {
   /** Returns true if the parent commit {@code parentCommitId} is merged in the target branch. */
   private boolean isMergedInTargetBranch(
       Project.NameKey project, Repository repo, ObjectId parentCommitId, String targetBranch) {
-    try (RevWalk rw = new RevWalk(repo);
-        ObjectReader reader = repo.newObjectReader()) {
+    try (RevWalk rw = new RevWalk(repo)) {
       Ref targetBranchRef = repo.exactRef(targetBranch);
-      if (targetBranchRef == null) {
-        return false;
+      if (targetBranchRef != null) {
+        return rw.isMergedInto(
+            rw.parseCommit(parentCommitId), rw.parseCommit(targetBranchRef.getObjectId()));
       }
-      RevCommit parent = rw.parseCommit(parentCommitId);
-      RevCommit targetBranchCommit = rw.parseCommit(targetBranchRef.getObjectId());
-      ReachabilityChecker checker = reader.createReachabilityChecker(rw);
-      Optional<RevCommit> unreachable =
-          checker.areAllReachable(
-              ImmutableList.of(parent), ImmutableList.of(targetBranchCommit).stream());
-      return unreachable.isEmpty();
     } catch (IOException e) {
       logger.atWarning().withCause(e).log(
           "Failed to check if parent commit %s (project: %s) is merged into target branch %s",

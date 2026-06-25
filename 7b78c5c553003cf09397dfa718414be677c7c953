@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d9be841_9ea183b3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-06-25T20:50:58Z",
+      "side": 1,
+      "message": "I have already validated this in a test repo.",
+      "revId": "7b78c5c553003cf09397dfa718414be677c7c953",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

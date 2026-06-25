@@ -28,7 +28,8 @@ export class RevisionInfo {
       return 0;
     }
     return Object.values(this.change.revisions).reduce(
-      (acc, rev) => Math.max(!rev.commit ? 0 : rev.commit.parents.length, acc),
+      (acc, rev) =>
+        Math.max(!rev.commit?.parents ? 0 : rev.commit.parents.length, acc),
       0
     );
   }
@@ -43,7 +44,9 @@ export class RevisionInfo {
       return result;
     }
     Object.values(this.change.revisions).forEach(rev => {
-      if (rev.commit) result.set(rev._number, rev.commit.parents.length);
+      if (rev.commit?.parents) {
+        result.set(rev._number, rev.commit.parents.length);
+      }
     });
     return result;
   }
@@ -69,7 +72,7 @@ export class RevisionInfo {
     const rev = Object.values(this.change.revisions).find(
       rev => rev._number === patchNum
     );
-    if (!rev || !rev.commit) return;
-    return rev.commit.parents[parentIndex].commit;
+    if (!rev || !rev.commit?.parents) return;
+    return rev.commit.parents[parentIndex]?.commit;
   }
 }

@@ -8,6 +8,7 @@ import {
   ChangeInfo,
   ChangeViewChangeInfo,
   CommitId,
+  CommitInfo,
   EDIT,
   EditInfo,
   FileInfo,
@@ -268,6 +269,24 @@ export function updateChangeWithEdit(
     change.current_revision = edit.commit.commit;
   }
   return change;
+}
+
+export function updateChangeWithCommitInfo(
+  change: ParsedChangeInfo,
+  patchNum: RevisionPatchSetNum,
+  commitInfo: CommitInfo
+): ParsedChangeInfo {
+  const nextChange = {...change, revisions: {...change.revisions}};
+  const sha = Object.keys(nextChange.revisions).find(
+    key => nextChange.revisions[key]._number === patchNum
+  );
+  if (sha) {
+    nextChange.revisions[sha] = {
+      ...nextChange.revisions[sha],
+      commit: commitInfo,
+    };
+  }
+  return nextChange;
 }
 
 /**
@@ -645,6 +664,7 @@ export class ChangeModel extends Model<ChangeState> {
       this.viewModel.childView$.subscribe(childView => {
         this.isViewCurrent = childView === ChangeChildView.OVERVIEW;
       }),
+      this.loadParentInfo(),
     ];
     this.throttledShowUpdateChangeNotification = throttleWrap(
       () => this.showRefreshChangeNotification(),
@@ -887,6 +907,39 @@ export class ChangeModel extends Model<ChangeState> {
         // moves away from diff and change pages (changeNum === undefined)
         // helps with that.
         this.updateStateChange(change ?? undefined);
+      });
+  }
+
+  private loadParentInfo() {
+    return combineLatest([this.change$, this.patchNum$])
+      .pipe(
+        filter(([change, patchNum]) => {
+          if (!change || !patchNum || patchNum === EDIT) return false;
+          const rev = Object.values(change.revisions || {}).find(
+            r => r._number === patchNum
+          );
+          return !rev?.commit?.parents;
+        }),
+        switchMap(([change, patchNum]) =>
+          forkJoin([
+            of(change),
+            of(patchNum),
+            from(
+              this.restApiService.getChangeCommitInfo(
+                change!._number,
+                patchNum!
+              )
+            ),
+          ])
+        ),
+        map(([change, patchNum, commitInfo]) => {
+          if (!change || !patchNum || !commitInfo) return undefined;
+          return updateChangeWithCommitInfo(change, patchNum, commitInfo);
+        }),
+        filter(isDefined)
+      )
+      .subscribe(change => {
+        this.updateStateChange(change);
       });
   }
 

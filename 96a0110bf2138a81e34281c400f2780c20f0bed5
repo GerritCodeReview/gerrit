@@ -16,6 +16,24 @@
       "message": "Was this observed as a problem with Lucene? The commit message only mentions Spanner.",
       "revId": "96a0110bf2138a81e34281c400f2780c20f0bed5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3cdd9794_99fb2f58",
+        "filename": "java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-06-25T13:10:49Z",
+      "side": 1,
+      "message": "Sorry - I didn\u0027t check Lucene. We encounter this issue in Spanner. Should this be differenent in Lucene?",
+      "parentUuid": "83725405_0d11b131",
+      "revId": "96a0110bf2138a81e34281c400f2780c20f0bed5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

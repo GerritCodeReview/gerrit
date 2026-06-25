@@ -140,6 +140,30 @@
       },
       "revId": "bd646b419a9d4095035f8ff2286bdcc565e3eea3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "43cade50_312e0c51",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdates.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-06-25T10:29:18Z",
+      "side": 1,
+      "message": "We got around this by using the repoView. This was already used implicitly beforehand, but we\u0027ve now made it explicit, which means we\u0027re not opening the repository anymore than we where before.",
+      "parentUuid": "b22059e7_80ccb3e7",
+      "range": {
+        "startLine": 165,
+        "startChar": 0,
+        "endLine": 166,
+        "endChar": 69
+      },
+      "revId": "bd646b419a9d4095035f8ff2286bdcc565e3eea3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

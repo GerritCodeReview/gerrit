@@ -58,6 +58,7 @@ import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
 import com.google.gerrit.extensions.api.changes.ReviewResult;
 import com.google.gerrit.extensions.api.changes.ReviewerInput;
+import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.client.Side;
@@ -70,6 +71,7 @@ import com.google.gerrit.extensions.events.ReviewerAddedListener;
 import com.google.gerrit.extensions.events.ReviewerDeletedListener;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.validators.CommentForValidation;
 import com.google.gerrit.extensions.validators.CommentValidationContext;
 import com.google.gerrit.extensions.validators.CommentValidator;
@@ -767,6 +769,30 @@ public class PostReviewIT extends AbstractDaemonTest {
         ImmutableList.copyOf(EnumSet.allOf(ListChangesOption.class));
     changeInfo = gApi.changes().id(r.getChangeId()).current().review(reviewInput).changeInfo;
     assertThat(changeInfo.currentRevisionNumber).isEqualTo(2);
+  }
+
+  @Test
+  public void changeInfoStatusReflectsSynchronousSubmitByCommentAddedListener() throws Exception {
+    PushOneCommit.Result r = createChange();
+
+    CommentAddedListener submittingListener =
+        event -> {
+          try {
+            gApi.changes()
+                .id(event.getChange().project, event.getChange()._number)
+                .current()
+                .submit();
+          } catch (RestApiException e) {
+            throw new RuntimeException(e);
+          }
+        };
+
+    try (Registration registration = extensionRegistry.newRegistration().add(submittingListener)) {
+      ReviewResult reviewResult =
+          gApi.changes().id(r.getChangeId()).current().review(ReviewInput.approve());
+
+      assertThat(reviewResult.changeInfo.status).isEqualTo(ChangeStatus.MERGED);
+    }
   }
 
   @Test

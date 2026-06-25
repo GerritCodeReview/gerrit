@@ -1,0 +1,74 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2d1f811_5df208eb",
+        "filename": "polygerrit-ui/app/api/annotation.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-06-25T23:49:17Z",
+      "side": 1,
+      "message": "[CL Review Agent] This TODO appears to be addressed by the addition of the `addDiffLayer` method below. Consider removing or updating this comment.",
+      "revId": "6de39449d169c8a3d4850ff13fc66aab577764d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc299a89_59f6fcb8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-06-25T23:49:17Z",
+      "side": 1,
+      "message": "[CL Review Agent] The logic for re-computing layers when plugins load (lines 382-397) is almost identical to the logic in the `updated()` method (lines 469-484). Consider consolidating this into a single private method to improve maintainability and avoid potential redundant processing or preference fetching.",
+      "revId": "6de39449d169c8a3d4850ff13fc66aab577764d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38df3e42_51060343",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-06-25T23:49:17Z",
+      "side": 1,
+      "message": "We should  check `changedProperties` here to follow LitElement best practices. This avoids running these checks on unrelated updates.\n\nSuggested implementation:\n```typescript\noverride updated(changedProperties: PropertyValues) {\n  super.updated(changedProperties);\n  const pathChanged \u003d changedProperties.has(\u0027path\u0027);\n  const diffElementChanged \u003d changedProperties.has(\u0027diffElement\u0027);\n  if (\n    (pathChanged || diffElementChanged) \u0026\u0026\n    this.path \u0026\u0026\n    this.diffElement \u0026\u0026\n    this.getPluginLoader().pluginsModel.getState().pluginsLoaded \u0026\u0026\n    !this.layersComputedWithPlugins\n  ) {\n    this.layersComputedWithPlugins \u003d true;\n    this.restApiService.getPreferences().then(prefs \u003d\u003e {\n      const enableTokenHighlight \u003d !prefs?.disable_token_highlighting;\n      this.layers \u003d this.getLayers(enableTokenHighlight);\n    });\n  }\n}\n```",
+      "isAi": true,
+      "revId": "6de39449d169c8a3d4850ff13fc66aab577764d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9cb28892_8b55e70b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 733,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-06-25T23:49:17Z",
+      "side": 1,
+      "message": "We can DRY up these verbose checks and the construction of `DiffDetails` by extracting them into a private helper or getter. This makes `getLayers` much cleaner and reusable.\n\nSuggested refactoring:\n```typescript\nprivate get diffDetails(): DiffDetails | undefined {\n  if (\n    !this.change ||\n    !this.patchRange ||\n    !this.file ||\n    !this.path ||\n    !this.diffElement\n  ) {\n    return undefined;\n  }\n  return {\n    change: this.change,\n    basePatchNum: this.patchRange.basePatchNum,\n    patchNum: this.patchRange.patchNum,\n    fileRange: this.file,\n    path: this.path,\n    diffElement: this.diffElement,\n  };\n}\n```\n\nThen in `getLayers()`, you can simplify the block to:\n```typescript\nconst details \u003d this.diffDetails;\nif (details) {\n  for (const plugin of this.getPluginLoader().pluginsModel.getState().diffLayerPlugins) {\n    try {\n      layers.push(plugin.factory(details));\n    } catch (e) {\n      console.error(\n        `Error creating diff layer from plugin ${plugin.pluginName}:`,\n        e\n      );\n    }\n  }\n}\n```",
+      "isAi": true,
+      "revId": "6de39449d169c8a3d4850ff13fc66aab577764d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

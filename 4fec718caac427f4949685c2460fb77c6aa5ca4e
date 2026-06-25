@@ -36,6 +36,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "2cb5b2c5_e79a4feb",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 575,
+      "author": {
+        "id": 1007145
+      },
+      "writtenOn": "2026-06-25T17:14:43Z",
+      "side": 1,
+      "message": "i want to drill on this in general first since, once merged+released, it\u0027ll be very hard to change.\n\ndo you know if there\u0027s prior config art for this kind of multi-key include/exclude logic that we could copy ?  regardless of the possible ways of handling this, being consistent helps keep surprises down i think.\n\nif there isn\u0027t prior art, i can think of 2 reasonable options here:\n1. (*what this code is implementing now*) key order does not matter.  if any negative key matches, it\u0027s excluded.  if there are no positive keys, then it\u0027s included.  if there are positive keys, then it\u0027s included only if matched.\n2. if key order matters, and we can rely on gerrit not changing key order via any UI/automation, then we could define a more powerful \"first matching rule wins\".  we walk the keys, and if it matches a negative, it\u0027s excluded immediately.  if it matches a positive, it\u0027s included immediately.  if it doesn\u0027t match any rules, then it\u0027s always included.  this is akin to `rsync`\u0027s filtering system.\n\nif Gerrit is likely to sort/reorder the keys on us, then (1) is the way to go, and no need to think about (2).  i find (2) more powerful, just as easy to understand, and doesn\u0027t complicate the implementation.  but i also don\u0027t have any use cases off the top of my head where i\u0027d really need that power.",
+      "revId": "4fec718caac427f4949685c2460fb77c6aa5ca4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "f851c74a_b8270b8d",
@@ -59,6 +76,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e8e7870_c7c380df",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 601,
+      "author": {
+        "id": 1007145
+      },
+      "writtenOn": "2026-06-25T17:14:43Z",
+      "side": 1,
+      "message": "i noticed this before.  i know in GoB we ripped out prolog rules, but i have no idea the external status.  figured leave it alone so as to not get into a yak shave ;).",
+      "parentUuid": "f851c74a_b8270b8d",
+      "range": {
+        "startLine": 600,
+        "startChar": 0,
+        "endLine": 601,
+        "endChar": 79
+      },
+      "revId": "4fec718caac427f4949685c2460fb77c6aa5ca4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "baa31d4d_d4d1bf3e",
@@ -72,6 +113,24 @@
       "writtenOn": "2026-06-25T15:28:51Z",
       "side": 1,
       "message": "You can re-order the loops so that you check negatives first. If any match, we can immediately `return false`.",
+      "revId": "4fec718caac427f4949685c2460fb77c6aa5ca4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "57541fcf_f8da9795",
+        "filename": "java/com/google/gerrit/server/project/RefPattern.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1007145
+      },
+      "writtenOn": "2026-06-25T17:14:43Z",
+      "side": 1,
+      "message": "done, and collapsed the positive loop as a result\n\ni could collapse further to a single loop i think and avoid the list accumulation",
+      "parentUuid": "baa31d4d_d4d1bf3e",
       "revId": "4fec718caac427f4949685c2460fb77c6aa5ca4e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

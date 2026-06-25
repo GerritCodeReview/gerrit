@@ -156,6 +156,30 @@
       },
       "revId": "4fec718caac427f4949685c2460fb77c6aa5ca4e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac34d697_b6825ed3",
+        "filename": "java/com/google/gerrit/server/restapi/project/LabelDefinitionInputParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1007145
+      },
+      "writtenOn": "2026-06-25T17:26:43Z",
+      "side": 1,
+      "message": "split into sep CL: https://gerrit-review.googlesource.com/c/gerrit/+/601401",
+      "parentUuid": "862b28a8_5e510290",
+      "range": {
+        "startLine": 82,
+        "startChar": 0,
+        "endLine": 85,
+        "endChar": 7
+      },
+      "revId": "4fec718caac427f4949685c2460fb77c6aa5ca4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

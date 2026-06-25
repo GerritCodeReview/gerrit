@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a8b2dc7_2e7fa904",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-25T21:45:46Z",
+      "side": 1,
+      "message": "Adding @milutin@google.com for LC+1 of the merge.",
+      "revId": "c9854e6d507f1feda7daa1c965c2a3b77771df57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

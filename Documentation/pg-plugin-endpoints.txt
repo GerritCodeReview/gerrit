@@ -68,6 +68,20 @@ link:rest-api-changes.html#change-info[ChangeInfo]
 current revision displayed, an instance of
 link:rest-api-changes.html#revision-info[RevisionInfo]
 
+=== change-view-commit-aside
+The `change-view-commit-aside` extension point is located on the change view
+page, next to the commit message above the related changes list.
+
+* `change`
++
+current change displayed, an instance of
+link:rest-api-changes.html#change-info[ChangeInfo]
+
+* `revision`
++
+current revision displayed, an instance of
+link:rest-api-changes.html#revision-info[RevisionInfo]
+
 === change-metadata-item
 The `change-metadata-item` extension point is located on the change view
 left panel, below the `Submit Requirements` and `Links` sections by default.

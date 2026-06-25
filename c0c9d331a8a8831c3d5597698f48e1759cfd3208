@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c7b7b9f_ad2d5531",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-25T11:37:19Z",
+      "side": 1,
+      "message": "```suggestion\nFixing in 3.12 as it\u0027s the oldest non-EOL stable branch.\n```",
+      "range": {
+        "startLine": 10,
+        "startChar": 18,
+        "endLine": 10,
+        "endChar": 55
+      },
+      "revId": "c0c9d331a8a8831c3d5597698f48e1759cfd3208",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

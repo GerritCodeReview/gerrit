@@ -77,8 +77,8 @@ public class LabelDefinitionInputParser {
       if (newBranch.isEmpty()) {
         continue;
       }
-      if (!RefPattern.isRE(newBranch) && !newBranch.startsWith(RefNames.REFS)) {
-        newBranch = RefNames.REFS_HEADS + newBranch;
+      if (!RefPattern.isRE(newBranch)) {
+        newBranch = RefNames.fullName(newBranch);
       }
       try {
         RefPattern.validate(newBranch);

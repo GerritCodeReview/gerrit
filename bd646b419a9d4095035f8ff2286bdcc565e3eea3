@@ -116,6 +116,30 @@
       },
       "revId": "bd646b419a9d4095035f8ff2286bdcc565e3eea3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b22059e7_80ccb3e7",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdates.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-25T04:12:23Z",
+      "side": 1,
+      "message": "Opening a repository is *very expensive* because it implies checking in all subdirectories for all the files at the first level to check if it can be considered a repository.",
+      "parentUuid": "dce6b770_2cc98306",
+      "range": {
+        "startLine": 165,
+        "startChar": 0,
+        "endLine": 166,
+        "endChar": 69
+      },
+      "revId": "bd646b419a9d4095035f8ff2286bdcc565e3eea3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

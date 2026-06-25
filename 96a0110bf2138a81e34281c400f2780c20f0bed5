@@ -34,6 +34,24 @@
       "parentUuid": "83725405_0d11b131",
       "revId": "96a0110bf2138a81e34281c400f2780c20f0bed5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a75f133_31a3814e",
+        "filename": "java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-06-25T17:56:46Z",
+      "side": 1,
+      "message": "I wouldn\u0027t expect Lucene to have this same issue, so long as the batch size is under the `indexLimit` (which the lines just above here already handle).\n\nFurther, the Lucene batched queries are executed serially (assuming I\u0027m reading [AbstractLuceneIndex](https://gerrit.googlesource.com/gerrit/+/refs/changes/41/599141/3/java/com/google/gerrit/lucene/AbstractLuceneIndex.java#604) correctly), so I would expect this to be an overall perf regression for non-Spanner indexes.",
+      "parentUuid": "3cdd9794_99fb2f58",
+      "revId": "96a0110bf2138a81e34281c400f2780c20f0bed5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

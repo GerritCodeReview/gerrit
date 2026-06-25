@@ -62,9 +62,14 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.DiffNotAvailableException;
 import com.google.gerrit.server.patch.DiffOperations;
 import com.google.gerrit.server.patch.DiffOptions;
+import com.google.gerrit.server.patch.DiffSummaryKey;
 import com.google.gerrit.server.patch.FilePathAdapter;
+import com.google.gerrit.server.patch.PatchListCache;
+import com.google.gerrit.server.patch.PatchListKey;
+import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.patch.filediff.FileDiffOutput;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.ChangeData.ChangedLines;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.util.AccountTemplateUtil;
 import com.google.inject.Inject;
@@ -90,6 +95,7 @@ public class EventFactory {
   private final AccountCache accountCache;
   private final DynamicItem<UrlFormatter> urlFormatter;
   private final DiffOperations diffOperations;
+  private final PatchListCache patchListCache;
   private final Emails emails;
   private final Provider<PersonIdent> myIdent;
   private final ChangeData.Factory changeDataFactory;
@@ -105,6 +111,7 @@ public class EventFactory {
       Emails emails,
       DynamicItem<UrlFormatter> urlFormatter,
       DiffOperations diffOperations,
+      PatchListCache patchListCache,
       @GerritPersonIdent Provider<PersonIdent> myIdent,
       ChangeData.Factory changeDataFactory,
       ApprovalsUtil approvalsUtil,
@@ -116,6 +123,7 @@ public class EventFactory {
     this.urlFormatter = urlFormatter;
     this.emails = emails;
     this.diffOperations = diffOperations;
+    this.patchListCache = patchListCache;
     this.myIdent = myIdent;
     this.changeDataFactory = changeDataFactory;
     this.approvalsUtil = approvalsUtil;
@@ -460,7 +468,6 @@ public class EventFactory {
     p.ref = patchSet.refName();
     p.uploader = asAccountAttribute(patchSet.uploader(), accountLoader);
     p.createdOn = patchSet.createdOn().getEpochSecond();
-    PatchSet.Id pId = patchSet.id();
     try {
       p.parents = new ArrayList<>();
       RevCommit c = revWalk.parseCommit(ObjectId.fromString(p.revision));
@@ -478,20 +485,20 @@ public class EventFactory {
         p.author = asAccountAttribute(author.getAccount(), accountLoader);
       }
 
-      Map<String, FileDiffOutput> modifiedFiles =
-          diffOperations.listModifiedFilesAgainstParent(
-              changeData.project(), patchSet.commitId(), /* parentNum= */ 0, DiffOptions.DEFAULTS);
-      for (FileDiffOutput fileDiff : modifiedFiles.values()) {
-        p.sizeDeletions += fileDiff.deletions();
-        p.sizeInsertions += fileDiff.insertions();
-      }
+      ChangedLines changedLines =
+          patchListCache
+              .getDiffSummary(
+                  DiffSummaryKey.fromPatchListKey(
+                      PatchListKey.againstBase(patchSet.commitId(), c.getParentCount())),
+                  changeData.project())
+              .getChangedLines();
+      p.sizeDeletions = changedLines.deletions;
+      p.sizeInsertions = changedLines.insertions;
       p.kind =
           changeKindCache.getChangeKind(
               revWalk, repoConfig, attributesNodeProvider, changeData, patchSet);
-    } catch (IOException | StorageException e) {
+    } catch (IOException | StorageException | PatchListNotAvailableException e) {
       logger.atSevere().withCause(e).log("Cannot load patch set data for %s", patchSet.id());
-    } catch (DiffNotAvailableException e) {
-      logger.atSevere().withCause(e).log("Cannot get size information for %s.", pId);
     }
     return p;
   }

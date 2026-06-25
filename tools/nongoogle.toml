@@ -4,7 +4,7 @@
 [versions]
 autoCommon = "1.2.2"
 autoFactory = "1.0.1"
-autoValue= "1.11.0"
+autoValue= "1.11.1"
 flogger = "0.8"
 # Also update the GUAVA version in java/com/google/gerrit/extensions/BUILD
 # to keep Bazel and extension dependencies in sync.

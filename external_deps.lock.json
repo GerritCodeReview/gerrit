@@ -10,8 +10,8 @@
     "com.github.rholder:guava-retrying": 1309513165,
     "com.google.auto.factory:auto-factory": -1233360965,
     "com.google.auto.service:auto-service-annotations": 953830824,
-    "com.google.auto.value:auto-value": 1146221104,
-    "com.google.auto.value:auto-value-annotations": -1101276935,
+    "com.google.auto.value:auto-value": -661233359,
+    "com.google.auto.value:auto-value-annotations": 1386235898,
     "com.google.auto:auto-common": -832702775,
     "com.google.code.findbugs:jsr305": -1992157670,
     "com.google.code.gson:gson": 2063056812,
@@ -223,14 +223,14 @@
     "com.github.ben-manes.caffeine:guava:jar:sources": 1590068668,
     "com.github.rholder:guava-retrying": -789983219,
     "com.github.rholder:guava-retrying:jar:sources": 2030887181,
-    "com.google.auto.factory:auto-factory": 1657393907,
+    "com.google.auto.factory:auto-factory": -544009950,
     "com.google.auto.factory:auto-factory:jar:sources": 1355400808,
     "com.google.auto.service:auto-service-annotations": 1999106941,
     "com.google.auto.service:auto-service-annotations:jar:sources": 1716120839,
-    "com.google.auto.value:auto-value": 1110951021,
-    "com.google.auto.value:auto-value-annotations": 641018093,
-    "com.google.auto.value:auto-value-annotations:jar:sources": -315473772,
-    "com.google.auto.value:auto-value:jar:sources": 1982175049,
+    "com.google.auto.value:auto-value": -1504415167,
+    "com.google.auto.value:auto-value-annotations": 641752776,
+    "com.google.auto.value:auto-value-annotations:jar:sources": -2083311588,
+    "com.google.auto.value:auto-value:jar:sources": -30292358,
     "com.google.auto:auto-common": -195836273,
     "com.google.auto:auto-common:jar:sources": -2100626169,
     "com.google.code.findbugs:jsr305": -998441376,
@@ -276,13 +276,13 @@
     "com.google.protobuf:protobuf-java:jar:sources": 133270104,
     "com.google.template:soy": -677841031,
     "com.google.template:soy:jar:sources": 895044971,
-    "com.google.truth.extensions:truth-java8-extension": 18757275,
+    "com.google.truth.extensions:truth-java8-extension": 766384514,
     "com.google.truth.extensions:truth-java8-extension:jar:sources": 1257445795,
-    "com.google.truth.extensions:truth-liteproto-extension": -704876174,
+    "com.google.truth.extensions:truth-liteproto-extension": -1774954418,
     "com.google.truth.extensions:truth-liteproto-extension:jar:sources": -754757455,
-    "com.google.truth.extensions:truth-proto-extension": 220019054,
+    "com.google.truth.extensions:truth-proto-extension": -180673672,
     "com.google.truth.extensions:truth-proto-extension:jar:sources": -171856482,
-    "com.google.truth:truth": 341960611,
+    "com.google.truth:truth": 2133252626,
     "com.google.truth:truth:jar:sources": 494258718,
     "com.googlecode.javaewah:JavaEWAH": 1782327838,
     "com.googlecode.javaewah:JavaEWAH:jar:sources": -77762967,
@@ -304,9 +304,9 @@
     "com.jcraft:jsch:jar:sources": -586408740,
     "com.jcraft:jzlib": -1423321085,
     "com.jcraft:jzlib:jar:sources": 1440827148,
-    "com.ryanharter.auto.value:auto-value-gson-extension": 550631721,
+    "com.ryanharter.auto.value:auto-value-gson-extension": -1071085858,
     "com.ryanharter.auto.value:auto-value-gson-extension:jar:sources": -670606081,
-    "com.ryanharter.auto.value:auto-value-gson-factory": 151677491,
+    "com.ryanharter.auto.value:auto-value-gson-factory": -586162268,
     "com.ryanharter.auto.value:auto-value-gson-factory:jar:sources": -543638406,
     "com.ryanharter.auto.value:auto-value-gson-runtime": 1330169783,
     "com.ryanharter.auto.value:auto-value-gson-runtime:jar:sources": 706425522,
@@ -575,17 +575,17 @@
     },
     "com.google.auto.value:auto-value": {
       "shasums": {
-        "jar": "aaf8d637bfed3c420436b9facf1b7a88d12c8785374e4202382783005319c2c3",
-        "sources": "4bff06fe077d68f964bd5e05f020ed78fd7870730441e403a2eb306360c4890a"
+        "jar": "0c556370ca3d072ba7dec6b37751ccad0e4804b6f3390cc9acb800d821dd9c0a",
+        "sources": "a9eb12d149bfbcfc7fb670689d67dea3440b0ecaea15829e2953a03a1503b29c"
       },
-      "version": "1.11.0"
+      "version": "1.11.1"
     },
     "com.google.auto.value:auto-value-annotations": {
       "shasums": {
-        "jar": "5a055ce4255333b3346e1a8703da5bf8ff049532286fdcd31712d624abe111dd",
-        "sources": "d7941e5f19bb38afcfa85350d57e5245856c23c98c2bbe32f6d31b5577f2bc33"
+        "jar": "6c61a11420a5cddf3313888e9d335d5eedfbeb9a8da26591470fbfe61f5bf859",
+        "sources": "2bc2b5c2f8b1dbe3c05673750f16ec51db2ef9bf54be942c278e16035e5dca21"
       },
-      "version": "1.11.0"
+      "version": "1.11.1"
     },
     "com.google.auto:auto-common": {
       "shasums": {
@@ -1985,8 +1985,7 @@
       "autovalue.shaded.com.google.j2objc.annotations",
       "autovalue.shaded.com.squareup.javapoet",
       "autovalue.shaded.net.ltgt.gradle.incap",
-      "autovalue.shaded.org.checkerframework.checker.nullness.qual",
-      "autovalue.shaded.org.checkerframework.framework.qual",
+      "autovalue.shaded.org.jspecify.annotations",
       "autovalue.shaded.org.objectweb.asm",
       "com.google.auto.value.extension",
       "com.google.auto.value.extension.memoized.processor",

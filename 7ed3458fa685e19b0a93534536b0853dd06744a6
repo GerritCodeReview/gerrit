@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e0a92ae9_648873a7",
+        "filename": "java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-06-25T03:25:18Z",
+      "side": 1,
+      "message": "Hmm, you are changing the error handling here, can you justify? If you think it\u0027s an improvement, maybe deserves its one change?",
+      "revId": "7ed3458fa685e19b0a93534536b0853dd06744a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

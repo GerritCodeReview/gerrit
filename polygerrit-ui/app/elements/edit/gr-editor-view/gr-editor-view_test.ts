@@ -127,6 +127,17 @@ suite('gr-editor-view tests', () => {
         </div>
         <gr-edit-preferences-dialog id="editPreferencesDialog">
         </gr-edit-preferences-dialog>
+        <dialog id="confirmCloseModal" tabindex="-1">
+          <gr-dialog
+            cancel-label="Keep Editing"
+            confirm-label="Discard"
+            id="confirmCloseDialog"
+            role="dialog"
+          >
+            <div class="header" slot="header">Discard unsaved changes?</div>
+            <div class="main" slot="main">Your modifications will be lost.</div>
+          </gr-dialog>
+        </dialog>
         <div class="textareaWrapper">
           <gr-endpoint-decorator id="editorEndpoint" name="editor">
             <gr-endpoint-param name="fileContent"> </gr-endpoint-param>
@@ -216,6 +227,11 @@ suite('gr-editor-view tests', () => {
     const newText = 'file text changed';
 
     setup(async () => {
+      stubRestApi('getFileContent').resolves({
+        ok: true,
+        type: 'text/javascript',
+        content: originalText,
+      });
       element.viewState = {...createEditViewState()};
       element.content = originalText;
       element.newContent = originalText;
@@ -351,17 +367,89 @@ suite('gr-editor-view tests', () => {
       });
     });
 
-    test('file modification and close', async () => {
-      const closeSpy = sinon.spy(element, 'handleCloseTap');
+    test('file modification and close show dialog, then discard', async () => {
+      storageService.setEditableContentItem(
+        element.storageKey,
+        'cached content'
+      );
+      assert.equal(
+        storageService.getEditableContentItem(element.storageKey)?.message,
+        'cached content'
+      );
+
       element.newContent = newText;
       await element.updateComplete;
 
-      assert.isFalse(
-        query<GrButton>(element, '#save')!.hasAttribute('disabled')
-      );
+      const dialog = query<HTMLDialogElement>(element, '#confirmCloseModal')!;
+      assert.isFalse(dialog.hasAttribute('open'));
 
       query<GrButton>(element, '#close')!.click();
-      assert.isTrue(closeSpy.called);
+      assert.isFalse(saveFileStub.called);
+      assert.isFalse(navigateStub.called);
+      assert.isTrue(dialog.hasAttribute('open'));
+
+      query(element, '#confirmCloseDialog')!.dispatchEvent(
+        new CustomEvent('confirm')
+      );
+      await element.updateComplete;
+
+      assert.isFalse(dialog.hasAttribute('open'));
+      assert.isTrue(navigateStub.called);
+      assert.isNull(storageService.getEditableContentItem(element.storageKey));
+    });
+
+    test('file modification and close show dialog, then keep editing', async () => {
+      element.newContent = newText;
+      await element.updateComplete;
+
+      const dialog = query<HTMLDialogElement>(element, '#confirmCloseModal')!;
+      assert.isFalse(dialog.hasAttribute('open'));
+
+      query<GrButton>(element, '#close')!.click();
+      assert.isFalse(saveFileStub.called);
+      assert.isFalse(navigateStub.called);
+      assert.isTrue(dialog.hasAttribute('open'));
+
+      query(element, '#confirmCloseDialog')!.dispatchEvent(
+        new CustomEvent('cancel')
+      );
+      await element.updateComplete;
+
+      assert.isFalse(dialog.hasAttribute('open'));
+      assert.isFalse(navigateStub.called);
+    });
+
+    test('render open dialog', async () => {
+      element.newContent = newText;
+      await element.updateComplete;
+
+      query<GrButton>(element, '#close')!.click();
+      await element.updateComplete;
+
+      const dialog = query<HTMLDialogElement>(element, '#confirmCloseModal')!;
+      assert.isTrue(dialog.hasAttribute('open'));
+
+      assert.lightDom.equal(
+        dialog,
+        /* HTML */ `
+          <gr-dialog
+            cancel-label="Keep Editing"
+            confirm-label="Discard"
+            id="confirmCloseDialog"
+            role="dialog"
+          >
+            <div class="header" slot="header">Discard unsaved changes?</div>
+            <div class="main" slot="main">Your modifications will be lost.</div>
+          </gr-dialog>
+        `
+      );
+    });
+
+    test('close when content is not modified', async () => {
+      element.newContent = originalText;
+      await element.updateComplete;
+
+      query<GrButton>(element, '#close')!.click();
       assert.isFalse(saveFileStub.called);
       assert.isTrue(navigateStub.called);
     });

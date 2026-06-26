@@ -21,12 +21,14 @@ suite('path-list-utl tests', () => {
     const testFiles = [
       '/a.h',
       '/MERGE_LIST',
+      SpecialFilePath.PATCHSET_LEVEL_COMMENTS,
       '/a.cpp',
       '/COMMIT_MSG',
       '/asdasd',
       '/mrPeanutbutter.py',
     ];
     assert.deepEqual(testFiles.sort(specialFilePathCompare), [
+      SpecialFilePath.PATCHSET_LEVEL_COMMENTS,
       '/COMMIT_MSG',
       '/MERGE_LIST',
       '/a.h',

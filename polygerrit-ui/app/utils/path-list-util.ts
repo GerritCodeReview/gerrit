@@ -8,6 +8,14 @@ import {FileInfo, FileNameToFileInfoMap} from '../types/common';
 import {hasOwnProperty} from './common-util';
 
 export function specialFilePathCompare(a: string, b: string) {
+  // Patchset-level comments always go first.
+  if (a === SpecialFilePath.PATCHSET_LEVEL_COMMENTS) {
+    return -1;
+  }
+  if (b === SpecialFilePath.PATCHSET_LEVEL_COMMENTS) {
+    return 1;
+  }
+
   // The commit message always goes first.
   if (a === SpecialFilePath.COMMIT_MESSAGE) {
     return -1;

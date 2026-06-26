@@ -28,6 +28,7 @@ import {debounce, DelayedTask} from '../../../utils/async-util';
 import {changeIsAbandoned, changeIsMerged} from '../../../utils/change-util';
 import {Modifier} from '../../../utils/dom-util';
 import {sharedStyles} from '../../../styles/shared-styles';
+import {modalStyles} from '../../../styles/gr-modal-styles';
 import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {customElement, query, state} from 'lit/decorators.js';
 import {subscribe} from '../../lit/subscription-controller';
@@ -65,6 +66,9 @@ export class GrEditorView extends LitElement {
 
   @query('#editPreferencesDialog')
   editPreferencesDialog?: GrEditPreferencesDialog;
+
+  @query('#confirmCloseModal')
+  private confirmCloseModal?: HTMLDialogElement;
 
   @state() viewState?: ChangeViewState;
 
@@ -171,6 +175,7 @@ export class GrEditorView extends LitElement {
   static override get styles() {
     return [
       sharedStyles,
+      modalStyles,
       css`
         :host {
           background-color: var(--view-background-color);
@@ -291,6 +296,18 @@ export class GrEditorView extends LitElement {
         @has-edit-pref-change-saved=${this.handleEditPrefChangeSaved}
       >
       </gr-edit-preferences-dialog>
+      <dialog id="confirmCloseModal" tabindex="-1">
+        <gr-dialog
+          id="confirmCloseDialog"
+          confirm-label="Discard"
+          cancel-label="Keep Editing"
+          @confirm=${this.handleConfirmClose}
+          @cancel=${this.handleCancelClose}
+        >
+          <div class="header" slot="header">Discard unsaved changes?</div>
+          <div class="main" slot="main">Your modifications will be lost.</div>
+        </gr-dialog>
+      </dialog>
     `;
   }
 
@@ -507,8 +524,11 @@ export class GrEditorView extends LitElement {
 
   // private but used in test
   handleCloseTap = () => {
-    // TODO(kaspern): Add a confirm dialog if there are unsaved changes.
-    this.viewEditInChangeView();
+    if ((this.content ?? '') !== this.newContent) {
+      this.confirmCloseModal?.showModal();
+    } else {
+      this.viewEditInChangeView();
+    }
   };
 
   private handleSaveTap = () => {
@@ -610,6 +630,15 @@ export class GrEditorView extends LitElement {
     // We have to fire a reload so the change takes effect within a plugin.
     fireReload(this);
   }
+
+  private handleConfirmClose = () => {
+    this.confirmCloseModal?.close();
+    this.viewEditInChangeView();
+  };
+
+  private handleCancelClose = () => {
+    this.confirmCloseModal?.close();
+  };
 }
 
 declare global {

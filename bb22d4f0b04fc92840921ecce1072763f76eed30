@@ -16,6 +16,24 @@
       "message": "@klingarkar@nvidia.com I think you saw some issues when you tried an approach like this?",
       "revId": "bb22d4f0b04fc92840921ecce1072763f76eed30",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc520e81_debc7435",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4665459
+      },
+      "writtenOn": "2026-06-26T05:29:57Z",
+      "side": 1,
+      "message": "Yes, I recall that it was hard to figure out how to reset the state safely when retrying. Here was my attempt: 368516: Retry inserting new changes on lock failures | https://gerrit-review.googlesource.com/c/gerrit/+/368516",
+      "parentUuid": "4067b840_f62edd36",
+      "revId": "bb22d4f0b04fc92840921ecce1072763f76eed30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

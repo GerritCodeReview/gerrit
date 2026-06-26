@@ -70,6 +70,24 @@
       "parentUuid": "0a75f133_31a3814e",
       "revId": "96a0110bf2138a81e34281c400f2780c20f0bed5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "658a3249_35a3ce2e",
+        "filename": "java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-06-26T15:42:36Z",
+      "side": 1,
+      "message": "Thank you! I guess it might eventually be good to have a way for different backends to do partitioning like this, but that doesn\u0027t seem easy to implement.",
+      "parentUuid": "27a21f0e_473c9334",
+      "revId": "96a0110bf2138a81e34281c400f2780c20f0bed5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

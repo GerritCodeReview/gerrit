@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34617db4_d779d8da",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-06-26T18:25:48Z",
+      "side": 1,
+      "message": "[CL Review Agent] `computeLayersWithPlugins` calls `this.restApiService.getPreferences()` even if `initLayers` might have already done so. Consider passing the preferences from `initLayers` or storing the relevant preference (like `enableTokenHighlight`) in a private state to avoid redundant network calls when plugins load.",
+      "revId": "e1661065182afa7a7096da98c121a6f3a1429705",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4ab1804_9aefd392",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 550,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-06-26T18:25:48Z",
+      "side": 1,
+      "message": "[CL Review Agent] The `layersComputedWithPlugins` flag prevents re-computation of diff layers when the `path` or `diffElement` changes if the component is reused without a full reload. Since `GrDiffHost` can be updated with a new `path` through the `updated()` lifecycle method, this flag should be reset when the path changes to ensure that plugin layers are correctly re-created for the new file. Currently, if `layersComputedWithPlugins` is already true from a previous file, `computeLayersWithPlugins` will return early for any subsequent files if `reload()` (which calls `clear()`) is not invoked.",
+      "revId": "e1661065182afa7a7096da98c121a6f3a1429705",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76d4990a_452f62c7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 553,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-06-26T18:25:48Z",
+      "side": 1,
+      "message": "[CL Review Agent] Setting `this.layersComputedWithPlugins \u003d true` before awaiting `getPreferences` might prevent retries if the network call fails. It\u0027s safer to set this flag only after the layers have been successfully computed.",
+      "revId": "e1661065182afa7a7096da98c121a6f3a1429705",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d1332a55_48295405",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 553,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-06-26T18:25:48Z",
+      "side": 1,
+      "message": "[CL Review Agent] You can likely use `this.prefs` here instead of `await this.restApiService.getPreferences()`, as `this.prefs` is already being tracked via a subscription in `connectedCallback`. If `this.prefs` is potentially undefined at this point, you could fall back to the API call: `const prefs \u003d this.prefs ?? await this.restApiService.getPreferences();`. Since `getPreferences()` is cached, this is mainly a consistency improvement.",
+      "revId": "e1661065182afa7a7096da98c121a6f3a1429705",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47115c40_b09620c5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-06-26T18:25:48Z",
+      "side": 1,
+      "message": "[CL Review Agent] The logic for calculating `enableTokenHighlight` (`!prefs?.disable_token_highlighting`) is repeated in both `initLayers()` and `computeLayersWithPlugins()`. Consider extracting this into a private getter or helper method to keep the logic DRY.",
+      "revId": "e1661065182afa7a7096da98c121a6f3a1429705",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aadb6933_e656bc33",
+        "filename": "polygerrit-ui/app/api/annotation.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 4924225
+      },
+      "writtenOn": "2026-06-26T04:27:14Z",
+      "side": 1,
+      "message": "Removed. Thanks!",
+      "parentUuid": "e2d1f811_5df208eb",
+      "revId": "6de39449d169c8a3d4850ff13fc66aab577764d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cc299a89_59f6fcb8",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-06-25T23:49:17Z",
       "side": 1,
       "message": "[CL Review Agent] The logic for re-computing layers when plugins load (lines 382-397) is almost identical to the logic in the `updated()` method (lines 469-484). Consider consolidating this into a single private method to improve maintainability and avoid potential redundant processing or preference fetching.",
+      "revId": "6de39449d169c8a3d4850ff13fc66aab577764d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e05b5d04_4d9fa444",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 4924225
+      },
+      "writtenOn": "2026-06-26T04:27:14Z",
+      "side": 1,
+      "message": "Done. Thanks Becky!",
+      "parentUuid": "cc299a89_59f6fcb8",
       "revId": "6de39449d169c8a3d4850ff13fc66aab577764d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -53,6 +89,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ccc4eb4c_65169933",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 4924225
+      },
+      "writtenOn": "2026-06-26T04:27:14Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "38df3e42_51060343",
+      "revId": "6de39449d169c8a3d4850ff13fc66aab577764d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9cb28892_8b55e70b",
@@ -67,6 +121,24 @@
       "side": 1,
       "message": "We can DRY up these verbose checks and the construction of `DiffDetails` by extracting them into a private helper or getter. This makes `getLayers` much cleaner and reusable.\n\nSuggested refactoring:\n```typescript\nprivate get diffDetails(): DiffDetails | undefined {\n  if (\n    !this.change ||\n    !this.patchRange ||\n    !this.file ||\n    !this.path ||\n    !this.diffElement\n  ) {\n    return undefined;\n  }\n  return {\n    change: this.change,\n    basePatchNum: this.patchRange.basePatchNum,\n    patchNum: this.patchRange.patchNum,\n    fileRange: this.file,\n    path: this.path,\n    diffElement: this.diffElement,\n  };\n}\n```\n\nThen in `getLayers()`, you can simplify the block to:\n```typescript\nconst details \u003d this.diffDetails;\nif (details) {\n  for (const plugin of this.getPluginLoader().pluginsModel.getState().diffLayerPlugins) {\n    try {\n      layers.push(plugin.factory(details));\n    } catch (e) {\n      console.error(\n        `Error creating diff layer from plugin ${plugin.pluginName}:`,\n        e\n      );\n    }\n  }\n}\n```",
       "isAi": true,
+      "revId": "6de39449d169c8a3d4850ff13fc66aab577764d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ccfbb99_1f83dcca",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 21
+      },
+      "lineNbr": 733,
+      "author": {
+        "id": 4924225
+      },
+      "writtenOn": "2026-06-26T04:27:14Z",
+      "side": 1,
+      "message": "Totally agree. Thanks for the suggestions. Done.",
+      "parentUuid": "9cb28892_8b55e70b",
       "revId": "6de39449d169c8a3d4850ff13fc66aab577764d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

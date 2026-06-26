@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "31b6e992_a97a2e58",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4870948
+      },
+      "writtenOn": "2026-06-26T20:30:13Z",
+      "side": 1,
+      "message": "Note on Polygerrit UI Tests failure: The failure in Gerrit-verifier-chrome-latest is due to a signature mismatch in the master branch\u0027s Maven dependency lockfile (external_deps_install.json invalid input signature for jna and slf4j).\n\nThis CL contains only frontend UI changes (gr-editor-view.ts and gr-editor-view_test.ts), and all PolyGerrit frontend tests run and pass cleanly. The verifier failure is unrelated to this change.",
+      "revId": "59888d24c566f270922fea3302652859288d3519",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

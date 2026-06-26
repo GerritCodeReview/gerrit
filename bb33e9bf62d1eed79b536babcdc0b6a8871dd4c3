@@ -16,6 +16,64 @@
       "message": "Er",
       "revId": "bb33e9bf62d1eed79b536babcdc0b6a8871dd4c3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "67490225_3355ceb1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-06-26T17:51:32Z",
+      "side": 1,
+      "message": "Thanks!",
+      "revId": "bb33e9bf62d1eed79b536babcdc0b6a8871dd4c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f978fbbc_62539d69",
+        "filename": "Documentation/pg-plugin-endpoints.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-06-26T17:51:32Z",
+      "side": 1,
+      "message": "It\u0027s right of the commit message and above the related changes list.",
+      "range": {
+        "startLine": 73,
+        "startChar": 6,
+        "endLine": 73,
+        "endChar": 58
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "314f5fe1_2b689467",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "Documentation/pg-plugin-endpoints.txt",
+              "range": {
+                "startLine": 73,
+                "startChar": 0,
+                "endLine": 74,
+                "endChar": 0
+              },
+              "replacement": "page, next to the commit message above the related changes list.\n"
+            }
+          ]
+        }
+      ],
+      "revId": "bb33e9bf62d1eed79b536babcdc0b6a8871dd4c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

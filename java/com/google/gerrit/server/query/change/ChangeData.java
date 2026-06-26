@@ -811,10 +811,12 @@ public class ChangeData {
       }
       if (refStates != null) {
         ImmutableSet<RefState> refs = refStates.get(project);
-        String metaRef = RefNames.changeMetaRef(getId());
-        for (RefState r : refs) {
-          if (r.ref().equals(metaRef)) {
-            return Optional.of(r.id());
+        if (refs != null) {
+          String metaRef = RefNames.changeMetaRef(getId());
+          for (RefState r : refs) {
+            if (r.ref().equals(metaRef)) {
+              return Optional.of(r.id());
+            }
           }
         }
       }

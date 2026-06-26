@@ -1,9 +1,0 @@
-[Unit]
-Description=Gerrit HTTP socket
-
-[Socket]
-ListenStream=80
-Accept=no
-
-[Install]
-WantedBy=sockets.target

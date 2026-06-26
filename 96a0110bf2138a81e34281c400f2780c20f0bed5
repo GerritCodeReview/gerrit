@@ -52,6 +52,24 @@
       "parentUuid": "3cdd9794_99fb2f58",
       "revId": "96a0110bf2138a81e34281c400f2780c20f0bed5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "27a21f0e_473c9334",
+        "filename": "java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-06-26T07:50:58Z",
+      "side": 1,
+      "message": "Thank you - I will revert this change. It\u0027s not urgent for Spanner and I don\u0027t want regression for Lucene",
+      "parentUuid": "0a75f133_31a3814e",
+      "revId": "96a0110bf2138a81e34281c400f2780c20f0bed5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

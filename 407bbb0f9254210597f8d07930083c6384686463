@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7b13abc_5368c65d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-06-26T20:24:03Z",
+      "side": 1,
+      "message": "Sorry Nasser, one more time. \nI didn\u0027t revert fix in !seen in original file. You can see diff between patchset 1 and patchset 2",
+      "revId": "407bbb0f9254210597f8d07930083c6384686463",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

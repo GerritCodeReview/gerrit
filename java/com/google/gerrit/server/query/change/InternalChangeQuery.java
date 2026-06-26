@@ -88,7 +88,6 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
   private final ChangeData.Factory changeDataFactory;
   private final ChangeNotes.Factory notesFactory;
   private final EditByPredicateProvider editByPredicateProvider;
-  private int batchSize = 100;
   private final Provider<ChangeQueryBuilder.Arguments> queryBuilderArgsProvider;
 
   @Inject
@@ -179,24 +178,7 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
     if (hashes.size() > indexLimit || !indexes.getSearchIndex().isEnabled()) {
       return byCommitsOnBranchNotMergedFromDatabase(repo, branch, hashes);
     }
-    // Safe batch size to avoid large OR queries in Spanner/Lucene
-    if (hashes.size() <= batchSize) {
-      return byCommitsOnBranchNotMergedFromIndex(branch, hashes);
-    }
-    List<Predicate<ChangeData>> predicates = new ArrayList<>();
-    for (List<String> part : Iterables.partition(hashes, batchSize)) {
-      predicates.add(byCommitsOnBranchNotMergedPredicate(branch, part));
-    }
-    Set<Change.Id> seen = new HashSet<>();
-    List<ChangeData> result = new ArrayList<>();
-    for (List<ChangeData> partitionResult : query(predicates)) {
-      for (ChangeData cd : partitionResult) {
-        if (seen.add(cd.getId())) {
-          result.add(cd);
-        }
-      }
-    }
-    return result;
+    return byCommitsOnBranchNotMergedFromIndex(branch, hashes);
   }
 
   private List<ChangeData> byCommitsOnBranchNotMergedFromDatabase(
@@ -232,16 +214,12 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
 
   private ImmutableList<ChangeData> byCommitsOnBranchNotMergedFromIndex(
       BranchNameKey branch, Collection<String> hashes) {
-    return query(byCommitsOnBranchNotMergedPredicate(branch, hashes));
-  }
-
-  private Predicate<ChangeData> byCommitsOnBranchNotMergedPredicate(
-      BranchNameKey branch, Collection<String> hashes) {
-    return and(
-        ref(branch),
-        project(branch.project()),
-        not(status(Change.Status.MERGED)),
-        or(commits(hashes)));
+    return query(
+        and(
+            ref(branch),
+            project(branch.project()),
+            not(status(Change.Status.MERGED)),
+            or(commits(hashes))));
   }
 
   private static List<Predicate<ChangeData>> commits(Collection<String> hashes) {
@@ -366,10 +344,5 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
       }
     }
     return result.build();
-  }
-
-  @VisibleForTesting
-  public void setBatchSizeForTesting(int batchSize) {
-    this.batchSize = batchSize;
   }
 }

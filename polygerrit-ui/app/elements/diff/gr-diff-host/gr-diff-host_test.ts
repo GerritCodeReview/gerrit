@@ -1474,4 +1474,87 @@ suite('gr-diff-host tests', () => {
       });
     });
   });
+
+  suite('computeLayersWithPlugins and token highlighting', () => {
+    let getPreferencesStub: sinon.SinonStub;
+    setup(() => {
+      getPreferencesStub = stubRestApi('getPreferences');
+    });
+    test('initLayers sets enableTokenHighlight correctly', async () => {
+      getPreferencesStub.returns(
+        Promise.resolve({disable_token_highlighting: true})
+      );
+      await element.initLayers();
+      assert.isFalse(element['enableTokenHighlight']);
+      getPreferencesStub.returns(
+        Promise.resolve({disable_token_highlighting: false})
+      );
+      await element.initLayers();
+      assert.isTrue(element['enableTokenHighlight']);
+      getPreferencesStub.returns(Promise.resolve(undefined));
+      await element.initLayers();
+      assert.isTrue(element['enableTokenHighlight']);
+    });
+    test('clear resets enableTokenHighlight', async () => {
+      getPreferencesStub.returns(
+        Promise.resolve({disable_token_highlighting: true})
+      );
+      await element.initLayers();
+      assert.isFalse(element['enableTokenHighlight']);
+      element.clear();
+      assert.isUndefined(element['enableTokenHighlight']);
+    });
+    test('computeLayersWithPlugins sets enableTokenHighlight if undefined', async () => {
+      getPreferencesStub.returns(
+        Promise.resolve({disable_token_highlighting: true})
+      );
+      element['enableTokenHighlight'] = undefined;
+      element['layersComputedWithPlugins'] = false;
+
+      await element['computeLayersWithPlugins']();
+
+      assert.isFalse(element['enableTokenHighlight']);
+      assert.isTrue(element['layersComputedWithPlugins']);
+      assert.isTrue(getPreferencesStub.calledOnce);
+    });
+    test('computeLayersWithPlugins does not fetch preferences if enableTokenHighlight is already set', async () => {
+      getPreferencesStub.returns(
+        Promise.resolve({disable_token_highlighting: true})
+      );
+      element['enableTokenHighlight'] = true;
+      element['layersComputedWithPlugins'] = false;
+
+      await element['computeLayersWithPlugins']();
+
+      assert.isTrue(element['enableTokenHighlight']);
+      assert.isTrue(element['layersComputedWithPlugins']);
+      assert.isFalse(getPreferencesStub.called);
+    });
+    test('path or diffElement change resets layersComputedWithPlugins', async () => {
+      testResolver(pluginLoaderToken).pluginsModel.updateState({
+        pluginsLoaded: false,
+      });
+      element['layersComputedWithPlugins'] = true;
+      element['_layersComputedForPath'] = 'some/path';
+      element['_layersComputedForDiffElement'] = element.diffElement;
+      element.path = 'some/other/path';
+      await element.updateComplete;
+
+      assert.isFalse(element['layersComputedWithPlugins']);
+    });
+    test('pluginsLoaded triggers computeLayersWithPlugins', async () => {
+      // @ts-expect-error
+      const computeSpy = sinon.spy(element, 'computeLayersWithPlugins');
+
+      const pluginsModel = testResolver(pluginLoaderToken).pluginsModel;
+      pluginsModel.updateState({pluginsLoaded: false});
+      await element.updateComplete;
+
+      pluginsModel.updateState({pluginsLoaded: true});
+
+      await new Promise(resolve => setTimeout(resolve, 0));
+
+      assert.isTrue(computeSpy.called);
+    });
+  });
 });

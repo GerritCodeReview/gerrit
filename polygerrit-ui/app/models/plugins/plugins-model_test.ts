@@ -4,9 +4,15 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../test/common-test-setup';
+import * as sinon from 'sinon';
 import './plugins-model';
 import {ChecksApiConfig, ChecksProvider, ResponseCode} from '../../api/checks';
-import {ChecksPlugin, ChecksUpdate, PluginsModel} from './plugins-model';
+import {
+  ChecksPlugin,
+  ChecksUpdate,
+  DiffLayerPlugin,
+  PluginsModel,
+} from './plugins-model';
 import {createRun, createRunResult} from '../../test/test-data-generators';
 import {assert} from '@open-wc/testing';
 
@@ -29,6 +35,7 @@ function createProvider(): ChecksProvider {
 suite('plugins-model tests', () => {
   let model: PluginsModel;
   let checksPlugins: ChecksPlugin[] = [];
+  let diffLayerPlugins: DiffLayerPlugin[] = [];
   const register = function () {
     model.checksRegister({
       pluginName: PLUGIN_NAME,
@@ -41,6 +48,7 @@ suite('plugins-model tests', () => {
     model = new PluginsModel();
     model.state$.subscribe(s => {
       checksPlugins = s.checksPlugins;
+      diffLayerPlugins = s.diffLayerPlugins;
     });
   });
 
@@ -80,5 +88,34 @@ suite('plugins-model tests', () => {
     });
 
     assert.equal(update?.pluginName, PLUGIN_NAME);
+  });
+
+  test('diffLayerRegister', async () => {
+    assert.isFalse(diffLayerPlugins.some(p => p.pluginName === PLUGIN_NAME));
+
+    const factory = () => {
+      return {
+        annotate: () => {},
+      };
+    };
+    model.diffLayerRegister({
+      pluginName: PLUGIN_NAME,
+      factory,
+    });
+
+    assert.isTrue(diffLayerPlugins.some(p => p.pluginName === PLUGIN_NAME));
+    assert.equal(
+      diffLayerPlugins.find(p => p.pluginName === PLUGIN_NAME)?.factory,
+      factory
+    );
+
+    // Try to register again
+    const consoleWarnStub = sinon.stub(console, 'warn');
+    model.diffLayerRegister({
+      pluginName: PLUGIN_NAME,
+      factory,
+    });
+    assert.isTrue(consoleWarnStub.calledOnce);
+    consoleWarnStub.restore();
   });
 });

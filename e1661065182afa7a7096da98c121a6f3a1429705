@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e361141c_60ed2e42",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 549,
+      "author": {
+        "id": 4924225
+      },
+      "writtenOn": "2026-06-27T06:50:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34617db4_d779d8da",
+      "revId": "e1661065182afa7a7096da98c121a6f3a1429705",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d4ab1804_9aefd392",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-06-26T18:25:48Z",
       "side": 1,
       "message": "[CL Review Agent] The `layersComputedWithPlugins` flag prevents re-computation of diff layers when the `path` or `diffElement` changes if the component is reused without a full reload. Since `GrDiffHost` can be updated with a new `path` through the `updated()` lifecycle method, this flag should be reset when the path changes to ensure that plugin layers are correctly re-created for the new file. Currently, if `layersComputedWithPlugins` is already true from a previous file, `computeLayersWithPlugins` will return early for any subsequent files if `reload()` (which calls `clear()`) is not invoked.",
+      "revId": "e1661065182afa7a7096da98c121a6f3a1429705",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5bcea65d_5273f01d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 550,
+      "author": {
+        "id": 4924225
+      },
+      "writtenOn": "2026-06-27T06:50:17Z",
+      "side": 1,
+      "message": "Done. thanks Becky!",
+      "parentUuid": "d4ab1804_9aefd392",
       "revId": "e1661065182afa7a7096da98c121a6f3a1429705",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -69,6 +105,42 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4bb72744_92876d92",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 553,
+      "author": {
+        "id": 4924225
+      },
+      "writtenOn": "2026-06-27T06:50:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "76d4990a_452f62c7",
+      "revId": "e1661065182afa7a7096da98c121a6f3a1429705",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "992c859d_25710428",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 553,
+      "author": {
+        "id": 4924225
+      },
+      "writtenOn": "2026-06-27T06:50:17Z",
+      "side": 1,
+      "message": "looks like this attempt triggered a potential type error:\n```\nArgument of type \u0027DiffPreferencesInfo | PreferencesInfo | undefined\u0027 is not assignable to parameter of type \u0027PreferencesInfo | undefined\u0027.\n  Type \u0027DiffPreferencesInfo\u0027 is missing the following properties from type \u0027PreferencesInfo\u0027: changes_per_page, theme, date_format, time_format, and 5 more.\n```\n\nLooks like `this.prefs` and `await this.restApiService.getPreferences();` have different type upperbounds. maybe we keep it this way? (What makes this less serious is that this only happens when `enableTokenHighlight` is not valid)",
+      "parentUuid": "d1332a55_48295405",
+      "revId": "e1661065182afa7a7096da98c121a6f3a1429705",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "47115c40_b09620c5",
@@ -82,6 +154,24 @@
       "writtenOn": "2026-06-26T18:25:48Z",
       "side": 1,
       "message": "[CL Review Agent] The logic for calculating `enableTokenHighlight` (`!prefs?.disable_token_highlighting`) is repeated in both `initLayers()` and `computeLayersWithPlugins()`. Consider extracting this into a private getter or helper method to keep the logic DRY.",
+      "revId": "e1661065182afa7a7096da98c121a6f3a1429705",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "85a0a73f_0f2cea1b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 22
+      },
+      "lineNbr": 554,
+      "author": {
+        "id": 4924225
+      },
+      "writtenOn": "2026-06-27T06:50:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47115c40_b09620c5",
       "revId": "e1661065182afa7a7096da98c121a6f3a1429705",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

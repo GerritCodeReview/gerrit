@@ -74,9 +74,11 @@ export function testResolver<T>(token: DependencyToken<T>): T {
   if (provider) {
     return provider() as T;
   } else {
-    throw new DependencyError(token, 'Forgot to set up dependency for tests');
+    const errorMsg = `Forgot to set up dependency '${token.description || token.toString()}' for tests. Available: ${Array.from(injectedDependencies.keys()).map(k => k.description || k.toString()).join(', ')}`;
+    throw new DependencyError(token, errorMsg);
   }
 }
+
 
 function resolveDependency(evt: DependencyRequestEvent<unknown>) {
   evt.callback(() => testResolver(evt.dependency));

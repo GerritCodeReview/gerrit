@@ -16,6 +16,24 @@
       "message": "Sorry Nasser, one more time. \nI didn\u0027t revert fix in !seen in original file. You can see diff between patchset 1 and patchset 2",
       "revId": "407bbb0f9254210597f8d07930083c6384686463",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d6dda35_cc47db71",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-06-27T19:46:29Z",
+      "side": 1,
+      "message": "I actually made that a separate fix in change 600361: Fix inverted dedup check in byProjectGroups | https://gerrit-review.googlesource.com/c/gerrit/+/600361 so if you approve that change, we can merge it up to master 😊",
+      "parentUuid": "f7b13abc_5368c65d",
+      "revId": "407bbb0f9254210597f8d07930083c6384686463",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

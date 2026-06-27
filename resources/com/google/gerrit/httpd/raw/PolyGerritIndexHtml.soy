@@ -87,7 +87,9 @@
   {else}
     <link rel="icon" type="image/x-icon" href="{$canonicalPath}/favicon.ico">{\n}
   {/if}
-  <link rel="manifest" href="{$manifestPath}">{\n}
+  {if $manifestPath}
+    <link rel="manifest" href="{$manifestPath}">{\n}
+  {/if}
   {if $changeRequestsPath}
     {if $defaultChangeDetailHex}
       <link rel="preload" href="{$canonicalPath}/{$changeRequestsPath}/detail?O={$defaultChangeDetailHex}" as="fetch" type="application/json" crossorigin="anonymous"/>{\n}

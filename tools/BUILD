@@ -7,8 +7,25 @@ load("@rules_java//java:defs.bzl", "java_package_configuration")
 
 exports_files([
     "nongoogle.toml",
+    "nongoogle_ee11.toml",
     "deps.toml",
 ])
+
+# Servlet-flavour selector for the EE8 (default) / EE11 release flavours.
+#
+# Drive with `--define=flavour=ee11` (default, i.e. no define, is EE8). This is
+# the single seam that flavour-bearing `select()`s key off as the EE11 stack is
+# wired up (jakarta servlet-api, Jetty EE11 adapter, generated httpd-ee11,
+# plugin-api-ee11, core-ee11 plugins). Native rule on purpose: keeps the MVI
+# free of a new bazel_skylib direct dep / lockfile repin.
+#
+# See the gerrit-ee8-ee11-flavoured-release-design repo (README.md status map,
+# TODO-ee11-gerrit-flavour.md ordered task list).
+config_setting(
+    name = "ee11",
+    define_values = {"flavour": "ee11"},
+    visibility = ["//visibility:public"],
+)
 
 proto_lang_toolchain(
     name = "protoc_java_toolchain",

@@ -1,5 +1,6 @@
 load("@com_googlesource_gerrit_bazlets//tools:genrule2.bzl", "genrule2")
 load("@npm//:defs.bzl", "npm_link_all_packages")
+load("@com_googlesource_gerrit_bazlets//tools:flavour.bzl", "ee10_war")
 load("//tools/bzl:pkg_war.bzl", "pkg_war")
 
 npm_link_all_packages(name = "node_modules")
@@ -37,30 +38,24 @@ pkg_war(
     doc = True,
 )
 
-# EE10 (jakarta.servlet) release flavour — PROTOTYPE / placeholder.
-#
-# `bazelisk build //:release` stays the EE8 default and is untouched. This
-# target is the seam for the future `release-ee10.war`; for now it is an
-# essentially empty WAR carrying only a `Gerrit-Flavour: ee10` marker so the
-# target exists and builds green. Content is added incrementally as each
-# flavour tier lands (jakarta servlet-api, Jetty EE10, generated httpd-ee10,
-# plugin-api-ee10, core-ee10 plugins) — see the ordered task list and status map
-# in the gerrit-ee8-ee10-flavoured-release-design repo
-# (TODO-ee10-gerrit-flavour.md, README.md).
-genrule(
+# EE10 (jakarta.servlet) release flavours. `bazelisk build //:release` /
+# //:headless stay the EE8 default and are untouched. These build the same WARs
+# with flavour=ee10 forced via a configuration transition, emitting distinctly
+# named release-ee10.war / headless-ee10.war so both flavours can be built (and
+# published) side by side in one invocation.
+ee10_war(
     name = "release-ee10",
-    outs = ["release-ee10.war"],
-    cmd = " && ".join([
-        "set -e",
-        "d=$$(mktemp -d)",
-        "mkdir -p $$d/META-INF",
-        "{ echo 'Manifest-Version: 1.0'; " +
-        "echo 'Gerrit-Flavour: ee10'; " +
-        "echo 'Implementation-Title: Gerrit Code Review (EE10 flavour, prototype placeholder)'; " +
-        "} > $$d/META-INF/MANIFEST.MF",
-        "(cd $$d && zip -qrX out.war META-INF)",
-        "cp $$d/out.war $@",
-    ]),
+    war = ":release",
+)
+
+ee10_war(
+    name = "gerrit-ee10",
+    war = ":gerrit",
+)
+
+ee10_war(
+    name = "headless-ee10",
+    war = ":headless",
 )
 
 # Live handshake for the flavour seam: `bazelisk build //:flavour-check` writes

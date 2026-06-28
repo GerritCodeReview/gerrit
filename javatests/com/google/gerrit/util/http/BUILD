@@ -15,7 +15,7 @@ junit_tests(
 )
 
 # --- EE10 (jakarta.servlet) forward-generated test flavour ------------------
-# Run under --define=flavour=ee10 against the EE10 util/http library + fakes.
+# Run under --@com_googlesource_gerrit_bazlets//flags:flavour=ee10 against the EE10 util/http library + fakes.
 filegroup(
     name = "test-srcs",
     srcs = glob(["**/*.java"]),

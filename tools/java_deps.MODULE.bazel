@@ -230,6 +230,16 @@ maven.install(
     name = "external_deps_ee11",
     artifacts = [],
     duplicate_version_warning = "error",
+    # Guice 7 transitively pulls an older Guava (31.0.1) + failureaccess +
+    # j2objc. Gerrit core already provides Guava 33.5.0 in the WAR, so exclude
+    # them here to avoid two Guava versions in the EE11 WAR. external_deps_ee11
+    # then contributes only the Guice/jakarta-inject cluster.
+    excluded_artifacts = [
+        "com.google.guava:guava",
+        "com.google.guava:failureaccess",
+        "com.google.guava:listenablefuture",
+        "com.google.j2objc:j2objc-annotations",
+    ],
     fail_if_repin_required = True,
     fail_on_missing_checksum = True,
     fetch_sources = True,

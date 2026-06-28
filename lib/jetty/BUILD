@@ -14,10 +14,12 @@ java_library(
     ],
 )
 
-# Jetty EE11 servlet adapter for the EE11 release flavour (jakarta.servlet).
-# Mirrors gitiles' lib/jetty:servlet-ee11. Artifact comes from the shared
-# external_deps (contributed by jgit master). Pairs jetty-ee11-servlet with the
-# jakarta servlet-api on the core :server chain. Runtime deps are intentionally
+# Jakarta servlet adapter for the EE11 release flavour. The artifact is
+# Jetty's EE11 environment: Servlet API 6.1 (shared with JGit) maps to EE11;
+# the flavour name stays ee11. Mirrors gitiles' lib/jetty:servlet-ee11.
+# Artifact comes from the shared external_deps (contributed by jgit master).
+# Pairs jetty-ee11-servlet with the jakarta servlet-api on the core :server
+# chain. Runtime deps are intentionally
 # minimal for now (no ee8 :nested / ee8 :security); the full EE11 server wiring
 # is added when httpd-ee11 lands.
 java_library(

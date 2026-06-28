@@ -278,13 +278,6 @@ class ProjectBasicAuthFilter implements Filter {
     }
 
     @Override
-    @Deprecated
-    public void setStatus(int sc, String sm) {
-      status(sc);
-      super.setStatus(sc, sm);
-    }
-
-    @Override
     public void setStatus(int sc) {
       status(sc);
       super.setStatus(sc);

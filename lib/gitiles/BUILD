@@ -43,11 +43,26 @@ java_library(
     exports = ["@external_deps//:org_commonmark_commonmark_ext_gfm_tables"],
 )
 
+# Single flavour seam for the gitiles-servlet maven jar. The EE8 default
+# resolves the javax gitiles-servlet (1.6.0) from the shared @external_deps;
+# the EE11 branch resolves the jakarta gitiles-servlet from the isolated
+# @external_deps_ee11. The select() lives here once: both the java_library
+# below (compile classpath) and the gitiles plugin's static-resource genrule
+# (raw jar) consume this single alias, so neither repeats the select.
+alias(
+    name = "gitiles-servlet-jar",
+    actual = select({
+        "//tools:ee11": "@external_deps_ee11//:com_google_gitiles_gitiles_servlet",
+        "//conditions:default": "@external_deps//:com_google_gitiles_gitiles_servlet",
+    }),
+    visibility = ["//visibility:public"],
+)
+
 java_library(
     name = "gitiles-servlet",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@external_deps//:com_google_gitiles_gitiles_servlet"],
+    exports = [":gitiles-servlet-jar"],
 )
 
 java_library(

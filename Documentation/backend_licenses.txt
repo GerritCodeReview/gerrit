@@ -60,9 +60,17 @@ Apache2.0
 * flogger:api
 * guice:guice
 * guice:guice-assistedinject
+* guice:guice-assistedinject-ee10
+* guice:guice-assistedinject-ee8
+* guice:guice-ee10
+* guice:guice-ee8
 * guice:guice-library
+* guice:guice-library-ee10
 * guice:guice-servlet
+* guice:guice-servlet-ee10
+* guice:guice-servlet-ee8
 * guice:jakarta-inject
+* guice:jakarta-inject-ee10
 * guice:javax_inject
 * httpcomponents:httpclient
 * httpcomponents:httpcore
@@ -319,6 +327,7 @@ Apache2.0
 PublicDomain
 
 * guice:aopalliance
+* guice:aopalliance-ee10
 
 [[PublicDomain_license]]
 ----

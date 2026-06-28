@@ -24,10 +24,35 @@ js_library(
     ],
 )
 
+# Core plugins that ship an EE10 (jakarta.servlet) flavour target named
+# "<n>-ee10". Under --//tools:flavour=ee10 the core bundle uses that jar instead
+# of the default javax one, whose own servlet sources cannot compile against the
+# jakarta classpath. The other core plugins are servlet-free and build unchanged
+# under the flag, so only the servlet-coupled ones are listed here.
+EE10_FLAVOURED_PLUGINS = [
+    "gitiles",
+    "plugin-manager",
+]
+
 genrule2(
     name = "core",
-    srcs = ["//plugins/%s.jar" % (n if ":" in n else "%s:%s" % (n, n)) for n in CORE_PLUGINS + CUSTOM_PLUGINS],
+    srcs = select({
+        "//tools:ee10": [
+            "//plugins/%s:%s-ee10" % (n, n) if n in EE10_FLAVOURED_PLUGINS else "//plugins/%s.jar" % (n if ":" in n else "%s:%s" % (n, n))
+            for n in CORE_PLUGINS + CUSTOM_PLUGINS
+        ],
+        "//conditions:default": [
+            "//plugins/%s.jar" % (n if ":" in n else "%s:%s" % (n, n))
+            for n in CORE_PLUGINS + CUSTOM_PLUGINS
+        ],
+    }),
     outs = ["core.zip"],
+    # The EE10 jars keep their "<n>-ee10.jar" filename so the WAR visibly carries
+    # the flavour (gitiles.jar in release.war vs gitiles-ee10.jar in
+    # release-ee10.war). The runtime plugin name is unchanged: the loader takes it
+    # from the Gerrit-PluginName manifest entry (firstNonNull, see
+    # JarPluginProvider/PluginLoader), falling back to the filename only when that
+    # is absent -- and every EE10-flavoured core plugin sets Gerrit-PluginName.
     cmd = "mkdir -p $$TMP/WEB-INF/plugins;" +
           "for s in $(SRCS) ; do " +
           "ln -s $$ROOT/$$s $$TMP/WEB-INF/plugins;done;" +
@@ -75,7 +100,6 @@ EXPORTS = [
     "//java/com/google/gerrit/server/util/time",
     "//java/com/google/gerrit/proto",
     "//java/com/google/gerrit/util/cli",
-    "//java/com/google/gerrit/util/http",
     "//java/com/google/gerrit/util/logging",
     "//lib/antlr:java-runtime",
     "//lib/auto:auto-value-annotations",
@@ -111,10 +135,25 @@ EXPORTS = [
     "//lib:icu4j",
     "//lib:mime-util",
     "//lib:protobuf",
-    "//lib:servlet-api-without-neverlink",
     "//lib:soy",
     "//prolog:gerrit-prolog-common",
 ]
+
+# The only servlet-flavour-bearing plugin-api exports that are not already
+# flavour aliases. Under --//tools:flavour=ee10 the plugin API exposes jakarta
+# servlet-api and the jakarta util/http, matching the httpd / guice / jgit
+# aliases (which flip on their own). This is what makes //plugins:plugin-api a
+# plugin-api-ee10 under the flag, so EE10 plugins compile against jakarta.
+_FLAVOUR_EXPORTS = select({
+    "//tools:ee10": [
+        "//java/com/google/gerrit/util/http:http-ee10",
+        "//lib:jakarta-servlet-api-without-neverlink",
+    ],
+    "//conditions:default": [
+        "//java/com/google/gerrit/util/http",
+        "//lib:servlet-api-without-neverlink",
+    ],
+})
 
 java_binary(
     name = "bouncycastle-deploy-env",
@@ -136,13 +175,13 @@ java_binary(
 
 java_library(
     name = "plugin-lib",
-    exports = PLUGIN_API + EXPORTS,
+    exports = PLUGIN_API + EXPORTS + _FLAVOUR_EXPORTS,
 )
 
 java_library(
     name = "plugin-lib-neverlink",
     neverlink = 1,
-    exports = PLUGIN_API + EXPORTS,
+    exports = PLUGIN_API + EXPORTS + _FLAVOUR_EXPORTS,
 )
 
 java_binary(

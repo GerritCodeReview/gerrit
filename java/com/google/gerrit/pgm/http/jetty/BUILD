@@ -66,7 +66,7 @@ filegroup(
         ["**/*.java"],
         exclude = [
             "HiddenErrorHandler.java",
-            "JettyServer.java",
+            "JettyServerFlavour.java",
         ],
     ),
     visibility = ["//visibility:public"],

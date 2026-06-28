@@ -246,6 +246,8 @@ maven.install(
     lock_file = "//:external_deps_ee11.lock.json",
     repositories = [
         "https://repo1.maven.org/maven2",
+        # gitiles-servlet:2.0.0 (jakarta) is published only here, not Central.
+        "https://gerrit-maven.storage.googleapis.com",
     ],
     version_conflict_policy = "pinned",
 )

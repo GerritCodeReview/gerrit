@@ -58,19 +58,6 @@ ee10_war(
     war = ":headless",
 )
 
-# Live handshake for the flavour seam: `bazelisk build //:flavour-check` writes
-# flavour=ee8; `bazelisk build --define=flavour=ee10 //:flavour-check` writes
-# flavour=ee10. Proves `--define=flavour=ee10` -> //tools:ee10 -> select()
-# end-to-end without any new dep or synthetic source.
-genrule(
-    name = "flavour-check",
-    outs = ["flavour-check.txt"],
-    cmd = select({
-        "//tools:ee10": "echo 'flavour=ee10' > $@",
-        "//conditions:default": "echo 'flavour=ee8' > $@",
-    }),
-)
-
 pkg_war(
     name = "withdocs",
     doc = True,

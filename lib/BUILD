@@ -77,7 +77,7 @@ java_library(
 )
 
 # Flavour-neutral non-neverlink servlet API (bundled in the WAR): javax by
-# default, jakarta under --define=flavour=ee10. Used by code that packages the
+# default, jakarta under --@com_googlesource_gerrit_bazlets//flags:flavour=ee10. Used by code that packages the
 # servlet API into the WAR (e.g. //java/com/google/gerrit/pgm).
 alias(
     name = "servlet-api-without-neverlink-flavoured",
@@ -89,7 +89,7 @@ alias(
 )
 
 # Flavour-neutral servlet API: routes to javax (EE8 default) or jakarta (EE10)
-# based on --define=flavour=ee10. Boundary code depends on this alias instead of
+# based on --@com_googlesource_gerrit_bazlets//flags:flavour=ee10. Boundary code depends on this alias instead of
 # a concrete servlet-api so a single source set serves both release flavours.
 alias(
     name = "servlet-api-flavoured",
@@ -150,7 +150,7 @@ java_library(
 
 # Flavour-aware JGit servlet module: dependents use //lib:jgit-servlet and get
 # JGit's generated .ee8 (javax) bridge by default or the canonical jakarta module
-# under --define=flavour=ee10. Keeps javax.servlet out of the EE10 WAR.
+# under --@com_googlesource_gerrit_bazlets//flags:flavour=ee10. Keeps javax.servlet out of the EE10 WAR.
 alias(
     name = "jgit-servlet",
     actual = select({

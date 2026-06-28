@@ -150,6 +150,54 @@ The output executable WAR will be placed in:
   bazel-bin/headless.war
 ----
 
+[[ee10-flavour]]
+=== EE10 (jakarta.servlet) Flavour
+
+Gerrit's default release is the EE8 flavour (`javax.servlet`, the Jetty 12
+ee8 adapter and Guice 6). An opt-in EE10 flavour (`jakarta.servlet`, Jetty 12
+ee10 and Guice 7) is produced from the *same source tree*, so both can ship
+from one branch.
+
+Each WAR target has an `-ee10` counterpart that builds the jakarta flavour.
+These targets carry their own configuration transition, so they build the
+EE10 flavour without any command-line flag -- and side by side with the
+default EE8 WARs in a single invocation:
+
+----
+  bazelisk build release release-ee10
+----
+
+The outputs are placed next to the EE8 WARs, with distinct names so both
+flavours coexist:
+
+----
+  bazel-bin/release.war        # EE8 (javax.servlet), the default
+  bazel-bin/release-ee10.war   # EE10 (jakarta.servlet)
+----
+
+The same applies to `gerrit-ee10` and `headless-ee10`.
+
+The flavour is selected by the string build setting
+`@com_googlesource_gerrit_bazlets//flags:flavour` (`ee8` default, `ee10`).
+The `-ee10` targets set it for their own subgraph, so you normally never set
+it by hand. As an escape hatch you can flip the *whole* build to one flavour:
+
+----
+  bazelisk build --@com_googlesource_gerrit_bazlets//flags:flavour=ee10 release
+----
+
+Core plugins follow the same convention: a plugin with an EE10 flavour
+exposes a self-transitioning `-ee10` target, e.g.
+
+----
+  bazelisk build //plugins/gitiles:gitiles //plugins/gitiles:gitiles-ee10
+----
+
+For the full design -- how the servlet boundary is generated from the
+canonical javax sources, the hand-written Jetty-12 overlays, and the
+forward- vs backward-bridge dependency naming -- see
+`tools/gerrit-ee10/README.md`.
+
 === Extension and Plugin API JAR Files
 
 To build the extension, plugin and acceptance-framework JAR files:

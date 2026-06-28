@@ -7,7 +7,7 @@ filegroup(
     visibility = ["//visibility:public"],
 )
 
-# Flavour-aware: EE8/javax by default, EE10/jakarta under --define=flavour=ee10.
+# Flavour-aware: EE8/javax by default, EE10/jakarta under --@com_googlesource_gerrit_bazlets//flags:flavour=ee10.
 alias(
     name = "openid",
     actual = select({

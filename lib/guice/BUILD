@@ -2,8 +2,8 @@ load("@rules_java//java:defs.bzl", "java_library")
 
 # Flavour-aware Guice. The whole Gerrit tree depends on //lib/guice:guice, so a
 # select() here flips every consumer to Guice 7 (jakarta.inject) under
-# --define=flavour=ee10 with no per-target change. Default (no define) is the
-# unchanged Guice 6 cluster, so the EE8 release is byte-identical. Same pattern
+# --@com_googlesource_gerrit_bazlets//flags:flavour=ee10 with no per-target change. The default (no flag,
+# ee8) is the unchanged Guice 6 cluster, so the EE8 release is byte-identical. Same pattern
 # for :guice-servlet and :guice-assistedinject below.
 java_library(
     name = "guice",

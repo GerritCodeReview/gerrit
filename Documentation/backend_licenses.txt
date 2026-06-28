@@ -109,6 +109,7 @@ Apache2.0
 * html-types
 * j2objc
 * jakarta-servlet-api
+* jakarta-servlet-api-without-neverlink
 * javaewah
 * jsr305
 * mime-util

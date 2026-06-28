@@ -25,7 +25,7 @@ js_library(
 )
 
 # Core plugins that ship an EE10 (jakarta.servlet) flavour target named
-# "<n>-ee10". Under --//tools:flavour=ee10 the core bundle uses that jar instead
+# "<n>-ee10". Under --@com_googlesource_gerrit_bazlets//flags:flavour=ee10 the core bundle uses that jar instead
 # of the default javax one, whose own servlet sources cannot compile against the
 # jakarta classpath. The other core plugins are servlet-free and build unchanged
 # under the flag, so only the servlet-coupled ones are listed here.
@@ -140,7 +140,7 @@ EXPORTS = [
 ]
 
 # The only servlet-flavour-bearing plugin-api exports that are not already
-# flavour aliases. Under --//tools:flavour=ee10 the plugin API exposes jakarta
+# flavour aliases. Under --@com_googlesource_gerrit_bazlets//flags:flavour=ee10 the plugin API exposes jakarta
 # servlet-api and the jakarta util/http, matching the httpd / guice / jgit
 # aliases (which flip on their own). This is what makes //plugins:plugin-api a
 # plugin-api-ee10 under the flag, so EE10 plugins compile against jakarta.

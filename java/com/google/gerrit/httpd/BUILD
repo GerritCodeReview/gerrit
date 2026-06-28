@@ -11,7 +11,7 @@ filegroup(
 
 # Flavour-aware httpd: dependents use //java/com/google/gerrit/httpd:httpd and
 # get the EE8/javax library by default or the EE10/jakarta library under
-# --define=flavour=ee10. Lets the release WAR (and everything else depending on
+# --@com_googlesource_gerrit_bazlets//flags:flavour=ee10. Lets the release WAR (and everything else depending on
 # httpd) flip flavour without per-dependent changes, the same way //lib/guice
 # does. The two impls share FQDNs, so only one is ever on a classpath.
 alias(
@@ -90,7 +90,7 @@ javax_to_jakarta_srcjar(
 )
 
 # EE10 (jakarta.servlet) httpd library, compiled from the transform-generated
-# sources. Build only under --define=flavour=ee10: the Guice tier then resolves
+# sources. Build only under --@com_googlesource_gerrit_bazlets//flags:flavour=ee10: the Guice tier then resolves
 # to Guice 7 (the cascade), and the servlet-neutral core deps recompile against
 # it, so the whole graph is jakarta + Guice 7. Deps mirror :httpd with the
 # servlet tier swapped to jakarta (jakarta-servlet-api, jgit-servlet-jakarta);

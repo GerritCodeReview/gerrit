@@ -14,6 +14,37 @@ java_library(
     ],
 )
 
+# Jetty EE11 servlet adapter for the EE11 release flavour (jakarta.servlet).
+# Mirrors gitiles' lib/jetty:servlet-ee11. Artifact comes from the shared
+# external_deps (contributed by jgit master). Pairs jetty-ee11-servlet with the
+# jakarta servlet-api on the core :server chain. Runtime deps are intentionally
+# minimal for now (no ee8 :nested / ee8 :security); the full EE11 server wiring
+# is added when httpd-ee11 lands.
+java_library(
+    name = "servlet-ee11",
+    data = ["//lib:LICENSE-Apache2.0"],
+    visibility = ["//visibility:public"],
+    exports = [
+        "//lib:jakarta-servlet-api",
+        "@external_deps//:org_eclipse_jetty_ee11_jetty_ee11_servlet",
+    ],
+    runtime_deps = [
+        ":server",
+    ],
+)
+
+# Flavour-neutral Jetty servlet adapter: EE8 (default) or EE11 servlet adapter
+# based on --define=flavour=ee11. Server bootstrap depends on this alias so one
+# source set serves both release flavours.
+alias(
+    name = "servlet-flavoured",
+    actual = select({
+        "//tools:ee11": ":servlet-ee11",
+        "//conditions:default": ":servlet",
+    }),
+    visibility = ["//visibility:public"],
+)
+
 java_library(
     name = "nested",
     data = ["//lib:LICENSE-Apache2.0"],

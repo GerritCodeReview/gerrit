@@ -11,7 +11,7 @@ filegroup(
 
 # Flavour-aware jetty bootstrap: dependents use
 # //java/com/google/gerrit/pgm/http/jetty:jetty and get EE8 by default or the
-# EE11 library under --define=flavour=ee11, so the release WAR flips flavour.
+# EE11 library under --@com_googlesource_gerrit_bazlets//flags:flavour=ee11, so the release WAR flips flavour.
 alias(
     name = "jetty",
     actual = select({
@@ -57,7 +57,7 @@ java_library(
 # ee8 -> ee11 adapter prefix changes). The genuinely divergent files (Jetty-12
 # ee11 core-API: HiddenErrorHandler.handle, JettyServer config) get hand-written
 # overlays under ee11/ and are excluded from the transform. Built under
-# --define=flavour=ee11 (the Guice tier flips to Guice 7 via the cascade).
+# --@com_googlesource_gerrit_bazlets//flags:flavour=ee11 (the Guice tier flips to Guice 7 via the cascade).
 # Transform input: canonical sources MINUS the two files with genuine Jetty-12
 # ee11 API divergences, which are replaced by the hand-written ee11/ overlays.
 filegroup(

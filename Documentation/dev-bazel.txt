@@ -150,6 +150,54 @@ The output executable WAR will be placed in:
   bazel-bin/headless.war
 ----
 
+[[ee11-flavour]]
+=== EE11 (jakarta.servlet) Flavour
+
+Gerrit's default release is the EE8 flavour (`javax.servlet`, the Jetty 12
+ee8 adapter and Guice 6). An opt-in EE11 flavour (`jakarta.servlet`, Jetty 12
+ee11 and Guice 7) is produced from the *same source tree*, so both can ship
+from one branch.
+
+Each WAR target has an `-ee11` counterpart that builds the jakarta flavour.
+These targets carry their own configuration transition, so they build the
+EE11 flavour without any command-line flag -- and side by side with the
+default EE8 WARs in a single invocation:
+
+----
+  bazelisk build release release-ee11
+----
+
+The outputs are placed next to the EE8 WARs, with distinct names so both
+flavours coexist:
+
+----
+  bazel-bin/release.war        # EE8 (javax.servlet), the default
+  bazel-bin/release-ee11.war   # EE11 (jakarta.servlet)
+----
+
+The same applies to `gerrit-ee11` and `headless-ee11`.
+
+The flavour is selected by the string build setting
+`@com_googlesource_gerrit_bazlets//flags:flavour` (`ee8` default, `ee11`).
+The `-ee11` targets set it for their own subgraph, so you normally never set
+it by hand. As an escape hatch you can flip the *whole* build to one flavour:
+
+----
+  bazelisk build --@com_googlesource_gerrit_bazlets//flags:flavour=ee11 release
+----
+
+Core plugins follow the same convention: a plugin with an EE11 flavour
+exposes a self-transitioning `-ee11` target, e.g.
+
+----
+  bazelisk build //plugins/gitiles:gitiles //plugins/gitiles:gitiles-ee11
+----
+
+For the full design -- how the servlet boundary is generated from the
+canonical javax sources, the hand-written Jetty-12 overlays, and the
+forward- vs backward-bridge dependency naming -- see
+`tools/gerrit-ee11/README.md`.
+
 === Extension and Plugin API JAR Files
 
 To build the extension, plugin and acceptance-framework JAR files:

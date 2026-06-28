@@ -40,7 +40,7 @@ _DEPS = [
     "//lib/guice:guice-servlet",
 ]
 
-# Flavour-aware: EE8/javax by default, EE11/jakarta under --define=flavour=ee11.
+# Flavour-aware: EE8/javax by default, EE11/jakarta under --@com_googlesource_gerrit_bazlets//flags:flavour=ee11.
 alias(
     name = "init",
     actual = select({

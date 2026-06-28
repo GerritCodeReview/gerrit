@@ -1,9 +1,30 @@
+load("@com_googlesource_gerrit_bazlets//tools:servlet_transform.bzl", javax_to_jakarta_srcjar = "transform_srcjar")
 load("@rules_java//java:defs.bzl", "java_library")
 load("//tools/bzl:javadoc.bzl", "java_doc")
 
 CONSTANTS_SRC = [
     "documentation/Constants.java",
 ]
+
+# The only two servlet-typed files in the otherwise servlet-neutral server
+# package: PluginGuiceEnvironment copies the @RootRelative request/response
+# bindings, and AutoRegisterModules detects @Export HttpServlet plugins. Rather
+# than drag //lib:servlet-api (javax) into server under --define=flavour=ee10,
+# flavour-select these two files: the canonical javax sources by default, their
+# mechanically transformed jakarta forms under EE10 (the is("javax.servlet...")
+# string literals rewrite to "jakarta.servlet..." too, which is correct for EE10
+# plugin detection). Keeps server one target -- no split, no servlet leak.
+SERVLET_PLUGIN_SRC = [
+    "plugins/AutoRegisterModules.java",
+    "plugins/PluginGuiceEnvironment.java",
+]
+
+javax_to_jakarta_srcjar(
+    name = "plugins-servlet-ee10-srcs",
+    direction = "to_jakarta",
+    sources = SERVLET_PLUGIN_SRC,
+    src_prefix = "java/",
+)
 
 GERRIT_GLOBAL_MODULE_SRC = [
     "config/GerritGlobalModule.java",
@@ -33,8 +54,11 @@ java_library(
     srcs = glob(
         ["**/*.java"],
         exclude = CONSTANTS_SRC + GERRIT_GLOBAL_MODULE_SRC + TESTING_SRC +
-                  PROLOG_SRC,
-    ),
+                  PROLOG_SRC + SERVLET_PLUGIN_SRC,
+    ) + select({
+        "//tools:ee10": [":plugins-servlet-ee10-srcs"],
+        "//conditions:default": SERVLET_PLUGIN_SRC,
+    }),
     resource_strip_prefix = "resources",
     resources = ["//resources/com/google/gerrit/server"],
     visibility = ["//visibility:public"],
@@ -83,7 +107,6 @@ java_library(
         "//lib:mime-util",
         "//lib:protobuf",
         "//lib:roaringbitmap",
-        "//lib:servlet-api",
         "//lib:soy",
         "//lib:tukaani-xz",
         "//lib/auto:auto-factory",
@@ -118,7 +141,12 @@ java_library(
         "//lib/prolog:runtime",
         "//proto:cache_java_proto",
         "//proto:entities_java_proto",
-    ],
+    ] + select({
+        # The two flavour-selected servlet-typed plugin files (see
+        # SERVLET_PLUGIN_SRC) need the matching servlet API.
+        "//tools:ee10": ["//lib:jakarta-servlet-api"],
+        "//conditions:default": ["//lib:servlet-api"],
+    }),
 )
 
 # Large modules that import things from all across the server package

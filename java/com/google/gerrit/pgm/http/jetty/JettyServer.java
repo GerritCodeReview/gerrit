@@ -313,6 +313,8 @@ public class JettyServer {
 
     httpd.setHandler(app);
     httpd.setStopAtShutdown(false);
+
+    JettyServerFlavour.applyServlet6Compliance(httpd);
   }
 
   @VisibleForTesting
@@ -615,6 +617,7 @@ public class JettyServer {
     //
     app.setSessionHandler(sessionHandler);
     app.setErrorHandler(new HiddenErrorHandler());
+    JettyServerFlavour.configureServletHandler(app);
 
     // This is the path we are accessed by clients within our domain.
     //
@@ -685,8 +688,10 @@ public class JettyServer {
     ds.setInitParameter("gzip", "true");
 
     app.setWelcomeFiles(new String[0]);
-    // ee8 ContextHandler implements Supplier<org.eclipse.jetty.server.Handler>;
-    // unwrap to the core Handler for installation into the server's handler tree.
-    return app.get();
+    // The ServletContextHandler -> core Handler conversion is the one structural
+    // EE8/EE10 divergence: ee8's ServletContextHandler is a
+    // Supplier<org.eclipse.jetty.server.Handler> (unwrap with get()), while
+    // ee10's is itself a Handler. Isolated behind the JettyServerFlavour seam.
+    return JettyServerFlavour.toCoreHandler(app);
   }
 }

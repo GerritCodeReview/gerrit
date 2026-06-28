@@ -12,73 +12,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Starlark rule to generate a Junit4 TestSuite
-# Assumes srcs are all .java Test files
-# Assumes junit4 is already added to deps by the user.
+# Re-export junit_tests from bazlets. It is a strict superset of the previous
+# in-tree macro (same generated @RunWith(Suite) logic) and adds the suite_srcs
+# parameter, which is required to run tests compiled from a generated .srcjar
+# (e.g. the servlet-flavour-transformed EE10 test sources). Existing srcs-only
+# callers are unaffected.
+load("@com_googlesource_gerrit_bazlets//tools:junit.bzl", _junit_tests = "junit_tests")
 
-# See https://github.com/bazelbuild/bazel/issues/1017 for background.
-
-load("@rules_java//java:defs.bzl", "java_test")
-
-_OUTPUT = """import org.junit.runners.Suite;
-import org.junit.runner.RunWith;
-
-@RunWith(Suite.class)
-@Suite.SuiteClasses({%s})
-@SuppressWarnings("DefaultPackage")
-public class %s {}
-"""
-
-_PREFIXES = ("org", "com", "edu")
-
-def _SafeIndex(j, val):
-    for i, v in enumerate(j):
-        if val == v:
-            return i
-    return -1
-
-def _AsClassName(fname):
-    fname = [x.path for x in fname.files.to_list()][0]
-    toks = fname[:-5].split("/")
-    findex = -1
-    for s in _PREFIXES:
-        findex = _SafeIndex(toks, s)
-        if findex != -1:
-            break
-    if findex == -1:
-        fail("%s does not contain any of %s" % (fname, _PREFIXES))
-    return ".".join(toks[findex:]) + ".class"
-
-def _impl(ctx):
-    classes = ",".join(
-        [_AsClassName(x) for x in ctx.attr.srcs],
-    )
-    ctx.actions.write(output = ctx.outputs.out, content = _OUTPUT % (
-        classes,
-        ctx.attr.outname,
-    ))
-
-_gen_suite = rule(
-    attrs = {
-        "srcs": attr.label_list(allow_files = True),
-        "outname": attr.string(),
-    },
-    outputs = {"out": "%{name}.java"},
-    implementation = _impl,
-)
-
-def junit_tests(name, srcs, **kwargs):
-    s_name = name.replace("-", "_") + "TestSuite"
-    _gen_suite(
-        name = s_name,
-        srcs = srcs,
-        outname = s_name,
-    )
-    jvm_flags = kwargs.get("jvm_flags", [])
-    jvm_flags = jvm_flags
-    java_test(
-        name = name,
-        test_class = s_name,
-        srcs = srcs + [":" + s_name],
-        **dict(kwargs, jvm_flags = jvm_flags)
-    )
+junit_tests = _junit_tests

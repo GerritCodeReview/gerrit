@@ -9,8 +9,22 @@ filegroup(
     visibility = ["//visibility:public"],
 )
 
-java_library(
+# Flavour-aware httpd: dependents use //java/com/google/gerrit/httpd:httpd and
+# get the EE8/javax library by default or the EE10/jakarta library under
+# --define=flavour=ee10. Lets the release WAR (and everything else depending on
+# httpd) flip flavour without per-dependent changes, the same way //lib/guice
+# does. The two impls share FQDNs, so only one is ever on a classpath.
+alias(
     name = "httpd",
+    actual = select({
+        "//tools:ee10": ":httpd-ee10",
+        "//conditions:default": ":httpd-ee8",
+    }),
+    visibility = ["//visibility:public"],
+)
+
+java_library(
+    name = "httpd-ee8",
     srcs = [":srcs"],
     resource_strip_prefix = "resources",
     resources = [
@@ -73,4 +87,58 @@ javax_to_jakarta_srcjar(
     sources = [":srcs"],
     src_prefix = "java/",
     visibility = ["//visibility:public"],
+)
+
+# EE10 (jakarta.servlet) httpd library, compiled from the transform-generated
+# sources. Build only under --define=flavour=ee10: the Guice tier then resolves
+# to Guice 7 (the cascade), and the servlet-neutral core deps recompile against
+# it, so the whole graph is jakarta + Guice 7. Deps mirror :httpd with the
+# servlet tier swapped to jakarta (jakarta-servlet-api, jgit-servlet-jakarta);
+# //lib/guice:* keep their labels and auto-flip via select().
+java_library(
+    name = "httpd-ee10",
+    srcs = [":httpd-ee10-srcs"],
+    resource_strip_prefix = "resources",
+    resources = [
+        "//resources/com/google/gerrit/httpd",
+        "//resources/com/google/gerrit/httpd/raw",
+    ],
+    visibility = ["//visibility:public"],
+    deps = [
+        "//java/com/google/gerrit/common:annotations",
+        "//java/com/google/gerrit/common:server",
+        "//java/com/google/gerrit/entities",
+        "//java/com/google/gerrit/extensions:api",
+        "//java/com/google/gerrit/json",
+        "//java/com/google/gerrit/launcher",
+        "//java/com/google/gerrit/lifecycle",
+        "//java/com/google/gerrit/metrics",
+        "//java/com/google/gerrit/server",
+        "//java/com/google/gerrit/server/audit",
+        "//java/com/google/gerrit/server/cancellation",
+        "//java/com/google/gerrit/server/git/receive",
+        "//java/com/google/gerrit/server/ioutil",
+        "//java/com/google/gerrit/server/logging",
+        "//java/com/google/gerrit/server/restapi",
+        "//java/com/google/gerrit/server/util/time",
+        "//java/com/google/gerrit/util/cli",
+        "//java/com/google/gerrit/util/http:http-ee10",
+        "//lib:args4j",
+        "//lib:gson",
+        "//lib:guava",
+        "//lib:jakarta-servlet-api",
+        "//lib:jgit",
+        "//lib:jgit-servlet-jakarta",
+        "//lib:soy",
+        "//lib/auto:auto-value",
+        "//lib/auto:auto-value-annotations",
+        "//lib/commons:lang3",
+        "//lib/commons:net",
+        "//lib/errorprone:annotations",
+        "//lib/flogger:api",
+        "//lib/guice",
+        "//lib/guice:guice-assistedinject",
+        "//lib/guice:guice-servlet",
+        "//lib/jsoup",
+    ],
 )

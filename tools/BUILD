@@ -13,17 +13,22 @@ exports_files([
 
 # Servlet-flavour selector for the EE8 (default) / EE11 release flavours.
 #
-# Drive with `--define=flavour=ee11` (default, i.e. no define, is EE8). This is
-# the single seam that flavour-bearing `select()`s key off as the EE11 stack is
-# wired up (jakarta servlet-api, Jetty EE11 adapter, generated httpd-ee11,
-# plugin-api-ee11, core-ee11 plugins). Native rule on purpose: keeps the MVI
-# free of a new bazel_skylib direct dep / lockfile repin.
+# The flavour build setting itself lives in bazlets
+# (@com_googlesource_gerrit_bazlets//flags:flavour) so the shared gerrit_plugin
+# macro can transition its own EE11 plugin targets onto it. This config_setting
+# is the single seam every flavour-bearing select() keys off (jakarta
+# servlet-api, Jetty EE11 adapter, generated httpd-ee11, Guice 7, the boundary
+# aliases). Drive it manually with
+#   --@com_googlesource_gerrit_bazlets//flags:flavour=ee11
+# (default ee8 needs no flag), or -- preferably -- build a transition-wrapped
+# target: the ee11_war WARs (//:release-ee11, //:headless-ee11) and the
+# gerrit_plugin(flavour = "ee11") plugin jars set it automatically.
 #
 # See the gerrit-ee8-ee11-flavoured-release-design repo (README.md status map,
 # TODO-ee11-gerrit-flavour.md ordered task list).
 config_setting(
     name = "ee11",
-    define_values = {"flavour": "ee11"},
+    flag_values = {"@com_googlesource_gerrit_bazlets//flags:flavour": "ee11"},
     visibility = ["//visibility:public"],
 )
 

@@ -76,6 +76,18 @@ java_library(
     exports = ["@external_deps//:jakarta_servlet_jakarta_servlet_api"],
 )
 
+# Flavour-neutral non-neverlink servlet API (bundled in the WAR): javax by
+# default, jakarta under --define=flavour=ee10. Used by code that packages the
+# servlet API into the WAR (e.g. //java/com/google/gerrit/pgm).
+alias(
+    name = "servlet-api-without-neverlink-flavoured",
+    actual = select({
+        "//tools:ee10": ":jakarta-servlet-api-without-neverlink",
+        "//conditions:default": ":servlet-api-without-neverlink",
+    }),
+    visibility = ["//visibility:public"],
+)
+
 # Flavour-neutral servlet API: routes to javax (EE8 default) or jakarta (EE10)
 # based on --define=flavour=ee10. Boundary code depends on this alias instead of
 # a concrete servlet-api so a single source set serves both release flavours.

@@ -67,6 +67,27 @@ java_library(
     exports = ["@external_deps//:jakarta_servlet_jakarta_servlet_api"],
 )
 
+# Non-neverlink jakarta servlet-api, for EE11 tests that need the classes on the
+# runtime classpath (mirrors servlet-api-without-neverlink).
+java_library(
+    name = "jakarta-servlet-api-without-neverlink",
+    data = ["//lib:LICENSE-Apache2.0"],
+    visibility = ["//visibility:public"],
+    exports = ["@external_deps//:jakarta_servlet_jakarta_servlet_api"],
+)
+
+# Flavour-neutral non-neverlink servlet API (bundled in the WAR): javax by
+# default, jakarta under --define=flavour=ee11. Used by code that packages the
+# servlet API into the WAR (e.g. //java/com/google/gerrit/pgm).
+alias(
+    name = "servlet-api-without-neverlink-flavoured",
+    actual = select({
+        "//tools:ee11": ":jakarta-servlet-api-without-neverlink",
+        "//conditions:default": ":servlet-api-without-neverlink",
+    }),
+    visibility = ["//visibility:public"],
+)
+
 # Flavour-neutral servlet API: routes to javax (EE8 default) or jakarta (EE11)
 # based on --define=flavour=ee11. Boundary code depends on this alias instead of
 # a concrete servlet-api so a single source set serves both release flavours.
@@ -127,11 +148,34 @@ java_library(
     runtime_deps = [":jgit"],
 )
 
-java_library(
+# Flavour-aware JGit servlet module: dependents use //lib:jgit-servlet and get
+# JGit's generated .ee8 (javax) bridge by default or the canonical jakarta module
+# under --define=flavour=ee11. Keeps javax.servlet out of the EE11 WAR.
+alias(
     name = "jgit-servlet",
+    actual = select({
+        "//tools:ee11": ":jgit-servlet-jakarta",
+        "//conditions:default": ":jgit-servlet-ee8",
+    }),
+    visibility = ["//visibility:public"],
+)
+
+java_library(
+    name = "jgit-servlet-ee8",
     data = ["//lib:LICENSE-jgit"],
     visibility = ["//visibility:public"],
     exports = ["@jgit//org.eclipse.jgit.http.server.ee8:jgit-servlet-ee8"],
+    runtime_deps = [":jgit"],
+)
+
+# Canonical jakarta.servlet JGit servlet module for the EE11 flavour. The .ee8
+# bridge above is javax; this exports JGit master's canonical jakarta module.
+# Same FQDNs, so the two must never share a classpath.
+java_library(
+    name = "jgit-servlet-jakarta",
+    data = ["//lib:LICENSE-jgit"],
+    visibility = ["//visibility:public"],
+    exports = ["@jgit//org.eclipse.jgit.http.server:jgit-servlet"],
     runtime_deps = [":jgit"],
 )
 

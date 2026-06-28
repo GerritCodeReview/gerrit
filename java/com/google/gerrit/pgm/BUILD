@@ -49,7 +49,7 @@ java_library(
         "//lib:jgit",
         "//lib:jgit-ssh-apache",
         "//lib:protobuf",
-        "//lib:servlet-api-without-neverlink",
+        "//lib:servlet-api-without-neverlink-flavoured",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",
         "//lib/commons:lang3",

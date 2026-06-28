@@ -83,6 +83,7 @@ Apache2.0
 * jetty:security
 * jetty:server
 * jetty:servlet
+* jetty:servlet-ee10
 * jetty:session
 * jetty:util
 * jetty:util-ajax
@@ -109,6 +110,8 @@ Apache2.0
 * guava-retrying
 * html-types
 * j2objc
+* jakarta-servlet-api
+* jakarta-servlet-api-without-neverlink
 * javaewah
 * jsr305
 * mime-util
@@ -1777,7 +1780,8 @@ jgit
 
 * jgit
 * jgit-archive
-* jgit-servlet
+* jgit-servlet-ee8
+* jgit-servlet-jakarta
 * jgit-ssh-apache
 
 [[jgit_license]]

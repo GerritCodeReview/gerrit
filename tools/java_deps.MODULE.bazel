@@ -137,6 +137,28 @@ _GERRIT_FORCED_ARTIFACTS = [
     for coord in _GERRIT_FORCED_ARTIFACTS
 ]
 
+# These third-party libraries transitively pin com.google.inject:guice:6. That
+# would bundle a second, conflicting Guice into the EE10 WAR alongside the
+# cascade's Guice 7. Exclude it so they resolve Guice solely from the
+# flavour-aware //lib/guice -- Guice 6 under EE8, Guice 7 under EE10. Gerrit
+# always provides Guice on the runtime classpath, and the com.google.inject.*
+# API is compatible across 6/7, so these libraries run against either. NOT the
+# guice-* extensions, which are part of the Guice cluster itself. release.war is
+# unchanged because Gerrit core pins Guice 6 directly.
+_GUICE_PROVIDED_BY_GERRIT = [
+    "org.openid4java:openid4java",
+    "com.google.template:soy",
+]
+
+[
+    maven.amend_artifact(
+        name = "external_deps",
+        coordinates = coord,
+        exclusions = ["com.google.inject:guice"],
+    )
+    for coord in _GUICE_PROVIDED_BY_GERRIT
+]
+
 # Empty maven.install call to apply the configuration to the installation from
 # toml files.
 maven.install(
@@ -186,6 +208,16 @@ maven.install(
     name = "external_deps_ee10",
     artifacts = [],
     duplicate_version_warning = "error",
+    # Guice 7 transitively pulls an older Guava (31.0.1) + failureaccess +
+    # j2objc. Gerrit core already provides Guava 33.5.0 in the WAR, so exclude
+    # them here to avoid two Guava versions in the EE10 WAR. external_deps_ee10
+    # then contributes only the Guice/jakarta-inject cluster.
+    excluded_artifacts = [
+        "com.google.guava:guava",
+        "com.google.guava:failureaccess",
+        "com.google.guava:listenablefuture",
+        "com.google.j2objc:j2objc-annotations",
+    ],
     fail_if_repin_required = True,
     fail_on_missing_checksum = True,
     fetch_sources = True,

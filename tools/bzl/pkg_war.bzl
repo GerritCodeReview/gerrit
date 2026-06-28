@@ -278,6 +278,7 @@ def _war_impl(ctx):
         inputs = inputs,
         outputs = [war],
         mnemonic = "WAR",
+        progress_message = "WAR %s%s.war" % (ctx.label.name, ctx.attr.flavour_suffix),
         command = "\n".join(cmd),
         use_default_shell_env = True,
     )
@@ -294,6 +295,7 @@ _pkg_war = rule(
         "context": attr.label_list(allow_files = True),
         "libs": attr.label_list(allow_files = jar_filetype),
         "pgmlibs": attr.label_list(allow_files = False),
+        "flavour_suffix": attr.string(default = ""),
     },
     outputs = {
         "war": "%{name}.war",
@@ -330,5 +332,9 @@ def pkg_war(name, ui = "polygerrit", context = [], doc = False, **kwargs):
             "//java:gerrit-main-class_deploy.jar",
             "//webapp:assets",
         ],
+        flavour_suffix = select({
+            "//tools:ee10": "-ee10",
+            "//conditions:default": "",
+        }),
         **kwargs
     )

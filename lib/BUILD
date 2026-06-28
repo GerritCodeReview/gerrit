@@ -54,6 +54,31 @@ java_library(
     exports = ["@external_deps//:javax_servlet_javax_servlet_api"],
 )
 
+# jakarta.servlet API for the EE10 release flavour. Available in the shared
+# external_deps because jgit master contributes it (see the JGit-EE8 migration).
+# neverlink: the Jetty EE10 container provides it at runtime, same as the javax
+# servlet-api above. Visibility starts public while the EE10 tier is wired; it
+# can be tightened to an allowlist like servlet-api once EE10 consumers settle.
+java_library(
+    name = "jakarta-servlet-api",
+    data = ["//lib:LICENSE-Apache2.0"],
+    neverlink = 1,
+    visibility = ["//visibility:public"],
+    exports = ["@external_deps//:jakarta_servlet_jakarta_servlet_api"],
+)
+
+# Flavour-neutral servlet API: routes to javax (EE8 default) or jakarta (EE10)
+# based on --define=flavour=ee10. Boundary code depends on this alias instead of
+# a concrete servlet-api so a single source set serves both release flavours.
+alias(
+    name = "servlet-api-flavoured",
+    actual = select({
+        "//tools:ee10": "//lib:jakarta-servlet-api",
+        "//conditions:default": "//lib:servlet-api",
+    }),
+    visibility = ["//visibility:public"],
+)
+
 java_library(
     name = "gson",
     data = ["//lib:LICENSE-Apache2.0"],

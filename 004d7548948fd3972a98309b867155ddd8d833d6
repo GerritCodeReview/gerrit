@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe5410f2_e4c15a3e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-06-28T06:05:05Z",
+      "side": 1,
+      "message": "Thanks — and a sweeping HttpServletResponse → org.apache.http.HttpStatus replacement is part of this topic: see \"Use HttpStatus constants outside servlet code\" in the relation chain [change 595601], which does exactly that wherever the dependency is acceptable.\n\nThe topic\u0027s goal is broader than status codes, though — it reduces the whole servlet-API surface Gerrit exposes:\n* Move servlet RawInput adapter to RestApiServlet\n* Remove servlet request from extended audit event\n* Remove servlet-typed RestReadView apply\n* Restrict servlet API Bazel visibility\n* diverse deprecations\n* javadoc cleanups.\n\nA status-code-only replacement wouldn\u0027t cover those.\n\nThe one place I deliberately kept a local int rather than org.apache.http.HttpStatus is this change, because Response is in gerrit-extension-api (the public plugin API) and shouldn\u0027t gain an Apache HttpComponents dep for a private check (details in the inline comment).",
+      "parentUuid": "961cce9c_fa24a25c",
+      "revId": "004d7548948fd3972a98309b867155ddd8d833d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8815b754_50b0c3c8",
@@ -31,6 +49,30 @@
       "writtenOn": "2026-06-19T07:58:49Z",
       "side": 1,
       "message": "Can we use an Apache HTTP constant instead?\n\n\n\n```suggestion\nimport static com.google.common.base.Preconditions.checkState;\nimport static org.apache.http.HttpStatus;\n\nimport com.google.common.collect.ImmutableMultimap;\nimport com.google.errorprone.annotations.CanIgnoreReturnValue;\nimport java.util.concurrent.TimeUnit;\n\n/** Special return value to mean specific HTTP status codes in a REST API. */\npublic abstract class Response\u003cT\u003e {\n```",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 60
+      },
+      "revId": "004d7548948fd3972a98309b867155ddd8d833d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1644b7b_3a9b945f",
+        "filename": "java/com/google/gerrit/extensions/restapi/Response.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-06-28T06:05:05Z",
+      "side": 1,
+      "message": "Good idea in general, but I\u0027d keep the local int here — and the reasoning is now in the commit message.\n\nThis file is in gerrit-extension-api (the published plugin API), and the constant is only a private, internal bound check in withStatusCode() (statusCode \u003c 500), not something plugins consume. Importing org.apache.http.HttpStatus would pull Apache HttpComponents (httpcore) into the API jar\u0027s deps — and onto every plugin that compiles against it — just to spell an internal 500, which is the opposite of what this series is doing on the extensions surface.\n\nI did try a Gerrit-owned HttpStatusCode constants class (so plugins get flavour-neutral codes without servlet or HttpClient): [change 591183]. Abandoned for now, as the feedback there also leaned toward HttpClient. Happy to revive it if the project wants a shared source — but pulling HttpComponents in for one private check seems disproportionate.",
+      "parentUuid": "8815b754_50b0c3c8",
       "range": {
         "startLine": 17,
         "startChar": 0,

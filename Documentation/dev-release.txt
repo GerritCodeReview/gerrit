@@ -73,6 +73,36 @@ a `security-fix` release has been published will the commits/tags made in
 the `gerrit-security-fixes` project be taken over into the public
 `gerrit` project.
 
+[[ee10-flavour]]
+== EE10 (jakarta.servlet) Release Flavour
+
+Starting with the EE10 work, Gerrit is released in two flavours built from
+the *same* source tree and the *same* tag:
+
+* the default *EE8* flavour (`javax.servlet`, the Jetty 12 ee8 adapter and
+  Guice 6) -- the historical `release.war`; and
+* an opt-in *EE10* flavour (`jakarta.servlet`, Jetty 12 ee10 and Guice 7) --
+  `release-ee10.war`.
+
+Both are produced in a single build invocation; the `-ee10` WAR targets carry
+their own configuration transition and need no command-line flag:
+
+----
+  bazelisk build release release-ee10
+----
+
+This yields `bazel-bin/release.war` (EE8) and `bazel-bin/release-ee10.war`
+(EE10) side by side. The `release-ee10.war` bundles the jakarta core plugins
+(the `-ee10` plugin targets) and the jakarta servlet/Jetty/Guice tiers; the
+default `release.war` is byte-for-byte unchanged from before the EE10 work.
+
+When cutting a release, publish both WARs under the same version. The two
+flavours never share a classpath, so they are distributed as separate
+artifacts. For the build-system details (the flavour build setting, the
+self-transitioning `-ee10` targets and the dependency split) see
+link:dev-bazel.html#ee10-flavour[Building the EE10 flavour]; for the full
+design see `tools/gerrit-ee10/README.md` in the source tree.
+
 [[upload-final-release-notes]]
 == Upload the final Release Notes change
 

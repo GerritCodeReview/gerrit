@@ -9,7 +9,7 @@ CONSTANTS_SRC = [
 # The only two servlet-typed files in the otherwise servlet-neutral server
 # package: PluginGuiceEnvironment copies the @RootRelative request/response
 # bindings, and AutoRegisterModules detects @Export HttpServlet plugins. Rather
-# than drag //lib:servlet-api (javax) into server under --define=flavour=ee10,
+# than drag //lib:servlet-api (javax) into server under --@com_googlesource_gerrit_bazlets//flags:flavour=ee10,
 # flavour-select these two files: the canonical javax sources by default, their
 # mechanically transformed jakarta forms under EE10 (the is("javax.servlet...")
 # string literals rewrite to "jakarta.servlet..." too, which is correct for EE10

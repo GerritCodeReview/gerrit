@@ -34,7 +34,7 @@ java_library(
 )
 
 # Flavour-neutral Jetty servlet adapter: EE8 (default) or EE10 servlet adapter
-# based on --define=flavour=ee10. Server bootstrap depends on this alias so one
+# based on --@com_googlesource_gerrit_bazlets//flags:flavour=ee10. Server bootstrap depends on this alias so one
 # source set serves both release flavours.
 alias(
     name = "servlet-flavoured",

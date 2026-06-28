@@ -1,8 +1,17 @@
+load("@com_googlesource_gerrit_bazlets//tools:servlet_transform.bzl", javax_to_jakarta_srcjar = "transform_srcjar")
 load("@rules_java//java:defs.bzl", "java_library")
+
+# Canonical EE8/javax httpd sources. Shared by the EE8 :httpd library below and,
+# via the to_jakarta transform, by the generated EE10 flavour (:httpd-ee10-srcs).
+filegroup(
+    name = "srcs",
+    srcs = glob(["**/*.java"]),
+    visibility = ["//visibility:public"],
+)
 
 java_library(
     name = "httpd",
-    srcs = glob(["**/*.java"]),
+    srcs = [":srcs"],
     resource_strip_prefix = "resources",
     resources = [
         "//resources/com/google/gerrit/httpd",
@@ -46,4 +55,22 @@ java_library(
         "//lib/guice:guice-servlet",
         "//lib/jsoup",
     ],
+)
+
+# --- EE10 (jakarta.servlet) forward-generated httpd sources -------------------
+# The httpd package is Gerrit's servlet boundary. Its EE10 flavour is generated
+# from the canonical javax sources by rewriting only servlet/Jetty imports
+# (javax.servlet -> jakarta.servlet, jetty ee8 -> ee10), preserving Java package
+# names and source line numbers (same FQDNs as :httpd, so the two must never
+# share a classpath). The genuinely divergent Jetty-core bootstrap files
+# (HiddenErrorHandler, JettyServer in //java/com/google/gerrit/pgm/http/jetty)
+# are NOT mechanical and get hand-written EE10 overlays separately; httpd itself
+# is purely mechanical. Compiling :httpd-ee10-srcs into a java_library needs the
+# Guice-7 dependency cascade and is a follow-up. See the EE10 design / TODO.
+javax_to_jakarta_srcjar(
+    name = "httpd-ee10-srcs",
+    direction = "to_jakarta",
+    sources = [":srcs"],
+    src_prefix = "java/",
+    visibility = ["//visibility:public"],
 )

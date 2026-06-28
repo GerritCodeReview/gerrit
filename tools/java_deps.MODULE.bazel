@@ -171,3 +171,32 @@ maven.from_toml(
     libs_versions_toml = "//tools:nongoogle.toml",
 )
 use_repo(maven, "external_deps")
+
+# --- EE10 (jakarta) flavour: isolated Guice 7 resolution ----------------------
+#
+# Guice 7 / guice-servlet 7 is the jakarta.servlet-compatible DI + servlet tier
+# for the EE10 release flavour. It cannot live in external_deps because it is the
+# SAME Maven GA as the core Guice 6 (com.google.inject:guice); rules_jvm_external
+# resolves exactly one version per GA per resolution and duplicate_version_warning
+# = "error" forbids two. Guice 7 also switches @Inject from javax.inject to
+# jakarta.inject, so the whole DI/inject cluster is isolated together here. The
+# EE8/default WAR keeps Guice 6 from external_deps; the EE10 WAR consumes
+# @external_deps_ee10. See gerrit-ee8-ee10-flavoured-release-design.
+maven.install(
+    name = "external_deps_ee10",
+    artifacts = [],
+    duplicate_version_warning = "error",
+    fail_if_repin_required = True,
+    fail_on_missing_checksum = True,
+    fetch_sources = True,
+    lock_file = "//:external_deps_ee10.lock.json",
+    repositories = [
+        "https://repo1.maven.org/maven2",
+    ],
+    version_conflict_policy = "pinned",
+)
+maven.from_toml(
+    name = "external_deps_ee10",
+    libs_versions_toml = "//tools:nongoogle_ee10.toml",
+)
+use_repo(maven, "external_deps_ee10")

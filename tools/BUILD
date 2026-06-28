@@ -7,8 +7,25 @@ load("@rules_java//java:defs.bzl", "java_package_configuration")
 
 exports_files([
     "nongoogle.toml",
+    "nongoogle_ee10.toml",
     "deps.toml",
 ])
+
+# Servlet-flavour selector for the EE8 (default) / EE10 release flavours.
+#
+# Drive with `--define=flavour=ee10` (default, i.e. no define, is EE8). This is
+# the single seam that flavour-bearing `select()`s key off as the EE10 stack is
+# wired up (jakarta servlet-api, Jetty EE10 adapter, generated httpd-ee10,
+# plugin-api-ee10, core-ee10 plugins). Native rule on purpose: keeps the MVI
+# free of a new bazel_skylib direct dep / lockfile repin.
+#
+# See the gerrit-ee8-ee10-flavoured-release-design repo (README.md status map,
+# TODO-ee10-gerrit-flavour.md ordered task list).
+config_setting(
+    name = "ee10",
+    define_values = {"flavour": "ee10"},
+    visibility = ["//visibility:public"],
+)
 
 proto_lang_toolchain(
     name = "protoc_java_toolchain",

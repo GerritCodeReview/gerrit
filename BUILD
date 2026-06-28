@@ -37,6 +37,45 @@ pkg_war(
     doc = True,
 )
 
+# EE10 (jakarta.servlet) release flavour — PROTOTYPE / placeholder.
+#
+# `bazelisk build //:release` stays the EE8 default and is untouched. This
+# target is the seam for the future `release-ee10.war`; for now it is an
+# essentially empty WAR carrying only a `Gerrit-Flavour: ee10` marker so the
+# target exists and builds green. Content is added incrementally as each
+# flavour tier lands (jakarta servlet-api, Jetty EE10, generated httpd-ee10,
+# plugin-api-ee10, core-ee10 plugins) — see the ordered task list and status map
+# in the gerrit-ee8-ee10-flavoured-release-design repo
+# (TODO-ee10-gerrit-flavour.md, README.md).
+genrule(
+    name = "release-ee10",
+    outs = ["release-ee10.war"],
+    cmd = " && ".join([
+        "set -e",
+        "d=$$(mktemp -d)",
+        "mkdir -p $$d/META-INF",
+        "{ echo 'Manifest-Version: 1.0'; " +
+        "echo 'Gerrit-Flavour: ee10'; " +
+        "echo 'Implementation-Title: Gerrit Code Review (EE10 flavour, prototype placeholder)'; " +
+        "} > $$d/META-INF/MANIFEST.MF",
+        "(cd $$d && zip -qrX out.war META-INF)",
+        "cp $$d/out.war $@",
+    ]),
+)
+
+# Live handshake for the flavour seam: `bazelisk build //:flavour-check` writes
+# flavour=ee8; `bazelisk build --define=flavour=ee10 //:flavour-check` writes
+# flavour=ee10. Proves `--define=flavour=ee10` -> //tools:ee10 -> select()
+# end-to-end without any new dep or synthetic source.
+genrule(
+    name = "flavour-check",
+    outs = ["flavour-check.txt"],
+    cmd = select({
+        "//tools:ee10": "echo 'flavour=ee10' > $@",
+        "//conditions:default": "echo 'flavour=ee8' > $@",
+    }),
+)
+
 pkg_war(
     name = "withdocs",
     doc = True,

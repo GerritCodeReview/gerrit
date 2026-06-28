@@ -35,7 +35,7 @@ junit_tests(
 # --- EE11 (jakarta.servlet) forward-generated test flavour ------------------
 # The httpd test sources are forward-generated javax -> jakarta and compiled
 # against //java/com/google/gerrit/httpd:httpd-ee11 + the EE11 test fakes. Run
-# under --define=flavour=ee11 so //lib/guice resolves to Guice 7 (the cascade).
+# under --@com_googlesource_gerrit_bazlets//flags:flavour=ee11 so //lib/guice resolves to Guice 7 (the cascade).
 filegroup(
     name = "test-srcs",
     srcs = glob(["**/*.java"]),

@@ -202,13 +202,6 @@ public class GitOverHttpServlet extends GitServlet {
       super.setStatus(sc);
     }
 
-    @SuppressWarnings("deprecation")
-    @Override
-    public void setStatus(int sc, String sm) {
-      responseStatus = sc;
-      super.setStatus(sc, sm);
-    }
-
     @Override
     public void sendError(int sc) throws IOException {
       this.responseStatus = sc;

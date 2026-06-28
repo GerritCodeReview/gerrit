@@ -9,7 +9,7 @@ filegroup(
     name = "overlay",
     srcs = [
         "HiddenErrorHandler.java",
-        "JettyServer.java",
+        "JettyServerFlavour.java",
     ],
     visibility = ["//java/com/google/gerrit/pgm/http/jetty:__pkg__"],
 )

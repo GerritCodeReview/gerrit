@@ -148,25 +148,40 @@ java_library(
 java_binary(
     name = "plugin-api-sources",
     main_class = "Dummy",
+    # The httpd and util/http source jars are flavour-specific since the EE8/EE10
+    # split (httpd is now an alias, so libhttpd-src.jar no longer exists). Select
+    # the matching source jars so the EE8 sources artifact ships javax sources and,
+    # under the flavour=ee10 transition, the EE10 sources artifact ships jakarta.
     runtime_deps = [
         "//antlr3:libquery_parser-src.jar",
         "//java/com/google/gerrit/common:libannotations-src.jar",
         "//java/com/google/gerrit/common:libserver-src.jar",
         "//java/com/google/gerrit/entities:libentities-src.jar",
         "//java/com/google/gerrit/extensions:libapi-src.jar",
-        "//java/com/google/gerrit/httpd:libhttpd-src.jar",
         "//java/com/google/gerrit/index:libindex-src.jar",
         "//java/com/google/gerrit/index:libquery_exception-src.jar",
         "//java/com/google/gerrit/pgm/init/api:libapi-src.jar",
         "//java/com/google/gerrit/server:libserver-src.jar",
         "//java/com/google/gerrit/server/restapi:librestapi-src.jar",
         "//java/com/google/gerrit/sshd:libsshd-src.jar",
-        "//java/com/google/gerrit/util/http:libhttp-src.jar",
-    ],
+    ] + select({
+        "//tools:ee10": [
+            "//java/com/google/gerrit/httpd:libhttpd-ee10-src.jar",
+            "//java/com/google/gerrit/util/http:libhttp-ee10-src.jar",
+        ],
+        "//conditions:default": [
+            "//java/com/google/gerrit/httpd:libhttpd-ee8-src.jar",
+            "//java/com/google/gerrit/util/http:libhttp-src.jar",
+        ],
+    }),
 )
 
 java_doc(
     name = "plugin-api-javadoc",
+    # util/http is flavour-specific (PLUGIN_API's httpd flips via its alias, but
+    # util/http has no neutral alias), so select it like plugin-api-sources does.
+    # Otherwise the EE10 javadoc (built under the flavour=ee10 transition) would
+    # document the javax util/http instead of the jakarta http-ee10.
     libs = PLUGIN_API + [
         "//antlr3:query_parser",
         "//java/com/google/gerrit/index",
@@ -175,8 +190,10 @@ java_doc(
         "//java/com/google/gerrit/common:server",
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/entities",
-        "//java/com/google/gerrit/util/http",
-    ],
+    ] + select({
+        "//tools:ee10": ["//java/com/google/gerrit/util/http:http-ee10"],
+        "//conditions:default": ["//java/com/google/gerrit/util/http"],
+    }),
     pkgs = ["com.google.gerrit"],
     title = "Gerrit Review Plugin API Documentation",
 )

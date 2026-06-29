@@ -17,6 +17,8 @@ def war_jars_allowlist_test(name, war_jars_manifest, allowlist, **kwargs):
         args = [
             "$(location %s)" % allowlist,
             "$(location %s)" % war_jars_manifest,
+            str(war_jars_manifest),
+            "//%s:%s" % (native.package_name(), name),
         ],
         data = [
             allowlist,

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a0411f8_f6c9d8c1",
+        "filename": "java/com/google/gerrit/extensions/restapi/Response.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-06-29T17:17:15Z",
+      "side": 1,
+      "message": "You could add an inline comment here documenting the rationale for not using `org.apache.http.HttpStatus`. Looking it up via git blame is probably sufficient though.",
+      "revId": "8631370178420eabb0d82c62690f61646b3168df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

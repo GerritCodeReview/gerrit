@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "32424a70_de1a5f30",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-06-29T17:13:01Z",
+      "side": 1,
+      "message": "\u003e The one place I deliberately kept a local int rather than org.apache.http.HttpStatus is this change, because Response is in gerrit-extension-api (the public plugin API) and shouldn\u0027t gain an Apache HttpComponents dep for a private check (details in the inline comment).\n\nMakes sense to me.",
+      "parentUuid": "fe5410f2_e4c15a3e",
+      "revId": "004d7548948fd3972a98309b867155ddd8d833d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8815b754_50b0c3c8",

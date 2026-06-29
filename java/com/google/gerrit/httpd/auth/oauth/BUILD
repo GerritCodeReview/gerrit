@@ -1,5 +1,6 @@
 load("@com_googlesource_gerrit_bazlets//tools:servlet_transform.bzl", javax_to_jakarta_srcjar = "transform_srcjar")
 load("@rules_java//java:defs.bzl", "java_library")
+load("//tools/bzl:flavour.bzl", "EE10_ONLY")
 
 filegroup(
     name = "srcs",
@@ -55,6 +56,7 @@ java_library(
     srcs = [":oauth-ee10-srcs"],
     resource_strip_prefix = "resources",
     resources = ["//resources/com/google/gerrit/httpd/auth/oauth"],
+    target_compatible_with = EE10_ONLY,
     visibility = ["//visibility:public"],
     deps = [
         "//java/com/google/gerrit/auth",

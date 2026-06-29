@@ -11,10 +11,11 @@ and status map.
 * **Mechanical bulk — the transform.** The `httpd` package is Gerrit's servlet
   boundary and is almost entirely mechanical: its EE10 form is generated from
   the canonical javax sources by the shared bazlets `to_jakarta` transform
-  (`@com_googlesource_gerrit_bazlets//tools:servlet_transform.bzl`), which
-  rewrites only servlet/Jetty import prefixes (`javax.servlet` ->
-  `jakarta.servlet`, jetty `ee8` -> `ee10`). Java package names and source line
-  numbers are preserved, so the generated classes have the **same FQDNs** as the
+  (`@com_googlesource_gerrit_bazlets//tools:servlet_transform.bzl`), a
+  line-oriented `sed` that rewrites the servlet/Jetty package prefixes
+  (`javax.servlet` -> `jakarta.servlet`, jetty `ee8` -> `ee10`) wherever they
+  occur — imports, fully-qualified references, and string constants alike. Java
+  package names and source line numbers are preserved, so the generated classes have the **same FQDNs** as the
   canonical ones — the two flavours must never share a classpath.
   See `//java/com/google/gerrit/httpd:httpd-ee10-srcs`.
 
@@ -79,6 +80,53 @@ and status map.
   (`--@com_googlesource_gerrit_bazlets//flags:flavour=ee10`) is the escape hatch;
   it flips the *whole* build to one flavour and is rarely needed now that the
   `-ee10` targets carry their own transition.
+
+  **Why the build setting is required (and what "remove the flag" can and cannot
+  mean).** The setting is the *variable* the whole mechanism reads and writes:
+  `config_setting`/`select()` are its readers, the transitions and the
+  command-line flag are its writers. You cannot have `select({"//tools:ee10":
+  …})` without a setting behind `//tools:ee10`, so the **build setting cannot be
+  removed** — everything (selects, transitions, `-ee10` targets) collapses
+  without it. What *is* optional is the **command-line settability**: the setting
+  is a `string_flag`, which is what makes `--…flags:flavour=ee10` typeable. It
+  could be converted to a non-flag build setting (written only by transitions),
+  which would remove the manual hatch entirely — but two things depend on the
+  manual hatch today: the EE10 *code* test suites
+  (`javatests/.../httpd`, `.../util/http`) are run with it, and it is handy for
+  ad-hoc whole-tree experiments. So treat the manual flag as **advanced/internal**
+  and prefer the `-ee10` targets; do not remove its settability until those test
+  suites also have self-transitioning wrappers.
+
+  **The manual flag's one sharp edge — flavour-pinned golden tests.** Flipping
+  the *whole* build with the flag also flips targets whose *expected output*
+  encodes a flavour. The release WAR jar-set guard
+  (`//Documentation:check_release_war_jars`) is the example: under the flag the
+  WAR becomes jakarta but the guard would compare it to the EE8 jar allowlist.
+  This is handled two ways, so the flag degrades gracefully and both flavours are
+  guarded without it:
+  - the EE8 guard's allowlist is **flavour-aware** (a `select()` behind an alias),
+    so the one target stays correct under the flag; and
+  - a **self-transitioning** `//Documentation:check_release_ee10_war_jars`
+    (via `ee10_flavour_file` on the WAR's jar manifest) validates the EE10 WAR's
+    jar set with *no* flag, so a plain `bazel test //…` covers both flavours.
+
+  **Keeping `bazel test //…` green: the EE10 test/library targets are
+  flavour-gated.** The EE10 servlet libraries (`httpd-ee10`, `oauth-ee10`,
+  `openid-ee10`, `init-ee10`, `jetty-ee10`) and the EE10 test targets
+  (`httpd_tests_ee10`, `http_tests_ee10`) only compile in the EE10 configuration
+  (their jakarta sources need the Guice-7/jakarta tier). A bare `bazel test //…`
+  in the default flavour would otherwise drag them into the EE8 config and fail.
+  They carry `target_compatible_with = EE10_ONLY`
+  (`//tools/bzl:flavour.bzl` — `select({"//tools:ee10": [], "//conditions:default":
+  ["@platforms//:incompatible"]})`), so in the default flavour Bazel **skips**
+  them (reports them incompatible, not failed) and a vanilla `bazel test //…`
+  stays EE8-green; under `--…flavour=ee10` they become compatible and run. The
+  guard is *conditional on the flavour*, so each target shows up exactly when its
+  flavour is active. CI therefore runs the suite **twice** —
+  `bazel test //…` for EE8 and `bazel test --…flavour=ee10 //…:<ee10 targets>` for
+  EE10. (`http-ee10`/`testutil-ee10` and the `ee10/` overlays compile in either
+  config — self-contained jakarta with no flavour-aware deps — so they need no
+  guard.)
 
 ## Bridge direction: the jgit-servlet naming asymmetry (read before wiring deps)
 

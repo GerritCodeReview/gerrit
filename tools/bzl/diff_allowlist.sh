@@ -3,6 +3,10 @@ set -euo pipefail
 
 ALLOWLIST="${1:?missing allowlist file}"
 GENERATED="${2:?missing generated manifest file}"
+MANIFEST_LABEL="${3:-//:release.war.jars.txt}"
+TEST_LABEL="${4:-//Documentation:check_release_war_jars}"
+# bazel-bin path of the manifest: strip leading //, turn : into /
+MANIFEST_PATH="bazel-bin/$(echo "${MANIFEST_LABEL#//}" | tr ':' '/')"
 
 if [[ ! -f "${ALLOWLIST}" ]]; then
   echo ""
@@ -11,8 +15,8 @@ if [[ ! -f "${ALLOWLIST}" ]]; then
   echo ""
   echo "To generate it from the current WAR packaging inputs:"
   echo ""
-  echo "  bazelisk build //:release.war.jars.txt"
-  echo "  cp bazel-bin/release.war.jars.txt ${ALLOWLIST}"
+  echo "  bazelisk build ${MANIFEST_LABEL}"
+  echo "  cp ${MANIFEST_PATH} ${ALLOWLIST}"
   echo ""
   exit 1
 fi
@@ -33,12 +37,12 @@ if ! diff -u "${tmpdir}/allowlist.norm" "${tmpdir}/generated.norm"; then
   echo ""
   echo "If this change is expected and reviewed, refresh the allowlist with:"
   echo ""
-  echo "  bazelisk build //:release.war.jars.txt"
-  echo "  cp bazel-bin/release.war.jars.txt ${ALLOWLIST}"
+  echo "  bazelisk build ${MANIFEST_LABEL}"
+  echo "  cp ${MANIFEST_PATH} ${ALLOWLIST}"
   echo ""
   echo "Then re-run:"
   echo ""
-  echo "  bazelisk test //Documentation:check_release_war_jars"
+  echo "  bazelisk test ${TEST_LABEL}"
   echo ""
   exit 1
 fi

@@ -1,3 +1,4 @@
+load("@com_googlesource_gerrit_bazlets//tools:flavour.bzl", "flavoured_file")
 load("@rules_shell//shell:sh_test.bzl", "sh_test")
 load("//tools/bzl:asciidoc.bzl", "documentation_attributes", "genasciidoc", "genasciidoc_zip")
 load("//tools/bzl:license.bzl", "license_map")
@@ -45,10 +46,41 @@ filegroup(
     ],
 )
 
+# Flavour-aware allowlist (B): an alias holds the select() so the test macro
+# still receives a single label. A plain run resolves the EE8 allowlist; under
+# --@com_googlesource_gerrit_bazlets//flags:flavour=ee11 the WAR *and* the
+# allowlist both flip to EE11, so check_release_war_jars stays coherent under the
+# global flag instead of failing against a hard-coded EE8 list.
+alias(
+    name = "release_war_jars_allowlist",
+    actual = select({
+        "//tools:ee11": ":release_ee11_war_jars.txt",
+        "//conditions:default": ":release_war_jars.txt",
+    }),
+)
+
 war_jars_allowlist_test(
     name = "check_release_war_jars",
-    allowlist = ":release_war_jars.txt",
+    allowlist = ":release_war_jars_allowlist",
     war_jars_manifest = "//:release.war.jars.txt",
+)
+
+# EE11 release WAR jar-set guard (A). Self-transitioning: `ee11_flavour_file`
+# rebuilds the jar manifest under the flavour=ee11 transition, so a plain
+# `bazel test //Documentation:check_release_ee11_war_jars` (no flag) validates the
+# jakarta WAR's third-party jar set alongside the EE8 guard above. Together with
+# the flavour-aware allowlist this means `bazel test //...` covers BOTH flavours
+# and no one needs the global flag to test the EE11 WAR.
+flavoured_file(
+    name = "release-ee11.war.jars.txt",
+    actual = "//:release.war.jars.txt",
+    flavour = "ee11",
+)
+
+war_jars_allowlist_test(
+    name = "check_release_ee11_war_jars",
+    allowlist = ":release_ee11_war_jars.txt",
+    war_jars_manifest = ":release-ee11.war.jars.txt",
 )
 
 license_map(

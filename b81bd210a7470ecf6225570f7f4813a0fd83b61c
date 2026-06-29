@@ -50,6 +50,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b41daedb_eedcf788",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-06-29T19:15:15Z",
+      "side": 1,
+      "message": "nit: looks like you\u0027re wrapping too early here",
+      "revId": "b81bd210a7470ecf6225570f7f4813a0fd83b61c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5fa1844c_1696754b",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 4
@@ -61,6 +78,24 @@
       "writtenOn": "2026-06-29T18:25:04Z",
       "side": 1,
       "message": "I\u0027m yet to update the commit message with this info:\n\nThis new approach results in different count because we are now omitting COMMIT_MSG and PATCHSET_LEVEL files (done as part of diff_summary cache).\n\nCurrently the behavior is different for `--current-patchset` and `--patchsets`. (ChangeData uses similar logic which is in this change).\n\nIs it okay to make this change ?",
+      "revId": "b81bd210a7470ecf6225570f7f4813a0fd83b61c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31cb96c1_f1ec6a98",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-06-29T19:15:15Z",
+      "side": 1,
+      "message": "Yes, I think that\u0027s ok, but it should be noted in the commit message. The [documentation](https://gerrit-review.googlesource.com/Documentation/json.html#patchSet) for the attribute talks about \"files\", so I think those exclusions are ok.",
+      "parentUuid": "5fa1844c_1696754b",
       "revId": "b81bd210a7470ecf6225570f7f4813a0fd83b61c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

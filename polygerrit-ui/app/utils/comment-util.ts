@@ -96,15 +96,6 @@ export function compareComments(c1: Comment, c2: Comment) {
   const path1 = c1.path ?? '';
   const path2 = c2.path ?? '';
   if (path1 !== path2) {
-    // TODO: Why is this logic not part of specialFilePathCompare()?
-    // '/PATCHSET' will not come before '/COMMIT' when sorting
-    // alphabetically so move it to the front explicitly
-    if (path1 === SpecialFilePath.PATCHSET_LEVEL_COMMENTS) {
-      return -1;
-    }
-    if (path2 === SpecialFilePath.PATCHSET_LEVEL_COMMENTS) {
-      return 1;
-    }
     return specialFilePathCompare(path1, path2);
   }
 

@@ -22,6 +22,30 @@
       },
       "revId": "b81bd210a7470ecf6225570f7f4813a0fd83b61c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1c57ff5_7d1d82a6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-06-29T18:16:22Z",
+      "side": 1,
+      "message": "I think when I use UI to edit, it takes my display name (instead of full name). Its fine for now.",
+      "parentUuid": "686ad5f8_a01b5165",
+      "range": {
+        "startLine": 4,
+        "startChar": 12,
+        "endLine": 4,
+        "endChar": 21
+      },
+      "revId": "b81bd210a7470ecf6225570f7f4813a0fd83b61c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,4 +1,5 @@
 load("@com_googlesource_gerrit_bazlets//tools:servlet_transform.bzl", javax_to_jakarta_srcjar = "transform_srcjar")
+load("//tools/bzl:flavour.bzl", "EE11_ONLY")
 load("//tools/bzl:junit.bzl", "junit_tests")
 
 junit_tests(
@@ -34,6 +35,8 @@ junit_tests(
     name = "http_tests_ee11",
     srcs = [":http-tests-ee11-srcs"],
     suite_srcs = [":test-srcs"],
+    # Run only under --flavour=ee11; the default `//...` wildcard skips it.
+    target_compatible_with = EE11_ONLY,
     deps = [
         "//java/com/google/gerrit/util/http:http-ee11",
         "//javatests/com/google/gerrit/util/http/testutil:testutil-ee11",

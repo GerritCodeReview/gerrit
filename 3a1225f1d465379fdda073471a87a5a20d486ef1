@@ -52,6 +52,41 @@
       "parentUuid": "0837c67d_ff84ed13",
       "revId": "3a1225f1d465379fdda073471a87a5a20d486ef1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64176b69_0f075857",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-06-29T20:30:02Z",
+      "side": 1,
+      "message": "\u003e Looks like it was mistakenly removed\n\nRemoved or added?\n\nLooks like the DiffSummary cache was already setup to ignore the magic paths when it was converted to the new caches 318241: Switch DiffSummaryLoader to use new diff cache | https://gerrit-review.googlesource.com/c/gerrit/+/318241\n\n\u003e I feel a bit weird about this not knowing why they were included in the first place, it doesn\u0027t feel like something that would have been an oversight?\n\nI\u0027m pretty sure it was an oversight. Google added those [magic path files](https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#file-id) and Google doesn\u0027t use stream events, so they never would have seen a difference. I could see an argument for including `/COMMIT_MSG` in the event\u0027s size info, but not `PATCHSET_LEVEL`.\n\nThere\u0027s existing inconsistencies with different REST APIs, for example, the [List Files](https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#list-files) REST API, which does show `/COMMIT_MSG` size info, and other REST APIs, like [Get Revision](https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#get-revision), explicitly filter out the magic paths.",
+      "parentUuid": "884fa256_32cf4001",
+      "revId": "3a1225f1d465379fdda073471a87a5a20d486ef1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7d0fde7_94918531",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-06-29T20:30:02Z",
+      "side": 1,
+      "message": "This misses the main behavior change now.\n```suggestion\nRelease-Notes: Improved events performance with diff_summary cache; COMMIT_MSG and PATCHSET_LEVEL files are no longer included in insertions/deletions size.\n```",
+      "revId": "3a1225f1d465379fdda073471a87a5a20d486ef1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,5 +1,6 @@
 load("@aspect_bazel_lib//lib:copy_to_bin.bzl", "copy_to_bin")
 load("@aspect_rules_js//js:defs.bzl", "js_library")
+load("@com_googlesource_gerrit_bazlets//tools:flavour.bzl", "ee10_flavour_file")
 load("@com_googlesource_gerrit_bazlets//tools:genrule2.bzl", "genrule2")
 load("@plugins_npm//:defs.bzl", "npm_link_all_packages")
 load("@rules_java//java:defs.bzl", "java_binary", "java_library")
@@ -235,6 +236,28 @@ java_doc(
     }),
     pkgs = ["com.google.gerrit"],
     title = "Gerrit Review Plugin API Documentation",
+)
+
+# EE10 (jakarta.servlet) flavour of the plugin API deploy artifacts. Each wrapper
+# builds its EE8 counterpart under the flavour=ee10 self-transition, so the jakarta
+# jar/sources/javadoc are produced alongside the EE8 ones in a single invocation
+# with no command-line flag. tools/maven publishes these to Maven Central as
+# gerrit-plugin-api-ee10, so an EE10 plugin can be built standalone (outside the
+# Gerrit tree) against the jakarta plugin API -- the EE10 analogue of the standalone
+# build that consumes the default gerrit-plugin-api.
+ee10_flavour_file(
+    name = "plugin-api-ee10",
+    actual = ":plugin-api_deploy.jar",
+)
+
+ee10_flavour_file(
+    name = "plugin-api-ee10-sources",
+    actual = ":plugin-api-sources_deploy.jar",
+)
+
+ee10_flavour_file(
+    name = "plugin-api-ee10-javadoc",
+    actual = ":plugin-api-javadoc",
 )
 
 copy_to_bin(

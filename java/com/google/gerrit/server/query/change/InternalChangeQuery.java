@@ -338,7 +338,7 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
     for (List<String> part : Iterables.partition(groups, batchSize)) {
       for (ChangeData cd :
           queryExhaustively(querySupplier, byProjectGroupsPredicate(indexConfig, project, part))) {
-        if (!seen.add(cd.virtualId())) {
+        if (seen.add(cd.virtualId())) {
           result.add(cd);
         }
       }

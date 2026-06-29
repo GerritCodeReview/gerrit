@@ -1,5 +1,6 @@
 load("@com_googlesource_gerrit_bazlets//tools:servlet_transform.bzl", javax_to_jakarta_srcjar = "transform_srcjar")
 load("@rules_java//java:defs.bzl", "java_library")
+load("//tools/bzl:flavour.bzl", "EE10_ONLY")
 
 # Canonical EE8 sources, shared by the EE8 :jetty library and the EE10 transform.
 filegroup(
@@ -81,6 +82,7 @@ javax_to_jakarta_srcjar(
 
 java_library(
     name = "jetty-ee10",
+    target_compatible_with = EE10_ONLY,
     srcs = [
         ":jetty-ee10-srcs",
         "//java/com/google/gerrit/pgm/http/jetty/ee10:overlay",

@@ -19,6 +19,7 @@ local_path_override(
 use_repo(maven, "javamelody_plugin_deps")
 
 # EE10 (jakarta.servlet) javamelody-core 2.x, consumed by the in-tree
-# //plugins/javamelody:javamelody-ee10 target under --//tools:flavour=ee10. The
-# repo name is induced from that target name (ext_repo default).
+# //plugins/javamelody:javamelody-ee10 target, which self-transitions to the EE10
+# flavour (no command-line flag needed). The repo name is induced from that
+# target name (ext_repo default).
 use_repo(maven, "javamelody-ee10_plugin_deps")

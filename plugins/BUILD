@@ -1,6 +1,7 @@
 load("@aspect_bazel_lib//lib:copy_to_bin.bzl", "copy_to_bin")
 load("@aspect_rules_js//js:defs.bzl", "js_library")
 load("@com_googlesource_gerrit_bazlets//tools:genrule2.bzl", "genrule2")
+load("@com_googlesource_gerrit_bazlets//tools:flavour.bzl", "ee10_flavour_file")
 load("@plugins_npm//:defs.bzl", "npm_link_all_packages")
 load("@rules_java//java:defs.bzl", "java_binary", "java_library")
 load("//tools/bzl:javadoc.bzl", "java_doc")
@@ -187,25 +188,40 @@ java_library(
 java_binary(
     name = "plugin-api-sources",
     main_class = "Dummy",
+    # The httpd and util/http source jars are flavour-specific since the EE8/EE10
+    # split (httpd is now an alias, so libhttpd-src.jar no longer exists). Select
+    # the matching source jars so the EE8 sources artifact ships javax sources and,
+    # under the flavour=ee10 transition, the EE10 sources artifact ships jakarta.
     runtime_deps = [
         "//antlr3:libquery_parser-src.jar",
         "//java/com/google/gerrit/common:libannotations-src.jar",
         "//java/com/google/gerrit/common:libserver-src.jar",
         "//java/com/google/gerrit/entities:libentities-src.jar",
         "//java/com/google/gerrit/extensions:libapi-src.jar",
-        "//java/com/google/gerrit/httpd:libhttpd-src.jar",
         "//java/com/google/gerrit/index:libindex-src.jar",
         "//java/com/google/gerrit/index:libquery_exception-src.jar",
         "//java/com/google/gerrit/pgm/init/api:libapi-src.jar",
         "//java/com/google/gerrit/server:libserver-src.jar",
         "//java/com/google/gerrit/server/restapi:librestapi-src.jar",
         "//java/com/google/gerrit/sshd:libsshd-src.jar",
-        "//java/com/google/gerrit/util/http:libhttp-src.jar",
-    ],
+    ] + select({
+        "//tools:ee10": [
+            "//java/com/google/gerrit/httpd:libhttpd-ee10-src.jar",
+            "//java/com/google/gerrit/util/http:libhttp-ee10-src.jar",
+        ],
+        "//conditions:default": [
+            "//java/com/google/gerrit/httpd:libhttpd-ee8-src.jar",
+            "//java/com/google/gerrit/util/http:libhttp-src.jar",
+        ],
+    }),
 )
 
 java_doc(
     name = "plugin-api-javadoc",
+    # util/http is flavour-specific (PLUGIN_API's httpd flips via its alias, but
+    # util/http has no neutral alias), so select it like plugin-api-sources does.
+    # Otherwise the EE10 javadoc (built under the flavour=ee10 transition) would
+    # document the javax util/http instead of the jakarta http-ee10.
     libs = PLUGIN_API + [
         "//antlr3:query_parser",
         "//java/com/google/gerrit/index",
@@ -214,10 +230,34 @@ java_doc(
         "//java/com/google/gerrit/common:server",
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/entities",
-        "//java/com/google/gerrit/util/http",
-    ],
+    ] + select({
+        "//tools:ee10": ["//java/com/google/gerrit/util/http:http-ee10"],
+        "//conditions:default": ["//java/com/google/gerrit/util/http"],
+    }),
     pkgs = ["com.google.gerrit"],
     title = "Gerrit Review Plugin API Documentation",
+)
+
+# EE10 (jakarta.servlet) flavour of the plugin API deploy artifacts. Each wrapper
+# builds its EE8 counterpart under the flavour=ee10 self-transition, so the jakarta
+# jar/sources/javadoc are produced alongside the EE8 ones in a single invocation
+# with no command-line flag. tools/maven publishes these to Maven Central as
+# gerrit-plugin-api-ee10, so an EE10 plugin can be built standalone (outside the
+# Gerrit tree) against the jakarta plugin API -- the EE10 analogue of the standalone
+# build that consumes the default gerrit-plugin-api.
+ee10_flavour_file(
+    name = "plugin-api-ee10",
+    actual = ":plugin-api_deploy.jar",
+)
+
+ee10_flavour_file(
+    name = "plugin-api-ee10-sources",
+    actual = ":plugin-api-sources_deploy.jar",
+)
+
+ee10_flavour_file(
+    name = "plugin-api-ee10-javadoc",
+    actual = ":plugin-api-javadoc",
 )
 
 copy_to_bin(

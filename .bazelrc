@@ -1,4 +1,6 @@
 common --lockfile_mode=error
+# Switch to EE10 uncomment next line
+# --@@com_googlesource_gerrit_bazlets+//flags:flavour=ee10
 # Enable Gerrit-tree-only plugin checks (standalone plugin builds skip them).
 common --@com_googlesource_gerrit_bazlets//flags:in_gerrit_tree=true
 common --incompatible_disallow_struct_provider_syntax=false

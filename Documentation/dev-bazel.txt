@@ -186,6 +186,14 @@ it by hand. As an escape hatch you can flip the *whole* build to one flavour:
   bazelisk build --@com_googlesource_gerrit_bazlets//flags:flavour=ee10 release
 ----
 
+NOTE: the `.war` file name comes from the *target* name, not the flavour. The
+escape hatch reconfigures the `release` target **in place**, so it still emits
+`bazel-bin/release.war` -- now with jakarta contents -- and *not*
+`release-ee10.war`. The `-ee10` suffix in the file name comes only from the
+`-ee10` targets, which additionally rename their output so both flavours can sit
+in `bazel-bin/` at once. So to get a distinctly-named EE10 artifact, build the
+`-ee10` target rather than flipping the base target with the flag.
+
 Core plugins follow the same convention: a plugin with an EE10 flavour
 exposes a self-transitioning `-ee10` target, e.g.
 
@@ -193,10 +201,32 @@ exposes a self-transitioning `-ee10` target, e.g.
   bazelisk build //plugins/gitiles:gitiles //plugins/gitiles:gitiles-ee10
 ----
 
-For the full design -- how the servlet boundary is generated from the
-canonical javax sources, the hand-written Jetty-12 overlays, and the
-forward- vs backward-bridge dependency naming -- see
-`tools/gerrit-ee10/README.md`.
+==== Running the tests in both flavours
+
+The EE10 servlet libraries and their test targets (for example
+`//javatests/com/google/gerrit/httpd:httpd_tests_ee10`) only compile in the EE10
+configuration. They are marked `target_compatible_with` the EE10 flavour, so a
+plain default-flavour build or test **skips** them (Bazel reports them as
+incompatible, not as a failure) and the vanilla wildcard stays EE8-green:
+
+----
+  # EE8 (default): the EE10-only targets are skipped automatically.
+  bazelisk test //...
+----
+
+To exercise the EE10 (jakarta) code paths, run the EE10 test targets under the
+flavour flag:
+
+----
+  # EE10:
+  bazelisk test --@com_googlesource_gerrit_bazlets//flags:flavour=ee10 \
+    //javatests/com/google/gerrit/httpd:httpd_tests_ee10 \
+    //javatests/com/google/gerrit/util/http:http_tests_ee10
+----
+
+So continuous integration runs the suite twice -- once in each flavour. This is
+inherent: a servlet-facing test is only meaningful in one servlet namespace at a
+time.
 
 === Extension and Plugin API JAR Files
 

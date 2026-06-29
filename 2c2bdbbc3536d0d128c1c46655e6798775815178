@@ -16,6 +16,24 @@
       "message": "Missing Release-Notes",
       "revId": "2c2bdbbc3536d0d128c1c46655e6798775815178",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ce2d34d_dd905209",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-06-29T17:39:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a9e50db_d0c28b9e",
+      "revId": "2c2bdbbc3536d0d128c1c46655e6798775815178",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

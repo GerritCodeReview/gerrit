@@ -96,12 +96,26 @@ This yields `bazel-bin/release.war` (EE8) and `bazel-bin/release-ee10.war`
 (the `-ee10` plugin targets) and the jakarta servlet/Jetty/Guice tiers; the
 default `release.war` is byte-for-byte unchanged from before the EE10 work.
 
-When cutting a release, publish both WARs under the same version. The two
-flavours never share a classpath, so they are distributed as separate
-artifacts. For the build-system details (the flavour build setting, the
-self-transitioning `-ee10` targets and the dependency split) see
-link:dev-bazel.html#ee10-flavour[Building the EE10 flavour]; for the full
-design see `tools/gerrit-ee10/README.md` in the source tree.
+When cutting a release, publish both flavours under the same version. The two
+flavours never share a classpath, so they are distributed as separate Maven
+Central artifacts, distinguished by an `-ee10` artifactId suffix:
+
+[options="header"]
+|===
+|EE8 (default) |EE10 (jakarta)
+|`com.google.gerrit:gerrit-war` |`com.google.gerrit:gerrit-war-ee10`
+|`com.google.gerrit:gerrit-plugin-api` |`com.google.gerrit:gerrit-plugin-api-ee10`
+|===
+
+The `gerrit-plugin-api-ee10` artifact is published so that plugins can be built
+*standalone* (outside the Gerrit tree) against the jakarta plugin API, the same
+way standalone EE8 plugin builds consume `gerrit-plugin-api`. Both flavours are
+produced and staged in one invocation -- the EE10 artifacts come from the
+self-transitioning `//:release-ee10` and `//plugins:plugin-api-ee10` targets, so
+`tools/maven/api.sh` stages the EE8 and EE10 artifacts side by side. For the
+build-system details (the flavour build setting, the self-transitioning `-ee10`
+targets and the dependency split) see
+link:dev-bazel.html#ee10-flavour[Building the EE10 flavour].
 
 [[upload-final-release-notes]]
 == Upload the final Release Notes change

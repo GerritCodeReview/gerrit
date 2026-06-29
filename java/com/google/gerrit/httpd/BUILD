@@ -1,5 +1,6 @@
 load("@com_googlesource_gerrit_bazlets//tools:servlet_transform.bzl", javax_to_jakarta_srcjar = "transform_srcjar")
 load("@rules_java//java:defs.bzl", "java_library")
+load("//tools/bzl:flavour.bzl", "EE10_ONLY")
 
 # Canonical EE8/javax httpd sources. Shared by the EE8 :httpd library below and,
 # via the to_jakarta transform, by the generated EE10 flavour (:httpd-ee10-srcs).
@@ -103,6 +104,9 @@ java_library(
         "//resources/com/google/gerrit/httpd",
         "//resources/com/google/gerrit/httpd/raw",
     ],
+    # Only buildable in the EE10 flavour; the default-flavour `//...` wildcard
+    # skips it instead of failing (jakarta srcs vs javax Guice). See EE10_ONLY.
+    target_compatible_with = EE10_ONLY,
     visibility = ["//visibility:public"],
     deps = [
         "//java/com/google/gerrit/common:annotations",

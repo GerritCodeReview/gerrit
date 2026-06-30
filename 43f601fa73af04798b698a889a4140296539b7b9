@@ -16,6 +16,24 @@
       "message": "downloading this change fails for me with this error:\n\n```\n$ git fetch https://gerrit.googlesource.com/gerrit refs/changes/81/597681/8 \u0026\u0026 git checkout -b change-597681 FETCH_HEAD\nFrom https://gerrit.googlesource.com/gerrit\n * branch                  refs/changes/81/597681/8 -\u003e FETCH_HEAD\nFetching submodule modules/jgit\nerror: RPC failed; HTTP 400 curl 22 The requested URL returned error: 400\nfatal: expected \u0027acknowledgments\u0027\nErrors during submodule fetch:\n\tmodules/jgit\n```",
       "revId": "43f601fa73af04798b698a889a4140296539b7b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "87e82038_ee302231",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-06-30T06:49:39Z",
+      "side": 1,
+      "message": "Stale local submodule URL, not the change.\n\nYour modules/jgit is still cached against gerrit.googlesource.com/jgit (replication broken); this change repoints it to eclipse.gerrithub.io/eclipse-jgit/jgit, but git fetch recurses into the submodule and hits the old URL before the new one is applied.\n\nCI doesn\u0027t see this — it clones fresh each run.\n\nVerified fix (`git submodule` sync is the key step):\n\n```bash\n git -c fetch.recurseSubmodules\u003dno fetch https://gerrit.googlesource.com/gerrit refs/changes/81/597681/9\n git -c submodule.recurse\u003d0 checkout FETCH_HEAD\n git submodule sync\n git submodule update --init modules/jgit\n```",
+      "parentUuid": "80428c8e_9661728b",
+      "revId": "43f601fa73af04798b698a889a4140296539b7b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

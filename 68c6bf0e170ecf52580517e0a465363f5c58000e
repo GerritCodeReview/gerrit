@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b3ee312_0c29cb08",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-30T23:00:24Z",
+      "side": 1,
+      "message": "Add the `[DO NOT SUBMIT]` prefix.",
+      "revId": "68c6bf0e170ecf52580517e0a465363f5c58000e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "ee947130_6fdea1cd",

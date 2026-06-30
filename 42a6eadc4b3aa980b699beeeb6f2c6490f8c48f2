@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "98eb5142_5e31e015",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 21
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-06-30T14:04:37Z",
+      "side": 1,
+      "message": "@ifrade@google.com @milutin@google.com\n\nAm I correct in assuming there shouldn\u0027t be any google3-related issues with granting LC+1 here, given that `auto-factory` is a Google project and is exempt from the LC label?",
+      "revId": "42a6eadc4b3aa980b699beeeb6f2c6490f8c48f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

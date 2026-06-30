@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b4c7c30_4cfa2353",
+        "filename": "modules/jgit",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-06-30T23:01:29Z",
+      "side": 1,
+      "message": "The SHA1 `c2188c2a078df7b4112ef7d95dc8f0e4d76083f2` is an open change and therefore cannot be referenced in a submodule update.",
+      "revId": "951028731f8b01b0e257cf969e7b8c32058a75e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

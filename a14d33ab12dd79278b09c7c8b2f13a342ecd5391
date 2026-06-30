@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2d545ae_948ba324",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-06-30T15:34:26Z",
+      "side": 1,
+      "message": "@ifrade@google.com @milutin@google.com\n\nCould you please take a look and, if everything looks good, grant this an LC+1? This is a cherry-pick from master intended to unblock the JGit version update on the supported stable-3.12 and stable-3.13 branches.",
+      "revId": "a14d33ab12dd79278b09c7c8b2f13a342ecd5391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

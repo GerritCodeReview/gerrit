@@ -9,6 +9,16 @@ bazel_dep(name = "rules_jvm_external", version = "6.10")
 
 # Language rules.
 bazel_dep(name = "rules_java", version = "8.16.1")
+
+# Pin rules_java to Gerrit's chosen version. Transitive bzlmod modules can
+# otherwise raise it through MVS, which changes the Java toolchain inputs
+# and can break custom plugin builds. When merging up, keep this override
+# but update the version to the target branch's chosen rules_java version.
+single_version_override(
+    module_name = "rules_java",
+    version = "8.16.1",
+)
+
 bazel_dep(name = "rules_proto", version = "7.1.0")
 bazel_dep(name = "rules_python", version = "1.8.0-rc1")
 bazel_dep(name = "rules_shell", version = "0.6.1")

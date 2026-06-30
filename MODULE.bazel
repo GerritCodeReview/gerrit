@@ -9,6 +9,17 @@ bazel_dep(name = "rules_jvm_external", version = "6.10")
 
 # Language rules.
 bazel_dep(name = "rules_java", version = "8.16.1")
+
+# Pin rules_java to Gerrit's version. The JGit servlet-4 submodule and
+# bazlets declare 9.3.0, which MVS would otherwise select for the whole
+# graph, pulling in a newer error-prone that breaks custom plugin builds.
+# TODO: stable-3.14 only -- drop this override when merging up to master,
+# where rules_java is already at the newer version.
+single_version_override(
+    module_name = "rules_java",
+    version = "8.16.1",
+)
+
 bazel_dep(name = "rules_proto", version = "7.1.0")
 bazel_dep(name = "rules_python", version = "1.8.0-rc1")
 bazel_dep(name = "rules_shell", version = "0.6.1")

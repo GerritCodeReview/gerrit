@@ -23,13 +23,13 @@ import com.google.common.flogger.FluentLogger;
 import com.google.common.io.BaseEncoding;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.server.config.AuthConfig;
+import com.google.inject.Inject;
 import com.google.inject.ProvisionException;
+import com.google.inject.Singleton;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import javax.inject.Inject;
-import javax.inject.Singleton;
 import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.net.util.SubnetUtils;
 

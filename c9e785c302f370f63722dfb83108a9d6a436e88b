@@ -16,6 +16,70 @@
       "message": "What bug is this attached to?",
       "revId": "c9e785c302f370f63722dfb83108a9d6a436e88b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff51a239_0ac1e32f",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1131691
+      },
+      "writtenOn": "2026-06-30T14:19:41Z",
+      "side": 1,
+      "message": "Do we have to import this first?",
+      "range": {
+        "startLine": 300,
+        "startChar": 0,
+        "endLine": 300,
+        "endChar": 18
+      },
+      "revId": "c9e785c302f370f63722dfb83108a9d6a436e88b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8cdd94b4_2d186009",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 634,
+      "author": {
+        "id": 1131691
+      },
+      "writtenOn": "2026-06-30T14:19:41Z",
+      "side": 1,
+      "message": "Do we also need to call `eraseEditableContentItem` after the user confirms they are discarding their changes?",
+      "range": {
+        "startLine": 634,
+        "startChar": 10,
+        "endLine": 634,
+        "endChar": 28
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "4a634d81_e486d217",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+              "range": {
+                "startLine": 1,
+                "startChar": 0,
+                "endLine": 1,
+                "endChar": 0
+              },
+              "replacement": "    this.getStorage().eraseEditableContentItem(this.storageKey);\n"
+            }
+          ]
+        }
+      ],
+      "revId": "c9e785c302f370f63722dfb83108a9d6a436e88b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

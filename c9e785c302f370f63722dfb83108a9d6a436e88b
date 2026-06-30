@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6fc82ad7_a4117413",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4870948
+      },
+      "writtenOn": "2026-06-30T18:02:46Z",
+      "side": 1,
+      "message": "This change maps to issue 528412754. I\u0027ve added this information to the description. Thanks!",
+      "parentUuid": "88d1db87_5558c43f",
+      "revId": "c9e785c302f370f63722dfb83108a9d6a436e88b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ff51a239_0ac1e32f",
@@ -31,6 +49,30 @@
       "writtenOn": "2026-06-30T14:19:41Z",
       "side": 1,
       "message": "Do we have to import this first?",
+      "range": {
+        "startLine": 300,
+        "startChar": 0,
+        "endLine": 300,
+        "endChar": 18
+      },
+      "revId": "c9e785c302f370f63722dfb83108a9d6a436e88b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c12aa7a5_be1de170",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 4870948
+      },
+      "writtenOn": "2026-06-30T18:02:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff51a239_0ac1e32f",
       "range": {
         "startLine": 300,
         "startChar": 0,
@@ -78,6 +120,30 @@
           ]
         }
       ],
+      "revId": "c9e785c302f370f63722dfb83108a9d6a436e88b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "41bfe407_1a370445",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 634,
+      "author": {
+        "id": 4870948
+      },
+      "writtenOn": "2026-06-30T18:02:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8cdd94b4_2d186009",
+      "range": {
+        "startLine": 634,
+        "startChar": 10,
+        "endLine": 634,
+        "endChar": 28
+      },
       "revId": "c9e785c302f370f63722dfb83108a9d6a436e88b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

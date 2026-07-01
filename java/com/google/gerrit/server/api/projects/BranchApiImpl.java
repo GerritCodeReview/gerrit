@@ -21,7 +21,9 @@ import com.google.gerrit.extensions.api.changes.ChangeApi.SuggestedReviewersRequ
 import com.google.gerrit.extensions.api.projects.BranchApi;
 import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.api.projects.BranchInput;
+import com.google.gerrit.extensions.api.projects.CommitFilesInput;
 import com.google.gerrit.extensions.api.projects.ReflogEntryInfo;
+import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
 import com.google.gerrit.extensions.common.ValidationOptionInfos;
@@ -40,6 +42,7 @@ import com.google.gerrit.server.restapi.project.GetBranch;
 import com.google.gerrit.server.restapi.project.GetBranchValidationOptions;
 import com.google.gerrit.server.restapi.project.GetContent;
 import com.google.gerrit.server.restapi.project.GetReflog;
+import com.google.gerrit.server.restapi.project.PutContent;
 import com.google.gerrit.server.restapi.project.SuggestBranchReviewers;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -57,6 +60,7 @@ public class BranchApiImpl implements BranchApi {
   private final FilesCollection filesCollection;
   private final GetBranch getBranch;
   private final GetContent getContent;
+  private final PutContent putContent;
   private final GetReflog getReflog;
   private final String ref;
   private final ProjectResource project;
@@ -72,6 +76,7 @@ public class BranchApiImpl implements BranchApi {
       FilesCollection filesCollection,
       GetBranch getBranch,
       GetContent getContent,
+      PutContent putContent,
       GetReflog getReflog,
       GetBranchValidationOptions getBranchValidationOptions,
       SuggestBranchReviewers suggestReviewers,
@@ -84,6 +89,7 @@ public class BranchApiImpl implements BranchApi {
     this.getBranchValidationOptions = getBranchValidationOptions;
     this.getBranch = getBranch;
     this.getContent = getContent;
+    this.putContent = putContent;
     this.getReflog = getReflog;
     this.project = project;
     this.suggestReviewers = suggestReviewers;
@@ -159,6 +165,15 @@ public class BranchApiImpl implements BranchApi {
       return getContent.apply(resource).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot retrieve file", e);
+    }
+  }
+
+  @Override
+  public CommitInfo commitFiles(CommitFilesInput input) throws RestApiException {
+    try {
+      return putContent.apply(resource(), input).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot commit files", e);
     }
   }
 

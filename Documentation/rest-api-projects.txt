@@ -2135,6 +2135,73 @@ The content is returned as base64 encoded string.
   Ly8gQ29weXJpZ2h0IChDKSAyMDEwIFRoZSBBbmRyb2lkIE9wZW4gU291cmNlIFByb2plY...
 ----
 
+[[put-content]]
+=== Put Content
+--
+'PUT /projects/link:#project-name[\{project-name\}]/branches/link:#branch-id[\{branch-id\}]/content'
+--
+
+Applies a set of file operations (create/update, delete, rename) to a branch as
+a single commit, committed directly to the branch. This is the write counterpart
+of link:#get-content[Get Content], for CI and automation use cases (no clone or
+multi-step change workflow required).
+
+Committing directly to the branch requires the caller to have the
+link:access-control.html#category_push[Push] access right on the branch.
+
+The request body is a link:#commit-files-input[CommitFilesInput] entity that lists
+the file operations and the commit message.
+
+.Request
+----
+  PUT /projects/MyProject/branches/master/content HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "commit_message": "Update configuration files",
+    "files": {
+      "conf/app.config": {
+        "content": "a2V5ID0gdmFsdWUK"
+      },
+      "bin/run.sh": {
+        "content": "IyEvYmluL3NoCmVjaG8gaGkK",
+        "file_mode": 100755
+      },
+      "conf/obsolete.config": {
+        "delete": true
+      },
+      "conf/renamed.config": {
+        "rename_from": "conf/old.config"
+      }
+    }
+  }
+----
+
+As response the link:rest-api-changes.html#commit-info[CommitInfo] of the new
+commit is returned.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "commit": "84276d7ab324c9a50f8db21375e1a49f2a2e970f",
+    "subject": "Update configuration files",
+    "message": "Update configuration files\n"
+  }
+----
+
+If `base_revision` is set in the input and the branch no longer points at that
+commit (for example because of a concurrent update), the request is rejected with
+"`409 Conflict`", so callers can retry without clobbering the other change. A
+request that would not change the tree is rejected with "`400 Bad Request`".
+
+The commit is subject to Gerrit's standard server-side commit validation, including
+validators contributed by plugins; validation failures are returned as an error.
+
 [[validation-options]]
 === Get Validation Options
 --
@@ -4655,6 +4722,49 @@ link:rest-api-changes.html#action-info[ActionInfo] entities.
 |`skip_adding_author_and_committer_as_reviewers`    |optional|
 Whether to skip adding the Git commit author and committer as reviewers for a new change.
 |=======================================================
+
+[[commit-files-input]]
+=== CommitFilesInput
+The `CommitFilesInput` entity describes the file operations to apply to a branch
+as a single commit, used by link:#put-content[Put Content].
+
+[options="header",cols="1,^2,4"]
+|======================================================
+|Field Name    ||Description
+|`commit_message` |optional|
+The commit message. If not set (or blank), it defaults to `Update files`.
+|`base_revision`|optional|
+The base commit (SHA-1) the target branch is expected to point at: the request is
+rejected with "`409 Conflict`" if the branch has moved away from it (optimistic
+concurrency). A `base_revision` that does not resolve to an existing commit is
+rejected with "`409 Conflict`"; one that is not a full 40-character SHA-1 is
+rejected with "`400 Bad Request`".
+|`files`       ||
+A map of file path to link:#file-change[FileChange] describing the operation to
+apply at that path. Applied together as one commit.
+|======================================================
+
+[[file-change]]
+=== FileChange
+The `FileChange` entity describes a single file operation within a
+link:#commit-files-input[CommitFilesInput]. Exactly one of `content`, `delete`, or
+`rename_from` must be set.
+
+[options="header",cols="1,^2,4"]
+|======================================================
+|Field Name    ||Description
+|`content`     |optional|
+The new file content, base64-encoded, for a create or update.
+|`file_mode`   |optional|
+The file mode in octal format (`100644` regular file, `100755` executable,
+`120000` symlink, `160000` gitlink). If not set, new files are created as
+`100644` and existing files keep their mode.
+|`delete`      |optional|
+If `true`, deletes the file at this path.
+|`rename_from` |optional|
+Source path to rename from. The file at `rename_from` is moved to this entry's
+path.
+|======================================================
 
 [[config-input]]
 === ConfigInput

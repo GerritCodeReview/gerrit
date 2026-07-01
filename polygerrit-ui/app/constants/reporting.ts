@@ -195,14 +195,22 @@ export enum Interaction {
  * interactions.
  */
 export type AiAgentEventDetails = {
-  agentId: string;
-  conversationId: string;
+  // The id of the agent in the chat panel. Only populated if event is initiated
+  // in chat panel.
+  agentId?: string;
+  // Chat panel conversation id. Only populated if event initiated in cha
+  // panel.
+  conversationId?: string;
   // Each agent response in a conversation is a turn.
-  turnIndex: number;
+  turnIndex?: number;
   // commentCount is 0 if agent ran but didn't suggest any comments/fixes.
   commentCount?: number;
   // The response part ID which identifies the specific suggestion/comment in a turn.
   suggestionId?: number;
   // Unique ID of the saved comment draft promoted from the suggestion.
   commentId?: string;
+  // The description from the check
+  checkDescription?: string;
+  // The raw external id for the run result
+  externalId?: string;
 };

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7434769_5a2813f8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-07-01T08:39:40Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "8ce53c7e_ececcba4",
+      "range": {
+        "startLine": 10,
+        "startChar": 7,
+        "endLine": 10,
+        "endChar": 55
+      },
+      "revId": "0e95ffe8911549c2ac1ce26113f549e49bfe05c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "61848468_cac5024f",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "daaa668c_bbb8e0fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-07-01T08:39:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "61848468_cac5024f",
+      "range": {
+        "startLine": 22,
+        "startChar": 38,
+        "endLine": 23,
+        "endChar": 9
+      },
+      "revId": "0e95ffe8911549c2ac1ce26113f549e49bfe05c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "629e3f9c_475cf5a9",
@@ -60,6 +108,24 @@
       "writtenOn": "2026-06-30T17:18:09Z",
       "side": 1,
       "message": "The release notes are for the Gerrit admin, who should be notified that this fixes the Issue 529423506.\n\n\n\n```suggestion\nBug: Issue 529423506\nRelease-Notes: Fix Issue 529423506 by pinning rules_java to 8.16.1, which was instead automatically resolved using bzlmod MVS (highest declared version wins) and therefore fluctuates depending on the transitive dependencies introduced by submodules.\n```",
+      "revId": "0e95ffe8911549c2ac1ce26113f549e49bfe05c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4197c249_bf073abd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-07-01T08:39:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "629e3f9c_475cf5a9",
       "revId": "0e95ffe8911549c2ac1ce26113f549e49bfe05c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -94,6 +160,30 @@
       "writtenOn": "2026-06-30T17:18:09Z",
       "side": 1,
       "message": "We don\u0027t want to have _random_ `rules_java` versions depending on the transitive dependencies introduced by sub-bzlmod.\nWe should pin to newer version on master, but we want to keep control over the `rules_java` we use.",
+      "range": {
+        "startLine": 16,
+        "startChar": 2,
+        "endLine": 16,
+        "endChar": 24
+      },
+      "revId": "0e95ffe8911549c2ac1ce26113f549e49bfe05c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4414941_5f7c2504",
+        "filename": "MODULE.bazel",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-07-01T08:39:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c09f2e18_30fb9b99",
       "range": {
         "startLine": 16,
         "startChar": 2,

@@ -105,6 +105,24 @@
       "parentUuid": "b7d0fde7_94918531",
       "revId": "3a1225f1d465379fdda073471a87a5a20d486ef1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41f092a7_a7f4e2ce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-07-01T00:18:27Z",
+      "side": 1,
+      "message": "\u003e Removed or added?\n\nAdded those paths. (removed skipping magic stuff)\n\n\nThis code was introduced in I7ef0f2dce6 by explicitly skipping those paths to begin with. Then in Ib4351d8b5 those checks were not explicit (instead performed as part of PatchList). Then in I469066e503 it was migrated to use newer diff cache (`gerrit_file_diff`) directly instead of patchlist cache calling the `diff` cache where those checks were no longer happening.\n\n\u003e Looks like the DiffSummary cache was already setup to ignore the magic paths\n\nWe were never using `diff_summary` to compute this.\n\n\u003e Would you suggest we go the other route then, and fix the cache to include those?\n\nGiven that we mistakenly removed to skipping those paths, I would advise maybe marking this as bufix and bring the original functionality back.",
+      "parentUuid": "64176b69_0f075857",
+      "revId": "3a1225f1d465379fdda073471a87a5a20d486ef1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

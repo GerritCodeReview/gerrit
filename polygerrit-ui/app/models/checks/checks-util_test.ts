@@ -264,6 +264,8 @@ suite('checks-util tests', () => {
       } as unknown as ReportingService;
       const runResult = {
         ...createRunResult(),
+        isAiPowered: true,
+        checkDescription: 'test-description',
         externalId: JSON.stringify({
           agentId: 'test-agent',
           conversationId: 'test-conv',
@@ -285,6 +287,8 @@ suite('checks-util tests', () => {
         turnIndex: 1,
         suggestionId: 1,
         commentId: undefined,
+        checkDescription: 'test-description',
+        externalId: runResult.externalId,
       });
     });
 
@@ -294,6 +298,8 @@ suite('checks-util tests', () => {
       } as unknown as ReportingService;
       const runResult = {
         ...createRunResult(),
+        isAiPowered: true,
+        checkDescription: 'test-description',
         externalId: JSON.stringify({
           agentId: 'test-agent',
           conversationId: 'test-conv',
@@ -314,6 +320,8 @@ suite('checks-util tests', () => {
         turnIndex: 2,
         suggestionId: undefined,
         commentId: 'test-comment-id',
+        checkDescription: 'test-description',
+        externalId: runResult.externalId,
       });
     });
 
@@ -321,7 +329,10 @@ suite('checks-util tests', () => {
       const reporting = {
         reportInteraction: reportInteractionStub,
       } as unknown as ReportingService;
-      const runResult = createRunResult();
+      const runResult = {
+        ...createRunResult(),
+        isAiPowered: true,
+      };
 
       reportAiAgentGetAIFix(reporting, runResult);
       assert.isFalse(reportInteractionStub.called);
@@ -330,30 +341,75 @@ suite('checks-util tests', () => {
       assert.isFalse(reportInteractionStub.called);
     });
 
-    test('does not report if externalId is invalid JSON', () => {
+    test('does not report if isAiPowered is false or missing', () => {
       const reporting = {
         reportInteraction: reportInteractionStub,
       } as unknown as ReportingService;
       const runResult = {
         ...createRunResult(),
-        externalId: 'invalid-json',
+        isAiPowered: false,
+        externalId: 'some-id',
       };
 
       reportAiAgentGetAIFix(reporting, runResult);
       assert.isFalse(reportInteractionStub.called);
+
+      const runResultMissing = {
+        ...createRunResult(),
+        isAiPowered: undefined,
+        externalId: 'some-id',
+      };
+
+      reportAiAgentCommentDraft(reporting, runResultMissing);
+      assert.isFalse(reportInteractionStub.called);
     });
 
-    test('does not report if externalId is missing required fields', () => {
+    test('reports with defaults if externalId is plain string (invalid JSON)', () => {
       const reporting = {
         reportInteraction: reportInteractionStub,
       } as unknown as ReportingService;
       const runResult = {
         ...createRunResult(),
+        isAiPowered: true,
+        checkDescription: 'test-description',
+        externalId: 'plain-string-external-id',
+      };
+
+      reportAiAgentGetAIFix(reporting, runResult);
+      assert.isTrue(reportInteractionStub.calledOnce);
+      assert.deepEqual(reportInteractionStub.lastCall.args[1], {
+        agentId: '',
+        conversationId: '',
+        turnIndex: 0,
+        suggestionId: undefined,
+        commentId: undefined,
+        checkDescription: 'test-description',
+        externalId: 'plain-string-external-id',
+      });
+    });
+
+    test('reports with defaults if externalId is JSON but missing fields', () => {
+      const reporting = {
+        reportInteraction: reportInteractionStub,
+      } as unknown as ReportingService;
+      const runResult = {
+        ...createRunResult(),
+        isAiPowered: true,
+        checkDescription: 'test-description',
         externalId: JSON.stringify({agentId: 'test-agent'}),
       };
 
       reportAiAgentGetAIFix(reporting, runResult);
-      assert.isFalse(reportInteractionStub.called);
+      assert.isTrue(reportInteractionStub.calledOnce);
+      assert.deepEqual(reportInteractionStub.lastCall.args[1], {
+        agentId: 'test-agent',
+        conversationId: '',
+        turnIndex: 0,
+        suggestionId: undefined,
+        commentId: undefined,
+        checkDescription: 'test-description',
+        externalId: runResult.externalId,
+      });
     });
   });
 

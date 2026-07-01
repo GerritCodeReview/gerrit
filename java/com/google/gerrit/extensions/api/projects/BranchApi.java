@@ -16,6 +16,8 @@ package com.google.gerrit.extensions.api.projects;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.extensions.api.changes.ChangeApi.SuggestedReviewersRequest;
+import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.ValidationOptionInfos;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -31,6 +33,18 @@ public interface BranchApi {
 
   /** Returns the content of a file from the HEAD revision. */
   BinaryResult file(String path) throws RestApiException;
+
+  /**
+   * Commits a set of file operations (write/create, delete, rename) to the branch as one commit and
+   * returns the new commit.
+   */
+  CommitInfo commitFiles(CommitFilesInput input) throws RestApiException;
+
+  /**
+   * Creates a change for review that applies a set of file operations to the branch, without moving
+   * the branch, and returns the created change.
+   */
+  ChangeInfo commitFilesForReview(CommitFilesInput input) throws RestApiException;
 
   List<ReflogEntryInfo> reflog() throws RestApiException;
 

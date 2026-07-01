@@ -123,6 +123,24 @@
       "parentUuid": "64176b69_0f075857",
       "revId": "3a1225f1d465379fdda073471a87a5a20d486ef1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3793adf_b352d839",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-07-01T00:21:26Z",
+      "side": 1,
+      "message": "Sounds good to me, @nasser.grainawi@oss.qualcomm.com?",
+      "parentUuid": "41f092a7_a7f4e2ce",
+      "revId": "3a1225f1d465379fdda073471a87a5a20d486ef1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

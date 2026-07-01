@@ -16,6 +16,24 @@
       "message": "Could someone with LC+1 please re-approve? `MODULE.bazel` was changed, so an LC+1 is required.",
       "revId": "0d75a300d94d89788942d509e29eb74b33e96f4f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f75bbc85_f4505b2f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-07-01T12:40:46Z",
+      "side": 1,
+      "message": "It is actually worrying that a *pinning* requires an LC+1 *BUT* the automatic update of indirect dependencies due to the `bzlmod` algorithm of `highest declared version wins` does not.\n\nI believe we *must* pin all the direct and indirect dependencies we use and require a LC+1 for all of them, rather than relying on the `bzlmod` dependency resolution algorithm, for preventing future surprises.",
+      "parentUuid": "0c022e87_03c6e7d1",
+      "revId": "0d75a300d94d89788942d509e29eb74b33e96f4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

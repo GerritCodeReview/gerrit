@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "244c10b6_09fc627b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-07-01T06:21:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf2a6441_4287295e",
+      "revId": "951028731f8b01b0e257cf969e7b8c32058a75e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6b4c7c30_4cfa2353",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-06-30T23:01:29Z",
       "side": 1,
       "message": "The SHA1 `c2188c2a078df7b4112ef7d95dc8f0e4d76083f2` is an open change and therefore cannot be referenced in a submodule update.",
+      "revId": "951028731f8b01b0e257cf969e7b8c32058a75e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "782f40c3_c49f4550",
+        "filename": "modules/jgit",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-07-01T06:21:43Z",
+      "side": 1,
+      "message": "Correct, this is intentionally pointing at the dependent JGit change while it\u0027s under review. I\u0027ll update the submodule to the merged commit before this change is submitted.",
+      "parentUuid": "6b4c7c30_4cfa2353",
       "revId": "951028731f8b01b0e257cf969e7b8c32058a75e8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

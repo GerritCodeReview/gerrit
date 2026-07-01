@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c022e87_03c6e7d1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-07-01T11:28:22Z",
+      "side": 1,
+      "message": "Could someone with LC+1 please re-approve? `MODULE.bazel` was changed, so an LC+1 is required.",
+      "revId": "0d75a300d94d89788942d509e29eb74b33e96f4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

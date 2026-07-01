@@ -123,6 +123,17 @@ public class GerritServerRestSession extends HttpSession implements RestSession 
     return execute(post);
   }
 
+  @Override
+  public RestResponse postRaw(String endPoint, RawInput stream) throws IOException {
+    requireNonNull(stream);
+    Request post = Request.Post(getUrl(endPoint));
+    post.addHeader(new BasicHeader(CONTENT_TYPE, stream.getContentType()));
+    post.body(
+        new BufferedHttpEntity(
+            new InputStreamEntity(stream.getInputStream(), stream.getContentLength())));
+    return execute(post);
+  }
+
   private static void addContentToRequest(Request request, Object content) {
     request.addHeader(new BasicHeader(CONTENT_TYPE, "application/json"));
     request.body(new StringEntity(JSON_COMPACT.newGson().toJson(content), UTF_8));

@@ -603,35 +603,39 @@ function getAiAgentEventDetails(
 ): AiAgentEventDetails | undefined {
   const externalId = runResult.externalId;
   if (!externalId) return;
-  // Use JSON.parse. We expect agentId, conversationId, turnIndex.
+
+  let agentId = '';
+  let conversationId = '';
+  let turnIndex = 0;
+  let suggestionId: number | undefined = undefined;
+
   try {
     const parsed = JSON.parse(externalId);
-    const agentId = parsed['agentId'];
-    const conversationId = parsed['conversationId'];
-    const turnIndex = parsed['turnIndex'];
-    const suggestionId = parsed['suggestionId'];
-    if (
-      !agentId ||
-      !conversationId ||
-      turnIndex === null ||
-      turnIndex === undefined
-    ) {
-      return;
-    }
-    /* eslint-disable object-shorthand */
-    // prettier-ignore
-    const eventDetails: AiAgentEventDetails = {
-      'agentId': agentId,
-      'conversationId': conversationId,
-      'turnIndex': Number(turnIndex),
-      'suggestionId': suggestionId,
-      'commentId': commentId,
-    };
-    return eventDetails;
-    /* eslint-enable object-shorthand */
+    agentId = parsed['agentId'] ?? '';
+    conversationId = parsed['conversationId'] ?? '';
+    turnIndex =
+      parsed['turnIndex'] !== undefined && parsed['turnIndex'] !== null
+        ? Number(parsed['turnIndex'])
+        : 0;
+    suggestionId = parsed['suggestionId'];
   } catch (e) {
-    return undefined;
+    // externalId is not JSON, likely from Checks tab.
+    // Use defaults.
   }
+
+  /* eslint-disable object-shorthand */
+  // prettier-ignore
+  const eventDetails: AiAgentEventDetails = {
+    'agentId': agentId,
+    'conversationId': conversationId,
+    'turnIndex': turnIndex,
+    'suggestionId': suggestionId,
+    'commentId': commentId,
+    'checkDescription': runResult.checkDescription,
+    'externalId': externalId,
+  };
+  return eventDetails;
+  /* eslint-enable object-shorthand */
 }
 
 /**

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b9a16eb_c7a0bd6e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 20
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-07-02T06:20:58Z",
+      "side": 1,
+      "message": "Added the `[DO NOT SUBMIT]` prefix so that -2 isn\u0027t needed anymore.",
+      "revId": "2e0169f8ed1d5f945031bed7156298e566c012cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

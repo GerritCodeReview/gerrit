@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a659e843_4af51947",
+        "filename": "java/com/google/gerrit/sshd/commands/ShowCaches.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-07-02T14:08:55Z",
+      "side": 1,
+      "message": "I think it might be more correct to get rid of \"only\" here and then specify that the default is \"all caches\"?",
+      "revId": "53538b3bb660fa09339360c463ae38ba78ef12e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

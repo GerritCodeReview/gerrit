@@ -77,6 +77,17 @@ const rangeF: CommentRangeLayer = {
   },
 };
 
+const rangeG: CommentRangeLayer = {
+  side: Side.RIGHT,
+  range: {
+    end_character: 0,
+    end_line: 15,
+    start_character: 0,
+    start_line: 15,
+  },
+  id: 'g',
+};
+
 suite('gr-ranged-comment-layer', () => {
   let element: GrRangedCommentLayer;
 
@@ -88,6 +99,7 @@ suite('gr-ranged-comment-layer', () => {
       rangeD,
       rangeE,
       rangeF,
+      rangeG,
     ];
 
     element = new GrRangedCommentLayer();
@@ -217,6 +229,21 @@ suite('gr-ranged-comment-layer', () => {
         annotateElementStub.lastCall.args[3],
         'range generated_right-60-1-71-1'
       );
+    });
+
+    test('annotate lines with start and end_character 0 (whole line comment)', () => {
+      line = new GrDiffLine(GrDiffLineType.BOTH);
+      line.afterNumber = 15;
+      el.setAttribute('data-side', Side.RIGHT);
+
+      element.annotate(el, lineNumberEl, line);
+
+      assert.isTrue(annotateElementStub.called);
+      const lastCall = annotateElementStub.lastCall;
+      assert.equal(lastCall.args[0], el);
+      assert.equal(lastCall.args[1], 0);
+      assert.equal(lastCall.args[2], line.text.length);
+      assert.equal(lastCall.args[3], 'range rangeHighlight generated_g');
     });
 
     test('do not annotate lines with end_character 0', () => {

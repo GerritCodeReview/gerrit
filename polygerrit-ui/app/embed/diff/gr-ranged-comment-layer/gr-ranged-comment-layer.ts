@@ -172,7 +172,14 @@ export class GrRangedCommentLayer implements DiffLayer {
     for (let line = range.start_line; line <= range.end_line; line++) {
       const forLine = forSide[line] || (forSide[line] = []);
       const start = line === range.start_line ? range.start_character : 0;
-      const end = line === range.end_line ? range.end_character : -1;
+      let end = line === range.end_line ? range.end_character : -1;
+      if (
+        range.start_line === range.end_line &&
+        range.start_character === 0 &&
+        range.end_character === 0
+      ) {
+        end = -1;
+      }
       operation(forLine, start, end);
     }
     this.notifyUpdateRange(range.start_line, range.end_line, side);

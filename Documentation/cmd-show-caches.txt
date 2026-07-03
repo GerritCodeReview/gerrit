@@ -8,10 +8,16 @@ gerrit show-caches - Display current cache statistics.
 --
 _ssh_ -p <port> <host> _gerrit show-caches_
   [--show-jvm]
+  [--cache <NAME> ...]
 --
 
 == DESCRIPTION
 Display statistics about the size and hit ratio of in-memory caches.
+
+By default, the command displays statistics for all registered caches.
+Because collecting data for numerous large caches on a busy server
+can cause delays, the --cache option can be used (one or more times)
+to limit the output to specific caches.
 
 == OPTIONS
 --show-jvm::
@@ -21,6 +27,15 @@ Display statistics about the size and hit ratio of in-memory caches.
 
 --show-threads::
 	Show detailed counts for Gerrit specific threads.
+
+--cache <NAME>::
+	Show statistics only for the cache called <NAME>. May be
+	supplied more than once to display multiple caches in a single
+	command execution. Cache names are matched case-insensitively
+	against the full registered cache name (including any plugin
+	prefix). Unknown cache names are silently ignored. The
+	summary sections (SSH, tasks, memory, threads, JVM) are not
+	affected by this option.
 
 --width::
 -w::
@@ -82,6 +97,12 @@ Mem:  14.94g total =   3.04g used +  11.89g free +  10.00m buffers
          107 open files
 
 Threads: 4 CPUs available, 371 threads
+----
+
+Show statistics for only the "accounts" and "projects" caches:
+
+----
+$ ssh -p 29418 review.example.com gerrit show-caches --cache accounts --cache projects
 ----
 
 == SEE ALSO

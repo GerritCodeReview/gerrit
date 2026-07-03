@@ -1,5 +1,29 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c901040f_a7a6380b",
+        "filename": "java/com/google/gerrit/server/restapi/config/ListCaches.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-07-03T14:07:26Z",
+      "side": 1,
+      "message": "```suggestion\n      if (nameFilter.test(name)) {\n        cacheInfos.put(name, CacheInfoFactory.create(e.getProvider().get()));\n      }\n```",
+      "range": {
+        "startLine": 72,
+        "startChar": 0,
+        "endLine": 75,
+        "endChar": 75
+      },
+      "revId": "52950523ac373e22d64064bc1f858784385a4343",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

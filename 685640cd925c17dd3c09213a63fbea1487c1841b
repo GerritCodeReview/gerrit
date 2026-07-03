@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc7bb138_bbac191e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-07-03T14:22:59Z",
+      "side": 1,
+      "message": "@milutin@google.com\nWe had to update the JGit submodule, which dropped your previous LC+1 vote. Could you please restore it?",
+      "revId": "685640cd925c17dd3c09213a63fbea1487c1841b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

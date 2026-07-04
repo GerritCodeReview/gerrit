@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee574813_e0d86499",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4982003
+      },
+      "writtenOn": "2026-07-04T17:19:18Z",
+      "side": 1,
+      "message": "hg log --template \"{author}\\n\" | sort | uniq \u003e committers.txt",
+      "revId": "cbeb77edbe787a7ec9a7faa75a0e01c732d7305d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0f75a064_64ceacb8",

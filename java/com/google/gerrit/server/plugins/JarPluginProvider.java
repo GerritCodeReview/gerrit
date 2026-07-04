@@ -125,6 +125,10 @@ public class JarPluginProvider implements ServerPluginProvider {
     boolean keep = false;
     try {
       Manifest manifest = jarFile.getManifest();
+      GerritServerFlavour.checkPluginFlavour(
+          name,
+          manifest.getMainAttributes().getValue(GerritServerFlavour.MANIFEST_ATTRIBUTE),
+          GerritServerFlavour.current());
       Plugin.ApiType type = Plugin.getApiType(manifest);
 
       List<URL> urls = new ArrayList<>(2);

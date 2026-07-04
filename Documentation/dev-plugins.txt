@@ -92,6 +92,39 @@ loading a plugin that needs the plugin API.
 Gerrit-ApiType: plugin
 ----
 
+[[servlet_flavour]]
+=== Servlet Flavour
+
+Gerrit ships in two servlet flavours: the default *EE8*
+(`javax.servlet`) and the opt-in *EE11* (`jakarta.servlet`). A plugin
+that touches the Servlet API is bound to one namespace and cannot run
+on the other flavour; loading it into the wrong one fails at runtime
+with a `NoClassDefFoundError`.
+
+To catch that at load time, a plugin declares its flavour with an
+optional `Gerrit-Flavour` manifest attribute, and the plugin loader
+rejects a mismatch:
+
+[options="header"]
+|===================================================================
+| `Gerrit-Flavour` | EE8 Gerrit | EE11 Gerrit
+| absent           | loads (treated as `ee8`) | rejected
+| `any`            | loads | loads
+| `ee8`            | loads | rejected
+| `ee11`           | rejected | loads
+|===================================================================
+
+An absent marker is treated as `ee8`, so the existing `javax.servlet`
+plugin base keeps loading unchanged on the default flavour. An EE11
+Gerrit is strict: it loads only plugins that explicitly declare `ee11`
+(a jakarta build) or `any` (audited servlet-neutral). Use `any` only
+after confirming the plugin references no Servlet API at all.
+
+When building with Gerrit's `gerrit_plugin` Bazel macro, the marker is
+injected by the `flavour` attribute (`flavour = "ee11"` for the jakarta
+build, `flavour = "any"` for a servlet-neutral plugin); see the plugin
+build documentation.
+
 === Explicit Registration
 
 Plugins that use explicit Guice registration must name the Guice

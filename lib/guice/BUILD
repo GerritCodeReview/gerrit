@@ -54,6 +54,7 @@ java_library(
 java_library(
     name = "javax_inject",
     data = ["//lib:LICENSE-Apache2.0"],
-    visibility = ["//visibility:public"],
+    # Guice 6 needs this bridge; direct consumers should use jakarta-inject.
+    visibility = ["//visibility:private"],
     exports = ["@external_deps//:javax_inject_javax_inject"],
 )

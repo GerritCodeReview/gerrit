@@ -147,7 +147,6 @@ _GERRIT_FORCED_ARTIFACTS = [
 # unchanged because Gerrit core pins Guice 6 directly.
 _GUICE_PROVIDED_BY_GERRIT = [
     "org.openid4java:openid4java",
-    "com.google.template:soy",
 ]
 
 [
@@ -158,6 +157,18 @@ _GUICE_PROVIDED_BY_GERRIT = [
     )
     for coord in _GUICE_PROVIDED_BY_GERRIT
 ]
+
+# Soy also declares javax.inject:javax.inject transitively. Keep the dependency
+# out of the shared Soy edge so the EE10 WAR does not bundle javax.inject next
+# to jakarta.inject; Gerrit provides the matching inject API through //lib/guice.
+maven.amend_artifact(
+    name = "external_deps",
+    coordinates = "com.google.template:soy",
+    exclusions = [
+        "com.google.inject:guice",
+        "javax.inject:javax.inject",
+    ],
+)
 
 # Empty maven.install call to apply the configuration to the installation from
 # toml files.

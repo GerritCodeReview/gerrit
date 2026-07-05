@@ -15,7 +15,10 @@ java_library(
     name = "guice-library",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@external_deps//:com_google_inject_guice"],
+    exports = [
+        "//lib/ow2:ow2-asm",
+        "@external_deps//:com_google_inject_guice_classes",
+    ],
     runtime_deps = ["aopalliance"],
 )
 

@@ -32,7 +32,7 @@ gson = { module = "com.google.code.gson:gson", version = "2.14.0" }
 guava = { module = "com.google.guava:guava", version.ref = "guava" }
 guava-testlib = { module = "com.google.guava:guava-testlib", version.ref = "guava" }
 guice-assistedinject = { module = "com.google.inject.extensions:guice-assistedinject", version.ref = "guice" }
-guice-library = { module = "com.google.inject:guice", version.ref = "guice" }
+guice-library = { module = "com.google.inject:guice", version.ref = "guice", classifier = "classes" }
 guice-servlet = { module = "com.google.inject.extensions:guice-servlet", version.ref = "guice" }
 h2 = { module = "com.h2database:h2", version = "2.4.240" }
 hamcrest = { module = "org.hamcrest:hamcrest", version = "3.0" }

@@ -1,0 +1,146 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3dbcbb1_3fa50a17",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-07-05T12:29:44Z",
+      "side": 1,
+      "message": "I think this needs to be split before review.\n\nThe direct branch commit endpoint may fill a real missing use case: applying a batch of file operations directly to a branch without cloning, guarded by push permission, optimistic base checking, ref validation, and commit validation.\n\nThe review endpoint is different. Gerrit already has a mature server-side review workflow for file edits through change edits: ChangeEdits / ChangeEditModifier / ChangeEditUtil / PublishChangeEdit. It is multi-step, but it is existing API surface and has been used for years. I do not think we should add a parallel one shot review workflow in the same change.\n\nThis is also around 1200 LoC, which makes it hard to review API shape, permission semantics, commit validation, direct ref updates, base-revision behavior, and review workflow semantics all at once.\n\nPlease split this:\n\n1. First change: direct branch commit only.\n2. Drop/defer content:review.\n3. Reuse as much of the existing inline-edit/tree code path as possible even for the direct branch commit path.\n4. If content:review is still desired later, send it as a separate change and route it through CreateChange.CommitTreeSupplier instead of manually creating a change with ChangeInserter.",
+      "revId": "f7639b53e2909b1a89c43adc4314d6560c65fc30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df289c80_31734dcc",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2207,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-07-05T12:29:44Z",
+      "side": 1,
+      "message": "Please remove/defer the content:review documentation together with the endpoint.\n\nThe initial change should document only the direct branch commit API. A one-shot review API needs a separate change and should explain why the existing change edit workflow is insufficient.",
+      "revId": "f7639b53e2909b1a89c43adc4314d6560c65fc30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9986edeb_3bdbd8d2",
+        "filename": "java/com/google/gerrit/server/restapi/project/BranchCommitBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-07-05T12:29:44Z",
+      "side": 1,
+      "message": "This class currently combines several concerns: request validation, CommitFilesInput -\u003e TreeModification conversion, tree creation, direct ref updates, commit validation, and review change creation.\n\nFor the split version, please keep the direct branch commit path here and move the reusable file-operation conversion into a small helper that can be shared with the existing edit/tree code path. The direct endpoint should reuse as much of ChangeEditModifier / TreeModification / TreeCreator as possible.",
+      "revId": "f7639b53e2909b1a89c43adc4314d6560c65fc30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c108900f_11a137ba",
+        "filename": "java/com/google/gerrit/server/restapi/project/BranchCommitBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-07-05T12:29:44Z",
+      "side": 1,
+      "message": "I do not think this review path should manually create a change.\n\nIf content:review remains in a later change, please route it through CreateChange.execute(...) with CreateChange.CommitTreeSupplier. CreateChange already owns create-change semantics such as contributor agreement checks, private/WIP defaults, notify handling, duplicate Change-Id detection, validation options, custom keyed values, and response formatting.",
+      "revId": "f7639b53e2909b1a89c43adc4314d6560c65fc30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0cbb24d5_782990df",
+        "filename": "java/com/google/gerrit/server/restapi/project/BranchCommitBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-07-05T12:29:44Z",
+      "side": 1,
+      "message": "Good that this already reuses ChangeEditModifier.createNewTree(...). Please keep pushing in this direction: the direct branch commit endpoint should reuse the existing edit/tree machinery and only add the branch-ref update behavior that is actually missing from change edits.",
+      "range": {
+        "startLine": 309,
+        "startChar": 6,
+        "endLine": 309,
+        "endChar": 73
+      },
+      "revId": "f7639b53e2909b1a89c43adc4314d6560c65fc30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9111426_db2d5583",
+        "filename": "java/com/google/gerrit/server/restapi/project/BranchCommitBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-07-05T12:29:44Z",
+      "side": 1,
+      "message": "This conversion from CommitFilesInput to TreeModification is the reusable part I would like to keep.\n\nCan this be extracted into a small helper, ideally returning a CommitModification or ImmutableList\u003cTreeModification\u003e, so both the direct branch commit path and any future review path reuse the same validation and tree-modification construction? That would also keep this class focused on branch ref updates.",
+      "revId": "f7639b53e2909b1a89c43adc4314d6560c65fc30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51b822b7_fab517c7",
+        "filename": "java/com/google/gerrit/server/restapi/project/ProjectRestApiModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-07-05T12:29:44Z",
+      "side": 1,
+      "message": "Please remove this binding from the initial change. I would prefer to review the direct branch commit endpoint independently. The review variant overlaps with the existing change-edit workflow and needs a separate design discussion.",
+      "revId": "f7639b53e2909b1a89c43adc4314d6560c65fc30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6cf9ecb7_1493b7f3",
+        "filename": "java/com/google/gerrit/server/restapi/project/PutContentReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-07-05T12:29:44Z",
+      "side": 1,
+      "message": "Please drop or defer this endpoint from this change.\n\nFor review-based server-side file edits,A Gerrit already has the change edit workflow: ChangeEdits, ChangeEditModifier, ChangeEditUtil, and PublishChangeEdit. It is multi-step, but it is the established workflow and preserves existing patch-set semantics.\n\nIf a one-shot review endpoint is still wanted later, please send it separately and implement it by reusing CreateChange.CommitTreeSupplier, not by adding a parallel ChangeInserter path here.",
+      "revId": "f7639b53e2909b1a89c43adc4314d6560c65fc30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

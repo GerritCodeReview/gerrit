@@ -1,6 +1,29 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "15e50081_b9f99504",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-07-06T19:11:24Z",
+      "side": 1,
+      "message": "Prefer including the b/ prefix on the bug id.",
+      "range": {
+        "startLine": 11,
+        "startChar": 15,
+        "endLine": 11,
+        "endChar": 24
+      },
+      "revId": "3fd809f102b2b7a34d9b037e051b2615810682cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "112ac625_299f96e2",
@@ -14,6 +37,113 @@
       "writtenOn": "2026-07-06T18:09:23Z",
       "side": 1,
       "message": "recheck",
+      "revId": "3fd809f102b2b7a34d9b037e051b2615810682cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e20a0db_80b261ee",
+        "filename": "polygerrit-ui/app/constants/reporting.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-07-06T19:11:24Z",
+      "side": 1,
+      "message": "With these changes, it seems like there\u0027s not a lot of overlap between the metrics from the chat panel agents and the metrics from ayeaye check agents. Should we just create two types so that we can have more clear expectations of what fields should be included?",
+      "range": {
+        "startLine": 197,
+        "startChar": 12,
+        "endLine": 197,
+        "endChar": 31
+      },
+      "revId": "3fd809f102b2b7a34d9b037e051b2615810682cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f470dd4d_8bc35a05",
+        "filename": "polygerrit-ui/app/constants/reporting.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-07-06T19:11:24Z",
+      "side": 1,
+      "message": "are people asking for all of these fields in the plx tables?",
+      "range": {
+        "startLine": 212,
+        "startChar": 0,
+        "endLine": 217,
+        "endChar": 21
+      },
+      "revId": "3fd809f102b2b7a34d9b037e051b2615810682cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d84bc2a_0f1bd7ed",
+        "filename": "polygerrit-ui/app/models/checks/checks-util.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 610,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-07-06T19:11:24Z",
+      "side": 1,
+      "message": "These fields were made optional in the AiAgentEventDetails...so should they just be undefined if there isn\u0027t a value?",
+      "range": {
+        "startLine": 608,
+        "startChar": 0,
+        "endLine": 610,
+        "endChar": 20
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "6ccbe2f1_38f165ea",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/models/checks/checks-util.ts",
+              "range": {
+                "startLine": 608,
+                "startChar": 0,
+                "endLine": 611,
+                "endChar": 0
+              },
+              "replacement": "  let agentId: string | undefined \u003d undefined;\n  let conversationId: string | undefined \u003d undefined;\n  let turnIndex: number | undefined \u003d undefined;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/models/checks/checks-util.ts",
+              "range": {
+                "startLine": 615,
+                "startChar": 0,
+                "endLine": 617,
+                "endChar": 0
+              },
+              "replacement": "    agentId \u003d parsed[\u0027agentId\u0027] ?? undefined;\n    conversationId \u003d parsed[\u0027conversationId\u0027] ?? undefined;\n"
+            },
+            {
+              "path": "polygerrit-ui/app/models/checks/checks-util.ts",
+              "range": {
+                "startLine": 620,
+                "startChar": 0,
+                "endLine": 621,
+                "endChar": 0
+              },
+              "replacement": "        : undefined;\n"
+            }
+          ]
+        }
+      ],
       "revId": "3fd809f102b2b7a34d9b037e051b2615810682cb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

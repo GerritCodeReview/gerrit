@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "5fb46345_1da97546",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1159190
+      },
+      "writtenOn": "2026-07-06T23:28:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "15e50081_b9f99504",
+      "range": {
+        "startLine": 11,
+        "startChar": 15,
+        "endLine": 11,
+        "endChar": 24
+      },
+      "revId": "3fd809f102b2b7a34d9b037e051b2615810682cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "112ac625_299f96e2",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 6
@@ -102,6 +126,30 @@
       "side": 1,
       "message": "Yeah, I think that\u0027s good. This is the same file that has the interaction enums for reporting (eg. AI_AGENT_SUGGESTION_TO_COMMENT) so I think it\u0027s ok to keep it here since it\u0027s closely related.",
       "parentUuid": "f308844f_b72b9884",
+      "range": {
+        "startLine": 197,
+        "startChar": 12,
+        "endLine": 197,
+        "endChar": 31
+      },
+      "revId": "3fd809f102b2b7a34d9b037e051b2615810682cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "17a405ad_1b42a882",
+        "filename": "polygerrit-ui/app/constants/reporting.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1159190
+      },
+      "writtenOn": "2026-07-06T23:28:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "25e5424f_f5bfdbce",
       "range": {
         "startLine": 197,
         "startChar": 12,

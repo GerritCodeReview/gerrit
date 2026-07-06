@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef26caf9_0719fd83",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluatorImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1035437
+      },
+      "writtenOn": "2026-07-06T18:09:20Z",
+      "side": 0,
+      "message": "In case of a bad regex, this change will return SubmitRequirementExpressionResult.error. Will that throw an ExecutionException or InterruptedException?",
+      "range": {
+        "startLine": 264,
+        "startChar": 14,
+        "endLine": 264,
+        "endChar": 59
+      },
+      "revId": "0a215fcfaf7466219470a5c68c62460caa14c8c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

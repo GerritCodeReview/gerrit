@@ -24,8 +24,7 @@ exports_files([
 # target: the flavoured_war WARs (//:release-ee11, //:headless-ee11) and the
 # gerrit_plugin(flavour = "ee11") plugin jars set it automatically.
 #
-# See the gerrit-ee8-ee11-flavoured-release-design repo (README.md status map,
-# TODO-ee11-gerrit-flavour.md ordered task list).
+# See the servlet-flavoured-release design docs.
 config_setting(
     name = "ee11",
     flag_values = {"@com_googlesource_gerrit_bazlets//flags:flavour": "ee11"},

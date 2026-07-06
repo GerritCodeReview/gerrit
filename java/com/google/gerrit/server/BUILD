@@ -1,30 +1,9 @@
-load("@com_googlesource_gerrit_bazlets//tools:servlet_transform.bzl", javax_to_jakarta_srcjar = "transform_srcjar")
 load("@rules_java//java:defs.bzl", "java_library")
 load("//tools/bzl:javadoc.bzl", "java_doc")
 
 CONSTANTS_SRC = [
     "documentation/Constants.java",
 ]
-
-# The only two servlet-typed files in the otherwise servlet-neutral server
-# package: PluginGuiceEnvironment copies the @RootRelative request/response
-# bindings, and AutoRegisterModules detects @Export HttpServlet plugins. Rather
-# than drag //lib:servlet-api (javax) into server under --@com_googlesource_gerrit_bazlets//flags:flavour=ee11,
-# flavour-select these two files: the canonical javax sources by default, their
-# mechanically transformed jakarta forms under EE11 (the is("javax.servlet...")
-# string literals rewrite to "jakarta.servlet..." too, which is correct for EE11
-# plugin detection). Keeps server one target -- no split, no servlet leak.
-SERVLET_PLUGIN_SRC = [
-    "plugins/AutoRegisterModules.java",
-    "plugins/PluginGuiceEnvironment.java",
-]
-
-javax_to_jakarta_srcjar(
-    name = "plugins-servlet-ee11-srcs",
-    direction = "to_jakarta",
-    sources = SERVLET_PLUGIN_SRC,
-    src_prefix = "java/",
-)
 
 GERRIT_GLOBAL_MODULE_SRC = [
     "config/GerritGlobalModule.java",
@@ -54,11 +33,8 @@ java_library(
     srcs = glob(
         ["**/*.java"],
         exclude = CONSTANTS_SRC + GERRIT_GLOBAL_MODULE_SRC + TESTING_SRC +
-                  PROLOG_SRC + SERVLET_PLUGIN_SRC,
-    ) + select({
-        "//tools:ee11": [":plugins-servlet-ee11-srcs"],
-        "//conditions:default": SERVLET_PLUGIN_SRC,
-    }),
+                  PROLOG_SRC,
+    ),
     resource_strip_prefix = "resources",
     resources = ["//resources/com/google/gerrit/server"],
     visibility = ["//visibility:public"],
@@ -89,6 +65,7 @@ java_library(
         "//java/com/google/gerrit/server/git/receive:ref_cache",
         "//java/com/google/gerrit/server/ioutil",
         "//java/com/google/gerrit/server/logging",
+        "//java/com/google/gerrit/server/plugins/servlet",
         "//java/com/google/gerrit/server/util/git",
         "//java/com/google/gerrit/server/util/time",
         "//java/com/google/gerrit/util/cli",
@@ -107,7 +84,6 @@ java_library(
         "//lib:mime-util",
         "//lib:protobuf",
         "//lib:roaringbitmap",
-        "//lib:servlet-api",
         "//lib:soy",
         "//lib:tukaani-xz",
         "//lib/auto:auto-factory",

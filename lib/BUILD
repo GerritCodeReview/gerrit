@@ -15,67 +15,47 @@ filegroup(
     visibility = ["//visibility:public"],
 )
 
-package_group(
-    name = "servlet-api-users",
-    packages = [
-        "//java/com/google/gerrit/acceptance",
-        "//java/com/google/gerrit/httpd/...",
-        "//java/com/google/gerrit/pgm/http/jetty",
-        "//java/com/google/gerrit/server",
-        "//java/com/google/gerrit/util/http",
-        "//javatests/com/google/gerrit/pgm",
-        "//javatests/com/google/gerrit/util/http/testutil",
-        "//modules/jgit/...",
-        "//tools/flavour_toolchain",
-    ],
-)
-
-package_group(
-    name = "servlet-api-without-neverlink-users",
-    packages = [
-        "//java/com/google/gerrit/pgm",
-        "//javatests/com/google/gerrit/httpd",
-        "//javatests/com/google/gerrit/util/concurrent",
-        "//javatests/com/google/gerrit/util/http",
-        "//plugins",
-        "//tools/flavour_toolchain",
-    ],
-)
-
+# The concrete per-flavour servlet-api targets are bound only by the
+# servlet-flavour toolchain (and the ee11 twins by the ee11 jetty adapter / test
+# fakes). Flavour-neutral code depends on the neutral //lib:servlet-api instead,
+# so the restricted visibility here is the guardrail that keeps a concrete javax
+# jar from silently leaking into the EE11 WAR.
 java_library(
     name = "servlet-api-ee8",
     data = ["//lib:LICENSE-Apache2.0"],
     neverlink = 1,
-    visibility = [":servlet-api-users"],
+    visibility = ["//tools/flavour_toolchain:__pkg__"],
     exports = ["@external_deps//:javax_servlet_javax_servlet_api"],
 )
 
 java_library(
     name = "servlet-api-without-neverlink-ee8",
     data = ["//lib:LICENSE-Apache2.0"],
-    visibility = [":servlet-api-without-neverlink-users"],
+    visibility = ["//tools/flavour_toolchain:__pkg__"],
     exports = ["@external_deps//:javax_servlet_javax_servlet_api"],
 )
 
-# jakarta.servlet API for the EE11 release flavour. Available in the shared
-# external_deps because jgit master contributes it (see the JGit-EE8 migration).
-# neverlink: the Jetty EE11 container provides it at runtime, same as the javax
-# servlet-api above. Visibility starts public while the EE11 tier is wired; it
-# can be tightened to an allowlist like servlet-api once EE11 consumers settle.
+# jakarta.servlet API for the EE11 release flavour (neverlink: the Jetty EE11
+# container provides it at runtime). Restricted to its direct users: the
+# toolchain binding, the Jetty ee11 adapter, and the ee11 test fakes.
 java_library(
     name = "servlet-api-ee11",
     data = ["//lib:LICENSE-Apache2.0"],
     neverlink = 1,
-    visibility = ["//visibility:public"],
+    visibility = [
+        "//javatests/com/google/gerrit/util/http/testutil/ee11:__pkg__",
+        "//lib/jetty:__pkg__",
+        "//tools/flavour_toolchain:__pkg__",
+    ],
     exports = ["@external_deps//:jakarta_servlet_jakarta_servlet_api"],
 )
 
-# Non-neverlink jakarta servlet-api, for EE11 tests that need the classes on the
-# runtime classpath (mirrors servlet-api-without-neverlink).
+# Non-neverlink jakarta servlet-api (bundled at runtime). Bound only by the
+# toolchain; runtime consumers use the neutral servlet-api-without-neverlink.
 java_library(
     name = "servlet-api-without-neverlink-ee11",
     data = ["//lib:LICENSE-Apache2.0"],
-    visibility = ["//visibility:public"],
+    visibility = ["//tools/flavour_toolchain:__pkg__"],
     exports = ["@external_deps//:jakarta_servlet_jakarta_servlet_api"],
 )
 

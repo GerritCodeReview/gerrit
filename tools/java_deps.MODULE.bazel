@@ -225,7 +225,7 @@ use_repo(maven, "external_deps")
 # = "error" forbids two. Guice 7 also switches @Inject from javax.inject to
 # jakarta.inject, so the whole DI/inject cluster is isolated together here. The
 # EE8/default WAR keeps Guice 6 from external_deps; the EE11 WAR consumes
-# @external_deps_ee11. See gerrit-ee8-ee11-flavoured-release-design.
+# @external_deps_ee11. See the servlet-flavoured-release design docs.
 maven.install(
     name = "external_deps_ee11",
     artifacts = [],

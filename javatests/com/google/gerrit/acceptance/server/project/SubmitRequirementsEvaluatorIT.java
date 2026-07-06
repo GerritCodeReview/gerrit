@@ -1014,6 +1014,29 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
     assertThat(srResult.errorMessage().get()).isEqualTo("Invalid content pattern.");
   }
 
+  @Test
+  public void invalidPathRegex_returnsErrorExpressionResult() throws Exception {
+    SubmitRequirementExpression exp = SubmitRequirementExpression.create("path:\"^foo[\"");
+
+    SubmitRequirementExpressionResult srResult = evaluator.evaluateExpression(exp, changeData);
+    assertThat(srResult.status()).isEqualTo(SubmitRequirementExpressionResult.Status.ERROR);
+    assertThat(srResult.errorMessage().get()).contains("unexpected end-of-string");
+  }
+
+  @Test
+  public void invalidPathRegex_returnsErrorRequirementResult() throws Exception {
+    SubmitRequirement sr =
+        createSubmitRequirement(
+            /* applicabilityExpr= */ null,
+            /* submittabilityExpr= */ "path:\"^foo[\"",
+            /* overrideExpr= */ null);
+
+    SubmitRequirementResult srResult = evaluator.evaluateRequirement(sr, changeData);
+    assertThat(srResult.status()).isEqualTo(SubmitRequirementResult.Status.ERROR);
+    assertThat(srResult.submittabilityExpressionResult().get().errorMessage().get())
+        .contains("unexpected end-of-string");
+  }
+
   private void voteLabel(String changeId, String labelName, int score) throws RestApiException {
     gApi.changes().id(changeId).current().review(new ReviewInput().label(labelName, score));
   }

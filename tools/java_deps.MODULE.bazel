@@ -255,4 +255,24 @@ maven.from_toml(
     name = "external_deps_ee11",
     libs_versions_toml = "//tools:nongoogle_ee11.toml",
 )
+
+# Same unshaded-Guice rule as _GUICE_FAT_JAR_CONSUMERS above, for the EE11
+# resolution: guice-library uses the "classes" classifier (the ASM shaded into
+# the fat Guice 7 jar cannot read Java 25 class files either), so nothing in
+# this repo may pull the plain com.google.inject:guice transitively.
+_GUICE_FAT_JAR_CONSUMERS_EE11 = [
+    "com.google.inject.extensions:guice-assistedinject",
+    "com.google.inject.extensions:guice-servlet",
+    "com.google.gitiles:gitiles-servlet",
+]
+
+[
+    maven.amend_artifact(
+        name = "external_deps_ee11",
+        coordinates = coord,
+        exclusions = ["com.google.inject:guice"],
+    )
+    for coord in _GUICE_FAT_JAR_CONSUMERS_EE11
+]
+
 use_repo(maven, "external_deps_ee11")

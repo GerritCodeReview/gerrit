@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "55e0d8ba_440760ef",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 23
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2026-07-06T15:29:29Z",
+      "side": 1,
+      "message": "OK license-wise. \n\nCould we do this update in two steps? one bumping the autofactory version and another moving to jakarta Qualifier? Because probably I\u0027ll need to patch that second part.",
+      "revId": "4f20c4a3e07deee5f10d48e7f8e7ad61ec51e0be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

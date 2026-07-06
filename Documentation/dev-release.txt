@@ -94,7 +94,8 @@ their own configuration transition and need no command-line flag:
 This yields `bazel-bin/release.war` (EE8) and `bazel-bin/release-ee10.war`
 (EE10) side by side. The `release-ee10.war` bundles the jakarta core plugins
 (the `-ee10` plugin targets) and the jakarta servlet/Jetty/Guice tiers; the
-default `release.war` is byte-for-byte unchanged from before the EE10 work.
+default `release.war` keeps the same servlet dependency tier and jar set as
+before the EE10 work.
 
 When cutting a release, publish both flavours under the same version. The two
 flavours never share a classpath, so they are distributed as separate Maven

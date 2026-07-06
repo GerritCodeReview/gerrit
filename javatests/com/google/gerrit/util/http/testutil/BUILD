@@ -22,9 +22,10 @@ flavoured_java_library(
     ],
 )
 
-# EE10 (jakarta.servlet) test fakes: the two fakes diverge from a mechanical
-# transform, so this twin is the hand-written ee10 variants (no to_jakarta
-# transform here). testutil-ee8's glob does not descend into ee10/ (own BUILD).
+# EE10 (jakarta.servlet) twin: the FakeHttpServlet{Request,Response} variants
+# diverge from a mechanical transform (Servlet-6 method set), so this twin
+# exports the hand-written ee10/ overlay instead of running to_jakarta.
+# testutil-ee8's glob does not descend into ee10/ (own BUILD).
 flavoured_java_library(
     name = "testutil-ee10",
     testonly = True,

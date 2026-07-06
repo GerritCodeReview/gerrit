@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aca456c3_4dd53f4d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-07-06T19:09:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3dbcbb1_3fa50a17",
+      "revId": "f7639b53e2909b1a89c43adc4314d6560c65fc30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "df289c80_31734dcc",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-07-05T12:29:44Z",
       "side": 1,
       "message": "Please remove/defer the content:review documentation together with the endpoint.\n\nThe initial change should document only the direct branch commit API. A one-shot review API needs a separate change and should explain why the existing change edit workflow is insufficient.",
+      "revId": "f7639b53e2909b1a89c43adc4314d6560c65fc30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "91708f88_29ce3f98",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2207,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-07-06T19:09:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df289c80_31734dcc",
       "revId": "f7639b53e2909b1a89c43adc4314d6560c65fc30",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5da33dec_8932fec8",
+        "filename": "java/com/google/gerrit/server/restapi/project/BranchCommitBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-07-06T19:09:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9986edeb_3bdbd8d2",
+      "revId": "f7639b53e2909b1a89c43adc4314d6560c65fc30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c108900f_11a137ba",
@@ -65,6 +119,24 @@
       "writtenOn": "2026-07-05T12:29:44Z",
       "side": 1,
       "message": "I do not think this review path should manually create a change.\n\nIf content:review remains in a later change, please route it through CreateChange.execute(...) with CreateChange.CommitTreeSupplier. CreateChange already owns create-change semantics such as contributor agreement checks, private/WIP defaults, notify handling, duplicate Change-Id detection, validation options, custom keyed values, and response formatting.",
+      "revId": "f7639b53e2909b1a89c43adc4314d6560c65fc30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "299ea2cd_c928d829",
+        "filename": "java/com/google/gerrit/server/restapi/project/BranchCommitBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-07-06T19:09:51Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "c108900f_11a137ba",
       "revId": "f7639b53e2909b1a89c43adc4314d6560c65fc30",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -92,6 +164,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b0a84d8_d69e5cc0",
+        "filename": "java/com/google/gerrit/server/restapi/project/BranchCommitBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-07-06T19:09:51Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "0cbb24d5_782990df",
+      "range": {
+        "startLine": 309,
+        "startChar": 6,
+        "endLine": 309,
+        "endChar": 73
+      },
+      "revId": "f7639b53e2909b1a89c43adc4314d6560c65fc30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a9111426_db2d5583",
@@ -105,6 +201,24 @@
       "writtenOn": "2026-07-05T12:29:44Z",
       "side": 1,
       "message": "This conversion from CommitFilesInput to TreeModification is the reusable part I would like to keep.\n\nCan this be extracted into a small helper, ideally returning a CommitModification or ImmutableList\u003cTreeModification\u003e, so both the direct branch commit path and any future review path reuse the same validation and tree-modification construction? That would also keep this class focused on branch ref updates.",
+      "revId": "f7639b53e2909b1a89c43adc4314d6560c65fc30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "84797bb1_3767e13c",
+        "filename": "java/com/google/gerrit/server/restapi/project/BranchCommitBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-07-06T19:09:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a9111426_db2d5583",
       "revId": "f7639b53e2909b1a89c43adc4314d6560c65fc30",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -126,6 +240,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6439619d_3dea62b7",
+        "filename": "java/com/google/gerrit/server/restapi/project/ProjectRestApiModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-07-06T19:09:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "51b822b7_fab517c7",
+      "revId": "f7639b53e2909b1a89c43adc4314d6560c65fc30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6cf9ecb7_1493b7f3",
@@ -139,6 +271,24 @@
       "writtenOn": "2026-07-05T12:29:44Z",
       "side": 1,
       "message": "Please drop or defer this endpoint from this change.\n\nFor review-based server-side file edits,A Gerrit already has the change edit workflow: ChangeEdits, ChangeEditModifier, ChangeEditUtil, and PublishChangeEdit. It is multi-step, but it is the established workflow and preserves existing patch-set semantics.\n\nIf a one-shot review endpoint is still wanted later, please send it separately and implement it by reusing CreateChange.CommitTreeSupplier, not by adding a parallel ChangeInserter path here.",
+      "revId": "f7639b53e2909b1a89c43adc4314d6560c65fc30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb3cc8e0_c0f3170a",
+        "filename": "java/com/google/gerrit/server/restapi/project/PutContentReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-07-06T19:09:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6cf9ecb7_1493b7f3",
       "revId": "f7639b53e2909b1a89c43adc4314d6560c65fc30",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

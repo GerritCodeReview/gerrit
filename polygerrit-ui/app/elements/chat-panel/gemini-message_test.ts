@@ -26,7 +26,7 @@ import {pluginLoaderToken} from '../shared/gr-js-api-interface/gr-plugin-loader'
 import {chatProvider, createChange} from '../../test/test-data-generators';
 import {ParsedChangeInfo} from '../../types/types';
 import {CommentsModel} from '../../models/comments/comments-model';
-import {AiAgentEventDetails, Interaction} from '../../constants/reporting';
+import {AiAgentChatEventDetails, Interaction} from '../../constants/reporting';
 import {getAppContext} from '../../services/app-context';
 
 suite('gemini-message tests', () => {
@@ -260,7 +260,7 @@ suite('gemini-message tests', () => {
       reportStub.firstCall.args[0],
       Interaction.AI_AGENT_SUGGESTIONS_SHOWN
     );
-    const details = reportStub.firstCall.args[1] as AiAgentEventDetails;
+    const details = reportStub.firstCall.args[1] as AiAgentChatEventDetails;
     assert.equal(details.conversationId, 'test-conversation-id');
     assert.equal(details.agentId, 'custom-agent-id');
     assert.equal(details.commentCount, 1);
@@ -308,7 +308,7 @@ suite('gemini-message tests', () => {
       .find(c => c.args[0] === Interaction.AI_AGENT_SUGGESTION_TO_COMMENT);
     assert.isOk(call, 'Expected AI_AGENT_SUGGESTION_TO_COMMENT to be reported');
 
-    const details = call.args[1] as AiAgentEventDetails;
+    const details = call.args[1] as AiAgentChatEventDetails;
     assert.equal(details.conversationId, 'test-conversation-id');
     assert.equal(details.agentId, 'custom-agent-id');
     assert.equal(details.commentId, 'test-comment-id');
@@ -352,7 +352,7 @@ suite('gemini-message tests', () => {
       'Expected AI_AGENT_SUGGESTION_COPY_BUTTON_CLICKED to be reported'
     );
 
-    const details = call.args[1] as AiAgentEventDetails;
+    const details = call.args[1] as AiAgentChatEventDetails;
     assert.equal(details.conversationId, 'test-conversation-id');
     assert.equal(details.agentId, 'custom-agent-id');
   });

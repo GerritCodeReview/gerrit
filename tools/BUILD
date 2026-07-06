@@ -21,7 +21,7 @@ exports_files([
 # aliases). Drive it manually with
 #   --@com_googlesource_gerrit_bazlets//flags:flavour=ee11
 # (default ee8 needs no flag), or -- preferably -- build a transition-wrapped
-# target: the ee11_war WARs (//:release-ee11, //:headless-ee11) and the
+# target: the flavoured_war WARs (//:release-ee11, //:headless-ee11) and the
 # gerrit_plugin(flavour = "ee11") plugin jars set it automatically.
 #
 # See the gerrit-ee8-ee11-flavoured-release-design repo (README.md status map,

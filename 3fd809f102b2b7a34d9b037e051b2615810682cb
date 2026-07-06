@@ -74,6 +74,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "bb11adb0_958d026b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1159190
+      },
+      "writtenOn": "2026-07-06T23:49:56Z",
+      "side": 1,
+      "message": "It did. Added it back.",
+      "parentUuid": "13f6fce0_645cfd79",
+      "range": {
+        "startLine": 11,
+        "startChar": 15,
+        "endLine": 11,
+        "endChar": 24
+      },
+      "revId": "3fd809f102b2b7a34d9b037e051b2615810682cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "112ac625_299f96e2",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 6

@@ -8,8 +8,8 @@
     "com.github.ben-manes.caffeine:caffeine": 1735183231,
     "com.github.ben-manes.caffeine:guava": -2131703186,
     "com.github.rholder:guava-retrying": 1309513165,
-    "com.google.auto.factory:auto-factory": -1233360965,
-    "com.google.auto.service:auto-service-annotations": 953830824,
+    "com.google.auto.factory:auto-factory": -1222857861,
+    "com.google.auto.service:auto-service-annotations": 964333928,
     "com.google.auto.value:auto-value": -661233359,
     "com.google.auto.value:auto-value-annotations": 1386235898,
     "com.google.auto:auto-common": -832702775,
@@ -223,10 +223,10 @@
     "com.github.ben-manes.caffeine:guava:jar:sources": 1590068668,
     "com.github.rholder:guava-retrying": -789983219,
     "com.github.rholder:guava-retrying:jar:sources": 2030887181,
-    "com.google.auto.factory:auto-factory": -544009950,
-    "com.google.auto.factory:auto-factory:jar:sources": 1355400808,
-    "com.google.auto.service:auto-service-annotations": 1999106941,
-    "com.google.auto.service:auto-service-annotations:jar:sources": 1716120839,
+    "com.google.auto.factory:auto-factory": 2025609377,
+    "com.google.auto.factory:auto-factory:jar:sources": -861333607,
+    "com.google.auto.service:auto-service-annotations": 195984873,
+    "com.google.auto.service:auto-service-annotations:jar:sources": -902556490,
     "com.google.auto.value:auto-value": -1504415167,
     "com.google.auto.value:auto-value-annotations": 641752776,
     "com.google.auto.value:auto-value-annotations:jar:sources": -2083311588,
@@ -561,17 +561,17 @@
     },
     "com.google.auto.factory:auto-factory": {
       "shasums": {
-        "jar": "d59fb7ada5962a480abf0b81d4d2a14a2952f17c026732359af8b585e531c16c",
-        "sources": "c6098f8976b8833cf40edc36d1e3f7cd5cbb474c018185650b5ca4e24e713e6a"
+        "jar": "9b4505cd7a60574d59386672c1d51d6154b803c892677eb909cf4155ebee771f",
+        "sources": "4f46cc87784c2339d103c3b3d4e19bc03dd3ecca018ea931c61c4b63a4829616"
       },
-      "version": "1.0.1"
+      "version": "1.1.0"
     },
     "com.google.auto.service:auto-service-annotations": {
       "shasums": {
-        "jar": "c7bec54b7b5588b5967e870341091c5691181d954cf2039f1bf0a6eeb837473b",
-        "sources": "b013ca159b0fea3a0041d3d5fbb3b7e49a819da80a172a01fb17dd28fd98e72b"
+        "jar": "cb5667036f75e9682b493b8b47adbe391bcff72b9d3e16c52ae725f514665af2",
+        "sources": "10ca2b6c041ec8a7dc07d391ab792a55a4d6518d8067c8e63b7deda92e1de9e9"
       },
-      "version": "1.0.1"
+      "version": "1.1.0"
     },
     "com.google.auto.value:auto-value": {
       "shasums": {
@@ -1562,8 +1562,7 @@
       "com.google.auto.value:auto-value-annotations",
       "com.google.auto:auto-common",
       "com.google.guava:guava",
-      "com.squareup:javapoet",
-      "javax.inject:javax.inject"
+      "com.squareup:javapoet"
     ],
     "com.google.auto:auto-common": [
       "com.google.guava:guava"

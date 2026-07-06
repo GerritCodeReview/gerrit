@@ -35,6 +35,9 @@ java_library(
         exclude = CONSTANTS_SRC + GERRIT_GLOBAL_MODULE_SRC + TESTING_SRC +
                   PROLOG_SRC,
     ),
+    # Pin AutoFactory to the javax inject API. See the "Bump auto-factory
+    # version to 1.1.0" change for why; the follow-up removes this pin.
+    javacopts = ["-Acom.google.auto.factory.InjectApi=javax"],
     resource_strip_prefix = "resources",
     resources = ["//resources/com/google/gerrit/server"],
     visibility = ["//visibility:public"],

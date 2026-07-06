@@ -90,6 +90,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "25e5424f_f5bfdbce",
+        "filename": "polygerrit-ui/app/constants/reporting.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-07-06T21:05:31Z",
+      "side": 1,
+      "message": "Yeah, I think that\u0027s good. This is the same file that has the interaction enums for reporting (eg. AI_AGENT_SUGGESTION_TO_COMMENT) so I think it\u0027s ok to keep it here since it\u0027s closely related.",
+      "parentUuid": "f308844f_b72b9884",
+      "range": {
+        "startLine": 197,
+        "startChar": 12,
+        "endLine": 197,
+        "endChar": 31
+      },
+      "revId": "3fd809f102b2b7a34d9b037e051b2615810682cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f470dd4d_8bc35a05",
         "filename": "polygerrit-ui/app/constants/reporting.ts",
         "patchSetId": 6
@@ -125,6 +149,30 @@
       "side": 1,
       "message": "Description is required because it seems like it\u0027s the only way to identify the source.\n\nCheckname has the name of the agent.\n\nexternalId has the run information, while not necessary, we figured it would be nice to have if we needed to do any further digging.",
       "parentUuid": "f470dd4d_8bc35a05",
+      "range": {
+        "startLine": 212,
+        "startChar": 0,
+        "endLine": 217,
+        "endChar": 21
+      },
+      "revId": "3fd809f102b2b7a34d9b037e051b2615810682cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "95b86b8f_0681cf28",
+        "filename": "polygerrit-ui/app/constants/reporting.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-07-06T21:05:31Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "0c647e0e_9a1c28a4",
       "range": {
         "startLine": 212,
         "startChar": 0,
@@ -210,6 +258,30 @@
       "side": 1,
       "message": "My worry was there was another code that relied on them being defined. This would be backwards compatible. If there is nothing important I can set them as undefined.",
       "parentUuid": "3d84bc2a_0f1bd7ed",
+      "range": {
+        "startLine": 608,
+        "startChar": 0,
+        "endLine": 610,
+        "endChar": 20
+      },
+      "revId": "3fd809f102b2b7a34d9b037e051b2615810682cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f13d808_f20fe12b",
+        "filename": "polygerrit-ui/app/models/checks/checks-util.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 610,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-07-06T21:05:31Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "864c040f_ed220cc3",
       "range": {
         "startLine": 608,
         "startChar": 0,

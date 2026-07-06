@@ -204,7 +204,7 @@ exposes a self-transitioning `-ee10` target, e.g.
 ==== Running the tests in both flavours
 
 The EE10 servlet libraries and their test targets (for example
-`//javatests/com/google/gerrit/httpd:httpd_tests_ee10`) only compile in the EE10
+`//javatests/com/google/gerrit/httpd:httpd_tests-ee10`) only compile in the EE10
 configuration. They are marked `target_compatible_with` the EE10 flavour, so a
 plain default-flavour build or test **skips** them (Bazel reports them as
 incompatible, not as a failure) and the vanilla wildcard stays EE8-green:
@@ -220,8 +220,8 @@ flavour flag:
 ----
   # EE10:
   bazelisk test --@com_googlesource_gerrit_bazlets//flags:flavour=ee10 \
-    //javatests/com/google/gerrit/httpd:httpd_tests_ee10 \
-    //javatests/com/google/gerrit/util/http:http_tests_ee10
+    //javatests/com/google/gerrit/httpd:httpd_tests-ee10 \
+    //javatests/com/google/gerrit/util/http:http_tests-ee10
 ----
 
 So continuous integration runs the suite twice -- once in each flavour. This is

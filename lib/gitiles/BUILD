@@ -1,3 +1,4 @@
+load("@com_googlesource_gerrit_bazlets//tools:flavour.bzl", "flavoured_alias")
 load("@rules_java//java:defs.bzl", "java_library")
 
 java_library(
@@ -49,12 +50,13 @@ java_library(
 # @external_deps_ee10. The select() lives here once: both the java_library
 # below (compile classpath) and the gitiles plugin's static-resource genrule
 # (raw jar) consume this single alias, so neither repeats the select.
-alias(
+# Stays flavoured_alias (NOT the toolchain resolver): this jar is consumed both
+# as a JavaInfo dep AND as a raw file via $(location) by the gitiles plugin's
+# static-resource genrule, and the resolver exposes only JavaInfo.
+flavoured_alias(
     name = "gitiles-servlet-jar",
-    actual = select({
-        "//tools:ee10": "@external_deps_ee10//:com_google_gitiles_gitiles_servlet",
-        "//conditions:default": "@external_deps//:com_google_gitiles_gitiles_servlet",
-    }),
+    default = "@external_deps//:com_google_gitiles_gitiles_servlet",
+    flavours = {"ee10": "@external_deps_ee10//:com_google_gitiles_gitiles_servlet"},
     visibility = ["//visibility:public"],
 )
 

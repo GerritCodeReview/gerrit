@@ -1,31 +1,28 @@
+load("@com_googlesource_gerrit_bazlets//tools:servlet_flavour.bzl", "servlet_flavour_deps")
 load("@rules_java//java:defs.bzl", "java_library")
 
 java_library(
-    name = "servlet",
+    name = "servlet-ee8",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
     exports = [
+        ":nested",
         ":util-ajax",
         "@external_deps//:org_eclipse_jetty_ee8_jetty_ee8_servlet",
     ],
     runtime_deps = [
-        ":nested",
         ":security",
     ],
 )
 
-# Jetty EE10 servlet adapter for the EE10 release flavour (jakarta.servlet).
-# Mirrors gitiles' lib/jetty:servlet-ee10. Artifact comes from the shared
-# external_deps (contributed by jgit master). Pairs jetty-ee10-servlet with the
-# jakarta servlet-api on the core :server chain. Runtime deps are intentionally
-# minimal for now (no ee8 :nested / ee8 :security); the full EE10 server wiring
-# is added when httpd-ee10 lands.
+# Jetty EE10 servlet adapter (jakarta.servlet): pairs jetty-ee10-servlet with the
+# jakarta servlet-api on the core :server chain. Twin of :servlet-ee8.
 java_library(
     name = "servlet-ee10",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
     exports = [
-        "//lib:jakarta-servlet-api",
+        "//lib:servlet-api-ee10",
         "@external_deps//:org_eclipse_jetty_ee10_jetty_ee10_servlet",
     ],
     runtime_deps = [
@@ -36,12 +33,13 @@ java_library(
 # Flavour-neutral Jetty servlet adapter: EE8 (default) or EE10 servlet adapter
 # based on --@com_googlesource_gerrit_bazlets//flags:flavour=ee10. Server bootstrap depends on this alias so one
 # source set serves both release flavours.
-alias(
-    name = "servlet-flavoured",
-    actual = select({
-        "//tools:ee10": ":servlet-ee10",
-        "//conditions:default": ":servlet",
-    }),
+servlet_flavour_deps(
+    name = "servlet",
+    license_deps = [
+        ":servlet-ee10",
+        ":servlet-ee8",
+    ],
+    part = "jetty",
     visibility = ["//visibility:public"],
 )
 

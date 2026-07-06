@@ -1,4 +1,4 @@
-load("@com_googlesource_gerrit_bazlets//tools:flavour.bzl", "ee10_war")
+load("@com_googlesource_gerrit_bazlets//tools:flavour.bzl", "flavoured_war")
 load("@com_googlesource_gerrit_bazlets//tools:genrule2.bzl", "genrule2")
 load("@npm//:defs.bzl", "npm_link_all_packages")
 load("//tools/bzl:pkg_war.bzl", "pkg_war")
@@ -43,18 +43,21 @@ pkg_war(
 # with flavour=ee10 forced via a configuration transition, emitting distinctly
 # named release-ee10.war / headless-ee10.war so both flavours can be built (and
 # published) side by side in one invocation.
-ee10_war(
+flavoured_war(
     name = "release-ee10",
+    flavour = "ee10",
     war = ":release",
 )
 
-ee10_war(
+flavoured_war(
     name = "gerrit-ee10",
+    flavour = "ee10",
     war = ":gerrit",
 )
 
-ee10_war(
+flavoured_war(
     name = "headless-ee10",
+    flavour = "ee10",
     war = ":headless",
 )
 

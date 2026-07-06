@@ -22,6 +22,30 @@
       },
       "revId": "0a215fcfaf7466219470a5c68c62460caa14c8c3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "82fe732b_03e7e6bb",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluatorImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 4639732
+      },
+      "writtenOn": "2026-07-06T18:17:03Z",
+      "side": 0,
+      "message": "bad regex is caught as `IllegalArgumentException` in line 179. This block is for other errors from worker threads throwing ` IllegalArgumentException`\n\nWhen the main server thread calls `future.get()` to retrieve the evaluation result, the Java concurrency framework wraps the underlying illegal argument exception inside a java.util.concurrent.ExecutionException",
+      "parentUuid": "ef26caf9_0719fd83",
+      "range": {
+        "startLine": 264,
+        "startChar": 14,
+        "endLine": 264,
+        "endChar": 59
+      },
+      "revId": "0a215fcfaf7466219470a5c68c62460caa14c8c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

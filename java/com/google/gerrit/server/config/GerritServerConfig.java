@@ -16,8 +16,8 @@ package com.google.gerrit.server.config;
 
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+import jakarta.inject.Qualifier;
 import java.lang.annotation.Retention;
-import javax.inject.Qualifier;
 
 /**
  * Marker on {@link org.eclipse.jgit.lib.Config} holding {@code gerrit.config} .

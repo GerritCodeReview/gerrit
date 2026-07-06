@@ -211,6 +211,13 @@ java_library(
 )
 
 java_library(
+    name = "jspecify",
+    data = ["//lib:LICENSE-Apache2.0"],
+    visibility = ["//visibility:public"],
+    exports = ["@external_deps//:org_jspecify_jspecify"],
+)
+
+java_library(
     name = "blame-cache",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],

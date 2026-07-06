@@ -25,7 +25,6 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.UsedAt;
-import com.google.gerrit.extensions.annotations.RootRelative;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -38,6 +37,7 @@ import com.google.gerrit.extensions.systemstatus.ServerInformation;
 import com.google.gerrit.extensions.webui.WebUiPlugin;
 import com.google.gerrit.index.IndexCollection;
 import com.google.gerrit.metrics.MetricMaker;
+import com.google.gerrit.server.plugins.servlet.PluginServletOverlay;
 import com.google.gerrit.server.util.PluginRequestContext;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
@@ -65,8 +65,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * Tracks Guice bindings that should be exposed to loaded plugins.
@@ -586,14 +584,6 @@ public class PluginGuiceEnvironment {
     bindings.remove(Key.get(Injector.class));
     bindings.remove(Key.get(java.util.logging.Logger.class));
 
-    @Nullable
-    final Binding<HttpServletRequest> requestBinding =
-        src.getExistingBinding(Key.get(HttpServletRequest.class));
-
-    @Nullable
-    final Binding<HttpServletResponse> responseBinding =
-        src.getExistingBinding(Key.get(HttpServletResponse.class));
-
     return new AbstractModule() {
       @SuppressWarnings("unchecked")
       @Override
@@ -603,17 +593,7 @@ public class PluginGuiceEnvironment {
           Binding<Object> b = (Binding<Object>) e.getValue();
           bind(k).toProvider(b.getProvider());
         }
-
-        if (requestBinding != null) {
-          bind(HttpServletRequest.class)
-              .annotatedWith(RootRelative.class)
-              .toProvider(requestBinding.getProvider());
-        }
-        if (responseBinding != null) {
-          bind(HttpServletResponse.class)
-              .annotatedWith(RootRelative.class)
-              .toProvider(responseBinding.getProvider());
-        }
+        PluginServletOverlay.bindRootRelative(src, binder());
       }
     };
   }
@@ -646,29 +626,10 @@ public class PluginGuiceEnvironment {
       return false;
     }
 
-    if (is("javax.servlet.Filter", type)) {
-      return false;
-    }
-    if (is("javax.servlet.ServletContext", type)) {
-      return false;
-    }
-    if (is("javax.servlet.ServletRequest", type)) {
-      return false;
-    }
-    if (is("javax.servlet.ServletResponse", type)) {
-      return false;
-    }
-    if (is("javax.servlet.http.HttpServlet", type)) {
-      return false;
-    }
-    if (is("javax.servlet.http.HttpServletRequest", type)) {
-      return false;
-    }
-    if (is("javax.servlet.http.HttpServletResponse", type)) {
-      return false;
-    }
-    if (is("javax.servlet.http.HttpSession", type)) {
-      return false;
+    for (String servletType : PluginServletOverlay.SERVLET_API_TYPE_NAMES) {
+      if (is(servletType, type)) {
+        return false;
+      }
     }
     if (Map.class.isAssignableFrom(type)
         && key.getAnnotationType() != null

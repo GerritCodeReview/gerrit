@@ -175,7 +175,9 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
               .parse(expression.expressionString());
       PredicateResult predicateResult = changeData.evaluatePredicateTree(predicate);
       return SubmitRequirementExpressionResult.create(expression, predicateResult);
-    } catch (QueryParseException | SubmitRequirementEvaluationException e) {
+    } catch (QueryParseException
+        | SubmitRequirementEvaluationException
+        | IllegalArgumentException e) {
       logger.atWarning().withCause(e).log(
           "Failed to evaluate submit requirement expression: %s", expression.expressionString());
       return SubmitRequirementExpressionResult.error(expression, e.getMessage());
@@ -262,8 +264,8 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
 
         return timeoutResult(sr, cd);
       } catch (ExecutionException | InterruptedException e) {
-        logger.atSevere().log("Error evaluating Submit requirement: %s", sr.name());
-        throw new RuntimeException(e);
+        logger.atSevere().withCause(e).log("Error evaluating Submit requirement: %s", sr.name());
+        return errorResult(sr, cd, e);
       }
     }
   }
@@ -281,6 +283,29 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
         .submitRequirement(sr)
         .patchSetCommitId(cd.currentPatchSet().commitId())
         .submittabilityExpressionResult(Optional.of(timeout))
+        .applicabilityExpressionResult(
+            sr.applicabilityExpression().map(SubmitRequirementExpressionResult::notEvaluated))
+        .overrideExpressionResult(
+            sr.overrideExpression().map(SubmitRequirementExpressionResult::notEvaluated))
+        .build();
+  }
+
+  private SubmitRequirementResult errorResult(SubmitRequirement sr, ChangeData cd, Throwable e) {
+    String msg =
+        (e instanceof ExecutionException && e.getCause() != null)
+            ? e.getCause().getMessage()
+            : e.getMessage();
+    if (msg == null) {
+      msg = e.toString();
+    }
+    SubmitRequirementExpressionResult error =
+        SubmitRequirementExpressionResult.error(sr.submittabilityExpression(), msg);
+
+    return SubmitRequirementResult.builder()
+        .legacy(Optional.of(false))
+        .submitRequirement(sr)
+        .patchSetCommitId(cd.currentPatchSet().commitId())
+        .submittabilityExpressionResult(Optional.of(error))
         .applicabilityExpressionResult(
             sr.applicabilityExpression().map(SubmitRequirementExpressionResult::notEvaluated))
         .overrideExpressionResult(

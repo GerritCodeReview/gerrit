@@ -1,3 +1,4 @@
+load("@com_googlesource_gerrit_bazlets//tools:servlet_flavour.bzl", "servlet_flavour_deps")
 load("@rules_java//java:defs.bzl", "java_library")
 load("@rules_shell//shell:sh_test.bzl", "sh_test")
 
@@ -25,6 +26,7 @@ package_group(
         "//javatests/com/google/gerrit/pgm",
         "//javatests/com/google/gerrit/util/http/testutil",
         "//modules/jgit/...",
+        "//tools/flavour_toolchain",
     ],
 )
 
@@ -36,11 +38,12 @@ package_group(
         "//javatests/com/google/gerrit/util/concurrent",
         "//javatests/com/google/gerrit/util/http",
         "//plugins",
+        "//tools/flavour_toolchain",
     ],
 )
 
 java_library(
-    name = "servlet-api",
+    name = "servlet-api-ee8",
     data = ["//lib:LICENSE-Apache2.0"],
     neverlink = 1,
     visibility = [":servlet-api-users"],
@@ -48,7 +51,7 @@ java_library(
 )
 
 java_library(
-    name = "servlet-api-without-neverlink",
+    name = "servlet-api-without-neverlink-ee8",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = [":servlet-api-without-neverlink-users"],
     exports = ["@external_deps//:javax_servlet_javax_servlet_api"],
@@ -60,7 +63,7 @@ java_library(
 # servlet-api above. Visibility starts public while the EE11 tier is wired; it
 # can be tightened to an allowlist like servlet-api once EE11 consumers settle.
 java_library(
-    name = "jakarta-servlet-api",
+    name = "servlet-api-ee11",
     data = ["//lib:LICENSE-Apache2.0"],
     neverlink = 1,
     visibility = ["//visibility:public"],
@@ -70,7 +73,7 @@ java_library(
 # Non-neverlink jakarta servlet-api, for EE11 tests that need the classes on the
 # runtime classpath (mirrors servlet-api-without-neverlink).
 java_library(
-    name = "jakarta-servlet-api-without-neverlink",
+    name = "servlet-api-without-neverlink-ee11",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
     exports = ["@external_deps//:jakarta_servlet_jakarta_servlet_api"],
@@ -79,24 +82,27 @@ java_library(
 # Flavour-neutral non-neverlink servlet API (bundled in the WAR): javax by
 # default, jakarta under --@com_googlesource_gerrit_bazlets//flags:flavour=ee11. Used by code that packages the
 # servlet API into the WAR (e.g. //java/com/google/gerrit/pgm).
-alias(
-    name = "servlet-api-without-neverlink-flavoured",
-    actual = select({
-        "//tools:ee11": ":jakarta-servlet-api-without-neverlink",
-        "//conditions:default": ":servlet-api-without-neverlink",
-    }),
+servlet_flavour_deps(
+    name = "servlet-api-without-neverlink",
+    license_deps = [
+        ":servlet-api-without-neverlink-ee11",
+        ":servlet-api-without-neverlink-ee8",
+    ],
+    part = "servlet_api_runtime",
     visibility = ["//visibility:public"],
 )
 
-# Flavour-neutral servlet API: routes to javax (EE8 default) or jakarta (EE11)
-# based on --@com_googlesource_gerrit_bazlets//flags:flavour=ee11. Boundary code depends on this alias instead of
-# a concrete servlet-api so a single source set serves both release flavours.
-alias(
-    name = "servlet-api-flavoured",
-    actual = select({
-        "//tools:ee11": "//lib:jakarta-servlet-api",
-        "//conditions:default": "//lib:servlet-api",
-    }),
+# Flavour-neutral servlet API, backed by the servlet-flavour TOOLCHAIN: resolves
+# to the neverlink javax servlet-api (EE8 default) or jakarta servlet-api (EE11)
+# from the active //flags:flavour, with no select() here. Boundary code depends
+# on this target so one source set serves both flavours.
+servlet_flavour_deps(
+    name = "servlet-api",
+    license_deps = [
+        ":servlet-api-ee11",
+        ":servlet-api-ee8",
+    ],
+    part = "servlet_api",
     visibility = ["//visibility:public"],
 )
 
@@ -151,12 +157,13 @@ java_library(
 # Flavour-aware JGit servlet module: dependents use //lib:jgit-servlet and get
 # JGit's generated .ee8 (javax) bridge by default or the canonical jakarta module
 # under --@com_googlesource_gerrit_bazlets//flags:flavour=ee11. Keeps javax.servlet out of the EE11 WAR.
-alias(
+servlet_flavour_deps(
     name = "jgit-servlet",
-    actual = select({
-        "//tools:ee11": ":jgit-servlet-jakarta",
-        "//conditions:default": ":jgit-servlet-ee8",
-    }),
+    license_deps = [
+        ":jgit-servlet-ee11",
+        ":jgit-servlet-ee8",
+    ],
+    part = "jgit_servlet",
     visibility = ["//visibility:public"],
 )
 
@@ -172,7 +179,7 @@ java_library(
 # bridge above is javax; this exports JGit master's canonical jakarta module.
 # Same FQDNs, so the two must never share a classpath.
 java_library(
-    name = "jgit-servlet-jakarta",
+    name = "jgit-servlet-ee11",
     data = ["//lib:LICENSE-jgit"],
     visibility = ["//visibility:public"],
     exports = ["@jgit//org.eclipse.jgit.http.server:jgit-servlet"],

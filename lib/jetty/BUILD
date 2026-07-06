@@ -1,33 +1,30 @@
+load("@com_googlesource_gerrit_bazlets//tools:servlet_flavour.bzl", "servlet_flavour_deps")
 load("@rules_java//java:defs.bzl", "java_library")
 
 java_library(
-    name = "servlet",
+    name = "servlet-ee8",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
     exports = [
+        ":nested",
         ":util-ajax",
         "@external_deps//:org_eclipse_jetty_ee8_jetty_ee8_servlet",
     ],
     runtime_deps = [
-        ":nested",
         ":security",
     ],
 )
 
-# Jakarta servlet adapter for the EE11 release flavour. The artifact is
-# Jetty's EE11 environment: Servlet API 6.1 (shared with JGit) maps to EE11;
-# the flavour name stays ee11. Mirrors gitiles' lib/jetty:servlet-ee11.
-# Artifact comes from the shared external_deps (contributed by jgit master).
-# Pairs jetty-ee11-servlet with the jakarta servlet-api on the core :server
-# chain. Runtime deps are intentionally
-# minimal for now (no ee8 :nested / ee8 :security); the full EE11 server wiring
-# is added when httpd-ee11 lands.
+# Jetty jakarta servlet adapter for the ee11 flavour. The artifact is Jetty's
+# EE11 environment: Servlet API 6.1 (shared with JGit) maps to EE11, the
+# flavour name stays ee11. Pairs jetty-ee11-servlet with the
+# jakarta servlet-api on the core :server chain. Twin of :servlet-ee8.
 java_library(
     name = "servlet-ee11",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
     exports = [
-        "//lib:jakarta-servlet-api",
+        "//lib:servlet-api-ee11",
         "@external_deps//:org_eclipse_jetty_ee11_jetty_ee11_servlet",
     ],
     runtime_deps = [
@@ -38,12 +35,13 @@ java_library(
 # Flavour-neutral Jetty servlet adapter: EE8 (default) or EE11 servlet adapter
 # based on --@com_googlesource_gerrit_bazlets//flags:flavour=ee11. Server bootstrap depends on this alias so one
 # source set serves both release flavours.
-alias(
-    name = "servlet-flavoured",
-    actual = select({
-        "//tools:ee11": ":servlet-ee11",
-        "//conditions:default": ":servlet",
-    }),
+servlet_flavour_deps(
+    name = "servlet",
+    license_deps = [
+        ":servlet-ee11",
+        ":servlet-ee8",
+    ],
+    part = "jetty",
     visibility = ["//visibility:public"],
 )
 

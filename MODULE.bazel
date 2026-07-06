@@ -46,6 +46,14 @@ git_override(
 
 register_toolchains("//tools:all")
 
+# Servlet-flavour toolchains: one per flavour, each gated (via target_settings)
+# on its //flags:<flavour> config_setting, so the active `//flags:flavour` value
+# picks the matching servlet bundle with no --extra_toolchains needed.
+register_toolchains(
+    "//tools/flavour_toolchain:servlet_ee8_toolchain",
+    "//tools/flavour_toolchain:servlet_ee11_toolchain",
+)
+
 # Plugin packaging support: bazlets pin and generated Gerrit API version repo.
 include("//tools:bazlets.MODULE.bazel")
 

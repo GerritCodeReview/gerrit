@@ -64,13 +64,12 @@ Apache2.0
 * guice:guice-assistedinject-ee8
 * guice:guice-ee11
 * guice:guice-ee8
-* guice:guice-library
 * guice:guice-library-ee11
+* guice:guice-library-ee8
 * guice:guice-servlet
 * guice:guice-servlet-ee11
 * guice:guice-servlet-ee8
 * guice:jakarta-inject
-* guice:jakarta-inject-ee11
 * guice:javax_inject
 * httpcomponents:httpclient
 * httpcomponents:httpcore
@@ -80,8 +79,8 @@ Apache2.0
 * jetty:nested
 * jetty:security
 * jetty:server
-* jetty:servlet
 * jetty:servlet-ee11
+* jetty:servlet-ee8
 * jetty:session
 * jetty:util
 * jetty:util-ajax
@@ -108,14 +107,14 @@ Apache2.0
 * guava-retrying
 * html-types
 * j2objc
-* jakarta-servlet-api
-* jakarta-servlet-api-without-neverlink
 * javaewah
 * jsr305
 * mime-util
 * roaringbitmap
-* servlet-api
-* servlet-api-without-neverlink
+* servlet-api-ee11
+* servlet-api-ee8
+* servlet-api-without-neverlink-ee11
+* servlet-api-without-neverlink-ee8
 * soy
 
 [[Apache2_0_license]]
@@ -330,7 +329,6 @@ Apache2.0
 PublicDomain
 
 * guice:aopalliance
-* guice:aopalliance-ee11
 
 [[PublicDomain_license]]
 ----
@@ -1530,8 +1528,8 @@ jgit
 
 * jgit
 * jgit-archive
+* jgit-servlet-ee11
 * jgit-servlet-ee8
-* jgit-servlet-jakarta
 * jgit-ssh-apache
 
 [[jgit_license]]

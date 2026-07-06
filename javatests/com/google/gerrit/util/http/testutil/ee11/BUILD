@@ -8,7 +8,7 @@ load("@rules_java//java:defs.bzl", "java_library")
 # because their Servlet-6 method set diverges (getServletConnection returns a
 # jakarta-only type, etc.).
 java_library(
-    name = "fakes",
+    name = "overlay",
     testonly = True,
     srcs = [
         "FakeHttpServletRequest.java",
@@ -18,8 +18,8 @@ java_library(
     deps = [
         "//java/com/google/gerrit/common:annotations",
         "//lib:guava",
-        "//lib:jakarta-servlet-api",
         "//lib:jgit",
+        "//lib:servlet-api-ee11",
         "//lib/errorprone:annotations",
     ],
 )

@@ -141,21 +141,10 @@ EXPORTS = [
     "//prolog:gerrit-prolog-common",
 ]
 
-# The only servlet-flavour-bearing plugin-api exports that are not already
-# flavour aliases. Under --@com_googlesource_gerrit_bazlets//flags:flavour=ee11 the plugin API exposes jakarta
-# servlet-api and the jakarta util/http, matching the httpd / guice / jgit
-# aliases (which flip on their own). This is what makes //plugins:plugin-api a
-# plugin-api-ee11 under the flag, so EE11 plugins compile against jakarta.
-_FLAVOUR_EXPORTS = select({
-    "//tools:ee11": [
-        "//java/com/google/gerrit/util/http:http-ee11",
-        "//lib:jakarta-servlet-api-without-neverlink",
-    ],
-    "//conditions:default": [
-        "//java/com/google/gerrit/util/http",
-        "//lib:servlet-api-without-neverlink",
-    ],
-})
+FLAVOUR_EXPORTS = [
+    "//java/com/google/gerrit/util/http",
+    "//lib:servlet-api-without-neverlink",
+]
 
 java_binary(
     name = "bouncycastle-deploy-env",
@@ -177,13 +166,13 @@ java_binary(
 
 java_library(
     name = "plugin-lib",
-    exports = PLUGIN_API + EXPORTS + _FLAVOUR_EXPORTS,
+    exports = PLUGIN_API + EXPORTS + FLAVOUR_EXPORTS,
 )
 
 java_library(
     name = "plugin-lib-neverlink",
     neverlink = 1,
-    exports = PLUGIN_API + EXPORTS + _FLAVOUR_EXPORTS,
+    exports = PLUGIN_API + EXPORTS + FLAVOUR_EXPORTS,
 )
 
 java_binary(
@@ -212,29 +201,23 @@ java_binary(
         ],
         "//conditions:default": [
             "//java/com/google/gerrit/httpd:libhttpd-ee8-src.jar",
-            "//java/com/google/gerrit/util/http:libhttp-src.jar",
+            "//java/com/google/gerrit/util/http:libhttp-ee8-src.jar",
         ],
     }),
 )
 
 java_doc(
     name = "plugin-api-javadoc",
-    # util/http is flavour-specific (PLUGIN_API's httpd flips via its alias, but
-    # util/http has no neutral alias), so select it like plugin-api-sources does.
-    # Otherwise the EE11 javadoc (built under the flavour=ee11 transition) would
-    # document the javax util/http instead of the jakarta http-ee11.
     libs = PLUGIN_API + [
         "//antlr3:query_parser",
-        "//java/com/google/gerrit/index",
-        "//java/com/google/gerrit/index:query_exception",
         "//java/com/google/gerrit/common:annotations",
         "//java/com/google/gerrit/common:server",
-        "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/entities",
-    ] + select({
-        "//tools:ee11": ["//java/com/google/gerrit/util/http:http-ee11"],
-        "//conditions:default": ["//java/com/google/gerrit/util/http"],
-    }),
+        "//java/com/google/gerrit/extensions:api",
+        "//java/com/google/gerrit/index",
+        "//java/com/google/gerrit/index:query_exception",
+        "//java/com/google/gerrit/util/http",
+    ],
     pkgs = ["com.google.gerrit"],
     title = "Gerrit Review Plugin API Documentation",
 )

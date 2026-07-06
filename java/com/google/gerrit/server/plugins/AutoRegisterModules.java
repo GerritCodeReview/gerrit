@@ -29,6 +29,7 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.webui.JavaScriptPlugin;
 import com.google.gerrit.extensions.webui.WebUiPlugin;
 import com.google.gerrit.server.plugins.PluginContentScanner.ExtensionMetaData;
+import com.google.gerrit.server.plugins.servlet.PluginServletOverlay;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.Scopes;
@@ -162,7 +163,7 @@ class AutoRegisterModules {
 
     if (is("org.apache.sshd.server.command.Command", clazz)) {
       sshGen.export(export, clazz);
-    } else if (is("javax.servlet.http.HttpServlet", clazz)) {
+    } else if (is(PluginServletOverlay.HTTP_SERVLET, clazz)) {
       httpGen.export(export, clazz);
       listen(clazz, clazz);
     } else {

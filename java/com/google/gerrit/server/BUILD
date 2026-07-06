@@ -107,6 +107,7 @@ java_library(
         "//lib:mime-util",
         "//lib:protobuf",
         "//lib:roaringbitmap",
+        "//lib:servlet-api",
         "//lib:soy",
         "//lib:tukaani-xz",
         "//lib/auto:auto-factory",
@@ -141,12 +142,7 @@ java_library(
         "//lib/prolog:runtime",
         "//proto:cache_java_proto",
         "//proto:entities_java_proto",
-    ] + select({
-        # The two flavour-selected servlet-typed plugin files (see
-        # SERVLET_PLUGIN_SRC) need the matching servlet API.
-        "//tools:ee11": ["//lib:jakarta-servlet-api"],
-        "//conditions:default": ["//lib:servlet-api"],
-    }),
+    ],
 )
 
 # Large modules that import things from all across the server package

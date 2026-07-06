@@ -192,9 +192,9 @@ export enum Interaction {
 
 /**
  * EventDetails to be passed to the reportInteraction method for AI agent
- * interactions.
+ * chat interactions.
  */
-export type AiAgentEventDetails = {
+export type AiAgentChatEventDetails = {
   agentId: string;
   conversationId: string;
   // Each agent response in a conversation is a turn.
@@ -206,3 +206,26 @@ export type AiAgentEventDetails = {
   // Unique ID of the saved comment draft promoted from the suggestion.
   commentId?: string;
 };
+
+/**
+ * EventDetails to be passed to the reportInteraction method for AI agent
+ * check interactions.
+ */
+export type AiAgentCheckEventDetails = {
+  // The name of the check that was run.
+  checkName: string;
+  // The description from the check
+  checkDescription: string;
+  // The raw external id for the run result
+  externalId: string;
+  // Unique ID of the saved comment draft promoted from the suggestion.
+  commentId?: string;
+};
+
+/**
+ * EventDetails to be passed to the reportInteraction method for AI agent
+ * interactions.
+ */
+export type AiAgentEventDetails =
+  | AiAgentChatEventDetails
+  | AiAgentCheckEventDetails;

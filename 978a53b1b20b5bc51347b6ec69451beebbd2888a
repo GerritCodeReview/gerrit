@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "79acd387_ab1766ba",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-07-06T16:19:13Z",
+      "side": 1,
+      "message": "@ifrade@google.com I’m gonna c+2, are you able to lc +1 when Google’s ready for this please? (So this isn’t merged before you’re ready)",
+      "revId": "978a53b1b20b5bc51347b6ec69451beebbd2888a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

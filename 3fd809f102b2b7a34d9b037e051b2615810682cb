@@ -66,6 +66,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f308844f_b72b9884",
+        "filename": "polygerrit-ui/app/constants/reporting.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1159190
+      },
+      "writtenOn": "2026-07-06T20:35:05Z",
+      "side": 1,
+      "message": "I see that. It\u0027s a bit weird because they\u0027re both agent generated but from different sources.\n\nAny issues with updating this to `AiAgentChatEventDetails` and making a `AiAgentCheckEventDetails`?\n\nAlso is this the best place for this? Feels like they should be in a plugin.",
+      "parentUuid": "4e20a0db_80b261ee",
+      "range": {
+        "startLine": 197,
+        "startChar": 12,
+        "endLine": 197,
+        "endChar": 31
+      },
+      "revId": "3fd809f102b2b7a34d9b037e051b2615810682cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f470dd4d_8bc35a05",
         "filename": "polygerrit-ui/app/constants/reporting.ts",
         "patchSetId": 6
@@ -77,6 +101,30 @@
       "writtenOn": "2026-07-06T19:11:24Z",
       "side": 1,
       "message": "are people asking for all of these fields in the plx tables?",
+      "range": {
+        "startLine": 212,
+        "startChar": 0,
+        "endLine": 217,
+        "endChar": 21
+      },
+      "revId": "3fd809f102b2b7a34d9b037e051b2615810682cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c647e0e_9a1c28a4",
+        "filename": "polygerrit-ui/app/constants/reporting.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1159190
+      },
+      "writtenOn": "2026-07-06T20:35:05Z",
+      "side": 1,
+      "message": "Description is required because it seems like it\u0027s the only way to identify the source.\n\nCheckname has the name of the agent.\n\nexternalId has the run information, while not necessary, we figured it would be nice to have if we needed to do any further digging.",
+      "parentUuid": "f470dd4d_8bc35a05",
       "range": {
         "startLine": 212,
         "startChar": 0,
@@ -144,6 +192,30 @@
           ]
         }
       ],
+      "revId": "3fd809f102b2b7a34d9b037e051b2615810682cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "864c040f_ed220cc3",
+        "filename": "polygerrit-ui/app/models/checks/checks-util.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 610,
+      "author": {
+        "id": 1159190
+      },
+      "writtenOn": "2026-07-06T20:35:05Z",
+      "side": 1,
+      "message": "My worry was there was another code that relied on them being defined. This would be backwards compatible. If there is nothing important I can set them as undefined.",
+      "parentUuid": "3d84bc2a_0f1bd7ed",
+      "range": {
+        "startLine": 608,
+        "startChar": 0,
+        "endLine": 610,
+        "endChar": 20
+      },
       "revId": "3fd809f102b2b7a34d9b037e051b2615810682cb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

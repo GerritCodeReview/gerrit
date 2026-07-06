@@ -264,6 +264,9 @@ suite('checks-util tests', () => {
       } as unknown as ReportingService;
       const runResult = {
         ...createRunResult(),
+        isAiPowered: true,
+        checkName: 'test-check-name',
+        checkDescription: 'test-description',
         externalId: JSON.stringify({
           agentId: 'test-agent',
           conversationId: 'test-conv',
@@ -294,6 +297,9 @@ suite('checks-util tests', () => {
       } as unknown as ReportingService;
       const runResult = {
         ...createRunResult(),
+        isAiPowered: true,
+        checkName: 'test-check-name',
+        checkDescription: 'test-description',
         externalId: JSON.stringify({
           agentId: 'test-agent',
           conversationId: 'test-conv',
@@ -321,7 +327,10 @@ suite('checks-util tests', () => {
       const reporting = {
         reportInteraction: reportInteractionStub,
       } as unknown as ReportingService;
-      const runResult = createRunResult();
+      const runResult = {
+        ...createRunResult(),
+        isAiPowered: true,
+      };
 
       reportAiAgentGetAIFix(reporting, runResult);
       assert.isFalse(reportInteractionStub.called);
@@ -330,26 +339,83 @@ suite('checks-util tests', () => {
       assert.isFalse(reportInteractionStub.called);
     });
 
-    test('does not report if externalId is invalid JSON', () => {
+    test('does not report if isAiPowered is false or missing', () => {
       const reporting = {
         reportInteraction: reportInteractionStub,
       } as unknown as ReportingService;
       const runResult = {
         ...createRunResult(),
-        externalId: 'invalid-json',
+        isAiPowered: false,
+        externalId: 'some-id',
       };
 
       reportAiAgentGetAIFix(reporting, runResult);
       assert.isFalse(reportInteractionStub.called);
+
+      const runResultMissing = {
+        ...createRunResult(),
+        isAiPowered: undefined,
+        externalId: 'some-id',
+      };
+
+      reportAiAgentCommentDraft(reporting, runResultMissing);
+      assert.isFalse(reportInteractionStub.called);
     });
 
-    test('does not report if externalId is missing required fields', () => {
+    test('reports check event details if externalId is plain string (not chat JSON)', () => {
       const reporting = {
         reportInteraction: reportInteractionStub,
       } as unknown as ReportingService;
       const runResult = {
         ...createRunResult(),
+        isAiPowered: true,
+        checkName: 'test-check-name',
+        checkDescription: 'test-description',
+        externalId: 'plain-string-external-id',
+      };
+
+      reportAiAgentGetAIFix(reporting, runResult);
+      assert.isTrue(reportInteractionStub.calledOnce);
+      assert.deepEqual(reportInteractionStub.lastCall.args[1], {
+        checkName: 'test-check-name',
+        checkDescription: 'test-description',
+        externalId: 'plain-string-external-id',
+        commentId: undefined,
+      });
+    });
+
+    test('reports check event details if externalId is JSON but missing chat fields', () => {
+      const reporting = {
+        reportInteraction: reportInteractionStub,
+      } as unknown as ReportingService;
+      const runResult = {
+        ...createRunResult(),
+        isAiPowered: true,
+        checkName: 'test-check-name',
+        checkDescription: 'test-description',
         externalId: JSON.stringify({agentId: 'test-agent'}),
+      };
+
+      reportAiAgentGetAIFix(reporting, runResult);
+      assert.isTrue(reportInteractionStub.calledOnce);
+      assert.deepEqual(reportInteractionStub.lastCall.args[1], {
+        checkName: 'test-check-name',
+        checkDescription: 'test-description',
+        externalId: runResult.externalId,
+        commentId: undefined,
+      });
+    });
+
+    test('does not report check event if checkDescription is missing', () => {
+      const reporting = {
+        reportInteraction: reportInteractionStub,
+      } as unknown as ReportingService;
+      const runResult = {
+        ...createRunResult(),
+        isAiPowered: true,
+        checkName: 'test-check-name',
+        checkDescription: undefined,
+        externalId: 'plain-string-external-id',
       };
 
       reportAiAgentGetAIFix(reporting, runResult);

@@ -87,6 +87,24 @@
       "parentUuid": "782f40c3_c49f4550",
       "revId": "951028731f8b01b0e257cf969e7b8c32058a75e8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bccba0bf_89767220",
+        "filename": "modules/jgit",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-07-07T06:08:38Z",
+      "side": 1,
+      "message": "This change now builds against the jgit mirror on gerrit-review",
+      "parentUuid": "782f40c3_c49f4550",
+      "revId": "951028731f8b01b0e257cf969e7b8c32058a75e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

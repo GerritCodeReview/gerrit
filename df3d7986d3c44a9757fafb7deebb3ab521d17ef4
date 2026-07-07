@@ -16,6 +16,42 @@
       "message": "Comment removed by: Becky Siegel; Reason: testing",
       "revId": "df3d7986d3c44a9757fafb7deebb3ab521d17ef4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34f13687_f4ba5d6a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-07-07T20:50:08Z",
+      "side": 1,
+      "message": "[CL Review Agent] ✅ **LGTM with minor suggestions** — See inline comments for optional improvements. [[trajectory](go/traj/0701b5a1-76ab-40fc-b2c1-40bea933aec7)]",
+      "isAi": true,
+      "revId": "df3d7986d3c44a9757fafb7deebb3ab521d17ef4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee97caaf_40386a32",
+        "filename": "polygerrit-ui/app/embed/diff/gr-selection-action-box/gr-selection-action-box_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-07-07T20:50:08Z",
+      "side": 1,
+      "message": "[CL Review Agent] The stubbed `DOMRect` here contains mathematically inconsistent coordinates (e.g., `bottom: 20` is less than `top: 42`). Please update it to use consistent values similar to the ones in the main `setup()` block:\n\n```typescript\n        sinon.stub(box, \u0027getTargetBoundingRect\u0027).returns({\n          top: 42,\n          bottom: 60,\n          left: 30,\n          right: 130,\n          width: 100,\n          height: 18,\n        } as DOMRect);\n```",
+      "isAi": true,
+      "revId": "df3d7986d3c44a9757fafb7deebb3ab521d17ef4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

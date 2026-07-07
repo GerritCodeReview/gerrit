@@ -155,6 +155,7 @@ suite('gr-diff-check-result tests', () => {
         category: 'ERROR',
         summary: 'Test Summary',
         message: 'Test Message',
+        isAiPowered: true,
         externalId: JSON.stringify({
           agentId: 'test-agent',
           conversationId: 'test-conv',

@@ -23,7 +23,12 @@ import {CommentSide} from '../../constants/constants';
 import {DraftInfo, FixSuggestionInfo} from '../../types/common';
 import {OpenFixPreviewEventDetail} from '../../types/events';
 import {isDefined} from '../../types/types';
-import {AiAgentEventDetails, Interaction} from '../../constants/reporting';
+import {
+  AiAgentChatEventDetails,
+  AiAgentCheckEventDetails,
+  AiAgentEventDetails,
+  Interaction,
+} from '../../constants/reporting';
 import {ReportingService as Reporting} from '../../services/gr-reporting/gr-reporting';
 import {createNew, PROVIDED_FIX_ID} from '../../utils/comment-util';
 import {assert, assertIsDefined, assertNever} from '../../utils/common-util';
@@ -597,10 +602,10 @@ export function computeIsExpandable(result?: CheckResultApi) {
   return hasMessage || hasMultipleLinks || hasPointers || hasFixes;
 }
 
-function getAiAgentEventDetails(
+function getAiAgentChatEventDetails(
   runResult: RunResult,
   commentId?: string
-): AiAgentEventDetails | undefined {
+): AiAgentChatEventDetails | undefined {
   const externalId = runResult.externalId;
   if (!externalId) return;
   // Use JSON.parse. We expect agentId, conversationId, turnIndex.
@@ -620,7 +625,7 @@ function getAiAgentEventDetails(
     }
     /* eslint-disable object-shorthand */
     // prettier-ignore
-    const eventDetails: AiAgentEventDetails = {
+    const eventDetails: AiAgentChatEventDetails = {
       'agentId': agentId,
       'conversationId': conversationId,
       'turnIndex': Number(turnIndex),
@@ -632,6 +637,36 @@ function getAiAgentEventDetails(
   } catch (e) {
     return undefined;
   }
+}
+
+function getAiAgentCheckEventDetails(
+  runResult: RunResult,
+  commentId?: string
+): AiAgentCheckEventDetails | undefined {
+  if (!runResult.externalId) return;
+  if (!runResult.isAiPowered) return;
+  if (!runResult.checkName) return;
+  if (!runResult.checkDescription) return;
+
+  /* eslint-disable object-shorthand */
+  // prettier-ignore
+  const eventDetails: AiAgentCheckEventDetails = {
+    'checkName': runResult.checkName,
+    'checkDescription': runResult.checkDescription,
+    'externalId': runResult.externalId,
+    'commentId': commentId,
+  };
+  return eventDetails;
+  /* eslint-enable object-shorthand */
+}
+
+function getAiAgentEventDetails(
+  runResult: RunResult,
+  commentId?: string
+): AiAgentEventDetails | undefined {
+  const chatDetails = getAiAgentChatEventDetails(runResult, commentId);
+  if (chatDetails) return chatDetails;
+  return getAiAgentCheckEventDetails(runResult, commentId);
 }
 
 /**

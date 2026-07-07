@@ -7,7 +7,7 @@ import * as sinon from 'sinon';
 import '../../../test/common-test-setup';
 import './gr-messages-list';
 import {CombinedMessage, GrMessagesList, TEST_ONLY} from './gr-messages-list';
-import {MessageTag} from '../../../constants/constants';
+import {AccountTag, MessageTag} from '../../../constants/constants';
 import {
   query,
   queryAll,
@@ -486,6 +486,24 @@ suite('gr-messages-list tests', () => {
       assert.isTrue(TEST_ONLY.computeIsImportant(m1, [m1, m2, m3]));
       assert.isFalse(TEST_ONLY.computeIsImportant(m2, [m1, m2, m3]));
       assert.isFalse(TEST_ONLY.computeIsImportant(m3, [m1, m2, m3]));
+    });
+
+    test('isImportant service user message or reviewer update', () => {
+      const m1 = randomMessage({
+        author: {
+          _account_id: 123 as AccountId,
+          tags: [AccountTag.SERVICE_USER],
+        },
+      });
+      const m2 = {
+        ...randomMessage(),
+        real_author: {
+          _account_id: 456 as AccountId,
+          tags: [AccountTag.SERVICE_USER],
+        },
+      };
+      assert.isFalse(TEST_ONLY.computeIsImportant(m1, [m1]));
+      assert.isFalse(TEST_ONLY.computeIsImportant(m2, [m2]));
     });
 
     test('isImportant is evaluated after tag update', async () => {

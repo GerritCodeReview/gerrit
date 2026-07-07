@@ -22,6 +22,7 @@ import {
   VotingRangeInfo,
 } from '../../../types/common';
 import {GrMessage, MessageAnchorTapDetail} from '../gr-message/gr-message';
+import {isServiceUser} from '../../../utils/account-util';
 import {getVotingRange} from '../../../utils/label-util';
 import {
   FormattedReviewerUpdateInfo,
@@ -229,6 +230,16 @@ function computeIsImportant(
   message: CombinedMessage,
   allMessages: CombinedMessage[]
 ) {
+  const author =
+    message.author ??
+    (message as FormattedReviewerUpdateInfo).author;
+  const realAuthor =
+    (message as ChangeMessageInfo).real_author ??
+    (message as FormattedReviewerUpdateInfo).realAuthor;
+  if (isServiceUser(author) || isServiceUser(realAuthor)) {
+    return false;
+  }
+
   if (!message.tag) return true;
 
   const hasSameTag = (m: CombinedMessage) => m.tag === message.tag;

@@ -96,6 +96,7 @@ EXPORTS = [
     "//lib:jgit-servlet",
     "//lib:jgit",
     "//lib:jsr305",
+    "//lib:jspecify",
     "//lib/log:api",
     "//lib/log:log4j",
     "//lib/mina:sshd",

@@ -385,11 +385,6 @@ export declare interface LineSelectedEventDetail {
   path?: string;
 }
 
-// TODO: Currently unused and not fired.
-export declare interface RenderProgressEventDetail {
-  linesRendered: number;
-}
-
 /**
  * The detail of the 'copy-info' event dispatched by gr-diff.
  */

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2c42ab6_af3daa2c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-07-08T06:36:52Z",
+      "side": 1,
+      "message": "@milutin@google.com, @ifrade@google.com, @nitzan@google.com\n\nCould you please confirm my understanding that this change should be fine from the Library-Compliance perspective?\n\nWe are still consuming the same Guice version (6.0.0), which is already exempted from Library-Compliance. The only difference is that we now use the classes classifier variant, which contains the same Guice classes but excludes the shaded ASM library, allowing us to rely on Gerrit\u0027s existing external ASM dependency instead.",
+      "revId": "d1536d56f0d7ca4059a68c2f27a42adfb0980307",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

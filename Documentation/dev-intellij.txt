@@ -86,6 +86,45 @@ TIP: The project data directory can be separate from the source code. One
 advantage of this is that project files don't need to be excluded from version
 control.
 
+=== JGit servlet-facing sources
+
+Gerrit consumes JGit from source through `modules/jgit`, but JGit master uses
+`jakarta.servlet` in servlet-facing modules while Gerrit still runs on Jetty 12
+EE8 and `javax.servlet`.
+
+For those modules, Gerrit uses JGit-provided Bazel EE8 bridge targets:
+
+----
+  @jgit//org.eclipse.jgit.http.server.ee8:jgit-servlet-ee8
+  @jgit//org.eclipse.jgit.lfs.server.ee8:jgit-lfs-server-ee8
+----
+
+The generated artifacts keep the original JGit Java packages and source line
+numbers. They only rewrite servlet imports from `jakarta.servlet` to
+`javax.servlet`, so Gerrit Java code keeps its existing imports.
+
+Use the current JetBrains Bazel plugin (the new, actively developed one). The
+legacy "Bazel for IntelliJ" plugin does not support Bazel 9 / Bzlmod, which
+Gerrit requires. The Bazel plugin imports `libjgit-servlet-ee8.jar` together
+with its generated source jar, so the servlet classes resolve to the EE8
+`javax.servlet` sources. Put breakpoints there when debugging runtime HTTP
+servlet classes; because line numbers are preserved, breakpoints bind and step
+correctly. The same applies to `jgit-lfs-server-ee8` for plugin consumers such
+as the Gerrit LFS plugin.
+
+The canonical, editable sources stay in SCM under
+`modules/jgit/org.eclipse.jgit.http.server` (and `org.eclipse.jgit.lfs.server`).
+To change the servlet code, edit the canonical `jakarta.servlet` sources,
+rebuild, and the change flows into the generated EE8 artifacts.
+
+NOTE: The IDE may flag these classes with "Library source does not match the
+bytecode" and report unresolved `javax.servlet` symbols. This is a known
+limitation of the Bazel IntelliJ integration with generated and duplicate
+sources: the project indexes both the canonical `jakarta.servlet` source and
+the EE8 `javax.servlet` jar, which share class names. It is a static-analysis
+artifact only and does not affect debugging, which uses the class actually
+loaded at runtime.
+
 == Recommended settings
 
 === Code style

@@ -69,10 +69,9 @@ public class ListCaches implements RestReadView<ConfigResource> {
     Map<String, CacheInfo> cacheInfos = new TreeMap<>();
     for (Extension<Cache<?, ?>> e : cacheMap) {
       String name = cacheNameOf(e.getPluginName(), e.getExportName());
-      if (!nameFilter.test(name)) {
-        continue;
+      if (nameFilter.test(name)) {
+        cacheInfos.put(name, CacheInfoFactory.create(e.getProvider().get()));
       }
-      cacheInfos.put(name, CacheInfoFactory.create(e.getProvider().get()));
     }
     return cacheInfos;
   }

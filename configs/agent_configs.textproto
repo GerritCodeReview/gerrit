@@ -46,7 +46,6 @@ configs: {
     project: "gerrit"
     path_regex: "^/?COMMIT_MSG$"
   }
-  automatic: true
 }
 
 # TypeScript Style Review Agent
@@ -60,5 +59,6 @@ configs: {
     project: "TestRepo"
     path_regex: ".*\\.ts$"
   }
+  automatic: true
 }
 

@@ -1,0 +1,58 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f18eeb8a_1d7e2f27",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-07-08T01:14:44Z",
+      "side": 1,
+      "message": "[CL Review Agent] ✅ **LGTM with minor suggestions** — See inline comments for optional improvements. [[trajectory](go/traj/b0fcb79d-cb1d-4266-9444-7fa9143d0f25)]",
+      "isAi": true,
+      "revId": "ba73625db13c991028cca64244ea853f1fc9aa11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7518437_43e426d5",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-07-08T01:14:44Z",
+      "side": 1,
+      "message": "[CL Review Agent] In `computeIsImportant`, `message.author` is already a common property of the union members of `CombinedMessage`. Therefore, the cast to `FormattedReviewerUpdateInfo` and the `??` fallback are redundant. If `message.author` is `undefined`, casting and accessing `.author` will also evaluate to `undefined` at runtime. We can simplify this to:\n\n```typescript\nconst author \u003d message.author;\n```",
+      "isAi": true,
+      "revId": "ba73625db13c991028cca64244ea853f1fc9aa11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4e8aa3f_74f3897a",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list_test.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-07-08T01:14:44Z",
+      "side": 1,
+      "message": "[CL Review Agent] The test currently only verifies the case where the message\u0027s `author` is a service user. Since `computeIsImportant` also checks `realAuthor` (from `real_author` or `realAuthor`), please add assertions or a test case where `real_author` is a service user to ensure this code path is covered.",
+      "isAi": true,
+      "revId": "ba73625db13c991028cca64244ea853f1fc9aa11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

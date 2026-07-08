@@ -22,6 +22,30 @@
       },
       "revId": "52950523ac373e22d64064bc1f858784385a4343",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7793639_e38ef8ed",
+        "filename": "java/com/google/gerrit/server/restapi/config/ListCaches.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 4665459
+      },
+      "writtenOn": "2026-07-08T15:57:07Z",
+      "side": 1,
+      "message": "605281: ListCaches: Refactor to simplify cache filter handling | https://gerrit-review.googlesource.com/c/gerrit/+/605281",
+      "parentUuid": "c901040f_a7a6380b",
+      "range": {
+        "startLine": 72,
+        "startChar": 0,
+        "endLine": 75,
+        "endChar": 75
+      },
+      "revId": "52950523ac373e22d64064bc1f858784385a4343",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

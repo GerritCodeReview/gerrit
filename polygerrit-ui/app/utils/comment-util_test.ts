@@ -8,6 +8,7 @@ import {
   computeDisplayLine,
   createCommentThreads,
   createNew,
+  createNewReply,
   createUserFixSuggestion,
   getContentInCommentRange,
   getMentionedThreads,
@@ -746,6 +747,38 @@ suite('comment-util', () => {
 
     test('empty', () => {
       assert.equal(computeDisplayLine({}), '');
+    });
+  });
+
+  suite('createNewReply', () => {
+    test('standard comment reply (no range)', () => {
+      const replyingTo = {
+        ...createComment(),
+        id: 'parent_id' as UrlEncodedCommentId,
+        line: 5,
+      };
+      const reply = createNewReply(replyingTo, 'reply message', false);
+      assert.equal(reply.line, 5);
+      assert.isUndefined(reply.range);
+      assert.equal(reply.in_reply_to, 'parent_id');
+    });
+
+    test('reply to comment with range (mismatched line)', () => {
+      const replyingTo = {
+        ...createComment(),
+        id: 'parent_id' as UrlEncodedCommentId,
+        line: 1,
+        range: {
+          start_line: 1,
+          start_character: 0,
+          end_line: 2,
+          end_character: 5,
+        },
+      };
+      const reply = createNewReply(replyingTo, 'reply message', false);
+      assert.equal(reply.line, 2); // Should match range.end_line, not replyingTo.line
+      assert.deepEqual(reply.range, replyingTo.range);
+      assert.equal(reply.in_reply_to, 'parent_id');
     });
   });
 });

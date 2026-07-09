@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5dda262_51d67807",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-07-09T21:11:11Z",
+      "side": 1,
+      "message": "These footers need to be all together. Remove this line please.",
+      "revId": "44b5c654fd4ab145cc65cd0156c1123912a11744",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

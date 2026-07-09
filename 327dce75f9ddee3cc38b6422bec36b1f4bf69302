@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "09a0025c_8784812d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4985785
+      },
+      "writtenOn": "2026-07-09T23:44:28Z",
+      "side": 1,
+      "message": "[Set version to 3.10.8](https://gerrit-review.googlesource.com/c/gerrit/+/498441)",
+      "revId": "327dce75f9ddee3cc38b6422bec36b1f4bf69302",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

@@ -28,13 +28,13 @@
     "com.google.guava:failureaccess": -2032498474,
     "com.google.guava:guava": -1756621521,
     "com.google.guava:guava-testlib": -203887467,
-    "com.google.inject.extensions:guice-assistedinject": -1667539622,
-    "com.google.inject.extensions:guice-servlet": 569202692,
-    "com.google.inject:guice": -1660789120,
+    "com.google.inject.extensions:guice-assistedinject": -1742632647,
+    "com.google.inject.extensions:guice-servlet": -1284557873,
+    "com.google.inject:guice": 2106361664,
     "com.google.j2objc:j2objc-annotations": -727464895,
     "com.google.jimfs:jimfs": -1004381565,
     "com.google.protobuf:protobuf-java": 1247529435,
-    "com.google.template:soy": -1478719887,
+    "com.google.template:soy": -843524660,
     "com.google.truth.extensions:truth-java8-extension": -129319374,
     "com.google.truth.extensions:truth-liteproto-extension": 1463279446,
     "com.google.truth.extensions:truth-proto-extension": 1270333764,
@@ -188,7 +188,7 @@
     "org.mockito:mockito-core": 1330163800,
     "org.nibor.autolink:autolink": -342487050,
     "org.objenesis:objenesis": 748376655,
-    "org.openid4java:openid4java": -842286787,
+    "org.openid4java:openid4java": -1889179110,
     "org.openjdk.jmh:jmh-core": 983716932,
     "org.openjdk.jmh:jmh-generator-annprocess": -1162360421,
     "org.ow2.asm:asm": 1206815935,
@@ -262,11 +262,11 @@
     "com.google.guava:guava-testlib:jar:sources": 1351030420,
     "com.google.guava:guava:jar:sources": 1246910673,
     "com.google.guava:listenablefuture": 1079558157,
-    "com.google.inject.extensions:guice-assistedinject": 773600044,
+    "com.google.inject.extensions:guice-assistedinject": -205980308,
     "com.google.inject.extensions:guice-assistedinject:jar:sources": 550961491,
-    "com.google.inject.extensions:guice-servlet": 350832471,
+    "com.google.inject.extensions:guice-servlet": -325370690,
     "com.google.inject.extensions:guice-servlet:jar:sources": -828654042,
-    "com.google.inject:guice": 1105471728,
+    "com.google.inject:guice:jar:classes": 1808670374,
     "com.google.inject:guice:jar:sources": -2060215316,
     "com.google.j2objc:j2objc-annotations": 1702790440,
     "com.google.j2objc:j2objc-annotations:jar:sources": -1254484583,
@@ -276,7 +276,7 @@
     "com.google.jsinterop:jsinterop-annotations:jar:sources": 694679492,
     "com.google.protobuf:protobuf-java": 1331070778,
     "com.google.protobuf:protobuf-java:jar:sources": 133270104,
-    "com.google.template:soy": -677841031,
+    "com.google.template:soy": 1170788493,
     "com.google.template:soy:jar:sources": 895044971,
     "com.google.truth.extensions:truth-java8-extension": 766384514,
     "com.google.truth.extensions:truth-java8-extension:jar:sources": 1257445795,
@@ -474,7 +474,7 @@
     "org.nibor.autolink:autolink:jar:sources": -1863403724,
     "org.objenesis:objenesis": 1536526812,
     "org.objenesis:objenesis:jar:sources": 321662415,
-    "org.openid4java:openid4java": 1109904517,
+    "org.openid4java:openid4java": -469605553,
     "org.openid4java:openid4java:jar:sources": -1312563952,
     "org.openjdk.jmh:jmh-core": 262505124,
     "org.openjdk.jmh:jmh-core:jar:sources": 814651627,
@@ -713,7 +713,7 @@
     },
     "com.google.inject:guice": {
       "shasums": {
-        "jar": "b4d4f7ec5e8fc17b4f98dee9d3f6cf6ae3ae13e2e5ed4b2f7bbf09bc4bb675d5",
+        "classes": "ff084ab91a2f00745d2535883e4c2e15f40970f93887c2df50504897119cfc3d",
         "sources": "656b82a85535ada22d251fbc4ab3e786e66997510d03325d168bc193c2148c09"
       },
       "version": "6.0.0"
@@ -1627,13 +1627,9 @@
       "org.jspecify:jspecify"
     ],
     "com.google.inject.extensions:guice-assistedinject": [
-      "com.google.errorprone:error_prone_annotations",
-      "com.google.inject:guice"
+      "com.google.errorprone:error_prone_annotations"
     ],
-    "com.google.inject.extensions:guice-servlet": [
-      "com.google.inject:guice"
-    ],
-    "com.google.inject:guice": [
+    "com.google.inject:guice:jar:classes": [
       "aopalliance:aopalliance",
       "com.google.guava:guava",
       "jakarta.inject:jakarta.inject-api",
@@ -1652,7 +1648,6 @@
       "com.google.flogger:flogger-system-backend",
       "com.google.flogger:google-extensions",
       "com.google.guava:guava",
-      "com.google.inject:guice",
       "com.google.protobuf:protobuf-java",
       "com.ibm.icu:icu4j",
       "javax.inject:javax.inject",
@@ -1877,7 +1872,6 @@
       "org.objenesis:objenesis"
     ],
     "org.openid4java:openid4java": [
-      "com.google.inject:guice",
       "net.sourceforge.nekohtml:nekohtml",
       "org.apache.httpcomponents:httpclient",
       "xerces:xercesImpl"
@@ -2123,7 +2117,7 @@
     "com.google.inject.extensions:guice-servlet": [
       "com.google.inject.servlet"
     ],
-    "com.google.inject:guice": [
+    "com.google.inject:guice:jar:classes": [
       "com.google.inject",
       "com.google.inject.binder",
       "com.google.inject.internal",
@@ -4388,7 +4382,7 @@
       "com.google.inject.extensions:guice-assistedinject:jar:sources",
       "com.google.inject.extensions:guice-servlet",
       "com.google.inject.extensions:guice-servlet:jar:sources",
-      "com.google.inject:guice",
+      "com.google.inject:guice:jar:classes",
       "com.google.inject:guice:jar:sources",
       "com.google.j2objc:j2objc-annotations",
       "com.google.j2objc:j2objc-annotations:jar:sources",
@@ -4688,7 +4682,7 @@
       "com.google.inject.extensions:guice-assistedinject:jar:sources",
       "com.google.inject.extensions:guice-servlet",
       "com.google.inject.extensions:guice-servlet:jar:sources",
-      "com.google.inject:guice",
+      "com.google.inject:guice:jar:classes",
       "com.google.inject:guice:jar:sources",
       "com.google.j2objc:j2objc-annotations",
       "com.google.j2objc:j2objc-annotations:jar:sources",

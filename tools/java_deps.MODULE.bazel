@@ -137,6 +137,38 @@ _GERRIT_FORCED_ARTIFACTS = [
     for coord in _GERRIT_FORCED_ARTIFACTS
 ]
 
+# We consume Guice's unshaded artifact (published as the "classes"
+# classifier) plus an external OW2 ASM (see //lib/guice and tools/nongoogle.toml),
+# because the ASM shaded into the default guice jar cannot read Java 25 class
+# files and corrupts Guice's error-message source formatting. The external ASM
+# must be >= 9.8, the first release with Java 25 (class major 69) support;
+# Gerrit pins 9.9.1.
+#
+# That only holds if the plain (fat) com.google.inject:guice never reaches the
+# classpath. These artifacts pull it in transitively, so strip that edge from
+# each; they resolve Guice solely from the //lib/guice classes-classifier jar.
+# Keep this list in sync with everything that depends on Guice transitively --
+# a missed entry silently reintroduces the shaded ASM.
+#
+# TODO(davido): Drop these exclusions (and the classes classifier) once Guice
+# ships a default jar with an updated shaded ASM that reads current class
+# files: https://github.com/google/guice/issues/1926
+_GUICE_FAT_JAR_CONSUMERS = [
+    "com.google.inject.extensions:guice-assistedinject",
+    "com.google.inject.extensions:guice-servlet",
+    "com.google.template:soy",
+    "org.openid4java:openid4java",
+]
+
+[
+    maven.amend_artifact(
+        name = "external_deps",
+        coordinates = coord,
+        exclusions = ["com.google.inject:guice"],
+    )
+    for coord in _GUICE_FAT_JAR_CONSUMERS
+]
+
 # Empty maven.install call to apply the configuration to the installation from
 # toml files.
 maven.install(

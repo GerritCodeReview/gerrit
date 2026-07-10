@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce5589f3_2503d540",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4856407
+      },
+      "writtenOn": "2026-07-10T17:20:25Z",
+      "side": 1,
+      "message": "[CL Review Agent] ✅ **LGTM** — All checks pass. [[trajectory](go/traj/df3d3cfa-57cc-4224-ba55-e9539f50c7c3)]",
+      "isAi": true,
+      "revId": "0479284e5942a4cab15a3a447aef2e8590fa161d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

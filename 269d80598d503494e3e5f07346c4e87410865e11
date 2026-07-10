@@ -1,0 +1,58 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83ef94f5_2f970d56",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4856407
+      },
+      "writtenOn": "2026-07-10T17:40:52Z",
+      "side": 1,
+      "message": "[CL Review Agent] ✅ **LGTM with minor suggestions** — See inline comments for optional improvements. [[trajectory](go/traj/144aa55c-cc2d-4b87-8e1f-f65ddec780ae)]",
+      "isAi": true,
+      "revId": "269d80598d503494e3e5f07346c4e87410865e11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3125b60f_5f8f972b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 615,
+      "author": {
+        "id": 4856407
+      },
+      "writtenOn": "2026-07-10T17:40:52Z",
+      "side": 1,
+      "message": "[CL Review Agent] Awaiting `syntaxLayerPromise` before setting `this.diff \u003d diff` means that if syntax highlighting fails (e.g. worker timeout or crash), the entire diff rendering will be blocked.\n\nPreviously, `this.diff` was set first, so the diff would render even if syntax highlighting failed later.\n\nTo make this resilient, consider awaiting a caught promise so that failures do not block the diff from rendering:\n```typescript\nconst syntaxLayerPromise \u003d this.syntaxLayer.process(diff).catch(e \u003d\u003e {\n  this.reporting.error(\"Syntax highlighting failed\", e);\n});\n...\nawait syntaxLayerPromise;\n```",
+      "isAi": true,
+      "revId": "269d80598d503494e3e5f07346c4e87410865e11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "345a4d69_12752dc0",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-builder/gr-diff-row.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 4856407
+      },
+      "writtenOn": "2026-07-10T17:40:52Z",
+      "side": 1,
+      "message": "[CL Review Agent] Passing `comments` as a reactive property to every `GrDiffRow` means that whenever the comments array changes (e.g., when a draft is saved), every single row will run its `willUpdate` and `render` cycle because the `comments` property reference changes.\n\nFor large diffs with many rows, this can cause rendering overhead. Consider:\n1. Filtering comments at the parent level (`GrDiffSection` or `GrDiffElement`) and only passing the relevant comments to each row.\n2. Or making `comments` a non-reactive property (not decorated with `@property`) and using a setter to manually trigger updates to `@state leftComments/rightComments` only when the filtered comments actually change.",
+      "isAi": true,
+      "revId": "269d80598d503494e3e5f07346c4e87410865e11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

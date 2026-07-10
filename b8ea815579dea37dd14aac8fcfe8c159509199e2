@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a07fdbc_71e7a7cc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-07-10T15:22:06Z",
+      "side": 1,
+      "message": "I think there is some bigger issue in Gerrit - that they are comments published with wrong range and so replying to them is broken. I also saw that comment thread is broken in diff views (work in comments tab). I think this change is safe to do and probably we should find out why it was ok to publish such comments and how they were submitted - i would guess by calling api with curl or something like that.",
+      "revId": "b8ea815579dea37dd14aac8fcfe8c159509199e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

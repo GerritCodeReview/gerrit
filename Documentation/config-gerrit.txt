@@ -5113,6 +5113,7 @@ can (temporary) accept push options of the old plugin without registering such o
 [[plugins.loadPriority]]plugins.loadPriority::
 +
 List of `pluginName`s required to have a specific loading order during Gerrit startup.
+Plugins will be unloaded in reverse order.
 +
 Each entry should contain a plugin name defined in the `MANIFEST.MF` under
 `Gerrit-PluginName` or a plugin JAR file name. During the Gerrit startup

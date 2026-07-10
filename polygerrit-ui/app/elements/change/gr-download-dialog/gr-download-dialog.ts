@@ -168,6 +168,7 @@ export class GrDownloadDialog extends LitElement {
           .commands=${this.computeDownloadCommands()}
           .schemes=${this.schemes}
           .selectedScheme=${this.selectedScheme}
+          disable-auto-select
           show-keyboard-shortcut-tooltips
           @selected-scheme-changed=${(e: BindValueChangeEvent) => {
             this.selectedScheme = e.detail.value;

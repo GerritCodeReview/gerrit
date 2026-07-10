@@ -202,7 +202,7 @@ export function createNewReply(
     path: replyingTo.path,
     patch_set: replyingTo.patch_set,
     side: replyingTo.side,
-    line: replyingTo.line,
+    line: replyingTo.range ? replyingTo.range.end_line : replyingTo.line,
     range: replyingTo.range,
     parent: replyingTo.parent,
     in_reply_to: replyingTo.id,

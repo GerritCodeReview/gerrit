@@ -128,6 +128,22 @@ suite('gr-copy-clipboard tests', () => {
     assert.equal(mdOutlinedTextField.selectionEnd, element.text!.length - 1);
   });
 
+  test('handleInputClick with disableAutoSelect', async () => {
+    element.disableAutoSelect = true;
+    await element.updateComplete;
+
+    const mdOutlinedTextField = queryAndAssert<MdOutlinedTextField>(
+      element,
+      'md-outlined-text-field'
+    );
+    mdOutlinedTextField.selectionStart = 0;
+    mdOutlinedTextField.selectionEnd = 0;
+
+    mdOutlinedTextField.click();
+    assert.equal(mdOutlinedTextField.selectionStart, 0);
+    assert.equal(mdOutlinedTextField.selectionEnd, 0);
+  });
+
   test('hideInput', async () => {
     const mdOutlinedTextField = queryAndAssert<MdOutlinedTextField>(
       element,

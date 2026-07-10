@@ -16,6 +16,24 @@
       "message": "Not sure why this requires LC+1, anyway, adding @milutin@google.com for providing it.",
       "revId": "ee2ef73aab61f2c62392bfe0f4791814820a0dab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "42702656_13de0807",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-07-10T04:46:09Z",
+      "side": 1,
+      "message": "It\u0027s removing `WORKSPACE`.",
+      "parentUuid": "f18570fb_7edb8a25",
+      "revId": "ee2ef73aab61f2c62392bfe0f4791814820a0dab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

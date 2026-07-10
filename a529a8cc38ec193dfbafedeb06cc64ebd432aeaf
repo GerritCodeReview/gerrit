@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d49e686_7d4b2000",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 5116,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-07-10T11:56:15Z",
+      "side": 1,
+      "message": "That\u0027s a repetition of what has been said above.",
+      "range": {
+        "startLine": 5116,
+        "startChar": 8,
+        "endLine": 5116,
+        "endChar": 35
+      },
+      "revId": "a529a8cc38ec193dfbafedeb06cc64ebd432aeaf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe08c9dc_462e5575",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 5116,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-07-10T11:56:15Z",
+      "side": 1,
+      "message": "Can you just join to the previous sentence?",
+      "range": {
+        "startLine": 5116,
+        "startChar": 40,
+        "endLine": 5116,
+        "endChar": 69
+      },
+      "revId": "a529a8cc38ec193dfbafedeb06cc64ebd432aeaf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

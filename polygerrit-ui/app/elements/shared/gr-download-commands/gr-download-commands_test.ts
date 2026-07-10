@@ -97,6 +97,16 @@ suite('gr-download-commands', () => {
       assert.isTrue(focusStub.called);
     });
 
+    test('passes disableAutoSelect to gr-shell-command', async () => {
+      element.disableAutoSelect = true;
+      await element.updateComplete;
+      const shellCommand = queryAndAssert<GrShellCommand>(
+        element,
+        'gr-shell-command'
+      );
+      assert.isTrue(shellCommand.disableAutoSelect);
+    });
+
     test('element visibility', async () => {
       assert.isFalse(isHidden(queryAndAssert(element, 'md-tabs')));
       assert.isFalse(isHidden(queryAndAssert(element, '.commands')));

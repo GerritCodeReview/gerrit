@@ -122,6 +122,7 @@ suite('gr-download-dialog', () => {
       </section>
       <section class="hidden">
         <gr-download-commands
+          disable-auto-select=""
           id="downloadCommands"
           show-keyboard-shortcut-tooltips=""
         >
@@ -232,6 +233,14 @@ suite('gr-download-dialog', () => {
     setup(async () => {
       element.change = getChangeObject();
       await element.updateComplete;
+    });
+
+    test('passes disableAutoSelect to gr-download-commands', () => {
+      const commands = queryAndAssert<GrDownloadCommands>(
+        element,
+        '#downloadCommands'
+      );
+      assert.isTrue(commands.disableAutoSelect);
     });
 
     test('focuses on first copy link', async () => {

@@ -51,8 +51,15 @@ export class GrDownloadCommands extends LitElement {
   @property({type: String})
   description?: string;
 
-  @property({type: Boolean, attribute: 'show-keyboard-shortcut-tooltips'})
+  @property({
+    type: Boolean,
+    attribute: 'show-keyboard-shortcut-tooltips',
+    reflect: true,
+  })
   showKeyboardShortcutTooltips = false;
+
+  @property({type: Boolean, attribute: 'disable-auto-select', reflect: true})
+  disableAutoSelect = false;
 
   // Private but used in tests.
   readonly getUserModel = resolve(this, userModelToken);
@@ -171,6 +178,7 @@ export class GrDownloadCommands extends LitElement {
         .label=${command.title}
         .command=${command.command}
         .tooltip=${this.computeTooltip(index)}
+        .disableAutoSelect=${this.disableAutoSelect}
       ></gr-shell-command>
     `;
   }

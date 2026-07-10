@@ -14,8 +14,13 @@ import '../gr-ranged-comment-hint/gr-ranged-comment-hint';
 import '../gr-diff-builder/gr-diff-builder-image';
 import '../gr-diff-builder/gr-diff-section';
 import '../gr-diff-builder/gr-diff-row';
-import {FULL_CONTEXT, FullContext, isResponsive} from './gr-diff-utils';
-import {Base64ImageFile} from '../../../types/common';
+import {
+  FULL_CONTEXT,
+  FullContext,
+  isResponsive,
+  GrDiffCommentThread,
+} from './gr-diff-utils';
+import {Base64ImageFile, BlameInfo} from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {
   createDefaultDiffPrefs,
@@ -23,7 +28,12 @@ import {
   Side,
 } from '../../../constants/constants';
 import {fire} from '../../../utils/event-util';
-import {DiffResponsiveMode, LOST, RenderPreferences} from '../../../api/diff';
+import {
+  DiffResponsiveMode,
+  LOST,
+  RenderPreferences,
+  DiffLayer,
+} from '../../../api/diff';
 import {property, query, queryAll, state} from 'lit/decorators.js';
 import {html, LitElement, nothing} from 'lit';
 import {when} from 'lit/directives/when.js';
@@ -39,8 +49,8 @@ import {getDiffLength, isImageDiff} from '../../../utils/diff-util';
 import {GrDiffGroup} from './gr-diff-group';
 import {subscribe} from '../../../elements/lit/subscription-controller';
 import {GrDiffSection} from '../gr-diff-builder/gr-diff-section';
-import {repeat} from 'lit/directives/repeat.js';
 import {isSafari} from '../../../utils/dom-util';
+import {incrementalRepeat} from '../../../elements/lit/incremental-repeat';
 
 const LARGE_DIFF_THRESHOLD_LINES = 10000;
 
@@ -76,6 +86,14 @@ export class GrDiffElement extends LitElement {
   @state() columns: ColumnsToShow = NO_COLUMNS;
 
   @state() columnCount = 0;
+
+  @state() layers: DiffLayer[] = [];
+
+  @state() lineLength = 100;
+
+  @state() comments: GrDiffCommentThread[] = [];
+
+  @state() blameInfos: BlameInfo[] = [];
 
   // Extra message shown if files are binary to help users investigate contents.
   @property({type: String})
@@ -161,6 +179,26 @@ export class GrDiffElement extends LitElement {
       () => this.getDiffModel().responsiveMode$,
       responsiveMode => (this.responsiveMode = responsiveMode)
     );
+    subscribe(
+      this,
+      () => this.getDiffModel().layers$,
+      layers => (this.layers = layers)
+    );
+    subscribe(
+      this,
+      () => this.getDiffModel().lineLength$,
+      lineLength => (this.lineLength = lineLength)
+    );
+    subscribe(
+      this,
+      () => this.getDiffModel().comments$,
+      comments => (this.comments = comments)
+    );
+    subscribe(
+      this,
+      () => this.getDiffModel().blameInfo$,
+      blameInfos => (this.blameInfos = blameInfos)
+    );
   }
 
   protected override async getUpdateComplete(): Promise<boolean> {
@@ -228,11 +266,16 @@ export class GrDiffElement extends LitElement {
         >
           ${this.renderColumns()}
           ${when(!this.showWarning(), () =>
-            repeat(
-              this.groups,
-              group => group.id(),
-              group => this.renderSectionElement(group)
-            )
+            incrementalRepeat({
+              values: this.groups,
+              mapFn: group => this.renderSectionElement(group as GrDiffGroup),
+              initialCount: 5,
+              onComplete: async () => {
+                await this.updateComplete;
+                await new Promise(resolve => setTimeout(resolve, 0));
+                fire(this, 'render-done', {});
+              },
+            })
           )}
           ${when(isImage, () => this.renderImageDiff())}
           ${when(!isImage && isBinary, () => this.renderBinaryDiff())}
@@ -390,6 +433,15 @@ export class GrDiffElement extends LitElement {
       <gr-diff-section
         class="${leftClass} ${rightClass}"
         .group=${group}
+        .diff=${this.diff}
+        .diffPrefs=${this.diffPrefs}
+        .renderPrefs=${this.renderPrefs}
+        .layers=${this.layers}
+        .lineLength=${this.lineLength}
+        .columns=${this.columns}
+        .viewMode=${this.viewMode}
+        .comments=${this.comments}
+        .blameInfos=${this.blameInfos}
       ></gr-diff-section>
     `;
   }

@@ -156,9 +156,9 @@
     "org.apache.mina:mina-core": -1403307213,
     "org.apache.sshd:sshd-common": 1844247612,
     "org.apache.sshd:sshd-core": 602454664,
-    "org.apache.sshd:sshd-mina": -1915268089,
-    "org.apache.sshd:sshd-osgi": 1681538032,
-    "org.apache.sshd:sshd-sftp": 2089761863,
+    "org.apache.sshd:sshd-mina": 582747848,
+    "org.apache.sshd:sshd-osgi": -115413327,
+    "org.apache.sshd:sshd-sftp": 292810504,
     "org.asciidoctor:asciidoctorj": -457860213,
     "org.assertj:assertj-core": -1145412507,
     "org.bouncycastle:bcpg-jdk18on": -1572213535,
@@ -402,12 +402,12 @@
     "org.apache.lucene:lucene-queryparser:jar:sources": 1992621418,
     "org.apache.mina:mina-core": -584591076,
     "org.apache.mina:mina-core:jar:sources": 71382131,
-    "org.apache.sshd:sshd-mina": 1147629185,
-    "org.apache.sshd:sshd-mina:jar:sources": -506380854,
-    "org.apache.sshd:sshd-osgi": 1092773821,
-    "org.apache.sshd:sshd-osgi:jar:sources": -2061003935,
-    "org.apache.sshd:sshd-sftp": -70173235,
-    "org.apache.sshd:sshd-sftp:jar:sources": 1034555480,
+    "org.apache.sshd:sshd-mina": -36716477,
+    "org.apache.sshd:sshd-mina:jar:sources": 97528844,
+    "org.apache.sshd:sshd-osgi": 1810958617,
+    "org.apache.sshd:sshd-osgi:jar:sources": 710209222,
+    "org.apache.sshd:sshd-sftp": -320832840,
+    "org.apache.sshd:sshd-sftp:jar:sources": -1268961386,
     "org.asciidoctor:asciidoctorj": 1685789893,
     "org.asciidoctor:asciidoctorj:jar:sources": 2091708864,
     "org.assertj:assertj-core": -59722598,
@@ -1194,24 +1194,24 @@
     },
     "org.apache.sshd:sshd-mina": {
       "shasums": {
-        "jar": "7399961346882ef50952ae9774e8dd1eac7ce232d2f82c058ade2c20c02591f1",
-        "sources": "cc526f8a54d375e87b21419e1c3ce7462637718c6e692fce3940cff98a5151a5"
+        "jar": "da1088d16ba7953444b7d9aefcfc60c9b5e000bf26542d4c3ed0573f692bf14a",
+        "sources": "a8e548e09d8744effe88d83dcd55faa87dc14c37f8a0a595b4c6af3b20e558aa"
       },
-      "version": "2.18.0"
+      "version": "2.19.0"
     },
     "org.apache.sshd:sshd-osgi": {
       "shasums": {
-        "jar": "e771c4239b1c4818c102368d57d0cc082c224eefb76224524473bf7021d1a32f",
-        "sources": "dd5838716293c8aeaf9487c50c6b313dff304e7ddca84ce16923f73865ba4d1d"
+        "jar": "0b6b9371c6a97430390b84c23c58f4470927a747e74704a0ca7d19a09a66fe37",
+        "sources": "d11b69618dba155f075571cbd9b21741953c27dfa9a1af09b4024f2183226abe"
       },
-      "version": "2.18.0"
+      "version": "2.19.0"
     },
     "org.apache.sshd:sshd-sftp": {
       "shasums": {
-        "jar": "bf52fd81d63337cb40050c70ee460c80e78a0a4b77f15da7125eb1841f527e93",
-        "sources": "5171d9bac4ee76a013beccc1fdeab93fb43aeb84172d19b929ee158b9281c648"
+        "jar": "a3ad30d2feba9fad589c7ad9117fcd9d332823697d59eb424fe2902f4d805575",
+        "sources": "e26b7df972cead5c529bca6ab3e782c27dd43b323f9a54f98d9e23d4f5d03c30"
       },
-      "version": "2.18.0"
+      "version": "2.19.0"
     },
     "org.asciidoctor:asciidoctorj": {
       "shasums": {

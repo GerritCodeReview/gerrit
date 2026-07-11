@@ -1,0 +1,514 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba993d7a_3da5ff16",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-07-11T09:02:42Z",
+      "side": 1,
+      "message": "PS3 scope is right — dropping `content:review` removes the change-edit overlap.\n\nThe core ref-update path is sound: the new commit is always parented on the current branch tip. Nice test coverage, too.\n\n-1 for one more PS. Details are in the inline comments, several with apply-able suggestions; by theme:\n\n* Blocking: REST verb/name (`ProjectRestApiModule`) — maintainer input please, before the URL freezes; silently-dropped rename/delete ops in mixed batches (`CommitFileModifications`) → 400.\n* Fixes: `validation_options` threading (`CommitFilesInput` + `BranchCommitBuilder` ×2); `file_mode` on delete/rename → 400; gitlink `160000` scope (`CommitFilesInput` + doc table); doc contract — atomicity, commit identity, not-a-push, `base_revision` CAS wording; six boundary tests + a Java-API test (`PutContentIT`, suggestion verified locally).\n* Discuss: require `commit_message` vs keep the `Update files` default (`BranchCommitBuilder`).\n\nTwo points with no file to own them:\n\n1. Signed push: this endpoint never sees a push certificate, so a signed-push requirement on the ref is silently bypassed. Exempt (document) or enforce (gate)? Maintainer call.\n2. Size limits: `receive.maxObjectSizeLimit` is receive-pack-only (`AsyncReceiveCommits` → `ReceivePack.setMaxObjectSizeLimit`); this endpoint inserts via a plain `ObjectInserter`. Same bypass as change edits / create-change, so not a regression — I\u0027d accept and document, unless you want push parity.",
+      "revId": "dce73d445d6ae3569d1bbaa40363d9896ad45370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef0c70a6_fcb5183c",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 2148,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-07-11T09:02:42Z",
+      "side": 1,
+      "message": "Get Content reads one file; this endpoint creates a multi-file commit — \"write counterpart\" promises a symmetry that isn\u0027t there.\n\n```suggestion\nCreates a single commit that applies a set of file operations (create/update,\ndelete, rename) directly to the branch, for CI and automation use cases (no\nclone or multi-step change workflow required).\n\n```",
+      "range": {
+        "startLine": 2144,
+        "startChar": 0,
+        "endLine": 2148,
+        "endChar": 0
+      },
+      "revId": "dce73d445d6ae3569d1bbaa40363d9896ad45370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff1ca727_df8f441e",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 2204,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-07-11T09:02:42Z",
+      "side": 1,
+      "message": "Please document the rest of the contract — atomicity, commit identity, and that this is server-side validation, not a push. Once `validation_options` is added to CommitFilesInput (my comment there), one more sentence belongs here.\n\n```suggestion\nThe file operations are applied atomically: the request either creates a\nsingle commit containing all listed operations and advances the branch to it,\nor fails without modifying the branch.\n\nIf `base_revision` is set in the input and the branch no longer points at that\ncommit (for example because of a concurrent update), the request is rejected with\n\"`409 Conflict`\", so callers can retry without clobbering the other change. A\nrequest that would not change the tree is rejected with \"`400 Bad Request`\".\n\nThe new commit is authored by the calling user, using the account\u0027s full name\nand preferred email address. If the account has no preferred email, a generic\n`username@host` identity is used instead. The committer is the Gerrit server\nidentity. Author and committer timestamps are the server time at which the\ncommit was created. Neither the identities nor the timestamps can be\noverridden through this endpoint.\n\nThis is a server-side branch update, not a `git push`. The target must be a\nwritable, ordinary branch (not a tag, `refs/meta/*`, or a Gerrit-internal\nref). Ref-update and commit validators run, including validators contributed\nby plugins, and validation failures are returned as an error. There is no\nreceive-pack, so push-only policies are not applied: signed-push /\npush-certificate verification is skipped, and receive-pack object checks such\nas `receive.maxObjectSizeLimit` are not enforced.\n\n```",
+      "range": {
+        "startLine": 2197,
+        "startChar": 0,
+        "endLine": 2204,
+        "endChar": 0
+      },
+      "revId": "dce73d445d6ae3569d1bbaa40363d9896ad45370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b357aef3_2d16801b",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 4742,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-07-11T09:02:42Z",
+      "side": 1,
+      "message": "`base_revision` is a compare-and-swap token, not a parent selector: its only consumer is `setExpectedOldObjectId` (BranchCommitBuilder L132), and JGit byte-compares it against the tip without ever looking it up — so \"does not resolve to an existing commit\" describes a lookup that never happens. There is no separate 409 case (stale and nonexistent SHA-1s fail the same check), and a caller cannot use it to select an older base to commit onto.\n\n```suggestion\nThe commit (SHA-1) the target branch is expected to point at: the request is\nrejected with \"`409 Conflict`\" if the branch tip is any other commit\n(optimistic concurrency). This is a compare-and-swap check only — the new\ncommit is always created on top of the current branch tip; `base_revision`\ndoes not select an older base to commit onto. A value that is not a full\n40-character SHA-1 is rejected with \"`400 Bad Request`\".\n|`files`       ||\n```",
+      "range": {
+        "startLine": 4736,
+        "startChar": 0,
+        "endLine": 4742,
+        "endChar": 0
+      },
+      "revId": "dce73d445d6ae3569d1bbaa40363d9896ad45370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db85e11b_76f61aeb",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 4762,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-07-11T09:02:42Z",
+      "side": 1,
+      "message": "Mirrors my CommitFilesInput.java suggestions: `content` for a symlink is the base64-encoded target path (worth stating), and `160000` drops out if we reject gitlinks.\n\n```suggestion\n|`content`     |optional|\nThe new file content, base64-encoded, for a create or update. For a `120000`\n(symlink) entry, the decoded content is the symlink target path.\n|`file_mode`   |optional|\nThe file mode in octal format (`100644` regular file, `100755` executable,\n`120000` symlink). If not set, new files are created as `100644` and existing\nfiles keep their mode.\n|`delete`      |optional|\n```",
+      "range": {
+        "startLine": 4756,
+        "startChar": 0,
+        "endLine": 4762,
+        "endChar": 0
+      },
+      "revId": "dce73d445d6ae3569d1bbaa40363d9896ad45370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71f8a34b_e97417e0",
+        "filename": "java/com/google/gerrit/extensions/api/projects/BranchApi.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-07-11T09:02:42Z",
+      "side": 1,
+      "message": "`commitFiles` is the right name for this operation — please keep it. When the REST verb/name question (my comment on ProjectRestApiModule L67) gets settled, I\u0027d align the endpoint and docs toward this name rather than renaming this method toward \"content\".",
+      "revId": "dce73d445d6ae3569d1bbaa40363d9896ad45370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bbc3c955_7e9fd7bc",
+        "filename": "java/com/google/gerrit/extensions/api/projects/CommitFilesInput.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-07-11T09:02:42Z",
+      "side": 1,
+      "message": "Please add `Map\u003cString, String\u003e validationOptions` here (after `files`), mirroring `BranchInput.validationOptions`: key-value pairs forwarded to the ref-operation and commit validation listeners via `getValidateOptionsAsMultimap`. See the two BranchCommitBuilder comments for where it needs to be threaded.",
+      "revId": "dce73d445d6ae3569d1bbaa40363d9896ad45370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b52cbeb5_0a028c31",
+        "filename": "java/com/google/gerrit/extensions/api/projects/CommitFilesInput.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-07-11T09:02:42Z",
+      "side": 1,
+      "message": "```suggestion\n    /**\n     * New file content, base64-encoded, for a write or create. For a {@code 120000} (symlink)\n     * entry, the decoded content is the symlink target path. Mutually exclusive with {@link\n     * #delete} and {@link #renameFrom}.\n     */\n    public String content;\n```",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 0
+      },
+      "revId": "dce73d445d6ae3569d1bbaa40363d9896ad45370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01597cb3_95baa2ec",
+        "filename": "java/com/google/gerrit/extensions/api/projects/CommitFilesInput.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-07-11T09:02:42Z",
+      "side": 1,
+      "message": "`content` is documented as base64 file content, but for `fileMode` `160000` (gitlink) the decoded bytes must instead be a 40-character ASCII SHA-1 (`ChangeContent.apply` → `ObjectId.fromString`) — a second, undocumented meaning of the same field. I\u0027d drop `160000` from the supported modes for now (reject it) and keep `120000`, with a symlink test.\n\nIf you\u0027d rather keep gitlinks, then this Javadoc and the REST doc table both need to spell out the SHA-1-in-base64 convention.",
+      "range": {
+        "startLine": 43,
+        "startChar": 4,
+        "endLine": 54,
+        "endChar": 28
+      },
+      "revId": "dce73d445d6ae3569d1bbaa40363d9896ad45370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3dbb7e3d_dbb078e5",
+        "filename": "java/com/google/gerrit/extensions/api/projects/CommitFilesInput.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-07-11T09:02:42Z",
+      "side": 1,
+      "message": "```suggestion\n    /**\n     * File mode in octal format. Supported values are {@code 100644} (regular file), {@code 100755}\n     * (executable file) and {@code 120000} (symlink). If unset, new files are created as {@code\n     * 100644} and existing files keep their mode.\n     */\n    public Integer fileMode;\n```",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 0
+      },
+      "revId": "dce73d445d6ae3569d1bbaa40363d9896ad45370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2283f5a3_59448338",
+        "filename": "java/com/google/gerrit/server/api/projects/BranchApiImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-07-11T09:02:42Z",
+      "side": 1,
+      "message": "This Java-API path — the one plugins call — has no test coverage; every existing test uses `adminRestSession`, so the Guice wiring of `putContent` and the `asRestApiException` mapping are never exercised. See my suggested test in PutContentIT.java (after `setUp()`).",
+      "revId": "dce73d445d6ae3569d1bbaa40363d9896ad45370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b97fc76_d2f83cf8",
+        "filename": "java/com/google/gerrit/server/restapi/project/BranchCommitBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-07-11T09:02:42Z",
+      "side": 1,
+      "message": "Please document the permission/validation model in the Put Content section of `rest-api-projects.txt` — the current prose reads like a push. Suggested wording:\n\n```\n\u003e This is a server-side branch update, not a `git push`. The caller needs the\n\u003e Push access right (a fast-forward `UPDATE`) on a writable, ordinary branch (not\n\u003e a tag, `refs/meta/*`, or a Gerrit-internal ref). Ref-update and commit\n\u003e validators run (including plugin validators), but there is no receive-pack, so\n\u003e push-only policies are not applied: signed-push / push-certificate verification\n\u003e is skipped and receive-pack object checks such as `receive.maxObjectSizeLimit`\n\u003e are not enforced.\n```\n\nQuestion (for a maintainer): signed-push policy. A branch can be configured with `requireSignedPush`, but that is enforced only on the receive path — `SignedPushPreReceiveHook` rejects a push whose `ReceivePack.getPushCertificate()` is null.\n\nThis endpoint has no push certificate (the caller is authenticated by their HTTP session, not a signed push), so it cannot verify or honor that setting — the same as every other server-side write path (change edits, create-change, cherry-pick, submit, `CreateBranch`), none of which go through receive-pack.\n\nMy recommendation: treat this endpoint as exempt from signed-push and document it, consistent with those paths. \"Simulating\" a signed push here isn\u0027t possible, since there is no certificate to check.\n\nThe only alternative would be to reject the write when the target branch has `requireSignedPush` set. I\u0027d only do that if you want this endpoint to be stricter than the rest of Gerrit\u0027s server-side APIs.",
+      "range": {
+        "startLine": 110,
+        "startChar": 0,
+        "endLine": 114,
+        "endChar": 37
+      },
+      "revId": "dce73d445d6ae3569d1bbaa40363d9896ad45370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb83660c_5f92e868",
+        "filename": "java/com/google/gerrit/server/restapi/project/BranchCommitBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-07-11T09:02:42Z",
+      "side": 1,
+      "message": "The 4th arg to `validateRefOperation` is `pushOptions` — the map that reaches plugin ref validators (`RefOperationValidationListener`, via `RefReceivedEvent.pushOptions`).\n\nHardcoding `ImmutableListMultimap.of()` means a caller\u0027s validation options never reach those validators, so this endpoint can\u0027t drive option-aware ref checks that `CreateBranch` (L182-186) and the push path can.\n\nThread the request\u0027s options instead: `ValidationOptionsUtil.getValidateOptionsAsMultimap(input.validationOptions)`.\n\nDepends on adding the `validationOptions` field to `CommitFilesInput` first.",
+      "range": {
+        "startLine": 137,
+        "startChar": 61,
+        "endLine": 137,
+        "endChar": 87
+      },
+      "revId": "dce73d445d6ae3569d1bbaa40363d9896ad45370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2451686d_72ff3d14",
+        "filename": "java/com/google/gerrit/server/restapi/project/BranchCommitBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-07-11T09:02:42Z",
+      "side": 1,
+      "message": "Tighten the Javadoc to name the timestamp — it\u0027s exactly the detail a refactor could silently change (e.g. an independently stamped author ident).\n\n```suggestion\n  /**\n   * Inserts a commit with {@code treeId} on top of {@code base}. Per Gerrit convention for\n   * server-created commits, the author is the calling user (full name and preferred email, or\n   * a generic {@code username@host} identity if no preferred email is set) and the committer\n   * is the server identity. Author and committer share the committer\u0027s timestamp and time\n   * zone, i.e. the server time at which the commit is created; the identities cannot be\n   * overridden via {@link CommitFilesInput}.\n   */\n  private ObjectId insertCommit(ObjectInserter oi, RevCommit base, ObjectId treeId, String message)\n```",
+      "range": {
+        "startLine": 167,
+        "startChar": 0,
+        "endLine": 171,
+        "endChar": 0
+      },
+      "revId": "dce73d445d6ae3569d1bbaa40363d9896ad45370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a97e2478_e2399312",
+        "filename": "java/com/google/gerrit/server/restapi/project/BranchCommitBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-07-11T09:02:42Z",
+      "side": 1,
+      "message": "REST doc paragraph for the endpoint section (rest-api-projects.txt):\n\n```\n\u003e The new commit is authored by the calling user, using the account\u0027s full\n\u003e name and preferred email address. If the account has no preferred email, a\n\u003e generic `username@host` identity is used instead. The committer is the\n\u003e Gerrit server identity. Author and committer timestamps are the server time\n\u003e at which the commit was created. Neither the identities nor the timestamps\n\u003e can be overridden through this endpoint.\n```",
+      "range": {
+        "startLine": 171,
+        "startChar": 2,
+        "endLine": 180,
+        "endChar": 3
+      },
+      "revId": "dce73d445d6ae3569d1bbaa40363d9896ad45370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "131f0ebc_a42f66f3",
+        "filename": "java/com/google/gerrit/server/restapi/project/BranchCommitBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-07-11T09:02:42Z",
+      "side": 1,
+      "message": "Same gap on the commit side: `CommitReceivedEvent`\u0027s `pushOptions` arg (L205) is also `ImmutableListMultimap.of()`, so `CommitValidationListener`s see no options either.\n\nPass the same threaded value here, so both the ref and commit validators get the caller\u0027s options. Add a test asserting a supplied option reaches a `CommitValidationListener`.",
+      "range": {
+        "startLine": 205,
+        "startChar": 16,
+        "endLine": 205,
+        "endChar": 42
+      },
+      "revId": "dce73d445d6ae3569d1bbaa40363d9896ad45370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e4a1bbf_a75f3d4b",
+        "filename": "java/com/google/gerrit/server/restapi/project/BranchCommitBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-07-11T09:02:42Z",
+      "side": 1,
+      "message": "I would rather not make `commit_message` optional. `CreateChange` — the other endpoint that creates a brand-new commit server-side — requires it (400 \"commit message must be non-empty\", CreateChange.java L312), and nowhere else does Gerrit synthesize a placeholder message (cherry-pick defaults to the *source commit\u0027s* message, which is meaningful content).\n\nA silent `Update files` default can also mask client bugs and lands uninformative messages in permanent branch history.\n\nWDYT about requiring it here with the same 400? If you see a good reason to keep the default (one less field for bots), I\u0027m fine with that too — in that case let\u0027s just name the literal `Update files` in the `CommitFilesInput.commitMessage` Javadoc, which currently only says \"a default message is generated\".",
+      "range": {
+        "startLine": 236,
+        "startChar": 0,
+        "endLine": 244,
+        "endChar": 0
+      },
+      "revId": "dce73d445d6ae3569d1bbaa40363d9896ad45370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9797b394_997c9622",
+        "filename": "java/com/google/gerrit/server/restapi/project/CommitFileModifications.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-07-11T09:02:42Z",
+      "side": 1,
+      "message": "`RenameFileModification` yields no edits when its source is absent (returns `ImmutableList.of()` when `TreeWalk.forPath` is null), and `DeleteFileModification` emits a `DeletePath` with no existence check, so deleting a missing path is a no-op.\n\nIn a mixed batch these are silently dropped while the commit succeeds. (A batch of *only* such ops is caught by the no-change check → 400, so this bites only when combined with a real op.)\n\nReject a missing rename source / delete path with 400. This needs the base tree, which `fromInput` doesn\u0027t have — do it in `BranchCommitBuilder.commitFiles` where `base` is available.\n\nCan you add tests for both?",
+      "revId": "dce73d445d6ae3569d1bbaa40363d9896ad45370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2319c6f8_1aae2a33",
+        "filename": "java/com/google/gerrit/server/restapi/project/CommitFileModifications.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-07-11T09:02:42Z",
+      "side": 1,
+      "message": "This is the per-op validation block. `file_mode` is read only at L93 (the content branch); the delete (L78-79) and rename (L80-87) branches never look at it, so `file_mode` on a delete/rename is silently ignored. Add a guard here: reject when `fileMode !\u003d null \u0026\u0026 content \u003d\u003d null`. Tests: delete+file_mode, rename+file_mode → 400.",
+      "range": {
+        "startLine": 69,
+        "startChar": 1,
+        "endLine": 77,
+        "endChar": 0
+      },
+      "revId": "dce73d445d6ae3569d1bbaa40363d9896ad45370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01438fc2_60a632c1",
+        "filename": "java/com/google/gerrit/server/restapi/project/CommitFileModifications.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-07-11T09:02:42Z",
+      "side": 1,
+      "message": "Nit: can be imported?",
+      "range": {
+        "startLine": 107,
+        "startChar": 13,
+        "endLine": 107,
+        "endChar": 41
+      },
+      "revId": "dce73d445d6ae3569d1bbaa40363d9896ad45370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb3ef56d_4cc05412",
+        "filename": "java/com/google/gerrit/server/restapi/project/ProjectRestApiModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-07-11T09:02:42Z",
+      "side": 1,
+      "message": "`content` already means one file\u0027s bytes at `FILE_KIND` (L65). This branch-scoped batch commit isn\u0027t that — and it creates a new commit on every call, so it\u0027s an action, not an idempotent PUT of a resource. I\u0027d use `post(BRANCH_KIND, \"commit\")`, matching the POST convention for actions (`rebase`, `submit`, `cherrypick`); if a symmetric single-file write is wanted later, `put(FILE_KIND, \"content\")` can be added separately.\n\nWould be good to hear what other maintainers think about the naming here before the URL freezes.",
+      "revId": "dce73d445d6ae3569d1bbaa40363d9896ad45370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47e727d3_62bd5cab",
+        "filename": "java/com/google/gerrit/server/restapi/project/PutContent.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-07-11T09:02:42Z",
+      "side": 1,
+      "message": "Drop \"write counterpart of GetContent\" (GetContent is single-file; the real counterpart is `PUT files/{id}/content`). Rename the view to match the operation (e.g. `CommitFiles`) once the shape is decided.",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 3
+      },
+      "revId": "dce73d445d6ae3569d1bbaa40363d9896ad45370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed7ffc5c_11f8f1ac",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/PutContentIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-07-11T09:02:42Z",
+      "side": 1,
+      "message": "Test coverage here is already solid. Six boundary cases are still missing, one small test each:\n\n* missing or empty `files` map → 400\n* invalid base64 in `content` → 400\n* more than one operation field on a single entry (e.g. `content` + `delete`) → 400\n* empty path key → 400\n* read-only project state (`statePermitsWrite`) → 409\n* a plugin `RefOperationValidationListener` rejection — only `CommitValidationListener` is exercised today; the `extensionRegistry` pattern from directCommitInvokesCommitValidators carries over.\n\nThe other gaps — missing rename source/delete path, `file_mode` on delete/rename, validation options, symlink, Java-API path — are asked in the comments next to the code they test.",
+      "revId": "dce73d445d6ae3569d1bbaa40363d9896ad45370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18f56833_968c7839",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/PutContentIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-07-11T09:02:42Z",
+      "side": 1,
+      "message": "Please add coverage for the Java-API path — `BranchApiImpl.commitFiles` is what plugins call, and every existing test here goes through `adminRestSession`. Verified locally — passes:\n```suggestion\n  }\n\n  @Test\n  public void commitFilesViaJavaApi() throws Exception {\n    CommitFilesInput input \u003d write(\"Via Java API\", \"api.txt\", \"x\");\n    CommitInfo commit \u003d\n        gApi.projects().name(project.get()).branch(BRANCH).commitFiles(input);\n    assertThat(commit.subject).isEqualTo(\"Via Java API\");\n    assertThat(branchTip()).isEqualTo(commit.commit);\n  }\n```",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 3
+      },
+      "revId": "dce73d445d6ae3569d1bbaa40363d9896ad45370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

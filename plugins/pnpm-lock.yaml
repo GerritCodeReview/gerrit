@@ -101,6 +101,9 @@ importers:
       '@open-wc/testing':
         specifier: ^4.0.0
         version: 4.0.0
+      '@types/sinon':
+        specifier: ^17.0.4
+        version: 17.0.4
       '@web/dev-server-esbuild':
         specifier: ^1.0.4
         version: 1.0.4

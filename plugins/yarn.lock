@@ -491,10 +491,10 @@
   dependencies:
     "@types/chai" "^4.2.12"
 
-"@gerritcodereview/typescript-api@3.13.0":
-  version "3.13.0"
-  resolved "https://registry.yarnpkg.com/@gerritcodereview/typescript-api/-/typescript-api-3.13.0.tgz#c7f5ac20f8b5b575424508eb1deb260a290ca0f1"
-  integrity sha512-1TvqARSNO9SXnnCzJKZVz9SFTr4hx1ZzBR0jyRZM6Xd4lLw3YwCfXozD9E8Pm4pfBWmN9WDkURboEG85p7ICag==
+"@gerritcodereview/typescript-api@3.14.0":
+  version "3.14.0"
+  resolved "https://registry.yarnpkg.com/@gerritcodereview/typescript-api/-/typescript-api-3.14.0.tgz#0ba1a06b68593e84e5a7525baf91521fdbcb2920"
+  integrity sha512-GhYzh6h/bHUz2cU1pzHwlfWDeGSkGAlBulfvrUyG4N3tuA/jqUp5LSBDeeJHzXgmOSdNE7Qyravjh3wDd0REyg==
 
 "@hapi/bourne@^3.0.0":
   version "3.0.0"
@@ -1170,7 +1170,7 @@
     "@types/chai" "*"
     "@types/sinon" "*"
 
-"@types/sinon@*":
+"@types/sinon@*", "@types/sinon@^17.0.4":
   version "17.0.4"
   resolved "https://registry.yarnpkg.com/@types/sinon/-/sinon-17.0.4.tgz#fd9a3e8e07eea1a3f4a6f82a972c899e5778f369"
   integrity sha512-RHnIrhfPO3+tJT0s7cFaXGZvsL4bbR3/k7z3P312qMS4JaS2Tk+KiwiLx1S0rQ56ERj00u1/BtdyVd0FY+Pdew==

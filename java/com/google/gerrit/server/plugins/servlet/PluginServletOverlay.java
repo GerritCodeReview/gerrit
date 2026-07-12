@@ -20,15 +20,15 @@ import com.google.inject.Binder;
 import com.google.inject.Binding;
 import com.google.inject.Injector;
 import com.google.inject.Key;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * The single servlet-API-coupled seam of the plugin loader.
  *
- * <p>Every reference to a servlet type -- {@code javax.servlet} under the EE8 default, rewritten to
- * {@code jakarta.servlet} by the {@code to_jakarta} transform under the EE11 flavour -- lives here,
- * so the plugin loader ({@code PluginGuiceEnvironment}, {@code AutoRegisterModules}) stays
+ * <p>Every reference to a servlet type -- {@code jakarta.servlet} in the canonical sources,
+ * rewritten to {@code javax.servlet} by the {@code to_javax} transform for the EE8 default -- lives
+ * here, so the plugin loader ({@code PluginGuiceEnvironment}, {@code AutoRegisterModules}) stays
  * flavour-neutral and is not transformed. This is its own {@code flavoured_library} leaf that
  * {@code server} depends on; it must NOT depend on {@code server} (and cannot live in {@code
  * httpd}, which depends on {@code server}).
@@ -45,17 +45,17 @@ public final class PluginServletOverlay {
    */
   public static final ImmutableList<String> SERVLET_API_TYPE_NAMES =
       ImmutableList.of(
-          "javax.servlet.Filter",
-          "javax.servlet.ServletContext",
-          "javax.servlet.ServletRequest",
-          "javax.servlet.ServletResponse",
-          "javax.servlet.http.HttpServlet",
-          "javax.servlet.http.HttpServletRequest",
-          "javax.servlet.http.HttpServletResponse",
-          "javax.servlet.http.HttpSession");
+          "jakarta.servlet.Filter",
+          "jakarta.servlet.ServletContext",
+          "jakarta.servlet.ServletRequest",
+          "jakarta.servlet.ServletResponse",
+          "jakarta.servlet.http.HttpServlet",
+          "jakarta.servlet.http.HttpServletRequest",
+          "jakarta.servlet.http.HttpServletResponse",
+          "jakarta.servlet.http.HttpSession");
 
   /** The {@code HttpServlet} type name, for {@code @Export} auto-registration. */
-  public static final String HTTP_SERVLET = "javax.servlet.http.HttpServlet";
+  public static final String HTTP_SERVLET = "jakarta.servlet.http.HttpServlet";
 
   /**
    * Copies the parent injector's {@code @RootRelative} HttpServletRequest/Response bindings into a

@@ -43,14 +43,14 @@ import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdFac
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.util.http.testutil.FakeHttpServletRequest;
 import com.google.gerrit.util.http.testutil.FakeHttpServletResponse;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.Base64;
 import java.util.Collection;
 import java.util.Optional;
-import javax.servlet.FilterChain;
-import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Before;
 import org.junit.Test;

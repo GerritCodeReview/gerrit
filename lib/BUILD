@@ -24,7 +24,10 @@ java_library(
     name = "servlet-api-ee8",
     data = ["//lib:LICENSE-Apache2.0"],
     neverlink = 1,
-    visibility = ["//tools/flavour_toolchain:__pkg__"],
+    visibility = [
+        "//javatests/com/google/gerrit/util/http/testutil/ee8:__pkg__",
+        "//tools/flavour_toolchain:__pkg__",
+    ],
     exports = ["@external_deps//:javax_servlet_javax_servlet_api"],
 )
 
@@ -43,7 +46,6 @@ java_library(
     data = ["//lib:LICENSE-Apache2.0"],
     neverlink = 1,
     visibility = [
-        "//javatests/com/google/gerrit/util/http/testutil/ee11:__pkg__",
         "//lib/jetty:__pkg__",
         "//tools/flavour_toolchain:__pkg__",
     ],

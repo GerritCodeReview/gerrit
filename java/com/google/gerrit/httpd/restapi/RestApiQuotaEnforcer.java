@@ -22,7 +22,7 @@ import com.google.gerrit.server.quota.QuotaBackend;
 import com.google.gerrit.server.quota.QuotaException;
 import com.google.gerrit.util.http.RequestUtil;
 import com.google.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * Enforces quota on specific REST API endpoints.

@@ -2,6 +2,7 @@ load("//javatests/com/google/gerrit/acceptance:tests.bzl", "acceptance_tests")
 
 acceptance_tests(
     srcs = glob(["*IT.java"]),
+    canonical = "ee11",
     group = "rest_bindings",
     labels = ["rest"],
     deps = [

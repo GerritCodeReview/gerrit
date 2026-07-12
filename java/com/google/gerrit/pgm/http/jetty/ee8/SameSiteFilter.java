@@ -18,28 +18,32 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import jakarta.servlet.Filter;
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.FilterConfig;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.ServletResponse;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpServletResponseWrapper;
 import java.io.IOException;
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletResponseWrapper;
 import org.eclipse.jgit.lib.Config;
 
 @Singleton
 public class SameSiteFilter implements Filter {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  // Servlet 6 attribute name. Jetty 12 ee11's ServletApiResponse.HttpCookieFacade
-  // reads SameSite from the cookie's attributes map
-  // (HttpCookie.SAME_SITE_ATTRIBUTE), not from the comment marker pattern that
-  // ee8 nested.Response honoured. Setting cookie.setComment("__SAME_SITE_*__")
-  // is a silent no-op in ee11.
-  private static final String SAME_SITE_ATTRIBUTE = "SameSite";
+  // Magic strings inherited from Jetty 9's HttpCookie.SAME_SITE_*_COMMENT
+  // public constants. In Jetty 12 these constants moved to
+  // org.eclipse.jetty.ee{8,9}.nested.Response as protected fields, so they are
+  // no longer accessible from application code -- but the underlying mechanism
+  // is preserved: the ee8 nested Response inspects a Cookie's comment for
+  // these markers and emits a proper SameSite attribute on the wire.
+  // See org.eclipse.jetty.ee8.nested.Response (the values are kept verbatim).
+  private static final String SAME_SITE_LAX_COMMENT = "__SAME_SITE_LAX__";
+  private static final String SAME_SITE_STRICT_COMMENT = "__SAME_SITE_STRICT__";
+  private static final String SAME_SITE_NONE_COMMENT = "__SAME_SITE_NONE__";
 
   private final String sameSite;
 
@@ -59,11 +63,11 @@ public class SameSiteFilter implements Filter {
       chain.doFilter(request, response);
       return;
     }
-    String sameSiteValue =
+    String sameSiteComment =
         switch (sameSite.toLowerCase()) {
-          case "lax" -> "Lax";
-          case "strict" -> "Strict";
-          case "none" -> "None";
+          case "lax" -> SAME_SITE_LAX_COMMENT;
+          case "strict" -> SAME_SITE_STRICT_COMMENT;
+          case "none" -> SAME_SITE_NONE_COMMENT;
           default ->
               throw new ServletException(String.format("Invalid sameSite value: %s", sameSite));
         };
@@ -73,7 +77,7 @@ public class SameSiteFilter implements Filter {
           @Override
           public void addCookie(Cookie cookie) {
             logger.atFine().log("Setting SameSite attribute on: %s", cookie.getName());
-            cookie.setAttribute(SAME_SITE_ATTRIBUTE, sameSiteValue);
+            cookie.setComment(sameSiteComment);
             super.addCookie(cookie);
           }
         });

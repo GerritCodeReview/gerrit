@@ -21,7 +21,7 @@ import com.google.inject.Provides;
 import com.google.inject.name.Named;
 import com.google.inject.servlet.RequestScoped;
 import com.google.inject.servlet.ServletModule;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 public class HttpRequestTraceModule extends ServletModule {
 

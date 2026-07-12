@@ -9,6 +9,7 @@ filegroup(
 flavoured_library(
     name = "servlet",
     srcs = [":srcs"],
+    canonical = "ee11",
     visibility = ["//java/com/google/gerrit/server:__pkg__"],
     deps = [
         "//java/com/google/gerrit/extensions:api",

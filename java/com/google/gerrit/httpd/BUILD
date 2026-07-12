@@ -9,6 +9,7 @@ filegroup(
 flavoured_library(
     name = "httpd",
     srcs = [":srcs"],
+    canonical = "ee11",
     resource_strip_prefix = "resources",
     resources = [
         "//resources/com/google/gerrit/httpd",

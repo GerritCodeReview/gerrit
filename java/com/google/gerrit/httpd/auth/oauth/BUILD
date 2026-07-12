@@ -9,6 +9,7 @@ filegroup(
 flavoured_library(
     name = "oauth",
     srcs = [":srcs"],
+    canonical = "ee11",
     resource_strip_prefix = "resources",
     resources = ["//resources/com/google/gerrit/httpd/auth/oauth"],
     deps = [

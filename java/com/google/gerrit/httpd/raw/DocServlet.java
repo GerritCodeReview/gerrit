@@ -19,11 +19,11 @@ import static com.google.gerrit.server.experiments.ExperimentFeaturesConstants.G
 import com.google.common.cache.Cache;
 import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gerrit.server.experiments.ExperimentFeatures;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.Optional;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 abstract class DocServlet extends ResourceServlet {
   private static final long serialVersionUID = 1L;

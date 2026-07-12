@@ -20,7 +20,7 @@ import static com.google.gerrit.httpd.restapi.RestApiServlet.XD_CONTENT_TYPE;
 import static com.google.gerrit.httpd.restapi.RestApiServlet.XD_METHOD;
 import static com.google.gerrit.httpd.restapi.RestApiServlet.replyBinaryResult;
 import static com.google.gerrit.httpd.restapi.RestApiServlet.replyError;
-import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
+import static jakarta.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
@@ -44,14 +44,14 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import org.kohsuke.args4j.CmdLineException;
 
 public class ParameterParser {

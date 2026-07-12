@@ -10,6 +10,8 @@ flavoured_library(
     name = "servlet",
     srcs = [":srcs"],
     canonical = "ee11",
+    default_flavour = "ee11",
+    direction = "to_javax",
     visibility = ["//java/com/google/gerrit/server:__pkg__"],
     deps = [
         "//java/com/google/gerrit/extensions:api",

@@ -61,17 +61,18 @@ war_jars_allowlist_test(
     war_jars_manifest = "//:release.war.jars.txt",
 )
 
-# Self-transitioning EE11 jar-set guard: plain bazel test checks jakarta too.
+# Self-transitioning EE8 jar-set guard: plain bazel test keeps the legacy
+# release-ee8.war jar set pinned to the pre-flip release.war set.
 flavoured_file(
-    name = "release-ee11.war.jars.txt",
+    name = "release-ee8.war.jars.txt",
     actual = "//:release.war.jars.txt",
-    flavour = "ee11",
+    flavour = "ee8",
 )
 
 war_jars_allowlist_test(
-    name = "check_release_ee11_war_jars",
-    allowlist = ":release_ee11_war_jars.txt",
-    war_jars_manifest = ":release-ee11.war.jars.txt",
+    name = "check_release_ee8_war_jars",
+    allowlist = ":release_war_jars.txt",
+    war_jars_manifest = ":release-ee8.war.jars.txt",
 )
 
 license_map(

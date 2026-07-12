@@ -17,6 +17,8 @@ flavoured_tests(
         exclude = SERVLET6_ONLY_TESTS,
     ),
     canonical = "ee11",
+    default_flavour = "ee11",
+    direction = "to_javax",
     deps = [
         "//java/com/google/gerrit/pgm/http/jetty",
         "//java/com/google/gerrit/pgm/init/api",
@@ -43,7 +45,7 @@ license_test(
 )
 
 flavoured_junit_tests(
-    name = "servlet6_only_tests-ee11",
+    name = "servlet6_only_tests",
     srcs = glob(SERVLET6_ONLY_TESTS),
     flavour = "ee11",
     deps = [

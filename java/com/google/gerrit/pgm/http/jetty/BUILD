@@ -34,7 +34,8 @@ JETTY_DEPS = [
 
 flavoured_twin_alias(
     name = "jetty",
-    flavours = ["ee11"],
+    default_flavour = "ee11",
+    flavours = ["ee8"],
     visibility = ["//visibility:public"],
 )
 

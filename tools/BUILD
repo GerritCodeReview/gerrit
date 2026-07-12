@@ -17,12 +17,12 @@ exports_files([
 # (@com_googlesource_gerrit_bazlets//flags:flavour) so the shared gerrit_plugin
 # macro can transition its own EE11 plugin targets onto it. This config_setting
 # is the single seam every flavour-bearing select() keys off (jakarta
-# servlet-api, Jetty EE11 adapter, generated httpd-ee11, Guice 7, the boundary
+# servlet-api, Jetty EE11 adapter, canonical httpd-ee11, Guice 7, the boundary
 # aliases). Drive it manually with
 #   --@com_googlesource_gerrit_bazlets//flags:flavour=ee11
-# (default ee8 needs no flag), or -- preferably -- build a transition-wrapped
-# target: the flavoured_war WARs (//:release-ee11, //:headless-ee11) and the
-# gerrit_plugin(flavour = "ee11") plugin jars set it automatically.
+# (the default via .bazelrc; the ee8 legacy flavour transitions through the
+# -ee8 targets: //:release-ee8, //:headless-ee8 and the
+# gerrit_plugin(flavour = "ee8") plugin jars set it automatically).
 #
 # See the servlet-flavoured-release design docs.
 config_setting(

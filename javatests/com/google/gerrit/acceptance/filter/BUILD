@@ -6,6 +6,8 @@ acceptance_tests(
         "*IT.java",
     ]),
     canonical = "ee11",
+    default_flavour = "ee11",
+    direction = "to_javax",
     group = "filter",
     labels = ["filter"],
     deps = [
@@ -21,6 +23,8 @@ flavoured_library(
         "FakeNoInitParamsFilter.java",
     ],
     canonical = "ee11",
+    default_flavour = "ee11",
+    direction = "to_javax",
     src_prefix = "javatests/",
     deps = [
         "//java/com/google/gerrit/acceptance:lib",

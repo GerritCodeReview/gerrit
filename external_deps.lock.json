@@ -122,7 +122,6 @@
     "jakarta.servlet:jakarta.servlet-api": -3550902,
     "javax.activation:activation": -940616209,
     "javax.annotation:jsr250-api": -593155132,
-    "javax.servlet:javax.servlet-api": 669233360,
     "junit:junit": -744267592,
     "log4j:log4j": 182326902,
     "net.bytebuddy:byte-buddy": -1875367778,
@@ -169,9 +168,6 @@
     "org.commonmark:commonmark-ext-gfm-strikethrough": 350394231,
     "org.commonmark:commonmark-ext-gfm-tables": 1881582931,
     "org.eclipse.jetty.ee11:jetty-ee11-servlet": -562048764,
-    "org.eclipse.jetty.ee8:jetty-ee8-nested": 860016002,
-    "org.eclipse.jetty.ee8:jetty-ee8-security": -175183477,
-    "org.eclipse.jetty.ee8:jetty-ee8-servlet": 1148815122,
     "org.eclipse.jetty:jetty-http": -2043364460,
     "org.eclipse.jetty:jetty-io": -1852333390,
     "org.eclipse.jetty:jetty-jmx": -26410899,
@@ -343,8 +339,6 @@
     "jakarta.servlet:jakarta.servlet-api:jar:sources": -2084357823,
     "javax.activation:activation": 1998212823,
     "javax.activation:activation:jar:sources": 2062811499,
-    "javax.servlet:javax.servlet-api": 735808080,
-    "javax.servlet:javax.servlet-api:jar:sources": -2015355058,
     "junit:junit": -1256429642,
     "junit:junit:jar:sources": 940567721,
     "net.bytebuddy:byte-buddy": -2144538556,
@@ -431,14 +425,6 @@
     "org.commonmark:commonmark:jar:sources": -1511261547,
     "org.eclipse.jetty.ee11:jetty-ee11-servlet": -2443254,
     "org.eclipse.jetty.ee11:jetty-ee11-servlet:jar:sources": -1546113901,
-    "org.eclipse.jetty.ee8:jetty-ee8-nested": -1915352225,
-    "org.eclipse.jetty.ee8:jetty-ee8-nested:jar:sources": 673934800,
-    "org.eclipse.jetty.ee8:jetty-ee8-security": -1918552702,
-    "org.eclipse.jetty.ee8:jetty-ee8-security:jar:sources": 114520187,
-    "org.eclipse.jetty.ee8:jetty-ee8-servlet": 57123647,
-    "org.eclipse.jetty.ee8:jetty-ee8-servlet:jar:sources": 500172952,
-    "org.eclipse.jetty.toolchain:jetty-servlet-api": 1364182673,
-    "org.eclipse.jetty.toolchain:jetty-servlet-api:jar:sources": 736604807,
     "org.eclipse.jetty:jetty-http": -2005285297,
     "org.eclipse.jetty:jetty-http:jar:sources": 1510111824,
     "org.eclipse.jetty:jetty-io": 1963881320,
@@ -986,13 +972,6 @@
       },
       "version": "1.1.1"
     },
-    "javax.servlet:javax.servlet-api": {
-      "shasums": {
-        "jar": "83a03dd877d3674576f0da7b90755c8524af099ccf0607fc61aa971535ad7c60",
-        "sources": "a2826761ae88535afb0a3a049eacc846494e22627a1dcf14de37b956ca8748d6"
-      },
-      "version": "4.0.1"
-    },
     "junit:junit": {
       "shasums": {
         "jar": "8e495b634469d64fb8acfa3495a065cbacc8a0fff55ce1e31007be4c16dc57d3",
@@ -1293,34 +1272,6 @@
         "sources": "345f50f1a2937968934f354134cf4dd7e2b94bbfec36a177bb015ba675bd345c"
       },
       "version": "12.1.11"
-    },
-    "org.eclipse.jetty.ee8:jetty-ee8-nested": {
-      "shasums": {
-        "jar": "b6b4db33b8894688a08f23aba9eee1bc951c66be12a43095f2811121a54018d8",
-        "sources": "2ba3403fb5daf6eaa10e4c3e59fa859e35e4451593d0afd681c2d57b8f6056e9"
-      },
-      "version": "12.1.11"
-    },
-    "org.eclipse.jetty.ee8:jetty-ee8-security": {
-      "shasums": {
-        "jar": "9f165768c7f7b7a02c7631b38d898f7c16a729b78307c5c3d5940f5de7ee955d",
-        "sources": "7269d79523195225aab585f0bd799914b4d6a9d4746fd71758bb509e6c9b356e"
-      },
-      "version": "12.1.11"
-    },
-    "org.eclipse.jetty.ee8:jetty-ee8-servlet": {
-      "shasums": {
-        "jar": "82bd9eed66b147f243231a164c1157d3dd72cf2d05ae9029e8b12aff9df25fec",
-        "sources": "520e666d8dc4646ccd4b274946278322a393742f54f29d9911be8f46d087c54e"
-      },
-      "version": "12.1.11"
-    },
-    "org.eclipse.jetty.toolchain:jetty-servlet-api": {
-      "shasums": {
-        "jar": "89916c0360ad8be8b0b6bab41d9f0d5d03b742abb5e13aeeac06817c14fdf037",
-        "sources": "f6a7790d55a14a7c1d542d8b0246939ac720fe99e92fae3108c067c4266180fc"
-      },
-      "version": "4.0.9"
     },
     "org.eclipse.jetty:jetty-http": {
       "shasums": {
@@ -1802,23 +1753,6 @@
       "org.eclipse.jetty:jetty-security",
       "org.eclipse.jetty:jetty-server",
       "org.eclipse.jetty:jetty-session",
-      "org.slf4j:slf4j-api"
-    ],
-    "org.eclipse.jetty.ee8:jetty-ee8-nested": [
-      "org.eclipse.jetty.toolchain:jetty-servlet-api",
-      "org.eclipse.jetty:jetty-http",
-      "org.eclipse.jetty:jetty-security",
-      "org.eclipse.jetty:jetty-server",
-      "org.eclipse.jetty:jetty-session",
-      "org.slf4j:slf4j-api"
-    ],
-    "org.eclipse.jetty.ee8:jetty-ee8-security": [
-      "org.eclipse.jetty.ee8:jetty-ee8-nested",
-      "org.slf4j:slf4j-api"
-    ],
-    "org.eclipse.jetty.ee8:jetty-ee8-servlet": [
-      "org.eclipse.jetty.ee8:jetty-ee8-nested",
-      "org.eclipse.jetty.ee8:jetty-ee8-security",
       "org.slf4j:slf4j-api"
     ],
     "org.eclipse.jetty:jetty-http": [
@@ -2610,12 +2544,6 @@
       "com.sun.activation.registries",
       "com.sun.activation.viewers",
       "javax.activation"
-    ],
-    "javax.servlet:javax.servlet-api": [
-      "javax.servlet",
-      "javax.servlet.annotation",
-      "javax.servlet.descriptor",
-      "javax.servlet.http"
     ],
     "junit:junit": [
       "junit.extensions",
@@ -3769,25 +3697,6 @@
       "org.eclipse.jetty.ee11.servlet.security.authentication",
       "org.eclipse.jetty.ee11.servlet.util"
     ],
-    "org.eclipse.jetty.ee8:jetty-ee8-nested": [
-      "org.eclipse.jetty.ee8.nested",
-      "org.eclipse.jetty.ee8.nested.jmx"
-    ],
-    "org.eclipse.jetty.ee8:jetty-ee8-security": [
-      "org.eclipse.jetty.ee8.security",
-      "org.eclipse.jetty.ee8.security.authentication"
-    ],
-    "org.eclipse.jetty.ee8:jetty-ee8-servlet": [
-      "org.eclipse.jetty.ee8.servlet",
-      "org.eclipse.jetty.ee8.servlet.jmx",
-      "org.eclipse.jetty.ee8.servlet.listener"
-    ],
-    "org.eclipse.jetty.toolchain:jetty-servlet-api": [
-      "javax.servlet",
-      "javax.servlet.annotation",
-      "javax.servlet.descriptor",
-      "javax.servlet.http"
-    ],
     "org.eclipse.jetty:jetty-http": [
       "org.eclipse.jetty.http",
       "org.eclipse.jetty.http.compression",
@@ -4445,8 +4354,6 @@
       "jakarta.servlet:jakarta.servlet-api:jar:sources",
       "javax.activation:activation",
       "javax.activation:activation:jar:sources",
-      "javax.servlet:javax.servlet-api",
-      "javax.servlet:javax.servlet-api:jar:sources",
       "junit:junit",
       "junit:junit:jar:sources",
       "net.bytebuddy:byte-buddy",
@@ -4533,14 +4440,6 @@
       "org.commonmark:commonmark:jar:sources",
       "org.eclipse.jetty.ee11:jetty-ee11-servlet",
       "org.eclipse.jetty.ee11:jetty-ee11-servlet:jar:sources",
-      "org.eclipse.jetty.ee8:jetty-ee8-nested",
-      "org.eclipse.jetty.ee8:jetty-ee8-nested:jar:sources",
-      "org.eclipse.jetty.ee8:jetty-ee8-security",
-      "org.eclipse.jetty.ee8:jetty-ee8-security:jar:sources",
-      "org.eclipse.jetty.ee8:jetty-ee8-servlet",
-      "org.eclipse.jetty.ee8:jetty-ee8-servlet:jar:sources",
-      "org.eclipse.jetty.toolchain:jetty-servlet-api",
-      "org.eclipse.jetty.toolchain:jetty-servlet-api:jar:sources",
       "org.eclipse.jetty:jetty-http",
       "org.eclipse.jetty:jetty-http:jar:sources",
       "org.eclipse.jetty:jetty-io",
@@ -4743,8 +4642,6 @@
       "jakarta.servlet:jakarta.servlet-api:jar:sources",
       "javax.activation:activation",
       "javax.activation:activation:jar:sources",
-      "javax.servlet:javax.servlet-api",
-      "javax.servlet:javax.servlet-api:jar:sources",
       "junit:junit",
       "junit:junit:jar:sources",
       "net.bytebuddy:byte-buddy",
@@ -4831,14 +4728,6 @@
       "org.commonmark:commonmark:jar:sources",
       "org.eclipse.jetty.ee11:jetty-ee11-servlet",
       "org.eclipse.jetty.ee11:jetty-ee11-servlet:jar:sources",
-      "org.eclipse.jetty.ee8:jetty-ee8-nested",
-      "org.eclipse.jetty.ee8:jetty-ee8-nested:jar:sources",
-      "org.eclipse.jetty.ee8:jetty-ee8-security",
-      "org.eclipse.jetty.ee8:jetty-ee8-security:jar:sources",
-      "org.eclipse.jetty.ee8:jetty-ee8-servlet",
-      "org.eclipse.jetty.ee8:jetty-ee8-servlet:jar:sources",
-      "org.eclipse.jetty.toolchain:jetty-servlet-api",
-      "org.eclipse.jetty.toolchain:jetty-servlet-api:jar:sources",
       "org.eclipse.jetty:jetty-http",
       "org.eclipse.jetty:jetty-http:jar:sources",
       "org.eclipse.jetty:jetty-io",

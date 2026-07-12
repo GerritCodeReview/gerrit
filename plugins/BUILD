@@ -24,18 +24,10 @@ js_library(
     ],
 )
 
-# The servlet-coupled core plugins build with gerrit_plugin(flavour = "ee11")
-# for the Gerrit-Flavour loader marker, so their jar is the target itself, not
-# the <n>.jar convention of the unflavoured (servlet-neutral, "any") plugins.
-SERVLET_PLUGINS = [
-    "gitiles",
-    "plugin-manager",
-]
-
 genrule2(
     name = "core",
     srcs = [
-        "//plugins/%s:%s" % (n, n) if n in SERVLET_PLUGINS else "//plugins/%s.jar" % (n if ":" in n else "%s:%s" % (n, n))
+        "//plugins/%s.jar" % (n if ":" in n else "%s:%s" % (n, n))
         for n in CORE_PLUGINS + CUSTOM_PLUGINS
     ],
     outs = ["core.zip"],

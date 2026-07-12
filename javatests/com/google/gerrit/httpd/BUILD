@@ -3,6 +3,7 @@ load("@com_googlesource_gerrit_bazlets//tools:flavour.bzl", "flavoured_tests")
 flavoured_tests(
     name = "httpd_tests",
     srcs = glob(["**/*.java"]),
+    canonical = "ee11",
     deps = [
         "//java/com/google/gerrit/entities",
         "//java/com/google/gerrit/extensions:api",

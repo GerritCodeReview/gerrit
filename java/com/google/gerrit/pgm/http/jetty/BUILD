@@ -1,5 +1,5 @@
 load("@com_googlesource_gerrit_bazlets//tools:flavour.bzl", "flavoured_java_library", "flavoured_twin_alias")
-load("@com_googlesource_gerrit_bazlets//tools:servlet_transform.bzl", javax_to_jakarta_srcjar = "transform_srcjar")
+load("@com_googlesource_gerrit_bazlets//tools:servlet_transform.bzl", jakarta_to_javax_srcjar = "transform_srcjar")
 
 filegroup(
     name = "srcs",
@@ -39,23 +39,26 @@ flavoured_twin_alias(
 )
 
 flavoured_java_library(
-    name = "jetty-ee8",
+    name = "jetty-ee11",
     srcs = [":srcs"],
-    flavour = "ee8",
+    flavour = "ee11",
     visibility = ["//visibility:public"],
     deps = JETTY_DEPS,
 )
 
-javax_to_jakarta_srcjar(
-    name = "jetty-ee11-srcs",
-    direction = "to_jakarta",
-    # Canonical sources MINUS the two files with genuine Jetty-12 ee11 API
-    # divergences, which the hand-written ee11/ overlays replace.
+jakarta_to_javax_srcjar(
+    name = "jetty-ee8-srcs",
+    direction = "to_javax",
+    # Canonical jakarta sources MINUS the files with genuine API divergences,
+    # which the hand-written ee8/ overlays replace: HiddenErrorHandler and
+    # JettyServerFlavour (Jetty-12 ee8 vs core API) and SameSiteFilter
+    # (Servlet 6 Cookie.setAttribute has no javax equivalent).
     sources = glob(
         ["**/*.java"],
         exclude = [
             "HiddenErrorHandler.java",
             "JettyServerFlavour.java",
+            "SameSiteFilter.java",
         ],
     ),
     src_prefix = "java/",
@@ -63,12 +66,12 @@ javax_to_jakarta_srcjar(
 )
 
 flavoured_java_library(
-    name = "jetty-ee11",
+    name = "jetty-ee8",
     srcs = [
-        ":jetty-ee11-srcs",
-        "//java/com/google/gerrit/pgm/http/jetty/ee11:overlay",
+        ":jetty-ee8-srcs",
+        "//java/com/google/gerrit/pgm/http/jetty/ee8:overlay",
     ],
-    flavour = "ee11",
+    flavour = "ee8",
     visibility = ["//visibility:public"],
     deps = JETTY_DEPS,
 )

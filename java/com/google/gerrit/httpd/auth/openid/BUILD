@@ -9,6 +9,7 @@ filegroup(
 flavoured_library(
     name = "openid",
     srcs = [":srcs"],
+    canonical = "ee11",
     resource_strip_prefix = "resources",
     resources = ["//resources/com/google/gerrit/httpd/auth/openid"],
     deps = [

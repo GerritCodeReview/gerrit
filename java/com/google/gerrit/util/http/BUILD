@@ -9,6 +9,7 @@ filegroup(
 flavoured_library(
     name = "http",
     srcs = [":srcs"],
+    canonical = "ee11",
     deps = [
         "//lib:guava",
         "//lib:servlet-api",

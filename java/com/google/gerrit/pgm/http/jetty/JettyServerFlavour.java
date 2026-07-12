@@ -12,29 +12,44 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+// EE11 (jakarta.servlet) implementation of the Jetty-12 flavour seam used by the
+// flavour-neutral JettyServer. Same FQDN (package com.google.gerrit.pgm.http.jetty)
+// as the EE8 JettyServerFlavour; only one is on a classpath at a time. Excluded
+// from the to_jakarta transform (its body differs in real Jetty-12 ee11 API, not
+// just imports).
 package com.google.gerrit.pgm.http.jetty;
 
-import org.eclipse.jetty.ee8.servlet.ServletContextHandler;
+import org.eclipse.jetty.ee11.servlet.ServletContextHandler;
+import org.eclipse.jetty.ee11.servlet.ServletHandler;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 
-/**
- * EE8 (javax.servlet) implementation of the small Jetty-12 flavour seam used by the otherwise
- * flavour-neutral {@link JettyServer}. The EE11 counterpart lives in {@code
- * ee11/JettyServerFlavour.java} (same FQDN, hand-written, excluded from the to_jakarta transform);
- * only one is on a classpath at a time.
- */
 final class JettyServerFlavour {
-  /** ee8's ServletContextHandler is a {@code Supplier<Handler>}; unwrap it. */
+  /** ee11's ServletContextHandler is itself a Handler; install it as-is. */
   static Handler toCoreHandler(ServletContextHandler app) {
-    return app.get();
+    return app;
   }
 
-  /** No Servlet-6 ambiguous-URI handling exists in Servlet 4. */
-  static void configureServletHandler(ServletContextHandler app) {}
+  /**
+   * Decode ambiguous URIs for this context's servlet handler (Servlet 6 tightened ambiguous-path
+   * rules; Gerrit opts back out).
+   */
+  static void configureServletHandler(ServletContextHandler app) {
+    ServletHandler handler = new ServletHandler();
+    handler.setDecodeAmbiguousURIs(true);
+    app.setServletHandler(handler);
+  }
 
-  /** No Servlet-6 ambiguous-URI handling exists in Servlet 4. */
-  static void applyServlet6Compliance(Server httpd) {}
+  /**
+   * Bypass Servlet 6 ambiguous-URI rules on every servlet handler in the server.
+   *
+   * @see <a href="https://github.com/jakartaee/servlet/issues/18">Servlet 6 URI changes</a>
+   */
+  static void applyServlet6Compliance(Server httpd) {
+    httpd
+        .getContainedBeans(ServletHandler.class)
+        .forEach(handler -> handler.setDecodeAmbiguousURIs(true));
+  }
 
   private JettyServerFlavour() {}
 }

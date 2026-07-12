@@ -9,6 +9,7 @@ filegroup(
 flavoured_library(
     name = "init",
     srcs = [":srcs"],
+    canonical = "ee11",
     deps = [
         "//java/com/google/gerrit/auth",
         "//java/com/google/gerrit/extensions:api",

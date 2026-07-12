@@ -1,10 +1,10 @@
 load("@rules_java//java:defs.bzl", "java_library")
 
-# EE11 (jakarta.servlet) hand-written variants of the canonical
+# EE8 (javax.servlet) hand-written variants of the canonical jakarta
 # FakeHttpServletRequest/Response. They keep the same FQDN (package
 # com.google.gerrit.util.http.testutil); only one servlet flavour is ever on a
-# classpath at a time. Consumed by //javatests/.../testutil:testutil-ee11 in
-# place of the canonical fakes, which are excluded from the to_jakarta transform
+# classpath at a time. Consumed by //javatests/.../testutil:testutil-ee8 in
+# place of the canonical fakes, which are excluded from the to_javax transform
 # because their Servlet-6 method set diverges (getServletConnection returns a
 # jakarta-only type, etc.).
 java_library(
@@ -19,7 +19,7 @@ java_library(
         "//java/com/google/gerrit/common:annotations",
         "//lib:guava",
         "//lib:jgit",
-        "//lib:servlet-api-ee11",
+        "//lib:servlet-api-ee8",
         "//lib/errorprone:annotations",
     ],
 )

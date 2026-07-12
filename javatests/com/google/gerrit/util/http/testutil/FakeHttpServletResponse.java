@@ -12,6 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+// EE11 (jakarta.servlet) hand-written variant of the canonical
+// com.google.gerrit.util.http.testutil.FakeHttpServletResponse. It keeps the
+// same FQDN (only one servlet flavour is on a classpath at a time) and differs
+// from a pure import rename: encodeUrl/encodeRedirectUrl/setStatus(int,String)
+// were removed in Servlet 6, and sendRedirect(String,int,boolean) was added.
 package com.google.gerrit.util.http.testutil;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -23,6 +28,10 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.net.HttpHeaders;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.WriteListener;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -30,10 +39,6 @@ import java.io.PrintWriter;
 import java.nio.charset.Charset;
 import java.util.Collection;
 import java.util.Locale;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.WriteListener;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
 import org.eclipse.jgit.util.RawParseUtils;
 
 /** Simple fake implementation of {@link HttpServletResponse}. */
@@ -190,19 +195,7 @@ public class FakeHttpServletResponse implements HttpServletResponse {
   }
 
   @Override
-  @Deprecated
-  public String encodeRedirectUrl(String url) {
-    throw new UnsupportedOperationException();
-  }
-
-  @Override
   public String encodeURL(String url) {
-    throw new UnsupportedOperationException();
-  }
-
-  @Override
-  @Deprecated
-  public String encodeUrl(String url) {
     throw new UnsupportedOperationException();
   }
 
@@ -226,6 +219,13 @@ public class FakeHttpServletResponse implements HttpServletResponse {
   }
 
   @Override
+  public synchronized void sendRedirect(String loc, int sc, boolean clearBuffer) {
+    status = sc;
+    setHeader(HttpHeaders.LOCATION, loc);
+    committed = true;
+  }
+
+  @Override
   public void setDateHeader(String name, long value) {
     setHeader(name, Long.toString(value));
   }
@@ -244,13 +244,6 @@ public class FakeHttpServletResponse implements HttpServletResponse {
 
   @Override
   public synchronized void setStatus(int sc) {
-    status = sc;
-    committed = true;
-  }
-
-  @Override
-  @Deprecated
-  public synchronized void setStatus(int sc, String msg) {
     status = sc;
     committed = true;
   }

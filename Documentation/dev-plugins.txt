@@ -93,35 +93,15 @@ Gerrit-ApiType: plugin
 ----
 
 [[servlet_flavour]]
-=== Servlet Flavour
+=== Servlet API
 
-Gerrit runs on the EE11 (`jakarta.servlet`) servlet stack; the legacy
-EE8 (`javax.servlet`) flavour is retired. A plugin that touches the
-Servlet API is bound to one namespace; a `javax.servlet` plugin cannot
-run on Gerrit and fails at runtime with a `NoClassDefFoundError`.
-
-To catch that at load time, a plugin declares its flavour with an
-optional `Gerrit-Flavour` manifest attribute, and the plugin loader
-rejects a mismatch:
-
-[options="header"]
-|===================================================================
-| `Gerrit-Flavour` | Gerrit (EE11)
-| absent           | rejected (treated as `ee8`)
-| `any`            | loads
-| `ee8`            | rejected
-| `ee11`           | loads
-|===================================================================
-
-An absent marker is still treated as `ee8` and rejected, with guidance
-pointing at this contract: publish an `ee11` build (jakarta) or an
-`any` build (audited servlet-neutral) to run on Gerrit. Use `any` only
-after confirming the plugin references no Servlet API at all.
-
-When building with Gerrit's `gerrit_plugin` Bazel macro, the marker is
-injected by the `flavour` attribute (`flavour = "ee11"` for the jakarta
-build, `flavour = "any"` for a servlet-neutral plugin); see the plugin
-build documentation.
+Gerrit and its plugins build against `jakarta.servlet` 6.1 through the
+plugin API. The transitional `Gerrit-Flavour` manifest marker and its
+loader enforcement, which guarded the `javax.servlet` to
+`jakarta.servlet` migration, are retired: markers in existing plugin
+jars are ignored. A legacy `javax.servlet` plugin fails at runtime
+with a `NoClassDefFoundError` and must be rebuilt against the current
+plugin API.
 
 === Explicit Registration
 

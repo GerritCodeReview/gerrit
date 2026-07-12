@@ -185,10 +185,6 @@ public class PluginIT extends AbstractDaemonTest {
     Manifest manifest = new Manifest();
     Attributes attributes = manifest.getMainAttributes();
     attributes.put(Attributes.Name.MANIFEST_VERSION, "1.0");
-    // The fixture jars carry no servlet code, so they are flavour-neutral;
-    // without the marker an unmarked jar is treated as ee8 and rejected by
-    // the ee11 twin of this suite.
-    attributes.put(new Attributes.Name("Gerrit-Flavour"), "any");
     if (!plugin.endsWith("-unset.jar")) {
       attributes.put(Attributes.Name.IMPLEMENTATION_VERSION, pluginVersion(plugin));
       attributes.put(new Attributes.Name("Gerrit-ApiVersion"), pluginApiVersion(plugin));

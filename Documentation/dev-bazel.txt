@@ -151,20 +151,18 @@ The output executable WAR will be placed in:
 ----
 
 [[ee11-flavour]]
-=== Servlet Flavour
+=== Servlet Stack
 
 Gerrit builds on the EE11 servlet stack: `jakarta.servlet` 6.1, the
 Jetty 12 ee11 environment and Guice 7. The legacy EE8
 (`javax.servlet`) flavour was retired after its deprecation window;
 its last artifacts are the `-ee8`-suffixed releases of the previous
-release train.
-
-The servlet-flavour build machinery (the
-`@com_googlesource_gerrit_bazlets//flags:flavour` build setting and
-the servlet-flavour toolchain behind neutral labels like
-`//lib:servlet-api`) remains in place: it is the vehicle for the next
-servlet generation (EE12), which arrives as another flavour value and
-toolchain registration rather than a redesign of each boundary.
+release train. The servlet-flavour build machinery that carried the
+javax-to-jakarta migration was retired with it: `jakarta.servlet` is
+version-stable, so the next servlet generation is expected to be a
+dependency bump, and if side-by-side flavours are ever needed again
+the machinery is one revert away in history (see the
+servlet-flavoured-release design docs).
 
 === Extension and Plugin API JAR Files
 

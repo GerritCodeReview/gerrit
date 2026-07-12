@@ -10,19 +10,6 @@ exports_files([
     "deps.toml",
 ])
 
-# Servlet-flavour selector. The flavour build setting lives in bazlets
-# (@com_googlesource_gerrit_bazlets//flags:flavour) so the shared macros can
-# transition onto it. EE11 is the only flavour since the EE8 retirement;
-# this config_setting stays as the seam flavour-bearing select()s key off,
-# and the next servlet generation (EE12) arrives as a sibling setting.
-#
-# See the servlet-flavoured-release design docs.
-config_setting(
-    name = "ee11",
-    flag_values = {"@com_googlesource_gerrit_bazlets//flags:flavour": "ee11"},
-    visibility = ["//visibility:public"],
-)
-
 proto_lang_toolchain(
     name = "protoc_java_toolchain",
     command_line = "--java_out=%s",

@@ -7,22 +7,14 @@ load("@rules_java//java:defs.bzl", "java_package_configuration")
 
 exports_files([
     "nongoogle.toml",
-    "nongoogle_ee11.toml",
     "deps.toml",
 ])
 
-# Servlet-flavour selector for the EE8 (default) / EE11 release flavours.
-#
-# The flavour build setting itself lives in bazlets
-# (@com_googlesource_gerrit_bazlets//flags:flavour) so the shared gerrit_plugin
-# macro can transition its own EE11 plugin targets onto it. This config_setting
-# is the single seam every flavour-bearing select() keys off (jakarta
-# servlet-api, Jetty EE11 adapter, canonical httpd-ee11, Guice 7, the boundary
-# aliases). Drive it manually with
-#   --@com_googlesource_gerrit_bazlets//flags:flavour=ee11
-# (the default via .bazelrc; the ee8 legacy flavour transitions through the
-# -ee8 targets: //:release-ee8, //:headless-ee8 and the
-# gerrit_plugin(flavour = "ee8") plugin jars set it automatically).
+# Servlet-flavour selector. The flavour build setting lives in bazlets
+# (@com_googlesource_gerrit_bazlets//flags:flavour) so the shared macros can
+# transition onto it. EE11 is the only flavour since the EE8 retirement;
+# this config_setting stays as the seam flavour-bearing select()s key off,
+# and the next servlet generation (EE12) arrives as a sibling setting.
 #
 # See the servlet-flavoured-release design docs.
 config_setting(

@@ -12,12 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// EE11 (jakarta.servlet) hand-written variant of HiddenErrorHandler. Same FQDN
-// (package com.google.gerrit.pgm.http.jetty); only one servlet flavour is on a
-// classpath at a time. Excluded from the to_jakarta transform because the
-// Jetty-12 ee11 error handler is a core handler (handle(Request, Response,
-// Callback) -> boolean, no ee8.nested.ErrorHandler) and Response no longer
-// exposes getReason().
+// The Jetty-12 ee11 error handler is a core handler (handle(Request,
+// Response, Callback) -> boolean) and Response no longer exposes
+// getReason(); see message() below for the reason-phrase fallback.
 package com.google.gerrit.pgm.http.jetty;
 
 import static java.nio.charset.StandardCharsets.ISO_8859_1;
@@ -74,8 +71,8 @@ class HiddenErrorHandler extends ErrorHandler {
 
   private static byte[] message(HttpConnection conn, Response response) {
     // Jetty 12/ee11 Response no longer exposes getReason(); fall back to the
-    // standard HTTP status phrase. The "preserve custom reason phrase" path the
-    // ee8 variant used does not translate to the core Response API.
+    // standard HTTP status phrase (custom reason phrases do not survive the
+    // core Response API).
     String msg;
     if (conn == null) {
       msg = "";

@@ -95,12 +95,10 @@ Gerrit-ApiType: plugin
 [[servlet_flavour]]
 === Servlet Flavour
 
-Gerrit ships in two servlet flavours: the default *EE11*
-(`jakarta.servlet`) and the legacy *EE8* (`javax.servlet`, deprecated,
-available as the `-ee8` WARs for one release train). A plugin
-that touches the Servlet API is bound to one namespace and cannot run
-on the other flavour; loading it into the wrong one fails at runtime
-with a `NoClassDefFoundError`.
+Gerrit runs on the EE11 (`jakarta.servlet`) servlet stack; the legacy
+EE8 (`javax.servlet`) flavour is retired. A plugin that touches the
+Servlet API is bound to one namespace; a `javax.servlet` plugin cannot
+run on Gerrit and fails at runtime with a `NoClassDefFoundError`.
 
 To catch that at load time, a plugin declares its flavour with an
 optional `Gerrit-Flavour` manifest attribute, and the plugin loader
@@ -108,20 +106,17 @@ rejects a mismatch:
 
 [options="header"]
 |===================================================================
-| `Gerrit-Flavour` | EE8 Gerrit | EE11 Gerrit
-| absent           | loads (treated as `ee8`) | rejected
-| `any`            | loads | loads
-| `ee8`            | loads | rejected
-| `ee11`           | rejected | loads
+| `Gerrit-Flavour` | Gerrit (EE11)
+| absent           | rejected (treated as `ee8`)
+| `any`            | loads
+| `ee8`            | rejected
+| `ee11`           | loads
 |===================================================================
 
-An absent marker is treated as `ee8`, so the existing `javax.servlet`
-plugin base keeps loading unchanged on the legacy EE8 flavour -- but the
-default (EE11) Gerrit is strict: it loads only plugins that explicitly
-declare `ee11` (a jakarta build) or `any` (audited servlet-neutral).
-An unmarked plugin is therefore rejected by the default server; publish
-an `ee11` or `any` build to run there. Use `any` only after confirming
-the plugin references no Servlet API at all.
+An absent marker is still treated as `ee8` and rejected, with guidance
+pointing at this contract: publish an `ee11` build (jakarta) or an
+`any` build (audited servlet-neutral) to run on Gerrit. Use `any` only
+after confirming the plugin references no Servlet API at all.
 
 When building with Gerrit's `gerrit_plugin` Bazel macro, the marker is
 injected by the `flavour` attribute (`flavour = "ee11"` for the jakarta

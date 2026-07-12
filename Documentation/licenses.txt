@@ -63,29 +63,20 @@ Apache2.0
 * guice:guice
 * guice:guice-assistedinject
 * guice:guice-assistedinject-ee11
-* guice:guice-assistedinject-ee8
 * guice:guice-ee11
-* guice:guice-ee8
 * guice:guice-library-ee11
-* guice:guice-library-ee8
 * guice:guice-servlet
 * guice:guice-servlet-ee11
-* guice:guice-servlet-ee8
 * guice:jakarta-inject
-* guice:javax_inject
 * httpcomponents:httpclient
 * httpcomponents:httpcore
 * jetty:http
 * jetty:io
 * jetty:jmx
-* jetty:nested
-* jetty:security
 * jetty:server
 * jetty:servlet-ee11
-* jetty:servlet-ee8
 * jetty:session
 * jetty:util
-* jetty:util-ajax
 * log:log4j
 * lucene:lucene-analyzers-common
 * lucene:lucene-backward-codecs
@@ -114,9 +105,7 @@ Apache2.0
 * mime-util
 * roaringbitmap
 * servlet-api-ee11
-* servlet-api-ee8
 * servlet-api-without-neverlink-ee11
-* servlet-api-without-neverlink-ee8
 * soy
 
 [[Apache2_0_license]]
@@ -1779,7 +1768,6 @@ jgit
 * jgit
 * jgit-archive
 * jgit-servlet-ee11
-* jgit-servlet-ee8
 * jgit-ssh-apache
 
 [[jgit_license]]

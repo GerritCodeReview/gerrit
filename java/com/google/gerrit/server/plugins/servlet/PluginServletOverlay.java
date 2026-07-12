@@ -26,12 +26,10 @@ import jakarta.servlet.http.HttpServletResponse;
 /**
  * The single servlet-API-coupled seam of the plugin loader.
  *
- * <p>Every reference to a servlet type -- {@code jakarta.servlet} in the canonical sources,
- * rewritten to {@code javax.servlet} by the {@code to_javax} transform for the EE8 default -- lives
- * here, so the plugin loader ({@code PluginGuiceEnvironment}, {@code AutoRegisterModules}) stays
- * flavour-neutral and is not transformed. This is its own {@code flavoured_library} leaf that
- * {@code server} depends on; it must NOT depend on {@code server} (and cannot live in {@code
- * httpd}, which depends on {@code server}).
+ * <p>Every reference to a servlet type lives here, so the plugin loader ({@code
+ * PluginGuiceEnvironment}, {@code AutoRegisterModules}) stays decoupled from the servlet API. This
+ * is its own library leaf that {@code server} depends on; it must NOT depend on {@code server} (and
+ * cannot live in {@code httpd}, which depends on {@code server}).
  *
  * <p>The type-name constants below stay {@code String}s so callers keep using their own {@code
  * is()} hierarchy walk -- the seam never needs to reach back into the loader.

@@ -57,6 +57,7 @@ import java.util.stream.Stream;
 import org.eclipse.jetty.ee11.servlet.DefaultServlet;
 import org.eclipse.jetty.ee11.servlet.FilterHolder;
 import org.eclipse.jetty.ee11.servlet.ServletContextHandler;
+import org.eclipse.jetty.ee11.servlet.ServletHandler;
 import org.eclipse.jetty.ee11.servlet.ServletHolder;
 import org.eclipse.jetty.ee11.servlet.SessionHandler;
 import org.eclipse.jetty.http.HttpFields;
@@ -314,7 +315,11 @@ public class JettyServer {
     httpd.setHandler(app);
     httpd.setStopAtShutdown(false);
 
-    JettyServerFlavour.applyServlet6Compliance(httpd);
+    // Bypass Servlet 6 ambiguous-URI rules on every servlet handler
+    // (https://github.com/jakartaee/servlet/issues/18); Gerrit opts back out.
+    httpd
+        .getContainedBeans(ServletHandler.class)
+        .forEach(handler -> handler.setDecodeAmbiguousURIs(true));
   }
 
   @VisibleForTesting
@@ -617,7 +622,11 @@ public class JettyServer {
     //
     app.setSessionHandler(sessionHandler);
     app.setErrorHandler(new HiddenErrorHandler());
-    JettyServerFlavour.configureServletHandler(app);
+    // Decode ambiguous URIs for this context's servlet handler (Servlet 6
+    // tightened ambiguous-path rules; Gerrit opts back out).
+    ServletHandler servletHandler = new ServletHandler();
+    servletHandler.setDecodeAmbiguousURIs(true);
+    app.setServletHandler(servletHandler);
 
     // This is the path we are accessed by clients within our domain.
     //
@@ -688,9 +697,7 @@ public class JettyServer {
     ds.setInitParameter("gzip", "true");
 
     app.setWelcomeFiles(new String[0]);
-    // ServletContextHandler -> core Handler conversion, behind the
-    // JettyServerFlavour seam (ee11's ServletContextHandler is itself a
-    // core Handler).
-    return JettyServerFlavour.toCoreHandler(app);
+    // ee11's ServletContextHandler is itself a core Handler.
+    return app;
   }
 }

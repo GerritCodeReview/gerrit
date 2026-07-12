@@ -1,4 +1,3 @@
-load("@com_googlesource_gerrit_bazlets//tools:servlet_flavour.bzl", "servlet_flavour_deps")
 load("@rules_java//java:defs.bzl", "java_library")
 load("@rules_shell//shell:sh_test.bzl", "sh_test")
 
@@ -15,47 +14,23 @@ filegroup(
     visibility = ["//visibility:public"],
 )
 
-# jakarta.servlet API for the EE11 release flavour (neverlink: the Jetty EE11
-# container provides it at runtime). Restricted to its direct users: the
-# toolchain binding, the Jetty ee11 adapter, and the ee11 test fakes.
+# jakarta.servlet API (neverlink: the Jetty container provides it at
+# runtime). Boundary code compiles against this.
 java_library(
-    name = "servlet-api-ee11",
+    name = "servlet-api",
     data = ["//lib:LICENSE-Apache2.0"],
     neverlink = 1,
-    visibility = [
-        "//lib/jetty:__pkg__",
-        "//tools/flavour_toolchain:__pkg__",
-    ],
+    visibility = ["//visibility:public"],
     exports = ["@external_deps//:jakarta_servlet_jakarta_servlet_api"],
 )
 
-# Non-neverlink jakarta servlet-api (bundled at runtime). Bound only by the
-# toolchain; runtime consumers use the neutral servlet-api-without-neverlink.
+# Non-neverlink jakarta servlet-api, bundled in the WAR by code that
+# packages the servlet API (e.g. //java/com/google/gerrit/pgm).
 java_library(
-    name = "servlet-api-without-neverlink-ee11",
-    data = ["//lib:LICENSE-Apache2.0"],
-    visibility = ["//tools/flavour_toolchain:__pkg__"],
-    exports = ["@external_deps//:jakarta_servlet_jakarta_servlet_api"],
-)
-
-# Flavour-neutral non-neverlink servlet API (bundled in the WAR), resolved by
-# the servlet-flavour toolchain. Used by code that packages the servlet API
-# into the WAR (e.g. //java/com/google/gerrit/pgm).
-servlet_flavour_deps(
     name = "servlet-api-without-neverlink",
-    license_deps = [":servlet-api-without-neverlink-ee11"],
-    part = "servlet_api_runtime",
+    data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-)
-
-# Flavour-neutral servlet API, backed by the servlet-flavour TOOLCHAIN and
-# resolved from the active //flags:flavour with no select() here. Boundary
-# code depends on this target, keeping it open for the next flavour (EE12).
-servlet_flavour_deps(
-    name = "servlet-api",
-    license_deps = [":servlet-api-ee11"],
-    part = "servlet_api",
-    visibility = ["//visibility:public"],
+    exports = ["@external_deps//:jakarta_servlet_jakarta_servlet_api"],
 )
 
 java_library(
@@ -106,18 +81,9 @@ java_library(
     runtime_deps = [":jgit"],
 )
 
-# Flavour-aware JGit servlet module: dependents use //lib:jgit-servlet and the
-# toolchain resolves JGit's canonical jakarta module.
-servlet_flavour_deps(
-    name = "jgit-servlet",
-    license_deps = [":jgit-servlet-ee11"],
-    part = "jgit_servlet",
-    visibility = ["//visibility:public"],
-)
-
-# Canonical jakarta.servlet JGit servlet module (JGit master).
+# JGit's jakarta.servlet module.
 java_library(
-    name = "jgit-servlet-ee11",
+    name = "jgit-servlet",
     data = ["//lib:LICENSE-jgit"],
     visibility = ["//visibility:public"],
     exports = ["@jgit//org.eclipse.jgit.http.server:jgit-servlet"],

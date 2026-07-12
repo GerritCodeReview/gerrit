@@ -38,26 +38,28 @@ pkg_war(
     doc = True,
 )
 
-# EE11 (jakarta.servlet) release flavours. `bazelisk build //:release` /
-# //:headless stay the EE8 default and are untouched. These build the same WARs
-# with flavour=ee11 forced via a configuration transition, emitting distinctly
-# named release-ee11.war / headless-ee11.war so both flavours can be built (and
-# published) side by side in one invocation.
+# Servlet release flavours. `bazelisk build //:release` / //:headless build
+# the EE11 (jakarta.servlet) default. The -ee8 targets build the same WARs
+# with flavour=ee8 forced via a configuration transition, emitting distinctly
+# named release-ee8.war / headless-ee8.war -- the transitional legacy
+# artifacts, deprecated for one release train; both flavours build side by
+# side in one invocation. No -ee11 name exists: the jakarta flavour was never
+# published under a suffixed name, so the unsuffixed targets simply became it.
 flavoured_war(
-    name = "release-ee11",
-    flavour = "ee11",
+    name = "release-ee8",
+    flavour = "ee8",
     war = ":release",
 )
 
 flavoured_war(
-    name = "gerrit-ee11",
-    flavour = "ee11",
+    name = "gerrit-ee8",
+    flavour = "ee8",
     war = ":gerrit",
 )
 
 flavoured_war(
-    name = "headless-ee11",
-    flavour = "ee11",
+    name = "headless-ee8",
+    flavour = "ee8",
     war = ":headless",
 )
 

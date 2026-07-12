@@ -1,6 +1,7 @@
 common --lockfile_mode=error
-# Switch to EE11 uncomment next line
-# --@@com_googlesource_gerrit_bazlets+//flags:flavour=ee11
+# EE11 (jakarta.servlet) is the default servlet flavour; the EE8 legacy
+# flavour builds via the -ee8 targets or --...//flags:flavour=ee8.
+common --@com_googlesource_gerrit_bazlets//flags:flavour=ee11
 # Enable Gerrit-tree-only plugin checks (standalone plugin builds skip them).
 common --@com_googlesource_gerrit_bazlets//flags:in_gerrit_tree=true
 common --incompatible_disallow_struct_provider_syntax=false

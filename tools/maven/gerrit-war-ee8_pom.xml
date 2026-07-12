@@ -1,11 +1,11 @@
 <project>
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.google.gerrit</groupId>
-  <artifactId>gerrit-plugin-api-ee11</artifactId>
+  <artifactId>gerrit-war-ee8</artifactId>
   <version>3.15.0-SNAPSHOT</version>
-  <packaging>jar</packaging>
-  <name>Gerrit Code Review - Plugin API (EE11/jakarta.servlet)</name>
-  <description>API for Gerrit Plugins, EE11 (jakarta.servlet) flavour</description>
+  <packaging>war</packaging>
+  <name>Gerrit Code Review - WAR (EE8/javax.servlet, legacy)</name>
+  <description>Gerrit WAR, EE8 (javax.servlet) legacy flavour</description>
   <url>https://www.gerritcodereview.com/</url>
 
   <licenses>

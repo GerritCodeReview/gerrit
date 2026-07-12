@@ -1,3 +1,4 @@
+load("@com_googlesource_gerrit_bazlets//tools:flavour.bzl", "flavoured_file")
 load("@rules_java//java:defs.bzl", "java_binary", "java_library")
 load("//tools/bzl:javadoc.bzl", "java_doc")
 
@@ -153,5 +154,34 @@ java_doc(
     libs = [":framework-lib"],
     pkgs = ["com.google.gerrit.acceptance"],
     title = "Gerrit Acceptance Test Framework Documentation",
+    visibility = ["//visibility:public"],
+)
+
+# EE8 (javax.servlet) legacy flavour of the acceptance-framework deploy
+# artifacts. The fat jar bundles the servlet-coupled runtime closure (httpd,
+# Jetty), so a standalone legacy plugin running acceptance tests against
+# gerrit-plugin-api-ee8 needs the matching framework flavour. Published as
+# gerrit-acceptance-framework-ee8 during the deprecation window.
+flavoured_file(
+    name = "framework-ee8",
+    testonly = True,
+    actual = ":framework_deploy.jar",
+    flavour = "ee8",
+    visibility = ["//visibility:public"],
+)
+
+flavoured_file(
+    name = "framework-ee8-sources",
+    testonly = True,
+    actual = ":libframework-lib-src.jar",
+    flavour = "ee8",
+    visibility = ["//visibility:public"],
+)
+
+flavoured_file(
+    name = "framework-ee8-javadoc",
+    testonly = True,
+    actual = ":framework-javadoc",
+    flavour = "ee8",
     visibility = ["//visibility:public"],
 )

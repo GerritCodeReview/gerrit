@@ -4,6 +4,8 @@ flavoured_tests(
     name = "httpd_tests",
     srcs = glob(["**/*.java"]),
     canonical = "ee11",
+    default_flavour = "ee11",
+    direction = "to_javax",
     deps = [
         "//java/com/google/gerrit/entities",
         "//java/com/google/gerrit/extensions:api",

@@ -25,12 +25,13 @@ js_library(
     ],
 )
 
-# Core plugins that ship an EE11 (jakarta.servlet) flavour target named
-# "<n>-ee11". Under --@com_googlesource_gerrit_bazlets//flags:flavour=ee11 the core bundle uses that jar instead
-# of the default javax one, whose own servlet sources cannot compile against the
-# jakarta classpath. The other core plugins are servlet-free and build unchanged
-# under the flag, so only the servlet-coupled ones are listed here.
-EE11_FLAVOURED_PLUGINS = [
+# Core plugins that ship a legacy EE8 (javax.servlet) flavour target named
+# "<n>-ee8". Under the EE11 default the core bundle uses the unsuffixed
+# jakarta jars; the release-ee8.war transition swaps in the -ee8 twins, whose
+# javax servlet sources cannot compile against the jakarta classpath. The
+# other core plugins are servlet-free (Gerrit-Flavour: any) and bundle the
+# same jar in both flavours, so only the servlet-coupled ones are listed.
+EE8_FLAVOURED_PLUGINS = [
     "gitiles",
     "plugin-manager",
 ]
@@ -39,21 +40,22 @@ genrule2(
     name = "core",
     srcs = select({
         "//tools:ee11": [
-            "//plugins/%s:%s-ee11" % (n, n) if n in EE11_FLAVOURED_PLUGINS else "//plugins/%s.jar" % (n if ":" in n else "%s:%s" % (n, n))
+            "//plugins/%s:%s" % (n, n) if n in EE8_FLAVOURED_PLUGINS else "//plugins/%s.jar" % (n if ":" in n else "%s:%s" % (n, n))
             for n in CORE_PLUGINS + CUSTOM_PLUGINS
         ],
         "//conditions:default": [
-            "//plugins/%s.jar" % (n if ":" in n else "%s:%s" % (n, n))
+            "//plugins/%s:%s-ee8" % (n, n) if n in EE8_FLAVOURED_PLUGINS else "//plugins/%s.jar" % (n if ":" in n else "%s:%s" % (n, n))
             for n in CORE_PLUGINS + CUSTOM_PLUGINS
         ],
     }),
     outs = ["core.zip"],
-    # The EE11 jars keep their "<n>-ee11.jar" filename so the WAR visibly carries
-    # the flavour (gitiles.jar in release.war vs gitiles-ee11.jar in
-    # release-ee11.war). The runtime plugin name is unchanged: the loader takes it
+    # The EE8 jars keep their "<n>-ee8.jar" filename so the WAR visibly
+    # carries the flavour (gitiles.jar in the default release.war vs
+    # gitiles-ee8.jar in the legacy release-ee8.war). The runtime plugin name
+    # is unchanged: the loader takes it
     # from the Gerrit-PluginName manifest entry (firstNonNull, see
-    # JarPluginProvider/PluginLoader), falling back to the filename only when that
-    # is absent -- and every EE11-flavoured core plugin sets Gerrit-PluginName.
+    # JarPluginProvider/PluginLoader), falling back to the filename only when
+    # that is absent -- and every flavoured core plugin sets Gerrit-PluginName.
     cmd = "mkdir -p $$TMP/WEB-INF/plugins;" +
           "for s in $(SRCS) ; do " +
           "ln -s $$ROOT/$$s $$TMP/WEB-INF/plugins;done;" +
@@ -222,29 +224,25 @@ java_doc(
     title = "Gerrit Review Plugin API Documentation",
 )
 
-# EE11 (jakarta.servlet) flavour of the plugin API deploy artifacts. Each wrapper
-# builds its EE8 counterpart under the flavour=ee11 self-transition, so the jakarta
-# jar/sources/javadoc are produced alongside the EE8 ones in a single invocation
-# with no command-line flag. tools/maven publishes these to Maven Central as
-# gerrit-plugin-api-ee11, so an EE11 plugin can be built standalone (outside the
-# Gerrit tree) against the jakarta plugin API -- the EE11 analogue of the standalone
-# build that consumes the default gerrit-plugin-api.
+# EE8 (javax.servlet) legacy flavour of the plugin API deploy artifacts,
+# published as gerrit-plugin-api-ee8 during the deprecation window so a legacy
+# EE8 plugin can still be built standalone against the javax plugin API.
 flavoured_file(
-    name = "plugin-api-ee11",
+    name = "plugin-api-ee8",
     actual = ":plugin-api_deploy.jar",
-    flavour = "ee11",
+    flavour = "ee8",
 )
 
 flavoured_file(
-    name = "plugin-api-ee11-sources",
+    name = "plugin-api-ee8-sources",
     actual = ":plugin-api-sources_deploy.jar",
-    flavour = "ee11",
+    flavour = "ee8",
 )
 
 flavoured_file(
-    name = "plugin-api-ee11-javadoc",
+    name = "plugin-api-ee8-javadoc",
     actual = ":plugin-api-javadoc",
-    flavour = "ee11",
+    flavour = "ee8",
 )
 
 copy_to_bin(

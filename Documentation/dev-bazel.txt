@@ -151,77 +151,77 @@ The output executable WAR will be placed in:
 ----
 
 [[ee11-flavour]]
-=== EE11 (jakarta.servlet) Flavour
+=== Servlet Flavours (EE11 default, EE8 legacy)
 
-Gerrit's default release is the EE8 flavour (`javax.servlet`, the Jetty 12
-ee8 adapter and Guice 6). An opt-in EE11 flavour (`jakarta.servlet`, Jetty 12
-ee11 and Guice 7) is produced from the *same source tree*, so both can ship
-from one branch.
+Gerrit's default release is the EE11 flavour (`jakarta.servlet`, the Jetty 12
+ee11 environment and Guice 7). A legacy EE8 flavour (`javax.servlet`, the
+Jetty 12 ee8 adapter and Guice 6) is produced from the *same source tree*
+during its deprecation window, so both ship from one branch.
 
-Each WAR target has an `-ee11` counterpart that builds the jakarta flavour.
-These targets carry their own configuration transition, so they build the
-EE11 flavour without any command-line flag -- and side by side with the
-default EE8 WARs in a single invocation:
+Each WAR target has an `-ee8` counterpart that builds the legacy javax
+flavour. These targets carry their own configuration transition, so they
+build the EE8 flavour without any command-line flag -- and side by side with
+the default EE11 WARs in a single invocation:
 
 ----
-  bazelisk build release release-ee11
+  bazelisk build release release-ee8
 ----
 
-The outputs are placed next to the EE8 WARs, with distinct names so both
+The outputs are placed next to the default WARs, with distinct names so both
 flavours coexist:
 
 ----
-  bazel-bin/release.war        # EE8 (javax.servlet), the default
-  bazel-bin/release-ee11.war   # EE11 (jakarta.servlet)
+  bazel-bin/release.war        # EE11 (jakarta.servlet), the default
+  bazel-bin/release-ee8.war    # EE8 (javax.servlet), legacy
 ----
 
-The same applies to `gerrit-ee11` and `headless-ee11`.
+The same applies to `gerrit-ee8` and `headless-ee8`. There are no `-ee11`
+target names: the jakarta flavour was never published under a suffixed name,
+so the unsuffixed targets simply became it.
 
 The flavour is selected by the string build setting
-`@com_googlesource_gerrit_bazlets//flags:flavour` (`ee8` default, `ee11`).
-The `-ee11` targets set it for their own subgraph, so you normally never set
-it by hand. As an escape hatch you can flip the *whole* build to one flavour:
+`@com_googlesource_gerrit_bazlets//flags:flavour` (`ee11` default via
+Gerrit's `.bazelrc`, `ee8`). The `-ee8` targets set it for their own
+subgraph, so you normally never set it by hand. As an escape hatch you can
+flip the *whole* build to one flavour:
 
 ----
-  bazelisk build --@com_googlesource_gerrit_bazlets//flags:flavour=ee11 release
+  bazelisk build --@com_googlesource_gerrit_bazlets//flags:flavour=ee8 release
 ----
 
 NOTE: the `.war` file name comes from the *target* name, not the flavour. The
 escape hatch reconfigures the `release` target **in place**, so it still emits
-`bazel-bin/release.war` -- now with jakarta contents -- and *not*
-`release-ee11.war`. The `-ee11` suffix in the file name comes only from the
-`-ee11` targets, which additionally rename their output so both flavours can sit
-in `bazel-bin/` at once. So to get a distinctly-named EE11 artifact, build the
-`-ee11` target rather than flipping the base target with the flag.
+`bazel-bin/release.war` -- now with javax contents -- and *not*
+`release-ee8.war`. The `-ee8` suffix in the file name comes only from the
+`-ee8` targets, which additionally rename their output so both flavours can sit
+in `bazel-bin/` at once. So to get a distinctly-named EE8 artifact, build the
+`-ee8` target rather than flipping the base target with the flag.
 
-Core plugins follow the same convention: a plugin with an EE11 flavour
-exposes a self-transitioning `-ee11` target, e.g.
+Core plugins follow the same convention: the unsuffixed target is the
+jakarta default and the legacy flavour is the self-transitioning `-ee8`
+twin, e.g.
 
 ----
-  bazelisk build //plugins/gitiles:gitiles //plugins/gitiles:gitiles-ee11
+  bazelisk build //plugins/gitiles:gitiles //plugins/gitiles:gitiles-ee8
 ----
 
 ==== Running the tests in both flavours
 
-The EE11 servlet libraries and their test targets (for example
-`//javatests/com/google/gerrit/httpd:httpd_tests-ee11`) only compile in the EE11
-configuration. They are marked `target_compatible_with` the EE11 flavour, so a
-plain default-flavour build or test **skips** them (Bazel reports them as
-incompatible, not as a failure) and the vanilla wildcard stays EE8-green:
+Each servlet-boundary suite exists once per flavour (for example
+`//javatests/com/google/gerrit/httpd:httpd_tests` for the EE11 default and
+`:httpd_tests-ee8` for the legacy flavour) and compiles only in its own
+configuration. Each is marked `target_compatible_with` its flavour, so the
+other flavour's wildcard **skips** it (Bazel reports it as incompatible, not
+as a failure). Since every servlet-bearing source is flavoured and
+`javax.servlet` exists only inside the `ee8/` overlay packages, both passes
+are plain wildcards:
 
 ----
-  # EE8 (default): the EE11-only targets are skipped automatically.
+  # EE11 (default): the EE8 twins are skipped automatically.
   bazelisk test //...
-----
 
-To exercise the EE11 (jakarta) code paths, run the EE11 test targets under the
-flavour flag:
-
-----
-  # EE11:
-  bazelisk test --@com_googlesource_gerrit_bazlets//flags:flavour=ee11 \
-    //javatests/com/google/gerrit/httpd:httpd_tests-ee11 \
-    //javatests/com/google/gerrit/util/http:http_tests-ee11
+  # EE8 (legacy): the same wildcard under the flag; EE11 suites are skipped.
+  bazelisk test --@com_googlesource_gerrit_bazlets//flags:flavour=ee8 //...
 ----
 
 So continuous integration runs the suite twice -- once in each flavour. This is

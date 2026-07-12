@@ -2,7 +2,8 @@ load("@com_googlesource_gerrit_bazlets//tools:flavour.bzl", "flavoured_java_libr
 
 flavoured_twin_alias(
     name = "testutil",
-    flavours = ["ee11"],
+    default_flavour = "ee11",
+    flavours = ["ee8"],
     visibility = ["//visibility:public"],
 )
 

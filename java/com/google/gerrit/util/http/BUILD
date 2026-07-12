@@ -10,6 +10,8 @@ flavoured_library(
     name = "http",
     srcs = [":srcs"],
     canonical = "ee11",
+    default_flavour = "ee11",
+    direction = "to_javax",
     deps = [
         "//lib:guava",
         "//lib:servlet-api",

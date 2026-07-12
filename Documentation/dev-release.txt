@@ -74,52 +74,15 @@ the `gerrit-security-fixes` project be taken over into the public
 `gerrit` project.
 
 [[ee11-flavour]]
-== EE11 (jakarta.servlet) Release Flavour
+== Servlet Flavour
 
-Gerrit is released in two flavours built from the *same* source tree and
-the *same* tag:
-
-* the default *EE11* flavour (`jakarta.servlet`, Jetty 12 ee11 and Guice 7)
-  -- `release.war`; and
-* a legacy *EE8* flavour (`javax.servlet`, the Jetty 12 ee8 adapter and
-  Guice 6) -- `release-ee8.war`, deprecated, published for one release train.
-
-Both are produced in a single build invocation; the `-ee8` WAR targets carry
-their own configuration transition and need no command-line flag:
-
-----
-  bazelisk build release release-ee8
-----
-
-This yields `bazel-bin/release.war` (EE11) and `bazel-bin/release-ee8.war`
-(EE8) side by side. The default `release.war` bundles the jakarta core
-plugins and the jakarta servlet/Jetty/Guice tiers; `release-ee8.war` keeps
-the same servlet dependency tier and jar set as the pre-flip EE8 default,
-which its jar-set guard test pins.
-
-When cutting a release, publish both flavours under the same version. The two
-flavours never share a classpath, so they are distributed as separate Maven
-Central artifacts: the unsuffixed artifactId is the jakarta default and the
-legacy flavour carries an `-ee8` suffix (the same scheme JGit and Gitiles
-use):
-
-[options="header"]
-|===
-|EE11 (default) |EE8 (legacy)
-|`com.google.gerrit:gerrit-war` |`com.google.gerrit:gerrit-war-ee8`
-|`com.google.gerrit:gerrit-plugin-api` |`com.google.gerrit:gerrit-plugin-api-ee8`
-|===
-
-The `gerrit-plugin-api-ee8` artifact is published so that legacy plugins can
-still be built *standalone* (outside the Gerrit tree) against the javax
-plugin API, the same way standalone builds consume the default
-`gerrit-plugin-api`. Both flavours are produced and staged in one invocation
--- the EE8 artifacts come from the self-transitioning `//:release-ee8` and
-`//plugins:plugin-api-ee8` targets, so `tools/maven/api.sh` stages the EE11
-and EE8 artifacts side by side. For the
-build-system details (the flavour build setting, the self-transitioning `-ee11`
-targets and the dependency split) see
-link:dev-bazel.html#ee11-flavour[Building the EE11 flavour].
+Gerrit is released on the EE11 servlet stack (`jakarta.servlet` 6.1,
+Jetty 12 ee11, Guice 7): `release.war` and the unsuffixed Maven
+artifacts (`gerrit-war`, `gerrit-plugin-api`,
+`gerrit-acceptance-framework`, `gerrit-extension-api`). The legacy
+EE8 (`javax.servlet`) flavour was retired after its one-release-train
+deprecation window; javax consumers stay on the last released
+`-ee8`-suffixed artifacts.
 
 [[upload-final-release-notes]]
 == Upload the final Release Notes change

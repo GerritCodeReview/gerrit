@@ -688,10 +688,9 @@ public class JettyServer {
     ds.setInitParameter("gzip", "true");
 
     app.setWelcomeFiles(new String[0]);
-    // The ServletContextHandler -> core Handler conversion is the one structural
-    // EE8/EE11 divergence: ee8's ServletContextHandler is a
-    // Supplier<org.eclipse.jetty.server.Handler> (unwrap with get()), while
-    // ee11's is itself a Handler. Isolated behind the JettyServerFlavour seam.
+    // ServletContextHandler -> core Handler conversion, behind the
+    // JettyServerFlavour seam (ee11's ServletContextHandler is itself a
+    // core Handler).
     return JettyServerFlavour.toCoreHandler(app);
   }
 }

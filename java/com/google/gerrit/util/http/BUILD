@@ -1,4 +1,4 @@
-load("@com_googlesource_gerrit_bazlets//tools:flavour.bzl", "flavoured_library")
+load("@rules_java//java:defs.bzl", "java_library")
 
 filegroup(
     name = "srcs",
@@ -6,12 +6,10 @@ filegroup(
     visibility = ["//visibility:public"],
 )
 
-flavoured_library(
+java_library(
     name = "http",
     srcs = [":srcs"],
-    canonical = "ee11",
-    default_flavour = "ee11",
-    direction = "to_javax",
+    visibility = ["//visibility:public"],
     deps = [
         "//lib:guava",
         "//lib:servlet-api",

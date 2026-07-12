@@ -1,4 +1,3 @@
-load("@com_googlesource_gerrit_bazlets//tools:flavour.bzl", "flavoured_file")
 load("@rules_shell//shell:sh_test.bzl", "sh_test")
 load("//tools/bzl:asciidoc.bzl", "documentation_attributes", "genasciidoc", "genasciidoc_zip")
 load("//tools/bzl:license.bzl", "license_map")
@@ -46,33 +45,10 @@ filegroup(
     ],
 )
 
-# Flavour-aware allowlist: flips to the EE11 list under the flavour flag.
-alias(
-    name = "release_war_jars_allowlist",
-    actual = select({
-        "//tools:ee11": ":release_ee11_war_jars.txt",
-        "//conditions:default": ":release_war_jars.txt",
-    }),
-)
-
 war_jars_allowlist_test(
     name = "check_release_war_jars",
-    allowlist = ":release_war_jars_allowlist",
-    war_jars_manifest = "//:release.war.jars.txt",
-)
-
-# Self-transitioning EE8 jar-set guard: plain bazel test keeps the legacy
-# release-ee8.war jar set pinned to the pre-flip release.war set.
-flavoured_file(
-    name = "release-ee8.war.jars.txt",
-    actual = "//:release.war.jars.txt",
-    flavour = "ee8",
-)
-
-war_jars_allowlist_test(
-    name = "check_release_ee8_war_jars",
     allowlist = ":release_war_jars.txt",
-    war_jars_manifest = ":release-ee8.war.jars.txt",
+    war_jars_manifest = "//:release.war.jars.txt",
 )
 
 license_map(

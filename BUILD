@@ -1,4 +1,3 @@
-load("@com_googlesource_gerrit_bazlets//tools:flavour.bzl", "flavoured_war")
 load("@com_googlesource_gerrit_bazlets//tools:genrule2.bzl", "genrule2")
 load("@npm//:defs.bzl", "npm_link_all_packages")
 load("//tools/bzl:pkg_war.bzl", "pkg_war")
@@ -36,31 +35,6 @@ pkg_war(
     name = "release",
     context = ["//plugins:core"],
     doc = True,
-)
-
-# Servlet release flavours. `bazelisk build //:release` / //:headless build
-# the EE11 (jakarta.servlet) default. The -ee8 targets build the same WARs
-# with flavour=ee8 forced via a configuration transition, emitting distinctly
-# named release-ee8.war / headless-ee8.war -- the transitional legacy
-# artifacts, deprecated for one release train; both flavours build side by
-# side in one invocation. No -ee11 name exists: the jakarta flavour was never
-# published under a suffixed name, so the unsuffixed targets simply became it.
-flavoured_war(
-    name = "release-ee8",
-    flavour = "ee8",
-    war = ":release",
-)
-
-flavoured_war(
-    name = "gerrit-ee8",
-    flavour = "ee8",
-    war = ":gerrit",
-)
-
-flavoured_war(
-    name = "headless-ee8",
-    flavour = "ee8",
-    war = ":headless",
 )
 
 pkg_war(

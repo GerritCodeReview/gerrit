@@ -1,4 +1,4 @@
-load("@com_googlesource_gerrit_bazlets//tools:flavour.bzl", "flavoured_library")
+load("@rules_java//java:defs.bzl", "java_library")
 
 filegroup(
     name = "srcs",
@@ -6,14 +6,12 @@ filegroup(
     visibility = ["//visibility:public"],
 )
 
-flavoured_library(
+java_library(
     name = "openid",
     srcs = [":srcs"],
-    canonical = "ee11",
-    default_flavour = "ee11",
-    direction = "to_javax",
     resource_strip_prefix = "resources",
     resources = ["//resources/com/google/gerrit/httpd/auth/openid"],
+    visibility = ["//visibility:public"],
     deps = [
         "//java/com/google/gerrit/common:annotations",
         "//java/com/google/gerrit/common:server",

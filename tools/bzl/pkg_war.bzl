@@ -72,8 +72,7 @@ THIRD_PARTY_EXCLUDE_ID_EXACT = [
     "libjgit-archive",
     "libjgit-servlet",
     # Core WARs do not package JGit LFS server jars today. If that changes,
-    # exclude both the canonical and EE8 LFS jars here as Gerrit-internal jars.
-    "libjgit-servlet-ee8",
+    # exclude them here as Gerrit-internal jars.
     "libquery_parser",
     "libssh-apache",
     "log4j-config",
@@ -332,9 +331,5 @@ def pkg_war(name, ui = "polygerrit", context = [], doc = False, **kwargs):
             "//java:gerrit-main-class_deploy.jar",
             "//webapp:assets",
         ],
-        flavour_suffix = select({
-            "//tools:ee11": "-ee11",
-            "//conditions:default": "",
-        }),
         **kwargs
     )

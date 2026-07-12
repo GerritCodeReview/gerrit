@@ -50,7 +50,6 @@ register_toolchains("//tools:all")
 # on its //flags:<flavour> config_setting, so the active `//flags:flavour` value
 # picks the matching servlet bundle with no --extra_toolchains needed.
 register_toolchains(
-    "//tools/flavour_toolchain:servlet_ee8_toolchain",
     "//tools/flavour_toolchain:servlet_ee11_toolchain",
 )
 

@@ -12,11 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// EE11 (jakarta.servlet) implementation of the Jetty-12 flavour seam used by the
-// flavour-neutral JettyServer. Same FQDN (package com.google.gerrit.pgm.http.jetty)
-// as the EE8 JettyServerFlavour; only one is on a classpath at a time. Excluded
-// from the to_jakarta transform (its body differs in real Jetty-12 ee11 API, not
-// just imports).
+// Jetty-12 seam used by JettyServer for the ServletContextHandler -> core
+// Handler conversion. A remnant of the two-flavour era, when a hand-written
+// EE8 twin with the same FQDN diverged here; kept as the single place that
+// touches the ee11 servlet-handler API directly.
 package com.google.gerrit.pgm.http.jetty;
 
 import org.eclipse.jetty.ee11.servlet.ServletContextHandler;

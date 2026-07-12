@@ -1,11 +1,8 @@
-load("@com_googlesource_gerrit_bazlets//tools:flavour.bzl", "flavoured_tests")
+load("//tools/bzl:junit.bzl", "junit_tests")
 
-flavoured_tests(
+junit_tests(
     name = "httpd_tests",
     srcs = glob(["**/*.java"]),
-    canonical = "ee11",
-    default_flavour = "ee11",
-    direction = "to_javax",
     deps = [
         "//java/com/google/gerrit/entities",
         "//java/com/google/gerrit/extensions:api",

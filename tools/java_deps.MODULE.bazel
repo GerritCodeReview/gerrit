@@ -155,6 +155,7 @@ _GERRIT_FORCED_ARTIFACTS = [
 # ships a default jar with an updated shaded ASM that reads current class
 # files: https://github.com/google/guice/issues/1926
 _GUICE_FAT_JAR_CONSUMERS = [
+    "com.google.gitiles:gitiles-servlet",
     "com.google.inject.extensions:guice-assistedinject",
     "com.google.inject.extensions:guice-servlet",
     "org.openid4java:openid4java",
@@ -216,63 +217,3 @@ maven.from_toml(
 )
 use_repo(maven, "external_deps")
 
-# --- EE11 (jakarta) flavour: isolated Guice 7 resolution ----------------------
-#
-# Guice 7 / guice-servlet 7 is the jakarta.servlet-compatible DI + servlet tier
-# for the EE11 release flavour. It cannot live in external_deps because it is the
-# SAME Maven GA as the core Guice 6 (com.google.inject:guice); rules_jvm_external
-# resolves exactly one version per GA per resolution and duplicate_version_warning
-# = "error" forbids two. Guice 7 also switches @Inject from javax.inject to
-# jakarta.inject, so the whole DI/inject cluster is isolated together here. The
-# EE8/default WAR keeps Guice 6 from external_deps; the EE11 WAR consumes
-# @external_deps_ee11. See the servlet-flavoured-release design docs.
-maven.install(
-    name = "external_deps_ee11",
-    artifacts = [],
-    duplicate_version_warning = "error",
-    # Guice 7 transitively pulls an older Guava (31.0.1) + failureaccess +
-    # j2objc. Gerrit core already provides Guava 33.5.0 in the WAR, so exclude
-    # them here to avoid two Guava versions in the EE11 WAR. external_deps_ee11
-    # then contributes only the Guice/jakarta-inject cluster.
-    excluded_artifacts = [
-        "com.google.guava:guava",
-        "com.google.guava:failureaccess",
-        "com.google.guava:listenablefuture",
-        "com.google.j2objc:j2objc-annotations",
-    ],
-    fail_if_repin_required = True,
-    fail_on_missing_checksum = True,
-    fetch_sources = True,
-    lock_file = "//:external_deps_ee11.lock.json",
-    repositories = [
-        "https://repo1.maven.org/maven2",
-        # gitiles-servlet:2.0.0 (jakarta) is published only here, not Central.
-        "https://gerrit-maven.storage.googleapis.com",
-    ],
-    version_conflict_policy = "pinned",
-)
-maven.from_toml(
-    name = "external_deps_ee11",
-    libs_versions_toml = "//tools:nongoogle_ee11.toml",
-)
-
-# Same unshaded-Guice rule as _GUICE_FAT_JAR_CONSUMERS above, for the EE11
-# resolution: guice-library uses the "classes" classifier (the ASM shaded into
-# the fat Guice 7 jar cannot read Java 25 class files either), so nothing in
-# this repo may pull the plain com.google.inject:guice transitively.
-_GUICE_FAT_JAR_CONSUMERS_EE11 = [
-    "com.google.inject.extensions:guice-assistedinject",
-    "com.google.inject.extensions:guice-servlet",
-    "com.google.gitiles:gitiles-servlet",
-]
-
-[
-    maven.amend_artifact(
-        name = "external_deps_ee11",
-        coordinates = coord,
-        exclusions = ["com.google.inject:guice"],
-    )
-    for coord in _GUICE_FAT_JAR_CONSUMERS_EE11
-]
-
-use_repo(maven, "external_deps_ee11")

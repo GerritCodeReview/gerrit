@@ -1,24 +1,20 @@
-load("@com_googlesource_gerrit_bazlets//tools:flavour.bzl", "flavoured_junit_tests", "flavoured_tests")
+load("//tools/bzl:junit.bzl", "junit_tests")
 load("//tools/bzl:license.bzl", "license_test")
 
-# Cookie.setAttribute/getAttribute exist only in Servlet 6 (jakarta), so the
-# SameSiteFilter tests cannot have a generated javax twin; they compile and
-# run only under the ee11 flavour (the ee8 overlay filter uses the
-# setComment fallback instead).
+# The SameSiteFilter tests stay a separate suite (a remnant of the
+# two-flavour era, when Servlet 6 Cookie.setAttribute had no javax twin);
+# they carry their own embedded-Jetty server deps.
 SERVLET6_ONLY_TESTS = [
     "http/jetty/SameSiteFilterServerTest.java",
     "http/jetty/SameSiteFilterTest.java",
 ]
 
-flavoured_tests(
+junit_tests(
     name = "pgm_tests",
     srcs = glob(
         ["**/*.java"],
         exclude = SERVLET6_ONLY_TESTS,
     ),
-    canonical = "ee11",
-    default_flavour = "ee11",
-    direction = "to_javax",
     deps = [
         "//java/com/google/gerrit/pgm/http/jetty",
         "//java/com/google/gerrit/pgm/init/api",
@@ -44,10 +40,9 @@ license_test(
     target = "//java/com/google/gerrit/pgm",
 )
 
-flavoured_junit_tests(
+junit_tests(
     name = "servlet6_only_tests",
     srcs = glob(SERVLET6_ONLY_TESTS),
-    flavour = "ee11",
     deps = [
         "//java/com/google/gerrit/pgm/http/jetty",
         "//java/com/google/gerrit/pgm/init/api",

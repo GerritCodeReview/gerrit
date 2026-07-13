@@ -173,6 +173,36 @@ suite('gr-comment-thread tests', () => {
     );
   });
 
+  test('focuses commentBox when it is NOT a new draft', async () => {
+    const thread = createThread(c1);
+    const element = await fixture(html`
+      <gr-comment-thread
+        .thread=${thread}
+        .shouldScrollIntoView=${true}
+      ></gr-comment-thread>
+    `);
+    await element.updateComplete;
+    await new Promise(resolve => setTimeout(resolve, 0));
+
+    const commentBox = queryAndAssert<HTMLElement>(element, '.comment-box');
+    assert.equal(element.shadowRoot?.activeElement, commentBox);
+  });
+
+  test('does not focus commentBox when it IS a new draft', async () => {
+    const thread = createThread(createNewDraft());
+    const element = await fixture(html`
+      <gr-comment-thread
+        .thread=${thread}
+        .shouldScrollIntoView=${true}
+      ></gr-comment-thread>
+    `);
+    await element.updateComplete;
+    await new Promise(resolve => setTimeout(resolve, 0));
+
+    const commentBox = queryAndAssert<HTMLElement>(element, '.comment-box');
+    assert.notEqual(element.shadowRoot?.activeElement, commentBox);
+  });
+
   test('comment box spans 100% of container width', async () => {
     const wrapper = await fixture(html`
       <div style="width: 500px;">

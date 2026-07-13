@@ -85,4 +85,26 @@ suite('gr-checks-chip test', () => {
       `
     );
   });
+
+  test('renders AI icon', async () => {
+    element.text = 'AI Check';
+    element.statusOrCategory = Category.ERROR;
+    element.isAi = true;
+    await element.updateComplete;
+    assert.shadowDom.equal(
+      element,
+      /* HTML */ `
+        <div
+          aria-label="error for check AI Check"
+          class="checksChip error font-small"
+          role="link"
+          tabindex="0"
+        >
+          <gr-icon icon="ai"></gr-icon>
+          <div class="text">AI Check</div>
+        </div>
+      `
+    );
+  });
 });
+

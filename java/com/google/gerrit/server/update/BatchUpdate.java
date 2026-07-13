@@ -57,6 +57,7 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.ServiceUserClassifier;
 import com.google.gerrit.server.change.NotifyResolver;
+import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.extensions.events.AttentionSetObserver;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
@@ -74,6 +75,7 @@ import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -85,8 +87,12 @@ import java.util.Optional;
 import java.util.TreeMap;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.NullProgressMonitor;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.PushCertificate;
@@ -286,6 +292,7 @@ public class BatchUpdate implements AutoCloseable {
 
   private final BatchUpdates batchUpdates;
   private final GitRepositoryManager repoManager;
+  private final AllProjectsName allProjectsName;
   private final AccountCache accountCache;
   private final ChangeData.Factory changeDataFactory;
   private final ChangeNotes.Factory changeNotesFactory;
@@ -324,6 +331,7 @@ public class BatchUpdate implements AutoCloseable {
   BatchUpdate(
       BatchUpdates batchUpdates,
       GitRepositoryManager repoManager,
+      AllProjectsName allProjectsName,
       @GerritPersonIdent PersonIdent serverIdent,
       AccountCache accountCache,
       ChangeData.Factory changeDataFactory,
@@ -342,6 +350,7 @@ public class BatchUpdate implements AutoCloseable {
     this.gerritConfig = gerritConfig;
     this.batchUpdates = batchUpdates;
     this.repoManager = repoManager;
+    this.allProjectsName = allProjectsName;
     this.accountCache = accountCache;
     this.changeDataFactory = changeDataFactory;
     this.changeNotesFactory = changeNotesFactory;
@@ -667,6 +676,84 @@ public class BatchUpdate implements AutoCloseable {
             .collect(toImmutableList());
       }
       return indexFutures.build();
+    }
+
+    void persistIndexIntents() throws IOException {
+      if (dryrun) {
+        return;
+      }
+      try (Repository allProjects = repoManager.openRepository(allProjectsName)) {
+        BatchRefUpdate bru = allProjects.getRefDatabase().newBatchUpdate();
+        bru.setAtomic(false);
+        for (Map.Entry<Change.Id, ChangeResult> e : results.entrySet()) {
+          if (e.getValue() == ChangeResult.SKIPPED) {
+            continue;
+          }
+          ObjectId intentBlobId =
+              insertPendingIndexBlob(allProjects, project.get(), e.getKey().get(), e.getValue());
+          bru.addCommand(
+              new ReceiveCommand(
+                  ObjectId.zeroId(), intentBlobId, RefNames.pendingIndexRef(e.getKey())));
+        }
+
+        try (RevWalk rw = new RevWalk(allProjects)) {
+          bru.execute(rw, NullProgressMonitor.INSTANCE);
+        }
+        ImmutableList<String> failures =
+            bru.getCommands().stream()
+                .filter(cmd -> cmd.getResult() != ReceiveCommand.Result.OK)
+                .map(cmd -> cmd.getRefName() + ": " + cmd.getResult())
+                .collect(toImmutableList());
+        if (!failures.isEmpty()) {
+          throw new IOException("Failed to write pending index intents: " + failures);
+        }
+      }
+    }
+
+    void removeIndexIntents() {
+      if (dryrun) {
+        return;
+      }
+      try (Repository allProjects = repoManager.openRepository(allProjectsName)) {
+        BatchRefUpdate bru = allProjects.getRefDatabase().newBatchUpdate();
+        bru.setAtomic(false);
+        for (Map.Entry<Change.Id, ChangeResult> e : results.entrySet()) {
+          if (e.getValue() == ChangeResult.SKIPPED) {
+            continue;
+          }
+          String refName = RefNames.pendingIndexRef(e.getKey());
+          Ref existingRef = allProjects.exactRef(refName);
+          if (existingRef != null) {
+            bru.addCommand(
+                new ReceiveCommand(existingRef.getObjectId(), ObjectId.zeroId(), refName));
+          }
+        }
+        if (bru.getCommands().isEmpty()) {
+          return;
+        }
+        try (RevWalk rw = new RevWalk(allProjects)) {
+          bru.execute(rw, NullProgressMonitor.INSTANCE);
+        }
+      } catch (IOException e) {
+        logger.atWarning().withCause(e).log(
+            "Failed to remove pending index intents for project %s", project);
+      }
+    }
+
+    private static ObjectId insertPendingIndexBlob(
+        Repository repo, String projectName, int changeId, ChangeResult operation)
+        throws IOException {
+      // "project\tchangeId\toperation\ttimestampMillis"
+      // The timestamp lets the scanner skip intents that are recent enough
+      String op = operation == ChangeResult.DELETED ? "delete" : "index";
+      long now = System.currentTimeMillis();
+      byte[] content =
+          (projectName + "\t" + changeId + "\t" + op + "\t" + now).getBytes(StandardCharsets.UTF_8);
+      try (ObjectInserter ins = repo.newObjectInserter()) {
+        ObjectId id = ins.insert(Constants.OBJ_BLOB, content);
+        ins.flush();
+        return id;
+      }
     }
   }
 

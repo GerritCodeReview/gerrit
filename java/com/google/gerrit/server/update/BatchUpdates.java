@@ -31,6 +31,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.index.change.PendingIndexUpdate;
 import com.google.gerrit.server.notedb.LimitExceededException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -83,10 +84,12 @@ public class BatchUpdates {
   }
 
   private final ChangeData.Factory changeDataFactory;
+  private final PendingIndexUpdate pendingIndexUpdate;
 
   @Inject
-  BatchUpdates(ChangeData.Factory changeDataFactory) {
+  BatchUpdates(ChangeData.Factory changeDataFactory, PendingIndexUpdate pendingIndexUpdate) {
     this.changeDataFactory = changeDataFactory;
+    this.pendingIndexUpdate = pendingIndexUpdate;
   }
 
   @CanIgnoreReturnValue
@@ -100,9 +103,10 @@ public class BatchUpdates {
 
     checkDifferentProject(updates);
 
+    List<ListenableFuture<ChangeData>> indexFutures = new ArrayList<>();
+    List<ChangesHandle> changesHandles = new ArrayList<>(updates.size());
+    long threadId = Thread.currentThread().threadId();
     try {
-      List<ListenableFuture<ChangeData>> indexFutures = new ArrayList<>();
-      List<ChangesHandle> changesHandles = new ArrayList<>(updates.size());
       try {
         for (BatchUpdate u : updates) {
           u.executeUpdateRepo();
@@ -110,6 +114,11 @@ public class BatchUpdates {
         notifyAfterUpdateRepo(listeners);
         for (BatchUpdate u : updates) {
           changesHandles.add(u.executeChangeOps(listeners, dryrun));
+        }
+        if (!dryrun && pendingIndexUpdate.isEnabled()) {
+          for (ChangesHandle h : changesHandles) {
+            h.writeIndexIntents(pendingIndexUpdate, threadId);
+          }
         }
         for (ChangesHandle h : changesHandles) {
           h.execute();
@@ -137,6 +146,12 @@ public class BatchUpdates {
       updates.forEach(BatchUpdate::fireRefChangeEvents);
 
       if (!dryrun) {
+        if (pendingIndexUpdate.isEnabled()) {
+          for (ChangesHandle h : changesHandles) {
+            h.deleteIndexIntents(pendingIndexUpdate, threadId);
+          }
+        }
+
         for (BatchUpdate u : updates) {
           u.executePostOps(changeDatas);
         }

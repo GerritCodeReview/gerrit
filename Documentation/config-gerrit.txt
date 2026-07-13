@@ -4157,6 +4157,40 @@ Defaults to `5m`.
 link:#schedule-configuration-examples[Schedule examples] can be found
 in the link:#schedule-configuration[Schedule Configuration] section.
 
+[[index.staleChangeRecovery]]index.staleChangeRecovery::
++
+Whether to enable automatic recovery of change index updates that were not
+completed due to a user interrupt or a crash.
++
+When enabled, Gerrit writes a per-change intent file under
+`$site_path/data/pending-index/<pid>_<startTime>/<threadId>/<hash>` before each
+NoteDb update and removes it once the index write succeeds. On startup, any
+intent files left behind by a previously crashed process are recovered
+immediately. A background scanner then periodically picks up intent files whose
+writer thread within the current process is no longer alive, reindexing the
+affected changes automatically.
++
+Disabling this also disables both the startup recovery and the background
+scanner, so any index inconsistencies caused by a crash must be resolved with a
+manual link:cmd-index-changes.html[reindex].
++
+> **NOTE**: The stale change recovery is enabled only when `index.commitWithin`
+> is set to zero and `index.indexChangesAsync` is false. By default, Lucene flush
+> to disk is deferred until the `commitWithin` interval elapses, making the stale
+> change recovery ineffective.
++
+Defaults to `false`.
+
+[[index.staleChangeRecoveryInterval]]index.staleChangeRecoveryInterval::
++
+How often the background scanner checks for dead-thread intent files within the
+current process. Recovery of intent files from a previously crashed process
+happens once at startup and is not affected by this interval.
++
+Only used when link:#index.staleChangeRecovery[index.staleChangeRecovery] is `true`.
++
+Defaults to `5m`.
+
 ==== Lucene configuration
 
 Open and closed changes are indexed in separate indexes named

@@ -722,6 +722,10 @@ export class GrCommentThread extends LitElement {
   }
 
   override firstUpdated() {
+    const isNewDraft =
+      this.thread &&
+      isDraft(this.getFirstComment()) &&
+      (this.getFirstComment()?.message ?? '').length === 0;
     if (this.shouldScrollIntoView) {
       whenRendered(this, () => {
         this.expandCollapseComments(false);

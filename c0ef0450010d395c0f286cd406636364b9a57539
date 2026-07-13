@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "25f75acc_5007fe7c",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 932,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-07-13T02:41:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bca55e9c_6980a4d3",
+      "revId": "c0ef0450010d395c0f286cd406636364b9a57539",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "09c4e6a9_6b65d355",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-06-08T17:04:43Z",
       "side": 1,
       "message": "Should this potentially be done in parallel with the building to avoid delaying to buidling?",
+      "revId": "c0ef0450010d395c0f286cd406636364b9a57539",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9b9d466_8e79d0b1",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-07-13T02:41:22Z",
+      "side": 1,
+      "message": "I\u0027ve tested this and this reduced the runtime from 22 to 19-21mins which is higher than ~16 mins it took when we have done them sequentially.",
+      "parentUuid": "09c4e6a9_6b65d355",
       "revId": "c0ef0450010d395c0f286cd406636364b9a57539",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

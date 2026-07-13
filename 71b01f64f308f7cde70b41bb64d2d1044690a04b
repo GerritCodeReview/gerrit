@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15ab8594_cf6e4e80",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-07-13T21:55:25Z",
+      "side": 1,
+      "message": "Please fix this WARNING reported by gerrit-hygiene-operations: [gerrit-hygiene-operations] The commit message is missing the mandatory `Release...\n\n[gerrit-hygiene-operations] The commit message is missing the mandatory `Release-Notes:` footer.\n\n**Suggestion**\n\nPlease append a `Release-Notes:` footer to your commit message. If a public changelog entry is not needed for this update, you can simply append `Release-Notes: skip`.\n\nExample:\n```\nRelease-Notes: skip\nChange-Id: Ie2f3c22bdaa2ed80350f058c3df1b617f33c7d78\n```",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 0
+      },
+      "revId": "71b01f64f308f7cde70b41bb64d2d1044690a04b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c2fbc69_7d8c7375",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-07-13T21:55:25Z",
+      "side": 1,
+      "message": "(Haven\u0027t looked at the change yet but..)\n\nplease include the Google-Bug-Id: b/xxx in the commit message",
+      "revId": "71b01f64f308f7cde70b41bb64d2d1044690a04b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

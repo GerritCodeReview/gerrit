@@ -112,6 +112,9 @@ public class BatchUpdates {
           changesHandles.add(u.executeChangeOps(listeners, dryrun));
         }
         for (ChangesHandle h : changesHandles) {
+          h.persistIndexIntents();
+        }
+        for (ChangesHandle h : changesHandles) {
           h.execute();
           if (h.requiresReindex()) {
             indexFutures.addAll(h.startIndexFutures());
@@ -130,6 +133,10 @@ public class BatchUpdates {
               // filter out null values that were returned for change deletions
               .filter(Objects::nonNull)
               .collect(toMap(cd -> cd.change().getId(), Function.identity()));
+
+      for (ChangesHandle h : changesHandles) {
+        h.removeIndexIntents();
+      }
 
       // Fire ref update events only after all mutations are finished, since callers may assume a
       // patch set ref being created means the change was created, or a branch advancing meaning

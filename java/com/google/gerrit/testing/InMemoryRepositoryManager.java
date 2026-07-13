@@ -125,6 +125,7 @@ public class InMemoryRepositoryManager implements GitRepositoryManager {
               .addSpecialRef(PublicKeyStore.REFS_GPG_KEYS::equals, GPG_KEYS_MODIFICATION)
               .addSpecialRef(RefNames::isRefsDraftsComments, CHANGE_MODIFICATION)
               .addSpecialRef(RefNames::isRefsStarredChanges, CHANGE_MODIFICATION)
+              .addSpecialRef(RefNames::isPendingIndexRef, CHANGE_MODIFICATION)
               // A user can create a change for updating a group and then merge it.
               // The GroupsIT#pushToGroupBranchForReviewForNonAllUsersRepoAndSubmit test verifies
               // this scenario.

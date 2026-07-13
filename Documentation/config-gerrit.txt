@@ -4157,6 +4157,49 @@ Defaults to `5m`.
 link:#schedule-configuration-examples[Schedule examples] can be found
 in the link:#schedule-configuration[Schedule Configuration] section.
 
+[[index.staleChangeRecovery]]index.staleChangeRecovery::
++
+Whether to enable automatic recovery of change index updates that were not
+completed due to a user interrupt or a crash.
++
+When enabled, Gerrit records a write-ahead intent ref in All-Projects
+before each notdb update and removes it once the write succeeds. A
+background scanner picks up any surviving intent refs on startup and on
+each subsequent scan interval, reindexing the affected changes automatically.
++
+Disabling this also disables the background scanner, so any index
+inconsistencies caused by a crash must be resolved with a manual
+link:pgm-reindex.html[offline reindex].
++
+Defaults to `false`.
+
+[[index.staleChangeRecoveryGracePeriod]]index.staleChangeRecoveryGracePeriod::
++
+How long the background scanner waits before treating a pending-index intent
+ref as stale and triggers recovery.
++
+Intent refs written by an in-flight `BatchUpdate` are indistinguishable from
+ones left behind by a crash until this period has elapsed. Setting the value
+too low risks the scanner racing with a running `BatchUpdate` and scheduling
+a redundant reindex; setting it too high delays recovery after a crash.
++
+The value is a standard Gerrit time unit string (e.g. `30s`, `2m`).
++
+Defaults to `1m`.
+
+[[index.staleChangeRecoveryInterval]]index.staleChangeRecoveryInterval::
++
+How often the background scanner checks for change index updates that were stale.
++
+When a change is updated, Gerrit records an intent ref under
+`refs/pending-index/<changeId>` in All-Projects before updating the search
+index. The ref is removed once the index write succeeds. If the server is
+interrupted between those two steps, the surviving intent ref is picked up
+by this scanner on the next run and the affected change is reindexed
+automatically.
++
+Defaults to `5m`.
+
 ==== Lucene configuration
 
 Open and closed changes are indexed in separate indexes named

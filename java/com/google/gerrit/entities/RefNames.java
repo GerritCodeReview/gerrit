@@ -110,6 +110,16 @@ public class RefNames {
   public static final String REFS_STARRED_CHANGES = "refs/starred-changes/";
 
   /**
+   * Pending index intents for changes written to git but not yet reflected in the change index.
+   *
+   * <p>A ref in this namespace is a write-ahead log (WAL) entry: it is created before the NoteDb
+   * git write and deleted after the index write succeeds. If the process is interrupted between
+   * those two steps, the surviving ref lets a recovery scan reindex the change. The ref points to a
+   * small sentinel blob and carries no other semantic data.
+   */
+  public static final String REFS_PENDING_INDEX = "refs/pending-index/";
+
+  /**
    * List of refs managed by Gerrit. Covers all Gerrit internal refs.
    *
    * <p><b>Caution</b> Any ref not in this list will be served if the user was granted a READ
@@ -127,7 +137,8 @@ public class RefNames {
           REFS_GROUPNAMES,
           REFS_USERS,
           REFS_STARRED_CHANGES,
-          REFS_REJECT_COMMITS);
+          REFS_REJECT_COMMITS,
+          REFS_PENDING_INDEX);
 
   private static final Splitter SPLITTER = Splitter.on("/");
 
@@ -162,6 +173,17 @@ public class RefNames {
   public static String changeRefPrefix(Change.Id id) {
     StringBuilder r = newStringBuilder().append(REFS_CHANGES);
     return shard(id.get(), r).append('/').toString();
+  }
+
+  /**
+   * Returns the pending-index intent ref for the given change (see {@link #REFS_PENDING_INDEX}).
+   */
+  public static String pendingIndexRef(Change.Id id) {
+    return REFS_PENDING_INDEX + id.get();
+  }
+
+  public static boolean isPendingIndexRef(String ref) {
+    return ref.startsWith(REFS_PENDING_INDEX);
   }
 
   public static boolean isNoteDbMetaRef(String ref) {

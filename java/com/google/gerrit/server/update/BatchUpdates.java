@@ -31,6 +31,8 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.index.change.PendingIndexUpdate;
 import com.google.gerrit.server.notedb.LimitExceededException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -47,6 +49,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
+import org.eclipse.jgit.lib.Config;
 
 /**
  * Runs execute methods of a collection of {@link BatchUpdate}s calling listeners when appropriate.
@@ -83,10 +86,17 @@ public class BatchUpdates {
   }
 
   private final ChangeData.Factory changeDataFactory;
+  private final PendingIndexUpdate pendingIndexUpdate;
+  private final boolean writeIntents;
 
   @Inject
-  BatchUpdates(ChangeData.Factory changeDataFactory) {
+  BatchUpdates(
+      ChangeData.Factory changeDataFactory,
+      PendingIndexUpdate pendingIndexUpdate,
+      @GerritServerConfig Config cfg) {
     this.changeDataFactory = changeDataFactory;
+    this.pendingIndexUpdate = pendingIndexUpdate;
+    writeIntents = cfg.getBoolean("index", null, "staleChangeRecovery", false);
   }
 
   @CanIgnoreReturnValue
@@ -100,9 +110,10 @@ public class BatchUpdates {
 
     checkDifferentProject(updates);
 
+    List<ListenableFuture<ChangeData>> indexFutures = new ArrayList<>();
+    List<ChangesHandle> changesHandles = new ArrayList<>(updates.size());
+    long threadId = Thread.currentThread().threadId();
     try {
-      List<ListenableFuture<ChangeData>> indexFutures = new ArrayList<>();
-      List<ChangesHandle> changesHandles = new ArrayList<>(updates.size());
       try {
         for (BatchUpdate u : updates) {
           u.executeUpdateRepo();
@@ -110,6 +121,11 @@ public class BatchUpdates {
         notifyAfterUpdateRepo(listeners);
         for (BatchUpdate u : updates) {
           changesHandles.add(u.executeChangeOps(listeners, dryrun));
+        }
+        if (!dryrun && writeIntents) {
+          for (ChangesHandle h : changesHandles) {
+            h.writeIndexIntents(pendingIndexUpdate, threadId);
+          }
         }
         for (ChangesHandle h : changesHandles) {
           h.execute();
@@ -146,6 +162,13 @@ public class BatchUpdates {
     } catch (Exception e) {
       wrapAndThrowException(e);
       return new Result();
+    } finally {
+      if (!dryrun && writeIntents && !Thread.currentThread().isInterrupted()) {
+        for (ChangesHandle h : changesHandles) {
+          h.deleteIndexIntents(pendingIndexUpdate, threadId);
+        }
+        pendingIndexUpdate.cleanupThreadDir(threadId);
+      }
     }
   }
 

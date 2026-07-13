@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c06bbcc_fdf0675c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-07-13T21:08:09Z",
+      "side": 1,
+      "message": "Missing `Release-Notes`. I believe this new feature is worth mentioning in the release notes.",
+      "revId": "59c5a24fbe999c67ea23c325a16163312a1e60ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3428b6c_45bf3c81",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-07-13T21:08:09Z",
+      "side": 1,
+      "message": "Do you plan to add some reference to the documentation as well?",
+      "revId": "59c5a24fbe999c67ea23c325a16163312a1e60ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

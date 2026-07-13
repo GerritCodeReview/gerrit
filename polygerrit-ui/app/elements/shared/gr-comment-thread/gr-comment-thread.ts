@@ -725,7 +725,13 @@ export class GrCommentThread extends LitElement {
     if (this.shouldScrollIntoView) {
       whenRendered(this, () => {
         this.expandCollapseComments(false);
-        this.commentBox?.focus();
+        const isBlankDraft =
+          this.thread &&
+          isDraft(this.getFirstComment()) &&
+          (this.getFirstComment()?.message ?? '').length === 0;
+        if (!isBlankDraft) {
+          this.commentBox?.focus();
+        }
         // The delay is a hack because we don't know exactly when to
         // scroll the comment into center.
         // TODO: Find a better solution without a setTimeout

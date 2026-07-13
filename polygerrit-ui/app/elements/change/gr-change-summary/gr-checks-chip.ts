@@ -9,7 +9,6 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {getAppContext} from '../../../services/app-context';
 import {Category, RunStatus} from '../../../api/checks';
 import {
-  ChecksIcon,
   iconFor,
   isStatus,
   labelFor,
@@ -27,6 +26,9 @@ export class GrChecksChip extends LitElement {
 
   @property({type: Array})
   links: string[] = [];
+
+  @property({type: Boolean})
+  isAi = false;
 
   private readonly reporting = getAppContext().reportingService;
 
@@ -169,12 +171,14 @@ export class GrChecksChip extends LitElement {
     const ariaLabel = this.computeAriaLabel();
     const chipClass = `checksChip font-small ${icon.name}`;
     const chipClassFullLength = `${chipClass} hoverFullLength`;
+    const iconName = this.isAi ? 'ai' : icon.name;
+    const isFilled = this.isAi ? false : !!icon.filled;
     // 15 is roughly the number of chars for the chip exceeding its 120px width.
     return html`
       ${this.text.length > 15
-        ? html` ${this.renderChip(chipClassFullLength, ariaLabel, icon)}`
+        ? html` ${this.renderChip(chipClassFullLength, ariaLabel, iconName, isFilled)}`
         : ''}
-      ${this.renderChip(chipClass, ariaLabel, icon)}
+      ${this.renderChip(chipClass, ariaLabel, iconName, isFilled)}
     `;
   }
 
@@ -191,10 +195,10 @@ export class GrChecksChip extends LitElement {
     return `${label} for check ${this.text}`;
   }
 
-  private renderChip(clazz: string, ariaLabel: string, icon: ChecksIcon) {
+  private renderChip(clazz: string, ariaLabel: string, iconName: string, isFilled: boolean) {
     return html`
       <div class=${clazz} role="link" tabindex="0" aria-label=${ariaLabel}>
-        <gr-icon icon=${icon.name} ?filled=${!!icon.filled}></gr-icon>
+        <gr-icon icon=${iconName} ?filled=${isFilled}></gr-icon>
         ${this.renderLinks()}
         <div class="text">${this.text}</div>
       </div>

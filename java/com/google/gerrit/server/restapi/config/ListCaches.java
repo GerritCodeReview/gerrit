@@ -51,8 +51,18 @@ public class ListCaches implements RestReadView<ConfigResource> {
   @Option(name = "--format", usage = "output format")
   private OutputFormat format;
 
+  @Option(
+      name = "--memory-only",
+      usage = "if set, disk stat collection is skipped for persistent caches")
+  private boolean memoryOnly;
+
   public ListCaches setFormat(OutputFormat format) {
     this.format = format;
+    return this;
+  }
+
+  public ListCaches setMemoryOnly(boolean memoryOnly) {
+    this.memoryOnly = memoryOnly;
     return this;
   }
 
@@ -61,16 +71,12 @@ public class ListCaches implements RestReadView<ConfigResource> {
     this.cacheMap = cacheMap;
   }
 
-  public Map<String, CacheInfo> getCacheInfos() {
-    return getCacheInfos(name -> true);
-  }
-
-  public Map<String, CacheInfo> getCacheInfos(Predicate<String> nameFilter) {
+  public Map<String, CacheInfo> getCacheInfos(Predicate<String> nameFilter, boolean memoryOnly) {
     Map<String, CacheInfo> cacheInfos = new TreeMap<>();
     for (Extension<Cache<?, ?>> e : cacheMap) {
       String name = cacheNameOf(e.getPluginName(), e.getExportName());
       if (nameFilter.test(name)) {
-        cacheInfos.put(name, CacheInfoFactory.create(e.getProvider().get()));
+        cacheInfos.put(name, CacheInfoFactory.create(e.getProvider().get(), memoryOnly));
       }
     }
     return cacheInfos;
@@ -79,7 +85,7 @@ public class ListCaches implements RestReadView<ConfigResource> {
   @Override
   public Response<Object> apply(ConfigResource rsrc) {
     if (format == null) {
-      return Response.ok(getCacheInfos());
+      return Response.ok(getCacheInfos(name -> true, memoryOnly));
     }
     Stream<String> cacheNames =
         Streams.stream(cacheMap)

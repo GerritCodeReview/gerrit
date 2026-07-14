@@ -21,6 +21,7 @@ import com.google.common.collect.Ordering;
 import com.google.common.io.BaseEncoding;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.extensions.common.CacheInfo;
 import com.google.gson.reflect.TypeToken;
 import java.util.Arrays;
@@ -87,5 +88,36 @@ public class ListCachesIT extends AbstractDaemonTest {
   @Test
   public void listCaches_BadRequest() throws Exception {
     adminRestSession.get("/config/server/caches/?format=NONSENSE").assertBadRequest();
+  }
+
+  @Test
+  public void listCaches_memoryOnly_memCacheUnaffected() throws Exception {
+    RestResponse r = adminRestSession.get("/config/server/caches/?memory-only=true");
+    r.assertOK();
+    Map<String, CacheInfo> result =
+        newGson().fromJson(r.getReader(), new TypeToken<Map<String, CacheInfo>>() {}.getType());
+
+    assertThat(result).containsKey("accounts");
+    CacheInfo accountsCacheInfo = result.get("accounts");
+    assertThat(accountsCacheInfo.type).isEqualTo(CacheInfo.CacheType.MEM);
+    assertThat(accountsCacheInfo.entries.mem).isAtLeast(1L);
+    assertThat(accountsCacheInfo.entries.disk).isNull();
+    assertThat(accountsCacheInfo.hitRatio.mem).isAtLeast(0);
+    assertThat(accountsCacheInfo.hitRatio.disk).isNull();
+  }
+
+  @Test
+  @UseLocalDisk
+  public void listCaches_memoryOnly_diskCacheHasNoDistStats() throws Exception {
+    RestResponse r = adminRestSession.get("/config/server/caches/?memory-only=true");
+    r.assertOK();
+    Map<String, CacheInfo> result =
+        newGson().fromJson(r.getReader(), new TypeToken<Map<String, CacheInfo>>() {}.getType());
+
+    assertThat(result).containsKey("accounts");
+    CacheInfo changeKindInfo = result.get("accounts");
+    assertThat(changeKindInfo.type).isEqualTo(CacheInfo.CacheType.DISK);
+    assertThat(changeKindInfo.entries.mem).isNotNull();
+    assertThat(changeKindInfo.entries.disk).isNull();
   }
 }

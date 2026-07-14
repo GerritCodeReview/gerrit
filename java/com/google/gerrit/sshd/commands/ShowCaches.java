@@ -85,6 +85,11 @@ final class ShowCaches extends SshCommand {
   private boolean showThreads;
 
   @Option(
+      name = "--memory-only",
+      usage = "show only in-memory caches, skipping the expensive disk stat collection")
+  private boolean memoryOnly;
+
+  @Option(
       name = "--cache",
       usage = "show the named cache; may be supplied more than once",
       metaVar = "NAME")
@@ -166,11 +171,12 @@ final class ShowCaches extends SshCommand {
   private Collection<CacheInfo> getCaches() {
     Map<String, CacheInfo> selected;
     if (caches.isEmpty()) {
-      selected = listCaches.getCacheInfos();
+      selected = listCaches.getCacheInfos(name -> true, memoryOnly);
     } else {
       Set<String> filter =
           caches.stream().map(n -> n.toLowerCase(Locale.US)).collect(Collectors.toSet());
-      selected = listCaches.getCacheInfos(n -> filter.contains(n.toLowerCase(Locale.US)));
+      selected =
+          listCaches.getCacheInfos(n -> filter.contains(n.toLowerCase(Locale.US)), memoryOnly);
     }
     for (Map.Entry<String, CacheInfo> entry : selected.entrySet()) {
       CacheInfo cache = entry.getValue();

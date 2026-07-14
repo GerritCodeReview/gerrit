@@ -22,6 +22,30 @@
       },
       "revId": "62d5b7cffa4e3579171304c8a3bd67836722e2de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21e4d6be_90eb7615",
+        "filename": "java/com/google/gerrit/entities/RefNames.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-07-14T08:39:35Z",
+      "side": 1,
+      "message": "\u003e Also, the All-Projects will accumulate the volatility of all projects\u0027 changes (we have hundreds of thousands of repositories on GitHub.io).\n\nGerritHub.io I mean.",
+      "parentUuid": "9ce24fc7_d402b6a3",
+      "range": {
+        "startLine": 115,
+        "startChar": 9,
+        "endLine": 116,
+        "endChar": 58
+      },
+      "revId": "62d5b7cffa4e3579171304c8a3bd67836722e2de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

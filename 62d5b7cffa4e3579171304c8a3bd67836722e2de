@@ -63,6 +63,30 @@
       },
       "revId": "62d5b7cffa4e3579171304c8a3bd67836722e2de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "678d8144_df421e5d",
+        "filename": "java/com/google/gerrit/entities/RefNames.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-07-14T20:45:53Z",
+      "side": 1,
+      "message": "Updated to use \u003csite_dir\u003e.",
+      "parentUuid": "21e4d6be_90eb7615",
+      "range": {
+        "startLine": 115,
+        "startChar": 9,
+        "endLine": 116,
+        "endChar": 58
+      },
+      "revId": "62d5b7cffa4e3579171304c8a3bd67836722e2de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

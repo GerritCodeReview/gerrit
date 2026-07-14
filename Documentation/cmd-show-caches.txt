@@ -8,6 +8,7 @@ gerrit show-caches - Display current cache statistics.
 --
 _ssh_ -p <port> <host> _gerrit show-caches_
   [--show-jvm]
+  [--include-diskstats]
   [--cache <NAME> ...]
 --
 
@@ -24,6 +25,9 @@ to limit the output to specific caches.
 	List the name and version of the Java virtual machine, host
 	operating system, and other details about the environment
 	that Gerrit Code Review is running in.
+
+--include-diskstats::
+	Include disk stat collection for persistent caches.
 
 --show-threads::
 	Show detailed counts for Gerrit specific threads.
@@ -61,7 +65,7 @@ Intended for interactive use only.
 == EXAMPLES
 
 ----
-$ ssh -p 29418 review.example.com gerrit show-caches
+$ ssh -p 29418 review.example.com gerrit show-caches --include-diskstats
 Gerrit Code Review        2.9                       now   11:14:13   CEST
                                                  uptime    6 days 20 hrs
   Name                          |Entries              |  AvgGet |Hit Ratio|

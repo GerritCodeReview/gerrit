@@ -25,57 +25,96 @@ public class CacheDisplay {
   private final Writer stdout;
   private final int nw;
   private final Collection<CacheInfo> caches;
+  private final boolean includeDiskStats;
 
-  public CacheDisplay(Writer stdout, int nw, Collection<CacheInfo> caches) {
+  public CacheDisplay(
+      Writer stdout, int nw, Collection<CacheInfo> caches, boolean includeDiskStats) {
     this.stdout = stdout;
     this.nw = nw;
     this.caches = caches;
+    this.includeDiskStats = includeDiskStats;
   }
 
-  public CacheDisplay(Writer stdout, Collection<CacheInfo> caches) {
-    this(stdout, 30, caches);
+  public CacheDisplay(Writer stdout, Collection<CacheInfo> caches, boolean includeDiskStats) {
+    this(stdout, 30, caches, includeDiskStats);
   }
 
   public void displayCaches() throws IOException {
-    stdout.write(
-        String.format( //
-            "%1s %-" + nw + "s|%-21s|  %-5s |%-9s|\n" //
-            ,
-            "" //
-            ,
-            "Name" //
-            ,
-            "Entries" //
-            ,
-            "AvgGet" //
-            ,
-            "Hit Ratio" //
-            ));
-    stdout.write(
-        String.format( //
-            "%1s %-" + nw + "s|%6s %6s %7s|  %-5s  |%-4s %-4s|\n" //
-            ,
-            "" //
-            ,
-            "" //
-            ,
-            "Mem" //
-            ,
-            "Disk" //
-            ,
-            "Space" //
-            ,
-            "" //
-            ,
-            "Mem" //
-            ,
-            "Disk" //
-            ));
-    stdout.write("--");
-    for (int i = 0; i < nw; i++) {
-      stdout.write('-');
+    if (includeDiskStats) {
+      stdout.write(
+          String.format( //
+              "%1s %-" + nw + "s|%-21s|  %-5s |%-9s|\n" //
+              ,
+              "" //
+              ,
+              "Name" //
+              ,
+              "Entries" //
+              ,
+              "AvgGet" //
+              ,
+              "Hit Ratio" //
+              ));
+      stdout.write(
+          String.format( //
+              "%1s %-" + nw + "s|%6s %6s %7s|  %-5s  |%-4s %-4s|\n" //
+              ,
+              "" //
+              ,
+              "" //
+              ,
+              "Mem" //
+              ,
+              "Disk" //
+              ,
+              "Space" //
+              ,
+              "" //
+              ,
+              "Mem" //
+              ,
+              "Disk" //
+              ));
+      stdout.write("--");
+      for (int i = 0; i < nw; i++) {
+        stdout.write('-');
+      }
+      stdout.write("+---------------------+---------+---------+\n");
+    } else {
+      stdout.write(
+          String.format( //
+              "%1s %-" + nw + "s|%-7s|  %-5s |%-4s|\n" //
+              ,
+              "" //
+              ,
+              "Name" //
+              ,
+              "Entries" //
+              ,
+              "AvgGet" //
+              ,
+              "Hit%" //
+              ));
+      stdout.write(
+          String.format( //
+              "%1s %-" + nw + "s|%7s|  %-5s  |%4s|\n" //
+              ,
+              "" //
+              ,
+              "" //
+              ,
+              "Mem" //
+              ,
+              "" //
+              ,
+              "Mem" //
+              ));
+      stdout.write("--");
+      for (int i = 0; i < nw; i++) {
+        stdout.write('-');
+      }
+      stdout.write("+-------+---------+----+\n");
     }
-    stdout.write("+---------------------+---------+---------+\n");
     printMemoryCoreCaches(caches);
     printMemoryPluginCaches(caches);
     printDiskCaches(caches);
@@ -107,17 +146,28 @@ public class CacheDisplay {
   }
 
   private void printCache(CacheInfo cache) throws IOException {
-    stdout.write(
-        String.format(
-            "%1s %-" + nw + "s|%6s %6s %7s| %7s |%4s %4s|\n",
-            CacheInfo.CacheType.DISK.equals(cache.type) ? "D" : "",
-            cache.name,
-            nullToEmpty(cache.entries.mem),
-            nullToEmpty(cache.entries.disk),
-            Strings.nullToEmpty(cache.entries.space),
-            Strings.nullToEmpty(cache.averageGet),
-            formatAsPercent(cache.hitRatio.mem),
-            formatAsPercent(cache.hitRatio.disk)));
+    if (includeDiskStats) {
+      stdout.write(
+          String.format(
+              "%1s %-" + nw + "s|%6s %6s %7s| %7s |%4s %4s|\n",
+              CacheInfo.CacheType.DISK.equals(cache.type) ? "D" : "",
+              cache.name,
+              nullToEmpty(cache.entries.mem),
+              nullToEmpty(cache.entries.disk),
+              Strings.nullToEmpty(cache.entries.space),
+              Strings.nullToEmpty(cache.averageGet),
+              formatAsPercent(cache.hitRatio.mem),
+              formatAsPercent(cache.hitRatio.disk)));
+    } else {
+      stdout.write(
+          String.format(
+              "%1s %-" + nw + "s|%7s| %7s |%4s|\n",
+              CacheInfo.CacheType.DISK.equals(cache.type) ? "D" : "",
+              cache.name,
+              nullToEmpty(cache.entries.mem),
+              Strings.nullToEmpty(cache.averageGet),
+              formatAsPercent(cache.hitRatio.mem)));
+    }
   }
 
   private static String nullToEmpty(Long l) {

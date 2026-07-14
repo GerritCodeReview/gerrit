@@ -57,6 +57,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -68,7 +69,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Stream;
 import org.apache.commons.lang3.mutable.MutableDouble;
 import org.eclipse.jgit.lib.Config;
 
@@ -76,6 +76,11 @@ public class ReviewerRecommender {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private static final long PLUGIN_QUERY_TIMEOUT = 500; // ms
+
+  private static final long ATTENTION_SET_QUERY_TIMEOUT = 500; // ms
+
+  /** Maximum number of open changes with an attention set entry that are counted per account. */
+  private static final int MAX_ATTENTION_SET_LOAD = 25;
 
   private final Config config;
   private final PluginMapContext<ReviewerSuggestion> reviewerSuggestionPluginMap;
@@ -237,12 +242,106 @@ public class ReviewerRecommender {
     }
 
     // Sort results
-    Stream<Map.Entry<Account.Id, MutableDouble>> sorted =
-        candidateScores.entrySet().stream()
-            .sorted(Map.Entry.comparingByValue(Collections.reverseOrder()));
-    List<Account.Id> sortedSuggestions = sorted.map(Map.Entry::getKey).collect(toList());
+    List<Account.Id> sortedSuggestions = sortSuggestions(candidateScores);
     logger.atFine().log("Sorted suggestions: %s", sortedSuggestions);
     return sortedSuggestions;
+  }
+
+  /**
+   * Sorts the candidates by score, deprioritizing candidates that are in the attention set of many
+   * open changes.
+   *
+   * <p>The scores of the top {@code suggest.attentionSetMaxCandidates} candidates are dampened by
+   * the number of open changes in which the candidate is in the attention set. This spreads the
+   * review load across equally well matching candidates instead of sending all reviews to the
+   * candidate that ranks first. Candidates with equal dampened scores are ordered by ascending
+   * attention set load.
+   */
+  private List<Account.Id> sortSuggestions(Map<Account.Id, MutableDouble> candidateScores) {
+    List<Map.Entry<Account.Id, MutableDouble>> byScore =
+        candidateScores.entrySet().stream()
+            .sorted(Map.Entry.comparingByValue(Collections.reverseOrder()))
+            .collect(toList());
+
+    double attentionSetFactor = getAttentionSetFactor();
+    int maxCandidates = config.getInt("suggest", "attentionSetMaxCandidates", 25);
+    if (attentionSetFactor <= 0 || maxCandidates <= 0 || byScore.isEmpty()) {
+      return byScore.stream().map(Map.Entry::getKey).collect(toList());
+    }
+
+    List<Map.Entry<Account.Id, MutableDouble>> top =
+        byScore.subList(0, Math.min(maxCandidates, byScore.size()));
+    ImmutableMap<Account.Id, Integer> attentionSetLoads =
+        getAttentionSetLoads(top.stream().map(Map.Entry::getKey).collect(toImmutableList()));
+    logger.atFine().log("Attention set loads: %s", attentionSetLoads);
+
+    List<Account.Id> result = new ArrayList<>(byScore.size());
+    top.stream()
+        .sorted(
+            Comparator.<Map.Entry<Account.Id, MutableDouble>>comparingDouble(
+                    e -> {
+                      int load = attentionSetLoads.getOrDefault(e.getKey(), 0);
+                      return -(e.getValue().doubleValue() / (1 + attentionSetFactor * load));
+                    })
+                .thenComparingInt(e -> attentionSetLoads.getOrDefault(e.getKey(), 0)))
+        .forEach(e -> result.add(e.getKey()));
+    byScore.subList(top.size(), byScore.size()).forEach(e -> result.add(e.getKey()));
+    return result;
+  }
+
+  private double getAttentionSetFactor() {
+    String value = config.getString("suggest", null, "attentionSetFactor");
+    if (Strings.isNullOrEmpty(value)) {
+      return 0.1;
+    }
+    try {
+      return Double.parseDouble(value);
+    } catch (NumberFormatException e) {
+      logger.atSevere().withCause(e).log(
+          "Invalid value for suggest.attentionSetFactor: %s", value);
+      return 0.1;
+    }
+  }
+
+  /**
+   * Returns for each of the given accounts the number of open changes in which the account is in
+   * the attention set, capped at {@link #MAX_ATTENTION_SET_LOAD}.
+   */
+  private ImmutableMap<Account.Id, Integer> getAttentionSetLoads(
+      ImmutableList<Account.Id> accountIds) {
+    List<Callable<Integer>> tasks = new ArrayList<>(accountIds.size());
+    for (Account.Id accountId : accountIds) {
+      InternalChangeQuery internalChangeQuery =
+          queryProvider
+              .get()
+              .setLimit(MAX_ATTENTION_SET_LOAD)
+              .setRequestedFields(ChangeField.NUMERIC_ID_STR_SPEC);
+      tasks.add(
+          () ->
+              internalChangeQuery
+                  .query(
+                      Predicate.and(
+                          ChangeStatusPredicate.open(), ChangePredicates.attentionSet(accountId)))
+                  .size());
+    }
+
+    ImmutableMap.Builder<Account.Id, Integer> loads = ImmutableMap.builder();
+    try {
+      List<Future<Integer>> futures =
+          executor.invokeAll(tasks, ATTENTION_SET_QUERY_TIMEOUT, TimeUnit.MILLISECONDS);
+      for (int i = 0; i < futures.size(); i++) {
+        if (futures.get(i).isCancelled()) {
+          logger.atWarning().log(
+              "Attention set query for account %s timed out", accountIds.get(i));
+          continue;
+        }
+        loads.put(accountIds.get(i), futures.get(i).get());
+      }
+    } catch (ExecutionException | InterruptedException e) {
+      logger.atWarning().withCause(e).log("Cannot compute attention set loads");
+      return ImmutableMap.of();
+    }
+    return loads.buildOrThrow();
   }
 
   /**

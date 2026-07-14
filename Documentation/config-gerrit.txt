@@ -6425,6 +6425,27 @@ files bounds the cost of the index query for large changes.
 +
 By default 20.
 
+[[suggest.attentionSetFactor]]suggest.attentionSetFactor::
++
+When suggesting reviewers, the score of a candidate is dampened by the
+number of open changes in which the candidate is in the attention set:
+`score / (1 + attentionSetFactor * attentionSetSize)`. This spreads the
+review load across equally well matching candidates instead of sending
+all reviews to the candidate that ranks first. Candidates with equal
+scores are ordered by ascending attention set size.
+If set to zero, scores are not dampened by the attention set size.
++
+By default 0.1.
+
+[[suggest.attentionSetMaxCandidates]]suggest.attentionSetMaxCandidates::
++
+The maximum number of top ranked candidates for which the attention set
+size is computed when suggesting reviewers (see
+link:#suggest.attentionSetFactor[suggest.attentionSetFactor]). Limiting
+the number of candidates bounds the cost of the index queries.
++
+By default 25.
+
 [[suggest.skipServiceUsers]]suggest.skipServiceUsers::
 +
 If link:access-control.html#service_users[service users] should be skipped when

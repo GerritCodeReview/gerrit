@@ -26,6 +26,6 @@ public class GetCache implements RestReadView<CacheResource> {
 
   @Override
   public Response<CacheInfo> apply(CacheResource rsrc) {
-    return Response.ok(CacheInfoFactory.create(rsrc.getName(), rsrc.getCache()));
+    return Response.ok(CacheInfoFactory.create(rsrc.getName(), rsrc.getCache(), true));
   }
 }

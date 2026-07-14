@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b41e912_30ba9d51",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 2148,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-07-14T01:14:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef0c70a6_fcb5183c",
+      "range": {
+        "startLine": 2144,
+        "startChar": 0,
+        "endLine": 2148,
+        "endChar": 0
+      },
+      "revId": "dce73d445d6ae3569d1bbaa40363d9896ad45370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ff1ca727_df8f441e",
@@ -54,6 +78,30 @@
       "writtenOn": "2026-07-11T09:02:42Z",
       "side": 1,
       "message": "Please document the rest of the contract — atomicity, commit identity, and that this is server-side validation, not a push. Once `validation_options` is added to CommitFilesInput (my comment there), one more sentence belongs here.\n\n```suggestion\nThe file operations are applied atomically: the request either creates a\nsingle commit containing all listed operations and advances the branch to it,\nor fails without modifying the branch.\n\nIf `base_revision` is set in the input and the branch no longer points at that\ncommit (for example because of a concurrent update), the request is rejected with\n\"`409 Conflict`\", so callers can retry without clobbering the other change. A\nrequest that would not change the tree is rejected with \"`400 Bad Request`\".\n\nThe new commit is authored by the calling user, using the account\u0027s full name\nand preferred email address. If the account has no preferred email, a generic\n`username@host` identity is used instead. The committer is the Gerrit server\nidentity. Author and committer timestamps are the server time at which the\ncommit was created. Neither the identities nor the timestamps can be\noverridden through this endpoint.\n\nThis is a server-side branch update, not a `git push`. The target must be a\nwritable, ordinary branch (not a tag, `refs/meta/*`, or a Gerrit-internal\nref). Ref-update and commit validators run, including validators contributed\nby plugins, and validation failures are returned as an error. There is no\nreceive-pack, so push-only policies are not applied: signed-push /\npush-certificate verification is skipped, and receive-pack object checks such\nas `receive.maxObjectSizeLimit` are not enforced.\n\n```",
+      "range": {
+        "startLine": 2197,
+        "startChar": 0,
+        "endLine": 2204,
+        "endChar": 0
+      },
+      "revId": "dce73d445d6ae3569d1bbaa40363d9896ad45370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bc9edf04_0583e502",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 2204,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-07-14T01:14:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff1ca727_df8f441e",
       "range": {
         "startLine": 2197,
         "startChar": 0,
@@ -87,6 +135,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ebf65fe_7ba28761",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 4742,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-07-14T01:14:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b357aef3_2d16801b",
+      "range": {
+        "startLine": 4736,
+        "startChar": 0,
+        "endLine": 4742,
+        "endChar": 0
+      },
+      "revId": "dce73d445d6ae3569d1bbaa40363d9896ad45370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "db85e11b_76f61aeb",
@@ -100,6 +172,30 @@
       "writtenOn": "2026-07-11T09:02:42Z",
       "side": 1,
       "message": "Mirrors my CommitFilesInput.java suggestions: `content` for a symlink is the base64-encoded target path (worth stating), and `160000` drops out if we reject gitlinks.\n\n```suggestion\n|`content`     |optional|\nThe new file content, base64-encoded, for a create or update. For a `120000`\n(symlink) entry, the decoded content is the symlink target path.\n|`file_mode`   |optional|\nThe file mode in octal format (`100644` regular file, `100755` executable,\n`120000` symlink). If not set, new files are created as `100644` and existing\nfiles keep their mode.\n|`delete`      |optional|\n```",
+      "range": {
+        "startLine": 4756,
+        "startChar": 0,
+        "endLine": 4762,
+        "endChar": 0
+      },
+      "revId": "dce73d445d6ae3569d1bbaa40363d9896ad45370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "564b2ee5_2aca2c4b",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 4762,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-07-14T01:14:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db85e11b_76f61aeb",
       "range": {
         "startLine": 4756,
         "startChar": 0,
@@ -127,6 +223,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9791dbfa_d27b2fa8",
+        "filename": "java/com/google/gerrit/extensions/api/projects/BranchApi.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-07-14T01:14:46Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "71f8a34b_e97417e0",
+      "revId": "dce73d445d6ae3569d1bbaa40363d9896ad45370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bbc3c955_7e9fd7bc",
@@ -144,6 +258,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1c097e3_93ed4882",
+        "filename": "java/com/google/gerrit/extensions/api/projects/CommitFilesInput.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-07-14T01:14:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bbc3c955_7e9fd7bc",
+      "revId": "dce73d445d6ae3569d1bbaa40363d9896ad45370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b52cbeb5_0a028c31",
@@ -157,6 +289,30 @@
       "writtenOn": "2026-07-11T09:02:42Z",
       "side": 1,
       "message": "```suggestion\n    /**\n     * New file content, base64-encoded, for a write or create. For a {@code 120000} (symlink)\n     * entry, the decoded content is the symlink target path. Mutually exclusive with {@link\n     * #delete} and {@link #renameFrom}.\n     */\n    public String content;\n```",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 0
+      },
+      "revId": "dce73d445d6ae3569d1bbaa40363d9896ad45370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1fcc55e6_16b0bb50",
+        "filename": "java/com/google/gerrit/extensions/api/projects/CommitFilesInput.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-07-14T01:14:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b52cbeb5_0a028c31",
       "range": {
         "startLine": 43,
         "startChar": 0,
@@ -213,6 +369,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a06536b2_c3ad7102",
+        "filename": "java/com/google/gerrit/extensions/api/projects/CommitFilesInput.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-07-14T01:14:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3dbb7e3d_dbb078e5",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 0
+      },
+      "revId": "dce73d445d6ae3569d1bbaa40363d9896ad45370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1691822c_0058f5ae",
+        "filename": "java/com/google/gerrit/extensions/api/projects/CommitFilesInput.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-07-14T01:14:46Z",
+      "side": 1,
+      "message": "Dropped support for 160000 for now.",
+      "parentUuid": "01597cb3_95baa2ec",
+      "range": {
+        "startLine": 43,
+        "startChar": 4,
+        "endLine": 54,
+        "endChar": 28
+      },
+      "revId": "dce73d445d6ae3569d1bbaa40363d9896ad45370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2283f5a3_59448338",
@@ -226,6 +430,24 @@
       "writtenOn": "2026-07-11T09:02:42Z",
       "side": 1,
       "message": "This Java-API path — the one plugins call — has no test coverage; every existing test uses `adminRestSession`, so the Guice wiring of `putContent` and the `asRestApiException` mapping are never exercised. See my suggested test in PutContentIT.java (after `setUp()`).",
+      "revId": "dce73d445d6ae3569d1bbaa40363d9896ad45370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "545fb360_867ea371",
+        "filename": "java/com/google/gerrit/server/api/projects/BranchApiImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-07-14T01:14:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2283f5a3_59448338",
       "revId": "dce73d445d6ae3569d1bbaa40363d9896ad45370",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -276,6 +498,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a901582_571c518f",
+        "filename": "java/com/google/gerrit/server/restapi/project/BranchCommitBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-07-14T01:14:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb83660c_5f92e868",
+      "range": {
+        "startLine": 137,
+        "startChar": 61,
+        "endLine": 137,
+        "endChar": 87
+      },
+      "revId": "dce73d445d6ae3569d1bbaa40363d9896ad45370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2451686d_72ff3d14",
@@ -289,6 +535,30 @@
       "writtenOn": "2026-07-11T09:02:42Z",
       "side": 1,
       "message": "Tighten the Javadoc to name the timestamp — it\u0027s exactly the detail a refactor could silently change (e.g. an independently stamped author ident).\n\n```suggestion\n  /**\n   * Inserts a commit with {@code treeId} on top of {@code base}. Per Gerrit convention for\n   * server-created commits, the author is the calling user (full name and preferred email, or\n   * a generic {@code username@host} identity if no preferred email is set) and the committer\n   * is the server identity. Author and committer share the committer\u0027s timestamp and time\n   * zone, i.e. the server time at which the commit is created; the identities cannot be\n   * overridden via {@link CommitFilesInput}.\n   */\n  private ObjectId insertCommit(ObjectInserter oi, RevCommit base, ObjectId treeId, String message)\n```",
+      "range": {
+        "startLine": 167,
+        "startChar": 0,
+        "endLine": 171,
+        "endChar": 0
+      },
+      "revId": "dce73d445d6ae3569d1bbaa40363d9896ad45370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "07ab57d2_9adb686b",
+        "filename": "java/com/google/gerrit/server/restapi/project/BranchCommitBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-07-14T01:14:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2451686d_72ff3d14",
       "range": {
         "startLine": 167,
         "startChar": 0,
@@ -322,6 +592,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d41bc9d_a813b66c",
+        "filename": "java/com/google/gerrit/server/restapi/project/BranchCommitBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-07-14T01:14:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a97e2478_e2399312",
+      "range": {
+        "startLine": 171,
+        "startChar": 2,
+        "endLine": 180,
+        "endChar": 3
+      },
+      "revId": "dce73d445d6ae3569d1bbaa40363d9896ad45370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "131f0ebc_a42f66f3",
@@ -335,6 +629,30 @@
       "writtenOn": "2026-07-11T09:02:42Z",
       "side": 1,
       "message": "Same gap on the commit side: `CommitReceivedEvent`\u0027s `pushOptions` arg (L205) is also `ImmutableListMultimap.of()`, so `CommitValidationListener`s see no options either.\n\nPass the same threaded value here, so both the ref and commit validators get the caller\u0027s options. Add a test asserting a supplied option reaches a `CommitValidationListener`.",
+      "range": {
+        "startLine": 205,
+        "startChar": 16,
+        "endLine": 205,
+        "endChar": 42
+      },
+      "revId": "dce73d445d6ae3569d1bbaa40363d9896ad45370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b50027d6_0492a9a9",
+        "filename": "java/com/google/gerrit/server/restapi/project/BranchCommitBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-07-14T01:14:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "131f0ebc_a42f66f3",
       "range": {
         "startLine": 205,
         "startChar": 16,
@@ -368,6 +686,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b985867_35fb0b0c",
+        "filename": "java/com/google/gerrit/server/restapi/project/BranchCommitBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-07-14T01:14:46Z",
+      "side": 1,
+      "message": "Made commit message required",
+      "parentUuid": "8e4a1bbf_a75f3d4b",
+      "range": {
+        "startLine": 236,
+        "startChar": 0,
+        "endLine": 244,
+        "endChar": 0
+      },
+      "revId": "dce73d445d6ae3569d1bbaa40363d9896ad45370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9797b394_997c9622",
@@ -381,6 +723,24 @@
       "writtenOn": "2026-07-11T09:02:42Z",
       "side": 1,
       "message": "`RenameFileModification` yields no edits when its source is absent (returns `ImmutableList.of()` when `TreeWalk.forPath` is null), and `DeleteFileModification` emits a `DeletePath` with no existence check, so deleting a missing path is a no-op.\n\nIn a mixed batch these are silently dropped while the commit succeeds. (A batch of *only* such ops is caught by the no-change check → 400, so this bites only when combined with a real op.)\n\nReject a missing rename source / delete path with 400. This needs the base tree, which `fromInput` doesn\u0027t have — do it in `BranchCommitBuilder.commitFiles` where `base` is available.\n\nCan you add tests for both?",
+      "revId": "dce73d445d6ae3569d1bbaa40363d9896ad45370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "50ffc668_00a9ad93",
+        "filename": "java/com/google/gerrit/server/restapi/project/CommitFileModifications.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-07-14T01:14:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9797b394_997c9622",
       "revId": "dce73d445d6ae3569d1bbaa40363d9896ad45370",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -408,6 +768,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "69a7d745_ccbc8dbc",
+        "filename": "java/com/google/gerrit/server/restapi/project/CommitFileModifications.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-07-14T01:14:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2319c6f8_1aae2a33",
+      "range": {
+        "startLine": 69,
+        "startChar": 1,
+        "endLine": 77,
+        "endChar": 0
+      },
+      "revId": "dce73d445d6ae3569d1bbaa40363d9896ad45370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "01438fc2_60a632c1",
@@ -421,6 +805,30 @@
       "writtenOn": "2026-07-11T09:02:42Z",
       "side": 1,
       "message": "Nit: can be imported?",
+      "range": {
+        "startLine": 107,
+        "startChar": 13,
+        "endLine": 107,
+        "endChar": 41
+      },
+      "revId": "dce73d445d6ae3569d1bbaa40363d9896ad45370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "54d426a4_e4cc5b6b",
+        "filename": "java/com/google/gerrit/server/restapi/project/CommitFileModifications.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-07-14T01:14:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "01438fc2_60a632c1",
       "range": {
         "startLine": 107,
         "startChar": 13,
@@ -488,6 +896,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d91e71ee_f4c3e90c",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/PutContentIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-07-14T01:14:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed7ffc5c_11f8f1ac",
+      "revId": "dce73d445d6ae3569d1bbaa40363d9896ad45370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "18f56833_968c7839",
@@ -501,6 +927,30 @@
       "writtenOn": "2026-07-11T09:02:42Z",
       "side": 1,
       "message": "Please add coverage for the Java-API path — `BranchApiImpl.commitFiles` is what plugins call, and every existing test here goes through `adminRestSession`. Verified locally — passes:\n```suggestion\n  }\n\n  @Test\n  public void commitFilesViaJavaApi() throws Exception {\n    CommitFilesInput input \u003d write(\"Via Java API\", \"api.txt\", \"x\");\n    CommitInfo commit \u003d\n        gApi.projects().name(project.get()).branch(BRANCH).commitFiles(input);\n    assertThat(commit.subject).isEqualTo(\"Via Java API\");\n    assertThat(branchTip()).isEqualTo(commit.commit);\n  }\n```",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 3
+      },
+      "revId": "dce73d445d6ae3569d1bbaa40363d9896ad45370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a679e774_a7e3e284",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/PutContentIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-07-14T01:14:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "18f56833_968c7839",
       "range": {
         "startLine": 52,
         "startChar": 0,

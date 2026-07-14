@@ -435,7 +435,8 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     }
 
     void warmupOsPageCache() {
-      if (!Files.exists(cacheFilePath)) {
+      // null check because tests use in-memory h2.
+      if (cacheFilePath == null || !Files.exists(cacheFilePath)) {
         return;
       }
       logger.atFine().log("Warming OS page cache for %s", cacheFilePath.getFileName());
@@ -780,6 +781,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     }
 
     DiskStats diskStats() {
+      warmupOsPageCache();
       long size = 0;
       long space = 0;
       SqlHandle c = null;

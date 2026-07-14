@@ -70,6 +70,30 @@
       },
       "revId": "a74913516ec1881d6891afbabe8ec2f0b4c24c65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ca8ec9b_02f365e9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-07-14T15:58:32Z",
+      "side": 1,
+      "message": "The hit rate will look really bad on some caches when the cache is rarely accessed because every access is a \"first\" access for an item. In these cases, there will never be hits, but making the cache bigger provides no value. This can be determined by looking at the access count, if it is the same as the entry count, then effectively you have only ever had \"first\" lookups.",
+      "parentUuid": "b473338a_f8151934",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 53
+      },
+      "revId": "a74913516ec1881d6891afbabe8ec2f0b4c24c65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

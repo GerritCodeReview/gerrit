@@ -46,6 +46,30 @@
       },
       "revId": "a74913516ec1881d6891afbabe8ec2f0b4c24c65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b473338a_f8151934",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-07-14T15:16:41Z",
+      "side": 1,
+      "message": "\u003e If both those are equal, We should see the hit ratio to make a decision. \n\nWhy? If both are equal then it needs increasing.\n\n\u003e we cannot always increase due to storage limitations, we need to decide which ones to increase that offer higher improvement.\n\nThis is a more valid observation, I would prefer this to be used as justification of this change.",
+      "parentUuid": "24d3d679_25f52f79",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 53
+      },
+      "revId": "a74913516ec1881d6891afbabe8ec2f0b4c24c65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

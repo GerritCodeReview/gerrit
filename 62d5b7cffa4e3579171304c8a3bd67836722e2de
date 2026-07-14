@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5add6c94_d5290daa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-07-14T10:17:39Z",
+      "side": 1,
+      "message": "IMHO, this should ultimately be an extension point. One of most likely implementations would be to post a message to a pubsub system (instead of writing locally into a repository or a file system)",
+      "revId": "62d5b7cffa4e3579171304c8a3bd67836722e2de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9ce24fc7_d402b6a3",

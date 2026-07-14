@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e412cefb_dbe4ee3d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-07-14T18:30:23Z",
+      "side": 1,
+      "message": "I am looking for feedback to ensure other companies are OK with changing this default.",
+      "revId": "5ed34e2ff74a1f057e6bb72476c25cb79bb54e38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -85,6 +85,11 @@ final class ShowCaches extends SshCommand {
   private boolean showThreads;
 
   @Option(
+      name = "--include-diskstats",
+      usage = "include disk stat collection for persistent caches")
+  private boolean includeDiskStats;
+
+  @Option(
       name = "--cache",
       usage = "show the named cache; may be supplied more than once",
       metaVar = "NAME")
@@ -166,11 +171,13 @@ final class ShowCaches extends SshCommand {
   private Collection<CacheInfo> getCaches() {
     Map<String, CacheInfo> selected;
     if (caches.isEmpty()) {
-      selected = listCaches.getCacheInfos();
+      selected = listCaches.getCacheInfos(name -> true, includeDiskStats);
     } else {
       Set<String> filter =
           caches.stream().map(n -> n.toLowerCase(Locale.US)).collect(Collectors.toSet());
-      selected = listCaches.getCacheInfos(n -> filter.contains(n.toLowerCase(Locale.US)));
+      selected =
+          listCaches.getCacheInfos(
+              n -> filter.contains(n.toLowerCase(Locale.US)), includeDiskStats);
     }
     for (Map.Entry<String, CacheInfo> entry : selected.entrySet()) {
       CacheInfo cache = entry.getValue();

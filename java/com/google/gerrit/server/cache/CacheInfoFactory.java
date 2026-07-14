@@ -24,11 +24,11 @@ import com.google.gerrit.extensions.common.CacheInfo.HitRatioInfo;
 
 public class CacheInfoFactory {
 
-  public static CacheInfo create(Cache<?, ?> cache) {
-    return create(null, cache);
+  public static CacheInfo create(Cache<?, ?> cache, boolean includeDiskStats) {
+    return create(null, cache, includeDiskStats);
   }
 
-  public static CacheInfo create(String name, Cache<?, ?> cache) {
+  public static CacheInfo create(String name, Cache<?, ?> cache, boolean includeDiskStats) {
     CacheInfo cacheInfo = new CacheInfo();
     cacheInfo.name = name;
 
@@ -44,10 +44,12 @@ public class CacheInfoFactory {
 
     if (cache instanceof PersistentCache) {
       cacheInfo.type = CacheType.DISK;
-      PersistentCache.DiskStats diskStats = ((PersistentCache) cache).diskStats();
-      cacheInfo.entries.setDisk(diskStats.size());
-      cacheInfo.entries.setSpace(diskStats.space());
-      cacheInfo.hitRatio.setDisk(diskStats.hitCount(), diskStats.requestCount());
+      if (includeDiskStats) {
+        PersistentCache.DiskStats diskStats = ((PersistentCache) cache).diskStats();
+        cacheInfo.entries.setDisk(diskStats.size());
+        cacheInfo.entries.setSpace(diskStats.space());
+        cacheInfo.hitRatio.setDisk(diskStats.hitCount(), diskStats.requestCount());
+      }
     } else {
       cacheInfo.type = CacheType.MEM;
     }

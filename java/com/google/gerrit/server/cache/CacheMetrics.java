@@ -59,6 +59,12 @@ public class CacheMetrics {
             Long.class,
             new Description("Memory eviction count").setGauge().setUnit("evicted entries"),
             F_NAME);
+    CallbackMetric1<String, Long> memReq =
+        metrics.newCallbackMetric(
+            "caches/memory_request_count",
+            Long.class,
+            new Description("Memory request count").setGauge().setUnit("requests"),
+            F_NAME);
     CallbackMetric1<String, Long> perDiskEnt =
         metrics.newCallbackMetric(
             "caches/disk_cached",
@@ -79,9 +85,18 @@ public class CacheMetrics {
                 .setGauge()
                 .setUnit("invalidated entries"),
             F_NAME);
+    CallbackMetric1<String, Long> perDiskReq =
+        metrics.newCallbackMetric(
+            "caches/disk_request_count",
+            Long.class,
+            new Description("Disk request count for persistent cache")
+                .setGauge()
+                .setUnit("requests"),
+            F_NAME);
 
     ImmutableSet<CallbackMetric<?>> cacheMetrics =
-        ImmutableSet.of(memEnt, memHit, memEvict, perDiskEnt, perDiskHit, perDiskInvalid);
+        ImmutableSet.of(
+            memEnt, memHit, memEvict, memReq, perDiskEnt, perDiskHit, perDiskInvalid, perDiskReq);
 
     metrics.newTrigger(
         cacheMetrics,
@@ -93,12 +108,14 @@ public class CacheMetrics {
             memEnt.set(name, c.size());
             memHit.set(name, cstats.hitRate() * 100);
             memEvict.set(name, cstats.evictionCount());
+            memReq.set(name, cstats.requestCount());
             if (c instanceof PersistentCache
                 && config.getBoolean("cache", "enableDiskStatMetrics", false)) {
               PersistentCache.DiskStats d = ((PersistentCache) c).diskStats();
               perDiskEnt.set(name, d.size());
               perDiskHit.set(name, hitRatio(d));
               perDiskInvalid.set(name, d.invalidatedCount());
+              perDiskReq.set(name, d.requestCount());
             }
           }
           cacheMetrics.forEach(CallbackMetric::prune);

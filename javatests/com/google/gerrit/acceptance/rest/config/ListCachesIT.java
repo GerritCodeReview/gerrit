@@ -88,4 +88,37 @@ public class ListCachesIT extends AbstractDaemonTest {
   public void listCaches_BadRequest() throws Exception {
     adminRestSession.get("/config/server/caches/?format=NONSENSE").assertBadRequest();
   }
+
+  @Test
+  public void listCaches_memoryOnly_memCacheUnaffected() throws Exception {
+    RestResponse r = adminRestSession.get("/config/server/caches/?memory-only=true");
+    r.assertOK();
+    Map<String, CacheInfo> result =
+        newGson().fromJson(r.getReader(), new TypeToken<Map<String, CacheInfo>>() {}.getType());
+
+    assertThat(result).containsKey("accounts");
+    CacheInfo accountsCacheInfo = result.get("accounts");
+    assertThat(accountsCacheInfo.type).isEqualTo(CacheInfo.CacheType.MEM);
+    assertThat(accountsCacheInfo.entries.mem).isAtLeast(1L);
+    assertThat(accountsCacheInfo.entries.disk).isNull();
+    assertThat(accountsCacheInfo.hitRatio.mem).isAtLeast(0);
+    assertThat(accountsCacheInfo.hitRatio.disk).isNull();
+  }
+
+  @Test
+  public void listCaches_memoryOnly_diskCacheHasNoDistStats() throws Exception {
+    RestResponse r = adminRestSession.get("/config/server/caches/?memory-only=true");
+    r.assertOK();
+    Map<String, CacheInfo> result =
+        newGson().fromJson(r.getReader(), new TypeToken<Map<String, CacheInfo>>() {}.getType());
+
+    // change_kind is a persistent (DISK) cache — it must still appear but without disk stats
+    assertThat(result).containsKey("change_kind");
+    CacheInfo changeKindInfo = result.get("change_kind");
+    assertThat(changeKindInfo.type).isEqualTo(CacheInfo.CacheType.DISK);
+    assertThat(changeKindInfo.hitRatio.mem).isNotNull();
+    assertThat(changeKindInfo.entries.disk).isNull();
+    assertThat(changeKindInfo.entries.space).isNull();
+    assertThat(changeKindInfo.hitRatio.disk).isNull();
+  }
 }

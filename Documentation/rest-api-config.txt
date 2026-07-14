@@ -330,9 +330,23 @@ As result a map of link:#cache-info[CacheInfo] entities is returned.
 
 The entries in the map are sorted by cache name.
 
+.Query Options
+[options="header",cols="1,3"]
+|===
+|Field Name    |Description
+|`memory-only` |If `true`, disk stat collection is skipped for persistent caches.
+|===
+
 .Request
 ----
   GET /config/server/caches/ HTTP/1.0
+----
+
+To list only memory caches:
+
+.Request
+----
+  GET /config/server/caches/?memory-only=true HTTP/1.0
 ----
 
 .Response

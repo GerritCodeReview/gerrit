@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dba2a603_93669bb8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-07-14T00:27:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c06bbcc_fdf0675c",
+      "revId": "59c5a24fbe999c67ea23c325a16163312a1e60ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a3428b6c_45bf3c81",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-07-13T21:08:09Z",
       "side": 1,
       "message": "Do you plan to add some reference to the documentation as well?",
+      "revId": "59c5a24fbe999c67ea23c325a16163312a1e60ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4c01913_2623712e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-07-14T00:27:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3428b6c_45bf3c81",
       "revId": "59c5a24fbe999c67ea23c325a16163312a1e60ea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

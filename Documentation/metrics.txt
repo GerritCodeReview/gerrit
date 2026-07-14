@@ -208,10 +208,18 @@ objects needing finalization.
 * `caches/memory_eviction_count`: Memory eviction count.
 ** `cache_name`:
    The name of the cache.
+* `caches/memory_request_count`: Total number of lookups (hits + misses) against
+  the in-memory cache.
+** `cache_name`:
+   The name of the cache.
 * `caches/disk_cached`: Disk entries used by persistent cache.
 ** `cache_name`:
    The name of the cache.
 * `caches/disk_hit_ratio`: Disk hit ratio for persistent cache.
+** `cache_name`:
+   The name of the cache.
+* `caches/disk_request_count`: Total number of lookups (hits + misses) against
+  the persistent disk cache.
 ** `cache_name`:
    The name of the cache.
 * `caches/refresh_count`: The number of refreshes per cache with an indicator if

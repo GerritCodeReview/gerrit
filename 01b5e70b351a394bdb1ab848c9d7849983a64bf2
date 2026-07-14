@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62ac7f7f_a7a0e29a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-07-14T17:54:36Z",
+      "side": 1,
+      "message": "I think this is the right thing to do since getting the disk stats is expensive, and can actually impact a production server in bad ways, I think we need to highlight this change in behavior better for the release notes. Maybe make something more like:\n\nRelease-Notes: Skip disk-stats by default for show-caches command",
+      "revId": "01b5e70b351a394bdb1ab848c9d7849983a64bf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

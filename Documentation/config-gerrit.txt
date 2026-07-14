@@ -6446,6 +6446,32 @@ the number of candidates bounds the cost of the index queries.
 +
 By default 25.
 
+[[suggest.attentionSetStaleAgeDays]]suggest.attentionSetStaleAgeDays::
++
+Attention set entries that are older than this number of days are
+considered stale and count an additional
+link:#suggest.attentionSetStaleFactor[suggest.attentionSetStaleFactor]
+towards the attention set size that is used for dampening reviewer
+suggestions (see
+link:#suggest.attentionSetFactor[suggest.attentionSetFactor]). Many
+stale entries indicate that the user is not actively reviewing, e.g.
+because they are overloaded or absent, and hence further reviews should
+rather be sent to other equally well matching candidates.
+If set to zero, stale entries are not weighted differently.
++
+By default 7.
+
+[[suggest.attentionSetStaleFactor]]suggest.attentionSetStaleFactor::
++
+The additional weight that each stale attention set entry (see
+link:#suggest.attentionSetStaleAgeDays[suggest.attentionSetStaleAgeDays])
+adds to the attention set size that is used for dampening reviewer
+suggestions. With the default factor of 1.0 a stale entry counts twice
+as much as a fresh entry.
+If set to zero, stale entries are not weighted differently.
++
+By default 1.0.
+
 [[suggest.skipServiceUsers]]suggest.skipServiceUsers::
 +
 If link:access-control.html#service_users[service users] should be skipped when

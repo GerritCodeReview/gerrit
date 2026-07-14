@@ -23,6 +23,7 @@ import static com.google.gerrit.entities.Permission.READ;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.ImmutableList;
@@ -31,6 +32,7 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.acceptance.UseClockStep;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
@@ -50,6 +52,7 @@ import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.testing.TestTimeUtil;
 import com.google.inject.Inject;
 import java.util.List;
 import java.util.Locale;
@@ -821,6 +824,49 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
 
     PushOneCommit.Result newChange = createChange("New change", "dir/file.txt", "new content");
 
+    List<SuggestedReviewerInfo> reviewers = suggestReviewers(newChange.getChangeId(), null);
+    assertThat(reviewers.stream().map(r -> r.account._accountId).collect(toList()))
+        .containsExactly(user1.id().get(), user2.id().get());
+  }
+
+  @Test
+  @UseClockStep
+  public void prefersUserWithoutStaleAttentionSetEntries() throws Exception {
+    // user1 (reviewer) and user2 (owner) both recently worked on the touched file and hence have
+    // an equal score.
+    mergeChangeTouchingFile(user2, user1, "dir/file.txt");
+
+    // user1 has been in the attention set of an open change for more than a week without acting
+    // on it, indicating that user1 is overloaded or absent.
+    createOpenChangeWithReviewer(user3, user1);
+    TestTimeUtil.incrementClock(8 * 24, HOURS);
+
+    // user2 just entered the attention set of an open change.
+    createOpenChangeWithReviewer(user3, user2);
+
+    PushOneCommit.Result newChange = createChange("New change", "dir/file.txt", "new content");
+
+    // Both users are in the attention set of one open change, but the entry of user1 is stale
+    // and hence counts more.
+    List<SuggestedReviewerInfo> reviewers = suggestReviewers(newChange.getChangeId(), null);
+    assertThat(reviewers.stream().map(r -> r.account._accountId).collect(toList()))
+        .containsExactly(user2.id().get(), user1.id().get())
+        .inOrder();
+  }
+
+  @Test
+  @UseClockStep
+  @GerritConfig(name = "suggest.attentionSetStaleAgeDays", value = "0")
+  public void staleAttentionSetWeightingCanBeDisabled() throws Exception {
+    mergeChangeTouchingFile(user2, user1, "dir/file.txt");
+
+    createOpenChangeWithReviewer(user3, user1);
+    TestTimeUtil.incrementClock(8 * 24, HOURS);
+    createOpenChangeWithReviewer(user3, user2);
+
+    PushOneCommit.Result newChange = createChange("New change", "dir/file.txt", "new content");
+
+    // Without stale weighting both users have the same load and score.
     List<SuggestedReviewerInfo> reviewers = suggestReviewers(newChange.getChangeId(), null);
     assertThat(reviewers.stream().map(r -> r.account._accountId).collect(toList()))
         .containsExactly(user1.id().get(), user2.id().get());

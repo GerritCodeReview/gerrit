@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5dd7dc46_475f0298",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/config/ListCachesIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 4665459
+      },
+      "writtenOn": "2026-07-14T22:21:10Z",
+      "side": 1,
+      "message": "```suggestion\n    CacheInfo accountsInfo \u003d result.get(\"accounts\");\n```",
+      "range": {
+        "startLine": 119,
+        "startChar": 14,
+        "endLine": 119,
+        "endChar": 28
+      },
+      "revId": "57706407d3fde32d016253f38a28c81950162234",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

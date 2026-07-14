@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21819cf3_a9c9c044",
+        "filename": "java/com/google/gerrit/server/restapi/config/ListCaches.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-07-14T16:32:40Z",
+      "side": 1,
+      "message": "We probably want to go with the --include-diskstats type of pattern instead (match the pattern to how queries currently work)?",
+      "revId": "4a78b83c6bebc6994405ae19a82c5f40ebedfa58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

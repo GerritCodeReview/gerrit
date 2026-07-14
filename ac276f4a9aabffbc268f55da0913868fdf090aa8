@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a87dffdf_51584d9b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4992407
+      },
+      "writtenOn": "2026-07-14T03:57:52Z",
+      "side": 1,
+      "message": "338077: Clean up yarn.lock | https://gerrit-review.googlesource.com/c/gerrit/+/338077",
+      "revId": "ac276f4a9aabffbc268f55da0913868fdf090aa8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {
@@ -16,7 +34,7 @@
       },
       "applicabilityExpressionResult": {},
       "submittabilityExpressionResult": {
-        "value": {"expression":{"expressionString":"label:Code-Review=MAX,user=non_uploader AND -label:Code-Review=MIN"},"status":"PASS","errorMessage":{"value":null},"passingAtoms":["label:Code-Review=MAX,user=non_uploader"],"failingAtoms":["label:Code-Review=MIN"]}
+        "value": {"expression":{"expressionString":"label:Code-Review=MAX,user=non_uploader AND -label:Code-Review=MIN"},"status":"PASS","errorMessage":{"value":null},"passingAtoms":["label:Code-Review=MAX,user=non_uploader"],"failingAtoms":["label:Code-Review=MIN"],"atomExplanations":{"value":null}}
       },
       "overrideExpressionResult": {},
       "patchSetCommitId": "ac276f4a9aabffbc268f55da0913868fdf090aa8",
@@ -44,10 +62,10 @@
         "allowOverrideInChildProjects": false
       },
       "applicabilityExpressionResult": {
-        "value": {"expression":{"expressionString":"-branch:refs/meta/config"},"status":"PASS","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["branch:refs/meta/config"]}
+        "value": {"expression":{"expressionString":"-branch:refs/meta/config"},"status":"PASS","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["branch:refs/meta/config"],"atomExplanations":{"value":null}}
       },
       "submittabilityExpressionResult": {
-        "value": {"expression":{"expressionString":"label:Code-Style=MAX AND -label:Code-Style=MIN"},"status":"PASS","errorMessage":{"value":null},"passingAtoms":["label:Code-Style=MAX"],"failingAtoms":["label:Code-Style=MIN"]}
+        "value": {"expression":{"expressionString":"label:Code-Style=MAX AND -label:Code-Style=MIN"},"status":"PASS","errorMessage":{"value":null},"passingAtoms":["label:Code-Style=MAX"],"failingAtoms":["label:Code-Style=MIN"],"atomExplanations":{"value":null}}
       },
       "overrideExpressionResult": {},
       "patchSetCommitId": "ac276f4a9aabffbc268f55da0913868fdf090aa8",
@@ -75,10 +93,10 @@
         "allowOverrideInChildProjects": false
       },
       "applicabilityExpressionResult": {
-        "value": {"expression":{"expressionString":"-branch:refs/meta/config AND (file:\"^lib/.*\" OR file:\"^WORKSPACE$\" OR file:\"^.gitmodule$\" OR file:\"^tools/deps.bzl$\")"},"status":"FAIL","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["branch:refs/meta/config","file:\"^lib/.*\"","file:\"^WORKSPACE$\"","file:\"^.gitmodule$\"","file:\"^tools/deps.bzl$\""]}
+        "value": {"expression":{"expressionString":"-branch:refs/meta/config AND (file:\"^lib/.*\" OR file:\"^WORKSPACE$\" OR file:\"^.gitmodule$\" OR file:\"^tools/deps.bzl$\")"},"status":"FAIL","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["branch:refs/meta/config","file:\"^lib/.*\"","file:\"^WORKSPACE$\"","file:\"^.gitmodule$\"","file:\"^tools/deps.bzl$\""],"atomExplanations":{"value":null}}
       },
       "submittabilityExpressionResult": {
-        "value": {"expression":{"expressionString":"label:Library-Compliance=MAX,user=non_uploader AND -label:Library-Compliance=MIN"},"status":"NOT_EVALUATED","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":[]}
+        "value": {"expression":{"expressionString":"label:Library-Compliance=MAX,user=non_uploader AND -label:Library-Compliance=MIN"},"status":"NOT_EVALUATED","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":[],"atomExplanations":{"value":null}}
       },
       "overrideExpressionResult": {},
       "patchSetCommitId": "ac276f4a9aabffbc268f55da0913868fdf090aa8",
@@ -106,10 +124,10 @@
         "allowOverrideInChildProjects": false
       },
       "applicabilityExpressionResult": {
-        "value": {"expression":{"expressionString":"-branch:refs/meta/config"},"status":"PASS","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["branch:refs/meta/config"]}
+        "value": {"expression":{"expressionString":"-branch:refs/meta/config"},"status":"PASS","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["branch:refs/meta/config"],"atomExplanations":{"value":null}}
       },
       "submittabilityExpressionResult": {
-        "value": {"expression":{"expressionString":"hasfooter:\"Release-Notes\""},"status":"PASS","errorMessage":{"value":null},"passingAtoms":["hasfooter:\"Release-Notes\""],"failingAtoms":[]}
+        "value": {"expression":{"expressionString":"hasfooter:\"Release-Notes\""},"status":"PASS","errorMessage":{"value":null},"passingAtoms":["hasfooter:\"Release-Notes\""],"failingAtoms":[],"atomExplanations":{"value":null}}
       },
       "overrideExpressionResult": {},
       "patchSetCommitId": "ac276f4a9aabffbc268f55da0913868fdf090aa8",
@@ -137,10 +155,10 @@
         "allowOverrideInChildProjects": false
       },
       "applicabilityExpressionResult": {
-        "value": {"expression":{"expressionString":"is:review-enforced_gerrit"},"status":"PASS","errorMessage":{"value":null},"passingAtoms":["is:review-enforced_gerrit"],"failingAtoms":[]}
+        "value": {"expression":{"expressionString":"is:review-enforced_gerrit"},"status":"PASS","errorMessage":{"value":null},"passingAtoms":["is:review-enforced_gerrit"],"failingAtoms":[],"atomExplanations":{"value":null}}
       },
       "submittabilityExpressionResult": {
-        "value": {"expression":{"expressionString":"is:review-enforced_gerrit"},"status":"PASS","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["is:review-enforcement-satisfied_gerrit"]}
+        "value": {"expression":{"expressionString":"is:review-enforced_gerrit"},"status":"PASS","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["is:review-enforcement-satisfied_gerrit"],"atomExplanations":{"value":null}}
       },
       "overrideExpressionResult": {},
       "patchSetCommitId": "ac276f4a9aabffbc268f55da0913868fdf090aa8",
@@ -170,10 +188,10 @@
         "allowOverrideInChildProjects": true
       },
       "applicabilityExpressionResult": {
-        "value": {"expression":{"expressionString":"-branch:refs/meta/config"},"status":"PASS","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["branch:refs/meta/config"]}
+        "value": {"expression":{"expressionString":"-branch:refs/meta/config"},"status":"PASS","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["branch:refs/meta/config"],"atomExplanations":{"value":null}}
       },
       "submittabilityExpressionResult": {
-        "value": {"expression":{"expressionString":"label:Verified=MAX AND -label:Verified=MIN"},"status":"PASS","errorMessage":{"value":null},"passingAtoms":["label:Verified=MAX"],"failingAtoms":["label:Verified=MIN"]}
+        "value": {"expression":{"expressionString":"label:Verified=MAX AND -label:Verified=MIN"},"status":"PASS","errorMessage":{"value":null},"passingAtoms":["label:Verified=MAX"],"failingAtoms":["label:Verified=MIN"],"atomExplanations":{"value":null}}
       },
       "overrideExpressionResult": {},
       "patchSetCommitId": "ac276f4a9aabffbc268f55da0913868fdf090aa8",

@@ -780,6 +780,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     }
 
     DiskStats diskStats() {
+      warmupOsPageCache();
       long size = 0;
       long space = 0;
       SqlHandle c = null;

@@ -29,6 +29,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
@@ -42,6 +43,7 @@ import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
+import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewerInput;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.ChangeInput;
@@ -52,6 +54,8 @@ import com.google.inject.Inject;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.IntStream;
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.junit.TestRepository;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -735,6 +739,70 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     assertThat(reviewers.stream().map(r -> r.account._accountId).collect(toList()))
         .containsExactly(reviewer.id().get(), newTeamMember.id().get())
         .inOrder();
+  }
+
+  @Test
+  public void suggestsUsersWhoRecentlyTouchedSameFiles() throws Exception {
+    // user2 owns a merged change that touched a file, user1 reviewed it.
+    mergeChangeTouchingFile(user2, user1, "dir/file.txt");
+
+    // user3 owns a merged change that touched another file, user4 reviewed it.
+    mergeChangeTouchingFile(user3, user4, "other/file.txt");
+
+    // The admin creates a new change that touches the same file as the change of user2.
+    PushOneCommit.Result newChange = createChange("New change", "dir/file.txt", "new content");
+
+    // For the default suggestion (empty query) only the users that recently worked on the same
+    // file are suggested, not the users that worked on other files.
+    List<SuggestedReviewerInfo> reviewers = suggestReviewers(newChange.getChangeId(), null);
+    assertThat(reviewers.stream().map(r -> r.account._accountId).collect(toList()))
+        .containsExactly(user1.id().get(), user2.id().get());
+  }
+
+  @Test
+  public void suggestsUsersWhoRecentlyTouchedSameFilesFirstWhenQueried() throws Exception {
+    // user2 owns a merged change that touched a file, user1 reviewed it.
+    mergeChangeTouchingFile(user2, user1, "dir/file.txt");
+
+    // The admin creates a new change that touches the same file.
+    PushOneCommit.Result newChange = createChange("New change", "dir/file.txt", "new content");
+
+    // user1, user2 and user3 all match the query, but user1 and user2 are ranked higher because
+    // they recently worked on the same file.
+    List<SuggestedReviewerInfo> reviewers = suggestReviewers(newChange.getChangeId(), "First", 4);
+    List<Integer> reviewerIds =
+        reviewers.stream().map(r -> r.account._accountId).collect(toList());
+    assertThat(reviewerIds.subList(0, 2))
+        .containsExactly(user1.id().get(), user2.id().get());
+    assertThat(reviewerIds.get(2)).isEqualTo(user3.id().get());
+  }
+
+  @Test
+  @GerritConfig(name = "addReviewer.touchedFilesWeight", value = "0")
+  public void touchedFilesSuggestionCanBeDisabled() throws Exception {
+    mergeChangeTouchingFile(user2, user1, "dir/file.txt");
+
+    PushOneCommit.Result newChange = createChange("New change", "dir/file.txt", "new content");
+
+    // With the weight set to 0 the default suggestion falls back to suggesting the reviewers of
+    // recent changes in the project. user2 is not suggested since it only owned, but never
+    // reviewed a change in the project.
+    List<SuggestedReviewerInfo> reviewers = suggestReviewers(newChange.getChangeId(), null);
+    assertThat(reviewers.stream().map(r -> r.account._accountId).collect(toList()))
+        .containsExactly(user1.id().get());
+  }
+
+  private void mergeChangeTouchingFile(TestAccount owner, TestAccount reviewer, String file)
+      throws Exception {
+    TestRepository<InMemoryRepository> ownerRepo = cloneProject(project, owner);
+    PushOneCommit.Result change =
+        pushFactory
+            .create(owner.newIdent(), ownerRepo, "Touch " + file, file, "content")
+            .to("refs/for/master");
+    change.assertOkStatus();
+    reviewChange(change.getChangeId(), reviewer);
+    gApi.changes().id(change.getChangeId()).current().review(ReviewInput.approve());
+    gApi.changes().id(change.getChangeId()).current().submit();
   }
 
   private TestAccount createAccountWithSecondaryEmail(String name, String secondaryEmail)

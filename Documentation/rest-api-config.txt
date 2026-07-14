@@ -330,9 +330,23 @@ As result a map of link:#cache-info[CacheInfo] entities is returned.
 
 The entries in the map are sorted by cache name.
 
+.Query Options
+[options="header",cols="1,3"]
+|===
+|Field Name          |Description
+|`include-diskstats` |If `true`, disk stat collection is included for persistent caches.
+|===
+
 .Request
 ----
   GET /config/server/caches/ HTTP/1.0
+----
+
+To include disk stats for persistent caches:
+
+.Request
+----
+  GET /config/server/caches/?include-diskstats=true HTTP/1.0
 ----
 
 .Response

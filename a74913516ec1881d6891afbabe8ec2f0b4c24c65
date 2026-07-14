@@ -22,6 +22,30 @@
       },
       "revId": "a74913516ec1881d6891afbabe8ec2f0b4c24c65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24d3d679_25f52f79",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-07-14T14:48:30Z",
+      "side": 1,
+      "message": "\u003e We compare the number of elements stored in the cache to the number of elements the cache is supposed to contain, if these are too close to each other (or equal) then the cache needs to be made bigger.\n\nIf both those are equal, We should see the hit ratio to make a decision. But hit ratio doesn\u0027t imply anything if the requests made to the cache itself are lower (No benefit in increasing the size).\n\nAlso, we cannot always increase due to storage limitations, we need to decide which ones to increase that offer higher improvement.",
+      "parentUuid": "d962fb47_4e2ab056",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 53
+      },
+      "revId": "a74913516ec1881d6891afbabe8ec2f0b4c24c65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "603f57b6_fb5d09e0",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 939,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-07-14T16:24:03Z",
+      "side": 1,
+      "message": "Should we consider making this \u0027true\u0027 by default?",
+      "revId": "874dcbb1c89979d8e86f7629915bd3bde60341ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

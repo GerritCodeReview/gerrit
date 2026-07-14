@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70275cbb_68503dc8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 730,
+      "author": {
+        "id": 1131691
+      },
+      "writtenOn": "2026-07-14T17:24:11Z",
+      "side": 1,
+      "message": "Should we use something like `lastComment` instead of `firstComment`? If the user is responding to an existing thread of comments or is quoting a comment, I think this might get the existing comment and then incorrectly return false?",
+      "range": {
+        "startLine": 726,
+        "startChar": 4,
+        "endLine": 730,
+        "endChar": 49
+      },
+      "revId": "0d43f15bae29b151dad900b6f33c9346ba0cc6fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ad6d90d_89cc111a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread_test.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1131691
+      },
+      "writtenOn": "2026-07-14T17:24:11Z",
+      "side": 1,
+      "message": "Could we add unit tests to verify threaded or quote behavior?",
+      "range": {
+        "startLine": 176,
+        "startChar": 0,
+        "endLine": 176,
+        "endChar": 69
+      },
+      "revId": "0d43f15bae29b151dad900b6f33c9346ba0cc6fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "543f69f5_fbc74ed9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1415,
+      "author": {
+        "id": 1131691
+      },
+      "writtenOn": "2026-07-14T17:24:11Z",
+      "side": 1,
+      "message": "What happens if the comment never becomes visible? like if the user starts doing something else because it took too long?",
+      "range": {
+        "startLine": 1415,
+        "startChar": 0,
+        "endLine": 1415,
+        "endChar": 63
+      },
+      "revId": "0d43f15bae29b151dad900b6f33c9346ba0cc6fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

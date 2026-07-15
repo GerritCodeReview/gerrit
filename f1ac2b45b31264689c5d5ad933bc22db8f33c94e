@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3cbd31ce_7b54c913",
+        "filename": "Documentation/cmd-show-caches.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 4665459
+      },
+      "writtenOn": "2026-07-15T16:22:49Z",
+      "side": 1,
+      "message": "Should we also hide the \u0027Disk\u0027 columns when `--include-diskstats` is not provided?",
+      "range": {
+        "startLine": 72,
+        "startChar": 42,
+        "endLine": 72,
+        "endChar": 46
+      },
+      "revId": "f1ac2b45b31264689c5d5ad933bc22db8f33c94e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -62,6 +62,8 @@ if a log field is not present, a "-" is substituted:
 ** `-2`: The `git-upload-pack` transfer was interrupted or blocked
 ** `-1`: The `git-upload-pack` transfer was ultimately not successful
 ** `0`: The `git-upload-pack` transfer was ultimately successful
+* `Trace-Id`: trace ID assigned to the request. In JSON format this field is
+  named `traceId`.
 
 Example:
 ```
@@ -100,6 +102,7 @@ Log format:
   CPU time in kernel mode is `total_cpu - user_cpu`.
 * `memory`: memory allocated in bytes to execute command. -1 if the JVM does
   not support this metric.
+* `traceId`: trace ID assigned to the request.
 
 The `git-upload-pack` command provides the following additional fields after the `exec`
 and before the `status` field. All times are in milliseconds. Fields are -1 if not available

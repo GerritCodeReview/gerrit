@@ -1206,6 +1206,12 @@ export class GrChangeActions
     }
     let result;
     for (const [label, labelInfo] of Object.entries(this.change.labels)) {
+      if (
+        label === StandardLabels.PRESUBMIT_VERIFIED ||
+        label.toLowerCase().startsWith('presubmit')
+      ) {
+        continue;
+      }
       if (!(label in this.change.permitted_labels)) {
         continue;
       }

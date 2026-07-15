@@ -2561,6 +2561,31 @@ suite('gr-change-actions tests', () => {
         );
         assert.isNotOk(approveButton);
       });
+
+      test('ignore presubmit labels for quick approve', async () => {
+        element.change = {
+          ...createChangeViewChange(),
+          current_revision: 'abc1234' as CommitId,
+          labels: {
+            'Code-Review': {
+              approved: createAccountWithId(1),
+              all: [{value: 2}],
+            },
+            'Presubmit-Verified': {
+              values: {'-1': '', ' 0': '', '+1': ''},
+            },
+          },
+          permitted_labels: {
+            'Presubmit-Verified': ['-1', ' 0', '+1'],
+          },
+        };
+        await element.updateComplete;
+        const approveButton = query(
+          element,
+          "gr-button[data-action-key='review']"
+        );
+        assert.isNotOk(approveButton);
+      });
     });
 
     test('adds download revision action', async () => {

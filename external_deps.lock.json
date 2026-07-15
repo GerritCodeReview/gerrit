@@ -169,7 +169,7 @@
     "org.commonmark:commonmark-ext-autolink": -1853742120,
     "org.commonmark:commonmark-ext-gfm-strikethrough": 350394231,
     "org.commonmark:commonmark-ext-gfm-tables": 1881582931,
-    "org.eclipse.jetty.ee10:jetty-ee10-servlet": 835495267,
+    "org.eclipse.jetty.ee11:jetty-ee11-servlet": -562048764,
     "org.eclipse.jetty.ee8:jetty-ee8-nested": 860016002,
     "org.eclipse.jetty.ee8:jetty-ee8-security": -175183477,
     "org.eclipse.jetty.ee8:jetty-ee8-servlet": 1148815122,
@@ -432,8 +432,8 @@
     "org.commonmark:commonmark-ext-gfm-tables": -1205584749,
     "org.commonmark:commonmark-ext-gfm-tables:jar:sources": 1341057091,
     "org.commonmark:commonmark:jar:sources": -1511261547,
-    "org.eclipse.jetty.ee10:jetty-ee10-servlet": -585403144,
-    "org.eclipse.jetty.ee10:jetty-ee10-servlet:jar:sources": 501419503,
+    "org.eclipse.jetty.ee11:jetty-ee11-servlet": -2443254,
+    "org.eclipse.jetty.ee11:jetty-ee11-servlet:jar:sources": -1546113901,
     "org.eclipse.jetty.ee8:jetty-ee8-nested": -1915352225,
     "org.eclipse.jetty.ee8:jetty-ee8-nested:jar:sources": 673934800,
     "org.eclipse.jetty.ee8:jetty-ee8-security": -1918552702,
@@ -1297,12 +1297,12 @@
       },
       "version": "0.24.0"
     },
-    "org.eclipse.jetty.ee10:jetty-ee10-servlet": {
+    "org.eclipse.jetty.ee11:jetty-ee11-servlet": {
       "shasums": {
-        "jar": "05cccc74bbe1478ceb765e967b1cb1a3c8d9b51e99acf586190887e467ffd87d",
-        "sources": "51a734b4bc04235b24ccd759515dd2947e5b675c227c556f02262b765bce47eb"
+        "jar": "f88e19a29f4e46322df60fe43d5ac4d852edefad923e8c38ef17ff14dc522e84",
+        "sources": "345f50f1a2937968934f354134cf4dd7e2b94bbfec36a177bb015ba675bd345c"
       },
-      "version": "12.1.10"
+      "version": "12.1.11"
     },
     "org.eclipse.jetty.ee8:jetty-ee8-nested": {
       "shasums": {
@@ -1809,7 +1809,7 @@
     "org.commonmark:commonmark-ext-gfm-tables": [
       "org.commonmark:commonmark"
     ],
-    "org.eclipse.jetty.ee10:jetty-ee10-servlet": [
+    "org.eclipse.jetty.ee11:jetty-ee11-servlet": [
       "jakarta.servlet:jakarta.servlet-api",
       "org.eclipse.jetty:jetty-security",
       "org.eclipse.jetty:jetty-server",
@@ -3775,14 +3775,14 @@
       "org.commonmark.ext.gfm.tables",
       "org.commonmark.ext.gfm.tables.internal"
     ],
-    "org.eclipse.jetty.ee10:jetty-ee10-servlet": [
-      "org.eclipse.jetty.ee10.servlet",
-      "org.eclipse.jetty.ee10.servlet.internal",
-      "org.eclipse.jetty.ee10.servlet.jmx",
-      "org.eclipse.jetty.ee10.servlet.listener",
-      "org.eclipse.jetty.ee10.servlet.security",
-      "org.eclipse.jetty.ee10.servlet.security.authentication",
-      "org.eclipse.jetty.ee10.servlet.util"
+    "org.eclipse.jetty.ee11:jetty-ee11-servlet": [
+      "org.eclipse.jetty.ee11.servlet",
+      "org.eclipse.jetty.ee11.servlet.internal",
+      "org.eclipse.jetty.ee11.servlet.jmx",
+      "org.eclipse.jetty.ee11.servlet.listener",
+      "org.eclipse.jetty.ee11.servlet.security",
+      "org.eclipse.jetty.ee11.servlet.security.authentication",
+      "org.eclipse.jetty.ee11.servlet.util"
     ],
     "org.eclipse.jetty.ee8:jetty-ee8-nested": [
       "org.eclipse.jetty.ee8.nested",
@@ -4548,8 +4548,8 @@
       "org.commonmark:commonmark-ext-gfm-tables",
       "org.commonmark:commonmark-ext-gfm-tables:jar:sources",
       "org.commonmark:commonmark:jar:sources",
-      "org.eclipse.jetty.ee10:jetty-ee10-servlet",
-      "org.eclipse.jetty.ee10:jetty-ee10-servlet:jar:sources",
+      "org.eclipse.jetty.ee11:jetty-ee11-servlet",
+      "org.eclipse.jetty.ee11:jetty-ee11-servlet:jar:sources",
       "org.eclipse.jetty.ee8:jetty-ee8-nested",
       "org.eclipse.jetty.ee8:jetty-ee8-nested:jar:sources",
       "org.eclipse.jetty.ee8:jetty-ee8-security",
@@ -4848,8 +4848,8 @@
       "org.commonmark:commonmark-ext-gfm-tables",
       "org.commonmark:commonmark-ext-gfm-tables:jar:sources",
       "org.commonmark:commonmark:jar:sources",
-      "org.eclipse.jetty.ee10:jetty-ee10-servlet",
-      "org.eclipse.jetty.ee10:jetty-ee10-servlet:jar:sources",
+      "org.eclipse.jetty.ee11:jetty-ee11-servlet",
+      "org.eclipse.jetty.ee11:jetty-ee11-servlet:jar:sources",
       "org.eclipse.jetty.ee8:jetty-ee8-nested",
       "org.eclipse.jetty.ee8:jetty-ee8-nested:jar:sources",
       "org.eclipse.jetty.ee8:jetty-ee8-security",

@@ -792,6 +792,56 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
         .containsExactly(user1.id().get());
   }
 
+  @Test
+  public void prefersLessBusyUserAmongEquallyGoodCandidates() throws Exception {
+    // user1 (reviewer) and user2 (owner) both recently worked on the touched file and hence have
+    // an equal score.
+    mergeChangeTouchingFile(user2, user1, "dir/file.txt");
+
+    // user1 is in the attention set of two open changes.
+    createOpenChangeWithReviewer(user3, user1);
+    createOpenChangeWithReviewer(user3, user1);
+
+    PushOneCommit.Result newChange = createChange("New change", "dir/file.txt", "new content");
+
+    // user2 is suggested first because user1 has the larger attention set.
+    List<SuggestedReviewerInfo> reviewers = suggestReviewers(newChange.getChangeId(), null);
+    assertThat(reviewers.stream().map(r -> r.account._accountId).collect(toList()))
+        .containsExactly(user2.id().get(), user1.id().get())
+        .inOrder();
+  }
+
+  @Test
+  @GerritConfig(name = "suggest.attentionSetFactor", value = "0")
+  public void attentionSetLoadBalancingCanBeDisabled() throws Exception {
+    mergeChangeTouchingFile(user2, user1, "dir/file.txt");
+
+    createOpenChangeWithReviewer(user3, user1);
+    createOpenChangeWithReviewer(user3, user1);
+
+    PushOneCommit.Result newChange = createChange("New change", "dir/file.txt", "new content");
+
+    List<SuggestedReviewerInfo> reviewers = suggestReviewers(newChange.getChangeId(), null);
+    assertThat(reviewers.stream().map(r -> r.account._accountId).collect(toList()))
+        .containsExactly(user1.id().get(), user2.id().get());
+  }
+
+  private void createOpenChangeWithReviewer(TestAccount owner, TestAccount reviewer)
+      throws Exception {
+    TestRepository<InMemoryRepository> ownerRepo = cloneProject(project, owner);
+    PushOneCommit.Result change =
+        pushFactory
+            .create(
+                owner.newIdent(),
+                ownerRepo,
+                "Open change",
+                "unrelated-" + System.nanoTime() + ".txt",
+                "content")
+            .to("refs/for/master");
+    change.assertOkStatus();
+    reviewChange(change.getChangeId(), reviewer);
+  }
+
   private void mergeChangeTouchingFile(TestAccount owner, TestAccount reviewer, String file)
       throws Exception {
     TestRepository<InMemoryRepository> ownerRepo = cloneProject(project, owner);

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "eed33fe3_9bc856c7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 730,
+      "author": {
+        "id": 4870948
+      },
+      "writtenOn": "2026-07-15T00:44:58Z",
+      "side": 1,
+      "message": "Good catch! I had looked into this earlier and thought that there was a really weird naming convention here and that the this.getFirstComment() built-in was bizarrely actually giving us the most recent comment (end of chain). But you\u0027re right - the naming convention makes sense, and this was a bug in the original code. I\u0027ve updated.",
+      "parentUuid": "70275cbb_68503dc8",
+      "range": {
+        "startLine": 726,
+        "startChar": 4,
+        "endLine": 730,
+        "endChar": 49
+      },
+      "revId": "0d43f15bae29b151dad900b6f33c9346ba0cc6fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9ad6d90d_89cc111a",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "18b63dad_f17a2fc7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread_test.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 4870948
+      },
+      "writtenOn": "2026-07-15T00:44:58Z",
+      "side": 1,
+      "message": "Nice suggestion. Done.",
+      "parentUuid": "9ad6d90d_89cc111a",
+      "range": {
+        "startLine": 176,
+        "startChar": 0,
+        "endLine": 176,
+        "endChar": 69
+      },
+      "revId": "0d43f15bae29b151dad900b6f33c9346ba0cc6fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "543f69f5_fbc74ed9",
@@ -60,6 +108,30 @@
       "writtenOn": "2026-07-14T17:24:11Z",
       "side": 1,
       "message": "What happens if the comment never becomes visible? like if the user starts doing something else because it took too long?",
+      "range": {
+        "startLine": 1415,
+        "startChar": 0,
+        "endLine": 1415,
+        "endChar": 63
+      },
+      "revId": "0d43f15bae29b151dad900b6f33c9346ba0cc6fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eaec9799_fb71d778",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1415,
+      "author": {
+        "id": 4870948
+      },
+      "writtenOn": "2026-07-15T00:44:58Z",
+      "side": 1,
+      "message": "Good question! This is pre-existing behavior that was moved rather than introduced in this CL, but under the hood whenVisible uses an IntersectionObserver.\n\nIf the comment doesn\u0027t become visible immediately, the observer callback remains pending until it intersects the viewport. The inline comment notes this fragility: if it becomes visible much later while the user is typing elsewhere, calling textarea?.putCursorAtEnd() could steal focus. If we want to safeguard against focus stealing, we can track this in a follow-up issue/CL.",
+      "parentUuid": "543f69f5_fbc74ed9",
       "range": {
         "startLine": 1415,
         "startChar": 0,

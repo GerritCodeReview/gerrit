@@ -44,4 +44,14 @@ suite('gr-shell-command tests', () => {
     await element.focusOnCopy();
     assert.isTrue(focusStub.called);
   });
+
+  test('passes disableAutoSelect to gr-copy-clipboard', async () => {
+    element.disableAutoSelect = true;
+    await element.updateComplete;
+    const copyClipboard = queryAndAssert<GrCopyClipboard>(
+      element,
+      'gr-copy-clipboard'
+    );
+    assert.isTrue(copyClipboard.disableAutoSelect);
+  });
 });

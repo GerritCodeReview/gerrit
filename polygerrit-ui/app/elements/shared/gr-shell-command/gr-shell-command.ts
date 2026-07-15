@@ -27,6 +27,9 @@ export class GrShellCommand extends LitElement {
   @property({type: String})
   tooltip = '';
 
+  @property({type: Boolean, attribute: 'disable-auto-select', reflect: true})
+  disableAutoSelect = false;
+
   static override get styles() {
     return [
       sharedStyles,
@@ -73,6 +76,7 @@ export class GrShellCommand extends LitElement {
           .text=${this.command}
           hasTooltip
           buttonTitle=${this.tooltip}
+          .disableAutoSelect=${this.disableAutoSelect}
         ></gr-copy-clipboard>
       </div>`;
   }

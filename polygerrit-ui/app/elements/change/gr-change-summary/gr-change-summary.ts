@@ -511,11 +511,13 @@ export class GrChangeSummary extends LitElement {
     let count = showAll ? 999 : DETAILS_QUOTA.get(statusOrCategory) ?? 2;
     if (count === runs.length - 1) count = runs.length;
     const more = runs.length - count;
+    const remainingRuns = runs.slice(count);
+    const moreIsAi = remainingRuns.some(run => run.isAiPowered);
     return html`${runs
       .slice(0, count)
       .map(run =>
         this.renderChecksChipDetailed(run, statusOrCategory)
-      )}${this.renderChecksChipPlusMore(statusOrCategory, more)}`;
+      )}${this.renderChecksChipPlusMore(statusOrCategory, more, moreIsAi)}`;
   }
 
   private renderChecksChipsCollapsed(
@@ -528,10 +530,12 @@ export class GrChangeSummary extends LitElement {
       0
     );
     if (count === 0) return;
+    const isAi = runs.some(run => run.isAiPowered);
     const handler = () => this.onChipClick({statusOrCategory});
     return html`<gr-checks-chip
       .statusOrCategory=${statusOrCategory}
       .text=${`${count}`}
+      .isAi=${isAi}
       @click=${handler}
       @keydown=${(e: KeyboardEvent) => handleSpaceOrEnter(e, handler)}
     ></gr-checks-chip>`;
@@ -539,7 +543,8 @@ export class GrChangeSummary extends LitElement {
 
   private renderChecksChipPlusMore(
     statusOrCategory: RunStatus | Category,
-    count: number
+    count: number,
+    isAi = false
   ) {
     if (count <= 0) return;
     if (this.showAllChips.get(statusOrCategory) === true) return;
@@ -550,6 +555,7 @@ export class GrChangeSummary extends LitElement {
     return html`<gr-checks-chip
       .statusOrCategory=${statusOrCategory}
       .text="+ ${count} more"
+      .isAi=${isAi}
       @click=${handler}
       @keydown=${(e: KeyboardEvent) => handleSpaceOrEnter(e, handler)}
     ></gr-checks-chip>`;
@@ -579,6 +585,7 @@ export class GrChangeSummary extends LitElement {
       .statusOrCategory=${statusOrCategory}
       .text=${text}
       .links=${links}
+      .isAi=${!!run.isAiPowered}
       @click=${handler}
       @keydown=${(e: KeyboardEvent) => handleSpaceOrEnter(e, handler)}
     ></gr-checks-chip>`;

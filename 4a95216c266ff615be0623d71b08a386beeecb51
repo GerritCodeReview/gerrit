@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb71ff77_619ff239",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-07-15T16:21:05Z",
+      "side": 1,
+      "message": "You probably should describe somewhere in here what \"warming\" means.",
+      "revId": "4a95216c266ff615be0623d71b08a386beeecb51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d71ec0f_244e8cc0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-07-15T16:21:05Z",
+      "side": 1,
+      "message": "This feels too vague, maybe something like:\n\n\"Add file warming for faster H2 bloom filter building\"",
+      "revId": "4a95216c266ff615be0623d71b08a386beeecb51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

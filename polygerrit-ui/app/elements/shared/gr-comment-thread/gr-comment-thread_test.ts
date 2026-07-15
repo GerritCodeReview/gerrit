@@ -173,6 +173,36 @@ suite('gr-comment-thread tests', () => {
     );
   });
 
+  test('focuses commentBox when it is NOT a new draft', async () => {
+    const thread = createThread(c1);
+    const element = await fixture<GrCommentThread>(html`
+      <gr-comment-thread
+        .thread=${thread}
+        .shouldScrollIntoView=${true}
+      ></gr-comment-thread>
+    `);
+    await element.updateComplete;
+    await new Promise(resolve => setTimeout(resolve, 0));
+
+    const commentBox = queryAndAssert<HTMLElement>(element, '.comment-box');
+    assert.equal(element.shadowRoot?.activeElement, commentBox);
+  });
+
+  test('does not focus commentBox when it IS a new draft', async () => {
+    const thread = createThread(createNewDraft({message: ''}));
+    const element = await fixture<GrCommentThread>(html`
+      <gr-comment-thread
+        .thread=${thread}
+        .shouldScrollIntoView=${true}
+      ></gr-comment-thread>
+    `);
+    await element.updateComplete;
+    await new Promise(resolve => setTimeout(resolve, 0));
+
+    const commentBox = queryAndAssert<HTMLElement>(element, '.comment-box');
+    assert.notEqual(element.shadowRoot?.activeElement, commentBox);
+  });
+
   test('comment box spans 100% of container width', async () => {
     const wrapper = await fixture(html`
       <div style="width: 500px;">
@@ -517,6 +547,85 @@ suite('gr-comment-thread tests', () => {
 
       // The draft should be discarded completely
       assert.equal(draftElement.messageText, '');
+    });
+
+    test('handle Quote with multi-line message', async () => {
+      stubAdd.restore();
+      stubAdd = sinon
+        .stub(testResolver(commentsModelToken), 'addNewDraft')
+        .callsFake(draft => {
+          const newDraft = {
+            ...draft,
+            id: 'new-draft' as UrlEncodedCommentId,
+            __draft: true,
+          };
+          if (element.thread) {
+            element.thread = {
+              ...element.thread,
+              comments: [...element.thread.comments, newDraft],
+            };
+          }
+          return Promise.resolve(newDraft);
+        });
+
+      element.thread = createThread(c1, {
+        ...c2,
+        message: 'first line\nsecond line\nthird line',
+        unresolved: true,
+      });
+      await element.updateComplete;
+
+      queryAndAssert<GrButton>(element, '#quoteBtn').click();
+      assert.isTrue(stubAdd.called);
+      assert.equal(stubAdd.lastCall.firstArg.in_reply_to, c2.id);
+      await element.updateComplete;
+
+      const draftElement = queryAndAssert<GrComment>(
+        element,
+        'gr-comment.draft'
+      );
+      await draftElement.updateComplete;
+      await waitUntil(
+        () =>
+          draftElement.messageText ===
+          '> first line\n> second line\n> third line\n\n'
+      );
+      assert.equal(
+        draftElement.messageText,
+        '> first line\n> second line\n> third line\n\n'
+      );
+    });
+
+    test('handle reply-to-comment event from child comment', async () => {
+      element.thread = createThread(c1, {...c2, unresolved: true});
+      await element.updateComplete;
+
+      const commentEl = queryAndAssert<GrComment>(element, 'gr-comment');
+      commentEl.dispatchEvent(
+        new CustomEvent('reply-to-comment', {
+          detail: {
+            content: 'custom response',
+            userWantsToEdit: true,
+            unresolved: true,
+          },
+          bubbles: true,
+          composed: true,
+        })
+      );
+
+      assert.isTrue(stubAdd.called);
+      assert.equal(stubAdd.lastCall.firstArg.in_reply_to, c2.id);
+      assert.equal(stubAdd.lastCall.firstArg.unresolved, true);
+    });
+
+    test('reply sets in_reply_to to the last comment id in thread', async () => {
+      element.thread = createThread(c1, c2);
+      await element.updateComplete;
+
+      queryAndAssert<GrButton>(element, '#replyBtn').click();
+      assert.isTrue(stubAdd.called);
+      const newDraft = stubAdd.lastCall.firstArg;
+      assert.equal(newDraft.in_reply_to, c2.id);
     });
   });
 

@@ -3,6 +3,142 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7ef21e2e_92716f50",
+        "filename": "java/com/google/gerrit/server/index/change/PendingIndexUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-07-15T19:00:01Z",
+      "side": 1,
+      "message": "We likely want this to use a thread/MP safe approach to writing files. This would mean writing the content to another file first (one which the scanner will ignore), and then moving the file to its final name.",
+      "revId": "161d4ec5acfbe029822d143bbc6d792208adc2f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37b94240_be8453e3",
+        "filename": "java/com/google/gerrit/server/index/change/PendingIndexUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-07-15T19:00:01Z",
+      "side": 1,
+      "message": "I recommend using json here as tabulation is not safe.",
+      "revId": "161d4ec5acfbe029822d143bbc6d792208adc2f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39a11228_11a14986",
+        "filename": "java/com/google/gerrit/server/index/change/PendingIndexUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-07-15T19:00:01Z",
+      "side": 1,
+      "message": "Would it make sense to always call this from delete()?",
+      "revId": "161d4ec5acfbe029822d143bbc6d792208adc2f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99ceaa33_8f84efcc",
+        "filename": "java/com/google/gerrit/server/index/change/PendingIndexUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-07-15T19:00:01Z",
+      "side": 1,
+      "message": "recover()?",
+      "revId": "161d4ec5acfbe029822d143bbc6d792208adc2f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b969d9bd_f8dbb3bb",
+        "filename": "java/com/google/gerrit/server/index/change/PendingIndexUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-07-15T19:00:01Z",
+      "side": 1,
+      "message": "I think the style guide says this should come below class definitions (line 129).",
+      "revId": "161d4ec5acfbe029822d143bbc6d792208adc2f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1bdee69f_def854ed",
+        "filename": "java/com/google/gerrit/server/index/change/PendingIndexUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-07-15T19:00:01Z",
+      "side": 1,
+      "message": "shutdown here?",
+      "revId": "161d4ec5acfbe029822d143bbc6d792208adc2f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e11ef2b_f8711756",
+        "filename": "java/com/google/gerrit/server/index/change/PendingIndexUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-07-15T19:00:01Z",
+      "side": 1,
+      "message": "What is the synchronized protecting against? (It doesn\u0027t seem needed?)",
+      "revId": "161d4ec5acfbe029822d143bbc6d792208adc2f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "edc6befa_d921c0f0",
+        "filename": "java/com/google/gerrit/server/index/change/PendingIndexUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-07-15T19:00:01Z",
+      "side": 1,
+      "message": "As a more general approach, the question here should be isThreadDead() instead. It doesn\u0027t currently matter, but that better expresses the intent, and leaves the door open for a potential unknown status in the future (we would not trigger recovery for unknown).",
+      "revId": "161d4ec5acfbe029822d143bbc6d792208adc2f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "56fbb4c4_62780a7d",
         "filename": "java/com/google/gerrit/server/update/BatchUpdates.java",
         "patchSetId": 3
@@ -32,6 +168,23 @@
       "side": 1,
       "message": "That is fine because the updates to noteDb are not made until L#131 ?",
       "parentUuid": "56fbb4c4_62780a7d",
+      "revId": "161d4ec5acfbe029822d143bbc6d792208adc2f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "978c88cb_b1f34aef",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdates.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-07-15T19:00:01Z",
+      "side": 1,
+      "message": "It is not clear to me that we should clean up on interrupt unless we have neither updated the index nor the git references?",
       "revId": "161d4ec5acfbe029822d143bbc6d792208adc2f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

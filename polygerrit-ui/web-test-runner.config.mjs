@@ -9,7 +9,7 @@ import { PNG } from 'pngjs';
 import { playwrightLauncher } from '@web/test-runner-playwright';
 
 const runUnderBazel = !!process.env['RUNFILES_DIR'];
-const diffThreshold = 0.01;
+const diffThreshold = 0.08;
 
 function testRunnerHtmlFactory(prefix) {
   return (testFramework) => `

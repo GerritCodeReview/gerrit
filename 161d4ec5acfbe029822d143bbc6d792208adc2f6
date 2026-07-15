@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56fbb4c4_62780a7d",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdates.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-07-15T07:52:42Z",
+      "side": 1,
+      "message": "What if the JVM crashes before this line? The intents won\u0027t be written, and we would lose the indexing upon restarts.",
+      "revId": "161d4ec5acfbe029822d143bbc6d792208adc2f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

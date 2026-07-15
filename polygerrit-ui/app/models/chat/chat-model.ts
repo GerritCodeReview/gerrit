@@ -14,6 +14,7 @@ import {
   ChatResponse,
   ChatResponseListener,
   ChatResponsePart,
+  CodeSelection,
   ContextItem,
   ContextItemType,
   Conversation,
@@ -23,7 +24,13 @@ import {
   Models,
   Reference,
 } from '../../api/ai-code-review';
-import {ChangeInfo, CommentInfo, FileInfoStatus} from '../../api/rest-api';
+import {
+  BasePatchSetNum,
+  ChangeInfo,
+  CommentInfo,
+  FileInfoStatus,
+  RevisionPatchSetNum,
+} from '../../api/rest-api';
 import {PreferencesInfo} from '../../types/common';
 import {isDefined} from '../../types/types';
 import {assert, assertIsDefined, cryptoUuid} from '../../utils/common-util';
@@ -71,6 +78,8 @@ export declare interface UserMessage {
   // Summarize this CL is trigger when clicking the Help me review button). This
   // may affect the UI layout of the turn.
   readonly isBackgroundRequest?: boolean;
+  // Structured selection coordinates used when present.
+  readonly selection?: CodeSelection;
 }
 
 /**
@@ -234,6 +243,12 @@ export interface ChatTriggerParams {
   prompt?: string;
 }
 
+export interface SelectionContextChatParams {
+  actionId?: string;
+  prompt?: string;
+  selection?: CodeSelection;
+}
+
 export const chatModelToken = define<ChatModel>('chat-model');
 
 export class ChatModel extends Model<ChatState> {
@@ -345,6 +360,10 @@ export class ChatModel extends Model<ChatState> {
 
   private files: NormalizedFileInfo[] = [];
 
+  private patchNum?: RevisionPatchSetNum;
+
+  private basePatchNum?: BasePatchSetNum;
+
   constructor(
     private readonly pluginsModel: PluginsModel,
     private readonly changeModel: ChangeModel,
@@ -355,6 +374,17 @@ export class ChatModel extends Model<ChatState> {
       mode: ChatPanelMode.CONVERSATION,
       ...initialConversationState,
     });
+
+    this.subscriptions.push(
+      this.changeModel.patchNum$.subscribe(
+        patchNum => (this.patchNum = patchNum)
+      )
+    );
+    this.subscriptions.push(
+      this.changeModel.basePatchNum$.subscribe(
+        basePatchNum => (this.basePatchNum = basePatchNum)
+      )
+    );
 
     this.selectedModelId$ = select(
       combineLatest([
@@ -600,6 +630,13 @@ export class ChatModel extends Model<ChatState> {
         this.userModel.getState().preferences
       ),
       external_contexts: contextItems,
+      selection: userMessage.selection
+        ? {
+            ...userMessage.selection,
+            lhsPatchset: toNumericPatchset(this.basePatchNum),
+            rhsPatchset: toNumericPatchset(this.patchNum),
+          }
+        : undefined,
     };
     const listener: ChatResponseListener = {
       emitResponse: (response: ChatResponse) => {
@@ -722,6 +759,42 @@ export class ChatModel extends Model<ChatState> {
     });
 
     if (userInput) this.sendChatRequest(0);
+  }
+
+  startNewChatWithSelectionContext(params: SelectionContextChatParams) {
+    const action = params.actionId
+      ? this.getAction(params.actionId)
+      : undefined;
+
+    // Structured flow: used when selection coordinates and a registered action are present.
+    if (params.selection && action) {
+      const content = action.initial_user_prompt ?? '';
+
+      const message: UserMessage = {
+        userType: UserType.USER,
+        content,
+        actionId: action.id,
+        selection: params.selection,
+        contextItems: [],
+      };
+      const turns: Turn[] = [userTurn(message)];
+
+      this.updateState({
+        ...initialConversationState,
+        id: cryptoUuid(),
+        turns,
+        draftUserMessage: {
+          ...draftFromUserMessage(message),
+          selection: undefined,
+          actionId: undefined,
+        },
+      });
+
+      this.sendChatRequest(0);
+    } else if (params.prompt) {
+      // Fallback flow: used when selection coordinates or registered action are absent.
+      this.startNewChatWithUserInput(params.prompt, undefined, [], false);
+    }
   }
 
   processChatRequest(params: ChatTriggerParams) {
@@ -1024,6 +1097,24 @@ function draftFromUserMessage(userMessage: UserMessage): UserMessage {
     content: '',
     isBackgroundRequest: false,
   };
+}
+
+/**
+ * Maps PolyGerrit UI patchset representations to numeric backend patchset IDs.
+ * - 'PARENT' is mapped to 0 (representing the LHS Base parent commit).
+ * - Numeric patchset numbers are passed through directly.
+ * - 'edit' (change edits) or undefined map to undefined.
+ */
+function toNumericPatchset(
+  patchNum?: RevisionPatchSetNum | BasePatchSetNum
+): number | undefined {
+  if (patchNum === 'PARENT') {
+    return 0;
+  }
+  if (typeof patchNum === 'number') {
+    return patchNum;
+  }
+  return undefined;
 }
 
 function extractResponseParts(

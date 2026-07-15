@@ -1381,11 +1381,9 @@ export class GrComment extends LitElement {
   override updated(changed: PropertyValues) {
     if (changed.has('editing')) {
       if (this.editing && !this.permanentEditingMode) {
-        // Note that this is a bit fragile, because we are relying on the
-        // comment to become visible soonish. If that does not happen, then we
-        // will be waiting indefinitely and grab focus at some point in the
-        // distant future.
-        whenVisible(this, () => this.textarea?.putCursorAtEnd());
+        this.focusTextarea().catch(() => {
+          // Ignore error since failure to focus is non-fatal.
+        });
       }
     }
     if (changed.has('changeNum') || changed.has('comment')) {
@@ -1398,6 +1396,27 @@ export class GrComment extends LitElement {
         );
       })();
     }
+  }
+
+  private async focusTextarea(): Promise<void> {
+    await this.updateComplete;
+    if (!this.textarea) {
+      return;
+    }
+    await this.textarea.updateComplete;
+    if (this.isVisible()) {
+      this.textarea.putCursorAtEnd();
+    } else {
+      // Note that this is a bit fragile, because we are relying on the
+      // comment to become visible soonish. If that does not happen, then we
+      // will be waiting indefinitely and grab focus at some point in the
+      // distant future.
+      whenVisible(this, () => this.textarea?.putCursorAtEnd());
+    }
+  }
+
+  private isVisible(): boolean {
+    return this.offsetWidth > 0 || this.offsetHeight > 0;
   }
 
   override willUpdate(changed: PropertyValues) {

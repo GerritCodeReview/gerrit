@@ -49,6 +49,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangePredicates;
 import com.google.gerrit.server.query.change.ChangeStatusPredicate;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
+import com.google.gerrit.server.util.AttentionSetUtil;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -271,7 +272,7 @@ public class ReviewerRecommender {
 
     List<Map.Entry<Account.Id, MutableDouble>> top =
         byScore.subList(0, Math.min(maxCandidates, byScore.size()));
-    ImmutableMap<Account.Id, Integer> attentionSetLoads =
+    ImmutableMap<Account.Id, Double> attentionSetLoads =
         getAttentionSetLoads(top.stream().map(Map.Entry::getKey).collect(toImmutableList()));
     logger.atFine().log("Attention set loads: %s", attentionSetLoads);
 
@@ -280,54 +281,77 @@ public class ReviewerRecommender {
         .sorted(
             Comparator.<Map.Entry<Account.Id, MutableDouble>>comparingDouble(
                     e -> {
-                      int load = attentionSetLoads.getOrDefault(e.getKey(), 0);
+                      double load = attentionSetLoads.getOrDefault(e.getKey(), 0.0);
                       return -(e.getValue().doubleValue() / (1 + attentionSetFactor * load));
                     })
-                .thenComparingInt(e -> attentionSetLoads.getOrDefault(e.getKey(), 0)))
+                .thenComparingDouble(e -> attentionSetLoads.getOrDefault(e.getKey(), 0.0)))
         .forEach(e -> result.add(e.getKey()));
     byScore.subList(top.size(), byScore.size()).forEach(e -> result.add(e.getKey()));
     return result;
   }
 
   private double getAttentionSetFactor() {
-    String value = config.getString("suggest", null, "attentionSetFactor");
+    return getDoubleConfig("attentionSetFactor", 0.1);
+  }
+
+  private double getDoubleConfig(String name, double defaultValue) {
+    String value = config.getString("suggest", null, name);
     if (Strings.isNullOrEmpty(value)) {
-      return 0.1;
+      return defaultValue;
     }
     try {
       return Double.parseDouble(value);
     } catch (NumberFormatException e) {
-      logger.atSevere().withCause(e).log(
-          "Invalid value for suggest.attentionSetFactor: %s", value);
-      return 0.1;
+      logger.atSevere().withCause(e).log("Invalid value for suggest.%s: %s", name, value);
+      return defaultValue;
     }
   }
 
   /**
-   * Returns for each of the given accounts the number of open changes in which the account is in
-   * the attention set, capped at {@link #MAX_ATTENTION_SET_LOAD}.
+   * Returns for each of the given accounts the effective load from open changes in which the
+   * account is in the attention set.
+   *
+   * <p>Each open change with an attention set entry for the account counts as 1. Entries that have
+   * been in the attention set for longer than {@code suggest.attentionSetStaleAgeDays} count an
+   * additional {@code suggest.attentionSetStaleFactor} on top, since unattended entries indicate
+   * that the user is overloaded or absent. At most {@link #MAX_ATTENTION_SET_LOAD} changes are
+   * counted per account.
    */
-  private ImmutableMap<Account.Id, Integer> getAttentionSetLoads(
+  private ImmutableMap<Account.Id, Double> getAttentionSetLoads(
       ImmutableList<Account.Id> accountIds) {
-    List<Callable<Integer>> tasks = new ArrayList<>(accountIds.size());
+    int staleAgeDays = config.getInt("suggest", "attentionSetStaleAgeDays", 7);
+    double staleFactor = getDoubleConfig("attentionSetStaleFactor", 1.0);
+    boolean checkStaleness = staleAgeDays > 0 && staleFactor > 0;
+
+    List<Callable<Double>> tasks = new ArrayList<>(accountIds.size());
     for (Account.Id accountId : accountIds) {
       InternalChangeQuery internalChangeQuery =
           queryProvider
               .get()
               .setLimit(MAX_ATTENTION_SET_LOAD)
-              .setRequestedFields(ChangeField.NUMERIC_ID_STR_SPEC);
+              .setRequestedFields(
+                  ChangeField.NUMERIC_ID_STR_SPEC, ChangeField.ATTENTION_SET_FULL_SPEC);
       tasks.add(
-          () ->
-              internalChangeQuery
-                  .query(
-                      Predicate.and(
-                          ChangeStatusPredicate.open(), ChangePredicates.attentionSet(accountId)))
-                  .size());
+          () -> {
+            Instant staleCut =
+                checkStaleness ? TimeUtil.now().minus(Duration.ofDays(staleAgeDays)) : null;
+            double load = 0;
+            for (ChangeData cd :
+                internalChangeQuery.query(
+                    Predicate.and(
+                        ChangeStatusPredicate.open(), ChangePredicates.attentionSet(accountId)))) {
+              load += 1;
+              if (staleCut != null && isStaleAttentionSetEntry(cd, accountId, staleCut)) {
+                load += staleFactor;
+              }
+            }
+            return load;
+          });
     }
 
-    ImmutableMap.Builder<Account.Id, Integer> loads = ImmutableMap.builder();
+    ImmutableMap.Builder<Account.Id, Double> loads = ImmutableMap.builder();
     try {
-      List<Future<Integer>> futures =
+      List<Future<Double>> futures =
           executor.invokeAll(tasks, ATTENTION_SET_QUERY_TIMEOUT, TimeUnit.MILLISECONDS);
       for (int i = 0; i < futures.size(); i++) {
         if (futures.get(i).isCancelled()) {
@@ -342,6 +366,13 @@ public class ReviewerRecommender {
       return ImmutableMap.of();
     }
     return loads.buildOrThrow();
+  }
+
+  private static boolean isStaleAttentionSetEntry(
+      ChangeData cd, Account.Id accountId, Instant staleCut) {
+    return AttentionSetUtil.additionsOnly(cd.attentionSet()).stream()
+        .filter(update -> update.account().equals(accountId))
+        .anyMatch(update -> update.timestamp().isBefore(staleCut));
   }
 
   /**

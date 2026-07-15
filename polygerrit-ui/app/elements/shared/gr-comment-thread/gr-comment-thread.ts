@@ -355,6 +355,7 @@ export class GrCommentThread extends LitElement {
       sharedStyles,
       css`
         :host {
+          display: block;
           font-family: var(--font-family);
           font-size: var(--font-size-normal);
           font-weight: var(--font-weight-normal);
@@ -722,10 +723,19 @@ export class GrCommentThread extends LitElement {
   }
 
   override firstUpdated() {
+    const lastComment = this.thread ? this.getLastComment() : undefined;
+    const isNewDraft =
+      isDraft(lastComment) && (lastComment?.message ?? '') === '';
     if (this.shouldScrollIntoView) {
       whenRendered(this, () => {
         this.expandCollapseComments(false);
-        this.commentBox?.focus();
+        // Because of the non-deterministic order of focus events firing from
+        // the JS event loop, focusing the comment box on a new draft can result
+        // in the draft comment not being focused, which means the user has to
+        // click into it to start typing.
+        if (!isNewDraft) {
+          this.commentBox?.focus();
+        }
         // The delay is a hack because we don't know exactly when to
         // scroll the comment into center.
         // TODO: Find a better solution without a setTimeout
@@ -735,9 +745,9 @@ export class GrCommentThread extends LitElement {
         }, 500);
       });
     }
-    if (this.thread && isDraft(this.getFirstComment())) {
-      const msg = this.getFirstComment()?.message ?? '';
-      if (msg.length === 0) this.editDraft();
+    // Focus the draft comment input to avoid the user having to click into it.
+    if (isNewDraft) {
+      this.editDraft();
     }
   }
 

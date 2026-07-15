@@ -13,6 +13,12 @@ import {UserModel} from '../user/user-model';
 import {BehaviorSubject} from 'rxjs';
 import {createParsedChange} from '../../test/test-data-generators';
 import {AiCodeReviewProvider, ChatRequest} from '../../api/ai-code-review';
+import {Side} from '../../api/diff';
+import {
+  BasePatchSetNum,
+  CommentRange,
+  RevisionPatchSetNum,
+} from '../../api/rest-api';
 
 import sinon from 'sinon';
 import {ParsedChangeInfo} from '../../types/types';
@@ -27,11 +33,17 @@ suite('chat-model tests', () => {
   let userModel: UserModel;
   let updatePreferencesStub: sinon.SinonStub;
   let provider: AiCodeReviewProvider;
+  let patchNum$: BehaviorSubject<RevisionPatchSetNum | undefined>;
+  let basePatchNum$: BehaviorSubject<BasePatchSetNum | undefined>;
 
   setup(() => {
     pluginsModel = new PluginsModel();
+    patchNum$ = new BehaviorSubject<RevisionPatchSetNum | undefined>(undefined);
+    basePatchNum$ = new BehaviorSubject<BasePatchSetNum | undefined>(undefined);
     changeModel = {
       change$: new BehaviorSubject(undefined),
+      patchNum$,
+      basePatchNum$,
     } as unknown as ChangeModel;
     changeModel.updateStateChange = (change?: ParsedChangeInfo) => {
       (
@@ -354,6 +366,224 @@ suite('chat-model tests', () => {
     assert.isTrue(
       startNewChatStub.calledOnceWith('Explain this code', undefined, [], false)
     );
+  });
+
+  test('processChatRequest delegates to startNewChatWithSelectionContext when selection params are present', () => {
+    const startNewChatWithSelectionStub = sinon.stub(
+      model,
+      'startNewChatWithSelectionContext'
+    );
+    const range: CommentRange = {
+      start_line: 1,
+      start_character: 2,
+      end_line: 3,
+      end_character: 4,
+    };
+    model.processChatRequest({
+      prompt: 'fallback prompt',
+      path: 'file.txt',
+      side: Side.RIGHT,
+      range,
+    });
+    assert.isTrue(
+      startNewChatWithSelectionStub.calledOnceWith(
+        'file.txt',
+        Side.RIGHT,
+        range,
+        'fallback prompt',
+        'explain_this_code'
+      )
+    );
+  });
+
+  test('processChatRequest falls back to startNewChatWithUserInput when selection params are incomplete', () => {
+    const startNewChatWithSelectionStub = sinon.stub(
+      model,
+      'startNewChatWithSelectionContext'
+    );
+    const startNewChatStub = sinon.stub(model, 'startNewChatWithUserInput');
+    model.processChatRequest({
+      prompt: 'Explain this code',
+      path: 'file.txt',
+      side: Side.RIGHT,
+      // missing range
+    });
+    assert.isTrue(startNewChatWithSelectionStub.notCalled);
+    assert.isTrue(
+      startNewChatStub.calledOnceWith('Explain this code', undefined, [], false)
+    );
+  });
+
+  test('startNewChatWithSelectionContext initializes state and triggers request', () => {
+    const sendChatRequestStub = sinon.stub(model, 'sendChatRequest');
+    const range: CommentRange = {
+      start_line: 1,
+      start_character: 2,
+      end_line: 3,
+      end_character: 4,
+    };
+
+    model.updateState({
+      ...model.getState(),
+      actions: {
+        actions: [
+          {
+            id: 'explain_this_code',
+            display_text: 'Explain this code',
+            initial_user_prompt: 'Explain this code in detail',
+          },
+        ],
+        default_action_id: 'default-action',
+      },
+    });
+
+    model.startNewChatWithSelectionContext(
+      'file.txt',
+      Side.RIGHT,
+      range,
+      'fallback prompt',
+      'explain_this_code'
+    );
+
+    const state = model.getState();
+    assert.lengthOf(state.turns, 1);
+    const userMessage = state.turns[0].userMessage;
+    assert.equal(userMessage.content, 'Explain this code in detail');
+    assert.equal(userMessage.actionId, 'explain_this_code');
+    assert.equal(userMessage.prompt, 'fallback prompt');
+    assert.equal(userMessage.path, 'file.txt');
+    assert.equal(userMessage.side, Side.RIGHT);
+    assert.deepEqual(userMessage.range, range);
+
+    assert.isTrue(sendChatRequestStub.calledOnceWith(0));
+  });
+
+  test('sendChatRequest populates selection fields and maps patchsets', async () => {
+    const change = createParsedChange();
+    changeModel.updateStateChange(change);
+    model.updateState({
+      ...model.getState(),
+      models: {models: [], default_model_id: ''},
+      actions: {
+        actions: [{id: 'explain_this_code', display_text: 'Explain'}],
+        default_action_id: 'default-action',
+      },
+    });
+
+    const range: CommentRange = {
+      start_line: 1,
+      start_character: 2,
+      end_line: 3,
+      end_character: 4,
+    };
+
+    const chatStub = provider.chat as sinon.SinonStub;
+
+    patchNum$.next(2 as RevisionPatchSetNum);
+    basePatchNum$.next('PARENT' as BasePatchSetNum);
+
+    model.startNewChatWithSelectionContext(
+      'file.txt',
+      Side.RIGHT,
+      range,
+      'fallback prompt',
+      'explain_this_code'
+    );
+
+    assert.isTrue(chatStub.calledOnce);
+    const request = chatStub.lastCall.args[0] as ChatRequest;
+    assert.equal(request.prompt, 'fallback prompt');
+    assert.equal(request.path, 'file.txt');
+    assert.equal(request.side, Side.RIGHT);
+    assert.deepEqual(request.range, range);
+    assert.equal(request.lhsPatchset, 0);
+    assert.equal(request.rhsPatchset, 2);
+
+    // Test mapping of numeric base patch set
+    chatStub.resetHistory();
+    basePatchNum$.next(1 as BasePatchSetNum);
+    model.sendChatRequest(0);
+    assert.isTrue(chatStub.calledOnce);
+    const request2 = chatStub.lastCall.args[0] as ChatRequest;
+    assert.equal(request2.lhsPatchset, 1);
+
+    // Test mapping of 'edit' patch set
+    chatStub.resetHistory();
+    patchNum$.next('edit' as RevisionPatchSetNum);
+    model.sendChatRequest(0);
+    assert.isTrue(chatStub.calledOnce);
+    const request3 = chatStub.lastCall.args[0] as ChatRequest;
+    assert.isUndefined(request3.rhsPatchset);
+  });
+
+  test('subsequent follow-up turns do not carry selection properties or fallback prompt', async () => {
+    const change = createParsedChange();
+    changeModel.updateStateChange(change);
+    model.updateState({
+      ...model.getState(),
+      models: {models: [], default_model_id: ''},
+      actions: {
+        actions: [
+          {id: 'default-action', display_text: 'Default'},
+          {id: 'explain_this_code', display_text: 'Explain'},
+        ],
+        default_action_id: 'default-action',
+      },
+    });
+
+    const range: CommentRange = {
+      start_line: 1,
+      start_character: 2,
+      end_line: 3,
+      end_character: 4,
+    };
+
+    const chatStub = provider.chat as sinon.SinonStub;
+
+    patchNum$.next(2 as RevisionPatchSetNum);
+    basePatchNum$.next('PARENT' as BasePatchSetNum);
+
+    // 1st turn: selection-based chat
+    model.startNewChatWithSelectionContext(
+      'file.txt',
+      Side.RIGHT,
+      range,
+      'fallback prompt',
+      'explain_this_code'
+    );
+
+    assert.isTrue(chatStub.calledOnce);
+    const firstRequest = chatStub.lastCall.args[0] as ChatRequest;
+    assert.equal(firstRequest.prompt, 'fallback prompt');
+    assert.equal(firstRequest.path, 'file.txt');
+    assert.deepEqual(firstRequest.range, range);
+
+    // Mock Gemini response done
+    chatStub.lastCall.args[1].emitResponse({
+      response_parts: [{id: 1, text: 'gemini response'}],
+      references: [],
+      citations: [],
+    });
+    chatStub.lastCall.args[1].done();
+
+    // Verify draft user message has been cleared of selection properties
+    const state = model.getState();
+    assert.isUndefined(state.draftUserMessage.prompt);
+    assert.isUndefined(state.draftUserMessage.path);
+    assert.isUndefined(state.draftUserMessage.side);
+    assert.isUndefined(state.draftUserMessage.range);
+
+    // 2nd turn: follow-up chat
+    chatStub.resetHistory();
+    model.updateUserInput('follow-up question');
+    model.chat('follow-up question', undefined, 1);
+
+    assert.isTrue(chatStub.calledOnce);
+    const secondRequest = chatStub.lastCall.args[0] as ChatRequest;
+    assert.equal(secondRequest.prompt, 'follow-up question');
+    assert.isUndefined(secondRequest.path);
+    assert.isUndefined(secondRequest.side);
+    assert.isUndefined(secondRequest.range);
   });
 
   suite('telemetry reporting', () => {

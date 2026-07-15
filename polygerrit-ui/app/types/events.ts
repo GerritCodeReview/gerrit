@@ -6,6 +6,7 @@
 import {
   AccountInfo,
   ChangeMessage,
+  CommentRange,
   DropdownLink,
   FixSuggestionInfo,
   PatchSetNum,
@@ -264,8 +265,22 @@ export type TitleChangeEvent = CustomEvent<TitleChangeEventDetail>;
 
 export type ValueChangedEvent<T = string> = CustomEvent<{value: T}>;
 
+/**
+ * Detail of the event dispatched when explaining code is requested.
+ *
+ * Supports two mutually exclusive payload formats:
+ * - Structured flow: `path`, `side`, and `range` are present and take precedence.
+ * - Fallback flow: `prompt` is used as a fallback only when the structured coordinates are absent.
+ */
 export interface ExplainCodeRequestedEventDetail {
+  /** Pre-formatted prompt string used for fallback only when structured coordinates are absent. */
   prompt?: string;
+  /** File path of the code selection (used when structured coordinates are present). */
+  path?: string;
+  /** Diff side (LEFT or RIGHT) of the selection (used when structured coordinates are present). */
+  side?: Side;
+  /** Line and character range of the selection (used when structured coordinates are present). */
+  range?: CommentRange;
 }
 export type ExplainCodeRequestedEvent =
   CustomEvent<ExplainCodeRequestedEventDetail>;

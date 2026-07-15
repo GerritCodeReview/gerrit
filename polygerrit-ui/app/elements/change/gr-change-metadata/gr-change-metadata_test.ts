@@ -570,6 +570,14 @@ suite('gr-change-metadata tests', () => {
         InheritedBooleanInfoConfiguredValue.TRUE;
       assert.isTrue(element.isEnabledSignedPushOnRepo());
 
+      element.repoConfig!.enable_signed_push!.configured_value =
+        InheritedBooleanInfoConfiguredValue.FALSE;
+      element.repoConfig!.require_signed_push = {
+        configured_value: InheritedBooleanInfoConfiguredValue.TRUE,
+        value: true,
+      };
+      assert.isTrue(element.isEnabledSignedPushOnRepo());
+
       element.repoConfig = undefined;
       assert.isFalse(element.isEnabledSignedPushOnRepo());
     });

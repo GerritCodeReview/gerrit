@@ -808,7 +808,8 @@ export class GrChangeMetadata extends LitElement {
     if (
       changedProperties.has('serverConfig') ||
       changedProperties.has('change') ||
-      changedProperties.has('repoConfig')
+      changedProperties.has('repoConfig') ||
+      changedProperties.has('revision')
     ) {
       this.pushCertificateValidation = this.computePushCertificateValidation();
     }
@@ -945,8 +946,12 @@ export class GrChangeMetadata extends LitElement {
     if (!this.isEnabledSignedPushOnRepo()) {
       return undefined;
     }
-    const rev = this.change.revisions[this.change.current_revision];
-    if (!rev.push_certificate?.key) {
+    const rev =
+      this.revision ??
+      (this.change.current_revision
+        ? this.change.revisions[this.change.current_revision]
+        : undefined);
+    if (!rev?.push_certificate?.key) {
       return {
         class: 'help filled',
         icon: 'help',
@@ -990,15 +995,18 @@ export class GrChangeMetadata extends LitElement {
 
   // private but used in test
   isEnabledSignedPushOnRepo() {
-    if (!this.repoConfig?.enable_signed_push) return false;
-
-    const enableSignedPush = this.repoConfig.enable_signed_push;
     return (
-      (enableSignedPush.configured_value ===
-        InheritedBooleanInfoConfiguredValue.INHERIT &&
-        enableSignedPush.inherited_value) ||
-      enableSignedPush.configured_value ===
-        InheritedBooleanInfoConfiguredValue.TRUE
+      this.isInheritedBooleanTrue(this.repoConfig?.enable_signed_push) ||
+      this.isInheritedBooleanTrue(this.repoConfig?.require_signed_push)
+    );
+  }
+
+  private isInheritedBooleanTrue(info?: InheritedBooleanInfo) {
+    if (!info) return false;
+    return (
+      (info.configured_value === InheritedBooleanInfoConfiguredValue.INHERIT &&
+        info.inherited_value) ||
+      info.configured_value === InheritedBooleanInfoConfiguredValue.TRUE
     );
   }
 

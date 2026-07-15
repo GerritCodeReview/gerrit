@@ -17,6 +17,7 @@ import {
   Side,
 } from '../api/diff';
 import {Category, RunStatus} from '../api/checks';
+import {CodeSelection} from '../api/ai-code-review';
 
 // TODO: Local events that are only fired by one component should also be
 // declared and documented in that component. Don't collect ALL the events here.
@@ -264,8 +265,20 @@ export type TitleChangeEvent = CustomEvent<TitleChangeEventDetail>;
 
 export type ValueChangedEvent<T = string> = CustomEvent<{value: T}>;
 
+/**
+ * Detail of the event dispatched when explaining code is requested.
+ *
+ * Supports two mutually exclusive payload formats:
+ * - Structured flow: `selection` coordinates are present and take precedence.
+ * - Fallback flow: `prompt` is used as a fallback only when `selection` is absent.
+ */
 export interface ExplainCodeRequestedEventDetail {
+  /** The registered capability action ID (e.g. 'explain_this_code'). */
+  actionId?: string;
+  /** Pre-formatted prompt string used for fallback only when selection is absent. */
   prompt?: string;
+  /** Structured selection coordinates and metadata. */
+  selection?: CodeSelection;
 }
 export type ExplainCodeRequestedEvent =
   CustomEvent<ExplainCodeRequestedEventDetail>;

@@ -750,7 +750,7 @@ suite('ChangeComments tests', () => {
             {patchNum: 1 as PatchSetNum},
             true
           ),
-          0
+          1
         );
       });
 

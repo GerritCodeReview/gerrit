@@ -325,6 +325,36 @@ suite('gr-comment-thread tests', () => {
     );
   });
 
+  test('renders with actions unresolved for branching thread', async () => {
+    const root = {
+      ...c1,
+      id: 'root' as UrlEncodedCommentId,
+      patch_set: 1 as RevisionPatchSetNum,
+      unresolved: true,
+    };
+    const branch1 = {
+      ...c2,
+      id: 'branch1' as UrlEncodedCommentId,
+      patch_set: 1 as RevisionPatchSetNum,
+      in_reply_to: 'root' as UrlEncodedCommentId,
+      unresolved: true,
+    };
+    const branch2 = {
+      ...c2,
+      id: 'branch2' as UrlEncodedCommentId,
+      patch_set: 1 as RevisionPatchSetNum,
+      in_reply_to: 'root' as UrlEncodedCommentId,
+      unresolved: false,
+    };
+    element.thread = {
+      ...createThread(root, branch1, branch2),
+      comments: [root, branch1, branch2],
+    };
+    await element.updateComplete;
+    const label = queryAndAssert(element, '#unresolvedLabel');
+    assert.equal(label.textContent?.trim(), 'Unresolved');
+  });
+
   test('renders with diff', async () => {
     element.showCommentContext = true;
     element.thread = createThread(commentWithContext);

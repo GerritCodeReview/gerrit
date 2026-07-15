@@ -25,6 +25,7 @@ import {
   getLastComment,
   hasUserSuggestion,
   id,
+  isUnresolved,
   NEWLINE_PATTERN,
 } from '../../../utils/comment-util';
 import {ChangeMessageId, FixSuggestionInfo} from '../../../api/rest-api';
@@ -697,7 +698,7 @@ export class GrCommentThread extends LitElement {
     if (this.firstWillUpdateDone) return;
     this.firstWillUpdateDone = true;
 
-    this.unresolved = this.getLastComment()?.unresolved ?? true;
+    this.unresolved = isUnresolved(this.thread);
     this.diff = this.computeDiff();
     this.highlightRange = this.computeHighlightRange();
   }
@@ -711,7 +712,7 @@ export class GrCommentThread extends LitElement {
         // We can only do this for threads without draft, because otherwise we
         // are relying on the <gr-comment> component for the draft to fire
         // events about the *dirty* `unresolved` state.
-        this.unresolved = this.getLastComment()?.unresolved ?? true;
+        this.unresolved = isUnresolved(this.thread);
       }
       this.hasDraft = this.isDraft();
       this.rootId = id(this.getFirstComment()!);

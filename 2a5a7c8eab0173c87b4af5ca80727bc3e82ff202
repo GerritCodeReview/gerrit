@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "172d00c9_69b643b2",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1213,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-07-15T20:41:43Z",
+      "side": 1,
+      "message": "Please fix this WARNING reported by autoreview issue finding: By continuing here, rejected presubmit labels no longer return null on line 1234. This means that if a presubmit bot votes -1, the \u0027Quick Approve\u0027 button might still appear for other labels (like Code-Review). Is this intended? Usually, we want to block quick approval if any label is rejected.",
+      "range": {
+        "startLine": 1213,
+        "startChar": 0,
+        "endLine": 1213,
+        "endChar": 0
+      },
+      "revId": "2a5a7c8eab0173c87b4af5ca80727bc3e82ff202",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

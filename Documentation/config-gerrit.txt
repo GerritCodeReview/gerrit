@@ -208,6 +208,17 @@ be ordered as ranked by the plugins (if there are any).
 +
 By default 1.
 
+[[addReviewer.touchedFilesWeight]]addReviewer.touchedFilesWeight::
++
+The weight that will be applied in the default reviewer ranking algorithm
+to accounts that recently owned or reviewed changes that touched the same
+files as the change for which reviewers are suggested. The weight is
+linearly decayed by the age of the matching change (see
+link:#suggest.touchedFilesMaxAgeDays[suggest.touchedFilesMaxAgeDays]).
+If set to zero, this ranking is disabled.
++
+By default 2.
+
 [[auth]]
 === Section auth
 
@@ -6394,6 +6405,25 @@ A high number would be accurate but slow, and a low number would be
 fast but inaccurate.
 +
 By default 50.
+
+[[suggest.touchedFilesMaxAgeDays]]suggest.touchedFilesMaxAgeDays::
++
+When suggesting reviewers, accounts that recently owned or reviewed changes
+that touched the same files as the change for which reviewers are suggested
+are ranked higher (see
+link:#addReviewer.touchedFilesWeight[addReviewer.touchedFilesWeight]).
+Only changes that were updated within this number of days are considered.
+If set to zero, this ranking is disabled.
++
+By default 90.
+
+[[suggest.touchedFilesMaxFiles]]suggest.touchedFilesMaxFiles::
++
+The maximum number of files of the current patch set that are considered
+when ranking reviewers by recently touched files. Limiting the number of
+files bounds the cost of the index query for large changes.
++
+By default 20.
 
 [[suggest.skipServiceUsers]]suggest.skipServiceUsers::
 +

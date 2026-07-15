@@ -3,7 +3,13 @@
  * Copyright 2025 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {ChangeInfo, CommentInfo, FileInfoStatus} from './rest-api';
+import {
+  ChangeInfo,
+  CommentInfo,
+  CommentRange,
+  FileInfoStatus,
+} from './rest-api';
+import {Side} from './diff';
 
 export declare interface AiCodeReviewPluginApi {
   /**
@@ -132,6 +138,22 @@ export declare interface ChatRequest {
    * The external contexts that should be used in the request.
    */
   external_contexts: ContextItem[];
+  /** Structured selection coordinates and patchsets (present only for selection requests). */
+  selection?: CodeSelection;
+}
+
+/** Coordinates and patchset metadata defining a code selection. */
+export interface CodeSelection {
+  /** File path where the code selection occurred. */
+  path: string;
+  /** Diff side (LEFT or RIGHT) where the selection occurred. */
+  side: Side;
+  /** Line and character range of the selection. */
+  range: CommentRange;
+  /** Numeric LHS patchset number (0 for Base parent commit). */
+  lhsPatchset?: number;
+  /** Numeric RHS patchset number. */
+  rhsPatchset?: number;
 }
 
 /**

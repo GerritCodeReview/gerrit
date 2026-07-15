@@ -24,6 +24,8 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.server.FanOutExecutor;
@@ -42,12 +44,17 @@ import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.plugincontext.PluginMapContext;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.query.change.AgePredicate;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangePredicates;
+import com.google.gerrit.server.query.change.ChangeStatusPredicate;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
+import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -78,6 +85,7 @@ public class ReviewerRecommender {
   private final ApprovalsUtil approvalsUtil;
   private final AccountCache accountCache;
   private final GroupMembers groupMembers;
+  private final ChangeData.Factory changeDataFactory;
 
   @Inject
   ReviewerRecommender(
@@ -88,7 +96,8 @@ public class ReviewerRecommender {
       ApprovalsUtil approvalsUtil,
       @GerritServerConfig Config config,
       AccountCache accountCache,
-      GroupMembers groupMembers) {
+      GroupMembers groupMembers,
+      ChangeData.Factory changeDataFactory) {
     this.config = config;
     this.queryProvider = queryProvider;
     this.identifiedUser = identifiedUser;
@@ -97,6 +106,7 @@ public class ReviewerRecommender {
     this.approvalsUtil = approvalsUtil;
     this.accountCache = accountCache;
     this.groupMembers = groupMembers;
+    this.changeDataFactory = changeDataFactory;
   }
 
   public List<Account.Id> suggestReviewers(
@@ -122,6 +132,16 @@ public class ReviewerRecommender {
                 candidateScores
                     .computeIfAbsent(reviewerCandidate, (ignored) -> new MutableDouble(0))
                     .add(recentChangeCandidatesWeight));
+
+    // Boost accounts that recently owned or reviewed changes that touched the same files as the
+    // change for which reviewers are suggested. Such users often are the de-facto owners of these
+    // files, even if they are not listed in any code owner configuration.
+    double touchedFilesWeight = config.getInt("addReviewer", "touchedFilesWeight", 2);
+    if (changeNotes != null && touchedFilesWeight > 0) {
+      logger.atFine().log("touchedFilesWeight: %s", touchedFilesWeight);
+      addTouchedFilesCandidates(
+          changeNotes, projectState, query, touchedFilesWeight, candidateScores);
+    }
 
     if (Strings.isNullOrEmpty(query) && candidateScores.isEmpty()) {
       // There are no candidates for the default reviewer suggestion (= suggestion for an empty
@@ -223,6 +243,104 @@ public class ReviewerRecommender {
     List<Account.Id> sortedSuggestions = sorted.map(Map.Entry::getKey).collect(toList());
     logger.atFine().log("Sorted suggestions: %s", sortedSuggestions);
     return sortedSuggestions;
+  }
+
+  /**
+   * Scores accounts that recently worked on the same files as the given change.
+   *
+   * <p>Considers open and merged changes in the same project that touched at least one of the
+   * files of the current patch set and that were updated within {@code
+   * suggest.touchedFilesMaxAgeDays}. The owner and the reviewers of each matching change are
+   * scored with {@code weight}, linearly decayed by the age of the matching change.
+   */
+  private void addTouchedFilesCandidates(
+      ChangeNotes changeNotes,
+      ProjectState projectState,
+      @Nullable String query,
+      double weight,
+      Map<Account.Id, MutableDouble> candidateScores) {
+    int maxFiles = config.getInt("suggest", "touchedFilesMaxFiles", 20);
+    int maxAgeDays = config.getInt("suggest", "touchedFilesMaxAgeDays", 90);
+    if (maxFiles <= 0 || maxAgeDays <= 0) {
+      return;
+    }
+
+    List<String> touchedFiles;
+    try {
+      touchedFiles =
+          changeDataFactory.create(changeNotes).currentFilePaths().stream()
+              .limit(maxFiles)
+              .collect(toList());
+    } catch (StorageException e) {
+      logger.atWarning().withCause(e).log(
+          "Cannot get files of change %s", changeNotes.getChangeId());
+      return;
+    }
+    if (touchedFiles.isEmpty()) {
+      return;
+    }
+    logger.atFine().log("Touched files: %s", touchedFiles);
+
+    Predicate<ChangeData> predicate =
+        Predicate.and(
+            ChangePredicates.project(projectState.getNameKey()),
+            Predicate.or(
+                touchedFiles.stream().map(ChangePredicates::path).collect(toImmutableList())),
+            Predicate.or(
+                ChangeStatusPredicate.open(),
+                ChangeStatusPredicate.forStatus(Change.Status.MERGED)),
+            Predicate.not(new AgePredicate(maxAgeDays + "d")));
+
+    ImmutableList<ChangeData> relatedChanges;
+    try {
+      relatedChanges =
+          queryProvider
+              .get()
+              .setLimit(config.getInt("suggest", "relevantChanges", 50))
+              .setRequestedFields(ChangeField.CHANGE_SPEC, ChangeField.REVIEWER_SPEC)
+              .query(predicate);
+    } catch (StorageException e) {
+      logger.atWarning().withCause(e).log("Cannot query changes touching the same files");
+      return;
+    }
+
+    Map<Account.Id, MutableDouble> touchedFilesScores = new LinkedHashMap<>();
+    Instant now = TimeUtil.now();
+    for (ChangeData cd : relatedChanges) {
+      if (cd.getId().equals(changeNotes.getChangeId())) {
+        continue;
+      }
+      double score = weight * recencyFactor(cd.change().getLastUpdatedOn(), now, maxAgeDays);
+      touchedFilesScores
+          .computeIfAbsent(cd.change().getOwner(), (ignored) -> new MutableDouble(0))
+          .add(score);
+      for (Account.Id reviewerId : cd.reviewers().all()) {
+        touchedFilesScores
+            .computeIfAbsent(reviewerId, (ignored) -> new MutableDouble(0))
+            .add(score);
+      }
+    }
+
+    ImmutableMap<Account.Id, AccountState> accountStates =
+        accountCache.get(ImmutableSet.copyOf(touchedFilesScores.keySet()));
+    touchedFilesScores.forEach(
+        (accountId, score) -> {
+          if (accountMatchesQuery(accountStates.get(accountId), query)) {
+            candidateScores
+                .computeIfAbsent(accountId, (ignored) -> new MutableDouble(0))
+                .add(score.doubleValue());
+          }
+        });
+    logger.atFine().log("Candidate scores after touched files boost: %s", candidateScores);
+  }
+
+  /**
+   * Returns a factor in [0.25, 1.0] that is 1.0 for changes updated now and decreases linearly to
+   * 0.25 for changes at the maximum age.
+   */
+  private static double recencyFactor(Instant lastUpdated, Instant now, int maxAgeDays) {
+    double ageDays = Math.max(0, Duration.between(lastUpdated, now).toDays());
+    return Math.max(0.25, Math.min(1.0, 1.0 - (ageDays / maxAgeDays)));
   }
 
   private ImmutableList<ChangeData> queryRecentChanges(Predicate<ChangeData> predicate) {

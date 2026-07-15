@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ceda2974_a7dd2067",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 728,
+      "author": {
+        "id": 4870948
+      },
+      "writtenOn": "2026-07-15T23:01:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c93180fe_7016438f",
+      "range": {
+        "startLine": 728,
+        "startChar": 6,
+        "endLine": 728,
+        "endChar": 34
+      },
+      "revId": "7a6f582843f86e2a9d7a5a00380abc9e4c5d9a9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4ba07726_ce00fcde",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-07-15T20:32:17Z",
       "side": 1,
       "message": "Will this.textarea ever be undefined/null after await this.textarea.updateComplete? If not since we check on line 1401 we might be able to remove this.",
+      "range": {
+        "startLine": 1405,
+        "startChar": 0,
+        "endLine": 1407,
+        "endChar": 5
+      },
+      "revId": "7a6f582843f86e2a9d7a5a00380abc9e4c5d9a9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e85e339a_b4364a82",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 1407,
+      "author": {
+        "id": 4870948
+      },
+      "writtenOn": "2026-07-15T23:01:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ba07726_ce00fcde",
       "range": {
         "startLine": 1405,
         "startChar": 0,

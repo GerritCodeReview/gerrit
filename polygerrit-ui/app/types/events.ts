@@ -110,7 +110,6 @@ export type BindValueChangeEvent = CustomEvent<BindValueChangeEventDetail>;
 
 export type ChangeEvent = InputEvent;
 
-// TODO: This event seems to be unused (no listener). Remove?
 export type ChangedEvent = CustomEvent<string | undefined>;
 
 export interface ChangeMessageDeletedEventDetail {

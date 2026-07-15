@@ -16,6 +16,24 @@
       "message": "I like the idea, but I\u0027m not sure about the heuristics.\nShould the author/committer not be downgraded because of their role, or because they was an explicit user-initiated change to make them reviewers?\nIf the later, this should also apply for other reviewers which were added explicitly, but their downgrading is done implicitly.",
       "revId": "c052ac68f5c5b5a494c05d0c06c5fe4ae134ba58",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be604908_85d0086f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-07-15T18:34:37Z",
+      "side": 1,
+      "message": "I am trying to make sure that if user intent to have reviewer so system doesn\u0027t change this because it auto-add it as cc.\n\n\nhere is AI answer:\n\nThe heuristic relies on distinguishing between an explicit user request and an implicit system action:\n\nExplicit requests: When a user explicitly sets someone to CC (e.g. via REST API POST /changes/{id}/reviewers with state: CC), allowDowngradeToCC is true (default), allowing deliberate demotion from REVIEWER to CC.\nImplicit system actions: Auto-adding the author/committer as CC upon pushing a patch set (via newReviewerInputFromCommitIdentity) is an implicit system side-effect of git push. An implicit system action should not override an explicit prior user action that designated the account as a REVIEWER.\nThe same design rationale already applies to implicit group CC expansions (where keepExistingReviewers prevents demoting existing reviewers when a group is added as CC).\n\nI have added inline documentation in ReviewerModifier.java to make this distinction explicit for future maintainers.",
+      "parentUuid": "58299bf2_cdf91054",
+      "revId": "c052ac68f5c5b5a494c05d0c06c5fe4ae134ba58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -325,6 +325,36 @@ suite('gr-comment-thread tests', () => {
     );
   });
 
+  test('renders with actions unresolved for branching thread', async () => {
+    const root = {
+      ...c1,
+      id: 'root' as UrlEncodedCommentId,
+      patch_set: 1 as RevisionPatchSetNum,
+      unresolved: true,
+    };
+    const branch1 = {
+      ...c2,
+      id: 'branch1' as UrlEncodedCommentId,
+      patch_set: 1 as RevisionPatchSetNum,
+      in_reply_to: 'root' as UrlEncodedCommentId,
+      unresolved: true,
+    };
+    const branch2 = {
+      ...c2,
+      id: 'branch2' as UrlEncodedCommentId,
+      patch_set: 1 as RevisionPatchSetNum,
+      in_reply_to: 'root' as UrlEncodedCommentId,
+      unresolved: false,
+    };
+    element.thread = {
+      ...createThread(root, branch1, branch2),
+      comments: [root, branch1, branch2],
+    };
+    await element.updateComplete;
+    const label = queryAndAssert(element, '#unresolvedLabel');
+    assert.equal(label.textContent?.trim(), 'Unresolved (Branching thread)');
+  });
+
   test('renders with diff', async () => {
     element.showCommentContext = true;
     element.thread = createThread(commentWithContext);
@@ -399,6 +429,56 @@ suite('gr-comment-thread tests', () => {
       queryAndAssert<GrButton>(element, '#replyBtn').click();
       assert.isTrue(stubAdd.called);
       assert.equal(stubAdd.lastCall.firstArg.message, '');
+    });
+
+    test('handle Reply on earlier comment in branching thread renders draft', async () => {
+      const root = {
+        ...c1,
+        id: 'root' as UrlEncodedCommentId,
+        patch_set: 1 as RevisionPatchSetNum,
+      };
+      const branch1 = {
+        ...c2,
+        id: 'branch1' as UrlEncodedCommentId,
+        in_reply_to: 'root' as UrlEncodedCommentId,
+        patch_set: 1 as RevisionPatchSetNum,
+        unresolved: true,
+      };
+      const branch2 = {
+        ...c2,
+        id: 'branch2' as UrlEncodedCommentId,
+        in_reply_to: 'root' as UrlEncodedCommentId,
+        patch_set: 1 as RevisionPatchSetNum,
+        unresolved: false,
+      };
+      element.thread = createThread(root, branch1, branch2);
+      await element.updateComplete;
+
+      stubAdd.restore();
+      stubAdd = sinon
+        .stub(testResolver(commentsModelToken), 'addNewDraft')
+        .callsFake(draft => {
+          element.thread = createThread(root, branch1, draft, branch2);
+        });
+
+      const commentEl = queryAndAssert<GrComment>(element, 'gr-comment');
+      commentEl.dispatchEvent(
+        new CustomEvent('reply-to-comment', {
+          detail: {
+            content: '',
+            userWantsToEdit: true,
+            unresolved: true,
+            replyingToComment: branch1,
+          },
+          bubbles: true,
+          composed: true,
+        })
+      );
+
+      await element.updateComplete;
+      assert.isTrue(stubAdd.called);
+      assert.equal(stubAdd.lastCall.firstArg.in_reply_to, 'branch1');
+      assert.isDefined(element.draftElement);
     });
 
     test('handle Quote', async () => {

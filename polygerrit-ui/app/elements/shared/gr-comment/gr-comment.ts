@@ -40,7 +40,9 @@ import {
   getUserSuggestion,
   hasUserSuggestion,
   id,
+  isBranchingThread,
   isFileLevelComment,
+  NEWLINE_PATTERN,
   USER_SUGGESTION_START_PATTERN,
 } from '../../../utils/comment-util';
 import {
@@ -1033,7 +1035,17 @@ export class GrComment extends LitElement {
 
   private renderHumanActions() {
     if (!this.account) return;
-    if (this.collapsed || !isDraft(this.comment)) return;
+    if (this.collapsed) return;
+    if (!isDraft(this.comment)) {
+      const publishedActions = this.renderPublishedActions();
+      if (publishedActions === nothing) return nothing;
+      return html`
+        <div class="actions">
+          <div class="leftActions"></div>
+          ${publishedActions}
+        </div>
+      `;
+    }
     return html`
       <div class="actions">
         <div class="leftActions">
@@ -1050,6 +1062,25 @@ export class GrComment extends LitElement {
           ${this.renderGenerateSuggestEditButton()}
         </div>
         ${this.renderDraftActions()}
+      </div>
+    `;
+  }
+
+  private renderPublishedActions() {
+    if (isDraft(this.comment) || !isBranchingThread(this.comments)) return nothing;
+    return html`
+      <div class="rightActions">
+        <gr-button
+          link
+          class="action reply"
+          @click=${this.handleReply}
+        >Reply</gr-button>
+        <gr-button
+          link
+          class="action quote"
+          @click=${this.handleQuote}
+        >Quote</gr-button>
+        ${this.renderCopyLinkIcon()}
       </div>
     `;
   }
@@ -1553,8 +1584,32 @@ export class GrComment extends LitElement {
       content: 'Fix applied.',
       userWantsToEdit: false,
       unresolved: false,
+      replyingToComment: this.comment,
     };
     // Handled by <gr-comment-thread>.
+    fire(this, 'reply-to-comment', eventDetail);
+  }
+
+  private handleReply() {
+    const eventDetail: ReplyToCommentEventDetail = {
+      content: '',
+      userWantsToEdit: true,
+      unresolved: this.comment?.unresolved ?? true,
+      replyingToComment: this.comment,
+    };
+    fire(this, 'reply-to-comment', eventDetail);
+  }
+
+  private handleQuote() {
+    const msg = this.comment?.message ?? '';
+    const quote = '> ' + msg.replace(NEWLINE_PATTERN, '\n> ') + '\n\n';
+    const eventDetail: ReplyToCommentEventDetail = {
+      content: '',
+      userWantsToEdit: true,
+      unresolved: this.comment?.unresolved ?? true,
+      quote,
+      replyingToComment: this.comment,
+    };
     fire(this, 'reply-to-comment', eventDetail);
   }
 

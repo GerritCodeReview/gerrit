@@ -16,6 +16,7 @@ import {
   getUserSuggestion,
   getUserSuggestionFromString,
   hasUserSuggestion,
+  isBranchingThread,
   isNewThread,
   isUnresolved,
   PROVIDED_FIX_ID,
@@ -60,24 +61,137 @@ suite('comment-util', () => {
         comments: [{...createComment(), unresolved: false}],
       })
     );
+    const c1 = {
+      ...createComment(),
+      id: 'c1' as UrlEncodedCommentId,
+      unresolved: false,
+    };
+    const c2 = {
+      ...createComment(),
+      id: 'c2' as UrlEncodedCommentId,
+      in_reply_to: 'c1' as UrlEncodedCommentId,
+      unresolved: true,
+    };
     assert.isTrue(
       isUnresolved({
         ...thread,
-        comments: [
-          {...createComment(), unresolved: false},
-          {...createComment(), unresolved: true},
-        ],
+        comments: [c1, c2],
       })
     );
+
+    const c3 = {
+      ...createComment(),
+      id: 'c3' as UrlEncodedCommentId,
+      unresolved: true,
+    };
+    const c4 = {
+      ...createComment(),
+      id: 'c4' as UrlEncodedCommentId,
+      in_reply_to: 'c3' as UrlEncodedCommentId,
+      unresolved: false,
+    };
     assert.isFalse(
       isUnresolved({
         ...thread,
-        comments: [
-          {...createComment(), unresolved: true},
-          {...createComment(), unresolved: false},
-        ],
+        comments: [c3, c4],
       })
     );
+  });
+
+  suite('branching comment threads resolution', () => {
+    test('thread is unresolved when an earlier reply branch is left unresolved while a later reply branch is resolved', () => {
+      const thread = createCommentThread([createComment()]);
+      const root = {
+        ...createComment(),
+        id: 'root' as UrlEncodedCommentId,
+        unresolved: true,
+      };
+      // Branch 1 reply (e.g. on PS17)
+      const branch1 = {
+        ...createComment(),
+        id: 'branch1' as UrlEncodedCommentId,
+        in_reply_to: 'root' as UrlEncodedCommentId,
+        unresolved: true,
+      };
+      // Branch 2 reply (e.g. on PS18)
+      const branch2 = {
+        ...createComment(),
+        id: 'branch2' as UrlEncodedCommentId,
+        in_reply_to: 'root' as UrlEncodedCommentId,
+        unresolved: false,
+      };
+
+      const branchingThread = {
+        ...thread,
+        comments: [root, branch1, branch2],
+      };
+
+      assert.isTrue(isUnresolved(branchingThread));
+    });
+
+    test('thread is resolved when all leaf reply branches are resolved', () => {
+      const thread = createCommentThread([createComment()]);
+      const root = {
+        ...createComment(),
+        id: 'root' as UrlEncodedCommentId,
+        unresolved: true,
+      };
+      // Branch 1 reply (unresolved)
+      const branch1 = {
+        ...createComment(),
+        id: 'branch1' as UrlEncodedCommentId,
+        in_reply_to: 'root' as UrlEncodedCommentId,
+        unresolved: true,
+      };
+      // Reply to Branch 1 resolving it
+      const branch1Resolve = {
+        ...createComment(),
+        id: 'branch1_resolve' as UrlEncodedCommentId,
+        in_reply_to: 'branch1' as UrlEncodedCommentId,
+        unresolved: false,
+      };
+      // Branch 2 reply (resolved)
+      const branch2 = {
+        ...createComment(),
+        id: 'branch2' as UrlEncodedCommentId,
+        in_reply_to: 'root' as UrlEncodedCommentId,
+        unresolved: false,
+      };
+
+      const branchingThread = {
+        ...thread,
+        comments: [root, branch1, branch1Resolve, branch2],
+      };
+
+      assert.isFalse(isUnresolved(branchingThread));
+    });
+  });
+
+  suite('isBranchingThread', () => {
+    test('false for linear thread', () => {
+      const c1 = {...createComment(), id: 'c1' as UrlEncodedCommentId};
+      const c2 = {
+        ...createComment(),
+        id: 'c2' as UrlEncodedCommentId,
+        in_reply_to: 'c1' as UrlEncodedCommentId,
+      };
+      assert.isFalse(isBranchingThread([c1, c2]));
+    });
+
+    test('true for branching thread', () => {
+      const c1 = {...createComment(), id: 'c1' as UrlEncodedCommentId};
+      const c2 = {
+        ...createComment(),
+        id: 'c2' as UrlEncodedCommentId,
+        in_reply_to: 'c1' as UrlEncodedCommentId,
+      };
+      const c3 = {
+        ...createComment(),
+        id: 'c3' as UrlEncodedCommentId,
+        in_reply_to: 'c1' as UrlEncodedCommentId,
+      };
+      assert.isTrue(isBranchingThread([c1, c2, c3]));
+    });
   });
 
   test('isNewThread', () => {

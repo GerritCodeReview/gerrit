@@ -25,6 +25,8 @@ import {
   getLastComment,
   hasUserSuggestion,
   id,
+  isBranchingThread,
+  isUnresolved,
   NEWLINE_PATTERN,
 } from '../../../utils/comment-util';
 import {ChangeMessageId, FixSuggestionInfo} from '../../../api/rest-api';
@@ -590,11 +592,13 @@ export class GrCommentThread extends LitElement {
 
   renderActions() {
     if (!this.account || this.isDraft()) return;
+    const isBranching = isBranchingThread(this.thread?.comments);
+    const statusText = `${this.unresolved ? 'Unresolved' : 'Resolved'}${
+      isBranching ? ' (Branching thread)' : ''
+    }`;
     return html`
       <div id="actionsContainer">
-        <span id="unresolvedLabel">${
-          this.unresolved ? 'Unresolved' : 'Resolved'
-        }</span>
+        <span id="unresolvedLabel">${statusText}</span>
         <div id="actions">
 
           <gr-button
@@ -697,7 +701,7 @@ export class GrCommentThread extends LitElement {
     if (this.firstWillUpdateDone) return;
     this.firstWillUpdateDone = true;
 
-    this.unresolved = this.getLastComment()?.unresolved ?? true;
+    this.unresolved = isUnresolved(this.thread);
     this.diff = this.computeDiff();
     this.highlightRange = this.computeHighlightRange();
   }
@@ -711,7 +715,7 @@ export class GrCommentThread extends LitElement {
         // We can only do this for threads without draft, because otherwise we
         // are relying on the <gr-comment> component for the draft to fire
         // events about the *dirty* `unresolved` state.
-        this.unresolved = this.getLastComment()?.unresolved ?? true;
+        this.unresolved = isUnresolved(this.thread);
       }
       this.hasDraft = this.isDraft();
       this.rootId = id(this.getFirstComment()!);
@@ -760,12 +764,11 @@ export class GrCommentThread extends LitElement {
   }
 
   private isDraft() {
-    return isDraft(this.getLastComment());
+    return !!this.getDraft();
   }
 
   private getDraft(): Comment | undefined {
-    if (this.isDraft()) return this.getLastComment();
-    return undefined;
+    return this.thread?.comments.find(c => isDraft(c));
   }
 
   private isPatchsetLevel() {
@@ -887,14 +890,39 @@ export class GrCommentThread extends LitElement {
     }
   }
 
+  private getTargetReplyComment(): Comment | undefined {
+    if (!this.thread?.comments || this.thread.comments.length === 0) return undefined;
+
+    const parentIds = new Set<string>();
+    for (const comment of this.thread.comments) {
+      if (comment.in_reply_to) {
+        parentIds.add(comment.in_reply_to);
+      }
+    }
+
+    const leafComments = this.thread.comments.filter(comment => {
+      const clientId = isDraft(comment) ? comment.client_id : undefined;
+      const isParent =
+        (comment.id !== undefined && parentIds.has(comment.id)) ||
+        (clientId !== undefined && parentIds.has(clientId));
+      return !isParent;
+    });
+
+    const unresolvedLeaf = leafComments.find(c => c.unresolved && !isDraft(c));
+    if (unresolvedLeaf) return unresolvedLeaf;
+
+    return this.getLastComment();
+  }
+
   private async createReplyComment(
     content: string,
     userWantsToEdit: boolean,
     unresolved: boolean,
     quote?: string,
-    fixSuggestion?: FixSuggestionInfo
+    fixSuggestion?: FixSuggestionInfo,
+    replyingToComment?: Comment
   ) {
-    const replyingTo = this.getLastComment();
+    const replyingTo = replyingToComment ?? this.getTargetReplyComment();
     assertIsDefined(this.thread, 'thread');
     assertIsDefined(replyingTo, 'the comment that the user wants to reply to');
     assert(!isDraft(replyingTo), 'cannot reply to draft');
@@ -919,8 +947,8 @@ export class GrCommentThread extends LitElement {
   }
 
   private handleCommentReply(quote: boolean) {
-    const comment = this.getLastComment();
-    if (!comment) throw new Error('Failed to find last comment.');
+    const comment = this.getTargetReplyComment();
+    if (!comment) throw new Error('Failed to find comment to reply to.');
     let content = '';
     if (quote) {
       const msg = comment.message;
@@ -930,13 +958,18 @@ export class GrCommentThread extends LitElement {
         '',
         /* userWantsToEdit= */ true,
         comment.unresolved ?? true,
-        content
+        content,
+        undefined,
+        comment
       );
     } else {
       this.createReplyComment(
         content,
         /* userWantsToEdit= */ true,
-        comment.unresolved ?? true
+        comment.unresolved ?? true,
+        undefined,
+        undefined,
+        comment
       );
     }
   }
@@ -958,8 +991,8 @@ export class GrCommentThread extends LitElement {
   }
 
   private handleReplyToComment(e: ReplyToCommentEvent) {
-    const {content, userWantsToEdit, unresolved} = e.detail;
-    this.createReplyComment(content, userWantsToEdit, unresolved);
+    const {content, userWantsToEdit, unresolved, quote, replyingToComment} = e.detail;
+    this.createReplyComment(content, userWantsToEdit, unresolved, quote, undefined, replyingToComment);
   }
 
   private computeAriaHeading() {

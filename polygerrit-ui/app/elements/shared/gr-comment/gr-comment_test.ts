@@ -180,6 +180,35 @@ suite('gr-comment tests', () => {
       );
     });
 
+    test('renders expanded for branching thread', async () => {
+      element.initiallyCollapsed = false;
+      const root = {
+        ...createComment(),
+        id: 'root' as UrlEncodedCommentId,
+        message: 'root comment',
+        unresolved: true,
+      };
+      const branch1 = {
+        ...createComment(),
+        id: 'branch1' as UrlEncodedCommentId,
+        in_reply_to: 'root' as UrlEncodedCommentId,
+        message: 'branch 1',
+        unresolved: true,
+      };
+      const branch2 = {
+        ...createComment(),
+        id: 'branch2' as UrlEncodedCommentId,
+        in_reply_to: 'root' as UrlEncodedCommentId,
+        message: 'branch 2',
+        unresolved: false,
+      };
+      element.comment = root;
+      element.comments = [root, branch1, branch2];
+      await element.updateComplete;
+      assert.ok(query(element, 'gr-button.reply'));
+      assert.ok(query(element, 'gr-button.quote'));
+    });
+
     test('renders expanded admin', async () => {
       element.initiallyCollapsed = false;
       element.isAdmin = true;

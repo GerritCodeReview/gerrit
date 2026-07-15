@@ -6,6 +6,8 @@
 import {
   AccountInfo,
   ChangeMessage,
+  CommentInfo,
+  DraftInfo,
   DropdownLink,
   FixSuggestionInfo,
   PatchSetNum,
@@ -182,6 +184,8 @@ export interface ReplyToCommentEventDetail {
   content: string;
   userWantsToEdit: boolean;
   unresolved: boolean;
+  quote?: string;
+  replyingToComment?: CommentInfo | DraftInfo;
 }
 
 export type ReplyToCommentEvent = CustomEvent<ReplyToCommentEventDetail>;

@@ -328,8 +328,50 @@ export function isUnresolved(thread: CommentThread): boolean {
 }
 
 export function isResolved(thread: CommentThread): boolean {
-  const lastComment = getLastComment(thread);
-  return lastComment !== undefined ? !lastComment.unresolved : true;
+  if (!thread.comments || thread.comments.length === 0) return true;
+
+  const parentIds = new Set<string>();
+  for (const comment of thread.comments) {
+    if (comment.in_reply_to) {
+      parentIds.add(comment.in_reply_to);
+    }
+  }
+
+  const leafComments = thread.comments.filter(comment => {
+    const clientId = isDraft(comment) ? comment.client_id : undefined;
+    const isParent =
+      (comment.id !== undefined && parentIds.has(comment.id)) ||
+      (clientId !== undefined && parentIds.has(clientId));
+    return !isParent;
+  });
+
+  if (leafComments.length === 0) {
+    const lastComment = getLastComment(thread);
+    return lastComment !== undefined ? !lastComment.unresolved : true;
+  }
+
+  return leafComments.every(comment => !comment.unresolved);
+}
+
+export function isBranchingThread(comments?: Comment[]): boolean {
+  if (!comments || comments.length <= 1) return false;
+
+  const parentIds = new Set<string>();
+  for (const comment of comments) {
+    if (comment.in_reply_to) {
+      parentIds.add(comment.in_reply_to);
+    }
+  }
+
+  const leafComments = comments.filter(comment => {
+    const clientId = isDraft(comment) ? comment.client_id : undefined;
+    const isParent =
+      (comment.id !== undefined && parentIds.has(comment.id)) ||
+      (clientId !== undefined && parentIds.has(clientId));
+    return !isParent;
+  });
+
+  return leafComments.length > 1;
 }
 
 export function isDraftThread(thread: CommentThread): boolean {

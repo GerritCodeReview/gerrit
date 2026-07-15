@@ -42,9 +42,11 @@ import {
   AccountId,
   AccountInfo,
   ChangeInfo,
+  CommentInfo,
   CommentThread,
   CommitId,
   DetailedLabelInfo,
+  DraftInfo,
   EmailAddress,
   GroupId,
   GroupName,
@@ -614,18 +616,33 @@ suite('gr-reply-dialog tests', () => {
       }) ?? [];
     let draftThreads: CommentThread[] = [];
     if (hasDraft) {
-      draftThreads = [
-        {
-          ...createCommentThread([{...createDraft(), unresolved: true}]),
-        },
-      ];
+      const comments: Array<Partial<CommentInfo | DraftInfo>> = [];
+      let parentId: UrlEncodedCommentId | undefined = undefined;
+      if (replyToIds && replyToIds.length > 0) {
+        replyToIds.forEach((id, idx) => {
+          const commentId = `parent_${id}_${idx}` as UrlEncodedCommentId;
+          comments.push({
+            ...createComment(),
+            id: commentId,
+            in_reply_to: parentId,
+            author: {_account_id: id},
+            unresolved: true,
+          });
+          parentId = commentId;
+        });
+        comments.push({
+          ...createDraft(),
+          in_reply_to: parentId,
+          unresolved: false,
+        });
+      } else {
+        comments.push({
+          ...createDraft(),
+          unresolved: true,
+        });
+      }
+      draftThreads = [createCommentThread(comments)];
     }
-    replyToIds?.forEach(id =>
-      draftThreads[0].comments.push({
-        ...createComment(),
-        author: {_account_id: id},
-      })
-    );
     const change = {
       ...createChange(),
       owner: {_account_id: ownerId},

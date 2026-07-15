@@ -1594,7 +1594,10 @@ suite('gr-change-view tests', () => {
 
   test('explain-code-requested opens sidebar and starts chat', async () => {
     const chatModel = testResolver(chatModelToken);
-    const processChatRequestStub = sinon.stub(chatModel, 'processChatRequest');
+    const startNewChatStub = sinon.stub(
+      chatModel,
+      'startNewChatWithSelectionContext'
+    );
     const contentWithSidebar = queryAndAssert<GrContentWithSidebar>(
       element,
       'gr-content-with-sidebar'
@@ -1610,6 +1613,6 @@ suite('gr-change-view tests', () => {
     await element.updateComplete;
 
     assert.isFalse(contentWithSidebar.hideSide);
-    assert.isTrue(processChatRequestStub.calledOnceWithExactly(event.detail));
+    assert.isTrue(startNewChatStub.calledOnceWithExactly(event.detail));
   });
 });

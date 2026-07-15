@@ -6,6 +6,7 @@
 import {
   AccountInfo,
   ChangeMessage,
+  CommentRange,
   DropdownLink,
   FixSuggestionInfo,
   PatchSetNum,
@@ -266,6 +267,10 @@ export type ValueChangedEvent<T = string> = CustomEvent<{value: T}>;
 
 export interface ExplainCodeRequestedEventDetail {
   prompt?: string;
+  path?: string;
+  side?: Side;
+  range?: CommentRange;
+  text?: string;
 }
 export type ExplainCodeRequestedEvent =
   CustomEvent<ExplainCodeRequestedEventDetail>;

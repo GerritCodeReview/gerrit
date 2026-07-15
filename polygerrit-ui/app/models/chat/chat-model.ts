@@ -23,7 +23,15 @@ import {
   Models,
   Reference,
 } from '../../api/ai-code-review';
-import {ChangeInfo, CommentInfo, FileInfoStatus} from '../../api/rest-api';
+import {
+  BasePatchSetNum,
+  ChangeInfo,
+  CommentInfo,
+  CommentRange,
+  FileInfoStatus,
+  RevisionPatchSetNum,
+} from '../../api/rest-api';
+import {Side} from '../../api/diff';
 import {PreferencesInfo} from '../../types/common';
 import {isDefined} from '../../types/types';
 import {assert, assertIsDefined, cryptoUuid} from '../../utils/common-util';
@@ -71,6 +79,11 @@ export declare interface UserMessage {
   // Summarize this CL is trigger when clicking the Help me review button). This
   // may affect the UI layout of the turn.
   readonly isBackgroundRequest?: boolean;
+  readonly prompt?: string;
+  readonly path?: string;
+  readonly side?: Side;
+  readonly range?: CommentRange;
+  readonly text?: string;
 }
 
 /**
@@ -232,6 +245,10 @@ export const initialConversationState: ConversationState = {
 
 export interface ChatTriggerParams {
   prompt?: string;
+  path?: string;
+  side?: Side;
+  range?: CommentRange;
+  text?: string;
 }
 
 export const chatModelToken = define<ChatModel>('chat-model');
@@ -345,6 +362,10 @@ export class ChatModel extends Model<ChatState> {
 
   private files: NormalizedFileInfo[] = [];
 
+  private patchNum?: RevisionPatchSetNum;
+
+  private basePatchNum?: BasePatchSetNum;
+
   constructor(
     private readonly pluginsModel: PluginsModel,
     private readonly changeModel: ChangeModel,
@@ -355,6 +376,17 @@ export class ChatModel extends Model<ChatState> {
       mode: ChatPanelMode.CONVERSATION,
       ...initialConversationState,
     });
+
+    this.subscriptions.push(
+      this.changeModel.patchNum$.subscribe(
+        patchNum => (this.patchNum = patchNum)
+      )
+    );
+    this.subscriptions.push(
+      this.changeModel.basePatchNum$.subscribe(
+        basePatchNum => (this.basePatchNum = basePatchNum)
+      )
+    );
 
     this.selectedModelId$ = select(
       combineLatest([
@@ -588,7 +620,7 @@ export class ChatModel extends Model<ChatState> {
 
     const request: ChatRequest = {
       action,
-      prompt: userMessage.content,
+      prompt: userMessage.prompt ?? userMessage.content,
       conversation_id: conversationId,
       change,
       files,
@@ -600,6 +632,17 @@ export class ChatModel extends Model<ChatState> {
         this.userModel.getState().preferences
       ),
       external_contexts: contextItems,
+      path: userMessage.path,
+      side: userMessage.side,
+      range: userMessage.range,
+      lhsPatchset:
+        this.basePatchNum === 'PARENT'
+          ? 0
+          : typeof this.basePatchNum === 'number'
+          ? this.basePatchNum
+          : undefined,
+      rhsPatchset:
+        typeof this.patchNum === 'number' ? this.patchNum : undefined,
     };
     const listener: ChatResponseListener = {
       emitResponse: (response: ChatResponse) => {
@@ -724,8 +767,45 @@ export class ChatModel extends Model<ChatState> {
     if (userInput) this.sendChatRequest(0);
   }
 
+  startNewChatWithSelectionContext(
+    path: string,
+    side: Side,
+    range: CommentRange,
+    text: string,
+    fallbackPrompt: string
+  ) {
+    const message: UserMessage = {
+      userType: UserType.USER,
+      content: 'Explain this code',
+      prompt: fallbackPrompt,
+      path,
+      side,
+      range,
+      text,
+      contextItems: [],
+    };
+    const turns: Turn[] = [userTurn(message)];
+
+    this.updateState({
+      ...initialConversationState,
+      id: cryptoUuid(),
+      turns,
+      draftUserMessage: draftFromUserMessage(message),
+    });
+
+    this.sendChatRequest(0);
+  }
+
   processChatRequest(params: ChatTriggerParams) {
-    if (params.prompt) {
+    if (params.path && params.side && params.range && params.text) {
+      this.startNewChatWithSelectionContext(
+        params.path,
+        params.side,
+        params.range,
+        params.text,
+        params.prompt ?? 'Explain this code'
+      );
+    } else if (params.prompt) {
       this.startNewChatWithUserInput(params.prompt, undefined, [], false);
     }
   }
@@ -1020,8 +1100,10 @@ function mergeResponseParts(
 
 function draftFromUserMessage(userMessage: UserMessage): UserMessage {
   return {
-    ...userMessage,
+    userType: UserType.USER,
     content: '',
+    actionId: userMessage.actionId,
+    contextItems: userMessage.contextItems,
     isBackgroundRequest: false,
   };
 }

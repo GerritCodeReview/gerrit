@@ -493,7 +493,7 @@ export class GrChangeView extends LitElement {
     );
     this.addEventListener('explain-code-requested', e => {
       this.showSidebarChat = true;
-      this.getChatModel().processChatRequest(e.detail);
+      this.getChatModel().startNewChatWithSelectionContext(e.detail);
     });
   }
 

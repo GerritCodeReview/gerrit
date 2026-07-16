@@ -52,6 +52,7 @@ suite('gr-change-summary screenshot tests', () => {
       createRun({
         status: RunStatus.COMPLETED,
         checkName: 'info-check',
+        isAiPowered: true,
         results: [createCheckResult({category: Category.INFO})],
       }),
       createRun({
@@ -86,6 +87,23 @@ suite('gr-change-summary screenshot tests', () => {
     await visualDiffDarkTheme(
       element,
       'gr-change-summary-with-ai-review-prompt'
+    );
+  });
+
+  test('screenshot with expanded AI check chip', async () => {
+    element.runs = [
+      createRun({
+        status: RunStatus.COMPLETED,
+        checkName: 'ai-info-check',
+        isAiPowered: true,
+        results: [createCheckResult({category: Category.INFO})],
+      }),
+    ];
+    await element.updateComplete;
+    await visualDiff(element, 'gr-change-summary-with-expanded-ai-chip');
+    await visualDiffDarkTheme(
+      element,
+      'gr-change-summary-with-expanded-ai-chip'
     );
   });
 });

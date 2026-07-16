@@ -16,6 +16,24 @@
       "message": "Chatted offline-- we should only include the sparkle for individual checks and not aggregated ones",
       "revId": "e16fc2965eb9873ea25717e4c75397d2cf668930",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "443b0f44_ac945648",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4870948
+      },
+      "writtenOn": "2026-07-16T21:25:24Z",
+      "side": 1,
+      "message": "Thanks, I think this product decision makes sense, since users might be confused and think all of the aggregated checks were AI if we included the sparkle on a mixed group. I\u0027ve updated.",
+      "parentUuid": "74d8446e_3fd785da",
+      "revId": "e16fc2965eb9873ea25717e4c75397d2cf668930",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -52,6 +52,7 @@ suite('gr-change-summary screenshot tests', () => {
       createRun({
         status: RunStatus.COMPLETED,
         checkName: 'info-check',
+        isAiPowered: true,
         results: [createCheckResult({category: Category.INFO})],
       }),
       createRun({
@@ -71,6 +72,7 @@ suite('gr-change-summary screenshot tests', () => {
     );
     element.runs = runs;
     element.showChecksSummary = true;
+    element.showAllChips = new Map([[Category.INFO, true]]);
     await element.updateComplete;
   });
 

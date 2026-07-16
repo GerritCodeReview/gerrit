@@ -9,7 +9,11 @@ import { PNG } from 'pngjs';
 import { playwrightLauncher } from '@web/test-runner-playwright';
 
 const runUnderBazel = !!process.env['RUNFILES_DIR'];
-const diffThreshold = 0.01;
+// Set to 0 so small localized UI changes (e.g. icon moves) are not silently
+// dropped by saveBaseline when updating goldens across light and dark themes.
+// Note: If you encounter sub-pixel rendering noise when updating goldens,
+// temporarily raise this threshold (e.g. to 0.15) to prevent saving unwanted diffs.
+const diffThreshold = 0;
 
 function testRunnerHtmlFactory(prefix) {
   return (testFramework) => `

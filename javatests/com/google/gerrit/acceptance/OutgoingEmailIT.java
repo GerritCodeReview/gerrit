@@ -142,4 +142,31 @@ public class OutgoingEmailIT extends AbstractDaemonTest {
   private String withPrefixAndSuffixForMessageId(String id) throws Exception {
     return "<" + id + "@" + URI.create(canonicalWebUrl.get()).toURL().getHost() + ">";
   }
+
+  @Test
+  @GerritConfig(name = "commentlink.bugzilla.match", value = "(bug\\\\s+#?)(\\\\d+)")
+  @GerritConfig(
+      name = "commentlink.bugzilla.link",
+      value = "http://bugs.example.com/show_bug.cgi?id=$2")
+  public void htmlChangeEmailContainsCommentLinks() throws Exception {
+    GeneralPreferencesInfo generalPreferencesInfo = new GeneralPreferencesInfo();
+    generalPreferencesInfo.emailFormat = GeneralPreferencesInfo.EmailFormat.HTML_PLAINTEXT;
+    gApi.accounts().id(user.id().get()).setPreferences(generalPreferencesInfo);
+    sender.clear();
+
+    ReviewerInput reviewerInput = new ReviewerInput();
+    reviewerInput.reviewer = user.email();
+
+    PushOneCommit.Result result =
+        pushFactory
+            .create(admin.newIdent(), testRepo, "Test change\\n\\nbug 123", "a.txt", "a")
+            .to("refs/for/master");
+
+    gApi.changes().id(result.getChangeId()).addReviewer(reviewerInput);
+
+    FakeEmailSender.Message message = Iterables.getFirst(sender.getMessages(), null);
+    assertThat(message).isNotNull();
+    assertThat(message.htmlBody())
+        .contains("<a href=\"http://bugs.example.com/show_bug.cgi?id=123\">bug 123</a>");
+  }
 }

@@ -337,7 +337,6 @@ export class GrEditableLabel extends LitElement {
       this.value = this.inputText || '';
     }
     this.editing = false;
-    // TODO: This event seems to be unused (no listener). Remove?
     fire(this, 'changed', this.value);
   }
 

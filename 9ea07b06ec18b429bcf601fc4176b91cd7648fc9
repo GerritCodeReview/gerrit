@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "215f5935_323882d7",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-summary/gr-checks-chip.ts",
+        "patchSetId": 29
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-07-16T22:01:55Z",
+      "side": 1,
+      "message": "I wonder if this should be after the text label instead of before since there is already an icon in the front. Putting it at the end also aligns with how the checks tab does it.",
+      "range": {
+        "startLine": 215,
+        "startChar": 0,
+        "endLine": 215,
+        "endChar": 77
+      },
+      "revId": "9ea07b06ec18b429bcf601fc4176b91cd7648fc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93e9bf28_de20514b",
+        "filename": "polygerrit-ui/web-test-runner.config.mjs",
+        "patchSetId": 29
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-07-16T22:01:55Z",
+      "side": 1,
+      "message": "@beckysiegel@google.com do you have any suggestions on how to avoid increasing the diffThreshold?",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 27
+      },
+      "revId": "9ea07b06ec18b429bcf601fc4176b91cd7648fc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "32a7608a_e8fafa63",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-07-16T21:55:07Z",
+      "side": 1,
+      "message": "Please fix this WARNING reported by autoreview issue finding: Consider adding a brief documentation comment for this new property. For example:\n\"If true, the request will be routed through the readScheduler even if it uses a write method (PUT, POST, DELETE).\"",
+      "range": {
+        "startLine": 220,
+        "startChar": 0,
+        "endLine": 220,
+        "endChar": 0
+      },
+      "revId": "5d17beffb1294e18e6ac2fa936ade84825c09e7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bba303d3_b5c5c617",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-07-16T21:55:07Z",
+      "side": 1,
+      "message": "Please fix this WARNING reported by autoreview issue finding: The logic to determine `isWrite` is now duplicated here and in `fetchImpl` (line 292). Consider refactoring this into a private helper method, e.g., `isWrite(method: string, useReadScheduler?: boolean)`.",
+      "range": {
+        "startLine": 274,
+        "startChar": 0,
+        "endLine": 274,
+        "endChar": 0
+      },
+      "revId": "5d17beffb1294e18e6ac2fa936ade84825c09e7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

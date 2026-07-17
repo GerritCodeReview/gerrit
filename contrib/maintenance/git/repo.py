@@ -114,7 +114,7 @@ def pack_refs(repo_dir, all=False):
             LOG.info(e.stdout)
         if e.stderr:
             LOG.error(e.stderr)
-        raise GitCommandException(f"Failed to pack refs in {repo_dir}")
+        raise GitCommandException(f"Failed to pack refs in {repo_dir}") from e
 
 
 def gc(repo_dir, git_config=None, args=None):

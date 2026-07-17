@@ -366,6 +366,29 @@ public class ChangeEmailImpl implements ChangeEmail {
     }
   }
 
+  private String getHtmlChangeDetail() {
+    String detail = getChangeDetail();
+    String html = com.google.common.html.HtmlEscapers.htmlEscaper().escape(detail);
+    if (projectState == null) {
+      return html;
+    }
+    for (com.google.gerrit.extensions.api.projects.CommentLinkInfo linkInfo :
+        projectState.getCommentLinks()) {
+      if (linkInfo.enabled != null && !linkInfo.enabled) {
+        continue;
+      }
+      try {
+        java.util.regex.Pattern pattern = java.util.regex.Pattern.compile(linkInfo.match);
+        if (linkInfo.link != null) {
+          html = pattern.matcher(html).replaceAll("<a href=\"" + linkInfo.link + "\">$0</a>");
+        }
+      } catch (RuntimeException e) {
+        logger.atWarning().withCause(e).log("Cannot apply commentlink %s", linkInfo.name);
+      }
+    }
+    return html;
+  }
+
   /** Get the patch list corresponding to patch set patchSetId of this change. */
   @Override
   public Map<String, FileDiffOutput> listModifiedFiles(int patchSetId) {
@@ -593,6 +616,10 @@ public class ChangeEmailImpl implements ChangeEmail {
 
     // changeDetail - is a plaintext summary of the change (message, files, delta)
     email.addSoyEmailDataParam("changeDetail", getChangeDetail());
+    email.addSoyEmailDataParam(
+        "htmlChangeDetail",
+        com.google.template.soy.data.UnsafeSanitizedContentOrdainer.ordainAsSafe(
+            getHtmlChangeDetail(), com.google.template.soy.data.SanitizedContent.ContentKind.HTML));
     email.addSoyEmailDataParam("changeUrl", getChangeUrl());
 
     Map<String, String> changeData = new HashMap<>();

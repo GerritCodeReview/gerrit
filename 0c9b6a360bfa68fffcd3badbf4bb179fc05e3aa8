@@ -70,6 +70,30 @@
       },
       "revId": "0c9b6a360bfa68fffcd3badbf4bb179fc05e3aa8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "99466f85_0c4a2c94",
+        "filename": "polygerrit-ui/web-test-runner.config.mjs",
+        "patchSetId": 32
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 4870948
+      },
+      "writtenOn": "2026-07-17T19:17:00Z",
+      "side": 1,
+      "message": "Earlier in the process, we were seeing diff percentages as high as .15%, but at this point I\u0027m able to get passing snapshot tests as low as .02, so I\u0027ve updated to that number. (If we set it to .01, we still get failures in CI.)",
+      "parentUuid": "bb6c238e_fb251a3d",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 24
+      },
+      "revId": "0c9b6a360bfa68fffcd3badbf4bb179fc05e3aa8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

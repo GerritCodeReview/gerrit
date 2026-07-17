@@ -16,6 +16,24 @@
       "message": "This feels like a lot of duplicated stuff to cause a maintenance issue. I question the value of changing the format for this case.",
       "revId": "d79929c3709387000b3ae469e03bd2f0ee8e401e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "014ad792_dc0a1f64",
+        "filename": "java/com/google/gerrit/server/cache/CacheDisplay.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-07-17T18:05:41Z",
+      "side": 1,
+      "message": "@klingarkar@nvidia.com Do you have any thoughts ? I side with @mfick@nvidia.com\n\nWe can reduce a bit of duplication here but that would cause readability issues with code.",
+      "parentUuid": "effdaf53_a666902d",
+      "revId": "d79929c3709387000b3ae469e03bd2f0ee8e401e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

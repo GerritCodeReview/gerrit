@@ -16,6 +16,24 @@
       "message": "The bug with focus was fixed in https://b.corp.google.com/issues/533377612 \nIt was a new plugin that introduce new comment c that was released to all users and we had different. Even in b/534207548 user is replying that it works now (when this change was not yet imported to google3). \n\nThanks for looking into this but I think this new complexity is not necessary and I would recommend to revert this change, since root cause of recent issues with focus was already fixed.",
       "revId": "23f33e77b59d5e689828e0c065d21ced1c37ab7b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2521fcd2_fd2d5e35",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 26
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4870948
+      },
+      "writtenOn": "2026-07-17T21:32:31Z",
+      "side": 1,
+      "message": "I\u0027m not sure about this. b/533377612 fixed the external plugin focus issue, but we still had a real logic bug in gr-comment-thread.ts, where we were using getFirstComment() in firstUpdated(). \n\nWhen replying to an existing thread, getFirstComment() returns the root published comment rather than the newly added reply draft (getLastComment()). This makes isNewDraft evaluate to false and incorrectly focuses commentBox. By updating to getLastComment() in this CL, isNewDraft now correctly identifies reply drafts as well as root drafts.",
+      "parentUuid": "b970cd81_610d8d96",
+      "revId": "23f33e77b59d5e689828e0c065d21ced1c37ab7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

@@ -130,6 +130,33 @@ suite('gr-rest-api-helper tests', () => {
       });
       assert.equal(readScheduler.scheduled.length, 0);
       await assertWriteRequest();
+      const res = await promise;
+      assert.equal(await res.text(), 'Yay');
+    });
+
+    test('POST are sent to writeScheduler', async () => {
+      const promise = helper.fetch({
+        fetchOptions: {
+          method: HttpMethod.POST,
+        },
+        url: '/dummy/url',
+      });
+      assert.equal(readScheduler.scheduled.length, 0);
+      await assertWriteRequest();
+      const res = await promise;
+      assert.equal(await res.text(), 'Yay');
+    });
+
+    test('POST with useReadScheduler are sent to readScheduler', async () => {
+      const promise = helper.fetch({
+        fetchOptions: {
+          method: HttpMethod.POST,
+        },
+        url: '/changes/123/revisions/1/fix:preview',
+        useReadScheduler: true,
+      });
+      assert.equal(writeScheduler.scheduled.length, 0);
+      await assertReadRequest();
       const res: Response = await promise;
       assert.equal(await res.text(), 'Yay');
     });

@@ -2620,6 +2620,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
           }),
           url: `${url}/fix:preview`,
           anonymizedUrl: `${ANONYMIZED_REVISION_BASE_URL}/fix:preview`,
+          useReadScheduler: true,
         })) as FilePathToDiffInfoMap | undefined;
 
         if (response === undefined) {

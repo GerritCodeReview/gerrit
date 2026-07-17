@@ -90,6 +90,23 @@
       "message": "Why would this ever be needed?",
       "revId": "a63c71dd0e2361c519215607ff3a1c3814e85f30",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76b60652_48546bc7",
+        "filename": "java/com/google/gerrit/server/schema/H2GitLockAccountPatchReviewStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-07-17T16:27:46Z",
+      "side": 1,
+      "message": "All this retry logic feels like it should be in the parent class, and only the jgit specific pieces should be in here?",
+      "revId": "a63c71dd0e2361c519215607ff3a1c3814e85f30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

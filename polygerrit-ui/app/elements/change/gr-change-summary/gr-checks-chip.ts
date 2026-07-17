@@ -28,6 +28,9 @@ export class GrChecksChip extends LitElement {
   @property({type: Array})
   links: string[] = [];
 
+  @property({type: Boolean})
+  isAi = false;
+
   private readonly reporting = getAppContext().reportingService;
 
   static override get styles() {
@@ -79,6 +82,10 @@ export class GrChecksChip extends LitElement {
         }
         gr-icon {
           font-size: var(--line-height-small);
+          --gr-icon-size: var(--line-height-small);
+        }
+        gr-icon.ai-sparkle {
+          margin-left: var(--spacing-xs);
         }
         .checksChip a gr-icon.launch {
           color: var(--link-color);
@@ -172,9 +179,14 @@ export class GrChecksChip extends LitElement {
     // 15 is roughly the number of chars for the chip exceeding its 120px width.
     return html`
       ${this.text.length > 15
-        ? html` ${this.renderChip(chipClassFullLength, ariaLabel, icon)}`
+        ? html` ${this.renderChip(
+            chipClassFullLength,
+            ariaLabel,
+            icon,
+            this.isAi
+          )}`
         : ''}
-      ${this.renderChip(chipClass, ariaLabel, icon)}
+      ${this.renderChip(chipClass, ariaLabel, icon, this.isAi)}
     `;
   }
 
@@ -191,12 +203,18 @@ export class GrChecksChip extends LitElement {
     return `${label} for check ${this.text}`;
   }
 
-  private renderChip(clazz: string, ariaLabel: string, icon: ChecksIcon) {
+  private renderChip(
+    clazz: string,
+    ariaLabel: string,
+    icon: ChecksIcon,
+    isAi: boolean
+  ) {
     return html`
       <div class=${clazz} role="link" tabindex="0" aria-label=${ariaLabel}>
         <gr-icon icon=${icon.name} ?filled=${!!icon.filled}></gr-icon>
         ${this.renderLinks()}
         <div class="text">${this.text}</div>
+        ${isAi ? html`<gr-icon icon="ai" class="ai-sparkle"></gr-icon>` : ''}
       </div>
     `;
   }

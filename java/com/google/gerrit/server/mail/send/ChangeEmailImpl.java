@@ -20,8 +20,10 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.auto.factory.AutoFactory;
 import com.google.auto.factory.Provided;
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
+import com.google.common.html.HtmlEscapers;
 import com.google.common.io.BaseEncoding;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
@@ -39,6 +41,7 @@ import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
+import com.google.gerrit.extensions.api.projects.CommentLinkInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy;
 import com.google.gerrit.mail.MailHeader;
 import com.google.gerrit.server.account.AccountState;
@@ -65,6 +68,8 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import org.apache.james.mime4j.dom.field.FieldName;
 import org.eclipse.jgit.diff.DiffFormatter;
@@ -366,6 +371,54 @@ public class ChangeEmailImpl implements ChangeEmail {
     }
   }
 
+  private String getHtmlChangeDetail() {
+    String detail = getChangeDetail();
+    String html = HtmlEscapers.htmlEscaper().escape(detail);
+    if (projectState == null) {
+      return html;
+    }
+    for (CommentLinkInfo linkInfo : projectState.getCommentLinks()) {
+      if (linkInfo.enabled != null && !linkInfo.enabled) {
+        continue;
+      }
+      try {
+        Pattern pattern = Pattern.compile(linkInfo.match);
+        if (linkInfo.link != null) {
+          String prefix =
+              Matcher.quoteReplacement(
+                  HtmlEscapers.htmlEscaper().escape(Strings.nullToEmpty(linkInfo.prefix)));
+          String suffix =
+              Matcher.quoteReplacement(
+                  HtmlEscapers.htmlEscaper().escape(Strings.nullToEmpty(linkInfo.suffix)));
+          String text =
+              linkInfo.text != null ? HtmlEscapers.htmlEscaper().escape(linkInfo.text) : "$0";
+          String link = HtmlEscapers.htmlEscaper().escape(linkInfo.link);
+          Matcher m = pattern.matcher(html);
+          StringBuilder sb = new StringBuilder();
+          String replacement = prefix + "<a href=\"" + link + "\">" + text + "</a>" + suffix;
+          while (m.find()) {
+            if (isInsideAnchor(html, m.start())) {
+              m.appendReplacement(sb, Matcher.quoteReplacement(m.group(0)));
+            } else {
+              m.appendReplacement(sb, replacement);
+            }
+          }
+          m.appendTail(sb);
+          html = sb.toString();
+        }
+      } catch (RuntimeException e) {
+        logger.atWarning().withCause(e).log("Cannot apply commentlink %s", linkInfo.name);
+      }
+    }
+    return html;
+  }
+
+  private static boolean isInsideAnchor(String html, int index) {
+    int openTag = html.lastIndexOf("<a ", index);
+    int closeTag = html.lastIndexOf("</a>", index);
+    return openTag > closeTag;
+  }
+
   /** Get the patch list corresponding to patch set patchSetId of this change. */
   @Override
   public Map<String, FileDiffOutput> listModifiedFiles(int patchSetId) {
@@ -593,6 +646,10 @@ public class ChangeEmailImpl implements ChangeEmail {
 
     // changeDetail - is a plaintext summary of the change (message, files, delta)
     email.addSoyEmailDataParam("changeDetail", getChangeDetail());
+    email.addSoyEmailDataParam(
+        "htmlChangeDetail",
+        com.google.template.soy.data.UnsafeSanitizedContentOrdainer.ordainAsSafe(
+            getHtmlChangeDetail(), com.google.template.soy.data.SanitizedContent.ContentKind.HTML));
     email.addSoyEmailDataParam("changeUrl", getChangeUrl());
 
     Map<String, String> changeData = new HashMap<>();

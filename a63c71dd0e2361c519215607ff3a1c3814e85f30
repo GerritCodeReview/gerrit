@@ -94,6 +94,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "32eb4929_3291c2a1",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-07-17T16:29:35Z",
+      "side": 1,
+      "message": "db could be anywhere and could be accessed by `url`. Having same way for the `lockFile`.",
+      "parentUuid": "1de944b5_ea964486",
+      "revId": "a63c71dd0e2361c519215607ff3a1c3814e85f30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "76b60652_48546bc7",
         "filename": "java/com/google/gerrit/server/schema/H2GitLockAccountPatchReviewStore.java",
         "patchSetId": 1

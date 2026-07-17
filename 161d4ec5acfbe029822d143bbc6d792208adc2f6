@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7e37f6d4_0e61b51e",
+        "filename": "java/com/google/gerrit/server/index/change/PendingIndexUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-07-17T10:36:51Z",
+      "side": 1,
+      "message": "In case of a setup with imported changes, changeId might collide. Consider adding the project to the directory name.",
+      "range": {
+        "startLine": 40,
+        "startChar": 57,
+        "endLine": 40,
+        "endChar": 67
+      },
+      "revId": "161d4ec5acfbe029822d143bbc6d792208adc2f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "be98fbb5_e1297ad4",
         "filename": "java/com/google/gerrit/server/index/change/PendingIndexUpdate.java",
         "patchSetId": 3
@@ -48,6 +71,29 @@
       "writtenOn": "2026-07-15T19:00:01Z",
       "side": 1,
       "message": "I recommend using json here as tabulation is not safe.",
+      "revId": "161d4ec5acfbe029822d143bbc6d792208adc2f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10fa839a_8c245cd9",
+        "filename": "java/com/google/gerrit/server/index/change/PendingIndexUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-07-17T10:36:51Z",
+      "side": 1,
+      "message": "I would also add the projectName in the log",
+      "range": {
+        "startLine": 70,
+        "startChar": 53,
+        "endLine": 70,
+        "endChar": 55
+      },
       "revId": "161d4ec5acfbe029822d143bbc6d792208adc2f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -139,6 +185,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "050c30c8_c2e4acf6",
+        "filename": "java/com/google/gerrit/server/index/change/PendingIndexUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-07-17T10:36:51Z",
+      "side": 1,
+      "message": "Worth logging this case as a warning (maybe with `atMost`)? If `pendingDir` is never there, and the scanning is enabled it means something is going on.",
+      "range": {
+        "startLine": 166,
+        "startChar": 5,
+        "endLine": 168,
+        "endChar": 7
+      },
+      "revId": "161d4ec5acfbe029822d143bbc6d792208adc2f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "edc6befa_d921c0f0",
         "filename": "java/com/google/gerrit/server/index/change/PendingIndexUpdate.java",
         "patchSetId": 3
@@ -150,6 +219,29 @@
       "writtenOn": "2026-07-15T19:00:01Z",
       "side": 1,
       "message": "As a more general approach, the question here should be isThreadDead() instead. It doesn\u0027t currently matter, but that better expresses the intent, and leaves the door open for a potential unknown status in the future (we would not trigger recovery for unknown).",
+      "revId": "161d4ec5acfbe029822d143bbc6d792208adc2f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38ac6eeb_c820c60a",
+        "filename": "java/com/google/gerrit/server/index/change/PendingIndexUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-07-17T10:36:51Z",
+      "side": 1,
+      "message": "This case might be critical, since if we cannot delete the directory we might end up in a situation where we keep try to index. Maybe we should be more explicit in the `cleanupThreadDir`, stating the consequences of not deleting it. WDYT?",
+      "range": {
+        "startLine": 200,
+        "startChar": 6,
+        "endLine": 200,
+        "endChar": 22
+      },
       "revId": "161d4ec5acfbe029822d143bbc6d792208adc2f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

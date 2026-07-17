@@ -46,6 +46,30 @@
       },
       "revId": "0c9b6a360bfa68fffcd3badbf4bb179fc05e3aa8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb6c238e_fb251a3d",
+        "filename": "polygerrit-ui/web-test-runner.config.mjs",
+        "patchSetId": 32
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-07-17T03:21:54Z",
+      "side": 1,
+      "message": "were we able to keep the old value (.01)? It should be the lowest possible number without failing tests",
+      "parentUuid": "da9d0977_2be8c507",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 24
+      },
+      "revId": "0c9b6a360bfa68fffcd3badbf4bb179fc05e3aa8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

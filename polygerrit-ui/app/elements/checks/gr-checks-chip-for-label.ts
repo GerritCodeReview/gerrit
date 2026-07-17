@@ -75,10 +75,12 @@ export class GrChecksChipForLabel extends LitElement {
     if (runs.length === 1 && runs[0].statusLink) {
       links.push(runs[0].statusLink);
     }
+    const isAi = runs.some(run => run.isAiPowered);
     return html`<gr-checks-chip
       .text=${`${runsCount}`}
       .links=${links}
       .statusOrCategory=${category}
+      .isAi=${isAi}
       @click=${() => {
         fireShowTab(this, Tab.CHECKS, false, {
           checksTab: {

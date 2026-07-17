@@ -579,6 +579,7 @@ export class GrChangeSummary extends LitElement {
       .statusOrCategory=${statusOrCategory}
       .text=${text}
       .links=${links}
+      .isAi=${!!run.isAiPowered}
       @click=${handler}
       @keydown=${(e: KeyboardEvent) => handleSpaceOrEnter(e, handler)}
     ></gr-checks-chip>`;

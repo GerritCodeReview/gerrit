@@ -36,7 +36,10 @@ export function getSubmitCondition() {
 }
 
 export function getChangePrefix() {
-  return window.location.origin + window.location.pathname;
+  const pathname = window.location.pathname;
+  const match = pathname.match(/^(.*?\/(?:c\/.+?\/\+|\bc)\/\d+)/);
+  const cleanPathname = match ? match[1] : pathname.replace(/\/+$/, '');
+  return window.location.origin + cleanPathname;
 }
 
 export class FlowsModel extends Model<FlowsState> {
@@ -169,12 +172,28 @@ export class FlowsModel extends Model<FlowsState> {
   }
 
   hasAutosubmitFlowAlready() {
+    const autosubmitProvider = this.getState().autosubmitProviders.find(
+      provider => provider.getSubmitCondition && !!provider.getSubmitCondition()
+    );
+    let expectedCondition = getSubmitCondition();
+    if (autosubmitProvider?.getSubmitCondition()) {
+      expectedCondition = `${getChangePrefix()} is ${autosubmitProvider.getSubmitCondition()}`;
+    }
+    const expectedActionName =
+      autosubmitProvider?.getSubmitAction()?.name ?? SUBMIT_ACTION_NAME;
+
     return this.getState().flows.some(flow =>
-      flow.stages.some(
-        stage =>
-          stage.expression.condition === getSubmitCondition() &&
-          stage.expression.action?.name === SUBMIT_ACTION_NAME
-      )
+      flow.stages.some(stage => {
+        const condition = stage.expression.condition;
+        const normalizedCondition = condition.replace(
+          /^(.*?\/(?:c\/.+?\/\+|\bc)\/\d+)[^ ]*/,
+          '$1'
+        );
+        return (
+          normalizedCondition === expectedCondition &&
+          stage.expression.action?.name === expectedActionName
+        );
+      })
     );
   }
 

@@ -200,4 +200,60 @@ suite('flows-model tests', () => {
     await waitUntil(() => !flowsModel.hasAutosubmitFlowAlready());
     assert.isFalse(flowsModel.hasAutosubmitFlowAlready());
   });
+
+  test('getChangePrefix strips patchsets and diff ranges', () => {
+    const originalPathname = window.location.pathname;
+    try {
+      window.history.replaceState({}, '', '/c/project/+/12345/9..10');
+      assert.equal(
+        getChangePrefix(),
+        window.location.origin + '/c/project/+/12345'
+      );
+
+      window.history.replaceState({}, '', '/c/project/+/12345/2');
+      assert.equal(
+        getChangePrefix(),
+        window.location.origin + '/c/project/+/12345'
+      );
+
+      window.history.replaceState({}, '', '/c/project/+/12345/1/foo/bar.ts');
+      assert.equal(
+        getChangePrefix(),
+        window.location.origin + '/c/project/+/12345'
+      );
+
+      window.history.replaceState({}, '', '/c/12345/2');
+      assert.equal(getChangePrefix(), window.location.origin + '/c/12345');
+    } finally {
+      window.history.replaceState({}, '', originalPathname);
+    }
+  });
+
+  test('hasAutosubmitFlowAlready matches flows created on different patchsets/diff ranges', async () => {
+    stubRestApi('getIfFlowsIsEnabled').resolves({enabled: true});
+    stubRestApi('listFlows').resolves([
+      createFlow({
+        uuid: 'flow-diff-range',
+        stages: [
+          {
+            expression: {
+              condition:
+                window.location.origin +
+                '/c/project/+/12345/9..10 is is:submittable',
+              action: {name: SUBMIT_ACTION_NAME},
+            },
+            state: FlowStageState.DONE,
+          },
+        ],
+      }),
+    ]);
+
+    changeModel.updateStateChange({
+      ...createParsedChange(),
+      _number: 123 as NumericChangeId,
+    });
+    await waitUntil(() => flowsModel.getState().flows.length > 0);
+
+    assert.isTrue(flowsModel.hasAutosubmitFlowAlready());
+  });
 });

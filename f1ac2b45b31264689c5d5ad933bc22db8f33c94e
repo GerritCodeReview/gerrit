@@ -22,6 +22,30 @@
       },
       "revId": "f1ac2b45b31264689c5d5ad933bc22db8f33c94e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b67c41ee_4d4a8b68",
+        "filename": "Documentation/cmd-show-caches.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-07-17T07:56:34Z",
+      "side": 1,
+      "message": "Done. Putting the example display here since its hard to review:\n\n```\n➜  ~/workspace/rel git:(d79929c370) ✗ ssh -p 29418 admin@localhost gerrit show-caches\nGerrit Code Review        3.14.1-540-g0497671fad-dirty      now    07:55:05   UTC\n                                                 uptime     1 min 43 sec\n\n  Name                          |Entries|  AvgGet |Hit%|\n                                |    Mem|         | Mem|\n--------------------------------+-------+---------+----+\n  adv_bases                     |       |         |    |\n  change_notes                  |       |         |    |\n  changeid_project              |       |         |    |\n  default_preferences           |       |         |    |\n  external_ids_map              |      1|         | 45%|\n  groups                        |       |         |    |\n  groups_bymember               |       |         |    |\n  groups_byname                 |       |         |    |\n  groups_bysubgroup             |       |         |    |\n  groups_byuuid                 |      2|   4.9ms | 66%|\n  groups_external               |       |         |    |\n  groups_external_persisted     |       |         |    |\n  permission_sort               |       |         |    |\n  plugin_resources              |       |         |    |\n  project_list                  |       |         |    |\n  projects                      |      1|  28.5ms | 93%|\n  prolog_rules                  |       |         |    |\n  soy_sauce_compiled_templates  |       |         |    |\n  sshkeys                       |      1|  61.3ms | 66%|\n  static_content                |       |         |    |\n  tokens                        |       |         |    |\nD accounts                      |      1|   6.5ms | 83%|\nD change_kind                   |       |         |    |\nD changes_by_project            |       |         |    |\nD comment_context               |       |         |    |\nD conflicts                     |       |         |    |\nD diff_intraline                |       |         |    |\nD diff_summary                  |       |         |    |\nD gerrit_file_diff              |       |         |    |\nD git_file_diff                 |       |         |    |\nD git_modified_files            |       |         |    |\nD git_tags                      |       |         |    |\nD groups_byuuid_persisted       |       |         |    |\nD mergeability                  |       |         |    |\nD modified_files                |       |         |    |\nD oauth_tokens                  |       |         |    |\nD persisted_projects            |       |         |    |\nD pure_revert                   |       |         |    |\nD web_sessions                  |       |         |    |\n\nSSH:      1  users, oldest session started   0 ms ago\nTasks:   21  total \u003d    1 running +      0 ready +   20 sleeping\nMem: 192.00m total \u003d 142.42m used + 49.58m free + 0.00k buffers\n     12.00g max\n           0 open files\n\nThreads: 14 CPUs available, 115 threads\n\n```",
+      "parentUuid": "3cbd31ce_7b54c913",
+      "range": {
+        "startLine": 72,
+        "startChar": 42,
+        "endLine": 72,
+        "endChar": 46
+      },
+      "revId": "f1ac2b45b31264689c5d5ad933bc22db8f33c94e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

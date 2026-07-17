@@ -26,6 +26,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e9deb14e_c1b53636",
+        "filename": "java/com/google/gerrit/server/index/change/PendingIndexUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-07-17T10:54:32Z",
+      "side": 1,
+      "message": "Is `thread-id/change-id` enough to distinguish intent unambiguously?\nTwo operations for the same change on the same actor can overwrite one another; how will the cleanup distinguish which operation created the file?",
+      "range": {
+        "startLine": 40,
+        "startChar": 46,
+        "endLine": 40,
+        "endChar": 67
+      },
+      "revId": "161d4ec5acfbe029822d143bbc6d792208adc2f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "be98fbb5_e1297ad4",
         "filename": "java/com/google/gerrit/server/index/change/PendingIndexUpdate.java",
         "patchSetId": 3
@@ -100,6 +123,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6af4d0e7_b2c6996f",
+        "filename": "java/com/google/gerrit/server/index/change/PendingIndexUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-07-17T10:54:32Z",
+      "side": 1,
+      "message": "Why catching failures to create the intent?\nShouldn\u0027t this exeption be propagated?",
+      "range": {
+        "startLine": 68,
+        "startChar": 0,
+        "endLine": 71,
+        "endChar": 5
+      },
+      "revId": "161d4ec5acfbe029822d143bbc6d792208adc2f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "39a11228_11a14986",
         "filename": "java/com/google/gerrit/server/index/change/PendingIndexUpdate.java",
         "patchSetId": 3
@@ -128,6 +174,29 @@
       "writtenOn": "2026-07-15T19:00:01Z",
       "side": 1,
       "message": "recover()?",
+      "revId": "161d4ec5acfbe029822d143bbc6d792208adc2f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1742d359_616b99a4",
+        "filename": "java/com/google/gerrit/server/index/change/PendingIndexUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-07-17T10:54:32Z",
+      "side": 1,
+      "message": "nit: only the exact string `delete` causes deletion, every other value is treated as an index request.\nConsider a stricter parsing and reject `unknown` values.",
+      "range": {
+        "startLine": 110,
+        "startChar": 0,
+        "endLine": 114,
+        "endChar": 5
+      },
       "revId": "161d4ec5acfbe029822d143bbc6d792208adc2f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -201,6 +270,29 @@
         "startChar": 5,
         "endLine": 168,
         "endChar": 7
+      },
+      "revId": "161d4ec5acfbe029822d143bbc6d792208adc2f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "faa7829b_03b81173",
+        "filename": "java/com/google/gerrit/server/index/change/PendingIndexUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-07-17T10:54:32Z",
+      "side": 1,
+      "message": "An `IOException` thrown here would prevent the rest of the directories from being processed.\nConsider catching that and continuing the scan for other unaffected directories instead",
+      "range": {
+        "startLine": 182,
+        "startChar": 1,
+        "endLine": 182,
+        "endChar": 38
       },
       "revId": "161d4ec5acfbe029822d143bbc6d792208adc2f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
@@ -283,6 +375,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9b34e6a0_0cd2cd05",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdates.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-07-17T10:54:32Z",
+      "side": 1,
+      "message": "`pendingIndexUpdate.write` swallows and logs any `IOException`; see PendingIndexUpdate.javaL68-71\nAs a consequence, it seems to me that failures to write the intent are swallowed, so the execution continues even though the WAL record was not created?",
+      "range": {
+        "startLine": 127,
+        "startChar": 12,
+        "endLine": 127,
+        "endChar": 62
+      },
+      "revId": "161d4ec5acfbe029822d143bbc6d792208adc2f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "978c88cb_b1f34aef",
         "filename": "java/com/google/gerrit/server/update/BatchUpdates.java",
         "patchSetId": 3
@@ -294,6 +409,29 @@
       "writtenOn": "2026-07-15T19:00:01Z",
       "side": 1,
       "message": "It is not clear to me that we should clean up on interrupt unless we have neither updated the index nor the git references?",
+      "revId": "161d4ec5acfbe029822d143bbc6d792208adc2f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d839a6a5_f98ed255",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdates.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-07-17T10:54:32Z",
+      "side": 1,
+      "message": "Even when the thread is not interrupted, an index operation can throw, or a future can fail.\nThis finally still deletes every intent, regardless of the indexing result?\n\nShouldn\u0027t we acknowledge the intent only after the corresponding index update is known to have succeeded?",
+      "range": {
+        "startLine": 165,
+        "startChar": 4,
+        "endLine": 166,
+        "endChar": 79
+      },
       "revId": "161d4ec5acfbe029822d143bbc6d792208adc2f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

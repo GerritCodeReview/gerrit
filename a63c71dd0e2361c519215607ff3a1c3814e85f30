@@ -112,6 +112,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "de3eb0de_4219e230",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-07-17T17:12:39Z",
+      "side": 1,
+      "message": "I\u0027m not following, if access is needed to the lockFile, then access is needed to the DB file. I am not seeing a use case for ever separating the 2?",
+      "parentUuid": "32eb4929_3291c2a1",
+      "revId": "a63c71dd0e2361c519215607ff3a1c3814e85f30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "76b60652_48546bc7",
         "filename": "java/com/google/gerrit/server/schema/H2GitLockAccountPatchReviewStore.java",
         "patchSetId": 1

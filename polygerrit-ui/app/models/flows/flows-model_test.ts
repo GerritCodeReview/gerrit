@@ -200,4 +200,69 @@ suite('flows-model tests', () => {
     await waitUntil(() => !flowsModel.hasAutosubmitFlowAlready());
     assert.isFalse(flowsModel.hasAutosubmitFlowAlready());
   });
+
+  suite('getChangePrefix', () => {
+    let originalPath: string;
+
+    setup(() => {
+      originalPath = window.location.pathname;
+    });
+
+    teardown(() => {
+      window.history.replaceState(null, '', originalPath);
+    });
+
+    test('strips patchset, diff range, and file path subpaths', () => {
+      const origin = window.location.origin;
+
+      window.history.replaceState(null, '', '/c/my-repo/+/123');
+      assert.equal(getChangePrefix(), `${origin}/c/my-repo/+/123`);
+
+      window.history.replaceState(null, '', '/c/my-repo/+/123/4');
+      assert.equal(getChangePrefix(), `${origin}/c/my-repo/+/123`);
+
+      window.history.replaceState(null, '', '/c/my-repo/+/123/1..4');
+      assert.equal(getChangePrefix(), `${origin}/c/my-repo/+/123`);
+
+      window.history.replaceState(
+        null,
+        '',
+        '/c/my-repo/+/123/1..4/src/file.ts'
+      );
+      assert.equal(getChangePrefix(), `${origin}/c/my-repo/+/123`);
+    });
+  });
+
+  test('hasAutosubmitFlowAlready detects flows when navigating between patchsets/diff ranges', async () => {
+    const originalPath = window.location.pathname;
+    try {
+      window.history.replaceState(null, '', '/c/my-repo/+/123/4..5/src/foo.ts');
+      stubRestApi('getIfFlowsIsEnabled').resolves({enabled: true});
+      const expectedPrefix = `${window.location.origin}/c/my-repo/+/123`;
+      stubRestApi('listFlows').resolves([
+        createFlow({
+          uuid: 'flow1',
+          stages: [
+            {
+              expression: {
+                condition: `${expectedPrefix} is is:submittable`,
+                action: {name: SUBMIT_ACTION_NAME},
+              },
+              state: FlowStageState.DONE,
+            },
+          ],
+        }),
+      ]);
+
+      changeModel.updateStateChange({
+        ...createParsedChange(),
+        _number: 123 as NumericChangeId,
+      });
+      await waitUntil(() => flowsModel.getState().flows.length > 0);
+
+      assert.isTrue(flowsModel.hasAutosubmitFlowAlready());
+    } finally {
+      window.history.replaceState(null, '', originalPath);
+    }
+  });
 });

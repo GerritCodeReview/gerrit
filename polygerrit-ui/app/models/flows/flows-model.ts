@@ -31,12 +31,26 @@ export const flowsModelToken = define<FlowsModel>('flows-model');
 
 export const SUBMIT_ACTION_NAME = 'submit';
 
+/**
+ * Matches the base change path prefix up to the change number (e.g. `/c/project/+/123`),
+ * ignoring any trailing patchsets, diff ranges, comment IDs, or file paths.
+ *
+ * @see RoutePattern.CHANGE in `gr-router.ts` for corresponding route pattern.
+ */
+const CHANGE_PREFIX_PATTERN = /^(.*?\/(?:c\/.+?\/\+)\/\d+)/;
+
 export function getSubmitCondition() {
   return getChangePrefix() + ' is is:submittable';
 }
 
+/**
+ * Returns the change URL prefix (e.g. `http://host/c/project/+/123`), stripping
+ * patchset numbers, diff ranges, comment IDs, and file paths from pathname.
+ */
 export function getChangePrefix() {
-  return window.location.origin + window.location.pathname;
+  const match = window.location.pathname.match(CHANGE_PREFIX_PATTERN);
+  const pathname = match ? match[1] : window.location.pathname;
+  return window.location.origin + pathname;
 }
 
 export class FlowsModel extends Model<FlowsState> {

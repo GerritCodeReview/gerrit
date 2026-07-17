@@ -945,6 +945,19 @@ from the H2 thread pool (`DiskCache-Store`) that handles cache updates.
 +
 Default is 1.
 
+[[cache.preWarmForBloomFilter]]cache.preWarmForBloomFilter::
++
+When enabled, each persistent cache reads its H2 database file into the OS
+page cache before building its BloomFilter. The BloomFilter build requires
+a full table scan of all keys which involves reading close to the entire file
+in a scattered fashion. Doing such a read tends to not perform well I/O wise as
+it generally cannot take advantage of operating system level file system
+readahead. Reading the file sequentially up front tends to take advantage of
+readahead to fully populate the file system caches which then can make scattered
+reads much faster.
++
+Default is true.
+
 [[cache.openFiles]]cache.openFiles::
 +
 The number of file descriptors to add to the limit set by the Gerrit daemon.

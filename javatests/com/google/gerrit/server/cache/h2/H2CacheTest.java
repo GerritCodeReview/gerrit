@@ -75,7 +75,9 @@ public class H2CacheTest {
         refreshAfterWrite,
         true,
         true,
-        new AtomicBoolean(false));
+        new AtomicBoolean(false),
+        false,
+        null);
   }
 
   @Test

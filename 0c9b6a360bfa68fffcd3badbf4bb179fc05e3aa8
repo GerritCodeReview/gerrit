@@ -22,6 +22,30 @@
       },
       "revId": "0c9b6a360bfa68fffcd3badbf4bb179fc05e3aa8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "da9d0977_2be8c507",
+        "filename": "polygerrit-ui/web-test-runner.config.mjs",
+        "patchSetId": 32
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 4870948
+      },
+      "writtenOn": "2026-07-17T00:29:28Z",
+      "side": 1,
+      "message": "Ugh. I was hopeful that this was only necessary for the image generation process.\n\nWent ahead and reverted the value, but left a comment.",
+      "parentUuid": "b409daca_c4a525b0",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 24
+      },
+      "revId": "0c9b6a360bfa68fffcd3badbf4bb179fc05e3aa8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

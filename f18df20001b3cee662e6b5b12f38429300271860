@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "518c8e6e_1ccfd527",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-07-17T20:17:52Z",
+      "side": 1,
+      "message": "Thanks! credit goes to an Android dev for coming up with this idea for a shadow with an extended teammate!",
+      "parentUuid": "c7ee132e_219e5bf0",
+      "revId": "f18df20001b3cee662e6b5b12f38429300271860",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3adebef4_a5d0e1b8",
@@ -109,6 +127,31 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "55ae2abb_5be5f4aa",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmailImpl.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-07-17T20:17:52Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "3adebef4_a5d0e1b8",
+      "range": {
+        "startLine": 375,
+        "startChar": 8,
+        "endLine": 375,
+        "endChar": 66
+      },
+      "isAi": true,
+      "revId": "f18df20001b3cee662e6b5b12f38429300271860",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bbe16019_939ff112",
@@ -183,6 +226,56 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7236f6fd_db716f3e",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmailImpl.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-07-17T20:17:52Z",
+      "side": 1,
+      "message": "Done. Added a `ConcurrentHashMap` cache to quickly retrieve dynamically compiled patterns.",
+      "parentUuid": "850df929_d66e724f",
+      "range": {
+        "startLine": 381,
+        "startChar": 0,
+        "endLine": 381,
+        "endChar": 0
+      },
+      "isAi": true,
+      "revId": "f18df20001b3cee662e6b5b12f38429300271860",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "18bb4d44_55f7bbf3",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmailImpl.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-07-17T20:17:52Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "bbe16019_939ff112",
+      "range": {
+        "startLine": 381,
+        "startChar": 8,
+        "endLine": 381,
+        "endChar": 31
+      },
+      "isAi": true,
+      "revId": "f18df20001b3cee662e6b5b12f38429300271860",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "987add8c_598f7249",
@@ -225,6 +318,56 @@
         "endLine": 383,
         "endChar": 0
       },
+      "revId": "f18df20001b3cee662e6b5b12f38429300271860",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "18d9eec4_3ab97676",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmailImpl.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-07-17T20:17:52Z",
+      "side": 1,
+      "message": "Done. Wrapped all extracted link elements in `HtmlEscapers.htmlEscaper()`. They correctly evaluate safe query parameters seamlessly during the HTML mapping step while avoiding any XSS loopholes.",
+      "parentUuid": "987add8c_598f7249",
+      "range": {
+        "startLine": 383,
+        "startChar": 0,
+        "endLine": 383,
+        "endChar": 0
+      },
+      "isAi": true,
+      "revId": "f18df20001b3cee662e6b5b12f38429300271860",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "63c2896c_ac5bec29",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmailImpl.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-07-17T20:17:52Z",
+      "side": 1,
+      "message": "Done! Brought back missing prefixes and suffixes, defaulting properly when empty so that the rendering recreates the configuration values.",
+      "parentUuid": "9d787d37_3886d3b9",
+      "range": {
+        "startLine": 383,
+        "startChar": 0,
+        "endLine": 383,
+        "endChar": 0
+      },
+      "isAi": true,
       "revId": "f18df20001b3cee662e6b5b12f38429300271860",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -1,0 +1,232 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7ee132e_219e5bf0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-07-17T20:09:39Z",
+      "side": 1,
+      "message": "That\u0027s nice idea.",
+      "revId": "f18df20001b3cee662e6b5b12f38429300271860",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3adebef4_a5d0e1b8",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmailImpl.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-07-17T20:09:39Z",
+      "side": 1,
+      "message": "Can you please import CommentLinkInfo and other objects.",
+      "range": {
+        "startLine": 375,
+        "startChar": 8,
+        "endLine": 375,
+        "endChar": 66
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "7091d363_8854ac92",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "java/com/google/gerrit/server/mail/send/ChangeEmailImpl.java",
+              "range": {
+                "startLine": 1,
+                "startChar": 0,
+                "endLine": 1,
+                "endChar": 0
+              },
+              "replacement": "import com.google.gerrit.extensions.api.projects.CommentLinkInfo;\n"
+            },
+            {
+              "path": "java/com/google/gerrit/server/mail/send/ChangeEmailImpl.java",
+              "range": {
+                "startLine": 1,
+                "startChar": 0,
+                "endLine": 1,
+                "endChar": 0
+              },
+              "replacement": "import com.google.template.soy.data.SanitizedContent;\n"
+            },
+            {
+              "path": "java/com/google/gerrit/server/mail/send/ChangeEmailImpl.java",
+              "range": {
+                "startLine": 1,
+                "startChar": 0,
+                "endLine": 1,
+                "endChar": 0
+              },
+              "replacement": "import java.util.regex.Pattern;\n"
+            },
+            {
+              "path": "java/com/google/gerrit/server/mail/send/ChangeEmailImpl.java",
+              "range": {
+                "startLine": 375,
+                "startChar": 0,
+                "endLine": 377,
+                "endChar": 0
+              },
+              "replacement": "    for (CommentLinkInfo linkInfo : projectState.getCommentLinks()) {\n"
+            },
+            {
+              "path": "java/com/google/gerrit/server/mail/send/ChangeEmailImpl.java",
+              "range": {
+                "startLine": 381,
+                "startChar": 0,
+                "endLine": 382,
+                "endChar": 0
+              },
+              "replacement": "        Pattern pattern \u003d Pattern.compile(linkInfo.match);\n"
+            },
+            {
+              "path": "java/com/google/gerrit/server/mail/send/ChangeEmailImpl.java",
+              "range": {
+                "startLine": 622,
+                "startChar": 0,
+                "endLine": 623,
+                "endChar": 0
+              },
+              "replacement": "            getHtmlChangeDetail(), SanitizedContent.ContentKind.HTML));\n"
+            }
+          ]
+        }
+      ],
+      "revId": "f18df20001b3cee662e6b5b12f38429300271860",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bbe16019_939ff112",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmailImpl.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-07-17T20:09:39Z",
+      "side": 1,
+      "message": "Can you please import Pattern?",
+      "range": {
+        "startLine": 381,
+        "startChar": 8,
+        "endLine": 381,
+        "endChar": 31
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "560e4b3c_5e49e562",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "java/com/google/gerrit/server/mail/send/ChangeEmailImpl.java",
+              "range": {
+                "startLine": 1,
+                "startChar": 0,
+                "endLine": 1,
+                "endChar": 0
+              },
+              "replacement": "import java.util.regex.Pattern;\n"
+            },
+            {
+              "path": "java/com/google/gerrit/server/mail/send/ChangeEmailImpl.java",
+              "range": {
+                "startLine": 381,
+                "startChar": 0,
+                "endLine": 382,
+                "endChar": 0
+              },
+              "replacement": "        Pattern pattern \u003d Pattern.compile(linkInfo.match);\n"
+            }
+          ]
+        }
+      ],
+      "revId": "f18df20001b3cee662e6b5b12f38429300271860",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "850df929_d66e724f",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmailImpl.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-07-17T20:09:39Z",
+      "side": 1,
+      "message": "Please fix this WARNING reported by autoreview issue finding: Compiling the regex pattern for every commentlink every time an email is generated can be inefficient. Consider using a mechanism to cache these compiled patterns instead of doing it in the loop.",
+      "range": {
+        "startLine": 381,
+        "startChar": 0,
+        "endLine": 381,
+        "endChar": 0
+      },
+      "revId": "f18df20001b3cee662e6b5b12f38429300271860",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "987add8c_598f7249",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmailImpl.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-07-17T20:09:39Z",
+      "side": 1,
+      "message": "Please fix this WARNING reported by autoreview issue finding: The `linkInfo.link` value is inserted directly into the `href` attribute without being HTML-escaped. Since this happens after `detail` has been HTML-escaped on line 371, any special characters in the URL (like `\u0026` or `\"`) will be output unescaped, potentially resulting in malformed HTML.",
+      "range": {
+        "startLine": 383,
+        "startChar": 0,
+        "endLine": 383,
+        "endChar": 0
+      },
+      "revId": "f18df20001b3cee662e6b5b12f38429300271860",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d787d37_3886d3b9",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmailImpl.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-07-17T20:09:39Z",
+      "side": 1,
+      "message": "Please fix this WARNING reported by autoreview issue finding: This implementation ignores several `CommentLinkInfo` properties. A commentlink configuration can specify `text`, `prefix`, and `suffix` in addition to `link` to construct `PREFIX\u003ca href\u003d\"LINK\"\u003eTEXT\u003c/a\u003eSUFFIX`. By hardcoding the replacement to `\u003ca href\u003d\"...\"\u003e$0\u003c/a\u003e`, any configured text, prefix, or suffix is completely discarded.",
+      "range": {
+        "startLine": 383,
+        "startChar": 0,
+        "endLine": 383,
+        "endChar": 0
+      },
+      "revId": "f18df20001b3cee662e6b5b12f38429300271860",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

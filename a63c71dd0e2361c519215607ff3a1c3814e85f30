@@ -56,6 +56,40 @@
       "message": "This is neat, thanks for contributing it. I\u0027ll review it straight away!",
       "revId": "a63c71dd0e2361c519215607ff3a1c3814e85f30",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba43fd33_f072bdbe",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-07-17T14:49:21Z",
+      "side": 1,
+      "message": "I think we want to emphasize jgit style here since that is actually different then git.",
+      "revId": "a63c71dd0e2361c519215607ff3a1c3814e85f30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1de944b5_ea964486",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-07-17T14:49:21Z",
+      "side": 1,
+      "message": "Why would this ever be needed?",
+      "revId": "a63c71dd0e2361c519215607ff3a1c3814e85f30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

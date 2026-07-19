@@ -102,6 +102,7 @@ public class StaticModule extends ServletModule {
   private static final String SERVICE_WORKER_SERVLET = "ServiceWorkerServlet";
   private static final String GERRIT_ICON_SERVLET = "GerritIconServlet";
   private static final String MANIFEST_SERVLET = "ManifestServlet";
+  private static final String NOT_FOUND_SERVLET = "NotFoundServlet";
   private static final String POLYGERRIT_INDEX_SERVLET = "PolyGerritUiIndexServlet";
   private static final String ROBOTS_TXT_SERVLET = "RobotsTxtServlet";
 
@@ -139,6 +140,21 @@ public class StaticModule extends ServletModule {
       install(new CoreStaticModule());
       install(new PolyGerritModule());
     }
+    serve("/*").with(named(NOT_FOUND_SERVLET));
+  }
+
+  @Provides
+  @Singleton
+  @Named(NOT_FOUND_SERVLET)
+  HttpServlet getNotFoundServlet() {
+    return new HttpServlet() {
+      private static final long serialVersionUID = 1L;
+
+      @Override
+      protected void service(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        resp.sendError(HttpServletResponse.SC_NOT_FOUND);
+      }
+    };
   }
 
   @Provides

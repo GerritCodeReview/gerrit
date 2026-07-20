@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5808d2a_8aaa0fa2",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-07-20T20:39:39Z",
+      "side": 1,
+      "message": "This is redundant as `createApplyFixUrl` already sets `patchNum: EDIT` internally. You can safely remove this line.",
+      "range": {
+        "startLine": 497,
+        "startChar": 0,
+        "endLine": 497,
+        "endChar": 0
+      },
+      "revId": "a076106e2068b1f5de4e799605cf48984aeff529",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bfab8828_42fef9e6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-suggestion-diff-preview/gr-suggestion-diff-preview.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-07-20T20:39:39Z",
+      "side": 1,
+      "message": "This is redundant as `createApplyFixUrl` already sets `patchNum: EDIT` internally. You can safely remove this line.",
+      "range": {
+        "startLine": 407,
+        "startChar": 0,
+        "endLine": 407,
+        "endChar": 0
+      },
+      "revId": "a076106e2068b1f5de4e799605cf48984aeff529",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

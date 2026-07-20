@@ -37,11 +37,11 @@ class Site:
             ) as cfg:
                 config_base_path = cfg.get("gerrit", None, "basePath", "git")
                 if os.path.isabs(config_base_path):
-                    self.basePath = config_base_path
+                    self.base_path = config_base_path
                 else:
-                    self.basePath = os.path.join(self.path, config_base_path)
+                    self.base_path = os.path.join(self.path, config_base_path)
 
-        return self.basePath
+        return self.base_path
 
     def get_projects(self, excludes=None):
         for current, dirs, _ in os.walk(self.get_base_path(), topdown=True):

@@ -70,6 +70,24 @@
       "parentUuid": "c2f865ee_23dae024",
       "revId": "d79929c3709387000b3ae469e03bd2f0ee8e401e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1cbf52ad_29899d63",
+        "filename": "java/com/google/gerrit/server/cache/CacheDisplay.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-07-20T03:55:24Z",
+      "side": 1,
+      "message": "Reverted back to older patchset without it.",
+      "parentUuid": "4ed62464_d513bb5b",
+      "revId": "d79929c3709387000b3ae469e03bd2f0ee8e401e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

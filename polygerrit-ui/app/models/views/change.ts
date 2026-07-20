@@ -253,6 +253,9 @@ export function createDiffUrl(
   ) {
     params.push(`checksPatchset=${state.checksPatchset}`);
   }
+  if (state.forceReload) {
+    params.push('forceReload=true');
+  }
   if (params.length > 0) {
     queryParams = '?' + params.join('&');
   }
@@ -283,6 +286,26 @@ export function createEditUrl(
   const suffix = line ? `#${line}` : '';
 
   return `${createChangeUrlCommon(state)}${path},edit${suffix}`;
+}
+
+export function createApplyFixUrl(
+  obj: (CreateChangeUrlObject | Omit<ChangeViewState, 'view' | 'childView'>) & {
+    filePath?: string;
+    currentChildView?: ChangeChildView;
+  }
+): string {
+  const {filePath, currentChildView, ...restObj} = obj;
+  if (currentChildView === ChangeChildView.DIFF && filePath) {
+    return createDiffUrl({
+      ...restObj,
+      patchNum: EDIT,
+      diffView: {path: filePath},
+    });
+  }
+  return createChangeUrl({
+    ...restObj,
+    patchNum: EDIT,
+  });
 }
 
 /**

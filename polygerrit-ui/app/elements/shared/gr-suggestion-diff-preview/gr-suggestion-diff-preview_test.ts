@@ -17,8 +17,21 @@ import {
 } from '../../../test/test-data-generators';
 import {getAppContext} from '../../../services/app-context';
 import {GrSuggestionDiffPreview} from './gr-suggestion-diff-preview';
-import {stubFlags} from '../../../test/test-utils';
-import {NumericChangeId, RevisionPatchSetNum} from '../../../api/rest-api';
+import * as sinon from 'sinon';
+import {navigationToken} from '../../core/gr-navigation/gr-navigation';
+import {stubFlags, stubRestApi} from '../../../test/test-utils';
+import {
+  NumericChangeId,
+  RepoName,
+  RevisionPatchSetNum,
+} from '../../../api/rest-api';
+import {changeViewModelToken} from '../../../models/views/change';
+import {
+  createChangeViewState,
+  createDiffViewState,
+  createRange,
+} from '../../../test/test-data-generators';
+import {testResolver} from '../../../test/common-test-setup';
 
 suite('gr-suggestion-diff-preview tests', () => {
   let element: GrSuggestionDiffPreview;
@@ -120,5 +133,54 @@ suite('gr-suggestion-diff-preview tests', () => {
       `,
       {ignoreAttributes: ['style']}
     );
+  });
+
+  suite('applyFix navigation', () => {
+    let setUrlStub: sinon.SinonStub;
+
+    setup(() => {
+      setUrlStub = sinon.stub(testResolver(navigationToken), 'setUrl');
+      stubRestApi('applyFixSuggestion').returns(
+        Promise.resolve(new Response(null, {status: 200}))
+      );
+      element.changeNum = 42 as NumericChangeId;
+      element.repo = 'test-project' as RepoName;
+      element.patchSet = 1 as RevisionPatchSetNum;
+
+      element.fixSuggestionInfo = {
+        ...createFixSuggestionInfo(),
+        replacements: [
+          {
+            path: 'foo/bar.ts',
+            replacement: 'new content',
+            range: createRange(),
+          },
+        ],
+      };
+    });
+
+    test('navigates to createDiffUrl when in Diff View', async () => {
+      testResolver(changeViewModelToken).setState(createDiffViewState());
+
+      await element.applyFix();
+
+      assert.isTrue(setUrlStub.calledOnce);
+      assert.equal(
+        setUrlStub.lastCall.firstArg,
+        '/c/test-project/+/42/1..edit/foo/bar.ts?forceReload=true'
+      );
+    });
+
+    test('navigates to createChangeUrl when in Change View', async () => {
+      testResolver(changeViewModelToken).setState(createChangeViewState());
+
+      await element.applyFix();
+
+      assert.isTrue(setUrlStub.calledOnce);
+      assert.equal(
+        setUrlStub.lastCall.firstArg,
+        '/c/test-project/+/42/1..edit?forceReload=true'
+      );
+    });
   });
 });

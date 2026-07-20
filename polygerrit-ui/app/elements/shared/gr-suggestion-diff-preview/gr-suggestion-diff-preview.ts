@@ -30,7 +30,11 @@ import {userModelToken} from '../../../models/user/user-model';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {fire, fireError} from '../../../utils/event-util';
 import {Timing} from '../../../constants/reporting';
-import {createChangeUrl} from '../../../models/views/change';
+import {
+  changeViewModelToken,
+  createApplyFixUrl,
+} from '../../../models/views/change';
+
 import {getFileExtension} from '../../../utils/file-util';
 import {throwingErrorCallback} from '../gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 import {ReportSource} from '../../../services/suggestions/suggestions-service';
@@ -127,6 +131,8 @@ export class GrSuggestionDiffPreview extends LitElement {
   private readonly getUserModel = resolve(this, userModelToken);
 
   private readonly getNavigation = resolve(this, navigationToken);
+
+  private readonly getViewModel = resolve(this, changeViewModelToken);
 
   private readonly syntaxLayer = new GrSyntaxLayerWorker(
     resolve(this, highlightServiceToken),
@@ -391,15 +397,19 @@ export class GrSuggestionDiffPreview extends LitElement {
     // basePatchNum is from comment patchset and comment cannot be created
     // in EDIT. RevisionPatchset without EDIT is PatchSetNumber
     if (res?.ok && basePatchNum !== undefined && basePatchNum !== EDIT) {
+      const currentChildView = this.getViewModel().getState()?.childView;
       this.getNavigation().setUrl(
-        createChangeUrl({
+        createApplyFixUrl({
           changeNum,
           repo: this.repo!,
           patchNum: EDIT,
           basePatchNum: basePatchNum as PatchSetNumber,
           forceReload: !this.hasEdit,
+          filePath: fixSuggestion.replacements[0]?.path,
+          currentChildView,
         })
       );
+
       fire(this, 'reload-diff', {path: fixSuggestion.replacements[0].path});
       fire(this, 'apply-user-suggestion', {
         fixSuggestion: fixSuggestion.description.includes(

@@ -285,6 +285,26 @@ export function createEditUrl(
   return `${createChangeUrlCommon(state)}${path},edit${suffix}`;
 }
 
+export function createApplyFixUrl(
+  obj: (CreateChangeUrlObject | Omit<ChangeViewState, 'view' | 'childView'>) & {
+    filePath?: string;
+    currentChildView?: ChangeChildView;
+  }
+): string {
+  const {filePath, currentChildView, ...restObj} = obj;
+  if (currentChildView === ChangeChildView.DIFF && filePath) {
+    return createDiffUrl({
+      ...restObj,
+      patchNum: EDIT,
+      diffView: {path: filePath},
+    });
+  }
+  return createChangeUrl({
+    ...restObj,
+    patchNum: EDIT,
+  });
+}
+
 /**
  * The shared part of creating a change URL between OVERVIEW, DIFF and EDIT
  * child views.

@@ -315,7 +315,7 @@ public class Reindex extends SiteProgram {
       new CacheDisplay(
               sw,
               StreamSupport.stream(cacheMap.spliterator(), false)
-                  .map(e -> CacheInfoFactory.create(e.getExportName(), e.get()))
+                  .map(e -> CacheInfoFactory.create(e.getExportName(), e.get(), true))
                   .collect(Collectors.toList()))
           .displayCaches();
       System.out.print(sw.toString());

@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "60aceb6f_d676bce5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5018464
+      },
+      "writtenOn": "2026-07-20T03:27:32Z",
+      "side": 1,
+      "message": "Hi Thomas,\nI re-checked the parsing logic in this change. Verification result: in antlr3/BUILD (the ANTLR query parser build rule) the reproducible-build timestamp \"touch -t 198001010000\" is identical between Base and Patchset 13, and the copyright header of tools/bzl/genrule2.bzl still reads 2016 on both sides. So the dates in the parsing logic have NOT been updated by this change - only the load statements were switched to the bazlets implementation.\nCould you please rebase this change onto the latest master branch so that it is based on a fresh foundation of the current codebase? Thanks!",
+      "revId": "183ebce9e77d0f0f722a0e98b5c6f062dfd9b40c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

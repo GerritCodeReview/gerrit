@@ -6,10 +6,13 @@
 import {assert} from '@open-wc/testing';
 import {
   BasePatchSetNum,
+  EDIT,
+  NumericChangeId,
   PatchSetNumber,
   RepoName,
   RevisionPatchSetNum,
 } from '../../api/rest-api';
+
 import '../../test/common-test-setup';
 import {
   createChangeViewState,
@@ -17,7 +20,9 @@ import {
   createEditViewState,
 } from '../../test/test-data-generators';
 import {
+  ChangeChildView,
   ChangeViewState,
+  createApplyFixUrl,
   createChangeUrl,
   createDiffUrl,
   createEditUrl,
@@ -185,5 +190,37 @@ suite('change view state tests', () => {
     window.CANONICAL_PATH = '/base';
     assert.equal(createEditUrl(params).substring(0, 5), '/base');
     window.CANONICAL_PATH = undefined;
+  });
+
+  suite('createApplyFixUrl', () => {
+    test('Diff View context', () => {
+      assert.equal(
+        createApplyFixUrl({
+          changeNum: 42 as NumericChangeId,
+          repo: 'test-project' as RepoName,
+          patchNum: EDIT,
+          basePatchNum: 1 as BasePatchSetNum,
+          forceReload: true,
+          filePath: 'foo/bar.ts',
+          currentChildView: ChangeChildView.DIFF,
+        }),
+        '/c/test-project/+/42/1..edit/foo/bar.ts'
+      );
+    });
+
+    test('Overview context', () => {
+      assert.equal(
+        createApplyFixUrl({
+          changeNum: 42 as NumericChangeId,
+          repo: 'test-project' as RepoName,
+          patchNum: EDIT,
+          basePatchNum: 1 as BasePatchSetNum,
+          forceReload: true,
+          filePath: 'foo/bar.ts',
+          currentChildView: ChangeChildView.OVERVIEW,
+        }),
+        '/c/test-project/+/42/1..edit?forceReload=true'
+      );
+    });
   });
 });

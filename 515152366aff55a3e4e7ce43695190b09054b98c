@@ -51,6 +51,63 @@
       "parentUuid": "686a0d8e_39148ab0",
       "revId": "515152366aff55a3e4e7ce43695190b09054b98c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "224f6e3a_52a6badb",
+        "filename": "java/com/google/gerrit/server/restapi/account/QueryAccounts.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-07-21T23:32:31Z",
+      "side": 1,
+      "message": "I wrote this comment and then realized you\u0027re just intending these lines, so feel free to ignore.\n\nnit: You can make this a little more concise:\n```suggestion\n        if (modifyAccountCapabilityChecked || permissionBackend.currentUser().test(GlobalPermission.VIEW_SECONDARY_EMAILS)) {\n          fillOptions.add(FillOptions.SECONDARY_EMAILS);\n        }\n```",
+      "range": {
+        "startLine": 212,
+        "startChar": 0,
+        "endLine": 218,
+        "endChar": 9
+      },
+      "revId": "515152366aff55a3e4e7ce43695190b09054b98c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9895f63_6e55e465",
+        "filename": "java/com/google/gerrit/server/restapi/account/QueryAccounts.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-07-21T23:32:31Z",
+      "side": 1,
+      "message": "I think this timer isn\u0027t accurate now since the filtering happens on the previous line?",
+      "revId": "515152366aff55a3e4e7ce43695190b09054b98c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9cc6856_78a3c1dc",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AbstractAccountIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3556,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-07-21T23:32:31Z",
+      "side": 1,
+      "message": "Can you also add tests showing queries do return details with `accounts.visibility\u003dALL`?",
+      "revId": "515152366aff55a3e4e7ce43695190b09054b98c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

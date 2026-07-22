@@ -2261,5 +2261,62 @@ suite('gr-diff-view tests', () => {
         'Button should be hidden for image diffs'
       );
     });
+
+    suite('sidebar resizing', () => {
+      setup(async () => {
+        // @ts-expect-error
+        element.shownSidebar = 'ai-rationale';
+        await element.updateComplete;
+      });
+
+      test('resizer element is rendered when sidebar is open', () => {
+        const resizer = element.shadowRoot?.querySelector('.resizer');
+        assert.isNotNull(resizer);
+        assert.equal(resizer?.getAttribute('role'), 'separator');
+        assert.equal(resizer?.getAttribute('aria-valuenow'), '300');
+      });
+
+      test('resizing via mouse drag updates sidebarWidth', () => {
+        const resizer = element.shadowRoot?.querySelector(
+          '.resizer'
+        ) as HTMLElement;
+        assert.isNotNull(resizer);
+
+        // Simulate mousedown on resizer at clientX = 300
+        resizer.dispatchEvent(
+          new MouseEvent('mousedown', {clientX: 300, bubbles: true})
+        );
+
+        // Simulate mousemove to clientX = 450
+        window.dispatchEvent(
+          new MouseEvent('mousemove', {clientX: 450, buttons: 1})
+        );
+
+        // @ts-expect-error
+        assert.equal(element.sidebarWidth, 450);
+
+        // Stop resize
+        window.dispatchEvent(new MouseEvent('mouseup'));
+      });
+
+      test('resizing via keyboard updates sidebarWidth', () => {
+        const resizer = element.shadowRoot?.querySelector(
+          '.resizer'
+        ) as HTMLElement;
+        assert.isNotNull(resizer);
+
+        // ArrowRight increases width by 10
+        resizer.dispatchEvent(
+          new KeyboardEvent('keydown', {key: 'ArrowRight'})
+        );
+        // @ts-expect-error
+        assert.equal(element.sidebarWidth, 310);
+
+        // ArrowLeft decreases width by 10
+        resizer.dispatchEvent(new KeyboardEvent('keydown', {key: 'ArrowLeft'}));
+        // @ts-expect-error
+        assert.equal(element.sidebarWidth, 300);
+      });
+    });
   });
 });

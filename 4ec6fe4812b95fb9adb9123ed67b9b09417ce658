@@ -67,6 +67,23 @@
       "message": "595142: Bump Jetty to 12.1.10 (preserve javax.servlet via jetty-ee8 adapter) | https://gerrit-review.googlesource.com/c/gerrit/+/595142",
       "revId": "4ec6fe4812b95fb9adb9123ed67b9b09417ce658",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f384c97_8b66d713",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5027906
+      },
+      "writtenOn": "2026-07-22T17:23:49Z",
+      "side": 1,
+      "message": "BLOCKBLOCK",
+      "revId": "4ec6fe4812b95fb9adb9123ed67b9b09417ce658",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

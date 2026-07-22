@@ -424,6 +424,15 @@ suite('gr-comment-thread tests', () => {
       assert.equal(stubSave.lastCall.firstArg.unresolved, false);
     });
 
+    test('handle Disagree', async () => {
+      element.thread = createThread(c1, {...c2, unresolved: true, is_ai: true});
+      await element.updateComplete;
+      queryAndAssert<GrButton>(element, '#disagreeBtn').click();
+      waitUntilCalled(stubSave, 'saveDraft()');
+      assert.equal(stubSave.lastCall.firstArg.message, 'Disagree');
+      assert.equal(stubSave.lastCall.firstArg.unresolved, false);
+    });
+
     test('handle Reply', async () => {
       assert.equal(element.thread?.comments.length, 2);
       queryAndAssert<GrButton>(element, '#replyBtn').click();

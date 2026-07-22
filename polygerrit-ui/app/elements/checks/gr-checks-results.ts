@@ -905,6 +905,12 @@ export class GrResultExpanded extends LitElement {
     const useful = actions.find(a => a.name === USEFUL);
     const notUseful = actions.find(a => a.name === NOT_USEFUL);
     if (!useful || !notUseful) return;
+    if (
+      this.result?.isAiPowered &&
+      this.result?.checkName === 'AI Code Review'
+    ) {
+      return;
+    }
     return html`
       <div class="useful">
         <div class="title">${this.notUsefulLabel}</div>

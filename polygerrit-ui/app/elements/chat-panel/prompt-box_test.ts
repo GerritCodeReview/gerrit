@@ -80,16 +80,15 @@ suite('prompt-box tests', () => {
     );
   });
 
-  test('chatInputDisabledText when model loading error', async () => {
+  test('chatInputDisabledText surfaces provider error', async () => {
+    const providerError =
+      'No AI provider is configured. Add an API token for a provider.';
     chatModel.updateState({
       ...chatModel.getState(),
-      modelsLoadingError: 'Error loading models',
+      modelsLoadingError: providerError,
     });
     await element.updateComplete;
-    assert.equal(
-      element.chatInputDisabledText,
-      'Failed to load models. Please reload the page.'
-    );
+    assert.equal(element.chatInputDisabledText, providerError);
   });
 
   test('updates userInput on input', async () => {

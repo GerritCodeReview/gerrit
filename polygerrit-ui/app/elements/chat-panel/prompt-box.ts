@@ -50,7 +50,7 @@ export class PromptBox extends LitElement {
   @property({type: String})
   disabledMessage = 'Review Agent is disabled.';
 
-  @state() hasModelLoadingError = false;
+  @state() modelLoadingError?: string;
 
   @state() selectedModel?: ModelInfo;
 
@@ -98,7 +98,7 @@ export class PromptBox extends LitElement {
     subscribe(
       this,
       () => this.getChatModel().modelsLoadingError$,
-      x => (this.hasModelLoadingError = !!x)
+      x => (this.modelLoadingError = x)
     );
     subscribe(
       this,
@@ -162,8 +162,10 @@ export class PromptBox extends LitElement {
   }
 
   get chatInputDisabledText() {
-    if (this.hasModelLoadingError) {
-      return 'Failed to load models. Please reload the page.';
+    if (this.modelLoadingError) {
+      // Surface the provider-supplied reason (e.g. "configure an API token")
+      // so the user knows how to recover.
+      return this.modelLoadingError;
     }
     if (!this.selectedModel) {
       return 'Loading models...';

@@ -29,6 +29,7 @@ import {
 } from '../../../utils/comment-util';
 import {ChangeMessageId, FixSuggestionInfo} from '../../../api/rest-api';
 import {getAppContext} from '../../../services/app-context';
+import {Interaction} from '../../../constants/reporting';
 import {
   createDefaultDiffPrefs,
   SpecialFilePath,
@@ -282,6 +283,8 @@ export class GrCommentThread extends LitElement {
     resolve(this, highlightServiceToken),
     () => getAppContext().reportingService
   );
+
+    private readonly reporting = getAppContext().reportingService;
 
   constructor() {
     super();
@@ -633,6 +636,16 @@ export class GrCommentThread extends LitElement {
                         >
                       `
                     : nothing}
+                                    ${this.getLastComment()?.is_ai ? html`
+                    <gr-button
+                      id="disagreeBtn"
+                      link
+                      class="action disagree"
+                      ?disabled=${this.saving}
+                      @click=${this.handleCommentDisagree}
+                      >Disagree</gr-button
+                    >
+                  ` : nothing}
                   <gr-button
                     id="ackBtn"
                     link
@@ -957,6 +970,20 @@ export class GrCommentThread extends LitElement {
       /* userWantsToEdit= */ false,
       /* unresolved= */ false
     );
+  }
+
+  private handleCommentDisagree() {
+    this.createReplyComment(
+      'Disagree',
+      /* userWantsToEdit= */ false,
+      /* unresolved= */ false
+    );
+    const lastComment = this.getLastComment();
+    if (lastComment) {
+      this.reporting.reportInteraction(Interaction.AI_AGENT_SUGGESTION_DISAGREE, {
+        commentId: lastComment.id,
+      });
+    }
   }
 
   private handleCommentDone() {

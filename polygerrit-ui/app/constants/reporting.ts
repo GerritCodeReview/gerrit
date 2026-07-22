@@ -182,6 +182,7 @@ export enum Interaction {
   AI_AGENT_SUGGESTION_CONTENT_COPIED = 'ai-agent-suggestion-content-copied',
   // AI agent "Get AI Fix" button is clicked by user.
   AI_AGENT_GET_FIX_CLICKED = 'ai-agent-get-fix-clicked',
+  AI_AGENT_SUGGESTION_DISAGREE = 'ai-agent-suggestion-disagree',
 
   FLOWS_TAB_RENDERED = 'flows-tab-rendered',
   CREATE_FLOW_DIALOG_OPENED = 'create-flow-dialog-opened',

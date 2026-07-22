@@ -29,6 +29,7 @@ import {
 } from '../../../utils/comment-util';
 import {ChangeMessageId, FixSuggestionInfo} from '../../../api/rest-api';
 import {getAppContext} from '../../../services/app-context';
+import {Interaction} from '../../../constants/reporting';
 import {
   createDefaultDiffPrefs,
   SpecialFilePath,
@@ -283,6 +284,8 @@ export class GrCommentThread extends LitElement {
     () => getAppContext().reportingService
   );
 
+  private readonly reporting = getAppContext().reportingService;
+
   constructor() {
     super();
     this.shortcuts.addGlobal({key: 'e'}, () => this.handleExpandShortcut());
@@ -524,9 +527,11 @@ export class GrCommentThread extends LitElement {
     const displayPath = this.getDisplayPath();
     return html`
       <div class="fileName">
-        ${href
-          ? html`<a href=${href}>${displayPath}</a>`
-          : html`<span>${displayPath}</span>`}
+        ${
+          href
+            ? html`<a href=${href}>${displayPath}</a>`
+            : html`<span>${displayPath}</span>`
+        }
         <gr-copy-clipboard hideInput .text=${displayPath}></gr-copy-clipboard>
       </div>
     `;
@@ -617,22 +622,38 @@ export class GrCommentThread extends LitElement {
           ${
             this.unresolved
               ? html`
-                  ${this.shouldShowAIFixButton()
-                    ? html`
-                        <gr-button
-                          id="aiFixBtn"
-                          link
-                          class="action ai-fix"
-                          ?disabled=${this.saving || this.suggestionLoading}
-                          @click=${this.handleAIFix}
-                          >Get AI Fix
-                          ${when(
+                  ${
+                    this.shouldShowAIFixButton()
+                      ? html`
+                          <gr-button
+                            id="aiFixBtn"
+                            link
+                            class="action ai-fix"
+                            ?disabled=${this.saving || this.suggestionLoading}
+                            @click=${this.handleAIFix}
+                            >Get AI Fix
+                            ${when(
                             this.suggestionLoading,
                             () => html`<span class="loadingSpin"></span>`
                           )}</gr-button
-                        >
-                      `
-                    : nothing}
+                          >
+                        `
+                      : nothing
+                  }
+                  ${
+                                      this.getLastComment()?.is_ai
+                                        ? html`
+                                            <gr-button
+                                              id="disagreeBtn"
+                                              link
+                                              class="action disagree"
+                                              ?disabled=${this.saving}
+                                              @click=${this.handleCommentDisagree}
+                                              >Disagree</gr-button
+                                            >
+                                          `
+                                        : nothing
+                                    }
                   <gr-button
                     id="ackBtn"
                     link
@@ -957,6 +978,23 @@ export class GrCommentThread extends LitElement {
       /* userWantsToEdit= */ false,
       /* unresolved= */ false
     );
+  }
+
+  private handleCommentDisagree() {
+    this.createReplyComment(
+      'Disagree',
+      /* userWantsToEdit= */ false,
+      /* unresolved= */ false
+    );
+    const lastComment = this.getLastComment();
+    if (lastComment) {
+      this.reporting.reportInteraction(
+        Interaction.AI_AGENT_SUGGESTION_DISAGREE,
+        {
+          commentId: lastComment.id,
+        }
+      );
+    }
   }
 
   private handleCommentDone() {

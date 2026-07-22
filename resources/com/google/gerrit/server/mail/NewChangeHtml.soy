@@ -67,7 +67,7 @@ import * as mailTemplate from 'com/google/gerrit/server/mail/Private.soy';
   {/if}
 
   {call mailTemplate.Pre}
-    {param content: $email.htmlChangeDetail ? $email.htmlChangeDetail : $email.changeDetail /}
+    {param content: $email.changeDetail /}
   {/call}
 
   {if $email.sshHost}

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac2b7fdd_3b0e2dc3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-07-22T20:06:43Z",
+      "side": 1,
+      "message": "Why? Are they not useful in this context for some reason?",
+      "revId": "2458ceacc58964705b6a579e16d56ea7419ad132",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9952a1b9_5d748217",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 910,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-07-22T20:06:43Z",
+      "side": 1,
+      "message": "Are you trying to target this to a specific Google check? Won\u0027t this affect anyone using this check name?",
+      "revId": "2458ceacc58964705b6a579e16d56ea7419ad132",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

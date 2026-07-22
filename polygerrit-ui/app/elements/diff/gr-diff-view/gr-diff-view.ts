@@ -118,6 +118,11 @@ const NAVIGATE_TO_NEXT_FILE_TIMEOUT_MS = 5000;
 // Files larger than this cannot be downloaded.
 const FILE_DOWNLOAD_LIMIT_BYTES = 50 * 1000 * 1000;
 
+const DEFAULT_SIDEBAR_WIDTH = 300;
+const MIN_SIDEBAR_WIDTH = 200;
+const MAX_SIDEBAR_WIDTH = 1000;
+const SIDEBAR_RESIZE_STEP_PX = 10;
+
 // visible for testing
 export interface Files {
   /** All file paths sorted by `specialFilePathCompare`. */
@@ -157,6 +162,19 @@ export class GrDiffView extends LitElement {
   sidebarAnchor?: HTMLDivElement;
 
   @state() private sidebarHeight = 0;
+
+  @state() private sidebarWidth = DEFAULT_SIDEBAR_WIDTH;
+
+  @state() private isSidebarResizing = false;
+
+  private sidebarResizeStartPosPx = 0;
+
+  private sidebarResizeStartWidthPx = 0;
+
+  private readonly boundResizeSidebar = (e: MouseEvent) =>
+    this.resizeSidebar(e);
+
+  private readonly boundStopSidebarResize = () => this.stopSidebarResize();
 
   // Private but used in tests.
   @state()
@@ -715,11 +733,29 @@ export class GrDiffView extends LitElement {
           overflow: visible;
         }
         .sidebarContents {
+          position: relative;
           background: var(--background-color-secondary);
           width: var(--sidebar-width);
           border: var(--spacing-xxs) solid var(--border-color);
           border-left: 0;
           overflow: auto;
+        }
+        .resizer {
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          right: -4px;
+          width: 8px;
+          cursor: col-resize;
+          z-index: 100;
+          background: transparent;
+        }
+        .resizer:hover,
+        .resizer:focus,
+        .resizer.resizing {
+          background-color: var(--focused-line-background-color, #e8f0fe);
+          border-right: 2px solid var(--link-color, #1a73e8);
+          outline: none;
         }
         md-checkbox {
           --md-checkbox-container-size: 15px;
@@ -767,10 +803,65 @@ export class GrDiffView extends LitElement {
   }
 
   override disconnectedCallback() {
+    this.stopSidebarResize();
     this.cursor?.dispose();
     window.removeEventListener('scroll', this.updateSidebarHeight);
     window.removeEventListener('resize', this.updateSidebarHeight);
     super.disconnectedCallback();
+  }
+
+  private startSidebarResize(event: MouseEvent) {
+    if (this.isSidebarResizing) return;
+    document.body.style.setProperty('user-select', 'none');
+    this.isSidebarResizing = true;
+    this.sidebarResizeStartPosPx = event.clientX;
+    this.sidebarResizeStartWidthPx = this.sidebarWidth;
+    window.addEventListener('mousemove', this.boundResizeSidebar);
+    window.addEventListener('mouseup', this.boundStopSidebarResize);
+  }
+
+  private stopSidebarResize() {
+    if (!this.isSidebarResizing) return;
+    document.body.style.setProperty('user-select', '');
+    this.isSidebarResizing = false;
+    this.sidebarResizeStartPosPx = 0;
+    this.sidebarResizeStartWidthPx = 0;
+    window.removeEventListener('mousemove', this.boundResizeSidebar);
+    window.removeEventListener('mouseup', this.boundStopSidebarResize);
+  }
+
+  private resizeSidebar(event: MouseEvent) {
+    if (!this.isSidebarResizing || event.buttons === 0) return;
+    const deltaX = event.clientX - this.sidebarResizeStartPosPx;
+    const maxSidebarWidth = Math.min(
+      MAX_SIDEBAR_WIDTH,
+      Math.floor(window.innerWidth * 0.7)
+    );
+    this.sidebarWidth = Math.max(
+      MIN_SIDEBAR_WIDTH,
+      Math.min(maxSidebarWidth, this.sidebarResizeStartWidthPx + deltaX)
+    );
+  }
+
+  private handleResizerKeydown(event: KeyboardEvent) {
+    const step = SIDEBAR_RESIZE_STEP_PX;
+    const maxSidebarWidth = Math.min(
+      MAX_SIDEBAR_WIDTH,
+      Math.floor(window.innerWidth * 0.7)
+    );
+    if (event.key === 'ArrowLeft') {
+      event.preventDefault();
+      this.sidebarWidth = Math.max(MIN_SIDEBAR_WIDTH, this.sidebarWidth - step);
+    } else if (event.key === 'ArrowRight') {
+      event.preventDefault();
+      this.sidebarWidth = Math.min(maxSidebarWidth, this.sidebarWidth + step);
+    } else if (event.key === 'Home') {
+      event.preventDefault();
+      this.sidebarWidth = MIN_SIDEBAR_WIDTH;
+    } else if (event.key === 'End') {
+      event.preventDefault();
+      this.sidebarWidth = maxSidebarWidth;
+    }
   }
 
   private reInitCursor() {
@@ -843,6 +934,16 @@ export class GrDiffView extends LitElement {
         this.path,
         this.patchRange
       );
+    }
+    if (
+      changedProperties.has('sidebarWidth') ||
+      changedProperties.has('shownSidebar')
+    ) {
+      if (this.shownSidebar) {
+        this.style.setProperty('--sidebar-width', `${this.sidebarWidth}px`);
+      } else {
+        this.style.removeProperty('--sidebar-width');
+      }
     }
     this.updateSidebarHeight();
   }
@@ -1024,6 +1125,10 @@ export class GrDiffView extends LitElement {
   }
 
   private renderSidebarContent() {
+    const maxSidebarWidth = Math.min(
+      MAX_SIDEBAR_WIDTH,
+      Math.floor(window.innerWidth * 0.7)
+    );
     // Always renders the 0x0px .sidebarAnchor div for scroll measurements.
     return html`
       <div class="sidebarAnchor">
@@ -1032,8 +1137,26 @@ export class GrDiffView extends LitElement {
           () => html`
             <div
               class="sidebarContents"
-              style=${styleMap({height: `${this.sidebarHeight}px`})}
+              style=${styleMap({
+                height: `${this.sidebarHeight}px`,
+                '--sidebar-width': `${this.sidebarWidth}px`,
+              })}
             >
+              <div
+                class=${classMap({
+                  resizer: true,
+                  resizing: this.isSidebarResizing,
+                })}
+                role="separator"
+                aria-orientation="vertical"
+                aria-valuenow=${this.sidebarWidth}
+                aria-valuemin=${MIN_SIDEBAR_WIDTH}
+                aria-valuemax=${maxSidebarWidth}
+                aria-label="Resize sidebar"
+                tabindex="0"
+                @mousedown=${this.startSidebarResize}
+                @keydown=${this.handleResizerKeydown}
+              ></div>
               <gr-endpoint-decorator
                 name=${`sidebarContent-${this.shownSidebar}`}
               >

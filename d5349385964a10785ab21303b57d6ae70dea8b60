@@ -19,6 +19,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "9bb6662f_447664fb",
+        "filename": "patch_thread.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-07-23T18:22:46Z",
+      "side": 1,
+      "message": "Is this an AI helper file, maybe added by mistake?",
+      "revId": "d5349385964a10785ab21303b57d6ae70dea8b60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "1dd2b13d_5817028c",
@@ -33,6 +50,24 @@
       "side": 1,
       "message": "Removed.",
       "parentUuid": "9952a1b9_5d748217",
+      "revId": "d5349385964a10785ab21303b57d6ae70dea8b60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0782adc8_7370fc3e",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 910,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-07-23T18:22:46Z",
+      "side": 1,
+      "message": "Marked as unresolved. It\u0027s still there in PS4. Do you need to push PS5 still?",
+      "parentUuid": "1dd2b13d_5817028c",
       "revId": "d5349385964a10785ab21303b57d6ae70dea8b60",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

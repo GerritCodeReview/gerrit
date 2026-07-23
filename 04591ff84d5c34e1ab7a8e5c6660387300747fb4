@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0a60333_b1dbd66a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-07-23T13:06:39Z",
+      "side": 1,
+      "message": "This is not what I see, I simply see \"Loading models...\" in the chat window, where I\u0027m supposed to type.",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 6
+      },
+      "revId": "04591ff84d5c34e1ab7a8e5c6660387300747fb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49cd04a7_6a6880f8",
+        "filename": "polygerrit-ui/app/elements/chat-panel/prompt-box_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-07-23T13:06:39Z",
+      "side": 1,
+      "message": "extract this in a variable?",
+      "range": {
+        "startLine": 87,
+        "startChar": 9,
+        "endLine": 87,
+        "endChar": 71
+      },
+      "revId": "04591ff84d5c34e1ab7a8e5c6660387300747fb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

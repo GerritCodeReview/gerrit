@@ -89,6 +89,7 @@ import {ifDefined} from 'lit/directives/if-defined.js';
 import {classMap} from 'lit/directives/class-map.js';
 import {when} from 'lit/directives/when.js';
 import {styleMap} from 'lit/directives/style-map.js';
+import {keyed} from 'lit/directives/keyed.js';
 import {
   ChangeChildView,
   changeViewModelToken,
@@ -1027,70 +1028,74 @@ export class GrDiffView extends LitElement {
     // Always renders the 0x0px .sidebarAnchor div for scroll measurements.
     return html`
       <div class="sidebarAnchor">
-        ${when(
-          this.shownSidebar !== undefined,
-          () => html`
-            <div
-              class="sidebarContents"
-              style=${styleMap({height: `${this.sidebarHeight}px`})}
-            >
-              <gr-endpoint-decorator
-                name=${`sidebarContent-${this.shownSidebar}`}
+        ${when(this.shownSidebar !== undefined, () =>
+          keyed(
+            this.shownSidebar,
+            html`
+              <div
+                class="sidebarContents"
+                style=${styleMap({height: `${this.sidebarHeight}px`})}
               >
-                <gr-endpoint-param
-                  name="change"
-                  .value=${this.change}
-                ></gr-endpoint-param>
-                <gr-endpoint-param
-                  name="path"
-                  .value=${this.path}
-                ></gr-endpoint-param>
-                <!-- current diff path and, in case of rename, previous path -->
-                <gr-endpoint-param
-                  name="fileRange"
-                  .value=${this.getFileRange()}
-                ></gr-endpoint-param>
-                <gr-endpoint-param
-                  name="basePatchNum"
-                  .value=${this.basePatchNum}
-                ></gr-endpoint-param>
-                <gr-endpoint-param
-                  name="patchNum"
-                  .value=${this.patchNum}
-                ></gr-endpoint-param>
-                <gr-endpoint-param
-                  name="content"
-                  .value=${this.diff}
-                ></gr-endpoint-param>
-                <gr-endpoint-param
-                  name="cursor"
-                  .value=${this.cursor}
-                ></gr-endpoint-param>
-                <gr-endpoint-param
-                  name="diff"
-                  .value=${this.diffHost?.diffElement}
-                ></gr-endpoint-param>
-                <gr-endpoint-param
-                  name="comments"
-                  .value=${this.commentsForPath}
-                ></gr-endpoint-param>
-                <gr-endpoint-param
-                  name="onClose"
-                  .value=${(pluginName: string) => {
-                    // Only close the sidebar if that particular sidebar is
-                    // still open. An async onClose callback should not close a
-                    // different sidebar.
-                    if (this.shownSidebar !== pluginName) return;
-                    this.shownSidebar = undefined;
-                    this.getUserModel().updatePreferences({
-                      diff_page_sidebar: 'NONE',
-                    });
-                  }}
+                <gr-endpoint-decorator
+                  name=${`sidebarContent-${this.shownSidebar}`}
                 >
-                </gr-endpoint-param>
-              </gr-endpoint-decorator>
-            </div>
-          `
+                  <gr-endpoint-param
+                    name="change"
+                    .value=${this.change}
+                  ></gr-endpoint-param>
+                  <gr-endpoint-param
+                    name="path"
+                    .value=${this.path}
+                  ></gr-endpoint-param>
+                  <!-- current diff path and, in case of rename, previous path -->
+                  <gr-endpoint-param
+                    name="fileRange"
+                    .value=${this.getFileRange()}
+                  ></gr-endpoint-param>
+                  <gr-endpoint-param
+                    name="basePatchNum"
+                    .value=${this.basePatchNum}
+                  ></gr-endpoint-param>
+                  <gr-endpoint-param
+                    name="patchNum"
+                    .value=${this.patchNum}
+                  ></gr-endpoint-param>
+                  <gr-endpoint-param
+                    name="content"
+                    .value=${this.diff}
+                  ></gr-endpoint-param>
+                  <gr-endpoint-param
+                    name="cursor"
+                    .value=${this.cursor}
+                  ></gr-endpoint-param>
+                  <gr-endpoint-param
+                    name="diff"
+                    .value=${this.diffHost?.diffElement}
+                  ></gr-endpoint-param>
+                  <gr-endpoint-param
+                    name="comments"
+                    .value=${this.commentsForPath}
+                  ></gr-endpoint-param>
+                  <gr-endpoint-param
+                    name="onClose"
+                    .value=${(pluginName: string) => {
+                      // Only close the sidebar if that particular sidebar is
+                      // still open. An async onClose callback should not close a
+                      // different sidebar.
+                      if (this.shownSidebar !== pluginName) {
+                        return;
+                      }
+                      this.shownSidebar = undefined;
+                      this.getUserModel().updatePreferences({
+                        diff_page_sidebar: 'NONE',
+                      });
+                    }}
+                  >
+                  </gr-endpoint-param>
+                </gr-endpoint-decorator>
+              </div>
+            `
+          )
         )}
       </div>
     `;

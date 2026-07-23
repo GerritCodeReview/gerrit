@@ -2261,5 +2261,34 @@ suite('gr-diff-view tests', () => {
         'Button should be hidden for image diffs'
       );
     });
+
+    suite('sidebar', () => {
+      test('switching sidebars dismounts old component and mounts new one', async () => {
+        // @ts-expect-error: accessing private property shownSidebar for testing
+        element.shownSidebar = 'sidebar-a';
+        await element.updateComplete;
+        const oldDecorator = element.shadowRoot?.querySelector(
+          '.sidebarContents gr-endpoint-decorator'
+        );
+        assert.isNotNull(oldDecorator);
+        assert.equal(
+          oldDecorator?.getAttribute('name'),
+          'sidebarContent-sidebar-a'
+        );
+
+        // @ts-expect-error: accessing private property shownSidebar for testing
+        element.shownSidebar = 'sidebar-b';
+        await element.updateComplete;
+        const newDecorator = element.shadowRoot?.querySelector(
+          '.sidebarContents gr-endpoint-decorator'
+        );
+        assert.isNotNull(newDecorator);
+        assert.equal(
+          newDecorator?.getAttribute('name'),
+          'sidebarContent-sidebar-b'
+        );
+        assert.notEqual(oldDecorator, newDecorator);
+      });
+    });
   });
 });

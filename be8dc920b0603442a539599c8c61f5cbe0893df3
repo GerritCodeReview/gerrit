@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e506f696_a51a401d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-07-23T16:12:05Z",
+      "side": 1,
+      "message": "```suggestion\npage.\" message and discarded the reason reported by the provider.\nLeaving the user without a hint about what to do next.\n```",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 65
+      },
+      "revId": "be8dc920b0603442a539599c8c61f5cbe0893df3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5796a691_d8cb5616",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-07-23T16:12:05Z",
+      "side": 1,
+      "message": "This bit can probably be removed if you apply the above.",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 8
+      },
+      "revId": "be8dc920b0603442a539599c8c61f5cbe0893df3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

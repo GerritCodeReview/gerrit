@@ -1,0 +1,40 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "711a20a0_6b2f762e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-07-23T00:03:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2f1d7765_f77139f4",
+      "revId": "d5349385964a10785ab21303b57d6ae70dea8b60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1dd2b13d_5817028c",
+        "filename": "polygerrit-ui/app/elements/checks/gr-checks-results.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 910,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-07-23T00:03:11Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "9952a1b9_5d748217",
+      "revId": "d5349385964a10785ab21303b57d6ae70dea8b60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

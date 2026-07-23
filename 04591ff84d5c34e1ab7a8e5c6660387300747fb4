@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "773afb67_2392459f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-07-23T16:07:48Z",
+      "side": 1,
+      "message": "Ohhh, sorry, no, I hadn\u0027t. Good point.",
+      "parentUuid": "f79f6663_21f8c3e4",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 6
+      },
+      "revId": "04591ff84d5c34e1ab7a8e5c6660387300747fb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "49cd04a7_6a6880f8",

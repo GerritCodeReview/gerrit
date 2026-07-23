@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f79f6663_21f8c3e4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2026-07-23T15:53:30Z",
+      "side": 1,
+      "message": "Have you tried plugin fix without the Gerrit\u0027s core fix?",
+      "parentUuid": "a0a60333_b1dbd66a",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 6
+      },
+      "revId": "04591ff84d5c34e1ab7a8e5c6660387300747fb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "49cd04a7_6a6880f8",
         "filename": "polygerrit-ui/app/elements/chat-panel/prompt-box_test.ts",
         "patchSetId": 1
@@ -37,6 +61,30 @@
       "writtenOn": "2026-07-23T13:06:39Z",
       "side": 1,
       "message": "extract this in a variable?",
+      "range": {
+        "startLine": 87,
+        "startChar": 9,
+        "endLine": 87,
+        "endChar": 71
+      },
+      "revId": "04591ff84d5c34e1ab7a8e5c6660387300747fb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b775f54_a3a0d70f",
+        "filename": "polygerrit-ui/app/elements/chat-panel/prompt-box_test.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2026-07-23T15:53:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "49cd04a7_6a6880f8",
       "range": {
         "startLine": 87,
         "startChar": 9,

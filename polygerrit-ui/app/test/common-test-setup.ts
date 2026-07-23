@@ -103,8 +103,7 @@ function resolveDependency(evt: DependencyRequestEvent<unknown>) {
   evt.callback(() => testResolver(evt.dependency));
 }
 
-setup(async function () {
-  await document.fonts?.ready;
+setup(function () {
   testSetupTimestampMs = new Date().getTime();
   currentTestName = this.currentTest?.title || 'unknown test';
 

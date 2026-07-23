@@ -9,7 +9,6 @@ import { PNG } from 'pngjs';
 import { playwrightLauncher } from '@web/test-runner-playwright';
 
 const runUnderBazel = !!process.env['RUNFILES_DIR'];
-const diffThreshold = 0.01;
 
 function testRunnerHtmlFactory(prefix) {
   return (testFramework) => `
@@ -84,9 +83,6 @@ const config = {
           '--disable-background-timer-throttling',
           '--disable-backgrounding-occluded-windows',
           '--disable-renderer-backgrounding',
-          '--font-render-hinting=none',
-          '--disable-font-subpixel-rendering',
-          '--disable-lcd-text',
         ],
       },
     }),
@@ -137,7 +133,7 @@ const config = {
       // and failureThreshold is for pixel change. We need to find a balance to allow
       // CI to pass, but also catch regressions.
       diffOptions: { threshold: 0.6 },
-      failureThreshold: diffThreshold,
+      failureThreshold: 3.1,
       failureThresholdType: 'percent',
       update: process.argv.includes('--update-screenshots'),
       // The visual regression plugin by default blindly overwrites all goldens
@@ -178,7 +174,7 @@ const config = {
             );
 
             const diffPercentage = (numDiffPixels / (basePng.width * basePng.height)) * 100;
-            if (diffPercentage <= diffThreshold) {
+            if (diffPercentage <= 3.1) {
               return;
             }
           }

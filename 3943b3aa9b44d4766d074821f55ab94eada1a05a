@@ -33,6 +33,23 @@
       "message": "googlesource",
       "revId": "3943b3aa9b44d4766d074821f55ab94eada1a05a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e67b261d_c7c041ae",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 20
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5008258
+      },
+      "writtenOn": "2026-07-24T23:10:49Z",
+      "side": 1,
+      "message": "javatests/com/google/gerrit/httpd/raw/IndexServletTest.java",
+      "revId": "3943b3aa9b44d4766d074821f55ab94eada1a05a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

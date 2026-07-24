@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09b5f43a_0a1ee6a0",
+        "filename": "polygerrit-ui/app/models/checks/checks-model_test.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-07-24T15:56:17Z",
+      "side": 1,
+      "message": "nit: unnecessary emphasis\n```suggestion\n * can assert which patchset a tab is populated with.\n```",
+      "revId": "6afed939b180957fdaafecddfe45d81750be9253",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

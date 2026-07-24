@@ -4,14 +4,14 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {customElement, property, query, state} from 'lit/decorators.js';
-import {css, html, LitElement} from 'lit';
+import {css, html, LitElement, nothing} from 'lit';
 import {styleMap} from 'lit/directives/style-map.js';
 
-const SIDEBAR_MIN_WIDTH = 400;
+const SIDEBAR_MIN_WIDTH = 250;
 
 /**
  * A component that displays content in a main area and a resizable sidebar.
- * The sidebar can be toggled between hidden and visible.
+ * The sidebar can be toggled between hidden and visible and positioned on the left or right.
  *
  * slot main - The content to be displayed in the main area.
  * slot side - The content to be displayed in the sidebar.
@@ -21,10 +21,16 @@ export class GrContentWithSidebar extends LitElement {
   @query('.sidebar-wrapper') sidebarWrapper?: HTMLElement;
 
   @state()
-  private sidebarWidthPx = SIDEBAR_MIN_WIDTH;
+  private sidebarWidthPx = 400;
 
   @property()
   hideSide = true;
+
+  @property()
+  side: 'left' | 'right' = 'right';
+
+  @property({type: Number})
+  minWidth = SIDEBAR_MIN_WIDTH;
 
   private isSidebarResizing = false;
 
@@ -43,22 +49,29 @@ export class GrContentWithSidebar extends LitElement {
         :host {
           display: block;
           position: relative;
-          --sidebar-height: calc(100vh - var(--sidebar-top));
+          --sidebar-height: calc(100vh - var(--sidebar-top, 0px));
         }
         .sidebar-wrapper {
           z-index: 50;
           position: absolute;
           display: flex;
           top: 0;
-          bottom: calc(0px - var(--sidebar-bottom-overflow));
-          right: 0;
-          min-width: 400px;
+          bottom: calc(0px - var(--sidebar-bottom-overflow, 0px));
+          min-width: 250px;
           max-width: 100%;
           background-color: var(--background-color-secondary);
         }
+        .sidebar-wrapper.right {
+          right: 0;
+          left: auto;
+        }
+        .sidebar-wrapper.left {
+          left: 0;
+          right: auto;
+        }
         .sidebar {
           position: sticky;
-          top: var(--sidebar-top);
+          top: var(--sidebar-top, 0px);
           height: var(--sidebar-height);
           box-sizing: border-box;
           overflow: auto;
@@ -67,25 +80,36 @@ export class GrContentWithSidebar extends LitElement {
         }
         .resizer-wrapper {
           position: sticky;
-          top: var(--sidebar-top);
+          top: var(--sidebar-top, 0px);
           height: var(--sidebar-height);
           z-index: 51;
         }
         .resizer {
           background-color: var(--background-color-secondary);
           width: 7px;
-          border-left: 1px solid var(--border-color);
           cursor: ew-resize;
           position: absolute;
           top: 0;
           bottom: 0;
-          left: -7px;
           box-sizing: border-box;
         }
-        .resizer:hover {
+        .resizer.right-side {
+          left: -7px;
+          border-left: 1px solid var(--border-color);
+        }
+        .resizer.right-side:hover {
           background-color: var(--background-color-tertiary);
           width: 11px;
           left: -9px;
+        }
+        .resizer.left-side {
+          right: -7px;
+          border-right: 1px solid var(--border-color);
+        }
+        .resizer.left-side:hover {
+          background-color: var(--background-color-tertiary);
+          width: 11px;
+          right: -9px;
         }
       `,
     ];
@@ -93,9 +117,18 @@ export class GrContentWithSidebar extends LitElement {
 
   override render() {
     const widthPx = this.hideSide ? 0 : this.sidebarWidthPx;
+    const mainStyle =
+      this.side === 'left'
+        ? styleMap({
+            marginLeft: `${widthPx}px`,
+            width: `calc(100% - ${widthPx}px)`,
+          })
+        : styleMap({
+            width: `calc(100% - ${widthPx}px)`,
+          });
     return html`
       <div>
-        <div style=${styleMap({width: `calc(100% - ${widthPx}px)`})}>
+        <div style=${mainStyle}>
           <slot name="main"></slot>
         </div>
         ${this.renderSidebar()}
@@ -105,25 +138,34 @@ export class GrContentWithSidebar extends LitElement {
 
   private renderSidebar() {
     if (this.hideSide) return;
+    const sideClass = this.side === 'left' ? 'left' : 'right';
+    const resizerClass = this.side === 'left' ? 'left-side' : 'right-side';
     return html`
       <div
-        class="sidebar-wrapper"
+        class="sidebar-wrapper ${sideClass}"
         style=${styleMap({width: `${this.sidebarWidthPx}px`})}
       >
-        <div class="resizer-wrapper">
-          <div
-            class="resizer"
-            role="separator"
-            aria-orientation="vertical"
-            aria-valuenow=${this.sidebarWidthPx}
-            aria-label="Resize sidebar"
-            tabindex="0"
-            @mousedown=${this.startSidebarResize}
-          ></div>
-        </div>
+        ${this.side === 'right' ? this.renderResizer(resizerClass) : nothing}
         <div class="sidebar">
           <slot name="side"></slot>
         </div>
+        ${this.side === 'left' ? this.renderResizer(resizerClass) : nothing}
+      </div>
+    `;
+  }
+
+  private renderResizer(resizerClass: string) {
+    return html`
+      <div class="resizer-wrapper">
+        <div
+          class="resizer ${resizerClass}"
+          role="separator"
+          aria-orientation="vertical"
+          aria-valuenow=${this.sidebarWidthPx}
+          aria-label="Resize sidebar"
+          tabindex="0"
+          @mousedown=${this.startSidebarResize}
+        ></div>
       </div>
     `;
   }
@@ -157,10 +199,11 @@ export class GrContentWithSidebar extends LitElement {
     if (!this.isSidebarResizing || event.buttons === 0) return;
 
     const widthDiffPx = event.clientX - this.sidebarResizingStartPosPx;
-    this.sidebarWidthPx = Math.max(
-      this.sidebarResizingStartWidthPx - widthDiffPx,
-      SIDEBAR_MIN_WIDTH
-    );
+    const rawWidth =
+      this.side === 'right'
+        ? this.sidebarResizingStartWidthPx - widthDiffPx
+        : this.sidebarResizingStartWidthPx + widthDiffPx;
+    this.sidebarWidthPx = Math.max(rawWidth, this.minWidth);
   }
 }
 

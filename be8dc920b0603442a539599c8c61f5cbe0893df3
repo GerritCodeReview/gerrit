@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "087bd0fe_c91a8f05",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2026-07-24T14:12:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e506f696_a51a401d",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 65
+      },
+      "revId": "be8dc920b0603442a539599c8c61f5cbe0893df3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5796a691_d8cb5616",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-07-23T16:12:05Z",
       "side": 1,
       "message": "This bit can probably be removed if you apply the above.",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 8
+      },
+      "revId": "be8dc920b0603442a539599c8c61f5cbe0893df3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e0c1b6d6_11425c8f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2026-07-24T14:12:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5796a691_d8cb5616",
       "range": {
         "startLine": 13,
         "startChar": 0,

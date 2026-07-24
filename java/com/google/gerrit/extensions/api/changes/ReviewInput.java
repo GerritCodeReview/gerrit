@@ -96,6 +96,13 @@ public class ReviewInput {
    */
   public boolean ignoreAutomaticAttentionSetRules;
 
+  /**
+   * If true, secondary side-effects (such as search re-indexing, email notifications, attention
+   * set updates, and event publishing) will be offloaded to background threads. NoteDb storage
+   * persistence remains synchronous.
+   */
+  public Boolean async;
+
   @Nullable public List<ListChangesOption> responseFormatOptions;
 
   public enum DraftHandling {

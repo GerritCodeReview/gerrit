@@ -31,6 +31,8 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.notedb.LimitExceededException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -58,6 +60,8 @@ import java.util.function.Function;
  */
 @Singleton
 public class BatchUpdates {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   public class Result {
     private final Map<Change.Id, ChangeData> changeDatas;
 
@@ -83,10 +87,12 @@ public class BatchUpdates {
   }
 
   private final ChangeData.Factory changeDataFactory;
+  private final WorkQueue workQueue;
 
   @Inject
-  BatchUpdates(ChangeData.Factory changeDataFactory) {
+  BatchUpdates(ChangeData.Factory changeDataFactory, WorkQueue workQueue) {
     this.changeDataFactory = changeDataFactory;
+    this.workQueue = workQueue;
   }
 
   @CanIgnoreReturnValue
@@ -125,24 +131,39 @@ public class BatchUpdates {
         }
       }
 
-      Map<Change.Id, ChangeData> changeDatas =
-          Futures.allAsList(indexFutures).get().stream()
-              // filter out null values that were returned for change deletions
-              .filter(Objects::nonNull)
-              .collect(toMap(cd -> cd.change().getId(), Function.identity()));
-
-      // Fire ref update events only after all mutations are finished, since callers may assume a
-      // patch set ref being created means the change was created, or a branch advancing meaning
-      // some changes were closed.
-      updates.forEach(BatchUpdate::fireRefChangeEvents);
-
+      Map<Change.Id, ChangeData> changeDatas = new HashMap<>();
       if (!dryrun) {
         for (BatchUpdate u : updates) {
           u.executePostOps(changeDatas);
         }
       }
 
-      return new Result(changeDatas);
+      boolean isAsync = updates.stream().anyMatch(BatchUpdate::isAsync);
+
+      Runnable postCommitTask =
+          () -> {
+            try {
+              Futures.allAsList(indexFutures).get();
+
+              // Fire ref update events only after all mutations are finished, since callers may assume a
+              // patch set ref being created means the change was created, or a branch advancing meaning
+              // some changes were closed.
+              updates.forEach(BatchUpdate::fireRefChangeEvents);
+            } catch (Exception e) {
+              logger.atSevere().withCause(e).log("Error executing post-update tasks asynchronously");
+            }
+          };
+
+      if (isAsync) {
+        workQueue.getDefaultQueue().execute(postCommitTask);
+        return new Result(changeDatas);
+      }
+
+      postCommitTask.run();
+      return new Result(
+          Futures.allAsList(indexFutures).get().stream()
+              .filter(Objects::nonNull)
+              .collect(toMap(cd -> cd.change().getId(), Function.identity())));
     } catch (Exception e) {
       wrapAndThrowException(e);
       return new Result();

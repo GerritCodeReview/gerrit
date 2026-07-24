@@ -51,7 +51,9 @@ import {
 } from '../../../types/common';
 import {CursorMoveResult} from '../../../api/core';
 import {Side} from '../../../api/diff';
+import {PluginApi} from '../../../api/plugin';
 import {Files, GrDiffView} from './gr-diff-view';
+import {GrContentWithSidebar} from '../../shared/gr-content-with-sidebar/gr-content-with-sidebar';
 import {DropdownItem} from '../../shared/gr-dropdown-list/gr-dropdown-list';
 import {SinonFakeTimers, SinonStub, SinonStubbedMember} from 'sinon';
 import {
@@ -398,14 +400,16 @@ suite('gr-diff-view tests', () => {
                 >
               </a>
             </div>
-            <div class="sidebarAnchor"></div>
           </div>
           <h2 class="assistive-tech-only">Diff view</h2>
-          <div class="diffContainer">
-            <gr-endpoint-decorator name="diff-content">
-              <gr-diff-host id="diffHost"> </gr-diff-host>
-            </gr-endpoint-decorator>
-          </div>
+          <gr-content-with-sidebar>
+            <div class="diffContainer" slot="main">
+              <gr-endpoint-decorator name="diff-content">
+                <gr-diff-host id="diffHost"> </gr-diff-host>
+              </gr-endpoint-decorator>
+            </div>
+            <div slot="side"></div>
+          </gr-content-with-sidebar>
           <gr-apply-fix-dialog id="applyFixDialog"> </gr-apply-fix-dialog>
           <gr-diff-preferences-dialog id="diffPreferencesDialog">
           </gr-diff-preferences-dialog>
@@ -2288,6 +2292,48 @@ suite('gr-diff-view tests', () => {
           'sidebarContent-sidebar-b'
         );
         assert.notEqual(oldDecorator, newDecorator);
+      });
+
+      test('defaults to left sidebar side when no sidebarPosition property set', async () => {
+        // @ts-expect-error: accessing private property shownSidebar for testing
+        element.shownSidebar = 'left-sidebar';
+        await element.updateComplete;
+
+        const contentWithSidebar =
+          element.shadowRoot?.querySelector<GrContentWithSidebar>(
+            'gr-content-with-sidebar'
+          );
+        assert.isNotNull(contentWithSidebar);
+        assert.equal(contentWithSidebar?.side, 'left');
+      });
+
+      test('detects right sidebar side when static sidebarPosition === "right"', async () => {
+        class RightSidebar extends HTMLElement {
+          static sidebarPosition = 'right';
+        }
+
+        customElements.define('right-sidebar-element', RightSidebar);
+
+        let plugin!: PluginApi;
+        window.Gerrit.install(
+          p => (plugin = p),
+          '0.1',
+          'http://test.com/plugins/testplugin/static/test.js'
+        );
+        plugin.registerDynamicCustomComponent(
+          'sidebarContent-right-sidebar',
+          'right-sidebar-element'
+        );
+
+        // @ts-expect-error: accessing private property shownSidebar for testing
+        element.shownSidebar = 'right-sidebar';
+        await element.updateComplete;
+
+        const contentWithSidebar =
+          element.shadowRoot?.querySelector<GrContentWithSidebar>(
+            'gr-content-with-sidebar'
+          );
+        assert.equal(contentWithSidebar?.side, 'right');
       });
     });
   });

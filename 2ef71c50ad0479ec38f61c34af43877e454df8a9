@@ -1,0 +1,141 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c49d602_738f8a99",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-07-24T13:23:30Z",
+      "side": 1,
+      "message": "This and several other lines in the commit message are too long, reformat the commit message",
+      "revId": "2ef71c50ad0479ec38f61c34af43877e454df8a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4fe025f2_cd96ab95",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-07-24T13:23:30Z",
+      "side": 1,
+      "message": "I guess this is what you see in the config file, so JGit\u0027s Config added escape characters. When loaded in-memory then this is actually `branch:\\\"refs/heads/*\\\"` which is still not a valid query expression. Mentioning this because in this commit message you mix examples from a persisted Config and from an in-memory value.",
+      "revId": "2ef71c50ad0479ec38f61c34af43877e454df8a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5aee9c5_09a570bf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-07-24T13:23:30Z",
+      "side": 1,
+      "message": "This one is misaligned",
+      "revId": "2ef71c50ad0479ec38f61c34af43877e454df8a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad08a74b_199abe7e",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-07-24T13:23:30Z",
+      "side": 1,
+      "message": "What is `ApplicableBranch`? IMO this method shall be named `toApplicableIfExpression`",
+      "range": {
+        "startLine": 338,
+        "startChar": 26,
+        "endLine": 338,
+        "endChar": 42
+      },
+      "revId": "2ef71c50ad0479ec38f61c34af43877e454df8a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50b78f10_1245046a",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-07-24T13:23:30Z",
+      "side": 1,
+      "message": "this should rather be `endsWith(\"*\")`, a wildcard expression only allowed `*` at the end.",
+      "range": {
+        "startLine": 342,
+        "startChar": 16,
+        "endLine": 342,
+        "endChar": 29
+      },
+      "revId": "2ef71c50ad0479ec38f61c34af43877e454df8a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b75b19f6_3e7e48d2",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-07-24T13:23:30Z",
+      "side": 1,
+      "message": "This is by far not enough. There are many more special characters in a regex than just `.` and `*`. To mention some of them: `+`, `?`, `(`, `)`, `[`, `]`, `{`, `}`, ...\n\nSee here [1] for a complete java regex syntax.\n\nThe `Pattern` class already provides the feature you need here, the `Pattern.quote(...)` method [2].\nTake the prefix which is everything but the last `*`, apply `Pattern.quote(prefix)` and append `.*` at the end:\n```\n  String prefix \u003d pattern.substring(0, pattern.length() - 1);\n  String regex \u003d \"^\" + Pattern.quote(prefix) + \".*\";\n```\n\n[1] https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/regex/Pattern.html\n[2] https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/regex/Pattern.html#quote(java.lang.String)",
+      "revId": "2ef71c50ad0479ec38f61c34af43877e454df8a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8229d78f_29aebb4d",
+        "filename": "javatests/com/google/gerrit/acceptance/pgm/MigrateLabelFunctionsToSubmitRequirementIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-07-24T13:23:30Z",
+      "side": 1,
+      "message": "it is not really a quoted character but a value containing a double quote character",
+      "range": {
+        "startLine": 310,
+        "startChar": 40,
+        "endLine": 310,
+        "endChar": 54
+      },
+      "revId": "2ef71c50ad0479ec38f61c34af43877e454df8a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

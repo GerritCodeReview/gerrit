@@ -1379,6 +1379,60 @@ public class PostReviewIT extends AbstractDaemonTest {
     assertThat(commentInfo.isAi).isTrue();
   }
 
+  @Test
+  public void postReviewAsync() throws Exception {
+    PushOneCommit.Result r = createChange();
+    ReviewInput input = new ReviewInput().label(LabelId.CODE_REVIEW, 2).message("Async LGTM");
+    input.async = true;
+
+    ReviewResult result = gApi.changes().id(r.getChangeId()).current().review(input);
+
+    assertThat(result.labels.get(LabelId.CODE_REVIEW)).isEqualTo((short) 2);
+
+    ChangeInfo changeInfo = null;
+    for (int i = 0; i < 100; i++) {
+      changeInfo = gApi.changes().id(r.getChangeId()).get();
+      if (changeInfo.labels != null
+          && changeInfo.labels.containsKey(LabelId.CODE_REVIEW)
+          && changeInfo.labels.get(LabelId.CODE_REVIEW).approved != null) {
+        break;
+      }
+      Thread.sleep(50);
+    }
+    assertThat(changeInfo.labels.get(LabelId.CODE_REVIEW).approved._accountId)
+        .isEqualTo(admin.id().get());
+    ChangeMessageInfo lastMessage = Iterables.getLast(changeInfo.messages);
+    assertThat(lastMessage.message).contains("Async LGTM");
+  }
+
+  @Test
+  public void postReviewAsyncWithReviewers() throws Exception {
+    PushOneCommit.Result r = createChange();
+    TestAccount userToReview =
+        accountCreator.create(
+            "user-to-review", "user-to-review@example.com", "User To Review", null);
+
+    ReviewInput input = new ReviewInput();
+    input.reviewer(userToReview.email());
+    input.message = "Please review this async";
+    input.async = true;
+
+    ReviewResult result = gApi.changes().id(r.getChangeId()).current().review(input);
+    assertThat(result.reviewers).containsKey(userToReview.email());
+
+    Map<ReviewerState, Collection<AccountInfo>> reviewers = null;
+    for (int i = 0; i < 100; i++) {
+      reviewers = gApi.changes().id(r.getChangeId()).get().reviewers;
+      if (reviewers.containsKey(ReviewerState.REVIEWER)) {
+        break;
+      }
+      Thread.sleep(50);
+    }
+    assertThat(reviewers).containsKey(ReviewerState.REVIEWER);
+    AccountInfo reviewer = Iterables.getOnlyElement(reviewers.get(ReviewerState.REVIEWER));
+    assertThat(reviewer._accountId).isEqualTo(userToReview.id().get());
+  }
+
   private static void assertAttentionSet(
       ImmutableSet<AttentionSetUpdate> attentionSet, Account.Id... accounts) {
     assertThat(attentionSet.stream().map(AttentionSetUpdate::account).collect(Collectors.toList()))

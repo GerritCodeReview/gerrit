@@ -22,6 +22,7 @@ import static java.util.stream.Collectors.toMap;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Multiset;
+import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -31,6 +32,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.notedb.LimitExceededException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -58,6 +60,8 @@ import java.util.function.Function;
  */
 @Singleton
 public class BatchUpdates {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   public class Result {
     private final Map<Change.Id, ChangeData> changeDatas;
 
@@ -83,10 +87,12 @@ public class BatchUpdates {
   }
 
   private final ChangeData.Factory changeDataFactory;
+  private final WorkQueue workQueue;
 
   @Inject
-  BatchUpdates(ChangeData.Factory changeDataFactory) {
+  BatchUpdates(ChangeData.Factory changeDataFactory, WorkQueue workQueue) {
     this.changeDataFactory = changeDataFactory;
+    this.workQueue = workQueue;
   }
 
   @CanIgnoreReturnValue
@@ -125,15 +131,46 @@ public class BatchUpdates {
         }
       }
 
+      boolean isAsync = updates.stream().anyMatch(BatchUpdate::isAsync);
+
+      if (isAsync) {
+        workQueue
+            .getDefaultQueue()
+            .execute(
+                () -> {
+                  try {
+                    Map<Change.Id, ChangeData> changeDatas =
+                        Futures.allAsList(indexFutures).get().stream()
+                            // filter out null values that were returned for change deletions
+                            .filter(Objects::nonNull)
+                            .collect(toMap(cd -> cd.change().getId(), Function.identity()));
+
+                    // Fire ref update events only after all mutations are finished, since callers
+                    // may assume a
+                    // patch set ref being created means the change was created, or a branch
+                    // advancing meaning
+                    // some changes were closed.
+                    updates.forEach(BatchUpdate::fireRefChangeEvents);
+
+                    if (!dryrun) {
+                      for (BatchUpdate u : updates) {
+                        u.executePostOps(changeDatas);
+                      }
+                    }
+                  } catch (Exception e) {
+                    logger.atSevere().withCause(e).log(
+                        "Error executing post-update tasks asynchronously");
+                  }
+                });
+        return new Result();
+      }
+
       Map<Change.Id, ChangeData> changeDatas =
           Futures.allAsList(indexFutures).get().stream()
               // filter out null values that were returned for change deletions
               .filter(Objects::nonNull)
               .collect(toMap(cd -> cd.change().getId(), Function.identity()));
 
-      // Fire ref update events only after all mutations are finished, since callers may assume a
-      // patch set ref being created means the change was created, or a branch advancing meaning
-      // some changes were closed.
       updates.forEach(BatchUpdate::fireRefChangeEvents);
 
       if (!dryrun) {

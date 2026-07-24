@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "91438aed_428f87d4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-07-24T17:04:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c49d602_738f8a99",
+      "revId": "2ef71c50ad0479ec38f61c34af43877e454df8a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4fe025f2_cd96ab95",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-07-24T13:23:30Z",
       "side": 1,
       "message": "I guess this is what you see in the config file, so JGit\u0027s Config added escape characters. When loaded in-memory then this is actually `branch:\\\"refs/heads/*\\\"` which is still not a valid query expression. Mentioning this because in this commit message you mix examples from a persisted Config and from an in-memory value.",
+      "revId": "2ef71c50ad0479ec38f61c34af43877e454df8a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9b97d3d_3cb0d989",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-07-24T17:04:30Z",
+      "side": 1,
+      "message": "Reason of mentioning this was, I wanted to outline the status quo. and later explaining what are we fixing.",
+      "parentUuid": "4fe025f2_cd96ab95",
       "revId": "2ef71c50ad0479ec38f61c34af43877e454df8a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e38d6dfd_a2aaae22",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-07-24T17:04:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d5aee9c5_09a570bf",
+      "revId": "2ef71c50ad0479ec38f61c34af43877e454df8a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ad08a74b_199abe7e",
@@ -65,6 +119,30 @@
       "writtenOn": "2026-07-24T13:23:30Z",
       "side": 1,
       "message": "What is `ApplicableBranch`? IMO this method shall be named `toApplicableIfExpression`",
+      "range": {
+        "startLine": 338,
+        "startChar": 26,
+        "endLine": 338,
+        "endChar": 42
+      },
+      "revId": "2ef71c50ad0479ec38f61c34af43877e454df8a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "35603875_67a683b0",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-07-24T17:04:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad08a74b_199abe7e",
       "range": {
         "startLine": 338,
         "startChar": 26,
@@ -98,6 +176,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0c49ebf_b216c338",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-07-24T17:04:30Z",
+      "side": 1,
+      "message": "ok I thought, refs/*/master is also valid.",
+      "parentUuid": "50b78f10_1245046a",
+      "range": {
+        "startLine": 342,
+        "startChar": 16,
+        "endLine": 342,
+        "endChar": 29
+      },
+      "revId": "2ef71c50ad0479ec38f61c34af43877e454df8a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b75b19f6_3e7e48d2",
@@ -115,6 +217,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "51488423_de72840e",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-07-24T17:04:30Z",
+      "side": 1,
+      "message": "My idea was, branch could be named as `refs/heads/release1.1` or refs/heads/* hence I only handled these 2 cases.",
+      "parentUuid": "b75b19f6_3e7e48d2",
+      "revId": "2ef71c50ad0479ec38f61c34af43877e454df8a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8229d78f_29aebb4d",
@@ -128,6 +248,30 @@
       "writtenOn": "2026-07-24T13:23:30Z",
       "side": 1,
       "message": "it is not really a quoted character but a value containing a double quote character",
+      "range": {
+        "startLine": 310,
+        "startChar": 40,
+        "endLine": 310,
+        "endChar": 54
+      },
+      "revId": "2ef71c50ad0479ec38f61c34af43877e454df8a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "31211a6f_601e310e",
+        "filename": "javatests/com/google/gerrit/acceptance/pgm/MigrateLabelFunctionsToSubmitRequirementIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-07-24T17:04:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8229d78f_29aebb4d",
       "range": {
         "startLine": 310,
         "startChar": 40,

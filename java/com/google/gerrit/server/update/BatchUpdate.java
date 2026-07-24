@@ -313,6 +313,7 @@ public class BatchUpdate implements AutoCloseable {
   private ImmutableListMultimap<ProjectChangeKey, AttentionSetUpdate> attentionSetUpdates;
 
   private boolean executed;
+  private boolean isAsync;
   private OnSubmitValidators onSubmitValidators;
   private PushCertificate pushCert;
   private String refLogMessage;
@@ -378,6 +379,16 @@ public class BatchUpdate implements AutoCloseable {
 
   public boolean isExecuted() {
     return executed;
+  }
+
+  @CanIgnoreReturnValue
+  public BatchUpdate setAsync(boolean async) {
+    this.isAsync = async;
+    return this;
+  }
+
+  public boolean isAsync() {
+    return isAsync;
   }
 
   @CanIgnoreReturnValue

@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "465d7dca_d5052599",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5008258
+      },
+      "writtenOn": "2026-07-24T22:59:21Z",
+      "side": 1,
+      "message": "javatests/com/google/gerrit/httpd/raw/IndexServletTest.java",
+      "revId": "5eff85cf69407254861fb25d2598fa1ce7698052",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

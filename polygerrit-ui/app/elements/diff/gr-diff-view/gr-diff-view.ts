@@ -19,6 +19,8 @@ import '../gr-diff-mode-selector/gr-diff-mode-selector';
 import '../gr-diff-preferences-dialog/gr-diff-preferences-dialog';
 import '../gr-patch-range-select/gr-patch-range-select';
 import '../../change/gr-download-dialog/gr-download-dialog';
+import '../../shared/gr-content-with-sidebar/gr-content-with-sidebar';
+import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {getAppContext} from '../../../services/app-context';
 import {getParentIndex, isMergeParent} from '../../../utils/patch-set-util';
 import {
@@ -88,7 +90,6 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {classMap} from 'lit/directives/class-map.js';
 import {when} from 'lit/directives/when.js';
-import {styleMap} from 'lit/directives/style-map.js';
 import {keyed} from 'lit/directives/keyed.js';
 import {
   ChangeChildView,
@@ -128,6 +129,7 @@ export interface Files {
 
 @customElement('gr-diff-view')
 export class GrDiffView extends LitElement {
+  private readonly getPluginLoader = resolve(this, pluginLoaderToken);
   /**
    * Fired when user tries to navigate away while comments are pending save.
    *
@@ -153,11 +155,6 @@ export class GrDiffView extends LitElement {
 
   @query('#diffPreferencesDialog')
   diffPreferencesDialog?: GrDiffPreferencesDialog;
-
-  @query('.sidebarAnchor')
-  sidebarAnchor?: HTMLDivElement;
-
-  @state() private sidebarHeight = 0;
 
   // Private but used in tests.
   @state()
@@ -527,7 +524,6 @@ export class GrDiffView extends LitElement {
         :host {
           display: block;
           background-color: var(--view-background-color);
-          --sidebar-width: 300px;
         }
         .hidden {
           display: none;
@@ -703,24 +699,14 @@ export class GrDiffView extends LitElement {
         :host(.hideCheckCodePointers) {
           --gr-check-code-pointers-display: none;
         }
-        .diffContainer.sidebarOpen {
-          margin-left: var(--sidebar-width);
-        }
         .sidebarTriggerContainer {
           display: inline-block;
           margin-right: var(--spacing-m);
         }
-        .sidebarAnchor {
-          height: 0;
-          width: 0;
-          overflow: visible;
-        }
         .sidebarContents {
           background: var(--background-color-secondary);
-          width: var(--sidebar-width);
-          border: var(--spacing-xxs) solid var(--border-color);
-          border-left: 0;
-          overflow: auto;
+          box-sizing: border-box;
+          height: 100%;
         }
         md-checkbox {
           --md-checkbox-container-size: 15px;
@@ -750,8 +736,6 @@ export class GrDiffView extends LitElement {
     this.addEventListener('open-fix-preview', e => this.onOpenFixPreview(e));
     this.cursor = new GrDiffCursor();
     if (this.diffHost) this.reInitCursor();
-    window.addEventListener('scroll', this.updateSidebarHeight);
-    window.addEventListener('resize', this.updateSidebarHeight);
     this.getUserModel()
       .preferences$.pipe(
         map(p => p.diff_page_sidebar),
@@ -769,8 +753,6 @@ export class GrDiffView extends LitElement {
 
   override disconnectedCallback() {
     this.cursor?.dispose();
-    window.removeEventListener('scroll', this.updateSidebarHeight);
-    window.removeEventListener('resize', this.updateSidebarHeight);
     super.disconnectedCallback();
   }
 
@@ -779,13 +761,6 @@ export class GrDiffView extends LitElement {
     this.cursor?.replaceDiffs([this.diffHost]);
     this.cursor?.reInitCursor();
   }
-
-  private readonly updateSidebarHeight = () => {
-    if (this.sidebarAnchor) {
-      this.sidebarHeight =
-        window.innerHeight - this.sidebarAnchor.getBoundingClientRect().bottom;
-    }
-  };
 
   protected override updated(changedProperties: PropertyValues): void {
     super.updated(changedProperties);
@@ -845,7 +820,6 @@ export class GrDiffView extends LitElement {
         this.patchRange
       );
     }
-    this.updateSidebarHeight();
   }
 
   override render() {
@@ -869,34 +843,43 @@ export class GrDiffView extends LitElement {
           </div>
         `
       )}
-      <div
-        class=${classMap({
-          diffContainer: true,
-          sidebarOpen: !!this.shownSidebar,
-          hidden: !!this.file?.diffs_too_expensive_to_compute,
-        })}
+      <gr-content-with-sidebar
+        .side=${this.getSidebarSide()}
+        .hideSide=${!this.shownSidebar}
       >
-        <gr-endpoint-decorator name="diff-content">
-          <gr-diff-host
-            id="diffHost"
-            .changeNum=${this.changeNum}
-            .change=${this.change}
-            .patchRange=${this.patchRange}
-            .file=${file}
-            .lineOfInterest=${this.getLineOfInterest()}
-            .path=${this.path}
-            .projectName=${this.change?.project}
-            @is-blame-loaded-changed=${this.onIsBlameLoadedChanged}
-            @comment-anchor-tap=${this.onCommentAnchorTap}
-            @line-selected=${this.onLineSelected}
-            @diff-changed=${this.onDiffChanged}
-            @edit-weblinks-changed=${this.onEditWeblinksChanged}
-            @files-weblinks-changed=${this.onFilesWeblinksChanged}
-            @render=${this.reInitCursor}
-          >
-          </gr-diff-host>
-        </gr-endpoint-decorator>
-      </div>
+        <div
+          slot="main"
+          class=${classMap({
+            diffContainer: true,
+            sidebarOpen: !!this.shownSidebar,
+            hidden: !!this.file?.diffs_too_expensive_to_compute,
+          })}
+        >
+          <gr-endpoint-decorator name="diff-content">
+            <gr-diff-host
+              id="diffHost"
+              .changeNum=${this.changeNum}
+              .change=${this.change}
+              .patchRange=${this.patchRange}
+              .file=${file}
+              .lineOfInterest=${this.getLineOfInterest()}
+              .path=${this.path}
+              .projectName=${this.change?.project}
+              @is-blame-loaded-changed=${this.onIsBlameLoadedChanged}
+              @comment-anchor-tap=${this.onCommentAnchorTap}
+              @line-selected=${this.onLineSelected}
+              @diff-changed=${this.onDiffChanged}
+              @edit-weblinks-changed=${this.onEditWeblinksChanged}
+              @files-weblinks-changed=${this.onFilesWeblinksChanged}
+              @render=${this.reInitCursor}
+            >
+            </gr-diff-host>
+          </gr-endpoint-decorator>
+        </div>
+        <div slot="side">
+          ${this.renderSidebarContent()}
+        </div>
+      </gr-content-with-sidebar>
       ${this.renderDialogs()}
     `;
   }
@@ -921,7 +904,6 @@ export class GrDiffView extends LitElement {
           >&gt;</a
         >
       </div>
-      ${this.renderSidebarContent()}
     </div>`;
   }
 
@@ -1024,80 +1006,114 @@ export class GrDiffView extends LitElement {
     `;
   }
 
+  private getSidebarSide(): 'left' | 'right' {
+    if (!this.shownSidebar) return 'left';
+    const endpointName = `sidebarContent-${this.shownSidebar}`;
+
+    // 1. Check registered plugin modules via PluginLoader
+    const details =
+      this.getPluginLoader().pluginEndPoints.getDetails(endpointName);
+    for (const info of details) {
+      if (info.moduleName) {
+        const cls = customElements.get(info.moduleName);
+        if (
+          (cls as any)?.sidebarPosition === 'right' ||
+          (cls?.prototype as any)?.sidebarPosition === 'right'
+        ) {
+          return 'right';
+        }
+      }
+    }
+
+    // 2. Check attached DOM elements inside gr-endpoint-decorator
+    const decorator = this.shadowRoot?.querySelector(
+      `gr-endpoint-decorator[name="${endpointName}"]`
+    );
+    if (decorator) {
+      for (const child of Array.from(decorator.children)) {
+        const el = child as HTMLElement & {sidebarPosition?: string};
+        if (
+          el.sidebarPosition === 'right' ||
+          el.getAttribute('sidebar-position') === 'right' ||
+          (el.constructor as {sidebarPosition?: string}).sidebarPosition ===
+            'right'
+        ) {
+          return 'right';
+        }
+      }
+    }
+
+    return 'left';
+  }
+
   private renderSidebarContent() {
-    // Always renders the 0x0px .sidebarAnchor div for scroll measurements.
     return html`
-      <div class="sidebarAnchor">
-        ${when(this.shownSidebar !== undefined, () =>
-          keyed(
-            this.shownSidebar,
-            html`
-              <div
-                class="sidebarContents"
-                style=${styleMap({height: `${this.sidebarHeight}px`})}
+      ${when(this.shownSidebar !== undefined, () =>
+        keyed(
+          this.shownSidebar,
+          html`
+            <div class="sidebarContents">
+              <gr-endpoint-decorator
+                name=${`sidebarContent-${this.shownSidebar}`}
               >
-                <gr-endpoint-decorator
-                  name=${`sidebarContent-${this.shownSidebar}`}
+                <gr-endpoint-param
+                  name="change"
+                  .value=${this.change}
+                ></gr-endpoint-param>
+                <gr-endpoint-param
+                  name="path"
+                  .value=${this.path}
+                ></gr-endpoint-param>
+                <!-- current diff path and, in case of rename, previous path -->
+                <gr-endpoint-param
+                  name="fileRange"
+                  .value=${this.getFileRange()}
+                ></gr-endpoint-param>
+                <gr-endpoint-param
+                  name="basePatchNum"
+                  .value=${this.basePatchNum}
+                ></gr-endpoint-param>
+                <gr-endpoint-param
+                  name="patchNum"
+                  .value=${this.patchNum}
+                ></gr-endpoint-param>
+                <gr-endpoint-param
+                  name="content"
+                  .value=${this.diff}
+                ></gr-endpoint-param>
+                <gr-endpoint-param
+                  name="cursor"
+                  .value=${this.cursor}
+                ></gr-endpoint-param>
+                <gr-endpoint-param
+                  name="diff"
+                  .value=${this.diffHost?.diffElement}
+                ></gr-endpoint-param>
+                <gr-endpoint-param
+                  name="comments"
+                  .value=${this.commentsForPath}
+                ></gr-endpoint-param>
+                <gr-endpoint-param
+                  name="onClose"
+                  .value=${(pluginName: string) => {
+                    // Only close the sidebar if that particular sidebar is
+                    // still open. An async onClose callback should not close a
+                    // different sidebar.
+                    if (this.shownSidebar !== pluginName) {
+                      return;
+                    }
+                    this.shownSidebar = undefined;
+                    this.getUserModel().updatePreferences({
+                      diff_page_sidebar: 'NONE',
+                    });
+                  }}
                 >
-                  <gr-endpoint-param
-                    name="change"
-                    .value=${this.change}
-                  ></gr-endpoint-param>
-                  <gr-endpoint-param
-                    name="path"
-                    .value=${this.path}
-                  ></gr-endpoint-param>
-                  <!-- current diff path and, in case of rename, previous path -->
-                  <gr-endpoint-param
-                    name="fileRange"
-                    .value=${this.getFileRange()}
-                  ></gr-endpoint-param>
-                  <gr-endpoint-param
-                    name="basePatchNum"
-                    .value=${this.basePatchNum}
-                  ></gr-endpoint-param>
-                  <gr-endpoint-param
-                    name="patchNum"
-                    .value=${this.patchNum}
-                  ></gr-endpoint-param>
-                  <gr-endpoint-param
-                    name="content"
-                    .value=${this.diff}
-                  ></gr-endpoint-param>
-                  <gr-endpoint-param
-                    name="cursor"
-                    .value=${this.cursor}
-                  ></gr-endpoint-param>
-                  <gr-endpoint-param
-                    name="diff"
-                    .value=${this.diffHost?.diffElement}
-                  ></gr-endpoint-param>
-                  <gr-endpoint-param
-                    name="comments"
-                    .value=${this.commentsForPath}
-                  ></gr-endpoint-param>
-                  <gr-endpoint-param
-                    name="onClose"
-                    .value=${(pluginName: string) => {
-                      // Only close the sidebar if that particular sidebar is
-                      // still open. An async onClose callback should not close a
-                      // different sidebar.
-                      if (this.shownSidebar !== pluginName) {
-                        return;
-                      }
-                      this.shownSidebar = undefined;
-                      this.getUserModel().updatePreferences({
-                        diff_page_sidebar: 'NONE',
-                      });
-                    }}
-                  >
-                  </gr-endpoint-param>
-                </gr-endpoint-decorator>
-              </div>
-            `
-          )
-        )}
-      </div>
+                </gr-endpoint-param>
+              </gr-endpoint-decorator>
+            </div>
+          `
+        )
+      )}
     `;
   }
 

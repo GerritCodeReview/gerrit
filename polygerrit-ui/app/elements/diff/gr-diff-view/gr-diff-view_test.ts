@@ -398,14 +398,16 @@ suite('gr-diff-view tests', () => {
                 >
               </a>
             </div>
-            <div class="sidebarAnchor"></div>
           </div>
           <h2 class="assistive-tech-only">Diff view</h2>
-          <div class="diffContainer">
-            <gr-endpoint-decorator name="diff-content">
-              <gr-diff-host id="diffHost"> </gr-diff-host>
-            </gr-endpoint-decorator>
-          </div>
+          <gr-content-with-sidebar>
+            <div class="diffContainer" slot="main">
+              <gr-endpoint-decorator name="diff-content">
+                <gr-diff-host id="diffHost"> </gr-diff-host>
+              </gr-endpoint-decorator>
+            </div>
+            <div slot="side"></div>
+          </gr-content-with-sidebar>
           <gr-apply-fix-dialog id="applyFixDialog"> </gr-apply-fix-dialog>
           <gr-diff-preferences-dialog id="diffPreferencesDialog">
           </gr-diff-preferences-dialog>
@@ -2288,6 +2290,39 @@ suite('gr-diff-view tests', () => {
           'sidebarContent-sidebar-b'
         );
         assert.notEqual(oldDecorator, newDecorator);
+      });
+
+      test('defaults to left sidebar side when no sidebarPosition property set', async () => {
+        // @ts-expect-error: accessing private property shownSidebar for testing
+        element.shownSidebar = 'left-sidebar';
+        await element.updateComplete;
+
+        const contentWithSidebar = element.shadowRoot?.querySelector(
+          'gr-content-with-sidebar'
+        ) as HTMLElement & {side?: string};
+        assert.isNotNull(contentWithSidebar);
+        assert.equal(contentWithSidebar?.side, 'left');
+      });
+
+      test('detects right sidebar side when sidebarPosition === "right"', async () => {
+        // @ts-expect-error: accessing private property shownSidebar for testing
+        element.shownSidebar = 'right-sidebar';
+        await element.updateComplete;
+
+        const decorator = element.shadowRoot?.querySelector(
+          'gr-endpoint-decorator[name="sidebarContent-right-sidebar"]'
+        );
+        assert.isNotNull(decorator);
+        const childEl = document.createElement('div');
+        (childEl as any).sidebarPosition = 'right';
+        decorator?.appendChild(childEl);
+        element.requestUpdate();
+        await element.updateComplete;
+
+        const contentWithSidebar = element.shadowRoot?.querySelector(
+          'gr-content-with-sidebar'
+        ) as HTMLElement & {side?: string};
+        assert.equal(contentWithSidebar?.side, 'right');
       });
     });
   });

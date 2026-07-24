@@ -187,6 +187,35 @@ suite('gr-ranged-comment-layer', () => {
       assert.isFalse(annotateElementStub.called);
     });
 
+    test('type=Both has-comment without character offsets', () => {
+      line = new GrDiffLine(GrDiffLineType.BOTH);
+      line.afterNumber = 10;
+      el.setAttribute('data-side', Side.RIGHT);
+
+      element.updateRanges([
+        {
+          side: Side.RIGHT,
+          range: {
+            end_line: 12,
+            start_line: 10,
+          } as unknown as CommentRangeLayer['range'],
+          id: 'g',
+        },
+      ]);
+
+      const expectedStart = 0;
+      const expectedLength = line.text.length;
+
+      element.annotate(el, lineNumberEl, line);
+
+      assert.isTrue(annotateElementStub.called);
+      const lastCall = annotateElementStub.lastCall;
+      assert.equal(lastCall.args[0], el);
+      assert.equal(lastCall.args[1], expectedStart);
+      assert.equal(lastCall.args[2], expectedLength);
+      assert.equal(lastCall.args[3], 'range rangeHighlight generated_g');
+    });
+
     test('type=Add has-comment', () => {
       line = new GrDiffLine(GrDiffLineType.ADD);
       line.afterNumber = 12;

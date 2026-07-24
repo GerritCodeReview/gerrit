@@ -329,11 +329,28 @@ public class MigrateLabelFunctionsToSubmitRequirement {
               String.join(
                   " OR ",
                   attributes.refPatterns().stream()
-                      .map(b -> "branch:\\\"" + b + "\\\"")
+                      .map(MigrateLabelFunctionsToSubmitRequirement::toApplicableBranch)
                       .collect(Collectors.toList()))));
     }
     return builder.build();
   }
+
+
+  private static String toApplicableBranch(String pattern) {
+    if (pattern.startsWith("^")) {
+      return "branch:" + pattern;
+    }
+    if (pattern.contains("*")) {
+      String regex =
+          "^" + pattern
+              .replace(".", "\\.")
+              .replace("*", ".*");
+      return "branch:" + regex;
+    }
+    pattern = pattern.replace("\"", "\\\"");
+    return "branch:\"" + pattern + "\"";
+  }
+
 
   private static boolean isBlockingOrRequiredLabel(String function) {
     return function.equals("AnyWithBlock")

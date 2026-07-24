@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d33eddd6_7439ba44",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-07-24T15:23:58Z",
+      "side": 1,
+      "message": "nit on wording\n\n```suggestion\nsince this feature originally ignored those files but was later changed\nby mistake in I469066e503.\n```",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 34
+      },
+      "revId": "869af18c00d85d9358bbf3022754e5731d51254e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -251,13 +251,31 @@ public class BatchUpdate implements AutoCloseable {
     }
   }
 
-  private class PostUpdateContextImpl extends ContextImpl implements PostUpdateContext {
+  private class PostUpdateContextImpl extends ContextImpl
+      implements PostUpdateContext, AutoCloseable {
     private final Map<Change.Id, ChangeData> changeDatas;
+    private RepoView localRepoView;
 
     PostUpdateContextImpl(
         @Nullable CurrentUser contextUser, Map<Change.Id, ChangeData> changeDatas) {
       super(contextUser);
       this.changeDatas = changeDatas;
+    }
+
+    @Override
+    public RepoView getRepoView() throws IOException {
+      if (!BatchUpdate.this.isAsync() && BatchUpdate.this.repoView != null) {
+        return BatchUpdate.this.repoView;
+      }
+      if (localRepoView == null) {
+        localRepoView = new RepoView(repoManager, project);
+      }
+      return localRepoView;
+    }
+
+    @Override
+    public RevWalk getRevWalk() throws IOException {
+      return getRepoView().getRevWalk();
     }
 
     @Override
@@ -269,6 +287,13 @@ public class BatchUpdate implements AutoCloseable {
     @Override
     public ChangeData getChangeData(Change change) {
       return changeDatas.computeIfAbsent(change.getId(), id -> changeDataFactory.create(change));
+    }
+
+    @Override
+    public void close() {
+      if (localRepoView != null) {
+        localRepoView.close();
+      }
     }
   }
 
@@ -313,6 +338,7 @@ public class BatchUpdate implements AutoCloseable {
   private ImmutableListMultimap<ProjectChangeKey, AttentionSetUpdate> attentionSetUpdates;
 
   private boolean executed;
+  private boolean isAsync;
   private OnSubmitValidators onSubmitValidators;
   private PushCertificate pushCert;
   private String refLogMessage;
@@ -378,6 +404,16 @@ public class BatchUpdate implements AutoCloseable {
 
   public boolean isExecuted() {
     return executed;
+  }
+
+  @CanIgnoreReturnValue
+  public BatchUpdate setAsync(boolean async) {
+    this.isAsync = async;
+    return this;
+  }
+
+  public boolean isAsync() {
+    return isAsync;
   }
 
   @CanIgnoreReturnValue
@@ -802,20 +838,22 @@ public class BatchUpdate implements AutoCloseable {
 
   void executePostOps(Map<Change.Id, ChangeData> changeDatas) throws Exception {
     for (OpData<BatchUpdateOp> opData : ops.values()) {
-      PostUpdateContextImpl ctx = new PostUpdateContextImpl(opData.user(), changeDatas);
-      try (TraceContext.TraceTimer ignored =
-          TraceContext.newTimer(
-              opData.op().getClass().getSimpleName() + "#postUpdate", Metadata.empty())) {
-        opData.op().postUpdate(ctx);
+      try (PostUpdateContextImpl ctx = new PostUpdateContextImpl(opData.user(), changeDatas)) {
+        try (TraceContext.TraceTimer ignored =
+            TraceContext.newTimer(
+                opData.op().getClass().getSimpleName() + "#postUpdate", Metadata.empty())) {
+          opData.op().postUpdate(ctx);
+        }
       }
     }
 
     for (OpData<RepoOnlyOp> opData : repoOnlyOps) {
-      PostUpdateContextImpl ctx = new PostUpdateContextImpl(opData.user(), changeDatas);
-      try (TraceContext.TraceTimer ignored =
-          TraceContext.newTimer(
-              opData.op().getClass().getSimpleName() + "#postUpdate", Metadata.empty())) {
-        opData.op().postUpdate(ctx);
+      try (PostUpdateContextImpl ctx = new PostUpdateContextImpl(opData.user(), changeDatas)) {
+        try (TraceContext.TraceTimer ignored =
+            TraceContext.newTimer(
+                opData.op().getClass().getSimpleName() + "#postUpdate", Metadata.empty())) {
+          opData.op().postUpdate(ctx);
+        }
       }
     }
     try (TraceContext.TraceTimer ignored =

@@ -85,6 +85,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.extensions.events.ReviewerAdded;
 import com.google.gerrit.server.git.CommitUtil;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
@@ -172,6 +173,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   private final CommitUtil commitUtil;
 
   private final GitRepositoryManager gitManager;
+  private final WorkQueue workQueue;
 
   @Inject
   PostReview(
@@ -194,7 +196,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       ChangeJson.Factory changeJsonFactory,
       CommentsValidator commentsValidator,
       CommitUtil commitUtil,
-      GitRepositoryManager gitManager) {
+      GitRepositoryManager gitManager,
+      WorkQueue workQueue) {
     this.retryHelper = retryHelper;
     this.postReviewOpFactory = postReviewOpFactory;
     this.changeResourceFactory = changeResourceFactory;
@@ -215,6 +218,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     this.commentsValidator = commentsValidator;
     this.commitUtil = commitUtil;
     this.gitManager = gitManager;
+    this.workQueue = workQueue;
   }
 
   @Override
@@ -369,8 +373,35 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
 
       // Sending emails and events from ReviewersOps was suppressed so we can send a single batch
       // email/event here.
-      batchEmailReviewers(revision.getUser(), revision.getChange(), reviewerResults, notify);
-      batchReviewerEvents(revision.getUser(), cd, revision.getPatchSet(), reviewerResults, ts);
+      if (Boolean.TRUE.equals(input.async)) {
+        RevisionResource finalRevision = revision;
+        Instant finalTs = ts;
+        workQueue
+            .getDefaultQueue()
+            .execute(
+                () -> {
+                  try {
+                    batchEmailReviewers(
+                        finalRevision.getUser(),
+                        finalRevision.getChange(),
+                        reviewerResults,
+                        notify);
+                    batchReviewerEvents(
+                        finalRevision.getUser(),
+                        cd,
+                        finalRevision.getPatchSet(),
+                        reviewerResults,
+                        finalTs);
+                  } catch (Exception e) {
+                    logger.atSevere().withCause(e).log(
+                        "Error executing async reviewer emails/events for change %s",
+                        finalRevision.getChange().getId());
+                  }
+                });
+      } else {
+        batchEmailReviewers(revision.getUser(), revision.getChange(), reviewerResults, notify);
+        batchReviewerEvents(revision.getUser(), cd, revision.getPatchSet(), reviewerResults, ts);
+      }
 
       if (input.responseFormatOptions != null) {
         output.changeInfo = changeJsonFactory.create(input.responseFormatOptions).format(cd);
@@ -404,6 +435,9 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
                     RevWalk revWalk = new RevWalk(oi.newReader())) {
                   bu.setRepository(repo, revWalk, oi);
                   bu.setNotify(notify);
+                  if (Boolean.TRUE.equals(input.async)) {
+                    bu.setAsync(true);
+                  }
 
                   // Apply reviewer changes first. Revision emails should be sent to the
                   // updated set of reviewers. Also keep track of whether the user added

@@ -87,12 +87,12 @@ public class DeleteReviewerByEmailOp extends ReviewerOp {
     String msg = "Removed reviewer " + reviewer;
     mailMessage =
         changeMessagesUtil.setChangeMessage(ctx, msg, ChangeMessagesUtil.TAG_DELETE_REVIEWER);
+    opResult = Result.builder().setDeletedReviewerByEmail(reviewer).build();
     return true;
   }
 
   @Override
   public void postUpdate(PostUpdateContext ctx) {
-    opResult = Result.builder().setDeletedReviewerByEmail(reviewer).build();
     if (sendEmail) {
       try {
         NotifyResolver.Result notify = ctx.getNotify(change.getId());

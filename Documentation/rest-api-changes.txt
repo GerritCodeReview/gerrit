@@ -9496,6 +9496,11 @@ from the link:user-attention-set.html[attention set].
 If set to true, ignore all automatic attention set rules described in the
 link:user-attention-set.html[attention set]. Updates in add_to_attention_set
 and remove_from_attention_set are not ignored.
+|`async`                                |optional|
+If set to true, secondary side-effects (such as search re-indexing, email
+notifications, attention set updates, and PubSub event publishing) will be
+offloaded to background threads while NoteDb storage persistence remains
+synchronous.
 |`response_format_options`     |optional|
 List of link:#query-options[query options] to format the response.
 |============================

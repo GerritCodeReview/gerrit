@@ -193,12 +193,12 @@ public class DeleteReviewerOp extends ReviewerOp {
 
     mailMessage =
         cmUtil.setChangeMessage(ctx, msg.toString(), ChangeMessagesUtil.TAG_DELETE_REVIEWER);
+    opResult = Result.builder().setDeletedReviewer(reviewer.id()).build();
     return true;
   }
 
   @Override
   public void postUpdate(PostUpdateContext ctx) {
-    opResult = Result.builder().setDeletedReviewer(reviewer.id()).build();
 
     NotifyResolver.Result notify = ctx.getNotify(currChange.getId());
     if (sendEmail) {

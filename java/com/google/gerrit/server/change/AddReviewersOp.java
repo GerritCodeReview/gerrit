@@ -161,6 +161,14 @@ public class AddReviewersOp extends ReviewerOp {
       ctx.getUpdate(change.currentPatchSetId()).putReviewerByEmail(a, internalState);
     }
 
+    opResult =
+        Result.builder()
+            .setAddedReviewers(addedReviewers)
+            .setAddedReviewersByEmail(addedReviewersByEmail)
+            .setAddedCCs(addedCCs)
+            .setAddedCCsByEmail(addedCCsByEmail)
+            .build();
+
     if (addedCCs.isEmpty() && addedReviewers.isEmpty() && addressesToAdd.isEmpty()) {
       return false;
     }
@@ -199,13 +207,6 @@ public class AddReviewersOp extends ReviewerOp {
 
   @Override
   public void postUpdate(PostUpdateContext ctx) throws Exception {
-    opResult =
-        Result.builder()
-            .setAddedReviewers(addedReviewers)
-            .setAddedReviewersByEmail(addedReviewersByEmail)
-            .setAddedCCs(addedCCs)
-            .setAddedCCsByEmail(addedCCsByEmail)
-            .build();
     if (sendEmail) {
       modifyReviewersEmail.emailReviewersAsync(
           ctx.getUser().asIdentifiedUser(),

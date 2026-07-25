@@ -1,0 +1,7 @@
+# @generated
+# Input hashes for repository rule npm_translate_lock(name = "ui_dev_npm", pnpm_lock = "@@//polygerrit-ui:pnpm-lock.yaml").
+# This file should be checked into version control along with the pnpm-lock.yaml file.
+polygerrit-ui/package.json=-860495337
+polygerrit-ui/pnpm-lock.yaml=201412925
+polygerrit-ui/pnpm-workspace.yaml=-408937369
+polygerrit-ui/yarn.lock=1276229348

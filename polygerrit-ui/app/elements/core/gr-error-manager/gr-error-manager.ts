@@ -20,7 +20,7 @@ import {
 } from '../../../types/events';
 import {windowLocationReload} from '../../../utils/dom-util';
 import {debounce, DelayedTask} from '../../../utils/async-util';
-import {fireIronAnnounce} from '../../../utils/event-util';
+import {fireIronAnnounce, fireReload} from '../../../utils/event-util';
 import {html, LitElement} from 'lit';
 import {customElement, query, state} from 'lit/decorators.js';
 import {authServiceToken} from '../../../services/gr-auth/gr-auth';
@@ -510,8 +510,8 @@ export class GrErrorManager extends LitElement {
     this._showAlert('Credentials refreshed.');
     this.signInModal.close();
 
-    // Clear the cache for auth
     this.getAuthService().clearCache();
+    fireReload(this);
   }
 
   private readonly handleWindowFocus = () => {

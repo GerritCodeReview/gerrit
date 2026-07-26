@@ -48,6 +48,7 @@ java_library(
         "//lib:guava",
         "//lib:jgit",
         "//lib:jgit-ssh-apache",
+        "//lib:jspecify",
         "//lib:protobuf",
         "//lib:servlet-api-without-neverlink",
         "//lib/auto:auto-value",

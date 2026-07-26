@@ -29,6 +29,7 @@ java_library(
         "//lib:guava",
         "//lib:jgit",
         "//lib:jgit-ssh-apache",
+        "//lib:jspecify",
         "//lib:servlet-api",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",

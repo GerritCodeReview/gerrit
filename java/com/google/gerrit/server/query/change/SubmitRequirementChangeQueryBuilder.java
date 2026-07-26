@@ -131,6 +131,27 @@ public class SubmitRequirementChangeQueryBuilder extends ChangeQueryBuilder {
   }
 
   @Override
+  public Predicate<ChangeData> unmet_requirement(String requirementName)
+      throws QueryParseException {
+    throw new QueryParseException(
+        "Operator 'unmet_requirement' cannot be used in submit requirement expressions.");
+  }
+
+  @Override
+  public Predicate<ChangeData> submit_requirement(String value) throws QueryParseException {
+    throw new QueryParseException(
+        "Operator 'submit_requirement' cannot be used in submit requirement expressions.");
+  }
+
+  @Override
+  public Predicate<ChangeData> unsatisfied_requirement_count(String value)
+      throws QueryParseException {
+    throw new QueryParseException(
+        "Operator 'unsatisfied_requirement_count' cannot be used in submit requirement"
+            + " expressions.");
+  }
+
+  @Override
   public Predicate<ChangeData> has(String value) throws QueryParseException {
     if (value.toLowerCase(Locale.US).startsWith(SUBMODULE_UPDATE_HAS_ARG)) {
       List<String> args = SUBMODULE_UPDATE_SPLITTER.splitToList(value);

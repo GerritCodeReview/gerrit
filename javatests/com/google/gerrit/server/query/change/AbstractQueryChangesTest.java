@@ -4542,6 +4542,53 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  public void bySubmitRequirement_unmet() throws Exception {
+    assume().that(getSchema().hasField(ChangeField.UNMET_REQUIREMENT_SPEC)).isTrue();
+    Project.NameKey project = Project.nameKey("repo");
+    repo = createAndOpenProject(project);
+    Change change1 = insert(project, newChange(repo));
+    assertQuery("unmet_requirement:Code-Review", change1);
+    assertQuery("submit_requirement:Code-Review=unsatisfied", change1);
+    assertQuery("submit_requirement:\" Code-Review = unsatisfied \"", change1);
+
+    approve(change1);
+    assertQuery("submit_requirement:Code-Review=satisfied", change1);
+    assertQuery("submit_requirement:\" Code-Review = satisfied \"", change1);
+    assertQuery("unmet_requirement:Code-Review");
+  }
+
+  @Test
+  public void bySubmitRequirement_unsatisfiedCount() throws Exception {
+    assume().that(getSchema().hasField(ChangeField.UNSATISFIED_REQUIREMENT_COUNT_SPEC)).isTrue();
+    Project.NameKey project = Project.nameKey("repo");
+    repo = createAndOpenProject(project);
+    Change change1 = insert(project, newChange(repo));
+    assertQuery("unsatisfied_requirement_count:>0", change1);
+    assertQuery("unsatisfied_requirement_count:1", change1);
+    assertQuery("unsatisfied_requirement_count:<=1", change1);
+    assertQuery("unmet_requirement:Code-Review", change1);
+
+    approve(change1);
+    assertQuery("unsatisfied_requirement_count:0", change1);
+    assertQuery("unsatisfied_requirement_count:<1", change1);
+    assertQuery("unmet_requirement:Code-Review");
+  }
+
+  @Test
+  public void bySubmitRequirement_invalidQueryWithoutStatus() throws Exception {
+    assume().that(getSchema().hasField(ChangeField.SUBMIT_REQUIREMENT_SPEC)).isTrue();
+    assertThrows(
+        QueryParseException.class,
+        () -> queryBuilderProvider.get().parse("submit_requirement:Code-Review"));
+    assertThrows(
+        QueryParseException.class,
+        () -> queryBuilderProvider.get().parse("submit_requirement:\"=SATISFIED\""));
+    assertThrows(
+        QueryParseException.class,
+        () -> queryBuilderProvider.get().parse("submit_requirement:\"Code-Review=\""));
+  }
+
+  @Test
   public void byUrlEncodedProject() throws Exception {
     Project.NameKey project = Project.nameKey("repo+foo");
     repo = createAndOpenProject(project);

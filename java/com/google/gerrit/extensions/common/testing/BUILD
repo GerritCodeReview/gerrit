@@ -14,6 +14,7 @@ java_library(
         "//java/com/google/gerrit/truth",
         "//lib:guava",
         "//lib:jgit",
+        "//lib:jspecify",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",
         "//lib/errorprone:annotations",

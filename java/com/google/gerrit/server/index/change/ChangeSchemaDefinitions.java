@@ -274,11 +274,28 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
   @Deprecated static final Schema<ChangeData> V87 = schema(V86);
 
   /** Add REVIEWERS_COUNT_FIELD */
+  @Deprecated
   static final Schema<ChangeData> V88 =
       new Schema.Builder<ChangeData>()
           .add(V87)
           .addIndexedFields(ChangeField.REVIEWER_COUNT_FIELD)
           .addSearchSpecs(ChangeField.REVIEWER_COUNT_SPEC)
+          .build();
+
+  /** Add met and unmet requirement tracking fields */
+  static final Schema<ChangeData> V89 =
+      new Schema.Builder<ChangeData>()
+          .add(V88)
+          .addIndexedFields(
+              ChangeField.MET_REQUIREMENT_FIELD,
+              ChangeField.UNMET_REQUIREMENT_FIELD,
+              ChangeField.SUBMIT_REQUIREMENT_FIELD,
+              ChangeField.UNSATISFIED_REQUIREMENT_COUNT_FIELD)
+          .addSearchSpecs(
+              ChangeField.MET_REQUIREMENT_SPEC,
+              ChangeField.UNMET_REQUIREMENT_SPEC,
+              ChangeField.SUBMIT_REQUIREMENT_SPEC,
+              ChangeField.UNSATISFIED_REQUIREMENT_COUNT_SPEC)
           .build();
 
   /**

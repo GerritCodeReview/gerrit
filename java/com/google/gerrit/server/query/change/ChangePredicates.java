@@ -242,6 +242,24 @@ public class ChangePredicates {
         ChangeField.HASHTAG_SPEC, HashtagsUtil.cleanupHashtag(hashtag).toLowerCase(Locale.US));
   }
 
+  /** Returns a predicate that matches changes that have met the given submit requirement. */
+  public static Predicate<ChangeData> metRequirement(String requirementName) {
+    return new ChangeIndexPredicate(
+        ChangeField.MET_REQUIREMENT_SPEC, requirementName.toLowerCase(Locale.US));
+  }
+
+  /** Returns a predicate that matches changes that have an unmet submit requirement. */
+  public static Predicate<ChangeData> unmetRequirement(String requirementName) {
+    return new ChangeIndexPredicate(
+        ChangeField.UNMET_REQUIREMENT_SPEC, requirementName.toLowerCase(Locale.US));
+  }
+
+  /** Returns a predicate that matches changes with a submit requirement matching name=status. */
+  public static Predicate<ChangeData> submitRequirement(String requirementNameAndStatus) {
+    return new ChangeIndexPredicate(
+        ChangeField.SUBMIT_REQUIREMENT_SPEC, requirementNameAndStatus.toLowerCase(Locale.US));
+  }
+
   /** Returns a predicate that matches changes tagged with the provided {@code hashtag}. */
   public static Predicate<ChangeData> fuzzyHashtag(String hashtag) {
     // Use toLowerCase without locale to match behavior in ChangeField.

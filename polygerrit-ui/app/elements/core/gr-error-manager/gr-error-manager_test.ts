@@ -383,6 +383,21 @@ suite('gr-error-manager tests', () => {
       assert.isTrue(signInModalCloseSpy.called);
     });
 
+    test('reloads current view when credentials are refreshed', () => {
+      const reloadSpy = sinon.spy();
+      document.addEventListener('reload', reloadSpy);
+      const closeStub = sinon.stub(element.signInModal, 'close');
+
+      try {
+        element.handleCredentialRefreshed();
+
+        assert.isTrue(closeStub.calledOnce);
+        assert.isTrue(reloadSpy.calledOnce);
+      } finally {
+        document.removeEventListener('reload', reloadSpy);
+      }
+    });
+
     test('auth toast should dismiss existing toast', async () => {
       const clock = sinon.useFakeTimers();
       // Set status to AUTHED.

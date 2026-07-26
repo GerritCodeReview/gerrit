@@ -1674,6 +1674,52 @@ public class ChangeField {
       STORED_SUBMIT_REQUIREMENTS_SPEC =
           STORED_SUBMIT_REQUIREMENTS_FIELD.storedOnly("full_submit_requirements");
 
+  public static final IndexedField<ChangeData, Iterable<String>> UNMET_REQUIREMENT_FIELD =
+      IndexedField.<ChangeData>iterableStringBuilder("UnmetRequirement")
+          .build(
+              cd ->
+                  cd.submitRequirementsIncludingLegacy().values().stream()
+                      .filter(
+                          sr ->
+                              sr.status() == SubmitRequirementResult.Status.UNSATISFIED
+                                  || sr.status() == SubmitRequirementResult.Status.ERROR
+                                  || sr.status() == SubmitRequirementResult.Status.TIMEOUT)
+                      .map(sr -> sr.submitRequirement().name().toLowerCase(Locale.US))
+                      .collect(toImmutableSet()));
+
+  public static final IndexedField<ChangeData, Iterable<String>>.SearchSpec UNMET_REQUIREMENT_SPEC =
+      UNMET_REQUIREMENT_FIELD.exact("unmet_requirement");
+
+  public static final IndexedField<ChangeData, Iterable<String>> SUBMIT_REQUIREMENT_FIELD =
+      IndexedField.<ChangeData>iterableStringBuilder("SubmitRequirement")
+          .build(
+              cd ->
+                  cd.submitRequirementsIncludingLegacy().values().stream()
+                      .filter(sr -> sr.status() != SubmitRequirementResult.Status.NOT_APPLICABLE)
+                      .map(
+                          sr ->
+                              (sr.submitRequirement().name() + "=" + sr.status().name())
+                                  .toLowerCase(Locale.US))
+                      .collect(toImmutableSet()));
+
+  public static final IndexedField<ChangeData, Iterable<String>>.SearchSpec
+      SUBMIT_REQUIREMENT_SPEC = SUBMIT_REQUIREMENT_FIELD.exact("submit_requirement");
+
+  public static final IndexedField<ChangeData, Integer> UNSATISFIED_REQUIREMENT_COUNT_FIELD =
+      IndexedField.<ChangeData>integerBuilder("UnsatisfiedRequirementCount")
+          .stored()
+          .build(
+              cd ->
+                  (int)
+                      cd.submitRequirementsIncludingLegacy().values().stream()
+                          .filter(sr -> !sr.fulfilled())
+                          .count(),
+              (cd, field) -> cd.setUnsatisfiedRequirementCount(field));
+
+  public static final IndexedField<ChangeData, Integer>.SearchSpec
+      UNSATISFIED_REQUIREMENT_COUNT_SPEC =
+          UNSATISFIED_REQUIREMENT_COUNT_FIELD.integerRange("unsatisfied_requirement_count");
+
   private static void parseSubmitRequirements(
       Iterable<Cache.SubmitRequirementResultProto> values, ChangeData out) {
     out.setSubmitRequirements(

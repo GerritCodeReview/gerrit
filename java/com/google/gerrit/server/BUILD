@@ -120,6 +120,7 @@ java_library(
         "//lib/prolog:runtime",
         "//proto:cache_java_proto",
         "//proto:entities_java_proto",
+        "@external_deps//:org_jspecify_jspecify",
     ],
 )
 

@@ -20,5 +20,6 @@ java_library(
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
         "//lib/prolog:runtime",
+        "@external_deps//:org_jspecify_jspecify",
     ],
 )

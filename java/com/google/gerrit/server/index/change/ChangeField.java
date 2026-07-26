@@ -1674,6 +1674,42 @@ public class ChangeField {
       STORED_SUBMIT_REQUIREMENTS_SPEC =
           STORED_SUBMIT_REQUIREMENTS_FIELD.storedOnly("full_submit_requirements");
 
+  public static final IndexedField<ChangeData, Iterable<String>> MET_REQUIREMENT_FIELD =
+      IndexedField.<ChangeData>iterableStringBuilder("MetRequirement")
+          .build(
+              cd ->
+                  cd.submitRequirementsIncludingLegacy().values().stream()
+                      .filter(
+                          sr ->
+                              sr.status() == SubmitRequirementResult.Status.SATISFIED
+                                  || sr.status() == SubmitRequirementResult.Status.OVERRIDDEN
+                                  || sr.status() == SubmitRequirementResult.Status.FORCED
+                                  || sr.status() == SubmitRequirementResult.Status.NOT_APPLICABLE)
+                      .map(sr -> sr.submitRequirement().name().toLowerCase(Locale.US))
+                      .collect(toImmutableSet()),
+              (cd, field) -> {});
+
+  public static final IndexedField<ChangeData, Iterable<String>>.SearchSpec MET_REQUIREMENT_SPEC =
+      MET_REQUIREMENT_FIELD.exact("metrequirement");
+
+  public static final IndexedField<ChangeData, Integer> UNSATISFIED_REQUIREMENT_COUNT_FIELD =
+      IndexedField.<ChangeData>integerBuilder("UnsatisfiedRequirementCount")
+          .build(
+              cd ->
+                  (int)
+                      cd.submitRequirementsIncludingLegacy().values().stream()
+                          .filter(
+                              sr ->
+                                  sr.status() == SubmitRequirementResult.Status.UNSATISFIED
+                                      || sr.status() == SubmitRequirementResult.Status.ERROR
+                                      || sr.status() == SubmitRequirementResult.Status.TIMEOUT)
+                          .count(),
+              (cd, field) -> {});
+
+  public static final IndexedField<ChangeData, Integer>.SearchSpec
+      UNSATISFIED_REQUIREMENT_COUNT_SPEC =
+          UNSATISFIED_REQUIREMENT_COUNT_FIELD.integer("unsatisfiedrequirements");
+
   private static void parseSubmitRequirements(
       Iterable<Cache.SubmitRequirementResultProto> values, ChangeData out) {
     out.setSubmitRequirements(

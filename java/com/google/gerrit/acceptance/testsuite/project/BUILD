@@ -18,6 +18,7 @@ java_library(
         "//lib:guava",
         "//lib:jgit",
         "//lib:jgit-junit",
+        "//lib:jspecify",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",
         "//lib/commons:lang3",

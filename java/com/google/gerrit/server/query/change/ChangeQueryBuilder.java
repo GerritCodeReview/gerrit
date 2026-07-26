@@ -1455,6 +1455,16 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   }
 
   @Operator
+  public Predicate<ChangeData> metrequirement(String requirementName) {
+    return ChangePredicates.metRequirement(requirementName);
+  }
+
+  @Operator
+  public Predicate<ChangeData> unsatisfiedrequirements(String value) throws QueryParseException {
+    return new UnsatisfiedRequirementCountPredicate(value);
+  }
+
+  @Operator
   public Predicate<ChangeData> cc(String who)
       throws QueryParseException, IOException, ConfigInvalidException {
     return reviewerByState(who, ReviewerStateInternal.CC, false);

@@ -41,6 +41,7 @@ DEPLOY_ENV = [
     "//lib:guava-retrying",
     "//lib:jgit",
     "//lib:jgit-ssh-apache",
+    "//lib:jspecify",
     "//lib/commons:compress",
     "//lib/commons:lang3",
     "//lib/flogger:api",

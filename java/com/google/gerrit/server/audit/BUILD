@@ -18,5 +18,6 @@ java_library(
         "//lib/errorprone:annotations",
         "//lib/flogger:api",
         "//lib/guice",
+        "@external_deps//:org_jspecify_jspecify",
     ],
 )

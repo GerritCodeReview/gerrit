@@ -11,6 +11,7 @@ junit_tests(
         "//java/com/google/gerrit/testing:gerrit-junit",
         "//lib:guava",
         "//lib:jgit",
+        "//lib:jspecify",
         "//lib:junit",
         "//lib:protobuf",
         "//lib/auto:auto-value",

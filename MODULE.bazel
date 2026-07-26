@@ -40,7 +40,7 @@ local_path_override(
 bazel_dep(name = "rbe_autoconfig")
 git_override(
     module_name = "rbe_autoconfig",
-    commit = "eb944ce4fc29a1608eae9adf0b0e0df2f9e05e33",
+    commit = "f19673d99a078b9f739e5738f75b254364fe777b",
     remote = "https://github.com/davido/rbe_autoconfig.git",
 )
 

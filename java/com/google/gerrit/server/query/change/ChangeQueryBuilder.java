@@ -1455,6 +1455,21 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   }
 
   @Operator
+  public Predicate<ChangeData> unmet_requirement(String requirementName)
+      throws QueryParseException {
+    checkFieldAvailable(ChangeField.UNMET_REQUIREMENT_SPEC, "unmet_requirement");
+    return ChangePredicates.unmetRequirement(requirementName);
+  }
+
+  @Operator
+  public Predicate<ChangeData> unsatisfied_requirement_count(String value)
+      throws QueryParseException {
+    checkFieldAvailable(
+        ChangeField.UNSATISFIED_REQUIREMENT_COUNT_SPEC, "unsatisfied_requirement_count");
+    return new UnsatisfiedRequirementCountPredicate(value);
+  }
+
+  @Operator
   public Predicate<ChangeData> cc(String who)
       throws QueryParseException, IOException, ConfigInvalidException {
     return reviewerByState(who, ReviewerStateInternal.CC, false);

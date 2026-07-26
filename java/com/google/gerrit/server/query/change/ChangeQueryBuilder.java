@@ -1455,6 +1455,60 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   }
 
   @Operator
+  public Predicate<ChangeData> met_requirement(String requirementName) throws QueryParseException {
+    checkFieldAvailable(ChangeField.MET_REQUIREMENT_SPEC, "met_requirement");
+    return ChangePredicates.metRequirement(requirementName);
+  }
+
+  @Operator
+  public Predicate<ChangeData> unmet_requirement(String requirementName)
+      throws QueryParseException {
+    checkFieldAvailable(ChangeField.UNMET_REQUIREMENT_SPEC, "unmet_requirement");
+    return ChangePredicates.unmetRequirement(requirementName);
+  }
+
+  @Operator
+  public Predicate<ChangeData> unsatisfied_requirement(String requirementName)
+      throws QueryParseException {
+    return unmet_requirement(requirementName);
+  }
+
+  @Operator
+  public Predicate<ChangeData> submit_requirement(String value) throws QueryParseException {
+    checkFieldAvailable(ChangeField.SUBMIT_REQUIREMENT_SPEC, "submit_requirement");
+    int eq = value.indexOf('=');
+    if (eq < 0) {
+      throw new QueryParseException(
+          String.format(
+              "Invalid submit_requirement query: '%s'. Expected format:"
+                  + " submit_requirement:<name>=<status> (e.g."
+                  + " submit_requirement:Code-Review=SATISFIED)",
+              value));
+    }
+    String name = value.substring(0, eq).trim();
+    String status = value.substring(eq + 1).trim();
+    if (name.isEmpty() || status.isEmpty()) {
+      throw new QueryParseException(
+          String.format(
+              "Invalid submit_requirement query: '%s'. Both name and status must be non-empty.",
+              value));
+    }
+    return ChangePredicates.submitRequirement(name + "=" + status);
+  }
+
+  @Operator
+  public Predicate<ChangeData> unsatisfied_requirements(String value) throws QueryParseException {
+    checkFieldAvailable(ChangeField.UNSATISFIED_REQUIREMENT_COUNT_SPEC, "unsatisfied_requirements");
+    return new UnsatisfiedRequirementCountPredicate(value);
+  }
+
+  @Operator
+  public Predicate<ChangeData> unsatisfied_requirement_count(String value)
+      throws QueryParseException {
+    return unsatisfied_requirements(value);
+  }
+
+  @Operator
   public Predicate<ChangeData> cc(String who)
       throws QueryParseException, IOException, ConfigInvalidException {
     return reviewerByState(who, ReviewerStateInternal.CC, false);

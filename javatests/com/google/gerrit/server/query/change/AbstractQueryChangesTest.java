@@ -4542,6 +4542,62 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  public void bySubmitRequirement_met() throws Exception {
+    assume().that(getSchema().hasField(ChangeField.MET_REQUIREMENT_SPEC)).isTrue();
+    Project.NameKey project = Project.nameKey("repo");
+    repo = createAndOpenProject(project);
+    Change change1 = insert(project, newChange(repo));
+    assertQuery("met_requirement:Code-Review"); // Currently empty
+    assertQuery("unmet_requirement:Code-Review", change1);
+    assertQuery("submit_requirement:Code-Review=unsatisfied", change1);
+    assertQuery("submit_requirement:\" Code-Review = unsatisfied \"", change1);
+
+    approve(change1);
+    assertQuery("met_requirement:Code-Review", change1);
+    assertQuery("met_requirement:code-review", change1);
+    assertQuery("submit_requirement:Code-Review=satisfied", change1);
+    assertQuery("submit_requirement:\" Code-Review = satisfied \"", change1);
+    assertQuery("unmet_requirement:Code-Review");
+  }
+
+  @Test
+  public void bySubmitRequirement_unsatisfied() throws Exception {
+    assume().that(getSchema().hasField(ChangeField.UNSATISFIED_REQUIREMENT_COUNT_SPEC)).isTrue();
+    Project.NameKey project = Project.nameKey("repo");
+    repo = createAndOpenProject(project);
+    Change change1 = insert(project, newChange(repo));
+    assertQuery("unsatisfied_requirements:>0", change1);
+    assertQuery("unsatisfied_requirements:1", change1);
+    assertQuery("unsatisfied_requirements:<=1", change1);
+    assertQuery("unsatisfied_requirement_count:>0", change1);
+    assertQuery("unsatisfied_requirement_count:1", change1);
+    assertQuery("unsatisfied_requirement_count:<=1", change1);
+    assertQuery("unmet_requirement:Code-Review", change1);
+    assertQuery("unsatisfied_requirement:Code-Review", change1);
+
+    approve(change1);
+    assertQuery("unsatisfied_requirements:0", change1);
+    assertQuery("unsatisfied_requirements:<1", change1);
+    assertQuery("unsatisfied_requirement_count:0", change1);
+    assertQuery("unsatisfied_requirement_count:<1", change1);
+    assertQuery("unmet_requirement:Code-Review");
+  }
+
+  @Test
+  public void bySubmitRequirement_invalidQueryWithoutStatus() throws Exception {
+    assume().that(getSchema().hasField(ChangeField.SUBMIT_REQUIREMENT_SPEC)).isTrue();
+    assertThrows(
+        QueryParseException.class,
+        () -> queryBuilderProvider.get().parse("submit_requirement:Code-Review"));
+    assertThrows(
+        QueryParseException.class,
+        () -> queryBuilderProvider.get().parse("submit_requirement:\"=SATISFIED\""));
+    assertThrows(
+        QueryParseException.class,
+        () -> queryBuilderProvider.get().parse("submit_requirement:\"Code-Review=\""));
+  }
+
+  @Test
   public void byUrlEncodedProject() throws Exception {
     Project.NameKey project = Project.nameKey("repo+foo");
     repo = createAndOpenProject(project);

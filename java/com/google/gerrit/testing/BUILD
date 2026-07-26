@@ -51,6 +51,7 @@ java_library(
         "//lib:h2",
         "//lib:jgit",
         "//lib:jgit-junit",
+        "//lib:jspecify",
         "//lib:junit",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",

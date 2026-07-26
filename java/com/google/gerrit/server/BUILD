@@ -83,6 +83,7 @@ java_library(
         "//lib:icu4j",
         "//lib:jgit",
         "//lib:jgit-archive",
+        "//lib:jspecify",
         "//lib:mime-util",
         "//lib:protobuf",
         "//lib:roaringbitmap",

@@ -102,6 +102,7 @@ Apache2.0
 * html-types
 * j2objc
 * javaewah
+* jspecify
 * jsr305
 * mime-util
 * roaringbitmap

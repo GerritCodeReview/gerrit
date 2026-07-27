@@ -211,6 +211,47 @@ public class PostReviewIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void replyToComment_alreadyRepliedTo_rejected() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    String filepath = r.getChange().currentFilePaths().get(0);
+
+    // Create a first comment
+    ReviewInput input1 = new ReviewInput();
+    CommentInput comment1 = newComment(filepath);
+    comment1.message = "parent";
+    input1.comments = ImmutableMap.of(filepath, ImmutableList.of(comment1));
+    gApi.changes().id(changeId).current().review(input1);
+
+    String parentUuid =
+        testCommentHelper.getPublishedComments(r.getChangeId()).stream()
+            .filter(c -> c.message.equals("parent"))
+            .findFirst()
+            .get()
+            .id;
+
+    // First reply
+    ReviewInput input2 = new ReviewInput();
+    CommentInput reply1 = newComment(filepath);
+    reply1.inReplyTo = parentUuid;
+    input2.comments = ImmutableMap.of(filepath, ImmutableList.of(reply1));
+    gApi.changes().id(changeId).current().review(input2);
+
+    // Second reply
+    ReviewInput input3 = new ReviewInput();
+    CommentInput reply2 = newComment(filepath);
+    reply2.inReplyTo = parentUuid;
+    input3.comments = ImmutableMap.of(filepath, ImmutableList.of(reply2));
+
+    BadRequestException badRequestException =
+        assertThrows(
+            BadRequestException.class, () -> gApi.changes().id(changeId).current().review(input3));
+    assertThat(badRequestException.getMessage())
+        .contains(
+            String.format("Invalid inReplyTo, comment %s has already been replied to", parentUuid));
+  }
+
+  @Test
   public void validateCommentsInInput_commentCleanedUp() throws Exception {
     PushOneCommit.Result r = createChange();
     assertThat(testCommentHelper.getPublishedComments(r.getChangeId())).isEmpty();

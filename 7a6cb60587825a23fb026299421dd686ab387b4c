@@ -1,0 +1,140 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab882b82_2f0a1368",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-07-27T22:30:28Z",
+      "side": 1,
+      "message": "s/git/jgit/",
+      "revId": "7a6cb60587825a23fb026299421dd686ab387b4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "248f7027_913fd416",
+        "filename": "java/com/google/gerrit/server/schema/H2GitLockAccountPatchReviewStore.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-07-27T22:30:28Z",
+      "side": 1,
+      "message": "s/git/jgit/",
+      "revId": "7a6cb60587825a23fb026299421dd686ab387b4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aeecc2db_d749b34e",
+        "filename": "java/com/google/gerrit/server/schema/H2GitLockAccountPatchReviewStore.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-07-27T22:30:28Z",
+      "side": 1,
+      "message": "s/git/jgit/",
+      "revId": "7a6cb60587825a23fb026299421dd686ab387b4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9fd0190_8514479f",
+        "filename": "java/com/google/gerrit/server/schema/H2GitLockAccountPatchReviewStore.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-07-27T22:30:28Z",
+      "side": 1,
+      "message": "s/git/jgit/",
+      "revId": "7a6cb60587825a23fb026299421dd686ab387b4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "872b004c_66a5d231",
+        "filename": "java/com/google/gerrit/server/schema/H2GitLockAccountPatchReviewStore.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-07-27T22:30:28Z",
+      "side": 1,
+      "message": "s/git/jgit/",
+      "revId": "7a6cb60587825a23fb026299421dd686ab387b4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1d543fa_5001393a",
+        "filename": "java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-07-27T22:30:28Z",
+      "side": 1,
+      "message": "s/git/jgit/",
+      "revId": "7a6cb60587825a23fb026299421dd686ab387b4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6afe686a_ca093878",
+        "filename": "java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-07-27T22:30:28Z",
+      "side": 1,
+      "message": "s/GIT/JGIT/",
+      "revId": "7a6cb60587825a23fb026299421dd686ab387b4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18f89494_2b699ba8",
+        "filename": "java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-07-27T22:30:28Z",
+      "side": 1,
+      "message": "s/GIT/JGIT/",
+      "revId": "7a6cb60587825a23fb026299421dd686ab387b4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -93,9 +93,11 @@ export class GrFormattedText extends LitElement {
           line-height: var(--line-height-mono);
           margin: var(--spacing-m) 0;
           padding: var(--spacing-xxs) var(--spacing-s);
-          overflow-x: auto;
+          overflow-x: var(--gr-formatted-text-overflow-x, auto);
           /* Pre will preserve whitespace and line breaks but not wrap */
-          white-space: pre;
+          white-space: var(--gr-formatted-text-code-white-space, pre);
+          word-break: var(--gr-formatted-text-code-word-break, normal);
+          overflow-wrap: var(--gr-formatted-text-code-overflow-wrap, normal);
         }
         /* Non-multiline code elements need display:inline to shrink and not take
          a whole row */
@@ -119,7 +121,7 @@ export class GrFormattedText extends LitElement {
           white-space: normal;
           /* prose will automatically wrap but inline <code> blocks won't and we
            should overflow in that case rather than wrapping or leaking out */
-          overflow-x: auto;
+          overflow-x: var(--gr-formatted-text-overflow-x, auto);
           overflow-wrap: break-word;
         }
       `,

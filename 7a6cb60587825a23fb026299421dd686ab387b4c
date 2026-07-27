@@ -141,6 +141,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "00a0ae2b_8bac992e",
+        "filename": "java/com/google/gerrit/server/schema/H2GitLockAccountPatchReviewStore.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-07-27T23:12:29Z",
+      "side": 1,
+      "message": "One more missed (I should have use /g)",
+      "parentUuid": "bae5563a_d2c57206",
+      "revId": "7a6cb60587825a23fb026299421dd686ab387b4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "872b004c_66a5d231",

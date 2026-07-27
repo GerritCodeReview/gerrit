@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "589c7f46_439b5f1b",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 643,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-07-27T17:25:10Z",
+      "side": 1,
+      "message": "Granting",
+      "range": {
+        "startLine": 643,
+        "startChar": 0,
+        "endLine": 643,
+        "endChar": 7
+      },
+      "revId": "2bbd364290c2425c7a36edff75741ba7fa8ac8fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6daa51fc_ed960e79",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 651,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-07-27T17:25:10Z",
+      "side": 1,
+      "message": "I think this is misleading, as it seems like you are allowing direct push the target branch, while you are creating a change and then submitting it, which is slightly different.\n\nWhat about: \"Granting this permission on refs/for/* allows users to upload and immediately submit changes to any target ref for which they can create changes, without submit rules being evaluated.\"",
+      "range": {
+        "startLine": 650,
+        "startChar": 48,
+        "endLine": 651,
+        "endChar": 26
+      },
+      "revId": "2bbd364290c2425c7a36edff75741ba7fa8ac8fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb95a10d_8b217dcc",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 653,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-07-27T17:25:10Z",
+      "side": 1,
+      "message": "We might want to be more precise and say immediate submit on `refs/for/refs/meta/config` would allow any sort of priviledge escalation",
+      "range": {
+        "startLine": 653,
+        "startChar": 41,
+        "endLine": 653,
+        "endChar": 65
+      },
+      "revId": "2bbd364290c2425c7a36edff75741ba7fa8ac8fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0013c7bf_c99d12ba",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 655,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-07-27T17:25:10Z",
+      "side": 1,
+      "message": "privilege",
+      "range": {
+        "startLine": 655,
+        "startChar": 18,
+        "endLine": 655,
+        "endChar": 28
+      },
+      "revId": "2bbd364290c2425c7a36edff75741ba7fa8ac8fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fbb7defb_51412642",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 655,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-07-27T17:25:10Z",
+      "side": 1,
+      "message": "escalation",
+      "range": {
+        "startLine": 655,
+        "startChar": 29,
+        "endLine": 655,
+        "endChar": 38
+      },
+      "revId": "2bbd364290c2425c7a36edff75741ba7fa8ac8fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba73e9d2_432e443a",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 657,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-07-27T17:25:10Z",
+      "side": 1,
+      "message": "I don\u0027t think this is a direct consequence. It is part of a more elaborate attack. Not sure if it is worth mentioning it.",
+      "range": {
+        "startLine": 657,
+        "startChar": 15,
+        "endLine": 657,
+        "endChar": 43
+      },
+      "revId": "2bbd364290c2425c7a36edff75741ba7fa8ac8fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

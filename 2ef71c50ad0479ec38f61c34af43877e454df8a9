@@ -71,6 +71,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "39bc45d8_fd85e203",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-07-27T08:36:38Z",
+      "side": 1,
+      "message": "I structured my commit message into sections.",
+      "parentUuid": "c9b97d3d_3cb0d989",
+      "revId": "2ef71c50ad0479ec38f61c34af43877e454df8a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d5aee9c5_09a570bf",

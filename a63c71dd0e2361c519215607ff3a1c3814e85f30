@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7bad2423_82aaba9d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-07-27T22:07:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "208ca1e5_79ce3fc4",
+      "revId": "a63c71dd0e2361c519215607ff3a1c3814e85f30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "04c72402_37042f5d",
@@ -31,6 +49,30 @@
       "writtenOn": "2026-07-17T07:23:18Z",
       "side": 1,
       "message": "```suggestion\nRelease-Notes: accountPatchReviewDb now works with h2 on share-disk multi-primary setup\n```",
+      "range": {
+        "startLine": 22,
+        "startChar": 57,
+        "endLine": 22,
+        "endChar": 76
+      },
+      "revId": "a63c71dd0e2361c519215607ff3a1c3814e85f30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5d87dc3_17774935",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-07-27T22:07:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04c72402_37042f5d",
       "range": {
         "startLine": 22,
         "startChar": 57,
@@ -92,6 +134,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e400f45_b71d290d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-07-27T22:07:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba43fd33_f072bdbe",
+      "revId": "a63c71dd0e2361c519215607ff3a1c3814e85f30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0c8ef075_579b6c0c",
@@ -105,6 +165,30 @@
       "writtenOn": "2026-07-20T07:58:42Z",
       "side": 1,
       "message": "Can the `db` directory be shared among the different nodes? Can the different nodes manage their cache without any clash in a shared directory?",
+      "range": {
+        "startLine": 126,
+        "startChar": 0,
+        "endLine": 127,
+        "endChar": 6
+      },
+      "revId": "a63c71dd0e2361c519215607ff3a1c3814e85f30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "072e2285_b9751de7",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-07-27T22:07:01Z",
+      "side": 1,
+      "message": "caches are stored under `cache/`",
+      "parentUuid": "0c8ef075_579b6c0c",
       "range": {
         "startLine": 126,
         "startChar": 0,
@@ -168,6 +252,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e35a9ed_bb7334e6",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-07-27T22:07:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de3eb0de_4219e230",
+      "revId": "a63c71dd0e2361c519215607ff3a1c3814e85f30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8af588be_c7f1e570",
@@ -191,6 +293,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "10a51252_0b633e4d",
+        "filename": "java/com/google/gerrit/server/schema/H2CustomLockAccountPatchReviewStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-07-27T22:07:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8af588be_c7f1e570",
+      "range": {
+        "startLine": 67,
+        "startChar": 16,
+        "endLine": 67,
+        "endChar": 17
+      },
+      "revId": "a63c71dd0e2361c519215607ff3a1c3814e85f30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "31465d5a_c018713b",
@@ -204,6 +330,30 @@
       "writtenOn": "2026-07-20T07:58:42Z",
       "side": 1,
       "message": "Is the code locking `account_patch_reviews.lock` or `lockFilePath` + `.lock` ?\nIf the latter we would end up with this lock file: `account_patch_reviews.lock.lock`",
+      "range": {
+        "startLine": 51,
+        "startChar": 9,
+        "endLine": 51,
+        "endChar": 19
+      },
+      "revId": "a63c71dd0e2361c519215607ff3a1c3814e85f30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "18df0e2a_e878da40",
+        "filename": "java/com/google/gerrit/server/schema/H2GitLockAccountPatchReviewStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-07-27T22:07:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "31465d5a_c018713b",
       "range": {
         "startLine": 51,
         "startChar": 9,
@@ -249,6 +399,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "031ca6a4_267d4865",
+        "filename": "java/com/google/gerrit/server/schema/H2GitLockAccountPatchReviewStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-07-27T22:07:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a867164_32302f9e",
+      "revId": "a63c71dd0e2361c519215607ff3a1c3814e85f30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1da10073_6865d34f",
@@ -262,6 +430,30 @@
       "writtenOn": "2026-07-20T07:58:42Z",
       "side": 1,
       "message": "`MAX_BACKOFF_MS` is not configurable, hence we know what would be the evolution of  `backoffMs`. Isn\u0027t enough to do `backoffMs \u003d backoffMs * 2` ?",
+      "range": {
+        "startLine": 99,
+        "startChar": 18,
+        "endLine": 99,
+        "endChar": 58
+      },
+      "revId": "a63c71dd0e2361c519215607ff3a1c3814e85f30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96acbe7c_4072757a",
+        "filename": "java/com/google/gerrit/server/schema/H2GitLockAccountPatchReviewStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-07-27T22:07:01Z",
+      "side": 1,
+      "message": "Since all transactions to this db are quick I dont think we ever should wait more than MAX_BACKOFF_MS.",
+      "parentUuid": "1da10073_6865d34f",
       "range": {
         "startLine": 99,
         "startChar": 18,
@@ -295,6 +487,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9af4f462_fa74cd3f",
+        "filename": "java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-07-27T22:07:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9e3daf4f_e2b4f815",
+      "range": {
+        "startLine": 74,
+        "startChar": 11,
+        "endLine": 74,
+        "endChar": 44
+      },
+      "revId": "a63c71dd0e2361c519215607ff3a1c3814e85f30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e0793422_ba7bf0c2",
@@ -308,6 +524,30 @@
       "writtenOn": "2026-07-20T07:58:42Z",
       "side": 1,
       "message": "Is this part of this change? It looks more a refactoring/consolidation of what is currently there.",
+      "range": {
+        "startLine": 211,
+        "startChar": 9,
+        "endLine": 211,
+        "endChar": 41
+      },
+      "revId": "a63c71dd0e2361c519215607ff3a1c3814e85f30",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "56ca3e80_e3960610",
+        "filename": "java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-07-27T22:07:01Z",
+      "side": 1,
+      "message": "It required. That is how we give the locking connection here.",
+      "parentUuid": "e0793422_ba7bf0c2",
       "range": {
         "startLine": 211,
         "startChar": 9,

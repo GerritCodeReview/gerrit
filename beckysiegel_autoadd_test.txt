@@ -1,0 +1,1 @@
+Testing auto_add_reviewer in new clean Gerrit cog workspace.

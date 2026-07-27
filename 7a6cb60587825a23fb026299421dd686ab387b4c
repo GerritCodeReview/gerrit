@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c426ee22_1945dc0b",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-07-27T23:06:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab882b82_2f0a1368",
+      "revId": "7a6cb60587825a23fb026299421dd686ab387b4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "248f7027_913fd416",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-07-27T22:30:28Z",
       "side": 1,
       "message": "s/git/jgit/",
+      "revId": "7a6cb60587825a23fb026299421dd686ab387b4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "02f72e4d_ec42c4de",
+        "filename": "java/com/google/gerrit/server/schema/H2GitLockAccountPatchReviewStore.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-07-27T23:06:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "248f7027_913fd416",
       "revId": "7a6cb60587825a23fb026299421dd686ab387b4c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d58dc947_ca513b97",
+        "filename": "java/com/google/gerrit/server/schema/H2GitLockAccountPatchReviewStore.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-07-27T23:06:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aeecc2db_d749b34e",
+      "revId": "7a6cb60587825a23fb026299421dd686ab387b4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d9fd0190_8514479f",
@@ -65,6 +119,24 @@
       "writtenOn": "2026-07-27T22:30:28Z",
       "side": 1,
       "message": "s/git/jgit/",
+      "revId": "7a6cb60587825a23fb026299421dd686ab387b4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bae5563a_d2c57206",
+        "filename": "java/com/google/gerrit/server/schema/H2GitLockAccountPatchReviewStore.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-07-27T23:06:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9fd0190_8514479f",
       "revId": "7a6cb60587825a23fb026299421dd686ab387b4c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -86,6 +158,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "62b994ae_b63f7464",
+        "filename": "java/com/google/gerrit/server/schema/H2GitLockAccountPatchReviewStore.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-07-27T23:06:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "872b004c_66a5d231",
+      "revId": "7a6cb60587825a23fb026299421dd686ab387b4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e1d543fa_5001393a",
@@ -99,6 +189,24 @@
       "writtenOn": "2026-07-27T22:30:28Z",
       "side": 1,
       "message": "s/git/jgit/",
+      "revId": "7a6cb60587825a23fb026299421dd686ab387b4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a26a3110_0c2b0b21",
+        "filename": "java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-07-27T23:06:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e1d543fa_5001393a",
       "revId": "7a6cb60587825a23fb026299421dd686ab387b4c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -120,6 +228,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "49b30607_252fa0ab",
+        "filename": "java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-07-27T23:06:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6afe686a_ca093878",
+      "revId": "7a6cb60587825a23fb026299421dd686ab387b4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "18f89494_2b699ba8",
@@ -133,6 +259,24 @@
       "writtenOn": "2026-07-27T22:30:28Z",
       "side": 1,
       "message": "s/GIT/JGIT/",
+      "revId": "7a6cb60587825a23fb026299421dd686ab387b4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ce70208_fb9113a8",
+        "filename": "java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-07-27T23:06:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "18f89494_2b699ba8",
       "revId": "7a6cb60587825a23fb026299421dd686ab387b4c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

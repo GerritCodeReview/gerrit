@@ -177,6 +177,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1cc33cd_5d3684f7",
+        "filename": "java/com/google/gerrit/server/schema/H2GitLockAccountPatchReviewStore.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-07-27T23:25:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b5448ea_f17fe0c5",
+      "revId": "7a6cb60587825a23fb026299421dd686ab387b4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "872b004c_66a5d231",

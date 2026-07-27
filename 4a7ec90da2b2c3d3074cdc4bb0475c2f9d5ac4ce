@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8355028_9eb6f102",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 643,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-07-27T17:12:59Z",
+      "side": 1,
+      "message": "```suggestion\nGranting `Submit` permission on `refs/for/\u003cref\u003e` is very different from\n```",
+      "range": {
+        "startLine": 643,
+        "startChar": 0,
+        "endLine": 643,
+        "endChar": 7
+      },
+      "revId": "4a7ec90da2b2c3d3074cdc4bb0475c2f9d5ac4ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bda14857_61ef365b",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 646,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-07-27T17:12:59Z",
+      "side": 1,
+      "message": "```suggestion\nrequirements or other ACLs, but rather bypasses the entire code-review\n```",
+      "range": {
+        "startLine": 646,
+        "startChar": 39,
+        "endLine": 646,
+        "endChar": 48
+      },
+      "revId": "4a7ec90da2b2c3d3074cdc4bb0475c2f9d5ac4ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52d7df14_62e69221",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 647,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-07-27T17:12:59Z",
+      "side": 1,
+      "message": "```suggestion\nprocess and ACLs evaluation, potentially allowing unforseen security gaps.\n```",
+      "range": {
+        "startLine": 647,
+        "startChar": 7,
+        "endLine": 647,
+        "endChar": 42
+      },
+      "revId": "4a7ec90da2b2c3d3074cdc4bb0475c2f9d5ac4ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7053c12f_85ef9ad2",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 650,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-07-27T17:12:59Z",
+      "side": 1,
+      "message": "If we\u0027re saying this should never be done then why not add some sort of invalid config exception that could be gated behind a config flag, which prevents this by default.",
+      "range": {
+        "startLine": 650,
+        "startChar": 0,
+        "endLine": 650,
+        "endChar": 5
+      },
+      "revId": "4a7ec90da2b2c3d3074cdc4bb0475c2f9d5ac4ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de5c9c2d_759714e5",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 653,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-07-27T17:12:59Z",
+      "side": 1,
+      "message": "This reinforces my comment above, we should prevent this at a code level rather than a note in config.",
+      "range": {
+        "startLine": 653,
+        "startChar": 0,
+        "endLine": 653,
+        "endChar": 73
+      },
+      "revId": "4a7ec90da2b2c3d3074cdc4bb0475c2f9d5ac4ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ecdc736a_a4229795",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 655,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-07-27T17:12:59Z",
+      "side": 1,
+      "message": "```suggestion\nallow any sort of priviledge escalation, allowing any user to make any change\n```",
+      "range": {
+        "startLine": 655,
+        "startChar": 29,
+        "endLine": 655,
+        "endChar": 38
+      },
+      "revId": "4a7ec90da2b2c3d3074cdc4bb0475c2f9d5ac4ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

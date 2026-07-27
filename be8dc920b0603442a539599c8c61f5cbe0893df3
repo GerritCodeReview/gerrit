@@ -93,6 +93,29 @@
       },
       "revId": "be8dc920b0603442a539599c8c61f5cbe0893df3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ea460a4_8b1ca80c",
+        "filename": "polygerrit-ui/app/elements/chat-panel/prompt-box.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-07-27T07:53:38Z",
+      "side": 1,
+      "message": "How can this be ever reached? If I read the code properly, you end up inside this if clause only when `this.modelLoadingError` is not undefined.",
+      "range": {
+        "startLine": 171,
+        "startChar": 8,
+        "endLine": 171,
+        "endChar": 56
+      },
+      "revId": "be8dc920b0603442a539599c8c61f5cbe0893df3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

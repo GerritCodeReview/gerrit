@@ -638,9 +638,23 @@ set the merge can be reattempted by using `%submit` again.
 
 This requires the caller to have link:access-control.html#category_submit[Submit]
 permission on `refs/for/<ref>` (e.g. on `refs/for/refs/heads/master`).
-Note how this is different from the `Submit` permission on `refs/heads/<ref>`,
-and in particular you typically do not want to apply the `Submit` permission
-on `refs/*` (unless you are ok with bypassing submit rules).
+
+[NOTE]
+Grating `Submit` permission on `refs/for/<ref>` is very different from
+granting `Submit` permission on `refs/heads/<ref>` and, most importantly,
+has nothing to do with submitting changes according to the regular submit
+requirements or other ACLs, but rather bypassing the entire code-review
+process and its associated security gates.
+You typically do not want to apply the `Submit` permission on `refs/*`
+(unless you are ok with bypassing submit rules) and, most importantly,
+never on `refs/for/*` as it would automatically provide the ability to
+push a new change and merge it immediately to any refs without review gates
+and therefore may bypass the company security and compliance checks.
+Never ever grant `Submit` permissions on `refs/*` or `refs/for/*` on the
+`All-Projects` repository to regular users, as it would allow any user to
+change the common configuration of any projects, including also the
+ability to upload and install any custom code through the plugin administration
+APIs.
 
 [[base]]
 === Selecting Merge Base

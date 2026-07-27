@@ -638,9 +638,25 @@ set the merge can be reattempted by using `%submit` again.
 
 This requires the caller to have link:access-control.html#category_submit[Submit]
 permission on `refs/for/<ref>` (e.g. on `refs/for/refs/heads/master`).
-Note how this is different from the `Submit` permission on `refs/heads/<ref>`,
-and in particular you typically do not want to apply the `Submit` permission
-on `refs/*` (unless you are ok with bypassing submit rules).
+
+[NOTE]
+Granting `Submit` permission to `refs/for/<ref>` is very different from
+granting it on `refs/heads/<ref>`.
+Most importantly, the `Submit` to `refs/for/<ref>` permission does not
+refer to submitting changes according to the regular submit
+requirements, but rather creating a new change and merging it immediately
+bypassing the entire code-review process and its associated security gates.
+Never grant `Submit` permission on `refs/*` or `refs/for/*` as it would
+automatically provide the ability to push a new change and merge it
+immediately to any refs without review gates, and therefore may bypass
+the company's security and compliance checks.
+Never ever grant `Submit` permissions to `refs/*` or `refs/for/*` to the
+on the `All-Projects` repository, as it would automatically involve also the
+ability to create and submit any change to `/refs/meta/config`
+by any regular users, allowing any user to change the common configuration
+of all projects hosted on Gerrit, including the ability to self-assign
+the server administration role, and being able to upload and load any
+custom code through the plugin administration APIs.
 
 [[base]]
 === Selecting Merge Base

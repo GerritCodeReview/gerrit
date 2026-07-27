@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "edd9e56b_ad5387b8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-07-27T14:41:43Z",
+      "side": 1,
+      "message": "@nasser.grainawi@oss.qualcomm.com, @matthias.sohn@gmail.com, @klingarkar@nvidia.com Could you provide your suggestions on some of the comments posted by David on this change? Thanks!",
+      "revId": "5e34813d7711869c4e539aa40af6a53361553c38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

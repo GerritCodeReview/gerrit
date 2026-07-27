@@ -16,6 +16,24 @@
       "message": "This is producing issue for test `migrateBlockingLabel_withWildcardBranchAttribute`",
       "revId": "1fd513e4e8ff65ba80ca3d69729234c74ed1913d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "69bc0527_52ab0169",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-07-27T08:29:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "93c8d7e9_6e87aa8d",
+      "revId": "1fd513e4e8ff65ba80ca3d69729234c74ed1913d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

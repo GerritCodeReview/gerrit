@@ -88,10 +88,18 @@ public class CommentsValidator {
 
   private void ensureValidInReplyTo(ChangeNotes changeNotes, String inReplyTo)
       throws BadRequestException {
-    if (inReplyTo != null
-        && !commentsUtil.getPublishedHumanComment(changeNotes, inReplyTo).isPresent()) {
+    if (inReplyTo == null) {
+      return;
+    }
+    // check inReplyTo comment exists
+    if(!commentsUtil.getPublishedHumanComment(changeNotes, inReplyTo).isPresent()) {
       throw new BadRequestException(
           String.format("Invalid inReplyTo, comment %s not found", inReplyTo));
+    }
+    // check inReplyTo does not already have a response
+    if(commentsUtil.publishedHumanCommentsByChange(changeNotes).stream().anyMatch(c -> inReplyTo.equals(c.parentUuid))) {
+      throw new BadRequestException(
+          String.format("Invalid inReplyTo, comment %s has already been replied to", inReplyTo));
     }
   }
 

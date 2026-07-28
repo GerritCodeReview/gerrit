@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b31b5ff3_0210030a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-07-28T16:43:48Z",
+      "side": 1,
+      "message": "Thanks for looking. If it comes up in the future we can add that method to JGit.",
+      "parentUuid": "ab6a0e79_37e67c10",
+      "revId": "c1a841f5695308149e29129d396801af58d38de3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3b561cae_77e6588e",

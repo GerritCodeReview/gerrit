@@ -633,6 +633,18 @@ export class GrCommentThread extends LitElement {
                         >
                       `
                     : nothing}
+                  ${this.shouldShowDisagreeButton()
+                    ? html`
+                        <gr-button
+                          id="disagreeBtn"
+                          link
+                          class="action disagree"
+                          ?disabled=${this.saving}
+                          @click=${this.handleCommentDisagree}
+                          >Disagree</gr-button
+                        >
+                      `
+                    : nothing}
                   <gr-button
                     id="ackBtn"
                     link
@@ -967,6 +979,14 @@ export class GrCommentThread extends LitElement {
     );
   }
 
+  private handleCommentDisagree() {
+    this.createReplyComment(
+      'Disagree.',
+      /* userWantsToEdit= */ false,
+      /* unresolved= */ false
+    );
+  }
+
   private handleReplyToComment(e: ReplyToCommentEvent) {
     const {content, userWantsToEdit, unresolved} = e.detail;
     this.createReplyComment(content, userWantsToEdit, unresolved);
@@ -1032,6 +1052,19 @@ export class GrCommentThread extends LitElement {
     )
       return false;
     return this.isOwner && !hasUserSuggestion(comment);
+  }
+
+  private shouldShowDisagreeButton(): boolean {
+    if (
+      !this.thread ||
+      !this.account ||
+      !this.unresolved ||
+      this.thread.comments.length !== 1
+    ) {
+      return false;
+    }
+    const comment = this.thread.comments[0];
+    return this.isOwner && !!comment?.is_ai;
   }
 
   private handleAppliedFix(fixSuggestion?: FixSuggestionInfo) {

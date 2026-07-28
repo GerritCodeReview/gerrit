@@ -180,6 +180,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   public static final String FIELD_EXACTCOMMITTER = "exactcommitter";
   public static final String FIELD_EXTENSION = "extension";
   public static final String FIELD_ONLY_EXTENSIONS = "onlyextensions";
+  public static final String FIELD_ONLY_PATHS = "onlypaths";
   public static final String FIELD_FOOTER = "footer";
   public static final String FIELD_FOOTER_NAME = "footernames";
   public static final String FIELD_CONFLICTS = "conflicts";
@@ -1058,6 +1059,14 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   @Operator
   public Predicate<ChangeData> onlyextensions(String extList) {
     return new FileExtensionListPredicate(extList);
+  }
+
+  @Operator
+  public Predicate<ChangeData> onlypaths(String value) throws QueryParseException {
+    if (value.startsWith("^")) {
+      return new RegexOnlyPathsPredicate(value);
+    }
+    return ChangePredicates.onlyPaths(value);
   }
 
   @Operator

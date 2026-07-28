@@ -14,13 +14,17 @@
 
 package com.google.gerrit.server.query.change;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 
 import com.google.common.base.CharMatcher;
+import com.google.common.base.Splitter;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.git.ObjectIds;
@@ -276,6 +280,36 @@ public class ChangePredicates {
       return eqPath;
     }
     return Predicate.or(eqPath, new ChangeIndexPredicate(ChangeField.FILE_PART_SPEC, file));
+  }
+
+  /**
+   * Returns a predicate that matches changes whose set of real (non-magic) files is exactly the
+   * comma-separated list of paths provided.
+   *
+   * <p>Builds {@code AND(path:f1, path:f2, …) + OnlyPathsPostFilterPredicate} so that the existing
+   * {@code PATH_FIELD} index pre-filters candidates before the exact-set check runs in memory.
+   */
+  public static Predicate<ChangeData> onlyPaths(String paths) {
+    ImmutableSet<String> files =
+        Splitter.on(',')
+            .trimResults()
+            .omitEmptyStrings()
+            .splitToStream(paths)
+            .filter(f -> !Patch.isMagic(f))
+            .collect(toImmutableSet());
+
+    // One index predicate per file — the AND pre-filters via PATH_FIELD.
+    ImmutableList<Predicate<ChangeData>> indexClauses =
+        files.stream().map(f -> path(f)).collect(toImmutableList());
+
+    // Post-filter verifies no extra files exist.
+    Predicate<ChangeData> postFilter = new OnlyPathsPostFilterPredicate(files);
+
+    return Predicate.and(
+        ImmutableList.<Predicate<ChangeData>>builder()
+            .addAll(indexClauses)
+            .add(postFilter)
+            .build());
   }
 
   /**

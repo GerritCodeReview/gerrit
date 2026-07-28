@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc82dc50_ac1e4243",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-07-28T10:03:11Z",
+      "side": 1,
+      "message": "Is this case even supported as a `label.branch` expression? Normally, wildcard expressions in Gerrit assume the `*` can only be at the end of the string",
+      "revId": "91c57dc0be2d8da33ed770da3064411f1f5594cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5b141b9_91d2075b",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-07-28T10:03:11Z",
+      "side": 1,
+      "message": "add a space after `//` as it is done everywhere in Gerrit code",
+      "revId": "91c57dc0be2d8da33ed770da3064411f1f5594cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d6a76d5_7252d586",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-07-28T10:03:11Z",
+      "side": 1,
+      "message": "Obviously, this code doesn\u0027t support a wildcard in the mid of the branchRef value, so the example from the commit message `refs/*/config` needs to be removed?",
+      "revId": "91c57dc0be2d8da33ed770da3064411f1f5594cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3344413_1b4ff45f",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-07-28T10:03:11Z",
+      "side": 1,
+      "message": "Does the branch expression allow wildcard only after a `/` like `refs/heads/foo/*` or it is also allowed after a non-`/` character like `refs/heads/foo*`. In the former case this check needs to be `branchRef.endsWith(\"/*\")`",
+      "revId": "91c57dc0be2d8da33ed770da3064411f1f5594cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

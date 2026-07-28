@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d31fb700_9b0c36f2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-07-28T17:02:27Z",
+      "side": 1,
+      "message": "\u003e Can you please give some context why we are restricting this.\n\n+1\n\n\u003e \n\u003e At least can you mention that gerrit frontend is not allowing 2 or more replies to same comment but only replying in chain. But backend allows this. If an user use API they can produce structure with 1 comment having 2 direct replies - one resolved and one unresolved and frontend cannot render this situation and cannot even resolved unresolved branch.\n\nCan we use the comment timestamp to help the frontend order them (like email threads are handled)? If the newest comment is unresolved, then the thread is considered unresolved.\n\nActually, never mind that. I think you\u0027re saying the frontend can\u0027t handle a comment thread that \"forks\" (you mention \"branch\", but it didn\u0027t click for me at first). i.e. if there are two different replies for a single comment, then we now effectively have two threads, each that could be replied to, and each having a resolved status. I can see why the frontend wouldn\u0027t want to try and support that.\n\nCan you confirm the frontend handles \"outdated\" draft comments correctly? Something like this flow:\n1. User A publishes comment 1\n2. User B drafts a reply to comment 1\n3. User C publishes a reply to comment 1 (comment 2)\n4. User B publishes their draft (comment 3)\n\nIIUC, the frontend needs to ensure comment 3 is a reply to comment 2, not a reply to comment 1. I don\u0027t know if that\u0027s all frontend logic or if the backend is involved too, but this is a common scenario that we need to ensure works correctly.",
+      "parentUuid": "e006768d_602698ea",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 60
+      },
+      "revId": "8449a57cd5238cd5f40988f252216fe8add186ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c0cf4929_b06f2e75",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4

@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2a0fb5d4_2705b8e5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5005823
+      },
+      "writtenOn": "2026-07-28T23:51:30Z",
+      "side": 1,
+      "message": "TL;DR: Thank you for raising the concern @nasser.grainawi@oss.qualcomm.com. You\u0027re correct and this bug should be fixed in a different way.\n\n--- \n\u003e I think you\u0027re saying the frontend can\u0027t handle a comment thread that \"forks\"\n\nAt this moment, both the frontend and the backend _do_ support this forking and they do both order by timestamp, as you mentioned, as part of the process to determine the final comment and decide if the thread is resolved or unresolved. Unfortunately that process is a bit different between the frontend and backend. The backend is only considering the timestamp with the comment UUID as the deterministic tie breaker [(source link)](https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/change/CommentThreads.java#121). Whereas the frontend will also give priority grouping to have comments from the same patchset together [(source link)](https://gerrit.googlesource.com/gerrit/+/refs/heads/master/polygerrit-ui/app/utils/comment-util.ts#88).\n\nSo there is an existing bug where the frontend could have slightly different ordering of the comments within a thread and render in the UI that the thread is resolved based on the final comment while the backend will come to the conclusion that the thread is unresolved given the backend ordering.\n\nThis bug has not been frequently encountered in a world of human-only workflows, because the frontend has some enforcement on what can be replied to and what the comment configuration looks like. The buggy disagreement between the frontend and the backend comes up when the REST API is used to directly construct a comment that is marked as part of a different patchset than the parent comment. This case was always possible, but is more likely to occur with AI making REST API calls. \n\nMy original thought here was in an API-only agentic workflow the rejection in this change is useful. It forces the agent to request the missing context of the unknown comment. It would also prevent an agent from creating a needlessly complex tree for the comment thread. But that shouldn\u0027t be at the cost of the human workflow - this would cause outdated drafts to be rejected in the scenario you outlined. Going to abandon this change and try to bring the sorting logic in alignment instead to prevent the disagreement case.",
+      "parentUuid": "d31fb700_9b0c36f2",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 60
+      },
+      "revId": "8449a57cd5238cd5f40988f252216fe8add186ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c0cf4929_b06f2e75",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4

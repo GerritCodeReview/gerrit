@@ -116,6 +116,30 @@
       },
       "revId": "be8dc920b0603442a539599c8c61f5cbe0893df3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4aa96bb2_538b69df",
+        "filename": "polygerrit-ui/app/elements/chat-panel/prompt-box.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2026-07-28T06:31:30Z",
+      "side": 1,
+      "message": "right, good point!",
+      "parentUuid": "1ea460a4_8b1ca80c",
+      "range": {
+        "startLine": 171,
+        "startChar": 8,
+        "endLine": 171,
+        "endChar": 56
+      },
+      "revId": "be8dc920b0603442a539599c8c61f5cbe0893df3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

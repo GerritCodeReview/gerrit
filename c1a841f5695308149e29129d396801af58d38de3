@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab6a0e79_37e67c10",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-07-28T10:22:39Z",
+      "side": 1,
+      "message": "That would be nice, but it looks it\u0027s more complicated there since jgit doesn\u0027t expose getTextAttribute . So I will concentrate here only for diff",
+      "parentUuid": "fa7fb45f_57fff329",
+      "revId": "c1a841f5695308149e29129d396801af58d38de3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3b561cae_77e6588e",
@@ -31,6 +49,30 @@
       "writtenOn": "2026-07-24T16:45:16Z",
       "side": 1,
       "message": "I don\u0027t think `sets it to \"false\"` should be included. Reading the [`gitattributes` manpage](https://www.kernel.org/pub/software/scm/git/docs/gitattributes.html#_diff), a string value for `diff\u003d\u003cstring\u003e` is interpreted as the diff driver to use. So I think `diff\u003dfalse` looks for a diff driver named `\"false\"` in gitconfig. Obviously Gerrit won\u0027t use any external diff driver, but I think we should just keep our current behavior in that case and ignore those attributes.\n```suggestion\n    // or the \"binary\" macro which JGit expands to \"-diff -merge -text\").\n    boolean isBinary \u003d diffAttr !\u003d null \u0026\u0026 diffAttr.getState() \u003d\u003d Attribute.State.UNSET;\n```",
+      "range": {
+        "startLine": 72,
+        "startChar": 0,
+        "endLine": 76,
+        "endChar": 56
+      },
+      "revId": "c1a841f5695308149e29129d396801af58d38de3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f39c3078_ae210b85",
+        "filename": "java/com/google/gerrit/server/patch/gitfilediff/GitFileDiff.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-07-28T10:22:39Z",
+      "side": 1,
+      "message": "Thank you for looking into this, you are right. Just having unset is enough here.",
+      "parentUuid": "3b561cae_77e6588e",
       "range": {
         "startLine": 72,
         "startChar": 0,

@@ -119,7 +119,7 @@ export class GrFormattedText extends LitElement {
           white-space: normal;
           /* prose will automatically wrap but inline <code> blocks won't and we
            should overflow in that case rather than wrapping or leaking out */
-          overflow-x: auto;
+          overflow-x: var(--gr-formatted-text-markdown-html-overflow-x, auto);
           overflow-wrap: break-word;
         }
       `,

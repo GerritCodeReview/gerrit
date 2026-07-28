@@ -22,6 +22,30 @@
       },
       "revId": "9b3c516b275dc149cd5bbfae99b78d3e73ad8bfa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d45e9c21_096a68e5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 1062,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-07-28T22:53:53Z",
+      "side": 1,
+      "message": "I think that would be possible, but yeah, the disagree goes away after that. This is how critique has it implemented, and I think it\u0027s a good solution for now because it limits potential confusing scenarios. For example, what if there\u0027s an AI comment, then a human reviewer comments below that, should the author be able to click disagree now?  Or what if there\u0027s a human comment, then an AI comment below, should the author be able to disagree in this case?",
+      "parentUuid": "b4d266fc_e1ef3878",
+      "range": {
+        "startLine": 1062,
+        "startChar": 6,
+        "endLine": 1062,
+        "endChar": 39
+      },
+      "revId": "9b3c516b275dc149cd5bbfae99b78d3e73ad8bfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

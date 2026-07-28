@@ -498,6 +498,10 @@ has:attention::
 +
 True if the change has attention by the current user.
 
+has:hashtag::
++
+True if the change has at least one hashtag.
+
 
 [[is]]
 [[is-starred]]

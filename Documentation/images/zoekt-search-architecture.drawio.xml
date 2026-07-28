@@ -1,0 +1,270 @@
+<mxfile host="Electron" agent="draw.io" version="24.0.0" pages="1">
+  <diagram name="Architecture" id="zoekt-full-arch">
+    <mxGraphModel dx="2400" dy="1600" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1250" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="titletext" parent="1" vertex="1"
+                style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;fontSize=22;fontStyle=1;"
+                value="&lt;font color=&quot;#000000&quot;&gt;Zoekt-Based Code Search for Gerrit &amp;#8212; High-Level Architecture&lt;/font&gt;">
+          <mxGeometry x="40" y="20" width="1520" height="34" as="geometry" />
+        </mxCell>
+
+        <mxCell id="user" parent="1" vertex="1"
+                style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E4E6EA;gradientColor=#A5ADBA;gradientDirection=south;strokeColor=#4A5A75;fontColor=#333333;align=center;verticalAlign=middle;"
+                value="&lt;font style=&quot;font-size: 16px;&quot;&gt;&lt;b&gt;Gerrit User&lt;/b&gt;&lt;/font&gt;">
+          <mxGeometry x="40" y="380" width="150" height="70" as="geometry" />
+        </mxCell>
+
+        <mxCell id="gerrit-box" parent="1" vertex="1"
+                style="rounded=1;whiteSpace=wrap;html=1;dashed=1;fillColor=#F6F6F6;strokeColor=#4A5A75;verticalAlign=top;align=center;fontStyle=1;fontSize=14;spacingTop=8;"
+                value="&lt;font color=&quot;#333333&quot;&gt;Gerrit&lt;/font&gt;">
+          <mxGeometry x="280" y="100" width="440" height="620" as="geometry" />
+        </mxCell><mxCell id="plugin" parent="1" vertex="1"
+                style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E1D9F3;gradientColor=#9A80D6;gradientDirection=south;strokeColor=#3500AC;fontColor=#000000;align=center;verticalAlign=middle;"
+                value="&lt;b&gt;Search Plugin&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 12px;&quot;&gt;user-facing entry point and trust boundary&lt;/font&gt;">
+          <mxGeometry x="320" y="170" width="360" height="90" as="geometry" />
+        </mxCell>
+
+        <mxCell id="visibility" parent="1" vertex="1"
+                style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E8DCF5;gradientColor=#B38ADC;gradientDirection=south;strokeColor=#6614B9;fontColor=#000000;align=center;verticalAlign=middle;"
+                value="&lt;b&gt;Visibility Awareness&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 12px;&quot;&gt;derives allowed (project, refs) scope per access group&lt;/font&gt;">
+          <mxGeometry x="320" y="360" width="360" height="100" as="geometry" />
+        </mxCell>
+
+        <mxCell id="acl" parent="1" vertex="1"
+                style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E4E6EA;gradientColor=#A5ADBA;gradientDirection=south;strokeColor=#4A5A75;fontColor=#333333;align=center;verticalAlign=middle;"
+                value="&lt;b&gt;Gerrit Access Control&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 12px;&quot;&gt;existing permission model (unchanged)&lt;/font&gt;">
+          <mxGeometry x="320" y="540" width="170" height="100" as="geometry" />
+        </mxCell>
+
+        <mxCell id="replication" parent="1" vertex="1"
+                style="rounded=1;whiteSpace=wrap;html=1;fillColor=#E4E6EA;gradientColor=#A5ADBA;gradientDirection=south;strokeColor=#4A5A75;fontColor=#333333;align=center;verticalAlign=middle;"
+                value="&lt;b&gt;Repository Replication&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 12px;&quot;&gt;existing, unchanged&lt;/font&gt;">
+          <mxGeometry x="510" y="540" width="170" height="100" as="geometry" />
+        </mxCell>
+
+        <mxCell id="platform-box" parent="1" vertex="1"
+                style="rounded=1;whiteSpace=wrap;html=1;dashed=1;fillColor=#FCEEEF;strokeColor=#E71324;verticalAlign=top;align=center;fontStyle=1;fontSize=14;spacingTop=8;"
+                value="&lt;font color=&quot;#8C1420&quot;&gt;Search Platform (new, independent of Gerrit)&lt;/font&gt;">
+          <mxGeometry x="820" y="100" width="700" height="720" as="geometry" />
+        </mxCell>
+
+        <mxCell id="gateway" parent="1" vertex="1"
+                style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FBDCDE;gradientColor=#F38992;gradientDirection=south;strokeColor=#E71324;fontColor=#000000;align=center;verticalAlign=middle;"
+                value="&lt;b&gt;Search Gateway&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 12px;&quot;&gt;intersects scope, routes, fans out, merges results&lt;/font&gt;">
+          <mxGeometry x="860" y="170" width="620" height="90" as="geometry" />
+        </mxCell>
+
+        <mxCell id="instances" parent="1" vertex="1"
+                style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EFD9DD;gradientColor=#C9808E;gradientDirection=south;strokeColor=#92001D;fontColor=#000000;align=center;verticalAlign=middle;"
+                value="&lt;b&gt;Search Instances (Zoekt)&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 12px;&quot;&gt;hold indexed content, execute scoped queries&lt;/font&gt;">
+          <mxGeometry x="860" y="360" width="290" height="100" as="geometry" />
+        </mxCell>
+
+        <mxCell id="controlplane" parent="1" vertex="1"
+                style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EFD9DD;gradientColor=#C9808E;gradientDirection=south;strokeColor=#92001D;fontColor=#000000;align=center;verticalAlign=middle;"
+                value="&lt;b&gt;Control Plane&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 12px;&quot;&gt;routing, health, index generation rollout&lt;/font&gt;">
+          <mxGeometry x="1190" y="360" width="290" height="100" as="geometry" />
+        </mxCell>
+
+        <mxCell id="artifactstore" parent="1" vertex="1"
+                style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EFD9DD;gradientColor=#C9808E;gradientDirection=south;strokeColor=#92001D;fontColor=#000000;align=center;verticalAlign=middle;"
+                value="&lt;b&gt;Artifact Store&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 12px;&quot;&gt;holds published index generations durably&lt;/font&gt;">
+          <mxGeometry x="860" y="530" width="620" height="90" as="geometry" />
+        </mxCell>
+
+        <mxCell id="indexer" parent="1" vertex="1"
+                style="rounded=1;whiteSpace=wrap;html=1;fillColor=#EFD9DD;gradientColor=#C9808E;gradientDirection=south;strokeColor=#92001D;fontColor=#000000;align=center;verticalAlign=middle;"
+                value="&lt;b&gt;Indexing Pipeline&lt;/b&gt;&lt;br&gt;&lt;font style=&quot;font-size: 12px;&quot;&gt;builds and publishes index content&lt;/font&gt;">
+          <mxGeometry x="860" y="700" width="620" height="90" as="geometry" />
+        </mxCell>
+
+        <mxCell id="e-user-plugin" parent="1" edge="1" source="user" target="plugin"
+                style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#000000;labelBackgroundColor=none;exitX=1;exitY=0.3;entryX=0;entryY=0.5;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-user-plugin-lbl" parent="e-user-plugin" vertex="1" connectable="0"
+                style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];labelBackgroundColor=none;fontColor=#000000;"
+                value="query">
+          <mxGeometry x="0" y="-24" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="e-plugin-visibility" parent="1" edge="1" source="plugin" target="visibility"
+                style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#000000;labelBackgroundColor=none;exitX=0.3;exitY=1;entryX=0.3;entryY=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-plugin-visibility-lbl" parent="e-plugin-visibility" vertex="1" connectable="0"
+                style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];labelBackgroundColor=none;fontColor=#000000;"
+                value="get allowed scope">
+          <mxGeometry x="0" y="0" relative="1" as="geometry">
+            <mxPoint x="-70" as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="e-visibility-plugin" parent="1" edge="1" source="visibility" target="plugin"
+                style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;strokeColor=#666666;labelBackgroundColor=none;exitX=0.7;exitY=0;entryX=0.7;entryY=1;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-visibility-plugin-lbl" parent="e-visibility-plugin" vertex="1" connectable="0"
+                style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];labelBackgroundColor=none;fontColor=#666666;"
+                value="scope">
+          <mxGeometry x="0" y="0" relative="1" as="geometry">
+            <mxPoint x="65" as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="e-visibility-acl" parent="1" edge="1" source="visibility" target="acl"
+                style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#000000;labelBackgroundColor=none;exitX=0.3;exitY=1;entryX=0.5;entryY=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-visibility-acl-lbl" parent="e-visibility-acl" vertex="1" connectable="0"
+                style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];labelBackgroundColor=none;fontColor=#000000;fontSize=11;"
+                value="periodic refresh">
+          <mxGeometry x="0" y="0" relative="1" as="geometry">
+            <mxPoint x="-30" as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="e-plugin-gateway" parent="1" edge="1" source="plugin" target="gateway"
+                style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#000000;labelBackgroundColor=none;exitX=1;exitY=0.3;entryX=0;entryY=0.3;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-plugin-gateway-lbl" parent="e-plugin-gateway" vertex="1" connectable="0"
+                style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];labelBackgroundColor=none;fontColor=#000000;"
+                value="query + allowed scope">
+          <mxGeometry x="-0.45" y="0" relative="1" as="geometry">
+            <mxPoint y="-14" as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="e-gateway-plugin" parent="1" edge="1" source="gateway" target="plugin"
+                style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;dashed=1;strokeColor=#666666;labelBackgroundColor=none;exitX=0;exitY=0.7;entryX=1;entryY=0.7;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-gateway-plugin-lbl" parent="e-gateway-plugin" vertex="1" connectable="0"
+                style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];labelBackgroundColor=none;fontColor=#666666;"
+                value="results">
+          <mxGeometry x="0.45" y="0" relative="1" as="geometry">
+            <mxPoint y="14" as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="e-gateway-instances" parent="1" edge="1" source="gateway" target="instances"
+                style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#000000;labelBackgroundColor=none;exitX=0.145;exitY=1;entryX=0.31;entryY=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-gateway-instances-lbl" parent="e-gateway-instances" vertex="1" connectable="0"
+                style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];labelBackgroundColor=none;fontColor=#000000;"
+                value="scoped query">
+          <mxGeometry x="0" y="0" relative="1" as="geometry">
+            <mxPoint x="-60" as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="e-gateway-controlplane" parent="1" edge="1" source="gateway" target="controlplane"
+                style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#000000;labelBackgroundColor=none;exitX=0.9;exitY=1;entryX=0.786;entryY=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-gateway-controlplane-lbl" parent="e-gateway-controlplane" vertex="1" connectable="0"
+                style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];labelBackgroundColor=none;fontColor=#000000;"
+                value="watch routing">
+          <mxGeometry x="0" y="0" relative="1" as="geometry">
+            <mxPoint x="80" as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="e-replication-indexer" parent="1" edge="1" source="indexer" target="replication"
+                style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#000000;labelBackgroundColor=none;exitX=0;exitY=0.3;entryX=1;entryY=0.5;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-replication-indexer-lbl" parent="e-replication-indexer" vertex="1" connectable="0"
+                style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];labelBackgroundColor=none;fontColor=#000000;fontSize=11;"
+                value="read updated repos">
+          <mxGeometry x="-0.4" y="0" relative="1" as="geometry">
+            <mxPoint y="-16" as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="e-instances-controlplane" parent="1" edge="1" source="instances" target="controlplane"
+                style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#000000;labelBackgroundColor=none;exitX=0.5;exitY=0;entryX=0.5;entryY=0;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1005" y="300" />
+              <mxPoint x="1335" y="300" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e-instances-controlplane-lbl" parent="e-instances-controlplane" vertex="1" connectable="0"
+                style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];labelBackgroundColor=none;fontColor=#000000;fontSize=11;"
+                value="watch for new generation">
+          <mxGeometry x="0" y="0" relative="1" as="geometry">
+            <mxPoint y="-16" as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="e-instances-controlplane-health" parent="1" edge="1" source="instances" target="controlplane"
+                style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#000000;labelBackgroundColor=none;exitX=0.75;exitY=1;entryX=0.75;entryY=1;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1077" y="515" />
+              <mxPoint x="1407" y="515" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e-instances-controlplane-health-lbl" parent="e-instances-controlplane-health" vertex="1" connectable="0"
+                style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];labelBackgroundColor=none;fontColor=#000000;fontSize=11;"
+                value="report health">
+          <mxGeometry x="0" y="0" relative="1" as="geometry">
+            <mxPoint y="-8" as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="e-instances-artifactstore" parent="1" edge="1" source="instances" target="artifactstore"
+                style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#000000;labelBackgroundColor=none;exitX=0.25;exitY=1;entryX=0.25;entryY=0;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-instances-artifactstore-lbl" parent="e-instances-artifactstore" vertex="1" connectable="0"
+                style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];labelBackgroundColor=none;fontColor=#000000;fontSize=11;"
+                value="pull + validate&lt;br&gt;generation content">
+          <mxGeometry x="0" y="0" relative="1" as="geometry">
+            <mxPoint x="-140" as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="e-indexer-artifactstore" parent="1" edge="1" source="indexer" target="artifactstore"
+                style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#000000;labelBackgroundColor=none;exitX=0.25;exitY=0;entryX=0.25;entryY=1;">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e-indexer-artifactstore-lbl" parent="e-indexer-artifactstore" vertex="1" connectable="0"
+                style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];labelBackgroundColor=none;fontColor=#000000;fontSize=11;"
+                value="publish generation content">
+          <mxGeometry x="0" y="0" relative="1" as="geometry">
+            <mxPoint x="-100" as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+        <mxCell id="e-indexer-controlplane" parent="1" edge="1" source="indexer" target="controlplane"
+                style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;strokeColor=#000000;labelBackgroundColor=none;exitX=1;exitY=0.5;entryX=1;entryY=0.5;">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1560" y="745" />
+              <mxPoint x="1560" y="410" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e-indexer-controlplane-lbl" parent="e-indexer-controlplane" vertex="1" connectable="0"
+                style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];labelBackgroundColor=none;fontColor=#000000;fontSize=11;"
+                value="record new generation">
+          <mxGeometry x="0" y="0" relative="1" as="geometry">
+            <mxPoint x="55" as="offset" />
+          </mxGeometry>
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

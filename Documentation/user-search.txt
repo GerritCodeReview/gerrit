@@ -413,6 +413,19 @@ Slash ('/') is used path separator.
 
 * `-path:^path/.*` - changes that do not modify files from `path/`.
 
+[[onlypaths]]
+onlypaths:'PATH_LIST'::
++
+Matches changes touching the exact set of files in 'PATH_LIST' (comma-separated
+list). By default exact path matching is used, but regular expressions can be
+enabled by starting with `^`.  For example, to match all XML files use
+`file:"^.*\.xml$"`.
+The link:http://www.brics.dk/automaton/[dk.brics.automaton library,role=external,window=_blank]
+is used for the evaluation of such patterns. In that case, all files changed by
+the change have to be matched by the provided regex for it to be returned as a
+result. For regex values, only a single item can be provided, since regex can be
+used to reflect multiple different paths.
+
 [[file]]
 file:'NAME', f:'NAME'::
 +

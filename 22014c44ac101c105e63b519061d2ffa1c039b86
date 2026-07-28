@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9b0c0c7_8b976e9a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-07-28T09:58:53Z",
+      "side": 1,
+      "message": "LGTM! Thanks for fixing the redundant double-fetching.",
+      "revId": "22014c44ac101c105e63b519061d2ffa1c039b86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

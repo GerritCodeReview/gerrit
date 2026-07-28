@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2b0b425_6534bb51",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-07-28T09:40:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6fe60318_4ac3bef1",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 2
+      },
+      "revId": "b66f92ebf02b7338f4decd0e164495428b3385ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1cd10ecf_01c5b71c",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-07-27T14:27:33Z",
       "side": 1,
       "message": "this is misaligned",
+      "range": {
+        "startLine": 40,
+        "startChar": 20,
+        "endLine": 40,
+        "endChar": 49
+      },
+      "revId": "b66f92ebf02b7338f4decd0e164495428b3385ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "37163a61_f9bf3b96",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-07-28T09:40:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1cd10ecf_01c5b71c",
       "range": {
         "startLine": 40,
         "startChar": 20,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1652570c_2f6873e1",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-07-28T09:40:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a67a3c39_064c36fe",
+      "range": {
+        "startLine": 339,
+        "startChar": 38,
+        "endLine": 339,
+        "endChar": 44
+      },
+      "revId": "b66f92ebf02b7338f4decd0e164495428b3385ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fbcf4659_09a366c9",
@@ -83,6 +155,24 @@
       "writtenOn": "2026-07-27T14:27:33Z",
       "side": 1,
       "message": "Maybe add a comment before each case explaining it, for example:\n`regex case -\u003e migrate as-is`\n`wildcard case -\u003e needs to be converted to regex`\n`single branch name -\u003e needs to be quoted because of a possible quote inside the name`",
+      "revId": "b66f92ebf02b7338f4decd0e164495428b3385ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "800182d3_b1699054",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-07-28T09:40:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fbcf4659_09a366c9",
       "revId": "b66f92ebf02b7338f4decd0e164495428b3385ce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

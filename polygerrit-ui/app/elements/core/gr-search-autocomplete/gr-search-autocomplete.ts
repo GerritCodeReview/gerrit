@@ -90,6 +90,7 @@ const SEARCH_OPERATORS: ReadonlyArray<string> = [
   'message:',
   'onlyexts:',
   'onlyextensions:',
+  'onlypaths:',
   'owner:',
   'ownerin:',
   'parentof:',

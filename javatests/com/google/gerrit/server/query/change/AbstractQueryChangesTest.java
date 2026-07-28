@@ -2264,6 +2264,61 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  public void byOnlyPathsLiteral() throws Exception {
+    Project.NameKey project = Project.nameKey("repo");
+    repo = createAndOpenProject(project);
+    Change oneFile = insert(project, newChangeWithFiles(repo, "src/Foo.java"));
+    Change twoFiles = insert(project, newChangeWithFiles(repo, "src/Foo.java", "src/Bar.java"));
+    Change otherFile = insert(project, newChangeWithFiles(repo, "src/Bar.java"));
+    Change threeFiles =
+        insert(project, newChangeWithFiles(repo, "src/Foo.java", "src/Bar.java", "src/Baz.java"));
+
+    // Single-file exact match
+    assertQuery("onlypaths:src/Foo.java", oneFile);
+    assertQuery("onlypaths:src/Bar.java", otherFile);
+
+    // Two-file exact match — query order must not matter
+    assertQuery("onlypaths:src/Foo.java,src/Bar.java", twoFiles);
+    assertQuery("onlypaths:src/Bar.java,src/Foo.java", twoFiles);
+
+    // Three-file exact match
+    assertQuery("onlypaths:src/Foo.java,src/Bar.java,src/Baz.java", threeFiles);
+
+    // Superset must NOT match
+    assertQuery("onlypaths:src/Foo.java,src/Bar.java,src/Baz.java,src/Extra.java");
+
+    // Inverse
+    assertQuery("-onlypaths:src/Foo.java", threeFiles, otherFile, twoFiles);
+  }
+
+  @Test
+  public void byOnlyPathsRegex() throws Exception {
+    Project.NameKey project = Project.nameKey("repo");
+    repo = createAndOpenProject(project);
+    Change allJava = insert(project, newChangeWithFiles(repo, "src/Foo.java", "src/Bar.java"));
+    Change mixed = insert(project, newChangeWithFiles(repo, "src/Foo.java", "src/Foo.kt"));
+    Change allKt = insert(project, newChangeWithFiles(repo, "src/Foo.kt"));
+
+    // Only changes where every file matches the regex are returned.
+    // allJava: both files are .java — matches
+    // mixed: has a .kt file — must not match
+    // allKt: only .kt file — must not match
+    assertQuery("onlypaths:{^src/.*\\.java$}", allJava);
+
+    // Only changes where every file matches the regex are returned.
+    // allKt: only .kt file — matches
+    // mixed: has a .java file — must not match
+    // allJava: both files are .java — must not match
+    assertQuery("onlypaths:{^src/.*\\.kt$}", allKt);
+
+    // Regex covering both extensions matches all three changes
+    assertQuery("onlypaths:{^src/.*\\.(java|kt)$}", allKt, mixed, allJava);
+
+    // No real file matches
+    assertQuery("onlypaths:^test/.*");
+  }
+
+  @Test
   public void byFooter() throws Exception {
     Project.NameKey project = Project.nameKey("repo");
     repo = createAndOpenProject(project);

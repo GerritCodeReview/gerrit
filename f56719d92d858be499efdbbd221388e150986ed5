@@ -22,6 +22,30 @@
       },
       "revId": "f56719d92d858be499efdbbd221388e150986ed5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "503e6ea9_3f326d5d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-07-28T22:31:24Z",
+      "side": 1,
+      "message": "Should there be something specific in the `Release-Notes` text when it\u0027s a known breaking change?",
+      "parentUuid": "ffa964a6_e6cb7783",
+      "range": {
+        "startLine": 13,
+        "startChar": 42,
+        "endLine": 13,
+        "endChar": 90
+      },
+      "revId": "f56719d92d858be499efdbbd221388e150986ed5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

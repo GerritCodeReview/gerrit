@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e006768d_602698ea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-07-28T10:37:21Z",
+      "side": 1,
+      "message": "Can you please give some context why we are restricting this.\n\nAt least can you mention that gerrit frontend is not allowing 2 or more replies to same comment but only replying in chain. But backend allows this. If an user use API they can produce structure with 1 comment having 2 direct replies - one resolved and one unresolved and frontend cannot render this situation and cannot even resolved unresolved branch.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 60
+      },
+      "revId": "8449a57cd5238cd5f40988f252216fe8add186ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0cf4929_b06f2e75",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-07-28T10:37:21Z",
+      "side": 1,
+      "message": "can you please also add bug \nGoogle-Bug-Id: b/532453074",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 14
+      },
+      "revId": "8449a57cd5238cd5f40988f252216fe8add186ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e75b116_f6e76fca",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-07-28T10:37:21Z",
+      "side": 1,
+      "message": "It looks good, thank you for fixing this.",
+      "revId": "8449a57cd5238cd5f40988f252216fe8add186ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee54d111_356f77bc",
+        "filename": "java/com/google/gerrit/server/change/CommentsValidator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-07-28T10:37:21Z",
+      "side": 1,
+      "message": "Can you hoist this before loop so it\u0027s not calculated for every comment?",
+      "range": {
+        "startLine": 100,
+        "startChar": 9,
+        "endLine": 100,
+        "endChar": 73
+      },
+      "revId": "8449a57cd5238cd5f40988f252216fe8add186ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08c218e1_6e9bedd9",
+        "filename": "java/com/google/gerrit/server/change/CommentsValidator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-07-28T10:37:21Z",
+      "side": 1,
+      "message": "Theoretically a user can include multiple replies to the same comment in a single ReviewInput request. If you could also check that that would be great.",
+      "range": {
+        "startLine": 100,
+        "startChar": 4,
+        "endLine": 100,
+        "endChar": 73
+      },
+      "revId": "8449a57cd5238cd5f40988f252216fe8add186ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

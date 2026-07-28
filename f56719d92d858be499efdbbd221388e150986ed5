@@ -46,6 +46,30 @@
       },
       "revId": "f56719d92d858be499efdbbd221388e150986ed5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de53a06b_096ae68a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-07-28T22:42:54Z",
+      "side": 1,
+      "message": "I\u0027ve looked at the changes currently mentioned in that section and they don\u0027t have anything mentioned in the release notes.",
+      "parentUuid": "503e6ea9_3f326d5d",
+      "range": {
+        "startLine": 13,
+        "startChar": 42,
+        "endLine": 13,
+        "endChar": 90
+      },
+      "revId": "f56719d92d858be499efdbbd221388e150986ed5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

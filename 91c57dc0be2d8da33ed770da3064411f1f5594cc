@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "42038ddf_5fde08ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-07-28T12:28:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc82dc50_ac1e4243",
+      "revId": "91c57dc0be2d8da33ed770da3064411f1f5594cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e5b141b9_91d2075b",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-07-28T10:03:11Z",
       "side": 1,
       "message": "add a space after `//` as it is done everywhere in Gerrit code",
+      "revId": "91c57dc0be2d8da33ed770da3064411f1f5594cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3b9d7a07_4d140941",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-07-28T12:28:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5b141b9_91d2075b",
       "revId": "91c57dc0be2d8da33ed770da3064411f1f5594cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -65,6 +101,42 @@
       "writtenOn": "2026-07-28T10:03:11Z",
       "side": 1,
       "message": "Does the branch expression allow wildcard only after a `/` like `refs/heads/foo/*` or it is also allowed after a non-`/` character like `refs/heads/foo*`. In the former case this check needs to be `branchRef.endsWith(\"/*\")`",
+      "revId": "91c57dc0be2d8da33ed770da3064411f1f5594cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "927840e4_f0502c9a",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-07-28T12:28:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d6a76d5_7252d586",
+      "revId": "91c57dc0be2d8da33ed770da3064411f1f5594cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8df61c8_97101a25",
+        "filename": "java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-07-28T12:28:54Z",
+      "side": 1,
+      "message": "`branch:refs/heads/*` works but `branch:refs/heads/mas*` doesn\u0027t.",
+      "parentUuid": "f3344413_1b4ff45f",
       "revId": "91c57dc0be2d8da33ed770da3064411f1f5594cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

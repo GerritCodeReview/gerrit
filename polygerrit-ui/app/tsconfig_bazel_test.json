@@ -1,6 +1,10 @@
 {
   "extends": "./tsconfig_bazel.json",
   "compilerOptions": {
+    // Override the yarn/IDE outDir from tsconfig.json: rules_ts requires the
+    // output directory to stay within the Bazel package (kept in sync with
+    // out_dir of the compile_pg_with_tests ts_project).
+    "outDir": "_pg_with_tests_out",
     "typeRoots": [
       "node_modules/@types",
       "../node_modules/@types"

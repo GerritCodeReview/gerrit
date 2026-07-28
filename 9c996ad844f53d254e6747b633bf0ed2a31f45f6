@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "acab78ff_be8d75cd",
+        "filename": "java/com/google/gerrit/server/schema/H2CustomLockAccountPatchReviewStore.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-07-28T09:36:22Z",
+      "side": 1,
+      "message": "What if these parameters were already configured, hence `getUrl` would return it?",
+      "range": {
+        "startLine": 47,
+        "startChar": 62,
+        "endLine": 47,
+        "endChar": 92
+      },
+      "revId": "9c996ad844f53d254e6747b633bf0ed2a31f45f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5750c34_76aa922f",
+        "filename": "java/com/google/gerrit/server/schema/H2CustomLockAccountPatchReviewStore.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-07-28T09:36:22Z",
+      "side": 1,
+      "message": "We are losing the reason why we are throwing. I would propagate the `ie`.",
+      "range": {
+        "startLine": 90,
+        "startChar": 70,
+        "endLine": 90,
+        "endChar": 71
+      },
+      "revId": "9c996ad844f53d254e6747b633bf0ed2a31f45f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d8c378b_30bac560",
+        "filename": "java/com/google/gerrit/server/schema/H2JGitLockAccountPatchReviewStore.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-07-28T09:36:22Z",
+      "side": 1,
+      "message": "Here we are blindly expecting this url format. Shall we throw an `IllegalArgumentException` if this is not the case. Also it might be worth adding a note to the documentation saying this is the only allowed format.",
+      "range": {
+        "startLine": 54,
+        "startChar": 38,
+        "endLine": 54,
+        "endChar": 52
+      },
+      "revId": "9c996ad844f53d254e6747b633bf0ed2a31f45f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76ebb913_3dae2fce",
+        "filename": "javatests/com/google/gerrit/server/schema/H2GitLockAccountPatchReviewStoreIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-07-28T09:36:22Z",
+      "side": 1,
+      "message": "This should be `jgit`. If the tests are passing with this value set to `git` there is something wrong in the tests.",
+      "range": {
+        "startLine": 48,
+        "startChar": 92,
+        "endLine": 48,
+        "endChar": 95
+      },
+      "revId": "9c996ad844f53d254e6747b633bf0ed2a31f45f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a5d3f99_e035bea0",
+        "filename": "javatests/com/google/gerrit/server/schema/H2GitLockAccountPatchReviewStoreIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-07-28T09:36:22Z",
+      "side": 1,
+      "message": "I would add a case with a mix of multiple files, reviewed and not-reviewed",
+      "range": {
+        "startLine": 63,
+        "startChar": 0,
+        "endLine": 72,
+        "endChar": 0
+      },
+      "revId": "9c996ad844f53d254e6747b633bf0ed2a31f45f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

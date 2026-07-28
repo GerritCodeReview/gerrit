@@ -872,4 +872,53 @@ suite('gr-comment-thread tests', () => {
       ]);
     });
   });
+
+  suite('Disagree button', () => {
+    setup(async () => {
+      element.isOwner = true;
+      element.account = createAccountDetailWithId(13);
+      element.thread = createThread({...c1, is_ai: true, unresolved: true});
+      await element.updateComplete;
+    });
+
+    test('renders with unresolved AI comment when owner', async () => {
+      assert.isOk(query(element, '#disagreeBtn'));
+    });
+
+    test('does not show disagree button if comment is not AI', async () => {
+      element.thread = createThread({...c1, is_ai: false, unresolved: true});
+      await element.updateComplete;
+      assert.isNotOk(query(element, '#disagreeBtn'));
+    });
+
+    test('does not show disagree button if user is not change owner', async () => {
+      element.isOwner = false;
+      await element.updateComplete;
+      assert.isNotOk(query(element, '#disagreeBtn'));
+    });
+
+    test('does not show disagree button if thread has more than 1 comment', async () => {
+      element.thread = createThread(
+        {...c1, is_ai: true, unresolved: true},
+        createComment()
+      );
+      await element.updateComplete;
+      assert.isNotOk(query(element, '#disagreeBtn'));
+    });
+
+    test('handleCommentDisagree creates a "Disagree." reply', async () => {
+      const createReplyCommentSpy = sinon.spy(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        element as any,
+        'createReplyComment'
+      );
+      queryAndAssert<GrButton>(element, '#disagreeBtn').click();
+      assert.isTrue(createReplyCommentSpy.calledOnce);
+      assert.deepEqual(createReplyCommentSpy.firstCall.args, [
+        'Disagree.',
+        false,
+        false,
+      ]);
+    });
+  });
 });

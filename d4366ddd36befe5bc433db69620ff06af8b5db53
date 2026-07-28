@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7200d14_e7dc8213",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-07-28T18:02:18Z",
+      "side": 1,
+      "message": "It doesn\u0027t cover all the cases and I can\u0027t think of a safe way to use it automatically [1], but you could add a `FILE_COUNT` field to the index, which is new data and very small, and then use that to do a lot of index filtering up front. But for a submit requirement use case, I think this expensive path isn\u0027t very relevant. If someone finds that functionality useful, it can always be added later.\n\n[1] It can\u0027t be used automatically because you can\u0027t reliably pre-count the number of files based on the given paths since we could match the same file name in different subpaths (a case like `Makefile` modified at the top level and in subdirs).",
+      "revId": "d4366ddd36befe5bc433db69620ff06af8b5db53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91c0157c_bca73b28",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-07-28T18:02:18Z",
+      "side": 1,
+      "message": "Can you add docs for this in `Documentation/user-search.txt` and add it to the autocomplete operators in `polygerrit-ui/app/elements/core/gr-search-autocomplete/gr-search-autocomplete.ts`?",
+      "revId": "d4366ddd36befe5bc433db69620ff06af8b5db53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e0ea7845_e9e24285",
+        "filename": "java/com/google/gerrit/server/query/change/OnlyPathsPostFilterPredicate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-07-28T18:02:18Z",
+      "side": 1,
+      "message": "Why not use Sets for both of these? I don\u0027t think there\u0027s any benefit to having them sorted.",
+      "revId": "d4366ddd36befe5bc433db69620ff06af8b5db53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef8ad67b_20ec5904",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2274,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-07-28T18:02:18Z",
+      "side": 1,
+      "message": "Add another case for a change like:\n```\n    Change twoFilesWithDuplicateName \u003d\n        insert(project, newChangeWithFiles(repo, \"src/Foo.java\", \"tst/Foo.java\"));\n    assertQuery(\"onlypaths:Foo.java\", oneFile, twoFilesWithDuplicateName);\n```\n\nI think that\u0027s expected to pass?",
+      "revId": "d4366ddd36befe5bc433db69620ff06af8b5db53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

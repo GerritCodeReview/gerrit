@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38044421_40275295",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1007145
+      },
+      "writtenOn": "2026-07-29T21:08:26Z",
+      "side": 1,
+      "message": "have you verified this is actually how Gerrit behaves ?  if git itself is rejecting it, then things built on top of git will/should reject it.\n\nif agents are generating incorrect tag style in git commit messages, that\u0027s a bug in the agent.",
+      "revId": "f5e489091199dccabe43fca1e8bec484987ac3f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

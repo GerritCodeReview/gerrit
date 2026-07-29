@@ -209,6 +209,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2e28a7c2_ee3a8f33",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 686,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-07-29T22:11:30Z",
+      "side": 1,
+      "message": "It works for sites configured with index.commitWithin \u003d 0 without the follow-up and is documented as such. Do you think otherwise?",
+      "parentUuid": "ba57e2bc_2bcf9aa4",
+      "revId": "4805f6adf68537ea0a16deb10fccb8b82734130d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "90b10626_6c1fbc7a",
         "filename": "java/com/google/gerrit/server/update/BatchUpdates.java",
         "patchSetId": 5

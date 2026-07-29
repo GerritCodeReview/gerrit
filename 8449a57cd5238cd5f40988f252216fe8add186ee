@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7e89ed06_8e8c3c5e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-07-29T17:09:12Z",
+      "side": 1,
+      "message": "Thanks for the detailed reply! Let me know if you want my review on any future changes.",
+      "parentUuid": "2a0fb5d4_2705b8e5",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 60
+      },
+      "revId": "8449a57cd5238cd5f40988f252216fe8add186ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c0cf4929_b06f2e75",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4

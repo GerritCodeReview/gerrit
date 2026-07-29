@@ -2335,6 +2335,20 @@ suite('gr-diff-view tests', () => {
           );
         assert.equal(contentWithSidebar?.side, 'right');
       });
+
+      test('sets --diff-header-height on sticky header resize', async () => {
+        // @ts-expect-error: accessing private property shownSidebar for testing
+        element.shownSidebar = 'left-sidebar';
+        await element.updateComplete;
+
+        const stickyHeader =
+          element.shadowRoot?.querySelector<HTMLDivElement>('.stickyHeader');
+        assert.isNotNull(stickyHeader);
+
+        const height =
+          document.documentElement.style.getPropertyValue('--diff-header-height');
+        assert.isNotEmpty(height);
+      });
     });
   });
 });

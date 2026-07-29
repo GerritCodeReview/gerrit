@@ -16,6 +16,24 @@
       "message": "have you verified this is actually how Gerrit behaves ?  if git itself is rejecting it, then things built on top of git will/should reject it.\n\nif agents are generating incorrect tag style in git commit messages, that\u0027s a bug in the agent.",
       "revId": "f5e489091199dccabe43fca1e8bec484987ac3f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "684eb6ea_35b70d4b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1166186
+      },
+      "writtenOn": "2026-07-29T21:43:18Z",
+      "side": 1,
+      "message": "\u003e if agents are generating incorrect tag style in git commit messages, that\u0027s a bug in the agent.\n\nThat could be true, (I\u0027m not sure if `\u003d` is intentional or not) and maybe the agents should also be updated.\n\nHowever the hook should be defensive here. The hook\u0027s job is to ensure a `Change-Id` exists, not to enforce formatting for the rest of the commit message. Blindly appending a second `Change-Id` only makes the commit message worse.",
+      "parentUuid": "38044421_40275295",
+      "revId": "f5e489091199dccabe43fca1e8bec484987ac3f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -2335,6 +2335,32 @@ suite('gr-diff-view tests', () => {
           );
         assert.equal(contentWithSidebar?.side, 'right');
       });
+
+      test('sets --diff-header-height on sticky header resize', async () => {
+        // @ts-expect-error: accessing private property shownSidebar for testing
+        element.shownSidebar = 'left-sidebar';
+        await element.updateComplete;
+
+        const stickyHeader =
+          element.shadowRoot?.querySelector<HTMLDivElement>('.stickyHeader');
+        assert.isNotNull(stickyHeader);
+
+        const height = element.style.getPropertyValue('--diff-header-height');
+        assert.match(height, /^\d+px$/);
+      });
+
+      test('styles sidebarContents as flex column container', async () => {
+        // @ts-expect-error: accessing private property shownSidebar for testing
+        element.shownSidebar = 'left-sidebar';
+        await element.updateComplete;
+
+        const sidebarContents =
+          element.shadowRoot?.querySelector<HTMLDivElement>('.sidebarContents');
+        assert.isNotNull(sidebarContents);
+        const computedStyle = getComputedStyle(sidebarContents!);
+        assert.equal(computedStyle.display, 'flex');
+        assert.equal(computedStyle.flexDirection, 'column');
+      });
     });
   });
 });

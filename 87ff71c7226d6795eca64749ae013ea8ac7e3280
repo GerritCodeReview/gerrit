@@ -22,6 +22,87 @@
       },
       "revId": "87ff71c7226d6795eca64749ae013ea8ac7e3280",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5fff7cc_5279505a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-07-29T17:07:57Z",
+      "side": 1,
+      "message": "That sounds complicated enough that I think it should be attempted in a follow up change (with a lot of tests).",
+      "parentUuid": "6db09954_5fdce230",
+      "range": {
+        "startLine": 14,
+        "startChar": 33,
+        "endLine": 16,
+        "endChar": 0
+      },
+      "revId": "87ff71c7226d6795eca64749ae013ea8ac7e3280",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cca16972_0d1e6676",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-07-29T17:07:57Z",
+      "side": 1,
+      "message": "nit: Put this after `path`? (I think these aren\u0027t alpha order and instead are grouped by functionality?)",
+      "revId": "87ff71c7226d6795eca64749ae013ea8ac7e3280",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ffa6693_a9ba02ad",
+        "filename": "java/com/google/gerrit/server/query/change/OnlyPathsPostFilterPredicate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-07-29T17:07:57Z",
+      "side": 1,
+      "message": "nit: Do you need to make a copy of the set? We already pass an `ImmutableSet`. I know Guava might magically avoid the copy, but this is more obvious.\n```suggestion\n  OnlyPathsPostFilterPredicate(ImmutableSet\u003cString\u003e files) {\n    super(ChangeQueryBuilder.FIELD_ONLY_PATHS, String.join(\",\", files));\n    this.expectedFiles \u003d files;\n```",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 52
+      },
+      "revId": "87ff71c7226d6795eca64749ae013ea8ac7e3280",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc0b00aa_446b7377",
+        "filename": "java/com/google/gerrit/server/query/change/RegexOnlyPathsPredicate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-07-29T17:07:57Z",
+      "side": 1,
+      "message": "You might want to keep `RegexListSearcher` here, since it seems to be optimized for this use case. Sorry I didn\u0027t comment on that with my previous comments.",
+      "revId": "87ff71c7226d6795eca64749ae013ea8ac7e3280",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

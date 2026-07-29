@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "431c3dfd_69be5f08",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-07-29T17:07:57Z",
+      "side": 1,
+      "message": "\u003e [1] It can\u0027t be used automatically because you can\u0027t reliably pre-count the number of files based on the given paths since we could match the same file name in different subpaths (a case like `Makefile` modified at the top level and in subdirs).\n\nSince @thomas.draebing@sap.com corrected me that `path:` only matches complete paths, I think an automatic approach is very viable for non-regex `onlypaths:`. If my reasoning is correct, instead of converting `onlypath:\u003cfile1\u003e,\u003cfile2\u003e` into `path:\u003cfile1\u003e AND path:\u003cfile2\u003e` and then post-filtering, convert it to `path:\u003cfile1\u003e AND path:\u003cfile2\u003e AND filecount:2`. We can\u0027t count paths if any contain a regex, so we still need the post filter for those.\n\nThat does require a new index version, so if you\u0027re interested in pursuing this, it should be implemented in a separate change.",
+      "parentUuid": "c7200d14_e7dc8213",
+      "revId": "d4366ddd36befe5bc433db69620ff06af8b5db53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "91c0157c_bca73b28",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
@@ -119,6 +137,24 @@
       "side": 1,
       "message": "No. As with `path:` the complete path is being matched. We could also add `onlyfiles:` which would match the `file:` behaviour and serve this usecase.",
       "parentUuid": "ef8ad67b_20ec5904",
+      "revId": "d4366ddd36befe5bc433db69620ff06af8b5db53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c51cf0d_cb8bd994",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2274,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-07-29T17:07:57Z",
+      "side": 1,
+      "message": "Ah, I thought `path:` and `file:` had the same semantics. Thanks for clarifying.",
+      "parentUuid": "3585948c_6dde20a4",
       "revId": "d4366ddd36befe5bc433db69620ff06af8b5db53",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -135,6 +135,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a03d10bd_a7dddd2e",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 686,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-07-29T21:14:00Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/gerrit/+/612844/1",
+      "parentUuid": "a6baebea_fdbbd59d",
+      "revId": "4805f6adf68537ea0a16deb10fccb8b82734130d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "90b10626_6c1fbc7a",

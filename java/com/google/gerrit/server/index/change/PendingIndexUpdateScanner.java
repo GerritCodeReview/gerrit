@@ -133,7 +133,7 @@ public final class PendingIndexUpdateScanner implements Runnable, LifecycleListe
     }
   }
 
-  private void processPidDir(Path pidDir, boolean skipDeadCheck) {
+  private void processPidDir(Path pidDir, boolean blindRecover) {
     try (DirectoryStream<Path> threadDirs = Files.newDirectoryStream(pidDir)) {
       for (Path threadDir : threadDirs) {
         long threadId;
@@ -145,8 +145,8 @@ public final class PendingIndexUpdateScanner implements Runnable, LifecycleListe
           MoreFiles.deleteRecursively(threadDir);
           continue;
         }
-        if (skipDeadCheck || isThreadDead(threadId)) {
-          processDeadThreadDir(threadDir);
+        if (blindRecover || isThreadDead(threadId)) {
+          processDeadThreadDir(threadDir, blindRecover);
         }
       }
     } catch (IOException e) {
@@ -158,11 +158,13 @@ public final class PendingIndexUpdateScanner implements Runnable, LifecycleListe
     return ManagementFactory.getThreadMXBean().getThreadInfo(threadId) == null;
   }
 
-  private void processDeadThreadDir(Path threadDir) {
-    try (DirectoryStream<Path> intents = Files.newDirectoryStream(threadDir)) {
+  private void processDeadThreadDir(Path threadDir, boolean blindRecover) {
+    try (DirectoryStream<Path> intents =
+        Files.newDirectoryStream(
+            threadDir, p -> !p.getFileName().toString().endsWith(PendingIndexUpdate.LOCK_SUFFIX))) {
       for (Path intent : intents) {
         try {
-          pendingIndexUpdate.recover(intent);
+          pendingIndexUpdate.recover(intent, blindRecover);
         } catch (IOException e) {
           logger.atWarning().withCause(e).log(
               "Failed to recover pending index intent %s", intent.getFileName());
@@ -172,6 +174,5 @@ public final class PendingIndexUpdateScanner implements Runnable, LifecycleListe
       logger.atWarning().withCause(e).log(
           "Failed to recover pending index updates for %s", threadDir);
     }
-    pendingIndexUpdate.cleanIfEmpty(threadDir);
   }
 }

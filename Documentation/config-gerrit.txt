@@ -4174,10 +4174,8 @@ Disabling this also disables both the startup recovery and the background
 scanner, so any index inconsistencies caused by a crash must be resolved with a
 manual link:cmd-index-changes.html[reindex].
 +
-> **NOTE**: The stale change recovery is enabled only when `index.commitWithin`
-> is set to zero and `index.indexChangesAsync` is false. By default, Lucene flush
-> to disk is deferred until the `commitWithin` interval elapses, making the stale
-> change recovery ineffective.
+> **NOTE**: The stale change recovery is enabled only when index.indexChangesAsync`
+> is false.
 +
 Defaults to `false`.
 

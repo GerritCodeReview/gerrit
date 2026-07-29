@@ -197,4 +197,9 @@ public interface Index<K, V> {
   default void flushAndCommit() throws IOException {
     throw new NotImplementedException();
   }
+
+  /** Registers a callback to be run once pending writes are durably persisted. */
+  default void afterNextFlush(Runnable callback) {
+    callback.run();
+  }
 }

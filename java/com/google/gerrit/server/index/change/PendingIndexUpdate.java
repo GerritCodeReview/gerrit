@@ -45,6 +45,7 @@ import org.eclipse.jgit.lib.Config;
 public final class PendingIndexUpdate {
   record Intent(String project, int changeId, String operation) {}
 
+  public static final String LOCK_SUFFIX = ".lck";
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   private static final String PROCESS_MARKER =
       ProcessHandle.current().pid() + "_" + ManagementFactory.getRuntimeMXBean().getStartTime();
@@ -79,16 +80,6 @@ public final class PendingIndexUpdate {
           "index.staleChangeRecovery has no effect when index.indexChangesAsync is true;"
               + " stale change recovery is disabled");
       return false;
-    }
-    for (String subsection : new String[] {"changes", "changes_open", "changes_closed"}) {
-      long commitWithin = cfg.getLong("index", subsection, "commitWithin", 0L);
-      if (commitWithin != 0) {
-        logger.atWarning().log(
-            "index.staleChangeRecovery has no effect when index.%s.commitWithin is non-zero;"
-                + " stale change recovery is disabled",
-            subsection);
-        return false;
-      }
     }
     return true;
   }
@@ -140,8 +131,19 @@ public final class PendingIndexUpdate {
     }
   }
 
-  /** Reads the intent file, applies the index operation, then deletes the file. */
-  public void recover(Path file) throws IOException {
+  /**
+   * Applies the index operation described by the intent file, then schedules the file for deletion
+   * once the write has been durably committed to disk.
+   *
+   * @param skipChecks if true, skips the lock-file check (used during startup recovery where all
+   *     previous lock files are stale)
+   */
+  void recover(Path file, boolean skipChecks) throws IOException {
+    Path lock = file.resolveSibling(file.getFileName() + LOCK_SUFFIX);
+    if (!skipChecks && lock.toFile().exists()) {
+      return; // already submitted — awaiting flush
+    }
+
     Intent intent;
     try {
       intent = GSON.fromJson(Files.readString(file), Intent.class);
@@ -149,6 +151,8 @@ public final class PendingIndexUpdate {
       logger.atWarning().withCause(e).log(
           "Malformed pending index intent, deleting %s", file.getFileName());
       Files.deleteIfExists(file);
+      Files.deleteIfExists(lock);
+      cleanIfEmpty(file.getParent());
       return;
     }
     if (intent == null
@@ -157,6 +161,8 @@ public final class PendingIndexUpdate {
         || intent.changeId() <= 0) {
       logger.atWarning().log("Malformed pending index intent, deleting %s", file.getFileName());
       Files.deleteIfExists(file);
+      Files.deleteIfExists(lock);
+      cleanIfEmpty(file.getParent());
       return;
     }
     Project.NameKey project = Project.nameKey(intent.project());
@@ -174,6 +180,19 @@ public final class PendingIndexUpdate {
       // catch all indexing exceptions to not propagate further.
       logger.atSevere().withCause(e).log("Exception while recovering index intent: %s", intent);
     }
-    Files.deleteIfExists(file);
+
+    // Defer deletion until index update is durably committed to disk.
+    indexer.schedulePostFlush(
+        () -> {
+          try {
+            Files.deleteIfExists(file);
+            Files.deleteIfExists(lock);
+            cleanIfEmpty(file.getParent());
+          } catch (IOException e) {
+            logger.atWarning().withCause(e).log(
+                "Failed to delete recovered intent file %s", file.getFileName());
+          }
+        });
+    var unused = lock.toFile().createNewFile();
   }
 }

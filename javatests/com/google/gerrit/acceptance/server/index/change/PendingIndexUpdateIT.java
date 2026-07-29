@@ -33,7 +33,6 @@ public class PendingIndexUpdateIT extends AbstractDaemonTest {
   @Test
   @GerritConfig(name = "index.staleChangeRecovery", value = "true")
   @GerritConfig(name = "index.staleChangeRecoveryInterval", value = "1s")
-  @GerritConfig(name = "index.changes.commitWithin", value = "0")
   public void scannerRecoversMissedIndexWrite() throws Exception {
     PushOneCommit.Result r = createChange();
     Change.Id changeId = r.getChange().getId();
@@ -58,7 +57,6 @@ public class PendingIndexUpdateIT extends AbstractDaemonTest {
   @Test
   @GerritConfig(name = "index.staleChangeRecovery", value = "true")
   @GerritConfig(name = "index.staleChangeRecoveryInterval", value = "1s")
-  @GerritConfig(name = "index.changes.commitWithin", value = "0")
   public void scannerRecoversMissedIndexDelete() throws Exception {
     PushOneCommit.Result r = createChange();
     Change.Id changeId = r.getChange().getId();

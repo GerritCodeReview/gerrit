@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.server.index.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.WaitUtil.waitUntil;
 
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.LinkedListMultimap;
@@ -25,17 +26,22 @@ import com.google.gerrit.acceptance.ExtensionRegistry;
 import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.config.GerritConfig;
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.index.IndexDefinition;
 import com.google.gerrit.index.RefState;
 import com.google.gerrit.index.SiteIndexer.Result;
 import com.google.gerrit.server.index.change.AllChangesIndexer;
 import com.google.gerrit.server.index.change.ChangeIndex;
+import com.google.gerrit.server.index.change.PendingIndexUpdate;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Inject;
+import java.nio.file.Path;
+import java.time.Duration;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -56,6 +62,7 @@ public class LuceneChangeIndexerIT extends AbstractDaemonTest {
   }
 
   @Inject private ExtensionRegistry extensionRegistry;
+  @Inject private PendingIndexUpdate pendingIndexUpdate;
 
   @Inject private Collection<IndexDefinition<?, ?, ?>> indexDefs;
   private AllChangesIndexer allChangesIndexer;
@@ -126,6 +133,43 @@ public class LuceneChangeIndexerIT extends AbstractDaemonTest {
 
     result = gApi.changes().query("project:" + project.get()).get();
     assertThat(result).isEmpty();
+  }
+
+  @Test
+  @GerritConfig(name = "index.staleChangeRecovery", value = "true")
+  @GerritConfig(name = "index.staleChangeRecoveryInterval", value = "1s")
+  @GerritConfig(name = "index.changes_open.commitWithin", value = "3600000") // 1 hour
+  @GerritConfig(name = "index.changes_closed.commitWithin", value = "3600000") // 1 hour
+  public void intentFileDeletedOnlyAfterLuceneFlush() throws Exception {
+    PushOneCommit.Result res = createChange();
+    Change.Id changeId = res.getChange().getId();
+
+    // simulates interrupt
+    index.delete(changeId);
+    pendingIndexUpdate.write(Long.MAX_VALUE, project, changeId, /* delete= */ false);
+
+    Path intentFile =
+        pendingIndexUpdate
+            .threadDir(Long.MAX_VALUE)
+            .resolve(pendingIndexUpdate.filename(project, changeId));
+    waitUntil(
+        () -> {
+          try {
+            // intent recovered
+            return !gApi.changes().query("change:" + changeId).get().isEmpty();
+          } catch (RestApiException e) {
+            throw new RuntimeException(e);
+          }
+        },
+        Duration.ofSeconds(5));
+
+    // Intent file must still exist — until configured commitWithin
+    assertThat(intentFile.toFile().exists()).isTrue();
+
+    // Triggering flush should clear the intents.
+    adminRestSession.post("/config/server/indexes/changes/flush").assertNoContent();
+    assertThat(intentFile.toFile().exists()).isFalse();
+    assertThat(gApi.changes().query("change:" + changeId).get()).hasSize(1);
   }
 
   private void createIndexWithMissingChangeAndReindex(ChangeIndexedCounter changeIndexedCounter)

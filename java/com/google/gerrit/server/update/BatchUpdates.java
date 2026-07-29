@@ -31,6 +31,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.index.change.PendingIndexUpdate;
 import com.google.gerrit.server.notedb.LimitExceededException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
@@ -84,11 +85,16 @@ public class BatchUpdates {
   }
 
   private final ChangeData.Factory changeDataFactory;
+  private final ChangeIndexer indexer;
   private final PendingIndexUpdate pendingIndexUpdate;
 
   @Inject
-  BatchUpdates(ChangeData.Factory changeDataFactory, PendingIndexUpdate pendingIndexUpdate) {
+  BatchUpdates(
+      ChangeData.Factory changeDataFactory,
+      ChangeIndexer indexer,
+      PendingIndexUpdate pendingIndexUpdate) {
     this.changeDataFactory = changeDataFactory;
+    this.indexer = indexer;
     this.pendingIndexUpdate = pendingIndexUpdate;
   }
 
@@ -147,9 +153,12 @@ public class BatchUpdates {
 
       if (!dryrun) {
         if (pendingIndexUpdate.isEnabled()) {
-          for (ChangesHandle h : changesHandles) {
-            h.deleteIndexIntents(pendingIndexUpdate, threadId);
-          }
+          indexer.schedulePostFlush(
+              () -> {
+                for (ChangesHandle h : changesHandles) {
+                  h.deleteIndexIntents(pendingIndexUpdate, threadId);
+                }
+              });
         }
 
         for (BatchUpdate u : updates) {

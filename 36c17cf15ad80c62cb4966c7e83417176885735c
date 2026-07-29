@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4602bdb_b4edb246",
+        "filename": "java/com/google/gerrit/server/schema/H2CustomLockAccountPatchReviewStore.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-07-29T14:15:08Z",
+      "side": 1,
+      "message": "```suggestion\n        throw new SQLException(\n            \"Interrupted while waiting for H2 lock\", ie);\n```",
+      "range": {
+        "startLine": 90,
+        "startChar": 18,
+        "endLine": 91,
+        "endChar": 84
+      },
+      "revId": "36c17cf15ad80c62cb4966c7e83417176885735c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d74f6fa8_a193b7a4",
+        "filename": "javatests/com/google/gerrit/server/schema/H2JGitLockAccountPatchReviewStoreIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-07-29T14:15:08Z",
+      "side": 1,
+      "message": "nit: What about using `Future`s? \n* It simplifies the exception handling\n* try with resources cleans up the worker pool\n* I think it reads better, but that might be individual preference \n\n```suggestion\n@Test\n  public void concurrentMarksAreAllDurable() throws Exception {\n    int nThreads \u003d 8;\n    int filesPerThread \u003d 5;\n    CyclicBarrier startGate \u003d new CyclicBarrier(nThreads);\n\n    ImmutableSet\u003cString\u003e expected \u003d\n        IntStream.range(0, nThreads)\n            .boxed()\n            .flatMap(\n                threadIdx -\u003e\n                    IntStream.range(0, filesPerThread)\n                        .mapToObj(f -\u003e fileName(threadIdx, f)))\n            .collect(toImmutableSet());\n\n    try (ExecutorService executor \u003d Executors.newFixedThreadPool(nThreads)) {\n      ImmutableList\u003cFuture\u003c?\u003e\u003e futures \u003d\n          IntStream.range(0, nThreads)\n              .mapToObj(\n                  threadIdx -\u003e\n                      executor.submit(\n                          () -\u003e {\n                            startGate.await();\n                            for (int f \u003d 0; f \u003c filesPerThread; f++) {\n                              var unused \u003d store.markReviewed(PS, ACCOUNT, fileName(threadIdx, f));\n                            }\n                            return null;\n                          }))\n              .collect(toImmutableList());\n\n      for (Future\u003c?\u003e future : futures) {\n        future.get();\n      }\n    }\n\n    assertThat(store.findReviewed(PS, ACCOUNT)).isPresent();\n    assertThat(store.findReviewed(PS, ACCOUNT).get().files()).isEqualTo(expected);\n  }\n\n  private static String fileName(int threadIdx, int fileIdx) {\n    return \"file-\" + threadIdx + \"-\" + fileIdx + \".txt\";\n  }\n```",
+      "range": {
+        "startLine": 83,
+        "startChar": 0,
+        "endLine": 124,
+        "endChar": 3
+      },
+      "revId": "36c17cf15ad80c62cb4966c7e83417176885735c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

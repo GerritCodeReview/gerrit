@@ -227,6 +227,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5e345a35_ebd16cf6",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 686,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-07-29T22:16:33Z",
+      "side": 1,
+      "message": "`index.commitWithin \u003d 0` isn\u0027t the default. If this change is explicitly for that scenario and you\u0027d like to develop this independently from its follow-up, then you should explicitly disable it when `index.commitWithin` is not zero.",
+      "parentUuid": "2e28a7c2_ee3a8f33",
+      "revId": "4805f6adf68537ea0a16deb10fccb8b82734130d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "90b10626_6c1fbc7a",
         "filename": "java/com/google/gerrit/server/update/BatchUpdates.java",
         "patchSetId": 5

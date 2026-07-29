@@ -74,10 +74,10 @@ if test -n "${reviewurl}" ; then
 else
   token="Change-Id"
   value="I$random"
-  pattern=".*"
+  pattern="I[0-9a-fA-F]\{1,\}"
 fi
 
-if git interpret-trailers --no-divider --parse < "$1" | grep -q "^$token: $pattern$" ; then
+if git interpret-trailers --no-divider --parse < "$dest" | grep -q "^$token: $pattern$" || grep -q "^$token: $pattern$" "$dest" ; then
   exit 0
 fi
 

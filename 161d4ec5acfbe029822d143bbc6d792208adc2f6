@@ -47,6 +47,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a354d74a_d542299b",
+        "filename": "java/com/google/gerrit/server/index/change/PendingIndexUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-07-29T02:07:41Z",
+      "side": 1,
+      "message": "Included project id now should be distinguished. For second part we should not see it since batch updates are synchronous ?",
+      "parentUuid": "e9deb14e_c1b53636",
+      "range": {
+        "startLine": 40,
+        "startChar": 46,
+        "endLine": 40,
+        "endChar": 67
+      },
+      "revId": "161d4ec5acfbe029822d143bbc6d792208adc2f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "363c318e_70318a4e",
+        "filename": "java/com/google/gerrit/server/index/change/PendingIndexUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-07-29T02:07:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e37f6d4_0e61b51e",
+      "range": {
+        "startLine": 40,
+        "startChar": 57,
+        "endLine": 40,
+        "endChar": 67
+      },
+      "revId": "161d4ec5acfbe029822d143bbc6d792208adc2f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "be98fbb5_e1297ad4",
@@ -60,6 +108,24 @@
       "writtenOn": "2026-07-15T20:56:20Z",
       "side": 1,
       "message": "We probably should enhance the \"actorId\" (the directory name) to include the JVM PID and starttime. This will ensure that we do not get collisions across restarts.",
+      "revId": "161d4ec5acfbe029822d143bbc6d792208adc2f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4fe7abf_80b560cd",
+        "filename": "java/com/google/gerrit/server/index/change/PendingIndexUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-07-29T02:07:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be98fbb5_e1297ad4",
       "revId": "161d4ec5acfbe029822d143bbc6d792208adc2f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -81,6 +147,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "13f0b643_cf51c7b6",
+        "filename": "java/com/google/gerrit/server/index/change/PendingIndexUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-07-29T02:07:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ef21e2e_92716f50",
+      "revId": "161d4ec5acfbe029822d143bbc6d792208adc2f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "37b94240_be8453e3",
@@ -98,6 +182,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5154b670_0346f72c",
+        "filename": "java/com/google/gerrit/server/index/change/PendingIndexUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-07-29T02:07:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37b94240_be8453e3",
+      "revId": "161d4ec5acfbe029822d143bbc6d792208adc2f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "10fa839a_8c245cd9",
@@ -111,6 +213,30 @@
       "writtenOn": "2026-07-17T10:36:51Z",
       "side": 1,
       "message": "I would also add the projectName in the log",
+      "range": {
+        "startLine": 70,
+        "startChar": 53,
+        "endLine": 70,
+        "endChar": 55
+      },
+      "revId": "161d4ec5acfbe029822d143bbc6d792208adc2f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b64d4026_9b28a8de",
+        "filename": "java/com/google/gerrit/server/index/change/PendingIndexUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-07-29T02:07:41Z",
+      "side": 1,
+      "message": "NA now.",
+      "parentUuid": "10fa839a_8c245cd9",
       "range": {
         "startLine": 70,
         "startChar": 53,
@@ -144,6 +270,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "281e2e2c_c8c6d885",
+        "filename": "java/com/google/gerrit/server/index/change/PendingIndexUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-07-29T02:07:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6af4d0e7_b2c6996f",
+      "range": {
+        "startLine": 68,
+        "startChar": 0,
+        "endLine": 71,
+        "endChar": 5
+      },
+      "revId": "161d4ec5acfbe029822d143bbc6d792208adc2f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "39a11228_11a14986",
@@ -161,6 +311,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b21e55b5_d72f7549",
+        "filename": "java/com/google/gerrit/server/index/change/PendingIndexUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-07-29T02:07:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39a11228_11a14986",
+      "revId": "161d4ec5acfbe029822d143bbc6d792208adc2f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "99ceaa33_8f84efcc",
@@ -174,6 +342,24 @@
       "writtenOn": "2026-07-15T19:00:01Z",
       "side": 1,
       "message": "recover()?",
+      "revId": "161d4ec5acfbe029822d143bbc6d792208adc2f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6046b484_82d232dc",
+        "filename": "java/com/google/gerrit/server/index/change/PendingIndexUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-07-29T02:07:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "99ceaa33_8f84efcc",
       "revId": "161d4ec5acfbe029822d143bbc6d792208adc2f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -201,6 +387,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d77fcc7d_2c42c10a",
+        "filename": "java/com/google/gerrit/server/index/change/PendingIndexUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-07-29T02:07:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1742d359_616b99a4",
+      "range": {
+        "startLine": 110,
+        "startChar": 0,
+        "endLine": 114,
+        "endChar": 5
+      },
+      "revId": "161d4ec5acfbe029822d143bbc6d792208adc2f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b969d9bd_f8dbb3bb",
@@ -214,6 +424,24 @@
       "writtenOn": "2026-07-15T19:00:01Z",
       "side": 1,
       "message": "I think the style guide says this should come below class definitions (line 129).",
+      "revId": "161d4ec5acfbe029822d143bbc6d792208adc2f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c2f9dd3_bbba3a87",
+        "filename": "java/com/google/gerrit/server/index/change/PendingIndexUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-07-29T02:07:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b969d9bd_f8dbb3bb",
       "revId": "161d4ec5acfbe029822d143bbc6d792208adc2f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -235,6 +463,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f0e16a5_36cb0b4e",
+        "filename": "java/com/google/gerrit/server/index/change/PendingIndexUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-07-29T02:07:41Z",
+      "side": 1,
+      "message": "handled by workqueue shutdown.",
+      "parentUuid": "1bdee69f_def854ed",
+      "revId": "161d4ec5acfbe029822d143bbc6d792208adc2f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4e11ef2b_f8711756",
@@ -252,6 +498,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a758b843_4a653069",
+        "filename": "java/com/google/gerrit/server/index/change/PendingIndexUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-07-29T02:07:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4e11ef2b_f8711756",
+      "revId": "161d4ec5acfbe029822d143bbc6d792208adc2f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "050c30c8_c2e4acf6",
@@ -265,6 +529,30 @@
       "writtenOn": "2026-07-17T10:36:51Z",
       "side": 1,
       "message": "Worth logging this case as a warning (maybe with `atMost`)? If `pendingDir` is never there, and the scanning is enabled it means something is going on.",
+      "range": {
+        "startLine": 166,
+        "startChar": 5,
+        "endLine": 168,
+        "endChar": 7
+      },
+      "revId": "161d4ec5acfbe029822d143bbc6d792208adc2f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "96ccecb2_0ae6d9f2",
+        "filename": "java/com/google/gerrit/server/index/change/PendingIndexUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-07-29T02:07:41Z",
+      "side": 1,
+      "message": "If this doesn\u0027t exist it implies that writtens are failing and they would propagate that to user now.",
+      "parentUuid": "050c30c8_c2e4acf6",
       "range": {
         "startLine": 166,
         "startChar": 5,
@@ -298,6 +586,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "46ddfbad_1ecd8d14",
+        "filename": "java/com/google/gerrit/server/index/change/PendingIndexUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-07-29T02:07:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "faa7829b_03b81173",
+      "range": {
+        "startLine": 182,
+        "startChar": 1,
+        "endLine": 182,
+        "endChar": 38
+      },
+      "revId": "161d4ec5acfbe029822d143bbc6d792208adc2f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "edc6befa_d921c0f0",
@@ -315,6 +627,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0ee4ff5_b2b4d836",
+        "filename": "java/com/google/gerrit/server/index/change/PendingIndexUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-07-29T02:07:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "edc6befa_d921c0f0",
+      "revId": "161d4ec5acfbe029822d143bbc6d792208adc2f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "38ac6eeb_c820c60a",
@@ -328,6 +658,30 @@
       "writtenOn": "2026-07-17T10:36:51Z",
       "side": 1,
       "message": "This case might be critical, since if we cannot delete the directory we might end up in a situation where we keep try to index. Maybe we should be more explicit in the `cleanupThreadDir`, stating the consequences of not deleting it. WDYT?",
+      "range": {
+        "startLine": 200,
+        "startChar": 6,
+        "endLine": 200,
+        "endChar": 22
+      },
+      "revId": "161d4ec5acfbe029822d143bbc6d792208adc2f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e83672bf_5e6c9565",
+        "filename": "java/com/google/gerrit/server/index/change/PendingIndexUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-07-29T02:07:41Z",
+      "side": 1,
+      "message": "I\u0027m not sure I understand the concern. It will be handled in the next trigger.",
+      "parentUuid": "38ac6eeb_c820c60a",
       "range": {
         "startLine": 200,
         "startChar": 6,
@@ -373,6 +727,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a08376b_758bbf25",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdates.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-07-29T02:07:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0af0a3d1_f7c76122",
+      "revId": "161d4ec5acfbe029822d143bbc6d792208adc2f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9b34e6a0_0cd2cd05",
@@ -386,6 +758,30 @@
       "writtenOn": "2026-07-17T10:54:32Z",
       "side": 1,
       "message": "`pendingIndexUpdate.write` swallows and logs any `IOException`; see PendingIndexUpdate.javaL68-71\nAs a consequence, it seems to me that failures to write the intent are swallowed, so the execution continues even though the WAL record was not created?",
+      "range": {
+        "startLine": 127,
+        "startChar": 12,
+        "endLine": 127,
+        "endChar": 62
+      },
+      "revId": "161d4ec5acfbe029822d143bbc6d792208adc2f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "44e0c68b_948c31d4",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdates.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-07-29T02:07:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9b34e6a0_0cd2cd05",
       "range": {
         "startLine": 127,
         "startChar": 12,
@@ -432,6 +828,48 @@
         "endLine": 166,
         "endChar": 79
       },
+      "revId": "161d4ec5acfbe029822d143bbc6d792208adc2f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a54a1d3_b33bdd0c",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdates.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-07-29T02:07:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d839a6a5_f98ed255",
+      "range": {
+        "startLine": 165,
+        "startChar": 4,
+        "endLine": 166,
+        "endChar": 79
+      },
+      "revId": "161d4ec5acfbe029822d143bbc6d792208adc2f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c8c9d5c_a9898f2c",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdates.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-07-29T02:07:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "978c88cb_b1f34aef",
       "revId": "161d4ec5acfbe029822d143bbc6d792208adc2f6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

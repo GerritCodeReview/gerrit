@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6baebea_fdbbd59d",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 686,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-07-29T11:12:15Z",
+      "side": 1,
+      "message": "I\u0027m not sure this is the right time to delete the intents: the index update may not have been flushed to disk yet, as Lucene has a background thread that flushes pending updates.\n\nI see two ways forward:\n\n1. Force the Lucene indexing flushing here, synchronously, and then remove the pending index updates\n2. Hook into the next indexing flushing and provide a lambda to remove these indexing intents once the flush is complete\n\nThe 1. may introduce a performance regression, as we may end up flushing to Lucene more often than we do today.",
+      "revId": "4805f6adf68537ea0a16deb10fccb8b82734130d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

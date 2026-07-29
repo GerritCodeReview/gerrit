@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "afec1b66_43b9da92",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-07-29T22:47:49Z",
+      "side": 1,
+      "message": "I agree in merging this independently from its follow up, assuming that we disable it when commit to Lucene is deferred (default setting).",
+      "revId": "26e270a96a2f817340be7e101ed5a822118959f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ffeb3cf9_266fbeab",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 4179,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-07-29T22:47:49Z",
+      "side": 1,
+      "message": "If this change gets merged without its follow-up Ife39fa1118, then this phrasing should be changed.\n\n```suggestion\n\u003e **NOTE**: The stale change recovery is enabled only when `index.commitWithin` is set to zero.\n\u003e By default, Lucene flush to disk is deferred until the `commitWithin` interval elapses, making\n\u003e the stale change recovery ineffective.\n```\n\nOnce the follow-up change Ife39fa1118 is merged, the `index.staleChangeRecovery` can be enabled **also** for deferred flushing, as per the default 5 mins.",
+      "range": {
+        "startLine": 4177,
+        "startChar": 0,
+        "endLine": 4179,
+        "endChar": 30
+      },
+      "revId": "26e270a96a2f817340be7e101ed5a822118959f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

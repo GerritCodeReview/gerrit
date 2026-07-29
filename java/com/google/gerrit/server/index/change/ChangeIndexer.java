@@ -54,6 +54,7 @@ import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Future;
+import java.util.concurrent.atomic.AtomicInteger;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
 
@@ -521,6 +522,29 @@ public class ChangeIndexer {
       // Don't retry indefinitely; if this fails the change will be stale.
       @SuppressWarnings("unused")
       Future<?> possiblyIgnoredError = asyncReindexIfStale(project, id);
+    }
+  }
+
+  /**
+   * Registers {@code callback} to run once all write indexes have durably persisted their pending
+   * writes. For indexes that commit synchronously the callback fires immediately; for indexes with
+   * a periodic commit cycle (e.g. Lucene's default 5-minute flush) it is deferred until the next
+   * commit completes across all write indexes.
+   */
+  public void schedulePostFlush(Runnable callback) {
+    Collection<ChangeIndex> writeIndexes = getWriteIndexes();
+    if (writeIndexes.isEmpty()) {
+      callback.run();
+      return;
+    }
+    AtomicInteger remaining = new AtomicInteger(writeIndexes.size());
+    for (ChangeIndex idx : writeIndexes) {
+      idx.afterNextFlush(
+          () -> {
+            if (remaining.decrementAndGet() == 0) {
+              callback.run();
+            }
+          });
     }
   }
 

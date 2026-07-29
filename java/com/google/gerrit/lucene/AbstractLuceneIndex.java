@@ -58,8 +58,10 @@ import java.io.IOException;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Path;
 import java.sql.Timestamp;
+import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -117,6 +119,8 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
   private final AutoFlush autoFlush;
   private ScheduledExecutorService autoCommitExecutor;
   private final Function<V, K> valueToKeyFunction;
+  private final Queue<Runnable> postFlushCallbacks = new ConcurrentLinkedQueue<>();
+  private final boolean deferFlushCallbacks;
 
   @SuppressWarnings("ThreadPriorityCheck")
   AbstractLuceneIndex(
@@ -146,12 +150,15 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
 
     if (commitPeriod < 0) {
       writer = new AutoCommitWriter(dir, writerConfig.getLuceneConfig());
+      deferFlushCallbacks = true;
     } else if (commitPeriod == 0) {
       writer = new AutoCommitWriter(dir, writerConfig.getLuceneConfig(), true);
+      deferFlushCallbacks = false;
     } else {
       final AutoCommitWriter autoCommitWriter =
           new AutoCommitWriter(dir, writerConfig.getLuceneConfig());
       writer = autoCommitWriter;
+      deferFlushCallbacks = true;
 
       autoCommitExecutor =
           new LoggingContextAwareScheduledExecutorService(
@@ -169,6 +176,7 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
                   if (autoCommitWriter.hasUncommittedChanges()) {
                     autoCommitWriter.manualFlush();
                     autoCommitWriter.commit();
+                    drainPostFlushCallbacks();
                   }
                 } catch (IOException e) {
                   logger.atSevere().withCause(e).log("Error committing %s Lucene index", index);
@@ -243,6 +251,23 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
   public void flushAndCommit() throws IOException {
     writer.flush();
     writer.commit();
+    drainPostFlushCallbacks();
+  }
+
+  @Override
+  public void afterNextFlush(Runnable callback) {
+    if (deferFlushCallbacks) {
+      postFlushCallbacks.add(callback);
+    } else {
+      callback.run();
+    }
+  }
+
+  private void drainPostFlushCallbacks() {
+    Runnable r;
+    while ((r = postFlushCallbacks.poll()) != null) {
+      r.run();
+    }
   }
 
   @Override

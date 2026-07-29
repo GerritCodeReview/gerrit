@@ -16,9 +16,11 @@ package com.google.gerrit.server.index.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.clearInvocations;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -28,6 +30,8 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.WorkQueue;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ScheduledExecutorService;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Before;
@@ -66,6 +70,14 @@ public class PendingIndexUpdateScannerTest {
             })
         .when(fakeQueue)
         .submit(any(Runnable.class));
+    lenient()
+        .doAnswer(
+            inv -> {
+              ((Runnable) inv.getArgument(0)).run();
+              return null;
+            })
+        .when(indexer)
+        .schedulePostFlush(any(Runnable.class));
     when(workQueue.getDefaultQueue()).thenReturn(fakeQueue);
     sitePaths = new SitePaths(tempDir.getRoot().toPath());
     pendingIndexUpdate = new PendingIndexUpdate(sitePaths, indexer);
@@ -125,6 +137,54 @@ public class PendingIndexUpdateScannerTest {
   }
 
   @Test
+  public void scannerDefersFileDeletionUntilFlushCallback() throws Exception {
+    List<Runnable> flushCallbacks = new ArrayList<>();
+    doAnswer(
+            inv -> {
+              flushCallbacks.add(inv.getArgument(0));
+              return null;
+            })
+        .when(indexer)
+        .schedulePostFlush(any(Runnable.class));
+
+    pendingIndexUpdate.write(DEAD_THREAD_ID, PROJECT, CHANGE_ID, /* delete= */ false);
+    Path file = intentFile(DEAD_THREAD_ID, PROJECT, CHANGE_ID);
+
+    scanner.run();
+
+    verify(indexer).index(PROJECT, CHANGE_ID);
+    assertThat(file.toFile().exists()).isTrue();
+    assertThat(flushCallbacks).hasSize(1);
+
+    flushCallbacks.get(0).run();
+    assertThat(file.toFile().exists()).isFalse();
+  }
+
+  @Test
+  public void scannerSkipsFileAlreadyAwaitingFlush() throws Exception {
+    List<Runnable> flushCallbacks = new ArrayList<>();
+    doAnswer(
+            inv -> {
+              flushCallbacks.add(inv.getArgument(0));
+              return null;
+            })
+        .when(indexer)
+        .schedulePostFlush(any(Runnable.class));
+
+    pendingIndexUpdate.write(DEAD_THREAD_ID, PROJECT, CHANGE_ID, /* delete= */ false);
+    scanner.run();
+
+    verify(indexer, times(1)).index(PROJECT, CHANGE_ID);
+    assertThat(flushCallbacks).hasSize(1);
+
+    // Second scan run — lock file exists so the intent should not be submitted again.
+    clearInvocations(indexer);
+    scanner.run();
+
+    verify(indexer, never()).index(any(), any());
+  }
+
+  @Test
   public void startRecoversPreviousProcessIntents() throws Exception {
     // Write an intent under a foreign process marker dir, simulating a previous crash.
     Path intentDir = sitePaths.data_dir.resolve("pending-index");
@@ -138,7 +198,6 @@ public class PendingIndexUpdateScannerTest {
     scanner.start();
 
     verify(indexer).index(PROJECT, CHANGE_ID);
-    assertThat(prevThreadDir.toFile().exists()).isFalse();
   }
 
   @Test

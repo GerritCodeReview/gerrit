@@ -4174,10 +4174,6 @@ Disabling this also disables both the startup recovery and the background
 scanner, so any index inconsistencies caused by a crash must be resolved with a
 manual link:cmd-index-changes.html[reindex].
 +
-There is still a possibility of lost index updates when `index.commitWithin`
-is configured to a positive value, as the flush to disk is deferred until the
-commitWithin interval elapses.
-+
 Defaults to `false`.
 
 [[index.staleChangeRecoveryInterval]]index.staleChangeRecoveryInterval::

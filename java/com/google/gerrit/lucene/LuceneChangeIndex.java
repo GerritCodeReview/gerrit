@@ -76,6 +76,7 @@ import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.IndexWriter;
@@ -312,6 +313,19 @@ public class LuceneChangeIndex implements ChangeIndex {
   public void flushAndCommit() throws IOException {
     openIndex.flushAndCommit();
     closedIndex.flushAndCommit();
+  }
+
+  @Override
+  public void afterNextFlush(Runnable callback) {
+    AtomicInteger remaining = new AtomicInteger(2);
+    Runnable countdown =
+        () -> {
+          if (remaining.decrementAndGet() == 0) {
+            callback.run();
+          }
+        };
+    openIndex.afterNextFlush(countdown);
+    closedIndex.afterNextFlush(countdown);
   }
 
   private Sort getSort() {

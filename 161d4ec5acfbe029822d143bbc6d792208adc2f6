@@ -587,6 +587,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b7046c1_50fc890d",
+        "filename": "java/com/google/gerrit/server/index/change/PendingIndexUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-07-29T16:51:52Z",
+      "side": 1,
+      "message": "If there are no writes/updates on the server that directory might never get created (we cannot simply say say directory not being existent is a problem). We instead already fail on the BatchUpdate.execute if we fail to create that directory and that should suffice.",
+      "parentUuid": "67f1e0b9_cb92b799",
+      "range": {
+        "startLine": 166,
+        "startChar": 5,
+        "endLine": 168,
+        "endChar": 7
+      },
+      "revId": "161d4ec5acfbe029822d143bbc6d792208adc2f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "faa7829b_03b81173",
@@ -730,6 +754,30 @@
       "side": 1,
       "message": "\u003e I\u0027m not sure I understand the concern. It will be handled in the next trigger.\n\nWhat if it is a persistent issue? What I meant is that if you end up in this situation, I want to make sure the admin understands the implications of not deleting the \"pending index directory\".",
       "parentUuid": "e83672bf_5e6c9565",
+      "range": {
+        "startLine": 200,
+        "startChar": 6,
+        "endLine": 200,
+        "endChar": 22
+      },
+      "revId": "161d4ec5acfbe029822d143bbc6d792208adc2f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "14ea322f_6135e759",
+        "filename": "java/com/google/gerrit/server/index/change/PendingIndexUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-07-29T16:51:52Z",
+      "side": 1,
+      "message": "This delete fails consistently only when intents remain behind. Since we already log on failures for specific intents there is no need to log additionally for the directory.",
+      "parentUuid": "c48632d2_3ec0e2b1",
       "range": {
         "startLine": 200,
         "startChar": 6,

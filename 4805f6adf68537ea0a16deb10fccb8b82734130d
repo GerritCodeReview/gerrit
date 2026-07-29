@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "156bac54_ec21a308",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 4176,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-07-29T16:51:52Z",
+      "side": 1,
+      "message": "I don\u0027t think it that is necessary to mention about filesystem (it is implied that different filesystems have different performance.). That being said a single write shouldn\u0027t be that costly. I didn\u0027t notice any major time difference in change creation in my testing.",
+      "parentUuid": "5a1b5d5e_fbcd0be6",
+      "revId": "4805f6adf68537ea0a16deb10fccb8b82734130d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bdf1d6e7_c8c17aaf",
@@ -41,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2a4810d_e1186e46",
+        "filename": "java/com/google/gerrit/server/index/change/PendingIndexUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-07-29T16:51:52Z",
+      "side": 1,
+      "message": "Modified to just skip on NoSuchChange",
+      "parentUuid": "bdf1d6e7_c8c17aaf",
+      "range": {
+        "startLine": 142,
+        "startChar": 0,
+        "endLine": 143,
+        "endChar": 75
+      },
+      "revId": "4805f6adf68537ea0a16deb10fccb8b82734130d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bbd383f7_00112b1b",
@@ -54,6 +96,24 @@
       "writtenOn": "2026-07-29T15:48:33Z",
       "side": 1,
       "message": "For a new change whose notedb update didn\u0027t land, recover() will throw  NoSuchChangeException which is not an IOException, so it will endup killing the scanner? Maybe we should just catch \u0027Exception\u0027 here to ensure that an unrecoverable intent does not impact other intents that can be recovered.",
+      "revId": "4805f6adf68537ea0a16deb10fccb8b82734130d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c43fc6d9_936b9b2c",
+        "filename": "java/com/google/gerrit/server/index/change/PendingIndexUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-07-29T16:51:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bbd383f7_00112b1b",
       "revId": "4805f6adf68537ea0a16deb10fccb8b82734130d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -88,6 +148,24 @@
       "writtenOn": "2026-07-29T15:48:33Z",
       "side": 1,
       "message": "Does it make sense to have a finally block that deletes intents for changes that were not successfully written to notedb?",
+      "revId": "4805f6adf68537ea0a16deb10fccb8b82734130d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7796467_2b09562b",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdates.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-07-29T16:51:52Z",
+      "side": 1,
+      "message": "`execute` may fail partially. Having finally skips those.",
+      "parentUuid": "90b10626_6c1fbc7a",
       "revId": "4805f6adf68537ea0a16deb10fccb8b82734130d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

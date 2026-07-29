@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6db09954_5fdce230",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-07-29T13:49:50Z",
+      "side": 1,
+      "message": "To be precise it can be done by first taking the complement of the pattern we search for and then negating the operator.\nFor example if we want to search for changes which only touch \"pom.xml\" we need to find a regex representing: \u003ceverything but pom.xml\u003e\nand then negate the file: predicate: `-file:\u003cregex that matches everything but pom.xml\u003e`\n\nThis quickly gets messy and complex. Having a dedicated operator like you propose with this change is, therefore, justified.\n\nHowever, we could try to do that transformation internally:\nBasically, if a user provides: `onlypaths: \u003cregex\u003e`, we internally translate that into: -path:\u003ccomplement-of-regex\u003e`.\nIf we can make that work we would keep the query performance good (no need to post-process the result set).",
+      "range": {
+        "startLine": 14,
+        "startChar": 33,
+        "endLine": 16,
+        "endChar": 0
+      },
+      "revId": "87ff71c7226d6795eca64749ae013ea8ac7e3280",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

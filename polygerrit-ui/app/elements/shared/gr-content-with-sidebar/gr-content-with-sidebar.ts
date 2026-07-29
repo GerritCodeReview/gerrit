@@ -50,6 +50,7 @@ export class GrContentWithSidebar extends LitElement {
           display: block;
           position: relative;
           --sidebar-height: calc(100vh - var(--sidebar-top, 0px));
+          min-height: var(--sidebar-height);
         }
         .sidebar-wrapper {
           z-index: 50;

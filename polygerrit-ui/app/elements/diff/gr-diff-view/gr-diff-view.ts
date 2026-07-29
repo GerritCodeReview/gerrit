@@ -91,6 +91,7 @@ import {ifDefined} from 'lit/directives/if-defined.js';
 import {classMap} from 'lit/directives/class-map.js';
 import {when} from 'lit/directives/when.js';
 import {keyed} from 'lit/directives/keyed.js';
+import {ref} from 'lit/directives/ref.js';
 import {
   ChangeChildView,
   changeViewModelToken,
@@ -525,6 +526,9 @@ export class GrDiffView extends LitElement {
         :host {
           display: block;
           background-color: var(--view-background-color);
+          --sidebar-top: calc(
+            var(--main-header-height) + var(--diff-header-height, 80px)
+          );
         }
         .hidden {
           display: none;
@@ -752,8 +756,28 @@ export class GrDiffView extends LitElement {
       });
   }
 
+  private readonly stickyHeaderResizeObserver = new ResizeObserver(entries => {
+    for (const entry of entries) {
+      const height = Math.ceil(
+        entry.borderBoxSize?.[0]?.blockSize ??
+          entry.target.getBoundingClientRect().height
+      );
+      this.style.setProperty('--diff-header-height', `${height}px`);
+    }
+  });
+
+  private onStickyHeaderCreated(el?: Element) {
+    if (el) {
+      this.stickyHeaderResizeObserver.observe(el);
+    } else {
+      this.stickyHeaderResizeObserver.disconnect();
+    }
+  }
+
   override disconnectedCallback() {
     this.cursor?.dispose();
+    this.stickyHeaderResizeObserver.disconnect();
+    this.style.removeProperty('--diff-header-height');
     super.disconnectedCallback();
   }
 
@@ -886,6 +910,7 @@ export class GrDiffView extends LitElement {
   private renderStickyHeader() {
     return html` <div
       class="stickyHeader ${this.patchNum === EDIT ? 'editMode' : ''}"
+      ${ref(this.onStickyHeaderCreated)}
     >
       <h1 class="assistive-tech-only">
         Diff of ${this.path ? computeTruncatedPath(this.path) : ''}

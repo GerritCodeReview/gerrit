@@ -565,6 +565,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "67f1e0b9_cb92b799",
+        "filename": "java/com/google/gerrit/server/index/change/PendingIndexUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-07-29T14:41:29Z",
+      "side": 1,
+      "message": "\u003e If this doesn\u0027t exist it implies that writtens are failing and they would propagate that to user now.\n\nI am not sure I am following. The scanner is a background recovery mechanism. If it cannot find its root directory consistently, logging a rate-limited warning gives operators a clear signal that recovery is not actually scanning anything. This would improve observability.",
+      "parentUuid": "96ccecb2_0ae6d9f2",
+      "range": {
+        "startLine": 166,
+        "startChar": 5,
+        "endLine": 168,
+        "endChar": 7
+      },
+      "revId": "161d4ec5acfbe029822d143bbc6d792208adc2f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "faa7829b_03b81173",
         "filename": "java/com/google/gerrit/server/index/change/PendingIndexUpdate.java",
         "patchSetId": 3
@@ -682,6 +706,30 @@
       "side": 1,
       "message": "I\u0027m not sure I understand the concern. It will be handled in the next trigger.",
       "parentUuid": "38ac6eeb_c820c60a",
+      "range": {
+        "startLine": 200,
+        "startChar": 6,
+        "endLine": 200,
+        "endChar": 22
+      },
+      "revId": "161d4ec5acfbe029822d143bbc6d792208adc2f6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c48632d2_3ec0e2b1",
+        "filename": "java/com/google/gerrit/server/index/change/PendingIndexUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-07-29T14:41:29Z",
+      "side": 1,
+      "message": "\u003e I\u0027m not sure I understand the concern. It will be handled in the next trigger.\n\nWhat if it is a persistent issue? What I meant is that if you end up in this situation, I want to make sure the admin understands the implications of not deleting the \"pending index directory\".",
+      "parentUuid": "e83672bf_5e6c9565",
       "range": {
         "startLine": 200,
         "startChar": 6,

@@ -3,6 +3,63 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5a1b5d5e_fbcd0be6",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 4176,
+      "author": {
+        "id": 4665459
+      },
+      "writtenOn": "2026-07-29T15:48:33Z",
+      "side": 1,
+      "message": "Should we add a \u0027NOTE\u0027 stating that this config can increase write latency for changes depending on the filesystem used for the data dir?",
+      "revId": "4805f6adf68537ea0a16deb10fccb8b82734130d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bdf1d6e7_c8c17aaf",
+        "filename": "java/com/google/gerrit/server/index/change/PendingIndexUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 4665459
+      },
+      "writtenOn": "2026-07-29T15:48:33Z",
+      "side": 1,
+      "message": "The \u0027intent\u0027 may record the operation as \u0027index\u0027, but the change may be deleted by the time recover() is called for its intent. Or, vice versa, intent records operation as delete, but the notedb delete fails for some reason, and our recover will endup deleting the change from the index. So, instead of relying on the recorded operation, should we directly check notedb here to derive the operation?",
+      "range": {
+        "startLine": 142,
+        "startChar": 0,
+        "endLine": 143,
+        "endChar": 75
+      },
+      "revId": "4805f6adf68537ea0a16deb10fccb8b82734130d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bbd383f7_00112b1b",
+        "filename": "java/com/google/gerrit/server/index/change/PendingIndexUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 4665459
+      },
+      "writtenOn": "2026-07-29T15:48:33Z",
+      "side": 1,
+      "message": "For a new change whose notedb update didn\u0027t land, recover() will throw  NoSuchChangeException which is not an IOException, so it will endup killing the scanner? Maybe we should just catch \u0027Exception\u0027 here to ensure that an unrecoverable intent does not impact other intents that can be recovered.",
+      "revId": "4805f6adf68537ea0a16deb10fccb8b82734130d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a6baebea_fdbbd59d",
         "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
         "patchSetId": 5
@@ -14,6 +71,23 @@
       "writtenOn": "2026-07-29T11:12:15Z",
       "side": 1,
       "message": "I\u0027m not sure this is the right time to delete the intents: the index update may not have been flushed to disk yet, as Lucene has a background thread that flushes pending updates.\n\nI see two ways forward:\n\n1. Force the Lucene indexing flushing here, synchronously, and then remove the pending index updates\n2. Hook into the next indexing flushing and provide a lambda to remove these indexing intents once the flush is complete\n\nThe 1. may introduce a performance regression, as we may end up flushing to Lucene more often than we do today.",
+      "revId": "4805f6adf68537ea0a16deb10fccb8b82734130d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90b10626_6c1fbc7a",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdates.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 4665459
+      },
+      "writtenOn": "2026-07-29T15:48:33Z",
+      "side": 1,
+      "message": "Does it make sense to have a finally block that deletes intents for changes that were not successfully written to notedb?",
       "revId": "4805f6adf68537ea0a16deb10fccb8b82734130d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

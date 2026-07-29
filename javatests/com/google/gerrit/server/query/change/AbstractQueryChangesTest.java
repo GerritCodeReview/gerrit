@@ -2871,6 +2871,23 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  public void byHasHashtag() throws Exception {
+    assume().that(getSchema().hasField(ChangeField.PREFIX_HASHTAG)).isTrue();
+
+    Project.NameKey project = Project.nameKey("repo");
+    repo = createAndOpenProject(project);
+    Change change1 = insert(project, newChange(repo));
+    Change change2 = insert(project, newChange(repo));
+    Change change3 = insert(project, newChange(repo));
+
+    addHashtags(change1, "foo");
+    addHashtags(change2, "foo", "bar");
+
+    assertQuery("has:hashtag", change2, change1);
+    assertQuery("-has:hashtag", change3);
+  }
+
+  @Test
   public void byHashtagFullText() throws Exception {
     assume().that(getSchema().hasField(ChangeField.FUZZY_HASHTAG)).isTrue();
     ImmutableList<Change> changes = setUpHashtagChanges();

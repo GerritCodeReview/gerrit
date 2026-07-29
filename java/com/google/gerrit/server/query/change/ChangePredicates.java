@@ -249,6 +249,11 @@ public class ChangePredicates {
         ChangeField.FUZZY_HASHTAG, HashtagsUtil.cleanupHashtag(hashtag).toLowerCase(Locale.US));
   }
 
+  /** Returns a predicate that matches changes that are tagged with at least one hashtag. */
+  public static Predicate<ChangeData> hasHashtag() {
+    return new ChangeIndexPredicate(ChangeField.PREFIX_HASHTAG, "");
+  }
+
   /**
    * Returns a predicate that matches changes in the provided {@code hashtag}. Used with prefixes
    */

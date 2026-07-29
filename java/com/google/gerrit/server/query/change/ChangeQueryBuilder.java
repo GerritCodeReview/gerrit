@@ -719,6 +719,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       return new IsUnresolvedPredicate();
     }
 
+    if ("hashtag".equalsIgnoreCase(value)) {
+      checkOperatorAvailable(ChangeField.PREFIX_HASHTAG, "has:hashtag");
+      return ChangePredicates.hasHashtag();
+    }
+
     // for plugins the value will be operandName_pluginName
     List<String> names = PLUGIN_SPLITTER.splitToList(value);
     if (names.size() == 2) {

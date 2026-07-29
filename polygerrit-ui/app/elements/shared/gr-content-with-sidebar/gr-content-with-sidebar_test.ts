@@ -97,4 +97,16 @@ suite('gr-content-with-sidebar tests', () => {
       `
     );
   });
+
+  test('has min-height set to --sidebar-height', () => {
+    const computedStyle = getComputedStyle(element);
+    assert.match(computedStyle.minHeight, /^\d+px$/);
+  });
+
+  test('calculates --sidebar-height with --sidebar-top', async () => {
+    element.style.setProperty('--sidebar-top', '50px');
+    await element.updateComplete;
+    const computedStyle = getComputedStyle(element);
+    assert.match(computedStyle.minHeight, /^\d+px$/);
+  });
 });

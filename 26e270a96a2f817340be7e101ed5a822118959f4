@@ -39,6 +39,23 @@
       },
       "revId": "26e270a96a2f817340be7e101ed5a822118959f4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "736313df_ddf08251",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdates.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 4665459
+      },
+      "writtenOn": "2026-07-30T00:47:09Z",
+      "side": 1,
+      "message": "When index.indexChangesAsync is true, the deletes may happen before indexing is done?",
+      "revId": "26e270a96a2f817340be7e101ed5a822118959f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

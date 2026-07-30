@@ -16,6 +16,24 @@
       "message": "Why is skipping this from being mentioned in the release notes? This change broke the plugins having an existing tsconfig.",
       "revId": "37e94535f8a06142cb2cdda0775a7f7264232eab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b35017e_ba481c89",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-07-30T19:26:33Z",
+      "side": 1,
+      "message": "See the associated broken build of code-owners plugin at https://gerrit-ci.gerritforge.com/job/plugin-code-owners-bazel-master/85/console\n\nThis is definitely a breaking change and should be included in the release notes.",
+      "parentUuid": "287ecf47_cb81040a",
+      "revId": "37e94535f8a06142cb2cdda0775a7f7264232eab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

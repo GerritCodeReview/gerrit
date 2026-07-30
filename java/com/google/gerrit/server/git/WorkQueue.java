@@ -970,7 +970,12 @@ public class WorkQueue {
       if (runningState.compareAndSet(null, State.READY)) {
         String oldThreadName = Thread.currentThread().getName();
         try {
-          Thread.currentThread().setName(oldThreadName + "[" + this + "]");
+          try {
+            Thread.currentThread().setName(oldThreadName + "[" + this + "]");
+          } catch (Exception e) {
+            logger.atWarning().withCause(e).log("Cannot describe task");
+            Thread.currentThread().setName(oldThreadName + "[" + this.getClass().getName() + "]");
+          }
           executor.waitUntilReadyToStart(this); // Transitions to PARKED while not ready to start
           runningState.set(State.STARTING);
           executor.onStart(this);

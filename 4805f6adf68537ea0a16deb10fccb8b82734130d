@@ -243,6 +243,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0bf94673_ae544424",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 686,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-07-30T06:38:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5e345a35_ebd16cf6",
+      "revId": "4805f6adf68537ea0a16deb10fccb8b82734130d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "90b10626_6c1fbc7a",

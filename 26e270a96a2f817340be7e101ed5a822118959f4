@@ -18,6 +18,41 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1665b4b0_4d4e11fc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-07-30T06:38:32Z",
+      "side": 1,
+      "message": "n",
+      "revId": "26e270a96a2f817340be7e101ed5a822118959f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6424d5f0_87972830",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-07-30T06:38:32Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "afec1b66_43b9da92",
+      "revId": "26e270a96a2f817340be7e101ed5a822118959f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ffeb3cf9_266fbeab",
@@ -41,6 +76,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0cc06641_d6c18a59",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 4179,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-07-30T06:38:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ffeb3cf9_266fbeab",
+      "range": {
+        "startLine": 4177,
+        "startChar": 0,
+        "endLine": 4179,
+        "endChar": 30
+      },
+      "revId": "26e270a96a2f817340be7e101ed5a822118959f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "736313df_ddf08251",
@@ -54,6 +113,24 @@
       "writtenOn": "2026-07-30T00:47:09Z",
       "side": 1,
       "message": "When index.indexChangesAsync is true, the deletes may happen before indexing is done?",
+      "revId": "26e270a96a2f817340be7e101ed5a822118959f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa248fd2_2a3104ab",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdates.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-07-30T06:38:32Z",
+      "side": 1,
+      "message": "Cleared in doc it is not supported. addressed as follow up.",
+      "parentUuid": "736313df_ddf08251",
       "revId": "26e270a96a2f817340be7e101ed5a822118959f4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

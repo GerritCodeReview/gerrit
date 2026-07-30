@@ -33,6 +33,7 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.json.OutputFormat;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.ProjectUtil;
+import com.google.gerrit.server.ProjectUtil.InvalidProjectNameException;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
@@ -135,6 +136,12 @@ public class ProjectsCollection
   @Nullable
   private ProjectResource _parse(String id, boolean checkAccess)
       throws PermissionBackendException, ResourceConflictException {
+    try {
+      ProjectUtil.validateProjectName(id);
+    } catch (InvalidProjectNameException e) {
+      logger.atWarning().withCause(e).log("Invalid project name %s", id);
+      return null;
+    }
     id = ProjectUtil.sanitizeProjectName(id);
 
     Project.NameKey nameKey = Project.nameKey(id);

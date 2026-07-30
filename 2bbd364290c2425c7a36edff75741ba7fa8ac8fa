@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "df3b25b4_45982974",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 643,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-07-30T22:24:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "589c7f46_439b5f1b",
+      "range": {
+        "startLine": 643,
+        "startChar": 0,
+        "endLine": 643,
+        "endChar": 7
+      },
+      "revId": "2bbd364290c2425c7a36edff75741ba7fa8ac8fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6daa51fc_ed960e79",

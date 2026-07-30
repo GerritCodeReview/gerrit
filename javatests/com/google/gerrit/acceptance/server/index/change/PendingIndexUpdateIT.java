@@ -27,7 +27,7 @@ import java.time.Duration;
 import org.junit.Test;
 
 public class PendingIndexUpdateIT extends AbstractDaemonTest {
-  private static final long DEAD_THREAD_ID = Long.MAX_VALUE;
+  private static final long INACTIVE_TRANSACTION_ID = Long.MAX_VALUE;
   @Inject private PendingIndexUpdate pendingIndexUpdate;
 
   @Test
@@ -39,7 +39,7 @@ public class PendingIndexUpdateIT extends AbstractDaemonTest {
 
     // Simulate a crash: the change is in NoteDb but the index write was missed.
     indexer.delete(project, changeId);
-    pendingIndexUpdate.write(DEAD_THREAD_ID, project, changeId, /* delete= */ false);
+    pendingIndexUpdate.write(INACTIVE_TRANSACTION_ID, project, changeId, /* delete= */ false);
     assertThat(gApi.changes().query("change:" + changeId).get()).isEmpty();
 
     waitUntil(
@@ -60,7 +60,7 @@ public class PendingIndexUpdateIT extends AbstractDaemonTest {
   public void scannerRecoversMissedIndexDelete() throws Exception {
     PushOneCommit.Result r = createChange();
     Change.Id changeId = r.getChange().getId();
-    pendingIndexUpdate.write(DEAD_THREAD_ID, project, changeId, /* delete= */ true);
+    pendingIndexUpdate.write(INACTIVE_TRANSACTION_ID, project, changeId, /* delete= */ true);
 
     assertThat(gApi.changes().query("change:" + changeId).get()).hasSize(1);
     waitUntil(

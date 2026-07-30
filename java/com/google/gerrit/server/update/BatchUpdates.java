@@ -24,6 +24,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Multiset;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
+import com.google.common.util.concurrent.MoreExecutors;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
@@ -31,8 +32,6 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.server.index.change.ChangeIndexer;
-import com.google.gerrit.server.index.change.PendingIndexUpdate;
 import com.google.gerrit.server.notedb.LimitExceededException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -85,17 +84,10 @@ public class BatchUpdates {
   }
 
   private final ChangeData.Factory changeDataFactory;
-  private final ChangeIndexer indexer;
-  private final PendingIndexUpdate pendingIndexUpdate;
 
   @Inject
-  BatchUpdates(
-      ChangeData.Factory changeDataFactory,
-      ChangeIndexer indexer,
-      PendingIndexUpdate pendingIndexUpdate) {
+  BatchUpdates(ChangeData.Factory changeDataFactory) {
     this.changeDataFactory = changeDataFactory;
-    this.indexer = indexer;
-    this.pendingIndexUpdate = pendingIndexUpdate;
   }
 
   @CanIgnoreReturnValue
@@ -111,7 +103,6 @@ public class BatchUpdates {
 
     List<ListenableFuture<ChangeData>> indexFutures = new ArrayList<>();
     List<ChangesHandle> changesHandles = new ArrayList<>(updates.size());
-    long threadId = Thread.currentThread().threadId();
     try {
       try {
         for (BatchUpdate u : updates) {
@@ -120,11 +111,6 @@ public class BatchUpdates {
         notifyAfterUpdateRepo(listeners);
         for (BatchUpdate u : updates) {
           changesHandles.add(u.executeChangeOps(listeners, dryrun));
-        }
-        if (!dryrun && pendingIndexUpdate.isEnabled()) {
-          for (ChangesHandle h : changesHandles) {
-            h.writeIndexIntents(pendingIndexUpdate, threadId);
-          }
         }
         for (ChangesHandle h : changesHandles) {
           h.execute();
@@ -140,6 +126,10 @@ public class BatchUpdates {
         }
       }
 
+      // Wait for every index future to complete before collecting results. allAsList is fail-fast,
+      // and we don't want to hit the finally block in midway of these since there are callbacks
+      // dependent.
+      Futures.whenAllComplete(indexFutures).run(() -> {}, MoreExecutors.directExecutor()).get();
       Map<Change.Id, ChangeData> changeDatas =
           Futures.allAsList(indexFutures).get().stream()
               // filter out null values that were returned for change deletions
@@ -152,15 +142,6 @@ public class BatchUpdates {
       updates.forEach(BatchUpdate::fireRefChangeEvents);
 
       if (!dryrun) {
-        if (pendingIndexUpdate.isEnabled()) {
-          indexer.schedulePostFlush(
-              () -> {
-                for (ChangesHandle h : changesHandles) {
-                  h.deleteIndexIntents(pendingIndexUpdate, threadId);
-                }
-              });
-        }
-
         for (BatchUpdate u : updates) {
           u.executePostOps(changeDatas);
         }
@@ -170,6 +151,10 @@ public class BatchUpdates {
     } catch (Exception e) {
       wrapAndThrowException(e);
       return new Result();
+    } finally {
+      for (ChangesHandle h : changesHandles) {
+        h.finishIndexTransaction();
+      }
     }
   }
 

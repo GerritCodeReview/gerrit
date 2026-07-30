@@ -33,13 +33,16 @@ import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicLong;
 import org.eclipse.jgit.lib.Config;
 
 /**
  * Manages the change-index write-ahead intent files under {@code $site_dir/data/pending-index/}.
  *
- * <p>Each intent is a file at {@code <data_dir>/<pid>_<start_time>/<threadId>/sha(project, change)}
- * with the JSON content of {@link Intent}.
+ * <p>Each intent is a file at {@code <data_dir>/<pid>_<start_time>/<transactionId>/sha(project,
+ * change)} with the JSON content of {@link Intent}.
  */
 @Singleton
 public final class PendingIndexUpdate {
@@ -52,6 +55,8 @@ public final class PendingIndexUpdate {
   private static final Gson GSON = new Gson();
   private final ChangeIndexer indexer;
   private final boolean enabled;
+  private final AtomicLong transactionCounter = new AtomicLong();
+  private final Set<Long> liveTransactions = ConcurrentHashMap.newKeySet();
   final Path intentDir;
   final Path buildingDir;
   final Path runningDir;
@@ -63,7 +68,7 @@ public final class PendingIndexUpdate {
     buildingDir = intentDir.resolve("building");
     runningDir = intentDir.resolve(PROCESS_MARKER);
     this.indexer = indexer;
-    this.enabled = computeEnabled(cfg);
+    this.enabled = cfg.getBoolean("index", null, "staleChangeRecovery", false);
   }
 
   /** Returns {@code true} if stale change recovery is active for this process. */
@@ -71,22 +76,25 @@ public final class PendingIndexUpdate {
     return enabled;
   }
 
-  private static boolean computeEnabled(Config cfg) {
-    if (!cfg.getBoolean("index", null, "staleChangeRecovery", false)) {
-      return false;
-    }
-    if (cfg.getBoolean("index", null, "indexChangesAsync", false)) {
-      logger.atWarning().log(
-          "index.staleChangeRecovery has no effect when index.indexChangesAsync is true;"
-              + " stale change recovery is disabled");
-      return false;
-    }
-    return true;
+  /** Registers a new in-flight update and returns its ID. */
+  public long initiate() {
+    long id = transactionCounter.incrementAndGet();
+    liveTransactions.add(id);
+    return id;
   }
 
-  /** Returns the per-thread intent directory for {@code threadId}. */
-  public Path threadDir(long threadId) {
-    return runningDir.resolve(String.valueOf(threadId));
+  public void markFinished(long transactionId) {
+    liveTransactions.remove(transactionId);
+  }
+
+  /** Returns {@code true} if the sequence is still in-flight in this process. */
+  public boolean isLive(long transactionId) {
+    return liveTransactions.contains(transactionId);
+  }
+
+  /** Returns the per-transaction intent directory for {@code transactionId}. */
+  public Path transactionDir(long transactionId) {
+    return runningDir.resolve(String.valueOf(transactionId));
   }
 
   public String filename(Project.NameKey project, Change.Id changeId) {
@@ -105,8 +113,8 @@ public final class PendingIndexUpdate {
     }
   }
 
-  /** Writes an intent file for the given change under the thread's pending directory. */
-  public void write(long threadId, Project.NameKey project, Change.Id changeId, boolean delete)
+  /** Writes an intent file for the given change under the transaction's pending directory. */
+  public void write(long transactionId, Project.NameKey project, Change.Id changeId, boolean delete)
       throws IOException {
     Files.createDirectories(buildingDir);
     Path tmp =
@@ -114,20 +122,21 @@ public final class PendingIndexUpdate {
             Files.createTempFile(buildingDir, null, null),
             GSON.toJson(new Intent(project.get(), changeId.get(), delete ? "delete" : "index")));
 
-    Path dir = threadDir(threadId);
+    Path dir = transactionDir(transactionId);
     Files.createDirectories(dir);
     Files.move(tmp, dir.resolve(filename(project, changeId)), StandardCopyOption.ATOMIC_MOVE);
   }
 
-  /** Deletes the intent file for {@code changeId} under the thread's pending directory. */
-  public void delete(long threadId, Project.NameKey project, Change.Id changeId) {
+  /** Deletes the intent file for {@code changeId} under the transaction's pending directory. */
+  public void delete(long transactionId, Project.NameKey project, Change.Id changeId) {
     try {
-      Path threadDir = threadDir(threadId);
-      Files.deleteIfExists(threadDir.resolve(filename(project, changeId)));
-      cleanIfEmpty(threadDir);
+      Path transactionDir = transactionDir(transactionId);
+      Files.deleteIfExists(transactionDir.resolve(filename(project, changeId)));
+      cleanIfEmpty(transactionDir);
     } catch (IOException e) {
       logger.atWarning().withCause(e).log(
-          "Failed to delete pending index intent for change %s in thread %d", changeId, threadId);
+          "Failed to delete pending index intent for change %s in transaction %d",
+          changeId, transactionId);
     }
   }
 

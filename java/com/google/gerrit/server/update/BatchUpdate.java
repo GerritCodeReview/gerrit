@@ -34,8 +34,10 @@ import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.flogger.FluentLogger;
+import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
+import com.google.common.util.concurrent.MoreExecutors;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.UsedAt;
@@ -293,6 +295,7 @@ public class BatchUpdate implements AutoCloseable {
   private final ChangeUpdate.Factory changeUpdateFactory;
   private final NoteDbUpdateManager.Factory updateManagerFactory;
   private final ChangeIndexer indexer;
+  private final PendingIndexUpdate pendingIndexUpdate;
   private final GitReferenceUpdated gitRefUpdated;
   private final RefLogIdentityProvider refLogIdentityProvider;
   private final ServiceUserClassifier serviceUserClassifier;
@@ -332,6 +335,7 @@ public class BatchUpdate implements AutoCloseable {
       ChangeUpdate.Factory changeUpdateFactory,
       NoteDbUpdateManager.Factory updateManagerFactory,
       ChangeIndexer indexer,
+      PendingIndexUpdate pendingIndexUpdate,
       GitReferenceUpdated gitRefUpdated,
       RefLogIdentityProvider refLogIdentityProvider,
       ServiceUserClassifier serviceUserClassifier,
@@ -349,6 +353,7 @@ public class BatchUpdate implements AutoCloseable {
     this.changeUpdateFactory = changeUpdateFactory;
     this.updateManagerFactory = updateManagerFactory;
     this.indexer = indexer;
+    this.pendingIndexUpdate = pendingIndexUpdate;
     this.gitRefUpdated = gitRefUpdated;
     this.refLogIdentityProvider = refLogIdentityProvider;
     this.serviceUserClassifier = serviceUserClassifier;
@@ -598,17 +603,27 @@ public class BatchUpdate implements AutoCloseable {
     private final boolean dryrun;
     private final Map<Change.Id, ChangeResult> results;
     private final boolean indexAsync;
+    private final long transactionId;
+    private boolean indexCompletionCallbackRegistered;
 
     ChangesHandle(NoteDbUpdateManager manager, boolean dryrun, boolean indexAsync) {
       this.manager = manager;
       this.dryrun = dryrun;
       results = new HashMap<>();
       this.indexAsync = indexAsync;
+      this.transactionId = pendingIndexUpdate.isEnabled() ? pendingIndexUpdate.initiate() : -1;
     }
 
     @Override
     public void close() {
       manager.close();
+    }
+
+    void finishIndexTransaction() {
+      if (pendingIndexUpdate.isEnabled() && !indexCompletionCallbackRegistered) {
+        // for async its added as a callback to index on failure/sucess.
+        pendingIndexUpdate.markFinished(transactionId);
+      }
     }
 
     void setResult(Change.Id id, ChangeResult result) {
@@ -617,6 +632,7 @@ public class BatchUpdate implements AutoCloseable {
     }
 
     void execute() throws IOException {
+      writeIndexIntents();
       BatchUpdate.this.batchRefUpdate = manager.execute(dryrun);
       BatchUpdate.this.executed = manager.isExecuted();
       BatchUpdate.this.attentionSetUpdates = manager.attentionSetUpdates();
@@ -644,11 +660,40 @@ public class BatchUpdate implements AutoCloseable {
           ImmutableList.builderWithExpectedSize(results.size());
       for (Map.Entry<Change.Id, ChangeResult> e : results.entrySet()) {
         Change.Id id = e.getKey();
-        switch (e.getValue()) {
-          case UPSERTED -> indexFutures.add(indexer.indexAsync(project, id));
-          case DELETED -> indexFutures.add(indexer.deleteAsync(project, id));
-          case SKIPPED -> {}
+        ListenableFuture<ChangeData> future =
+            switch (e.getValue()) {
+              case UPSERTED -> indexer.indexAsync(project, id);
+              case DELETED -> indexer.deleteAsync(project, id);
+              case SKIPPED -> null;
+            };
+        if (future == null) {
+          continue;
         }
+        if (pendingIndexUpdate.isEnabled()) {
+          Futures.addCallback(
+              future,
+              new FutureCallback<>() {
+                @Override
+                public void onSuccess(ChangeData unused) {
+                  indexer.schedulePostFlush(
+                      () -> pendingIndexUpdate.delete(transactionId, project, id));
+                }
+
+                @Override
+                public void onFailure(Throwable t) {}
+              },
+              MoreExecutors.directExecutor());
+        }
+        indexFutures.add(future);
+      }
+      ImmutableList<ListenableFuture<ChangeData>> realFutures = indexFutures.build();
+      if (pendingIndexUpdate.isEnabled()) {
+        var unused =
+            Futures.whenAllComplete(realFutures)
+                .run(
+                    () -> pendingIndexUpdate.markFinished(transactionId),
+                    MoreExecutors.directExecutor());
+        indexCompletionCallbackRegistered = true;
       }
       if (indexAsync) {
         logger.atFine().log(
@@ -667,23 +712,19 @@ public class BatchUpdate implements AutoCloseable {
             .map(cId -> Futures.immediateFuture(changeDataFactory.create(project, cId)))
             .collect(toImmutableList());
       }
-      return indexFutures.build();
+      return realFutures;
     }
 
-    void writeIndexIntents(PendingIndexUpdate pendingIndexUpdate, long threadId)
-        throws IOException {
+    void writeIndexIntents() throws IOException {
+      if (dryrun || !pendingIndexUpdate.isEnabled()) {
+        return;
+      }
       for (Map.Entry<Change.Id, ChangeResult> e : results.entrySet()) {
         if (e.getValue() == ChangeResult.SKIPPED) {
           continue;
         }
         pendingIndexUpdate.write(
-            threadId, project, e.getKey(), e.getValue() == ChangeResult.DELETED);
-      }
-    }
-
-    void deleteIndexIntents(PendingIndexUpdate pendingIndexUpdate, long threadId) {
-      for (Map.Entry<Change.Id, ChangeResult> e : results.entrySet()) {
-        pendingIndexUpdate.delete(threadId, project, e.getKey());
+            transactionId, project, e.getKey(), e.getValue() == ChangeResult.DELETED);
       }
     }
   }

@@ -23,7 +23,6 @@ import com.google.gerrit.server.git.WorkQueue;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.lang.management.ManagementFactory;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -134,19 +133,19 @@ public final class PendingIndexUpdateScanner implements Runnable, LifecycleListe
   }
 
   private void processPidDir(Path pidDir, boolean blindRecover) {
-    try (DirectoryStream<Path> threadDirs = Files.newDirectoryStream(pidDir)) {
-      for (Path threadDir : threadDirs) {
-        long threadId;
+    try (DirectoryStream<Path> transactionDirs = Files.newDirectoryStream(pidDir)) {
+      for (Path transactionDir : transactionDirs) {
+        long transactionId;
         try {
-          threadId = Long.parseLong(threadDir.getFileName().toString());
+          transactionId = Long.parseLong(transactionDir.getFileName().toString());
         } catch (NumberFormatException e) {
           logger.atWarning().log(
-              "Unexpected entry in pending index dir: %s; skipping", threadDir.getFileName());
-          MoreFiles.deleteRecursively(threadDir);
+              "Unexpected entry in pending index dir: %s; skipping", transactionDir.getFileName());
+          MoreFiles.deleteRecursively(transactionDir);
           continue;
         }
-        if (blindRecover || isThreadDead(threadId)) {
-          processDeadThreadDir(threadDir, blindRecover);
+        if (blindRecover || !pendingIndexUpdate.isLive(transactionId)) {
+          processInactiveTransactionDir(transactionDir, blindRecover);
         }
       }
     } catch (IOException e) {
@@ -154,14 +153,11 @@ public final class PendingIndexUpdateScanner implements Runnable, LifecycleListe
     }
   }
 
-  private static boolean isThreadDead(long threadId) {
-    return ManagementFactory.getThreadMXBean().getThreadInfo(threadId) == null;
-  }
-
-  private void processDeadThreadDir(Path threadDir, boolean blindRecover) {
+  private void processInactiveTransactionDir(Path transactionDir, boolean blindRecover) {
     try (DirectoryStream<Path> intents =
         Files.newDirectoryStream(
-            threadDir, p -> !p.getFileName().toString().endsWith(PendingIndexUpdate.LOCK_SUFFIX))) {
+            transactionDir,
+            p -> !p.getFileName().toString().endsWith(PendingIndexUpdate.LOCK_SUFFIX))) {
       for (Path intent : intents) {
         try {
           pendingIndexUpdate.recover(intent, blindRecover);
@@ -172,7 +168,7 @@ public final class PendingIndexUpdateScanner implements Runnable, LifecycleListe
       }
     } catch (IOException e) {
       logger.atWarning().withCause(e).log(
-          "Failed to recover pending index updates for %s", threadDir);
+          "Failed to recover pending index updates for %s", transactionDir);
     }
   }
 }

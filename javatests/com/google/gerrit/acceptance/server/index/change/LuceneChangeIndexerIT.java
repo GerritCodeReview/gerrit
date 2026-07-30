@@ -150,7 +150,7 @@ public class LuceneChangeIndexerIT extends AbstractDaemonTest {
 
     Path intentFile =
         pendingIndexUpdate
-            .threadDir(Long.MAX_VALUE)
+            .transactionDir(Long.MAX_VALUE)
             .resolve(pendingIndexUpdate.filename(project, changeId));
     waitUntil(
         () -> {

@@ -88,6 +88,24 @@
       "parentUuid": "9b277ed8_8be930a3",
       "revId": "f5e489091199dccabe43fca1e8bec484987ac3f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "05662cad_72281abb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1166186
+      },
+      "writtenOn": "2026-07-30T23:49:11Z",
+      "side": 1,
+      "message": "There are no malformed Change_Id lines anywhere. I have never seen any incorrect behavior during Gerrit pushes associated with this. Only as a result of the execution of this commit-msg hook.",
+      "parentUuid": "492920d0_988c0a0d",
+      "revId": "f5e489091199dccabe43fca1e8bec484987ac3f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

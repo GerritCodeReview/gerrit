@@ -95,6 +95,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d8d5bbd_fadb568a",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 651,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-07-30T22:39:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9636b466_4edc9640",
+      "range": {
+        "startLine": 650,
+        "startChar": 48,
+        "endLine": 651,
+        "endChar": 26
+      },
+      "revId": "2bbd364290c2425c7a36edff75741ba7fa8ac8fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eb95a10d_8b217dcc",
@@ -225,6 +249,30 @@
       "writtenOn": "2026-07-27T17:25:10Z",
       "side": 1,
       "message": "I don\u0027t think this is a direct consequence. It is part of a more elaborate attack. Not sure if it is worth mentioning it.",
+      "range": {
+        "startLine": 657,
+        "startChar": 15,
+        "endLine": 657,
+        "endChar": 43
+      },
+      "revId": "2bbd364290c2425c7a36edff75741ba7fa8ac8fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab9d3e67_887b66a1",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 657,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-07-30T22:39:14Z",
+      "side": 1,
+      "message": "I believe it is worth mentioning because it makes the vulnerability an entry point for RCE, which is even more serious than ACLs.",
+      "parentUuid": "ba73e9d2_432e443a",
       "range": {
         "startLine": 657,
         "startChar": 15,

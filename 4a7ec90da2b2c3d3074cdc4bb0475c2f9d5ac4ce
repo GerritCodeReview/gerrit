@@ -71,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9cbdf5ba_d3ab588f",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 646,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-07-30T22:39:14Z",
+      "side": 1,
+      "message": "I believe `bypassing` is correct here.",
+      "parentUuid": "bda14857_61ef365b",
+      "range": {
+        "startLine": 646,
+        "startChar": 39,
+        "endLine": 646,
+        "endChar": 48
+      },
+      "revId": "4a7ec90da2b2c3d3074cdc4bb0475c2f9d5ac4ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "52d7df14_62e69221",
@@ -84,6 +108,30 @@
       "writtenOn": "2026-07-27T17:12:59Z",
       "side": 1,
       "message": "```suggestion\nprocess and ACLs evaluation, potentially allowing unforseen security gaps.\n```",
+      "range": {
+        "startLine": 647,
+        "startChar": 7,
+        "endLine": 647,
+        "endChar": 42
+      },
+      "revId": "4a7ec90da2b2c3d3074cdc4bb0475c2f9d5ac4ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "265349ea_1cd09253",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 647,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-07-30T22:39:14Z",
+      "side": 1,
+      "message": "No, the ACLs are evaluated, and there are no security gaps. The point here is that `Submit` on `refs/for/*` has nothing to do with the `Submit` permission, but it is a way to bypass code-review, which is a compliance \u0026 security gate for software delivery.",
+      "parentUuid": "52d7df14_62e69221",
       "range": {
         "startLine": 647,
         "startChar": 7,
@@ -117,6 +165,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f50a1cdb_dc550929",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 650,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-07-30T22:39:14Z",
+      "side": 1,
+      "message": "It isn\u0027t a mistake, it can be a valid and conscious decision made by a Gerrit admin to have an untrusted open-ended setup.\n\nI believe the warning is enough.",
+      "parentUuid": "7053c12f_85ef9ad2",
+      "range": {
+        "startLine": 650,
+        "startChar": 0,
+        "endLine": 650,
+        "endChar": 5
+      },
+      "revId": "4a7ec90da2b2c3d3074cdc4bb0475c2f9d5ac4ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "de5c9c2d_759714e5",
@@ -130,6 +202,30 @@
       "writtenOn": "2026-07-27T17:12:59Z",
       "side": 1,
       "message": "This reinforces my comment above, we should prevent this at a code level rather than a note in config.",
+      "range": {
+        "startLine": 653,
+        "startChar": 0,
+        "endLine": 653,
+        "endChar": 73
+      },
+      "revId": "4a7ec90da2b2c3d3074cdc4bb0475c2f9d5ac4ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c308ad7d_c080ff14",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 653,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-07-30T22:39:14Z",
+      "side": 1,
+      "message": "That would be a breaking change and would also prevent using Gerrit as a pure Git server with indexing.\n\nIt can be done as a follow-up change, pending approval by all maintainers, to remove this feature.",
+      "parentUuid": "de5c9c2d_759714e5",
       "range": {
         "startLine": 653,
         "startChar": 0,

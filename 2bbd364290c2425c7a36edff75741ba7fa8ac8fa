@@ -73,6 +73,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9636b466_4edc9640",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 651,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-07-30T22:29:17Z",
+      "side": 1,
+      "message": "\u003e I think this is misleading, as it seems like you are allowing direct push the target branch, while you are creating a change and then submitting it, which is slightly different.\n\nThe end result is the same: you allow anyone to add a commit to any push.\nI can rephrase by saying that it is done through the creation of an implicit change that is immediately merged.",
+      "parentUuid": "6daa51fc_ed960e79",
+      "range": {
+        "startLine": 650,
+        "startChar": 48,
+        "endLine": 651,
+        "endChar": 26
+      },
+      "revId": "2bbd364290c2425c7a36edff75741ba7fa8ac8fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "eb95a10d_8b217dcc",
         "filename": "Documentation/user-upload.txt",
         "patchSetId": 1

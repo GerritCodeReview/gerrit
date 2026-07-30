@@ -15,9 +15,11 @@
 package com.google.gerrit.acceptance.git;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.FakeGroupAuditService;
+import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.entities.Account;
@@ -26,6 +28,7 @@ import com.google.gerrit.server.audit.HttpAuditEvent;
 import com.google.inject.Inject;
 import java.util.Optional;
 import javax.servlet.http.HttpServletResponse;
+import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
@@ -104,6 +107,24 @@ public class AbstractGitOverHttpServlet extends AbstractPushForReview {
     cfg.setString("remote", remote, "fetch", "+refs/heads/*:refs/remotes/origin/*");
 
     uploadPackAuditEventLog(remote, Optional.empty());
+  }
+
+  @Test
+  public void cloneRejectsRepeatedGitSuffixButAcceptsSingleGitSuffix() throws Exception {
+    createCommit("foo");
+
+    TestRepository<?> clonedRepo =
+        GitUtil.cloneProject(project, server.getUrl() + "/" + project.get() + ".git");
+    assertThat(clonedRepo.getRepository().exactRef("refs/remotes/origin/master")).isNotNull();
+
+    TransportException thrown =
+        assertThrows(
+            TransportException.class,
+            () ->
+                GitUtil.cloneProject(project, server.getUrl() + "/" + project.get() + ".git.git"));
+
+    assertThat(thrown).hasCauseThat().hasMessageThat().contains(project.get() + ".git.git");
+    assertThat(thrown).hasCauseThat().hasMessageThat().contains("not found");
   }
 
   /**

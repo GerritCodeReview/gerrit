@@ -34,6 +34,24 @@
       "parentUuid": "38044421_40275295",
       "revId": "f5e489091199dccabe43fca1e8bec484987ac3f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71891415_a8ac3c4a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1007145
+      },
+      "writtenOn": "2026-07-30T22:42:34Z",
+      "side": 1,
+      "message": "the hook\u0027s job is be aligned with Gerrit server behavior.  if Gerrit is unable to extract the Change-Id footer in such malformed commit messages, then it\u0027s going to be ignored, and Gerrit will either reject the push or generate its own.  both situations will confuse users, and they\u0027ll rightly ask why didn\u0027t things \"just work\".\n\nthe hook cannot blindly remove any Change-Id it finds in the commit message.  it cannot determine whether it\u0027s supposed to be there (middle of text due to e.g. cherry-pick, or something else), or because some other tool corrupted it.",
+      "parentUuid": "684eb6ea_35b70d4b",
+      "revId": "f5e489091199dccabe43fca1e8bec484987ac3f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

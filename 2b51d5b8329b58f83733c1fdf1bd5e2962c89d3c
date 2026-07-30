@@ -3,6 +3,46 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d0868813_47b59912",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-07-30T22:21:11Z",
+      "side": 1,
+      "message": "Is skipping and warning about it not the right thing to do then ? The submitted task itself could be assumed faulty ?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 52
+      },
+      "revId": "2b51d5b8329b58f83733c1fdf1bd5e2962c89d3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28dabb5f_d261491e",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 974,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-07-30T22:21:11Z",
+      "side": 1,
+      "message": "can you put name extraction into a separate method to make this less complex/nested ?",
+      "revId": "2b51d5b8329b58f83733c1fdf1bd5e2962c89d3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "82486497_98e41990",
         "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
         "patchSetId": 3

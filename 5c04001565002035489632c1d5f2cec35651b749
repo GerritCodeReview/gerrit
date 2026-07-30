@@ -16,6 +16,24 @@
       "message": "Does this impact the build of existing plugins?",
       "revId": "5c04001565002035489632c1d5f2cec35651b749",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d11ce9c_71c030ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-07-30T21:09:53Z",
+      "side": 1,
+      "message": "No — this change can\u0027t alter any build outcome, only log noise.\n\nThree scopes:\n\n- Both flags are javac lint switches: they control which warnings are printed, not what compiles — no bytecode or API change, and the toolchain sets no -Werror, so no warning can turn into a failure anywhere.\n- The core plugins are members of error_prone_packages, so -Xlint:removal is re-enabled for them together with first-party code — their diagnostics are exactly as before this change.\n- Everything outside the group (other in-tree plugins, third-party like protobuf) only gets quieter: removal warnings are suppressed there, since they flag code we can\u0027t fix from this repository anyway. Standalone plugin builds against the published API use the bazlets toolchain, not this one, so they never see these flags at all.",
+      "parentUuid": "7a28c0cb_97953522",
+      "revId": "5c04001565002035489632c1d5f2cec35651b749",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

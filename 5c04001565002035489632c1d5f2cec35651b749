@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a28c0cb_97953522",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-07-30T19:27:54Z",
+      "side": 1,
+      "message": "Does this impact the build of existing plugins?",
+      "revId": "5c04001565002035489632c1d5f2cec35651b749",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

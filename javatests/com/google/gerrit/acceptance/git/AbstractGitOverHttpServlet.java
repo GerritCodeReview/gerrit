@@ -20,6 +20,7 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.FakeGroupAuditService;
+import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.entities.Account;
@@ -34,6 +35,7 @@ import com.google.inject.Inject;
 import java.util.Collection;
 import java.util.Optional;
 import javax.servlet.http.HttpServletResponse;
+import org.eclipse.jgit.api.errors.InvalidRemoteException;
 import org.eclipse.jgit.api.errors.TransportException;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
@@ -184,6 +186,25 @@ public class AbstractGitOverHttpServlet extends AbstractPushForReview {
         assertThrows(TransportException.class, () -> testRepo.git().fetch().call());
 
     assertThat(t.getMessage()).contains(uploadValidationFailureMessage);
+  }
+
+  @Test
+  public void cloneRejectsRepeatedGitSuffixButAcceptsSingleGitSuffix() throws Exception {
+    createCommit("foo");
+
+    TestRepository<?> clonedRepo =
+        GitUtil.cloneProject(project, server.getGitUrl() + "/" + project.get() + ".git");
+    assertThat(clonedRepo.getRepository().exactRef("refs/remotes/origin/master")).isNotNull();
+
+    InvalidRemoteException thrown =
+        assertThrows(
+            InvalidRemoteException.class,
+            () ->
+                GitUtil.cloneProject(
+                    project, server.getGitUrl() + "/" + project.get() + ".git.git"));
+
+    assertThat(thrown).hasCauseThat().hasMessageThat().contains(project.get() + ".git.git");
+    assertThat(thrown).hasCauseThat().hasMessageThat().contains("not found");
   }
 
   /**

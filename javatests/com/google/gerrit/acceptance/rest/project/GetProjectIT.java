@@ -60,4 +60,11 @@ public class GetProjectIT extends AbstractDaemonTest {
     assertThrows(
         ResourceNotFoundException.class, () -> gApi.projects().name("does-not-exist").get());
   }
+
+  @Test
+  public void getProjectWithRepeatedGitSuffixReturnsNotFound() throws Exception {
+    assertThrows(
+        ResourceNotFoundException.class,
+        () -> gApi.projects().name(project.get() + ".git.git").get());
+  }
 }

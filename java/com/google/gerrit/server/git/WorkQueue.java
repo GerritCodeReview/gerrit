@@ -956,7 +956,7 @@ public class WorkQueue {
       if (runningState.compareAndSet(null, State.READY)) {
         String oldThreadName = Thread.currentThread().getName();
         try {
-          Thread.currentThread().setName(oldThreadName + "[" + this + "]");
+          setThreadName(oldThreadName);
           executor.waitUntilReadyToStart(this); // Transitions to PARKED while not ready to start
           runningState.set(State.STARTING);
           executor.onStart(this);
@@ -975,6 +975,20 @@ public class WorkQueue {
         }
       } else {
         Future<?> unusedFuture = executor.schedule(this, nanosPeriod / 3, TimeUnit.NANOSECONDS);
+      }
+    }
+
+    private void setThreadName(String oldThreadName) {
+      try {
+        Thread.currentThread().setName(oldThreadName + "[" + this + "]");
+      } catch (Exception e) {
+        logger.atWarning().withCause(e).log("Cannot describe task");
+        try {
+          Thread.currentThread().setName(oldThreadName + "[" + runnable.getClass().getName() + "]");
+        } catch (Exception e2) {
+          logger.atWarning().withCause(e2).log("Cannot get runnable class name");
+          Thread.currentThread().setName(oldThreadName + "[unknown task]");
+        }
       }
     }
 

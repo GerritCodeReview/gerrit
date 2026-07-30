@@ -34,6 +34,24 @@
       "parentUuid": "287ecf47_cb81040a",
       "revId": "37e94535f8a06142cb2cdda0775a7f7264232eab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "efdf05ce_2abd9fb0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-07-30T19:55:17Z",
+      "side": 1,
+      "message": "I fixed the ai-review-agent-provider build with https://review.gerrithub.io/c/GerritForge/ai-review-agent-provider/+/1244042, @david.ostrovsky@gmail.com could you double-check if that makes sense?",
+      "parentUuid": "0b35017e_ba481c89",
+      "revId": "37e94535f8a06142cb2cdda0775a7f7264232eab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82486497_98e41990",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 977,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-07-30T22:18:49Z",
+      "side": 1,
+      "message": "Not need for \"this\" here. I am worried that this too could throw an exception potentially.",
+      "revId": "2b51d5b8329b58f83733c1fdf1bd5e2962c89d3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -18,6 +18,7 @@ import static com.google.gerrit.extensions.api.changes.SubmittedTogetherOption.N
 import static java.util.Collections.reverseOrder;
 import static java.util.stream.Collectors.toList;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.exceptions.StorageException;

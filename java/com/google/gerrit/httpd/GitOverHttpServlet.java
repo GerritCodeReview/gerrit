@@ -25,6 +25,8 @@ import com.google.common.collect.Lists;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.Capable;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.ProjectUtil;
+import com.google.gerrit.entities.ProjectUtil.InvalidProjectNameException;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.AccessPath;
@@ -293,6 +295,11 @@ public class GitOverHttpServlet extends GitServlet {
     public Repository open(HttpServletRequest req, String projectName)
         throws RepositoryNotFoundException, ServiceNotAuthorizedException,
             ServiceNotEnabledException, ServiceMayNotContinueException {
+      try {
+        ProjectUtil.validateProjectName(projectName);
+      } catch (InvalidProjectNameException e) {
+        throw new RepositoryNotFoundException(projectName, e);
+      }
       while (projectName.endsWith("/")) {
         projectName = projectName.substring(0, projectName.length() - 1);
       }

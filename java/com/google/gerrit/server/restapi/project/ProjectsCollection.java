@@ -18,6 +18,8 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.ProjectUtil;
+import com.google.gerrit.entities.ProjectUtil.InvalidProjectNameException;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -32,7 +34,6 @@ import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.json.OutputFormat;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.ProjectUtil;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
@@ -135,6 +136,12 @@ public class ProjectsCollection
   @Nullable
   private ProjectResource _parse(String id, boolean checkAccess)
       throws PermissionBackendException, ResourceConflictException {
+    try {
+      ProjectUtil.validateProjectName(id);
+    } catch (InvalidProjectNameException e) {
+      logger.atWarning().withCause(e).log("Invalid project name %s", id);
+      return null;
+    }
     id = ProjectUtil.sanitizeProjectName(id);
 
     Project.NameKey nameKey = Project.nameKey(id);

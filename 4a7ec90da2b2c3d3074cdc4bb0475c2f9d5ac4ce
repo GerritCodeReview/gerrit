@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "900b31e1_eeda0e12",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 643,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-07-30T22:24:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8355028_9eb6f102",
+      "range": {
+        "startLine": 643,
+        "startChar": 0,
+        "endLine": 643,
+        "endChar": 7
+      },
+      "revId": "4a7ec90da2b2c3d3074cdc4bb0475c2f9d5ac4ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bda14857_61ef365b",
@@ -129,6 +153,30 @@
       "writtenOn": "2026-07-27T17:12:59Z",
       "side": 1,
       "message": "```suggestion\nallow any sort of priviledge escalation, allowing any user to make any change\n```",
+      "range": {
+        "startLine": 655,
+        "startChar": 29,
+        "endLine": 655,
+        "endChar": 38
+      },
+      "revId": "4a7ec90da2b2c3d3074cdc4bb0475c2f9d5ac4ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "79a5db68_3251b123",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 655,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-07-30T22:24:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ecdc736a_a4229795",
       "range": {
         "startLine": 655,
         "startChar": 29,

@@ -30,6 +30,8 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.ProjectUtil;
+import com.google.gerrit.server.ProjectUtil.InvalidProjectNameException;
 import com.google.gerrit.server.RequestInfo;
 import com.google.gerrit.server.RequestListener;
 import com.google.gerrit.server.audit.HttpAuditEvent;
@@ -293,6 +295,12 @@ public class GitOverHttpServlet extends GitServlet {
     public Repository open(HttpServletRequest req, String projectName)
         throws RepositoryNotFoundException, ServiceNotAuthorizedException,
             ServiceNotEnabledException, ServiceMayNotContinueException {
+      try {
+        ProjectUtil.validateProjectName(projectName);
+      } catch (InvalidProjectNameException e) {
+        throw new RepositoryNotFoundException(projectName, e);
+      }
+
       while (projectName.endsWith("/")) {
         projectName = projectName.substring(0, projectName.length() - 1);
       }

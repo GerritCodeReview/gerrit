@@ -16,22 +16,32 @@ package com.google.gerrit.acceptance.server.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.extensions.api.changes.SubmittedTogetherOption.NON_VISIBLE_CHANGES;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.Sandboxed;
+import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
+import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.entities.BranchNameKey;
+import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.changes.SubmittedTogetherInfo;
+import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.FileInfo;
+import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Inject;
 import java.util.EnumSet;
@@ -334,6 +344,59 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
     assertSubmittedTogether(id1, id2, id1);
 
     assertSubmittedTogether(id2, id2, id1);
+  }
+
+  @Test
+  @GerritConfig(name = "change.submitWholeTopic", value = "true")
+  public void mergedChangesDoNotExposeNonVisibleChanges() throws Exception {
+    TestAccount readBlockedUser = accountCreator.user2();
+    GroupInfo readBlockedUserGroup = createGroupForUser(readBlockedUser);
+    String branchHiddenFromUser = "hidden-from-user";
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(
+            block(Permission.READ)
+                .ref("refs/heads/" + branchHiddenFromUser)
+                .group(AccountGroup.uuid(readBlockedUserGroup.id)))
+        .update();
+
+    createBranch(BranchNameKey.create(getProject(), branchHiddenFromUser));
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
+    String topic = "topic";
+
+    String visibleChangeId =
+        createChangeWithTopic(testRepo, "master", topic, "visible change", "visible.txt", "visible")
+            .getChangeId();
+
+    testRepo.reset(initialHead);
+    String hiddenChangeId =
+        createChangeWithTopic(
+                testRepo, branchHiddenFromUser, topic, "hidden change", "hidden.txt", "hidden")
+            .getChangeId();
+
+    approve(visibleChangeId);
+    approve(hiddenChangeId);
+    submit(visibleChangeId);
+    assertMerged(visibleChangeId);
+    assertMerged(hiddenChangeId);
+    assertSubmittedTogether(visibleChangeId, hiddenChangeId, visibleChangeId);
+
+    requestScopeOperations.setApiUser(readBlockedUser.id());
+    assertThrows(AuthException.class, () -> gApi.changes().id(visibleChangeId).submittedTogether());
+
+    SubmittedTogetherInfo info =
+        gApi.changes().id(visibleChangeId).submittedTogether(EnumSet.of(NON_VISIBLE_CHANGES));
+    assertThat(info.changes).hasSize(1);
+    assertThat(info.changes.get(0).changeId).isEqualTo(visibleChangeId);
+    assertThat(info.nonVisibleChanges).isEqualTo(1);
+  }
+
+  private GroupInfo createGroupForUser(TestAccount user) throws Exception {
+    GroupInput gi = new GroupInput();
+    gi.name = name("New-Group");
+    gi.members = ImmutableList.of(user.id().toString());
+    return gApi.groups().create(gi).get();
   }
 
   private String getChangeId(RevCommit c) throws Exception {

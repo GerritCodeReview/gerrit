@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9800de87_d8d89587",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5048218
+      },
+      "writtenOn": "2026-07-30T13:51:04Z",
+      "side": 1,
+      "message": "606502: Use HttpStatus constants outside servlet code | https://gerrit-review.googlesource.com/c/gerrit/+/606502",
+      "revId": "62cdba9fab9cdb40c35edea5ddd12fd7652183e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

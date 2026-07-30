@@ -80,16 +80,42 @@ suite('prompt-box tests', () => {
     );
   });
 
-  test('chatInputDisabledText when model loading error', async () => {
+  test('chatInputDisabledText surfaces provider error', async () => {
+    const providerError =
+      'No AI provider is configured. Add an API token for a provider.';
     chatModel.updateState({
       ...chatModel.getState(),
-      modelsLoadingError: 'Error loading models',
+      // getModels() clears the models when it rejects, so no model is selected.
+      models: undefined,
+      modelsLoadingError: providerError,
+    });
+    await element.updateComplete;
+    assert.equal(element.chatInputDisabledText, providerError);
+  });
+
+  test('chatInputDisabledText fallback without provider message', async () => {
+    chatModel.updateState({
+      ...chatModel.getState(),
+      // getModels() rejected without a message (empty string).
+      models: undefined,
+      modelsLoadingError: '',
     });
     await element.updateComplete;
     assert.equal(
       element.chatInputDisabledText,
       'Failed to load models. Please reload the page.'
     );
+  });
+
+  test('chatInputDisabledText loading while models pending', async () => {
+    chatModel.updateState({
+      ...chatModel.getState(),
+      // No models yet and no error: getModels() is still in flight.
+      models: undefined,
+      modelsLoadingError: undefined,
+    });
+    await element.updateComplete;
+    assert.equal(element.chatInputDisabledText, 'Loading models...');
   });
 
   test('updates userInput on input', async () => {

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "25a0a861_0613b18f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1096249
+      },
+      "writtenOn": "2026-07-31T18:27:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c7a15d2_1b2b18ca",
+      "revId": "1d47ac7406a3319117a96f400410304b72738bc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f2d6a74c_32af3313",
@@ -31,6 +49,30 @@
       "writtenOn": "2026-07-31T17:48:45Z",
       "side": 1,
       "message": "```suggestion\nindex-searchable so the parent OR folds into an OrSource and the\nfull-scan fallback never triggers. The intended short-circuit\noptimization is preserved.\n```",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 10
+      },
+      "revId": "1d47ac7406a3319117a96f400410304b72738bc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "08fb792a_78e76cef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1096249
+      },
+      "writtenOn": "2026-07-31T18:27:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f2d6a74c_32af3313",
       "range": {
         "startLine": 27,
         "startChar": 0,
@@ -64,6 +106,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a26cdd3_274445a4",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeIndexRewriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1096249
+      },
+      "writtenOn": "2026-07-31T18:27:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0c253ebb_081f0d98",
+      "range": {
+        "startLine": 248,
+        "startChar": 0,
+        "endLine": 251,
+        "endChar": 85
+      },
+      "revId": "1d47ac7406a3319117a96f400410304b72738bc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "53da47b3_b8d489b7",
@@ -77,6 +143,24 @@
       "writtenOn": "2026-07-31T17:48:45Z",
       "side": 1,
       "message": "```suggestion\n    // the none() must remain an index-searchable ChangeDataSource so the OR folds into an OrSource.\n```",
+      "revId": "1d47ac7406a3319117a96f400410304b72738bc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1bb167a6_59fccce5",
+        "filename": "javatests/com/google/gerrit/server/index/change/ChangeIndexRewriterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1096249
+      },
+      "writtenOn": "2026-07-31T18:27:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "53da47b3_b8d489b7",
       "revId": "1d47ac7406a3319117a96f400410304b72738bc8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -245,7 +245,9 @@ public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
     if (in instanceof AndPredicate
         && newChildren.stream().anyMatch(c -> c.equals(ChangeIndexPredicate.none()))) {
       ++leafTerms.value;
-      return ChangeIndexPredicate.none();
+      // Shortcut the AND none() and ensure we return a ChangeDataSource so an enclosing
+      // OrPredicate can be re-written as an OrSource.
+      return new IndexedChangeQuery(index, ChangeIndexPredicate.none(), opts);
     }
     if (isIndexed.cardinality() == n) {
       return in; // All children are indexed, leave as-is for parent.

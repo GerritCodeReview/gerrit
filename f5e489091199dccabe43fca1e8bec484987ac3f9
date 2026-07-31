@@ -142,6 +142,24 @@
       "parentUuid": "9b7d3307_9f939a7c",
       "revId": "f5e489091199dccabe43fca1e8bec484987ac3f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "724208e4_579dc69f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1007145
+      },
+      "writtenOn": "2026-07-31T15:35:41Z",
+      "side": 1,
+      "message": "\"malformed\" in the sense that \"Gerrit \u0026 git do not detect it\".  you can put Change-Id lines throughout the commit message in the middle of text, but Gerrit will ignore them all.\n\n\u003e Gerrit does not reject pushes for such commit messages (that contain a single Change-Id).\n\nas Nasser mentioned, that is a per-project Gerrit setting.  if a project has \"Require Change-Id in commit message\" enabled, and there is no Change-Id footer in the commit message that Gerrit recognizes, then it is rejected.\n\nthe local unittests need to reflect the Gerrit server behavior, not what you want to happen locally.",
+      "parentUuid": "48ed49d5_d4dd8c1e",
+      "revId": "f5e489091199dccabe43fca1e8bec484987ac3f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

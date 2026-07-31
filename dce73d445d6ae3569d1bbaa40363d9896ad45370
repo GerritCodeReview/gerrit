@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6e1030de_509455ce",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-07-31T23:23:31Z",
+      "side": 1,
+      "message": "\u003e PS3 scope is right — dropping `content:review` removes the change-edit overlap.\n\u003e \n\u003e The core ref-update path is sound: the new commit is always parented on the current branch tip. Nice test coverage, too.\n\u003e \n\u003e -1 for one more PS. Details are in the inline comments, several with apply-able suggestions; by theme:\n\u003e \n\u003e * Blocking: REST verb/name (`ProjectRestApiModule`) — maintainer input please, before the URL freezes; silently-dropped rename/delete ops in mixed batches (`CommitFileModifications`) → 400.\n\n[I agree](https://gerrit-review.googlesource.com/c/gerrit/+/603661/comment/cb3ef56d_4cc05412/) with your suggestion of `POST /projects/.../branches/.../commit`.\n\n\u003e * Fixes: `validation_options` threading (`CommitFilesInput` + `BranchCommitBuilder` ×2); `file_mode` on delete/rename → 400; gitlink `160000` scope (`CommitFilesInput` + doc table); doc contract — atomicity, commit identity, not-a-push, `base_revision` CAS wording; six boundary tests + a Java-API test (`PutContentIT`, suggestion verified locally).\n\nAlready addressed in PS5.\n\n\u003e * Discuss: require `commit_message` vs keep the `Update files` default (`BranchCommitBuilder`).\n\n[Already addressed](https://gerrit-review.googlesource.com/c/gerrit/+/603661/comment/8e4a1bbf_a75f3d4b/) in PS5 (`commit_message` is required now).\n\n\u003e \n\u003e Two points with no file to own them:\n\u003e \n\u003e 1. Signed push: this endpoint never sees a push certificate, so a signed-push requirement on the ref is silently bypassed. Exempt (document) or enforce (gate)? Maintainer call.\n\nThis is addressed in the comment thread at https://gerrit-review.googlesource.com/c/gerrit/+/603661/comment/5b97fc76_d2f83cf8/\n\n\u003e 2. Size limits: `receive.maxObjectSizeLimit` is receive-pack-only (`AsyncReceiveCommits` → `ReceivePack.setMaxObjectSizeLimit`); this endpoint inserts via a plain `ObjectInserter`. Same bypass as change edits / create-change, so not a regression — I\u0027d accept and document, unless you want push parity.\n\nI think we\u0027re ok accepting and documenting (it should be added in the REST API doc). Someone can add that later if it\u0027s important to them. I added an inline comment on the REST API doc to track that.\n\nI\u0027m marking this resolved since all the points are either resolved or have a dedicated comment thread.",
+      "parentUuid": "ba993d7a_3da5ff16",
+      "revId": "dce73d445d6ae3569d1bbaa40363d9896ad45370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ef0c70a6_fcb5183c",
@@ -477,6 +495,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "155cd1e7_6c995f2e",
+        "filename": "java/com/google/gerrit/server/restapi/project/BranchCommitBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-07-31T23:23:31Z",
+      "side": 1,
+      "message": "\u003e My recommendation: treat this endpoint as exempt from signed-push and document it, consistent with those paths. \"Simulating\" a signed push here isn\u0027t possible, since there is no certificate to check.\n\nI agree with exempting. Let\u0027s keep it consistent with the other server-side write paths.",
+      "parentUuid": "5b97fc76_d2f83cf8",
+      "range": {
+        "startLine": 110,
+        "startChar": 0,
+        "endLine": 114,
+        "endChar": 37
+      },
+      "revId": "dce73d445d6ae3569d1bbaa40363d9896ad45370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cb83660c_5f92e868",
         "filename": "java/com/google/gerrit/server/restapi/project/BranchCommitBuilder.java",
         "patchSetId": 3
@@ -858,6 +900,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "aadc8bf8_9244afa7",
+        "filename": "java/com/google/gerrit/server/restapi/project/ProjectRestApiModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-07-31T23:23:31Z",
+      "side": 1,
+      "message": "I was originally thinking PUT since we don\u0027t create new commits if there\u0027s no update, but we do return an error in that case, which I think is less consistent with PUT semantics and more like a POST. If you prefer POST, I\u0027m good with that.\n\nI also agree that `\"commit\"` is more accurate than `\"content\"`.\n```suggestion\n    post(BRANCH_KIND, \"commit\").to(CreateCommit.class);\n```\n\n`CreateCommit` could instead be something more specific like `CreateCommitOnBranch`, but I\u0027m not sure that\u0027s required within the restapi package namespace.",
+      "parentUuid": "cb3ef56d_4cc05412",
+      "revId": "dce73d445d6ae3569d1bbaa40363d9896ad45370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "47e727d3_62bd5cab",
         "filename": "java/com/google/gerrit/server/restapi/project/PutContent.java",
         "patchSetId": 3
@@ -869,6 +929,30 @@
       "writtenOn": "2026-07-11T09:02:42Z",
       "side": 1,
       "message": "Drop \"write counterpart of GetContent\" (GetContent is single-file; the real counterpart is `PUT files/{id}/content`). Rename the view to match the operation (e.g. `CommitFiles`) once the shape is decided.",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 3
+      },
+      "revId": "dce73d445d6ae3569d1bbaa40363d9896ad45370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "82b5d6f0_2bb02946",
+        "filename": "java/com/google/gerrit/server/restapi/project/PutContent.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-07-31T23:23:31Z",
+      "side": 1,
+      "message": "Done (rename proposed in a comment on PS5)",
+      "parentUuid": "47e727d3_62bd5cab",
       "range": {
         "startLine": 28,
         "startChar": 0,

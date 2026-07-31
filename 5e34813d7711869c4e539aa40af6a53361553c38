@@ -16,6 +16,103 @@
       "message": "@nasser.grainawi@oss.qualcomm.com, @matthias.sohn@gmail.com, @klingarkar@nvidia.com Could you provide your suggestions on some of the comments posted by David on this change? Thanks!",
       "revId": "5e34813d7711869c4e539aa40af6a53361553c38",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7859f3ac_1c8ea871",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 2151,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-07-31T23:23:31Z",
+      "side": 1,
+      "message": "nit: `refs/meta/*` are Gerrit-internal refs, so mentioning them is redundant",
+      "range": {
+        "startLine": 2150,
+        "startChar": 53,
+        "endLine": 2151,
+        "endChar": 19
+      },
+      "revId": "5e34813d7711869c4e539aa40af6a53361553c38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dda9a6aa_b2ca569a",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 2152,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-07-31T23:23:31Z",
+      "side": 1,
+      "message": "Document that `receive.maxObjectSizeLimit` is not validated.",
+      "revId": "5e34813d7711869c4e539aa40af6a53361553c38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eef3cb24_4995a17a",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 2211,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-07-31T23:23:31Z",
+      "side": 1,
+      "message": "We might want to use the calling user for committer too. I can see why you\u0027d use server ident, but I think this is more closely aligned with a change edit where we use the calling user.",
+      "range": {
+        "startLine": 2210,
+        "startChar": 42,
+        "endLine": 2211,
+        "endChar": 9
+      },
+      "revId": "5e34813d7711869c4e539aa40af6a53361553c38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99c97d11_5a1064bd",
+        "filename": "java/com/google/gerrit/extensions/api/projects/CommitFilesInput.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-07-31T23:23:31Z",
+      "side": 1,
+      "message": "Rename with proposed API class name\n\n```suggestion\npublic class CreateCommitInput {\n```",
+      "revId": "5e34813d7711869c4e539aa40af6a53361553c38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e08d58e_18bfbb62",
+        "filename": "java/com/google/gerrit/server/restapi/project/PutContent.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-07-31T23:23:31Z",
+      "side": 1,
+      "message": "I would rename this to `CreateCommit`. `CommitFiles` feels unnecessary, since what other than files would we be committing?\n```suggestion\npublic class CreateCommit implements RestModifyView\u003cBranchResource, CommitFilesInput\u003e {\n```",
+      "revId": "5e34813d7711869c4e539aa40af6a53361553c38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

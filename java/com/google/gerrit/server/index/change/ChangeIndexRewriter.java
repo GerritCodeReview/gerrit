@@ -245,7 +245,11 @@ public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
     if (in instanceof AndPredicate
         && newChildren.stream().anyMatch(c -> c.equals(ChangeIndexPredicate.none()))) {
       ++leafTerms.value;
-      return ChangeIndexPredicate.none();
+      // Return an index-pushable none() (a ChangeDataSource) rather than a bare
+      // ChangeStatusPredicate. A bare none() is not a ChangeDataSource, so an enclosing
+      // OrPredicate cannot fold into an OrSource; that forces the top-level rewrite()
+      // fallback and(or(open,closed), in), which degenerates into a full index scan.
+      return new IndexedChangeQuery(index, ChangeIndexPredicate.none(), opts);
     }
     if (isIndexed.cardinality() == n) {
       return in; // All children are indexed, leave as-is for parent.

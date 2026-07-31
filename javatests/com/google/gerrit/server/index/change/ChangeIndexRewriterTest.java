@@ -229,6 +229,20 @@ public class ChangeIndexRewriterTest {
   }
 
   @Test
+  public void emptyOrInAndInsideOrStaysIndexPushable() throws Exception {
+    // An empty OrPredicate short-circuits to an index-pushable none() (an IndexedChangeQuery, a
+    // ChangeDataSource). When it appears in an AND nested inside an OR, the AND still collapses to
+    // none() (isNone recognizes the wrapped form) and the enclosing OR folds into an OrSource,
+    // rather than triggering the top-level and(or(open,closed), in) full-index-scan fallback.
+    // (An empty OR directly inside an OR cannot be tested: OrPredicate flattens same-class
+    // children, so the empty child is absorbed before rewriting.)
+    Predicate<ChangeData> andWithEmptyOr =
+        Predicate.and(parse("status:new"), Predicate.or(ImmutableList.of()));
+    Predicate<ChangeData> in = Predicate.or(parse("file:a"), andWithEmptyOr);
+    assertThat(rewrite(in).getClass()).isSameInstanceAs(OrSource.class);
+  }
+
+  @Test
   public void indexAndNonIndexPredicates() throws Exception {
     Predicate<ChangeData> in = parse("status:new bar:p file:a");
     Predicate<ChangeData> out = rewrite(in);

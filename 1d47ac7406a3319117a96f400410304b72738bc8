@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c7a15d2_1b2b18ca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-07-31T17:48:45Z",
+      "side": 1,
+      "message": "\"pushable\" is a strange word choice. I think `index-searchable` better conveys the intent.\n```suggestion\nReturn index-searchable none() from AndPredicate short-circuit\n```",
+      "revId": "1d47ac7406a3319117a96f400410304b72738bc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2d6a74c_32af3313",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-07-31T17:48:45Z",
+      "side": 1,
+      "message": "```suggestion\nindex-searchable so the parent OR folds into an OrSource and the\nfull-scan fallback never triggers. The intended short-circuit\noptimization is preserved.\n```",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 29,
+        "endChar": 10
+      },
+      "revId": "1d47ac7406a3319117a96f400410304b72738bc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c253ebb_081f0d98",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeIndexRewriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-07-31T17:48:45Z",
+      "side": 1,
+      "message": "Bit of a nit, but overall this feels wordier and more change-context-specific than we usually aim for. Can we say something simpler like this?\n```suggestion\n      // Shortcut the AND none() and ensure we return a ChangeDataSource so an enclosing\n      // OrPredicate can be re-written as an OrSource.\n```",
+      "range": {
+        "startLine": 248,
+        "startChar": 0,
+        "endLine": 251,
+        "endChar": 85
+      },
+      "revId": "1d47ac7406a3319117a96f400410304b72738bc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "53da47b3_b8d489b7",
+        "filename": "javatests/com/google/gerrit/server/index/change/ChangeIndexRewriterTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-07-31T17:48:45Z",
+      "side": 1,
+      "message": "```suggestion\n    // the none() must remain an index-searchable ChangeDataSource so the OR folds into an OrSource.\n```",
+      "revId": "1d47ac7406a3319117a96f400410304b72738bc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -213,6 +213,22 @@ public class ChangeIndexRewriterTest {
   }
 
   @Test
+  public void noneChildInAndInsideOrStaysIndexSearchable() throws Exception {
+    // An AND with a none() child short-circuits to none(). When that AND is nested inside an OR,
+    // the none() must remain an index-searchable ChangeDataSource so the OR folds into an OrSource.
+    // Otherwise the top-level rewrite() falls back to and(or(open,closed), in), degenerating into
+    // a full index scan.
+    Predicate<ChangeData> andWithNone =
+        Predicate.and(ChangeIndexPredicate.none(), parse("status:new"));
+    Predicate<ChangeData> in = Predicate.or(parse("file:a"), andWithNone);
+    Predicate<ChangeData> out = rewrite(in);
+    assertThat(out.getClass()).isSameInstanceAs(OrSource.class);
+    assertThat(out.getChildren())
+        .containsExactly(query(parse("file:a")), query(ChangeIndexPredicate.none()))
+        .inOrder();
+  }
+
+  @Test
   public void indexAndNonIndexPredicates() throws Exception {
     Predicate<ChangeData> in = parse("status:new bar:p file:a");
     Predicate<ChangeData> out = rewrite(in);

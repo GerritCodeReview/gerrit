@@ -106,6 +106,24 @@
       "parentUuid": "492920d0_988c0a0d",
       "revId": "f5e489091199dccabe43fca1e8bec484987ac3f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b7d3307_9f939a7c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-07-31T01:31:59Z",
+      "side": 1,
+      "message": "Gotcha, I misunderstood that part, but it\u0027s clear now. Given that, you could tweak the git command to allow \u003d since Gerrit seems to be ok with those in the footer block:\n`git -c \u0027trailer.separators\u003d:\u003d\u0027 interpret-trailers --no-divider --parse`",
+      "parentUuid": "05662cad_72281abb",
+      "revId": "f5e489091199dccabe43fca1e8bec484987ac3f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

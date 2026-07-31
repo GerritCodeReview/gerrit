@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0a98693_1233895f",
+        "filename": "Documentation/user-upload.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 643,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-07-31T06:52:32Z",
+      "side": 1,
+      "message": "Granting",
+      "range": {
+        "startLine": 643,
+        "startChar": 0,
+        "endLine": 643,
+        "endChar": 7
+      },
+      "revId": "c937ae6186f601a47ce3aec70f78049b1dc45e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

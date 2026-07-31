@@ -131,6 +131,27 @@ EOF
   fi
 }
 
+function test_preserve_changeid_with_non_colon_tags {
+  cat << EOF > input
+bla bla
+
+TAG=agy
+CONV=123
+Change-Id: I123
+EOF
+
+  ${hook} input || fail "failed hook execution"
+
+  found=$(grep -c '^Change-Id' input) || :
+  if [[ "${found}" != "1" ]]; then
+    fail "got ${found} Change-Ids, want 1"
+  fi
+  found=$(grep -c '^Change-Id: I123' input) || :
+  if [[ "${found}" != "1" ]]; then
+    fail "got ${found} Change-Id: I123, want 1"
+  fi
+}
+
 # Change-Id should not be inserted if gerrit.createChangeId=false
 function test_suppress_changeid {
   cat << EOF > input

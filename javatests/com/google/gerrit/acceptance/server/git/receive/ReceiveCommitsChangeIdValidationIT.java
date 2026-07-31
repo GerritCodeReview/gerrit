@@ -96,6 +96,22 @@ public class ReceiveCommitsChangeIdValidationIT extends AbstractDaemonTest {
     assertThat(pushResult.getMessage()).matches(missingChangeIdRegex);
   }
 
+  @Test
+  public void pushWithNonColonTagsInFooter_changeIdAccepted() throws Exception {
+    RevCommit parent = createParentCommit();
+    String changeId = "I0000000000000000000000000000000000000012";
+
+    pushFactory
+        .create(
+            admin.newIdent(),
+            testRepo,
+            "Subject line\n\nTAG=agy\nCONV=123\nChange-Id: " + changeId,
+            ImmutableMap.of("foo.txt", "content"))
+        .setParent(parent)
+        .to("refs/for/master")
+        .assertOkStatus();
+  }
+
   @CanIgnoreReturnValue
   private RevCommit createParentCommit() throws Exception {
     RevCommit parent = commitBuilder().add("f.txt", "content").message("base commit").create();

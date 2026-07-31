@@ -77,7 +77,7 @@ else
   pattern=".*"
 fi
 
-if git interpret-trailers --no-divider --parse < "$1" | grep -q "^$token: $pattern$" ; then
+if git -c 'trailer.separators=:=' interpret-trailers --no-divider --parse < "$1" | grep -q "^$token: $pattern$" ; then
   exit 0
 fi
 

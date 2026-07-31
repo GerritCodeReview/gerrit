@@ -16,6 +16,24 @@
       "message": "Can you upload into the homepage repo following the typical Gerrit design doc process? https://www.gerritcodereview.com/design-docs-index.html",
       "revId": "e56bcebbebe4a3583a76f580c58df1311fab9605",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6328644a_6112fa99",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-07-31T10:16:25Z",
+      "side": 1,
+      "message": "Done. 613581: Add design doc for Zoekt-based code search | https://gerrit-review.googlesource.com/c/homepage/+/613581",
+      "parentUuid": "5d30b666_ec49f810",
+      "revId": "e56bcebbebe4a3583a76f580c58df1311fab9605",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

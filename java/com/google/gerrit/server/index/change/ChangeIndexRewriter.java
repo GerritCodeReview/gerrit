@@ -205,9 +205,9 @@ public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
       return new LimitPredicate<>(ChangeQueryBuilder.FIELD_LIMIT, opts.limit());
     } else if (in instanceof OrPredicate && in.getChildCount() == 0) {
       ++leafTerms.value;
-      // An empty OrPredicate will never match anything, but will scan all
-      // changes unless handled here.
-      return ChangeIndexPredicate.none();
+      // Shortcut the empty OrPredicate (which would otherwise scan all changes) and return a
+      // ChangeDataSource so an enclosing OrPredicate can be re-written as an OrSource.
+      return new IndexedChangeQuery(index, ChangeIndexPredicate.none(), opts);
     } else if (!isRewritePossible(in)) {
       if (in instanceof IndexPredicate) {
         throw new QueryParseException("Unsupported index predicate: " + in.toString());
@@ -242,8 +242,7 @@ public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
       }
     }
 
-    if (in instanceof AndPredicate
-        && newChildren.stream().anyMatch(c -> c.equals(ChangeIndexPredicate.none()))) {
+    if (in instanceof AndPredicate && newChildren.stream().anyMatch(ChangeIndexRewriter::isNone)) {
       ++leafTerms.value;
       // Shortcut the AND none() and ensure we return a ChangeDataSource so an enclosing
       // OrPredicate can be re-written as an OrSource.
@@ -339,6 +338,21 @@ public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
   private static boolean isRewritePossible(Predicate<ChangeData> p) {
     return p.getChildCount() > 0
         && (p instanceof AndPredicate || p instanceof OrPredicate || p instanceof NotPredicate);
+  }
+
+  /**
+   * Returns true if {@code p} is a none() predicate that matches no changes, whether bare or
+   * wrapped in an {@link IndexedChangeQuery}. The empty-OrPredicate and AndPredicate
+   * short-circuits wrap none() in an IndexedChangeQuery so it stays a {@link ChangeDataSource}, so
+   * both forms must be recognized here.
+   */
+  private static boolean isNone(Predicate<ChangeData> p) {
+    if (p.equals(ChangeIndexPredicate.none())) {
+      return true;
+    }
+    return p instanceof IndexedChangeQuery
+        && p.getChildCount() == 1
+        && p.getChild(0).equals(ChangeIndexPredicate.none());
   }
 
   @SuppressWarnings("ReferenceEquality")

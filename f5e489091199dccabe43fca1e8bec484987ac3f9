@@ -160,6 +160,24 @@
       "parentUuid": "48ed49d5_d4dd8c1e",
       "revId": "f5e489091199dccabe43fca1e8bec484987ac3f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc924559_6b5c35c0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1166186
+      },
+      "writtenOn": "2026-07-31T18:36:11Z",
+      "side": 1,
+      "message": "That worked nicely.\n\nBefore:\n```\ntjmercier@tjmercier0:~/code/gerrit$ git -c core.hooksPath\u003dresources/com/google/gerrit/server/tools/root/hooks commit --allow-empty -m \"Test Commit\"\n[detached HEAD aea9616171] Test Commit\ntjmercier@tjmercier0:~/code/gerrit$ git log -1\ncommit aea9616171c56684b5987eee4efffe2b2f2faef4 (HEAD)\nAuthor: T.J. Mercier \u003ctjmercier@google.com\u003e\nDate:   Fri Jul 31 11:27:25 2026 -0700\n\n    Test Commit\n    \n    Change-Id: Iba5827c4415eedd0621d3f68d4dc2ac0f0753075\ntjmercier@tjmercier0:~/code/gerrit$ git -c core.hooksPath\u003dresources/com/google/gerrit/server/tools/root/hooks commit --allow-empty --amend\n\n\u003cAdd the TAG and CONV lines\u003e\n\n[detached HEAD bb2a7f2cf0] Test Commit\n Date: Fri Jul 31 11:27:25 2026 -0700\ntjmercier@tjmercier0:~/code/gerrit$ git log -1\ncommit bb2a7f2cf0123170f12f26c019fe6e57824f2cd9 (HEAD)\nAuthor: T.J. Mercier \u003ctjmercier@google.com\u003e\nDate:   Fri Jul 31 11:27:25 2026 -0700\n\n    Test Commit\n    \n    TAG\u003dagy\n    CONV\u003dfoobar\n    Change-Id: Iba5827c4415eedd0621d3f68d4dc2ac0f0753075\n    \n    Change-Id: I81a7ee9ac6c885e6f82f78d4343da3530e477119\ntjmercier@tjmercier0:~/code/gerrit$\n```\n\nAfter:\n```\ntjmercier@tjmercier0:~/code/gerrit$ git -c core.hooksPath\u003dresources/com/google/gerrit/server/tools/root/hooks commit --allow-empty -m \"Test Commit\"\n[detached HEAD dc853aca6a] Test Commit\ntjmercier@tjmercier0:~/code/gerrit$ git log -1\ncommit dc853aca6a204202f161db4c4fb52598873886da (HEAD)\nAuthor: T.J. Mercier \u003ctjmercier@google.com\u003e\nDate:   Fri Jul 31 11:29:54 2026 -0700\n\n    Test Commit\n    \n    Change-Id: I5fdc43ec88a4c99d9ccff52b72897ffbbd7401d2\ntjmercier@tjmercier0:~/code/gerrit$ git -c core.hooksPath\u003dresources/com/google/gerrit/server/tools/root/hooks commit --allow-empty --amend\n\n\u003cAdd the TAG and CONV lines\u003e\n\n[detached HEAD 56569ad85d] Test Commit\n Date: Fri Jul 31 11:29:54 2026 -0700\ntjmercier@tjmercier0:~/code/gerrit$ git log -1\ncommit 56569ad85db150d9b3f0f117f4165a8b71580786 (HEAD)\nAuthor: T.J. Mercier \u003ctjmercier@google.com\u003e\nDate:   Fri Jul 31 11:29:54 2026 -0700\n\n    Test Commit\n    \n    TAG\u003dagy\n    CONV\u003dfoobar\n    Change-Id: I5fdc43ec88a4c99d9ccff52b72897ffbbd7401d2\n```",
+      "parentUuid": "724208e4_579dc69f",
+      "revId": "f5e489091199dccabe43fca1e8bec484987ac3f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -124,6 +124,24 @@
       "parentUuid": "05662cad_72281abb",
       "revId": "f5e489091199dccabe43fca1e8bec484987ac3f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "48ed49d5_d4dd8c1e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1166186
+      },
+      "writtenOn": "2026-07-31T15:29:35Z",
+      "side": 1,
+      "message": "Sure I\u0027ll try that today.\n\nBy the way, in Patchset 2 I encountered a test error due to short Change-Ids (like `Change-Id: I123`) used in `commit-msg_test.sh` tests. Are those short Change-Ids actually valid? They don\u0027t match against the default pattern which requires 40 alphanums: `pattern\u003d\".*/id/I[0-9a-f]\\{40\\}\"`, but of course they do against the fallback `pattern\u003d\".*\"`.",
+      "parentUuid": "9b7d3307_9f939a7c",
+      "revId": "f5e489091199dccabe43fca1e8bec484987ac3f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

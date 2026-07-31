@@ -1,0 +1,45 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18d1c2ba_86c6931e",
+        "filename": "polygerrit-ui/web-test-runner.config.mjs",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-07-31T14:43:13Z",
+      "side": 1,
+      "message": "I don\u0027t know if we care about windows here. \n\nFYI: WARNING reported by autoreview issue finding: On Windows, `cwd` may contain backslashes (`\\`) instead of forward slashes, which would cause this regex to fail to match the path. Consider normalizing the path separators first, for example:\n\n```javascript\n  const cwd \u003d path.resolve(process.cwd()).replace(/\\\\/g, \u0027/\u0027);\n```",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 0
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "d67649d8_a13ab44d",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/web-test-runner.config.mjs",
+              "range": {
+                "startLine": 68,
+                "startChar": 0,
+                "endLine": 69,
+                "endChar": 0
+              },
+              "replacement": "  const cwd \u003d path.resolve(process.cwd()).replace(/\\\\/g, \u0027/\u0027);\n"
+            }
+          ]
+        }
+      ],
+      "revId": "2c95993f9d534a652a86b7963e44f9156a1ddec6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1017,10 +1017,12 @@ export class GrDiffView extends LitElement {
     );
     for (const info of details) {
       if (info.moduleName) {
-        const customElement = customElements.get(info.moduleName) as
-          | (CustomElementConstructor & {sidebarPosition?: string})
-          | undefined;
-        if (customElement?.sidebarPosition === 'right') {
+        const customElement = customElements.get(info.moduleName) as {
+          sidebarPosition?: string;
+        };
+        // Bracket notation prevents Closure Compiler from mangling the property name
+        // when plugins are minified in polygerrit_assets release builds.
+        if (customElement?.['sidebarPosition'] === 'right') {
           return 'right';
         }
       }

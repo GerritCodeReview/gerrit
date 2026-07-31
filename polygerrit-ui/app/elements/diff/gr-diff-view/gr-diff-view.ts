@@ -711,6 +711,13 @@ export class GrDiffView extends LitElement {
           background: var(--background-color-secondary);
           box-sizing: border-box;
           height: 100%;
+          display: flex;
+          flex-direction: column;
+        }
+        gr-endpoint-decorator[name^="sidebarContent-"] {
+          height: 100%;
+          display: flex;
+          flex-direction: column;
         }
         md-checkbox {
           --md-checkbox-container-size: 15px;
@@ -1018,9 +1025,15 @@ export class GrDiffView extends LitElement {
     for (const info of details) {
       if (info.moduleName) {
         const customElement = customElements.get(info.moduleName) as
-          | (CustomElementConstructor & {sidebarPosition?: string})
+          | (CustomElementConstructor & {
+              sidebarPosition?: string;
+              ['sidebarPosition']?: string;
+            })
           | undefined;
-        if (customElement?.sidebarPosition === 'right') {
+        if (
+          customElement?.['sidebarPosition'] === 'right' ||
+          customElement?.sidebarPosition === 'right'
+        ) {
           return 'right';
         }
       }

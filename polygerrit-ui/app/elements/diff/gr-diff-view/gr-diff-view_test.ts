@@ -2335,6 +2335,38 @@ suite('gr-diff-view tests', () => {
           );
         assert.equal(contentWithSidebar?.side, 'right');
       });
+
+      test('detects right sidebar side when static readonly ["sidebarPosition"] === "right"', async () => {
+        class RightSidebarBracket extends HTMLElement {
+          static readonly ['sidebarPosition'] = 'right';
+        }
+
+        customElements.define(
+          'right-sidebar-bracket-element',
+          RightSidebarBracket
+        );
+
+        let plugin!: PluginApi;
+        window.Gerrit.install(
+          p => (plugin = p),
+          '0.1',
+          'http://test.com/plugins/testplugin-bracket/static/test.js'
+        );
+        plugin.registerDynamicCustomComponent(
+          'sidebarContent',
+          'right-sidebar-bracket-element'
+        );
+
+        // @ts-expect-error: accessing private property shownSidebar for testing
+        element.shownSidebar = 'testplugin-bracket';
+        await element.updateComplete;
+
+        const contentWithSidebar =
+          element.shadowRoot?.querySelector<GrContentWithSidebar>(
+            'gr-content-with-sidebar'
+          );
+        assert.equal(contentWithSidebar?.side, 'right');
+      });
     });
   });
 });

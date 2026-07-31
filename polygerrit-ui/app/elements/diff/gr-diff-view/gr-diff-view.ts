@@ -1020,7 +1020,7 @@ export class GrDiffView extends LitElement {
         const customElement = customElements.get(info.moduleName) as
           | (CustomElementConstructor & {sidebarPosition?: string})
           | undefined;
-        if (customElement?.sidebarPosition === 'right') {
+        if (customElement?.['sidebarPosition'] === 'right') {
           return 'right';
         }
       }

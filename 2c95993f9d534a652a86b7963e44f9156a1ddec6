@@ -40,6 +40,30 @@
       ],
       "revId": "2c95993f9d534a652a86b7963e44f9156a1ddec6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f9a6d4b_d2ee6c77",
+        "filename": "polygerrit-ui/web-test-runner.config.mjs",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-08-01T06:10:24Z",
+      "side": 1,
+      "message": "Done.\n\nI normalized path separators before matching, so Windows-style cwd paths are handled before the bazel-out/\u003cconfig\u003e/bin regex runs. I also checked the helper     against Unix, Windows-style, sandboxed, and edge-case cwd paths.\n\nThe regex keeps the intended bin-root behavior and also handles a cwd that ends exactly at .../bin.",
+      "parentUuid": "18d1c2ba_86c6931e",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 0
+      },
+      "revId": "2c95993f9d534a652a86b7963e44f9156a1ddec6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -7,7 +7,6 @@ common --lockfile_mode=error
 common --check_direct_dependencies=error
 # Enable Gerrit-tree-only plugin checks (standalone plugin builds skip them).
 common --@com_googlesource_gerrit_bazlets//flags:in_gerrit_tree=true
-common --incompatible_disallow_struct_provider_syntax=false
 common --incompatible_disallow_empty_glob=false
 # Use explicit __init__.py files for Gerrit's Python targets and Bazel's
 # @bazel_tools//tools/jdk:proguard_allowlister. This is the upcoming default, see

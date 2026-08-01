@@ -27,7 +27,7 @@ single_version_override(
 )
 
 # Libraries / toolchains.
-bazel_dep(name = "protobuf", version = "35.0")
+bazel_dep(name = "protobuf", version = "35.1")
 
 # In-tree modules.
 bazel_dep(name = "jgit")

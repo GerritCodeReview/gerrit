@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ff465ef_376d7284",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1684,
+      "author": {
+        "id": 1012422
+      },
+      "writtenOn": "2026-08-01T02:02:12Z",
+      "side": 1,
+      "message": "This is using different criteria from below. See the logic for fulfilled.\nhttp://google3/third_party/java_src/gerritcodereview/gerrit/java/com/google/gerrit/entities/SubmitRequirementResult.java?q\u003dsymbol%3A%5Cbcom.google.gerrit.entities.SubmitRequirementResult.fulfilled%5Cb%20case%3Ayes\n\nNot saying one is better than the other, but could use an explanation of why you picked each and why it\u0027s different in each case.",
+      "revId": "527652179a64b4cec32c6641cfa287de33f53a76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "27322e2b_1244f09f",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1690,
+      "author": {
+        "id": 1012422
+      },
+      "writtenOn": "2026-08-01T02:02:12Z",
+      "side": 1,
+      "message": "How does unmet_requirement (and similar fields below) behave in case of an error or timeout? Would, for example, unmet_requirement:foo match all changes if there is a timeout evaluating requirements?",
+      "revId": "527652179a64b4cec32c6641cfa287de33f53a76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91f4e184_fbb42472",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1700,
+      "author": {
+        "id": 1012422
+      },
+      "writtenOn": "2026-08-01T02:02:12Z",
+      "side": 1,
+      "message": "This counts ERROR and TIMEOUT state, and also FORCED, is this intentional?",
+      "revId": "527652179a64b4cec32c6641cfa287de33f53a76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

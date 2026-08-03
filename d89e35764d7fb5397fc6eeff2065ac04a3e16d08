@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33a5362a_b15255ee",
+        "filename": "java/com/google/gerrit/server/restapi/project/BranchCommitBuilder.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-08-03T16:20:27Z",
+      "side": 1,
+      "message": "Should this reject HEAD explicitly?\n\nI think `/branches/HEAD/commit` can reach this code because the branch collection exposes HEAD as a branch resource. HEAD is a symbolic ref, not an ordinary `refs/heads/...` branch. For example, it may point to  `refs/heads/master`.\n\nThat means the actual Git update may affect the target branch, while the permission checks and validators above still use `branch.branch() \u003d\u003d \"HEAD\"`.\n\nShould this mirror DeleteBranch and reject HEAD as a write target? The caller can still use the real target branch explicitly, e.g. `/branches/master/commit` or `/branches/stable-3.16/commit`.\n\nPlease also add an acceptance test for `/projects/{project}/branches/HEAD/commit`.\n\n\n```suggestion\n    if (RefNames.HEAD.equals(branch.branch())) {\n      throw new MethodNotAllowedException(\"not allowed to write to HEAD\");\n    }\n    if (RefNames.isGerritRef(branch.branch())\n        || branch.branch().startsWith(RefNames.REFS_TAGS)\n        || branch.branch().startsWith(RefNames.REFS_META)) {\n      throw new AuthException(\"not allowed to write to \" + branch.branch() + \" via this endpoint\");\n    }\n  }\n```\n\nThe suggested edit only shows the guard; it also needs the MethodNotAllowedException import and throws declaration.",
+      "range": {
+        "startLine": 338,
+        "startChar": 0,
+        "endLine": 343,
+        "endChar": 0
+      },
+      "revId": "d89e35764d7fb5397fc6eeff2065ac04a3e16d08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ca8acf4_23c3b8ad",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/CreateCommitIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-08-03T16:20:27Z",
+      "side": 1,
+      "message": "Could we add a matching acceptance test for HEAD as the write target? This would pin the boundary for the new direct branch-writing endpoint.\n\n\n\n```suggestion\n  }\n\n  @Test\n  public void directWriteToHeadIsForbidden() throws Exception {\n    String url \u003d String.format(\"/projects/%s/branches/HEAD/commit\", project.get());\n    RestResponse r \u003d adminRestSession.post(url, write(\"Nope\", \"head.txt\", \"x\"));\n    assertThat(r.getStatusCode()).isEqualTo(405);\n  }\n\n  @Test\n```",
+      "range": {
+        "startLine": 289,
+        "startChar": 0,
+        "endLine": 291,
+        "endChar": 0
+      },
+      "revId": "d89e35764d7fb5397fc6eeff2065ac04a3e16d08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

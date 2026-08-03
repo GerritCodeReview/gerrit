@@ -517,6 +517,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f26e1d77_789eeff9",
+        "filename": "java/com/google/gerrit/server/restapi/project/BranchCommitBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-08-03T10:49:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "155cd1e7_6c995f2e",
+      "range": {
+        "startLine": 110,
+        "startChar": 0,
+        "endLine": 114,
+        "endChar": 37
+      },
+      "revId": "dce73d445d6ae3569d1bbaa40363d9896ad45370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cb83660c_5f92e868",
@@ -912,6 +936,24 @@
       "side": 1,
       "message": "I was originally thinking PUT since we don\u0027t create new commits if there\u0027s no update, but we do return an error in that case, which I think is less consistent with PUT semantics and more like a POST. If you prefer POST, I\u0027m good with that.\n\nI also agree that `\"commit\"` is more accurate than `\"content\"`.\n```suggestion\n    post(BRANCH_KIND, \"commit\").to(CreateCommit.class);\n```\n\n`CreateCommit` could instead be something more specific like `CreateCommitOnBranch`, but I\u0027m not sure that\u0027s required within the restapi package namespace.",
       "parentUuid": "cb3ef56d_4cc05412",
+      "revId": "dce73d445d6ae3569d1bbaa40363d9896ad45370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "268c336c_04196f1d",
+        "filename": "java/com/google/gerrit/server/restapi/project/ProjectRestApiModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-08-03T10:49:17Z",
+      "side": 1,
+      "message": "Modified to POST commit",
+      "parentUuid": "aadc8bf8_9244afa7",
       "revId": "dce73d445d6ae3569d1bbaa40363d9896ad45370",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

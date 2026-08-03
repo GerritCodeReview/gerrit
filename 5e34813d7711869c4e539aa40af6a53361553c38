@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1a633fa5_b20b692c",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 2151,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-08-03T10:49:17Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "7859f3ac_1c8ea871",
+      "range": {
+        "startLine": 2150,
+        "startChar": 53,
+        "endLine": 2151,
+        "endChar": 19
+      },
+      "revId": "5e34813d7711869c4e539aa40af6a53361553c38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dda9a6aa_b2ca569a",
@@ -54,6 +78,24 @@
       "writtenOn": "2026-07-31T23:23:31Z",
       "side": 1,
       "message": "Document that `receive.maxObjectSizeLimit` is not validated.",
+      "revId": "5e34813d7711869c4e539aa40af6a53361553c38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "07a00536_d0df3723",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 2152,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-08-03T10:49:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dda9a6aa_b2ca569a",
       "revId": "5e34813d7711869c4e539aa40af6a53361553c38",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -81,6 +123,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6acb3508_3940503b",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 2211,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-08-03T10:49:17Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "eef3cb24_4995a17a",
+      "range": {
+        "startLine": 2210,
+        "startChar": 42,
+        "endLine": 2211,
+        "endChar": 9
+      },
+      "revId": "5e34813d7711869c4e539aa40af6a53361553c38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "99c97d11_5a1064bd",
@@ -98,6 +164,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5e0e4da_1adf27f3",
+        "filename": "java/com/google/gerrit/extensions/api/projects/CommitFilesInput.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-08-03T10:49:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "99c97d11_5a1064bd",
+      "revId": "5e34813d7711869c4e539aa40af6a53361553c38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6e08d58e_18bfbb62",
@@ -111,6 +195,24 @@
       "writtenOn": "2026-07-31T23:23:31Z",
       "side": 1,
       "message": "I would rename this to `CreateCommit`. `CommitFiles` feels unnecessary, since what other than files would we be committing?\n```suggestion\npublic class CreateCommit implements RestModifyView\u003cBranchResource, CommitFilesInput\u003e {\n```",
+      "revId": "5e34813d7711869c4e539aa40af6a53361553c38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7bbf8fd6_407cee77",
+        "filename": "java/com/google/gerrit/server/restapi/project/PutContent.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-08-03T10:49:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6e08d58e_18bfbb62",
       "revId": "5e34813d7711869c4e539aa40af6a53361553c38",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

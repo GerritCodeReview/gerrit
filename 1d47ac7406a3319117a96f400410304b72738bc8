@@ -54,6 +54,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8690c0f1_448701c8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-03T22:28:43Z",
+      "side": 1,
+      "message": "Fixed in PS3.",
+      "parentUuid": "9a1acf4a_c7e9f211",
+      "revId": "1d47ac7406a3319117a96f400410304b72738bc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f2d6a74c_32af3313",

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34404b03_8881ab7e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-08-03T23:27:16Z",
+      "side": 1,
+      "message": "It has to be ontop of Change-Id.",
+      "revId": "f7b944615d388c3e00077c82cc87a6ae175bf00b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

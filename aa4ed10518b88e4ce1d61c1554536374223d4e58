@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d196bd7_1686dc31",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-08-03T21:52:47Z",
+      "side": 1,
+      "message": "Needs a Release-Notes footer.",
+      "revId": "aa4ed10518b88e4ce1d61c1554536374223d4e58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

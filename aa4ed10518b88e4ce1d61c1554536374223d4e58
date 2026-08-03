@@ -16,6 +16,24 @@
       "message": "Needs a Release-Notes footer.",
       "revId": "aa4ed10518b88e4ce1d61c1554536374223d4e58",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d091da6f_d8ed51f9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 4270951
+      },
+      "writtenOn": "2026-08-03T21:58:43Z",
+      "side": 1,
+      "message": "Something like this?\n\n\u003e Release-Notes: Change commit validation output format",
+      "parentUuid": "4d196bd7_1686dc31",
+      "revId": "aa4ed10518b88e4ce1d61c1554536374223d4e58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

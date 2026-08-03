@@ -2783,6 +2783,33 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void submitRequirement_disallowsUnsatisfiedRequirementCountInExpression()
+      throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    configSubmitRequirement(
+        project,
+        SubmitRequirement.builder()
+            .setName("Wrong-Req")
+            .setSubmittabilityExpression(
+                SubmitRequirementExpression.create("unsatisfied_requirement_count:0"))
+            .setAllowOverrideInChildProjects(false)
+            .build());
+
+    ChangeInfo change = gApi.changes().id(changeId).get();
+    SubmitRequirementResultInfo srResult =
+        change.submitRequirements.stream()
+            .filter(sr -> sr.name.equals("Wrong-Req"))
+            .collect(MoreCollectors.onlyElement());
+    assertThat(srResult.status).isEqualTo(Status.ERROR);
+    assertThat(srResult.submittabilityExpressionResult.errorMessage)
+        .isEqualTo(
+            "Operator 'unsatisfied_requirement_count' cannot be used in submit requirement"
+                + " expressions.");
+  }
+
+  @Test
   public void submitRequirements_forcedByDirectSubmission() throws Exception {
     projectOperations
         .project(project)

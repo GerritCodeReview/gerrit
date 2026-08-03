@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "861cec93_9d46486e",
+        "filename": "java/com/google/gerrit/server/restapi/project/BranchCommitBuilder.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-03T17:35:16Z",
+      "side": 1,
+      "message": "\u003e Should this mirror DeleteBranch and reject HEAD as a write target? The caller can still use the real target branch explicitly, e.g. `/branches/master/commit` or `/branches/stable-3.16/commit`.\n\nYes, I agree that it should reject `HEAD`, at least until we have some helpers to do all the permission checks against the dereferenced branch. That could be something we look at adding to `BranchResource` in the future (along with helpers like `isSymbolic()`/`getRealBranch()`/etc.).",
+      "parentUuid": "33a5362a_b15255ee",
+      "range": {
+        "startLine": 338,
+        "startChar": 0,
+        "endLine": 343,
+        "endChar": 0
+      },
+      "revId": "d89e35764d7fb5397fc6eeff2065ac04a3e16d08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4ca8acf4_23c3b8ad",
         "filename": "javatests/com/google/gerrit/acceptance/rest/project/CreateCommitIT.java",
         "patchSetId": 7

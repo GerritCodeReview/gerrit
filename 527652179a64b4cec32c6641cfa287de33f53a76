@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2819fd5_803c859c",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1684,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-08-03T23:17:14Z",
+      "side": 1,
+      "message": "Both checks are actually identical! `SubmitRequirementResult.Status` has 7 enum values total: four of them (`SATISFIED`, `OVERRIDDEN`, `NOT_APPLICABLE`, `FORCED`) return `true` for `fulfilled()`, while the remaining three (`UNSATISFIED`, `ERROR`, `TIMEOUT`) return `false`.\n\nTherefore, checking `UNSATISFIED || ERROR || TIMEOUT` is the exact negation of `sr.fulfilled()`.\n\nThat said, using two different styles for the same condition is confusing. I\u0027ve updated `UNMET_REQUIREMENT_FIELD` to use `!sr.fulfilled()` so both fields use consistent logic.",
+      "parentUuid": "7ff465ef_376d7284",
+      "revId": "527652179a64b4cec32c6641cfa287de33f53a76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "27322e2b_1244f09f",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba412e07_c3642c7e",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1690,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-08-03T23:17:14Z",
+      "side": 1,
+      "message": "Yes, this is intentional and `unmet_requirement:foo` would match all changes where `foo` timed out (or errored).\n\n1. **Behavior on ERROR or TIMEOUT:** Both `UNMET_REQUIREMENT_FIELD` (`unmet_requirement:`) and `UNSATISFIED_REQUIREMENT_COUNT_FIELD` (`unsatisfied_requirement_count:`) filter requirements by `!sr.fulfilled()`. Since `SubmitRequirementResult#fulfilled()` returns `true` only for `SATISFIED`, `OVERRIDDEN`, `NOT_APPLICABLE`, or `FORCED`, any evaluation resulting in `ERROR` or `TIMEOUT` is considered unfulfilled (`fulfilled() \u003d\u003d false`). Its name is included in `UNMET_REQUIREMENT_FIELD` and it is counted in `UNSATISFIED_REQUIREMENT_COUNT_FIELD`.\n\n2. **Would `unmet_requirement:foo` match all changes on timeout?:** Yes. Because `TIMEOUT` is considered unfulfilled (`!sr.fulfilled()`), if requirement `foo` times out during evaluation when a change is indexed, `\"foo\"` is added to `UNMET_REQUIREMENT_FIELD`. Therefore, querying `unmet_requirement:foo` matches all changes where `foo` timed out (or errored or was unsatisfied).",
+      "parentUuid": "27322e2b_1244f09f",
+      "revId": "527652179a64b4cec32c6641cfa287de33f53a76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "91f4e184_fbb42472",
@@ -48,6 +84,25 @@
       "writtenOn": "2026-08-01T02:02:12Z",
       "side": 1,
       "message": "This counts ERROR and TIMEOUT state, and also FORCED, is this intentional?",
+      "revId": "527652179a64b4cec32c6641cfa287de33f53a76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d1325df3_fc17aa8a",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1700,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-08-03T23:17:14Z",
+      "side": 1,
+      "message": "Yes, counting `ERROR` and `TIMEOUT` is intentional, but it does not count `FORCED`.\n\n1. **`FORCED` is not counted:** `SubmitRequirementResult#fulfilled()` returns `true` for `SATISFIED`, `OVERRIDDEN`, `NOT_APPLICABLE`, and `FORCED`. Therefore, `!sr.fulfilled()` is `false` when the status is `FORCED`.\n2. **`ERROR` and `TIMEOUT` are counted (intentional):** When evaluation results in an `ERROR` or `TIMEOUT`, the requirement is not fulfilled (`fulfilled() \u003d\u003d false`), meaning the change cannot be submitted. Counting them in `unsatisfied_requirement_count` accurately reflects that an unmet requirement is blocking submission.",
+      "parentUuid": "91f4e184_fbb42472",
+      "isAi": true,
       "revId": "527652179a64b4cec32c6641cfa287de33f53a76",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd785269_927dc076",
+        "filename": "java/com/google/gerrit/server/restapi/project/BranchCommitBuilder.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-08-03T23:17:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "861cec93_9d46486e",
+      "range": {
+        "startLine": 338,
+        "startChar": 0,
+        "endLine": 343,
+        "endChar": 0
+      },
+      "revId": "d89e35764d7fb5397fc6eeff2065ac04a3e16d08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4ca8acf4_23c3b8ad",
@@ -61,6 +85,30 @@
       "writtenOn": "2026-08-03T16:20:27Z",
       "side": 1,
       "message": "Could we add a matching acceptance test for HEAD as the write target? This would pin the boundary for the new direct branch-writing endpoint.\n\n\n\n```suggestion\n  }\n\n  @Test\n  public void directWriteToHeadIsForbidden() throws Exception {\n    String url \u003d String.format(\"/projects/%s/branches/HEAD/commit\", project.get());\n    RestResponse r \u003d adminRestSession.post(url, write(\"Nope\", \"head.txt\", \"x\"));\n    assertThat(r.getStatusCode()).isEqualTo(405);\n  }\n\n  @Test\n```",
+      "range": {
+        "startLine": 289,
+        "startChar": 0,
+        "endLine": 291,
+        "endChar": 0
+      },
+      "revId": "d89e35764d7fb5397fc6eeff2065ac04a3e16d08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9569e335_01cc83a5",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/CreateCommitIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-08-03T23:17:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ca8acf4_23c3b8ad",
       "range": {
         "startLine": 289,
         "startChar": 0,

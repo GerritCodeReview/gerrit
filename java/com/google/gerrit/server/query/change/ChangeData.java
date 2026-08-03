@@ -443,6 +443,7 @@ public class ChangeData {
       Maps.newLinkedHashMapWithExpectedSize(1);
 
   private Map<SubmitRequirement, SubmitRequirementResult> submitRequirements;
+  private Integer unsatisfiedRequirementCount;
 
   private StorageConstraint storageConstraint = StorageConstraint.NOTEDB_ONLY;
   private Change change;
@@ -1305,6 +1306,14 @@ public class ChangeData {
         SubmitRequirementsAdapter.getLegacyRequirements(this);
     return submitRequirementsUtil.mergeLegacyAndNonLegacyRequirements(
         projectConfigReqs, legacyReqs, this);
+  }
+
+  public Integer unsatisfiedRequirementCount() {
+    return unsatisfiedRequirementCount;
+  }
+
+  public void setUnsatisfiedRequirementCount(Integer count) {
+    this.unsatisfiedRequirementCount = count;
   }
 
   /**

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c49062c5_8e3273db",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2026-08-04T21:14:22Z",
+      "side": 1,
+      "message": "plan is to keep private as is specifically boils down to\n\nWIP:\nReadiness: Visible to anyone with read access, but not ready for review.\n\nPrivate:\nAccess Control / Privacy: Hidden from general view.",
+      "parentUuid": "93c54a86_fe6727d9",
+      "revId": "f71f1dbfa58075088f48d7ae6335983877429c3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f15444eb_caa383e4",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-08-04T18:42:19Z",
       "side": 1,
       "message": "This test seems to contradict the behavior you described as intended in the commit message. Which one is correct?",
+      "revId": "f71f1dbfa58075088f48d7ae6335983877429c3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c7c533f_c2ce4a64",
+        "filename": "javatests/com/google/gerrit/acceptance/server/project/ProjectWatchIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 680,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2026-08-04T21:14:22Z",
+      "side": 1,
+      "message": "replied above",
+      "parentUuid": "f15444eb_caa383e4",
       "revId": "f71f1dbfa58075088f48d7ae6335983877429c3e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

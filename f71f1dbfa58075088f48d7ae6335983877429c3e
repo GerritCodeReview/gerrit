@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93c54a86_fe6727d9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-04T18:42:19Z",
+      "side": 1,
+      "message": "Are you going to upload a follow up for private changes?",
+      "revId": "f71f1dbfa58075088f48d7ae6335983877429c3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f15444eb_caa383e4",
+        "filename": "javatests/com/google/gerrit/acceptance/server/project/ProjectWatchIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 680,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-04T18:42:19Z",
+      "side": 1,
+      "message": "This test seems to contradict the behavior you described as intended in the commit message. Which one is correct?",
+      "revId": "f71f1dbfa58075088f48d7ae6335983877429c3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61d3135b_148ee074",
+        "filename": "javatests/com/google/gerrit/acceptance/server/project/ProjectWatchIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 754,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-04T18:42:19Z",
+      "side": 1,
+      "message": "Should users added as reviewers/CC on WIP changes get all their configured project watch notifications for those changes?\n\nEither way, it would probably be good to have test coverage for the desired behavior.",
+      "revId": "f71f1dbfa58075088f48d7ae6335983877429c3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3cbb97c3_e923712d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-04T18:42:19Z",
+      "side": 1,
+      "message": "Some background for anyone interested (and a question at the end).\n\nWIP and private evolved out of \"drafts\", where [Shawn was clear](https://gerrit-review.googlesource.com/c/gerrit/+/62340/comment/84bfd6dd_57dc0c77/) that even if a user could view drafts, they shouldn\u0027t get the project watch notification. That was later broken in change I6a8e2f62f. This is the snippet of Shawn\u0027s justification:\n\u003e We do not want to notify anyone when a new draft is created. A draft is just that, its a draft. It shouldn\u0027t be reviewed like a normal change.\n\u003e \n\u003e If you have View Draft permission you can search for and find this draft, but we aren\u0027t going to automatically notify you until it gets published.\n\nThey\u0027re a little different from drafts, but it seems like that logic would still apply to both WIP and Private changes. @samccone@google.com is that your thinking too? If yes, maybe just make that clear in the commit message.",
+      "revId": "2579eb3189fa2f26f2b1e40495691908dc8836db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

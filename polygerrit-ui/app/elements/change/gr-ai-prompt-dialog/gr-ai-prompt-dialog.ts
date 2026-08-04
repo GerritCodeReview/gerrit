@@ -362,14 +362,43 @@ export class GrAiPromptDialog extends LitElement {
     this.patchContent = content;
   }
 
+  dataAnonymization(unresolvedThreads: CommentThread[]) {
+    const authorAliasByKey = new Map<string, string>();
+    let nextAliasNumber = 1;
+
+    return unresolvedThreads.map(thread => {
+      return {
+        ...thread,
+        comments: thread.comments.map(comment => {
+          const author = comment.author;
+          const authorKey = String(
+            author?._account_id ??
+              author?.email ??
+              author?.username ??
+              author?.name ??
+              '__unknown_author__'
+          );
+          let alias = authorAliasByKey.get(authorKey);
+          if (!alias) {
+            alias = `User${nextAliasNumber++}`;
+            authorAliasByKey.set(authorKey, alias);
+          }
+          return {...comment, anonymizedAuthor: alias};
+        }),
+      };
+    });
+  }
+
   private getUnresolvedCommentsFormatted(): string {
     const unresolvedThreads = this.threads.filter(isUnresolved);
     if (unresolvedThreads.length === 0) return 'No unresolved comments.';
 
-    return unresolvedThreads
+    const anonymizedThreads = this.dataAnonymization(unresolvedThreads);
+
+    return anonymizedThreads
       .map(thread => {
         const comments = thread.comments.map(
-          c => `${c.author?.name ?? 'Unknown'}:\n${c.message}`
+          c => `${c.anonymizedAuthor}:\n${c.message}`
         );
         let loc = '';
         if (thread.line) {

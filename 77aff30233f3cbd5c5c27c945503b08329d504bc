@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90ff8081_ae2b4d3d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-04T22:13:52Z",
+      "side": 1,
+      "message": "Please also update where the default is listed in `Documentation/rest-api-changes.txt`",
+      "revId": "77aff30233f3cbd5c5c27c945503b08329d504bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

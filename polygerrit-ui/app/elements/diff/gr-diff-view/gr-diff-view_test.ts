@@ -246,9 +246,7 @@ suite('gr-diff-view tests', () => {
                   <a href="/c/test-project/+/42"> 42 </a>
                   <span class="changeNumberColon"> : </span>
                 </div>
-                <div>
-                  <span class="headerSubject"> Test subject </span>
-                </div>
+                <span class="headerSubject"> Test subject </span>
                 <div class="checkboxDiv">
                   <md-checkbox
                     class="hideOnEdit reviewed"
@@ -418,6 +416,51 @@ suite('gr-diff-view tests', () => {
             </gr-download-dialog>
           </dialog>
         `
+      );
+    });
+
+    test('nav links stay inside the header when space runs out', async () => {
+      element.change = {
+        ...createParsedChange(),
+        subject:
+          'A change subject that is long enough to overflow a narrow header',
+      };
+      element.path =
+        'polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts';
+      element.files = getFilesFromFileList([element.path]);
+      const forceDesktop = document.createElement('style');
+      forceDesktop.textContent = '.navLinks.desktop { display: flex; }';
+      element.shadowRoot!.appendChild(forceDesktop);
+      await element.updateComplete;
+
+      const header = queryAndAssert(element, 'header');
+      const navLinks = queryAndAssert(element, '.navLinks');
+      const subject = queryAndAssert(element, '.headerSubject');
+      assert.notEqual(getComputedStyle(navLinks).display, 'none');
+      const naturalSubjectWidth = subject.getBoundingClientRect().width;
+
+      element.style.width = '600px';
+      await element.updateComplete;
+
+      assert.isAtMost(
+        navLinks.getBoundingClientRect().right,
+        header.getBoundingClientRect().right,
+        'nav links overflow the header'
+      );
+      assert.isAtMost(
+        header.scrollWidth,
+        header.clientWidth,
+        'header content overflows the header box'
+      );
+      assert.isBelow(
+        subject.getBoundingClientRect().width,
+        naturalSubjectWidth,
+        'subject should absorb the width deficit'
+      );
+      assert.isAbove(
+        subject.scrollWidth,
+        subject.clientWidth,
+        'subject should be ellipsized rather than pushing the nav links out'
       );
     });
 

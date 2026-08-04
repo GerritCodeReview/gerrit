@@ -68,6 +68,10 @@ public class ProjectWatch {
   /** Returns all watchers that are relevant */
   public final Watchers getWatchers(
       NotifyConfig.NotifyType type, boolean includeWatchersFromNotifyConfig) {
+    if (changeData != null && changeData.change() != null && changeData.change().isWorkInProgress()) {
+      return new Watchers();
+    }
+
     Watchers matching = new Watchers();
     Set<Account.Id> projectWatchers = new HashSet<>();
 

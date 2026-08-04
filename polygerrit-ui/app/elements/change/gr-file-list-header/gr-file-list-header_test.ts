@@ -231,6 +231,25 @@ suite('gr-file-list-header tests', () => {
     assert.equal(setUrlStub.lastCall.firstArg, '/c/test-project/+/42/1..3');
   });
 
+  test('range select keeps edit mode', async () => {
+    const setUrlStub = sinon.stub(testResolver(navigationToken), 'setUrl');
+    element.basePatchNum = PARENT;
+    element.patchNum = 3 as PatchSetNum;
+    element.editMode = true;
+    await element.updateComplete;
+
+    element.handlePatchChange({
+      detail: {basePatchNum: -1, patchNum: 3},
+    } as CustomEvent);
+    await element.updateComplete;
+
+    assert.equal(setUrlStub.callCount, 1);
+    assert.equal(
+      setUrlStub.lastCall.firstArg,
+      '/c/test-project/+/42/-1..3,edit'
+    );
+  });
+
   test('class is applied to file list on old patch set', async () => {
     element.latestPatchNum = 4 as PatchSetNumber;
 

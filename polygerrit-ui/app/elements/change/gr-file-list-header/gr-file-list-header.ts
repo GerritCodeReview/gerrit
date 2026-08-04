@@ -398,7 +398,12 @@ export class GrFileListHeader extends LitElement {
       return;
     }
     this.getNavigation().setUrl(
-      createChangeUrl({change: this.change, patchNum, basePatchNum})
+      createChangeUrl({
+        change: this.change,
+        patchNum,
+        basePatchNum,
+        edit: this.editMode,
+      })
     );
   }
 

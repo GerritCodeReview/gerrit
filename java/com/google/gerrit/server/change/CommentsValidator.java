@@ -27,7 +27,6 @@ import com.google.gerrit.extensions.common.FixReplacementInfo;
 import com.google.gerrit.extensions.common.FixSuggestionInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.server.CommentsUtil;
-import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.DiffSummary;
 import com.google.gerrit.server.patch.DiffSummaryKey;
 import com.google.gerrit.server.patch.PatchListCache;
@@ -80,18 +79,9 @@ public class CommentsValidator {
         ensureCommentNotOnMagicFilesOfAutoMerge(path, comment);
         ensureRangeIsValid(path, comment.range);
         ensureValidPatchsetLevelComment(path, comment);
-        ensureValidInReplyTo(revision.getNotes(), comment.inReplyTo);
+        commentsUtil.ensureValidInReplyTo(revision.getNotes(), patchSetId, comment.inReplyTo);
         ensureFixSuggestionsAreAddable(comment.fixSuggestions, path);
       }
-    }
-  }
-
-  private void ensureValidInReplyTo(ChangeNotes changeNotes, String inReplyTo)
-      throws BadRequestException {
-    if (inReplyTo != null
-        && !commentsUtil.getPublishedHumanComment(changeNotes, inReplyTo).isPresent()) {
-      throw new BadRequestException(
-          String.format("Invalid inReplyTo, comment %s not found", inReplyTo));
     }
   }
 

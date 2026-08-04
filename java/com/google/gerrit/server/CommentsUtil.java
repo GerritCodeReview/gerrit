@@ -38,6 +38,7 @@ import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.FixReplacementInfo;
 import com.google.gerrit.extensions.common.FixSuggestionInfo;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -109,6 +110,28 @@ public class CommentsUtil {
     return tag.substring("mailMessageId=".length());
   }
 
+  public void ensureValidInReplyTo(ChangeNotes changeNotes, PatchSet.Id psId, String inReplyTo)
+      throws BadRequestException {
+    if (inReplyTo != null) {
+      Optional<HumanComment> parent = getPublishedHumanComment(changeNotes, inReplyTo);
+      if (!parent.isPresent()) {
+        throw new BadRequestException(
+            String.format("Invalid inReplyTo, comment %s not found", inReplyTo));
+      }
+      if (parent.get().key.patchSetId != psId.get()) {
+        throw new BadRequestException(
+            "Invalid comment in_reply_to. Comment replies must be submitted on the same patchset as"
+                + " the parent comment. (in_reply_to: "
+                + inReplyTo
+                + ", in_reply_to_patchset: "
+                + parent.get().key.patchSetId
+                + ", comment_patchset: "
+                + psId.get()
+                + ")");
+      }
+    }
+  }
+
   private static final Ordering<Comparable<?>> NULLS_FIRST = Ordering.natural().nullsFirst();
 
   private final DiffOperations diffOperations;
@@ -136,16 +159,14 @@ public class CommentsUtil {
       @Nullable Boolean unresolved,
       @Nullable String parentUuid,
       @Nullable List<FixSuggestion> fixSuggestions) {
+    Optional<HumanComment> parent = Optional.empty();
+    if (parentUuid != null) {
+      parent = getPublishedHumanComment(changeNotes, parentUuid);
+    }
     if (unresolved == null) {
-      if (parentUuid == null) {
-        // Default to false if comment is not descended from another.
-        unresolved = false;
-      } else {
-        // Inherit unresolved value from inReplyTo comment if not specified.
-        Comment.Key key = new Comment.Key(parentUuid, path, psId.get());
-        Optional<HumanComment> parent = getPublishedHumanComment(changeNotes, key);
-        unresolved = parent.map(p -> p.unresolved).orElse(false);
-      }
+      // If the unresolved state is not specified, inherit it from the parent comment or default to
+      // false.
+      unresolved = parent.map(p -> p.unresolved).orElse(false);
     }
     HumanComment c =
         new HumanComment(

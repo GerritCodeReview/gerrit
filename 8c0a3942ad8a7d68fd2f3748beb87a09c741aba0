@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1546681_d4b76bbf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-08-04T15:54:47Z",
+      "side": 1,
+      "message": "```suggestion\nRelease-Notes: Fixed losing edit mode when changing the diff base.\nChange-Id: Ie77d3f3a1b2ea29dd867bf49380db149cc4a22dd\n```",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 52
+      },
+      "revId": "8c0a3942ad8a7d68fd2f3748beb87a09c741aba0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

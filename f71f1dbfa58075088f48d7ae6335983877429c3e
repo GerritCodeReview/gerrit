@@ -86,6 +86,24 @@
       "message": "Should users added as reviewers/CC on WIP changes get all their configured project watch notifications for those changes?\n\nEither way, it would probably be good to have test coverage for the desired behavior.",
       "revId": "f71f1dbfa58075088f48d7ae6335983877429c3e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "60543e62_5f61cb80",
+        "filename": "javatests/com/google/gerrit/acceptance/server/project/ProjectWatchIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 754,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2026-08-04T21:21:56Z",
+      "side": 1,
+      "message": "good question - given the prior principles:\n\nWIP:\nReadiness: Visible to anyone with read access, but not ready for review.\n\nPrivate:\nAccess Control / Privacy: Hidden from general view.\n\n\nOmitting notifications beyond owner for the case you flagged - added tests to codify.",
+      "parentUuid": "61d3135b_148ee074",
+      "revId": "f71f1dbfa58075088f48d7ae6335983877429c3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

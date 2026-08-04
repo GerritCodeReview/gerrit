@@ -18,6 +18,7 @@ import static com.google.gerrit.entities.Patch.PATCHSET_LEVEL;
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toList;
 
+import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.client.Comment.Range;
@@ -38,6 +39,7 @@ import com.google.inject.Singleton;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import org.eclipse.jgit.lib.ObjectId;
 
@@ -80,18 +82,9 @@ public class CommentsValidator {
         ensureCommentNotOnMagicFilesOfAutoMerge(path, comment);
         ensureRangeIsValid(path, comment.range);
         ensureValidPatchsetLevelComment(path, comment);
-        ensureValidInReplyTo(revision.getNotes(), comment.inReplyTo);
+        commentsUtil.ensureValidInReplyTo(revision.getNotes(), patchSetId, comment.inReplyTo);
         ensureFixSuggestionsAreAddable(comment.fixSuggestions, path);
       }
-    }
-  }
-
-  private void ensureValidInReplyTo(ChangeNotes changeNotes, String inReplyTo)
-      throws BadRequestException {
-    if (inReplyTo != null
-        && !commentsUtil.getPublishedHumanComment(changeNotes, inReplyTo).isPresent()) {
-      throw new BadRequestException(
-          String.format("Invalid inReplyTo, comment %s not found", inReplyTo));
     }
   }
 

@@ -32,6 +32,7 @@ import com.google.gerrit.entities.NotifyConfig.NotifyType;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.inject.Inject;
@@ -714,6 +715,147 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     r.assertOkStatus();
 
     // assert that there was no email notification for user
+    assertThat(sender.getMessages()).isEmpty();
+  }
+
+  // Unlike private changes (which notify users with VIEW_PRIVATE_CHANGES permission as tested
+  // in watchProjectNotifyOnPrivateChange), WIP changes are visible to all readers but suppress
+  // notifications by defaulting notify handling to NotifyHandling.OWNER unless overridden.
+  @Test
+  public void watchProjectNoNotificationForWipChange_createdViaRest() throws Exception {
+    String watchedProject = projectOperations.newProject().create().get();
+    requestScopeOperations.setApiUser(user.id());
+    watch(watchedProject);
+
+    requestScopeOperations.setApiUser(admin.id());
+    ChangeInput input = new ChangeInput();
+    input.project = watchedProject;
+    input.branch = "master";
+    input.subject = "wip change";
+    input.workInProgress = true;
+    gApi.changes().create(input);
+
+    assertThat(sender.getMessages()).isEmpty();
+  }
+
+  @Test
+  public void watchProjectNoNotificationForWipChange_pushedWithoutNotify() throws Exception {
+    String watchedProject = projectOperations.newProject().create().get();
+    requestScopeOperations.setApiUser(user.id());
+    watch(watchedProject);
+
+    requestScopeOperations.setApiUser(admin.id());
+    TestRepository<InMemoryRepository> watchedRepo =
+        cloneProject(Project.nameKey(watchedProject), admin);
+    PushOneCommit.Result r =
+        pushFactory
+            .create(admin.newIdent(), watchedRepo, "wip change", "a", "a1")
+            .to("refs/for/master%wip");
+    r.assertOkStatus();
+
+    assertThat(sender.getMessages()).isEmpty();
+  }
+
+  @Test
+  public void watchProjectNotificationForWipChange_createdViaRestWithNotifyAll() throws Exception {
+    String watchedProject = projectOperations.newProject().create().get();
+    requestScopeOperations.setApiUser(user.id());
+    watch(watchedProject);
+
+    requestScopeOperations.setApiUser(admin.id());
+    ChangeInput input = new ChangeInput();
+    input.project = watchedProject;
+    input.branch = "master";
+    input.subject = "wip change";
+    input.workInProgress = true;
+    input.notify = com.google.gerrit.extensions.api.changes.NotifyHandling.ALL;
+    gApi.changes().create(input);
+
+    assertThat(sender.getMessages()).hasSize(1);
+    assertThat(sender.getMessages().get(0).rcpt()).containsExactly(user.getNameEmail());
+  }
+
+  @Test
+  public void watchProjectNoNotificationForWipChange_projectWipByDefault() throws Exception {
+    String watchedProject = projectOperations.newProject().create().get();
+    try (ProjectConfigUpdate u = updateProject(Project.nameKey(watchedProject))) {
+      u.getConfig()
+          .updateProject(
+              b ->
+                  b.setBooleanConfig(
+                      com.google.gerrit.entities.BooleanProjectConfig.WORK_IN_PROGRESS_BY_DEFAULT,
+                      com.google.gerrit.extensions.client.InheritableBoolean.TRUE));
+      u.save();
+    }
+    requestScopeOperations.setApiUser(user.id());
+    watch(watchedProject);
+
+    requestScopeOperations.setApiUser(admin.id());
+    ChangeInput input = new ChangeInput();
+    input.project = watchedProject;
+    input.branch = "master";
+    input.subject = "default wip change";
+    gApi.changes().create(input);
+
+    assertThat(sender.getMessages()).isEmpty();
+  }
+
+  @Test
+  public void watchProjectNoNotificationForWipChange_addedAsReviewerOrCc() throws Exception {
+    String watchedProject = projectOperations.newProject().create().get();
+    requestScopeOperations.setApiUser(user.id());
+    watch(watchedProject);
+
+    requestScopeOperations.setApiUser(admin.id());
+    ChangeInput input = new ChangeInput();
+    input.project = watchedProject;
+    input.branch = "master";
+    input.subject = "wip change";
+    input.workInProgress = true;
+    String changeId = gApi.changes().create(input).get().id;
+    assertThat(sender.getMessages()).isEmpty();
+
+    // Adding user as a reviewer on the WIP change does not send watch/reviewer notifications
+    gApi.changes().id(changeId).addReviewer(user.email());
+    assertThat(sender.getMessages()).isEmpty();
+
+    // Adding user2 as CC on the WIP change also does not send notifications
+    TestAccount user2 = accountCreator.user2();
+    requestScopeOperations.setApiUser(user2.id());
+    watch(watchedProject);
+    requestScopeOperations.setApiUser(admin.id());
+    com.google.gerrit.extensions.api.changes.ReviewerInput ccInput =
+        new com.google.gerrit.extensions.api.changes.ReviewerInput();
+    ccInput.reviewer = user2.email();
+    ccInput.state = com.google.gerrit.extensions.client.ReviewerState.CC;
+    gApi.changes().id(changeId).addReviewer(ccInput);
+    assertThat(sender.getMessages()).isEmpty();
+  }
+
+  @Test
+  public void watchProjectNoNotificationForWipChange_newPatchsetWhenReviewer() throws Exception {
+    String watchedProject = projectOperations.newProject().create().get();
+    requestScopeOperations.setApiUser(user.id());
+    watch(watchedProject);
+
+    requestScopeOperations.setApiUser(admin.id());
+    TestRepository<InMemoryRepository> watchedRepo =
+        cloneProject(Project.nameKey(watchedProject), admin);
+    PushOneCommit.Result r =
+        pushFactory
+            .create(admin.newIdent(), watchedRepo, "wip change", "a", "a1")
+            .to("refs/for/master%wip");
+    r.assertOkStatus();
+    gApi.changes().id(r.getChangeId()).addReviewer(user.email());
+    assertThat(sender.getMessages()).isEmpty();
+
+    // Pushing a new patchset on the WIP change does not notify user (who is both watcher and
+    // reviewer)
+    PushOneCommit.Result r2 =
+        pushFactory
+            .create(admin.newIdent(), watchedRepo, "wip change", "a", "a2", r.getChangeId())
+            .to("refs/for/master%wip");
+    r2.assertOkStatus();
     assertThat(sender.getMessages()).isEmpty();
   }
 }

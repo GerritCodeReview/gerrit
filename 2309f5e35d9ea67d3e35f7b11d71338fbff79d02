@@ -70,6 +70,23 @@
       "parentUuid": "5a045f96_7f1e6ada",
       "revId": "2309f5e35d9ea67d3e35f7b11d71338fbff79d02",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24089598_a99b2075",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-08-04T21:19:48Z",
+      "side": 1,
+      "message": "Can you file a bug to track this issue? https://issues.gerritcodereview.com/ including a screenshot of the issue, and then a screenshot in this change with it resolved?",
+      "revId": "2309f5e35d9ea67d3e35f7b11d71338fbff79d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

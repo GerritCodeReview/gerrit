@@ -211,8 +211,10 @@ const RoutePattern = {
   // compatibility for change-only.
   CHANGE: /^\/c\/(.+)\/\+\/(\d+)(\/?((-?\d+|edit)(\.\.(\d+|edit))?))?\/?$/,
 
-  // Matches /c/<project>/+/<changeNum>/[<patchNum|edit>],edit
-  CHANGE_EDIT: /^\/c\/(.+)\/\+\/(\d+)(\/(\d+))?,edit\/?$/,
+  // Matches
+  // /c/<project>/+/<changeNum>/[<basePatchNum|edit>..][<patchNum|edit>],edit
+  CHANGE_EDIT:
+    /^\/c\/(.+)\/\+\/(\d+)(\/?((-?\d+|edit)(\.\.(\d+|edit))?))?,edit\/?$/,
 
   // Matches /c/<project>/+/<changeNum>/comment/<commentId>/
   // Navigates to the diff view
@@ -1581,7 +1583,8 @@ export class GrRouter implements Finalizable, NavigationService {
     const state: ChangeViewState = {
       repo: project,
       changeNum,
-      patchNum: convertToPatchSetNum(ctx.params[3]) as RevisionPatchSetNum,
+      basePatchNum: convertToPatchSetNum(ctx.params[4]) as BasePatchSetNum,
+      patchNum: convertToPatchSetNum(ctx.params[6]) as RevisionPatchSetNum,
       view: GerritView.CHANGE,
       childView: ChangeChildView.OVERVIEW,
       edit: true,

@@ -240,7 +240,7 @@ suite('gr-ai-prompt-dialog test', () => {
     element.selectedTemplate = 'RESOLVE_COMMENTS';
     await element.updateComplete;
     const expected = `* File: test.txt (Line 1)
-Tester:
+User1:
 test comment`;
     assert.include(Reflect.get(element, 'promptContent') as string, expected);
   });
@@ -253,6 +253,91 @@ test comment`;
 
     const promptContent = Reflect.get(element, 'promptContent') as string;
     assert.include(promptContent, expected);
+  });
+
+  suite('dataAnonymization', () => {
+    test('assigns alias starting from User1', () => {
+      const thread = {
+        ...createThread({
+          message: 'hello',
+          author: {_account_id: 1} as AccountInfo,
+          unresolved: true,
+        }),
+        path: 'foo.ts',
+      };
+      const result = element.dataAnonymization([thread]);
+      assert.equal(result[0].comments[0].anonymizedAuthor, 'User1');
+    });
+
+    test('same author (by _account_id) gets the same alias', () => {
+      const author = {_account_id: 42} as AccountInfo;
+      const thread1 = {
+        ...createThread({message: 'first', author, unresolved: true}),
+        path: 'a.ts',
+      };
+      const thread2 = {
+        ...createThread({message: 'second', author, unresolved: true}),
+        path: 'b.ts',
+      };
+      const result = element.dataAnonymization([thread1, thread2]);
+      assert.equal(result[0].comments[0].anonymizedAuthor, 'User1');
+      assert.equal(result[1].comments[0].anonymizedAuthor, 'User1');
+    });
+
+    test('different authors get different aliases', () => {
+      const thread1 = {
+        ...createThread({
+          message: 'msg1',
+          author: {_account_id: 1} as AccountInfo,
+          unresolved: true,
+        }),
+        path: 'a.ts',
+      };
+      const thread2 = {
+        ...createThread({
+          message: 'msg2',
+          author: {_account_id: 2} as AccountInfo,
+          unresolved: true,
+        }),
+        path: 'b.ts',
+      };
+      const result = element.dataAnonymization([thread1, thread2]);
+      assert.equal(result[0].comments[0].anonymizedAuthor, 'User1');
+      assert.equal(result[1].comments[0].anonymizedAuthor, 'User2');
+    });
+
+    test('falls back to email when _account_id is absent', () => {
+      const thread = {
+        ...createThread({
+          message: 'hi',
+          author: {email: 'alice@example.com'} as AccountInfo,
+          unresolved: true,
+        }),
+        path: 'c.ts',
+      };
+      const result = element.dataAnonymization([thread]);
+      assert.equal(result[0].comments[0].anonymizedAuthor, 'User1');
+    });
+
+    test('returns empty array for empty input', () => {
+      const result = element.dataAnonymization([]);
+      assert.deepEqual(result, []);
+    });
+
+    test('does not expose original author info in anonymized comments', () => {
+      const thread = {
+        ...createThread({
+          message: 'secret',
+          author: {name: 'Bob', _account_id: 7} as AccountInfo,
+          unresolved: true,
+        }),
+        path: 'd.ts',
+      };
+      const result = element.dataAnonymization([thread]);
+      const comment = result[0].comments[0];
+      assert.notEqual(comment.anonymizedAuthor, 'Bob');
+      assert.match(comment.anonymizedAuthor, /^User\d+$/);
+    });
   });
 
   suite('eager loading prevention', () => {

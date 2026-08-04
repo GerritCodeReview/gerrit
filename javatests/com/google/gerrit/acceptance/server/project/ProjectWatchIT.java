@@ -32,6 +32,7 @@ import com.google.gerrit.entities.NotifyConfig.NotifyType;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.inject.Inject;
@@ -714,6 +715,85 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     r.assertOkStatus();
 
     // assert that there was no email notification for user
+    assertThat(sender.getMessages()).isEmpty();
+  }
+
+  @Test
+  public void watchProjectNoNotificationForWipChange_createdViaRest() throws Exception {
+    String watchedProject = projectOperations.newProject().create().get();
+    requestScopeOperations.setApiUser(user.id());
+    watch(watchedProject);
+
+    requestScopeOperations.setApiUser(admin.id());
+    ChangeInput input = new ChangeInput();
+    input.project = watchedProject;
+    input.branch = "master";
+    input.subject = "wip change";
+    input.workInProgress = true;
+    gApi.changes().create(input);
+
+    assertThat(sender.getMessages()).isEmpty();
+  }
+
+  @Test
+  public void watchProjectNoNotificationForWipChange_pushedWithoutNotify() throws Exception {
+    String watchedProject = projectOperations.newProject().create().get();
+    requestScopeOperations.setApiUser(user.id());
+    watch(watchedProject);
+
+    requestScopeOperations.setApiUser(admin.id());
+    TestRepository<InMemoryRepository> watchedRepo =
+        cloneProject(Project.nameKey(watchedProject), admin);
+    PushOneCommit.Result r =
+        pushFactory
+            .create(admin.newIdent(), watchedRepo, "wip change", "a", "a1")
+            .to("refs/for/master%wip");
+    r.assertOkStatus();
+
+    assertThat(sender.getMessages()).isEmpty();
+  }
+
+  @Test
+  public void watchProjectNotificationForWipChange_createdViaRestWithNotifyAll() throws Exception {
+    String watchedProject = projectOperations.newProject().create().get();
+    requestScopeOperations.setApiUser(user.id());
+    watch(watchedProject);
+
+    requestScopeOperations.setApiUser(admin.id());
+    ChangeInput input = new ChangeInput();
+    input.project = watchedProject;
+    input.branch = "master";
+    input.subject = "wip change";
+    input.workInProgress = true;
+    input.notify = com.google.gerrit.extensions.api.changes.NotifyHandling.ALL;
+    gApi.changes().create(input);
+
+    assertThat(sender.getMessages()).hasSize(1);
+    assertThat(sender.getMessages().get(0).rcpt()).containsExactly(user.getNameEmail());
+  }
+
+  @Test
+  public void watchProjectNoNotificationForWipChange_projectWipByDefault() throws Exception {
+    String watchedProject = projectOperations.newProject().create().get();
+    try (ProjectConfigUpdate u = updateProject(Project.nameKey(watchedProject))) {
+      u.getConfig()
+          .updateProject(
+              b ->
+                  b.setBooleanConfig(
+                      com.google.gerrit.entities.BooleanProjectConfig.WORK_IN_PROGRESS_BY_DEFAULT,
+                      com.google.gerrit.extensions.client.InheritableBoolean.TRUE));
+      u.save();
+    }
+    requestScopeOperations.setApiUser(user.id());
+    watch(watchedProject);
+
+    requestScopeOperations.setApiUser(admin.id());
+    ChangeInput input = new ChangeInput();
+    input.project = watchedProject;
+    input.branch = "master";
+    input.subject = "default wip change";
+    gApi.changes().create(input);
+
     assertThat(sender.getMessages()).isEmpty();
   }
 }

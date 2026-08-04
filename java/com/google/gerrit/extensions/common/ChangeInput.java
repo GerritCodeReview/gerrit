@@ -63,7 +63,7 @@ public class ChangeInput {
   }
 
   /** Who to send email notifications to after change is created. */
-  public NotifyHandling notify = NotifyHandling.ALL;
+  public NotifyHandling notify;
 
   public Map<RecipientType, NotifyInfo> notifyDetails;
 }

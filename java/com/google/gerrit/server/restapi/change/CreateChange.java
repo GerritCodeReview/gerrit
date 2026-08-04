@@ -559,11 +559,14 @@ public class CreateChange
           ins.setCustomKeyedValues(customKeyedValues.build());
         }
 
+        boolean isWorkInProgress =
+            Boolean.TRUE.equals(input.workInProgress) || !c.getFilesWithGitConflicts().isEmpty();
+        NotifyHandling defaultNotify = isWorkInProgress ? NotifyHandling.OWNER : NotifyHandling.ALL;
         try (BatchUpdate bu = updateFactory.create(projectState.getNameKey(), me, now)) {
           bu.setRepository(git, rw, oi);
           bu.setNotify(
               notifyResolver.resolve(
-                  firstNonNull(input.notify, NotifyHandling.ALL), input.notifyDetails));
+                  firstNonNull(input.notify, defaultNotify), input.notifyDetails));
           bu.insertChange(ins);
           bu.execute();
         }

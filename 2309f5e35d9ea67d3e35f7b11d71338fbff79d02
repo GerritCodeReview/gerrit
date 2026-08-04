@@ -16,6 +16,24 @@
       "message": "Do we not have snapshot tests for this?",
       "revId": "2309f5e35d9ea67d3e35f7b11d71338fbff79d02",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "467b6a11_01e7b556",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2026-08-04T11:20:49Z",
+      "side": 1,
+      "message": "The snapshot test for gr-diff-view did not catch this regression. \n\nNav links render correctly in stable-3.11. The change subject and file name would wrap onto separate lines, preventing the nav links from being pushed outside the view. At some point, this behavior changed. I\u0027ll try to identify and share the commit that introduced the regression.",
+      "parentUuid": "dac4c3de_01660684",
+      "revId": "2309f5e35d9ea67d3e35f7b11d71338fbff79d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

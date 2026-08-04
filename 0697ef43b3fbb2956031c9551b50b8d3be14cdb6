@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "134cae49_9642bf92",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-04T17:51:46Z",
+      "side": 1,
+      "message": "Needs this JGit change merged: 1244478: Merge branch \u0027stable-7.7\u0027 | https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1244478",
+      "revId": "0697ef43b3fbb2956031c9551b50b8d3be14cdb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -32,6 +32,7 @@ import com.google.gerrit.entities.NotifyConfig.NotifyType;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.inject.Inject;
@@ -714,6 +715,41 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     r.assertOkStatus();
 
     // assert that there was no email notification for user
+    assertThat(sender.getMessages()).isEmpty();
+  }
+
+  @Test
+  public void watchProjectNoNotificationForWipChange_createdViaRest() throws Exception {
+    String watchedProject = projectOperations.newProject().create().get();
+    requestScopeOperations.setApiUser(user.id());
+    watch(watchedProject);
+
+    requestScopeOperations.setApiUser(admin.id());
+    ChangeInput input = new ChangeInput();
+    input.project = watchedProject;
+    input.branch = "master";
+    input.subject = "wip change";
+    input.workInProgress = true;
+    gApi.changes().create(input);
+
+    assertThat(sender.getMessages()).isEmpty();
+  }
+
+  @Test
+  public void watchProjectNoNotificationForWipChange_pushedWithNotifyAll() throws Exception {
+    String watchedProject = projectOperations.newProject().create().get();
+    requestScopeOperations.setApiUser(user.id());
+    watch(watchedProject);
+
+    requestScopeOperations.setApiUser(admin.id());
+    TestRepository<InMemoryRepository> watchedRepo =
+        cloneProject(Project.nameKey(watchedProject), admin);
+    PushOneCommit.Result r =
+        pushFactory
+            .create(admin.newIdent(), watchedRepo, "wip change", "a", "a1")
+            .to("refs/for/master%wip,notify=ALL");
+    r.assertOkStatus();
+
     assertThat(sender.getMessages()).isEmpty();
   }
 }

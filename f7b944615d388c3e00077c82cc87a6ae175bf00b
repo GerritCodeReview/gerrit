@@ -16,6 +16,47 @@
       "message": "It has to be ontop of Change-Id.",
       "revId": "f7b944615d388c3e00077c82cc87a6ae175bf00b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4aad6872_c01bccc4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-04T00:23:42Z",
+      "side": 1,
+      "message": "Yeah, just needs to not have a space between them. Suggested below.",
+      "parentUuid": "34404b03_8881ab7e",
+      "revId": "f7b944615d388c3e00077c82cc87a6ae175bf00b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bdb2fbd2_99bf4335",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-04T00:23:42Z",
+      "side": 1,
+      "message": "```suggestion\nRelease-Notes: Change commit validation output format\nChange-Id: I1c991f0edf8d75b9950a27c1b0efea0855c59e34\n```",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 52
+      },
+      "revId": "f7b944615d388c3e00077c82cc87a6ae175bf00b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

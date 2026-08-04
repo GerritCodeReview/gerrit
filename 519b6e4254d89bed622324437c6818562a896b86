@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc2ebeaa_764a2694",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-04T17:38:12Z",
+      "side": 1,
+      "message": "Needs this JGit change merged: 1244475: Merge branch \u0027stable-7.4\u0027 into stable-7.5 | https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1244475",
+      "revId": "519b6e4254d89bed622324437c6818562a896b86",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

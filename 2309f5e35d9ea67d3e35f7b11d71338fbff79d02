@@ -34,6 +34,24 @@
       "parentUuid": "dac4c3de_01660684",
       "revId": "2309f5e35d9ea67d3e35f7b11d71338fbff79d02",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a045f96_7f1e6ada",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2026-08-04T13:52:32Z",
+      "side": 1,
+      "message": "I think the below two changes are relevant:\n\n523802: Prevent title from overflowing into next line on small width | https://gerrit-review.googlesource.com/c/gerrit/+/523802\n\n551741: Fix lit-analyzer warnings across UI components | https://gerrit-review.googlesource.com/c/gerrit/+/551741",
+      "parentUuid": "467b6a11_01e7b556",
+      "revId": "2309f5e35d9ea67d3e35f7b11d71338fbff79d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

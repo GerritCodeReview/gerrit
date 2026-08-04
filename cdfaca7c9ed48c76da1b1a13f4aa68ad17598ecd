@@ -16,6 +16,24 @@
       "message": "Needs this JGit change merged: 1244477: Merge branch \u0027stable-7.6\u0027 into stable-7.7 | https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1244477",
       "revId": "cdfaca7c9ed48c76da1b1a13f4aa68ad17598ecd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d177094_2429553d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-04T18:48:57Z",
+      "side": 1,
+      "message": "This is merged now.",
+      "parentUuid": "9a39d7d6_a0e335c8",
+      "revId": "cdfaca7c9ed48c76da1b1a13f4aa68ad17598ecd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

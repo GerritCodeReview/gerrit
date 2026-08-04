@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85482812_0e6afacd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-08-04T19:28:08Z",
+      "side": 1,
+      "message": "I\u0027m afraid that having long intervals doesn\u0027t have much value for this feature and having short intervals quickly fills up storage ?\n\nCan we enable this on-demand via ssh/rest ?",
+      "revId": "b07d7f2f08b66a39b7a56a79bf3a7c350e922ab8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

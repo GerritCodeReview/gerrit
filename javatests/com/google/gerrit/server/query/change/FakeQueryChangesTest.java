@@ -26,12 +26,14 @@ import static org.junit.Assume.assumeTrue;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.UseClockStep;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.index.PaginationType;
+import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.index.testing.AbstractFakeIndex;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -250,6 +252,34 @@ public abstract class FakeQueryChangesTest extends AbstractQueryChangesTest {
     // 1 index search is expected since we are not paginating.
     executeQuery("status:new");
     assertThatSearchQueryWasNotPaginated(idx.getQueryCount());
+  }
+
+  @Test
+  @UseClockStep
+  @GerritConfig(name = "index.maxPageSize", value = "3")
+  public void emptyOrInAndInsideOrStaysChangeDataSource() throws Exception {
+    // A none()-collapsing AND nested inside an OR must stay a ChangeDataSource. Both short-circuits
+    // involved (the empty OrPredicate, and the AND collapsing on a none() child) have to yield a
+    // ChangeDataSource, otherwise the enclosing OR cannot fold into an OrSource and the top-level
+    // rewrite() falls back to and(or(open,closed), in) -- a full-status scan. Capping
+    // index.maxPageSize below the number of indexed changes keeps the pages small enough that the
+    // collapsed branch is distinguishable from one reading real changes.
+    AbstractFakeIndex<?, ?, ?> idx = setupRepoWithFourChanges();
+
+    Predicate<ChangeData> matching = queryBuilderProvider.get().parse("status:new");
+    Predicate<ChangeData> emptyOrInAnd = Predicate.and(Predicate.or(ImmutableList.of()), matching);
+
+    idx.resetQueryCount();
+    @SuppressWarnings("unused")
+    ImmutableList<ChangeData> unused =
+        queryProvider.get().query(Predicate.or(emptyOrInAnd, matching));
+
+    // Each short-circuit contributes an index read that returns nothing (status:__invalid__),
+    // leaving one read that returns real changes for the status:new branch. If either
+    // short-circuit leaks a bare none(), that branch reads a page of actual changes instead and
+    // the empty-read count drops.
+    long emptyReads = idx.getResultsSizes().stream().filter(size -> size == 0).count();
+    assertThat(emptyReads).isEqualTo(2);
   }
 
   @SuppressWarnings("unused")

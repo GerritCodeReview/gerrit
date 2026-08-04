@@ -16,6 +16,24 @@
       "message": "I\u0027m afraid that having long intervals doesn\u0027t have much value for this feature and having short intervals quickly fills up storage ?\n\nCan we enable this on-demand via ssh/rest ?",
       "revId": "b07d7f2f08b66a39b7a56a79bf3a7c350e922ab8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "beb41eaa_33b2212c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 4665459
+      },
+      "writtenOn": "2026-08-04T23:48:23Z",
+      "side": 1,
+      "message": "Firstly, this feature is off by default and when enabled, it goes through the same log lifecycle as other Gerrit logs i.e, rotation and compression of rotated logs. Also, admins can control how long logs should be kept using `log.timeToKeep`. Regarding the interval, since it is configurable, admins can choose what fits best for their servers. And at a sane interval, it\u0027s a small fraction of what high-volume logs like replication_log already write on a busy server, so relative to what\u0027s already in the logs dir, this adds very little, I believe.\n\nAdditional features like turning it on for a certain duration or toggling it on/off at runtime can be done in follow-ups as needed.",
+      "parentUuid": "85482812_0e6afacd",
+      "revId": "b07d7f2f08b66a39b7a56a79bf3a7c350e922ab8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

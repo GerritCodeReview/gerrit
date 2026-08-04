@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a0dc18e_c7907441",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-04T23:23:04Z",
+      "side": 1,
+      "message": "You\u0027ll need the FC footer. See the submit requirement text for more info:\n\u003e Changes to NoteDb, data serialization in ChangeField, or the entities packages require careful consideration. Make sure your change is forward compatible and add the footer `Forward-Compatible: checked` to your commit message.",
+      "revId": "9229471da6852e9fa6e79bd78778aa3e4fdc5851",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "6b7a59d2_ec38c79e",
@@ -14,6 +31,24 @@
       "writtenOn": "2026-08-04T22:24:58Z",
       "side": 1,
       "message": "thanks for the review Nasser",
+      "revId": "9229471da6852e9fa6e79bd78778aa3e4fdc5851",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d7bc5e1_b8e48635",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-04T23:23:04Z",
+      "side": 1,
+      "message": "Glad to help!",
+      "parentUuid": "6b7a59d2_ec38c79e",
       "revId": "9229471da6852e9fa6e79bd78778aa3e4fdc5851",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

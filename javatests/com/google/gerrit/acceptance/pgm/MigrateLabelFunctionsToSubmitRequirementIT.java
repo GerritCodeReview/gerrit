@@ -321,7 +321,7 @@ public class MigrateLabelFunctionsToSubmitRequirementIT extends AbstractDaemonTe
     assertThat(updateUI.existingSrsMismatchingWithMigration).isEqualTo(0);
 
     assertExistentSr(
-        /* srName */ "Foo",
+        /* srName= */ "Foo",
         /* applicabilityExpression= */ "branch:\"refs/heads/gerr\\\"it\"",
         /* submittabilityExpression= */ "label:Foo=MAX AND -label:Foo=MIN",
         /* canOverride= */ true);
@@ -343,7 +343,7 @@ public class MigrateLabelFunctionsToSubmitRequirementIT extends AbstractDaemonTe
     assertThat(updateUI.existingSrsMismatchingWithMigration).isEqualTo(0);
 
     assertExistentSr(
-        /* srName */ "Foo",
+        /* srName= */ "Foo",
         /* applicabilityExpression= */ "branch:\"refs/heads/gerr#it\"",
         /* submittabilityExpression= */ "label:Foo=MAX AND -label:Foo=MIN",
         /* canOverride= */ true);
@@ -365,7 +365,7 @@ public class MigrateLabelFunctionsToSubmitRequirementIT extends AbstractDaemonTe
     assertThat(updateUI.existingSrsMismatchingWithMigration).isEqualTo(0);
 
     assertExistentSr(
-        /* srName */ "Foo",
+        /* srName= */ "Foo",
         /* applicabilityExpression= */ "branch:^refs/heads/main-.*",
         /* submittabilityExpression= */ "label:Foo=MAX AND -label:Foo=MIN",
         /* canOverride= */ true);
@@ -387,7 +387,7 @@ public class MigrateLabelFunctionsToSubmitRequirementIT extends AbstractDaemonTe
     assertThat(updateUI.existingSrsMismatchingWithMigration).isEqualTo(0);
 
     assertExistentSr(
-        /* srName */ "Foo",
+        /* srName= */ "Foo",
         /* applicabilityExpression= */ "branch:^\\Qrefs/heads/release/\\E.*",
         /* submittabilityExpression= */ "label:Foo=MAX AND -label:Foo=MIN",
         /* canOverride= */ true);

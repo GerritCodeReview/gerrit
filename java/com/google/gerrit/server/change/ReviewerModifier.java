@@ -136,7 +136,7 @@ public class ReviewerModifier {
      *
      * <p>If false, and the account is already a REVIEWER, the state will remain REVIEWER.
      */
-    public boolean allowDowngradeToCC = true;
+    public boolean allowDowngradeToCc = true;
   }
 
   public static InternalReviewerInput newReviewerInput(
@@ -171,7 +171,7 @@ public class ReviewerModifier {
     // Automatic addition of author/committer as CC is an implicit system action on push.
     // Preserve existing REVIEWER status so implicit auto-CC does not demote explicitly assigned
     // reviewers.
-    in.allowDowngradeToCC = false;
+    in.allowDowngradeToCc = false;
     return Optional.of(in);
   }
 
@@ -538,9 +538,9 @@ public class ReviewerModifier {
                 this.reviewersByEmail,
                 state(),
                 forGroup);
-        if (input instanceof InternalReviewerInput) {
+        if (input instanceof InternalReviewerInput internalInput) {
           ((AddReviewersOp) op)
-              .setAllowDowngradeToCC(((InternalReviewerInput) input).allowDowngradeToCC);
+              .setAllowDowngradeToCc(internalInput.allowDowngradeToCc);
         }
       }
       this.exactMatchFound = exactMatchFound;

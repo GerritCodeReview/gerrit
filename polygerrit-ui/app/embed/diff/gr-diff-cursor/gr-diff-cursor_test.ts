@@ -229,6 +229,31 @@ suite('gr-diff-cursor tests', () => {
     assert.equal(moveToNumStub.lastCall.args[2], 'some/file');
   });
 
+  test('moves to line range and sets target-range classes', () => {
+    cursor.moveToLineRange(1, 3, Side.RIGHT);
+
+    const row1 = cursor.findRowByNumberAndFile(1, Side.RIGHT);
+    const row2 = cursor.findRowByNumberAndFile(2, Side.RIGHT);
+    const row3 = cursor.findRowByNumberAndFile(3, Side.RIGHT);
+
+    assert.isDefined(row1);
+    assert.isDefined(row2);
+    assert.isDefined(row3);
+    assert.isTrue(row1.classList.contains('target-range-start'));
+    assert.isTrue(row1.classList.contains('target-range-row'));
+    assert.isTrue(row2.classList.contains('target-range-middle'));
+    assert.isTrue(row2.classList.contains('target-range-row'));
+    assert.isTrue(row3.classList.contains('target-range-end'));
+    assert.isTrue(row3.classList.contains('target-range-row'));
+
+    // Moving away clears range classes
+    cursor.moveDown();
+    assert.isFalse(row1.classList.contains('target-range-start'));
+    assert.isFalse(row1.classList.contains('target-range-row'));
+    assert.isFalse(row2.classList.contains('target-range-middle'));
+    assert.isFalse(row3.classList.contains('target-range-end'));
+  });
+
   suite('unified diff', () => {
     setup(async () => {
       diffElement.diffModel.updateState({

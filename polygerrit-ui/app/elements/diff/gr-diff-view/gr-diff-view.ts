@@ -242,6 +242,10 @@ export class GrDiffView extends LitElement {
   @state()
   focusLineNum?: number;
 
+  /** Directly reflects the view model property `diffView.endLineNum`. */
+  @state()
+  focusEndLineNum?: number;
+
   /** Directly reflects the view model property `diffView.leftSide`. */
   @state()
   leftSide = false;
@@ -445,6 +449,11 @@ export class GrDiffView extends LitElement {
       this,
       () => this.getViewModel().diffLine$,
       line => (this.focusLineNum = line)
+    );
+    subscribe(
+      this,
+      () => this.getViewModel().diffEndLine$,
+      endLine => (this.focusEndLineNum = endLine)
     );
     subscribe(
       this,
@@ -777,6 +786,19 @@ export class GrDiffView extends LitElement {
     if (!this.diffHost) return;
     this.cursor?.replaceDiffs([this.diffHost]);
     this.cursor?.reInitCursor();
+    if (
+      this.focusLineNum &&
+      this.focusEndLineNum &&
+      this.focusEndLineNum > this.focusLineNum
+    ) {
+      this.cursor?.moveToLineNumber(
+        this.focusLineNum,
+        this.cursor.side,
+        this.path,
+        true,
+        this.focusEndLineNum
+      );
+    }
   }
 
   private readonly updateSidebarHeight = () => {
@@ -1577,13 +1599,18 @@ export class GrDiffView extends LitElement {
     return {path: fileList[idx]};
   }
 
-  private updateUrlToDiffUrl(lineNum?: number, leftSide?: boolean) {
+  private updateUrlToDiffUrl(
+    lineNum?: number,
+    leftSide?: boolean,
+    endLineNum?: number
+  ) {
     if (!this.path || !this.patchNum) return;
     const url = this.getViewModel().diffUrl({
       diffView: {
         path: this.path,
         lineNum,
         leftSide,
+        endLineNum,
       },
       patchNum: this.patchNum,
     });
@@ -1625,6 +1652,7 @@ export class GrDiffView extends LitElement {
     if (!this.cursor) return;
     this.cursor.side = this.leftSide ? Side.LEFT : Side.RIGHT;
     this.cursor.initialLineNumber = this.focusLineNum;
+    this.cursor.initialEndLineNumber = this.focusEndLineNum ?? null;
   }
 
   // Private but used in tests.

@@ -116,6 +116,7 @@ export class GrDiffCursor implements GrDiffCursorApi {
    * element in the page.
    */
   initialLineNumber: number | null = null;
+  initialEndLineNumber: number | null = null;
 
   // visible for testing
   cursorManager = new GrCursorManager();
@@ -234,13 +235,68 @@ export class GrDiffCursor implements GrDiffCursorApi {
     number: LineNumber,
     side: Side,
     path?: string,
-    intentionalMove?: boolean
+    intentionalMove?: boolean,
+    endNumber?: LineNumber
   ) {
     const row = this.findRowByNumberAndFile(number, side, path);
     if (row) {
       this.side = side;
       this.cursorManager.setCursor(row, undefined, intentionalMove);
+      if (
+        endNumber &&
+        typeof number === 'number' &&
+        typeof endNumber === 'number' &&
+        endNumber > number
+      ) {
+        const endRow = this.findRowByNumberAndFile(endNumber, side, path);
+        if (endRow) {
+          const startEl = row.querySelector('.contentText') ?? row;
+          const endEl = endRow.querySelector('.contentText') ?? endRow;
+          const range = document.createRange();
+          range.setStart(startEl, 0);
+          const lastChild = endEl.lastChild;
+          if (lastChild) {
+            const offset =
+              lastChild.nodeType === Node.TEXT_NODE
+                ? lastChild.textContent?.length ?? 0
+                : lastChild.childNodes.length ?? 0;
+            range.setEnd(lastChild, offset);
+          } else {
+            range.setEnd(endEl, 0);
+          }
+          const sel = window.getSelection();
+          if (sel) {
+            sel.removeAllRanges();
+            sel.addRange(range);
+          }
+        }
+        const diff = this.getTargetDiffElement();
+        if (diff) {
+          const endChar = endRow ? (endRow.querySelector('.contentText')?.textContent?.length ?? 1000) : 1000;
+          diff.diffModel.fireRangeSelectedEvent(
+            side,
+            {
+              start_line: number,
+              start_character: 0,
+              end_line: endNumber,
+              end_character: endChar,
+            },
+            true
+          );
+        }
+      } else {
+        window.getSelection()?.removeAllRanges();
+      }
     }
+  }
+
+  moveToLineRange(
+    startLine: LineNumber,
+    endLine: LineNumber,
+    side: Side,
+    path?: string
+  ) {
+    this.moveToLineNumber(startLine, side, path, true, endLine);
   }
 
   /**
@@ -308,8 +364,15 @@ export class GrDiffCursor implements GrDiffCursorApi {
         ? ScrollMode.KEEP_VISIBLE
         : ScrollMode.NEVER;
       if (this.initialLineNumber) {
-        this.moveToLineNumber(this.initialLineNumber, this.side);
+        this.moveToLineNumber(
+          this.initialLineNumber,
+          this.side,
+          undefined,
+          undefined,
+          this.initialEndLineNumber ?? undefined
+        );
         this.initialLineNumber = null;
+        this.initialEndLineNumber = null;
       } else {
         this.moveToFirstChunk();
       }

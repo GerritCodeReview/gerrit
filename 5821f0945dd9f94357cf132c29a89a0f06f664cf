@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b0dbea7_66f9d717",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 2158,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-08-05T10:39:21Z",
+      "side": 1,
+      "message": "Could we also document that this endpoint does not auto-close matching open changes?\n\nThe endpoint writes directly to the branch, so API users may otherwise expect the same side effects as a direct push to `refs/heads/*`. The commit message mentions that matching open changes are not auto-closed, but the REST docs do not.\n\n```suggestion\nare not enforced. Matching open changes are not auto-closed.\n```",
+      "range": {
+        "startLine": 2158,
+        "startChar": 0,
+        "endLine": 2158,
+        "endChar": 17
+      },
+      "revId": "5821f0945dd9f94357cf132c29a89a0f06f664cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b12b0866_2d50de96",
+        "filename": "java/com/google/gerrit/server/restapi/project/BranchCommitBuilder.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-08-05T10:39:21Z",
+      "side": 1,
+      "message": "Could this helper also reject a stale `base_revision` before returning the expected old object id?\n\nThe final RefUpdate still protects against races, but this would fail already-stale input before building objects and running validators.\n\n```suggestion\n      ObjectId expectedOld \u003d resolveExpectedOldObjectId(input, ref, branch);\n```",
+      "range": {
+        "startLine": 132,
+        "startChar": 0,
+        "endLine": 132,
+        "endChar": 61
+      },
+      "revId": "5821f0945dd9f94357cf132c29a89a0f06f664cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f7f3c75_2c186d48",
+        "filename": "java/com/google/gerrit/server/restapi/project/BranchCommitBuilder.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-08-05T10:39:21Z",
+      "side": 1,
+      "message": "Could this helper also reject a stale `base_revision` before returning the expected old object id?\n\nThe final RefUpdate still needs the expected object id for race protection, but if the caller supplied an already-stale base we can return 409 before building objects and running validators. That avoids writing unreachable objects and avoids exposing a doomed commit to validators.\n\n```suggestion\n  /**\n   * Resolves the expected old object id: the caller-provided {@code base_revision} when set,\n   * otherwise the current branch tip.\n   *\n   * \u003cp\u003eIf {@code base_revision} is set, it must match the current branch tip. The final ref update\n   * still performs the same compare-and-swap check to protect against races.\n   */\n  private ObjectId resolveExpectedOldObjectId(CreateCommitInput input, Ref ref, BranchNameKey branch)\n      throws BadRequestException, ResourceConflictException {\n    ObjectId currentTip \u003d ref.getObjectId();\n    if (input.baseRevision \u003d\u003d null) {\n      return currentTip;\n    }\n    ObjectId expectedOld \u003d parseBaseRevision(input.baseRevision);\n    if (!expectedOld.equals(currentTip)) {\n      throw new ResourceConflictException(\n          \"branch \\\"\" + branch.branch() + \"\\\" changed concurrently or base_revision is stale\");\n    }\n    return expectedOld;\n  }\n```",
+      "range": {
+        "startLine": 315,
+        "startChar": 0,
+        "endLine": 323,
+        "endChar": 0
+      },
+      "revId": "5821f0945dd9f94357cf132c29a89a0f06f664cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

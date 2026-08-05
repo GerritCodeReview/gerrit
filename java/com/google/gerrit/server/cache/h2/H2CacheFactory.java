@@ -173,6 +173,9 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
   @Override
   public <K, V> Cache<K, V> buildImpl(PersistentCacheDef<K, V> in, long limit) {
     H2CacheDefProxy<K, V> def = new H2CacheDefProxy<>(in);
+    if (limit <= 0) {
+      return memCacheFactory.build(def);
+    }
     SqlStore<K, V> store = newSqlStore(def, limit);
     H2CacheImpl<K, V> cache =
         new H2CacheImpl<>(
@@ -188,6 +191,9 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
   public <K, V> LoadingCache<K, V> buildImpl(
       PersistentCacheDef<K, V> in, CacheLoader<K, V> loader, long limit) {
     H2CacheDefProxy<K, V> def = new H2CacheDefProxy<>(in);
+    if (limit <= 0) {
+      return memCacheFactory.build(def, loader);
+    }
     SqlStore<K, V> store = newSqlStore(def, limit);
     Cache<K, ValueHolder<V>> mem =
         (Cache<K, ValueHolder<V>>)

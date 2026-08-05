@@ -62,6 +62,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "21f857b7_90caced2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-08-05T10:40:44Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "6e586ba3_6572b44d",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 91
+      },
+      "revId": "df591d2f7b2fcae5d967de53f68add578d3e4080",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "344c1f74_2f07dc65",
         "filename": "javatests/com/google/gerrit/server/schema/H2JGitLockAccountPatchReviewStoreIt.java",
         "patchSetId": 3

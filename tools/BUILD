@@ -306,6 +306,13 @@ java_package_configuration(
         "-Xep:NonOverridingEquals:ERROR",
         "-Xep:NonRuntimeAnnotation:ERROR",
         "-Xep:NullOptional:ERROR",
+        # Demoted to a warning: false positive on Guava methods like
+        # Iterables.getFirst(iterable, null) when javac cannot read the
+        # @Nullable bound of <T extends @Nullable Object> from class
+        # files. Bazel's remotejdk_21 (Zulu 21.0.9) lacks the
+        # JDK-8341779 backport; JDK 25 is unaffected. See the commit
+        # message introducing this line for the full reference trail.
+        "-Xep:NullArgumentForNonNullParameter:WARN",
         "-Xep:NullTernary:ERROR",
         "-Xep:NullableConstructor:ERROR",
         "-Xep:NullablePrimitive:ERROR",

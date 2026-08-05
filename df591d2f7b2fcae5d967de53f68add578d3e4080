@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f5d61d75_3d851e80",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-08-05T00:38:56Z",
+      "side": 1,
+      "message": "Comment removed by: Becky Siegel; Reason: need to delete and rewrite",
+      "parentUuid": "73c3a01b_071aec09",
+      "revId": "df591d2f7b2fcae5d967de53f68add578d3e4080",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

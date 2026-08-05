@@ -33,6 +33,7 @@ def plugin_eslint():
         ],
         extensions = [".ts"],
         plugins = [
+            "//:node_modules/@typescript-eslint/eslint-plugin",
             "//:node_modules/eslint-config-google",
             "//:node_modules/eslint-plugin-html",
             "//:node_modules/eslint-plugin-import",

@@ -70,6 +70,30 @@
       },
       "revId": "c3bc5246edf059de175fc8942e0c91c22277135a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c7e0cb5_3c423d49",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-08-05T07:40:40Z",
+      "side": 1,
+      "message": "Ah, if the SSHD upgrade is needed for JGit then I don\u0027t have too strong of an opinion.\n\nI believe if on master we did it on separate changes it would still be best to cherry-pick the first and then upgrade JGit, as on master, but I\u0027m fine either way.",
+      "parentUuid": "9ced0984_88479933",
+      "range": {
+        "startLine": 7,
+        "startChar": 36,
+        "endLine": 7,
+        "endChar": 54
+      },
+      "revId": "c3bc5246edf059de175fc8942e0c91c22277135a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

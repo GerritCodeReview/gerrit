@@ -264,7 +264,7 @@ const RoutePattern = {
  *
  * @type {RegExp}
  */
-const LINE_ADDRESS_PATTERN = /^([ab]?)(\d+)$/;
+const LINE_ADDRESS_PATTERN = /^([ab]?)(\d+)(?:-(\d+))?$/;
 
 /**
  * GWT UI would use @\d+ at the end of a path to indicate linenum.
@@ -492,6 +492,7 @@ export class GrRouter implements Finalizable, NavigationService {
     return {
       leftSide: !!match[1],
       lineNum: Number(match[2]),
+      endLineNum: match[3] ? Number(match[3]) : undefined,
     };
   }
 
@@ -1514,6 +1515,9 @@ export class GrRouter implements Finalizable, NavigationService {
     if (address) {
       state.diffView!.leftSide = address.leftSide;
       state.diffView!.lineNum = address.lineNum;
+      if (address.endLineNum !== undefined) {
+        state.diffView!.endLineNum = address.endLineNum;
+      }
     }
     this.reporting.setRepoName(state.repo ?? '');
     this.reporting.setChangeId(changeNum);

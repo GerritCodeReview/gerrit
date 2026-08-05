@@ -29,7 +29,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.stream.IntStream;
 import org.eclipse.jgit.lib.Config;
+import org.junit.Assume;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -40,6 +42,15 @@ public class H2JGitLockAccountPatchReviewStoreIT {
   private static final Account.Id ACCOUNT = Account.id(1);
   private static final PatchSet.Id PS = PatchSet.id(Change.id(1), 1);
   private static final String FILE = "foo/bar.txt";
+
+  @BeforeClass
+  public static void checkH2Driver() {
+    try {
+      Class.forName("org.h2.Driver");
+    } catch (ClassNotFoundException e) {
+      Assume.assumeNoException("H2 driver not present in classpath; skipping test", e);
+    }
+  }
 
   @Before
   public void setUp() throws Exception {

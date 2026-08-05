@@ -16,6 +16,24 @@
       "message": "Is it omitted through bazel configuration ? If so, this omission should also be done there ?",
       "revId": "1fb938832502210cb31fc3d6a043bf892b7d05dd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56a8d7aa_5e52f895",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-08-05T00:44:58Z",
+      "side": 1,
+      "message": "This change causes a test failure when trying to import the change into Google\u0027s codebase",
+      "parentUuid": "73c3a01b_071aec09",
+      "revId": "1fb938832502210cb31fc3d6a043bf892b7d05dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -29,6 +29,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.stream.IntStream;
 import org.eclipse.jgit.lib.Config;
+import org.junit.Assume;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -43,6 +44,11 @@ public class H2JGitLockAccountPatchReviewStoreIT {
 
   @Before
   public void setUp() throws Exception {
+    try {
+      Class.forName("org.h2.Driver");
+    } catch (ClassNotFoundException e) {
+      Assume.assumeNoException("H2 driver not present in classpath; skipping test", e);
+    }
     SitePaths sitePaths = new SitePaths(temporaryFolder.getRoot().toPath());
     Files.createDirectories(sitePaths.db_dir);
     Config cfg = new Config();

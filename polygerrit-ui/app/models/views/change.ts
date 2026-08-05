@@ -99,6 +99,7 @@ export interface ChangeViewState extends ViewState {
     path: string;
     // TODO: Use LineNumber as a type, i.e. accept FILE and LOST.
     lineNum?: number;
+    endLineNum?: number;
     leftSide?: boolean;
   };
 
@@ -114,6 +115,7 @@ export type DiffViewState = Partial<ChangeViewState> & {
   diffView: {
     path: string;
     lineNum?: number;
+    endLineNum?: number;
     leftSide?: boolean;
   };
 };
@@ -264,6 +266,12 @@ export function createDiffUrl(
       hash += 'b';
     }
     hash += state.diffView.lineNum;
+    if (
+      state.diffView.endLineNum &&
+      state.diffView.endLineNum > state.diffView.lineNum
+    ) {
+      hash += `-${state.diffView.endLineNum}`;
+    }
   }
 
   return `${createChangeUrlCommon(state)}${path}${queryParams}${hash}`;
@@ -334,6 +342,11 @@ export class ChangeViewModel extends Model<ChangeViewState | undefined> {
   public readonly diffLine$ = select(
     this.state$,
     state => state?.diffView?.lineNum
+  );
+
+  public readonly diffEndLine$ = select(
+    this.state$,
+    state => state?.diffView?.endLineNum
   );
 
   public readonly diffLeftSide$ = select(

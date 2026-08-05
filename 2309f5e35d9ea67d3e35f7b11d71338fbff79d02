@@ -87,6 +87,42 @@
       "message": "Can you file a bug to track this issue? https://issues.gerritcodereview.com/ including a screenshot of the issue, and then a screenshot in this change with it resolved?",
       "revId": "2309f5e35d9ea67d3e35f7b11d71338fbff79d02",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "89508e4d_5ed5400f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2026-08-05T12:49:48Z",
+      "side": 1,
+      "message": "Closing this thread since there are no pending actions.",
+      "parentUuid": "1a04a052_4b161e8b",
+      "revId": "2309f5e35d9ea67d3e35f7b11d71338fbff79d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d45facc1_617653ff",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2026-08-05T12:49:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24089598_a99b2075",
+      "revId": "2309f5e35d9ea67d3e35f7b11d71338fbff79d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

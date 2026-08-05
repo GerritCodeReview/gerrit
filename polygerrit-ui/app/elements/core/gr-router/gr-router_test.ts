@@ -119,6 +119,18 @@ suite('gr-router tests', () => {
       assert.isOk(actual);
       assert.equal(actual.lineNum, 77);
       assert.isTrue(actual.leftSide);
+
+      actual = router.parseLineAddress('50-156');
+      assert.isOk(actual);
+      assert.equal(actual.lineNum, 50);
+      assert.equal(actual.endLineNum, 156);
+      assert.isFalse(actual.leftSide);
+
+      actual = router.parseLineAddress('b50-156');
+      assert.isOk(actual);
+      assert.equal(actual.lineNum, 50);
+      assert.equal(actual.endLineNum, 156);
+      assert.isTrue(actual.leftSide);
     });
   });
 

@@ -27,11 +27,16 @@ import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.Address;
+import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.NotifyConfig;
 import com.google.gerrit.entities.NotifyConfig.NotifyType;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.changes.ReviewerInput;
+import com.google.gerrit.extensions.client.InheritableBoolean;
+import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.testing.FakeEmailSender.Message;
@@ -768,7 +773,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     input.branch = "master";
     input.subject = "wip change";
     input.workInProgress = true;
-    input.notify = com.google.gerrit.extensions.api.changes.NotifyHandling.ALL;
+    input.notify = NotifyHandling.ALL;
     gApi.changes().create(input);
 
     assertThat(sender.getMessages()).hasSize(1);
@@ -783,8 +788,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
           .updateProject(
               b ->
                   b.setBooleanConfig(
-                      com.google.gerrit.entities.BooleanProjectConfig.WORK_IN_PROGRESS_BY_DEFAULT,
-                      com.google.gerrit.extensions.client.InheritableBoolean.TRUE));
+                      BooleanProjectConfig.WORK_IN_PROGRESS_BY_DEFAULT, InheritableBoolean.TRUE));
       u.save();
     }
     requestScopeOperations.setApiUser(user.id());
@@ -824,10 +828,9 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(user2.id());
     watch(watchedProject);
     requestScopeOperations.setApiUser(admin.id());
-    com.google.gerrit.extensions.api.changes.ReviewerInput ccInput =
-        new com.google.gerrit.extensions.api.changes.ReviewerInput();
+    ReviewerInput ccInput = new ReviewerInput();
     ccInput.reviewer = user2.email();
-    ccInput.state = com.google.gerrit.extensions.client.ReviewerState.CC;
+    ccInput.state = ReviewerState.CC;
     gApi.changes().id(changeId).addReviewer(ccInput);
     assertThat(sender.getMessages()).isEmpty();
   }

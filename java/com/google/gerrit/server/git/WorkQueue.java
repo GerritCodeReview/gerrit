@@ -995,11 +995,11 @@ public class WorkQueue {
     private void setThreadName(String oldThreadName) {
       try {
         Thread.currentThread().setName(oldThreadName + "[" + this + "]");
-      } catch (Exception e) {
+      } catch (RuntimeException e) {
         logger.atWarning().withCause(e).log("Cannot describe task");
         try {
           Thread.currentThread().setName(oldThreadName + "[" + runnable.getClass().getName() + "]");
-        } catch (Exception e2) {
+        } catch (RuntimeException e2) {
           logger.atWarning().withCause(e2).log("Cannot get runnable class name");
           Thread.currentThread().setName(oldThreadName + "[unknown task]");
         }

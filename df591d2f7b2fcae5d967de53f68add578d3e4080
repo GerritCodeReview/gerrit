@@ -73,6 +73,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9139aaaf_58027188",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-08-05T16:33:47Z",
+      "side": 1,
+      "message": "Google does not import upstream BUILD files directly and compiles tests via glob([\"**/*.java\"])",
+      "parentUuid": "59adcb93_5d89612e",
+      "revId": "df591d2f7b2fcae5d967de53f68add578d3e4080",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6e586ba3_6572b44d",
@@ -120,6 +138,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "05bbce3d_10f77387",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-08-05T16:33:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21f857b7_90caced2",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 91
+      },
+      "revId": "df591d2f7b2fcae5d967de53f68add578d3e4080",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "344c1f74_2f07dc65",
@@ -133,6 +175,30 @@
       "writtenOn": "2026-08-05T06:39:07Z",
       "side": 1,
       "message": "Why not do it in a `BeforeClass` to avoid repeated checks?",
+      "range": {
+        "startLine": 47,
+        "startChar": 3,
+        "endLine": 51,
+        "endChar": 5
+      },
+      "revId": "df591d2f7b2fcae5d967de53f68add578d3e4080",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5495135_927d0d7a",
+        "filename": "javatests/com/google/gerrit/server/schema/H2JGitLockAccountPatchReviewStoreIt.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-08-05T16:33:47Z",
+      "side": 1,
+      "message": "Good suggestion. done.",
+      "parentUuid": "344c1f74_2f07dc65",
       "range": {
         "startLine": 47,
         "startChar": 3,

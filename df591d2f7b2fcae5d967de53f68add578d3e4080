@@ -35,6 +35,52 @@
       "parentUuid": "f5d61d75_3d851e80",
       "revId": "df591d2f7b2fcae5d967de53f68add578d3e4080",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e586ba3_6572b44d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-08-05T06:39:07Z",
+      "side": 1,
+      "message": "Normally the integration tests names end with IT:\n\n```\n\u003e find . -name \"*IT.java\" | wc -l\n 353\n     \n\u003e find . -name \"*It.java\" | wc -l\n 0\n```\n\nAlso, many `BUILD` files refer to \"*IT.java\" to identify integration tests to run.",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 91
+      },
+      "revId": "df591d2f7b2fcae5d967de53f68add578d3e4080",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "344c1f74_2f07dc65",
+        "filename": "javatests/com/google/gerrit/server/schema/H2JGitLockAccountPatchReviewStoreIt.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-08-05T06:39:07Z",
+      "side": 1,
+      "message": "Why not do it in a `BeforeClass` to avoid repeated checks?",
+      "range": {
+        "startLine": 47,
+        "startChar": 3,
+        "endLine": 51,
+        "endChar": 5
+      },
+      "revId": "df591d2f7b2fcae5d967de53f68add578d3e4080",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -105,6 +105,29 @@ public class ChangeFieldTest {
   }
 
   @Test
+  public void unmetRequirementField() {
+    SubmitRequirementResult sr1 =
+        submitRequirementResult(
+            "Code-Review", "label:CR=+1", SubmitRequirementExpressionResult.Status.PASS);
+    SubmitRequirementResult sr2 =
+        submitRequirementResult(
+            "Verified", "label:V=+1", SubmitRequirementExpressionResult.Status.FAIL);
+
+    assertThat(sr1.fulfilled()).isTrue();
+    assertThat(sr2.fulfilled()).isFalse();
+
+    ChangeData cd = org.mockito.Mockito.mock(ChangeData.class);
+    org.mockito.Mockito.when(cd.submitRequirementsIncludingLegacy())
+        .thenReturn(
+            com.google.common.collect.ImmutableMap.of(
+                sr1.submitRequirement(), sr1,
+                sr2.submitRequirement(), sr2));
+
+    assertThat(ChangeField.UNMET_REQUIREMENT_FIELD.get(cd)).containsExactly("verified");
+    assertThat(ChangeField.UNSATISFIED_REQUIREMENT_COUNT_FIELD.get(cd)).isEqualTo(1);
+  }
+
+  @Test
   public void storedSubmitRecords() {
     assertStoredRecordRoundTrip(record(SubmitRecord.Status.CLOSED));
 

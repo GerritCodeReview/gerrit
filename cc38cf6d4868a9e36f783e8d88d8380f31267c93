@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ae25b4e_93fcb1d4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-06T19:01:25Z",
+      "side": 1,
+      "message": "Is there anything in `Documentation/cmd-hook-commit-msg.txt` that should be updated?",
+      "revId": "cc38cf6d4868a9e36f783e8d88d8380f31267c93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

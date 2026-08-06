@@ -8,6 +8,7 @@ import {FlowStageInfo} from '../api/rest-api';
 import {capitalizeFirstLetter} from './string-util';
 
 export const STAGE_SEPARATOR = ';';
+export const EMAIL_PATTERN = /\S+@\S+\.\S+/;
 
 export interface Stage {
   condition: string;

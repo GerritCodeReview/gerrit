@@ -536,6 +536,7 @@ export class GrDiffView extends LitElement {
         .headerLeft {
           display: flex;
           align-items: center;
+          min-width: 0;
         }
         gr-patch-range-select {
           display: block;
@@ -571,7 +572,9 @@ export class GrDiffView extends LitElement {
           margin-right: var(--spacing-m);
           font-weight: var(--font-weight-medium);
           white-space: nowrap;
-          overflow: auto;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          flex-shrink: 100;
         }
         .patchRangeLeft {
           align-items: center;
@@ -595,6 +598,8 @@ export class GrDiffView extends LitElement {
         .jumpToFileContainer {
           display: inline-block;
           word-break: break-all;
+          min-width: 0;
+          overflow: hidden;
         }
         .mobile {
           display: none;
@@ -920,11 +925,9 @@ export class GrDiffView extends LitElement {
             >${this.changeNum}</a
           ><span class="changeNumberColon">:</span>
         </div>
-        <div>
-          <span class="headerSubject"
-            >${trimWithEllipsis(this.change?.subject, 80)}</span
-          >
-        </div>
+        <span class="headerSubject"
+          >${trimWithEllipsis(this.change?.subject, 80)}</span
+        >
         <div class="checkboxDiv">
           <md-checkbox
             id="reviewed"

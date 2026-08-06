@@ -8,6 +8,7 @@ import {catchError, map, shareReplay, switchMap} from 'rxjs/operators';
 import {ChangeModel} from '../change/change-model';
 import {fireServerError} from '../../utils/event-util';
 import {FlowInfo, FlowInput} from '../../api/rest-api';
+import {ErrorCallback} from '../../services/gr-rest-api/gr-rest-api';
 import {Model} from '../base/model';
 import {define} from '../dependency';
 import {PluginsModel} from '../plugins/plugins-model';
@@ -222,10 +223,17 @@ export class FlowsModel extends Model<FlowsState> {
     this.reload();
   }
 
-  async createFlow(flowInput: FlowInput) {
+  async createFlow(flowInput: FlowInput, errFn?: ErrorCallback) {
     if (!this.changeNum) return;
     if (!this.getState().isEnabled) return;
-    await this.restApiService.createFlow(this.changeNum, flowInput);
-    this.reload();
+    const res = await this.restApiService.createFlow(
+      this.changeNum,
+      flowInput,
+      errFn
+    );
+    if (res) {
+      this.reload();
+    }
+    return res;
   }
 }

@@ -7,7 +7,7 @@ import {customElement, property, state} from 'lit/decorators.js';
 import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {AccountDetailInfo, FlowStageState} from '../../../api/rest-api';
-import {formatActionName} from '../../../utils/flows-util';
+import {EMAIL_PATTERN, formatActionName} from '../../../utils/flows-util';
 import '../../shared/gr-icon/gr-icon';
 import '../../shared/gr-tooltip-content/gr-tooltip-content';
 import {ifDefined} from 'lit/directives/if-defined.js';
@@ -98,6 +98,17 @@ export class GrFlowRule extends LitElement {
         gr-icon.failed {
           color: var(--error-foreground);
         }
+        .invalid-account {
+          color: var(--error-foreground);
+          border: 1px dashed var(--error-foreground);
+          display: inline-flex;
+          align-items: center;
+          gap: var(--spacing-xs);
+        }
+        .warning-icon {
+          color: var(--error-foreground);
+          font-size: 14px;
+        }
         .error {
           color: var(--error-foreground);
         }
@@ -134,18 +145,22 @@ export class GrFlowRule extends LitElement {
     }
   }
 
-  private updateAccounts() {
+  private async updateAccounts() {
     if (!this.parameters) {
-      if (this.accounts.size > 0) this.accounts = new Map();
+      if (this.accounts.size > 0) {
+        this.accounts = new Map();
+      }
       return;
     }
 
     const promises = this.parameters.map(async p => {
-      // Simple email regex check
-      if (/\S+@\S+\.\S+/.test(p)) {
+      if (EMAIL_PATTERN.test(p)) {
         try {
           const account = await this.restApiService.getAccountDetails(
-            p as UserId
+            p as UserId,
+            // Pass a no-op errFn to suppress PolyGerrit's global 404 error
+            // dialogs when looking up invalid/unrecognized email addresses.
+            () => {}
           );
           return {key: p, value: account ?? null};
         } catch (e) {
@@ -156,17 +171,18 @@ export class GrFlowRule extends LitElement {
       return {key: p, value: null};
     });
 
-    Promise.all(promises).then(results => {
-      const newAccounts = new Map<string, AccountDetailInfo | null>();
-      for (const result of results) {
-        newAccounts.set(result.key, result.value);
-      }
-      this.accounts = newAccounts;
-    });
+    const results = await Promise.all(promises);
+    const newAccounts = new Map<string, AccountDetailInfo | null>();
+    for (const result of results) {
+      newAccounts.set(result.key, result.value);
+    }
+    this.accounts = newAccounts;
   }
 
   private renderParameters() {
-    if (!this.parameters || this.parameters.length === 0) return nothing;
+    if (!this.parameters || this.parameters.length === 0) {
+      return nothing;
+    }
     return html`
       ${this.parameters.map(p => {
         const account = this.accounts.get(p);
@@ -175,6 +191,14 @@ export class GrFlowRule extends LitElement {
             <span class="account-parameter">
               <gr-avatar .account=${account} .imageSize=${16}></gr-avatar>
               <gr-account-label .account=${account}></gr-account-label>
+            </span>
+          `;
+        }
+        if (EMAIL_PATTERN.test(p) && this.accounts.has(p) && account === null) {
+          return html`
+            <span class="parameter invalid-account" title="Account not found">
+              <gr-icon icon="warning" class="warning-icon"></gr-icon>
+              <code>${p}</code>
             </span>
           `;
         }

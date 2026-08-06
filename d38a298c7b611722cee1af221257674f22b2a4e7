@@ -22,6 +22,30 @@
       },
       "revId": "d38a298c7b611722cee1af221257674f22b2a4e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0207d66c_f3f9c8ce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4870948
+      },
+      "writtenOn": "2026-08-06T21:01:59Z",
+      "side": 1,
+      "message": "Right as you were typing this, I updated the commit message to ditch the alternatives considered altogether and added screen shots of the different modes added here.",
+      "parentUuid": "211d5eff_5a9f70c7",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 10
+      },
+      "revId": "d38a298c7b611722cee1af221257674f22b2a4e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6127e7a_5539a6a4",
+        "filename": "java/com/google/gerrit/extensions/api/projects/BranchApi.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-06T18:33:57Z",
+      "side": 1,
+      "message": "```suggestion\n  CommitInfo createCommit(CreateCommitInput input) throws RestApiException;\n```",
+      "revId": "223d5370b872988c11e25b9042c6350adbff0d03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd4a1ca7_11485d75",
+        "filename": "java/com/google/gerrit/server/api/projects/BranchApiImpl.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-06T18:33:57Z",
+      "side": 1,
+      "message": "Rename this too?\n```suggestion\n  public CommitInfo createCommit(CreateCommitInput input) throws RestApiException {\n```",
+      "revId": "223d5370b872988c11e25b9042c6350adbff0d03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "252681c5_beca0331",
+        "filename": "java/com/google/gerrit/server/restapi/project/BranchCommitBuilder.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-06T18:33:57Z",
+      "side": 1,
+      "message": "Rename this too?\n\n```suggestion\n  CommitInfo createCommit(BranchResource rsrc, CreateCommitInput input)\n```",
+      "revId": "223d5370b872988c11e25b9042c6350adbff0d03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cdd0c3a2_d989de0b",
+        "filename": "java/com/google/gerrit/server/restapi/project/BranchCommitBuilder.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-06T18:33:57Z",
+      "side": 1,
+      "message": "Why do you need two `PersonIdent`s for the same user?",
+      "range": {
+        "startLine": 185,
+        "startChar": 0,
+        "endLine": 186,
+        "endChar": 75
+      },
+      "revId": "223d5370b872988c11e25b9042c6350adbff0d03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3816cff0_5fc94865",
+        "filename": "java/com/google/gerrit/server/restapi/project/CreateCommit.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-06T18:33:57Z",
+      "side": 1,
+      "message": "```suggestion\n    return Response.ok(branchCommitBuilder.createCommit(rsrc, input));\n```",
+      "revId": "223d5370b872988c11e25b9042c6350adbff0d03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

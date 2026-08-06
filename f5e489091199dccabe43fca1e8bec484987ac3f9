@@ -196,6 +196,24 @@
       "parentUuid": "fc924559_6b5c35c0",
       "revId": "f5e489091199dccabe43fca1e8bec484987ac3f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e290b4a2_209d1f82",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1166186
+      },
+      "writtenOn": "2026-08-06T22:19:03Z",
+      "side": 1,
+      "message": "Added `pushWithNonColonTagsInFooter_changeIdAccepted`",
+      "parentUuid": "0e7b7ef4_41dde7d5",
+      "revId": "f5e489091199dccabe43fca1e8bec484987ac3f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

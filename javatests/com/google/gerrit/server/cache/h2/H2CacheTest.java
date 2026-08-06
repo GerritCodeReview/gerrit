@@ -16,6 +16,7 @@ package com.google.gerrit.server.cache.h2;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
@@ -29,19 +30,25 @@ import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.MoreExecutors;
+import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.server.cache.MemoryCacheFactory;
+import com.google.gerrit.server.cache.PersistentCacheDef;
 import com.google.gerrit.server.cache.h2.H2CacheImpl.SqlStore;
 import com.google.gerrit.server.cache.h2.H2CacheImpl.ValueHolder;
 import com.google.gerrit.server.cache.serialize.StringCacheSerializer;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.TypeLiteral;
+import java.nio.file.Path;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import javax.annotation.Nullable;
+import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
 
 public class H2CacheTest {
@@ -251,6 +258,58 @@ public class H2CacheTest {
     // Refreshed value was persisted
     memCache.invalidateAll(); // Invalidates only the memcache, not the store.
     assertThat(h2Cache.getIfPresent("foo")).isEqualTo("reload:foo");
+  }
+
+  @Test
+  public void buildImpl_withDiskLimitZero_returnsInMemoryCache() {
+    MemoryCacheFactory memCacheFactory = mock(MemoryCacheFactory.class);
+    Cache<String, String> memCache = CacheBuilder.newBuilder().build();
+    org.mockito.Mockito.doReturn(memCache).when(memCacheFactory).build(any());
+
+    H2CacheFactory factory =
+        new H2CacheFactory(
+            memCacheFactory,
+            new Config(),
+            DynamicMap.emptyMap(),
+            null,
+            null,
+            Path.of("/tmp"),
+            Set.of(),
+            new AtomicBoolean(false));
+
+    @SuppressWarnings("unchecked")
+    PersistentCacheDef<String, String> def = mock(PersistentCacheDef.class);
+
+    Cache<String, String> cache = factory.buildImpl(def, 0);
+
+    assertThat(cache).isNotInstanceOf(H2CacheImpl.class);
+    assertThat(cache).isSameInstanceAs(memCache);
+  }
+
+  @Test
+  public void buildImpl_withNegativeDiskLimit_returnsInMemoryCache() {
+    MemoryCacheFactory memCacheFactory = mock(MemoryCacheFactory.class);
+    Cache<String, String> memCache = CacheBuilder.newBuilder().build();
+    org.mockito.Mockito.doReturn(memCache).when(memCacheFactory).build(any());
+
+    H2CacheFactory factory =
+        new H2CacheFactory(
+            memCacheFactory,
+            new Config(),
+            DynamicMap.emptyMap(),
+            null,
+            null,
+            Path.of("/tmp"),
+            Set.of(),
+            new AtomicBoolean(false));
+
+    @SuppressWarnings("unchecked")
+    PersistentCacheDef<String, String> def = mock(PersistentCacheDef.class);
+
+    Cache<String, String> cache = factory.buildImpl(def, -1);
+
+    assertThat(cache).isNotInstanceOf(H2CacheImpl.class);
+    assertThat(cache).isSameInstanceAs(memCache);
   }
 
   @SuppressWarnings("unchecked")

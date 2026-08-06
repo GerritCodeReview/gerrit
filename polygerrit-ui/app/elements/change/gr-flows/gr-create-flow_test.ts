@@ -7,7 +7,12 @@ import '../../../test/common-test-setup';
 import './gr-create-flow';
 import {assert, fixture, html} from '@open-wc/testing';
 import {GrCreateFlow} from './gr-create-flow';
-import {query, queryAll, queryAndAssert} from '../../../test/test-utils';
+import {
+  query,
+  queryAll,
+  queryAndAssert,
+  stubRestApi,
+} from '../../../test/test-utils';
 import {
   AccountId,
   EmailAddress,
@@ -20,6 +25,7 @@ import {GrSearchAutocomplete} from '../../core/gr-search-autocomplete/gr-search-
 import {FlowsModel, flowsModelToken} from '../../../models/flows/flows-model';
 import {changeModelToken} from '../../../models/change/change-model';
 import {
+  createAccountDetailWithIdNameAndEmail,
   createParsedChange,
   createRevision,
 } from '../../../test/test-data-generators';
@@ -35,17 +41,17 @@ suite('gr-create-flow tests', () => {
   let flowsModel: FlowsModel;
 
   setup(async () => {
-    const restApi = getAppContext().restApiService;
-    sinon
-      .stub(restApi, 'listFlowActions')
-      .resolves([
-        {name: 'act-1'},
-        {name: 'act-2'},
-        {name: 'vote'},
-        {name: 'add-reviewer'},
-        {name: 'submit'},
-        {name: 'vote'},
-      ] as FlowActionInfo[]);
+    stubRestApi('getAccountDetails').callsFake(async () =>
+      createAccountDetailWithIdNameAndEmail()
+    );
+    stubRestApi('listFlowActions').resolves([
+      {name: 'act-1'},
+      {name: 'act-2'},
+      {name: 'vote'},
+      {name: 'add-reviewer'},
+      {name: 'submit'},
+      {name: 'vote'},
+    ] as FlowActionInfo[]);
 
     flowsModel = testResolver(flowsModelToken);
     const hostUrl =
@@ -237,6 +243,7 @@ suite('gr-create-flow tests', () => {
       const confirmButton = queryAndAssert<GrButton>(grDialog, '#confirm');
       confirmButton.click();
       await element.updateComplete;
+      await new Promise(r => setTimeout(r, 0));
 
       assert.isTrue(createFlowStub.calledOnce);
       const flowInput = createFlowStub.lastCall.args[0];
@@ -295,6 +302,7 @@ suite('gr-create-flow tests', () => {
       const confirmButton = queryAndAssert<GrButton>(grDialog, '#confirm');
       confirmButton.click();
       await element.updateComplete;
+      await new Promise(r => setTimeout(r, 0));
 
       assert.isTrue(createFlowStub.calledOnce);
       const flowInput = createFlowStub.lastCall.args[0];
@@ -358,6 +366,7 @@ suite('gr-create-flow tests', () => {
       const confirmButton = queryAndAssert<GrButton>(grDialog, '#confirm');
       confirmButton.click();
       await element.updateComplete;
+      await new Promise(r => setTimeout(r, 0));
 
       assert.isTrue(createFlowStub.calledOnce);
       const flowInput = createFlowStub.lastCall.args[0];
@@ -414,6 +423,7 @@ suite('gr-create-flow tests', () => {
       const confirmButton = queryAndAssert<GrButton>(grDialog, '#confirm');
       confirmButton.click();
       await element.updateComplete;
+      await new Promise(r => setTimeout(r, 0));
 
       assert.isTrue(createFlowStub.calledOnce);
       const flowInput = createFlowStub.lastCall.args[0];
@@ -476,6 +486,7 @@ suite('gr-create-flow tests', () => {
       const confirmButton = queryAndAssert<GrButton>(grDialog, '#confirm');
       confirmButton.click();
       await element.updateComplete;
+      await new Promise(r => setTimeout(r, 0));
 
       assert.isTrue(createFlowStub.calledOnce);
       const flowInput = createFlowStub.lastCall.args[0];
@@ -643,17 +654,11 @@ suite('gr-create-flow tests', () => {
       addButton.click();
       await element.updateComplete;
 
-      assert.isTrue(alertStub.calledOnce);
-      assert.equal(
-        alertStub.lastCall.args[0].detail.message,
-        'Condition string cannot be empty.'
-      );
+      assert.equal(element.errorMessage, 'Condition string cannot be empty.');
       assert.lengthOf(element.stages, 0);
     });
 
     test('creating flow with empty condition fails', async () => {
-      const alertStub = sinon.stub();
-      element.addEventListener('show-alert', alertStub);
       const createFlowStub = sinon.stub(flowsModel, 'createFlow');
 
       const createButton = queryAndAssert<GrButton>(
@@ -675,6 +680,7 @@ suite('gr-create-flow tests', () => {
       );
       rawFlowTextarea.value = '-> act-1';
       rawFlowTextarea.dispatchEvent(new InputEvent('input'));
+      element.parseTask?.flush();
       await element.updateComplete;
 
       assert.lengthOf(element.stages, 1);
@@ -684,11 +690,7 @@ suite('gr-create-flow tests', () => {
       confirmButton.click();
       await element.updateComplete;
 
-      assert.isTrue(alertStub.calledOnce);
-      assert.equal(
-        alertStub.lastCall.args[0].detail.message,
-        'All stages must have a condition.'
-      );
+      assert.equal(element.errorMessage, 'All stages must have a condition.');
       assert.isFalse(createFlowStub.called);
     });
   });

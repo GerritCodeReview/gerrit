@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3cc58004_2eb95618",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-08-06T20:12:02Z",
+      "side": 1,
+      "message": "This is not the right syntax. It should be \n\nGoogle-Bug-Id: b/537010867",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 13
+      },
+      "revId": "2b4fedf0b70ad71df9f9d0b536449b503ea97fea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b17b8321_e70c754f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-08-06T20:12:02Z",
+      "side": 1,
+      "message": "were you able to test this locally?",
+      "revId": "2b4fedf0b70ad71df9f9d0b536449b503ea97fea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "736c0f66_adf08932",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 606,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-08-06T20:12:02Z",
+      "side": 1,
+      "message": "It would be good to have a screenshot test with the error banner.",
+      "range": {
+        "startLine": 606,
+        "startChar": 0,
+        "endLine": 606,
+        "endChar": 42
+      },
+      "revId": "2b4fedf0b70ad71df9f9d0b536449b503ea97fea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50141467_ab315be5",
+        "filename": "polygerrit-ui/app/elements/change/gr-flows/gr-create-flow.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 982,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-08-06T20:12:02Z",
+      "side": 1,
+      "message": "Please fix this WARNING reported by gerrit-typescript-style-review: [gerrit-typescript-style-review] The Google TypeScript Style Guide recommends us...\n\n[gerrit-typescript-style-review] The Google TypeScript Style Guide recommends using `async` and `await` rather than `Promise.prototype.then()` and `catch()` for handling promises.\n\n**Suggestion**\n\nConvert the callback to an `async` function and use `try`/`catch` with `await` instead of a promise chain:\n\n```typescript\n      async (response?: Response | null) \u003d\u003e {\n        if (response) {\n          hasError \u003d true;\n          this.loading \u003d false;\n          try {\n            const text \u003d await response.text();\n            this.errorMessage \u003d text || response.statusText;\n          } catch {\n            this.errorMessage \u003d response.statusText;\n          }\n        }\n      }\n```\n\n**Reference**\n\nhttps://google.github.io/styleguide/tsguide.html#promises",
+      "range": {
+        "startLine": 968,
+        "startChar": 0,
+        "endLine": 982,
+        "endChar": 0
+      },
+      "revId": "2b4fedf0b70ad71df9f9d0b536449b503ea97fea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

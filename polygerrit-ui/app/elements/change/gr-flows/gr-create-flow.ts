@@ -15,7 +15,7 @@ import {
   LabelDefinitionInfo,
 } from '../../../api/rest-api';
 import {getAppContext} from '../../../services/app-context';
-import {NumericChangeId, ServerInfo} from '../../../types/common';
+import {EmailAddress, NumericChangeId, ServerInfo} from '../../../types/common';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-dialog/gr-dialog';
 import '../../shared/gr-icon/gr-icon';
@@ -45,16 +45,17 @@ import {ifDefined} from 'lit/directives/if-defined.js';
 import {MdOutlinedTextField} from '@material/web/textfield/outlined-text-field.js';
 import {
   computeFlowString,
+  EMAIL_PATTERN,
   Stage,
   STAGE_SEPARATOR,
 } from '../../../utils/flows-util';
+import {debounce, DelayedTask} from '../../../utils/async-util';
 import {FlowCustomConditionInfo} from '../../../api/flows';
 import {changeModelToken} from '../../../models/change/change-model';
 import {combineLatest} from 'rxjs';
 import {getUserName} from '../../../utils/display-name-util';
 import {LabelSuggestionsProvider} from '../../../services/label-suggestions-provider';
 import {queryAndAssert, unique} from '../../../utils/common-util';
-import {fireAlert} from '../../../utils/event-util';
 import {MdOutlinedSelect} from '@material/web/select/outlined-select.js';
 import {Interaction} from '../../../constants/reporting';
 import {isDefined} from '../../../types/types';
@@ -105,6 +106,8 @@ export class GrCreateFlow extends LitElement {
   @state() copyPasteExpanded = false;
 
   @state() private loading = false;
+
+  @state() errorMessage?: string;
 
   @state() private serverConfig?: ServerInfo;
 
@@ -394,6 +397,27 @@ export class GrCreateFlow extends LitElement {
         .info-title {
           font-weight: var(--font-weight-bold);
         }
+        .error-banner {
+          display: flex;
+          align-items: center;
+          gap: var(--spacing-s);
+          background-color: var(--error-background, #fce8e6);
+          color: var(--error-foreground, #c5221f);
+          padding: var(--spacing-m);
+          border-radius: var(--border-radius, 4px);
+          margin-bottom: var(--spacing-m);
+          border: 1px solid var(--error-foreground, #c5221f);
+        }
+        .error-banner .error-icon {
+          color: var(--error-foreground, #c5221f);
+        }
+        .error-banner .error-text {
+          flex: 1;
+          font-weight: var(--font-weight-500, 500);
+        }
+        .error-banner .close-error-btn {
+          --gr-button-color: var(--error-foreground, #c5221f);
+        }
       `,
     ];
   }
@@ -453,7 +477,21 @@ export class GrCreateFlow extends LitElement {
     );
   }
 
+  // private but used in tests
+  parseTask?: DelayedTask;
+
+  // We debounce parsing to avoid triggering stage re-renders and API calls
+  // on every keystroke while the user types in the textarea
+  private parseStagesDebounced() {
+    this.parseTask = debounce(
+      this.parseTask,
+      () => this.parseStagesFromRawFlow(this.flowString),
+      300
+    );
+  }
+
   private parseStagesFromRawFlow(rawFlow: string) {
+    this.errorMessage = undefined;
     if (!rawFlow) {
       this.stages = [];
       return;
@@ -552,11 +590,29 @@ export class GrCreateFlow extends LitElement {
           ?disabled=${this.loading}
           @confirm=${this.handleCreateFlow}
           @cancel=${() => {
+            this.errorMessage = undefined;
             this.createModal?.close();
           }}
         >
           <div slot="header">Create new flow</div>
           <div class="main" slot="main">
+            ${when(
+              this.errorMessage,
+              () => html`
+                <div class="error-banner">
+                  <gr-icon icon="warning" class="error-icon" filled></gr-icon>
+                  <span class="error-text">${this.errorMessage}</span>
+                  <gr-button
+                    link
+                    class="close-error-btn"
+                    @click=${() => (this.errorMessage = undefined)}
+                    title="Dismiss error"
+                  >
+                    <gr-icon icon="close"></gr-icon>
+                  </gr-button>
+                </div>
+              `
+            )}
             <div
               class="section-header"
               @click=${(e: Event) => this.toggleGuidedBuilder(e)}
@@ -677,7 +733,7 @@ export class GrCreateFlow extends LitElement {
                     .value=${this.flowString}
                     @input=${(e: InputEvent) => {
                       this.flowString = (e.target as MdOutlinedTextField).value;
-                      this.parseStagesFromRawFlow(this.flowString);
+                      this.parseStagesDebounced();
                     }}
                   ></md-outlined-text-field>
                   <gr-copy-clipboard
@@ -798,7 +854,7 @@ export class GrCreateFlow extends LitElement {
 
   private handleAddStage() {
     if (this.currentCondition.trim() === '') {
-      fireAlert(this, 'Condition string cannot be empty.');
+      this.errorMessage = 'Condition string cannot be empty.';
       return;
     }
     const condition =
@@ -834,6 +890,11 @@ export class GrCreateFlow extends LitElement {
   private async handleCreateFlow() {
     if (!this.changeNum) return;
 
+    // Catch edits made within the debounce window.
+    if (this.copyPasteExpanded && this.flowString) {
+      this.parseStagesFromRawFlow(this.flowString);
+    }
+
     const allStages = [...this.stages];
 
     if (this.currentCondition.trim() !== '') {
@@ -848,8 +909,25 @@ export class GrCreateFlow extends LitElement {
       });
     }
 
+    if (allStages.length === 0) {
+      this.errorMessage = 'Flow must have at least one stage.';
+      return;
+    }
+
     if (allStages.some(s => s.condition.trim() === '')) {
-      fireAlert(this, 'All stages must have a condition.');
+      this.errorMessage = 'All stages must have a condition.';
+      return;
+    }
+
+    const lastStage = allStages[allStages.length - 1];
+    if (!lastStage?.action || lastStage.action.trim() === '') {
+      this.errorMessage = 'The final stage of a flow must have an action.';
+      return;
+    }
+
+    const invalidAccountError = await this.validateAccountEmails(allStages);
+    if (invalidAccountError) {
+      this.errorMessage = invalidAccountError;
       return;
     }
 
@@ -873,7 +951,26 @@ export class GrCreateFlow extends LitElement {
         return {condition: stage.condition};
       }),
     };
-    await this.getFlowsModel().createFlow(flowInput);
+
+    let errorMessage = '';
+    await this.getFlowsModel().createFlow(
+      flowInput,
+      async (response?: Response | null) => {
+        if (response) {
+          const text = await response.text();
+          errorMessage = text || response.statusText;
+        }
+      }
+    );
+
+    if (errorMessage) {
+      this.loading = false;
+      this.errorMessage = errorMessage;
+      return;
+    }
+
+    this.errorMessage = undefined;
+
     this.reportingService.reportInteraction(Interaction.FLOW_CREATED);
     this.stages = [];
     this.currentCondition = '';
@@ -881,6 +978,31 @@ export class GrCreateFlow extends LitElement {
     this.currentParameter = '';
     this.loading = false;
     this.createModal?.close();
+  }
+
+  private async validateAccountEmails(
+    stages: Stage[]
+  ): Promise<string | undefined> {
+    for (const stage of stages) {
+      if (!stage.parameterStr) continue;
+      const params = stage.parameterStr
+        .split(/[\s,]+/)
+        .filter(p => p.length > 0);
+      for (const p of params) {
+        if (EMAIL_PATTERN.test(p)) {
+          const account = await this.restApiService.getAccountDetails(
+            p as EmailAddress,
+            // Pass a no-op errFn to suppress PolyGerrit's global 404 error dialogs,
+            // allowing us to handle 404s locally via in-modal error banners.
+            () => {}
+          );
+          if (!account) {
+            return `Account '${p}' was not found.`;
+          }
+        }
+      }
+    }
+    return undefined;
   }
 
   // TODO: remove eventually when we fully migrated to fetching placeholders from the backend.

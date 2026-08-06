@@ -15,7 +15,7 @@ import {
   LabelDefinitionInfo,
 } from '../../../api/rest-api';
 import {getAppContext} from '../../../services/app-context';
-import {NumericChangeId, ServerInfo} from '../../../types/common';
+import {EmailAddress, NumericChangeId, ServerInfo} from '../../../types/common';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-dialog/gr-dialog';
 import '../../shared/gr-icon/gr-icon';
@@ -45,16 +45,17 @@ import {ifDefined} from 'lit/directives/if-defined.js';
 import {MdOutlinedTextField} from '@material/web/textfield/outlined-text-field.js';
 import {
   computeFlowString,
+  EMAIL_PATTERN,
   Stage,
   STAGE_SEPARATOR,
 } from '../../../utils/flows-util';
+import {debounce, DelayedTask} from '../../../utils/async-util';
 import {FlowCustomConditionInfo} from '../../../api/flows';
 import {changeModelToken} from '../../../models/change/change-model';
 import {combineLatest} from 'rxjs';
 import {getUserName} from '../../../utils/display-name-util';
 import {LabelSuggestionsProvider} from '../../../services/label-suggestions-provider';
 import {queryAndAssert, unique} from '../../../utils/common-util';
-import {fireAlert} from '../../../utils/event-util';
 import {MdOutlinedSelect} from '@material/web/select/outlined-select.js';
 import {Interaction} from '../../../constants/reporting';
 import {isDefined} from '../../../types/types';
@@ -105,6 +106,8 @@ export class GrCreateFlow extends LitElement {
   @state() copyPasteExpanded = false;
 
   @state() private loading = false;
+
+  @state() errorMessage?: string;
 
   @state() private serverConfig?: ServerInfo;
 
@@ -169,18 +172,19 @@ export class GrCreateFlow extends LitElement {
     );
   };
 
-  private readonly reviewerSuggestions: SuggestionProvider = expression => {
-    const accountFetcher = (expr: string) =>
-      this.restApiService.queryAccounts(
-        expr,
-        MAX_AUTOCOMPLETE_RESULTS,
-        undefined,
-        undefined,
-        throwingErrorCallback
-      );
-    const emails = expression.split(',');
-    const emailToAutocomplete = emails.pop() ?? '';
-    return accountFetcher(emailToAutocomplete.trim()).then(accounts => {
+  private readonly reviewerSuggestions: SuggestionProvider =
+    async expression => {
+      const accountFetcher = (expr: string) =>
+        this.restApiService.queryAccounts(
+          expr,
+          MAX_AUTOCOMPLETE_RESULTS,
+          undefined,
+          undefined,
+          throwingErrorCallback
+        );
+      const emails = expression.split(',');
+      const emailToAutocomplete = emails.pop() ?? '';
+      const accounts = await accountFetcher(emailToAutocomplete.trim());
       if (!accounts) {
         return [];
       }
@@ -195,8 +199,7 @@ export class GrCreateFlow extends LitElement {
             name: account.email,
           };
         });
-    });
-  };
+    };
 
   constructor() {
     super();
@@ -394,6 +397,27 @@ export class GrCreateFlow extends LitElement {
         .info-title {
           font-weight: var(--font-weight-bold);
         }
+        .error-banner {
+          display: flex;
+          align-items: center;
+          gap: var(--spacing-s);
+          background-color: var(--error-background, #fce8e6);
+          color: var(--error-foreground, #c5221f);
+          padding: var(--spacing-m);
+          border-radius: var(--border-radius, 4px);
+          margin-bottom: var(--spacing-m);
+          border: 1px solid var(--error-foreground, #c5221f);
+        }
+        .error-banner .error-icon {
+          color: var(--error-foreground, #c5221f);
+        }
+        .error-banner .error-text {
+          flex: 1;
+          font-weight: var(--font-weight-500, 500);
+        }
+        .error-banner .close-error-btn {
+          --gr-button-color: var(--error-foreground, #c5221f);
+        }
       `,
     ];
   }
@@ -415,7 +439,9 @@ export class GrCreateFlow extends LitElement {
   }
 
   private async getFlowActions() {
-    if (!this.changeNum) return;
+    if (!this.changeNum) {
+      return;
+    }
     const actions = await this.restApiService.listFlowActions(this.changeNum);
     this.flowActions = (actions ?? [])
       .filter(action => !this.disabledActions.includes(action.name))
@@ -453,7 +479,21 @@ export class GrCreateFlow extends LitElement {
     );
   }
 
+  // private but used in tests
+  parseTask?: DelayedTask;
+
+  // We debounce parsing to avoid triggering stage re-renders and API calls
+  // on every keystroke while the user types in the textarea
+  private parseStagesDebounced() {
+    this.parseTask = debounce(
+      this.parseTask,
+      () => this.parseStagesFromRawFlow(this.flowString),
+      300
+    );
+  }
+
   private parseStagesFromRawFlow(rawFlow: string) {
+    this.errorMessage = undefined;
     if (!rawFlow) {
       this.stages = [];
       return;
@@ -524,7 +564,9 @@ export class GrCreateFlow extends LitElement {
   }
 
   private renderDocumentationLink(link?: string, slot?: string) {
-    if (!link) return;
+    if (!link) {
+      return;
+    }
     return html` <a
       class="help"
       slot=${ifDefined(slot)}
@@ -552,11 +594,31 @@ export class GrCreateFlow extends LitElement {
           ?disabled=${this.loading}
           @confirm=${this.handleCreateFlow}
           @cancel=${() => {
+            this.errorMessage = undefined;
             this.createModal?.close();
           }}
         >
           <div slot="header">Create new flow</div>
           <div class="main" slot="main">
+            ${when(
+              this.errorMessage,
+              () => html`
+                <div class="error-banner">
+                  <gr-icon icon="warning" class="error-icon" filled></gr-icon>
+                  <span class="error-text">${this.errorMessage}</span>
+                  <gr-button
+                    link
+                    class="close-error-btn"
+                    @click=${() => {
+                      this.errorMessage = undefined;
+                    }}
+                    title="Dismiss error"
+                  >
+                    <gr-icon icon="close"></gr-icon>
+                  </gr-button>
+                </div>
+              `
+            )}
             <div
               class="section-header"
               @click=${(e: Event) => this.toggleGuidedBuilder(e)}
@@ -677,7 +739,7 @@ export class GrCreateFlow extends LitElement {
                     .value=${this.flowString}
                     @input=${(e: InputEvent) => {
                       this.flowString = (e.target as MdOutlinedTextField).value;
-                      this.parseStagesFromRawFlow(this.flowString);
+                      this.parseStagesDebounced();
                     }}
                   ></md-outlined-text-field>
                   <gr-copy-clipboard
@@ -731,7 +793,9 @@ export class GrCreateFlow extends LitElement {
   }
 
   private updateCurrentParameterForVote() {
-    if (this.currentAction !== 'vote') return;
+    if (this.currentAction !== 'vote') {
+      return;
+    }
 
     if (this.selectedLabelForVote && this.selectedValueForVote) {
       let value = this.selectedValueForVote;
@@ -750,55 +814,49 @@ export class GrCreateFlow extends LitElement {
   }
 
   // TODO: Move into the common util file
-  fetchProjects(
+  async fetchProjects(
     predicate: string,
     expression: string
   ): Promise<AutocompleteSuggestion[]> {
-    return this.restApiService
-      .getSuggestedRepos(
-        expression,
-        MAX_AUTOCOMPLETE_RESULTS,
-        throwingErrorCallback
-      )
-      .then(projects => {
-        if (!projects) {
-          return [];
-        }
-        const keys = Object.keys(projects);
-        return keys.map(key => {
-          return {text: predicate + ':' + key};
-        });
-      });
+    const projects = await this.restApiService.getSuggestedRepos(
+      expression,
+      MAX_AUTOCOMPLETE_RESULTS,
+      throwingErrorCallback
+    );
+    if (!projects) {
+      return [];
+    }
+    const keys = Object.keys(projects);
+    return keys.map(key => {
+      return {text: `${predicate}:${key}`};
+    });
   }
 
-  fetchGroups(
+  async fetchGroups(
     predicate: string,
     expression: string
   ): Promise<AutocompleteSuggestion[]> {
     if (expression.length === 0) {
-      return Promise.resolve([]);
+      return [];
     }
-    return this.restApiService
-      .getSuggestedGroups(
-        expression,
-        undefined,
-        MAX_AUTOCOMPLETE_RESULTS,
-        throwingErrorCallback
-      )
-      .then(groups => {
-        if (!groups) {
-          return [];
-        }
-        const keys = Object.keys(groups);
-        return keys.map(key => {
-          return {text: predicate + ':' + key};
-        });
-      });
+    const groups = await this.restApiService.getSuggestedGroups(
+      expression,
+      undefined,
+      MAX_AUTOCOMPLETE_RESULTS,
+      throwingErrorCallback
+    );
+    if (!groups) {
+      return [];
+    }
+    const keys = Object.keys(groups);
+    return keys.map(key => {
+      return {text: `${predicate}:${key}`};
+    });
   }
 
   private handleAddStage() {
     if (this.currentCondition.trim() === '') {
-      fireAlert(this, 'Condition string cannot be empty.');
+      this.errorMessage = 'Condition string cannot be empty.';
       return;
     }
     const condition =
@@ -832,7 +890,14 @@ export class GrCreateFlow extends LitElement {
   }
 
   private async handleCreateFlow() {
-    if (!this.changeNum) return;
+    if (!this.changeNum) {
+      return;
+    }
+
+    // Catch edits made within the debounce window.
+    if (this.copyPasteExpanded && this.flowString) {
+      this.parseStagesFromRawFlow(this.flowString);
+    }
 
     const allStages = [...this.stages];
 
@@ -848,8 +913,25 @@ export class GrCreateFlow extends LitElement {
       });
     }
 
+    if (allStages.length === 0) {
+      this.errorMessage = 'Flow must have at least one stage.';
+      return;
+    }
+
     if (allStages.some(s => s.condition.trim() === '')) {
-      fireAlert(this, 'All stages must have a condition.');
+      this.errorMessage = 'All stages must have a condition.';
+      return;
+    }
+
+    const lastStage = allStages[allStages.length - 1];
+    if (!lastStage?.action || lastStage.action.trim() === '') {
+      this.errorMessage = 'The final stage of a flow must have an action.';
+      return;
+    }
+
+    const invalidAccountError = await this.validateAccountEmails(allStages);
+    if (invalidAccountError) {
+      this.errorMessage = invalidAccountError;
       return;
     }
 
@@ -873,7 +955,32 @@ export class GrCreateFlow extends LitElement {
         return {condition: stage.condition};
       }),
     };
-    await this.getFlowsModel().createFlow(flowInput);
+
+    let hasError = false;
+    await this.getFlowsModel().createFlow(
+      flowInput,
+      (response?: Response | null) => {
+        if (response) {
+          hasError = true;
+          this.loading = false;
+          response
+            .text()
+            .then(text => {
+              this.errorMessage = text || response.statusText;
+            })
+            .catch(() => {
+              this.errorMessage = response.statusText;
+            });
+        }
+      }
+    );
+
+    if (hasError) {
+      return;
+    }
+
+    this.errorMessage = undefined;
+
     this.reportingService.reportInteraction(Interaction.FLOW_CREATED);
     this.stages = [];
     this.currentCondition = '';
@@ -883,13 +990,54 @@ export class GrCreateFlow extends LitElement {
     this.createModal?.close();
   }
 
+  private async validateAccountEmails(
+    stages: Stage[]
+  ): Promise<string | undefined> {
+    const checkAccount = async (email: string): Promise<string | undefined> => {
+      try {
+        const account = await this.restApiService.getAccountDetails(
+          email as EmailAddress,
+          // Pass a no-op errFn to suppress PolyGerrit's global 404 error dialogs,
+          // allowing us to handle 404s locally via in-modal error banners.
+          () => {}
+        );
+        return !account ? `Account '${email}' was not found.` : undefined;
+      } catch {
+        return undefined;
+      }
+    };
+
+    const accountPromises: Array<Promise<string | undefined>> = [];
+    for (const stage of stages) {
+      if (!stage.parameterStr) {
+        continue;
+      }
+      const params = stage.parameterStr
+        .split(/[\s,]+/)
+        .filter(p => p.length > 0);
+      for (const p of params) {
+        if (EMAIL_PATTERN.test(p)) {
+          accountPromises.push(checkAccount(p));
+        }
+      }
+    }
+    const results = await Promise.all(accountPromises);
+    return results.find(errorMsg => errorMsg !== undefined);
+  }
+
   // TODO: remove eventually when we fully migrated to fetching placeholders from the backend.
   private getParametersPlaceholder(actionName: string) {
     const action = this.flowActions.find(a => a.name === actionName);
-    if (action?.parameters_placeholder) return action.parameters_placeholder;
+    if (action?.parameters_placeholder) {
+      return action.parameters_placeholder;
+    }
 
-    if (actionName === 'add-reviewer') return 'user@example.com';
-    if (actionName === 'vote') return '<Label>+/-<Value>';
+    if (actionName === 'add-reviewer') {
+      return 'user@example.com';
+    }
+    if (actionName === 'vote') {
+      return '<Label>+/-<Value>';
+    }
     return 'Parameters';
   }
 
@@ -989,7 +1137,9 @@ export class GrCreateFlow extends LitElement {
   }
 
   private renderParameterInputField() {
-    if (this.currentAction === 'submit') return undefined;
+    if (this.currentAction === 'submit') {
+      return undefined;
+    }
     if (
       this.currentAction === 'add-reviewer' ||
       this.currentAction === 'add-to-attention-set' ||

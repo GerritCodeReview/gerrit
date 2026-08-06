@@ -16,6 +16,24 @@
       "message": "Is there anything in `Documentation/cmd-hook-commit-msg.txt` that should be updated?",
       "revId": "cc38cf6d4868a9e36f783e8d88d8380f31267c93",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7ee9f91_8e64b2c5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1166186
+      },
+      "writtenOn": "2026-08-06T22:28:18Z",
+      "side": 1,
+      "message": "Nothing there looks like it needs to be updated. The only mention of other tags (like `Signed-off-by:` and `Acked-by:`) concern the *location* of the `Change-Id:` tag in the trailer, but location isn\u0027t affected by non-colon tags.",
+      "parentUuid": "6ae25b4e_93fcb1d4",
+      "revId": "cc38cf6d4868a9e36f783e8d88d8380f31267c93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

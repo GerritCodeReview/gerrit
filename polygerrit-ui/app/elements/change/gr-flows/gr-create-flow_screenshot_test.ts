@@ -77,4 +77,14 @@ suite('gr-create-flow screenshot tests', () => {
     await visualDiff(header, 'gr-create-flow-dialog-header');
     await visualDiffDarkTheme(header, 'gr-create-flow-dialog-header');
   });
+
+  test('dialog error banner screenshot', async () => {
+    element.errorMessage = "Account 'invalid@example.com' was not found.";
+    await element.updateComplete;
+
+    const dialog = queryAndAssert(element, '#createModal');
+
+    await visualDiff(dialog, 'gr-create-flow-dialog-error');
+    await visualDiffDarkTheme(dialog, 'gr-create-flow-dialog-error');
+  });
 });

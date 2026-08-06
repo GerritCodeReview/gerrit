@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "211d5eff_5a9f70c7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-08-06T20:57:09Z",
+      "side": 1,
+      "message": "This is a really long commit message. consider moving some of this out of the commit message and into ai rationales instead. (eg. the alternatives considered would be better in the rationales)",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 10
+      },
+      "revId": "d38a298c7b611722cee1af221257674f22b2a4e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

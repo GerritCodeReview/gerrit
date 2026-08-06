@@ -8,6 +8,7 @@ import {FlowStageInfo} from '../api/rest-api';
 import {capitalizeFirstLetter} from './string-util';
 
 export const STAGE_SEPARATOR = ';';
+export const EMAIL_PATTERN = /\S+@\S+\.\S+/;
 
 export interface Stage {
   condition: string;
@@ -45,7 +46,9 @@ export function computeFlowStringFromFlowStageInfo(stages: FlowStageInfo[]) {
  * Converts snake_case (e.g., 'add_reviewer') to Title Case (e.g., 'Add Reviewer').
  */
 export function formatActionName(name?: string): string {
-  if (!name) return '';
+  if (!name) {
+    return '';
+  }
   return name
     .split('_')
     .map(word => capitalizeFirstLetter(word))

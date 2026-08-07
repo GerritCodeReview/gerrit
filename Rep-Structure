@@ -1,0 +1,5 @@
+gerrit/
+ ├── config.json
+ ├── config.yaml
+ ├── README.md
+ └── NOTICE.txt   (Apache Cert notification)

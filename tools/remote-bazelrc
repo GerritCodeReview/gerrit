@@ -31,12 +31,9 @@ build:remote_shared --remote_download_minimal
 
 # Set several flags related to specifying the platform, toolchain and java
 # properties.
-build:remote_shared --crosstool_top=@rbe_autoconfig//cc:toolchain
-build:remote_shared --extra_toolchains=@rbe_autoconfig//config:cc-toolchain
-build:remote_shared --extra_execution_platforms=@rbe_autoconfig//config:platform
-build:remote_shared --host_platform=@rbe_autoconfig//config:platform
-build:remote_shared --platforms=@rbe_autoconfig//config:platform
-build:remote_shared --action_env=BAZEL_DO_NOT_DETECT_CPP_TOOLCHAIN=1
+build:remote_shared --extra_execution_platforms=//tools/remote:platform
+build:remote_shared --host_platform=//tools/remote:platform
+build:remote_shared --platforms=//tools/remote:platform
 
 # Set various strategies so that all actions execute remotely. Mixing remote
 # and local execution will lead to errors unless the toolchain and remote

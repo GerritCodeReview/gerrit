@@ -51,6 +51,24 @@
       "message": "Real failure in the JGit update. A few of the rebase tests fail with stack traces like this:\n```\n1) rebaseWithCommitterEmail[default](com.google.gerrit.acceptance.api.change.RebaseIT$RebaseViaRevisionApi)\njava.lang.IllegalArgumentException: 23 flags already created.\n    at org.eclipse.jgit.revwalk.RevWalk.allocFlag(RevWalk.java:1419)\n    at org.eclipse.jgit.revwalk.RevWalk.newFlag(RevWalk.java:1412)\n    at org.eclipse.jgit.revwalk.TopoPhase.\u003cinit\u003e(TopoPhase.java:28)\n    at org.eclipse.jgit.revwalk.TopoInDegreePhase.\u003cinit\u003e(TopoInDegreePhase.java:34)\n    at org.eclipse.jgit.revwalk.TopoSortPendingGenerator.\u003cinit\u003e(TopoSortPendingGenerator.java:35)\n    at org.eclipse.jgit.revwalk.StartGenerator.next(StartGenerator.java:135)\n    at org.eclipse.jgit.revwalk.RevWalk.next(RevWalk.java:678)\n    at com.google.gerrit.server.git.CodeReviewCommit$CodeReviewRevWalk.next(CodeReviewCommit.java:87)\n    at com.google.gerrit.server.git.MergeUtil.findUnmergedChanges(MergeUtil.java:1184)\n    at com.google.gerrit.server.submit.SubmitStrategyListener.findUnmergedChanges(SubmitStrategyListener.java:78)\n    at com.google.gerrit.server.submit.SubmitStrategyListener.afterUpdateRepos(SubmitStrategyListener.java:58)\n    at com.google.gerrit.server.update.BatchUpdates.notifyAfterUpdateRepo(BatchUpdates.java:155)\n    at com.google.gerrit.server.update.BatchUpdates.execute(BatchUpdates.java:110)\n    at com.google.gerrit.server.update.SubmissionExecutor.execute(SubmissionExecutor.java:66)\n    at com.google.gerrit.server.submit.MergeOp.integrateIntoHistory(MergeOp.java:1057)\n    at com.google.gerrit.server.submit.MergeOp.lambda$merge$1(MergeOp.java:880)\n    at com.google.gerrit.server.update.RetryableChangeAction.lambda$new$0(RetryableChangeAction.java:48)\n    at com.google.gerrit.server.update.RetryableAction.lambda$new$0(RetryableAction.java:94)\n    at com.github.rholder.retry.AttemptTimeLimiters$NoAttemptTimeLimit.call(AttemptTimeLimiters.java:78)\n    at com.github.rholder.retry.Retryer.call(Retryer.java:160)\n    at com.google.gerrit.server.update.RetryHelper.executeWithTimeoutCount(RetryHelper.java:617)\n    at com.google.gerrit.server.update.RetryHelper.execute(RetryHelper.java:557)\n    at com.google.gerrit.server.update.RetryableAction.call(RetryableAction.java:192)\n    at com.google.gerrit.server.update.RetryableChangeAction.call(RetryableChangeAction.java:84)\n    at com.google.gerrit.server.submit.MergeOp.merge(MergeOp.java:889)\n    at com.google.gerrit.server.submit.MergeOp.merge(MergeOp.java:757)\n    at com.google.gerrit.server.restapi.change.Submit.mergeChange(Submit.java:225)\n    at com.google.gerrit.server.restapi.change.Submit.apply(Submit.java:201)\n    at com.google.gerrit.server.api.changes.RevisionApiImpl.submit(RevisionApiImpl.java:272)\n    at com.google.gerrit.extensions.api.changes.RevisionApi.submit(RevisionApi.java:55)\n    at com.google.gerrit.acceptance.api.change.RebaseIT$Base.rebaseWithCommitterEmail(RebaseIT.java:803)\n```\n\nYou can run `bazel test //javatests/com/google/gerrit/acceptance/api/change:RebaseIT` to repro locally.\n\nI reverted this change: [1236584: RevWalk: Use an incremental topological sorting algorithm](https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1236584) and it worked. I\u0027ve pushed my revert to jgit now too: [1244479: Revert \"RevWalk: Use an incremental topological sorting algorithm\"](https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1244479)",
       "revId": "a114aa74f82b247b56aa0f28146cf0edcf78fa80",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2230f915_e42e09be",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-08-07T16:59:31Z",
+      "side": 1,
+      "message": "This was meantime fixed in: [1].\n\n[1]: https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1244480",
+      "parentUuid": "1160c02d_c3b1c567",
+      "revId": "a114aa74f82b247b56aa0f28146cf0edcf78fa80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -16,6 +16,7 @@ bazel_dep(name = "rules_java", version = "9.5.0")
 bazel_dep(name = "rules_nodejs", version = "6.7.5")
 bazel_dep(name = "rules_python", version = "2.2.0")
 bazel_dep(name = "rules_shell", version = "0.8.0")
+bazel_dep(name = "toolchains_llvm", version = "1.8.0")
 
 # Pin rules_java to Gerrit's chosen version. Transitive bzlmod modules can
 # otherwise raise it through MVS, which changes the Java toolchain inputs
@@ -37,6 +38,9 @@ local_path_override(
 )
 
 # Toolchain setup.
+# rbe_autoconfig is still required by the jgit module (modules/jgit
+# declares a bazel_dep on it), so the override stays even though Gerrit's
+# own RBE cc toolchain is now the hermetic one below.
 bazel_dep(name = "rbe_autoconfig")
 git_override(
     module_name = "rbe_autoconfig",
@@ -45,6 +49,16 @@ git_override(
 )
 
 register_toolchains("//tools:all")
+
+# Hermetic C++ toolchain for remote (RBE) and local builds. Replaces the
+# container-introspected @rbe_autoconfig cc toolchain: a pinned clang is
+# downloaded and used identically on GCP RBE, BuildBuddy and locally, so
+# there is no per-container CROSSTOOL to regenerate.
+llvm = use_extension("@toolchains_llvm//toolchain/extensions:llvm.bzl", "llvm")
+llvm.toolchain(llvm_versions = {"linux-x86_64": "18.1.8"})
+use_repo(llvm, "llvm_toolchain")
+
+register_toolchains("@llvm_toolchain//:all")
 
 # Plugin packaging support: bazlets pin and generated Gerrit API version repo.
 include("//tools:bazlets.MODULE.bazel")

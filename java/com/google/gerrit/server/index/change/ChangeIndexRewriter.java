@@ -206,8 +206,10 @@ public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
     } else if (in instanceof OrPredicate && in.getChildCount() == 0) {
       ++leafTerms.value;
       // An empty OrPredicate will never match anything, but will scan all
-      // changes unless handled here.
-      return ChangeIndexPredicate.none();
+      // changes unless handled here. Return the none() wrapped so it is a ChangeDataSource and a
+      // parent OrPredicate can still fold into an OrSource; a bare none() would force the
+      // top-level rewrite() fallback and(or(open,closed), in) and a full index scan.
+      return new IndexedChangeQuery(index, ChangeIndexPredicate.none(), opts);
     } else if (!isRewritePossible(in)) {
       if (in instanceof IndexPredicate) {
         throw new QueryParseException("Unsupported index predicate: " + in.toString());
@@ -242,10 +244,11 @@ public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
       }
     }
 
-    if (in instanceof AndPredicate
-        && newChildren.stream().anyMatch(c -> c.equals(ChangeIndexPredicate.none()))) {
+    if (in instanceof AndPredicate && newChildren.stream().anyMatch(ChangeIndexRewriter::isNone)) {
       ++leafTerms.value;
-      return ChangeIndexPredicate.none();
+      // Shortcut the AND none() and ensure we return a ChangeDataSource so an enclosing
+      // OrPredicate can be re-written as an OrSource.
+      return new IndexedChangeQuery(index, ChangeIndexPredicate.none(), opts);
     }
     if (isIndexed.cardinality() == n) {
       return in; // All children are indexed, leave as-is for parent.
@@ -337,6 +340,21 @@ public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
   private static boolean isRewritePossible(Predicate<ChangeData> p) {
     return p.getChildCount() > 0
         && (p instanceof AndPredicate || p instanceof OrPredicate || p instanceof NotPredicate);
+  }
+
+  /**
+   * Returns true if {@code p} is a none() predicate that matches no changes, whether bare or
+   * wrapped in an {@link IndexedChangeQuery}. The empty-OrPredicate and AndPredicate short-circuits
+   * wrap none() in an IndexedChangeQuery so it stays a {@link ChangeDataSource}, so both forms must
+   * be recognized here.
+   */
+  private static boolean isNone(Predicate<ChangeData> p) {
+    if (p.equals(ChangeIndexPredicate.none())) {
+      return true;
+    }
+    return p instanceof IndexedChangeQuery
+        && p.getChildCount() == 1
+        && p.getChild(0).equals(ChangeIndexPredicate.none());
   }
 
   @SuppressWarnings("ReferenceEquality")

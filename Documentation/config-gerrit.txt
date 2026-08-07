@@ -1047,7 +1047,9 @@ Default is 128 MiB per cache, except:
 * `"persisted_projects"`: default is `1g` (1 GiB of disk space)
 
 +
-If 0 or negative, disk storage for the cache is disabled.
+If 0 or negative, persistent disk storage for the cache is disabled. No
+`.h2.db` database files will be created on disk, and the cache will
+operate purely in-memory.
 
 [[cache.name.refreshAfterWrite]]cache.<name>.refreshAfterWrite::
 +

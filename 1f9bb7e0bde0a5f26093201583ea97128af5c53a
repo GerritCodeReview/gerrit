@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c5ff59c_f80e6f6c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-07T16:35:34Z",
+      "side": 1,
+      "message": "FYI I already have the LC+1 on 614842: Update JGit to 253ca534f (master) | https://gerrit-review.googlesource.com/c/gerrit/+/614842",
+      "revId": "1f9bb7e0bde0a5f26093201583ea97128af5c53a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

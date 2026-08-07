@@ -33,6 +33,24 @@
       "message": "I think we should wait until\nhttps://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1244480\nwas submitted and include it to fix the problems with the new [TopoSortPendingGenerator used in RevWalk](https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1236584) which Nasser reported",
       "revId": "54872fa28cb99b213dcee6e669d262c71270e9ef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a9a6454_9756d1bd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-08-07T16:33:08Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "2f01391f_41897f21",
+      "revId": "54872fa28cb99b213dcee6e669d262c71270e9ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

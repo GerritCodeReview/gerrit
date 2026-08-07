@@ -96,6 +96,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a953991_626f48a9",
+        "filename": "java/com/google/gerrit/server/restapi/project/BranchCommitBuilder.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-08-07T06:29:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "573faf57_323211fb",
+      "range": {
+        "startLine": 338,
+        "startChar": 0,
+        "endLine": 343,
+        "endChar": 0
+      },
+      "revId": "d89e35764d7fb5397fc6eeff2065ac04a3e16d08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4ca8acf4_23c3b8ad",
@@ -157,6 +181,30 @@
       "side": 1,
       "message": "Marked as unresolved. I don\u0027t see this test case in PS11.",
       "parentUuid": "9569e335_01cc83a5",
+      "range": {
+        "startLine": 289,
+        "startChar": 0,
+        "endLine": 291,
+        "endChar": 0
+      },
+      "revId": "d89e35764d7fb5397fc6eeff2065ac04a3e16d08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7db6994c_02000ed1",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/CreateCommitIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-08-07T06:29:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "add3e560_1594d836",
       "range": {
         "startLine": 289,
         "startChar": 0,

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b965d7b2_1f8048f2",
+        "filename": "java/com/google/gerrit/extensions/api/projects/BranchApi.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-08-07T06:29:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b6127e7a_5539a6a4",
+      "revId": "223d5370b872988c11e25b9042c6350adbff0d03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bd4a1ca7_11485d75",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9dee904_07bebe55",
+        "filename": "java/com/google/gerrit/server/api/projects/BranchApiImpl.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-08-07T06:29:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bd4a1ca7_11485d75",
+      "revId": "223d5370b872988c11e25b9042c6350adbff0d03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "252681c5_beca0331",
@@ -48,6 +84,24 @@
       "writtenOn": "2026-08-06T18:33:57Z",
       "side": 1,
       "message": "Rename this too?\n\n```suggestion\n  CommitInfo createCommit(BranchResource rsrc, CreateCommitInput input)\n```",
+      "revId": "223d5370b872988c11e25b9042c6350adbff0d03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b84a0bb_863f3e1e",
+        "filename": "java/com/google/gerrit/server/restapi/project/BranchCommitBuilder.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-08-07T06:29:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "252681c5_beca0331",
       "revId": "223d5370b872988c11e25b9042c6350adbff0d03",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -75,6 +129,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0793ca59_fbca3251",
+        "filename": "java/com/google/gerrit/server/restapi/project/BranchCommitBuilder.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-08-07T06:29:56Z",
+      "side": 1,
+      "message": "Removed, thanks",
+      "parentUuid": "cdd0c3a2_d989de0b",
+      "range": {
+        "startLine": 185,
+        "startChar": 0,
+        "endLine": 186,
+        "endChar": 75
+      },
+      "revId": "223d5370b872988c11e25b9042c6350adbff0d03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3816cff0_5fc94865",
@@ -88,6 +166,24 @@
       "writtenOn": "2026-08-06T18:33:57Z",
       "side": 1,
       "message": "```suggestion\n    return Response.ok(branchCommitBuilder.createCommit(rsrc, input));\n```",
+      "revId": "223d5370b872988c11e25b9042c6350adbff0d03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "65e48aaf_8cd1309d",
+        "filename": "java/com/google/gerrit/server/restapi/project/CreateCommit.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-08-07T06:29:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3816cff0_5fc94865",
       "revId": "223d5370b872988c11e25b9042c6350adbff0d03",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

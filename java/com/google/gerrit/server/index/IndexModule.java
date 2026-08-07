@@ -47,6 +47,7 @@ import com.google.gerrit.server.index.change.ChangeIndexDefinition;
 import com.google.gerrit.server.index.change.ChangeIndexRewriter;
 import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
+import com.google.gerrit.server.index.change.PendingIndexUpdateScanner;
 import com.google.gerrit.server.index.change.StalenessChecker;
 import com.google.gerrit.server.index.group.GroupIndexCollection;
 import com.google.gerrit.server.index.group.GroupIndexDefinition;
@@ -130,6 +131,7 @@ public class IndexModule extends LifecycleModule {
     factory(ChangeIndexer.Factory.class);
     factory(StalenessChecker.Factory.class);
     factory(AllChangesIndexer.Factory.class);
+    install(new PendingIndexUpdateScanner.Module());
 
     bind(GroupIndexRewriter.class);
     // GroupIndexCollection is already bound very high up in SchemaModule.

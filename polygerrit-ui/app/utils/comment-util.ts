@@ -99,11 +99,6 @@ export function compareComments(c1: Comment, c2: Comment) {
     return specialFilePathCompare(path1, path2);
   }
 
-  const ps1 = typeof c1.patch_set === 'number' ? c1.patch_set : undefined;
-  const ps2 = typeof c2.patch_set === 'number' ? c2.patch_set : undefined;
-  const psComp = compareNumber(ps1, ps2);
-  if (psComp !== 0) return psComp;
-
   const line1 = c1.line ?? c1?.range?.end_line;
   const line2 = c2.line ?? c2?.range?.end_line;
   const lineComp = compareNumber(line1, line2);

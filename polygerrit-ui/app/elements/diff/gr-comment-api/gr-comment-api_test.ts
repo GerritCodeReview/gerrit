@@ -996,10 +996,10 @@ suite('ChangeComments tests', () => {
             ...createCommentThread([{...comments[2], path: 'file/1'}]),
           },
           {
-            ...createCommentThread([{...comments[4], path: 'file/2'}]),
+            ...createCommentThread([{...comments[13], path: 'file/2'}]),
           },
           {
-            ...createCommentThread([{...comments[13], path: 'file/2'}]),
+            ...createCommentThread([{...comments[4], path: 'file/2'}]),
           },
           {
             ...createCommentThread([{...comments[5], path: 'file/2'}]),

@@ -87,7 +87,6 @@ export function sortComments<T extends Comment>(comments: T[]): T[] {
 /**
  * Sorts comments in this order by:
  * - file path
- * - patchset
  * - line/range
  * - created/updated timestamp
  * - id
@@ -98,11 +97,6 @@ export function compareComments(c1: Comment, c2: Comment) {
   if (path1 !== path2) {
     return specialFilePathCompare(path1, path2);
   }
-
-  const ps1 = typeof c1.patch_set === 'number' ? c1.patch_set : undefined;
-  const ps2 = typeof c2.patch_set === 'number' ? c2.patch_set : undefined;
-  const psComp = compareNumber(ps1, ps2);
-  if (psComp !== 0) return psComp;
 
   const line1 = c1.line ?? c1?.range?.end_line;
   const line2 = c2.line ?? c2?.range?.end_line;
@@ -123,7 +117,7 @@ export function compareComments(c1: Comment, c2: Comment) {
   if (startCharComp !== 0) return startCharComp;
 
   // At this point we know that the comment is about the exact same location:
-  // Same file, same patchset, same range.
+  // Same file, same range.
 
   // Drafts after published comments.
   if (isDraft(c1) !== isDraft(c2)) return isDraft(c1) ? 1 : -1;

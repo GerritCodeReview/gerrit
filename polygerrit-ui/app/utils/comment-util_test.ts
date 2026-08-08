@@ -194,6 +194,51 @@ suite('comment-util', () => {
         updated,
       },
       {
+        id: 'path2-line2-ps1' as UrlEncodedCommentId,
+        path: 'path2',
+        line: 2,
+        patch_set: 1 as RevisionPatchSetNum,
+        updated,
+      },
+      {
+        id: 'path2-line2-ps2' as UrlEncodedCommentId,
+        path: 'path2',
+        line: 2,
+        patch_set: 2 as RevisionPatchSetNum,
+        updated,
+      },
+      {
+        id: 'path2-line2-ps2-updated-later' as UrlEncodedCommentId,
+        path: 'path2',
+        line: 2,
+        patch_set: 2 as RevisionPatchSetNum,
+        updated,
+      },
+      {
+        client_id: 'new1' as UrlEncodedCommentId,
+        client_created_ms: 1,
+        savingState: SavingState.OK,
+        path: 'path2',
+        line: 2,
+        patch_set: 2 as RevisionPatchSetNum,
+      },
+      {
+        client_id: 'new2' as UrlEncodedCommentId,
+        client_created_ms: 2,
+        savingState: SavingState.OK,
+        path: 'path2',
+        line: 2,
+        patch_set: 2 as RevisionPatchSetNum,
+      },
+      {
+        client_id: 'new2-sort-by-id' as UrlEncodedCommentId,
+        client_created_ms: 2,
+        savingState: SavingState.OK,
+        path: 'path2',
+        line: 2,
+        patch_set: 2 as RevisionPatchSetNum,
+      },
+      {
         id: 'range-1-0-2-0' as UrlEncodedCommentId,
         path: 'path2',
         line: 2,
@@ -252,51 +297,6 @@ suite('comment-util', () => {
           end_character: 5,
         },
         updated,
-      },
-      {
-        id: 'path2-line2-ps1' as UrlEncodedCommentId,
-        path: 'path2',
-        line: 2,
-        patch_set: 1 as RevisionPatchSetNum,
-        updated,
-      },
-      {
-        id: 'path2-line2-ps2' as UrlEncodedCommentId,
-        path: 'path2',
-        line: 2,
-        patch_set: 2 as RevisionPatchSetNum,
-        updated,
-      },
-      {
-        id: 'path2-line2-ps2-updated-later' as UrlEncodedCommentId,
-        path: 'path2',
-        line: 2,
-        patch_set: 2 as RevisionPatchSetNum,
-        updated,
-      },
-      {
-        client_id: 'new1' as UrlEncodedCommentId,
-        client_created_ms: 1,
-        savingState: SavingState.OK,
-        path: 'path2',
-        line: 2,
-        patch_set: 2 as RevisionPatchSetNum,
-      },
-      {
-        client_id: 'new2' as UrlEncodedCommentId,
-        client_created_ms: 2,
-        savingState: SavingState.OK,
-        path: 'path2',
-        line: 2,
-        patch_set: 2 as RevisionPatchSetNum,
-      },
-      {
-        client_id: 'new2-sort-by-id' as UrlEncodedCommentId,
-        client_created_ms: 2,
-        savingState: SavingState.OK,
-        path: 'path2',
-        line: 2,
-        patch_set: 2 as RevisionPatchSetNum,
       },
     ];
     const shuffled = [...comments].sort(() => Math.random() - 0.5);
@@ -421,6 +421,86 @@ suite('comment-util', () => {
         },
       ];
       assert.equal(createCommentThreads(comments).length, 2);
+    });
+
+    test('sorts thread comments by time across different patchsets', () => {
+      const comments: Comment[] = [
+        {
+          id: 'c1' as UrlEncodedCommentId,
+          message: 'first comment in ps1',
+          updated: '2023-12-24 10:00:00.000000000' as Timestamp,
+          line: 1,
+          patch_set: 1 as RevisionPatchSetNum,
+          path: 'some/path',
+        },
+        {
+          id: 'c3' as UrlEncodedCommentId,
+          message: 'third comment back in ps1',
+          updated: '2023-12-24 12:00:00.000000000' as Timestamp,
+          line: 1,
+          in_reply_to: 'c2' as UrlEncodedCommentId,
+          patch_set: 1 as RevisionPatchSetNum,
+          path: 'some/path',
+        },
+        {
+          id: 'c2' as UrlEncodedCommentId,
+          message: 'middle comment in ps2',
+          updated: '2023-12-24 11:00:00.000000000' as Timestamp,
+          line: 1,
+          in_reply_to: 'c1' as UrlEncodedCommentId,
+          patch_set: 2 as RevisionPatchSetNum,
+          path: 'some/path',
+        },
+      ];
+
+      const threads = createCommentThreads(comments);
+      assert.equal(threads.length, 1);
+      assert.equal(threads[0].comments.length, 3);
+      assert.deepEqual(threads[0].comments, [
+        comments[0],
+        comments[2],
+        comments[1],
+      ]);
+    });
+
+    test('uses comment uuid as tie breaker for comments published at same time in different patchsets', () => {
+      const comments: Comment[] = [
+        {
+          id: 'c1' as UrlEncodedCommentId,
+          message: 'root comment',
+          updated: '2023-12-24 10:00:00.000000000' as Timestamp,
+          line: 1,
+          patch_set: 1 as RevisionPatchSetNum,
+          path: 'some/path',
+        },
+        {
+          id: 'c2_b_uuid' as UrlEncodedCommentId,
+          message: 'reply in ps1 with larger uuid',
+          updated: '2023-12-24 11:00:00.000000000' as Timestamp,
+          line: 1,
+          in_reply_to: 'c1' as UrlEncodedCommentId,
+          patch_set: 1 as RevisionPatchSetNum,
+          path: 'some/path',
+        },
+        {
+          id: 'c2_a_uuid' as UrlEncodedCommentId,
+          message: 'reply in ps2 with smaller uuid',
+          updated: '2023-12-24 11:00:00.000000000' as Timestamp,
+          line: 1,
+          in_reply_to: 'c1' as UrlEncodedCommentId,
+          patch_set: 2 as RevisionPatchSetNum,
+          path: 'some/path',
+        },
+      ];
+
+      const threads = createCommentThreads(comments);
+      assert.equal(threads.length, 1);
+      assert.equal(threads[0].comments.length, 3);
+      assert.deepEqual(threads[0].comments, [
+        comments[0],
+        comments[2],
+        comments[1],
+      ]);
     });
   });
 

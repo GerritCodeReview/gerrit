@@ -138,10 +138,10 @@ java_binary(
 )
 
 # Publish gerrit-plugin-api as a mostly-thin jar: java_export merges the
-# coordinate-less first-party API surface (:plugin-lib) plus vendored JGit
-# (org/eclipse/jgit/** has no Maven coordinate) into the jar, and externalizes
-# coordinate-bearing third-party deps into the generated POM. See
-# migrate-central-publishing.md Part 2.
+# coordinate-less first-party API surface (:plugin-lib) plus the unpublished
+# JGit EE8 servlet bridge into the jar, and externalizes coordinate-bearing
+# third-party deps plus released canonical JGit artifacts into the generated POM.
+# See migrate-central-publishing.md Part 2.
 java_export(
     name = "gerrit-plugin-api",
     classifier_artifacts = {

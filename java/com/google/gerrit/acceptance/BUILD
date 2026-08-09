@@ -159,11 +159,12 @@ java_doc(
 )
 
 # Publish gerrit-acceptance-framework as a mostly-thin jar via java_export: merge
-# the testonly first-party framework surface (:framework-lib) plus vendored JGit
-# (org/eclipse/jgit/** has no Maven coordinate) into the jar, and externalize the
-# coordinate-bearing third-party test/runtime deps into the generated POM. Option A
-# (no replacement deploy_env): the first-party classes the legacy framework
-# deploy_env excluded are allowed to ship. See migrate-central-publishing.md Part 3.
+# the testonly first-party framework surface (:framework-lib) plus the unpublished
+# JGit EE8 servlet bridge into the jar, and externalize coordinate-bearing
+# third-party deps plus released canonical JGit artifacts into the generated POM.
+# Option A (no replacement deploy_env): the first-party classes the legacy
+# framework deploy_env excluded are allowed to ship. See
+# migrate-central-publishing.md Part 3.
 java_export(
     name = "gerrit-acceptance-framework",
     testonly = True,

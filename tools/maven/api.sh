@@ -139,6 +139,27 @@ verify_api_list_shape() {
   fi
 }
 
+# The API POMs externalize released canonical JGit artifacts, while the
+# unpublished EE8 servlet bridge remains bundled. Do not publish those POMs unless
+# the consumed submodule is exactly the release tag named by //lib's JGit Maven
+# version; otherwise Maven consumers would resolve a different JGit than Gerrit
+# built and tested.
+verify_jgit_maven_version() { # remaining args = bazel build args
+  ${BAZEL_CMD} build "$@" //tools/maven:jgit_maven_version
+  local version expected_tag actual_tag actual
+  version="$(cat ./bazel-bin/tools/maven/jgit_maven_version.txt)"
+  expected_tag="v${version}"
+  if ! actual_tag="$(git -C modules/jgit describe --tags --exact-match HEAD 2>/dev/null)"; then
+    actual="$(git -C modules/jgit describe --tags --match 'v*' --abbrev=12 HEAD 2>/dev/null || git -C modules/jgit rev-parse --short HEAD)"
+    echo "error: modules/jgit is not exactly at ${expected_tag}; current revision is ${actual}" >&2
+    exit 1
+  fi
+  if [[ "${actual_tag}" != "${expected_tag}" ]]; then
+    echo "error: modules/jgit is at ${actual_tag}, expected ${expected_tag}" >&2
+    exit 1
+  fi
+}
+
 run_publish() { # $1 = MAVEN_REPO url; $2 = .publish target; rest = bazel build args
   local repo="$1" target="$2"; shift 2
   MAVEN_REPO="${repo}" GPG_SIGN=false ${BAZEL_CMD} run "$@" "${target}"
@@ -257,6 +278,7 @@ api_deploy)
   preflight_release_env
   verify_release_targets
   verify_api_list_shape
+  verify_jgit_maven_version "$@"
   reset_staging
   publish_api "file://${STAGING_DIR}" "$@"
   strip_metadata

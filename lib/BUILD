@@ -1,5 +1,6 @@
 load("@rules_java//java:defs.bzl", "java_library")
 load("@rules_shell//shell:sh_test.bzl", "sh_test")
+load("//lib:jgit_maven_version.bzl", "JGIT_MAVEN_VERSION")
 
 exports_files(glob([
     "LICENSE-*",
@@ -50,6 +51,9 @@ java_library(
 java_library(
     name = "jgit",
     data = ["//lib:LICENSE-jgit"],
+    tags = [
+        "maven_coordinates=org.eclipse.jgit:org.eclipse.jgit:%s" % JGIT_MAVEN_VERSION,
+    ],
     visibility = ["//visibility:public"],
     exports = ["@jgit//org.eclipse.jgit:jgit"],
     runtime_deps = [
@@ -61,6 +65,9 @@ java_library(
 java_library(
     name = "jgit-ssh-apache",
     data = ["//lib:LICENSE-jgit"],
+    tags = [
+        "maven_coordinates=org.eclipse.jgit:org.eclipse.jgit.ssh.apache:%s" % JGIT_MAVEN_VERSION,
+    ],
     visibility = ["//visibility:public"],
     exports = ["@jgit//org.eclipse.jgit.ssh.apache:ssh-apache"],
     runtime_deps = [
@@ -71,6 +78,9 @@ java_library(
 java_library(
     name = "jgit-archive",
     data = ["//lib:LICENSE-jgit"],
+    tags = [
+        "maven_coordinates=org.eclipse.jgit:org.eclipse.jgit.archive:%s" % JGIT_MAVEN_VERSION,
+    ],
     visibility = ["//visibility:public"],
     exports = ["@jgit//org.eclipse.jgit.archive:jgit-archive"],
     runtime_deps = [
@@ -83,6 +93,9 @@ java_library(
     name = "jgit-junit",
     testonly = True,
     data = ["//lib:LICENSE-DO_NOT_DISTRIBUTE"],
+    tags = [
+        "maven_coordinates=org.eclipse.jgit:org.eclipse.jgit.junit:%s" % JGIT_MAVEN_VERSION,
+    ],
     visibility = ["//visibility:public"],
     exports = ["@jgit//org.eclipse.jgit.junit:junit"],
     runtime_deps = [":jgit"],

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e6728f8_860d19e4",
+        "filename": "javatests/com/google/gerrit/server/events/EventTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-10T15:33:22Z",
+      "side": 1,
+      "message": "The instanceId field is optional, it could be null.\nWe should add a test for it and assert that both equals and hashCode are working as expected.",
+      "revId": "23c7ee5059988eacc5582e33784b3deed6cda74a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

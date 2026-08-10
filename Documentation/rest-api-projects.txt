@@ -2135,6 +2135,89 @@ The content is returned as base64 encoded string.
   Ly8gQ29weXJpZ2h0IChDKSAyMDEwIFRoZSBBbmRyb2lkIE9wZW4gU291cmNlIFByb2plY...
 ----
 
+[[create-commit]]
+=== Create Commit
+--
+'POST /projects/link:#project-name[\{project-name\}]/branches/link:#branch-id[\{branch-id\}]/commit'
+--
+
+Creates a single commit that applies a set of file operations (create/update,
+delete, rename) directly to the branch, for CI and automation use cases (no clone
+or multi-step change workflow required).
+
+This is a server-side branch update, not a `git push`. The caller needs the
+link:access-control.html#category_push[Push] access right (a fast-forward
+`UPDATE`) on a writable, ordinary branch (not `HEAD`, a tag, or `refs/meta/*`).
+Writing to `HEAD` is rejected with "`405 Method Not Allowed`"; the caller must
+target the branch `HEAD` points to instead.
+Ref-update and commit validators run, including validators contributed by
+plugins, and validation failures are returned as an error. There is no
+receive-pack, so push-only policies are not applied: signed-push /
+push-certificate verification is skipped, and receive-pack object checks such
+as link:config-gerrit.html#receive.maxObjectSizeLimit[receive.maxObjectSizeLimit]
+are not enforced. Matching open changes are not auto-closed.
+
+The request body is a link:#create-commit-input[CreateCommitInput] entity that
+lists the file operations and the commit message.
+
+.Request
+----
+  POST /projects/MyProject/branches/master/commit HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "commit_message": "Update configuration files",
+    "files": {
+      "conf/app.config": {
+        "content": "a2V5ID0gdmFsdWUK"
+      },
+      "bin/run.sh": {
+        "content": "IyEvYmluL3NoCmVjaG8gaGkK",
+        "file_mode": 100755
+      },
+      "conf/obsolete.config": {
+        "delete": true
+      },
+      "conf/renamed.config": {
+        "rename_from": "conf/old.config"
+      }
+    }
+  }
+----
+
+As response the link:rest-api-changes.html#commit-info[CommitInfo] of the new
+commit is returned.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "commit": "84276d7ab324c9a50f8db21375e1a49f2a2e970f",
+    "subject": "Update configuration files",
+    "message": "Update configuration files\n"
+  }
+----
+
+The file operations are applied atomically: the request either creates a single
+commit containing all listed operations and advances the branch to it, or fails
+without modifying the branch.
+
+If `base_revision` is set in the input and the branch no longer points at that
+commit (for example because of a concurrent update), the request is rejected with
+"`409 Conflict`", so callers can retry without clobbering the other change. A
+request that would not change the tree is rejected with "`400 Bad Request`".
+
+The new commit is authored and committed by the calling user, using the
+account's full name and preferred email address. If the account has no
+preferred email, a generic `username@host` identity is used instead. Author
+and committer timestamps are the server time at which the commit was created.
+Neither the identities nor the timestamps can be overridden through this
+endpoint.
+
 [[validation-options]]
 === Get Validation Options
 --
@@ -4655,6 +4738,56 @@ link:rest-api-changes.html#action-info[ActionInfo] entities.
 |`skip_adding_author_and_committer_as_reviewers`    |optional|
 Whether to skip adding the Git commit author and committer as reviewers for a new change.
 |=======================================================
+
+[[create-commit-input]]
+=== CreateCommitInput
+The `CreateCommitInput` entity describes the file operations to apply to a
+branch as a single commit, used by link:#create-commit[Create Commit].
+
+[options="header",cols="1,^2,4"]
+|======================================================
+|Field Name    ||Description
+|`commit_message` ||
+The commit message. Must be non-empty.
+|`base_revision`|optional|
+The commit (SHA-1) the target branch is expected to point at: the request is
+rejected with "`409 Conflict`" if the branch tip is any other commit (optimistic
+concurrency). This is a compare-and-swap check only; the new commit is always
+created on top of the current branch tip, and `base_revision` does not select an
+older base to commit onto. A value that is not a full 40-character SHA-1 is
+rejected with "`400 Bad Request`".
+|`files`       ||
+A map of file path to link:#file-change[FileChange] describing the operation to
+apply at that path. Applied together as one commit.
+|`validation_options`|optional|
+Map with key-value pairs that are forwarded as options to the ref-operation and
+commit validation listeners (e.g. to skip certain validations). Which options are
+supported depends on the installed validation listeners; Gerrit core supports
+none. Unknown options are silently ignored.
+|======================================================
+
+[[file-change]]
+=== FileChange
+The `FileChange` entity describes a single file operation within a
+link:#create-commit-input[CreateCommitInput]. Exactly one of `content`, `delete`, or
+`rename_from` must be set.
+
+[options="header",cols="1,^2,4"]
+|======================================================
+|Field Name    ||Description
+|`content`     |optional|
+The new file content, base64-encoded, for a create or update. For a `120000`
+(symlink) entry, the decoded content is the symlink target path.
+|`file_mode`   |optional|
+The file mode in octal format (`100644` regular file, `100755` executable,
+`120000` symlink). If not set, new files are created as `100644` and existing
+files keep their mode.
+|`delete`      |optional|
+If `true`, deletes the file at this path.
+|`rename_from` |optional|
+Source path to rename from. The file at `rename_from` is moved to this entry's
+path.
+|======================================================
 
 [[config-input]]
 === ConfigInput

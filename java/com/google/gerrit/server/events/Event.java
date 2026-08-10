@@ -15,6 +15,7 @@
 package com.google.gerrit.server.events;
 
 import com.google.gerrit.server.util.time.TimeUtil;
+import java.util.Objects;
 
 public abstract class Event {
   public final String type;
@@ -27,5 +28,24 @@ public abstract class Event {
 
   public String getType() {
     return type;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (!(o instanceof Event)) {
+      return false;
+    }
+    Event event = (Event) o;
+    return eventCreatedOn == event.eventCreatedOn
+        && Objects.equals(type, event.type)
+        && Objects.equals(instanceId, event.instanceId);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(type, eventCreatedOn, instanceId);
   }
 }

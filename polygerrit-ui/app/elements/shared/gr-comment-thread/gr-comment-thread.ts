@@ -30,6 +30,7 @@ import {
 import {ChangeMessageId, FixSuggestionInfo} from '../../../api/rest-api';
 import {getAppContext} from '../../../services/app-context';
 import {
+  CommentSide,
   createDefaultDiffPrefs,
   SpecialFilePath,
 } from '../../../constants/constants';
@@ -848,12 +849,48 @@ export class GrCommentThread extends LitElement {
 
   // Does not work for patchset level comments
   private getUrlForFileComment() {
-    const id = this.getFirstComment()?.id;
-    if (!id || !this.repoName || !this.changeNum) return undefined;
+    if (this.isPatchsetLevel()) {
+      return undefined;
+    }
+    if (!this.repoName || !this.changeNum) {
+      return undefined;
+    }
+    const comment = this.getFirstComment();
+    if (!comment) {
+      return undefined;
+    }
+    const patchNum = this.thread?.patchNum ?? comment.patch_set;
+    const path = this.thread?.path;
+    if (!patchNum || !path) {
+      if (!comment.id) {
+        return undefined;
+      }
+      return createDiffUrl({
+        changeNum: this.changeNum,
+        repo: this.repoName,
+        commentId: comment.id,
+      });
+    }
+    let line: number | undefined;
+    if (typeof this.thread?.line === 'number') {
+      line = this.thread.line;
+    } else if (this.thread?.range) {
+      line =
+        this.thread.range.end_line < this.thread.range.start_line
+          ? this.thread.range.start_line
+          : this.thread.range.end_line;
+    }
+    const side = this.thread?.commentSide ?? comment.side;
+    const leftSide = side === CommentSide.PARENT;
     return createDiffUrl({
       changeNum: this.changeNum,
       repo: this.repoName,
-      commentId: id,
+      patchNum,
+      diffView: {
+        path,
+        lineNum: line,
+        leftSide,
+      },
     });
   }
 

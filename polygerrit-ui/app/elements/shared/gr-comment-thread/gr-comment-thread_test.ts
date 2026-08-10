@@ -40,7 +40,7 @@ import {
 import {SinonStubbedMember} from 'sinon';
 import {assert, fixture, html} from '@open-wc/testing';
 import {GrButton} from '../gr-button/gr-button';
-import {SpecialFilePath} from '../../../constants/constants';
+import {CommentSide, SpecialFilePath} from '../../../constants/constants';
 import {GrIcon} from '../gr-icon/gr-icon';
 import {
   CommentsModel,
@@ -126,7 +126,9 @@ suite('gr-comment-thread tests', () => {
           <gr-copy-clipboard hideinput=""></gr-copy-clipboard>
         </div>
         <div class="pathInfo">
-          <a href="/c/test-repo-name/+/1/comment/the-root/"> #314 </a>
+          <a href="/c/test-repo-name/+/1/1/test-path-comment-thread#314">
+            #314
+          </a>
         </div>
         <div id="container">
           <h3 class="assistive-tech-only">Draft Comment thread by Kermit</h3>
@@ -161,7 +163,9 @@ suite('gr-comment-thread tests', () => {
           <gr-copy-clipboard hideinput=""></gr-copy-clipboard>
         </div>
         <div class="pathInfo">
-          <span>#314</span>
+          <a href="/c/test-repo-name/+/1/1/test-path-comment-thread#314">
+            #314
+          </a>
         </div>
         <div id="container">
           <h3 class="assistive-tech-only">Draft Comment thread by Yoda</h3>
@@ -370,7 +374,7 @@ suite('gr-comment-thread tests', () => {
           >
           </gr-diff>
           <div class="view-diff-container">
-            <a href="/c/test-repo-name/+/1/comment/the-draft/">
+            <a href="/c/test-repo-name/+/1/1/test-path-comment-thread#314">
               <gr-button
                 aria-disabled="false"
                 class="view-diff-button"
@@ -918,6 +922,294 @@ suite('gr-comment-thread tests', () => {
         false,
         false,
       ]);
+    });
+  });
+
+  suite('getUrlForFileComment direct diff link', () => {
+    setup(async () => {
+      element.repoName = 'test-repo' as RepoName;
+      element.changeNum = 1 as NumericChangeId;
+    });
+
+    test('generates direct diff url for latest patchset comment on right side', () => {
+      const comment: CommentInfo = {
+        ...createComment(),
+        id: 'c1' as UrlEncodedCommentId,
+        patch_set: 2 as RevisionPatchSetNum,
+        line: 15,
+      };
+      element.thread = {
+        ...createThread(comment),
+        path: 'test-file.ts',
+        patchNum: 2 as RevisionPatchSetNum,
+        line: 15,
+        commentSide: CommentSide.REVISION,
+      };
+
+      // @ts-expect-error (testing private method)
+      const url = element.getUrlForFileComment();
+      assert.equal(url, '/c/test-repo/+/1/2/test-file.ts#15');
+    });
+
+    test('generates direct diff url with #b prefix for parent side comment', () => {
+      const comment: CommentInfo = {
+        ...createComment(),
+        id: 'c2' as UrlEncodedCommentId,
+        patch_set: 2 as RevisionPatchSetNum,
+        line: 20,
+        side: CommentSide.PARENT,
+      };
+      element.thread = {
+        ...createThread(comment),
+        path: 'test-file.ts',
+        patchNum: 2 as RevisionPatchSetNum,
+        line: 20,
+        commentSide: CommentSide.PARENT,
+      };
+
+      // @ts-expect-error (testing private method)
+      const url = element.getUrlForFileComment();
+      assert.equal(url, '/c/test-repo/+/1/2/test-file.ts#b20');
+    });
+
+    test('generates direct diff url without # line anchor for file-level comment', () => {
+      const comment: CommentInfo = {
+        ...createComment(),
+        id: 'c3' as UrlEncodedCommentId,
+        patch_set: 2 as RevisionPatchSetNum,
+        line: undefined,
+      };
+      element.thread = {
+        ...createThread(comment),
+        path: 'test-file.ts',
+        patchNum: 2 as RevisionPatchSetNum,
+        line: undefined,
+      };
+
+      // @ts-expect-error (testing private method)
+      const url = element.getUrlForFileComment();
+      assert.equal(url, '/c/test-repo/+/1/2/test-file.ts');
+    });
+
+    test('returns undefined for patchset level comment', () => {
+      const comment: CommentInfo = {
+        ...createComment(),
+        id: 'c4' as UrlEncodedCommentId,
+        patch_set: 2 as RevisionPatchSetNum,
+      };
+      element.thread = {
+        ...createThread(comment),
+        path: SpecialFilePath.PATCHSET_LEVEL_COMMENTS,
+        patchNum: 2 as RevisionPatchSetNum,
+      };
+
+      // @ts-expect-error (testing private method)
+      const url = element.getUrlForFileComment();
+      assert.isUndefined(url);
+    });
+
+    test('generates direct diff url for comment with range', () => {
+      const comment: CommentInfo = {
+        ...createComment(),
+        id: 'c5' as UrlEncodedCommentId,
+        patch_set: 2 as RevisionPatchSetNum,
+        range: {
+          start_line: 10,
+          start_character: 1,
+          end_line: 15,
+          end_character: 5,
+        },
+      };
+      element.thread = {
+        ...createThread(comment),
+        path: 'test-file.ts',
+        patchNum: 2 as RevisionPatchSetNum,
+        line: undefined,
+        range: {
+          start_line: 10,
+          start_character: 1,
+          end_line: 15,
+          end_character: 5,
+        },
+      };
+
+      // @ts-expect-error (testing private method)
+      const url = element.getUrlForFileComment();
+      assert.equal(url, '/c/test-repo/+/1/2/test-file.ts#15');
+    });
+
+    test('generates direct diff url for comment with inverted range', () => {
+      const comment: CommentInfo = {
+        ...createComment(),
+        id: 'c6' as UrlEncodedCommentId,
+        patch_set: 2 as RevisionPatchSetNum,
+        range: {
+          start_line: 20,
+          start_character: 1,
+          end_line: 10,
+          end_character: 5,
+        },
+      };
+      element.thread = {
+        ...createThread(comment),
+        path: 'test-file.ts',
+        patchNum: 2 as RevisionPatchSetNum,
+        line: undefined,
+        range: {
+          start_line: 20,
+          start_character: 1,
+          end_line: 10,
+          end_character: 5,
+        },
+      };
+
+      // @ts-expect-error (testing private method)
+      const url = element.getUrlForFileComment();
+      assert.equal(url, '/c/test-repo/+/1/2/test-file.ts#20');
+    });
+
+    test('generates direct diff url without # anchor when line is non-number FILE', () => {
+      const comment: CommentInfo = {
+        ...createComment(),
+        id: 'c7' as UrlEncodedCommentId,
+        patch_set: 2 as RevisionPatchSetNum,
+      };
+      element.thread = {
+        ...createThread(comment),
+        path: 'test-file.ts',
+        patchNum: 2 as RevisionPatchSetNum,
+        line: 'FILE' as unknown as number,
+      };
+
+      // @ts-expect-error (testing private method)
+      const url = element.getUrlForFileComment();
+      assert.equal(url, '/c/test-repo/+/1/2/test-file.ts');
+    });
+
+    test('generates direct diff url using thread patchNum and line for ported comment', () => {
+      const comment: CommentInfo = {
+        ...createComment(),
+        id: 'c8' as UrlEncodedCommentId,
+        patch_set: 1 as RevisionPatchSetNum,
+        line: 10,
+      };
+      element.thread = {
+        ...createThread(comment),
+        path: 'test-file.ts',
+        patchNum: 3 as RevisionPatchSetNum,
+        line: 25,
+        commentSide: CommentSide.REVISION,
+      };
+
+      // @ts-expect-error (testing private method)
+      const url = element.getUrlForFileComment();
+      assert.equal(url, '/c/test-repo/+/1/3/test-file.ts#25');
+    });
+
+    test('generates direct diff url using thread range end_line when thread line is undefined', () => {
+      const comment: CommentInfo = {
+        ...createComment(),
+        id: 'c9' as UrlEncodedCommentId,
+        patch_set: 1 as RevisionPatchSetNum,
+        line: 10,
+      };
+      element.thread = {
+        ...createThread(comment),
+        path: 'test-file.ts',
+        patchNum: 3 as RevisionPatchSetNum,
+        line: undefined,
+        range: {
+          start_line: 20,
+          start_character: 1,
+          end_line: 25,
+          end_character: 5,
+        },
+      };
+
+      // @ts-expect-error (testing private method)
+      const url = element.getUrlForFileComment();
+      assert.equal(url, '/c/test-repo/+/1/3/test-file.ts#25');
+    });
+
+    test('falls back to comment url when thread path is undefined', () => {
+      const comment: CommentInfo = {
+        ...createComment(),
+        id: 'c10' as UrlEncodedCommentId,
+        patch_set: 2 as RevisionPatchSetNum,
+        line: 15,
+      };
+      element.thread = {
+        ...createThread(comment),
+        path: undefined,
+        patchNum: 2 as RevisionPatchSetNum,
+        line: 15,
+      };
+
+      // @ts-expect-error (testing private method)
+      const url = element.getUrlForFileComment();
+      assert.equal(url, '/c/test-repo/+/1/comment/c10/');
+    });
+
+    test('falls back to comment url when patchNum is undefined on both thread and comment', () => {
+      const comment: CommentInfo = {
+        ...createComment(),
+        id: 'c11' as UrlEncodedCommentId,
+        patch_set: undefined,
+        line: 15,
+      };
+      element.thread = {
+        ...createThread(comment),
+        path: 'test-file.ts',
+        patchNum: undefined,
+        line: 15,
+      };
+
+      // @ts-expect-error (testing private method)
+      const url = element.getUrlForFileComment();
+      assert.equal(url, '/c/test-repo/+/1/comment/c11/');
+    });
+
+    test('returns undefined when path is missing and comment id is undefined', () => {
+      const comment: CommentInfo = {
+        ...createComment(),
+        id: undefined,
+        patch_set: 2 as RevisionPatchSetNum,
+        line: 15,
+      };
+      element.thread = {
+        ...createThread(comment),
+        path: undefined,
+        patchNum: 2 as RevisionPatchSetNum,
+        line: 15,
+      };
+
+      // @ts-expect-error (testing private method)
+      const url = element.getUrlForFileComment();
+      assert.isUndefined(url);
+    });
+
+    test('handleCopyLink preserves shareable comment url format', () => {
+      const copyStub = sinon.stub(navigator.clipboard, 'writeText');
+      const comment: CommentInfo = {
+        ...createComment(),
+        id: 'c123' as UrlEncodedCommentId,
+        patch_set: 2 as RevisionPatchSetNum,
+        line: 15,
+      };
+      element.thread = {
+        ...createThread(comment),
+        path: 'test-file.ts',
+        patchNum: 2 as RevisionPatchSetNum,
+        line: 15,
+      };
+
+      // @ts-expect-error (testing private method)
+      element.handleCopyLink();
+
+      assert.isTrue(copyStub.calledOnce);
+      assert.isTrue(
+        copyStub.firstCall.args[0].endsWith('/c/test-repo/+/1/comment/c123/')
+      );
     });
   });
 });

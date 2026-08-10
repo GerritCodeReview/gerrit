@@ -1418,8 +1418,11 @@ export class GrRouter implements Finalizable, NavigationService {
 
     this.restApiService.addRepoNameToCache(changeNum, repo);
     const [comments, drafts, change] = await Promise.all([
-      this.restApiService.getDiffComments(changeNum),
-      this.restApiService.getDiffDrafts(changeNum),
+      this.restApiService.getDiffComments(
+        changeNum,
+        /* enableContext= */ false
+      ),
+      this.restApiService.getDiffDrafts(changeNum, /* enableContext= */ false),
       this.restApiService.getChangeDetail(changeNum),
     ]);
 

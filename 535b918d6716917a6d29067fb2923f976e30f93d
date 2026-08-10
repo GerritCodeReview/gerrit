@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fdf5441c_064030a7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2026-08-10T04:46:59Z",
+      "side": 1,
+      "message": "@nasser.grainawi@oss.qualcomm.com Update your OOO status 😊",
+      "revId": "535b918d6716917a6d29067fb2923f976e30f93d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

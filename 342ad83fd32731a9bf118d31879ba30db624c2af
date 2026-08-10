@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68fc9d43_020241a4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-10T22:32:40Z",
+      "side": 1,
+      "message": "I don\u0027t understand how this makes sense. We wouldn\u0027t ever want to rely on only those fields for event equality. Are you going to override `equals()` for every class that subclasses `Event`?\n\n\u003e This allows event instances that carry the same base event metadata to compare consistently after serialization.\n\nThis seems like the problem you\u0027re trying to solve, but I don\u0027t see any code related to those event instances. You also say *after serialization*, but you\u0027re modifying the non-serialized class. Do you mean *after **deserialization***?",
+      "revId": "342ad83fd32731a9bf118d31879ba30db624c2af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

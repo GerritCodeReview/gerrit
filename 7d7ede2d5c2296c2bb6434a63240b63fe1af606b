@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80e7c25c_bb92bafe",
+        "filename": "java/com/google/gerrit/server/change/RevisionJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-08-10T08:13:22Z",
+      "side": 1,
+      "message": "Please fix this WARNING reported by autoreview issue finding: Since `branchName` evaluates to exactly the same value, you could just reuse it here instead of recalculating the branch name:\n```java\nString targetBranch \u003d branchName;\n```\nOr simply use `branchName` instead of `targetBranch` in the `parentDataProvider.get(...)` call below.",
+      "range": {
+        "startLine": 409,
+        "startChar": 0,
+        "endLine": 409,
+        "endChar": 0
+      },
+      "revId": "7d7ede2d5c2296c2bb6434a63240b63fe1af606b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1678af83_f77b483d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5005823
+      },
+      "writtenOn": "2026-08-10T16:43:58Z",
+      "side": 1,
+      "message": "Not sure if it\u0027s worth submitting, This would \"fix\" any in-flight CLs with the bug and we can revert after https://gerrit-review.git.corp.google.com/c/gerrit/+/617061 has been live for some amount of time. \n\nThe tradeoff is that the comment sorting will be slightly off in the meantime and may have UI downstream effects that I am not seeing",
+      "revId": "4b6a8d837778df5017b38de1c09ad2f21ccc17ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

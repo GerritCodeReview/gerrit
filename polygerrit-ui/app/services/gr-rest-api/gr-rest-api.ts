@@ -526,19 +526,22 @@ export interface RestApiService extends Finalizable {
   ): Promise<{[path: string]: DraftInfo[]} | undefined>;
 
   getDiffComments(
-    changeNum: NumericChangeId
+    changeNum: NumericChangeId,
+    enableContext?: boolean
   ): Promise<{[path: string]: CommentInfo[]} | undefined>;
   getDiffComments(
     changeNum: NumericChangeId,
-    basePatchNum: PatchSetNum,
+    basePatchNum: BasePatchSetNum,
     patchNum: PatchSetNum,
-    path: string
+    path: string,
+    enableContext?: boolean
   ): Promise<GetDiffCommentsOutput>;
   getDiffComments(
     changeNum: NumericChangeId,
-    basePatchNum?: BasePatchSetNum,
+    basePatchNum?: BasePatchSetNum | boolean,
     patchNum?: PatchSetNum,
-    path?: string
+    path?: string,
+    enableContext?: boolean
   ):
     | Promise<{[path: string]: CommentInfo[]} | undefined>
     | Promise<GetDiffCommentsOutput>;
@@ -549,7 +552,8 @@ export interface RestApiService extends Finalizable {
    * empty object.
    */
   getDiffDrafts(
-    changeNum: NumericChangeId
+    changeNum: NumericChangeId,
+    enableContext?: boolean
   ): Promise<{[path: string]: DraftInfo[]} | undefined>;
 
   createGroup(config: GroupInput): Promise<Response>;

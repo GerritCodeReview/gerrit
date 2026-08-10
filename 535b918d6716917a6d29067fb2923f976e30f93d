@@ -33,6 +33,41 @@
       "message": "I\u0027m no longer working on Gerrit, hence removing myself as a reviewer.",
       "revId": "535b918d6716917a6d29067fb2923f976e30f93d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "76bd1fd2_ff6b0364",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-10T17:23:31Z",
+      "side": 1,
+      "message": "Thanks for the reminder! 😊",
+      "parentUuid": "fdf5441c_064030a7",
+      "revId": "535b918d6716917a6d29067fb2923f976e30f93d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1583257_95c298db",
+        "filename": "java/com/google/gerrit/server/git/receive/ReplaceOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 553,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-10T17:23:31Z",
+      "side": 1,
+      "message": "We could also add a generic `checkState(newPatchSet !\u003d null, \"new patch set for replaceOp must be set\");` after this.",
+      "revId": "535b918d6716917a6d29067fb2923f976e30f93d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

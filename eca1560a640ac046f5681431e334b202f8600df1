@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7540d4eb_b6ed1504",
+        "filename": "java/com/google/gerrit/server/restapi/config/TasksCollection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-08-10T18:03:41Z",
+      "side": 1,
+      "message": "should we instead change this to ProjectCommandRUnnable ?",
+      "revId": "eca1560a640ac046f5681431e334b202f8600df1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

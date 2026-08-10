@@ -16,6 +16,23 @@
       "message": "@nasser.grainawi@oss.qualcomm.com Update your OOO status 😊",
       "revId": "535b918d6716917a6d29067fb2923f976e30f93d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b74cb1bd_c227d349",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2026-08-10T06:10:23Z",
+      "side": 1,
+      "message": "I\u0027m no longer working on Gerrit, hence removing myself as a reviewer.",
+      "revId": "535b918d6716917a6d29067fb2923f976e30f93d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

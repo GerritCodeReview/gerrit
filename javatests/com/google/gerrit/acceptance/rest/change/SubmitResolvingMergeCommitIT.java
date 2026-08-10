@@ -299,6 +299,48 @@ public class SubmitResolvingMergeCommitIT extends AbstractDaemonTest {
     assertChangeSetMergeable(d.getChange(), false);
   }
 
+  @Test
+  public void chainWithOutdatedPatchSetParentIsUnmergeable() throws Exception {
+    /*
+      A(ps1) <- B(ps1)
+      A is amended to A(ps2), making B(ps1) depend on an outdated patchset of A.
+    */
+    PushOneCommit.Result a = createChange("A");
+    PushOneCommit.Result b =
+        createChange("B", "b.txt", "content B", ImmutableList.of(a.getCommit()));
+
+    approve(a.getChangeId());
+    approve(b.getChangeId());
+
+    // Initially, both A and B are up-to-date and mergeable together.
+    assertChangeSetMergeable(b.getChange(), true);
+
+    // Amend A to create patch-set 2.
+    testRepo.reset(a.getCommit());
+    PushOneCommit.Result amendResult =
+        pushFactory
+            .create(
+                admin.newIdent(),
+                testRepo,
+                "A amended",
+                "a.txt",
+                "content A amended",
+                a.getChangeId())
+            .to("refs/for/master");
+    amendResult.assertOkStatus();
+    approve(a.getChangeId());
+
+    // Now B's parent points to PS1 of A, which is outdated.
+    assertChangeSetMergeable(b.getChange(), false);
+
+    // Rebase B on A's latest patch-set.
+    gApi.changes().id(b.getChangeId()).rebase();
+    approve(b.getChangeId());
+
+    // Now B is mergeable again.
+    assertChangeSetMergeable(b.getChange(), true);
+  }
+
   private void submit(String changeId) throws Exception {
     gApi.changes().id(changeId).current().submit();
   }

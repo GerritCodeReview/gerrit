@@ -388,7 +388,10 @@ public class RevisionJson {
       String rev = in.commitId().name();
       RevCommit commit = rw.parseCommit(ObjectId.fromString(rev));
       rw.parseBody(commit);
-      String branchName = out.branch;
+      // out.branch is unset for patch sets that have no per-patch-set branch and are not the last
+      // patch set. Fall back to the change's destination branch in that case, as callers below
+      // (Repository#exactRef in particular) don't accept a null branch name.
+      String branchName = out.branch != null ? out.branch : cd.change().getDest().branch();
       if (setCommit) {
         out.commit =
             getCommitInfo(

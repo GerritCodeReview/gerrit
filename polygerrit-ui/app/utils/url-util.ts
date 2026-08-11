@@ -5,6 +5,7 @@
  */
 import {
   AuthInfo,
+  AUTO_MERGE,
   BasePatchSetNum,
   PARENT,
   RevisionPatchSetNum,
@@ -77,6 +78,12 @@ export function getPatchRangeExpression(params: PatchRangeParams) {
   let range = '';
   if (params.patchNum) {
     range = `${params.patchNum}`;
+  }
+  // An explicitly chosen auto-merge base is encoded as `0`. Note that `0` alone
+  // means "auto merge against the latest patchset", see
+  // `normalizePatchRangeParams()`.
+  if (params.basePatchNum === AUTO_MERGE) {
+    return range ? `0..${range}` : '0';
   }
   if (params.basePatchNum && params.basePatchNum !== PARENT) {
     range = `${params.basePatchNum}..${range}`;

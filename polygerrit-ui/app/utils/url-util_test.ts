@@ -3,7 +3,13 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {AuthType, BasePatchSetNum, RevisionPatchSetNum} from '../api/rest-api';
+import {
+  AuthType,
+  AUTO_MERGE,
+  BasePatchSetNum,
+  PARENT,
+  RevisionPatchSetNum,
+} from '../api/rest-api';
 import '../test/common-test-setup';
 import {
   encodeURL,
@@ -173,5 +179,26 @@ suite('url-util tests', () => {
     delete params.patchNum;
     actual = getPatchRangeExpression(params);
     assert.equal(actual, '2..');
+  });
+
+  test('getPatchRangeExpression encodes AUTO_MERGE as 0', () => {
+    assert.equal(
+      getPatchRangeExpression({
+        basePatchNum: AUTO_MERGE,
+        patchNum: 4 as RevisionPatchSetNum,
+      }),
+      '0..4'
+    );
+    // A lone `0` means "auto merge against the latest patchset".
+    assert.equal(getPatchRangeExpression({basePatchNum: AUTO_MERGE}), '0');
+    // `PARENT` stays implicit, so that it can be overridden by the
+    // `default_base_for_merges` preference.
+    assert.equal(
+      getPatchRangeExpression({
+        basePatchNum: PARENT,
+        patchNum: 4 as RevisionPatchSetNum,
+      }),
+      '4'
+    );
   });
 });

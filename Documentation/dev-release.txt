@@ -143,7 +143,7 @@ any data from external sources, such as e-mails or other messages, unless the
 data is explicitly downloaded as part of the release process.
 The following credentials must be made available in the Jenkins vault, with the following credential ids.
 
-* ossrh-staging-api.central.sonatype.com
+* central.sonatype.com
 
 The `userAndPassword` secret populated with the credentials you created following the instructions defined
 link:dev-release-deploy-config.html#create-maven-central-credentials[here]
@@ -221,6 +221,17 @@ Portal deployment, via its rules_jvm_external `maven_export` `.publish` target
 (`//:gerrit-war.publish`) and the same direct-JReleaser step. All four Maven Central
 artifacts now publish through rules_jvm_external; the legacy `mvn.py` /
 `package.bzl` scripts have been removed.
+
+Both deploy steps fail fast, before building or staging anything, if a prerequisite
+is wrong: they check that the JReleaser credentials and GPG keys are present in the
+environment (`JRELEASER_MAVENCENTRAL_USERNAME`/`TOKEN` and
+`JRELEASER_GPG_PUBLIC_KEY`/`SECRET_KEY`/`PASSPHRASE` — the release job derives these
+from the Jenkins credentials and GPG passphrase configured above) and that the
+`jreleaser` binary is on the `PATH`, and they verify the repository's `.publish`
+targets still match the
+set `api.sh` expects to publish (so a newly added or removed artifact cannot silently
+change a release). A missing credential or a drifted target list aborts with a clear
+message rather than surfacing mid-upload.
 
 After both deploy steps complete, verify and publish *both* `com.google.gerrit`
 deployments in the Maven Central Portal, as described below.

@@ -27,7 +27,7 @@ where COMMAND is one of
   war_deploy
 
 and build_args is the argument passed to the Bazel build command, e.g.,
-  --config:java21
+  --config=java21
 
 Set VERBOSE in the environment to get more information.
 
@@ -91,6 +91,53 @@ API_RJE_JAR_ARTIFACT_PATHS=(
 )
 WAR_RJE_PUBLISH_TARGET="//:gerrit-war.publish"
 WAR_ARTIFACT_PATH="com/google/gerrit/gerrit-war"
+
+# The complete set of artifacts a deploy is expected to publish. verify_release_targets
+# fails the release if the .publish targets in the queried packages have drifted from
+# this list, so a newly added (or removed) java_export/maven_export cannot silently
+# change what ships. The query scope below covers where the four current artifacts
+# live; extend it if a publish target is ever added elsewhere (e.g. a BOM under
+# tools/maven).
+EXPECTED_PUBLISH_TARGETS=(
+  "${API_RJE_PUBLISH_TARGETS[@]}"
+  "${WAR_RJE_PUBLISH_TARGET}"
+)
+
+verify_release_targets() {
+  local expected actual
+  expected="$(printf '%s\n' "${EXPECTED_PUBLISH_TARGETS[@]}" | sort -u)"
+  # `maven_publish rule` is the generated rule behind java_export/maven_export
+  # `.publish` (bazel query sees rule classes, not macro names). Scope to the
+  # packages that own publish targets to avoid descending into the plugin/jgit
+  # submodules. No build args are passed: target discovery does not need them, and
+  # `bazel query --config=<build-only config>` (e.g. java21) would error. Do not
+  # suppress query errors -- a broken query must fail the release loudly rather than
+  # silently drop targets.
+  if ! actual="$(${BAZEL_CMD} query \
+      'kind("maven_publish rule", set(//java/... //plugins:all //:all))')"; then
+    echo "error: bazel query for release targets failed" >&2
+    exit 1
+  fi
+  actual="$(printf '%s\n' "${actual}" | sort -u)"
+  if [[ "${expected}" != "${actual}" ]]; then
+    echo "error: release .publish targets drifted from api.sh's declared list:" >&2
+    comm -13 <(echo "${expected}") <(echo "${actual}") | sed 's/^/  unlisted (in Bazel, not declared): /' >&2
+    comm -23 <(echo "${expected}") <(echo "${actual}") | sed 's/^/  obsolete (declared, not in Bazel): /' >&2
+    exit 1
+  fi
+}
+
+# API_RJE_PUBLISH_TARGETS and API_RJE_JAR_ARTIFACT_PATHS describe the same API
+# artifact set from two angles: publish targets for staging (publish_api) and staged
+# repo-layout paths for verification (verify_api_staged). Guard against one being
+# extended without the other: the drift check would still pass and the new artifact
+# would publish, but its jar/sources/javadoc would go unchecked.
+verify_api_list_shape() {
+  if [[ ${#API_RJE_PUBLISH_TARGETS[@]} -ne ${#API_RJE_JAR_ARTIFACT_PATHS[@]} ]]; then
+    echo "error: API_RJE_PUBLISH_TARGETS and API_RJE_JAR_ARTIFACT_PATHS differ in length" >&2
+    exit 1
+  fi
+}
 
 run_publish() { # $1 = MAVEN_REPO url; $2 = .publish target; rest = bazel build args
   local repo="$1" target="$2"; shift 2
@@ -168,6 +215,24 @@ verify_war_staged() {
   verify_no_metadata
 }
 
+# Fail fast before building/staging if the release credentials or the jreleaser
+# binary are missing, rather than surfacing the problem mid-upload. jreleaser signs
+# in-process from the in-memory JRELEASER_GPG_* keys (jreleaser.yml signing mode is
+# MEMORY), so gpg itself is not required here -- CI exports the keys into the env.
+preflight_release_env() {
+  local missing=()
+  [[ -n "${JRELEASER_MAVENCENTRAL_USERNAME:-}" ]] || missing+=("JRELEASER_MAVENCENTRAL_USERNAME")
+  [[ -n "${JRELEASER_MAVENCENTRAL_TOKEN:-}" ]]    || missing+=("JRELEASER_MAVENCENTRAL_TOKEN")
+  [[ -n "${JRELEASER_GPG_PUBLIC_KEY:-}" ]]        || missing+=("JRELEASER_GPG_PUBLIC_KEY")
+  [[ -n "${JRELEASER_GPG_SECRET_KEY:-}" ]]        || missing+=("JRELEASER_GPG_SECRET_KEY")
+  [[ -n "${JRELEASER_GPG_PASSPHRASE:-}" ]]        || missing+=("JRELEASER_GPG_PASSPHRASE")
+  command -v jreleaser >/dev/null 2>&1            || missing+=("jreleaser (not on PATH)")
+  if (( ${#missing[@]} )); then
+    echo "error: missing release prerequisites: ${missing[*]}" >&2
+    exit 1
+  fi
+}
+
 # Upload the already-staged repository to the Maven Central Portal via JReleaser.
 # The release version is defined once in Starlark (//tools/maven:api_version); read
 # it here instead of threading it through mvn.py. Credentials and GPG keys come from
@@ -189,6 +254,9 @@ api_install)
   publish_api "${M2_REPO}" "$@"
   ;;
 api_deploy)
+  preflight_release_env
+  verify_release_targets
+  verify_api_list_shape
   reset_staging
   publish_api "file://${STAGING_DIR}" "$@"
   strip_metadata
@@ -199,6 +267,8 @@ war_install)
   run_publish "${M2_REPO}" "${WAR_RJE_PUBLISH_TARGET}" "$@"
   ;;
 war_deploy)
+  preflight_release_env
+  verify_release_targets
   reset_staging
   run_publish "file://${STAGING_DIR}" "${WAR_RJE_PUBLISH_TARGET}" "$@"
   strip_metadata

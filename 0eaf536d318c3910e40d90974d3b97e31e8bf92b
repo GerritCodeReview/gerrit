@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3e9fc646_ff1c8548",
+        "filename": "javatests/com/google/gerrit/server/events/EventTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-08-11T15:45:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c65eacaa_0c009529",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 3
+      },
+      "revId": "0eaf536d318c3910e40d90974d3b97e31e8bf92b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d9e6e264_00b7b1e3",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-08-11T15:01:41Z",
       "side": 1,
       "message": "Would `NO_INSTANCE_ID` be more readable?",
+      "range": {
+        "startLine": 49,
+        "startChar": 43,
+        "endLine": 49,
+        "endChar": 47
+      },
+      "revId": "0eaf536d318c3910e40d90974d3b97e31e8bf92b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c7152a8_d0837b74",
+        "filename": "javatests/com/google/gerrit/server/events/EventTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-08-11T15:45:15Z",
+      "side": 1,
+      "message": "Yes good point",
+      "parentUuid": "d9e6e264_00b7b1e3",
       "range": {
         "startLine": 49,
         "startChar": 43,

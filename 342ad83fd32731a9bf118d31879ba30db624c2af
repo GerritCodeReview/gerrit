@@ -16,6 +16,24 @@
       "message": "I don\u0027t understand how this makes sense. We wouldn\u0027t ever want to rely on only those fields for event equality. Are you going to override `equals()` for every class that subclasses `Event`?\n\n\u003e This allows event instances that carry the same base event metadata to compare consistently after serialization.\n\nThis seems like the problem you\u0027re trying to solve, but I don\u0027t see any code related to those event instances. You also say *after serialization*, but you\u0027re modifying the non-serialized class. Do you mean *after **deserialization***?",
       "revId": "342ad83fd32731a9bf118d31879ba30db624c2af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "716be1b1_d9abbc74",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-08-11T08:50:58Z",
+      "side": 1,
+      "message": "\u003e I don\u0027t understand how this makes sense. We wouldn\u0027t ever want to rely on only those fields for event equality. Are you going to override equals() for every class that subclasses Event?\n\nThe intent is not to make base Event fields sufficient identity for all event subclasses. Subclasses with additional identifying fields should still override equals()/hashCode() and include those fields.\n\n\u003e You also say after serialization, but you\u0027re modifying the non-serialized class. Do you mean after deserialization?\n\nSorry, that was incorrect. I removed that bit.",
+      "parentUuid": "68fc9d43_020241a4",
+      "revId": "342ad83fd32731a9bf118d31879ba30db624c2af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

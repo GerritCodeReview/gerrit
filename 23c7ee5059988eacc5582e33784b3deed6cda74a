@@ -16,6 +16,24 @@
       "message": "The instanceId field is optional, it could be null.\nWe should add a test for it and assert that both equals and hashCode are working as expected.",
       "revId": "23c7ee5059988eacc5582e33784b3deed6cda74a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d9a803a_be511bbb",
+        "filename": "javatests/com/google/gerrit/server/events/EventTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-08-11T08:50:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1e6728f8_860d19e4",
+      "revId": "23c7ee5059988eacc5582e33784b3deed6cda74a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -25,5 +25,6 @@ public class TestSshCommandModule extends CommandModule {
   protected void configure() {
     command("graceful").to(GracefulCommand.class);
     command("non-graceful").to(NonGracefulCommand.class);
+    command("stuck-on-input").to(StuckOnInputCommand.class);
   }
 }

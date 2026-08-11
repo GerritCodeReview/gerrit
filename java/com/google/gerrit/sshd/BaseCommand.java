@@ -29,7 +29,7 @@ import com.google.gerrit.server.DynamicOptions;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RequestCleanup;
 import com.google.gerrit.server.git.ProjectRunnable;
-import com.google.gerrit.server.git.WorkQueue.CancelableRunnable;
+import com.google.gerrit.server.git.WorkQueue.CanceledWhileRunning;
 import com.google.gerrit.server.ioutil.HexFormat;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.permissions.GlobalPermission;
@@ -459,7 +459,7 @@ public abstract class BaseCommand implements Command {
     return m.toString();
   }
 
-  private final class TaskThunk implements CancelableRunnable, ProjectRunnable {
+  private final class TaskThunk implements CanceledWhileRunning, ProjectRunnable {
     private final CommandRunnable thunk;
     private final String taskName;
     private final AccessPath accessPath;
@@ -481,6 +481,18 @@ public abstract class BaseCommand implements Command {
         } finally {
           sshScope.set(old);
         }
+      }
+    }
+
+    @Override
+    public void setCanceledWhileRunning() {
+      // Not synchronized: run() holds this monitor for the whole command. Closing the channel's
+      // input unblocks a command stuck reading from a client that already went away; out/err are
+      // left alone because their close() contends with the monitor held by a stuck writer.
+      try {
+        in.close();
+      } catch (IOException e) {
+        logger.atFine().withCause(e).log("Cannot close input of canceled task %s", taskName);
       }
     }
 

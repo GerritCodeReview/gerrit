@@ -16,6 +16,24 @@
       "message": "Can we have this as:\n\n\n\n```suggestion\nRelease-Notes: UI: Allow specifying the auto-merge base in the URL\n```\n\n?\n\nSeems like something of a noteworthy change to note.",
       "revId": "6f422d99afea24db11a34aa73588ecd7cd7565a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7cd6b93_82542e1a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2026-08-11T19:02:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df22bddc_85d40181",
+      "revId": "6f422d99afea24db11a34aa73588ecd7cd7565a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

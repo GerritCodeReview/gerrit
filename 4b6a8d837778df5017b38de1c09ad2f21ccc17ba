@@ -16,6 +16,24 @@
       "message": "Not sure if it\u0027s worth submitting, This would \"fix\" any in-flight CLs with the bug and we can revert after https://gerrit-review.git.corp.google.com/c/gerrit/+/617061 has been live for some amount of time. \n\nThe tradeoff is that the comment sorting will be slightly off in the meantime and may have UI downstream effects that I am not seeing",
       "revId": "4b6a8d837778df5017b38de1c09ad2f21ccc17ba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "88e781fc_1b7d82f9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-08-11T09:11:51Z",
+      "side": 1,
+      "message": "I agree that fix in backend is enough and we don\u0027t need temporary fix in frontend. There aren\u0027t many reports so we don\u0027t need mitigation.",
+      "parentUuid": "1678af83_f77b483d",
+      "revId": "4b6a8d837778df5017b38de1c09ad2f21ccc17ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

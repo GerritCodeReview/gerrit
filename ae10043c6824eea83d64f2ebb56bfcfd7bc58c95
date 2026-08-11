@@ -46,6 +46,30 @@
       },
       "revId": "ae10043c6824eea83d64f2ebb56bfcfd7bc58c95",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a83122b_a9c8e3c3",
+        "filename": "Documentation/user-changeid.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 4665459
+      },
+      "writtenOn": "2026-08-11T23:23:24Z",
+      "side": 1,
+      "message": "Ack. Some of the earlier sections don\u0027t do that though.",
+      "parentUuid": "b385101d_6f555fb0",
+      "range": {
+        "startLine": 171,
+        "startChar": 0,
+        "endLine": 171,
+        "endChar": 72
+      },
+      "revId": "ae10043c6824eea83d64f2ebb56bfcfd7bc58c95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

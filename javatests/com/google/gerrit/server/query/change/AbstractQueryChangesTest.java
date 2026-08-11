@@ -4707,6 +4707,21 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
       assertQuery(Predicate.and(ChangeIndexPredicate.none(), matchingOneChange));
       assertQuery(
           Predicate.and(Predicate.not(ChangeIndexPredicate.none()), matchingOneChange), change);
+
+      // An AND that short-circuits to none(), nested inside an OR. The AND contributes no
+      // results, so only the sibling matches. The index rewriter must keep the short-circuited
+      // none() a ChangeDataSource here, otherwise the whole query degenerates into a full scan.
+      assertQuery(
+          Predicate.or(
+              Predicate.and(ChangeIndexPredicate.none(), matchingOneChange), matchingOneChange),
+          change);
+
+      // Same shape, but reached via an empty OrPredicate rather than a bare none().
+      assertQuery(
+          Predicate.or(
+              Predicate.and(Predicate.or(ImmutableList.of()), matchingOneChange),
+              matchingOneChange),
+          change);
     }
   }
 

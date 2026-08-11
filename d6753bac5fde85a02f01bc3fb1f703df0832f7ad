@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "48e715f4_7c8dca5a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2026-08-11T16:33:33Z",
+      "side": 1,
+      "message": "added a performance tests on PS3 to confirm and show the win\n\n```\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\nPERFORMANCE REPRODUCTION BENCHMARK (4 changes x 10 patch sets \u003d 40 total patch sets, 100 iterations):\n  - Baseline (unoptimized NoteDb eager scan + per-change repo): 391 ms (avg 3.910 ms/call)\n  - Optimized (bounded parent check + single repo lifecycle):    57 ms (avg 0.570 ms/call)\n  - Speedup factor: 6.86x faster!\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\n```",
+      "revId": "d6753bac5fde85a02f01bc3fb1f703df0832f7ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -962,6 +962,14 @@ export type ParentPatchSet = BrandType<'PARENT', '_patchSet'>;
 
 export const PARENT = 'PARENT' as ParentPatchSet;
 
+/**
+ * Same as `PARENT`, but marks it as an explicit user choice, so that the
+ * `default_base_for_merges` preference does not override it. It is encoded as
+ * `0` in the URL and normalized back to `PARENT` by the change model, so it
+ * never reaches the REST API or any view. See `computeBase()`.
+ */
+export const AUTO_MERGE = 'AUTO_MERGE' as ParentPatchSet;
+
 export type PatchSetNum = PatchSetNumber | ParentPatchSet | EditPatchSet;
 
 // for the "left" side of a diff or the base of a patch range

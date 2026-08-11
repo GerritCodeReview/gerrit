@@ -26,6 +26,7 @@ import {
   waitUntilObserved,
 } from '../../test/test-utils';
 import {
+  AUTO_MERGE,
   BasePatchSetNum,
   ChangeInfo,
   CommitId,
@@ -744,6 +745,25 @@ suite('change model tests', () => {
     // test distinctUntilChanged
     changeModel.updateStateChange(createParsedChange());
     assert.equal(spy.callCount, 2);
+  });
+
+  suite('auto merge base', () => {
+    // `AUTO_MERGE` only exists for encoding an explicitly chosen auto-merge
+    // base in the URL, it must not reach the rest of the app.
+    test('basePatchNum$ normalizes AUTO_MERGE to PARENT', async () => {
+      changeViewModel.setState({
+        ...createChangeViewState(),
+        basePatchNum: 2 as BasePatchSetNum,
+        patchNum: 3 as PatchSetNumber,
+      });
+      await waitUntilObserved(
+        changeModel.basePatchNum$,
+        x => x === (2 as BasePatchSetNum)
+      );
+
+      changeViewModel.updateState({basePatchNum: AUTO_MERGE});
+      await waitUntilObserved(changeModel.basePatchNum$, x => x === PARENT);
+    });
   });
 
   test('revision$ selector latest', async () => {

@@ -1,8 +1,10 @@
 load("@aspect_bazel_lib//lib:copy_to_bin.bzl", "copy_to_bin")
 load("@aspect_rules_js//js:defs.bzl", "js_library")
 load("@com_googlesource_gerrit_bazlets//tools:genrule2.bzl", "genrule2")
+load("@gerrit_api_version//:version.bzl", "GERRIT_API_VERSION")
 load("@plugins_npm//:defs.bzl", "npm_link_all_packages")
 load("@rules_java//java:defs.bzl", "java_binary", "java_library")
+load("@rules_jvm_external//:defs.bzl", "java_export")
 load("//tools/bzl:javadoc.bzl", "java_doc")
 load(
     "//tools/bzl:plugins.bzl",
@@ -133,6 +135,24 @@ java_binary(
     deploy_env = ["bouncycastle-deploy-env"],
     main_class = "Dummy",
     runtime_deps = [":plugin-lib"],
+)
+
+# Publish gerrit-plugin-api as a mostly-thin jar: java_export merges the
+# coordinate-less first-party API surface (:plugin-lib) plus vendored JGit
+# (org/eclipse/jgit/** has no Maven coordinate) into the jar, and externalizes
+# coordinate-bearing third-party deps into the generated POM. See
+# migrate-central-publishing.md Part 2.
+java_export(
+    name = "gerrit-plugin-api",
+    classifier_artifacts = {
+        "sources": ":plugin-api-sources_deploy.jar",
+        "javadoc": ":plugin-api-javadoc",
+    },
+    maven_coordinates = "com.google.gerrit:gerrit-plugin-api:%s" % GERRIT_API_VERSION,
+    pom_template = "//tools/maven:gerrit-plugin-api_pom.xml",
+    tags = ["no-javadocs"],
+    visibility = ["//visibility:public"],
+    exports = [":plugin-lib"],  # exports => Maven compile scope
 )
 
 java_library(

@@ -1,4 +1,6 @@
+load("@gerrit_api_version//:version.bzl", "GERRIT_API_VERSION")
 load("@rules_java//java:defs.bzl", "java_binary", "java_library")
+load("@rules_jvm_external//:defs.bzl", "java_export")
 load("//tools/bzl:javadoc.bzl", "java_doc")
 
 FUNCTION_SRCS = [
@@ -154,4 +156,24 @@ java_doc(
     pkgs = ["com.google.gerrit.acceptance"],
     title = "Gerrit Acceptance Test Framework Documentation",
     visibility = ["//visibility:public"],
+)
+
+# Publish gerrit-acceptance-framework as a mostly-thin jar via java_export: merge
+# the testonly first-party framework surface (:framework-lib) plus vendored JGit
+# (org/eclipse/jgit/** has no Maven coordinate) into the jar, and externalize the
+# coordinate-bearing third-party test/runtime deps into the generated POM. Option A
+# (no replacement deploy_env): the first-party classes the legacy framework
+# deploy_env excluded are allowed to ship. See migrate-central-publishing.md Part 3.
+java_export(
+    name = "gerrit-acceptance-framework",
+    testonly = True,
+    classifier_artifacts = {
+        "sources": ":libframework-lib-src.jar",
+        "javadoc": ":framework-javadoc",
+    },
+    maven_coordinates = "com.google.gerrit:gerrit-acceptance-framework:%s" % GERRIT_API_VERSION,
+    pom_template = "//tools/maven:gerrit-acceptance-framework_pom.xml",
+    tags = ["no-javadocs"],
+    visibility = ["//visibility:public"],
+    exports = [":framework-lib"],  # exports => Maven compile scope
 )

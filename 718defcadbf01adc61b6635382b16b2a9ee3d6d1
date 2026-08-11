@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd393856_4d520b2f",
+        "filename": "java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 5005823
+      },
+      "writtenOn": "2026-08-11T21:28:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc43bc42_efd002bc",
+      "range": {
+        "startLine": 163,
+        "startChar": 0,
+        "endLine": 163,
+        "endChar": 0
+      },
+      "revId": "718defcadbf01adc61b6635382b16b2a9ee3d6d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d97f8e60_e2f90266",
@@ -54,6 +78,30 @@
       "writtenOn": "2026-08-11T09:07:02Z",
       "side": 1,
       "message": "Please fix this WARNING reported by autoreview issue finding: Since `validateDraftComment` now calls `commentsUtil.ensureValidInReplyTo` (which does this exact check plus the patchset check), you may also want to remove the identical pre-existing `inReplyTo` check in `PutDraftComment.java`. \n\n`PutDraftComment.apply()` currently validates `inReplyTo` and then calls `CreateDraftComment.validateDraftComment()`, which results in the validation happening twice.",
+      "range": {
+        "startLine": 100,
+        "startChar": 0,
+        "endLine": 100,
+        "endChar": 0
+      },
+      "revId": "718defcadbf01adc61b6635382b16b2a9ee3d6d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c634f38_80d69e92",
+        "filename": "java/com/google/gerrit/server/restapi/change/CreateDraftComment.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 5005823
+      },
+      "writtenOn": "2026-08-11T21:28:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d97f8e60_e2f90266",
       "range": {
         "startLine": 100,
         "startChar": 0,

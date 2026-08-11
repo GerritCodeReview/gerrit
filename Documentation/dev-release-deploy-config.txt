@@ -4,9 +4,9 @@
 [[create-maven-central-credentials]]
 == Create Maven Central credentials
 
-Some Gerrit artifacts (e.g. the Gerrit WAR file, the Gerrit Plugin API
-and the Gerrit Extension API) are published on Maven Central in the
-`com.google.gerrit` repository.
+Some Gerrit artifacts (the Gerrit WAR file, the Gerrit Plugin API, the
+Gerrit Extension API and the Gerrit Acceptance Test Framework) are
+published on Maven Central in the `com.google.gerrit` repository.
 
 To be able to publish artifacts to Maven Central some preparations must
 be done:

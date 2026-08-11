@@ -545,6 +545,12 @@ public class ReplaceOp implements BatchUpdateOp {
 
   @Override
   public void postUpdate(PostUpdateContext ctx) throws Exception {
+    if (rejectionReason != null) {
+      // updateChange rejected the new patch set (e.g. because the change got closed by a concurrent
+      // update) and returned early, so none of the state that is used below has been set.
+      return;
+    }
+
     reviewerAdditions.postUpdate(ctx);
 
     // TODO(dborowitz): Merge email templates so we only have to send one.

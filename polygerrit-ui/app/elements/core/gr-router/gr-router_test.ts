@@ -1057,14 +1057,47 @@ suite('gr-router tests', () => {
       });
 
       test('CHANGE_EDIT', async () => {
-        // CHANGE_EDIT: /^\/c\/(.+)\/\+\/(\d+)(\/(\d+))?,edit\/?$/,
+        // CHANGE_EDIT:
+        // /^\/c\/(.+)\/\+\/(\d+)(\/?((-?\d+|edit)(\.\.(\d+|edit))?))?,edit\/?$/,
         await checkUrlToState('/c/foo/bar/+/1234/3,edit', {
           ...createChangeViewState(),
           repo: 'foo/bar' as RepoName,
           changeNum: 1234 as NumericChangeId,
           view: GerritView.CHANGE,
           childView: ChangeChildView.OVERVIEW,
+          basePatchNum: PARENT,
           patchNum: 3 as RevisionPatchSetNum,
+          edit: true,
+        });
+        // Editing a merge commit with a merge parent as the base.
+        await checkUrlToState('/c/foo/bar/+/1234/-1..3,edit', {
+          ...createChangeViewState(),
+          repo: 'foo/bar' as RepoName,
+          changeNum: 1234 as NumericChangeId,
+          view: GerritView.CHANGE,
+          childView: ChangeChildView.OVERVIEW,
+          basePatchNum: -1 as BasePatchSetNum,
+          patchNum: 3 as RevisionPatchSetNum,
+          edit: true,
+        });
+        await checkUrlToState('/c/foo/bar/+/1234/2..3,edit', {
+          ...createChangeViewState(),
+          repo: 'foo/bar' as RepoName,
+          changeNum: 1234 as NumericChangeId,
+          view: GerritView.CHANGE,
+          childView: ChangeChildView.OVERVIEW,
+          basePatchNum: 2 as BasePatchSetNum,
+          patchNum: 3 as RevisionPatchSetNum,
+          edit: true,
+        });
+        await checkUrlToState('/c/foo/bar/+/1234,edit', {
+          ...createChangeViewState(),
+          repo: 'foo/bar' as RepoName,
+          changeNum: 1234 as NumericChangeId,
+          view: GerritView.CHANGE,
+          childView: ChangeChildView.OVERVIEW,
+          basePatchNum: undefined,
+          patchNum: undefined,
           edit: true,
         });
       });

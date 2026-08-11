@@ -19,6 +19,7 @@ import {GrFileListHeader} from './gr-file-list-header';
 import {
   BasePatchSetNum,
   ChangeId,
+  EDIT,
   PARENT,
   PatchSetNum,
   PatchSetNumber,
@@ -229,6 +230,60 @@ suite('gr-file-list-header tests', () => {
 
     assert.equal(setUrlStub.callCount, 1);
     assert.equal(setUrlStub.lastCall.firstArg, '/c/test-project/+/42/1..3');
+  });
+
+  test('base select keeps edit mode', async () => {
+    const setUrlStub = sinon.stub(testResolver(navigationToken), 'setUrl');
+    element.basePatchNum = PARENT;
+    element.patchNum = 3 as PatchSetNum;
+    element.editMode = true;
+    await element.updateComplete;
+
+    element.handlePatchChange({
+      detail: {basePatchNum: -1, patchNum: 3},
+    } as CustomEvent);
+    await element.updateComplete;
+
+    assert.equal(setUrlStub.callCount, 1);
+    assert.equal(
+      setUrlStub.lastCall.firstArg,
+      '/c/test-project/+/42/-1..3,edit'
+    );
+  });
+
+  // A change edit is based on one specific patchset, so it must not appear to
+  // follow along to another one.
+  test('patchset select drops edit mode', async () => {
+    const setUrlStub = sinon.stub(testResolver(navigationToken), 'setUrl');
+    element.basePatchNum = PARENT;
+    element.patchNum = 3 as PatchSetNum;
+    element.editMode = true;
+    await element.updateComplete;
+
+    element.handlePatchChange({
+      detail: {basePatchNum: PARENT, patchNum: 4},
+    } as CustomEvent);
+    await element.updateComplete;
+
+    assert.equal(setUrlStub.callCount, 1);
+    assert.equal(setUrlStub.lastCall.firstArg, '/c/test-project/+/42/4');
+  });
+
+  // Edit mode is implied by the EDIT patchset, so it needs no `,edit` suffix.
+  test('base select on the edit patchset', async () => {
+    const setUrlStub = sinon.stub(testResolver(navigationToken), 'setUrl');
+    element.basePatchNum = PARENT;
+    element.patchNum = EDIT;
+    element.editMode = true;
+    await element.updateComplete;
+
+    element.handlePatchChange({
+      detail: {basePatchNum: -1, patchNum: EDIT},
+    } as CustomEvent);
+    await element.updateComplete;
+
+    assert.equal(setUrlStub.callCount, 1);
+    assert.equal(setUrlStub.lastCall.firstArg, '/c/test-project/+/42/-1..edit');
   });
 
   test('class is applied to file list on old patch set', async () => {

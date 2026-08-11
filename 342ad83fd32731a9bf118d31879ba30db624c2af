@@ -34,6 +34,24 @@
       "parentUuid": "68fc9d43_020241a4",
       "revId": "342ad83fd32731a9bf118d31879ba30db624c2af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df140b8b_4da14134",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-11T19:16:11Z",
+      "side": 1,
+      "message": "\u003e \u003e I don\u0027t understand how this makes sense. We wouldn\u0027t ever want to rely on only those fields for event equality. Are you going to override equals() for every class that subclasses Event?\n\u003e \n\u003e The intent is not to make base Event fields sufficient identity for all event subclasses. Subclasses with additional identifying fields should still override equals()/hashCode() and include those fields.\n\nI think that\u0027s an anti-pattern though? It\u0027s very easy for a subclass with additional fields to miss overriding `equals()`. In fact, it\u0027s already broken in this change since you\u0027re *not* overriding it in any of those ~15 classes.\n\nIf multi-site needs a unique identifier per-event that\u0027s serialized, that seems like something multi-site should be adding itself.",
+      "parentUuid": "716be1b1_d9abbc74",
+      "revId": "342ad83fd32731a9bf118d31879ba30db624c2af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

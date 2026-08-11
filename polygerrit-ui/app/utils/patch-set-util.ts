@@ -1,4 +1,5 @@
 import {
+  AUTO_MERGE,
   BasePatchSetNum,
   BranchName,
   ChangeInfo,
@@ -68,6 +69,17 @@ export function convertToPatchSetNum(
   const value = Number(patchset);
   if (!isNaN(value)) return value as PatchSetNum;
   return patchset as PatchSetNum;
+}
+
+/**
+ * Same as `convertToPatchSetNum()`, but for the base of a patch range, where
+ * `0` is used for encoding an explicitly chosen `AUTO_MERGE` base.
+ */
+export function convertToBasePatchSetNum(
+  patchset: string | undefined
+): BasePatchSetNum | undefined {
+  if (patchset === '0') return AUTO_MERGE;
+  return convertToPatchSetNum(patchset) as BasePatchSetNum | undefined;
 }
 
 export function isNumber(psn?: PatchSetNum): psn is PatchSetNumber {

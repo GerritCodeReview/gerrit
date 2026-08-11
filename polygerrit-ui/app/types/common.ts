@@ -30,6 +30,7 @@ import {
   ActionNameToActionInfoMap,
   ApprovalInfo,
   AuthInfo,
+  AUTO_MERGE,
   AvatarInfo,
   Base64FileContent,
   BasePatchSetNum,
@@ -227,7 +228,7 @@ export type {
   VotingRangeInfo,
   WebLinkInfo,
 };
-export {EDIT, PARENT, isDetailedLabelInfo, isQuickLabelInfo};
+export {AUTO_MERGE, EDIT, PARENT, isDetailedLabelInfo, isQuickLabelInfo};
 
 /*
  * In T, make a set of properties whose keys are in the union K required

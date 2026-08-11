@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {
+  AUTO_MERGE,
   BasePatchSetNum,
   ChangeInfo,
   ChangeViewChangeInfo,
@@ -20,7 +21,11 @@ import {
   RevisionInfo,
   RevisionPatchSetNum,
 } from '../../types/common';
-import {ChangeStatus, DefaultBase} from '../../constants/constants';
+import {
+  ChangeStatus,
+  createDefaultPreferences,
+  DefaultBase,
+} from '../../constants/constants';
 import {
   BehaviorSubject,
   combineLatest,
@@ -301,6 +306,12 @@ export function fillFromSubmittabilityInfo(
  * influence it. Mostly just returns `viewModelBasePatchNum` or PARENT, but has
  * some special logic when looking at merge commits.
  *
+ * `AUTO_MERGE` is normalized to `PARENT` here, so that it never escapes into
+ * the rest of the app. It only exists for distinguishing "the user has chosen
+ * the auto-merge base" from "the URL does not say anything about the base", so
+ * that only the latter can be subject to the `default_base_for_merges`
+ * preference.
+ *
  * NOTE: At the moment this returns just `viewModelBasePatchNum ?? PARENT`, see
  * TODO below.
  */
@@ -310,6 +321,8 @@ function computeBase(
   change: ParsedChangeInfo | undefined,
   preferences: PreferencesInfo
 ): BasePatchSetNum {
+  // Must be checked before the condition below.
+  if (viewModelBasePatchNum === AUTO_MERGE) return PARENT;
   if (viewModelBasePatchNum && viewModelBasePatchNum !== PARENT) {
     return viewModelBasePatchNum;
   }
@@ -954,13 +967,44 @@ export class ChangeModel extends Model<ChangeState> {
     return this.getState().change;
   }
 
+  /**
+   * Whether leaving the base out of the URL would result in `PARENT`, i.e.
+   * whether the `default_base_for_merges` preference would not choose a
+   * different base.
+   */
+  private wouldDefaultToParent(patchNum = this.patchNum): boolean {
+    const preferences =
+      this.userModel.getState().preferences ?? createDefaultPreferences();
+    return (
+      computeBase(undefined, patchNum, this.change, preferences) === PARENT
+    );
+  }
+
+  /**
+   * Converts a base patchset number for putting it into a URL: `PARENT` must be
+   * encoded as `AUTO_MERGE`, if leaving it out of the URL would let the
+   * `default_base_for_merges` preference choose a different base. Otherwise the
+   * user's choice of the auto-merge base would not survive a page load.
+   */
+  urlBasePatchNum(
+    basePatchNum = this.basePatchNum,
+    patchNum = this.patchNum
+  ): BasePatchSetNum | undefined {
+    if (basePatchNum !== PARENT) return basePatchNum;
+    return this.wouldDefaultToParent(patchNum) ? PARENT : AUTO_MERGE;
+  }
+
   navigateToDiff(
     diffView: {path: string; lineNum?: number},
     patchNum = this.patchNum,
     basePatchNum = this.basePatchNum
   ) {
     if (!patchNum) return;
-    const url = this.viewModel.diffUrl({diffView, patchNum, basePatchNum});
+    const url = this.viewModel.diffUrl({
+      diffView,
+      patchNum,
+      basePatchNum: this.urlBasePatchNum(basePatchNum, patchNum),
+    });
     if (!url) return;
     this.navigation.setUrl(url);
   }
@@ -968,11 +1012,16 @@ export class ChangeModel extends Model<ChangeState> {
   changeUrl(openReplyDialog = false) {
     if (!this.change) return;
     const isLatest = this.latestPatchNum === this.patchNum;
+    const basePatchNum = this.urlBasePatchNum();
+    // Numbered bases must be accompanied by a patchset, while `PARENT` is left
+    // out of the URL entirely and `AUTO_MERGE` is encoded as a lone `0`, so
+    // both of them can express "latest" by omitting the patchset.
+    const canOmitPatchNum =
+      isLatest && (basePatchNum === PARENT || basePatchNum === AUTO_MERGE);
     return createChangeUrl({
       change: this.change,
-      patchNum:
-        isLatest && this.basePatchNum === PARENT ? undefined : this.patchNum,
-      basePatchNum: this.basePatchNum,
+      patchNum: canOmitPatchNum ? undefined : this.patchNum,
+      basePatchNum,
       openReplyDialog,
     });
   }

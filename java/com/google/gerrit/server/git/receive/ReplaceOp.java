@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git.receive;
 
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.server.change.ReviewerModifier.newReviewerInputFromCommitIdentity;
@@ -550,6 +551,7 @@ public class ReplaceOp implements BatchUpdateOp {
       // update) and returned early, so none of the state that is used below has been set.
       return;
     }
+    checkState(newPatchSet != null, "new patch set for ReplaceOp must be set");
 
     reviewerAdditions.postUpdate(ctx);
 

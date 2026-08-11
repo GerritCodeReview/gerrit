@@ -1,4 +1,6 @@
+load("@gerrit_api_version//:version.bzl", "GERRIT_API_VERSION")
 load("@rules_java//java:defs.bzl", "java_binary", "java_library")
+load("@rules_jvm_external//:defs.bzl", "java_export")
 load("//tools/bzl:javadoc.bzl", "java_doc")
 
 _DOC_VERS = "6.1.0.202203080745-r"
@@ -55,4 +57,22 @@ java_doc(
     pkgs = ["com.google.gerrit.extensions"],
     title = "Gerrit Review Extension API Documentation",
     visibility = ["//visibility:public"],
+)
+
+# Publish gerrit-extension-api as a first-party-only jar: java_export merges the
+# coordinate-less first-party classes (:api) and externalizes coordinate-bearing
+# third-party deps (guava, guice, servlet-api) into the generated POM. Preserve
+# the curated source/javadoc artifacts as classifiers (the java_doc rule now
+# emits a .jar directly), and suppress rules_jvm_external's auto-generated javadoc.
+java_export(
+    name = "gerrit-extension-api",
+    classifier_artifacts = {
+        "sources": ":libapi-src.jar",
+        "javadoc": ":extension-api-javadoc",
+    },
+    maven_coordinates = "com.google.gerrit:gerrit-extension-api:%s" % GERRIT_API_VERSION,
+    pom_template = "//tools/maven:gerrit-extension-api_pom.xml",
+    tags = ["no-javadocs"],
+    visibility = ["//visibility:public"],
+    exports = [":lib"],  # exports => Maven compile scope; :api (first-party) merges into the jar
 )

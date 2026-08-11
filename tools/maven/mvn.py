@@ -17,10 +17,15 @@
 #   python tools/maven/mvn.py \
 #     -a deploy \
 #     -v 3.10.9 \
-#     -s gerrit-war:war:bazel-out/.../release.war \
-#     -s gerrit-extension-api:jar:bazel-out/.../extension-api_deploy.jar \
-#     -s gerrit-extension-api:java-source:bazel-out/.../libapi-sources.jar \
-#     -s gerrit-extension-api:javadoc:bazel-out/.../extension-api-javadoc.jar
+#     -s gerrit-war:war:bazel-out/.../release.war
+#
+# Note: the three API artifacts (gerrit-extension-api, gerrit-plugin-api,
+# gerrit-acceptance-framework) are no longer staged through this script; they are
+# published via rules_jvm_external's java_export (.publish targets, driven by
+# tools/maven/api.sh). This script now stages only the WAR.
+#
+# Staging dir: 'deploy' clears tools/maven-central/staging-deploy before staging,
+# so an invocation cannot upload leftovers.
 #
 # Notes:
 # - 'deploy'  => JRELEASER_MAVENCENTRAL_STAGE=UPLOAD
@@ -82,7 +87,8 @@ if 'install' == args.a:
         '-Dversion=%s' % args.v,
     ]
 elif 'deploy' == args.a:
-    # Ensure staging dir exists and its empty
+    # Clear the staging dir so an invocation cannot upload leftovers, then stage
+    # the WAR (the only artifact still handled here) before JReleaser runs.
     check_output(['rm', '-rf', STAGING_DIR])
     check_output(['mkdir', '-p', STAGING_DIR])
 else:

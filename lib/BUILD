@@ -18,6 +18,12 @@ java_library(
     name = "servlet-api",
     data = ["//lib:LICENSE-Apache2.0"],
     neverlink = 1,
+    # rules_jvm_external cannot emit Maven "provided" scope; keep the
+    # container-supplied servlet API out of the auto-generated <dependencies> of
+    # published artifacts (it is declared as <scope>provided</scope> in the POM
+    # templates instead). This tag only affects java_export/maven_export POM
+    # generation; normal compilation is unaffected.
+    tags = ["maven:compile-only"],
     visibility = ["//visibility:public"],
     exports = ["@external_deps//:javax_servlet_javax_servlet_api"],
 )
@@ -25,6 +31,11 @@ java_library(
 java_library(
     name = "servlet-api-without-neverlink",
     data = ["//lib:LICENSE-Apache2.0"],
+    # Container-supplied servlet API: keep it out of the auto-generated
+    # <dependencies> of published artifacts (it is declared as <scope>provided</scope>
+    # in the POM templates instead). Like //lib:servlet-api, this tag only affects
+    # java_export/maven_export POM generation; normal compilation is unaffected.
+    tags = ["maven:compile-only"],
     visibility = ["//visibility:public"],
     exports = ["@external_deps//:javax_servlet_javax_servlet_api"],
 )

@@ -42,6 +42,10 @@ pkg_war(
     doc = True,
 )
 
+# The `api` zip is a self-contained download bundle (the "API jars" archive), a
+# distinct distribution channel from Maven Central. It intentionally keeps the fat
+# `*_deploy.jar` API jars so the archive is self-contained; the Maven-Central
+# migration to thin, POM-declared jars (rules_jvm_external) is out of scope for it.
 API_DEPS = [
     "//java/com/google/gerrit/acceptance:framework_deploy.jar",
     "//java/com/google/gerrit/acceptance:libframework-lib-src.jar",

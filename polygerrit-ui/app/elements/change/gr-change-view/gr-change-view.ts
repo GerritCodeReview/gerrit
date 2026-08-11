@@ -449,6 +449,14 @@ export class GrChangeView extends LitElement {
   // visible for testing
   viewModelPatchNum?: RevisionPatchSetNum;
 
+  /**
+   * Simply reflects the router-model value, i.e. `undefined` unless the base is
+   * explicitly part of the URL. Note that `basePatchNum` may differ, because
+   * the change model fills in a default.
+   */
+  // visible for testing
+  viewModelBasePatchNum?: BasePatchSetNum;
+
   private readonly shortcutsController = new ShortcutController(this);
 
   private readonly getNavigation = resolve(this, navigationToken);
@@ -620,6 +628,13 @@ export class GrChangeView extends LitElement {
       () => this.getViewModel().patchNum$,
       patchNum => {
         this.viewModelPatchNum = patchNum;
+      }
+    );
+    subscribe(
+      this,
+      () => this.getViewModel().basePatchNum$,
+      basePatchNum => {
+        this.viewModelBasePatchNum = basePatchNum;
       }
     );
     subscribe(
@@ -2441,6 +2456,7 @@ export class GrChangeView extends LitElement {
       createChangeUrl({
         change: this.change,
         patchNum: this.viewModelPatchNum,
+        basePatchNum: this.viewModelBasePatchNum,
         edit: true,
         forceReload: true,
       })
@@ -2454,6 +2470,7 @@ export class GrChangeView extends LitElement {
       createChangeUrl({
         change: this.change,
         patchNum: this.patchNum,
+        basePatchNum: this.basePatchNum,
         forceReload: true,
       })
     );

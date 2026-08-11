@@ -1,5 +1,7 @@
 load("@com_googlesource_gerrit_bazlets//tools:genrule2.bzl", "genrule2")
+load("@gerrit_api_version//:version.bzl", "GERRIT_API_VERSION")
 load("@npm//:defs.bzl", "npm_link_all_packages")
+load("@rules_jvm_external//:defs.bzl", "maven_export")
 load("//tools/bzl:pkg_war.bzl", "pkg_war")
 
 npm_link_all_packages(name = "node_modules")
@@ -35,6 +37,18 @@ pkg_war(
     name = "release",
     context = ["//plugins:core"],
     doc = True,
+)
+
+# Publish gerrit-war to Maven Central via rules_jvm_external's maven_export. A WAR
+# is not a jar, so this uses maven_export with `target` (the release.war archive)
+# rather than a java library; MavenPublisher uploads it with the .war extension.
+# The WAR contents are unchanged -- only its publishing plumbing moves off mvn.py.
+maven_export(
+    name = "gerrit-war",
+    maven_coordinates = "com.google.gerrit:gerrit-war:%s" % GERRIT_API_VERSION,
+    pom_template = "//tools/maven:gerrit-war_pom.xml",
+    tags = ["no-javadocs"],
+    target = ":release.war",
 )
 
 pkg_war(

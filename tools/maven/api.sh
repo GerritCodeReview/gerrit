@@ -73,12 +73,12 @@ ROOT="$(pwd)"
 STAGING_DIR="${ROOT}/tools/maven-central/staging-deploy"
 M2_REPO="file://${HOME}/.m2/repository"
 
-# All three API artifacts publish via rules_jvm_external's java_export `.publish`
-# targets. Each stages jar + sources + javadoc + POM into MAVEN_REPO. GPG_SIGN is
-# left false: for deploy, JReleaser signs the staged repository.
-# API_RJE_JAR_ARTIFACT_PATHS is the matching staged repo-layout path under
-# STAGING_DIR (used by the preflight, which asserts jar + sources + javadoc); add
-# both entries when a new API jar migrates.
+# Every Maven Central artifact publishes via rules_jvm_external. The three API jars
+# use java_export; the WAR uses maven_export(target = release.war). Each `.publish`
+# stages its files into MAVEN_REPO; GPG_SIGN is left false so that, for deploy,
+# JReleaser signs the staged repository. API_RJE_JAR_ARTIFACT_PATHS is the staged
+# repo-layout path per API jar (used by the preflight, which asserts jar + sources +
+# javadoc); add both entries when a new API jar migrates.
 API_RJE_PUBLISH_TARGETS=(
   "//java/com/google/gerrit/extensions:gerrit-extension-api.publish"
   "//plugins:gerrit-plugin-api.publish"
@@ -89,12 +89,19 @@ API_RJE_JAR_ARTIFACT_PATHS=(
   "com/google/gerrit/gerrit-plugin-api"
   "com/google/gerrit/gerrit-acceptance-framework"
 )
+WAR_RJE_PUBLISH_TARGET="//:gerrit-war.publish"
+WAR_ARTIFACT_PATH="com/google/gerrit/gerrit-war"
 
-publish_rje() { # $1 = MAVEN_REPO url; remaining args = bazel build args
+run_publish() { # $1 = MAVEN_REPO url; $2 = .publish target; rest = bazel build args
+  local repo="$1" target="$2"; shift 2
+  MAVEN_REPO="${repo}" GPG_SIGN=false ${BAZEL_CMD} run "$@" "${target}"
+}
+
+publish_api() { # $1 = MAVEN_REPO url; remaining args = bazel build args
   local repo="$1"; shift
   local t
   for t in "${API_RJE_PUBLISH_TARGETS[@]}"; do
-    MAVEN_REPO="${repo}" GPG_SIGN=false ${BAZEL_CMD} run "$@" "${t}"
+    run_publish "${repo}" "${t}" "$@"
   done
 }
 
@@ -103,11 +110,23 @@ reset_staging() {
   mkdir -p "${STAGING_DIR}"
 }
 
-# Preflight the staged API artifacts before JReleaser uploads: jreleaser.yml
-# disables POM/source/javadoc verification (needed for the WAR), so assert here that
-# each API artifact staged its POM + main/sources/javadoc jars and that no
-# maven-metadata.xml survived the strip.
-verify_rje_staged() {
+strip_metadata() {
+  # rules_jvm_external writes maven-metadata.xml for file:/ repos; the Central
+  # Portal generates its own and rejects unexpected files, so drop them before
+  # JReleaser uploads the staged repository.
+  find "${STAGING_DIR}" -name 'maven-metadata.xml*' -delete
+}
+
+verify_no_metadata() {
+  if [[ -n "$(find "${STAGING_DIR}" -name 'maven-metadata.xml*' -print -quit)" ]]; then
+    echo "error: stray maven-metadata.xml left in staging dir" >&2
+    exit 1
+  fi
+}
+
+# Preflight the staged API jars (jreleaser.yml disables its own POM/source/javadoc
+# verification): assert each API artifact staged its POM + main/sources/javadoc jars.
+verify_api_staged() {
   local rel base vdir v name a f
   for rel in "${API_RJE_JAR_ARTIFACT_PATHS[@]}"; do
     base="${STAGING_DIR}/${rel}"
@@ -126,13 +145,30 @@ verify_rje_staged() {
       fi
     done
   done
-  if [[ -n "$(find "${STAGING_DIR}" -name 'maven-metadata.xml*' -print -quit)" ]]; then
-    echo "error: stray maven-metadata.xml left in staging dir" >&2
-    exit 1
-  fi
+  verify_no_metadata
 }
 
-# Upload the already-staged API repository to the Maven Central Portal via JReleaser.
+# Preflight the staged WAR: only the .war and .pom (no sources/javadoc classifiers).
+verify_war_staged() {
+  local base vdir v a f
+  base="${STAGING_DIR}/${WAR_ARTIFACT_PATH}"
+  vdir="$(find "${base}" -mindepth 1 -maxdepth 1 -type d 2>/dev/null | head -1)"
+  if [[ -z "${vdir}" ]]; then
+    echo "error: gerrit-war not staged under ${base}" >&2
+    exit 1
+  fi
+  v="$(basename "${vdir}")"
+  a="${vdir}/gerrit-war-${v}"
+  for f in "${a}.war" "${a}.pom"; do
+    if [[ ! -f "${f}" ]]; then
+      echo "error: expected staged artifact missing: ${f}" >&2
+      exit 1
+    fi
+  done
+  verify_no_metadata
+}
+
+# Upload the already-staged repository to the Maven Central Portal via JReleaser.
 # The release version is defined once in Starlark (//tools/maven:api_version); read
 # it here instead of threading it through mvn.py. Credentials and GPG keys come from
 # the JRELEASER_* environment set by the release job.
@@ -145,26 +181,28 @@ deploy_to_portal() { # remaining args = bazel build args
     -D "jreleaser.project.version=${version}"
 }
 
-# The API artifacts are published directly via rules_jvm_external (no mvn.py). The
-# WAR is still published through the generated mvn.py script until Phase 4.
+# Every artifact publishes via rules_jvm_external `.publish`; api.sh stages them and
+# invokes JReleaser directly (no mvn.py). The API jars and the WAR are separate
+# Portal deployments: each deploy verb resets the staging dir and uploads on its own.
 case "${command}" in
 api_install)
-  publish_rje "${M2_REPO}" "$@"
+  publish_api "${M2_REPO}" "$@"
   ;;
 api_deploy)
   reset_staging
-  publish_rje "file://${STAGING_DIR}" "$@"
-  # rules_jvm_external writes maven-metadata.xml for file:/ repos; the Central
-  # Portal generates its own and rejects unexpected files, so drop them before
-  # JReleaser uploads the staged repository.
-  find "${STAGING_DIR}" -name 'maven-metadata.xml*' -delete
-  verify_rje_staged
+  publish_api "file://${STAGING_DIR}" "$@"
+  strip_metadata
+  verify_api_staged
   deploy_to_portal "$@"
   ;;
-war_install|war_deploy)
-  # WAR is still on the legacy generated mvn.py path (clears staging by default).
-  ${BAZEL_CMD} build //tools/maven:gen_${command} "$@" || \
-    { echo "${BAZEL_CMD} failed to build gen_${command}. Use VERBOSE=1 for more info" ; exit 1 ; }
-  ./bazel-bin/tools/maven/${command}.sh "$@"
+war_install)
+  run_publish "${M2_REPO}" "${WAR_RJE_PUBLISH_TARGET}" "$@"
+  ;;
+war_deploy)
+  reset_staging
+  run_publish "file://${STAGING_DIR}" "${WAR_RJE_PUBLISH_TARGET}" "$@"
+  strip_metadata
+  verify_war_staged
+  deploy_to_portal "$@"
   ;;
 esac

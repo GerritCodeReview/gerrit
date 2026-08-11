@@ -217,7 +217,10 @@ rules_jvm_external `maven-metadata.xml`, and invokes JReleaser directly to uploa
 them as one Maven Central Portal deployment (no `mvn.py` for the API artifacts).
 
 `war_deploy` uploads `gerrit-war` as the assembled WAR in a separate Maven Central
-Portal deployment, through the still-legacy generated `mvn.py` path.
+Portal deployment, via its rules_jvm_external `maven_export` `.publish` target
+(`//:gerrit-war.publish`) and the same direct-JReleaser step. All four Maven Central
+artifacts now publish through rules_jvm_external; the legacy `mvn.py` /
+`package.bzl` scripts have been removed.
 
 After both deploy steps complete, verify and publish *both* `com.google.gerrit`
 deployments in the Maven Central Portal, as described below.

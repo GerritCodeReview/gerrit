@@ -64,6 +64,7 @@ import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
+import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.events.CommentAddedListener;
 import com.google.gerrit.extensions.events.ReviewerAddedListener;
@@ -226,6 +227,41 @@ public class PostReviewIT extends AbstractDaemonTest {
     gApi.changes().id(r.getChangeId()).current().review(input);
 
     assertThat(testCommentHelper.getPublishedComments(r.getChangeId())).isEmpty();
+  }
+
+  @Test
+  public void validateCommentsInInput_inReplyToCommentInDifferentPatchsetRejected()
+      throws Exception {
+    PushOneCommit.Result r1 = createChange();
+    String filePath = r1.getChange().currentFilePaths().get(0);
+
+    CommentInput comment1 = newComment(filePath);
+    comment1.updated = new Timestamp(0);
+    ReviewInput input1 = new ReviewInput();
+    input1.comments = ImmutableMap.of(filePath, ImmutableList.of(comment1));
+    gApi.changes().id(r1.getChangeId()).current().review(input1);
+
+    List<CommentInfo> comments = gApi.changes().id(r1.getChangeId()).commentsAsList();
+    assertThat(comments).hasSize(1);
+    String parentCommentId = comments.get(0).id;
+
+    PushOneCommit.Result r2 = amendChange(r1.getChangeId());
+
+    CommentInput comment2 = newComment(filePath);
+    comment2.inReplyTo = parentCommentId;
+    comment2.updated = new Timestamp(0);
+    ReviewInput input2 = new ReviewInput();
+    input2.comments = ImmutableMap.of(filePath, ImmutableList.of(comment2));
+
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class,
+            () -> gApi.changes().id(r2.getChangeId()).current().review(input2));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains(
+            "Invalid comment in_reply_to. Comment replies must be submitted on the same patchset as"
+                + " the parent comment");
   }
 
   @Test

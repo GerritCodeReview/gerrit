@@ -255,13 +255,12 @@ export class GrFormattedText extends LitElement {
         ) {
           href = `https://${href}`;
         }
+        const target = sameOrigin(href)
+          ? ''
+          : ' target="_blank" rel="noopener noreferrer"';
+        const titleAttr = title ? ` title="${title}"` : '';
         /* HTML */
-        return `<a
-          href="${href}"
-          ${sameOrigin(href) ? '' : 'target="_blank" rel="noopener noreferrer"'}
-          ${title ? `title="${title}"` : ''}
-          >${text}</a
-        >`;
+        return `<a href="${href}"${target}${titleAttr}>${text}</a>`;
       };
 
       renderer.image = function (
@@ -322,11 +321,10 @@ export class GrFormattedText extends LitElement {
         if (token.type === 'text' && token.tokens) {
           return this.parser.parseInline(token.tokens);
         }
-        return boundRewriteText(
-          token.type === 'text' && token.escaped
-            ? token.text
-            : htmlEscape(token.text).toString()
-        );
+        if (token.type === 'text' && token.escaped) {
+          return token.text;
+        }
+        return boundRewriteText(htmlEscape(token.text).toString());
       };
     }
 

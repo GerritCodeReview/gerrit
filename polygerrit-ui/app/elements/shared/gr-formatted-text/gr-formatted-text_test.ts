@@ -975,6 +975,89 @@ An <a href="example.com">inline HTML link with [markup link](http://google.com)<
       );
     });
 
+    test('renders loose list of links without leaking html attributes', async () => {
+      element.content = `
+* [First Link](https://example.com/first)
+
+* [Second Link](https://example.com/second)
+      `;
+      await element.updateComplete;
+
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ `
+          <gr-endpoint-decorator name="formatted-text-endpoint">
+            <gr-marked-element>
+              <div slot="markdown-html" class="markdown-html">
+                <ul>
+                  <li>
+                    <p>
+                      <a
+                        href="https://example.com/first"
+                        rel="noopener noreferrer"
+                        target="_blank"
+                        >First Link</a
+                      >
+                    </p>
+                  </li>
+                  <li>
+                    <p>
+                      <a
+                        href="https://example.com/second"
+                        rel="noopener noreferrer"
+                        target="_blank"
+                        >Second Link</a
+                      >
+                    </p>
+                  </li>
+                </ul>
+              </div>
+            </gr-marked-element>
+          </gr-endpoint-decorator>
+        `
+      );
+    });
+
+    test('renders nested loose list with links without leaking html attributes', async () => {
+      element.content = `
+* item 1
+  * [Nested Link](https://example.com/nested)
+
+* item 2
+      `;
+      await element.updateComplete;
+
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ `
+          <gr-endpoint-decorator name="formatted-text-endpoint">
+            <gr-marked-element>
+              <div slot="markdown-html" class="markdown-html">
+                <ul>
+                  <li>
+                    <p>item 1</p>
+                    <ul>
+                      <li>
+                        <a
+                          href="https://example.com/nested"
+                          rel="noopener noreferrer"
+                          target="_blank"
+                          >Nested Link</a
+                        >
+                      </li>
+                    </ul>
+                  </li>
+                  <li>
+                    <p>item 2</p>
+                  </li>
+                </ul>
+              </div>
+            </gr-marked-element>
+          </gr-endpoint-decorator>
+        `
+      );
+    });
+
     suite('user suggest fix', () => {
       setup(async () => {
         const flagsService = getAppContext().flagsService;

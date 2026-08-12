@@ -222,7 +222,7 @@ public class ChangeIndexRewriterTest {
         Predicate.and(ChangeIndexPredicate.none(), parse("status:new"));
     Predicate<ChangeData> in = Predicate.or(parse("file:a"), andWithNone);
     Predicate<ChangeData> out = rewrite(in);
-    assertThat(out.getClass()).isSameInstanceAs(OrSource.class);
+    assertThat(out.getClass()).isEqualTo(OrSource.class);
     assertThat(out.getChildren())
         .containsExactly(query(parse("file:a")), query(ChangeIndexPredicate.none()))
         .inOrder();
@@ -240,7 +240,7 @@ public class ChangeIndexRewriterTest {
         Predicate.and(parse("status:new"), Predicate.or(ImmutableList.of()));
     Predicate<ChangeData> in = Predicate.or(parse("file:a"), andWithEmptyOr);
     Predicate<ChangeData> out = rewrite(in);
-    assertThat(out.getClass()).isSameInstanceAs(OrSource.class);
+    assertThat(out.getClass()).isEqualTo(OrSource.class);
     assertThat(out.getChildren())
         .containsExactly(query(parse("file:a")), query(ChangeIndexPredicate.none()))
         .inOrder();

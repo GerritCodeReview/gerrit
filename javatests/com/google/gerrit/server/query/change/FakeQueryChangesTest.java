@@ -270,9 +270,7 @@ public abstract class FakeQueryChangesTest extends AbstractQueryChangesTest {
     Predicate<ChangeData> emptyOrInAnd = Predicate.and(Predicate.or(ImmutableList.of()), matching);
 
     idx.resetQueryCount();
-    @SuppressWarnings("unused")
-    ImmutableList<ChangeData> unused =
-        queryProvider.get().query(Predicate.or(emptyOrInAnd, matching));
+    var _ = queryProvider.get().query(Predicate.or(emptyOrInAnd, matching));
 
     // Each short-circuit contributes an index read that returns nothing (status:__invalid__),
     // leaving one read that returns real changes for the status:new branch. If either

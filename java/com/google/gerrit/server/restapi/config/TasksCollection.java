@@ -37,7 +37,6 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import java.util.Optional;
 
 @Singleton
 public class TasksCollection implements ChildCollection<ConfigResource, TaskResource> {
@@ -91,12 +90,15 @@ public class TasksCollection implements ChildCollection<ConfigResource, TaskReso
     if (task instanceof ProjectTask) {
       Project.NameKey nameKey = ((ProjectTask<?>) task).getProjectNameKey();
       if (nameKey != null) {
-        Optional<ProjectState> state = projectCache.get(nameKey);
-        if (!state.isPresent()) {
-          throw new ResourceNotFoundException(String.format("project %s not found", nameKey));
-        }
+        ProjectState state =
+            projectCache
+                .get(nameKey)
+                .orElseThrow(
+                    () ->
+                        new ResourceNotFoundException(
+                            String.format("project %s not found", nameKey)));
 
-        state.get().checkStatePermitsRead();
+        state.checkStatePermitsRead();
         if (permissionBackend.user(user).project(nameKey).test(ProjectPermission.ACCESS)) {
           return new TaskResource(task);
         }

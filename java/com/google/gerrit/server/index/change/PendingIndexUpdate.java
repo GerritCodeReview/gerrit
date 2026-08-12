@@ -42,7 +42,7 @@ import org.eclipse.jgit.lib.Config;
  * with the JSON content of {@link Intent}.
  */
 @Singleton
-public final class PendingIndexUpdate {
+public class PendingIndexUpdate {
   record Intent(String project, int changeId, String operation) {}
 
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
@@ -56,8 +56,7 @@ public final class PendingIndexUpdate {
   final Path runningDir;
 
   @Inject
-  public PendingIndexUpdate(
-      SitePaths sitePaths, ChangeIndexer indexer, @GerritServerConfig Config cfg) {
+  PendingIndexUpdate(SitePaths sitePaths, ChangeIndexer indexer, @GerritServerConfig Config cfg) {
     intentDir = sitePaths.data_dir.resolve("pending-index");
     buildingDir = intentDir.resolve("building");
     runningDir = intentDir.resolve(PROCESS_MARKER);
@@ -170,7 +169,7 @@ public final class PendingIndexUpdate {
       }
     } catch (NoSuchChangeException e) {
       // Ignore silently. change got deleted after intent.
-    } catch (Exception e) {
+    } catch (RuntimeException e) {
       // catch all indexing exceptions to not propagate further.
       logger.atSevere().withCause(e).log("Exception while recovering index intent: %s", intent);
     }

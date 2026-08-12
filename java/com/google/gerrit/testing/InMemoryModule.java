@@ -261,7 +261,13 @@ public class InMemoryModule extends FactoryModule {
 
     // It would be nice to use Jimfs for the SitePath, but the biggest blocker is that JGit does not
     // support Path-based Configs, only FileBasedConfig.
-    bind(Path.class).annotatedWith(SitePath.class).toInstance(Path.of("."));
+    try {
+      bind(Path.class)
+          .annotatedWith(SitePath.class)
+          .toInstance(java.nio.file.Files.createTempDirectory("gerrit_site"));
+    } catch (java.io.IOException e) {
+      throw new RuntimeException(e);
+    }
     bind(Config.class).annotatedWith(GerritServerConfig.class).toInstance(cfg);
     bind(GerritOptions.class).toInstance(new GerritOptions(false, false));
     bind(AllProjectsConfigProvider.class).to(FileBasedAllProjectsConfigProvider.class);

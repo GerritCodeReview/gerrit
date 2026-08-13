@@ -31,6 +31,7 @@ import com.google.gerrit.server.events.ChangeMergedEvent;
 import com.google.gerrit.server.events.Event;
 import com.google.gerrit.server.events.RefEvent;
 import com.google.gerrit.server.events.RefUpdatedEvent;
+import com.google.gerrit.server.events.ReviewerAddedEvent;
 import com.google.gerrit.server.events.ReviewerDeletedEvent;
 import com.google.gerrit.server.events.UserScopedEventListener;
 import com.google.inject.Inject;
@@ -38,7 +39,7 @@ import com.google.inject.Singleton;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
 
-public class EventRecorder {
+public class EventRecorder implements AutoCloseable {
   private final RegistrationHandle eventListenerRegistration;
   private final ListMultimap<String, Event> recordedEvents;
 
@@ -69,7 +70,9 @@ public class EventRecorder {
             new UserScopedEventListener() {
               @Override
               public void onEvent(Event e) {
-                if (e instanceof ReviewerDeletedEvent) {
+                if (e instanceof ReviewerAddedEvent) {
+                  recordedEvents.put(ReviewerAddedEvent.TYPE, e);
+                } else if (e instanceof ReviewerDeletedEvent) {
                   recordedEvents.put(ReviewerDeletedEvent.TYPE, e);
                 } else if (e instanceof ChangeDeletedEvent) {
                   recordedEvents.put(ChangeDeletedEvent.TYPE, e);
@@ -125,6 +128,21 @@ public class EventRecorder {
     ImmutableList<ChangeMergedEvent> events =
         FluentIterable.from(recordedEvents.get(key))
             .transform(ChangeMergedEvent.class::cast)
+            .toList();
+    assertThat(events).hasSize(expectedSize);
+    return events;
+  }
+
+  private ImmutableList<ReviewerAddedEvent> getReviewerAddedEvents(int expectedSize) {
+    String key = ReviewerAddedEvent.TYPE;
+    if (expectedSize == 0) {
+      assertThat(recordedEvents).doesNotContainKey(key);
+      return ImmutableList.of();
+    }
+    assertThat(recordedEvents).containsKey(key);
+    ImmutableList<ReviewerAddedEvent> events =
+        FluentIterable.from(recordedEvents.get(key))
+            .transform(ReviewerAddedEvent.class::cast)
             .toList();
     assertThat(events).hasSize(expectedSize);
     return events;
@@ -219,6 +237,23 @@ public class EventRecorder {
     }
   }
 
+  public void assertReviewerAddedEvents(String... expected) {
+    ImmutableList<ReviewerAddedEvent> events = getReviewerAddedEvents(expected.length / 2);
+    int i = 0;
+    for (ReviewerAddedEvent event : events) {
+      String id = event.change.get().id;
+      assertThat(id).isEqualTo(expected[i]);
+      String reviewer = event.reviewer.get().email;
+      assertThat(reviewer).isEqualTo(expected[i + 1]);
+      i += 2;
+    }
+  }
+
+  public void assertNoReviewerAddedEvents() {
+    @SuppressWarnings("unused")
+    var unused = getReviewerAddedEvents(0);
+  }
+
   public void assertReviewerDeletedEvents(String... expected) {
     ImmutableList<ReviewerDeletedEvent> events = getReviewerDeletedEvents(expected.length / 2);
     int i = 0;
@@ -243,6 +278,7 @@ public class EventRecorder {
     }
   }
 
+  @Override
   public void close() {
     eventListenerRegistration.remove();
   }

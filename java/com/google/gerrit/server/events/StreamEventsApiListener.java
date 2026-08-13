@@ -356,7 +356,7 @@ public class StreamEventsApiListener
         event.patchSet = patchSetAttrs;
         event.adder = adderAccountAttrs;
         event.reviewer = accountAttributeSupplier(reviewer);
-        dispatcher.run(d -> d.postEvent(event));
+        dispatcher.run(d -> d.postEvent(change, event));
       }
     } catch (StorageException e) {
       logger.atSevere().withCause(e).log("Failed to dispatch event");

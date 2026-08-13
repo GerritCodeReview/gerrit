@@ -121,7 +121,23 @@ public class IncludedIn {
       externalIncludedIn.runEach(
           ext -> {
             ListMultimap<String, String> extIncludedIns =
+<<<<<<< HEAD   (f698053df831ac439130416148c8ef67c4fdd150 Return a ChangeDataSource none() from empty-OrPredicate shor)
                 ext.getIncludedIn(project.get(), rev.name(), filteredBranches, filteredTags);
+||||||| BASE   (d09f996b0c3f05992f7caa3baeac802ae149c398 Update git submodules)
+                ext.getIncludedIn(
+                    project.get(),
+                    Optional.ofNullable(changeId).map(Change.Id::get).orElse(null),
+                    rev.name(),
+                    filteredBranches,
+                    filteredTags);
+=======
+                ext.getIncludedIn(
+                    project.get(),
+                    Optional.ofNullable(changeId).map(Change.Id::get).orElse(null),
+                    rev.name(),
+                    filteredTags,
+                    filteredBranches);
+>>>>>>> CHANGE (a4be9aae7253b4d77042d1f3f0854a3e29003b36 Fix swapped tags/branches arguments to ExternalIncludedIn#ge)
             if (extIncludedIns != null) {
               external.putAll(extIncludedIns);
             }

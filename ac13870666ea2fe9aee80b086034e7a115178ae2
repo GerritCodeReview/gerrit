@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6fe3ae5b_a4b3e4b1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-13T16:15:43Z",
+      "side": 1,
+      "message": "Not always. This was a bug introduced in https://gerrit.googlesource.com/gerrit/+/4c3ee4bfb684b6e0cf2e88cb86fe040b7f45feea\n\nThe change won\u0027t be visible to non-maintainers since it was a security fix. The specific buggy code was introduced during review feedback (PS1 isn\u0027t buggy, the merged PS3 is).\n\nIt\u0027s been a bug in every Gerrit release since `v3.1.16`.",
+      "revId": "ac13870666ea2fe9aee80b086034e7a115178ae2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b07c1949_88d8756b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-13T16:15:43Z",
+      "side": 1,
+      "message": "Given the ordering swap was a bug introduced in `IncludedIn#apply`, I think we should be fixing that directly so that the declared parameter order stays as-is (tags, branches).",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 36
+      },
+      "revId": "ac13870666ea2fe9aee80b086034e7a115178ae2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "86325e69_ec18ad79",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeIncludedInIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-13T16:15:43Z",
+      "side": 1,
+      "message": "Might as well test that these are passed in correctly too?",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 22
+      },
+      "revId": "ac13870666ea2fe9aee80b086034e7a115178ae2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4a6a70a4_ac6e5efd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5083097
+      },
+      "writtenOn": "2026-08-13T05:03:48Z",
+      "side": 1,
+      "message": "Camara",
+      "revId": "d0dec29188bc64218b707bb93255bc940f90d9b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

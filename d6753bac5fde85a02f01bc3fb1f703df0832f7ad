@@ -16,6 +16,67 @@
       "message": "added a performance tests on PS3 to confirm and show the win\n\n```\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\nPERFORMANCE REPRODUCTION BENCHMARK (4 changes x 10 patch sets \u003d 40 total patch sets, 100 iterations):\n  - Baseline (unoptimized NoteDb eager scan + per-change repo): 391 ms (avg 3.910 ms/call)\n  - Optimized (bounded parent check + single repo lifecycle):    57 ms (avg 0.570 ms/call)\n  - Speedup factor: 6.86x faster!\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\n```",
       "revId": "d6753bac5fde85a02f01bc3fb1f703df0832f7ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a53cd860_a99c4e34",
+        "filename": "java/com/google/gerrit/server/restapi/change/Submit.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 491,
+      "author": {
+        "id": 1162625
+      },
+      "writtenOn": "2026-08-13T23:23:16Z",
+      "side": 1,
+      "message": "Could we also short-circuit if the parentID \u003d\u003d destRef?",
+      "range": {
+        "startLine": 491,
+        "startChar": 6,
+        "endLine": 491,
+        "endChar": 94
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "17d0e838_c8a2feef",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "java/com/google/gerrit/server/restapi/change/Submit.java",
+              "range": {
+                "startLine": 421,
+                "startChar": 0,
+                "endLine": 422,
+                "endChar": 0
+              },
+              "replacement": "          if (dependsOnOutdatedPatchSet(commit, currentCommitsToChange, cs, destRef)\n"
+            },
+            {
+              "path": "java/com/google/gerrit/server/restapi/change/Submit.java",
+              "range": {
+                "startLine": 488,
+                "startChar": 0,
+                "endLine": 489,
+                "endChar": 0
+              },
+              "replacement": "      RevCommit commit,\n      Map\u003cObjectId, ChangeData\u003e currentCommitsToChange,\n      ChangeSet cs,\n      @Nullable Ref destRef) {\n"
+            },
+            {
+              "path": "java/com/google/gerrit/server/restapi/change/Submit.java",
+              "range": {
+                "startLine": 1,
+                "startChar": 0,
+                "endLine": 1,
+                "endChar": 0
+              },
+              "replacement": "      if (destRef !\u003d null \u0026\u0026 parentId.equals(destRef.getObjectId())) {\n        continue;\n      }\n"
+            }
+          ]
+        }
+      ],
+      "revId": "d6753bac5fde85a02f01bc3fb1f703df0832f7ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

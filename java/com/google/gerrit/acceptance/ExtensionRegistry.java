@@ -20,6 +20,7 @@ import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.extensions.api.changes.ActionVisitor;
 import com.google.gerrit.extensions.config.CapabilityDefinition;
 import com.google.gerrit.extensions.config.DownloadScheme;
+import com.google.gerrit.extensions.config.ExternalIncludedIn;
 import com.google.gerrit.extensions.config.PluginProjectPermissionDefinition;
 import com.google.gerrit.extensions.events.AccountActivationListener;
 import com.google.gerrit.extensions.events.AccountIndexedListener;
@@ -99,6 +100,7 @@ public class ExtensionRegistry {
   private final DynamicSet<GitBatchRefUpdateListener> batchRefUpdateListeners;
   private final DynamicSet<FileHistoryWebLink> fileHistoryWebLinks;
   private final DynamicSet<FilterIncludedIn> filterIncludedIns;
+  private final DynamicSet<ExternalIncludedIn> externalIncludedIns;
   private final DynamicSet<PatchSetWebLink> patchSetWebLinks;
   private final DynamicSet<ResolveConflictsWebLink> resolveConflictsWebLinks;
   private final DynamicSet<EditWebLink> editWebLinks;
@@ -155,6 +157,7 @@ public class ExtensionRegistry {
       DynamicSet<GitBatchRefUpdateListener> batchRefUpdateListeners,
       DynamicSet<FileHistoryWebLink> fileHistoryWebLinks,
       DynamicSet<FilterIncludedIn> filterIncludedIns,
+      DynamicSet<ExternalIncludedIn> externalIncludedIns,
       DynamicSet<PatchSetWebLink> patchSetWebLinks,
       DynamicSet<ResolveConflictsWebLink> resolveConflictsWebLinks,
       DynamicSet<EditWebLink> editWebLinks,
@@ -205,6 +208,7 @@ public class ExtensionRegistry {
     this.batchRefUpdateListeners = batchRefUpdateListeners;
     this.fileHistoryWebLinks = fileHistoryWebLinks;
     this.filterIncludedIns = filterIncludedIns;
+    this.externalIncludedIns = externalIncludedIns;
     this.patchSetWebLinks = patchSetWebLinks;
     this.editWebLinks = editWebLinks;
     this.fileWebLinks = fileWebLinks;
@@ -367,6 +371,11 @@ public class ExtensionRegistry {
     @CanIgnoreReturnValue
     public Registration add(FilterIncludedIn filterIncludedIn) {
       return add(filterIncludedIns, filterIncludedIn);
+    }
+
+    @CanIgnoreReturnValue
+    public Registration add(ExternalIncludedIn externalIncludedIn) {
+      return add(externalIncludedIns, externalIncludedIn);
     }
 
     @CanIgnoreReturnValue

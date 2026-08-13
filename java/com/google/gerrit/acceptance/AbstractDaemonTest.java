@@ -305,7 +305,7 @@ public abstract class AbstractDaemonTest {
 
   @Inject private AbstractChangeNotes.Args changeNotesArgs;
   @Inject private AccountIndexer accountIndexer;
-  @Inject private EventRecorder.Factory eventRecorderFactory;
+  @Inject protected EventRecorder.Factory eventRecorderFactory;
   @Inject private InProcessProtocol inProcessProtocol;
   @Inject private PluginGuiceEnvironment pluginGuiceEnvironment;
   @Inject private PluginUser.Factory pluginUserFactory;

@@ -22,6 +22,7 @@ import static com.google.gerrit.testing.TestActionRefUpdateContext.testRefAction
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.EventRecorder;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
@@ -278,5 +279,53 @@ public class PrivateChangeIT extends AbstractDaemonTest {
                   .execute());
     }
     assertThat(gApi.changes().id(changeId.get()).get().isPrivate).isTrue();
+  }
+
+  @Test
+  public void reviewerAddedEventFilteredByVisibility() throws Exception {
+    TestAccount reviewer = accountCreator.user2();
+    TestAccount unauthorizedUser = accountCreator.create("unauthorizedUser");
+
+    TestRepository<InMemoryRepository> userRepo = cloneProject(project, user);
+    PushOneCommit.Result result =
+        pushFactory.create(user.newIdent(), userRepo).to("refs/for/master");
+    String changeId = result.getChangeId();
+
+    requestScopeOperations.setApiUser(user.id());
+    gApi.changes().id(changeId).setPrivate(true, null);
+
+    try (EventRecorder reviewerRecorder = eventRecorderFactory.create(reviewer);
+        EventRecorder unauthorizedRecorder = eventRecorderFactory.create(unauthorizedUser)) {
+      gApi.changes().id(changeId).addReviewer(reviewer.id().toString());
+
+      reviewerRecorder.assertReviewerAddedEvents(changeId, reviewer.email());
+      unauthorizedRecorder.assertNoReviewerAddedEvents();
+    }
+  }
+
+  @Test
+  public void reviewerAddedEventVisibleWithViewPrivateChangesPermission() throws Exception {
+    TestAccount reviewer = accountCreator.user2();
+    TestAccount otherUser = accountCreator.create("otherUser");
+
+    TestRepository<InMemoryRepository> userRepo = cloneProject(project, user);
+    PushOneCommit.Result result =
+        pushFactory.create(user.newIdent(), userRepo).to("refs/for/master");
+    String changeId = result.getChangeId();
+
+    requestScopeOperations.setApiUser(user.id());
+    gApi.changes().id(changeId).setPrivate(true, null);
+
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.VIEW_PRIVATE_CHANGES).ref("refs/*").group(REGISTERED_USERS))
+        .update();
+
+    try (EventRecorder otherUserRecorder = eventRecorderFactory.create(otherUser)) {
+      gApi.changes().id(changeId).addReviewer(reviewer.id().toString());
+
+      otherUserRecorder.assertReviewerAddedEvents(changeId, reviewer.email());
+    }
   }
 }

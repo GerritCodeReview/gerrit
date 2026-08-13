@@ -1572,6 +1572,8 @@ public class ChangeIT extends AbstractDaemonTest {
 
     // Ensure lastUpdatedOn is updated.
     assertThat(changeOperations.change(change.id()).get().lastUpdatedOn()).isNotEqualTo(oldTs);
+
+    eventRecorder.assertReviewerAddedEvents(change.id().get(), user.email());
   }
 
   @Test

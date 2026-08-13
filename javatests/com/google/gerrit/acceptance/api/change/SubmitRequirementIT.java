@@ -425,6 +425,52 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void checkSubmitRequirementWithInvisibleOwnerInGroupReturnsError() throws Exception {
+    GroupInput groupInput = new GroupInput();
+    groupInput.name = name("invisible-group");
+    groupInput.visibleToAll = false;
+    groupInput.ownerId = adminGroupUuid().get();
+    gApi.groups().create(groupInput);
+    gApi.groups().id(groupInput.name).addMembers(admin.username());
+
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    requestScopeOperations.setApiUser(user.id());
+    SubmitRequirementInput in =
+        createSubmitRequirementInput(
+            "Owner-In-Group", /* submittabilityExpression= */ "ownerin:" + groupInput.name);
+
+    SubmitRequirementResultInfo result = gApi.changes().id(changeId).checkSubmitRequirement(in);
+
+    assertThat(result.status).isEqualTo(SubmitRequirementResultInfo.Status.ERROR);
+    assertThat(result.submittabilityExpressionResult.errorMessage)
+        .isEqualTo("Group " + groupInput.name + " not found");
+  }
+
+  @Test
+  public void checkSubmitRequirementWithVisibleOwnerInGroupIsSatisfied() throws Exception {
+    GroupInput groupInput = new GroupInput();
+    groupInput.name = name("visible-group");
+    groupInput.visibleToAll = true;
+    groupInput.ownerId = adminGroupUuid().get();
+    gApi.groups().create(groupInput);
+    gApi.groups().id(groupInput.name).addMembers(admin.username());
+
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    requestScopeOperations.setApiUser(user.id());
+    SubmitRequirementInput in =
+        createSubmitRequirementInput(
+            "Owner-In-Group", /* submittabilityExpression= */ "ownerin:" + groupInput.name);
+
+    SubmitRequirementResultInfo result = gApi.changes().id(changeId).checkSubmitRequirement(in);
+
+    assertThat(result.status).isEqualTo(SubmitRequirementResultInfo.Status.SATISFIED);
+  }
+
+  @Test
   public void checkSubmitRequirement_verifiesUploader() throws Exception {
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();

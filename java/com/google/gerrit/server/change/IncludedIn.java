@@ -121,7 +121,7 @@ public class IncludedIn {
       externalIncludedIn.runEach(
           ext -> {
             ListMultimap<String, String> extIncludedIns =
-                ext.getIncludedIn(project.get(), rev.name(), filteredBranches, filteredTags);
+                ext.getIncludedIn(project.get(), rev.name(), filteredTags, filteredBranches);
             if (extIncludedIns != null) {
               external.putAll(extIncludedIns);
             }

@@ -16,8 +16,11 @@ package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
+import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
 
+import com.google.common.collect.ImmutableListMultimap;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.ExtensionRegistry;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -28,8 +31,11 @@ import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.projects.TagInput;
+import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.config.ExternalIncludedIn;
 import com.google.gerrit.server.change.FilterIncludedIn;
 import com.google.inject.Inject;
+import java.util.Collection;
 import java.util.function.Predicate;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
@@ -49,6 +55,24 @@ public class ChangeIncludedInIT extends AbstractDaemonTest {
     @Override
     public Predicate<String> getTagFilter(Project.NameKey project, RevCommit commit) {
       return tag -> !tag.startsWith("bad");
+    }
+  }
+
+  /** Captures the arguments this extension point was actually invoked with. */
+  private static class CapturingExternalIncludedIn implements ExternalIncludedIn {
+    String capturedProject;
+    String capturedCommit;
+    Collection<String> capturedTags;
+    Collection<String> capturedBranches;
+
+    @Override
+    public ImmutableListMultimap<String, String> getIncludedIn(
+        String project, String commit, Collection<String> tags, Collection<String> branches) {
+      capturedProject = project;
+      capturedCommit = commit;
+      capturedTags = tags;
+      capturedBranches = branches;
+      return ImmutableListMultimap.of();
     }
   }
 
@@ -103,5 +127,22 @@ public class ChangeIncludedInIT extends AbstractDaemonTest {
 
       assertThat(gApi.changes().id(changeId).includedIn().branches).containsExactly("master");
     }
+  }
+
+  @Test
+  public void externalIncludedInReceivesCorrectParameters() throws Exception {
+    String changeId = baseTestCase();
+    ChangeInfo changeInfo = gApi.changes().id(changeId).get(CURRENT_REVISION);
+    CapturingExternalIncludedIn externalIncludedIn = new CapturingExternalIncludedIn();
+    try (ExtensionRegistry.Registration registration =
+        extensionRegistry.newRegistration().add(externalIncludedIn)) {
+      var unused = gApi.changes().id(changeId).includedIn();
+    }
+
+    assertThat(externalIncludedIn.capturedProject).isEqualTo(project.get());
+    assertThat(externalIncludedIn.capturedCommit).isEqualTo(changeInfo.currentRevision);
+    assertThat(ImmutableSet.copyOf(externalIncludedIn.capturedTags)).containsExactly("test-tag");
+    assertThat(ImmutableSet.copyOf(externalIncludedIn.capturedBranches))
+        .containsExactly("master", "test-branch");
   }
 }

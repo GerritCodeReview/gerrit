@@ -7,7 +7,7 @@ import '../../../test/common-test-setup';
 import '../../shared/gr-date-formatter/gr-date-formatter';
 import {fixture, html} from '@open-wc/testing';
 // Until https://github.com/modernweb-dev/web/issues/2804 is fixed
-// @ts-ignore
+// @ts-expect-error
 import {visualDiff} from '@web/test-runner-visual-regression';
 import {FileInfo, PARENT, RevisionPatchSetNum} from '../../../api/rest-api';
 import {normalize} from '../../../models/change/files-model';

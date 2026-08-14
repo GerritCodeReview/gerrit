@@ -7,7 +7,7 @@ import '../../../test/common-test-setup';
 import './gr-reply-dialog';
 import {fixture, html} from '@open-wc/testing';
 // Until https://github.com/modernweb-dev/web/issues/2804 is fixed
-// @ts-ignore
+// @ts-expect-error
 import {visualDiff} from '@web/test-runner-visual-regression';
 import {GrReplyDialog} from './gr-reply-dialog';
 import {visualDiffDarkTheme} from '../../../test/test-utils';

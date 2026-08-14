@@ -7,7 +7,7 @@ import '../../../test/common-test-setup';
 import './gr-content-with-sidebar';
 import {fixture, html} from '@open-wc/testing';
 // Until https://github.com/modernweb-dev/web/issues/2804 is fixed
-// @ts-ignore
+// @ts-expect-error
 import {visualDiff} from '@web/test-runner-visual-regression';
 import {visualDiffDarkTheme} from '../../../test/test-utils';
 import {GrContentWithSidebar} from './gr-content-with-sidebar';

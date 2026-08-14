@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "64fc73ca_229ebb87",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-08-14T18:12:49Z",
+      "side": 1,
+      "message": "You can see difference in screenshots when comparing patchset 1 and latest patchset",
+      "revId": "24753f688a0dfc1e751de360137d0c87153a6b02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -206,63 +206,47 @@ suite('gr-change-list-reviewer-flow tests', () => {
                 <div class="grid">
                   <span>Reviewers</span>
                   <gr-account-list id="reviewer-list"></gr-account-list>
-                  <dialog id="confirm-reviewer" tabindex="-1">
-                    <div class="confirmation-text">
-                      Group
-                      <span class="groupName"></span>
-                      has
-                      <span class="groupSize"></span>
-                      members.
-                      <br />
-                      Are you sure you want to add them all?
-                    </div>
-                    <div class="confirmation-buttons">
-                      <gr-button
-                        aria-disabled="false"
-                        role="button"
-                        tabindex="0"
-                      >
-                        Yes
-                      </gr-button>
-                      <gr-button
-                        aria-disabled="false"
-                        role="button"
-                        tabindex="0"
-                      >
-                        No
-                      </gr-button>
-                    </div>
-                  </dialog>
                   <span>CC</span>
                   <gr-account-list id="cc-list"></gr-account-list>
-                  <dialog id="confirm-cc" tabindex="-1">
-                    <div class="confirmation-text">
-                      Group
-                      <span class="groupName"></span>
-                      has
-                      <span class="groupSize"></span>
-                      members.
-                      <br />
-                      Are you sure you want to add them all?
-                    </div>
-                    <div class="confirmation-buttons">
-                      <gr-button
-                        aria-disabled="false"
-                        role="button"
-                        tabindex="0"
-                      >
-                        Yes
-                      </gr-button>
-                      <gr-button
-                        aria-disabled="false"
-                        role="button"
-                        tabindex="0"
-                      >
-                        No
-                      </gr-button>
-                    </div>
-                  </dialog>
                 </div>
+                <dialog id="confirm-reviewer" tabindex="-1">
+                  <div class="confirmation-text">
+                    Group
+                    <span class="groupName"></span>
+                    has
+                    <span class="groupSize"></span>
+                    members.
+                    <br />
+                    Are you sure you want to add them all?
+                  </div>
+                  <div class="confirmation-buttons">
+                    <gr-button aria-disabled="false" role="button" tabindex="0">
+                      Yes
+                    </gr-button>
+                    <gr-button aria-disabled="false" role="button" tabindex="0">
+                      No
+                    </gr-button>
+                  </div>
+                </dialog>
+                <dialog id="confirm-cc" tabindex="-1">
+                  <div class="confirmation-text">
+                    Group
+                    <span class="groupName"></span>
+                    has
+                    <span class="groupSize"></span>
+                    members.
+                    <br />
+                    Are you sure you want to add them all?
+                  </div>
+                  <div class="confirmation-buttons">
+                    <gr-button aria-disabled="false" role="button" tabindex="0">
+                      Yes
+                    </gr-button>
+                    <gr-button aria-disabled="false" role="button" tabindex="0">
+                      No
+                    </gr-button>
+                  </div>
+                </dialog>
               </div>
             </gr-dialog>
             <div id="gr-hovercard-container"></div>
@@ -637,59 +621,59 @@ suite('gr-change-list-reviewer-flow tests', () => {
                 <div class="grid">
                   <span>Reviewers</span>
                   <gr-account-list id="reviewer-list"></gr-account-list>
-                  <dialog tabindex="-1" id="confirm-reviewer">
-                    <div class="confirmation-text">
-                      Group
-                      <span class="groupName"></span>
-                      has
-                      <span class="groupSize"></span>
-                      members.
-                      <br>
-                      Are you sure you want to add them all?
-                    </div>
-                    <div class="confirmation-buttons">
-                      <gr-button
-                        aria-disabled="false"
-                        role="button"
-                        tabindex="0">
-                        Yes
-                      </gr-button>
-                      <gr-button
-                        aria-disabled="false"
-                        role="button"
-                        tabindex="0">
-                        No
-                      </gr-button>
-                    </div>
-                  </dialog>
                   <span>CC</span>
                   <gr-account-list id="cc-list"></gr-account-list>
-                  <dialog tabindex="-1" id="confirm-cc">
-                    <div class="confirmation-text">
-                      Group
-                      <span class="groupName"></span>
-                      has
-                      <span class="groupSize"></span>
-                      members.
-                      <br>
-                      Are you sure you want to add them all?
-                    </div>
-                    <div class="confirmation-buttons">
-                      <gr-button
-                        aria-disabled="false"
-                        role="button"
-                        tabindex="0">
-                        Yes
-                      </gr-button>
-                      <gr-button
-                        aria-disabled="false"
-                        role="button"
-                        tabindex="0">
-                        No
-                      </gr-button>
-                    </div>
-                  </dialog>
                 </div>
+                <dialog tabindex="-1" id="confirm-reviewer">
+                  <div class="confirmation-text">
+                    Group
+                    <span class="groupName"></span>
+                    has
+                    <span class="groupSize"></span>
+                    members.
+                    <br>
+                    Are you sure you want to add them all?
+                  </div>
+                  <div class="confirmation-buttons">
+                    <gr-button
+                      aria-disabled="false"
+                      role="button"
+                      tabindex="0">
+                      Yes
+                    </gr-button>
+                    <gr-button
+                      aria-disabled="false"
+                      role="button"
+                      tabindex="0">
+                      No
+                    </gr-button>
+                  </div>
+                </dialog>
+                <dialog tabindex="-1" id="confirm-cc">
+                  <div class="confirmation-text">
+                    Group
+                    <span class="groupName"></span>
+                    has
+                    <span class="groupSize"></span>
+                    members.
+                    <br>
+                    Are you sure you want to add them all?
+                  </div>
+                  <div class="confirmation-buttons">
+                    <gr-button
+                      aria-disabled="false"
+                      role="button"
+                      tabindex="0">
+                      Yes
+                    </gr-button>
+                    <gr-button
+                      aria-disabled="false"
+                      role="button"
+                      tabindex="0">
+                      No
+                    </gr-button>
+                  </div>
+                </dialog>
                 <div class="warning">
                   <gr-icon icon="warning" filled role="img" aria-label="Warning"
                   ></gr-icon>
@@ -757,63 +741,63 @@ suite('gr-change-list-reviewer-flow tests', () => {
                 <div class="grid">
                   <span> Reviewers </span>
                   <gr-account-list id="reviewer-list"> </gr-account-list>
-                  <dialog tabindex="-1" id="confirm-reviewer">
-                    <div class="confirmation-text">
-                      Group
-                      <span class="groupName"> </span>
-                      has
-                      <span class="groupSize"> </span>
-                      members.
-                      <br />
-                      Are you sure you want to add them all?
-                    </div>
-                    <div class="confirmation-buttons">
-                      <gr-button
-                        aria-disabled="false"
-                        role="button"
-                        tabindex="0"
-                      >
-                        Yes
-                      </gr-button>
-                      <gr-button
-                        aria-disabled="false"
-                        role="button"
-                        tabindex="0"
-                      >
-                        No
-                      </gr-button>
-                    </div>
-                  </dialog>
                   <span> CC </span>
                   <gr-account-list id="cc-list"> </gr-account-list>
-                  <dialog tabindex="-1" id="confirm-cc">
-                    <div class="confirmation-text">
-                      Group
-                      <span class="groupName"> </span>
-                      has
-                      <span class="groupSize"> </span>
-                      members.
-                      <br />
-                      Are you sure you want to add them all?
-                    </div>
-                    <div class="confirmation-buttons">
-                      <gr-button
-                        aria-disabled="false"
-                        role="button"
-                        tabindex="0"
-                      >
-                        Yes
-                      </gr-button>
-                      <gr-button
-                        aria-disabled="false"
-                        role="button"
-                        tabindex="0"
-                      >
-                        No
-                      </gr-button>
-                    </div>
-                  </dialog>
                 </div>
+                <dialog tabindex="-1" id="confirm-reviewer">
+                  <div class="confirmation-text">
+                    Group
+                    <span class="groupName"> </span>
+                    has
+                    <span class="groupSize"> </span>
+                    members.
+                    <br />
+                    Are you sure you want to add them all?
+                  </div>
+                  <div class="confirmation-buttons">
+                    <gr-button
+                      aria-disabled="false"
+                      role="button"
+                      tabindex="0"
+                    >
+                      Yes
+                    </gr-button>
+                    <gr-button
+                      aria-disabled="false"
+                      role="button"
+                      tabindex="0"
+                    >
+                      No
+                    </gr-button>
+                  </div>
+                </dialog>
+                <dialog tabindex="-1" id="confirm-cc">
+                  <div class="confirmation-text">
+                    Group
+                    <span class="groupName"> </span>
+                    has
+                    <span class="groupSize"> </span>
+                    members.
+                    <br />
+                    Are you sure you want to add them all?
+                  </div>
+                  <div class="confirmation-buttons">
+                    <gr-button
+                      aria-disabled="false"
+                      role="button"
+                      tabindex="0"
+                    >
+                      Yes
+                    </gr-button>
+                    <gr-button
+                      aria-disabled="false"
+                      role="button"
+                      tabindex="0"
+                    >
+                      No
+                    </gr-button>
+                  </div>
+                </dialog>
                 <div class="error">
                   <gr-icon icon="error" filled role="img" aria-label="Error"></gr-icon>
                   Failed to add User-0, User-2, Group 0, and User-3 to changes.

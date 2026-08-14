@@ -67,6 +67,9 @@ export class GrLabelScoreRow extends LitElement {
         .labelNameCell {
           padding-left: var(--label-score-padding-left, 0);
           width: 160px;
+          max-width: 160px;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
         .selectedValueCell {
           padding-right: var(--spacing-xl);

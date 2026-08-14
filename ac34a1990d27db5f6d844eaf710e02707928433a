@@ -16,6 +16,24 @@
       "message": "Can you explain what the issue is?",
       "revId": "ac34a1990d27db5f6d844eaf710e02707928433a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0618f422_a266ad71",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-08-14T20:30:55Z",
+      "side": 1,
+      "message": "I am just experimenting with this warning: https://gerrit-review.git.corp.google.com/c/gerrit/+/619361/comment/d9262d55_79dace6b/\n\nI am thinking to move this import to some different file like utils and then import without ts-ignore (or @ts-expect-error to be precise)\n\nI put it as WIP since it\u0027s not ready for review",
+      "parentUuid": "4535ee67_f57ee1b1",
+      "revId": "ac34a1990d27db5f6d844eaf710e02707928433a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

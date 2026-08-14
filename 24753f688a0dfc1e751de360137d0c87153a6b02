@@ -16,6 +16,46 @@
       "message": "You can see difference in screenshots when comparing patchset 1 and latest patchset",
       "revId": "24753f688a0dfc1e751de360137d0c87153a6b02",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "08e4ecff_61b5500c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-08-14T18:19:25Z",
+      "side": 1,
+      "message": "nice!",
+      "revId": "24753f688a0dfc1e751de360137d0c87153a6b02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9262d55_79dace6b",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow_screenshot_test.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-08-14T18:19:25Z",
+      "side": 1,
+      "message": "Please fix this WARNING reported by gerrit-typescript-style-review: [gerrit-typescript-style-review] The Google TypeScript Style Guide forbids the u...\n\n[gerrit-typescript-style-review] The Google TypeScript Style Guide forbids the use of `@ts-ignore` because it silences all errors without ensuring an error actually exists. Use `@ts-expect-error` instead, which will flag an error if the suppressed line stops producing a compiler error in the future.\n\n**Suggestion**\n\n// @ts-expect-error\n\n**Reference**\n\nhttps://google.github.io/styleguide/tsguide.html#ts-ignore",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 0
+      },
+      "revId": "24753f688a0dfc1e751de360137d0c87153a6b02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

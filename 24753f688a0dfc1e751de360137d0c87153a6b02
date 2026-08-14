@@ -56,6 +56,30 @@
       },
       "revId": "24753f688a0dfc1e751de360137d0c87153a6b02",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fbcabc5e_a8d82d81",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-reviewer-flow/gr-change-list-reviewer-flow_screenshot_test.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-08-14T18:24:31Z",
+      "side": 1,
+      "message": "this is copy of screnshot test. we have it in every screenshot test. I would rather fix it in all in some other change.",
+      "parentUuid": "d9262d55_79dace6b",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 0
+      },
+      "revId": "24753f688a0dfc1e751de360137d0c87153a6b02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

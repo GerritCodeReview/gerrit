@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9589dc8_39ddc50f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-08-14T11:44:33Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "6fe3ae5b_a4b3e4b1",
+      "revId": "ac13870666ea2fe9aee80b086034e7a115178ae2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b07c1949_88d8756b",
@@ -41,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d2a3a7f_aae31f3e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-08-14T11:44:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b07c1949_88d8756b",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 36
+      },
+      "revId": "ac13870666ea2fe9aee80b086034e7a115178ae2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "86325e69_ec18ad79",
@@ -54,6 +96,30 @@
       "writtenOn": "2026-08-13T16:15:43Z",
       "side": 1,
       "message": "Might as well test that these are passed in correctly too?",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 22
+      },
+      "revId": "ac13870666ea2fe9aee80b086034e7a115178ae2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb06696e_1b527c61",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeIncludedInIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-08-14T11:44:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86325e69_ec18ad79",
       "range": {
         "startLine": 67,
         "startChar": 0,

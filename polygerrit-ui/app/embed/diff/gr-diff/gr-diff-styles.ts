@@ -280,17 +280,31 @@ export const grDiffRowStyles = css`
     tr.diff-row.target-row.target-side-right
     td.lineNum
     button.lineNumButton.right,
-  gr-diff-row tr.diff-row.target-row.unified td.lineNum button.lineNumButton {
+  gr-diff-row tr.diff-row.target-row.unified td.lineNum button.lineNumButton,
+  gr-diff-row
+    tr.diff-row.target-range-row.target-side-left
+    td.lineNum
+    button.lineNumButton.left,
+  gr-diff-row
+    tr.diff-row.target-range-row.target-side-right
+    td.lineNum
+    button.lineNumButton.right,
+  gr-diff-row
+    tr.diff-row.target-range-row.unified
+    td.lineNum
+    button.lineNumButton {
     color: var(--primary-text-color);
   }
   /* Preparing selected line cells with position relative so it allows a
      positioned overlay with 'position: absolute'. */
-  gr-diff-row tr.target-row td {
+  gr-diff-row tr.target-row td,
+  gr-diff-row tr.target-range-row td {
     position: relative;
   }
   /* Defines an overlay to the selected line for drawing an outline without
      blocking user interaction (e.g. text selection). */
-  gr-diff-row tr.target-row td::before {
+  gr-diff-row tr.target-row td::before,
+  gr-diff-row tr.target-range-row td::before {
     border-width: 0;
     border-style: solid;
     border-color: var(--focused-line-outline-color);
@@ -334,6 +348,84 @@ export const grDiffRowStyles = css`
      line number column. */
   gr-diff-row tr.unified.target-row td.right:not(.content)::before {
     border-width: 1px 0;
+  }
+  /* Multi-line target range outline: Start row */
+  gr-diff-row tr.target-range-start.target-side-left td.left.content::before,
+  gr-diff-row tr.target-range-start.target-side-right td.right.content::before,
+  gr-diff-row tr.unified.target-range-start td.content::before {
+    border-width: 1px 1px 0 0;
+  }
+  gr-diff-row tr.target-range-start.target-side-left td.left.sign::before,
+  gr-diff-row tr.target-range-start.target-side-right td.right.sign::before {
+    border-width: 1px 0 0 0;
+  }
+  gr-diff-row
+    tr.side-by-side.target-range-start.target-side-left
+    td.left.lineNum::before,
+  gr-diff-row
+    tr.side-by-side.target-range-start.target-side-right
+    td.right.lineNum::before {
+    border-width: 1px 0 0 1px;
+  }
+  gr-diff-row tr.unified.target-range-start td.left:not(.content)::before {
+    border-width: 1px 0 0 1px;
+  }
+  gr-diff-row tr.unified.target-range-start td.right:not(.content)::before {
+    border-width: 1px 0 0 0;
+  }
+  /* Multi-line target range outline: Middle rows */
+  gr-diff-row tr.target-range-middle.target-side-left td.left.content::before,
+  gr-diff-row tr.target-range-middle.target-side-right td.right.content::before,
+  gr-diff-row tr.unified.target-range-middle td.content::before {
+    border-width: 0 1px 0 0;
+  }
+  gr-diff-row tr.target-range-middle.target-side-left td.left.sign::before,
+  gr-diff-row tr.target-range-middle.target-side-right td.right.sign::before {
+    border-width: 0;
+  }
+  gr-diff-row
+    tr.side-by-side.target-range-middle.target-side-left
+    td.left.lineNum::before,
+  gr-diff-row
+    tr.side-by-side.target-range-middle.target-side-right
+    td.right.lineNum::before {
+    border-width: 0 0 0 1px;
+  }
+  gr-diff-row tr.unified.target-range-middle td.left:not(.content)::before {
+    border-width: 0 0 0 1px;
+  }
+  gr-diff-row tr.unified.target-range-middle td.right:not(.content)::before {
+    border-width: 0;
+  }
+  /* Multi-line target range outline: End row */
+  gr-diff-row tr.target-range-end.target-side-left td.left.content::before,
+  gr-diff-row tr.target-range-end.target-side-right td.right.content::before,
+  gr-diff-row tr.unified.target-range-end td.content::before {
+    border-width: 0 1px 1px 0;
+  }
+  gr-diff-row tr.target-range-end.target-side-left td.left.sign::before,
+  gr-diff-row tr.target-range-end.target-side-right td.right.sign::before {
+    border-width: 0 0 1px 0;
+  }
+  gr-diff-row
+    tr.side-by-side.target-range-end.target-side-left
+    td.left.lineNum::before,
+  gr-diff-row
+    tr.side-by-side.target-range-end.target-side-right
+    td.right.lineNum::before {
+    border-width: 0 0 1px 1px;
+  }
+  gr-diff-row tr.unified.target-range-end td.left:not(.content)::before {
+    border-width: 0 0 1px 1px;
+  }
+  gr-diff-row tr.unified.target-range-end td.right:not(.content)::before {
+    border-width: 0 0 1px 0;
+  }
+  /* Target range subtle background tint */
+  gr-diff-row tr.target-range-row.target-side-left td.left.content,
+  gr-diff-row tr.target-range-row.target-side-right td.right.content,
+  gr-diff-row tr.unified.target-range-row td.content {
+    background-color: var(--selection-background-color);
   }
   gr-diff-row td.content {
     background-color: var(--diff-blank-background-color);

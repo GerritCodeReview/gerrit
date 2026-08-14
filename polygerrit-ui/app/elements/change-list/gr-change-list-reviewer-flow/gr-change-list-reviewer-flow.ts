@@ -115,6 +115,7 @@ export class GrChangeListReviewerFlow extends LitElement {
           display: grid;
           grid-template-columns: min-content 1fr;
           column-gap: var(--spacing-l);
+          align-items: center;
         }
         gr-account-list {
           display: flex;
@@ -218,6 +219,8 @@ export class GrChangeListReviewerFlow extends LitElement {
             <span>CC</span>
             ${this.renderAccountList(ReviewerState.CC, 'cc-list', 'Add CC')}
           </div>
+          ${this.renderConfirmationDialog(ReviewerState.REVIEWER)}
+          ${this.renderConfirmationDialog(ReviewerState.CC)}
           ${this.renderAnyOverwriteWarnings()} ${this.renderErrors()}
         </div>
       </gr-dialog>
@@ -252,7 +255,6 @@ export class GrChangeListReviewerFlow extends LitElement {
         ) => this.onPendingConfirmationChanged(reviewerState, ev)}
       >
       </gr-account-list>
-      ${this.renderConfirmationDialog(reviewerState)}
     `;
   }
 

@@ -16,6 +16,47 @@
       "message": "Camara",
       "revId": "d0dec29188bc64218b707bb93255bc940f90d9b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1941550_02c8f619",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 1424,
+      "author": {
+        "id": 4639732
+      },
+      "writtenOn": "2026-08-14T22:45:27Z",
+      "side": 1,
+      "message": "nit: that\u0027s some odd formatting here",
+      "range": {
+        "startLine": 1421,
+        "startChar": 4,
+        "endLine": 1424,
+        "endChar": 8
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "107d3668_66e7dc3a",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+              "range": {
+                "startLine": 1421,
+                "startChar": 0,
+                "endLine": 1425,
+                "endChar": 0
+              },
+              "replacement": "      this.restApiService.getDiffComments(changeNum, /* enableContext\u003d */ false),\n"
+            }
+          ]
+        }
+      ],
+      "revId": "d0dec29188bc64218b707bb93255bc940f90d9b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

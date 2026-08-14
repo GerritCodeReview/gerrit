@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "229d1ee9_afce8c98",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-14T15:43:49Z",
+      "side": 1,
+      "message": "While this is the normal expectation, it\u0027s not an absolute requirement enforced by any tooling or spec. It\u0027s trivial to run `git commit` with `GIT_AUTHOR_DATE`/`GIT_COMMITTER_DATE` set to an arbitrary date.\n\nIf we add something like this, then it needs to be a system config opt-in, but I\u0027d rather focus on other ways (commit graphs, etc.) to improve the performance of included-in first.",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 30
+      },
+      "revId": "3ae56ea39168ff4631ce639f275556c1ef821c49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

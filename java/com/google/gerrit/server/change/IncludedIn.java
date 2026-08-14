@@ -103,7 +103,11 @@ public class IncludedIn {
       allTagsAndBranches.addAll(branches);
 
       Set<String> allMatchingTagsAndBranches =
-          rw.getMergedInto(rev, IncludedInUtil.getSortedRefs(allTagsAndBranches, rw)).stream()
+          rw.getMergedInto(
+                  rev,
+                  IncludedInUtil.filterRefsNewerThan(
+                      rev, IncludedInUtil.getSortedRefs(allTagsAndBranches, rw), rw))
+              .stream()
               .map(Ref::getName)
               .collect(Collectors.toSet());
 

@@ -65,7 +65,7 @@ export class GrCopyClipboard extends LitElement {
   @property({type: String, reflect: true})
   copyTargetName?: string;
 
-  @property({type: Boolean})
+  @property({type: Boolean, reflect: true})
   multiline = false;
 
   @property({type: Boolean, reflect: true})
@@ -96,6 +96,18 @@ export class GrCopyClipboard extends LitElement {
         }
         :host([nowrap]) .text {
           flex-wrap: nowrap;
+        }
+        :host([multiline]) .text {
+          align-items: flex-start;
+        }
+        :host([multiline]) .text label {
+          margin-top: var(--spacing-s);
+        }
+        :host([multiline]) .text .shortcut {
+          margin-top: var(--spacing-s);
+        }
+        :host([multiline]) gr-button {
+          margin-top: 0;
         }
         .text label {
           flex: 0 0 120px;

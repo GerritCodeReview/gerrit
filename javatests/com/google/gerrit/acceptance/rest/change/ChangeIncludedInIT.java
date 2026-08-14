@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
 
@@ -30,7 +31,11 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.projects.TagInput;
 import com.google.gerrit.server.change.FilterIncludedIn;
 import com.google.inject.Inject;
+import java.time.Instant;
+import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
 import java.util.function.Predicate;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
 
@@ -103,5 +108,49 @@ public class ChangeIncludedInIT extends AbstractDaemonTest {
 
       assertThat(gApi.changes().id(changeId).includedIn().branches).containsExactly("master");
     }
+  }
+
+  // IncludedIn skips refs whose tip commit is older than the commit being looked for, since such a
+  // ref cannot contain it. These tests pin the two cases that make that safe: annotated tags must
+  // still be found (their tag object has to be peeled to the commit before comparing times), and a
+  // ref whose tip is only slightly older must not be dropped.
+
+  @Test
+  public void includedInAnnotatedTagOnNewerCommit() throws Exception {
+    String changeId = baseTestCase();
+
+    // An annotated tag whose tip is newer than the change must still be reported. Regression test
+    // for peeling: a tag object is not a commit, so comparing its time without peeling first would
+    // silently drop it.
+    TagInput annotated = new TagInput();
+    annotated.message = "annotated";
+    gApi.projects().name(project.get()).tag("annotated-tag").create(annotated);
+
+    assertThat(gApi.changes().id(changeId).includedIn().tags).contains("annotated-tag");
+  }
+
+  @Test
+  public void includedInBranchWithTipJustInsideClockSkewWindow() throws Exception {
+    Result result = createChange();
+    RevCommit needle = result.getCommit();
+
+    testRepo
+        .branch("HEAD")
+        .commit()
+        .message("descendant with a tip just inside the 24h skew window")
+        .author(oldIdent(needle, 23))
+        .committer(oldIdent(needle, 23))
+        .create();
+    pushHead(testRepo, "refs/heads/old-but-within-skew", false);
+
+    assertThat(gApi.changes().id(result.getChangeId()).includedIn().branches)
+        .contains("old-but-within-skew");
+  }
+
+  private static PersonIdent oldIdent(RevCommit reference, int hoursBeforeReference) {
+    Instant when =
+        Instant.ofEpochSecond(reference.getCommitTime())
+            .minus(hoursBeforeReference, ChronoUnit.HOURS);
+    return new PersonIdent("Old Committer", "old-committer@example.com", when, ZoneOffset.UTC);
   }
 }

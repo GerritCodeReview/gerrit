@@ -109,7 +109,8 @@ public class IncludedInRefs {
       Collection<RevCommit> commits, Collection<Ref> refs, RevWalk revWalk) throws IOException {
     Map<String, Set<String>> refsByCommit = new HashMap<>();
     for (RevCommit commit : commits) {
-      List<Ref> matchingRefs = revWalk.getMergedInto(commit, refs);
+      List<Ref> matchingRefs =
+          revWalk.getMergedInto(commit, IncludedInUtil.filterRefsNewerThan(commit, refs, revWalk));
       if (matchingRefs.size() > 0) {
         refsByCommit.put(
             commit.getName(), matchingRefs.stream().map(Ref::getName).collect(toSet()));

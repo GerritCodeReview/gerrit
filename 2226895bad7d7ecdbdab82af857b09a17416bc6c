@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "45804d32_8ab50c3a",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 1518,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-08-14T18:34:17Z",
+      "side": 1,
+      "message": "The state object is constructed as a fresh object literal (const state: ChangeViewState \u003d { ... }) on each invocation of handleDiffRoute(), so state is never retained from previous navigations.",
+      "parentUuid": "61a424e2_5edcdd9d",
+      "range": {
+        "startLine": 1518,
+        "startChar": 0,
+        "endLine": 1518,
+        "endChar": 0
+      },
+      "revId": "2226895bad7d7ecdbdab82af857b09a17416bc6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4d52009a_c6850b4c",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-08-14T00:14:15Z",
       "side": 1,
       "message": "Just curious about the rationale behind 1000 vs any other large number?",
+      "range": {
+        "startLine": 343,
+        "startChar": 0,
+        "endLine": 343,
+        "endChar": 0
+      },
+      "revId": "2226895bad7d7ecdbdab82af857b09a17416bc6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8dba0e98_6614e1b5",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-cursor/gr-diff-cursor.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-08-14T18:34:17Z",
+      "side": 1,
+      "message": "It\u0027s just an arbritrary large number. The textContent length should exist.",
+      "parentUuid": "4d52009a_c6850b4c",
       "range": {
         "startLine": 343,
         "startChar": 0,

@@ -352,7 +352,7 @@ suite('gr-diff-highlight', () => {
     test('multiline', () => {
       const startContent = stubContent(119, Side.RIGHT);
       const endContent = stubContent(120, Side.RIGHT);
-      sinon.spy(element, 'positionActionBox');
+      const positionSpy = sinon.spy(element, 'positionActionBox');
       if (!startContent?.firstChild) {
         assert.fail('first child of start content not found');
       }
@@ -372,6 +372,8 @@ suite('gr-diff-highlight', () => {
       });
       assert.equal(side, Side.RIGHT);
       assert.notOk(actionBox.positionBelow);
+      assert.isTrue(positionSpy.calledOnce);
+      assert.isDefined(positionSpy.lastCall.args[2]);
     });
 
     test('multiple ranges aka firefox implementation', () => {

@@ -269,13 +269,13 @@ suite('gr-selection-action-box', () => {
 
     test('placeBelow for Element argument', async () => {
       await element.placeBelow(target);
-      assert.equal(element.style.top, '45px');
+      assert.equal(element.style.top, '107px');
       assert.equal(element.style.left, '72px');
     });
 
     test('placeBelow for Text Node argument', async () => {
       await element.placeBelow(target.firstElementChild!);
-      assert.equal(element.style.top, '45px');
+      assert.equal(element.style.top, '107px');
       assert.equal(element.style.left, '72px');
     });
 

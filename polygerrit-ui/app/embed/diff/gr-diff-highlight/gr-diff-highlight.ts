@@ -438,13 +438,16 @@ export class GrDiffHighlight {
       await this.positionActionBox(actionBox, start.line, domRange);
     } else if (start.node instanceof Text) {
       if (start.column) {
-        await this.positionActionBox(
-          actionBox,
-          start.line,
-          start.node.splitText(start.column)
+        const startRange = document.createRange();
+        startRange.setStart(start.node, start.column);
+        startRange.setEnd(
+          start.node,
+          start.node.textContent?.length ?? start.column
         );
+        await this.positionActionBox(actionBox, start.line, startRange);
+      } else {
+        await this.positionActionBox(actionBox, start.line, start.node);
       }
-      start.node.parentElement!.normalize(); // Undo splitText from above.
     } else if (
       start.node instanceof HTMLElement &&
       start.node.classList.contains('content') &&

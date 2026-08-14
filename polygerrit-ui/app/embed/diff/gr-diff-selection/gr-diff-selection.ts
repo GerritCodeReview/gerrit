@@ -59,6 +59,7 @@ export class GrDiffSelection {
   }
 
   handleDown = (e: Event) => {
+    if (e instanceof MouseEvent && e.button !== 0) return;
     const target = e.target;
     if (!(target instanceof Element)) return;
 

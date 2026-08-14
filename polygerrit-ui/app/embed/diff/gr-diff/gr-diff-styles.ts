@@ -83,6 +83,9 @@ export const grDiffElementStyles = css`
        into DOM before it. */
     z-index: 120;
     position: absolute;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
   }
   gr-diff-element gr-selection-action-box slot[invisible] {
     visibility: hidden;
@@ -91,6 +94,9 @@ export const grDiffElementStyles = css`
     position: absolute;
     width: 22ch;
     cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
   }
 `;
 

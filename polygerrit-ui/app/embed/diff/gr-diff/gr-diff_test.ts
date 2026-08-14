@@ -92,6 +92,20 @@ suite('gr-diff tests', () => {
       emulateSelection();
       assert.isFalse(handleSelectionChangeStub.called);
     });
+
+    test('mouseup handles main button', async () => {
+      element.loggedIn = true;
+      await element.updateComplete;
+      document.dispatchEvent(new MouseEvent('mouseup', {button: 0}));
+      assert.isTrue(handleSelectionChangeStub.called);
+    });
+
+    test('mouseup ignores non-main button', async () => {
+      element.loggedIn = true;
+      await element.updateComplete;
+      document.dispatchEvent(new MouseEvent('mouseup', {button: 2}));
+      assert.isFalse(handleSelectionChangeStub.called);
+    });
   });
 
   test('line limit with line_wrapping', async () => {

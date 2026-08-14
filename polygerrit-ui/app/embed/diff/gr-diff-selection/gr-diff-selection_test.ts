@@ -115,6 +115,24 @@ suite('gr-diff-selection', () => {
     );
   });
 
+  test('ignores right click on line number', () => {
+    diffTable.classList.add('selected-left');
+    diffTable.classList.remove('selected-right');
+    const lineNumberEl = diffTable.querySelector<HTMLElement>('.lineNum.right');
+    if (!lineNumberEl) assert.fail('line number element missing');
+    lineNumberEl.dispatchEvent(
+      new MouseEvent('mousedown', {bubbles: true, button: 2})
+    );
+    assert.isTrue(
+      diffTable.classList.contains('selected-left'),
+      'preserves selected-left'
+    );
+    assert.isFalse(
+      diffTable.classList.contains('selected-right'),
+      'does not add selected-right'
+    );
+  });
+
   test('ignores copy for non-content Element', () => {
     const getSelectedTextStub = sinon.stub(element, 'getSelectedText');
     emulateCopyOn(diffTable.querySelector('.not-diff-row'));

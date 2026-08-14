@@ -131,7 +131,7 @@ export class GrSelectionActionBox extends LitElement {
     if (parentRect === null) {
       return;
     }
-    this.style.top = `${rect.top - parentRect.top + boxRect.height - 6}px`;
+    this.style.top = `${rect.top - parentRect.top + rect.height + 6}px`;
     this.style.left = `${
       rect.left - parentRect.left + (rect.width - boxRect.width) / 2
     }px`;

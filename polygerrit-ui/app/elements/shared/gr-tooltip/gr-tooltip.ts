@@ -43,6 +43,9 @@ export class GrTooltip extends LitElement {
           font-size: var(--font-size-small);
           position: absolute;
           z-index: 1000;
+          user-select: none;
+          -webkit-user-select: none;
+          -moz-user-select: none;
         }
         :host .tooltip {
           padding: var(--spacing-m) var(--spacing-l);

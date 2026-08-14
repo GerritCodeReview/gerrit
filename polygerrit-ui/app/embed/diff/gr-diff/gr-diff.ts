@@ -510,7 +510,8 @@ export class GrDiff extends LitElement implements GrDiffApi {
     this.highlights.handleSelectionChange(selection, false);
   };
 
-  private readonly handleMouseUp = () => {
+  private readonly handleMouseUp = (e: MouseEvent) => {
+    if (e.button !== 0) return;
     // To handle double-click outside of text creating comments, we check on
     // mouse-up if there's a selection that just covers a line change. We
     // can't do that on selection change since the user may still be dragging.

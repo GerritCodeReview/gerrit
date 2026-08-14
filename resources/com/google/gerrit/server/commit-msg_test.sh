@@ -350,6 +350,92 @@ EOF
   fi
 }
 
+# Creates a repository in $1 whose HEAD is a commit carrying a Jujutsu style
+# change-id header, with the hook installed so that git invokes it for real.
+function setup_jj_repo {
+  rm -rf "$1"
+  mkdir -p "$1"
+  git init -q "$1"
+  cp ${hook} "$1/.git/hooks/commit-msg"
+  chmod +x "$1/.git/hooks/commit-msg"
+  (
+    cd "$1"
+    git config user.name "Joe User"
+    git config user.email juser@example.com
+    echo base > base.txt
+    git add base.txt
+    git commit -q -m base --no-verify
+
+    echo jj > jj.txt
+    git add jj.txt
+    ident="Joe User <juser@example.com> 1700000000 +0000"
+    {
+      echo "tree $(git write-tree)"
+      echo "parent $(git rev-parse HEAD)"
+      echo "author ${ident}"
+      echo "committer ${ident}"
+      echo "change-id qpvuntsmwlqtpsluzzsnyyzlmlwvmxvq"
+      echo
+      echo "Commit written by Jujutsu"
+    } | git hash-object -t commit -w --stdin > jj_commit
+    git reset -q --hard "$(cat jj_commit)"
+  )
+}
+
+# Amending a commit that carries a change-id header keeps the header, so no
+# footer is added.
+function test_suppress_changeid_when_amending_header_commit {
+  setup_jj_repo jj-amend
+  (
+    cd jj-amend
+    echo more >> jj.txt
+    git add jj.txt
+    git commit -q --amend -m "Amended by git" || fail "failed to amend"
+
+    found=$(git log -1 --format=%B | grep -c '^Change-Id') || :
+    if [[ "${found}" != "0" ]]; then
+      fail "got ${found} Change-Ids on amended jj commit, want 0"
+    fi
+    found=$(git cat-file commit HEAD | sed -e '/^$/q' | grep -c '^change-id ') || :
+    if [[ "${found}" != "1" ]]; then
+      fail "got ${found} change-id headers after amend, want 1"
+    fi
+  )
+}
+
+# A new commit on top of a jj commit has no header of its own, so it must still
+# get a footer even though HEAD carries one.
+function test_create_changeid_for_commit_on_top_of_header_commit {
+  setup_jj_repo jj-child
+  (
+    cd jj-child
+    echo child > child.txt
+    git add child.txt
+    git commit -q -m "Plain git commit" || fail "failed to commit"
+
+    found=$(git log -1 --format=%B | grep -c '^Change-Id') || :
+    if [[ "${found}" != "1" ]]; then
+      fail "got ${found} Change-Ids on child of jj commit, want 1"
+    fi
+  )
+}
+
+# gerrit.createChangeId=always overrides the header suppression.
+function test_always_create_overrides_header_suppression {
+  setup_jj_repo jj-always
+  (
+    cd jj-always
+    git config gerrit.createChangeId always
+    echo more >> jj.txt
+    git add jj.txt
+    git commit -q --amend -m "Amended by git" || fail "failed to amend"
+
+    found=$(git log -1 --format=%B | grep -c '^Change-Id') || :
+    if [[ "${found}" != "1" ]]; then
+      fail "got ${found} Change-Ids with createChangeId=always, want 1"
+    fi
+  )
+}
 
 # Test driver.
 git init

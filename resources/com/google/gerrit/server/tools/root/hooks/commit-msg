@@ -29,6 +29,24 @@ if test ! -f "$1" ; then
   exit 1
 fi
 
+# Commits written by Jujutsu identify the change with a change-id header on the
+# commit object rather than a footer. Amending preserves that header, so adding
+# a footer would give the commit two competing identifiers.
+amending_commit_with_change_id_header() {
+  git rev-parse --verify HEAD >/dev/null 2>&1 || return 1
+
+  git cat-file commit HEAD 2>/dev/null | sed -e '/^$/q' |
+      LC_ALL=C grep -q '^change-id ' || return 1
+
+  # Git tells the hook nothing about --amend, but an amend reuses the author
+  # identity and date of HEAD while a new commit is authored now.
+  head_author="$(git log -1 --format='%an <%ae> %at' HEAD 2>/dev/null)"
+  new_author="$(git var GIT_AUTHOR_IDENT 2>/dev/null |
+      sed -e 's/ [+-][0-9][0-9]*$//')"
+
+  test -n "${head_author}" && test "${head_author}" = "${new_author}"
+}
+
 # Do not create a change id if requested
 case "$(git config --get gerrit.createChangeId)" in
   false)
@@ -39,6 +57,9 @@ case "$(git config --get gerrit.createChangeId)" in
   *)
     # Do not create a change id for squash/fixup commits.
     if head -n1 "$1" | LC_ALL=C grep -q '^[a-z][a-z]*! '; then
+      exit 0
+    fi
+    if amending_commit_with_change_id_header ; then
       exit 0
     fi
     ;;

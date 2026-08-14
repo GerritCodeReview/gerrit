@@ -218,6 +218,8 @@ export class GrChangeListReviewerFlow extends LitElement {
             <span>CC</span>
             ${this.renderAccountList(ReviewerState.CC, 'cc-list', 'Add CC')}
           </div>
+          ${this.renderConfirmationDialog(ReviewerState.REVIEWER)}
+          ${this.renderConfirmationDialog(ReviewerState.CC)}
           ${this.renderAnyOverwriteWarnings()} ${this.renderErrors()}
         </div>
       </gr-dialog>
@@ -252,7 +254,6 @@ export class GrChangeListReviewerFlow extends LitElement {
         ) => this.onPendingConfirmationChanged(reviewerState, ev)}
       >
       </gr-account-list>
-      ${this.renderConfirmationDialog(reviewerState)}
     `;
   }
 

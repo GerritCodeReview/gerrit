@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61a424e2_5edcdd9d",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 1518,
+      "author": {
+        "id": 4870948
+      },
+      "writtenOn": "2026-08-14T00:14:15Z",
+      "side": 1,
+      "message": "If address.endLineNum is undefined, should we explicitly clear state.diffView.endLineNum? If the state object is reused across navigations, the old endLineNum might persist.",
+      "range": {
+        "startLine": 1518,
+        "startChar": 0,
+        "endLine": 1518,
+        "endChar": 0
+      },
+      "revId": "2226895bad7d7ecdbdab82af857b09a17416bc6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d52009a_c6850b4c",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-cursor/gr-diff-cursor.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 4870948
+      },
+      "writtenOn": "2026-08-14T00:14:15Z",
+      "side": 1,
+      "message": "Just curious about the rationale behind 1000 vs any other large number?",
+      "range": {
+        "startLine": 343,
+        "startChar": 0,
+        "endLine": 343,
+        "endChar": 0
+      },
+      "revId": "2226895bad7d7ecdbdab82af857b09a17416bc6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -165,15 +165,6 @@ suite('gr-main-header tests', () => {
                   Merged
                 </md-list-item>
               </a>
-              <a
-                class="itemAction"
-                href="//localhost:9876/q/status:abandoned"
-                tabindex="-1"
-              >
-                <md-list-item md-list-item="" type="button">
-                  Abandoned
-                </md-list-item>
-              </a>
               <md-divider role="separator" tabindex="-1"> </md-divider>
               <md-item>
                 <div slot="headline">Documentation</div>

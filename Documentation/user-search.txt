@@ -12,7 +12,6 @@ query, execute it, and present the results.
 |Description                | Default Query
 |Changes > Open             | status:open '(or is:open)'
 |Changes > Merged           | status:merged
-|Changes > Abandoned        | status:abandoned
 |Your > Watched Changes     | is:watched is:open
 |Your > Starred Changes     | is:starred
 |Your > Draft Comments      | has:draft

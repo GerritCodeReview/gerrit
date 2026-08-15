@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9234e54_ea973cc0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-08-15T16:46:04Z",
+      "side": 1,
+      "message": "I recommend to use https://gerrit-review.git.corp.google.com/c/gerrit/+/619441/1..2 to see diff in screenshot",
+      "revId": "684ba850e3ea24c369c1a924f0bc26603ec04a3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -17,5 +17,8 @@ package com.google.gerrit.extensions.api.changes;
 /** Options for "Get Related Changes" requests. */
 public enum GetRelatedOption {
   /** Compute submittability boolean for all returned changes. */
-  SUBMITTABLE
+  SUBMITTABLE,
+
+  /** Exclude abandoned changes from the result. */
+  EXCLUDE_ABANDONED
 }

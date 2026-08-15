@@ -4990,14 +4990,18 @@ for the current patch set.
 Retrieves related changes of a revision.  Related changes are changes that either
 depend on, or are dependencies of the revision.
 
-Additional fields can be obtained by adding `o` parameters. Since these may slow
-down processing they are disabled by default. Currently a single parameter is
-supported:
+Additional fields and filtering can be obtained by adding `o` parameters.
+Currently supported parameters:
 
 [[get-related-changes-submittable]]
 --
 * `SUBMITTABLE`: Compute the `submittable` field in the returned
   link:#related-change-and-commit-info[RelatedChangeAndCommitInfo] entities.
+--
+
+[[get-related-changes-exclude-abandoned]]
+--
+* `EXCLUDE_ABANDONED`: Exclude changes that are abandoned from the result.
 --
 
 .Request

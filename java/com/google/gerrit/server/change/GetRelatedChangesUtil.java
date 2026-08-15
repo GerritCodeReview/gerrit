@@ -66,11 +66,31 @@ public class GetRelatedChangesUtil {
    */
   public List<RelatedChangesSorter.PatchSetData> getRelated(ChangeData changeData, PatchSet basePs)
       throws IOException, PermissionBackendException {
+    return getRelated(changeData, basePs, false);
+  }
+
+  /**
+   * Gets related changes of a specific change revision.
+   *
+   * @param changeData the change of the inputted revision.
+   * @param basePs the revision that the method checks for related changes.
+   * @param excludeAbandoned whether to exclude abandoned changes from the result.
+   * @return list of related changes, sorted via {@link RelatedChangesSorter}
+   */
+  public List<RelatedChangesSorter.PatchSetData> getRelated(
+      ChangeData changeData, PatchSet basePs, boolean excludeAbandoned)
+      throws IOException, PermissionBackendException {
     List<ChangeData> cds = getUnsortedRelated(changeData, basePs, false);
     if (cds.isEmpty()) {
       return Collections.emptyList();
     }
-    return sorter.sort(cds, basePs);
+    List<RelatedChangesSorter.PatchSetData> result = sorter.sort(cds, basePs);
+    if (excludeAbandoned) {
+      return result.stream()
+          .filter(d -> d.data().change() != null && !d.data().change().isAbandoned())
+          .collect(ImmutableList.toImmutableList());
+    }
+    return result;
   }
 
   /**

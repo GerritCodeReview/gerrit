@@ -50,6 +50,7 @@ public class GetRelated implements RestReadView<RevisionResource> {
   private final ChangeData.Factory changeDataFactory;
   private final GetRelatedChangesUtil getRelatedChangesUtil;
   private boolean computeSubmittable = false;
+  private boolean excludeAbandoned = false;
 
   @Inject
   GetRelated(ChangeData.Factory changeDataFactory, GetRelatedChangesUtil getRelatedChangesUtil) {
@@ -61,6 +62,8 @@ public class GetRelated implements RestReadView<RevisionResource> {
   public void addOption(GetRelatedOption option) {
     if (option == GetRelatedOption.SUBMITTABLE) {
       computeSubmittable = true;
+    } else if (option == GetRelatedOption.EXCLUDE_ABANDONED) {
+      excludeAbandoned = true;
     } else {
       throw new IllegalArgumentException("option not recognized: " + option);
     }
@@ -85,6 +88,10 @@ public class GetRelated implements RestReadView<RevisionResource> {
 
     List<RelatedChangeAndCommitInfo> result = new ArrayList<>(sortedResult.size());
     for (RelatedChangesSorter.PatchSetData d : sortedResult) {
+      Change change = d.data().change();
+      if (excludeAbandoned && change != null && change.isAbandoned()) {
+        continue;
+      }
       PatchSet ps = d.patchSet();
       RevCommit commit;
       if (isEdit && ps.id().equals(basePs.id())) {

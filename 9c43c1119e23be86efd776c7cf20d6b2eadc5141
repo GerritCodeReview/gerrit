@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1ac4200_503f5386",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-08-15T19:57:31Z",
+      "side": 1,
+      "message": "Thaonks for raising this, for a long time I\u0027ve thought of proposing something similar.\n\nRather than just hiding them, how about creating a separate section, something like \"previously related changes\" where we could put this? And maybe even previously related changes that have been rebased on a separate chain?",
+      "revId": "9c43c1119e23be86efd776c7cf20d6b2eadc5141",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

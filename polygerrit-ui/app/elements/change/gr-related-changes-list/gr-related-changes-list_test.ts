@@ -304,6 +304,35 @@ suite('gr-related-changes-list', () => {
       );
       assert.isFalse(cherryPicks.classList.contains('first'));
     });
+
+    test('relation chain renders provided related changes', async () => {
+      element.relatedChanges = [
+        {
+          ...createRelatedChangeAndCommitInfo(),
+          commit: {
+            ...createCommitInfoWithRequiredCommit('commit1'),
+            subject: 'Open commit subject',
+          },
+        },
+        {
+          ...createRelatedChangeAndCommitInfo(),
+          commit: {
+            ...createCommitInfoWithRequiredCommit('commit2'),
+            subject: 'Merged commit subject',
+          },
+        },
+      ];
+      await element.updateComplete;
+
+      const section = queryAndAssert<HTMLElement>(element, '#relatedChanges');
+      const collapse = queryAndAssert<GrRelatedCollapse>(
+        section,
+        'gr-related-collapse'
+      );
+      assert.equal(collapse.length, 2);
+      const changeLines = section.querySelectorAll('.relatedChangeLine');
+      assert.equal(changeLines.length, 2);
+    });
   });
 
   test('_changesEqual', () => {

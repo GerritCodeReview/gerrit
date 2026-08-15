@@ -304,12 +304,18 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
   }
 
   private static Predicate<ChangeData> byProjectGroupsPredicate(
-      IndexConfig indexConfig, Project.NameKey project, Collection<String> groups) {
-    int n = indexConfig.maxTerms() - 1;
+      IndexConfig indexConfig,
+      Project.NameKey project,
+      Collection<String> groups,
+      boolean excludeAbandoned) {
+    int n = indexConfig.maxTerms() - (excludeAbandoned ? 2 : 1);
     checkArgument(groups.size() <= n, "cannot exceed %s groups", n);
     List<GroupPredicate> groupPredicates = new ArrayList<>(groups.size());
     for (String g : groups) {
       groupPredicates.add(new GroupPredicate(g));
+    }
+    if (excludeAbandoned) {
+      return and(project(project), not(status(Change.Status.ABANDONED)), or(groupPredicates));
     }
     return and(project(project), or(groupPredicates));
   }
@@ -319,6 +325,15 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
       IndexConfig indexConfig,
       Project.NameKey project,
       Collection<String> groups) {
+    return byProjectGroups(queryProvider, indexConfig, project, groups, false);
+  }
+
+  public static ImmutableList<ChangeData> byProjectGroups(
+      Provider<InternalChangeQuery> queryProvider,
+      IndexConfig indexConfig,
+      Project.NameKey project,
+      Collection<String> groups,
+      boolean excludeAbandoned) {
     // These queries may be complex along multiple dimensions:
     //  * Many groups per change, if there are very many patch sets. This requires partitioning the
     //    list of predicates and combining results.
@@ -328,16 +343,18 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
     // InternalChangeQuery is single-use.
 
     Supplier<InternalChangeQuery> querySupplier = () -> queryProvider.get().enforceVisibility(true);
-    int batchSize = indexConfig.maxTerms() - 1;
+    int batchSize = indexConfig.maxTerms() - (excludeAbandoned ? 2 : 1);
     if (groups.size() <= batchSize) {
       return queryExhaustively(
-          querySupplier, byProjectGroupsPredicate(indexConfig, project, groups));
+          querySupplier, byProjectGroupsPredicate(indexConfig, project, groups, excludeAbandoned));
     }
     Set<Change.Id> seen = new HashSet<>();
     ImmutableList.Builder<ChangeData> result = ImmutableList.builder();
     for (List<String> part : Iterables.partition(groups, batchSize)) {
       for (ChangeData cd :
-          queryExhaustively(querySupplier, byProjectGroupsPredicate(indexConfig, project, part))) {
+          queryExhaustively(
+              querySupplier,
+              byProjectGroupsPredicate(indexConfig, project, part, excludeAbandoned))) {
         if (seen.add(cd.virtualId())) {
           result.add(cd);
         }

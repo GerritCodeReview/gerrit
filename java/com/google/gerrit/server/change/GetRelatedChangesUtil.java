@@ -66,7 +66,21 @@ public class GetRelatedChangesUtil {
    */
   public List<RelatedChangesSorter.PatchSetData> getRelated(ChangeData changeData, PatchSet basePs)
       throws IOException, PermissionBackendException {
-    List<ChangeData> cds = getUnsortedRelated(changeData, basePs, false);
+    return getRelated(changeData, basePs, false);
+  }
+
+  /**
+   * Gets related changes of a specific change revision.
+   *
+   * @param changeData the change of the inputted revision.
+   * @param basePs the revision that the method checks for related changes.
+   * @param excludeAbandoned whether to exclude abandoned changes from the result.
+   * @return list of related changes, sorted via {@link RelatedChangesSorter}
+   */
+  public List<RelatedChangesSorter.PatchSetData> getRelated(
+      ChangeData changeData, PatchSet basePs, boolean excludeAbandoned)
+      throws IOException, PermissionBackendException {
+    List<ChangeData> cds = getUnsortedRelated(changeData, basePs, false, excludeAbandoned);
     if (cds.isEmpty()) {
       return Collections.emptyList();
     }
@@ -84,7 +98,8 @@ public class GetRelatedChangesUtil {
   public List<RelatedChangesSorter.PatchSetData> getAncestors(
       ChangeData changeData, PatchSet basePs, boolean alwaysIncludeOriginalChange)
       throws IOException, PermissionBackendException {
-    List<ChangeData> cds = getUnsortedRelated(changeData, basePs, alwaysIncludeOriginalChange);
+    List<ChangeData> cds =
+        getUnsortedRelated(changeData, basePs, alwaysIncludeOriginalChange, false);
     if (cds.isEmpty()) {
       return Collections.emptyList();
     }
@@ -92,7 +107,10 @@ public class GetRelatedChangesUtil {
   }
 
   private List<ChangeData> getUnsortedRelated(
-      ChangeData changeData, PatchSet basePs, boolean alwaysIncludeOriginalChange) {
+      ChangeData changeData,
+      PatchSet basePs,
+      boolean alwaysIncludeOriginalChange,
+      boolean excludeAbandoned) {
     Set<String> groups = getAllGroups(changeData.patchSets());
     logger.atFine().log("groups = %s", groups);
     if (groups.isEmpty()) {
@@ -101,7 +119,7 @@ public class GetRelatedChangesUtil {
 
     ImmutableList<ChangeData> cds =
         InternalChangeQuery.byProjectGroups(
-            queryProvider, indexConfig, changeData.project(), groups);
+            queryProvider, indexConfig, changeData.project(), groups, excludeAbandoned);
     if (cds.isEmpty()) {
       return Collections.emptyList();
     }

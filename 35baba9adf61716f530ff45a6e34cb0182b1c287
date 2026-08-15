@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "adde3ce8_e5611347",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-15T05:14:56Z",
+      "side": 1,
+      "message": "Can you also create a specific issue on the Gerrit issue tracker 🙏?\nOnce the issue is created, you an put a reference to it using the header `Bug: Issue NNNN`",
+      "revId": "35baba9adf61716f530ff45a6e34cb0182b1c287",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

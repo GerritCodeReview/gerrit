@@ -2136,5 +2136,14 @@ suite('gr-rest-api-service-impl tests', () => {
       );
       assert.equal(fetchStub.lastCall.args[0].fetchOptions!.method, 'DELETE');
     });
+
+    test('getRelatedChanges includes SUBMITTABLE and EXCLUDE_ABANDONED options', async () => {
+      await element.getRelatedChanges(changeNum, 1 as PatchSetNum);
+      assert.isTrue(fetchJSONStub.calledOnce);
+      assert.equal(
+        fetchJSONStub.lastCall.args[0].url,
+        `/changes/test-project~${changeNum}/revisions/1/related?o=SUBMITTABLE&o=EXCLUDE_ABANDONED`
+      );
+    });
   });
 });

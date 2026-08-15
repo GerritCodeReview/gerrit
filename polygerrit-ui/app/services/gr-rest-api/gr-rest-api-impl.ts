@@ -2182,7 +2182,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     changeNum: NumericChangeId,
     patchNum: PatchSetNum
   ): Promise<RelatedChangesInfo | undefined> {
-    const options = '?o=SUBMITTABLE';
+    const options = '?o=SUBMITTABLE&o=EXCLUDE_ABANDONED';
     const url = await this._changeBaseURL(changeNum, patchNum);
     return this._restApiHelper.fetchJSON({
       url: `${url}/related${options}`,

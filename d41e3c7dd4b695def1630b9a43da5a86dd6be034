@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29ede454_17a5972e",
+        "filename": "javatests/com/google/gerrit/httpd/raw/IndexHtmlUtilTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 5088031
+      },
+      "writtenOn": "2026-08-15T23:43:16Z",
+      "side": 0,
+      "message": "Josephhumphreys@",
+      "revId": "d41e3c7dd4b695def1630b9a43da5a86dd6be034",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

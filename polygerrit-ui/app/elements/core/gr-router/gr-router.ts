@@ -1022,7 +1022,7 @@ export class GrRouter implements Finalizable, NavigationService {
       if (loggedIn) {
         this.redirect('/dashboard/self');
       } else {
-        this.redirect('/q/status:open+-is:wip');
+        this.redirect('/q/status:open+-is:wip+-ownerin:%22Service+Users%22');
       }
     });
   }

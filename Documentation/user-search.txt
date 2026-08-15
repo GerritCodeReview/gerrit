@@ -10,8 +10,8 @@ query, execute it, and present the results.
 [options="header"]
 |=======================================================
 |Description                | Default Query
-|Changes > Open             | status:open '(or is:open)'
-|Changes > Merged           | status:merged
+|Changes > Open             | status:open -is:wip -ownerin:"Service Users" '(or is:open -is:wip -ownerin:"Service Users")'
+|Changes > Merged           | status:merged -ownerin:"Service Users"
 |Changes > Abandoned        | status:abandoned
 |Your > Watched Changes     | is:watched is:open
 |Your > Starred Changes     | is:starred

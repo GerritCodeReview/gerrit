@@ -149,7 +149,7 @@ suite('gr-main-header tests', () => {
               </md-item>
               <a
                 class="itemAction"
-                href="//localhost:9876/q/status:open+-is:wip"
+                href="//localhost:9876/q/status:open+-is:wip+-ownerin:%22Service+Users%22"
                 tabindex="-1"
               >
                 <md-list-item md-list-item="" type="button">
@@ -158,7 +158,7 @@ suite('gr-main-header tests', () => {
               </a>
               <a
                 class="itemAction"
-                href="//localhost:9876/q/status:merged"
+                href="//localhost:9876/q/status:merged+-ownerin:%22Service+Users%22"
                 tabindex="-1"
               >
                 <md-list-item md-list-item="" type="button">

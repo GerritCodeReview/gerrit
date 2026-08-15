@@ -51,11 +51,11 @@ const DEFAULT_LINKS: MainHeaderLinkGroup[] = [
     title: 'Changes',
     links: [
       {
-        url: '/q/status:open+-is:wip',
+        url: '/q/status:open+-is:wip+-ownerin:%22Service+Users%22',
         name: 'Open',
       },
       {
-        url: '/q/status:merged',
+        url: '/q/status:merged+-ownerin:%22Service+Users%22',
         name: 'Merged',
       },
       {

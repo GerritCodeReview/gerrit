@@ -535,7 +535,10 @@ suite('gr-router tests', () => {
 
       test('ROOT not logged in', async () => {
         stubRestApi('getLoggedIn').resolves(false);
-        await checkRedirect('/', '/q/status:open+-is:wip');
+        await checkRedirect(
+          '/',
+          '/q/status:open+-is:wip+-ownerin:%22Service+Users%22'
+        );
       });
 
       suite('ROOT GWT hash-path URLs', () => {

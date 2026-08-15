@@ -143,7 +143,10 @@ export class RelatedChangesModel extends Model<RelatedChangesState> {
               .getRelatedChanges(changeNum, latestPatchNum)
               .then(info => info?.changes ?? [])
           );
-        })
+        }),
+        map(changes =>
+          changes?.filter(c => c.status !== ChangeStatus.ABANDONED)
+        )
       )
       .subscribe(relatedChanges => {
         this.updateState({relatedChanges});

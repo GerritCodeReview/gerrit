@@ -652,6 +652,34 @@ public class GetRelatedIT extends AbstractDaemonTest {
     }
   }
 
+  @Test
+  public void excludeAbandoned() throws Exception {
+    RevCommit c1 = commitBuilder().add("a.txt", "1").message("subject: 1").create();
+    RevCommit c2 = commitBuilder().add("b.txt", "2").message("subject: 2").create();
+    RevCommit c3 = commitBuilder().add("c.txt", "3").message("subject: 3").create();
+    pushHead(testRepo, "refs/for/master", false);
+    PatchSet.Id ps1 = getPatchSetId(c1);
+    PatchSet.Id ps2 = getPatchSetId(c2);
+    PatchSet.Id ps3 = getPatchSetId(c3);
+
+    Change change2 = getChange(c2).change();
+    gApi.changes().id(change2.getChangeId()).abandon();
+
+    // Default returns all 3 changes including the abandoned one.
+    assertRelated(
+        ps3,
+        Arrays.asList(
+            changeAndCommit(ps3, c3, 1, "NEW"),
+            changeAndCommit(ps2, c2, 1, "ABANDONED"),
+            changeAndCommit(ps1, c1, 1, "NEW")));
+
+    // With EXCLUDE_ABANDONED option, c2 is omitted.
+    assertRelated(
+        ps3,
+        Arrays.asList(changeAndCommit(ps3, c3, 1, "NEW"), changeAndCommit(ps1, c1, 1, "NEW")),
+        GetRelatedOption.EXCLUDE_ABANDONED);
+  }
+
   private static Correspondence<RelatedChangeAndCommitInfo, String>
       getRelatedChangeToStatusCorrespondence() {
     return Correspondence.transforming(
@@ -673,7 +701,14 @@ public class GetRelatedIT extends AbstractDaemonTest {
 
   private RelatedChangeAndCommitInfo changeAndCommit(
       PatchSet.Id psId, ObjectId commitId, int currentRevisionNum) {
-    return changeAndCommit(psId, commitId, currentRevisionNum, null);
+    return changeAndCommit(psId, commitId, currentRevisionNum, (Boolean) null);
+  }
+
+  private RelatedChangeAndCommitInfo changeAndCommit(
+      PatchSet.Id psId, ObjectId commitId, int currentRevisionNum, String status) {
+    RelatedChangeAndCommitInfo result = changeAndCommit(psId, commitId, currentRevisionNum);
+    result.status = status;
+    return result;
   }
 
   private RelatedChangeAndCommitInfo changeAndCommit(

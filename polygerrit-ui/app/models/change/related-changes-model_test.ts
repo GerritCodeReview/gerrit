@@ -12,6 +12,7 @@ import {RelatedChangesModel} from './related-changes-model';
 import {configModelToken} from '../config/config-model';
 import {SinonStub} from 'sinon';
 import {
+  ChangeId,
   ChangeInfo,
   RelatedChangesInfo,
   SubmittedTogetherInfo,
@@ -94,6 +95,76 @@ suite('related-changes-model tests', () => {
       );
       assert.isTrue(getRelatedChangesStub.calledOnce);
       assert.isTrue(hasParent);
+    });
+
+    test('relatedChanges filters out abandoned changes', async () => {
+      getRelatedChangesResponse = {
+        ...createRelatedChangesInfo(),
+        changes: [
+          {
+            ...createRelatedChangeAndCommitInfo(),
+            change_id: '1' as ChangeId,
+            status: ChangeStatus.ABANDONED,
+          },
+          {
+            ...createRelatedChangeAndCommitInfo(),
+            change_id: '2' as ChangeId,
+            status: ChangeStatus.NEW,
+          },
+          {
+            ...createRelatedChangeAndCommitInfo(),
+            change_id: '3' as ChangeId,
+            status: ChangeStatus.MERGED,
+          },
+          {
+            ...createRelatedChangeAndCommitInfo(),
+            change_id: '4' as ChangeId,
+            status: ChangeStatus.ABANDONED,
+          },
+        ],
+      };
+      changeModel.updateStateChange({
+        ...createParsedChange(),
+        change_id: '2' as ChangeId,
+      });
+
+      await waitUntilObserved(
+        model.relatedChanges$,
+        relatedChanges => relatedChanges?.length === 2
+      );
+      assert.isTrue(getRelatedChangesStub.calledOnce);
+      assert.deepEqual(
+        model.getState().relatedChanges?.map(c => c.change_id),
+        ['2' as ChangeId, '3' as ChangeId]
+      );
+    });
+
+    test('hasParent is false when parent change is abandoned', async () => {
+      getRelatedChangesResponse = {
+        ...createRelatedChangesInfo(),
+        changes: [
+          {
+            ...createRelatedChangeAndCommitInfo(),
+            change_id: '1' as ChangeId,
+            status: ChangeStatus.ABANDONED,
+          },
+          {
+            ...createRelatedChangeAndCommitInfo(),
+            change_id: '2' as ChangeId,
+            status: ChangeStatus.NEW,
+          },
+        ],
+      };
+      changeModel.updateStateChange({
+        ...createParsedChange(),
+        change_id: '2' as ChangeId,
+      });
+
+      await waitUntilObserved(
+        model.relatedChanges$,
+        relatedChanges => relatedChanges?.length === 1
+      );
+      assert.isFalse(hasParent);
     });
   });
 

@@ -9,6 +9,7 @@ acceptance_tests(
         ":util",
         "//java/com/google/gerrit/server/logging",
         "//java/com/google/gerrit/server/util/time",
+        "//lib:jspecify",
     ],
 )
 

@@ -21,12 +21,14 @@ import static com.google.inject.Scopes.SINGLETON;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.server.ModuleImpl;
+import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
 import com.google.gerrit.server.account.externalids.storage.notedb.ExternalIdsNoteDbImpl;
 import com.google.gerrit.server.cache.CacheModule;
@@ -148,26 +150,42 @@ public class AccountCacheImpl implements AccountCache {
 
   @Override
   public ImmutableMap<Account.Id, AccountState> get(Collection<Account.Id> accountIds) {
+    if (accountIds.isEmpty()) {
+      return ImmutableMap.of();
+    }
     try (TraceTimer ignored =
         TraceContext.newTimer(
             "Loading accounts", Metadata.builder().resourceCount(accountIds.size()).build())) {
       try (Repository allUsers = repoManager.openRepository(allUsersName)) {
+        String[] refNames = new String[accountIds.size()];
+        int i = 0;
+        for (Account.Id id : accountIds) {
+          refNames[i++] = RefNames.refsUsers(id);
+        }
+        Map<String, Ref> refs = allUsers.getRefDatabase().exactRef(refNames);
         Set<CachedAccountDetails.Key> keys =
             Sets.newLinkedHashSetWithExpectedSize(accountIds.size());
         for (Account.Id id : accountIds) {
-          Ref userRef = allUsers.exactRef(RefNames.refsUsers(id));
-          if (userRef == null) {
+          Ref userRef = refs.get(RefNames.refsUsers(id));
+          if (userRef == null || userRef.getObjectId() == null) {
             continue;
           }
           keys.add(CachedAccountDetails.Key.create(id, userRef.getObjectId()));
         }
+        if (keys.isEmpty()) {
+          return ImmutableMap.of();
+        }
         CachedPreferences defaultPreferences = defaultPreferenceCache.get();
-        ImmutableMap.Builder<Account.Id, AccountState> result = ImmutableMap.builder();
+        ImmutableSetMultimap<Account.Id, ExternalId> extIdsByAccount = externalIds.allByAccount();
+        ImmutableMap.Builder<Account.Id, AccountState> result =
+            ImmutableMap.builderWithExpectedSize(keys.size());
         for (Map.Entry<CachedAccountDetails.Key, CachedAccountDetails> account :
             accountDetailsCache.getAll(keys).entrySet()) {
+          Account.Id id = account.getKey().accountId();
           result.put(
-              account.getKey().accountId(),
-              AccountState.forCachedAccount(account.getValue(), defaultPreferences, externalIds));
+              id,
+              AccountState.forCachedAccount(
+                  account.getValue(), defaultPreferences, extIdsByAccount.get(id)));
         }
         return result.build();
       }

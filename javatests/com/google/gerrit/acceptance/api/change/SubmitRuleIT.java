@@ -25,6 +25,7 @@ import com.google.gerrit.entities.LabelValue;
 import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.project.SubmitRuleOptions;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.rules.DefaultSubmitRule;
 import com.google.inject.Inject;
 import java.util.List;
@@ -113,4 +114,70 @@ public class SubmitRuleIT extends AbstractDaemonTest {
       u.save();
     }
   }
+
+  @Test
+  public void submitRecordsForOpenChanges_reusedAcrossLenientAndStrict() throws Exception {
+    SubmitRuleEvaluator strictEvaluator =
+        submitRuleEvaluatorFactory.create(SubmitRuleOptions.defaults());
+    SubmitRuleEvaluator lenientEvaluator =
+        submitRuleEvaluatorFactory.create(
+            SubmitRuleOptions.builder().recomputeOnClosedChanges(true).build());
+
+    PushOneCommit.Result r = createChange();
+    approve(r.getChangeId());
+
+    ChangeData cd = r.getChange();
+    List<SubmitRecord> strictRecords = strictEvaluator.evaluate(cd);
+    assertThat(strictRecords).isNotEmpty();
+
+    // Lenient evaluation on the same open change should return the exact same cached instance
+    List<SubmitRecord> lenientRecords = lenientEvaluator.evaluate(cd);
+    assertThat(lenientRecords).isSameInstanceAs(strictRecords);
+
+    // Also testing cd.submitRecords
+    ChangeData cd2 = r.getChange();
+    List<SubmitRecord> lenientRecords2 =
+        cd2.submitRecords(SubmitRuleOptions.builder().recomputeOnClosedChanges(true).build());
+    List<SubmitRecord> strictRecords2 = cd2.submitRecords(SubmitRuleOptions.defaults());
+    assertThat(strictRecords2).isSameInstanceAs(lenientRecords2);
+  }
+
+  @Test
+  public void submitRuleEvaluation_benchmarkLatency() throws Exception {
+    PushOneCommit.Result r = createChange();
+    approve(r.getChangeId());
+
+    SubmitRuleEvaluator strictEvaluator =
+        submitRuleEvaluatorFactory.create(SubmitRuleOptions.defaults());
+    SubmitRuleEvaluator lenientEvaluator =
+        submitRuleEvaluatorFactory.create(
+            SubmitRuleOptions.builder().recomputeOnClosedChanges(true).build());
+
+    int iterations = 10000;
+
+    // Measure cold/uncached evaluations across iterations
+    long uncachedStart = System.nanoTime();
+    for (int i = 0; i < 100; i++) {
+      ChangeData cd = r.getChange();
+      var unused = strictEvaluator.evaluate(cd);
+    }
+    long uncachedDurationNs = System.nanoTime() - uncachedStart;
+
+    // Measure cached evaluations on the same ChangeData instance across iterations
+    ChangeData cd = r.getChange();
+    var unused = strictEvaluator.evaluate(cd); // warm up
+    long cachedStart = System.nanoTime();
+    for (int i = 0; i < iterations; i++) {
+      var unused1 = lenientEvaluator.evaluate(cd);
+      var unused2 = strictEvaluator.evaluate(cd);
+    }
+    long cachedDurationNs = System.nanoTime() - cachedStart;
+
+    double uncachedAvgUs = (uncachedDurationNs / 100.0) / 1000.0;
+    double cachedAvgUs = (cachedDurationNs / (double) (iterations * 2)) / 1000.0;
+    System.out.printf(
+        "SubmitRuleEvaluator Benchmark: Uncached=%.2f us/op, Cached=%.4f us/op%n",
+        uncachedAvgUs, cachedAvgUs);
+  }
 }
+

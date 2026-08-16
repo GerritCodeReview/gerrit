@@ -35,6 +35,7 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.SetMultimap;
+import com.google.common.collect.Sets;
 import com.google.common.collect.Table;
 import com.google.common.flogger.FluentLogger;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -1043,12 +1044,16 @@ public class ChangeData {
    * {@link IllegalStateException}.
    */
   public void setAttentionSet(ImmutableSet<AttentionSetUpdate> attentionSet) {
-    if (attentionSet.stream().map(AttentionSetUpdate::account).distinct().count()
-        != attentionSet.size()) {
-      throw new IllegalStateException(
-          String.format(
-              "Stored attention set for change %d contains duplicate update",
-              change.getId().get()));
+    if (attentionSet.size() > 1) {
+      Set<Account.Id> accounts = Sets.newHashSetWithExpectedSize(attentionSet.size());
+      for (AttentionSetUpdate update : attentionSet) {
+        if (!accounts.add(update.account())) {
+          throw new IllegalStateException(
+              String.format(
+                  "Stored attention set for change %d contains duplicate update",
+                  change.getId().get()));
+        }
+      }
     }
     this.attentionSet = attentionSet;
   }

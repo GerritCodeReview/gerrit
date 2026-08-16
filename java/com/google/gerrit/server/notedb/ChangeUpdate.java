@@ -17,7 +17,6 @@ package com.google.gerrit.server.notedb;
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
-import static com.google.common.collect.ImmutableMap.toImmutableMap;
 import static com.google.gerrit.entities.RefNames.changeMetaRef;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_ATTENTION;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_BASE;
@@ -1080,9 +1079,14 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     if (plannedAttentionSetUpdates == null) {
       plannedAttentionSetUpdates = new HashMap<>();
     }
-    ImmutableMap<Account.Id, String> reasonsForCurrentUsersInAttentionSet =
-        AttentionSetUtil.additionsOnly(getNotes().getAttentionSet()).stream()
-            .collect(toImmutableMap(AttentionSetUpdate::account, AttentionSetUpdate::reason));
+    ImmutableMap.Builder<Account.Id, String> reasonsBuilder =
+        ImmutableMap.builderWithExpectedSize(getNotes().getAttentionSet().size());
+    for (AttentionSetUpdate u : getNotes().getAttentionSet()) {
+      if (u.operation() == AttentionSetUpdate.Operation.ADD) {
+        reasonsBuilder.put(u.account(), u.reason());
+      }
+    }
+    ImmutableMap<Account.Id, String> reasonsForCurrentUsersInAttentionSet = reasonsBuilder.build();
 
     // Current reviewers/ccs are the reviewers/ccs before the update + the new reviewers/ccs - the
     // deleted reviewers/ccs.
@@ -1148,34 +1152,32 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   private void removeInactiveUsersFromAttentionSet(Set<Account.Id> currentReviewers) {
-    ImmutableSet<Account.Id> inActiveUsersInTheAttentionSet =
-        // get the current attention set.
-        getNotes().getAttentionSet().stream()
-            .filter(a -> a.operation().equals(Operation.ADD))
-            .map(a -> a.account())
-            // remove users that are currently being removed from the attention set.
-            .filter(
-                a ->
-                    plannedAttentionSetUpdates.getOrDefault(a, /* defaultValue= */ null) == null
-                        || plannedAttentionSetUpdates.get(a).operation().equals(Operation.REMOVE))
-            // remove users that are still active on the change.
-            .filter(a -> !isActiveOnChange(currentReviewers, a))
-            .collect(ImmutableSet.toImmutableSet());
+    Set<AttentionSetUpdate> updates = new HashSet<>();
+    for (AttentionSetUpdate a : getNotes().getAttentionSet()) {
+      if (a.operation() == Operation.ADD) {
+        Account.Id account = a.account();
+        AttentionSetUpdate planned =
+            plannedAttentionSetUpdates != null ? plannedAttentionSetUpdates.get(account) : null;
+        if (planned == null || planned.operation() == Operation.REMOVE) {
+          if (!isActiveOnChange(currentReviewers, account)) {
+            updates.add(
+                AttentionSetUpdate.createForWrite(
+                    account,
+                    Operation.REMOVE,
+                    /* reason= */ "Only change owner, uploader, reviewers, and cc can "
+                        + "be in the attention set"));
+          }
+        }
+      }
+    }
+
+    if (updates.isEmpty()) {
+      return;
+    }
 
     // We override the flag, as we never want such users in the attention set.
     ignoreFurtherAttentionSetUpdates = false;
-
-    addToPlannedAttentionSetUpdates(
-        inActiveUsersInTheAttentionSet.stream()
-            .map(
-                a ->
-                    AttentionSetUpdate.createForWrite(
-                        a,
-                        Operation.REMOVE,
-                        /* reason= */ "Only change owner, uploader, reviewers, and cc can "
-                            + "be in the attention set"))
-            .collect(ImmutableSet.toImmutableSet()));
-
+    addToPlannedAttentionSetUpdates(updates);
     ignoreFurtherAttentionSetUpdates = true;
   }
 

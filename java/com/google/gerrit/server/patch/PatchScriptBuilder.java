@@ -162,7 +162,12 @@ public class PatchScriptBuilder {
 
     IntraLineDiffCalculatorResult intralineResult = IntraLineDiffCalculatorResult.NO_RESULT;
 
-    if (isModify(content) && intralineDiffCalculator != null && isIntralineModeAllowed(b)) {
+    if (isModify(content)
+        && !contentEdits.isEmpty()
+        && !Objects.equals(a.id, b.id)
+        && content.getPatchType() != Patch.PatchType.BINARY
+        && intralineDiffCalculator != null
+        && isIntralineModeAllowed(b)) {
       intralineResult =
           intralineDiffCalculator.calculateIntraLineDiff(
               contentEdits, editsDueToRebase, a.id, b.id, a.src, b.src, b.treeId, b.path);

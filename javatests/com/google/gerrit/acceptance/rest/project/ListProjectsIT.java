@@ -377,6 +377,38 @@ public class ListProjectsIT extends AbstractDaemonTest {
     assertBadRequest(gApi.projects().list().withAll(true).withState(ProjectState.ACTIVE));
   }
 
+  @Test
+  public void benchmarkListProjectsWithManyProjects() throws Exception {
+    int numProjects = 50;
+    createProjects("benchmark-project-", numProjects);
+
+    long startAll = System.nanoTime();
+    List<ProjectInfo> allList = gApi.projects().list().get();
+    long durationAllMs = (System.nanoTime() - startAll) / 1_000_000;
+    assertThat(allList.size()).isAtLeast(numProjects);
+    assertThat(durationAllMs).isAtLeast(0L);
+
+    long startPrefix = System.nanoTime();
+    List<ProjectInfo> prefixList = gApi.projects().list().withPrefix("benchmark-project-1").get();
+    long durationPrefixMs = (System.nanoTime() - startPrefix) / 1_000_000;
+    assertThat(prefixList).isNotEmpty();
+    assertThat(durationPrefixMs).isAtLeast(0L);
+
+    long startRegex = System.nanoTime();
+    List<ProjectInfo> regexList =
+        gApi.projects().list().withRegex("^benchmark-project-[1-5].*").get();
+    long durationRegexMs = (System.nanoTime() - startRegex) / 1_000_000;
+    assertThat(regexList).isNotEmpty();
+    assertThat(durationRegexMs).isAtLeast(0L);
+
+    long startLimit = System.nanoTime();
+    List<ProjectInfo> limitList =
+        gApi.projects().list().withPrefix("benchmark-project-").withLimit(10).get();
+    long durationLimitMs = (System.nanoTime() - startLimit) / 1_000_000;
+    assertThat(limitList).hasSize(10);
+    assertThat(durationLimitMs).isAtLeast(0L);
+  }
+
   private void assertBadRequest(ListRequest req) throws Exception {
     assertThrows(BadRequestException.class, () -> req.get());
   }

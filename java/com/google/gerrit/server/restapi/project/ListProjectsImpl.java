@@ -388,22 +388,6 @@ public class ListProjectsImpl extends AbstractListProjects {
       while (projectStatesIt.hasNext()) {
         ProjectState e = projectStatesIt.next();
         Project.NameKey projectName = e.getNameKey();
-        if (e.getProject().getState() == HIDDEN && !all && state != HIDDEN) {
-          // If we can't get it from the cache, pretend it's not present.
-          // If all wasn't selected, and it's HIDDEN, pretend it's not present.
-          // If state HIDDEN wasn't selected, and it's HIDDEN, pretend it's not present.
-          continue;
-        }
-
-        if (state != null && e.getProject().getState() != state) {
-          continue;
-        }
-
-        if (groupUuid != null
-            && !e.getLocalGroups()
-                .contains(GroupReference.forGroup(groupResolver.parseId(groupUuid.get())))) {
-          continue;
-        }
 
         if (showTree && !format.isJson()) {
           treeMap.put(projectName, projectNodeFactory.create(e.getProject(), true));
@@ -581,7 +565,24 @@ public class ListProjectsImpl extends AbstractListProjects {
             })
         .filter(Optional::isPresent)
         .map(Optional::get)
-        .filter(p -> permissionCheck(p, perm));
+        .filter(
+            p -> {
+              if (p.getProject().getState() == HIDDEN && !all && state != HIDDEN) {
+                // If we can't get it from the cache, pretend it's not present.
+                // If all wasn't selected, and it's HIDDEN, pretend it's not present.
+                // If state HIDDEN wasn't selected, and it's HIDDEN, pretend it's not present.
+                return false;
+              }
+              if (state != null && p.getProject().getState() != state) {
+                return false;
+              }
+              if (groupUuid != null
+                  && !p.getLocalGroups()
+                      .contains(GroupReference.forGroup(groupResolver.parseId(groupUuid.get())))) {
+                return false;
+              }
+              return permissionCheck(p, perm);
+            });
   }
 
   private boolean permissionCheck(ProjectState state, PermissionBackend.WithUser perm) {

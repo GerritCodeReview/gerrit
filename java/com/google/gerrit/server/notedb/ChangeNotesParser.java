@@ -150,7 +150,6 @@ import org.eclipse.jgit.util.RawParseUtils;
 class ChangeNotesParser {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private static final Splitter RULE_SPLITTER = Splitter.on(": ");
   private static final Splitter HASHTAG_SPLITTER = Splitter.on(",");
 
   // Private final members initialized in the constructor.
@@ -483,8 +482,9 @@ class ChangeNotesParser {
     createdOn = commitTimestamp;
     parseTag(commit);
 
-    PatchSet.Id psId = parsePatchSetId(commit);
-    PatchSetState psState = parsePatchSetState(commit);
+    PatchSetIdAndState psIdAndState = parsePatchSetIdAndState(commit);
+    PatchSet.Id psId = psIdAndState.id;
+    PatchSetState psState = psIdAndState.state;
     if (psState != null) {
       if (!patchSetStates.containsKey(psId)) {
         patchSetStates.put(psId, psState);
@@ -574,7 +574,7 @@ class ChangeNotesParser {
     if (currRev.isPresent()) {
       parsePatchSet(commit, psId, currRev.get(), accountId, realAccountId, commitTimestamp);
     }
-    parseCurrentPatchSet(commit, psId);
+    parseCurrentPatchSet(commit, psId, currRev.isPresent());
 
     if (status == null) {
       status = parseStatus(commit);
@@ -590,14 +590,14 @@ class ChangeNotesParser {
     }
 
     Account.Id updater = accountId != null ? accountId : ownerId;
-    for (ReviewerStateInternal state : ReviewerStateInternal.values()) {
+    for (ReviewerStateInternal state : ReviewerStateInternal.ALL_STATES) {
       for (String line : commit.getFooterLineValues(state.getFooterKey())) {
         parseReviewer(commitTimestamp, updater, realAccountId, state, line);
       }
       for (String line : commit.getFooterLineValues(state.getByEmailFooterKey())) {
         parseReviewerByEmail(commitTimestamp, updater, realAccountId, state, line);
       }
-      // Don't update timestamp when a reviewer was added, matching RevewDb
+      // Don't update timestamp when a reviewer was added, matching ReviewDb
       // behavior.
     }
 
@@ -842,16 +842,17 @@ class ChangeNotesParser {
     }
   }
 
-  private void parseCurrentPatchSet(ChangeNotesCommit commit, PatchSet.Id psId)
+  private void parseCurrentPatchSet(
+      ChangeNotesCommit commit, PatchSet.Id psId, boolean hasCommitFooter)
       throws ConfigInvalidException {
     // This commit implies a new current patch set if either it creates a new
     // patch set, or sets the current field explicitly.
     boolean current = false;
-    if (parseOneFooter(commit, FOOTER_COMMIT) != null) {
+    if (hasCommitFooter) {
       current = true;
     } else {
       String currentStr = parseOneFooter(commit, FOOTER_CURRENT);
-      if (Boolean.TRUE.toString().equalsIgnoreCase(currentStr)) {
+      if ("true".equalsIgnoreCase(currentStr)) {
         current = true;
       } else if (currentStr != null) {
         // Only "true" is allowed; unsetting the current patch set makes no
@@ -884,12 +885,14 @@ class ChangeNotesParser {
 
   private void parseCustomKeyedValues(ChangeNotesCommit commit) {
     for (String customKeyedValueLine : commit.getFooterLineValues(FOOTER_CUSTOM_KEYED_VALUE)) {
-      String[] parts = customKeyedValueLine.split("=", 2);
-      String key = parts[0];
-      String value = parts[1];
-      // Commits are parsed in reverse order and only the last set of values
-      // should be used.  An empty value for a key means it's a deletion.
-      customKeyedValues.putIfAbsent(key, value);
+      int eq = customKeyedValueLine.indexOf('=');
+      if (eq >= 0) {
+        String key = customKeyedValueLine.substring(0, eq);
+        String value = customKeyedValueLine.substring(eq + 1);
+        // Commits are parsed in reverse order and only the last set of values
+        // should be used.  An empty value for a key means it's a deletion.
+        customKeyedValues.putIfAbsent(key, value);
+      }
     }
   }
 
@@ -964,36 +967,41 @@ class ChangeNotesParser {
     return status;
   }
 
-  private PatchSet.Id parsePatchSetId(ChangeNotesCommit commit) throws ConfigInvalidException {
+  private static class PatchSetIdAndState {
+    final PatchSet.Id id;
+    @Nullable final PatchSetState state;
+
+    PatchSetIdAndState(PatchSet.Id id, @Nullable PatchSetState state) {
+      this.id = id;
+      this.state = state;
+    }
+  }
+
+  private PatchSetIdAndState parsePatchSetIdAndState(ChangeNotesCommit commit)
+      throws ConfigInvalidException {
     String psIdLine = parseExactlyOneFooter(commit, FOOTER_PATCH_SET);
     int s = psIdLine.indexOf(' ');
     String psIdStr = s < 0 ? psIdLine : psIdLine.substring(0, s);
-    Integer psId = Ints.tryParse(psIdStr);
-    if (psId == null) {
+    Integer psIdInt = Ints.tryParse(psIdStr);
+    if (psIdInt == null) {
       throw invalidFooter(FOOTER_PATCH_SET, psIdStr);
     }
-    return PatchSet.id(id, psId);
-  }
-
-  @Nullable
-  private PatchSetState parsePatchSetState(ChangeNotesCommit commit) throws ConfigInvalidException {
-    String psIdLine = parseExactlyOneFooter(commit, FOOTER_PATCH_SET);
-    int s = psIdLine.indexOf(' ');
-    if (s < 0) {
-      return null;
-    }
-    String withParens = psIdLine.substring(s + 1);
-    if (withParens.startsWith("(") && withParens.endsWith(")")) {
-      PatchSetState state =
-          Enums.getIfPresent(
-                  PatchSetState.class,
-                  withParens.substring(1, withParens.length() - 1).toUpperCase(Locale.US))
-              .orNull();
-      if (state != null) {
-        return state;
+    PatchSet.Id psId = PatchSet.id(id, psIdInt);
+    PatchSetState psState = null;
+    if (s >= 0) {
+      String withParens = psIdLine.substring(s + 1);
+      if (withParens.startsWith("(") && withParens.endsWith(")")) {
+        psState =
+            Enums.getIfPresent(
+                    PatchSetState.class,
+                    withParens.substring(1, withParens.length() - 1).toUpperCase(Locale.US))
+                .orNull();
+      }
+      if (psState == null) {
+        throw invalidFooter(FOOTER_PATCH_SET, psIdLine);
       }
     }
-    throw invalidFooter(FOOTER_PATCH_SET, psIdLine);
+    return new PatchSetIdAndState(psId, psState);
   }
 
   private void parseDescription(PatchSet.Id psId, ChangeNotesCommit commit)
@@ -1308,7 +1316,7 @@ class ChangeNotesParser {
       } else {
         checkFooter(rec != null, FOOTER_SUBMITTED_WITH, line);
         if (line.startsWith("Rule-Name: ")) {
-          String ruleName = RULE_SPLITTER.splitToList(line).get(1);
+          String ruleName = line.substring(11).trim();
           rec.ruleName = ruleName;
           continue;
         }
@@ -1396,10 +1404,10 @@ class ChangeNotesParser {
     String raw = parseOneFooter(commit, FOOTER_PRIVATE);
     if (raw == null) {
       return;
-    } else if (Boolean.TRUE.toString().equalsIgnoreCase(raw)) {
+    } else if ("true".equalsIgnoreCase(raw)) {
       isPrivate = true;
       return;
-    } else if (Boolean.FALSE.toString().equalsIgnoreCase(raw)) {
+    } else if ("false".equalsIgnoreCase(raw)) {
       isPrivate = false;
       return;
     }
@@ -1412,7 +1420,7 @@ class ChangeNotesParser {
       // No change to WIP state in this revision.
       previousWorkInProgressFooter = null;
       return;
-    } else if (Boolean.TRUE.toString().equalsIgnoreCase(raw)) {
+    } else if ("true".equalsIgnoreCase(raw)) {
       // This revision moves the change into WIP.
       previousWorkInProgressFooter = true;
       if (workInProgress == null) {
@@ -1427,7 +1435,7 @@ class ChangeNotesParser {
         workInProgress = true;
       }
       return;
-    } else if (Boolean.FALSE.toString().equalsIgnoreCase(raw)) {
+    } else if ("false".equalsIgnoreCase(raw)) {
       previousWorkInProgressFooter = false;
       hasReviewStarted = true;
       if (workInProgress == null) {

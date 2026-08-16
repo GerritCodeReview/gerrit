@@ -18,14 +18,12 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_ATTENTION;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_PATCH_SET;
 
-import com.google.common.collect.ListMultimap;
-import com.google.common.collect.MultimapBuilder;
-import com.google.common.collect.Sets;
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.server.git.InMemoryInserter;
 import com.google.gerrit.server.git.InsertedObject;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.AnyObjectId;
@@ -38,8 +36,6 @@ import org.eclipse.jgit.revwalk.RevWalk;
 
 /**
  * Commit implementation with some optimizations for change notes parsing.
- *
- * <p>
  *
  * <ul>
  *   <li>Caches the result of {@link #getFooterLines()}, which is otherwise very wasteful with
@@ -115,30 +111,66 @@ public class ChangeNotesCommit extends RevCommit {
     }
   }
 
-  private ListMultimap<String, String> footerLines;
+  private List<FooterLine> footerLines;
 
   public ChangeNotesCommit(AnyObjectId id) {
     super(id);
   }
 
-  public List<String> getFooterLineValues(FooterKey key) {
+  private void initFooterLines() {
     if (footerLines == null) {
-      List<FooterLine> src = getFooterLines();
-      footerLines = MultimapBuilder.hashKeys(src.size()).arrayListValues(1).build();
-      for (FooterLine fl : src) {
-        footerLines.put(fl.getKey().toLowerCase(Locale.US), fl.getValue());
+      footerLines = getFooterLines();
+    }
+  }
+
+  public List<String> getFooterLineValues(FooterKey key) {
+    initFooterLines();
+    if (footerLines.isEmpty()) {
+      return ImmutableList.of();
+    }
+    String first = null;
+    List<String> r = null;
+    for (FooterLine fl : footerLines) {
+      if (fl.matches(key)) {
+        if (first == null) {
+          first = fl.getValue();
+        } else {
+          if (r == null) {
+            r = new ArrayList<>(2);
+            r.add(first);
+          }
+          r.add(fl.getValue());
+        }
       }
     }
-    return footerLines.get(key.getName().toLowerCase(Locale.US));
+    if (r != null) {
+      return r;
+    }
+    if (first != null) {
+      return ImmutableList.of(first);
+    }
+    return ImmutableList.of();
   }
 
   public boolean isAttentionSetCommitOnly(boolean hasChangeMessage) {
-    return !hasChangeMessage
-        && footerLines
-            .keySet()
-            .equals(
-                Sets.newHashSet(
-                    FOOTER_PATCH_SET.getName().toLowerCase(Locale.US),
-                    FOOTER_ATTENTION.getName().toLowerCase(Locale.US)));
+    if (hasChangeMessage) {
+      return false;
+    }
+    initFooterLines();
+    if (footerLines.size() < 2) {
+      return false;
+    }
+    boolean hasPatchSet = false;
+    boolean hasAttention = false;
+    for (FooterLine fl : footerLines) {
+      if (fl.matches(FOOTER_PATCH_SET)) {
+        hasPatchSet = true;
+      } else if (fl.matches(FOOTER_ATTENTION)) {
+        hasAttention = true;
+      } else {
+        return false;
+      }
+    }
+    return hasPatchSet && hasAttention;
   }
 }

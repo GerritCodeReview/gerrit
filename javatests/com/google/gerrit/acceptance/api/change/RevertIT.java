@@ -19,6 +19,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.util.stream.Collectors.toList;
 
@@ -57,6 +58,8 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.git.InMemoryInserter;
+import com.google.gerrit.server.git.MergeUtilFactory;
 import com.google.gerrit.server.permissions.PermissionDeniedException;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.inject.Inject;
@@ -66,9 +69,18 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
+import org.eclipse.jgit.diff.DiffEntry;
+import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.merge.ThreeWayMerger;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.RefSpec;
+import org.eclipse.jgit.util.io.DisabledOutputStream;
 import org.junit.Test;
 
 public class RevertIT extends AbstractDaemonTest {
@@ -77,6 +89,7 @@ public class RevertIT extends AbstractDaemonTest {
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private ExtensionRegistry extensionRegistry;
   @Inject private AccountOperations accountOperations;
+  @Inject private MergeUtilFactory mergeUtilFactory;
 
   @Test
   public void pureRevertReturnsTrueForPureRevert() throws Exception {
@@ -183,6 +196,52 @@ public class RevertIT extends AbstractDaemonTest {
             BadRequestException.class,
             () -> gApi.changes().id(createChange().getChangeId()).pureRevert());
     assertThat(thrown).hasMessageThat().contains("revertOf not set");
+  }
+
+  private boolean baselinePureRevertCheck(
+      Project.NameKey project, ObjectId revert, ObjectId original) throws Exception {
+    try (Repository repo = repoManager.openRepository(project);
+        ObjectInserter ins = new InMemoryInserter(repo);
+        RevWalk rw = new RevWalk(repo)) {
+      RevCommit claimedOriginalCommit = rw.parseCommit(original);
+      RevCommit claimedRevertCommit = rw.parseCommit(revert);
+      ThreeWayMerger merger =
+          mergeUtilFactory
+              .create(projectCache.get(project).orElseThrow(illegalState(project)))
+              .newThreeWayMerger(ins, repo);
+      merger.setBase(claimedRevertCommit.getParent(0));
+      boolean success = merger.merge(claimedRevertCommit, claimedOriginalCommit);
+      if (!success || merger.getResultTreeId() == null) {
+        return false;
+      }
+      try (DiffFormatter df = new DiffFormatter(DisabledOutputStream.INSTANCE)) {
+        df.setReader(ins.newReader(), repo.getConfig());
+        List<DiffEntry> entries =
+            df.scan(claimedOriginalCommit.getParent(0), merger.getResultTreeId());
+        return entries.isEmpty();
+      }
+    }
+  }
+
+  private boolean optimizedPureRevertCheck(
+      Project.NameKey project, ObjectId revert, ObjectId original) throws Exception {
+    try (Repository repo = repoManager.openRepository(project);
+        ObjectInserter ins = new InMemoryInserter(repo);
+        RevWalk rw = new RevWalk(repo)) {
+      RevCommit claimedOriginalCommit = rw.parseCommit(original);
+      RevCommit claimedRevertCommit = rw.parseCommit(revert);
+      ThreeWayMerger merger =
+          mergeUtilFactory
+              .create(projectCache.get(project).orElseThrow(illegalState(project)))
+              .newThreeWayMerger(ins, repo);
+      merger.setBase(claimedRevertCommit.getParent(0));
+      boolean success = merger.merge(claimedRevertCommit, claimedOriginalCommit);
+      if (!success || merger.getResultTreeId() == null) {
+        return false;
+      }
+      rw.parseHeaders(claimedOriginalCommit.getParent(0));
+      return merger.getResultTreeId().equals(claimedOriginalCommit.getParent(0).getTree());
+    }
   }
 
   @Test

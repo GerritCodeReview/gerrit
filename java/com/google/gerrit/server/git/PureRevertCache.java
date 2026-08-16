@@ -40,10 +40,7 @@ import com.google.inject.name.Named;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.TextFormat;
 import java.io.IOException;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
-import org.eclipse.jgit.diff.DiffEntry;
-import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.errors.InvalidObjectIdException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.ObjectId;
@@ -52,7 +49,6 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.merge.ThreeWayMerger;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.util.io.DisabledOutputStream;
 
 /** Computes and caches if a change is a pure revert of another change. */
 @Singleton
@@ -195,12 +191,8 @@ public class PureRevertCache {
 
           // Any differences between claimed original's parent and the rebase result indicate that
           // the claimedRevert is not a pure revert but made content changes
-          try (DiffFormatter df = new DiffFormatter(DisabledOutputStream.INSTANCE)) {
-            df.setReader(ins.newReader(), repo.getConfig());
-            List<DiffEntry> entries =
-                df.scan(claimedOriginalCommit.getParent(0), merger.getResultTreeId());
-            return entries.isEmpty();
-          }
+          rw.parseHeaders(claimedOriginalCommit.getParent(0));
+          return merger.getResultTreeId().equals(claimedOriginalCommit.getParent(0).getTree());
         }
       }
     }

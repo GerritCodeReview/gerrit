@@ -38,7 +38,6 @@ import com.google.gerrit.server.data.PatchSetAttribute;
 import com.google.gerrit.server.data.QueryStatsAttribute;
 import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gson.Gson;
@@ -90,7 +89,6 @@ public class OutputStreamQuery {
   private final ChangeQueryProcessor queryProcessor;
   private final EventFactory eventFactory;
   private final TrackingFooters trackingFooters;
-  private final SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory;
   private final AccountAttributeLoader.Factory accountAttributeLoaderFactory;
 
   private OutputFormat outputFormat = OutputFormat.TEXT;
@@ -116,14 +114,12 @@ public class OutputStreamQuery {
       ChangeQueryProcessor queryProcessor,
       EventFactory eventFactory,
       TrackingFooters trackingFooters,
-      SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory,
       AccountAttributeLoader.Factory accountAttributeLoaderFactory) {
     this.repoManager = repoManager;
     this.queryBuilder = queryBuilder;
     this.queryProcessor = queryProcessor;
     this.eventFactory = eventFactory;
     this.trackingFooters = trackingFooters;
-    this.submitRuleEvaluatorFactory = submitRuleEvaluatorFactory;
     this.accountAttributeLoaderFactory = accountAttributeLoaderFactory;
   }
 
@@ -286,8 +282,7 @@ public class OutputStreamQuery {
     if (includeSubmitRecords) {
       SubmitRuleOptions options =
           SubmitRuleOptions.builder().recomputeOnClosedChanges(true).build();
-      eventFactory.addSubmitRecords(
-          c, submitRuleEvaluatorFactory.create(options).evaluate(d), accountLoader);
+      eventFactory.addSubmitRecords(c, d.submitRecords(options), accountLoader);
     }
 
     if (includeCommitMessage) {

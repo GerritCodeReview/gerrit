@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.notedb;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.client.ReviewerState;
 import java.util.Arrays;
 import org.eclipse.jgit.revwalk.FooterKey;
@@ -21,13 +22,16 @@ import org.eclipse.jgit.revwalk.FooterKey;
 /** State of a reviewer on a change. */
 public enum ReviewerStateInternal {
   /** The user has contributed at least one nonzero vote on the change. */
-  REVIEWER("Reviewer", ReviewerState.REVIEWER),
+  REVIEWER(ReviewerState.REVIEWER),
 
   /** The reviewer was added to the change, but has not voted. */
-  CC("CC", ReviewerState.CC),
+  CC(ReviewerState.CC),
 
   /** The user was previously a reviewer on the change, but was removed. */
-  REMOVED("Removed", ReviewerState.REMOVED);
+  REMOVED(ReviewerState.REMOVED);
+
+  public static final ImmutableList<ReviewerStateInternal> ALL_STATES =
+      ImmutableList.copyOf(values());
 
   public static ReviewerStateInternal fromReviewerState(ReviewerState state) {
     return ReviewerStateInternal.values()[state.ordinal()];
@@ -50,20 +54,34 @@ public enum ReviewerStateInternal {
     }
   }
 
-  private final String footer;
   private final ReviewerState state;
 
-  ReviewerStateInternal(String footer, ReviewerState state) {
-    this.footer = footer;
+  ReviewerStateInternal(ReviewerState state) {
     this.state = state;
   }
 
   FooterKey getFooterKey() {
-    return new FooterKey(footer);
+    switch (this) {
+      case REVIEWER:
+        return ChangeNoteFooters.FOOTER_REVIEWER;
+      case CC:
+        return ChangeNoteFooters.FOOTER_CC;
+      case REMOVED:
+        return ChangeNoteFooters.FOOTER_REMOVED;
+    }
+    throw new IllegalStateException("unhandled state: " + this);
   }
 
   FooterKey getByEmailFooterKey() {
-    return new FooterKey(footer + "-email");
+    switch (this) {
+      case REVIEWER:
+        return ChangeNoteFooters.FOOTER_REVIEWER_EMAIL;
+      case CC:
+        return ChangeNoteFooters.FOOTER_CC_EMAIL;
+      case REMOVED:
+        return ChangeNoteFooters.FOOTER_REMOVED_EMAIL;
+    }
+    throw new IllegalStateException("unhandled state: " + this);
   }
 
   public ReviewerState asReviewerState() {

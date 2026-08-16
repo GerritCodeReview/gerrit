@@ -18,6 +18,9 @@ import static com.google.common.collect.ImmutableMap.toImmutableMap;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Throwables;
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.flogger.FluentLogger;
@@ -27,15 +30,19 @@ import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.entities.SubmitRequirementExpressionResult;
 import com.google.gerrit.entities.SubmitRequirementResult;
-import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
+import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
+import com.google.gerrit.server.plugins.Plugin;
+import com.google.gerrit.server.plugins.ReloadPluginListener;
+import com.google.gerrit.server.plugins.StartPluginListener;
+import com.google.gerrit.server.plugins.StopPluginListener;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.SubmitRequirementChangeQueryBuilder;
 import com.google.gerrit.server.util.ManualRequestContext;
@@ -45,6 +52,9 @@ import com.google.inject.Module;
 import com.google.inject.Provides;
 import com.google.inject.Scopes;
 import com.google.inject.Singleton;
+import com.google.inject.TypeLiteral;
+import com.google.inject.internal.UniqueAnnotations;
+import com.google.inject.name.Named;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
@@ -59,8 +69,14 @@ import java.util.stream.Stream;
 import org.eclipse.jgit.lib.Config;
 
 /** Evaluates submit requirements for different change data. */
-public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvaluator {
+public class SubmitRequirementsEvaluatorImpl
+    implements SubmitRequirementsEvaluator,
+        StartPluginListener,
+        StopPluginListener,
+        ReloadPluginListener {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
+  public static final String CACHE_NAME = "submit_requirements_expressions";
 
   private final SubmitRequirementChangeQueryBuilder.Factory queryBuilderFactory;
   private final ProjectCache projectCache;
@@ -74,16 +90,33 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
   // a "ownerin" predicate with group that is not visible to the person making this request).
   private final OneOffRequestContext requestContext;
   private final long executionTimeout;
+  private final Cache<SubmitRequirementExpression, Predicate<ChangeData>> expressionCache;
 
   public static Module module() {
-    return new FactoryModule() {
+    return new CacheModule() {
       @Override
       protected void configure() {
         bind(SubmitRequirementsEvaluator.class)
             .to(SubmitRequirementsEvaluatorImpl.class)
             .in(Scopes.SINGLETON);
 
+        bind(StartPluginListener.class)
+            .annotatedWith(UniqueAnnotations.create())
+            .to(SubmitRequirementsEvaluatorImpl.class);
+        bind(StopPluginListener.class)
+            .annotatedWith(UniqueAnnotations.create())
+            .to(SubmitRequirementsEvaluatorImpl.class);
+        bind(ReloadPluginListener.class)
+            .annotatedWith(UniqueAnnotations.create())
+            .to(SubmitRequirementsEvaluatorImpl.class);
+
         factory(SubmitRequirementChangeQueryBuilder.Factory.class);
+
+        cache(
+                CACHE_NAME,
+                SubmitRequirementExpression.class,
+                new TypeLiteral<Predicate<ChangeData>>() {})
+            .maximumWeight(1024);
       }
 
       @Provides
@@ -107,7 +140,6 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
     };
   }
 
-  @Inject
   public SubmitRequirementsEvaluatorImpl(
       SubmitRequirementChangeQueryBuilder.Factory queryBuilderFactory,
       ProjectCache projectCache,
@@ -115,6 +147,26 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
       @GerritServerConfig Config config,
       OneOffRequestContext requestContext,
       @SubmitRequirementExecutor ExecutorService executor) {
+    this(
+        queryBuilderFactory,
+        projectCache,
+        globalSubmitRequirements,
+        config,
+        requestContext,
+        executor,
+        CacheBuilder.newBuilder().maximumSize(1024).build());
+  }
+
+  @Inject
+  public SubmitRequirementsEvaluatorImpl(
+      SubmitRequirementChangeQueryBuilder.Factory queryBuilderFactory,
+      ProjectCache projectCache,
+      PluginSetContext<SubmitRequirement> globalSubmitRequirements,
+      @GerritServerConfig Config config,
+      OneOffRequestContext requestContext,
+      @SubmitRequirementExecutor ExecutorService executor,
+      @Named(CACHE_NAME)
+          Cache<SubmitRequirementExpression, Predicate<ChangeData>> expressionCache) {
     this.queryBuilderFactory = queryBuilderFactory;
     this.projectCache = projectCache;
     this.globalSubmitRequirements = globalSubmitRequirements;
@@ -125,6 +177,7 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
     this.executor = executor;
     this.executionTimeout =
         config.getTimeUnit("submitRequirement", null, "executionTimeout", 0, TimeUnit.MILLISECONDS);
+    this.expressionCache = expressionCache;
   }
 
   @Override
@@ -164,15 +217,29 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
     }
   }
 
+  private Predicate<ChangeData> getParsedPredicate(SubmitRequirementExpression expression)
+      throws QueryParseException {
+    try {
+      return expressionCache.get(
+          expression,
+          () ->
+              queryBuilderFactory
+                  .create(requireOperatorForEvaluation)
+                  .parse(expression.expressionString()));
+    } catch (ExecutionException e) {
+      Throwables.throwIfInstanceOf(e.getCause(), QueryParseException.class);
+      Throwables.throwIfUnchecked(e.getCause());
+      throw new QueryParseException(
+          "Failed to parse expression: " + expression.expressionString(), e);
+    }
+  }
+
   /** Evaluate a {@link SubmitRequirementExpression} using change data. */
   @VisibleForTesting
   public SubmitRequirementExpressionResult evaluateExpression(
       SubmitRequirementExpression expression, ChangeData changeData) {
     try {
-      Predicate<ChangeData> predicate =
-          queryBuilderFactory
-              .create(requireOperatorForEvaluation)
-              .parse(expression.expressionString());
+      Predicate<ChangeData> predicate = getParsedPredicate(expression);
       PredicateResult predicateResult = changeData.evaluatePredicateTree(predicate);
       return SubmitRequirementExpressionResult.create(expression, predicateResult);
     } catch (QueryParseException
@@ -372,5 +439,20 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
             toImmutableMap(
                 globalRequirement -> globalRequirement.name().toLowerCase(Locale.US),
                 Function.identity()));
+  }
+
+  @Override
+  public void onStartPlugin(Plugin plugin) {
+    expressionCache.invalidateAll();
+  }
+
+  @Override
+  public void onStopPlugin(Plugin plugin) {
+    expressionCache.invalidateAll();
+  }
+
+  @Override
+  public void onReloadPlugin(Plugin oldPlugin, Plugin newPlugin) {
+    expressionCache.invalidateAll();
   }
 }

@@ -715,7 +715,7 @@ class GitwebServlet extends HttpServlet {
     new Thread(
             () -> {
               try (BufferedReader br =
-                  new BufferedReader(new InputStreamReader(in, ISO_8859_1.name()))) {
+                  new BufferedReader(new InputStreamReader(in, ISO_8859_1))) {
                 String err =
                     br.lines()
                         .filter(s -> !s.isEmpty())

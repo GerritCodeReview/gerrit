@@ -18,7 +18,6 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static javax.servlet.http.HttpServletResponse.SC_SERVICE_UNAVAILABLE;
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
-import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.io.BaseEncoding;
@@ -41,6 +40,7 @@ import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.Locale;
 import java.util.Optional;
 import javax.servlet.Filter;
@@ -243,8 +243,18 @@ class ProjectBasicAuthFilter implements Filter {
     }
   }
 
-  private String encoding(HttpServletRequest req) {
-    return MoreObjects.firstNonNull(req.getCharacterEncoding(), UTF_8.name());
+  private Charset encoding(HttpServletRequest req) throws IOException {
+    String enc = req.getCharacterEncoding();
+    if (enc == null) {
+      return UTF_8;
+    }
+    try {
+      return Charset.forName(enc);
+    } catch (IllegalArgumentException e) {
+      // Reject an unknown/illegal request charset as a checked exception rather
+      // than letting an unchecked charset exception escape on untrusted input.
+      throw new IOException("Unsupported request charset: " + enc, e);
+    }
   }
 
   static class Response extends HttpServletResponseWrapper {

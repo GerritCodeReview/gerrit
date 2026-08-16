@@ -215,7 +215,6 @@ import com.google.inject.assistedinject.Assisted;
 import com.google.inject.util.Providers;
 import java.io.IOException;
 import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -2017,12 +2016,9 @@ class ReceiveCommits {
       message = token.replace("_", " ");
       try {
         // Other characters can be represented using percent-encoding.
-        message = URLDecoder.decode(message, UTF_8.name());
+        message = URLDecoder.decode(message, UTF_8);
       } catch (IllegalArgumentException e) {
         // Ignore decoding errors; leave message as percent-encoded.
-      } catch (UnsupportedEncodingException e) {
-        // This shouldn't happen; surely URLDecoder recognizes UTF-8.
-        throw new IllegalStateException(e);
       }
     }
 

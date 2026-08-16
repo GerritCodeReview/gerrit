@@ -17,7 +17,6 @@ package com.google.gerrit.extensions.restapi;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.gerrit.common.Nullable;
-import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 
@@ -44,11 +43,7 @@ public final class Url {
   @Nullable
   public static String encode(String component) {
     if (component != null) {
-      try {
-        return URLEncoder.encode(component, UTF_8.name());
-      } catch (UnsupportedEncodingException e) {
-        throw new RuntimeException("JVM must support UTF-8", e);
-      }
+      return URLEncoder.encode(component, UTF_8);
     }
     return null;
   }
@@ -57,11 +52,7 @@ public final class Url {
   @Nullable
   public static String decode(String str) {
     if (str != null) {
-      try {
-        return URLDecoder.decode(str, UTF_8.name());
-      } catch (UnsupportedEncodingException e) {
-        throw new RuntimeException("JVM must support UTF-8", e);
-      }
+      return URLDecoder.decode(str, UTF_8);
     }
     return null;
   }

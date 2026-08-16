@@ -25,6 +25,7 @@ import com.google.gerrit.entities.Address;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.time.Instant;
 import java.util.Locale;
 import org.apache.james.mime4j.MimeException;
@@ -150,8 +151,15 @@ public class RawMailParser {
       Entity part, StringBuilder textBuilder, StringBuilder htmlBuilder) throws IOException {
     if (isPlainOrHtml(part.getMimeType()) && !isAttachment(part.getDispositionType())) {
       TextBody tb = (TextBody) part.getBody();
-      String result =
-          CharStreams.toString(new InputStreamReader(tb.getInputStream(), tb.getMimeCharset()));
+      Charset charset;
+      try {
+        charset = Charset.forName(tb.getMimeCharset());
+      } catch (IllegalArgumentException e) {
+        // Surface an unknown/illegal MIME charset as a checked exception so the
+        // caller wraps it into MailParsingException instead of it escaping.
+        throw new IOException("Unsupported MIME charset: " + tb.getMimeCharset(), e);
+      }
+      String result = CharStreams.toString(new InputStreamReader(tb.getInputStream(), charset));
       if (part.getMimeType().equals("text/plain")) {
         textBuilder.append(result);
       } else if (part.getMimeType().equals("text/html")) {

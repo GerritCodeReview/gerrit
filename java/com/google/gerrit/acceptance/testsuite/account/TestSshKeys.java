@@ -97,7 +97,7 @@ public class TestSshKeys {
 
   public static String publicKey(KeyPair sshKey, @Nullable String comment)
       throws IOException, GeneralSecurityException {
-    return preparePublicKey(sshKey, comment).toString(US_ASCII.name()).trim();
+    return preparePublicKey(sshKey, comment).toString(US_ASCII).trim();
   }
 
   public static byte[] publicKeyBlob(KeyPair sshKey) throws IOException, GeneralSecurityException {

@@ -714,8 +714,7 @@ class GitwebServlet extends HttpServlet {
   private void copyStderrToLog(InputStream in) {
     new Thread(
             () -> {
-              try (BufferedReader br =
-                  new BufferedReader(new InputStreamReader(in, ISO_8859_1.name()))) {
+              try (BufferedReader br = new BufferedReader(new InputStreamReader(in, ISO_8859_1))) {
                 String err =
                     br.lines()
                         .filter(s -> !s.isEmpty())

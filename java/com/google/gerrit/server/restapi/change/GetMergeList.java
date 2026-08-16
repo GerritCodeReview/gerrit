@@ -67,8 +67,8 @@ public class GetMergeList implements RestReadView<RevisionResource> {
     Project.NameKey p = rsrc.getChange().getProject();
     try (Repository repo = repoManager.openRepository(p);
         RevWalk rw = new RevWalk(repo)) {
+      rw.setRetainBody(false);
       RevCommit commit = rw.parseCommit(rsrc.getPatchSet().commitId());
-      rw.parseBody(commit);
 
       if (uninterestingParent < 1 || uninterestingParent > commit.getParentCount()) {
         throw new BadRequestException("No such parent: " + uninterestingParent);
@@ -82,6 +82,7 @@ public class GetMergeList implements RestReadView<RevisionResource> {
       List<CommitInfo> result = new ArrayList<>(commits.size());
       RevisionJson changeJson = json.create(ImmutableSet.of());
       for (RevCommit c : commits) {
+        rw.parseBody(c);
         result.add(
             changeJson.getCommitInfo(
                 rsrc.getProject(),

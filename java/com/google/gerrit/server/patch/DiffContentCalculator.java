@@ -55,17 +55,24 @@ class DiffContentCalculator {
    */
   DiffCalculatorResult calculateDiffContent(
       TextSource srcA, TextSource srcB, ImmutableList<Edit> edits) {
-    if (srcA.src == srcB.src && edits.isEmpty()) {
-      // Odd special case; the files are identical (100% rename or copy)
-      // and the user has asked for context that is larger than the file.
-      // Send them the entire file, with an empty edit after the last line.
-      //
-      SparseFileContentBuilder diffA = new SparseFileContentBuilder(srcA.size());
-      for (int i = 0; i < srcA.size(); i++) {
-        srcA.copyLineTo(diffA, i);
+    if ((srcA.src == srcB.src
+            || (srcA.src != null && srcB.src != null && srcA.src.equals(srcB.src)))
+        && edits.isEmpty()) {
+      // Fast path for identical files (e.g. unchanged file, or 100% rename/copy with no edits).
+      // All lines are common lines. Construct SparseFileContent directly.
+      ImmutableList.Builder<String> lines = ImmutableList.builderWithExpectedSize(srcA.size());
+      if (srcA.src != null) {
+        for (int i = 0; i < srcA.src.size(); i++) {
+          lines.add(srcA.src.getString(i));
+        }
+        if (srcA.size() > srcA.src.size()) {
+          lines.add("");
+        }
       }
+      ImmutableList<String> builtLines = lines.build();
+      SparseFileContent diffA = SparseFileContent.create(0, builtLines, srcA.size());
       DiffContent diffContent =
-          new DiffContent(diffA.build(), SparseFileContent.create(ImmutableList.of(), srcB.size()));
+          new DiffContent(diffA, SparseFileContent.create(ImmutableList.of(), srcB.size()));
       Edit emptyEdit = new Edit(srcA.size(), srcA.size());
       return new DiffCalculatorResult(diffContent, ImmutableList.of(emptyEdit));
     }

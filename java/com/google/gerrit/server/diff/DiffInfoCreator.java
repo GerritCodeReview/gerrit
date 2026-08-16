@@ -107,6 +107,28 @@ public class DiffInfoCreator {
   }
 
   private static List<ContentEntry> calculateDiffContentEntries(PatchScript ps) {
+    if (ps.isBinary()) {
+      if (ps.getChangeType() == Patch.ChangeType.ADDED) {
+        return ImmutableList.of();
+      }
+      int aSize = ps.getA().getSize();
+      if (aSize > 0) {
+        ContentEntry entry = new ContentEntry();
+        entry.skip = aSize;
+        return ImmutableList.of(entry);
+      }
+      return ImmutableList.of();
+    }
+
+    if ((ps.getEdits().isEmpty()
+            || (ps.getEdits().size() == 1 && ps.getEdits().get(0).getType() == Edit.Type.EMPTY))
+        && ps.getA().isFullyPopulated()
+        && ps.getB().getRangesCount() == 0) {
+      ContentEntry entry = new ContentEntry();
+      entry.ab = Lists.newArrayList(ps.getA().getFullLines());
+      return ImmutableList.of(entry);
+    }
+
     ContentCollector contentCollector = new ContentCollector(ps);
     Set<Edit> editsDueToRebase = ps.getEditsDueToRebase();
     for (Edit edit : ps.getEdits()) {

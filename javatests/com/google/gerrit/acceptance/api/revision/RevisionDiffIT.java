@@ -3390,4 +3390,116 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     }
     return process.toString();
   }
+
+  @Test
+  public void benchmarkDiffRetrievalLatency() throws Exception {
+    String largeFileName = "large_file.txt";
+    String largeContent =
+        IntStream.rangeClosed(1, 5000)
+            .mapToObj(
+                number ->
+                    String.format(
+                        "Line %d: Some long content line for benchmarking diff retrieval"
+                            + " latency\n",
+                        number))
+            .collect(joining());
+    String imageFileName = "bench_image.png";
+    byte[] imageBytes = createRgbImage(200, 100, 50);
+
+    Change.Id changeId1 =
+        changeOperations
+            .newChange()
+            .project(project)
+            .file(largeFileName)
+            .content(largeContent)
+            .file(imageFileName)
+            .content(new String(imageBytes, UTF_8))
+            .createV1();
+
+    String changeKey = gApi.changes().id(changeId1.get()).get().changeId;
+    // PS2 modifies only commit message, keeping files identical
+    gApi.changes()
+        .id(changeId1.get())
+        .edit()
+        .modifyCommitMessage("Updated message for benchmark\n\nChange-Id: " + changeKey);
+    gApi.changes().id(changeId1.get()).edit().publish();
+
+    String currentRev = gApi.changes().id(changeId1.get()).get().currentRevision;
+    String baseRev =
+        gApi.changes().id(changeId1.get()).get().revisions.keySet().stream()
+            .filter(r -> !r.equals(currentRev))
+            .findFirst()
+            .get();
+
+    // Create changeId2 child of changeId1 with modified binary file
+    byte[] imageBytesModified = createRgbImage(0, 255, 0);
+    Change.Id changeId2 =
+        changeOperations
+            .newChange()
+            .project(project)
+            .childOf()
+            .change(changeId1)
+            .file(imageFileName)
+            .content(new String(imageBytesModified, UTF_8))
+            .createV1();
+
+    // Warm-up
+    for (int i = 0; i < 5; i++) {
+      var unused1 =
+          gApi.changes()
+              .id(changeId1.get())
+              .revision(currentRev)
+              .file(largeFileName)
+              .diffRequest()
+              .withBase(baseRev)
+              .withIntraline(true)
+              .get();
+      var unused2 =
+          gApi.changes()
+              .id(changeId2.get())
+              .current()
+              .file(imageFileName)
+              .diffRequest()
+              .withIntraline(true)
+              .get();
+    }
+
+    int iterations = 50;
+    long startUnchanged = System.nanoTime();
+    for (int i = 0; i < iterations; i++) {
+      DiffInfo diff =
+          gApi.changes()
+              .id(changeId1.get())
+              .revision(currentRev)
+              .file(largeFileName)
+              .diffRequest()
+              .withBase(baseRev)
+              .withIntraline(true)
+              .get();
+      assertThat(diff.content).isNotEmpty();
+    }
+    long elapsedUnchangedNs = System.nanoTime() - startUnchanged;
+    double avgUnchangedMs = (elapsedUnchangedNs / 1_000_000.0) / iterations;
+
+    long startBinary = System.nanoTime();
+    for (int i = 0; i < iterations; i++) {
+      DiffInfo diff =
+          gApi.changes()
+              .id(changeId2.get())
+              .current()
+              .file(imageFileName)
+              .diffRequest()
+              .withIntraline(true)
+              .get();
+      assertThat(diff.binary).isTrue();
+    }
+    long elapsedBinaryNs = System.nanoTime() - startBinary;
+    double avgBinaryMs = (elapsedBinaryNs / 1_000_000.0) / iterations;
+
+    System.out.println(
+        String.format(
+            "BENCHMARK_RESULT: Unchanged file diff avg latency = %.3f ms/op, Binary diff avg"
+                + " latency = %.3f ms/op",
+            avgUnchangedMs, avgBinaryMs));
+  }
 }

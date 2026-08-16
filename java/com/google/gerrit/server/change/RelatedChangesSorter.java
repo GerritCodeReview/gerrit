@@ -73,90 +73,86 @@ public class RelatedChangesSorter {
   public List<PatchSetData> sort(List<ChangeData> in, PatchSet startPs)
       throws IOException, PermissionBackendException {
     checkArgument(!in.isEmpty(), "Input may not be empty");
-    // Map of all patch sets, keyed by commit SHA-1.
-    Map<ObjectId, PatchSetData> byId = collectById(in);
-    PatchSetData start = getCheckedPatchSetData(byId, startPs);
+    Project.NameKey project = in.get(0).change().getProject();
+    try (Repository repo = repoManager.openRepository(project);
+        RevWalk rw = new RevWalk(repo)) {
+      rw.setRetainBody(false);
+      // Map of all patch sets, keyed by commit SHA-1.
+      Map<ObjectId, PatchSetData> byId = collectById(in, rw, project);
+      PatchSetData start = getCheckedPatchSetData(byId, startPs);
 
-    // Map of patch set -> immediate parent.
-    ListMultimap<PatchSetData, PatchSetData> parents =
-        MultimapBuilder.hashKeys(in.size()).arrayListValues(3).build();
-    // Map of patch set -> immediate children.
-    ListMultimap<PatchSetData, PatchSetData> children =
-        MultimapBuilder.hashKeys(in.size()).arrayListValues(3).build();
-    // All other patch sets of the same change as startPs.
-    List<PatchSetData> otherPatchSetsOfStart = new ArrayList<>();
+      // Map of patch set -> immediate parent.
+      ListMultimap<PatchSetData, PatchSetData> parents =
+          MultimapBuilder.hashKeys(in.size()).arrayListValues(3).build();
+      // Map of patch set -> immediate children.
+      ListMultimap<PatchSetData, PatchSetData> children =
+          MultimapBuilder.hashKeys(in.size()).arrayListValues(3).build();
+      // All other patch sets of the same change as startPs.
+      List<PatchSetData> otherPatchSetsOfStart = new ArrayList<>();
 
-    for (ChangeData cd : in) {
-      for (PatchSet ps : cd.patchSets()) {
-        PatchSetData thisPsd = requireNonNull(byId.get(ps.commitId()));
-        if (cd.getId().equals(start.id()) && !ps.id().equals(start.psId())) {
-          otherPatchSetsOfStart.add(thisPsd);
-        }
-        for (RevCommit p : thisPsd.commit().getParents()) {
-          PatchSetData parentPsd = byId.get(p);
-          if (parentPsd != null) {
-            parents.put(thisPsd, parentPsd);
-            children.put(parentPsd, thisPsd);
+      for (ChangeData cd : in) {
+        for (PatchSet ps : cd.patchSets()) {
+          PatchSetData thisPsd = requireNonNull(byId.get(ps.commitId()));
+          if (cd.getId().equals(start.id()) && !ps.id().equals(start.psId())) {
+            otherPatchSetsOfStart.add(thisPsd);
+          }
+          for (RevCommit p : thisPsd.commit().getParents()) {
+            PatchSetData parentPsd = byId.get(p);
+            if (parentPsd != null) {
+              parents.put(thisPsd, parentPsd);
+              children.put(parentPsd, thisPsd);
+            }
           }
         }
       }
-    }
 
-    Set<PatchSetData> ancestors = walkAncestors(parents, start);
-    List<PatchSetData> descendants =
-        walkDescendants(children, start, otherPatchSetsOfStart, ancestors);
-    List<PatchSetData> result = new ArrayList<>(ancestors.size() + descendants.size() - 1);
-    result.addAll(Lists.reverse(descendants));
-    result.addAll(ancestors);
-    return result;
+      Set<PatchSetData> ancestors = walkAncestors(parents, start);
+      List<PatchSetData> descendants =
+          walkDescendants(children, start, otherPatchSetsOfStart, ancestors);
+      List<PatchSetData> result = new ArrayList<>(ancestors.size() + descendants.size() - 1);
+      result.addAll(Lists.reverse(descendants));
+      result.addAll(ancestors);
+      for (PatchSetData psd : result) {
+        rw.parseBody(psd.commit());
+      }
+      return result;
+    }
   }
 
   public List<PatchSetData> sortAncestors(List<ChangeData> in, PatchSet startPs)
       throws IOException, PermissionBackendException {
     checkArgument(!in.isEmpty(), "Input may not be empty");
-    // Map of all patch sets, keyed by commit SHA-1.
-    Map<ObjectId, PatchSetData> byId = collectById(in);
-    PatchSetData start = getCheckedPatchSetData(byId, startPs);
-
-    // Map of patch set -> immediate parent.
-    ListMultimap<PatchSetData, PatchSetData> parents =
-        MultimapBuilder.hashKeys(in.size()).arrayListValues(3).build();
-
-    for (ChangeData cd : in) {
-      for (PatchSet ps : cd.patchSets()) {
-        PatchSetData thisPsd = requireNonNull(byId.get(ps.commitId()));
-
-        for (RevCommit p : thisPsd.commit().getParents()) {
-          PatchSetData parentPsd = byId.get(p);
-          if (parentPsd != null) {
-            parents.put(thisPsd, parentPsd);
-          }
-        }
-      }
-    }
-
-    Set<PatchSetData> ancestors = walkAncestors(parents, start);
-    return List.copyOf(ancestors);
-  }
-
-  private Map<ObjectId, PatchSetData> collectById(List<ChangeData> in) throws IOException {
     Project.NameKey project = in.get(0).change().getProject();
-    Map<ObjectId, PatchSetData> result = Maps.newHashMapWithExpectedSize(in.size() * 3);
     try (Repository repo = repoManager.openRepository(project);
         RevWalk rw = new RevWalk(repo)) {
-      rw.setRetainBody(true);
-      for (ChangeData cd : in) {
-        checkArgument(
-            cd.change().getProject().equals(project),
-            "Expected change %s in project %s, found %s",
-            cd.getId(),
-            project,
-            cd.change().getProject());
-        for (PatchSet ps : cd.patchSets()) {
-          RevCommit c = rw.parseCommit(ps.commitId());
-          PatchSetData psd = PatchSetData.create(cd, ps, c);
-          result.put(ps.commitId(), psd);
-        }
+      rw.setRetainBody(false);
+      // Map of all patch sets, keyed by commit SHA-1.
+      Map<ObjectId, PatchSetData> byId = collectById(in, rw, project);
+      PatchSetData start = getCheckedPatchSetData(byId, startPs);
+
+      LinkedHashSet<PatchSetData> ancestors = walkAncestorsDirect(byId, start);
+      for (PatchSetData psd : ancestors) {
+        rw.parseBody(psd.commit());
+      }
+      return List.copyOf(ancestors);
+    }
+  }
+
+  private Map<ObjectId, PatchSetData> collectById(
+      List<ChangeData> in, RevWalk rw, Project.NameKey project) throws IOException {
+    Map<ObjectId, PatchSetData> result = Maps.newHashMapWithExpectedSize(in.size() * 3);
+    for (ChangeData cd : in) {
+      checkArgument(
+          cd.change().getProject().equals(project),
+          "Expected change %s in project %s, found %s",
+          cd.getId(),
+          project,
+          cd.change().getProject());
+      for (PatchSet ps : cd.patchSets()) {
+        RevCommit c = rw.lookupCommit(ps.commitId());
+        rw.parseHeaders(c);
+        PatchSetData psd = PatchSetData.create(cd, ps, c);
+        result.put(ps.commitId(), psd);
       }
     }
     return result;
@@ -179,15 +175,40 @@ public class RelatedChangesSorter {
       ListMultimap<PatchSetData, PatchSetData> parents, PatchSetData start)
       throws PermissionBackendException {
     LinkedHashSet<PatchSetData> result = new LinkedHashSet<>();
+    Set<PatchSetData> seen = new HashSet<>();
     Deque<PatchSetData> pending = new ArrayDeque<>();
     pending.add(start);
     while (!pending.isEmpty()) {
       PatchSetData psd = pending.remove();
-      if (result.contains(psd) || !isVisible(psd)) {
+      if (!seen.add(psd) || !isVisible(psd)) {
         continue;
       }
       result.add(psd);
       pending.addAll(Lists.reverse(parents.get(psd)));
+    }
+    return result;
+  }
+
+  private LinkedHashSet<PatchSetData> walkAncestorsDirect(
+      Map<ObjectId, PatchSetData> byId, PatchSetData start) throws PermissionBackendException {
+    LinkedHashSet<PatchSetData> result = new LinkedHashSet<>();
+    Set<PatchSetData> seen = new HashSet<>();
+    Deque<PatchSetData> pending = new ArrayDeque<>();
+    pending.add(start);
+    while (!pending.isEmpty()) {
+      PatchSetData psd = pending.remove();
+      if (!seen.add(psd) || !isVisible(psd)) {
+        continue;
+      }
+      result.add(psd);
+      RevCommit commit = psd.commit();
+      int parentCount = commit.getParentCount();
+      for (int i = parentCount - 1; i >= 0; i--) {
+        PatchSetData parentPsd = byId.get(commit.getParent(i));
+        if (parentPsd != null) {
+          pending.add(parentPsd);
+        }
+      }
     }
     return result;
   }
@@ -235,10 +256,9 @@ public class RelatedChangesSorter {
     pending.addAll(start);
     while (!pending.isEmpty()) {
       PatchSetData psd = pending.remove();
-      if (seen.contains(psd) || !isVisible(psd)) {
+      if (!seen.add(psd) || !isVisible(psd)) {
         continue;
       }
-      seen.add(psd);
       if (!alreadyEmittedChanges.contains(psd.id())) {
         // Don't emit anything for changes that were previously emitted, even
         // though different patch sets might show up later. However, do

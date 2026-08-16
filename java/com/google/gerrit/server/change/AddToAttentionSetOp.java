@@ -24,7 +24,6 @@ import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.notedb.ChangeUpdate;
-import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.PostUpdateContext;
@@ -38,7 +37,6 @@ public class AddToAttentionSetOp implements BatchUpdateOp {
     AddToAttentionSetOp create(Account.Id attentionUserId, String reason, boolean notify);
   }
 
-  private final ChangeData.Factory changeDataFactory;
   private final AttentionSetEmail.Factory attentionSetEmailFactory;
 
   private final Account.Id attentionUserId;
@@ -57,12 +55,10 @@ public class AddToAttentionSetOp implements BatchUpdateOp {
    */
   @Inject
   AddToAttentionSetOp(
-      ChangeData.Factory changeDataFactory,
       AttentionSetEmail.Factory attentionSetEmailFactory,
       @Assisted Account.Id attentionUserId,
       @Assisted String reason,
       @Assisted boolean notify) {
-    this.changeDataFactory = changeDataFactory;
     this.attentionSetEmailFactory = attentionSetEmailFactory;
     this.attentionUserId = requireNonNull(attentionUserId, "user");
     this.reason = requireNonNull(reason, "reason");
@@ -82,16 +78,16 @@ public class AddToAttentionSetOp implements BatchUpdateOp {
       return false;
     }
 
-    ChangeData changeData = changeDataFactory.create(ctx.getNotes());
-    if (changeData.attentionSet().stream()
-        .anyMatch(
-            u ->
-                u.account().equals(attentionUserId)
-                    && u.reason().equals(reason)
-                    && u.operation() == AttentionSetUpdate.Operation.ADD)) {
-      // We still need to perform this update to ensure that we don't remove the user in a follow-up
-      // operation, but no need to send an email about it.
-      notify = false;
+    for (AttentionSetUpdate u : ctx.getNotes().getAttentionSet()) {
+      if (u.account().equals(attentionUserId)
+          && u.reason().equals(reason)
+          && u.operation() == AttentionSetUpdate.Operation.ADD) {
+        // We still need to perform this update to ensure that we don't remove the user in a
+        // follow-up
+        // operation, but no need to send an email about it.
+        notify = false;
+        break;
+      }
     }
 
     change = ctx.getChange();

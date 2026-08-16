@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.change;
 
-import static com.google.common.collect.ImmutableMap.toImmutableMap;
 import static com.google.gerrit.extensions.client.ListChangesOption.ALL_COMMITS;
 import static com.google.gerrit.extensions.client.ListChangesOption.ALL_REVISIONS;
 import static com.google.gerrit.extensions.client.ListChangesOption.CHANGE_ACTIONS;
@@ -37,8 +36,6 @@ import static com.google.gerrit.extensions.client.ListChangesOption.SUBMIT_REQUI
 import static com.google.gerrit.extensions.client.ListChangesOption.TRACKING_IDS;
 import static com.google.gerrit.server.ChangeMessagesUtil.createChangeMessageInfo;
 import static com.google.gerrit.server.experiments.ExperimentFeaturesConstants.SKIP_SUBMIT_RECORDS_WITHOUT_SUBMIT_REQUIREMENTS;
-import static com.google.gerrit.server.util.AttentionSetUtil.additionsOnly;
-import static com.google.gerrit.server.util.AttentionSetUtil.removalsOnly;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Joiner;
@@ -57,6 +54,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Address;
+import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.LegacySubmitRequirement;
@@ -73,6 +71,7 @@ import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ApprovalInfo;
+import com.google.gerrit.extensions.common.AttentionSetInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
@@ -715,19 +714,22 @@ public class ChangeJson {
     out.currentRevisionNumber = in.currentPatchSetId().get();
     out.topic = in.getTopic();
     if (!cd.attentionSet().isEmpty()) {
-      out.removedFromAttentionSet =
-          removalsOnly(cd.attentionSet()).stream()
-              .collect(
-                  toImmutableMap(
-                      a -> a.account().get(),
-                      a -> AttentionSetUtil.createAttentionSetInfo(a, accountLoader)));
-      out.attentionSet =
-          // This filtering should match GetAttentionSet.
-          additionsOnly(cd.attentionSet()).stream()
-              .collect(
-                  toImmutableMap(
-                      a -> a.account().get(),
-                      a -> AttentionSetUtil.createAttentionSetInfo(a, accountLoader)));
+      ImmutableSet<AttentionSetUpdate> attentionSet = cd.attentionSet();
+      ImmutableMap.Builder<Integer, AttentionSetInfo> removals =
+          ImmutableMap.builderWithExpectedSize(attentionSet.size());
+      ImmutableMap.Builder<Integer, AttentionSetInfo> additions =
+          ImmutableMap.builderWithExpectedSize(attentionSet.size());
+      for (AttentionSetUpdate a : attentionSet) {
+        if (a.operation() == AttentionSetUpdate.Operation.REMOVE) {
+          removals.put(
+              a.account().get(), AttentionSetUtil.createAttentionSetInfo(a, accountLoader));
+        } else if (a.operation() == AttentionSetUpdate.Operation.ADD) {
+          additions.put(
+              a.account().get(), AttentionSetUtil.createAttentionSetInfo(a, accountLoader));
+        }
+      }
+      out.removedFromAttentionSet = removals.build();
+      out.attentionSet = additions.build();
     }
     if (has(CUSTOM_KEYED_VALUES)) {
       out.customKeyedValues = cd.customKeyedValues();

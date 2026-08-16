@@ -16,6 +16,7 @@ package com.google.gerrit.server.account;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.common.AccountInfo;
@@ -99,6 +100,7 @@ public class AccountLoader {
    * specified in one of {@code get} or {@code put} call before the call to {@code fill}. Otherwise,
    * returns unfilled AccountInfo.
    */
+  @CanIgnoreReturnValue
   @Nullable
   public synchronized AccountInfo get(@Nullable Account.Id id) {
     if (id == null) {
@@ -124,18 +126,37 @@ public class AccountLoader {
    */
   @SuppressWarnings("ReferenceEquality") // Intentional reference equality check
   public void fill() throws PermissionBackendException {
+    if (primeAccountInfo.isEmpty() && provided.isEmpty()) {
+      return;
+    }
     try (TraceTimer timer = TraceContext.newTimer("Fill accounts", Metadata.empty())) {
+      List<DuplicateAccountInfo> duplicates = null;
       for (AccountInfo info : provided) {
-        primeAccountInfo.putIfAbsent(Account.id(info._accountId), info);
-      }
-      directory.fillAccountInfo(primeAccountInfo.values(), options);
-      for (AccountInfo info : provided) {
-        AccountInfo filledInfo = primeAccountInfo.get(Account.id(info._accountId));
-        // Check if it's the same instance.
-        if (filledInfo != info) {
-          filledInfo.copyTo(info);
+        Account.Id id = Account.id(info._accountId);
+        AccountInfo prime = primeAccountInfo.putIfAbsent(id, info);
+        if (prime != null && prime != info) {
+          if (duplicates == null) {
+            duplicates = new ArrayList<>();
+          }
+          duplicates.add(new DuplicateAccountInfo(prime, info));
         }
       }
+      directory.fillAccountInfo(primeAccountInfo, options);
+      if (duplicates != null) {
+        for (DuplicateAccountInfo dup : duplicates) {
+          dup.prime.copyTo(dup.target);
+        }
+      }
+    }
+  }
+
+  private static class DuplicateAccountInfo {
+    final AccountInfo prime;
+    final AccountInfo target;
+
+    DuplicateAccountInfo(AccountInfo prime, AccountInfo target) {
+      this.prime = prime;
+      this.target = target;
     }
   }
 

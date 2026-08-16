@@ -14,10 +14,8 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import static com.google.common.collect.ImmutableSet.toImmutableSet;
-import static com.google.gerrit.server.util.AttentionSetUtil.additionsOnly;
-
 import com.google.common.collect.ImmutableSet;
+import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.extensions.common.AttentionSetInfo;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -44,12 +42,15 @@ public class GetAttentionSet implements RestReadView<ChangeResource> {
   public Response<Set<AttentionSetInfo>> apply(ChangeResource changeResource)
       throws PermissionBackendException {
     AccountLoader accountLoader = accountLoaderFactory.create(true);
-    ImmutableSet<AttentionSetInfo> response =
-        // This filtering should match ChangeJson.
-        additionsOnly(changeResource.getNotes().getAttentionSet()).stream()
-            .map(a -> AttentionSetUtil.createAttentionSetInfo(a, accountLoader))
-            .collect(toImmutableSet());
+    ImmutableSet<AttentionSetUpdate> attentionSet = changeResource.getNotes().getAttentionSet();
+    ImmutableSet.Builder<AttentionSetInfo> response =
+        ImmutableSet.builderWithExpectedSize(attentionSet.size());
+    for (AttentionSetUpdate a : attentionSet) {
+      if (a.operation() == AttentionSetUpdate.Operation.ADD) {
+        response.add(AttentionSetUtil.createAttentionSetInfo(a, accountLoader));
+      }
+    }
     accountLoader.fill();
-    return Response.ok(response);
+    return Response.ok(response.build());
   }
 }

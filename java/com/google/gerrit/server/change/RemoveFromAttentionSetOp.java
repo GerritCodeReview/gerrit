@@ -25,14 +25,12 @@ import com.google.gerrit.entities.AttentionSetUpdate.Operation;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.notedb.ChangeUpdate;
-import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.PostUpdateContext;
 import com.google.gerrit.server.util.AttentionSetEmail;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import java.util.Optional;
 
 /** Remove a specified user from the attention set. */
 public class RemoveFromAttentionSetOp implements BatchUpdateOp {
@@ -40,7 +38,6 @@ public class RemoveFromAttentionSetOp implements BatchUpdateOp {
     RemoveFromAttentionSetOp create(Account.Id attentionUserId, String reason, boolean notify);
   }
 
-  private final ChangeData.Factory changeDataFactory;
   private final AttentionSetEmail.Factory attentionSetEmailFactory;
 
   private final Account.Id attentionUserId;
@@ -59,12 +56,10 @@ public class RemoveFromAttentionSetOp implements BatchUpdateOp {
    */
   @Inject
   RemoveFromAttentionSetOp(
-      ChangeData.Factory changeDataFactory,
       AttentionSetEmail.Factory attentionSetEmailFactory,
       @Assisted Account.Id attentionUserId,
       @Assisted String reason,
       @Assisted boolean notify) {
-    this.changeDataFactory = changeDataFactory;
     this.attentionSetEmailFactory = attentionSetEmailFactory;
     this.attentionUserId = requireNonNull(attentionUserId, "user");
     this.reason = requireNonNull(reason, "reason");
@@ -84,12 +79,16 @@ public class RemoveFromAttentionSetOp implements BatchUpdateOp {
       return false;
     }
 
-    ChangeData changeData = changeDataFactory.create(ctx.getNotes());
-    Optional<AttentionSetUpdate> existingEntry =
-        changeData.attentionSet().stream()
-            .filter(u -> u.account().equals(attentionUserId))
-            .findAny();
-    if (!existingEntry.isPresent() || existingEntry.get().operation() == Operation.REMOVE) {
+    boolean hasActiveAdd = false;
+    for (AttentionSetUpdate u : ctx.getNotes().getAttentionSet()) {
+      if (u.account().equals(attentionUserId)) {
+        if (u.operation() == Operation.ADD) {
+          hasActiveAdd = true;
+        }
+        break;
+      }
+    }
+    if (!hasActiveAdd) {
       // We still need to perform this update to ensure that we don't add the user in a follow-up
       // operation, but no need to send an email about it.
       notify = false;

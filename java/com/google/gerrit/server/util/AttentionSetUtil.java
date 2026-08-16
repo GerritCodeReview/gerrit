@@ -37,17 +37,33 @@ public class AttentionSetUtil {
   /** Returns only updates where the user was added. */
   public static ImmutableSet<AttentionSetUpdate> additionsOnly(
       Collection<AttentionSetUpdate> updates) {
-    return updates.stream()
-        .filter(u -> u.operation() == Operation.ADD)
-        .collect(ImmutableSet.toImmutableSet());
+    if (updates.isEmpty()) {
+      return ImmutableSet.of();
+    }
+    ImmutableSet.Builder<AttentionSetUpdate> builder =
+        ImmutableSet.builderWithExpectedSize(updates.size());
+    for (AttentionSetUpdate u : updates) {
+      if (u.operation() == Operation.ADD) {
+        builder.add(u);
+      }
+    }
+    return builder.build();
   }
 
   /** Returns only updates where the user was removed. */
   public static ImmutableSet<AttentionSetUpdate> removalsOnly(
       Collection<AttentionSetUpdate> updates) {
-    return updates.stream()
-        .filter(u -> u.operation() == Operation.REMOVE)
-        .collect(ImmutableSet.toImmutableSet());
+    if (updates.isEmpty()) {
+      return ImmutableSet.of();
+    }
+    ImmutableSet.Builder<AttentionSetUpdate> builder =
+        ImmutableSet.builderWithExpectedSize(updates.size());
+    for (AttentionSetUpdate u : updates) {
+      if (u.operation() == Operation.REMOVE) {
+        builder.add(u);
+      }
+    }
+    return builder.build();
   }
 
   /**

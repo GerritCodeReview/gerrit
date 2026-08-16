@@ -764,16 +764,31 @@ public class ChangeField {
   }
 
   private static ImmutableSet<Integer> getAttentionSetUserIds(ChangeData changeData) {
-    return additionsOnly(changeData.attentionSet()).stream()
-        .map(update -> update.account().get())
-        .collect(toImmutableSet());
+    ImmutableSet<AttentionSetUpdate> attentionSet = changeData.attentionSet();
+    if (attentionSet.isEmpty()) {
+      return ImmutableSet.of();
+    }
+    ImmutableSet.Builder<Integer> builder =
+        ImmutableSet.builderWithExpectedSize(attentionSet.size());
+    for (AttentionSetUpdate update : attentionSet) {
+      if (update.operation() == AttentionSetUpdate.Operation.ADD) {
+        builder.add(update.account().get());
+      }
+    }
+    return builder.build();
   }
 
   private static ImmutableSet<byte[]> storedAttentionSet(ChangeData changeData) {
-    return changeData.attentionSet().stream()
-        .map(StoredAttentionSetEntry::new)
-        .map(storedAttentionSetEntry -> GSON.toJson(storedAttentionSetEntry).getBytes(UTF_8))
-        .collect(toImmutableSet());
+    ImmutableSet<AttentionSetUpdate> attentionSet = changeData.attentionSet();
+    if (attentionSet.isEmpty()) {
+      return ImmutableSet.of();
+    }
+    ImmutableSet.Builder<byte[]> builder =
+        ImmutableSet.builderWithExpectedSize(attentionSet.size());
+    for (AttentionSetUpdate update : attentionSet) {
+      builder.add(GSON.toJson(new StoredAttentionSetEntry(update)).getBytes(UTF_8));
+    }
+    return builder.build();
   }
 
   /**
@@ -782,12 +797,16 @@ public class ChangeField {
    */
   public static void parseAttentionSet(
       Collection<String> storedAttentionSetEntriesJson, ChangeData changeData) {
-    ImmutableSet<AttentionSetUpdate> attentionSet =
-        storedAttentionSetEntriesJson.stream()
-            .map(
-                entry -> GSON.fromJson(entry, StoredAttentionSetEntry.class).toAttentionSetUpdate())
-            .collect(toImmutableSet());
-    changeData.setAttentionSet(attentionSet);
+    if (storedAttentionSetEntriesJson.isEmpty()) {
+      changeData.setAttentionSet(ImmutableSet.of());
+      return;
+    }
+    ImmutableSet.Builder<AttentionSetUpdate> attentionSet =
+        ImmutableSet.builderWithExpectedSize(storedAttentionSetEntriesJson.size());
+    for (String entry : storedAttentionSetEntriesJson) {
+      attentionSet.add(GSON.fromJson(entry, StoredAttentionSetEntry.class).toAttentionSetUpdate());
+    }
+    changeData.setAttentionSet(attentionSet.build());
   }
 
   /** Commit ID of any patch set on the change, using prefix match. */

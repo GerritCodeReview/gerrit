@@ -15,7 +15,6 @@
 package com.google.gerrit.server.mail.send;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
-import static com.google.gerrit.server.util.AttentionSetUtil.additionsOnly;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.auto.factory.AutoFactory;
@@ -65,7 +64,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
-import java.util.stream.Collectors;
 import org.apache.james.mime4j.dom.field.FieldName;
 import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.internal.JGitText;
@@ -695,10 +693,11 @@ public class ChangeEmailImpl implements ChangeEmail {
   private Set<Account.Id> getAttentionSet() {
     Set<Account.Id> attentionSet = new TreeSet<>();
     try {
-      attentionSet =
-          additionsOnly(changeData.attentionSet()).stream()
-              .map(AttentionSetUpdate::account)
-              .collect(Collectors.toSet());
+      for (AttentionSetUpdate u : changeData.attentionSet()) {
+        if (u.operation() == AttentionSetUpdate.Operation.ADD) {
+          attentionSet.add(u.account());
+        }
+      }
     } catch (StorageException e) {
       logger.atWarning().withCause(e).log("Cannot get change attention set");
     }

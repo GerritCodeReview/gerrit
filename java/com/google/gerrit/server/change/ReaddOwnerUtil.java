@@ -22,6 +22,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -35,7 +36,6 @@ import com.google.gerrit.server.query.change.ChangeQueryProcessor;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.update.context.RefUpdateContext;
-import com.google.gerrit.server.util.AttentionSetUtil;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -126,7 +126,11 @@ public class ReaddOwnerUtil {
   }
 
   private static boolean inAttentionSet(ChangeData changeData, Account.Id accountId) {
-    return AttentionSetUtil.additionsOnly(changeData.attentionSet()).stream()
-        .anyMatch(u -> u.account().equals(accountId));
+    for (AttentionSetUpdate u : changeData.attentionSet()) {
+      if (u.operation() == AttentionSetUpdate.Operation.ADD && u.account().equals(accountId)) {
+        return true;
+      }
+    }
+    return false;
   }
 }

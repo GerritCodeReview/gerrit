@@ -20,7 +20,9 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
@@ -90,6 +92,42 @@ public class ChangeDataTest {
 
     assertThat(cd.virtualId()).isEqualTo(changeNum);
     verify(changeNotesMock, never()).getServerId();
+  }
+
+  @Test
+  public void setAttentionSet() throws Exception {
+    Project.NameKey project = Project.nameKey("project");
+    ChangeData cd = ChangeData.createForTest(project, Change.id(1), 1, ObjectId.zeroId());
+    cd.setChange(TestChanges.newChange(project, Account.id(1000)));
+
+    AttentionSetUpdate u1 =
+        AttentionSetUpdate.createForWrite(
+            Account.id(1001), AttentionSetUpdate.Operation.ADD, "reason 1");
+    AttentionSetUpdate u2 =
+        AttentionSetUpdate.createForWrite(
+            Account.id(1002), AttentionSetUpdate.Operation.REMOVE, "reason 2");
+
+    cd.setAttentionSet(ImmutableSet.of(u1, u2));
+    assertThat(cd.attentionSet()).containsExactly(u1, u2);
+  }
+
+  @Test
+  public void setAttentionSetWithDuplicatesThrows() throws Exception {
+    Project.NameKey project = Project.nameKey("project");
+    ChangeData cd = ChangeData.createForTest(project, Change.id(1), 1, ObjectId.zeroId());
+    cd.setChange(TestChanges.newChange(project, Account.id(1000)));
+
+    AttentionSetUpdate u1 =
+        AttentionSetUpdate.createForWrite(
+            Account.id(1001), AttentionSetUpdate.Operation.ADD, "reason 1");
+    AttentionSetUpdate u2 =
+        AttentionSetUpdate.createForWrite(
+            Account.id(1001), AttentionSetUpdate.Operation.REMOVE, "duplicate reason");
+
+    IllegalStateException thrown =
+        org.junit.Assert.assertThrows(
+            IllegalStateException.class, () -> cd.setAttentionSet(ImmutableSet.of(u1, u2)));
+    assertThat(thrown).hasMessageThat().contains("contains duplicate update");
   }
 
   private static PatchSet newPatchSet(Change.Id changeId, int num) {

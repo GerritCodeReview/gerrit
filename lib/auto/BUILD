@@ -112,7 +112,10 @@ java_library(
         ":auto-oneof-plugin",
     ],
     visibility = ["//visibility:public"],
-    exports = ["@external_deps//:com_google_auto_value_auto_value_annotations"],
+    exports = [
+        "//lib:jspecify",
+        "@external_deps//:com_google_auto_value_auto_value_annotations",
+    ],
 )
 
 java_library(

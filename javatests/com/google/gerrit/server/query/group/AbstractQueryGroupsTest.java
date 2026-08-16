@@ -22,6 +22,8 @@ import static java.util.stream.Collectors.toList;
 import static org.junit.Assert.fail;
 
 import com.google.common.base.CharMatcher;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
@@ -66,10 +68,12 @@ import com.google.gerrit.testing.GerritTestName;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Optional;
 import org.junit.After;
 import org.junit.Before;
@@ -112,6 +116,8 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
   @Inject protected AuthRequest.Factory authRequestFactory;
 
   @Inject private GroupIndexCollection groupIndexes;
+
+  @Inject protected Provider<InternalGroupQuery> internalGroupQueryProvider;
 
   protected LifecycleManager lifecycle;
   protected Injector injector;
@@ -408,6 +414,163 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
     deleteGroup(uuid);
 
     assertQuery(query);
+  }
+
+  @Test
+  public void byUuidInternalQuery() throws Exception {
+    GroupInfo group1 = createGroup(name("group1"));
+    GroupInfo group2 = createGroup(name("group2"));
+    AccountGroup.UUID uuid1 = AccountGroup.uuid(group1.id);
+    AccountGroup.UUID uuid2 = AccountGroup.uuid(group2.id);
+
+    Optional<InternalGroup> found = internalGroupQueryProvider.get().byUUID(uuid1);
+    assertThat(found).isPresent();
+    assertThat(found.get().getGroupUUID()).isEqualTo(uuid1);
+
+    ImmutableList<InternalGroup> foundBatch =
+        internalGroupQueryProvider.get().byUUIDs(ImmutableList.of(uuid1, uuid2));
+    assertThat(foundBatch.stream().map(InternalGroup::getGroupUUID).collect(toList()))
+        .containsExactly(uuid1, uuid2);
+
+    assertThat(internalGroupQueryProvider.get().byUUIDs(ImmutableList.of())).isEmpty();
+  }
+
+  @Test
+  public void byNameInternalQuery() throws Exception {
+    GroupInfo group1 = createGroup(name("group1"));
+    GroupInfo group2 = createGroup(name("group2"));
+    AccountGroup.NameKey name1 = AccountGroup.nameKey(group1.name);
+    AccountGroup.NameKey name2 = AccountGroup.nameKey(group2.name);
+
+    Optional<InternalGroup> found = internalGroupQueryProvider.get().byName(name1);
+    assertThat(found).isPresent();
+    assertThat(found.get().getNameKey()).isEqualTo(name1);
+
+    ImmutableList<InternalGroup> foundBatch =
+        internalGroupQueryProvider.get().byNames(ImmutableList.of(name1, name2));
+    assertThat(foundBatch.stream().map(InternalGroup::getNameKey).collect(toList()))
+        .containsExactly(name1, name2);
+
+    assertThat(internalGroupQueryProvider.get().byNames(ImmutableList.of())).isEmpty();
+  }
+
+  @Test
+  public void byMemberInternalQuery() throws Exception {
+    assume().that(getSchemaVersion() >= 4).isTrue();
+
+    AccountInfo user1 = createAccount("user1", "User1", "user1@example.com");
+    AccountInfo user2 = createAccount("user2", "User2", "user2@example.com");
+    Account.Id userId1 = Account.id(user1._accountId);
+    Account.Id userId2 = Account.id(user2._accountId);
+
+    GroupInfo group1 = createGroup(name("group1"), user1);
+    GroupInfo group2 = createGroup(name("group2"), user2);
+    GroupInfo group3 = createGroup(name("group3"), user1);
+
+    ImmutableList<InternalGroup> groupsUser1 = internalGroupQueryProvider.get().byMember(userId1);
+    assertThat(groupsUser1.stream().map(g -> g.getGroupUUID().get()).collect(toList()))
+        .containsExactly(group1.id, group3.id);
+
+    ImmutableList<InternalGroup> groupsBatch =
+        internalGroupQueryProvider.get().byMembers(ImmutableList.of(userId1, userId2));
+    assertThat(groupsBatch.stream().map(g -> g.getGroupUUID().get()).collect(toList()))
+        .containsExactly(group1.id, group2.id, group3.id);
+
+    assertThat(internalGroupQueryProvider.get().byMembers(ImmutableList.of())).isEmpty();
+  }
+
+  @Test
+  public void bySubgroupsInternalQuery() throws Exception {
+    assume().that(getSchemaVersion() >= 4).isTrue();
+
+    assertThat(internalGroupQueryProvider.get().bySubgroups(ImmutableSet.of())).isEmpty();
+
+    GroupInfo superParentGroup = createGroup(name("superParentGroup"));
+    GroupInfo parentGroup1 = createGroup(name("parentGroup1"));
+    GroupInfo parentGroup2 = createGroup(name("parentGroup2"));
+    GroupInfo subGroup = createGroup(name("subGroup"));
+
+    gApi.groups().id(superParentGroup.id).addGroups(parentGroup1.id, parentGroup2.id);
+    gApi.groups().id(parentGroup1.id).addGroups(subGroup.id);
+    gApi.groups().id(parentGroup2.id).addGroups(subGroup.id);
+
+    AccountGroup.UUID subUuid = AccountGroup.uuid(subGroup.id);
+    AccountGroup.UUID parent1Uuid = AccountGroup.uuid(parentGroup1.id);
+    AccountGroup.UUID parent2Uuid = AccountGroup.uuid(parentGroup2.id);
+
+    assertThat(internalGroupQueryProvider.get().bySubgroups(ImmutableSet.of(subUuid)))
+        .containsExactly(subUuid, ImmutableSet.of(parent1Uuid, parent2Uuid));
+  }
+
+  @Test
+  public void groupCacheCrossPopulationAndEviction() throws Exception {
+    GroupInfo group = createGroup(name("cacheGroup"));
+    AccountGroup.UUID uuid = AccountGroup.uuid(group.id);
+    AccountGroup.NameKey nameKey = AccountGroup.nameKey(group.name);
+    AccountGroup.Id groupId = AccountGroup.id(group.groupId);
+
+    // Evict all to start clean
+    groupCache.evict(uuid);
+    groupCache.evict(nameKey);
+    groupCache.evict(groupId);
+
+    // Batch loading by UUID populates in-memory cache for Name and ID
+    Map<AccountGroup.UUID, InternalGroup> loaded = groupCache.get(ImmutableList.of(uuid));
+    assertThat(loaded).containsKey(uuid);
+
+    Optional<InternalGroup> byName = groupCache.get(nameKey);
+    assertThat(byName).isPresent();
+    assertThat(byName.get().getGroupUUID()).isEqualTo(uuid);
+
+    Optional<InternalGroup> byId = groupCache.get(groupId);
+    assertThat(byId).isPresent();
+    assertThat(byId.get().getGroupUUID()).isEqualTo(uuid);
+
+    // Evicting collection of UUIDs invalidates properly
+    groupCache.evict(ImmutableList.of(uuid));
+  }
+
+  @Test
+  public void groupQueryBenchmark() throws Exception {
+    int numGroups = 10;
+    List<GroupInfo> created = new ArrayList<>();
+    for (int i = 0; i < numGroups; i++) {
+      created.add(createGroup(name("benchGroup_" + i)));
+    }
+    List<AccountGroup.UUID> uuids =
+        created.stream().map(g -> AccountGroup.uuid(g.id)).collect(toList());
+    List<AccountGroup.NameKey> names =
+        created.stream().map(g -> AccountGroup.nameKey(g.name)).collect(toList());
+
+    // Measure individual lookups latency
+    long startIndividualNanos = System.nanoTime();
+    for (AccountGroup.UUID u : uuids) {
+      Optional<InternalGroup> g = internalGroupQueryProvider.get().byUUID(u);
+      assertThat(g).isPresent();
+    }
+    long individualDurationNanos = System.nanoTime() - startIndividualNanos;
+
+    // Measure batch lookups latency
+    long startBatchNanos = System.nanoTime();
+    ImmutableList<InternalGroup> batchFound = internalGroupQueryProvider.get().byUUIDs(uuids);
+    long batchDurationNanos = System.nanoTime() - startBatchNanos;
+
+    assertThat(batchFound).hasSize(numGroups);
+
+    // Measure names batch lookup latency
+    long startNamesBatchNanos = System.nanoTime();
+    ImmutableList<InternalGroup> namesFound = internalGroupQueryProvider.get().byNames(names);
+    long namesBatchDurationNanos = System.nanoTime() - startNamesBatchNanos;
+    assertThat(namesFound).hasSize(numGroups);
+
+    System.out.printf(
+        "[BENCHMARK] GroupQuery latency for %d groups: Individual=%d µs, BatchUUIDs=%d µs"
+            + " (speedup=%.2fx), BatchNames=%d µs%n",
+        numGroups,
+        individualDurationNanos / 1000,
+        batchDurationNanos / 1000,
+        (double) individualDurationNanos / Math.max(1, batchDurationNanos),
+        namesBatchDurationNanos / 1000);
   }
 
   private Account.Id createAccountOutsideRequestContext(

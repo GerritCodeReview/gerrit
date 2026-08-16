@@ -492,13 +492,20 @@ public class LabelsJsonRules {
         "should not call setAllApprovals on %s change",
         ChangeUtil.status(cd.change()));
 
-    // Include a user in the output for this label if either:
-    //  - They are an explicit reviewer.
-    //  - They ever voted on this change.
     Set<Account.Id> allUsers = new HashSet<>();
-    allUsers.addAll(cd.reviewers().byState(ReviewerStateInternal.REVIEWER));
-    for (PatchSetApproval psa : cd.approvals().values()) {
-      allUsers.add(psa.accountId());
+    if (detailed) {
+      // Users expect to see all reviewers on open changes with detailed labels,
+      // even if they didn't vote on the latest patch set. If we don't need detailed labels,
+      // we aren't including 0 votes for all users below, so we can just look at
+      // the latest patch set.
+      allUsers.addAll(cd.reviewers().byState(ReviewerStateInternal.REVIEWER));
+      for (PatchSetApproval psa : cd.approvals().values()) {
+        allUsers.add(psa.accountId());
+      }
+    } else {
+      for (PatchSetApproval psa : cd.currentApprovals()) {
+        allUsers.add(psa.accountId());
+      }
     }
 
     Table<Account.Id, String, PatchSetApproval> current =

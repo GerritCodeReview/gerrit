@@ -160,6 +160,10 @@ public class DiffOperationsImpl implements DiffOperations {
       ObjectId oldCommit = diffParams.baseCommit();
       ComparisonType cmp = diffParams.comparisonType();
 
+      if (!oldCommit.equals(ObjectId.zeroId()) && oldCommit.equals(newCommit)) {
+        return ImmutableMap.of();
+      }
+
       ImmutableList<ModifiedFile> modifiedFiles;
       if (diffOptions.skipRebaseFiltering()) {
         try (Repository repo = repoManager.openRepository(project);
@@ -357,6 +361,9 @@ public class DiffOperationsImpl implements DiffOperations {
       @Nullable DiffPreferencesInfo.Whitespace whitespace,
       DiffOptions diffOptions)
       throws DiffNotAvailableException {
+    if (!oldCommit.equals(ObjectId.zeroId()) && oldCommit.equals(newCommit)) {
+      return FileDiffOutput.empty(fileName, oldCommit, newCommit);
+    }
     FileDiffCacheKey key =
         createFileDiffCacheKey(
             project,

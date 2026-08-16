@@ -30,6 +30,7 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 
@@ -92,6 +93,9 @@ public class GitModifiedFilesCacheImpl implements GitModifiedFilesCache {
 
     @Override
     public ImmutableList<ModifiedFile> load(GitModifiedFilesCacheKey key) throws IOException {
+      if (!key.aTree().equals(ObjectId.zeroId()) && key.aTree().equals(key.bTree())) {
+        return ImmutableList.of();
+      }
       try (Repository repo = repoManager.openRepository(key.project());
           ObjectReader reader = repo.newObjectReader()) {
         GitModifiedFilesLoader loader = new GitModifiedFilesLoader();

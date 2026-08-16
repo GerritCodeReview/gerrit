@@ -237,6 +237,18 @@ public class GitFileDiffCacheImpl implements GitFileDiffCache {
         throws IOException, DiffNotAvailableException {
       ImmutableMap.Builder<GitFileDiffCacheKey, GitFileDiff> result =
           ImmutableMap.builderWithExpectedSize(keys.size());
+      if (!options.oldTree().equals(ObjectId.zeroId())
+          && options.oldTree().equals(options.newTree())) {
+        for (GitFileDiffCacheKey key : keys) {
+          result.put(
+              key,
+              GitFileDiff.empty(
+                  AbbreviatedObjectId.fromObjectId(key.oldTree()),
+                  AbbreviatedObjectId.fromObjectId(key.newTree()),
+                  key.newFilePath()));
+        }
+        return result.build();
+      }
       Map<GitFileDiffCacheKey, String> filePaths =
           keys.stream().collect(Collectors.toMap(identity(), GitFileDiffCacheKey::newFilePath));
       try (CloseablePool<DiffFormatter> diffPool =

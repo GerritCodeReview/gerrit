@@ -36,6 +36,7 @@ import java.util.Set;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 /** Predicate that matches when the new patch-set includes the same files as the old patch-set. */
@@ -55,40 +56,58 @@ public class ListOfFilesUnchangedPredicate extends ApprovalPredicate {
   public boolean match(ApprovalContext ctx) {
     PatchSet targetPatchSet = ctx.targetPatchSet();
     PatchSet sourcePatchSet = ctx.changeNotes().getPatchSets().get(ctx.sourcePatchSetId());
+    if (sourcePatchSet == null) {
+      return false;
+    }
 
-    Integer parentNum =
-        isInitialCommit(ctx.changeNotes().getProjectName(), targetPatchSet.commitId()) ? 0 : 1;
-    try (ObjectInserter ins = new InMemoryInserter(ctx.repoView().getRevWalk().getObjectReader())) {
-      Map<String, ModifiedFile> baseVsCurrent =
-          diffOperations.loadModifiedFilesAgainstParentIfNecessary(
-              ctx.changeNotes().getProjectName(),
-              targetPatchSet.commitId(),
-              parentNum,
-              ctx.repoView(),
-              ins,
-              /* enableRenameDetection= */ false);
-      Map<String, ModifiedFile> baseVsPrior =
-          diffOperations.loadModifiedFilesAgainstParentIfNecessary(
-              ctx.changeNotes().getProjectName(),
-              sourcePatchSet.commitId(),
-              parentNum,
-              ctx.repoView(),
-              ins,
-              /* enableRenameDetection= */ false);
-      Map<String, ModifiedFile> priorVsCurrent =
-          diffOperations.loadModifiedFilesIfNecessary(
-              ctx.changeNotes().getProjectName(),
-              sourcePatchSet.commitId(),
-              targetPatchSet.commitId(),
-              ctx.repoView().getRevWalk(),
-              ctx.repoView().getConfig(),
-              /* enableRenameDetection= */ false);
-      return match(baseVsCurrent, baseVsPrior, priorVsCurrent);
-    } catch (DiffNotAvailableException ex) {
+    if (targetPatchSet.commitId().equals(sourcePatchSet.commitId())) {
+      return true;
+    }
+
+    RevWalk revWalk = ctx.repoView().getRevWalk();
+    try {
+      RevCommit targetCommit = revWalk.parseCommit(targetPatchSet.commitId());
+      RevCommit sourceCommit = revWalk.parseCommit(sourcePatchSet.commitId());
+      if (Objects.equals(targetCommit.getTree(), sourceCommit.getTree())) {
+        return true;
+      }
+
+      Integer parentNum = targetCommit.getParentCount() == 0 ? 0 : 1;
+      try (ObjectInserter ins = new InMemoryInserter(revWalk.getObjectReader())) {
+        Map<String, ModifiedFile> baseVsCurrent =
+            diffOperations.loadModifiedFilesAgainstParentIfNecessary(
+                ctx.changeNotes().getProjectName(),
+                targetPatchSet.commitId(),
+                parentNum,
+                ctx.repoView(),
+                ins,
+                /* enableRenameDetection= */ false);
+        Map<String, ModifiedFile> baseVsPrior =
+            diffOperations.loadModifiedFilesAgainstParentIfNecessary(
+                ctx.changeNotes().getProjectName(),
+                sourcePatchSet.commitId(),
+                parentNum,
+                ctx.repoView(),
+                ins,
+                /* enableRenameDetection= */ false);
+        Map<String, ModifiedFile> priorVsCurrent =
+            diffOperations.loadModifiedFilesIfNecessary(
+                ctx.changeNotes().getProjectName(),
+                sourcePatchSet.commitId(),
+                targetPatchSet.commitId(),
+                revWalk,
+                ctx.repoView().getConfig(),
+                /* enableRenameDetection= */ false);
+        return match(baseVsCurrent, baseVsPrior, priorVsCurrent);
+      } catch (DiffNotAvailableException ex) {
+        throw new StorageException(
+            "failed to compute difference in files, so won't copy"
+                + " votes on labels even if list of files is the same",
+            ex);
+      }
+    } catch (IOException ex) {
       throw new StorageException(
-          "failed to compute difference in files, so won't copy"
-              + " votes on labels even if list of files is the same",
-          ex);
+          "failed to parse commit when evaluating if files are unchanged", ex);
     }
   }
 

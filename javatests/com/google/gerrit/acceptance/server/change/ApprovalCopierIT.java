@@ -554,6 +554,40 @@ public class ApprovalCopierIT extends AbstractDaemonTest {
         .isEmpty();
   }
 
+  @Test
+  public void forPatchSet_identicalTree_copiesWhenFilesUnchanged() throws Exception {
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      LabelType.Builder codeReview =
+          labelBuilder(
+                  LabelId.CODE_REVIEW,
+                  value(2, "Approved"),
+                  value(1, "Looks good"),
+                  value(0, "No score"),
+                  value(-1, "Not good"),
+                  value(-2, "Do not submit"))
+              .setCopyCondition("has:unchanged-files");
+      u.getConfig().upsertLabelType(codeReview.build());
+      u.save();
+    }
+
+    PushOneCommit.Result r = createChange();
+    vote(r.getChangeId(), admin, LabelId.CODE_REVIEW, 2);
+
+    // Amend commit message only (tree stays identical)
+    r = amendChange(r.getChangeId(), "refs/for/master", admin, testRepo);
+    r.assertOkStatus();
+    PatchSet.Id patchSet2Id = r.getPatchSetId();
+
+    ApprovalCopier.Result approvalCopierResult =
+        invokeApprovalCopierForCurrentPatchSet(
+            r.getChange().getId(), /* expectedCurrentPatchSetNum= */ 2);
+    assertThatList(approvalCopierResult.copiedApprovals())
+        .comparingElementsUsing(hasTestId())
+        .containsExactly(
+            PatchSetApprovalTestId.create(patchSet2Id, admin.id(), LabelId.CODE_REVIEW, 2));
+    assertThatList(approvalCopierResult.outdatedApprovals()).isEmpty();
+  }
+
   private void vote(String changeId, TestAccount testAccount, String label, int value)
       throws Exception {
     requestScopeOperations.setApiUser(testAccount.id());

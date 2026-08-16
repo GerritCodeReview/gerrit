@@ -36,9 +36,29 @@ public abstract class SparseFileContent {
     return new AutoValue_SparseFileContent(ranges, size);
   }
 
+  public static SparseFileContent create(int base, ImmutableList<String> lines, int size) {
+    if (lines.isEmpty()) {
+      return create(ImmutableList.of(), size);
+    }
+    return create(ImmutableList.of(Range.create(base, lines)), size);
+  }
+
   @VisibleForTesting
   public int getRangesCount() {
     return getRanges().size();
+  }
+
+  public boolean isFullyPopulated() {
+    return getRanges().size() == 1
+        && getRanges().get(0).getBase() == 0
+        && getRanges().get(0).getLines().size() == getSize();
+  }
+
+  public ImmutableList<String> getFullLines() {
+    if (isFullyPopulated()) {
+      return getRanges().get(0).getLines();
+    }
+    throw new IllegalStateException("SparseFileContent is not fully populated");
   }
 
   public Accessor createAccessor() {

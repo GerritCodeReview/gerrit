@@ -491,7 +491,7 @@ public class FileDiffCacheImpl implements FileDiffCache {
                 ? bEvaluator.getFileObjectId(
                     mainGitDiff.newId(), mainGitDiff.newMode().get(), mainGitDiff.newPath().get())
                 : ObjectId.zeroId();
-        Long newSize = bEvaluator.compute(newSha);
+        Long newSize = oldSha.equals(newSha) ? oldSize : bEvaluator.compute(newSha);
 
         ObjectId oldCommit = augmentedKey.key().oldCommit();
         ObjectId newCommit = augmentedKey.key().newCommit();

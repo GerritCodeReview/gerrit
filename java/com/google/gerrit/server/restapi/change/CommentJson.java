@@ -14,14 +14,11 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.server.CommentsUtil.COMMENT_INFO_ORDER;
-import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Streams;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Comment;
@@ -118,66 +115,85 @@ public class CommentJson {
       AccountLoader loader = fillAccounts ? accountLoaderFactory.get().create(true) : null;
 
       Map<String, List<T>> out = new TreeMap<>();
+      int estimatedSize = (comments instanceof Collection) ? ((Collection<?>) comments).size() : 16;
+      List<T> allComments = fillCommentContext ? new ArrayList<>(estimatedSize) : null;
 
       for (F c : comments) {
         T o = toInfo(c, loader);
-        List<T> list = out.get(o.path);
-        if (list == null) {
-          list = new ArrayList<>();
-          out.put(o.path, list);
+        out.computeIfAbsent(o.path, k -> new ArrayList<>()).add(o);
+        if (fillCommentContext) {
+          allComments.add(o);
         }
-        list.add(o);
       }
 
-      out.values().forEach(l -> l.sort(COMMENT_INFO_ORDER));
+      for (List<T> list : out.values()) {
+        list.sort(COMMENT_INFO_ORDER);
+      }
 
       if (loader != null) {
         loader.fill();
       }
 
-      List<T> allComments = out.values().stream().flatMap(Collection::stream).collect(toList());
-      if (fillCommentContext) {
+      if (fillCommentContext && allComments != null && !allComments.isEmpty()) {
         addCommentContext(allComments);
       }
-      allComments.forEach(c -> c.path = null); // we don't need path since it exists in the map keys
+      for (List<T> list : out.values()) {
+        for (T c : list) {
+          c.path = null; // we don't need path since it exists in the map keys
+        }
+      }
       return out;
     }
 
     public ImmutableList<T> formatAsList(Iterable<F> comments) throws PermissionBackendException {
       AccountLoader loader = fillAccounts ? accountLoaderFactory.get().create(true) : null;
 
-      ImmutableList<T> out =
-          Streams.stream(comments)
-              .map(c -> toInfo(c, loader))
-              .sorted(COMMENT_INFO_ORDER)
-              .collect(toImmutableList());
+      int estimatedSize = (comments instanceof Collection) ? ((Collection<?>) comments).size() : 16;
+      List<T> outList = new ArrayList<>(estimatedSize);
+      for (F c : comments) {
+        outList.add(toInfo(c, loader));
+      }
+      outList.sort(COMMENT_INFO_ORDER);
 
       if (loader != null) {
         loader.fill();
       }
 
-      if (fillCommentContext) {
-        addCommentContext(out);
+      if (fillCommentContext && !outList.isEmpty()) {
+        addCommentContext(outList);
       }
 
-      return out;
+      return ImmutableList.copyOf(outList);
     }
 
     protected void addCommentContext(List<T> allComments) {
-      List<CommentContextKey> keys =
-          allComments.stream().map(this::createCommentContextKey).collect(toList());
+      if (allComments.isEmpty()) {
+        return;
+      }
+      List<CommentContextKey> keys = new ArrayList<>(allComments.size());
+      for (T c : allComments) {
+        keys.add(createCommentContextKey(c));
+      }
       ImmutableMap<CommentContextKey, CommentContext> allContext =
           commentContextCache.get().getAll(keys);
-      for (T c : allComments) {
-        CommentContextKey contextKey = createCommentContextKey(c);
+      for (int i = 0; i < allComments.size(); i++) {
+        T c = allComments.get(i);
+        CommentContextKey contextKey = keys.get(i);
         CommentContext commentContext = allContext.get(contextKey);
-        c.contextLines = toContextLineInfoList(commentContext);
-        c.sourceContentType = commentContext.contentType();
+        if (commentContext != null) {
+          c.contextLines = toContextLineInfoList(commentContext);
+          c.sourceContentType = commentContext.contentType();
+        }
       }
     }
 
     protected List<ContextLineInfo> toContextLineInfoList(CommentContext commentContext) {
-      List<ContextLineInfo> result = new ArrayList<>();
+      if (commentContext == null
+          || commentContext.lines() == null
+          || commentContext.lines().isEmpty()) {
+        return new ArrayList<>();
+      }
+      List<ContextLineInfo> result = new ArrayList<>(commentContext.lines().size());
       for (Map.Entry<Integer, String> e : commentContext.lines().entrySet()) {
         result.add(new ContextLineInfo(e.getKey(), e.getValue()));
       }
@@ -244,15 +260,24 @@ public class CommentJson {
         return null;
       }
 
-      return fixSuggestions.stream().map(this::toFixSuggestionInfo).collect(toList());
+      List<FixSuggestionInfo> result = new ArrayList<>(fixSuggestions.size());
+      for (FixSuggestion fixSuggestion : fixSuggestions) {
+        result.add(toFixSuggestionInfo(fixSuggestion));
+      }
+      return result;
     }
 
     private FixSuggestionInfo toFixSuggestionInfo(FixSuggestion fixSuggestion) {
       FixSuggestionInfo fixSuggestionInfo = new FixSuggestionInfo();
       fixSuggestionInfo.fixId = fixSuggestion.fixId;
       fixSuggestionInfo.description = fixSuggestion.description;
-      fixSuggestionInfo.replacements =
-          fixSuggestion.replacements.stream().map(this::toFixReplacementInfo).collect(toList());
+      if (fixSuggestion.replacements != null) {
+        List<FixReplacementInfo> replacements = new ArrayList<>(fixSuggestion.replacements.size());
+        for (FixReplacement fixReplacement : fixSuggestion.replacements) {
+          replacements.add(toFixReplacementInfo(fixReplacement));
+        }
+        fixSuggestionInfo.replacements = replacements;
+      }
       return fixSuggestionInfo;
     }
 

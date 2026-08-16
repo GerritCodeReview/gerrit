@@ -28,7 +28,6 @@ import com.google.common.collect.Maps;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import java.io.BufferedReader;
-import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.security.Principal;
 import java.time.Instant;
@@ -189,13 +188,9 @@ public class FakeHttpServletRequest implements HttpServletRequest {
     ListMultimap<String, String> params = LinkedListMultimap.create();
     for (String entry : Splitter.on('&').split(qs)) {
       List<String> kv = Splitter.on('=').limit(2).splitToList(entry);
-      try {
-        params.put(
-            URLDecoder.decode(kv.get(0), UTF_8.name()),
-            kv.size() == 2 ? URLDecoder.decode(kv.get(1), UTF_8.name()) : "");
-      } catch (UnsupportedEncodingException e) {
-        throw new IllegalArgumentException(e);
-      }
+      params.put(
+          URLDecoder.decode(kv.get(0), UTF_8),
+          kv.size() == 2 ? URLDecoder.decode(kv.get(1), UTF_8) : "");
     }
     parameters = params;
   }

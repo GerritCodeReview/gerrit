@@ -41,8 +41,8 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.nio.charset.Charset;
 import java.util.Locale;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -246,10 +246,17 @@ class ProjectOAuthFilter implements Filter {
   }
 
   @Nullable
-  private AuthInfo extractAuthInfo(String hdr, String encoding)
-      throws UnsupportedEncodingException {
+  private AuthInfo extractAuthInfo(String hdr, String encoding) throws IOException {
     byte[] decoded = BaseEncoding.base64().decode(hdr.substring(BASIC.length()));
-    String usernamePassword = new String(decoded, encoding);
+    Charset charset;
+    try {
+      charset = Charset.forName(encoding);
+    } catch (IllegalArgumentException e) {
+      // Reject an unknown/illegal request charset as a checked exception rather
+      // than letting an unchecked charset exception escape on untrusted input.
+      throw new IOException("Unsupported request charset: " + encoding, e);
+    }
+    String usernamePassword = new String(decoded, charset);
     int splitPos = usernamePassword.indexOf(':');
     if (splitPos < 1 || splitPos == usernamePassword.length() - 1) {
       return null;
@@ -268,9 +275,9 @@ class ProjectOAuthFilter implements Filter {
   }
 
   @Nullable
-  private AuthInfo extractAuthInfo(Cookie cookie) throws UnsupportedEncodingException {
+  private AuthInfo extractAuthInfo(Cookie cookie) {
     String username =
-        URLDecoder.decode(cookie.getName().substring(GIT_COOKIE_PREFIX.length()), UTF_8.name());
+        URLDecoder.decode(cookie.getName().substring(GIT_COOKIE_PREFIX.length()), UTF_8);
     String value = cookie.getValue();
     int splitPos = value.lastIndexOf('@');
     if (splitPos < 1 || splitPos == value.length() - 1) {

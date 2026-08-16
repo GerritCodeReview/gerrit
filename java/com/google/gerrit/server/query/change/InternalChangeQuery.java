@@ -27,6 +27,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.BranchNameKey;
@@ -129,11 +130,38 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
 
   @UsedAt(UsedAt.Project.GOOGLE)
   public List<ChangeData> byLegacyChangeIds(Collection<Change.Id> ids) {
+    if (ids.isEmpty()) {
+      return Collections.emptyList();
+    }
+    int batchSize = indexConfig.maxTerms();
+    if (ids.size() <= batchSize) {
+      return query(byLegacyChangeIdsPredicate(indexConfig, ids));
+    }
+    List<Predicate<ChangeData>> queries = new ArrayList<>();
+    for (List<Change.Id> part : Iterables.partition(ids, batchSize)) {
+      queries.add(byLegacyChangeIdsPredicate(indexConfig, part));
+    }
+    Set<Change.Id> seen = Sets.newHashSetWithExpectedSize(ids.size());
+    ImmutableList.Builder<ChangeData> result = ImmutableList.builder();
+    for (List<ChangeData> cds : query(queries)) {
+      for (ChangeData cd : cds) {
+        if (seen.add(cd.virtualId())) {
+          result.add(cd);
+        }
+      }
+    }
+    return result.build();
+  }
+
+  private static Predicate<ChangeData> byLegacyChangeIdsPredicate(
+      IndexConfig indexConfig, Collection<Change.Id> ids) {
+    int n = indexConfig.maxTerms();
+    checkArgument(ids.size() <= n, "cannot exceed %s change IDs", n);
     List<Predicate<ChangeData>> preds = new ArrayList<>(ids.size());
     for (Change.Id id : ids) {
       preds.add(ChangePredicates.idStr(id));
     }
-    return query(or(preds));
+    return or(preds);
   }
 
   @UsedAt(UsedAt.Project.GOOGLE)
@@ -258,10 +286,57 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
     return query(and(project(project), commit(hash)));
   }
 
-  public List<ChangeData> byProjectCommits(Project.NameKey project, List<String> hashes) {
-    int n = indexConfig.maxTerms() - 1;
+  public List<ChangeData> byProjectCommits(Project.NameKey project, Collection<String> hashes) {
+    return byProjectCommits(project, hashes, null);
+  }
+
+  public List<ChangeData> byProjectCommitsOpen(Project.NameKey project, Collection<String> hashes) {
+    return byProjectCommits(project, hashes, open());
+  }
+
+  public List<ChangeData> byProjectCommitsNotMerged(
+      Project.NameKey project, Collection<String> hashes) {
+    return byProjectCommits(project, hashes, not(status(Change.Status.MERGED)));
+  }
+
+  public List<ChangeData> byProjectCommits(
+      Project.NameKey project,
+      Collection<String> hashes,
+      @Nullable Predicate<ChangeData> statusPredicate) {
+    if (hashes.isEmpty()) {
+      return Collections.emptyList();
+    }
+    int batchSize = indexConfig.maxTerms() - (statusPredicate != null ? 2 : 1);
+    if (hashes.size() <= batchSize) {
+      return query(byProjectCommitsPredicate(indexConfig, project, hashes, statusPredicate));
+    }
+    List<Predicate<ChangeData>> queries = new ArrayList<>();
+    for (List<String> part : Iterables.partition(hashes, batchSize)) {
+      queries.add(byProjectCommitsPredicate(indexConfig, project, part, statusPredicate));
+    }
+    Set<Change.Id> seen = Sets.newHashSetWithExpectedSize(hashes.size());
+    ImmutableList.Builder<ChangeData> result = ImmutableList.builder();
+    for (List<ChangeData> cds : query(queries)) {
+      for (ChangeData cd : cds) {
+        if (seen.add(cd.virtualId())) {
+          result.add(cd);
+        }
+      }
+    }
+    return result.build();
+  }
+
+  private static Predicate<ChangeData> byProjectCommitsPredicate(
+      IndexConfig indexConfig,
+      Project.NameKey project,
+      Collection<String> hashes,
+      @Nullable Predicate<ChangeData> statusPredicate) {
+    int n = indexConfig.maxTerms() - (statusPredicate != null ? 2 : 1);
     checkArgument(hashes.size() <= n, "cannot exceed %s commits", n);
-    return query(and(project(project), or(commits(hashes))));
+    if (statusPredicate != null) {
+      return and(project(project), statusPredicate, or(commits(hashes)));
+    }
+    return and(project(project), or(commits(hashes)));
   }
 
   public List<ChangeData> byBranchCommit(String project, String branch, String hash) {

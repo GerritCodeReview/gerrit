@@ -21,9 +21,20 @@ proto_lang_toolchain(
 [default_java_toolchain(
     name = "error_prone_warnings_toolchain_java" + VERSION,
     configuration = dict(),
+    # Run javac/Error Prone (and JavaBuilder/Turbine) on the target JDK.
     java_runtime = "@rules_java//toolchains:remotejdk_" + VERSION,
     javacopts = [
         "-Xlint:-removal",
+        # JDK-8225377: before JDK 22, javac does not attach type-use annotations
+        # loaded from classpath class files to their symbols, so Error Prone
+        # emits NullArgumentForNonNullParameter false positives on idiomatic
+        # Guava calls (Iterables.getFirst/getLast(x, null),
+        # ToStringHelper.add(name, nullable)). This flag opts in to the fix on
+        # JDK 21 (available 21.0.8+); it is enabled by default and a no-op on
+        # JDK 22+. Error Prone's own -Xplugin path requires this flag on
+        # JDK <= 21, but Bazel's JavaBuilder wires Error Prone directly and does
+        # not pass it.
+        "-XDaddTypeAnnotationsToSymbol=true",
     ],
     package_configuration = [
         ":error_prone",
@@ -311,13 +322,13 @@ java_package_configuration(
         "-Xep:NonOverridingEquals:ERROR",
         "-Xep:NonRuntimeAnnotation:ERROR",
         "-Xep:NullOptional:ERROR",
-        # Demoted to a warning: false positive on Guava methods like
-        # Iterables.getFirst(iterable, null) when javac cannot read the
-        # @Nullable bound of <T extends @Nullable Object> from class
-        # files. Bazel's remotejdk_21 (Zulu 21.0.9) lacks the
-        # JDK-8341779 backport; JDK 25 is unaffected. See the commit
-        # message introducing this line for the full reference trail.
-        "-Xep:NullArgumentForNonNullParameter:WARN",
+        # Kept at ERROR. The false positive on Guava @ParametricNullness /
+        # JSpecify @Nullable parameters (e.g. Iterables.getFirst(x, null)) is
+        # avoided by the -XDaddTypeAnnotationsToSymbol=true javacopt in the
+        # error_prone_warnings_toolchain above, which works around OpenJDK
+        # JDK-8225377 on JDK <= 21. See
+        # https://github.com/bazelbuild/bazel/issues/30743 for the full trail.
+        "-Xep:NullArgumentForNonNullParameter:ERROR",
         "-Xep:NullTernary:ERROR",
         "-Xep:NullableConstructor:ERROR",
         "-Xep:NullablePrimitive:ERROR",

@@ -17,8 +17,12 @@ package com.google.gerrit.entities;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 
 import com.google.auto.value.AutoValue;
+import com.google.auto.value.extension.memoized.Memoized;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
 import java.util.Collection;
+import java.util.Map;
 
 /**
  * An ordering of branches by stability.
@@ -45,18 +49,32 @@ public abstract class BranchOrderSection {
     return new AutoValue_BranchOrderSection(ImmutableList.copyOf(order));
   }
 
+  @Memoized
+  ImmutableList<String> fullyQualifiedOrder() {
+    return order().stream().map(RefNames::fullName).collect(toImmutableList());
+  }
+
+  @Memoized
+  ImmutableMap<String, ImmutableList<String>> moreStableMap() {
+    ImmutableList<String> fqOrder = fullyQualifiedOrder();
+    Map<String, ImmutableList<String>> map = Maps.newHashMapWithExpectedSize(fqOrder.size());
+    for (int i = 0; i < fqOrder.size(); i++) {
+      String branch = fqOrder.get(i);
+      map.putIfAbsent(branch, fqOrder.subList(i + 1, fqOrder.size()));
+    }
+    return ImmutableMap.copyOf(map);
+  }
+
   /**
    * Returns the tail list of branches that are more stable - so lower in the entire list ordered by
    * priority compared to the provided branch. Always returns a fully qualified ref name (including
    * the refs/heads/ prefix).
    */
   public ImmutableList<String> getMoreStable(String branch) {
-    ImmutableList<String> fullyQualifiedOrder =
-        order().stream().map(RefNames::fullName).collect(toImmutableList());
-    int i = fullyQualifiedOrder.indexOf(RefNames.fullName(branch));
-    if (0 <= i) {
-      return fullyQualifiedOrder.subList(i + 1, fullyQualifiedOrder.size());
+    if (branch == null) {
+      return ImmutableList.of();
     }
-    return ImmutableList.of();
+    ImmutableList<String> moreStable = moreStableMap().get(RefNames.fullName(branch));
+    return moreStable != null ? moreStable : ImmutableList.of();
   }
 }

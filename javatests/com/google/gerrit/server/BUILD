@@ -80,6 +80,7 @@ junit_tests(
         "//lib:guava-retrying",
         "//lib:jgit",
         "//lib:jgit-junit",
+        "//lib:jspecify",
         "//lib:protobuf",
         "//lib:roaringbitmap",
         "//lib:soy",

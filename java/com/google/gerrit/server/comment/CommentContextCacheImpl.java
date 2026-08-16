@@ -45,6 +45,7 @@ import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.name.Named;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -98,28 +99,30 @@ public class CommentContextCacheImpl implements CommentContextCache {
   @Override
   public ImmutableMap<CommentContextKey, CommentContext> getAll(
       Iterable<CommentContextKey> inputKeys) {
-    ImmutableMap.Builder<CommentContextKey, CommentContext> result = ImmutableMap.builder();
-
     // We do two transformations to the input keys: first we adjust the max context padding, and
     // second we hash the file path. The transformed keys are used to request context from the
     // cache. Keeping a map of the original inputKeys to the transformed keys
-    Map<CommentContextKey, CommentContextKey> inputKeysToCacheKeys =
-        Streams.stream(inputKeys)
-            .collect(
-                Collectors.toMap(
-                    Function.identity(),
-                    k ->
-                        adjustMaxContextPadding(k).toBuilder()
-                            .path(Loader.hashPath(k.path()))
-                            .build()));
+    int estimatedSize = (inputKeys instanceof Collection) ? ((Collection<?>) inputKeys).size() : 16;
+    Map<CommentContextKey, CommentContextKey> inputKeysToCacheKeys = new HashMap<>(estimatedSize);
+    for (CommentContextKey k : inputKeys) {
+      if (!inputKeysToCacheKeys.containsKey(k)) {
+        inputKeysToCacheKeys.put(
+            k, adjustMaxContextPadding(k).toBuilder().path(Loader.hashPath(k.path())).build());
+      }
+    }
 
     try {
       ImmutableMap<CommentContextKey, CommentContext> allContext =
           contextCache.getAll(inputKeysToCacheKeys.values());
 
-      for (CommentContextKey inputKey : inputKeys) {
-        CommentContextKey cacheKey = inputKeysToCacheKeys.get(inputKey);
-        result.put(inputKey, allContext.get(cacheKey));
+      ImmutableMap.Builder<CommentContextKey, CommentContext> result =
+          ImmutableMap.builderWithExpectedSize(inputKeysToCacheKeys.size());
+      for (Map.Entry<CommentContextKey, CommentContextKey> entry :
+          inputKeysToCacheKeys.entrySet()) {
+        CommentContext ctx = allContext.get(entry.getValue());
+        if (ctx != null) {
+          result.put(entry.getKey(), ctx);
+        }
       }
       return result.build();
     } catch (ExecutionException e) {
@@ -152,24 +155,23 @@ public class CommentContextCacheImpl implements CommentContextCache {
       AllCommentContextProto.Builder allBuilder = AllCommentContextProto.newBuilder();
       allBuilder.setContentType(commentContext.contentType());
 
-      commentContext
-          .lines()
-          .entrySet()
-          .forEach(
-              c ->
-                  allBuilder.addContext(
-                      CommentContextProto.newBuilder()
-                          .setLineNumber(c.getKey())
-                          .setContextLine(c.getValue())));
+      for (Map.Entry<Integer, String> c : commentContext.lines().entrySet()) {
+        allBuilder.addContext(
+            CommentContextProto.newBuilder()
+                .setLineNumber(c.getKey())
+                .setContextLine(c.getValue()));
+      }
       return Protos.toByteArray(allBuilder.build());
     }
 
     @Override
     public CommentContext deserialize(byte[] in) {
-      ImmutableMap.Builder<Integer, String> contextLinesMap = ImmutableMap.builder();
       AllCommentContextProto proto = Protos.parseUnchecked(AllCommentContextProto.parser(), in);
-      proto.getContextList().stream()
-          .forEach(c -> contextLinesMap.put(c.getLineNumber(), c.getContextLine()));
+      ImmutableMap.Builder<Integer, String> contextLinesMap =
+          ImmutableMap.builderWithExpectedSize(proto.getContextCount());
+      for (CommentContextProto c : proto.getContextList()) {
+        contextLinesMap.put(c.getLineNumber(), c.getContextLine());
+      }
       return CommentContext.create(contextLinesMap.build(), proto.getContentType());
     }
   }

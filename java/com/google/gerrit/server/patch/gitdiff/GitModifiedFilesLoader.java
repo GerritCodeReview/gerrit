@@ -77,6 +77,9 @@ public class GitModifiedFilesLoader {
    */
   public ImmutableList<ModifiedFile> load(
       Config repoConfig, ObjectReader reader, ObjectId aTree, ObjectId bTree) throws IOException {
+    if (!aTree.equals(ObjectId.zeroId()) && aTree.equals(bTree)) {
+      return ImmutableList.of();
+    }
     List<DiffEntry> entries = getGitTreeDiff(repoConfig, reader, aTree, bTree);
     return entries.stream().map(GitModifiedFilesLoader::toModifiedFile).collect(toImmutableList());
   }

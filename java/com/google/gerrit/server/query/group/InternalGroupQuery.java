@@ -17,6 +17,7 @@ package com.google.gerrit.server.query.group;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
@@ -29,12 +30,13 @@ import com.google.gerrit.index.query.InternalQuery;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.server.index.group.GroupIndexCollection;
 import com.google.inject.Inject;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * Query wrapper for the group index.
@@ -55,12 +57,109 @@ public class InternalGroupQuery extends InternalQuery<InternalGroup, InternalGro
     return getOnlyGroup(GroupPredicates.name(groupName.get()), "group name '" + groupName + "'");
   }
 
+  public ImmutableList<InternalGroup> byNames(Collection<AccountGroup.NameKey> groupNames) {
+    if (groupNames.isEmpty()) {
+      return ImmutableList.of();
+    }
+    if (groupNames.size() == 1) {
+      return query(GroupPredicates.name(groupNames.iterator().next().get()));
+    }
+    int batchSize = indexConfig.maxTerms() - 1;
+    if (groupNames.size() <= batchSize) {
+      List<Predicate<InternalGroup>> predicates = new ArrayList<>(groupNames.size());
+      for (AccountGroup.NameKey name : groupNames) {
+        predicates.add(GroupPredicates.name(name.get()));
+      }
+      return query(Predicate.or(predicates));
+    }
+    ImmutableList.Builder<InternalGroup> result = ImmutableList.builder();
+    Set<AccountGroup.UUID> seen = new HashSet<>();
+    for (List<AccountGroup.NameKey> partition : Iterables.partition(groupNames, batchSize)) {
+      List<Predicate<InternalGroup>> predicates = new ArrayList<>(partition.size());
+      for (AccountGroup.NameKey name : partition) {
+        predicates.add(GroupPredicates.name(name.get()));
+      }
+      for (InternalGroup group : query(Predicate.or(predicates))) {
+        if (seen.add(group.getGroupUUID())) {
+          result.add(group);
+        }
+      }
+    }
+    return result.build();
+  }
+
   public Optional<InternalGroup> byId(AccountGroup.Id groupId) {
     return getOnlyGroup(GroupPredicates.id(groupId), "group id '" + groupId + "'");
   }
 
-  public List<InternalGroup> byMember(Account.Id memberId) {
+  public Optional<InternalGroup> byUUID(AccountGroup.UUID uuid) {
+    return getOnlyGroup(GroupPredicates.uuid(uuid), "group UUID '" + uuid + "'");
+  }
+
+  public ImmutableList<InternalGroup> byUUIDs(Collection<AccountGroup.UUID> uuids) {
+    if (uuids.isEmpty()) {
+      return ImmutableList.of();
+    }
+    if (uuids.size() == 1) {
+      return query(GroupPredicates.uuid(uuids.iterator().next()));
+    }
+    int batchSize = indexConfig.maxTerms() - 1;
+    if (uuids.size() <= batchSize) {
+      List<Predicate<InternalGroup>> predicates = new ArrayList<>(uuids.size());
+      for (AccountGroup.UUID uuid : uuids) {
+        predicates.add(GroupPredicates.uuid(uuid));
+      }
+      return query(Predicate.or(predicates));
+    }
+    ImmutableList.Builder<InternalGroup> result = ImmutableList.builder();
+    Set<AccountGroup.UUID> seen = new HashSet<>();
+    for (List<AccountGroup.UUID> partition : Iterables.partition(uuids, batchSize)) {
+      List<Predicate<InternalGroup>> predicates = new ArrayList<>(partition.size());
+      for (AccountGroup.UUID uuid : partition) {
+        predicates.add(GroupPredicates.uuid(uuid));
+      }
+      for (InternalGroup group : query(Predicate.or(predicates))) {
+        if (seen.add(group.getGroupUUID())) {
+          result.add(group);
+        }
+      }
+    }
+    return result.build();
+  }
+
+  public ImmutableList<InternalGroup> byMember(Account.Id memberId) {
     return query(GroupPredicates.member(memberId));
+  }
+
+  public ImmutableList<InternalGroup> byMembers(Collection<Account.Id> memberIds) {
+    if (memberIds.isEmpty()) {
+      return ImmutableList.of();
+    }
+    if (memberIds.size() == 1) {
+      return byMember(memberIds.iterator().next());
+    }
+    int batchSize = indexConfig.maxTerms() - 1;
+    if (memberIds.size() <= batchSize) {
+      List<Predicate<InternalGroup>> predicates = new ArrayList<>(memberIds.size());
+      for (Account.Id id : memberIds) {
+        predicates.add(GroupPredicates.member(id));
+      }
+      return query(Predicate.or(predicates));
+    }
+    ImmutableList.Builder<InternalGroup> result = ImmutableList.builder();
+    Set<AccountGroup.UUID> seen = new HashSet<>();
+    for (List<Account.Id> partition : Iterables.partition(memberIds, batchSize)) {
+      List<Predicate<InternalGroup>> predicates = new ArrayList<>(partition.size());
+      for (Account.Id id : partition) {
+        predicates.add(GroupPredicates.member(id));
+      }
+      for (InternalGroup group : query(Predicate.or(predicates))) {
+        if (seen.add(group.getGroupUUID())) {
+          result.add(group);
+        }
+      }
+    }
+    return result.build();
   }
 
   /**
@@ -68,29 +167,63 @@ public class InternalGroupQuery extends InternalQuery<InternalGroup, InternalGro
    *
    * @return map pointing from children to list of its immediate parents
    */
-  public Map<AccountGroup.UUID, ImmutableSet<AccountGroup.UUID>> bySubgroups(
+  public ImmutableMap<AccountGroup.UUID, ImmutableSet<AccountGroup.UUID>> bySubgroups(
       ImmutableSet<AccountGroup.UUID> subgroupIds) {
-    List<Predicate<InternalGroup>> predicates =
-        subgroupIds.stream().map(e -> GroupPredicates.subgroup(e)).collect(Collectors.toList());
-    ImmutableList<InternalGroup> groups = query(Predicate.or(predicates));
+    if (subgroupIds.isEmpty()) {
+      return ImmutableMap.of();
+    }
+
+    ImmutableList<InternalGroup> groups;
+    int batchSize = indexConfig.maxTerms() - 1;
+    if (subgroupIds.size() == 1) {
+      groups = query(GroupPredicates.subgroup(subgroupIds.iterator().next()));
+    } else if (subgroupIds.size() <= batchSize) {
+      List<Predicate<InternalGroup>> predicates = new ArrayList<>(subgroupIds.size());
+      for (AccountGroup.UUID e : subgroupIds) {
+        predicates.add(GroupPredicates.subgroup(e));
+      }
+      groups = query(Predicate.or(predicates));
+    } else {
+      ImmutableList.Builder<InternalGroup> result = ImmutableList.builder();
+      Set<AccountGroup.UUID> seen = new HashSet<>();
+      for (List<AccountGroup.UUID> partition : Iterables.partition(subgroupIds, batchSize)) {
+        List<Predicate<InternalGroup>> predicates = new ArrayList<>(partition.size());
+        for (AccountGroup.UUID e : partition) {
+          predicates.add(GroupPredicates.subgroup(e));
+        }
+        for (InternalGroup g : query(Predicate.or(predicates))) {
+          if (seen.add(g.getGroupUUID())) {
+            result.add(g);
+          }
+        }
+      }
+      groups = result.build();
+    }
 
     Map<AccountGroup.UUID, Set<AccountGroup.UUID>> parentsByChild =
-        Maps.newHashMapWithExpectedSize(groups.size());
-    subgroupIds.stream().forEach(c -> parentsByChild.put(c, new HashSet<>()));
+        Maps.newHashMapWithExpectedSize(subgroupIds.size());
+    for (AccountGroup.UUID c : subgroupIds) {
+      parentsByChild.put(c, new HashSet<>());
+    }
     for (InternalGroup parent : groups) {
       for (AccountGroup.UUID child : parent.getSubgroups()) {
-        if (subgroupIds.contains(child)) {
-          parentsByChild.get(child).add(parent.getGroupUUID());
+        Set<AccountGroup.UUID> parents = parentsByChild.get(child);
+        if (parents != null) {
+          parents.add(parent.getGroupUUID());
         }
       }
     }
-    return parentsByChild.entrySet().stream()
-        .collect(Collectors.toMap(Map.Entry::getKey, e -> ImmutableSet.copyOf(e.getValue())));
+    ImmutableMap.Builder<AccountGroup.UUID, ImmutableSet<AccountGroup.UUID>> result =
+        ImmutableMap.builderWithExpectedSize(subgroupIds.size());
+    for (Map.Entry<AccountGroup.UUID, Set<AccountGroup.UUID>> entry : parentsByChild.entrySet()) {
+      result.put(entry.getKey(), ImmutableSet.copyOf(entry.getValue()));
+    }
+    return result.build();
   }
 
   private Optional<InternalGroup> getOnlyGroup(
       Predicate<InternalGroup> predicate, String groupDescription) {
-    ImmutableList<InternalGroup> groups = query(predicate);
+    ImmutableList<InternalGroup> groups = setLimit(2).query(predicate);
     if (groups.isEmpty()) {
       return Optional.empty();
     }

@@ -23,14 +23,15 @@ public class MergeListBuilder {
   public static ImmutableList<RevCommit> build(RevWalk rw, RevCommit merge, int uninterestingParent)
       throws IOException {
     rw.reset();
-    rw.parseBody(merge);
+    rw.setRetainBody(false);
+    rw.parseHeaders(merge);
     if (merge.getParentCount() < 2) {
       return ImmutableList.of();
     }
 
     for (int parent = 0; parent < merge.getParentCount(); parent++) {
       RevCommit parentCommit = merge.getParent(parent);
-      rw.parseBody(parentCommit);
+      rw.parseHeaders(parentCommit);
       if (parent == uninterestingParent - 1) {
         rw.markUninteresting(parentCommit);
       } else {

@@ -33,10 +33,13 @@ import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -207,5 +210,44 @@ public class MergeListIT extends AbstractDaemonTest {
 
   private RevisionApi current(String changeId) throws Exception {
     return gApi.changes().id(changeId).current();
+  }
+
+  private List<RevCommit> getMergeListBaseline(ObjectId mergeCommitId, int uninterestingParent)
+      throws Exception {
+    try (Repository repo = repoManager.openRepository(project);
+        RevWalk rw = new RevWalk(repo)) {
+      rw.setRetainBody(true);
+      RevCommit merge = rw.parseCommit(mergeCommitId);
+      rw.parseBody(merge);
+      for (int parent = 0; parent < merge.getParentCount(); parent++) {
+        RevCommit parentCommit = merge.getParent(parent);
+        rw.parseBody(parentCommit);
+        if (parent == uninterestingParent - 1) {
+          rw.markUninteresting(parentCommit);
+        } else {
+          rw.markStart(parentCommit);
+        }
+      }
+      List<RevCommit> result = new ArrayList<>();
+      RevCommit c;
+      while ((c = rw.next()) != null) {
+        result.add(c);
+      }
+      return result;
+    }
+  }
+
+  private ImmutableList<RevCommit> getMergeListOptimized(
+      ObjectId mergeCommitId, int uninterestingParent) throws Exception {
+    try (Repository repo = repoManager.openRepository(project);
+        RevWalk rw = new RevWalk(repo)) {
+      RevCommit merge = rw.parseCommit(mergeCommitId);
+      ImmutableList<RevCommit> commits =
+          com.google.gerrit.server.patch.MergeListBuilder.build(rw, merge, uninterestingParent);
+      for (RevCommit c : commits) {
+        rw.parseBody(c);
+      }
+      return commits;
+    }
   }
 }

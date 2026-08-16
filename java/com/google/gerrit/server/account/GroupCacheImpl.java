@@ -140,6 +140,9 @@ public class GroupCacheImpl implements GroupCache {
 
   @Override
   public Optional<InternalGroup> get(AccountGroup.Id groupId) {
+    if (groupId == null) {
+      return Optional.empty();
+    }
     try {
       return byId.get(groupId);
     } catch (ExecutionException e) {
@@ -177,12 +180,27 @@ public class GroupCacheImpl implements GroupCache {
 
   @Override
   public Map<AccountGroup.UUID, InternalGroup> get(Collection<AccountGroup.UUID> groupUuids) {
+    if (groupUuids == null || groupUuids.isEmpty()) {
+      return ImmutableMap.of();
+    }
+    if (groupUuids.size() == 1) {
+      AccountGroup.UUID singleUuid = Iterables.getOnlyElement(groupUuids);
+      return get(singleUuid)
+          .map(g -> (Map<AccountGroup.UUID, InternalGroup>) ImmutableMap.of(singleUuid, g))
+          .orElseGet(ImmutableMap::of);
+    }
     try {
       ImmutableSet<String> groupUuidsStringSet =
-          groupUuids.stream().map(u -> u.get()).collect(toImmutableSet());
-      return byUUID.getAll(groupUuidsStringSet).entrySet().stream()
-          .filter(g -> g.getValue().isPresent())
-          .collect(toImmutableMap(g -> AccountGroup.uuid(g.getKey()), g -> g.getValue().get()));
+          groupUuids.stream().map(AccountGroup.UUID::get).collect(toImmutableSet());
+      ImmutableMap<AccountGroup.UUID, InternalGroup> result =
+          byUUID.getAll(groupUuidsStringSet).entrySet().stream()
+              .filter(g -> g.getValue().isPresent())
+              .collect(toImmutableMap(g -> AccountGroup.uuid(g.getKey()), g -> g.getValue().get()));
+      for (InternalGroup group : result.values()) {
+        byId.asMap().putIfAbsent(group.getId(), Optional.of(group));
+        byName.asMap().putIfAbsent(group.getNameKey().get(), Optional.of(group));
+      }
+      return result;
     } catch (ExecutionException e) {
       logger.atWarning().withCause(e).log("Cannot look up groups %s by uuids", groupUuids);
       return ImmutableMap.of();

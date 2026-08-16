@@ -92,6 +92,240 @@ public class ChangeDataTest {
     verify(changeNotesMock, never()).getServerId();
   }
 
+  @Test
+  public void notesDoesNotClearPrepopulatedPatchSets() throws Exception {
+    Project.NameKey project = Project.nameKey("project");
+    Change.Id changeNum = Change.id(1);
+    Change testChange = TestChanges.newChange(project, Account.id(1000), 1);
+    ChangeData cd =
+        ChangeData.createForTest(
+            project,
+            changeNum,
+            1,
+            ObjectId.zeroId(),
+            new ChangeNumberNoopAlgorithm(),
+            null,
+            changeNotesMock);
+    cd.setChange(testChange);
+    PatchSet ps1 = newPatchSet(cd.getId(), 1);
+    cd.setPatchSets(ImmutableList.of(ps1));
+    assertThat(cd.patchSets()).containsExactly(ps1);
+
+    // Accessing notes() should not wipe the patchSets that were already set
+    ChangeNotes notes = cd.notes();
+    assertThat(notes).isSameInstanceAs(changeNotesMock);
+    assertThat(cd.patchSets()).containsExactly(ps1);
+    assertThat(cd.currentPatchSet()).isEqualTo(ps1);
+  }
+
+  @Test
+  public void reloadChangeClearsCachedFields() throws Exception {
+    Project.NameKey project = Project.nameKey("project");
+    Change.Id changeNum = Change.id(1);
+    ChangeNotes.Factory notesFactoryMock = org.mockito.Mockito.mock(ChangeNotes.Factory.class);
+    when(notesFactoryMock.createChecked(project, changeNum, null)).thenReturn(changeNotesMock);
+    Change testChange = TestChanges.newChange(project, Account.id(1000));
+    when(changeNotesMock.getChange()).thenReturn(testChange);
+
+    ChangeData cd =
+        ChangeData.createForTest(
+            project,
+            changeNum,
+            1,
+            ObjectId.zeroId(),
+            new ChangeNumberNoopAlgorithm(),
+            notesFactoryMock,
+            null);
+    PatchSet ps1 = newPatchSet(cd.getId(), 1);
+    cd.setPatchSets(ImmutableList.of(ps1));
+    cd.setMessages(ImmutableList.of());
+    cd.setReviewedBy(java.util.Collections.singleton(Account.id(1000)));
+
+    assertThat(cd.patchSets()).containsExactly(ps1);
+    assertThat(cd.messages()).isEmpty();
+    assertThat(cd.reviewedBy()).containsExactly(Account.id(1000));
+
+    cd.reloadChange();
+  }
+
+  @Test
+  public void metaRevisionCachesResolvedIdFromRefStates() throws Exception {
+    Project.NameKey project = Project.nameKey("project");
+    Change.Id changeNum = Change.id(1);
+    ChangeData cd =
+        ChangeData.createForTest(
+            project,
+            changeNum,
+            1,
+            ObjectId.zeroId(),
+            new ChangeNumberNoopAlgorithm(),
+            null,
+            null);
+    ObjectId metaSha1 = ObjectId.fromString("1111111111111111111111111111111111111111");
+    cd.setRefStates(
+        com.google.common.collect.ImmutableSetMultimap.of(
+            project,
+            com.google.gerrit.index.RefState.create(
+                com.google.gerrit.entities.RefNames.changeMetaRef(changeNum), metaSha1)));
+
+    assertThat(cd.metaRevision()).hasValue(metaSha1);
+    assertThat(cd.metaRevisionOrThrow()).isEqualTo(metaSha1);
+  }
+
+  @Test
+  public void setMessagesAndReviewedByDirectlyHydrates() throws Exception {
+    Project.NameKey project = Project.nameKey("project");
+    Change.Id changeNum = Change.id(1);
+    ChangeData cd =
+        ChangeData.createForTest(
+            project,
+            changeNum,
+            1,
+            ObjectId.zeroId(),
+            new ChangeNumberNoopAlgorithm(),
+            null,
+            null);
+    cd.setChange(TestChanges.newChange(project, Account.id(1000)));
+
+    com.google.gerrit.entities.ChangeMessage msg =
+        com.google.gerrit.entities.ChangeMessage.create(
+            com.google.gerrit.entities.ChangeMessage.key(changeNum, "uuid-1"),
+            Account.id(1001),
+            TimeUtil.now(),
+            PatchSet.id(changeNum, 1),
+            "LGTM",
+            Account.id(1001),
+            null);
+    cd.setMessages(ImmutableList.of(msg));
+
+    assertThat(cd.messages()).containsExactly(msg);
+    assertThat(cd.reviewedBy()).containsExactly(Account.id(1001));
+  }
+
+  @Test
+  public void ensureReviewedByLoadedForOpenChangesHydratesWithoutPatchSets() throws Exception {
+    Project.NameKey project = Project.nameKey("project");
+    Change.Id changeNum = Change.id(1);
+    ChangeData cd =
+        ChangeData.createForTest(
+            project,
+            changeNum,
+            1,
+            ObjectId.zeroId(),
+            new ChangeNumberNoopAlgorithm(),
+            null,
+            null);
+    Change change = TestChanges.newChange(project, Account.id(1000));
+    cd.setChange(change);
+
+    com.google.gerrit.entities.ChangeMessage msg =
+        com.google.gerrit.entities.ChangeMessage.create(
+            com.google.gerrit.entities.ChangeMessage.key(changeNum, "uuid-1"),
+            Account.id(1002),
+            TimeUtil.now(),
+            PatchSet.id(changeNum, 1),
+            "Looks good",
+            Account.id(1002),
+            null);
+    cd.setMessages(ImmutableList.of(msg));
+
+    ChangeData.ensureReviewedByLoadedForOpenChanges(ImmutableList.of(cd));
+
+    assertThat(cd.reviewedBy()).containsExactly(Account.id(1002));
+  }
+
+  @Test
+  public void benchmarkFieldHydrationLatency() throws Exception {
+    Project.NameKey project = Project.nameKey("project");
+    Change.Id changeNum = Change.id(1);
+    Change change = TestChanges.newChange(project, Account.id(1000));
+    com.google.gerrit.entities.ChangeMessage msg1 =
+        com.google.gerrit.entities.ChangeMessage.create(
+            com.google.gerrit.entities.ChangeMessage.key(changeNum, "uuid-1"),
+            Account.id(1001),
+            TimeUtil.now(),
+            PatchSet.id(changeNum, 1),
+            "Message 1",
+            Account.id(1001),
+            null);
+    com.google.gerrit.entities.ChangeMessage msg2 =
+        com.google.gerrit.entities.ChangeMessage.create(
+            com.google.gerrit.entities.ChangeMessage.key(changeNum, "uuid-2"),
+            Account.id(1002),
+            TimeUtil.now(),
+            PatchSet.id(changeNum, 1),
+            "Message 2",
+            Account.id(1002),
+            null);
+
+    int iterations = 10_000;
+
+    // Warm-up
+    for (int i = 0; i < 1_000; i++) {
+      ChangeData cd =
+          ChangeData.createForTest(
+              project,
+              changeNum,
+              1,
+              ObjectId.zeroId(),
+              new ChangeNumberNoopAlgorithm(),
+              null,
+              null);
+      cd.setChange(change);
+      cd.setMessages(ImmutableList.of(msg1, msg2));
+      var unused = cd.reviewedBy();
+    }
+
+    // Benchmark pre-populated fresh ChangeData hydration
+    long startPrePopulated = System.nanoTime();
+    for (int i = 0; i < iterations; i++) {
+      ChangeData cd =
+          ChangeData.createForTest(
+              project,
+              changeNum,
+              1,
+              ObjectId.zeroId(),
+              new ChangeNumberNoopAlgorithm(),
+              null,
+              null);
+      cd.setChange(change);
+      cd.setMessages(ImmutableList.of(msg1, msg2));
+      var reviewed = cd.reviewedBy();
+      assertThat(reviewed).hasSize(2);
+    }
+    long elapsedPrePopulatedNs = System.nanoTime() - startPrePopulated;
+
+    // Benchmark repeated access on same ChangeData instance (cached path)
+    ChangeData cachedCd =
+        ChangeData.createForTest(
+            project,
+            changeNum,
+            1,
+            ObjectId.zeroId(),
+            new ChangeNumberNoopAlgorithm(),
+            null,
+            null);
+    cachedCd.setChange(change);
+    cachedCd.setMessages(ImmutableList.of(msg1, msg2));
+    var unused = cachedCd.reviewedBy(); // populate cache
+
+    long startCached = System.nanoTime();
+    for (int i = 0; i < iterations; i++) {
+      var reviewed = cachedCd.reviewedBy();
+      assertThat(reviewed).hasSize(2);
+    }
+    long elapsedCachedNs = System.nanoTime() - startCached;
+
+    System.out.printf(
+        "ChangeData hydration benchmark: %d iterations -> fresh: %.2f ns/op, cached: %.2f ns/op (%.2fx speedup)%n",
+        iterations,
+        (double) elapsedPrePopulatedNs / iterations,
+        (double) elapsedCachedNs / iterations,
+        (double) elapsedPrePopulatedNs / Math.max(1, elapsedCachedNs));
+
+    assertThat(elapsedCachedNs).isLessThan(elapsedPrePopulatedNs);
+  }
+
   private static PatchSet newPatchSet(Change.Id changeId, int num) {
     return PatchSet.builder()
         .id(PatchSet.id(changeId, num))

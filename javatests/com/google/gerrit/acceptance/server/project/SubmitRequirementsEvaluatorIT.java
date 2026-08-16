@@ -1175,4 +1175,51 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
 
     assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.SATISFIED);
   }
+
+  @Test
+  public void benchmarkSubmitRequirementEvaluationPerformance() throws Exception {
+    SubmitRequirement sr1 =
+        createSubmitRequirement(
+            "Code-Review",
+            /* applicabilityExpr= */ "branch:refs/heads/master",
+            /* submittabilityExpr= */ "label:\"Code-Review=+2\"",
+            /* overrideExpr= */ "label:\"build-cop-override=+1\"",
+            /* allowOverrideInChildProjects= */ false);
+    SubmitRequirement sr2 =
+        createSubmitRequirement(
+            "Verified",
+            /* applicabilityExpr= */ "is:true",
+            /* submittabilityExpr= */ "label:\"Verified=+1\"",
+            /* overrideExpr= */ null,
+            /* allowOverrideInChildProjects= */ false);
+    SubmitRequirement sr3 =
+        createSubmitRequirement(
+            "Author-Email",
+            /* applicabilityExpr= */ null,
+            /* submittabilityExpr= */ "authoremail:\"^.*@example\\.com\"",
+            /* overrideExpr= */ null,
+            /* allowOverrideInChildProjects= */ false);
+    configSubmitRequirement(project, sr1);
+    configSubmitRequirement(project, sr2);
+    configSubmitRequirement(project, sr3);
+
+    // Warm up
+    for (int i = 0; i < 100; i++) {
+      var unused = evaluator.evaluateAllRequirements(changeData);
+    }
+
+    int iterations = 1000;
+    long start = System.nanoTime();
+    for (int i = 0; i < iterations; i++) {
+      ImmutableMap<SubmitRequirement, SubmitRequirementResult> results =
+          evaluator.evaluateAllRequirements(changeData);
+      assertThat(results).hasSize(3);
+    }
+    long elapsedNanos = System.nanoTime() - start;
+    double elapsedMs = elapsedNanos / 1_000_000.0;
+    double avgLatencyUs = (elapsedNanos / (double) iterations) / 1_000.0;
+    System.out.printf(
+        "SubmitRequirement evaluation benchmark: %d iterations took %.2f ms (avg: %.2f µs/eval)\n",
+        iterations, elapsedMs, avgLatencyUs);
+  }
 }

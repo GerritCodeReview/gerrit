@@ -21,6 +21,7 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.HEAD;
 
+import com.google.common.base.Stopwatch;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -33,10 +34,14 @@ import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -207,5 +212,151 @@ public class MergeListIT extends AbstractDaemonTest {
 
   private RevisionApi current(String changeId) throws Exception {
     return gApi.changes().id(changeId).current();
+  }
+
+  @Test
+  public void mergeListRetrievalBenchmark() throws Exception {
+    ObjectId initial = repo().exactRef(HEAD).getLeaf().getObjectId();
+
+    // Create mainline with 100 commits
+    testRepo.reset(initial);
+    RevCommit initialCommit = testRepo.getRevWalk().parseCommit(initial);
+    RevCommit mainlineTip = initialCommit;
+    for (int i = 0; i < 100; i++) {
+      mainlineTip =
+          testRepo
+              .commit()
+              .parent(mainlineTip)
+              .message("mainline commit " + i)
+              .insertChangeId()
+              .create();
+    }
+
+    // Create side branch with 20 commits diverging from initial
+    testRepo.reset(initial);
+    RevCommit sideTip = initialCommit;
+    for (int i = 0; i < 20; i++) {
+      sideTip =
+          testRepo.commit().parent(sideTip).message("side commit " + i).insertChangeId().create();
+    }
+
+    // Merge side branch into mainline
+    PushOneCommit m =
+        pushFactory.create(
+            admin.newIdent(),
+            testRepo,
+            "merge benchmark",
+            ImmutableMap.of("benchmark.txt", "bench"));
+    m.setParents(ImmutableList.of(mainlineTip, sideTip));
+    PushOneCommit.Result result = m.to("refs/for/master");
+    result.assertOkStatus();
+    String benchChangeId = result.getChangeId();
+    ObjectId mergeCommitId = result.getCommit();
+
+    int iterations = 200;
+
+    // Warm up both paths
+    for (int i = 0; i < 10; i++) {
+      var unused1 = current(benchChangeId).getMergeList().get();
+      var unused2 = getMergeListBaseline(mergeCommitId, 1);
+      var unused3 = getMergeListOptimized(mergeCommitId, 1);
+    }
+
+    // Measure Baseline (Unoptimized: retainBody=true, parseBody for all walked commits)
+    Stopwatch baselineTimer = Stopwatch.createStarted();
+    List<RevCommit> baselineCommits = null;
+    for (int i = 0; i < iterations; i++) {
+      baselineCommits = getMergeListBaseline(mergeCommitId, 1);
+    }
+    baselineTimer.stop();
+    long baselineMs = baselineTimer.elapsed(TimeUnit.MILLISECONDS);
+
+    // Measure Optimized (Optimized: retainBody=false, parseHeaders during walk, parseBody
+    // on-demand)
+    Stopwatch optTimer = Stopwatch.createStarted();
+    ImmutableList<RevCommit> optCommits = null;
+    for (int i = 0; i < iterations; i++) {
+      optCommits = getMergeListOptimized(mergeCommitId, 1);
+    }
+    optTimer.stop();
+    long optMs = optTimer.elapsed(TimeUnit.MILLISECONDS);
+
+    // Measure REST API end-to-end latency
+    Stopwatch restTimer = Stopwatch.createStarted();
+    List<CommitInfo> restCommits = null;
+    int restIterations = 20;
+    for (int i = 0; i < restIterations; i++) {
+      restCommits = current(benchChangeId).getMergeList().get();
+    }
+    restTimer.stop();
+    long restMs = restTimer.elapsed(TimeUnit.MILLISECONDS);
+
+    assertThat(optCommits).hasSize(20);
+    assertThat(baselineCommits).hasSize(20);
+    assertThat(restCommits).hasSize(20);
+    assertThat(optCommits.get(0).getId()).isEqualTo(sideTip.getId());
+    assertThat(restCommits.get(0).commit).isEqualTo(sideTip.name());
+
+    double speedup = (double) baselineMs / Math.max(optMs, 1);
+    System.out.printf(
+        "\n"
+            + "=======================================================\n"
+            + "MERGE LIST RETRIEVAL BENCHMARK (100 mainline + 20 side commits):\n"
+            + "  - Engine Baseline (retainBody=true, eager body parse): %d ms (%d iter, avg %.3f"
+            + " ms/call)\n"
+            + "  - Engine Optimized (retainBody=false, header-only walk): %d ms (%d iter, avg %.3f"
+            + " ms/call)\n"
+            + "  - Engine Speedup: %.2fx faster\n"
+            + "  - REST API Latency: %d ms (%d iter, avg %.3f ms/call)\n"
+            + "=======================================================\n\n",
+        baselineMs,
+        iterations,
+        (double) baselineMs / iterations,
+        optMs,
+        iterations,
+        (double) optMs / iterations,
+        speedup,
+        restMs,
+        restIterations,
+        (double) restMs / restIterations);
+  }
+
+  private List<RevCommit> getMergeListBaseline(ObjectId mergeCommitId, int uninterestingParent)
+      throws Exception {
+    try (Repository repo = repoManager.openRepository(project);
+        RevWalk rw = new RevWalk(repo)) {
+      rw.setRetainBody(true);
+      RevCommit merge = rw.parseCommit(mergeCommitId);
+      rw.parseBody(merge);
+      for (int parent = 0; parent < merge.getParentCount(); parent++) {
+        RevCommit parentCommit = merge.getParent(parent);
+        rw.parseBody(parentCommit);
+        if (parent == uninterestingParent - 1) {
+          rw.markUninteresting(parentCommit);
+        } else {
+          rw.markStart(parentCommit);
+        }
+      }
+      List<RevCommit> result = new ArrayList<>();
+      RevCommit c;
+      while ((c = rw.next()) != null) {
+        result.add(c);
+      }
+      return result;
+    }
+  }
+
+  private ImmutableList<RevCommit> getMergeListOptimized(
+      ObjectId mergeCommitId, int uninterestingParent) throws Exception {
+    try (Repository repo = repoManager.openRepository(project);
+        RevWalk rw = new RevWalk(repo)) {
+      RevCommit merge = rw.parseCommit(mergeCommitId);
+      ImmutableList<RevCommit> commits =
+          com.google.gerrit.server.patch.MergeListBuilder.build(rw, merge, uninterestingParent);
+      for (RevCommit c : commits) {
+        rw.parseBody(c);
+      }
+      return commits;
+    }
   }
 }

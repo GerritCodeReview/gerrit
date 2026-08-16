@@ -55,6 +55,7 @@ public class GetCommit implements RestReadView<RevisionResource> {
     Project.NameKey p = rsrc.getChange().getProject();
     try (Repository repo = repoManager.openRepository(p);
         RevWalk rw = new RevWalk(repo)) {
+      rw.setRetainBody(false);
       RevCommit commit = rw.parseCommit(rsrc.getPatchSet().commitId());
       rw.parseBody(commit);
       CommitInfo info =

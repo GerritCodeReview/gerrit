@@ -93,6 +93,7 @@ public abstract class MagicFile {
 
           b.append("Merge List:\n\n");
           for (RevCommit commit : MergeListBuilder.build(rw, c, uninterestingParent)) {
+            rw.parseBody(commit);
             b.append("* ");
             b.append(abbreviateName(commit, reader));
             b.append(" ");

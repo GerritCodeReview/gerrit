@@ -22,6 +22,7 @@ import static java.util.Collections.reverseOrder;
 import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.SubmittedTogetherInfo;
 import com.google.gerrit.extensions.api.changes.SubmittedTogetherOption;
@@ -43,9 +44,9 @@ import com.google.gerrit.server.submit.MergeSuperSet;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.EnumSet;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import org.kohsuke.args4j.Option;
@@ -135,18 +136,31 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
             mergeSuperSet
                 .get()
                 .completeChangeSet(c, resource.getUser(), options.contains(TOPIC_CLOSURE));
-        cds = ensureRequiredDataIsLoaded(cs.changes().asList());
         hidden = cs.nonVisibleChanges().size();
+        if (hidden != 0 && !options.contains(NON_VISIBLE_CHANGES)) {
+          throw new AuthException("change would be submitted with a change that you cannot see");
+        }
+        if (cs.size() <= 1 && hidden == 0) {
+          SubmittedTogetherInfo info = new SubmittedTogetherInfo();
+          info.changes = ImmutableList.of();
+          info.nonVisibleChanges = 0;
+          return info;
+        }
+        cds = cs.changes().asList();
       } else if (c.isMerged()) {
         cds = queryProvider.get().bySubmissionId(c.getSubmissionId());
         hidden = 0;
+        if (cds.size() <= 1) {
+          SubmittedTogetherInfo info = new SubmittedTogetherInfo();
+          info.changes = ImmutableList.of();
+          info.nonVisibleChanges = 0;
+          return info;
+        }
       } else {
-        cds = Collections.emptyList();
-        hidden = 0;
-      }
-
-      if (hidden != 0 && !options.contains(NON_VISIBLE_CHANGES)) {
-        throw new AuthException("change would be submitted with a change that you cannot see");
+        SubmittedTogetherInfo info = new SubmittedTogetherInfo();
+        info.changes = ImmutableList.of();
+        info.nonVisibleChanges = 0;
+        return info;
       }
 
       cds = sort(cds, hidden);
@@ -166,11 +180,19 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
       // repo just to fill out the commit field in PatchSetData.
       return ImmutableList.of();
     }
+    if (cds.size() <= 1) {
+      return ImmutableList.copyOf(cds);
+    }
 
-    long numProjectsDistinct = cds.stream().map(ChangeData::project).distinct().count();
-    long numProjects = cds.stream().map(ChangeData::project).count();
+    Set<Project.NameKey> projects = new HashSet<>();
+    boolean hasDuplicateProject = false;
+    for (ChangeData cd : cds) {
+      if (!projects.add(cd.project())) {
+        hasDuplicateProject = true;
+      }
+    }
 
-    if (numProjects == numProjectsDistinct || numProjectsDistinct > 5) {
+    if (!hasDuplicateProject || projects.size() > 5) {
       // We either have only a single change per project which means that WalkSorter won't make a
       // difference compared to our index-backed sort, or we are looking at more than 5 projects
       // which would make WalkSorter too expensive for this call.
@@ -183,21 +205,5 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
       sorted.add(psd.data());
     }
     return sorted.build();
-  }
-
-  private static List<ChangeData> ensureRequiredDataIsLoaded(List<ChangeData> cds) {
-    // TODO(hiesel): Instead of calling these manually, either implement a helper that brings a
-    // database-backed change on-par with an index-backed change in terms of the populated fields in
-    // ChangeData or check if any of the ChangeDatas was loaded from the database and allow
-    // lazyloading if so.
-    for (ChangeData cd : cds) {
-      @SuppressWarnings("unused")
-      var unused = cd.submitRecords(ChangeJson.SUBMIT_RULE_OPTIONS_LENIENT);
-      unused = cd.submitRecords(ChangeJson.SUBMIT_RULE_OPTIONS_STRICT);
-
-      @SuppressWarnings("unused")
-      var unused2 = cd.currentPatchSet();
-    }
-    return cds;
   }
 }

@@ -19,9 +19,11 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.util.stream.Collectors.toList;
 
+import com.google.common.base.Stopwatch;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -37,6 +39,7 @@ import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.BranchNameKey;
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
@@ -57,18 +60,32 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.server.ChangeUtil;
+import com.google.gerrit.server.git.InMemoryInserter;
+import com.google.gerrit.server.git.MergeUtilFactory;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.PermissionDeniedException;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
+import org.eclipse.jgit.diff.DiffEntry;
+import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.merge.ThreeWayMerger;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.RefSpec;
+import org.eclipse.jgit.util.io.DisabledOutputStream;
 import org.junit.Test;
 
 public class RevertIT extends AbstractDaemonTest {
@@ -77,6 +94,7 @@ public class RevertIT extends AbstractDaemonTest {
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private ExtensionRegistry extensionRegistry;
   @Inject private AccountOperations accountOperations;
+  @Inject private MergeUtilFactory mergeUtilFactory;
 
   @Test
   public void pureRevertReturnsTrueForPureRevert() throws Exception {
@@ -183,6 +201,129 @@ public class RevertIT extends AbstractDaemonTest {
             BadRequestException.class,
             () -> gApi.changes().id(createChange().getChangeId()).pureRevert());
     assertThat(thrown).hasMessageThat().contains("revertOf not set");
+  }
+
+  @Test
+  public void pureRevertBenchmark() throws Exception {
+    Map<String, String> initialFiles = new HashMap<>();
+    for (int i = 0; i < 20; i++) {
+      initialFiles.put("dir/file" + i + ".txt", "initial content " + i);
+    }
+    PushOneCommit push1 =
+        pushFactory.create(admin.newIdent(), testRepo, "initial commit", initialFiles);
+    PushOneCommit.Result r1 = push1.to("refs/for/master");
+    r1.assertOkStatus();
+    merge(r1);
+
+    Map<String, String> modifiedFiles = new HashMap<>();
+    for (int i = 0; i < 20; i++) {
+      modifiedFiles.put("dir/file" + i + ".txt", "modified content " + i);
+    }
+    PushOneCommit push2 =
+        pushFactory.create(admin.newIdent(), testRepo, "feature commit", modifiedFiles);
+    PushOneCommit.Result r2 = push2.to("refs/for/master");
+    r2.assertOkStatus();
+    merge(r2);
+
+    String revertChangeId = gApi.changes().id(r2.getChangeId()).revert().get().changeId;
+    ChangeNotes revertNotes =
+        notesFactory.createChecked(
+            project, Change.id(gApi.changes().id(revertChangeId).get()._number));
+    ChangeNotes origNotes =
+        notesFactory.createChecked(
+            project, Change.id(gApi.changes().id(r2.getChangeId()).get()._number));
+
+    ObjectId revertCommitId = revertNotes.getCurrentPatchSet().commitId();
+    ObjectId originalCommitId = origNotes.getCurrentPatchSet().commitId();
+
+    // Warm up both code paths
+    for (int i = 0; i < 10; i++) {
+      baselinePureRevertCheck(project, revertCommitId, originalCommitId);
+      optimizedPureRevertCheck(project, revertCommitId, originalCommitId);
+    }
+
+    int iterations = 1000;
+
+    Stopwatch baselineTimer = Stopwatch.createStarted();
+    boolean baselineResult = false;
+    for (int i = 0; i < iterations; i++) {
+      baselineResult = baselinePureRevertCheck(project, revertCommitId, originalCommitId);
+    }
+    baselineTimer.stop();
+    long baselineMs = baselineTimer.elapsed(TimeUnit.MILLISECONDS);
+
+    Stopwatch optTimer = Stopwatch.createStarted();
+    boolean optResult = false;
+    for (int i = 0; i < iterations; i++) {
+      optResult = optimizedPureRevertCheck(project, revertCommitId, originalCommitId);
+    }
+    optTimer.stop();
+    long optMs = optTimer.elapsed(TimeUnit.MILLISECONDS);
+
+    double speedup = (double) baselineMs / Math.max(optMs, 1);
+    System.out.printf(
+        "\n"
+            + "=======================================================\n"
+            + "PURE REVERT DETECTION LATENCY BENCHMARK (%d iterations):\n"
+            + "  - Baseline (DiffFormatter.scan): %d ms (avg %.4f ms/call)\n"
+            + "  - Optimized (ObjectId.equals):  %d ms (avg %.4f ms/call)\n"
+            + "  - Speedup factor: %.2fx faster\n"
+            + "=======================================================\n\n",
+        iterations,
+        baselineMs,
+        (double) baselineMs / iterations,
+        optMs,
+        (double) optMs / iterations,
+        speedup);
+
+    assertThat(optResult).isEqualTo(baselineResult);
+    assertThat(optResult).isTrue();
+  }
+
+  private boolean baselinePureRevertCheck(
+      Project.NameKey project, ObjectId revert, ObjectId original) throws Exception {
+    try (Repository repo = repoManager.openRepository(project);
+        ObjectInserter ins = new InMemoryInserter(repo);
+        RevWalk rw = new RevWalk(repo)) {
+      RevCommit claimedOriginalCommit = rw.parseCommit(original);
+      RevCommit claimedRevertCommit = rw.parseCommit(revert);
+      ThreeWayMerger merger =
+          mergeUtilFactory
+              .create(projectCache.get(project).orElseThrow(illegalState(project)))
+              .newThreeWayMerger(ins, repo);
+      merger.setBase(claimedRevertCommit.getParent(0));
+      boolean success = merger.merge(claimedRevertCommit, claimedOriginalCommit);
+      if (!success || merger.getResultTreeId() == null) {
+        return false;
+      }
+      try (DiffFormatter df = new DiffFormatter(DisabledOutputStream.INSTANCE)) {
+        df.setReader(ins.newReader(), repo.getConfig());
+        List<DiffEntry> entries =
+            df.scan(claimedOriginalCommit.getParent(0), merger.getResultTreeId());
+        return entries.isEmpty();
+      }
+    }
+  }
+
+  private boolean optimizedPureRevertCheck(
+      Project.NameKey project, ObjectId revert, ObjectId original) throws Exception {
+    try (Repository repo = repoManager.openRepository(project);
+        ObjectInserter ins = new InMemoryInserter(repo);
+        RevWalk rw = new RevWalk(repo)) {
+      RevCommit claimedOriginalCommit = rw.parseCommit(original);
+      RevCommit claimedRevertCommit = rw.parseCommit(revert);
+      ThreeWayMerger merger =
+          mergeUtilFactory
+              .create(projectCache.get(project).orElseThrow(illegalState(project)))
+              .newThreeWayMerger(ins, repo);
+      merger.setBase(claimedRevertCommit.getParent(0));
+      boolean success = merger.merge(claimedRevertCommit, claimedOriginalCommit);
+      if (!success || merger.getResultTreeId() == null) {
+        return false;
+      }
+      rw.parseHeaders(claimedOriginalCommit.getParent(0));
+      return merger.getResultTreeId().equals(claimedOriginalCommit.getParent(0).getTree());
+    }
   }
 
   @Test

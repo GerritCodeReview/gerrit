@@ -22,6 +22,7 @@ import static com.google.gerrit.extensions.api.changes.SubmittedTogetherOption.N
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
+import com.google.common.base.Stopwatch;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
@@ -531,5 +532,58 @@ public class SubmittedTogetherIT extends AbstractDaemonTest {
 
   private void assertNotMerged(String changeId) throws Exception {
     assertThat(gApi.changes().id(changeId).get().status).isEqualTo(ChangeStatus.NEW);
+  }
+
+  @Test
+  public void benchmarkSingletonChangeSubmittedTogether() throws Exception {
+    RevCommit c1 = commitBuilder().add("a.txt", "1").message("subject: 1").create();
+    String id1 = getChangeId(c1);
+    pushHead(testRepo, "refs/for/master", false);
+
+    // Warmup
+    for (int i = 0; i < 10; i++) {
+      var unused = gApi.changes().id(id1).submittedTogether();
+    }
+
+    int iterations = 100;
+    Stopwatch sw = Stopwatch.createStarted();
+    for (int i = 0; i < iterations; i++) {
+      var unused = gApi.changes().id(id1).submittedTogether();
+    }
+    sw.stop();
+    long elapsedMs = sw.elapsed().toMillis();
+    double avgMs = (double) elapsedMs / iterations;
+    System.out.println(
+        String.format(
+            "BENCHMARK singleton change: total = %d ms, avg = %.3f ms/op", elapsedMs, avgMs));
+  }
+
+  @Test
+  public void benchmarkMultipleChangesSubmittedTogether() throws Exception {
+    commitBuilder().add("a.txt", "1").message("subject: 1").create();
+    commitBuilder().add("b.txt", "2").message("subject: 2").create();
+    commitBuilder().add("c.txt", "3").message("subject: 3").create();
+    commitBuilder().add("d.txt", "4").message("subject: 4").create();
+    RevCommit c5 = commitBuilder().add("e.txt", "5").message("subject: 5").create();
+    String id5 = getChangeId(c5);
+    pushHead(testRepo, "refs/for/master", false);
+
+    // Warmup
+    for (int i = 0; i < 10; i++) {
+      var unused = gApi.changes().id(id5).submittedTogether();
+    }
+
+    int iterations = 100;
+    Stopwatch sw = Stopwatch.createStarted();
+    for (int i = 0; i < iterations; i++) {
+      var unused = gApi.changes().id(id5).submittedTogether();
+    }
+    sw.stop();
+    long elapsedMs = sw.elapsed().toMillis();
+    double avgMs = (double) elapsedMs / iterations;
+    System.out.println(
+        String.format(
+            "BENCHMARK multiple changes (5 changes): total = %d ms, avg = %.3f ms/op",
+            elapsedMs, avgMs));
   }
 }

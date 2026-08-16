@@ -33,7 +33,6 @@ import com.vladsch.flexmark.util.data.MutableDataHolder;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -97,7 +96,7 @@ public class MarkdownFormatter {
     return optionsExt;
   }
 
-  public byte[] markdownToDocHtml(String md, String charEnc) throws UnsupportedEncodingException {
+  public byte[] markdownToDocHtml(String md, String charEnc) {
     Node root = parseMarkdown(md);
     HtmlRenderer renderer = HtmlRenderer.builder(markDownOptions()).build();
     String title = findTitle(root);
@@ -119,7 +118,7 @@ public class MarkdownFormatter {
     html.append("<body>\n");
     html.append(renderer.render(root));
     html.append("\n</body></html>");
-    return html.toString().getBytes(charEnc);
+    return html.toString().getBytes(Charset.forName(charEnc));
   }
 
   public String extractTitleFromMarkdown(byte[] data, String charEnc) {

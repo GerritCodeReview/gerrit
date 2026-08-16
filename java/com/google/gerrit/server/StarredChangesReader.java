@@ -46,6 +46,18 @@ public interface StarredChangesReader {
   Set<Change.Id> areStarred(Repository allUsersRepo, List<Change.Id> changeIds, Account.Id caller);
 
   /**
+   * Returns a subset of {@code Change.Id}s among the input {@code changeIds} list that are starred
+   * by the {@code caller} user.
+   *
+   * @param changeIds the list of {@code Change.Id}s to check.
+   * @param caller the {@code Account.Id} to check starred changes by a user.
+   * @return a set of {@code Change.Id}s that are starred by the specified user.
+   */
+  default Set<Change.Id> areStarred(List<Change.Id> changeIds, Account.Id caller) {
+    return areStarred(null, changeIds, caller);
+  }
+
+  /**
    * Retrieves a list of {@code Account.Id} which starred a {@code Change.Id}.
    *
    * @param changeId the {@code Change.Id}.

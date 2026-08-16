@@ -126,8 +126,26 @@ public class StarredChangesUtilNoteDbImpl implements StarredChangesReader, Starr
   }
 
   @Override
+  public Set<Change.Id> areStarred(List<Change.Id> changeIds, Account.Id caller) {
+    if (changeIds.isEmpty()) {
+      return ImmutableSet.of();
+    }
+    try (Repository repo = repoManager.openRepository(allUsers)) {
+      return areStarred(repo, changeIds, caller);
+    } catch (IOException e) {
+      logger.atWarning().withCause(e).log(
+          "Failed getting starred changes for account %d within changes: %s",
+          caller.get(), Joiner.on(", ").join(changeIds));
+      return ImmutableSet.of();
+    }
+  }
+
+  @Override
   public Set<Change.Id> areStarred(
       Repository allUsersRepo, List<Change.Id> virtualIds, Account.Id caller) {
+    if (virtualIds.isEmpty()) {
+      return ImmutableSet.of();
+    }
     List<String> starRefs =
         virtualIds.stream()
             .map(c -> RefNames.refsStarredChanges(c, caller))
@@ -138,7 +156,8 @@ public class StarredChangesUtilNoteDbImpl implements StarredChangesReader, Starr
           .exactRef(starRefs.toArray(new String[0]))
           .keySet()
           .stream()
-          .map(r -> Change.Id.fromAllUsersRef(r))
+          .map(StarredChangesUtilNoteDbImpl::parseChangeIdFromStarredChangeRef)
+          .filter(Objects::nonNull)
           .collect(Collectors.toSet());
     } catch (IOException e) {
       logger.atWarning().withCause(e).log(
@@ -156,14 +175,17 @@ public class StarredChangesUtilNoteDbImpl implements StarredChangesReader, Starr
       batchUpdate.setAllowNonFastForwards(true);
       batchUpdate.setRefLogIdent(serverIdent.get());
       batchUpdate.setRefLogMessage("Unstar change " + virtualId.get(), true);
-      for (Account.Id accountId : getStars(repo, virtualId)) {
-        String refName = RefNames.refsStarredChanges(virtualId, accountId);
-        Ref ref = repo.getRefDatabase().exactRef(refName);
-        if (ref != null) {
-          batchUpdate.addCommand(new ReceiveCommand(ref.getObjectId(), ObjectId.zeroId(), refName));
-        }
+      String prefix = RefNames.refsStarredChangesPrefix(virtualId);
+      for (Ref ref : repo.getRefDatabase().getRefsByPrefix(prefix)) {
+        batchUpdate.addCommand(
+            new ReceiveCommand(ref.getObjectId(), ObjectId.zeroId(), ref.getName()));
       }
-      batchUpdate.execute(rw, NullProgressMonitor.INSTANCE);
+      if (batchUpdate.getCommands().isEmpty()) {
+        return;
+      }
+      try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
+        batchUpdate.execute(rw, NullProgressMonitor.INSTANCE);
+      }
       for (ReceiveCommand command : batchUpdate.getCommands()) {
         if (command.getResult() != ReceiveCommand.Result.OK) {
           String message =
@@ -182,10 +204,13 @@ public class StarredChangesUtilNoteDbImpl implements StarredChangesReader, Starr
   @Override
   public ImmutableList<Account.Id> byChange(Change.Id virtualId) {
     try (Repository repo = repoManager.openRepository(allUsers)) {
-      ImmutableList.Builder<Account.Id> builder = ImmutableList.builder();
-      for (Account.Id accountId : getStars(repo, virtualId)) {
-        Optional<Ref> starRef = getStarRef(repo, RefNames.refsStarredChanges(virtualId, accountId));
-        if (starRef.isPresent()) {
+      String prefix = RefNames.refsStarredChangesPrefix(virtualId);
+      List<Ref> refs = repo.getRefDatabase().getRefsByPrefix(prefix);
+      ImmutableList.Builder<Account.Id> builder =
+          ImmutableList.builderWithExpectedSize(refs.size());
+      for (Ref ref : refs) {
+        Account.Id accountId = parseAccountIdFromStarredChangeRef(ref.getName(), prefix.length());
+        if (accountId != null) {
           builder.add(accountId);
         }
       }
@@ -205,17 +230,20 @@ public class StarredChangesUtilNoteDbImpl implements StarredChangesReader, Starr
   public ImmutableSet<Change.Id> byAccountId(Account.Id accountId, boolean skipInvalidChanges) {
     try (Repository repo = repoManager.openRepository(allUsers)) {
       ImmutableSet.Builder<Change.Id> builder = ImmutableSet.builder();
+      String accountSuffix = "/" + accountId.get();
       for (Ref ref : repo.getRefDatabase().getRefsByPrefix(RefNames.REFS_STARRED_CHANGES)) {
-        Account.Id currentAccountId = Account.Id.fromRef(ref.getName());
-        // Skip all refs that don't correspond with accountId.
-        if (currentAccountId == null || !currentAccountId.equals(accountId)) {
+        String refName = ref.getName();
+        if (!refName.endsWith(accountSuffix)) {
           continue;
         }
 
-        // Skip invalid change ids.
-        Change.Id changeId = Change.Id.fromAllUsersRef(ref.getName());
-        if (skipInvalidChanges && changeId == null) {
-          continue;
+        Change.Id changeId = parseChangeIdForAccount(refName, accountSuffix);
+        if (changeId == null) {
+          if (skipInvalidChanges) {
+            continue;
+          }
+          throw new StorageException(
+              String.format("Invalid star ref %s for account %d", refName, accountId.get()));
         }
         builder.add(changeId);
       }
@@ -226,16 +254,100 @@ public class StarredChangesUtilNoteDbImpl implements StarredChangesReader, Starr
     }
   }
 
-  private static Set<Account.Id> getStars(Repository allUsers, Change.Id virtualId)
-      throws IOException {
-    String prefix = RefNames.refsStarredChangesPrefix(virtualId);
-    RefDatabase refDb = allUsers.getRefDatabase();
-    return refDb.getRefsByPrefix(prefix).stream()
-        .map(r -> r.getName().substring(prefix.length()))
-        .map(refPart -> Ints.tryParse(refPart))
-        .filter(Objects::nonNull)
-        .map(id -> Account.id(id))
-        .collect(toSet());
+  @Nullable
+  private static Change.Id parseChangeIdForAccount(String refName, String accountSuffix) {
+    if (!refName.startsWith(RefNames.REFS_STARRED_CHANGES) || !refName.endsWith(accountSuffix)) {
+      return null;
+    }
+    int len = refName.length();
+    int changeEnd = len - accountSuffix.length();
+    if (changeEnd <= 24) {
+      return null;
+    }
+    char s0 = refName.charAt(21);
+    char s1 = refName.charAt(22);
+    if (s0 < '0' || s0 > '9' || s1 < '0' || s1 > '9' || refName.charAt(23) != '/') {
+      return null;
+    }
+    int expectedShard = (s0 - '0') * 10 + (s1 - '0');
+
+    int changeIdVal = 0;
+    for (int i = 24; i < changeEnd; i++) {
+      char c = refName.charAt(i);
+      if (c < '0' || c > '9') {
+        return null;
+      }
+      changeIdVal = changeIdVal * 10 + (c - '0');
+    }
+    if (changeIdVal % 100 != expectedShard) {
+      return null;
+    }
+    return Change.id(changeIdVal);
+  }
+
+  @Nullable
+  private static Change.Id parseChangeIdFromStarredChangeRef(String refName) {
+    if (refName == null || !refName.startsWith(RefNames.REFS_STARRED_CHANGES)) {
+      return null;
+    }
+    int len = refName.length();
+    if (len < 25) {
+      return null;
+    }
+    char s0 = refName.charAt(21);
+    char s1 = refName.charAt(22);
+    if (s0 < '0' || s0 > '9' || s1 < '0' || s1 > '9' || refName.charAt(23) != '/') {
+      return null;
+    }
+    int expectedShard = (s0 - '0') * 10 + (s1 - '0');
+
+    int changeIdVal = 0;
+    int i = 24;
+    while (i < len) {
+      char c = refName.charAt(i);
+      if (c == '/') {
+        break;
+      }
+      if (c < '0' || c > '9') {
+        return null;
+      }
+      changeIdVal = changeIdVal * 10 + (c - '0');
+      i++;
+    }
+    if (i == 24 || i == len || refName.charAt(i) != '/') {
+      return null;
+    }
+    if (changeIdVal % 100 != expectedShard) {
+      return null;
+    }
+    int accountStart = i + 1;
+    if (accountStart >= len) {
+      return null;
+    }
+    for (int j = accountStart; j < len; j++) {
+      char c = refName.charAt(j);
+      if (c < '0' || c > '9') {
+        return null;
+      }
+    }
+    return Change.id(changeIdVal);
+  }
+
+  @Nullable
+  private static Account.Id parseAccountIdFromStarredChangeRef(String refName, int offset) {
+    int len = refName.length();
+    if (offset >= len) {
+      return null;
+    }
+    int accountIdVal = 0;
+    for (int i = offset; i < len; i++) {
+      char c = refName.charAt(i);
+      if (c < '0' || c > '9') {
+        return null;
+      }
+      accountIdVal = accountIdVal * 10 + (c - '0');
+    }
+    return Account.id(accountIdVal);
   }
 
   private static Optional<Ref> getStarRef(Repository repo, @Nullable String refName)

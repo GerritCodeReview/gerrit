@@ -39,7 +39,7 @@ public class FieldBundle {
    * contain a map from {@link IndexedField#name()} to a stored value.
    *
    * <p>In case #2 {@link #storesIndexedFields} is set to {@code false} and the {@link #fields}
-   * contain a map from {@link SearchSpec#name()} to a stored value.
+   * contain a map from {@code SearchSpec#name()} to a stored value.
    */
   private final boolean storesIndexedFields;
 

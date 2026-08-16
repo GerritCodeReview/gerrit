@@ -246,7 +246,7 @@ public class ChangeUpdateTest extends AbstractChangeNotesTest {
    * Creates a change with an empty attention set
    *
    * <p>Method ensures that changeOwner and otherUser can be added to the attention set later. (only
-   * users active on the change can be added to the attention set - see {@link
+   * users active on the change can be added to the attention set - see {@code
    * ChangeUpdate#isActiveOnChange})
    */
   private Change newChangeWithEmptyAttentionSet() throws Exception {

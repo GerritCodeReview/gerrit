@@ -155,6 +155,9 @@ public class ModifiedFilesLoader {
               ? ObjectId.zeroId()
               : DiffUtil.getTreeId(revWalk, baseCommit);
       ObjectId newTree = DiffUtil.getTreeId(revWalk, newCommit);
+      if (!baseTree.equals(ObjectId.zeroId()) && baseTree.equals(newTree)) {
+        return ImmutableList.of();
+      }
       ImmutableList<ModifiedFile> modifiedFiles =
           ImmutableList.sortedCopyOf(
               comparing(f -> f.getDefaultPath()),

@@ -484,6 +484,107 @@ public class DiffOperationsTest {
     assertThat(diffOutput3.edits()).isEmpty();
   }
 
+  @Test
+  public void listModifiedFiles_sameCommit() throws Exception {
+    ImmutableList<FileEntity> files =
+        ImmutableList.of(
+            new FileEntity(fileName1, fileContent1), new FileEntity(fileName2, fileContent2));
+    ObjectId commitId = createCommit(repo, null, files);
+
+    Map<String, FileDiffOutput> diff =
+        diffOperations.listModifiedFiles(testProjectName, commitId, commitId, DiffOptions.DEFAULTS);
+    assertThat(diff).isEmpty();
+  }
+
+  @Test
+  public void listModifiedFiles_identicalTrees() throws Exception {
+    ImmutableList<FileEntity> files =
+        ImmutableList.of(
+            new FileEntity(fileName1, fileContent1), new FileEntity(fileName2, fileContent2));
+    ObjectId treeId = createTree(repo, files);
+    ObjectId commit1 =
+        createCommitInRepoWithMessage(repo, treeId, "Commit 1 message", (ObjectId) null);
+    ObjectId commit2 = createCommitInRepoWithMessage(repo, treeId, "Commit 2 message", commit1);
+
+    Map<String, FileDiffOutput> diff =
+        diffOperations.listModifiedFiles(testProjectName, commit1, commit2, DiffOptions.DEFAULTS);
+    assertThat(diff.keySet()).containsExactly("/COMMIT_MSG");
+  }
+
+  @Test
+  public void getModifiedFile_sameCommit() throws Exception {
+    ImmutableList<FileEntity> files =
+        ImmutableList.of(
+            new FileEntity(fileName1, fileContent1), new FileEntity(fileName2, fileContent2));
+    ObjectId commitId = createCommit(repo, null, files);
+
+    FileDiffOutput diff =
+        diffOperations.getModifiedFile(testProjectName, commitId, commitId, fileName1, null);
+    assertThat(diff.isEmpty()).isTrue();
+    assertThat(diff.edits()).isEmpty();
+  }
+
+  @Test
+  public void getModifiedFile_identicalTrees() throws Exception {
+    ImmutableList<FileEntity> files =
+        ImmutableList.of(
+            new FileEntity(fileName1, fileContent1), new FileEntity(fileName2, fileContent2));
+    ObjectId treeId = createTree(repo, files);
+    ObjectId commit1 =
+        createCommitInRepoWithMessage(repo, treeId, "Commit 1 message", (ObjectId) null);
+    ObjectId commit2 = createCommitInRepoWithMessage(repo, treeId, "Commit 2 message", commit1);
+
+    FileDiffOutput diff =
+        diffOperations.getModifiedFile(testProjectName, commit1, commit2, fileName1, null);
+    assertThat(diff.isEmpty()).isTrue();
+    assertThat(diff.edits()).isEmpty();
+  }
+
+  @Test
+  public void loadModifiedFilesIfNecessary_identicalTrees() throws Exception {
+    ImmutableList<FileEntity> files =
+        ImmutableList.of(
+            new FileEntity(fileName1, fileContent1), new FileEntity(fileName2, fileContent2));
+    ObjectId treeId = createTree(repo, files);
+    ObjectId commit1 =
+        createCommitInRepoWithMessage(repo, treeId, "Commit 1 message", (ObjectId) null);
+    ObjectId commit2 = createCommitInRepoWithMessage(repo, treeId, "Commit 2 message", commit1);
+
+    try (Repository repository = repoManager.openRepository(testProjectName);
+        ObjectReader objectReader = repository.newObjectReader();
+        RevWalk rw = new RevWalk(objectReader)) {
+      Map<String, ModifiedFile> modifiedFiles =
+          diffOperations.loadModifiedFilesIfNecessary(
+              testProjectName,
+              commit1,
+              commit2,
+              rw,
+              repository.getConfig(),
+              /* enableRenameDetection= */ true);
+      assertThat(modifiedFiles).isEmpty();
+    }
+  }
+
+  private static ObjectId createCommitInRepoWithMessage(
+      Repository repo, ObjectId treeId, String message, ObjectId... parents) throws IOException {
+    try (ObjectInserter oi = repo.newObjectInserter()) {
+      PersonIdent committer =
+          new PersonIdent(new PersonIdent("Foo Bar", "foo.bar@baz.com"), TimeUtil.now());
+      CommitBuilder cb = new CommitBuilder();
+      cb.setTreeId(treeId);
+      cb.setCommitter(committer);
+      cb.setAuthor(committer);
+      cb.setMessage(message);
+      if (parents != null && parents.length > 0 && parents[0] != null) {
+        cb.setParentIds(parents);
+      }
+      ObjectId commitId = oi.insert(cb);
+      oi.flush();
+      oi.close();
+      return commitId;
+    }
+  }
+
   static class FileEntity {
     String name;
     String content;

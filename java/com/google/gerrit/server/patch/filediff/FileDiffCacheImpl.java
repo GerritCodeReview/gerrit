@@ -197,10 +197,19 @@ public class FileDiffCacheImpl implements FileDiffCache {
               RevWalk rw = new RevWalk(reader)) {
 
             for (FileDiffCacheKey key : keysByProject.get(project)) {
-              if (key.newFilePath().equals(Patch.COMMIT_MSG)) {
+              if (!key.oldCommit().equals(ObjectId.zeroId())
+                  && key.oldCommit().equals(key.newCommit())) {
+                result.put(
+                    key, FileDiffOutput.empty(key.newFilePath(), key.oldCommit(), key.newCommit()));
+              } else if (key.newFilePath().equals(Patch.COMMIT_MSG)) {
                 result.put(key, createMagicPathEntry(key, reader, rw, MagicPath.COMMIT));
               } else if (key.newFilePath().equals(Patch.MERGE_LIST)) {
                 result.put(key, createMagicPathEntry(key, reader, rw, MagicPath.MERGE_LIST));
+              } else if (!key.oldCommit().equals(ObjectId.zeroId())
+                  && DiffUtil.getTreeId(rw, key.oldCommit())
+                      .equals(DiffUtil.getTreeId(rw, key.newCommit()))) {
+                result.put(
+                    key, FileDiffOutput.empty(key.newFilePath(), key.oldCommit(), key.newCommit()));
               } else {
                 fileKeys.add(key);
               }

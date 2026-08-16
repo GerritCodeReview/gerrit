@@ -115,6 +115,9 @@ public class ModifiedFilesCacheImpl implements ModifiedFilesCache {
     @Override
     public ImmutableList<ModifiedFile> load(ModifiedFilesCacheKey key)
         throws IOException, DiffNotAvailableException {
+      if (!key.aCommit().equals(ObjectId.zeroId()) && key.aCommit().equals(key.bCommit())) {
+        return ImmutableList.of();
+      }
       try (Repository repo = repoManager.openRepository(key.project());
           RevWalk revWalk = new RevWalk(repo.newObjectReader())) {
         ModifiedFilesLoader loader =

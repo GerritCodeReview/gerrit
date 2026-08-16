@@ -73,7 +73,21 @@ public record AccountState(
   public static AccountState forCachedAccount(
       CachedAccountDetails account, CachedPreferences defaultConfig, ExternalIds externalIds)
       throws IOException {
-    ImmutableSet<ExternalId> extIds = externalIds.byAccount(account.account().id());
+    return forCachedAccount(account, defaultConfig, externalIds.byAccount(account.account().id()));
+  }
+
+  /**
+   * Creates an AccountState for a given account and pre-fetched external IDs.
+   *
+   * @param account the account
+   * @param defaultConfig default preferences
+   * @param extIds the external IDs
+   * @return the account state
+   */
+  public static AccountState forCachedAccount(
+      CachedAccountDetails account,
+      CachedPreferences defaultConfig,
+      ImmutableSet<ExternalId> extIds) {
     return new AccountState(
         account.account(),
         extIds,

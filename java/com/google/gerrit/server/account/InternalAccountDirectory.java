@@ -16,7 +16,6 @@ package com.google.gerrit.server.account;
 
 import static com.google.common.collect.Streams.stream;
 import static java.util.stream.Collectors.toList;
-import static java.util.stream.Collectors.toSet;
 import static java.util.stream.Stream.concat;
 
 import com.google.common.base.Strings;
@@ -45,6 +44,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -90,9 +90,9 @@ public class InternalAccountDirectory extends AccountDirectory {
   }
 
   @Override
-  public void fillAccountInfo(Iterable<? extends AccountInfo> in, Set<FillOptions> options)
+  public void fillAccountInfo(Map<Account.Id, AccountInfo> in, Set<FillOptions> options)
       throws PermissionBackendException {
-    if (options.equals(ID_ONLY)) {
+    if (in.isEmpty() || options.equals(ID_ONLY)) {
       return;
     }
 
@@ -106,20 +106,90 @@ public class InternalAccountDirectory extends AccountDirectory {
     }
 
     Set<FillOptions> fillOptionsWithoutSecondaryEmails =
-        Sets.difference(options, EnumSet.of(FillOptions.SECONDARY_EMAILS));
-    Set<Account.Id> ids = stream(in).map(a -> Account.id(a._accountId)).collect(toSet());
+        options.contains(FillOptions.SECONDARY_EMAILS)
+            ? Sets.difference(options, EnumSet.of(FillOptions.SECONDARY_EMAILS))
+            : options;
+    ImmutableMap<Account.Id, AccountState> accountStates = accountCache.get(in.keySet());
+    for (Map.Entry<Account.Id, AccountInfo> entry : in.entrySet()) {
+      Account.Id id = entry.getKey();
+      AccountInfo info = entry.getValue();
+      AccountState state = accountStates.get(id);
+      if (state != null) {
+        if (!options.contains(FillOptions.SECONDARY_EMAILS)
+            || Objects.equals(currentUserId, state.account().id())
+            || canViewSecondaryEmails) {
+          fill(info, state, options);
+        } else {
+          // user is not allowed to see secondary emails
+          fill(info, state, fillOptionsWithoutSecondaryEmails);
+        }
+      } else {
+        info._accountId = options.contains(FillOptions.ID) ? id.get() : null;
+        info.deleted = options.contains(FillOptions.DELETED) ? true : null;
+      }
+    }
+  }
+
+  @Override
+  public void fillAccountInfo(Iterable<? extends AccountInfo> in, Set<FillOptions> options)
+      throws PermissionBackendException {
+    if (options.equals(ID_ONLY)) {
+      return;
+    }
+    if (in instanceof Collection && ((Collection<?>) in).isEmpty()) {
+      return;
+    }
+
+    boolean canViewSecondaryEmails = false;
+    Account.Id currentUserId = null;
+    if (self.get().isIdentifiedUser()) {
+      currentUserId = self.get().getAccountId();
+      if (permissionBackend.currentUser().test(GlobalPermission.VIEW_SECONDARY_EMAILS)) {
+        canViewSecondaryEmails = true;
+      }
+    }
+
+    Set<FillOptions> fillOptionsWithoutSecondaryEmails =
+        options.contains(FillOptions.SECONDARY_EMAILS)
+            ? Sets.difference(options, EnumSet.of(FillOptions.SECONDARY_EMAILS))
+            : options;
+
+    Set<Account.Id> ids;
+    if (in instanceof Collection) {
+      Collection<? extends AccountInfo> infos = (Collection<? extends AccountInfo>) in;
+      ids = Sets.newHashSetWithExpectedSize(infos.size());
+      for (AccountInfo a : infos) {
+        if (a._accountId != null) {
+          ids.add(Account.id(a._accountId));
+        }
+      }
+    } else {
+      ids = Sets.newHashSet();
+      for (AccountInfo a : in) {
+        if (a._accountId != null) {
+          ids.add(Account.id(a._accountId));
+        }
+      }
+    }
+    if (ids.isEmpty()) {
+      return;
+    }
+
     ImmutableMap<Account.Id, AccountState> accountStates = accountCache.get(ids);
     for (AccountInfo info : in) {
+      if (info._accountId == null) {
+        continue;
+      }
       Account.Id id = Account.id(info._accountId);
       AccountState state = accountStates.get(id);
       if (state != null) {
         if (!options.contains(FillOptions.SECONDARY_EMAILS)
             || Objects.equals(currentUserId, state.account().id())
             || canViewSecondaryEmails) {
-          fill(info, accountStates.get(id), options);
+          fill(info, state, options);
         } else {
           // user is not allowed to see secondary emails
-          fill(info, accountStates.get(id), fillOptionsWithoutSecondaryEmails);
+          fill(info, state, fillOptionsWithoutSecondaryEmails);
         }
 
       } else {
@@ -131,9 +201,34 @@ public class InternalAccountDirectory extends AccountDirectory {
 
   @Override
   public void fillAccountAttributeInfo(Iterable<? extends AccountAttribute> in) {
-    Set<Account.Id> ids = stream(in).map(a -> Account.id(a.accountId)).collect(toSet());
+    if (in instanceof Collection && ((Collection<?>) in).isEmpty()) {
+      return;
+    }
+    Set<Account.Id> ids;
+    if (in instanceof Collection) {
+      Collection<? extends AccountAttribute> attrs = (Collection<? extends AccountAttribute>) in;
+      ids = Sets.newHashSetWithExpectedSize(attrs.size());
+      for (AccountAttribute a : attrs) {
+        if (a.accountId != null) {
+          ids.add(Account.id(a.accountId));
+        }
+      }
+    } else {
+      ids = Sets.newHashSet();
+      for (AccountAttribute a : in) {
+        if (a.accountId != null) {
+          ids.add(Account.id(a.accountId));
+        }
+      }
+    }
+    if (ids.isEmpty()) {
+      return;
+    }
     ImmutableMap<Account.Id, AccountState> accountStates = accountCache.get(ids);
     for (AccountAttribute accountAttribute : in) {
+      if (accountAttribute.accountId == null) {
+        continue;
+      }
       Account.Id id = Account.id(accountAttribute.accountId);
       AccountState accountState = accountStates.get(id);
       if (accountState != null) {

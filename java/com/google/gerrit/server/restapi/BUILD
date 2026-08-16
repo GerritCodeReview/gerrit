@@ -37,6 +37,7 @@ java_library(
         "//lib:gson",
         "//lib:guava",
         "//lib:jgit",
+        "//lib:jspecify",
         "//lib:servlet-api",
         "//lib/antlr:java-runtime",
         "//lib/auto:auto-factory",

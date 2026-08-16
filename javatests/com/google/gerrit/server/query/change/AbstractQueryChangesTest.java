@@ -5265,4 +5265,119 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   private ChangeApi getChangeApi(Change change) throws RestApiException {
     return gApi.changes().id(change.getProject().get(), change.getChangeId());
   }
+
+  @Test
+  public void byLegacyChangeIds() throws Exception {
+    Project.NameKey project = Project.nameKey("repo");
+    repo = createAndOpenProject(project);
+    Change change1 = insert(project, newChange(repo));
+    Change change2 = insert(project, newChange(repo));
+    Change change3 = insert(project, newChange(repo));
+
+    // Empty list
+    assertThat(queryProvider.get().byLegacyChangeIds(ImmutableList.of())).isEmpty();
+
+    // Single ID
+    List<ChangeData> cds = queryProvider.get().byLegacyChangeIds(ImmutableList.of(change1.getId()));
+    assertThat(cds.stream().map(ChangeData::getId).collect(toList()))
+        .containsExactly(change1.getId());
+
+    // Multiple IDs
+    cds =
+        queryProvider
+            .get()
+            .byLegacyChangeIds(ImmutableList.of(change1.getId(), change2.getId(), change3.getId()));
+    assertThat(cds.stream().map(ChangeData::getId).collect(toList()))
+        .containsExactly(change1.getId(), change2.getId(), change3.getId());
+
+    // Non-existent ID mixed with valid ID
+    cds =
+        queryProvider.get().byLegacyChangeIds(ImmutableList.of(change1.getId(), Change.id(999999)));
+    assertThat(cds.stream().map(ChangeData::getId).collect(toList()))
+        .containsExactly(change1.getId());
+
+    // Duplicate IDs in input are deduplicated
+    cds =
+        queryProvider
+            .get()
+            .byLegacyChangeIds(ImmutableList.of(change1.getId(), change1.getId(), change2.getId()));
+    assertThat(cds.stream().map(ChangeData::getId).collect(toList()))
+        .containsExactly(change1.getId(), change2.getId());
+  }
+
+  @Test
+  public void byProjectCommits() throws Exception {
+    Project.NameKey project = Project.nameKey("repo");
+    repo = createAndOpenProject(project);
+    ChangeInserter ins1 = newChangeWithStatus(repo, Change.Status.NEW);
+    Change change1 = insert(project, ins1);
+    ChangeInserter ins2 = newChangeWithStatus(repo, Change.Status.MERGED);
+    Change change2 = insert(project, ins2);
+    ChangeInserter ins3 = newChangeWithStatus(repo, Change.Status.ABANDONED);
+    Change change3 = insert(project, ins3);
+
+    String c1 = ins1.getCommitId().name();
+    String c2 = ins2.getCommitId().name();
+    String c3 = ins3.getCommitId().name();
+
+    // Empty list
+    assertThat(queryProvider.get().byProjectCommits(project, ImmutableList.of())).isEmpty();
+
+    // Single commit
+    List<ChangeData> cds = queryProvider.get().byProjectCommits(project, ImmutableList.of(c1));
+    assertThat(cds.stream().map(ChangeData::getId).collect(toList()))
+        .containsExactly(change1.getId());
+
+    // All commits
+    cds = queryProvider.get().byProjectCommits(project, ImmutableList.of(c1, c2, c3));
+    assertThat(cds.stream().map(ChangeData::getId).collect(toList()))
+        .containsExactly(change1.getId(), change2.getId(), change3.getId());
+
+    // Duplicate commit hashes are deduplicated
+    cds = queryProvider.get().byProjectCommits(project, ImmutableList.of(c1, c1, c2));
+    assertThat(cds.stream().map(ChangeData::getId).collect(toList()))
+        .containsExactly(change1.getId(), change2.getId());
+
+    // Other project returns empty
+    Project.NameKey otherProject = Project.nameKey("other-repo");
+    createProject(otherProject);
+    assertThat(queryProvider.get().byProjectCommits(otherProject, ImmutableList.of(c1, c2, c3)))
+        .isEmpty();
+  }
+
+  @Test
+  public void byLegacyChangeIdsAndByProjectCommitsPartitioning() throws Exception {
+    Project.NameKey project = Project.nameKey("partition-repo");
+    repo = createAndOpenProject(project);
+    ChangeInserter ins1 = newChangeWithStatus(repo, Change.Status.NEW);
+    Change change1 = insert(project, ins1);
+    ChangeInserter ins2 = newChangeWithStatus(repo, Change.Status.MERGED);
+    Change change2 = insert(project, ins2);
+
+    String c1 = ins1.getCommitId().name();
+    String c2 = ins2.getCommitId().name();
+
+    int maxTerms = indexConfig.maxTerms();
+    List<Change.Id> largeIdList = new ArrayList<>(maxTerms + 50);
+    largeIdList.add(change1.getId());
+    largeIdList.add(change2.getId());
+    for (int i = 0; i < maxTerms + 48; i++) {
+      largeIdList.add(Change.id(1000000 + i));
+    }
+
+    List<ChangeData> cds = queryProvider.get().byLegacyChangeIds(largeIdList);
+    assertThat(cds.stream().map(ChangeData::getId).collect(toList()))
+        .containsExactly(change1.getId(), change2.getId());
+
+    List<String> largeHashList = new ArrayList<>(maxTerms + 50);
+    largeHashList.add(c1);
+    largeHashList.add(c2);
+    for (int i = 0; i < maxTerms + 48; i++) {
+      largeHashList.add(String.format("%040x", i + 1));
+    }
+
+    cds = queryProvider.get().byProjectCommits(project, largeHashList);
+    assertThat(cds.stream().map(ChangeData::getId).collect(toList()))
+        .containsExactly(change1.getId(), change2.getId());
+  }
 }

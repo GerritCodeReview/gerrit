@@ -20,7 +20,7 @@
       "state": "FAILED",
       "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-chrome-latest/44300/console",
       "started": "2026-08-17T01:16:53Z",
-      "finished": "2026-08-17T01:19:52Z",
+      "finished": "2026-08-17T01:19:51Z",
       "created": "2026-08-16T23:40:16Z",
       "updated": "2026-08-17T01:19:52Z"
     },

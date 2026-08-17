@@ -600,6 +600,44 @@ In both cases, the dependencies have to be repinned. To do that, run:
 REPIN=1 bazel run @external_deps//:pin
 ----
 
+== Gerrit Maven mirror
+
+Gerrit's `maven.install()` prefers Gerrit's Maven mirror before Maven
+Central. Maven Central remains configured as a fallback while the mirror
+is being populated.
+
+The repository order is part of `external_deps.lock.json`. After
+changing the repository order in `tools/java_deps.MODULE.bazel`, repin
+the RJE lock; changing `MODULE.bazel` alone does not reorder generated
+`http_file.urls`.
+
+Before making CI depend on the mirror, check the lock coverage:
+
+[source,bash]
+----
+./contrib/check-gerrit-maven-mirror.py --workers 16
+----
+
+To verify that a known mirrored artifact can be fetched without using
+Maven Central, create a Bazel downloader config that blocks Central and
+run a cold-cache fetch:
+
+[source,bash]
+----
+cat >/tmp/download.cfg <<'EOF'
+block repo1.maven.org
+EOF
+
+repo='@@rules_jvm_external++maven+'
+repo="${repo}com_google_guava_guava_33_5_0_jre"
+target="${repo}//file:file"
+
+bazelisk --batch --output_user_root=/tmp/gerrit-mirror-fetch \
+  fetch --repository_cache=/tmp/gerrit-mirror-cache \
+  --downloader_config=/tmp/download.cfg \
+  "$target"
+----
+
 == Building against unpublished Maven JARs
 
 To build against unpublished Maven JARs, like PrologCafe, the custom JARs must
@@ -612,8 +650,8 @@ repository has to be added to the `maven.install()`-call in `MODULE.bazel`:
       artifacts = [],
       repositories = [
           "file://$HOME/.m2/repository",
-          "https://repo1.maven.org/maven2",
           "https://gerrit-maven.storage.googleapis.com",
+          "https://repo1.maven.org/maven2",
       ],
       ...
   )
@@ -632,8 +670,8 @@ function:
       artifacts = [],
       repositories = [
           GERRIT_FORGE,
-          "https://repo1.maven.org/maven2",
           "https://gerrit-maven.storage.googleapis.com",
+          "https://repo1.maven.org/maven2",
       ],
       ...
   )

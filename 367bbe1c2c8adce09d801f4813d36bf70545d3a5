@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae030ef7_3dd63ca1",
+        "filename": "java/com/google/gerrit/server/change/LabelsJson.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 482,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-08-17T23:10:03Z",
+      "side": 1,
+      "message": "Please add an acceptance test in `ChangeIT` (or `ChangeReviewersIT`) to verify the new behavior and prevent regressions:\n\n1. When non-voting reviewers are present on an open change, querying with `LABELS` excludes them from `label.all`, while querying with `DETAILED_LABELS` includes them.\n2. On multi-patchset changes where approvals are not copied, voters from earlier patchsets are excluded from `label.all` under `LABELS`, but included under `DETAILED_LABELS`.\n3. When approvals are copied to the current patch set (e.g. sticky approvals), verify they are properly included in `label.all` under `LABELS` via `cd.currentApprovals()`.",
+      "isAi": true,
+      "revId": "367bbe1c2c8adce09d801f4813d36bf70545d3a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

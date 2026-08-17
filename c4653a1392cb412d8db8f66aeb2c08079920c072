@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e23c1da9_75a53fd3",
+        "filename": "java/com/google/gerrit/server/index/change/PendingIndexUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-08-17T20:33:43Z",
+      "side": 1,
+      "message": "should we instead upstream these linter rules ? (If we are anyway going to fix every warning ?)",
+      "revId": "c4653a1392cb412d8db8f66aeb2c08079920c072",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

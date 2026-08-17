@@ -638,7 +638,7 @@ public class ChangeIndexer {
 
     @Override
     public String toString() {
-      return "index-change-" + id;
+      return "index-change-" + id + " " + project;
     }
 
     @Override
@@ -714,7 +714,7 @@ public class ChangeIndexer {
 
     @Override
     public String toString() {
-      return "reindex-if-stale-change-" + id;
+      return "reindex-if-stale-change-" + id + " " + project;
     }
 
     @Override

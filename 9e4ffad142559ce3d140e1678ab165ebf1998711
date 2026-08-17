@@ -54,6 +54,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e06d5a1e_61a7dc9c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-08-17T22:22:06Z",
+      "side": 1,
+      "message": "This kinda feels like a bug fix to me, so I would be fine with this on 3.13.",
+      "parentUuid": "25d9acbb_634287d7",
+      "revId": "9e4ffad142559ce3d140e1678ab165ebf1998711",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f8c31fdc_ce84bd9c",

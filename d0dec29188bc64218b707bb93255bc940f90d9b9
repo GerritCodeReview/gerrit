@@ -57,6 +57,42 @@
       ],
       "revId": "d0dec29188bc64218b707bb93255bc940f90d9b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1defe9df_ce380bad",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 862,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-08-17T22:57:08Z",
+      "side": 1,
+      "message": "Consider adding a unit test for ported comment threads where `thread.patchNum !\u003d\u003d comment.patch_set` to assert that the generated diff URL navigates to the ported patchset and line rather than the original comment location.",
+      "isAi": true,
+      "revId": "d0dec29188bc64218b707bb93255bc940f90d9b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b16372c_9ef8ec7e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 864,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-08-17T22:57:08Z",
+      "side": 1,
+      "message": "Consider adding a test case in `gr-comment-thread_test.ts` for this fallback branch (when `path` or `patchNum` is missing on `thread`) to verify that it generates the `/comment/\u003cid\u003e/` redirect URL.",
+      "isAi": true,
+      "revId": "d0dec29188bc64218b707bb93255bc940f90d9b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

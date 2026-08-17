@@ -16,6 +16,24 @@
       "message": "nit on naming\n```suggestion\n  public void externalIncludedInReceivesCorrectParameters() throws Exception {\n```",
       "revId": "c1265d021d1362ba288821f14136ca4ba994b388",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6b29eec_c74cf238",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeIncludedInIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-08-17T07:50:56Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "1e780ab0_2a0b2c6a",
+      "revId": "c1265d021d1362ba288821f14136ca4ba994b388",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

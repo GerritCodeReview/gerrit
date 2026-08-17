@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de59dbcf_f7b0e424",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-08-17T23:15:15Z",
+      "side": 1,
+      "message": "Note: Documentation/user-search.txt still references `|Changes \u003e Abandoned        | status:abandoned` under `\u003d\u003d Default Searches` (line 15). Consider updating the documentation table as part of this change so it stays in sync with the Changes dropdown menu.",
+      "isAi": true,
+      "revId": "9b1d18c467ef2ec7eaae3233d84642739c2a0a7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

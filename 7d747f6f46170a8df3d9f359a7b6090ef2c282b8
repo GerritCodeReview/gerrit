@@ -1,0 +1,29 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "72433f01_25bf4399",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListProjectsImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 570,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2026-08-17T21:44:25Z",
+      "side": 1,
+      "message": "Done. Restored the explanatory comments for the HIDDEN state logic.",
+      "parentUuid": "875a1883_c2d6b596",
+      "range": {
+        "startLine": 570,
+        "startChar": 0,
+        "endLine": 570,
+        "endChar": 0
+      },
+      "isAi": true,
+      "revId": "7d747f6f46170a8df3d9f359a7b6090ef2c282b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "89e3a37f_3cd8342b",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-08-17T23:09:22Z",
+      "side": 1,
+      "message": "`new HashMap\u003c\u003e(estimatedSize)` allocates a map with capacity `estimatedSize`. Because HashMap default load factor is 0.75, the map will resize/rehash when the number of elements exceeds `estimatedSize * 0.75`. Consider using `Maps.newHashMapWithExpectedSize(estimatedSize)` to prevent rehashing.",
+      "isAi": true,
+      "revId": "3f87a5745c28be075fd8751658662fc6a73b6c08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01032304_1fc6e214",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-08-17T23:09:22Z",
+      "side": 1,
+      "message": "`!inputKeysToCacheKeys.containsKey(k)` followed by `put(k, ...)` executes two hash lookups. Consider using `inputKeysToCacheKeys.computeIfAbsent(k, key -\u003e adjustMaxContextPadding(key).toBuilder().path(Loader.hashPath(key.path())).build());` to perform a single lookup and lazily construct the cache key only on cache misses.",
+      "isAi": true,
+      "revId": "3f87a5745c28be075fd8751658662fc6a73b6c08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8043717_9f1edcb7",
+        "filename": "java/com/google/gerrit/server/restapi/change/CommentJson.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-08-17T23:09:22Z",
+      "side": 1,
+      "message": "Setting `path \u003d null` is split across two branches (`allComments` indexed loop vs `out.values()` nested loop). While iterating `allComments` avoids traversing map values when context filling is enabled, running a single `for (List\u003cT\u003e list : out.values()) for (T c : list) c.path \u003d null;` unconditionally after context resolution would unify the path-clearing logic and reduce branching complexity.",
+      "isAi": true,
+      "revId": "3f87a5745c28be075fd8751658662fc6a73b6c08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dadd5cef_99d8cfb6",
+        "filename": "javatests/com/google/gerrit/server/restapi/change/CommentJsonTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-08-17T23:09:22Z",
+      "side": 1,
+      "message": "The test coverage for `CommentJson` is thorough. Consider also adding a test case covering `CommentContextCacheImpl.getAll()` directly (e.g. verifying deduplication of `inputKeys` and handling of missing cache entries) to ensure the new key deduplication and null-safety logic are verified independently.",
+      "isAi": true,
+      "revId": "3f87a5745c28be075fd8751658662fc6a73b6c08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

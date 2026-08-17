@@ -4292,7 +4292,7 @@
     ]
   },
   "repositories": {
-    "https://repo1.maven.org/maven2/": [
+    "https://gerrit-maven.storage.googleapis.com/": [
       "antlr:antlr",
       "aopalliance:aopalliance",
       "aopalliance:aopalliance:jar:sources",
@@ -4592,7 +4592,7 @@
       "xerces:xercesImpl",
       "xerces:xercesImpl:jar:sources"
     ],
-    "https://gerrit-maven.storage.googleapis.com/": [
+    "https://repo1.maven.org/maven2/": [
       "antlr:antlr",
       "aopalliance:aopalliance",
       "aopalliance:aopalliance:jar:sources",

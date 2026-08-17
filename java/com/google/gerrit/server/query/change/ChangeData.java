@@ -239,7 +239,6 @@ public class ChangeData {
     }
 
     if (!pending.isEmpty()) {
-      ensureAllPatchSetsLoaded(pending);
       ensureMessagesLoaded(pending);
       for (ChangeData cd : pending) {
         @SuppressWarnings("unused")
@@ -815,7 +814,8 @@ public class ChangeData {
         String metaRef = RefNames.changeMetaRef(getId());
         for (RefState r : refs) {
           if (r.ref().equals(metaRef)) {
-            return Optional.of(r.id());
+            metaRevision = r.id();
+            return Optional.of(metaRevision);
           }
         }
       }
@@ -858,6 +858,30 @@ public class ChangeData {
   @CanIgnoreReturnValue
   public Change reloadChange() {
     metaRevision = null;
+    setPatchSets(null);
+    messages = null;
+    allApprovals = null;
+    allApprovalsWithCopied = null;
+    currentApprovals = null;
+    reviewers = null;
+    reviewersByEmail = null;
+    pendingReviewers = null;
+    pendingReviewersByEmail = null;
+    reviewerUpdates = null;
+    reviewedBy = null;
+    hashtags = null;
+    customKeyedValues = null;
+    attentionSet = null;
+    publishedComments = null;
+    usersWithDrafts = null;
+    submitRequirements = null;
+    submitRecords.clear();
+    submitTypeRecord = null;
+    mergeable = null;
+    diffSummary = null;
+    changedLines = null;
+    currentFiles = null;
+    commitData = null;
     return loadChange();
   }
 
@@ -871,7 +895,6 @@ public class ChangeData {
     change = notes.getChange();
     changeServerId = notes.getServerId();
     metaRevision = null;
-    setPatchSets(null);
     return change;
   }
 
@@ -890,7 +913,9 @@ public class ChangeData {
       }
       notes = notesFactory.create(project(), legacyId, metaRevision);
       change = notes.getChange();
-      setPatchSets(null);
+      if (changeServerId == null) {
+        changeServerId = notes.getServerId();
+      }
     }
     return notes;
   }
@@ -1104,6 +1129,15 @@ public class ChangeData {
     return allApprovalsWithCopied;
   }
 
+  public void setAllApprovals(ListMultimap<PatchSet.Id, PatchSetApproval> allApprovals) {
+    this.allApprovals = allApprovals;
+  }
+
+  public void setAllApprovalsWithCopied(
+      ListMultimap<PatchSet.Id, PatchSetApproval> allApprovalsWithCopied) {
+    this.allApprovalsWithCopied = allApprovalsWithCopied;
+  }
+
   /**
    * Get legacy submit ('SUBM') approval label
    *
@@ -1220,6 +1254,10 @@ public class ChangeData {
     return publishedComments;
   }
 
+  public void setPublishedComments(List<HumanComment> comments) {
+    this.publishedComments = comments;
+  }
+
   public ImmutableSet<String> getCommentsForIndex() {
     return publishedComments().stream()
         .map(c -> c.message)
@@ -1294,6 +1332,10 @@ public class ChangeData {
       messages = cmUtil.byChange(notes());
     }
     return messages;
+  }
+
+  public void setMessages(List<ChangeMessage> messages) {
+    this.messages = messages;
   }
 
   /**
@@ -1623,7 +1665,8 @@ public class ChangeData {
    */
   @Nullable
   public Boolean isPureRevert() {
-    if (change().getRevertOf() == null) {
+    Change c = change();
+    if (c == null || c.getRevertOf() == null) {
       return null;
     }
     try {

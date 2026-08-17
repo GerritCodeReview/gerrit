@@ -24,6 +24,40 @@
       "isAi": true,
       "revId": "7d747f6f46170a8df3d9f359a7b6090ef2c282b8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2cc88085_4e95004c",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListProjectsImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 571,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-17T23:36:40Z",
+      "side": 1,
+      "message": "\u003e `// If we can\u0027t get it from the cache, pretend it\u0027s not present.`\n\nI think this comment is stale. The `isPresent` filter above likely covers it already.\n\nAdditionally, can this logic be written as separate `filter()` calls? Like this:\n```\n  // If all wasn\u0027t selected, and it\u0027s HIDDEN, pretend it\u0027s not present.\n  // If state HIDDEN wasn\u0027t selected, and it\u0027s HIDDEN, pretend it\u0027s not present.\n  .filter(p -\u003e !(p.getProject().getState() \u003d\u003d HIDDEN \u0026\u0026 !all \u0026\u0026 state !\u003d HIDDEN))\n  .filter(p -\u003e state \u003d\u003d null || p.getProject().getState() \u003d\u003d state)\n  .filter(p -\u003e groupUuid \u003d\u003d null || p.getLocalGroups()\n      .contains(GroupReference.forGroup(groupResolver.parseId(groupUuid.get()))))\n  .filter(p -\u003e permissionCheck(p, perm));\n```\n\nAnd maybe worth inverting that first one? (simplifies the comment too)\n```\n// Exclude HIDDEN projects unless --all is set or HIDDEN state is explicitly requested.\n.filter(p -\u003e p.getProject().getState() !\u003d HIDDEN || all || state \u003d\u003d HIDDEN)\n```",
+      "revId": "7d747f6f46170a8df3d9f359a7b6090ef2c282b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d64342d_b61c5d64",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListProjectsImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 581,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-17T23:36:40Z",
+      "side": 1,
+      "message": "This was an existing issue, but since you\u0027re optimizing, can you also move the `GroupReference.forGroup(groupResolver.parseId(groupUuid.get()))` outside of the per-project logic so we don\u0027t repeat it? That\u0027s potentially a nice improvement.",
+      "revId": "7d747f6f46170a8df3d9f359a7b6090ef2c282b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5d63f17_996349cc",
+        "filename": "java/com/google/gerrit/server/restapi/change/SubmittedTogether.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-08-17T08:44:17Z",
+      "side": 1,
+      "message": "Please fix this WARNING reported by autoreview issue finding: This check is now dead code. Since you copied this exact condition to line 140 for the `isNew()` case, and all other branches either return early or set `hidden \u003d 0`, execution will never reach here with a condition that would throw.\\n\\nYou can safely remove these lines. Alternatively, you could remove lines 140-142 and keep this block, as the early return on line 143 will naturally fall through if `hidden !\u003d 0`.",
+      "range": {
+        "startLine": 166,
+        "startChar": 0,
+        "endLine": 166,
+        "endChar": 0
+      },
+      "revId": "a380b61373330c00a97b67e31e9a563d86cf002c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

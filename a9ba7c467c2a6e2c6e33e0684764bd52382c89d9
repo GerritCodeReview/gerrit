@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "875a1883_c2d6b596",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListProjectsImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 570,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-08-17T08:28:46Z",
+      "side": 1,
+      "message": "Please fix this WARNING reported by autoreview issue finding: Consider moving the comments that were previously on these lines explaining the `HIDDEN` logic, as they are still helpful in understanding this condition:\n```java\n// If we can\u0027t get it from the cache, pretend it\u0027s not present.\n// If all wasn\u0027t selected, and it\u0027s HIDDEN, pretend it\u0027s not present.\n// If state HIDDEN wasn\u0027t selected, and it\u0027s HIDDEN, pretend it\u0027s not present.\n```",
+      "range": {
+        "startLine": 570,
+        "startChar": 0,
+        "endLine": 570,
+        "endChar": 0
+      },
+      "revId": "a9ba7c467c2a6e2c6e33e0684764bd52382c89d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

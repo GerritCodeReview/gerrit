@@ -1,0 +1,93 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec22e5bc_7595ad42",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-08-17T23:17:18Z",
+      "side": 1,
+      "message": "I\u0027m not convinced about this one-- I wonder if it will be clear to users that these changes are excluded and if looking for recent changes might be inadvertently missed?",
+      "revId": "b7277d3d1405b09b842fcb1ac42252019c6d577d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a37ba0c2_d0d5c276",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-08-17T23:17:18Z",
+      "side": 1,
+      "message": "Hardcoding `-ownerin:\"Service Users\"` in client-side default queries introduces a hard failure mode on Gerrit instances where the `Service Users` group does not exist, was renamed, or was deleted. `ChangeQueryBuilder.parseGroup()` throws `QueryParseException: Group Service Users not found`, causing the search endpoint to return HTTP 400 and breaking the default views entirely.\n\nAdditionally, `ownerin:` on internal groups expands into a boolean OR over every account in that group (`NOT (owner:id1 OR owner:id2 ...)`). On instances with dozens or hundreds of service accounts, this generates large Lucene boolean queries on every home page and header link navigation.\n\nShould this instead be backed by a first-class search predicate (e.g. `is:serviceuser` / `is:bot` that evaluates safely) or made configurable server-side via `gerrit.config` rather than hardcoded in the frontend?",
+      "isAi": true,
+      "revId": "b7277d3d1405b09b842fcb1ac42252019c6d577d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ec552f6_8f93928a",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-08-17T23:17:18Z",
+      "side": 1,
+      "message": "Excluding service users unconditionally from the default \u0027Open\u0027 view hides changes created by automation that explicitly require human review (e.g. dependency bump bots like Renovate/Dependabot, translation syncs, autorollers, toolchain uprevs, and automated cherry-picks). Reviewers relying on the Open changes list to discover and triage incoming work will no longer see these changes without manually overriding the search query.",
+      "isAi": true,
+      "revId": "b7277d3d1405b09b842fcb1ac42252019c6d577d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6201451_00c0302e",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-08-17T23:17:18Z",
+      "side": 1,
+      "message": "Inconsistency across default views: \u0027Open\u0027 and \u0027Merged\u0027 exclude `-ownerin:\"Service Users\"`, but \u0027Abandoned\u0027 retains `/q/status:abandoned`. Was this intentional, or should all default \u0027Changes\u0027 sub-views follow the same filtering strategy?",
+      "isAi": true,
+      "revId": "b7277d3d1405b09b842fcb1ac42252019c6d577d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "695a89be_75c96162",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1025,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-08-17T23:17:18Z",
+      "side": 1,
+      "message": "The query string `/q/status:open+-is:wip+-ownerin:%22Service+Users%22` is duplicated across `gr-router.ts` and `gr-main-header.ts` (as well as their test files). Consider sharing a single exported constant or helper to avoid potential divergence if default routes are adjusted in the future.",
+      "isAi": true,
+      "revId": "b7277d3d1405b09b842fcb1ac42252019c6d577d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

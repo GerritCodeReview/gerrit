@@ -1,0 +1,29 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3aae0d3b_b8d6495e",
+        "filename": "java/com/google/gerrit/server/restapi/change/SubmittedTogether.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2026-08-17T17:42:50Z",
+      "side": 1,
+      "message": "Done. Removed the dead code check.",
+      "parentUuid": "c5d63f17_996349cc",
+      "range": {
+        "startLine": 166,
+        "startChar": 0,
+        "endLine": 166,
+        "endChar": 0
+      },
+      "isAi": true,
+      "revId": "bffad14972f11feeb601ea63d75e0bcdd5149621",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

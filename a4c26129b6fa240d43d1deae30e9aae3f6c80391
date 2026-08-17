@@ -1,0 +1,40 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6cb91a33_6aff1a25",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-08-17T23:06:22Z",
+      "side": 1,
+      "message": "This test is placed inside `suite(\u0027test first non-empty list\u0027, () \u003d\u003e { ... })`, which specifically tests `.first` class assignment across section configurations.\n\nAlso, since `gr-related-changes-list` only renders whatever `element.relatedChanges` array it receives (filtering happens in `gr-rest-api-impl`), this test only verifies basic Lit array rendering rather than abandonment filtering. Consider either moving it out to an appropriate rendering suite or removing it if redundant with `test(\u0027render\u0027)`.",
+      "isAi": true,
+      "revId": "a4c26129b6fa240d43d1deae30e9aae3f6c80391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff3fc418_a17334d2",
+        "filename": "polygerrit-ui/app/services/gr-rest-api/gr-rest-api-impl.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 2185,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-08-17T23:06:22Z",
+      "side": 1,
+      "message": "Backend dependency note: Adding `\u0026o\u003dEXCLUDE_ABANDONED` requires the backend support in change 619561. If this frontend change is deployed against an older Gerrit server or before 619561 is active, `GetRelated.java` will reject the unrecognized option with HTTP 400 (`IllegalArgumentException: option not recognized: EXCLUDE_ABANDONED`), causing the relation chain widget to fail to load. Please ensure 619561 is merged and deployed before submitting this change.",
+      "isAi": true,
+      "revId": "a4c26129b6fa240d43d1deae30e9aae3f6c80391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

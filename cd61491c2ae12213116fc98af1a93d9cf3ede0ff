@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca24bb0c_ae38b5a2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-17T23:14:26Z",
+      "side": 1,
+      "message": "What were the #s before this change?",
+      "revId": "cd61491c2ae12213116fc98af1a93d9cf3ede0ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f5a6586_18c3dbcc",
+        "filename": "java/com/google/gerrit/server/change/RelatedChangesSorter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-17T23:14:26Z",
+      "side": 1,
+      "message": "Can you do this the same as L99?\n```suggestion\n      for (RevCommit p : psd.commit().getParents()) {\n        PatchSetData parentPsd \u003d byId.get(p);\n```",
+      "range": {
+        "startLine": 204,
+        "startChar": 0,
+        "endLine": 207,
+        "endChar": 63
+      },
+      "revId": "cd61491c2ae12213116fc98af1a93d9cf3ede0ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

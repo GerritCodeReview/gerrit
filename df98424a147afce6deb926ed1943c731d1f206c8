@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7722689_acd3eb99",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-17T21:24:09Z",
+      "side": 1,
+      "message": "This is very useful indeed: I\u0027ve managed to upload all the missing packages.\n\n```\n$ python3 contrib/check-gerrit-maven-mirror.py\nchecked\u003d298 mirrored\u003d298 missing\u003d0\n```",
+      "revId": "df98424a147afce6deb926ed1943c731d1f206c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

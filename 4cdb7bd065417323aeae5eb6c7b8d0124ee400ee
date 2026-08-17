@@ -1,0 +1,94 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee1fd431_c96eecc9",
+        "filename": "java/com/google/gerrit/server/change/GetRelatedChangesUtil.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-08-17T22:58:21Z",
+      "side": 1,
+      "message": "There is an asymmetry in behavior when the change being queried (`changeData`) is itself ABANDONED:\n\n1. If `changeData` is abandoned and all other related changes are also abandoned (or it\u0027s a standalone change), `cds` is empty, and line 124 returns `Collections.emptyList()` immediately.\n2. If `changeData` is abandoned and there is at least one open related change, `cds` is non-empty, so execution reaches `reloadChangeIfStale` at line 130. `reloadChangeIfStale` (line 150) detects that `changeData` is missing from the index results (because `byProjectGroups` filtered it out) and reloads it from NoteDb, adding it back into the list. The abandoned queried change is then returned in the response despite `EXCLUDE_ABANDONED` being set.\n\nWe should clarify the desired contract when querying an abandoned change with `EXCLUDE_ABANDONED` (e.g. should the focal change always be included, or should it be omitted/empty?) and make sure the logic is consistent regardless of whether other related changes are open.",
+      "isAi": true,
+      "revId": "4cdb7bd065417323aeae5eb6c7b8d0124ee400ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91fe834e_79132e66",
+        "filename": "java/com/google/gerrit/server/change/RelatedChangesSorter.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-08-17T22:58:21Z",
+      "side": 1,
+      "message": "If `thisPsd` has multiple parents (e.g. a merge commit) or an intermediate excluded merge commit had multiple parents that lead to the same ancestor `parentPsd`, `findParentsInGraph` (or iterating across parents) can yield the same `parentPsd` multiple times.\n\nBecause `parents` and `children` are `ListMultimap` instances, calling `put` will insert duplicate entries into `parents.get(thisPsd)` and `children.get(parentPsd)`. While `walkAncestors` uses a `LinkedHashSet`, `walkDescendentsImpl` will push redundant items into its pending deque. Consider deduplicating resolved parent entries before inserting, or using a `SetMultimap`.",
+      "isAi": true,
+      "revId": "4cdb7bd065417323aeae5eb6c7b8d0124ee400ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "903961b8_ef74444d",
+        "filename": "java/com/google/gerrit/server/change/RelatedChangesSorter.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-08-17T22:58:21Z",
+      "side": 1,
+      "message": "Critical performance issue: Unbounded Git commit graph traversal to the repository root.\n\nWhen `thisPsd` is the bottom-most change in a relation chain (or any change whose parent is already merged into the target branch like `master`), `initialParent` is not present in `byId` because `byId` only contains patch sets of the changes returned by the query.\n\nSince no commit in `master`\u0027s ancestry will exist in `byId`, `psd !\u003d null` will never evaluate to true. As a result, this BFS while loop will traverse the entire Git commit graph all the way back to the root commit(s) of the repository, parsing headers on every single commit in repository history.\n\nIn large repositories (e.g. Gerrit with ~50k commits, Chromium with \u003e1.5M commits), this turns an in-memory lookup into a catastrophic disk I/O and object parsing operation on every GET /related request. Furthermore, because `findParentsInGraph` is called unconditionally in `sort()` and `sortAncestors()`, this traversal occurs on every request regardless of whether `EXCLUDE_ABANDONED` was supplied.\n\nWe need a stopping condition or boundary check so we do not traverse commits beyond the known scope of the relation chain.",
+      "isAi": true,
+      "revId": "4cdb7bd065417323aeae5eb6c7b8d0124ee400ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe9f4630_bd7581c6",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/BUILD",
+        "patchSetId": 8
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-08-17T22:58:21Z",
+      "side": 1,
+      "message": "Unused dependency: `//lib:jspecify` does not appear to be used in `GetRelatedIT.java` or other tests in this package. Consider removing it.",
+      "isAi": true,
+      "revId": "4cdb7bd065417323aeae5eb6c7b8d0124ee400ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f248cb2_5af39210",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/GetRelatedIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 656,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-08-17T22:58:21Z",
+      "side": 1,
+      "message": "Consider adding test cases for the following scenarios:\n1. Direct query on an abandoned change with `EXCLUDE_ABANDONED` (e.g. `assertRelated(ps2, ..., EXCLUDE_ABANDONED)`).\n2. Multiple consecutive abandoned changes in a chain (e.g. `c1 \u003c- c2 (abandoned) \u003c- c3 (abandoned) \u003c- c4`).\n3. An abandoned change at the bottom of the stack (`c1 (abandoned) \u003c- c2 \u003c- c3`) and top of the stack (`c1 \u003c- c2 \u003c- c3 (abandoned)`).\n4. Diamond / merge commit graphs where one branch contains an abandoned change.",
+      "isAi": true,
+      "revId": "4cdb7bd065417323aeae5eb6c7b8d0124ee400ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

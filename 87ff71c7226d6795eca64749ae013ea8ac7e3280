@@ -187,6 +187,24 @@
       "parentUuid": "dc0b00aa_446b7377",
       "revId": "87ff71c7226d6795eca64749ae013ea8ac7e3280",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd8bdd41_94d158e3",
+        "filename": "java/com/google/gerrit/server/query/change/RegexOnlyPathsPredicate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-18T21:08:23Z",
+      "side": 1,
+      "message": "Yes, but only for `RegexOnlyPathsPredicate`.",
+      "parentUuid": "46ca3cc4_5ee1d000",
+      "revId": "87ff71c7226d6795eca64749ae013ea8ac7e3280",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

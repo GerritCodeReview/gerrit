@@ -18,6 +18,24 @@
       "isAi": true,
       "revId": "9e41ce0ef8e2f07a60e6a37ca497613855652481",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e3e675a_e809a70b",
+        "filename": "java/com/google/gerrit/server/index/change/PendingIndexUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-08-18T13:33:43Z",
+      "side": 1,
+      "message": "I think you meant https://gerrit-review.googlesource.com/c/gerrit/+/620201 ?\nAnd that change still doesn\u0027t address the rules for UnnecessarilyVisible and others ?",
+      "parentUuid": "78149a14_fe9f0518",
+      "revId": "9e41ce0ef8e2f07a60e6a37ca497613855652481",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

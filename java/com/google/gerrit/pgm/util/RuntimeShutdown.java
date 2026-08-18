@@ -82,7 +82,7 @@ public class RuntimeShutdown {
       for (Runnable task : taskList) {
         try {
           task.run();
-        } catch (Exception err) {
+        } catch (RuntimeException err) {
           logger.atSevere().withCause(err).log("Cleanup task failed");
         }
       }

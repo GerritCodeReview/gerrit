@@ -134,7 +134,7 @@ public class LogFileManager implements Runnable {
       } catch (IOException e) {
         logger.atSevere().withCause(e).log("Error listing logs to compress in %s", logs_dir);
       }
-    } catch (Exception e) {
+    } catch (RuntimeException e) {
       logger.atSevere().withCause(e).log("Failed to process log files: %s", e.getMessage());
     }
     logger.atInfo().log("Log file maintenance has finished.");

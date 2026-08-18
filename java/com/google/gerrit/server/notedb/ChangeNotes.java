@@ -334,7 +334,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       ChangeNotes n = new ChangeNotes(args, rawChangeFromNoteDb, true, null, metaId);
       try {
         n.load();
-      } catch (Exception e) {
+      } catch (RuntimeException e) {
         return ChangeNotesResult.error(n.getChangeId(), e);
       }
       return ChangeNotesResult.notes(n);

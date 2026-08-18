@@ -502,7 +502,7 @@ public class ChangeIndexer {
         indexImpl(changeDataFactory.create(project, id));
         return true;
       }
-    } catch (Exception e) {
+    } catch (RuntimeException e) {
       if (!isCausedByRepositoryNotFoundException(e)) {
         throw e;
       }

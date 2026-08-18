@@ -54,7 +54,7 @@ final class IndexChangesInProjectCommand extends SshCommand {
     try {
       @SuppressWarnings("unused")
       var unused = index.apply(new ProjectResource(projectState, user), null);
-    } catch (Exception e) {
+    } catch (RuntimeException e) {
       writeError(
           "error", String.format("Unable to index %s: %s", projectState.getName(), e.getMessage()));
     }

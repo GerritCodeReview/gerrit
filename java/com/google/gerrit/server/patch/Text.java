@@ -78,7 +78,7 @@ public class Text extends RawText {
         // logger.atFine().log("Detected charset: %s", encoding);
         return Charset.forName(encoding);
       }
-    } catch (Exception e) {
+    } catch (RuntimeException e) {
       logger.atWarning().log("ICU4J detection error: %s", e.getMessage());
     }
     // 3) Fallback to ISO-8859-1.

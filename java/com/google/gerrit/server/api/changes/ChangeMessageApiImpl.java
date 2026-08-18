@@ -49,7 +49,7 @@ class ChangeMessageApiImpl implements ChangeMessageApi {
   public ChangeMessageInfo get() throws RestApiException {
     try {
       return getChangeMessage.apply(changeMessageResource).value();
-    } catch (Exception e) {
+    } catch (RuntimeException e) {
       throw asRestApiException("Cannot retrieve change message", e);
     }
   }

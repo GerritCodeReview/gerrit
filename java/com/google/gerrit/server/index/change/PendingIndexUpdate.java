@@ -170,7 +170,7 @@ public final class PendingIndexUpdate {
       }
     } catch (NoSuchChangeException e) {
       // Ignore silently. change got deleted after intent.
-    } catch (Exception e) {
+    } catch (RuntimeException e) {
       // catch all indexing exceptions to not propagate further.
       logger.atSevere().withCause(e).log("Exception while recovering index intent: %s", intent);
     }

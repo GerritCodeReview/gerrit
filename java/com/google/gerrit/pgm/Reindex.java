@@ -158,7 +158,7 @@ public class Reindex extends SiteProgram {
         printCacheStats();
       }
       return ok ? 0 : 1;
-    } catch (Exception e) {
+    } catch (RuntimeException e) {
       throw die(e.getMessage(), e);
     } finally {
       sysManager.stop();

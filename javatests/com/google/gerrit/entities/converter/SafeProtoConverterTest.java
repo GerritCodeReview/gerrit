@@ -292,7 +292,7 @@ public class SafeProtoConverterTest {
           } else {
             res.setField(f, defaultInstance.getField(f));
           }
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
           throw new IllegalStateException("Failed to fill default instance for " + f.getName(), e);
         }
       }

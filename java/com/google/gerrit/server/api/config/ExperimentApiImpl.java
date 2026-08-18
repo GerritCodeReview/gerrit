@@ -42,7 +42,7 @@ public class ExperimentApiImpl implements ExperimentApi {
   public ExperimentInfo get() throws RestApiException {
     try {
       return getExperiment.apply(experiment).value();
-    } catch (Exception e) {
+    } catch (RuntimeException e) {
       throw asRestApiException("Cannot get experiment", e);
     }
   }

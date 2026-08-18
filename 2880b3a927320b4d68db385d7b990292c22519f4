@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ce6db83_822baa2c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-18T19:39:52Z",
+      "side": 1,
+      "message": "nit: remove the blank line between trailers\n\n```suggestion\nRelease-Notes: skip\nChange-Id: I8fac67b77d3b55b0acb884481a38cf55457130d5\n```",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 52
+      },
+      "revId": "2880b3a927320b4d68db385d7b990292c22519f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

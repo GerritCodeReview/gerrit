@@ -160,6 +160,40 @@ suite('prompt-box tests', () => {
     assert.equal(turns[turns.length - 1].userMessage.content, 'test input');
   });
 
+  test('does not send message on Enter when IME is composing', async () => {
+    const initialTurns = chatModel.getState().turns.length;
+    const promptInput = element.shadowRoot?.querySelector('#promptInput');
+    assert.isOk(promptInput);
+    element.userInput = 'test input';
+    await element.updateComplete;
+
+    promptInput?.dispatchEvent(
+      new KeyboardEvent('keydown', {key: 'Enter', isComposing: true})
+    );
+    await element.updateComplete;
+
+    const turns = chatModel.getState().turns;
+    assert.equal(turns.length, initialTurns);
+  });
+
+  test('does not send message on Enter when keyCode is 229', async () => {
+    const initialTurns = chatModel.getState().turns.length;
+    const promptInput = element.shadowRoot?.querySelector('#promptInput');
+    assert.isOk(promptInput);
+    element.userInput = 'test input';
+    await element.updateComplete;
+
+    const event = new KeyboardEvent('keydown', {
+      key: 'Enter',
+      keyCode: 229,
+    } as KeyboardEventInit);
+    promptInput?.dispatchEvent(event);
+    await element.updateComplete;
+
+    const turns = chatModel.getState().turns;
+    assert.equal(turns.length, initialTurns);
+  });
+
   test('renders context items', async () => {
     chatModel.updateState({
       ...chatModel.getState(),

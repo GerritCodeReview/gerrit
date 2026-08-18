@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c6d6b43_cbda4c3b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-08-18T08:43:28Z",
+      "side": 1,
+      "message": "Nice idea, looks good. On some git tree we really don\u0027t need to check unchanged-files",
+      "revId": "67257b6cbb4f02c180248d1d3eb36355e373886f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

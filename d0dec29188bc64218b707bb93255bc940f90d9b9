@@ -59,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c21b191f_3cec66c8",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 1424,
+      "author": {
+        "id": 1162625
+      },
+      "writtenOn": "2026-08-18T20:04:32Z",
+      "side": 1,
+      "message": "Believe it or not. That is idiomatic typescript.",
+      "parentUuid": "a1941550_02c8f619",
+      "range": {
+        "startLine": 1421,
+        "startChar": 4,
+        "endLine": 1424,
+        "endChar": 8
+      },
+      "revId": "d0dec29188bc64218b707bb93255bc940f90d9b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1defe9df_ce380bad",
@@ -77,6 +101,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b286ef0_cd783c4c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 862,
+      "author": {
+        "id": 1162625
+      },
+      "writtenOn": "2026-08-18T20:04:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1defe9df_ce380bad",
+      "revId": "d0dec29188bc64218b707bb93255bc940f90d9b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0b16372c_9ef8ec7e",
@@ -91,6 +133,24 @@
       "side": 1,
       "message": "Consider adding a test case in `gr-comment-thread_test.ts` for this fallback branch (when `path` or `patchNum` is missing on `thread`) to verify that it generates the `/comment/\u003cid\u003e/` redirect URL.",
       "isAi": true,
+      "revId": "d0dec29188bc64218b707bb93255bc940f90d9b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "71118d05_1a4d32db",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 864,
+      "author": {
+        "id": 1162625
+      },
+      "writtenOn": "2026-08-18T20:04:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b16372c_9ef8ec7e",
       "revId": "d0dec29188bc64218b707bb93255bc940f90d9b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

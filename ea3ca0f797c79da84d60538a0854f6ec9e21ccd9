@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f28b54ed_9b9926f6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-08-18T10:15:46Z",
+      "side": 1,
+      "message": "It was harder to review but it seems reasonable. This mostly moved code so it doesn\u0027t need to recalculate again or use more efficient structures",
+      "revId": "ea3ca0f797c79da84d60538a0854f6ec9e21ccd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

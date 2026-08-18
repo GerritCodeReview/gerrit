@@ -51,6 +51,24 @@
       "message": "Why was this done in Gerrit core and not as a plugin?",
       "revId": "eb4a7eb6a3db126f9f1c1cb7b4dfa3dc7aa33a7b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de58e8a2_2ec8fad6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-08-18T13:32:09Z",
+      "side": 1,
+      "message": "It did seem as a core feature. (not index dependent.)\n\nThe implementation has differed from initial patchset (when you suggested the extension point) where the recovery was just time based, but now we recover only in cases of dead threads and in later patchsets delete intents only after the lucene flush.",
+      "parentUuid": "d71670d0_66983ec4",
+      "revId": "eb4a7eb6a3db126f9f1c1cb7b4dfa3dc7aa33a7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a41cfc95_9b3300e0",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluatorImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-08-18T08:41:48Z",
+      "side": 1,
+      "message": "Caching parsed expression ASTs is a great idea to avoid redundant query parsing.\n\nTwo subtle questions on lifecycle and concurrency to verify:\n1. **Thread-safety / Statelessness of Predicates**: When `changeData.evaluatePredicateTree(predicate)` is called, does any predicate in the returned tree (or any custom plugin predicate) maintain mutable state during evaluation? Because the same cached `Predicate\u003cChangeData\u003e` instance will now be evaluated concurrently by multiple threads across different requests, all predicate nodes in the tree must be strictly stateless and thread-safe.\n2. **Project / User Context Isolation**: Is `SubmitRequirementChangeQueryBuilder.parse(expressionString)` completely pure and agnostic of project/caller context? If any predicate resolves project-scoped rules at parse time rather than at `match(ChangeData)` evaluation time, caching by `SubmitRequirementExpression` string alone could potentially cross project boundaries.",
+      "isAi": true,
+      "revId": "da50fb870bd3a4d65df7c115024680f45849e3c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

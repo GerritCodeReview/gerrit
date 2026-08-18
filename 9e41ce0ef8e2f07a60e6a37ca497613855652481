@@ -1,6 +1,40 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "ecc0052b_4c9fd9c9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-18T20:12:31Z",
+      "side": 1,
+      "message": "With my other inline comment and the 2 changes you pushed for the next 2 bullets, I think this becomes the only item remaining for this change.",
+      "revId": "9e41ce0ef8e2f07a60e6a37ca497613855652481",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2348bf39_2ad5e494",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-18T20:12:31Z",
+      "side": 1,
+      "message": "See my inline comment. The \"restore\" wording here is confusing me.",
+      "revId": "9e41ce0ef8e2f07a60e6a37ca497613855652481",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "78149a14_fe9f0518",
@@ -34,6 +68,47 @@
       "side": 1,
       "message": "I think you meant https://gerrit-review.googlesource.com/c/gerrit/+/620201 ?\nAnd that change still doesn\u0027t address the rules for UnnecessarilyVisible and others ?",
       "parentUuid": "78149a14_fe9f0518",
+      "revId": "9e41ce0ef8e2f07a60e6a37ca497613855652481",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd156f9e_f7d8e108",
+        "filename": "java/com/google/gerrit/server/index/change/PendingIndexUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-18T20:12:31Z",
+      "side": 1,
+      "message": "\u003e I think you meant https://gerrit-review.googlesource.com/c/gerrit/+/620201 ?\n\u003e And that change still doesn\u0027t address the rules for UnnecessarilyVisible and others ?\n\nThere\u0027s also 620241: Enable UnnecessarilyVisible Error Prone rule and fix violations | https://gerrit-review.googlesource.com/c/gerrit/+/620241",
+      "parentUuid": "0e3e675a_e809a70b",
+      "revId": "9e41ce0ef8e2f07a60e6a37ca497613855652481",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56fdd527_c3c43f31",
+        "filename": "java/com/google/gerrit/testing/InMemoryModule.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-18T20:12:31Z",
+      "side": 1,
+      "message": "I don\u0027t understand this one. This code has used a binding to a Path or File since it was introduced in 2011: https://gerrit-review.googlesource.com/c/gerrit/+/19442/12/gerrit-server/src/test/java/com/google/gerrit/testutil/InMemoryDatabase.java\n\nAre you saying that breaks in Google\u0027s setup now? If yes, fixing that should be a standalone change.",
+      "range": {
+        "startLine": 265,
+        "startChar": 0,
+        "endLine": 267,
+        "endChar": 78
+      },
       "revId": "9e41ce0ef8e2f07a60e6a37ca497613855652481",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

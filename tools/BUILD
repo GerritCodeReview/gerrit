@@ -107,6 +107,7 @@ java_package_configuration(
         "-Xep:CanonicalDuration:ERROR",
         "-Xep:CatchAndPrintStackTrace:ERROR",
         "-Xep:CatchFail:ERROR",
+        "-Xep:CatchingUnchecked:ERROR",
         "-Xep:ChainedAssertionLosesContext:ERROR",
         "-Xep:ChainingConstructorIgnoresParameter:ERROR",
         "-Xep:CharacterGetNumericValue:ERROR",

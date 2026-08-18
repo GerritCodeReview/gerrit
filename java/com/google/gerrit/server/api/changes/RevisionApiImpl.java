@@ -568,7 +568,7 @@ class RevisionApiImpl implements RevisionApi {
   public Map<String, ActionInfo> actions() throws RestApiException {
     try {
       return revisionActions.apply(revision).value();
-    } catch (Exception e) {
+    } catch (RuntimeException e) {
       throw asRestApiException("Cannot get actions", e);
     }
   }
@@ -678,7 +678,7 @@ class RevisionApiImpl implements RevisionApi {
   public String description() throws RestApiException {
     try {
       return getDescription.apply(revision).value();
-    } catch (Exception e) {
+    } catch (RuntimeException e) {
       throw asRestApiException("Cannot get description", e);
     }
   }

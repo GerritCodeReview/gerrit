@@ -88,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf346bbe_a4f7fbee",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3117294
+      },
+      "writtenOn": "2026-08-18T19:01:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9bba014d_36fb9cb9",
+      "revId": "6cd363f8ef4469941a7e57ec1ab5fc1c99a9b660",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b3968a15_8c98f0ae",
@@ -102,6 +120,24 @@
       "side": 1,
       "message": "A few minor edge cases and safety considerations:\n\n1. **Trailing slash handling**: If an administrator sets `gerrit.submitCommitUrl \u003d https://chromiumdash.appspot.com/commit` without a trailing `/`, direct concatenation produces `https://chromiumdash.appspot.com/commitabcdef...` (a broken URL). We should ensure `commitUrl` is normalized to end with a `/` or supports a `{commit}` placeholder.\n2. **URL protocol check**: We should ensure the configured URL starts with `http://` or `https://` to avoid unintended URL schemes.\n3. **Commit Hash Scope**: The global `/([0-9a-f]{40})/g` regex will match any 40-char hex string in the message (e.g. tree IDs or plugin metadata). Scoping the match to the standard submit phrase pattern (e.g. matching after \u0027merged as commit\u0027 or \u0027as commit\u0027) could prevent unintended replacements.",
       "isAi": true,
+      "revId": "6cd363f8ef4469941a7e57ec1ab5fc1c99a9b660",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0423c754_2e094575",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 3117294
+      },
+      "writtenOn": "2026-08-18T19:01:15Z",
+      "side": 1,
+      "message": "Thanks!:\n\n- `submitCommitUrl` still supports the `${commit}` placeholder. If the placeholder is omitted, it is now treated as a base URL and the commit is appended with exactly one `/`, so both `https://chromiumdash.appspot.com/commit` and `https://chromiumdash.appspot.com/commit/` work.\n- Configured URLs are parsed and only accepted for `http:` and `https:` protocols. Invalid or disallowed URLs fall back to the revision weblink behavior.\n- The hash matching was already scoped to `submitted as \u003c40-char SHA\u003e` rather than matching arbitrary 40-character hashes globally. I added a test explicitly verifying that an unrelated tree ID is not linkified.\n\nAlso added tests for the placeholder, missing trailing slash, rejected non-HTTP URL, and hash scope.",
+      "parentUuid": "b3968a15_8c98f0ae",
       "revId": "6cd363f8ef4469941a7e57ec1ab5fc1c99a9b660",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -154,7 +154,7 @@ public abstract class PatchSet {
 
     @Override
     public int compareTo(Id other) {
-      return Ints.compare(get(), other.get());
+      return Integer.compare(get(), other.get());
     }
   }
 

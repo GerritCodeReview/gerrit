@@ -15,7 +15,6 @@
 package com.google.gerrit.index;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.collect.Lists;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import java.util.Collection;
@@ -29,7 +28,7 @@ public abstract class IndexCollection<K, V, I extends Index<K, V>> implements Li
   private final AtomicReference<I> searchIndex;
 
   protected IndexCollection() {
-    this.writeIndexes = Lists.newCopyOnWriteArrayList();
+    this.writeIndexes = new CopyOnWriteArrayList<>();
     this.searchIndex = new AtomicReference<>();
   }
 

@@ -1,0 +1,29 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8939b484_a1cc09fd",
+        "filename": "java/com/google/gerrit/entities/BranchOrderSection.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2026-08-18T21:30:42Z",
+      "side": 1,
+      "message": "Done. Pre-sized the map using Maps.newHashMapWithExpectedSize(fqOrder.size()).",
+      "parentUuid": "202c6267_edca96fe",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 0
+      },
+      "isAi": true,
+      "revId": "e9b9d05fe97dfca743a494c2bfc7bc669eb9b231",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

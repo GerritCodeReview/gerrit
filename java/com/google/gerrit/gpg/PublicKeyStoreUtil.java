@@ -60,7 +60,7 @@ public class PublicKeyStoreUtil {
   public boolean hasInitializedPublicKeyStore() {
     try {
       return storeProvider.get() != null;
-    } catch (Exception e) {
+    } catch (RuntimeException e) {
       return false;
     }
   }

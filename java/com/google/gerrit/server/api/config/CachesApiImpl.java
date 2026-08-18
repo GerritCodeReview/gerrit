@@ -46,7 +46,7 @@ public class CachesApiImpl implements CachesApi {
   public CacheInfo get() throws RestApiException {
     try {
       return getCache.apply(cache).value();
-    } catch (Exception e) {
+    } catch (RuntimeException e) {
       throw asRestApiException("Cannot get cache", e);
     }
   }

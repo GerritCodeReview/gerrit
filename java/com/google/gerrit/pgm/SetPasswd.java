@@ -25,7 +25,7 @@ public class SetPasswd {
   private Section.Factory sections;
 
   @Inject
-  public SetPasswd(ConsoleUI ui, Section.Factory sections) {
+  SetPasswd(ConsoleUI ui, Section.Factory sections) {
     this.ui = ui;
     this.sections = sections;
   }

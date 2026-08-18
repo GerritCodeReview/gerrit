@@ -31,7 +31,7 @@ public class SecureStoreProvider implements Provider<SecureStore> {
   private final String className;
 
   @Inject
-  protected SecureStoreProvider(
+  SecureStoreProvider(
       Injector injector, SitePaths sitePaths, @Nullable @SecureStoreClassName String className) {
     this.injector = injector;
     this.libdir = sitePaths.lib_dir;

@@ -29,7 +29,7 @@ import org.kohsuke.args4j.spi.Setter;
 public class ObjectIdHandler extends OptionHandler<ObjectId> {
 
   @Inject
-  public ObjectIdHandler(
+  ObjectIdHandler(
       @Assisted final CmdLineParser parser,
       @Assisted final OptionDef option,
       @Assisted final Setter<ObjectId> setter) {

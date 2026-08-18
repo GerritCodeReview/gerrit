@@ -5451,7 +5451,7 @@ public class ChangeIT extends AbstractDaemonTest {
       int firedCount;
 
       @Inject
-      public TestAttentionSetListener() {}
+      TestAttentionSetListener() {}
 
       @Override
       public void onAttentionSetChanged(AttentionSetListener.Event event) {

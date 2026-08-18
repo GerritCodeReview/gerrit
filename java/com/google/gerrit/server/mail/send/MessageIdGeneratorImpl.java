@@ -43,7 +43,7 @@ public class MessageIdGeneratorImpl implements MessageIdGenerator {
   private final AllUsersName allUsersName;
 
   @Inject
-  public MessageIdGeneratorImpl(GitRepositoryManager repositoryManager, AllUsersName allUsersName) {
+  MessageIdGeneratorImpl(GitRepositoryManager repositoryManager, AllUsersName allUsersName) {
     this.repositoryManager = repositoryManager;
     this.allUsersName = allUsersName;
   }

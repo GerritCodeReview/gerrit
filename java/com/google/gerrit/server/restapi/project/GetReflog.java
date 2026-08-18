@@ -84,7 +84,7 @@ public class GetReflog implements RestReadView<BranchResource> {
   private Instant to;
 
   @Inject
-  public GetReflog(GitRepositoryManager repoManager, PermissionBackend permissionBackend) {
+  GetReflog(GitRepositoryManager repoManager, PermissionBackend permissionBackend) {
     this.repoManager = repoManager;
     this.permissionBackend = permissionBackend;
   }

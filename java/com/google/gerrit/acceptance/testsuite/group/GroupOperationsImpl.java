@@ -47,7 +47,7 @@ public class GroupOperationsImpl implements GroupOperations {
   private final PersonIdent serverIdent;
 
   @Inject
-  public GroupOperationsImpl(
+  GroupOperationsImpl(
       Groups groups,
       @ServerInitiated GroupsUpdate groupsUpdate,
       Sequences seq,

@@ -28,7 +28,7 @@ public class RequestMetrics {
   final Counter1<Integer> successes;
 
   @Inject
-  public RequestMetrics(MetricMaker metricMaker) {
+  RequestMetrics(MetricMaker metricMaker) {
     Field<Integer> statusCodeField =
         Field.ofInteger("status", Metadata.Builder::httpStatus)
             .description("HTTP status code")

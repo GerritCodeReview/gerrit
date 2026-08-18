@@ -132,7 +132,7 @@ public class GitFileDiffCacheImpl implements GitFileDiffCache {
   private final LoadingCache<GitFileDiffCacheKey, GitFileDiff> cache;
 
   @Inject
-  public GitFileDiffCacheImpl(
+  GitFileDiffCacheImpl(
       @Named(GIT_DIFF) LoadingCache<GitFileDiffCacheKey, GitFileDiff> cache) {
     this.cache = cache;
   }
@@ -163,7 +163,7 @@ public class GitFileDiffCacheImpl implements GitFileDiffCache {
     private final Metrics metrics;
 
     @Inject
-    public Loader(
+    Loader(
         @GerritServerConfig Config cfg,
         GitRepositoryManager repoManager,
         @DiffExecutor ExecutorService de,

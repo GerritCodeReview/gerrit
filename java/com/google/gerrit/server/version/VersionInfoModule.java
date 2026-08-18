@@ -28,6 +28,7 @@ import com.google.inject.Singleton;
 public class VersionInfoModule extends AbstractModule {
   @Provides
   @Singleton
+  @SuppressWarnings("UnnecessarilyVisible")
   public VersionInfo createVersionInfo() {
     VersionInfo v = new VersionInfo();
     v.gerritVersion = Version.getVersion();

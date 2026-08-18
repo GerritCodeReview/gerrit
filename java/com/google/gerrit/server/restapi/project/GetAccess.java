@@ -97,7 +97,7 @@ public class GetAccess implements RestReadView<ProjectResource> {
   private final ProjectConfig.Factory projectConfigFactory;
 
   @Inject
-  public GetAccess(
+  GetAccess(
       Provider<CurrentUser> self,
       PermissionBackend permissionBackend,
       AllProjectsName allProjectsName,

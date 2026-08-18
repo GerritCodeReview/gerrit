@@ -64,7 +64,7 @@ public class DeleteChangeMessage
   private final ChangeNotes.Factory notesFactory;
 
   @Inject
-  public DeleteChangeMessage(
+  DeleteChangeMessage(
       Provider<CurrentUser> userProvider,
       PermissionBackend permissionBackend,
       BatchUpdate.Factory updateFactory,
@@ -159,7 +159,7 @@ public class DeleteChangeMessage
     private final DeleteChangeMessage deleteChangeMessage;
 
     @Inject
-    public DefaultDeleteChangeMessage(DeleteChangeMessage deleteChangeMessage) {
+    DefaultDeleteChangeMessage(DeleteChangeMessage deleteChangeMessage) {
       this.deleteChangeMessage = deleteChangeMessage;
     }
 

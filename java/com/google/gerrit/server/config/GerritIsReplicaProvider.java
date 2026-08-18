@@ -29,7 +29,7 @@ public final class GerritIsReplicaProvider implements Provider<Boolean> {
   private final boolean replicaOption;
 
   @Inject
-  public GerritIsReplicaProvider(@GerritServerConfig Config config, GerritOptions opts) {
+  GerritIsReplicaProvider(@GerritServerConfig Config config, GerritOptions opts) {
     this.config = config;
     this.replicaOption = opts.replica();
   }

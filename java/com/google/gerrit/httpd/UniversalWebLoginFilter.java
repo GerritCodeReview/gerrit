@@ -52,7 +52,7 @@ public class UniversalWebLoginFilter implements Filter {
   }
 
   @Inject
-  public UniversalWebLoginFilter(
+  UniversalWebLoginFilter(
       PluginItemContext<WebSession> session,
       PluginSetContext<WebLoginListener> webLoginListeners,
       Provider<CurrentUser> userProvider) {

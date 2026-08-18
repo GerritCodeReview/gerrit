@@ -45,7 +45,7 @@ public class ConflictsCacheImpl implements ConflictsCache {
   private final Cache<ConflictKey, Boolean> conflictsCache;
 
   @Inject
-  public ConflictsCacheImpl(@Named(NAME) Cache<ConflictKey, Boolean> conflictsCache) {
+  ConflictsCacheImpl(@Named(NAME) Cache<ConflictKey, Boolean> conflictsCache) {
     this.conflictsCache = conflictsCache;
   }
 

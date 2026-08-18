@@ -64,7 +64,7 @@ public class PostCaches implements RestCollectionModifyView<ConfigResource, Cach
   private final FlushCache flushCache;
 
   @Inject
-  public PostCaches(DynamicMap<Cache<?, ?>> cacheMap, FlushCache flushCache) {
+  PostCaches(DynamicMap<Cache<?, ?>> cacheMap, FlushCache flushCache) {
     this.cacheMap = cacheMap;
     this.flushCache = flushCache;
   }

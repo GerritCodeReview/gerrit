@@ -75,7 +75,7 @@ public class AbstractPluginLogFileTest extends AbstractDaemonTest {
     protected static final String logName = "test_log";
 
     @Inject
-    public MyPluginLogFile(MySystemLog mySystemLog, ServerInformation serverInfo) {
+    MyPluginLogFile(MySystemLog mySystemLog, ServerInformation serverInfo) {
       super(
           mySystemLog,
           serverInfo,
@@ -92,7 +92,7 @@ public class AbstractPluginLogFileTest extends AbstractDaemonTest {
     protected InvocationCounter invocationCounter;
 
     @Inject
-    public MySystemLog(SitePaths site, Config config, InvocationCounter invocationCounter) {
+    MySystemLog(SitePaths site, Config config, InvocationCounter invocationCounter) {
       super(site, config, new LogConfig(config));
       this.invocationCounter = invocationCounter;
     }

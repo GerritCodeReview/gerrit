@@ -72,7 +72,7 @@ public class ApplyProvidedFix implements RestModifyView<RevisionResource, ApplyP
   private final ProjectCache projectCache;
 
   @Inject
-  public ApplyProvidedFix(
+  ApplyProvidedFix(
       GitRepositoryManager gitRepositoryManager,
       FixReplacementInterpreter fixReplacementInterpreter,
       ChangeEditModifier changeEditModifier,

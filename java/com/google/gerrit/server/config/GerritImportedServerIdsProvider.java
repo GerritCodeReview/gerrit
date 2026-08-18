@@ -29,6 +29,7 @@ public class GerritImportedServerIdsProvider implements Provider<ImmutableList<S
   private final boolean hasImportedServerIds;
 
   @Inject
+  @SuppressWarnings("UnnecessarilyVisible")
   public GerritImportedServerIdsProvider(@GerritServerConfig Config cfg) {
     importedIds = ImmutableList.copyOf(cfg.getStringList(SECTION, null, KEY));
     hasImportedServerIds = !importedIds.isEmpty();

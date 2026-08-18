@@ -117,7 +117,7 @@ public class GetAccountDetailIT extends AbstractDaemonTest {
     private PermissionBackend permissions;
 
     @Inject
-    public CustomAccountTagProvider(PermissionBackend permissions) {
+    CustomAccountTagProvider(PermissionBackend permissions) {
       this.permissions = permissions;
     }
 

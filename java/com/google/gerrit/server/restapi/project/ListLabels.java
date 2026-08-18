@@ -56,7 +56,7 @@ public class ListLabels implements RestReadView<ProjectResource> {
   private final PluginSetContext<LabelType> globalLabelTypes;
 
   @Inject
-  public ListLabels(
+  ListLabels(
       Provider<CurrentUser> user,
       PermissionBackend permissionBackend,
       GitRepositoryManager repoManager,

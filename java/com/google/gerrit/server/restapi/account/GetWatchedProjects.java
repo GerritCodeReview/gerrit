@@ -58,7 +58,7 @@ public class GetWatchedProjects implements RestReadView<AccountResource> {
   private final ProjectsCollection projectsCollection;
 
   @Inject
-  public GetWatchedProjects(
+  GetWatchedProjects(
       PermissionBackend permissionBackend,
       Provider<IdentifiedUser> self,
       Accounts accounts,

@@ -38,7 +38,7 @@ public class DiffFileSizeValidator implements DiffValidator {
   }
 
   @Inject
-  public DiffFileSizeValidator(@GerritServerConfig Config cfg) {
+  DiffFileSizeValidator(@GerritServerConfig Config cfg) {
     this.maxFileSize = cfg.getInt("change", "maxFileSizeDiff", DEFAULT_MAX_FILE_SIZE);
   }
 

@@ -36,7 +36,7 @@ public class AccountsCollectionImpl implements AccountsCollection {
   private final DynamicMap<RestView<AccountResource>> views;
 
   @Inject
-  public AccountsCollectionImpl(
+  AccountsCollectionImpl(
       AccountResolver accountResolver,
       Provider<QueryAccounts> list,
       DynamicMap<RestView<AccountResource>> views) {

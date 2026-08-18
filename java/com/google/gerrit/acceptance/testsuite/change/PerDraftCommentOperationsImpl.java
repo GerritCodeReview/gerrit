@@ -39,7 +39,7 @@ public class PerDraftCommentOperationsImpl implements PerDraftCommentOperations 
   }
 
   @Inject
-  public PerDraftCommentOperationsImpl(
+  PerDraftCommentOperationsImpl(
       DraftCommentsReader draftCommentsReader,
       @Assisted ChangeNotes changeNotes,
       @Assisted String commentUuid) {

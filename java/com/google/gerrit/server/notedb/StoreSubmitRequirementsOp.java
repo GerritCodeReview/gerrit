@@ -46,7 +46,7 @@ public class StoreSubmitRequirementsOp implements BatchUpdateOp {
   }
 
   @Inject
-  public StoreSubmitRequirementsOp(
+  StoreSubmitRequirementsOp(
       OnStoreSubmitRequirementResultModifier onStoreSubmitRequirementResultModifier,
       @Assisted Collection<SubmitRequirementResult> submitRequirementResults,
       @Assisted ChangeData changeData) {

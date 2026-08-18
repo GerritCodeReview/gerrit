@@ -52,7 +52,7 @@ public class ListTasks implements RestReadView<ConfigResource> {
   private final ProjectCache projectCache;
 
   @Inject
-  public ListTasks(
+  ListTasks(
       PermissionBackend permissionBackend,
       WorkQueue workQueue,
       Provider<CurrentUser> self,

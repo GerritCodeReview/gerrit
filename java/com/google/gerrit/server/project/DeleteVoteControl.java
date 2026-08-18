@@ -34,7 +34,7 @@ public class DeleteVoteControl {
   private final ChangeData.Factory changeDataFactory;
 
   @Inject
-  public DeleteVoteControl(
+  DeleteVoteControl(
       PermissionBackend permissionBackend, ChangeData.Factory changeDataFactory) {
     this.permissionBackend = permissionBackend;
     this.changeDataFactory = changeDataFactory;

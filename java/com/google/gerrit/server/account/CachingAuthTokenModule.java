@@ -31,7 +31,7 @@ public class CachingAuthTokenModule extends FactoryModule {
 
   @Provides
   @Singleton
-  public AuthTokenAccessor createAuthTokenAccessor(
+  AuthTokenAccessor createAuthTokenAccessor(
       AuthConfig authConfig,
       HttpPasswordFallbackAuthTokenAccessor.Factory fallbackFactory,
       CachingAuthTokenAccessor.Factory cachingFactory,

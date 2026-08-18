@@ -24,7 +24,7 @@ public class DiffValidators {
   DynamicSet<DiffValidator> diffValidators;
 
   @Inject
-  public DiffValidators(DynamicSet<DiffValidator> diffValidators) {
+  DiffValidators(DynamicSet<DiffValidator> diffValidators) {
     this.diffValidators = diffValidators;
   }
 

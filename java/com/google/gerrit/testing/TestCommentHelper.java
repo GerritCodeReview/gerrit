@@ -38,7 +38,7 @@ public class TestCommentHelper {
   private final GerritApi gApi;
 
   @Inject
-  public TestCommentHelper(GerritApi gerritApi) {
+  TestCommentHelper(GerritApi gerritApi) {
     gApi = gerritApi;
   }
 

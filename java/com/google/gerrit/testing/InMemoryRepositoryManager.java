@@ -249,6 +249,7 @@ public class InMemoryRepositoryManager implements GitRepositoryManager {
   private final Map<String, Repo> repos;
 
   @Inject
+  @SuppressWarnings("UnnecessarilyVisible")
   public InMemoryRepositoryManager() {
     this.repos = new HashMap<>();
   }

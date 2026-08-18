@@ -73,7 +73,7 @@ public class Rebase
   private final IdentifiedUser.GenericFactory userFactory;
 
   @Inject
-  public Rebase(
+  Rebase(
       BatchUpdate.Factory updateFactory,
       GitRepositoryManager repoManager,
       RebaseUtil rebaseUtil,

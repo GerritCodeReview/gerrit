@@ -64,7 +64,7 @@ public class ExternalIdCaseSensitivityMigrator {
   private final Boolean dryRun;
 
   @Inject
-  public ExternalIdCaseSensitivityMigrator(
+  ExternalIdCaseSensitivityMigrator(
       GitRepositoryManager repoManager,
       AllUsersName allUsersName,
       Provider<MetaDataUpdate.Server> metaDataUpdateServerFactory,

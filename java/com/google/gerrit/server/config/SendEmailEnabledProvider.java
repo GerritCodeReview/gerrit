@@ -25,7 +25,7 @@ public class SendEmailEnabledProvider implements Provider<Boolean> {
   private final boolean enabled;
 
   @Inject
-  public SendEmailEnabledProvider(@GerritServerConfig Config cfg) {
+  SendEmailEnabledProvider(@GerritServerConfig Config cfg) {
     enabled = cfg.getBoolean("sendemail", null, "enable", true);
   }
 

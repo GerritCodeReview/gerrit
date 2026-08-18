@@ -46,7 +46,7 @@ public class ReduceMaxTokenLifetime
   }
 
   @Inject
-  public ReduceMaxTokenLifetime(
+  ReduceMaxTokenLifetime(
       WorkQueue workQueue, MaxAuthTokenLifetimeApplier.Factory maxAuthTokenLifetimeApplierFactory) {
     this.workQueue = workQueue;
     this.maxAuthTokenLifetimeApplierFactory = maxAuthTokenLifetimeApplierFactory;

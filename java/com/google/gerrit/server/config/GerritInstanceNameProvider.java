@@ -29,7 +29,7 @@ public class GerritInstanceNameProvider implements Provider<String> {
   private final String instanceName;
 
   @Inject
-  public GerritInstanceNameProvider(
+  GerritInstanceNameProvider(
       @GerritServerConfig Config config, @CanonicalWebUrl @Nullable String canonicalUrl) {
     this.instanceName = getInstanceName(config, canonicalUrl);
   }

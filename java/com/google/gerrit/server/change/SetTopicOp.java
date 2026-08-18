@@ -44,7 +44,7 @@ public class SetTopicOp implements BatchUpdateOp {
   private String newTopicName;
 
   @Inject
-  public SetTopicOp(
+  SetTopicOp(
       TopicEdited topicEdited,
       ChangeMessagesUtil cmUtil,
       @Nullable @Assisted String topic,

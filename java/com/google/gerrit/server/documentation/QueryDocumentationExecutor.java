@@ -59,7 +59,7 @@ public class QueryDocumentationExecutor {
   }
 
   @Inject
-  public QueryDocumentationExecutor() {
+  QueryDocumentationExecutor() {
     try {
       Directory dir = readIndexDirectory();
       if (dir == null) {

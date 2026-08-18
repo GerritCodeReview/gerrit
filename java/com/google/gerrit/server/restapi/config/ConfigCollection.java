@@ -29,7 +29,7 @@ public class ConfigCollection implements RestCollection<TopLevelResource, Config
   private final DynamicMap<RestView<ConfigResource>> views;
 
   @Inject
-  public ConfigCollection(DynamicMap<RestView<ConfigResource>> views) {
+  ConfigCollection(DynamicMap<RestView<ConfigResource>> views) {
     this.views = views;
   }
 

@@ -127,7 +127,7 @@ public class MailProcessor {
   private final MessageIdGenerator messageIdGenerator;
 
   @Inject
-  public MailProcessor(
+  MailProcessor(
       Emails emails,
       EmailFactories emailFactories,
       RetryHelper retryHelper,

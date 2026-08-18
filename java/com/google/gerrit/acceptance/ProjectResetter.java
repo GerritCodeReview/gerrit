@@ -104,7 +104,7 @@ public class ProjectResetter implements AutoCloseable {
     @Nullable private final ProjectCache projectCache;
 
     @Inject
-    public Builder(
+    Builder(
         GitRepositoryManager repoManager,
         AllUsersName allUsersName,
         @Nullable AccountCreator accountCreator,

@@ -49,7 +49,7 @@ public class GroupQueryProcessor extends QueryProcessor<InternalGroup> {
   @Singleton
   protected static class GroupQueryMetrics extends QueryProcessor.Metrics {
     @Inject
-    protected GroupQueryMetrics(MetricMaker metricMaker) {
+    GroupQueryMetrics(MetricMaker metricMaker) {
       super(metricMaker);
     }
   }
@@ -62,7 +62,7 @@ public class GroupQueryProcessor extends QueryProcessor<InternalGroup> {
   }
 
   @Inject
-  protected GroupQueryProcessor(
+  GroupQueryProcessor(
       Provider<CurrentUser> userProvider,
       AccountLimits.Factory limitsFactory,
       GroupQueryMetrics groupQueryMetrics,

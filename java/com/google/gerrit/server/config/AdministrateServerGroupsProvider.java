@@ -34,7 +34,7 @@ public class AdministrateServerGroupsProvider implements Provider<ImmutableSet<G
   private final ImmutableSet<GroupReference> groups;
 
   @Inject
-  public AdministrateServerGroupsProvider(
+  AdministrateServerGroupsProvider(
       GroupBackend groupBackend,
       @GerritServerConfig Config config,
       ThreadLocalRequestContext threadContext,

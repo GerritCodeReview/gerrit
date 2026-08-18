@@ -295,7 +295,7 @@ public class InMemoryModule extends FactoryModule {
           @Provides
           @Singleton
           @DiffExecutor
-          public ExecutorService createDiffExecutor() {
+          ExecutorService createDiffExecutor() {
             return newDirectExecutorService();
           }
         });
@@ -366,7 +366,7 @@ public class InMemoryModule extends FactoryModule {
     @Provides
     @Singleton
     @GerritServerId
-    public String createServerId() {
+    String createServerId() {
       String serverId =
           cfg.getString(GerritServerIdProvider.SECTION, null, GerritServerIdProvider.KEY);
       if (!Strings.isNullOrEmpty(serverId)) {
@@ -378,7 +378,7 @@ public class InMemoryModule extends FactoryModule {
 
     @Provides
     @Singleton
-    public ChangeNumberVirtualIdAlgorithm getChangeNumberVirtualIdAlgorithm() {
+    ChangeNumberVirtualIdAlgorithm getChangeNumberVirtualIdAlgorithm() {
       String localServerId = createServerId();
       ImmutableList<String> importedServerIds = createImportedServerIds();
       return createImportedServerIds().isEmpty()
@@ -390,7 +390,7 @@ public class InMemoryModule extends FactoryModule {
   @Provides
   @Singleton
   @GerritImportedServerIds
-  public ImmutableList<String> createImportedServerIds() {
+  ImmutableList<String> createImportedServerIds() {
     ImmutableList<String> serverIds =
         ImmutableList.copyOf(
             cfg.getStringList(
@@ -401,21 +401,21 @@ public class InMemoryModule extends FactoryModule {
   @Provides
   @Singleton
   @SendEmailExecutor
-  public ExecutorService createSendEmailExecutor() {
+  ExecutorService createSendEmailExecutor() {
     return newDirectExecutorService();
   }
 
   @Provides
   @Singleton
   @FanOutExecutor
-  public ExecutorService createFanOutExecutor() {
+  ExecutorService createFanOutExecutor() {
     return newDirectExecutorService();
   }
 
   @Provides
   @Singleton
   @CacheRefreshExecutor
-  public ListeningExecutorService createCacheRefreshExecutor() {
+  ListeningExecutorService createCacheRefreshExecutor() {
     return newDirectExecutorService();
   }
 

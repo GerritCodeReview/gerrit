@@ -40,7 +40,7 @@ public class GetDetail implements RestReadView<AccountResource> {
   private final InternalAccountDirectory directory;
 
   @Inject
-  public GetDetail(InternalAccountDirectory directory) {
+  GetDetail(InternalAccountDirectory directory) {
     this.directory = directory;
   }
 

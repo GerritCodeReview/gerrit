@@ -42,6 +42,7 @@ public class ConfigExperimentFeatures implements ExperimentFeatures {
   private ImmutableSet<String> enabledExperimentFeatures;
 
   @Inject
+  @SuppressWarnings("UnnecessarilyVisible")
   public ConfigExperimentFeatures(@GerritServerConfig Config gerritServerConfig) {
     Set<String> enabledExperiments = new HashSet<>();
     Arrays.stream(gerritServerConfig.getStringList("experiments", null, "enabled"))

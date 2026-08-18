@@ -44,7 +44,7 @@ public class VersionedAuthorizedKeysOnInit extends VersionedMetaDataOnInit {
   private List<Optional<AccountSshKey>> keys;
 
   @Inject
-  public VersionedAuthorizedKeysOnInit(
+  VersionedAuthorizedKeysOnInit(
       AllUsersNameOnInitProvider allUsers,
       SitePaths site,
       InitFlags flags,

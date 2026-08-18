@@ -47,7 +47,7 @@ public class AccountIdHandler extends OptionHandler<Account.Id> {
   private final AuthRequest.Factory authRequestFactory;
 
   @Inject
-  public AccountIdHandler(
+  AccountIdHandler(
       AccountResolver accountResolver,
       AccountManager accountManager,
       AuthConfig authConfig,

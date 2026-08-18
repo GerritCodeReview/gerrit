@@ -36,7 +36,7 @@ public class ChangeControl extends AbstractChangeControl {
   private final ChangeData changeData;
 
   @Inject
-  protected ChangeControl(
+  ChangeControl(
       PermissionBackend permissionBackend,
       @Assisted ProjectControl projectControl,
       @Assisted RefControl refControl,

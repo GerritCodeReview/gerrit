@@ -93,7 +93,7 @@ public class PluginLoader implements LifecycleListener {
   private final PluginOrderComparator pluginOrderComparator;
 
   @Inject
-  public PluginLoader(
+  PluginLoader(
       SitePaths sitePaths,
       PluginGuiceEnvironment pe,
       ServerInformationImpl sii,

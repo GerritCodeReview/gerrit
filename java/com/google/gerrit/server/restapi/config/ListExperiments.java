@@ -65,7 +65,7 @@ public class ListExperiments implements RestReadView<ConfigResource> {
   }
 
   @Inject
-  public ListExperiments(
+  ListExperiments(
       PermissionBackend permissionBackend,
       ExperimentFeatures experimentFeatures,
       GetExperiment getExperiment) {

@@ -55,7 +55,7 @@ public class ConfirmEmail implements RestModifyView<ConfigResource, Input> {
   private final AccountManager accountManager;
 
   @Inject
-  public ConfirmEmail(
+  ConfirmEmail(
       Provider<CurrentUser> self,
       EmailTokenVerifier emailTokenVerifier,
       AccountManager accountManager) {

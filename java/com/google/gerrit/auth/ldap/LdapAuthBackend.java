@@ -44,7 +44,7 @@ public class LdapAuthBackend implements AuthBackend {
   private final boolean lowerCaseUsername;
 
   @Inject
-  public LdapAuthBackend(Helper helper, AuthConfig authConfig, @GerritServerConfig Config config) {
+  LdapAuthBackend(Helper helper, AuthConfig authConfig, @GerritServerConfig Config config) {
     this.helper = helper;
     this.authConfig = authConfig;
     this.lowerCaseUsername = config.getBoolean("ldap", "localUsernameToLowerCase", false);

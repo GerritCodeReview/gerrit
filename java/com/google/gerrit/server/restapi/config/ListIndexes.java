@@ -30,7 +30,7 @@ public class ListIndexes implements RestReadView<ConfigResource> {
   private final Collection<IndexDefinition<?, ?, ?>> defs;
 
   @Inject
-  public ListIndexes(Collection<IndexDefinition<?, ?, ?>> defs) {
+  ListIndexes(Collection<IndexDefinition<?, ?, ?>> defs) {
     this.defs = defs;
   }
 

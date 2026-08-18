@@ -42,7 +42,7 @@ public class GetConfig implements RestReadView<ProjectResource> {
   private final DynamicMap<RestView<ProjectResource>> views;
 
   @Inject
-  public GetConfig(
+  GetConfig(
       @EnableSignedPush boolean serverEnableSignedPush,
       DynamicMap<ProjectConfigEntry> pluginConfigEntries,
       PluginConfigFactory cfgFactory,

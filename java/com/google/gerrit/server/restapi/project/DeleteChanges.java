@@ -54,7 +54,7 @@ public class DeleteChanges implements RestModifyView<ProjectResource, DeleteChan
   private final DeleteChangeOp.Factory opFactory;
 
   @Inject
-  public DeleteChanges(
+  DeleteChanges(
       PermissionBackend permissionBackend,
       ChangeFinder changeFinder,
       BatchUpdate.Factory batchUpdateFactory,

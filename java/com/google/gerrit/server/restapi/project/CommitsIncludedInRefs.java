@@ -66,7 +66,7 @@ public class CommitsIncludedInRefs implements RestReadView<ProjectResource> {
   }
 
   @Inject
-  public CommitsIncludedInRefs(IncludedInRefs includedInRefs) {
+  CommitsIncludedInRefs(IncludedInRefs includedInRefs) {
     this.includedInRefs = includedInRefs;
   }
 

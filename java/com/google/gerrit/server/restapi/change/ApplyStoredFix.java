@@ -53,7 +53,7 @@ public class ApplyStoredFix implements RestModifyView<FixResource, Input> {
   private final ProjectCache projectCache;
 
   @Inject
-  public ApplyStoredFix(
+  ApplyStoredFix(
       GitRepositoryManager gitRepositoryManager,
       FixReplacementInterpreter fixReplacementInterpreter,
       ChangeEditModifier changeEditModifier,

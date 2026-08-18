@@ -57,7 +57,7 @@ public class AuditLogReader {
   private final boolean ignoreRecordsFromUnidentifiedUsers;
 
   @Inject
-  public AuditLogReader(AllUsersName allUsersName, NoteDbUtil noteDbUtil, Config cfg) {
+  AuditLogReader(AllUsersName allUsersName, NoteDbUtil noteDbUtil, Config cfg) {
     this.allUsersName = allUsersName;
     this.noteDbUtil = noteDbUtil;
     ignoreRecordsFromUnidentifiedUsers =

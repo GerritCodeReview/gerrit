@@ -58,7 +58,7 @@ public class Groups {
   private final AuditLogReader auditLogReader;
 
   @Inject
-  public Groups(
+  Groups(
       GitRepositoryManager repoManager, AllUsersName allUsersName, AuditLogReader auditLogReader) {
     this.repoManager = repoManager;
     this.allUsersName = allUsersName;

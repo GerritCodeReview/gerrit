@@ -42,7 +42,7 @@ public class AccountMergeValidator implements MergeValidationListener {
   private final AccountValidator accountValidator;
 
   @Inject
-  public AccountMergeValidator(
+  AccountMergeValidator(
       AllUsersName allUsersName,
       ChangeData.Factory changeDataFactory,
       AccountValidator accountValidator) {

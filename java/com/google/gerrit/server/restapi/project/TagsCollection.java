@@ -34,7 +34,7 @@ public class TagsCollection implements ChildCollection<ProjectResource, TagResou
   private final Provider<ListTags> list;
 
   @Inject
-  public TagsCollection(DynamicMap<RestView<TagResource>> views, Provider<ListTags> list) {
+  TagsCollection(DynamicMap<RestView<TagResource>> views, Provider<ListTags> list) {
     this.views = views;
     this.list = list;
   }

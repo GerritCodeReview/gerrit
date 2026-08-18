@@ -60,7 +60,7 @@ public class PatchScriptBuilder {
   private IntraLineDiffCalculator intralineDiffCalculator;
 
   @Inject
-  public PatchScriptBuilder(FileTypeRegistry ftr) {
+  PatchScriptBuilder(FileTypeRegistry ftr) {
     registry = ftr;
   }
 

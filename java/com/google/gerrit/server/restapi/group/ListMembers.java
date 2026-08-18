@@ -52,7 +52,8 @@ public class ListMembers implements RestReadView<GroupResource> {
   private boolean recursive;
 
   @Inject
-  protected ListMembers(
+  @SuppressWarnings("UnnecessarilyVisible")
+  public ListMembers(
       GroupCache groupCache,
       GroupControl.Factory groupControlFactory,
       AccountLoader.Factory accountLoaderFactory) {

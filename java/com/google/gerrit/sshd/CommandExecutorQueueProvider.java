@@ -32,7 +32,7 @@ public class CommandExecutorQueueProvider implements QueueProvider {
   private final ScheduledThreadPoolExecutor batchExecutor;
 
   @Inject
-  public CommandExecutorQueueProvider(
+  CommandExecutorQueueProvider(
       @GerritServerConfig Config config,
       ThreadSettingsConfig threadsSettingsConfig,
       WorkQueue queues) {

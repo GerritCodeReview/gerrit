@@ -81,7 +81,7 @@ public class AddSubgroups implements RestModifyView<GroupResource, Input> {
   private final GroupJson json;
 
   @Inject
-  public AddSubgroups(
+  AddSubgroups(
       GroupResolver groupResolver,
       @UserInitiated Provider<GroupsUpdate> groupsUpdateProvider,
       GroupJson json) {
@@ -141,7 +141,7 @@ public class AddSubgroups implements RestModifyView<GroupResource, Input> {
     private final AddSubgroups addSubgroups;
 
     @Inject
-    public CreateSubgroup(AddSubgroups addSubgroups) {
+    CreateSubgroup(AddSubgroups addSubgroups) {
       this.addSubgroups = addSubgroups;
     }
 
@@ -167,7 +167,7 @@ public class AddSubgroups implements RestModifyView<GroupResource, Input> {
     private final Provider<GetSubgroup> get;
 
     @Inject
-    public UpdateSubgroup(Provider<GetSubgroup> get) {
+    UpdateSubgroup(Provider<GetSubgroup> get) {
       this.get = get;
     }
 

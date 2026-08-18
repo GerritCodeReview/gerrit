@@ -41,7 +41,7 @@ public class HttpsClientSslCertLoginServlet extends HttpServlet {
   private final Provider<String> urlProvider;
 
   @Inject
-  public HttpsClientSslCertLoginServlet(
+  HttpsClientSslCertLoginServlet(
       @CanonicalWebUrl @Nullable final Provider<String> urlProvider) {
     this.urlProvider = urlProvider;
   }

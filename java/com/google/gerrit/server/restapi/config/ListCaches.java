@@ -67,7 +67,7 @@ public class ListCaches implements RestReadView<ConfigResource> {
   }
 
   @Inject
-  public ListCaches(DynamicMap<Cache<?, ?>> cacheMap) {
+  ListCaches(DynamicMap<Cache<?, ?>> cacheMap) {
     this.cacheMap = cacheMap;
   }
 

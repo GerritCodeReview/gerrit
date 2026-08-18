@@ -108,6 +108,7 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
   }
 
   @Inject
+  @SuppressWarnings("UnnecessarilyVisible")
   public SubmitRequirementsEvaluatorImpl(
       SubmitRequirementChangeQueryBuilder.Factory queryBuilderFactory,
       ProjectCache projectCache,

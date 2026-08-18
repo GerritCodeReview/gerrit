@@ -80,7 +80,7 @@ public class RefControl {
   private Boolean hasReadPermissionOnRef;
 
   @Inject
-  protected RefControl(
+  RefControl(
       ChangeData.Factory changeDataFactory,
       RefVisibilityControl refVisibilityControl,
       GitRepositoryManager repositoryManager,

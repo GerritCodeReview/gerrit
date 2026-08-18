@@ -43,7 +43,7 @@ public class DeleteChange
   private final DeleteChangeOp.Factory opFactory;
 
   @Inject
-  public DeleteChange(BatchUpdate.Factory updateFactory, DeleteChangeOp.Factory opFactory) {
+  DeleteChange(BatchUpdate.Factory updateFactory, DeleteChangeOp.Factory opFactory) {
     this.updateFactory = updateFactory;
     this.opFactory = opFactory;
   }

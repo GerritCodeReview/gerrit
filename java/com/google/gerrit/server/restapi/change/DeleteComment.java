@@ -58,7 +58,7 @@ public class DeleteComment implements RestModifyView<HumanCommentResource, Delet
   private final ChangeNotes.Factory notesFactory;
 
   @Inject
-  public DeleteComment(
+  DeleteComment(
       Provider<CurrentUser> userProvider,
       PermissionBackend permissionBackend,
       BatchUpdate.Factory updateFactory,

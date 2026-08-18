@@ -531,7 +531,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   @Deprecated protected static final Splitter LABEL_SPLITTER = Splitter.on(",");
 
   @Inject
-  protected ChangeQueryBuilder(
+  ChangeQueryBuilder(
       Arguments args, @GerritImportedServerIds ImmutableList<String> importedServerIds) {
     this(mydef, args, importedServerIds);
   }

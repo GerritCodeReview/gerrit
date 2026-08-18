@@ -33,7 +33,7 @@ public class ListChangeMessages implements RestReadView<ChangeResource> {
   private final AccountLoader.Factory accountLoaderFactory;
 
   @Inject
-  public ListChangeMessages(
+  ListChangeMessages(
       ChangeMessagesUtil changeMessagesUtil, AccountLoader.Factory accountLoaderFactory) {
     this.changeMessagesUtil = changeMessagesUtil;
     this.accountLoaderFactory = accountLoaderFactory;

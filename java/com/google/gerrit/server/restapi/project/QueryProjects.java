@@ -83,7 +83,7 @@ public class QueryProjects implements RestReadView<TopLevelResource> {
   }
 
   @Inject
-  protected QueryProjects(
+  QueryProjects(
       ProjectIndexCollection indexes,
       ProjectQueryBuilder queryBuilder,
       Provider<ProjectQueryProcessor> queryProcessorProvider,

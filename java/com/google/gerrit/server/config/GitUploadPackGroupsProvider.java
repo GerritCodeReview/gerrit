@@ -25,7 +25,7 @@ import org.eclipse.jgit.lib.Config;
 
 public class GitUploadPackGroupsProvider extends GroupSetProvider {
   @Inject
-  public GitUploadPackGroupsProvider(
+  GitUploadPackGroupsProvider(
       GroupBackend gb,
       @GerritServerConfig Config config,
       ThreadLocalRequestContext threadContext,

@@ -34,7 +34,7 @@ public class ReindexProjectsAtStartup implements LifecycleListener {
   }
 
   @Inject
-  public ReindexProjectsAtStartup(ProjectIndexer projectIndexer, GitRepositoryManager repoMgr) {
+  ReindexProjectsAtStartup(ProjectIndexer projectIndexer, GitRepositoryManager repoMgr) {
     this.projectIndexer = projectIndexer;
     this.repoMgr = repoMgr;
   }

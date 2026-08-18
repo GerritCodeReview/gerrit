@@ -50,7 +50,7 @@ public class OnlineExternalIdCaseSensitivityMigrator {
   private boolean isUserNameCaseInsensitiveMigrationMode;
 
   @Inject
-  public OnlineExternalIdCaseSensitivityMigrator(
+  OnlineExternalIdCaseSensitivityMigrator(
       @OnlineExternalIdCaseSensitivityMigratiorExecutor ExecutorService executor,
       ExternalIdCaseSensitivityMigrator.Factory migratorFactory,
       ExternalIdsNoteDbImpl externalIds,

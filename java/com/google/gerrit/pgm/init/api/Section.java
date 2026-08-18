@@ -42,7 +42,7 @@ public class Section {
   private final SecureStore secureStore;
 
   @Inject
-  public Section(
+  Section(
       final InitFlags flags,
       final SitePaths site,
       final SecureStore secureStore,

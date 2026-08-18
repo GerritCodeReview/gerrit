@@ -76,6 +76,7 @@ public final class SitePaths {
   public final boolean isNew;
 
   @Inject
+  @SuppressWarnings("UnnecessarilyVisible")
   public SitePaths(@SitePath Path sitePath) throws IOException {
     site_path = sitePath;
     Path p = sitePath;

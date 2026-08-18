@@ -30,7 +30,7 @@ import org.kohsuke.args4j.spi.Setter;
 public class SocketAddressHandler extends OptionHandler<SocketAddress> {
 
   @Inject
-  public SocketAddressHandler(
+  SocketAddressHandler(
       @Assisted final CmdLineParser parser,
       @Assisted final OptionDef option,
       @Assisted final Setter<SocketAddress> setter) {

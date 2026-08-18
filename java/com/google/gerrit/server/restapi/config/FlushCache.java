@@ -38,7 +38,7 @@ public class FlushCache implements RestModifyView<CacheResource, Input> {
   private final PermissionBackend permissionBackend;
 
   @Inject
-  public FlushCache(PermissionBackend permissionBackend) {
+  FlushCache(PermissionBackend permissionBackend) {
     this.permissionBackend = permissionBackend;
   }
 

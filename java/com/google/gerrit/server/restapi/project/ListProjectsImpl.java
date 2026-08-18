@@ -189,7 +189,7 @@ public class ListProjectsImpl extends AbstractListProjects {
   private final ProjectIndexCollection projectIndexes;
 
   @Inject
-  protected ListProjectsImpl(
+  ListProjectsImpl(
       CurrentUser currentUser,
       ProjectCache projectCache,
       GroupResolver groupResolver,

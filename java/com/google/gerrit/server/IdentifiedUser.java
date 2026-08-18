@@ -77,6 +77,7 @@ public class IdentifiedUser extends CurrentUser {
     private final Boolean enablePeerIPInReflogRecord;
 
     @Inject
+    @SuppressWarnings("UnnecessarilyVisible")
     public GenericFactory(
         AuthConfig authConfig,
         Realm realm,

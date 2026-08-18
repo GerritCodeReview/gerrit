@@ -77,7 +77,7 @@ public class DeleteDraftCommentsUtil {
   private final PatchSetUtil psUtil;
 
   @Inject
-  public DeleteDraftCommentsUtil(
+  DeleteDraftCommentsUtil(
       BatchUpdate.Factory batchUpdateFactory,
       BatchUpdates batchUpdates,
       Provider<ChangeQueryBuilder> queryBuilderProvider,

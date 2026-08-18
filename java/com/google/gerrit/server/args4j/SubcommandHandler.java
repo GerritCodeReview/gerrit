@@ -26,7 +26,7 @@ import org.kohsuke.args4j.spi.Setter;
 public class SubcommandHandler extends OptionHandler<String> {
 
   @Inject
-  public SubcommandHandler(
+  SubcommandHandler(
       @Assisted final CmdLineParser parser,
       @Assisted final OptionDef option,
       @Assisted final Setter<String> setter) {

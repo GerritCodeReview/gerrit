@@ -17,6 +17,24 @@
       "isAi": true,
       "revId": "6930855cd7ddaf253451b0ea52442024ebb6dd03",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "892502fc_5b20e6ef",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2026-08-18T08:53:47Z",
+      "side": 1,
+      "message": "Yes, it falls back to `PARENT` cleanly, and no auto-merge request ever reaches the backend.\n\n`auto-merge` never appears in a URL — only `0`, which the router maps to `AUTO_MERGE` in the view model. `computeBase()` returns `PARENT` for `AUTO_MERGE` unconditionally, as its very first check, without ever looking at whether the commit is a merge. Both views read `basePatchNum$` from the change model, so the REST API only ever sees `PARENT`. The next navigation also drops the `0` from the URL, because `urlBasePatchNum()` only emits it when the preference would pick a different base.",
+      "parentUuid": "b9f16483_2698b191",
+      "revId": "6930855cd7ddaf253451b0ea52442024ebb6dd03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

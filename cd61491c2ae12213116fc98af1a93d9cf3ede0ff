@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c3566e35_37e4deb3",
+        "filename": "java/com/google/gerrit/server/change/RelatedChangesSorter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-08-18T08:41:57Z",
+      "side": 1,
+      "message": "Nice optimization! Discarding commit bodies during the graph walk and only selectively calling `rw.parseBody()` on the final returned `PatchSetData` items provides a substantial JVM memory reduction without breaking downstream consumers that read commit messages.",
+      "isAi": true,
+      "revId": "cd61491c2ae12213116fc98af1a93d9cf3ede0ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5f5a6586_18c3dbcc",
         "filename": "java/com/google/gerrit/server/change/RelatedChangesSorter.java",
         "patchSetId": 5

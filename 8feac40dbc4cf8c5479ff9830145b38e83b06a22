@@ -17,6 +17,25 @@
       "isAi": true,
       "revId": "8feac40dbc4cf8c5479ff9830145b38e83b06a22",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e11f6458_c14011d6",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1319,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2026-08-18T22:00:17Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "bbd92285_bfadf541",
+      "isAi": true,
+      "revId": "8feac40dbc4cf8c5479ff9830145b38e83b06a22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

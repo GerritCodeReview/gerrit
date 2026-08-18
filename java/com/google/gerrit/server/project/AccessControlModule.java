@@ -26,6 +26,8 @@ import com.google.gerrit.server.config.GitReceivePackGroups;
 import com.google.gerrit.server.config.GitReceivePackGroupsProvider;
 import com.google.gerrit.server.config.GitUploadPackGroups;
 import com.google.gerrit.server.config.GitUploadPackGroupsProvider;
+import com.google.gerrit.server.config.RegexAllowedGroups;
+import com.google.gerrit.server.config.RegexAllowedGroupsProvider;
 import com.google.inject.TypeLiteral;
 import java.util.Set;
 
@@ -46,5 +48,9 @@ public class AccessControlModule extends FactoryModule {
         .annotatedWith(GitReceivePackGroups.class)
         .toProvider(GitReceivePackGroupsProvider.class)
         .in(SINGLETON);
+
+    bind(new TypeLiteral<Set<AccountGroup.UUID>>() {})
+        .annotatedWith(RegexAllowedGroups.class)
+        .toProvider(RegexAllowedGroupsProvider.class);
   }
 }

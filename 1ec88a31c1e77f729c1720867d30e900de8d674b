@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8474381_91df277a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-18T20:05:13Z",
+      "side": 1,
+      "message": "Can we use `@VisibleForTesting` for the test ones instead? That annotation works for those cases (looking at `InitFlags`: `java/com/google/gerrit/pgm/init/api/InitFlags.java` as an example).\n\nI tested it by checking out this change and updating `java/com/google/gerrit/server/query/change/ChangeNumberBitmapMaskAlgorithm.java` to use `@VisibleForTesting` and the build passes. If I remove both annotations, then the build fails.",
+      "revId": "1ec88a31c1e77f729c1720867d30e900de8d674b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a2906b2_b051aed5",
+        "filename": "java/com/google/gerrit/httpd/HttpCanonicalWebUrlProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-18T20:05:13Z",
+      "side": 1,
+      "message": "Do you need to change this from `protected`?",
+      "range": {
+        "startLine": 37,
+        "startChar": 2,
+        "endLine": 37,
+        "endChar": 8
+      },
+      "revId": "1ec88a31c1e77f729c1720867d30e900de8d674b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

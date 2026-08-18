@@ -47,7 +47,7 @@ public class UpdateSubmitRequirement
   private final RepoMetaDataUpdater repoMetaDataUpdater;
 
   @Inject
-  public UpdateSubmitRequirement(
+  UpdateSubmitRequirement(
       SubmitRequirementExpressionsValidator submitRequirementExpressionsValidator,
       RepoMetaDataUpdater repoMetaDataUpdater) {
     this.submitRequirementExpressionsValidator = submitRequirementExpressionsValidator;

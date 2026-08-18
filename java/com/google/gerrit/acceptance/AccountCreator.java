@@ -59,7 +59,7 @@ public class AccountCreator {
 
   @Inject
   @UsedAt(GOOGLE)
-  protected AccountCreator(
+  AccountCreator(
       Sequences sequences,
       @ServerInitiated Provider<AccountsUpdate> accountsUpdateProvider,
       GroupCache groupCache,

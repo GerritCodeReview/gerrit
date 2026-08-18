@@ -26,7 +26,7 @@ public class GerritInstanceIdProvider implements Provider<String> {
   private final String instanceId;
 
   @Inject
-  public GerritInstanceIdProvider(@GerritServerConfig Config cfg) {
+  GerritInstanceIdProvider(@GerritServerConfig Config cfg) {
     instanceId =
         System.getProperty(
             INSTANCE_ID_SYSTEM_PROPERTY, cfg.getString("gerrit", null, "instanceId"));

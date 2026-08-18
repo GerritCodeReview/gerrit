@@ -67,7 +67,7 @@ public class SchemaCreatorImpl implements SchemaCreator {
   private final AllProjectsName allProjectsName;
 
   @Inject
-  public SchemaCreatorImpl(
+  SchemaCreatorImpl(
       GitRepositoryManager repoManager,
       AllProjectsCreator ap,
       AllUsersCreator auc,

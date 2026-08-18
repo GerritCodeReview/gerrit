@@ -29,7 +29,7 @@ public class GcAssert {
   private final GitRepositoryManager repoManager;
 
   @Inject
-  public GcAssert(GitRepositoryManager repoManager) {
+  GcAssert(GitRepositoryManager repoManager) {
     this.repoManager = repoManager;
   }
 

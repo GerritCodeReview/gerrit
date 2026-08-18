@@ -103,7 +103,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
   private final PluginSetContext<ServerStateProvider> serverStateProviders;
 
   @Inject
-  public GetServerInfo(
+  GetServerInfo(
       @GerritServerConfig Config config,
       AccountVisibilityProvider accountVisibilityProvider,
       AccountDefaultDisplayName accountDefaultDisplayName,

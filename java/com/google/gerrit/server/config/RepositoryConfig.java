@@ -48,7 +48,7 @@ public class RepositoryConfig {
   private final Config cfg;
 
   @Inject
-  public RepositoryConfig(@GerritServerConfig Config cfg) {
+  RepositoryConfig(@GerritServerConfig Config cfg) {
     this.cfg = cfg;
   }
 

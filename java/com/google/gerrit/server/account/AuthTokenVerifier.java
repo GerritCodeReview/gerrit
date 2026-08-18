@@ -30,6 +30,7 @@ public class AuthTokenVerifier {
   private final AuthTokenAccessor tokenAccessor;
 
   @Inject
+  @SuppressWarnings("UnnecessarilyVisible")
   public AuthTokenVerifier(AuthTokenAccessor tokenAccessor) {
     this.tokenAccessor = tokenAccessor;
   }

@@ -28,7 +28,7 @@ public class HttpRequestTraceModule extends ServletModule {
   @Provides
   @RequestScoped
   @Named(REQUEST_TRACE_CONTEXT)
-  public TraceContext provideTraceContext(HttpServletRequest req) {
+  TraceContext provideTraceContext(HttpServletRequest req) {
     return (TraceContext) req.getAttribute(REQUEST_TRACE_CONTEXT);
   }
 

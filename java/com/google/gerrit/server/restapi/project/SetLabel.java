@@ -42,7 +42,7 @@ public class SetLabel implements RestModifyView<LabelResource, LabelDefinitionIn
   private final RepoMetaDataUpdater repoMetaDataUpdater;
 
   @Inject
-  public SetLabel(
+  SetLabel(
       ApprovalQueryBuilder approvalQueryBuilder, RepoMetaDataUpdater repoMetaDataUpdater) {
     this.approvalQueryBuilder = approvalQueryBuilder;
     this.repoMetaDataUpdater = repoMetaDataUpdater;

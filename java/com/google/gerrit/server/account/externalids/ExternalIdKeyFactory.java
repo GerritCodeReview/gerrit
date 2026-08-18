@@ -54,6 +54,7 @@ public class ExternalIdKeyFactory {
   private final boolean isUserNameCaseInsensitive;
 
   @Inject
+  @SuppressWarnings("UnnecessarilyVisible")
   public ExternalIdKeyFactory(Config config) {
     this.isUserNameCaseInsensitive = config.isUserNameCaseInsensitive();
   }

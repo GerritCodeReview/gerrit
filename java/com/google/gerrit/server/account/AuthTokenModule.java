@@ -29,7 +29,7 @@ public class AuthTokenModule extends FactoryModule {
 
   @Provides
   @Singleton
-  public AuthTokenAccessor createAuthTokenAccessor(
+  AuthTokenAccessor createAuthTokenAccessor(
       AuthConfig authConfig,
       HttpPasswordFallbackAuthTokenAccessor.Factory fallbackFactory,
       DirectAuthTokenAccessor directAccessor) {

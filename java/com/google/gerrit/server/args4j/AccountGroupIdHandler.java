@@ -33,7 +33,7 @@ public class AccountGroupIdHandler extends OptionHandler<AccountGroup.Id> {
   private final GroupCache groupCache;
 
   @Inject
-  public AccountGroupIdHandler(
+  AccountGroupIdHandler(
       final GroupCache groupCache,
       @Assisted final CmdLineParser parser,
       @Assisted final OptionDef option,

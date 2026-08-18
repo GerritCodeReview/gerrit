@@ -50,7 +50,7 @@ public class FixReplacementInterpreter {
   private final FileContentUtil fileContentUtil;
 
   @Inject
-  public FixReplacementInterpreter(FileContentUtil fileContentUtil) {
+  FixReplacementInterpreter(FileContentUtil fileContentUtil) {
     this.fileContentUtil = fileContentUtil;
   }
 

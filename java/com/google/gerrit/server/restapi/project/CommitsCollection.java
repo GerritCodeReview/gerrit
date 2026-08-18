@@ -63,7 +63,7 @@ public class CommitsCollection implements ChildCollection<ProjectResource, Commi
   private final Reachable reachable;
 
   @Inject
-  public CommitsCollection(
+  CommitsCollection(
       DynamicMap<RestView<CommitResource>> views,
       GitRepositoryManager repoManager,
       RetryHelper retryHelper,

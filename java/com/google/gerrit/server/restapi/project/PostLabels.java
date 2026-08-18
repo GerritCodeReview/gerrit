@@ -37,7 +37,7 @@ public class PostLabels
   private final SetLabel setLabel;
 
   @Inject
-  public PostLabels(
+  PostLabels(
       Provider<CurrentUser> user,
       DeleteLabel deleteLabel,
       CreateLabel createLabel,

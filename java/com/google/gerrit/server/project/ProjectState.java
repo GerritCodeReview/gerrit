@@ -98,7 +98,7 @@ public class ProjectState {
   private final CapabilityCollection capabilities;
 
   @Inject
-  public ProjectState(
+  ProjectState(
       RepositoryConfig repositoryConfig,
       ProjectCache projectCache,
       AllProjectsName allProjectsName,

@@ -64,7 +64,7 @@ class RenameGroupOp extends DefaultQueueOp {
   private boolean tryingAgain;
 
   @Inject
-  public RenameGroupOp(
+  RenameGroupOp(
       WorkQueue workQueue,
       ProjectCache projectCache,
       MetaDataUpdate.Server metaDataUpdateFactory,

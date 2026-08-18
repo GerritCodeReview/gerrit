@@ -48,7 +48,7 @@ public class GrantRevertPermission {
   private final PersonIdent serverUser;
 
   @Inject
-  public GrantRevertPermission(
+  GrantRevertPermission(
       GitRepositoryManager repoManager,
       ProjectConfig.Factory projectConfigFactory,
       SystemGroupBackend systemGroupBackend,

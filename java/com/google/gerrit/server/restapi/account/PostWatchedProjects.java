@@ -60,7 +60,7 @@ public class PostWatchedProjects
   private final Provider<AccountsUpdate> accountsUpdateProvider;
 
   @Inject
-  public PostWatchedProjects(
+  PostWatchedProjects(
       Provider<IdentifiedUser> self,
       PermissionBackend permissionBackend,
       GetWatchedProjects getWatchedProjects,

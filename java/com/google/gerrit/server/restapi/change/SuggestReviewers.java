@@ -86,6 +86,7 @@ public class SuggestReviewers {
   }
 
   @Inject
+  @SuppressWarnings("UnnecessarilyVisible")
   public SuggestReviewers(
       AccountVisibility av, @GerritServerConfig Config cfg, ReviewersUtil reviewersUtil) {
     this.reviewersUtil = reviewersUtil;

@@ -82,7 +82,7 @@ public class EventBroker implements EventDispatcher {
   protected final String gerritInstanceId;
 
   @Inject
-  public EventBroker(
+  EventBroker(
       PluginSetContext<UserScopedEventListener> listeners,
       PluginSetContext<EventListener> unrestrictedListeners,
       PermissionBackend permissionBackend,

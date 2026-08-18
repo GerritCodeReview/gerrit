@@ -32,7 +32,7 @@ public class GitRepositoryManagerModule extends LifecycleModule {
   private final RepositoryConfig repoConfig;
 
   @Inject
-  public GitRepositoryManagerModule(RepositoryConfig repoConfig) {
+  GitRepositoryManagerModule(RepositoryConfig repoConfig) {
     this.repoConfig = repoConfig;
   }
 

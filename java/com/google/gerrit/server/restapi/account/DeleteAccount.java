@@ -97,7 +97,7 @@ public class DeleteAccount implements RestModifyView<AccountResource, Input> {
   private final AuthTokenAccessor tokenAccessor;
 
   @Inject
-  public DeleteAccount(
+  DeleteAccount(
       Provider<CurrentUser> self,
       @GerritPersonIdent Provider<PersonIdent> serverIdent,
       @UserInitiated Provider<AccountsUpdate> accountsUpdateProvider,

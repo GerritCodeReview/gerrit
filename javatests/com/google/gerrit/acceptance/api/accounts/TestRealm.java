@@ -31,7 +31,7 @@ public class TestRealm extends DefaultRealm {
   private final Set<AccountFieldName> readOnlyFields = new HashSet<>();
 
   @Inject
-  public TestRealm(EmailExpander emailExpander, Provider<Emails> emails, AuthConfig authConfig) {
+  TestRealm(EmailExpander emailExpander, Provider<Emails> emails, AuthConfig authConfig) {
     super(emailExpander, emails, authConfig);
   }
 

@@ -64,7 +64,7 @@ public class PublishCommentsOp implements BatchUpdateOp {
   }
 
   @Inject
-  public PublishCommentsOp(
+  PublishCommentsOp(
       ChangeNotes.Factory changeNotesFactory,
       CommentAdded commentAdded,
       DraftCommentsReader draftCommentsReader,

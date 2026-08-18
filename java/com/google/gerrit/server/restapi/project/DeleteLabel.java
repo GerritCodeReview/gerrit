@@ -35,7 +35,7 @@ public class DeleteLabel implements RestModifyView<LabelResource, InputWithCommi
   private final RepoMetaDataUpdater repoMetaDataUpdater;
 
   @Inject
-  public DeleteLabel(RepoMetaDataUpdater repoMetaDataUpdater) {
+  DeleteLabel(RepoMetaDataUpdater repoMetaDataUpdater) {
     this.repoMetaDataUpdater = repoMetaDataUpdater;
   }
 

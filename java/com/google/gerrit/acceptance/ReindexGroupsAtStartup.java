@@ -42,7 +42,7 @@ public class ReindexGroupsAtStartup implements LifecycleListener {
   }
 
   @Inject
-  public ReindexGroupsAtStartup(
+  ReindexGroupsAtStartup(
       GroupIndexer groupIndexer, Groups groups, @GerritServerConfig Config cfg) {
     this.groupIndexer = groupIndexer;
     this.groups = groups;

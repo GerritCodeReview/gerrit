@@ -55,7 +55,7 @@ public class GetSummary implements RestReadView<ConfigResource> {
   }
 
   @Inject
-  public GetSummary(WorkQueue workQueue, @SitePath Path sitePath) {
+  GetSummary(WorkQueue workQueue, @SitePath Path sitePath) {
     this.workQueue = workQueue;
     this.sitePath = sitePath;
   }

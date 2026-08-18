@@ -50,7 +50,7 @@ public class MigratePasswordsToTokens
   }
 
   @Inject
-  public MigratePasswordsToTokens(
+  MigratePasswordsToTokens(
       AuthConfig authConfig,
       WorkQueue workQueue,
       PasswordMigrator.Factory passwordMigratorFactory) {

@@ -63,7 +63,7 @@ public class VersionedAuthTokens extends VersionedMetaData {
   private Map<String, AuthToken> tokens;
 
   @Inject
-  public VersionedAuthTokens(
+  VersionedAuthTokens(
       GitRepositoryManager repoManager,
       AllUsersName allUsersName,
       AuthConfig authConfig,

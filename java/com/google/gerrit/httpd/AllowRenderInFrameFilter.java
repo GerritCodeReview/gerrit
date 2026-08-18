@@ -36,7 +36,7 @@ public class AllowRenderInFrameFilter extends AllRequestFilter {
   private final boolean skipXFrameOption;
 
   @Inject
-  public AllowRenderInFrameFilter(@GerritServerConfig Config cfg) {
+  AllowRenderInFrameFilter(@GerritServerConfig Config cfg) {
     XFrameOption xframeOption =
         cfg.getEnum("gerrit", null, "xframeOption", XFrameOption.SAMEORIGIN);
     boolean canLoadInIFrame = cfg.getBoolean("gerrit", "canLoadInIFrame", false);

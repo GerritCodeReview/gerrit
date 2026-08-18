@@ -69,7 +69,7 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
   @Singleton
   protected static class ChangeQueryMetrics extends QueryProcessor.Metrics {
     @Inject
-    protected ChangeQueryMetrics(MetricMaker metricMaker) {
+    ChangeQueryMetrics(MetricMaker metricMaker) {
       super(metricMaker);
     }
   }

@@ -115,7 +115,7 @@ public class RulesCache {
   private final Cache<ObjectId, PrologMachineCopy> machineCache;
 
   @Inject
-  protected RulesCache(
+  RulesCache(
       @GerritServerConfig Config config,
       SitePaths site,
       GitRepositoryManager gm,

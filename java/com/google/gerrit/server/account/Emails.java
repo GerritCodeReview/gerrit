@@ -40,7 +40,7 @@ public class Emails {
   private final RetryHelper retryHelper;
 
   @Inject
-  public Emails(ExternalIds externalIds, RetryHelper retryHelper) {
+  Emails(ExternalIds externalIds, RetryHelper retryHelper) {
     this.externalIds = externalIds;
     this.retryHelper = retryHelper;
   }

@@ -47,7 +47,7 @@ public class GrantPostReviewCommentPermission {
   private final PersonIdent serverUser;
 
   @Inject
-  public GrantPostReviewCommentPermission(
+  GrantPostReviewCommentPermission(
       GitRepositoryManager repoManager,
       ProjectConfig.Factory projectConfigFactory,
       SystemGroupBackend systemGroupBackend,

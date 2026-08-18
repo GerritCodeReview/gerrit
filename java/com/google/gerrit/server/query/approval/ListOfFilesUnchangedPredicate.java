@@ -45,7 +45,7 @@ public class ListOfFilesUnchangedPredicate extends ApprovalPredicate {
   private final GitRepositoryManager repositoryManager;
 
   @Inject
-  public ListOfFilesUnchangedPredicate(
+  ListOfFilesUnchangedPredicate(
       DiffOperations diffOperations, GitRepositoryManager repositoryManager) {
     this.diffOperations = diffOperations;
     this.repositoryManager = repositoryManager;

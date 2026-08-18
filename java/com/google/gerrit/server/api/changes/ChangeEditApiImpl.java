@@ -63,7 +63,7 @@ public class ChangeEditApiImpl implements ChangeEditApi {
   private final ChangeResource changeResource;
 
   @Inject
-  public ChangeEditApiImpl(
+  ChangeEditApiImpl(
       Provider<ChangeEdits.Detail> editDetailProvider,
       ChangeEdits.Post changeEditsPost,
       DeleteChangeEdit deleteChangeEdit,

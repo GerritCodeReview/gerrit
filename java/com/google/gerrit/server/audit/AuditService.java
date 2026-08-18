@@ -33,6 +33,7 @@ public class AuditService implements GroupAuditService {
   private final PluginSetContext<GroupAuditListener> groupAuditListeners;
 
   @Inject
+  @SuppressWarnings("UnnecessarilyVisible")
   public AuditService(
       PluginSetContext<AuditListener> auditListeners,
       PluginSetContext<GroupAuditListener> groupAuditListeners) {

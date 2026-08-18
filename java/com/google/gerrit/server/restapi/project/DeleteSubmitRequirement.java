@@ -29,7 +29,7 @@ public class DeleteSubmitRequirement implements RestModifyView<SubmitRequirement
   private final RepoMetaDataUpdater repoMetaDataUpdater;
 
   @Inject
-  public DeleteSubmitRequirement(RepoMetaDataUpdater repoMetaDataUpdater) {
+  DeleteSubmitRequirement(RepoMetaDataUpdater repoMetaDataUpdater) {
     this.repoMetaDataUpdater = repoMetaDataUpdater;
   }
 

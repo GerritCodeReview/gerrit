@@ -87,7 +87,7 @@ public class FilesInCommitCollection implements ChildCollection<CommitResource, 
     private final FileInfoJson fileInfoJson;
 
     @Inject
-    public ListFiles(FileInfoJson fileInfoJson) {
+    ListFiles(FileInfoJson fileInfoJson) {
       this.fileInfoJson = fileInfoJson;
     }
 

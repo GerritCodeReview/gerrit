@@ -33,6 +33,7 @@ public class LogConfig {
   private final Duration timeToKeep;
 
   @Inject
+  @SuppressWarnings("UnnecessarilyVisible")
   public LogConfig(@GerritServerConfig Config cfg) {
     jsonLogging = cfg.getBoolean(CONFIG_LOG_SECTION, "jsonLogging", false);
     textLogging = cfg.getBoolean(CONFIG_LOG_SECTION, "textLogging", true) || !jsonLogging;

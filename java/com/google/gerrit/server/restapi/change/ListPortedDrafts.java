@@ -39,7 +39,7 @@ public class ListPortedDrafts implements RestReadView<RevisionResource> {
   private final Provider<CommentJson> commentJson;
 
   @Inject
-  public ListPortedDrafts(
+  ListPortedDrafts(
       Provider<CommentJson> commentJson,
       DraftCommentsReader draftCommentsReader,
       CommentPorter commentPorter) {

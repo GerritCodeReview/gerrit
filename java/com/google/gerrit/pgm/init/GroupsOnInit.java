@@ -64,7 +64,7 @@ public class GroupsOnInit {
   private final AllUsersName allUsers;
 
   @Inject
-  public GroupsOnInit(InitFlags flags, SitePaths site, AllUsersNameOnInitProvider allUsers) {
+  GroupsOnInit(InitFlags flags, SitePaths site, AllUsersNameOnInitProvider allUsers) {
     this.flags = flags;
     this.site = site;
     this.allUsers = new AllUsersName(allUsers.get());

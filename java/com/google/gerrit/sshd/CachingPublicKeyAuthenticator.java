@@ -22,7 +22,7 @@ public class CachingPublicKeyAuthenticator
     extends org.apache.sshd.server.auth.pubkey.CachingPublicKeyAuthenticator {
 
   @Inject
-  public CachingPublicKeyAuthenticator(DatabasePubKeyAuth authenticator) {
+  CachingPublicKeyAuthenticator(DatabasePubKeyAuth authenticator) {
     super(authenticator);
   }
 }

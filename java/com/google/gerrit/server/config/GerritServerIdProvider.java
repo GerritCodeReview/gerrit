@@ -38,6 +38,7 @@ public class GerritServerIdProvider implements Provider<String> {
   private final String id;
 
   @Inject
+  @SuppressWarnings("UnnecessarilyVisible")
   public GerritServerIdProvider(@GerritServerConfig Config cfg, SitePaths sitePaths)
       throws IOException, ConfigInvalidException {
     String origId = cfg.getString(SECTION, null, KEY);

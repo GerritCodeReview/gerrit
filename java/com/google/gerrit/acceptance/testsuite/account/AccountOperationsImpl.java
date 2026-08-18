@@ -49,7 +49,7 @@ public class AccountOperationsImpl implements AccountOperations {
   private final ExternalIdFactory externalIdFactory;
 
   @Inject
-  public AccountOperationsImpl(
+  AccountOperationsImpl(
       Accounts accounts,
       @ServerInitiated AccountsUpdate accountsUpdate,
       Sequences seq,

@@ -50,7 +50,7 @@ public class SuperprojectUpdateSubmissionListener implements SubmissionListener 
   }
 
   @Inject
-  public SuperprojectUpdateSubmissionListener(SubmoduleOp.Factory subOpFactory) {
+  SuperprojectUpdateSubmissionListener(SubmoduleOp.Factory subOpFactory) {
     this.subOpFactory = subOpFactory;
   }
 

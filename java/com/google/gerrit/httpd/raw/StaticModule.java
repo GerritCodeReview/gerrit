@@ -109,7 +109,7 @@ public class StaticModule extends ServletModule {
   private final Paths paths;
 
   @Inject
-  public StaticModule(GerritOptions options) {
+  StaticModule(GerritOptions options) {
     this.options = options;
     this.paths = new Paths(options);
   }

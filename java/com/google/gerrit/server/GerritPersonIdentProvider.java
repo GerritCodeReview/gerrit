@@ -31,6 +31,7 @@ public class GerritPersonIdentProvider implements Provider<PersonIdent> {
   private final String email;
 
   @Inject
+  @SuppressWarnings("UnnecessarilyVisible")
   public GerritPersonIdentProvider(@GerritServerConfig Config cfg) {
     StringBuilder name = new StringBuilder();
     PersonIdent.appendSanitized(

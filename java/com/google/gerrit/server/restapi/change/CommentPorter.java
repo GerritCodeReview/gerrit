@@ -109,7 +109,7 @@ public class CommentPorter {
   private final Metrics metrics;
 
   @Inject
-  public CommentPorter(DiffOperations diffOperations, CommentsUtil commentsUtil, Metrics metrics) {
+  CommentPorter(DiffOperations diffOperations, CommentsUtil commentsUtil, Metrics metrics) {
     this.diffOperations = diffOperations;
     this.commentsUtil = commentsUtil;
     this.metrics = metrics;

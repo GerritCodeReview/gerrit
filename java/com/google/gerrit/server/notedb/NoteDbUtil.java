@@ -40,6 +40,7 @@ public class NoteDbUtil {
   private final ExternalIdCache externalIdCache;
 
   @Inject
+  @SuppressWarnings("UnnecessarilyVisible")
   public NoteDbUtil(@GerritServerId String serverId, ExternalIdCache externalIdCache) {
     this.serverId = serverId;
     this.externalIdCache = externalIdCache;

@@ -202,7 +202,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   }
 
   @Inject
-  protected ListGroups(
+  ListGroups(
       final GroupCache groupCache,
       final GroupControl.Factory groupControlFactory,
       final GroupControl.GenericFactory genericGroupControlFactory,

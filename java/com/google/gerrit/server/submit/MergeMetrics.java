@@ -39,7 +39,7 @@ public class MergeMetrics {
   private final Counter0 countChangesThatWereSubmittedWithRebaserApproval;
 
   @Inject
-  public MergeMetrics(
+  MergeMetrics(
       SubmitRequirementChangeQueryBuilder.Factory submitRequirementChangequeryBuilderFactory,
       MetricMaker metricMaker) {
     this.submitRequirementChangequeryBuilderFactory = submitRequirementChangequeryBuilderFactory;

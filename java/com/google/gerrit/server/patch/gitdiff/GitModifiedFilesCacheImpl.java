@@ -66,7 +66,7 @@ public class GitModifiedFilesCacheImpl implements GitModifiedFilesCache {
   }
 
   @Inject
-  public GitModifiedFilesCacheImpl(
+  GitModifiedFilesCacheImpl(
       @Named(GIT_MODIFIED_FILES)
           LoadingCache<GitModifiedFilesCacheKey, ImmutableList<ModifiedFile>> cache) {
     this.cache = cache;

@@ -132,7 +132,7 @@ public class PatchSetInserter implements BatchUpdateOp {
   private ObjectId preUpdateMetaId;
 
   @Inject
-  public PatchSetInserter(
+  PatchSetInserter(
       PermissionBackend permissionBackend,
       ApprovalsUtil approvalsUtil,
       ChangeMessagesUtil cmUtil,

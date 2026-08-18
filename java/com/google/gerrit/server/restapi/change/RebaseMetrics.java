@@ -27,7 +27,7 @@ public class RebaseMetrics {
   private final Counter3<Boolean, Boolean, Boolean> countRebases;
 
   @Inject
-  public RebaseMetrics(MetricMaker metricMaker) {
+  RebaseMetrics(MetricMaker metricMaker) {
     this.countRebases =
         metricMaker.newCounter(
             "change/count_rebases",

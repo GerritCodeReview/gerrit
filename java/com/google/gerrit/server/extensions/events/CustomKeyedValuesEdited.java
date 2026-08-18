@@ -38,7 +38,7 @@ public class CustomKeyedValuesEdited {
   private final EventUtil util;
 
   @Inject
-  public CustomKeyedValuesEdited(
+  CustomKeyedValuesEdited(
       PluginSetContext<CustomKeyedValuesEditedListener> listeners, EventUtil util) {
     this.listeners = listeners;
     this.util = util;

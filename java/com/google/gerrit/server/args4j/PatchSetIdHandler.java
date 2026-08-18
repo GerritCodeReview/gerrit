@@ -29,7 +29,7 @@ import org.kohsuke.args4j.spi.Setter;
 public class PatchSetIdHandler extends OptionHandler<PatchSet.Id> {
 
   @Inject
-  public PatchSetIdHandler(
+  PatchSetIdHandler(
       @Assisted final CmdLineParser parser,
       @Assisted final OptionDef option,
       @Assisted final Setter<PatchSet.Id> setter) {

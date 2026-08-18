@@ -56,7 +56,7 @@ public class WebLinks {
   private final DynamicSet<TagWebLink> tagLinks;
 
   @Inject
-  public WebLinks(
+  WebLinks(
       DynamicSet<PatchSetWebLink> patchSetLinks,
       DynamicSet<ResolveConflictsWebLink> resolveConflictsLinks,
       DynamicSet<ParentWebLink> parentLinks,

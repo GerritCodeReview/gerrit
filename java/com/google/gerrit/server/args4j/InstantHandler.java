@@ -31,7 +31,7 @@ public class InstantHandler extends OptionHandler<Instant> {
   public static final String TIMESTAMP_FORMAT = "yyyyMMdd_HHmm";
 
   @Inject
-  public InstantHandler(
+  InstantHandler(
       @Assisted CmdLineParser parser,
       @Assisted OptionDef option,
       @Assisted Setter<Instant> setter) {

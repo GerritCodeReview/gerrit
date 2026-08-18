@@ -32,7 +32,7 @@ public class PluginsCollection implements RestCollection<TopLevelResource, Plugi
   private final Provider<ListPlugins> list;
 
   @Inject
-  public PluginsCollection(
+  PluginsCollection(
       DynamicMap<RestView<PluginResource>> views, PluginLoader loader, Provider<ListPlugins> list) {
     this.views = views;
     this.loader = loader;

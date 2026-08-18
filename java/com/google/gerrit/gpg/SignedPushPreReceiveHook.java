@@ -51,7 +51,7 @@ public class SignedPushPreReceiveHook implements PreReceiveHook {
   private final GerritPushCertificateCheckerFactory checkerFactory;
 
   @Inject
-  public SignedPushPreReceiveHook(
+  SignedPushPreReceiveHook(
       Provider<IdentifiedUser> user, GerritPushCertificateCheckerFactory checkerFactory) {
     this.user = user;
     this.checkerFactory = checkerFactory;

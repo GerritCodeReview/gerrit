@@ -62,7 +62,7 @@ public class ListMembersCommand extends SshCommand {
     private final GroupCache groupCache;
 
     @Inject
-    protected ListMembersCommandImpl(
+    ListMembersCommandImpl(
         GroupCache groupCache,
         GroupControl.Factory groupControlFactory,
         AccountLoader.Factory accountLoaderFactory) {

@@ -27,7 +27,7 @@ public class PluginUser extends InternalUser {
   private final String pluginName;
 
   @Inject
-  protected PluginUser(@Assisted String pluginName) {
+  PluginUser(@Assisted String pluginName) {
     this.pluginName = pluginName;
   }
 

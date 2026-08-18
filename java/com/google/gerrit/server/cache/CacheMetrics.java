@@ -39,7 +39,7 @@ public class CacheMetrics {
           .build();
 
   @Inject
-  public CacheMetrics(
+  CacheMetrics(
       MetricMaker metrics, DynamicMap<Cache<?, ?>> cacheMap, @GerritServerConfig Config config) {
     CallbackMetric1<String, Long> memEnt =
         metrics.newCallbackMetric(

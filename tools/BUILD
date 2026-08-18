@@ -33,6 +33,7 @@ proto_lang_toolchain(
     package_configuration = [
         ":error_prone",
         ":first_party_removal_warnings",
+        ":unnecessarily_visible",
     ],
     source_version = VERSION,
     target_version = VERSION,
@@ -68,7 +69,7 @@ java_package_configuration(
         # $$AutoValue_... or AutoValueGson_...
         # XepExcludedPaths is a regexp. If you need more paths - use | as
         # separator.
-        "-XepExcludedPaths:.*/\\\\$$?\\\\$$?AutoValue(Gson)?_.*\\.java",
+        "-XepExcludedPaths:.*/\\\\$$?\\\\$$?AutoValue(Gson)?_.*\\.java|.*_javac.*Factory\\.java",
         "-Xep:AlmostJavadoc:ERROR",
         "-Xep:AlreadyChecked:ERROR",
         "-Xep:AlwaysThrows:ERROR",
@@ -469,6 +470,26 @@ java_package_configuration(
         "-Xlint:removal",
     ],
     packages = [":error_prone_packages"],
+)
+
+# UnnecessarilyVisible is scoped to first-party core code only (not core
+# plugins) to avoid churn in the plugin submodules. XepExcludedPaths in the
+# error_prone config also applies here since it is global to the Error Prone
+# invocation.
+java_package_configuration(
+    name = "unnecessarily_visible",
+    javacopts = [
+        "-Xep:UnnecessarilyVisible:ERROR",
+    ],
+    packages = [":unnecessarily_visible_packages"],
+)
+
+package_group(
+    name = "unnecessarily_visible_packages",
+    packages = [
+        "//java/...",
+        "//javatests/...",
+    ],
 )
 
 package_group(

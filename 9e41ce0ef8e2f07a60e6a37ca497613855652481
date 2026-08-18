@@ -1,0 +1,23 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "78149a14_fe9f0518",
+        "filename": "java/com/google/gerrit/server/index/change/PendingIndexUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-08-18T13:19:41Z",
+      "side": 1,
+      "message": "Added in https://gerrit-review.git.corp.google.com/c/gerrit/+/619381\ni had to fix other places because google is checking only modified lines",
+      "parentUuid": "e23c1da9_75a53fd3",
+      "isAi": true,
+      "revId": "9e41ce0ef8e2f07a60e6a37ca497613855652481",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

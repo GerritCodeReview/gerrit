@@ -542,6 +542,8 @@ export class PromptBox extends LitElement {
 
   private onKeyDown(event: KeyboardEvent) {
     if (
+      event.isComposing ||
+      event.keyCode === 229 ||
       event.ctrlKey ||
       event.altKey ||
       event.metaKey ||

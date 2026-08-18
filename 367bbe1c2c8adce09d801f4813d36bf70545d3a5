@@ -17,6 +17,24 @@
       "isAi": true,
       "revId": "367bbe1c2c8adce09d801f4813d36bf70545d3a5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "930b560b_b345fd6a",
+        "filename": "java/com/google/gerrit/server/change/LabelsJson.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-08-18T08:42:01Z",
+      "side": 1,
+      "message": "Good optimization to skip iterating `cd.approvals().values()` when `detailed` is false.\n\nOne interaction to verify:\nDoes `cd.currentApprovals()` already contain copied approvals from previous patchsets (e.g. copied Code-Review+2 votes via `ApprovalCopier`), so we don\u0027t omit any active reviewers on the current patchset when `detailed` is false?",
+      "isAi": true,
+      "revId": "367bbe1c2c8adce09d801f4813d36bf70545d3a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

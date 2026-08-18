@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bbd92285_bfadf541",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1319,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-08-18T08:41:53Z",
+      "side": 1,
+      "message": "Great cleanup to eliminate `RULE_SPLITTER` allocations!\n\nOne minor edge case:\nIf `line` has any trailing whitespace or carriage returns (e.g. from git note formatting), `line.substring(11)` will preserve trailing whitespace whereas `splitToList` previously trimmed or matched tokens. Should we do `line.substring(11).trim()` just to be safe?",
+      "isAi": true,
+      "revId": "8feac40dbc4cf8c5479ff9830145b38e83b06a22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

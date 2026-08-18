@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "35f151a5_9b9c90b1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-08-18T12:30:48Z",
+      "side": 1,
+      "message": "And it doesn\u0027t seem to work. The complement notation `^~(.*)$` is deprecated in Lucene, but still enabled in Gerrit. Using it alone provides the expected results. If you combine it with the non-complement regex (`path:\"^uv\\.lock$\" -path:\"^~(uv\\.lock)$\"`), the resulting set is not the expected one, but the same as if only the non-complemented version is being used. The reason is the following:\n\nA Lucene document stores each path as a separate key-value pair. Matching just checks if any of the entries match, which doesn\u0027t match the desired behaviour. As examples let\u0027s consider the following changes:\n\n```\n- change_1:\n    files:\n      - uv.lock\n- change_2:\n    files:\n      - uv.lock\n      - README.md\n- change_2:\n    files:\n      - README.md\n```\n\nThe desired behaviour is that the query `onlypaths:uv.lock` only returns change_1.\n\n`path:uv.lock` returns change_1 and change_2 as expected.\n`path:uv.lock -path:\"^~(uv\\.lock)$\"` which should be equivalent of `onlypaths:` according to Sasa\u0027s suggestion still returns change_1 and change_2. For change_2 it matches because the first term matches the file `uv.lock` and the second term matches the file `uv.lock` as well. Since both terms match at leas tone value, Lucene considers it a match. As far as I was able to find, Lucene does not provide a \"all fields of a type must match\" functionality. Thus, we always need post processing.",
+      "parentUuid": "d5fff7cc_5279505a",
+      "range": {
+        "startLine": 14,
+        "startChar": 33,
+        "endLine": 16,
+        "endChar": 0
+      },
+      "revId": "87ff71c7226d6795eca64749ae013ea8ac7e3280",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cca16972_0d1e6676",
         "filename": "Documentation/user-search.txt",
         "patchSetId": 5
@@ -61,6 +85,24 @@
       "writtenOn": "2026-07-29T17:07:57Z",
       "side": 1,
       "message": "nit: Put this after `path`? (I think these aren\u0027t alpha order and instead are grouped by functionality?)",
+      "revId": "87ff71c7226d6795eca64749ae013ea8ac7e3280",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b64ad03a_6a962c97",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-08-18T12:30:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cca16972_0d1e6676",
       "revId": "87ff71c7226d6795eca64749ae013ea8ac7e3280",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -88,6 +130,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3de62cb_181bcc02",
+        "filename": "java/com/google/gerrit/server/query/change/OnlyPathsPostFilterPredicate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-08-18T12:30:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ffa6693_a9ba02ad",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 52
+      },
+      "revId": "87ff71c7226d6795eca64749ae013ea8ac7e3280",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dc0b00aa_446b7377",
@@ -101,6 +167,24 @@
       "writtenOn": "2026-07-29T17:07:57Z",
       "side": 1,
       "message": "You might want to keep `RegexListSearcher` here, since it seems to be optimized for this use case. Sorry I didn\u0027t comment on that with my previous comments.",
+      "revId": "87ff71c7226d6795eca64749ae013ea8ac7e3280",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "46ca3cc4_5ee1d000",
+        "filename": "java/com/google/gerrit/server/query/change/RegexOnlyPathsPredicate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-08-18T12:30:48Z",
+      "side": 1,
+      "message": "But then we will have to sort the list again:\n`Helper to search sorted lists for elements matching a {@link RegExp}`.",
+      "parentUuid": "dc0b00aa_446b7377",
       "revId": "87ff71c7226d6795eca64749ae013ea8ac7e3280",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

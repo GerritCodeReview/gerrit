@@ -361,7 +361,7 @@ public class EventFactory {
   private void addCommitMessage(ChangeAttribute changeAttribute, ChangeNotes notes) {
     try {
       addCommitMessage(changeAttribute, changeDataFactory.create(notes).commitMessage());
-    } catch (Exception e) {
+    } catch (RuntimeException e) {
       logger.atSevere().withCause(e).log(
           "Error while getting full commit message for change %d", changeAttribute.number);
     }

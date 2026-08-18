@@ -309,7 +309,7 @@ public class ProjectOperationsImpl implements ProjectOperations {
         setConfig(projectConfig);
         try {
           projectCache.evictAndReindex(nameKey);
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
           // Evicting the project from the cache, also triggers a reindex of the project.
           // The reindex step fails if the project config is invalid. That's fine, since it was our
           // intention to make the project config invalid. Hence we ignore exceptions that are cause
@@ -327,7 +327,7 @@ public class ProjectOperationsImpl implements ProjectOperations {
         setConfig(projectConfig);
         try {
           projectCache.evictAndReindex(nameKey);
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
           // Evicting the project from the cache, also triggers a reindex of the project.
           // The reindex step fails if the project config is invalid. That's fine, since it was our
           // intention to make the project config invalid. Hence we ignore exceptions that are cause

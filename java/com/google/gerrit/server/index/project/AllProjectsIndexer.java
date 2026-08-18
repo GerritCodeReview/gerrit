@@ -93,7 +93,7 @@ public class AllProjectsIndexer extends SiteIndexer<Project.NameKey, ProjectData
                   }
                   verboseWriter.println("Reindexed " + desc);
                   done.incrementAndGet();
-                } catch (Exception e) {
+                } catch (RuntimeException e) {
                   failed.incrementAndGet();
                   throw e;
                 }

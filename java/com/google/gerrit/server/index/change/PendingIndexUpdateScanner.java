@@ -127,7 +127,7 @@ public final class PendingIndexUpdateScanner implements Runnable, LifecycleListe
       }
 
       processPidDir(runningDir, false);
-    } catch (Exception e) {
+    } catch (RuntimeException e) {
       // catch all to not disrupt next run.
       logger.atSevere().withCause(e).log("Error in pending index intent run");
     }

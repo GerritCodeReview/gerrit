@@ -115,7 +115,7 @@ public class GitVisibleChangeFilter {
                 var unused = cd.notes();
 
                 return cd;
-              } catch (Exception e) {
+              } catch (RuntimeException e) {
                 // We drop changes that we can't load. The repositories contain 'dead' change refs
                 // and we want to overall operation to continue.
                 logger.atFinest().withCause(e).log("Can't load Change notes for %s", id);

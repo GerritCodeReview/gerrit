@@ -204,7 +204,7 @@ public class ChangesByProjectCacheImpl implements ChangesByProjectCache {
               update(cached, cd);
               anyUpdated = true;
             }
-          } catch (Exception ex) {
+          } catch (RuntimeException ex) {
             anyUpdated = true;
             // Do not let a bad change prevent other changes from being available.
             logger.atFinest().withCause(ex).log("Can't load changeData for %s", id);
@@ -256,7 +256,7 @@ public class ChangesByProjectCacheImpl implements ChangesByProjectCache {
           cd.setReviewers(pc.reviewers());
           cd.setMetaRevision(pc.metaRevision());
           cdByChange.put(cd.getId(), cd);
-        } catch (Exception ex) {
+        } catch (RuntimeException ex) {
           // Do not let a bad change prevent other changes from being available.
           logger.atFinest().withCause(ex).log("Can't load changeData for %s", pc.change().getId());
         }
@@ -269,7 +269,7 @@ public class ChangesByProjectCacheImpl implements ChangesByProjectCache {
           Change.Id id = e2.getKey();
           try {
             cdByChange.put(id, cdFactory.createNonPrivate(branch, id, e2.getValue()));
-          } catch (Exception ex) {
+          } catch (RuntimeException ex) {
             // Do not let a bad change prevent other changes from being available.
             logger.atFinest().withCause(ex).log("Can't load changeData for %s", id);
           }
@@ -519,7 +519,7 @@ public class ChangesByProjectCacheImpl implements ChangesByProjectCache {
         }
 
         return result;
-      } catch (Exception e) {
+      } catch (RuntimeException e) {
         logger.atWarning().withCause(e).log("Failed to deserialize CachedProjectChanges");
         return new CachedProjectChanges();
       }

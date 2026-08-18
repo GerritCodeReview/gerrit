@@ -104,7 +104,7 @@ public class DeleteMembers implements RestModifyView<GroupResource, Input> {
     private final Provider<DeleteMembers> delete;
 
     @Inject
-    public DeleteMember(Provider<DeleteMembers> delete) {
+    DeleteMember(Provider<DeleteMembers> delete) {
       this.delete = delete;
     }
 

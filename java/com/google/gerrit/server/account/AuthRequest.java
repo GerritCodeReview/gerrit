@@ -42,6 +42,7 @@ public class AuthRequest {
     private final ExternalIdKeyFactory externalIdKeyFactory;
 
     @Inject
+    @SuppressWarnings("UnnecessarilyVisible")
     public Factory(ExternalIdKeyFactory externalIdKeyFactory) {
       this.externalIdKeyFactory = externalIdKeyFactory;
     }

@@ -58,7 +58,7 @@ public class GetAuditLog implements RestReadView<GroupResource> {
   private final GitRepositoryManager repoManager;
 
   @Inject
-  public GetAuditLog(
+  GetAuditLog(
       AccountLoader.Factory accountLoaderFactory,
       AllUsersName allUsers,
       GroupCache groupCache,

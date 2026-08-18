@@ -41,7 +41,7 @@ public class ProjectOwnerGroupsProvider extends GroupSetProvider {
   }
 
   @Inject
-  public ProjectOwnerGroupsProvider(
+  ProjectOwnerGroupsProvider(
       GroupBackend gb,
       ThreadLocalRequestContext context,
       ServerRequestContext serverCtx,

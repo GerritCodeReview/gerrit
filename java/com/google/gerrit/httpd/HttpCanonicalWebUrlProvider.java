@@ -33,11 +33,13 @@ public class HttpCanonicalWebUrlProvider extends CanonicalWebUrlProvider {
 
   @Inject
   @UsedAt(Project.MODULE_VIRTUALHOST)
-  protected HttpCanonicalWebUrlProvider(@GerritServerConfig Config config) {
+  @SuppressWarnings("UnnecessarilyVisible")
+  public HttpCanonicalWebUrlProvider(@GerritServerConfig Config config) {
     super(config);
   }
 
   @Inject(optional = true)
+  @SuppressWarnings("UnnecessarilyVisible")
   public void setHttpServletRequest(Provider<HttpServletRequest> hsr) {
     requestProvider = hsr;
   }

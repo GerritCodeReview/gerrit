@@ -112,6 +112,7 @@ public class MigrateLabelConfigToCopyCondition {
   private final PersonIdent serverUser;
 
   @Inject
+  @SuppressWarnings("UnnecessarilyVisible")
   public MigrateLabelConfigToCopyCondition(
       GitRepositoryManager repoManager, @GerritPersonIdent PersonIdent serverUser) {
     this.repoManager = repoManager;

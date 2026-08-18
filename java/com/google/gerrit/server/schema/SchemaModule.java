@@ -45,6 +45,7 @@ public class SchemaModule extends FactoryModule {
   private final GerritImportedServerIdsProvider importedServerIdsProvider;
 
   @Inject
+  @SuppressWarnings("UnnecessarilyVisible")
   public SchemaModule(GerritImportedServerIdsProvider importedServerIdsProvider) {
     this.importedServerIdsProvider = importedServerIdsProvider;
   }

@@ -47,7 +47,7 @@ public class AccountValidator {
   private final OutgoingEmailValidator emailValidator;
 
   @Inject
-  public AccountValidator(
+  AccountValidator(
       Provider<IdentifiedUser> self,
       AllUsersName allUsersName,
       OutgoingEmailValidator emailValidator) {

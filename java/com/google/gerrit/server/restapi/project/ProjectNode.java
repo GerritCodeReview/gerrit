@@ -35,7 +35,7 @@ public class ProjectNode implements TreeNode, Comparable<ProjectNode> {
   private final NavigableSet<ProjectNode> children = new TreeSet<>();
 
   @Inject
-  protected ProjectNode(
+  ProjectNode(
       final AllProjectsName allProjectsName,
       @Assisted final Project project,
       @Assisted final boolean isVisible) {

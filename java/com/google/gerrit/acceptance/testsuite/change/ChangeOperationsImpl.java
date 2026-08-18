@@ -105,7 +105,7 @@ public class ChangeOperationsImpl implements ChangeOperations {
   private final AccountCache accountCache;
 
   @Inject
-  public ChangeOperationsImpl(
+  ChangeOperationsImpl(
       Sequences seq,
       ChangeInserter.Factory changeInserterFactory,
       PatchSetInserter.Factory patchsetInserterFactory,

@@ -97,7 +97,7 @@ public class ListPlugins implements RestReadView<TopLevelResource> {
   }
 
   @Inject
-  protected ListPlugins(PluginLoader pluginLoader) {
+  ListPlugins(PluginLoader pluginLoader) {
     this.pluginLoader = pluginLoader;
   }
 

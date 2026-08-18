@@ -37,7 +37,7 @@ public class ExternalIdCommandsModule extends CommandModule {
   @Provides
   @Singleton
   @OnlineExternalIdCaseSensitivityMigratiorExecutor
-  public ExecutorService OnlineExternalIdCaseSensitivityMigratiorExecutor(WorkQueue queues) {
+  ExecutorService OnlineExternalIdCaseSensitivityMigratiorExecutor(WorkQueue queues) {
     return queues.createQueue(1, "MigrateExternalIdCase", true);
   }
 }

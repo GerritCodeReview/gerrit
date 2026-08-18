@@ -39,7 +39,7 @@ public class ParentDataProvider {
   private final Provider<InternalChangeQuery> queryProvider;
 
   @Inject
-  public ParentDataProvider(Provider<InternalChangeQuery> queryProvider) {
+  ParentDataProvider(Provider<InternalChangeQuery> queryProvider) {
     this.queryProvider = queryProvider;
   }
 

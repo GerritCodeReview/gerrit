@@ -77,7 +77,7 @@ public class ModifiedFilesCacheImpl implements ModifiedFilesCache {
   }
 
   @Inject
-  public ModifiedFilesCacheImpl(
+  ModifiedFilesCacheImpl(
       @Named(ModifiedFilesCacheImpl.MODIFIED_FILES)
           LoadingCache<ModifiedFilesCacheKey, ImmutableList<ModifiedFile>> cache) {
     this.cache = cache;

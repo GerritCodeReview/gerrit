@@ -145,7 +145,7 @@ public class MergeValidators {
     }
 
     @Inject
-    public ProjectConfigValidator(
+    ProjectConfigValidator(
         AllProjectsName allProjectsName,
         AllUsersName allUsersName,
         ProjectCache projectCache,
@@ -283,7 +283,7 @@ public class MergeValidators {
     private final ChangeData.Factory changeDataFactory;
 
     @Inject
-    public GroupMergeValidator(AllUsersName allUsersName, ChangeData.Factory changeDataFactory) {
+    GroupMergeValidator(AllUsersName allUsersName, ChangeData.Factory changeDataFactory) {
       this.allUsersName = allUsersName;
       this.changeDataFactory = changeDataFactory;
     }

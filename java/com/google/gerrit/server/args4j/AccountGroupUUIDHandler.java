@@ -39,7 +39,7 @@ public class AccountGroupUUIDHandler extends OptionHandler<AccountGroup.UUID> {
   private final GroupCache groupCache;
 
   @Inject
-  public AccountGroupUUIDHandler(
+  AccountGroupUUIDHandler(
       final GroupBackend groupBackend,
       @Assisted final CmdLineParser parser,
       @Assisted final OptionDef option,

@@ -28,7 +28,7 @@ import org.kohsuke.args4j.spi.Setter;
 
 public class ListTagSortOptionHandler extends OptionHandler<ListTagSortOption> {
   @Inject
-  public ListTagSortOptionHandler(
+  ListTagSortOptionHandler(
       @Assisted CmdLineParser parser,
       @Assisted OptionDef option,
       @Assisted Setter<ListTagSortOption> setter) {

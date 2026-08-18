@@ -119,7 +119,7 @@ public class FileDiffCacheImpl implements FileDiffCache {
   }
 
   @Inject
-  public FileDiffCacheImpl(@Named(DIFF) LoadingCache<FileDiffCacheKey, FileDiffOutput> cache) {
+  FileDiffCacheImpl(@Named(DIFF) LoadingCache<FileDiffCacheKey, FileDiffOutput> cache) {
     this.cache = cache;
   }
 

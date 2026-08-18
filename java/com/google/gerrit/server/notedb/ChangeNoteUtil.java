@@ -38,7 +38,7 @@ public class ChangeNoteUtil {
   private final String serverId;
 
   @Inject
-  public ChangeNoteUtil(ChangeNoteJson changeNoteJson, @GerritServerId String serverId) {
+  ChangeNoteUtil(ChangeNoteJson changeNoteJson, @GerritServerId String serverId) {
     this.serverId = serverId;
     this.changeNoteJson = changeNoteJson;
   }

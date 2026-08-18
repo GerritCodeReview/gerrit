@@ -27,7 +27,7 @@ public class GetExperiment implements RestReadView<ExperimentResource> {
   private final ExperimentFeatures experimentFeatures;
 
   @Inject
-  public GetExperiment(ExperimentFeatures experimentFeatures) {
+  GetExperiment(ExperimentFeatures experimentFeatures) {
     this.experimentFeatures = experimentFeatures;
   }
 

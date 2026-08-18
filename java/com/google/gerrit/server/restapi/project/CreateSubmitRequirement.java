@@ -49,7 +49,7 @@ public class CreateSubmitRequirement
   private final RepoMetaDataUpdater updater;
 
   @Inject
-  public CreateSubmitRequirement(
+  CreateSubmitRequirement(
       SubmitRequirementExpressionsValidator submitRequirementExpressionsValidator,
       RepoMetaDataUpdater updater) {
     this.submitRequirementExpressionsValidator = submitRequirementExpressionsValidator;

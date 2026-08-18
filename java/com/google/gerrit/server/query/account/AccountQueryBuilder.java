@@ -73,7 +73,7 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState, AccountQuery
     private final AccountIndexCollection indexes;
 
     @Inject
-    public Arguments(
+    Arguments(
         Provider<CurrentUser> self,
         AccountIndexCollection indexes,
         ChangeFinder changeFinder,

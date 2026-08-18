@@ -111,6 +111,7 @@ public class MigrateLabelFunctionsToSubmitRequirement {
   }
 
   @Inject
+  @SuppressWarnings("UnnecessarilyVisible")
   public MigrateLabelFunctionsToSubmitRequirement(
       GitRepositoryManager repoManager, @GerritPersonIdent PersonIdent serverUser) {
     this.repoManager = repoManager;

@@ -32,7 +32,7 @@ public class DefaultChangeReportFormatter implements ChangeReportFormatter {
   protected final DynamicItem<UrlFormatter> urlFormatter;
 
   @Inject
-  public DefaultChangeReportFormatter(DynamicItem<UrlFormatter> urlFormatter) {
+  DefaultChangeReportFormatter(DynamicItem<UrlFormatter> urlFormatter) {
     this.urlFormatter = urlFormatter;
   }
 

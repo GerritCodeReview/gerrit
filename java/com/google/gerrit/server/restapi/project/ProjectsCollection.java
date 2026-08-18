@@ -57,7 +57,7 @@ public class ProjectsCollection
   private boolean hasQuery;
 
   @Inject
-  public ProjectsCollection(
+  ProjectsCollection(
       DynamicMap<RestView<ProjectResource>> views,
       Provider<ListProjects> list,
       Provider<QueryProjects> queryProjects,

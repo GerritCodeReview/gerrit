@@ -31,7 +31,7 @@ public class PeerDaemonUser extends CurrentUser {
   private final SocketAddress peer;
 
   @Inject
-  protected PeerDaemonUser(@Assisted SocketAddress peer) {
+  PeerDaemonUser(@Assisted SocketAddress peer) {
     this.peer = peer;
   }
 

@@ -118,7 +118,7 @@ public class ListTags implements RestReadView<ProjectResource> {
   private ListTagSortOption sortBy = ListTagSortOption.REF;
 
   @Inject
-  public ListTags(
+  ListTags(
       GitRepositoryManager repoManager,
       PermissionBackend permissionBackend,
       WebLinks webLinks,

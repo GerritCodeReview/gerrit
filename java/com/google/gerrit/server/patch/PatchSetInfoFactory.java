@@ -40,7 +40,7 @@ public class PatchSetInfoFactory {
   private final Emails emails;
 
   @Inject
-  public PatchSetInfoFactory(GitRepositoryManager repoManager, PatchSetUtil psUtil, Emails emails) {
+  PatchSetInfoFactory(GitRepositoryManager repoManager, PatchSetUtil psUtil, Emails emails) {
     this.repoManager = repoManager;
     this.psUtil = psUtil;
     this.emails = emails;

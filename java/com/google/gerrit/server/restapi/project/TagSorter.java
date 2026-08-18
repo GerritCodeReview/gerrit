@@ -25,7 +25,7 @@ import java.util.List;
 
 public class TagSorter {
   @Inject
-  public TagSorter() {}
+  TagSorter() {}
 
   /** Sort the tags by the given sort option, in place */
   public void sort(ListTagSortOption sortBy, List<TagInfo> tags, boolean descendingOrder) {

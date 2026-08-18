@@ -41,6 +41,7 @@ public class SshAddressesModule extends AbstractModule {
   @Provides
   @Singleton
   @SshListenAddresses
+  @SuppressWarnings("UnnecessarilyVisible")
   public List<SocketAddress> provideListenAddresses(@GerritServerConfig Config cfg) {
     List<SocketAddress> listen = Lists.newArrayListWithExpectedSize(2);
     String[] want = cfg.getStringList("sshd", null, "listenaddress");

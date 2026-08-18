@@ -47,7 +47,7 @@ public class VersionedAuthTokensOnInit extends VersionedMetaDataOnInit {
   private Map<String, AuthToken> tokens;
 
   @Inject
-  public VersionedAuthTokensOnInit(
+  VersionedAuthTokensOnInit(
       AllUsersNameOnInitProvider allUsers,
       SitePaths site,
       InitFlags flags,

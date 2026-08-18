@@ -79,7 +79,7 @@ public class ApprovalQueryBuilder extends QueryBuilder<ApprovalContext, Approval
   private final DynamicMap<UserInOperandFactory> userInOperands;
 
   @Inject
-  protected ApprovalQueryBuilder(
+  ApprovalQueryBuilder(
       MagicValuePredicate.Factory magicValuePredicate,
       UserInPredicate.Factory userInPredicate,
       GroupResolver groupResolver,

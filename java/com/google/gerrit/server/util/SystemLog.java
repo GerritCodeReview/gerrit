@@ -49,6 +49,7 @@ public class SystemLog {
   private final boolean rotateLogs;
 
   @Inject
+  @SuppressWarnings("UnnecessarilyVisible")
   public SystemLog(SitePaths site, @GerritServerConfig Config config, LogConfig logConfig) {
     this.site = site;
     this.asyncLoggingBufferSize = config.getInt("core", "asyncLoggingBufferSize", 64);

@@ -48,7 +48,7 @@ public class AccountQueryProcessor extends QueryProcessor<AccountState> {
   @Singleton
   protected static class AccountQueryMetrics extends QueryProcessor.Metrics {
     @Inject
-    protected AccountQueryMetrics(MetricMaker metricMaker) {
+    AccountQueryMetrics(MetricMaker metricMaker) {
       super(metricMaker);
     }
   }
@@ -61,7 +61,7 @@ public class AccountQueryProcessor extends QueryProcessor<AccountState> {
   }
 
   @Inject
-  protected AccountQueryProcessor(
+  AccountQueryProcessor(
       Provider<CurrentUser> userProvider,
       AccountLimits.Factory limitsFactory,
       AccountQueryMetrics accountQueryMetrics,

@@ -42,7 +42,7 @@ public class Sequences {
   private final Timer2<SequenceType, Boolean> nextIdLatency;
 
   @Inject
-  public Sequences(
+  Sequences(
       MetricMaker metrics,
       @Named(NAME_ACCOUNTS) Sequence accountsSeq,
       @Named(NAME_GROUPS) Sequence groupsSeq,

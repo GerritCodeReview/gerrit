@@ -30,7 +30,7 @@ public class GarbageCollectionLogFile implements LifecycleListener {
   private static final String LOG_NAME = "gc_log";
 
   @Inject
-  public GarbageCollectionLogFile(SitePaths sitePaths, LogConfig config) {
+  GarbageCollectionLogFile(SitePaths sitePaths, LogConfig config) {
     if (SystemLog.shouldConfigure()) {
       initLogSystem(sitePaths.logs_dir, config.shouldRotate());
     }

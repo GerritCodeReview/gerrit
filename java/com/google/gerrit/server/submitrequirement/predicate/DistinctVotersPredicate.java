@@ -57,7 +57,7 @@ public class DistinctVotersPredicate extends SubmitRequirementPredicate {
   private final int numDistinctVotes;
 
   @Inject
-  public DistinctVotersPredicate(ProjectCache projectCache, @Assisted String value)
+  DistinctVotersPredicate(ProjectCache projectCache, @Assisted String value)
       throws QueryParseException {
     super("distinctvoters", value);
     this.projectCache = projectCache;

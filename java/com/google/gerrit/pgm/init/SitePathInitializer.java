@@ -49,7 +49,7 @@ public class SitePathInitializer {
   private final SecureStoreInitData secureStoreInitData;
 
   @Inject
-  public SitePathInitializer(
+  SitePathInitializer(
       final Injector injector,
       final ConsoleUI ui,
       final InitFlags flags,

@@ -70,7 +70,7 @@ public class AbstractLifecycleListenersTest extends AbstractDaemonTest {
     protected final InvocationCheck invocationCheck;
 
     @Inject
-    public MyLifecycleListener(InvocationCheck invocationCheck) {
+    MyLifecycleListener(InvocationCheck invocationCheck) {
       this.invocationCheck = invocationCheck;
     }
 

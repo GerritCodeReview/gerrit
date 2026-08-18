@@ -30,7 +30,7 @@ public class InitLogging implements InitStep {
   private final Section container;
 
   @Inject
-  public InitLogging(Section.Factory sections) {
+  InitLogging(Section.Factory sections) {
     this.container = sections.get(CONTAINER, null);
   }
 

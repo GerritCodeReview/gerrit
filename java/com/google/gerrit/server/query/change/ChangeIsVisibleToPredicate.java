@@ -45,7 +45,7 @@ public class ChangeIsVisibleToPredicate extends IsVisibleToPredicate<ChangeData>
   private final PermissionBackend.WithUser withUser;
 
   @Inject
-  public ChangeIsVisibleToPredicate(
+  ChangeIsVisibleToPredicate(
       PermissionBackend permissionBackend,
       ProjectCache projectCache,
       Provider<AnonymousUser> anonymousUserProvider,

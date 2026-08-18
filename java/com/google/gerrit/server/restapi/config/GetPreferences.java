@@ -30,7 +30,7 @@ public class GetPreferences implements RestReadView<ConfigResource> {
   private final DefaultPreferencesCache defaultPreferenceCache;
 
   @Inject
-  public GetPreferences(DefaultPreferencesCache defaultPreferenceCache) {
+  GetPreferences(DefaultPreferencesCache defaultPreferenceCache) {
     this.defaultPreferenceCache = defaultPreferenceCache;
   }
 

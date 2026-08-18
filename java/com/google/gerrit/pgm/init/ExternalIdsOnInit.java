@@ -45,7 +45,7 @@ public class ExternalIdsOnInit {
   private final AuthConfig authConfig;
 
   @Inject
-  public ExternalIdsOnInit(
+  ExternalIdsOnInit(
       InitFlags flags,
       SitePaths site,
       AllUsersNameOnInitProvider allUsers,

@@ -191,6 +191,7 @@ public class MetaDataUpdate implements AutoCloseable {
   private IdentifiedUser author;
 
   @Inject
+  @SuppressWarnings("UnnecessarilyVisible")
   public MetaDataUpdate(
       GitReferenceUpdated gitRefUpdated,
       @Assisted Project.NameKey projectName,

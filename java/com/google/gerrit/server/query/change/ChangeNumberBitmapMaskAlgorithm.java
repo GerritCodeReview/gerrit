@@ -45,6 +45,7 @@ public class ChangeNumberBitmapMaskAlgorithm implements ChangeNumberVirtualIdAlg
   private final String localServerId;
 
   @Inject
+  @SuppressWarnings("UnnecessarilyVisible")
   public ChangeNumberBitmapMaskAlgorithm(
       @GerritServerId String localServerId,
       @GerritImportedServerIds ImmutableList<String> importedServerIds) {

@@ -43,7 +43,7 @@ public class CreateChange implements RestModifyView<ProjectResource, ChangeInput
   private final BatchUpdate.Factory updateFactory;
 
   @Inject
-  public CreateChange(
+  CreateChange(
       Provider<CurrentUser> user,
       BatchUpdate.Factory updateFactory,
       com.google.gerrit.server.restapi.change.CreateChange changeCreateChange) {

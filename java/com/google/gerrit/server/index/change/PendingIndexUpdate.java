@@ -56,7 +56,7 @@ public final class PendingIndexUpdate {
   final Path runningDir;
 
   @Inject
-  public PendingIndexUpdate(
+  PendingIndexUpdate(
       SitePaths sitePaths, ChangeIndexer indexer, @GerritServerConfig Config cfg) {
     intentDir = sitePaths.data_dir.resolve("pending-index");
     buildingDir = intentDir.resolve("building");

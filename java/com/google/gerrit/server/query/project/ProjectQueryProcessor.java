@@ -51,7 +51,7 @@ public class ProjectQueryProcessor extends QueryProcessor<ProjectData> {
   @Singleton
   protected static class ProjectQueryMetrics extends QueryProcessor.Metrics {
     @Inject
-    protected ProjectQueryMetrics(MetricMaker metricMaker) {
+    ProjectQueryMetrics(MetricMaker metricMaker) {
       super(metricMaker);
     }
   }
@@ -64,7 +64,7 @@ public class ProjectQueryProcessor extends QueryProcessor<ProjectData> {
   }
 
   @Inject
-  protected ProjectQueryProcessor(
+  ProjectQueryProcessor(
       Provider<CurrentUser> userProvider,
       AccountLimits.Factory limitsFactory,
       ProjectQueryMetrics projectQueryMetrics,

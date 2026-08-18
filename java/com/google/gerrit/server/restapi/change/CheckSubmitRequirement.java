@@ -82,7 +82,7 @@ public class CheckSubmitRequirement
   }
 
   @Inject
-  public CheckSubmitRequirement(
+  CheckSubmitRequirement(
       SubmitRequirementsEvaluator evaluator,
       GitRepositoryManager repoManager,
       ProjectConfig.Factory projectConfigFactory,

@@ -158,7 +158,7 @@ public class VersionedAuthorizedKeys extends VersionedMetaData {
   private List<Optional<AccountSshKey>> keys;
 
   @Inject
-  public VersionedAuthorizedKeys(SshKeyCreator sshKeyCreator, @Assisted Account.Id accountId) {
+  VersionedAuthorizedKeys(SshKeyCreator sshKeyCreator, @Assisted Account.Id accountId) {
     this.sshKeyCreator = sshKeyCreator;
     this.accountId = accountId;
     this.ref = RefNames.refsUsers(accountId);

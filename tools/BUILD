@@ -68,7 +68,7 @@ java_package_configuration(
         # $$AutoValue_... or AutoValueGson_...
         # XepExcludedPaths is a regexp. If you need more paths - use | as
         # separator.
-        "-XepExcludedPaths:.*/\\\\$$?\\\\$$?AutoValue(Gson)?_.*\\.java",
+        "-XepExcludedPaths:.*/\\\\$$?\\\\$$?AutoValue(Gson)?_.*\\.java|.*_javac.*Factory\\.java",
         "-Xep:AlmostJavadoc:ERROR",
         "-Xep:AlreadyChecked:ERROR",
         "-Xep:AlwaysThrows:ERROR",
@@ -430,6 +430,7 @@ java_package_configuration(
         "-Xep:URLEqualsHashCode:ERROR",
         "-Xep:UndefinedEquals:ERROR",
         "-Xep:UnescapedEntity:ERROR",
+        "-Xep:UnnecessarilyVisible:ERROR",
         "-Xep:UnnecessaryAssignment:ERROR",
         "-Xep:UnnecessaryCheckNotNull:ERROR",
         "-Xep:UnnecessaryLambda:ERROR",

@@ -189,6 +189,7 @@ public class CmdLineParser {
    *     incorrectly.
    */
   @Inject
+  @SuppressWarnings("UnnecessarilyVisible")
   public CmdLineParser(OptionHandlers handlers, @Assisted final Object bean)
       throws IllegalAnnotationError {
     this.handlers = handlers;

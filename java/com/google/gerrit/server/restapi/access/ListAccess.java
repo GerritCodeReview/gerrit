@@ -53,7 +53,7 @@ public class ListAccess implements RestReadView<TopLevelResource> {
   private final GetAccess getAccess;
 
   @Inject
-  public ListAccess(
+  ListAccess(
       PermissionBackend permissionBackend, ProjectCache projectCache, GetAccess getAccess) {
     this.permissionBackend = permissionBackend;
     this.projectCache = projectCache;

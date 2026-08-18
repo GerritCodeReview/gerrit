@@ -36,7 +36,7 @@ public class PostSubmitRequirements
   UpdateSubmitRequirement updateSubmitRequirement;
 
   @Inject
-  public PostSubmitRequirements(
+  PostSubmitRequirements(
       RepoMetaDataUpdater updater,
       Provider<CurrentUser> user,
       CreateSubmitRequirement createSubmitRequirement,

@@ -45,7 +45,7 @@ public class SetThreadNameFilter implements Filter {
   private final Provider<CurrentUser> user;
 
   @Inject
-  public SetThreadNameFilter(Provider<CurrentUser> user) {
+  SetThreadNameFilter(Provider<CurrentUser> user) {
     this.user = user;
   }
 

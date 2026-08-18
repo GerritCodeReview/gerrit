@@ -41,7 +41,7 @@ public class ChangeIdHandler extends OptionHandler<Change.Id> {
   private final Provider<InternalChangeQuery> queryProvider;
 
   @Inject
-  public ChangeIdHandler(
+  ChangeIdHandler(
       // TODO(dborowitz): Not sure whether this is injectable here.
       Provider<InternalChangeQuery> queryProvider,
       @Assisted CmdLineParser parser,

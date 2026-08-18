@@ -79,7 +79,7 @@ public class AuthTokenExpiryNotifier implements Runnable {
   }
 
   @Inject
-  public AuthTokenExpiryNotifier(
+  AuthTokenExpiryNotifier(
       Accounts accounts, AuthTokenAccessor tokenAccessor, EmailFactories emailFactories) {
     this.accounts = accounts;
     this.tokenAccessor = tokenAccessor;

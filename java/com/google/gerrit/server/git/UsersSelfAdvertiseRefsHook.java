@@ -42,6 +42,7 @@ public class UsersSelfAdvertiseRefsHook implements AdvertiseRefsHook {
   private final Provider<CurrentUser> userProvider;
 
   @Inject
+  @SuppressWarnings("UnnecessarilyVisible")
   public UsersSelfAdvertiseRefsHook(Provider<CurrentUser> userProvider) {
     this.userProvider = userProvider;
   }

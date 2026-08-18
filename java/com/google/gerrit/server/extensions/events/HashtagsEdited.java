@@ -39,7 +39,7 @@ public class HashtagsEdited {
   private final EventUtil util;
 
   @Inject
-  public HashtagsEdited(PluginSetContext<HashtagsEditedListener> listeners, EventUtil util) {
+  HashtagsEdited(PluginSetContext<HashtagsEditedListener> listeners, EventUtil util) {
     this.listeners = listeners;
     this.util = util;
   }

@@ -39,7 +39,7 @@ public class PerCommentOperationsImpl implements PerCommentOperations {
   }
 
   @Inject
-  public PerCommentOperationsImpl(
+  PerCommentOperationsImpl(
       CommentsUtil commentsUtil, @Assisted ChangeNotes changeNotes, @Assisted String commentUuid) {
     this.commentsUtil = commentsUtil;
     this.changeNotes = changeNotes;

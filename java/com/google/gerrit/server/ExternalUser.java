@@ -45,7 +45,7 @@ public class ExternalUser extends CurrentUser {
   private GroupMembership effectiveGroups;
 
   @Inject
-  public ExternalUser(
+  ExternalUser(
       GroupBackend groupBackend,
       @Assisted Collection<String> emailAddresses,
       @Assisted Collection<ExternalId.Key> externalIdKeys,

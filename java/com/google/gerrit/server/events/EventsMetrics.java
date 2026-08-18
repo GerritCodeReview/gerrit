@@ -27,7 +27,7 @@ public class EventsMetrics implements EventListener {
   private final Counter1<String> events;
 
   @Inject
-  public EventsMetrics(MetricMaker metricMaker) {
+  EventsMetrics(MetricMaker metricMaker) {
     events =
         metricMaker.newCounter(
             "events",

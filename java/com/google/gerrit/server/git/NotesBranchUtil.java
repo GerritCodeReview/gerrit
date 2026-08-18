@@ -64,7 +64,7 @@ public class NotesBranchUtil {
   private ReviewNoteMerger noteMerger;
 
   @Inject
-  public NotesBranchUtil(
+  NotesBranchUtil(
       @GerritPersonIdent PersonIdent gerritIdent,
       GitReferenceUpdated gitRefUpdated,
       @Assisted Project.NameKey project,

@@ -225,7 +225,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
     private final AddMembers put;
 
     @Inject
-    public CreateMember(AddMembers put) {
+    CreateMember(AddMembers put) {
       this.put = put;
     }
 
@@ -255,7 +255,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
     private final GetMember get;
 
     @Inject
-    public UpdateMember(GetMember get) {
+    UpdateMember(GetMember get) {
       this.get = get;
     }
 

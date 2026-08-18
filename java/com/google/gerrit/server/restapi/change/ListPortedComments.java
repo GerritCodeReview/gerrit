@@ -37,7 +37,7 @@ public class ListPortedComments implements RestReadView<RevisionResource> {
   private final Provider<CommentJson> commentJson;
 
   @Inject
-  public ListPortedComments(
+  ListPortedComments(
       Provider<CommentJson> commentJson, CommentsUtil commentsUtil, CommentPorter commentPorter) {
     this.commentJson = commentJson;
     this.commentsUtil = commentsUtil;

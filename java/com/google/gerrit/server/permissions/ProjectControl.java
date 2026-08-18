@@ -92,7 +92,7 @@ public class ProjectControl {
   private Config cfg;
 
   @Inject
-  protected ProjectControl(
+  ProjectControl(
       @GitUploadPackGroups Set<AccountGroup.UUID> uploadGroups,
       @GitReceivePackGroups Set<AccountGroup.UUID> receiveGroups,
       PermissionCollection.Factory permissionFilter,

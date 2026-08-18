@@ -86,7 +86,7 @@ public class QueryGroups implements RestReadView<TopLevelResource> {
   }
 
   @Inject
-  protected QueryGroups(
+  QueryGroups(
       GroupQueryBuilder queryBuilder,
       Provider<GroupQueryProcessor> queryProcessorProvider,
       GroupJson json) {

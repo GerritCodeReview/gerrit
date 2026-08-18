@@ -131,7 +131,7 @@ public class ListBranches implements RestReadView<ProjectResource> {
   private String matchRegex;
 
   @Inject
-  public ListBranches(
+  ListBranches(
       GitRepositoryManager repoManager,
       PermissionBackend permissionBackend,
       DynamicMap<RestView<BranchResource>> branchViews,

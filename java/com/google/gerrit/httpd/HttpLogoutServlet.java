@@ -41,6 +41,7 @@ public class HttpLogoutServlet extends HttpServlet {
   private final GroupAuditService audit;
 
   @Inject
+  @SuppressWarnings("UnnecessarilyVisible")
   protected HttpLogoutServlet(
       AuthConfig authConfig,
       DynamicItem<WebSession> webSession,

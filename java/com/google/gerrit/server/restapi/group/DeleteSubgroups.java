@@ -104,7 +104,7 @@ public class DeleteSubgroups implements RestModifyView<GroupResource, Input> {
     private final Provider<DeleteSubgroups> delete;
 
     @Inject
-    public DeleteSubgroup(Provider<DeleteSubgroups> delete) {
+    DeleteSubgroup(Provider<DeleteSubgroups> delete) {
       this.delete = delete;
     }
 

@@ -43,7 +43,7 @@ public class ProjectHandler extends OptionHandler<ProjectState> {
   private final PermissionBackend permissionBackend;
 
   @Inject
-  public ProjectHandler(
+  ProjectHandler(
       ProjectCache projectCache,
       PermissionBackend permissionBackend,
       @Assisted final CmdLineParser parser,

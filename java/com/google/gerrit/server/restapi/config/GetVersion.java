@@ -35,7 +35,7 @@ public class GetVersion implements RestReadView<ConfigResource> {
   private final VersionInfo versionInfo;
 
   @Inject
-  public GetVersion(VersionInfo versionInfo) {
+  GetVersion(VersionInfo versionInfo) {
     this.versionInfo = versionInfo;
   }
 

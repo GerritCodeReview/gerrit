@@ -110,7 +110,7 @@ public class SubmitRequirementsUtil {
   private final Metrics metrics;
 
   @Inject
-  public SubmitRequirementsUtil(Metrics metrics) {
+  SubmitRequirementsUtil(Metrics metrics) {
     this.metrics = metrics;
   }
 

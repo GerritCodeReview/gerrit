@@ -106,6 +106,7 @@ public class MigrateLabelFunctionsToSubmitRequirement {
   }
 
   @Inject
+  @SuppressWarnings("UnnecessarilyVisible")
   public MigrateLabelFunctionsToSubmitRequirement(
       RepoMetaDataUpdater repoMetaDataUpdater, GitRepositoryManager repoManager) {
     this.repoMetaDataUpdater = repoMetaDataUpdater;

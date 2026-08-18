@@ -51,7 +51,7 @@ public class CreateLabel
   private final RepoMetaDataUpdater repoMetaDataUpdater;
 
   @Inject
-  public CreateLabel(
+  CreateLabel(
       ApprovalQueryBuilder approvalQueryBuilder, RepoMetaDataUpdater repoMetaDataUpdater) {
     this.approvalQueryBuilder = approvalQueryBuilder;
     this.repoMetaDataUpdater = repoMetaDataUpdater;

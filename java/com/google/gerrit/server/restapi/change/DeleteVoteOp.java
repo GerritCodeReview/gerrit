@@ -95,7 +95,7 @@ public class DeleteVoteOp implements BatchUpdateOp {
   private Map<String, Short> oldApprovals = new HashMap<>();
 
   @Inject
-  public DeleteVoteOp(
+  DeleteVoteOp(
       ProjectCache projectCache,
       ApprovalsUtil approvalsUtil,
       PatchSetUtil psUtil,

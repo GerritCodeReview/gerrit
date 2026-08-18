@@ -43,7 +43,7 @@ public class ListSubmitRequirements implements RestReadView<ProjectResource> {
   private final PluginSetContext<SubmitRequirement> globalSubmitRequirements;
 
   @Inject
-  public ListSubmitRequirements(
+  ListSubmitRequirements(
       Provider<CurrentUser> user,
       PermissionBackend permissionBackend,
       PluginSetContext<SubmitRequirement> globalSubmitRequirements) {

@@ -51,7 +51,7 @@ public class ChangesCollection implements RestCollection<TopLevelResource, Chang
   private final ChangeData.Factory changeDataFactory;
 
   @Inject
-  public ChangesCollection(
+  ChangesCollection(
       Provider<CurrentUser> user,
       Provider<QueryChanges> queryFactory,
       DynamicMap<RestView<ChangeResource>> views,

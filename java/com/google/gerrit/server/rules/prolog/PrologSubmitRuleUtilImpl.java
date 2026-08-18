@@ -30,7 +30,7 @@ public class PrologSubmitRuleUtilImpl implements PrologSubmitRuleUtil {
   private final RulesCache rulesCache;
 
   @Inject
-  public PrologSubmitRuleUtilImpl(PrologRule prologRule, RulesCache rulesCache) {
+  PrologSubmitRuleUtilImpl(PrologRule prologRule, RulesCache rulesCache) {
     this.prologRule = prologRule;
     this.rulesCache = rulesCache;
   }

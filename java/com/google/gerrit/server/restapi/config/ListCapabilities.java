@@ -37,7 +37,7 @@ public class ListCapabilities implements RestReadView<ConfigResource> {
   private final PluginPermissionsUtil pluginPermissionsUtil;
 
   @Inject
-  public ListCapabilities(
+  ListCapabilities(
       PermissionBackend permissionBackend, PluginPermissionsUtil pluginPermissionsUtil) {
     this.permissionBackend = permissionBackend;
     this.pluginPermissionsUtil = pluginPermissionsUtil;

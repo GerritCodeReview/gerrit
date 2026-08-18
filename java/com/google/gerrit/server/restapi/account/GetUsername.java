@@ -30,7 +30,7 @@ import com.google.inject.Singleton;
 @Singleton
 public class GetUsername implements RestReadView<AccountResource> {
   @Inject
-  public GetUsername() {}
+  GetUsername() {}
 
   @Override
   public Response<String> apply(AccountResource rsrc)

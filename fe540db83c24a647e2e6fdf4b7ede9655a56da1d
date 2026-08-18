@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ab2fc63_51f1ede6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-08-18T08:53:08Z",
+      "side": 1,
+      "message": "Nice trick with memoization",
+      "revId": "fe540db83c24a647e2e6fdf4b7ede9655a56da1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "202c6267_edca96fe",
+        "filename": "java/com/google/gerrit/entities/BranchOrderSection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-08-18T08:53:08Z",
+      "side": 1,
+      "message": "Please fix this WARNING reported by autoreview issue finding: Since we know the maximum size in advance, consider using `Maps.newHashMapWithExpectedSize(fqOrder.size())` here to avoid resizing the map.",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 0
+      },
+      "revId": "fe540db83c24a647e2e6fdf4b7ede9655a56da1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

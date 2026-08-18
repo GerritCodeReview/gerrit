@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9f16483_2698b191",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-08-18T08:42:05Z",
+      "side": 1,
+      "message": "One question regarding non-merge commits:\n\nWhat happens if a user navigates to a URL containing `0` or `auto-merge` on a normal, non-merge (single parent) commit (e.g. via an outdated or shared link)? Does the change model/router fallback cleanly to `PARENT` without erroring when requesting auto-merge from the backend?",
+      "isAi": true,
+      "revId": "6930855cd7ddaf253451b0ea52442024ebb6dd03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

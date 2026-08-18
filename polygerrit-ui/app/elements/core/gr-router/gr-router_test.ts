@@ -1044,6 +1044,29 @@ suite('gr-router tests', () => {
             `/c/${repo}/+/${changeNum}/${ps}/filepath#${line}`
           );
         });
+
+        test('COMMENT route passes enableContext=false to getDiffComments and getDiffDrafts', async () => {
+          const change = createParsedChange();
+          const repo = change.project;
+          const changeNum = change._number;
+          const ps = 1 as RevisionPatchSetNum;
+          const line = 23;
+          const id = '00049681_f34fd6a9' as UrlEncodedCommentId;
+
+          stubRestApi('getChangeDetail').resolves(change);
+          const diffCommentsStub = stubRestApi('getDiffComments').resolves({
+            filepath: [{...createComment(), id, patch_set: ps, line}],
+          });
+          const diffDraftsStub = stubRestApi('getDiffDrafts').resolves({});
+
+          await checkRedirect(
+            `/c/${repo}/+/${changeNum}/comment/${id}/`,
+            `/c/${repo}/+/${changeNum}/${ps}/filepath#${line}`
+          );
+
+          assert.isTrue(diffCommentsStub.calledWith(changeNum, false));
+          assert.isTrue(diffDraftsStub.calledWith(changeNum, false));
+        });
       });
 
       test('DIFF_EDIT', async () => {

@@ -17,13 +17,13 @@ package com.google.gerrit.server.query.change;
 import static com.google.gerrit.server.index.change.ChangeField.EXACT_TOPIC;
 
 import com.google.gerrit.entities.Change;
-import dk.brics.automaton.RegExp;
+import com.google.gerrit.server.ioutil.RegexAutomatonCompiler;
 import dk.brics.automaton.RunAutomaton;
 
 public class RegexTopicPredicate extends ChangeRegexPredicate {
   protected final RunAutomaton pattern;
 
-  public RegexTopicPredicate(String re) {
+  public RegexTopicPredicate(RegexAutomatonCompiler regexAutomatonCompiler, String re) {
     super(EXACT_TOPIC, re);
 
     if (re.startsWith("^")) {
@@ -34,7 +34,7 @@ public class RegexTopicPredicate extends ChangeRegexPredicate {
       re = re.substring(0, re.length() - 1);
     }
 
-    this.pattern = new RunAutomaton(new RegExp(re).toAutomaton());
+    this.pattern = new RunAutomaton(regexAutomatonCompiler.compile(re));
   }
 
   @Override

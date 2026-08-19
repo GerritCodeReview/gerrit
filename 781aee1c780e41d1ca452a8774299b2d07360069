@@ -72,6 +72,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a3f531e_81ec4018",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-08-19T11:41:10Z",
+      "side": 1,
+      "message": "Don\u0027t local builds cache artefacts downloaded from Maven Central ?",
+      "parentUuid": "3154dce7_48fb326f",
+      "revId": "781aee1c780e41d1ca452a8774299b2d07360069",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "2408220d_699a9b1f",

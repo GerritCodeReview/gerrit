@@ -15,9 +15,9 @@
 package com.google.gerrit.server.submitrequirement.predicate;
 
 import com.google.gerrit.index.query.QueryParseException;
+import com.google.gerrit.server.ioutil.RegexAutomatonCompiler;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.SubmitRequirementPredicate;
-import dk.brics.automaton.RegExp;
 import dk.brics.automaton.RunAutomaton;
 
 /**
@@ -27,7 +27,8 @@ import dk.brics.automaton.RunAutomaton;
 public class RegexAuthorEmailPredicate extends SubmitRequirementPredicate {
   protected final RunAutomaton authorEmailPattern;
 
-  public RegexAuthorEmailPredicate(String pattern) throws QueryParseException {
+  public RegexAuthorEmailPredicate(RegexAutomatonCompiler regexAutomatonCompiler, String pattern)
+      throws QueryParseException {
     super("authoremail", pattern);
 
     if (pattern.startsWith("^")) {
@@ -39,7 +40,7 @@ public class RegexAuthorEmailPredicate extends SubmitRequirementPredicate {
     }
 
     try {
-      this.authorEmailPattern = new RunAutomaton(new RegExp(pattern).toAutomaton());
+      this.authorEmailPattern = new RunAutomaton(regexAutomatonCompiler.compile(pattern));
     } catch (IllegalArgumentException e) {
       throw new QueryParseException(String.format("invalid regular expression: %s", pattern), e);
     }

@@ -51,6 +51,7 @@ import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.group.GroupResolver;
+import com.google.gerrit.server.ioutil.RegexAutomatonCompiler;
 import com.google.gerrit.server.ioutil.RegexListSearcher;
 import com.google.gerrit.server.ioutil.StringUtil;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -106,6 +107,7 @@ public class ListProjectsImpl extends AbstractListProjects {
   private final PermissionBackend permissionBackend;
   private final ProjectNode.Factory projectNodeFactory;
   private final WebLinks webLinks;
+  private final RegexAutomatonCompiler regexAutomatonCompiler;
 
   @Override
   public void setFormat(OutputFormat fmt) {
@@ -199,6 +201,7 @@ public class ListProjectsImpl extends AbstractListProjects {
       PermissionBackend permissionBackend,
       ProjectNode.Factory projectNodeFactory,
       WebLinks webLinks,
+      RegexAutomatonCompiler regexAutomatonCompiler,
       Provider<QueryProjects> queryProjectsProvider,
       @GerritServerConfig Config config,
       ProjectIndexCollection projectIndexes) {
@@ -210,6 +213,7 @@ public class ListProjectsImpl extends AbstractListProjects {
     this.permissionBackend = permissionBackend;
     this.projectNodeFactory = projectNodeFactory;
     this.webLinks = webLinks;
+    this.regexAutomatonCompiler = regexAutomatonCompiler;
     this.queryProjectsProvider = queryProjectsProvider;
     this.listProjectsFromIndex = config.getBoolean("gerrit", "listProjectsFromIndex", false);
     this.projectIndexes = projectIndexes;
@@ -632,7 +636,8 @@ public class ListProjectsImpl extends AbstractListProjects {
       checkMatchOptions(matchPrefix == null && matchSubstring == null);
       RegexListSearcher<Project.NameKey> searcher;
       try {
-        searcher = new RegexListSearcher<>(matchRegex, Project.NameKey::get);
+        searcher =
+            new RegexListSearcher<>(regexAutomatonCompiler, matchRegex, Project.NameKey::get);
       } catch (IllegalArgumentException e) {
         throw new BadRequestException(e.getMessage());
       }

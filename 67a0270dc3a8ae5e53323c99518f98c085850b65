@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9932673_94417e6e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3894415
+      },
+      "writtenOn": "2026-08-19T09:43:24Z",
+      "side": 1,
+      "message": "Thank you for reviewing this change.\n\nThis patch addresses the inconsistency where refs/meta/config could be deleted via the single-ref path (deleteSingleRef), while it was already blocked in the multi-ref path.\n\nI am not monitoring private messages related to this change. Please keep all discussion on this Gerrit change or on the repo-discuss mailing list so that the conversation remains public and useful for other contributors.",
+      "revId": "67a0270dc3a8ae5e53323c99518f98c085850b65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

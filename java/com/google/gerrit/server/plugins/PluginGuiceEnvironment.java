@@ -215,6 +215,12 @@ public class PluginGuiceEnvironment {
     onReload.addAll(listeners(injector, ReloadPluginListener.class));
   }
 
+  private void removeOnStartStopReloadListeners(Injector injector) {
+    onStart.removeAll(listeners(injector, StartPluginListener.class));
+    onStop.removeAll(listeners(injector, StopPluginListener.class));
+    onReload.removeAll(listeners(injector, ReloadPluginListener.class));
+  }
+
   private Map<TypeLiteral<?>, DynamicSet<?>> httpDynamicSetsOf(Injector i) {
     // Copy binding of DynamicSet<WebUiPlugin> from sysInjector to HTTP.
     // This supports older plugins that bound a plugin in the HttpModule.
@@ -285,6 +291,8 @@ public class PluginGuiceEnvironment {
     for (StartPluginListener l : onStart) {
       l.onStartPlugin(plugin);
     }
+
+    addOnStartStopReloadListeners(plugin.getSysInjector());
   }
 
   private ImmutableList<Injector> listOfInjectors(Injector... injectors) {
@@ -303,6 +311,8 @@ public class PluginGuiceEnvironment {
     for (StopPluginListener l : onStop) {
       l.onStopPlugin(plugin);
     }
+
+    removeOnStartStopReloadListeners(plugin.getSysInjector());
   }
 
   private void attachItem(
@@ -374,6 +384,8 @@ public class PluginGuiceEnvironment {
         allPluginInjectors.forEach(i -> reattachSet(old, apiSets, i, newPlugin));
         allPluginInjectors.forEach(i -> reattachMap(old, apiMaps, i, newPlugin));
       }
+
+      removeOnStartStopReloadListeners(oldPlugin.getSysInjector());
     } finally {
       exit(oldContext);
     }
@@ -381,6 +393,8 @@ public class PluginGuiceEnvironment {
     for (ReloadPluginListener l : onReload) {
       l.onReloadPlugin(oldPlugin, newPlugin);
     }
+
+    addOnStartStopReloadListeners(newPlugin.getSysInjector());
   }
 
   private void reattachMap(

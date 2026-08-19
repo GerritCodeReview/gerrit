@@ -19,6 +19,7 @@ import static com.google.gerrit.extensions.registration.PrivateInternals_Dynamic
 import static com.google.gerrit.extensions.registration.PrivateInternals_DynamicTypes.dynamicSetsOf;
 import static java.util.Objects.requireNonNull;
 
+import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
@@ -30,6 +31,7 @@ import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.registration.PluginName;
 import com.google.gerrit.extensions.registration.PrivateInternals_DynamicMapImpl;
 import com.google.gerrit.extensions.registration.PrivateInternals_DynamicTypes;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
@@ -64,7 +66,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.concurrent.CopyOnWriteArrayList;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -82,9 +83,9 @@ public class PluginGuiceEnvironment {
   private final ThreadLocalRequestContext local;
   private final CopyConfigModule copyConfigModule;
   private final Set<Key<?>> copyConfigKeys;
-  private final List<StartPluginListener> onStart;
-  private final List<StopPluginListener> onStop;
-  private final List<ReloadPluginListener> onReload;
+  private final ArrayListMultimap<String, StartPluginListener> onStart;
+  private final ArrayListMultimap<String, StopPluginListener> onStop;
+  private final ArrayListMultimap<String, ReloadPluginListener> onReload;
   private final MetricMaker serverMetrics;
 
   private Module sysModule;
@@ -124,14 +125,14 @@ public class PluginGuiceEnvironment {
     this.copyConfigKeys = Guice.createInjector(ccm).getAllBindings().keySet();
     this.serverMetrics = serverMetrics;
 
-    onStart = new CopyOnWriteArrayList<>();
-    onStart.addAll(listeners(sysInjector, StartPluginListener.class));
+    onStart = ArrayListMultimap.create();
+    onStart.putAll(PluginName.GERRIT, listeners(sysInjector, StartPluginListener.class));
 
-    onStop = new CopyOnWriteArrayList<>();
-    onStop.addAll(listeners(sysInjector, StopPluginListener.class));
+    onStop = ArrayListMultimap.create();
+    onStop.putAll(PluginName.GERRIT, listeners(sysInjector, StopPluginListener.class));
 
-    onReload = new CopyOnWriteArrayList<>();
-    onReload.addAll(listeners(sysInjector, ReloadPluginListener.class));
+    onReload = ArrayListMultimap.create();
+    onReload.putAll(PluginName.GERRIT, listeners(sysInjector, ReloadPluginListener.class));
 
     sysItems = dynamicItemsOf(sysInjector);
     sysSets = dynamicSetsOf(sysInjector);
@@ -185,7 +186,7 @@ public class PluginGuiceEnvironment {
     sshItems = dynamicItemsOf(injector);
     sshSets = dynamicSetsOf(injector);
     sshMaps = dynamicMapsOf(injector);
-    addOnStartStopReloadListeners(injector);
+    addOnStartStopReloadListeners(PluginName.GERRIT, injector);
   }
 
   boolean hasSshModule() {
@@ -206,13 +207,19 @@ public class PluginGuiceEnvironment {
     httpItems = dynamicItemsOf(injector);
     httpSets = httpDynamicSetsOf(injector);
     httpMaps = dynamicMapsOf(injector);
-    addOnStartStopReloadListeners(injector);
+    addOnStartStopReloadListeners(PluginName.GERRIT, injector);
   }
 
-  private void addOnStartStopReloadListeners(Injector injector) {
-    onStart.addAll(listeners(injector, StartPluginListener.class));
-    onStop.addAll(listeners(injector, StopPluginListener.class));
-    onReload.addAll(listeners(injector, ReloadPluginListener.class));
+  private void addOnStartStopReloadListeners(String pluginName, Injector injector) {
+    onStart.putAll(pluginName, listeners(injector, StartPluginListener.class));
+    onStop.putAll(pluginName, listeners(injector, StopPluginListener.class));
+    onReload.putAll(pluginName, listeners(injector, ReloadPluginListener.class));
+  }
+
+  private void removeOnStartStopReloadListeners(String pluginName) {
+    onStart.removeAll(pluginName);
+    onStop.removeAll(pluginName);
+    onReload.removeAll(pluginName);
   }
 
   private Map<TypeLiteral<?>, DynamicSet<?>> httpDynamicSetsOf(Injector i) {
@@ -282,9 +289,11 @@ public class PluginGuiceEnvironment {
       exit(oldContext);
     }
 
-    for (StartPluginListener l : onStart) {
+    for (StartPluginListener l : onStart.values()) {
       l.onStartPlugin(plugin);
     }
+
+    addOnStartStopReloadListeners(plugin.getName(), plugin.getSysInjector());
   }
 
   private ImmutableList<Injector> listOfInjectors(Injector... injectors) {
@@ -300,9 +309,11 @@ public class PluginGuiceEnvironment {
   }
 
   public void onStopPlugin(Plugin plugin) {
-    for (StopPluginListener l : onStop) {
+    for (StopPluginListener l : onStop.values()) {
       l.onStopPlugin(plugin);
     }
+
+    removeOnStartStopReloadListeners(plugin.getName());
   }
 
   private void attachItem(
@@ -378,9 +389,12 @@ public class PluginGuiceEnvironment {
       exit(oldContext);
     }
 
-    for (ReloadPluginListener l : onReload) {
+    for (ReloadPluginListener l : onReload.values()) {
       l.onReloadPlugin(oldPlugin, newPlugin);
     }
+
+    removeOnStartStopReloadListeners(oldPlugin.getName());
+    addOnStartStopReloadListeners(newPlugin.getName(), newPlugin.getSysInjector());
   }
 
   private void reattachMap(

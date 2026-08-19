@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d69437c3_bab35e39",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-19T20:24:22Z",
+      "side": 1,
+      "message": "@thomas.draebing@sap.com I noticed this while reviewing your filecount change.",
+      "revId": "4588ef2c3704820b14652a1512419bcf3095f175",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

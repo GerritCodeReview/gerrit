@@ -70,6 +70,30 @@
       },
       "revId": "13f2b6e816a92d75486bd84cf4fd8397298c9d6d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ceefb131_b80be701",
+        "filename": "polygerrit-ui/app/package.json",
+        "patchSetId": 16
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 4779267
+      },
+      "writtenOn": "2026-08-19T08:22:45Z",
+      "side": 0,
+      "message": "\u003e I fixed the comment,\n\u003e \n\u003e This change removes an obsolete comment that still refers to `polymer-resin`.\n\u003e \n\u003e The guarded assetsPath / assetsBundle block is preserved because it is still a supported template hook for optional asset bundles loaded before `gr-app.js`.\n\u003e \n\u003e The frontend still has `ASSETS_PATH` handling for plugin/theme asset URLs, so keeping the block is safer than deleting it as part of the resin cleanup.",
+      "parentUuid": "97a024b9_e8810d0a",
+      "range": {
+        "startLine": 23,
+        "startChar": 4,
+        "endLine": 23,
+        "endChar": 30
+      },
+      "revId": "13f2b6e816a92d75486bd84cf4fd8397298c9d6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

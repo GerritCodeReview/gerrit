@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "931e4353_3a7214e9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-08-19T06:30:40Z",
+      "side": 1,
+      "message": "Thanks for driving this — strong +1 on the intent. Mirror coverage should be enforced and mandatory; after last week\u0027s outage that\u0027s clearly the right direction.\n\nMy concern is the layer, not the aim. Whether a dependency is on gerrit-maven is a mechanical fact — an HTTP 200 — not a human judgment. That\u0027s what makes a label the wrong tool here: a label plus approver group earns its cost when there\u0027s a real decision to make, the way Library-Compliance encodes a genuine policy call that rightly stays Google-gated. For \"is it mirrored?\", there\u0027s nothing to decide — and since the plan is to have CI set the label automatically, it becomes a CI job transcribing its own exit code into a vote that Verified already carries.\n\nConcretely: a CI step runs the mirror-coverage checker I added in change 619941 on the change\u0027s new deps, and if any aren\u0027t on the bucket it votes Verified-1 with the missing coordinate — reusing the gate we already have instead of adding a new label. Why that\u0027s enough:\n\n- it checks the deps against the bucket directly, so it\u0027s independent of the Bazel cache — blocking Central in a build gives false greens off a warm cache;\n- HEAD-only, so it barely touches the mirror: no downloads, no cache-busting, no added load — exactly the fragility we\u0027re trying to avoid;\n- fails fast, in seconds, naming the missing coordinate;\n- Verified-1 already blocks submit, so no new SR or approver group.\n\nThat keeps enforcement mandatory without making the contributor path heavier — a change already has to clear:\n\n- Code-Style\n- Code-Review\n- Verified\n- Library-Compliance\n- Forward-Compatible\n- Release-Notes\n- Frontend-Verified\n\nI\u0027d rather not add an eighth gate for something a script decides.",
+      "revId": "781aee1c780e41d1ca452a8774299b2d07360069",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2408220d_699a9b1f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-08-19T06:30:40Z",
+      "side": 1,
+      "message": "I do not think we need yet another label. It is already",
+      "revId": "781aee1c780e41d1ca452a8774299b2d07360069",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

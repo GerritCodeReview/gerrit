@@ -1,6 +1,46 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef770634_f2f643d7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-19T17:45:52Z",
+      "side": 1,
+      "message": "I verified it E2E and it works as expected. Thanks @david.ostrovsky@gmail.com for the useful addition.",
+      "revId": "43212514038d3f07cc9348d4887d539b087e2c10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f8109e88_e2782726",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 661,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-19T17:45:52Z",
+      "side": 1,
+      "message": "Can we also include this pointer in the output of the `b run //tools/bzl:gerrit-maven-mirror-check` command? So that contributors can have that information straight from the output of a failed CI build.",
+      "range": {
+        "startLine": 657,
+        "startChar": 0,
+        "endLine": 661,
+        "endChar": 65
+      },
+      "revId": "43212514038d3f07cc9348d4887d539b087e2c10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b1ba10ea_78c7e6ef",
@@ -14,6 +54,30 @@
       "writtenOn": "2026-08-19T14:36:54Z",
       "side": 1,
       "message": "Instead of a ticket based process could we consider to automatically trigger mirroring of library versions referenced by a build dependency which are not yet available in the mirror ? This could be gated by a review label which only maintainers can set to ensure library updates are reviewed before they are mirrored.",
+      "range": {
+        "startLine": 378,
+        "startChar": 11,
+        "endLine": 378,
+        "endChar": 56
+      },
+      "revId": "43212514038d3f07cc9348d4887d539b087e2c10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a0757f6_957ca094",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-19T17:45:52Z",
+      "side": 1,
+      "message": "\u003e Instead of a ticket based process could we consider to automatically trigger mirroring of library versions referenced by a build dependency which are not yet available in the mirror ?\n\nI like the idea of automating it, but it would still need to be executed by a Gerrit maintainer and not automatically by the CI.\n\nThe CI should *only perform validation* and never ever decide to automatically trust new artifacts IMHO.\nOur artifact registry could become target to malicious attacks, maybe also using a previously unknown security hole in Jenkins.\n\nThe only way we managed to make our Jenkins secure is by making it impossible to upload any malicious artifact anywhere, because it doesn\u0027t have access to any credentials to do so.\n\nWe could just provide a script in `/contrib` to upload the artifact to our Google bucket by a maintainer.",
+      "parentUuid": "b1ba10ea_78c7e6ef",
       "range": {
         "startLine": 378,
         "startChar": 11,

@@ -109,6 +109,13 @@ public class DeleteRef {
         ref = prefix + ref;
       }
 
+      // === الإصلاح ===
+      // منع حذف refs/meta/config حتى لو جاء من مسار الحذف الفردي
+      if (isConfigRef(ref)) {
+        throw new ResourceConflictException("not allowed to delete branch " + ref);
+      }
+      // ================
+
       projectState.checkStatePermitsWrite();
       permissionBackend
           .currentUser()

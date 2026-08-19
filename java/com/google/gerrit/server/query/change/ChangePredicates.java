@@ -283,6 +283,15 @@ public class ChangePredicates {
   }
 
   /**
+   * Returns a predicate that matches changes that affect exactly the given number of files, or a
+   * range of file counts, in their latest patch set. The {@code count} parameter may be a plain
+   * integer (exact match) or a range expression such as {@code >2} or {@code <10}.
+   */
+  public static Predicate<ChangeData> filecount(String count) throws QueryParseException {
+    return new FileCountPredicate(count);
+  }
+
+  /**
    * Returns a predicate that matches changes whose set of real (non-magic) files is exactly the
    * comma-separated list of paths provided.
    *

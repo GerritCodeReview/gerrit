@@ -2319,6 +2319,26 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  public void byFileCount() throws Exception {
+    assume().that(getSchema().hasField(ChangeField.FILE_COUNT_SPEC)).isTrue();
+
+    Project.NameKey project = Project.nameKey("repo");
+    repo = createAndOpenProject(project);
+    Change oneFile = insert(project, newChangeWithFiles(repo, "src/Foo.java"));
+    Change twoFiles = insert(project, newChangeWithFiles(repo, "src/Foo.java", "src/Bar.java"));
+    Change threeFiles =
+        insert(project, newChangeWithFiles(repo, "src/Foo.java", "src/Bar.java", "src/Baz.java"));
+
+    assertQuery("filecount:1", oneFile);
+    assertQuery("filecount:2", twoFiles);
+    assertQuery("filecount:3", threeFiles);
+    assertQuery("filecount:>1", threeFiles, twoFiles);
+    assertQuery("filecount:<2", oneFile);
+    assertQuery("filecount:<5", threeFiles, twoFiles, oneFile);
+    assertQuery("filecount:>3");
+  }
+
+  @Test
   public void byFooter() throws Exception {
     Project.NameKey project = Project.nameKey("repo");
     repo = createAndOpenProject(project);

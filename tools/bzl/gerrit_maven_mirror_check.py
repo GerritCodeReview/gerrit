@@ -26,6 +26,7 @@ from __future__ import annotations
 import argparse
 import concurrent.futures
 import json
+import os
 import sys
 import urllib.error
 import urllib.request
@@ -34,6 +35,20 @@ from pathlib import Path
 
 
 DEFAULT_MIRROR = "https://gerrit-maven.storage.googleapis.com"
+
+LOCK_FILE_NAME = "external_deps.lock.json"
+
+
+def default_lock_file() -> str:
+    """Locate the lock file relative to the workspace root under `bazel run`.
+
+    `bazel run` sets BUILD_WORKSPACE_DIRECTORY to the workspace root, but runs
+    the binary from its runfiles tree, so the plain relative name would not
+    resolve. Fall back to the relative name for direct CLI use from the repo
+    root (env unset).
+    """
+    workspace = os.environ.get("BUILD_WORKSPACE_DIRECTORY")
+    return os.path.join(workspace, LOCK_FILE_NAME) if workspace else LOCK_FILE_NAME
 
 
 @dataclass(frozen=True)
@@ -50,8 +65,8 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument(
         "--lock-file",
-        default="external_deps.lock.json",
-        help="RJE v3 lock file to scan. Default: external_deps.lock.json",
+        default=default_lock_file(),
+        help=f"RJE v3 lock file to scan. Default: {LOCK_FILE_NAME}",
     )
     parser.add_argument(
         "--mirror",
@@ -118,6 +133,21 @@ def head(url: str, timeout: float) -> int | str:
         return str(err.reason)
 
 
+def classify(status: int | str) -> str:
+    """Bucket a probe result into ok / missing / error.
+
+    Only a definitive HTTP 404 counts as a coverage miss. A transport
+    failure (a str reason from URLError) or any other HTTP status (403,
+    429, 5xx, ...) is an infrastructure/tool error: the probe was
+    inconclusive, so the run must not be reported as a coverage miss.
+    """
+    if status == 200:
+        return "ok"
+    if status == 404:
+        return "missing"
+    return "error"
+
+
 def check_one(item: tuple[str, str, str], timeout: float) -> ArtifactCheck:
     coordinate, classifier, url = item
     return ArtifactCheck(coordinate, classifier, url, head(url, timeout))
@@ -130,27 +160,43 @@ def main() -> int:
         print(f"error: lock file not found: {lock_file}", file=sys.stderr)
         return 2
 
-    items = locked_artifact_urls(lock_file, args.mirror)
+    try:
+        items = locked_artifact_urls(lock_file, args.mirror)
+    except json.JSONDecodeError as err:
+        print(f"error: invalid lock file JSON: {err}", file=sys.stderr)
+        return 2
+    except (KeyError, ValueError) as err:
+        print(f"error: unsupported lock file shape: {err}", file=sys.stderr)
+        return 2
+    except OSError as err:
+        print(f"error: cannot read lock file: {err}", file=sys.stderr)
+        return 2
+
     with concurrent.futures.ThreadPoolExecutor(max_workers=args.workers) as pool:
         futures = [pool.submit(check_one, item, args.timeout) for item in items]
         results = [future.result() for future in concurrent.futures.as_completed(futures)]
 
     results.sort(key=lambda r: (str(r.status), r.coordinate, r.classifier))
-    missing = [r for r in results if r.status != 200]
+    missing = [r for r in results if classify(r.status) == "missing"]
+    errors = [r for r in results if classify(r.status) == "error"]
+    mirrored = len(results) - len(missing) - len(errors)
 
-    if args.include_ok:
-        for result in results:
-            print(f"{result.status}\t{result.coordinate}:{result.classifier}\t{result.url}")
-    else:
-        for result in missing:
-            print(f"{result.status}\t{result.coordinate}:{result.classifier}\t{result.url}")
+    printed = results if args.include_ok else [r for r in results if classify(r.status) != "ok"]
+    for result in printed:
+        print(f"{result.status}\t{result.coordinate}:{result.classifier}\t{result.url}")
 
     print(
-        f"checked={len(results)} mirrored={len(results) - len(missing)} "
-        f"missing={len(missing)}",
+        f"checked={len(results)} mirrored={mirrored} "
+        f"missing={len(missing)} errors={len(errors)}",
         file=sys.stderr,
     )
-    return 1 if missing else 0
+    # Errors take precedence over misses: a run with any inconclusive probe
+    # cannot reliably report coverage, so signal infra (2) rather than a miss (1).
+    if errors:
+        return 2
+    if missing:
+        return 1
+    return 0
 
 
 if __name__ == "__main__":

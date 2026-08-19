@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "11c2a6d9_c8eadf26",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-19T20:59:47Z",
+      "side": 1,
+      "message": "Turns out this was introduced by change 527888, which is in stable-3.14.",
+      "revId": "b641118fa328040c9942e1857c1154a68270fd6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

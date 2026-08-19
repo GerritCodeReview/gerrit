@@ -285,6 +285,8 @@ public class PluginGuiceEnvironment {
     for (StartPluginListener l : onStart) {
       l.onStartPlugin(plugin);
     }
+
+    addOnStartStopReloadListeners(plugin.getSysInjector());
   }
 
   private ImmutableList<Injector> listOfInjectors(Injector... injectors) {

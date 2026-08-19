@@ -258,6 +258,14 @@ public class ChangeField {
     return r;
   }
 
+  public static final IndexedField<ChangeData, Integer> FILE_COUNT =
+      IndexedField.<ChangeData>integerBuilder("FileCount")
+          .stored()
+          .build(cd -> cd.currentFilePaths().size());
+
+  public static final IndexedField<ChangeData, Integer>.SearchSpec FILE_COUNT_SPEC =
+      FILE_COUNT.integerRange(ChangeQueryBuilder.FIELD_FILE_COUNT);
+
   /** Hashtags tied to a change */
   public static final IndexedField<ChangeData, Iterable<String>> HASHTAG_FIELD =
       IndexedField.<ChangeData>iterableStringBuilder("Hashtag")

@@ -438,6 +438,18 @@ named exactly `Foo.java` and does not match `AbstractFoo.java`.
 Regular expression matching can be enabled by starting the string
 with `^`. In this mode `file:` is an alias of `path:` (see above).
 
+[[filecount]]
+filecount:'RELATION''COUNT'::
++
+True if the number of files touched by the latest patchset of a
+change satisfies the given relation for the given number of files.
++
+For example, files:>2 will be true for any change which touches at least
+3 files.
++
+Valid relations are >=, >, \<=, <, or no relation, which will match if the
+number of files is exactly equal.
+
 [[extension]]
 extension:'EXT', ext:'EXT'::
 +

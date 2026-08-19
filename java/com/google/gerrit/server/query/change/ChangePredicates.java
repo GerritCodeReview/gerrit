@@ -282,6 +282,10 @@ public class ChangePredicates {
     return Predicate.or(eqPath, new ChangeIndexPredicate(ChangeField.FILE_PART_SPEC, file));
   }
 
+  public static Predicate<ChangeData> filecount(String count) throws QueryParseException {
+    return new FileCountPredicate(count);
+  }
+
   /**
    * Returns a predicate that matches changes whose set of real (non-magic) files is exactly the
    * comma-separated list of paths provided.

@@ -192,6 +192,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   public static final String FIELD_EXACTCOMMIT = "exactcommit";
   public static final String FIELD_FILE = "file";
   public static final String FIELD_FILEPART = "filepart";
+  public static final String FIELD_FILE_COUNT = "filecount";
   public static final String FIELD_GROUP = "group";
   public static final String FIELD_HASHTAG = "hashtag";
   public static final String FIELD_LABEL = "label";
@@ -1039,6 +1040,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       return new RegexPathPredicate(path);
     }
     return ChangePredicates.path(path);
+  }
+
+  @Operator
+  public Predicate<ChangeData> filecount(String count) throws QueryParseException {
+    return ChangePredicates.filecount(count);
   }
 
   @Operator

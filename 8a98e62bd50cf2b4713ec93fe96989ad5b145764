@@ -1,5 +1,75 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ac009c2_81e4e3ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4870948
+      },
+      "writtenOn": "2026-08-19T22:46:16Z",
+      "side": 1,
+      "message": "[CL Review Agent] The CL description is \"Lorem Ipsum\". Please update the CL description to clearly explain the purpose and content of the changes, including why JGit and commit-message-length-validator submodules are being updated.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 9999
+      },
+      "tag": "cl_review_agent",
+      "isAi": true,
+      "revId": "8a98e62bd50cf2b4713ec93fe96989ad5b145764",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "86a61a3b_9760824b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4870948
+      },
+      "writtenOn": "2026-08-19T22:46:16Z",
+      "side": 1,
+      "message": "[CL Review Agent] ❌ **Changes requested** — See inline comments for details. [[trajectory](http://go/traj/eaabeb49-d216-4286-b16c-d41844c8cd5c)]",
+      "tag": "cl_review_agent",
+      "isAi": true,
+      "revId": "8a98e62bd50cf2b4713ec93fe96989ad5b145764",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73b5d1d1_fdc1efa9",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 4870948
+      },
+      "writtenOn": "2026-08-19T22:46:16Z",
+      "side": 1,
+      "message": "[CL Review Agent] The added paragraph is placeholder text (\"Lorem ipsum...\"). Please replace it with actual, meaningful documentation describing the system groups, or remove it.",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 9999
+      },
+      "tag": "cl_review_agent",
+      "isAi": true,
+      "revId": "8a98e62bd50cf2b4713ec93fe96989ad5b145764",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

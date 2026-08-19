@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bdaf3c28_6f7c98ea",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5096851
+      },
+      "writtenOn": "2026-08-19T07:05:43Z",
+      "side": 1,
+      "message": "Nasser",
+      "revId": "8950c55f8283b2ff67b863ad151d1781a550cbf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

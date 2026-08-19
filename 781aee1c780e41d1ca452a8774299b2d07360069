@@ -90,6 +90,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "d07a7ec9_a450f2a0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-08-19T13:31:57Z",
+      "side": 1,
+      "message": "Implemented as a runnable Bazel target so we have something concrete: change 620501 — bazel run //tools/bzl:gerrit-maven-mirror-check.\n\n@matthias.sohn@gmail.com — It reads the lock and HEAD-probes the mirror directly, so it\u0027s cache-independent, and bazel run has no result cache: a local run and a CI run of the same command can\u0027t diverge.\n\n@luca.milanesio@gmail.com — one command, identical locally and in CI, naming the missing coordinate, so no \"works for me.\" Run first, short-circuiting the build, it stops before any Central fetch — protecting the mirror/Central from the 429 case. Only a genuine 404 is a miss (exit 1); network/mirror errors are exit 2, so a blip doesn\u0027t false-block. Contributors can\u0027t upload, so the request path is documented in `dev-bazel.txt` and `dev-processes.txt` \"Upgrading Libraries\".\n\nNo new label or SR — it gates the existing Verified.\n\nIf the direction\u0027s right, next step is the CI wiring.",
+      "parentUuid": "8a3f531e_81ec4018",
+      "revId": "781aee1c780e41d1ca452a8774299b2d07360069",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "2408220d_699a9b1f",

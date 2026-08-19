@@ -109,6 +109,14 @@ public class DeleteRef {
         ref = prefix + ref;
       }
 
+      // Never allow to delete the meta config branch.
+      // This check is also present in createDeleteCommand; it must also exist
+      // here because deleteMultipleRefs short-circuits to deleteSingleRef when
+      // only one ref is supplied.
+      if (isConfigRef(ref)) {
+        throw new ResourceConflictException("not allowed to delete branch " + ref);
+      }
+
       projectState.checkStatePermitsWrite();
       permissionBackend
           .currentUser()

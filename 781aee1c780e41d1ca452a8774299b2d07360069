@@ -54,6 +54,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "3154dce7_48fb326f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-19T09:44:03Z",
+      "side": 1,
+      "message": "\u003e \u003e So, you were suggesting to even stop the build altogether at the beginning if the dependency isn\u0027t mirrored?\n\u003e \n\u003e Yes — break at the first step, before the build. And it isn\u0027t a new kind of gate: we already do exactly this for submodules. Bump the jgit or a plugin submodule to a commit that wasn\u0027t pushed (or isn\u0027t fetchable for any other reason) and the build fails immediately at checkout — because we can\u0027t assemble against an input that isn\u0027t available in our infra.\n\nThe issue I see is that bumping or adding dependencies will then be something that only a Gerrit maintainer can do, which sounds good to me, as long as we document it.\n\nAt the moment, we allow people to contribute an update to the dependencies, even though we still need to review and approve it by a maintainer and LC+1 by a Googler.\n\n\u003e A non-mirrored Maven dependency is the same class of problem: we\u0027re asked to build against something that isn\u0027t there, so we fail at step one. The mirror-coverage check just extends the submodule contract to jars.\n\nSort-of: a non-mirror Maven dependency *cannot be merged* for sure, but that\u0027s a different gate than it doesn\u0027t work.\n\n\u003e That also answers the differentiation worry. An unfetchable-submodule failure is already distinct from a compile/test failure — it\u0027s a checkout-step error with its own message, and nobody reads it as \"the CI is broken.\" Make mirror-coverage the same: its own early, clearly-named step — Mirror-Coverage: org.foo:bar:1.2.3 not on gerrit-maven — so it reads as \"add this to the mirror,\" not \"what\u0027s wrong with the CI?\"\n\nMy comment is on the _\"contributor-view\"_: he sees a CI failure that cannot be reproduced locally, because the `bazel build \u0026\u0026 bazel test` works locally, because it doesn\u0027t enforce the presence of the dependencies on the mirror.\n\nOff topic: why not simply remove the Maven URL from our Bazel build files then? So that people could also reproduce the missing mirror, because the build wouldn\u0027t work locally either.\n\n\u003e And breaking before the build is what protects Central. Because the closure is pinned in the lockfile, the check just HEAD-probes the mirror; if something\u0027s missing the build is skipped, so the cold transitive fetch that would otherwise hit Central never happens — even for a hundred-change series whose first change bumps a large, not-yet-mirrored dependency set. That\u0027s the 429 scenario removed structurally, and it only works pre-build: a label set after the build would already have hit Central.\n\u003e \n\u003e \u003e What we could do is the CI provide a Library-Compliance -1 instead [...]\n\u003e \n\u003e I\u0027d reject reusing Library-Compliance for this outright. It means \"this dependency is legally/policy-cleared\" — a human decision, and its +1 is deliberately locked to a narrow, non-maintainer group.\n\nTrue, also Library-Compliance is related to Google-only libraries, whilst this check is on all dependencies.\n\nPoint taken.",
+      "parentUuid": "948eca8e_ef56e226",
+      "revId": "781aee1c780e41d1ca452a8774299b2d07360069",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "2408220d_699a9b1f",

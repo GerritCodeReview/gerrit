@@ -600,6 +600,12 @@ In both cases, the dependencies have to be repinned. To do that, run:
 REPIN=1 bazel run @external_deps//:pin
 ----
 
+After repinning, verify that the new or updated artifacts are available
+on Gerrit's Maven mirror (see <<mirror-coverage-check>>), so the build
+does not depend on Maven Central. A missing artifact has to be uploaded
+to the mirror before the dependency can be relied on.
+
+[[gerrit-maven-mirror]]
 == Gerrit Maven mirror
 
 Gerrit's `maven.install()` prefers Gerrit's Maven mirror before Maven
@@ -611,12 +617,40 @@ changing the repository order in `tools/java_deps.MODULE.bazel`, repin
 the RJE lock; changing `MODULE.bazel` alone does not reorder generated
 `http_file.urls`.
 
-Before making CI depend on the mirror, check the lock coverage:
+[[mirror-coverage-check]]
+=== Checking mirror coverage
+
+To verify that every artifact pinned in `external_deps.lock.json` is
+present on the mirror, run the coverage checker through Bazel so it
+behaves identically locally and in CI:
 
 [source,bash]
 ----
-./contrib/check-gerrit-maven-mirror.py --workers 16
+bazel run //tools/bzl:gerrit-maven-mirror-check
 ----
+
+`bazel run` sets `BUILD_WORKSPACE_DIRECTORY`, so the checker locates the
+lock file at the workspace root regardless of the current directory. It
+sends parallel `HEAD` requests and never downloads artifacts, so it puts
+negligible load on the mirror; the checker only probes Gerrit's Maven
+mirror and does not fetch artifacts from Maven Central. The command exits
+with:
+
+* `0` when all locked artifacts are mirrored;
+* `1` when one or more artifacts are genuinely missing from the mirror (a
+  `404`). Each non-mirrored artifact is printed as a tab-separated
+  `status`, `coordinate` and `url`;
+* `2` on an infrastructure or tool error: the lock file cannot be read or
+  parsed, or a probe failed with a network or mirror error (timeout,
+  connection refused, `5xx`, `429`). This is inconclusive rather than a
+  coverage miss, so retry or investigate CI/network rather than treating
+  it as missing.
+
+A summary is printed to stderr, for example `checked=298 mirrored=298
+missing=0 errors=0`. Use `--include-ok` to also print mirrored artifacts,
+`--mirror` to check another repository, and `--lock-file` to check a
+different RJE lock. The script can also be invoked directly from the
+repository root as `./tools/bzl/gerrit_maven_mirror_check.py`.
 
 To verify that a known mirrored artifact can be fetched without using
 Maven Central, create a Bazel downloader config that blocks Central and

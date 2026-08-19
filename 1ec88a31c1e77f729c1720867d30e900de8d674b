@@ -18,6 +18,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf68a308_dc0d087f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-19T02:40:58Z",
+      "side": 1,
+      "message": "It looks like we removed visibility for too many constructors, as the build fails with:\n\n```\n00:33:29.163 Aug 19, 2026 1:20:33 AM com.google.gerrit.sshd.CommandFactoryProvider$Trampoline$1 run\n00:33:29.163 WARNING: Cannot start command \"gerrit query --format json status:open --my-plugin--opt\" for user admin\n00:33:29.163 java.lang.IllegalArgumentException: class com.google.gerrit.server.args4j.SubcommandHandler does not have the proper constructor\n00:33:29.163 \tat org.kohsuke.args4j.OptionHandlerRegistry.getConstructor(OptionHandlerRegistry.java:111)\n00:33:29.163 \tat org.kohsuke.args4j.OptionHandlerRegistry.access$000(OptionHandlerRegistry.java:43)\n00:33:29.163 \tat org.kohsuke.args4j.OptionHandlerRegistry$DefaultConstructorHandlerFactory.\u003cinit\u003e(OptionHandlerRegistry.java:217)\n00:33:29.163 \tat org.kohsuke.args4j.OptionHandlerRegistry.createOptionHandler(OptionHandlerRegistry.java:188)\n00:33:29.163 \tat org.kohsuke.args4j.CmdLineParser.createOptionHandler(CmdLineParser.java:178)\n00:33:29.163 \tat com.google.gerrit.util.cli.CmdLineParser$MyParser.createOptionHandler(CmdLineParser.java:555)\n00:33:29.163 \tat org.kohsuke.args4j.CmdLineParser.addArgument(CmdLineParser.java:118)\n00:33:29.163 \tat org.kohsuke.args4j.ClassParser.parse(ClassParser.java:38)\n00:33:29.163 \tat org.kohsuke.args4j.CmdLineParser.\u003cinit\u003e(CmdLineParser.java:96)\n00:33:29.163 \tat com.google.gerrit.util.cli.CmdLineParser$MyParser.\u003cinit\u003e(CmdLineParser.java:461)\n00:33:29.163 \tat com.google.gerrit.util.cli.CmdLineParser.\u003cinit\u003e(CmdLineParser.java:196)\n00:33:29.164 \tat com.google.gerrit.util.cli.CmdLineParser$$FastClassByGuice$$3618d676.GUICE$TRAMPOLINE(\u003cgenerated\u003e)\n00:33:29.164 \tat com.google.gerrit.util.cli.CmdLineParser$$FastClassByGuice$$3618d676.apply(\u003cgenerated\u003e)\n00:33:29.164 \tat com.google.inject.internal.DefaultConstructionProxyFactory$FastClassProxy.newInstance(DefaultConstructionProxyFactory.java:82)\n00:33:29.164 \tat com.google.inject.internal.ConstructorInjector.provision(ConstructorInjector.java:114)\n00:33:29.164 \tat com.google.inject.internal.ConstructorInjector.construct(ConstructorInjector.java:91)\n00:33:29.164 \tat com.google.inject.internal.ConstructorBindingImpl$Factory.get(ConstructorBindingImpl.java:300)\n00:33:29.164 \tat com.google.inject.internal.InjectorImpl$1.get(InjectorImpl.java:1148)\n00:33:29.164 \tat com.google.inject.assistedinject.FactoryProvider2.invoke(FactoryProvider2.java:907)\n00:33:29.164 \tat jdk.proxy2/jdk.proxy2.$Proxy83.create(Unknown Source)\n00:33:29.164 \tat com.google.gerrit.sshd.BaseCommand.newCmdLineParser(BaseCommand.java:281)\n00:33:29.164 \tat com.google.gerrit.sshd.BaseCommand.parseCommandLine(BaseCommand.java:252)\n00:33:29.164 \tat com.google.gerrit.sshd.BaseCommand.parseCommandLine(BaseCommand.java:235)\n00:33:29.164 \tat com.google.gerrit.sshd.DispatchCommand.start(DispatchCommand.java:76)\n00:33:29.164 \tat com.google.gerrit.sshd.CommandFactoryProvider$Trampoline.onStart(CommandFactoryProvider.java:205)\n00:33:29.164 \tat com.google.gerrit.sshd.CommandFactoryProvider$Trampoline$1.run(CommandFactoryProvider.java:161)\n00:33:29.164 \tat com.google.gerrit.server.logging.LoggingContextAwareRunnable.run(LoggingContextAwareRunnable.java:126)\n00:33:29.164 \tat java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:545)\n00:33:29.164 \tat java.base/java.util.concurrent.FutureTask.run(FutureTask.java:328)\n00:33:29.164 \tat java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:309)\n00:33:29.164 \tat com.google.gerrit.server.git.WorkQueue$Task.run(WorkQueue.java:978)\n00:33:29.165 \tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1090)\n00:33:29.165 \tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614)\n00:33:29.165 \tat java.base/java.lang.Thread.run(Thread.java:1474)\n```",
+      "revId": "1ec88a31c1e77f729c1720867d30e900de8d674b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6a2906b2_b051aed5",

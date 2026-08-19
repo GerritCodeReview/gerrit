@@ -623,6 +623,7 @@ public class ChangeData {
       // If the diff summary was already loaded get the path from it.
       if (diffSummary != null) {
         currentFiles = diffSummary.get().getPaths();
+        return currentFiles;
       }
 
       Change c = change();

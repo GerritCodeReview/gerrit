@@ -20,6 +20,7 @@ import static com.google.gerrit.server.query.change.ChangeStatusPredicate.open;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Change.Status;
@@ -59,6 +60,7 @@ import org.eclipse.jgit.util.MutableInteger;
 /** Rewriter that pushes boolean logic into the secondary index. */
 @Singleton
 public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   /** Set of all open change statuses. */
   public static final ImmutableSet<Change.Status> OPEN_STATUSES;
 
@@ -149,6 +151,10 @@ public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
       throws QueryParseException {
     Predicate<ChangeData> s = rewriteImpl(in, opts);
     if (!(s instanceof ChangeDataSource)) {
+      logger.atWarning().log(
+          "Query rewrite did not produce a ChangeDataSource; falling back to full-status index"
+              + " scan (and(or(open,closed), ...)). Original query: %s, rewritten: %s",
+          in, s);
       in = Predicate.and(Predicate.or(open(), closed()), in);
       s = rewriteImpl(in, opts);
     }

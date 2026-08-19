@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "30ed0ee3_cf3a5052",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 661,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-08-19T19:11:51Z",
+      "side": 1,
+      "message": "Done — the checker now prints the request pointer whenever it reports missing artifacts, to stderr, so it\u0027s visible straight from a failed CI log and a local bazel run. It only appears on a genuine miss (exit 1), not on infra errors (exit 2).\n\nI verified it against the real production lock by temporarily injecting one bogus coordinate (then reverting):\n\n```\n404   com.example.doesnotexist:fake:jar       https://gerrit-maven.storage.googleapis.com/com/example/doesnotexist/fake/1.0/fake-1.0.jar\nchecked\u003d299 mirrored\u003d298 missing\u003d1 errors\u003d0\n1 artifact(s) are not on the gerrit-maven mirror. Contributors cannot upload directly; request that the coordinates listed above be added to the mirror (see Documentation/dev-processes.txt, \"Upgrading Libraries\"):\n  https://issues.gerritcodereview.com/issues/new?component\u003d1371020\u0026template\u003d1834212\n```\n\nAll 298 real dependencies resolve; only the injected fake is flagged, exit 1. The pointer carries the direct issue-tracker link (the same Hosting \u003e googlesource component from \"Upgrading Libraries\"), so a contributor can act without leaving the build output. Added a test that the failed case includes the pointer (and that a fully-mirrored run doesn\u0027t).",
+      "parentUuid": "f8109e88_e2782726",
+      "range": {
+        "startLine": 657,
+        "startChar": 0,
+        "endLine": 661,
+        "endChar": 65
+      },
+      "revId": "43212514038d3f07cc9348d4887d539b087e2c10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b1ba10ea_78c7e6ef",

@@ -103,6 +103,24 @@ suite('gr-hovercard tests', () => {
     assert.deepEqual(element.getHost(), dialog);
   });
 
+  test('updatePosition inside dialog avoids negative top', async () => {
+    const dialog = document.createElement('dialog');
+    document.body.appendChild(dialog);
+    const dialogButton = document.createElement('button');
+    dialogButton.setAttribute('id', 'dialog-target');
+    dialog.appendChild(dialogButton);
+
+    element._target = dialogButton;
+    element.position = 'right';
+    element.updatePosition();
+    await element.updateComplete;
+
+    const hovercardTop = parseInt(element.style.top, 10);
+    assert.isAtLeast(hovercardTop, 0);
+
+    dialog.remove();
+  });
+
   test('hide', () => {
     element.mouseHide(new MouseEvent('click'));
     const style = getComputedStyle(element);

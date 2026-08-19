@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "948eca8e_ef56e226",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-08-19T09:01:33Z",
+      "side": 1,
+      "message": "\u003e So, you were suggesting to even stop the build altogether at the beginning if the dependency isn\u0027t mirrored?\n\nYes — break at the first step, before the build. And it isn\u0027t a new kind of gate: we already do exactly this for submodules. Bump the jgit or a plugin submodule to a commit that wasn\u0027t pushed (or isn\u0027t fetchable for any other reason) and the build fails immediately at checkout — because we can\u0027t assemble against an input that isn\u0027t available in our infra.\n\nA non-mirrored Maven dependency is the same class of problem: we\u0027re asked to build against something that isn\u0027t there, so we fail at step one. The mirror-coverage check just extends the submodule contract to jars.\n\nThat also answers the differentiation worry. An unfetchable-submodule failure is already distinct from a compile/test failure — it\u0027s a checkout-step error with its own message, and nobody reads it as \"the CI is broken.\" Make mirror-coverage the same: its own early, clearly-named step — Mirror-Coverage: org.foo:bar:1.2.3 not on gerrit-maven — so it reads as \"add this to the mirror,\" not \"what\u0027s wrong with the CI?\"\n\nAnd breaking before the build is what protects Central. Because the closure is pinned in the lockfile, the check just HEAD-probes the mirror; if something\u0027s missing the build is skipped, so the cold transitive fetch that would otherwise hit Central never happens — even for a hundred-change series whose first change bumps a large, not-yet-mirrored dependency set. That\u0027s the 429 scenario removed structurally, and it only works pre-build: a label set after the build would already have hit Central.\n\n\u003e What we could do is the CI provide a Library-Compliance -1 instead [...]\n\nI\u0027d reject reusing Library-Compliance for this outright. It means \"this dependency is legally/policy-cleared\" — a human decision, and its +1 is deliberately locked to a narrow, non-maintainer group.\n\nFolding a mechanical mirror signal into it is worse than a generic Verified-1 on two counts: a contributor seeing Library-Compliance -1 reads a compliance rejection, not a missing mirror copy, so it\u0027s more misleading, not less; and it means extending vote access on a label that\u0027s intentionally scoped tightly — a governance change far bigger than the problem it solves.\n\nMirror-coverage should stay its own signal; don\u0027t overload a policy label with a CI fact.",
+      "parentUuid": "f5b9a09e_8f9e13d1",
+      "revId": "781aee1c780e41d1ca452a8774299b2d07360069",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "2408220d_699a9b1f",

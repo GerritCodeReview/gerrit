@@ -14,6 +14,7 @@ import {visualDiffDarkTheme} from '../../../test/test-utils';
 import {
   createAccountWithIdNameAndEmail,
   createChange,
+  createServerInfo,
 } from '../../../test/test-data-generators';
 import {
   BulkActionsModel,
@@ -22,14 +23,28 @@ import {
 import {wrapInProvider} from '../../../models/di-provider-element';
 import {getAppContext} from '../../../services/app-context';
 import {stubRestApi, waitUntilObserved} from '../../../test/test-utils';
-import {AccountInfo, ChangeInfo, NumericChangeId} from '../../../types/common';
+import {
+  AccountInfo,
+  ChangeInfo,
+  EmailAddress,
+  NumericChangeId,
+} from '../../../types/common';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {queryAndAssert} from '../../../utils/common-util';
 import {ReviewerState} from '../../../constants/constants';
+import {GrHovercardAccount} from '../../shared/gr-hovercard-account/gr-hovercard-account';
+import {GrAccountList} from '../../shared/gr-account-list/gr-account-list';
+import {GrAccountChip} from '../../shared/gr-account-chip/gr-account-chip';
+import {GrAccountLabel} from '../../shared/gr-account-label/gr-account-label';
 
 const accounts: AccountInfo[] = [
   createAccountWithIdNameAndEmail(0),
-  createAccountWithIdNameAndEmail(1),
+  {
+    ...createAccountWithIdNameAndEmail(1),
+    name: 'CrystalBall Performance Presubmit',
+    display_name: 'Performance Presubmit',
+    email: 'android-crystalball-presubmit-eng@google.com' as EmailAddress,
+  },
   createAccountWithIdNameAndEmail(2),
   createAccountWithIdNameAndEmail(3),
 ];
@@ -57,6 +72,10 @@ suite('gr-change-list-reviewer-flow screenshot tests', () => {
 
   setup(async () => {
     stubRestApi('getDetailedChangesWithActions').resolves(changes);
+    stubRestApi('getConfig').resolves({
+      ...createServerInfo(),
+      plugin: {has_avatars: true, js_resource_paths: []},
+    });
     model = new BulkActionsModel(getAppContext().restApiService);
     model.sync(changes);
 
@@ -102,6 +121,41 @@ suite('gr-change-list-reviewer-flow screenshot tests', () => {
     await visualDiffDarkTheme(
       dialog,
       'gr-change-list-reviewer-flow-with-reviewers'
+    );
+  });
+
+  test('reviewer flow dialog with reviewer hovercard', async () => {
+    element.updatedAccountsByReviewerState.set(ReviewerState.REVIEWER, [
+      accounts[1],
+      accounts[2],
+    ]);
+    element.requestUpdate();
+    await element.updateComplete;
+
+    const accountList = queryAndAssert<GrAccountList>(
+      element,
+      '#reviewer-list'
+    );
+    await accountList.updateComplete;
+    const chip = queryAndAssert<GrAccountChip>(accountList, 'gr-account-chip');
+    await chip.updateComplete;
+    const label = queryAndAssert<GrAccountLabel>(chip, 'gr-account-label');
+    await label.updateComplete;
+    const hovercard = queryAndAssert<GrHovercardAccount>(
+      label,
+      'gr-hovercard-account'
+    );
+    await hovercard.show({});
+    await hovercard.updateComplete;
+
+    const dialog = queryAndAssert(element, '#flow');
+    await visualDiff(
+      dialog,
+      'gr-change-list-reviewer-flow-with-reviewer-hovercard'
+    );
+    await visualDiffDarkTheme(
+      dialog,
+      'gr-change-list-reviewer-flow-with-reviewer-hovercard'
     );
   });
 });

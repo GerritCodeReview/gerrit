@@ -16,6 +16,23 @@
       "message": "Thank you for reviewing this change.\n\nThis patch addresses the inconsistency where refs/meta/config could be deleted via the single-ref path (deleteSingleRef), while it was already blocked in the multi-ref path.\n\nI am not monitoring private messages related to this change. Please keep all discussion on this Gerrit change or on the repo-discuss mailing list so that the conversation remains public and useful for other contributors.",
       "revId": "67a0270dc3a8ae5e53323c99518f98c085850b65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe0366be_27a2a36c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3894415
+      },
+      "writtenOn": "2026-08-19T10:28:04Z",
+      "side": 1,
+      "message": "This change adds the missing isConfigRef() guard to deleteSingleRef().\n\nPreviously, the protection against deleting refs/meta/config existed only\nin the multi-ref path (createDeleteCommand). When a single ref was\nsupplied, deleteMultipleRefs() delegated to deleteSingleRef(), bypassing\nthe check.\n\nThis aligns the single-ref path with the existing multi-ref protection\nand closes the inconsistency reported on repo-discuss.",
+      "revId": "67a0270dc3a8ae5e53323c99518f98c085850b65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

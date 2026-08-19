@@ -19,9 +19,9 @@ import com.google.auto.factory.Provided;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.ioutil.RegexCompiler;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.SubmitRequirementPredicate;
-import dk.brics.automaton.RegExp;
 import dk.brics.automaton.RunAutomaton;
 import java.util.Optional;
 
@@ -34,7 +34,10 @@ public class RegexUploaderEmailPredicate extends SubmitRequirementPredicate {
   protected final RunAutomaton uploaderEmailPattern;
   private final AccountCache accountCache;
 
-  public RegexUploaderEmailPredicate(@Provided AccountCache accountCache, String pattern)
+  public RegexUploaderEmailPredicate(
+      @Provided AccountCache accountCache,
+      @Provided RegexCompiler regexCompiler,
+      String pattern)
       throws QueryParseException {
     super("uploaderemail", pattern);
     this.accountCache = accountCache;
@@ -48,7 +51,7 @@ public class RegexUploaderEmailPredicate extends SubmitRequirementPredicate {
     }
 
     try {
-      this.uploaderEmailPattern = new RunAutomaton(new RegExp(pattern).toAutomaton());
+      this.uploaderEmailPattern = new RunAutomaton(regexCompiler.toAutomaton(pattern));
     } catch (IllegalArgumentException e) {
       throw new QueryParseException(String.format("invalid regular expression: %s", pattern), e);
     }

@@ -130,6 +130,7 @@ java_library(
         "//java/com/google/gerrit/entities",
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/server/git/receive",
+        "//java/com/google/gerrit/server/ioutil",
         "//java/com/google/gerrit/server/logging",
         "//java/com/google/gerrit/server/restapi",
         "//java/com/google/gerrit/server/rules/prolog",

@@ -22,6 +22,9 @@ import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.common.data.ParameterizedString;
 import com.google.gerrit.entities.AccessSection;
 import com.google.gerrit.exceptions.InvalidNameException;
+import com.google.gerrit.server.ioutil.DefaultRegexCompiler;
+import com.google.gerrit.server.ioutil.RegexCompiler;
+import dk.brics.automaton.Automaton;
 import dk.brics.automaton.RegExp;
 import java.util.concurrent.ExecutionException;
 import java.util.regex.Pattern;
@@ -29,6 +32,20 @@ import java.util.regex.PatternSyntaxException;
 import org.eclipse.jgit.lib.Repository;
 
 public class RefPattern {
+  private static final RegexCompiler REGEX_AUTOMATON_COMPILER =
+      refPattern -> {
+        if (isRE(refPattern)) {
+          refPattern = refPattern.substring(1);
+        }
+        ParameterizedString template = new ParameterizedString(refPattern);
+        String replacement = "_PLACEHOLDER_";
+        ImmutableMap<String, String> params =
+            ImmutableMap.of(
+                RefPattern.USERID_SHARDED, replacement,
+                RefPattern.USERNAME, replacement);
+        return new RegExp(template.replace(params), RegExp.NONE).toAutomaton();
+      };
+
   public static final String USERID_SHARDED = "shardeduserid";
   public static final String USERNAME = "username";
 
@@ -64,7 +81,7 @@ public class RefPattern {
     // Repository.isValidRefName() if not combined with star [*].
     // To get around this, we substitute the \0 with an arbitrary
     // accepted character.
-    return toRegExp(refPattern).toAutomaton().getShortestExample(true).replace('\0', '-');
+    return toAutomaton(refPattern).getShortestExample(true).replace('\0', '-');
   }
 
   public static boolean isRE(String refPattern) {
@@ -75,17 +92,8 @@ public class RefPattern {
     return refPattern.contains("${");
   }
 
-  public static RegExp toRegExp(String refPattern) {
-    if (isRE(refPattern)) {
-      refPattern = refPattern.substring(1);
-    }
-    ParameterizedString template = new ParameterizedString(refPattern);
-    String replacement = "_PLACEHOLDER_";
-    ImmutableMap<String, String> params =
-        ImmutableMap.of(
-            RefPattern.USERID_SHARDED, replacement,
-            RefPattern.USERNAME, replacement);
-    return new RegExp(template.replace(params), RegExp.NONE);
+  public static Automaton toAutomaton(String refPattern) {
+    return REGEX_AUTOMATON_COMPILER.toAutomaton(refPattern);
   }
 
   public static void validate(String refPattern) throws InvalidNameException {

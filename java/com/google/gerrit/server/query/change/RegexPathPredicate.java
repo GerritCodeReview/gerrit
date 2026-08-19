@@ -15,16 +15,20 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.server.index.change.ChangeField;
+import com.google.gerrit.server.ioutil.RegexCompiler;
 import com.google.gerrit.server.ioutil.RegexListSearcher;
 
 public class RegexPathPredicate extends ChangeRegexPredicate {
-  public RegexPathPredicate(String re) {
+  private final RegexCompiler regexCompiler;
+
+  public RegexPathPredicate(RegexCompiler regexCompiler, String re) {
     super(ChangeField.PATH_SPEC, re);
+    this.regexCompiler = regexCompiler;
   }
 
   @Override
   public boolean match(ChangeData object) {
-    return RegexListSearcher.ofStrings(getValue())
+    return RegexListSearcher.ofStrings(regexCompiler, getValue())
         .search(object.currentFilePaths())
         .findAny()
         .isPresent();

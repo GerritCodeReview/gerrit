@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1ba10ea_78c7e6ef",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-08-19T14:36:54Z",
+      "side": 1,
+      "message": "Instead of a ticket based process could we consider to automatically trigger mirroring of library versions referenced by a build dependency which are not yet available in the mirror ? This could be gated by a review label which only maintainers can set to ensure library updates are reviewed before they are mirrored.",
+      "range": {
+        "startLine": 378,
+        "startChar": 11,
+        "endLine": 378,
+        "endChar": 56
+      },
+      "revId": "43212514038d3f07cc9348d4887d539b087e2c10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

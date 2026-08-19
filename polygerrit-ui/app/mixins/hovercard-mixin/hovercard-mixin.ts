@@ -565,11 +565,19 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
 
     _isInsideViewport() {
       const thisRect = this.getBoundingClientRect();
-      const hostRect = this.getHost().getBoundingClientRect();
-      if (thisRect.top < hostRect.top) return false;
-      if (thisRect.left < hostRect.left) return false;
-      if (thisRect.bottom > hostRect.bottom) return false;
-      if (thisRect.right > hostRect.right) return false;
+      const host = this.getHost();
+      const hostRect = host.getBoundingClientRect();
+      if (host.tagName === 'DIALOG') {
+        if (thisRect.top < hostRect.top) return false;
+        if (thisRect.left < hostRect.left) return false;
+      }
+      const doc = document.documentElement;
+      const viewportHeight = window.innerHeight || doc.clientHeight;
+      const viewportWidth = window.innerWidth || doc.clientWidth;
+      if (thisRect.top < 0) return false;
+      if (thisRect.left < 0) return false;
+      if (thisRect.bottom > viewportHeight) return false;
+      if (thisRect.right > viewportWidth) return false;
       return true;
     }
 
@@ -594,7 +602,8 @@ export const HovercardMixin = <T extends Constructor<LitElement>>(
       // in the width and height of the bounding client rect.
       this.style.cssText = '';
 
-      const hostRect = this.getHost().getBoundingClientRect();
+      const host = this.getHost();
+      const hostRect = host.getBoundingClientRect();
       const targetRect = this._target.getBoundingClientRect();
       const thisRect = this.getBoundingClientRect();
 

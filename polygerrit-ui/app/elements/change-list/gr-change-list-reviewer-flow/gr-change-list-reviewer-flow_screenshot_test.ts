@@ -26,6 +26,10 @@ import {AccountInfo, ChangeInfo, NumericChangeId} from '../../../types/common';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {queryAndAssert} from '../../../utils/common-util';
 import {ReviewerState} from '../../../constants/constants';
+import {GrHovercardAccount} from '../../shared/gr-hovercard-account/gr-hovercard-account';
+import {GrAccountList} from '../../shared/gr-account-list/gr-account-list';
+import {GrAccountChip} from '../../shared/gr-account-chip/gr-account-chip';
+import {GrAccountLabel} from '../../shared/gr-account-label/gr-account-label';
 
 const accounts: AccountInfo[] = [
   createAccountWithIdNameAndEmail(0),
@@ -102,6 +106,52 @@ suite('gr-change-list-reviewer-flow screenshot tests', () => {
     await visualDiffDarkTheme(
       dialog,
       'gr-change-list-reviewer-flow-with-reviewers'
+    );
+  });
+
+  test('reviewer flow dialog with reviewer hovercard', async () => {
+    const reviewerWithDetails: AccountInfo = {
+      ...accounts[1],
+      display_name: 'Reviewer One',
+    };
+    element.updatedAccountsByReviewerState.set(ReviewerState.REVIEWER, [
+      reviewerWithDetails,
+      accounts[2],
+    ]);
+    element.requestUpdate();
+    await element.updateComplete;
+
+    const accountList = queryAndAssert<GrAccountList>(
+      element,
+      '#reviewer-list'
+    );
+    await accountList.updateComplete;
+    const chip = queryAndAssert<GrAccountChip>(accountList, 'gr-account-chip');
+    await chip.updateComplete;
+    const label = queryAndAssert<GrAccountLabel>(chip, 'gr-account-label');
+    await label.updateComplete;
+    const dialog = queryAndAssert<HTMLElement>(element, '#flow');
+    dialog.style.minHeight = '180px';
+    await element.updateComplete;
+
+    const hovercard = queryAndAssert<GrHovercardAccount>(
+      label,
+      'gr-hovercard-account'
+    );
+    await document.fonts.ready;
+    await hovercard.show({});
+    await hovercard.updateComplete;
+    const contents = hovercard.querySelector('gr-hovercard-account-contents');
+    await contents?.updateComplete;
+    await document.fonts.ready;
+
+    await visualDiff(
+      dialog,
+      'gr-change-list-reviewer-flow-with-reviewer-hovercard'
+    );
+    await visualDiffDarkTheme(
+      dialog,
+      'gr-change-list-reviewer-flow-with-reviewer-hovercard'
     );
   });
 });

@@ -185,9 +185,7 @@ public class PluginGuiceEnvironment {
     sshItems = dynamicItemsOf(injector);
     sshSets = dynamicSetsOf(injector);
     sshMaps = dynamicMapsOf(injector);
-    onStart.addAll(listeners(injector, StartPluginListener.class));
-    onStop.addAll(listeners(injector, StopPluginListener.class));
-    onReload.addAll(listeners(injector, ReloadPluginListener.class));
+    addOnStartStopReloadListeners(injector);
   }
 
   boolean hasSshModule() {
@@ -208,6 +206,10 @@ public class PluginGuiceEnvironment {
     httpItems = dynamicItemsOf(injector);
     httpSets = httpDynamicSetsOf(injector);
     httpMaps = dynamicMapsOf(injector);
+    addOnStartStopReloadListeners(injector);
+  }
+
+  private void addOnStartStopReloadListeners(Injector injector) {
     onStart.addAll(listeners(injector, StartPluginListener.class));
     onStop.addAll(listeners(injector, StopPluginListener.class));
     onReload.addAll(listeners(injector, ReloadPluginListener.class));

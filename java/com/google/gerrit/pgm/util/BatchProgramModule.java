@@ -72,6 +72,8 @@ import com.google.gerrit.server.extensions.events.WorkInProgressStateChanged;
 import com.google.gerrit.server.git.ChangesByProjectCache;
 import com.google.gerrit.server.git.PureRevertCache;
 import com.google.gerrit.server.git.TagCache;
+import com.google.gerrit.server.ioutil.DefaultRegexAutomatonCompiler;
+import com.google.gerrit.server.ioutil.RegexAutomatonCompiler;
 import com.google.gerrit.server.notedb.NoteDbModule;
 import com.google.gerrit.server.patch.DiffExecutorModule;
 import com.google.gerrit.server.patch.DiffOperationsForCommitValidation;
@@ -165,6 +167,7 @@ public class BatchProgramModule extends FactoryModule {
     bind(IdentifiedUser.class).toProvider(Providers.of(null));
     bind(EmailNewPatchSet.Factory.class).toProvider(Providers.of(null));
     bind(CurrentUser.class).to(InternalUser.class);
+    bind(RegexAutomatonCompiler.class).to(DefaultRegexAutomatonCompiler.class).in(SINGLETON);
     factory(PatchSetInserter.Factory.class);
     factory(RebaseChangeOp.Factory.class);
     factory(DiffOperationsForCommitValidation.Factory.class);

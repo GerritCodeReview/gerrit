@@ -94,7 +94,7 @@ public final class MostSpecificComparator implements Comparator<AccessSection> {
 
   private boolean finite(String pattern) {
     if (RefPattern.isRE(pattern)) {
-      return RefPattern.toRegExp(pattern).toAutomaton().isFinite();
+      return RefPattern.toAutomaton(pattern).isFinite();
 
     } else if (pattern.endsWith("/*")) {
       return false;
@@ -106,7 +106,7 @@ public final class MostSpecificComparator implements Comparator<AccessSection> {
 
   private int transitions(String pattern) {
     if (RefPattern.isRE(pattern)) {
-      return RefPattern.toRegExp(pattern).toAutomaton().getNumberOfTransitions();
+      return RefPattern.toAutomaton(pattern).getNumberOfTransitions();
 
     } else if (pattern.endsWith("/*")) {
       return pattern.length();

@@ -26,6 +26,7 @@ import {AccountInfo, ChangeInfo, NumericChangeId} from '../../../types/common';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {queryAndAssert} from '../../../utils/common-util';
 import {ReviewerState} from '../../../constants/constants';
+import {GrHovercardAccount} from '../../shared/gr-hovercard-account/gr-hovercard-account';
 
 const accounts: AccountInfo[] = [
   createAccountWithIdNameAndEmail(0),
@@ -102,6 +103,38 @@ suite('gr-change-list-reviewer-flow screenshot tests', () => {
     await visualDiffDarkTheme(
       dialog,
       'gr-change-list-reviewer-flow-with-reviewers'
+    );
+  });
+
+  test('reviewer flow dialog with reviewer hovercard', async () => {
+    element.updatedAccountsByReviewerState.set(ReviewerState.REVIEWER, [
+      accounts[1],
+      accounts[2],
+    ]);
+    element.requestUpdate();
+    await element.updateComplete;
+
+    const accountList = queryAndAssert(element, '#reviewer-list');
+    await accountList.updateComplete;
+    const chip = queryAndAssert(accountList, 'gr-account-chip');
+    await chip.updateComplete;
+    const label = queryAndAssert(chip, 'gr-account-label');
+    await label.updateComplete;
+    const hovercard = queryAndAssert<GrHovercardAccount>(
+      label,
+      'gr-hovercard-account'
+    );
+    await hovercard.show({});
+    await hovercard.updateComplete;
+
+    const dialog = queryAndAssert(element, '#flow');
+    await visualDiff(
+      dialog,
+      'gr-change-list-reviewer-flow-with-reviewer-hovercard'
+    );
+    await visualDiffDarkTheme(
+      dialog,
+      'gr-change-list-reviewer-flow-with-reviewer-hovercard'
     );
   });
 });

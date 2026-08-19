@@ -163,6 +163,8 @@ import com.google.gerrit.server.git.validators.UploadValidationListener;
 import com.google.gerrit.server.git.validators.UploadValidators;
 import com.google.gerrit.server.group.db.GroupDbModule;
 import com.google.gerrit.server.index.change.ReindexChangesAfterRefUpdate;
+import com.google.gerrit.server.ioutil.DefaultRegexAutomatonCompiler;
+import com.google.gerrit.server.ioutil.RegexAutomatonCompiler;
 import com.google.gerrit.server.logging.PerformanceLogger;
 import com.google.gerrit.server.mail.AutoReplyMailFilter;
 import com.google.gerrit.server.mail.ListMailFilter;
@@ -261,6 +263,7 @@ public class GerritGlobalModule extends FactoryModule {
 
     bind(IdGenerator.class);
     bind(BlameCache.class).to(BlameCacheImpl.class);
+    bind(RegexAutomatonCompiler.class).to(DefaultRegexAutomatonCompiler.class).in(SINGLETON);
     install(BatchUpdate.module());
     install(ChangeKindCacheImpl.module());
     install(ChangeFinder.module());

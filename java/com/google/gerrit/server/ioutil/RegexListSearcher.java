@@ -19,17 +19,17 @@ import static java.util.Objects.requireNonNull;
 import com.google.common.collect.Lists;
 import com.google.common.primitives.Chars;
 import dk.brics.automaton.Automaton;
-import dk.brics.automaton.RegExp;
 import dk.brics.automaton.RunAutomaton;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
-/** Helper to search sorted lists for elements matching a {@link RegExp}. */
+/** Helper to search sorted lists for elements matching a regular expression. */
 public final class RegexListSearcher<T> {
-  public static RegexListSearcher<String> ofStrings(String re) {
-    return new RegexListSearcher<>(re, Function.identity());
+  public static RegexListSearcher<String> ofStrings(
+      RegexAutomatonCompiler regexAutomatonCompiler, String re) {
+    return new RegexListSearcher<>(regexAutomatonCompiler, re, Function.identity());
   }
 
   private final RunAutomaton pattern;
@@ -40,7 +40,8 @@ public final class RegexListSearcher<T> {
   private final int prefixLen;
   private final boolean prefixOnly;
 
-  public RegexListSearcher(String re, Function<T, String> toStringFunc) {
+  public RegexListSearcher(
+      RegexAutomatonCompiler regexAutomatonCompiler, String re, Function<T, String> toStringFunc) {
     this.toStringFunc = requireNonNull(toStringFunc);
 
     if (re.startsWith("^")) {
@@ -51,7 +52,7 @@ public final class RegexListSearcher<T> {
       re = re.substring(0, re.length() - 1);
     }
 
-    Automaton automaton = new RegExp(re).toAutomaton();
+    Automaton automaton = regexAutomatonCompiler.compile(re);
     prefixBegin = automaton.getCommonPrefix();
     prefixLen = prefixBegin.length();
 

@@ -19,6 +19,7 @@ import static org.junit.Assert.assertTrue;
 
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.server.ioutil.DefaultRegexAutomatonCompiler;
 import java.util.Arrays;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
@@ -78,7 +79,7 @@ public class RegexPathPredicateTest {
   }
 
   private static RegexPathPredicate predicate(String pattern) {
-    return new RegexPathPredicate(pattern);
+    return new RegexPathPredicate(new DefaultRegexAutomatonCompiler(), pattern);
   }
 
   private static ChangeData change(String... files) {

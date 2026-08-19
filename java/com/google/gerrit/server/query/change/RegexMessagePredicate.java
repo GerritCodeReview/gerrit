@@ -16,13 +16,14 @@ package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.index.change.ChangeField;
-import dk.brics.automaton.RegExp;
+import com.google.gerrit.server.ioutil.RegexAutomatonCompiler;
 import dk.brics.automaton.RunAutomaton;
 
 public class RegexMessagePredicate extends ChangeRegexPredicate {
   protected final RunAutomaton pattern;
 
-  public RegexMessagePredicate(String re) throws QueryParseException {
+  public RegexMessagePredicate(RegexAutomatonCompiler regexAutomatonCompiler, String re)
+      throws QueryParseException {
     super(ChangeField.COMMIT_MESSAGE_EXACT, re);
 
     if (re.startsWith("^")) {
@@ -34,7 +35,7 @@ public class RegexMessagePredicate extends ChangeRegexPredicate {
     }
 
     try {
-      this.pattern = new RunAutomaton(new RegExp(re).toAutomaton());
+      this.pattern = new RunAutomaton(regexAutomatonCompiler.compile(re));
     } catch (IllegalArgumentException e) {
       throw new QueryParseException(String.format("invalid regular expression: %s", re), e);
     }

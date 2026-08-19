@@ -371,6 +371,16 @@ link:https://issues.gerritcodereview.com/issues/new?component=1371020&template=1
 Then it will show up in Google's triage queue and the current person who is on duty
 should look into this.
 
+New or upgraded libraries must also be available on Gerrit's Maven mirror so that
+the build does not depend on Maven Central. Contributors cannot upload to the
+mirror directly: if the
+link:dev-bazel.html#mirror-coverage-check[mirror coverage check] reports missing
+artifacts, request that they be added by filing an issue on the same
+link:https://issues.gerritcodereview.com/issues/new?component=1371020&template=1834212["Hosting > googlesource" component]
+used for dependency updates above, quoting the exact output lines the checker
+printed for each missing artifact. The dependency can be relied on once the
+artifacts appear on the mirror and the check passes.
+
 Gerrit's library dependencies should only be upgraded if the new version contains
 something we need in Gerrit. This includes new features, API changes as well as bug
 or security fixes.

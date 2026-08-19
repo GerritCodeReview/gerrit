@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "633e5daa_e41789d8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3894415
+      },
+      "writtenOn": "2026-08-19T09:38:45Z",
+      "side": 1,
+      "message": "This change adds the missing isConfigRef guard to deleteSingleRef so that refs/meta/config cannot be deleted when only a single ref is supplied (the path used by DeleteTags).\n\nThis closes the inconsistency reported on the repo-discuss mailing list.",
+      "revId": "765bbe94d6c12291214e49b8bdf85c8d1359f565",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

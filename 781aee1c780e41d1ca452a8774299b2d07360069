@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5b9a09e_8f9e13d1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-19T06:57:47Z",
+      "side": 1,
+      "message": "\u003e Thanks for driving this — strong +1 on the intent. Mirror coverage should be enforced and mandatory; after last week\u0027s outage that\u0027s clearly the right direction.\n\u003e \n\u003e My concern is the layer, not the aim. Whether a dependency is on gerrit-maven is a mechanical fact — an HTTP 200 — not a human judgment. That\u0027s what makes a label the wrong tool here: a label plus approver group earns its cost when there\u0027s a real decision to make, the way Library-Compliance encodes a genuine policy call that rightly stays Google-gated. For \"is it mirrored?\", there\u0027s nothing to decide — and since the plan is to have CI set the label automatically, it becomes a CI job transcribing its own exit code into a vote that Verified already carries.\n\u003e \n\u003e Concretely: a CI step runs the mirror-coverage checker I added in change 619941 on the change\u0027s new deps, and if any aren\u0027t on the bucket it votes Verified-1 with the missing coordinate — reusing the gate we already have instead of adding a new label.\n\nYes, that\u0027s what I initially thought as well. Just give `Verified -1` if the dependency isn\u0027t mirrored.\n\nHowever, I had a concern that people may just say _\"it works for me, Luca can you check what\u0027s wrong with the CI?\"_ \nI believe the CI needs to explicitly differentiate between:\n1. The change is breaking the code building correctly or the tests\n2. The change is pulling a non-mirrored dependency\n\n\u003e Why that\u0027s enough:\n\u003e \n\u003e - it checks the deps against the bucket directly, so it\u0027s independent of the Bazel cache — blocking Central in a build gives false greens off a warm cache;\n\u003e - HEAD-only, so it barely touches the mirror: no downloads, no cache-busting, no added load — exactly the fragility we\u0027re trying to avoid;\n\u003e - fails fast, in seconds, naming the missing coordinate;\n\u003e - Verified-1 already blocks submit, so no new SR or approver group.\n\nSo, you were suggesting to even stop the build altogether at the beginning if the dependency isn\u0027t mirrored?\n\nThe only issue I see is people having to add the mirror only for checking if a dependency may work or not.\n\n\u003e That keeps enforcement mandatory without making the contributor path heavier — a change already has to clear:\n\u003e \n\u003e - Code-Style\n\u003e - Code-Review\n\u003e - Verified\n\u003e - Library-Compliance\n\u003e - Forward-Compatible\n\u003e - Release-Notes\n\u003e - Frontend-Verified\n\u003e \n\u003e I\u0027d rather not add an eighth gate for something a script decides.\n\nWhat we *could* do is the CI provide a `Library-Compliance -1` instead, if the dependency isn\u0027t mirrored. However, we would need to extend the ACL for that label, which is currently restricted for maintainers only.",
+      "parentUuid": "931e4353_3a7214e9",
+      "revId": "781aee1c780e41d1ca452a8774299b2d07360069",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "2408220d_699a9b1f",

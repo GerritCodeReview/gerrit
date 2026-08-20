@@ -16,6 +16,63 @@
       "message": "By using the correct name for the method, naming the variable becomes easier.\n\n\n\n```suggestion\n      return new RunAutomaton(regexCompiler.toAutomaton(regex));\n```",
       "revId": "9eb4f897c6ded41ca1a25cd3448996f8e5d829db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "193cad93_f178787e",
+        "filename": "java/com/google/gerrit/server/project/RefPattern.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-20T17:26:50Z",
+      "side": 1,
+      "message": "This looks like a _special_ implementation of the Automaton compiler; why not simply define it here as such?\n\nExample:\n\n```\npubic static final EXAMPLE_AUTOMATON_COMPILER \u003d new RefRegexAutomatonCompiler() {\n   \n   @Override\n   public Automaton toAutomaton(String refPattern) {\n    if (isRE(refPattern)) {\n      refPattern \u003d refPattern.substring(1);\n    }\n    ParameterizedString template \u003d new ParameterizedString(refPattern);\n    String replacement \u003d \"_PLACEHOLDER_\";\n    ImmutableMap\u003cString, String\u003e params \u003d\n        ImmutableMap.of(\n            RefPattern.USERID_SHARDED, replacement,\n            RefPattern.USERNAME, replacement);\n    return new RegExp(template.replace(params), RegExp.NONE).toAutomaton();\n   }\n}\n```",
+      "range": {
+        "startLine": 84,
+        "startChar": 0,
+        "endLine": 99,
+        "endChar": 3
+      },
+      "revId": "9eb4f897c6ded41ca1a25cd3448996f8e5d829db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4b7d0f3_19d8d925",
+        "filename": "java/com/google/gerrit/server/submitrequirement/predicate/RegexAuthorEmailPredicate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-20T17:26:50Z",
+      "side": 1,
+      "message": "The compiler was added to the end of all other classes: keep it consistent.\n\n\n\n```suggestion\n  public RegexAuthorEmailPredicate(String pattern, RegexAutomatonCompiler regexAutomatonCompiler)\n```",
+      "revId": "9eb4f897c6ded41ca1a25cd3448996f8e5d829db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "834208f9_6736e38c",
+        "filename": "java/com/google/gerrit/server/submitrequirement/predicate/RegexCommitterEmailPredicate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-20T17:26:50Z",
+      "side": 1,
+      "message": "The compiler was added to the end of all other classes: keep it consistent.\n\n```suggestion\n  public RegexCommitterEmailPredicate(String pattern, RegexAutomatonCompiler regexAutomatonCompiler)\n```",
+      "revId": "9eb4f897c6ded41ca1a25cd3448996f8e5d829db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

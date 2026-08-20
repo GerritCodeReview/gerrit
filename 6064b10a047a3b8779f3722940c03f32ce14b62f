@@ -1,0 +1,390 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c2f52e0_a10dc514",
+        "filename": "java/com/google/gerrit/server/project/RefPattern.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-20T18:15:51Z",
+      "side": 1,
+      "message": "```suggestion\n  private static final RegexCompiler REF_PATTERN_REGEX_AUTOMATON_COMPILER \u003d\n```",
+      "range": {
+        "startLine": 34,
+        "startChar": 37,
+        "endLine": 34,
+        "endChar": 61
+      },
+      "revId": "6064b10a047a3b8779f3722940c03f32ce14b62f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4f1fb03_0788694c",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 866,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-20T18:15:51Z",
+      "side": 1,
+      "message": "Use the regex pattern compiler at the end of the parameters, consistently with all other changes.",
+      "range": {
+        "startLine": 866,
+        "startChar": 39,
+        "endLine": 866,
+        "endChar": 59
+      },
+      "revId": "6064b10a047a3b8779f3722940c03f32ce14b62f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5586041_48b48e18",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 954,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-20T18:15:51Z",
+      "side": 1,
+      "message": "Use the regex pattern compiler at the end of the parameters, consistently with all other changes.",
+      "revId": "6064b10a047a3b8779f3722940c03f32ce14b62f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71167654_e85d248f",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 982,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-20T18:15:51Z",
+      "side": 1,
+      "message": "Use the regex pattern compiler at the end of the parameters, consistently with all other changes.",
+      "revId": "6064b10a047a3b8779f3722940c03f32ce14b62f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "085adadb_4a25e5f4",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1003,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-20T18:15:51Z",
+      "side": 1,
+      "message": "Use the regex pattern compiler at the end of the parameters, consistently with all other changes.",
+      "revId": "6064b10a047a3b8779f3722940c03f32ce14b62f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "243bdd1b_dfdc26b1",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1022,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-20T18:15:51Z",
+      "side": 1,
+      "message": "Use the regex pattern compiler at the end of the parameters, consistently with all other changes.",
+      "revId": "6064b10a047a3b8779f3722940c03f32ce14b62f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6b61740_be905341",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1030,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-20T18:15:51Z",
+      "side": 1,
+      "message": "Use the regex pattern compiler at the end of the parameters, consistently with all other changes.",
+      "revId": "6064b10a047a3b8779f3722940c03f32ce14b62f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24c42c75_67d0d0de",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1074,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-20T18:15:51Z",
+      "side": 1,
+      "message": "Use the regex pattern compiler at the end of the parameters, consistently with all other changes.",
+      "revId": "6064b10a047a3b8779f3722940c03f32ce14b62f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97a37265_5df23774",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1245,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-20T18:15:51Z",
+      "side": 1,
+      "message": "Use the regex pattern compiler at the end of the parameters, consistently with all other changes.",
+      "revId": "6064b10a047a3b8779f3722940c03f32ce14b62f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "18fa9bd2_4f9184e9",
+        "filename": "java/com/google/gerrit/server/query/change/RegexDirectoryPredicate.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-20T18:15:51Z",
+      "side": 1,
+      "message": "Use the regex pattern compiler at the end of the parameters, consistently with all other changes.",
+      "revId": "6064b10a047a3b8779f3722940c03f32ce14b62f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a41c8dc_626865b6",
+        "filename": "java/com/google/gerrit/server/query/change/RegexHashtagPredicate.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-20T18:15:51Z",
+      "side": 1,
+      "message": "Use the regex pattern compiler at the end of the parameters, consistently with all other changes.",
+      "revId": "6064b10a047a3b8779f3722940c03f32ce14b62f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f33eab8f_ba7ec2b5",
+        "filename": "java/com/google/gerrit/server/query/change/RegexHashtagPredicate.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-20T18:15:51Z",
+      "side": 1,
+      "message": "Use the regex pattern compiler at the end of the parameters, consistently with all other changes.",
+      "revId": "6064b10a047a3b8779f3722940c03f32ce14b62f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3fd26304_ba62a6c1",
+        "filename": "java/com/google/gerrit/server/query/change/RegexMessagePredicate.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-20T18:15:51Z",
+      "side": 1,
+      "message": "Use the regex pattern compiler at the end of the parameters, consistently with all other changes.",
+      "revId": "6064b10a047a3b8779f3722940c03f32ce14b62f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97037baf_7614f5fc",
+        "filename": "java/com/google/gerrit/server/query/change/RegexPathPredicate.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-20T18:15:51Z",
+      "side": 1,
+      "message": "Use the regex pattern compiler at the end of the parameters, consistently with all other changes.",
+      "revId": "6064b10a047a3b8779f3722940c03f32ce14b62f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a630e16_1de46c07",
+        "filename": "java/com/google/gerrit/server/query/change/RegexProjectPredicate.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-20T18:15:51Z",
+      "side": 1,
+      "message": "Use the regex pattern compiler at the end of the parameters, consistently with all other changes.",
+      "revId": "6064b10a047a3b8779f3722940c03f32ce14b62f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d853e7ae_36126215",
+        "filename": "java/com/google/gerrit/server/query/change/RegexRefPredicate.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-20T18:15:51Z",
+      "side": 1,
+      "message": "Use the regex pattern compiler at the end of the parameters, consistently with all other changes.",
+      "revId": "6064b10a047a3b8779f3722940c03f32ce14b62f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43c242b5_652c0cd9",
+        "filename": "java/com/google/gerrit/server/query/change/RegexRefPredicate.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-20T18:15:51Z",
+      "side": 1,
+      "message": "Use the regex pattern compiler at the end of the parameters, consistently with all other changes.",
+      "revId": "6064b10a047a3b8779f3722940c03f32ce14b62f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce3ad35a_e0c70346",
+        "filename": "java/com/google/gerrit/server/query/change/RegexTopicPredicate.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-20T18:15:51Z",
+      "side": 1,
+      "message": "Use the regex pattern compiler at the end of the parameters, consistently with all other changes.",
+      "revId": "6064b10a047a3b8779f3722940c03f32ce14b62f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a8ecbffc_4932a1dd",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListProjectsImpl.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 639,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-20T18:15:51Z",
+      "side": 1,
+      "message": "Use the regex pattern compiler at the end of the parameters, consistently with all other changes.",
+      "revId": "6064b10a047a3b8779f3722940c03f32ce14b62f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9acf6e9a_7c6c943c",
+        "filename": "java/com/google/gerrit/server/submitrequirement/predicate/RegexUploaderEmailPredicate.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-20T18:15:51Z",
+      "side": 1,
+      "message": "Use the regex pattern compiler at the end of the parameters, consistently with all other changes.",
+      "revId": "6064b10a047a3b8779f3722940c03f32ce14b62f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d9a1a40_3e5f6f9c",
+        "filename": "javatests/com/google/gerrit/server/ioutil/RegexListSearcherTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-20T18:15:51Z",
+      "side": 1,
+      "message": "Use the regex pattern compiler at the end of the parameters, consistently with all other changes.",
+      "revId": "6064b10a047a3b8779f3722940c03f32ce14b62f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96cdc8e1_10d50663",
+        "filename": "javatests/com/google/gerrit/server/query/change/RegexPathPredicateTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-20T18:15:51Z",
+      "side": 1,
+      "message": "Use the regex pattern compiler at the end of the parameters, consistently with all other changes.",
+      "revId": "6064b10a047a3b8779f3722940c03f32ce14b62f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -15,6 +15,8 @@
 package com.google.gerrit.server.schema;
 
 import static com.google.gerrit.entities.LabelId.CODE_REVIEW;
+import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
+import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
@@ -86,6 +88,12 @@ public abstract class AllProjectsInput {
         .build();
   }
 
+  /** The default reader group which gets read permissions granted. */
+  public abstract GroupReference defaultReadersGroup();
+
+  /** The default user group which gets default permissions granted. */
+  public abstract GroupReference defaultUsersGroup();
+
   /** The administrator group which gets default permissions granted. */
   public abstract Optional<GroupReference> administratorsGroup();
 
@@ -143,6 +151,14 @@ public abstract class AllProjectsInput {
 
   @AutoValue.Builder
   public abstract static class Builder {
+    public abstract Builder defaultReadersGroup(GroupReference defaultReadersGroup);
+
+    abstract Optional<GroupReference> defaultReadersGroup();
+
+    public abstract Builder defaultUsersGroup(GroupReference defaultUsersGroup);
+
+    abstract Optional<GroupReference> defaultUsersGroup();
+
     public abstract Builder administratorsGroup(GroupReference adminGroup);
 
     public abstract Builder serviceUsersGroup(GroupReference serviceUsersGroup);
@@ -182,6 +198,16 @@ public abstract class AllProjectsInput {
 
     public abstract Builder initDefaultSubmitRequirements(boolean initDefaultSubmitRequirements);
 
-    public abstract AllProjectsInput build();
+    abstract AllProjectsInput autoBuild();
+
+    public AllProjectsInput build() {
+      if (defaultReadersGroup().isEmpty()) {
+        defaultReadersGroup(GroupReference.create(ANONYMOUS_USERS, "Anonymous Users"));
+      }
+      if (defaultUsersGroup().isEmpty()) {
+        defaultUsersGroup(GroupReference.create(REGISTERED_USERS, "Registered Users"));
+      }
+      return autoBuild();
+    }
   }
 }

@@ -110,6 +110,24 @@
       "message": "I believe we also need to remove the listeners when the plugin stops. Currently if a plugin register a listener and then that plugin is unloaded and a new, unrelated plugin is loaded the listener from the now unloaded plugin will fire, which is counter intuitive.\n\nPotentially we need to look at doing the same thing for the reload.",
       "revId": "d5594010b9ac2845b91c5dca257a3a1727a6313b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d1b1865_cfa125d7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-20T10:16:01Z",
+      "side": 1,
+      "message": "Good catch, added.",
+      "parentUuid": "350a961e_82be6ff4",
+      "revId": "d5594010b9ac2845b91c5dca257a3a1727a6313b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

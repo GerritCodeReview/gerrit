@@ -187,6 +187,30 @@
       },
       "revId": "6981e6d858d3c03bb255968277bbdb14dce35fed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ef05feb_5b94c68e",
+        "filename": "javatests/com/google/gerrit/server/plugins/PluginGuiceEnvironmentTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-20T10:45:20Z",
+      "side": 1,
+      "message": "I\u0027ve changed the assertions to avoid the magic `times(2)` inside the assertion. Now the calls are done just once, so that we don\u0027t have to use the `times(2)` anymore.",
+      "parentUuid": "a57e9ae2_e652c906",
+      "range": {
+        "startLine": 119,
+        "startChar": 48,
+        "endLine": 119,
+        "endChar": 56
+      },
+      "revId": "6981e6d858d3c03bb255968277bbdb14dce35fed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

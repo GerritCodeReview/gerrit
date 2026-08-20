@@ -429,6 +429,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "71d17800_64148dfd",
+        "filename": "java/com/google/gerrit/server/query/change/RegexHashtagPredicate.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-08-20T19:34:49Z",
+      "side": 1,
+      "message": "There\u0027s only one parameters here?",
+      "parentUuid": "f33eab8f_ba7ec2b5",
+      "revId": "6064b10a047a3b8779f3722940c03f32ce14b62f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3fd26304_ba62a6c1",
         "filename": "java/com/google/gerrit/server/query/change/RegexMessagePredicate.java",
         "patchSetId": 10
@@ -586,6 +604,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6394ed66_91db98eb",
+        "filename": "java/com/google/gerrit/server/query/change/RegexRefPredicate.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-08-20T19:34:49Z",
+      "side": 1,
+      "message": "There\u0027s only one parameter here?",
+      "parentUuid": "43c242b5_652c0cd9",
+      "revId": "6064b10a047a3b8779f3722940c03f32ce14b62f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ce3ad35a_e0c70346",
         "filename": "java/com/google/gerrit/server/query/change/RegexTopicPredicate.java",
         "patchSetId": 10
@@ -737,6 +773,24 @@
       "writtenOn": "2026-08-20T18:15:51Z",
       "side": 1,
       "message": "Use the regex pattern compiler at the end of the parameters, consistently with all other changes.",
+      "revId": "6064b10a047a3b8779f3722940c03f32ce14b62f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1b97cfc_077d9a31",
+        "filename": "javatests/com/google/gerrit/server/query/change/RegexPathPredicateTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-08-20T19:34:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "96cdc8e1_10d50663",
       "revId": "6064b10a047a3b8779f3722940c03f32ce14b62f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -203,6 +203,7 @@ import com.google.gerrit.server.project.PrologRulesWarningValidator;
 import com.google.gerrit.server.project.SubmitRequirementConfigValidator;
 import com.google.gerrit.server.project.SubmitRequirementsEvaluatorImpl;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
+import com.google.gerrit.server.project.SubmitTypeEvaluator;
 import com.google.gerrit.server.query.approval.ApprovalModule;
 import com.google.gerrit.server.query.approval.ApprovalQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -331,6 +332,7 @@ public class GerritGlobalModule extends FactoryModule {
     bind(AccountDefaultDisplayName.class).toInstance(accountDefaultDisplayName);
     factory(ProjectOwnerGroupsProvider.Factory.class);
     factory(SubmitRuleEvaluator.Factory.class);
+    bind(SubmitTypeEvaluator.class);
     factory(DeleteZombieCommentsRefs.Factory.class);
     factory(DiffOperationsForCommitValidation.Factory.class);
 

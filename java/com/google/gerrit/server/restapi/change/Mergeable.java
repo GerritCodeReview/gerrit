@@ -37,8 +37,7 @@ import com.google.gerrit.server.git.MergeUtilFactory;
 import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.gerrit.server.project.SubmitRuleEvaluator;
-import com.google.gerrit.server.project.SubmitRuleOptions;
+import com.google.gerrit.server.project.SubmitTypeEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import java.io.IOException;
@@ -68,7 +67,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
   private final ChangeData.Factory changeDataFactory;
   private final ChangeIndexer indexer;
   private final MergeabilityCache cache;
-  private final SubmitRuleEvaluator submitRuleEvaluator;
+  private final SubmitTypeEvaluator submitTypeEvaluator;
 
   @Inject
   Mergeable(
@@ -79,7 +78,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
       ChangeData.Factory changeDataFactory,
       ChangeIndexer indexer,
       MergeabilityCache cache,
-      SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory) {
+      SubmitTypeEvaluator submitTypeEvaluator) {
     this.cfg = cfg;
     this.gitManager = gitManager;
     this.projectCache = projectCache;
@@ -87,7 +86,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
     this.changeDataFactory = changeDataFactory;
     this.indexer = indexer;
     this.cache = cache;
-    submitRuleEvaluator = submitRuleEvaluatorFactory.create(SubmitRuleOptions.defaults());
+    this.submitTypeEvaluator = submitTypeEvaluator;
   }
 
   public void setOtherBranches(boolean otherBranches) {
@@ -151,7 +150,7 @@ public class Mergeable implements RestReadView<RevisionResource> {
   }
 
   private SubmitType getSubmitType(ChangeData cd) throws ResourceConflictException {
-    SubmitTypeRecord rec = submitRuleEvaluator.getSubmitType(cd);
+    SubmitTypeRecord rec = submitTypeEvaluator.evaluate(cd);
     if (rec.status != SubmitTypeRecord.Status.OK) {
       throw new ResourceConflictException("submit type rule error: " + rec.errorMessage);
     }

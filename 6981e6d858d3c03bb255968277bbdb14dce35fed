@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c54e01ee_8b65d593",
+        "filename": "java/com/google/gerrit/server/plugins/PluginGuiceEnvironment.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-08-20T10:30:25Z",
+      "side": 1,
+      "message": "For start, we add the plugin listener after the start notification (so a plugin does not receive its own start event)\nFor reload, the old listener is removed before notification and the new listener added afterwards (so neither version receives its own reload event).\n\nHowever for **stop** we remove the listener _after_ having send the notification, so the plugin _does_ receive the notification.\n\nIs this intentional?",
+      "range": {
+        "startLine": 315,
+        "startChar": 0,
+        "endLine": 315,
+        "endChar": 62
+      },
+      "revId": "6981e6d858d3c03bb255968277bbdb14dce35fed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee5541ef_4fb46122",
+        "filename": "javatests/com/google/gerrit/server/plugins/PluginGuiceEnvironmentTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-08-20T10:30:25Z",
+      "side": 1,
+      "message": "```suggestion\n  public void shouldRemoveStartStopReloadListener_pluginStartedAndThenStopped() {\n```",
+      "range": {
+        "startLine": 89,
+        "startChar": 14,
+        "endLine": 89,
+        "endChar": 77
+      },
+      "revId": "6981e6d858d3c03bb255968277bbdb14dce35fed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8347062b_86b2e717",
+        "filename": "javatests/com/google/gerrit/server/plugins/PluginGuiceEnvironmentTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-08-20T10:30:25Z",
+      "side": 1,
+      "message": "```suggestion\n  public void shouldRemoveStartStopReloadListener_pluginStartedAndThenReloaded() {\n```",
+      "range": {
+        "startLine": 103,
+        "startChar": 14,
+        "endLine": 103,
+        "endChar": 78
+      },
+      "revId": "6981e6d858d3c03bb255968277bbdb14dce35fed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "32fcd986_4ac86854",
+        "filename": "javatests/com/google/gerrit/server/plugins/PluginGuiceEnvironmentTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-08-20T10:30:25Z",
+      "side": 1,
+      "message": "I might be missing something, but why `times(2)` here?\n\nThe reloaded listeners are added only after the first reload callback, so I would expect the start/reload/stop triggered by verifyStartReloadStopReloadedListeners() to call them once, not twice.",
+      "range": {
+        "startLine": 119,
+        "startChar": 48,
+        "endLine": 119,
+        "endChar": 56
+      },
+      "revId": "6981e6d858d3c03bb255968277bbdb14dce35fed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

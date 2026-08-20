@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad82c21d_44489961",
+        "filename": "java/com/google/gerrit/server/plugins/PluginGuiceEnvironment.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-20T12:09:05Z",
+      "side": 1,
+      "message": "Unrelated change.",
+      "revId": "108cd282b6360da011aefb0c9f5ad850f2abd0de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

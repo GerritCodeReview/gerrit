@@ -575,8 +575,15 @@ message StoredCommentLinkInfoProto {
   string text = 9;
 }
 
+// Serialized form of com.google.gerrit.entities.SubmitTypeOverride.
+// Next ID: 3
+message SubmitTypeOverrideProto {
+  string submit_type = 1;        // SubmitType enum as string
+  string applicability_expr = 2; // applicableIf expression; empty means no expression
+}
+
 // Serialized form of com.google.gerrit.entities.CachedProjectConfigProto.
-// Next ID: 20
+// Next ID: 21
 message CachedProjectConfigProto {
   ProjectProto project = 1;
   repeated GroupReferenceProto group_list = 2;
@@ -597,6 +604,7 @@ message CachedProjectConfigProto {
   map<string, string> plugin_configs = 17;
   map<string, string> project_level_configs = 18;
   repeated SubmitRequirementProto submit_requirement_sections = 19;
+  repeated SubmitTypeOverrideProto submit_type_sections = 20;
 
   // Next ID: 2
   message ExtensionPanelSectionProto {

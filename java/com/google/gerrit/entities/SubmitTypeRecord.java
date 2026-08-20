@@ -22,6 +22,9 @@ public class SubmitTypeRecord {
     /** The type was computed successfully */
     OK,
 
+    /** No type could be determined */
+    MISSING,
+
     /**
      * An internal server error occurred preventing computation.
      *
@@ -32,6 +35,10 @@ public class SubmitTypeRecord {
 
   public static SubmitTypeRecord OK(SubmitType type) {
     return new SubmitTypeRecord(Status.OK, type, null);
+  }
+
+  public static SubmitTypeRecord missing() {
+    return new SubmitTypeRecord(SubmitTypeRecord.Status.MISSING, null, "No submit type configured");
   }
 
   public static SubmitTypeRecord error(String err) {
@@ -58,6 +65,10 @@ public class SubmitTypeRecord {
 
   public boolean isOk() {
     return status == Status.OK;
+  }
+
+  public boolean isMissing() {
+    return status == Status.MISSING;
   }
 
   @Override

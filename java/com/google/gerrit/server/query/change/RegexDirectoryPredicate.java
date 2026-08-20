@@ -15,13 +15,13 @@
 package com.google.gerrit.server.query.change;
 
 import com.google.gerrit.server.index.change.ChangeField;
-import dk.brics.automaton.RegExp;
+import com.google.gerrit.server.ioutil.RegexCompiler;
 import dk.brics.automaton.RunAutomaton;
 
 public class RegexDirectoryPredicate extends ChangeRegexPredicate {
   protected final RunAutomaton pattern;
 
-  public RegexDirectoryPredicate(String re) {
+  public RegexDirectoryPredicate(String re, RegexCompiler regexCompiler) {
     super(ChangeField.DIRECTORY_SPEC, re);
 
     if (re.startsWith("^")) {
@@ -32,7 +32,7 @@ public class RegexDirectoryPredicate extends ChangeRegexPredicate {
       re = re.substring(0, re.length() - 1);
     }
 
-    this.pattern = new RunAutomaton(new RegExp(re).toAutomaton());
+    this.pattern = new RunAutomaton(regexCompiler.toAutomaton(re));
   }
 
   @Override

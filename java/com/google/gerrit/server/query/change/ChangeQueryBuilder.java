@@ -85,6 +85,7 @@ import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.ChangeIndexRewriter;
+import com.google.gerrit.server.ioutil.RegexCompiler;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -294,6 +295,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     final ExperimentFeatures experimentFeatures;
     final HasOperandAliasConfig hasOperandAliasConfig;
     final PluginSetContext<SubmitRule> submitRules;
+    final RegexCompiler regexCompiler;
 
     private final Provider<CurrentUser> self;
 
@@ -334,7 +336,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
         HasOperandAliasConfig hasOperandAliasConfig,
         ChangeIsVisibleToPredicate.Factory changeIsVisbleToPredicateFactory,
         PluginSetContext<SubmitRule> submitRules,
-        EditByPredicateProvider editByPredicateProvider) {
+        EditByPredicateProvider editByPredicateProvider,
+        RegexCompiler regexCompiler) {
       this(
           queryProvider,
           rewriter,
@@ -369,7 +372,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
           hasOperandAliasConfig,
           changeIsVisbleToPredicateFactory,
           submitRules,
-          editByPredicateProvider);
+          editByPredicateProvider,
+          regexCompiler);
     }
 
     private Arguments(
@@ -406,7 +410,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
         HasOperandAliasConfig hasOperandAliasConfig,
         ChangeIsVisibleToPredicate.Factory changeIsVisbleToPredicateFactory,
         PluginSetContext<SubmitRule> submitRules,
-        EditByPredicateProvider editByPredicateProvider) {
+        EditByPredicateProvider editByPredicateProvider,
+        RegexCompiler regexCompiler) {
       this.queryProvider = queryProvider;
       this.rewriter = rewriter;
       this.opFactories = opFactories;
@@ -441,6 +446,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       this.hasOperandAliasConfig = hasOperandAliasConfig;
       this.submitRules = submitRules;
       this.editByPredicateProvider = editByPredicateProvider;
+      this.regexCompiler = regexCompiler;
     }
 
     public Arguments asUser(CurrentUser otherUser) {
@@ -478,7 +484,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
           hasOperandAliasConfig,
           changeIsVisbleToPredicateFactory,
           submitRules,
-          editByPredicateProvider);
+          editByPredicateProvider,
+          regexCompiler);
     }
 
     Arguments asUser(Account.Id otherId) {
@@ -864,7 +871,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   @Operator
   public Predicate<ChangeData> project(String name) {
     if (name.startsWith("^")) {
-      return new RegexProjectPredicate(name);
+      return new RegexProjectPredicate(name, args.regexCompiler);
     }
     return ChangePredicates.project(Project.nameKey(name));
   }
@@ -952,7 +959,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   @Operator
   public Predicate<ChangeData> inhashtag(String hashtag) throws QueryParseException {
     if (hashtag.startsWith("^")) {
-      return new RegexHashtagPredicate(hashtag);
+      return new RegexHashtagPredicate(hashtag, args.regexCompiler);
     }
     if (hashtag.isEmpty()) {
       return ChangePredicates.hashtag(hashtag);
@@ -980,7 +987,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   @Operator
   public Predicate<ChangeData> intopic(String name) {
     if (name.startsWith("^")) {
-      return new RegexTopicPredicate(name);
+      return new RegexTopicPredicate(name, args.regexCompiler);
     }
     if (name.isEmpty()) {
       return ChangePredicates.exactTopic(name);
@@ -1001,7 +1008,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   @Operator
   public Predicate<ChangeData> ref(String ref) throws QueryParseException {
     if (ref.startsWith("^")) {
-      return new RegexRefPredicate(ref);
+      return new RegexRefPredicate(ref, args.regexCompiler);
     }
     return ChangePredicates.ref(ref);
   }
@@ -1020,7 +1027,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   @Operator
   public Predicate<ChangeData> file(String file) throws QueryParseException {
     if (file.startsWith("^")) {
-      return new RegexPathPredicate(file);
+      return new RegexPathPredicate(file, args.regexCompiler);
     }
     return ChangePredicates.file(args, file);
   }
@@ -1028,7 +1035,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   @Operator
   public Predicate<ChangeData> path(String path) {
     if (path.startsWith("^")) {
-      return new RegexPathPredicate(path);
+      return new RegexPathPredicate(path, args.regexCompiler);
     }
     return ChangePredicates.path(path);
   }
@@ -1072,7 +1079,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   @Operator
   public Predicate<ChangeData> directory(String directory) {
     if (directory.startsWith("^")) {
-      return new RegexDirectoryPredicate(directory);
+      return new RegexDirectoryPredicate(directory, args.regexCompiler);
     }
     return ChangePredicates.directory(directory);
   }
@@ -1262,7 +1269,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       checkFieldAvailable(
           ChangeField.COMMIT_MESSAGE_EXACT,
           "'message' operator with regular expression is not supported on this gerrit host");
-      return new RegexMessagePredicate(text);
+      return new RegexMessagePredicate(text, args.regexCompiler);
     }
     return ChangePredicates.message(text);
   }

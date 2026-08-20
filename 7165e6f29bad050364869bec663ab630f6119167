@@ -141,6 +141,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "af674fbb_7c300cd2",
+        "filename": "java/com/google/gerrit/server/ioutil/RegexAutomatonCompiler.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-08-20T17:49:39Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "eef32651_1a387c6b",
+      "range": {
+        "startLine": 19,
+        "startChar": 38,
+        "endLine": 19,
+        "endChar": 46
+      },
+      "revId": "7165e6f29bad050364869bec663ab630f6119167",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f3c15ff2_880b8113",
@@ -154,6 +178,24 @@
       "writtenOn": "2026-08-20T16:59:25Z",
       "side": 1,
       "message": "This can be a `@FunctionalInterface` that compiles a `String` into an `Automaton`.\n\n```suggestion\n@FunctionalInterface\npublic interface RegexAutomatonCompiler {\n```",
+      "revId": "7165e6f29bad050364869bec663ab630f6119167",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9873966_b45a98d8",
+        "filename": "java/com/google/gerrit/server/ioutil/RegexAutomatonCompiler.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-08-20T17:49:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f3c15ff2_880b8113",
       "revId": "7165e6f29bad050364869bec663ab630f6119167",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -181,6 +223,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae09707b_3b226d5b",
+        "filename": "java/com/google/gerrit/server/ioutil/RegexAutomatonCompiler.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-08-20T17:49:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eed53796_4ac6bcd8",
+      "range": {
+        "startLine": 21,
+        "startChar": 12,
+        "endLine": 21,
+        "endChar": 19
+      },
+      "revId": "7165e6f29bad050364869bec663ab630f6119167",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "946bfcd8_8602270a",
@@ -198,6 +264,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac3d1ddd_743860d2",
+        "filename": "java/com/google/gerrit/server/ioutil/RegexAutomatonCompiler.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-08-20T17:49:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "946bfcd8_8602270a",
+      "revId": "7165e6f29bad050364869bec663ab630f6119167",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ad15c789_05dcfd0c",
@@ -211,6 +295,30 @@
       "writtenOn": "2026-08-20T16:59:25Z",
       "side": 1,
       "message": "Unrelated change? We don\u0027t change the method\u0027s output; therefore, the description should remain the same.",
+      "range": {
+        "startLine": 28,
+        "startChar": 58,
+        "endLine": 28,
+        "endChar": 76
+      },
+      "revId": "7165e6f29bad050364869bec663ab630f6119167",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "860cad9f_041b4219",
+        "filename": "java/com/google/gerrit/server/ioutil/RegexListSearcher.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-08-20T17:49:39Z",
+      "side": 1,
+      "message": "I do believe this is related, as we\u0027re not importing `import dk.brics.automaton.RegExp;` anymore linking to it like this won\u0027t work.\n\nWant me to use the fully qualified class name? (I believe that should work), or leave it as is?",
+      "parentUuid": "ad15c789_05dcfd0c",
       "range": {
         "startLine": 28,
         "startChar": 58,

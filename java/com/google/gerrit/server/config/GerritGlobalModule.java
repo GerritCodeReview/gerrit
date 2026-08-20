@@ -257,7 +257,14 @@ public class GerritGlobalModule extends FactoryModule {
 
     bind(IdGenerator.class);
     bind(BlameCache.class).to(BlameCacheImpl.class);
-    bind(RegexCompiler.class).to(DefaultRegexCompiler.class).in(SINGLETON);
+    bind(RegexCompiler.class)
+        .annotatedWith(UntrustedRegex.class)
+        .to(UntrustedRegexCompiler.class)
+        .in(SINGLETON);
+    bind(RegexCompiler.class)
+        .annotatedWith(TrustedRegex.class)
+        .to(DefaultRegexCompiler.class)
+        .in(SINGLETON);
     install(BatchUpdate.module());
     install(ChangeKindCacheImpl.module());
     install(ChangeFinder.module());

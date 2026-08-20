@@ -29,6 +29,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestProjectInput;
+import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
@@ -42,6 +43,8 @@ import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.json.OutputFormat;
+import com.google.gerrit.server.config.RegexAllowedGroupsProvider;
+import com.google.gerrit.server.permissions.RegexPermissionPolicy;
 import com.google.gerrit.server.project.ProjectCacheImpl;
 import com.google.gerrit.server.restapi.project.ListProjectsImpl;
 import com.google.gson.Gson;
@@ -60,6 +63,34 @@ public class ListProjectsIT extends AbstractDaemonTest {
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private ListProjectsImpl listProjects;
+
+  @Test
+  @UseLocalDisk
+  @GerritConfig(
+      name = RegexAllowedGroupsProvider.SECTION + "." + RegexAllowedGroupsProvider.KEY,
+      value = "Project Owners")
+  public void regexRejectedForUserOutsideAllowedGroup() throws Exception {
+    requestScopeOperations.setApiUser(user.id());
+
+    BadRequestException thrown =
+        assertThrows(BadRequestException.class, () -> gApi.projects().list().withRegex(".*").get());
+
+    assertThat(thrown).hasMessageThat().isEqualTo(RegexPermissionPolicy.NOT_PERMITTED_MESSAGE);
+  }
+
+  @Test
+  @UseLocalDisk
+  @GerritConfig(
+      name = RegexAllowedGroupsProvider.SECTION + "." + RegexAllowedGroupsProvider.KEY,
+      value = "Project Owners")
+  public void anonymousRegexIsRejected() throws Exception {
+    requestScopeOperations.setApiUserAnonymous();
+
+    BadRequestException thrown =
+        assertThrows(BadRequestException.class, () -> gApi.projects().list().withRegex(".*").get());
+
+    assertThat(thrown).hasMessageThat().isEqualTo(RegexPermissionPolicy.NOT_PERMITTED_MESSAGE);
+  }
 
   @Test
   public void listProjects() throws Exception {

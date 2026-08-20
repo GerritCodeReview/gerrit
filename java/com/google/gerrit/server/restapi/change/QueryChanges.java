@@ -37,6 +37,7 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeQueryProcessor;
+import com.google.gerrit.server.query.change.UntrustedChangeQueryBuilder;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.util.ArrayList;
@@ -126,7 +127,7 @@ public class QueryChanges implements RestReadView<TopLevelResource>, DynamicOpti
   @Inject
   QueryChanges(
       ChangeJson.Factory json,
-      ChangeQueryBuilder qb,
+      UntrustedChangeQueryBuilder qb,
       Provider<ChangeQueryProcessor> queryProcessorProvider,
       Provider<CurrentUser> userProvider,
       PermissionBackend permissionBackend) {

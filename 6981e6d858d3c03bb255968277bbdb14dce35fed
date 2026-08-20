@@ -71,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f65fa6bd_a08cade4",
+        "filename": "javatests/com/google/gerrit/server/plugins/PluginGuiceEnvironmentTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-20T10:36:17Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "ee5541ef_4fb46122",
+      "range": {
+        "startLine": 89,
+        "startChar": 14,
+        "endLine": 89,
+        "endChar": 77
+      },
+      "revId": "6981e6d858d3c03bb255968277bbdb14dce35fed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8347062b_86b2e717",
@@ -94,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "78f9e35f_0532bd8e",
+        "filename": "javatests/com/google/gerrit/server/plugins/PluginGuiceEnvironmentTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-20T10:36:17Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "8347062b_86b2e717",
+      "range": {
+        "startLine": 103,
+        "startChar": 14,
+        "endLine": 103,
+        "endChar": 78
+      },
+      "revId": "6981e6d858d3c03bb255968277bbdb14dce35fed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "32fcd986_4ac86854",
@@ -107,6 +155,30 @@
       "writtenOn": "2026-08-20T10:30:25Z",
       "side": 1,
       "message": "I might be missing something, but why `times(2)` here?\n\nThe reloaded listeners are added only after the first reload callback, so I would expect the start/reload/stop triggered by verifyStartReloadStopReloadedListeners() to call them once, not twice.",
+      "range": {
+        "startLine": 119,
+        "startChar": 48,
+        "endLine": 119,
+        "endChar": 56
+      },
+      "revId": "6981e6d858d3c03bb255968277bbdb14dce35fed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a57e9ae2_e652c906",
+        "filename": "javatests/com/google/gerrit/server/plugins/PluginGuiceEnvironmentTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-20T10:36:17Z",
+      "side": 1,
+      "message": "\u003e I might be missing something, but why `times(2)` here?\n\nThere are two verifications, one at L118 and another at L119, it needs to be done twice.\n\n\u003e The reloaded listeners are added only after the first reload callback, so I would expect the start/reload/stop triggered by verifyStartReloadStopReloadedListeners() to call them once, not twice.\n\nNo, the verification at L118 is done after the `onReloadedPlugin` at L116, therefore the reloaded plugin receives the ones at L118 and L119, two times.",
+      "parentUuid": "32fcd986_4ac86854",
       "range": {
         "startLine": 119,
         "startChar": 48,

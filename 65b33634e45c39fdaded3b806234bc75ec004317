@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb96dbdb_bc4ab02d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-08-20T12:20:59Z",
+      "side": 1,
+      "message": "Seems to be working correctly for me now. Leaving the CI to verify the change.",
+      "revId": "65b33634e45c39fdaded3b806234bc75ec004317",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

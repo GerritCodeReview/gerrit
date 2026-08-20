@@ -264,7 +264,7 @@ public class QueryChangesIT extends AbstractDaemonTest {
     BadRequestException e =
         assertThrows(
             BadRequestException.class, () -> queryChanges.apply(TopLevelResource.INSTANCE));
-    assertThat(e).hasMessageThat().isEqualTo("invalid regular expression: [A");
+    assertThat(e).hasMessageThat().isEqualTo("invalid regular expression: ^[A");
   }
 
   @Test

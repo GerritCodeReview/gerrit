@@ -42,16 +42,8 @@ public class RegexUploaderEmailPredicate extends SubmitRequirementPredicate {
     super("uploaderemail", pattern);
     this.accountCache = accountCache;
 
-    if (pattern.startsWith("^")) {
-      pattern = pattern.substring(1);
-    }
-
-    if (pattern.endsWith("$") && !pattern.endsWith("\\$")) {
-      pattern = pattern.substring(0, pattern.length() - 1);
-    }
-
     try {
-      this.uploaderEmailPattern = new RunAutomaton(regexAutomatonCompiler.compile(pattern));
+      this.uploaderEmailPattern = regexAutomatonCompiler.compileMatcher(pattern);
     } catch (IllegalArgumentException e) {
       throw new QueryParseException(String.format("invalid regular expression: %s", pattern), e);
     }

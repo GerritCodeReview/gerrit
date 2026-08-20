@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c860c5b_20a84d2c",
+        "filename": "java/com/google/gerrit/server/plugins/PluginGuiceEnvironment.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-20T10:34:27Z",
+      "side": 1,
+      "message": "No, it was accidental. Fixed.",
+      "parentUuid": "c54e01ee_8b65d593",
+      "range": {
+        "startLine": 315,
+        "startChar": 0,
+        "endLine": 315,
+        "endChar": 62
+      },
+      "revId": "6981e6d858d3c03bb255968277bbdb14dce35fed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ee5541ef_4fb46122",

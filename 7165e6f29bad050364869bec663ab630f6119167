@@ -351,6 +351,30 @@
       },
       "revId": "7165e6f29bad050364869bec663ab630f6119167",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc967152_c4337963",
+        "filename": "java/com/google/gerrit/server/ioutil/RegexListSearcher.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-08-20T17:59:44Z",
+      "side": 1,
+      "message": "\u003e Well, it didn\u0027t import or export any RegExp even before.\n\nI see that we used to import `import dk.brics.automaton.RegExp;` and now we don\u0027t anymore. So that\u0027s the `RegExp` we where referring too in that link.",
+      "parentUuid": "44bf1411_581a7a15",
+      "range": {
+        "startLine": 28,
+        "startChar": 58,
+        "endLine": 28,
+        "endChar": 76
+      },
+      "revId": "7165e6f29bad050364869bec663ab630f6119167",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

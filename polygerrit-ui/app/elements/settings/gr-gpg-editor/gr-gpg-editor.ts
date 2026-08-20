@@ -16,7 +16,7 @@ import {grFormStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {assertIsDefined} from '../../../utils/common-util';
 import {BindValueChangeEvent} from '../../../types/events';
-import {fire} from '../../../utils/event-util';
+import {fire, fireAlert} from '../../../utils/event-util';
 import {modalStyles} from '../../../styles/gr-modal-styles';
 import {formStyles} from '../../../styles/form-styles';
 
@@ -233,11 +233,12 @@ export class GrGpgEditor extends LitElement {
         this.newKey = '';
         this.loadData();
       })
-      .catch(() => {
+      .catch((err: Error) => {
         assertIsDefined(this.newKeyTextarea);
         assertIsDefined(this.addButton);
         this.addButton.disabled = false;
         this.newKeyTextarea.disabled = false;
+        fireAlert(this, err.message);
       });
   }
 

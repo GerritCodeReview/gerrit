@@ -110,6 +110,30 @@
       },
       "revId": "43212514038d3f07cc9348d4887d539b087e2c10",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "947ff18d_b0433453",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-20T13:05:11Z",
+      "side": 1,
+      "message": "@david.ostrovsky@gmail.com, can we hold on to the ticketing stuff in the `dev-processes.txt` and merge the Bazel target?",
+      "parentUuid": "2a0757f6_957ca094",
+      "range": {
+        "startLine": 378,
+        "startChar": 11,
+        "endLine": 378,
+        "endChar": 56
+      },
+      "revId": "43212514038d3f07cc9348d4887d539b087e2c10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

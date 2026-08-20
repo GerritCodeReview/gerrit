@@ -211,6 +211,30 @@
       },
       "revId": "6981e6d858d3c03bb255968277bbdb14dce35fed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "84c58035_77239e6f",
+        "filename": "javatests/com/google/gerrit/server/plugins/PluginGuiceEnvironmentTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-08-20T10:49:58Z",
+      "side": 1,
+      "message": "Ah yes, you\u0027re right, I missed that the first verify... also triggers the events.",
+      "parentUuid": "a57e9ae2_e652c906",
+      "range": {
+        "startLine": 119,
+        "startChar": 48,
+        "endLine": 119,
+        "endChar": 56
+      },
+      "revId": "6981e6d858d3c03bb255968277bbdb14dce35fed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

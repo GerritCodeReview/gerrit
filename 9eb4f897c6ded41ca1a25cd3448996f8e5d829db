@@ -59,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b86e47c_8af6f0f4",
+        "filename": "java/com/google/gerrit/server/project/RefPattern.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-08-20T17:50:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "193cad93_f178787e",
+      "range": {
+        "startLine": 84,
+        "startChar": 0,
+        "endLine": 99,
+        "endChar": 3
+      },
+      "revId": "9eb4f897c6ded41ca1a25cd3448996f8e5d829db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d4b7d0f3_19d8d925",

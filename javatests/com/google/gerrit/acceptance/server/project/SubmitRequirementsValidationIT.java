@@ -94,7 +94,7 @@ public class SubmitRequirementsValidationIT extends AbstractDaemonTest {
           projectConfig.setString(
               ProjectConfig.SUBMIT_REQUIREMENT,
               /* subsection= */ submitRequirementName,
-              /* name= */ ProjectConfig.KEY_SR_APPLICABILITY_EXPRESSION,
+              /* name= */ ProjectConfig.KEY_APPLICABILITY_EXPRESSION,
               /* value= */ "branch:refs/heads/master");
           projectConfig.setString(
               ProjectConfig.SUBMIT_REQUIREMENT,
@@ -318,7 +318,7 @@ public class SubmitRequirementsValidationIT extends AbstractDaemonTest {
           projectConfig.setString(
               ProjectConfig.SUBMIT_REQUIREMENT,
               /* subsection= */ submitRequirementName,
-              /* name= */ ProjectConfig.KEY_SR_APPLICABILITY_EXPRESSION,
+              /* name= */ ProjectConfig.KEY_APPLICABILITY_EXPRESSION,
               /* value= */ invalidExpression);
         });
 
@@ -333,7 +333,7 @@ public class SubmitRequirementsValidationIT extends AbstractDaemonTest {
             submitRequirementName,
             ProjectConfig.SUBMIT_REQUIREMENT,
             submitRequirementName,
-            ProjectConfig.KEY_SR_APPLICABILITY_EXPRESSION,
+            ProjectConfig.KEY_APPLICABILITY_EXPRESSION,
             invalidExpression));
   }
 
@@ -440,7 +440,7 @@ public class SubmitRequirementsValidationIT extends AbstractDaemonTest {
     projectConfig.setString(
         ProjectConfig.SUBMIT_REQUIREMENT,
         /* subsection= */ submitRequirementName,
-        /* name= */ ProjectConfig.KEY_SR_APPLICABILITY_EXPRESSION,
+        /* name= */ ProjectConfig.KEY_APPLICABILITY_EXPRESSION,
         /* value= */ "branch:refs/heads/master");
     projectConfig.setString(
         ProjectConfig.SUBMIT_REQUIREMENT,

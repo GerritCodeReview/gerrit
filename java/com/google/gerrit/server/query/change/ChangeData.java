@@ -96,6 +96,7 @@ import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListKey;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.patch.gitdiff.ModifiedFile;
+import com.google.gerrit.server.project.CombinedSubmitTypeEvaluator;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
@@ -387,6 +388,7 @@ public class ChangeData {
             null,
             null,
             null,
+            null,
             virtualIdAlgo,
             false,
             null,
@@ -429,6 +431,7 @@ public class ChangeData {
   private final SubmitRequirementsEvaluator submitRequirementsEvaluator;
   private final SubmitRequirementsUtil submitRequirementsUtil;
   private final SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory;
+  private final CombinedSubmitTypeEvaluator submitTypeEvaluator;
   private final boolean skipCurrentRulesEvaluationOnClosedChanges;
   private final MarkdownImagesUtil markdownImagesUtil;
 
@@ -525,6 +528,7 @@ public class ChangeData {
       SubmitRequirementsEvaluator submitRequirementsEvaluator,
       SubmitRequirementsUtil submitRequirementsUtil,
       SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory,
+      CombinedSubmitTypeEvaluator submitTypeEvaluator,
       ChangeNumberVirtualIdAlgorithm virtualIdFunc,
       @SkipCurrentRulesEvaluationOnClosedChanges Boolean skipCurrentRulesEvaluationOnClosedChange,
       MarkdownImagesUtil markdownImagesUtil,
@@ -556,6 +560,7 @@ public class ChangeData {
     this.submitRequirementsEvaluator = submitRequirementsEvaluator;
     this.submitRequirementsUtil = submitRequirementsUtil;
     this.submitRuleEvaluatorFactory = submitRuleEvaluatorFactory;
+    this.submitTypeEvaluator = submitTypeEvaluator;
     this.skipCurrentRulesEvaluationOnClosedChanges = skipCurrentRulesEvaluationOnClosedChange;
     this.markdownImagesUtil = markdownImagesUtil;
 
@@ -1459,8 +1464,7 @@ public class ChangeData {
 
   public SubmitTypeRecord submitTypeRecord() {
     if (submitTypeRecord == null) {
-      submitTypeRecord =
-          submitRuleEvaluatorFactory.create(SubmitRuleOptions.defaults()).getSubmitType(this);
+      submitTypeRecord = submitTypeEvaluator.evaluate(this);
     }
     return submitTypeRecord;
   }

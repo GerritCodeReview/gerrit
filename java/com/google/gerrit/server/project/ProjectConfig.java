@@ -60,10 +60,12 @@ import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.StoredCommentLinkInfo;
 import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementExpression;
+import com.google.gerrit.entities.SubmitTypeRule;
 import com.google.gerrit.entities.SubscribeSection;
 import com.google.gerrit.exceptions.InvalidNameException;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ProjectState;
+import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.config.AllProjectsConfigProvider;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -116,21 +118,24 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   public static final String KEY_VALUE = "value";
   public static final String KEY_CAN_OVERRIDE = "canOverride";
   public static final String KEY_BRANCH = "branch";
+  public static final String KEY_APPLICABILITY_EXPRESSION = "applicableIf";
 
   public static final String SUBMIT_REQUIREMENT = "submit-requirement";
   public static final String SUBMIT_REQUIREMENT_TEMPLATE = "submit-requirement-template";
   public static final String KEY_SR_DESCRIPTION = "description";
-  public static final String KEY_SR_APPLICABILITY_EXPRESSION = "applicableIf";
   public static final String KEY_SR_SUBMITTABILITY_EXPRESSION = "submittableIf";
   public static final String KEY_SR_OVERRIDE_EXPRESSION = "overrideIf";
   public static final String KEY_SR_OVERRIDE_IN_CHILD_PROJECTS = "canOverrideInChildProjects";
   public static final ImmutableSet<String> SR_KEYS =
       ImmutableSet.of(
           KEY_SR_DESCRIPTION,
-          KEY_SR_APPLICABILITY_EXPRESSION,
+          KEY_APPLICABILITY_EXPRESSION,
           KEY_SR_SUBMITTABILITY_EXPRESSION,
           KEY_SR_OVERRIDE_EXPRESSION,
           KEY_SR_OVERRIDE_IN_CHILD_PROJECTS);
+
+  public static final String SUBMIT_TYPE_SECTION = "submit-type";
+  public static final ImmutableSet<String> ST_KEYS = ImmutableSet.of(KEY_APPLICABILITY_EXPRESSION);
 
   public static final String KEY_MATCH = "match";
   public static final String KEY_LINK = "link";
@@ -256,6 +261,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private Map<String, LabelType> labelSections;
   private Map<String, SubmitRequirement> submitRequirementSections;
   private Map<String, SubmitRequirement> submitRequirementTemplateSections;
+  private Map<SubmitType, SubmitTypeRule> submitTypeSections;
   private ConfiguredMimeTypes mimeTypes;
   private Map<Project.NameKey, SubscribeSection> subscribeSections;
   private Map<String, StoredCommentLinkInfo> commentLinkSections;
@@ -289,6 +295,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     commentLinkSections.values().forEach(c -> builder.addCommentLinkSection(c));
     labelSections.values().forEach(l -> builder.addLabelSection(l));
     submitRequirementSections.values().forEach(sr -> builder.addSubmitRequirementSection(sr));
+    submitTypeSections.values().forEach(st -> builder.addSubmitTypeSection(st));
     pluginConfigs
         .entrySet()
         .forEach(c -> builder.addPluginConfig(c.getKey(), c.getValue().toText()));
@@ -573,6 +580,15 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     upsertLabelType(builder.build());
   }
 
+  public Map<SubmitType, SubmitTypeRule> getSubmitTypeSections() {
+    return submitTypeSections;
+  }
+
+  /** Adds or replaces the given {@link SubmitTypeRule} in this config. */
+  public void upsertSubmitType(SubmitTypeRule submitType) {
+    submitTypeSections.put(submitType.type(), submitType);
+  }
+
   /** Adds or replaces the given {@link ContributorAgreement} in this config. */
   public void upsertContributorAgreement(ContributorAgreement ca) {
     contributorAgreements.remove(ca.getName());
@@ -712,6 +728,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     loadLabelSections(rc);
     loadSubmitRequirementSections(rc);
     loadSubmitRequirementTemplateSections(rc);
+    loadSubmitTypeSections(rc);
     loadCommentLinkSections(rc);
     loadSubscribeSections(rc);
     mimeTypes = ConfiguredMimeTypes.create(projectName.get(), rc);
@@ -1012,7 +1029,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private Optional<SubmitRequirement> readSubmitRequirement(
       Config rc, String section, String name, String entityName, boolean validateName) {
     String description = rc.getString(section, name, KEY_SR_DESCRIPTION);
-    String applicabilityExpr = rc.getString(section, name, KEY_SR_APPLICABILITY_EXPRESSION);
+    String applicabilityExpr = rc.getString(section, name, KEY_APPLICABILITY_EXPRESSION);
     String submittabilityExpr = rc.getString(section, name, KEY_SR_SUBMITTABILITY_EXPRESSION);
     String overrideExpr = rc.getString(section, name, KEY_SR_OVERRIDE_EXPRESSION);
     Optional<Boolean> allowOverrideInChildProjects =
@@ -1073,11 +1090,11 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
               "Multiple definitions of %s for submit requirement '%s'",
               KEY_SR_DESCRIPTION, srName));
     }
-    if (rc.getStringList(SUBMIT_REQUIREMENT, srName, KEY_SR_APPLICABILITY_EXPRESSION).length > 1) {
+    if (rc.getStringList(SUBMIT_REQUIREMENT, srName, KEY_APPLICABILITY_EXPRESSION).length > 1) {
       error(
           String.format(
               "Multiple definitions of %s for submit requirement '%s'",
-              KEY_SR_APPLICABILITY_EXPRESSION, srName));
+              KEY_APPLICABILITY_EXPRESSION, srName));
     }
     if (rc.getStringList(SUBMIT_REQUIREMENT, srName, KEY_SR_SUBMITTABILITY_EXPRESSION).length > 1) {
       error(
@@ -1135,6 +1152,88 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
                 subsection, unknownSubmitRequirementParams));
       }
     }
+  }
+
+  private void loadSubmitTypeSections(Config rc) {
+    validateSubmitTypeSections(rc);
+
+    Map<String, String> lowerNames = new HashMap<>();
+    submitTypeSections = new LinkedHashMap<>();
+    for (String name : rc.getSubsections(SUBMIT_TYPE_SECTION)) {
+      if (!validateSubmitTypeSubSection(rc, name)) {
+        continue;
+      }
+      String lower = name.toLowerCase(Locale.US);
+      if (lowerNames.containsKey(lower)) {
+        error(String.format("Submit type '%s' conflicts with '%s'.", name, lowerNames.get(lower)));
+        continue;
+      }
+      lowerNames.put(lower, name);
+      String applicabilityExpr =
+          rc.getString(SUBMIT_TYPE_SECTION, name, KEY_APPLICABILITY_EXPRESSION);
+
+      SubmitType type = SubmitType.valueOf(name.replace(' ', '_').toUpperCase(Locale.US));
+      SubmitTypeRule submitType =
+          SubmitTypeRule.builder()
+              .setType(type)
+              .setApplicabilityExpression(applicabilityExpr)
+              .build();
+
+      submitTypeSections.put(type, submitType);
+    }
+  }
+
+  private void validateSubmitTypeSections(Config rc) {
+    Set<String> directSubmitTypeParams = rc.getNames(SUBMIT_TYPE_SECTION);
+    if (!directSubmitTypeParams.isEmpty()) {
+      error(
+          String.format(
+              "Submit type overrides must be defined in %s.<name> subsections."
+                  + " Setting parameters directly in the %s section is not allowed: %s",
+              SUBMIT_TYPE_SECTION,
+              SUBMIT_TYPE_SECTION,
+              directSubmitTypeParams.stream().sorted().collect(toImmutableList())));
+    }
+  }
+
+  private boolean validateSubmitTypeSubSection(Config rc, String subsection) {
+    boolean hasError = false;
+    try {
+      var unused = SubmitType.valueOf(subsection.replace(' ', '_').toUpperCase(Locale.US));
+    } catch (IllegalArgumentException e) {
+      error(
+          String.format(
+              "Unknown submit type '%s' in section %s.%s",
+              subsection, SUBMIT_TYPE_SECTION, subsection));
+      hasError = true;
+    }
+    if (rc.getStringList(SUBMIT_TYPE_SECTION, subsection, KEY_APPLICABILITY_EXPRESSION).length
+        > 1) {
+      error(
+          String.format(
+              "Multiple definitions of %s for submit type '%s'",
+              KEY_APPLICABILITY_EXPRESSION, subsection));
+      hasError = true;
+    }
+    ImmutableList<String> unknownSubmitTypeParams =
+        rc.getNames(SUBMIT_TYPE_SECTION, subsection).stream()
+            .filter(p -> !ST_KEYS.contains(p))
+            .collect(toImmutableList());
+    if (!unknownSubmitTypeParams.isEmpty()) {
+      error(
+          String.format(
+              "Unsupported parameters for submit type '%s': %s",
+              subsection, unknownSubmitTypeParams));
+      hasError = true;
+    }
+    if (!rc.getNames(SUBMIT_TYPE_SECTION, subsection).contains(KEY_APPLICABILITY_EXPRESSION)) {
+      error(
+          String.format(
+              "Missing required parameter %s for submit type '%s'",
+              KEY_APPLICABILITY_EXPRESSION, subsection));
+      hasError = true;
+    }
+    return !hasError;
   }
 
   private void loadLabelSections(Config rc) {
@@ -1400,6 +1499,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     groupList.retainUUIDs(keepGroups);
     saveLabelSections(rc);
     saveSubmitRequirementSections(rc);
+    saveSubmitTypeSections(rc);
     saveCommentLinkSections(rc);
     saveSubscribeSections(rc);
     saveBranchOrderSection(rc);
@@ -1720,7 +1820,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
           rc.setString(
               SUBMIT_REQUIREMENT,
               name,
-              KEY_SR_APPLICABILITY_EXPRESSION,
+              KEY_APPLICABILITY_EXPRESSION,
               sr.applicabilityExpression().get().expressionString());
         }
         rc.setString(
@@ -1740,6 +1840,23 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
             name,
             KEY_SR_OVERRIDE_IN_CHILD_PROJECTS,
             sr.allowOverrideInChildProjects());
+      }
+    }
+  }
+
+  private void saveSubmitTypeSections(Config rc) {
+    unsetSection(rc, SUBMIT_TYPE_SECTION);
+
+    if (submitTypeSections != null) {
+      for (Map.Entry<SubmitType, SubmitTypeRule> entry : submitTypeSections.entrySet()) {
+        SubmitType type = entry.getKey();
+        SubmitTypeRule st = entry.getValue();
+
+        rc.setString(
+            SUBMIT_TYPE_SECTION,
+            type.toString().replace('_', ' ').toLowerCase(Locale.US),
+            KEY_APPLICABILITY_EXPRESSION,
+            st.applicabilityExpression());
       }
     }
   }

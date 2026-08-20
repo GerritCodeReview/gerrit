@@ -289,6 +289,33 @@ Please note that there are other submit types available; they are
 described in the link:config-project-config.html#submit-type[Submit Type]
 section.
 
+=== Submit Type Overrides
+
+A single project-wide submit type may not always be sufficient. For
+example, a project may want to use `rebase if necessary` for feature
+branches but `merge always` for a stable or release branch. Submit
+type overrides allow project owners to configure different submit types
+for different changes based on a change query expression.
+
+Overrides are defined in `project.config` as named subsections of the
+`submit-type` section. The subsection name is the submit type to use
+and `applicableIf` is the change query that triggers it:
+
+----
+[submit]
+  action = rebase if necessary
+[submit-type "merge always"]
+  applicableIf = branch:stable
+----
+
+In this example, changes targeting the `stable` branch are submitted
+using `merge always`, while all other branches fall back to the
+project-wide `rebase if necessary`.
+
+For full details see
+link:config-project-config.html#submit-type-override-section[
+Submit Type Override section].
+
 [[labels]]
 == Labels
 

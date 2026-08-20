@@ -26,8 +26,7 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.change.RevisionResource;
-import com.google.gerrit.server.project.SubmitRuleEvaluator;
-import com.google.gerrit.server.project.SubmitRuleOptions;
+import com.google.gerrit.server.project.SubmitTypeEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.rules.PrologSubmitRuleUtil;
 import com.google.inject.Inject;
@@ -36,7 +35,7 @@ import org.kohsuke.args4j.Option;
 public class TestSubmitType implements RestModifyView<RevisionResource, TestSubmitRuleInput> {
   private final ChangeData.Factory changeDataFactory;
   private final PrologSubmitRuleUtil prologSubmitRuleUtil;
-  private final SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory;
+  private final SubmitTypeEvaluator submitTypeEvaluator;
 
   @Option(name = "--filters", usage = "impact of filters in parent projects")
   private Filters filters = Filters.RUN;
@@ -45,10 +44,10 @@ public class TestSubmitType implements RestModifyView<RevisionResource, TestSubm
   TestSubmitType(
       ChangeData.Factory changeDataFactory,
       PrologSubmitRuleUtil prologRule,
-      SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory) {
+      SubmitTypeEvaluator submitTypeEvaluator) {
     this.changeDataFactory = changeDataFactory;
     this.prologSubmitRuleUtil = prologRule;
-    this.submitRuleEvaluatorFactory = submitRuleEvaluatorFactory;
+    this.submitTypeEvaluator = submitTypeEvaluator;
   }
 
   @Override
@@ -66,8 +65,7 @@ public class TestSubmitType implements RestModifyView<RevisionResource, TestSubm
     input.filters = MoreObjects.firstNonNull(input.filters, filters);
 
     ChangeData cd = changeDataFactory.create(rsrc.getNotes());
-    SubmitRuleEvaluator evaluator = submitRuleEvaluatorFactory.create(SubmitRuleOptions.defaults());
-    SubmitTypeRecord rec = evaluator.getSubmitType(cd);
+    SubmitTypeRecord rec = submitTypeEvaluator.evaluate(cd);
 
     if (rec.status != SubmitTypeRecord.Status.OK) {
       throw new BadRequestException(String.format("rule produced invalid result: %s", rec));
@@ -78,23 +76,19 @@ public class TestSubmitType implements RestModifyView<RevisionResource, TestSubm
 
   public static class Get implements RestReadView<RevisionResource> {
     private final ChangeData.Factory changeDataFactory;
-    private final SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory;
+    private final SubmitTypeEvaluator submitTypeEvaluator;
 
     @Inject
-    Get(
-        ChangeData.Factory changeDataFactory,
-        SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory) {
+    Get(ChangeData.Factory changeDataFactory, SubmitTypeEvaluator submitTypeEvaluator) {
       this.changeDataFactory = changeDataFactory;
-      this.submitRuleEvaluatorFactory = submitRuleEvaluatorFactory;
+      this.submitTypeEvaluator = submitTypeEvaluator;
     }
 
     @Override
     public Response<SubmitType> apply(RevisionResource resource)
         throws AuthException, ResourceConflictException {
-      SubmitRuleEvaluator evaluator =
-          submitRuleEvaluatorFactory.create(SubmitRuleOptions.defaults());
       ChangeData cd = changeDataFactory.create(resource.getNotes());
-      SubmitTypeRecord rec = evaluator.getSubmitType(cd);
+      SubmitTypeRecord rec = submitTypeEvaluator.evaluate(cd);
 
       if (rec.status != SubmitTypeRecord.Status.OK) {
         throw new ResourceConflictException(String.format("rule produced invalid result: %s", rec));

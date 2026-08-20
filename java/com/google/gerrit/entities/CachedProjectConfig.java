@@ -21,6 +21,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.flogger.FluentLogger;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.gerrit.extensions.client.SubmitType;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -99,6 +100,9 @@ public abstract class CachedProjectConfig {
 
   /** Returns the {@link SubmitRequirement}s keyed by their name. */
   public abstract ImmutableMap<String, SubmitRequirement> getSubmitRequirementSections();
+
+  /** Returns the {@link SubmitTypeOverride}s keyed by their name. */
+  public abstract ImmutableMap<SubmitType, SubmitTypeOverride> getSubmitTypeSections();
 
   /** Returns configured {@link ConfiguredMimeTypes}s. */
   public abstract ConfiguredMimeTypes getMimeTypes();
@@ -187,6 +191,12 @@ public abstract class CachedProjectConfig {
       return this;
     }
 
+    @CanIgnoreReturnValue
+    public Builder addSubmitTypeSection(SubmitTypeOverride submitType) {
+      submitTypeSectionsBuilder().put(submitType.type(), submitType);
+      return this;
+    }
+
     public abstract Builder setMimeTypes(ConfiguredMimeTypes value);
 
     @CanIgnoreReturnValue
@@ -260,6 +270,9 @@ public abstract class CachedProjectConfig {
 
     protected abstract ImmutableMap.Builder<String, SubmitRequirement>
         submitRequirementSectionsBuilder();
+
+    protected abstract ImmutableMap.Builder<SubmitType, SubmitTypeOverride>
+        submitTypeSectionsBuilder();
 
     protected abstract ImmutableMap.Builder<Project.NameKey, SubscribeSection>
         subscribeSectionsBuilder();

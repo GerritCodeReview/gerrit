@@ -16,9 +16,7 @@ package com.google.gerrit.server.schema;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.entities.RefNames.REFS_SEQUENCES;
-import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.PROJECT_OWNERS;
-import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.schema.AclUtil.block;
 import static com.google.gerrit.server.schema.AclUtil.grant;
 import static com.google.gerrit.server.schema.AclUtil.rule;
@@ -68,8 +66,6 @@ public class AllProjectsCreator {
   private final PersonIdent serverUser;
   private final NoteDbSchemaVersionManager versionManager;
   private final ProjectConfig.Factory projectConfigFactory;
-  private final GroupReference anonymous;
-  private final GroupReference registered;
   private final GroupReference owners;
 
   @Inject
@@ -86,8 +82,6 @@ public class AllProjectsCreator {
     this.versionManager = versionManager;
     this.projectConfigFactory = projectConfigFactory;
 
-    this.anonymous = systemGroupBackend.getGroup(ANONYMOUS_USERS);
-    this.registered = systemGroupBackend.getGroup(REGISTERED_USERS);
     this.owners = systemGroupBackend.getGroup(PROJECT_OWNERS);
   }
 
@@ -163,11 +157,16 @@ public class AllProjectsCreator {
     checkArgument(input.codeReviewLabel().isPresent());
     LabelType codeReviewLabel = input.codeReviewLabel().get();
 
+    GroupReference defaultReadersGroup =
+        input.defaultReadersGroup().orElseGet(AllProjectsInput::getDefaultReadersGroup);
+    GroupReference defaultUsersGroup =
+        input.defaultUsersGroup().orElseGet(AllProjectsInput::getDefaultUsersGroup);
+
     config.upsertAccessSection(
         AccessSection.HEADS,
         heads -> {
-          initDefaultAclsForAnonymousUsers(heads, config);
-          initDefaultAclsForRegisteredUsers(heads, codeReviewLabel, config);
+          initDefaultAclsForDefaultReaders(heads, config, defaultReadersGroup);
+          initDefaultAclsForDefaultUsers(heads, codeReviewLabel, config, defaultUsersGroup);
         });
 
     config.upsertAccessSection(
@@ -181,7 +180,7 @@ public class AllProjectsCreator {
 
     input
         .blockedUsersGroup()
-        .ifPresent(blockedUsersGrouo -> initDefaultAclsForBlockedUsers(config, blockedUsersGrouo));
+        .ifPresent(blockedUsersGroup -> initDefaultAclsForBlockedUsers(config, blockedUsersGroup));
 
     input
         .administratorsGroup()
@@ -200,29 +199,34 @@ public class AllProjectsCreator {
             .build());
   }
 
-  private void initDefaultAclsForAnonymousUsers(AccessSection.Builder heads, ProjectConfig config) {
-    grant(config, heads, Permission.READ, anonymous);
+  private void initDefaultAclsForDefaultReaders(
+      AccessSection.Builder heads, ProjectConfig config, GroupReference defaultReadersGroup) {
+    grant(config, heads, Permission.READ, defaultReadersGroup);
 
     config.upsertAccessSection(
-        "refs/meta/version", version -> grant(config, version, Permission.READ, anonymous));
+        "refs/meta/version",
+        version -> grant(config, version, Permission.READ, defaultReadersGroup));
   }
 
-  private void initDefaultAclsForRegisteredUsers(
-      AccessSection.Builder heads, LabelType codeReviewLabel, ProjectConfig config) {
-    grant(config, heads, codeReviewLabel, -1, 1, registered);
-    grant(config, heads, Permission.FORGE_AUTHOR, registered);
+  private void initDefaultAclsForDefaultUsers(
+      AccessSection.Builder heads,
+      LabelType codeReviewLabel,
+      ProjectConfig config,
+      GroupReference defaultUsersGroup) {
+    grant(config, heads, codeReviewLabel, -1, 1, defaultUsersGroup);
+    grant(config, heads, Permission.FORGE_AUTHOR, defaultUsersGroup);
 
     config.upsertAccessSection(
         "refs/for/*",
         refsFor -> {
-          grant(config, refsFor, Permission.ADD_PATCH_SET, registered);
-          grant(config, refsFor, Permission.PUSH, registered);
-          grant(config, refsFor, Permission.PUSH_MERGE, registered);
+          grant(config, refsFor, Permission.ADD_PATCH_SET, defaultUsersGroup);
+          grant(config, refsFor, Permission.PUSH, defaultUsersGroup);
+          grant(config, refsFor, Permission.PUSH_MERGE, defaultUsersGroup);
         });
 
     config.upsertAccessSection(
         AccessSection.ALL,
-        refsFor -> grant(config, refsFor, Permission.POST_REVIEW_COMMENT, registered));
+        all -> grant(config, all, Permission.POST_REVIEW_COMMENT, defaultUsersGroup));
   }
 
   private void initDefaultAclsForServiceUsers(

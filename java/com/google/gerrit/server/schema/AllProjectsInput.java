@@ -30,6 +30,7 @@ import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.server.Sequences;
+import com.google.gerrit.server.group.SystemGroupBackend;
 import java.util.Optional;
 
 @AutoValue
@@ -49,6 +50,16 @@ public abstract class AllProjectsInput {
               InheritableBoolean.FALSE,
               BooleanProjectConfig.ENABLE_SIGNED_PUSH,
               InheritableBoolean.FALSE);
+
+  @UsedAt(UsedAt.Project.GOOGLE)
+  public static GroupReference getDefaultUsersGroup() {
+    return GroupReference.create(SystemGroupBackend.REGISTERED_USERS, "Registered Users");
+  }
+
+  @UsedAt(UsedAt.Project.GOOGLE)
+  public static GroupReference getDefaultReadersGroup() {
+    return GroupReference.create(SystemGroupBackend.ANONYMOUS_USERS, "Anonymous Users");
+  }
 
   @UsedAt(UsedAt.Project.GOOGLE)
   public static LabelType getDefaultCodeReviewLabel() {
@@ -85,6 +96,14 @@ public abstract class AllProjectsInput {
         .setAllowOverrideInChildProjects(true)
         .build();
   }
+
+  /** The default reader group which gets read permissions granted. */
+  @UsedAt(UsedAt.Project.GOOGLE)
+  public abstract Optional<GroupReference> defaultReadersGroup();
+
+  /** The default user group which gets default permissions granted. */
+  @UsedAt(UsedAt.Project.GOOGLE)
+  public abstract Optional<GroupReference> defaultUsersGroup();
 
   /** The administrator group which gets default permissions granted. */
   public abstract Optional<GroupReference> administratorsGroup();
@@ -129,6 +148,8 @@ public abstract class AllProjectsInput {
         new AutoValue_AllProjectsInput.Builder()
             .codeReviewLabel(getDefaultCodeReviewLabelWithNoBlockFunction())
             .codeReviewSubmitRequirement(getDefaultCodeReviewSubmitRequirements())
+            .defaultReadersGroup(getDefaultReadersGroup())
+            .defaultUsersGroup(getDefaultUsersGroup())
             .firstChangeIdForNoteDb(Sequences.FIRST_CHANGE_ID)
             .initDefaultAcls(true)
             .initDefaultSubmitRequirements(true);
@@ -143,6 +164,18 @@ public abstract class AllProjectsInput {
 
   @AutoValue.Builder
   public abstract static class Builder {
+    @UsedAt(UsedAt.Project.GOOGLE)
+    public abstract Builder defaultReadersGroup(GroupReference defaultReadersGroup);
+
+    @UsedAt(UsedAt.Project.GOOGLE)
+    public abstract Builder defaultReadersGroup(Optional<GroupReference> defaultReadersGroup);
+
+    @UsedAt(UsedAt.Project.GOOGLE)
+    public abstract Builder defaultUsersGroup(GroupReference defaultUsersGroup);
+
+    @UsedAt(UsedAt.Project.GOOGLE)
+    public abstract Builder defaultUsersGroup(Optional<GroupReference> defaultUsersGroup);
+
     public abstract Builder administratorsGroup(GroupReference adminGroup);
 
     public abstract Builder serviceUsersGroup(GroupReference serviceUsersGroup);

@@ -136,6 +136,42 @@ public class AllProjectsCreatorTestUtil {
         .collect(Collectors.joining("\n"));
   }
 
+  public static String getAllProjectsWithCustomDefaultReadersAcls(String groupName) {
+    ImmutableList<String> accessSection =
+        DEFAULT_ALL_PROJECTS_ACCESS_SECTION.stream()
+            .map(line -> line.replace("Anonymous Users", groupName))
+            .collect(ImmutableList.toImmutableList());
+    return Streams.stream(
+            Iterables.concat(
+                DEFAULT_ALL_PROJECTS_PROJECT_SECTION,
+                DEFAULT_ALL_PROJECTS_RECEIVE_SECTION,
+                DEFAULT_ALL_PROJECTS_SUBMIT_SECTION,
+                DEFAULT_ALL_PROJECTS_CAPABILITY_SECTION,
+                accessSection,
+                DEFAULT_ALL_PROJECTS_LABEL_SECTION,
+                DEFAULT_ALL_PROJECTS_CODE_REVIEW_SUBMIT_REQUIREMENT_SECTION,
+                DEFAULT_ALL_PROJECTS_SUBMIT_REQUIREMENT_SECTION))
+        .collect(Collectors.joining("\n"));
+  }
+
+  public static String getAllProjectsWithCustomDefaultUsersAcls(String groupName) {
+    ImmutableList<String> accessSection =
+        DEFAULT_ALL_PROJECTS_ACCESS_SECTION.stream()
+            .map(line -> line.replace("Registered Users", groupName))
+            .collect(ImmutableList.toImmutableList());
+    return Streams.stream(
+            Iterables.concat(
+                DEFAULT_ALL_PROJECTS_PROJECT_SECTION,
+                DEFAULT_ALL_PROJECTS_RECEIVE_SECTION,
+                DEFAULT_ALL_PROJECTS_SUBMIT_SECTION,
+                DEFAULT_ALL_PROJECTS_CAPABILITY_SECTION,
+                accessSection,
+                DEFAULT_ALL_PROJECTS_LABEL_SECTION,
+                DEFAULT_ALL_PROJECTS_CODE_REVIEW_SUBMIT_REQUIREMENT_SECTION,
+                DEFAULT_ALL_PROJECTS_SUBMIT_REQUIREMENT_SECTION))
+        .collect(Collectors.joining("\n"));
+  }
+
   public static String getAllProjectsWithoutDefaultAcls() {
     return Streams.stream(
             Iterables.concat(

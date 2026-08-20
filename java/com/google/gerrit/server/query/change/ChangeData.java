@@ -105,6 +105,7 @@ import com.google.gerrit.server.project.SubmitRequirementsEvaluator;
 import com.google.gerrit.server.project.SubmitRequirementsUtil;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.project.SubmitRuleOptions;
+import com.google.gerrit.server.project.SubmitTypeEvaluator;
 import com.google.gerrit.server.util.MarkdownImagesUtil;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
@@ -387,6 +388,7 @@ public class ChangeData {
             null,
             null,
             null,
+            null,
             virtualIdAlgo,
             false,
             null,
@@ -429,6 +431,7 @@ public class ChangeData {
   private final SubmitRequirementsEvaluator submitRequirementsEvaluator;
   private final SubmitRequirementsUtil submitRequirementsUtil;
   private final SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory;
+  private final SubmitTypeEvaluator submitTypeEvaluator;
   private final boolean skipCurrentRulesEvaluationOnClosedChanges;
   private final MarkdownImagesUtil markdownImagesUtil;
 
@@ -525,6 +528,7 @@ public class ChangeData {
       SubmitRequirementsEvaluator submitRequirementsEvaluator,
       SubmitRequirementsUtil submitRequirementsUtil,
       SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory,
+      SubmitTypeEvaluator submitTypeEvaluator,
       ChangeNumberVirtualIdAlgorithm virtualIdFunc,
       @SkipCurrentRulesEvaluationOnClosedChanges Boolean skipCurrentRulesEvaluationOnClosedChange,
       MarkdownImagesUtil markdownImagesUtil,
@@ -556,6 +560,7 @@ public class ChangeData {
     this.submitRequirementsEvaluator = submitRequirementsEvaluator;
     this.submitRequirementsUtil = submitRequirementsUtil;
     this.submitRuleEvaluatorFactory = submitRuleEvaluatorFactory;
+    this.submitTypeEvaluator = submitTypeEvaluator;
     this.skipCurrentRulesEvaluationOnClosedChanges = skipCurrentRulesEvaluationOnClosedChange;
     this.markdownImagesUtil = markdownImagesUtil;
 
@@ -1441,8 +1446,7 @@ public class ChangeData {
 
   public SubmitTypeRecord submitTypeRecord() {
     if (submitTypeRecord == null) {
-      submitTypeRecord =
-          submitRuleEvaluatorFactory.create(SubmitRuleOptions.defaults()).getSubmitType(this);
+      submitTypeRecord = submitTypeEvaluator.evaluate(this);
     }
     return submitTypeRecord;
   }

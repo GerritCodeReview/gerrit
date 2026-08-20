@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae7857dd_bde47fb2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-20T16:38:16Z",
+      "side": 1,
+      "message": "```suggestion\nCentralize the RegExp to Automaton generation\n```",
+      "range": {
+        "startLine": 7,
+        "startChar": 27,
+        "endLine": 7,
+        "endChar": 38
+      },
+      "revId": "7165e6f29bad050364869bec663ab630f6119167",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "579318d6_e83a7404",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-20T16:38:16Z",
+      "side": 1,
+      "message": "```suggestion\nMove the dk.brics.automaton.Automaton construction behind RegexAutomatonCompiler and\n```",
+      "revId": "7165e6f29bad050364869bec663ab630f6119167",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2217d92_71814f67",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-20T16:38:16Z",
+      "side": 1,
+      "message": "This is a preparation work for allowing a more efficient management of the construction and reuse of Automaton objects across Gerrit, where the regex are well-known and stored in Gerrit.\n\nThe regex compilation and conversion to Automaton are expensive, it does make sense to have a centralised place for generation and potentially future reuse.",
+      "revId": "7165e6f29bad050364869bec663ab630f6119167",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

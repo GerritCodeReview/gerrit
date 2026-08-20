@@ -36,7 +36,10 @@ import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.StoredCommentLinkInfo;
 import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementExpression;
+import com.google.gerrit.entities.SubmitTypeOverride;
+import com.google.gerrit.entities.SubmitTypeOverrideExpression;
 import com.google.gerrit.extensions.client.InheritableBoolean;
+import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.FileBasedAllProjectsConfigProvider;
 import com.google.gerrit.server.config.PluginConfig;
@@ -1057,5 +1060,249 @@ public class ProjectConfigTest {
 
   private static String group(GroupReference g) {
     return g.getUUID().get() + "\t" + g.getName() + "\n";
+  }
+
+  @Test
+  public void readSubmitTypeOverride_singleOverride() throws Exception {
+    RevCommit rev =
+        tr.commit()
+            .add(
+                "project.config",
+                "[submit-type \"merge always\"]\n" + "  applicableIf = branch:stable\n")
+            .create();
+
+    ProjectConfig cfg = read(rev);
+    Map<SubmitType, SubmitTypeOverride> sections = cfg.getSubmitTypeSections();
+    assertThat(sections)
+        .containsExactly(
+            SubmitType.MERGE_ALWAYS,
+            SubmitTypeOverride.builder()
+                .setType(SubmitType.MERGE_ALWAYS)
+                .setApplicabilityExpression(SubmitTypeOverrideExpression.of("branch:stable"))
+                .build());
+    assertThat(cfg.getValidationErrors()).isEmpty();
+  }
+
+  @Test
+  public void readSubmitTypeOverride_multipleOverrides() throws Exception {
+    RevCommit rev =
+        tr.commit()
+            .add(
+                "project.config",
+                "[submit-type \"merge always\"]\n"
+                    + "  applicableIf = branch:stable\n"
+                    + "[submit-type \"cherry pick\"]\n"
+                    + "  applicableIf = branch:release\n")
+            .create();
+
+    ProjectConfig cfg = read(rev);
+    Map<SubmitType, SubmitTypeOverride> sections = cfg.getSubmitTypeSections();
+    assertThat(sections).hasSize(2);
+    assertThat(sections.get(SubmitType.MERGE_ALWAYS).applicabilityExpression().expressionString())
+        .isEqualTo("branch:stable");
+    assertThat(sections.get(SubmitType.CHERRY_PICK).applicabilityExpression().expressionString())
+        .isEqualTo("branch:release");
+    assertThat(cfg.getValidationErrors()).isEmpty();
+  }
+
+  @Test
+  public void readSubmitTypeOverride_allValidSubmitTypeNames() throws Exception {
+    // Verify that all submit type names (lowercased, with spaces) are accepted.
+    for (SubmitType type : SubmitType.values()) {
+      String name = type.toString().replace('_', ' ').toLowerCase(java.util.Locale.US);
+      RevCommit rev =
+          tr.commit()
+              .add(
+                  "project.config",
+                  "[submit-type \"" + name + "\"]\n" + "  applicableIf = branch:main\n")
+              .create();
+      ProjectConfig cfg = read(rev);
+      assertWithMessage("validation errors for submit type '" + name + "'")
+          .that(cfg.getValidationErrors())
+          .isEmpty();
+      assertThat(cfg.getSubmitTypeSections()).containsKey(type);
+    }
+  }
+
+  @Test
+  public void readSubmitTypeOverride_unknownTypeName_producesError() throws Exception {
+    RevCommit rev =
+        tr.commit()
+            .add(
+                "project.config",
+                "[submit-type \"unknown type\"]\n" + "  applicableIf = branch:stable\n")
+            .create();
+
+    ProjectConfig cfg = read(rev);
+    assertThat(cfg.getSubmitTypeSections()).isEmpty();
+    assertThat(cfg.getValidationErrors()).hasSize(1);
+    assertThat(cfg.getValidationErrors().get(0).getMessage())
+        .contains("Unknown submit type 'unknown type'");
+  }
+
+  @Test
+  public void readSubmitTypeOverride_missingApplicableIf_producesError() throws Exception {
+    RevCommit rev =
+        tr.commit()
+            .add(
+                "project.config",
+                // applicableIf is required but omitted
+                "[submit-type \"merge always\"]\n")
+            .create();
+
+    ProjectConfig cfg = read(rev);
+    assertThat(cfg.getSubmitTypeSections()).isEmpty();
+    assertThat(cfg.getValidationErrors()).hasSize(1);
+    assertThat(cfg.getValidationErrors().get(0).getMessage())
+        .contains("Missing required parameter applicableIf for submit type 'merge always'");
+  }
+
+  @Test
+  public void readSubmitTypeOverride_duplicateApplicableIf_producesError() throws Exception {
+    RevCommit rev =
+        tr.commit()
+            .add(
+                "project.config",
+                "[submit-type \"merge always\"]\n"
+                    + "  applicableIf = branch:stable\n"
+                    + "  applicableIf = branch:release\n")
+            .create();
+
+    ProjectConfig cfg = read(rev);
+    assertThat(cfg.getValidationErrors()).hasSize(1);
+    assertThat(cfg.getValidationErrors().get(0).getMessage())
+        .contains("Multiple definitions of applicableIf for submit type 'merge always'");
+  }
+
+  @Test
+  public void readSubmitTypeOverride_unknownParameter_producesError() throws Exception {
+    RevCommit rev =
+        tr.commit()
+            .add(
+                "project.config",
+                "[submit-type \"merge always\"]\n"
+                    + "  applicableIf = branch:stable\n"
+                    + "  unknownParam = foo\n")
+            .create();
+
+    ProjectConfig cfg = read(rev);
+    assertThat(cfg.getValidationErrors()).hasSize(1);
+    assertThat(cfg.getValidationErrors().get(0).getMessage())
+        .contains("Unsupported parameters for submit type 'merge always'");
+  }
+
+  @Test
+  public void readSubmitTypeOverride_parametersInTopLevelSection_producesError() throws Exception {
+    RevCommit rev =
+        tr.commit()
+            .add(
+                "project.config",
+                // keys directly under [submit-type] without a subsection name are invalid
+                "[submit-type]\n" + "  applicableIf = branch:stable\n")
+            .create();
+
+    ProjectConfig cfg = read(rev);
+    assertThat(cfg.getValidationErrors()).hasSize(1);
+    assertThat(cfg.getValidationErrors().get(0).getMessage())
+        .contains("Submit type overrides must be defined in submit-type.<name> subsections");
+  }
+
+  @Test
+  public void readSubmitTypeOverride_conflictingNames_producesError() throws Exception {
+    // Two subsections whose names differ only in case are treated as conflicting.
+    RevCommit rev =
+        tr.commit()
+            .add(
+                "project.config",
+                "[submit-type \"merge always\"]\n"
+                    + "  applicableIf = branch:stable\n"
+                    + "[submit-type \"Merge Always\"]\n"
+                    + "  applicableIf = branch:main\n")
+            .create();
+
+    ProjectConfig cfg = read(rev);
+    // Only the first one should be loaded; the second is a conflict.
+    assertThat(cfg.getSubmitTypeSections()).hasSize(1);
+    assertThat(cfg.getValidationErrors()).hasSize(1);
+    assertThat(cfg.getValidationErrors().get(0).getMessage()).contains("conflicts with");
+  }
+
+  @Test
+  public void saveAndReloadSubmitTypeOverride() throws Exception {
+    RevCommit rev = tr.commit().add("groups", group(developers)).add("project.config", "").create();
+    update(rev);
+
+    ProjectConfig cfg = read(rev);
+    cfg.upsertSubmitType(
+        SubmitTypeOverride.builder()
+            .setType(SubmitType.MERGE_ALWAYS)
+            .setApplicabilityExpression(SubmitTypeOverrideExpression.of("branch:stable"))
+            .build());
+    rev = commit(cfg);
+
+    // Verify the raw text in project.config
+    String configText = text(rev, "project.config");
+    assertThat(configText).contains("[submit-type \"merge always\"]");
+    assertThat(configText).contains("applicableIf = branch:stable");
+
+    // Reload and verify the parsed structure round-trips correctly.
+    ProjectConfig reloaded = read(rev);
+    Map<SubmitType, SubmitTypeOverride> sections = reloaded.getSubmitTypeSections();
+    assertThat(sections)
+        .containsExactly(
+            SubmitType.MERGE_ALWAYS,
+            SubmitTypeOverride.builder()
+                .setType(SubmitType.MERGE_ALWAYS)
+                .setApplicabilityExpression(SubmitTypeOverrideExpression.of("branch:stable"))
+                .build());
+  }
+
+  @Test
+  public void upsertSubmitType_replacesExistingOverrideForSameType() throws Exception {
+    RevCommit rev =
+        tr.commit()
+            .add(
+                "project.config",
+                "[submit-type \"merge always\"]\n" + "  applicableIf = branch:old\n")
+            .create();
+    update(rev);
+
+    ProjectConfig cfg = read(rev);
+    cfg.upsertSubmitType(
+        SubmitTypeOverride.builder()
+            .setType(SubmitType.MERGE_ALWAYS)
+            .setApplicabilityExpression(SubmitTypeOverrideExpression.of("branch:new"))
+            .build());
+    rev = commit(cfg);
+
+    ProjectConfig reloaded = read(rev);
+    assertThat(reloaded.getSubmitTypeSections()).hasSize(1);
+    assertThat(
+            reloaded
+                .getSubmitTypeSections()
+                .get(SubmitType.MERGE_ALWAYS)
+                .applicabilityExpression()
+                .expressionString())
+        .isEqualTo("branch:new");
+  }
+
+  @Test
+  public void submitTypeSectionIsUnsetIfNoOverridesAreSet() throws Exception {
+    RevCommit rev =
+        tr.commit()
+            .add(
+                "project.config",
+                "[submit-type \"merge always\"]\n"
+                    + "  applicableIf = branch:stable\n"
+                    + "[notify \"name\"]\n"
+                    + "  email = example@example.com\n")
+            .create();
+    update(rev);
+
+    ProjectConfig cfg = read(rev);
+    cfg.getSubmitTypeSections().clear();
+    rev = commit(cfg);
+    assertThat(text(rev, "project.config"))
+        .isEqualTo("[notify \"name\"]\n\temail = example@example.com\n");
   }
 }

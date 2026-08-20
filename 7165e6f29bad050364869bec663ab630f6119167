@@ -98,6 +98,24 @@
       "message": "This is a preparation work for allowing a more efficient management of the construction and reuse of Automaton objects across Gerrit, where the regex are well-known and stored in Gerrit.\n\nThe regex compilation and conversion to Automaton are expensive, it does make sense to have a centralised place for generation and potentially future reuse.",
       "revId": "7165e6f29bad050364869bec663ab630f6119167",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f21c35d7_0785c8f8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-08-20T16:43:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d2217d92_71814f67",
+      "revId": "7165e6f29bad050364869bec663ab630f6119167",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

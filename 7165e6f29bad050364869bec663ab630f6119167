@@ -116,6 +116,109 @@
       "parentUuid": "d2217d92_71814f67",
       "revId": "7165e6f29bad050364869bec663ab630f6119167",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eef32651_1a387c6b",
+        "filename": "java/com/google/gerrit/server/ioutil/RegexAutomatonCompiler.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-20T16:59:25Z",
+      "side": 1,
+      "message": "```suggestion\n/** Compiles a regular expression into an {@link Automaton}. */\n```",
+      "range": {
+        "startLine": 19,
+        "startChar": 38,
+        "endLine": 19,
+        "endChar": 46
+      },
+      "revId": "7165e6f29bad050364869bec663ab630f6119167",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3c15ff2_880b8113",
+        "filename": "java/com/google/gerrit/server/ioutil/RegexAutomatonCompiler.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-20T16:59:25Z",
+      "side": 1,
+      "message": "This can be a `@FunctionalInterface` that compiles a `String` into an `Automaton`.\n\n```suggestion\n@FunctionalInterface\npublic interface RegexAutomatonCompiler {\n```",
+      "revId": "7165e6f29bad050364869bec663ab630f6119167",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eed53796_4ac6bcd8",
+        "filename": "java/com/google/gerrit/server/ioutil/RegexAutomatonCompiler.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-20T16:59:25Z",
+      "side": 1,
+      "message": "I would keep the `toAutomaton` method name, which represents a lot more of the conversion that is happening here: compiling a `String` into an `Automaton`.",
+      "range": {
+        "startLine": 21,
+        "startChar": 12,
+        "endLine": 21,
+        "endChar": 19
+      },
+      "revId": "7165e6f29bad050364869bec663ab630f6119167",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "946bfcd8_8602270a",
+        "filename": "java/com/google/gerrit/server/ioutil/RegexAutomatonCompiler.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-20T16:59:25Z",
+      "side": 1,
+      "message": "I don\u0027t believe this second method is needed: it is only used in one place (RefPatter.java) and the second parameter is fixed to `RegExp.NONE`.",
+      "revId": "7165e6f29bad050364869bec663ab630f6119167",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad15c789_05dcfd0c",
+        "filename": "java/com/google/gerrit/server/ioutil/RegexListSearcher.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-20T16:59:25Z",
+      "side": 1,
+      "message": "Unrelated change? We don\u0027t change the method\u0027s output; therefore, the description should remain the same.",
+      "range": {
+        "startLine": 28,
+        "startChar": 58,
+        "endLine": 28,
+        "endChar": 76
+      },
+      "revId": "7165e6f29bad050364869bec663ab630f6119167",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

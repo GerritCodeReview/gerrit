@@ -42,6 +42,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.extensions.webui.UiActions;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.ioutil.RegexCompiler;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
@@ -78,6 +79,7 @@ public class ListBranches implements RestReadView<ProjectResource> {
   private final DynamicMap<RestView<BranchResource>> branchViews;
   private final UiActions uiActions;
   private final WebLinks webLinks;
+  private final RegexCompiler regexCompiler;
 
   @Option(
       name = "--limit",
@@ -136,12 +138,14 @@ public class ListBranches implements RestReadView<ProjectResource> {
       PermissionBackend permissionBackend,
       DynamicMap<RestView<BranchResource>> branchViews,
       UiActions uiActions,
-      WebLinks webLinks) {
+      WebLinks webLinks,
+      RegexCompiler regexCompiler) {
     this.repoManager = repoManager;
     this.permissionBackend = permissionBackend;
     this.branchViews = branchViews;
     this.uiActions = uiActions;
     this.webLinks = webLinks;
+    this.regexCompiler = regexCompiler;
   }
 
   public ListBranches request(ListRefsRequest<BranchInfo> request) {
@@ -184,7 +188,7 @@ public class ListBranches implements RestReadView<ProjectResource> {
     Function<Ref, String> refNameExtractor =
         (Ref r) -> r.getName() + (r.isSymbolic() ? " " + r.getTarget().getName() : "");
     ImmutableList<Ref> filtered =
-        new RefFilter<>(Constants.R_HEADS, refNameExtractor)
+        new RefFilter<>(Constants.R_HEADS, refNameExtractor, regexCompiler)
             .subString(matchSubstring).regex(matchRegex).filter(allBranches).stream()
                 .sorted(new RefComparator())
                 .collect(ImmutableList.toImmutableList());

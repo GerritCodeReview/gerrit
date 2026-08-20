@@ -13,6 +13,7 @@ import {configModelToken} from '../../../models/config/config-model';
 import {resolve} from '../../../models/dependency';
 import {subscribe} from '../../lit/subscription-controller';
 import {when} from 'lit/directives/when.js';
+import {assign} from '../../../utils/location-util';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -120,8 +121,14 @@ export class GrErrorDialog extends LitElement {
     if (!this.showSignInButton) return;
 
     return html`
-      <gr-button id="signIn" class="signInLink" link="" slot="footer">
-        <a class="signInLink" href=${this.loginUrl}>${this.loginText}</a>
+      <gr-button
+        id="signIn"
+        class="signInLink"
+        link=""
+        slot="footer"
+        @click=${() => assign(window.location, this.loginUrl)}
+      >
+        ${this.loginText}
       </gr-button>
     `;
   }

@@ -445,6 +445,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f31f620_6c91a233",
+        "filename": "java/com/google/gerrit/server/query/change/RegexHashtagPredicate.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-20T19:40:47Z",
+      "side": 1,
+      "message": "My bad.",
+      "parentUuid": "71d17800_64148dfd",
+      "revId": "6064b10a047a3b8779f3722940c03f32ce14b62f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3fd26304_ba62a6c1",
@@ -616,6 +634,24 @@
       "side": 1,
       "message": "There\u0027s only one parameter here?",
       "parentUuid": "43c242b5_652c0cd9",
+      "revId": "6064b10a047a3b8779f3722940c03f32ce14b62f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a7bd1fe_b4f5af7d",
+        "filename": "java/com/google/gerrit/server/query/change/RegexRefPredicate.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-20T19:40:47Z",
+      "side": 1,
+      "message": "My bad 😞",
+      "parentUuid": "6394ed66_91db98eb",
       "revId": "6064b10a047a3b8779f3722940c03f32ce14b62f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

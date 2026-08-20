@@ -26,8 +26,7 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.change.RevisionResource;
-import com.google.gerrit.server.project.SubmitRuleEvaluator;
-import com.google.gerrit.server.project.SubmitRuleOptions;
+import com.google.gerrit.server.project.SubmitTypeEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.rules.PrologSubmitRuleUtil;
 import com.google.inject.Inject;
@@ -73,23 +72,19 @@ public class TestSubmitType implements RestModifyView<RevisionResource, TestSubm
 
   public static class Get implements RestReadView<RevisionResource> {
     private final ChangeData.Factory changeDataFactory;
-    private final SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory;
+    private final SubmitTypeEvaluator submitTypeEvaluator;
 
     @Inject
-    Get(
-        ChangeData.Factory changeDataFactory,
-        SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory) {
+    Get(ChangeData.Factory changeDataFactory, SubmitTypeEvaluator submitTypeEvaluator) {
       this.changeDataFactory = changeDataFactory;
-      this.submitRuleEvaluatorFactory = submitRuleEvaluatorFactory;
+      this.submitTypeEvaluator = submitTypeEvaluator;
     }
 
     @Override
     public Response<SubmitType> apply(RevisionResource resource)
         throws AuthException, ResourceConflictException {
-      SubmitRuleEvaluator evaluator =
-          submitRuleEvaluatorFactory.create(SubmitRuleOptions.defaults());
       ChangeData cd = changeDataFactory.create(resource.getNotes());
-      SubmitTypeRecord rec = evaluator.getSubmitType(cd);
+      SubmitTypeRecord rec = submitTypeEvaluator.evaluate(cd);
 
       if (rec.status != SubmitTypeRecord.Status.OK) {
         throw new ResourceConflictException(String.format("rule produced invalid result: %s", rec));

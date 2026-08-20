@@ -15,11 +15,9 @@
 package com.google.gerrit.server.project;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
-import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
 import com.google.common.collect.Streams;
 import com.google.gerrit.entities.SubmitRecord;
-import com.google.gerrit.entities.SubmitTypeRecord;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Description.Units;
@@ -53,7 +51,6 @@ public class SubmitRuleEvaluator {
   @Singleton
   private static class Metrics {
     final Timer0 submitRuleEvaluationLatency;
-    final Timer0 submitTypeEvaluationLatency;
 
     @Inject
     Metrics(MetricMaker metricMaker) {
@@ -61,12 +58,6 @@ public class SubmitRuleEvaluator {
           metricMaker.newTimer(
               "change/submit_rule_evaluation",
               new Description("Latency for evaluating submit rules on a change.")
-                  .setCumulative()
-                  .setUnit(Units.MILLISECONDS));
-      submitTypeEvaluationLatency =
-          metricMaker.newTimer(
-              "change/submit_type_evaluation",
-              new Description("Latency for evaluating the submit type on a change.")
                   .setCumulative()
                   .setUnit(Units.MILLISECONDS));
     }
@@ -159,23 +150,6 @@ public class SubmitRuleEvaluator {
           .filter(Optional::isPresent)
           .map(Optional::get)
           .collect(toImmutableList());
-    }
-  }
-
-  /**
-   * Evaluate the submit type rules to get the submit type.
-   *
-   * @return record from the evaluated rules.
-   */
-  public SubmitTypeRecord getSubmitType(ChangeData cd) {
-    try (Timer0.Context ignored = metrics.submitTypeEvaluationLatency.start()) {
-      ProjectState projectState =
-          projectCache.get(cd.project()).orElseThrow(illegalState(cd.project()));
-      if (!prologSubmitRuleUtil.isProjectRulesEnabled()) {
-        return SubmitTypeRecord.OK(projectState.getSubmitType());
-      }
-
-      return prologSubmitRuleUtil.getSubmitType(cd);
     }
   }
 }

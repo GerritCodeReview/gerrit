@@ -247,7 +247,7 @@ public class MigrateLabelFunctionsToSubmitRequirement {
       cfg.setString(
           ProjectConfig.SUBMIT_REQUIREMENT,
           sr.name(),
-          ProjectConfig.KEY_SR_APPLICABILITY_EXPRESSION,
+          ProjectConfig.KEY_APPLICABILITY_EXPRESSION,
           sr.applicabilityExpression().get().expressionString());
     }
     cfg.setString(
@@ -407,9 +407,7 @@ public class MigrateLabelFunctionsToSubmitRequirement {
           rc.getString(ProjectConfig.SUBMIT_REQUIREMENT, name, ProjectConfig.KEY_SR_DESCRIPTION);
       String applicabilityExpr =
           rc.getString(
-              ProjectConfig.SUBMIT_REQUIREMENT,
-              name,
-              ProjectConfig.KEY_SR_APPLICABILITY_EXPRESSION);
+              ProjectConfig.SUBMIT_REQUIREMENT, name, ProjectConfig.KEY_APPLICABILITY_EXPRESSION);
       String submittabilityExpr =
           rc.getString(
               ProjectConfig.SUBMIT_REQUIREMENT,

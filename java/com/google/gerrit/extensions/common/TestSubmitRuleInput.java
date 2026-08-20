@@ -14,7 +14,9 @@
 
 package com.google.gerrit.extensions.common;
 
+import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.restapi.DefaultInput;
+import java.util.Map;
 
 public class TestSubmitRuleInput {
   public enum Filters {
@@ -24,4 +26,5 @@ public class TestSubmitRuleInput {
 
   @DefaultInput public String rule;
   public Filters filters;
+  public Map<SubmitType, String> overrides;
 }

@@ -53,7 +53,7 @@ public class SubmitRequirementExpressionsValidator {
                     validationMessages,
                     submitRequirement,
                     expression,
-                    ProjectConfig.KEY_SR_APPLICABILITY_EXPRESSION));
+                    ProjectConfig.KEY_APPLICABILITY_EXPRESSION));
     submitRequirement
         .overrideExpression()
         .ifPresent(

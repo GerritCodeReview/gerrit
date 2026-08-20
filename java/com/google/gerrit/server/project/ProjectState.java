@@ -37,6 +37,7 @@ import com.google.gerrit.entities.PermissionRule;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.StoredCommentLinkInfo;
 import com.google.gerrit.entities.SubmitRequirement;
+import com.google.gerrit.entities.SubmitTypeRule;
 import com.google.gerrit.entities.SubscribeSection;
 import com.google.gerrit.extensions.api.projects.CommentLinkInfo;
 import com.google.gerrit.extensions.client.SubmitType;
@@ -418,6 +419,17 @@ public class ProjectState {
       }
     }
     return ImmutableMap.copyOf(requirements);
+  }
+
+  /**
+   * Get all submit type overrides for a project, including those inherited from parent projects,
+   * ordered child-first: overrides defined closer to the leaf project are evaluated before those
+   * from ancestor projects.
+   */
+  public ImmutableList<SubmitTypeRule> getSubmitTypeRules() {
+    return ImmutableList.copyOf(tree()).stream()
+        .flatMap(s -> s.getConfig().getSubmitTypeSections().values().stream())
+        .collect(ImmutableList.toImmutableList());
   }
 
   /** All available label types. */

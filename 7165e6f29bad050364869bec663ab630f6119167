@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a64f8168_cbe0935b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-08-20T16:41:28Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "ae7857dd_bde47fb2",
+      "range": {
+        "startLine": 7,
+        "startChar": 27,
+        "endLine": 7,
+        "endChar": 38
+      },
+      "revId": "7165e6f29bad050364869bec663ab630f6119167",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "579318d6_e83a7404",
@@ -37,6 +61,24 @@
       "writtenOn": "2026-08-20T16:38:16Z",
       "side": 1,
       "message": "```suggestion\nMove the dk.brics.automaton.Automaton construction behind RegexAutomatonCompiler and\n```",
+      "revId": "7165e6f29bad050364869bec663ab630f6119167",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "90bb821e_a856ae5f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-08-20T16:41:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "579318d6_e83a7404",
       "revId": "7165e6f29bad050364869bec663ab630f6119167",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

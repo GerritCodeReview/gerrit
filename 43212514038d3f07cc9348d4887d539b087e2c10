@@ -134,6 +134,30 @@
       },
       "revId": "43212514038d3f07cc9348d4887d539b087e2c10",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3bd48fbe_3f5615d9",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-08-20T14:11:26Z",
+      "side": 1,
+      "message": "Done — held the ticketing process: reverted the `dev-processes.txt` addition and removed the request pointer from the output and docs. The change is now just the Bazel validation target (checker + exit codes).",
+      "parentUuid": "947ff18d_b0433453",
+      "range": {
+        "startLine": 378,
+        "startChar": 11,
+        "endLine": 378,
+        "endChar": 56
+      },
+      "revId": "43212514038d3f07cc9348d4887d539b087e2c10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

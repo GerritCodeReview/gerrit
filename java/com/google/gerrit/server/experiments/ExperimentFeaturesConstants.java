@@ -76,4 +76,11 @@ public class ExperimentFeaturesConstants {
   /** Whether we restrict the creation of branch permissions. */
   public static final String GERRIT_BACKEND_FEATURE_RESTRICT_BRANCH_PERMISSIONS =
       "GerritBackendFeature__restrict_branch_permissions";
+
+  /**
+   * Whether to use custom default reader and user groups instead of built-in Anonymous Users and
+   * Registered Users during site creation.
+   */
+  public static final String GERRIT_BACKEND_FEATURE_CUSTOM_DEFAULT_GROUPS_ON_SITE_CREATION =
+      "GerritBackendFeature__custom_default_groups_on_site_creation";
 }

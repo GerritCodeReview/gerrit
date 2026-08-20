@@ -14,9 +14,17 @@
 
 package com.google.gerrit.server.schema;
 
+import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
+import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.server.schema.AllProjectsInput.DEFAULT_BOOLEAN_PROJECT_CONFIGS;
 import static com.google.gerrit.server.schema.AllProjectsInput.getDefaultCodeReviewLabel;
+import static com.google.gerrit.server.schema.AllProjectsInput.getDefaultCodeReviewLabelWithNoBlockFunction;
+import static com.google.gerrit.server.schema.AllProjectsInput.getDefaultCodeReviewSubmitRequirements;
 import static com.google.gerrit.server.schema.testing.AllProjectsCreatorTestUtil.assertSectionEquivalent;
 import static com.google.gerrit.server.schema.testing.AllProjectsCreatorTestUtil.assertTwoConfigsEquivalent;
+import static com.google.gerrit.server.schema.testing.AllProjectsCreatorTestUtil.getAllProjectsWithCustomDefaultReadersAcls;
+import static com.google.gerrit.server.schema.testing.AllProjectsCreatorTestUtil.getAllProjectsWithCustomDefaultUsersAcls;
 import static com.google.gerrit.server.schema.testing.AllProjectsCreatorTestUtil.getAllProjectsWithoutDefaultAcls;
 import static com.google.gerrit.server.schema.testing.AllProjectsCreatorTestUtil.getAllProjectsWithoutDefaultSubmitRequirements;
 import static com.google.gerrit.server.schema.testing.AllProjectsCreatorTestUtil.getDefaultAllProjectsWithAllDefaultSections;
@@ -195,6 +203,108 @@ public class AllProjectsCreatorTest {
 
     Config expectedConfig = new Config();
     expectedConfig.setString("project", null, "description", description);
+    Config config = readAllProjectsConfig(repoManager, allProjectsName);
+    assertTwoConfigsEquivalent(config, expectedConfig);
+  }
+
+  @Test
+  public void allProjectsInput_defaultsDefaultGroupsWhenUnset() {
+    AllProjectsInput input = AllProjectsInput.builder().build();
+    assertThat(input.defaultReadersGroup())
+        .isEqualTo(GroupReference.create(ANONYMOUS_USERS, "Anonymous Users"));
+    assertThat(input.defaultUsersGroup())
+        .isEqualTo(GroupReference.create(REGISTERED_USERS, "Registered Users"));
+
+    AllProjectsInput inputWithNoDefault =
+        AllProjectsInput.builderWithNoDefault()
+            .firstChangeIdForNoteDb(Sequences.FIRST_CHANGE_ID)
+            .initDefaultAcls(true)
+            .initDefaultSubmitRequirements(true)
+            .build();
+    assertThat(inputWithNoDefault.defaultReadersGroup())
+        .isEqualTo(GroupReference.create(ANONYMOUS_USERS, "Anonymous Users"));
+    assertThat(inputWithNoDefault.defaultUsersGroup())
+        .isEqualTo(GroupReference.create(REGISTERED_USERS, "Registered Users"));
+  }
+
+  @Test
+  public void allProjectsInput_acceptsCustomDefaultGroups() {
+    GroupReference customReaders = createGroupReference("Custom Readers");
+    GroupReference customUsers = createGroupReference("Custom Users");
+
+    AllProjectsInput input =
+        AllProjectsInput.builder()
+            .defaultReadersGroup(customReaders)
+            .defaultUsersGroup(customUsers)
+            .build();
+    assertThat(input.defaultReadersGroup()).isEqualTo(customReaders);
+    assertThat(input.defaultUsersGroup()).isEqualTo(customUsers);
+  }
+
+  @Test
+  public void createAllProjectsWithCustomDefaultReadersGroup() throws Exception {
+    String customDefaultReaders = "Custom Readers";
+    GroupReference adminsGroup = createGroupReference("Administrators");
+    GroupReference serviceUsersGroup = createGroupReference(ServiceUserClassifier.SERVICE_USERS);
+    GroupReference blockedUsersGroup = createGroupReference(SchemaCreatorImpl.BLOCKED_USERS);
+    GroupReference customGroup = createGroupReference(customDefaultReaders);
+    AllProjectsInput allProjectsInput =
+        AllProjectsInput.builder()
+            .administratorsGroup(adminsGroup)
+            .serviceUsersGroup(serviceUsersGroup)
+            .blockedUsersGroup(blockedUsersGroup)
+            .defaultReadersGroup(customGroup)
+            .build();
+    allProjectsCreator.create(allProjectsInput);
+
+    Config expectedConfig = new Config();
+    expectedConfig.fromText(getAllProjectsWithCustomDefaultReadersAcls(customDefaultReaders));
+    Config config = readAllProjectsConfig(repoManager, allProjectsName);
+    assertTwoConfigsEquivalent(config, expectedConfig);
+  }
+
+  @Test
+  public void createAllProjectsWithCustomDefaultUsersGroup() throws Exception {
+    String customDefaultUsers = "Custom Users";
+    GroupReference adminsGroup = createGroupReference("Administrators");
+    GroupReference serviceUsersGroup = createGroupReference(ServiceUserClassifier.SERVICE_USERS);
+    GroupReference blockedUsersGroup = createGroupReference(SchemaCreatorImpl.BLOCKED_USERS);
+    GroupReference customGroup = createGroupReference(customDefaultUsers);
+    AllProjectsInput allProjectsInput =
+        AllProjectsInput.builder()
+            .administratorsGroup(adminsGroup)
+            .serviceUsersGroup(serviceUsersGroup)
+            .blockedUsersGroup(blockedUsersGroup)
+            .defaultUsersGroup(customGroup)
+            .build();
+    allProjectsCreator.create(allProjectsInput);
+
+    Config expectedConfig = new Config();
+    expectedConfig.fromText(getAllProjectsWithCustomDefaultUsersAcls(customDefaultUsers));
+    Config config = readAllProjectsConfig(repoManager, allProjectsName);
+    assertTwoConfigsEquivalent(config, expectedConfig);
+  }
+
+  @Test
+  public void createAllProjectsWithUnsetDefaultGroups_fallsBackToDefaults() throws Exception {
+    GroupReference adminsGroup = createGroupReference("Administrators");
+    GroupReference serviceUsersGroup = createGroupReference(ServiceUserClassifier.SERVICE_USERS);
+    GroupReference blockedUsersGroup = createGroupReference(SchemaCreatorImpl.BLOCKED_USERS);
+    AllProjectsInput.Builder allProjectsInput =
+        AllProjectsInput.builderWithNoDefault()
+            .codeReviewLabel(getDefaultCodeReviewLabelWithNoBlockFunction())
+            .codeReviewSubmitRequirement(getDefaultCodeReviewSubmitRequirements())
+            .firstChangeIdForNoteDb(Sequences.FIRST_CHANGE_ID)
+            .initDefaultAcls(true)
+            .initDefaultSubmitRequirements(true)
+            .administratorsGroup(adminsGroup)
+            .serviceUsersGroup(serviceUsersGroup)
+            .blockedUsersGroup(blockedUsersGroup);
+    DEFAULT_BOOLEAN_PROJECT_CONFIGS.forEach(allProjectsInput::addBooleanProjectConfig);
+    allProjectsCreator.create(allProjectsInput.build());
+
+    Config expectedConfig = new Config();
+    expectedConfig.fromText(getDefaultAllProjectsWithAllDefaultSections());
     Config config = readAllProjectsConfig(repoManager, allProjectsName);
     assertTwoConfigsEquivalent(config, expectedConfig);
   }

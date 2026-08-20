@@ -26,16 +26,8 @@ public class RegexMessagePredicate extends ChangeRegexPredicate {
       throws QueryParseException {
     super(ChangeField.COMMIT_MESSAGE_EXACT, re);
 
-    if (re.startsWith("^")) {
-      re = re.substring(1);
-    }
-
-    if (re.endsWith("$") && !re.endsWith("\\$")) {
-      re = re.substring(0, re.length() - 1);
-    }
-
     try {
-      this.pattern = new RunAutomaton(regexAutomatonCompiler.compile(re));
+      this.pattern = regexAutomatonCompiler.compileMatcher(re);
     } catch (IllegalArgumentException e) {
       throw new QueryParseException(String.format("invalid regular expression: %s", re), e);
     }

@@ -26,15 +26,7 @@ public class RegexProjectPredicate extends ChangeRegexPredicate {
   public RegexProjectPredicate(RegexAutomatonCompiler regexAutomatonCompiler, String re) {
     super(ChangeField.PROJECT_SPEC, re);
 
-    if (re.startsWith("^")) {
-      re = re.substring(1);
-    }
-
-    if (re.endsWith("$") && !re.endsWith("\\$")) {
-      re = re.substring(0, re.length() - 1);
-    }
-
-    this.pattern = new RunAutomaton(regexAutomatonCompiler.compile(re));
+    this.pattern = regexAutomatonCompiler.compileMatcher(re);
   }
 
   @Override

@@ -24,15 +24,7 @@ public class RegexDirectoryPredicate extends ChangeRegexPredicate {
   public RegexDirectoryPredicate(RegexAutomatonCompiler regexAutomatonCompiler, String re) {
     super(ChangeField.DIRECTORY_SPEC, re);
 
-    if (re.startsWith("^")) {
-      re = re.substring(1);
-    }
-
-    if (re.endsWith("$") && !re.endsWith("\\$")) {
-      re = re.substring(0, re.length() - 1);
-    }
-
-    this.pattern = new RunAutomaton(regexAutomatonCompiler.compile(re));
+    this.pattern = regexAutomatonCompiler.compileMatcher(re);
   }
 
   @Override

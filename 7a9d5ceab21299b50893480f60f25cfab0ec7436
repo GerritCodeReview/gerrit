@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c826d525_034f8e11",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1127770
+      },
+      "writtenOn": "2026-08-20T13:30:38Z",
+      "side": 1,
+      "message": "Please review. We fix this in our local Ericsson fork and now we opensource it.",
+      "revId": "7a9d5ceab21299b50893480f60f25cfab0ec7436",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

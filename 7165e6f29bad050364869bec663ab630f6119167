@@ -375,6 +375,30 @@
       },
       "revId": "7165e6f29bad050364869bec663ab630f6119167",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "08bc6c39_eaaa0eee",
+        "filename": "java/com/google/gerrit/server/ioutil/RegexListSearcher.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-20T19:42:34Z",
+      "side": 1,
+      "message": "Ah, gotcha, you just mean that we cannot link a class that is not imported. Gotcha.",
+      "parentUuid": "dc967152_c4337963",
+      "range": {
+        "startLine": 28,
+        "startChar": 58,
+        "endLine": 28,
+        "endChar": 76
+      },
+      "revId": "7165e6f29bad050364869bec663ab630f6119167",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3864e2ec_9b512530",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-08-20T11:06:13Z",
+      "side": 1,
+      "message": "I believe this isn\u0027t working as expected. When unloading a plugin I get \n```\n[2026-08-20T12:04:30.377+01:00] [PluginScanner] ERROR com.google.gerrit.pgm.Daemon : Thread PluginScanner threw exception\njava.lang.NullPointerException: Cannot invoke \"com.google.inject.Injector.findBindingsByType(com.google.inject.TypeLiteral)\" because \"src\" is null\n\tat com.google.gerrit.server.plugins.PluginGuiceEnvironment.bindings(PluginGuiceEnvironment.java:569)\n\tat com.google.gerrit.server.plugins.PluginGuiceEnvironment.listeners(PluginGuiceEnvironment.java:557)\n\tat com.google.gerrit.server.plugins.PluginGuiceEnvironment.removeOnStartStopReloadListeners(PluginGuiceEnvironment.java:219)\n\tat com.google.gerrit.server.plugins.PluginGuiceEnvironment.onStopPlugin(PluginGuiceEnvironment.java:315)\n\tat com.google.gerrit.server.plugins.PluginLoader.unloadPlugin(PluginLoader.java:220)\n\tat com.google.gerrit.server.plugins.PluginLoader.stopRemovedPlugins(PluginLoader.java:563)\n\tat com.google.gerrit.server.plugins.PluginLoader.syncDisabledPlugins(PluginLoader.java:485)\n\tat com.google.gerrit.server.plugins.PluginLoader.rescan(PluginLoader.java:415)\n\tat com.google.gerrit.server.plugins.PluginScannerThread.run(PluginScannerThread.java:43)\n```\n\nSubsequent plugin unloads do not work.",
+      "revId": "71773308e861cc5c550847aca9c5e3d18bb0c611",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

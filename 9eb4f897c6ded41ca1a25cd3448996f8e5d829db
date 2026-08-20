@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7b776f3_a5afb40c",
+        "filename": "java/com/google/gerrit/server/project/RefFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-20T17:01:29Z",
+      "side": 1,
+      "message": "By using the correct name for the method, naming the variable becomes easier.\n\n\n\n```suggestion\n      return new RunAutomaton(regexCompiler.toAutomaton(regex));\n```",
+      "revId": "9eb4f897c6ded41ca1a25cd3448996f8e5d829db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -44,22 +44,15 @@ public final class RegexListSearcher<T> {
       RegexAutomatonCompiler regexAutomatonCompiler, String re, Function<T, String> toStringFunc) {
     this.toStringFunc = requireNonNull(toStringFunc);
 
-    if (re.startsWith("^")) {
-      re = re.substring(1);
-    }
-
-    if (re.endsWith("$") && !re.endsWith("\\$")) {
-      re = re.substring(0, re.length() - 1);
-    }
-
-    Automaton automaton = regexAutomatonCompiler.compile(re);
+    String stripped = RegexAutomatonCompiler.stripRedundantAnchors(re);
+    Automaton automaton = regexAutomatonCompiler.compile(stripped);
     prefixBegin = automaton.getCommonPrefix();
     prefixLen = prefixBegin.length();
 
     if (0 < prefixLen) {
       char max = Chars.checkedCast(prefixBegin.charAt(prefixLen - 1) + 1);
       prefixEnd = prefixBegin.substring(0, prefixLen - 1) + max;
-      prefixOnly = re.equals(prefixBegin + ".*");
+      prefixOnly = stripped.equals(prefixBegin + ".*");
     } else {
       prefixEnd = "";
       prefixOnly = false;

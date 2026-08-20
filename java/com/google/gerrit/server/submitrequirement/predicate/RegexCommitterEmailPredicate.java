@@ -31,16 +31,8 @@ public class RegexCommitterEmailPredicate extends SubmitRequirementPredicate {
       throws QueryParseException {
     super("committeremail", pattern);
 
-    if (pattern.startsWith("^")) {
-      pattern = pattern.substring(1);
-    }
-
-    if (pattern.endsWith("$") && !pattern.endsWith("\\$")) {
-      pattern = pattern.substring(0, pattern.length() - 1);
-    }
-
     try {
-      this.committerEmailPattern = new RunAutomaton(regexAutomatonCompiler.compile(pattern));
+      this.committerEmailPattern = regexAutomatonCompiler.compileMatcher(pattern);
     } catch (IllegalArgumentException e) {
       throw new QueryParseException(String.format("invalid regular expression: %s", pattern), e);
     }

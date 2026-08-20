@@ -15,10 +15,26 @@
 package com.google.gerrit.server.ioutil;
 
 import dk.brics.automaton.Automaton;
+import dk.brics.automaton.RunAutomaton;
 
 /** Compiles regular expressions into automata. */
 public interface RegexAutomatonCompiler {
+  static String stripRedundantAnchors(String pattern) {
+    String stripped = pattern;
+    if (stripped.startsWith("^")) {
+      stripped = stripped.substring(1);
+    }
+    if (stripped.endsWith("$") && !stripped.endsWith("\\$")) {
+      stripped = stripped.substring(0, stripped.length() - 1);
+    }
+    return stripped;
+  }
+
   Automaton compile(String pattern);
 
   Automaton compile(String pattern, int syntaxFlags);
+
+  default RunAutomaton compileMatcher(String pattern) {
+    return new RunAutomaton(compile(stripRedundantAnchors(pattern)));
+  }
 }

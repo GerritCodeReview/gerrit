@@ -25,15 +25,7 @@ public class RegexHashtagPredicate extends ChangeRegexPredicate {
   public RegexHashtagPredicate(RegexAutomatonCompiler regexAutomatonCompiler, String re) {
     super(HASHTAG_SPEC, re);
 
-    if (re.startsWith("^")) {
-      re = re.substring(1);
-    }
-
-    if (re.endsWith("$") && !re.endsWith("\\$")) {
-      re = re.substring(0, re.length() - 1);
-    }
-
-    this.pattern = new RunAutomaton(regexAutomatonCompiler.compile(re));
+    this.pattern = regexAutomatonCompiler.compileMatcher(re);
   }
 
   @Override

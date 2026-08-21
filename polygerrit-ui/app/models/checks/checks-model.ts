@@ -333,7 +333,7 @@ export class ChecksModel extends Model<ChecksState> {
           ps && ps !== latestPs
             ? ChecksPatchset.SELECTED
             : ChecksPatchset.LATEST;
-        return this.getPluginState(state, checksPs);
+        return this.readPluginState(state, checksPs);
       }
     );
     this.aPluginHasRegistered$ = select(
@@ -588,6 +588,19 @@ export class ChecksModel extends Model<ChecksState> {
     this.setState(nextState);
   }
 
+  // Read only. Use in reactive selectors where state must not be modified
+  // between emissions.
+  private readPluginState(
+    state: ChecksState,
+    patchset: ChecksPatchset = ChecksPatchset.LATEST
+  ) {
+    return patchset === ChecksPatchset.LATEST
+      ? state.pluginStateLatest
+      : state.pluginStateSelected;
+  }
+
+  // Shallow-copies the inner plugin map onto state and returns it, so callers
+  // can safely assign new entries before passing state to setState().
   getPluginState(
     state: ChecksState,
     patchset: ChecksPatchset = ChecksPatchset.LATEST

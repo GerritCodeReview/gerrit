@@ -354,6 +354,20 @@ suite('checks-model tests', () => {
     });
   });
 
+  test('checksSelected$ selector does not mutate state', () => {
+    model.updateStateSetProvider(PLUGIN_NAME, ChecksPatchset.LATEST);
+    const pluginStateLatestRef = model.getState().pluginStateLatest;
+
+    // Fires the selector synchronously via BehaviorSubject replay.
+    model.checksSelected$.subscribe(() => {});
+
+    assert.strictEqual(
+      model.getState().pluginStateLatest,
+      pluginStateLatestRef,
+      'checksSelected$ must not mutate state.pluginStateLatest'
+    );
+  });
+
   test('loading and first time load', () => {
     model.updateStateSetProvider(PLUGIN_NAME, ChecksPatchset.LATEST);
     assert.isFalse(current.loading);

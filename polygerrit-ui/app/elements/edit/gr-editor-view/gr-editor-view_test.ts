@@ -689,6 +689,67 @@ suite('gr-editor-view tests', () => {
       };
       assert.equal(element.storageKey, 'c1_ps1_test');
     });
+
+    test('does not store content-change when content is unchanged', async () => {
+      const storageStub = sinon.stub(storageService, 'setEditableContentItem');
+
+      element.content = 'test';
+      element.newContent = 'test';
+      await element.updateComplete;
+
+      query<GrEndpointDecorator>(element, '#editorEndpoint')!.dispatchEvent(
+        new CustomEvent('content-change', {
+          bubbles: true,
+          composed: true,
+          detail: {value: 'test'},
+        })
+      );
+
+      element.storeTask?.flush();
+      await element.updateComplete;
+
+      assert.equal(element.newContent, 'test');
+      assert.isFalse(
+        storageStub.called,
+        'should not store content when it has not changed'
+      );
+    });
+
+    test('erases stored content when content-change returns to original content', async () => {
+      const setStorageStub = sinon.stub(
+        storageService,
+        'setEditableContentItem'
+      );
+      const eraseStorageStub = sinon.stub(
+        storageService,
+        'eraseEditableContentItem'
+      );
+
+      element.content = 'original content';
+      element.newContent = 'modified content';
+      await element.updateComplete;
+
+      query<GrEndpointDecorator>(element, '#editorEndpoint')!.dispatchEvent(
+        new CustomEvent('content-change', {
+          bubbles: true,
+          composed: true,
+          detail: {value: 'original content'},
+        })
+      );
+
+      element.storeTask?.flush();
+      await element.updateComplete;
+
+      assert.equal(element.newContent, 'original content');
+      assert.isFalse(
+        setStorageStub.called,
+        'should not store content when it matches the original'
+      );
+      assert.isTrue(
+        eraseStorageStub.calledOnce,
+        'should erase the cached edit when content matches the original'
+      );
+    });
   });
 
   suite('save enabled/disabled', () => {

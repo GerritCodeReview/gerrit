@@ -77,7 +77,7 @@ suite('gr-change-list section', () => {
         </md-checkbox>
       </td>
       #
-              SubjectOwnerReviewersRepoBranchUpdatedSizeStatus
+              SubjectOwnerReviewersRepoBranchUpdatedSizeStatusHashtags
       <gr-change-list-item
         aria-label="Test subject, section: test"
         role="button"

@@ -18,6 +18,7 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
 import com.google.common.collect.Streams;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.entities.SubmitTypeRecord;
 import com.google.gerrit.exceptions.StorageException;
@@ -168,14 +169,27 @@ public class SubmitRuleEvaluator {
    * @return record from the evaluated rules.
    */
   public SubmitTypeRecord getSubmitType(ChangeData cd) {
+    return getSubmitType(cd, null, false);
+  }
+
+  public SubmitTypeRecord getSubmitType(
+      ChangeData cd, @Nullable String ruleToTest, boolean skipFilters) {
     try (Timer0.Context ignored = metrics.submitTypeEvaluationLatency.start()) {
       ProjectState projectState =
           projectCache.get(cd.project()).orElseThrow(illegalState(cd.project()));
-      if (!prologSubmitRuleUtil.isProjectRulesEnabled()) {
-        return SubmitTypeRecord.OK(projectState.getSubmitType());
+      if (prologSubmitRuleUtil.isProjectRulesEnabled()) {
+        Optional<SubmitTypeRecord> submitType = Optional.empty();
+        if (ruleToTest != null) {
+          submitType = prologSubmitRuleUtil.getSubmitType(cd, ruleToTest, skipFilters);
+        } else {
+          submitType = prologSubmitRuleUtil.getSubmitType(cd);
+        }
+        if (submitType.isPresent()) {
+          return submitType.get();
+        }
       }
 
-      return prologSubmitRuleUtil.getSubmitType(cd);
+      return SubmitTypeRecord.OK(projectState.getSubmitType());
     }
   }
 }

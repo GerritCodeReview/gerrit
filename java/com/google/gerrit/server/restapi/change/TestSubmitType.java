@@ -36,14 +36,19 @@ import org.kohsuke.args4j.Option;
 public class TestSubmitType implements RestModifyView<RevisionResource, TestSubmitRuleInput> {
   private final ChangeData.Factory changeDataFactory;
   private final PrologSubmitRuleUtil prologSubmitRuleUtil;
+  private final SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory;
 
   @Option(name = "--filters", usage = "impact of filters in parent projects")
   private Filters filters = Filters.RUN;
 
   @Inject
-  TestSubmitType(ChangeData.Factory changeDataFactory, PrologSubmitRuleUtil prologRule) {
+  TestSubmitType(
+      ChangeData.Factory changeDataFactory,
+      PrologSubmitRuleUtil prologRule,
+      SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory) {
     this.changeDataFactory = changeDataFactory;
     this.prologSubmitRuleUtil = prologRule;
+    this.submitRuleEvaluatorFactory = submitRuleEvaluatorFactory;
   }
 
   @Override
@@ -61,8 +66,8 @@ public class TestSubmitType implements RestModifyView<RevisionResource, TestSubm
     input.filters = MoreObjects.firstNonNull(input.filters, filters);
 
     ChangeData cd = changeDataFactory.create(rsrc.getNotes());
-    SubmitTypeRecord rec =
-        prologSubmitRuleUtil.getSubmitType(cd, input.rule, input.filters == Filters.SKIP);
+    SubmitRuleEvaluator evaluator = submitRuleEvaluatorFactory.create(SubmitRuleOptions.defaults());
+    SubmitTypeRecord rec = evaluator.getSubmitType(cd, input.rule, input.filters == Filters.SKIP);
 
     if (rec.status != SubmitTypeRecord.Status.OK) {
       throw new BadRequestException(String.format("rule produced invalid result: %s", rec));

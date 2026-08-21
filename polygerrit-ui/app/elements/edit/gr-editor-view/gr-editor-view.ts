@@ -603,10 +603,12 @@ export class GrEditorView extends LitElement {
     this.storeTask = debounce(
       this.storeTask,
       () => {
-        const content = e.detail.value;
-        if (content) {
-          this.newContent = e.detail.value;
-          this.getStorage().setEditableContentItem(this.storageKey, content);
+        const newContent = e.detail.value;
+
+        this.newContent = newContent;
+
+        if (newContent && newContent !== this.content) {
+          this.getStorage().setEditableContentItem(this.storageKey, newContent);
         } else {
           this.getStorage().eraseEditableContentItem(this.storageKey);
         }

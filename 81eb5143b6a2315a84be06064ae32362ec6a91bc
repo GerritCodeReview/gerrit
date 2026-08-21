@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a50656a_4f3915f5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-08-21T18:19:45Z",
+      "side": 1,
+      "message": "```suggestion\nClarify the exact requirements to file security issues\n```",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 57
+      },
+      "revId": "81eb5143b6a2315a84be06064ae32362ec6a91bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ea7a4a12_9fcab508",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-08-21T18:19:45Z",
+      "side": 1,
+      "message": "```suggestion\n\nGive more transparency and clarity to the Gerrit community about the\nrequirements for a security issue to be accepted for triage.\n```",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 63
+      },
+      "revId": "81eb5143b6a2315a84be06064ae32362ec6a91bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a3e1ae9_a31af8eb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-08-21T18:19:45Z",
+      "side": 1,
+      "message": "```suggestion\nRaising the quality bar of security issues allows the\nmaintainers to save time and resolve them more efficiently.\n```",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 55
+      },
+      "revId": "81eb5143b6a2315a84be06064ae32362ec6a91bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd4da633_7b1f67f1",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-08-21T18:19:45Z",
+      "side": 1,
+      "message": "Which immediate team? of the reporter?",
+      "range": {
+        "startLine": 229,
+        "startChar": 69,
+        "endLine": 229,
+        "endChar": 87
+      },
+      "revId": "81eb5143b6a2315a84be06064ae32362ec6a91bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3f0ba79_363270a1",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-08-21T18:19:45Z",
+      "side": 1,
+      "message": "```suggestion\n   - Configuration Triggers: Does this require specific option to be set, or does it happen on a default Gerrit\n```",
+      "range": {
+        "startLine": 248,
+        "startChar": 56,
+        "endLine": 248,
+        "endChar": 63
+      },
+      "revId": "81eb5143b6a2315a84be06064ae32362ec6a91bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

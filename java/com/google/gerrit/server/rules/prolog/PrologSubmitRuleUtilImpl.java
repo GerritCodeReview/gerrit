@@ -22,6 +22,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.rules.PrologSubmitRuleUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.util.Optional;
 
 /** Implementation of {@link PrologSubmitRuleUtil}. */
 @Singleton
@@ -41,13 +42,13 @@ public class PrologSubmitRuleUtilImpl implements PrologSubmitRuleUtil {
   }
 
   @Override
-  public SubmitTypeRecord getSubmitType(ChangeData cd) {
-    checkState(isProjectRulesEnabled(), "prolog rules disabled");
-    return prologRule.getSubmitType(cd, PrologOptions.defaultOptions());
+  public Optional<SubmitTypeRecord> getSubmitType(ChangeData cd) {
+    return prologRule.getSubmitType(cd);
   }
 
   @Override
-  public SubmitTypeRecord getSubmitType(ChangeData cd, String ruleToTest, boolean skipFilters) {
+  public Optional<SubmitTypeRecord> getSubmitType(
+      ChangeData cd, String ruleToTest, boolean skipFilters) {
     checkState(isProjectRulesEnabled(), "prolog rules disabled");
     return prologRule.getSubmitType(cd, PrologOptions.dryRunOptions(ruleToTest, skipFilters));
   }

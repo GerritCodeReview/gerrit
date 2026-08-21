@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01cbe23a_783fc050",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6884,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-08-21T20:24:59Z",
+      "side": 1,
+      "message": "Config item not needed, use the interval to enable it?",
+      "revId": "c5d84e64a69695ce1f14a45969509747589c3cb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

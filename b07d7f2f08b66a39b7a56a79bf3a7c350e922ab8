@@ -34,6 +34,75 @@
       "parentUuid": "85482812_0e6afacd",
       "revId": "b07d7f2f08b66a39b7a56a79bf3a7c350e922ab8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "05df087c_fb59c193",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-08-21T20:24:59Z",
+      "side": 1,
+      "message": "Agreed about the potential need to \"test\" this out by turning it on/off manually at times without having to restart Gerrit, but I also agree that this can be a follow on feature.",
+      "parentUuid": "beb41eaa_33b2212c",
+      "revId": "b07d7f2f08b66a39b7a56a79bf3a7c350e922ab8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da828afb_e660fdf0",
+        "filename": "java/com/google/gerrit/server/git/QueueSnapshotLog.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-08-21T20:24:59Z",
+      "side": 1,
+      "message": "Most of the stuff in here feels like it should be done in the constructor instead? If it shifts there, \u0027asycn\u0027 would not need to be volatile or test for null (test \u0027enabled\u0027 instead). More importantly, it means that you wouldn\u0027t be a need to pass around the AsycnAppender to a bunch of methods.",
+      "revId": "b07d7f2f08b66a39b7a56a79bf3a7c350e922ab8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9dc983de_6f4e98fe",
+        "filename": "java/com/google/gerrit/server/git/QueueSnapshotLog.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-08-21T20:24:59Z",
+      "side": 1,
+      "message": "appendTaskEvents?",
+      "revId": "b07d7f2f08b66a39b7a56a79bf3a7c350e922ab8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "25ea25b1_8e2ff10e",
+        "filename": "java/com/google/gerrit/server/git/QueueSnapshotLog.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-08-21T20:24:59Z",
+      "side": 1,
+      "message": "s/emitTaskEvent/appendTaskEvent/ ?",
+      "revId": "b07d7f2f08b66a39b7a56a79bf3a7c350e922ab8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

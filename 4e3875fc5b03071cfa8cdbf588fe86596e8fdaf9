@@ -1,5 +1,40 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f0427a1_d3e2923f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-21T21:13:37Z",
+      "side": 1,
+      "message": "This is breaking master, after the merge of I351af5ad.",
+      "revId": "4e3875fc5b03071cfa8cdbf588fe86596e8fdaf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ff79c20_f08eb0e7",
+        "filename": "java/com/google/gerrit/server/query/change/RegexPathPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-21T21:13:37Z",
+      "side": 1,
+      "message": "The `e.detailMessage()` returned the details of the syntax error in the regular expression, which is now being swallowed by the cause, whereas before it was propagated upstream.\n\nAfter the I351af5ad on master, the IAE details were returned to the caller, but they are now lost, creating a regression on master.",
+      "revId": "4e3875fc5b03071cfa8cdbf588fe86596e8fdaf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

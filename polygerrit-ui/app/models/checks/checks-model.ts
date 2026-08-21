@@ -640,7 +640,7 @@ export class ChecksModel extends Model<ChecksState> {
     pluginState[pluginName] = {
       ...pluginState[pluginName],
       loading: false,
-      firstTimeLoad: false,
+      firstTimeLoad: true,
       errorMessage: undefined,
       loginCallback,
       runs: [],

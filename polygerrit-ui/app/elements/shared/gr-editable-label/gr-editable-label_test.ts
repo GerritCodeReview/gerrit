@@ -45,7 +45,7 @@ suite('gr-editable-label tests', () => {
   test('renders', () => {
     assert.shadowDom.equal(
       element,
-      `<div style="position: relative;">
+      `<div style="position: relative;" part="container">
         <label
           aria-label="value text"
           class="editable"

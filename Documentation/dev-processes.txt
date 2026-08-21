@@ -204,24 +204,66 @@ disclosed to the community as soon as a fix release or another mitigation is
 available.
 
 [[report-security-issue]]
-=== How to report a security vulnerability?
+=== How to report a security vulnerability
 
 To report a security vulnerability file a
 link:https://issues.gerritcodereview.com/issues/new?component=1371046[
-security issue,role=external,window=_blank] in the Gerrit issue tracker. Issues
+security issue,role=external,window=_blank] in the Gerrit issue tracker, if you
+have permissions to see the component, or send an e-mail to the
+link:#gerrit-maintainers[Gerrit Maintainers]. Issues
 in the `Gerrit Code Review > Security` component are restricted to Gerrit
 maintainers and a few long-term contributors. The reporter becomes a
 collaborator on the issue and hence can see it as well. Security issues are
-triaged by the link:#steering-committee[Engineering Steering Committee].
+triaged by the link:#gerrit-maintainers[Gerrit Maintainers].
 
 If an existing issue is found to be a security vulnerability it should be moved
 to `Gerrit Code Review > Security` component (component ID: 1371046).
 
-In case of doubt, or if an issue cannot wait until the next ESC meeting,
-contact the link:#steering-committee[Engineering Steering Committee] directly
-by sending them an mailto:gerritcodereview-esc@googlegroups.com[email].
+If needed, one of the Gerrit Maintainers will contact the reporter for additional details.
 
-If needed, the ESC will contact the reporter for additional details.
+[[requirements]]
+=== Requirements for a security issue
+
+* Confidentiality
++
+The vulnerability details must not be shared with anyone outside the immediate team reporting the
+issue and the Gerrit Maintainers. No data related to this vulnerability has been inputted into
+external tools, public trackers, or AI-assisted analyzers.
+
+* The Vulnerability
+
+. Expected Behavior
++
+What is the intended behavior? Please link to the relevant evidence in the Gerrit documentation if
+present.
+
+. Observed Behavior
++
+What actually happens? (Note: Pure code analysis without execution evidence is not accepted).
+
+. Reproduction & Environment
++
+* Affected Versions: List all impacted non-EOL versions and if the issue is present on the master
+  branch.
+* Configuration Triggers: Does this require specific options to be set, or does it happen on a
+  default Gerrit installation?
+
+. Steps to Reproduce
++
+Provide an end-to-end walkthrough covering all impacted endpoints: SSH, REST-API, Git protocol,
+etc. (Note: Pure code analysis without execution steps is not accepted).
+
+. Security Impact
++
+* Data Exposure & Access: Does this leak sensitive information or bypass access protections?
+* Data Integrity: Can an attacker compromise, modify, or destroy private data?
+
+. ️Validation & Mitigation
++
+* Admin Validation: How can a Gerrit admin verify if their installation is vulnerable? (e.g., a
+  script, curl command, or log check)
+* Proposed Mitigation: Are there immediate steps admins can take to block the exploit without
+  upgrading? (e.g., reverse proxy rules, disabling features).
 
 [[embargo]]
 === The Embargo

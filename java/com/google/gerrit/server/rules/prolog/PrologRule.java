@@ -60,8 +60,25 @@ class PrologRule implements SubmitRule {
     return getEvaluator(cd, opts).evaluate();
   }
 
-  SubmitTypeRecord getSubmitType(ChangeData cd, PrologOptions opts) {
+  Optional<SubmitTypeRecord> getSubmitType(ChangeData cd, PrologOptions opts) {
     return getEvaluator(cd, opts).getSubmitType();
+  }
+
+  /**
+   * Returns the submit type if the project has an explicit Prolog {@code submit_type/1} rule, or
+   * {@link Optional#empty()} if the project has no user-defined {@code submit_type/1} predicate,
+   * Prolog is disabled, or the project has no {@code rules.pl} file.
+   */
+  Optional<SubmitTypeRecord> getSubmitType(ChangeData cd) {
+    if (!isProjectRulesEnabled) {
+      return Optional.empty();
+    }
+    ProjectState projectState =
+        projectCache.get(cd.project()).orElseThrow(illegalState(cd.project()));
+    if (!projectState.hasPrologRules()) {
+      return Optional.empty();
+    }
+    return getEvaluator(cd, PrologOptions.defaultOptions()).getSubmitType();
   }
 
   private PrologRuleEvaluator getEvaluator(ChangeData cd, PrologOptions opts) {

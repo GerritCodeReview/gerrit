@@ -52,6 +52,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 /**
  * Evaluates a submit-like Prolog rule found in the rules.pl file of the current project and filters
@@ -335,13 +336,30 @@ public class PrologRuleEvaluator {
    *
    * @return record from the evaluated rules.
    */
-  public SubmitTypeRecord getSubmitType() {
+  public SubmitTypeRecord getSubmitTypeWithFallback() {
+    Optional<SubmitTypeRecord> explicit = getSubmitType();
+    if (explicit.isPresent()) {
+      return explicit.get();
+    }
+    // No user-defined submit_type/1 rule; fall back to the project-configured default.
+    return SubmitTypeRecord.OK(projectState.getSubmitType());
+  }
+
+  /**
+   * Returns the submit type determined by an explicit Prolog {@code submit_type/1} rule, or {@link
+   * Optional#empty()} when the project has no user-defined {@code submit_type/1} predicate.
+   *
+   * <p>Since {@code locate_submit_type} no longer falls back to {@code
+   * project_default_submit_type}, an empty result list from Prolog unambiguously means "no explicit
+   * rule". Callers can then evaluate submit type overrides before using the project default.
+   */
+  public Optional<SubmitTypeRecord> getSubmitType() {
     try {
       if (projectState == null) {
         throw new NoSuchProjectException(cd.project());
       }
     } catch (NoSuchProjectException e) {
-      return typeError("Error looking up change " + cd.getId(), e);
+      return Optional.of(typeError("Error looking up change " + cd.getId(), e));
     }
 
     List<Term> results;
@@ -353,46 +371,41 @@ public class PrologRuleEvaluator {
               "locate_submit_type_filter",
               "filter_submit_type_results");
     } catch (RuleEvalException e) {
-      return typeError(e.getMessage(), e);
+      return Optional.of(typeError(e.getMessage(), e));
     }
 
     if (results.isEmpty()) {
-      // Should never occur for a well written rule
-      return typeError(
-          "Submit rule '"
-              + getSubmitRuleName()
-              + "' for change "
-              + cd.getId()
-              + " of "
-              + projectState.getName()
-              + " has no solution.");
+      // locate_submit_type found no user-defined submit_type/1 rule.
+      return Optional.empty();
     }
 
     Term typeTerm = results.get(0);
     if (!(typeTerm instanceof SymbolTerm)) {
-      return typeError(
-          "Submit rule '"
-              + getSubmitRuleName()
-              + "' for change "
-              + cd.getId()
-              + " of "
-              + projectState.getName()
-              + " did not return a symbol.");
+      return Optional.of(
+          typeError(
+              "Submit rule '"
+                  + getSubmitRuleName()
+                  + "' for change "
+                  + cd.getId()
+                  + " of "
+                  + projectState.getName()
+                  + " did not return a symbol."));
     }
 
     String typeName = typeTerm.name();
     try {
-      return SubmitTypeRecord.OK(SubmitType.valueOf(typeName.toUpperCase(Locale.US)));
+      return Optional.of(SubmitTypeRecord.OK(SubmitType.valueOf(typeName.toUpperCase(Locale.US))));
     } catch (IllegalArgumentException e) {
-      return typeError(
-          "Submit type rule "
-              + getSubmitRule()
-              + " for change "
-              + cd.getId()
-              + " of "
-              + projectState.getName()
-              + " output invalid result: "
-              + typeName);
+      return Optional.of(
+          typeError(
+              "Submit type rule "
+                  + getSubmitRule()
+                  + " for change "
+                  + cd.getId()
+                  + " of "
+                  + projectState.getName()
+                  + " output invalid result: "
+                  + typeName));
     }
   }
 
@@ -416,6 +429,13 @@ public class PrologRuleEvaluator {
     PrologEnvironment env = getPrologEnvironment();
     try {
       Term sr = env.once("gerrit", userRuleLocatorName, new VariableTerm());
+      if (sr == null) {
+        // The locator predicate found no rule (e.g. locate_submit_type when the project has
+        // no user-defined submit_type/1). Return an empty result list so callers can treat
+        // this as "no Prolog rule active" rather than an error.
+        submitRule = null;
+        return Collections.emptyList();
+      }
       List<Term> results = new ArrayList<>();
       try {
         for (Term[] template : env.all("gerrit", userRuleWrapperName, sr, new VariableTerm())) {

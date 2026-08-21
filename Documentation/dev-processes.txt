@@ -204,24 +204,77 @@ disclosed to the community as soon as a fix release or another mitigation is
 available.
 
 [[report-security-issue]]
-=== How to report a security vulnerability?
+=== How to report a security vulnerability
 
 To report a security vulnerability file a
 link:https://issues.gerritcodereview.com/issues/new?component=1371046[
-security issue,role=external,window=_blank] in the Gerrit issue tracker. Issues
+security issue,role=external,window=_blank] in the Gerrit issue tracker, if you
+have permissions to see the component, or send an e-mail to the
+link:#gerrit-maintainers[Gerrit Maintainers]. Issues
 in the `Gerrit Code Review > Security` component are restricted to Gerrit
 maintainers and a few long-term contributors. The reporter becomes a
 collaborator on the issue and hence can see it as well. Security issues are
-triaged by the link:#steering-committee[Engineering Steering Committee].
+triaged by the link:#gerrit-maintainers[Gerrit Maintainers].
 
 If an existing issue is found to be a security vulnerability it should be moved
 to `Gerrit Code Review > Security` component (component ID: 1371046).
 
-In case of doubt, or if an issue cannot wait until the next ESC meeting,
-contact the link:#steering-committee[Engineering Steering Committee] directly
-by sending them an mailto:gerritcodereview-esc@googlegroups.com[email].
+If needed, one of the Gerrit Maintainers will contact the reporter for additional details.
 
-If needed, the ESC will contact the reporter for additional details.
+[[requirements]]
+=== Requirements for a security issue
+
+* Confidentiality
++
+Keep all vulnerability details strictly confidential between the reporting team and the
+mailto:gerritcodereview-maintainers@googlegroups.com[Gerrit Maintainers].
+Do not enter any related data into external tools, public issue trackers, or public AI analyzers.
+
+* Vulnerability Details
+
+. Expected Behavior
++
+What is the expected behavior? If applicable, please provide links to the corresponding
+Gerrit documentation.
+
+. Observed Behavior
++
+What actually happens? (Note: Pure code analysis without execution evidence is not accepted).
+
+. Reproduction & Environment
++
+** Affected Versions: List all impacted, supported versions and specify whether the issue affects
+  the master branch.
+** Configuration Triggers: Does this require specific configuration settings, or does this occur
+  on a default Gerrit installation?
+
+. Steps to Reproduce
++
+Provide an end-to-end walkthrough covering all impacted endpoints: SSH, REST-API, Git protocol,
+etc. (Note: Pure code analysis without execution steps is not accepted).
+
+. Security Impact
++
+** Data Exposure & Access: Does this leak sensitive information or bypass access protections?
+** Data Integrity: Can an attacker compromise, modify, or destroy private data?
+** System Availability: Can an attacker compromise the overall availability of the system?
+
+. ️Validation & Mitigation
++
+** Admin Validation: How can a Gerrit admin verify if their installation is vulnerable? (e.g., a
+   script, curl command, or log check)
+** Proposed Mitigation: Are there immediate steps admins can take to block the exploit without
+   upgrading? (e.g., reverse proxy rules, disabling features).
+
+* Acceptance Criteria
++
+. The issue has been reported respecting the confidentiality required.
+
+. The report is complete in all details.
+
+[NOTE]
+Incomplete reports may receive low-priority evaluation on a best-effort basis, but reports violating
+confidentiality rules will be rejected immediately.
 
 [[embargo]]
 === The Embargo
@@ -248,26 +301,26 @@ link:https://groups.google.com/d/forum/repo-discuss[repo-discuss,role=external,w
 [[handle-security-issue]]
 === Handling of the Security Vulnerability
 
-. Engineering Steering Committee evaluates the security vulnerability:
+. Gerrit maintainers evaluate the security vulnerability:
 +
-The ESC discusses the security vulnerability and which actions should be taken
+The Gerrit maintainers discusses the security vulnerability and which actions should be taken
 to address it. One person, usually one of the Gerrit maintainers, should be
 appointed to drive and coordinate the investigation and the fix of the security
 vulnerability. This coordinator doesn't need to do all the work alone, but is
 responsible that the security vulnerability is getting fixed in a timely
 manner.
 +
-If the security vulnerability affects multiple or older releases the ESC should
+If the security vulnerability affects multiple or older releases the Gerrit maintainers should
 decide which of the releases should be fixed. For critical security issue we
 also consider fixing old releases that are otherwise not receiving any
 bug-fixes anymore.
 +
-It's also possible that the ESC decides that an issue is not a security issue
+It's also possible that the Gerrit maintainers decides that an issue is not a security issue
 and the embargo is lifted immediately.
 
 . Filing a CVE
 +
-For every security issue a CVE that describes the issue and lists the affected
+For the most relevant security issues, a CVE that describes the issue and lists the affected
 releases should be filed. Filing a CVE can be done by any maintainer that works
 for an organization that can request CVE numbers (e.g. Googlers). The CVE
 number must be included in the release notes. The CVE itself is only made
@@ -341,7 +394,7 @@ should be made public.
 
 . Follow-Up
 +
-The ESC should discuss if there are any learnings from the security
+The Gerrit maintainers should discuss if there are any learnings from the security
 vulnerability and define action items to follow up in the
 link:https://bugs.chromium.org/p/gerrit[issue tracker,role=external,window=_blank].
 

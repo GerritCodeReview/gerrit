@@ -30,6 +30,7 @@ import {
   AccountId,
   BranchName,
   ChangeInfo,
+  Hashtag,
   RepoName,
   TopicName,
 } from '../../../types/common';
@@ -90,6 +91,7 @@ suite('gr-change-list-item tests', () => {
       ColumnNames.UPDATED,
       ColumnNames.SIZE,
       ColumnNames.STATUS,
+      ColumnNames.HASHTAGS,
     ];
 
     await element.updateComplete;
@@ -219,6 +221,7 @@ suite('gr-change-list-item tests', () => {
       ColumnNames.UPDATED,
       ColumnNames.SIZE,
       ColumnNames.STATUS,
+      ColumnNames.HASHTAGS,
     ];
 
     await element.updateComplete;
@@ -231,6 +234,56 @@ suite('gr-change-list-item tests', () => {
         assert.isOk(query(element, elementClass));
       }
     }
+  });
+
+  test('hashtags cell not rendered when column is not visible', async () => {
+    element.visibleChangeTableColumns = [
+      ColumnNames.SUBJECT,
+      ColumnNames.OWNER,
+      ColumnNames.REVIEWERS,
+      ColumnNames.REPO,
+      ColumnNames.BRANCH,
+      ColumnNames.UPDATED,
+      ColumnNames.SIZE,
+      ColumnNames.STATUS,
+    ];
+    element.change = {
+      ...createChange(),
+      hashtags: ['runway' as Hashtag, 'stability' as Hashtag],
+    };
+
+    await element.updateComplete;
+
+    assert.isNotOk(query(element, '.hashtags'));
+  });
+
+  test('renders hashtags as links to hashtag search', async () => {
+    element.visibleChangeTableColumns = [
+      ColumnNames.SUBJECT,
+      ColumnNames.HASHTAGS,
+    ];
+    element.change = {
+      ...createChange(),
+      hashtags: ['runway' as Hashtag, 'stability' as Hashtag],
+    };
+
+    await element.updateComplete;
+
+    const cell = queryAndAssert(element, '.cell.hashtags');
+    const links = cell.querySelectorAll<HTMLAnchorElement>('a.hashtag');
+    assert.equal(links.length, 2);
+    assert.equal(
+      links[0].getAttribute('href'),
+      '/q/hashtag:"runway"+(status:open OR status:merged)'
+    );
+    assert.equal(
+      links[1].getAttribute('href'),
+      '/q/hashtag:"stability"+(status:open OR status:merged)'
+    );
+    const texts = cell.querySelectorAll('gr-limited-text');
+    assert.equal(texts.length, 2);
+    assert.equal(texts[0].text, 'runway');
+    assert.equal(texts[1].text, 'stability');
   });
 
   function checkComputeReviewers(

@@ -22,6 +22,7 @@ import {isSelf, isServiceUser} from '../../../utils/account-util';
 import {
   AccountInfo,
   ChangeInfo,
+  Hashtag,
   NumericChangeId,
   ServerInfo,
   Timestamp,
@@ -243,6 +244,9 @@ export class GrChangeListItem extends LitElement {
         .requirements {
           white-space: nowrap;
         }
+        .hashtags a.hashtag:not(:last-of-type) {
+          margin-right: var(--spacing-s);
+        }
         .reviewers {
           --account-max-length: 70px;
         }
@@ -351,7 +355,7 @@ export class GrChangeListItem extends LitElement {
       ${this.renderCellRepo()} ${this.renderCellBranch()}
       ${this.renderCellUpdated()} ${this.renderCellSubmitted()}
       ${this.renderCellWaiting()} ${this.renderCellSize()}
-      ${this.renderCellRequirements()}
+      ${this.renderCellRequirements()} ${this.renderCellHashtags()}
       ${this.labelNames?.map(labelNames => this.renderChangeLabels(labelNames))}
       ${this.dynamicCellEndpoints?.map(pluginEndpointName =>
         this.renderChangePluginEndpoint(pluginEndpointName)
@@ -586,6 +590,33 @@ export class GrChangeListItem extends LitElement {
         </gr-change-list-column-requirements-summary>
       </td>
     `;
+  }
+
+  private renderCellHashtags() {
+    if (this.computeIsColumnHidden(ColumnNames.HASHTAGS)) return;
+
+    return html`
+      <td class="cell hashtags">
+        ${(this.change?.hashtags ?? []).map(hashtag =>
+          this.renderChangeHashtag(hashtag)
+        )}
+      </td>
+    `;
+  }
+
+  private renderChangeHashtag(hashtag: Hashtag) {
+    return html`
+      <a class="hashtag" href=${this.computeHashtagUrl(hashtag)}
+        ><!--
+      --><gr-limited-text .limit=${25} .text=${hashtag}></gr-limited-text
+        ><!--
+    --></a
+      >
+    `;
+  }
+
+  private computeHashtagUrl(hashtag: Hashtag) {
+    return createSearchUrl({hashtag, statuses: ['open', 'merged']});
   }
 
   private renderChangeLabels(labelName: string) {

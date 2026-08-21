@@ -170,7 +170,7 @@ export class GrEditableLabel extends LitElement {
 
   override render() {
     this.setAttribute('title', this.computeLabel());
-    return html`<div style="position: relative;">
+    return html`<div style="position: relative;" part="container">
       ${this.renderActivateButton()}
       <md-menu
         id="dropdown"

@@ -17,6 +17,7 @@ package com.google.gerrit.server.rules;
 import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.entities.SubmitTypeRecord;
 import com.google.gerrit.server.query.change.ChangeData;
+import java.util.Optional;
 
 /** Provides prolog-related operations to different callers. */
 public interface PrologSubmitRuleUtil {
@@ -24,12 +25,14 @@ public interface PrologSubmitRuleUtil {
   boolean isProjectRulesEnabled();
 
   /**
-   * Returns the submit-type of a change depending on the change data and the definition of the
-   * prolog rules file.
+   * Returns the submit type if the project has an explicit Prolog {@code submit_type/1} rule, or
+   * {@link Optional#empty()} if the project has no user-defined {@code submit_type/1} predicate,
+   * Prolog is disabled, or the project has no {@code rules.pl} file.
    *
-   * <p>Must only be called when Prolog rules are enabled on the Gerrit server.
+   * <p>This allows callers to fall through to submit type overrides when Prolog has no explicit
+   * opinion on the submit type.
    */
-  SubmitTypeRecord getSubmitType(ChangeData cd);
+  Optional<SubmitTypeRecord> getSubmitType(ChangeData cd);
 
   /**
    * Returns the submit-type of a change depending on the change data and the definition of the
@@ -37,7 +40,7 @@ public interface PrologSubmitRuleUtil {
    *
    * <p>Must only be called when Prolog rules are enabled on the Gerrit server.
    */
-  SubmitTypeRecord getSubmitType(ChangeData cd, String ruleToTest, boolean skipFilters);
+  Optional<SubmitTypeRecord> getSubmitType(ChangeData cd, String ruleToTest, boolean skipFilters);
 
   /**
    * Evaluates a submit rule.

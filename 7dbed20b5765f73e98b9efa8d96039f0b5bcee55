@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ce208e5_5fb09f23",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-08-21T13:31:47Z",
+      "side": 1,
+      "message": "nit: you are removing ::part(input-container) and keeping ::part(container)",
+      "revId": "7dbed20b5765f73e98b9efa8d96039f0b5bcee55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

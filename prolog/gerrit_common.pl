@@ -170,13 +170,19 @@ get_submit_type(SubmitTypeRule, A) :-
 %%
 %% locate_submit_type/1:
 %%
-%%   Finds a submit_type_rule depending on what rules are available.
-%%   If none are available, use project_default_submit_type/1.
+%%   Finds a user-defined submit_type/1 rule.
+%%   Fails if the project has no user-defined submit_type/1 predicate.
+%%   Unlike locate_submit_rule/1, there is intentionally no fallback to a
+%%   default predicate: absence of a result signals to the Java layer that
+%%   no explicit Prolog submit type rule is active, allowing submit type
+%%   overrides configured in project.config to take effect.
 %%
 :- public locate_submit_type/1.
 %%
-locate_submit_type(RuleName) :-
-  locate_helper(submit_type, project_default_submit_type, 1, RuleName).
+locate_submit_type(user:submit_type) :-
+  '$compiled_predicate'(user, submit_type, 1), !.
+locate_submit_type(user:submit_type) :-
+  listN(1, P), C =.. [submit_type | P], clause(user:C, _), !.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

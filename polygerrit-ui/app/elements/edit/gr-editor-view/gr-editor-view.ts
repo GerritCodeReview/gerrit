@@ -206,9 +206,6 @@ export class GrEditorView extends LitElement {
           white-space: initial;
           word-break: break-all;
         }
-        header gr-editable-label::part(input-container) {
-          margin-top: var(--spacing-l);
-        }
         header gr-editable-label::part(container) {
           display: flex;
           align-items: center;

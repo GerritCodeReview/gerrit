@@ -126,8 +126,12 @@ export const changeListStyles = css`
   .truncatedRepo {
     display: none;
   }
+  .hashtags {
+    white-space: nowrap;
+  }
   @media only screen and (max-width: 150em) {
-    .branch {
+    .branch,
+    .hashtags {
       overflow: hidden;
       max-width: 18rem;
       text-overflow: ellipsis;
@@ -140,7 +144,8 @@ export const changeListStyles = css`
     }
   }
   @media only screen and (max-width: 100em) {
-    .branch {
+    .branch,
+    .hashtags {
       max-width: 10rem;
     }
   }
@@ -182,6 +187,7 @@ export const changeListStyles = css`
     .status,
     .repo,
     .branch,
+    .hashtags,
     .updated,
     .submitted,
     .waiting,

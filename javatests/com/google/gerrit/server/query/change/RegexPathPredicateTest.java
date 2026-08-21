@@ -26,7 +26,7 @@ import org.junit.Test;
 
 public class RegexPathPredicateTest {
   @Test
-  public void prefixOnlyOptimization() {
+  public void prefixOnlyOptimization() throws Exception {
     RegexPathPredicate p = predicate("^a/b/.*");
     assertTrue(p.match(change("a/b/source.c")));
     assertFalse(p.match(change("source.c")));
@@ -36,7 +36,7 @@ public class RegexPathPredicateTest {
   }
 
   @Test
-  public void prefixReducesSearchSpace() {
+  public void prefixReducesSearchSpace() throws Exception {
     RegexPathPredicate p = predicate("^a/b/.*\\.[ch]");
     assertTrue(p.match(change("a/b/source.c")));
     assertFalse(p.match(change("a/b/source.res")));
@@ -46,7 +46,7 @@ public class RegexPathPredicateTest {
   }
 
   @Test
-  public void fileExtension_Constant() {
+  public void fileExtension_Constant() throws Exception {
     RegexPathPredicate p = predicate("^.*\\.res");
     assertTrue(p.match(change("test.res")));
     assertTrue(p.match(change("foo/bar/test.res")));
@@ -54,7 +54,7 @@ public class RegexPathPredicateTest {
   }
 
   @Test
-  public void fileExtension_CharacterGroup() {
+  public void fileExtension_CharacterGroup() throws Exception {
     RegexPathPredicate p = predicate("^.*\\.[ch]");
     assertTrue(p.match(change("test.c")));
     assertTrue(p.match(change("test.h")));
@@ -62,7 +62,7 @@ public class RegexPathPredicateTest {
   }
 
   @Test
-  public void endOfString() {
+  public void endOfString() throws Exception {
     assertTrue(predicate("^a$").match(change("a")));
     assertFalse(predicate("^a$").match(change("a$")));
 
@@ -71,14 +71,14 @@ public class RegexPathPredicateTest {
   }
 
   @Test
-  public void exactMatch() {
+  public void exactMatch() throws Exception {
     RegexPathPredicate p = predicate("^foo.c");
     assertTrue(p.match(change("foo.c")));
     assertFalse(p.match(change("foo.cc")));
     assertFalse(p.match(change("bar.c")));
   }
 
-  private static RegexPathPredicate predicate(String pattern) {
+  private static RegexPathPredicate predicate(String pattern) throws Exception {
     return new RegexPathPredicate(pattern, new DefaultRegexCompiler());
   }
 

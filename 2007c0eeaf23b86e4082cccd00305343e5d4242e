@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "892929bc_46abf73d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-08-21T19:08:55Z",
+      "side": 1,
+      "message": "Needs Release-Notes footer above Change-Id (no newline seperating).",
+      "revId": "2007c0eeaf23b86e4082cccd00305343e5d4242e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc4c9394_4a57cdce",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 608,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-08-21T19:08:55Z",
+      "side": 1,
+      "message": "Remove the \u003c!-- and --\u003e. Uneeded.",
+      "revId": "2007c0eeaf23b86e4082cccd00305343e5d4242e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

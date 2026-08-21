@@ -18,7 +18,11 @@ import {
   UserId,
 } from '../../../types/common';
 import {fire, fireReload} from '../../../utils/event-util';
-import {ColumnNames, ScrollMode} from '../../../constants/constants';
+import {
+  ColumnNames,
+  DEFAULT_VISIBLE_COLUMNS,
+  ScrollMode,
+} from '../../../constants/constants';
 import {
   getRequirements,
   orderSubmitRequirementNames,
@@ -361,7 +365,7 @@ export class GrChangeList extends LitElement {
 
     this.changeTableColumns = Object.values(ColumnNames);
     this.showNumber = false;
-    this.visibleChangeTableColumns = Object.values(ColumnNames);
+    this.visibleChangeTableColumns = [...DEFAULT_VISIBLE_COLUMNS];
     if (this.loggedInUser && this.preferences) {
       this.showNumber = !!this.preferences?.legacycid_in_change_table;
       const prefColumns = changeTablePrefs(this.preferences);

@@ -128,6 +128,14 @@ suite('gr-change-table-editor tests', () => {
               </tr>
               <tr>
                 <td>
+                  <label for="Hashtags"> Hashtags </label>
+                </td>
+                <td class="checkboxContainer">
+                  <md-checkbox id="Hashtags" name="Hashtags"> </md-checkbox>
+                </td>
+              </tr>
+              <tr>
+                <td>
                   <label for="labelsFilter"> Shown Labels </label>
                 </td>
                 <td class="labelsFilterCell">

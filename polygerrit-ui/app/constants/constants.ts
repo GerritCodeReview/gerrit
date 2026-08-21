@@ -103,7 +103,17 @@ export enum ColumnNames {
   UPDATED = 'Updated',
   SIZE = 'Size',
   STATUS = 'Status',
+  HASHTAGS = 'Hashtags',
 }
+
+/**
+ * Columns that are shown when the user has not customized their change table
+ * preferences. Columns that are opt-in (such as Hashtags) are excluded here,
+ * but still appear in the settings editor via `ColumnNames`.
+ */
+export const DEFAULT_VISIBLE_COLUMNS: string[] = Object.values(
+  ColumnNames
+).filter(col => col !== ColumnNames.HASHTAGS);
 
 /**
  * @description Modes for gr-diff-cursor

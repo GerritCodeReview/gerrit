@@ -35,7 +35,8 @@ public class RegexPathPredicate extends ChangeRegexPredicate {
     try {
       searcher = RegexListSearcher.ofStrings(re, regexCompiler);
     } catch (IllegalArgumentException e) {
-      throw new QueryParseException(String.format("invalid regular expression: %s", re), e);
+      throw new QueryParseException(
+          String.format("invalid regular expression '%s': %s", re, e.getMessage()), e);
     }
   }
 

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3dc359b_709d8e16",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1010246
+      },
+      "writtenOn": "2026-08-22T14:21:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "892929bc_46abf73d",
+      "revId": "2007c0eeaf23b86e4082cccd00305343e5d4242e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bc4c9394_4a57cdce",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-08-21T19:08:55Z",
       "side": 1,
       "message": "Remove the \u003c!-- and --\u003e. Uneeded.",
+      "revId": "2007c0eeaf23b86e4082cccd00305343e5d4242e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0446a420_cdf8f01c",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 608,
+      "author": {
+        "id": 1010246
+      },
+      "writtenOn": "2026-08-22T14:21:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc4c9394_4a57cdce",
       "revId": "2007c0eeaf23b86e4082cccd00305343e5d4242e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

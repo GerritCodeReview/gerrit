@@ -138,6 +138,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8abb81ae_b79b03c6",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-22T11:34:25Z",
+      "side": 1,
+      "message": "The issue here is the economics involved:\n\nAI-side is cheap: because of the massive investments in AI, it is cheap to use an LLM _off-the-shelf_ and fire an incomplete security report.\n\nMaintainers\u0027 side is expensive: to validate the security report and avoid leaking it, we must use a HI (human intelligence) expensive resource to read the detailed and incomplete report to really understand what the security issue is, where it is, where to fix it and if it does make sense or not.\n\nBug-bounty reward: Google provides a monetary reward if the report results in a security issue filed and fixed. That reward goes to the reporter who made the smallest investment in just pushing the \"AI-side\" of things.\n\nThe only way I see to break this vicious cycle (we are drowning in the security reports) is to make the reporting side more expensive and push most of the work in there, so that only the higher-quality reports will come our way. On the ethical side, it also makes sense that those who make the effort in using their brain to report and understand an issue get rewarded.\n\nAt the moment, we do most of the work, and the one who just pushes the \"AI-button\" gets the reward, which is unfair and unproductive.\n\nHope that explains your doubts.",
+      "parentUuid": "2f7dadbc_bcf195eb",
+      "revId": "682f0cb1c0b5f4549564ede893622dfcdc42e949",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "55a338fe_15776ba1",
         "filename": "Documentation/dev-processes.txt",
         "patchSetId": 6

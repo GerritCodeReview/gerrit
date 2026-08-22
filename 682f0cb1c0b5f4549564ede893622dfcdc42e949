@@ -408,6 +408,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "930f31ac_3d996cd3",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-22T14:22:53Z",
+      "side": 1,
+      "message": "Added a note at the end indicating that incomplete reports *may* be analysed on a goodwill basis.\n\nWith regards to breaking the confidentiality, we must be strong and bold and reject them.",
+      "parentUuid": "211dceb5_af55600a",
+      "range": {
+        "startLine": 243,
+        "startChar": 82,
+        "endLine": 243,
+        "endChar": 94
+      },
+      "revId": "682f0cb1c0b5f4549564ede893622dfcdc42e949",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "956a9b9e_983bd269",

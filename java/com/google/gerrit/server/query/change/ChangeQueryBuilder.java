@@ -1040,7 +1040,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   }
 
   @Operator
-  public Predicate<ChangeData> path(String path) {
+  public Predicate<ChangeData> path(String path) throws QueryParseException {
     if (path.startsWith("^")) {
       return new RegexPathPredicate(path, args.regexCompiler);
     }

@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f887391_40912be2",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-08-22T21:36:18Z",
+      "side": 1,
+      "message": "```suggestion\nKeep all vulnerability details strictly confidential between the reporting team and the\nmailto:gerritcodereview-maintainers@googlegroups.com[Gerrit Maintainers].\nDo not enter any related data into external tools, public issue trackers, or public AI analyzers.\n```",
+      "range": {
+        "startLine": 229,
+        "startChar": 0,
+        "endLine": 232,
+        "endChar": 32
+      },
+      "revId": "6b8e30098030a76be5a8261b0c27cf1f7c024f60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb920bc9_cf6a156e",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-08-22T21:36:18Z",
+      "side": 1,
+      "message": "```suggestion\nWhat is the expected behavior? If applicable, please provide links to the corresponding\nGerrit documentation.\n```",
+      "range": {
+        "startLine": 238,
+        "startChar": 0,
+        "endLine": 239,
+        "endChar": 8
+      },
+      "revId": "6b8e30098030a76be5a8261b0c27cf1f7c024f60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d17a8738_3938f07f",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-08-22T21:36:18Z",
+      "side": 1,
+      "message": "```suggestion\n** Affected Versions: List all impacted, supported versions and specify whether the issue affects\n  the master branch.\n** Configuration Triggers: Does this require specific configuration settings, or does this occur\n  on a default Gerrit installation?\n```",
+      "range": {
+        "startLine": 247,
+        "startChar": 0,
+        "endLine": 250,
+        "endChar": 30
+      },
+      "revId": "6b8e30098030a76be5a8261b0c27cf1f7c024f60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b3bdbb90_7241d433",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-08-22T21:36:18Z",
+      "side": 1,
+      "message": "```suggestion\nIncomplete reports may receive low-priority evaluation on a best-effort basis, but reports violating\nconfidentiality rules will be rejected immediately.\n```",
+      "range": {
+        "startLine": 277,
+        "startChar": 0,
+        "endLine": 279,
+        "endChar": 12
+      },
+      "revId": "6b8e30098030a76be5a8261b0c27cf1f7c024f60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

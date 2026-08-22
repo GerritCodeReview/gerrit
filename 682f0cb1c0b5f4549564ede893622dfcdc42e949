@@ -384,6 +384,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "211dceb5_af55600a",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-22T13:52:59Z",
+      "side": 1,
+      "message": "Yes, exactly, the economics is forcing us to make this step.\nShould the economics change in the future, we may revise the approach.",
+      "parentUuid": "edbc5636_7d1323f1",
+      "range": {
+        "startLine": 243,
+        "startChar": 82,
+        "endLine": 243,
+        "endChar": 94
+      },
+      "revId": "682f0cb1c0b5f4549564ede893622dfcdc42e949",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "956a9b9e_983bd269",

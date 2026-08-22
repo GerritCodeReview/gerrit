@@ -320,6 +320,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "da774de8_8f7a8842",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-22T12:14:59Z",
+      "side": 1,
+      "message": "Let me rephrase it: we will not accept just \"pure code-analysis\" without the end-to-end validation against the external impact.\n\nBy running code-analysis AI models, I could create hundreds of security reports based on code-paths: nowadays, that is cheap and costs no more than $100. Analysing the end-to-end impact of those reports takes days, if not weeks, of human work, which may cost tens of thousands of dollars, if not more.\n\nThe reporter who just ran their AI models and spent no more than $100 will then get the monetary reward from Google bug bounty, the Gerrit developers who worked night and day for triaging, understanding the end-to-end impact and fixing the code, spending tens of thousands of dollars, will get no reward.\n\nThe current model does not reward triaging or fixing them. We need to put more work into the reporting side to ensure that the work is more equally spread between reporters and developers fixing them.\n\nAlso, the Linux project ran into this issue, see:\nhttps://www.theregister.com/security/2026/05/18/linus-torvalds-says-ai-powered-bug-hunters-have-made-linux-security-mailing-list-almost-entirely-unmanageable/5241633\n\nBottom line: we want to *ensure* that whoever sends a security report has *done some work* to ensure that the report satisfies a set of requirements.\n\nMy team (4 people + me) has spent the past month working on security issues, and we cannot keep up with the continuous reports of more issues. The reality is that we cannot cope with the current flow of issues *IF* we do not offload the quality filter work to the reporter.\n\nLastly, the latest reports did not come from people who really know how Gerrit works, but rather from bottom-up code analysis, which may suggest there is an insecure path. By simply reading the Gerrit documentation, the report could have been withdrawn at its source, without wasting developers\u0027 time and money.",
+      "parentUuid": "dcb1625e_c58abf1a",
+      "range": {
+        "startLine": 243,
+        "startChar": 82,
+        "endLine": 243,
+        "endChar": 94
+      },
+      "revId": "682f0cb1c0b5f4549564ede893622dfcdc42e949",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "956a9b9e_983bd269",
         "filename": "Documentation/dev-processes.txt",
         "patchSetId": 6

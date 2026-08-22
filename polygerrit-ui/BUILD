@@ -52,9 +52,9 @@ web_test_runner(
     srcs = ["web_test_runner.sh"],
     args = ["--run-screenshots"],
     data = [
+        "//polygerrit-ui:node_modules",
+        "//polygerrit-ui/app:node_modules",
         "//polygerrit-ui/app:web-test-runner_app-sources",
-        "@ui_dev_npm//:node_modules",
-        "@ui_npm//:node_modules",
         ":screenshot_baselines",
         # fonts.css references /polygerrit-ui/app/fonts/, which the runtime
         # middleware in web-test-runner.config.mjs rewrites to /lib/fonts/.

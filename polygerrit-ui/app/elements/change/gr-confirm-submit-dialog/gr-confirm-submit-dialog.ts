@@ -11,9 +11,11 @@ import '../gr-thread-list/gr-thread-list';
 import {
   ActionInfo,
   ChangeActionDialog,
+  ChangeInfo,
   CommentThread,
   EDIT,
   RevisionInfo,
+  SubmittedTogetherInfo,
 } from '../../../types/common';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {pluralize} from '../../../utils/string-util';
@@ -26,6 +28,7 @@ import {subscribe} from '../../lit/subscription-controller';
 import {EditRevisionInfo, ParsedChangeInfo} from '../../../types/types';
 import {commentsModelToken} from '../../../models/comments/comments-model';
 import {changeModelToken} from '../../../models/change/change-model';
+import {relatedChangesModelToken} from '../../../models/change/related-changes-model';
 import {resolve} from '../../../models/dependency';
 import {fireNoBubbleNoCompose} from '../../../utils/event-util';
 import {createChangeUrl} from '../../../models/views/change';
@@ -66,11 +69,19 @@ export class GrConfirmSubmitDialog
   @state()
   sortedRevisions: (RevisionInfo | EditRevisionInfo)[] = [];
 
-  private getCommentsModel = resolve(this, commentsModelToken);
+  @state()
+  submittedTogether?: SubmittedTogetherInfo;
 
-  private getChangeModel = resolve(this, changeModelToken);
+  private readonly getCommentsModel = resolve(this, commentsModelToken);
 
-  private getNavigation = resolve(this, navigationToken);
+  private readonly getChangeModel = resolve(this, changeModelToken);
+
+  private readonly getRelatedChangesModel = resolve(
+    this,
+    relatedChangesModelToken
+  );
+
+  private readonly getNavigation = resolve(this, navigationToken);
 
   static override get styles() {
     return [
@@ -87,6 +98,11 @@ export class GrConfirmSubmitDialog
           color: var(--warning-foreground);
           vertical-align: top;
           margin-right: var(--spacing-s);
+        }
+        .otherChangesList {
+          list-style: disc;
+          margin-left: var(--spacing-xl);
+          margin-bottom: var(--spacing-l);
         }
         @media screen and (max-width: 50em) {
           #dialog {
@@ -114,6 +130,13 @@ export class GrConfirmSubmitDialog
       this,
       () => this.getChangeModel().revisions$,
       x => (this.sortedRevisions = x)
+    );
+    subscribe(
+      this,
+      () => this.getRelatedChangesModel().submittedTogether$,
+      x => {
+        this.submittedTogether = x;
+      }
     );
   }
 
@@ -173,6 +196,38 @@ export class GrConfirmSubmitDialog
     return editIndex;
   }
 
+  private renderOtherUnresolvedComments() {
+    const otherChanges = this.computeOtherChangesWithUnresolvedComments();
+    if (otherChanges.length === 0) {
+      return '';
+    }
+    return html`
+      <p>
+        <gr-icon icon="warning" filled class="warningBeforeSubmit"></gr-icon>
+        ${this.computeOtherChangesUnresolvedCommentsWarning()}
+      </p>
+      <ul class="otherChangesList">
+        ${otherChanges.map(
+          c => html`
+            <li>
+              <a
+                href=${createChangeUrl({change: c, usp: 'confirm-submit'})}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                ${c.subject || c.change_id || c._number}
+              </a>
+              &nbsp;(${pluralize(
+                c.unresolved_comment_count ?? 0,
+                'unresolved comment'
+              )})
+            </li>
+          `
+        )}
+      </ul>
+    `;
+  }
+
   private renderInitialised() {
     if (!this.initialised) return '';
     return html`
@@ -181,7 +236,7 @@ export class GrConfirmSubmitDialog
         <gr-endpoint-decorator name="confirm-submit-change">
           <p>Ready to submit "<strong>${this.change?.subject}</strong>"?</p>
           ${this.renderPrivate()} ${this.renderUnresolvedCommentCount()}
-          ${this.renderChangeEdit()}
+          ${this.renderOtherUnresolvedComments()} ${this.renderChangeEdit()}
           <gr-endpoint-param
             name="change"
             .value=${this.change}
@@ -227,6 +282,29 @@ export class GrConfirmSubmitDialog
     const unresolvedCount = this.unresolvedThreads.length;
     if (!unresolvedCount) throw new Error('unresolved comments undefined or 0');
     return `Heads Up! ${pluralize(unresolvedCount, 'unresolved comment')}.`;
+  }
+
+  // Private method, but visible for testing.
+  computeOtherChangesWithUnresolvedComments(): ChangeInfo[] {
+    if (!this.submittedTogether?.changes) {
+      return [];
+    }
+    return this.submittedTogether.changes.filter(
+      c =>
+        c._number !== this.change?._number &&
+        (c.unresolved_comment_count ?? 0) > 0
+    );
+  }
+
+  // Private method, but visible for testing.
+  computeOtherChangesUnresolvedCommentsWarning() {
+    const count = this.computeOtherChangesWithUnresolvedComments().length;
+    if (count === 0) {
+      throw new Error('other changes with unresolved comments undefined or 0');
+    }
+    return `Heads Up! ${pluralize(count, 'other change')} in the submit group ${
+      count === 1 ? 'has' : 'have'
+    } unresolved comments:`;
   }
 
   private handleConfirmTap(e: Event) {

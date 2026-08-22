@@ -1,0 +1,182 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f3eb2f4_e4f77663",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-08-22T11:26:16Z",
+      "side": 1,
+      "message": "link:#gerrit-maintainers[…] is a dead in-page link (confirmed in the built HTML — there\u0027s no [[gerrit-maintainers]] anchor). Since this is the reporting path, it should resolve to an actual contact rather than a role page. This file already references the maintainer mailing list, so reuse it here — that fixes the dead link and gives reporters an address to write to:\n\n```suggestion\nmailto:gerritcodereview-maintainers@googlegroups.com[Gerrit Maintainers]. Issues\n```",
+      "range": {
+        "startLine": 213,
+        "startChar": 0,
+        "endLine": 213,
+        "endChar": 44
+      },
+      "revId": "682f0cb1c0b5f4549564ede893622dfcdc42e949",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "debc86a7_f7ca9213",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-08-22T11:26:16Z",
+      "side": 1,
+      "message": "Same here.\n\n```suggestion\ntriaged by the link:dev-roles.html#maintainer[Gerrit Maintainers].\n```",
+      "range": {
+        "startLine": 217,
+        "startChar": 0,
+        "endLine": 217,
+        "endChar": 60
+      },
+      "revId": "682f0cb1c0b5f4549564ede893622dfcdc42e949",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f7dadbc_bcf195eb",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-08-22T11:26:16Z",
+      "side": 1,
+      "message": "Bigger-picture: framing these as hard \"requirements to be assessed\" risks rejecting valid-but-incomplete reports and discouraging disclosure. Could we frame it as \"to help us triage quickly, please include as much of the following as you can,\" and keep AI-slop/no-repro filtering as maintainer discretion rather than a published gate? A few items — \"all impacted non-EOL versions\" (247), \"all impacted endpoints\" (253), the admin-validation script and mitigation (264–267) — are really maintainer-side analysis we shouldn\u0027t require of reporters.",
+      "revId": "682f0cb1c0b5f4549564ede893622dfcdc42e949",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55a338fe_15776ba1",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-08-22T11:26:16Z",
+      "side": 1,
+      "message": "[[requirements]] is very generic for a shared doc and risks a future xref collision.\n\n```suggestion\n[[security-issue-requirements]]]\n```",
+      "range": {
+        "startLine": 224,
+        "startChar": 0,
+        "endLine": 224,
+        "endChar": 16
+      },
+      "revId": "682f0cb1c0b5f4549564ede893622dfcdc42e949",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5e90be4_197acce5",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-08-22T11:26:16Z",
+      "side": 1,
+      "message": "Question-style headings are inconsistent with the file\u0027s noun-phrase headings (\"The Embargo\", \"Dealing with Security Issues\").\n\n```suggestion\n\u003d\u003d\u003d Requirements for a security issue\n```",
+      "range": {
+        "startLine": 225,
+        "startChar": 0,
+        "endLine": 225,
+        "endChar": 66
+      },
+      "revId": "682f0cb1c0b5f4549564ede893622dfcdc42e949",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1af73e7a_5c9404a2",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-08-22T11:26:16Z",
+      "side": 1,
+      "message": "Confidentiality (don\u0027t disclose to unauthorized parties) is right, but \"no data … into external tools … or AI-assisted analyzers\" is broader than confidentiality and unenforceable — researchers routinely use scanners/static analyzers, many now AI-backed, and a report from someone who used one but found a real bug is still valuable.\n\nCould we narrow this to non-disclosure (no public trackers / unauthorized sharing) rather than a ban on the reporter\u0027s private tooling?",
+      "range": {
+        "startLine": 231,
+        "startChar": 0,
+        "endLine": 232,
+        "endChar": 27
+      },
+      "revId": "682f0cb1c0b5f4549564ede893622dfcdc42e949",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dcb1625e_c58abf1a",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-08-22T11:26:16Z",
+      "side": 1,
+      "message": "This \"not accepted\" line (and its twin on 255) is worth reconsidering. A large share of real vulnerabilities are found by reading code, not by weaponizing them — a missing permission check on a REST endpoint is a genuine vuln even without a working exploit. Requiring execution evidence before we\u0027ll even triage risks bouncing legitimate expert reports, whose likely next step is full public disclosure.\n\nCould we soften to \"code-analysis reports are welcome; maintainers may request a PoC when impact is unclear\" rather than a published hard rejection? (Also stated twice — 243 and 255.)",
+      "range": {
+        "startLine": 243,
+        "startChar": 82,
+        "endLine": 243,
+        "endChar": 94
+      },
+      "revId": "682f0cb1c0b5f4549564ede893622dfcdc42e949",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "956a9b9e_983bd269",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-08-22T11:26:16Z",
+      "side": 1,
+      "message": "Confirmed in the built HTML: every description here currently renders as a monospace `\u003cpre\u003e` literal block (4 in the output), and the `1.`–`6.` points render as their own list instead of nesting under \"The Vulnerability\".\n\nI built this replacement with the doc pipeline and verified it — 0 literal blocks, a proper description list with the six points as a nested numbered list, all prose as paragraphs:\n\n```\nConfidentiality::\nThe vulnerability details must not be shared with anyone outside the\nimmediate team reporting the issue and the Gerrit Maintainers. No data\nrelated to this vulnerability has been entered into external tools,\npublic trackers, or AI-assisted analyzers.\n\nThe Vulnerability::\n+\n. *Expected Behavior*\n+\nWhat is the intended behavior? Please link to the relevant evidence in\nthe Gerrit documentation if present.\n. *Observed Behavior*\n+\nWhat actually happens? (Note: pure code analysis without execution\nevidence is not accepted.)\n. *Reproduction \u0026 Environment*\n+\n--\n* *Affected Versions:* list all impacted non-EOL versions and whether the\n  issue is present on the master branch.\n* *Configuration Triggers:* does this require specific options to be set,\n  or does it happen on a default Gerrit installation?\n--\n. *Steps to Reproduce*\n+\nProvide an end-to-end walkthrough covering all impacted endpoints: SSH,\nREST-API, Git protocol, etc. (Note: pure code analysis without execution\nsteps is not accepted.)\n. *Security Impact*\n+\n--\n* *Data Exposure \u0026 Access:* does this leak sensitive information or bypass\n  access protections?\n* *Data Integrity:* can an attacker compromise, modify, or destroy private\n  data?\n--\n. *Validation \u0026 Mitigation*\n+\n--\n* *Admin Validation:* how can a Gerrit admin verify if their installation\n  is vulnerable? (e.g., a script, curl command, or log check)\n* *Proposed Mitigation:* are there immediate steps admins can take to\n  block the exploit without upgrading? (e.g., reverse proxy rules,\n  disabling features)\n--\n```",
+      "range": {
+        "startLine": 227,
+        "startChar": 0,
+        "endLine": 267,
+        "endChar": 64
+      },
+      "revId": "682f0cb1c0b5f4549564ede893622dfcdc42e949",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

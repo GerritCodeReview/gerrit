@@ -224,6 +224,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "55b5ae99_b07e0c26",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-22T12:01:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a5e90be4_197acce5",
+      "range": {
+        "startLine": 225,
+        "startChar": 0,
+        "endLine": 225,
+        "endChar": 66
+      },
+      "revId": "682f0cb1c0b5f4549564ede893622dfcdc42e949",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1af73e7a_5c9404a2",
@@ -237,6 +261,30 @@
       "writtenOn": "2026-08-22T11:26:16Z",
       "side": 1,
       "message": "Confidentiality (don\u0027t disclose to unauthorized parties) is right, but \"no data … into external tools … or AI-assisted analyzers\" is broader than confidentiality and unenforceable — researchers routinely use scanners/static analyzers, many now AI-backed, and a report from someone who used one but found a real bug is still valuable.\n\nCould we narrow this to non-disclosure (no public trackers / unauthorized sharing) rather than a ban on the reporter\u0027s private tooling?",
+      "range": {
+        "startLine": 231,
+        "startChar": 0,
+        "endLine": 232,
+        "endChar": 27
+      },
+      "revId": "682f0cb1c0b5f4549564ede893622dfcdc42e949",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "51648149_774f5d31",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-22T12:01:27Z",
+      "side": 1,
+      "message": "\u003e Confidentiality (don\u0027t disclose to unauthorized parties) is right, but \"no data … into external tools … or AI-assisted analyzers\" is broader than confidentiality and unenforceable — researchers routinely use scanners/static analyzers, many now AI-backed, and a report from someone who used one but found a real bug is still valuable.\n\nSharing security reports with AI tools allows the LLMs to learn about them and share the learning with other 3rd parties.\nGerrit is very much used in mission-critical projects and for developing the Android OS by Google and many other OEMs. Disclosing a severe security issue is a very serious matter, either directly or indirectly, by using insecure tools.\n\nIf maintaining the embargo makes it more expensive to investigate the security issue, then let it be for the sake of security and confidentiality.\nThe lock of a bank\u0027s safe is for sure more expensive than the lock of a bicycle, and there are reasons for that.\n\n\u003e Could we narrow this to non-disclosure (no public trackers / unauthorized sharing) rather than a ban on the reporter\u0027s private tooling?\n\nThe reporter is free to use an in-house LLM that does not share its domain knowledge with other 3rd parties.\nThere are plenty of open-source models that run on-premises locally.",
+      "parentUuid": "1af73e7a_5c9404a2",
       "range": {
         "startLine": 231,
         "startChar": 0,
@@ -283,6 +331,30 @@
       "writtenOn": "2026-08-22T11:26:16Z",
       "side": 1,
       "message": "Confirmed in the built HTML: every description here currently renders as a monospace `\u003cpre\u003e` literal block (4 in the output), and the `1.`–`6.` points render as their own list instead of nesting under \"The Vulnerability\".\n\nI built this replacement with the doc pipeline and verified it — 0 literal blocks, a proper description list with the six points as a nested numbered list, all prose as paragraphs:\n\n```\nConfidentiality::\nThe vulnerability details must not be shared with anyone outside the\nimmediate team reporting the issue and the Gerrit Maintainers. No data\nrelated to this vulnerability has been entered into external tools,\npublic trackers, or AI-assisted analyzers.\n\nThe Vulnerability::\n+\n. *Expected Behavior*\n+\nWhat is the intended behavior? Please link to the relevant evidence in\nthe Gerrit documentation if present.\n. *Observed Behavior*\n+\nWhat actually happens? (Note: pure code analysis without execution\nevidence is not accepted.)\n. *Reproduction \u0026 Environment*\n+\n--\n* *Affected Versions:* list all impacted non-EOL versions and whether the\n  issue is present on the master branch.\n* *Configuration Triggers:* does this require specific options to be set,\n  or does it happen on a default Gerrit installation?\n--\n. *Steps to Reproduce*\n+\nProvide an end-to-end walkthrough covering all impacted endpoints: SSH,\nREST-API, Git protocol, etc. (Note: pure code analysis without execution\nsteps is not accepted.)\n. *Security Impact*\n+\n--\n* *Data Exposure \u0026 Access:* does this leak sensitive information or bypass\n  access protections?\n* *Data Integrity:* can an attacker compromise, modify, or destroy private\n  data?\n--\n. *Validation \u0026 Mitigation*\n+\n--\n* *Admin Validation:* how can a Gerrit admin verify if their installation\n  is vulnerable? (e.g., a script, curl command, or log check)\n* *Proposed Mitigation:* are there immediate steps admins can take to\n  block the exploit without upgrading? (e.g., reverse proxy rules,\n  disabling features)\n--\n```",
+      "range": {
+        "startLine": 227,
+        "startChar": 0,
+        "endLine": 267,
+        "endChar": 64
+      },
+      "revId": "682f0cb1c0b5f4549564ede893622dfcdc42e949",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f456f753_29131d75",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-22T12:01:27Z",
+      "side": 1,
+      "message": "Good catch, I forgot this isn\u0027t markdown :-(\n\nLet me reformat it properly.",
+      "parentUuid": "956a9b9e_983bd269",
       "range": {
         "startLine": 227,
         "startChar": 0,

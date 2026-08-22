@@ -24,6 +24,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "da6f98b7_88b8a6b5",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-22T11:28:40Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "7f3eb2f4_e4f77663",
+      "range": {
+        "startLine": 213,
+        "startChar": 0,
+        "endLine": 213,
+        "endChar": 44
+      },
+      "revId": "682f0cb1c0b5f4549564ede893622dfcdc42e949",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d5ea48d_d0f0af86",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-22T11:28:40Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "7f3eb2f4_e4f77663",
+      "range": {
+        "startLine": 213,
+        "startChar": 0,
+        "endLine": 213,
+        "endChar": 44
+      },
+      "revId": "682f0cb1c0b5f4549564ede893622dfcdc42e949",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "debc86a7_f7ca9213",
@@ -37,6 +85,30 @@
       "writtenOn": "2026-08-22T11:26:16Z",
       "side": 1,
       "message": "Same here.\n\n```suggestion\ntriaged by the link:dev-roles.html#maintainer[Gerrit Maintainers].\n```",
+      "range": {
+        "startLine": 217,
+        "startChar": 0,
+        "endLine": 217,
+        "endChar": 60
+      },
+      "revId": "682f0cb1c0b5f4549564ede893622dfcdc42e949",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "53b4dc5a_ffa33717",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-22T11:28:40Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "debc86a7_f7ca9213",
       "range": {
         "startLine": 217,
         "startChar": 0,
@@ -77,6 +149,30 @@
       "writtenOn": "2026-08-22T11:26:16Z",
       "side": 1,
       "message": "[[requirements]] is very generic for a shared doc and risks a future xref collision.\n\n```suggestion\n[[security-issue-requirements]]]\n```",
+      "range": {
+        "startLine": 224,
+        "startChar": 0,
+        "endLine": 224,
+        "endChar": 16
+      },
+      "revId": "682f0cb1c0b5f4549564ede893622dfcdc42e949",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0708b1be_798855dd",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-22T11:28:40Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "55a338fe_15776ba1",
       "range": {
         "startLine": 224,
         "startChar": 0,

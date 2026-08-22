@@ -5,11 +5,13 @@
  */
 import '../../../test/common-test-setup';
 import {
+  createChange,
   createParsedChange,
   createRevision,
+  createSubmittedTogetherInfo,
   createThread,
 } from '../../../test/test-data-generators';
-import {EDIT} from '../../../types/common';
+import {EDIT, NumericChangeId} from '../../../types/common';
 import {GrConfirmSubmitDialog} from './gr-confirm-submit-dialog';
 import './gr-confirm-submit-dialog';
 import {assert, fixture, html} from '@open-wc/testing';
@@ -72,6 +74,113 @@ suite('gr-confirm-submit-dialog tests', () => {
       element.computeUnresolvedCommentsWarning(),
       'Heads Up! 2 unresolved comments.'
     );
+  });
+
+  test('computeOtherChangesWithUnresolvedComments', () => {
+    element.change = {
+      ...createParsedChange(),
+      _number: 2 as NumericChangeId,
+    };
+    element.submittedTogether = {
+      ...createSubmittedTogetherInfo(),
+      changes: [
+        {
+          ...createChange(),
+          _number: 1 as NumericChangeId,
+          unresolved_comment_count: 2,
+        },
+        {
+          ...createChange(),
+          _number: 2 as NumericChangeId,
+          unresolved_comment_count: 1,
+        },
+        {
+          ...createChange(),
+          _number: 3 as NumericChangeId,
+          unresolved_comment_count: 0,
+        },
+        {
+          ...createChange(),
+          _number: 4 as NumericChangeId,
+        },
+      ],
+    };
+
+    const otherChanges = element.computeOtherChangesWithUnresolvedComments();
+    assert.lengthOf(otherChanges, 1);
+    assert.equal(otherChanges[0]._number, 1 as NumericChangeId);
+  });
+
+  test('computeOtherChangesUnresolvedCommentsWarning', () => {
+    element.change = {
+      ...createParsedChange(),
+      _number: 2 as NumericChangeId,
+    };
+    element.submittedTogether = {
+      ...createSubmittedTogetherInfo(),
+      changes: [
+        {
+          ...createChange(),
+          _number: 1 as NumericChangeId,
+          unresolved_comment_count: 1,
+        },
+      ],
+    };
+
+    assert.equal(
+      element.computeOtherChangesUnresolvedCommentsWarning(),
+      'Heads Up! 1 other change in the submit group has unresolved comments:'
+    );
+
+    element.submittedTogether = {
+      ...createSubmittedTogetherInfo(),
+      changes: [
+        {
+          ...createChange(),
+          _number: 1 as NumericChangeId,
+          unresolved_comment_count: 1,
+        },
+        {
+          ...createChange(),
+          _number: 3 as NumericChangeId,
+          unresolved_comment_count: 2,
+        },
+      ],
+    };
+
+    assert.equal(
+      element.computeOtherChangesUnresolvedCommentsWarning(),
+      'Heads Up! 2 other changes in the submit group have unresolved comments:'
+    );
+  });
+
+  test('render with other changes in submit group having unresolved comments', async () => {
+    element.action = {label: 'Submit'};
+    element.change = {
+      ...createParsedChange(),
+      _number: 2 as NumericChangeId,
+      subject: 'child-subject',
+      revisions: {},
+    };
+    element.submittedTogether = {
+      ...createSubmittedTogetherInfo(),
+      changes: [
+        {
+          ...createChange(),
+          _number: 1 as NumericChangeId,
+          subject: 'parent-subject',
+          unresolved_comment_count: 1,
+        },
+      ],
+    };
+    await element.updateComplete;
+
+    const list = element.shadowRoot?.querySelector('.otherChangesList');
+    assert.isNotNull(list);
+    const item = list?.querySelector('li');
+    assert.isNotNull(item);
+    assert.include(item?.textContent ?? '', 'parent-subject');
+    assert.include(item?.textContent ?? '', '(1 unresolved comment)');
   });
 
   test('computeHasChangeEdit', () => {

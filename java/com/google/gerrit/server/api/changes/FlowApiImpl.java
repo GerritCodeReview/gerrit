@@ -46,7 +46,7 @@ public class FlowApiImpl implements FlowApi {
   public FlowInfo get() throws RestApiException {
     try {
       return getFlow.apply(flowResource).value();
-    } catch (Exception e) {
+    } catch (RuntimeException e) {
       throw asRestApiException("Cannot get flow", e);
     }
   }

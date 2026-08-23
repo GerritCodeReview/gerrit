@@ -95,7 +95,7 @@ public class AttentionSetObserver {
           new Event(
               util.changeInfo(changeData), util.accountInfo(accountState), added, removed, when);
       listeners.runEach(l -> l.onAttentionSetChanged(event));
-    } catch (Exception e) {
+    } catch (RuntimeException e) {
       logger.atSevere().withCause(e).log("Exception while firing AttentionSet changed event");
     }
   }

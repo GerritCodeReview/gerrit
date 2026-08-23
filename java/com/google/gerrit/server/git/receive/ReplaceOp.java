@@ -584,7 +584,7 @@ public class ReplaceOp implements BatchUpdateOp {
         ctx.getChangeData(notes), newPatchSet, ctx.getAccount(), ctx.getWhen(), notify);
     try {
       fireApprovalsEvent(ctx);
-    } catch (Exception e) {
+    } catch (RuntimeException e) {
       logger.atWarning().withCause(e).log("comment-added event invocation failed");
     }
     if (mergedByPushOp != null) {

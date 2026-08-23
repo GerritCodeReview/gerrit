@@ -70,7 +70,7 @@ public class GpgApiAdapterImpl implements GpgApiAdapter {
       throw new GpgException(e);
     } catch (RestApiException e) {
       throw e;
-    } catch (Exception e) {
+    } catch (RuntimeException e) {
       throw RestApiException.wrap("Cannot list GPG keys", e);
     }
   }
@@ -88,7 +88,7 @@ public class GpgApiAdapterImpl implements GpgApiAdapter {
       throw new GpgException(e);
     } catch (RestApiException e) {
       throw e;
-    } catch (Exception e) {
+    } catch (RuntimeException e) {
       throw RestApiException.wrap("Cannot put GPG keys", e);
     }
   }

@@ -116,7 +116,7 @@ class FileApiImpl implements FileApi {
         @SuppressWarnings("unused")
         var unused = deleteReviewed.apply(file, new Input());
       }
-    } catch (Exception e) {
+    } catch (RuntimeException e) {
       throw asRestApiException(String.format("Cannot set %sreviewed", reviewed ? "" : "un"), e);
     }
   }

@@ -57,7 +57,7 @@ public class PluginApiImpl implements PluginApi {
   public PluginInfo get() throws RestApiException {
     try {
       return getStatus.apply(resource).value();
-    } catch (Exception e) {
+    } catch (RuntimeException e) {
       throw asRestApiException("Cannot get status", e);
     }
   }

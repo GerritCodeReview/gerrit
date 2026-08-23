@@ -817,7 +817,12 @@ export class GrComment extends LitElement {
   private renderCollapsedContent() {
     if (!this.collapsed) return;
     return html`
-      <span class="collapsedContent">${this.comment?.message}</span>
+      <gr-formatted-text
+        class="collapsedContent"
+        .markdown=${true}
+        .collapsed=${true}
+        .content=${this.comment?.message ?? ''}
+      ></gr-formatted-text>
     `;
   }
 

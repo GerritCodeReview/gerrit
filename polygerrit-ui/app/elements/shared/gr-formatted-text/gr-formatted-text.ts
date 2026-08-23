@@ -41,6 +41,9 @@ export class GrFormattedText extends LitElement {
   @property({type: Boolean})
   markdown = false;
 
+  @property({type: Boolean, reflect: true})
+  collapsed = false;
+
   @state()
   private repoCommentLinks: CommentLinks = {};
 
@@ -121,6 +124,36 @@ export class GrFormattedText extends LitElement {
            should overflow in that case rather than wrapping or leaking out */
           overflow-x: var(--gr-formatted-text-markdown-html-overflow-x, auto);
           overflow-wrap: break-word;
+        }
+        :host([collapsed]) p,
+        :host([collapsed]) ul,
+        :host([collapsed]) ol,
+        :host([collapsed]) li,
+        :host([collapsed]) code,
+        :host([collapsed]) blockquote,
+        :host([collapsed]) h1,
+        :host([collapsed]) h2,
+        :host([collapsed]) h3,
+        :host([collapsed]) h4,
+        :host([collapsed]) h5,
+        :host([collapsed]) h6 {
+          display: inline;
+          margin: 0;
+          padding: 0;
+          font-size: inherit;
+          font-weight: inherit;
+        }
+        :host([collapsed]) p:not(:last-child)::after {
+          content: ' ';
+        }
+        :host([collapsed]) .markdown-html {
+          display: inline;
+          white-space: inherit;
+          overflow-x: inherit;
+        }
+        :host([collapsed]) .plaintext {
+          display: inline;
+          white-space: inherit;
         }
       `,
     ];

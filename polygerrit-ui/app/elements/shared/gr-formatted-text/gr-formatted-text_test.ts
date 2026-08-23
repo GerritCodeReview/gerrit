@@ -999,5 +999,39 @@ An <a href="example.com">inline HTML link with [markup link](http://google.com)<
         );
       });
     });
+
+    suite('collapsed mode', () => {
+      test('renders collapsed markdown content', async () => {
+        element.collapsed = true;
+        element.content =
+          '**Approved** — All checks pass. [trajectory](http://go/traj)';
+        await element.updateComplete;
+
+        assert.isTrue(element.hasAttribute('collapsed'));
+        assert.shadowDom.equal(
+          element,
+          /* HTML */
+          `
+            <gr-endpoint-decorator name="formatted-text-endpoint">
+              <gr-marked-element>
+                <div class="markdown-html" slot="markdown-html">
+                  <p>
+                    <strong>Approved</strong>
+                    — All checks pass.
+                    <a
+                      href="http://go/traj"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      trajectory
+                    </a>
+                  </p>
+                </div>
+              </gr-marked-element>
+            </gr-endpoint-decorator>
+          `
+        );
+      });
+    });
   });
 });

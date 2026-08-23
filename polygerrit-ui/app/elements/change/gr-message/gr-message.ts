@@ -418,7 +418,12 @@ export class GrMessage extends LitElement {
         this.change?.labels
       ) || this.patchsetCommentSummary();
     return html` <div class="content messageContent">
-      <div class="message hideOnOpen">${messageContentCollapsed}</div>
+      <gr-formatted-text
+        class="message hideOnOpen"
+        .markdown=${true}
+        .collapsed=${true}
+        .content=${messageContentCollapsed}
+      ></gr-formatted-text>
       ${this.renderExpandedMessageContent()}
     </div>`;
   }
@@ -703,6 +708,10 @@ export class GrMessage extends LitElement {
 
   private handleClick(e: Event) {
     if (!this.message || this.message?.expanded) {
+      return;
+    }
+    const path = e.composedPath();
+    if (path.some(el => (el as HTMLElement).tagName === 'A')) {
       return;
     }
     e.stopPropagation();

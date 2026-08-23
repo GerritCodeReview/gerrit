@@ -746,11 +746,7 @@ export class GrComment extends LitElement {
   private renderHeader() {
     if (this.hideHeader) return nothing;
     return html`
-      <div
-        class="header"
-        id="header"
-        @click=${() => (this.collapsed = !this.collapsed)}
-      >
+      <div class="header" id="header" @click=${this.handleHeaderClick}>
         <div class="headerLeft">
           ${this.renderAuthor()} ${this.renderPortedCommentMessage()}
           ${this.renderDraftLabel()}
@@ -817,8 +813,21 @@ export class GrComment extends LitElement {
   private renderCollapsedContent() {
     if (!this.collapsed) return;
     return html`
-      <span class="collapsedContent">${this.comment?.message}</span>
+      <gr-formatted-text
+        class="collapsedContent"
+        .markdown=${true}
+        .collapsed=${true}
+        .content=${this.comment?.message ?? ''}
+      ></gr-formatted-text>
     `;
+  }
+
+  private handleHeaderClick(e: Event) {
+    const path = e.composedPath();
+    if (path.some(el => (el as HTMLElement).tagName === 'A')) {
+      return;
+    }
+    this.collapsed = !this.collapsed;
   }
 
   /**

@@ -999,5 +999,159 @@ An <a href="example.com">inline HTML link with [markup link](http://google.com)<
         );
       });
     });
+
+    suite('collapsed mode', () => {
+      test('renders collapsed markdown content', async () => {
+        element.collapsed = true;
+        element.content =
+          '**Approved** — All checks pass. [trajectory](http://go/traj)';
+        await element.updateComplete;
+
+        assert.isTrue(element.hasAttribute('collapsed'));
+        assert.shadowDom.equal(
+          element,
+          /* HTML */
+          `
+            <gr-endpoint-decorator name="formatted-text-endpoint">
+              <gr-marked-element>
+                <div class="markdown-html" slot="markdown-html">
+                  <p>
+                    <strong>Approved</strong>
+                    — All checks pass.
+                    <a
+                      href="http://go/traj"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      trajectory
+                    </a>
+                  </p>
+                </div>
+              </gr-marked-element>
+            </gr-endpoint-decorator>
+          `
+        );
+      });
+
+      test('renders multiline paragraphs with br in collapsed mode', async () => {
+        element.collapsed = true;
+        element.content = 'Line 1\nLine 2';
+        await element.updateComplete;
+
+        assert.shadowDom.equal(
+          element,
+          /* HTML */
+          `
+            <gr-endpoint-decorator name="formatted-text-endpoint">
+              <gr-marked-element>
+                <div class="markdown-html" slot="markdown-html">
+                  <p>Line 1<br />Line 2</p>
+                </div>
+              </gr-marked-element>
+            </gr-endpoint-decorator>
+          `
+        );
+      });
+
+      test('renders fenced code blocks in collapsed mode', async () => {
+        element.collapsed = true;
+        element.content = '```\nconst a = 1;\n```';
+        await element.updateComplete;
+
+        assert.shadowDom.equal(
+          element,
+          /* HTML */
+          `
+            <gr-endpoint-decorator name="formatted-text-endpoint">
+              <gr-marked-element>
+                <div class="markdown-html" slot="markdown-html">
+                  <pre><code>const a = 1;
+</code></pre>
+                </div>
+              </gr-marked-element>
+            </gr-endpoint-decorator>
+          `
+        );
+      });
+
+      test('renders headings and list items in collapsed mode', async () => {
+        element.collapsed = true;
+        element.content = '# Heading 1\n* Item 1\n* Item 2';
+        await element.updateComplete;
+
+        assert.shadowDom.equal(
+          element,
+          /* HTML */
+          `
+            <gr-endpoint-decorator name="formatted-text-endpoint">
+              <gr-marked-element>
+                <div class="markdown-html" slot="markdown-html">
+                  <h1>Heading 1</h1>
+                  <ul>
+                    <li>Item 1</li>
+                    <li>Item 2</li>
+                  </ul>
+                </div>
+              </gr-marked-element>
+            </gr-endpoint-decorator>
+          `
+        );
+      });
+
+      test('renders blockquotes, tables, and suggestions in collapsed mode', async () => {
+        element.collapsed = true;
+        element.content = '> Quote\n\n| H1 | H2 |\n|---|---|\n| C1 | C2 |';
+        await element.updateComplete;
+
+        assert.shadowDom.equal(
+          element,
+          /* HTML */
+          `
+            <gr-endpoint-decorator name="formatted-text-endpoint">
+              <gr-marked-element>
+                <div class="markdown-html" slot="markdown-html">
+                  <blockquote>
+                    <p>Quote</p>
+                  </blockquote>
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>H1</th>
+                        <th>H2</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>C1</td>
+                        <td>C2</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </gr-marked-element>
+            </gr-endpoint-decorator>
+          `
+        );
+      });
+
+      test('renders plaintext mode when collapsed is true', async () => {
+        element.markdown = false;
+        element.collapsed = true;
+        element.content = 'Plain text with http://google.com link';
+        await element.updateComplete;
+
+        assert.isTrue(element.hasAttribute('collapsed'));
+        assert.shadowDom.equal(
+          element,
+          /* HTML */
+          `
+            <gr-endpoint-decorator name="formatted-text-endpoint">
+              <pre class="plaintext">
+Plain text with <a href="http://google.com" rel="noopener noreferrer" target="_blank">http://google.com</a> link</pre>
+            </gr-endpoint-decorator>
+          `
+        );
+      });
+    });
   });
 });

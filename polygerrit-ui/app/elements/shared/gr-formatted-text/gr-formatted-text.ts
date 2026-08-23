@@ -41,6 +41,9 @@ export class GrFormattedText extends LitElement {
   @property({type: Boolean})
   markdown = false;
 
+  @property({type: Boolean, reflect: true})
+  collapsed = false;
+
   @state()
   private repoCommentLinks: CommentLinks = {};
 
@@ -121,6 +124,76 @@ export class GrFormattedText extends LitElement {
            should overflow in that case rather than wrapping or leaking out */
           overflow-x: var(--gr-formatted-text-markdown-html-overflow-x, auto);
           overflow-wrap: break-word;
+        }
+        :host([collapsed]) {
+          display: inline;
+        }
+        :host([collapsed]) gr-endpoint-decorator,
+        :host([collapsed]) gr-marked-element {
+          display: inline;
+        }
+        :host([collapsed]) .markdown-html {
+          display: inline;
+          white-space: inherit;
+          overflow-x: inherit;
+        }
+        :host([collapsed]) .plaintext {
+          display: inline;
+          white-space: inherit;
+        }
+        :host([collapsed]) p,
+        :host([collapsed]) ul,
+        :host([collapsed]) ol,
+        :host([collapsed]) li,
+        :host([collapsed]) pre,
+        :host([collapsed]) code,
+        :host([collapsed]) blockquote,
+        :host([collapsed]) h1,
+        :host([collapsed]) h2,
+        :host([collapsed]) h3,
+        :host([collapsed]) h4,
+        :host([collapsed]) h5,
+        :host([collapsed]) h6,
+        :host([collapsed]) table,
+        :host([collapsed]) thead,
+        :host([collapsed]) tbody,
+        :host([collapsed]) tr,
+        :host([collapsed]) th,
+        :host([collapsed]) td {
+          display: inline;
+          margin: 0;
+          padding: 0;
+          border: none;
+          font-size: inherit;
+          font-weight: inherit;
+          list-style: none;
+          white-space: inherit;
+        }
+        :host([collapsed]) blockquote {
+          border-left: none;
+        }
+        :host([collapsed]) hr {
+          display: none;
+        }
+        :host([collapsed]) br {
+          display: none;
+        }
+        :host([collapsed]) p:not(:last-child)::after,
+        :host([collapsed]) ul:not(:last-child)::after,
+        :host([collapsed]) ol:not(:last-child)::after,
+        :host([collapsed]) li:not(:last-child)::after,
+        :host([collapsed]) pre:not(:last-child)::after,
+        :host([collapsed]) blockquote:not(:last-child)::after,
+        :host([collapsed]) h1:not(:last-child)::after,
+        :host([collapsed]) h2:not(:last-child)::after,
+        :host([collapsed]) h3:not(:last-child)::after,
+        :host([collapsed]) h4:not(:last-child)::after,
+        :host([collapsed]) h5:not(:last-child)::after,
+        :host([collapsed]) h6:not(:last-child)::after,
+        :host([collapsed]) tr:not(:last-child)::after,
+        :host([collapsed]) th:not(:last-child)::after,
+        :host([collapsed]) td:not(:last-child)::after {
+          content: ' ';
         }
       `,
     ];

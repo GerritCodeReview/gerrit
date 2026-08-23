@@ -6,6 +6,7 @@
 import * as sinon from 'sinon';
 import '../../../test/common-test-setup';
 import './gr-comment';
+import {GrFormattedText} from '../gr-formatted-text/gr-formatted-text';
 import {AUTO_SAVE_DEBOUNCE_DELAY_MS, GrComment} from './gr-comment';
 import {
   dispatch,
@@ -113,9 +114,8 @@ suite('gr-comment tests', () => {
                   <gr-account-label deselected=""> </gr-account-label>
                 </div>
                 <div class="headerMiddle">
-                  <span class="collapsedContent">
-                    This is the test comment message.
-                  </span>
+                  <gr-formatted-text class="collapsedContent" collapsed="">
+                  </gr-formatted-text>
                 </div>
                 <span class="patchset-text"> Patchset 1 </span>
                 <div class="show-hide" tabindex="0">
@@ -136,6 +136,65 @@ suite('gr-comment tests', () => {
           </dialog>
         `
       );
+    });
+
+    test('renders collapsed with markdown', async () => {
+      const markdownComment = {
+        ...comment,
+        message: '**Approved** — All checks pass. [trajectory](http://go/traj)',
+      };
+      const initiallyCollapsedElement = await fixture<GrComment>(
+        html`<gr-comment
+          .account=${account}
+          .showPatchset=${true}
+          .comment=${markdownComment}
+          .initiallyCollapsed=${true}
+        ></gr-comment>`
+      );
+      const formattedText = queryAndAssert<GrFormattedText>(
+        initiallyCollapsedElement,
+        'gr-formatted-text.collapsedContent'
+      );
+      assert.isTrue(formattedText.hasAttribute('collapsed'));
+      assert.isTrue(formattedText.markdown);
+      assert.equal(
+        formattedText.content,
+        '**Approved** — All checks pass. [trajectory](http://go/traj)'
+      );
+    });
+
+    test('clicking link in collapsed comment does not toggle collapsed', async () => {
+      const markdownComment = {
+        ...comment,
+        message: 'Comment with [link](http://google.com)',
+      };
+      const initiallyCollapsedElement = await fixture<GrComment>(
+        html`<gr-comment
+          .account=${account}
+          .showPatchset=${true}
+          .comment=${markdownComment}
+          .initiallyCollapsed=${true}
+        ></gr-comment>`
+      );
+      assert.isTrue(initiallyCollapsedElement.collapsed);
+
+      const formattedText = queryAndAssert<GrFormattedText>(
+        initiallyCollapsedElement,
+        'gr-formatted-text.collapsedContent'
+      );
+      await formattedText.updateComplete;
+      await waitUntil(() =>
+        Boolean(formattedText.shadowRoot?.querySelector('a'))
+      );
+      const anchor = formattedText.shadowRoot?.querySelector(
+        'a'
+      ) as HTMLAnchorElement;
+      assert.isDefined(anchor);
+
+      anchor.click();
+      await initiallyCollapsedElement.updateComplete;
+
+      assert.isTrue(initiallyCollapsedElement.collapsed);
     });
 
     test('renders expanded', async () => {

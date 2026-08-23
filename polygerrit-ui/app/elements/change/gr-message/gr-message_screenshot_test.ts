@@ -109,4 +109,17 @@ suite('gr-message screenshot tests', () => {
     await visualDiff(element, 'gr-message-expanded-scores');
     await visualDiffDarkTheme(element, 'gr-message-expanded-scores');
   });
+
+  test('collapsed with markdown', async () => {
+    element.message = {
+      ...msg,
+      message:
+        '**Approved** — All checks pass. [trajectory](https://google.com) and `inline_code`',
+      expanded: false,
+    };
+    await element.updateComplete;
+
+    await visualDiff(element, 'gr-message-collapsed-markdown');
+    await visualDiffDarkTheme(element, 'gr-message-collapsed-markdown');
+  });
 });

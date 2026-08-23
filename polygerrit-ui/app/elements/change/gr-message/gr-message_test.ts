@@ -6,6 +6,7 @@
 import * as sinon from 'sinon';
 import '../../../test/common-test-setup';
 import './gr-message';
+import {GrFormattedText} from '../../shared/gr-formatted-text/gr-formatted-text';
 import {
   NavigationService,
   navigationToken,
@@ -24,6 +25,7 @@ import {
   query,
   queryAndAssert,
   stubRestApi,
+  waitUntil,
 } from '../../../test/test-utils';
 import {GrMessage} from './gr-message';
 import {
@@ -126,9 +128,8 @@ suite('gr-message tests', () => {
               <gr-message-scores> </gr-message-scores>
             </div>
             <div class="content messageContent">
-              <div class="hideOnOpen message">
-                This is a message with id cm_id_1
-              </div>
+              <gr-formatted-text class="hideOnOpen message" collapsed="">
+              </gr-formatted-text>
             </div>
             <span class="dateContainer">
               <span class="date">
@@ -170,9 +171,8 @@ suite('gr-message tests', () => {
               <gr-message-scores> </gr-message-scores>
             </div>
             <div class="content messageContent">
-              <div class="hideOnOpen message">
-                This is a message with id cm_id_1
-              </div>
+              <gr-formatted-text class="hideOnOpen message" collapsed="">
+              </gr-formatted-text>
             </div>
             <span class="dateContainer">
               <span class="date">
@@ -215,9 +215,8 @@ suite('gr-message tests', () => {
               <gr-message-scores> </gr-message-scores>
             </div>
             <div class="content messageContent">
-              <div class="hideOnOpen message">
-                This is a message with id cm_id_1
-              </div>
+              <gr-formatted-text class="hideOnOpen message" collapsed="">
+              </gr-formatted-text>
             </div>
             <div class="content"></div>
             <span class="dateContainer">
@@ -257,9 +256,8 @@ suite('gr-message tests', () => {
             <gr-message-scores> </gr-message-scores>
           </div>
           <div class="content messageContent">
-            <div class="hideOnOpen message">
-              This is a message with id cm_id_1
-            </div>
+            <gr-formatted-text class="hideOnOpen message" collapsed="">
+            </gr-formatted-text>
           </div>
           <span class="dateContainer">
             <span class="date">
@@ -323,9 +321,8 @@ suite('gr-message tests', () => {
             </span>
           </div>
           <div class="content messageContent">
-            <div class="hideOnOpen message">
-              This is a message with id cm_id_1
-            </div>
+            <gr-formatted-text class="hideOnOpen message" collapsed="">
+            </gr-formatted-text>
           </div>
           <span class="dateContainer">
             <span class="date">
@@ -341,6 +338,53 @@ suite('gr-message tests', () => {
         </div>
       </div>`;
       assert.shadowDom.equal(element, rendered);
+    });
+
+    test('renders markdown in collapsed change message', async () => {
+      element.message = {
+        ...createChangeMessage(),
+        message: '**Approved** — All checks pass. [trajectory](http://go/traj)',
+        expanded: false,
+      };
+      await element.updateComplete;
+
+      const formattedText = queryAndAssert<GrFormattedText>(
+        element,
+        'gr-formatted-text.hideOnOpen'
+      );
+      assert.isTrue(formattedText.hasAttribute('collapsed'));
+      assert.isTrue(formattedText.markdown);
+      assert.equal(
+        formattedText.content,
+        '**Approved** — All checks pass. [trajectory](http://go/traj)'
+      );
+    });
+
+    test('clicking link in collapsed message does not expand message', async () => {
+      element.message = {
+        ...createChangeMessage(),
+        message: 'Message with [link](http://google.com)',
+        expanded: false,
+      };
+      await element.updateComplete;
+
+      const formattedText = queryAndAssert<GrFormattedText>(
+        element,
+        'gr-formatted-text.hideOnOpen'
+      );
+      await formattedText.updateComplete;
+      await waitUntil(() =>
+        Boolean(formattedText.shadowRoot?.querySelector('a'))
+      );
+      const anchor = formattedText.shadowRoot?.querySelector(
+        'a'
+      ) as HTMLAnchorElement;
+      assert.isDefined(anchor);
+
+      anchor.click();
+      await element.updateComplete;
+
+      assert.isFalse(element.message.expanded);
     });
 
     test('_computeShowOnBehalfOf', () => {

@@ -54,4 +54,31 @@ suite('gr-comment screenshot tests', () => {
     await visualDiff(element, 'gr-comment-ai');
     await visualDiffDarkTheme(element, 'gr-comment-ai');
   });
+
+  test('collapsed comment', async () => {
+    element = await fixture(
+      html`<gr-comment
+        .comment=${c_normal}
+        .initiallyCollapsed=${true}
+      ></gr-comment>`
+    );
+    await visualDiff(element, 'gr-comment-collapsed');
+    await visualDiffDarkTheme(element, 'gr-comment-collapsed');
+  });
+
+  test('collapsed comment with markdown', async () => {
+    const c_markdown: CommentInfo = {
+      ...c_normal,
+      message:
+        '**Approved** — All checks pass. [trajectory](https://google.com) and `inline_code`',
+    };
+    element = await fixture(
+      html`<gr-comment
+        .comment=${c_markdown}
+        .initiallyCollapsed=${true}
+      ></gr-comment>`
+    );
+    await visualDiff(element, 'gr-comment-collapsed-markdown');
+    await visualDiffDarkTheme(element, 'gr-comment-collapsed-markdown');
+  });
 });

@@ -16,6 +16,23 @@
       "message": "From what I understand this is related to java processes, not the git GC run by Gerrit, can we clarify that in the commit message?",
       "revId": "45d6a8cb3690b163e4c7f613d2e83e163d63d1e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f677afaa_b88dc3a6",
+        "filename": "resources/com/google/gerrit/pgm/init/gerrit.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 695,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-08-24T20:25:57Z",
+      "side": 1,
+      "message": "As a user interface, I think histogram makes more sense and is friendlier to type? I think any use of GC in this change is confusing, so I would avoid it wherever possible.",
+      "revId": "45d6a8cb3690b163e4c7f613d2e83e163d63d1e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

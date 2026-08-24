@@ -1,0 +1,58 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e235d7eb_937cc3b0",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-submit-dialog/gr-confirm-submit-dialog.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-08-24T23:54:11Z",
+      "side": 1,
+      "message": "renderOtherUnresolvedComments() already computes otherChanges on line 200, but calling computeOtherChangesUnresolvedCommentsWarning() re-invokes computeOtherChangesWithUnresolvedComments() and filters the array a second time. Consider passing otherChanges.length (or otherChanges) into computeOtherChangesUnresolvedCommentsWarning() to avoid duplicate filtering.",
+      "isAi": true,
+      "revId": "ce178025a0b50f85fb1c6453622e04adec1e2818",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c93c5fcb_b3625fc9",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-submit-dialog/gr-confirm-submit-dialog.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-08-24T23:54:11Z",
+      "side": 1,
+      "message": "Consider filtering by open change status (e.g. c.status !\u003d\u003d ChangeStatus.MERGED \u0026\u0026 c.status !\u003d\u003d ChangeStatus.ABANDONED, or c.status \u003d\u003d\u003d ChangeStatus.NEW) to guard against any scenario where submittedTogether returns historical/merged changes that still hold an unresolved comment count.",
+      "isAi": true,
+      "revId": "ce178025a0b50f85fb1c6453622e04adec1e2818",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4a6fb32_48e63f96",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-submit-dialog/gr-confirm-submit-dialog_test.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-08-24T23:54:11Z",
+      "side": 1,
+      "message": "Consider adding test cases for the negative/empty branches: 1) when submittedTogether is undefined or empty, 2) when submittedTogether.changes contains only the current change, and 3) when all other changes have unresolved_comment_count \u003d\u003d\u003d 0.",
+      "isAi": true,
+      "revId": "ce178025a0b50f85fb1c6453622e04adec1e2818",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

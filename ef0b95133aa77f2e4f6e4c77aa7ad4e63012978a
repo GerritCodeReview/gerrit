@@ -34,6 +34,52 @@
       "parentUuid": "15da33d4_784ae0a4",
       "revId": "ef0b95133aa77f2e4f6e4c77aa7ad4e63012978a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb9d1a9a_35d6e59d",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementConfigValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-24T12:19:35Z",
+      "side": 1,
+      "message": "This condition OR the project to have no parents can be checked upfront and skip the whole block of validation, so as to avoid all these ternary operations here at L71-L72 and also inside the `getPreviousSubmitRequirements` method.\n\nExample:\n\n```\n     if (!projectConfig.getSubmitRequirementSections().isEmpty() \u0026\u0026 event.commit.getParentCount() \u003e 0) {\n        Map\u003cString, SubmitRequirement\u003e previousSubmitRequirements \u003d getProjectConfig(event, event.commit.getParent(0)).getSubmitRequirementSections();\n\n     [...]\n     }\n```",
+      "range": {
+        "startLine": 70,
+        "startChar": 10,
+        "endLine": 70,
+        "endChar": 64
+      },
+      "revId": "ef0b95133aa77f2e4f6e4c77aa7ad4e63012978a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "602f9ba7_51c3843a",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementConfigValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-24T12:19:35Z",
+      "side": 1,
+      "message": "These methods are not useful anymore if we just condition the whole validation block.",
+      "range": {
+        "startLine": 148,
+        "startChar": 0,
+        "endLine": 160,
+        "endChar": 3
+      },
+      "revId": "ef0b95133aa77f2e4f6e4c77aa7ad4e63012978a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

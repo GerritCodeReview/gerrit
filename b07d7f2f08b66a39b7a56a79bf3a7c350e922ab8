@@ -90,6 +90,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ea6a50a4_2b028fa5",
+        "filename": "java/com/google/gerrit/server/git/QueueSnapshotLog.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-08-24T20:44:04Z",
+      "side": 1,
+      "message": "We also have restapi for show-queue, do you think just calling that and logging it would be easier ?",
+      "revId": "b07d7f2f08b66a39b7a56a79bf3a7c350e922ab8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "25ea25b1_8e2ff10e",
         "filename": "java/com/google/gerrit/server/git/QueueSnapshotLog.java",
         "patchSetId": 2

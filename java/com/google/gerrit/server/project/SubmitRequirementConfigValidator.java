@@ -26,8 +26,10 @@ import com.google.gerrit.server.patch.DiffNotAvailableException;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.ObjectId;
 
 /**
  * Validates the expressions of submit requirements in {@code project.config}.
@@ -63,11 +65,19 @@ public class SubmitRequirementConfigValidator implements CommitValidationListene
       }
 
       ProjectConfig projectConfig = getProjectConfig(event);
+      Map<String, SubmitRequirement> previousSubmitRequirements = Map.of();
+      if (!projectConfig.getSubmitRequirementSections().isEmpty()
+          && event.commit.getParentCount() > 0) {
+        previousSubmitRequirements =
+            getProjectConfig(event, event.commit.getParent(0)).getSubmitRequirementSections();
+      }
       ImmutableList.Builder<String> validationMsgsBuilder = ImmutableList.builder();
       for (SubmitRequirement submitRequirement :
           projectConfig.getSubmitRequirementSections().values()) {
-        validationMsgsBuilder.addAll(
-            submitRequirementExpressionsValidator.validateExpressions(submitRequirement));
+        if (!submitRequirement.equals(previousSubmitRequirements.get(submitRequirement.name()))) {
+          validationMsgsBuilder.addAll(
+              submitRequirementExpressionsValidator.validateExpressions(submitRequirement));
+        }
       }
       ImmutableList<String> validationMsgs = validationMsgsBuilder.build();
       if (!validationMsgs.isEmpty()) {
@@ -125,8 +135,13 @@ public class SubmitRequirementConfigValidator implements CommitValidationListene
 
   private ProjectConfig getProjectConfig(CommitReceivedEvent receiveEvent)
       throws IOException, ConfigInvalidException {
+    return getProjectConfig(receiveEvent, receiveEvent.commit);
+  }
+
+  private ProjectConfig getProjectConfig(CommitReceivedEvent receiveEvent, ObjectId revision)
+      throws IOException, ConfigInvalidException {
     ProjectConfig projectConfig = projectConfigFactory.create(receiveEvent.project.getNameKey());
-    projectConfig.load(receiveEvent.revWalk, receiveEvent.commit);
+    projectConfig.load(receiveEvent.revWalk, revision);
     return projectConfig;
   }
 }

@@ -107,6 +107,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "98dcb544_67f27f10",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementConfigValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-24T15:14:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f1006dcc_7867f67d",
+      "range": {
+        "startLine": 70,
+        "startChar": 10,
+        "endLine": 70,
+        "endChar": 64
+      },
+      "revId": "ef0b95133aa77f2e4f6e4c77aa7ad4e63012978a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "602f9ba7_51c3843a",

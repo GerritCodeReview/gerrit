@@ -22,6 +22,53 @@
       },
       "revId": "dffcb0417521a95211ca1bc421a71dcbf9ebf2ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1ef5f47_5e2dded7",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 1069,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-08-24T08:13:56Z",
+      "side": 1,
+      "message": "We don\u0027t have that at the moment, but prolog also did support other filters than branches, so this fits the deprecated prolog behaviour more closely. It also follows the pattern introduced by submit requirements and thus provides a homogenous experience.",
+      "parentUuid": "4a622452_590c241f",
+      "range": {
+        "startLine": 1067,
+        "startChar": 0,
+        "endLine": 1069,
+        "endChar": 66
+      },
+      "revId": "dffcb0417521a95211ca1bc421a71dcbf9ebf2ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81891000_6e563ad9",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 1078,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-08-24T08:13:56Z",
+      "side": 1,
+      "message": "Offline comment from Sasa: Since we only have a single key in the subsection right now, the configuration could also look like this:\n\n```\n[submit-type]\n  mergeAlways \u003d branch:stable\n  cherryPick \u003d path:package.json\n```\n\nThis would be less verbose, but would require a breaking change, if we would add yet unknown further configuration options, e.g. a priority indicator or multiple applicableIf to increase readability. The naming is in my opinion also less descriptive and does not match the pattern introduced by submit requirements. Also, Jgit\u0027s config parser does not preserve the order of keys in a section, if they are not the same, i.e. it will be harder to provide the order-based priority.\n\nFurther comments are welcome!",
+      "range": {
+        "startLine": 1077,
+        "startChar": 0,
+        "endLine": 1078,
+        "endChar": 30
+      },
+      "revId": "dffcb0417521a95211ca1bc421a71dcbf9ebf2ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

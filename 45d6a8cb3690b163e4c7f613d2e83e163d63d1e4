@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae354506_94630eb1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4665459
+      },
+      "writtenOn": "2026-08-24T20:44:59Z",
+      "side": 1,
+      "message": "Done, I updated the commit msg to clarify that this is the daemon\u0027s Java heap.",
+      "parentUuid": "b363806a_f6df12fe",
+      "revId": "45d6a8cb3690b163e4c7f613d2e83e163d63d1e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f677afaa_b88dc3a6",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-08-24T20:25:57Z",
       "side": 1,
       "message": "As a user interface, I think histogram makes more sense and is friendlier to type? I think any use of GC in this change is confusing, so I would avoid it wherever possible.",
+      "revId": "45d6a8cb3690b163e4c7f613d2e83e163d63d1e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f5c8677_443c9f7f",
+        "filename": "resources/com/google/gerrit/pgm/init/gerrit.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 695,
+      "author": {
+        "id": 4665459
+      },
+      "writtenOn": "2026-08-24T20:44:59Z",
+      "side": 1,
+      "message": "Agreed, done.",
+      "parentUuid": "f677afaa_b88dc3a6",
       "revId": "45d6a8cb3690b163e4c7f613d2e83e163d63d1e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

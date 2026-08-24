@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a622452_590c241f",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 1069,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-24T07:48:40Z",
+      "side": 1,
+      "message": "This allows for any type of query, whilst I believe your intended use case was for branches only.\nIs there any other desired use case you had in mind that would not be for branches?",
+      "range": {
+        "startLine": 1067,
+        "startChar": 0,
+        "endLine": 1069,
+        "endChar": 66
+      },
+      "revId": "dffcb0417521a95211ca1bc421a71dcbf9ebf2ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

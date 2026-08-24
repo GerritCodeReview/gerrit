@@ -38,7 +38,7 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.List;
 import org.eclipse.jgit.lib.ObjectId;
-
+// Handles REST API access to Gerrit changes.
 @Singleton
 public class ChangesCollection implements RestCollection<TopLevelResource, ChangeResource> {
   private final Provider<CurrentUser> user;

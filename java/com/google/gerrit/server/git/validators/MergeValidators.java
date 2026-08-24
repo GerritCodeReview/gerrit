@@ -29,6 +29,7 @@ import com.google.gerrit.extensions.registration.Extension;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountProperties;
+import com.google.gerrit.server.account.ProjectWatches;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -315,7 +316,9 @@ public class MergeValidators {
       ChangeData cd =
           changeDataFactory.create(destProject.getProject().getNameKey(), patchSetId.changeId());
       try {
-        if (!cd.currentFilePaths().contains(AccountProperties.ACCOUNT_CONFIG)) {
+        List<String> currentFilePaths = cd.currentFilePaths();
+        if (!currentFilePaths.contains(AccountProperties.ACCOUNT_CONFIG)
+            && !currentFilePaths.contains(ProjectWatches.WATCH_CONFIG)) {
           return;
         }
       } catch (StorageException e) {

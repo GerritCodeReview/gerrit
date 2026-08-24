@@ -59,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0116afb9_1f1ec598",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementConfigValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-08-24T12:26:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb9d1a9a_35d6e59d",
+      "range": {
+        "startLine": 70,
+        "startChar": 10,
+        "endLine": 70,
+        "endChar": 64
+      },
+      "revId": "ef0b95133aa77f2e4f6e4c77aa7ad4e63012978a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "602f9ba7_51c3843a",
@@ -72,6 +96,30 @@
       "writtenOn": "2026-08-24T12:19:35Z",
       "side": 1,
       "message": "These methods are not useful anymore if we just condition the whole validation block.",
+      "range": {
+        "startLine": 148,
+        "startChar": 0,
+        "endLine": 160,
+        "endChar": 3
+      },
+      "revId": "ef0b95133aa77f2e4f6e4c77aa7ad4e63012978a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "65b120e9_062760af",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementConfigValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-08-24T12:26:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "602f9ba7_51c3843a",
       "range": {
         "startLine": 148,
         "startChar": 0,

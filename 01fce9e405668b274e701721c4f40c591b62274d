@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8b158c6_acb85df8",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-24T08:08:49Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "8b1b6dcd_deae2cd2",
+      "revId": "01fce9e405668b274e701721c4f40c591b62274d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cb86333a_a260627a",
@@ -41,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0cf4fc74_3ce52ab8",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-24T08:08:49Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "cb86333a_a260627a",
+      "range": {
+        "startLine": 306,
+        "startChar": 4,
+        "endLine": 306,
+        "endChar": 7
+      },
+      "revId": "01fce9e405668b274e701721c4f40c591b62274d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8521f1cb_0d17cfb2",
@@ -54,6 +96,54 @@
       "writtenOn": "2026-08-24T08:08:14Z",
       "side": 1,
       "message": "```suggestion\nFor the most relevant security issues, a CVE that describes the issue and lists the affected\n```",
+      "range": {
+        "startLine": 323,
+        "startChar": 4,
+        "endLine": 323,
+        "endChar": 24
+      },
+      "revId": "01fce9e405668b274e701721c4f40c591b62274d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c41caf2b_2a8b4bb7",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-24T08:08:49Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "8521f1cb_0d17cfb2",
+      "range": {
+        "startLine": 323,
+        "startChar": 4,
+        "endLine": 323,
+        "endChar": 24
+      },
+      "revId": "01fce9e405668b274e701721c4f40c591b62274d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "379fb53e_0512de53",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-08-24T08:08:49Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "8521f1cb_0d17cfb2",
       "range": {
         "startLine": 323,
         "startChar": 4,

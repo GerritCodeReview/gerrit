@@ -85,6 +85,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f1006dcc_7867f67d",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementConfigValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-08-24T12:45:57Z",
+      "side": 1,
+      "message": "on a second thought we can\u0027t skip the whole block of validation based on this condition:\n\n```\n(!projectConfig.getSubmitRequirementSections().isEmpty() \u0026\u0026 event.commit.getParentCount() \u003e 0) {\n```\n\nBecause not having a parent commit should not prevent us from validating the new submit requirements.\n\nSee if this my latest commit makes sense.",
+      "parentUuid": "0116afb9_1f1ec598",
+      "range": {
+        "startLine": 70,
+        "startChar": 10,
+        "endLine": 70,
+        "endChar": 64
+      },
+      "revId": "ef0b95133aa77f2e4f6e4c77aa7ad4e63012978a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "602f9ba7_51c3843a",
         "filename": "java/com/google/gerrit/server/project/SubmitRequirementConfigValidator.java",
         "patchSetId": 1

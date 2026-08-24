@@ -65,6 +65,9 @@ import com.google.gerrit.server.config.GitUploadPackGroups;
 import com.google.gerrit.server.config.RegexAllowedGroups;
 import com.google.gerrit.server.config.SkipCurrentRulesEvaluationOnClosedChangesModule;
 import com.google.gerrit.server.config.SysExecutorModule;
+import com.google.gerrit.server.config.TrustedRegex;
+import com.google.gerrit.server.config.UntrustedRegex;
+import com.google.gerrit.server.config.UntrustedRegexCompiler;
 import com.google.gerrit.server.extensions.events.AttentionSetObserver;
 import com.google.gerrit.server.extensions.events.EventUtil;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
@@ -169,7 +172,14 @@ public class BatchProgramModule extends FactoryModule {
     bind(IdentifiedUser.class).toProvider(Providers.of(null));
     bind(EmailNewPatchSet.Factory.class).toProvider(Providers.of(null));
     bind(CurrentUser.class).to(InternalUser.class);
-    bind(RegexCompiler.class).to(DefaultRegexCompiler.class).in(SINGLETON);
+    bind(RegexCompiler.class)
+        .annotatedWith(UntrustedRegex.class)
+        .to(UntrustedRegexCompiler.class)
+        .in(SINGLETON);
+    bind(RegexCompiler.class)
+        .annotatedWith(TrustedRegex.class)
+        .to(DefaultRegexCompiler.class)
+        .in(SINGLETON);
     factory(PatchSetInserter.Factory.class);
     factory(RebaseChangeOp.Factory.class);
     factory(DiffOperationsForCommitValidation.Factory.class);

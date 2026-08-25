@@ -58,6 +58,10 @@ const DEFAULT_LINKS: MainHeaderLinkGroup[] = [
         url: '/q/status:merged',
         name: 'Merged',
       },
+      {
+        url: '/q/status:abandoned',
+        name: 'Abandoned',
+      },
     ],
   },
 ];

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "57445ac5_2e61105e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-08-25T18:41:41Z",
+      "side": 1,
+      "message": "I checked code and run several AI reviews and I think this is good change, that better caches submit rules.",
+      "revId": "57936d8dca8baeb414c16b02d0cda9acfacae619",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

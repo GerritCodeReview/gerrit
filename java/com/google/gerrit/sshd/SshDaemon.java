@@ -21,6 +21,7 @@ import static org.apache.sshd.core.CoreModuleProperties.IDLE_TIMEOUT;
 import static org.apache.sshd.core.CoreModuleProperties.MAX_AUTH_REQUESTS;
 import static org.apache.sshd.core.CoreModuleProperties.MAX_CONCURRENT_SESSIONS;
 import static org.apache.sshd.core.CoreModuleProperties.NIO2_READ_TIMEOUT;
+import static org.apache.sshd.core.CoreModuleProperties.NIO_WORKERS;
 import static org.apache.sshd.core.CoreModuleProperties.REKEY_BYTES_LIMIT;
 import static org.apache.sshd.core.CoreModuleProperties.REKEY_TIME_LIMIT;
 import static org.apache.sshd.core.CoreModuleProperties.SERVER_IDENTIFICATION;
@@ -203,6 +204,11 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     if (0 < maxConnectionsPerUser) {
       MAX_CONCURRENT_SESSIONS.set(this, maxConnectionsPerUser);
     }
+
+    int cores = Runtime.getRuntime().availableProcessors();
+    int defaultNioWorkers =
+        Math.min(cores + 1, Math.max(4, cfg.getInt("sshd", "threads", Math.max(4, 2 * cores)) / 4));
+    NIO_WORKERS.set(this, cfg.getInt("sshd", "nioWorkers", defaultNioWorkers));
 
     final String kerberosKeytab = cfg.getString("sshd", null, "kerberosKeytab");
     final String kerberosPrincipal = cfg.getString("sshd", null, "kerberosPrincipal");

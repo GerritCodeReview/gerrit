@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ae1cfe3_acb7a464",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-08-25T20:02:21Z",
+      "side": 1,
+      "message": "I think we have such low usage of stars that this will definetly has almost zero effect. Technically it looks correct to me but you can decide if it is worth to even submit.",
+      "revId": "788f76e415205b1a8d3159dfb75499f893dfb14b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

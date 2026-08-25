@@ -16,6 +16,23 @@
       "message": "This has been bugging me for a long time when I try to do reviews. I\u0027ve done a self-review and manually tried out the change, but I haven\u0027t done frontend dev in a very very very long time so there might be pretty obvious things that are wrong.\n\nIn particular, one thing I\u0027m not sure about is https://gerrit-review.git.corp.google.com/c/gerrit/+/622181/3/polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts; the AI bot thinks I should be using an arrow function, but https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts#1242 is a similar construct and (presumably) is fine...",
       "revId": "56f7e035e8928de2ed4dc1fd3eb074fb4e012789",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc8d7b1b_8a91d281",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5112616
+      },
+      "writtenOn": "2026-08-25T20:44:14Z",
+      "side": 1,
+      "message": "622181: Set scroll-padding-top to fix keyboard paging | https://gerrit-review.googlesource.com/c/gerrit/+/622181",
+      "revId": "56f7e035e8928de2ed4dc1fd3eb074fb4e012789",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1404,12 +1404,31 @@ public class ChangeData {
     this.submitRequirements = submitRequirements;
   }
 
+  @Nullable
+  public List<SubmitRecord> getSubmitRecords(SubmitRuleOptions options) {
+    List<SubmitRecord> records = submitRecords.get(options);
+    if (records == null) {
+      Change c = change();
+      if (c != null && !c.isClosed()) {
+        SubmitRuleOptions other =
+            options.toBuilder()
+                .recomputeOnClosedChanges(!options.recomputeOnClosedChanges())
+                .build();
+        records = submitRecords.get(other);
+        if (records != null) {
+          submitRecords.put(options, records);
+        }
+      }
+    }
+    return records;
+  }
+
   public List<SubmitRecord> submitRecords(SubmitRuleOptions options) {
     // If the change is not submitted yet, 'strict' and 'lenient' both have the same result. If the
     // change is submitted, SubmitRecord requested with 'strict' will contain just a single entry
     // that with status=CLOSED. The latter is cheap to evaluate as we don't have to run any actual
     // evaluation.
-    List<SubmitRecord> records = submitRecords.get(options);
+    List<SubmitRecord> records = getSubmitRecords(options);
     if (records == null) {
       if (storageConstraint != StorageConstraint.NOTEDB_ONLY) {
         // Submit requirements are expensive. We allow loading them only if this change did not
@@ -1423,21 +1442,19 @@ public class ChangeData {
         return notes().getSubmitRecords();
       }
       records = submitRuleEvaluatorFactory.create(options).evaluate(this);
-      submitRecords.put(options, records);
-      if (!change().isClosed() && submitRecords.size() == 1) {
-        // Cache the SubmitRecord with allowClosed = !allowClosed as the SubmitRecord are the same.
-        submitRecords.put(
-            options.toBuilder()
-                .recomputeOnClosedChanges(!options.recomputeOnClosedChanges())
-                .build(),
-            records);
-      }
+      setSubmitRecords(options, records);
     }
     return records;
   }
 
   public void setSubmitRecords(SubmitRuleOptions options, List<SubmitRecord> records) {
     submitRecords.put(options, records);
+    Change c = change();
+    if (c != null && !c.isClosed()) {
+      SubmitRuleOptions other =
+          options.toBuilder().recomputeOnClosedChanges(!options.recomputeOnClosedChanges()).build();
+      submitRecords.put(other, records);
+    }
   }
 
   public SubmitTypeRecord submitTypeRecord() {

@@ -128,6 +128,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "8dc2a3ca_355232a3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2026-08-25T16:11:50Z",
+      "side": 1,
+      "message": "I am encouraged by the degree of passion on this topic - my TL;DR; let\u0027s keep working to make this product better - I think there is much we can do to make things better. The top menu is one example of rot that I think is not exactly the peak of product design but rather as you pointed the slow evolvement of features descending into generic product malaise.  \n\nMy point is existence alone does not justify continuance - and critical evaluation across all parts of the product ideally leveraging quant metrics is a way to make things better. \n\nResolving as I am fine to revert this change - there are much more important things to make better on this product and spend time on.",
+      "parentUuid": "b41ee8b4_9b9562c6",
+      "revId": "d32a5aab5aa0ef9912d9a43129e2d0098b548400",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "5cae358f_b103534d",
         "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.ts",
         "patchSetId": 2

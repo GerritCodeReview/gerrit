@@ -54,6 +54,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "e819b390_9e051fe6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2026-08-25T03:45:00Z",
+      "side": 1,
+      "message": "history was the git history of the entire project via git blame / git pickaxe. \n\n\"Abandoned is one of the 3 primary change states\" - there are many other states like WIP, Closed, etc that are not here.\n\nFrom a product perspective the argument of something always having been as justification for continued existence is not super compelling. \n\nThat said if you feel like this is a core part of the product that is allowing it to best serve customers and excel in the market. I will happily approve the revert.\n\nThis burden of proof is non-evident to me as such I removed it",
+      "parentUuid": "b6d3a52a_771cd63c",
+      "revId": "d32a5aab5aa0ef9912d9a43129e2d0098b548400",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "5cae358f_b103534d",

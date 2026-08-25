@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d704b97_e0277021",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-08-25T19:13:49Z",
+      "side": 1,
+      "message": "I tried somethings similar in Change 599141 but i had to revert because of hardlimit of 100 queries that was too low on lucene. This termsize looks better. I am ok with this change but maybe @nasser.grainawi@oss.qualcomm.com better knows lucene and this system",
+      "revId": "58d9775556cd533d4f6a1475fb8201a67c657eae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

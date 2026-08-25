@@ -333,7 +333,8 @@ public class JettyServer {
     final int requestHeaderSize = cfg.getInt("httpd", "requestheadersize", 16386);
     final URI[] listenUrls = listenURLs(cfg);
     final boolean reuseAddress = cfg.getBoolean("httpd", "reuseaddress", true);
-    final int acceptors = cfg.getInt("httpd", "acceptorThreads", 2);
+    final int acceptors = cfg.getInt("httpd", "acceptorThreads", 0);
+    final int selectors = cfg.getInt("httpd", "selectorThreads", 2);
     final AuthType authType = cfg.getEnum("auth", null, "type", AuthType.OPENID);
 
     reverseProxy = isReverseProxied(listenUrls);
@@ -376,7 +377,7 @@ public class JettyServer {
 
       if ("http".equals(u.getScheme())) {
         defaultPort = 80;
-        c = newServerConnector(server, acceptors, config);
+        c = newServerConnector(server, acceptors, selectors, config);
 
       } else if ("https".equals(u.getScheme())) {
         SslContextFactory.Server ssl = new SslContextFactory.Server();
@@ -409,15 +410,15 @@ public class JettyServer {
                 null,
                 null,
                 null,
-                0,
                 acceptors,
+                selectors,
                 new SslConnectionFactory(ssl, "http/1.1"),
                 new HttpConnectionFactory(config));
 
       } else if ("proxy-http".equals(u.getScheme())) {
         defaultPort = 8080;
         config.addCustomizer(FORWARDED_REQUEST_CUSTOMIZER);
-        c = newServerConnector(server, acceptors, config);
+        c = newServerConnector(server, acceptors, selectors, config);
 
       } else if ("proxy-https".equals(u.getScheme())) {
         defaultPort = 8080;
@@ -443,7 +444,7 @@ public class JettyServer {
                     return true;
                   }
                 });
-        c = newServerConnector(server, acceptors, config);
+        c = newServerConnector(server, acceptors, selectors, config);
 
       } else {
         throw new IllegalArgumentException(
@@ -485,9 +486,9 @@ public class JettyServer {
   }
 
   private static ServerConnector newServerConnector(
-      Server server, int acceptors, HttpConfiguration config) {
+      Server server, int acceptors, int selectors, HttpConfiguration config) {
     return new ServerConnector(
-        server, null, null, null, 0, acceptors, new HttpConnectionFactory(config));
+        server, null, null, null, acceptors, selectors, new HttpConnectionFactory(config));
   }
 
   private HttpConfiguration defaultConfig(int requestHeaderSize) {

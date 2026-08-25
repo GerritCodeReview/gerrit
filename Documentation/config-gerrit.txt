@@ -3691,8 +3691,22 @@ and `false` if httpd.listenUrl uses proxy-http:// or proxy-https://.
 +
 Number of worker threads dedicated to accepting new incoming TCP
 connections and allocating them connection-specific resources.
+<<httpd.selectorThreads,Selector threads>> handle I/O on accepted connections
+separately.
 +
-By default, 2, which should be suitable for most high-traffic sites.
+By default, 0, which causes selector threads to also accept new incoming
+connections. Sites that need dedicated acceptor threads can increase this
+value.
+
+[[httpd.selectorThreads]]httpd.selectorThreads::
++
+Number of NIO selector threads used to dispatch I/O events for existing
+connections. Each selector thread runs a `java.nio.channels.Selector` loop and
+is shared across all open connections.
++
+By default, 2, which should be suitable for most high-traffic sites. When
+<<httpd.acceptorThreads,`httpd.acceptorThreads`>> is 0, selector threads also
+accept new incoming connections.
 
 [[httpd.minThreads]]httpd.minThreads::
 +

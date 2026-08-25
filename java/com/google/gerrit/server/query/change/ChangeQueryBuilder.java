@@ -1079,7 +1079,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     if (value.startsWith("^")) {
       return new RegexOnlyPathsPredicate(value, args.regexCompiler);
     }
-    return ChangePredicates.onlyPaths(value);
+    return ChangePredicates.onlyPaths(
+        value, args.getSchema() != null && args.getSchema().hasField(ChangeField.FILE_COUNT_SPEC));
   }
 
   @Operator

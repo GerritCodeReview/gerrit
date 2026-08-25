@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "622d88ab_3c05c3aa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-08-25T19:40:19Z",
+      "side": 1,
+      "message": "Interesting, I would prefer stream syntax, but here really we created a new set just to search set like additionsOnly(attentionSet).stream().anyMatch(...)",
+      "revId": "3fa5c4b97415811b0c4528c3ae74c39e359906dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

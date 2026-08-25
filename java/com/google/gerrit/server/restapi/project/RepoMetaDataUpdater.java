@@ -227,6 +227,7 @@ public class RepoMetaDataUpdater {
             InvalidNameException,
             PermissionBackendException,
             ResourceConflictException,
-            AuthException;
+            AuthException,
+            ConfigInvalidException;
   }
 }

@@ -4774,9 +4774,9 @@ on a specific change.
 The check applies to interactive change searches, including named queries
 expanded with `query:`, the `r=` parameter of the project, branch and tag
 listing APIs, `ssh ls-projects -r`, and new or changed submit requirement
-expressions. It does not apply when Gerrit evaluates regular expressions
-already stored in submit requirements, project watches, project notification
-filters or ACL ref patterns.
+expressions and ACL ref patterns. It does not apply when Gerrit evaluates
+regular expressions already stored in submit requirements, project watches,
+project notification filters or ACL ref patterns.
 +
 This configuration is loaded at startup and cannot be hot-reloaded. Gerrit
 fails to start if any configured name cannot be resolved to a group.

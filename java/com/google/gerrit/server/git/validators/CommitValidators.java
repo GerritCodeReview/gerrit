@@ -31,6 +31,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.AccessSection;
 import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
@@ -62,6 +63,7 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.plugincontext.PluginSetEntryContext;
+import com.google.gerrit.server.project.AccessSectionRegexValidator;
 import com.google.gerrit.server.project.LabelConfigValidator;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
@@ -76,6 +78,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -112,6 +115,7 @@ public class CommitValidators {
     private final AllProjectsName allProjects;
     private final ProjectCache projectCache;
     private final ProjectConfig.Factory projectConfigFactory;
+    private final AccessSectionRegexValidator accessSectionRegexValidator;
     private final Config config;
     private final ChangeUtil changeUtil;
     private final MetricMaker metricMaker;
@@ -128,6 +132,7 @@ public class CommitValidators {
         AllProjectsName allProjects,
         ProjectCache projectCache,
         ProjectConfig.Factory projectConfigFactory,
+        AccessSectionRegexValidator accessSectionRegexValidator,
         ChangeUtil changeUtil,
         MetricMaker metricMaker,
         ApprovalQueryBuilder approvalQueryBuilder,
@@ -140,6 +145,7 @@ public class CommitValidators {
       this.allProjects = allProjects;
       this.projectCache = projectCache;
       this.projectConfigFactory = projectConfigFactory;
+      this.accessSectionRegexValidator = accessSectionRegexValidator;
       this.changeUtil = changeUtil;
       this.metricMaker = metricMaker;
       this.approvalQueryBuilder = approvalQueryBuilder;
@@ -170,7 +176,15 @@ public class CommitValidators {
           .add(
               new ChangeIdValidator(
                   changeUtil, projectState, user, urlFormatter.get(), config, sshInfo, change))
-          .add(new ConfigValidator(projectConfigFactory, branch, user, rw, allUsers, allProjects))
+          .add(
+              new ConfigValidator(
+                  projectConfigFactory,
+                  accessSectionRegexValidator,
+                  branch,
+                  user,
+                  rw,
+                  allUsers,
+                  allProjects))
           .add(new BannedCommitsValidator(rejectCommits));
 
       Iterator<PluginSetEntryContext<CommitValidationListener>> pluginValidatorsIt =
@@ -207,7 +221,15 @@ public class CommitValidators {
           .add(
               new ChangeIdValidator(
                   changeUtil, projectState, user, urlFormatter.get(), config, sshInfo, change))
-          .add(new ConfigValidator(projectConfigFactory, branch, user, rw, allUsers, allProjects));
+          .add(
+              new ConfigValidator(
+                  projectConfigFactory,
+                  accessSectionRegexValidator,
+                  branch,
+                  user,
+                  rw,
+                  allUsers,
+                  allProjects));
 
       Iterator<PluginSetEntryContext<CommitValidationListener>> pluginValidatorsIt =
           pluginValidators.iterator();
@@ -638,6 +660,7 @@ public class CommitValidators {
   /** If this is the special project configuration branch, validate the config. */
   public static class ConfigValidator implements CommitValidationListener {
     private final ProjectConfig.Factory projectConfigFactory;
+    private final AccessSectionRegexValidator accessSectionRegexValidator;
     private final BranchNameKey branch;
     private final IdentifiedUser user;
     private final RevWalk rw;
@@ -646,12 +669,14 @@ public class CommitValidators {
 
     public ConfigValidator(
         ProjectConfig.Factory projectConfigFactory,
+        AccessSectionRegexValidator accessSectionRegexValidator,
         BranchNameKey branch,
         IdentifiedUser user,
         RevWalk rw,
         AllUsersName allUsers,
         AllProjectsName allProjects) {
       this.projectConfigFactory = projectConfigFactory;
+      this.accessSectionRegexValidator = accessSectionRegexValidator;
       this.branch = branch;
       this.user = user;
       this.rw = rw;
@@ -675,6 +700,20 @@ public class CommitValidators {
             }
             throw new CommitValidationException("invalid project configuration", messages);
           }
+
+          if (!accessSectionRegexValidator.isAllowed()
+              && REFS_CONFIG.equals(receiveEvent.command.getRefName())) {
+            Collection<AccessSection> previousAccessSections = Collections.emptyList();
+            if (receiveEvent.commit.getParentCount() > 0) {
+              ProjectConfig previousConfig =
+                  projectConfigFactory.create(receiveEvent.project.getNameKey());
+              previousConfig.load(rw, receiveEvent.commit.getParent(0));
+              previousAccessSections = previousConfig.getAccessSections();
+            }
+            accessSectionRegexValidator.validateNewRegexes(
+                previousAccessSections, cfg.getAccessSections());
+          }
+
           if (allUsers.equals(receiveEvent.project.getNameKey())
               && !allProjects.equals(cfg.getProject().getParent(allProjects))) {
             addError("Invalid project configuration:", messages);

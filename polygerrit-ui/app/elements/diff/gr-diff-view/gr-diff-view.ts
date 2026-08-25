@@ -88,6 +88,7 @@ import {customElement, property, query, state} from 'lit/decorators.js';
 import {a11yStyles} from '../../../styles/gr-a11y-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {ifDefined} from 'lit/directives/if-defined.js';
+import {ref} from 'lit/directives/ref.js';
 import {classMap} from 'lit/directives/class-map.js';
 import {when} from 'lit/directives/when.js';
 import {keyed} from 'lit/directives/keyed.js';
@@ -285,6 +286,18 @@ export class GrDiffView extends LitElement {
   cursor?: GrDiffCursor;
 
   private readonly shortcutsController = new ShortcutController(this);
+
+  private stickyHeaderEl?: HTMLElement;
+
+  private headerResizeObserver = new ResizeObserver(entries => {
+    for (const entry of entries) {
+      const height = entry.borderBoxSize[0].blockSize;
+      document.documentElement.style.setProperty(
+        '--diff-header-height',
+        `${height}px`
+      );
+    }
+  });
 
   constructor() {
     super();
@@ -752,6 +765,9 @@ export class GrDiffView extends LitElement {
 
   override connectedCallback() {
     super.connectedCallback();
+    if (this.stickyHeaderEl) {
+      this.headerResizeObserver.observe(this.stickyHeaderEl);
+    }
     this.throttledToggleFileReviewed = throttleWrap(_ =>
       this.handleToggleFileReviewed()
     );
@@ -775,6 +791,8 @@ export class GrDiffView extends LitElement {
 
   override disconnectedCallback() {
     this.cursor?.dispose();
+    this.headerResizeObserver.disconnect();
+    document.documentElement.style.setProperty('--diff-header-height', '0px');
     super.disconnectedCallback();
   }
 
@@ -905,9 +923,15 @@ export class GrDiffView extends LitElement {
     `;
   }
 
+  private onStickyHeaderCreated(el?: Element) {
+    this.stickyHeaderEl = el as HTMLElement | undefined;
+    if (el) this.headerResizeObserver.observe(el);
+  }
+
   private renderStickyHeader() {
     return html` <div
       class="stickyHeader ${this.patchNum === EDIT ? 'editMode' : ''}"
+      ${ref(this.onStickyHeaderCreated)}
     >
       <h1 class="assistive-tech-only">
         Diff of ${this.path ? computeTruncatedPath(this.path) : ''}

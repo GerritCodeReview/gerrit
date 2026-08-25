@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "38864ad6_8cf8a557",
+        "filename": "java/com/google/gerrit/server/account/GroupCacheImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-08-25T20:20:12Z",
+      "side": 1,
+      "message": "This is nice fix",
+      "range": {
+        "startLine": 253,
+        "startChar": 6,
+        "endLine": 255,
+        "endChar": 5
+      },
+      "revId": "05a1f006da4c08ac0a3ba11e56b5bdc0277e98b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ffd1b9ea_5fa80450",
+        "filename": "java/com/google/gerrit/server/query/group/InternalGroupQuery.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-08-25T20:20:12Z",
+      "side": 1,
+      "message": "If `indexConfig.maxTerms()` is configured to 1 (the minimum allowed by `IndexConfig` validation), `batchSize` will be 0. This will cause `Iterables.partition(..., 0)` to throw an `IllegalArgumentException`.\n\nConsider using `Math.max(1, indexConfig.maxTerms() - 1)` to prevent this edge case.",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 0
+      },
+      "revId": "05a1f006da4c08ac0a3ba11e56b5bdc0277e98b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eaaae38b_b2d2460d",
+        "filename": "java/com/google/gerrit/server/query/group/InternalGroupQuery.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-08-25T20:20:12Z",
+      "side": 1,
+      "message": "If `indexConfig.maxTerms()` is 1, `batchSize` will evaluate to 0 and `Iterables.partition` will throw an `IllegalArgumentException`. \n\nConsider using `Math.max(1, indexConfig.maxTerms() - 1)` here as well.",
+      "range": {
+        "startLine": 106,
+        "startChar": 0,
+        "endLine": 106,
+        "endChar": 0
+      },
+      "revId": "05a1f006da4c08ac0a3ba11e56b5bdc0277e98b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e3692f2_bfd7766c",
+        "filename": "java/com/google/gerrit/server/query/group/InternalGroupQuery.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-08-25T20:20:12Z",
+      "side": 1,
+      "message": "If `indexConfig.maxTerms()` is 1, `batchSize` will evaluate to 0 and `Iterables.partition` will throw an `IllegalArgumentException`. \n\nConsider using `Math.max(1, indexConfig.maxTerms() - 1)` here as well.",
+      "range": {
+        "startLine": 141,
+        "startChar": 0,
+        "endLine": 141,
+        "endChar": 0
+      },
+      "revId": "05a1f006da4c08ac0a3ba11e56b5bdc0277e98b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac0d6714_083f33b9",
+        "filename": "java/com/google/gerrit/server/query/group/InternalGroupQuery.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-08-25T20:20:12Z",
+      "side": 1,
+      "message": "If `indexConfig.maxTerms()` is 1, `batchSize` will evaluate to 0 and `Iterables.partition` will throw an `IllegalArgumentException`. \n\nConsider using `Math.max(1, indexConfig.maxTerms() - 1)` here as well.",
+      "range": {
+        "startLine": 177,
+        "startChar": 0,
+        "endLine": 177,
+        "endChar": 0
+      },
+      "revId": "05a1f006da4c08ac0a3ba11e56b5bdc0277e98b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

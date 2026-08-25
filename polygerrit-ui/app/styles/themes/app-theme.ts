@@ -436,6 +436,15 @@ const appThemeCss = safeStyleSheet`
     /* This is just an initial value. Will be updated by a ResizeObserver. */
     --main-header-height: 48px;
     --main-footer-height: 36px;
+    --change-header-height: 0px;
+    --diff-header-height: 0px;
+
+    /* Defines top optimal viewing region for PageDown/PageUp keyboard paging & anchor jumps */
+    scroll-padding-top: calc(
+      var(--main-header-height) +
+      var(--change-header-height) +
+      var(--diff-header-height)
+    );
 
     /* diff colors */
     --dark-add-highlight-color: #aaf2aa;

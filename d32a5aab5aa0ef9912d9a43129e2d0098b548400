@@ -108,6 +108,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "b41ee8b4_9b9562c6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-08-25T16:02:56Z",
+      "side": 1,
+      "message": "\u003e\u003e So ... would you be comfortable applying this same burden of proof to every existing feature? If something doesn\u0027t seem to be \"a core part of the product\", then we remove it? I\u0027m not trying to be combative. I am genuinely concerned about what this approach to features would mean for the project.\n\n\u003e Yes this should be how the product is built!\n\n@samccone@google.com So are you suggesting that we only keep the core features? What\u0027s core and what\u0027s not? Who defines that?\nShall we remove the whole dashboard and only leave change screens?\nIs being able to edit commits or files in the UI core or shall we remove it?\n\nGerrit has been build and expanded for enterprise use over 15 years, we\u0027re all happy to re-discuss each and every part of the product but saying that we should just remove everything that isn\u0027t core seems a bit like pushing it?\n\nAt the very least it should be configurable if we want to enable a feature or not.",
+      "parentUuid": "9cecec58_0b119103",
+      "revId": "d32a5aab5aa0ef9912d9a43129e2d0098b548400",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "5cae358f_b103534d",

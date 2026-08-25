@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ea2534c_9483eef5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-25T17:13:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c5fa08e_2f4c5ef0",
+      "revId": "7f9c6b354d3aa9808a3d736e3ef90cd2f39f12d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "281c3396_06fc6e51",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-08-19T19:59:07Z",
       "side": 1,
       "message": "Missing javadoc",
+      "revId": "7f9c6b354d3aa9808a3d736e3ef90cd2f39f12d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0dd0691_4d87ae0e",
+        "filename": "java/com/google/gerrit/server/query/change/ChangePredicates.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-25T17:13:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "281c3396_06fc6e51",
       "revId": "7f9c6b354d3aa9808a3d736e3ef90cd2f39f12d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

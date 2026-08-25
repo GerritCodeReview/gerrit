@@ -16,11 +16,54 @@ package com.google.gerrit.sshd;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.gerrit.testing.SystemPropertiesTestRule;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
+import java.util.Map;
+import java.util.Optional;
+import java.util.OptionalInt;
+import org.eclipse.jgit.lib.Config;
+import org.junit.Rule;
 import org.junit.Test;
 
 public class SshDaemonTest {
+  private static final String NIO_WORKERS_SYSPROP = "org.apache.sshd.config.nio-workers";
+
+  @Rule
+  public final SystemPropertiesTestRule systemProperties =
+      new SystemPropertiesTestRule(Map.of(NIO_WORKERS_SYSPROP, Optional.empty()));
+
+  @Test
+  public void configuredNioWorkersTakePrecedenceOverSystemProperty() {
+    Config cfg = new Config();
+    cfg.setInt("sshd", null, "nioWorkers", 3);
+    System.setProperty(NIO_WORKERS_SYSPROP, "11");
+
+    assertThat(SshDaemon.resolveNioWorkers(cfg, 16, 32)).hasValue(3);
+  }
+
+  @Test
+  public void systemPropertyNioWorkersAreLeftForSshdToResolve() {
+    System.setProperty(NIO_WORKERS_SYSPROP, "11");
+
+    assertThat(SshDaemon.resolveNioWorkers(new Config(), 16, 32)).isEmpty();
+  }
+
+  @Test
+  public void defaultNioWorkersUseSshdThreads() {
+    OptionalInt nioWorkers = SshDaemon.resolveNioWorkers(new Config(), 16, 32);
+
+    assertThat(nioWorkers).hasValue(8);
+  }
+
+  @Test
+  public void nonPositiveConfiguredNioWorkersAreIgnored() {
+    Config cfg = new Config();
+    cfg.setInt("sshd", null, "nioWorkers", 0);
+
+    assertThat(SshDaemon.resolveNioWorkers(cfg, 16, 32)).hasValue(8);
+  }
+
   @Test
   public void updateRemoteAddressUsesNewAddress() {
     SocketAddress socketAddress = new InetSocketAddress("198.51.100.1", 22);

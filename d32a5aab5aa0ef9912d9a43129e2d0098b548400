@@ -72,6 +72,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "05621cef_9766b53a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-25T15:41:39Z",
+      "side": 1,
+      "message": "\u003e \"Abandoned is one of the 3 primary change states\" - there are many other states like WIP, Closed, etc that are not here.\n\nClosed is just the union of Merged and Abandoned, not a state itself. WIP and Private (the only other \"state\" that I know of) are both \"state modifiers\", more than states themselves.\n\nYou can check [the code](https://gerrit.googlesource.com/gerrit/+/master/java/com/google/gerrit/extensions/client/ChangeStatus.java) if you don\u0027t believe me 😊\n\n\u003e \n\u003e From a product perspective the argument of something always having been as justification for continued existence is not super compelling. \n\nAs the sole justification, yes, I think we\u0027re agreed on that.\n\n\u003e \n\u003e That said if you feel like this is a core part of the product that is allowing it to best serve customers and excel in the market. I will happily approve the revert.\n\u003e \n\u003e This burden of proof is non-evident to me as such I removed it\n\nSo ... would you be comfortable applying this same burden of proof to every existing feature? If something doesn\u0027t seem to be \"a core part of the product\", then we remove it? I\u0027m not trying to be combative. I am genuinely concerned about what this approach to features would mean for the project.\n\nI\u0027m really still hoping you can explain what your initial motivation was for removing this in the first place. How did it even land on your radar? Was someone confused by it? It seems unlikely you just did it on a whim, so if there\u0027s a real underlying problem we need to solve, I\u0027d like to solve that.",
+      "parentUuid": "e819b390_9e051fe6",
+      "revId": "d32a5aab5aa0ef9912d9a43129e2d0098b548400",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "5cae358f_b103534d",

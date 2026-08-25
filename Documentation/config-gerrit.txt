@@ -6520,6 +6520,18 @@ threads).
 When SSH daemon is enabled then this setting also defines the max number of
 concurrent Git requests for interactive users over SSH and HTTP together.
 
+[[sshd.nioWorkers]]sshd.nioWorkers::
++
+Number of threads to use for I/O completion callbacks when the SSH daemon
+uses the NIO2 backend. These callbacks decode packets and update session
+state before handing work off to the SSH command thread pools.
++
+By default, `min(availableProcessors() + 1, max(4, sshd.threads / 4))`.
++
+When `sshd.nioWorkers` is not set, the
+`org.apache.sshd.config.nio-workers` JVM system property is honored. If
+neither setting is configured, the default above is applied.
+
 [[sshd.batchThreads]]sshd.batchThreads::
 +
 Number of threads to allocate for SSH command requests from

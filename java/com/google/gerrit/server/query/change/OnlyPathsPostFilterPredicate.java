@@ -24,8 +24,8 @@ import com.google.gerrit.index.query.PostFilterPredicate;
  * Post-filter that passes only when the change's set of real (non-magic) files is exactly the
  * expected list (sorted, deduplicated).
  *
- * <p>Magic files ({@code /COMMIT_MSG}, {@code /MERGE_LIST}, {@code /PATCHSET_LEVEL}) are excluded
- * from matching so that callers never need to mention them in queries.
+ * <p>Used as a fallback when the {@code filecount:} index field is not available in the current
+ * schema version.
  */
 class OnlyPathsPostFilterPredicate extends PostFilterPredicate<ChangeData> {
   private final ImmutableSet<String> expectedFiles;

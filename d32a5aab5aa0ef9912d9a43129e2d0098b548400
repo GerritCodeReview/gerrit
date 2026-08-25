@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6d3a52a_771cd63c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-25T03:37:49Z",
+      "side": 1,
+      "message": "Marked as unresolved. @samccone@google.com I\u0027m not sure what history you checked, but there are some of us that have been involved in the project long enough to know the history 😊\n\nAbandoned is one of the 3 primary change states, along with Open and Merged. As Paladox mentioned, removing it from the menu will (needlessly?) make it harder to find abandoned changes.\n\nI think we need more of a justification for removal than \"no one told me it should be there\". Are you trying to use the Changes menu for something else and the Abandoned item is preventing that? I\u0027m really not seeing the motivation for this change. As it is, it feels disruptive for existing users.",
+      "parentUuid": "a7e84115_b740ef27",
+      "revId": "d32a5aab5aa0ef9912d9a43129e2d0098b548400",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "5cae358f_b103534d",

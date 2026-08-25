@@ -3673,10 +3673,26 @@ and `false` if httpd.listenUrl uses proxy-http:// or proxy-https://.
 
 [[httpd.acceptorThreads]]httpd.acceptorThreads::
 +
-Number of worker threads dedicated to accepting new incoming TCP
-connections and allocating them connection-specific resources.
+Number of threads dedicated to accepting new incoming TCP connections
+and allocating them connection-specific resources.
+<<httpd.selectorThreads,Selector threads>> handle I/O on accepted
+connections separately.
 +
 By default, 2, which should be suitable for most high-traffic sites.
+
+[[httpd.selectorThreads]]httpd.selectorThreads::
++
+Number of NIO selector threads used to dispatch I/O events for existing
+connections. Each selector thread runs a `java.nio.channels.Selector`
+loop and is shared across all open connections.
++
+By default, 0, which instructs Jetty to derive the count from the
+available processors: `max(1, processors/2)`. Increase this on
+machines with many CPUs and high HTTP concurrency if selector threads
+appear as a bottleneck. Sites that previously tuned
+<<httpd.acceptorThreads,`httpd.acceptorThreads`>> to control overall
+network I/O concurrency should consider setting this value explicitly
+after upgrading.
 
 [[httpd.minThreads]]httpd.minThreads::
 +

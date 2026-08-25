@@ -90,6 +90,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "9cecec58_0b119103",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2026-08-25T15:56:00Z",
+      "side": 1,
+      "message": "\u003e So ... would you be comfortable applying this same burden of proof to every existing feature? If something doesn\u0027t seem to be \"a core part of the product\", then we remove it? I\u0027m not trying to be combative. I am genuinely concerned about what this approach to features would mean for the project.\n\nYes this should be how the product is built!\n\n\u003e  It seems unlikely you just did it on a whim\n\nThe entire top bar of gerrit is very confusing - this was a step in making the product better incrementally.",
+      "parentUuid": "05621cef_9766b53a",
+      "revId": "d32a5aab5aa0ef9912d9a43129e2d0098b548400",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "5cae358f_b103534d",

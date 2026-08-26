@@ -464,6 +464,8 @@ export class GrChangeView extends LitElement {
 
   private readonly getNavigation = resolve(this, navigationToken);
 
+  private headerEl?: HTMLElement;
+
   private headerResizeObserver = new ResizeObserver(entries => {
     for (const entry of entries) {
       const height = entry.borderBoxSize[0].blockSize;
@@ -775,6 +777,10 @@ export class GrChangeView extends LitElement {
     this.firstConnectedCallback();
     this.connected$.next(true);
 
+    if (this.headerEl) {
+      this.headerResizeObserver.observe(this.headerEl);
+    }
+
     // Make sure to reverse everything below this line in disconnectedCallback().
     // Or consider using either firstConnectedCallback() or constructor().
     document.addEventListener('visibilitychange', this.handleVisibilityChange);
@@ -833,6 +839,8 @@ export class GrChangeView extends LitElement {
       this.cancelUpdateCheckTimer();
     }
     this.connected$.next(false);
+    this.headerResizeObserver.disconnect();
+    document.documentElement.style.setProperty('--change-header-height', '0px');
     super.disconnectedCallback();
   }
 
@@ -1233,6 +1241,7 @@ export class GrChangeView extends LitElement {
   }
 
   private onHeaderCreated(el?: Element) {
+    this.headerEl = el as HTMLElement | undefined;
     if (el) this.headerResizeObserver.observe(el);
   }
 

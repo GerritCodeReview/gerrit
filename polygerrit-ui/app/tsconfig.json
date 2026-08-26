@@ -57,6 +57,11 @@
       "../node_modules/@types"
     ],
 
+    /* Under typescript 6 this defaults to [] breaking VS Code */
+    "types": [
+      "*"
+    ],
+
     "plugins": [
       {
         "name": "ts-lit-plugin",

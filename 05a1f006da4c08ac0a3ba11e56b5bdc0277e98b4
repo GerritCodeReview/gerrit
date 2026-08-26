@@ -26,6 +26,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "435042e5_1d551c12",
+        "filename": "java/com/google/gerrit/server/query/group/InternalGroupQuery.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-26T18:49:13Z",
+      "side": 1,
+      "message": "What calls this?",
+      "revId": "05a1f006da4c08ac0a3ba11e56b5bdc0277e98b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ffd1b9ea_5fa80450",
         "filename": "java/com/google/gerrit/server/query/group/InternalGroupQuery.java",
         "patchSetId": 3

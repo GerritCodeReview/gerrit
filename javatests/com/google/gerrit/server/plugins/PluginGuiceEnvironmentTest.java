@@ -23,14 +23,27 @@ import static org.mockito.Mockito.when;
 import com.google.gerrit.extensions.systemstatus.ServerInformation;
 import com.google.gerrit.metrics.DisabledMetricMaker;
 import com.google.gerrit.metrics.MetricMaker;
+import com.google.gerrit.server.GerritPersonIdentProvider;
+import com.google.gerrit.server.config.GerritIsReplicaProvider;
+import com.google.gerrit.server.config.GerritOptions;
+import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.config.TrackingFooters;
+import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.securestore.SecureStore;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.google.inject.Module;
 import com.google.inject.internal.UniqueAnnotations;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.util.Collections;
+import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.verification.VerificationMode;
 
@@ -38,14 +51,31 @@ import org.mockito.verification.VerificationMode;
 public class PluginGuiceEnvironmentTest {
   private static final MetricMaker DISABLED_METRIC_MAKER = new DisabledMetricMaker();
   private static final Injector EMPTY_INJECTOR = Guice.createInjector();
+  private static final CopyConfigModule COPY_CONFIG_MODULE = newCopyConfigModule();
   private static final String TEST_PLUGIN_NAME = "testPlugin";
   private static final String TEST_PLUGIN_LISTENER_NAME = "testPluginListener";
+
+  private static CopyConfigModule newCopyConfigModule() {
+    try {
+      Config cfg = new Config();
+      return new CopyConfigModule(
+          Path.of("/"),
+          new SitePaths(Path.of("/")),
+          new TrackingFooters(Collections.emptyList()),
+          cfg,
+          Mockito.mock(GitRepositoryManager.class),
+          "Anonymous Coward",
+          new GerritPersonIdentProvider(cfg),
+          Mockito.mock(SecureStore.class),
+          new GerritIsReplicaProvider(cfg, GerritOptions.DEFAULT));
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
 
   @Mock private ThreadLocalRequestContext requestContextMock;
 
   @Mock private ServerInformation srvInfoMock;
-
-  @Mock private CopyConfigModule copyConfigModuleMock;
 
   @Mock private StartPluginListener startPluginListenerMock;
 
@@ -68,7 +98,7 @@ public class PluginGuiceEnvironmentTest {
   @Mock private Plugin pluginWithListenersReloadedMock;
 
   @Test
-  public void shouldAddStartStopReloadListener_GuiceEnvironmentIsCreated() {
+  public void shouldAddStartStopReloadListener_guiceEnvironmentIsCreated() {
     mockPlugin(pluginMock, TEST_PLUGIN_NAME, EMPTY_INJECTOR);
     mockPlugin(reloadedPluginMock, TEST_PLUGIN_NAME, EMPTY_INJECTOR);
     PluginGuiceEnvironment env =
@@ -171,7 +201,7 @@ public class PluginGuiceEnvironmentTest {
 
   private PluginGuiceEnvironment newPluginGuiceEnvironment(Injector injector) {
     return new PluginGuiceEnvironment(
-        injector, requestContextMock, srvInfoMock, copyConfigModuleMock, DISABLED_METRIC_MAKER);
+        injector, requestContextMock, srvInfoMock, COPY_CONFIG_MODULE, DISABLED_METRIC_MAKER);
   }
 
   private Injector newInjectorWithStartStopReloadListeners() {
@@ -189,7 +219,7 @@ public class PluginGuiceEnvironmentTest {
         newModuleWithListener(ReloadPluginListener.class, reloadListener));
   }
 
-  private <T> AbstractModule newModuleWithListener(Class<T> listenerClass, T listener) {
+  private <T> Module newModuleWithListener(Class<T> listenerClass, T listener) {
     return new AbstractModule() {
       @Override
       protected void configure() {

@@ -5,6 +5,7 @@
  */
 import {html, LitElement, nothing, PropertyValues} from 'lit';
 import {property, state} from 'lit/decorators.js';
+import {classMap} from 'lit/directives/class-map.js';
 import {ifDefined} from 'lit/directives/if-defined.js';
 import {createRef, Ref, ref} from 'lit/directives/ref.js';
 import {
@@ -38,7 +39,9 @@ import {when} from 'lit/directives/when.js';
 import {isDefined} from '../../../types/types';
 import {BehaviorSubject, combineLatest} from 'rxjs';
 import '../../../elements/shared/gr-hovercard/gr-hovercard';
+import '../../../elements/shared/gr-icon/gr-icon';
 import {GrDiffLine} from '../gr-diff/gr-diff-line';
+import {GrDiffGroup} from '../gr-diff/gr-diff-group';
 import {distinctUntilChanged, map} from 'rxjs/operators';
 import {deepEqual} from '../../../utils/deep-util';
 import {subscribe} from '../../../elements/lit/subscription-controller';
@@ -87,6 +90,12 @@ export class GrDiffRow extends LitElement {
 
   @property({type: Object})
   layers: DiffLayer[] = [];
+
+  @property({type: Object})
+  group?: GrDiffGroup;
+
+  @property({type: Boolean})
+  showRevertButton = false;
 
   /**
    * Semantic DOM diff testing does not work with just table fragments, so when
@@ -446,7 +455,7 @@ export class GrDiffRow extends LitElement {
           if (lineNumber)
             fire(this, 'line-mouse-leave', {lineNum: lineNumber, side});
         }}
-      >${this.renderText(side)}${this.renderLostMessage(side)}${this.renderThreadGroup(side)}</td>
+      >${this.renderText(side)}${this.renderLostMessage(side)}${this.renderThreadGroup(side)}${this.renderRevertButton(side)}</td>
     `;
   }
 
@@ -597,6 +606,46 @@ export class GrDiffRow extends LitElement {
       ? html`<slot name="post-${side}-line-${lineNumber}"></slot>`
       : nothing;
   }
+
+  @state()
+  private isReverting = false;
+
+  private renderRevertButton(side: Side) {
+    if (!this.showRevertButton) return nothing;
+    if (!this.unifiedDiff && side !== Side.LEFT) return nothing;
+    return html`
+      <div class="revert-container">
+        <button
+          class=${classMap({
+            'revert-btn': true,
+            loading: this.isReverting,
+          })}
+          type="button"
+          ?disabled=${this.isReverting}
+          title=${this.isReverting ? 'Reverting...' : 'Revert this change'}
+          aria-label=${this.isReverting ? 'Reverting...' : 'Revert this change'}
+          @click=${this.handleRevertClick}
+        >
+          ${this.isReverting
+            ? html`<span class="loadingSpin"></span>`
+            : html`<gr-icon icon="arrow_forward"></gr-icon>`}
+        </button>
+      </div>
+    `;
+  }
+
+  private handleRevertClick(e: MouseEvent) {
+    e.stopPropagation();
+    e.preventDefault();
+    if (!this.group || this.isReverting) return;
+    this.isReverting = true;
+    fire(this, 'revert-delta', {
+      group: this.group,
+      onComplete: () => {
+        this.isReverting = false;
+      },
+    });
+  }
 }
 
 customElements.define('gr-diff-row', GrDiffRow);
@@ -604,5 +653,11 @@ customElements.define('gr-diff-row', GrDiffRow);
 declare global {
   interface HTMLElementTagNameMap {
     'gr-diff-row': GrDiffRow;
+  }
+  interface HTMLElementEventMap {
+    'revert-delta': CustomEvent<{
+      group: GrDiffGroup;
+      onComplete?: () => void;
+    }>;
   }
 }

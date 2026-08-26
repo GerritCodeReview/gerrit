@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7173914_36acf6ce",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3693,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-08-26T04:35:12Z",
+      "side": 1,
+      "message": "I\u0027m not sure we should mention the old behavior in here, but if we do, I think we need to qualify what \u0027previously\u0027 means.",
+      "revId": "0ff76c97116272e4185347b56c6462adc3f02cab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

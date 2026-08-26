@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "903e80d0_d84c50d4",
+        "filename": "java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-26T19:55:12Z",
+      "side": 1,
+      "message": "This is probably easier to read as a simple loop now\n```suggestion\n    for (PluginSetEntryContext\u003cLabelType\u003e e : globalLabelTypes) {\n      LabelType t \u003d e.get();\n      if (!t.getValues().isEmpty()) {\n        types.put(t.getName().toLowerCase(Locale.US), t);\n      }\n    }\n```",
+      "range": {
+        "startLine": 425,
+        "startChar": 0,
+        "endLine": 431,
+        "endChar": 11
+      },
+      "revId": "4f59943dc28e2e928bdc4ef60b35dc9b4bf328d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

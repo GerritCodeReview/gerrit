@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a537fe50_1d141cdd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-26T18:59:01Z",
+      "side": 1,
+      "message": "Using the index maxTerms should be fine. Thanks for checking.",
+      "parentUuid": "8d704b97_e0277021",
+      "revId": "58d9775556cd533d4f6a1475fb8201a67c657eae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f3776254_dc4476d7",

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "302cb755_a0398254",
+        "filename": "java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-26T18:40:38Z",
+      "side": 1,
+      "message": "Can you do this filtering upfront when adding entries to `types`?",
+      "revId": "9b6e6c8291fe5835c9648677cd9ec0dc81e2e4ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e63b1646_a410529a",
+        "filename": "java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-26T18:40:38Z",
+      "side": 1,
+      "message": "Why not change the constructor to take `Map\u003cString, LabelType\u003e types` directly?",
+      "revId": "9b6e6c8291fe5835c9648677cd9ec0dc81e2e4ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

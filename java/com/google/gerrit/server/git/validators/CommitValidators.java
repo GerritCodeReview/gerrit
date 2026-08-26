@@ -33,6 +33,7 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.NotifyConfig;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.ConsistencyProblemInfo;
@@ -67,6 +68,7 @@ import com.google.gerrit.server.project.AccessSectionRegexValidator;
 import com.google.gerrit.server.project.LabelConfigValidator;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
+import com.google.gerrit.server.project.ProjectNotifyFilterValidator;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.approval.ApprovalQueryBuilder;
 import com.google.gerrit.server.ssh.HostKey;
@@ -120,6 +122,7 @@ public class CommitValidators {
     private final ProjectCache projectCache;
     private final ProjectConfig.Factory projectConfigFactory;
     private final AccessSectionRegexValidator accessSectionRegexValidator;
+    private final ProjectNotifyFilterValidator projectNotifyFilterValidator;
     private final Config config;
     private final ChangeUtil changeUtil;
     private final MetricMaker metricMaker;
@@ -140,6 +143,7 @@ public class CommitValidators {
         ProjectCache projectCache,
         ProjectConfig.Factory projectConfigFactory,
         AccessSectionRegexValidator accessSectionRegexValidator,
+        ProjectNotifyFilterValidator projectNotifyFilterValidator,
         ChangeUtil changeUtil,
         MetricMaker metricMaker,
         ApprovalQueryBuilder approvalQueryBuilder) {
@@ -156,6 +160,7 @@ public class CommitValidators {
       this.projectCache = projectCache;
       this.projectConfigFactory = projectConfigFactory;
       this.accessSectionRegexValidator = accessSectionRegexValidator;
+      this.projectNotifyFilterValidator = projectNotifyFilterValidator;
       this.changeUtil = changeUtil;
       this.metricMaker = metricMaker;
       this.approvalQueryBuilder = approvalQueryBuilder;
@@ -189,6 +194,7 @@ public class CommitValidators {
               new ConfigValidator(
                   projectConfigFactory,
                   accessSectionRegexValidator,
+                  projectNotifyFilterValidator,
                   branch,
                   user,
                   rw,
@@ -228,6 +234,7 @@ public class CommitValidators {
               new ConfigValidator(
                   projectConfigFactory,
                   accessSectionRegexValidator,
+                  projectNotifyFilterValidator,
                   branch,
                   user,
                   rw,
@@ -557,6 +564,7 @@ public class CommitValidators {
   public static class ConfigValidator implements CommitValidationListener {
     private final ProjectConfig.Factory projectConfigFactory;
     private final AccessSectionRegexValidator accessSectionRegexValidator;
+    private final ProjectNotifyFilterValidator projectNotifyFilterValidator;
     private final BranchNameKey branch;
     private final IdentifiedUser user;
     private final RevWalk rw;
@@ -566,6 +574,7 @@ public class CommitValidators {
     public ConfigValidator(
         ProjectConfig.Factory projectConfigFactory,
         AccessSectionRegexValidator accessSectionRegexValidator,
+        ProjectNotifyFilterValidator projectNotifyFilterValidator,
         BranchNameKey branch,
         IdentifiedUser user,
         RevWalk rw,
@@ -573,6 +582,7 @@ public class CommitValidators {
         AllProjectsName allProjects) {
       this.projectConfigFactory = projectConfigFactory;
       this.accessSectionRegexValidator = accessSectionRegexValidator;
+      this.projectNotifyFilterValidator = projectNotifyFilterValidator;
       this.branch = branch;
       this.user = user;
       this.rw = rw;
@@ -608,6 +618,18 @@ public class CommitValidators {
             }
             accessSectionRegexValidator.validateNewRegexes(
                 previousAccessSections, cfg.getAccessSections());
+          }
+
+          if (!projectNotifyFilterValidator.isAllowed()) {
+            Collection<NotifyConfig> previousNotifyConfigs = Collections.emptyList();
+            if (receiveEvent.commit.getParentCount() > 0) {
+              ProjectConfig previousConfig =
+                  projectConfigFactory.create(receiveEvent.project.getNameKey());
+              previousConfig.load(rw, receiveEvent.commit.getParent(0));
+              previousNotifyConfigs = previousConfig.getNotifyConfigs();
+            }
+            projectNotifyFilterValidator.validateNewOrChangedFilters(
+                previousNotifyConfigs, cfg.getNotifyConfigs());
           }
 
           if (allUsers.equals(receiveEvent.project.getNameKey())

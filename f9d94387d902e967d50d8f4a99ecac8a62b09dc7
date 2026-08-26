@@ -16,6 +16,41 @@
       "message": "This code is AI generated but it was verified by new unit tests and all integretion tests pass. Goal is to decrease complexity by removing old java code to newer simpler java code. For me newer code is more readable than old code that we replace here.",
       "revId": "f9d94387d902e967d50d8f4a99ecac8a62b09dc7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d650351e_d20da7c5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-26T17:59:02Z",
+      "side": 1,
+      "message": "It looks better overall. Added one suggestion that I think will help show the value of the refactor for callers.",
+      "parentUuid": "fe2edfc3_451391f1",
+      "revId": "f9d94387d902e967d50d8f4a99ecac8a62b09dc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e2745e9_e653103e",
+        "filename": "java/com/google/gerrit/entities/LabelTypes.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-26T17:59:02Z",
+      "side": 1,
+      "message": "It looks like `getLabelTypes()` in `ProjectState` is building this same map and then only passing the values to the constructor here. Can you look at if the two `getLabelTypes` methods in that class could be optimized with this up-front population of fields?",
+      "revId": "f9d94387d902e967d50d8f4a99ecac8a62b09dc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

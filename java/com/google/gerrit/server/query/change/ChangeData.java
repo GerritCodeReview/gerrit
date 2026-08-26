@@ -442,6 +442,8 @@ public class ChangeData {
       Maps.newLinkedHashMapWithExpectedSize(1);
 
   private Map<SubmitRequirement, SubmitRequirementResult> submitRequirements;
+  private ImmutableMap<SubmitRequirement, SubmitRequirementResult>
+      submitRequirementsIncludingLegacy;
   private Integer unsatisfiedRequirementCount;
 
   private StorageConstraint storageConstraint = StorageConstraint.NOTEDB_ONLY;
@@ -876,6 +878,7 @@ public class ChangeData {
     publishedComments = null;
     usersWithDrafts = null;
     submitRequirements = null;
+    submitRequirementsIncludingLegacy = null;
     submitRecords.clear();
     submitTypeRecord = null;
     mergeable = null;
@@ -1344,11 +1347,15 @@ public class ChangeData {
    * from the evaluation of legacy submit rules to submit requirements.
    */
   public Map<SubmitRequirement, SubmitRequirementResult> submitRequirementsIncludingLegacy() {
-    Map<SubmitRequirement, SubmitRequirementResult> projectConfigReqs = submitRequirements();
-    ImmutableMap<SubmitRequirement, SubmitRequirementResult> legacyReqs =
-        SubmitRequirementsAdapter.getLegacyRequirements(this);
-    return submitRequirementsUtil.mergeLegacyAndNonLegacyRequirements(
-        projectConfigReqs, legacyReqs, this);
+    if (submitRequirementsIncludingLegacy == null) {
+      Map<SubmitRequirement, SubmitRequirementResult> projectConfigReqs = submitRequirements();
+      ImmutableMap<SubmitRequirement, SubmitRequirementResult> legacyReqs =
+          SubmitRequirementsAdapter.getLegacyRequirements(this);
+      submitRequirementsIncludingLegacy =
+          submitRequirementsUtil.mergeLegacyAndNonLegacyRequirements(
+              projectConfigReqs, legacyReqs, this);
+    }
+    return submitRequirementsIncludingLegacy;
   }
 
   public Integer unsatisfiedRequirementCount() {
@@ -1402,6 +1409,7 @@ public class ChangeData {
   public void setSubmitRequirements(
       Map<SubmitRequirement, SubmitRequirementResult> submitRequirements) {
     this.submitRequirements = submitRequirements;
+    this.submitRequirementsIncludingLegacy = null;
   }
 
   @Nullable

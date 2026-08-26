@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "257e180e_04aecec1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-26T20:44:52Z",
+      "side": 1,
+      "message": "Add config docs",
+      "revId": "672b6efe2170f29eba8c04bfe43ec4908de4702a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

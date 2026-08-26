@@ -26,6 +26,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "eed84c55_9bf52b73",
+        "filename": "polygerrit-ui/app/api/rest-api.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 961,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2026-08-26T07:15:48Z",
+      "side": 1,
+      "message": "I would rather not. The cast is required either way: with the union, `export const AUTO_MERGE: ParentPatchSet \u003d \u0027AUTO_MERGE\u0027;` still fails with `Type \u0027\"AUTO_MERGE\"\u0027 is not assignable to type \u0027ParentPatchSet\u0027`, because a plain literal does not satisfy the brand. So the union does not remove anything, it only widens a type that is part of the plugin API to claim that the REST API accepts `AUTO_MERGE`, which it never does: it is normalized to `PARENT` in `computeBase()` before any request is made. I can move the constant out of `api/rest-api.ts` into `types/common.ts` if you prefer to keep it away from the plugin API entirely.",
+      "parentUuid": "408f1719_55a0fdeb",
+      "revId": "6930855cd7ddaf253451b0ea52442024ebb6dd03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b9f16483_2698b191",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
         "patchSetId": 3
@@ -83,6 +101,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac34cdc2_e7ab3193",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 976,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2026-08-26T07:15:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8ac7a4d_ad232d5d",
+      "revId": "6930855cd7ddaf253451b0ea52442024ebb6dd03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "334a4e6c_92b91008",
@@ -120,6 +156,24 @@
           ]
         }
       ],
+      "revId": "6930855cd7ddaf253451b0ea52442024ebb6dd03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "591243ef_64d4df4b",
+        "filename": "polygerrit-ui/app/utils/patch-set-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2026-08-26T07:15:48Z",
+      "side": 1,
+      "message": "I tried it, and TypeScript does not narrow here:\n\n```\nerror TS2322: Type \u0027PatchSetNum | undefined\u0027 is not assignable to type \u0027BasePatchSetNum | undefined\u0027.\n  Type \u0027EditPatchSet\u0027 is not assignable to type \u0027ParentPatchSet\u0027.\n```\n\n`EditPatchSet` is `\u0027edit\u0027 \u0026 {_patchSet: never}`, not a unit type, so `ps \u003d\u003d\u003d EDIT` does not discriminate the union and the cast is still needed. Keeping it as is.",
+      "parentUuid": "334a4e6c_92b91008",
       "revId": "6930855cd7ddaf253451b0ea52442024ebb6dd03",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

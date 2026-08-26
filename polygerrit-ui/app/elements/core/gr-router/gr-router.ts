@@ -9,11 +9,12 @@ import {getAppContext} from '../../../services/app-context';
 import {
   computeAllPatchSets,
   computeLatestPatchNum,
+  convertToBasePatchSetNum,
   convertToPatchSetNum,
 } from '../../../utils/patch-set-util';
 import {assert, assertIsDefined} from '../../../utils/common-util';
 import {
-  BasePatchSetNum,
+  AUTO_MERGE,
   BranchName,
   GroupId,
   NumericChangeId,
@@ -448,6 +449,9 @@ export class GrRouter implements Finalizable, NavigationService {
       params.basePatchNum = PARENT;
       return;
     }
+    // `0` is not a patchset, it encodes an explicitly chosen auto-merge base,
+    // so a lone `0` means "auto merge against the latest patchset".
+    if (params.basePatchNum === AUTO_MERGE) return;
     // Regexes set basePatchNum instead of patchNum when only one is
     // specified.
     if (params.patchNum === undefined) {
@@ -1380,7 +1384,7 @@ export class GrRouter implements Finalizable, NavigationService {
     const state: ChangeViewState = {
       repo: ctx.params[0] as RepoName,
       changeNum,
-      basePatchNum: convertToPatchSetNum(ctx.params[4]) as BasePatchSetNum,
+      basePatchNum: convertToBasePatchSetNum(ctx.params[4]),
       patchNum: convertToPatchSetNum(ctx.params[6]) as RevisionPatchSetNum,
       view: GerritView.CHANGE,
       childView: ChangeChildView.OVERVIEW,
@@ -1502,7 +1506,7 @@ export class GrRouter implements Finalizable, NavigationService {
     const state: ChangeViewState = {
       repo: ctx.params[0] as RepoName,
       changeNum,
-      basePatchNum: convertToPatchSetNum(ctx.params[4]) as BasePatchSetNum,
+      basePatchNum: convertToBasePatchSetNum(ctx.params[4]),
       patchNum: convertToPatchSetNum(ctx.params[6]) as RevisionPatchSetNum,
       view: GerritView.CHANGE,
       childView: ChangeChildView.DIFF,
@@ -1586,7 +1590,7 @@ export class GrRouter implements Finalizable, NavigationService {
     const state: ChangeViewState = {
       repo: project,
       changeNum,
-      basePatchNum: convertToPatchSetNum(ctx.params[4]) as BasePatchSetNum,
+      basePatchNum: convertToBasePatchSetNum(ctx.params[4]),
       patchNum: convertToPatchSetNum(ctx.params[6]) as RevisionPatchSetNum,
       view: GerritView.CHANGE,
       childView: ChangeChildView.OVERVIEW,

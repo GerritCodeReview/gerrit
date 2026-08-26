@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {
+  AUTO_MERGE,
   BasePatchSetNum,
   ChangeInfo,
   ChangeViewChangeInfo,
@@ -11,6 +12,7 @@ import {
   EDIT,
   EditInfo,
   FileInfo,
+  FIRST_PARENT,
   ListChangesOption,
   NumericChangeId,
   PARENT,
@@ -20,7 +22,11 @@ import {
   RevisionInfo,
   RevisionPatchSetNum,
 } from '../../types/common';
-import {ChangeStatus, DefaultBase} from '../../constants/constants';
+import {
+  ChangeStatus,
+  createDefaultPreferences,
+  DefaultBase,
+} from '../../constants/constants';
 import {
   BehaviorSubject,
   combineLatest,
@@ -77,6 +83,7 @@ import {ReportingService} from '../../services/gr-reporting/gr-reporting';
 import {Timing} from '../../constants/reporting';
 import {GrReviewerUpdatesParser} from '../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {throttleWrap} from '../../utils/async-util';
+import {RevisionInfo as RevisionInfoClass} from '../../elements/shared/revision-info/revision-info';
 
 const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
 
@@ -301,8 +308,10 @@ export function fillFromSubmittabilityInfo(
  * influence it. Mostly just returns `viewModelBasePatchNum` or PARENT, but has
  * some special logic when looking at merge commits.
  *
- * NOTE: At the moment this returns just `viewModelBasePatchNum ?? PARENT`, see
- * TODO below.
+ * `AUTO_MERGE` is normalized to `PARENT` here, so that it never escapes into
+ * the rest of the app. It only exists for distinguishing "the user has chosen
+ * the auto-merge base" from "the URL does not say anything about the base", so
+ * that only the latter is subject to the `default_base_for_merges` preference.
  */
 function computeBase(
   viewModelBasePatchNum: BasePatchSetNum | undefined,
@@ -310,7 +319,9 @@ function computeBase(
   change: ParsedChangeInfo | undefined,
   preferences: PreferencesInfo
 ): BasePatchSetNum {
-  if (viewModelBasePatchNum && viewModelBasePatchNum !== PARENT) {
+  // Must be checked before the truthiness check below.
+  if (viewModelBasePatchNum === AUTO_MERGE) return PARENT;
+  if (viewModelBasePatchNum) {
     return viewModelBasePatchNum;
   }
   if (!change || !patchNum) return PARENT;
@@ -319,19 +330,9 @@ function computeBase(
     preferences.default_base_for_merges === DefaultBase.FIRST_PARENT;
   if (!preferFirst) return PARENT;
 
-  // TODO: Re-enable respecting the default_base_for_merges preference.
-  // For the Polygerrit UI this was originally implemented in change 214432,
-  // but we are not sure whether this was ever 100% working correctly. A
-  // major challenge is being able to select PARENT explicitly even if your
-  // preference for the default choice is FIRST_PARENT. <gr-file-list-header>
-  // just uses `navigation.setUrl()` and the view model does not have any
-  // way of forcing the basePatchSetNum to stick to PARENT without being
-  // altered back to FIRST_PARENT here.
-  // See also corresponding TODO in gr-settings-view.
-  return PARENT;
-  // const revisionInfo = new RevisionInfo(change);
-  // const isMergeCommit = revisionInfo.isMergeCommit(patchNum);
-  // return isMergeCommit ? (-1 as PatchSetNumber) : PARENT;
+  const revisionInfo = new RevisionInfoClass(change);
+  const isMergeCommit = revisionInfo.isMergeCommit(patchNum);
+  return isMergeCommit ? FIRST_PARENT : PARENT;
 }
 
 // TODO: Figure out how to best enforce immutability of all states. Use Immer?
@@ -954,13 +955,44 @@ export class ChangeModel extends Model<ChangeState> {
     return this.getState().change;
   }
 
+  /**
+   * Whether leaving the base out of the URL would result in `PARENT`, i.e.
+   * whether the `default_base_for_merges` preference would not choose a
+   * different base.
+   */
+  private wouldDefaultToParent(patchNum = this.patchNum): boolean {
+    const preferences =
+      this.userModel.getState().preferences ?? createDefaultPreferences();
+    return (
+      computeBase(undefined, patchNum, this.change, preferences) === PARENT
+    );
+  }
+
+  /**
+   * Converts a base patchset number for putting it into a URL: `PARENT` must be
+   * encoded as `AUTO_MERGE`, if leaving it out of the URL would let the
+   * `default_base_for_merges` preference choose a different base. Otherwise the
+   * user's choice of the auto-merge base would not survive a page load.
+   */
+  urlBasePatchNum(
+    basePatchNum = this.basePatchNum,
+    patchNum = this.patchNum
+  ): BasePatchSetNum | undefined {
+    if (basePatchNum !== PARENT) return basePatchNum;
+    return this.wouldDefaultToParent(patchNum) ? PARENT : AUTO_MERGE;
+  }
+
   navigateToDiff(
     diffView: {path: string; lineNum?: number},
     patchNum = this.patchNum,
     basePatchNum = this.basePatchNum
   ) {
     if (!patchNum) return;
-    const url = this.viewModel.diffUrl({diffView, patchNum, basePatchNum});
+    const url = this.viewModel.diffUrl({
+      diffView,
+      patchNum,
+      basePatchNum: this.urlBasePatchNum(basePatchNum, patchNum),
+    });
     if (!url) return;
     this.navigation.setUrl(url);
   }
@@ -968,11 +1000,16 @@ export class ChangeModel extends Model<ChangeState> {
   changeUrl(openReplyDialog = false) {
     if (!this.change) return;
     const isLatest = this.latestPatchNum === this.patchNum;
+    const basePatchNum = this.urlBasePatchNum();
+    // Numbered bases must be accompanied by a patchset, while `PARENT` is left
+    // out of the URL entirely and `AUTO_MERGE` is encoded as a lone `0`, so
+    // both of them can express "latest" by omitting the patchset.
+    const canOmitPatchNum =
+      isLatest && (basePatchNum === PARENT || basePatchNum === AUTO_MERGE);
     return createChangeUrl({
       change: this.change,
-      patchNum:
-        isLatest && this.basePatchNum === PARENT ? undefined : this.patchNum,
-      basePatchNum: this.basePatchNum,
+      patchNum: canOmitPatchNum ? undefined : this.patchNum,
+      basePatchNum,
       openReplyDialog,
     });
   }

@@ -407,7 +407,10 @@ export class GrFileListHeader extends LitElement {
       createChangeUrl({
         change: this.change,
         patchNum,
-        basePatchNum,
+        basePatchNum: this.getChangeModel().urlBasePatchNum(
+          basePatchNum,
+          patchNum
+        ),
         edit: keepEdit,
       })
     );

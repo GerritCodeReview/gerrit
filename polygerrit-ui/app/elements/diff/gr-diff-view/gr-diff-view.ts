@@ -468,9 +468,13 @@ export class GrDiffView extends LitElement {
       () => this.getViewModel().patchNum$,
       patchNum => (this.patchNum = patchNum)
     );
+    // Note that this is the change model, not the view model, so that the
+    // `default_base_for_merges` preference is applied to diff URLs that do not
+    // specify a base, just like it is applied in the change view. An explicitly
+    // chosen auto-merge base is encoded as `0` in the URL, so it survives this.
     subscribe(
       this,
-      () => this.getViewModel().basePatchNum$,
+      () => this.getChangeModel().basePatchNum$,
       basePatchNum => (this.basePatchNum = basePatchNum ?? PARENT)
     );
     subscribe(

@@ -18,6 +18,7 @@ import {
 import {GrRouter, routerToken} from './gr-router';
 import {GerritView} from '../../../services/router/router-model';
 import {
+  AUTO_MERGE,
   BasePatchSetNum,
   NumericChangeId,
   PARENT,
@@ -263,6 +264,13 @@ suite('gr-router tests', () => {
         router.normalizePatchRangeParams(params);
         assert.equal(params.basePatchNum, PARENT);
         assert.equal(params.patchNum, 4 as RevisionPatchSetNum);
+      });
+
+      test('lone AUTO_MERGE is kept as the base', () => {
+        const params: PatchRangeParams = {basePatchNum: AUTO_MERGE};
+        router.normalizePatchRangeParams(params);
+        assert.equal(params.basePatchNum, AUTO_MERGE);
+        assert.isUndefined(params.patchNum);
       });
 
       test('range n.. normalizes to n', () => {
@@ -942,6 +950,18 @@ suite('gr-router tests', () => {
           basePatchNum: 4,
           patchNum: 7,
         });
+        // `0` encodes an explicitly chosen auto-merge base.
+        await checkUrlToState('/c/test-project/+/42/0..7', {
+          ...createChangeViewState(),
+          basePatchNum: AUTO_MERGE,
+          patchNum: 7,
+        });
+        // A lone `0` means auto merge against the latest patchset.
+        await checkUrlToState('/c/test-project/+/42/0', {
+          ...createChangeViewState(),
+          basePatchNum: AUTO_MERGE,
+          patchNum: undefined,
+        });
         await checkUrlToState(
           '/c/test-project/+/42/4..7?tab=checks&filter=fff&attempt=1&checksRunsSelected=asdf,qwer&checksResultsFilter=asdf.*qwer',
           {
@@ -975,6 +995,13 @@ suite('gr-router tests', () => {
       suite('handleDiffRoute', () => {
         test('DIFF', async () => {
           // DIFF: /^\/c\/(.+)\/\+\/(\d+)(\/((-?\d+|edit)(\.\.(\d+|edit))?(\/(.+))))\/?$/,
+          // `0` encodes an explicitly chosen auto-merge base.
+          await checkUrlToState('/c/test-project/+/42/0..7/foo/bar/baz', {
+            ...createDiffViewState(),
+            basePatchNum: AUTO_MERGE,
+            patchNum: 7 as RevisionPatchSetNum,
+            diffView: {path: 'foo/bar/baz'},
+          });
           await checkUrlToState('/c/test-project/+/42/4..7/foo/bar/baz#b44', {
             ...createDiffViewState(),
             basePatchNum: 4 as BasePatchSetNum,
@@ -1122,6 +1149,17 @@ suite('gr-router tests', () => {
           view: GerritView.CHANGE,
           childView: ChangeChildView.OVERVIEW,
           basePatchNum: 2 as BasePatchSetNum,
+          patchNum: 3 as RevisionPatchSetNum,
+          edit: true,
+        });
+        // `0` encodes an explicitly chosen auto-merge base.
+        await checkUrlToState('/c/foo/bar/+/1234/0..3,edit', {
+          ...createChangeViewState(),
+          repo: 'foo/bar' as RepoName,
+          changeNum: 1234 as NumericChangeId,
+          view: GerritView.CHANGE,
+          childView: ChangeChildView.OVERVIEW,
+          basePatchNum: AUTO_MERGE,
           patchNum: 3 as RevisionPatchSetNum,
           edit: true,
         });

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.project;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.server.events.CommitReceivedEvent;
@@ -70,7 +71,7 @@ public class SubmitRequirementConfigValidator implements CommitValidationListene
         Map<String, SubmitRequirement> previousSubmitRequirements =
             event.commit.getParentCount() > 0
                 ? getProjectConfig(event, event.commit.getParent(0)).getSubmitRequirementSections()
-                : Map.of();
+                : ImmutableMap.of();
         for (SubmitRequirement submitRequirement :
             projectConfig.getSubmitRequirementSections().values()) {
           if (!submitRequirement.equals(previousSubmitRequirements.get(submitRequirement.name()))) {

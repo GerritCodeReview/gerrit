@@ -42,7 +42,7 @@ import org.eclipse.jgit.lib.Config;
  * with the JSON content of {@link Intent}.
  */
 @Singleton
-public final class PendingIndexUpdate {
+public class PendingIndexUpdate {
   record Intent(String project, int changeId, String operation) {}
 
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();

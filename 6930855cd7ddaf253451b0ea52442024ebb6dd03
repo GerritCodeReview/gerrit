@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "408f1719_55a0fdeb",
+        "filename": "polygerrit-ui/app/api/rest-api.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 961,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-08-26T06:47:57Z",
+      "side": 1,
+      "message": "Doesn\u0027t need to be change to?\n\n```suggestion\nexport type ParentPatchSet \u003d BrandType\u003c\u0027PARENT\u0027 | \u0027AUTO_MERGE\u0027, \u0027_patchSet\u0027\u003e;\n```",
+      "range": {
+        "startLine": 961,
+        "startChar": 0,
+        "endLine": 961,
+        "endChar": 62
+      },
+      "revId": "6930855cd7ddaf253451b0ea52442024ebb6dd03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b9f16483_2698b191",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
         "patchSetId": 3
@@ -33,6 +56,70 @@
       "side": 1,
       "message": "Yes, it falls back to `PARENT` cleanly, and no auto-merge request ever reaches the backend.\n\n`auto-merge` never appears in a URL — only `0`, which the router maps to `AUTO_MERGE` in the view model. `computeBase()` returns `PARENT` for `AUTO_MERGE` unconditionally, as its very first check, without ever looking at whether the commit is a merge. Both views read `basePatchNum$` from the change model, so the REST API only ever sees `PARENT`. The next navigation also drops the `0` from the URL, because `urlBasePatchNum()` only emits it when the preference would pick a different base.",
       "parentUuid": "b9f16483_2698b191",
+      "revId": "6930855cd7ddaf253451b0ea52442024ebb6dd03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8ac7a4d_ad232d5d",
+        "filename": "polygerrit-ui/app/models/change/change-model.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 976,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-08-26T06:47:57Z",
+      "side": 1,
+      "message": "Please fix this WARNING reported by gerrit-typescript-style-review: [gerrit-typescript-style-review] The Google TypeScript Style Guide recommends ex...\n\n[gerrit-typescript-style-review] The Google TypeScript Style Guide recommends explicitly specifying the return type of functions and methods to improve readability and ensure type safety.\n\n**Suggestion**\n\n```typescript\n  private wouldDefaultToParent(patchNum \u003d this.patchNum): boolean {\n```\n\n**Reference**\n\nhttps://google.github.io/styleguide/tsguide.html#return-types",
+      "range": {
+        "startLine": 975,
+        "startChar": 0,
+        "endLine": 976,
+        "endChar": 0
+      },
+      "revId": "6930855cd7ddaf253451b0ea52442024ebb6dd03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "334a4e6c_92b91008",
+        "filename": "polygerrit-ui/app/utils/patch-set-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-08-26T06:47:57Z",
+      "side": 1,
+      "message": "```\n  if (ps \u003d\u003d\u003d EDIT) return undefined;\n  return ps;\n```\n\nisn\u0027t this enough? I haven\u0027t tested it. I would guess typescript will understand it\u0027s basepatchsetnum",
+      "range": {
+        "startLine": 82,
+        "startChar": 2,
+        "endLine": 82,
+        "endChar": 71
+      },
+      "fixSuggestions": [
+        {
+          "fixId": "63afe930_f589af0a",
+          "description": "prompt_to_edit API",
+          "replacements": [
+            {
+              "path": "polygerrit-ui/app/utils/patch-set-util.ts",
+              "range": {
+                "startLine": 82,
+                "startChar": 0,
+                "endLine": 83,
+                "endChar": 0
+              },
+              "replacement": "  const ps \u003d convertToPatchSetNum(patchset);\n  if (ps \u003d\u003d\u003d EDIT) return undefined;\n  return ps as BasePatchSetNum | undefined;\n"
+            }
+          ]
+        }
+      ],
       "revId": "6930855cd7ddaf253451b0ea52442024ebb6dd03",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

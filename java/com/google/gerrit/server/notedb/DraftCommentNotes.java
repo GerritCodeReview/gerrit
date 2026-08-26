@@ -57,7 +57,7 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
   private final Ref ref;
 
   private ImmutableListMultimap<ObjectId, HumanComment> comments;
-  private RevisionNoteMap<ChangeRevisionNote> revisionNoteMap;
+  private RevisionNoteMap revisionNoteMap;
 
   @AssistedInject
   DraftCommentNotes(Args args, @Assisted Change.Id changeId, @Assisted Account.Id author) {
@@ -93,7 +93,7 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
     }
   }
 
-  RevisionNoteMap<ChangeRevisionNote> getRevisionNoteMap() {
+  RevisionNoteMap getRevisionNoteMap() {
     return revisionNoteMap;
   }
 

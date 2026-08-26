@@ -601,7 +601,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     if (submitRequirementResults == null && comments.isEmpty() && pushCert == null) {
       return null;
     }
-    RevisionNoteMap<ChangeRevisionNote> rnm = getRevisionNoteMap(rw, curr);
+    RevisionNoteMap rnm = getRevisionNoteMap(rw, curr);
 
     RevisionNoteBuilder.Cache cache = new RevisionNoteBuilder.Cache(rnm);
     for (HumanComment c : comments) {
@@ -645,7 +645,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     return rnm.noteMap.writeTree(inserter);
   }
 
-  private RevisionNoteMap<ChangeRevisionNote> getRevisionNoteMap(RevWalk rw, ObjectId curr)
+  private RevisionNoteMap getRevisionNoteMap(RevWalk rw, ObjectId curr)
       throws ConfigInvalidException, IOException {
     if (curr.equals(ObjectId.zeroId())) {
       return RevisionNoteMap.emptyMap();

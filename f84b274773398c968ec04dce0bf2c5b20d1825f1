@@ -16,6 +16,24 @@
       "message": "Should we mark that as `@Deprecated`?",
       "revId": "f84b274773398c968ec04dce0bf2c5b20d1825f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "18b49856_ecfb6c3d",
+        "filename": "java/com/google/gerrit/server/query/change/OnlyPathsPostFilterPredicate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-26T17:39:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b346e8b7_4b46008d",
+      "revId": "f84b274773398c968ec04dce0bf2c5b20d1825f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -16,15 +16,13 @@ package com.google.gerrit.index.query;
 
 import static com.google.common.base.Preconditions.checkState;
 
-import java.util.ArrayList;
+import com.google.common.collect.ImmutableList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
 
 /** Requires one predicate to be true. */
 public class OrPredicate<T> extends Predicate<T> implements Matchable<T> {
-  private final List<Predicate<T>> children;
+  private final ImmutableList<Predicate<T>> children;
   private final int cost;
 
   @SafeVarargs
@@ -33,7 +31,7 @@ public class OrPredicate<T> extends Predicate<T> implements Matchable<T> {
   }
 
   protected OrPredicate(Collection<? extends Predicate<T>> that) {
-    List<Predicate<T>> t = new ArrayList<>(that.size());
+    ImmutableList.Builder<Predicate<T>> t = ImmutableList.builderWithExpectedSize(that.size());
     int c = 0;
     for (Predicate<T> p : that) {
       if (getClass() == p.getClass()) {
@@ -46,13 +44,13 @@ public class OrPredicate<T> extends Predicate<T> implements Matchable<T> {
         c += p.estimateCost();
       }
     }
-    children = t;
+    children = t.build();
     cost = c;
   }
 
   @Override
-  public final List<Predicate<T>> getChildren() {
-    return Collections.unmodifiableList(children);
+  public final ImmutableList<Predicate<T>> getChildren() {
+    return children;
   }
 
   @Override
@@ -102,7 +100,7 @@ public class OrPredicate<T> extends Predicate<T> implements Matchable<T> {
 
   @Override
   public int hashCode() {
-    return getChild(0).hashCode() * 31 + getChild(1).hashCode();
+    return children.hashCode();
   }
 
   // Suppress the EqualsGetClass warning as this is legacy code.
@@ -112,8 +110,7 @@ public class OrPredicate<T> extends Predicate<T> implements Matchable<T> {
     if (other == null) {
       return false;
     }
-    return getClass() == other.getClass()
-        && getChildren().equals(((Predicate<?>) other).getChildren());
+    return getClass() == other.getClass() && children.equals(((Predicate<?>) other).getChildren());
   }
 
   @Override

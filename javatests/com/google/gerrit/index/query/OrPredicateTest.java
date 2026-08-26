@@ -88,6 +88,7 @@ public class OrPredicateTest extends PredicateTest {
     final TestPredicate<String> b = f("author", "bob");
     final TestPredicate<String> c = f("author", "charlie");
 
+    assertTrue(new OrPredicate<>(a).hashCode() == new OrPredicate<>(a).hashCode());
     assertTrue(or(a, b).hashCode() == or(a, b).hashCode());
     assertTrue(or(a, b, c).hashCode() == or(a, b, c).hashCode());
     assertFalse(or(a, c).hashCode() == or(a, b).hashCode());

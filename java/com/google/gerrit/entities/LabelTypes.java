@@ -14,24 +14,24 @@
 
 package com.google.gerrit.entities;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 
 public class LabelTypes {
-  protected List<LabelType> labelTypes;
-  private transient volatile Map<String, LabelType> byLabel;
-  private transient volatile Map<String, Integer> positions;
-
-  protected LabelTypes() {}
+  private final ImmutableList<LabelType> labelTypes;
+  private final ImmutableMap<String, LabelType> byLabel;
+  private final ImmutableMap<String, Integer> positions;
 
   public LabelTypes(List<? extends LabelType> approvals) {
-    labelTypes = Collections.unmodifiableList(new ArrayList<>(approvals));
+    this.labelTypes = ImmutableList.copyOf(approvals);
+    this.byLabel = byLabel(labelTypes);
+    this.positions = positions(labelTypes);
   }
 
   public List<LabelType> getLabelTypes() {
@@ -39,28 +39,19 @@ public class LabelTypes {
   }
 
   public Optional<LabelType> byLabel(LabelId labelId) {
-    return Optional.ofNullable(byLabel().get(labelId.get().toLowerCase(Locale.US)));
+    return byLabel(labelId.get());
   }
 
   public Optional<LabelType> byLabel(String labelName) {
-    return Optional.ofNullable(byLabel().get(labelName.toLowerCase(Locale.US)));
+    return Optional.ofNullable(byLabel.get(labelName.toLowerCase(Locale.US)));
   }
 
-  private Map<String, LabelType> byLabel() {
-    if (byLabel == null) {
-      synchronized (this) {
-        if (byLabel == null) {
-          Map<String, LabelType> l = new HashMap<>();
-          if (labelTypes != null) {
-            for (LabelType t : labelTypes) {
-              l.put(t.getName().toLowerCase(Locale.US), t);
-            }
-          }
-          byLabel = l;
-        }
-      }
+  private static ImmutableMap<String, LabelType> byLabel(ImmutableList<LabelType> labelTypes) {
+    Map<String, LabelType> l = Maps.newHashMapWithExpectedSize(labelTypes.size());
+    for (LabelType t : labelTypes) {
+      l.put(t.getName().toLowerCase(Locale.US), t);
     }
-    return byLabel;
+    return ImmutableMap.copyOf(l);
   }
 
   @Override
@@ -69,41 +60,40 @@ public class LabelTypes {
   }
 
   public Comparator<String> nameComparator() {
-    final Map<String, Integer> positions = positions();
-    return new Comparator<>() {
-      @Override
-      public int compare(String left, String right) {
-        int lp = position(left);
-        int rp = position(right);
-        int cmp = lp - rp;
-        if (cmp == 0) {
-          cmp = left.compareTo(right);
-        }
-        return cmp;
+    return (left, right) -> {
+      int lp = positions.getOrDefault(left, positions.size());
+      int rp = positions.getOrDefault(right, positions.size());
+      int cmp = lp - rp;
+      if (cmp == 0) {
+        cmp = left.compareTo(right);
       }
-
-      private int position(String name) {
-        Integer p = positions.get(name);
-        return p != null ? p : positions.size();
-      }
+      return cmp;
     };
   }
 
-  private Map<String, Integer> positions() {
-    if (positions == null) {
-      synchronized (this) {
-        if (positions == null) {
-          Map<String, Integer> p = new HashMap<>();
-          if (labelTypes != null) {
-            int i = 0;
-            for (LabelType t : labelTypes) {
-              p.put(t.getName(), i++);
-            }
-          }
-          positions = p;
-        }
-      }
+  private static ImmutableMap<String, Integer> positions(ImmutableList<LabelType> labelTypes) {
+    Map<String, Integer> p = Maps.newHashMapWithExpectedSize(labelTypes.size());
+    int i = 0;
+    for (LabelType t : labelTypes) {
+      p.put(t.getName(), i++);
     }
-    return positions;
+    return ImmutableMap.copyOf(p);
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o instanceof LabelTypes) {
+      LabelTypes other = (LabelTypes) o;
+      return labelTypes.equals(other.labelTypes);
+    }
+    return false;
+  }
+
+  @Override
+  public int hashCode() {
+    return labelTypes.hashCode();
   }
 }

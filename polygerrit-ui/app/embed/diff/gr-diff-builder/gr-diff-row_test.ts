@@ -8,6 +8,7 @@ import './gr-diff-row';
 import {GrDiffRow} from './gr-diff-row';
 import {assert, fixture, html} from '@open-wc/testing';
 import {GrDiffLine} from '../gr-diff/gr-diff-line';
+import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group';
 import {DiffViewMode, GrDiffLineType} from '../../../api/diff';
 import {diffModelToken} from '../gr-diff-model/gr-diff-model';
 import {testResolver} from '../../../test/common-test-setup';
@@ -238,5 +239,59 @@ suite('gr-diff-row test', () => {
         </table>
       `
     );
+  });
+
+  test('renders revert button when showRevertButton is true', async () => {
+    const line = new GrDiffLine(GrDiffLineType.REMOVE, 1, 0);
+    line.text = 'lorem ipsum';
+    element.left = line;
+    element.right = new GrDiffLine(GrDiffLineType.BLANK);
+    element.showRevertButton = true;
+    await element.updateComplete;
+
+    const revertBtn = element.querySelector('.revert-btn');
+    assert.isNotNull(revertBtn);
+  });
+
+  test('does not render revert button when showRevertButton is false', async () => {
+    const line = new GrDiffLine(GrDiffLineType.REMOVE, 1, 0);
+    line.text = 'lorem ipsum';
+    element.left = line;
+    element.right = new GrDiffLine(GrDiffLineType.BLANK);
+    element.showRevertButton = false;
+    await element.updateComplete;
+
+    const revertBtn = element.querySelector('.revert-btn');
+    assert.isNull(revertBtn);
+  });
+
+  test('fires revert-delta event on button click', async () => {
+    const line = new GrDiffLine(GrDiffLineType.REMOVE, 1, 0);
+    line.text = 'lorem ipsum';
+    const group = new GrDiffGroup({
+      type: GrDiffGroupType.DELTA,
+      lines: [line],
+    });
+    element.left = line;
+    element.right = new GrDiffLine(GrDiffLineType.BLANK);
+    element.group = group;
+    element.showRevertButton = true;
+    await element.updateComplete;
+
+    let eventDetail: {group: GrDiffGroup} | undefined;
+    element.addEventListener('revert-delta', (e: CustomEvent) => {
+      eventDetail = e.detail;
+    });
+
+    const revertBtn = element.querySelector<HTMLButtonElement>('.revert-btn')!;
+    assert.isNotNull(revertBtn);
+    revertBtn.click();
+    await element.updateComplete;
+
+    assert.isDefined(eventDetail);
+    assert.equal(eventDetail?.group, group);
+    assert.isTrue(revertBtn.classList.contains('loading'));
+    assert.isNotNull(revertBtn.querySelector('.loadingSpin'));
+    assert.isNull(revertBtn.querySelector('gr-icon'));
   });
 });

@@ -7,6 +7,7 @@ import * as sinon from 'sinon';
 import '../../../test/common-test-setup';
 import './gr-diff-host';
 import {
+  ChangeStatus,
   CommentSide,
   createDefaultDiffPrefs,
   Side,
@@ -41,17 +42,30 @@ import {
   NumericChangeId,
   PARENT,
   PatchSetNum,
+  PatchSetNumber,
   RevisionPatchSetNum,
 } from '../../../types/common';
 import {CoverageType} from '../../../types/types';
 import {GrDiffHost} from './gr-diff-host';
-import {DiffInfo, DiffViewMode, IgnoreWhitespaceType} from '../../../api/diff';
+import {
+  DiffInfo,
+  DiffViewMode,
+  GrDiffLineType,
+  IgnoreWhitespaceType,
+} from '../../../api/diff';
+import {
+  GrDiffGroup,
+  GrDiffGroupType,
+} from '../../../embed/diff/gr-diff/gr-diff-group';
+import {GrDiffLine} from '../../../embed/diff/gr-diff/gr-diff-line';
+import {Interaction, Timing} from '../../../constants/reporting';
 import {ErrorCallback} from '../../../api/rest';
 import {SinonStub, SinonStubbedMember} from 'sinon';
 import {RunResult} from '../../../models/checks/checks-model';
 import {assertIsDefined} from '../../../utils/common-util';
 import {assert, fixture, html} from '@open-wc/testing';
 import {testResolver} from '../../../test/common-test-setup';
+import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {UserModel, userModelToken} from '../../../models/user/user-model';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
@@ -1543,6 +1557,256 @@ suite('gr-diff-host tests', () => {
       await new Promise(resolve => setTimeout(resolve, 0));
 
       assert.isTrue(computeSpy.called);
+    });
+  });
+
+  suite('revert change in edit mode', () => {
+    test('is_edit_mode is passed in renderPrefs only in edit mode', async () => {
+      element.patchRange = createPatchRange();
+      await element.updateComplete;
+      const grDiff = element.shadowRoot?.querySelector('gr-diff');
+      assert.isFalse(grDiff?.renderPrefs?.is_edit_mode);
+
+      element.patchRange = {
+        ...createPatchRange(),
+        patchNum: EDIT,
+      };
+      await element.updateComplete;
+      assert.isTrue(grDiff?.renderPrefs?.is_edit_mode);
+    });
+
+    test('handleRevertDelta applies fix suggestion and reloads diff', async () => {
+      const applyFixStub = stubRestApi('applyFixSuggestion').returns(
+        Promise.resolve(new Response('', {status: 200}))
+      );
+      const reloadStub = sinon.stub(element, 'reload').resolves();
+
+      element.patchRange = {
+        ...createPatchRange(),
+        patchNum: EDIT,
+      };
+      element.path = 'foo.ts';
+      element.changeNum = 42 as NumericChangeId;
+
+      const removeLine = new GrDiffLine(GrDiffLineType.REMOVE, 10, 0);
+      removeLine.text = 'old code';
+      const addLine = new GrDiffLine(GrDiffLineType.ADD, 0, 10);
+      addLine.text = 'new code';
+      const group = new GrDiffGroup({
+        type: GrDiffGroupType.DELTA,
+        lines: [removeLine, addLine],
+      });
+
+      const setUrlStub = sinon.stub(testResolver(navigationToken), 'setUrl');
+      const reportStub = sinon.stub(element.reporting, 'reportInteraction');
+      const timeEndStub = sinon.stub(element.reporting, 'timeEnd');
+
+      await element.handleRevertDelta(group);
+
+      assert.isTrue(setUrlStub.calledOnce);
+      assert.include(setUrlStub.firstCall.args[0], '/+/42/edit');
+      assert.notInclude(setUrlStub.firstCall.args[0], '..edit');
+      assert.isTrue(
+        reportStub.calledWith(Interaction.REVERT_DELTA_CLICKED, {
+          path: 'foo.ts',
+        })
+      );
+      assert.isTrue(
+        timeEndStub.calledWith(
+          Timing.REVERT_DELTA_LOAD,
+          sinon.match({success: true})
+        )
+      );
+      assert.isTrue(applyFixStub.calledOnce);
+      assert.equal(applyFixStub.firstCall.args[0], 42 as NumericChangeId);
+      assert.equal(applyFixStub.firstCall.args[1], 1 as PatchSetNum);
+      assert.deepEqual(applyFixStub.firstCall.args[2], [
+        {
+          path: 'foo.ts',
+          range: {
+            start_line: 10,
+            start_character: 0,
+            end_line: 10,
+            end_character: 8,
+          },
+          replacement: 'old code',
+        },
+      ]);
+      assert.isTrue(reloadStub.lastCall.calledWith(true));
+    });
+
+    test('is_edit_mode is passed in renderPrefs when editMode is true', async () => {
+      element.patchRange = createPatchRange();
+      element.latestPatchNum = 1 as PatchSetNumber;
+      element.editMode = false;
+      await element.updateComplete;
+      let grDiff = element.shadowRoot?.querySelector('gr-diff');
+      assert.isFalse(grDiff?.renderPrefs?.is_edit_mode);
+
+      element.editMode = true;
+      await element.updateComplete;
+      grDiff = element.shadowRoot?.querySelector('gr-diff');
+      assert.isTrue(grDiff?.renderPrefs?.is_edit_mode);
+    });
+
+    test('handleRevertDelta applies fix suggestion when in editMode with numeric patchset', async () => {
+      const applyFixStub = stubRestApi('applyFixSuggestion').returns(
+        Promise.resolve(new Response('', {status: 200}))
+      );
+      sinon.stub(element, 'reload').resolves();
+      const setUrlStub = sinon.stub(testResolver(navigationToken), 'setUrl');
+
+      element.patchRange = createPatchRange(); // numeric patchNum: 1
+      element.latestPatchNum = 1 as PatchSetNumber;
+      element.editMode = true;
+      element.path = 'foo.ts';
+      element.changeNum = 42 as NumericChangeId;
+
+      const removeLine = new GrDiffLine(GrDiffLineType.REMOVE, 10, 0);
+      removeLine.text = 'old code';
+      const addLine = new GrDiffLine(GrDiffLineType.ADD, 0, 10);
+      addLine.text = 'new code';
+      const group = new GrDiffGroup({
+        type: GrDiffGroupType.DELTA,
+        lines: [removeLine, addLine],
+      });
+
+      await element.handleRevertDelta(group);
+
+      assert.isTrue(setUrlStub.calledOnce);
+      assert.include(setUrlStub.firstCall.args[0], '/+/42/edit');
+      assert.notInclude(setUrlStub.firstCall.args[0], '..edit');
+      assert.isTrue(applyFixStub.calledOnce);
+      assert.equal(applyFixStub.firstCall.args[0], 42 as NumericChangeId);
+      assert.equal(applyFixStub.firstCall.args[1], 1 as RevisionPatchSetNum);
+    });
+
+    test('handleRevertDelta applies fix suggestion when patchNum is EDIT', async () => {
+      const applyFixStub = stubRestApi('applyFixSuggestion').returns(
+        Promise.resolve(new Response('', {status: 200}))
+      );
+      sinon.stub(element, 'reload').resolves();
+      const setUrlStub = sinon.stub(testResolver(navigationToken), 'setUrl');
+
+      element.patchRange = {
+        ...createPatchRange(),
+        patchNum: EDIT,
+      };
+      element.latestPatchNum = 3 as PatchSetNumber;
+      element.editMode = true;
+      element.path = 'foo.ts';
+      element.changeNum = 42 as NumericChangeId;
+
+      const removeLine = new GrDiffLine(GrDiffLineType.REMOVE, 10, 0);
+      removeLine.text = 'old code';
+      const addLine = new GrDiffLine(GrDiffLineType.ADD, 0, 10);
+      addLine.text = 'new code';
+      const group = new GrDiffGroup({
+        type: GrDiffGroupType.DELTA,
+        lines: [removeLine, addLine],
+      });
+
+      await element.handleRevertDelta(group);
+
+      assert.isTrue(setUrlStub.calledOnce);
+      assert.include(setUrlStub.firstCall.args[0], '/+/42/edit');
+      assert.isTrue(applyFixStub.calledOnce);
+      assert.equal(applyFixStub.firstCall.args[0], 42 as NumericChangeId);
+      // Resolves EDIT to latestPatchNum (3) so string 'edit' is not sent as fixPatchNum
+      assert.equal(applyFixStub.firstCall.args[1], 3 as PatchSetNum);
+      assert.equal(applyFixStub.firstCall.args[3], 3 as PatchSetNum);
+    });
+
+    test('handleRevertDelta does not apply fix if not in edit mode', async () => {
+      const applyFixStub = stubRestApi('applyFixSuggestion');
+      element.patchRange = createPatchRange();
+      element.editMode = false;
+      element.path = 'foo.ts';
+      element.changeNum = 42 as NumericChangeId;
+
+      const removeLine = new GrDiffLine(GrDiffLineType.REMOVE, 10, 0);
+      removeLine.text = 'old code';
+      const addLine = new GrDiffLine(GrDiffLineType.ADD, 0, 10);
+      addLine.text = 'new code';
+      const group = new GrDiffGroup({
+        type: GrDiffGroupType.DELTA,
+        lines: [removeLine, addLine],
+      });
+
+      await element.handleRevertDelta(group);
+
+      assert.isFalse(applyFixStub.called);
+    });
+
+    test('is_edit_mode is false when in editMode but viewing older patchset', async () => {
+      element.patchRange = {
+        ...createPatchRange(),
+        patchNum: 1 as RevisionPatchSetNum,
+      };
+      element.latestPatchNum = 2 as PatchSetNumber;
+      element.editMode = true;
+      await element.updateComplete;
+
+      const grDiff = element.shadowRoot?.querySelector('gr-diff');
+      assert.isFalse(grDiff?.renderPrefs?.is_edit_mode);
+      assert.isFalse(element.isRevertAllowed());
+    });
+
+    test('is_edit_mode is false for commit message and merge list', async () => {
+      element.patchRange = {
+        ...createPatchRange(),
+        patchNum: EDIT,
+      };
+      element.editMode = true;
+
+      element.path = '/COMMIT_MSG';
+      await element.updateComplete;
+      let grDiff = element.shadowRoot?.querySelector('gr-diff');
+      assert.isFalse(grDiff?.renderPrefs?.is_edit_mode);
+      assert.isFalse(element.isRevertAllowed());
+
+      element.path = '/MERGE_LIST';
+      await element.updateComplete;
+      grDiff = element.shadowRoot?.querySelector('gr-diff');
+      assert.isFalse(grDiff?.renderPrefs?.is_edit_mode);
+      assert.isFalse(element.isRevertAllowed());
+    });
+
+    test('is_edit_mode is false for binary and image diffs', async () => {
+      element.patchRange = {
+        ...createPatchRange(),
+        patchNum: EDIT,
+      };
+      element.editMode = true;
+      element.path = 'image.png';
+      element.diff = {
+        ...createDiff(),
+        binary: true,
+      };
+      await element.updateComplete;
+      assert.isFalse(element.isRevertAllowed());
+    });
+
+    test('is_edit_mode is false for merged or abandoned changes', async () => {
+      element.patchRange = {
+        ...createPatchRange(),
+        patchNum: EDIT,
+      };
+      element.editMode = true;
+      element.path = 'foo.ts';
+      element.change = {
+        ...createChange(),
+        status: ChangeStatus.MERGED,
+      };
+      await element.updateComplete;
+      assert.isFalse(element.isRevertAllowed());
+
+      element.change = {
+        ...createChange(),
+        status: ChangeStatus.ABANDONED,
+      };
+      await element.updateComplete;
+      assert.isFalse(element.isRevertAllowed());
     });
   });
 });

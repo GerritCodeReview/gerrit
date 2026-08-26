@@ -259,4 +259,45 @@ suite('gr-diff-section test', () => {
       `
     );
   });
+
+  suite('revert button in edit mode', () => {
+    test('passes showRevertButton to first row of delta group in edit mode', async () => {
+      const removeLine = new GrDiffLine(GrDiffLineType.REMOVE, 1, 0);
+      removeLine.text = 'old line';
+      const addLine = new GrDiffLine(GrDiffLineType.ADD, 0, 1);
+      addLine.text = 'new line';
+      const group = new GrDiffGroup({
+        type: GrDiffGroupType.DELTA,
+        lines: [removeLine, addLine],
+      });
+
+      element.group = group;
+      element.renderPrefs = {is_edit_mode: true};
+      await element.updateComplete;
+
+      const rows = element.querySelectorAll('gr-diff-row');
+      assert.equal(rows.length, 1);
+      assert.isTrue(rows[0].showRevertButton);
+      assert.equal(rows[0].group, group);
+    });
+
+    test('does not pass showRevertButton when not in edit mode', async () => {
+      const removeLine = new GrDiffLine(GrDiffLineType.REMOVE, 1, 0);
+      removeLine.text = 'old line';
+      const addLine = new GrDiffLine(GrDiffLineType.ADD, 0, 1);
+      addLine.text = 'new line';
+      const group = new GrDiffGroup({
+        type: GrDiffGroupType.DELTA,
+        lines: [removeLine, addLine],
+      });
+
+      element.group = group;
+      element.renderPrefs = {is_edit_mode: false};
+      await element.updateComplete;
+
+      const rows = element.querySelectorAll('gr-diff-row');
+      assert.equal(rows.length, 1);
+      assert.isFalse(rows[0].showRevertButton);
+    });
+  });
 });

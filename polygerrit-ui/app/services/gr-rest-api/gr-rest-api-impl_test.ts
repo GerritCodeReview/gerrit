@@ -2028,6 +2028,25 @@ suite('gr-rest-api-service-impl tests', () => {
       assert.deepEqual(body.fix_replacement_infos[0], fixReplacementInfo);
       assert.deepEqual(body.original_patchset_for_fix, 1);
     });
+
+    test('applyFixSuggestion with non-numeric fixPatchNum (EDIT) does not set original_patchset_for_fix', async () => {
+      const fixReplacementInfo = createFixReplacementInfo();
+      await element.applyFixSuggestion(
+        123 as NumericChangeId,
+        'edit' as PatchSetNum,
+        [fixReplacementInfo],
+        2 as PatchSetNum
+      );
+      assert.isTrue(fetchStub.calledOnce);
+      assert.equal(
+        fetchStub.lastCall.args[0].url,
+        '/changes/test-project~123/revisions/2/fix:apply'
+      );
+      const body = JSON.parse(fetchStub.lastCall.args[0].fetchOptions.body);
+      assert.isTrue(Object.keys(body).length === 1);
+      assert.deepEqual(body.fix_replacement_infos[0], fixReplacementInfo);
+      assert.isUndefined(body.original_patchset_for_fix);
+    });
   });
 
   suite('getFixPreview', () => {

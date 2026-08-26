@@ -11,8 +11,11 @@ import {
   isImageDiff,
   isLineUnchanged,
 } from '../../../utils/diff-util';
+import {isMagicPath} from '../../../utils/path-list-util';
 import {getAppContext} from '../../../services/app-context';
 import {
+  computeAllPatchSets,
+  computeLatestPatchNum,
   getParentIndex,
   isAParent,
   isMergeParent,
@@ -20,6 +23,7 @@ import {
 } from '../../../utils/patch-set-util';
 import {
   createNew,
+  createRevertFixSuggestion,
   isInBaseOfPatchRange,
   isInRevisionOfPatchRange,
 } from '../../../utils/comment-util';
@@ -35,10 +39,12 @@ import {
   PARENT,
   PatchRange,
   PatchSetNum,
+  PatchSetNumber,
   PreferencesInfo,
   RepoName,
   RevisionPatchSetNum,
 } from '../../../types/common';
+import {GrDiffGroup} from '../../../embed/diff/gr-diff/gr-diff-group';
 import {
   DiffInfo,
   DiffPreferencesInfo,
@@ -46,7 +52,12 @@ import {
   WebLinkInfo,
 } from '../../../types/diff';
 import {GrDiff} from '../../../embed/diff/gr-diff/gr-diff';
-import {CommentSide, DiffViewMode, Side} from '../../../constants/constants';
+import {
+  ChangeStatus,
+  CommentSide,
+  DiffViewMode,
+  Side,
+} from '../../../constants/constants';
 import {FilesWebLinks} from '../gr-patch-range-select/gr-patch-range-select';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {
@@ -58,7 +69,7 @@ import {
 } from '../../../utils/event-util';
 import {assertIsDefined} from '../../../utils/common-util';
 import {TokenHighlightLayer} from '../../../embed/diff/gr-diff-builder/token-highlight-layer';
-import {Timing} from '../../../constants/reporting';
+import {Interaction, Timing} from '../../../constants/reporting';
 import {ChangeComments} from '../gr-comment-api/gr-comment-api';
 import {Subscription} from 'rxjs';
 import {
@@ -96,6 +107,12 @@ import {
 } from '../../../utils/async-util';
 import {subscribe} from '../../lit/subscription-controller';
 import {userModelToken} from '../../../models/user/user-model';
+import {changeModelToken} from '../../../models/change/change-model';
+import {
+  changeViewModelToken,
+  createApplyFixUrl,
+} from '../../../models/views/change';
+import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {keyed} from 'lit/directives/keyed.js';
 import {repeat} from 'lit/directives/repeat.js';
@@ -311,7 +328,21 @@ export class GrDiffHost extends LitElement {
 
   private readonly getChecksModel = resolve(this, checksModelToken);
 
+  private readonly getChangeModel = resolve(this, changeModelToken);
+
+  private readonly getChangeViewModel = resolve(this, changeViewModelToken);
+
+  private readonly getNavigation = resolve(this, navigationToken);
+
   private readonly getPluginLoader = resolve(this, pluginLoaderToken);
+
+  @state()
+  editMode = false;
+
+  @state()
+  latestPatchNum?: PatchSetNumber;
+
+  private isReverting = false;
 
   // visible for testing
   readonly reporting = getAppContext().reportingService;
@@ -358,6 +389,12 @@ export class GrDiffHost extends LitElement {
         this.reload(false);
       }
     });
+    this.addEventListener(
+      'revert-delta',
+      (e: CustomEvent<{group: GrDiffGroup}>) => {
+        this.handleRevertDelta(e.detail.group);
+      }
+    );
     subscribe(
       this,
       () => this.getBrowserModel().diffViewMode$,
@@ -384,6 +421,16 @@ export class GrDiffHost extends LitElement {
     );
     subscribe(
       this,
+      () => this.getChangeModel().editMode$,
+      editMode => (this.editMode = editMode)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().latestPatchNum$,
+      latestPatchNum => (this.latestPatchNum = latestPatchNum)
+    );
+    subscribe(
+      this,
       () => this.getPluginLoader().pluginsModel.pluginsLoaded$,
       async pluginsLoaded => {
         if (pluginsLoaded) {
@@ -391,6 +438,26 @@ export class GrDiffHost extends LitElement {
         }
       }
     );
+  }
+
+  // visible for testing
+  isRevertAllowed(): boolean {
+    if (isMagicPath(this.path)) return false;
+    if (this.diff?.binary || isImageDiff(this.diff)) return false;
+    if (
+      this.change?.status === ChangeStatus.MERGED ||
+      this.change?.status === ChangeStatus.ABANDONED
+    ) {
+      return false;
+    }
+    const isEditMode = this.editMode || this.patchRange?.patchNum === EDIT;
+    if (!isEditMode) return false;
+    const patchNum = this.patchRange?.patchNum;
+    if (patchNum === EDIT) return true;
+    const latestPatchNum =
+      this.latestPatchNum ??
+      computeLatestPatchNum(computeAllPatchSets(this.change));
+    return patchNum !== undefined && patchNum === latestPatchNum;
   }
 
   override connectedCallback() {
@@ -506,6 +573,10 @@ export class GrDiffHost extends LitElement {
     const useNewImageDiffUi = this.flags.isEnabled(
       KnownExperimentId.NEW_IMAGE_DIFF_UI
     );
+    const renderPrefs: RenderPreferences = {
+      ...this.renderPrefs,
+      is_edit_mode: this.isRevertAllowed(),
+    };
 
     return keyed(
       this.grDiffKey,
@@ -516,7 +587,7 @@ export class GrDiffHost extends LitElement {
         .path=${this.path}
         .prefs=${this.prefs}
         .noRenderOnPrefsChange=${this.noRenderOnPrefsChange}
-        .renderPrefs=${this.renderPrefs}
+        .renderPrefs=${renderPrefs}
         .lineWrapping=${this.lineWrapping}
         .viewMode=${this.viewMode}
         .lineOfInterest=${this.lineOfInterest}
@@ -1363,6 +1434,77 @@ export class GrDiffHost extends LitElement {
     }
     if (!lines) return null;
     return lines[lines.length - 1] === '';
+  }
+
+  async handleRevertDelta(group: GrDiffGroup) {
+    if (!this.changeNum || !this.patchRange || !this.path) return;
+    if (!this.isRevertAllowed()) return;
+    if (this.isReverting) return;
+
+    const fixSuggestion = createRevertFixSuggestion(
+      this.path,
+      group,
+      this.diffElement?.groups ?? []
+    );
+    if (!fixSuggestion) return;
+
+    this.isReverting = true;
+    fireAlert(this, 'Reverting change...');
+    this.reporting.reportInteraction(Interaction.REVERT_DELTA_CLICKED, {
+      path: this.path,
+    });
+    this.reporting.time(Timing.REVERT_DELTA_LOAD);
+    let res: Response | undefined;
+    let errorText = '';
+    const latestPatchNum =
+      this.latestPatchNum ??
+      computeLatestPatchNum(computeAllPatchSets(this.change)) ??
+      (1 as PatchSetNumber);
+    const patchNum =
+      this.patchRange.patchNum === EDIT
+        ? latestPatchNum
+        : this.patchRange.patchNum;
+    if (patchNum === undefined) return;
+    try {
+      res = await this.restApiService.applyFixSuggestion(
+        this.changeNum,
+        patchNum,
+        fixSuggestion.replacements,
+        latestPatchNum
+      );
+    } catch (error) {
+      if (error instanceof Error) {
+        errorText = error.message;
+      }
+      fireAlert(this, `Reverting change failed: ${errorText}`);
+    } finally {
+      this.isReverting = false;
+      this.reporting.timeEnd(Timing.REVERT_DELTA_LOAD, {
+        success: res?.ok ?? false,
+        status: res?.status,
+      });
+    }
+
+    if (res?.ok) {
+      fireAlert(this, 'Change reverted.');
+      const currentChildView = this.getChangeViewModel().getState()?.childView;
+      this.getNavigation().setUrl(
+        createApplyFixUrl({
+          change: this.change,
+          changeNum: this.changeNum,
+          repo: this.change?.project ?? this.projectName ?? ('' as RepoName),
+          basePatchNum: PARENT,
+          patchNum: EDIT,
+          forceReload: true,
+          filePath: this.path,
+          currentChildView,
+        })
+      );
+      fire(this, 'reload-diff', {path: this.path});
+      await this.reload(true);
+    } else if (res) {
+      fireAlert(this, `Reverting change failed: ${res.statusText}`);
+    }
   }
 }
 

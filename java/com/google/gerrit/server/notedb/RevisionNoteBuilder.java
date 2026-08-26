@@ -43,10 +43,10 @@ import org.eclipse.jgit.lib.ObjectId;
 class RevisionNoteBuilder {
   /** Construct a new RevisionNoteMap, seeding it with an existing (immutable) RevisionNoteMap */
   static class Cache {
-    private final RevisionNoteMap<? extends RevisionNote<? extends Comment>> revisionNoteMap;
+    private final RevisionNoteMap revisionNoteMap;
     private final Map<ObjectId, RevisionNoteBuilder> builders;
 
-    Cache(RevisionNoteMap<? extends RevisionNote<? extends Comment>> revisionNoteMap) {
+    Cache(RevisionNoteMap revisionNoteMap) {
       this.revisionNoteMap = revisionNoteMap;
       this.builders = new HashMap<>();
     }

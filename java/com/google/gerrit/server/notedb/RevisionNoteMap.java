@@ -23,24 +23,21 @@ import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.notes.Note;
 import org.eclipse.jgit.notes.NoteMap;
 
-/**
- * A utility class that parses a NoteMap into commit => comment list data.
- *
- * @param <T> the RevisionNote for the comment type.
- */
-class RevisionNoteMap<T extends RevisionNote<? extends Comment>> {
+/** A utility class that parses a NoteMap into commit => comment list data. */
+class RevisionNoteMap {
   /** CommitID => blob ID */
   final NoteMap noteMap;
 
   /** CommitID => parsed data */
-  final ImmutableMap<ObjectId, T> revisionNotes;
+  final ImmutableMap<ObjectId, ChangeRevisionNote> revisionNotes;
 
-  private RevisionNoteMap(NoteMap noteMap, ImmutableMap<ObjectId, T> revisionNotes) {
+  private RevisionNoteMap(
+      NoteMap noteMap, ImmutableMap<ObjectId, ChangeRevisionNote> revisionNotes) {
     this.noteMap = noteMap;
     this.revisionNotes = revisionNotes;
   }
 
-  static RevisionNoteMap<ChangeRevisionNote> parse(
+  static RevisionNoteMap parse(
       ChangeNoteJson noteJson, ObjectReader reader, NoteMap noteMap, Comment.Status status)
       throws ConfigInvalidException, IOException {
     ImmutableMap.Builder<ObjectId, ChangeRevisionNote> result = ImmutableMap.builder();
@@ -50,10 +47,10 @@ class RevisionNoteMap<T extends RevisionNote<? extends Comment>> {
 
       result.put(note.copy(), rn);
     }
-    return new RevisionNoteMap<>(noteMap, result.build());
+    return new RevisionNoteMap(noteMap, result.build());
   }
 
-  static <T extends RevisionNote<? extends Comment>> RevisionNoteMap<T> emptyMap() {
-    return new RevisionNoteMap<>(NoteMap.newEmptyMap(), ImmutableMap.of());
+  static RevisionNoteMap emptyMap() {
+    return new RevisionNoteMap(NoteMap.newEmptyMap(), ImmutableMap.of());
   }
 }

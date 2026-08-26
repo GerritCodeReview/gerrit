@@ -383,7 +383,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
   // Parsed note map state, used by ChangeUpdate to make in-place editing of
   // notes easier.
-  RevisionNoteMap<ChangeRevisionNote> revisionNoteMap;
+  RevisionNoteMap revisionNoteMap;
 
   private DraftCommentNotes draftCommentNotes;
 

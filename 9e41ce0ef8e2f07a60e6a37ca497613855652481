@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f65515af_6ecd6a81",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-08-26T12:32:41Z",
+      "side": 1,
+      "message": "Done, commit is now only aboutPendingIndexUpdate.",
+      "parentUuid": "ecc0052b_4c9fd9c9",
+      "revId": "9e41ce0ef8e2f07a60e6a37ca497613855652481",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2348bf39_2ad5e494",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-08-18T20:12:31Z",
       "side": 1,
       "message": "See my inline comment. The \"restore\" wording here is confusing me.",
+      "revId": "9e41ce0ef8e2f07a60e6a37ca497613855652481",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1c04021f_aa57c472",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-08-26T12:32:41Z",
+      "side": 1,
+      "message": "Done, removed this item.",
+      "parentUuid": "2348bf39_2ad5e494",
       "revId": "9e41ce0ef8e2f07a60e6a37ca497613855652481",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -90,6 +126,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "365cd717_a553e530",
+        "filename": "java/com/google/gerrit/server/index/change/PendingIndexUpdate.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-08-26T12:32:41Z",
+      "side": 1,
+      "message": "I am sorry for confusion. We recently have many issues when importing to google (because it has more strict rules)\u003e I abandoned 620241 - that is not necessary to change on so mnay places.",
+      "parentUuid": "fd156f9e_f7d8e108",
+      "revId": "9e41ce0ef8e2f07a60e6a37ca497613855652481",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "56fdd527_c3c43f31",
@@ -103,6 +157,30 @@
       "writtenOn": "2026-08-18T20:12:31Z",
       "side": 1,
       "message": "I don\u0027t understand this one. This code has used a binding to a Path or File since it was introduced in 2011: https://gerrit-review.googlesource.com/c/gerrit/+/19442/12/gerrit-server/src/test/java/com/google/gerrit/testutil/InMemoryDatabase.java\n\nAre you saying that breaks in Google\u0027s setup now? If yes, fixing that should be a standalone change.",
+      "range": {
+        "startLine": 265,
+        "startChar": 0,
+        "endLine": 267,
+        "endChar": 78
+      },
+      "revId": "9e41ce0ef8e2f07a60e6a37ca497613855652481",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8473e5df_b71c866a",
+        "filename": "java/com/google/gerrit/testing/InMemoryModule.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-08-26T12:32:41Z",
+      "side": 1,
+      "message": "Reverted InMemoryModule changes. I will look more into this in follow-up changes. I know it worked in past but somehow it stopped working.",
+      "parentUuid": "56fdd527_c3c43f31",
       "range": {
         "startLine": 265,
         "startChar": 0,

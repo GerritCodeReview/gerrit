@@ -47,7 +47,7 @@ class RevisionNoteMap {
 
       result.put(note.copy(), rn);
     }
-    return new RevisionNoteMap(noteMap, result.build());
+    return new RevisionNoteMap(noteMap, result.buildOrThrow());
   }
 
   static RevisionNoteMap emptyMap() {

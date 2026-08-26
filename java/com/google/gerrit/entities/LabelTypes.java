@@ -98,8 +98,7 @@ public class LabelTypes {
     if (this == o) {
       return true;
     }
-    if (o instanceof LabelTypes) {
-      LabelTypes other = (LabelTypes) o;
+    if (o instanceof LabelTypes other) {
       return labelTypes.equals(other.labelTypes);
     }
     return false;

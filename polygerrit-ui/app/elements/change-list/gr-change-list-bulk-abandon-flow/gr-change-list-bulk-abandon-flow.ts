@@ -45,13 +45,14 @@ export class GrChangeListBulkAbandonFlow extends LitElement {
   }
 
   override render() {
+    const restore = this.isRestoreMode();
     return html`
       <gr-button
-        id="abandon"
+        id=${restore ? 'restore' : 'abandon'}
         flatten
         .disabled=${!this.isEnabled()}
         @click=${() => this.actionModal.showModal()}
-        >Abandon</gr-button
+        >${restore ? 'Restore' : 'Abandon'}</gr-button
       >
       <dialog id="actionModal" tabindex="-1">
         <gr-dialog
@@ -62,7 +63,8 @@ export class GrChangeListBulkAbandonFlow extends LitElement {
           .cancelLabel=${'Close'}
         >
           <div slot="header">
-            ${this.selectedChanges.length} changes to abandon
+            ${this.selectedChanges.length} changes to
+            ${restore ? 'restore' : 'abandon'}
           </div>
           <div slot="main">
             <table>
@@ -97,7 +99,24 @@ export class GrChangeListBulkAbandonFlow extends LitElement {
       : ProgressStatus.NOT_STARTED;
   }
 
+  /**
+   * The button acts as a toggle: when every selected change is abandoned it
+   * offers to restore them, otherwise it offers to abandon them. Changes that
+   * are already in the target state are skipped by the model.
+   */
+  private isRestoreMode() {
+    return (
+      this.selectedChanges.length > 0 &&
+      this.selectedChanges.every(
+        change => change.status === ChangeStatus.ABANDONED
+      )
+    );
+  }
+
   private isEnabled() {
+    if (this.isRestoreMode()) {
+      return this.selectedChanges.every(change => !!change.actions?.restore);
+    }
     return this.selectedChanges.every(
       change =>
         !!change.actions?.abandon || change.status === ChangeStatus.ABANDONED
@@ -129,7 +148,10 @@ export class GrChangeListBulkAbandonFlow extends LitElement {
     const errFn = (changeNum: NumericChangeId) => {
       throw new Error(`request for ${changeNum} failed`);
     };
-    const promises = this.getBulkActionsModel().abandonChanges('', errFn);
+    const model = this.getBulkActionsModel();
+    const promises = this.isRestoreMode()
+      ? model.restoreChanges('', errFn)
+      : model.abandonChanges('', errFn);
     for (let index = 0; index < promises.length; index++) {
       const changeNum = this.selectedChanges[index]._number;
       promises[index]

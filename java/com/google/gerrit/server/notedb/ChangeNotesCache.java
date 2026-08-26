@@ -345,14 +345,14 @@ public class ChangeNotesCache {
      * ChangeNotes} is capable of lazily loading it as necessary.
      */
     @Nullable
-    abstract RevisionNoteMap<ChangeRevisionNote> revisionNoteMap();
+    abstract RevisionNoteMap revisionNoteMap();
   }
 
   private class Loader implements Callable<ChangeNotesState> {
     private final Key key;
     private final Supplier<ChangeNotesRevWalk> walkSupplier;
 
-    private RevisionNoteMap<ChangeRevisionNote> revisionNoteMap;
+    private RevisionNoteMap revisionNoteMap;
 
     private Loader(Key key, Supplier<ChangeNotesRevWalk> walkSupplier) {
       this.key = key;

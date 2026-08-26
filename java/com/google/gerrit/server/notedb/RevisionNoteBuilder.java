@@ -43,10 +43,10 @@ import org.eclipse.jgit.lib.ObjectId;
 class RevisionNoteBuilder {
   /** Construct a new RevisionNoteMap, seeding it with an existing (immutable) RevisionNoteMap */
   static class Cache {
-    private final RevisionNoteMap<? extends RevisionNote<? extends Comment>> revisionNoteMap;
+    private final RevisionNoteMap revisionNoteMap;
     private final Map<ObjectId, RevisionNoteBuilder> builders;
 
-    Cache(RevisionNoteMap<? extends RevisionNote<? extends Comment>> revisionNoteMap) {
+    Cache(RevisionNoteMap revisionNoteMap) {
       this.revisionNoteMap = revisionNoteMap;
       this.builders = new HashMap<>();
     }
@@ -83,15 +83,13 @@ class RevisionNoteBuilder {
 
   private String pushCert;
 
-  private RevisionNoteBuilder(RevisionNote<? extends Comment> base) {
+  private RevisionNoteBuilder(@Nullable ChangeRevisionNote base) {
     if (base != null) {
       baseRaw = base.getRaw();
       baseComments = base.getEntities();
       put = Maps.newHashMapWithExpectedSize(baseComments.size());
-      if (base instanceof ChangeRevisionNote) {
-        pushCert = ((ChangeRevisionNote) base).getPushCert();
-        submitRequirementResults = ((ChangeRevisionNote) base).getSubmitRequirementsResult();
-      }
+       pushCert = base.getPushCert();
+       submitRequirementResults = base.getSubmitRequirementsResult();
     } else {
       baseRaw = new byte[0];
       baseComments = Collections.emptyList();

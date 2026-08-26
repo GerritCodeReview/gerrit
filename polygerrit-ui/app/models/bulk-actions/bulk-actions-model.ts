@@ -148,6 +148,30 @@ export class BulkActionsModel extends Model<BulkActionsState> {
     });
   }
 
+  restoreChanges(
+    reason?: string,
+    // errorFn is needed to avoid showing an error dialog
+    errFn?: (changeNum: NumericChangeId) => void
+  ): Promise<Response>[] {
+    const current = this.getState();
+    return current.selectedChangeNums.map(changeNum => {
+      if (!current.allChanges.get(changeNum))
+        throw new Error('invalid change id');
+      const change = current.allChanges.get(changeNum)!;
+      if (change.status !== ChangeStatus.ABANDONED) {
+        return Promise.resolve(new Response());
+      }
+      return this.restApiService.executeChangeAction(
+        getChangeNumber(change),
+        change.actions!.restore!.method,
+        '/restore',
+        undefined,
+        {message: reason ?? ''},
+        () => errFn && errFn(getChangeNumber(change))
+      );
+    });
+  }
+
   voteChanges(reviewInput: ReviewInput) {
     const current = this.getState();
     return current.selectedChangeNums.map(changeNum => {

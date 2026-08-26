@@ -88,6 +88,7 @@ public class AndPredicateTest extends PredicateTest {
     final TestPredicate<String> b = f("author", "bob");
     final TestPredicate<String> c = f("author", "charlie");
 
+    assertTrue(and(a).hashCode() == and(a).hashCode());
     assertTrue(and(a, b).hashCode() == and(a, b).hashCode());
     assertTrue(and(a, b, c).hashCode() == and(a, b, c).hashCode());
     assertFalse(and(a, c).hashCode() == and(a, b).hashCode());

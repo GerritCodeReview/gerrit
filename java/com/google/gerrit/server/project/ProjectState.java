@@ -422,23 +422,27 @@ public class ProjectState {
   /** All available label types. */
   public LabelTypes getLabelTypes() {
     Map<String, LabelType> types = new LinkedHashMap<>();
-    globalLabelTypes.forEach(e -> types.put(e.get().getName().toLowerCase(Locale.US), e.get()));
+    globalLabelTypes.forEach(
+        e -> {
+          LabelType t = e.get();
+          if (!t.getValues().isEmpty()) {
+            types.put(t.getName().toLowerCase(Locale.US), t);
+          }
+        });
     for (ProjectState s : treeInOrder()) {
       for (LabelType type : s.getConfig().getLabelSections().values()) {
         String lower = type.getName().toLowerCase(Locale.US);
         LabelType old = types.get(lower);
         if (old == null || old.isCanOverride()) {
-          types.put(lower, type);
+          if (type.getValues().isEmpty()) {
+            types.remove(lower);
+          } else {
+            types.put(lower, type);
+          }
         }
       }
     }
-    List<LabelType> all = Lists.newArrayListWithCapacity(types.size());
-    for (LabelType type : types.values()) {
-      if (!type.getValues().isEmpty()) {
-        all.add(type);
-      }
-    }
-    return new LabelTypes(Collections.unmodifiableList(all));
+    return new LabelTypes(types);
   }
 
   /** All available label types for this change. */
@@ -448,9 +452,21 @@ public class ProjectState {
 
   /** All available label types for this branch. */
   public LabelTypes getLabelTypes(BranchNameKey destination) {
-    List<LabelType> all = getLabelTypes().getLabelTypes();
+    LabelTypes labelTypes = getLabelTypes();
+    List<LabelType> all = labelTypes.getLabelTypes();
 
-    List<LabelType> r = Lists.newArrayListWithCapacity(all.size());
+    boolean hasRefPatterns = false;
+    for (LabelType l : all) {
+      if (l.getRefPatterns() != null) {
+        hasRefPatterns = true;
+        break;
+      }
+    }
+    if (!hasRefPatterns) {
+      return labelTypes;
+    }
+
+    ImmutableList.Builder<LabelType> r = ImmutableList.builderWithExpectedSize(all.size());
     for (LabelType l : all) {
       ImmutableList<String> refs = l.getRefPatterns();
       if (refs == null) {
@@ -473,7 +489,7 @@ public class ProjectState {
       }
     }
 
-    return new LabelTypes(r);
+    return new LabelTypes(r.build());
   }
 
   public List<CommentLinkInfo> getCommentLinks() {

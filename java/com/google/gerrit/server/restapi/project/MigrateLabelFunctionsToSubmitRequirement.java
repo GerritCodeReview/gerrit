@@ -37,6 +37,7 @@ import java.util.Collection;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -251,10 +252,27 @@ public class MigrateLabelFunctionsToSubmitRequirement {
               String.join(
                   " OR ",
                   lt.getRefPatterns().stream()
-                      .map(b -> "branch:\\\"" + b + "\\\"")
+                      .map(MigrateLabelFunctionsToSubmitRequirement::toApplicableIfExpression)
                       .collect(Collectors.toList()))));
     }
     return builder.build();
+  }
+
+  private static String toApplicableIfExpression(String branchRef) {
+    // Reqex -> migrate as it is.
+    if (branchRef.startsWith("^")) {
+      return "branch:" + branchRef;
+    }
+    // Wildcard -> needs to converted into gerrit regex.
+    if (branchRef.endsWith("/*")) {
+      String prefix = branchRef.substring(0, branchRef.length() - 1);
+      String regex = "^" + Pattern.quote(prefix) + ".*";
+      return "branch:" + regex;
+    }
+    // If branch with " -> need to escape "
+    branchRef = branchRef.replace("\"", "\\\"");
+    // Other cases e.g. branch with # or " -> needs to be quoted
+    return "branch:\"" + branchRef + "\"";
   }
 
   private static boolean isBlockingOrRequiredLabel(LabelType lt) {

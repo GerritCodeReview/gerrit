@@ -16,6 +16,24 @@
       "message": "Looks like this has been this way... forever. I went back to a version of Gerrit with BUCK and Jetty 9.0.6 and it was like this, so I\u0027m guessing at the \"original intent\" bit.",
       "revId": "a2b28ff7a666087e49075612a6de7653917a1038",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5db81d61_0daae2d7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-26T00:02:09Z",
+      "side": 1,
+      "message": "Ah! Right after I post that, I found the change that introduced it. Turns out it was the Jetty 9.0.6 bump itself: https://gerrit-review.googlesource.com/c/gerrit/+/51722/3/gerrit-pgm/src/main/java/com/google/gerrit/pgm/http/jetty/JettyServer.java#182\n\n@david.ostrovsky@gmail.com any idea if that was just a mistake or if you did it on purpose? (memory test for 13 years ago... 😄)",
+      "parentUuid": "ae643a1e_5d1717b6",
+      "revId": "a2b28ff7a666087e49075612a6de7653917a1038",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

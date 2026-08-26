@@ -2650,11 +2650,15 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     );
     const body: {
       fix_replacement_infos: FixReplacementInfo[];
-      original_patchset_for_fix?: PatchSetNum;
+      original_patchset_for_fix?: number;
     } = {
       fix_replacement_infos: fixReplacementInfos,
     };
-    if (targetPatchNum !== undefined && targetPatchNum !== fixPatchNum) {
+    if (
+      targetPatchNum !== undefined &&
+      targetPatchNum !== fixPatchNum &&
+      typeof fixPatchNum === 'number'
+    ) {
       body.original_patchset_for_fix = fixPatchNum;
     }
     return this._restApiHelper.fetch({

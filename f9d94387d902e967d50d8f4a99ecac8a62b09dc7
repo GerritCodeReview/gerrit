@@ -51,6 +51,24 @@
       "message": "It looks like `getLabelTypes()` in `ProjectState` is building this same map and then only passing the values to the constructor here. Can you look at if the two `getLabelTypes` methods in that class could be optimized with this up-front population of fields?",
       "revId": "f9d94387d902e967d50d8f4a99ecac8a62b09dc7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7230aa8_7d438f55",
+        "filename": "java/com/google/gerrit/entities/LabelTypes.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-08-26T18:55:16Z",
+      "side": 1,
+      "message": "It doesn\u0027t look like we can much optimized there - maybe just better types. But AI find nice optimalization for most repos that doesn\u0027t restrict labels on some branches",
+      "parentUuid": "6e2745e9_e653103e",
+      "revId": "f9d94387d902e967d50d8f4a99ecac8a62b09dc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

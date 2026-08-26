@@ -371,7 +371,7 @@ public class ChangeDraftNotesUpdate extends AbstractChangeUpdate implements Chan
   private CommitBuilder storeCommentsInNotes(
       RevWalk rw, ObjectInserter ins, ObjectId curr, CommitBuilder cb)
       throws ConfigInvalidException, IOException {
-    RevisionNoteMap<ChangeRevisionNote> rnm = getRevisionNoteMap(rw, curr);
+    RevisionNoteMap rnm = getRevisionNoteMap(rw, curr);
     RevisionNoteBuilder.Cache cache = new RevisionNoteBuilder.Cache(rnm);
 
     for (HumanComment c : put) {
@@ -422,7 +422,7 @@ public class ChangeDraftNotesUpdate extends AbstractChangeUpdate implements Chan
     return cb;
   }
 
-  private RevisionNoteMap<ChangeRevisionNote> getRevisionNoteMap(RevWalk rw, ObjectId curr)
+  private RevisionNoteMap getRevisionNoteMap(RevWalk rw, ObjectId curr)
       throws ConfigInvalidException, IOException {
     // The old DraftCommentNotes already parsed the revision notes. We can reuse them as long as
     // the ref hasn't advanced.
@@ -431,7 +431,7 @@ public class ChangeDraftNotesUpdate extends AbstractChangeUpdate implements Chan
       DraftCommentNotes draftNotes = changeNotes.load().getDraftCommentNotes();
       if (draftNotes != null) {
         ObjectId idFromNotes = firstNonNull(draftNotes.getRevision(), ObjectId.zeroId());
-        RevisionNoteMap<ChangeRevisionNote> rnm = draftNotes.getRevisionNoteMap();
+        RevisionNoteMap rnm = draftNotes.getRevisionNoteMap();
         if (idFromNotes.equals(curr) && rnm != null) {
           return rnm;
         }

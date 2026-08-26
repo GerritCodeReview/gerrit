@@ -201,7 +201,7 @@ class ChangeNotesParser {
   private String originalSubject;
   private String submissionId;
   private String tag;
-  private RevisionNoteMap<ChangeRevisionNote> revisionNoteMap;
+  private RevisionNoteMap revisionNoteMap;
   private Boolean isPrivate;
   private Boolean workInProgress;
   private Boolean previousWorkInProgressFooter;
@@ -285,7 +285,7 @@ class ChangeNotesParser {
     return buildState();
   }
 
-  RevisionNoteMap<ChangeRevisionNote> getRevisionNoteMap() {
+  RevisionNoteMap getRevisionNoteMap() {
     return revisionNoteMap;
   }
 

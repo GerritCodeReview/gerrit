@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "724a4779_56577154",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1353,
+      "author": {
+        "id": 3001824
+      },
+      "writtenOn": "2026-08-26T20:48:54Z",
+      "side": 1,
+      "message": "submitRequirements is already cached but getLegacyRequirements isn\u0027t.\n\nShould we be worrying about changes there?\nIf not can you add a note with the description saying why it\u0027s safe?\nOr are there other checks we need to do to invalidate submitRequirementsIncludingLegacy on change?",
+      "range": {
+        "startLine": 1353,
+        "startChar": 36,
+        "endLine": 1353,
+        "endChar": 57
+      },
+      "revId": "7bc6f1b16d50625a229ae1c46b2277805d1da370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

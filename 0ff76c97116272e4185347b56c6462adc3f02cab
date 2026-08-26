@@ -3,6 +3,98 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1dab9fd9_bd0ab104",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-08-26T06:16:35Z",
+      "side": 1,
+      "message": "Gerrit\u0027s pool is a QueuedThreadPool (a Jetty SizedThreadPool), so Jetty uses max(1, min(processors/2, maxThreads/16)), see: [1].\n\nWith the default httpd.maxThreads \u003d 25, 25/16 \u003d 1, so the derived count is 1 selector and does not start to scale with the machine until maxThreads reaches 32 (32/16 \u003d 2).\n\n\n```suggestion\nhttpd.selectorThreads (default 0, meaning Jetty derives the count as\nmax(1, min(processors/2, httpd.maxThreads/16)) for Gerrit\u0027s sized thread\npool). Note that with the default httpd.maxThreads \u003d 25 this resolves to\na single selector; raise httpd.maxThreads for the count to scale with\nCPUs.\n```\n\n[1]: https://github.com/jetty/jetty.project/blob/jetty-12.1.x/jetty-core/jetty-io/src/main/java/org/eclipse/jetty/io/SelectorManager.java#L68-L77",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 0
+      },
+      "revId": "0ff76c97116272e4185347b56c6462adc3f02cab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a40edf18_8c4028ee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-08-26T06:16:35Z",
+      "side": 1,
+      "message": "Add this sentence before:\n\n\n```suggestion\nThis changes the effective default connector topology from 0 acceptors /\n2 selectors to 2 acceptors / 1 selector.\n\nSites that previously tuned httpd.acceptorThreads to control network I/O\n```",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 72
+      },
+      "revId": "0ff76c97116272e4185347b56c6462adc3f02cab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "edf2aade_be87a730",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-08-26T06:16:35Z",
+      "side": 1,
+      "message": "```suggestion\nRelease-Notes: Fixed httpd.acceptorThreads being applied to Jetty selector threads instead of acceptor threads and added httpd.selectorThreads to control selector thread count independently. Previously httpd.acceptorThreads sized the selectors (with no dedicated acceptors); sites that raised it for I/O concurrency should now set httpd.selectorThreads to keep the same selector count, since that value now sizes acceptors.\n```",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 189
+      },
+      "revId": "0ff76c97116272e4185347b56c6462adc3f02cab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55e7b04d_31be563e",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3690,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-08-26T06:16:35Z",
+      "side": 1,
+      "message": "This formula doesn\u0027t match Jetty 12.1.11 for a sized thread pool.\n\nJetty uses max(1, min(processors/2, httpd.maxThreads/16)), so at the default maxThreads\u003d25 this derives to 1 selector, not processors/2.\n\nThe text should state the cap and that the selector count only starts to scale once maxThreads reaches 32 (32/16 \u003d 2).",
+      "range": {
+        "startLine": 3690,
+        "startChar": 23,
+        "endLine": 3690,
+        "endChar": 43
+      },
+      "revId": "0ff76c97116272e4185347b56c6462adc3f02cab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a7173914_36acf6ce",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 2
@@ -14,6 +106,70 @@
       "writtenOn": "2026-08-26T04:35:12Z",
       "side": 1,
       "message": "I\u0027m not sure we should mention the old behavior in here, but if we do, I think we need to qualify what \u0027previously\u0027 means.",
+      "revId": "0ff76c97116272e4185347b56c6462adc3f02cab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9ce7372_4b4f8037",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3693,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-08-26T06:16:35Z",
+      "side": 1,
+      "message": "Agreed — this is upgrade guidance, not reference material, so I\u0027ll drop it from config-gerrit.txt and put it in the release notes instead. You\u0027re also right that \"previously\" is misleading: before this change acceptorThreads actually sized selectors, so I\u0027ll make the release note state that explicitly (e.g. \"if you had raised httpd.acceptorThreads to increase I/O/selector concurrency, that value now sizes acceptors — set httpd.selectorThreads to restore the selector count\") rather than leave a vague pointer here.",
+      "parentUuid": "a7173914_36acf6ce",
+      "revId": "0ff76c97116272e4185347b56c6462adc3f02cab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "064ece89_8a994673",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3700,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-08-26T06:16:35Z",
+      "side": 1,
+      "message": "Now that selectors are separately configurable, this sizing guidance should mention them, something like:\n\nJetty leases executor threads for both acceptors and selectors via ThreadPoolBudget,\nso raising httpd.selectorThreads (or acceptorThreads) may require raising\nhttpd.maxThreads too.",
+      "range": {
+        "startLine": 3700,
+        "startChar": 0,
+        "endLine": 3700,
+        "endChar": 64
+      },
+      "revId": "0ff76c97116272e4185347b56c6462adc3f02cab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22f5da4a_d133cd92",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-08-26T06:16:35Z",
+      "side": 1,
+      "message": "Defaulting to 0 changes the effective default. Previously acceptorThreads (2) was mis-passed as the selector count, so runtime topology was 0 acceptors / 2 selectors. Now acceptors\u003d2, and with a SizedThreadPool at the default maxThreads\u003d25 the derived selector count is 1 — i.e. 2 acceptors / 1 selector.\n\nIs 2 acceptors / 1 selector the intended new default, or should we preserve the historical 0 / 2 (acceptorThreads\u003d0, selectorThreads\u003d2)? Either way the shift is worth calling out — which the commit-message and release-note comments now do.",
+      "range": {
+        "startLine": 336,
+        "startChar": 68,
+        "endLine": 337,
+        "endChar": 4
+      },
       "revId": "0ff76c97116272e4185347b56c6462adc3f02cab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

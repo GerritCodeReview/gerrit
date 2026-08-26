@@ -34,6 +34,24 @@
       "parentUuid": "ae643a1e_5d1717b6",
       "revId": "a2b28ff7a666087e49075612a6de7653917a1038",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fceb1394_bc36188f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-08-26T06:16:35Z",
+      "side": 1,
+      "message": "Ha — memory test failed. 😄 If I\u0027d swapped them on purpose, past-me would\u0027ve left a comment gloating about it; the silence tells me it was just a mistake. Good catch dredging it out of the Jetty 9.0.6 bump.",
+      "parentUuid": "5db81d61_0daae2d7",
+      "revId": "a2b28ff7a666087e49075612a6de7653917a1038",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

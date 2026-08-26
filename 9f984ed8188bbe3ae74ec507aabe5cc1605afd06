@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e7c0edf_7ed1edf0",
+        "filename": "java/com/google/gerrit/server/notedb/RevisionNoteBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-08-26T17:58:19Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "743c8ddd_18a9dd2b",
+      "range": {
+        "startLine": 86,
+        "startChar": 0,
+        "endLine": 86,
+        "endChar": 69
+      },
+      "revId": "9f984ed8188bbe3ae74ec507aabe5cc1605afd06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "add684b1_9850c660",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-08-26T14:18:43Z",
       "side": 1,
       "message": "```suggestion\n       pushCert \u003d base.getPushCert();\n       submitRequirementResults \u003d base.getSubmitRequirementsResult();\n    } else {\n```",
+      "range": {
+        "startLine": 91,
+        "startChar": 0,
+        "endLine": 95,
+        "endChar": 0
+      },
+      "revId": "9f984ed8188bbe3ae74ec507aabe5cc1605afd06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe83f142_48812b31",
+        "filename": "java/com/google/gerrit/server/notedb/RevisionNoteBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-08-26T17:58:19Z",
+      "side": 1,
+      "message": "Thanks that was great idea",
+      "parentUuid": "add684b1_9850c660",
       "range": {
         "startLine": 91,
         "startChar": 0,

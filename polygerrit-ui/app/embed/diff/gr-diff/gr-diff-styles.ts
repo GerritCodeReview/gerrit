@@ -459,12 +459,91 @@ export const grDiffRowStyles = css`
   gr-diff-row td.sign.blank {
     background-color: var(--diff-blank-background-color);
   }
-  gr-diff-row td.content {
+  gr-diff-row td.content,
+  gr-diff-row td.blank {
     /* Set min width since setting width on table cells still allows them
        to shrink. Do not set max width because CJK
        (Chinese-Japanese-Korean) glyphs have variable width. */
     min-width: var(--content-width, 80ch);
     width: var(--content-width, 80ch);
+    position: relative;
+  }
+  gr-diff-row td.left .revert-container {
+    position: absolute;
+    right: -9px;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    z-index: 10;
+    pointer-events: none;
+  }
+  gr-diff-row tr.unified td.content .revert-container {
+    position: absolute;
+    right: 4px;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    z-index: 10;
+    pointer-events: none;
+  }
+  gr-diff-row .revert-btn {
+    pointer-events: auto;
+    width: 18px;
+    height: 18px;
+    border-radius: 3px;
+    border: 1px solid var(--border-color, #dadce0);
+    background-color: var(--background-color-primary, #ffffff);
+    color: var(--deemphasized-text-color, #5f6368);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    box-shadow: var(--elevation-level-1, 0 1px 2px rgba(60, 64, 67, 0.3));
+    transition: background-color 150ms ease, border-color 150ms ease,
+      box-shadow 150ms ease, color 150ms ease;
+  }
+  gr-diff-row .revert-btn gr-icon {
+    font-size: 14px;
+    line-height: 14px;
+    width: 14px;
+    height: 14px;
+    color: inherit;
+  }
+  gr-diff-row .revert-btn:hover {
+    background-color: var(--hover-background-color, #f1f3f4);
+    border-color: var(--primary-button-background-color, #1a73e8);
+    color: var(--primary-button-background-color, #1a73e8);
+    box-shadow: var(--elevation-level-2, 0 1px 3px 1px rgba(60, 64, 67, 0.15));
+  }
+  gr-diff-row .revert-btn:active {
+    background-color: var(--chip-selected-background-color, #e8f0fe);
+  }
+  gr-diff-row .revert-btn.loading {
+    cursor: wait;
+    pointer-events: none;
+    background-color: var(--chip-selected-background-color, #e8f0fe);
+    border-color: var(--primary-button-background-color, #1a73e8);
+  }
+  gr-diff-row .revert-btn .loadingSpin {
+    width: 10px;
+    height: 10px;
+    border: 2px solid var(--disabled-button-background-color, #dadce0);
+    border-top: 2px solid var(--primary-button-background-color, #1a73e8);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    box-sizing: border-box;
+  }
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
   }
   /* If there are no intraline info, consider everything changed */
   gr-diff-row td.content.add div.contentText .intraline,

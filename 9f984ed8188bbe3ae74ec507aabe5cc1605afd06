@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "743c8ddd_18a9dd2b",
+        "filename": "java/com/google/gerrit/server/notedb/RevisionNoteBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-08-26T14:18:43Z",
+      "side": 1,
+      "message": "Nit: Now that `RevisionNoteMap` stores `ChangeRevisionNote` directly, this constructor can be tightened too. `RevisionNote` itself should stay generic for plugin usages such as checks.\n\n```suggestion\n  private RevisionNoteBuilder(@Nullable ChangeRevisionNote base) {\n```",
+      "range": {
+        "startLine": 86,
+        "startChar": 0,
+        "endLine": 86,
+        "endChar": 69
+      },
+      "revId": "9f984ed8188bbe3ae74ec507aabe5cc1605afd06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "add684b1_9850c660",
+        "filename": "java/com/google/gerrit/server/notedb/RevisionNoteBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-08-26T14:18:43Z",
+      "side": 1,
+      "message": "```suggestion\n       pushCert \u003d base.getPushCert();\n       submitRequirementResults \u003d base.getSubmitRequirementsResult();\n    } else {\n```",
+      "range": {
+        "startLine": 91,
+        "startChar": 0,
+        "endLine": 95,
+        "endChar": 0
+      },
+      "revId": "9f984ed8188bbe3ae74ec507aabe5cc1605afd06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

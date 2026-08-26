@@ -188,10 +188,12 @@ public class ListBranches implements RestReadView<ProjectResource> {
     Function<Ref, String> refNameExtractor =
         (Ref r) -> r.getName() + (r.isSymbolic() ? " " + r.getTarget().getName() : "");
     ImmutableList<Ref> filtered =
-        new RefFilter<>(Constants.R_HEADS, refNameExtractor, regexCompiler)
-            .subString(matchSubstring).regex(matchRegex).filter(allBranches).stream()
-                .sorted(new RefComparator())
-                .collect(ImmutableList.toImmutableList());
+        ImmutableList.sortedCopyOf(
+            new RefComparator(),
+            new RefFilter<>(Constants.R_HEADS, refNameExtractor, regexCompiler)
+                .subString(matchSubstring)
+                .regex(matchRegex)
+                .filter(allBranches));
 
     if (nextPageToken != null) {
       if (!isValidToken(nextPageToken)) {

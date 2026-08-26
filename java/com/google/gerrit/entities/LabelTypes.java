@@ -14,24 +14,44 @@
 
 package com.google.gerrit.entities;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 
 public class LabelTypes {
-  protected List<LabelType> labelTypes;
-  private transient volatile Map<String, LabelType> byLabel;
-  private transient volatile Map<String, Integer> positions;
-
-  protected LabelTypes() {}
+  private final ImmutableList<LabelType> labelTypes;
+  private final ImmutableMap<String, LabelType> byLabel;
+  private final ImmutableMap<String, Integer> positions;
+  private final Comparator<String> nameComparator;
 
   public LabelTypes(List<? extends LabelType> approvals) {
-    labelTypes = Collections.unmodifiableList(new ArrayList<>(approvals));
+    this.labelTypes = ImmutableList.copyOf(approvals);
+
+    Map<String, LabelType> byLabelMap = new HashMap<>(labelTypes.size());
+    Map<String, Integer> positionsMap = new HashMap<>(labelTypes.size());
+    for (int i = 0; i < labelTypes.size(); i++) {
+      LabelType t = labelTypes.get(i);
+      byLabelMap.put(t.getName().toLowerCase(Locale.US), t);
+      positionsMap.put(t.getName(), i);
+    }
+    this.byLabel = ImmutableMap.copyOf(byLabelMap);
+    this.positions = ImmutableMap.copyOf(positionsMap);
+    this.nameComparator =
+        (left, right) -> {
+          int lp = positions.getOrDefault(left, positions.size());
+          int rp = positions.getOrDefault(right, positions.size());
+          int cmp = lp - rp;
+          if (cmp == 0) {
+            cmp = left.compareTo(right);
+          }
+          return cmp;
+        };
   }
 
   public List<LabelType> getLabelTypes() {
@@ -39,28 +59,11 @@ public class LabelTypes {
   }
 
   public Optional<LabelType> byLabel(LabelId labelId) {
-    return Optional.ofNullable(byLabel().get(labelId.get().toLowerCase(Locale.US)));
+    return byLabel(labelId.get());
   }
 
   public Optional<LabelType> byLabel(String labelName) {
-    return Optional.ofNullable(byLabel().get(labelName.toLowerCase(Locale.US)));
-  }
-
-  private Map<String, LabelType> byLabel() {
-    if (byLabel == null) {
-      synchronized (this) {
-        if (byLabel == null) {
-          Map<String, LabelType> l = new HashMap<>();
-          if (labelTypes != null) {
-            for (LabelType t : labelTypes) {
-              l.put(t.getName().toLowerCase(Locale.US), t);
-            }
-          }
-          byLabel = l;
-        }
-      }
-    }
-    return byLabel;
+    return Optional.ofNullable(byLabel.get(labelName.toLowerCase(Locale.US)));
   }
 
   @Override
@@ -69,41 +72,23 @@ public class LabelTypes {
   }
 
   public Comparator<String> nameComparator() {
-    final Map<String, Integer> positions = positions();
-    return new Comparator<>() {
-      @Override
-      public int compare(String left, String right) {
-        int lp = position(left);
-        int rp = position(right);
-        int cmp = lp - rp;
-        if (cmp == 0) {
-          cmp = left.compareTo(right);
-        }
-        return cmp;
-      }
-
-      private int position(String name) {
-        Integer p = positions.get(name);
-        return p != null ? p : positions.size();
-      }
-    };
+    return nameComparator;
   }
 
-  private Map<String, Integer> positions() {
-    if (positions == null) {
-      synchronized (this) {
-        if (positions == null) {
-          Map<String, Integer> p = new HashMap<>();
-          if (labelTypes != null) {
-            int i = 0;
-            for (LabelType t : labelTypes) {
-              p.put(t.getName(), i++);
-            }
-          }
-          positions = p;
-        }
-      }
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
     }
-    return positions;
+    if (o instanceof LabelTypes) {
+      LabelTypes other = (LabelTypes) o;
+      return Objects.equals(labelTypes, other.labelTypes);
+    }
+    return false;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(labelTypes);
   }
 }

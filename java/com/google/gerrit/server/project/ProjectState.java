@@ -432,13 +432,13 @@ public class ProjectState {
         }
       }
     }
-    List<LabelType> all = Lists.newArrayListWithCapacity(types.size());
+    ImmutableList.Builder<LabelType> all = ImmutableList.builderWithExpectedSize(types.size());
     for (LabelType type : types.values()) {
       if (!type.getValues().isEmpty()) {
         all.add(type);
       }
     }
-    return new LabelTypes(Collections.unmodifiableList(all));
+    return new LabelTypes(all.build());
   }
 
   /** All available label types for this change. */
@@ -448,9 +448,21 @@ public class ProjectState {
 
   /** All available label types for this branch. */
   public LabelTypes getLabelTypes(BranchNameKey destination) {
-    List<LabelType> all = getLabelTypes().getLabelTypes();
+    LabelTypes labelTypes = getLabelTypes();
+    List<LabelType> all = labelTypes.getLabelTypes();
 
-    List<LabelType> r = Lists.newArrayListWithCapacity(all.size());
+    boolean hasRefPatterns = false;
+    for (LabelType l : all) {
+      if (l.getRefPatterns() != null) {
+        hasRefPatterns = true;
+        break;
+      }
+    }
+    if (!hasRefPatterns) {
+      return labelTypes;
+    }
+
+    ImmutableList.Builder<LabelType> r = ImmutableList.builderWithExpectedSize(all.size());
     for (LabelType l : all) {
       ImmutableList<String> refs = l.getRefPatterns();
       if (refs == null) {
@@ -473,7 +485,7 @@ public class ProjectState {
       }
     }
 
-    return new LabelTypes(r);
+    return new LabelTypes(r.build());
   }
 
   public List<CommentLinkInfo> getCommentLinks() {

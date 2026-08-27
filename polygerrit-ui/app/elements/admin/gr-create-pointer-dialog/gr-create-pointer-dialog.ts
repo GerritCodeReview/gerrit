@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../shared/gr-button/gr-button';
-import '../../shared/gr-select/gr-select';
 import {BranchName, RepoName} from '../../../types/common';
 import {getAppContext} from '../../../services/app-context';
 import {grFormStyles} from '../../../styles/gr-form-styles';

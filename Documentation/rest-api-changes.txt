@@ -2429,6 +2429,10 @@ describes the destination change after applying the patch.
 Retrieves the branches and tags in which a change is included. As result
 an link:#included-in-info[IncludedInInfo] entity is returned.
 
+Only works for merged changes. If the change is not merged, the response
+is "`409 Conflict`" and the error message is contained in the response
+body.
+
 .Request
 ----
   GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/in HTTP/1.0

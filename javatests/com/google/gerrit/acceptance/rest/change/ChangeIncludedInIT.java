@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.rest.change;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static org.eclipse.jgit.lib.Constants.R_TAGS;
 
 import com.google.common.collect.ImmutableListMultimap;
@@ -34,6 +35,7 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.projects.TagInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.config.ExternalIncludedIn;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.server.change.FilterIncludedIn;
 import com.google.inject.Inject;
 import java.util.Collection;
@@ -86,8 +88,11 @@ public class ChangeIncludedInIT extends AbstractDaemonTest {
   @Test
   public void includedInOpenChange() throws Exception {
     Result result = createChange();
-    assertThat(gApi.changes().id(result.getChangeId()).includedIn().branches).isEmpty();
-    assertThat(gApi.changes().id(result.getChangeId()).includedIn().tags).isEmpty();
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> gApi.changes().id(result.getChangeId()).includedIn());
+    assertThat(thrown).hasMessageThat().isEqualTo("change is new");
   }
 
   private String baseTestCase() throws Exception {

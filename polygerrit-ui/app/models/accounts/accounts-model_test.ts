@@ -68,4 +68,21 @@ suite('accounts-model tests', () => {
     model.fillDetails({email: 'Invalid_email@def.com' as EmailAddress});
     assert.equal(getAccountDetails.callCount, 1);
   });
+
+  test('concurrent lookups for same account deduplicate requests', async () => {
+    const stub = stubRestApi('getAccountDetails').returns(
+      Promise.resolve(KERMIT)
+    );
+
+    const [a1, a2, a3] = await Promise.all([
+      model.fillDetails({_account_id: 1 as AccountId}),
+      model.fillDetails({_account_id: 1 as AccountId}),
+      model.fillDetails({_account_id: 1 as AccountId}),
+    ]);
+
+    assert.equal(a1.name, 'Kermit');
+    assert.equal(a2.name, 'Kermit');
+    assert.equal(a3.name, 'Kermit');
+    assert.equal(stub.callCount, 1);
+  });
 });

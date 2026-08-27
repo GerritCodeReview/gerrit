@@ -25,6 +25,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.regex.Pattern;
 import org.eclipse.jgit.internal.storage.file.LockFile;
@@ -82,5 +83,10 @@ public class H2JGitLockAccountPatchReviewStore extends H2CustomLockAccountPatchR
     } catch (IOException e) {
       throw new SQLException("Failed to acquire jgit-style lock for H2 database", e);
     }
+  }
+
+  @Override
+  public synchronized Connection getConnection() throws SQLException {
+    return super.getConnection();
   }
 }

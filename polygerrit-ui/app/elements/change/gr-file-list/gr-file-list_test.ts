@@ -1618,18 +1618,10 @@ suite('gr-file-list tests', () => {
     });
 
     suite('for merge commits', () => {
-      let filesStub: sinon.SinonStub;
-
       setup(async () => {
         element.files = [
           normalize({size: 0, size_delta: 0}, 'conflictingFile.js'),
         ];
-        filesStub = stubRestApi('getChangeOrEditFiles')
-          .onFirstCall()
-          .resolves({
-            'conflictingFile.js': {size: 0, size_delta: 0},
-            'cleanlyMergedFile.js': {size: 0, size_delta: 0},
-          });
         stubRestApi('getReviewedFiles').resolves([]);
         stubRestApi('getDiffPreferences').resolves(createDefaultDiffPrefs());
         const changeWithMultipleParents = {
@@ -1656,6 +1648,8 @@ suite('gr-file-list tests', () => {
       });
 
       test('displays cleanly merged file count', async () => {
+        element.cleanlyMergedPaths = ['cleanlyMergedFile.js'];
+        await element.updateComplete;
         await waitUntil(() => !!query(element, '.cleanlyMergedText'));
 
         const message = queryAndAssert<HTMLSpanElement>(
@@ -1666,15 +1660,10 @@ suite('gr-file-list tests', () => {
       });
 
       test('displays plural cleanly merged file count', async () => {
-        filesStub.restore();
-        stubRestApi('getChangeOrEditFiles')
-          .onFirstCall()
-          .resolves({
-            'conflictingFile.js': {size: 0, size_delta: 0},
-            'cleanlyMergedFile.js': {size: 0, size_delta: 0},
-            'anotherCleanlyMergedFile.js': {size: 0, size_delta: 0},
-          });
-        await element.updateCleanlyMergedPaths();
+        element.cleanlyMergedPaths = [
+          'cleanlyMergedFile.js',
+          'anotherCleanlyMergedFile.js',
+        ];
         await element.updateComplete;
         await waitUntil(() => !!query(element, '.cleanlyMergedText'));
 
@@ -1686,34 +1675,17 @@ suite('gr-file-list tests', () => {
       });
 
       test('displays button for navigating to parent 1 base', async () => {
+        element.cleanlyMergedPaths = ['cleanlyMergedFile.js'];
+        await element.updateComplete;
         await waitUntil(() => !!query(element, '.showParentButton'));
 
         queryAndAssert(element, '.showParentButton');
       });
 
-      test('computes old paths for cleanly merged files', async () => {
-        filesStub.restore();
-        stubRestApi('getChangeOrEditFiles')
-          .onFirstCall()
-          .resolves({
-            'conflictingFile.js': {size: 0, size_delta: 0},
-            'cleanlyMergedFile.js': {
-              old_path: 'cleanlyMergedFileOldName.js',
-              size: 0,
-              size_delta: 0,
-            },
-          });
-        await element.updateCleanlyMergedPaths();
-
-        assert.deepEqual(element.cleanlyMergedOldPaths, [
-          'cleanlyMergedFileOldName.js',
-        ]);
-      });
-
       test('not shown for non-Auto Merge base parents', async () => {
+        element.cleanlyMergedPaths = [];
         element.basePatchNum = 1 as BasePatchSetNum;
         element.patchNum = 2 as RevisionPatchSetNum;
-        await element.updateCleanlyMergedPaths();
         await element.updateComplete;
 
         assert.notOk(query(element, '.cleanlyMergedText'));
@@ -1721,9 +1693,9 @@ suite('gr-file-list tests', () => {
       });
 
       test('not shown in edit mode', async () => {
+        element.cleanlyMergedPaths = [];
         element.basePatchNum = 1 as BasePatchSetNum;
         element.patchNum = EDIT;
-        await element.updateCleanlyMergedPaths();
         await element.updateComplete;
 
         assert.notOk(query(element, '.cleanlyMergedText'));

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.api.changes.IncludedInInfo;
 import com.google.gerrit.extensions.restapi.Response;
@@ -41,6 +42,9 @@ public class ChangeIncludedIn implements RestReadView<ChangeResource> {
   @Override
   public Response<IncludedInInfo> apply(ChangeResource rsrc)
       throws RestApiException, IOException, PermissionBackendException {
+    if (!rsrc.getChange().isMerged()) {
+      return Response.ok(new IncludedInInfo(ImmutableList.of(), ImmutableList.of(), null));
+    }
     PatchSet ps = psUtil.current(rsrc.getNotes());
     return Response.ok(includedIn.apply(rsrc.getProject(), rsrc.getId(), ps.commitId().name()));
   }

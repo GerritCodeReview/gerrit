@@ -15,23 +15,20 @@
 package com.google.gerrit.index.query;
 
 import java.util.Collection;
-import java.util.Optional;
 
 public class AndCardinalPredicate<T> extends AndPredicate<T> implements HasCardinality {
   private final int cardinality;
 
   public AndCardinalPredicate(Collection<? extends Predicate<T>> that) {
     super(that);
-    Optional<Predicate<T>> atLeastOneCardinalPredicate =
-        getChildren().stream().filter(p -> (p instanceof HasCardinality)).findAny();
-    if (!atLeastOneCardinalPredicate.isPresent()) {
-      throw new IllegalArgumentException("No HasCardinality Found");
-    }
     int minCardinality = Integer.MAX_VALUE;
     for (Predicate<T> child : getChildren()) {
       if (child instanceof HasCardinality) {
         minCardinality = Math.min(((HasCardinality) child).getCardinality(), minCardinality);
       }
+    }
+    if (minCardinality == Integer.MAX_VALUE) {
+      throw new IllegalArgumentException("No HasCardinality Found");
     }
     cardinality = minCardinality;
   }

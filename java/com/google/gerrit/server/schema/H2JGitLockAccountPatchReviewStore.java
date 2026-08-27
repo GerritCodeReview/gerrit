@@ -26,6 +26,7 @@ import com.google.inject.Singleton;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.regex.Pattern;
 import org.eclipse.jgit.internal.storage.file.LockFile;
 import org.eclipse.jgit.lib.Config;
@@ -42,11 +43,13 @@ public class H2JGitLockAccountPatchReviewStore extends H2CustomLockAccountPatchR
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   private static final String H2_DB_URL_PREFIX = "jdbc:h2:file:";
   private final File lockTarget;
+  private final ReentrantLock memoryLock;
 
   @Inject
   H2JGitLockAccountPatchReviewStore(@GerritServerConfig Config cfg, SitePaths sitePaths) {
     super(cfg, sitePaths);
     this.lockTarget = lockTargetFromUrl(JdbcAccountPatchReviewStore.getUrl(cfg, sitePaths));
+    memoryLock = new ReentrantLock(true);
   }
 
   @VisibleForTesting
@@ -77,10 +80,13 @@ public class H2JGitLockAccountPatchReviewStore extends H2CustomLockAccountPatchR
   @Override
   protected Runnable tryAcquireLock() throws SQLException {
     LockFile lock = new LockFile(lockTarget);
+    memoryLock.lock();
     try {
       return lock.lock() ? lock::unlock : null;
     } catch (IOException e) {
       throw new SQLException("Failed to acquire jgit-style lock for H2 database", e);
+    } finally {
+      memoryLock.unlock();
     }
   }
 }

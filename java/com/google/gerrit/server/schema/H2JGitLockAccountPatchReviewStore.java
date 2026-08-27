@@ -19,6 +19,9 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.PatchSet.Id;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
@@ -26,6 +29,8 @@ import com.google.inject.Singleton;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Collection;
+import java.util.Optional;
 import java.util.regex.Pattern;
 import org.eclipse.jgit.internal.storage.file.LockFile;
 import org.eclipse.jgit.lib.Config;
@@ -82,5 +87,51 @@ public class H2JGitLockAccountPatchReviewStore extends H2CustomLockAccountPatchR
     } catch (IOException e) {
       throw new SQLException("Failed to acquire jgit-style lock for H2 database", e);
     }
+  }
+
+  @Override
+  public synchronized boolean markReviewed(Id psId, Account.Id accountId, String path) {
+    return super.markReviewed(psId, accountId, path);
+  }
+
+  @Override
+  public synchronized void markReviewed(Id psId, Account.Id accountId, Collection<String> paths) {
+    super.markReviewed(psId, accountId, paths);
+  }
+
+  @Override
+  public synchronized void clearReviewed(Id psId, Account.Id accountId, String path) {
+    super.clearReviewed(psId, accountId, path);
+  }
+
+  @Override
+  public synchronized void clearReviewed(Id psId) {
+    super.clearReviewed(psId);
+  }
+
+  @Override
+  public synchronized void clearReviewed(Change.Id changeId) {
+    super.clearReviewed(changeId);
+  }
+
+  @Override
+  public synchronized void clearReviewedBy(Account.Id accountId) {
+    super.clearReviewedBy(accountId);
+  }
+
+  @Override
+  public synchronized Optional<PatchSetWithReviewedFiles> findReviewed(
+      Id psId, Account.Id accountId) {
+    return super.findReviewed(psId, accountId);
+  }
+
+  @Override
+  public synchronized void createTableIfNotExists() {
+    super.createTableIfNotExists();
+  }
+
+  @Override
+  public synchronized void dropTableIfExists() {
+    super.dropTableIfExists();
   }
 }

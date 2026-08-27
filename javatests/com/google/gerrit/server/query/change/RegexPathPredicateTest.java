@@ -46,7 +46,7 @@ public class RegexPathPredicateTest {
   }
 
   @Test
-  public void fileExtension_Constant() throws Exception {
+  public void fileExtension_constant() throws Exception {
     RegexPathPredicate p = predicate("^.*\\.res");
     assertTrue(p.match(change("test.res")));
     assertTrue(p.match(change("foo/bar/test.res")));
@@ -54,7 +54,7 @@ public class RegexPathPredicateTest {
   }
 
   @Test
-  public void fileExtension_CharacterGroup() throws Exception {
+  public void fileExtension_characterGroup() throws Exception {
     RegexPathPredicate p = predicate("^.*\\.[ch]");
     assertTrue(p.match(change("test.c")));
     assertTrue(p.match(change("test.h")));

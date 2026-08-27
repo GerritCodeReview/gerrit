@@ -74,7 +74,7 @@ class ChangeRevisionNote extends RevisionNote<HumanComment> {
     MutableInteger p = new MutableInteger();
     p.value = offset;
 
-    ChangeRevisionNoteData data = parseJson(noteJson, raw, p.value);
+    RevisionNoteData data = parseJson(noteJson, raw, p.value);
     if (status == HumanComment.Status.PUBLISHED) {
       pushCert = data.pushCert;
     } else {
@@ -87,11 +87,11 @@ class ChangeRevisionNote extends RevisionNote<HumanComment> {
     return data.comments;
   }
 
-  private ChangeRevisionNoteData parseJson(ChangeNoteJson noteUtil, byte[] raw, int offset)
+  private RevisionNoteData parseJson(ChangeNoteJson noteUtil, byte[] raw, int offset)
       throws IOException {
     try (InputStream is = new ByteArrayInputStream(raw, offset, raw.length - offset);
         Reader r = new InputStreamReader(is, UTF_8)) {
-      return noteUtil.getGson().fromJson(r, ChangeRevisionNoteData.class);
+      return noteUtil.getGson().fromJson(r, RevisionNoteData.class);
     }
   }
 }

@@ -21,6 +21,11 @@ export interface AccountsState {
 export const accountsModelToken = define<AccountsModel>('accounts-model');
 
 export class AccountsModel extends Model<AccountsState> {
+  private inFlight = new Map<
+    UserId,
+    Promise<AccountDetailInfo | AccountInfo>
+  >();
+
   constructor(readonly restApiService: RestApiService) {
     super({
       accounts: {},
@@ -43,15 +48,32 @@ export class AccountsModel extends Model<AccountsState> {
     const current = this.getState();
     const id = getUserId(partialAccount);
     if (hasOwnProperty(current.accounts, id)) return {...current.accounts[id]};
-    // It is possible to add emails to CC when they don't have a Gerrit
-    // account. In this case getAccountDetails will return a 404 error then
-    // we at least use what is in partialAccount.
-    const account = await this.restApiService.getAccountDetails(id, () => {
-      this.updateStateAccount(id, partialAccount);
-      return;
-    });
-    if (account) this.updateStateAccount(id, account);
-    return account ?? partialAccount;
+    if (this.inFlight.has(id)) {
+      return this.inFlight.get(id)!;
+    }
+
+    const fetchPromise = this.fetchAccount(id, partialAccount);
+    this.inFlight.set(id, fetchPromise);
+    return fetchPromise;
+  }
+
+  private async fetchAccount(
+    id: UserId,
+    partialAccount: AccountInfo
+  ): Promise<AccountDetailInfo | AccountInfo> {
+    try {
+      // It is possible to add emails to CC when they don't have a Gerrit
+      // account. In this case getAccountDetails will return a 404 error then
+      // we at least use what is in partialAccount.
+      const account = await this.restApiService.getAccountDetails(id, () => {
+        this.updateStateAccount(id, partialAccount);
+        return;
+      });
+      if (account) this.updateStateAccount(id, account);
+      return account ?? partialAccount;
+    } finally {
+      this.inFlight.delete(id);
+    }
   }
 
   async fillDetails(account: AccountInfo) {

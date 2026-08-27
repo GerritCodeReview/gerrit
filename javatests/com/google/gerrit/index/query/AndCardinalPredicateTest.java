@@ -33,4 +33,24 @@ public class AndCardinalPredicateTest extends PredicateTest {
             () -> new AndCardinalPredicate<>(Lists.newArrayList(p1, p2)));
     assertThat(thrown).hasMessageThat().contains("No HasCardinality Found");
   }
+
+  @Test
+  public void computesMinCardinality() {
+    TestDataSourcePredicate p1 = new TestDataSourcePredicate("predicate1", "foo", 1, 10);
+    TestDataSourcePredicate p2 = new TestDataSourcePredicate("predicate2", "bar", 1, 5);
+    TestMatchablePredicate<String> p3 = new TestMatchablePredicate<>("predicate3", "baz", 1);
+
+    AndCardinalPredicate<String> pred = new AndCardinalPredicate<>(Lists.newArrayList(p1, p2, p3));
+    assertThat(pred.getCardinality()).isEqualTo(5);
+  }
+
+  @Test
+  public void handlesMaxIntegerCardinality() {
+    TestDataSourcePredicate p1 =
+        new TestDataSourcePredicate("predicate1", "foo", 1, Integer.MAX_VALUE);
+    TestMatchablePredicate<String> p2 = new TestMatchablePredicate<>("predicate2", "bar", 1);
+
+    AndCardinalPredicate<String> pred = new AndCardinalPredicate<>(Lists.newArrayList(p1, p2));
+    assertThat(pred.getCardinality()).isEqualTo(Integer.MAX_VALUE);
+  }
 }

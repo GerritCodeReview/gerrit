@@ -15,23 +15,18 @@
 package com.google.gerrit.index.query;
 
 import java.util.Collection;
-import java.util.Optional;
 
 public class OrCardinalPredicate<T> extends OrPredicate<T> implements HasCardinality {
   private final int cardinality;
 
   public OrCardinalPredicate(Collection<? extends Predicate<T>> that) {
     super(that);
-    Optional<Predicate<T>> nonHasCardinality =
-        getChildren().stream().filter(p -> !(p instanceof HasCardinality)).findAny();
-    if (nonHasCardinality.isPresent()) {
-      throw new IllegalArgumentException("No HasCardinality: " + nonHasCardinality.get());
-    }
     int aggregateCardinality = 0;
     for (Predicate<T> p : getChildren()) {
-      if (p instanceof HasCardinality) {
-        aggregateCardinality += ((HasCardinality) p).getCardinality();
+      if (!(p instanceof HasCardinality)) {
+        throw new IllegalArgumentException("No HasCardinality: " + p);
       }
+      aggregateCardinality += ((HasCardinality) p).getCardinality();
     }
     cardinality = aggregateCardinality;
   }

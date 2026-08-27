@@ -23,6 +23,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.MultimapBuilder;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.SubmitRequirementResult;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -70,8 +71,8 @@ class RevisionNoteBuilder {
       Comparator.comparing(sr -> sr.submitRequirement().name());
 
   final byte[] baseRaw;
-  private final List<? extends Comment> baseComments;
-  final Map<Comment.Key, Comment> put;
+  private final List<HumanComment> baseComments;
+  final Map<Comment.Key, HumanComment> put;
   private final Set<Comment.Key> delete;
 
   /**
@@ -109,7 +110,7 @@ class RevisionNoteBuilder {
     return out.toByteArray();
   }
 
-  void putComment(Comment comment) {
+  void putComment(HumanComment comment) {
     checkArgument(!delete.contains(comment.key), "cannot both delete and put %s", comment.key);
     put.put(comment.key, comment);
   }
@@ -142,15 +143,15 @@ class RevisionNoteBuilder {
     this.pushCert = pushCert;
   }
 
-  private ListMultimap<Integer, Comment> buildCommentMap() {
-    ListMultimap<Integer, Comment> all = MultimapBuilder.hashKeys().arrayListValues().build();
+  private ListMultimap<Integer, HumanComment> buildCommentMap() {
+    ListMultimap<Integer, HumanComment> all = MultimapBuilder.hashKeys().arrayListValues().build();
 
-    for (Comment c : baseComments) {
+    for (HumanComment c : baseComments) {
       if (!delete.contains(c.key) && !put.containsKey(c.key)) {
         all.put(c.key.patchSetId, c);
       }
     }
-    for (Comment c : put.values()) {
+    for (HumanComment c : put.values()) {
       if (!delete.contains(c.key)) {
         all.put(c.key.patchSetId, c);
       }
@@ -159,7 +160,7 @@ class RevisionNoteBuilder {
   }
 
   private void buildNoteJson(ChangeNoteJson noteUtil, OutputStream out) throws IOException {
-    ListMultimap<Integer, Comment> comments = buildCommentMap();
+    ListMultimap<Integer, HumanComment> comments = buildCommentMap();
     if (submitRequirementResults == null && comments.isEmpty() && pushCert == null) {
       return;
     }

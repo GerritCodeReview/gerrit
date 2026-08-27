@@ -14,18 +14,18 @@
 
 package com.google.gerrit.server.notedb;
 
-import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.SubmitRequirementResult;
 import java.util.List;
 
 /**
  * Holds the raw data of a RevisionNote.
  *
- * <p>It is intended for serialization to JSON only. It is used for human comments, as well as for
- * storing submit requirements.
+ * <p>It is intended for NoteDb JSON serialization and deserialization of human comments, push cert,
+ * and submit requirement results.
  */
 class RevisionNoteData {
   String pushCert;
-  List<Comment> comments;
+  List<HumanComment> comments;
   List<SubmitRequirementResult> submitRequirementResults;
 }

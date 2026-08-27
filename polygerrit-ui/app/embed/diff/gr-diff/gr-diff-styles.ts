@@ -843,8 +843,10 @@ export const grDiffImageStyles = css`
     width: 100%;
     height: 100%;
     max-width: var(--image-viewer-max-width, 95vw);
-    max-height: var(--image-viewer-max-height, 90vh);
     --primary-background-color: var(--background-color-secondary);
+  }
+  gr-image-viewer.fit {
+    max-height: var(--image-viewer-max-height, 75vh);
   }
   tbody.image-diff .gr-diff {
     text-align: center;

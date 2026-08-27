@@ -213,7 +213,11 @@ suite('bulk actions model test', () => {
       detailedActionsStub.returns(
         Promise.resolve([
           {...c1, actions: {abandon: {method: HttpMethod.POST}}},
-          {...c2, status: ChangeStatus.ABANDONED},
+          {
+            ...c2,
+            actions: {restore: {method: HttpMethod.POST}},
+            status: ChangeStatus.ABANDONED,
+          },
         ])
       );
 
@@ -231,6 +235,19 @@ suite('bulk actions model test', () => {
         1 as NumericChangeId,
         HttpMethod.POST,
         '/abandon',
+        undefined,
+        {message: ''},
+      ]);
+    });
+
+    test('restore only calls executeChangeAction for abandoned changes', () => {
+      const actionStub = stubRestApi('executeChangeAction').resolves();
+      bulkActionsModel.restoreChanges();
+      assert.equal(actionStub.callCount, 1);
+      assert.deepEqual(actionStub.lastCall.args.slice(0, 5), [
+        2 as NumericChangeId,
+        HttpMethod.POST,
+        '/restore',
         undefined,
         {message: ''},
       ]);

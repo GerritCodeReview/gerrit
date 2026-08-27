@@ -36,7 +36,7 @@ public class LabelTypesTest {
 
   @Test
   public void emptyLabelTypes() {
-    LabelTypes labelTypes = new LabelTypes(Collections.emptyList());
+    LabelTypes labelTypes = new LabelTypes(ImmutableList.of());
     assertThat(labelTypes.getLabelTypes()).isEmpty();
     assertThat(labelTypes.byLabel("Code-Review")).isEmpty();
     assertThat(labelTypes.byLabel(LabelId.create("Code-Review"))).isEmpty();
@@ -121,7 +121,7 @@ public class LabelTypesTest {
 
   @Test
   public void nameComparatorWithEmptyLabelTypesSortsAlphabetically() {
-    LabelTypes labelTypes = new LabelTypes(Collections.emptyList());
+    LabelTypes labelTypes = new LabelTypes(ImmutableList.of());
     Comparator<String> comparator = labelTypes.nameComparator();
 
     List<String> names = Arrays.asList("Z", "B", "A");

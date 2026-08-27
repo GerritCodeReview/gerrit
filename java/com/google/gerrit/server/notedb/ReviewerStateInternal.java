@@ -61,27 +61,19 @@ public enum ReviewerStateInternal {
   }
 
   FooterKey getFooterKey() {
-    switch (this) {
-      case REVIEWER:
-        return ChangeNoteFooters.FOOTER_REVIEWER;
-      case CC:
-        return ChangeNoteFooters.FOOTER_CC;
-      case REMOVED:
-        return ChangeNoteFooters.FOOTER_REMOVED;
-    }
-    throw new IllegalStateException("unhandled state: " + this);
+    return switch (this) {
+      case REVIEWER -> ChangeNoteFooters.FOOTER_REVIEWER;
+      case CC -> ChangeNoteFooters.FOOTER_CC;
+      case REMOVED -> ChangeNoteFooters.FOOTER_REMOVED;
+    };
   }
 
   FooterKey getByEmailFooterKey() {
-    switch (this) {
-      case REVIEWER:
-        return ChangeNoteFooters.FOOTER_REVIEWER_EMAIL;
-      case CC:
-        return ChangeNoteFooters.FOOTER_CC_EMAIL;
-      case REMOVED:
-        return ChangeNoteFooters.FOOTER_REMOVED_EMAIL;
-    }
-    throw new IllegalStateException("unhandled state: " + this);
+    return switch (this) {
+      case REVIEWER -> ChangeNoteFooters.FOOTER_REVIEWER_EMAIL;
+      case CC -> ChangeNoteFooters.FOOTER_CC_EMAIL;
+      case REMOVED -> ChangeNoteFooters.FOOTER_REMOVED_EMAIL;
+    };
   }
 
   public ReviewerState asReviewerState() {

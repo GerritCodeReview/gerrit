@@ -7,7 +7,7 @@ import '@material/web/switch/switch';
 import {grFormStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {subpageStyles} from '../../../styles/gr-subpage-styles';
-import '../../shared/gr-select/gr-select';
+
 import '../../shared/gr-tooltip-content/gr-tooltip-content';
 import '../gr-plugin-config-array-editor/gr-plugin-config-array-editor';
 import {css, html, LitElement} from 'lit';
@@ -149,19 +149,16 @@ export class GrRepoPluginConfig extends LitElement {
       `;
     } else if (option.info.type === ConfigParameterInfoType.LIST) {
       return html`
-        <gr-select
-          .bindValue=${option.info.value}
+        <select
+          data-option-key=${option._key}
+          .value=${option.info.value ?? ''}
           @change=${this.handleListChange}
+          ?disabled=${this.disabled || !option.info.editable}
         >
-          <select
-            data-option-key=${option._key}
-            ?disabled=${this.disabled || !option.info.editable}
-          >
-            ${(option.info.permitted_values || []).map(
-              value => html`<option value=${value}>${value}</option>`
-            )}
-          </select>
-        </gr-select>
+          ${(option.info.permitted_values || []).map(
+            value => html`<option value=${value}>${value}</option>`
+          )}
+        </select>
       `;
     } else if (
       option.info.type === ConfigParameterInfoType.STRING ||
@@ -204,7 +201,7 @@ export class GrRepoPluginConfig extends LitElement {
   }
 
   private handleListChange(e: Event) {
-    const el = e.target as HTMLOptionElement;
+    const el = e.target as HTMLSelectElement;
     // In the template, the data-option-key is assigned to each editor
     const key = el.getAttribute('data-option-key')!;
     const configChangeInfo = this.buildConfigChangeInfo(el.value, key);

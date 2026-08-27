@@ -23,6 +23,7 @@ import {
   createDefaultDiffPrefs,
   createDefaultEditPrefs,
   createDefaultPreferences,
+  DEFAULT_VISIBLE_COLUMNS,
 } from '../../constants/constants';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {DiffPreferencesInfo} from '../../types/diff';
@@ -34,7 +35,9 @@ import {readJSONResponsePayload} from '../../elements/shared/gr-rest-api-interfa
 
 export function changeTablePrefs(prefs: Partial<PreferencesInfo>) {
   const cols = prefs.change_table ?? [];
-  if (cols.length === 0) return Object.values(ColumnNames);
+  // An empty pref means "the defaults", which intentionally excludes opt-in
+  // columns such as Hashtags.
+  if (cols.length === 0) return [...DEFAULT_VISIBLE_COLUMNS];
   return cols
     .map(column => (column === 'Project' ? ColumnNames.REPO : column))
     .map(column => (column === ' Status ' ? ColumnNames.STATUS : column));

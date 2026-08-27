@@ -38,14 +38,12 @@ public class AndSource<T> extends AndPredicate<T> implements DataSource<T> {
     this.start = start;
     this.indexConfig = indexConfig;
 
-    int c = Integer.MAX_VALUE;
     Predicate<T> selectedSource = null;
     int minCardinality = Integer.MAX_VALUE;
     for (Predicate<T> p : getChildren()) {
       if (p instanceof DataSource) {
         DataSource<?> source = (DataSource<?>) p;
         int cardinality = source.getCardinality();
-        c = Math.min(c, source.getCardinality());
 
         if (selectedSource == null
             || cardinality < minCardinality
@@ -60,7 +58,7 @@ public class AndSource<T> extends AndPredicate<T> implements DataSource<T> {
       throw new IllegalArgumentException("No DataSource Found");
     }
     this.filteredSource = toDataSource(selectedSource);
-    this.cardinality = c;
+    this.cardinality = minCardinality;
   }
 
   @Override
@@ -75,11 +73,7 @@ public class AndSource<T> extends AndPredicate<T> implements DataSource<T> {
 
   @Override
   public boolean match(T object) {
-    if (super.isMatchable() && !super.match(object)) {
-      return false;
-    }
-
-    return true;
+    return !super.isMatchable() || super.match(object);
   }
 
   protected List<T> transformBuffer(List<T> buffer) {

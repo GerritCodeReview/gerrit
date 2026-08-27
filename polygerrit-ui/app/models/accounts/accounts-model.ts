@@ -21,6 +21,11 @@ export interface AccountsState {
 export const accountsModelToken = define<AccountsModel>('accounts-model');
 
 export class AccountsModel extends Model<AccountsState> {
+  private inFlight = new Map<
+    UserId,
+    Promise<AccountDetailInfo | AccountInfo>
+  >();
+
   constructor(readonly restApiService: RestApiService) {
     super({
       accounts: {},
@@ -37,27 +42,38 @@ export class AccountsModel extends Model<AccountsState> {
     this.setState(current);
   }
 
-  async getAccount(
+  getAccount(
     partialAccount: AccountInfo
   ): Promise<AccountDetailInfo | AccountInfo> {
     const current = this.getState();
     const id = getUserId(partialAccount);
-    if (hasOwnProperty(current.accounts, id)) return {...current.accounts[id]};
-    // It is possible to add emails to CC when they don't have a Gerrit
-    // account. In this case getAccountDetails will return a 404 error then
-    // we at least use what is in partialAccount.
-    const account = await this.restApiService.getAccountDetails(id, () => {
-      this.updateStateAccount(id, partialAccount);
-      return;
-    });
-    if (account) this.updateStateAccount(id, account);
-    return account ?? partialAccount;
+    if (hasOwnProperty(current.accounts, id)) {
+      return Promise.resolve({...current.accounts[id]});
+    }
+    if (this.inFlight.has(id)) {
+      return this.inFlight.get(id)!;
+    }
+
+    const promise = this.restApiService
+      .getAccountDetails(id, () => {
+        this.updateStateAccount(id, partialAccount);
+      })
+      .then(account => {
+        if (account) this.updateStateAccount(id, account);
+        return account ?? partialAccount;
+      })
+      .finally(() => {
+        this.inFlight.delete(id);
+      });
+
+    this.inFlight.set(id, promise);
+    return promise;
   }
 
-  async fillDetails(account: AccountInfo) {
+  fillDetails(account: AccountInfo): Promise<AccountDetailInfo | AccountInfo> {
     if (!isDetailedAccount(account)) {
-      return await this.getAccount(account);
+      return this.getAccount(account);
     }
-    return account;
+    return Promise.resolve(account);
   }
 }

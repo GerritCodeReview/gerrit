@@ -21,6 +21,11 @@ export interface AccountsState {
 export const accountsModelToken = define<AccountsModel>('accounts-model');
 
 export class AccountsModel extends Model<AccountsState> {
+  private inFlight = new Map<
+    UserId,
+    Promise<AccountDetailInfo | AccountInfo>
+  >();
+
   constructor(readonly restApiService: RestApiService) {
     super({
       accounts: {},
@@ -32,32 +37,48 @@ export class AccountsModel extends Model<AccountsState> {
     account: AccountDetailInfo | AccountInfo
   ) {
     if (!account) return;
-    const current = {...this.getState()};
-    current.accounts = {...current.accounts, [id]: account};
-    this.setState(current);
+    this.updateState({
+      accounts: {...this.getState().accounts, [id]: account},
+    });
   }
 
-  async getAccount(
+  getAccount(
     partialAccount: AccountInfo
   ): Promise<AccountDetailInfo | AccountInfo> {
     const current = this.getState();
     const id = getUserId(partialAccount);
-    if (hasOwnProperty(current.accounts, id)) return {...current.accounts[id]};
+    if (hasOwnProperty(current.accounts, id)) {
+      return Promise.resolve({...current.accounts[id]});
+    }
+    if (this.inFlight.has(id)) {
+      return this.inFlight.get(id)!;
+    }
+
     // It is possible to add emails to CC when they don't have a Gerrit
     // account. In this case getAccountDetails will return a 404 error then
     // we at least use what is in partialAccount.
-    const account = await this.restApiService.getAccountDetails(id, () => {
-      this.updateStateAccount(id, partialAccount);
-      return;
-    });
-    if (account) this.updateStateAccount(id, account);
-    return account ?? partialAccount;
+    const promise = this.restApiService
+      .getAccountDetails(id, () => {
+        this.updateStateAccount(id, partialAccount);
+      })
+      .then(account => {
+        this.inFlight.delete(id);
+        if (account) this.updateStateAccount(id, account);
+        return account ?? partialAccount;
+      })
+      .catch(err => {
+        this.inFlight.delete(id);
+        throw err;
+      });
+
+    this.inFlight.set(id, promise);
+    return promise;
   }
 
-  async fillDetails(account: AccountInfo) {
+  fillDetails(account: AccountInfo): Promise<AccountDetailInfo | AccountInfo> {
     if (!isDetailedAccount(account)) {
-      return await this.getAccount(account);
+      return this.getAccount(account);
     }
-    return account;
+    return Promise.resolve(account);
   }
 }

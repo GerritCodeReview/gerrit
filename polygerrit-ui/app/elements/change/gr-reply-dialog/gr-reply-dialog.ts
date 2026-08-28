@@ -1517,7 +1517,9 @@ export class GrReplyDialog extends LitElement {
 
   // visible for testing
   async send(includeComments: boolean, startReview: boolean) {
-    const labels = this.getLabelScores().getLabelValues();
+    const includeDefaults =
+      !this.change || this.change.status !== ChangeStatus.MERGED;
+    const labels = this.getLabelScores().getLabelValues(includeDefaults);
     if (labels[StandardLabels.CODE_REVIEW] === 2) {
       this.reporting.reportInteraction(Interaction.CODE_REVIEW_APPROVAL);
     }
@@ -2371,3 +2373,4 @@ declare global {
     'send-disabled-changed': CustomEvent<{}>;
   }
 }
+

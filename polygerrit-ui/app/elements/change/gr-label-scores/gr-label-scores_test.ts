@@ -89,6 +89,7 @@ suite('gr-label-scores tests', () => {
         <gr-label-score-row name="Verified"> </gr-label-score-row>
         <div class="mergedMessage" hidden="">
           Because this change has been merged, votes may not be decreased.
+          You can still reply to comments without changing your vote.
         </div>
         <div class="abandonedMessage" hidden="">
           Because this change has been abandoned, you cannot vote.
@@ -166,3 +167,4 @@ suite('gr-label-scores tests', () => {
     });
   });
 });
+

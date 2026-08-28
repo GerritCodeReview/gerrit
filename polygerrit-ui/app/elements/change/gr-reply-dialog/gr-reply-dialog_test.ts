@@ -2537,6 +2537,27 @@ suite('gr-reply-dialog tests', () => {
       assert.isTrue(element.isSendDisabled());
     });
 
+    test('send sets includeDefaults based on change status', async () => {
+      stubSaveReview(() => {});
+      const getLabelValuesStub =
+          sinon.stub(element.getLabelScores(), 'getLabelValues').returns({});
+
+      element.change = {
+        ...createChange(),
+        status: ChangeStatus.NEW,
+      };
+      await element.send(false, false);
+      assert.isTrue(getLabelValuesStub.calledWith(true));
+
+      getLabelValuesStub.resetHistory();
+      element.change = {
+        ...createChange(),
+        status: ChangeStatus.MERGED,
+      };
+      await element.send(false, false);
+      assert.isTrue(getLabelValuesStub.calledWith(false));
+    });
+
     test('sending patchset level comment', async () => {
       const patchsetLevelComment = queryAndAssert<GrComment>(
         element,
@@ -3132,3 +3153,4 @@ suite('gr-reply-dialog tests', () => {
     assert.include(warning.textContent, 'Change has already been merged');
   });
 });
+

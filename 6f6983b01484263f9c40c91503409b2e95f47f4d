@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7bbe61f_9634679d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-28T20:59:55Z",
+      "side": 1,
+      "message": "This is an alternative to making the API fail for non-merged changes: 622941: Return 409 for includedIn on non-merged changes | https://gerrit-review.googlesource.com/c/gerrit/+/622941\n\nI\u0027m not sure which approach is better.",
+      "revId": "6f6983b01484263f9c40c91503409b2e95f47f4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "message": "@hariprak@google.com are you giving LC+1 now?",
       "revId": "0d1f75bef006b3c925c9cab32481ac7d56efde1e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ae7e103_cfc47dee",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-28T23:39:44Z",
+      "side": 1,
+      "message": "Or @ifrade@google.com maybe you can since you did yesterday on 622901: Update JGit submodule to fe01de69f | https://gerrit-review.googlesource.com/c/gitiles/+/622901 ?",
+      "parentUuid": "4b036dfe_49d4e73d",
+      "revId": "0d1f75bef006b3c925c9cab32481ac7d56efde1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

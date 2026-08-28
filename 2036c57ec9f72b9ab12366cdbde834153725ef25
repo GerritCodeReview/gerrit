@@ -34,6 +34,23 @@
       "parentUuid": "e9d462a8_5f086744",
       "revId": "2036c57ec9f72b9ab12366cdbde834153725ef25",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b25f6ae0_c182f4a0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-08-28T16:15:36Z",
+      "side": 1,
+      "message": "@orgads@gmail.com if you want to, maybe you want to try and get support for this in related chain please? So that parent is selected vs what ever patchset is selected based on the commit. E.g https://gerrit-review.googlesource.com/c/gerrit/+/621821/-1..1 or https://gerrit-review.googlesource.com/c/gerrit/+/621821/0..1 based on the preference.",
+      "revId": "2036c57ec9f72b9ab12366cdbde834153725ef25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

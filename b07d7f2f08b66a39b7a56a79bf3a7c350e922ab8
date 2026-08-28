@@ -56,6 +56,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d1dddbf8_cc50b4e4",
+        "filename": "java/com/google/gerrit/server/git/QueueSnapshotLog.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-28T19:49:53Z",
+      "side": 1,
+      "message": "We\u0027re not totally consistent with the naming, but I think the newer classes for log files have `File` at the end, like `java/com/google/gerrit/server/git/GarbageCollectionLogFile.java`. Your implementation seems a bit different from how that class is setting up the log file too, so maybe check that.",
+      "revId": "b07d7f2f08b66a39b7a56a79bf3a7c350e922ab8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "da828afb_e660fdf0",
         "filename": "java/com/google/gerrit/server/git/QueueSnapshotLog.java",
         "patchSetId": 2
@@ -101,6 +118,24 @@
       "writtenOn": "2026-08-24T20:44:04Z",
       "side": 1,
       "message": "We also have restapi for show-queue, do you think just calling that and logging it would be easier ?",
+      "revId": "b07d7f2f08b66a39b7a56a79bf3a7c350e922ab8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52af0177_04bafc04",
+        "filename": "java/com/google/gerrit/server/git/QueueSnapshotLog.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-28T19:49:53Z",
+      "side": 1,
+      "message": "I think especially if you make this a JSON log, using the REST API and its JSON output format would be a lot simpler.",
+      "parentUuid": "ea6a50a4_2b028fa5",
       "revId": "b07d7f2f08b66a39b7a56a79bf3a7c350e922ab8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

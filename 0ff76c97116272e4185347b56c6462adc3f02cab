@@ -130,6 +130,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "aebe9c6f_3707f710",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3693,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-28T20:39:20Z",
+      "side": 1,
+      "message": "Yeah, I think I\u0027m going to rework this as just a config fix with no behavioral difference. Sites that set `httpd.acceptorThreads` will see a difference though, but I think that\u0027s the cleaner fix for now. Then I\u0027ll follow up with more improvements that hopefully will let admins use defaults.",
+      "parentUuid": "c9ce7372_4b4f8037",
+      "revId": "0ff76c97116272e4185347b56c6462adc3f02cab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "064ece89_8a994673",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 2
@@ -153,6 +171,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d2d70489_73362e73",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3700,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-28T20:39:20Z",
+      "side": 1,
+      "message": "\u003e Jetty leases executor threads for both acceptors and selectors via ThreadPoolBudget,\n\u003e so raising httpd.selectorThreads (or acceptorThreads) may require raising\n\u003e httpd.maxThreads too.\n\nRight, we haven\u0027t been accounting for thread leasing in the QueuedThreadPool maxThreads count. We probably want to do something like [the trick](https://jetty.org/docs/jetty/12.1/programming-guide/arch/threads.html#thread-pool-configuration) with starting the server and calling `getMaxLeasedThreads()` so that we don\u0027t have to hardcode the reserved threads to a specific number (and `reservedThreads` should probably also be a Gerrit config). That seems like a thing to do in a follow up change.",
+      "parentUuid": "064ece89_8a994673",
+      "range": {
+        "startLine": 3700,
+        "startChar": 0,
+        "endLine": 3700,
+        "endChar": 64
+      },
+      "revId": "0ff76c97116272e4185347b56c6462adc3f02cab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "22f5da4a_d133cd92",
         "filename": "java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
         "patchSetId": 2
@@ -164,6 +206,30 @@
       "writtenOn": "2026-08-26T06:16:35Z",
       "side": 1,
       "message": "Defaulting to 0 changes the effective default. Previously acceptorThreads (2) was mis-passed as the selector count, so runtime topology was 0 acceptors / 2 selectors. Now acceptors\u003d2, and with a SizedThreadPool at the default maxThreads\u003d25 the derived selector count is 1 — i.e. 2 acceptors / 1 selector.\n\nIs 2 acceptors / 1 selector the intended new default, or should we preserve the historical 0 / 2 (acceptorThreads\u003d0, selectorThreads\u003d2)? Either way the shift is worth calling out — which the commit-message and release-note comments now do.",
+      "range": {
+        "startLine": 336,
+        "startChar": 68,
+        "endLine": 337,
+        "endChar": 4
+      },
+      "revId": "0ff76c97116272e4185347b56c6462adc3f02cab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "800b1b8f_82a14609",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-28T20:39:20Z",
+      "side": 1,
+      "message": "\u003e Defaulting to 0 changes the effective default. Previously acceptorThreads (2) was mis-passed as the selector count, so runtime topology was 0 acceptors / 2 selectors. Now acceptors\u003d2, and with a SizedThreadPool at the default maxThreads\u003d25 the derived selector count is 1 — i.e. 2 acceptors / 1 selector.\n\nHmm, I missed it using the Server\u0027s threadPool sizing in that formula.\n\n\u003e \n\u003e Is 2 acceptors / 1 selector the intended new default, or should we preserve the historical 0 / 2 (acceptorThreads\u003d0, selectorThreads\u003d2)?\n\nWe probably don\u0027t want to shrink the # of selectors from our previous default, but I think we do want our acceptorThreads config to be used.\n\nFrom reading https://jetty.org/docs/jetty/12.1/operations-guide/modules/standard.html#http-acceptors it seems there\u0027s more behavioral change to configuring a fixed number of acceptor threads.\n\n\u003e When accepting connections is configured as a blocking operation (the number of acceptors is greater than zero), a thread is blocked in the `accept()` call until a connection is accepted, and other acceptor threads (if any) are blocked on the lock acquired by the accepting thread just before the `accept()` call.\n\n\u003e When accepting connections is configured as a non-blocking operation (the number of acceptors is zero), then the server socket is set in non-blocking mode and added to a NIO selector. In this way, no dedicated acceptor threads exist: the work of accepting connections is performed by the selector thread.\n\nAnd reading https://jetty.org/docs/jetty/12.1/operations-guide/modules/standard.html#http-selectors makes me think we likely don\u0027t need many selector threads:\n\n\u003e A single NIO selector can manage thousands of connections, with the assumption that not many of them will be ready at the same time.\n\u003e REST applications that exchange many little JSON messages tend to be busier than file server applications, leading to a higher ratio.\n\nIf we do have a dedicated pool of acceptor threads, this section seems relevant:\n\u003e Servers that manage a very high number of connections that may (naturally) come and go, or that handle inefficient protocols that open and close connections very frequently (such as HTTP/1.0) may benefit of an increased number of acceptor threads, so that when one acceptor thread processes a just accepted connection, another acceptor thread can immediately take over accepting connections.\n\nSo... maybe we keep the current server behavior by setting the `acceptorThreads` default to `0` and defaulting to `2` for the new `selectorThreads` config.",
+      "parentUuid": "22f5da4a_d133cd92",
       "range": {
         "startLine": 336,
         "startChar": 68,

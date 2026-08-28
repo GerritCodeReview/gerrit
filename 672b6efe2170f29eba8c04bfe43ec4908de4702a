@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a7f6b1e0_7ca69de5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-28T23:05:06Z",
+      "side": 1,
+      "message": "Yes and yes. I\u0027ll push a new PS.\n\nFull explanation (from Claude):\n\n**Yes, `NIO_WORKERS.set(this, ...)` wins over the system property.**\n\nHere\u0027s why:\n\n1. `NIO_WORKERS.set(this, value)` calls `PropertyResolverUtils.updateProperty(resolver, name, value)`, which writes to `resolver.getProperties()` — the server\u0027s **own** properties map.\n\n2. `AbstractFactoryManager` has `SYSPROPS_RESOLVER` as its **parent** resolver (`parentResolver \u003d SyspropsMapWrapper.SYSPROPS_RESOLVER`), so the chain is: server-own-props → sysprops.\n\n3. `resolvePropertyValue()` walks that chain and **returns the first non-null hit** (`PropertyResolverUtils.java:474-479`). Since the server\u0027s own map is checked first, the value written by `NIO_WORKERS.set()` shadows whatever `-Dorg.apache.sshd.config.nio-workers\u003d10` would supply.\n\nSo the behavior is:\n- If `sshd.nioWorkers` is set in `gerrit.config`, it wins unconditionally — the JVM property is ignored.\n- If `sshd.nioWorkers` is absent from `gerrit.config`, `cfg.getInt(\"sshd\", \"nioWorkers\", defaultNioWorkers)` returns `defaultNioWorkers`, which is still then passed to `NIO_WORKERS.set()` — so the JVM property is **still ignored** because a non-null value is always written into the server\u0027s own map.\n\nIn practice this means `-Dorg.apache.sshd.config.nio-workers\u003d10` has **no effect** when running through Gerrit. If an admin was relying on it, they\u0027d need to switch to `sshd.nioWorkers` in `gerrit.config`.",
+      "parentUuid": "da295f19_921ca2fb",
+      "range": {
+        "startLine": 7,
+        "startChar": 10,
+        "endLine": 7,
+        "endChar": 25
+      },
+      "revId": "672b6efe2170f29eba8c04bfe43ec4908de4702a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "257e180e_04aecec1",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2

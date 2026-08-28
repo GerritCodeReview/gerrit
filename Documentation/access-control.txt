@@ -265,6 +265,16 @@ by prefixing the reference name with `^`.  For example
 `^refs/heads/[a-z]{1,8}` matches all lower case branch names
 between 1 and 8 characters long.  Within a regular expression `.`
 is a wildcard matching any character, but may be escaped as `\.`.
+Because access section names are stored as git config subsection
+names, a literal backslash in the subsection header must itself be
+escaped as `\\`.  This means the regex `\.` must be written as `\\.`
+in `project.config`:
++
+----
+[access "^refs/heads/.*foo\\.bar"]
+    read = group Developers
+----
++
 The link:http://www.brics.dk/automaton/[dk.brics.automaton library,role=external,window=_blank]
 is used for evaluation of regular expression access control
 rules. See the library documentation for details on this

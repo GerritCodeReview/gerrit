@@ -16,6 +16,24 @@
       "message": "Needs Release-Notes footer",
       "revId": "ff549ed64a627bcebe4656cd4370084c9d29d2ba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "34094e0b_2858ff61",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 4271311
+      },
+      "writtenOn": "2026-08-28T22:08:57Z",
+      "side": 1,
+      "message": "Update PS to add Release-Notes",
+      "parentUuid": "22e9f133_b063128f",
+      "revId": "ff549ed64a627bcebe4656cd4370084c9d29d2ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

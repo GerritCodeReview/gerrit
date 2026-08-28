@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f268aa96_a06a76cd",
+        "filename": "javatests/com/google/gerrit/acceptance/server/permissions/RefFilterPerformanceIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-08-28T16:46:02Z",
+      "side": 1,
+      "message": "It probably doesn\u0027t make sense to keep this test in the code. I will move it to a separate change that can be used to verify, but will not be submitted.",
+      "revId": "91624e7e2be62e221184ce27501a5d912649a39e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

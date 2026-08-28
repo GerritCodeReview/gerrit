@@ -20,6 +20,7 @@ import static com.google.gerrit.entities.RefNames.REFS_CONFIG;
 import static java.util.stream.Collectors.toCollection;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
 import com.google.common.collect.ImmutableList;
@@ -65,9 +66,10 @@ public class DefaultRefFilter {
   }
 
   @Singleton
-  private static class Metrics {
+  public static class Metrics {
     final Counter0 fullFilterCount;
     final Counter0 skipFilterCount;
+    final Counter0 classifierShortcutCount;
 
     @Inject
     Metrics(MetricMaker metricMaker) {
@@ -82,6 +84,13 @@ public class DefaultRefFilter {
                       "Rate of ref filter operations where we skip full evaluation"
                           + " because the user can read all refs")
                   .setRate());
+      classifierShortcutCount =
+          metricMaker.newCounter(
+              "permissions/ref_filter/classifier_shortcut_count",
+              new Description(
+                      "Rate of individual refs whose visibility was determined by the"
+                          + " ReadAccessClassifier without a full ACL evaluation")
+                  .setRate());
     }
   }
 
@@ -95,10 +104,12 @@ public class DefaultRefFilter {
   private final ChangesByProjectCache changesByProjectCache;
   private final ChangeData.Factory changeDataFactory;
   private final Metrics metrics;
+  private final ReadAccessClassifier.Factory classifierFactory;
   private final boolean skipFullRefEvaluationIfAllRefsAreVisible;
 
   @Inject
-  DefaultRefFilter(
+  @VisibleForTesting
+  public DefaultRefFilter(
       TagCache tagCache,
       PermissionBackend permissionBackend,
       RefVisibilityControl refVisibilityControl,
@@ -106,12 +117,14 @@ public class DefaultRefFilter {
       Metrics metrics,
       ChangesByProjectCache changesByProjectCache,
       ChangeData.Factory changeDataFactory,
+      ReadAccessClassifier.Factory classifierFactory,
       @Assisted ProjectControl projectControl) {
     this.tagCache = tagCache;
     this.permissionBackend = permissionBackend;
     this.refVisibilityControl = refVisibilityControl;
     this.changesByProjectCache = changesByProjectCache;
     this.changeDataFactory = changeDataFactory;
+    this.classifierFactory = classifierFactory;
     this.skipFullRefEvaluationIfAllRefsAreVisible =
         config.getBoolean("auth", "skipFullRefEvaluationIfAllRefsAreVisible", true);
     this.projectControl = projectControl;
@@ -124,7 +137,8 @@ public class DefaultRefFilter {
   }
 
   /** Filters given refs and tags by visibility. */
-  ImmutableList<Ref> filter(Collection<Ref> refs, Repository repo, RefFilterOptions opts)
+  @VisibleForTesting
+  public ImmutableList<Ref> filter(Collection<Ref> refs, Repository repo, RefFilterOptions opts)
       throws PermissionBackendException {
     logger.atFinest().log(
         "Filter refs for repository %s by visibility (options = %s, refs = %s)",
@@ -225,6 +239,7 @@ public class DefaultRefFilter {
     logger.atFine().log("Performing visibility check for all refs. This can be expensive.");
     metrics.fullFilterCount.increment();
 
+    ReadAccessClassifier classifier = classifierFactory.create(projectControl);
     boolean hasAccessDatabase =
         permissionBackend
             .exactUser(projectControl.getUser())
@@ -274,8 +289,28 @@ public class DefaultRefFilter {
           // Change is visible
           resultRefs.add(ref);
         }
-      } else if (refVisibilityControl.isVisible(projectControl, ref.getLeaf().getName())) {
-        resultRefs.add(ref);
+      } else {
+        String leafName = ref.getLeaf().getName();
+        if (!RefNames.isGerritRef(leafName)
+            && !leafName.startsWith(RefNames.REFS_META)
+            && !projectControl.isAdmin()) {
+          ReadAccessClassifier.Decision decision = classifier.classify(leafName);
+          if (decision == ReadAccessClassifier.Decision.VISIBLE) {
+            logger.atFinest().log("Include ref %s because classifier returned VISIBLE", refName);
+            metrics.classifierShortcutCount.increment();
+            resultRefs.add(ref);
+            continue;
+          } else if (decision == ReadAccessClassifier.Decision.INVISIBLE) {
+            logger.atFinest().log(
+                "Filter out ref %s because classifier returned INVISIBLE", refName);
+            metrics.classifierShortcutCount.increment();
+            continue;
+          }
+          // NEEDS_FULL_CHECK: fall through to refVisibilityControl below
+        }
+        if (refVisibilityControl.isVisible(projectControl, leafName)) {
+          resultRefs.add(ref);
+        }
       }
     }
     Result result = new AutoValue_DefaultRefFilter_Result(resultRefs.build(), deferredTags.build());

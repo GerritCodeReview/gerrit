@@ -1,0 +1,94 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "68b3baa5_4964104b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-08-28T19:01:55Z",
+      "side": 1,
+      "message": "Consider checking `this.loggedIn` in `isRevertAllowed()`:\n```typescript\nif (!this.loggedIn) return false;\n```\nCurrently, logged-out users will see the revert button in edit mode diffs, but clicking it will fail with an authentication error on `applyFixSuggestion`.\n\nAlso, should `isRevertAllowed()` verify that `isAParent(this.patchRange?.basePatchNum)` is true? If a user is viewing a diff between two arbitrary patchsets (e.g. `1..2` or `1..EDIT`), the diff shows the delta against patchset 1 rather than the commit parent, but reverting applies the hunk directly and navigates to `PARENT..EDIT`.",
+      "isAi": true,
+      "revId": "98ded9bb1d555fc2c95feaf89e67c355ff4a5889",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39c5a311_64a1f30b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1478,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-08-28T19:01:55Z",
+      "side": 1,
+      "message": "`this.restApiService.applyFixSuggestion()` suppresses HTTP errors by default and resolves with a `Response` object (with `res.ok \u003d\u003d\u003d false`) rather than throwing an Error, unless an error callback is passed.\n\nBecause `throwingErrorCallback` is not passed as the `errFn` parameter, HTTP errors (such as 409 Conflict or 500) will not trigger the `catch` block, and `if (res?.ok)` will evaluate to false without alerting the user that the revert failed.\n\nConsider passing `throwingErrorCallback` or handling `!res?.ok` explicitly:\n```typescript\nres \u003d await this.restApiService.applyFixSuggestion(\n  this.changeNum,\n  patchNum,\n  fixSuggestion.replacements,\n  undefined,\n  throwingErrorCallback\n);\n```",
+      "isAi": true,
+      "revId": "98ded9bb1d555fc2c95feaf89e67c355ff4a5889",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f70fa34f_70f1b2ae",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host_screenshot_test.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-08-28T19:01:55Z",
+      "side": 1,
+      "message": "Per the TypeScript style guide, prefer `// @ts-expect-error` over `// @ts-ignore`.",
+      "isAi": true,
+      "revId": "98ded9bb1d555fc2c95feaf89e67c355ff4a5889",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d503967_03a7ed49",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 668,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-08-28T19:01:55Z",
+      "side": 1,
+      "message": "Consider using a `for...of` loop here since the index `j` is only used to access `lines[j]`:\n```typescript\nfor (const line of lines) {\n  if (typeof line.afterNumber \u003d\u003d\u003d \u0027number\u0027 \u0026\u0026 line.afterNumber \u003e 0) {\n    return line;\n  }\n}\n```",
+      "isAi": true,
+      "revId": "98ded9bb1d555fc2c95feaf89e67c355ff4a5889",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9fb6e429_fe26d848",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 769,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-08-28T19:01:55Z",
+      "side": 1,
+      "message": "In Case 2 (pure addition in edit), `else if (nextLine \u0026\u0026 typeof nextLine.afterNumber \u003d\u003d\u003d \u0027number\u0027)` does not check `startLine \u003d\u003d\u003d 1`.\n\nIf `startLine \u003e 1` but `prevLine` is undefined (for example, if `allGroups` only contains `[group, nextGroup]`), execution falls through into this branch and creates a replacement range starting at `start_line: 1` up to `nextLine.afterNumber`, which would erroneously delete lines 1 through `startLine - 1` instead of returning `undefined`.\n\nConsider adding `startLine \u003d\u003d\u003d 1` to this condition:\n```typescript\n} else if (startLine \u003d\u003d\u003d 1 \u0026\u0026 nextLine \u0026\u0026 typeof nextLine.afterNumber \u003d\u003d\u003d \u0027number\u0027) {\n```",
+      "isAi": true,
+      "revId": "98ded9bb1d555fc2c95feaf89e67c355ff4a5889",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -5,8 +5,13 @@
  */
 import '../gr-label-score-row/gr-label-score-row';
 import '../../../styles/shared-styles';
+
 import {css, html, LitElement, nothing} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
+
+import {LabelNameToValuesMap} from '../../../api/rest-api';
+import {ChangeStatus} from '../../../constants/constants';
+import {fontStyles} from '../../../styles/gr-font-styles';
 import {
   AccountInfo,
   ChangeInfo,
@@ -19,11 +24,9 @@ import {
   getApplicableLabels,
   getDefaultValue,
   getTriggerVotes,
+  getVoteForAccount,
   Label,
 } from '../../../utils/label-util';
-import {ChangeStatus} from '../../../constants/constants';
-import {fontStyles} from '../../../styles/gr-font-styles';
-import {LabelNameToValuesMap} from '../../../api/rest-api';
 
 @customElement('gr-label-scores')
 export class GrLabelScores extends LitElement {
@@ -141,6 +144,7 @@ export class GrLabelScores extends LitElement {
         ?hidden=${this.change?.status !== ChangeStatus.MERGED}
       >
         Because this change has been merged, votes may not be decreased.
+        You can still reply to comments without changing your vote.
       </div>
       <div
         class="abandonedMessage"
@@ -169,7 +173,13 @@ export class GrLabelScores extends LitElement {
       if (selectedVal === undefined) continue;
 
       const defValNum = getDefaultValue(this.change?.labels, label);
-      if (includeDefaults || selectedVal !== defValNum) {
+      // The user's previous vote from the change labels.
+      const prevValStr = getVoteForAccount(label, this.account, this.change);
+      const prevValNum = prevValStr !== null ? Number(prevValStr) : defValNum;
+
+      // If includeDefaults is true, include the label.
+      // Otherwise, ONLY include it if the user actually changed their vote.
+      if (includeDefaults || selectedVal !== prevValNum) {
         labels[label] = selectedVal;
       }
     }
@@ -182,3 +192,4 @@ declare global {
     'gr-label-scores': GrLabelScores;
   }
 }
+

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce0b6f07_bed24cff",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-28T21:25:54Z",
+      "side": 1,
+      "message": "As an alternative that doesn\u0027t require test, doc, or user expectation changes: 623241: Return empty includedIn for non-merged changes | https://gerrit-review.googlesource.com/c/gerrit/+/623241\n\nNot sure which is better.",
+      "revId": "c76b236e1c59a27052b44a5feb5eefb0fa3a2164",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

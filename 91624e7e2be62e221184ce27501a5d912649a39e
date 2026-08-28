@@ -3,6 +3,86 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2d91111a_737b2b12",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultRefFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-28T17:56:58Z",
+      "side": 1,
+      "message": "Add an `atFinest()` log here?",
+      "revId": "91624e7e2be62e221184ce27501a5d912649a39e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "684827c5_84fbd139",
+        "filename": "java/com/google/gerrit/server/permissions/ReadAccessClassifier.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-28T17:56:58Z",
+      "side": 1,
+      "message": "Unnecessary comment\n```suggestion\n  public interface Factory {\n```",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 28
+      },
+      "revId": "91624e7e2be62e221184ce27501a5d912649a39e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7680c488_f0b66945",
+        "filename": "java/com/google/gerrit/server/permissions/ReadAccessClassifier.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-28T17:56:58Z",
+      "side": 1,
+      "message": "nit: We don\u0027t usually have comment blocks like these\n```suggestion\n  }\n```",
+      "range": {
+        "startLine": 118,
+        "startChar": 0,
+        "endLine": 122,
+        "endChar": 80
+      },
+      "revId": "91624e7e2be62e221184ce27501a5d912649a39e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b8d49b7_81a2fe40",
+        "filename": "java/com/google/gerrit/server/permissions/ReadAccessClassifier.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-28T17:56:58Z",
+      "side": 1,
+      "message": "Can we avoid duplicating the logic? Could `PermissionCollection`, `RefVisibilityControl` and/or `RefControl` use this class? This method seems mostly to reimplement logic from elsewhere.\n\nI overall like the improvement we get from this change, but I\u0027m concerned it makes our (already complicated) permissions backend more complicated.",
+      "revId": "91624e7e2be62e221184ce27501a5d912649a39e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f268aa96_a06a76cd",
         "filename": "javatests/com/google/gerrit/acceptance/server/permissions/RefFilterPerformanceIT.java",
         "patchSetId": 4
@@ -14,6 +94,24 @@
       "writtenOn": "2026-08-28T16:46:02Z",
       "side": 1,
       "message": "It probably doesn\u0027t make sense to keep this test in the code. I will move it to a separate change that can be used to verify, but will not be submitted.",
+      "revId": "91624e7e2be62e221184ce27501a5d912649a39e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4fdd899b_2334260e",
+        "filename": "javatests/com/google/gerrit/acceptance/server/permissions/RefFilterPerformanceIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-28T17:56:58Z",
+      "side": 1,
+      "message": "Will you move the exposed bindings in java/com/google/gerrit/server/permissions/DefaultPermissionBackendModule.java to that change too?",
+      "parentUuid": "f268aa96_a06a76cd",
       "revId": "91624e7e2be62e221184ce27501a5d912649a39e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

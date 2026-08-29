@@ -26,6 +26,31 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "ef20a78b_28921ec7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2026-08-29T21:41:23Z",
+      "side": 1,
+      "message": "Done, split out into https://gerrit-review.googlesource.com/c/gerrit/+/623361.",
+      "parentUuid": "7062e829_381d4ea0",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 47
+      },
+      "isAi": true,
+      "revId": "05a1f006da4c08ac0a3ba11e56b5bdc0277e98b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "38864ad6_8cf8a557",
         "filename": "java/com/google/gerrit/server/account/GroupCacheImpl.java",
         "patchSetId": 3
@@ -47,6 +72,31 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3bd09a95_4b284163",
+        "filename": "java/com/google/gerrit/server/account/GroupCacheImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2026-08-29T21:41:23Z",
+      "side": 1,
+      "message": "Split out into separate change https://gerrit-review.googlesource.com/c/gerrit/+/623361 per Nasser\u0027s suggestion.",
+      "parentUuid": "38864ad6_8cf8a557",
+      "range": {
+        "startLine": 253,
+        "startChar": 6,
+        "endLine": 255,
+        "endChar": 5
+      },
+      "isAi": true,
+      "revId": "05a1f006da4c08ac0a3ba11e56b5bdc0277e98b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "435042e5_1d551c12",
@@ -60,6 +110,25 @@
       "writtenOn": "2026-08-26T18:49:13Z",
       "side": 1,
       "message": "What calls this?",
+      "revId": "05a1f006da4c08ac0a3ba11e56b5bdc0277e98b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e85015a_89f08323",
+        "filename": "java/com/google/gerrit/server/query/group/InternalGroupQuery.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2026-08-29T21:41:23Z",
+      "side": 1,
+      "message": "Nothing in-tree calls this currently; it was originally added for completeness alongside byUUIDs. Removed to keep the API surface minimal.",
+      "parentUuid": "435042e5_1d551c12",
+      "isAi": true,
       "revId": "05a1f006da4c08ac0a3ba11e56b5bdc0277e98b4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -87,6 +156,31 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "07744910_7d2c0fc1",
+        "filename": "java/com/google/gerrit/server/query/group/InternalGroupQuery.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2026-08-29T21:41:23Z",
+      "side": 1,
+      "message": "Method removed as noted above.",
+      "parentUuid": "ffd1b9ea_5fa80450",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 0
+      },
+      "isAi": true,
+      "revId": "05a1f006da4c08ac0a3ba11e56b5bdc0277e98b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eaaae38b_b2d2460d",
@@ -106,6 +200,31 @@
         "endLine": 106,
         "endChar": 0
       },
+      "revId": "05a1f006da4c08ac0a3ba11e56b5bdc0277e98b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d843c89_ff49220f",
+        "filename": "java/com/google/gerrit/server/query/group/InternalGroupQuery.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2026-08-29T21:41:23Z",
+      "side": 1,
+      "message": "Done. Used Math.max(1, indexConfig.maxTerms() - 1) and updated batch query execution to use query(batchPredicates) so multiple partitions run in a single processor invocation.",
+      "parentUuid": "eaaae38b_b2d2460d",
+      "range": {
+        "startLine": 106,
+        "startChar": 0,
+        "endLine": 106,
+        "endChar": 0
+      },
+      "isAi": true,
       "revId": "05a1f006da4c08ac0a3ba11e56b5bdc0277e98b4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -133,6 +252,31 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7b7fe8b_735f5ad0",
+        "filename": "java/com/google/gerrit/server/query/group/InternalGroupQuery.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2026-08-29T21:41:23Z",
+      "side": 1,
+      "message": "Done. Used Math.max(1, indexConfig.maxTerms() - 1).",
+      "parentUuid": "9e3692f2_bfd7766c",
+      "range": {
+        "startLine": 141,
+        "startChar": 0,
+        "endLine": 141,
+        "endChar": 0
+      },
+      "isAi": true,
+      "revId": "05a1f006da4c08ac0a3ba11e56b5bdc0277e98b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ac0d6714_083f33b9",
@@ -152,6 +296,31 @@
         "endLine": 177,
         "endChar": 0
       },
+      "revId": "05a1f006da4c08ac0a3ba11e56b5bdc0277e98b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "67aa480b_900fdf79",
+        "filename": "java/com/google/gerrit/server/query/group/InternalGroupQuery.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2026-08-29T21:41:23Z",
+      "side": 1,
+      "message": "Done. Used Math.max(1, indexConfig.maxTerms() - 1).",
+      "parentUuid": "ac0d6714_083f33b9",
+      "range": {
+        "startLine": 177,
+        "startChar": 0,
+        "endLine": 177,
+        "endChar": 0
+      },
+      "isAi": true,
       "revId": "05a1f006da4c08ac0a3ba11e56b5bdc0277e98b4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

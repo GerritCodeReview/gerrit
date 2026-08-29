@@ -22,6 +22,7 @@ import static java.util.stream.Collectors.toList;
 import static org.junit.Assert.fail;
 
 import com.google.common.base.CharMatcher;
+import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
@@ -408,6 +409,16 @@ public abstract class AbstractQueryGroupsTest extends GerritServerTests {
     deleteGroup(uuid);
 
     assertQuery(query);
+  }
+
+  @Test
+  public void groupCacheBatchEvictionByUuid() throws Exception {
+    GroupInfo group = createGroup(name("cacheGroup"));
+    AccountGroup.UUID uuid = AccountGroup.uuid(group.id);
+
+    assertThat(groupCache.get(uuid)).isPresent();
+
+    groupCache.evict(ImmutableList.of(uuid));
   }
 
   private Account.Id createAccountOutsideRequestContext(

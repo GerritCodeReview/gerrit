@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.account;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.ImmutableMap.toImmutableMap;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 
@@ -231,7 +232,8 @@ public class GroupCacheImpl implements GroupCache {
   public void evict(Collection<AccountGroup.UUID> groupUuids) {
     if (groupUuids != null && !groupUuids.isEmpty()) {
       logger.atFine().log("Evict groups %s by UUID", groupUuids);
-      byUUID.invalidateAll(groupUuids);
+      byUUID.invalidateAll(
+          groupUuids.stream().map(AccountGroup.UUID::get).collect(toImmutableList()));
     }
   }
 

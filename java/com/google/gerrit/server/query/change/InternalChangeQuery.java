@@ -250,6 +250,23 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
     return query(commit(hash));
   }
 
+  public List<ChangeData> byCommits(Collection<ObjectId> commitIds) {
+    if (commitIds.isEmpty()) {
+      return Collections.emptyList();
+    }
+    return byCommitHashes(
+        commitIds.stream().map(ObjectId::name).collect(ImmutableList.toImmutableList()));
+  }
+
+  public List<ChangeData> byCommitHashes(Collection<String> hashes) {
+    if (hashes.isEmpty()) {
+      return Collections.emptyList();
+    }
+    int n = indexConfig.maxTerms() - 1;
+    checkArgument(hashes.size() <= n, "cannot exceed %s commits", n);
+    return query(or(commits(hashes)));
+  }
+
   public List<ChangeData> byProjectCommit(Project.NameKey project, ObjectId id) {
     return byProjectCommit(project, id.name());
   }

@@ -57,6 +57,31 @@
       },
       "revId": "58d9775556cd533d4f6a1475fb8201a67c657eae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ade9f6a2_c60a02b9",
+        "filename": "java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2026-08-29T21:37:31Z",
+      "side": 1,
+      "message": "Nobody was calling them; they were added speculatively as convenience methods. I\u0027ve removed them (and the status predicate overload) to keep this change focused purely on batch partitioning byProjectCommits and byLegacyChangeIds.",
+      "parentUuid": "f3776254_dc4476d7",
+      "range": {
+        "startLine": 293,
+        "startChar": 26,
+        "endLine": 293,
+        "endChar": 46
+      },
+      "isAi": true,
+      "revId": "58d9775556cd533d4f6a1475fb8201a67c657eae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

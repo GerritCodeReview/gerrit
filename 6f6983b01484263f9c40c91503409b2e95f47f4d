@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1a00ebba_57ec9fc1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-08-29T23:10:56Z",
+      "side": 1,
+      "message": "I\u0027m not convinced. Someone could start a branch off of an unmerged change, would you not expect it to show up as in that branch then?",
+      "parentUuid": "c3a5f070_aa11117f",
+      "revId": "6f6983b01484263f9c40c91503409b2e95f47f4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c7bbe61f_9634679d",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1

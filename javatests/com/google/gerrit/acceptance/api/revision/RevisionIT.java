@@ -2778,6 +2778,105 @@ public class RevisionIT extends AbstractDaemonTest {
         /* isParentCommitMergedInTargetBranch= */ false);
   }
 
+  @Test
+  public void parentData_sharedParentAcrossRevisions_allPopulated() throws Exception {
+    PushOneCommit.Result r = createChange();
+    for (int i = 2; i <= 4; i++) {
+      amendChange(r.getChangeId());
+    }
+
+    ChangeInfo info =
+        gApi.changes()
+            .id(r.getChangeId())
+            .get(
+                ListChangesOption.ALL_REVISIONS,
+                ListChangesOption.ALL_COMMITS,
+                ListChangesOption.PARENTS);
+    assertThat(info.revisions).hasSize(4);
+    for (RevisionInfo rev : info.revisions.values()) {
+      assertThat(rev.parentsData).hasSize(1);
+      ParentInfo p = rev.parentsData.get(0);
+      assertThat(p.branchName).isEqualTo("refs/heads/master");
+      assertThat(p.isMergedInTargetBranch).isTrue();
+    }
+  }
+
+  @Test
+  public void parentData_distinctParentsAcrossRevisions_batchedAndCached() throws Exception {
+    RevCommit initialCommit = getHead(repo(), "HEAD");
+
+    testRepo.reset(initialCommit);
+    PushOneCommit.Result b1 = createChange("Base 1", "b1.txt", "content 1");
+
+    testRepo.reset(initialCommit);
+    PushOneCommit.Result b2 = createChange("Base 2", "b2.txt", "content 2");
+
+    testRepo.reset(b1.getCommit());
+    PushOneCommit push =
+        pushFactory.create(
+            admin.newIdent(), testRepo, "Dependent Change", "dep.txt", "content ps1");
+    push.setParents(ImmutableList.of(b1.getCommit()));
+    PushOneCommit.Result r = push.to("refs/for/master");
+    String changeId = r.getChangeId();
+
+    testRepo.reset(b2.getCommit());
+    PushOneCommit pushPs2 =
+        pushFactory.create(
+            admin.newIdent(), testRepo, "Dependent Change", "dep.txt", "content ps2", changeId);
+    pushPs2.setParents(ImmutableList.of(b2.getCommit()));
+    pushPs2.to("refs/for/master");
+
+    ChangeInfo info =
+        gApi.changes()
+            .id(changeId)
+            .get(
+                ListChangesOption.ALL_REVISIONS,
+                ListChangesOption.ALL_COMMITS,
+                ListChangesOption.PARENTS);
+    assertThat(info.revisions).hasSize(2);
+
+    RevisionInfo ps1 =
+        info.revisions.values().stream().filter(rev -> rev._number == 1).findFirst().get();
+    assertThat(ps1.parentsData).hasSize(1);
+    assertParentIsChange(
+        ps1.parentsData.get(0),
+        b1.getCommit().getId(),
+        b1.getChangeId(),
+        b1.getChange().change().getChangeId(),
+        /* patchSetNumber= */ 1,
+        /* parentChangeStatus= */ "NEW",
+        /* isParentCommitMergedInTargetBranch= */ false);
+
+    RevisionInfo ps2 =
+        info.revisions.values().stream().filter(rev -> rev._number == 2).findFirst().get();
+    assertThat(ps2.parentsData).hasSize(1);
+    assertParentIsChange(
+        ps2.parentsData.get(0),
+        b2.getCommit().getId(),
+        b2.getChangeId(),
+        b2.getChange().change().getChangeId(),
+        /* patchSetNumber= */ 1,
+        /* parentChangeStatus= */ "NEW",
+        /* isParentCommitMergedInTargetBranch= */ false);
+  }
+
+  @Test
+  public void parentData_mergeCommit_multipleParentsPopulated() throws Exception {
+    PushOneCommit.Result mergeResult = createCherryPickableMerge("p1.txt", "p2.txt");
+
+    ChangeInfo info =
+        gApi.changes()
+            .id(mergeResult.getChangeId())
+            .get(
+                ListChangesOption.ALL_REVISIONS,
+                ListChangesOption.ALL_COMMITS,
+                ListChangesOption.PARENTS);
+    RevisionInfo rev = info.revisions.values().iterator().next();
+    assertThat(rev.parentsData).hasSize(2);
+    assertThat(rev.parentsData.get(0).changeNumber).isNotNull();
+    assertThat(rev.parentsData.get(1).changeNumber).isNotNull();
+  }
+
   private RevisionInfo getRevisionWithParents(String changeId, int patchSetNumber)
       throws Exception {
     return getRevision(

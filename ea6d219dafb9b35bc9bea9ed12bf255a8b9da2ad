@@ -19,6 +19,25 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bce8db6b_cecc2532",
+        "filename": "java/com/google/gerrit/server/restapi/change/CommentJson.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2026-08-29T21:33:36Z",
+      "side": 1,
+      "message": "Done. Replaced with computeIfAbsent to avoid dual tree traversal.",
+      "parentUuid": "67bd7879_dfa29185",
+      "isAi": true,
+      "revId": "ea6d219dafb9b35bc9bea9ed12bf255a8b9da2ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1b3c43b7_c0cb278e",
@@ -37,6 +56,25 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f230a0a_5581ce24",
+        "filename": "javatests/com/google/gerrit/server/BUILD",
+        "patchSetId": 5
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2026-08-29T21:33:36Z",
+      "side": 1,
+      "message": "Done. Removed unused //lib:jspecify dependency.",
+      "parentUuid": "1b3c43b7_c0cb278e",
+      "isAi": true,
+      "revId": "ea6d219dafb9b35bc9bea9ed12bf255a8b9da2ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3534bbe3_071558e4",
@@ -50,6 +88,25 @@
       "writtenOn": "2026-08-25T17:29:58Z",
       "side": 1,
       "message": "`CommentContextCacheImpl.CommentContextSerializer` was refactored in this CL to use direct loops for protobuf serialization/deserialization. Consider adding a unit test here verifying `CommentContextSerializer` round-trip (e.g. serialize -\u003e deserialize with empty lines and multi-line context) to ensure serializer coverage.",
+      "isAi": true,
+      "revId": "ea6d219dafb9b35bc9bea9ed12bf255a8b9da2ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d96e0227_7ed5469d",
+        "filename": "javatests/com/google/gerrit/server/comment/CommentContextCacheImplTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2026-08-29T21:33:36Z",
+      "side": 1,
+      "message": "Done. Added unit tests verifying CommentContextSerializer round-trip with multi-line context, empty context, and empty lines/whitespace.",
+      "parentUuid": "3534bbe3_071558e4",
       "isAi": true,
       "revId": "ea6d219dafb9b35bc9bea9ed12bf255a8b9da2ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"

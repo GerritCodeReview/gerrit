@@ -144,6 +144,30 @@ public abstract class FakeQueryChangesTest extends AbstractQueryChangesTest {
 
   @Test
   @UseClockStep
+  public void queryDoesNotPaginateWhenLimitMetByVisibleChanges() throws Exception {
+    Project.NameKey project = Project.nameKey("repo");
+    try (TestRepository<Repository> testRepo = createAndOpenProject(project)) {
+      insert(project, newChange(testRepo));
+      insert(project, newChange(testRepo));
+      insert(project, newChange(testRepo));
+      insert(project, newChange(testRepo));
+    }
+
+    AbstractFakeIndex<?, ?, ?> idx =
+        (AbstractFakeIndex<?, ?, ?>) changeIndexCollection.getSearchIndex();
+    idx.resetQueryCount();
+    List<ChangeInfo> queryResult = newQuery("status:new").withLimit(2).get();
+    assertThat(queryResult).hasSize(2);
+    assertThat(queryResult.get(queryResult.size() - 1)._moreChanges).isTrue();
+
+    // Since the limit is 2, the initial index query asks for limit + 1 = 3 changes.
+    // Because all 3 changes returned are visible, the limit and the probe row are satisfied.
+    // A secondary pagination query must not be executed.
+    assertThatSearchQueryWasNotPaginated(idx.getQueryCount());
+  }
+
+  @Test
+  @UseClockStep
   public void noLimitQueryPaginates() throws Exception {
     assumeFalse(PaginationType.NONE == getCurrentPaginationType());
 

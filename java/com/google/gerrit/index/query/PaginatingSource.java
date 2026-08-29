@@ -62,7 +62,7 @@ public class PaginatingSource<T> extends FilteredSource<T> {
             int pageSizeMultiplier = opts.pageSizeMultiplier();
             Object searchAfter = resultSet.searchAfter();
             int nextStart = pageResultSize;
-            while (pageResultSize == pageSize && r.size() <= limit) { // get 1 more than the limit
+            while (pageResultSize == pageSize && r.size() < limit) {
               pageSize = getNextPageSize(pageSize, pageSizeMultiplier);
               ResultSet<T> next =
                   indexConfig.paginationType().equals(PaginationType.SEARCH_AFTER)
@@ -74,7 +74,7 @@ public class PaginatingSource<T> extends FilteredSource<T> {
                   r.add(data);
                 }
                 pageResultSize++;
-                if (r.size() > limit) {
+                if (r.size() >= limit) {
                   break;
                 }
               }

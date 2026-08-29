@@ -657,6 +657,23 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  public void byCommits() throws Exception {
+    Project.NameKey project = Project.nameKey("repo");
+    repo = createAndOpenProject(project);
+    ChangeInserter ins1 = newChange(repo);
+    Change change1 = insert(project, ins1);
+    ChangeInserter ins2 = newChange(repo);
+    Change change2 = insert(project, ins2);
+
+    List<ChangeData> results =
+        queryProvider.get().byCommits(ImmutableList.of(ins1.getCommitId(), ins2.getCommitId()));
+    assertThat(results.stream().map(ChangeData::getId).collect(java.util.stream.Collectors.toList()))
+        .containsExactly(change1.getId(), change2.getId());
+
+    assertThat(queryProvider.get().byCommits(ImmutableList.of())).isEmpty();
+  }
+
+  @Test
   public void byOwner() throws Exception {
     Project.NameKey project = Project.nameKey("repo");
     repo = createAndOpenProject(project);

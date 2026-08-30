@@ -56,6 +56,14 @@ database from a former 2.x site, otherwise gerrit's init will remove the table.
   url = jdbc:postgresql://<host>:<port>/<db_name>?user=<user>&password=<password>
 ----
 
+Use the following format to create a h2 file at a different path than default
+
+---
+[accountPatchReviewDb]
+  url = jdbc:h2:file:/path/to/db
+---
+
+
 [[accountPatchReviewDb.poolLimit]]accountPatchReviewDb.poolLimit::
 +
 Maximum number of open database connections.  If the server needs
@@ -99,6 +107,43 @@ Values should use common unit suffixes to express their setting:
 
 +
 If a unit suffix is not specified, `milliseconds` is assumed.
+Default is `30 seconds`.
+
+[[accountPatchReviewDb.h2LockType]]accountPatchReviewDb.h2LockType::
++
+Selects the locking mechanism used to serialise access to the H2 database file,
+replacing H2's built-in file locking.
++
+When set, no connection pool is maintained. Each operation opens a fresh
+connection, holds the lock for the duration of that operation, and closes the
+connection immediately on completion.
++
+Supported values:
++
+--
+`jgit`:::
+Uses jgit-style lock files for inter-process mutual exclusion. H2 is opened with
+`FILE_LOCK=NO`; a `.lock` sidecar file is atomically created before opening each
+connection and deleted when the connection is closed. The maximum time to spend
+retrying the lock before failing is controlled by
+<<accountPatchReviewDb.h2LockTimeout, accountPatchReviewDb.h2LockTimeout>>.
+When using this option dont specify any custom options to the
+<<accountPatchReviewDb.url, accountPatchReviewDb.url>>.
++
+For this locking to work correctly across multiple Gerrit primaries, the db and
+`.lock` file must reside on a shared filesystem (e.g. NFS) accessible to all
+primaries. The lock file is placed next to the H2 database file (derived from
+`accountPatchReviewDb.url`, or `<site>/db/account_patch_reviews.lock` by default).
+--
++
+Default is unset (H2's built-in file locking is used).
+
+[[accountPatchReviewDb.h2LockTimeout]]accountPatchReviewDb.h2LockTimeout::
++
+Maximum time to spend retrying the external lock before giving up with an error.
+Only applies when `accountPatchReviewDb.h2LockType` is set. Retries use
+exponential backoff starting at 1 ms, capped at 500 ms per sleep.
++
 Default is `30 seconds`.
 
 [[accounts]]
@@ -944,6 +989,19 @@ Setting this value greater than 1 creates threads in a dedicated pool, separate
 from the H2 thread pool (`DiskCache-Store`) that handles cache updates.
 +
 Default is 1.
+
+[[cache.preWarmForBloomFilter]]cache.preWarmForBloomFilter::
++
+When enabled, each persistent cache reads its H2 database file into the OS
+page cache before building its BloomFilter. The BloomFilter build requires
+a full table scan of all keys which involves reading close to the entire file
+in a scattered fashion. Doing such a read tends to not perform well I/O wise as
+it generally cannot take advantage of operating system level file system
+readahead. Reading the file sequentially up front tends to take advantage of
+readahead to fully populate the file system caches which then can make scattered
+reads much faster.
++
+Default is true.
 
 [[cache.openFiles]]cache.openFiles::
 +
@@ -4156,6 +4214,40 @@ Defaults to `5m`.
 
 link:#schedule-configuration-examples[Schedule examples] can be found
 in the link:#schedule-configuration[Schedule Configuration] section.
+
+[[index.staleChangeRecovery]]index.staleChangeRecovery::
++
+Whether to enable automatic recovery of change index updates that were not
+completed due to a user interrupt or a crash.
++
+When enabled, Gerrit writes a per-change intent file under
+`$site_path/data/pending-index/<pid>_<startTime>/<threadId>/<hash>` before each
+NoteDb update and removes it once the index write succeeds. On startup, any
+intent files left behind by a previously crashed process are recovered
+immediately. A background scanner then periodically picks up intent files whose
+writer thread within the current process is no longer alive, reindexing the
+affected changes automatically.
++
+Disabling this also disables both the startup recovery and the background
+scanner, so any index inconsistencies caused by a crash must be resolved with a
+manual link:cmd-index-changes.html[reindex].
++
+> **NOTE**: The stale change recovery is enabled only when `index.commitWithin`
+> is set to zero and `index.indexChangesAsync` is false. By default, Lucene flush
+> to disk is deferred until the `commitWithin` interval elapses, making the stale
+> change recovery ineffective.
++
+Defaults to `false`.
+
+[[index.staleChangeRecoveryInterval]]index.staleChangeRecoveryInterval::
++
+How often the background scanner checks for dead-thread intent files within the
+current process. Recovery of intent files from a previously crashed process
+happens once at startup and is not affected by this interval.
++
+Only used when link:#index.staleChangeRecovery[index.staleChangeRecovery] is `true`.
++
+Defaults to `5m`.
 
 ==== Lucene configuration
 

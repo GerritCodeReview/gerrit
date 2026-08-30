@@ -189,8 +189,10 @@ maven.install(
     ],
     lock_file = "//:external_deps.lock.json",
     repositories = [
-        "https://repo1.maven.org/maven2",
+        # Prefer Gerrit's mirror to reduce direct Maven Central traffic.
+        # Keep Maven Central as fallback while the mirror is populated.
         "https://gerrit-maven.storage.googleapis.com",
+        "https://repo1.maven.org/maven2",
     ],
     version_conflict_policy = "pinned",
 )

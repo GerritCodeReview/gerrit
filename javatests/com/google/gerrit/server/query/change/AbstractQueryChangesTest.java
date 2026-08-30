@@ -2871,6 +2871,23 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  public void byHasHashtag() throws Exception {
+    assume().that(getSchema().hasField(ChangeField.PREFIX_HASHTAG)).isTrue();
+
+    Project.NameKey project = Project.nameKey("repo");
+    repo = createAndOpenProject(project);
+    Change change1 = insert(project, newChange(repo));
+    Change change2 = insert(project, newChange(repo));
+    Change change3 = insert(project, newChange(repo));
+
+    addHashtags(change1, "foo");
+    addHashtags(change2, "foo", "bar");
+
+    assertQuery("has:hashtag", change2, change1);
+    assertQuery("-has:hashtag", change3);
+  }
+
+  @Test
   public void byHashtagFullText() throws Exception {
     assume().that(getSchema().hasField(ChangeField.FUZZY_HASHTAG)).isTrue();
     ImmutableList<Change> changes = setUpHashtagChanges();
@@ -4542,6 +4559,35 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  public void bySubmitRequirement_unmet() throws Exception {
+    assume().that(getSchema().hasField(ChangeField.UNMET_REQUIREMENT_SPEC)).isTrue();
+    Project.NameKey project = Project.nameKey("repo");
+    repo = createAndOpenProject(project);
+    Change change1 = insert(project, newChange(repo));
+    assertQuery("unmet_requirement:Code-Review", change1);
+
+    approve(change1);
+    assertQuery("unmet_requirement:Code-Review");
+  }
+
+  @Test
+  public void bySubmitRequirement_unsatisfiedCount() throws Exception {
+    assume().that(getSchema().hasField(ChangeField.UNSATISFIED_REQUIREMENT_COUNT_SPEC)).isTrue();
+    Project.NameKey project = Project.nameKey("repo");
+    repo = createAndOpenProject(project);
+    Change change1 = insert(project, newChange(repo));
+    assertQuery("unsatisfied_requirement_count:>0", change1);
+    assertQuery("unsatisfied_requirement_count:1", change1);
+    assertQuery("unsatisfied_requirement_count:<=1", change1);
+    assertQuery("unmet_requirement:Code-Review", change1);
+
+    approve(change1);
+    assertQuery("unsatisfied_requirement_count:0", change1);
+    assertQuery("unsatisfied_requirement_count:<1", change1);
+    assertQuery("unmet_requirement:Code-Review");
+  }
+
+  @Test
   public void byUrlEncodedProject() throws Exception {
     Project.NameKey project = Project.nameKey("repo+foo");
     repo = createAndOpenProject(project);
@@ -4661,6 +4707,21 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
       assertQuery(Predicate.and(ChangeIndexPredicate.none(), matchingOneChange));
       assertQuery(
           Predicate.and(Predicate.not(ChangeIndexPredicate.none()), matchingOneChange), change);
+
+      // An AND that short-circuits to none(), nested inside an OR. The AND contributes no
+      // results, so only the sibling matches. The index rewriter must keep the short-circuited
+      // none() a ChangeDataSource here, otherwise the whole query degenerates into a full scan.
+      assertQuery(
+          Predicate.or(
+              Predicate.and(ChangeIndexPredicate.none(), matchingOneChange), matchingOneChange),
+          change);
+
+      // Same shape, but reached via an empty OrPredicate rather than a bare none().
+      assertQuery(
+          Predicate.or(
+              Predicate.and(Predicate.or(ImmutableList.of()), matchingOneChange),
+              matchingOneChange),
+          change);
     }
   }
 

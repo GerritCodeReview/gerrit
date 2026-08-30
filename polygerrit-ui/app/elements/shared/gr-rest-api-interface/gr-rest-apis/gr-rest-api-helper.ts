@@ -217,6 +217,11 @@ export interface FetchRequest extends FetchRequestBase {
   //   only skip the check if the caller wants to prosess status themselves.
   reportServerError?: boolean;
   isHighPriority?: boolean;
+  /**
+   * If true, the request will be routed through the readScheduler even if it
+   * uses a write method (PUT, POST, DELETE).
+   */
+  useReadScheduler?: boolean;
 }
 
 export interface FetchOptionsInit {
@@ -264,12 +269,20 @@ export class GrRestApiHelper {
     private readonly writeScheduler: Scheduler<Response>
   ) {}
 
+  private isWrite(method: string, useReadScheduler?: boolean): boolean {
+    return (
+      (method === 'PUT' || method === 'POST' || method === 'DELETE') &&
+      !useReadScheduler
+    );
+  }
+
   private schedule(
     method: string,
     task: Task<Response>,
-    name?: string
+    name?: string,
+    useReadScheduler?: boolean
   ): Promise<Response> {
-    if (method === 'PUT' || method === 'POST' || method === 'DELETE') {
+    if (this.isWrite(method, useReadScheduler)) {
       return this.writeScheduler.schedule(task, name);
     } else {
       return this.readScheduler.schedule(task, name);
@@ -284,8 +297,7 @@ export class GrRestApiHelper {
     const method = req.fetchOptions?.method ?? HttpMethod.GET;
     const startTime = Date.now();
 
-    const isWrite =
-      method === 'PUT' || method === 'POST' || method === 'DELETE';
+    const isWrite = this.isWrite(method, req.useReadScheduler);
     const origin = req.fetchOptions?.headers?.get(REQUEST_ORIGIN_HEADER);
     const pluginName = origin?.startsWith('plugin:') ? origin : undefined;
     const requestName = `${method} - ${
@@ -330,7 +342,9 @@ export class GrRestApiHelper {
     };
 
     const resPromise = (
-      req.isHighPriority ? task() : this.schedule(method, task, requestName)
+      req.isHighPriority
+        ? task()
+        : this.schedule(method, task, requestName, req.useReadScheduler)
     ).catch((err: unknown) => {
       if (err instanceof RetryError) {
         return err.payload;
@@ -414,6 +428,9 @@ export class GrRestApiHelper {
       fetchOptions: req.fetchOptions,
       anonymizedUrl: req.reportUrlAsIs ? urlWithParams : req.anonymizedUrl,
     };
+    if (req.useReadScheduler !== undefined) {
+      fetchReq.useReadScheduler = req.useReadScheduler;
+    }
 
     let resp: Response;
     try {

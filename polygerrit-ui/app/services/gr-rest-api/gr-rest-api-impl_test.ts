@@ -306,6 +306,56 @@ suite('gr-rest-api-service-impl tests', () => {
     } as CommentInfo);
   });
 
+  test('getDiffComments with enableContext=false omits context params', async () => {
+    sinon.stub(element, 'getRepoName').resolves('test' as RepoName);
+    const fetchStub = sinon
+      .stub(element._restApiHelper, 'fetchJSON')
+      .resolves({} as unknown as ParsedJSON);
+    await element.getDiffComments(42 as NumericChangeId, false);
+    assert.isTrue(fetchStub.calledOnce);
+    const params = fetchStub.lastCall.args[0].params;
+    assert.isUndefined(params?.['enable-context']);
+    assert.isUndefined(params?.['context-padding']);
+  });
+
+  test('getDiffComments default includes context params', async () => {
+    sinon.stub(element, 'getRepoName').resolves('test' as RepoName);
+    const fetchStub = sinon
+      .stub(element._restApiHelper, 'fetchJSON')
+      .resolves({} as unknown as ParsedJSON);
+    await element.getDiffComments(42 as NumericChangeId);
+    assert.isTrue(fetchStub.calledOnce);
+    const params = fetchStub.lastCall.args[0].params;
+    assert.isTrue(params?.['enable-context']);
+    assert.equal(params?.['context-padding'], 3);
+  });
+
+  test('getDiffDrafts with enableContext=false omits context params', async () => {
+    sinon.stub(element, 'getLoggedIn').resolves(true);
+    sinon.stub(element, 'getRepoName').resolves('test' as RepoName);
+    const fetchStub = sinon
+      .stub(element._restApiHelper, 'fetchJSON')
+      .resolves({} as unknown as ParsedJSON);
+    await element.getDiffDrafts(42 as NumericChangeId, false);
+    assert.isTrue(fetchStub.calledOnce);
+    const params = fetchStub.lastCall.args[0].params;
+    assert.isUndefined(params?.['enable-context']);
+    assert.isUndefined(params?.['context-padding']);
+  });
+
+  test('getDiffDrafts default includes context params', async () => {
+    sinon.stub(element, 'getLoggedIn').resolves(true);
+    sinon.stub(element, 'getRepoName').resolves('test' as RepoName);
+    const fetchStub = sinon
+      .stub(element._restApiHelper, 'fetchJSON')
+      .resolves({} as unknown as ParsedJSON);
+    await element.getDiffDrafts(42 as NumericChangeId);
+    assert.isTrue(fetchStub.calledOnce);
+    const params = fetchStub.lastCall.args[0].params;
+    assert.isTrue(params?.['enable-context']);
+    assert.equal(params?.['context-padding'], 3);
+  });
+
   test('legacy n,z key in change url is replaced', async () => {
     const stub = sinon
       .stub(element._restApiHelper, 'fetchJSON')

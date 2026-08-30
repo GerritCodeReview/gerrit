@@ -44,8 +44,23 @@ suite('gr-content-with-sidebar screenshot tests', () => {
     await element.updateComplete;
   });
 
-  test('screenshot', async () => {
-    await visualDiff(wrapper, 'gr-content-with-sidebar');
-    await visualDiffDarkTheme(wrapper, 'gr-content-with-sidebar');
+  test('screenshot right sidebar', async () => {
+    const element = wrapper.querySelector<GrContentWithSidebar>(
+      'gr-content-with-sidebar'
+    )!;
+    element.side = 'right';
+    await element.updateComplete;
+    await visualDiff(wrapper, 'gr-content-with-sidebar-right');
+    await visualDiffDarkTheme(wrapper, 'gr-content-with-sidebar-right');
+  });
+
+  test('screenshot left sidebar', async () => {
+    const element = wrapper.querySelector<GrContentWithSidebar>(
+      'gr-content-with-sidebar'
+    )!;
+    element.side = 'left';
+    await element.updateComplete;
+    await visualDiff(wrapper, 'gr-content-with-sidebar-left');
+    await visualDiffDarkTheme(wrapper, 'gr-content-with-sidebar-left');
   });
 });

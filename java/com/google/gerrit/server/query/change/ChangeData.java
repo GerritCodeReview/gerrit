@@ -239,7 +239,6 @@ public class ChangeData {
     }
 
     if (!pending.isEmpty()) {
-      ensureAllPatchSetsLoaded(pending);
       ensureMessagesLoaded(pending);
       for (ChangeData cd : pending) {
         @SuppressWarnings("unused")
@@ -443,6 +442,7 @@ public class ChangeData {
       Maps.newLinkedHashMapWithExpectedSize(1);
 
   private Map<SubmitRequirement, SubmitRequirementResult> submitRequirements;
+  private Integer unsatisfiedRequirementCount;
 
   private StorageConstraint storageConstraint = StorageConstraint.NOTEDB_ONLY;
   private Change change;
@@ -622,6 +622,7 @@ public class ChangeData {
       // If the diff summary was already loaded get the path from it.
       if (diffSummary != null) {
         currentFiles = diffSummary.get().getPaths();
+        return currentFiles;
       }
 
       Change c = change();
@@ -814,7 +815,8 @@ public class ChangeData {
         String metaRef = RefNames.changeMetaRef(getId());
         for (RefState r : refs) {
           if (r.ref().equals(metaRef)) {
-            return Optional.of(r.id());
+            metaRevision = r.id();
+            return Optional.of(metaRevision);
           }
         }
       }
@@ -857,6 +859,30 @@ public class ChangeData {
   @CanIgnoreReturnValue
   public Change reloadChange() {
     metaRevision = null;
+    setPatchSets(null);
+    messages = null;
+    allApprovals = null;
+    allApprovalsWithCopied = null;
+    currentApprovals = null;
+    reviewers = null;
+    reviewersByEmail = null;
+    pendingReviewers = null;
+    pendingReviewersByEmail = null;
+    reviewerUpdates = null;
+    reviewedBy = null;
+    hashtags = null;
+    customKeyedValues = null;
+    attentionSet = null;
+    publishedComments = null;
+    usersWithDrafts = null;
+    submitRequirements = null;
+    submitRecords.clear();
+    submitTypeRecord = null;
+    mergeable = null;
+    diffSummary = null;
+    changedLines = null;
+    currentFiles = null;
+    commitData = null;
     return loadChange();
   }
 
@@ -870,7 +896,6 @@ public class ChangeData {
     change = notes.getChange();
     changeServerId = notes.getServerId();
     metaRevision = null;
-    setPatchSets(null);
     return change;
   }
 
@@ -889,7 +914,9 @@ public class ChangeData {
       }
       notes = notesFactory.create(project(), legacyId, metaRevision);
       change = notes.getChange();
-      setPatchSets(null);
+      if (changeServerId == null) {
+        changeServerId = notes.getServerId();
+      }
     }
     return notes;
   }
@@ -1103,6 +1130,15 @@ public class ChangeData {
     return allApprovalsWithCopied;
   }
 
+  public void setAllApprovals(ListMultimap<PatchSet.Id, PatchSetApproval> allApprovals) {
+    this.allApprovals = allApprovals;
+  }
+
+  public void setAllApprovalsWithCopied(
+      ListMultimap<PatchSet.Id, PatchSetApproval> allApprovalsWithCopied) {
+    this.allApprovalsWithCopied = allApprovalsWithCopied;
+  }
+
   /**
    * Get legacy submit ('SUBM') approval label
    *
@@ -1219,6 +1255,10 @@ public class ChangeData {
     return publishedComments;
   }
 
+  public void setPublishedComments(List<HumanComment> comments) {
+    this.publishedComments = comments;
+  }
+
   public ImmutableSet<String> getCommentsForIndex() {
     return publishedComments().stream()
         .map(c -> c.message)
@@ -1295,6 +1335,10 @@ public class ChangeData {
     return messages;
   }
 
+  public void setMessages(List<ChangeMessage> messages) {
+    this.messages = messages;
+  }
+
   /**
    * Similar to {@link #submitRequirements()}, except that it also converts submit records resulting
    * from the evaluation of legacy submit rules to submit requirements.
@@ -1305,6 +1349,14 @@ public class ChangeData {
         SubmitRequirementsAdapter.getLegacyRequirements(this);
     return submitRequirementsUtil.mergeLegacyAndNonLegacyRequirements(
         projectConfigReqs, legacyReqs, this);
+  }
+
+  public Integer unsatisfiedRequirementCount() {
+    return unsatisfiedRequirementCount;
+  }
+
+  public void setUnsatisfiedRequirementCount(Integer count) {
+    this.unsatisfiedRequirementCount = count;
   }
 
   /**
@@ -1352,12 +1404,31 @@ public class ChangeData {
     this.submitRequirements = submitRequirements;
   }
 
+  @Nullable
+  public List<SubmitRecord> getSubmitRecords(SubmitRuleOptions options) {
+    List<SubmitRecord> records = submitRecords.get(options);
+    if (records == null) {
+      Change c = change();
+      if (c != null && !c.isClosed()) {
+        SubmitRuleOptions other =
+            options.toBuilder()
+                .recomputeOnClosedChanges(!options.recomputeOnClosedChanges())
+                .build();
+        records = submitRecords.get(other);
+        if (records != null) {
+          submitRecords.put(options, records);
+        }
+      }
+    }
+    return records;
+  }
+
   public List<SubmitRecord> submitRecords(SubmitRuleOptions options) {
     // If the change is not submitted yet, 'strict' and 'lenient' both have the same result. If the
     // change is submitted, SubmitRecord requested with 'strict' will contain just a single entry
     // that with status=CLOSED. The latter is cheap to evaluate as we don't have to run any actual
     // evaluation.
-    List<SubmitRecord> records = submitRecords.get(options);
+    List<SubmitRecord> records = getSubmitRecords(options);
     if (records == null) {
       if (storageConstraint != StorageConstraint.NOTEDB_ONLY) {
         // Submit requirements are expensive. We allow loading them only if this change did not
@@ -1371,21 +1442,19 @@ public class ChangeData {
         return notes().getSubmitRecords();
       }
       records = submitRuleEvaluatorFactory.create(options).evaluate(this);
-      submitRecords.put(options, records);
-      if (!change().isClosed() && submitRecords.size() == 1) {
-        // Cache the SubmitRecord with allowClosed = !allowClosed as the SubmitRecord are the same.
-        submitRecords.put(
-            options.toBuilder()
-                .recomputeOnClosedChanges(!options.recomputeOnClosedChanges())
-                .build(),
-            records);
-      }
+      setSubmitRecords(options, records);
     }
     return records;
   }
 
   public void setSubmitRecords(SubmitRuleOptions options, List<SubmitRecord> records) {
     submitRecords.put(options, records);
+    Change c = change();
+    if (c != null && !c.isClosed()) {
+      SubmitRuleOptions other =
+          options.toBuilder().recomputeOnClosedChanges(!options.recomputeOnClosedChanges()).build();
+      submitRecords.put(other, records);
+    }
   }
 
   public SubmitTypeRecord submitTypeRecord() {
@@ -1614,7 +1683,8 @@ public class ChangeData {
    */
   @Nullable
   public Boolean isPureRevert() {
-    if (change().getRevertOf() == null) {
+    Change c = change();
+    if (c == null || c.getRevertOf() == null) {
       return null;
     }
     try {

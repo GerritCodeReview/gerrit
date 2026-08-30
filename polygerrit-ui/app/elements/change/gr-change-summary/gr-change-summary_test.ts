@@ -264,6 +264,92 @@ suite('gr-change-summary test', () => {
     });
   });
 
+  suite('ai chips', () => {
+    test('detailed chip has isAi set based on run.isAiPowered', async () => {
+      element.runs = [
+        createRun({
+          checkName: 'AI Check',
+          status: RunStatus.COMPLETED,
+          isAiPowered: true,
+          results: [createCheckResult({category: Category.ERROR})],
+        }),
+        createRun({
+          checkName: 'Normal Check',
+          status: RunStatus.COMPLETED,
+          isAiPowered: false,
+          results: [createCheckResult({category: Category.ERROR})],
+        }),
+      ];
+      element.showChecksSummary = true;
+      await element.updateComplete;
+
+      const chips = queryAll<GrChecksChip>(element, 'gr-checks-chip');
+      assert.equal(chips.length, 2);
+      assert.isTrue(chips[0].isAi);
+      assert.equal(chips[0].text, 'AI Check');
+      assert.isFalse(chips[1].isAi);
+      assert.equal(chips[1].text, 'Normal Check');
+    });
+
+    test('collapsed chip does not have isAi=true even if run is AI powered', async () => {
+      element.runs = [
+        createRun({
+          status: RunStatus.COMPLETED,
+          isAiPowered: true,
+          results: [createCheckResult({category: Category.SUCCESS})],
+        }),
+        createRun({
+          status: RunStatus.COMPLETED,
+          isAiPowered: false,
+          results: [createCheckResult({category: Category.SUCCESS})],
+        }),
+        createRun({status: RunStatus.RUNNING}),
+      ];
+      element.showChecksSummary = true;
+      await element.updateComplete;
+
+      const chips = queryAll<GrChecksChip>(element, 'gr-checks-chip');
+      const successChip = [...chips].find(
+        c => c.statusOrCategory === Category.SUCCESS
+      );
+      assert.isDefined(successChip);
+      assert.isFalse(successChip.isAi);
+      assert.equal(successChip.text, '2');
+    });
+
+    test('plus-more chip does not have isAi=true even if overflow run is AI powered', async () => {
+      const runs: CheckRun[] = [];
+      for (let i = 0; i < 8; i++) {
+        runs.push(
+          createRun({
+            checkName: `Error ${i}`,
+            status: RunStatus.COMPLETED,
+            isAiPowered: false,
+            results: [createCheckResult({category: Category.ERROR})],
+          })
+        );
+      }
+      runs.push(
+        createRun({
+          checkName: 'Error AI',
+          status: RunStatus.COMPLETED,
+          isAiPowered: true,
+          results: [createCheckResult({category: Category.ERROR})],
+        })
+      );
+
+      element.runs = runs;
+      element.showChecksSummary = true;
+      await element.updateComplete;
+
+      const chips = queryAll<GrChecksChip>(element, 'gr-checks-chip');
+      assert.equal(chips.length, 8);
+      const plusMoreChip = chips[7];
+      assert.equal(plusMoreChip.text, '+ 2 more');
+      assert.isFalse(plusMoreChip.isAi);
+    });
+  });
+
   suite('flows summary', () => {
     test('renders', async () => {
       flowsModel.setState({

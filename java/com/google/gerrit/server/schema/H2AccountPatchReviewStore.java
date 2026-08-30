@@ -35,6 +35,10 @@ public class H2AccountPatchReviewStore extends JdbcAccountPatchReviewStore {
     super(cfg, sitePaths, threadSettingsConfig);
   }
 
+  protected H2AccountPatchReviewStore() {
+    super();
+  }
+
   @Override
   public StorageException convertError(String op, SQLException err) {
     switch (getSQLStateInt(err)) {

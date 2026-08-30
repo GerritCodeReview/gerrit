@@ -13,6 +13,7 @@ import {GrEndpointDecorator} from './gr-endpoint-decorator';
 import {PluginApi} from '../../../api/plugin';
 import {HookApi, PluginElement} from '../../../api/hook';
 import {GrEndpointParam} from '../gr-endpoint-param/gr-endpoint-param';
+import {getAppContext} from '../../../services/app-context';
 
 interface TestModule extends PluginElement {
   'first-param'?: string;
@@ -275,5 +276,41 @@ suite('gr-endpoint-decorator', () => {
     param.value = value2;
     await param.updateComplete;
     assert.strictEqual((module as TestModule)['banana-param'], value2);
+  });
+
+  test('disconnected before param setup does not log timeout error', async () => {
+    const errorStub = sinon.stub(getAppContext().reportingService, 'error');
+    const clock = sinon.useFakeTimers();
+    try {
+      const el = await fixture<GrEndpointDecorator>(html`
+        <gr-endpoint-decorator name="late-endpoint">
+          <gr-endpoint-param name="late-param"></gr-endpoint-param>
+        </gr-endpoint-decorator>
+      `);
+      plugin.registerCustomComponent('late-endpoint', 'late-module');
+      el.remove();
+      clock.tick(15000);
+      assert.isFalse(errorStub.called);
+    } finally {
+      clock.restore();
+      errorStub.restore();
+    }
+  });
+
+  test('disconnected element does not attach custom component after late resolution', async () => {
+    const el = await fixture<GrEndpointDecorator>(html`
+      <gr-endpoint-decorator name="late-endpoint-2">
+        <gr-endpoint-param name="late-param-2"></gr-endpoint-param>
+      </gr-endpoint-decorator>
+    `);
+    const hook = plugin.registerCustomComponent(
+      'late-endpoint-2',
+      'late-module-2'
+    );
+    const param = queryAndAssert<GrEndpointParam>(el, 'gr-endpoint-param');
+    el.remove();
+    param.value = 'test-value';
+    await param.updateComplete;
+    assert.equal(hook.getAllAttached().length, 0);
   });
 });

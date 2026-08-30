@@ -39,6 +39,8 @@ export class GrEndpointDecorator extends LitElement {
 
   private readonly initializedPlugins = new Map<string, boolean>();
 
+  private readonly timeoutIds = new Set<number>();
+
   private readonly reporting = getAppContext().reportingService;
 
   private readonly getPluginLoader = resolve(this, pluginLoaderToken);
@@ -68,6 +70,10 @@ export class GrEndpointDecorator extends LitElement {
   }
 
   override disconnectedCallback() {
+    for (const timeoutId of this.timeoutIds) {
+      window.clearTimeout(timeoutId);
+    }
+    this.timeoutIds.clear();
     for (const [el, domHook] of this.domHooks) {
       domHook.handleInstanceDetached(el);
     }
@@ -144,13 +150,16 @@ export class GrEndpointDecorator extends LitElement {
     const expectProperties = this.getEndpointParams().map(paramEl =>
       this.setupParamBinding(paramEl, el, pluginName)
     );
-    let timeoutId: number;
+    let timeoutId: number | undefined;
     const timeout = new Promise(
       () =>
         // specify window here so that TS pulls the correct setTimeout method
         // if window is not specified, then the function is pulled from node
         // and the return type is NodeJS.Timeout object
         (timeoutId = window.setTimeout(() => {
+          if (timeoutId !== undefined) {
+            this.timeoutIds.delete(timeoutId);
+          }
           this.reporting.error(
             `Plugin '${pluginName}', endpoint '${this.name}'`,
             new Error(
@@ -160,10 +169,16 @@ export class GrEndpointDecorator extends LitElement {
           );
         }, INIT_PROPERTIES_TIMEOUT_MS))
     );
+    if (timeoutId !== undefined) {
+      this.timeoutIds.add(timeoutId);
+    }
     return Promise.race([timeout, Promise.all(expectProperties)])
       .then(() => el)
       .finally(() => {
-        if (timeoutId) clearTimeout(timeoutId);
+        if (timeoutId !== undefined) {
+          window.clearTimeout(timeoutId);
+          this.timeoutIds.delete(timeoutId);
+        }
       });
   }
 
@@ -228,6 +243,7 @@ export class GrEndpointDecorator extends LitElement {
     }
     this.initializedPlugins.set(name, true);
     initPromise.then(el => {
+      if (!this.isConnected) return;
       if (domHook) {
         domHook.handleInstanceAttached(el);
         this.domHooks.set(el, domHook);

@@ -7908,7 +7908,7 @@ continue to use the identity of the caller.
 Notify handling that defines to whom email notifications should be sent
 after the change is created. +
 Allowed values are `NONE`, `OWNER`, `OWNER_REVIEWERS` and `ALL`. +
-If not set, the default is `ALL`.
+If not set, the default is `OWNER` for WIP changes and `ALL` otherwise.
 |`notify_details`     |optional|
 Additional information about whom to notify about the change creation
 as a map of link:user-notify.html#recipient-types[recipient type] to

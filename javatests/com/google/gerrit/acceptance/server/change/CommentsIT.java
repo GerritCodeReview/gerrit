@@ -1874,6 +1874,60 @@ public class CommentsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void replyToCommentInDifferentPatchsetFailsWhenCreatingDraft() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    String revId1 = r.getCommit().getName();
+
+    ReviewInput input = new ReviewInput();
+    CommentInput parentComment =
+        CommentsUtil.newComment(FILE_NAME, Side.REVISION, 1, "parent comment", false);
+    input.comments = new HashMap<>();
+    input.comments.put(FILE_NAME, ImmutableList.of(parentComment));
+    revision(r).review(input);
+
+    Map<String, List<CommentInfo>> result = getPublishedComments(changeId, revId1);
+    CommentInfo parentInfo = Iterables.getOnlyElement(result.get(FILE_NAME));
+
+    PushOneCommit.Result r2 = amendChange(changeId);
+    String revId2 = r2.getCommit().getName();
+
+    DraftInput replyDraft = CommentsUtil.newDraft(FILE_NAME, Side.REVISION, 1, "reply draft");
+    replyDraft.inReplyTo = parentInfo.id;
+
+    BadRequestException thrown =
+        assertThrows(BadRequestException.class, () -> addDraft(changeId, revId2, replyDraft));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains(
+            "Invalid comment in_reply_to. Comment replies must be submitted on the same patchset as"
+                + " the parent comment");
+  }
+
+  @Test
+  public void replyToCommentInSamePatchsetSucceedsWhenCreatingDraft() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    String revId1 = r.getCommit().getName();
+
+    ReviewInput input = new ReviewInput();
+    CommentInput parentComment =
+        CommentsUtil.newComment(FILE_NAME, Side.REVISION, 1, "parent comment", false);
+    input.comments = new HashMap<>();
+    input.comments.put(FILE_NAME, ImmutableList.of(parentComment));
+    revision(r).review(input);
+
+    Map<String, List<CommentInfo>> result = getPublishedComments(changeId, revId1);
+    CommentInfo parentInfo = Iterables.getOnlyElement(result.get(FILE_NAME));
+
+    DraftInput replyDraft = CommentsUtil.newDraft(FILE_NAME, Side.REVISION, 1, "reply draft");
+    replyDraft.inReplyTo = parentInfo.id;
+
+    CommentInfo addedDraft = addDraft(changeId, revId1, replyDraft);
+    assertThat(addedDraft.inReplyTo).isEqualTo(parentInfo.id);
+  }
+
+  @Test
   public void queryChangesWithCommentCount() throws Exception {
     // PS1 has three comments in three different threads, PS2 has one comment in one thread.
     PushOneCommit.Result result = createChange("change 1", FILE_NAME, "content 1");
@@ -2122,6 +2176,68 @@ public class CommentsIT extends AbstractDaemonTest {
         assertThrows(
             BadRequestException.class, () -> CommentsUtil.addComments(gApi, changeId, comment));
     assertThat(exception.getMessage()).contains(String.format("%s not found", comment.inReplyTo));
+  }
+
+  @Test
+  public void replyToCommentInDifferentPatchsetFailsWhenPublishing() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    String revId1 = r.getCommit().getName();
+
+    ReviewInput input = new ReviewInput();
+    CommentInput parentComment =
+        CommentsUtil.newComment(FILE_NAME, Side.REVISION, 1, "parent comment", false);
+    input.comments = new HashMap<>();
+    input.comments.put(FILE_NAME, ImmutableList.of(parentComment));
+    revision(r).review(input);
+
+    Map<String, List<CommentInfo>> result = getPublishedComments(changeId, revId1);
+    CommentInfo parentInfo = Iterables.getOnlyElement(result.get(FILE_NAME));
+
+    PushOneCommit.Result r2 = amendChange(changeId);
+
+    ReviewInput replyInput = new ReviewInput();
+    CommentInput replyComment =
+        CommentsUtil.newComment(FILE_NAME, Side.REVISION, 1, "reply comment", false);
+    replyComment.inReplyTo = parentInfo.id;
+    replyInput.comments = new HashMap<>();
+    replyInput.comments.put(FILE_NAME, ImmutableList.of(replyComment));
+
+    BadRequestException thrown =
+        assertThrows(BadRequestException.class, () -> revision(r2).review(replyInput));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains(
+            "Invalid comment in_reply_to. Comment replies must be submitted on the same patchset as"
+                + " the parent comment");
+  }
+
+  @Test
+  public void replyToCommentInSamePatchsetSucceedsWhenPublishing() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    String revId1 = r.getCommit().getName();
+
+    ReviewInput input = new ReviewInput();
+    CommentInput parentComment =
+        CommentsUtil.newComment(FILE_NAME, Side.REVISION, 1, "parent comment", false);
+    input.comments = new HashMap<>();
+    input.comments.put(FILE_NAME, ImmutableList.of(parentComment));
+    revision(r).review(input);
+
+    Map<String, List<CommentInfo>> result = getPublishedComments(changeId, revId1);
+    CommentInfo parentInfo = Iterables.getOnlyElement(result.get(FILE_NAME));
+
+    ReviewInput replyInput = new ReviewInput();
+    CommentInput replyComment =
+        CommentsUtil.newComment(FILE_NAME, Side.REVISION, 1, "reply comment", false);
+    replyComment.inReplyTo = parentInfo.id;
+    replyInput.comments = new HashMap<>();
+    replyInput.comments.put(FILE_NAME, ImmutableList.of(replyComment));
+
+    revision(r).review(replyInput);
+    Map<String, List<CommentInfo>> resultAfterReply = getPublishedComments(changeId, revId1);
+    assertThat(resultAfterReply.get(FILE_NAME).get(1).inReplyTo).isEqualTo(parentInfo.id);
   }
 
   @Test

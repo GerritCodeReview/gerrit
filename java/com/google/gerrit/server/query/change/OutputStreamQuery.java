@@ -30,13 +30,14 @@ import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.index.query.QueryResult;
 import com.google.gerrit.server.DynamicOptions;
 import com.google.gerrit.server.account.AccountAttributeLoader;
+import com.google.gerrit.server.cancellation.RequestCancelledException;
+import com.google.gerrit.server.cancellation.RequestStateProvider;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.data.ChangeAttribute;
 import com.google.gerrit.server.data.PatchSetAttribute;
 import com.google.gerrit.server.data.QueryStatsAttribute;
 import com.google.gerrit.server.events.EventFactory;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gson.Gson;
@@ -88,7 +89,6 @@ public class OutputStreamQuery {
   private final ChangeQueryProcessor queryProcessor;
   private final EventFactory eventFactory;
   private final TrackingFooters trackingFooters;
-  private final SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory;
   private final AccountAttributeLoader.Factory accountAttributeLoaderFactory;
 
   private OutputFormat outputFormat = OutputFormat.TEXT;
@@ -114,14 +114,12 @@ public class OutputStreamQuery {
       ChangeQueryProcessor queryProcessor,
       EventFactory eventFactory,
       TrackingFooters trackingFooters,
-      SubmitRuleEvaluator.Factory submitRuleEvaluatorFactory,
       AccountAttributeLoader.Factory accountAttributeLoaderFactory) {
     this.repoManager = repoManager;
     this.queryBuilder = queryBuilder;
     this.queryProcessor = queryProcessor;
     this.eventFactory = eventFactory;
     this.trackingFooters = trackingFooters;
-    this.submitRuleEvaluatorFactory = submitRuleEvaluatorFactory;
     this.accountAttributeLoaderFactory = accountAttributeLoaderFactory;
   }
 
@@ -224,6 +222,10 @@ public class OutputStreamQuery {
           AccountAttributeLoader accountLoader = accountAttributeLoaderFactory.create();
           List<ChangeAttribute> changeAttributes = new ArrayList<>();
           for (ChangeData d : results.entities()) {
+            if (Thread.currentThread().isInterrupted()) {
+              throw new RequestCancelledException(
+                  RequestStateProvider.Reason.CLIENT_CLOSED_REQUEST, null);
+            }
             changeAttributes.add(
                 buildChangeAttribute(d, repos, revWalks, accountLoader, attributesNodeProviders));
           }
@@ -280,8 +282,7 @@ public class OutputStreamQuery {
     if (includeSubmitRecords) {
       SubmitRuleOptions options =
           SubmitRuleOptions.builder().recomputeOnClosedChanges(true).build();
-      eventFactory.addSubmitRecords(
-          c, submitRuleEvaluatorFactory.create(options).evaluate(d), accountLoader);
+      eventFactory.addSubmitRecords(c, d.submitRecords(options), accountLoader);
     }
 
     if (includeCommitMessage) {

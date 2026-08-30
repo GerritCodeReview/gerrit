@@ -24,8 +24,8 @@ importers:
         specifier: ^1.11.2
         version: 1.11.2
       highlight.js:
-        specifier: ^11.11.1
-        version: 11.11.1
+        specifier: ^11.12.0
+        version: 11.12.0
       highlightjs-closure-templates:
         specifier: https://github.com/highlightjs/highlightjs-closure-templates#02fb0646e0499084f96a99b8c6f4a0d7bd1d33ba
         version: https://codeload.github.com/highlightjs/highlightjs-closure-templates/tar.gz/02fb0646e0499084f96a99b8c6f4a0d7bd1d33ba
@@ -133,20 +133,20 @@ packages:
   highlight.js@10.7.3:
     resolution: {integrity: sha512-tzcUFauisWKNHaRkN4Wjl/ZA07gENAjFl3J/c480dprkGTg5EQstgaNFqBfUqCq54kZRIEcreTsAgF/m2quD7A==}
 
-  highlight.js@11.11.1:
-    resolution: {integrity: sha512-Xwwo44whKBVCYoliBQwaPvtd/2tYFkRQtXDWj1nackaV2JPXx3L0+Jvd8/qCJ2p+ML0/XVkJ2q+Mr+UVdpJK5w==}
+  highlight.js@11.12.0:
+    resolution: {integrity: sha512-nbfWpyRMcMrPMmDwJB+dhX/eiaPKtc2RB+0QZskqJ3WjRA/FDS0e9hZrx8EC/lbEv8gXy98FcDbNa/dspAaJMg==}
     engines: {node: '>=12.0.0'}
 
   highlightjs-closure-templates@https://codeload.github.com/highlightjs/highlightjs-closure-templates/tar.gz/02fb0646e0499084f96a99b8c6f4a0d7bd1d33ba:
-    resolution: {tarball: https://codeload.github.com/highlightjs/highlightjs-closure-templates/tar.gz/02fb0646e0499084f96a99b8c6f4a0d7bd1d33ba}
+    resolution: {gitHosted: true, tarball: https://codeload.github.com/highlightjs/highlightjs-closure-templates/tar.gz/02fb0646e0499084f96a99b8c6f4a0d7bd1d33ba}
     version: 0.0.1
 
   highlightjs-epp@https://codeload.github.com/highlightjs/highlightjs-epp/tar.gz/9f9e1a92f37c217c68899c7d3bdccb4d134681b9:
-    resolution: {tarball: https://codeload.github.com/highlightjs/highlightjs-epp/tar.gz/9f9e1a92f37c217c68899c7d3bdccb4d134681b9}
+    resolution: {gitHosted: true, tarball: https://codeload.github.com/highlightjs/highlightjs-epp/tar.gz/9f9e1a92f37c217c68899c7d3bdccb4d134681b9}
     version: 0.0.1
 
   highlightjs-structured-text@https://codeload.github.com/highlightjs/highlightjs-structured-text/tar.gz/e68dd7aa829529fb6c40d6287585f43273605a9e:
-    resolution: {tarball: https://codeload.github.com/highlightjs/highlightjs-structured-text/tar.gz/e68dd7aa829529fb6c40d6287585f43273605a9e}
+    resolution: {gitHosted: true, tarball: https://codeload.github.com/highlightjs/highlightjs-structured-text/tar.gz/e68dd7aa829529fb6c40d6287585f43273605a9e}
     version: 1.4.9
 
   highlightjs-ttcn3@git+https://gitea.osmocom.org/ttcn3/highlightjs-ttcn3.git#6daccff309fca1e7561a43984d42fa4f829ce06d:
@@ -154,7 +154,7 @@ packages:
     version: 0.0.1
 
   highlightjs-vue@https://codeload.github.com/paladox/highlightjs-vue/tar.gz/44eed074ea0110d1ad03d2cbd77d27027cf7bb04:
-    resolution: {tarball: https://codeload.github.com/paladox/highlightjs-vue/tar.gz/44eed074ea0110d1ad03d2cbd77d27027cf7bb04}
+    resolution: {gitHosted: true, tarball: https://codeload.github.com/paladox/highlightjs-vue/tar.gz/44eed074ea0110d1ad03d2cbd77d27027cf7bb04}
     version: 1.1.0
 
   ieee754@1.2.1:
@@ -224,7 +224,7 @@ packages:
     engines: {node: '>= 6'}
 
   resemblejs@https://codeload.github.com/rsmbl/Resemble.js/tar.gz/66a55c5bfc3bda2303ad632ee8ce3c727b415917:
-    resolution: {tarball: https://codeload.github.com/rsmbl/Resemble.js/tar.gz/66a55c5bfc3bda2303ad632ee8ce3c727b415917}
+    resolution: {gitHosted: true, tarball: https://codeload.github.com/rsmbl/Resemble.js/tar.gz/66a55c5bfc3bda2303ad632ee8ce3c727b415917}
     version: 5.0.0
 
   rxjs@6.6.7:
@@ -355,15 +355,15 @@ snapshots:
 
   highlight.js@10.7.3: {}
 
-  highlight.js@11.11.1: {}
+  highlight.js@11.12.0: {}
 
   highlightjs-closure-templates@https://codeload.github.com/highlightjs/highlightjs-closure-templates/tar.gz/02fb0646e0499084f96a99b8c6f4a0d7bd1d33ba:
     dependencies:
-      highlight.js: 11.11.1
+      highlight.js: 11.12.0
 
   highlightjs-epp@https://codeload.github.com/highlightjs/highlightjs-epp/tar.gz/9f9e1a92f37c217c68899c7d3bdccb4d134681b9:
     dependencies:
-      highlight.js: 11.11.1
+      highlight.js: 11.12.0
 
   highlightjs-structured-text@https://codeload.github.com/highlightjs/highlightjs-structured-text/tar.gz/e68dd7aa829529fb6c40d6287585f43273605a9e:
     dependencies:
@@ -371,7 +371,7 @@ snapshots:
 
   highlightjs-ttcn3@git+https://gitea.osmocom.org/ttcn3/highlightjs-ttcn3.git#6daccff309fca1e7561a43984d42fa4f829ce06d:
     dependencies:
-      highlight.js: 11.11.1
+      highlight.js: 11.12.0
 
   highlightjs-vue@https://codeload.github.com/paladox/highlightjs-vue/tar.gz/44eed074ea0110d1ad03d2cbd77d27027cf7bb04: {}
 

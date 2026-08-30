@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.cache.h2;
 
+import com.google.common.base.Stopwatch;
 import com.google.common.base.Throwables;
 import com.google.common.cache.AbstractLoadingCache;
 import com.google.common.cache.Cache;
@@ -37,7 +38,10 @@ import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.util.concurrent.ConcurrentBloomFilter;
 import com.google.inject.TypeLiteral;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InvalidClassException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -348,6 +352,8 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     private boolean trackLastAccess;
     private final AtomicBoolean isDiskCacheReadOnly;
     private volatile boolean ensuredSchemaCreation;
+    private final Path cacheFilePath;
+    private final boolean preWarmForBloomFilter;
 
     SqlStore(
         String jdbcUrl,
@@ -361,7 +367,9 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
         @Nullable Duration refreshAfterWrite,
         boolean buildBloomFilter,
         boolean trackLastAccess,
-        AtomicBoolean isDiskCacheReadOnly) {
+        AtomicBoolean isDiskCacheReadOnly,
+        boolean preWarmForBloomFilter,
+        Path cacheFilePath) {
       this.url = jdbcUrl;
       this.keyType = createKeyType(keyType, keySerializer);
       this.valueSerializer = valueSerializer;
@@ -372,6 +380,8 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       this.buildBloomFilter = buildBloomFilter;
       this.trackLastAccess = trackLastAccess;
       this.isDiskCacheReadOnly = isDiskCacheReadOnly;
+      this.cacheFilePath = cacheFilePath;
+      this.preWarmForBloomFilter = preWarmForBloomFilter;
 
       int cores = Runtime.getRuntime().availableProcessors();
       int keep = Math.min(cores, 16);
@@ -424,6 +434,24 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
       }
     }
 
+    void warmupOsPageCache() {
+      // null check because tests use in-memory h2.
+      if (cacheFilePath == null || !Files.exists(cacheFilePath)) {
+        return;
+      }
+      logger.atFine().log("Warming OS page cache for %s", cacheFilePath.getFileName());
+      Stopwatch sw = Stopwatch.createStarted();
+      byte[] buf = new byte[65536];
+      try (InputStream in = Files.newInputStream(cacheFilePath)) {
+        while (in.read(buf) != -1) {}
+      } catch (IOException e) {
+        logger.atWarning().log(
+            "Failed to warm OS page cache for %s: %s", cacheFilePath.getFileName(), e.getMessage());
+      }
+      logger.atFine().log(
+          "Finished warming OS page cache for %s after %s", cacheFilePath.getFileName(), sw);
+    }
+
     void open() {
       bloomFilter.initIfNeeded();
     }
@@ -461,6 +489,9 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     }
 
     private void buildBloomFilter() {
+      if (preWarmForBloomFilter) {
+        warmupOsPageCache();
+      }
       SqlHandle c = null;
       try (TraceTimer ignored = TraceContext.newTimer("Build bloom filter", Metadata.empty())) {
         c = acquire();
@@ -750,6 +781,7 @@ public class H2CacheImpl<K, V> extends AbstractLoadingCache<K, V> implements Per
     }
 
     DiskStats diskStats() {
+      warmupOsPageCache();
       long size = 0;
       long space = 0;
       SqlHandle c = null;

@@ -60,13 +60,15 @@ public abstract class JdbcAccountPatchReviewStore
   public static final String TEST_IN_MEMORY_URL =
       "jdbc:h2:mem:account_patch_reviews;DB_CLOSE_DELAY=-1";
 
-  private static final String ACCOUNT_PATCH_REVIEW_DB = "accountPatchReviewDb";
+  static final String ACCOUNT_PATCH_REVIEW_DB = "accountPatchReviewDb";
   private static final String H2_DB = "h2";
   private static final String MARIADB = "mariadb";
   private static final String MYSQL = "mysql";
   private static final String POSTGRESQL = "postgresql";
   private static final String CLOUDSPANNER = "cloudspanner";
   private static final String URL = "url";
+  private static final String H2_LOCK_TYPE = "h2LockType";
+  static final String H2_LOCK_TYPE_JGIT = "jgit";
 
   public static class JdbcAccountPatchReviewStoreModule extends LifecycleModule {
     private final Config cfg;
@@ -80,7 +82,18 @@ public abstract class JdbcAccountPatchReviewStore
       Class<? extends JdbcAccountPatchReviewStore> impl;
       String url = cfg.getString(ACCOUNT_PATCH_REVIEW_DB, null, URL);
       if (url == null || url.contains(H2_DB)) {
-        impl = H2AccountPatchReviewStore.class;
+        String lockType = cfg.getString(ACCOUNT_PATCH_REVIEW_DB, null, H2_LOCK_TYPE);
+        switch (lockType != null ? lockType : "") {
+          case "":
+            impl = H2AccountPatchReviewStore.class;
+            break;
+          case H2_LOCK_TYPE_JGIT:
+            impl = H2JGitLockAccountPatchReviewStore.class;
+            break;
+          default:
+            throw new IllegalArgumentException(
+                "Invalid accountPatchReviewDb.h2LockType value: " + lockType);
+        }
       } else if (url.contains(POSTGRESQL)) {
         impl = PostgresqlAccountPatchReviewStore.class;
       } else if (url.contains(MYSQL)) {
@@ -104,7 +117,16 @@ public abstract class JdbcAccountPatchReviewStore
       Config cfg, SitePaths sitePaths, ThreadSettingsConfig threadSettingsConfig) {
     String url = cfg.getString(ACCOUNT_PATCH_REVIEW_DB, null, URL);
     if (url == null || url.contains(H2_DB)) {
-      return new H2AccountPatchReviewStore(cfg, sitePaths, threadSettingsConfig);
+      String lockType = cfg.getString(ACCOUNT_PATCH_REVIEW_DB, null, H2_LOCK_TYPE);
+      switch (lockType != null ? lockType : "") {
+        case "":
+          return new H2AccountPatchReviewStore(cfg, sitePaths, threadSettingsConfig);
+        case H2_LOCK_TYPE_JGIT:
+          return new H2JGitLockAccountPatchReviewStore(cfg, sitePaths);
+        default:
+          throw new IllegalArgumentException(
+              "Invalid accountPatchReviewDb.h2LockType value: " + lockType);
+      }
     }
     if (url.contains(POSTGRESQL)) {
       return new PostgresqlAccountPatchReviewStore(cfg, sitePaths, threadSettingsConfig);
@@ -127,7 +149,12 @@ public abstract class JdbcAccountPatchReviewStore
     this.ds = createDataSource(cfg, sitePaths, threadSettingsConfig);
   }
 
-  private static String getUrl(@GerritServerConfig Config cfg, SitePaths sitePaths) {
+  // Used by subclasses that manage their own connections without a pool.
+  protected JdbcAccountPatchReviewStore() {
+    this.ds = null;
+  }
+
+  static String getUrl(@GerritServerConfig Config cfg, SitePaths sitePaths) {
     String url = cfg.getString(ACCOUNT_PATCH_REVIEW_DB, null, URL);
     if (url == null) {
       return createH2Url(sitePaths.db_dir.resolve("account_patch_reviews"));
@@ -191,7 +218,7 @@ public abstract class JdbcAccountPatchReviewStore
   }
 
   public void createTableIfNotExists() {
-    try (Connection con = ds.getConnection();
+    try (Connection con = getConnection();
         Statement stmt = con.createStatement()) {
       doCreateTable(stmt);
     } catch (SQLException e) {
@@ -212,7 +239,7 @@ public abstract class JdbcAccountPatchReviewStore
   }
 
   public void dropTableIfExists() {
-    try (Connection con = ds.getConnection();
+    try (Connection con = getConnection();
         Statement stmt = con.createStatement()) {
       stmt.executeUpdate("DROP TABLE IF EXISTS account_patch_reviews");
     } catch (SQLException e) {
@@ -233,7 +260,7 @@ public abstract class JdbcAccountPatchReviewStore
                     .accountId(accountId.get())
                     .filePath(path)
                     .build());
-        Connection con = ds.getConnection();
+        Connection con = getConnection();
         PreparedStatement stmt =
             con.prepareStatement(
                 "INSERT INTO account_patch_reviews "
@@ -268,7 +295,7 @@ public abstract class JdbcAccountPatchReviewStore
                     .accountId(accountId.get())
                     .resourceCount(paths.size())
                     .build());
-        Connection con = ds.getConnection();
+        Connection con = getConnection();
         PreparedStatement stmt =
             con.prepareStatement(
                 "INSERT INTO account_patch_reviews "
@@ -301,7 +328,7 @@ public abstract class JdbcAccountPatchReviewStore
                     .accountId(accountId.get())
                     .filePath(path)
                     .build());
-        Connection con = ds.getConnection();
+        Connection con = getConnection();
         PreparedStatement stmt =
             con.prepareStatement(
                 "DELETE FROM account_patch_reviews "
@@ -323,7 +350,7 @@ public abstract class JdbcAccountPatchReviewStore
             TraceContext.newTimer(
                 "Clear all reviewed flags of patch set",
                 Metadata.builder().patchSetId(psId.get()).build());
-        Connection con = ds.getConnection();
+        Connection con = getConnection();
         PreparedStatement stmt =
             con.prepareStatement(
                 "DELETE FROM account_patch_reviews "
@@ -342,7 +369,7 @@ public abstract class JdbcAccountPatchReviewStore
             TraceContext.newTimer(
                 "Clear all reviewed flags of change",
                 Metadata.builder().changeId(changeId.get()).build());
-        Connection con = ds.getConnection();
+        Connection con = getConnection();
         PreparedStatement stmt =
             con.prepareStatement("DELETE FROM account_patch_reviews WHERE change_id = ?")) {
       stmt.setInt(1, changeId.get());
@@ -358,7 +385,7 @@ public abstract class JdbcAccountPatchReviewStore
             TraceContext.newTimer(
                 "Clear all reviewed flags by user",
                 Metadata.builder().accountId(accountId.get()).build());
-        Connection con = ds.getConnection();
+        Connection con = getConnection();
         PreparedStatement stmt =
             con.prepareStatement("DELETE FROM account_patch_reviews WHERE account_id = ?")) {
       stmt.setInt(1, accountId.get());
@@ -374,7 +401,7 @@ public abstract class JdbcAccountPatchReviewStore
             TraceContext.newTimer(
                 "Find reviewed flags",
                 Metadata.builder().patchSetId(psId.get()).accountId(accountId.get()).build());
-        Connection con = ds.getConnection();
+        Connection con = getConnection();
         PreparedStatement stmt =
             con.prepareStatement(
                 "SELECT patch_set_id, file_name FROM account_patch_reviews APR1 "

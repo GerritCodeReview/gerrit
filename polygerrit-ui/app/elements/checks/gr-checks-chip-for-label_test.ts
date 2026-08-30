@@ -58,4 +58,22 @@ suite('gr-checks-chip-for-label test', () => {
       </div>`
     );
   });
+
+  test('sets isAi to true when check run is AI powered', async () => {
+    element.runs = [
+      createRun({
+        labelName: 'Verified',
+        isAiPowered: true,
+        results: [
+          createCheckResult({
+            category: Category.ERROR,
+          }),
+        ],
+      }),
+    ];
+    await element.updateComplete;
+
+    const checksChip = queryAndAssert<GrChecksChip>(element, 'gr-checks-chip');
+    assert.isTrue(checksChip.isAi);
+  });
 });

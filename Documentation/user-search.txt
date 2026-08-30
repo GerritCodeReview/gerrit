@@ -205,7 +205,7 @@ reviewercount:'RELATION''COUNT'::
 True if the number of reviewers satisfies the given relation
 for the given number of reviewers.
 +
-For example, reviewers:>2 will be true for any change which has at least
+For example, reviewercount:>2 will be true for any change which has at least
 3 reviewers.
 +
 Valid relations are >=, >, \<=, <, or no relation, which will match if the
@@ -498,6 +498,10 @@ has:attention::
 +
 True if the change has attention by the current user.
 
+has:hashtag::
++
+True if the change has at least one hashtag.
+
 
 [[is]]
 [[is-starred]]
@@ -719,6 +723,22 @@ comment while unresolved:0 will be true for any change which has all comments re
 +
 Valid relations are >=, >, \<=, <, or no relation, which will match if the number of unresolved
 comments is exactly equal.
+
+[[unmet_requirement]]
+unmet_requirement:'SUBMIT_REQUIREMENT_NAME'::
++
+Matches changes where the given submit requirement is evaluated and unmet (its result is UNSATISFIED, ERROR, or TIMEOUT). The requirement name comparison is case-insensitive.
+
+[[unsatisfied_requirement_count]]
+unsatisfied_requirement_count:'RELATION''NUMBER'::
++
+True if the number of unsatisfied submit requirements satisfies the given relation for the given number.
++
+For example, unsatisfied_requirement_count:>0 will be true for any change which has at least one unsatisfied
+submit requirement while unsatisfied_requirement_count:0 will be true for any change which has all submit requirements resolved.
++
+Valid relations are >=, >, \<=, <, or no relation, which will match if the number of unsatisfied
+submit requirements is exactly equal.
 
 == Argument Quoting
 

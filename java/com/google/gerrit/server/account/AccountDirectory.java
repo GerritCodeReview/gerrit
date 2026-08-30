@@ -14,9 +14,11 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.server.data.AccountAttribute;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -59,6 +61,11 @@ public abstract class AccountDirectory {
 
     /** A flag that is set for deleted accounts. */
     DELETED
+  }
+
+  public void fillAccountInfo(Map<Account.Id, AccountInfo> in, Set<FillOptions> options)
+      throws PermissionBackendException {
+    fillAccountInfo(in.values(), options);
   }
 
   public abstract void fillAccountInfo(Iterable<? extends AccountInfo> in, Set<FillOptions> options)

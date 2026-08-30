@@ -30,6 +30,7 @@ import {
 import {ChangeMessageId, FixSuggestionInfo} from '../../../api/rest-api';
 import {getAppContext} from '../../../services/app-context';
 import {
+  CommentSide,
   createDefaultDiffPrefs,
   SpecialFilePath,
 } from '../../../constants/constants';
@@ -355,6 +356,7 @@ export class GrCommentThread extends LitElement {
       sharedStyles,
       css`
         :host {
+          display: block;
           font-family: var(--font-family);
           font-size: var(--font-size-normal);
           font-weight: var(--font-weight-normal);
@@ -632,6 +634,18 @@ export class GrCommentThread extends LitElement {
                         >
                       `
                     : nothing}
+                  ${this.shouldShowDisagreeButton()
+                    ? html`
+                        <gr-button
+                          id="disagreeBtn"
+                          link
+                          class="action disagree"
+                          ?disabled=${this.saving}
+                          @click=${this.handleCommentDisagree}
+                          >Disagree</gr-button
+                        >
+                      `
+                    : nothing}
                   <gr-button
                     id="ackBtn"
                     link
@@ -722,10 +736,19 @@ export class GrCommentThread extends LitElement {
   }
 
   override firstUpdated() {
+    const lastComment = this.thread ? this.getLastComment() : undefined;
+    const isNewDraft =
+      isDraft(lastComment) && (lastComment?.message ?? '') === '';
     if (this.shouldScrollIntoView) {
       whenRendered(this, () => {
         this.expandCollapseComments(false);
-        this.commentBox?.focus();
+        // Because of the non-deterministic order of focus events firing from
+        // the JS event loop, focusing the comment box on a new draft can result
+        // in the draft comment not being focused, which means the user has to
+        // click into it to start typing.
+        if (!isNewDraft) {
+          this.commentBox?.focus();
+        }
         // The delay is a hack because we don't know exactly when to
         // scroll the comment into center.
         // TODO: Find a better solution without a setTimeout
@@ -735,9 +758,9 @@ export class GrCommentThread extends LitElement {
         }, 500);
       });
     }
-    if (this.thread && isDraft(this.getFirstComment())) {
-      const msg = this.getFirstComment()?.message ?? '';
-      if (msg.length === 0) this.editDraft();
+    // Focus the draft comment input to avoid the user having to click into it.
+    if (isNewDraft) {
+      this.editDraft();
     }
   }
 
@@ -826,12 +849,48 @@ export class GrCommentThread extends LitElement {
 
   // Does not work for patchset level comments
   private getUrlForFileComment() {
-    const id = this.getFirstComment()?.id;
-    if (!id || !this.repoName || !this.changeNum) return undefined;
+    if (this.isPatchsetLevel()) {
+      return undefined;
+    }
+    if (!this.repoName || !this.changeNum) {
+      return undefined;
+    }
+    const comment = this.getFirstComment();
+    if (!comment) {
+      return undefined;
+    }
+    const patchNum = this.thread?.patchNum ?? comment.patch_set;
+    const path = this.thread?.path;
+    if (!patchNum || !path) {
+      if (!comment.id) {
+        return undefined;
+      }
+      return createDiffUrl({
+        changeNum: this.changeNum,
+        repo: this.repoName,
+        commentId: comment.id,
+      });
+    }
+    let line: number | undefined;
+    if (typeof this.thread?.line === 'number') {
+      line = this.thread.line;
+    } else if (this.thread?.range) {
+      line =
+        this.thread.range.end_line < this.thread.range.start_line
+          ? this.thread.range.start_line
+          : this.thread.range.end_line;
+    }
+    const side = this.thread?.commentSide ?? comment.side;
+    const leftSide = side === CommentSide.PARENT;
     return createDiffUrl({
       changeNum: this.changeNum,
       repo: this.repoName,
-      commentId: id,
+      patchNum,
+      diffView: {
+        path,
+        lineNum: line,
+        leftSide,
+      },
     });
   }
 
@@ -957,6 +1016,14 @@ export class GrCommentThread extends LitElement {
     );
   }
 
+  protected handleCommentDisagree() {
+    this.createReplyComment(
+      'Disagree.',
+      /* userWantsToEdit= */ false,
+      /* unresolved= */ false
+    );
+  }
+
   private handleReplyToComment(e: ReplyToCommentEvent) {
     const {content, userWantsToEdit, unresolved} = e.detail;
     this.createReplyComment(content, userWantsToEdit, unresolved);
@@ -1022,6 +1089,17 @@ export class GrCommentThread extends LitElement {
     )
       return false;
     return this.isOwner && !hasUserSuggestion(comment);
+  }
+
+  protected shouldShowDisagreeButton(): boolean {
+    return !!(
+      this.thread &&
+      this.account &&
+      this.unresolved &&
+      this.thread.comments.length === 1 &&
+      this.isOwner &&
+      this.thread.comments[0]?.is_ai
+    );
   }
 
   private handleAppliedFix(fixSuggestion?: FixSuggestionInfo) {

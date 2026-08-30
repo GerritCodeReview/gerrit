@@ -112,7 +112,13 @@ java_library(
         ":auto-oneof-plugin",
     ],
     visibility = ["//visibility:public"],
-    exports = ["@external_deps//:com_google_auto_value_auto_value_annotations"],
+    exports = [
+        "@external_deps//:com_google_auto_value_auto_value_annotations",
+        # AutoValue/AutoAnnotation-generated code references
+        # org.jspecify.annotations.Nullable; export it so every consumer of the
+        # processor satisfies strict deps without a per-target dependency.
+        "@external_deps//:org_jspecify_jspecify",
+    ],
 )
 
 java_library(

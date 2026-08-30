@@ -17,6 +17,7 @@ import {
 import {
   Action,
   Category,
+  ChangeData,
   CheckRun,
   ChecksApiConfig,
   ChecksProvider,
@@ -27,9 +28,11 @@ import {getAppContext} from '../../services/app-context';
 import {
   createCheckResult,
   createParsedChange,
+  createRevisions,
   createRun,
+  getCurrentRevision,
 } from '../../test/test-data-generators';
-import {waitUntil, waitUntilCalled} from '../../test/test-utils';
+import {waitEventLoop, waitUntil, waitUntilCalled} from '../../test/test-utils';
 import {ParsedChangeInfo} from '../../types/types';
 import {
   changeModelToken,
@@ -38,7 +41,11 @@ import {
 import {assert} from '@open-wc/testing';
 import {testResolver} from '../../test/common-test-setup';
 import {changeViewModelToken} from '../views/change';
-import {NumericChangeId, PatchSetNumber} from '../../api/rest-api';
+import {
+  NumericChangeId,
+  PatchSetNumber,
+  RevisionPatchSetNum,
+} from '../../api/rest-api';
 import {pluginLoaderToken} from '../../elements/shared/gr-js-api-interface/gr-plugin-loader';
 import {deepEqual} from '../../utils/deep-util';
 
@@ -77,6 +84,29 @@ function createProvider(): ChecksProvider {
         runs: [],
       }),
   };
+}
+
+/**
+ * A provider that echoes back the patchset it was asked to fetch, so that tests
+ * can assert which patchset a tab is populated with.
+ */
+function createPatchsetTaggingProvider(): ChecksProvider {
+  return {
+    fetch: (data: ChangeData) =>
+      Promise.resolve({
+        responseCode: ResponseCode.OK,
+        runs: [createRun({patchset: data.patchsetNumber})],
+      }),
+  };
+}
+
+/** A change with two patchsets, so latest (2) and older (1) are distinct. */
+function createTwoPatchsetChange(): ParsedChangeInfo {
+  return updateRevisionsWithCommitShas({
+    ...createParsedChange(),
+    revisions: createRevisions(2),
+    current_revision: getCurrentRevision(1),
+  })!;
 }
 
 suite('checks-model tests', () => {
@@ -126,6 +156,130 @@ suite('checks-model tests', () => {
         ._number as PatchSetNumber
     );
     assert.equal(model.changeNum, testChange!._number);
+
+    clock.restore();
+  });
+
+  test('no duplicate fetch when viewing latest patchset (no selection)', async () => {
+    const clock = sinon.useFakeTimers({shouldClearNativeTimers: true});
+    let change: ParsedChangeInfo | undefined = undefined;
+    testResolver(changeModelToken).change$.subscribe(c => (change = c));
+    let latestRuns: CheckRun[] = [];
+    let selectedRuns: CheckRun[] = [];
+    model.allRunsLatestPatchset$.subscribe(r => (latestRuns = r));
+    model.allRunsSelectedPatchset$.subscribe(r => (selectedRuns = r));
+    const provider = createPatchsetTaggingProvider();
+    const fetchSpy = sinon.spy(provider, 'fetch');
+
+    model.register({
+      pluginName: PLUGIN_NAME,
+      provider,
+      config: CONFIG_POLLING_NONE,
+    });
+    await waitUntil(() => change === undefined);
+
+    // Viewing the latest patchset (2), no explicit checks patchset override.
+    testResolver(changeViewModelToken).updateState({
+      patchNum: 2 as RevisionPatchSetNum,
+    });
+    const testChange = createTwoPatchsetChange();
+    testResolver(changeModelToken).updateStateChange(testChange);
+    await waitUntil(() => deepEqual(change, testChange));
+
+    // Fire the throttled emission, then flush the fetch promise into state.
+    clock.tick(600);
+    await waitEventLoop();
+
+    // The SELECTED patchset equals LATEST, so only a single fetch is needed.
+    assert.equal(fetchSpy.callCount, 1);
+    // Both tabs show data for the latest patchset (2).
+    assert.isNotEmpty(latestRuns);
+    assert.isNotEmpty(selectedRuns);
+    assert.isTrue(latestRuns.every(r => r.patchset === 2));
+    assert.isTrue(selectedRuns.every(r => r.patchset === 2));
+
+    clock.restore();
+  });
+
+  test('no duplicate fetch when latest patchset is explicitly selected', async () => {
+    const clock = sinon.useFakeTimers({shouldClearNativeTimers: true});
+    let change: ParsedChangeInfo | undefined = undefined;
+    testResolver(changeModelToken).change$.subscribe(c => (change = c));
+    let latestRuns: CheckRun[] = [];
+    let selectedRuns: CheckRun[] = [];
+    model.allRunsLatestPatchset$.subscribe(r => (latestRuns = r));
+    model.allRunsSelectedPatchset$.subscribe(r => (selectedRuns = r));
+    const provider = createPatchsetTaggingProvider();
+    const fetchSpy = sinon.spy(provider, 'fetch');
+
+    model.register({
+      pluginName: PLUGIN_NAME,
+      provider,
+      config: CONFIG_POLLING_NONE,
+    });
+    await waitUntil(() => change === undefined);
+
+    // Viewing patchset 1 but explicitly selecting the latest patchset (2) in the
+    // checks tab. checksPatchset differs from patchNum, so it is not reset.
+    testResolver(changeViewModelToken).updateState({
+      patchNum: 1 as RevisionPatchSetNum,
+      checksPatchset: 2 as PatchSetNumber,
+    });
+    const testChange = createTwoPatchsetChange();
+    testResolver(changeModelToken).updateStateChange(testChange);
+    await waitUntil(() => deepEqual(change, testChange));
+
+    // Fire the throttled emission, then flush the fetch promise into state.
+    clock.tick(600);
+    await waitEventLoop();
+
+    // Selected patchset (2) equals latest, so still only a single fetch.
+    assert.equal(fetchSpy.callCount, 1);
+    assert.isNotEmpty(latestRuns);
+    assert.isNotEmpty(selectedRuns);
+    assert.isTrue(latestRuns.every(r => r.patchset === 2));
+    assert.isTrue(selectedRuns.every(r => r.patchset === 2));
+
+    clock.restore();
+  });
+
+  test('fetches both patchsets when an older one is selected', async () => {
+    const clock = sinon.useFakeTimers({shouldClearNativeTimers: true});
+    let change: ParsedChangeInfo | undefined = undefined;
+    testResolver(changeModelToken).change$.subscribe(c => (change = c));
+    let latestRuns: CheckRun[] = [];
+    let selectedRuns: CheckRun[] = [];
+    model.allRunsLatestPatchset$.subscribe(r => (latestRuns = r));
+    model.allRunsSelectedPatchset$.subscribe(r => (selectedRuns = r));
+    const provider = createPatchsetTaggingProvider();
+    const fetchSpy = sinon.spy(provider, 'fetch');
+
+    model.register({
+      pluginName: PLUGIN_NAME,
+      provider,
+      config: CONFIG_POLLING_NONE,
+    });
+    await waitUntil(() => change === undefined);
+
+    // Explicitly selecting the older patchset (1); latest is 2.
+    testResolver(changeViewModelToken).updateState({
+      checksPatchset: 1 as PatchSetNumber,
+    });
+    const testChange = createTwoPatchsetChange();
+    testResolver(changeModelToken).updateStateChange(testChange);
+    await waitUntil(() => deepEqual(change, testChange));
+
+    // Fire the throttled emission, then flush the fetch promise into state.
+    clock.tick(600);
+    await waitEventLoop();
+
+    // Distinct patchsets require two fetches: one for latest, one for selected.
+    assert.equal(fetchSpy.callCount, 2);
+    // The latest tab shows patchset 2, the selected tab shows the older 1.
+    assert.isNotEmpty(latestRuns);
+    assert.isNotEmpty(selectedRuns);
+    assert.isTrue(latestRuns.every(r => r.patchset === 2));
+    assert.isTrue(selectedRuns.every(r => r.patchset === 1));
 
     clock.restore();
   });
@@ -198,6 +352,20 @@ suite('checks-model tests', () => {
       actions: [],
       links: [],
     });
+  });
+
+  test('checksSelected$ selector does not mutate state', () => {
+    model.updateStateSetProvider(PLUGIN_NAME, ChecksPatchset.LATEST);
+    const pluginStateLatestRef = model.getState().pluginStateLatest;
+
+    // Fires the selector synchronously via BehaviorSubject replay.
+    model.checksSelected$.subscribe(() => {});
+
+    assert.strictEqual(
+      model.getState().pluginStateLatest,
+      pluginStateLatestRef,
+      'checksSelected$ must not mutate state.pluginStateLatest'
+    );
   });
 
   test('loading and first time load', () => {

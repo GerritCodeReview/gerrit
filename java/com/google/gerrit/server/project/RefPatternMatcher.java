@@ -115,7 +115,7 @@ public abstract class RefPatternMatcher {
             ImmutableMap.of(
                 RefPattern.USERID_SHARDED, replacement,
                 RefPattern.USERNAME, replacement);
-        Automaton am = RefPattern.toRegExp(template.replace(params)).toAutomaton();
+        Automaton am = RefPattern.toAutomaton(template.replace(params));
         String rePrefix = am.getCommonPrefix();
         prefix = rePrefix.substring(0, rePrefix.indexOf(replacement));
       } else {

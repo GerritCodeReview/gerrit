@@ -164,11 +164,14 @@ a fast-forward-only merge policy, and the submitter is downloading
 and cherry-picking individual changes prior to submission, such as
 by link:cmd-cherry-pick.html[gerrit-cherry-pick].
 
-Or, you may wish to delete the Change-Id line and force a new
-Change-Id to be generated automatically, thus creating an entirely
-new change record for review.  This may be useful when backporting
-a change from the current development branch to a maintenance
-release branch.
+When backporting a change from a development branch to a maintenance
+release branch, leaving the Change-Id unchanged is the typical approach.
+Gerrit treats the backport as a separate change because the repository and
+branch differ, so there is no conflict, and reviewers can easily correlate
+the backport with the original change.  If you instead want the backport
+to be completely independent with no association to the original review,
+you may delete the Change-Id line and let a new one be generated
+automatically.
 
 [[update-old]]
 === Updating an old commit

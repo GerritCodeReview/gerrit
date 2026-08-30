@@ -2620,6 +2620,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
           }),
           url: `${url}/fix:preview`,
           anonymizedUrl: `${ANONYMIZED_REVISION_BASE_URL}/fix:preview`,
+          useReadScheduler: true,
         })) as FilePathToDiffInfoMap | undefined;
 
         if (response === undefined) {
@@ -2808,32 +2809,40 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   }
 
   getDiffComments(
-    changeNum: NumericChangeId
+    changeNum: NumericChangeId,
+    enableContext?: boolean
   ): Promise<{[path: string]: CommentInfo[]} | undefined>;
 
   getDiffComments(
     changeNum: NumericChangeId,
     basePatchNum: BasePatchSetNum,
     patchNum: PatchSetNum,
-    path: string
+    path: string,
+    enableContext?: boolean
   ): Promise<GetDiffCommentsOutput>;
 
   getDiffComments(
     changeNum: NumericChangeId,
-    basePatchNum?: BasePatchSetNum,
+    basePatchNum?: BasePatchSetNum | boolean,
     patchNum?: PatchSetNum,
-    path?: string
+    path?: string,
+    enableContext?: boolean
   ) {
+    if (typeof basePatchNum === 'boolean') {
+      enableContext = basePatchNum;
+      basePatchNum = undefined;
+    }
+    const params =
+      enableContext !== false
+        ? {'enable-context': true, 'context-padding': 3}
+        : undefined;
     if (!basePatchNum && !patchNum && !path) {
-      return this._getDiffComments(changeNum, '/comments', {
-        'enable-context': true,
-        'context-padding': 3,
-      });
+      return this._getDiffComments(changeNum, '/comments', params);
     }
     return this._getDiffComments(
       changeNum,
       '/comments',
-      {'enable-context': true, 'context-padding': 3},
+      params,
       basePatchNum,
       patchNum,
       path
@@ -2841,14 +2850,15 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   }
 
   async getDiffDrafts(
-    changeNum: NumericChangeId
+    changeNum: NumericChangeId,
+    enableContext = true
   ): Promise<{[path: string]: DraftInfo[]} | undefined> {
     const loggedIn = await this.getLoggedIn();
     if (!loggedIn) return {};
-    const comments = await this._getDiffComments(changeNum, '/drafts', {
-      'enable-context': true,
-      'context-padding': 3,
-    });
+    const params = enableContext
+      ? {'enable-context': true, 'context-padding': 3}
+      : undefined;
+    const comments = await this._getDiffComments(changeNum, '/drafts', params);
     return addDraftProp(comments);
   }
 

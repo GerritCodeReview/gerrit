@@ -181,7 +181,7 @@ public class RefVisibilityControl {
             .ref(cd.change().getDest().branch())
             .test(RefPermission.READ_PRIVATE_CHANGES);
     logger.atFinest().log(
-        "Foreign change edit ref is " + (canRead ? "visible" : "invisible") + ": %s", refName);
+        "Foreign change edit ref is %s: %s", canRead ? "visible" : "invisible", refName);
     return canRead;
   }
 }

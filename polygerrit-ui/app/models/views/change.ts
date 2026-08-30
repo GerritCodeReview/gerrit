@@ -99,6 +99,7 @@ export interface ChangeViewState extends ViewState {
     path: string;
     // TODO: Use LineNumber as a type, i.e. accept FILE and LOST.
     lineNum?: number;
+    endLineNum?: number;
     leftSide?: boolean;
   };
 
@@ -114,6 +115,7 @@ export type DiffViewState = Partial<ChangeViewState> & {
   diffView: {
     path: string;
     lineNum?: number;
+    endLineNum?: number;
     leftSide?: boolean;
   };
 };
@@ -253,6 +255,9 @@ export function createDiffUrl(
   ) {
     params.push(`checksPatchset=${state.checksPatchset}`);
   }
+  if (state.forceReload) {
+    params.push('forceReload=true');
+  }
   if (params.length > 0) {
     queryParams = '?' + params.join('&');
   }
@@ -264,6 +269,12 @@ export function createDiffUrl(
       hash += 'b';
     }
     hash += state.diffView.lineNum;
+    if (
+      state.diffView.endLineNum &&
+      state.diffView.endLineNum > state.diffView.lineNum
+    ) {
+      hash += `-${state.diffView.endLineNum}`;
+    }
   }
 
   return `${createChangeUrlCommon(state)}${path}${queryParams}${hash}`;
@@ -283,6 +294,26 @@ export function createEditUrl(
   const suffix = line ? `#${line}` : '';
 
   return `${createChangeUrlCommon(state)}${path},edit${suffix}`;
+}
+
+export function createApplyFixUrl(
+  obj: (CreateChangeUrlObject | Omit<ChangeViewState, 'view' | 'childView'>) & {
+    filePath?: string;
+    currentChildView?: ChangeChildView;
+  }
+): string {
+  const {filePath, currentChildView, ...restObj} = obj;
+  if (currentChildView === ChangeChildView.DIFF && filePath) {
+    return createDiffUrl({
+      ...restObj,
+      patchNum: EDIT,
+      diffView: {path: filePath},
+    });
+  }
+  return createChangeUrl({
+    ...restObj,
+    patchNum: EDIT,
+  });
 }
 
 /**
@@ -334,6 +365,11 @@ export class ChangeViewModel extends Model<ChangeViewState | undefined> {
   public readonly diffLine$ = select(
     this.state$,
     state => state?.diffView?.lineNum
+  );
+
+  readonly diffEndLine$ = select(
+    this.state$,
+    state => state?.diffView?.endLineNum
   );
 
   public readonly diffLeftSide$ = select(

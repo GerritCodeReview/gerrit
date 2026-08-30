@@ -14,12 +14,15 @@ import {queryAndAssert, stubRestApi} from '../../../test/test-utils';
 import {GrApplyFixDialog} from './gr-apply-fix-dialog';
 import {PatchSetNum, PatchSetNumber} from '../../../types/common';
 import {
+  createChangeViewState,
+  createDiffViewState,
   createFixSuggestionInfo,
   createParsedChange,
   createRange,
   createRevisions,
   getCurrentRevision,
 } from '../../../test/test-data-generators';
+import {changeViewModelToken} from '../../../models/views/change';
 import {createDefaultDiffPrefs} from '../../../constants/constants';
 import {OpenFixPreviewEventDetail} from '../../../types/events';
 import {GrButton} from '../../shared/gr-button/gr-button';
@@ -226,5 +229,71 @@ suite('gr-apply-fix-dialog tests', () => {
       setUrlStub.lastCall.firstArg,
       '/c/test-project/+/42/2..edit?forceReload=true'
     );
+  });
+
+  suite('handleApplyFix navigation', () => {
+    setup(() => {
+      stubRestApi('applyFixSuggestion').returns(
+        Promise.resolve(new Response(null, {status: 200}))
+      );
+    });
+
+    test('navigates to createDiffUrl when in Diff View', async () => {
+      testResolver(changeViewModelToken).setState(createDiffViewState());
+      const fixDetail: OpenFixPreviewEventDetail = {
+        patchNum: 2 as PatchSetNum,
+        fixSuggestions: [
+          {
+            ...createFixSuggestionInfo('fix_1'),
+            replacements: [
+              {
+                path: 'file1.txt',
+                replacement: 'new content',
+                range: createRange(),
+              },
+            ],
+          },
+        ],
+        onCloseFixPreviewCallbacks: [],
+      };
+      await open(fixDetail);
+
+      await element.handleApplyFix(new CustomEvent('confirm'));
+
+      assert.isTrue(setUrlStub.calledOnce);
+      assert.equal(
+        setUrlStub.lastCall.firstArg,
+        '/c/test-project/+/42/2..edit/file1.txt?forceReload=true'
+      );
+    });
+
+    test('navigates to createChangeUrl when in Change View', async () => {
+      testResolver(changeViewModelToken).setState(createChangeViewState());
+      const fixDetail: OpenFixPreviewEventDetail = {
+        patchNum: 2 as PatchSetNum,
+        fixSuggestions: [
+          {
+            ...createFixSuggestionInfo('fix_1'),
+            replacements: [
+              {
+                path: 'file1.txt',
+                replacement: 'new content',
+                range: createRange(),
+              },
+            ],
+          },
+        ],
+        onCloseFixPreviewCallbacks: [],
+      };
+      await open(fixDetail);
+
+      await element.handleApplyFix(new CustomEvent('confirm'));
+
+      assert.isTrue(setUrlStub.calledOnce);
+      assert.equal(
+        setUrlStub.lastCall.firstArg,
+        '/c/test-project/+/42/2..edit?forceReload=true'
+      );
+    });
   });
 });

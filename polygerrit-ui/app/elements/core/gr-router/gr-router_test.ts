@@ -18,6 +18,7 @@ import {
 import {GrRouter, routerToken} from './gr-router';
 import {GerritView} from '../../../services/router/router-model';
 import {
+  AUTO_MERGE,
   BasePatchSetNum,
   NumericChangeId,
   PARENT,
@@ -118,6 +119,18 @@ suite('gr-router tests', () => {
       actual = router.parseLineAddress('b77');
       assert.isOk(actual);
       assert.equal(actual.lineNum, 77);
+      assert.isTrue(actual.leftSide);
+
+      actual = router.parseLineAddress('50-156');
+      assert.isOk(actual);
+      assert.equal(actual.lineNum, 50);
+      assert.equal(actual.endLineNum, 156);
+      assert.isFalse(actual.leftSide);
+
+      actual = router.parseLineAddress('b50-156');
+      assert.isOk(actual);
+      assert.equal(actual.lineNum, 50);
+      assert.equal(actual.endLineNum, 156);
       assert.isTrue(actual.leftSide);
     });
   });
@@ -251,6 +264,13 @@ suite('gr-router tests', () => {
         router.normalizePatchRangeParams(params);
         assert.equal(params.basePatchNum, PARENT);
         assert.equal(params.patchNum, 4 as RevisionPatchSetNum);
+      });
+
+      test('lone AUTO_MERGE is kept as the base', () => {
+        const params: PatchRangeParams = {basePatchNum: AUTO_MERGE};
+        router.normalizePatchRangeParams(params);
+        assert.equal(params.basePatchNum, AUTO_MERGE);
+        assert.isUndefined(params.patchNum);
       });
 
       test('range n.. normalizes to n', () => {
@@ -930,6 +950,18 @@ suite('gr-router tests', () => {
           basePatchNum: 4,
           patchNum: 7,
         });
+        // `0` encodes an explicitly chosen auto-merge base.
+        await checkUrlToState('/c/test-project/+/42/0..7', {
+          ...createChangeViewState(),
+          basePatchNum: AUTO_MERGE,
+          patchNum: 7,
+        });
+        // A lone `0` means auto merge against the latest patchset.
+        await checkUrlToState('/c/test-project/+/42/0', {
+          ...createChangeViewState(),
+          basePatchNum: AUTO_MERGE,
+          patchNum: undefined,
+        });
         await checkUrlToState(
           '/c/test-project/+/42/4..7?tab=checks&filter=fff&attempt=1&checksRunsSelected=asdf,qwer&checksResultsFilter=asdf.*qwer',
           {
@@ -963,6 +995,13 @@ suite('gr-router tests', () => {
       suite('handleDiffRoute', () => {
         test('DIFF', async () => {
           // DIFF: /^\/c\/(.+)\/\+\/(\d+)(\/((-?\d+|edit)(\.\.(\d+|edit))?(\/(.+))))\/?$/,
+          // `0` encodes an explicitly chosen auto-merge base.
+          await checkUrlToState('/c/test-project/+/42/0..7/foo/bar/baz', {
+            ...createDiffViewState(),
+            basePatchNum: AUTO_MERGE,
+            patchNum: 7 as RevisionPatchSetNum,
+            diffView: {path: 'foo/bar/baz'},
+          });
           await checkUrlToState('/c/test-project/+/42/4..7/foo/bar/baz#b44', {
             ...createDiffViewState(),
             basePatchNum: 4 as BasePatchSetNum,
@@ -1032,6 +1071,29 @@ suite('gr-router tests', () => {
             `/c/${repo}/+/${changeNum}/${ps}/filepath#${line}`
           );
         });
+
+        test('COMMENT route passes enableContext=false to getDiffComments and getDiffDrafts', async () => {
+          const change = createParsedChange();
+          const repo = change.project;
+          const changeNum = change._number;
+          const ps = 1 as RevisionPatchSetNum;
+          const line = 23;
+          const id = '00049681_f34fd6a9' as UrlEncodedCommentId;
+
+          stubRestApi('getChangeDetail').resolves(change);
+          const diffCommentsStub = stubRestApi('getDiffComments').resolves({
+            filepath: [{...createComment(), id, patch_set: ps, line}],
+          });
+          const diffDraftsStub = stubRestApi('getDiffDrafts').resolves({});
+
+          await checkRedirect(
+            `/c/${repo}/+/${changeNum}/comment/${id}/`,
+            `/c/${repo}/+/${changeNum}/${ps}/filepath#${line}`
+          );
+
+          assert.isTrue(diffCommentsStub.calledWith(changeNum, false));
+          assert.isTrue(diffDraftsStub.calledWith(changeNum, false));
+        });
       });
 
       test('DIFF_EDIT', async () => {
@@ -1057,14 +1119,58 @@ suite('gr-router tests', () => {
       });
 
       test('CHANGE_EDIT', async () => {
-        // CHANGE_EDIT: /^\/c\/(.+)\/\+\/(\d+)(\/(\d+))?,edit\/?$/,
+        // CHANGE_EDIT:
+        // /^\/c\/(.+)\/\+\/(\d+)(\/?((-?\d+|edit)(\.\.(\d+|edit))?))?,edit\/?$/,
         await checkUrlToState('/c/foo/bar/+/1234/3,edit', {
           ...createChangeViewState(),
           repo: 'foo/bar' as RepoName,
           changeNum: 1234 as NumericChangeId,
           view: GerritView.CHANGE,
           childView: ChangeChildView.OVERVIEW,
+          basePatchNum: PARENT,
           patchNum: 3 as RevisionPatchSetNum,
+          edit: true,
+        });
+        // Editing a merge commit with a merge parent as the base.
+        await checkUrlToState('/c/foo/bar/+/1234/-1..3,edit', {
+          ...createChangeViewState(),
+          repo: 'foo/bar' as RepoName,
+          changeNum: 1234 as NumericChangeId,
+          view: GerritView.CHANGE,
+          childView: ChangeChildView.OVERVIEW,
+          basePatchNum: -1 as BasePatchSetNum,
+          patchNum: 3 as RevisionPatchSetNum,
+          edit: true,
+        });
+        await checkUrlToState('/c/foo/bar/+/1234/2..3,edit', {
+          ...createChangeViewState(),
+          repo: 'foo/bar' as RepoName,
+          changeNum: 1234 as NumericChangeId,
+          view: GerritView.CHANGE,
+          childView: ChangeChildView.OVERVIEW,
+          basePatchNum: 2 as BasePatchSetNum,
+          patchNum: 3 as RevisionPatchSetNum,
+          edit: true,
+        });
+        // `0` encodes an explicitly chosen auto-merge base.
+        await checkUrlToState('/c/foo/bar/+/1234/0..3,edit', {
+          ...createChangeViewState(),
+          repo: 'foo/bar' as RepoName,
+          changeNum: 1234 as NumericChangeId,
+          view: GerritView.CHANGE,
+          childView: ChangeChildView.OVERVIEW,
+          basePatchNum: AUTO_MERGE,
+          patchNum: 3 as RevisionPatchSetNum,
+          edit: true,
+        });
+        await checkUrlToState('/c/foo/bar/+/1234,edit', {
+          ...createChangeViewState(),
+          repo: 'foo/bar' as RepoName,
+          changeNum: 1234 as NumericChangeId,
+          view: GerritView.CHANGE,
+          childView: ChangeChildView.OVERVIEW,
+          basePatchNum: undefined,
+          patchNum: undefined,
           edit: true,
         });
       });

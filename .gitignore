@@ -10,9 +10,9 @@
 .DS_Store
 CLAUDE.md
 js-to-ts.sh
-/.aspect/
 /.apt_generated
 /.apt_generated_tests
+/.eslintcache
 /.bazel_path
 /.classpath
 /.factorypath

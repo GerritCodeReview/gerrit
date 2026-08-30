@@ -334,7 +334,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       ChangeNotes n = new ChangeNotes(args, rawChangeFromNoteDb, true, null, metaId);
       try {
         n.load();
-      } catch (Exception e) {
+      } catch (RuntimeException e) {
         return ChangeNotesResult.error(n.getChangeId(), e);
       }
       return ChangeNotesResult.notes(n);
@@ -383,7 +383,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
   // Parsed note map state, used by ChangeUpdate to make in-place editing of
   // notes easier.
-  RevisionNoteMap<ChangeRevisionNote> revisionNoteMap;
+  RevisionNoteMap revisionNoteMap;
 
   private DraftCommentNotes draftCommentNotes;
 

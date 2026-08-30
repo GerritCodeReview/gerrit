@@ -50,6 +50,5 @@ npm_package(
         ],
     ) + [
         ":js_plugin_api_compiled",
-        "//plugins:tsconfig-plugins-base.json",
     ],
 )

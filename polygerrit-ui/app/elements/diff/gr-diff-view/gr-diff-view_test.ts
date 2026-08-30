@@ -51,7 +51,9 @@ import {
 } from '../../../types/common';
 import {CursorMoveResult} from '../../../api/core';
 import {Side} from '../../../api/diff';
+import {PluginApi} from '../../../api/plugin';
 import {Files, GrDiffView} from './gr-diff-view';
+import {GrContentWithSidebar} from '../../shared/gr-content-with-sidebar/gr-content-with-sidebar';
 import {DropdownItem} from '../../shared/gr-dropdown-list/gr-dropdown-list';
 import {SinonFakeTimers, SinonStub, SinonStubbedMember} from 'sinon';
 import {
@@ -244,9 +246,7 @@ suite('gr-diff-view tests', () => {
                   <a href="/c/test-project/+/42"> 42 </a>
                   <span class="changeNumberColon"> : </span>
                 </div>
-                <div>
-                  <span class="headerSubject"> Test subject </span>
-                </div>
+                <span class="headerSubject"> Test subject </span>
                 <div class="checkboxDiv">
                   <md-checkbox
                     class="hideOnEdit reviewed"
@@ -398,14 +398,16 @@ suite('gr-diff-view tests', () => {
                 >
               </a>
             </div>
-            <div class="sidebarAnchor"></div>
           </div>
           <h2 class="assistive-tech-only">Diff view</h2>
-          <div class="diffContainer">
-            <gr-endpoint-decorator name="diff-content">
-              <gr-diff-host id="diffHost"> </gr-diff-host>
-            </gr-endpoint-decorator>
-          </div>
+          <gr-content-with-sidebar>
+            <div class="diffContainer" slot="main">
+              <gr-endpoint-decorator name="diff-content">
+                <gr-diff-host id="diffHost"> </gr-diff-host>
+              </gr-endpoint-decorator>
+            </div>
+            <div slot="side"></div>
+          </gr-content-with-sidebar>
           <gr-apply-fix-dialog id="applyFixDialog"> </gr-apply-fix-dialog>
           <gr-diff-preferences-dialog id="diffPreferencesDialog">
           </gr-diff-preferences-dialog>
@@ -414,6 +416,51 @@ suite('gr-diff-view tests', () => {
             </gr-download-dialog>
           </dialog>
         `
+      );
+    });
+
+    test('nav links stay inside the header when space runs out', async () => {
+      element.change = {
+        ...createParsedChange(),
+        subject:
+          'A change subject that is long enough to overflow a narrow header',
+      };
+      element.path =
+        'polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts';
+      element.files = getFilesFromFileList([element.path]);
+      const forceDesktop = document.createElement('style');
+      forceDesktop.textContent = '.navLinks.desktop { display: flex; }';
+      element.shadowRoot!.appendChild(forceDesktop);
+      await element.updateComplete;
+
+      const header = queryAndAssert(element, 'header');
+      const navLinks = queryAndAssert(element, '.navLinks');
+      const subject = queryAndAssert(element, '.headerSubject');
+      assert.notEqual(getComputedStyle(navLinks).display, 'none');
+      const naturalSubjectWidth = subject.getBoundingClientRect().width;
+
+      element.style.width = '600px';
+      await element.updateComplete;
+
+      assert.isAtMost(
+        navLinks.getBoundingClientRect().right,
+        header.getBoundingClientRect().right,
+        'nav links overflow the header'
+      );
+      assert.isAtMost(
+        header.scrollWidth,
+        header.clientWidth,
+        'header content overflows the header box'
+      );
+      assert.isBelow(
+        subject.getBoundingClientRect().width,
+        naturalSubjectWidth,
+        'subject should absorb the width deficit'
+      );
+      assert.isAbove(
+        subject.scrollWidth,
+        subject.clientWidth,
+        'subject should be ellipsized rather than pushing the nav links out'
       );
     });
 
@@ -2260,6 +2307,104 @@ suite('gr-diff-view tests', () => {
         showEntireFileBtn,
         'Button should be hidden for image diffs'
       );
+    });
+
+    suite('sidebar', () => {
+      test('switching sidebars dismounts old component and mounts new one', async () => {
+        element.shownSidebar = 'sidebar-a';
+        await element.updateComplete;
+        const oldDecorator = element.shadowRoot?.querySelector(
+          '.sidebarContents gr-endpoint-decorator'
+        );
+        assert.isNotNull(oldDecorator);
+        assert.equal(
+          oldDecorator?.getAttribute('name'),
+          'sidebarContent-sidebar-a'
+        );
+
+        element.shownSidebar = 'sidebar-b';
+        await element.updateComplete;
+        const newDecorator = element.shadowRoot?.querySelector(
+          '.sidebarContents gr-endpoint-decorator'
+        );
+        assert.isNotNull(newDecorator);
+        assert.equal(
+          newDecorator?.getAttribute('name'),
+          'sidebarContent-sidebar-b'
+        );
+        assert.notEqual(oldDecorator, newDecorator);
+      });
+
+      test('defaults to left sidebar side when no sidebarPosition property set', async () => {
+        element.shownSidebar = 'left-sidebar';
+        await element.updateComplete;
+
+        const contentWithSidebar =
+          element.shadowRoot?.querySelector<GrContentWithSidebar>(
+            'gr-content-with-sidebar'
+          );
+        assert.isNotNull(contentWithSidebar);
+        assert.equal(contentWithSidebar?.side, 'left');
+      });
+
+      test('detects right sidebar side when static sidebarPosition === "right"', async () => {
+        class RightSidebar extends HTMLElement {
+          static sidebarPosition = 'right';
+        }
+
+        customElements.define('right-sidebar-element', RightSidebar);
+
+        let plugin!: PluginApi;
+        window.Gerrit.install(
+          p => (plugin = p),
+          '0.1',
+          'http://test.com/plugins/testplugin/static/test.js'
+        );
+        plugin.registerDynamicCustomComponent(
+          'sidebarContent',
+          'right-sidebar-element'
+        );
+
+        element.shownSidebar = 'testplugin';
+        await element.updateComplete;
+
+        const contentWithSidebar =
+          element.shadowRoot?.querySelector<GrContentWithSidebar>(
+            'gr-content-with-sidebar'
+          );
+        assert.equal(contentWithSidebar?.side, 'right');
+      });
+
+      test('detects right sidebar side when static readonly \'sidebarPosition\' === "right"', async () => {
+        class RightSidebarBracket extends HTMLElement {
+          static readonly 'sidebarPosition' = 'right';
+        }
+
+        customElements.define(
+          'right-sidebar-bracket-element',
+          RightSidebarBracket
+        );
+
+        let plugin!: PluginApi;
+        window.Gerrit.install(
+          p => (plugin = p),
+          '0.1',
+          'http://test.com/plugins/testplugin-bracket/static/test.js'
+        );
+        plugin.registerDynamicCustomComponent(
+          'sidebarContent',
+          'right-sidebar-bracket-element'
+        );
+
+        element.shownSidebar = 'testplugin-bracket';
+        await element.updateComplete;
+
+        const contentWithSidebar =
+          element.shadowRoot?.querySelector<GrContentWithSidebar>(
+            'gr-content-with-sidebar'
+          );
+        assert.equal(contentWithSidebar?.side, 'right');
+      });
     });
   });
 });

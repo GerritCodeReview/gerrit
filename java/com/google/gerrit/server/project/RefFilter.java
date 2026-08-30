@@ -19,7 +19,7 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.restapi.BadRequestException;
-import dk.brics.automaton.RegExp;
+import com.google.gerrit.server.ioutil.RegexCompiler;
 import dk.brics.automaton.RunAutomaton;
 import java.util.List;
 import java.util.Locale;
@@ -29,14 +29,17 @@ import java.util.stream.Stream;
 public class RefFilter<T> {
   private final String prefix;
   private final Function<T, String> refNameExtractor;
+  private final RegexCompiler regexCompiler;
   private String matchSubstring;
   private String matchRegex;
   private int start;
   private int limit;
 
-  public RefFilter(String prefix, Function<T, String> refNameExtractor) {
+  public RefFilter(
+      String prefix, Function<T, String> refNameExtractor, RegexCompiler regexCompiler) {
     this.prefix = prefix;
     this.refNameExtractor = refNameExtractor;
+    this.regexCompiler = regexCompiler;
   }
 
   public RefFilter<T> subString(String subString) {
@@ -89,7 +92,7 @@ public class RefFilter<T> {
     return ref.contains(lowercaseSubstring);
   }
 
-  private static RunAutomaton parseRegex(String regex) throws BadRequestException {
+  private RunAutomaton parseRegex(String regex) throws BadRequestException {
     if (regex.startsWith("^")) {
       regex = regex.substring(1);
       if (regex.endsWith("$") && !regex.endsWith("\\$")) {
@@ -97,7 +100,7 @@ public class RefFilter<T> {
       }
     }
     try {
-      return new RunAutomaton(new RegExp(regex).toAutomaton());
+      return new RunAutomaton(regexCompiler.toAutomaton(regex));
     } catch (IllegalArgumentException e) {
       throw new BadRequestException(e.getMessage());
     }

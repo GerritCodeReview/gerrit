@@ -190,20 +190,28 @@ export class PluginsModel extends Model<PluginsState> {
     });
   }
 
-  coverageRegister(plugin: CoveragePlugin) {
-    const nextState = {...this.getState()};
-    nextState.coveragePlugins = [...nextState.coveragePlugins];
-    const alreadyRegistered = nextState.coveragePlugins.some(
+  private registerPlugin<K extends keyof Omit<PluginsState, 'pluginsLoaded'>>(
+    key: K,
+    plugin: PluginsState[K][number],
+    typeDescription: string
+  ) {
+    const list = this.getState()[key] as Array<{pluginName: string}>;
+    const alreadyRegistered = list.some(
       p => p.pluginName === plugin.pluginName
     );
     if (alreadyRegistered) {
       console.warn(
-        `${plugin.pluginName} tried to register twice as a coverage provider. Ignored.`
+        `${plugin.pluginName} tried to register twice as a ${typeDescription}. Ignored.`
       );
       return;
     }
-    nextState.coveragePlugins.push(plugin);
-    this.setState(nextState);
+    this.updateState({
+      [key]: [...list, plugin],
+    } as unknown as Partial<PluginsState>);
+  }
+
+  coverageRegister(plugin: CoveragePlugin) {
+    this.registerPlugin('coveragePlugins', plugin, 'coverage provider');
   }
 
   getChangeUpdatesPlugins() {
@@ -211,131 +219,43 @@ export class PluginsModel extends Model<PluginsState> {
   }
 
   changeUpdatesRegister(plugin: ChangeUpdatesPlugin) {
-    const nextState = {...this.getState()};
-    nextState.changeUpdatesPlugins = [...nextState.changeUpdatesPlugins];
-    const alreadyRegistered = nextState.changeUpdatesPlugins.some(
-      p => p.pluginName === plugin.pluginName
+    this.registerPlugin(
+      'changeUpdatesPlugins',
+      plugin,
+      'change updates provider'
     );
-    if (alreadyRegistered) {
-      console.warn(
-        `${plugin.pluginName} tried to register twice as a change updates provider. Ignored.`
-      );
-      return;
-    }
-    nextState.changeUpdatesPlugins.push(plugin);
-    this.setState(nextState);
   }
 
   checksRegister(plugin: ChecksPlugin) {
-    const nextState = {...this.getState()};
-    nextState.checksPlugins = [...nextState.checksPlugins];
-    const alreadyRegistered = nextState.checksPlugins.some(
-      p => p.pluginName === plugin.pluginName
-    );
-    if (alreadyRegistered) {
-      console.warn(
-        `${plugin.pluginName} tried to register twice as a checks provider. Ignored.`
-      );
-      return;
-    }
-    nextState.checksPlugins.push(plugin);
-    this.setState(nextState);
+    this.registerPlugin('checksPlugins', plugin, 'checks provider');
   }
 
   aiCodeReviewRegister(plugin: AiCodeReviewPlugin) {
-    const nextState = {...this.getState()};
-    nextState.aiCodeReviewPlugins = [...nextState.aiCodeReviewPlugins];
-    const alreadyRegistered = nextState.aiCodeReviewPlugins.some(
-      p => p.pluginName === plugin.pluginName
+    this.registerPlugin(
+      'aiCodeReviewPlugins',
+      plugin,
+      'AI Code Review provider'
     );
-    if (alreadyRegistered) {
-      console.warn(
-        `${plugin.pluginName} tried to register twice as a AI Code Review provider. Ignored.`
-      );
-      return;
-    }
-    nextState.aiCodeReviewPlugins.push(plugin);
-    this.setState(nextState);
   }
 
   registerFlowsProvider(plugin: FlowsPlugin) {
-    const nextState = {...this.getState()};
-    nextState.flowsPlugins = [...nextState.flowsPlugins];
-    const alreadyRegistered = nextState.flowsPlugins.some(
-      p => p.pluginName === plugin.pluginName
-    );
-    if (alreadyRegistered) {
-      console.warn(
-        `${plugin.pluginName} tried to register twice as a flows provider. Ignored.`
-      );
-      return;
-    }
-    nextState.flowsPlugins.push(plugin);
-    this.setState(nextState);
+    this.registerPlugin('flowsPlugins', plugin, 'flows provider');
   }
 
   registerFlowsAutosubmitProvider(plugin: FlowsAutosubmitPlugin) {
-    const nextState = {...this.getState()};
-    nextState.flowsAutosubmitPlugins = [...nextState.flowsAutosubmitPlugins];
-    const alreadyRegistered = nextState.flowsAutosubmitPlugins.some(
-      p => p.pluginName === plugin.pluginName
-    );
-    if (alreadyRegistered) {
-      console.warn(
-        `${plugin.pluginName} tried to register twice as a flows provider. Ignored.`
-      );
-      return;
-    }
-    nextState.flowsAutosubmitPlugins.push(plugin);
-    this.setState(nextState);
+    this.registerPlugin('flowsAutosubmitPlugins', plugin, 'flows provider');
   }
 
   suggestionsRegister(plugin: SuggestionPlugin) {
-    const nextState = {...this.getState()};
-    nextState.suggestionsPlugins = [...nextState.suggestionsPlugins];
-    const alreadyRegistered = nextState.suggestionsPlugins.some(
-      p => p.pluginName === plugin.pluginName
-    );
-    if (alreadyRegistered) {
-      console.warn(
-        `${plugin.pluginName} tried to register twice as a suggestion provider. Ignored.`
-      );
-      return;
-    }
-    nextState.suggestionsPlugins.push(plugin);
-    this.setState(nextState);
+    this.registerPlugin('suggestionsPlugins', plugin, 'suggestion provider');
   }
 
   tokenHoverListenerRegister(plugin: TokenHoverListenerPlugin) {
-    const nextState = {...this.getState()};
-    nextState.tokenHighlightPlugins = [...nextState.tokenHighlightPlugins];
-    const alreadyRegistered = nextState.tokenHighlightPlugins.some(
-      p => p.pluginName === plugin.pluginName
-    );
-    if (alreadyRegistered) {
-      console.warn(
-        `${plugin.pluginName} tried to register twice as a hover callback. Ignored.`
-      );
-      return;
-    }
-    nextState.tokenHighlightPlugins.push(plugin);
-    this.setState(nextState);
+    this.registerPlugin('tokenHighlightPlugins', plugin, 'hover callback');
   }
 
   diffLayerRegister(plugin: DiffLayerPlugin) {
-    const nextState = {...this.getState()};
-    nextState.diffLayerPlugins = [...nextState.diffLayerPlugins];
-    const alreadyRegistered = nextState.diffLayerPlugins.some(
-      p => p.pluginName === plugin.pluginName
-    );
-    if (alreadyRegistered) {
-      console.warn(
-        `${plugin.pluginName} tried to register twice as a diff layer provider. Ignored.`
-      );
-      return;
-    }
-    nextState.diffLayerPlugins.push(plugin);
-    this.setState(nextState);
+    this.registerPlugin('diffLayerPlugins', plugin, 'diff layer provider');
   }
 
   checksUpdate(update: ChecksUpdate) {

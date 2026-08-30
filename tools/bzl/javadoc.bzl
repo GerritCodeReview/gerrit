@@ -76,7 +76,10 @@ java_doc = rule(
             providers = [java_common.JavaRuntimeInfo],
         ),
     },
-    outputs = {"zip": "%{name}.zip"},
+    # Emit a .jar directly (a javadoc jar is a zip). This lets the artifact be
+    # consumed as a Maven `javadoc` classifier without a rename step, and matches
+    # the conventional `-javadoc.jar` name.
+    outputs = {"zip": "%{name}.jar"},
     implementation = _impl,
     fragments = ["java"],
 )

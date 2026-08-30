@@ -131,6 +131,21 @@ public class SubmitRequirementChangeQueryBuilder extends ChangeQueryBuilder {
   }
 
   @Override
+  public Predicate<ChangeData> unmet_requirement(String requirementName)
+      throws QueryParseException {
+    throw new QueryParseException(
+        "Operator 'unmet_requirement' cannot be used in submit requirement expressions.");
+  }
+
+  @Override
+  public Predicate<ChangeData> unsatisfied_requirement_count(String value)
+      throws QueryParseException {
+    throw new QueryParseException(
+        "Operator 'unsatisfied_requirement_count' cannot be used in submit requirement"
+            + " expressions.");
+  }
+
+  @Override
   public Predicate<ChangeData> has(String value) throws QueryParseException {
     if (value.toLowerCase(Locale.US).startsWith(SUBMODULE_UPDATE_HAS_ARG)) {
       List<String> args = SUBMODULE_UPDATE_SPLITTER.splitToList(value);
@@ -163,12 +178,12 @@ public class SubmitRequirementChangeQueryBuilder extends ChangeQueryBuilder {
 
   @Operator
   public Predicate<ChangeData> authoremail(String who) throws QueryParseException {
-    return new RegexAuthorEmailPredicate(who);
+    return new RegexAuthorEmailPredicate(who, args.regexCompiler);
   }
 
   @Operator
   public Predicate<ChangeData> committerEmail(String who) throws QueryParseException {
-    return new RegexCommitterEmailPredicate(who);
+    return new RegexCommitterEmailPredicate(who, args.regexCompiler);
   }
 
   @Operator

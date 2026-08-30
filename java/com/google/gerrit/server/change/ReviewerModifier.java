@@ -130,6 +130,13 @@ public class ReviewerModifier {
 
     /** Whether the visibility check for the reviewer account should be skipped. */
     public boolean skipVisibilityCheck = false;
+
+    /**
+     * Whether an existing REVIEWER should be downgraded to CC if the input state is CC.
+     *
+     * <p>If false, and the account is already a REVIEWER, the state will remain REVIEWER.
+     */
+    public boolean allowDowngradeToCc = true;
   }
 
   public static InternalReviewerInput newReviewerInput(
@@ -161,6 +168,10 @@ public class ReviewerModifier {
     in.state = CC;
     in.notify = notify;
     in.otherFailureBehavior = FailureBehavior.IGNORE_ALL;
+    // Automatic addition of author/committer as CC is an implicit system action on push.
+    // Preserve existing REVIEWER status so implicit auto-CC does not demote explicitly assigned
+    // reviewers.
+    in.allowDowngradeToCc = false;
     return Optional.of(in);
   }
 
@@ -527,6 +538,9 @@ public class ReviewerModifier {
                 this.reviewersByEmail,
                 state(),
                 forGroup);
+        if (input instanceof InternalReviewerInput internalInput) {
+          ((AddReviewersOp) op).setAllowDowngradeToCc(internalInput.allowDowngradeToCc);
+        }
       }
       this.exactMatchFound = exactMatchFound;
     }

@@ -68,6 +68,33 @@ suite('link-util tests', () => {
         `${link('foo', 'http://foo.gov')} ${link('foo', 'http://foo.gov')}`
       );
     });
+
+    test('boundary match with trailing non-word character in match group', () => {
+      assert.equal(
+        linkifyUrlsAndApplyRewrite('Flag: build.RELEASE', {
+          flag: {
+            match: '(^|\\s)([fF][lL][aA][gG][:=]\\s*)([a-z0-9_\\.]+)\\b',
+            link: 'http://flag/$3',
+            prefix: '$1$2',
+            text: '$3',
+          },
+        }),
+        `Flag: ${link('build.', 'http://flag/build.')}RELEASE`
+      );
+    });
+
+    test('unmatched placeholder preserved when index exceeds groups', () => {
+      assert.equal(
+        linkifyUrlsAndApplyRewrite('item 123', {
+          item: {
+            match: 'item (\\d+)',
+            link: 'http://item/$1?price=$500',
+            text: '$1 cost $500',
+          },
+        }),
+        link('123 cost $500', 'http://item/123?price=$500')
+      );
+    });
   });
 
   test('for overlapping rewrites prefer the latest ending', () => {

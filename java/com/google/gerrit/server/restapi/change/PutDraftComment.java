@@ -91,10 +91,6 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
       throw new BadRequestException("patchset-level comments can't have side, range, or line");
     } else if (in.line != null && in.range != null && in.line != in.range.endLine) {
       throw new BadRequestException("range endLine must be on the same line as the comment");
-    } else if (in.inReplyTo != null
-        && !commentsUtil.getPublishedHumanComment(rsrc.getNotes(), in.inReplyTo).isPresent()) {
-      throw new BadRequestException(
-          String.format("Invalid inReplyTo, comment %s not found", in.inReplyTo));
     }
     CreateDraftComment.validateDraftComment(
         rsrc.getRevisionResource(), in, commentValidators, commentsUtil);

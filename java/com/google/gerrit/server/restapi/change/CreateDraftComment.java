@@ -96,10 +96,6 @@ public class CreateDraftComment implements RestModifyView<RevisionResource, Draf
       throw new BadRequestException("line must be >= 0");
     } else if (in.line != null && in.range != null && in.line != in.range.endLine) {
       throw new BadRequestException("range endLine must be on the same line as the comment");
-    } else if (in.inReplyTo != null
-        && !commentsUtil.getPublishedHumanComment(rsrc.getNotes(), in.inReplyTo).isPresent()) {
-      throw new BadRequestException(
-          String.format("Invalid inReplyTo, comment %s not found", in.inReplyTo));
     }
     validateDraftComment(rsrc, in, commentValidators, commentsUtil);
     try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
@@ -120,6 +116,8 @@ public class CreateDraftComment implements RestModifyView<RevisionResource, Draf
       PluginSetContext<CommentValidator> commentValidators,
       CommentsUtil commentsUtil)
       throws BadRequestException {
+    commentsUtil.ensureValidInReplyTo(rsrc.getNotes(), rsrc.getPatchSet().id(), in.inReplyTo);
+
     HumanComment comment =
         createDraftComment(
             rsrc.getNotes(),

@@ -50,7 +50,7 @@ export class PromptBox extends LitElement {
   @property({type: String})
   disabledMessage = 'Review Agent is disabled.';
 
-  @state() hasModelLoadingError = false;
+  @state() modelLoadingError?: string;
 
   @state() selectedModel?: ModelInfo;
 
@@ -98,7 +98,7 @@ export class PromptBox extends LitElement {
     subscribe(
       this,
       () => this.getChatModel().modelsLoadingError$,
-      x => (this.hasModelLoadingError = !!x)
+      x => (this.modelLoadingError = x)
     );
     subscribe(
       this,
@@ -161,9 +161,18 @@ export class PromptBox extends LitElement {
     return this.turns[this.turns.length - 1];
   }
 
+  private get hasModelLoadingError(): boolean {
+    return this.modelLoadingError !== undefined;
+  }
+
   get chatInputDisabledText() {
     if (this.hasModelLoadingError) {
-      return 'Failed to load models. Please reload the page.';
+      // getModels() rejected: show the provider's reason, or a generic
+      // message if it rejected without one.
+      return (
+        this.modelLoadingError ||
+        'Failed to load models. Please reload the page.'
+      );
     }
     if (!this.selectedModel) {
       return 'Loading models...';
@@ -533,6 +542,8 @@ export class PromptBox extends LitElement {
 
   private onKeyDown(event: KeyboardEvent) {
     if (
+      event.isComposing ||
+      event.keyCode === 229 ||
       event.ctrlKey ||
       event.altKey ||
       event.metaKey ||

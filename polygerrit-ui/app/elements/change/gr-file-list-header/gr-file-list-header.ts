@@ -17,6 +17,7 @@ import {
   BasePatchSetNum,
   ChangeInfo,
   CommitInfo,
+  EDIT,
   PatchSetNum,
   PatchSetNumber,
   ServerInfo,
@@ -397,8 +398,21 @@ export class GrFileListHeader extends LitElement {
     ) {
       return;
     }
+    // A change edit is based on one specific patchset, so edit mode is only
+    // kept when the patchset stays the same and just the base changes. For the
+    // EDIT patchset it does not have to be spelled out at all.
+    const keepEdit =
+      !!this.editMode && patchNum === this.patchNum && patchNum !== EDIT;
     this.getNavigation().setUrl(
-      createChangeUrl({change: this.change, patchNum, basePatchNum})
+      createChangeUrl({
+        change: this.change,
+        patchNum,
+        basePatchNum: this.getChangeModel().urlBasePatchNum(
+          basePatchNum,
+          patchNum
+        ),
+        edit: keepEdit,
+      })
     );
   }
 

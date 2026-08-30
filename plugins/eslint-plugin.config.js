@@ -281,6 +281,7 @@ module.exports = defineConfig([
             name: '@polymer/decorators/lib/decorators',
             message: 'Use @polymer/decorators instead',
           }],
+          '@typescript-eslint/no-floating-promises': 'off',
           '@typescript-eslint/no-explicit-any': 'error',
           // See https://github.com/GoogleChromeLabs/shadow-selection-polyfill/issues/9
           '@typescript-eslint/ban-ts-comment': 'off',

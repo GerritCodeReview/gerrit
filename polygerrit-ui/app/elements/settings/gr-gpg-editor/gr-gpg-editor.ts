@@ -14,7 +14,7 @@ import {customElement, property, query, state} from 'lit/decorators.js';
 import {grFormStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {assertIsDefined} from '../../../utils/common-util';
-import {fire} from '../../../utils/event-util';
+import {fire, fireAlert} from '../../../utils/event-util';
 import {modalStyles} from '../../../styles/gr-modal-styles';
 import {formStyles} from '../../../styles/form-styles';
 import {GrAutogrowTextarea} from '../../shared/gr-autogrow-textarea/gr-autogrow-textarea';
@@ -246,11 +246,12 @@ export class GrGpgEditor extends LitElement {
         this.newKey = '';
         this.loadData();
       })
-      .catch(() => {
+      .catch((err: Error) => {
         assertIsDefined(this.newKeyTextarea);
         assertIsDefined(this.addButton);
         this.addButton.disabled = false;
         this.newKeyTextarea.disabled = false;
+        fireAlert(this, err.message);
       });
   }
 

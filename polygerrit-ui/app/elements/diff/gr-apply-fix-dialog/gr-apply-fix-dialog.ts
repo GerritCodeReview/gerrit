@@ -29,7 +29,11 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {subscribe} from '../../lit/subscription-controller';
 import {assert} from '../../../utils/common-util';
 import {resolve} from '../../../models/dependency';
-import {createChangeUrl} from '../../../models/views/change';
+import {
+  changeViewModelToken,
+  createApplyFixUrl,
+} from '../../../models/views/change';
+
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 import {userModelToken} from '../../../models/user/user-model';
 import {modalStyles} from '../../../styles/gr-modal-styles';
@@ -113,6 +117,8 @@ export class GrApplyFixDialog extends LitElement {
   private readonly getChangeModel = resolve(this, changeModelToken);
 
   private readonly getNavigation = resolve(this, navigationToken);
+
+  private readonly getViewModel = resolve(this, changeViewModelToken);
 
   private readonly reporting = getAppContext().reportingService;
 
@@ -481,16 +487,22 @@ export class GrApplyFixDialog extends LitElement {
       });
     }
     if (res?.ok) {
+      const currentChildView = this.getViewModel().getState()?.childView;
+      const filePath =
+        fixSuggestion.replacements[0]?.path ??
+        this.currentPreviews[0]?.filepath;
       this.getNavigation().setUrl(
-        createChangeUrl({
+        createApplyFixUrl({
           change,
-          patchNum: EDIT,
           basePatchNum: patchNum as BasePatchSetNum,
           forceReload: !this.hasEdit,
+          filePath,
+          currentChildView,
         })
       );
       this.close(true);
     }
+
     this.isApplyFixLoading = false;
   }
 }

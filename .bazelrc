@@ -3,7 +3,13 @@ common --lockfile_mode=error
 common --@com_googlesource_gerrit_bazlets//flags:in_gerrit_tree=true
 common --incompatible_disallow_struct_provider_syntax=false
 common --incompatible_disallow_empty_glob=false
+# Suppress the rules_python implicit-__init__.py deprecation warning emitted
+# for @bazel_tools//tools/jdk:proguard_allowlister (Bazel's own py_binary; the
+# Gerrit tree has no Python targets). This is the upcoming default anyway, see
+# https://github.com/bazel-contrib/rules_python/issues/2945.
+common --@rules_python//python/config_settings:incompatible_default_to_explicit_init_py=true
 common --@aspect_rules_ts//ts:default_to_tsc_transpiler
+common --repo_env=ASPECT_TOOLS_TELEMETRY=-all
 
 build --workspace_status_command="python3 ./tools/workspace_status.py"
 build --repository_cache=~/.gerritcodereview/bazel-cache/repository

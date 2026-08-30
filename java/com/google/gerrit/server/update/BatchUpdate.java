@@ -63,6 +63,7 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.validators.OnSubmitValidators;
 import com.google.gerrit.server.index.change.ChangeIndexer;
+import com.google.gerrit.server.index.change.PendingIndexUpdate;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.RequestId;
 import com.google.gerrit.server.logging.TraceContext;
@@ -667,6 +668,23 @@ public class BatchUpdate implements AutoCloseable {
             .collect(toImmutableList());
       }
       return indexFutures.build();
+    }
+
+    void writeIndexIntents(PendingIndexUpdate pendingIndexUpdate, long threadId)
+        throws IOException {
+      for (Map.Entry<Change.Id, ChangeResult> e : results.entrySet()) {
+        if (e.getValue() == ChangeResult.SKIPPED) {
+          continue;
+        }
+        pendingIndexUpdate.write(
+            threadId, project, e.getKey(), e.getValue() == ChangeResult.DELETED);
+      }
+    }
+
+    void deleteIndexIntents(PendingIndexUpdate pendingIndexUpdate, long threadId) {
+      for (Map.Entry<Change.Id, ChangeResult> e : results.entrySet()) {
+        pendingIndexUpdate.delete(threadId, project, e.getKey());
+      }
     }
   }
 

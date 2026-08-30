@@ -213,6 +213,40 @@ public class ChangeIndexRewriterTest {
   }
 
   @Test
+  public void noneChildInAndInsideOrStaysChangeDataSource() throws Exception {
+    // An AND with a none() child short-circuits to none(). When that AND is nested inside an OR,
+    // the none() must remain a ChangeDataSource so the OR folds into an OrSource. Otherwise the
+    // top-level rewrite() falls back to and(or(open,closed), in), degenerating into a full index
+    // scan.
+    Predicate<ChangeData> andWithNone =
+        Predicate.and(ChangeIndexPredicate.none(), parse("status:new"));
+    Predicate<ChangeData> in = Predicate.or(parse("file:a"), andWithNone);
+    Predicate<ChangeData> out = rewrite(in);
+    assertThat(out.getClass()).isSameInstanceAs(OrSource.class);
+    assertThat(out.getChildren())
+        .containsExactly(query(parse("file:a")), query(ChangeIndexPredicate.none()))
+        .inOrder();
+  }
+
+  @Test
+  public void emptyOrInAndInsideOrStaysChangeDataSource() throws Exception {
+    // An empty OrPredicate short-circuits to a none() wrapped in an IndexedChangeQuery, which is a
+    // ChangeDataSource. When it appears in an AND nested inside an OR, the AND still collapses to
+    // none() (isNone recognizes the wrapped form) and the enclosing OR folds into an OrSource,
+    // rather than triggering the top-level and(or(open,closed), in) full-index-scan fallback.
+    // (An empty OR directly inside an OR cannot be tested: OrPredicate flattens same-class
+    // children, so the empty child is absorbed before rewriting.)
+    Predicate<ChangeData> andWithEmptyOr =
+        Predicate.and(parse("status:new"), Predicate.or(ImmutableList.of()));
+    Predicate<ChangeData> in = Predicate.or(parse("file:a"), andWithEmptyOr);
+    Predicate<ChangeData> out = rewrite(in);
+    assertThat(out.getClass()).isSameInstanceAs(OrSource.class);
+    assertThat(out.getChildren())
+        .containsExactly(query(parse("file:a")), query(ChangeIndexPredicate.none()))
+        .inOrder();
+  }
+
+  @Test
   public void indexAndNonIndexPredicates() throws Exception {
     Predicate<ChangeData> in = parse("status:new bar:p file:a");
     Predicate<ChangeData> out = rewrite(in);

@@ -52,6 +52,9 @@ export class GrCopyClipboard extends LitElement {
   @property({type: Boolean, reflect: true})
   hideInput = false;
 
+  @property({type: Boolean, attribute: 'disable-auto-select', reflect: true})
+  disableAutoSelect = false;
+
   @property({type: String})
   label?: string;
 
@@ -62,7 +65,7 @@ export class GrCopyClipboard extends LitElement {
   @property({type: String, reflect: true})
   copyTargetName?: string;
 
-  @property({type: Boolean})
+  @property({type: Boolean, reflect: true})
   multiline = false;
 
   @property({type: Boolean, reflect: true})
@@ -93,6 +96,18 @@ export class GrCopyClipboard extends LitElement {
         }
         :host([nowrap]) .text {
           flex-wrap: nowrap;
+        }
+        :host([multiline]) .text {
+          align-items: flex-start;
+        }
+        :host([multiline]) .text label {
+          margin-top: var(--spacing-s);
+        }
+        :host([multiline]) .text .shortcut {
+          margin-top: var(--spacing-s);
+        }
+        :host([multiline]) gr-button {
+          margin-top: 0;
         }
         .text label {
           flex: 0 0 120px;
@@ -216,6 +231,7 @@ export class GrCopyClipboard extends LitElement {
   }
 
   private handleInputClick(e: MouseEvent) {
+    if (this.disableAutoSelect) return;
     e.preventDefault();
     const rootTarget = e.composedPath()[0];
     (rootTarget as HTMLInputElement).select();

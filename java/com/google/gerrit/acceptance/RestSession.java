@@ -49,6 +49,8 @@ public interface RestSession {
 
   RestResponse postWithHeaders(String endPoint, Object content, Header... headers) throws Exception;
 
+  RestResponse postRaw(String endPoint, RawInput stream) throws Exception;
+
   RestResponse delete(String endPoint) throws Exception;
 
   RestResponse deleteWithHeaders(String endPoint, Header... headers) throws Exception;

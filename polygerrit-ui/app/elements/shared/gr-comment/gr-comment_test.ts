@@ -54,6 +54,7 @@ import {ResponseCode} from '../../../api/suggestions';
 import {suggestionsServiceToken} from '../../../services/suggestions/suggestions-service';
 import {AutocompletionContext} from '../../../utils/autocomplete-cache';
 import {FixSuggestionInfo} from '../../../api/rest-api';
+import {GrSuggestionTextarea} from '../gr-suggestion-textarea/gr-suggestion-textarea';
 
 suite('gr-comment tests', () => {
   let element: GrComment;
@@ -531,6 +532,24 @@ suite('gr-comment tests', () => {
       element.comment = {...element.comment, savingState: SavingState.SAVING};
       await element.updateComplete;
       assert.isTrue(element.isSaveDisabled());
+    });
+
+    test('focuses textarea when editing is set to true', async () => {
+      const spy = sinon.spy(GrSuggestionTextarea.prototype, 'putCursorAtEnd');
+      try {
+        element.comment = createDraft();
+        element.editing = false;
+        await element.updateComplete;
+
+        element.editing = true;
+        await element.updateComplete;
+        // focusTextarea is async, wait for it to complete.
+        await new Promise(resolve => setTimeout(resolve, 0));
+
+        assert.isTrue(spy.called);
+      } finally {
+        spy.restore();
+      }
     });
 
     test('ctrl+s saves comment', async () => {

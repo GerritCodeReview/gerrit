@@ -1012,7 +1012,7 @@ public class SubmitRequirementPredicateIT extends AbstractDaemonTest {
     commentInput.message = "done";
     commentInput.unresolved = false;
     reviewInput.comments = ImmutableMap.of(Patch.COMMIT_MSG, ImmutableList.of(commentInput));
-    gApi.changes().id(project.get(), r.getChange().getId().get()).current().review(reviewInput);
+    gApi.changes().id(project.get(), r.getChange().getId().get()).revision(1).review(reviewInput);
     assertNotMatching("has:unresolved", r.getChange().getId());
     assertMatching("-has:unresolved", r.getChange().getId());
   }

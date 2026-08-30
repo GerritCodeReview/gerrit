@@ -596,7 +596,15 @@ export declare interface GrDiffCursor {
     lineNum: number,
     side: Side,
     path?: string,
-    intentionalMove?: boolean
+    intentionalMove?: boolean,
+    endLineNum?: number
+  ): void;
+
+  moveToLineRange(
+    startLine: number,
+    endLine: number,
+    side: Side,
+    path?: string
   ): void;
 }
 

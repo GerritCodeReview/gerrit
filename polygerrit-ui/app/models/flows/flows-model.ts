@@ -8,6 +8,7 @@ import {catchError, map, shareReplay, switchMap} from 'rxjs/operators';
 import {ChangeModel} from '../change/change-model';
 import {fireServerError} from '../../utils/event-util';
 import {FlowInfo, FlowInput} from '../../api/rest-api';
+import {ErrorCallback} from '../../api/rest';
 import {Model} from '../base/model';
 import {define} from '../dependency';
 import {PluginsModel} from '../plugins/plugins-model';
@@ -31,12 +32,26 @@ export const flowsModelToken = define<FlowsModel>('flows-model');
 
 export const SUBMIT_ACTION_NAME = 'submit';
 
+/**
+ * Matches the base change path prefix up to the change number (e.g. `/c/project/+/123`),
+ * ignoring any trailing patchsets, diff ranges, comment IDs, or file paths.
+ *
+ * @see RoutePattern.CHANGE in `gr-router.ts` for corresponding route pattern.
+ */
+const CHANGE_PREFIX_PATTERN = /^(.*?\/(?:c\/.+?\/\+)\/\d+)/;
+
 export function getSubmitCondition() {
   return getChangePrefix() + ' is is:submittable';
 }
 
+/**
+ * Returns the change URL prefix (e.g. `http://host/c/project/+/123`), stripping
+ * patchset numbers, diff ranges, comment IDs, and file paths from pathname.
+ */
 export function getChangePrefix() {
-  return window.location.origin + window.location.pathname;
+  const match = window.location.pathname.match(CHANGE_PREFIX_PATTERN);
+  const pathname = match ? match[1] : window.location.pathname;
+  return window.location.origin + pathname;
 }
 
 export class FlowsModel extends Model<FlowsState> {
@@ -208,10 +223,10 @@ export class FlowsModel extends Model<FlowsState> {
     this.reload();
   }
 
-  async createFlow(flowInput: FlowInput) {
+  async createFlow(flowInput: FlowInput, errFn?: ErrorCallback) {
     if (!this.changeNum) return;
     if (!this.getState().isEnabled) return;
-    await this.restApiService.createFlow(this.changeNum, flowInput);
+    await this.restApiService.createFlow(this.changeNum, flowInput, errFn);
     this.reload();
   }
 }

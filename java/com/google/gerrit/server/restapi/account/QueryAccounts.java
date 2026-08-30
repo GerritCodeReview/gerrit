@@ -30,10 +30,6 @@ import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.index.query.QueryResult;
-import com.google.gerrit.metrics.Description;
-import com.google.gerrit.metrics.Description.Units;
-import com.google.gerrit.metrics.MetricMaker;
-import com.google.gerrit.metrics.Timer0;
 import com.google.gerrit.server.account.AccountControl;
 import com.google.gerrit.server.account.AccountDirectory.FillOptions;
 import com.google.gerrit.server.account.AccountInfoComparator;
@@ -48,7 +44,6 @@ import com.google.gerrit.server.query.account.AccountQueryBuilder;
 import com.google.gerrit.server.query.account.AccountQueryProcessor;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.LinkedHashMap;
@@ -76,7 +71,8 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
   private final boolean suggestConfig;
   private final int suggestFrom;
   private final AccountControl.Factory accountControlFactory;
-  private final Metrics metrics;
+
+  private final AccountVisibility accountVisibility;
 
   private AccountLoader accountLoader;
   private boolean suggest;
@@ -144,13 +140,13 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
       Provider<AccountQueryProcessor> queryProcessorProvider,
       @GerritServerConfig Config cfg,
       AccountControl.Factory accountControlFactory,
-      Metrics metrics) {
+      AccountVisibility accountVisibility) {
     this.permissionBackend = permissionBackend;
     this.accountLoaderFactory = accountLoaderFactory;
     this.queryBuilder = queryBuilder;
     this.queryProcessorProvider = queryProcessorProvider;
     this.accountControlFactory = accountControlFactory;
-    this.metrics = metrics;
+    this.accountVisibility = accountVisibility;
     this.suggestFrom = cfg.getInt("suggest", null, "from", 0);
     this.options = EnumSet.noneOf(ListAccountsOption.class);
 
@@ -179,8 +175,14 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
       return Response.ok(Collections.emptyList());
     }
 
+    AccountControl accountControl = accountControlFactory.get();
+    boolean canSeeDetails =
+        accountVisibility == AccountVisibility.ALL
+            || accountControl.getUser().isIdentifiedUser()
+            || accountControl.canViewAll();
+
     Set<FillOptions> fillOptions = EnumSet.of(FillOptions.ID);
-    if (options.contains(ListAccountsOption.DETAILS)) {
+    if (options.contains(ListAccountsOption.DETAILS) && canSeeDetails) {
       fillOptions.addAll(AccountLoader.DETAILED_OPTIONS);
     }
     boolean modifyAccountCapabilityChecked = false;
@@ -191,13 +193,12 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
       fillOptions.add(FillOptions.SECONDARY_EMAILS);
     }
     if (suggest) {
-      fillOptions.addAll(AccountLoader.DETAILED_OPTIONS);
-      fillOptions.add(FillOptions.EMAIL);
+      if (canSeeDetails) {
+        fillOptions.addAll(AccountLoader.DETAILED_OPTIONS);
+        fillOptions.add(FillOptions.EMAIL);
 
-      if (modifyAccountCapabilityChecked) {
-        fillOptions.add(FillOptions.SECONDARY_EMAILS);
-      } else {
-        if (permissionBackend.currentUser().test(GlobalPermission.VIEW_SECONDARY_EMAILS)) {
+        if (modifyAccountCapabilityChecked
+            || permissionBackend.currentUser().test(GlobalPermission.VIEW_SECONDARY_EMAILS)) {
           fillOptions.add(FillOptions.SECONDARY_EMAILS);
         }
       }
@@ -209,6 +210,7 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
       throw new MethodNotAllowedException("query disabled");
     }
 
+    queryProcessor.enforceVisibility(true);
     queryProcessor.setUserProvidedLimit(limit != null ? limit : 0, /* applyDefaultLimit */ true);
 
     if (start != null) {
@@ -232,15 +234,10 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
         // active accounts should be queried
         queryPred = AccountPredicates.andActive(queryPred);
       }
-      AccountControl accountControl = accountControlFactory.get();
       QueryResult<AccountState> result = queryProcessor.query(queryPred);
-      try (Timer0.Context ignored = metrics.filterVisibilityLatency.start()) {
-        for (AccountState accountState : result.entities()) {
-          Account.Id id = accountState.account().id();
-          if (accountControl.canSee(accountState)) {
-            matches.put(id, accountLoader.get(id));
-          }
-        }
+      for (AccountState accountState : result.entities()) {
+        Account.Id id = accountState.account().id();
+        matches.put(id, accountLoader.get(id));
       }
 
       accountLoader.fill();
@@ -256,21 +253,6 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
         return Response.ok(ImmutableList.of());
       }
       throw new BadRequestException(e.getMessage(), e);
-    }
-  }
-
-  @Singleton
-  private static class Metrics {
-    final Timer0 filterVisibilityLatency;
-
-    @Inject
-    Metrics(MetricMaker metricMaker) {
-      filterVisibilityLatency =
-          metricMaker.newTimer(
-              "accounts/query/filter_visibility",
-              new Description("Latency for removing accounts that are not visible to the caller")
-                  .setCumulative()
-                  .setUnit(Units.MILLISECONDS));
     }
   }
 }

@@ -299,7 +299,7 @@ public class CommitRewriter {
             try {
               ChangeNotes changeNotes = changeNotesFactory.create(project, changeId);
               accountsInChange = collectAccounts(changeNotes);
-            } catch (Exception e) {
+            } catch (RuntimeException e) {
               logger.atWarning().withCause(e).log("Failed to run verification on ref %s", ref);
             }
           }

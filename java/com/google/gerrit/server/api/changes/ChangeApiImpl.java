@@ -561,7 +561,7 @@ class ChangeApiImpl implements ChangeApi {
   public String topic() throws RestApiException {
     try {
       return getTopic.apply(change).value();
-    } catch (Exception e) {
+    } catch (RuntimeException e) {
       throw asRestApiException("Cannot get topic", e);
     }
   }
@@ -727,7 +727,7 @@ class ChangeApiImpl implements ChangeApi {
   public ValidationOptionInfos getValidationOptions() throws RestApiException {
     try {
       return getValidationOptions.apply(change).value();
-    } catch (Exception e) {
+    } catch (RuntimeException e) {
       throw asRestApiException("Cannot get validation options", e);
     }
   }

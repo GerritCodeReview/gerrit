@@ -321,10 +321,19 @@ export class ChecksModel extends Model<ChecksState> {
     );
     this.checksLatest$ = select(this.state$, state => state.pluginStateLatest);
     this.checksSelected$ = select(
-      combineLatest([this.state$, this.changeViewModel.checksPatchset$]),
-      ([state, ps]) => {
-        const checksPs = ps ? ChecksPatchset.SELECTED : ChecksPatchset.LATEST;
-        return this.getPluginState(state, checksPs);
+      combineLatest([
+        this.state$,
+        this.changeViewModel.checksPatchset$,
+        this.changeModel.latestPatchNum$,
+      ]),
+      ([state, ps, latestPs]) => {
+        // When no distinct patchset is selected SELECTED fetch is skipped
+        // (see initFetchingOfData), so fall back to the LATEST state here.
+        const checksPs =
+          ps && ps !== latestPs
+            ? ChecksPatchset.SELECTED
+            : ChecksPatchset.LATEST;
+        return this.readPluginState(state, checksPs);
       }
     );
     this.aPluginHasRegistered$ = select(
@@ -579,6 +588,19 @@ export class ChecksModel extends Model<ChecksState> {
     this.setState(nextState);
   }
 
+  // Read only. Use in reactive selectors where state must not be modified
+  // between emissions.
+  private readPluginState(
+    state: ChecksState,
+    patchset: ChecksPatchset = ChecksPatchset.LATEST
+  ) {
+    return patchset === ChecksPatchset.LATEST
+      ? state.pluginStateLatest
+      : state.pluginStateSelected;
+  }
+
+  // Shallow-copies the inner plugin map onto state and returns it, so callers
+  // can safely assign new entries before passing state to setState().
   getPluginState(
     state: ChecksState,
     patchset: ChecksPatchset = ChecksPatchset.LATEST
@@ -631,7 +653,7 @@ export class ChecksModel extends Model<ChecksState> {
     pluginState[pluginName] = {
       ...pluginState[pluginName],
       loading: false,
-      firstTimeLoad: false,
+      firstTimeLoad: true,
       errorMessage: undefined,
       loginCallback,
       runs: [],
@@ -865,29 +887,54 @@ export class ChecksModel extends Model<ChecksState> {
         this.reloadSubjects[pluginName],
         pollIntervalMs === 0 ? from([0]) : timer(0, pollIntervalMs),
         this.documentVisibilityChange$,
+        // Only the SELECTED subscription needs the latest patchset here, to
+        // detect when it coincides with the latest (see below). The LATEST
+        // subscription already has it as its second element, so feeding it in
+        // again would make combineLatest emit twice per change.
+        patchset === ChecksPatchset.SELECTED
+          ? this.changeModel.latestPatchNum$
+          : of(undefined),
       ])
         .pipe(
           takeWhile(_ => !!this.providers[pluginName]),
           filter(_ => document.visibilityState !== 'hidden'),
           throttleTime(500, undefined, {leading: true, trailing: true}),
-          switchMap(([change, patchNum]): Observable<FetchResponse> => {
-            if (!change || !patchNum) return of(this.empty());
-            if (typeof patchNum !== 'number') return of(this.empty());
-            assertIsDefined(change.revisions, 'change.revisions');
-            const patchsetSha = getShaByPatchNum(change.revisions, patchNum);
-            // Sometimes patchNum is updated earlier than change, so change
-            // revisions don't have patchNum yet
-            if (!patchsetSha) return of(this.empty());
-            const data: ChangeData = {
-              changeNumber: change?._number,
-              patchsetNumber: patchNum,
-              patchsetSha,
-              repo: change.project,
-              commitMessage: getCurrentRevision(change)?.commit?.message,
-              changeInfo: change as ChangeInfo,
-            };
-            return this.fetchResults(pluginName, data, patchset);
-          }),
+          switchMap(
+            ([
+              change,
+              patchNum,
+              ,
+              ,
+              ,
+              latestPatchNum,
+            ]): Observable<FetchResponse> => {
+              if (!change || !patchNum) return of(this.empty());
+              if (typeof patchNum !== 'number') return of(this.empty());
+              // Skip the duplicate fetch when the selected patchset is the
+              // latest: the LATEST subscription already fetches it and
+              // checksSelected$ falls back to that state.
+              if (
+                patchset === ChecksPatchset.SELECTED &&
+                patchNum === latestPatchNum
+              ) {
+                return of(this.empty());
+              }
+              assertIsDefined(change.revisions, 'change.revisions');
+              const patchsetSha = getShaByPatchNum(change.revisions, patchNum);
+              // Sometimes patchNum is updated earlier than change, so change
+              // revisions don't have patchNum yet
+              if (!patchsetSha) return of(this.empty());
+              const data: ChangeData = {
+                changeNumber: change?._number,
+                patchsetNumber: patchNum,
+                patchsetSha,
+                repo: change.project,
+                commitMessage: getCurrentRevision(change)?.commit?.message,
+                changeInfo: change as ChangeInfo,
+              };
+              return this.fetchResults(pluginName, data, patchset);
+            }
+          ),
           catchError(e => {
             // This should not happen and is really severe, because it means that
             // the Observable has terminated and we won't recover from that. No

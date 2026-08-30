@@ -17,10 +17,16 @@ package com.google.gerrit.acceptance.rest.change;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 
+import com.google.common.base.Stopwatch;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ListMultimap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.BranchNameKey;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -33,14 +39,24 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevObject;
+import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Test;
 
 @NoHttpd
@@ -297,6 +313,200 @@ public class SubmitResolvingMergeCommitIT extends AbstractDaemonTest {
     approve(d.getChangeId());
     assertNotMergeable(d.getChange());
     assertChangeSetMergeable(d.getChange(), false);
+  }
+
+  @Test
+  public void chainWithOutdatedPatchSetParentIsUnmergeable() throws Exception {
+    /*
+      A(ps1) <- B(ps1)
+      A is amended to A(ps2), making B(ps1) depend on an outdated patchset of A.
+    */
+    PushOneCommit.Result a = createChange("A");
+    PushOneCommit.Result b =
+        createChange("B", "b.txt", "content B", ImmutableList.of(a.getCommit()));
+
+    approve(a.getChangeId());
+    approve(b.getChangeId());
+
+    // Initially, both A and B are up-to-date and mergeable together.
+    assertChangeSetMergeable(b.getChange(), true);
+
+    // Amend A to create patch-set 2.
+    testRepo.reset(a.getCommit());
+    PushOneCommit.Result amendResult =
+        pushFactory
+            .create(
+                admin.newIdent(),
+                testRepo,
+                "A amended",
+                "a.txt",
+                "content A amended",
+                a.getChangeId())
+            .to("refs/for/master");
+    amendResult.assertOkStatus();
+    approve(a.getChangeId());
+
+    // Now B's parent points to PS1 of A, which is outdated.
+    assertChangeSetMergeable(b.getChange(), false);
+    // Root change A directly based on destination branch tip is mergeable.
+    assertChangeSetMergeable(a.getChange(), true);
+
+    // Rebase B on A's latest patch-set.
+    gApi.changes().id(b.getChangeId()).rebase();
+    approve(b.getChangeId());
+
+    // Now B is mergeable again.
+    assertChangeSetMergeable(b.getChange(), true);
+    assertChangeSetMergeable(a.getChange(), true);
+  }
+
+  @Test
+  public void reproducePerformanceWithManyPatchSetsInChain() throws Exception {
+    // Create a chain of 4 changes: c0 -> c1 -> c2 -> c3
+    int chainLength = 4;
+    int patchSetsPerChange = 10;
+    List<PushOneCommit.Result> chain = new ArrayList<>();
+    RevCommit parentCommit = null;
+
+    for (int i = 0; i < chainLength; i++) {
+      PushOneCommit.Result change =
+          createChange(
+              testRepo,
+              "Change " + i,
+              "file_" + i + ".txt",
+              "initial content " + i,
+              parentCommit != null ? ImmutableList.of(parentCommit) : ImmutableList.of());
+      approve(change.getChangeId());
+      // Create additional patch sets for this change
+      for (int ps = 2; ps <= patchSetsPerChange; ps++) {
+        PushOneCommit.Result amendResult =
+            amendChange(
+                change.getChangeId(),
+                "Change " + i + " ps" + ps,
+                "file_" + i + ".txt",
+                "content " + i + " v" + ps);
+        amendResult.assertOkStatus();
+        approve(change.getChangeId());
+        if (ps == patchSetsPerChange) {
+          parentCommit = amendResult.getCommit();
+        }
+      }
+      chain.add(change);
+    }
+
+    PushOneCommit.Result tip = chain.get(chainLength - 1);
+    ChangeSet cs =
+        mergeSuperSet
+            .get()
+            .completeChangeSet(
+                tip.getChange().change(), user(admin), /* includingTopicClosure= */ false);
+
+    // Warm up both paths
+    for (int i = 0; i < 5; i++) {
+      var unused1 = submit.getUnmergeableChanges(cs);
+      var unused2 = getUnmergeableChangesBaseline(cs);
+    }
+
+    int iterations = 100;
+
+    // Benchmark Baseline (Unoptimized: eager NoteDb scans + per-change repo opens)
+    Stopwatch baselineTimer = Stopwatch.createStarted();
+    Set<ChangeData> baselineResult = null;
+    for (int i = 0; i < iterations; i++) {
+      baselineResult = getUnmergeableChangesBaseline(cs);
+    }
+    baselineTimer.stop();
+    long baselineMs = baselineTimer.elapsed(TimeUnit.MILLISECONDS);
+
+    // Benchmark Optimized (O(1) commit parent check + batched repo lifecycle)
+    Stopwatch optTimer = Stopwatch.createStarted();
+    java.util.Collection<ChangeData> optResult = null;
+    for (int i = 0; i < iterations; i++) {
+      optResult = submit.getUnmergeableChanges(cs);
+    }
+    optTimer.stop();
+    long optMs = optTimer.elapsed(TimeUnit.MILLISECONDS);
+
+    double speedup = (double) baselineMs / Math.max(optMs, 1);
+    System.out.printf(
+        "\n"
+            + "=======================================================\n"
+            + "PERFORMANCE REPRODUCTION BENCHMARK (%d changes x %d patch sets = %d total patch"
+            + " sets, %d iterations):\n"
+            + "  - Baseline (unoptimized NoteDb eager scan + per-change repo): %d ms (avg %.3f"
+            + " ms/call)\n"
+            + "  - Optimized (bounded parent check + single repo lifecycle):    %d ms (avg %.3f"
+            + " ms/call)\n"
+            + "  - Speedup factor: %.2fx faster!\n"
+            + "=======================================================\n\n",
+        chainLength,
+        patchSetsPerChange,
+        chainLength * patchSetsPerChange,
+        iterations,
+        baselineMs,
+        (double) baselineMs / iterations,
+        optMs,
+        (double) optMs / iterations,
+        speedup);
+
+    // Verify behavioral parity
+    assertThat(optResult).containsExactlyElementsIn(baselineResult);
+    assertThat(optResult).isEmpty(); // All changes in chain are up-to-date and mergeable
+  }
+
+  @Nullable
+  private Set<ChangeData> getUnmergeableChangesBaseline(ChangeSet cs) throws Exception {
+    Set<ChangeData> unmergeableChanges = new HashSet<>();
+    Set<ObjectId> outDatedPatchSets = new HashSet<>();
+    for (ChangeData change : cs.changes()) {
+      unmergeableChanges.add(change);
+      // Baseline eagerly loads all patch sets from NoteDb
+      outDatedPatchSets.addAll(
+          change.notes().getPatchSets().values().stream()
+              .map(PatchSet::commitId)
+              .collect(Collectors.toSet()));
+      outDatedPatchSets.remove(change.currentPatchSet().commitId());
+    }
+
+    ListMultimap<BranchNameKey, ChangeData> cbb = cs.changesByBranch();
+    for (BranchNameKey branch : cbb.keySet()) {
+      List<ChangeData> targetBranch = cbb.get(branch);
+      HashMap<Change.Id, RevCommit> commits = new HashMap<>();
+      try (Repository repo = repoManager.openRepository(branch.project());
+          RevWalk walk = new RevWalk(repo)) {
+        for (ChangeData change : targetBranch) {
+          RevCommit commit = walk.parseCommit(change.currentPatchSet().commitId());
+          commits.put(change.getId(), commit);
+        }
+      }
+      Set<ObjectId> allParents =
+          commits.values().stream()
+              .flatMap(c -> Arrays.stream(c.getParents()))
+              .map(RevObject::getId)
+              .collect(Collectors.toSet());
+      for (ChangeData change : targetBranch) {
+        RevCommit commit = commits.get(change.getId());
+        boolean isMergeCommit = commit.getParentCount() > 1;
+        boolean isLastInChain = !allParents.contains(commit.getId());
+        if (Arrays.stream(commit.getParents())
+            .anyMatch(c -> outDatedPatchSets.contains(c.getId()))) {
+          continue;
+        }
+        change.setMergeable(null);
+        Boolean mergeable = change.isMergeable();
+        if (mergeable == null) {
+          return null;
+        }
+        if (mergeable) {
+          unmergeableChanges.remove(change);
+        }
+        if (isLastInChain && isMergeCommit && mergeable) {
+          targetBranch.stream().forEach(unmergeableChanges::remove);
+          break;
+        }
+      }
+    }
+    return unmergeableChanges;
   }
 
   private void submit(String changeId) throws Exception {

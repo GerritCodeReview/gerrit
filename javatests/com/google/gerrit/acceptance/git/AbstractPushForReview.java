@@ -37,6 +37,8 @@ import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVI
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_ACCOUNTS;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
+import static com.google.gerrit.extensions.client.ReviewerState.CC;
+import static com.google.gerrit.extensions.client.ReviewerState.REVIEWER;
 import static com.google.gerrit.extensions.common.testing.EditInfoSubject.assertThat;
 import static com.google.gerrit.server.git.receive.ReceiveConstants.PUSH_OPTION_SKIP_VALIDATION;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
@@ -499,7 +501,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
         .committer(new PersonIdent(admin.newIdent(), testRepo.getInstant()))
         .create();
     PushResult result = pushHead(testRepo, "refs/for/master");
-    assertThat(result.getMessages()).contains("warning: pushing without Change-Id is deprecated");
+    assertThat(result.getMessages()).contains("WARNING: pushing without Change-Id is deprecated");
   }
 
   @Test
@@ -802,6 +804,30 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
                 + ",r="
                 + user.email());
     r.assertErrorStatus(nonExistingEmail + " does not identify a registered user or group");
+  }
+
+  @Test
+  public void authorRemainsReviewerOnNewPatchSet() throws Exception {
+    PushOneCommit.Result r = pushTo("refs/for/master");
+    String changeId = r.getChangeId();
+
+    TestAccount user = accountCreator.user1();
+    gApi.changes().id(changeId).addReviewer(user.email());
+
+    PushOneCommit push =
+        pushFactory.create(user.newIdent(), testRepo, "Subject", "file.txt", "content", changeId);
+    r = push.to("refs/for/master");
+    r.assertOkStatus();
+
+    ChangeInfo changeInfo = gApi.changes().id(changeId).get();
+    Collection<AccountInfo> reviewers = changeInfo.reviewers.get(REVIEWER);
+    assertThat(reviewers).isNotNull();
+    assertThat(reviewers.stream().anyMatch(a -> a._accountId == user.id().get())).isTrue();
+
+    Collection<AccountInfo> ccs = changeInfo.reviewers.get(CC);
+    if (ccs != null) {
+      assertThat(ccs.stream().anyMatch(a -> a._accountId == user.id().get())).isFalse();
+    }
   }
 
   @Test
@@ -3027,7 +3053,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertPushOk(pr, r);
     assertThat(pr.getMessages())
         .contains(
-            "warning: no changes between prior commit "
+            "WARNING: no changes between prior commit "
                 + abbreviateName(c)
                 + " and new commit "
                 + abbreviateName(amended));
@@ -3056,7 +3082,8 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     pr = pushHead(testRepo, r, false);
     assertPushOk(pr, r);
     assertThat(pr.getMessages())
-        .contains("warning: " + abbreviateName(amended) + ": no files changed, message updated");
+        .contains(
+            "WARNING: commit " + abbreviateName(amended) + ": no files changed, message updated");
   }
 
   @Test
@@ -3080,7 +3107,8 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     pr = pushHead(testRepo, r, false);
     assertPushOk(pr, r);
     assertThat(pr.getMessages())
-        .contains("warning: " + abbreviateName(amended) + ": no files changed, author changed");
+        .contains(
+            "WARNING: commit " + abbreviateName(amended) + ": no files changed, author changed");
   }
 
   @Test
@@ -3107,7 +3135,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     pr = pushHead(testRepo, r, false);
     assertPushOk(pr, r);
     assertThat(pr.getMessages())
-        .contains("warning: " + abbreviateName(amended) + ": no files changed, was rebased");
+        .contains("WARNING: commit " + abbreviateName(amended) + ": no files changed, was rebased");
   }
 
   @Test

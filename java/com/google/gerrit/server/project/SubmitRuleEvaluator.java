@@ -17,6 +17,7 @@ package com.google.gerrit.server.project;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Streams;
 import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.entities.SubmitTypeRecord;
@@ -101,15 +102,22 @@ public class SubmitRuleEvaluator {
    * @param cd ChangeData to evaluate
    */
   public List<SubmitRecord> evaluate(ChangeData cd) {
+    if (cd.change() == null) {
+      throw new StorageException("Change not found");
+    }
+
+    if (!cd.change().isClosed() || !opts.recomputeOnClosedChanges()) {
+      List<SubmitRecord> cached = cd.getSubmitRecords(opts);
+      if (cached != null) {
+        return cached;
+      }
+    }
+
     try (TraceTimer timer =
             TraceContext.newTimer(
                 "Evaluate submit rules",
                 Metadata.builder().changeId(cd.change().getId().get()).build());
         Timer0.Context ignored = metrics.submitRuleEvaluationLatency.start()) {
-      if (cd.change() == null) {
-        throw new StorageException("Change not found");
-      }
-
       ProjectState projectState =
           projectCache
               .get(cd.project())
@@ -121,44 +129,50 @@ public class SubmitRuleEvaluator {
 
       if (cd.change().isClosed()
           && (!opts.recomputeOnClosedChanges() || OnlineReindexMode.isActive())) {
-        return cd.notes().getSubmitRecords().stream()
-            .map(
-                r -> {
-                  SubmitRecord record = r.deepCopy();
-                  if (record.status == SubmitRecord.Status.OK) {
-                    // Submit records that were OK when they got merged are CLOSED now.
-                    record.status = SubmitRecord.Status.CLOSED;
-                  }
-                  return record;
-                })
-            .collect(toImmutableList());
+        ImmutableList<SubmitRecord> records =
+            cd.notes().getSubmitRecords().stream()
+                .map(
+                    r -> {
+                      SubmitRecord record = r.deepCopy();
+                      if (record.status == SubmitRecord.Status.OK) {
+                        // Submit records that were OK when they got merged are CLOSED now.
+                        record.status = SubmitRecord.Status.CLOSED;
+                      }
+                      return record;
+                    })
+                .collect(toImmutableList());
+        cd.setSubmitRecords(opts, records);
+        return records;
       }
 
       // We evaluate all the plugin-defined evaluators,
       // and then we collect the results in one list.
-      return Streams.stream(submitRules)
-          // Skip evaluating the default submit rule if the project has prolog rules.
-          // Note that in this case, the prolog submit rule will handle labels for us
-          .filter(
-              projectState.hasPrologRules() && prologSubmitRuleUtil.isProjectRulesEnabled()
-                  ? rule -> !(rule.get() instanceof DefaultSubmitRule)
-                  : rule -> true)
-          .map(
-              c ->
-                  c.call(
-                      s -> {
-                        Optional<SubmitRecord> record = s.evaluate(cd);
-                        if (record.isPresent() && record.get().ruleName == null) {
-                          // Only back-fill the ruleName if it was not populated by the "submit
-                          // rule".
-                          record.get().ruleName =
-                              c.getPluginName() + "~" + s.getClass().getSimpleName();
-                        }
-                        return record;
-                      }))
-          .filter(Optional::isPresent)
-          .map(Optional::get)
-          .collect(toImmutableList());
+      ImmutableList<SubmitRecord> records =
+          Streams.stream(submitRules)
+              // Skip evaluating the default submit rule if the project has prolog rules.
+              // Note that in this case, the prolog submit rule will handle labels for us
+              .filter(
+                  projectState.hasPrologRules() && prologSubmitRuleUtil.isProjectRulesEnabled()
+                      ? rule -> !(rule.get() instanceof DefaultSubmitRule)
+                      : rule -> true)
+              .map(
+                  c ->
+                      c.call(
+                          s -> {
+                            Optional<SubmitRecord> record = s.evaluate(cd);
+                            if (record.isPresent() && record.get().ruleName == null) {
+                              // Only back-fill the ruleName if it was not populated by the "submit
+                              // rule".
+                              record.get().ruleName =
+                                  c.getPluginName() + "~" + s.getClass().getSimpleName();
+                            }
+                            return record;
+                          }))
+              .filter(Optional::isPresent)
+              .map(Optional::get)
+              .collect(toImmutableList());
+      cd.setSubmitRecords(opts, records);
+      return records;
     }
   }
 

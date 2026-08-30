@@ -277,7 +277,7 @@ public class MigrateLabelFunctionsToSubmitRequirementIT extends AbstractDaemonTe
 
     assertExistentSr(
         /* srName */ "Foo",
-        /* applicabilityExpression= */ "branch:\\\"refs/heads/master\\\"",
+        /* applicabilityExpression= */ "branch:\"refs/heads/master\"",
         /* submittabilityExpression= */ "label:Foo=MAX AND -label:Foo=MIN",
         /* canOverride= */ true);
     assertLabelFunction("Foo", "NoBlock");
@@ -299,8 +299,52 @@ public class MigrateLabelFunctionsToSubmitRequirementIT extends AbstractDaemonTe
 
     assertExistentSr(
         /* srName */ "Foo",
-        /* applicabilityExpression= */ "branch:\\\"refs/heads/master\\\" "
-            + "OR branch:\\\"refs/heads/develop\\\"",
+        /* applicabilityExpression= */ "branch:\"refs/heads/master\" "
+            + "OR branch:\"refs/heads/develop\"",
+        /* submittabilityExpression= */ "label:Foo=MAX AND -label:Foo=MIN",
+        /* canOverride= */ true);
+    assertLabelFunction("Foo", "NoBlock");
+  }
+
+  @Test
+  public void migrateBlockingLabel_withQuotesInBranchNameAttribute() throws Exception {
+    createLabelWithBranch(
+        "Foo",
+        "MaxWithBlock",
+        /* ignoreSelfApproval= */ false,
+        ImmutableList.of("refs/heads/gerr\"it"));
+
+    assertNonExistentSr(/* srName= */ "Foo");
+
+    TestUpdateUI updateUI = runMigration(/* expectedResult= */ Status.MIGRATED);
+    assertThat(updateUI.newlyCreatedSrs).isEqualTo(1);
+    assertThat(updateUI.existingSrsMismatchingWithMigration).isEqualTo(0);
+
+    assertExistentSr(
+        /* srName= */ "Foo",
+        /* applicabilityExpression= */ "branch:\"refs/heads/gerr\\\"it\"",
+        /* submittabilityExpression= */ "label:Foo=MAX AND -label:Foo=MIN",
+        /* canOverride= */ true);
+    assertLabelFunction("Foo", "NoBlock");
+  }
+
+  @Test
+  public void migrateBlockingLabel_withHashInBranchNameAttribute() throws Exception {
+    createLabelWithBranch(
+        "Foo",
+        "MaxWithBlock",
+        /* ignoreSelfApproval= */ false,
+        ImmutableList.of("refs/heads/gerr#it"));
+
+    assertNonExistentSr(/* srName= */ "Foo");
+
+    TestUpdateUI updateUI = runMigration(/* expectedResult= */ Status.MIGRATED);
+    assertThat(updateUI.newlyCreatedSrs).isEqualTo(1);
+    assertThat(updateUI.existingSrsMismatchingWithMigration).isEqualTo(0);
+
+    assertExistentSr(
+        /* srName= */ "Foo",
+        /* applicabilityExpression= */ "branch:\"refs/heads/gerr#it\"",
         /* submittabilityExpression= */ "label:Foo=MAX AND -label:Foo=MIN",
         /* canOverride= */ true);
     assertLabelFunction("Foo", "NoBlock");
@@ -321,8 +365,30 @@ public class MigrateLabelFunctionsToSubmitRequirementIT extends AbstractDaemonTe
     assertThat(updateUI.existingSrsMismatchingWithMigration).isEqualTo(0);
 
     assertExistentSr(
-        /* srName */ "Foo",
-        /* applicabilityExpression= */ "branch:\\\"^refs/heads/main-.*\\\"",
+        /* srName= */ "Foo",
+        /* applicabilityExpression= */ "branch:^refs/heads/main-.*",
+        /* submittabilityExpression= */ "label:Foo=MAX AND -label:Foo=MIN",
+        /* canOverride= */ true);
+    assertLabelFunction("Foo", "NoBlock");
+  }
+
+  @Test
+  public void migrateBlockingLabel_withWildcardBranchAttribute() throws Exception {
+    createLabelWithBranch(
+        "Foo",
+        "MaxWithBlock",
+        /* ignoreSelfApproval= */ false,
+        ImmutableList.of("refs/heads/release/*"));
+
+    assertNonExistentSr(/* srName= */ "Foo");
+
+    TestUpdateUI updateUI = runMigration(/* expectedResult= */ Status.MIGRATED);
+    assertThat(updateUI.newlyCreatedSrs).isEqualTo(1);
+    assertThat(updateUI.existingSrsMismatchingWithMigration).isEqualTo(0);
+
+    assertExistentSr(
+        /* srName= */ "Foo",
+        /* applicabilityExpression= */ "branch:^\\Qrefs/heads/release/\\E.*",
         /* submittabilityExpression= */ "label:Foo=MAX AND -label:Foo=MIN",
         /* canOverride= */ true);
     assertLabelFunction("Foo", "NoBlock");
@@ -344,8 +410,8 @@ public class MigrateLabelFunctionsToSubmitRequirementIT extends AbstractDaemonTe
 
     assertExistentSr(
         /* srName */ "Foo",
-        /* applicabilityExpression= */ "branch:\\\"refs/heads/master\\\" "
-            + "OR branch:\\\"^refs/heads/main-.*\\\"",
+        /* applicabilityExpression= */ "branch:\"refs/heads/master\" "
+            + "OR branch:^refs/heads/main-.*",
         /* submittabilityExpression= */ "label:Foo=MAX AND -label:Foo=MIN",
         /* canOverride= */ true);
     assertLabelFunction("Foo", "NoBlock");

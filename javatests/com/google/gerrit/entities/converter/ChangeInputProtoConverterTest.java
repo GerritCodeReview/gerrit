@@ -177,7 +177,6 @@ public class ChangeInputProtoConverterTest {
             .setProject("test-project")
             .setBranch("test-branch")
             .setSubject("test-subject")
-            .setNotify(Entities.NotifyHandling.ALL)
             .build();
     assertThat(proto).isEqualTo(expectedProto);
   }

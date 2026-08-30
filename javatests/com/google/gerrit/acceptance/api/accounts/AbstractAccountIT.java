@@ -3504,4 +3504,74 @@ public abstract class AbstractAccountIT extends AbstractDaemonTest {
     assertThat(result).hasSize(1);
     assertThat(result.get(0)._accountId).isEqualTo(user.id().get());
   }
+
+  @Test
+  @GerritConfig(name = "accounts.visibility", value = "NONE")
+  public void queryAccountsVisibilityNone() throws Exception {
+    TestAccount user2 = accountCreator.user2();
+
+    requestScopeOperations.setApiUser(user.id());
+
+    // Querying for user2 should return nothing
+    List<AccountInfo> result = gApi.accounts().query("email:" + user2.email()).get();
+    assertThat(result).isEmpty();
+
+    // Querying for self should still return self
+    result = gApi.accounts().query("email:" + user.email()).get();
+    assertThat(result).hasSize(1);
+    assertThat(result.get(0)._accountId).isEqualTo(user.id().get());
+  }
+
+  @Test
+  @GerritConfig(name = "accounts.visibility", value = "SAME_GROUP")
+  public void queryAccountsAnonymousUserSameGroup() throws Exception {
+    requestScopeOperations.setApiUserAnonymous();
+
+    // Anonymous user is not in same group as user, so query should return empty list
+    List<AccountInfo> result =
+        gApi.accounts().query("email:" + user.email()).withOption(ListAccountsOption.DETAILS).get();
+    assertThat(result).isEmpty();
+
+    // Suggest should also return empty list
+    result = gApi.accounts().suggestAccounts(user.email()).get();
+    assertThat(result).isEmpty();
+  }
+
+  @Test
+  @GerritConfig(name = "accounts.visibility", value = "VISIBLE_GROUP")
+  public void queryAccountsAnonymousUserVisibleGroup() throws Exception {
+    requestScopeOperations.setApiUserAnonymous();
+
+    // Anonymous user cannot see user, so query should return empty list
+    List<AccountInfo> result =
+        gApi.accounts().query("email:" + user.email()).withOption(ListAccountsOption.DETAILS).get();
+    assertThat(result).isEmpty();
+
+    // Suggest should also return empty list
+    result = gApi.accounts().suggestAccounts(user.email()).get();
+    assertThat(result).isEmpty();
+  }
+
+  @Test
+  @GerritConfig(name = "accounts.visibility", value = "ALL")
+  public void queryAccountsAnonymousUserVisibilityAll() throws Exception {
+    requestScopeOperations.setApiUserAnonymous();
+
+    // Query with details should return details (name, email)
+    List<AccountInfo> result =
+        gApi.accounts().query("email:" + user.email()).withOption(ListAccountsOption.DETAILS).get();
+    assertThat(result).isNotEmpty();
+    for (AccountInfo info : result) {
+      assertThat(info.name).isEqualTo(user.fullName());
+      assertThat(info.email).isEqualTo(user.email());
+    }
+
+    // Suggest should return details (name, email)
+    result = gApi.accounts().suggestAccounts(user.email()).get();
+    assertThat(result).isNotEmpty();
+    for (AccountInfo info : result) {
+      assertThat(info.name).isEqualTo(user.fullName());
+      assertThat(info.email).isEqualTo(user.email());
+    }
+  }
 }

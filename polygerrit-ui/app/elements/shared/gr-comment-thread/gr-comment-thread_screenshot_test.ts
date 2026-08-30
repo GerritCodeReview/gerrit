@@ -114,6 +114,15 @@ suite('gr-comment-thread screenshot tests', () => {
     await visualDiffDarkTheme(element, 'gr-comment-thread-with-ai');
   });
 
+  test('with AI comment author disagree', async () => {
+    element.isOwner = true;
+    element.thread = createThread({...c_ai, unresolved: true});
+    await element.updateComplete;
+
+    await visualDiff(element, 'gr-comment-thread-with-ai-disagree');
+    await visualDiffDarkTheme(element, 'gr-comment-thread-with-ai-disagree');
+  });
+
   test('unresolved inline code review', async () => {
     // Simulate inline context by setting custom properties
     element.style.setProperty('--gr-comment-thread-width', '100%');

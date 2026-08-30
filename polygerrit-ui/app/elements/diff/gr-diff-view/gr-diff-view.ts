@@ -19,6 +19,8 @@ import '../gr-diff-mode-selector/gr-diff-mode-selector';
 import '../gr-diff-preferences-dialog/gr-diff-preferences-dialog';
 import '../gr-patch-range-select/gr-patch-range-select';
 import '../../change/gr-download-dialog/gr-download-dialog';
+import '../../shared/gr-content-with-sidebar/gr-content-with-sidebar';
+import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {getAppContext} from '../../../services/app-context';
 import {getParentIndex, isMergeParent} from '../../../utils/patch-set-util';
 import {
@@ -86,9 +88,10 @@ import {customElement, property, query, state} from 'lit/decorators.js';
 import {a11yStyles} from '../../../styles/gr-a11y-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {ifDefined} from 'lit/directives/if-defined.js';
+import {ref} from 'lit/directives/ref.js';
 import {classMap} from 'lit/directives/class-map.js';
 import {when} from 'lit/directives/when.js';
-import {styleMap} from 'lit/directives/style-map.js';
+import {keyed} from 'lit/directives/keyed.js';
 import {
   ChangeChildView,
   changeViewModelToken,
@@ -127,6 +130,8 @@ export interface Files {
 
 @customElement('gr-diff-view')
 export class GrDiffView extends LitElement {
+  private readonly getPluginLoader = resolve(this, pluginLoaderToken);
+
   /**
    * Fired when user tries to navigate away while comments are pending save.
    *
@@ -152,11 +157,6 @@ export class GrDiffView extends LitElement {
 
   @query('#diffPreferencesDialog')
   diffPreferencesDialog?: GrDiffPreferencesDialog;
-
-  @query('.sidebarAnchor')
-  sidebarAnchor?: HTMLDivElement;
-
-  @state() private sidebarHeight = 0;
 
   // Private but used in tests.
   @state()
@@ -203,7 +203,8 @@ export class GrDiffView extends LitElement {
 
   @state() file?: NormalizedFileInfo;
 
-  @state() private shownSidebar?: string;
+  // Private but used in tests.
+  @state() shownSidebar?: string;
 
   /** Allows us to react when the user switches to the DIFF view. */
   // Private but used in tests.
@@ -241,6 +242,11 @@ export class GrDiffView extends LitElement {
   // Private but used in tests.
   @state()
   focusLineNum?: number;
+
+  /** Directly reflects the view model property `diffView.endLineNum`. */
+  // Private but used in tests.
+  @state()
+  focusEndLineNum?: number;
 
   /** Directly reflects the view model property `diffView.leftSide`. */
   @state()
@@ -280,6 +286,18 @@ export class GrDiffView extends LitElement {
   cursor?: GrDiffCursor;
 
   private readonly shortcutsController = new ShortcutController(this);
+
+  private stickyHeaderEl?: HTMLElement;
+
+  private readonly headerResizeObserver = new ResizeObserver(entries => {
+    for (const entry of entries) {
+      const height = entry.borderBoxSize[0].blockSize;
+      document.documentElement.style.setProperty(
+        '--diff-header-height',
+        `${height}px`
+      );
+    }
+  });
 
   constructor() {
     super();
@@ -448,6 +466,13 @@ export class GrDiffView extends LitElement {
     );
     subscribe(
       this,
+      () => this.getViewModel().diffEndLine$,
+      endLine => {
+        this.focusEndLineNum = endLine;
+      }
+    );
+    subscribe(
+      this,
       () => this.getViewModel().diffLeftSide$,
       leftSide => (this.leftSide = leftSide)
     );
@@ -456,9 +481,13 @@ export class GrDiffView extends LitElement {
       () => this.getViewModel().patchNum$,
       patchNum => (this.patchNum = patchNum)
     );
+    // Note that this is the change model, not the view model, so that the
+    // `default_base_for_merges` preference is applied to diff URLs that do not
+    // specify a base, just like it is applied in the change view. An explicitly
+    // chosen auto-merge base is encoded as `0` in the URL, so it survives this.
     subscribe(
       this,
-      () => this.getViewModel().basePatchNum$,
+      () => this.getChangeModel().basePatchNum$,
       basePatchNum => (this.basePatchNum = basePatchNum ?? PARENT)
     );
     subscribe(
@@ -526,7 +555,9 @@ export class GrDiffView extends LitElement {
         :host {
           display: block;
           background-color: var(--view-background-color);
-          --sidebar-width: 300px;
+          --sidebar-top: calc(
+            var(--main-header-height) + var(--diff-header-height, 80px)
+          );
         }
         .hidden {
           display: none;
@@ -534,6 +565,7 @@ export class GrDiffView extends LitElement {
         .headerLeft {
           display: flex;
           align-items: center;
+          min-width: 0;
         }
         gr-patch-range-select {
           display: block;
@@ -569,7 +601,9 @@ export class GrDiffView extends LitElement {
           margin-right: var(--spacing-m);
           font-weight: var(--font-weight-medium);
           white-space: nowrap;
-          overflow: auto;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          flex-shrink: 100;
         }
         .patchRangeLeft {
           align-items: center;
@@ -593,6 +627,8 @@ export class GrDiffView extends LitElement {
         .jumpToFileContainer {
           display: inline-block;
           word-break: break-all;
+          min-width: 0;
+          overflow: hidden;
         }
         .mobile {
           display: none;
@@ -702,24 +738,14 @@ export class GrDiffView extends LitElement {
         :host(.hideCheckCodePointers) {
           --gr-check-code-pointers-display: none;
         }
-        .diffContainer.sidebarOpen {
-          margin-left: var(--sidebar-width);
-        }
         .sidebarTriggerContainer {
           display: inline-block;
           margin-right: var(--spacing-m);
         }
-        .sidebarAnchor {
-          height: 0;
-          width: 0;
-          overflow: visible;
-        }
         .sidebarContents {
           background: var(--background-color-secondary);
-          width: var(--sidebar-width);
-          border: var(--spacing-xxs) solid var(--border-color);
-          border-left: 0;
-          overflow: auto;
+          box-sizing: border-box;
+          height: 100%;
         }
         md-checkbox {
           --md-checkbox-container-size: 15px;
@@ -743,14 +769,15 @@ export class GrDiffView extends LitElement {
 
   override connectedCallback() {
     super.connectedCallback();
+    if (this.stickyHeaderEl) {
+      this.headerResizeObserver.observe(this.stickyHeaderEl);
+    }
     this.throttledToggleFileReviewed = throttleWrap(_ =>
       this.handleToggleFileReviewed()
     );
     this.addEventListener('open-fix-preview', e => this.onOpenFixPreview(e));
     this.cursor = new GrDiffCursor();
     if (this.diffHost) this.reInitCursor();
-    window.addEventListener('scroll', this.updateSidebarHeight);
-    window.addEventListener('resize', this.updateSidebarHeight);
     this.getUserModel()
       .preferences$.pipe(
         map(p => p.diff_page_sidebar),
@@ -768,8 +795,8 @@ export class GrDiffView extends LitElement {
 
   override disconnectedCallback() {
     this.cursor?.dispose();
-    window.removeEventListener('scroll', this.updateSidebarHeight);
-    window.removeEventListener('resize', this.updateSidebarHeight);
+    this.headerResizeObserver.disconnect();
+    document.documentElement.style.setProperty('--diff-header-height', '0px');
     super.disconnectedCallback();
   }
 
@@ -778,13 +805,6 @@ export class GrDiffView extends LitElement {
     this.cursor?.replaceDiffs([this.diffHost]);
     this.cursor?.reInitCursor();
   }
-
-  private readonly updateSidebarHeight = () => {
-    if (this.sidebarAnchor) {
-      this.sidebarHeight =
-        window.innerHeight - this.sidebarAnchor.getBoundingClientRect().bottom;
-    }
-  };
 
   protected override updated(changedProperties: PropertyValues): void {
     super.updated(changedProperties);
@@ -803,6 +823,7 @@ export class GrDiffView extends LitElement {
     }
     if (
       changedProperties.has('focusLineNum') ||
+      changedProperties.has('focusEndLineNum') ||
       changedProperties.has('leftSide')
     ) {
       this.initCursor();
@@ -844,7 +865,6 @@ export class GrDiffView extends LitElement {
         this.patchRange
       );
     }
-    this.updateSidebarHeight();
   }
 
   override render() {
@@ -868,41 +888,56 @@ export class GrDiffView extends LitElement {
           </div>
         `
       )}
-      <div
-        class=${classMap({
-          diffContainer: true,
-          sidebarOpen: !!this.shownSidebar,
-          hidden: !!this.file?.diffs_too_expensive_to_compute,
-        })}
+      <gr-content-with-sidebar
+        .side=${this.getSidebarSide()}
+        .hideSide=${!this.shownSidebar}
       >
-        <gr-endpoint-decorator name="diff-content">
-          <gr-diff-host
-            id="diffHost"
-            .changeNum=${this.changeNum}
-            .change=${this.change}
-            .patchRange=${this.patchRange}
-            .file=${file}
-            .lineOfInterest=${this.getLineOfInterest()}
-            .path=${this.path}
-            .projectName=${this.change?.project}
-            @is-blame-loaded-changed=${this.onIsBlameLoadedChanged}
-            @comment-anchor-tap=${this.onCommentAnchorTap}
-            @line-selected=${this.onLineSelected}
-            @diff-changed=${this.onDiffChanged}
-            @edit-weblinks-changed=${this.onEditWeblinksChanged}
-            @files-weblinks-changed=${this.onFilesWeblinksChanged}
-            @render=${this.reInitCursor}
-          >
-          </gr-diff-host>
-        </gr-endpoint-decorator>
-      </div>
+        <div
+          slot="main"
+          class=${classMap({
+            diffContainer: true,
+            sidebarOpen: !!this.shownSidebar,
+            hidden: !!this.file?.diffs_too_expensive_to_compute,
+          })}
+        >
+          <gr-endpoint-decorator name="diff-content">
+            <gr-diff-host
+              id="diffHost"
+              .changeNum=${this.changeNum}
+              .change=${this.change}
+              .patchRange=${this.patchRange}
+              .file=${file}
+              .lineOfInterest=${this.getLineOfInterest()}
+              .path=${this.path}
+              .projectName=${this.change?.project}
+              @is-blame-loaded-changed=${this.onIsBlameLoadedChanged}
+              @comment-anchor-tap=${this.onCommentAnchorTap}
+              @line-selected=${this.onLineSelected}
+              @diff-changed=${this.onDiffChanged}
+              @edit-weblinks-changed=${this.onEditWeblinksChanged}
+              @files-weblinks-changed=${this.onFilesWeblinksChanged}
+              @render=${this.reInitCursor}
+            >
+            </gr-diff-host>
+          </gr-endpoint-decorator>
+        </div>
+        <div slot="side">${this.renderSidebarContent()}</div>
+      </gr-content-with-sidebar>
       ${this.renderDialogs()}
     `;
+  }
+
+  private onStickyHeaderCreated(el?: Element) {
+    this.stickyHeaderEl = el as HTMLElement | undefined;
+    if (el) {
+      this.headerResizeObserver.observe(el);
+    }
   }
 
   private renderStickyHeader() {
     return html` <div
       class="stickyHeader ${this.patchNum === EDIT ? 'editMode' : ''}"
+      ${ref(this.onStickyHeaderCreated)}
     >
       <h1 class="assistive-tech-only">
         Diff of ${this.path ? computeTruncatedPath(this.path) : ''}
@@ -920,7 +955,6 @@ export class GrDiffView extends LitElement {
           >&gt;</a
         >
       </div>
-      ${this.renderSidebarContent()}
     </div>`;
   }
 
@@ -934,11 +968,9 @@ export class GrDiffView extends LitElement {
             >${this.changeNum}</a
           ><span class="changeNumberColon">:</span>
         </div>
-        <div>
-          <span class="headerSubject"
-            >${trimWithEllipsis(this.change?.subject, 80)}</span
-          >
-        </div>
+        <span class="headerSubject"
+          >${trimWithEllipsis(this.change?.subject, 80)}</span
+        >
         <div class="checkboxDiv">
           <md-checkbox
             id="reviewed"
@@ -1023,17 +1055,35 @@ export class GrDiffView extends LitElement {
     `;
   }
 
+  private getSidebarSide(): 'left' | 'right' {
+    if (!this.shownSidebar) {
+      return 'left';
+    }
+    const details = this.getPluginLoader().pluginEndPoints.getDetails(
+      `sidebarContent-${this.shownSidebar}`
+    );
+    for (const info of details) {
+      if (info.moduleName) {
+        const customElement = customElements.get(info.moduleName) as
+          | {sidebarPosition?: string}
+          | undefined;
+        // Bracket notation prevents Closure Compiler from mangling the property name
+        // when plugins are minified.
+        if (customElement?.['sidebarPosition'] === 'right') {
+          return 'right';
+        }
+      }
+    }
+    return 'left';
+  }
+
   private renderSidebarContent() {
-    // Always renders the 0x0px .sidebarAnchor div for scroll measurements.
     return html`
-      <div class="sidebarAnchor">
-        ${when(
-          this.shownSidebar !== undefined,
-          () => html`
-            <div
-              class="sidebarContents"
-              style=${styleMap({height: `${this.sidebarHeight}px`})}
-            >
+      ${when(this.shownSidebar !== undefined, () =>
+        keyed(
+          this.shownSidebar,
+          html`
+            <div class="sidebarContents">
               <gr-endpoint-decorator
                 name=${`sidebarContent-${this.shownSidebar}`}
               >
@@ -1080,7 +1130,9 @@ export class GrDiffView extends LitElement {
                     // Only close the sidebar if that particular sidebar is
                     // still open. An async onClose callback should not close a
                     // different sidebar.
-                    if (this.shownSidebar !== pluginName) return;
+                    if (this.shownSidebar !== pluginName) {
+                      return;
+                    }
                     this.shownSidebar = undefined;
                     this.getUserModel().updatePreferences({
                       diff_page_sidebar: 'NONE',
@@ -1091,8 +1143,8 @@ export class GrDiffView extends LitElement {
               </gr-endpoint-decorator>
             </div>
           `
-        )}
-      </div>
+        )
+      )}
     `;
   }
 
@@ -1577,13 +1629,18 @@ export class GrDiffView extends LitElement {
     return {path: fileList[idx]};
   }
 
-  private updateUrlToDiffUrl(lineNum?: number, leftSide?: boolean) {
+  private updateUrlToDiffUrl(
+    lineNum?: number,
+    leftSide?: boolean,
+    endLineNum?: number
+  ) {
     if (!this.path || !this.patchNum) return;
     const url = this.getViewModel().diffUrl({
       diffView: {
         path: this.path,
         lineNum,
         leftSide,
+        endLineNum,
       },
       patchNum: this.patchNum,
     });
@@ -1621,10 +1678,24 @@ export class GrDiffView extends LitElement {
    * Private but used in tests.
    */
   initCursor() {
-    if (!this.focusLineNum) return;
-    if (!this.cursor) return;
+    if (!this.focusLineNum) {
+      return;
+    }
+    if (!this.cursor) {
+      return;
+    }
     this.cursor.side = this.leftSide ? Side.LEFT : Side.RIGHT;
     this.cursor.initialLineNumber = this.focusLineNum;
+    this.cursor.initialEndLineNumber = this.focusEndLineNum;
+    if (this.diffHost?.diffElement && !this.diffHost.diffElement.loading) {
+      this.cursor.moveToLineNumber(
+        this.focusLineNum,
+        this.cursor.side,
+        this.path,
+        true,
+        this.focusEndLineNum
+      );
+    }
   }
 
   // Private but used in tests.

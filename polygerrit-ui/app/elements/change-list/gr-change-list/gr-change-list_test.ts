@@ -466,14 +466,23 @@ suite('gr-change-list basic tests', () => {
       assert.isTrue(element.showNumber);
     });
 
-    test('all columns visible', () => {
-      for (const column of element.changeTableColumns!) {
+    test('all default columns visible', () => {
+      for (const column of element.visibleChangeTableColumns!) {
         const elementClass = '.' + column.trim().toLowerCase();
         const section = queryAndAssert(element, 'gr-change-list-section');
         assert.isFalse(
           queryAndAssert<HTMLElement>(section, elementClass).hidden
         );
       }
+    });
+
+    test('hashtags column is not visible by default', () => {
+      assert.notInclude(
+        element.visibleChangeTableColumns!,
+        ColumnNames.HASHTAGS
+      );
+      const section = queryAndAssert(element, 'gr-change-list-section');
+      assert.isNotOk(query<HTMLElement>(section, '.hashtags'));
     });
   });
 
@@ -497,6 +506,7 @@ suite('gr-change-list basic tests', () => {
           'Branch',
           'Updated',
           'Size',
+          'Hashtags',
         ],
       };
       element.config = createServerInfo();
@@ -533,6 +543,7 @@ suite('gr-change-list basic tests', () => {
           'Branch',
           'Updated',
           'Size',
+          'Hashtags',
         ],
       };
       element.config = createServerInfo();

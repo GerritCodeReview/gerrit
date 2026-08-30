@@ -640,7 +640,7 @@ public class ChangeJson {
       notes = cd.notes();
     } catch (StorageException e) {
       String msg = "Error loading change";
-      logger.atWarning().withCause(e).log(msg + " %s", cd.getId());
+      logger.atWarning().withCause(e).log("%s %s", msg, cd.getId());
       ChangeInfo info = new ChangeInfo();
       info._number = cd.getId().get();
       ProblemInfo p = new ProblemInfo();

@@ -64,6 +64,8 @@ public class ProjectRestApiModule extends RestApiModule {
     child(BRANCH_KIND, "files").to(FilesCollection.class);
     get(FILE_KIND, "content").to(GetContent.class);
 
+    post(BRANCH_KIND, "commit").to(CreateCommit.class);
+
     get(BRANCH_KIND, "mergeable").to(CheckMergeability.class);
     get(BRANCH_KIND, "reflog").to(GetReflog.class);
     get(BRANCH_KIND, "suggest_reviewers").to(SuggestBranchReviewers.class);

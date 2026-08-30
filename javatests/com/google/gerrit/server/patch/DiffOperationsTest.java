@@ -20,6 +20,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Patch.ChangeType;
+import com.google.gerrit.entities.Patch.PatchType;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -421,6 +422,66 @@ public class DiffOperationsTest {
       assertThat(modifiedFilesCacheImpl.getIfPresent(cacheKey))
           .hasValue(ImmutableList.of(expectedRenamedFile));
     }
+  }
+
+  @Test
+  public void gitattributesDiffOverride() throws Exception {
+    String jsonFile = "file_2.json";
+    // 1. First, let's create a commit where the file is modified but there is no .gitattributes.
+    // It should be diffed as UNIFIED.
+    ObjectId oldCommitId1 =
+        createCommit(repo, null, ImmutableList.of(new FileEntity(jsonFile, "{}")));
+    ObjectId newCommitId1 =
+        createCommit(
+            repo, oldCommitId1, ImmutableList.of(new FileEntity(jsonFile, "{\"foo\": \"bar\"}")));
+    FileDiffOutput diffOutput1 =
+        diffOperations.getModifiedFileAgainstParent(
+            testProjectName, newCommitId1, 0, jsonFile, null);
+    assertThat(diffOutput1.patchType()).hasValue(PatchType.UNIFIED);
+    assertThat(diffOutput1.edits()).isNotEmpty();
+
+    // 2. Now let's create a commit where .gitattributes specifies "-diff" for the file.
+    // It should be treated as BINARY.
+    ObjectId oldCommitId2 =
+        createCommit(
+            repo,
+            null,
+            ImmutableList.of(
+                new FileEntity(".gitattributes", jsonFile + " -diff"),
+                new FileEntity(jsonFile, "{}")));
+    ObjectId newCommitId2 =
+        createCommit(
+            repo,
+            oldCommitId2,
+            ImmutableList.of(
+                new FileEntity(".gitattributes", jsonFile + " -diff"),
+                new FileEntity(jsonFile, "{\"foo\": \"bar\"}")));
+    FileDiffOutput diffOutput2 =
+        diffOperations.getModifiedFileAgainstParent(
+            testProjectName, newCommitId2, 0, jsonFile, null);
+    assertThat(diffOutput2.patchType()).hasValue(PatchType.BINARY);
+    assertThat(diffOutput2.edits()).isEmpty();
+
+    // 3. Let's also test with "binary" macro attribute.
+    ObjectId oldCommitId3 =
+        createCommit(
+            repo,
+            null,
+            ImmutableList.of(
+                new FileEntity(".gitattributes", jsonFile + " binary"),
+                new FileEntity(jsonFile, "{}")));
+    ObjectId newCommitId3 =
+        createCommit(
+            repo,
+            oldCommitId3,
+            ImmutableList.of(
+                new FileEntity(".gitattributes", jsonFile + " binary"),
+                new FileEntity(jsonFile, "{\"foo\": \"bar\"}")));
+    FileDiffOutput diffOutput3 =
+        diffOperations.getModifiedFileAgainstParent(
+            testProjectName, newCommitId3, 0, jsonFile, null);
+    assertThat(diffOutput3.patchType()).hasValue(PatchType.BINARY);
+    assertThat(diffOutput3.edits()).isEmpty();
   }
 
   static class FileEntity {

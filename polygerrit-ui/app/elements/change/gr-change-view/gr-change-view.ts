@@ -452,9 +452,19 @@ export class GrChangeView extends LitElement {
   // visible for testing
   viewModelPatchNum?: RevisionPatchSetNum;
 
+  /**
+   * Simply reflects the router-model value, i.e. `undefined` unless the base is
+   * explicitly part of the URL. Note that `basePatchNum` may differ, because
+   * the change model fills in a default.
+   */
+  // visible for testing
+  viewModelBasePatchNum?: BasePatchSetNum;
+
   private readonly shortcutsController = new ShortcutController(this);
 
   private readonly getNavigation = resolve(this, navigationToken);
+
+  private headerEl?: HTMLElement;
 
   private headerResizeObserver = new ResizeObserver(entries => {
     for (const entry of entries) {
@@ -631,6 +641,13 @@ export class GrChangeView extends LitElement {
     );
     subscribe(
       this,
+      () => this.getViewModel().basePatchNum$,
+      basePatchNum => {
+        this.viewModelBasePatchNum = basePatchNum;
+      }
+    );
+    subscribe(
+      this,
       () => this.getUserModel().preferenceDiffViewMode$,
       diffViewMode => {
         this.diffViewMode = diffViewMode;
@@ -760,6 +777,10 @@ export class GrChangeView extends LitElement {
     this.firstConnectedCallback();
     this.connected$.next(true);
 
+    if (this.headerEl) {
+      this.headerResizeObserver.observe(this.headerEl);
+    }
+
     // Make sure to reverse everything below this line in disconnectedCallback().
     // Or consider using either firstConnectedCallback() or constructor().
     document.addEventListener('visibilitychange', this.handleVisibilityChange);
@@ -818,6 +839,8 @@ export class GrChangeView extends LitElement {
       this.cancelUpdateCheckTimer();
     }
     this.connected$.next(false);
+    this.headerResizeObserver.disconnect();
+    document.documentElement.style.setProperty('--change-header-height', '0px');
     super.disconnectedCallback();
   }
 
@@ -1218,6 +1241,7 @@ export class GrChangeView extends LitElement {
   }
 
   private onHeaderCreated(el?: Element) {
+    this.headerEl = el as HTMLElement | undefined;
     if (el) this.headerResizeObserver.observe(el);
   }
 
@@ -2465,6 +2489,7 @@ export class GrChangeView extends LitElement {
       createChangeUrl({
         change: this.change,
         patchNum: this.viewModelPatchNum,
+        basePatchNum: this.viewModelBasePatchNum,
         edit: true,
         forceReload: true,
       })
@@ -2478,6 +2503,7 @@ export class GrChangeView extends LitElement {
       createChangeUrl({
         change: this.change,
         patchNum: this.patchNum,
+        basePatchNum: this.basePatchNum,
         forceReload: true,
       })
     );

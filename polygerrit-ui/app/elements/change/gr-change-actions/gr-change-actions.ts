@@ -1213,6 +1213,15 @@ export class GrChangeActions
         continue;
       }
       const status = this.getLabelStatus(labelInfo);
+      if (status === LabelStatus.REJECT || status === LabelStatus.IMPOSSIBLE) {
+        return null;
+      }
+      if (
+        label === StandardLabels.PRESUBMIT_VERIFIED ||
+        label.toLowerCase().startsWith('presubmit')
+      ) {
+        continue;
+      }
       if (status === LabelStatus.NEED) {
         if (result) {
           // More than one label is missing, so check if Code Review can be
@@ -1221,11 +1230,6 @@ export class GrChangeActions
           break;
         }
         result = label;
-      } else if (
-        status === LabelStatus.REJECT ||
-        status === LabelStatus.IMPOSSIBLE
-      ) {
-        return null;
       }
     }
     // Allow the user to use quick approve to vote the max score on code review

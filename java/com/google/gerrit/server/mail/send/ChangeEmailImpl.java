@@ -360,7 +360,7 @@ public class ChangeEmailImpl implements ChangeEmail {
         detail.append("\n");
       }
       return detail.toString();
-    } catch (Exception err) {
+    } catch (RuntimeException err) {
       logger.atWarning().withCause(err).log("Cannot format change detail");
       return "";
     }

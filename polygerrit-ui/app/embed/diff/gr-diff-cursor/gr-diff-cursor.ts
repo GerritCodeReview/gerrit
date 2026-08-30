@@ -81,6 +81,7 @@ export class GrDiffCursor implements GrDiffCursorApi {
   private sideInternal = Side.RIGHT;
 
   set diffRowTR(diffRowTR: HTMLTableRowElement | undefined) {
+    this.clearTargetRange();
     if (this.diffRowTRInternal) {
       this.diffRowTRInternal.classList.remove(
         LEFT_SIDE_CLASS,
@@ -105,6 +106,8 @@ export class GrDiffCursor implements GrDiffCursorApi {
 
   private diffRowTRInternal?: HTMLTableRowElement;
 
+  private targetRangeElements: HTMLElement[] = [];
+
   private diffs: GrDiffCursorable[] = [];
 
   /**
@@ -116,6 +119,8 @@ export class GrDiffCursor implements GrDiffCursorApi {
    * element in the page.
    */
   initialLineNumber: number | null = null;
+
+  initialEndLineNumber?: number;
 
   // visible for testing
   cursorManager = new GrCursorManager();
@@ -134,9 +139,24 @@ export class GrDiffCursor implements GrDiffCursorApi {
   }
 
   dispose() {
+    this.clearTargetRange();
     this.cursorManager.unsetCursor();
     if (this.targetSubscription) this.targetSubscription.unsubscribe();
     window.removeEventListener('scroll', this.boundHandleWindowScroll);
+  }
+
+  private clearTargetRange() {
+    for (const el of this.targetRangeElements) {
+      el.classList.remove(
+        'target-range-row',
+        'target-range-start',
+        'target-range-middle',
+        'target-range-end',
+        LEFT_SIDE_CLASS,
+        RIGHT_SIDE_CLASS
+      );
+    }
+    this.targetRangeElements = [];
   }
 
   // Don't remove - used by clients embedding gr-diff outside of Gerrit.
@@ -234,13 +254,112 @@ export class GrDiffCursor implements GrDiffCursorApi {
     number: LineNumber,
     side: Side,
     path?: string,
-    intentionalMove?: boolean
+    intentionalMove?: boolean,
+    endNumber?: LineNumber
   ) {
     const row = this.findRowByNumberAndFile(number, side, path);
-    if (row) {
-      this.side = side;
-      this.cursorManager.setCursor(row, undefined, intentionalMove);
+    if (!row) {
+      return;
     }
+
+    this.side = side;
+    this.cursorManager.setCursor(row, undefined, intentionalMove);
+
+    if (endNumber) {
+      this.applyTargetRange(row, number, endNumber, side, path);
+    }
+  }
+
+  private applyTargetRange(
+    startRow: HTMLElement,
+    startLine: LineNumber,
+    endLine: LineNumber,
+    side: Side,
+    path?: string
+  ) {
+    if (
+      typeof startLine !== 'number' ||
+      typeof endLine !== 'number' ||
+      endLine <= startLine
+    ) {
+      return;
+    }
+
+    const endRow = this.findRowByNumberAndFile(endLine, side, path);
+    if (endRow) {
+      this.setRangeClasses(startRow, endRow, side, path);
+    }
+    this.fireRangeSelection(side, startLine, endLine, endRow);
+  }
+
+  private setRangeClasses(
+    startRow: HTMLElement,
+    endRow: HTMLElement,
+    side: Side,
+    path?: string
+  ) {
+    const stops: Array<HTMLElement | AbortStop> = path
+      ? this.diffs.find(diff => diff.path === path)?.getCursorStops() ??
+        this.cursorManager.stops
+      : this.cursorManager.stops;
+    const targetableStops = stops.filter(isTargetable);
+    const startIndex = targetableStops.indexOf(startRow);
+    const endIndex = targetableStops.indexOf(endRow);
+
+    if (startIndex === -1 || endIndex === -1 || endIndex <= startIndex) {
+      return;
+    }
+
+    startRow.classList.remove('target-row');
+    const sideClass = side === Side.LEFT ? LEFT_SIDE_CLASS : RIGHT_SIDE_CLASS;
+    const rangeRows = targetableStops.slice(startIndex, endIndex + 1);
+
+    for (let i = 0; i < rangeRows.length; i++) {
+      const rangeRow = rangeRows[i];
+      rangeRow.classList.add('target-range-row', sideClass);
+      if (i === 0) {
+        rangeRow.classList.add('target-range-start');
+      } else if (i === rangeRows.length - 1) {
+        rangeRow.classList.add('target-range-end');
+      } else {
+        rangeRow.classList.add('target-range-middle');
+      }
+    }
+    this.targetRangeElements = rangeRows;
+  }
+
+  private fireRangeSelection(
+    side: Side,
+    startLine: number,
+    endLine: number,
+    endRow?: HTMLElement
+  ) {
+    const diff = this.getTargetDiffElement();
+    if (!diff) {
+      return;
+    }
+
+    const endChar =
+      endRow?.querySelector('.contentText')?.textContent?.length ?? 1000;
+    diff.diffModel.fireRangeSelectedEvent(
+      side,
+      {
+        start_line: startLine,
+        start_character: 0,
+        end_line: endLine,
+        end_character: endChar,
+      },
+      true
+    );
+  }
+
+  moveToLineRange(
+    startLine: LineNumber,
+    endLine: LineNumber,
+    side: Side,
+    path?: string
+  ) {
+    this.moveToLineNumber(startLine, side, path, true, endLine);
   }
 
   /**
@@ -308,8 +427,15 @@ export class GrDiffCursor implements GrDiffCursorApi {
         ? ScrollMode.KEEP_VISIBLE
         : ScrollMode.NEVER;
       if (this.initialLineNumber) {
-        this.moveToLineNumber(this.initialLineNumber, this.side);
+        this.moveToLineNumber(
+          this.initialLineNumber,
+          this.side,
+          undefined,
+          undefined,
+          this.initialEndLineNumber
+        );
         this.initialLineNumber = null;
+        this.initialEndLineNumber = undefined;
       } else {
         this.moveToFirstChunk();
       }
@@ -511,8 +637,8 @@ export class GrDiffCursor implements GrDiffCursorApi {
   ): HTMLElement | undefined {
     let stops: Array<HTMLElement | AbortStop>;
     if (path) {
-      const diff = this.diffs.filter(diff => diff.path === path)[0];
-      stops = diff.getCursorStops();
+      const diff = this.diffs.find(diff => diff.path === path);
+      stops = diff ? diff.getCursorStops() : this.cursorManager.stops;
     } else {
       stops = this.cursorManager.stops;
     }

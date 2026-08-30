@@ -80,16 +80,42 @@ suite('prompt-box tests', () => {
     );
   });
 
-  test('chatInputDisabledText when model loading error', async () => {
+  test('chatInputDisabledText surfaces provider error', async () => {
+    const providerError =
+      'No AI provider is configured. Add an API token for a provider.';
     chatModel.updateState({
       ...chatModel.getState(),
-      modelsLoadingError: 'Error loading models',
+      // getModels() clears the models when it rejects, so no model is selected.
+      models: undefined,
+      modelsLoadingError: providerError,
+    });
+    await element.updateComplete;
+    assert.equal(element.chatInputDisabledText, providerError);
+  });
+
+  test('chatInputDisabledText fallback without provider message', async () => {
+    chatModel.updateState({
+      ...chatModel.getState(),
+      // getModels() rejected without a message (empty string).
+      models: undefined,
+      modelsLoadingError: '',
     });
     await element.updateComplete;
     assert.equal(
       element.chatInputDisabledText,
       'Failed to load models. Please reload the page.'
     );
+  });
+
+  test('chatInputDisabledText loading while models pending', async () => {
+    chatModel.updateState({
+      ...chatModel.getState(),
+      // No models yet and no error: getModels() is still in flight.
+      models: undefined,
+      modelsLoadingError: undefined,
+    });
+    await element.updateComplete;
+    assert.equal(element.chatInputDisabledText, 'Loading models...');
   });
 
   test('updates userInput on input', async () => {
@@ -132,6 +158,41 @@ suite('prompt-box tests', () => {
     const turns = chatModel.getState().turns;
     assert.equal(turns.length, initialTurns + 1);
     assert.equal(turns[turns.length - 1].userMessage.content, 'test input');
+  });
+
+  test('does not send message on Enter when IME is composing', async () => {
+    const initialTurns = chatModel.getState().turns.length;
+    const promptInput = element.shadowRoot?.querySelector('#promptInput');
+    assert.isOk(promptInput);
+    element.userInput = 'test input';
+    await element.updateComplete;
+
+    promptInput?.dispatchEvent(
+      new KeyboardEvent('keydown', {key: 'Enter', isComposing: true})
+    );
+    await element.updateComplete;
+
+    const turns = chatModel.getState().turns;
+    assert.equal(turns.length, initialTurns);
+  });
+
+  test('does not send message on Enter when keyCode is 229', async () => {
+    const initialTurns = chatModel.getState().turns.length;
+    const promptInput = element.shadowRoot?.querySelector('#promptInput');
+    assert.isOk(promptInput);
+    element.userInput = 'test input';
+    await element.updateComplete;
+
+    const eventInit: KeyboardEventInit & {keyCode?: number} = {
+      key: 'Enter',
+      keyCode: 229,
+    };
+    const event = new KeyboardEvent('keydown', eventInit);
+    promptInput?.dispatchEvent(event);
+    await element.updateComplete;
+
+    const turns = chatModel.getState().turns;
+    assert.equal(turns.length, initialTurns);
   });
 
   test('renders context items', async () => {

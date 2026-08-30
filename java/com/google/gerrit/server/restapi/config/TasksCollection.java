@@ -90,14 +90,16 @@ public class TasksCollection implements ChildCollection<ConfigResource, TaskReso
     Task<?> task = workQueue.getTask(taskId);
     if (task instanceof ProjectTask) {
       Project.NameKey nameKey = ((ProjectTask<?>) task).getProjectNameKey();
-      Optional<ProjectState> state = projectCache.get(nameKey);
-      if (!state.isPresent()) {
-        throw new ResourceNotFoundException(String.format("project %s not found", nameKey));
-      }
+      if (nameKey != null) {
+        Optional<ProjectState> state = projectCache.get(nameKey);
+        if (!state.isPresent()) {
+          throw new ResourceNotFoundException(String.format("project %s not found", nameKey));
+        }
 
-      state.get().checkStatePermitsRead();
-      if (permissionBackend.user(user).project(nameKey).test(ProjectPermission.ACCESS)) {
-        return new TaskResource(task);
+        state.get().checkStatePermitsRead();
+        if (permissionBackend.user(user).project(nameKey).test(ProjectPermission.ACCESS)) {
+          return new TaskResource(task);
+        }
       }
     }
 

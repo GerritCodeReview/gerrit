@@ -1,5 +1,6 @@
 load(
     "@bazel_tools//tools/jdk:default_java_toolchain.bzl",
+    "DEFAULT_TOOLCHAIN_CONFIGURATION",
     "default_java_toolchain",
 )
 load("@protobuf//bazel/toolchains:proto_lang_toolchain.bzl", "proto_lang_toolchain")
@@ -22,11 +23,25 @@ proto_lang_toolchain(
     name = "error_prone_warnings_toolchain_java" + VERSION,
     configuration = dict(),
     java_runtime = "@rules_java//toolchains:remotejdk_" + VERSION,
+    # TODO(davido): Remove once protobuf no longer relies on sun.misc.Unsafe
+    # methods that require this JVM flag on JDK 24+.
+    # See: protocolbuffers/protobuf#20760.
+    javabuilder_jvm_opts = ["--sun-misc-unsafe-memory-access=allow"] if int(VERSION) >= 24 else [],
+    javacopts = [
+        "-Xlint:-removal",
+    ],
     package_configuration = [
         ":error_prone",
+        ":first_party_removal_warnings",
     ],
     source_version = VERSION,
     target_version = VERSION,
+    turbine_jvm_opts = DEFAULT_TOOLCHAIN_CONFIGURATION["jvm_opts"] + ([
+        # TODO(davido): Remove once protobuf no longer relies on sun.misc.Unsafe
+        # methods that require this JVM flag on JDK 24+.
+        # See: protocolbuffers/protobuf#20760.
+        "--sun-misc-unsafe-memory-access=allow",
+    ] if int(VERSION) >= 24 else []),
     visibility = ["//visibility:public"],
 ) for VERSION in [
     "21",
@@ -92,6 +107,7 @@ java_package_configuration(
         "-Xep:CanonicalDuration:ERROR",
         "-Xep:CatchAndPrintStackTrace:ERROR",
         "-Xep:CatchFail:ERROR",
+        "-Xep:CatchingUnchecked:ERROR",
         "-Xep:ChainedAssertionLosesContext:ERROR",
         "-Xep:ChainingConstructorIgnoresParameter:ERROR",
         "-Xep:CharacterGetNumericValue:ERROR",
@@ -306,6 +322,13 @@ java_package_configuration(
         "-Xep:NonOverridingEquals:ERROR",
         "-Xep:NonRuntimeAnnotation:ERROR",
         "-Xep:NullOptional:ERROR",
+        # Demoted to a warning: false positive on Guava methods like
+        # Iterables.getFirst(iterable, null) when javac cannot read the
+        # @Nullable bound of <T extends @Nullable Object> from class
+        # files. Bazel's remotejdk_21 (Zulu 21.0.9) lacks the
+        # JDK-8341779 backport; JDK 25 is unaffected. See the commit
+        # message introducing this line for the full reference trail.
+        "-Xep:NullArgumentForNonNullParameter:WARN",
         "-Xep:NullTernary:ERROR",
         "-Xep:NullableConstructor:ERROR",
         "-Xep:NullablePrimitive:ERROR",
@@ -438,7 +461,15 @@ java_package_configuration(
         "-Xep:ZoneIdOfZ:ERROR",
         "-Xlint:unchecked",
     ],
-    packages = ["error_prone_packages"],
+    packages = [":error_prone_packages"],
+)
+
+java_package_configuration(
+    name = "first_party_removal_warnings",
+    javacopts = [
+        "-Xlint:removal",
+    ],
+    packages = [":error_prone_packages"],
 )
 
 package_group(

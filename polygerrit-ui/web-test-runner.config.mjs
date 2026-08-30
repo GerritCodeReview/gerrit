@@ -9,7 +9,9 @@ import { PNG } from 'pngjs';
 import { playwrightLauncher } from '@web/test-runner-playwright';
 
 const runUnderBazel = !!process.env['RUNFILES_DIR'];
-const diffThreshold = 0.01;
+// We set this to a non-zero value because of sub-pixel rendering noise that
+// can create false positives.
+const diffThreshold = .02;
 
 function testRunnerHtmlFactory(prefix) {
   return (testFramework) => `
@@ -59,7 +61,16 @@ function getArgValue(flag) {
 const pathPrefix = runUnderBazel ? 'polygerrit-ui/' : '';
 const testFiles = getArgValue('--test-files');
 const runScreenshots = process.argv.includes('--run-screenshots');
-const rootDir = getArgValue('--root-dir') ?? `${path.resolve(process.cwd())}/`;
+// Under Bazel, module imports may resolve through runfile symlinks to
+// rules_js package stores. Both the runfiles tree and those stores are under
+// bazel-out/<config>/bin, so use that as the WTR root.
+function getBazelBinDir() {
+  const cwd = path.resolve(process.cwd()).replace(/\\/g, '/');
+  const match = cwd.match(/^(.*\/bazel-out\/[^/]+\/bin)(?:\/|$)/);
+  return `${match?.[1] ?? cwd}/`;
+}
+
+const rootDir = getArgValue('--root-dir') ?? getBazelBinDir();
 const tsConfig = getArgValue('--ts-config') ?? `${pathPrefix}app/tsconfig.json`;
 
 // When running screenshots, we serve from the root directory, so we need to

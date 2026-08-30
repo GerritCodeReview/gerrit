@@ -14,20 +14,35 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.index.change.ChangeField;
+import com.google.gerrit.server.ioutil.RegexCompiler;
 import com.google.gerrit.server.ioutil.RegexListSearcher;
 
 public class RegexPathPredicate extends ChangeRegexPredicate {
-  public RegexPathPredicate(String re) {
+  private final RegexListSearcher<String> searcher;
+
+  public RegexPathPredicate(String re, RegexCompiler regexCompiler) throws QueryParseException {
     super(ChangeField.PATH_SPEC, re);
+
+    if (re.startsWith("^")) {
+      re = re.substring(1);
+    }
+    if (re.endsWith("$") && !re.endsWith("\\$")) {
+      re = re.substring(0, re.length() - 1);
+    }
+
+    try {
+      searcher = RegexListSearcher.ofStrings(re, regexCompiler);
+    } catch (IllegalArgumentException e) {
+      throw new QueryParseException(
+          String.format("invalid regular expression '%s': %s", re, e.getMessage()), e);
+    }
   }
 
   @Override
   public boolean match(ChangeData object) {
-    return RegexListSearcher.ofStrings(getValue())
-        .search(object.currentFilePaths())
-        .findAny()
-        .isPresent();
+    return searcher.search(object.currentFilePaths()).findAny().isPresent();
   }
 
   @Override

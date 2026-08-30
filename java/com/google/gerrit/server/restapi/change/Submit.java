@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.change;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.git.ObjectIds.abbreviateName;
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.util.stream.Collectors.joining;
 
 import com.google.common.base.MoreObjects;
@@ -29,7 +30,6 @@ import com.google.gerrit.common.data.ParameterizedString;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
-import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.SubmitTypeRecord;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
@@ -51,13 +51,16 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.change.MergeabilityCache;
 import com.google.gerrit.server.change.MergeabilityComputationBehavior;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.MergeUtilFactory;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.submit.ChangeSet;
@@ -73,6 +76,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -80,6 +84,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
@@ -122,9 +127,11 @@ public class Submit
   private final ParameterizedString submitTopicTooltip;
   private final boolean submitWholeTopic;
   private final Provider<InternalChangeQuery> queryProvider;
-  private final PatchSetUtil psUtil;
   private final ChangeJson.Factory json;
   private final ChangeData.Factory changeDataFactory;
+  private final ProjectCache projectCache;
+  private final MergeUtilFactory mergeUtilFactory;
+  private final MergeabilityCache mergeabilityCache;
 
   private final boolean useMergeabilityCheck;
 
@@ -137,9 +144,11 @@ public class Submit
       AccountResolver accountResolver,
       @GerritServerConfig Config cfg,
       Provider<InternalChangeQuery> queryProvider,
-      PatchSetUtil psUtil,
       ChangeJson.Factory json,
-      ChangeData.Factory changeDataFactory) {
+      ChangeData.Factory changeDataFactory,
+      ProjectCache projectCache,
+      MergeUtilFactory mergeUtilFactory,
+      MergeabilityCache mergeabilityCache) {
     this.repoManager = repoManager;
     this.permissionBackend = permissionBackend;
     this.mergeOpProvider = mergeOpProvider;
@@ -171,9 +180,11 @@ public class Submit
             MoreObjects.firstNonNull(
                 cfg.getString("change", null, "submitTopicTooltip"), DEFAULT_TOPIC_TOOLTIP));
     this.queryProvider = queryProvider;
-    this.psUtil = psUtil;
     this.json = json;
     this.changeDataFactory = changeDataFactory;
+    this.projectCache = projectCache;
+    this.mergeUtilFactory = mergeUtilFactory;
+    this.mergeabilityCache = mergeabilityCache;
     this.useMergeabilityCheck = MergeabilityComputationBehavior.fromConfig(cfg).includeInApi();
   }
 
@@ -365,81 +376,146 @@ public class Submit
 
   @Nullable
   public Collection<ChangeData> getUnmergeableChanges(ChangeSet cs) throws IOException {
-    Set<ChangeData> unmergeableChanges = new HashSet<>();
-    Set<ObjectId> outDatedPatchSets = new HashSet<>();
-    for (ChangeData change : cs.changes()) {
-      unmergeableChanges.add(change);
-      addAllOutdatedPatchSets(outDatedPatchSets, change);
+    Set<ChangeData> unmergeableChanges = new HashSet<>(cs.changes());
+    Map<ObjectId, ChangeData> currentCommitsToChange = new HashMap<>();
+    for (ChangeData cd : cs.changes()) {
+      PatchSet ps = cd.currentPatchSet();
+      if (ps != null) {
+        currentCommitsToChange.put(ps.commitId(), cd);
+      }
     }
+
     ListMultimap<BranchNameKey, ChangeData> cbb = cs.changesByBranch();
     for (BranchNameKey branch : cbb.keySet()) {
       List<ChangeData> targetBranch = cbb.get(branch);
-      HashMap<Change.Id, RevCommit> commits = mapToCommits(targetBranch, branch.project());
-      Set<ObjectId> allParents =
-          commits.values().stream()
-              .flatMap(c -> Arrays.stream(c.getParents()))
-              .map(RevObject::getId)
-              .collect(Collectors.toSet());
-      for (ChangeData change : targetBranch) {
-        RevCommit commit = commits.get(change.getId());
-        boolean isMergeCommit = commit.getParentCount() > 1;
-        boolean isLastInChain = !allParents.contains(commit.getId());
-        if (Arrays.stream(commit.getParents()).anyMatch(c -> outDatedPatchSets.contains(c.getId()))
-            && !isCherryPickSubmit(change)) {
-          // Found a parent that depends on an outdated patchset and the submit strategy is not
-          // cherry-pick.
-          continue;
+      try (Repository repo = repoManager.openRepository(branch.project());
+          RevWalk walk = new RevWalk(repo)) {
+        Ref destRef = repo.getRefDatabase().exactRef(branch.branch());
+        String mergeStrategy =
+            mergeUtilFactory
+                .create(
+                    projectCache.get(branch.project()).orElseThrow(illegalState(branch.project())))
+                .mergeStrategyName();
+
+        Map<Change.Id, RevCommit> commits = new HashMap<>();
+        for (ChangeData change : targetBranch) {
+          PatchSet ps = change.currentPatchSet();
+          if (ps == null) {
+            return null;
+          }
+          RevCommit commit = walk.parseCommit(ps.commitId());
+          commits.put(change.getId(), commit);
         }
-        // Recheck mergeability rather than using value stored in the index,
-        // which may be stale.
-        // TODO(dborowitz): This is ugly; consider providing a way to not read
-        // stored fields from the index in the first place.
-        change.setMergeable(null);
-        Boolean mergeable = change.isMergeable();
-        if (mergeable == null) {
-          // Skip whole check, cannot determine if mergeable
-          return null;
-        }
-        if (mergeable) {
-          unmergeableChanges.remove(change);
-        }
-        if (isLastInChain && isMergeCommit && mergeable) {
-          targetBranch.stream().forEach(unmergeableChanges::remove);
-          break;
+
+        Set<ObjectId> allParents =
+            commits.values().stream()
+                .flatMap(c -> Arrays.stream(c.getParents()))
+                .map(RevObject::getId)
+                .collect(Collectors.toSet());
+
+        for (ChangeData change : targetBranch) {
+          RevCommit commit = commits.get(change.getId());
+          boolean isMergeCommit = commit.getParentCount() > 1;
+          boolean isLastInChain = !allParents.contains(commit.getId());
+
+          if (dependsOnOutdatedPatchSet(commit, currentCommitsToChange, cs, destRef)
+              && !isCherryPickSubmit(change)) {
+            // Found a parent that depends on an outdated patchset and the submit strategy is not
+            // cherry-pick.
+            continue;
+          }
+
+          Boolean mergeable = isChangeMergeable(change, destRef, mergeStrategy, branch, repo);
+          if (mergeable == null) {
+            // Skip whole check, cannot determine if mergeable
+            return null;
+          }
+          if (mergeable) {
+            unmergeableChanges.remove(change);
+          }
+          if (isLastInChain && isMergeCommit && mergeable) {
+            targetBranch.stream().forEach(unmergeableChanges::remove);
+            break;
+          }
         }
       }
     }
     return unmergeableChanges;
   }
 
+  @Nullable
+  private Boolean isChangeMergeable(
+      ChangeData change,
+      @Nullable Ref destRef,
+      String mergeStrategy,
+      BranchNameKey branch,
+      Repository repo) {
+    Change c = change.change();
+    if (c == null) {
+      return null;
+    }
+    if (c.isMerged()) {
+      change.setMergeable(true);
+      return true;
+    } else if (c.isAbandoned()) {
+      return null;
+    }
+    if (!change.lazyload()) {
+      return null;
+    }
+    PatchSet ps = change.currentPatchSet();
+    if (ps == null) {
+      return null;
+    }
+
+    SubmitTypeRecord str = change.submitTypeRecord();
+    if (!str.isOk()) {
+      change.setMergeable(false);
+      return false;
+    }
+
+    boolean mergeable =
+        mergeabilityCache.get(ps.commitId(), destRef, str.type, mergeStrategy, branch, repo);
+    change.setMergeable(mergeable);
+    return mergeable;
+  }
+
   /**
-   * Add all outdated patch-sets (non-last patch-sets) to the output set {@code outdatedPatchSets}.
+   * Fast bounded check: determines if any parent of {@code commit} points to an outdated patchset
+   * of another change in the same changeset, without loading all historical patchsets upfront.
    */
-  private static void addAllOutdatedPatchSets(Set<ObjectId> outdatedPatchSets, ChangeData cd) {
-    outdatedPatchSets.addAll(
-        cd.notes().getPatchSets().values().stream()
-            .map(p -> p.commitId())
-            .collect(Collectors.toSet()));
-    outdatedPatchSets.remove(cd.currentPatchSet().commitId());
+  private static boolean dependsOnOutdatedPatchSet(
+      RevCommit commit,
+      Map<ObjectId, ChangeData> currentCommitsToChange,
+      ChangeSet cs,
+      @Nullable Ref destRef) {
+    for (RevCommit parent : commit.getParents()) {
+      ObjectId parentId = parent.getId();
+      // If the parent is the current patchset of a change in the changeset, or points directly to
+      // the destination branch tip, it is up to date.
+      if (currentCommitsToChange.containsKey(parentId)
+          || (destRef != null && parentId.equals(destRef.getObjectId()))) {
+        continue;
+      }
+      // Check if parentId is known to belong to any change in the changeset as a non-current
+      // patchset.
+      for (ChangeData cd : cs.changes()) {
+        PatchSet currentPs = cd.currentPatchSet();
+        if (currentPs != null && !currentPs.commitId().equals(parentId)) {
+          if (currentPs.number() > 1) {
+            if (cd.patchSets().stream().anyMatch(ps -> ps.commitId().equals(parentId))) {
+              return true;
+            }
+          }
+        }
+      }
+    }
+    return false;
   }
 
   private boolean isCherryPickSubmit(ChangeData changeData) {
     SubmitTypeRecord submitTypeRecord = changeData.submitTypeRecord();
     return submitTypeRecord.isOk() && submitTypeRecord.type == SubmitType.CHERRY_PICK;
-  }
-
-  /** Map input {@code changes} to the commit SHA-1 of their latest patch-set. */
-  private HashMap<Change.Id, RevCommit> mapToCommits(
-      Collection<ChangeData> changes, Project.NameKey project) throws IOException {
-    HashMap<Change.Id, RevCommit> commits = new HashMap<>();
-    try (Repository repo = repoManager.openRepository(project);
-        RevWalk walk = new RevWalk(repo)) {
-      for (ChangeData change : changes) {
-        RevCommit commit = walk.parseCommit(psUtil.current(change.notes()).commitId());
-        commits.put(change.getId(), commit);
-      }
-    }
-    return commits;
   }
 
   private IdentifiedUser onBehalfOf(RevisionResource rsrc, SubmitInput in)

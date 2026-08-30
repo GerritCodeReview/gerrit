@@ -1674,6 +1674,51 @@ public class ChangeField {
       STORED_SUBMIT_REQUIREMENTS_SPEC =
           STORED_SUBMIT_REQUIREMENTS_FIELD.storedOnly("full_submit_requirements");
 
+  /**
+   * Names of submit requirements that are not fulfilled for a change (i.e., whose evaluation status
+   * is {@link com.google.gerrit.entities.SubmitRequirementResult.Status#UNSATISFIED}, {@link
+   * com.google.gerrit.entities.SubmitRequirementResult.Status#ERROR}, or {@link
+   * com.google.gerrit.entities.SubmitRequirementResult.Status#TIMEOUT}).
+   *
+   * <p>Note that if evaluating a submit requirement results in an ERROR or TIMEOUT, it is
+   * considered unfulfilled and its name will be included in this field.
+   */
+  public static final IndexedField<ChangeData, Iterable<String>> UNMET_REQUIREMENT_FIELD =
+      IndexedField.<ChangeData>iterableStringBuilder("UnmetRequirement")
+          .build(
+              cd ->
+                  cd.submitRequirementsIncludingLegacy().values().stream()
+                      .filter(sr -> !sr.fulfilled())
+                      .map(sr -> sr.submitRequirement().name().toLowerCase(Locale.US))
+                      .collect(toImmutableSet()));
+
+  public static final IndexedField<ChangeData, Iterable<String>>.SearchSpec UNMET_REQUIREMENT_SPEC =
+      UNMET_REQUIREMENT_FIELD.exact("unmet_requirement");
+
+  /**
+   * The number of submit requirements that are not fulfilled for a change (i.e., whose evaluation
+   * status is {@link com.google.gerrit.entities.SubmitRequirementResult.Status#UNSATISFIED}, {@link
+   * com.google.gerrit.entities.SubmitRequirementResult.Status#ERROR}, or {@link
+   * com.google.gerrit.entities.SubmitRequirementResult.Status#TIMEOUT}).
+   *
+   * <p>Note that if evaluating a submit requirement results in an ERROR or TIMEOUT, it is
+   * considered unfulfilled and is counted here.
+   */
+  public static final IndexedField<ChangeData, Integer> UNSATISFIED_REQUIREMENT_COUNT_FIELD =
+      IndexedField.<ChangeData>integerBuilder("UnsatisfiedRequirementCount")
+          .stored()
+          .build(
+              cd ->
+                  (int)
+                      cd.submitRequirementsIncludingLegacy().values().stream()
+                          .filter(sr -> !sr.fulfilled())
+                          .count(),
+              (cd, field) -> cd.setUnsatisfiedRequirementCount(field));
+
+  public static final IndexedField<ChangeData, Integer>.SearchSpec
+      UNSATISFIED_REQUIREMENT_COUNT_SPEC =
+          UNSATISFIED_REQUIREMENT_COUNT_FIELD.integerRange("unsatisfied_requirement_count");
+
   private static void parseSubmitRequirements(
       Iterable<Cache.SubmitRequirementResultProto> values, ChangeData out) {
     out.setSubmitRequirements(

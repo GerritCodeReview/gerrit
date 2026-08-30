@@ -204,7 +204,7 @@ public class DeleteCommentRewriter implements NoteDbRewriter {
       List<HumanComment> putInComments,
       List<HumanComment> deletedComments)
       throws IOException, ConfigInvalidException {
-    RevisionNoteMap<ChangeRevisionNote> revNotesMap =
+    RevisionNoteMap revNotesMap =
         RevisionNoteMap.parse(
             noteUtil.getChangeNoteJson(),
             reader,

@@ -52,11 +52,13 @@ suite('gr-change-summary screenshot tests', () => {
       createRun({
         status: RunStatus.COMPLETED,
         checkName: 'info-check',
+        isAiPowered: true,
         results: [createCheckResult({category: Category.INFO})],
       }),
       createRun({
         status: RunStatus.COMPLETED,
         checkName: 'warning-check',
+        isAiPowered: true,
         results: [createCheckResult({category: Category.WARNING})],
       }),
       createRun({

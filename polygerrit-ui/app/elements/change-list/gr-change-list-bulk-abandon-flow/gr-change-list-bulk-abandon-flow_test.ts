@@ -143,7 +143,69 @@ suite('gr-change-list-bulk-abandon-flow tests', () => {
     assert.isTrue(queryAndAssert<GrButton>(element, '#abandon').disabled);
   });
 
-  test('abandon button is enabled if change is already abandoned', async () => {
+  test('mixed open/abandoned selection shows Abandon', async () => {
+    const changes: ChangeInfo[] = [
+      {...change1, actions: {abandon: {}}},
+      {...change2, actions: {restore: {}}, status: ChangeStatus.ABANDONED},
+    ];
+    getChangesStub.returns(changes);
+    model.sync(changes);
+    await waitUntilObserved(
+      model.loadingState$,
+      state => state === LoadingState.LOADED
+    );
+    await selectChange(change1);
+    await selectChange(change2);
+    await element.updateComplete;
+
+    assert.isNotOk(query(element, '#restore'));
+    const button = queryAndAssert<GrButton>(element, '#abandon');
+    assert.isFalse(button.disabled);
+    assert.equal(button.innerText.trim(), 'Abandon');
+  });
+
+  test('restore button is shown if all changes are abandoned', async () => {
+    const changes: ChangeInfo[] = [
+      {...change1, actions: {restore: {}}, status: ChangeStatus.ABANDONED},
+    ];
+    getChangesStub.returns(changes);
+    model.sync(changes);
+    await waitUntilObserved(
+      model.loadingState$,
+      state => state === LoadingState.LOADED
+    );
+    await selectChange(change1);
+    await element.updateComplete;
+
+    assert.isNotOk(query(element, '#abandon'));
+    const button = queryAndAssert<GrButton>(element, '#restore');
+    assert.isFalse(button.disabled);
+    assert.equal(button.innerText.trim(), 'Restore');
+    assert.equal(
+      queryAndAssert<HTMLDivElement>(element, 'div[slot="header"]')
+        .innerText.replace(/\s+/g, ' ')
+        .trim(),
+      '1 changes to restore'
+    );
+
+    const executeChangeAction = stubRestApi('executeChangeAction').returns(
+      Promise.resolve(new Response())
+    );
+
+    queryAndAssert<GrButton>(query(element, 'gr-dialog'), '#confirm').click();
+
+    await waitUntil(
+      () =>
+        queryAndAssert<HTMLTableDataCellElement>(
+          element,
+          '#status'
+        ).innerText.trim() === `Status: ${ProgressStatus.SUCCESSFUL}`
+    );
+    assert.equal(executeChangeAction.callCount, 1);
+    assert.equal(executeChangeAction.lastCall.args[2], '/restore');
+  });
+
+  test('restore button is disabled without restore permission', async () => {
     const changes: ChangeInfo[] = [
       {...change1, actions: {}, status: ChangeStatus.ABANDONED},
     ];
@@ -156,17 +218,7 @@ suite('gr-change-list-bulk-abandon-flow tests', () => {
     await selectChange(change1);
     await element.updateComplete;
 
-    assert.isFalse(queryAndAssert<GrButton>(element, '#abandon').disabled);
-
-    queryAndAssert<GrButton>(query(element, 'gr-dialog'), '#confirm').click();
-
-    await waitUntil(
-      () =>
-        queryAndAssert<HTMLTableDataCellElement>(
-          element,
-          '#status'
-        ).innerText.trim() === `Status: ${ProgressStatus.SUCCESSFUL}`
-    );
+    assert.isTrue(queryAndAssert<GrButton>(element, '#restore').disabled);
   });
 
   test('progress updates as request is resolved', async () => {

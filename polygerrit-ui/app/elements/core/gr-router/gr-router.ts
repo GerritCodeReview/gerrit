@@ -9,11 +9,12 @@ import {getAppContext} from '../../../services/app-context';
 import {
   computeAllPatchSets,
   computeLatestPatchNum,
+  convertToBasePatchSetNum,
   convertToPatchSetNum,
 } from '../../../utils/patch-set-util';
 import {assert, assertIsDefined} from '../../../utils/common-util';
 import {
-  BasePatchSetNum,
+  AUTO_MERGE,
   BranchName,
   GroupId,
   NumericChangeId,
@@ -211,8 +212,10 @@ const RoutePattern = {
   // compatibility for change-only.
   CHANGE: /^\/c\/(.+)\/\+\/(\d+)(\/?((-?\d+|edit)(\.\.(\d+|edit))?))?\/?$/,
 
-  // Matches /c/<project>/+/<changeNum>/[<patchNum|edit>],edit
-  CHANGE_EDIT: /^\/c\/(.+)\/\+\/(\d+)(\/(\d+))?,edit\/?$/,
+  // Matches
+  // /c/<project>/+/<changeNum>/[<basePatchNum|edit>..][<patchNum|edit>],edit
+  CHANGE_EDIT:
+    /^\/c\/(.+)\/\+\/(\d+)(\/?((-?\d+|edit)(\.\.(\d+|edit))?))?,edit\/?$/,
 
   // Matches /c/<project>/+/<changeNum>/comment/<commentId>/
   // Navigates to the diff view
@@ -262,7 +265,7 @@ const RoutePattern = {
  *
  * @type {RegExp}
  */
-const LINE_ADDRESS_PATTERN = /^([ab]?)(\d+)$/;
+const LINE_ADDRESS_PATTERN = /^([ab]?)(\d+)(?:-(\d+))?$/;
 
 /**
  * GWT UI would use @\d+ at the end of a path to indicate linenum.
@@ -446,6 +449,9 @@ export class GrRouter implements Finalizable, NavigationService {
       params.basePatchNum = PARENT;
       return;
     }
+    // `0` is not a patchset, it encodes an explicitly chosen auto-merge base,
+    // so a lone `0` means "auto merge against the latest patchset".
+    if (params.basePatchNum === AUTO_MERGE) return;
     // Regexes set basePatchNum instead of patchNum when only one is
     // specified.
     if (params.patchNum === undefined) {
@@ -490,6 +496,7 @@ export class GrRouter implements Finalizable, NavigationService {
     return {
       leftSide: !!match[1],
       lineNum: Number(match[2]),
+      endLineNum: match[3] ? Number(match[3]) : undefined,
     };
   }
 
@@ -1377,7 +1384,7 @@ export class GrRouter implements Finalizable, NavigationService {
     const state: ChangeViewState = {
       repo: ctx.params[0] as RepoName,
       changeNum,
-      basePatchNum: convertToPatchSetNum(ctx.params[4]) as BasePatchSetNum,
+      basePatchNum: convertToBasePatchSetNum(ctx.params[4]),
       patchNum: convertToPatchSetNum(ctx.params[6]) as RevisionPatchSetNum,
       view: GerritView.CHANGE,
       childView: ChangeChildView.OVERVIEW,
@@ -1418,8 +1425,11 @@ export class GrRouter implements Finalizable, NavigationService {
 
     this.restApiService.addRepoNameToCache(changeNum, repo);
     const [comments, drafts, change] = await Promise.all([
-      this.restApiService.getDiffComments(changeNum),
-      this.restApiService.getDiffDrafts(changeNum),
+      this.restApiService.getDiffComments(
+        changeNum,
+        /* enableContext= */ false
+      ),
+      this.restApiService.getDiffDrafts(changeNum, /* enableContext= */ false),
       this.restApiService.getChangeDetail(changeNum),
     ]);
 
@@ -1496,7 +1506,7 @@ export class GrRouter implements Finalizable, NavigationService {
     const state: ChangeViewState = {
       repo: ctx.params[0] as RepoName,
       changeNum,
-      basePatchNum: convertToPatchSetNum(ctx.params[4]) as BasePatchSetNum,
+      basePatchNum: convertToBasePatchSetNum(ctx.params[4]),
       patchNum: convertToPatchSetNum(ctx.params[6]) as RevisionPatchSetNum,
       view: GerritView.CHANGE,
       childView: ChangeChildView.DIFF,
@@ -1512,6 +1522,9 @@ export class GrRouter implements Finalizable, NavigationService {
     if (address) {
       state.diffView!.leftSide = address.leftSide;
       state.diffView!.lineNum = address.lineNum;
+      if (address.endLineNum !== undefined) {
+        state.diffView!.endLineNum = address.endLineNum;
+      }
     }
     this.reporting.setRepoName(state.repo ?? '');
     this.reporting.setChangeId(changeNum);
@@ -1577,7 +1590,8 @@ export class GrRouter implements Finalizable, NavigationService {
     const state: ChangeViewState = {
       repo: project,
       changeNum,
-      patchNum: convertToPatchSetNum(ctx.params[3]) as RevisionPatchSetNum,
+      basePatchNum: convertToBasePatchSetNum(ctx.params[4]),
+      patchNum: convertToPatchSetNum(ctx.params[6]) as RevisionPatchSetNum,
       view: GerritView.CHANGE,
       childView: ChangeChildView.OVERVIEW,
       edit: true,

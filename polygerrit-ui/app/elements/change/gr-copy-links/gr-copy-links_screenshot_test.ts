@@ -10,7 +10,8 @@ import {fixture, html} from '@open-wc/testing';
 // @ts-ignore
 import {visualDiff} from '@web/test-runner-visual-regression';
 import {GrCopyLinks} from './gr-copy-links';
-import {waitUntil} from '../../../test/test-utils';
+import {visualDiffDarkTheme, waitUntil} from '../../../test/test-utils';
+import {queryAndAssert} from '../../../utils/common-util';
 
 suite('gr-copy-links screenshot tests', () => {
   let element: GrCopyLinks;
@@ -46,9 +47,8 @@ suite('gr-copy-links screenshot tests', () => {
   });
 
   test('dropdown screenshot', async () => {
-    await visualDiff(
-      element.shadowRoot?.querySelector('.dropdown-content'),
-      'gr-copy-links'
-    );
+    const content = queryAndAssert(element, '.dropdown-content');
+    await visualDiff(content, 'gr-copy-links');
+    await visualDiffDarkTheme(content, 'gr-copy-links');
   });
 });

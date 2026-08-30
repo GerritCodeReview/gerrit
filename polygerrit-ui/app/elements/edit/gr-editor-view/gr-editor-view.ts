@@ -206,8 +206,9 @@ export class GrEditorView extends LitElement {
           white-space: initial;
           word-break: break-all;
         }
-        header gr-editable-label::part(input-container) {
-          margin-top: var(--spacing-l);
+        header gr-editable-label::part(container) {
+          display: flex;
+          align-items: center;
         }
         .textareaWrapper {
           border: 1px solid var(--border-color);
@@ -603,10 +604,12 @@ export class GrEditorView extends LitElement {
     this.storeTask = debounce(
       this.storeTask,
       () => {
-        const content = e.detail.value;
-        if (content) {
-          this.newContent = e.detail.value;
-          this.getStorage().setEditableContentItem(this.storageKey, content);
+        const newContent = e.detail.value;
+
+        this.newContent = newContent;
+
+        if (newContent && newContent !== this.content) {
+          this.getStorage().setEditableContentItem(this.storageKey, newContent);
         } else {
           this.getStorage().eraseEditableContentItem(this.storageKey);
         }

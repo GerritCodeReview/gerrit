@@ -62,8 +62,12 @@ public class ChangeInput {
     this.subject = subject;
   }
 
-  /** Who to send email notifications to after change is created. */
-  public NotifyHandling notify = NotifyHandling.ALL;
+  /**
+   * Who to send email notifications to after change is created. If not specified, defaults to
+   * {@link NotifyHandling#OWNER} if the change is created as work-in-progress, or {@link
+   * NotifyHandling#ALL} otherwise.
+   */
+  public NotifyHandling notify;
 
   public Map<RecipientType, NotifyInfo> notifyDetails;
 }

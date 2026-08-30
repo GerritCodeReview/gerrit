@@ -105,6 +105,23 @@
       "parentUuid": "a55cebe7_ee2c0e19",
       "revId": "9332e7650a1368f4e0207587010c64e34b1d3832",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a30cfd0_31d11b2a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5123038
+      },
+      "writtenOn": "2026-08-30T13:28:32Z",
+      "side": 1,
+      "message": "https://issues.gerritcodereview.com/514817934#attachment77056505",
+      "revId": "9332e7650a1368f4e0207587010c64e34b1d3832",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

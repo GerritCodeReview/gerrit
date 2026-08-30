@@ -24,7 +24,6 @@
     "com.google.flogger:flogger-system-backend": 1522076251,
     "com.google.flogger:google-extensions": -355130314,
     "com.google.gitiles:blame-cache": -1424275928,
-    "com.google.gitiles:gitiles-servlet": 1993647825,
     "com.google.guava:failureaccess": -2032498474,
     "com.google.guava:guava": -1756621521,
     "com.google.guava:guava-testlib": -203887467,
@@ -253,8 +252,6 @@
     "com.google.flogger:google-extensions:jar:sources": -1667103726,
     "com.google.gitiles:blame-cache": 2017928431,
     "com.google.gitiles:blame-cache:jar:sources": 467275313,
-    "com.google.gitiles:gitiles-servlet": 1918113734,
-    "com.google.gitiles:gitiles-servlet:jar:sources": -158011882,
     "com.google.guava:failureaccess": 1715931538,
     "com.google.guava:failureaccess:jar:sources": 1303858893,
     "com.google.guava:guava": 555169272,
@@ -660,13 +657,6 @@
       "shasums": {
         "jar": "41dc6fe7d9967d3726cca4ff5e92247cd8c8da5ddc61b730077b8778c4829fcf",
         "sources": "9e4d550f35331762434ec1bbd448d335971f00c8ee58c91500bc8fecad156a46"
-      },
-      "version": "1.6.0"
-    },
-    "com.google.gitiles:gitiles-servlet": {
-      "shasums": {
-        "jar": "08562ea7d57d881042e0598722e011e1c40bb69317065f2f5a67277f9c946be3",
-        "sources": "1a6556cde47342a29b93c0ebca969c728ec60b97cbee40bdf4a795ef8a0eb2b2"
       },
       "version": "1.6.0"
     },
@@ -2062,12 +2052,6 @@
     ],
     "com.google.gitiles:blame-cache": [
       "com.google.gitiles.blame.cache"
-    ],
-    "com.google.gitiles:gitiles-servlet": [
-      "com.google.gitiles",
-      "com.google.gitiles.blame",
-      "com.google.gitiles.doc",
-      "com.google.gitiles.doc.html"
     ],
     "com.google.guava:failureaccess": [
       "com.google.common.util.concurrent.internal"
@@ -4336,8 +4320,6 @@
       "com.google.flogger:google-extensions:jar:sources",
       "com.google.gitiles:blame-cache",
       "com.google.gitiles:blame-cache:jar:sources",
-      "com.google.gitiles:gitiles-servlet",
-      "com.google.gitiles:gitiles-servlet:jar:sources",
       "com.google.guava:failureaccess",
       "com.google.guava:failureaccess:jar:sources",
       "com.google.guava:guava",
@@ -4636,8 +4618,6 @@
       "com.google.flogger:google-extensions:jar:sources",
       "com.google.gitiles:blame-cache",
       "com.google.gitiles:blame-cache:jar:sources",
-      "com.google.gitiles:gitiles-servlet",
-      "com.google.gitiles:gitiles-servlet:jar:sources",
       "com.google.guava:failureaccess",
       "com.google.guava:failureaccess:jar:sources",
       "com.google.guava:guava",

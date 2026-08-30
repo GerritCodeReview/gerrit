@@ -58,6 +58,7 @@ Apache2.0
 * dropwizard:dropwizard-core
 * errorprone:annotations
 * flogger:api
+* gitiles:intraline-diff
 * guice:guice
 * guice:guice-assistedinject
 * guice:guice-library

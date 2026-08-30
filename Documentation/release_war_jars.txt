@@ -42,6 +42,7 @@ h2
 httpclient
 httpcore
 icu4j
+intraline-diff
 j2objc-annotations
 jakarta.inject-api
 JavaEWAH

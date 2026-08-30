@@ -1,4 +1,4 @@
-load("@rules_java//java:defs.bzl", "java_library")
+load("@rules_java//java:defs.bzl", "java_import", "java_library")
 
 java_library(
     name = "gitiles",
@@ -10,8 +10,6 @@ java_library(
         ":gfm-tables",
         ":gitiles-servlet",
         ":prettify",
-        "//lib/commons:lang3",
-        "//lib/commons:text",
     ],
 )
 
@@ -43,15 +41,34 @@ java_library(
     exports = ["@external_deps//:org_commonmark_commonmark_ext_gfm_tables"],
 )
 
-java_library(
+java_import(
     name = "gitiles-servlet",
     data = ["//lib:LICENSE-Apache2.0"],
+    jars = ["@gitiles_servlet//file"],
     visibility = ["//visibility:public"],
-    exports = ["@external_deps//:com_google_gitiles_gitiles_servlet"],
+    deps = [
+        ":cm-autolink",
+        ":commonmark",
+        ":gfm-strikethrough",
+        ":gfm-tables",
+        ":prettify",
+        "//lib:servlet-api",
+    ],
 )
 
 java_library(
     name = "prettify",
     visibility = ["//visibility:public"],
     exports = ["@java-prettify"],
+)
+
+java_import(
+    name = "intraline-diff",
+    data = ["//lib:LICENSE-Apache2.0"],
+    jars = ["@gitiles_intraline_diff//file"],
+    visibility = ["//visibility:public"],
+    deps = [
+        "//lib:guava",
+        "//lib:jgit",
+    ],
 )

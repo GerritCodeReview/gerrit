@@ -60,6 +60,7 @@ Apache2.0
 * flogger:api
 * fonts:material-icons
 * fonts:robotofonts
+* gitiles:intraline-diff
 * guice:guice
 * guice:guice-assistedinject
 * guice:guice-library

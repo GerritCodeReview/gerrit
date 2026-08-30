@@ -17,6 +17,25 @@
       "isAi": true,
       "revId": "0381402b36dcabf065fbd22a04f28cb3aeb7b040",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "82b1d41b_56e11668",
+        "filename": "javatests/com/google/gerrit/index/query/PaginatingSourceTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2026-08-30T03:24:07Z",
+      "side": 1,
+      "message": "Done. Replaced early return with assumeFalse across all test cases in PaginatingSourceTest.",
+      "parentUuid": "4f9a508a_53e1e1d8",
+      "isAi": true,
+      "revId": "0381402b36dcabf065fbd22a04f28cb3aeb7b040",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

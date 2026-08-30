@@ -29,6 +29,26 @@ single_version_override(
 # Libraries / toolchains.
 bazel_dep(name = "protobuf", version = "35.1")
 
+http_file = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "http_file")
+
+http_file(
+    name = "gitiles_intraline_diff",
+    downloaded_file_path = "intraline-diff-1.6.2.jar",
+    sha256 = "6d193c29e5c9c4d655907ceb9422c2b66c64e6fa6cbb5f4012d5bed9df4459cf",
+    urls = [
+        "https://github.com/davido/gitiles/releases/download/intraline-diff-1.6.2/intraline-diff-1.6.2.jar",
+    ],
+)
+
+http_file(
+    name = "gitiles_servlet",
+    downloaded_file_path = "gitiles-servlet-1.6.2.jar",
+    sha256 = "93f558e4c6cb9e8c91e1a59a64bdf0ff25d36cb34f3dac41af5bc5adf9ab21f3",
+    urls = [
+        "https://github.com/davido/gitiles/releases/download/gitiles-servlet-1.6.2/gitiles-servlet-1.6.2.jar",
+    ],
+)
+
 # In-tree modules.
 bazel_dep(name = "jgit")
 local_path_override(

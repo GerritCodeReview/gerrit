@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f9a508a_53e1e1d8",
+        "filename": "javatests/com/google/gerrit/index/query/PaginatingSourceTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-08-30T00:08:47Z",
+      "side": 1,
+      "message": "Optional / Nit: Consider using `org.junit.Assume.assumeFalse(PaginationType.NONE.equals(indexConfig.paginationType()));` rather than an early `return;`. In JUnit test reports, `assumeFalse` marks the scenario as skipped/ignored for the `NONE` parameter rather than silently counting it as passed.",
+      "isAi": true,
+      "revId": "0381402b36dcabf065fbd22a04f28cb3aeb7b040",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

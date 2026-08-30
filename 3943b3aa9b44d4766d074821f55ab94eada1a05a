@@ -50,6 +50,23 @@
       "message": "javatests/com/google/gerrit/httpd/raw/IndexServletTest.java",
       "revId": "3943b3aa9b44d4766d074821f55ab94eada1a05a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2d70542_1ef9939b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 20
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5123038
+      },
+      "writtenOn": "2026-08-30T13:56:32Z",
+      "side": 1,
+      "message": "https://gerrit.googlesource.com/gerritgit fetch https://gerrit.googlesource.com/gerrit refs/changes/61/550161/22 \u0026\u0026 git checkout FETCH_HEAD",
+      "revId": "3943b3aa9b44d4766d074821f55ab94eada1a05a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

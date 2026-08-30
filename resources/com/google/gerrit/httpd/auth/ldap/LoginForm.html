@@ -1,5 +1,6 @@
 <html>
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Gerrit Code Review - Sign In</title>
     <style type="text/css">
       #error_message {
@@ -95,5 +96,179 @@
       f_user.focus();
     ]]>
     </script>
+    <style type="text/css">
+      /* === Mobile-friendly login layout === */
+
+      /* Form card */
+      #login_form {
+        position: relative;
+        width: calc(100% - 24px) !important;
+        max-width: 400px !important;
+        padding: 32px 28px 32px !important;
+        margin: 20px auto !important;
+        background: #fff;
+        border-radius: 4px;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+      }
+
+      /* Flatten table to simple column layout */
+      #login_form table,
+      #login_form table tbody,
+      #login_form table tbody tr {
+        display: block;
+      }
+      #login_form table {
+        padding-top: 0;
+      }
+      #login_form table tbody tr {
+        margin-bottom: 4px !important;
+      }
+      #login_form table tbody td {
+        display: block;
+      }
+
+      /* Hide leftover empty <td></td> spacer cells */
+      #login_form table tbody tr:nth-child(3) td:first-child,
+      #login_form table tbody tr:nth-child(4) td:first-child {
+        display: none;
+      }
+
+      /* === Inputs === */
+      #login_form input[type=text],
+      #login_form input[type=password] {
+        width: 100%;
+        height: 32px;
+        padding: 4px 12px;
+        font-size: 16px;
+        font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Inter,Helvetica,Arial,sans-serif;
+        color: #202122;
+        background: #fff;
+        border: 1px solid #a2a9b1;
+        border-radius: 2px;
+        outline: 0;
+        transition: border-color 250ms,box-shadow 250ms;
+      }
+      #login_form input[type=text]:focus,
+      #login_form input[type=password]:focus {
+        border-color: #36c;
+        box-shadow: 0 0 0 1px #36c;
+      }
+
+      /* === Labels === */
+      #login_form table tbody td label {
+        display: block;
+        font-size: 14px;
+        font-weight: 700;
+        font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Inter,Helvetica,Arial,sans-serif;
+        color: #202122;
+        margin-bottom: 4px;
+        padding-left: 0;
+      }
+
+      /* === Primary button (Sign In) === */
+      #login_form input[type=submit] {
+        display: block;
+        width: 100%;
+        height: 32px;
+        padding: 0 16px;
+        font-size: 16px;
+        font-weight: 700;
+        font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Inter,Helvetica,Arial,sans-serif;
+        color: #fff !important;
+        background: #36c !important;
+        border: 1px solid transparent !important;
+        border-radius: 0;
+        cursor: pointer;
+        margin: 4px 0 0;
+        line-height: 32px;
+        transition: background 250ms;
+      }
+      #login_form input[type=submit]:hover {
+        background: #3056a9 !important;
+        color: #fff !important;
+      }
+
+      /* === Secondary button (Cancel) === */
+      #login_form a#cancel_link {
+        display: block;
+        width: 100%;
+        height: 32px;
+        padding: 0 16px;
+        font-size: 16px;
+        font-weight: 700;
+        font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Inter,Helvetica,Arial,sans-serif;
+        color: #202122 !important;
+        background: #f8f9fa !important;
+        border: 1px solid #a2a9b1 !important;
+        border-radius: 0;
+        text-align: center !important;
+        text-decoration: none;
+        margin: 6px auto 0 !important;
+        line-height: 32px;
+        cursor: pointer;
+        transition: background 250ms;
+      }
+      #login_form a#cancel_link:hover,
+      #login_form a#cancel_link:focus {
+        background: #eaecf0 !important;
+        color: #202122 !important;
+        text-decoration: none;
+      }
+
+      /* === Remember me row: compact, native checkbox === */
+      #login_form table tbody tr:nth-child(3) {
+        margin-bottom: 12px !important;
+      }
+      #login_form table tbody tr:nth-child(3) td {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      #login_form table tbody tr:nth-child(3) td label {
+        margin-bottom: 0;
+        font-weight: 400;
+      }
+      #login_form #f_remember {
+        margin: 0;
+        width: 20px;
+        height: 20px;
+        min-width: 20px;
+        min-height: 20px;
+        accent-color: #36c;
+      }
+
+      /* === Error === */
+      #error_message {
+        width: auto !important;
+        max-width: 400px;
+        margin: 0 auto 16px !important;
+        padding: 8px 12px;
+        background: #ffe9e5;
+        border: 1px solid #bf3c2c;
+        border-radius: 2px;
+        color: #202122;
+        font-weight: 400;
+        font-size: 14px;
+      }
+
+      /* === Box-sizing === */
+      #login_form *,
+      #login_form *:before,
+      #login_form *:after,
+      #error_message,
+      #error_message:before,
+      #error_message:after {
+        box-sizing: border-box;
+      }
+
+      /* === Narrow === */
+      @media (max-width: 440px) {
+        #login_form {
+          padding: 32px 16px 24px !important;
+          margin: 8px auto !important;
+          border-radius: 0;
+        }
+      }
+    </style>
   </body>
 </html>

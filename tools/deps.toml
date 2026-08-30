@@ -60,7 +60,6 @@ diffutils = { module = "io.github.java-diff-utils:java-diff-utils", version = "4
 failureaccess = { module = "com.google.guava:failureaccess", version = "1.0.3" }
 flexmark-all = { module = "com.vladsch.flexmark:flexmark-all", version = "0.64.0:lib" }
 fluent-hc = { module = "org.apache.httpcomponents:fluent-hc", version.ref = "httpcomp" }
-gitiles-servlet = { module = "com.google.gitiles:gitiles-servlet", version.ref = "gitiles" }
 greenmail = { module = "com.icegreen:greenmail", version.ref = "greenmail" }
 guava = { module = "com.github.ben-manes.caffeine:guava", version.ref = "caffeine" }
 guava-retrying = { module = "com.github.rholder:guava-retrying", version = "2.0.0" }

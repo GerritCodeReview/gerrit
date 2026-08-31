@@ -3,6 +3,65 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "84bd9130_aba76a8b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-08-31T11:40:01Z",
+      "side": 1,
+      "message": "I am sending our AI review:\n\nOverall approach and speedup (~3×) on large ref sets are great, but the parallel ACL evaluation in ReadAccessClassifier introduces a few critical correctness and security discrepancies compared to Gerrit\u0027s authoritative PermissionCollection / RefControl semantics:\n\n1. Security / ACL Bypass in Multi-Level Inheritance (ReadAccessClassifier.java:137-142):\n`exclusiveMatchers` only tracks `ownProject`. If an intermediate parent project in a hierarchy (Child -\u003e Parent -\u003e All-Projects) defines an exclusive READ section to suppress parent allows, it is ignored by `exclusiveMatchers`. Grandparent allow rules (e.g. ALLOW READ refs/* in All-Projects) then match, leaking protected refs in child repositories.\n\n2. Incorrect DENY Action Semantics (ReadAccessClassifier.java:166-170):\nIn Gerrit (PermissionCollection.calculateAllowRules), DENY is a group-specific shadowing rule (shadowing inherited ALLOW rules for that same group), not an absolute BLOCK. Treating DENY as an immediate INVISIBLE veto incorrectly blocks users who belong to multiple groups (e.g. Contractors with DENY and Registered Users with ALLOW).\n\n3. In-Project Exclusive ALLOW vs BLOCK Precedence (ReadAccessClassifier.java:87-91):\nIn Gerrit, an exclusive ALLOW on a specific pattern overrides a BLOCK in the same project. In ReadAccessClassifier, `denyMatchers` is evaluated first, returning INVISIBLE before allowMatchers is checked.\n\nArchitectural Suggestion:\nRather than implementing a parallel ACL engine covering complex ACL corner cases, consider a safe short-circuit strategy:\n- Fast-path pre-compiled classifier: Pre-compile and short-circuit when the project hierarchy contains no BLOCK, no DENY, and no exclusive rules (which covers the vast majority of repos).\n- Graceful fallback: If any exclusive, BLOCK, or DENY rules exist for READ in the hierarchy, return NEEDS_FULL_CHECK and delegate to the existing PermissionCollection / RefControl.\n\nSee inline comments for details on individual files.",
+      "isAi": true,
+      "revId": "91624e7e2be62e221184ce27501a5d912649a39e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff48e503_ea368fee",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultPermissionBackendModule.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-08-31T11:40:01Z",
+      "side": 1,
+      "message": "Please check this WARNING reported by autoreview issue finding: Exposing these internal factories globally breaks the module\u0027s encapsulation just for the sake of benchmarking. \n\nConsider keeping the module configuration intact and instead using `Modules.override()` or a dedicated testing module in your test setup to inject the alternative `ReadAccessClassifier` implementation.",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 0
+      },
+      "revId": "91624e7e2be62e221184ce27501a5d912649a39e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0f1b769_9617d865",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultRefFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-08-31T11:40:01Z",
+      "side": 1,
+      "message": "Nit: Log leafName instead of refName for clarity\n\n```java\nlogger.atFinest().log(\"Include ref %s because classifier returned VISIBLE\", leafName);\n```\nWhen filtering symbolic refs (e.g. HEAD -\u003e refs/heads/main), classify() evaluated leafName. Logging leafName (or refName -\u003e leafName) ensures trace logs accurately reflect the classified ref.",
+      "isAi": true,
+      "revId": "91624e7e2be62e221184ce27501a5d912649a39e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2d91111a_737b2b12",
         "filename": "java/com/google/gerrit/server/permissions/DefaultRefFilter.java",
         "patchSetId": 4
@@ -43,6 +102,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4e562d27_cf960571",
+        "filename": "java/com/google/gerrit/server/permissions/ReadAccessClassifier.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-08-31T11:40:01Z",
+      "side": 1,
+      "message": "Correctness: Exclusive ALLOW overriding BLOCK in the same project\n\nIn RefControl.isBlocked(), if a project has a BLOCK rule on refs/* but also an exclusive ALLOW on refs/heads/public/*, the exclusive ALLOW overrides the block for that ref in that project.\n\nIn classify(), denyMatchers is checked first. Any ref matching refs/* (including refs/heads/public/foo) returns Decision.INVISIBLE before allowMatchers are consulted.",
+      "range": {
+        "startLine": 87,
+        "startChar": 0,
+        "endLine": 91,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "91624e7e2be62e221184ce27501a5d912649a39e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7680c488_f0b66945",
         "filename": "java/com/google/gerrit/server/permissions/ReadAccessClassifier.java",
         "patchSetId": 4
@@ -77,6 +160,78 @@
       "writtenOn": "2026-08-28T17:56:58Z",
       "side": 1,
       "message": "Can we avoid duplicating the logic? Could `PermissionCollection`, `RefVisibilityControl` and/or `RefControl` use this class? This method seems mostly to reimplement logic from elsewhere.\n\nI overall like the improvement we get from this change, but I\u0027m concerned it makes our (already complicated) permissions backend more complicated.",
+      "revId": "91624e7e2be62e221184ce27501a5d912649a39e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a49898d2_55e41c58",
+        "filename": "java/com/google/gerrit/server/permissions/ReadAccessClassifier.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-08-31T11:40:01Z",
+      "side": 1,
+      "message": "Critical: Exclusive READ permissions in intermediate parent projects are bypassed\n\ncompileRules() only populates exclusiveMatchers for the immediate project (isOwnSection):\n```java\nboolean isOwnSection \u003d sectionMatcher.getProject().equals(ownProject);\nif (isOwnSection \u0026\u0026 readPermission.getExclusiveGroup()) {\n  exclusiveMatchers.add(sectionMatcher);\n}\n```\nIn a multi-level hierarchy (ChildRepo -\u003e ParentRepo -\u003e All-Projects):\n1. ParentRepo defines an exclusive READ rule on refs/heads/secret/* (to suppress All-Projects\u0027s ALLOW READ refs/* for Registered Users).\n2. When evaluating ChildRepo, ParentRepo is not ownProject.\n3. exclusiveMatchers remains empty for refs/heads/secret/*.\n4. In classify(), coveredByExclusiveSection is false, and parentAllowMatchers (which contains All-Projects\u0027s refs/*) matches and returns Decision.VISIBLE.\n\nThis bypasses the parent\u0027s exclusive permission and leaks protected refs in child repositories.\n\nTo fix this, ReadAccessClassifier must either track exclusivity per ancestor level in hierarchy order, or return NEEDS_FULL_CHECK whenever any project in the inheritance chain contains an exclusive permission section.",
+      "range": {
+        "startLine": 137,
+        "startChar": 0,
+        "endLine": 142,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "91624e7e2be62e221184ce27501a5d912649a39e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a87e856a_91f6a34f",
+        "filename": "java/com/google/gerrit/server/permissions/ReadAccessClassifier.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-08-31T11:40:01Z",
+      "side": 1,
+      "message": "Correctness: DENY action is treated as a global BLOCK\n\nIn Gerrit (PermissionCollection.calculateAllowRules), DENY only shadows ALLOW rules for the same group on inherited/less specific sections (via SeenRule(refPattern, group)). It does not act as a universal block for all groups the user belongs to.\n\nExample:\n- All-Projects has ALLOW READ refs/* for Registered Users.\n- A child project has DENY READ refs/heads/* for External-Contractors.\n- Alice belongs to both Registered Users and External-Contractors.\n\nIn Gerrit, Alice can read refs/heads/main because Registered Users grants access and DENY only shadows External-Contractors. In ReadAccessClassifier, refs/heads/* is placed into denyMatchers and immediately returns Decision.INVISIBLE.\n\nIf a section contains a matching DENY rule, the classifier should either return NEEDS_FULL_CHECK or implement full group-aware SeenRule deduplication.",
+      "range": {
+        "startLine": 166,
+        "startChar": 0,
+        "endLine": 170,
+        "endChar": 9999
+      },
+      "isAi": true,
+      "revId": "91624e7e2be62e221184ce27501a5d912649a39e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3cc563a8_808232c6",
+        "filename": "javatests/com/google/gerrit/acceptance/server/permissions/ReadAccessClassifierIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-08-31T11:40:01Z",
+      "side": 1,
+      "message": "Test Isolation: Mutating global All-Projects permissions in @Before\n\nModifying allProjects in @Before strips default read permissions globally during test execution:\n```java\nprojectOperations.project(allProjects).forUpdate()\n    .remove(permissionKey(READ).ref(\"refs/heads/*\").group(ANONYMOUS_USERS))\n    .remove(permissionKey(READ).ref(\"refs/heads/*\").group(REGISTERED_USERS))\n    .update();\n```\nPrefer scoping custom parent ACL tests to dedicated parent projects created via projectOperations.newProject().create(), or restore allProjects permissions in @After.",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 9999
+      },
+      "isAi": true,
       "revId": "91624e7e2be62e221184ce27501a5d912649a39e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

@@ -111,7 +111,7 @@ public class CheckSubmitRequirement
             ? createSubmitRequirementFromRequestParams()
             : createSubmitRequirement(input);
     SubmitRequirementResult res =
-        evaluator.evaluateRequirement(requirement, resource.getChangeData());
+        evaluator.evaluateRequirementWithCurrentUser(requirement, resource.getChangeData());
     return Response.ok(SubmitRequirementsJson.toInfo(requirement, res));
   }
 

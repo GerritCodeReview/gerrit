@@ -137,6 +137,12 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
     }
   }
 
+  @Override
+  public SubmitRequirementResult evaluateRequirementWithCurrentUser(
+      SubmitRequirement sr, ChangeData cd) {
+    return evaluateRequirementInternal(sr, cd);
+  }
+
   /** Evaluate a {@link SubmitRequirementExpression} using change data. */
   @VisibleForTesting
   public SubmitRequirementExpressionResult evaluateExpression(

@@ -92,6 +92,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f4e08764_bf4a31af",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-31T23:02:17Z",
+      "side": 1,
+      "message": "\u003e The project API is for commits, not changes?\n\nCorrect.\n\n\u003e I really think that being able to show other related changes is useful, even if this isn\u0027t doing this now, so I am not eager to close this door.\n\nBut we\u0027re not showing \"related changes\". The API returns branches and tags with exactly this commit. And you can\u0027t even pick a patchset, it\u0027s always the latest one: https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#get-included-in\n\nWe have a dedicated [related changes API](https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#get-related-changes) already and that\u0027s used in the UI.\n\n\u003e I suspect you are doing this because bots are calling this API for open changes, and maybe that is why you are? What is that impact of this to you currently?\n\nYes, exactly. It\u0027s pretty expensive (even with a good commit graph) to walk through the entire history of all heads and tags, which is what happens when the commit isn\u0027t in any branch or tag. It can take down a node pretty easily if there\u0027s a bunch of requests in a project with deep history (Linux kernel, etc.).",
+      "parentUuid": "1dd5be72_804c11b3",
+      "revId": "6f6983b01484263f9c40c91503409b2e95f47f4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c7bbe61f_9634679d",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1

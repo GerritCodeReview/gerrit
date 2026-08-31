@@ -1,0 +1,57 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf86d70d_a237b957",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-08-31T15:20:05Z",
+      "side": 1,
+      "message": "Just 2 nits.",
+      "revId": "62e5e6d516cda6602307a9404f026244430b32ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "202116d3_657e9cdb",
+        "filename": "java/com/google/gerrit/server/restapi/config/GetServerInfo.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-08-31T15:20:05Z",
+      "side": 1,
+      "message": "Please also add documentation for `gerrit.submitCommitUrl` to `Documentation/config-gerrit.txt`.",
+      "isAi": true,
+      "revId": "62e5e6d516cda6602307a9404f026244430b32ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2ed5730_1f06ae60",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 704,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-08-31T15:20:05Z",
+      "side": 1,
+      "message": "Consider broadening the regex to support changes submitted via cherry-pick (`Change has been successfully cherry-picked as \u003csha\u003e`) as well as SHA-256 repositories:\n```ts\n/(?:submitted|cherry-picked) as ([0-9a-f]{40,64})/g\n```",
+      "isAi": true,
+      "revId": "62e5e6d516cda6602307a9404f026244430b32ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

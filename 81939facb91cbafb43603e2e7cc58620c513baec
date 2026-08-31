@@ -63,6 +63,31 @@
       },
       "revId": "81939facb91cbafb43603e2e7cc58620c513baec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d996686f_5ebd3b9d",
+        "filename": "javatests/com/google/gerrit/server/query/group/AbstractQueryGroupsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2026-08-31T23:27:50Z",
+      "side": 1,
+      "message": "Done. Updated the test in AbstractQueryGroupsTest with an assertion verifying eviction after updating NoteDb directly, and also added a dedicated test batchEvictionByUuidUpdatesStaleUuidCache in GroupIndexerIT.",
+      "parentUuid": "c62e5067_5eeafcc2",
+      "range": {
+        "startLine": 421,
+        "startChar": 0,
+        "endLine": 421,
+        "endChar": 0
+      },
+      "isAi": true,
+      "revId": "81939facb91cbafb43603e2e7cc58620c513baec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -151,6 +151,9 @@ export class GrCopyLinks extends LitElement {
         id=${`${id}-copy-clipboard`}
         nowrap
         ?multiline=${!!multiline}
+        copyTargetName=${label}
+        hasTooltip
+        buttonTitle=${`Copy ${label} to clipboard`}
         ${index === 0 && ref(this.copyClipboardRef)}
       ></gr-copy-clipboard>
     </div>`;

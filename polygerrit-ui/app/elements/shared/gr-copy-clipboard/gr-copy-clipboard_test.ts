@@ -165,4 +165,26 @@ suite('gr-copy-clipboard tests', () => {
     queryAndAssert<GrButton>(element, '.copyToClipboard').click();
     assert.isFalse(clickStub.called);
   });
+
+  test('buttonTitle enables tooltip and sets aria attributes', async () => {
+    element.buttonTitle = 'Copy custom item to clipboard';
+    await element.updateComplete;
+
+    const tooltipContent = queryAndAssert(element, 'gr-tooltip-content');
+    assert.isTrue(tooltipContent.hasAttribute('has-tooltip'));
+    assert.equal(
+      tooltipContent.getAttribute('title'),
+      'Copy custom item to clipboard'
+    );
+
+    const button = queryAndAssert<GrButton>(element, '.copyToClipboard');
+    assert.equal(
+      button.getAttribute('aria-label'),
+      'Copy custom item to clipboard'
+    );
+    assert.equal(
+      button.getAttribute('aria-description'),
+      'Copy custom item to clipboard'
+    );
+  });
 });

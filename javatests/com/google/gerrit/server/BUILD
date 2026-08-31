@@ -34,6 +34,7 @@ junit_tests(
     ],
     deps = [
         ":custom-truth-subjects",
+        "@args4j//jar",
         "//java/com/google/gerrit/acceptance/config",
         "//java/com/google/gerrit/acceptance/testsuite/project",
         "//java/com/google/gerrit/common:annotations",

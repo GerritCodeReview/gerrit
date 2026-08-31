@@ -39,6 +39,30 @@
       },
       "revId": "81939facb91cbafb43603e2e7cc58620c513baec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c62e5067_5eeafcc2",
+        "filename": "javatests/com/google/gerrit/server/query/group/AbstractQueryGroupsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-31T16:28:32Z",
+      "side": 1,
+      "message": "\u003e To ensure the bug is actually fixed and won\u0027t regress, you should add an assertion to verify the group was evicted. Since `groupCache.get()` likely reloads from the database if the entry is missing, one way to test this would be to modify or delete the group in the database bypassing the cache, call `evict`, and then assert that `groupCache.get()` reflects the change (or is empty).\n\nCheck the `updateGroupWithoutCacheOrIndex()` method in `javatests/com/google/gerrit/acceptance/api/group/GroupIndexerIT.java`. I think that does what you want. It might also be worth adding a test for this bug there too.",
+      "parentUuid": "caee7eab_d08fe841",
+      "range": {
+        "startLine": 421,
+        "startChar": 0,
+        "endLine": 421,
+        "endChar": 0
+      },
+      "revId": "81939facb91cbafb43603e2e7cc58620c513baec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

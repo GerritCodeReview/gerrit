@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7968e344_e329a375",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-08-31T11:00:03Z",
+      "side": 1,
+      "message": "Thanks, it\u0027s interesting that it pass compile type check, because paramater type is too general.",
+      "revId": "81939facb91cbafb43603e2e7cc58620c513baec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "caee7eab_d08fe841",
+        "filename": "javatests/com/google/gerrit/server/query/group/AbstractQueryGroupsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-08-31T11:00:03Z",
+      "side": 1,
+      "message": "NIT: AI is complaining, that UT is not checking actually fix. Feel free to skip it\n\nWARNING reported by autoreview issue finding: Since Guava\u0027s `Cache.invalidateAll(Iterable\u003c?\u003e)` takes an `Iterable\u003c?\u003e`, passing an iterable of the wrong type doesn\u0027t throw an exception, it just fails to evict anything. Because there are no assertions after the `evict` call, this test would pass even without the fix in `GroupCacheImpl`.\n\nTo ensure the bug is actually fixed and won\u0027t regress, you should add an assertion to verify the group was evicted. Since `groupCache.get()` likely reloads from the database if the entry is missing, one way to test this would be to modify or delete the group in the database bypassing the cache, call `evict`, and then assert that `groupCache.get()` reflects the change (or is empty).",
+      "range": {
+        "startLine": 421,
+        "startChar": 0,
+        "endLine": 421,
+        "endChar": 0
+      },
+      "revId": "81939facb91cbafb43603e2e7cc58620c513baec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

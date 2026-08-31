@@ -17,6 +17,7 @@ import {
   ChangeInfo,
   CommitId,
   PatchSetNumber,
+  PreferencesInfo,
   RelatedChangeAndCommitInfo,
   RevisionPatchSetNum,
   SubmittedTogetherInfo,
@@ -29,7 +30,12 @@ import {DEFAULT_NUM_CHANGES_WHEN_COLLAPSED} from './gr-related-collapse';
 import {createChangeUrl} from '../../../models/views/change';
 import {subscribe} from '../../lit/subscription-controller';
 import {resolve} from '../../../models/dependency';
-import {changeModelToken} from '../../../models/change/change-model';
+import {
+  changeModelToken,
+  urlBaseForCommit,
+} from '../../../models/change/change-model';
+import {userModelToken} from '../../../models/user/user-model';
+import {createDefaultPreferences} from '../../../constants/constants';
 import {relatedChangesModelToken} from '../../../models/change/related-changes-model';
 
 export interface ChangeMarkersInList {
@@ -73,12 +79,17 @@ export class GrRelatedChangesList extends LitElement {
   @state()
   sameTopicChanges: ChangeInfo[] = [];
 
+  @state()
+  preferences?: PreferencesInfo;
+
   private readonly getChangeModel = resolve(this, changeModelToken);
 
   private readonly getRelatedChangesModel = resolve(
     this,
     relatedChangesModelToken
   );
+
+  private readonly getUserModel = resolve(this, userModelToken);
 
   constructor() {
     super();
@@ -116,6 +127,11 @@ export class GrRelatedChangesList extends LitElement {
       this,
       () => this.getRelatedChangesModel().sameTopicChanges$,
       x => (this.sameTopicChanges = x ?? [])
+    );
+    subscribe(
+      this,
+      () => this.getUserModel().preferences$,
+      x => (this.preferences = x)
     );
   }
 
@@ -307,6 +323,7 @@ export class GrRelatedChangesList extends LitElement {
                       repo: change.project,
                       usp: 'related-change',
                       patchNum: change._revision_number as RevisionPatchSetNum,
+                      basePatchNum: this.computeRelatedChangeBase(change),
                     })
                   : ''}
                 show-change-status
@@ -674,6 +691,21 @@ export class GrRelatedChangesList extends LitElement {
     const aNum = getChangeNumber(a);
     const bNum = getChangeNumber(b);
     return aNum === bNum;
+  }
+
+  /**
+   * The base for the link of a change in the relation chain: merge commits are
+   * linked with the base that the `default_base_for_merges` preference picks,
+   * spelled out in the URL, so that the link keeps pointing at the same diff
+   * for whoever it is shared with.
+   */
+  // private but used in tests
+  computeRelatedChangeBase(change: RelatedChangeAndCommitInfo) {
+    const isMergeCommit = (change.commit.parents?.length ?? 0) > 1;
+    return urlBaseForCommit(
+      isMergeCommit,
+      this.preferences ?? createDefaultPreferences()
+    );
   }
 
   /*

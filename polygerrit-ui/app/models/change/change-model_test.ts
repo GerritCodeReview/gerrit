@@ -53,6 +53,7 @@ import {
   RevisionFileUpdateStatus,
   updateChangeWithEdit,
   updateRevisionsWithCommitShas,
+  urlBaseForCommit,
 } from './change-model';
 import {ChangeModel} from './change-model';
 import {assert} from '@open-wc/testing';
@@ -849,6 +850,27 @@ suite('change model tests', () => {
     test('changeUrl omits the base for non-merges', () => {
       changeModel.updateStateChange(createParsedChange());
       assert.equal(changeModel.changeUrl(), '/c/test-project/+/42');
+    });
+  });
+
+  suite('urlBaseForCommit', () => {
+    const firstParent = {
+      ...createDefaultPreferences(),
+      default_base_for_merges: DefaultBase.FIRST_PARENT,
+    };
+    const autoMerge = {
+      ...createDefaultPreferences(),
+      default_base_for_merges: DefaultBase.AUTO_MERGE,
+    };
+
+    test('spells out the base of a merge commit', () => {
+      assert.equal(urlBaseForCommit(true, firstParent), FIRST_PARENT);
+      assert.equal(urlBaseForCommit(true, autoMerge), AUTO_MERGE);
+    });
+
+    test('leaves the base out for a single parent commit', () => {
+      assert.isUndefined(urlBaseForCommit(false, firstParent));
+      assert.isUndefined(urlBaseForCommit(false, autoMerge));
     });
   });
 

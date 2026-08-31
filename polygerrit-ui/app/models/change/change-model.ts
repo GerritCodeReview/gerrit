@@ -335,6 +335,27 @@ function computeBase(
   return isMergeCommit ? FIRST_PARENT : PARENT;
 }
 
+/**
+ * The base to put into the URL of a change other than the current one, e.g.
+ * for the links of the relation chain. There is no user choice of base to
+ * preserve there, so this is only about spelling out what the
+ * `default_base_for_merges` preference picks anyway: an explicit base makes
+ * the link resolve to the same diff for everyone, regardless of what the
+ * recipient of the link has configured.
+ *
+ * Only merge commits have a choice of base, so `undefined` is returned for
+ * everything else, which leaves the base out of the URL.
+ */
+export function urlBaseForCommit(
+  isMergeCommit: boolean,
+  preferences: PreferencesInfo
+): BasePatchSetNum | undefined {
+  if (!isMergeCommit) return undefined;
+  return preferences.default_base_for_merges === DefaultBase.FIRST_PARENT
+    ? FIRST_PARENT
+    : AUTO_MERGE;
+}
+
 // TODO: Figure out how to best enforce immutability of all states. Use Immer?
 // Use DeepReadOnly?
 const initialState: ChangeState = {

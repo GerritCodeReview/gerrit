@@ -32,7 +32,7 @@ const MAX_SUBJECT_LENGTH = 72;
 const MAX_LINE_LENGTH = 72;
 const INDENTATION_THRESHOLD = 4;
 const BULLET_POINT_REGEX = /^\s*[-+*#]\s/;
-const FOOTER_REGEX = /^([\w-]+):[ \t]+(.+)$/;
+const FOOTER_REGEX = /^([\w-]+)(?::[ \t]+|=)(.*)$/;
 
 /*
  * Check if last line of "Body" follows the "footer" format and if yes, then transfer it to the "footer section"

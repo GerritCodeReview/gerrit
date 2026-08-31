@@ -128,6 +128,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "df636c59_78dcc944",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-31T23:41:51Z",
+      "side": 1,
+      "message": "\u003e How do you expect to prevent this with the other APIs? A solution for those might hint at what should actually be done here.\n\nIf they\u0027re using [`/commits:in`](https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#commits-included-in), then I don\u0027t expect we need to prevent anything. That API takes a list of refs to check for inclusion.\n\nIf they\u0027re using [`/commits/{commit-id}/in`](https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#get-included-in) then I would reach out to those callers and try to get them to use `/commits:in` instead. If it becomes an abusive/overload problem, then I\u0027ll try to figure out some kind of throttling/rate-limiting/queuing and it\u0027s simpler to do that with an API the UI isn\u0027t using.\n\n\u003e \n\u003e I\u0027m sorry, I used the wrong term for \"related\", I meant commits related to this change, i.e. other versions of this change on other branches. I would call that IncludedIn, because I guess \"super changes\" need not live on a branch yet? :)\n\nMaybe you can describe this use case more? Your example above was someone creating a branch from an unmerged change; are you thinking you\u0027d want to see an indicator of that in the change page UI somehow? \"This commit is already merged into branch \u003cfoobar\u003e.\"?",
+      "parentUuid": "f0c32255_5d15c398",
+      "revId": "6f6983b01484263f9c40c91503409b2e95f47f4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c7bbe61f_9634679d",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1

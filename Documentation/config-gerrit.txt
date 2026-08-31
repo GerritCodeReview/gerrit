@@ -2973,6 +2973,22 @@ Example:
   primaryWeblinkName = gitiles
 ----
 
+[[gerrit.submitCommitUrl]]gerrit.submitCommitUrl::
++
+URL used to link commit hashes in change messages generated when a change is
+submitted or cherry-picked. The URL must use the `http` or `https` scheme.
+The optional `${commit}` placeholder is replaced with the commit hash. If the
+placeholder is omitted, the commit hash is appended as a path segment.
++
+By default unset. In this case Gerrit derives the URL from the revision's
+configured code browser weblinks when possible.
++
+Example:
+----
+[gerrit]
+  submitCommitUrl = https://chromiumdash.appspot.com/commit/${commit}
+----
+
 [[gerrit.reportBugUrl]]gerrit.reportBugUrl::
 +
 URL to direct users to when they need to report a bug.

@@ -12,17 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.ioutil;
+package com.google.gerrit.server.config;
 
-import com.google.inject.ImplementedBy;
-import dk.brics.automaton.Automaton;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-/** Compiles regular expressions into automata. */
-@FunctionalInterface
-// NOTE: This is left only for stable branches for not breaking compatibility
-// with all the existing code. It will be removed on master and check if all the references
-// to RegexCompiler needs to be annotated with @TrustedRegex or @UntrustedRegex instead.
-@ImplementedBy(DefaultRegexCompiler.class)
-public interface RegexCompiler {
-  Automaton toAutomaton(String pattern);
-}
+import com.google.inject.BindingAnnotation;
+import java.lang.annotation.Retention;
+
+/** Groups whose members may provide regular expressions. */
+@Retention(RUNTIME)
+@BindingAnnotation
+public @interface RegexAllowedGroups {}

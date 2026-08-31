@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git.validators;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.BranchNameKey;
@@ -39,6 +40,7 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
+import com.google.gerrit.server.project.AccessSectionRegexValidator;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectState;
@@ -137,6 +139,7 @@ public class MergeValidators {
     private final PermissionBackend permissionBackend;
     private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
     private final ProjectConfig.Factory projectConfigFactory;
+    private final AccessSectionRegexValidator accessSectionRegexValidator;
     private final boolean allowProjectOwnersToChangeParent;
 
     public interface Factory {
@@ -151,6 +154,7 @@ public class MergeValidators {
         PermissionBackend permissionBackend,
         DynamicMap<ProjectConfigEntry> pluginConfigEntries,
         ProjectConfig.Factory projectConfigFactory,
+        AccessSectionRegexValidator accessSectionRegexValidator,
         @GerritServerConfig Config config) {
       this.allProjectsName = allProjectsName;
       this.allUsersName = allUsersName;
@@ -160,6 +164,7 @@ public class MergeValidators {
       this.projectConfigFactory = projectConfigFactory;
       this.allowProjectOwnersToChangeParent =
           config.getBoolean("receive", "allowProjectOwnersToChangeParent", false);
+      this.accessSectionRegexValidator = accessSectionRegexValidator;
     }
 
     @Override
@@ -177,6 +182,14 @@ public class MergeValidators {
         try {
           ProjectConfig cfg = projectConfigFactory.create(destProject.getNameKey());
           cfg.load(destProject.getNameKey(), repo, commit);
+
+          if (!accessSectionRegexValidator.isAllowed()) {
+            ProjectConfig existingConfig = projectConfigFactory.create(destProject.getNameKey());
+            existingConfig.load(repo);
+            accessSectionRegexValidator.validateNewRegexes(
+                existingConfig.getAccessSections(), cfg.getAccessSections());
+          }
+
           newParent = cfg.getProject().getParent(allProjectsName);
           final Project.NameKey oldParent = destProject.getProject().getParent(allProjectsName);
           if (oldParent == null) {
@@ -240,7 +253,10 @@ public class MergeValidators {
               throw new MergeValidationException(PLUGIN_VALUE_NOT_PERMITTED);
             }
           }
-        } catch (ConfigInvalidException | IOException e) {
+        } catch (ConfigInvalidException e) {
+          throw new MergeValidationException(
+              MoreObjects.firstNonNull(e.getMessage(), INVALID_CONFIG), e);
+        } catch (IOException e) {
           throw new MergeValidationException(INVALID_CONFIG, e);
         }
       }

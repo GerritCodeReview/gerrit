@@ -74,6 +74,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1dd5be72_804c11b3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-08-31T19:24:11Z",
+      "side": 1,
+      "message": "The project API is for commits, not changes? I really think that being able to show other related changes is useful, even if this isn\u0027t doing this now, so I am not eager to close this door. I suspect you are doing this because bots are calling this API for open changes, and maybe that is why you are? What is that impact of this to you currently?",
+      "parentUuid": "b4c15b6f_1b4dd9ea",
+      "revId": "6f6983b01484263f9c40c91503409b2e95f47f4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c7bbe61f_9634679d",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1

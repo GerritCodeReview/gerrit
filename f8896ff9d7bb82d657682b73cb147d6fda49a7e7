@@ -46,6 +46,148 @@
       },
       "revId": "f8896ff9d7bb82d657682b73cb147d6fda49a7e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9be0858_9d60352c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-08-31T13:00:43Z",
+      "side": 1,
+      "message": "this link refers to this change itself, I think you meant a different one",
+      "range": {
+        "startLine": 9,
+        "startChar": 37,
+        "endLine": 9,
+        "endChar": 93
+      },
+      "revId": "f8896ff9d7bb82d657682b73cb147d6fda49a7e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ed8d113_44181436",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-08-31T13:00:43Z",
+      "side": 1,
+      "message": "```suggestion\nFor migrating label functions, we have 2 REST endpoints:\n```",
+      "revId": "f8896ff9d7bb82d657682b73cb147d6fda49a7e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d074f5c_4e28bf02",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-08-31T13:00:43Z",
+      "side": 1,
+      "message": "```suggestion\n1. projects/{ProjName}/migrate-labels - migrate and merge immediately.\n```",
+      "revId": "f8896ff9d7bb82d657682b73cb147d6fda49a7e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cbb78b7f_5a5133a5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-08-31T13:00:43Z",
+      "side": 1,
+      "message": "```suggestion\nApparently, both APIs rely on different classes for their implementation\n```",
+      "revId": "f8896ff9d7bb82d657682b73cb147d6fda49a7e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f750dc4d_972c8e9d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-08-31T13:00:43Z",
+      "side": 1,
+      "message": "```suggestion\n(which are somewhat similar).\n```",
+      "revId": "f8896ff9d7bb82d657682b73cb147d6fda49a7e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc289945_1ea1c1cb",
+        "filename": "java/com/google/gerrit/server/restapi/project/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-08-31T13:00:43Z",
+      "side": 1,
+      "message": "```suggestion\n    // Wildcard -\u003e convert into gerrit regex\n```",
+      "revId": "f8896ff9d7bb82d657682b73cb147d6fda49a7e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ef9ccdc_8e4341fb",
+        "filename": "java/com/google/gerrit/server/restapi/project/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-08-31T13:00:43Z",
+      "side": 1,
+      "message": "```suggestion\n    // branch name contains quote character -\u003e escape quote\n```",
+      "revId": "f8896ff9d7bb82d657682b73cb147d6fda49a7e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d16e918a_ea925816",
+        "filename": "java/com/google/gerrit/server/restapi/project/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-08-31T13:00:43Z",
+      "side": 1,
+      "message": "```suggestion\n    // Other cases e.g. branch name containing # or \" -\u003e needs to be quoted\n```",
+      "revId": "f8896ff9d7bb82d657682b73cb147d6fda49a7e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

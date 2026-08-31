@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0118cfc5_b3450fba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-08-31T13:50:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a3a8d59_d2d30efd",
+      "revId": "4e01ccb9a5be6076cd58b26cf5117bfe00490d07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9662c47b_863e1fc5",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-08-31T13:48:03Z",
       "side": 1,
       "message": "```suggestion\n    // Wildcard -\u003e convert into gerrit regex\n```",
+      "revId": "4e01ccb9a5be6076cd58b26cf5117bfe00490d07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5d74dcf5_03359d54",
+        "filename": "java/com/google/gerrit/server/restapi/project/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-08-31T13:50:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9662c47b_863e1fc5",
       "revId": "4e01ccb9a5be6076cd58b26cf5117bfe00490d07",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

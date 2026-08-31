@@ -221,7 +221,7 @@ java_library(
     name = "blame-cache",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@external_deps//:com_google_gitiles_blame_cache"],
+    exports = ["@gitiles//java/com/google/gitiles/blame/cache"],
 )
 
 java_library(

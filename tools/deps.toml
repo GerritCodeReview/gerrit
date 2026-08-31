@@ -5,7 +5,6 @@ bouncyCastle = "1.85"
 byteBuddy = "1.18.12"
 caffeine = "2.9.2"
 commonmark = "0.24.0"
-gitiles = "1.6.0"
 greenmail = "1.5.5"
 httpcomp = "4.5.14"
 jetty = "12.1.12"
@@ -40,7 +39,6 @@ bcpg-jdk18on = { module = "org.bouncycastle:bcpg-jdk18on", version.ref = "bouncy
 bcpkix-jdk18on = { module = "org.bouncycastle:bcpkix-jdk18on", version.ref = "bouncyCastle" }
 bcprov-jdk18on = { module = "org.bouncycastle:bcprov-jdk18on", version = "1.85.2" }
 bcutil-jdk18on = { module = "org.bouncycastle:bcutil-jdk18on", version.ref = "bouncyCastle" }
-blame-cache = { module = "com.google.gitiles:blame-cache", version.ref = "gitiles" }
 byte-buddy = { module = "net.bytebuddy:byte-buddy", version.ref = "byteBuddy" }
 byte-buddy-agent = { module = "net.bytebuddy:byte-buddy-agent", version.ref = "byteBuddy" }
 caffeine = { module = "com.github.ben-manes.caffeine:caffeine", version.ref = "caffeine" }
@@ -48,6 +46,7 @@ commonmark = { module = "org.commonmark:commonmark", version.ref = "commonmark" 
 commonmark-ext-autolink = { module = "org.commonmark:commonmark-ext-autolink", version.ref = "commonmark" }
 commonmark-ext-gfm-strikethrough = { module = "org.commonmark:commonmark-ext-gfm-strikethrough", version.ref = "commonmark" }
 commonmark-ext-gfm-tables = { module = "org.commonmark:commonmark-ext-gfm-tables", version.ref = "commonmark" }
+commonmark-ext-yaml-front-matter = { module = "org.commonmark:commonmark-ext-yaml-front-matter", version.ref = "commonmark" }
 commons-codec = { module = "commons-codec:commons-codec", version = "1.18.0" }
 commons-compress = { module = "org.apache.commons:commons-compress", version = "1.28.0" }
 commons-dbcp = { module = "commons-dbcp:commons-dbcp", version = "1.4" }
@@ -60,7 +59,6 @@ diffutils = { module = "io.github.java-diff-utils:java-diff-utils", version = "4
 failureaccess = { module = "com.google.guava:failureaccess", version = "1.0.3" }
 flexmark-all = { module = "com.vladsch.flexmark:flexmark-all", version = "0.64.0:lib" }
 fluent-hc = { module = "org.apache.httpcomponents:fluent-hc", version.ref = "httpcomp" }
-gitiles-servlet = { module = "com.google.gitiles:gitiles-servlet", version.ref = "gitiles" }
 greenmail = { module = "com.icegreen:greenmail", version.ref = "greenmail" }
 guava = { module = "com.github.ben-manes.caffeine:guava", version.ref = "caffeine" }
 guava-retrying = { module = "com.github.rholder:guava-retrying", version = "2.0.0" }

@@ -167,6 +167,32 @@ public class ProjectConfigTest {
   }
 
   @Test
+  public void readConfigWithEscapedDotInRegexAccessSectionRef() throws Exception {
+    // In git config subsection syntax, "\\" encodes a literal backslash, so
+    // the file text [access "^refs/heads/.*foo\\.bar"] yields subsection name
+    // "^refs/heads/.*foo\.bar", which includes a literal dot match.
+    RevCommit rev =
+        tr.commit()
+            .add("groups", group(developers))
+            .add(
+                "project.config",
+                "[access \"^refs/heads/.*foo\\\\.bar\"]\n" + "  read = group Developers\n")
+            .create();
+    update(rev);
+
+    ProjectConfig cfg = read(rev);
+    assertThat(cfg.getAccessSection("^refs/heads/.*foo\\.bar")).isNotNull();
+    // Without proper escaping the dot would not be literal, so the unescaped
+    // form must not resolve to the same section.
+    assertThat(cfg.getAccessSection("^refs/heads/.*foo.bar")).isNull();
+
+    // Round-trip: the backslash must survive a write-back.
+    rev = commit(cfg);
+    assertThat(text(rev, "project.config"))
+        .isEqualTo("[access \"^refs/heads/.*foo\\\\.bar\"]\n" + "  read = group Developers\n");
+  }
+
+  @Test
   public void readConfigLabelDefaultValue() throws Exception {
     RevCommit rev =
         tr.commit()

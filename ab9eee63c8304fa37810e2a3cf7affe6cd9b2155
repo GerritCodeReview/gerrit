@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d25283e_690baa8f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-08-31T11:30:00Z",
+      "side": 1,
+      "message": "Change looks good - nice cache for patchsets.",
+      "revId": "ab9eee63c8304fa37810e2a3cf7affe6cd9b2155",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01cebca6_80501b7d",
+        "filename": "java/com/google/gerrit/server/change/RevisionJson.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-08-31T11:30:00Z",
+      "side": 1,
+      "message": "The logic to determine if a patch set is \"wanted\" is duplicated here and a few lines below (around line 328). Consider extracting this into a helper method, for example `boolean isWanted(PatchSet.Id id, ChangeData cd, Optional\u003cPatchSet.Id\u003e limitToPsId)` to improve readability and maintainability.",
+      "range": {
+        "startLine": 304,
+        "startChar": 0,
+        "endLine": 304,
+        "endChar": 0
+      },
+      "revId": "ab9eee63c8304fa37810e2a3cf7affe6cd9b2155",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

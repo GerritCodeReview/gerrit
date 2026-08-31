@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3443720_9ca5b1b0",
+        "filename": "java/com/google/gerrit/server/restapi/config/GetServerInfo.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 3117294
+      },
+      "writtenOn": "2026-08-31T16:59:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "202116d3_657e9cdb",
+      "revId": "62e5e6d516cda6602307a9404f026244430b32ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d2ed5730_1f06ae60",
@@ -50,6 +68,24 @@
       "side": 1,
       "message": "Consider broadening the regex to support changes submitted via cherry-pick (`Change has been successfully cherry-picked as \u003csha\u003e`) as well as SHA-256 repositories:\n```ts\n/(?:submitted|cherry-picked) as ([0-9a-f]{40,64})/g\n```",
       "isAi": true,
+      "revId": "62e5e6d516cda6602307a9404f026244430b32ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "83d8aed4_e807d70d",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 704,
+      "author": {
+        "id": 3117294
+      },
+      "writtenOn": "2026-08-31T16:59:00Z",
+      "side": 1,
+      "message": "thanks for the regex",
+      "parentUuid": "d2ed5730_1f06ae60",
       "revId": "62e5e6d516cda6602307a9404f026244430b32ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

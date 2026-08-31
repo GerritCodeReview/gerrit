@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "156061ae_45ca7caf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-31T22:43:56Z",
+      "side": 1,
+      "message": "I assume this is just a temp thing until there\u0027s a gitiles release and we won\u0027t merge this change until that\u0027s resolved?",
+      "range": {
+        "startLine": 12,
+        "startChar": 23,
+        "endLine": 12,
+        "endChar": 52
+      },
+      "revId": "d3bf89467b021226ccb529a10c4a7076f80148f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6b9979b_5a2a74aa",
+        "filename": "java/com/google/gerrit/server/patch/IntraLineLoader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-31T22:43:56Z",
+      "side": 1,
+      "message": "Can you improve this AI comment to align with our usual commenting style/guidelines?",
+      "range": {
+        "startLine": 105,
+        "startChar": 0,
+        "endLine": 112,
+        "endChar": 81
+      },
+      "revId": "d3bf89467b021226ccb529a10c4a7076f80148f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

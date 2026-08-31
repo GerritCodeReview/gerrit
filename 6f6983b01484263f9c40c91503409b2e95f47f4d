@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b4c15b6f_1b4dd9ea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-08-31T16:34:55Z",
+      "side": 1,
+      "message": "No, as a pure user of the API, I probably would expect that. The UI however doesn\u0027t show Included In except for merged changes, and that\u0027s always been the case. I\u0027m now really viewing this more as a disconnect between how the API is expected to be used and what\u0027s actually allowed, so perhaps my [initial change](https://gerrit-review.googlesource.com/c/gerrit/+/622941) that returns a 409 is a better approach. If someone just wants to know if a commit is in a branch/tag/ref, we have `/project/` APIs available for that.\n\nDoes that make sense to you?",
+      "parentUuid": "1a00ebba_57ec9fc1",
+      "revId": "6f6983b01484263f9c40c91503409b2e95f47f4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c7bbe61f_9634679d",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1

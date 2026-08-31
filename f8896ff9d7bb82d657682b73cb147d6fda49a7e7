@@ -71,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "db66b340_b33dd200",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-08-31T13:21:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a9be0858_9d60352c",
+      "range": {
+        "startLine": 9,
+        "startChar": 37,
+        "endLine": 9,
+        "endChar": 93
+      },
+      "revId": "f8896ff9d7bb82d657682b73cb147d6fda49a7e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7ed8d113_44181436",
@@ -84,6 +108,24 @@
       "writtenOn": "2026-08-31T13:00:43Z",
       "side": 1,
       "message": "```suggestion\nFor migrating label functions, we have 2 REST endpoints:\n```",
+      "revId": "f8896ff9d7bb82d657682b73cb147d6fda49a7e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d00f4fe_a118dd54",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-08-31T13:21:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ed8d113_44181436",
       "revId": "f8896ff9d7bb82d657682b73cb147d6fda49a7e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -105,6 +147,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "96bae39b_d4c0f3a8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-08-31T13:21:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d074f5c_4e28bf02",
+      "revId": "f8896ff9d7bb82d657682b73cb147d6fda49a7e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cbb78b7f_5a5133a5",
@@ -118,6 +178,24 @@
       "writtenOn": "2026-08-31T13:00:43Z",
       "side": 1,
       "message": "```suggestion\nApparently, both APIs rely on different classes for their implementation\n```",
+      "revId": "f8896ff9d7bb82d657682b73cb147d6fda49a7e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b7903df_eb41f4a0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-08-31T13:21:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cbb78b7f_5a5133a5",
       "revId": "f8896ff9d7bb82d657682b73cb147d6fda49a7e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -139,6 +217,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a999e628_5f7668b4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-08-31T13:21:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f750dc4d_972c8e9d",
+      "revId": "f8896ff9d7bb82d657682b73cb147d6fda49a7e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dc289945_1ea1c1cb",
@@ -152,6 +248,24 @@
       "writtenOn": "2026-08-31T13:00:43Z",
       "side": 1,
       "message": "```suggestion\n    // Wildcard -\u003e convert into gerrit regex\n```",
+      "revId": "f8896ff9d7bb82d657682b73cb147d6fda49a7e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1fd81b4e_bcf7c547",
+        "filename": "java/com/google/gerrit/server/restapi/project/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-08-31T13:21:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc289945_1ea1c1cb",
       "revId": "f8896ff9d7bb82d657682b73cb147d6fda49a7e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -173,6 +287,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea6e94b4_f166d939",
+        "filename": "java/com/google/gerrit/server/restapi/project/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-08-31T13:21:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ef9ccdc_8e4341fb",
+      "revId": "f8896ff9d7bb82d657682b73cb147d6fda49a7e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d16e918a_ea925816",
@@ -186,6 +318,24 @@
       "writtenOn": "2026-08-31T13:00:43Z",
       "side": 1,
       "message": "```suggestion\n    // Other cases e.g. branch name containing # or \" -\u003e needs to be quoted\n```",
+      "revId": "f8896ff9d7bb82d657682b73cb147d6fda49a7e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d305e53_002bc7fc",
+        "filename": "java/com/google/gerrit/server/restapi/project/MigrateLabelFunctionsToSubmitRequirement.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-08-31T13:21:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d16e918a_ea925816",
       "revId": "f8896ff9d7bb82d657682b73cb147d6fda49a7e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

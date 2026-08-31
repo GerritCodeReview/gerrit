@@ -32,6 +32,9 @@ import {Finalizable} from '../types/types';
 
 initGlobalVariables(createAppContext(), true);
 
+export const SCROLL_PADDING_TOP_CALC =
+  'calc(var(--main-header-height) + var(--change-header-height) + var(--diff-header-height))';
+
 @customElement('gr-app')
 export class GrApp extends LitElement {
   private finalizables: Finalizable[] = [];
@@ -82,14 +85,61 @@ export class GrApp extends LitElement {
     if (!this.serviceWorkerInstaller) {
       this.serviceWorkerInstaller = resolver(serviceWorkerInstallerToken);
     }
+
+    // Defines top optimal viewing region for PageDown/PageUp keyboard paging
+    // and anchor jumps when sticky headers are active.
+    document.documentElement.style.setProperty(
+      'scroll-padding-top',
+      SCROLL_PADDING_TOP_CALC
+    );
+    document.addEventListener('focusin', this.handleFocusIn);
+    document.addEventListener('focusout', this.handleFocusOut);
   }
 
   override disconnectedCallback() {
+    document.removeEventListener('focusin', this.handleFocusIn);
+    document.removeEventListener('focusout', this.handleFocusOut);
     for (const f of this.finalizables) {
       f.finalize();
     }
     this.finalizables = [];
+    document.documentElement.style.removeProperty('scroll-padding-top');
     super.disconnectedCallback();
+  }
+
+  private readonly handleFocusIn = (e: FocusEvent) => {
+    const path = e.composedPath();
+    if (this.isInsideStickyContainer(path)) {
+      document.documentElement.style.setProperty('scroll-padding-top', '0px');
+    } else {
+      document.documentElement.style.setProperty(
+        'scroll-padding-top',
+        SCROLL_PADDING_TOP_CALC
+      );
+    }
+  };
+
+  private readonly handleFocusOut = (e: FocusEvent) => {
+    if (!e.relatedTarget) {
+      document.documentElement.style.setProperty(
+        'scroll-padding-top',
+        SCROLL_PADDING_TOP_CALC
+      );
+    }
+  };
+
+  private isInsideStickyContainer(path: EventTarget[]): boolean {
+    for (const target of path) {
+      if (!(target instanceof HTMLElement)) continue;
+      if (target === document.body || target === document.documentElement) {
+        break;
+      }
+      const style = window.getComputedStyle(target);
+      if (style.position === 'sticky' && style.top !== 'auto') {
+        return true;
+      }
+    }
+    return false;
   }
 
   override render() {

@@ -528,7 +528,12 @@ export class GrCommentThread extends LitElement {
         ${href
           ? html`<a href=${href}>${displayPath}</a>`
           : html`<span>${displayPath}</span>`}
-        <gr-copy-clipboard hideInput .text=${displayPath}></gr-copy-clipboard>
+        <gr-copy-clipboard
+          hideInput
+          .text=${displayPath}
+          buttonTitle="Copy file path to clipboard"
+          copyTargetName="File path"
+        ></gr-copy-clipboard>
       </div>
     `;
   }

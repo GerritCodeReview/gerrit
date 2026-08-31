@@ -202,7 +202,7 @@ export class GrCopyClipboard extends LitElement {
           () => html`<span class="shortcut">${this.shortcut}</span>`
         )}
         <gr-tooltip-content
-          ?has-tooltip=${this.hasTooltip}
+          ?has-tooltip=${this.hasTooltip || !!this.buttonTitle}
           title=${ifDefined(this.buttonTitle)}
         >
           <gr-button
@@ -210,7 +210,7 @@ export class GrCopyClipboard extends LitElement {
             link=""
             class="copyToClipboard"
             @click=${this.copyToClipboard}
-            aria-label="copy"
+            aria-label=${this.buttonTitle ?? 'copy'}
             aria-description="Click to copy to clipboard"
           >
             <div>

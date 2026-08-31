@@ -84,10 +84,14 @@ public class EvaluateChangeQueryExpression implements RestReadView<ChangeResourc
       // index, including submit requirement results.
       List<ChangeData> changeDatas =
           internalChangeQuery.get().byProjectChangeNumber(rsrc.getProject(), rsrc.getId());
+      if (changeDatas.isEmpty()) {
+        logger.atFine().log("Change %s not found in index; falling back to NoteDb", rsrc.getId());
+        return rsrc.getChangeData();
+      }
       checkState(
           changeDatas.size() == 1,
           "Got %s matches for change %s, expected 1",
-          changeDatas.size() == 1,
+          changeDatas.size(),
           rsrc.getId());
       return Iterables.getOnlyElement(changeDatas);
     }

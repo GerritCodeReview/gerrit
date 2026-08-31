@@ -57,7 +57,12 @@ suite('gr-group tests', () => {
               <fieldset>
                 <h3 class="heading-3" id="groupUUID">Group UUID</h3>
                 <fieldset>
-                  <gr-copy-clipboard id="uuid"> </gr-copy-clipboard>
+                  <gr-copy-clipboard
+                    buttontitle="Copy Group UUID to clipboard"
+                    copytargetname="Group UUID"
+                    id="uuid"
+                  >
+                  </gr-copy-clipboard>
                 </fieldset>
                 <h3 class="heading-3" id="groupName">Group Name</h3>
                 <fieldset>

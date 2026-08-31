@@ -16,6 +16,24 @@
       "message": "- please add a test covering the problem you are fixing\n- when this is merged we should move the `MigrateLabelFunctionsToSubmitRequirement` class to the package `com.google.gerrit.server.schema` and replace the older implementation which was done by Youssef, we should only have a single implementation of this migration. Currently we have two and this fix shows that this creates extra effort since this problem with extra esacpe charactes now had to be fixed twice.",
       "revId": "94b6511f3b7c64e0cd1ec0268004074f3b5d1303",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7b38bbe3_6cfb2702",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-08-31T13:47:44Z",
+      "side": 1,
+      "message": "Yes, I am already working on merging these duplicate implementation and merging them into one. Change merging to single implementation will follow soon.",
+      "parentUuid": "e3f47153_d299f3e0",
+      "revId": "94b6511f3b7c64e0cd1ec0268004074f3b5d1303",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

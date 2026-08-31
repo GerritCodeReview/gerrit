@@ -207,7 +207,13 @@ suite('gr-file-list tests', () => {
               <span class="truncatedFileName" title="path/file0">
                 …/file0
               </span>
-              <gr-copy-clipboard hideinput=""> </gr-copy-clipboard>
+              <gr-copy-clipboard
+                buttontitle="Copy file path to clipboard"
+                copytargetname="File path"
+                hastooltip=""
+                hideinput=""
+              >
+              </gr-copy-clipboard>
             </a>
           </span>
           <div role="gridcell">
@@ -327,7 +333,13 @@ suite('gr-file-list tests', () => {
               <span class="truncatedFileName" title="path/file0">
                 …/file0
               </span>
-              <gr-copy-clipboard hideinput=""> </gr-copy-clipboard>
+              <gr-copy-clipboard
+                buttontitle="Copy file path to clipboard"
+                copytargetname="File path"
+                hastooltip=""
+                hideinput=""
+              >
+              </gr-copy-clipboard>
             </a>
           </span>
         `
@@ -345,7 +357,13 @@ suite('gr-file-list tests', () => {
               <span class="truncatedFileName" title="path/file1">
                 …/file1
               </span>
-              <gr-copy-clipboard hideinput=""> </gr-copy-clipboard>
+              <gr-copy-clipboard
+                buttontitle="Copy file path to clipboard"
+                copytargetname="File path"
+                hastooltip=""
+                hideinput=""
+              >
+              </gr-copy-clipboard>
             </a>
           </span>
         `

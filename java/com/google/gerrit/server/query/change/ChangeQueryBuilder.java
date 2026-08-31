@@ -1034,7 +1034,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   @Operator
   public Predicate<ChangeData> file(String file) throws QueryParseException {
     if (file.startsWith("^")) {
-      return new RegexPathPredicate(file, args.regexCompiler);
+      return RegexPathPredicate.create(args, file);
     }
     return ChangePredicates.file(args, file);
   }
@@ -1042,7 +1042,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   @Operator
   public Predicate<ChangeData> path(String path) throws QueryParseException {
     if (path.startsWith("^")) {
-      return new RegexPathPredicate(path, args.regexCompiler);
+      return RegexPathPredicate.create(args, path);
     }
     return ChangePredicates.path(path);
   }

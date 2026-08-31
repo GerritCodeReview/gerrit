@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.query.change;
 
+import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -76,6 +77,29 @@ public class RegexPathPredicateTest {
     assertTrue(p.match(change("foo.c")));
     assertFalse(p.match(change("foo.cc")));
     assertFalse(p.match(change("bar.c")));
+  }
+
+  @Test
+  public void extractDirectoryPrefix() {
+    assertThat(RegexPathPredicate.extractDirectoryPrefix("^a/b/.*")).isEqualTo("a/b");
+    assertThat(RegexPathPredicate.extractDirectoryPrefix("^kokoro/toolchain/bazel/.*"))
+        .isEqualTo("kokoro/toolchain/bazel");
+    assertThat(RegexPathPredicate.extractDirectoryPrefix("^a/b/.*\\.[ch]")).isEqualTo("a/b");
+    assertThat(RegexPathPredicate.extractDirectoryPrefix("^a/b/build\\.sh")).isEqualTo("a/b");
+    assertThat(RegexPathPredicate.extractDirectoryPrefix("^foo.c")).isNull();
+    assertThat(RegexPathPredicate.extractDirectoryPrefix("^.*\\.res")).isNull();
+    assertThat(RegexPathPredicate.extractDirectoryPrefix("a/b/.*")).isNull();
+  }
+
+  @Test
+  public void isPureDirectoryPrefix() {
+    assertThat(RegexPathPredicate.isPureDirectoryPrefix("^a/b/.*", "a/b")).isTrue();
+    assertThat(RegexPathPredicate.isPureDirectoryPrefix("^a/b/.*$", "a/b")).isTrue();
+    assertThat(RegexPathPredicate.isPureDirectoryPrefix("^a/b/.+", "a/b")).isTrue();
+    assertThat(RegexPathPredicate.isPureDirectoryPrefix("^a/b/(.*)", "a/b")).isTrue();
+    assertThat(RegexPathPredicate.isPureDirectoryPrefix("^a/b/.*\\.[ch]", "a/b")).isFalse();
+    assertThat(RegexPathPredicate.isPureDirectoryPrefix("^a/b/file\\.c", "a/b")).isFalse();
+    assertThat(RegexPathPredicate.isPureDirectoryPrefix("a/b/.*", "a/b")).isFalse();
   }
 
   private static RegexPathPredicate predicate(String pattern) throws Exception {

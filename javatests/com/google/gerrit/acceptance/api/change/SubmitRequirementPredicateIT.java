@@ -1025,9 +1025,13 @@ public class SubmitRequirementPredicateIT extends AbstractDaemonTest {
     assertMatching("file:a/b/c", change.numericChangeId());
     assertMatching("dir:a", change.numericChangeId());
     assertMatching("dir:a/b", change.numericChangeId());
+    assertMatching("file:\"^a/b/.*\"", change.numericChangeId());
+    assertMatching("path:\"^a/b/.*\"", change.numericChangeId());
 
     assertNotMatching("file:other", change.numericChangeId());
     assertNotMatching("dir:other", change.numericChangeId());
+    assertNotMatching("file:\"^other/.*\"", change.numericChangeId());
+    assertNotMatching("path:\"^other/.*\"", change.numericChangeId());
   }
 
   @Test
@@ -1048,9 +1052,13 @@ public class SubmitRequirementPredicateIT extends AbstractDaemonTest {
     assertMatching("file:a/b/c", change.numericChangeId());
     assertMatching("dir:a", change.numericChangeId());
     assertMatching("dir:a/b", change.numericChangeId());
+    assertMatching("file:\"^a/b/.*\"", change.numericChangeId());
+    assertMatching("path:\"^a/b/.*\"", change.numericChangeId());
 
     assertNotMatching("file:other", change.numericChangeId());
     assertNotMatching("dir:other", change.numericChangeId());
+    assertNotMatching("file:\"^other/.*\"", change.numericChangeId());
+    assertNotMatching("path:\"^other/.*\"", change.numericChangeId());
   }
 
   @Test
@@ -1072,14 +1080,20 @@ public class SubmitRequirementPredicateIT extends AbstractDaemonTest {
     assertMatching("file:a/b/c", change.numericChangeId());
     assertMatching("dir:a", change.numericChangeId());
     assertMatching("dir:a/b", change.numericChangeId());
+    assertMatching("file:\"^a/b/.*\"", change.numericChangeId());
+    assertMatching("path:\"^a/b/.*\"", change.numericChangeId());
 
     // new path matches
     assertMatching("file:x/y/z", change.numericChangeId());
     assertMatching("dir:x", change.numericChangeId());
     assertMatching("dir:x/y", change.numericChangeId());
+    assertMatching("file:\"^x/y/.*\"", change.numericChangeId());
+    assertMatching("path:\"^x/y/.*\"", change.numericChangeId());
 
     assertNotMatching("file:other", change.numericChangeId());
     assertNotMatching("dir:other", change.numericChangeId());
+    assertNotMatching("file:\"^other/.*\"", change.numericChangeId());
+    assertNotMatching("path:\"^other/.*\"", change.numericChangeId());
   }
 
   @Test

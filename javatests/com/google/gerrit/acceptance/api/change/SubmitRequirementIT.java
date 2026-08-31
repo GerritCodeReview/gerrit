@@ -34,6 +34,7 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.UseTimezone;
 import com.google.gerrit.acceptance.VerifyNoPiiInChangeNotes;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.change.IndexOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate;
@@ -68,7 +69,9 @@ import com.google.gerrit.extensions.common.SubmitRequirementResultInfo.Status;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.httpd.raw.IndexPreloadingUtil;
+import com.google.gerrit.server.config.RegexAllowedGroupsProvider;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.permissions.RegexPermissionPolicy;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.testing.TestLabels;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -424,6 +427,44 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
 
     SubmitRequirementResultInfo result = gApi.changes().id(changeId).checkSubmitRequirement(in);
     assertThat(result.status).isEqualTo(SubmitRequirementResultInfo.Status.ERROR);
+  }
+
+  @Test
+  @GerritConfig(
+      name = RegexAllowedGroupsProvider.SECTION + "." + RegexAllowedGroupsProvider.KEY,
+      value = "Administrators")
+  public void checkSubmitRequirementWithRegexIsRejectedForUserOutsideAllowedGroup()
+      throws Exception {
+    PushOneCommit.Result r = createChange();
+    requestScopeOperations.setApiUser(user.id());
+
+    for (SubmitRequirementInput input :
+        ImmutableList.of(
+            createSubmitRequirementInput("Code-Review", null, "project:^.*", null),
+            createSubmitRequirementInput("Code-Review", "project:^.*", "is:open", null),
+            createSubmitRequirementInput("Code-Review", null, "is:open", "project:^.*"))) {
+      BadRequestException thrown =
+          assertThrows(
+              BadRequestException.class,
+              () -> gApi.changes().id(r.getChangeId()).checkSubmitRequirement(input));
+      assertThat(thrown).hasMessageThat().isEqualTo(RegexPermissionPolicy.NOT_PERMITTED_MESSAGE);
+    }
+  }
+
+  @Test
+  @GerritConfig(
+      name = RegexAllowedGroupsProvider.SECTION + "." + RegexAllowedGroupsProvider.KEY,
+      value = "Administrators")
+  public void checkSubmitRequirementWithRegexIsAllowedForUserInAllowedGroup() throws Exception {
+    PushOneCommit.Result r = createChange();
+
+    SubmitRequirementResultInfo result =
+        gApi.changes()
+            .id(r.getChangeId())
+            .checkSubmitRequirement(
+                createSubmitRequirementInput("Code-Review", null, "project:^.*", null));
+
+    assertThat(result.status).isEqualTo(Status.SATISFIED);
   }
 
   @Test

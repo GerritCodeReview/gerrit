@@ -39,7 +39,8 @@ public interface SubmitRequirementsEvaluator {
    * Evaluate a single user-supplied {@link SubmitRequirement} using change data and the calling
    * user's visibility.
    */
-  SubmitRequirementResult evaluateRequirementWithCurrentUser(SubmitRequirement sr, ChangeData cd);
+  SubmitRequirementResult evaluateRequirementWithCurrentUser(SubmitRequirement sr, ChangeData cd)
+      throws QueryParseException;
 
   /**
    * Validate a {@link SubmitRequirementExpression}. Callers who wish to validate submit

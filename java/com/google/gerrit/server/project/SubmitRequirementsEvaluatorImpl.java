@@ -139,8 +139,25 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
 
   @Override
   public SubmitRequirementResult evaluateRequirementWithCurrentUser(
-      SubmitRequirement sr, ChangeData cd) {
+      SubmitRequirement sr, ChangeData cd) throws QueryParseException {
+    if (!regexQueryPermissionChecker.isAllowed()) {
+      checkRegexPermission(sr);
+    }
     return evaluateRequirementInternal(sr, cd);
+  }
+
+  private void checkRegexPermission(SubmitRequirement submitRequirement)
+      throws QueryParseException {
+    regexQueryPermissionChecker.check(
+        submitRequirement.submittabilityExpression().expressionString());
+    if (submitRequirement.applicabilityExpression().isPresent()) {
+      regexQueryPermissionChecker.check(
+          submitRequirement.applicabilityExpression().get().expressionString());
+    }
+    if (submitRequirement.overrideExpression().isPresent()) {
+      regexQueryPermissionChecker.check(
+          submitRequirement.overrideExpression().get().expressionString());
+    }
   }
 
   /** Evaluate a {@link SubmitRequirementExpression} using change data. */

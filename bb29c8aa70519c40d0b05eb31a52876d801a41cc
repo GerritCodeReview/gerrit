@@ -16,6 +16,23 @@
       "message": "verified locally",
       "revId": "bb29c8aa70519c40d0b05eb31a52876d801a41cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cbd6e8ca_3d5f9b74",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-09-01T09:19:49Z",
+      "side": 1,
+      "message": "I noticed that in order to run the gitiles tests I have to cd to modules/jgit, similar like for jgit tests. We should ensure that both jgit submodule links \n- module/jgit\n- module/gitiles/modules/jgit\nlink to the same commit. The first one is used to build gerrit including gitiles, the latter is used for running gitiles tests.\n\nHence maybe add a build time test raising a warning if these submodule links to jgit link to different versions of jgit.",
+      "revId": "bb29c8aa70519c40d0b05eb31a52876d801a41cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

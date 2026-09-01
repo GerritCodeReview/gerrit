@@ -34,6 +34,24 @@
       "parentUuid": "d0032772_f0c8dbb5",
       "revId": "fa4b9345805b12a821678e07a132ce1ba0b013ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cda3ab06_7d031f66",
+        "filename": "javatests/com/google/gerrit/acceptance/git/ImplicitMergeOnSubmitConfigIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2026-09-01T08:17:11Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b1dcdce9_34819b41",
+      "revId": "fa4b9345805b12a821678e07a132ce1ba0b013ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

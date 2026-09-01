@@ -18,6 +18,7 @@ import com.google.common.base.Strings;
 import com.google.gerrit.entities.NotifyConfig.NotifyType;
 import com.google.gerrit.entities.ProjectWatchKey;
 import com.google.gerrit.extensions.client.ProjectWatchInfo;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -29,9 +30,11 @@ import com.google.gerrit.server.UserInitiated;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.ProjectWatches;
+import com.google.gerrit.server.git.validators.AccountValidator;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.RegexPermissionPolicy;
 import com.google.gerrit.server.restapi.project.ProjectsCollection;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -58,6 +61,7 @@ public class PostWatchedProjects
   private final GetWatchedProjects getWatchedProjects;
   private final ProjectsCollection projectsCollection;
   private final Provider<AccountsUpdate> accountsUpdateProvider;
+  private final AccountValidator accountValidator;
 
   @Inject
   public PostWatchedProjects(
@@ -65,12 +69,14 @@ public class PostWatchedProjects
       PermissionBackend permissionBackend,
       GetWatchedProjects getWatchedProjects,
       ProjectsCollection projectsCollection,
-      @UserInitiated Provider<AccountsUpdate> accountsUpdateProvider) {
+      @UserInitiated Provider<AccountsUpdate> accountsUpdateProvider,
+      AccountValidator accountValidator) {
     this.self = self;
     this.permissionBackend = permissionBackend;
     this.getWatchedProjects = getWatchedProjects;
     this.projectsCollection = projectsCollection;
     this.accountsUpdateProvider = accountsUpdateProvider;
+    this.accountValidator = accountValidator;
   }
 
   @Override
@@ -78,6 +84,10 @@ public class PostWatchedProjects
       throws RestApiException, IOException, ConfigInvalidException, PermissionBackendException {
     if (!self.get().hasSameAccountId(rsrc.getUser())) {
       permissionBackend.currentUser().check(GlobalPermission.ADMINISTRATE_SERVER);
+    }
+
+    if (!accountValidator.allowRegexInFilters(rsrc.getUser().getAccountId(), input)) {
+      throw new AuthException(RegexPermissionPolicy.NOT_PERMITTED_MESSAGE);
     }
 
     Map<ProjectWatchKey, Set<NotifyType>> projectWatches = asMap(input);

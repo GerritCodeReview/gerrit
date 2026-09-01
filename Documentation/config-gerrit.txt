@@ -5106,6 +5106,32 @@ the below configuration
 
 Gerrit will load `c-plugin` first, followed-up by `a-plugin` and `b-plugin` last.
 
+[[regex]]
+=== Section regex
+
+[[regex.allowedGroup]]regex.allowedGroup::
++
+List of groups whose members are allowed to provide regular expressions in
+requests to Gerrit or in configuration they create or update. This option may
+be specified more than once; membership in any listed group is sufficient.
++
+Defaults to allowing `Anonymous Users`, which means that everyone can supply
+regular expression operands. To block only anonymous users, set it to the
+system group `Registered Users`.
++
+The `Change Owner` system group is not supported because its membership depends
+on a specific change.
++
+The check applies to interactive change searches, including named queries
+expanded with `query:`, the `r=` parameter of the project, branch and tag
+listing APIs, `ssh ls-projects -r`, and new or changed submit requirement
+expressions, ACL ref patterns, and project notification filters. It does not
+apply when Gerrit evaluates regular expressions already stored in submit
+requirements, project watches, project notification filters or ACL ref patterns.
++
+This configuration is loaded at startup and cannot be hot-reloaded. Gerrit
+fails to start if any configured name cannot be resolved to a group.
+
 [[receive]]
 === Section receive
 

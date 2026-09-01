@@ -58,6 +58,15 @@ public class ProjectHandler extends OptionHandler<ProjectState> {
   public final int parseArguments(Parameters params) throws CmdLineException {
     String projectName = params.getParameter(0);
 
+    try {
+      ProjectUtil.validateProjectName(projectName);
+    } catch (ProjectUtil.InvalidProjectNameException e) {
+      CmdLineException err =
+          new CmdLineException(owner, localizable("Invalid project name %s"), projectName);
+      err.initCause(e);
+      throw err;
+    }
+
     while (projectName.endsWith("/")) {
       projectName = projectName.substring(0, projectName.length() - 1);
     }

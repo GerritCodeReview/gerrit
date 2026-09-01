@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd5910f0_16faf4e5",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-styles.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 846,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-09-01T08:37:28Z",
+      "side": 1,
+      "message": "In `gr-diff-styles.ts`, `max-height: var(--image-viewer-max-height, 90vh);` is still defined on the base `gr-image-viewer` selector.\n\nWhen a user selects a fixed zoom level (e.g. 100%, 150%, 200%), the `.fit` class is removed from `gr-image-viewer`, but the base selector still applies and clamps the height to 90vh. Because light-DOM styles in `gr-diff-styles.ts` override shadow-DOM `:host` styles on the image viewer component, other zoom levels are not truly unconstrained.\n\nConsider removing `max-height` from `gr-image-viewer` here so that `max-height` is only constrained when `gr-image-viewer.fit` is active.",
+      "isAi": true,
+      "revId": "58b193188db55be0d8a3e4c6dc49fd76cbae68d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

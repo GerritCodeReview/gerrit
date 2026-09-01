@@ -164,6 +164,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fdf0e1ae_65370dc6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-09-01T20:30:18Z",
+      "side": 1,
+      "message": "\u003e I don\u0027t really have a specific use case in mind other than what the API says it should do. The API does not currently describe this as being for merged changes only.\n\nI looked closer at it, and it kinda does, just not in the API method part, but rather in the [response object description](https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#included-in-info).\n```\nThe IncludedInInfo entity contains information about the branches a change was\nmerged into and tags it was tagged with.\n```\n\nThat\u0027s clearly a past-tense description implying the change is already merged. We can also go back to the change adding the original non-REST endpoint:\n[14864: Visualize in which revisions a merged change is included](https://gerrit-review.googlesource.com/c/gerrit/+/14864) which is clearly intending this for \"a merged change\", even if the API wasn\u0027t restricted in that way.\n\n\u003e I realize you are suggesting changing that, but you haven\u0027t really given a good reason to do so.\n\nYes, am I suggesting that. I\u0027m arguing that the good reasons are 1) \"server stability and performance\" and 2) it\u0027s very unlikely anyone expects results from this API for open changes. Someone calling this API on an open change is much more likely to either not understand what it does or has made a mistake in their code.\n\n\u003e Isn\u0027t the expense going to be the same once the change is merged?\n\nIt\u0027s a little cheaper (you\u0027ll have at least one branch walk end quickly), but likely very similar if you have many other refs with deep histories.",
+      "parentUuid": "d23eb8a4_06f5883c",
+      "revId": "6f6983b01484263f9c40c91503409b2e95f47f4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c7bbe61f_9634679d",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1

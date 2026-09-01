@@ -22,6 +22,7 @@ import com.google.gerrit.acceptance.ExtensionRegistry;
 import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.TestExtensions.TestSubmitRule;
 import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
+import com.google.gerrit.acceptance.testsuite.change.TestChange;
 import com.google.gerrit.extensions.api.changes.ChangeIdentifier;
 import com.google.gerrit.extensions.common.EvaluateChangeQueryExpressionResultInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -310,5 +311,30 @@ public class EvaluateChangeQueryExpressionIT extends AbstractDaemonTest {
       assertThat(info.atomExplanations).isNull();
     }
     assertThat(testSubmitRule.count()).isEqualTo(0);
+  }
+
+  @Test
+  public void evaluatingUsingIndexWhenChangeMissingFromIndexFallsBackToNoteDb() throws Exception {
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().create();
+    changeOperations.change(changeIdentifier).newVote().codeReviewApproval().create();
+
+    TestChange testChange = changeOperations.change(changeIdentifier).get();
+    indexer.delete(testChange.project(), testChange.numericChangeId());
+
+    TestSubmitRule testSubmitRule = new TestSubmitRule();
+    try (Registration registration = extensionRegistry.newRegistration().add(testSubmitRule)) {
+      EvaluateChangeQueryExpressionResultInfo info =
+          gApi.changes()
+              .id(changeIdentifier)
+              .evaluateChangeQueryExpression()
+              .withExpression("is:submittable")
+              .useIndex()
+              .get();
+      assertThat(info.status).isTrue();
+      assertThat(info.passingAtoms).containsExactly("is:submittable");
+      assertThat(info.failingAtoms).isEmpty();
+      assertThat(info.atomExplanations).isNull();
+    }
+    assertThat(testSubmitRule.count()).isEqualTo(1);
   }
 }

@@ -65,6 +65,13 @@ suite('gr-diff tests', () => {
     element = await fixture<GrDiff>(html`<gr-diff></gr-diff>`);
   });
 
+  test('embedder isolation: scroll-padding-top is not set on root', () => {
+    assert.equal(
+      document.documentElement.style.getPropertyValue('scroll-padding-top'),
+      ''
+    );
+  });
+
   suite('selectionchange event handling', () => {
     let handleSelectionChangeStub: sinon.SinonSpy;
 

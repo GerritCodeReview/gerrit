@@ -87,4 +87,121 @@ suite('gr-app tests', () => {
     grAppElement.paramsChanged();
     assert.ok(grAppElement.lastSearchPage);
   });
+
+  test('scroll-padding-top is set when connected', () => {
+    assert.equal(
+      document.documentElement.style.getPropertyValue('scroll-padding-top'),
+      'calc(var(--main-header-height) + var(--change-header-height) + var(--diff-header-height))'
+    );
+  });
+
+  test('scroll-padding-top is removed when disconnected', () => {
+    assert.equal(
+      document.documentElement.style.getPropertyValue('scroll-padding-top'),
+      'calc(var(--main-header-height) + var(--change-header-height) + var(--diff-header-height))'
+    );
+    grApp.remove();
+    assert.equal(
+      document.documentElement.style.getPropertyValue('scroll-padding-top'),
+      ''
+    );
+  });
+
+  test('scroll-padding-top drops to 0px on focus inside sticky header and restores on blur', () => {
+    const grAppElement = queryAndAssert<GrAppElement>(grApp, '#app-element');
+    const mainHeader = queryAndAssert(grAppElement, 'gr-main-header');
+
+    const searchBar = queryAndAssert(mainHeader, 'gr-smart-search');
+    const searchAutocomplete = queryAndAssert(
+      searchBar,
+      'gr-search-autocomplete'
+    );
+    const autocomplete = queryAndAssert(searchAutocomplete, 'gr-autocomplete');
+    const input = queryAndAssert(autocomplete, '#input');
+
+    // 1. Focus inside nested search bar input in sticky mainHeader
+    input.dispatchEvent(
+      new FocusEvent('focusin', {bubbles: true, composed: true})
+    );
+    assert.equal(
+      document.documentElement.style.getPropertyValue('scroll-padding-top'),
+      '0px'
+    );
+
+    // 2. Focus moves to non-sticky content
+    grAppElement.dispatchEvent(
+      new FocusEvent('focusin', {bubbles: true, composed: true})
+    );
+    assert.equal(
+      document.documentElement.style.getPropertyValue('scroll-padding-top'),
+      'calc(var(--main-header-height) + var(--change-header-height) + var(--diff-header-height))'
+    );
+
+    // 3. Re-focus inside sticky header
+    mainHeader.dispatchEvent(
+      new FocusEvent('focusin', {bubbles: true, composed: true})
+    );
+    assert.equal(
+      document.documentElement.style.getPropertyValue('scroll-padding-top'),
+      '0px'
+    );
+
+    // 4. Focus leaves the window (blur, relatedTarget: null)
+    mainHeader.dispatchEvent(
+      new FocusEvent('focusout', {
+        bubbles: true,
+        composed: true,
+        relatedTarget: null,
+      })
+    );
+    assert.equal(
+      document.documentElement.style.getPropertyValue('scroll-padding-top'),
+      'calc(var(--main-header-height) + var(--change-header-height) + var(--diff-header-height))'
+    );
+  });
+
+  test('focus transition between sticky elements maintains 0px without intermediate reset', () => {
+    const grAppElement = queryAndAssert<GrAppElement>(grApp, '#app-element');
+    const mainHeader = queryAndAssert(grAppElement, 'gr-main-header');
+
+    // Create a second sticky element to simulate another sticky header or sibling
+    const secondSticky = document.createElement('div');
+    secondSticky.style.position = 'sticky';
+    secondSticky.style.top = '48px';
+    grAppElement.shadowRoot!.appendChild(secondSticky);
+
+    // Focus first sticky element
+    mainHeader.dispatchEvent(
+      new FocusEvent('focusin', {bubbles: true, composed: true})
+    );
+    assert.equal(
+      document.documentElement.style.getPropertyValue('scroll-padding-top'),
+      '0px'
+    );
+
+    // Focusout from mainHeader transferring to secondSticky
+    mainHeader.dispatchEvent(
+      new FocusEvent('focusout', {
+        bubbles: true,
+        composed: true,
+        relatedTarget: secondSticky,
+      })
+    );
+    // Because relatedTarget is non-null, focusout does not prematurely reset
+    assert.equal(
+      document.documentElement.style.getPropertyValue('scroll-padding-top'),
+      '0px'
+    );
+
+    // Focusin on secondSticky
+    secondSticky.dispatchEvent(
+      new FocusEvent('focusin', {bubbles: true, composed: true})
+    );
+    assert.equal(
+      document.documentElement.style.getPropertyValue('scroll-padding-top'),
+      '0px'
+    );
+
+    secondSticky.remove();
+  });
 });

@@ -16,6 +16,24 @@
       "message": "Tests pending",
       "revId": "39d3f6b427358bf2f45c83d2ee0ecf81588e3515",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b62c943_2a2373a4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-09-01T08:43:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "367d8e53_4949eb54",
+      "revId": "39d3f6b427358bf2f45c83d2ee0ecf81588e3515",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

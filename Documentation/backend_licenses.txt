@@ -98,6 +98,7 @@ Apache2.0
 * guava-failureaccess
 * guava-retrying
 * html-types
+* intraline-diff
 * j2objc
 * javaewah
 * jsr305

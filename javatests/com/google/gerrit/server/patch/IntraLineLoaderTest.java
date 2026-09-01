@@ -15,208 +15,55 @@
 package com.google.gerrit.server.patch;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.jgit.diff.ReplaceEdit;
-import java.util.List;
 import org.eclipse.jgit.diff.Edit;
-import org.eclipse.jgit.diff.EditList;
 import org.junit.Test;
 
 public class IntraLineLoaderTest {
 
   @Test
-  public void rewriteAtStartOfLineIsRecognized() throws Exception {
+  public void convertsGitilesReplaceEditToGerritReplaceEdit() {
     String a = "abc1\n";
     String b = "def1\n";
-    assertThat(intraline(a, b)).isEqualTo(ref().replace("abc", "def").common("1\n").edits);
-  }
+    Edit lines = new Edit(0, 1, 0, 1);
 
-  @Test
-  public void rewriteAtEndOfLineIsRecognized() throws Exception {
-    String a = "abc1\n";
-    String b = "abc2\n";
-    assertThat(intraline(a, b)).isEqualTo(ref().common("abc").replace("1", "2").common("\n").edits);
-  }
-
-  @Test
-  public void completeRewriteIncludesNewline() throws Exception {
-    String a = "abc1\n";
-    String b = "def2\n";
-    assertThat(intraline(a, b)).isEqualTo(ref().replace("abc1\n", "def2\n").edits);
-  }
-
-  @Test
-  public void closeEditsAreCombined() throws Exception {
-    String a = "ab1cdef2gh\n";
-    String b = "ab2cdef3gh\n";
-    assertThat(intraline(a, b))
-        .isEqualTo(ref().common("ab").replace("1cdef2", "2cdef3").common("gh\n").edits);
-  }
-
-  @Test
-  public void preferInsertAfterCommonPart1() throws Exception {
-    String a = "start middle end\n";
-    String b = "start middlemiddle end\n";
-    assertThat(intraline(a, b))
-        .isEqualTo(ref().common("start middle").insert("middle").common(" end\n").edits);
-  }
-
-  @Test
-  public void preferInsertAfterCommonPart2() throws Exception {
-    String a = "abc def\n";
-    String b = "abc  def\n";
-    assertThat(intraline(a, b)).isEqualTo(ref().common("abc ").insert(" ").common("def\n").edits);
-  }
-
-  @Test
-  public void preferInsertAtLineBreak1() throws Exception {
-    String a = "multi\nline\n";
-    String b = "multi\nlinemulti\nline\n";
-    assertThat(intraline(a, b)).isEqualTo(wordEdit(10, 10, 6, 16));
-    // better would be:
-    // assertThat(intraline(a, b)).isEqualTo(wordEdit(6, 6, 6, 16));
-    // or the equivalent:
-    // assertThat(intraline(a, b)).isEqualTo(ref()
-    //    .common("multi\n").insert("linemulti\n").common("line\n").edits
-    // );
-  }
-
-  // TODO: expected failure
-  // the current code does not work on the first line
-  // and the insert marker is in the wrong location
-  @Test
-  public void preferInsertAtLineBreak2() throws Exception {
-    assertThrows(
-        AssertionError.class,
-        () -> {
-          String a = "  abc\n    def\n";
-          String b = "    abc\n      def\n";
-          assertThat(intraline(a, b))
-              .isEqualTo(ref().insert("  ").common("  abc\n").insert("  ").common("  def\n").edits);
-        });
-  }
-
-  // TODO: expected failure
-  // the current code does not work on the first line
-  @Test
-  public void preferDeleteAtLineBreak() throws Exception {
-    assertThrows(
-        AssertionError.class,
-        () -> {
-          String a = "    abc\n      def\n";
-          String b = "  abc\n    def\n";
-          assertThat(intraline(a, b))
-              .isEqualTo(ref().remove("  ").common("  abc\n").remove("  ").common("  def\n").edits);
-        });
-  }
-
-  @Test
-  public void insertedWhitespaceIsRecognized() throws Exception {
-    String a = " int *foobar\n";
-    String b = " int * foobar\n";
-    assertThat(intraline(a, b))
-        .isEqualTo(ref().common(" int *").insert(" ").common("foobar\n").edits);
-  }
-
-  @Test
-  public void insertedWhitespaceIsRecognizedInMultipleLines() throws Exception {
-    //         |0    5   10  |  5   20    5   30
-    String a = " int *foobar\n int *foobar\n";
-    String b = " int * foobar\n int * foobar\n";
-    assertThat(intraline(a, b))
-        .isEqualTo(
-            ref()
-                .common(" int *")
-                .insert(" ")
-                .common("foobar\n")
-                .common(" int *")
-                .insert(" ")
-                .common("foobar\n")
-                .edits);
-  }
-
-  // helper functions to call IntraLineLoader.compute
-
-  private static int countLines(String s) {
-    int count = 0;
-    for (int i = 0; i < s.length(); i++) {
-      if (s.charAt(i) == '\n') {
-        count++;
-      }
-    }
-    return count;
-  }
-
-  private static List<Edit> intraline(String a, String b) throws Exception {
-    return intraline(a, b, new Edit(0, countLines(a), 0, countLines(b)));
-  }
-
-  private static List<Edit> intraline(String a, String b, Edit lines) throws Exception {
-    Text aText = new Text(a.getBytes(UTF_8));
-    Text bText = new Text(b.getBytes(UTF_8));
-
-    IntraLineDiff diff =
-        IntraLineLoader.compute(aText, bText, ImmutableList.of(lines), ImmutableSet.of());
+    IntraLineDiff diff = compute(a, b, lines);
 
     assertThat(diff.getStatus()).isEqualTo(IntraLineDiff.Status.EDIT_LIST);
-    ImmutableList<Edit> actualEdits = diff.getEdits();
-    assertThat(actualEdits).hasSize(1);
-    Edit actualEdit = actualEdits.get(0);
-    assertThat(actualEdit.getBeginA()).isEqualTo(lines.getBeginA());
-    assertThat(actualEdit.getEndA()).isEqualTo(lines.getEndA());
-    assertThat(actualEdit.getBeginB()).isEqualTo(lines.getBeginB());
-    assertThat(actualEdit.getEndB()).isEqualTo(lines.getEndB());
-    assertThat(actualEdit).isInstanceOf(ReplaceEdit.class);
+    ImmutableList<Edit> edits = diff.getEdits();
+    assertThat(edits).hasSize(1);
+    assertThat(edits.get(0)).isInstanceOf(ReplaceEdit.class);
 
-    return ((ReplaceEdit) actualEdit).getInternalEdits();
+    ReplaceEdit edit = (ReplaceEdit) edits.get(0);
+    assertThat(edit.getBeginA()).isEqualTo(lines.getBeginA());
+    assertThat(edit.getEndA()).isEqualTo(lines.getEndA());
+    assertThat(edit.getBeginB()).isEqualTo(lines.getBeginB());
+    assertThat(edit.getEndB()).isEqualTo(lines.getEndB());
+    assertThat(edit.getInternalEdits()).isEqualTo(ImmutableList.of(new Edit(0, 3, 0, 3)));
   }
 
-  // helpers to compute reference values
+  @Test
+  public void keepsInsertLineEditsUnwrapped() {
+    String a = "abc\n";
+    String b = "abc\ndef\n";
+    Edit lines = new Edit(1, 1, 1, 2);
 
-  private static List<Edit> wordEdit(int as, int ae, int bs, int be) {
-    return EditList.singleton(new Edit(as, ae, bs, be));
+    IntraLineDiff diff = compute(a, b, lines);
+
+    assertThat(diff.getStatus()).isEqualTo(IntraLineDiff.Status.EDIT_LIST);
+    assertThat(diff.getEdits()).isEqualTo(ImmutableList.of(lines));
+    assertThat(diff.getEdits().get(0)).isNotInstanceOf(ReplaceEdit.class);
   }
 
-  private static Reference ref() {
-    return new Reference();
-  }
-
-  private static class Reference {
-    List<Edit> edits;
-    private int posA;
-    private int posB;
-
-    Reference() {
-      edits = new EditList();
-      posA = posB = 0;
-    }
-
-    Reference common(String s) {
-      int len = s.length();
-      posA += len;
-      posB += len;
-      return this;
-    }
-
-    Reference insert(String s) {
-      return replace("", s);
-    }
-
-    Reference remove(String s) {
-      return replace(s, "");
-    }
-
-    Reference replace(String a, String b) {
-      int lenA = a.length();
-      int lenB = b.length();
-      edits.add(new Edit(posA, posA + lenA, posB, posB + lenB));
-      posA += lenA;
-      posB += lenB;
-      return this;
-    }
+  private static IntraLineDiff compute(String a, String b, Edit lines) {
+    return IntraLineLoader.compute(
+        new Text(a.getBytes(UTF_8)),
+        new Text(b.getBytes(UTF_8)),
+        ImmutableList.of(lines),
+        ImmutableSet.of());
   }
 }

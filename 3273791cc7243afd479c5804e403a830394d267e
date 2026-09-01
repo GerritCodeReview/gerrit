@@ -16,6 +16,23 @@
       "message": "So this turned out a bit more complicated than I was hoping for.\n\nWhile I\u0027d really like this behavior to work, I also think this is a lot of complexity to add. So you\u0027re not happy with this approach, another alternative is just to revert things altogether and reopen the original bug. I will be sad... but this does seem like a case that the standard doesn\u0027t handle very well today.",
       "revId": "3273791cc7243afd479c5804e403a830394d267e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d0ae457_a8f66203",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-09-01T09:34:03Z",
+      "side": 1,
+      "message": "I know it\u0027s more complex that I would like but i think it\u0027s important to have this fixed. So let\u0027s do it and we can clean up complexity in future",
+      "revId": "3273791cc7243afd479c5804e403a830394d267e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

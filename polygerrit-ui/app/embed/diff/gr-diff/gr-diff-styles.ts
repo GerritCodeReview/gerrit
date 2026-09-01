@@ -459,13 +459,14 @@ export const grDiffRowStyles = css`
   gr-diff-row td.sign.blank {
     background-color: var(--diff-blank-background-color);
   }
-  gr-diff-row td.content,
-  gr-diff-row td.blank {
+  gr-diff-row td.content {
     /* Set min width since setting width on table cells still allows them
        to shrink. Do not set max width because CJK
        (Chinese-Japanese-Korean) glyphs have variable width. */
     min-width: var(--content-width, 80ch);
     width: var(--content-width, 80ch);
+  }
+  gr-diff-row td:has(.revert-container) {
     position: relative;
   }
   gr-diff-row td.left .revert-container {

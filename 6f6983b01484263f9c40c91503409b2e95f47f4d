@@ -182,6 +182,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "753d8f5f_d9bc1b21",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-09-01T21:00:02Z",
+      "side": 1,
+      "message": "OK. Can you put some of those justifications in the CM? I don\u0027t know which change makes more sense, this one of the 409.\n\nAs for the performance concerns, I have been giving this some thought (we get mergeability callers which are also expensive). We may want to address this whole class of problems by exposing the authentication method to the quota plugin. This would allow us to differentiate easily between the WUI calls and API calls, allowing us to throttle the latter much more agressively.\n\nOf course, if we could speed up reachability checks with lots of refs, I think that would solve a whole class of problems in a more productive way. Partial clones suffer from this same problem during the checkout phase with lots of refs.",
+      "parentUuid": "fdf0e1ae_65370dc6",
+      "revId": "6f6983b01484263f9c40c91503409b2e95f47f4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c7bbe61f_9634679d",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1

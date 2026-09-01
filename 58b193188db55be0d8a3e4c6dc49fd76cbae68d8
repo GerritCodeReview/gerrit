@@ -17,6 +17,24 @@
       "isAi": true,
       "revId": "58b193188db55be0d8a3e4c6dc49fd76cbae68d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "87ae390c_194aa563",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff/gr-diff-styles.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 846,
+      "author": {
+        "id": 5116540
+      },
+      "writtenOn": "2026-09-01T12:52:44Z",
+      "side": 1,
+      "message": "Done. Verified using the local server it still works as expected.",
+      "parentUuid": "cd5910f0_16faf4e5",
+      "revId": "58b193188db55be0d8a3e4c6dc49fd76cbae68d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

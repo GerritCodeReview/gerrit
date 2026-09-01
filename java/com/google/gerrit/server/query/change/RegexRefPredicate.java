@@ -17,13 +17,13 @@ package com.google.gerrit.server.query.change;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.index.change.ChangeField;
-import dk.brics.automaton.RegExp;
+import com.google.gerrit.server.ioutil.RegexCompiler;
 import dk.brics.automaton.RunAutomaton;
 
 public class RegexRefPredicate extends ChangeRegexPredicate {
   protected final RunAutomaton pattern;
 
-  public RegexRefPredicate(String re) throws QueryParseException {
+  public RegexRefPredicate(String re, RegexCompiler regexCompiler) throws QueryParseException {
     super(ChangeField.REF_SPEC, re);
 
     if (re.startsWith("^")) {
@@ -35,7 +35,7 @@ public class RegexRefPredicate extends ChangeRegexPredicate {
     }
 
     try {
-      this.pattern = new RunAutomaton(new RegExp(re).toAutomaton());
+      this.pattern = new RunAutomaton(regexCompiler.toAutomaton(re));
     } catch (IllegalArgumentException e) {
       throw new QueryParseException(String.format("invalid regular expression: %s", re), e);
     }

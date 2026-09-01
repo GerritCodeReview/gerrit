@@ -14,6 +14,7 @@ java_library(
         "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/server/cache/h2",
         "//java/com/google/gerrit/server/cache/mem",
+        "//java/com/google/gerrit/server/ioutil",
         "//java/com/google/gerrit/server/restapi",
         "//java/com/google/gerrit/server/rules/prolog",
         "//java/com/google/gerrit/server/schema",

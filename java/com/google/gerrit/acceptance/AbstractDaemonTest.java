@@ -455,19 +455,6 @@ public abstract class AbstractDaemonTest {
     // SystemReader must be overridden before creating any repos, since they read the user/system
     // configs at initialization time, and are then stored in the RepositoryCache forever.
 
-    if (enableExperimentsRejectImplicitMergesOnMerge()) {
-      // When changes are merged/submitted - reject the operation if there is an implicit merge (
-      // even if rejectImplicitMerges is disabled in the project config).
-      baseConfig.setStringList(
-          "experiments",
-          null,
-          "enabled",
-          ImmutableList.of(
-              "GerritBackendFeature__check_implicit_merges_on_merge",
-              "GerritBackendFeature__reject_implicit_merges_on_merge",
-              "GerritBackendFeature__always_reject_implicit_merges_on_merge"));
-    }
-
     server.initServer();
     server.getTestInjector().injectMembers(this);
 
@@ -497,12 +484,6 @@ public abstract class AbstractDaemonTest {
         adminSshSession.open();
       }
     }
-  }
-
-  protected boolean enableExperimentsRejectImplicitMergesOnMerge() {
-    // By default any attempt to make an explicit merge is rejected. This allows to check
-    // that existing workflows continue to work even if gerrit rejects implicit merges on merge.
-    return true;
   }
 
   protected void setUpDatabase() throws Exception {

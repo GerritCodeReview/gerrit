@@ -48,36 +48,9 @@ public class ListExperimentsIT extends AbstractDaemonTest {
     assertThat(experiments.keySet())
         .containsAtLeast(
             ExperimentFeaturesConstants.ALLOW_FIX_SUGGESTIONS_IN_COMMENTS,
-            ExperimentFeaturesConstants
-                .GERRIT_BACKEND_FEATURE_ALWAYS_REJECT_IMPLICIT_MERGES_ON_MERGE,
             ExperimentFeaturesConstants.GERRIT_BACKEND_FEATURE_ATTACH_NONCE_TO_DOCUMENTATION,
-            ExperimentFeaturesConstants.GERRIT_BACKEND_FEATURE_CHECK_IMPLICIT_MERGES_ON_MERGE,
-            ExperimentFeaturesConstants.GERRIT_BACKEND_FEATURE_REJECT_IMPLICIT_MERGES_ON_MERGE,
             ExperimentFeaturesConstants.SKIP_SUBMIT_RECORDS_WITHOUT_SUBMIT_REQUIREMENTS)
         .inOrder();
-
-    // "GerritBackendFeature__check_implicit_merges_on_merge",
-    // "GerritBackendFeature__reject_implicit_merges_on_merge" and
-    // "GerritBackendFeature__always_reject_implicit_merges_on_merge" are enabled via
-    // AbstractDaemonTest#beforeTest
-    assertThat(
-            experiments.get(
-                    ExperimentFeaturesConstants
-                        .GERRIT_BACKEND_FEATURE_ALWAYS_REJECT_IMPLICIT_MERGES_ON_MERGE)
-                .enabled)
-        .isTrue();
-    assertThat(
-            experiments.get(
-                    ExperimentFeaturesConstants
-                        .GERRIT_BACKEND_FEATURE_CHECK_IMPLICIT_MERGES_ON_MERGE)
-                .enabled)
-        .isTrue();
-    assertThat(
-            experiments.get(
-                    ExperimentFeaturesConstants
-                        .GERRIT_BACKEND_FEATURE_REJECT_IMPLICIT_MERGES_ON_MERGE)
-                .enabled)
-        .isTrue();
 
     assertThat(
             experiments.get(ExperimentFeaturesConstants.ALLOW_FIX_SUGGESTIONS_IN_COMMENTS).enabled)
@@ -94,21 +67,12 @@ public class ListExperimentsIT extends AbstractDaemonTest {
   @GerritConfig(
       name = "experiments.enabled",
       values = {"GerritBackendFeature__attach_nonce_to_documentation"})
-  // "GerritBackendFeature__check_implicit_merges_on_merge",
-  // "GerritBackendFeature__reject_implicit_merges_on_merge" and
-  // "GerritBackendFeature__always_reject_implicit_merges_on_merge" are enabled via
-  // AbstractDaemonTest#beforeTest
   public void listEnabled_noneEnabled() throws Exception {
     ImmutableMap<String, ExperimentInfo> experiments =
         gApi.config().server().listExperiments().enabledOnly().get();
     assertThat(experiments.keySet())
         .containsExactly(
-            ExperimentFeaturesConstants
-                .GERRIT_BACKEND_FEATURE_ALWAYS_REJECT_IMPLICIT_MERGES_ON_MERGE,
-            ExperimentFeaturesConstants.GERRIT_BACKEND_FEATURE_ATTACH_NONCE_TO_DOCUMENTATION,
-            ExperimentFeaturesConstants.GERRIT_BACKEND_FEATURE_CHECK_IMPLICIT_MERGES_ON_MERGE,
-            ExperimentFeaturesConstants.GERRIT_BACKEND_FEATURE_REJECT_IMPLICIT_MERGES_ON_MERGE)
-        .inOrder();
+            ExperimentFeaturesConstants.GERRIT_BACKEND_FEATURE_ATTACH_NONCE_TO_DOCUMENTATION);
     for (ExperimentInfo experimentInfo : experiments.values()) {
       assertThat(experimentInfo.enabled).isTrue();
     }

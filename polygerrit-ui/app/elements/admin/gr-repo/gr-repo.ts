@@ -512,8 +512,8 @@ export class GrRepo extends LitElement {
     return html`
       <section>
         <span class="title">
-          Reject implicit merges when changes are pushed for review</span
-        >
+          Reject implicit merges when changes are uploaded or submitted
+        </span>
         <span class="value">
           <md-outlined-select
             id="rejectImplicitMergesSelect"

@@ -4697,7 +4697,8 @@ link:#inherited-boolean-info[InheritedBooleanInfo] that tells whether
 signed push validation is required on the project.
 |`reject_implicit_merges`|optional|
 link:#inherited-boolean-info[InheritedBooleanInfo] that tells whether
-implicit merges should be rejected on changes pushed to the project.
+implicit merges should be rejected on changes pushed to or submitted in
+the project.
 |`private_by_default`         ||
 link:#inherited-boolean-info[InheritedBooleanInfo] that tells whether
 all new changes are set as private by default.
@@ -4830,8 +4831,8 @@ If not set, this setting is not updated.
 This property is deprecated and will be removed in
 a future release.
 |`reject_implicit_merges`                  |optional|
-Whether a check for implicit merges will be performed when changes
-are pushed for review. +
+Whether a check for implicit merges will be performed when changes are
+pushed for review or submitted. +
 Can be `TRUE`, `FALSE` or `INHERIT`. +
 If not set, this setting is not updated.
 |`max_object_size_limit`                   |optional|

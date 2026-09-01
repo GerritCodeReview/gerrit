@@ -16,6 +16,24 @@
       "message": "2026?",
       "revId": "fa4b9345805b12a821678e07a132ce1ba0b013ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1dcdce9_34819b41",
+        "filename": "javatests/com/google/gerrit/acceptance/git/ImplicitMergeOnSubmitConfigIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-09-01T08:15:46Z",
+      "side": 1,
+      "message": "It\u0027s a rename of ImplicitMergeOnSubmitExperimentsIT (Copyright (C) 2023), not a new file, so I kept the original year — gerrit uses year-of-creation and doesn\u0027t bump it on edits.\n\nGerrit doesn\u0027t render it as a rename here only because the rewrite dropped below the similarity threshold, but it\u0027s the same test evolving into its config-driven form.",
+      "parentUuid": "d0032772_f0c8dbb5",
+      "revId": "fa4b9345805b12a821678e07a132ce1ba0b013ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

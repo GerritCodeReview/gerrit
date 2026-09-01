@@ -1365,6 +1365,8 @@ export class GrFileList extends LitElement {
           <gr-copy-clipboard
             ?hideInput=${true}
             .text=${file.__path}
+            buttonTitle="Copy file path to clipboard"
+            copyTargetName="File path"
           ></gr-copy-clipboard>
         </a>
         ${when(
@@ -1387,6 +1389,8 @@ export class GrFileList extends LitElement {
               <gr-copy-clipboard
                 ?hideInput=${true}
                 .text=${file.old_path}
+                buttonTitle="Copy old file path to clipboard"
+                copyTargetName="Old file path"
               ></gr-copy-clipboard>
             </div>
           `

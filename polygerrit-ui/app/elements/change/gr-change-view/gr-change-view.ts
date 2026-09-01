@@ -1326,6 +1326,8 @@ export class GrChangeView extends LitElement {
         class="changeCopyClipboard"
         hideInput=""
         text=${this.computeCopyTextForTitle()}
+        buttonTitle="Copy change subject and URL to clipboard"
+        copyTargetName="Change subject and URL"
       >
       </gr-copy-clipboard>
     </div>`;

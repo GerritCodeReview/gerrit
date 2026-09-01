@@ -45,6 +45,8 @@ suite('gr-copy-links tests', () => {
         <div class="dropdown-content">
           <div class="copy-link-row">
             <gr-copy-clipboard
+              buttontitle="Copy Change ID to clipboard"
+              copytargetname="Change ID"
               id="Change_ID-field-copy-clipboard"
               label="Change ID"
               nowrap=""

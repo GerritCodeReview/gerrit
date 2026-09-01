@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ef20d238_ee4c0c99",
+        "filename": "java/com/google/gerrit/server/change/RevisionJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-09-01T23:20:45Z",
+      "side": 1,
+      "message": "I think you need to move this timer now? Most of the time will be in the prefetch. Maybe move the metric into ParentDataProvider?",
+      "revId": "0df4148e88d94fb41a7e4ae1b390715159ca2a7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

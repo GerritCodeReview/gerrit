@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d12daef9_b53020d6",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ChangeIncludedInIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-01T11:33:54Z",
+      "side": 1,
+      "message": "This needs to be adapted as I000096fb79 added the change number as well.",
+      "revId": "387550b7420c3344ec5b6cf4cf12a53dc7c625f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -23,7 +23,6 @@ import {
 } from '../../../utils/patch-set-util';
 import {
   createNew,
-  createRevertFixSuggestion,
   isInBaseOfPatchRange,
   isInRevisionOfPatchRange,
 } from '../../../utils/comment-util';
@@ -121,7 +120,10 @@ import {ifDefined} from 'lit/directives/if-defined.js';
 import {Shortcut} from '../../lit/shortcut-controller';
 import {shortcutsServiceToken} from '../../../services/shortcuts/shortcuts-service';
 import {toComment} from '../../../models/checks/checks-util';
-import {lineNumberToNumber} from '../../../embed/diff/gr-diff/gr-diff-utils';
+import {
+  createRevertFixSuggestion,
+  lineNumberToNumber,
+} from '../../../embed/diff/gr-diff/gr-diff-utils';
 
 const EMPTY_BLAME = 'No blame information for this diff.';
 

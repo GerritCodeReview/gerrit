@@ -10,8 +10,6 @@ java_library(
         ":gfm-tables",
         ":gitiles-servlet",
         ":prettify",
-        "//lib/commons:lang3",
-        "//lib/commons:text",
     ],
 )
 
@@ -47,7 +45,7 @@ java_library(
     name = "gitiles-servlet",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@external_deps//:com_google_gitiles_gitiles_servlet"],
+    exports = ["@gitiles//java/com/google/gitiles:servlet"],
 )
 
 java_library(

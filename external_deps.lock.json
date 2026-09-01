@@ -23,8 +23,6 @@
     "com.google.flogger:flogger-log4j-backend": 1730247028,
     "com.google.flogger:flogger-system-backend": 1522076251,
     "com.google.flogger:google-extensions": -355130314,
-    "com.google.gitiles:blame-cache": -1424275928,
-    "com.google.gitiles:gitiles-servlet": 1993647825,
     "com.google.guava:failureaccess": -2032498474,
     "com.google.guava:guava": -1756621521,
     "com.google.guava:guava-testlib": -203887467,
@@ -169,6 +167,7 @@
     "org.commonmark:commonmark-ext-autolink": -1853742120,
     "org.commonmark:commonmark-ext-gfm-strikethrough": 350394231,
     "org.commonmark:commonmark-ext-gfm-tables": 1881582931,
+    "org.commonmark:commonmark-ext-yaml-front-matter": -1519651186,
     "org.eclipse.jetty.ee11:jetty-ee11-servlet": 1925464069,
     "org.eclipse.jetty.ee8:jetty-ee8-nested": -947438461,
     "org.eclipse.jetty.ee8:jetty-ee8-security": -1982637940,
@@ -251,10 +250,6 @@
     "com.google.flogger:flogger:jar:sources": -1464119363,
     "com.google.flogger:google-extensions": 1202868209,
     "com.google.flogger:google-extensions:jar:sources": -1667103726,
-    "com.google.gitiles:blame-cache": 2017928431,
-    "com.google.gitiles:blame-cache:jar:sources": 467275313,
-    "com.google.gitiles:gitiles-servlet": 1918113734,
-    "com.google.gitiles:gitiles-servlet:jar:sources": -158011882,
     "com.google.guava:failureaccess": 1715931538,
     "com.google.guava:failureaccess:jar:sources": 1303858893,
     "com.google.guava:guava": 555169272,
@@ -431,6 +426,8 @@
     "org.commonmark:commonmark-ext-gfm-strikethrough:jar:sources": 992870423,
     "org.commonmark:commonmark-ext-gfm-tables": -1205584749,
     "org.commonmark:commonmark-ext-gfm-tables:jar:sources": 1341057091,
+    "org.commonmark:commonmark-ext-yaml-front-matter": 1918089254,
+    "org.commonmark:commonmark-ext-yaml-front-matter:jar:sources": -902462472,
     "org.commonmark:commonmark:jar:sources": -1511261547,
     "org.eclipse.jetty.ee11:jetty-ee11-servlet": -820847559,
     "org.eclipse.jetty.ee11:jetty-ee11-servlet:jar:sources": -873060978,
@@ -655,20 +652,6 @@
         "sources": "bf52cbcbf9576a84b5652c6913f708ff55ae41cd5ad07d44a9b07ec5477a1947"
       },
       "version": "0.8"
-    },
-    "com.google.gitiles:blame-cache": {
-      "shasums": {
-        "jar": "41dc6fe7d9967d3726cca4ff5e92247cd8c8da5ddc61b730077b8778c4829fcf",
-        "sources": "9e4d550f35331762434ec1bbd448d335971f00c8ee58c91500bc8fecad156a46"
-      },
-      "version": "1.6.0"
-    },
-    "com.google.gitiles:gitiles-servlet": {
-      "shasums": {
-        "jar": "08562ea7d57d881042e0598722e011e1c40bb69317065f2f5a67277f9c946be3",
-        "sources": "1a6556cde47342a29b93c0ebca969c728ec60b97cbee40bdf4a795ef8a0eb2b2"
-      },
-      "version": "1.6.0"
     },
     "com.google.guava:failureaccess": {
       "shasums": {
@@ -1297,6 +1280,13 @@
       },
       "version": "0.24.0"
     },
+    "org.commonmark:commonmark-ext-yaml-front-matter": {
+      "shasums": {
+        "jar": "a845baba681ccbf385695fbaa6d58eb40d5ecc68f3edb968c42f074f630e8fec",
+        "sources": "5cee64663842f1e7128af9c3e62ef183ea2cf205436d27a08b7cb5be0b20edb6"
+      },
+      "version": "0.24.0"
+    },
     "org.eclipse.jetty.ee11:jetty-ee11-servlet": {
       "shasums": {
         "jar": "af76ee845345f184d96d8f6c926e64f8bda4cf858013598d392ad604d37e6bac",
@@ -1809,6 +1799,9 @@
     "org.commonmark:commonmark-ext-gfm-tables": [
       "org.commonmark:commonmark"
     ],
+    "org.commonmark:commonmark-ext-yaml-front-matter": [
+      "org.commonmark:commonmark"
+    ],
     "org.eclipse.jetty.ee11:jetty-ee11-servlet": [
       "jakarta.servlet:jakarta.servlet-api",
       "org.eclipse.jetty:jetty-security",
@@ -2059,15 +2052,6 @@
     ],
     "com.google.flogger:google-extensions": [
       "com.google.common.flogger"
-    ],
-    "com.google.gitiles:blame-cache": [
-      "com.google.gitiles.blame.cache"
-    ],
-    "com.google.gitiles:gitiles-servlet": [
-      "com.google.gitiles",
-      "com.google.gitiles.blame",
-      "com.google.gitiles.doc",
-      "com.google.gitiles.doc.html"
     ],
     "com.google.guava:failureaccess": [
       "com.google.common.util.concurrent.internal"
@@ -3770,6 +3754,10 @@
       "org.commonmark.ext.gfm.tables",
       "org.commonmark.ext.gfm.tables.internal"
     ],
+    "org.commonmark:commonmark-ext-yaml-front-matter": [
+      "org.commonmark.ext.front.matter",
+      "org.commonmark.ext.front.matter.internal"
+    ],
     "org.eclipse.jetty.ee11:jetty-ee11-servlet": [
       "org.eclipse.jetty.ee11.servlet",
       "org.eclipse.jetty.ee11.servlet.internal",
@@ -4362,10 +4350,6 @@
       "com.google.flogger:flogger:jar:sources",
       "com.google.flogger:google-extensions",
       "com.google.flogger:google-extensions:jar:sources",
-      "com.google.gitiles:blame-cache",
-      "com.google.gitiles:blame-cache:jar:sources",
-      "com.google.gitiles:gitiles-servlet",
-      "com.google.gitiles:gitiles-servlet:jar:sources",
       "com.google.guava:failureaccess",
       "com.google.guava:failureaccess:jar:sources",
       "com.google.guava:guava",
@@ -4542,6 +4526,8 @@
       "org.commonmark:commonmark-ext-gfm-strikethrough:jar:sources",
       "org.commonmark:commonmark-ext-gfm-tables",
       "org.commonmark:commonmark-ext-gfm-tables:jar:sources",
+      "org.commonmark:commonmark-ext-yaml-front-matter",
+      "org.commonmark:commonmark-ext-yaml-front-matter:jar:sources",
       "org.commonmark:commonmark:jar:sources",
       "org.eclipse.jetty.ee11:jetty-ee11-servlet",
       "org.eclipse.jetty.ee11:jetty-ee11-servlet:jar:sources",
@@ -4662,10 +4648,6 @@
       "com.google.flogger:flogger:jar:sources",
       "com.google.flogger:google-extensions",
       "com.google.flogger:google-extensions:jar:sources",
-      "com.google.gitiles:blame-cache",
-      "com.google.gitiles:blame-cache:jar:sources",
-      "com.google.gitiles:gitiles-servlet",
-      "com.google.gitiles:gitiles-servlet:jar:sources",
       "com.google.guava:failureaccess",
       "com.google.guava:failureaccess:jar:sources",
       "com.google.guava:guava",
@@ -4842,6 +4824,8 @@
       "org.commonmark:commonmark-ext-gfm-strikethrough:jar:sources",
       "org.commonmark:commonmark-ext-gfm-tables",
       "org.commonmark:commonmark-ext-gfm-tables:jar:sources",
+      "org.commonmark:commonmark-ext-yaml-front-matter",
+      "org.commonmark:commonmark-ext-yaml-front-matter:jar:sources",
       "org.commonmark:commonmark:jar:sources",
       "org.eclipse.jetty.ee11:jetty-ee11-servlet",
       "org.eclipse.jetty.ee11:jetty-ee11-servlet:jar:sources",

@@ -33,6 +33,24 @@
       "message": "I noticed that in order to run the gitiles tests I have to cd to modules/jgit, similar like for jgit tests. We should ensure that both jgit submodule links \n- module/jgit\n- module/gitiles/modules/jgit\nlink to the same commit. The first one is used to build gerrit including gitiles, the latter is used for running gitiles tests.\n\nHence maybe add a build time test raising a warning if these submodule links to jgit link to different versions of jgit.",
       "revId": "bb29c8aa70519c40d0b05eb31a52876d801a41cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "50aeeb47_0e8dc958",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-09-01T14:14:00Z",
+      "side": 1,
+      "message": "I don\u0027t think we should add a warning for that.\n\nWhen Gitiles is built inside Gerrit, Gerrit is the dependency owner. Gitiles is brought in as a local_repository, and its @jgit resolves in Gerrit\u0027s Bazel context to Gerrit\u0027s modules/jgit. Also, modules/gitiles is in .bazelignore, so Gerrit does not build through modules/gitiles/modules/jgit. That nested JGit pin only matters when running Gitiles standalone from the Gitiles checkout.\n\nSo I would avoid requiring the two submodule pointers to match. They serve different build modes: standalone Gitiles uses its own pins, while Gerrit\u0027s release build uses Gerrit\u0027s pins.\n\nWith this change we are in a much better place regarding JGit version skew than we were with the Maven consumption path. Gerrit now compiles Gitiles source against Gerrit\u0027s JGit pin, so if Gitiles starts using an incompatible/newer JGit API, the Gerrit build fails immediately at compile time. Previously that skew was hidden behind released Maven artifacts and could surface much later as a runtime or integration breakage.\n\nIf we want more coverage, I think the right follow-up would be running selected Gitiles tests in Gerrit CI against Gerrit\u0027s JGit pin, not a pointer-equality warning.",
+      "parentUuid": "cbd6e8ca_3d5f9b74",
+      "revId": "bb29c8aa70519c40d0b05eb31a52876d801a41cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -225,6 +225,13 @@ java_library(
 )
 
 java_library(
+    name = "intraline-diff",
+    data = ["//lib:LICENSE-Apache2.0"],
+    visibility = ["//visibility:public"],
+    exports = ["@gitiles//java/com/google/gitiles/diff:intraline-diff"],
+)
+
+java_library(
     name = "h2",
     data = ["//lib:LICENSE-h2"],
     visibility = ["//visibility:public"],

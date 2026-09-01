@@ -110,6 +110,7 @@ EXPORTS = [
     "//lib:guava-retrying",
     "//lib:gson",
     "//lib:icu4j",
+    "//lib:intraline-diff",
     "//lib:mime-util",
     "//lib:protobuf",
     "//lib:servlet-api-without-neverlink",

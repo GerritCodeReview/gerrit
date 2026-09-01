@@ -146,6 +146,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d23eb8a4_06f5883c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-09-01T00:11:04Z",
+      "side": 1,
+      "message": "I don\u0027t really have a specific use case in mind other than what the API says it should do. The API does not currently describe this as being for merged changes only. I realize you are suggesting changing that, but you haven\u0027t really given a good reason to do so. Isn\u0027t the expense going to be the same once the change is merged?",
+      "parentUuid": "df636c59_78dcc944",
+      "revId": "6f6983b01484263f9c40c91503409b2e95f47f4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c7bbe61f_9634679d",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1

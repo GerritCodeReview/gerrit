@@ -39,6 +39,31 @@
       },
       "revId": "ab9eee63c8304fa37810e2a3cf7affe6cd9b2155",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "730975be_1962ca56",
+        "filename": "java/com/google/gerrit/server/change/RevisionJson.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2026-09-01T22:54:07Z",
+      "side": 1,
+      "message": "Done. Extracted isWanted helper method to eliminate duplicate patch set filtering.",
+      "parentUuid": "01cebca6_80501b7d",
+      "range": {
+        "startLine": 304,
+        "startChar": 0,
+        "endLine": 304,
+        "endChar": 0
+      },
+      "isAi": true,
+      "revId": "ab9eee63c8304fa37810e2a3cf7affe6cd9b2155",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

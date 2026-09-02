@@ -5,7 +5,6 @@
  */
 import '../../../test/common-test-setup';
 import './gr-ranged-comment-hint';
-import {CommentRange} from '../../../types/common';
 import {GrRangedCommentHint} from './gr-ranged-comment-hint';
 import {queryAndAssert, waitEventLoop} from '../../../test/test-utils';
 import {GrRangeHeader} from '../gr-range-header/gr-range-header';
@@ -27,7 +26,7 @@ suite('gr-ranged-comment-hint tests', () => {
       start_character: 1,
       end_line: 5,
       end_character: 3,
-    } as CommentRange;
+    };
     await waitEventLoop();
     const textDiv = queryAndAssert<GrRangeHeader>(element, 'gr-range-header');
     assert.equal(textDiv?.innerText.trim(), 'Long comment range 2 - 5');

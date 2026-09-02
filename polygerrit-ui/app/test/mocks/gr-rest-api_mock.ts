@@ -324,8 +324,8 @@ export const grRestApiMock: RestApiService = {
   },
   getDiffDrafts() {
     // NOTE: This method can not be typed properly due to overloads.
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return Promise.resolve({}) as any;
+
+    return Promise.resolve({});
   },
   getDiffPreferences(): Promise<DiffPreferencesInfo | undefined> {
     return Promise.resolve(createDefaultDiffPrefs());

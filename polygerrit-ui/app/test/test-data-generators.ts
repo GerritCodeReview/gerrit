@@ -135,7 +135,6 @@ import {
 } from '../api/ai-code-review';
 import {
   Action,
-  ActionResult,
   Category,
   Fix,
   Link,
@@ -1505,10 +1504,7 @@ export const checkRun1: CheckRun = {
           tooltip: 'This check result was helpful',
           callback: () =>
             new Promise(resolve => {
-              setTimeout(
-                () => resolve({message: 'Feedback recorded.'} as ActionResult),
-                1000
-              );
+              setTimeout(() => resolve({message: 'Feedback recorded.'}), 1000);
             }),
         },
         {
@@ -1516,10 +1512,7 @@ export const checkRun1: CheckRun = {
           tooltip: 'This check result was not helpful',
           callback: () =>
             new Promise(resolve => {
-              setTimeout(
-                () => resolve({message: 'Feedback recorded.'} as ActionResult),
-                1000
-              );
+              setTimeout(() => resolve({message: 'Feedback recorded.'}), 1000);
             }),
         },
       ],

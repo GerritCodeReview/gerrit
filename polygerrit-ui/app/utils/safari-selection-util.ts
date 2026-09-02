@@ -8,17 +8,12 @@ import {findActiveElement, isSafari} from './dom-util';
 const SUPPORTS_SHADOW_SELECTION =
   typeof window.ShadowRoot.prototype.getSelection === 'function';
 const SUPPORTS_BEFORE_INPUT =
-  typeof (window.InputEvent.prototype as InputEventExtended).getTargetRanges ===
-  'function';
+  typeof window.InputEvent.prototype.getTargetRanges === 'function';
 
 const TARGET_ID = 'diffTable';
 
 let processing = false;
 let contentEditableRange: Range | null = null;
-
-interface InputEventExtended extends InputEvent {
-  getTargetRanges(): StaticRange[];
-}
 
 if (isSafari() && !SUPPORTS_SHADOW_SELECTION && SUPPORTS_BEFORE_INPUT) {
   /**
@@ -61,7 +56,7 @@ if (isSafari() && !SUPPORTS_SHADOW_SELECTION && SUPPORTS_BEFORE_INPUT) {
     event => {
       if (processing) {
         // selecting
-        const inputEvent = event as InputEventExtended;
+        const inputEvent = event;
         if (typeof inputEvent.getTargetRanges !== 'function') return;
         const range = inputEvent.getTargetRanges()[0];
 

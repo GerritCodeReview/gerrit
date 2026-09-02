@@ -449,7 +449,7 @@ suite('gr-repo-submit-requirements tests', () => {
               submittability_expression: 'label:Verified=+1',
               override_expression: 'ownerin:Project-Owners',
               allow_override_in_child_projects: true,
-            } as SubmitRequirementInfo,
+            },
           },
           bubbles: true,
           composed: true,

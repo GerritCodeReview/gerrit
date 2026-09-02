@@ -179,7 +179,7 @@ suite('citations-box tests', () => {
       '.citations-summary-message'
     );
     assert.isOk(summary);
-    assert.include(summary.textContent!, '2 citations');
+    assert.include(summary.textContent, '2 citations');
 
     const items = element.shadowRoot?.querySelectorAll('.citation-item');
     assert.isOk(items);

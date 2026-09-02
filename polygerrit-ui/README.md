@@ -136,6 +136,34 @@ manually. For example, if IntelliJ IDEA shows
 --project polygerrit-ui/app/tsconfig.json
 ```
 
+## Type checking
+
+The frontend is type-checked two ways, and CI runs both. Keep both green.
+
+Type-check with Bazel (production and tests):
+
+```sh
+bazelisk build //polygerrit-ui/app:compile_pg_with_tests
+```
+
+Type-check without Bazel (this is CI's "run type checker" step):
+
+```sh
+yarn compile
+# runs: tsc --project ./polygerrit-ui/app/tsconfig.json
+```
+
+Type-aware lint with Bazel:
+
+```sh
+bazelisk test //polygerrit-ui/app:lint_test
+```
+
+The two type-check paths use different tsconfigs. Bazel splits production
+(`tsconfig_bazel.json`) from tests (`tsconfig_bazel_test.json`, which sets
+`types: ["mocha"]`). The non-Bazel `tsc` uses the base `tsconfig.json`, which
+also type-checks tests and therefore sets `types: ["mocha"]`; production
+overrides it with `types: []` in `tsconfig_bazel.json`.
 ## Developing locally
 
 The preferred method for development is to serve the web files locally using the

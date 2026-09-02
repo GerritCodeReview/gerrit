@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a94dc12a_aa09cd5c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-09-02T07:14:56Z",
+      "side": 1,
+      "message": "In PS3 — selectorThreads is a fixed 2, so Jetty no longer derives the count. Resolving.",
+      "parentUuid": "1dab9fd9_bd0ab104",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 0
+      },
+      "revId": "0ff76c97116272e4185347b56c6462adc3f02cab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a40edf18_8c4028ee",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-08-26T06:16:35Z",
       "side": 1,
       "message": "Add this sentence before:\n\n\n```suggestion\nThis changes the effective default connector topology from 0 acceptors /\n2 selectors to 2 acceptors / 1 selector.\n\nSites that previously tuned httpd.acceptorThreads to control network I/O\n```",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 72
+      },
+      "revId": "0ff76c97116272e4185347b56c6462adc3f02cab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8557aaaf_80a7855b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-09-02T07:14:56Z",
+      "side": 1,
+      "message": "PS3 preserves the 0/2 default topology, so there\u0027s no effective-default shift to call out. Resolving.",
+      "parentUuid": "a40edf18_8c4028ee",
       "range": {
         "startLine": 21,
         "startChar": 0,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f17a074_dd984333",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-09-02T07:14:56Z",
+      "side": 1,
+      "message": "PS3 adopted this (condensed). LGTM. Resolving.",
+      "parentUuid": "edf2aade_be87a730",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 189
+      },
+      "revId": "0ff76c97116272e4185347b56c6462adc3f02cab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "55e7b04d_31be563e",
@@ -83,6 +155,30 @@
       "writtenOn": "2026-08-26T06:16:35Z",
       "side": 1,
       "message": "This formula doesn\u0027t match Jetty 12.1.11 for a sized thread pool.\n\nJetty uses max(1, min(processors/2, httpd.maxThreads/16)), so at the default maxThreads\u003d25 this derives to 1 selector, not processors/2.\n\nThe text should state the cap and that the selector count only starts to scale once maxThreads reaches 32 (32/16 \u003d 2).",
+      "range": {
+        "startLine": 3690,
+        "startChar": 23,
+        "endLine": 3690,
+        "endChar": 43
+      },
+      "revId": "0ff76c97116272e4185347b56c6462adc3f02cab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "28915993_510473a3",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3690,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-09-02T07:14:56Z",
+      "side": 1,
+      "message": "Fixed — the derivation formula is gone from the doc now that selectorThreads defaults to a fixed 2. Resolving.",
+      "parentUuid": "55e7b04d_31be563e",
       "range": {
         "startLine": 3690,
         "startChar": 23,
@@ -146,6 +242,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf180496_227c4b6b",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3693,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-09-02T07:14:56Z",
+      "side": 1,
+      "message": "The upgrade note moved to Release-Notes and the doc no longer says \"previously\". Resolving.",
+      "parentUuid": "aebe9c6f_3707f710",
+      "revId": "0ff76c97116272e4185347b56c6462adc3f02cab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "064ece89_8a994673",
@@ -193,6 +307,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a51f9c0_9fb3e243",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3700,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-09-02T07:14:56Z",
+      "side": 1,
+      "message": "Agreed to defer the thread-leasing (ThreadPoolBudget / getMaxLeasedThreads / reservedThreads config) accounting to a follow-up per the thread above. One small thing for that follow-up: httpd.minThreads (line 3713) still frames the pool floor only around acceptorThreads, but selectors are leased too — worth updating there. Resolving on the understanding the follow-up covers it.",
+      "parentUuid": "d2d70489_73362e73",
+      "range": {
+        "startLine": 3700,
+        "startChar": 0,
+        "endLine": 3700,
+        "endChar": 64
+      },
+      "revId": "0ff76c97116272e4185347b56c6462adc3f02cab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "22f5da4a_d133cd92",
@@ -230,6 +368,30 @@
       "side": 1,
       "message": "\u003e Defaulting to 0 changes the effective default. Previously acceptorThreads (2) was mis-passed as the selector count, so runtime topology was 0 acceptors / 2 selectors. Now acceptors\u003d2, and with a SizedThreadPool at the default maxThreads\u003d25 the derived selector count is 1 — i.e. 2 acceptors / 1 selector.\n\nHmm, I missed it using the Server\u0027s threadPool sizing in that formula.\n\n\u003e \n\u003e Is 2 acceptors / 1 selector the intended new default, or should we preserve the historical 0 / 2 (acceptorThreads\u003d0, selectorThreads\u003d2)?\n\nWe probably don\u0027t want to shrink the # of selectors from our previous default, but I think we do want our acceptorThreads config to be used.\n\nFrom reading https://jetty.org/docs/jetty/12.1/operations-guide/modules/standard.html#http-acceptors it seems there\u0027s more behavioral change to configuring a fixed number of acceptor threads.\n\n\u003e When accepting connections is configured as a blocking operation (the number of acceptors is greater than zero), a thread is blocked in the `accept()` call until a connection is accepted, and other acceptor threads (if any) are blocked on the lock acquired by the accepting thread just before the `accept()` call.\n\n\u003e When accepting connections is configured as a non-blocking operation (the number of acceptors is zero), then the server socket is set in non-blocking mode and added to a NIO selector. In this way, no dedicated acceptor threads exist: the work of accepting connections is performed by the selector thread.\n\nAnd reading https://jetty.org/docs/jetty/12.1/operations-guide/modules/standard.html#http-selectors makes me think we likely don\u0027t need many selector threads:\n\n\u003e A single NIO selector can manage thousands of connections, with the assumption that not many of them will be ready at the same time.\n\u003e REST applications that exchange many little JSON messages tend to be busier than file server applications, leading to a higher ratio.\n\nIf we do have a dedicated pool of acceptor threads, this section seems relevant:\n\u003e Servers that manage a very high number of connections that may (naturally) come and go, or that handle inefficient protocols that open and close connections very frequently (such as HTTP/1.0) may benefit of an increased number of acceptor threads, so that when one acceptor thread processes a just accepted connection, another acceptor thread can immediately take over accepting connections.\n\nSo... maybe we keep the current server behavior by setting the `acceptorThreads` default to `0` and defaulting to `2` for the new `selectorThreads` config.",
       "parentUuid": "22f5da4a_d133cd92",
+      "range": {
+        "startLine": 336,
+        "startChar": 68,
+        "endLine": 337,
+        "endChar": 4
+      },
+      "revId": "0ff76c97116272e4185347b56c6462adc3f02cab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "09d4f285_8bb33883",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-09-02T07:14:56Z",
+      "side": 1,
+      "message": "PS3 does this: acceptorThreads defaults to 0 and the new selectorThreads defaults to 2, so the default stays 0 acceptors / 2 selectors. Confirmed the ServerConnector args are now (…, acceptors, selectors, …) at all four call sites. Resolving.",
+      "parentUuid": "800b1b8f_82a14609",
       "range": {
         "startLine": 336,
         "startChar": 68,

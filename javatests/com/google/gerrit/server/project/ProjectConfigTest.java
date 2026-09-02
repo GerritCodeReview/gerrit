@@ -132,7 +132,7 @@ public class ProjectConfigTest {
                     + "  agreementUrl = http://www.example.com/agree\n")
             .create();
 
-    ProjectConfig cfg = read(rev);
+    ProjectConfig cfg = read(ALL_PROJECTS, rev);
     assertThat(cfg.getAccountsSection().getSameGroupVisibility()).hasSize(2);
     ContributorAgreement ca = cfg.getContributorAgreement("Individual");
     assertThat(ca.getName()).isEqualTo("Individual");
@@ -439,7 +439,7 @@ public class ProjectConfigTest {
             .create();
     update(rev);
 
-    ProjectConfig cfg = read(rev);
+    ProjectConfig cfg = read(ALL_PROJECTS, rev);
     cfg.upsertAccessSection(
         "refs/heads/*",
         section -> {
@@ -877,7 +877,7 @@ public class ProjectConfigTest {
             .create();
     update(rev);
 
-    ProjectConfig cfg = read(rev);
+    ProjectConfig cfg = read(ALL_PROJECTS, rev);
     ContributorAgreement.Builder section = cfg.getContributorAgreement("Individual").toBuilder();
     section.setAccepted(ImmutableList.of());
     cfg.upsertContributorAgreement(section.build());
@@ -1020,7 +1020,12 @@ public class ProjectConfigTest {
   }
 
   private ProjectConfig read(RevCommit rev) throws IOException, ConfigInvalidException {
-    ProjectConfig cfg = factory.create(Project.nameKey("test"));
+    return read(Project.nameKey("test"), rev);
+  }
+
+  private ProjectConfig read(Project.NameKey projectNameKey, RevCommit rev)
+      throws IOException, ConfigInvalidException {
+    ProjectConfig cfg = factory.create(projectNameKey);
     cfg.load(db, rev);
     return cfg;
   }

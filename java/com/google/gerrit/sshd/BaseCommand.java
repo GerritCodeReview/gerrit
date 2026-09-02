@@ -17,6 +17,7 @@ package com.google.gerrit.sshd;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.Throwables;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.Atomics;
 import com.google.gerrit.common.Nullable;
@@ -111,6 +112,9 @@ public abstract class BaseCommand implements Command {
   /** The task, as scheduled on a worker thread. */
   private final AtomicReference<Future<?>> task;
 
+  /** Channel this command runs on; set when sshd destroys the command. */
+  private volatile ChannelSession channel;
+
   /** Text of the command line which lead up to invoking this instance. */
   private String commandName = "";
 
@@ -199,6 +203,7 @@ public abstract class BaseCommand implements Command {
 
   @Override
   public void destroy(ChannelSession channel) {
+    this.channel = channel;
     Future<?> future = task.getAndSet(null);
     if (future != null && !future.isDone()) {
       future.cancel(true);
@@ -353,11 +358,14 @@ public abstract class BaseCommand implements Command {
         || //
         (e.getClass() == SshException.class && "Already closed".equals(e.getMessage()))
         || //
-        e.getClass() == InterruptedIOException.class) {
+        e.getClass() == InterruptedIOException.class
+        || //
+        isInterruptAfterClientDisconnect(e)) {
       // This is sshd telling us the client just dropped off while
       // we were waiting for a read or a write to complete. Either
       // way its not really a fatal error. Don't log it.
       //
+      logger.atFine().withCause(e).log("Client disconnected during %s", context.getCommandLine());
       return 127;
     }
 
@@ -399,6 +407,23 @@ public abstract class BaseCommand implements Command {
       logger.atWarning().withCause(e2).log("Cannot send internal server error message to client");
     }
     return 128;
+  }
+
+  /**
+   * Returns true if this exception is the thread interrupt we sent from {@link
+   * #destroy(ChannelSession)} after the client disconnected.
+   *
+   * <p>Requires both that the channel is gone and that the interrupt is in the causal chain.
+   * Libraries wrap {@link InterruptedException} in unchecked exceptions, so the interrupt is rarely
+   * the top-level throwable. Checking the channel alone would suppress unrelated failures that
+   * merely happened to surface after a disconnect.
+   */
+  private boolean isInterruptAfterClientDisconnect(Throwable e) {
+    ChannelSession c = channel;
+    if (c == null || c.isOpen()) {
+      return false;
+    }
+    return Throwables.getCausalChain(e).stream().anyMatch(t -> t instanceof InterruptedException);
   }
 
   private void logCauseIfRelevant(Throwable e, StringBuilder message) {

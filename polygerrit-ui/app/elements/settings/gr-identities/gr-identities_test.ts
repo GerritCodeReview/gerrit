@@ -114,8 +114,8 @@ suite('gr-identities tests', () => {
 
     const nameCells = rows.map(row => queryAll(row, 'td')[2].textContent);
 
-    assert.equal(nameCells[0]!.trim(), 'gerrit:gerrit');
-    assert.equal(nameCells[1]!.trim(), '');
+    assert.equal(nameCells[0].trim(), 'gerrit:gerrit');
+    assert.equal(nameCells[1].trim(), '');
   });
 
   test('renders email', () => {
@@ -125,8 +125,8 @@ suite('gr-identities tests', () => {
 
     const nameCells = rows.map(row => queryAll(row, 'td')[1].textContent);
 
-    assert.equal(nameCells[0]!, 'gerrit@example.com');
-    assert.equal(nameCells[1]!, 'gerrit2@example.com');
+    assert.equal(nameCells[0], 'gerrit@example.com');
+    assert.equal(nameCells[1], 'gerrit2@example.com');
   });
 
   test('filterIdentities', () => {

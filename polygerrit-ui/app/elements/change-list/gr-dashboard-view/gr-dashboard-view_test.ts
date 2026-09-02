@@ -606,7 +606,7 @@ suite('gr-dashboard-view tests', () => {
       queryAndAssert<HTMLDivElement>(
         element,
         '#emptyOutgoing'
-      ).textContent!.trim(),
+      ).textContent.trim(),
       'No changes'
     );
     query<GrCreateChangeHelp>(element, 'gr-create-change-help');
@@ -618,7 +618,7 @@ suite('gr-dashboard-view tests', () => {
       queryAndAssert<HTMLDivElement>(
         element,
         '#emptyOutgoing'
-      ).textContent!.trim(),
+      ).textContent.trim(),
       'No changes'
     );
     assert.isOk(query<GrCreateChangeHelp>(element, 'gr-create-change-help'));

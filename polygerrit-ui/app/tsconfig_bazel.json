@@ -5,6 +5,7 @@
     // output directory to stay within the Bazel package (kept in sync with
     // out_dir of the compile_pg ts_project in the BUILD file).
     "outDir": "_pg_ts_out",
+    "types": [],
     "typeRoots": [
       "../../external/ui_npm/node_modules/@types",
       "../../external/ui_dev_npm/node_modules/@types"

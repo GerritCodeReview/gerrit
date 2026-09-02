@@ -30,9 +30,11 @@
     "noFallthroughCasesInSwitch": true,/* Report errors for fallthrough cases in switch statement. */
 
     "skipLibCheck": true, /* Do not check node_modules */
+    "types": ["mocha"], /* Mocha globals for tests; prod (tsconfig_bazel) overrides with []. */
 
     /* Module Resolution Options */
     "moduleResolution": "node", /* Specify module resolution strategy: 'node' (Node.js) or 'classic' (TypeScript pre-1.6). */
+    "ignoreDeprecations": "6.0", /* Allow deprecated moduleResolution "node" (TS5107). */
     "esModuleInterop": true, /* Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'. */
     "preserveSymlinks": false, /* Do not resolve the real path of symlinks. */
 

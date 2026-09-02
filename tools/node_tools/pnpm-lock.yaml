@@ -30,8 +30,8 @@ importers:
         specifier: ~5.39.0
         version: 5.39.2
       typescript:
-        specifier: ^5.8.3
-        version: 5.8.3
+        specifier: 6.0.3
+        version: 6.0.3
 
 packages:
 
@@ -320,8 +320,8 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
 
-  typescript@5.8.3:
-    resolution: {integrity: sha512-p1diW6TqL9L07nNxvRMM7hMMw4c5XOo/1ibL4aAIGmSAt9slTE1Xgw5KWuof2uTOvCg9BY7ZRi+GaF+7sfgPeQ==}
+  typescript@6.0.3:
+    resolution: {integrity: sha512-y2TvuxSZPDyQakkFRPZHKFm+KKVqIisdg9/CZwm9ftvKXLP8NRWj38/ODjNbr43SsoXqNuAisEf1GdCxqWcdBw==}
     engines: {node: '>=14.17'}
     hasBin: true
 
@@ -568,6 +568,6 @@ snapshots:
       commander: 2.20.3
       source-map-support: 0.5.21
 
-  typescript@5.8.3: {}
+  typescript@6.0.3: {}
 
   undici-types@6.21.0: {}

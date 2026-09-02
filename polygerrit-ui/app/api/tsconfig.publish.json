@@ -1,4 +1,7 @@
 {
   "extends": "./tsconfig-plugins-base.json",
+  "compilerOptions": {
+    "types": []
+  },
   "include": ["./**/*.ts"]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21c3ebf2_fa34cc2d",
+        "filename": "javatests/com/google/gerrit/server/restapi/project/ListSubmitRequirementTemplatesTest.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-09-02T12:50:22Z",
+      "side": 1,
+      "message": "fix tests...",
+      "revId": "4eef32bde821d650d041f17cd4bb94cd772cd147",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

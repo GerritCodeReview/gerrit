@@ -517,6 +517,18 @@ public class GroupNameNotesTest {
     assertThat(readNameNote(g)).isEqualTo("[group]\n\tuuid = -1\n\tname = \n");
   }
 
+  @Test
+  public void loadAllGroupsAtRevision() throws Exception {
+    GroupReference first = newGroup("first");
+    updateAllGroups(newPersonIdent(), first);
+    ObjectId firstRevision = repo.exactRef(REFS_GROUPNAMES).getObjectId();
+
+    GroupReference second = newGroup("second");
+    updateAllGroups(newPersonIdent(), first, second);
+
+    assertThat(GroupNameNotes.loadAllGroups(repo, firstRevision)).containsExactly(first);
+  }
+
   private void createGroup(AccountGroup.UUID groupUuid, AccountGroup.NameKey groupName)
       throws Exception {
     GroupNameNotes groupNameNotes =

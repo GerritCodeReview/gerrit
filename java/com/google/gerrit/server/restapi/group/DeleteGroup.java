@@ -171,7 +171,7 @@ public class DeleteGroup implements RestModifyView<GroupResource, DeleteGroupInp
   private List<String> getSubgroupsInGroups(AccountGroup.UUID uuid, String groupName)
       throws ConfigInvalidException, IOException {
     List<String> allGroupsWithSubGroups = new ArrayList<>();
-    groups
+    groupCache
         .getAllGroupReferences()
         .forEach(
             entry -> {

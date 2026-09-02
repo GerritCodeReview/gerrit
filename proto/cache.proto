@@ -304,11 +304,23 @@ message AllExternalGroupsProto {
   repeated ExternalGroupProto external_group = 1;
 }
 
-// Serialized key for com.google.gerrit.server.account.GroupCacheImpl.
+// Serialized key for groups_byuuid_persisted in com.google.gerrit.server.account.GroupCacheImpl.
 // Next ID: 3
 message GroupKeyProto {
   string uuid = 1;
   bytes revision = 2;
+}
+
+// Serialized key for groups_bynames in com.google.gerrit.server.account.GroupCacheImpl.
+// Next ID: 2
+message GroupNamesKeyProto {
+  bytes revision = 1;
+}
+
+// Serialized value for groups_bynames in com.google.gerrit.server.account.GroupCacheImpl.
+// Next ID: 2
+message GroupReferencesProto {
+  repeated GroupReferenceProto groups = 1;
 }
 
 

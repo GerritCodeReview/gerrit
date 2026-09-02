@@ -20,12 +20,14 @@ import static com.google.common.collect.ImmutableSet.toImmutableSet;
 
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.entities.GroupReference;
 import com.google.gerrit.entities.InternalGroup;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.exceptions.StorageException;
@@ -35,9 +37,11 @@ import com.google.gerrit.server.cache.proto.Cache;
 import com.google.gerrit.server.cache.serialize.CacheSerializer;
 import com.google.gerrit.server.cache.serialize.ObjectIdConverter;
 import com.google.gerrit.server.cache.serialize.ProtobufSerializer;
+import com.google.gerrit.server.cache.serialize.entities.GroupReferenceSerializer;
 import com.google.gerrit.server.cache.serialize.entities.InternalGroupSerializer;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.group.db.GroupNameNotes;
 import com.google.gerrit.server.group.db.Groups;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
@@ -49,6 +53,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -57,6 +62,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 import org.bouncycastle.util.Strings;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -71,6 +77,7 @@ public class GroupCacheImpl implements GroupCache {
   private static final String BYNAME_NAME = "groups_byname";
   private static final String BYUUID_NAME = "groups_byuuid";
   private static final String BYUUID_NAME_PERSISTED = "groups_byuuid_persisted";
+  private static final String BYNAMES_NAME = "groups_bynames";
 
   public static Module module() {
     return new CacheModule() {
@@ -114,6 +121,18 @@ public class GroupCacheImpl implements GroupCache {
             .version(1)
             .maximumWeight(0);
 
+        persist(
+                BYNAMES_NAME,
+                Cache.GroupNamesKeyProto.class,
+                new TypeLiteral<ImmutableList<GroupReference>>() {})
+            .loader(ByNamesLoader.class)
+            .keySerializer(new ProtobufSerializer<>(Cache.GroupNamesKeyProto.parser()))
+            .valueSerializer(GroupReferencesSerializer.INSTANCE)
+            .diskLimit(-1)
+            .version(1)
+            .maximumWeight(2)
+            .expireFromMemoryAfterAccess(Duration.ofMinutes(1));
+
         bind(GroupCacheImpl.class);
         bind(GroupCache.class).to(GroupCacheImpl.class);
       }
@@ -124,6 +143,9 @@ public class GroupCacheImpl implements GroupCache {
   private final LoadingCache<String, Optional<InternalGroup>> byName;
   private final LoadingCache<String, Optional<InternalGroup>> byUUID;
   private final LoadingCache<Cache.GroupKeyProto, InternalGroup> persistedByUuidCache;
+  private final LoadingCache<Cache.GroupNamesKeyProto, ImmutableList<GroupReference>> byNames;
+  private final GitRepositoryManager repoManager;
+  private final AllUsersName allUsersName;
 
   @Inject
   GroupCacheImpl(
@@ -131,11 +153,18 @@ public class GroupCacheImpl implements GroupCache {
       @Named(BYNAME_NAME) LoadingCache<String, Optional<InternalGroup>> byName,
       @Named(BYUUID_NAME) LoadingCache<String, Optional<InternalGroup>> byUUID,
       @Named(BYUUID_NAME_PERSISTED)
-          LoadingCache<Cache.GroupKeyProto, InternalGroup> persistedByUuidCache) {
+          LoadingCache<Cache.GroupKeyProto, InternalGroup> persistedByUuidCache,
+      @Named(BYNAMES_NAME)
+          LoadingCache<Cache.GroupNamesKeyProto, ImmutableList<GroupReference>> byNames,
+      GitRepositoryManager repoManager,
+      AllUsersName allUsersName) {
     this.byId = byId;
     this.byName = byName;
     this.byUUID = byUUID;
     this.persistedByUuidCache = persistedByUuidCache;
+    this.byNames = byNames;
+    this.repoManager = repoManager;
+    this.allUsersName = allUsersName;
   }
 
   @Override
@@ -219,6 +248,31 @@ public class GroupCacheImpl implements GroupCache {
       return persistedByUuidCache.get(key);
     } catch (ExecutionException e) {
       throw new StorageException(e);
+    }
+  }
+
+  @Override
+  public ImmutableList<GroupReference> getAllGroupReferences() {
+    Ref ref;
+    try (Repository allUsers = repoManager.openRepository(allUsersName)) {
+      ref = allUsers.exactRef(RefNames.REFS_GROUPNAMES);
+    } catch (Exception e) {
+      logger.atWarning().withCause(e).log(
+          "Cannot read %s from All-Users", RefNames.REFS_GROUPNAMES);
+      return ImmutableList.of();
+    }
+    if (ref == null) {
+      return ImmutableList.of();
+    }
+    Cache.GroupNamesKeyProto key =
+        Cache.GroupNamesKeyProto.newBuilder()
+            .setRevision(ObjectIdConverter.create().toByteString(ref.getObjectId()))
+            .build();
+    try {
+      return byNames.get(key);
+    } catch (ExecutionException e) {
+      logger.atWarning().withCause(e).log("Cannot load all group references");
+      return ImmutableList.of();
     }
   }
 
@@ -399,6 +453,53 @@ public class GroupCacheImpl implements GroupCache {
       }
       return InternalGroupSerializer.deserialize(
           Protos.parseUnchecked(Cache.InternalGroupProto.parser(), in));
+    }
+  }
+
+  static class ByNamesLoader
+      extends CacheLoader<Cache.GroupNamesKeyProto, ImmutableList<GroupReference>> {
+    private final GitRepositoryManager repoManager;
+    private final AllUsersName allUsersName;
+
+    @Inject
+    ByNamesLoader(GitRepositoryManager repoManager, AllUsersName allUsersName) {
+      this.repoManager = repoManager;
+      this.allUsersName = allUsersName;
+    }
+
+    @Override
+    public ImmutableList<GroupReference> load(Cache.GroupNamesKeyProto key) throws Exception {
+      try (TraceTimer ignored =
+              TraceContext.newTimer("Loading all groups from cache", Metadata.builder().build());
+          Repository allUsers = repoManager.openRepository(allUsersName)) {
+        ObjectId revision = ObjectIdConverter.create().fromByteString(key.getRevision());
+        return GroupNameNotes.loadAllGroups(allUsers, revision);
+      }
+    }
+  }
+
+  private enum GroupReferencesSerializer implements CacheSerializer<ImmutableList<GroupReference>> {
+    INSTANCE;
+
+    @Override
+    public byte[] serialize(ImmutableList<GroupReference> value) {
+      Cache.GroupReferencesProto proto =
+          Cache.GroupReferencesProto.newBuilder()
+              .addAllGroups(
+                  value.stream()
+                      .map(GroupReferenceSerializer::serialize)
+                      .collect(Collectors.toList()))
+              .build();
+      return Protos.toByteArray(proto);
+    }
+
+    @Override
+    public ImmutableList<GroupReference> deserialize(byte[] in) {
+      Cache.GroupReferencesProto proto =
+          Protos.parseUnchecked(Cache.GroupReferencesProto.parser(), in);
+      return proto.getGroupsList().stream()
+          .map(GroupReferenceSerializer::deserialize)
+          .collect(ImmutableList.toImmutableList());
     }
   }
 }

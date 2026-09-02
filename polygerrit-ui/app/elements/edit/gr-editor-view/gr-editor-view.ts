@@ -122,7 +122,7 @@ export class GrEditorView extends LitElement {
   constructor() {
     super();
     this.addEventListener('content-change', e => {
-      this.handleContentChange(e as CustomEvent<{value: string}>);
+      this.handleContentChange(e);
     });
     subscribe(
       this,

@@ -76,7 +76,7 @@ export class SiteBasedCache {
       // TODO(kamilm): This implies very strict format of what is stored in
       //   INITIAL_DATA which is not clear from the name, consider renaming.
       Object.entries(window.INITIAL_DATA).forEach(e =>
-        this._cache().set(addBaseUrl(e[0]), e[1] as unknown as ParsedJSON)
+        this._cache().set(addBaseUrl(e[0]), e[1])
       );
     }
   }

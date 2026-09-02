@@ -624,38 +624,38 @@ suite('gr-suggestion-textarea tests with <gr-textarea>', () => {
   suite('keyboard shortcuts', async () => {
     test('escape key', async () => {
       const resetSpy = sinon.spy(element, 'resetDropdown');
-      pressKey(element.textarea! as HTMLElement, Key.ESC);
+      pressKey(element.textarea!, Key.ESC);
       assert.isFalse(resetSpy.called);
       await setText(':1');
-      pressKey(element.textarea! as HTMLElement, Key.ESC);
+      pressKey(element.textarea!, Key.ESC);
       assert.isTrue(resetSpy.called);
       assert.isTrue(element.emojiSuggestions!.isHidden);
     });
 
     test('up key', async () => {
       const upSpy = sinon.spy(element.emojiSuggestions!, 'cursorUp');
-      pressKey(element.textarea! as HTMLElement, 'ArrowUp');
+      pressKey(element.textarea!, 'ArrowUp');
       assert.isFalse(upSpy.called);
       await setText(':1');
-      pressKey(element.textarea! as HTMLElement, 'ArrowUp');
+      pressKey(element.textarea!, 'ArrowUp');
       assert.isTrue(upSpy.called);
     });
 
     test('down key', async () => {
       const downSpy = sinon.spy(element.emojiSuggestions!, 'cursorDown');
-      pressKey(element.textarea! as HTMLElement, 'ArrowDown');
+      pressKey(element.textarea!, 'ArrowDown');
       assert.isFalse(downSpy.called);
       await setText(':1');
-      pressKey(element.textarea! as HTMLElement, 'ArrowDown');
+      pressKey(element.textarea!, 'ArrowDown');
       assert.isTrue(downSpy.called);
     });
 
     test('enter key', async () => {
       const enterSpy = sinon.spy(element.emojiSuggestions!, 'getCursorTarget');
-      pressKey(element.textarea! as HTMLElement, Key.ENTER);
+      pressKey(element.textarea!, Key.ENTER);
       assert.isFalse(enterSpy.called);
       await setText(':1');
-      pressKey(element.textarea! as HTMLElement, Key.ENTER);
+      pressKey(element.textarea!, Key.ENTER);
       assert.isTrue(enterSpy.called);
       await element.updateComplete;
       assert.equal(element.text, '💯');

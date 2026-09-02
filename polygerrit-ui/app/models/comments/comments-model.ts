@@ -766,6 +766,7 @@ export class CommentsModel extends Model<CommentState> {
 
       const jsonTimer = this.reporting.getTimer(`${timing} - parse - json`);
       try {
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
         savedComment = parsePrefixedJSON(text) as unknown as CommentInfo;
       } catch (_) {
         throw new Error(

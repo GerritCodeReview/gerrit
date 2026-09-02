@@ -207,7 +207,7 @@ export class PluginsModel extends Model<PluginsState> {
     }
     this.updateState({
       [key]: [...list, plugin],
-    } as unknown as Partial<PluginsState>);
+    });
   }
 
   coverageRegister(plugin: CoveragePlugin) {

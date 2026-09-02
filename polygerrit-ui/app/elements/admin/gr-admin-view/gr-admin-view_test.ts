@@ -598,7 +598,7 @@ suite('gr-admin-view tests', () => {
         await element.updateComplete;
         const selected = queryAndAssert(element, 'gr-page-nav .selected');
         assert.isOk(selected);
-        assert.equal(selected.textContent!.trim(), 'Repositories');
+        assert.equal(selected.textContent.trim(), 'Repositories');
       });
 
       test('repo', async () => {
@@ -612,7 +612,7 @@ suite('gr-admin-view tests', () => {
         await element.updateComplete;
         const selected = queryAndAssert(element, 'gr-page-nav .selected');
         assert.isOk(selected);
-        assert.equal(selected.textContent!.trim(), 'foo');
+        assert.equal(selected.textContent.trim(), 'foo');
       });
 
       test('repo access', async () => {
@@ -627,7 +627,7 @@ suite('gr-admin-view tests', () => {
         await element.updateComplete;
         const selected = queryAndAssert(element, 'gr-page-nav .selected');
         assert.isOk(selected);
-        assert.equal(selected.textContent!.trim(), 'Access');
+        assert.equal(selected.textContent.trim(), 'Access');
       });
 
       test('repo dashboards', async () => {
@@ -642,7 +642,7 @@ suite('gr-admin-view tests', () => {
         await element.updateComplete;
         const selected = queryAndAssert(element, 'gr-page-nav .selected');
         assert.isOk(selected);
-        assert.equal(selected.textContent!.trim(), 'Dashboards');
+        assert.equal(selected.textContent.trim(), 'Dashboards');
       });
     });
 
@@ -676,7 +676,7 @@ suite('gr-admin-view tests', () => {
         await element.updateComplete;
         const selected = queryAndAssert(element, 'gr-page-nav .selected');
         assert.isOk(selected);
-        assert.equal(selected.textContent!.trim(), 'Groups');
+        assert.equal(selected.textContent.trim(), 'Groups');
       });
 
       test('internal group', async () => {
@@ -696,7 +696,7 @@ suite('gr-admin-view tests', () => {
         assert.isTrue(element.groupIsInternal);
         const selected = queryAndAssert(element, 'gr-page-nav .selected');
         assert.isOk(selected);
-        assert.equal(selected.textContent!.trim(), 'foo');
+        assert.equal(selected.textContent.trim(), 'foo');
       });
 
       test('external group', async () => {
@@ -722,7 +722,7 @@ suite('gr-admin-view tests', () => {
         assert.isFalse(element.groupIsInternal);
         const selected = queryAndAssert(element, 'gr-page-nav .selected');
         assert.isOk(selected);
-        assert.equal(selected.textContent!.trim(), 'foo');
+        assert.equal(selected.textContent.trim(), 'foo');
       });
 
       test('group members', async () => {
@@ -737,7 +737,7 @@ suite('gr-admin-view tests', () => {
         await element.updateComplete;
         const selected = queryAndAssert(element, 'gr-page-nav .selected');
         assert.isOk(selected);
-        assert.equal(selected.textContent!.trim(), 'Members');
+        assert.equal(selected.textContent.trim(), 'Members');
       });
     });
   });

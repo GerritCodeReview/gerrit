@@ -28,12 +28,10 @@ import com.google.common.flogger.FluentLogger;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.entities.AccessSection;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
-import com.google.gerrit.entities.NotifyConfig;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.ConsistencyProblemInfo;
@@ -85,6 +83,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -607,29 +606,23 @@ public class CommitValidators {
             throw new CommitValidationException("invalid project configuration", messages);
           }
 
+          @Nullable ProjectConfig previousConfig = null;
+          if (receiveEvent.commit.getParentCount() > 0) {
+            previousConfig = projectConfigFactory.create(receiveEvent.project.getNameKey());
+            previousConfig.load(rw, receiveEvent.commit.getParent(0));
+          }
+
           if (!accessSectionRegexValidator.isAllowed()
               && REFS_CONFIG.equals(receiveEvent.command.getRefName())) {
-            Collection<AccessSection> previousAccessSections = Collections.emptyList();
-            if (receiveEvent.commit.getParentCount() > 0) {
-              ProjectConfig previousConfig =
-                  projectConfigFactory.create(receiveEvent.project.getNameKey());
-              previousConfig.load(rw, receiveEvent.commit.getParent(0));
-              previousAccessSections = previousConfig.getAccessSections();
-            }
             accessSectionRegexValidator.validateNewRegexes(
-                previousAccessSections, cfg.getAccessSections());
+                previousConfigValues(previousConfig, ProjectConfig::getAccessSections),
+                cfg.getAccessSections());
           }
 
           if (!projectNotifyFilterValidator.isAllowed()) {
-            Collection<NotifyConfig> previousNotifyConfigs = Collections.emptyList();
-            if (receiveEvent.commit.getParentCount() > 0) {
-              ProjectConfig previousConfig =
-                  projectConfigFactory.create(receiveEvent.project.getNameKey());
-              previousConfig.load(rw, receiveEvent.commit.getParent(0));
-              previousNotifyConfigs = previousConfig.getNotifyConfigs();
-            }
             projectNotifyFilterValidator.validateNewOrChangedFilters(
-                previousNotifyConfigs, cfg.getNotifyConfigs());
+                previousConfigValues(previousConfig, ProjectConfig::getNotifyConfigs),
+                cfg.getNotifyConfigs());
           }
 
           if (allUsers.equals(receiveEvent.project.getNameKey())
@@ -654,6 +647,12 @@ public class CommitValidators {
       }
 
       return Collections.emptyList();
+    }
+
+    private static <T> Collection<T> previousConfigValues(
+        @Nullable ProjectConfig previousConfig,
+        Function<ProjectConfig, ? extends Collection<T>> getter) {
+      return previousConfig == null ? ImmutableList.of() : getter.apply(previousConfig);
     }
   }
 

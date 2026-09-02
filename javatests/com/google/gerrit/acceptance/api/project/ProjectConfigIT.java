@@ -34,6 +34,7 @@ import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.extensions.api.changes.PublishChangeEditInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.projects.CommentLinkInput;
 import com.google.gerrit.extensions.api.projects.ConfigInfo;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.api.projects.ConfigValue;
@@ -100,6 +101,54 @@ public class ProjectConfigIT extends AbstractDaemonTest {
     result.assertMessage(RegexPermissionPolicy.NOT_PERMITTED_MESSAGE);
 
     result = pushProjectConfigRegex("refs/for/" + RefNames.REFS_CONFIG, addMimeTypeRegex);
+    result.assertOkStatus();
+    String changeId = result.getChangeId();
+
+    gApi.changes().id(changeId).current().review(new ReviewInput().label("Code-Review", 2));
+
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class, () -> gApi.changes().id(changeId).current().submit());
+    assertThat(thrown).hasMessageThat().contains(RegexPermissionPolicy.NOT_PERMITTED_MESSAGE);
+  }
+
+  @Test
+  @GerritConfig(
+      name = RegexAllowedGroupsProvider.SECTION + "." + RegexAllowedGroupsProvider.KEY,
+      value = "Project Owners")
+  public void nonMemberCannotAddCommentLinkRegex() throws Exception {
+    assertNonMemberCannotAddProjectConfigRegex(
+        config -> {
+          config.setString("commentlink", "test", "match", "^.*");
+          config.setString("commentlink", "test", "link", "https://example.com/$0");
+        });
+  }
+
+  @Test
+  @GerritConfig(
+      name = RegexAllowedGroupsProvider.SECTION + "." + RegexAllowedGroupsProvider.KEY,
+      value = "Project Owners")
+  public void nonMemberCannotAddCommentLinkRegexThroughRestApi() throws Exception {
+    CommentLinkInput commentLink = new CommentLinkInput();
+    commentLink.match = "^.*";
+    commentLink.link = "https://example.com/$0";
+    ConfigInput input = new ConfigInput();
+    input.commentLinks = ImmutableMap.of("test", commentLink);
+
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> gApi.projects().name(allProjects.get()).config(input));
+    assertThat(thrown).hasMessageThat().contains(RegexPermissionPolicy.NOT_PERMITTED_MESSAGE);
+  }
+
+  private void assertNonMemberCannotAddProjectConfigRegex(Consumer<Config> updateConfig)
+      throws Exception {
+    PushOneCommit.Result result = pushProjectConfigRegex(RefNames.REFS_CONFIG, updateConfig);
+    result.assertErrorStatus();
+    result.assertMessage(RegexPermissionPolicy.NOT_PERMITTED_MESSAGE);
+
+    result = pushProjectConfigRegex("refs/for/" + RefNames.REFS_CONFIG, updateConfig);
     result.assertOkStatus();
     String changeId = result.getChangeId();
 

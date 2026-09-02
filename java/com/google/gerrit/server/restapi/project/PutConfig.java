@@ -24,6 +24,7 @@ import static com.google.gerrit.server.project.ProjectConfig.KEY_TEXT;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.Project;
@@ -48,6 +49,7 @@ import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.extensions.webui.UiActions;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
+import com.google.gerrit.server.git.validators.ProjectConfigRegexValidator;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
@@ -87,6 +89,7 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
   private final Provider<CurrentUser> user;
   private final PermissionBackend permissionBackend;
   private final ProjectConfig.Factory projectConfigFactory;
+  private final ProjectConfigRegexValidator projectConfigRegexValidator;
 
   @Inject
   PutConfig(
@@ -101,7 +104,8 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
       DynamicMap<RestView<ProjectResource>> views,
       Provider<CurrentUser> user,
       PermissionBackend permissionBackend,
-      ProjectConfig.Factory projectConfigFactory) {
+      ProjectConfig.Factory projectConfigFactory,
+      ProjectConfigRegexValidator projectConfigRegexValidator) {
     this.serverEnableSignedPush = serverEnableSignedPush;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
     this.projectCache = projectCache;
@@ -114,6 +118,7 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
     this.user = user;
     this.permissionBackend = permissionBackend;
     this.projectConfigFactory = projectConfigFactory;
+    this.projectConfigRegexValidator = projectConfigRegexValidator;
   }
 
   @Override
@@ -160,7 +165,19 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
       }
 
       if (input.commentLinks != null) {
+        boolean regexAllowed = projectConfigRegexValidator.isAllowed();
+        ImmutableMap<String, String> existingCommentLinkRegexes =
+            regexAllowed ? ImmutableMap.of() : projectConfig.getCommentLinkRegexes();
         updateCommentLinks(projectConfig, input.commentLinks);
+        if (!regexAllowed) {
+          try {
+            projectConfigRegexValidator.assertNoAdditionalRegexes(
+                existingCommentLinkRegexes.entrySet(),
+                projectConfig.getCommentLinkRegexes().entrySet());
+          } catch (ConfigInvalidException e) {
+            throw new ResourceConflictException(e.getMessage(), e);
+          }
+        }
       }
 
       md.setMessage("Modified project settings\n");

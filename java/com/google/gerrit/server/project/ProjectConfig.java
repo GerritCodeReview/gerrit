@@ -16,6 +16,7 @@ package com.google.gerrit.server.project;
 
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
+import static com.google.common.collect.ImmutableMap.toImmutableMap;
 import static com.google.gerrit.entities.Permission.isPermission;
 import static com.google.gerrit.entities.Project.DEFAULT_SUBMIT_TYPE;
 import static com.google.gerrit.server.permissions.PluginPermissionsUtil.isValidPluginPermission;
@@ -28,6 +29,7 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -573,6 +575,12 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
   public Collection<StoredCommentLinkInfo> getCommentLinkSections() {
     return commentLinkSections.values();
+  }
+
+  public ImmutableMap<String, String> getCommentLinkRegexes() {
+    return commentLinkSections.values().stream()
+        .filter(commentLink -> commentLink.getMatch() != null)
+        .collect(toImmutableMap(StoredCommentLinkInfo::getName, StoredCommentLinkInfo::getMatch));
   }
 
   public ConfiguredMimeTypes getMimeTypes() {

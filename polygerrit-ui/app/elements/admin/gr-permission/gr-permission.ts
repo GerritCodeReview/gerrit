@@ -346,7 +346,7 @@ export class GrPermission extends LitElement {
     if (!this.permission || !this.permission.id || !this.docsBaseUrl) {
       return undefined;
     }
-    let anchor = getAccessDocsAnchor(this.permission.id as string);
+    let anchor = getAccessDocsAnchor(this.permission.id);
     if (!anchor && this.section === 'GLOBAL_CAPABILITIES') {
       anchor = `capability_${this.permission.id}`;
     }

@@ -288,7 +288,7 @@ suite('label-util', () => {
             '-2': 'terrible',
           },
           default_value: 0,
-        } as DetailedLabelInfo,
+        },
         Verified: {
           values: {
             '0': 'No score',
@@ -298,7 +298,7 @@ suite('label-util', () => {
             '-2': 'terrible',
           },
           default_value: 0,
-        } as DetailedLabelInfo,
+        },
       } as LabelNameToInfoMap,
     };
     let labels = computeLabels(account, change);
@@ -316,8 +316,8 @@ suite('label-util', () => {
             value: 1,
           },
         ],
-      } as DetailedLabelInfo,
-    } as LabelNameToInfoMap;
+      },
+    };
     labels = computeLabels(account, change);
     assert.deepEqual(labels, [
       {name: 'Code-Review', value: null},

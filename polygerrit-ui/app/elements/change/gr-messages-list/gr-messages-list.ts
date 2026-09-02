@@ -548,6 +548,7 @@ export class GrMessagesList extends LitElement {
         acc[val] = (acc[val] || 0) + 1;
         return acc;
       },
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
       {all: this.combinedMessages.length} as TagsCountReportInfo
     );
     this.reporting.reportInteraction('messages-count', tagsCounted);

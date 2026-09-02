@@ -2903,7 +2903,7 @@ suite('gr-reply-dialog tests', () => {
 
     test('mentioned user in resolved draft is added to CC', async () => {
       const account = {
-        ...createAccountWithEmail('abcd@def.com' as EmailAddress),
+        ...createAccountWithEmail('abcd@def.com'),
         _account_id: 1234 as AccountId,
         registered_on: '2015-03-12 18:32:08.000000000' as Timestamp,
       };
@@ -2936,7 +2936,7 @@ suite('gr-reply-dialog tests', () => {
 
     test('mentioned user in unresolved draft is added to CC and AttentionSet', async () => {
       const account = {
-        ...createAccountWithEmail('abcd@def.com' as EmailAddress),
+        ...createAccountWithEmail('abcd@def.com'),
         _account_id: 1234 as AccountId,
         registered_on: '2015-03-12 18:32:08.000000000' as Timestamp,
       };
@@ -2975,7 +2975,7 @@ suite('gr-reply-dialog tests', () => {
     test('mention user can be manually removed from attention set', async () => {
       stubRestApi('getAccountDetails').returns(
         Promise.resolve({
-          ...createAccountWithEmail('abcd@def.com' as EmailAddress),
+          ...createAccountWithEmail('abcd@def.com'),
           _account_id: 1234 as AccountId,
           registered_on: '2015-03-12 18:32:08.000000000' as Timestamp,
         })
@@ -3038,7 +3038,7 @@ suite('gr-reply-dialog tests', () => {
 
     test('mention user who is already CCed', async () => {
       const account = {
-        ...createAccountWithEmail('abcd@def.com' as EmailAddress),
+        ...createAccountWithEmail('abcd@def.com'),
         _account_id: 1234 as AccountId,
         registered_on: '2015-03-12 18:32:08.000000000' as Timestamp,
       };
@@ -3075,7 +3075,7 @@ suite('gr-reply-dialog tests', () => {
 
     test('mention user who is already a reviewer', async () => {
       const account = {
-        ...createAccountWithEmail('abcd@def.com' as EmailAddress),
+        ...createAccountWithEmail('abcd@def.com'),
         _account_id: 1234 as AccountId,
         registered_on: '2015-03-12 18:32:08.000000000' as Timestamp,
       };

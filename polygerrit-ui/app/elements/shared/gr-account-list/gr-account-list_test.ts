@@ -47,7 +47,7 @@ class MockSuggestionsProvider implements ReviewerSuggestionsProvider {
       value: {
         account: {
           _account_id: 1 as AccountId,
-        } as AccountInfo,
+        },
         count: 1,
       },
     };
@@ -229,7 +229,7 @@ suite('gr-account-list tests', () => {
       .stub(suggestionsProvider, 'makeSuggestionItem')
       .callsFake(suggestion => {
         return {
-          name: ((suggestion as AccountInfo).email as string) ?? '',
+          name: (suggestion as AccountInfo).email ?? '',
           value: {
             account: suggestion as AccountInfo,
             count: 1,
@@ -254,7 +254,7 @@ suite('gr-account-list tests', () => {
       .then(suggestions => {
         assert.deepEqual(suggestions, [
           {
-            name: (originalSuggestions[0] as AccountInfo).email as string,
+            name: (originalSuggestions[0] as AccountInfo).email,
             value: {
               account: originalSuggestions[0] as AccountInfo,
               count: 1,

@@ -153,7 +153,7 @@ export function getSide(threadEl: HTMLElement): Side | undefined {
   }
   if (sideAtt !== Side.LEFT && sideAtt !== Side.RIGHT)
     throw Error(`unexpected value for side: ${sideAtt}`);
-  return sideAtt as Side;
+  return sideAtt;
 }
 
 export function getRange(threadEl: HTMLElement): CommentRange | undefined {

@@ -7,7 +7,7 @@ import '../../../test/common-test-setup';
 import './gr-confirm-move-dialog';
 import {GrConfirmMoveDialog} from './gr-confirm-move-dialog';
 import {queryAndAssert, stubRestApi} from '../../../test/test-utils';
-import {BranchName, GitRef, RepoName} from '../../../types/common';
+import {BranchName, GitRef} from '../../../types/common';
 import {assert, fixture, html} from '@open-wc/testing';
 import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
 
@@ -30,7 +30,7 @@ suite('gr-confirm-move-dialog tests', () => {
     });
     element = await fixture(
       html`<gr-confirm-move-dialog
-        .project=${'test-repo' as RepoName}
+        .project=${'test-repo'}
       ></gr-confirm-move-dialog>`
     );
   });

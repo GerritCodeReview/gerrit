@@ -13,7 +13,6 @@ import {
   AccountInfo,
   CommentInfo,
   DraftInfo,
-  EmailAddress,
   NumericChangeId,
   Timestamp,
   UrlEncodedCommentId,
@@ -207,7 +206,7 @@ suite('change service tests', () => {
 
   test('duplicate mentions are filtered out', async () => {
     const account = {
-      ...createAccountWithEmail('abcd@def.com' as EmailAddress),
+      ...createAccountWithEmail('abcd@def.com'),
       registered_on: '2015-03-12 18:32:08.000000000' as Timestamp,
     };
     stubRestApi('getAccountDetails').returns(Promise.resolve(account));
@@ -236,7 +235,7 @@ suite('change service tests', () => {
 
   test('empty mentions are emitted', async () => {
     const account = {
-      ...createAccountWithEmail('abcd@def.com' as EmailAddress),
+      ...createAccountWithEmail('abcd@def.com'),
       registered_on: '2015-03-12 18:32:08.000000000' as Timestamp,
     };
     stubRestApi('getAccountDetails').returns(Promise.resolve(account));

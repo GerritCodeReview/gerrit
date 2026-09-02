@@ -352,7 +352,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     return this._restApiHelper.fetchCacheJSON({
       url: '/access/?project=' + encodeURIComponent(repo),
       anonymizedUrl: '/access/?project=*',
-    }) as Promise<RepoAccessInfoMap | undefined>;
+    });
   }
 
   getRepoDashboards(
@@ -978,6 +978,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     let newName = undefined;
     // If the name was deleted server returns 204
     if (response.status !== 204) {
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
       newName = (await readJSONResponsePayload(response))
         .parsed as unknown as string;
     }
@@ -999,6 +1000,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     let newName = undefined;
     // If the name was deleted server returns 204
     if (response.status !== 204) {
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
       newName = (await readJSONResponsePayload(response))
         .parsed as unknown as string;
     }
@@ -1021,6 +1023,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     let newName = undefined;
     // If the name was deleted server returns 204
     if (response.status !== 204) {
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
       newName = (await readJSONResponsePayload(response))
         .parsed as unknown as string;
     }
@@ -1042,6 +1045,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     let newStatus = undefined;
     // If the status was deleted server returns 204
     if (response.status !== 204) {
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
       newStatus = (await readJSONResponsePayload(response))
         .parsed as unknown as string;
     }
@@ -1510,7 +1514,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       url: `${url}/files`,
       params,
       anonymizedUrl: `${ANONYMIZED_REVISION_BASE_URL}/files`,
-    }) as Promise<FileNameToFileInfoMap | undefined>;
+    });
   }
 
   async getChangeEditFiles(
@@ -1568,7 +1572,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     return this._restApiHelper.fetchJSON({
       url: `${url}/actions`,
       anonymizedUrl: `${ANONYMIZED_REVISION_BASE_URL}/actions`,
-    }) as Promise<ActionNameToActionInfoMap | undefined>;
+    });
   }
 
   getChangeSuggestedReviewers(
@@ -2054,7 +2058,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       params,
       reportUrlAsIs: true,
       errFn,
-    }) as Promise<GroupNameToGroupInfoMap | undefined>;
+    });
   }
 
   getSuggestedRepos(
@@ -3465,7 +3469,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       url: '/config/server/capabilities',
       errFn,
       reportUrlAsIs: true,
-    }) as Promise<CapabilityInfoMap | undefined>;
+    });
   }
 
   getTopMenus(): Promise<TopMenuEntryInfo[] | undefined> {

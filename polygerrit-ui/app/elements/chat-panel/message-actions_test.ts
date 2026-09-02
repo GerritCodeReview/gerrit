@@ -8,7 +8,6 @@ import {assert, fixture, html} from '@open-wc/testing';
 import {
   ChatModel,
   chatModelToken,
-  GeminiMessage,
   ResponsePartType,
   Turn,
   UniqueTurnId,
@@ -47,7 +46,7 @@ suite('message-actions tests', () => {
         regenerationIndex: 0,
         references: [],
         citations: [],
-      } as GeminiMessage,
+      },
     };
   }
 

@@ -188,7 +188,7 @@ suite('change view state tests', () => {
     const params: ChangeViewState = {
       ...createEditViewState(),
       patchNum: 12 as RevisionPatchSetNum,
-      editView: {path: 'x+y/path.cpp' as RepoName, lineNum: 31},
+      editView: {path: 'x+y/path.cpp', lineNum: 31},
     };
     assert.equal(
       createEditUrl(params),

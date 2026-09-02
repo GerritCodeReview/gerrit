@@ -35,7 +35,7 @@ suite('gr-context-control tests', () => {
 
     const buttons = element.shadowRoot!.querySelectorAll('button.showContext');
     assert.equal(buttons.length, 1);
-    assert.equal(buttons[0].textContent!.trim(), '+10 common lines');
+    assert.equal(buttons[0].textContent.trim(), '+10 common lines');
   });
 
   test('context control at the top', async () => {
@@ -46,8 +46,8 @@ suite('gr-context-control tests', () => {
     const buttons = element.shadowRoot!.querySelectorAll('button.showContext');
 
     assert.equal(buttons.length, 2);
-    assert.equal(buttons[0].textContent!.trim(), '+20 common lines');
-    assert.equal(buttons[1].textContent!.trim(), '+10');
+    assert.equal(buttons[0].textContent.trim(), '+20 common lines');
+    assert.equal(buttons[1].textContent.trim(), '+10');
 
     assert.include([...buttons[0].classList.values()], 'belowButton');
     assert.include([...buttons[1].classList.values()], 'belowButton');
@@ -61,9 +61,9 @@ suite('gr-context-control tests', () => {
     const buttons = element.shadowRoot!.querySelectorAll('button.showContext');
 
     assert.equal(buttons.length, 3);
-    assert.equal(buttons[0].textContent!.trim(), '+20 common lines');
-    assert.equal(buttons[1].textContent!.trim(), '+10');
-    assert.equal(buttons[2].textContent!.trim(), '+10');
+    assert.equal(buttons[0].textContent.trim(), '+20 common lines');
+    assert.equal(buttons[1].textContent.trim(), '+10');
+    assert.equal(buttons[2].textContent.trim(), '+10');
 
     assert.include([...buttons[0].classList.values()], 'centeredButton');
     assert.include([...buttons[1].classList.values()], 'aboveButton');
@@ -78,8 +78,8 @@ suite('gr-context-control tests', () => {
     const buttons = element.shadowRoot!.querySelectorAll('button.showContext');
 
     assert.equal(buttons.length, 2);
-    assert.equal(buttons[0].textContent!.trim(), '+20 common lines');
-    assert.equal(buttons[1].textContent!.trim(), '+10');
+    assert.equal(buttons[0].textContent.trim(), '+20 common lines');
+    assert.equal(buttons[1].textContent.trim(), '+10');
 
     assert.include([...buttons[0].classList.values()], 'aboveButton');
     assert.include([...buttons[1].classList.values()], 'aboveButton');
@@ -109,7 +109,7 @@ suite('gr-context-control tests', () => {
     assert.equal(partialExpansionButtons.length, 1);
     assert.equal(blockExpansionButtons.length, 1);
     assert.equal(
-      blockExpansionButtons[0].querySelector('span')!.textContent!.trim(),
+      blockExpansionButtons[0].querySelector('span')!.textContent.trim(),
       '+Block'
     );
     assert.include(
@@ -137,11 +137,11 @@ suite('gr-context-control tests', () => {
     assert.equal(partialExpansionButtons.length, 2);
     assert.equal(blockExpansionButtons.length, 2);
     assert.equal(
-      blockExpansionButtons[0].querySelector('span')!.textContent!.trim(),
+      blockExpansionButtons[0].querySelector('span')!.textContent.trim(),
       '+Block'
     );
     assert.equal(
-      blockExpansionButtons[1].querySelector('span')!.textContent!.trim(),
+      blockExpansionButtons[1].querySelector('span')!.textContent.trim(),
       '+Block'
     );
     assert.include(
@@ -173,7 +173,7 @@ suite('gr-context-control tests', () => {
     assert.equal(partialExpansionButtons.length, 1);
     assert.equal(blockExpansionButtons.length, 1);
     assert.equal(
-      blockExpansionButtons[0].querySelector('span')!.textContent!.trim(),
+      blockExpansionButtons[0].querySelector('span')!.textContent.trim(),
       '+Block'
     );
     assert.include(
@@ -317,7 +317,7 @@ suite('gr-context-control tests', () => {
 
     const buttons = element.shadowRoot!.querySelectorAll('button.showContext');
     assert.equal(buttons.length, 1);
-    assert.equal(buttons[0].textContent!.trim(), '+ Unrelated changes');
+    assert.equal(buttons[0].textContent.trim(), '+ Unrelated changes');
     assert.include([...buttons[0].classList.values()], 'unrelatedChanges');
   });
 });

@@ -46,7 +46,6 @@ import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.group.GroupResolver;
 import com.google.gerrit.server.group.InternalGroupDescription;
-import com.google.gerrit.server.group.db.Groups;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.restapi.account.GetGroups;
@@ -85,7 +84,6 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   private final GetGroups accountGetGroups;
   private final GroupJson json;
   private final GroupBackend groupBackend;
-  private final Groups groups;
   private final GroupResolver groupResolver;
 
   private Set<ListGroupsOption> options = EnumSet.noneOf(ListGroupsOption.class);
@@ -211,8 +209,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
       final GetGroups accountGetGroups,
       final GroupResolver groupResolver,
       GroupJson json,
-      GroupBackend groupBackend,
-      Groups groups) {
+      GroupBackend groupBackend) {
     this.groupCache = groupCache;
     this.groupControlFactory = groupControlFactory;
     this.genericGroupControlFactory = genericGroupControlFactory;
@@ -221,7 +218,6 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     this.accountGetGroups = accountGetGroups;
     this.json = json;
     this.groupBackend = groupBackend;
-    this.groups = groups;
     this.groupResolver = groupResolver;
   }
 
@@ -304,7 +300,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
           .flatMap(Collection::stream)
           .distinct();
     }
-    return groups.getAllGroupReferences();
+    return groupCache.getAllGroupReferences().stream();
   }
 
   private List<GroupInfo> suggestGroups() throws BadRequestException, PermissionBackendException {
@@ -366,8 +362,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     Pattern pattern = getRegexPattern();
     Stream<? extends GroupDescription.Internal> foundGroups =
         loadGroups(
-                groups
-                    .getAllGroupReferences()
+                groupCache.getAllGroupReferences().stream()
                     .filter(group -> isRelevant(pattern, group))
                     .map(g -> g.getUUID())
                     .collect(toImmutableSet()))

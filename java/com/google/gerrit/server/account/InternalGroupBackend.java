@@ -16,7 +16,6 @@ package com.google.gerrit.server.account;
 
 import static java.util.stream.Collectors.toList;
 
-import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.GroupDescription;
@@ -24,15 +23,12 @@ import com.google.gerrit.entities.GroupReference;
 import com.google.gerrit.entities.InternalGroup;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.group.InternalGroupDescription;
-import com.google.gerrit.server.group.db.Groups;
 import com.google.gerrit.server.group.db.GroupsNoteDbConsistencyChecker;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import java.io.IOException;
 import java.util.Collection;
 import java.util.Optional;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
 
 /** Implementation of GroupBackend for the internal group system. */
@@ -40,18 +36,15 @@ import org.eclipse.jgit.lib.ObjectId;
 public class InternalGroupBackend implements GroupBackend {
   private final GroupControl.Factory groupControlFactory;
   private final GroupCache groupCache;
-  private final Groups groups;
   private final IncludingGroupMembership.Factory groupMembershipFactory;
 
   @Inject
   InternalGroupBackend(
       GroupControl.Factory groupControlFactory,
       GroupCache groupCache,
-      Groups groups,
       IncludingGroupMembership.Factory groupMembershipFactory) {
     this.groupControlFactory = groupControlFactory;
     this.groupCache = groupCache;
-    this.groups = groups;
     this.groupMembershipFactory = groupMembershipFactory;
   }
 
@@ -73,15 +66,10 @@ public class InternalGroupBackend implements GroupBackend {
 
   @Override
   public Collection<GroupReference> suggest(String name, ProjectState project) {
-    try {
-      return groups
-          .getAllGroupReferences()
-          .filter(group -> startsWithIgnoreCase(group, name))
-          .filter(this::isVisible)
-          .collect(toList());
-    } catch (IOException | ConfigInvalidException e) {
-      return ImmutableList.of();
-    }
+    return groupCache.getAllGroupReferences().stream()
+        .filter(group -> startsWithIgnoreCase(group, name))
+        .filter(this::isVisible)
+        .collect(toList());
   }
 
   private static boolean startsWithIgnoreCase(GroupReference group, String name) {

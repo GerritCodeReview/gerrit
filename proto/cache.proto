@@ -311,6 +311,18 @@ message GroupKeyProto {
   bytes revision = 2;
 }
 
+// Serialized key for the groups_bynames cache in GroupCacheImpl.
+// Next ID: 2
+message GroupNamesKeyProto {
+  bytes revision = 1;
+}
+
+// Serialized value for the groups_bynames cache in GroupCacheImpl.
+// Next ID: 2
+message GroupReferencesProto {
+  repeated GroupReferenceProto groups = 1;
+}
+
 
 // Serialized form of com.google.gerrit.entities.InternalGroup.
 // Next ID: 11

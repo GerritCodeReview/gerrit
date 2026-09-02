@@ -14,9 +14,11 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.common.UsedAt.Project;
 import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.entities.GroupReference;
 import com.google.gerrit.entities.InternalGroup;
 import com.google.gerrit.exceptions.StorageException;
 import java.util.Collection;
@@ -129,4 +131,14 @@ public interface GroupCache {
    * <p>See {@link #evict(AccountGroup.UUID)}
    */
   void evict(Collection<AccountGroup.UUID> groupUuid);
+
+  /**
+   * Returns all {@code GroupReference}s (name/UUID pairs) for all internal groups, sourced from the
+   * cached {@code REFS_GROUPNAMES} snapshot.
+   *
+   * <p>On error (e.g. storage failure), logs a warning and returns an empty list.
+   *
+   * @return an immutable list of all group references, or an empty list on error
+   */
+  ImmutableList<GroupReference> getAllGroupReferences();
 }

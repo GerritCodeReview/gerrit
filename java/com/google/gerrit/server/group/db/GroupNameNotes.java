@@ -233,6 +233,9 @@ public class GroupNameNotes extends VersionedMetaData {
    * it's technically possible that two of the {@code GroupReference}s have a duplicate UUID but a
    * different name. In practice, this shouldn't occur unless we introduce a bug in the future.
    *
+   * <p>Resolves {@code REFS_GROUPNAMES} and delegates to {@link #loadAllGroups(Repository,
+   * ObjectId)}.
+   *
    * @param repository the repository which holds the commits of the notes
    * @return the {@code GroupReference}s of all existing groups/notes
    * @throws IOException if the repository can't be accessed for some reason
@@ -244,13 +247,27 @@ public class GroupNameNotes extends VersionedMetaData {
     if (ref == null) {
       return ImmutableList.of();
     }
+    return loadAllGroups(repository, ref.getObjectId());
+  }
+
+  /**
+   * Loads the {@code GroupReference}s (name/UUID pairs) for all groups at a specific revision.
+   *
+   * @param repository the repository which holds the commits of the notes
+   * @param revision the object ID of the {@code REFS_GROUPNAMES} commit to read
+   * @return the {@code GroupReference}s of all existing groups/notes at the given revision
+   * @throws IOException if the repository can't be accessed for some reason
+   * @throws ConfigInvalidException if one of the notes is in an invalid state
+   */
+  public static ImmutableList<GroupReference> loadAllGroups(
+      Repository repository, ObjectId revision) throws IOException, ConfigInvalidException {
     try (TraceTimer ignored =
             TraceContext.newTimer(
                 "Loading all groups",
                 Metadata.builder().noteDbRefName(RefNames.REFS_GROUPNAMES).build());
         RevWalk revWalk = new RevWalk(repository);
         ObjectReader reader = revWalk.getObjectReader()) {
-      RevCommit notesCommit = revWalk.parseCommit(ref.getObjectId());
+      RevCommit notesCommit = revWalk.parseCommit(revision);
       NoteMap noteMap = NoteMap.read(reader, notesCommit);
 
       Multiset<GroupReference> groupReferences = HashMultiset.create();

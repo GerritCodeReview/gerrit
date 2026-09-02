@@ -8,7 +8,6 @@ import {assert, fixture, html} from '@open-wc/testing';
 import {
   ChatModel,
   chatModelToken,
-  GeminiMessage,
   Turn,
   UserType,
 } from '../../models/chat/chat-model';
@@ -37,7 +36,7 @@ suite('citations-box tests', () => {
         regenerationIndex: 0,
         references: [],
         citations,
-      } as GeminiMessage,
+      },
     };
   }
 

@@ -202,7 +202,7 @@ suite('gr-result-row test', () => {
         conversationId: 'test-conv',
         turnIndex: 1,
       }),
-    } as RunResult;
+    };
     await element.updateComplete;
 
     const containerTr = queryAndAssert(element, 'tr.container');

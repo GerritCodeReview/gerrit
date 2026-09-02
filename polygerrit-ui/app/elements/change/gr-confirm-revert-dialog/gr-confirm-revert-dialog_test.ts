@@ -15,7 +15,6 @@ import {
   ChangeSubmissionId,
   CommitId,
   TopicName,
-  ValidationOptionsInfo,
 } from '../../../types/common';
 import './gr-confirm-revert-dialog';
 import {GrConfirmRevertDialog} from './gr-confirm-revert-dialog';
@@ -169,7 +168,7 @@ suite('gr-confirm-revert-dialog tests', () => {
       stubRestApi('getValidationOptions').returns(
         Promise.resolve({
           validation_options: [{name: 'o1', description: 'option 1'}],
-        } as ValidationOptionsInfo)
+        })
       );
     });
 

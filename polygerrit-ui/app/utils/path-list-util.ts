@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {FileInfoStatus, SpecialFilePath} from '../constants/constants';
-import {FileInfo, FileNameToFileInfoMap} from '../types/common';
+import {FileNameToFileInfoMap} from '../types/common';
 import {hasOwnProperty} from './common-util';
 
 export function specialFilePathCompare(a: string, b: string) {
@@ -87,7 +87,7 @@ export function addUnmodifiedFiles(
     // or fill in 0 here
     files[commentedPath] = {
       status: FileInfoStatus.UNMODIFIED,
-    } as FileInfo;
+    };
   });
 }
 

@@ -48,7 +48,7 @@ suite('flows-model tests', () => {
 
     assert.equal(flows.length, 1);
     assert.equal(flows[0].uuid, 'flow1');
-    assert.isTrue(listFlowsStub.calledWith(123 as NumericChangeId));
+    assert.isTrue(listFlowsStub.calledWith(123));
   });
 
   test('deleteFlow calls API and reloads', async () => {
@@ -65,7 +65,7 @@ suite('flows-model tests', () => {
 
     await flowsModel.deleteFlow('flow1');
 
-    assert.isTrue(deleteFlowStub.calledWith(123 as NumericChangeId, 'flow1'));
+    assert.isTrue(deleteFlowStub.calledWith(123, 'flow1'));
     assert.isTrue(reloadSpy.called);
   });
 
@@ -86,7 +86,7 @@ suite('flows-model tests', () => {
     const flowInput = {stage_expressions: []};
     await flowsModel.createFlow(flowInput);
 
-    assert.isTrue(createFlowStub.calledWith(123 as NumericChangeId, flowInput));
+    assert.isTrue(createFlowStub.calledWith(123, flowInput));
     assert.isTrue(reloadSpy.called);
   });
 

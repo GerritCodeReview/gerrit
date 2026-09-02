@@ -1347,7 +1347,7 @@ export class GrRouter implements Finalizable, NavigationService {
       loading: false,
     };
     // Note that router model view must be updated before view models.
-    this.setState(state as AppElementParams);
+    this.setState(state);
     this.searchViewModel.updateState(state);
   }
 
@@ -1362,7 +1362,7 @@ export class GrRouter implements Finalizable, NavigationService {
       loading: false,
     };
     // Note that router model view must be updated before view models.
-    this.setState(state as AppElementParams);
+    this.setState(state);
     this.searchViewModel.updateState(state);
   }
 

@@ -47,7 +47,6 @@ import {
   RepoName,
   ReviewInput,
   TopicName,
-  ValidationOptionsInfo,
 } from '../../../types/common';
 import {ActionType, RevisionActions} from '../../../api/change-actions';
 import {SinonFakeTimers, SinonStubbedMember} from 'sinon';
@@ -120,7 +119,7 @@ suite('gr-change-actions tests', () => {
       stubRestApi('getValidationOptions').returns(
         Promise.resolve({
           validation_options: [{name: 'o1', description: 'option 1'}],
-        } as ValidationOptionsInfo)
+        })
       );
 
       sinon
@@ -412,7 +411,7 @@ suite('gr-change-actions tests', () => {
 
       test('hidden when aiReview action has enabled: false', async () => {
         element.revisionActions = {
-          aiReview: {enabled: false} as ActionInfo,
+          aiReview: {enabled: false},
         };
         await element.updateComplete;
         assert.isUndefined(query(element, 'gr-button[data-action-key="chat"]'));
@@ -434,7 +433,7 @@ suite('gr-change-actions tests', () => {
 
       test('shown when aiReview action has enabled: true', async () => {
         element.revisionActions = {
-          aiReview: {enabled: true} as ActionInfo,
+          aiReview: {enabled: true},
         };
         await element.updateComplete;
         assert.isDefined(
@@ -2727,7 +2726,7 @@ suite('gr-change-actions tests', () => {
         element.change = {
           ...createChangeViewChange(),
           current_revision_number: element.latestPatchNum,
-          revisions: createRevisions(element.latestPatchNum as number),
+          revisions: createRevisions(element.latestPatchNum),
           messages: createChangeMessages(1),
         };
         element.change._number = 42 as NumericChangeId;

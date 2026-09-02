@@ -282,7 +282,7 @@ suite('chat-model tests', () => {
     const updatedChange = {
       ...change,
       subject: 'updated subject',
-    } as unknown as ParsedChangeInfo;
+    };
     changeModel.updateStateChange(updatedChange);
 
     // API calls should not be triggered again

@@ -610,10 +610,7 @@ export class GrRepoAccess extends LitElement {
       return addRemoveObj;
     }
 
-    this.recursivelyUpdateAddRemoveObj(
-      this.local as unknown as PropertyTreeNode,
-      addRemoveObj
-    );
+    this.recursivelyUpdateAddRemoveObj(this.local, addRemoveObj);
 
     if (inheritFromChanged) {
       addRemoveObj.parent = inheritsFromId;

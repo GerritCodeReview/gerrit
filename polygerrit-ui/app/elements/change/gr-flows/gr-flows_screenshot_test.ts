@@ -78,7 +78,7 @@ suite('gr-flows screenshot tests', () => {
 
     setChangeWithUploader(changeModel, 1 as AccountId);
     userModel.setState({
-      account: createAccountDetailWithId(1 as AccountId),
+      account: createAccountDetailWithId(1),
       accountLoaded: true,
     });
 
@@ -88,7 +88,7 @@ suite('gr-flows screenshot tests', () => {
     const flows: FlowInfo[] = [
       {
         uuid: 'flow-12345678-90ab-cdef-1234-567890abcdef',
-        owner: createAccountDetailWithId(1 as AccountId),
+        owner: createAccountDetailWithId(1),
         created: '2025-02-09 10:00:00.000000000' as Timestamp,
         last_evaluated: '2025-02-09 10:05:00.000000000' as Timestamp,
         stages: [
@@ -184,7 +184,7 @@ suite('gr-flows screenshot tests', () => {
 
   test('cannot create flow (not uploader)', async () => {
     userModel.setState({
-      account: createAccountDetailWithId(2 as AccountId),
+      account: createAccountDetailWithId(2),
       accountLoaded: true,
     });
     await element.updateComplete;
@@ -206,7 +206,7 @@ suite('gr-flows screenshot tests', () => {
         ...originalFlows,
         {
           uuid: 'flow-87654321-cdef-90ab-5678-abcdef123456',
-          owner: createAccountDetailWithId(1 as AccountId),
+          owner: createAccountDetailWithId(1),
           created: '2025-02-10 10:00:00.000000000' as Timestamp,
           last_evaluated: undefined,
           stages: [

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "839f4251_60971805",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-02T15:04:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd67566a_956427ea",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 63
+      },
+      "revId": "59944778494d4278bc621b95eb84596cf30ef1c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3259f36d_895660d2",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-09-02T14:59:46Z",
       "side": 1,
       "message": "nit: is one group enough for the test?",
+      "range": {
+        "startLine": 900,
+        "startChar": 0,
+        "endLine": 900,
+        "endChar": 49
+      },
+      "revId": "59944778494d4278bc621b95eb84596cf30ef1c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d56243c5_2b88c89c",
+        "filename": "javatests/com/google/gerrit/server/project/ProjectConfigTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 900,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-02T15:04:17Z",
+      "side": 1,
+      "message": "Yes, the group isn\u0027t relevant.",
+      "parentUuid": "3259f36d_895660d2",
       "range": {
         "startLine": 900,
         "startChar": 0,

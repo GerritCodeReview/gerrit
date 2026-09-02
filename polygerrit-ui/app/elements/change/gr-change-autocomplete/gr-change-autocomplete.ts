@@ -128,13 +128,12 @@ export class GrChangeAutocomplete extends LitElement {
           (this.excludeChangeNum === undefined ||
             change.changeNum !== this.excludeChangeNum)
       )
-      .map(
-        change =>
-          ({
-            name: change.description,
-            value: `${change.changeNum}`,
-          } as AutocompleteSuggestion)
-      );
+      .map(change => {
+        return {
+          name: change.description,
+          value: `${change.changeNum}`,
+        };
+      });
   }
 }
 

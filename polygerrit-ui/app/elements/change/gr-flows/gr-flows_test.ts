@@ -71,7 +71,7 @@ suite('gr-flows tests', () => {
     await element.updateComplete;
     setChangeWithOwner(changeModel, 123 as AccountId);
     userModel.setState({
-      account: createAccountDetailWithId(123 as AccountId),
+      account: createAccountDetailWithId(123),
       accountLoaded: true,
     });
     await element.updateComplete;

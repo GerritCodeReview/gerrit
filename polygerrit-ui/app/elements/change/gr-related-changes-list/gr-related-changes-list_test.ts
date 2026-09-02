@@ -704,14 +704,14 @@ suite('gr-related-changes-list', () => {
         {
           ...createRelatedChangeAndCommitInfo(),
           commit: {
-            ...createCommitInfoWithRequiredCommit('r2' as CommitId),
+            ...createCommitInfoWithRequiredCommit('r2'),
             parents: [{commit: 'r1' as CommitId, subject: 'Current change'}],
           },
         },
         {
           ...createRelatedChangeAndCommitInfo(),
           commit: {
-            ...createCommitInfoWithRequiredCommit('r1' as CommitId),
+            ...createCommitInfoWithRequiredCommit('r1'),
             parents: [{commit: 'base-parent' as CommitId, subject: 'Base'}],
           },
         },

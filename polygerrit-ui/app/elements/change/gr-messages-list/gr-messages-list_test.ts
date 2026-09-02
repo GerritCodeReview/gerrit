@@ -60,7 +60,7 @@ const createComment = function () {
 };
 
 const randomMessage = function (params?: Partial<ChangeMessageInfo>) {
-  params = params || ({} as ChangeMessageInfo);
+  params = params || {};
   const author1 = {
     _account_id: 1115495 as AccountId,
     name: 'Andrew Bonventre',
@@ -305,7 +305,7 @@ suite('gr-messages-list tests', () => {
           date: '2016-09-28 13:36:33.000000000' as Timestamp,
           author,
           id: '8c19ccc949c6d482b061be6a28e10782abf0e7af' as ChangeMessageId,
-        } as CombinedMessage,
+        },
         {
           _index: 6,
           _revision_number: 4 as PatchSetNum,
@@ -313,7 +313,7 @@ suite('gr-messages-list tests', () => {
           date: '2016-09-28 13:36:33.000000000' as Timestamp,
           author,
           id: 'e7bfdbc842f6b6d8064bc68e0f52b673f40c0ca5' as ChangeMessageId,
-        } as CombinedMessage
+        }
       );
       element.messages = messages;
       await element.updateComplete;

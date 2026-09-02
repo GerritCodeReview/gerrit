@@ -83,7 +83,7 @@ export function parseMarkdownBlocks(markdown: string): MarkdownToken[] {
     }
     (t as MarkdownToken).startLine = startLine;
     (t as MarkdownToken).endLine = Math.max(startLine, endLine);
-    result.push(t as MarkdownToken);
+    result.push(t);
   }
   return result;
 }

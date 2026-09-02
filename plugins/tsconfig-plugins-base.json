@@ -24,6 +24,7 @@
     "noFallthroughCasesInSwitch": true,/* Report errors for fallthrough cases in switch statement. */
 
     "skipLibCheck": true, /* Do not check node_modules */
+    "types": ["mocha"],
 
     /* Module Resolution Options */
     "moduleResolution": "bundler",

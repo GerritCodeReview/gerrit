@@ -10,7 +10,6 @@ import {PromptBox} from './prompt-box';
 import {
   ChatModel,
   chatModelToken,
-  ChatState,
   UserType,
 } from '../../models/chat/chat-model';
 import {testResolver} from '../../test/common-test-setup';
@@ -440,7 +439,7 @@ suite('prompt-box tests', () => {
           },
         },
       ],
-    } as Partial<ChatState>);
+    });
     await element.updateComplete;
     assert.equal(element.chatInputDisabledText, 'Thinking ...');
   });

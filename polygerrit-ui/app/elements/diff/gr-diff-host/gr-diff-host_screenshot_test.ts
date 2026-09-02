@@ -16,7 +16,7 @@ import {
   createChange,
   createPatchRange,
 } from '../../../test/test-data-generators';
-import {EDIT, NumericChangeId} from '../../../types/common';
+import {EDIT} from '../../../types/common';
 import {DiffInfo, DiffViewMode} from '../../../api/diff';
 
 suite('gr-diff-host screenshot tests', () => {
@@ -78,7 +78,7 @@ suite('gr-diff-host screenshot tests', () => {
 
     stubRestApi('getDiff').resolves(diff);
     element = await fixture<GrDiffHost>(html`<gr-diff-host
-      .changeNum=${42 as NumericChangeId}
+      .changeNum=${42}
       .path=${'sample.ts'}
       .change=${createChange()}
       .patchRange=${{

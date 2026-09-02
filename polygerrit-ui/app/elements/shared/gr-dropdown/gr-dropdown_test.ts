@@ -260,7 +260,7 @@ suite('gr-dropdown tests', () => {
         element.shadowRoot?.querySelectorAll('md-menu-item')
       );
       const el = queryAndAssert<HTMLAnchorElement>(
-        element.cursor.target as HTMLElement,
+        element.cursor.target,
         ':not([hidden])'
       );
       const stub = sinon.stub(el, 'click');

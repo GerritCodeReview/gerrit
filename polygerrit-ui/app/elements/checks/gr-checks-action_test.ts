@@ -7,7 +7,6 @@ import {assert, fixture, html} from '@open-wc/testing';
 import '../../test/common-test-setup';
 import './gr-checks-action';
 import {GrChecksAction} from './gr-checks-action';
-import {Action} from '../../api/checks';
 
 suite('gr-checks-action', () => {
   let element: GrChecksAction;
@@ -15,7 +14,7 @@ suite('gr-checks-action', () => {
   setup(async () => {
     element = await fixture<GrChecksAction>(
       html`<gr-checks-action
-        .action=${{name: 'test-action'} as Action}
+        .action=${{name: 'test-action'}}
       ></gr-checks-action>`
     );
   });

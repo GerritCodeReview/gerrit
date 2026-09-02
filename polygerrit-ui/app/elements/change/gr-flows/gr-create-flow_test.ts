@@ -13,12 +13,7 @@ import {
   queryAndAssert,
   stubRestApi,
 } from '../../../test/test-utils';
-import {
-  AccountId,
-  EmailAddress,
-  NumericChangeId,
-  RepoName,
-} from '../../../types/common';
+import {AccountId, EmailAddress, RepoName} from '../../../types/common';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {GrSearchAutocomplete} from '../../core/gr-search-autocomplete/gr-search-autocomplete';
@@ -32,7 +27,7 @@ import {
 import {testResolver} from '../../../test/common-test-setup';
 import {MdOutlinedTextField} from '@material/web/textfield/outlined-text-field';
 import {getAppContext} from '../../../services/app-context';
-import {FlowActionInfo, RevisionPatchSetNum} from '../../../api/rest-api';
+import {FlowActionInfo} from '../../../api/rest-api';
 import {MdOutlinedSelect} from '@material/web/select/outlined-select';
 import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 
@@ -58,7 +53,7 @@ suite('gr-create-flow tests', () => {
       'https://gerrit-review.googlesource.com/c/plugins/code-owners/+/441321';
     element = await fixture<GrCreateFlow>(
       html`<gr-create-flow
-        .changeNum=${123 as NumericChangeId}
+        .changeNum=${123}
         .hostUrl=${hostUrl}
       ></gr-create-flow>`
     );
@@ -1116,7 +1111,7 @@ suite('gr-create-flow tests', () => {
           Verified: ['-1', ' 0', '+1'],
         },
         revisions: {
-          a: createRevision(1 as RevisionPatchSetNum),
+          a: createRevision(1),
         },
       });
       await element.updateComplete;
@@ -1148,7 +1143,7 @@ suite('gr-create-flow tests', () => {
           'A-Label': [' 0'],
         },
         revisions: {
-          a: createRevision(1 as RevisionPatchSetNum),
+          a: createRevision(1),
         },
       });
       await element.updateComplete;

@@ -26,7 +26,6 @@ import {ParsedChangeInfo} from '../../types/types';
 import {queryAndAssert, visualDiffDarkTheme} from '../../test/test-utils';
 import {PromptBox} from './prompt-box';
 import {ReferencesDropdown} from './references-dropdown';
-import {MdMenu} from '@material/web/menu/menu';
 
 suite('chat-panel screenshot tests', () => {
   let element: ChatPanel;
@@ -427,17 +426,14 @@ suite('chat-panel screenshot tests', () => {
     element.style.height = '600px';
     await element.updateComplete;
     const chatHeader = queryAndAssert(element, 'chat-header');
-    const selectModelMenu = queryAndAssert<MdMenu>(
-      chatHeader,
-      '#selectModelMenu'
-    );
-    selectModelMenu.quick = true;
     const selectModelTrigger = queryAndAssert<HTMLElement>(
       chatHeader,
       '#selectModelTrigger'
     );
     selectModelTrigger.click();
     await element.updateComplete;
+    // Wait for the menu animation
+    await new Promise(resolve => setTimeout(resolve, 500));
     await visualDiff(element, 'chat-panel-models-menu-open');
     await visualDiffDarkTheme(element, 'chat-panel-models-menu-open');
   });

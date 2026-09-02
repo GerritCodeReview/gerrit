@@ -181,6 +181,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   public static final String FIELD_EXACTCOMMITTER = "exactcommitter";
   public static final String FIELD_EXTENSION = "extension";
   public static final String FIELD_ONLY_EXTENSIONS = "onlyextensions";
+  public static final String FIELD_ONLY_PATHS = "onlypaths";
   public static final String FIELD_FOOTER = "footer";
   public static final String FIELD_FOOTER_NAME = "footernames";
   public static final String FIELD_CONFLICTS = "conflicts";
@@ -192,6 +193,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   public static final String FIELD_EXACTCOMMIT = "exactcommit";
   public static final String FIELD_FILE = "file";
   public static final String FIELD_FILEPART = "filepart";
+  public static final String FIELD_FILE_COUNT = "filecount";
   public static final String FIELD_GROUP = "group";
   public static final String FIELD_HASHTAG = "hashtag";
   public static final String FIELD_LABEL = "label";
@@ -1048,6 +1050,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   }
 
   @Operator
+  public Predicate<ChangeData> filecount(String count) throws QueryParseException {
+    return ChangePredicates.filecount(count);
+  }
+
+  @Operator
   public Predicate<ChangeData> ext(String ext) {
     return extension(ext);
   }
@@ -1065,6 +1072,15 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   @Operator
   public Predicate<ChangeData> onlyextensions(String extList) {
     return new FileExtensionListPredicate(extList);
+  }
+
+  @Operator
+  public Predicate<ChangeData> onlypaths(String value) {
+    if (value.startsWith("^")) {
+      return new RegexOnlyPathsPredicate(value, args.regexCompiler);
+    }
+    return ChangePredicates.onlyPaths(
+        value, args.getSchema() != null && args.getSchema().hasField(ChangeField.FILE_COUNT_SPEC));
   }
 
   @Operator

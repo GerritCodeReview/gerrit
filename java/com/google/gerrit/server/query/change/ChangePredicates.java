@@ -17,10 +17,13 @@ package com.google.gerrit.server.query.change;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 
 import com.google.common.base.CharMatcher;
+import com.google.common.base.Splitter;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.git.ObjectIds;
@@ -276,6 +279,52 @@ public class ChangePredicates {
       return eqPath;
     }
     return Predicate.or(eqPath, new ChangeIndexPredicate(ChangeField.FILE_PART_SPEC, file));
+  }
+
+  /**
+   * Returns a predicate that matches changes that affect exactly the given number of files, or a
+   * range of file counts, in their latest patch set. The {@code count} parameter may be a plain
+   * integer (exact match) or a range expression such as {@code >2} or {@code <10}.
+   */
+  public static Predicate<ChangeData> filecount(String count) throws QueryParseException {
+    return new FileCountPredicate(count);
+  }
+
+  /**
+   * Returns a predicate that matches changes whose set of real (non-magic) files is exactly the
+   * comma-separated list of paths provided.
+   *
+   * <p>When {@code hasFileCountField} is true, builds {@code AND(path:f1, path:f2, …, filecount:N)}
+   * entirely from index predicates: each {@code path:} clause ensures the file is present, and
+   * {@code filecount:N} ensures no extra files exist.
+   *
+   * <p>When {@code hasFileCountField} is false (older schema versions that lack the {@code
+   * filecount:} field), falls back to {@code AND(path:f1, path:f2, …) +
+   * OnlyPathsPostFilterPredicate}.
+   */
+  public static Predicate<ChangeData> onlyPaths(String paths, boolean hasFileCountField) {
+    ImmutableSet<String> files =
+        Splitter.on(',')
+            .trimResults()
+            .omitEmptyStrings()
+            .splitToStream(paths)
+            .filter(f -> !Patch.isMagic(f))
+            .collect(toImmutableSet());
+
+    ImmutableList.Builder<Predicate<ChangeData>> clauses = ImmutableList.builder();
+    files.forEach(f -> clauses.add(path(f)));
+
+    if (hasFileCountField) {
+      try {
+        clauses.add(new FileCountPredicate(String.valueOf(files.size())));
+      } catch (QueryParseException e) {
+        throw new IllegalStateException("unreachable: files.size() is always a valid integer", e);
+      }
+    } else {
+      clauses.add(new OnlyPathsPostFilterPredicate(files));
+    }
+
+    return Predicate.and(clauses.build());
   }
 
   /**

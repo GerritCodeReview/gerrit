@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5effdb2_9f775205",
+        "filename": "java/com/google/gerrit/server/project/ProjectConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 700,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-09-02T14:21:30Z",
+      "side": 1,
+      "message": "`loadContributorAgreements` was also inizializing `contributorAgreements` to an empty map.\nNow for all projects remains `null`.\n\nI think it might break `ProjectConfiguration` consumers that expect it.\nFor example L284 `getCacheable` does:\n\n```\ncontributorAgreements.values().forEach(c -\u003e builder.addContributorAgreement(c));\n```",
+      "range": {
+        "startLine": 698,
+        "startChar": 0,
+        "endLine": 700,
+        "endChar": 5
+      },
+      "revId": "db313ff9464fcad1693b538a8599698fb9a396d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

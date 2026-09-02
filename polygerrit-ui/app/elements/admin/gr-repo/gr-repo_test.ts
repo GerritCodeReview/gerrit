@@ -561,7 +561,7 @@ suite('gr-repo tests', () => {
                  </section>
                  <section>
                    <span class="title">
-                     Reject implicit merges when changes are pushed for review
+                     Reject implicit merges when changes are uploaded or submitted
                    </span>
                    <span class="value">
                      <md-outlined-select

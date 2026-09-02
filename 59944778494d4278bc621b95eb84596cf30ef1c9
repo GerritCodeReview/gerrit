@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd67566a_956427ea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-09-02T14:59:46Z",
+      "side": 1,
+      "message": "nit: Shall we make it clear that the CA is still _persisted_ if one is passed, like all other ignored fields? as in, we are not explicitly removing that from the config.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 63
+      },
+      "revId": "59944778494d4278bc621b95eb84596cf30ef1c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3259f36d_895660d2",
+        "filename": "javatests/com/google/gerrit/server/project/ProjectConfigTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 900,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-09-02T14:59:46Z",
+      "side": 1,
+      "message": "nit: is one group enough for the test?",
+      "range": {
+        "startLine": 900,
+        "startChar": 0,
+        "endLine": 900,
+        "endChar": 49
+      },
+      "revId": "59944778494d4278bc621b95eb84596cf30ef1c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

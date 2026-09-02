@@ -30,6 +30,10 @@ public class DefaultPermissionBackendModule extends PrivateModule {
     installProjectControlFactory();
     // Expose only ProjectControl.Factory, so other modules can't use RefControl and ChangeControl.
     expose(ProjectControl.Factory.class);
+    // Expose these factories so tests can construct DefaultRefFilter instances
+    // with alternative ReadAccessClassifier implementations for benchmarking.
+    expose(DefaultRefFilter.Factory.class);
+    expose(ReadAccessClassifier.Factory.class);
   }
 
   protected void installReadAccessClassifierFactory() {

@@ -24,11 +24,16 @@ public class DefaultPermissionBackendModule extends PrivateModule {
   protected void configure() {
     // TODO(hiesel) Hide ProjectControl, RefControl, ChangeControl related bindings.
     install(new FactoryModuleBuilder().build(DefaultRefFilter.Factory.class));
+    installReadAccessClassifierFactory();
     installRefControlFactory();
     installChangeControlFactory();
     installProjectControlFactory();
     // Expose only ProjectControl.Factory, so other modules can't use RefControl and ChangeControl.
     expose(ProjectControl.Factory.class);
+  }
+
+  protected void installReadAccessClassifierFactory() {
+    install(new FactoryModuleBuilder().build(ReadAccessClassifier.Factory.class));
   }
 
   protected void installProjectControlFactory() {

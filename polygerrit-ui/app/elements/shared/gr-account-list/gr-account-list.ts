@@ -438,10 +438,7 @@ export class GrAccountList extends LitElement {
     ) {
       return false;
     }
-    if (
-      this.filter &&
-      !this.filter({account: drag.account, count: 1} as SuggestedReviewerInfo)
-    ) {
+    if (this.filter && !this.filter({account: drag.account, count: 1})) {
       return false;
     }
     return true;

@@ -9,7 +9,6 @@ import sinon from 'sinon';
 import {
   ChatModel,
   chatModelToken,
-  GeminiMessage,
   ResponsePartType,
   Turn,
   UniqueTurnId,
@@ -48,7 +47,7 @@ suite('message-actions tests', () => {
         regenerationIndex: 0,
         references: [],
         citations: [],
-      } as GeminiMessage,
+      },
     };
   }
 

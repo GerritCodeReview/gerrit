@@ -898,9 +898,7 @@ suite('gr-change-metadata tests', () => {
 
       element.handleTopicChanged(new CustomEvent('test', {detail: newTopic}));
 
-      assert.isTrue(
-        setChangeTopicStub.calledWith(42 as NumericChangeId, newTopic)
-      );
+      assert.isTrue(setChangeTopicStub.calledWith(42, newTopic));
       await setChangeTopicStub.lastCall.returnValue;
       await waitUntilCalled(alertStub, 'alertStub');
       assert.deepEqual(alertStub.lastCall.args[0].detail, {
@@ -923,7 +921,7 @@ suite('gr-change-metadata tests', () => {
       remove.click();
 
       assert.isTrue(chip?.disabled);
-      assert.isTrue(setChangeTopicStub.calledWith(42 as NumericChangeId));
+      assert.isTrue(setChangeTopicStub.calledWith(42));
       await setChangeTopicStub.lastCall.returnValue;
       await waitUntilCalled(alertStub, 'alertStub');
       assert.deepEqual(alertStub.lastCall.args[0].detail, {
@@ -944,7 +942,7 @@ suite('gr-change-metadata tests', () => {
         new CustomEvent('test', {detail: 'new hashtag'})
       );
       assert.isTrue(
-        setChangeHashtagStub.calledWith(42 as NumericChangeId, {
+        setChangeHashtagStub.calledWith(42, {
           add: ['new hashtag' as Hashtag],
         })
       );
@@ -972,7 +970,7 @@ suite('gr-change-metadata tests', () => {
     );
     assert.isTrue(
       updateIdentityInChangeEditStub.calledWith(
-        42 as NumericChangeId,
+        42,
         'user',
         'user@example.com',
         'AUTHOR'

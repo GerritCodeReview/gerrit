@@ -198,10 +198,10 @@ suite('gr-repo-access tests', () => {
     const accessStub = stubRestApi('getRepoAccessRights');
 
     accessStub
-      .withArgs('New Repo' as RepoName)
+      .withArgs('New Repo')
       .returns(Promise.resolve(JSON.parse(JSON.stringify(accessRes))));
     accessStub
-      .withArgs('Another New Repo' as RepoName)
+      .withArgs('Another New Repo')
       .returns(Promise.resolve(JSON.parse(JSON.stringify(accessRes2))));
     const capabilitiesStub = stubRestApi('getCapabilities');
     capabilitiesStub.returns(Promise.resolve(capabilitiesRes));

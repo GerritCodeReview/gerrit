@@ -230,7 +230,7 @@ suite('gr-ai-prompt-dialog test', () => {
       {
         ...createThread({
           message: 'test comment',
-          author: {name: 'Tester'} as AccountInfo,
+          author: {name: 'Tester'},
           unresolved: true,
         }),
         path: 'test.txt',

@@ -124,7 +124,7 @@ suite('files-model tests', () => {
       'getChangeOrEditFiles'
     ).resolves({
       'file1.txt': {},
-    } as FileNameToFileInfoMap);
+    });
 
     const revision = createRevision(1);
     const singleParentCommit = {

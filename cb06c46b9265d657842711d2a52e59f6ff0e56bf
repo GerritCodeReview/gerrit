@@ -16,6 +16,24 @@
       "message": "I submitted this removal in JGit https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1244940\nshould be replicated to gerrit-review soon",
       "revId": "cb06c46b9265d657842711d2a52e59f6ff0e56bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d096543c_2761fa06",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-09-02T13:52:28Z",
+      "side": 1,
+      "message": "now the jgit change is replicated",
+      "parentUuid": "1d7b208c_dd026d99",
+      "revId": "cb06c46b9265d657842711d2a52e59f6ff0e56bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -33,6 +33,24 @@
       "message": "Thanks for adding me for review! Can you please wait, google is not yet on Typescript 6.",
       "revId": "29801e04c7e826100eb54f2099c47d494cde24b4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "113a87ac_65754c1a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-09-02T14:18:56Z",
+      "side": 1,
+      "message": "Thanks @milutin@google.com — understood, and expected. This is the go/ts-version coupling: I know the OSS repo has to stay in lockstep with Google internal, so I\u0027m happy to wait until internal is on TypeScript 6.0.",
+      "parentUuid": "48f3d090_a9e8380b",
+      "revId": "29801e04c7e826100eb54f2099c47d494cde24b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

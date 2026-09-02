@@ -9,7 +9,7 @@ import {GrDiffRow} from './gr-diff-row';
 import {assert, fixture, html} from '@open-wc/testing';
 import {GrDiffLine} from '../gr-diff/gr-diff-line';
 import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group';
-import {DiffViewMode, GrDiffLineType} from '../../../api/diff';
+import {DiffViewMode, GrDiffLineType, Side} from '../../../api/diff';
 import {diffModelToken} from '../gr-diff-model/gr-diff-model';
 import {testResolver} from '../../../test/common-test-setup';
 
@@ -299,5 +299,42 @@ suite('gr-diff-row test', () => {
     assert.isFalse(revertBtn.classList.contains('loading'));
     assert.isNull(revertBtn.querySelector('.loadingSpin'));
     assert.isNotNull(revertBtn.querySelector('gr-icon'));
+  });
+
+  test('updateLayers aborts when DOM element references change during await', async () => {
+    const line = new GrDiffLine(GrDiffLineType.BOTH, 1, 1);
+    line.text = 'lorem ipsum';
+    element.left = line;
+    element.right = line;
+    let annotateCalled = false;
+    element.layers = [
+      {
+        annotate() {
+          annotateCalled = true;
+        },
+      },
+    ];
+    await element.updateComplete;
+    await new Promise(resolve => setTimeout(resolve, 0));
+    annotateCalled = false;
+
+    // Create a mock content element with a controllable updateComplete promise
+    let resolveUpdate: () => void;
+    const updatePromise = new Promise<boolean>(r => {
+      resolveUpdate = () => r(true);
+    });
+    const oldContentEl = {updateComplete: updatePromise} as any;
+    element.contentLeftRef = {value: oldContentEl} as any;
+
+    (element as any).layersApplied = false;
+    const updateLayersPromise = (element as any).updateLayers(Side.LEFT);
+
+    // Swap the ref while updateLayers is awaiting updateComplete
+    element.contentLeftRef = {value: document.createElement('div')} as any;
+    resolveUpdate!();
+    await updateLayersPromise;
+
+    assert.isFalse(annotateCalled);
+    assert.isFalse((element as any).layersApplied);
   });
 });

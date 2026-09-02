@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.api.project;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.fetch;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -23,6 +24,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.ExtensionRegistry;
 import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.RawInputUtil;
@@ -31,24 +33,31 @@ import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.extensions.api.changes.PublishChangeEditInput;
+import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.projects.ConfigInfo;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.api.projects.ConfigValue;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.git.ObjectIds;
 import com.google.gerrit.server.config.ProjectConfigEntry;
+import com.google.gerrit.server.config.RegexAllowedGroupsProvider;
 import com.google.gerrit.server.git.validators.ValidationMessage;
 import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.gerrit.server.permissions.RegexPermissionPolicy;
 import com.google.gerrit.server.project.GroupList;
 import com.google.gerrit.server.project.LabelConfigValidator;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.inject.Inject;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Consumer;
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.AnyObjectId;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
@@ -76,6 +85,49 @@ public class ProjectConfigIT extends AbstractDaemonTest {
     approve(r.getChangeId());
     gApi.changes().id(r.getChangeId()).current().submit();
     assertThat(gApi.changes().id(r.getChangeId()).get().status).isEqualTo(ChangeStatus.MERGED);
+  }
+
+  @Test
+  @GerritConfig(
+      name = RegexAllowedGroupsProvider.SECTION + "." + RegexAllowedGroupsProvider.KEY,
+      value = "Project Owners")
+  public void nonMemberCannotAddMimeTypeRegex() throws Exception {
+    Consumer<Config> addMimeTypeRegex =
+        config -> config.setString("mimetype", "text/test", "path", "^.*");
+
+    PushOneCommit.Result result = pushProjectConfigRegex(RefNames.REFS_CONFIG, addMimeTypeRegex);
+    result.assertErrorStatus();
+    result.assertMessage(RegexPermissionPolicy.NOT_PERMITTED_MESSAGE);
+
+    result = pushProjectConfigRegex("refs/for/" + RefNames.REFS_CONFIG, addMimeTypeRegex);
+    result.assertOkStatus();
+    String changeId = result.getChangeId();
+
+    gApi.changes().id(changeId).current().review(new ReviewInput().label("Code-Review", 2));
+
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class, () -> gApi.changes().id(changeId).current().submit());
+    assertThat(thrown).hasMessageThat().contains(RegexPermissionPolicy.NOT_PERMITTED_MESSAGE);
+  }
+
+  private PushOneCommit.Result pushProjectConfigRegex(
+      String destination, Consumer<Config> updateConfig) throws Exception {
+    TestRepository<InMemoryRepository> userRepo = cloneProject(allProjects, admin);
+    fetch(userRepo, RefNames.REFS_CONFIG + ":cfg");
+    userRepo.reset("cfg");
+
+    Config config = new Config();
+    config.fromText(projectOperations.project(allProjects).getConfig().toText());
+    updateConfig.accept(config);
+    return pushFactory
+        .create(
+            admin.newIdent(),
+            userRepo,
+            "Add project config regex",
+            ProjectConfig.PROJECT_CONFIG,
+            config.toText())
+        .to(destination);
   }
 
   @Test

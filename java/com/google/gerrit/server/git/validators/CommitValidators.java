@@ -123,6 +123,7 @@ public class CommitValidators {
     private final AccessSectionRegexValidator accessSectionRegexValidator;
     private final ProjectNotifyFilterValidator projectNotifyFilterValidator;
     private final Config config;
+    private final ProjectConfigRegexValidator projectConfigRegexValidator;
     private final ChangeUtil changeUtil;
     private final MetricMaker metricMaker;
     private final ApprovalQueryBuilder approvalQueryBuilder;
@@ -143,6 +144,7 @@ public class CommitValidators {
         ProjectConfig.Factory projectConfigFactory,
         AccessSectionRegexValidator accessSectionRegexValidator,
         ProjectNotifyFilterValidator projectNotifyFilterValidator,
+        ProjectConfigRegexValidator projectConfigRegexValidator,
         ChangeUtil changeUtil,
         MetricMaker metricMaker,
         ApprovalQueryBuilder approvalQueryBuilder) {
@@ -160,6 +162,7 @@ public class CommitValidators {
       this.projectConfigFactory = projectConfigFactory;
       this.accessSectionRegexValidator = accessSectionRegexValidator;
       this.projectNotifyFilterValidator = projectNotifyFilterValidator;
+      this.projectConfigRegexValidator = projectConfigRegexValidator;
       this.changeUtil = changeUtil;
       this.metricMaker = metricMaker;
       this.approvalQueryBuilder = approvalQueryBuilder;
@@ -194,6 +197,7 @@ public class CommitValidators {
                   projectConfigFactory,
                   accessSectionRegexValidator,
                   projectNotifyFilterValidator,
+                  projectConfigRegexValidator,
                   branch,
                   user,
                   rw,
@@ -234,6 +238,7 @@ public class CommitValidators {
                   projectConfigFactory,
                   accessSectionRegexValidator,
                   projectNotifyFilterValidator,
+                  projectConfigRegexValidator,
                   branch,
                   user,
                   rw,
@@ -564,6 +569,7 @@ public class CommitValidators {
     private final ProjectConfig.Factory projectConfigFactory;
     private final AccessSectionRegexValidator accessSectionRegexValidator;
     private final ProjectNotifyFilterValidator projectNotifyFilterValidator;
+    private final ProjectConfigRegexValidator projectConfigRegexValidator;
     private final BranchNameKey branch;
     private final IdentifiedUser user;
     private final RevWalk rw;
@@ -574,6 +580,7 @@ public class CommitValidators {
         ProjectConfig.Factory projectConfigFactory,
         AccessSectionRegexValidator accessSectionRegexValidator,
         ProjectNotifyFilterValidator projectNotifyFilterValidator,
+        ProjectConfigRegexValidator projectConfigRegexValidator,
         BranchNameKey branch,
         IdentifiedUser user,
         RevWalk rw,
@@ -582,6 +589,7 @@ public class CommitValidators {
       this.projectConfigFactory = projectConfigFactory;
       this.accessSectionRegexValidator = accessSectionRegexValidator;
       this.projectNotifyFilterValidator = projectNotifyFilterValidator;
+      this.projectConfigRegexValidator = projectConfigRegexValidator;
       this.branch = branch;
       this.user = user;
       this.rw = rw;
@@ -625,6 +633,8 @@ public class CommitValidators {
                 cfg.getNotifyConfigs());
           }
 
+          validateMimeTypeRegexes(receiveEvent, previousConfig, cfg);
+
           if (allUsers.equals(receiveEvent.project.getNameKey())
               && !allProjects.equals(cfg.getProject().getParent(allProjects))) {
             addError("Invalid project configuration:", messages);
@@ -653,6 +663,17 @@ public class CommitValidators {
         @Nullable ProjectConfig previousConfig,
         Function<ProjectConfig, ? extends Collection<T>> getter) {
       return previousConfig == null ? ImmutableList.of() : getter.apply(previousConfig);
+    }
+
+    private void validateMimeTypeRegexes(
+        CommitReceivedEvent receiveEvent, @Nullable ProjectConfig previousConfig, ProjectConfig cfg)
+        throws ConfigInvalidException {
+      if (projectConfigRegexValidator.isAllowed(receiveEvent)) {
+        return;
+      }
+      projectConfigRegexValidator.assertNoAdditionalRegexes(
+          previousConfigValues(previousConfig, ProjectConfig::getMimeTypeRegexes),
+          cfg.getMimeTypeRegexes());
     }
   }
 

@@ -149,6 +149,7 @@ public class MergeValidators {
     private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
     private final ProjectConfig.Factory projectConfigFactory;
     private final AccessSectionRegexValidator accessSectionRegexValidator;
+    private final ProjectConfigRegexValidator projectConfigRegexValidator;
     private final boolean allowProjectOwnersToChangeParent;
 
     public interface Factory {
@@ -164,6 +165,7 @@ public class MergeValidators {
         DynamicMap<ProjectConfigEntry> pluginConfigEntries,
         ProjectConfig.Factory projectConfigFactory,
         AccessSectionRegexValidator accessSectionRegexValidator,
+        ProjectConfigRegexValidator projectConfigRegexValidator,
         @GerritServerConfig Config config) {
       this.allProjectsName = allProjectsName;
       this.allUsersName = allUsersName;
@@ -171,6 +173,7 @@ public class MergeValidators {
       this.permissionBackend = permissionBackend;
       this.pluginConfigEntries = pluginConfigEntries;
       this.projectConfigFactory = projectConfigFactory;
+      this.projectConfigRegexValidator = projectConfigRegexValidator;
       this.allowProjectOwnersToChangeParent =
           config.getBoolean("receive", "allowProjectOwnersToChangeParent", false);
       this.accessSectionRegexValidator = accessSectionRegexValidator;
@@ -198,6 +201,8 @@ public class MergeValidators {
             accessSectionRegexValidator.validateNewRegexes(
                 existingConfig.getAccessSections(), cfg.getAccessSections());
           }
+
+          validateMimeTypeRegexes(repo, destProject, cfg);
 
           newParent = cfg.getProject().getParent(allProjectsName);
           final Project.NameKey oldParent = destProject.getProject().getParent(allProjectsName);
@@ -267,6 +272,18 @@ public class MergeValidators {
           throw new MergeValidationException(INVALID_CONFIG, e);
         }
       }
+    }
+
+    private void validateMimeTypeRegexes(
+        Repository repo, ProjectState destProject, ProjectConfig cfg)
+        throws IOException, ConfigInvalidException {
+      if (projectConfigRegexValidator.isAllowed()) {
+        return;
+      }
+      ProjectConfig existingConfig = projectConfigFactory.create(destProject.getNameKey());
+      existingConfig.load(repo);
+      projectConfigRegexValidator.assertNoAdditionalRegexes(
+          existingConfig.getMimeTypeRegexes(), cfg.getMimeTypeRegexes());
     }
   }
 

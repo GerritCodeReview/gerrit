@@ -579,6 +579,13 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     return mimeTypes;
   }
 
+  public ImmutableList<ConfiguredMimeTypes.ReType> getMimeTypeRegexes() {
+    return mimeTypes.matchers().stream()
+        .filter(ConfiguredMimeTypes.ReType.class::isInstance)
+        .map(ConfiguredMimeTypes.ReType.class::cast)
+        .collect(toImmutableList());
+  }
+
   public GroupReference resolve(GroupReference group) {
     return groupList.resolve(group);
   }

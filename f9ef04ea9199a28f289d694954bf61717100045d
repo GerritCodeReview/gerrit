@@ -81,6 +81,24 @@
       "parentUuid": "0ab027fa_a4056a82",
       "revId": "f9ef04ea9199a28f289d694954bf61717100045d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "519688d3_f1d028da",
+        "filename": "java/com/google/gerrit/server/schema/H2JGitLockAccountPatchReviewStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-09-02T15:32:14Z",
+      "side": 1,
+      "message": "I think you should be able to override markReviewed() and add a synchronized to it without changing the API?",
+      "parentUuid": "d7d07628_c73b952f",
+      "revId": "f9ef04ea9199a28f289d694954bf61717100045d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

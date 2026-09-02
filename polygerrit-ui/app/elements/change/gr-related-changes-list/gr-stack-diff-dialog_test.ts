@@ -33,7 +33,7 @@ function relatedChange(sha: string, parentSha: string) {
   return {
     ...createRelatedChangeAndCommitInfo(),
     commit: {
-      ...createCommitInfoWithRequiredCommit(sha as CommitId),
+      ...createCommitInfoWithRequiredCommit(sha),
       subject: `Change ${sha}`,
       parents: [
         {commit: parentSha as CommitId, subject: `Parent ${parentSha}`},
@@ -80,7 +80,7 @@ suite('gr-stack-diff-dialog tests', () => {
         ...createRelatedChangeAndCommitInfo(),
         commit: {
           ...createCommitInfoWithRequiredCommit(
-            'abcdefabcdef1234567890abcdefabcdef123456' as CommitId
+            'abcdefabcdef1234567890abcdefabcdef123456'
           ),
           subject: 'Related change 1',
           parents: [

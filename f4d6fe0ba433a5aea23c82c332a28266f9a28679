@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9670eb0_1ddb85e9",
+        "filename": "modules/jgit",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-02T15:29:05Z",
+      "side": 1,
+      "message": "The module update is unintentional.\nIt should have stayed on the same SHA1.",
+      "revId": "f4d6fe0ba433a5aea23c82c332a28266f9a28679",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

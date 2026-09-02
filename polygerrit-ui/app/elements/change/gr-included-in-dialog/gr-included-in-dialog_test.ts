@@ -6,7 +6,7 @@
 import '../../../test/common-test-setup';
 import './gr-included-in-dialog';
 import {GrIncludedInDialog} from './gr-included-in-dialog';
-import {BranchName, IncludedInInfo, TagName} from '../../../types/common';
+import {BranchName, TagName} from '../../../types/common';
 import {queryAndAssert} from '../../../test/test-utils';
 import {assert, fixture, html} from '@open-wc/testing';
 import {MdOutlinedTextField} from '@material/web/textfield/outlined-text-field';
@@ -46,7 +46,7 @@ suite('gr-included-in-dialog', () => {
   });
 
   test('computeGroups', () => {
-    element.includedIn = {branches: [], tags: []} as IncludedInInfo;
+    element.includedIn = {branches: [], tags: []};
     element.filterText = '';
     assert.deepEqual(element.computeGroups(), []);
 
@@ -99,7 +99,7 @@ suite('gr-included-in-dialog', () => {
     filterInput.dispatchEvent(
       new Event('input', {bubbles: true, composed: true})
     );
-    element.includedIn = {branches: [], tags: []} as IncludedInInfo;
+    element.includedIn = {branches: [], tags: []};
     element.includedIn.branches.push(
       'master' as BranchName,
       'stable-3.2' as BranchName

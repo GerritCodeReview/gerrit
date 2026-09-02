@@ -153,6 +153,7 @@ export function getCodeReviewVote(
   labels?: LabelNameToInfoMap
 ) {
   if (!account || !labels) return 0;
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
   const crLabel = getCodeReviewLabel(labels) as DetailedLabelInfo | undefined;
   if (!crLabel?.all) return 0;
   return getApprovalInfo(crLabel, account)?.value ?? 0;

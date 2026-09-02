@@ -10,7 +10,7 @@ import {assert, fixture, html} from '@open-wc/testing';
 import {FlowStageState} from '../../../api/rest-api';
 import {stubRestApi} from '../../../test/test-utils';
 import {createAccountDetailWithId} from '../../../test/test-data-generators';
-import {EmailAddress, UserId} from '../../../types/common';
+import {EmailAddress} from '../../../types/common';
 
 suite('gr-flow-rule tests', () => {
   let element: GrFlowRule;
@@ -110,12 +110,8 @@ suite('gr-flow-rule tests', () => {
       email: 'user@example.com' as EmailAddress,
     };
     const getAccountDetailsStub = stubRestApi('getAccountDetails');
-    getAccountDetailsStub
-      .withArgs('user@example.com' as UserId)
-      .resolves(account);
-    getAccountDetailsStub
-      .withArgs('not-found@example.com' as UserId)
-      .resolves(undefined);
+    getAccountDetailsStub.withArgs('user@example.com').resolves(account);
+    getAccountDetailsStub.withArgs('not-found@example.com').resolves(undefined);
 
     element.action = 'add_reviewer';
     element.parameters = [
@@ -129,12 +125,8 @@ suite('gr-flow-rule tests', () => {
     await new Promise(resolve => setTimeout(resolve, 0));
     await element.updateComplete;
 
-    assert.isTrue(
-      getAccountDetailsStub.calledWith('user@example.com' as UserId)
-    );
-    assert.isTrue(
-      getAccountDetailsStub.calledWith('not-found@example.com' as UserId)
-    );
+    assert.isTrue(getAccountDetailsStub.calledWith('user@example.com'));
+    assert.isTrue(getAccountDetailsStub.calledWith('not-found@example.com'));
     // getAccountDetails should not be called for 'not-an-email'
     assert.equal(getAccountDetailsStub.callCount, 2);
 

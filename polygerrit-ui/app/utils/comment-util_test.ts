@@ -326,7 +326,7 @@ suite('comment-util', () => {
         },
         {
           id: 'new_draft' as UrlEncodedCommentId,
-          message: 'i do not like either of you' as UrlEncodedCommentId,
+          message: 'i do not like either of you',
           savingState: SavingState.OK,
           updated: '2015-12-20 15:01:20.396000000' as Timestamp,
           line: 1,

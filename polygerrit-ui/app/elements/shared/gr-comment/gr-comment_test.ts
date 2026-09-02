@@ -25,7 +25,6 @@ import {
   EmailAddress,
   FixId,
   NumericChangeId,
-  PatchSetNum,
   SavingState,
   Timestamp,
   UrlEncodedCommentId,
@@ -492,12 +491,7 @@ suite('gr-comment tests', () => {
     );
     element.handleConfirmDeleteComment();
     assert.isTrue(
-      stub.calledWith(
-        42 as NumericChangeId,
-        1 as PatchSetNum,
-        'baf0414d_60047215' as UrlEncodedCommentId,
-        'removal reason'
-      )
+      stub.calledWith(42, 1, 'baf0414d_60047215', 'removal reason')
     );
   });
 

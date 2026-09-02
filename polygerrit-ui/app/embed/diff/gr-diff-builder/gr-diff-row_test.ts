@@ -9,7 +9,7 @@ import {GrDiffRow} from './gr-diff-row';
 import {assert, fixture, html} from '@open-wc/testing';
 import {GrDiffLine} from '../gr-diff/gr-diff-line';
 import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group';
-import {DiffViewMode, GrDiffLineType} from '../../../api/diff';
+import {DiffViewMode, GrDiffLineType, Side} from '../../../api/diff';
 import {diffModelToken} from '../gr-diff-model/gr-diff-model';
 import {testResolver} from '../../../test/common-test-setup';
 
@@ -299,5 +299,33 @@ suite('gr-diff-row test', () => {
     assert.isFalse(revertBtn.classList.contains('loading'));
     assert.isNull(revertBtn.querySelector('.loadingSpin'));
     assert.isNotNull(revertBtn.querySelector('gr-icon'));
+  });
+
+  test('updateLayers aborts when DOM element references change during await', async () => {
+    const line = new GrDiffLine(GrDiffLineType.BOTH, 1, 1);
+    line.text = 'lorem ipsum';
+    element.left = line;
+    element.right = line;
+    let annotateCalled = false;
+    element.layers = [
+      {
+        annotate() {
+          annotateCalled = true;
+        },
+      },
+    ];
+    await element.updateComplete;
+    annotateCalled = false;
+
+    // Simulate element reference changing before updateComplete resolves
+    const fakeRef = {value: document.createElement('div')};
+    element.contentLeftRef = fakeRef as any;
+
+    // Trigger updateLayers
+    (element as any).layersApplied = false;
+    await (element as any).updateLayers(Side.LEFT);
+
+    assert.isFalse(annotateCalled);
+    assert.isFalse((element as any).layersApplied);
   });
 });

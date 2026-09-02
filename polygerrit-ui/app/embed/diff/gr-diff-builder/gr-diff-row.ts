@@ -218,6 +218,12 @@ export class GrDiffRow extends LitElement {
     // We have to wait for the <gr-diff-text> child component to finish
     // rendering before we can apply layers, which will re-write the HTML.
     await contentEl?.updateComplete;
+    if (
+      this.contentRef(side).value !== contentEl ||
+      this.lineNumberRef(side).value !== lineNumberEl
+    ) {
+      return;
+    }
     for (const layer of this.layers) {
       if (typeof layer.annotate === 'function') {
         layer.annotate(contentEl, lineNumberEl, line, side);

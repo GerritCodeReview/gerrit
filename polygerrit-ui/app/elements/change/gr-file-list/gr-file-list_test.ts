@@ -503,11 +503,11 @@ suite('gr-file-list tests', () => {
         queryAndAssert<GrButton>(
           element,
           '#incrementButton'
-        ).textContent!.trim(),
+        ).textContent.trim(),
         'Show 50 More'
       );
       assert.equal(
-        queryAndAssert<GrButton>(element, '#showAllButton').textContent!.trim(),
+        queryAndAssert<GrButton>(element, '#showAllButton').textContent.trim(),
         'Show All 250 Files'
       );
 
@@ -1670,7 +1670,7 @@ suite('gr-file-list tests', () => {
         const message = queryAndAssert<HTMLSpanElement>(
           element,
           '.cleanlyMergedText'
-        ).textContent!.trim();
+        ).textContent.trim();
         assert.equal(message, '1 file merged cleanly in Parent 1');
       });
 
@@ -1685,7 +1685,7 @@ suite('gr-file-list tests', () => {
         const message = queryAndAssert(
           element,
           '.cleanlyMergedText'
-        ).textContent!.trim();
+        ).textContent.trim();
         assert.equal(message, '2 files merged cleanly in Parent 1');
       });
 

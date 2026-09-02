@@ -128,7 +128,7 @@ suite('chat-panel tests', () => {
     const policy = element.shadowRoot!.querySelector('.ai-policy');
     assert.isOk(policy);
     assert.include(
-      policy.textContent!,
+      policy.textContent,
       'Review agent may display inaccurate info'
     );
     const link = policy.querySelector('a');

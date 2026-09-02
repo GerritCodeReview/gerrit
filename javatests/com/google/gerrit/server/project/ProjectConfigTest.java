@@ -132,7 +132,7 @@ public class ProjectConfigTest {
                     + "  agreementUrl = http://www.example.com/agree\n")
             .create();
 
-    ProjectConfig cfg = read(rev);
+    ProjectConfig cfg = read(ALL_PROJECTS, rev);
     assertThat(cfg.getAccountsSection().getSameGroupVisibility()).hasSize(2);
     ContributorAgreement ca = cfg.getContributorAgreement("Individual");
     assertThat(ca.getName()).isEqualTo("Individual");
@@ -439,7 +439,7 @@ public class ProjectConfigTest {
             .create();
     update(rev);
 
-    ProjectConfig cfg = read(rev);
+    ProjectConfig cfg = read(ALL_PROJECTS, rev);
     cfg.upsertAccessSection(
         "refs/heads/*",
         section -> {
@@ -877,7 +877,7 @@ public class ProjectConfigTest {
             .create();
     update(rev);
 
-    ProjectConfig cfg = read(rev);
+    ProjectConfig cfg = read(ALL_PROJECTS, rev);
     ContributorAgreement.Builder section = cfg.getContributorAgreement("Individual").toBuilder();
     section.setAccepted(ImmutableList.of());
     cfg.upsertContributorAgreement(section.build());
@@ -887,6 +887,22 @@ public class ProjectConfigTest {
             "[commentlink \"bugzilla\"]\n"
                 + "\tmatch = \"(bug\\\\s+#?)(\\\\d+)\"\n"
                 + "\tlink = http://bugs.example.com/show_bug.cgi?id=$2\n");
+  }
+
+  @Test
+  public void contributorSectionIsIgnoredIfSetOnRegularProject() throws Exception {
+    RevCommit rev =
+        tr.commit()
+            .add(
+                "project.config",
+                "[contributor-agreement \"Individual\"]\n"
+                    + "  accepted = group Developers\n"
+                    + "  accepted = group Staff\n")
+            .create();
+    update(rev);
+
+    ProjectConfig cfg = read(rev);
+    assertThat(cfg.getContributorAgreement("Individual")).isNull();
   }
 
   @Test
@@ -1020,7 +1036,12 @@ public class ProjectConfigTest {
   }
 
   private ProjectConfig read(RevCommit rev) throws IOException, ConfigInvalidException {
-    ProjectConfig cfg = factory.create(Project.nameKey("test"));
+    return read(Project.nameKey("test"), rev);
+  }
+
+  private ProjectConfig read(Project.NameKey projectNameKey, RevCommit rev)
+      throws IOException, ConfigInvalidException {
+    ProjectConfig cfg = factory.create(projectNameKey);
     cfg.load(db, rev);
     return cfg;
   }

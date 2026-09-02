@@ -134,8 +134,8 @@ public class IncludedIn {
                     project.get(),
                     Optional.ofNullable(changeId).map(Change.Id::get).orElse(null),
                     rev.name(),
-                    filteredBranches,
-                    filteredTags);
+                    filteredTags,
+                    filteredBranches);
             if (extIncludedIns != null) {
               external.putAll(extIncludedIns);
             }

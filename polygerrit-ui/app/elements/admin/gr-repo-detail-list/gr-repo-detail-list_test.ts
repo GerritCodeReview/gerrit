@@ -20,7 +20,6 @@ import {
   GitRef,
   GroupId,
   GroupName,
-  RepoAccessGroups,
   RepoAccessInfoMap,
   RepoName,
   TagInfo,
@@ -2021,7 +2020,7 @@ suite('gr-repo-detail-list', () => {
                   url: 'test',
                   name: 'test' as GroupName,
                 },
-              } as RepoAccessGroups,
+              },
               config_web_links: [{name: 'gitiles', url: 'test'}],
             },
           } as RepoAccessInfoMap)
@@ -2075,7 +2074,7 @@ suite('gr-repo-detail-list', () => {
                   url: 'test',
                   name: 'test' as GroupName,
                 },
-              } as RepoAccessGroups,
+              },
               config_web_links: [{name: 'gitiles', url: 'test'}],
             },
           } as RepoAccessInfoMap)

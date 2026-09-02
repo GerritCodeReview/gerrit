@@ -155,13 +155,13 @@ suite('gr-patch-range-select tests', () => {
         deemphasizeReason: undefined,
         label: undefined,
         vote: undefined,
-      } as DropdownItem,
+      },
       {
         triggerText: 'Base',
         value: PARENT,
         bottomText: '',
         text: 'Base | ',
-      } as DropdownItem,
+      },
     ];
     element.patchNum = 2 as PatchSetNumber;
     element.basePatchNum = PARENT;
@@ -185,7 +185,7 @@ suite('gr-patch-range-select tests', () => {
       {num: EDIT, sha: '4'} as PatchSet,
     ];
     element.patchNum = 2 as PatchSetNumber;
-    element.basePatchNum = PARENT as BasePatchSetNum;
+    element.basePatchNum = PARENT;
     await element.updateComplete;
 
     const baseDropDownStub = sinon.stub(element, 'computeBaseDropdownContent');
@@ -210,7 +210,7 @@ suite('gr-patch-range-select tests', () => {
       {num: 1, sha: '4'} as PatchSet,
     ];
     element.patchNum = 2 as PatchSetNumber;
-    element.basePatchNum = PARENT as BasePatchSetNum;
+    element.basePatchNum = PARENT;
     await element.updateComplete;
 
     // Should be recomputed for each available patch
@@ -236,7 +236,7 @@ suite('gr-patch-range-select tests', () => {
       {num: EDIT, sha: '4'} as PatchSet,
     ];
     element.patchNum = 2 as PatchSetNumber;
-    element.basePatchNum = PARENT as BasePatchSetNum;
+    element.basePatchNum = PARENT;
     await element.updateComplete;
 
     // Should be recomputed for each available patch
@@ -285,7 +285,7 @@ suite('gr-patch-range-select tests', () => {
         deemphasizeReason: undefined,
         vote: undefined,
         label: undefined,
-      } as DropdownItem,
+      },
       {
         triggerText: 'Patchset 2',
         text: 'Patchset 2 | 3',
@@ -297,7 +297,7 @@ suite('gr-patch-range-select tests', () => {
         deemphasizeReason: undefined,
         vote: undefined,
         label: undefined,
-      } as DropdownItem,
+      },
     ];
 
     assert.deepEqual(element.computePatchDropdownContent(), expectedResult);

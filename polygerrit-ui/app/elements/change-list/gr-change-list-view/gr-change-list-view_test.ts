@@ -9,7 +9,6 @@ import './gr-change-list-view';
 import {GrChangeListView} from './gr-change-list-view';
 import {query, queryAndAssert} from '../../../test/test-utils';
 import {createChange} from '../../../test/test-data-generators';
-import {ChangeInfo} from '../../../api/rest-api';
 import {assert, fixture, html, waitUntil} from '@open-wc/testing';
 import {GrChangeList} from '../gr-change-list/gr-change-list';
 import {GrChangeListSection} from '../gr-change-list-section/gr-change-list-section';
@@ -162,7 +161,9 @@ suite('gr-change-list-view tests', () => {
   test('nextArrow', async () => {
     element.changes = Array(25)
       .fill(0)
-      .map(_ => ({...createChange(), _more_changes: true} as ChangeInfo));
+      .map(_ => {
+        return {...createChange(), _more_changes: true};
+      });
     element.loading = false;
     await element.updateComplete;
     assert.isFalse(query(element, '#nextArrow')?.hasAttribute('disabled'));
@@ -187,7 +188,9 @@ suite('gr-change-list-view tests', () => {
 
     element.changes = Array(25)
       .fill(0)
-      .map(_ => ({...createChange(), _more_changes: true} as ChangeInfo));
+      .map(_ => {
+        return {...createChange(), _more_changes: true};
+      });
     element.loading = false;
     await element.updateComplete;
     element.handleNextPage();

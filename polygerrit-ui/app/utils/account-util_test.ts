@@ -132,9 +132,7 @@ suite('account-util tests', () => {
 
   test('isAccountEmailOnly', () => {
     assert.isFalse(isAccountEmailOnly(createAccountWithId(1)));
-    assert.isTrue(
-      isAccountEmailOnly(createAccountWithEmailOnly('a' as EmailAddress))
-    );
+    assert.isTrue(isAccountEmailOnly(createAccountWithEmailOnly('a')));
     assert.isFalse(isAccountEmailOnly(createGroupInfo()));
   });
 

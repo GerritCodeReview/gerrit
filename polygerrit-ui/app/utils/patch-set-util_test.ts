@@ -153,8 +153,8 @@ suite('gr-patch-set-util tests', () => {
   test('isMergeParent', () => {
     assert.isFalse(isMergeParent(1 as PatchSetNum));
     assert.isFalse(isMergeParent(4321 as PatchSetNum));
-    assert.isFalse(isMergeParent(EDIT as PatchSetNum));
-    assert.isFalse(isMergeParent(PARENT as PatchSetNum));
+    assert.isFalse(isMergeParent(EDIT));
+    assert.isFalse(isMergeParent(PARENT));
     assert.isFalse(isMergeParent(0 as PatchSetNum));
 
     assert.isTrue(isMergeParent(-23 as PatchSetNum));

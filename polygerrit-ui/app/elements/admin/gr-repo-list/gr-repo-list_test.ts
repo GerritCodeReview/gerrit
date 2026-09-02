@@ -534,7 +534,7 @@ suite('gr-repo-list tests', () => {
         adminView: AdminChildView.REPOS,
         filter: 'test',
         offset: 25,
-      } as AdminViewState;
+      };
       await element._paramsChanged();
       assert.isTrue(repoStub.lastCall.calledWithExactly('test', 25, 25));
     });

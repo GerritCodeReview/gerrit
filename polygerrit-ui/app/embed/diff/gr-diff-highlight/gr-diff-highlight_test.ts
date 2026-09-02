@@ -22,7 +22,7 @@ import {
   waitUntil,
 } from '../../../test/test-utils';
 import {GrSelectionActionBox} from '../gr-selection-action-box/gr-selection-action-box';
-import {DiffModel, DiffState} from '../gr-diff-model/gr-diff-model';
+import {DiffModel} from '../gr-diff-model/gr-diff-model';
 
 // Splitting long lines in html into shorter rows breaks tests:
 // zero-length text nodes and new lines are not expected in some places
@@ -325,7 +325,7 @@ suite('gr-diff-highlight', () => {
       const diffModel = (element as any).diffBuilder.diffModel;
       const getStateStub = sinon.stub(diffModel, 'getState').returns({
         path: 'foo/bar.txt',
-      } as unknown as DiffState);
+      });
 
       if (!content?.firstChild) assert.fail('content first child not found');
       emulateSelection(content.firstChild, 5, content.firstChild, 12);

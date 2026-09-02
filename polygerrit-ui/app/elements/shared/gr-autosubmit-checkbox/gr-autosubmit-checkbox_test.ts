@@ -112,7 +112,7 @@ suite('gr-autosubmit-checkbox tests', () => {
       });
 
       // Case 1: user is NOT owner
-      userModel.setAccount(createAccountDetailWithId(123 as AccountId));
+      userModel.setAccount(createAccountDetailWithId(123));
       changeModel.updateStateChange({
         ...createParsedChange(),
         owner: {_account_id: 456 as AccountId},
@@ -121,7 +121,7 @@ suite('gr-autosubmit-checkbox tests', () => {
       assert.isFalse(element.isAutosubmitEnabled);
 
       // Case 2: user IS owner
-      userModel.setAccount(createAccountDetailWithId(456 as AccountId));
+      userModel.setAccount(createAccountDetailWithId(456));
       await element.updateComplete;
       assert.isTrue(element.isAutosubmitEnabled);
     });
@@ -147,7 +147,7 @@ suite('gr-autosubmit-checkbox tests', () => {
         status: ChangeStatus.NEW,
         owner: {_account_id: 456 as AccountId},
       };
-      userModel.setAccount(createAccountDetailWithId(456 as AccountId));
+      userModel.setAccount(createAccountDetailWithId(456));
       changeModel.updateStateChange(change);
       await element.updateComplete;
       assert.isTrue(element.isAutosubmitEnabled);

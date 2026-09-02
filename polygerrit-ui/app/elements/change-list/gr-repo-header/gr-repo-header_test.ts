@@ -19,7 +19,7 @@ suite('gr-repo-header tests', () => {
 
   setup(async () => {
     element = await fixture(
-      html`<gr-repo-header .repo=${'test' as RepoName}></gr-repo-header>`
+      html`<gr-repo-header .repo=${'test'}></gr-repo-header>`
     );
   });
 

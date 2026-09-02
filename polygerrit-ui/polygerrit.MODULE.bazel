@@ -23,7 +23,7 @@
 
 rules_ts_ext = use_extension("@aspect_rules_ts//ts:extensions.bzl", "ext", dev_dependency = True)
 rules_ts_ext.deps(
-    ts_version_from = "//:package.json",
+    ts_version_from = "@npm//:typescript/resolved.json",
 )
 use_repo(rules_ts_ext, "npm_typescript")
 

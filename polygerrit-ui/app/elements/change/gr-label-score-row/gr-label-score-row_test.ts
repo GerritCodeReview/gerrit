@@ -98,11 +98,11 @@ suite('gr-label-row-score tests', () => {
     await element.updateComplete;
 
     assert.strictEqual(element.selectedValue, '-1');
-    assert.strictEqual(element.selectedItem!.textContent!.trim(), '-1');
+    assert.strictEqual(element.selectedItem!.textContent.trim(), '-1');
     const selectedValueLabel = element.shadowRoot!.querySelector(
       '#selectedValueLabel'
     );
-    assert.strictEqual(selectedValueLabel!.textContent!.trim(), 'bad');
+    assert.strictEqual(selectedValueLabel!.textContent.trim(), 'bad');
     const detail = labelsChangedHandler.args[0][0].detail;
     assert.equal(detail.name, 'Verified');
     assert.equal(detail.value, '-1');
@@ -170,11 +170,11 @@ suite('gr-label-row-score tests', () => {
   test('correct item is selected', () => {
     // 1 should be the value of the selected item
     assert.strictEqual(element.labelSelector!.selected, '+1');
-    assert.strictEqual(element.selectedItem!.textContent!.trim(), '+1');
+    assert.strictEqual(element.selectedItem!.textContent.trim(), '+1');
     const selectedValueLabel = element.shadowRoot!.querySelector(
       '#selectedValueLabel'
     );
-    assert.strictEqual(selectedValueLabel!.textContent!.trim(), 'good');
+    assert.strictEqual(selectedValueLabel!.textContent.trim(), 'good');
     checkAriaCheckedValid();
   });
 

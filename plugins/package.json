@@ -3,6 +3,7 @@
   "description": "Gerrit Code Review - frontend plugin dependencies, each plugin may depend on a subset of these",
   "browser": true,
   "dependencies": {
+    "@types/mocha": "^10.0.10",
     "@codemirror/autocomplete": "^6.20.3",
     "@codemirror/commands": "^6.11.0",
     "@codemirror/lang-cpp": "^6.0.3",

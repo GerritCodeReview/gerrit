@@ -23,6 +23,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.LabelFunction;
@@ -34,6 +35,9 @@ import com.google.gerrit.extensions.common.LabelDefinitionInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.config.RegexAllowedGroupsProvider;
+import com.google.gerrit.server.permissions.RegexPermissionPolicy;
 import com.google.inject.Inject;
 import org.junit.Test;
 
@@ -41,6 +45,25 @@ import org.junit.Test;
 public class CreateLabelIT extends AbstractDaemonTest {
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private ProjectOperations projectOperations;
+
+  @Test
+  @GerritConfig(
+      name = RegexAllowedGroupsProvider.SECTION + "." + RegexAllowedGroupsProvider.KEY,
+      value = "Project Owners")
+  public void nonMemberCannotCreateLabelWithRegexBranch() throws Exception {
+    LabelDefinitionInput input = new LabelDefinitionInput();
+    input.values = ImmutableMap.of("0", "No score");
+    input.branches = ImmutableList.of("^refs/heads/stable-.*");
+
+    RestApiException thrown =
+        assertThrows(
+            RestApiException.class,
+            () -> gApi.projects().name(allProjects.get()).label("Foo").create(input));
+    assertThat(thrown)
+        .hasCauseThat()
+        .hasMessageThat()
+        .contains(RegexPermissionPolicy.NOT_PERMITTED_MESSAGE);
+  }
 
   @Test
   public void anonymous() throws Exception {

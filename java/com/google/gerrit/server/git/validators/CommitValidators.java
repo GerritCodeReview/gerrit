@@ -635,6 +635,7 @@ public class CommitValidators {
 
           validateMimeTypeRegexes(receiveEvent, previousConfig, cfg);
           validateCommentLinkRegexes(receiveEvent, previousConfig, cfg);
+          validateLabelBranchRegexes(receiveEvent, previousConfig, cfg);
 
           if (allUsers.equals(receiveEvent.project.getNameKey())
               && !allProjects.equals(cfg.getProject().getParent(allProjects))) {
@@ -686,6 +687,17 @@ public class CommitValidators {
       projectConfigRegexValidator.assertNoAdditionalRegexes(
           previousConfigValues(previousConfig, config -> config.getCommentLinkRegexes().entrySet()),
           cfg.getCommentLinkRegexes().entrySet());
+    }
+
+    private void validateLabelBranchRegexes(
+        CommitReceivedEvent receiveEvent, @Nullable ProjectConfig previousConfig, ProjectConfig cfg)
+        throws ConfigInvalidException {
+      if (projectConfigRegexValidator.isAllowed(receiveEvent)) {
+        return;
+      }
+      projectConfigRegexValidator.assertNoAdditionalRegexes(
+          previousConfigValues(previousConfig, ProjectConfig::getLabelBranchRegexes),
+          cfg.getLabelBranchRegexes());
     }
   }
 

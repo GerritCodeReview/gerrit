@@ -204,6 +204,7 @@ public class MergeValidators {
 
           validateMimeTypeRegexes(repo, destProject, cfg);
           validateCommentLinkRegexes(repo, destProject, cfg);
+          validateLabelBranchRegexes(repo, destProject, cfg);
 
           newParent = cfg.getProject().getParent(allProjectsName);
           final Project.NameKey oldParent = destProject.getProject().getParent(allProjectsName);
@@ -298,6 +299,18 @@ public class MergeValidators {
       projectConfigRegexValidator.assertNoAdditionalRegexes(
           existingConfig.getCommentLinkRegexes().entrySet(),
           cfg.getCommentLinkRegexes().entrySet());
+    }
+
+    private void validateLabelBranchRegexes(
+        Repository repo, ProjectState destProject, ProjectConfig cfg)
+        throws IOException, ConfigInvalidException {
+      if (projectConfigRegexValidator.isAllowed()) {
+        return;
+      }
+      ProjectConfig existingConfig = projectConfigFactory.create(destProject.getNameKey());
+      existingConfig.load(repo);
+      projectConfigRegexValidator.assertNoAdditionalRegexes(
+          existingConfig.getLabelBranchRegexes(), cfg.getLabelBranchRegexes());
     }
   }
 

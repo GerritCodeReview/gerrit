@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.project;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.extensions.common.BatchLabelInput;
 import com.google.gerrit.extensions.common.LabelDefinitionInput;
@@ -26,6 +27,7 @@ import com.google.gerrit.extensions.restapi.RestCollectionModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
+import com.google.gerrit.server.git.validators.ProjectConfigRegexValidator;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
@@ -52,6 +54,7 @@ public class PostLabels
   private final CreateLabel createLabel;
   private final SetLabel setLabel;
   private final ProjectCache projectCache;
+  private final ProjectConfigRegexValidator projectConfigRegexValidator;
 
   @Inject
   public PostLabels(
@@ -62,7 +65,8 @@ public class PostLabels
       DeleteLabel deleteLabel,
       CreateLabel createLabel,
       SetLabel setLabel,
-      ProjectCache projectCache) {
+      ProjectCache projectCache,
+      ProjectConfigRegexValidator projectConfigRegexValidator) {
     this.user = user;
     this.permissionBackend = permissionBackend;
     this.updateFactory = updateFactory;
@@ -71,6 +75,7 @@ public class PostLabels
     this.createLabel = createLabel;
     this.setLabel = setLabel;
     this.projectCache = projectCache;
+    this.projectConfigRegexValidator = projectConfigRegexValidator;
   }
 
   @Override
@@ -99,6 +104,9 @@ public class PostLabels
       boolean dirty = false;
 
       ProjectConfig config = projectConfigFactory.read(md);
+      boolean regexAllowed = projectConfigRegexValidator.isAllowed();
+      ImmutableList<Map.Entry<String, String>> existingLabelBranchRegexes =
+          regexAllowed ? ImmutableList.of() : config.getLabelBranchRegexes();
 
       if (input.delete != null && !input.delete.isEmpty()) {
         for (String labelName : input.delete) {
@@ -146,6 +154,10 @@ public class PostLabels
       }
 
       if (dirty) {
+        if (!regexAllowed) {
+          projectConfigRegexValidator.assertNoAdditionalRegexes(
+              existingLabelBranchRegexes, config.getLabelBranchRegexes());
+        }
         config.commit(md);
         projectCache.evictAndReindex(rsrc.getProjectState().getProject());
       }

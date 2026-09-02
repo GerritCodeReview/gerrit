@@ -583,6 +583,21 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         .collect(toImmutableMap(StoredCommentLinkInfo::getName, StoredCommentLinkInfo::getMatch));
   }
 
+  public ImmutableList<Map.Entry<String, String>> getLabelBranchRegexes() {
+    ImmutableList.Builder<Map.Entry<String, String>> regexes = ImmutableList.builder();
+    for (LabelType label : labelSections.values()) {
+      ImmutableList<String> refPatterns = label.getRefPatterns();
+      if (refPatterns != null) {
+        for (String refPattern : refPatterns) {
+          if (RefPattern.isRE(refPattern)) {
+            regexes.add(Maps.immutableEntry(label.getName(), refPattern));
+          }
+        }
+      }
+    }
+    return regexes.build();
+  }
+
   public ConfiguredMimeTypes getMimeTypes() {
     return mimeTypes;
   }

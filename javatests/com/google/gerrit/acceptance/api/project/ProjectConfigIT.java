@@ -116,6 +116,15 @@ public class ProjectConfigIT extends AbstractDaemonTest {
   @GerritConfig(
       name = RegexAllowedGroupsProvider.SECTION + "." + RegexAllowedGroupsProvider.KEY,
       value = "Project Owners")
+  public void nonMemberCannotAddLabelBranchRegex() throws Exception {
+    assertNonMemberCannotAddProjectConfigRegex(
+        config -> config.setString("label", "Code-Review", "branch", "^refs/heads/stable-.*"));
+  }
+
+  @Test
+  @GerritConfig(
+      name = RegexAllowedGroupsProvider.SECTION + "." + RegexAllowedGroupsProvider.KEY,
+      value = "Project Owners")
   public void nonMemberCannotAddCommentLinkRegex() throws Exception {
     assertNonMemberCannotAddProjectConfigRegex(
         config -> {

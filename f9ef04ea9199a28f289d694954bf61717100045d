@@ -39,6 +39,24 @@
       "message": "Instead of using a lock, I think it would be easier to wrap the main writes with a synchronized?",
       "revId": "f9ef04ea9199a28f289d694954bf61717100045d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7d07628_c73b952f",
+        "filename": "java/com/google/gerrit/server/schema/H2JGitLockAccountPatchReviewStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-09-02T14:39:02Z",
+      "side": 1,
+      "message": "That would change the api for non jgit locking too. (which we don\u0027t want ?)",
+      "parentUuid": "0ab027fa_a4056a82",
+      "revId": "f9ef04ea9199a28f289d694954bf61717100045d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

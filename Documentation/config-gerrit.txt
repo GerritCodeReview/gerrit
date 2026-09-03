@@ -134,6 +134,14 @@ For this locking to work correctly across multiple Gerrit primaries, the db and
 `.lock` file must reside on a shared filesystem (e.g. NFS) accessible to all
 primaries. The lock file is placed next to the H2 database file (derived from
 `accountPatchReviewDb.url`, or `<site>/db/account_patch_reviews.lock` by default).
+
+`plugin`:::
+Delegates locking to a plugin. A plugin binds an implementation of
+`com.google.gerrit.server.schema.AccountPatchReviewDbLock` via
+`DynamicItem.bind(binder(), AccountPatchReviewDbLock.class)`. Useful for
+distributed locking mechanisms not covered by `jgit`. If no plugin has bound
+an implementation, gerrit startup fails. Only supported when running
+as part of the Gerrit daemon; not supported by standalone pgm tools.
 --
 +
 Default is unset (H2's built-in file locking is used).

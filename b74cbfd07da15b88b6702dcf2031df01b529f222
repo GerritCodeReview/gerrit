@@ -16,6 +16,24 @@
       "message": "I don\u0027t think this will work because it releases the lock before the connection is released.",
       "revId": "b74cbfd07da15b88b6702dcf2031df01b529f222",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f57ba10_0fc5d17c",
+        "filename": "java/com/google/gerrit/server/schema/H2JGitLockAccountPatchReviewStore.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-09-03T16:42:59Z",
+      "side": 1,
+      "message": "Hmm, Agreed. I don\u0027t prefer overriding every method and adding synchronized (we might easily miss overriding those new methods in this class). Do you see any downsides to PS1 with ReentrantLock",
+      "parentUuid": "7b1c2398_0bcad7e5",
+      "revId": "b74cbfd07da15b88b6702dcf2031df01b529f222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -865,6 +865,43 @@ suite('gr-diff-host tests', () => {
         `
       );
     });
+
+    test('threads are cleared when disabledThreads is true and restored when false', async () => {
+      const thread: CommentThread = {
+        ...createCommentThread([createComment()]),
+      };
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      sinon.stub(element as any, 'computeFileThreads').returns([thread]);
+
+      element.disabledThreads = false;
+      element.threads = [thread];
+      await element.updateComplete;
+      assert.equal(element.threads.length, 1);
+
+      element.disabledThreads = true;
+      await element.updateComplete;
+      assert.equal(element.threads.length, 0);
+
+      element.disabledThreads = false;
+      await element.updateComplete;
+      assert.equal(element.threads.length, 1);
+    });
+
+    test('autoSaveDrafts calls autoSave on all comment threads', async () => {
+      const thread: CommentThread = {
+        ...createCommentThread([createComment()]),
+      };
+      element.threads = [thread];
+      await element.updateComplete;
+
+      const threadEl = element.shadowRoot!.querySelector('gr-comment-thread');
+      assert.isNotNull(threadEl);
+      const autoSaveStub = sinon.stub(threadEl, 'autoSave').resolves();
+
+      await element.autoSaveDrafts();
+
+      assert.isTrue(autoSaveStub.calledOnce);
+    });
   });
 
   suite('render check elements', () => {

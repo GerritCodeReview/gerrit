@@ -11,6 +11,7 @@ import {
   getContentFromDiff,
   isFileUnchanged,
   isLineUnchanged,
+  isMarkdownDiff,
 } from './diff-util';
 
 suite('diff-util tests', () => {
@@ -194,6 +195,71 @@ suite('diff-util tests', () => {
       assert.equal(getContentFromDiff(diff, 12, 1, 12, 3, Side.RIGHT), 'we');
       assert.equal(getContentFromDiff(diff, 18, 1, 18, 3, Side.LEFT), 'xc');
       assert.equal(getContentFromDiff(diff, 18, 1, 18, 3, Side.RIGHT), 'xc');
+    });
+  });
+
+  suite('isMarkdownDiff()', () => {
+    test('detects markdown extensions', () => {
+      assert.isTrue(isMarkdownDiff('foo/bar/README.md'));
+      assert.isTrue(isMarkdownDiff('SKILL.md'));
+      assert.isTrue(isMarkdownDiff('doc.markdown'));
+      assert.isTrue(isMarkdownDiff('notes.mdown'));
+      assert.isTrue(isMarkdownDiff('file.mkd'));
+      assert.isFalse(isMarkdownDiff('code.ts'));
+      assert.isFalse(isMarkdownDiff('image.png'));
+      assert.isFalse(isMarkdownDiff(undefined));
+    });
+
+    test('detects markdown content types', () => {
+      const diff: DiffInfo = {
+        ...createDiff(),
+        meta_a: {
+          name: 'doc',
+          content_type: 'text/x-markdown',
+          lines: 10,
+        },
+      };
+      assert.isTrue(isMarkdownDiff('doc', diff));
+
+      const diffB: DiffInfo = {
+        ...createDiff(),
+        meta_b: {
+          name: 'doc',
+          content_type: 'text/markdown',
+          lines: 10,
+        },
+      };
+      assert.isTrue(isMarkdownDiff('doc', diffB));
+
+      const diffCharset: DiffInfo = {
+        ...createDiff(),
+        meta_b: {
+          name: 'doc',
+          content_type: 'text/markdown; charset=utf-8',
+          lines: 10,
+        },
+      };
+      assert.isTrue(isMarkdownDiff('doc', diffCharset));
+
+      const diffXCharset: DiffInfo = {
+        ...createDiff(),
+        meta_a: {
+          name: 'doc',
+          content_type: 'text/x-markdown; charset=utf-8',
+          lines: 10,
+        },
+      };
+      assert.isTrue(isMarkdownDiff('doc', diffXCharset));
+
+      const diffOther: DiffInfo = {
+        ...createDiff(),
+        meta_a: {
+          name: 'code',
+          content_type: 'text/plain',
+          lines: 10,
+        },
+      };
+      assert.isFalse(isMarkdownDiff('code', diffOther));
     });
   });
 });

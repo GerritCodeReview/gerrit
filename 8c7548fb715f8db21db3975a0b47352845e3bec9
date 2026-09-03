@@ -54,6 +54,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2dbe2cfb_f2ec2904",
+        "filename": "java/com/google/gerrit/server/schema/AccountPatchReviewDbLock.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-09-03T22:22:38Z",
+      "side": 1,
+      "message": "Using this for now since it does seems to be used for other things beyond just projects.",
+      "parentUuid": "d561d8b3_e4a1093e",
+      "revId": "8c7548fb715f8db21db3975a0b47352845e3bec9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5d393975_f778ea22",
@@ -67,6 +85,24 @@
       "writtenOn": "2026-09-03T16:16:13Z",
       "side": 1,
       "message": "I think an AutoCloseble might make more sense so that it can be used in try-with-resource blocks.",
+      "revId": "8c7548fb715f8db21db3975a0b47352845e3bec9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "86d56614_a1de12e1",
+        "filename": "java/com/google/gerrit/server/schema/AccountPatchReviewDbLock.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-09-03T22:22:38Z",
+      "side": 1,
+      "message": "Using the Lock interface instead.",
+      "parentUuid": "5d393975_f778ea22",
       "revId": "8c7548fb715f8db21db3975a0b47352845e3bec9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

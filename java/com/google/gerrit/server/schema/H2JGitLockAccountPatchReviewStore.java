@@ -18,14 +18,15 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.File;
 import java.io.IOException;
-import java.sql.SQLException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
 import java.util.regex.Pattern;
 import org.eclipse.jgit.internal.storage.file.LockFile;
 import org.eclipse.jgit.lib.Config;
@@ -41,6 +42,8 @@ import org.eclipse.jgit.lib.Config;
 public class H2JGitLockAccountPatchReviewStore extends H2CustomLockAccountPatchReviewStore {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   private static final String H2_DB_URL_PREFIX = "jdbc:h2:file:";
+  private static final long INITIAL_BACKOFF_MS = 1;
+  private static final long MAX_BACKOFF_MS = 500;
   private final File lockTarget;
 
   @Inject
@@ -73,14 +76,65 @@ public class H2JGitLockAccountPatchReviewStore extends H2CustomLockAccountPatchR
         lockTarget, getLockTimeoutMs());
   }
 
-  @Nullable
+  /**
+   * Creates a {@link Lock} whose {@link Lock#tryLock(long, TimeUnit)} creates and acquires a
+   * jgit-style {@link LockFile}, retrying with backoff until the given wait time elapses.
+   */
   @Override
-  protected Runnable tryAcquireLock() throws SQLException {
-    LockFile lock = new LockFile(lockTarget);
-    try {
-      return lock.lock() ? lock::unlock : null;
-    } catch (IOException e) {
-      throw new SQLException("Failed to acquire jgit-style lock for H2 database", e);
-    }
+  protected Lock newLock() {
+    return new Lock() {
+      private LockFile lockFile = new LockFile(lockTarget);
+
+      @Override
+      public boolean tryLock(long time, TimeUnit unit) throws InterruptedException {
+        long backoffMs = INITIAL_BACKOFF_MS;
+        long deadline = System.currentTimeMillis() + unit.toMillis(time);
+        while (!tryAcquireOnce()) {
+          long remaining = deadline - System.currentTimeMillis();
+          if (remaining <= 0) {
+            return false;
+          }
+          long sleepMs = Math.min(backoffMs, remaining);
+          logger.atFine().log("H2 lock held by another process, retrying in %d ms", sleepMs);
+          Thread.sleep(sleepMs);
+          backoffMs = Math.min(backoffMs * 2, MAX_BACKOFF_MS);
+        }
+        return true;
+      }
+
+      private boolean tryAcquireOnce() {
+        try {
+          return lockFile.lock();
+        } catch (IOException e) {
+          logger.atInfo().withCause(e).log("Failed to acquire jgit-style lock for H2 database");
+          return false;
+        }
+      }
+
+      @Override
+      public void unlock() {
+        lockFile.unlock();
+      }
+
+      @Override
+      public void lock() {
+        throw new UnsupportedOperationException();
+      }
+
+      @Override
+      public void lockInterruptibly() {
+        throw new UnsupportedOperationException();
+      }
+
+      @Override
+      public boolean tryLock() {
+        throw new UnsupportedOperationException();
+      }
+
+      @Override
+      public Condition newCondition() {
+        throw new UnsupportedOperationException();
+      }
+    };
   }
 }

@@ -31,10 +31,10 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupBackend;
+import com.google.gerrit.server.git.validators.ProjectConfigRegexValidator;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.RefPermission;
-import com.google.gerrit.server.project.AccessSectionRegexValidator;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -49,7 +49,7 @@ public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessI
   private final GetAccess getAccess;
   private final Provider<IdentifiedUser> identifiedUser;
   private final SetAccessUtil accessUtil;
-  private final AccessSectionRegexValidator accessSectionRegexValidator;
+  private final ProjectConfigRegexValidator projectConfigRegexValidator;
   private final RepoMetaDataUpdater repoMetaDataUpdater;
 
   @Inject
@@ -59,14 +59,14 @@ public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessI
       GetAccess getAccess,
       Provider<IdentifiedUser> identifiedUser,
       SetAccessUtil accessUtil,
-      AccessSectionRegexValidator accessSectionRegexValidator,
+      ProjectConfigRegexValidator projectConfigRegexValidator,
       RepoMetaDataUpdater repoMetaDataUpdater) {
     this.groupBackend = groupBackend;
     this.permissionBackend = permissionBackend;
     this.getAccess = getAccess;
     this.identifiedUser = identifiedUser;
     this.accessUtil = accessUtil;
-    this.accessSectionRegexValidator = accessSectionRegexValidator;
+    this.projectConfigRegexValidator = projectConfigRegexValidator;
     this.repoMetaDataUpdater = repoMetaDataUpdater;
   }
 
@@ -105,9 +105,13 @@ public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessI
               }
             }
 
-            accessSectionRegexValidator.validateNewRegexes(config.getAccessSections(), additions);
+            var existingAccessSectionRegexNames = config.getAccessSectionRegexNames();
             accessUtil.validateChanges(config, removals, additions);
             accessUtil.applyChanges(config, removals, additions);
+            if (!projectConfigRegexValidator.isAllowed()) {
+              projectConfigRegexValidator.assertNoAdditionalRegexes(
+                  existingAccessSectionRegexNames, config.getAccessSectionRegexNames());
+            }
 
             accessUtil.setParentName(
                 identifiedUser.get(),

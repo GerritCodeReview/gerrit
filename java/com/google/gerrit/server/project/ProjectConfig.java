@@ -17,6 +17,7 @@ package com.google.gerrit.server.project;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.ImmutableMap.toImmutableMap;
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.entities.Permission.isPermission;
 import static com.google.gerrit.entities.Project.DEFAULT_SUBMIT_TYPE;
 import static com.google.gerrit.server.permissions.PluginPermissionsUtil.isValidPluginPermission;
@@ -437,6 +438,10 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
   public Collection<AccessSection> getAccessSections() {
     return sort(accessSections.values());
+  }
+
+  public ImmutableSet<String> getAccessSectionRegexNames() {
+    return accessSections.keySet().stream().filter(RefPattern::isRE).collect(toImmutableSet());
   }
 
   public BranchOrderSection getBranchOrderSection() {

@@ -62,7 +62,6 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
-import com.google.gerrit.server.project.AccessSectionRegexValidator;
 import com.google.gerrit.server.project.LabelConfigValidator;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
@@ -120,7 +119,6 @@ public class CommitValidators {
     private final AccountCache accountCache;
     private final ProjectCache projectCache;
     private final ProjectConfig.Factory projectConfigFactory;
-    private final AccessSectionRegexValidator accessSectionRegexValidator;
     private final ProjectNotifyFilterValidator projectNotifyFilterValidator;
     private final Config config;
     private final ProjectConfigRegexValidator projectConfigRegexValidator;
@@ -142,7 +140,6 @@ public class CommitValidators {
         AccountCache accountCache,
         ProjectCache projectCache,
         ProjectConfig.Factory projectConfigFactory,
-        AccessSectionRegexValidator accessSectionRegexValidator,
         ProjectNotifyFilterValidator projectNotifyFilterValidator,
         ProjectConfigRegexValidator projectConfigRegexValidator,
         ChangeUtil changeUtil,
@@ -160,7 +157,6 @@ public class CommitValidators {
       this.accountCache = accountCache;
       this.projectCache = projectCache;
       this.projectConfigFactory = projectConfigFactory;
-      this.accessSectionRegexValidator = accessSectionRegexValidator;
       this.projectNotifyFilterValidator = projectNotifyFilterValidator;
       this.projectConfigRegexValidator = projectConfigRegexValidator;
       this.changeUtil = changeUtil;
@@ -195,7 +191,6 @@ public class CommitValidators {
           .add(
               new ConfigValidator(
                   projectConfigFactory,
-                  accessSectionRegexValidator,
                   projectNotifyFilterValidator,
                   projectConfigRegexValidator,
                   branch,
@@ -236,7 +231,6 @@ public class CommitValidators {
           .add(
               new ConfigValidator(
                   projectConfigFactory,
-                  accessSectionRegexValidator,
                   projectNotifyFilterValidator,
                   projectConfigRegexValidator,
                   branch,
@@ -567,7 +561,6 @@ public class CommitValidators {
   /** If this is the special project configuration branch, validate the config. */
   public static class ConfigValidator implements CommitValidationListener {
     private final ProjectConfig.Factory projectConfigFactory;
-    private final AccessSectionRegexValidator accessSectionRegexValidator;
     private final ProjectNotifyFilterValidator projectNotifyFilterValidator;
     private final ProjectConfigRegexValidator projectConfigRegexValidator;
     private final BranchNameKey branch;
@@ -578,7 +571,6 @@ public class CommitValidators {
 
     public ConfigValidator(
         ProjectConfig.Factory projectConfigFactory,
-        AccessSectionRegexValidator accessSectionRegexValidator,
         ProjectNotifyFilterValidator projectNotifyFilterValidator,
         ProjectConfigRegexValidator projectConfigRegexValidator,
         BranchNameKey branch,
@@ -587,7 +579,6 @@ public class CommitValidators {
         AllUsersName allUsers,
         AllProjectsName allProjects) {
       this.projectConfigFactory = projectConfigFactory;
-      this.accessSectionRegexValidator = accessSectionRegexValidator;
       this.projectNotifyFilterValidator = projectNotifyFilterValidator;
       this.projectConfigRegexValidator = projectConfigRegexValidator;
       this.branch = branch;
@@ -620,11 +611,10 @@ public class CommitValidators {
             previousConfig.load(rw, receiveEvent.commit.getParent(0));
           }
 
-          if (!accessSectionRegexValidator.isAllowed()
-              && REFS_CONFIG.equals(receiveEvent.command.getRefName())) {
-            accessSectionRegexValidator.validateNewRegexes(
-                previousConfigValues(previousConfig, ProjectConfig::getAccessSections),
-                cfg.getAccessSections());
+          if (!projectConfigRegexValidator.isAllowed(receiveEvent)) {
+            projectConfigRegexValidator.assertNoAdditionalRegexes(
+                previousConfigValues(previousConfig, ProjectConfig::getAccessSectionRegexNames),
+                cfg.getAccessSectionRegexNames());
           }
 
           if (!projectNotifyFilterValidator.isAllowed()) {

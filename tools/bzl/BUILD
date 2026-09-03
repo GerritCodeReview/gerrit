@@ -47,3 +47,14 @@ py_binary(
     main = "mirror_github_npm_deps.py",
     visibility = ["//visibility:public"],
 )
+
+# Mirror the bazel_lib toolchain binaries to gerrit-maven:
+#   bazel run //tools/bzl:bazel-lib-mirror                 # verify (default)
+#   bazel run //tools/bzl:bazel-lib-mirror -- --manifest-update
+#   bazel run //tools/bzl:bazel-lib-mirror -- --upload
+py_binary(
+    name = "bazel-lib-mirror",
+    srcs = ["mirror_bazel_lib_toolchains.py"],
+    main = "mirror_bazel_lib_toolchains.py",
+    visibility = ["//visibility:public"],
+)

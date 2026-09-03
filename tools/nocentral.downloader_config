@@ -1,0 +1,6 @@
+# Refuse all Maven Central fetches, to test a gerrit-maven-only build:
+# rules_jvm_external then resolves every locked artifact from the mirror
+# (populate it first with bazel run //tools/bzl:maven-mirror -- --upload).
+#   bazelisk build --downloader_config=tools/nocentral.downloader_config //...
+block repo1.maven.org
+block repo.maven.apache.org

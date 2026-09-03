@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "74e27e66_2896a995",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-09-03T05:56:37Z",
+      "side": 1,
+      "message": "Thanks, I didn\u0027t even realized that our fix previews are not like our normal diffs. This seems to use same diffing as GitFileDiffCacheImpl now",
+      "revId": "36e9c9c0b348b1c8247273629e9693dff1e94089",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

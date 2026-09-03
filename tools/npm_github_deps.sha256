@@ -1,0 +1,8 @@
+# SHA-256 of the PolyGerrit npm tarballs mirrored to gs://gerrit-maven.
+# These pnpm-lock.yaml entries have no integrity field; this is the pin.
+# Regenerate: tools/bzl/mirror_github_npm_deps.py --manifest-update.
+b7260818b594687721b73db0a3356b3c59b5f36e2d9bbf6df91808fcf21d7ea5  npm/highlightjs/highlightjs-closure-templates/tar.gz/02fb0646e0499084f96a99b8c6f4a0d7bd1d33ba
+9030e9842c1967b5420568bee4c770b35dcc5a205d011c6f42df8a5e26daaac2  npm/highlightjs/highlightjs-epp/tar.gz/9f9e1a92f37c217c68899c7d3bdccb4d134681b9
+0810135a318e589f11a997f9df2d1ac698c3a995c49b37ffe2af49b6d89c6a72  npm/highlightjs/highlightjs-structured-text/tar.gz/e68dd7aa829529fb6c40d6287585f43273605a9e
+134930c736ff427c58fbbfad3fb578b0fb1e49644373e53076d8db7d49e08b92  npm/paladox/highlightjs-vue/tar.gz/44eed074ea0110d1ad03d2cbd77d27027cf7bb04
+21325ac32b0588dc771d536772b3e5934a399f143be95ea8f66147590d6b2a04  npm/rsmbl/Resemble.js/tar.gz/66a55c5bfc3bda2303ad632ee8ce3c727b415917

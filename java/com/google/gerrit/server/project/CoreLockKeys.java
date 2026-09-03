@@ -23,6 +23,7 @@ import com.google.gerrit.entities.Project;
  * same lock name. Plugins should use {@link LockKey#plugin(String, String, String...)} instead.
  */
 public final class CoreLockKeys {
+  public static final LockKey ACCOUNT_PATCH_REVIEW_DB = LockKey.core("account-patch-review-db");
   public static final LockKey CHANGE_CLEANUP = LockKey.core("change-cleanup");
   public static final LockKey DRAFT_COMMENTS_CLEANUP = LockKey.core("draft-comments-cleanup");
   public static final LockKey MIGRATE_PASSWORDS_TO_TOKENS =

@@ -16,6 +16,24 @@
       "message": "I don\u0027t think you want to create a new Lock here, it should be done at the object level otherwise there is no explicit link between invocations of this method?",
       "revId": "e05b3c5ff4ed5eac023a7721eff25ff395b09578",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3edac35e_2ac33685",
+        "filename": "java/com/google/gerrit/server/schema/H2CustomLockAccountPatchReviewStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-09-03T23:45:20Z",
+      "side": 1,
+      "message": "It doesn\u0027t matter though right ? Unless we add the next inMemoryLock feature..?",
+      "parentUuid": "a32b2234_d9b00c9d",
+      "revId": "e05b3c5ff4ed5eac023a7721eff25ff395b09578",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

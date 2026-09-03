@@ -1,0 +1,8 @@
+# Refuse all github fetches, to test a github-free build. Also blocks
+# *.githubusercontent.com (github release downloads redirect there).
+#   bazelisk build --downloader_config=tools/nogithub.downloader_config //...
+block github.com
+block codeload.github.com
+block objects.githubusercontent.com
+block release-assets.githubusercontent.com
+block raw.githubusercontent.com

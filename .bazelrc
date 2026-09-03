@@ -10,6 +10,12 @@ common --incompatible_disallow_empty_glob=false
 common --@rules_python//python/config_settings:incompatible_default_to_explicit_init_py=true
 common --@aspect_rules_ts//ts:default_to_tsc_transpiler
 common --repo_env=ASPECT_TOOLS_TELEMETRY=-all
+# Front all bzlmod module source archives through the BCR mirror so a cold
+# --repository_cache build does not depend on github.com being reachable. The
+# mirror is tried before the source.json URL and falls back to it on a miss;
+# integrity hashes are unchanged, so this is safe. See
+# https://github.com/bazelbuild/bazel-central-registry/issues/4320.
+common --module_mirrors=https://bcr.cloudflaremirrors.com
 
 build --workspace_status_command="python3 ./tools/workspace_status.py"
 build --repository_cache=~/.gerritcodereview/bazel-cache/repository

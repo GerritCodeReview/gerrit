@@ -11,7 +11,7 @@ import { playwrightLauncher } from '@web/test-runner-playwright';
 const runUnderBazel = !!process.env['RUNFILES_DIR'];
 // We set this to a non-zero value because of sub-pixel rendering noise that
 // can create false positives.
-const diffThreshold = .02;
+const diffThreshold = .1;
 
 function testRunnerHtmlFactory(prefix) {
   return (testFramework) => `

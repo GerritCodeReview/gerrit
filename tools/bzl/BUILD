@@ -9,26 +9,28 @@ exports_files([
     "war_checks.bzl",
 ])
 
-# Verifies every artifact pinned in external_deps.lock.json is present on the
-# gerrit-maven mirror. Run before the build so a non-mirrored dependency fails
-# fast, locally and in CI, without hitting Maven Central:
-#   bazel run //tools/bzl:gerrit-maven-mirror-check
+# Manage the gerrit-maven mirror of the RJE-locked Maven Central artifacts:
+# checks coverage by default; --upload populates the missing ones. The check
+# runs before the build so a non-mirrored dependency fails fast, locally and
+# in CI, without hitting Maven Central:
+#   bazel run //tools/bzl:maven-mirror              # check (default)
+#   bazel run //tools/bzl:maven-mirror -- --upload  # populate
 py_binary(
-    name = "gerrit-maven-mirror-check",
-    srcs = ["gerrit_maven_mirror_check.py"],
-    main = "gerrit_maven_mirror_check.py",
+    name = "maven-mirror",
+    srcs = ["manage_maven_central_mirror.py"],
+    main = "manage_maven_central_mirror.py",
     visibility = ["//visibility:public"],
 )
 
 py_test(
-    name = "gerrit_maven_mirror_check_test",
+    name = "manage_maven_central_mirror_test",
     size = "small",
     srcs = [
-        "gerrit_maven_mirror_check.py",
-        "gerrit_maven_mirror_check_test.py",
+        "manage_maven_central_mirror.py",
+        "manage_maven_central_mirror_test.py",
     ],
     imports = ["."],
-    main = "gerrit_maven_mirror_check_test.py",
+    main = "manage_maven_central_mirror_test.py",
 )
 
 sh_test(

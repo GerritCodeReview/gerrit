@@ -135,7 +135,7 @@
     "org.antlr:antlr-runtime": -2145792567,
     "org.antlr:stringtemplate": -752719922,
     "org.apache.commons:commons-compress": -1289113474,
-    "org.apache.commons:commons-lang3": 109544183,
+    "org.apache.commons:commons-lang3": 1729335886,
     "org.apache.commons:commons-math3": -1738699872,
     "org.apache.commons:commons-text": -1886494041,
     "org.apache.httpcomponents:fluent-hc": 58615850,
@@ -367,13 +367,13 @@
     "org.antlr:antlr:jar:sources": -1910959184,
     "org.antlr:stringtemplate": -1632674608,
     "org.antlr:stringtemplate:jar:sources": -562160043,
-    "org.apache.commons:commons-compress": 2043911487,
+    "org.apache.commons:commons-compress": -832484004,
     "org.apache.commons:commons-compress:jar:sources": -1888643111,
-    "org.apache.commons:commons-lang3": -850748327,
-    "org.apache.commons:commons-lang3:jar:sources": 1059297009,
+    "org.apache.commons:commons-lang3": 1841935436,
+    "org.apache.commons:commons-lang3:jar:sources": -982252396,
     "org.apache.commons:commons-math3": -1383243934,
     "org.apache.commons:commons-math3:jar:sources": -2132756896,
-    "org.apache.commons:commons-text": -549439287,
+    "org.apache.commons:commons-text": 869132518,
     "org.apache.commons:commons-text:jar:sources": 400790036,
     "org.apache.httpcomponents:fluent-hc": -1791063366,
     "org.apache.httpcomponents:fluent-hc:jar:sources": -1265691559,
@@ -1079,10 +1079,10 @@
     },
     "org.apache.commons:commons-lang3": {
       "shasums": {
-        "jar": "4eeeae8d20c078abb64b015ec158add383ac581571cddc45c68f0c9ae0230720",
-        "sources": "b15732a13e40df7f07c30f2cb8572874798e8dde581f1398943d2ad3765bafaa"
+        "jar": "69e5c9fa35da7a51a5fd2099dfe56a2d8d32cf233e2f6d770e796146440263f4",
+        "sources": "eec245e820ec2800a1780cf756aefb427c1c6170e06902e67ac15b6910ce6335"
       },
-      "version": "3.18.0"
+      "version": "3.20.0"
     },
     "org.apache.commons:commons-math3": {
       "shasums": {

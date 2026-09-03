@@ -39,6 +39,7 @@ import {getFileExtension} from '../../../utils/file-util';
 import {throwingErrorCallback} from '../gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 import {ReportSource} from '../../../services/suggestions/suggestions-service';
 import {replacementsToString} from '../../../utils/comment-util';
+import {TokenHighlightLayer} from '../../../embed/diff/gr-diff-builder/token-highlight-layer';
 import {GrTextarea} from '../../../embed/gr-textarea';
 
 export interface PreviewLoadedDetail {
@@ -84,8 +85,14 @@ export class GrSuggestionDiffPreview extends LitElement {
   @property({type: Boolean, reflect: true})
   editable = false;
 
+  // visible for testing
+  readonly syntaxLayer = new GrSyntaxLayerWorker(
+    resolve(this, highlightServiceToken),
+    () => getAppContext().reportingService
+  );
+
   @state()
-  layers: DiffLayer[] = [];
+  layers: DiffLayer[] = [this.syntaxLayer];
 
   /**
    * The fix suggestion info that the preview is loaded for.
@@ -134,13 +141,19 @@ export class GrSuggestionDiffPreview extends LitElement {
 
   private readonly getViewModel = resolve(this, changeViewModelToken);
 
-  private readonly syntaxLayer = new GrSyntaxLayerWorker(
-    resolve(this, highlightServiceToken),
-    () => getAppContext().reportingService
-  );
-
   constructor() {
     super();
+    subscribe(
+      this,
+      () => this.getUserModel().preferences$,
+      preferences => {
+        const layers: DiffLayer[] = [this.syntaxLayer];
+        if (!preferences?.disable_token_highlighting) {
+          layers.push(new TokenHighlightLayer(this));
+        }
+        this.layers = layers;
+      }
+    );
     subscribe(
       this,
       () => this.getChangeModel().changeNum$,

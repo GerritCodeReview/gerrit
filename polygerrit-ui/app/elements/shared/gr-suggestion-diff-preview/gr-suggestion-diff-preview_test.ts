@@ -29,9 +29,11 @@ import {changeViewModelToken} from '../../../models/views/change';
 import {
   createChangeViewState,
   createDiffViewState,
+  createPreferences,
   createRange,
 } from '../../../test/test-data-generators';
 import {testResolver} from '../../../test/common-test-setup';
+import {userModelToken} from '../../../models/user/user-model';
 
 suite('gr-suggestion-diff-preview tests', () => {
   let element: GrSuggestionDiffPreview;
@@ -133,6 +135,27 @@ suite('gr-suggestion-diff-preview tests', () => {
       `,
       {ignoreAttributes: ['style']}
     );
+  });
+
+  test('syntax and token highlight layers', async () => {
+    assert.isTrue(element.layers.includes(element.syntaxLayer));
+
+    const userModel = testResolver(userModelToken);
+    userModel.setPreferences({
+      ...createPreferences(),
+      disable_token_highlighting: true,
+    });
+    await element.updateComplete;
+    assert.equal(element.layers.length, 1);
+    assert.isTrue(element.layers.includes(element.syntaxLayer));
+
+    userModel.setPreferences({
+      ...createPreferences(),
+      disable_token_highlighting: false,
+    });
+    await element.updateComplete;
+    assert.equal(element.layers.length, 2);
+    assert.isTrue(element.layers.includes(element.syntaxLayer));
   });
 
   suite('applyFix navigation', () => {

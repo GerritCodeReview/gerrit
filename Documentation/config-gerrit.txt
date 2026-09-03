@@ -153,6 +153,33 @@ For this locking to work correctly across multiple Gerrit primaries, the db and
 `.lock` file must reside on a shared filesystem (e.g. NFS) accessible to all
 primaries. The lock file is placed next to the H2 database file (derived from
 `accountPatchReviewDb.url`, or `<site>/db/account_patch_reviews.lock` by default).
+
+`plugin`:::
+Delegates locking to the site's `com.google.gerrit.server.project.LockManager`.
+Requires a plugin to provide the `LockManager` implementation, e.g. by calling
+`DynamicItem.bind(binder(), LockManager.class).to(...)` in its Guice module to
+override the default binding, so that distributed locking mechanisms can be
+provided. Gerrit fails to start if no plugin has overridden `LockManager`,
+since only the default in-memory lock would otherwise be used, which defeats
+the purpose of choosing this option.
++
+Because lock acquisitions are batched, the plugin must support being released by
+a different thread than the one that acquired it. The lock manager is looked up
+again for every batch, so a plugin reload takes effect at the next batch. If no
+plugin-provided `LockManager` is bound at that moment, account patch review
+reads and writes wait for a plugin to bind one, and fail if none is bound before
+<<accountPatchReviewDb.h2LockTimeout, accountPatchReviewDb.h2LockTimeout>>
+expires, instead of falling back to the in-memory lock.
++
+Reloading or upgrading the plugin that provides the `LockManager` is safe: Gerrit
+waits for the in-flight batch to release its lock before the plugin is stopped.
+To switch to a `LockManager` provided by a differently named plugin, first
+unload the old plugin on all primaries, then delete the lock type marker
+directory, then install the new plugin on all primaries. Locks from different
+implementations do not exclude each other, and the marker records the plugin
+name, so no primary may use the new plugin while another still uses the old one.
+While no plugin is installed, account patch review reads and writes fail after
+<<accountPatchReviewDb.h2LockTimeout, accountPatchReviewDb.h2LockTimeout>>.
 --
 +
 Default is unset (H2's built-in file locking is used).

@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.schema;
 
-import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.SitePaths;
 import java.lang.reflect.InvocationTargetException;
@@ -24,18 +22,17 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
 import org.eclipse.jgit.lib.Config;
 
 /**
  * Abstract base for H2 stores that replace H2's built-in file locking with a custom mechanism.
  *
- * <p>H2 is opened with {@code FILE_LOCK=NO}; subclasses implement {@link #tryAcquireLock()} to make
- * a single lock attempt. The retry loop with exponential backoff is handled here.
+ * <p>H2 is opened with {@code FILE_LOCK=NO}; subclasses implement {@link #newLock()}, returning a
+ * {@link Lock} whose {@link Lock#tryLock(long, TimeUnit)} implementation is responsible for its own
+ * retry and backoff strategy, up to the given wait time.
  */
 abstract class H2CustomLockAccountPatchReviewStore extends H2AccountPatchReviewStore {
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-  private static final long INITIAL_BACKOFF_MS = 1;
-  private static final long MAX_BACKOFF_MS = 500;
   static final long DEFAULT_LOCK_TIMEOUT_MS = TimeUnit.SECONDS.toMillis(30);
 
   private final String url;
@@ -59,52 +56,31 @@ abstract class H2CustomLockAccountPatchReviewStore extends H2AccountPatchReviewS
     return lockTimeoutMs;
   }
 
-  /**
-   * Makes a single attempt to acquire the lock.
-   *
-   * @return a {@link Runnable} that releases the lock, or {@code null} if the lock is currently
-   *     held by another process (retry-able)
-   * @throws SQLException on a hard, non-retryable error
-   */
-  @Nullable
-  protected abstract Runnable tryAcquireLock() throws SQLException;
-
-  private Runnable acquireExclusiveLock() throws SQLException {
-    long backoffMs = INITIAL_BACKOFF_MS;
-    long deadline = System.currentTimeMillis() + lockTimeoutMs;
-    while (true) {
-      Runnable unlock = tryAcquireLock();
-      if (unlock != null) {
-        return unlock;
-      }
-      long remaining = deadline - System.currentTimeMillis();
-      if (remaining <= 0) {
-        throw new SQLException("Could not acquire H2 lock within " + lockTimeoutMs + " ms");
-      }
-      long sleepMs = Math.min(backoffMs, remaining);
-      logger.atFine().log("H2 lock held by another process, retrying in %d ms", sleepMs);
-      try {
-        Thread.sleep(sleepMs);
-      } catch (InterruptedException ie) {
-        Thread.currentThread().interrupt();
-        throw new SQLException("Interrupted while waiting for H2 lock", ie);
-      }
-      backoffMs = Math.min(backoffMs * 2, MAX_BACKOFF_MS);
-    }
-  }
+  /** Creates a new, not-yet-acquired {@link Lock}. */
+  protected abstract Lock newLock();
 
   @Override
   public Connection getConnection() throws SQLException {
-    Runnable unlock = acquireExclusiveLock();
+    Lock lock = newLock();
+
     try {
-      return lockingConnection(DriverManager.getConnection(url), unlock);
+      if (!lock.tryLock(lockTimeoutMs, TimeUnit.MILLISECONDS)) {
+        throw new SQLException("Could not acquire H2 lock within " + lockTimeoutMs + " ms");
+      }
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new SQLException("Interrupted while waiting for H2 lock", e);
+    }
+
+    try {
+      return lockingConnection(DriverManager.getConnection(url), lock);
     } catch (SQLException e) {
-      unlock.run();
+      lock.unlock();
       throw e;
     }
   }
 
-  private static Connection lockingConnection(Connection con, Runnable unlock) {
+  private static Connection lockingConnection(Connection con, Lock lock) {
     return (Connection)
         Proxy.newProxyInstance(
             Connection.class.getClassLoader(),
@@ -116,7 +92,7 @@ abstract class H2CustomLockAccountPatchReviewStore extends H2AccountPatchReviewS
                 throw e.getCause();
               } finally {
                 if ("close".equals(method.getName())) {
-                  unlock.run();
+                  lock.unlock();
                 }
               }
             });

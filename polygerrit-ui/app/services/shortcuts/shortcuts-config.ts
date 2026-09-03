@@ -411,9 +411,13 @@ export function createShortcutConfig() {
     'Hide/show left diff',
     {key: 'A'}
   );
-  describe(Shortcut.NEW_COMMENT, ShortcutSection.DIFFS, 'Draft new comment', {
-    key: 'c',
-  });
+  describe(
+    Shortcut.NEW_COMMENT,
+    ShortcutSection.DIFFS,
+    'Draft new comment',
+    {key: 'c'},
+    {key: 'C'}
+  );
   describe(
     Shortcut.SAVE_COMMENT,
     ShortcutSection.DIFFS,

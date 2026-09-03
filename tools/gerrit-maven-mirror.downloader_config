@@ -1,3 +1,8 @@
 # Redirect github-hosted build inputs to their gs://gerrit-maven mirror, so a
 # cold build does not need github. No fallback: populate the bucket first.
 rewrite codeload.github.com/(.*) gerrit-maven.storage.googleapis.com/npm/$1
+# bazel_lib toolchain binaries (coreutils, yq, jq, tar, zstd, copy_*,
+# expand_template, bats), mirrored under their repo name. No upstream
+# mirror fallback: TODO(davido): remove when bazel-contrib/bazel-lib#1295
+# is fixed.
+rewrite github.com/[^/]+/(coreutils|yq|jq|bsdtar-prebuilt|zstd-prebuilt|bazel-lib|bats-core|bats-support|bats-assert|bats-file)/(.*) gerrit-maven.storage.googleapis.com/$1/$2

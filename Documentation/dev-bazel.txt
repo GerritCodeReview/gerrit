@@ -675,9 +675,10 @@ bazelisk --batch --output_user_root=/tmp/gerrit-mirror-fetch \
 [[github-independent-builds]]
 == Building without github.com
 
-Two inputs are fetched from github on a cold `--repository_cache`: bzlmod
-module archives (BCR `source.json` points each at a github release URL) and
-five PolyGerrit npm tarballs from `codeload.github.com`. Both are mirrored.
+Three input classes are fetched from github on a cold `--repository_cache`:
+bzlmod module archives (BCR `source.json` points each at a github release
+URL), the PolyGerrit npm tarballs from `codeload.github.com`, and the
+bazel_lib toolchain binaries. All are mirrored.
 
 === BCR module archives
 
@@ -704,21 +705,53 @@ so no lockfile change is needed. The entries have no integrity field, so
 `--manifest-update` if the pinned commits change. The rewrite has no fallback,
 so populate the bucket before enabling it.
 
+=== bazel_lib toolchain binaries
+
+`bazel_lib` downloads its toolchain binaries -- coreutils, yq, jq, tar,
+zstd, copy_directory, copy_to_directory, expand_template and the bats
+libraries -- from github release assets, each via a single URL with no
+mirror fallback. yq is fetched at load time (pnpm-lock parsing), coreutils
+on the npm fetch path, bats at analysis (to read the registered
+toolchain), the rest as toolchains resolve. yq, jq and tar come from the
+split-out yq.bzl / jq.bzl / tar.bzl modules, which pin their own coords
+(tar is hermeticbuild/bsdtar-prebuilt). The graph has both aspect_bazel_lib
+2.x and the renamed bazel_lib 3.x; both register the same toolchains and
+which one wins flips with cache state, so both modules' coords are mirrored
+(coreutils, tar and copy_*/expand_template differ). Mirror the platforms
+Gerrit builds on (darwin/linux, amd64/arm64) to `gs://gerrit-maven/<repo>/`:
+
+[source,bash]
+----
+bazel run //tools/bzl:bazel-lib-mirror  # verify (default)
+bazel run //tools/bzl:bazel-lib-mirror -- --manifest-update  # regenerate
+bazel run //tools/bzl:bazel-lib-mirror -- --upload  # needs bucket write
+----
+
+The script reads the URLs from the bazel_lib in the bazel output_base, so
+run a build first. `tools/gerrit-maven-mirror.downloader_config` (enabled in
+`.bazelrc`) rewrites the github URLs to gerrit-maven, keyed by repo. Bazel
+enforces bazel_lib's own integrity on fetch, so the mirror is trustless;
+`tools/bazel_lib_toolchains.sha256` is the upload content pin. The rewrite
+has no fallback, so populate the bucket first. Workaround for
+bazel-contrib/bazel-lib#1295.
+
 === Verifying a github-free build
 
 `tools/nogithub.downloader_config` blocks all github fetches (no `/etc/hosts`
-needed):
+needed). Combined with the `.bazelrc` mirror rules it accumulates, so a cold,
+isolated build must complete with zero github hits:
 
 [source,bash]
 ----
 bazelisk --batch --output_user_root=/tmp/gerrit-nogithub \
-  fetch --repository_cache=/tmp/gerrit-nogithub-cache \
+  build --repository_cache=/tmp/gerrit-nogithub-cache \
   --downloader_config=tools/nogithub.downloader_config \
-  @rules_java//toolchains:current_java_runtime
+  gerrit
 ----
 
-Passes because the module archive comes from the mirror; without
-`--module_mirrors` it fails with a blocked-URL error.
+BCR archives resolve from cloudflare, npm and the bazel_lib toolchains from
+gerrit-maven, and anything still on github is blocked. Populate every mirror
+first, or the build fails on the first un-mirrored asset.
 
 == Building against unpublished Maven JARs
 

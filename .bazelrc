@@ -16,6 +16,9 @@ common --repo_env=ASPECT_TOOLS_TELEMETRY=-all
 # integrity hashes are unchanged, so this is safe. See
 # https://github.com/bazelbuild/bazel-central-registry/issues/4320.
 common --module_mirrors=https://bcr.cloudflaremirrors.com
+# Redirect github-hosted build inputs to their
+# gs://gerrit-maven mirror. Populate the bucket first; no fallback.
+common --downloader_config=tools/gerrit-maven-mirror.downloader_config
 
 build --workspace_status_command="python3 ./tools/workspace_status.py"
 build --repository_cache=~/.gerritcodereview/bazel-cache/repository

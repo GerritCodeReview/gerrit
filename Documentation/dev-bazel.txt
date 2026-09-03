@@ -672,6 +672,54 @@ bazelisk --batch --output_user_root=/tmp/gerrit-mirror-fetch \
   "$target"
 ----
 
+[[github-independent-builds]]
+== Building without github.com
+
+Two inputs are fetched from github on a cold `--repository_cache`: bzlmod
+module archives (BCR `source.json` points each at a github release URL) and
+five PolyGerrit npm tarballs from `codeload.github.com`. Both are mirrored.
+
+=== BCR module archives
+
+`.bazelrc` sets `--module_mirrors=https://bcr.cloudflaremirrors.com`: module
+archives are fetched from the mirror first, github as fallback, integrity
+enforced.
+
+=== PolyGerrit npm tarballs
+
+Five npm deps are not on the registry; they come from `codeload.github.com`
+(`polygerrit-ui/app/pnpm-lock.yaml`). Mirror them to `gs://gerrit-maven/npm/`:
+
+[source,bash]
+----
+bazel run //tools/bzl:npm-mirror  # verify (default)
+bazel run //tools/bzl:npm-mirror -- --manifest-update  # regenerate
+bazel run //tools/bzl:npm-mirror -- --upload  # needs bucket write
+----
+
+`tools/gerrit-maven-mirror.downloader_config` (enabled in `.bazelrc`) rewrites
+`codeload.github.com` to gerrit-maven. rules_js fetches via Bazel's downloader,
+so no lockfile change is needed. The entries have no integrity field, so
+`tools/npm_github_deps.sha256` is the content pin; refresh it with
+`--manifest-update` if the pinned commits change. The rewrite has no fallback,
+so populate the bucket before enabling it.
+
+=== Verifying a github-free build
+
+`tools/nogithub.downloader_config` blocks all github fetches (no `/etc/hosts`
+needed):
+
+[source,bash]
+----
+bazelisk --batch --output_user_root=/tmp/gerrit-nogithub \
+  fetch --repository_cache=/tmp/gerrit-nogithub-cache \
+  --downloader_config=tools/nogithub.downloader_config \
+  @rules_java//toolchains:current_java_runtime
+----
+
+Passes because the module archive comes from the mirror; without
+`--module_mirrors` it fails with a blocked-URL error.
+
 == Building against unpublished Maven JARs
 
 To build against unpublished Maven JARs, like PrologCafe, the custom JARs must

@@ -36,3 +36,14 @@ sh_test(
     srcs = ["always_pass_test.sh"],
     tags = ["no_rbe"],
 )
+
+# Mirror the PolyGerrit github npm tarballs to gerrit-maven:
+#   bazel run //tools/bzl:npm-mirror                       # verify (default)
+#   bazel run //tools/bzl:npm-mirror -- --manifest-update
+#   bazel run //tools/bzl:npm-mirror -- --upload
+py_binary(
+    name = "npm-mirror",
+    srcs = ["mirror_github_npm_deps.py"],
+    main = "mirror_github_npm_deps.py",
+    visibility = ["//visibility:public"],
+)

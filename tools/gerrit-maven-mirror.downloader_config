@@ -1,0 +1,3 @@
+# Redirect github-hosted build inputs to their gs://gerrit-maven mirror, so a
+# cold build does not need github. No fallback: populate the bucket first.
+rewrite codeload.github.com/(.*) gerrit-maven.storage.googleapis.com/npm/$1

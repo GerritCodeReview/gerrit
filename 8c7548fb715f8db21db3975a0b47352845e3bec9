@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a19b9525_9cab6124",
+        "filename": "java/com/google/gerrit/server/schema/AccountPatchReviewDbLock.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-09-03T16:16:13Z",
+      "side": 1,
+      "message": "I think we want a generic locking interface that can be used for more things than just the AccountPatchReveiweDB eventually.",
+      "revId": "8c7548fb715f8db21db3975a0b47352845e3bec9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d393975_f778ea22",
+        "filename": "java/com/google/gerrit/server/schema/AccountPatchReviewDbLock.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-09-03T16:16:13Z",
+      "side": 1,
+      "message": "I think an AutoCloseble might make more sense so that it can be used in try-with-resource blocks.",
+      "revId": "8c7548fb715f8db21db3975a0b47352845e3bec9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

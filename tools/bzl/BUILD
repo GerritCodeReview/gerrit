@@ -58,3 +58,14 @@ py_binary(
     main = "mirror_bazel_lib_toolchains.py",
     visibility = ["//visibility:public"],
 )
+
+# Mirror the protobuf prebuilt protoc binaries to gerrit-maven:
+#   bazel run //tools/bzl:protobuf-mirror                  # verify (default)
+#   bazel run //tools/bzl:protobuf-mirror -- --manifest-update
+#   bazel run //tools/bzl:protobuf-mirror -- --upload
+py_binary(
+    name = "protobuf-mirror",
+    srcs = ["mirror_protobuf_toolchain.py"],
+    main = "mirror_protobuf_toolchain.py",
+    visibility = ["//visibility:public"],
+)

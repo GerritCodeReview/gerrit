@@ -6,3 +6,6 @@ rewrite codeload.github.com/(.*) gerrit-maven.storage.googleapis.com/npm/$1
 # mirror fallback: TODO(davido): remove when bazel-contrib/bazel-lib#1295
 # is fixed.
 rewrite github.com/[^/]+/(coreutils|yq|jq|bsdtar-prebuilt|zstd-prebuilt|bazel-lib|bats-core|bats-support|bats-assert|bats-file)/(.*) gerrit-maven.storage.googleapis.com/$1/$2
+# protobuf's prebuilt protoc binary (github release, no mirror fallback).
+# TODO(davido): remove when protocolbuffers/protobuf#29572 is fixed.
+rewrite github.com/protocolbuffers/protobuf/(.*) gerrit-maven.storage.googleapis.com/protobuf/$1

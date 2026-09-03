@@ -34,6 +34,24 @@
       "parentUuid": "7b1c2398_0bcad7e5",
       "revId": "b74cbfd07da15b88b6702dcf2031df01b529f222",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15313336_87be33fe",
+        "filename": "java/com/google/gerrit/server/schema/H2JGitLockAccountPatchReviewStore.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-09-03T17:05:19Z",
+      "side": 1,
+      "message": "I think PS1 suffers the same problem as this does, it unlocks the lock before the connections is released? However, I was just looking to keep things simpler with the synchronized as a first pass. However, I do think the ReentrantLock has a  better future and likely lines up better with a future DynamicItem.",
+      "parentUuid": "4f57ba10_0fc5d17c",
+      "revId": "b74cbfd07da15b88b6702dcf2031df01b529f222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

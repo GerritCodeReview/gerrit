@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../shared/gr-comment-thread/gr-comment-thread';
+import type {GrCommentThread} from '../../shared/gr-comment-thread/gr-comment-thread';
 import '../../checks/gr-diff-check-result';
 import '../../../embed/diff/gr-diff/gr-diff';
 import {
@@ -241,6 +242,9 @@ export class GrDiffHost extends LitElement {
 
   @property({type: Boolean})
   showLoadFailure?: boolean;
+
+  @property({type: Boolean})
+  disabledThreads = false;
 
   @state()
   private loggedIn = false;
@@ -499,13 +503,16 @@ export class GrDiffHost extends LitElement {
     if (
       changedProperties.has('changeComments') ||
       changedProperties.has('patchRange') ||
-      changedProperties.has('file')
+      changedProperties.has('file') ||
+      changedProperties.has('disabledThreads')
     ) {
-      this.threads = this.computeFileThreads(
-        this.changeComments,
-        this.patchRange,
-        this.file
-      );
+      this.threads = this.disabledThreads
+        ? []
+        : this.computeFileThreads(
+            this.changeComments,
+            this.patchRange,
+            this.file
+          );
     }
     if (
       changedProperties.has('noRenderOnPrefsChange') ||
@@ -573,6 +580,14 @@ export class GrDiffHost extends LitElement {
       }
       await this.updateComplete;
     }
+  }
+
+  async autoSaveDrafts(): Promise<void> {
+    const threadElements = Array.from(
+      this.shadowRoot?.querySelectorAll<GrCommentThread>('gr-comment-thread') ??
+        []
+    );
+    await Promise.all(threadElements.map(thread => thread.autoSave()));
   }
 
   override render() {

@@ -28,6 +28,7 @@ import {
   createConfig,
   createDiff,
   createDiffViewState,
+  createDraft,
   createFileInfo,
   createParsedChange,
   createRange,
@@ -40,6 +41,7 @@ import {
 import {
   BasePatchSetNum,
   CommentInfo,
+  DraftInfo,
   EDIT,
   NumericChangeId,
   PARENT,
@@ -64,6 +66,8 @@ import {assertIsDefined} from '../../../utils/common-util';
 import {GrDiffModeSelector} from '../gr-diff-mode-selector/gr-diff-mode-selector';
 import {assert, fixture, html} from '@open-wc/testing';
 import {GrButton} from '../../shared/gr-button/gr-button';
+import {GrComment} from '../../shared/gr-comment/gr-comment';
+import {GrCommentThread} from '../../shared/gr-comment-thread/gr-comment-thread';
 import {testResolver} from '../../../test/common-test-setup';
 import {UserModel, userModelToken} from '../../../models/user/user-model';
 import {
@@ -81,6 +85,7 @@ import {
 import {MdCheckbox} from '@material/web/checkbox/checkbox';
 import {FileNameToNormalizedFileInfoMap} from '../../../models/change/files-model';
 import {RestApiService} from '../../../services/gr-rest-api/gr-rest-api';
+import {createNew} from '../../../utils/comment-util';
 import {GrDiffCursor} from '../../../embed/diff/gr-diff-cursor/gr-diff-cursor';
 import {LoadingStatus} from '../../../types/types';
 import {RunResult} from '../../../models/checks/checks-model';
@@ -1952,6 +1957,265 @@ suite('gr-diff-view tests', () => {
           .callsFake(() => Promise.resolve([]));
         pressKey(element, 'b');
         assert.isTrue(toggleBlame.calledOnce);
+      });
+    });
+
+    suite('rich markdown diff', () => {
+      test('toggle rich markdown diff', async () => {
+        element.path = 'README.md';
+        element.diff = {
+          ...createDiff(),
+          content: [{ab: ['# Title']}, {a: ['Old line'], b: ['New line']}],
+        };
+        await element.updateComplete;
+
+        const toggleBtn = element.shadowRoot!.querySelector<GrButton>(
+          '#toggleRichMarkdown'
+        );
+        assert.isNotNull(toggleBtn);
+        assert.isFalse(element.showRichMarkdown);
+
+        await element.toggleRichMarkdown();
+        await element.updateComplete;
+
+        assert.isTrue(element.showRichMarkdown);
+        const markdownViewer =
+          element.shadowRoot!.querySelector('#markdownViewer');
+        assert.isNotNull(markdownViewer);
+
+        await element.toggleRichMarkdown();
+        await element.updateComplete;
+
+        assert.isFalse(element.showRichMarkdown);
+      });
+
+      test('toggle is hidden for non-markdown files', async () => {
+        element.path = 'foo.txt';
+        element.diff = createDiff();
+        await element.updateComplete;
+
+        const toggleBtn = element.shadowRoot!.querySelector(
+          '#toggleRichMarkdown'
+        );
+        assert.isNull(toggleBtn);
+      });
+
+      test('handleNewComment delegates to markdownViewer when rich markdown is active', async () => {
+        element.path = 'README.md';
+        element.diff = {
+          ...createDiff(),
+          content: [{ab: ['# Title']}],
+        };
+        element.showRichMarkdown = true;
+        await element.updateComplete;
+
+        assert.isDefined(element.markdownViewer);
+        const createCommentSpy = sinon.spy(
+          element.markdownViewer,
+          'createCommentFromSelectionOrHover'
+        );
+
+        // Simulate new comment shortcut/action
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (element as any).handleNewComment();
+
+        assert.isTrue(createCommentSpy.calledOnce);
+      });
+
+      test('toggleRichMarkdown flushes diffHost drafts before switching to rich mode', async () => {
+        element.path = 'README.md';
+        element.diff = {
+          ...createDiff(),
+          content: [{ab: ['# Title']}],
+        };
+        element.showRichMarkdown = false;
+        await element.updateComplete;
+
+        assert.isDefined(element.diffHost);
+        const autoSaveSpy = sinon.spy(element.diffHost, 'autoSaveDrafts');
+
+        await element.toggleRichMarkdown();
+        await element.updateComplete;
+
+        assert.isTrue(autoSaveSpy.calledOnce);
+        assert.isTrue(element.showRichMarkdown);
+      });
+
+      test('toggleRichMarkdown flushes markdownViewer drafts before switching to source mode', async () => {
+        element.path = 'README.md';
+        element.diff = {
+          ...createDiff(),
+          content: [{ab: ['# Title']}],
+        };
+        element.showRichMarkdown = true;
+        await element.updateComplete;
+
+        assert.isDefined(element.markdownViewer);
+        const autoSaveSpy = sinon.spy(element.markdownViewer, 'autoSaveDrafts');
+
+        await element.toggleRichMarkdown();
+        await element.updateComplete;
+
+        assert.isTrue(autoSaveSpy.calledOnce);
+        assert.isFalse(element.showRichMarkdown);
+      });
+
+      test('toggling from rich markdown back to source diff updates diffHost threads', async () => {
+        element.path = 'README.md';
+        element.diff = {
+          ...createDiff(),
+          content: [{ab: ['# Title']}],
+        };
+        element.showRichMarkdown = true;
+        await element.updateComplete;
+
+        commentsModel.setState({
+          comments: {},
+          drafts: {
+            'README.md': [
+              createDraft({
+                id: 'draft_1' as UrlEncodedCommentId,
+                line: 1,
+                message: 'Draft from rich mode',
+                patch_set: 1 as RevisionPatchSetNum,
+              }),
+            ],
+          },
+          portedComments: {},
+          portedDrafts: {},
+          discardedDrafts: [],
+        });
+        await element.updateComplete;
+        await element.diffHost?.updateComplete;
+
+        // Toggle back to source diff
+        element.showRichMarkdown = false;
+        await element.updateComplete;
+        await element.diffHost?.updateComplete;
+
+        assert.isDefined(element.diffHost);
+        assert.equal(element.diffHost.threads.length, 1);
+        assert.equal(element.diffHost.threads[0].line, 1);
+      });
+
+      test('toggling from rich markdown back to source diff preserves saved draft without empty composer', async () => {
+        element.path = 'README.md';
+        element.diff = {
+          ...createDiff(),
+          content: [{ab: ['# Title']}],
+        };
+        element.showRichMarkdown = true;
+        await element.updateComplete;
+
+        assert.isDefined(element.diffHost);
+        assert.isTrue(element.diffHost.hidden);
+        assert.equal(element.diffHost.threads.length, 0);
+
+        commentsModel.setState({
+          comments: {},
+          drafts: {
+            'README.md': [
+              createDraft({
+                id: 'draft_1' as UrlEncodedCommentId,
+                line: 7,
+                message: '123',
+                patch_set: 1 as RevisionPatchSetNum,
+              }),
+            ],
+          },
+          portedComments: {},
+          portedDrafts: {},
+          discardedDrafts: [],
+        });
+        await element.updateComplete;
+        await element.diffHost?.updateComplete;
+
+        // Toggle back to source diff
+        element.showRichMarkdown = false;
+        await element.updateComplete;
+        await element.diffHost?.updateComplete;
+
+        assert.isFalse(element.diffHost.hidden);
+        assert.equal(element.diffHost.threads.length, 1);
+        assert.equal(element.diffHost.threads[0].line, 7);
+        assert.equal(element.diffHost.threads[0].comments[0].message, '123');
+      });
+
+      test('toggling rich to source once renders saved draft in view mode, not editing composer', async () => {
+        stubRestApi('saveDiffDraft').callsFake((_changeNum, _patchNum, draft) =>
+          Promise.resolve({
+            ok: true,
+            text: () =>
+              Promise.resolve(
+                ")]}'\n" +
+                  JSON.stringify({
+                    ...draft,
+                    id: 'draft_saved_1',
+                    updated: '2026-09-03 12:21:00.000000000',
+                  })
+              ),
+          } as Response)
+        );
+
+        element.path = 'README.md';
+        element.diff = {
+          ...createDiff(),
+          content: [{ab: ['# Title']}],
+        };
+        element.showRichMarkdown = true;
+        await element.updateComplete;
+
+        // 1. User adds a draft while in rich markdown diff mode
+        const draft: DraftInfo = {
+          ...createNew('', true),
+          path: 'README.md',
+          patch_set: 1 as RevisionPatchSetNum,
+          line: 7,
+          message: '',
+        };
+        commentsModel.addNewDraft(draft);
+        await element.updateComplete;
+        await element.diffHost?.updateComplete;
+
+        // While in rich markdown, diffHost is hidden and must not render threads
+        assert.isTrue(element.diffHost?.hidden);
+        assert.equal(element.diffHost?.threads.length, 0);
+
+        // 2. User saves the draft in rich markdown diff mode
+        await commentsModel.saveDraft({
+          ...draft,
+          message: 'some full line',
+        });
+        await element.updateComplete;
+        await element.diffHost?.updateComplete;
+
+        // Still hidden and no threads in diffHost
+        assert.equal(element.diffHost?.threads.length, 0);
+
+        // 3. User toggles from rich to source ONCE
+        element.showRichMarkdown = false;
+        await element.updateComplete;
+        await element.diffHost?.updateComplete;
+
+        // 4. Assert diffHost renders the saved comment, and it is NOT in edit mode
+        assertIsDefined(element.diffHost);
+        assert.isFalse(element.diffHost.hidden);
+        assert.equal(element.diffHost.threads.length, 1);
+        assert.equal(element.diffHost.threads[0].line, 7);
+        assert.equal(
+          element.diffHost.threads[0].comments[0].message,
+          'some full line'
+        );
+
+        const threadEl = queryAndAssert<GrCommentThread>(
+          element.diffHost,
+          'gr-comment-thread'
+        );
+        await threadEl.updateComplete;
+        const commentEl = queryAndAssert<GrComment>(threadEl, 'gr-comment');
+        await commentEl.updateComplete;
+
+        assert.isFalse(commentEl.editing);
       });
     });
 

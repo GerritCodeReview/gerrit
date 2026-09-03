@@ -778,6 +778,10 @@ export class GrCommentThread extends LitElement {
     this.draftElement!.edit();
   }
 
+  async autoSave(): Promise<void> {
+    await this.draftElement?.autoSave();
+  }
+
   private async addQuote(quote: string) {
     await waitUntil(
       () => !!this.draftElement,

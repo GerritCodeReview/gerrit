@@ -18,6 +18,7 @@ import {
   waitEventLoop,
   waitUntil,
 } from '../../../test/test-utils';
+import type {GrDiffMarkdownViewer} from '../../diff/gr-diff-markdown-viewer/gr-diff-markdown-viewer';
 import {
   BasePatchSetNum,
   CommitId,
@@ -2393,6 +2394,123 @@ suite('gr-file-list tests', () => {
         'invisible'
       );
       assert.equal(element.computeClass('', 'file.java'), '');
+    });
+  });
+
+  suite('rich markdown diff', () => {
+    setup(async () => {
+      stubRestApi('getDiffComments').returns(Promise.resolve({}));
+      stubRestApi('getDiffDrafts').returns(Promise.resolve({}));
+      stubRestApi('getAccountCapabilities').returns(Promise.resolve({}));
+      stubElement('gr-diff-host', 'reload').callsFake(() => Promise.resolve());
+      stubElement('gr-diff-host', 'prefetchDiff').callsFake(() => {});
+
+      element = await fixture(html`<gr-file-list></gr-file-list>`);
+      element.numFilesShown = 5;
+      element.files = [normalize({}, 'README.md'), normalize({}, 'file.ts')];
+      await element.updateComplete;
+    });
+
+    test('toggle button rendered only for markdown files', () => {
+      const rows = queryAll(element, '.file-row');
+      assert.equal(rows.length, 2);
+
+      const mdToggle = rows[0].querySelector('.toggleRichMarkdown');
+      assert.isOk(mdToggle);
+
+      const nonMdToggle = rows[1].querySelector('.toggleRichMarkdown');
+      assert.isNotOk(nonMdToggle);
+    });
+
+    test('clicking toggleRichMarkdown expands file and enables rich mode', async () => {
+      assert.isFalse(element.isFileExpanded('README.md'));
+      assert.isFalse(element.isShowingRichMarkdown('README.md'));
+
+      element.toggleRichMarkdown('README.md');
+      await element.updateComplete;
+
+      assert.isTrue(element.isFileExpanded('README.md'));
+      assert.isTrue(element.isShowingRichMarkdown('README.md'));
+
+      const viewer = query(element, 'gr-diff-markdown-viewer');
+      assert.isOk(viewer);
+
+      // Toggle off
+      element.toggleRichMarkdown('README.md');
+      await element.updateComplete;
+
+      assert.isFalse(element.isShowingRichMarkdown('README.md'));
+      const viewerAfter = query(element, 'gr-diff-markdown-viewer');
+      assert.isNotOk(viewerAfter);
+    });
+
+    test('handleNewComment delegates to viewer when viewer has active selection', async () => {
+      element.loggedIn = true;
+      element.toggleRichMarkdown('README.md');
+      await element.updateComplete;
+
+      const viewer = queryAndAssert<GrDiffMarkdownViewer>(
+        element,
+        'gr-diff-markdown-viewer'
+      );
+      assert.isTrue(viewer.loggedIn);
+
+      sinon.stub(viewer, 'hasActiveSelection').returns(true);
+      const commentSpy = sinon.spy(viewer, 'createCommentFromSelectionOrHover');
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (element as any).handleNewComment();
+
+      assert.isTrue(commentSpy.calledOnce);
+    });
+
+    test('c and C shortcuts delegate to viewer when cursor is on rich markdown file', async () => {
+      element.loggedIn = true;
+      element.toggleRichMarkdown('README.md');
+      await element.updateComplete;
+
+      const viewer = queryAndAssert<GrDiffMarkdownViewer>(
+        element,
+        'gr-diff-markdown-viewer'
+      );
+      const commentSpy = sinon.spy(viewer, 'createCommentFromSelectionOrHover');
+
+      element.fileCursor.setCursorAtIndex(0);
+      assert.equal(element.files[element.fileCursor.index].__path, 'README.md');
+
+      pressKey(element, 'c');
+      assert.isTrue(commentSpy.calledOnce);
+
+      pressKey(element, 'C');
+      assert.isTrue(commentSpy.calledTwice);
+    });
+
+    test('toggling rich to source flushes drafts for matching file viewer', async () => {
+      element.files = [normalize({}, 'README.md'), normalize({}, 'DOCS.md')];
+      await element.updateComplete;
+
+      element.toggleRichMarkdown('README.md');
+      element.toggleRichMarkdown('DOCS.md');
+      await element.updateComplete;
+
+      const viewers = Array.from(
+        queryAll<GrDiffMarkdownViewer>(element, 'gr-diff-markdown-viewer')
+      );
+      assert.equal(viewers.length, 2);
+
+      const readmeViewer = viewers.find(v => v.path === 'README.md')!;
+      const docsViewer = viewers.find(v => v.path === 'DOCS.md')!;
+      assert.isOk(readmeViewer);
+      assert.isOk(docsViewer);
+
+      const readmeSaveSpy = sinon.spy(readmeViewer, 'autoSaveDrafts');
+      const docsSaveSpy = sinon.spy(docsViewer, 'autoSaveDrafts');
+
+      await element.toggleRichMarkdown('DOCS.md');
+      await element.updateComplete;
+
+      assert.isFalse(readmeSaveSpy.called);
+      assert.isTrue(docsSaveSpy.calledOnce);
     });
   });
 });

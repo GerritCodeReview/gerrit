@@ -69,6 +69,7 @@ public abstract class JdbcAccountPatchReviewStore
   private static final String URL = "url";
   private static final String H2_LOCK_TYPE = "h2LockType";
   static final String H2_LOCK_TYPE_JGIT = "jgit";
+  static final String H2_LOCK_TYPE_PLUGIN = "plugin";
 
   public static class JdbcAccountPatchReviewStoreModule extends LifecycleModule {
     private final Config cfg;
@@ -89,6 +90,9 @@ public abstract class JdbcAccountPatchReviewStore
             break;
           case H2_LOCK_TYPE_JGIT:
             impl = H2JGitLockAccountPatchReviewStore.class;
+            break;
+          case H2_LOCK_TYPE_PLUGIN:
+            impl = H2PluginLockAccountPatchReviewStore.class;
             break;
           default:
             throw new IllegalArgumentException(
@@ -123,6 +127,10 @@ public abstract class JdbcAccountPatchReviewStore
           return new H2AccountPatchReviewStore(cfg, sitePaths, threadSettingsConfig);
         case H2_LOCK_TYPE_JGIT:
           return new H2JGitLockAccountPatchReviewStore(cfg, sitePaths);
+        case H2_LOCK_TYPE_PLUGIN:
+          throw new IllegalArgumentException(
+              "accountPatchReviewDb.h2LockType=plugin requires a LockManager binding and is only"
+                  + " supported when running as part of the Gerrit daemon, not by this tool");
         default:
           throw new IllegalArgumentException(
               "Invalid accountPatchReviewDb.h2LockType value: " + lockType);

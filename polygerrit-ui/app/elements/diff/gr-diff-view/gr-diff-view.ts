@@ -40,6 +40,7 @@ import {
   BasePatchSetNum,
   Comment,
   CommentMap,
+  CommentThread,
   DropdownLink,
   EDIT,
   NumericChangeId,
@@ -103,7 +104,9 @@ import {
   FileNameToNormalizedFileInfoMap,
   filesModelToken,
 } from '../../../models/change/files-model';
-import {isImageDiff} from '../../../utils/diff-util';
+import {isImageDiff, isMarkdownDiff} from '../../../utils/diff-util';
+import '../../../embed/diff/gr-diff-markdown/gr-diff-markdown-viewer';
+import type {GrDiffMarkdownViewer} from '../../../embed/diff/gr-diff-markdown/gr-diff-markdown-viewer';
 import {formStyles} from '../../../styles/form-styles';
 import {NormalizedFileInfo} from '../../change/gr-file-list/gr-file-list';
 import {configModelToken} from '../../../models/config/config-model';
@@ -140,8 +143,14 @@ export class GrDiffView extends LitElement {
   @query('#diffHost')
   diffHost?: GrDiffHost;
 
+  @query('#markdownViewer')
+  markdownViewer?: GrDiffMarkdownViewer;
+
   @state()
   reviewed = false;
+
+  @state()
+  showRichMarkdown = false;
 
   @query('#downloadModal')
   downloadModal?: HTMLDialogElement;
@@ -166,6 +175,16 @@ export class GrDiffView extends LitElement {
       patchNum: this.patchNum,
       basePatchNum: this.basePatchNum,
     };
+  }
+
+  // Private but used in tests.
+  get threadsForFile(): CommentThread[] {
+    if (!this.changeComments || !this.path || !this.patchRange) return [];
+    const file = this.files?.changeFilesByPath?.[this.path];
+    return this.changeComments.getThreadsBySideForFile(
+      {path: this.path, basePath: file?.old_path},
+      this.patchRange
+    );
   }
 
   // Private but used in tests.
@@ -828,28 +847,8 @@ export class GrDiffView extends LitElement {
     ) {
       this.initCursor();
     }
-    if (
-      changedProperties.has('change') ||
-      changedProperties.has('changeComments') ||
-      changedProperties.has('path') ||
-      changedProperties.has('patchNum') ||
-      changedProperties.has('basePatchNum') ||
-      changedProperties.has('files')
-    ) {
-      if (this.change && this.changeComments && this.path && this.patchRange) {
-        assertIsDefined(this.diffHost, 'diffHost');
-        const file = this.files?.changeFilesByPath?.[this.path];
-        this.diffHost.updateComplete.then(() => {
-          assertIsDefined(this.path);
-          assertIsDefined(this.patchRange);
-          assertIsDefined(this.diffHost);
-          assertIsDefined(this.changeComments);
-          this.diffHost.threads = this.changeComments.getThreadsBySideForFile(
-            {path: this.path, basePath: file?.old_path},
-            this.patchRange
-          );
-        });
-      }
+    if (changedProperties.has('showRichMarkdown') && !this.showRichMarkdown) {
+      this.reInitCursor();
     }
     if (
       (changedProperties.has('change') ||
@@ -900,9 +899,26 @@ export class GrDiffView extends LitElement {
             hidden: !!this.file?.diffs_too_expensive_to_compute,
           })}
         >
-          <gr-endpoint-decorator name="diff-content">
+          ${when(
+            this.isShowingRichMarkdown(),
+            () => html`
+              <gr-diff-markdown-viewer
+                id="markdownViewer"
+                .diff=${this.diff}
+                .path=${this.path}
+                .patchRange=${this.patchRange}
+                .threads=${this.threadsForFile}
+                .loggedIn=${this.loggedIn}
+              ></gr-diff-markdown-viewer>
+            `
+          )}
+          <gr-endpoint-decorator
+            name="diff-content"
+            ?hidden=${this.isShowingRichMarkdown()}
+          >
             <gr-diff-host
               id="diffHost"
+              ?hidden=${this.isShowingRichMarkdown()}
               .changeNum=${this.changeNum}
               .change=${this.change}
               .patchRange=${this.patchRange}
@@ -1181,7 +1197,7 @@ export class GrDiffView extends LitElement {
         name="diff-header-controls"
       ></gr-endpoint-decorator>
       ${this.renderSidebarTriggers()} ${this.renderShowEntireFileButton()}
-      ${this.renderBlameButton()}
+      ${this.renderBlameButton()} ${this.renderRichMarkdownToggle()}
       ${when(
         this.computeCanEdit(),
         () => html`
@@ -1287,6 +1303,40 @@ export class GrDiffView extends LitElement {
           >${blameToggleLabel}</gr-button
         >
       </span>`;
+  }
+
+  private renderRichMarkdownToggle() {
+    if (!isMarkdownDiff(this.path, this.diff)) return nothing;
+    return html`<span class="separator"></span
+      ><span class="richMarkdownToggle">
+        <gr-tooltip-content
+          has-tooltip=""
+          position-below=""
+          title=${this.showRichMarkdown
+            ? 'Switch to source diff'
+            : 'Switch to rich rendered Markdown diff'}
+        >
+          <gr-button
+            link=""
+            id="toggleRichMarkdown"
+            @click=${this.toggleRichMarkdown}
+          >
+            <gr-icon
+              icon=${this.showRichMarkdown ? 'code' : 'preview'}
+              filled=""
+            ></gr-icon>
+            ${this.showRichMarkdown ? 'Source diff' : 'Rich diff'}
+          </gr-button>
+        </gr-tooltip-content>
+      </span>`;
+  }
+
+  private toggleRichMarkdown() {
+    this.showRichMarkdown = !this.showRichMarkdown;
+  }
+
+  private isShowingRichMarkdown(): boolean {
+    return this.showRichMarkdown && isMarkdownDiff(this.path, this.diff);
   }
 
   private renderDialogs() {
@@ -1408,6 +1458,10 @@ export class GrDiffView extends LitElement {
   private handleNewComment() {
     this.classList.remove('hideComments');
     this.classList.remove('hideCheckCodePointers');
+    if (this.isShowingRichMarkdown()) {
+      this.markdownViewer?.createCommentFromSelectionOrHover();
+      return;
+    }
     this.cursor?.createCommentInPlace();
   }
 

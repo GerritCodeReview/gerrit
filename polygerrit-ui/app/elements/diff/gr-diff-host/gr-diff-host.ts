@@ -499,13 +499,16 @@ export class GrDiffHost extends LitElement {
     if (
       changedProperties.has('changeComments') ||
       changedProperties.has('patchRange') ||
-      changedProperties.has('file')
+      changedProperties.has('file') ||
+      changedProperties.has('hidden')
     ) {
-      this.threads = this.computeFileThreads(
-        this.changeComments,
-        this.patchRange,
-        this.file
-      );
+      this.threads = this.hidden
+        ? []
+        : this.computeFileThreads(
+            this.changeComments,
+            this.patchRange,
+            this.file
+          );
     }
     if (
       changedProperties.has('noRenderOnPrefsChange') ||

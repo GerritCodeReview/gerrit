@@ -865,6 +865,27 @@ suite('gr-diff-host tests', () => {
         `
       );
     });
+
+    test('threads are cleared when hidden and restored when unhidden', async () => {
+      const thread: CommentThread = {
+        ...createCommentThread([createComment()]),
+      };
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      sinon.stub(element as any, 'computeFileThreads').returns([thread]);
+
+      element.hidden = false;
+      element.threads = [thread];
+      await element.updateComplete;
+      assert.equal(element.threads.length, 1);
+
+      element.hidden = true;
+      await element.updateComplete;
+      assert.equal(element.threads.length, 0);
+
+      element.hidden = false;
+      await element.updateComplete;
+      assert.equal(element.threads.length, 1);
+    });
   });
 
   suite('render check elements', () => {

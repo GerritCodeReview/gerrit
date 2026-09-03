@@ -6,6 +6,7 @@
 import '../../../styles/gr-a11y-styles';
 import '../../../styles/shared-styles';
 import '../../diff/gr-diff-host/gr-diff-host';
+import '../../../embed/diff/gr-diff-markdown/gr-diff-markdown-viewer';
 import '../../diff/gr-diff-preferences-dialog/gr-diff-preferences-dialog';
 import '../../edit/gr-edit-file-controls/gr-edit-file-controls';
 import '../../shared/gr-button/gr-button';
@@ -42,7 +43,8 @@ import {
   PatchRange,
   RevisionPatchSetNum,
 } from '../../../types/common';
-import {DiffPreferencesInfo} from '../../../types/diff';
+import {isMarkdownDiff} from '../../../utils/diff-util';
+import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {GrDiffHost} from '../../diff/gr-diff-host/gr-diff-host';
 import {GrDiffPreferencesDialog} from '../../diff/gr-diff-preferences-dialog/gr-diff-preferences-dialog';
 import {GrDiffCursor} from '../../../embed/diff/gr-diff-cursor/gr-diff-cursor';
@@ -268,6 +270,13 @@ export class GrFileList extends LitElement {
   // Private but used in tests.
   @state()
   expandedFiles: Set<string> = new Set();
+
+  @state()
+  private diffsByPath = new Map<string, DiffInfo>();
+
+  // Private but used in tests.
+  @state()
+  richMarkdownFiles: Set<string> = new Set();
 
   // Private but used in tests.
   @state()
@@ -515,6 +524,25 @@ export class GrFileList extends LitElement {
         .show-hide {
           margin-left: var(--spacing-s);
           width: 1.9em;
+        }
+        .richMarkdownToggle {
+          align-items: center;
+          display: inline-flex;
+          justify-content: flex-end;
+          margin-right: var(--spacing-s);
+          opacity: 0;
+        }
+        .row:hover .richMarkdownToggle,
+        .row:focus-within .richMarkdownToggle,
+        .row.expanded .richMarkdownToggle {
+          opacity: 100;
+        }
+        .richMarkdownToggle gr-button {
+          --gr-button-padding: 0 var(--spacing-s);
+        }
+        .richMarkdownToggle gr-icon {
+          font-size: 16px;
+          margin-right: var(--spacing-xs);
         }
         .fileListButton {
           margin: var(--spacing-m);
@@ -1207,22 +1235,41 @@ export class GrFileList extends LitElement {
         )}
         <!-- endpoint: change-view-file-list-content -->
         ${this.renderReviewed(file)} ${this.renderFileControls(file)}
-        ${this.renderShowHide(file)}
+        ${this.renderRichMarkdownToggle(file)} ${this.renderShowHide(file)}
       </div>
       ${when(
         this.isFileExpanded(file.__path),
         () => html`
-          <gr-diff-host
-            ?noAutoRender=${true}
-            ?showLoadFailure=${true}
-            .changeNum=${this.changeNum}
-            .change=${this.change}
-            .patchRange=${this.patchRange}
-            .file=${patchSetFile}
-            .path=${file.__path}
-            .projectName=${this.change?.project}
-            ?noRenderOnPrefsChange=${true}
-          ></gr-diff-host>
+          ${when(
+            this.isShowingRichMarkdown(file.__path),
+            () => html`
+              <gr-diff-markdown-viewer
+                .diff=${this.getDiffForPath(file.__path)}
+                .path=${file.__path}
+                .patchRange=${this.patchRange}
+              ></gr-diff-markdown-viewer>
+            `
+          )}
+          <div ?hidden=${this.isShowingRichMarkdown(file.__path)}>
+            <gr-diff-host
+              ?hidden=${this.isShowingRichMarkdown(file.__path)}
+              ?noAutoRender=${true}
+              ?showLoadFailure=${true}
+              .changeNum=${this.changeNum}
+              .change=${this.change}
+              .patchRange=${this.patchRange}
+              .file=${patchSetFile}
+              .path=${file.__path}
+              .projectName=${this.change?.project}
+              ?noRenderOnPrefsChange=${true}
+              @diff-changed=${(e: CustomEvent<{value?: DiffInfo}>) => {
+                if (e.detail.value) {
+                  this.diffsByPath.set(file.__path, e.detail.value);
+                  this.requestUpdate();
+                }
+              }}
+            ></gr-diff-host>
+          </div>
         `
       )}
     </div>`;
@@ -1623,6 +1670,70 @@ export class GrFileList extends LitElement {
         `
       )}
     </div>`;
+  }
+
+  isShowingRichMarkdown(path?: string): boolean {
+    if (!path || !isMarkdownDiff(path)) return false;
+    return this.richMarkdownFiles.has(path);
+  }
+
+  toggleRichMarkdown(path: string, e?: Event) {
+    if (e) {
+      e.stopPropagation();
+      e.preventDefault();
+    }
+    const newSet = new Set(this.richMarkdownFiles);
+    if (newSet.has(path)) {
+      newSet.delete(path);
+    } else {
+      newSet.add(path);
+      if (!this.isFileExpanded(path)) {
+        const newExpanded = new Set(this.expandedFiles);
+        newExpanded.add(path);
+        this.expandedFiles = newExpanded;
+      }
+    }
+    this.richMarkdownFiles = newSet;
+  }
+
+  getDiffForPath(path: string): DiffInfo | undefined {
+    const cached = this.diffsByPath.get(path);
+    if (cached) return cached;
+    const diffHosts = Array.from(
+      this.shadowRoot?.querySelectorAll<GrDiffHost>('gr-diff-host') ?? []
+    );
+    const diffHost = this.findDiffByPath(path, diffHosts);
+    if (diffHost?.diff) {
+      this.diffsByPath.set(path, diffHost.diff);
+      return diffHost.diff;
+    }
+    return undefined;
+  }
+
+  private renderRichMarkdownToggle(file: NormalizedFileInfo) {
+    if (!isMarkdownDiff(file.__path)) return nothing;
+    const isRich = this.isShowingRichMarkdown(file.__path);
+    return html`
+      <div class="richMarkdownToggle" role="gridcell">
+        <gr-tooltip-content
+          has-tooltip
+          title=${isRich
+            ? 'View source diff'
+            : 'View rich rendered markdown diff'}
+        >
+          <gr-button
+            link
+            class="toggleRichMarkdown"
+            @click=${(e: MouseEvent) => this.toggleRichMarkdown(file.__path, e)}
+          >
+            <gr-icon icon=${isRich ? 'code' : 'preview'} filled></gr-icon>
+            <span class="richToggleLabel"
+              >${isRich ? 'Source diff' : 'Rich diff'}</span
+            >
+          </gr-button>
+        </gr-tooltip-content>
+      </div>
+    `;
   }
 
   private renderShowHide(file: NormalizedFileInfo) {

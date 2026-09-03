@@ -117,3 +117,19 @@ export function isImageDiff(diff?: DiffInfo) {
     !!diff?.meta_b?.content_type.startsWith('image/')
   );
 }
+
+const MARKDOWN_FILE_EXTENSIONS = /\.(md|markdown|mdown|mkdn|mkd)$/i;
+
+export function isMarkdownDiff(path?: string, diff?: DiffInfo): boolean {
+  if (path && MARKDOWN_FILE_EXTENSIONS.test(path)) {
+    return true;
+  }
+  const contentTypeA = diff?.meta_a?.content_type;
+  const contentTypeB = diff?.meta_b?.content_type;
+  return (
+    !!contentTypeA?.startsWith('text/x-markdown') ||
+    !!contentTypeB?.startsWith('text/x-markdown') ||
+    contentTypeA === 'text/markdown' ||
+    contentTypeB === 'text/markdown'
+  );
+}

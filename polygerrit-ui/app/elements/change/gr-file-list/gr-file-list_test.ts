@@ -2395,4 +2395,52 @@ suite('gr-file-list tests', () => {
       assert.equal(element.computeClass('', 'file.java'), '');
     });
   });
+
+  suite('rich markdown diff', () => {
+    setup(async () => {
+      stubRestApi('getDiffComments').returns(Promise.resolve({}));
+      stubRestApi('getDiffDrafts').returns(Promise.resolve({}));
+      stubRestApi('getAccountCapabilities').returns(Promise.resolve({}));
+      stubElement('gr-diff-host', 'reload').callsFake(() => Promise.resolve());
+      stubElement('gr-diff-host', 'prefetchDiff').callsFake(() => {});
+
+      element = await fixture(html`<gr-file-list></gr-file-list>`);
+      element.numFilesShown = 5;
+      element.files = [normalize({}, 'README.md'), normalize({}, 'file.ts')];
+      await element.updateComplete;
+    });
+
+    test('toggle button rendered only for markdown files', () => {
+      const rows = queryAll(element, '.file-row');
+      assert.equal(rows.length, 2);
+
+      const mdToggle = rows[0].querySelector('.toggleRichMarkdown');
+      assert.isOk(mdToggle);
+
+      const nonMdToggle = rows[1].querySelector('.toggleRichMarkdown');
+      assert.isNotOk(nonMdToggle);
+    });
+
+    test('clicking toggleRichMarkdown expands file and enables rich mode', async () => {
+      assert.isFalse(element.isFileExpanded('README.md'));
+      assert.isFalse(element.isShowingRichMarkdown('README.md'));
+
+      element.toggleRichMarkdown('README.md');
+      await element.updateComplete;
+
+      assert.isTrue(element.isFileExpanded('README.md'));
+      assert.isTrue(element.isShowingRichMarkdown('README.md'));
+
+      const viewer = query(element, 'gr-diff-markdown-viewer');
+      assert.isOk(viewer);
+
+      // Toggle off
+      element.toggleRichMarkdown('README.md');
+      await element.updateComplete;
+
+      assert.isFalse(element.isShowingRichMarkdown('README.md'));
+      const viewerAfter = query(element, 'gr-diff-markdown-viewer');
+      assert.isNotOk(viewerAfter);
+    });
+  });
 });

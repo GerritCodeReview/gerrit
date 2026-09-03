@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "67422e80_7f186a95",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-09-03T06:25:14Z",
+      "side": 1,
+      "message": "Nice catch! I just drafted a few AI NITs",
+      "revId": "dafa59c7e5d5a6d708c0f4d3821c1c78b9982081",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1afa4c4_f6eedaec",
+        "filename": "java/com/google/gerrit/server/account/GroupCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-09-03T06:25:14Z",
+      "side": 1,
+      "message": "Please look at this WARNING reported by autoreview issue finding: Catching `Exception` here is a bit broad. Since `repoManager.openRepository()` and `exactRef()` both throw `IOException`, it\u0027s better to specifically catch `IOException`.",
+      "range": {
+        "startLine": 259,
+        "startChar": 0,
+        "endLine": 259,
+        "endChar": 0
+      },
+      "revId": "dafa59c7e5d5a6d708c0f4d3821c1c78b9982081",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d71e550_2f26f660",
+        "filename": "java/com/google/gerrit/server/account/GroupCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-09-03T06:25:14Z",
+      "side": 1,
+      "message": "Please look at this AI Warning: You are accessing `ref.getObjectId()` outside the `try` block where `allUsers` is closed. While `getObjectId()` does not perform additional I/O for direct Git refs (`ObjectIdRef.PeeledNonTag`), it\u0027s generally safer and clearer to extract the `ObjectId` within the `try` block while the repository is still explicitly open.\n\n```java\n    ObjectId revision;\n    try (Repository allUsers \u003d repoManager.openRepository(allUsersName)) {\n      Ref ref \u003d allUsers.exactRef(RefNames.REFS_GROUPNAMES);\n      if (ref \u003d\u003d null) {\n        return ImmutableList.of();\n      }\n      revision \u003d ref.getObjectId();\n    } catch (IOException e) {\n      logger.atWarning().withCause(e).log(\n          \"Cannot read %s from All-Users\", RefNames.REFS_GROUPNAMES);\n      return ImmutableList.of();\n    }\n```",
+      "range": {
+        "startLine": 264,
+        "startChar": 0,
+        "endLine": 264,
+        "endChar": 0
+      },
+      "revId": "dafa59c7e5d5a6d708c0f4d3821c1c78b9982081",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0627658e_a8ad66fc",
+        "filename": "java/com/google/gerrit/server/restapi/group/DeleteGroup.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-09-03T06:25:14Z",
+      "side": 1,
+      "message": "Please look at this WARNING reported by autoreview issue finding: The commit message states that you are removing `Groups` dependencies from `DeleteGroup`, but `groups` is still used here.\n\nYou can truly remove the `Groups` dependency from this class (including its constructor) by changing this to use `groupCache.get(...)`. Additionally, this means you can simplify the `try-catch` block since `groupCache.get()` does not throw `IOException` or `ConfigInvalidException`.\n\nAlso, it is better to resolve the `Optional` once:\n```java\nOptional\u003cInternalGroup\u003e group \u003d groupCache.get(entry.getUUID());\nif (group.isEmpty()) {\n  throw new ResourceNotFoundException(...);\n}\nif (group.get().getSubgroups().contains(uuid)) {\n  allGroupsWithSubGroups.add(entry.getName());\n}\n```",
+      "range": {
+        "startLine": 179,
+        "startChar": 0,
+        "endLine": 179,
+        "endChar": 0
+      },
+      "revId": "dafa59c7e5d5a6d708c0f4d3821c1c78b9982081",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

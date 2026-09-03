@@ -52,6 +52,24 @@
       "parentUuid": "4f57ba10_0fc5d17c",
       "revId": "b74cbfd07da15b88b6702dcf2031df01b529f222",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ebd2fbb_de9578ab",
+        "filename": "java/com/google/gerrit/server/schema/H2JGitLockAccountPatchReviewStore.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-09-03T17:15:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "15313336_87be33fe",
+      "revId": "b74cbfd07da15b88b6702dcf2031df01b529f222",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

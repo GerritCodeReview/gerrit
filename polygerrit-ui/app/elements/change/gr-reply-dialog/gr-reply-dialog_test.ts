@@ -231,6 +231,7 @@ suite('gr-reply-dialog tests', () => {
               <div class="peopleList">
                 <div class="peopleListLabel">Reviewers</div>
                 <gr-account-list id="reviewers"> </gr-account-list>
+                <gr-endpoint-slot name="middle"> </gr-endpoint-slot>
                 <gr-endpoint-slot name="right"> </gr-endpoint-slot>
               </div>
               <gr-endpoint-slot name="below"> </gr-endpoint-slot>
@@ -373,6 +374,7 @@ suite('gr-reply-dialog tests', () => {
           <div class="peopleList">
             <div class="peopleListLabel">Reviewers</div>
             <gr-account-list id="reviewers"> </gr-account-list>
+            <gr-endpoint-slot name="middle"> </gr-endpoint-slot>
             <gr-endpoint-slot name="right"> </gr-endpoint-slot>
           </div>
           <gr-endpoint-slot name="below"> </gr-endpoint-slot>
@@ -428,6 +430,7 @@ suite('gr-reply-dialog tests', () => {
           <div class="peopleList">
             <div class="peopleListLabel">Reviewers</div>
             <gr-account-list id="reviewers"> </gr-account-list>
+            <gr-endpoint-slot name="middle"> </gr-endpoint-slot>
             <gr-endpoint-slot name="right"> </gr-endpoint-slot>
           </div>
           <gr-endpoint-slot name="below"> </gr-endpoint-slot>

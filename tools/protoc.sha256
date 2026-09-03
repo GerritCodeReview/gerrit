@@ -1,0 +1,7 @@
+# SHA-256 of the protobuf protoc binaries mirrored to gs://gerrit-maven.
+# Format: <sha256>  protobuf/releases/download/<tag>/<file>.
+# Regenerate: tools/bzl/mirror_protobuf_toolchain.py --manifest-update.
+237a68856edf1bd28b6204bddd0596c1cf46d298bc29c620012540b2e44c73e7  protobuf/releases/download/v36.1/protoc-36.1-linux-aarch_64.zip
+c4bc672d9d49214dc8cafdceadf4df92182d6ca8e3ec65a56b2d7de5602669b4  protobuf/releases/download/v36.1/protoc-36.1-linux-x86_64.zip
+de56d57afe30c5d191b11d24ff93dd4025728d7fb43b773886b2d3613e0bdbb2  protobuf/releases/download/v36.1/protoc-36.1-osx-aarch_64.zip
+ee2c5496e4af0aa6a224894bc0f7025145260e004d890487d510725ce8b473eb  protobuf/releases/download/v36.1/protoc-36.1-osx-x86_64.zip

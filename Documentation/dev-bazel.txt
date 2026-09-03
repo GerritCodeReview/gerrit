@@ -675,10 +675,11 @@ bazelisk --batch --output_user_root=/tmp/gerrit-mirror-fetch \
 [[github-independent-builds]]
 == Building without github.com
 
-Three input classes are fetched from github on a cold `--repository_cache`:
+Four input classes are fetched from github on a cold `--repository_cache`:
 bzlmod module archives (BCR `source.json` points each at a github release
-URL), the PolyGerrit npm tarballs from `codeload.github.com`, and the
-bazel_lib toolchain binaries. All are mirrored.
+URL), the PolyGerrit npm tarballs from `codeload.github.com`, the bazel_lib
+toolchain binaries, and the protobuf prebuilt protoc binary. All are
+mirrored.
 
 === BCR module archives
 
@@ -735,22 +736,46 @@ enforces bazel_lib's own integrity on fetch, so the mirror is trustless;
 has no fallback, so populate the bucket first. Workaround for
 bazel-contrib/bazel-lib#1295.
 
+=== protobuf protoc binary
+
+The protobuf module resolves through the BCR mirror, but its
+`prebuilt_protoc_repo` rule then downloads a protoc binary from a github
+release, again via a single URL with no fallback. Mirror it to
+`gs://gerrit-maven/protobuf/`:
+
+[source,bash]
+----
+bazel run //tools/bzl:protobuf-mirror  # verify (default)
+bazel run //tools/bzl:protobuf-mirror -- --manifest-update  # regenerate
+bazel run //tools/bzl:protobuf-mirror -- --upload  # needs bucket write
+----
+
+The same downloader config rewrites `protocolbuffers/protobuf` to
+gerrit-maven. Bazel enforces protobuf's own integrity on fetch, so the
+mirror is trustless; `tools/protoc.sha256` is the upload content pin.
+Workaround for protocolbuffers/protobuf#29572.
+
 === Verifying a github-free build
 
 `tools/nogithub.downloader_config` blocks all github fetches (no `/etc/hosts`
 needed). Combined with the `.bazelrc` mirror rules it accumulates, so a cold,
-isolated build must complete with zero github hits:
+isolated build must complete with zero github hits. Use a throwaway
+`--output_user_root` and `--repository_cache`, and disable the disk cache
+with `--disk_cache=`: a warm disk cache can mask the aspect_bazel_lib /
+bazel_lib toolchain-resolution flip, so an outage would still bite.
 
 [source,bash]
 ----
-bazelisk --batch --output_user_root=/tmp/gerrit-nogithub \
-  build --repository_cache=/tmp/gerrit-nogithub-cache \
-  --downloader_config=tools/nogithub.downloader_config \
-  gerrit
+for t in gerrit release ; do
+  bazelisk --batch --output_user_root=/tmp/gerrit-nogithub \
+    build --repository_cache=/tmp/gerrit-nogithub-cache --disk_cache= \
+    --downloader_config=tools/nogithub.downloader_config "$t"
+done
 ----
 
-BCR archives resolve from cloudflare, npm and the bazel_lib toolchains from
-gerrit-maven, and anything still on github is blocked. Populate every mirror
+BCR archives resolve from cloudflare; npm, the bazel_lib toolchains and
+protoc from gerrit-maven; anything still on github is blocked. A blocked-URL
+or gerrit-maven 404 error names the missing asset. Populate every mirror
 first, or the build fails on the first un-mirrored asset.
 
 == Building against unpublished Maven JARs

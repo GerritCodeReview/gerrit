@@ -310,7 +310,6 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
     modules.add(new DropWizardMetricMaker.RestModule());
     modules.add(new LogFileManagerModule());
     modules.add(new EventBrokerModule());
-    modules.add(new JdbcAccountPatchReviewStoreModule(config));
     modules.add(cfgInjector.getInstance(GitRepositoryManagerModule.class));
     modules.add(new StreamEventsApiListenerModule(config));
     modules.add(new SysExecutorModule());
@@ -345,6 +344,7 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
     modules.add(createIndexModule());
 
     modules.add(new PluginModule());
+    modules.add(new JdbcAccountPatchReviewStoreModule(config));
     if (VersionManager.shouldPerformOnlineUpgrade(config)) {
       modules.add(new OnlineUpgraderModule());
     }

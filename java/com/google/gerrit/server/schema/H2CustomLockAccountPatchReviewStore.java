@@ -32,6 +32,7 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
+import java.util.function.Supplier;
 import org.eclipse.jgit.lib.Config;
 
 /**
@@ -83,19 +84,30 @@ abstract class H2CustomLockAccountPatchReviewStore extends H2AccountPatchReviewS
     return lockBatchSize;
   }
 
-  /** Creates a new, not-yet-acquired raw {@link Lock}; only tryLock()/unlock() are used. */
+  /**
+   * Creates a new, not-yet-acquired raw {@link Lock}; only tryLock()/unlock() are used.
+   *
+   * <p>Called once per batch, so implementations may resolve their lock source dynamically. The
+   * returned lock may be unlocked by a different thread than the one that locked it.
+   */
   protected abstract Lock newLock();
 
   private synchronized Lock lock() {
     if (lockInstance == null) {
-      lockInstance = newBatchingLock(newLock(), lockBatchSize);
+      lockInstance = newBatchingLock(this::newLock, lockBatchSize);
     }
     return lockInstance;
   }
 
-  /** Wraps {@code raw} with retry-with-backoff and fixed-size batching. */
-  static Lock newBatchingLock(Lock raw, int lockBatchSize) {
+  /**
+   * Wraps locks from {@code rawSupplier} with retry-with-backoff and fixed-size batching. The
+   * supplier is consulted each time a new batch starts; a batch always releases the raw lock it
+   * acquired.
+   */
+  static Lock newBatchingLock(Supplier<Lock> rawSupplier, int lockBatchSize) {
     return new Lock() {
+      // Raw lock held by the current batch; null when no batch is active.
+      private Lock raw;
       // Threads not yet admitted, in the order they arrived.
       private final Queue<Thread> waiting = new ArrayDeque<>();
       // Threads currently holding the lock.
@@ -153,27 +165,33 @@ abstract class H2CustomLockAccountPatchReviewStore extends H2AccountPatchReviewS
             raw.unlock();
           }
         } finally {
+          if (acquired.isEmpty()) {
+            raw = null;
+          }
           notifyAll();
         }
       }
 
       private boolean tryAcquireRaw() {
-        boolean rawAcquired = false;
         try {
-          rawAcquired = raw.tryLock();
+          Lock candidate = rawSupplier.get();
+          if (candidate.tryLock()) {
+            raw = candidate;
+          }
         } catch (RuntimeException e) {
           logger.atSevere().withCause(e).log(
               "Exception while trying to lock for AccountPatchReviewStore");
         }
+        if (raw == null) {
+          return false;
+        }
         try {
-          if (rawAcquired) {
-            admitBatch();
-          }
+          admitBatch();
         } catch (RuntimeException e) {
           logger.atSevere().withCause(e).log(
               "Exception while allowing next batch of waiting threads");
         }
-        return rawAcquired;
+        return true;
       }
 
       private boolean isTaskedToTryRaw(Thread thread) {

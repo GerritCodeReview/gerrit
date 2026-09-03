@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c078ee8_cc83d2e8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-09-03T00:00:43Z",
+      "side": 1,
+      "message": "Noticed this from one of the ChangeQueryBuilder callers in an APM trace today and wondered why it wasn\u0027t using the cache... turns out, there wasn\u0027t one. Now there is.",
+      "revId": "10c32f32074f25ab7acce3a440f4386df9c66cc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

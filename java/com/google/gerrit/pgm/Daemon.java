@@ -487,11 +487,6 @@ public class Daemon extends SiteProgram {
     modules.add(new WorkQueueModule());
     modules.add(new StreamEventsApiListenerModule(config));
     modules.add(new EventBrokerModule());
-    if (accountPatchReviewStoreModule != null) {
-      modules.add(accountPatchReviewStoreModule);
-    } else {
-      modules.add(new JdbcAccountPatchReviewStoreModule(config));
-    }
     modules.add(new SysExecutorModule());
     modules.add(new DiffExecutorModule());
     modules.add(new MimeUtil2Module());
@@ -535,6 +530,11 @@ public class Daemon extends SiteProgram {
     }
     modules.add(new SignedTokenEmailTokenVerifierModule());
     modules.add(new PluginModule());
+    if (accountPatchReviewStoreModule != null) {
+      modules.add(accountPatchReviewStoreModule);
+    } else {
+      modules.add(new JdbcAccountPatchReviewStoreModule(config));
+    }
     if (VersionManager.shouldPerformOnlineUpgrade(config)) {
       modules.add(new OnlineUpgraderModule());
     }

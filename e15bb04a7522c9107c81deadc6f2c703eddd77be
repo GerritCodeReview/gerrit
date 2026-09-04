@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58a94e3d_a3ac7903",
+        "filename": "java/com/google/gerrit/server/experiments/ExperimentFeaturesConstants.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 3001824
+      },
+      "writtenOn": "2026-09-04T20:18:46Z",
+      "side": 1,
+      "message": "You shouldn\u0027t have to put this in gerrit. The flag is used outside of this project so it should be defined in that system instead.",
+      "range": {
+        "startLine": 84,
+        "startChar": 29,
+        "endLine": 84,
+        "endChar": 90
+      },
+      "revId": "e15bb04a7522c9107c81deadc6f2c703eddd77be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "89d758e3_0d2785b0",
+        "filename": "java/com/google/gerrit/server/schema/testing/AllProjectsCreatorTestUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 3001824
+      },
+      "writtenOn": "2026-09-04T20:18:46Z",
+      "side": 1,
+      "message": "Optional but this could be templated instead of doing a replace on \"Anonymous Users\" and \"Registered Users\".\n\nDEFAULT_ALL_PROJECTS_ACCESS_SECTION could be updated to use this template with \"Anonymous Users\" and \"Registered Users\" for these values.",
+      "range": {
+        "startLine": 142,
+        "startChar": 30,
+        "endLine": 142,
+        "endChar": 37
+      },
+      "revId": "e15bb04a7522c9107c81deadc6f2c703eddd77be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4db18d6c_d40f96f6",
+        "filename": "javatests/com/google/gerrit/server/schema/AllProjectsCreatorTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 3001824
+      },
+      "writtenOn": "2026-09-04T20:18:46Z",
+      "side": 1,
+      "message": "If you want to test the builder behaviour you should put that in its own test file rather than reusing the AllProjectsCreator test file.",
+      "range": {
+        "startLine": 211,
+        "startChar": 14,
+        "endLine": 211,
+        "endChar": 30
+      },
+      "revId": "e15bb04a7522c9107c81deadc6f2c703eddd77be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

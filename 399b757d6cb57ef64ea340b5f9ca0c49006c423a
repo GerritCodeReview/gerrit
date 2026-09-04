@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d44cdd14_8f90ee2b",
+        "filename": "java/com/google/gerrit/server/schema/AllProjectsCreator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1162625
+      },
+      "writtenOn": "2026-09-04T16:36:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6aff47f1_68f1d0a7",
+      "range": {
+        "startLine": 161,
+        "startChar": 46,
+        "endLine": 161,
+        "endChar": 86
+      },
+      "revId": "399b757d6cb57ef64ea340b5f9ca0c49006c423a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "35605d01_d8389355",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-08-21T00:13:56Z",
       "side": 1,
       "message": "I don\u0027t think these are needed since they could be useful for other people.\n\nWe\u0027re not changing visibility and these are core to the configuration change.",
+      "range": {
+        "startLine": 167,
+        "startChar": 5,
+        "endLine": 167,
+        "endChar": 33
+      },
+      "revId": "399b757d6cb57ef64ea340b5f9ca0c49006c423a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d9ed0fc_cda8a00b",
+        "filename": "java/com/google/gerrit/server/schema/AllProjectsInput.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1162625
+      },
+      "writtenOn": "2026-09-04T16:36:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "35605d01_d8389355",
       "range": {
         "startLine": 167,
         "startChar": 5,

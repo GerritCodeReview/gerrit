@@ -39,6 +39,7 @@ import com.google.common.util.concurrent.ListenableFuture;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.UsedAt;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
@@ -58,6 +59,8 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.ServiceUserClassifier;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.experiments.ExperimentFeatures;
+import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.gerrit.server.extensions.events.AttentionSetObserver;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -320,6 +323,7 @@ public class BatchUpdate implements AutoCloseable {
   private NotifyResolver.Result notify = NotifyResolver.Result.all();
   // Batch operations doesn't need observer
   private AttentionSetObserver attentionSetObserver;
+  private ExperimentFeatures experimentFeatures;
 
   @Inject
   BatchUpdate(
@@ -337,6 +341,7 @@ public class BatchUpdate implements AutoCloseable {
       ServiceUserClassifier serviceUserClassifier,
       AttentionSetObserver attentionSetObserver,
       @GerritServerConfig Config gerritConfig,
+      ExperimentFeatures experimentFeatures,
       @Assisted Project.NameKey project,
       @Assisted CurrentUser user,
       @Assisted Instant when) {
@@ -353,6 +358,7 @@ public class BatchUpdate implements AutoCloseable {
     this.refLogIdentityProvider = refLogIdentityProvider;
     this.serviceUserClassifier = serviceUserClassifier;
     this.attentionSetObserver = attentionSetObserver;
+    this.experimentFeatures = experimentFeatures;
     this.project = project;
     this.user = user;
     this.when = when;
@@ -582,13 +588,34 @@ public class BatchUpdate implements AutoCloseable {
   }
 
   private void fireAttentionSetUpdateEvents(Map<Change.Id, ChangeData> changeDatas) {
+    boolean isFeatureEnabled =
+        experimentFeatures.isFeatureEnabled(
+            ExperimentFeaturesConstants.GERRIT_BACKEND_FEATURE_BATCH_ACCOUNT_LOOKUPS, project);
+
+    ImmutableMap<Account.Id, AccountState> batchedAccounts = null;
+    if (isFeatureEnabled) {
+      java.util.Set<Account.Id> allAttentionSetAccounts =
+          attentionSetUpdates.values().stream()
+              .map(AttentionSetUpdate::account)
+              .collect(java.util.stream.Collectors.toSet());
+      batchedAccounts = accountCache.get(allAttentionSetAccounts);
+    }
+
     for (ProjectChangeKey key : attentionSetUpdates.keySet()) {
       ChangeData change =
           changeDatas.computeIfAbsent(
               key.changeId(), id -> changeDataFactory.create(key.projectName(), key.changeId()));
       for (AttentionSetUpdate update : attentionSetUpdates.get(key)) {
-        attentionSetObserver.fire(
-            change, accountCache.getEvenIfMissing(update.account()), update, when);
+        AccountState state;
+        if (isFeatureEnabled) {
+          state = batchedAccounts.get(update.account());
+          if (state == null) {
+            state = accountCache.getEvenIfMissing(update.account());
+          }
+        } else {
+          state = accountCache.getEvenIfMissing(update.account());
+        }
+        attentionSetObserver.fire(change, state, update, when);
       }
     }
   }

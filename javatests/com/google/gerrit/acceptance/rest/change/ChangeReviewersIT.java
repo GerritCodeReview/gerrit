@@ -42,6 +42,7 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
@@ -1405,6 +1406,24 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
       jsonReader.setStrictness(Strictness.LENIENT);
       return newGson().fromJson(jsonReader, clazz);
     }
+  }
+
+  @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      values = {"GerritBackendFeature__batch_account_lookups"})
+  public void addReviewersWithBatchLookupsEnabled() throws Exception {
+    PushOneCommit.Result r = createChange();
+    TestAccount observer = accountCreator.user2();
+    ReviewInput input =
+        ReviewInput.approve().reviewer(user.email()).reviewer(observer.email(), CC, false);
+    ReviewResult result = review(r.getChangeId(), r.getCommit().name(), input);
+    assertThat(result.labels).isNotNull();
+    assertThat(result.reviewers).isNotNull();
+    assertThat(result.reviewers).hasSize(2);
+    ChangeInfo c = gApi.changes().id(r.getChangeId()).get();
+    assertReviewers(c, REVIEWER, admin, user);
+    assertReviewers(c, CC, observer);
   }
 
   private static void assertReviewers(

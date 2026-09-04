@@ -22,6 +22,30 @@
       },
       "revId": "787467687698c75bac1b2b379bbc8091cab6c604",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4e95cbf_e2a33f7f",
+        "filename": "polygerrit-ui/web-test-runner.config.mjs",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-09-04T18:45:51Z",
+      "side": 1,
+      "message": "You are right, sorry for this lazy solution 😞",
+      "parentUuid": "7366d81c_b1684ee0",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 25
+      },
+      "revId": "787467687698c75bac1b2b379bbc8091cab6c604",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

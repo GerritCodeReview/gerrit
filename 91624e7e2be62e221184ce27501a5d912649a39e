@@ -44,6 +44,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "82500cf8_0d0e4f5a",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultPermissionBackendModule.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-09-04T07:24:53Z",
+      "side": 1,
+      "message": "This was part of the performance test, which was removed from this change and should not be submitted",
+      "parentUuid": "ff48e503_ea368fee",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 0
+      },
+      "revId": "91624e7e2be62e221184ce27501a5d912649a39e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "f0f1b769_9617d865",
         "filename": "java/com/google/gerrit/server/permissions/DefaultRefFilter.java",
         "patchSetId": 4
@@ -56,6 +80,24 @@
       "side": 1,
       "message": "Nit: Log leafName instead of refName for clarity\n\n```java\nlogger.atFinest().log(\"Include ref %s because classifier returned VISIBLE\", leafName);\n```\nWhen filtering symbolic refs (e.g. HEAD -\u003e refs/heads/main), classify() evaluated leafName. Logging leafName (or refName -\u003e leafName) ensures trace logs accurately reflect the classified ref.",
       "isAi": true,
+      "revId": "91624e7e2be62e221184ce27501a5d912649a39e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9929d4a1_09c376a5",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultRefFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-09-04T07:24:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0f1b769_9617d865",
       "revId": "91624e7e2be62e221184ce27501a5d912649a39e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -77,6 +119,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b2c3827_21850087",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultRefFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-09-04T07:24:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d91111a_737b2b12",
+      "revId": "91624e7e2be62e221184ce27501a5d912649a39e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "684827c5_84fbd139",
@@ -90,6 +150,30 @@
       "writtenOn": "2026-08-28T17:56:58Z",
       "side": 1,
       "message": "Unnecessary comment\n```suggestion\n  public interface Factory {\n```",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 28
+      },
+      "revId": "91624e7e2be62e221184ce27501a5d912649a39e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "479864cd_6cb4d1fb",
+        "filename": "java/com/google/gerrit/server/permissions/ReadAccessClassifier.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-09-04T07:24:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "684827c5_84fbd139",
       "range": {
         "startLine": 48,
         "startChar": 0,
@@ -124,6 +208,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "72d9f98d_01bb7b39",
+        "filename": "java/com/google/gerrit/server/permissions/ReadAccessClassifier.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-09-04T07:24:53Z",
+      "side": 1,
+      "message": "Now, if there is a deny or block in the section there will always be a full check.",
+      "parentUuid": "4e562d27_cf960571",
+      "range": {
+        "startLine": 87,
+        "startChar": 0,
+        "endLine": 91,
+        "endChar": 9999
+      },
+      "revId": "91624e7e2be62e221184ce27501a5d912649a39e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7680c488_f0b66945",
@@ -137,6 +245,30 @@
       "writtenOn": "2026-08-28T17:56:58Z",
       "side": 1,
       "message": "nit: We don\u0027t usually have comment blocks like these\n```suggestion\n  }\n```",
+      "range": {
+        "startLine": 118,
+        "startChar": 0,
+        "endLine": 122,
+        "endChar": 80
+      },
+      "revId": "91624e7e2be62e221184ce27501a5d912649a39e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c78287d_b8e3b5d7",
+        "filename": "java/com/google/gerrit/server/permissions/ReadAccessClassifier.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-09-04T07:24:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7680c488_f0b66945",
       "range": {
         "startLine": 118,
         "startChar": 0,
@@ -188,6 +320,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7bf26e51_0f3d0f0a",
+        "filename": "java/com/google/gerrit/server/permissions/ReadAccessClassifier.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-09-04T07:24:53Z",
+      "side": 1,
+      "message": "These cases will now also be defered",
+      "parentUuid": "a49898d2_55e41c58",
+      "range": {
+        "startLine": 137,
+        "startChar": 0,
+        "endLine": 142,
+        "endChar": 9999
+      },
+      "revId": "91624e7e2be62e221184ce27501a5d912649a39e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a87e856a_91f6a34f",
@@ -208,6 +364,30 @@
         "endChar": 9999
       },
       "isAi": true,
+      "revId": "91624e7e2be62e221184ce27501a5d912649a39e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9a53da5_8efb5c61",
+        "filename": "java/com/google/gerrit/server/permissions/ReadAccessClassifier.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-09-04T07:24:53Z",
+      "side": 1,
+      "message": "Fixed by defering sections with Block/Deny",
+      "parentUuid": "a87e856a_91f6a34f",
+      "range": {
+        "startLine": 166,
+        "startChar": 0,
+        "endLine": 170,
+        "endChar": 9999
+      },
       "revId": "91624e7e2be62e221184ce27501a5d912649a39e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -267,6 +447,24 @@
       "side": 1,
       "message": "Will you move the exposed bindings in java/com/google/gerrit/server/permissions/DefaultPermissionBackendModule.java to that change too?",
       "parentUuid": "f268aa96_a06a76cd",
+      "revId": "91624e7e2be62e221184ce27501a5d912649a39e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "840f00e4_b9d186b2",
+        "filename": "javatests/com/google/gerrit/acceptance/server/permissions/RefFilterPerformanceIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-09-04T07:24:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4fdd899b_2334260e",
       "revId": "91624e7e2be62e221184ce27501a5d912649a39e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

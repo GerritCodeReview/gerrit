@@ -5701,7 +5701,7 @@ a project-specific rule.
     R = label('Any-Label-Name', reject(_)).
 ----
 
-The response is a link:#submit-record[SubmitRecord] describing the
+The response is a link:#test-submit-rule-info[TestSubmitRuleInfo] describing the
 permutations that satisfy the tested submit rule.
 
 If the submit rule was a no-op, the response is "`204 No Content`".
@@ -9817,6 +9817,12 @@ is currently an empty object.
 When status is RULE_ERROR this message provides some text describing
 the failure of the rule predicate.
 |===========================
+
+[[test-submit-rule-info]]
+=== TestSubmitRuleInfo
+The `TestSubmitRuleInfo` entity contains the result of testing a submit rule,
+as returned by the link:#test-submit-rule[Test Submit Rule] endpoint. It has the
+same fields as link:#submit-record[SubmitRecord].
 
 [[submit-record-info]]
 === SubmitRecordInfo

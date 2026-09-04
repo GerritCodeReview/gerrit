@@ -37,10 +37,10 @@ class GetMetric implements RestReadView<MetricResource> {
   }
 
   @Override
-  public Response<MetricJson> apply(MetricResource resource)
+  public Response<MetricInfo> apply(MetricResource resource)
       throws AuthException, PermissionBackendException {
     permissionBackend.currentUser().check(GlobalPermission.VIEW_CACHES);
     return Response.ok(
-        new MetricJson(resource.getMetric(), metrics.getAnnotations(resource.getName()), dataOnly));
+        new MetricInfo(resource.getMetric(), metrics.getAnnotations(resource.getName()), dataOnly));
   }
 }

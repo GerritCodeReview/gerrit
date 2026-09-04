@@ -51,11 +51,11 @@ class ListMetrics implements RestReadView<ConfigResource> {
   }
 
   @Override
-  public Response<Map<String, MetricJson>> apply(ConfigResource resource)
+  public Response<Map<String, MetricInfo>> apply(ConfigResource resource)
       throws AuthException, PermissionBackendException {
     permissionBackend.currentUser().check(GlobalPermission.VIEW_CACHES);
 
-    NavigableMap<String, MetricJson> out = new TreeMap<>();
+    NavigableMap<String, MetricInfo> out = new TreeMap<>();
     List<String> prefixes = new ArrayList<>(query.size());
     for (String q : query) {
       if (q.endsWith("/")) {
@@ -63,7 +63,7 @@ class ListMetrics implements RestReadView<ConfigResource> {
       } else {
         Metric m = metrics.getMetric(q);
         if (m != null) {
-          out.put(q, toJson(q, m));
+          out.put(q, toInfo(q, m));
         }
       }
     }
@@ -71,7 +71,7 @@ class ListMetrics implements RestReadView<ConfigResource> {
     if (query.isEmpty() || !prefixes.isEmpty()) {
       for (String name : metrics.getMetricNames()) {
         if (include(prefixes, name)) {
-          out.put(name, toJson(name, metrics.getMetric(name)));
+          out.put(name, toInfo(name, metrics.getMetric(name)));
         }
       }
     }
@@ -79,8 +79,8 @@ class ListMetrics implements RestReadView<ConfigResource> {
     return Response.ok(out);
   }
 
-  private MetricJson toJson(String q, Metric m) {
-    return new MetricJson(m, metrics.getAnnotations(q), dataOnly);
+  private MetricInfo toInfo(String q, Metric m) {
+    return new MetricInfo(m, metrics.getAnnotations(q), dataOnly);
   }
 
   private static boolean include(List<String> prefixes, String name) {

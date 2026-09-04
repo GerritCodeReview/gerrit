@@ -247,16 +247,50 @@ If a test fails, then the component's appearance has changed. New screenshots
 are generated in the `polygerrit-ui/screenshots/Chromium/failed/` directory.
 If an existing baseline differs, then a diff image is also created there.
 
-If the change is intended, then approve the new screenshots as the baseline by
-moving the new screenshot files from `failed` to `baseline`, overwriting the old
-ones. The diff images in `failed` can be deleted.
+#### Updating Screenshot Baselines (CI-First Workflow)
 
+Different operating systems (macOS, Windows, different Linux distributions)
+render fonts and antialiasing slightly differently than the headless Linux CI
+environment. Because of this, the Gerrit CI runner (`Verify gerrit CL`) is the
+authoritative source of truth for baseline PNGs.
+
+* **For new screenshot tests**: Generate the initial baselines locally using
+  `yarn test:screenshot-update`.
+* **For updating existing screenshots** (or if CI reports visual differences):
+  Use the CI-first sync workflow below.
+
+1. **Upload your change**: Push your UI changes to Gerrit as normal.
+2. **Verify the visual changes in CI**: Wait for the `Verify gerrit CL` tryjob to run.
+   If screenshots differ, the `run screenshot tests` step will fail.
+   Open the **Checks** tab in Gerrit (or the Milo link in the bot comment) and inspect
+   the diffs and actual images to **confirm that the visual changes are intentional and
+   expected**, rather than unintended layout regressions.
+3. **Synchronize baselines from CI**:
+   Run the sync tool from `polygerrit-ui/` (or the repository root):
+   ```sh
+   yarn test:screenshot-sync
+   ```
+   *(Alternatively: `pnpm test:screenshot-sync`, or pass an explicit change number: `yarn test:screenshot-sync <change-number>`)*.
+
+   This tool queries ResultDB for your change, downloads the exact images rendered by
+   CI (including both light and dark themes), and updates `polygerrit-ui/screenshots/Chromium/baseline/`.
+4. **Review visual diff**:
+   ```sh
+   git diff polygerrit-ui/screenshots/Chromium/baseline
+   ```
+5. **Amend and push**:
+   ```sh
+   git commit -a --amend
+   git push origin HEAD:refs/for/master
+   ```
+
+#### Local Iteration
+During active local development or when authoring new tests, you can generate or update
+baselines locally:
 ```sh
-mv polygerrit-ui/screenshots/Chromium/failed/*.png \
-  polygerrit-ui/screenshots/Chromium/baseline/
+yarn test:screenshot-update
 ```
-
-After moving the file(s), run `pnpm test:screenshot` again to confirm they pass.
+If CI later reports subpixel differences, run `yarn test:screenshot-sync` to align them.
 
 ### Compiling code
 

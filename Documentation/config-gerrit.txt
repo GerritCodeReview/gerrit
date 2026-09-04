@@ -7006,6 +7006,35 @@ notifications if the full name of the user is not set.
 +
 By default "Name of user not set" is used.
 
+[[workQueueSnapshot]]
+=== Section workQueueSnapshot
+
+This section configures the periodic work queue snapshot logger, which
+logs the contents of the background work queue and writes one text event
+per task to `$site_path/logs/workqueue_log`.
+
+Snapshots are disabled by default and are enabled by configuring
+link:#workQueueSnapshot.interval[workQueueSnapshot.interval].
+
+[[workQueueSnapshot.interval]]workQueueSnapshot.interval::
++
+The link:#schedule-configuration-interval[interval] between consecutive
+snapshots. Supports the same time-unit suffixes as other interval values
+(`s`, `m`, `h`, `d`, ...). Example: `15 m`.
++
+Setting this enables the periodic work queue snapshot logger. If unset,
+no snapshots are taken.
+
+[[workQueueSnapshot.startTime]]workQueueSnapshot.startTime::
++
+The link:#schedule-configuration-startTime[start time] anchoring the
+schedule. If unset, defaults to `00:00`, which combined with a short
+interval causes the first snapshot to be taken within one interval after
+the daemon starts.
+
+link:#schedule-configuration-examples[Schedule examples] can be found
+in the link:#schedule-configuration[Schedule Configuration] section.
+
 [[schedule-configuration]]
 === Schedule Configuration
 

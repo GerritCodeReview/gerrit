@@ -99,6 +99,7 @@ import com.google.gerrit.server.events.StreamEventsApiListener.StreamEventsApiLi
 import com.google.gerrit.server.git.ChangesByProjectCache;
 import com.google.gerrit.server.git.GarbageCollectionModule;
 import com.google.gerrit.server.git.WorkQueue.WorkQueueModule;
+import com.google.gerrit.server.git.WorkQueueSnapshotModule;
 import com.google.gerrit.server.index.AbstractIndexModule;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.OnlineUpgrader.OnlineUpgraderModule;
@@ -485,6 +486,7 @@ public class Daemon extends SiteProgram {
     modules.add(new SubscriptionGraphModule());
     modules.add(new SuperprojectUpdateSubmissionListenerModule());
     modules.add(new WorkQueueModule());
+    modules.add(new WorkQueueSnapshotModule());
     modules.add(new StreamEventsApiListenerModule(config));
     modules.add(new EventBrokerModule());
     if (accountPatchReviewStoreModule != null) {

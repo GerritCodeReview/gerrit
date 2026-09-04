@@ -170,6 +170,36 @@ Log format:
 * `level`: log level (ERROR, WARN, INFO, DEBUG).
 * `message`: log message.
 
+=== Work Queue Snapshot Log
+
+The work queue snapshot log periodically captures a point-in-time view of
+the background work queue and is written to `$site_path/logs/workqueue_log`.
+The log is intended for post-incident forensics, allowing administrators
+to look back at what was queued or running while the system was in a
+degraded state.
+
+It is disabled by default and is enabled by configuring a sampling
+link:config-gerrit.html#workQueueSnapshot.interval[interval]. Each
+snapshot emits a summary event carrying the number of tasks, followed by
+one event per task present at the instant of the snapshot.
+
+Each event is a single line of space-separated `key=value` pairs, prefixed
+with the timestamp at which the snapshot was taken. The `command` value is
+always enclosed in single quotes, as it is free-form text that may contain
+whitespace. The fields are:
+
+* `snapshotSeq`: monotonically increasing sequence number assigned to each
+  snapshot since process start. All events from the same snapshot share a
+  `snapshotSeq`, so use it to correlate and order the events of a single
+  sample.
+* `taskCount`: number of tasks captured by the snapshot.
+* `taskId`: unique task identifier on this server.
+* `state`: raw task state, one of `DONE`, `CANCELLED`, `STOPPING`,
+  `RUNNING`, `STARTING`, `PARKED`, `READY`, `SLEEPING`, `OTHER`.
+* `queueName`: name of the executor queue the task is scheduled in.
+* `startTime`: time at which the task was added to the queue.
+* `command`: short text description of the task.
+
 === Plugin Logs
 
 Some plugins write their own log file.

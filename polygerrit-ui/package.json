@@ -30,6 +30,7 @@
     "test": "web-test-runner",
     "test:screenshot": "web-test-runner --run-screenshots",
     "test:screenshot-update": "web-test-runner --run-screenshots --update-screenshots --files",
+    "test:screenshot-sync": "node sync-screenshots.mjs",
     "test:browsers": "web-test-runner --playwright --browsers webkit firefox chromium",
     "test:coverage": "web-test-runner --coverage",
     "test:watch": "web-test-runner --watch",

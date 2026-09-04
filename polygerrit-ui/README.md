@@ -97,6 +97,7 @@ It creates a different dependency graph.
 ## Long-term
 
 Eventually:
+
 - pnpm-lock.yaml becomes canonical
 - yarn.lock removed
 
@@ -187,7 +188,7 @@ Follow
 [Issue 40015119](https://issues.gerritcodereview.com/issues/40015119)
 for updates.
 
-*Note:* You can also use another CDN here, for example:
+_Note:_ You can also use another CDN here, for example:
 https://cdn.googlesource.com/polygerrit_ui/678.0
 
 ## Running tests
@@ -198,25 +199,25 @@ Our tests run using the
 
 Common commands:
 
-* Run all tests once:
+- Run all tests once:
 
 ```sh
 pnpm test
 ```
 
-* Run all tests in watch mode. Changing a file reruns affected tests:
+- Run all tests in watch mode. Changing a file reruns affected tests:
 
 ```sh
 pnpm test:watch
 ```
 
-* Run all tests once under Bazel:
+- Run all tests once under Bazel:
 
 ```sh
 ./polygerrit-ui/app/run_test.sh
 ```
 
-* Run a single test file and rerun when affected files change:
+- Run a single test file and rerun when affected files change:
 
 ```sh
 pnpm test:single "**/gr-comment_test.ts"
@@ -234,6 +235,7 @@ pnpm test:screenshot
 
 Or via Bazel, which matches what CI runs and uses the Bazel-managed
 dependency tree:
+
 ```sh
 bazelisk test //polygerrit-ui:web_test_runner_screenshots
 ```
@@ -247,16 +249,61 @@ If a test fails, then the component's appearance has changed. New screenshots
 are generated in the `polygerrit-ui/screenshots/Chromium/failed/` directory.
 If an existing baseline differs, then a diff image is also created there.
 
-If the change is intended, then approve the new screenshots as the baseline by
-moving the new screenshot files from `failed` to `baseline`, overwriting the old
-ones. The diff images in `failed` can be deleted.
+#### Updating Screenshot Baselines (CI-First Workflow)
+
+Different operating systems (macOS, Windows, different Linux distributions)
+render fonts and antialiasing slightly differently than the headless Linux CI
+environment. Because of this, the Gerrit CI runner (`Verify gerrit CL`) is the
+authoritative source of truth for baseline PNGs.
+
+- **For new screenshot tests**: Generate the initial baselines locally using
+  `yarn test:screenshot-update <files>`.
+- **For updating existing screenshots** (or if CI reports visual differences):
+  Use the CI-first sync workflow below.
+
+1. **Upload your change**: Push your UI changes to Gerrit as normal.
+2. **Verify the visual changes in CI**: Wait for the `Verify gerrit CL` tryjob to run.
+   If screenshots differ, the `run screenshot tests` step will fail.
+   Open the **Checks** tab in Gerrit (or the Milo link in the bot comment) and inspect
+   the diffs and actual images to **confirm that the visual changes are intentional and
+   expected**, rather than unintended layout regressions.
+3. **Synchronize baselines from CI**:
+   Run the sync tool from `polygerrit-ui/` (or the repository root):
+
+   ```sh
+   yarn test:screenshot-sync
+   ```
+
+   _(Alternatively: `pnpm test:screenshot-sync`, or pass an explicit change number: `yarn test:screenshot-sync <change-number>`)_.
+
+   This tool queries ResultDB for your change, downloads the exact images rendered by
+   CI (including both light and dark themes), and updates `polygerrit-ui/screenshots/Chromium/baseline/`.
+
+4. **Review visual diff**:
+   ```sh
+   git diff polygerrit-ui/screenshots/Chromium/baseline
+   ```
+5. **Stage, amend, and push**:
+   ```sh
+   git add polygerrit-ui/screenshots/Chromium/baseline
+   git commit --amend
+   git push origin HEAD:refs/for/master
+   ```
+
+#### Local Iteration
+
+During active local development or when authoring new tests, you can generate or update
+baselines locally by providing the test file or glob:
 
 ```sh
-mv polygerrit-ui/screenshots/Chromium/failed/*.png \
-  polygerrit-ui/screenshots/Chromium/baseline/
+# For a specific test file:
+yarn test:screenshot-update "app/elements/change/gr-change-view/gr-change-view_screenshot_test.ts"
+
+# Or for all screenshot tests:
+yarn test:screenshot-update "app/**/*_screenshot_test.ts"
 ```
 
-After moving the file(s), run `pnpm test:screenshot` again to confirm they pass.
+If CI later reports subpixel differences, run `yarn test:screenshot-sync` to align them.
 
 ### Compiling code
 
@@ -284,26 +331,26 @@ configured to enforce the preferred style of the PolyGerrit project.
 
 Some useful commands:
 
-* Run ESLint on the whole app:
+- Run ESLint on the whole app:
 
 ```sh
 pnpm eslint
 ```
 
-* Run ESLint and apply automatic fixes:
+- Run ESLint and apply automatic fixes:
 
 ```sh
 pnpm eslintfix
 ```
 
-* Run ESLint on a specific subdirectory:
+- Run ESLint on a specific subdirectory:
 
 ```sh
 pnpm exec eslint --config polygerrit-ui/app/eslint-bazel.config.js \
   --ext .html,.js,.ts polygerrit-ui/app/$YOUR_DIR_HERE
 ```
 
-* Run ESLint on all locally changed frontend files:
+- Run ESLint on all locally changed frontend files:
 
 ```sh
 git diff --name-only HEAD | xargs pnpm exec eslint \

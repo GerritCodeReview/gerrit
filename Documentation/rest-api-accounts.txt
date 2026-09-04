@@ -1502,7 +1502,7 @@ Retrieves the user's preferences.
 ----
 
 As result the account preferences of the user are returned as a
-link:#preferences-info[PreferencesInfo] entity.
+link:#general-preferences-info[GeneralPreferencesInfo] entity.
 
 Users may only retrieve the preferences for their own account,
 unless they are an
@@ -1623,7 +1623,7 @@ link:#preferences-input[PreferencesInput] entity.
 ----
 
 As result the new preferences of the user are returned as a
-link:#preferences-info[PreferencesInfo] entity.
+link:#general-preferences-info[GeneralPreferencesInfo] entity.
 
 .Response
 ----
@@ -2968,9 +2968,10 @@ The identifier of the OAuth provider in the form `plugin-name:provider-name`.
 |`type`          ||The type of the OAuth access token, always `bearer`.
 |========================
 
-[[preferences-info]]
-=== PreferencesInfo
-The `PreferencesInfo` entity contains information about a user's preferences.
+[[general-preferences-info]]
+=== GeneralPreferencesInfo
+The `GeneralPreferencesInfo` entity contains information about a user's general
+preferences.
 
 [options="header",cols="1,^1,5"]
 |============================================

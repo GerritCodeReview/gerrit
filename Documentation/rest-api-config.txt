@@ -1222,8 +1222,8 @@ Returns the default user preferences for the server.
   GET /a/config/server/preferences HTTP/1.0
 ----
 
-As response a link:rest-api-accounts.html#preferences-info[
-PreferencesInfo] is returned.
+As response a link:rest-api-accounts.html#general-preferences-info[
+GeneralPreferencesInfo] is returned.
 
 .Response
 ----
@@ -1298,8 +1298,8 @@ Administrate Server] capability.
   }
 ----
 
-As response a link:rest-api-accounts.html#preferences-info[
-PreferencesInfo] is returned.
+As response a link:rest-api-accounts.html#general-preferences-info[
+GeneralPreferencesInfo] is returned.
 
 .Response
 ----

@@ -376,6 +376,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     this.projectName = projectName;
     this.baseConfig = baseConfig;
     this.allProjectsName = allProjectsName;
+    this.contributorAgreements = new HashMap<>();
   }
 
   public void load(Repository repo) throws IOException, ConfigInvalidException {
@@ -695,7 +696,9 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     this.project = p.build();
 
     loadAccountsSection(rc);
-    loadContributorAgreements(rc);
+    if (projectName.equals(allProjectsName)) {
+      loadContributorAgreements(rc);
+    }
     loadAccessSections(rc);
     loadBranchOrderSection(rc);
     loadNotifySections(rc);
@@ -734,7 +737,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   }
 
   private void loadContributorAgreements(Config rc) {
-    contributorAgreements = new HashMap<>();
+    contributorAgreements.clear();
     for (String name : rc.getSubsections(CONTRIBUTOR_AGREEMENT)) {
       ContributorAgreement.Builder ca = ContributorAgreement.builder(name);
       ca.setDescription(rc.getString(CONTRIBUTOR_AGREEMENT, name, KEY_DESCRIPTION));
@@ -1352,7 +1355,9 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
     Set<AccountGroup.UUID> keepGroups = new HashSet<>();
     saveAccountsSection(rc, keepGroups);
-    saveContributorAgreements(rc, keepGroups);
+    if (projectName.equals(allProjectsName)) {
+      saveContributorAgreements(rc, keepGroups);
+    }
     saveAccessSections(rc, keepGroups);
     saveNotifySections(rc, keepGroups);
     savePluginSections(rc, keepGroups);

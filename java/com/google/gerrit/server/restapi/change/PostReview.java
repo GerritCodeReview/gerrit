@@ -41,6 +41,7 @@ import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.LabelTypes;
 import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
@@ -99,6 +100,8 @@ import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdates;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.UpdateException;
+import com.google.gerrit.server.experiments.ExperimentFeatures;
+import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.gerrit.server.update.context.RefUpdateContext;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
@@ -172,6 +175,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
   private final CommitUtil commitUtil;
 
   private final GitRepositoryManager gitManager;
+  private final ExperimentFeatures experimentFeatures;
 
   @Inject
   PostReview(
@@ -194,7 +198,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       ChangeJson.Factory changeJsonFactory,
       CommentsValidator commentsValidator,
       CommitUtil commitUtil,
-      GitRepositoryManager gitManager) {
+      GitRepositoryManager gitManager,
+      ExperimentFeatures experimentFeatures) {
     this.retryHelper = retryHelper;
     this.postReviewOpFactory = postReviewOpFactory;
     this.changeResourceFactory = changeResourceFactory;
@@ -215,6 +220,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     this.commentsValidator = commentsValidator;
     this.commitUtil = commitUtil;
     this.gitManager = gitManager;
+    this.experimentFeatures = experimentFeatures;
   }
 
   @Override
@@ -549,12 +555,21 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     for (ReviewerModification modification : reviewerModifications) {
       Result reviewerAdditionResult = modification.op.getResult();
       if (modification.state() == ReviewerState.REVIEWER) {
-        newlyAddedReviewers.addAll(
-            reviewerAdditionResult.addedReviewers().stream()
-                .map(psa -> psa.accountId())
-                .map(accountId -> accountCache.get(accountId))
-                .flatMap(Streams::stream)
-                .collect(toList()));
+        if (experimentFeatures.isFeatureEnabled(
+            ExperimentFeaturesConstants.GERRIT_BACKEND_FEATURE_BATCH_ACCOUNT_LOOKUPS, cd.project())) {
+          com.google.common.collect.ImmutableSet<Account.Id> accountIds = 
+              reviewerAdditionResult.addedReviewers().stream()
+                  .map(PatchSetApproval::accountId)
+                  .collect(com.google.common.collect.ImmutableSet.toImmutableSet());
+          newlyAddedReviewers.addAll(accountCache.get(accountIds).values());
+        } else {
+          newlyAddedReviewers.addAll(
+              reviewerAdditionResult.addedReviewers().stream()
+                  .map(psa -> psa.accountId())
+                  .map(accountId -> accountCache.get(accountId))
+                  .flatMap(Streams::stream)
+                  .collect(toList()));
+        }
       } else if (modification.state() == ReviewerState.REMOVED) {
         // There is no batch event for reviewer removals, hence fire the event for each
         // modification that deleted a reviewer immediately.

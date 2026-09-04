@@ -42,6 +42,8 @@ import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.PostUpdateContext;
+import com.google.gerrit.server.experiments.ExperimentFeatures;
+import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
@@ -78,6 +80,7 @@ public class AddReviewersOp extends ReviewerOp {
   private final AccountCache accountCache;
   private final ProjectCache projectCache;
   private final ModifyReviewersEmail modifyReviewersEmail;
+  private final ExperimentFeatures experimentFeatures;
   private final Set<Account.Id> accountIds;
   private final Collection<Address> addresses;
   private final ReviewerState state;
@@ -101,6 +104,7 @@ public class AddReviewersOp extends ReviewerOp {
       AccountCache accountCache,
       ProjectCache projectCache,
       ModifyReviewersEmail modifyReviewersEmail,
+      ExperimentFeatures experimentFeatures,
       @Assisted Set<Account.Id> accountIds,
       @Assisted Collection<Address> addresses,
       @Assisted ReviewerState state,
@@ -112,6 +116,7 @@ public class AddReviewersOp extends ReviewerOp {
     this.accountCache = accountCache;
     this.projectCache = projectCache;
     this.modifyReviewersEmail = modifyReviewersEmail;
+    this.experimentFeatures = experimentFeatures;
 
     this.accountIds = accountIds;
     this.addresses = addresses;
@@ -227,11 +232,20 @@ public class AddReviewersOp extends ReviewerOp {
           ctx.getNotify(change.getId()));
     }
     if (!addedReviewers.isEmpty()) {
-      List<AccountState> reviewers =
-          addedReviewers.stream()
-              .map(r -> accountCache.get(r.accountId()))
-              .flatMap(Streams::stream)
-              .collect(toList());
+      List<AccountState> reviewers;
+      if (experimentFeatures.isFeatureEnabled(
+          ExperimentFeaturesConstants.GERRIT_BACKEND_FEATURE_BATCH_ACCOUNT_LOOKUPS, change.getProject())) {
+        ImmutableSet<Account.Id> reviewerIds = addedReviewers.stream()
+            .map(PatchSetApproval::accountId)
+            .collect(ImmutableSet.toImmutableSet());
+        reviewers = ImmutableList.copyOf(accountCache.get(reviewerIds).values());
+      } else {
+        reviewers =
+            addedReviewers.stream()
+                .map(r -> accountCache.get(r.accountId()))
+                .flatMap(Streams::stream)
+                .collect(toList());
+      }
       eventSender =
           () ->
               reviewerAdded.fire(

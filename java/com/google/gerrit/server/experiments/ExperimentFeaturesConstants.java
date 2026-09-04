@@ -42,7 +42,22 @@ public class ExperimentFeaturesConstants {
   public static final String CONSIDER_VOTES_OF_DELETED_ACCOUNTS =
       "GerritBackendFeature__consider_votes_of_deleted_accounts";
 
+  /** Whether we allow creating branches from branch-heads. */
+  public static final String GERRIT_BACKEND_FEATURE_ALLOW_CREATE_BRANCH_FROM_BRANCH_HEADS =
+      "GerritBackendFeature__allow_create_branch_from_branch_heads";
+
   /** Whether we restrict the creation of branch permissions. */
   public static final String GERRIT_BACKEND_FEATURE_RESTRICT_BRANCH_PERMISSIONS =
       "GerritBackendFeature__restrict_branch_permissions";
+
+  /**
+   * Whether to use custom default reader and user groups instead of built-in Anonymous Users and
+   * Registered Users during site creation.
+   */
+  public static final String GERRIT_BACKEND_FEATURE_CUSTOM_DEFAULT_GROUPS_ON_SITE_CREATION =
+      "GerritBackendFeature__custom_default_groups_on_site_creation";
+
+  /** Whether we should batch AccountCache lookups. */
+  public static final String GERRIT_BACKEND_FEATURE_BATCH_ACCOUNT_LOOKUPS =
+      "GerritBackendFeature__batch_account_lookups";
 }

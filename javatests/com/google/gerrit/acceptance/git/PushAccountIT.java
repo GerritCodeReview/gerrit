@@ -30,21 +30,27 @@ import com.google.gerrit.acceptance.ExtensionRegistry;
 import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.NotifyConfig.NotifyType;
 import com.google.gerrit.entities.Permission;
+import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.ProjectWatchKey;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.AccountProperties;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.ProjectWatches;
+import com.google.gerrit.server.config.RegexAllowedGroupsProvider;
+import com.google.gerrit.server.permissions.RegexPermissionPolicy;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Inject;
@@ -343,6 +349,134 @@ public class PushAccountIT extends AbstractDaemonTest {
           .hasMessageThat()
           .contains("invalid account configuration: cannot deactivate own account");
     }
+  }
+
+  @Test
+  @GerritConfig(
+      name = RegexAllowedGroupsProvider.SECTION + "." + RegexAllowedGroupsProvider.KEY,
+      value = "Project Owners")
+  public void pushAccountConfigToUserBranchForReviewIsRejectedOnRegexDenied() throws Exception {
+    AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(accountIndexedCounter)) {
+      String userRef = RefNames.refsUsers(admin.id());
+      PushOneCommit.Result result = pushProjectWatchNotification(userRef, userRef);
+      result.assertErrorStatus();
+      result.assertMessage(RegexPermissionPolicy.NOT_PERMITTED_MESSAGE);
+      accountIndexedCounter.assertNoReindex();
+    }
+  }
+
+  @Test
+  @GerritConfig(
+      name = RegexAllowedGroupsProvider.SECTION + "." + RegexAllowedGroupsProvider.KEY,
+      value = "Registered Users")
+  public void pushAccountConfigToUserBranchForReviewOnRegexAllowedForGroup() throws Exception {
+    AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(accountIndexedCounter)) {
+      String userRef = RefNames.refsUsers(admin.id());
+      pushProjectWatchNotification(userRef, userRef).assertOkStatus();
+      accountIndexedCounter.assertReindexOf(admin);
+    }
+  }
+
+  @Test
+  @GerritConfig(
+      name = RegexAllowedGroupsProvider.SECTION + "." + RegexAllowedGroupsProvider.KEY,
+      value = "Project Owners")
+  public void pushRemovalOfExistingRegexProjectWatchIsAllowed() throws Exception {
+    accountsUpdateProvider
+        .get()
+        .update(
+            "Add regex project watch",
+            admin.id(),
+            u ->
+                u.updateProjectWatch(
+                    ProjectWatchKey.create(Project.nameKey(project.get()), "branch:^first"),
+                    EnumSet.of(NotifyType.ALL_COMMENTS)));
+
+    TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
+    fetch(allUsersRepo, RefNames.refsUsers(admin.id()) + ":userRef");
+    allUsersRepo.reset("userRef");
+    pushFactory
+        .create(
+            admin.newIdent(),
+            allUsersRepo,
+            "Remove regex project watch",
+            ProjectWatches.WATCH_CONFIG,
+            "")
+        .to(RefNames.REFS_USERS_SELF)
+        .assertOkStatus();
+  }
+
+  @Test
+  @GerritConfig(
+      name = RegexAllowedGroupsProvider.SECTION + "." + RegexAllowedGroupsProvider.KEY,
+      value = "Project Owners")
+  public void mergeChangeToAccountConfigToUserBranchForReviewIsRejectedOnRegexDenied()
+      throws Exception {
+    AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(accountIndexedCounter)) {
+      String userRef = RefNames.refsUsers(admin.id());
+      PushOneCommit.Result r =
+          pushProjectWatchNotification(userRef, MagicBranch.NEW_CHANGE + userRef);
+      r.assertOkStatus();
+      accountIndexedCounter.assertNoReindex();
+      assertThat(r.getChange().change().getDest().branch()).isEqualTo(userRef);
+
+      gApi.changes().id(r.getChangeId()).current().review(ReviewInput.approve());
+
+      RestApiException restApiException =
+          assertThrows(
+              RestApiException.class, () -> gApi.changes().id(r.getChangeId()).current().submit());
+      assertThat(restApiException.getMessage())
+          .contains(RegexPermissionPolicy.NOT_PERMITTED_MESSAGE);
+      accountIndexedCounter.assertNoReindex();
+    }
+  }
+
+  @Test
+  @GerritConfig(
+      name = RegexAllowedGroupsProvider.SECTION + "." + RegexAllowedGroupsProvider.KEY,
+      value = "Registered Users")
+  public void mergeChangeToAccountConfigToUserBranchForReviewAllowedForGroup() throws Exception {
+    AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(accountIndexedCounter)) {
+      String userRef = RefNames.refsUsers(admin.id());
+      PushOneCommit.Result r =
+          pushProjectWatchNotification(userRef, MagicBranch.NEW_CHANGE + userRef);
+      r.assertOkStatus();
+      accountIndexedCounter.assertNoReindex();
+      assertThat(r.getChange().change().getDest().branch()).isEqualTo(userRef);
+
+      gApi.changes().id(r.getChangeId()).current().review(ReviewInput.approve());
+      gApi.changes().id(r.getChangeId()).current().submit();
+      accountIndexedCounter.assertReindexOf(admin);
+    }
+  }
+
+  private PushOneCommit.Result pushProjectWatchNotification(String userRef, String pushRef)
+      throws Exception {
+    TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers);
+    fetch(allUsersRepo, userRef + ":userRef");
+    allUsersRepo.reset("userRef");
+
+    Config watchConfig = new Config();
+    watchConfig.setString("project", "some-project", "notify", "branch:^.* []");
+
+    PushOneCommit.Result r =
+        pushFactory
+            .create(
+                admin.newIdent(),
+                allUsersRepo,
+                "Update account project notifications with regex",
+                ProjectWatches.WATCH_CONFIG,
+                watchConfig.toText())
+            .to(pushRef);
+    return r;
   }
 
   @Test
@@ -765,11 +899,15 @@ public class PushAccountIT extends AbstractDaemonTest {
   }
 
   private Config getAccountConfig(TestRepository<?> allUsersRepo) throws Exception {
+    return getConfig(allUsersRepo, AccountProperties.ACCOUNT_CONFIG);
+  }
+
+  private Config getConfig(TestRepository<?> allUsersRepo, String configFileName) throws Exception {
     Config ac = new Config();
     try (TreeWalk tw =
         TreeWalk.forPath(
             allUsersRepo.getRepository(),
-            AccountProperties.ACCOUNT_CONFIG,
+            configFileName,
             getHead(allUsersRepo.getRepository(), "HEAD").getTree())) {
       assertThat(tw).isNotNull();
       ac.fromText(

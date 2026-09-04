@@ -22,6 +22,7 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.LabelFunction;
@@ -35,7 +36,10 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.server.config.RegexAllowedGroupsProvider;
+import com.google.gerrit.server.permissions.RegexPermissionPolicy;
 import com.google.gerrit.server.restapi.project.PostLabels;
 import com.google.inject.Inject;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -45,6 +49,27 @@ import org.junit.Test;
 public class PostLabelsIT extends AbstractDaemonTest {
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private ProjectOperations projectOperations;
+
+  @Test
+  @GerritConfig(
+      name = RegexAllowedGroupsProvider.SECTION + "." + RegexAllowedGroupsProvider.KEY,
+      value = "Project Owners")
+  public void nonMemberCannotCreateLabelWithRegexBranch() throws Exception {
+    LabelDefinitionInput label = new LabelDefinitionInput();
+    label.name = "Foo";
+    label.values = ImmutableMap.of("0", "No score");
+    label.branches = ImmutableList.of("^refs/heads/stable-.*");
+    BatchLabelInput input = new BatchLabelInput();
+    input.create = ImmutableList.of(label);
+
+    RestApiException thrown =
+        assertThrows(
+            RestApiException.class, () -> gApi.projects().name(allProjects.get()).labels(input));
+    assertThat(thrown)
+        .hasCauseThat()
+        .hasMessageThat()
+        .contains(RegexPermissionPolicy.NOT_PERMITTED_MESSAGE);
+  }
 
   @Test
   public void anonymous() throws Exception {

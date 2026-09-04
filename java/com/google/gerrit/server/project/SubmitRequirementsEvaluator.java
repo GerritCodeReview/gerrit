@@ -30,8 +30,17 @@ public interface SubmitRequirementsEvaluator {
    */
   ImmutableMap<SubmitRequirement, SubmitRequirementResult> evaluateAllRequirements(ChangeData cd);
 
-  /** Evaluate a single {@link SubmitRequirement} using change data. */
+  /**
+   * Evaluate a single stored {@link SubmitRequirement} using change data and internal visibility.
+   */
   SubmitRequirementResult evaluateRequirement(SubmitRequirement sr, ChangeData cd);
+
+  /**
+   * Evaluate a single user-supplied {@link SubmitRequirement} using change data and the calling
+   * user's visibility.
+   */
+  SubmitRequirementResult evaluateRequirementWithCurrentUser(SubmitRequirement sr, ChangeData cd)
+      throws QueryParseException;
 
   /**
    * Validate a {@link SubmitRequirementExpression}. Callers who wish to validate submit

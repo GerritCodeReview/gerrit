@@ -34,6 +34,7 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.UseTimezone;
 import com.google.gerrit.acceptance.VerifyNoPiiInChangeNotes;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.change.IndexOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate;
@@ -68,7 +69,9 @@ import com.google.gerrit.extensions.common.SubmitRequirementResultInfo.Status;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.httpd.raw.IndexPreloadingUtil;
+import com.google.gerrit.server.config.RegexAllowedGroupsProvider;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.permissions.RegexPermissionPolicy;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.testing.TestLabels;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -89,6 +92,7 @@ import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 @NoHttpd
@@ -424,6 +428,91 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
 
     SubmitRequirementResultInfo result = gApi.changes().id(changeId).checkSubmitRequirement(in);
     assertThat(result.status).isEqualTo(SubmitRequirementResultInfo.Status.ERROR);
+  }
+
+  @Test
+  @GerritConfig(
+      name = RegexAllowedGroupsProvider.SECTION + "." + RegexAllowedGroupsProvider.KEY,
+      value = "Administrators")
+  public void checkSubmitRequirementWithRegexIsRejectedForUserOutsideAllowedGroup()
+      throws Exception {
+    PushOneCommit.Result r = createChange();
+    requestScopeOperations.setApiUser(user.id());
+
+    for (SubmitRequirementInput input :
+        ImmutableList.of(
+            createSubmitRequirementInput("Code-Review", null, "project:^.*", null),
+            createSubmitRequirementInput("Code-Review", "project:^.*", "is:open", null),
+            createSubmitRequirementInput("Code-Review", null, "is:open", "project:^.*"))) {
+      BadRequestException thrown =
+          assertThrows(
+              BadRequestException.class,
+              () -> gApi.changes().id(r.getChangeId()).checkSubmitRequirement(input));
+      assertThat(thrown).hasMessageThat().isEqualTo(RegexPermissionPolicy.NOT_PERMITTED_MESSAGE);
+    }
+  }
+
+  @Test
+  @GerritConfig(
+      name = RegexAllowedGroupsProvider.SECTION + "." + RegexAllowedGroupsProvider.KEY,
+      value = "Administrators")
+  public void checkSubmitRequirementWithRegexIsAllowedForUserInAllowedGroup() throws Exception {
+    PushOneCommit.Result r = createChange();
+
+    SubmitRequirementResultInfo result =
+        gApi.changes()
+            .id(r.getChangeId())
+            .checkSubmitRequirement(
+                createSubmitRequirementInput("Code-Review", null, "project:^.*", null));
+
+    assertThat(result.status).isEqualTo(Status.SATISFIED);
+  }
+
+  @Ignore // This test has been broken by I7613d40bf57 where the execution is always executed by the
+  // internal user
+  public void checkSubmitRequirementWithInvisibleOwnerInGroupReturnsError() throws Exception {
+    GroupInput groupInput = new GroupInput();
+    groupInput.name = name("invisible-group");
+    groupInput.visibleToAll = false;
+    groupInput.ownerId = adminGroupUuid().get();
+    gApi.groups().create(groupInput);
+    gApi.groups().id(groupInput.name).addMembers(admin.username());
+
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    requestScopeOperations.setApiUser(user.id());
+    SubmitRequirementInput in =
+        createSubmitRequirementInput(
+            "Owner-In-Group", /* submittabilityExpression= */ "ownerin:" + groupInput.name);
+
+    SubmitRequirementResultInfo result = gApi.changes().id(changeId).checkSubmitRequirement(in);
+
+    assertThat(result.status).isEqualTo(SubmitRequirementResultInfo.Status.ERROR);
+    assertThat(result.submittabilityExpressionResult.errorMessage)
+        .isEqualTo("Group " + groupInput.name + " not found");
+  }
+
+  @Test
+  public void checkSubmitRequirementWithVisibleOwnerInGroupIsSatisfied() throws Exception {
+    GroupInput groupInput = new GroupInput();
+    groupInput.name = name("visible-group");
+    groupInput.visibleToAll = true;
+    groupInput.ownerId = adminGroupUuid().get();
+    gApi.groups().create(groupInput);
+    gApi.groups().id(groupInput.name).addMembers(admin.username());
+
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+
+    requestScopeOperations.setApiUser(user.id());
+    SubmitRequirementInput in =
+        createSubmitRequirementInput(
+            "Owner-In-Group", /* submittabilityExpression= */ "ownerin:" + groupInput.name);
+
+    SubmitRequirementResultInfo result = gApi.changes().id(changeId).checkSubmitRequirement(in);
+
+    assertThat(result.status).isEqualTo(SubmitRequirementResultInfo.Status.SATISFIED);
   }
 
   @Test

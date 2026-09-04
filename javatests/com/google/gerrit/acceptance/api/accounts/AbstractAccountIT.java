@@ -146,10 +146,13 @@ import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.change.AccountPatchReviewStore;
 import com.google.gerrit.server.config.AuthConfig;
+import com.google.gerrit.server.config.RegexAllowedGroupsProvider;
+import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.group.testing.TestGroupBackend;
 import com.google.gerrit.server.index.account.AccountIndexer;
 import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.RegexPermissionPolicy;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.project.RefPattern;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
@@ -2371,6 +2374,33 @@ public abstract class AbstractAccountIT extends AbstractDaemonTest {
     } finally {
       cleanUpDrafts();
     }
+  }
+
+  @Test
+  @GerritConfig(
+      name = RegexAllowedGroupsProvider.SECTION + "." + RegexAllowedGroupsProvider.KEY,
+      value = "Project Owners")
+  public void deleteDraftCommentsByRegexQueryIsRejectedWhenUserIsNotInAllowedGroup()
+      throws Exception {
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class,
+            () ->
+                gApi.accounts()
+                    .self()
+                    .deleteDraftComments(new DeleteDraftCommentsInput("project:^.*")));
+
+    assertThat(thrown).hasMessageThat().contains(RegexPermissionPolicy.NOT_PERMITTED_MESSAGE);
+  }
+
+  @Test
+  @GerritConfig(
+      name = RegexAllowedGroupsProvider.SECTION + "." + RegexAllowedGroupsProvider.KEY,
+      value = "Administrators")
+  public void deleteDraftCommentsByRegexQueryIsAllowedWhenUserIsInAllowedGroup() throws Exception {
+    assertThat(
+            gApi.accounts().self().deleteDraftComments(new DeleteDraftCommentsInput("project:^.*")))
+        .isEmpty();
   }
 
   @Test

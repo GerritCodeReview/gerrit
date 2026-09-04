@@ -21,6 +21,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.ExtensionRegistry;
 import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.TestExtensions.TestSubmitRule;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
 import com.google.gerrit.acceptance.testsuite.change.TestChange;
 import com.google.gerrit.extensions.api.changes.ChangeIdentifier;
@@ -31,6 +32,8 @@ import com.google.gerrit.index.query.Matchable;
 import com.google.gerrit.index.query.OperatorPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
+import com.google.gerrit.server.config.RegexAllowedGroupsProvider;
+import com.google.gerrit.server.permissions.RegexPermissionPolicy;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder.ChangeIsOperandFactory;
@@ -105,6 +108,43 @@ public class EvaluateChangeQueryExpressionIT extends AbstractDaemonTest {
     assertThat(exception)
         .hasMessageThat()
         .isEqualTo("invalid query expression: Unsupported operator foo:bar");
+  }
+
+  @Test
+  @GerritConfig(
+      name = RegexAllowedGroupsProvider.SECTION + "." + RegexAllowedGroupsProvider.KEY,
+      value = "Project Owners")
+  public void regexExpressionIsRejectedForUserOutsideAllowedGroup() throws Exception {
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().create();
+
+    BadRequestException exception =
+        assertThrows(
+            BadRequestException.class,
+            () ->
+                gApi.changes()
+                    .id(changeIdentifier)
+                    .evaluateChangeQueryExpression()
+                    .withExpression("project:^.*")
+                    .get());
+
+    assertThat(exception).hasMessageThat().contains(RegexPermissionPolicy.NOT_PERMITTED_MESSAGE);
+  }
+
+  @Test
+  @GerritConfig(
+      name = RegexAllowedGroupsProvider.SECTION + "." + RegexAllowedGroupsProvider.KEY,
+      value = "Administrators")
+  public void regexExpressionIsAllowedForUserInAllowedGroup() throws Exception {
+    ChangeIdentifier changeIdentifier = changeOperations.newChange().create();
+
+    assertThat(
+            gApi.changes()
+                .id(changeIdentifier)
+                .evaluateChangeQueryExpression()
+                .withExpression("project:^.*")
+                .get()
+                .status)
+        .isTrue();
   }
 
   @Test

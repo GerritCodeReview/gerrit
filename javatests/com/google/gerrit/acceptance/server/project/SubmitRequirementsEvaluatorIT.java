@@ -54,6 +54,7 @@ import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.project.SubmitRequirementEvaluationException;
 import com.google.gerrit.server.project.SubmitRequirementsEvaluatorImpl;
+import com.google.gerrit.server.project.SubmitRequirementsEvaluatorImpl.SubmitRequirementRegexQueryPermissionChecker;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder.ChangeIsOperandFactory;
@@ -1124,6 +1125,8 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
   public void evaluateRequirement_timesOut_returnsTimeoutResult() throws Exception {
     ExecutorService mockExecutor = Mockito.mock(ExecutorService.class);
     Future<SubmitRequirementResult> timedOutFuture = Mockito.mock(Future.class);
+    SubmitRequirementRegexQueryPermissionChecker regexQueryPermissionChecker =
+        Mockito.mock(SubmitRequirementRegexQueryPermissionChecker.class);
     SubmitRequirementsEvaluatorImpl evaluatorWithMockedExecutor =
         new SubmitRequirementsEvaluatorImpl(
             queryBuilderFactory,
@@ -1131,7 +1134,8 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
             globalSubmitRequirements,
             cfg,
             oneOffRequestContext,
-            mockExecutor);
+            mockExecutor,
+            regexQueryPermissionChecker);
 
     SubmitRequirement sr =
         SubmitRequirement.builder()

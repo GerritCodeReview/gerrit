@@ -7835,6 +7835,10 @@ link:#create-merge-patch-set-for-change[Create Merge Patch Set For Change],
 link:#cherry-pick[Cherry Pick Revision],
 link:rest-api-project.html#cherry-pick-commit[Cherry Pick Commit],
 link:#rebase-change[Rebase Change]
+|`plugins`             |optional|
+Plugin-provided information about the change, as a list of
+link:#plugin-defined-info[PluginDefinedInfo] entities. Only present if a plugin
+contributes data.
 |==================================
 
 [[change-input]]
@@ -8080,6 +8084,8 @@ Mime type of the file where the comment is written. Available only if the
 is set.
 |`fix_suggestions`|optional|Suggested fixes for this comment as a list of
 <<fix-suggestion-info,FixSuggestionInfo>> entities.
+|`is_ai`          |optional|Whether the comment was created by an AI agent. Not
+set if false.
 |===========================
 
 [[comment-input]]
@@ -8129,6 +8135,8 @@ default to false if the comment is an orphan, or the value of the `in_reply_to`
 comment if it is supplied.
 |`fix_suggestions`|optional|Suggested fixes for this comment as a list of
 <<fix-suggestion-info,FixSuggestionInfo>> entities.
+|`enable_context` |optional|Whether to include the source lines around the
+comment as context in the response.
 |===========================
 
 [[comment-range]]
@@ -8521,6 +8529,15 @@ Whether the web link should be shown on the unified diff screen.
 === ApplyProvidedFixInput
 The `ApplyProvidedFixInput` entity contains the fixes to be applied on a review.
 
+[options="header",cols="1,^1,5"]
+|=======================
+|Field Name||Description
+|`fix_replacement_infos`||The replacements that make up the fix, as a list of
+link:#fix-replacement-info[FixReplacementInfo] entities.
+|`original_patchset_for_fix`|optional|Number of the patch set the fix was
+originally computed against.
+|=======================
+
 [[custom-keyed-values-input]]
 === CustomKeyedValuesInput
 
@@ -8602,7 +8619,7 @@ evaluating a change query expression.
 |`passing_atoms`   ||List of passing leaf atoms (atoms that match the change).
 |`failing_atoms`   ||List of failing leaf atoms (atoms that do not match the
 change).
-|`atom_explanation`|optional|Explanations for why atoms pass or fail.
+|`atom_explanations`|optional|Explanations for why atoms pass or fail.
 Explanations are only available for a few atoms, for most atoms no explanation
 is provided. Not set if none of the atoms has an explanation.
 |===============================
@@ -8639,6 +8656,8 @@ a SHA1 if the file mode is `160000` (gitlink).
 `100644` (regular file), `100755` (executable file), `120000` (symlink) and
 `160000` (gitlink).  If unset, new files are created with file mode `100644`
 (regular file) and for existing files the existing file mode is kept.
+|`content`        |optional|The new content of the file, sent as the raw request
+body. If not set, an empty file is created or the existing content is cleared.
 |==============================
 
 [[file-info]]
@@ -8775,6 +8794,7 @@ The `FlowActionTypeInfo` entity describes an action that may be used in a flow.
 |=========================
 |Field Name   |Description
 |`name`       |The name of the action.
+|`parameters_placeholder`|Placeholder text shown for the action's parameters in the UI.
 |=========================
 
 
@@ -9757,6 +9777,8 @@ enforced.
 Additional information about whom to notify about the update as a map
 of link:user-notify.html#recipient-types[recipient type] to
 link:#notify-info[NotifyInfo] entity.
+|`wait_for_merge`|optional|
+Deprecated and no longer used. Kept for backwards compatibility.
 |=============================
 
 [[submit-record]]

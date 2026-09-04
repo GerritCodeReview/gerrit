@@ -2683,7 +2683,7 @@ of git-receive-pack behavior on the server.
 [options="header",cols="1,^1,5"]
 |=======================================
 |Field Name        ||Description
-|`enableSignedPush`|optional|
+|`enable_signed_push`|optional|
 Whether signed push validation support is enabled on the server; see the
 link:config-gerrit.html#receive.certNonceSeed[global configuration] for
 details.

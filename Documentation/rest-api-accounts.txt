@@ -2714,7 +2714,7 @@ If true the line numbers are hidden.
 Number of spaces that should be used to display one tab.
 |`font_size`                    ||
 Default font size in pixels for change to be displayed in the diff view.
-|'hide_empty_pane'             |not set if `false`|
+|`hide_empty_pane`             |not set if `false`|
 Whether empty panes should be hidden. The left pane is empty when a
 file was added; the right pane is empty when a file was deleted.
 |`match_brackets`              |not set if `false`|

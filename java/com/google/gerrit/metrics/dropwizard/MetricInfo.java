@@ -32,7 +32,7 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.function.Function;
 
-class MetricJson {
+class MetricInfo {
   String description;
   String unit;
   Boolean constant;
@@ -61,10 +61,10 @@ class MetricJson {
   Double sum;
   Double std_dev;
 
-  List<FieldJson> fields;
+  List<MetricFieldInfo> fields;
   Map<String, Object> buckets;
 
-  MetricJson(Metric metric, ImmutableMap<String, String> atts, boolean dataOnly) {
+  MetricInfo(Metric metric, ImmutableMap<String, String> atts, boolean dataOnly) {
     if (!dataOnly) {
       description = atts.get(Description.DESCRIPTION);
       unit = atts.get(Description.UNIT);
@@ -86,7 +86,7 @@ class MetricJson {
       Field<?>[] fieldList = m.getFields();
       fields = new ArrayList<>(fieldList.length);
       for (Field<?> f : fieldList) {
-        fields.add(new FieldJson(f));
+        fields.add(new MetricFieldInfo(f));
       }
       buckets = makeBuckets(fieldList, m.getCells(), atts);
 
@@ -157,7 +157,7 @@ class MetricJson {
       Function<Object, String> fmt = (Function<Object, String>) fields[0].formatter();
       Map<String, Object> out = new TreeMap<>();
       for (Map.Entry<?, Metric> e : metrics.entrySet()) {
-        out.put(fmt.apply(e.getKey()), new MetricJson(e.getValue(), atts, true));
+        out.put(fmt.apply(e.getKey()), new MetricInfo(e.getValue(), atts, true));
       }
       return out;
     }
@@ -180,17 +180,17 @@ class MetricJson {
 
       Function<Object, String> fmt =
           (Function<Object, String>) fields[fields.length - 1].formatter();
-      dst.put(fmt.apply(keys.get(fields.length - 1)), new MetricJson(e.getValue(), atts, true));
+      dst.put(fmt.apply(keys.get(fields.length - 1)), new MetricInfo(e.getValue(), atts, true));
     }
     return out;
   }
 
-  static class FieldJson {
+  static class MetricFieldInfo {
     String name;
     String type;
     String description;
 
-    FieldJson(Field<?> field) {
+    MetricFieldInfo(Field<?> field) {
       this.name = field.name();
       this.description = field.description().orElse(null);
       this.type =

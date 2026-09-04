@@ -563,7 +563,7 @@ As response the new token is returned.
 
 .Response
 ----
-  HTTP/1.1 200 OK
+  HTTP/1.1 201 Created
   Content-Disposition: attachment
   Content-Type: application/json; charset=UTF-8
 

@@ -16,6 +16,8 @@ package com.google.gerrit.server.project;
 
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
+import static com.google.common.collect.ImmutableMap.toImmutableMap;
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.entities.Permission.isPermission;
 import static com.google.gerrit.entities.Project.DEFAULT_SUBMIT_TYPE;
 import static com.google.gerrit.server.permissions.PluginPermissionsUtil.isValidPluginPermission;
@@ -28,6 +30,7 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -376,6 +379,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     this.projectName = projectName;
     this.baseConfig = baseConfig;
     this.allProjectsName = allProjectsName;
+    this.contributorAgreements = new HashMap<>();
   }
 
   public void load(Repository repo) throws IOException, ConfigInvalidException {
@@ -434,6 +438,10 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
   public Collection<AccessSection> getAccessSections() {
     return sort(accessSections.values());
+  }
+
+  public ImmutableSet<String> getAccessSectionRegexNames() {
+    return accessSections.keySet().stream().filter(RefPattern::isRE).collect(toImmutableSet());
   }
 
   public BranchOrderSection getBranchOrderSection() {
@@ -575,8 +583,36 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     return commentLinkSections.values();
   }
 
+  public ImmutableMap<String, String> getCommentLinkRegexes() {
+    return commentLinkSections.values().stream()
+        .filter(commentLink -> commentLink.getMatch() != null)
+        .collect(toImmutableMap(StoredCommentLinkInfo::getName, StoredCommentLinkInfo::getMatch));
+  }
+
+  public ImmutableList<Map.Entry<String, String>> getLabelBranchRegexes() {
+    ImmutableList.Builder<Map.Entry<String, String>> regexes = ImmutableList.builder();
+    for (LabelType label : labelSections.values()) {
+      ImmutableList<String> refPatterns = label.getRefPatterns();
+      if (refPatterns != null) {
+        for (String refPattern : refPatterns) {
+          if (RefPattern.isRE(refPattern)) {
+            regexes.add(Maps.immutableEntry(label.getName(), refPattern));
+          }
+        }
+      }
+    }
+    return regexes.build();
+  }
+
   public ConfiguredMimeTypes getMimeTypes() {
     return mimeTypes;
+  }
+
+  public ImmutableList<ConfiguredMimeTypes.ReType> getMimeTypeRegexes() {
+    return mimeTypes.matchers().stream()
+        .filter(ConfiguredMimeTypes.ReType.class::isInstance)
+        .map(ConfiguredMimeTypes.ReType.class::cast)
+        .collect(toImmutableList());
   }
 
   public GroupReference resolve(GroupReference group) {
@@ -695,7 +731,9 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     this.project = p.build();
 
     loadAccountsSection(rc);
-    loadContributorAgreements(rc);
+    if (projectName.equals(allProjectsName)) {
+      loadContributorAgreements(rc);
+    }
     loadAccessSections(rc);
     loadBranchOrderSection(rc);
     loadNotifySections(rc);
@@ -734,7 +772,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   }
 
   private void loadContributorAgreements(Config rc) {
-    contributorAgreements = new HashMap<>();
+    contributorAgreements.clear();
     for (String name : rc.getSubsections(CONTRIBUTOR_AGREEMENT)) {
       ContributorAgreement.Builder ca = ContributorAgreement.builder(name);
       ca.setDescription(rc.getString(CONTRIBUTOR_AGREEMENT, name, KEY_DESCRIPTION));
@@ -1352,7 +1390,9 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
     Set<AccountGroup.UUID> keepGroups = new HashSet<>();
     saveAccountsSection(rc, keepGroups);
-    saveContributorAgreements(rc, keepGroups);
+    if (projectName.equals(allProjectsName)) {
+      saveContributorAgreements(rc, keepGroups);
+    }
     saveAccessSections(rc, keepGroups);
     saveNotifySections(rc, keepGroups);
     savePluginSections(rc, keepGroups);

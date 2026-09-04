@@ -75,6 +75,8 @@ junit_tests(
         "//java/com/google/gerrit/testing:gerrit-test-util",
         "//java/com/google/gerrit/testing:test-ref-update-context",
         "//java/com/google/gerrit/truth",
+        "//lib:args4j",
+        "//lib:automaton",
         "//lib:gson",
         "//lib:guava",
         "//lib:guava-retrying",

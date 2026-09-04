@@ -38,6 +38,7 @@ import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.git.meta.MetaDataUpdate.User;
+import com.google.gerrit.server.git.validators.ProjectConfigRegexValidator;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
@@ -77,6 +78,7 @@ public class RepoMetaDataUpdater {
   private final PermissionBackend permissionBackend;
   private final ChangeJson.Factory jsonFactory;
   private final ContributorAgreementsChecker contributorAgreements;
+  private final ProjectConfigRegexValidator projectConfigRegexValidator;
 
   @Inject
   RepoMetaDataUpdater(
@@ -89,7 +91,8 @@ public class RepoMetaDataUpdater {
       BatchUpdate.Factory updateFactory,
       PermissionBackend permissionBackend,
       ChangeJson.Factory jsonFactory,
-      ContributorAgreementsChecker contributorAgreements) {
+      ContributorAgreementsChecker contributorAgreements,
+      ProjectConfigRegexValidator projectConfigRegexValidator) {
     this.metaDataUpdateFactory = metaDataUpdateFactory;
     this.user = user;
     this.projectConfigFactory = projectConfigFactory;
@@ -100,6 +103,7 @@ public class RepoMetaDataUpdater {
     this.permissionBackend = permissionBackend;
     this.jsonFactory = jsonFactory;
     this.contributorAgreements = contributorAgreements;
+    this.projectConfigRegexValidator = projectConfigRegexValidator;
   }
 
   /**
@@ -258,7 +262,20 @@ public class RepoMetaDataUpdater {
       return config;
     }
 
-    public void commitConfigUpdate() throws IOException {
+    public void commitConfigUpdate() throws IOException, ConfigInvalidException {
+      if (!projectConfigRegexValidator.isAllowed()) {
+        ProjectConfig previousConfig = projectConfigFactory.read(md);
+
+        projectConfigRegexValidator.assertNoAdditionalRegexes(
+            previousConfig.getLabelBranchRegexes(), config.getLabelBranchRegexes());
+        projectConfigRegexValidator.assertNoAdditionalRegexes(
+            previousConfig.getMimeTypeRegexes(), config.getMimeTypeRegexes());
+        projectConfigRegexValidator.assertNoAdditionalRegexes(
+            previousConfig.getCommentLinkRegexes().entrySet(),
+            config.getCommentLinkRegexes().entrySet());
+        projectConfigRegexValidator.assertNoAdditionalRegexes(
+            previousConfig.getAccessSectionRegexNames(), config.getAccessSectionRegexNames());
+      }
       config.commit(md);
       projectCache.evictAndReindex(config.getProject());
     }

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.project;
 
 import static com.google.common.collect.ImmutableMap.toImmutableMap;
+import static com.google.gerrit.index.query.QueryBuilder.findFieldInParsedQuery;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -29,9 +30,11 @@ import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.index.RegexQueryPermissionChecker;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
+import com.google.gerrit.server.permissions.RegexPermissionPolicy;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.SubmitRequirementChangeQueryBuilder;
@@ -39,10 +42,12 @@ import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.inject.Inject;
 import com.google.inject.Module;
+import com.google.inject.Provider;
 import com.google.inject.Scopes;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Stream;
 import org.eclipse.jgit.lib.Config;
@@ -61,6 +66,7 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
   // This is so that the evaluation does not depend on who is running the current request (e.g.
   // a "ownerin" predicate with group that is not visible to the person making this request).
   private final OneOffRequestContext requestContext;
+  private final SubmitRequirementRegexQueryPermissionChecker regexQueryPermissionChecker;
 
   public static Module module() {
     return new FactoryModule() {
@@ -75,18 +81,40 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
     };
   }
 
+  public static class SubmitRequirementRegexQueryPermissionChecker
+      extends RegexQueryPermissionChecker {
+    // Keep this list in sync with submit-requirement operators that always compile regexes.
+    private static final Set<String> REGEX_FIELDS_NAMES =
+        Set.of("authoremail", "committeremail", "uploaderemail");
+
+    @Inject
+    SubmitRequirementRegexQueryPermissionChecker(
+        Provider<RegexPermissionPolicy> regexPermissionPolicyProvider) {
+      super(regexPermissionPolicyProvider);
+    }
+
+    @Override
+    public boolean containsRegexInQuery(String query) throws QueryParseException {
+      return super.containsRegexInQuery(query)
+          || findFieldInParsedQuery(
+              query, (field) -> REGEX_FIELDS_NAMES.contains(field.toLowerCase(Locale.ROOT)));
+    }
+  }
+
   @Inject
   private SubmitRequirementsEvaluatorImpl(
       SubmitRequirementChangeQueryBuilder.Factory queryBuilderFactory,
       ProjectCache projectCache,
       PluginSetContext<SubmitRequirement> globalSubmitRequirements,
       @GerritServerConfig Config config,
-      OneOffRequestContext requestContext) {
+      OneOffRequestContext requestContext,
+      SubmitRequirementRegexQueryPermissionChecker regexQueryPermissionChecker) {
     this.queryBuilderFactory = queryBuilderFactory;
     this.projectCache = projectCache;
     this.globalSubmitRequirements = globalSubmitRequirements;
     this.config = config;
     this.requestContext = requestContext;
+    this.regexQueryPermissionChecker = regexQueryPermissionChecker;
     this.requireOperatorForUpdate = requireOperatorForUpdate();
     this.requireOperatorForEvaluation = requireOperatorForEvaluation();
   }
@@ -94,6 +122,9 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
   @Override
   public void validateExpression(SubmitRequirementExpression expression)
       throws QueryParseException {
+    if (!regexQueryPermissionChecker.isAllowed()) {
+      regexQueryPermissionChecker.check(expression.expressionString());
+    }
     try (ManualRequestContext ignored = requestContext.open()) {
       @SuppressWarnings("unused")
       var unused =
@@ -125,6 +156,29 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
   public SubmitRequirementResult evaluateRequirement(SubmitRequirement sr, ChangeData cd) {
     try (ManualRequestContext ignored = requestContext.open()) {
       return evaluateRequirementInternal(sr, cd);
+    }
+  }
+
+  @Override
+  public SubmitRequirementResult evaluateRequirementWithCurrentUser(
+      SubmitRequirement sr, ChangeData cd) throws QueryParseException {
+    if (!regexQueryPermissionChecker.isAllowed()) {
+      checkRegexPermission(sr);
+    }
+    return evaluateRequirementInternal(sr, cd);
+  }
+
+  private void checkRegexPermission(SubmitRequirement submitRequirement)
+      throws QueryParseException {
+    regexQueryPermissionChecker.check(
+        submitRequirement.submittabilityExpression().expressionString());
+    if (submitRequirement.applicabilityExpression().isPresent()) {
+      regexQueryPermissionChecker.check(
+          submitRequirement.applicabilityExpression().get().expressionString());
+    }
+    if (submitRequirement.overrideExpression().isPresent()) {
+      regexQueryPermissionChecker.check(
+          submitRequirement.overrideExpression().get().expressionString());
     }
   }
 

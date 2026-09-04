@@ -1136,6 +1136,40 @@ As result a link:#task-info[TaskInfo] entity is returned.
   }
 ----
 
+[[list-metrics]]
+=== List Metrics
+--
+'GET /config/server/metrics'
+--
+
+Lists the metrics of the server, returning a map of metric name to a
+link:#metric-json[MetricJson] entity.
+
+The `prefix` request parameter limits the result to metrics whose name starts
+with the given prefix. The `data-only` request parameter returns only the metric
+values, omitting the field metadata.
+
+.Request
+----
+  GET /config/server/metrics HTTP/1.0
+----
+
+[[get-metric]]
+=== Get Metric
+--
+'GET /config/server/metrics/\{metric-id\}'
+--
+
+Retrieves a single metric of the server. The metric name is used as the
+`\{metric-id\}` and must be URL-encoded because it may contain slashes.
+
+As response a link:#metric-json[MetricJson] entity is returned.
+
+.Request
+----
+  GET /config/server/metrics/http%2Fserver%2Frest_api%2Fcount HTTP/1.0
+----
+
 [[delete-task]]
 === Delete Task
 --
@@ -2844,6 +2878,84 @@ ThreadSummaryInfo] entity.
 |`jvm_summary`  |optional|
 Summary about the JVM link:#jvm-summary-info[JvmSummaryInfo] entity.
 Only set if the `jvm` option was set.
+|============================
+
+[[metric-json]]
+=== MetricJson
+The `MetricJson` entity describes a metric of the server, as returned by the
+link:#list-metrics[List Metrics] and link:#get-metric[Get Metric] endpoints.
+Which fields are populated depends on the type of the metric.
+
+[options="header",cols="1,^1,5"]
+|============================
+|Field Name   ||Description
+|`description`|optional|
+The description of the metric.
+|`unit`       |optional|
+The unit of measurement of the recorded values.
+|`constant`   |optional, not set if `false`|
+Whether the metric reports a single constant value.
+|`rate`       |optional, not set if `false`|
+Whether the metric reports a rate.
+|`gauge`      |optional, not set if `false`|
+Whether the metric is a gauge that reports an instantaneous value.
+|`cumulative` |optional, not set if `false`|
+Whether the metric accumulates over time.
+|`count`      |optional|
+The number of recorded events.
+|`value`      |optional|
+The current value, for constant metrics and gauges.
+|`rate_1m`    |optional|
+The one-minute moving average rate.
+|`rate_5m`    |optional|
+The five-minute moving average rate.
+|`rate_15m`   |optional|
+The fifteen-minute moving average rate.
+|`rate_mean`  |optional|
+The mean rate since the metric was registered.
+|`p50`        |optional|
+The median (50th percentile) of the recorded values.
+|`p75`        |optional|
+The 75th percentile of the recorded values.
+|`p95`        |optional|
+The 95th percentile of the recorded values.
+|`p98`        |optional|
+The 98th percentile of the recorded values.
+|`p99`        |optional|
+The 99th percentile of the recorded values.
+|`p99_9`      |optional|
+The 99.9th percentile of the recorded values.
+|`min`        |optional|
+The minimum recorded value.
+|`avg`        |optional|
+The average of the recorded values.
+|`max`        |optional|
+The maximum recorded value.
+|`sum`        |optional|
+The sum of the recorded values.
+|`std_dev`    |optional|
+The standard deviation of the recorded values.
+|`fields`     |optional|
+The fields of the metric as a list of link:#field-json[FieldJson] entities.
+|`buckets`    |optional|
+The per-field-value breakdown of the metric, as a map of field values to the
+recorded value for that combination.
+|============================
+
+[[field-json]]
+=== FieldJson
+The `FieldJson` entity describes a field (dimension) of a
+link:#metric-json[MetricJson].
+
+[options="header",cols="1,^1,5"]
+|============================
+|Field Name   ||Description
+|`name`       ||
+The name of the field.
+|`type`       |optional|
+The type of the field, set only for enum-valued fields.
+|`description`|optional|
+The description of the field.
 |============================
 
 [[task-info]]

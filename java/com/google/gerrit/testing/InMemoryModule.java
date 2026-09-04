@@ -142,8 +142,10 @@ import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
 import com.google.inject.servlet.RequestScoped;
 import com.google.inject.util.Providers;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
@@ -259,9 +261,13 @@ public class InMemoryModule extends FactoryModule {
 
     bindScope(RequestScoped.class, PerThreadRequestScope.REQUEST);
 
-    // It would be nice to use Jimfs for the SitePath, but the biggest blocker is that JGit does not
-    // support Path-based Configs, only FileBasedConfig.
-    bind(Path.class).annotatedWith(SitePath.class).toInstance(Path.of("."));
+    try {
+      bind(Path.class)
+          .annotatedWith(SitePath.class)
+          .toInstance(Files.createTempDirectory("gerrit_site"));
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
     bind(Config.class).annotatedWith(GerritServerConfig.class).toInstance(cfg);
     bind(GerritOptions.class).toInstance(new GerritOptions(false, false));
     bind(AllProjectsConfigProvider.class).to(FileBasedAllProjectsConfigProvider.class);

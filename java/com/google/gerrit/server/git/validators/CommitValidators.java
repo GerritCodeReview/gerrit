@@ -31,11 +31,9 @@ import com.google.common.flogger.FluentLogger;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.entities.AccessSection;
 import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
-import com.google.gerrit.entities.NotifyConfig;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.RefNames;
@@ -64,7 +62,6 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.plugincontext.PluginSetEntryContext;
-import com.google.gerrit.server.project.AccessSectionRegexValidator;
 import com.google.gerrit.server.project.LabelConfigValidator;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
@@ -86,6 +83,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -117,9 +115,9 @@ public class CommitValidators {
     private final AllProjectsName allProjects;
     private final ProjectCache projectCache;
     private final ProjectConfig.Factory projectConfigFactory;
-    private final AccessSectionRegexValidator accessSectionRegexValidator;
     private final ProjectNotifyFilterValidator projectNotifyFilterValidator;
     private final Config config;
+    private final ProjectConfigRegexValidator projectConfigRegexValidator;
     private final ChangeUtil changeUtil;
     private final MetricMaker metricMaker;
     private final ApprovalQueryBuilder approvalQueryBuilder;
@@ -135,8 +133,8 @@ public class CommitValidators {
         AllProjectsName allProjects,
         ProjectCache projectCache,
         ProjectConfig.Factory projectConfigFactory,
-        AccessSectionRegexValidator accessSectionRegexValidator,
         ProjectNotifyFilterValidator projectNotifyFilterValidator,
+        ProjectConfigRegexValidator projectConfigRegexValidator,
         ChangeUtil changeUtil,
         MetricMaker metricMaker,
         ApprovalQueryBuilder approvalQueryBuilder,
@@ -149,8 +147,8 @@ public class CommitValidators {
       this.allProjects = allProjects;
       this.projectCache = projectCache;
       this.projectConfigFactory = projectConfigFactory;
-      this.accessSectionRegexValidator = accessSectionRegexValidator;
       this.projectNotifyFilterValidator = projectNotifyFilterValidator;
+      this.projectConfigRegexValidator = projectConfigRegexValidator;
       this.changeUtil = changeUtil;
       this.metricMaker = metricMaker;
       this.approvalQueryBuilder = approvalQueryBuilder;
@@ -184,8 +182,8 @@ public class CommitValidators {
           .add(
               new ConfigValidator(
                   projectConfigFactory,
-                  accessSectionRegexValidator,
                   projectNotifyFilterValidator,
+                  projectConfigRegexValidator,
                   branch,
                   user,
                   rw,
@@ -230,8 +228,8 @@ public class CommitValidators {
           .add(
               new ConfigValidator(
                   projectConfigFactory,
-                  accessSectionRegexValidator,
                   projectNotifyFilterValidator,
+                  projectConfigRegexValidator,
                   branch,
                   user,
                   rw,
@@ -667,8 +665,8 @@ public class CommitValidators {
   /** If this is the special project configuration branch, validate the config. */
   public static class ConfigValidator implements CommitValidationListener {
     private final ProjectConfig.Factory projectConfigFactory;
-    private final AccessSectionRegexValidator accessSectionRegexValidator;
     private final ProjectNotifyFilterValidator projectNotifyFilterValidator;
+    private final ProjectConfigRegexValidator projectConfigRegexValidator;
     private final BranchNameKey branch;
     private final IdentifiedUser user;
     private final RevWalk rw;
@@ -677,16 +675,16 @@ public class CommitValidators {
 
     public ConfigValidator(
         ProjectConfig.Factory projectConfigFactory,
-        AccessSectionRegexValidator accessSectionRegexValidator,
         ProjectNotifyFilterValidator projectNotifyFilterValidator,
+        ProjectConfigRegexValidator projectConfigRegexValidator,
         BranchNameKey branch,
         IdentifiedUser user,
         RevWalk rw,
         AllUsersName allUsers,
         AllProjectsName allProjects) {
       this.projectConfigFactory = projectConfigFactory;
-      this.accessSectionRegexValidator = accessSectionRegexValidator;
       this.projectNotifyFilterValidator = projectNotifyFilterValidator;
+      this.projectConfigRegexValidator = projectConfigRegexValidator;
       this.branch = branch;
       this.user = user;
       this.rw = rw;
@@ -711,30 +709,27 @@ public class CommitValidators {
             throw new CommitValidationException("invalid project configuration", messages);
           }
 
-          if (!accessSectionRegexValidator.isAllowed()
-              && REFS_CONFIG.equals(receiveEvent.command.getRefName())) {
-            Collection<AccessSection> previousAccessSections = Collections.emptyList();
-            if (receiveEvent.commit.getParentCount() > 0) {
-              ProjectConfig previousConfig =
-                  projectConfigFactory.create(receiveEvent.project.getNameKey());
-              previousConfig.load(rw, receiveEvent.commit.getParent(0));
-              previousAccessSections = previousConfig.getAccessSections();
-            }
-            accessSectionRegexValidator.validateNewRegexes(
-                previousAccessSections, cfg.getAccessSections());
+          @Nullable ProjectConfig previousConfig = null;
+          if (receiveEvent.commit.getParentCount() > 0) {
+            previousConfig = projectConfigFactory.create(receiveEvent.project.getNameKey());
+            previousConfig.load(rw, receiveEvent.commit.getParent(0));
+          }
+
+          if (!projectConfigRegexValidator.isAllowed(receiveEvent)) {
+            projectConfigRegexValidator.assertNoAdditionalRegexes(
+                previousConfigValues(previousConfig, ProjectConfig::getAccessSectionRegexNames),
+                cfg.getAccessSectionRegexNames());
           }
 
           if (!projectNotifyFilterValidator.isAllowed()) {
-            Collection<NotifyConfig> previousNotifyConfigs = Collections.emptyList();
-            if (receiveEvent.commit.getParentCount() > 0) {
-              ProjectConfig previousConfig =
-                  projectConfigFactory.create(receiveEvent.project.getNameKey());
-              previousConfig.load(rw, receiveEvent.commit.getParent(0));
-              previousNotifyConfigs = previousConfig.getNotifyConfigs();
-            }
             projectNotifyFilterValidator.validateNewOrChangedFilters(
-                previousNotifyConfigs, cfg.getNotifyConfigs());
+                previousConfigValues(previousConfig, ProjectConfig::getNotifyConfigs),
+                cfg.getNotifyConfigs());
           }
+
+          validateMimeTypeRegexes(receiveEvent, previousConfig, cfg);
+          validateCommentLinkRegexes(receiveEvent, previousConfig, cfg);
+          validateLabelBranchRegexes(receiveEvent, previousConfig, cfg);
 
           if (allUsers.equals(receiveEvent.project.getNameKey())
               && !allProjects.equals(cfg.getProject().getParent(allProjects))) {
@@ -758,6 +753,45 @@ public class CommitValidators {
       }
 
       return Collections.emptyList();
+    }
+
+    private static <T> Collection<T> previousConfigValues(
+        @Nullable ProjectConfig previousConfig,
+        Function<ProjectConfig, ? extends Collection<T>> getter) {
+      return previousConfig == null ? ImmutableList.of() : getter.apply(previousConfig);
+    }
+
+    private void validateMimeTypeRegexes(
+        CommitReceivedEvent receiveEvent, @Nullable ProjectConfig previousConfig, ProjectConfig cfg)
+        throws ConfigInvalidException {
+      if (projectConfigRegexValidator.isAllowed(receiveEvent)) {
+        return;
+      }
+      projectConfigRegexValidator.assertNoAdditionalRegexes(
+          previousConfigValues(previousConfig, ProjectConfig::getMimeTypeRegexes),
+          cfg.getMimeTypeRegexes());
+    }
+
+    private void validateCommentLinkRegexes(
+        CommitReceivedEvent receiveEvent, @Nullable ProjectConfig previousConfig, ProjectConfig cfg)
+        throws ConfigInvalidException {
+      if (projectConfigRegexValidator.isAllowed(receiveEvent)) {
+        return;
+      }
+      projectConfigRegexValidator.assertNoAdditionalRegexes(
+          previousConfigValues(previousConfig, config -> config.getCommentLinkRegexes().entrySet()),
+          cfg.getCommentLinkRegexes().entrySet());
+    }
+
+    private void validateLabelBranchRegexes(
+        CommitReceivedEvent receiveEvent, @Nullable ProjectConfig previousConfig, ProjectConfig cfg)
+        throws ConfigInvalidException {
+      if (projectConfigRegexValidator.isAllowed(receiveEvent)) {
+        return;
+      }
+      projectConfigRegexValidator.assertNoAdditionalRegexes(
+          previousConfigValues(previousConfig, ProjectConfig::getLabelBranchRegexes),
+          cfg.getLabelBranchRegexes());
     }
   }
 

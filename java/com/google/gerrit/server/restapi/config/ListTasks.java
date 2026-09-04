@@ -23,10 +23,8 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.ConfigResource;
+import com.google.gerrit.server.git.TaskInfo;
 import com.google.gerrit.server.git.WorkQueue;
-import com.google.gerrit.server.git.WorkQueue.ProjectTask;
-import com.google.gerrit.server.git.WorkQueue.Task;
-import com.google.gerrit.server.ioutil.HexFormat;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -36,13 +34,11 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 
 @Singleton
 public class ListTasks implements RestReadView<ConfigResource> {
@@ -110,34 +106,5 @@ public class ListTasks implements RestReadView<ConfigResource> {
                 .thenComparing(t -> t.delay)
                 .thenComparing(t -> t.command))
         .collect(toList());
-  }
-
-  public static class TaskInfo {
-    public String id;
-    public Task.State state;
-    public Timestamp startTime;
-    public long delay;
-    public String command;
-    public String remoteName;
-    public String projectName;
-    public String queueName;
-
-    public TaskInfo(Task<?> task) {
-      this.id = HexFormat.fromInt(task.getTaskId());
-      this.state = task.getState();
-      this.startTime = Timestamp.from(task.getStartTime());
-      this.delay = task.getDelay(TimeUnit.MILLISECONDS);
-      this.command = task.toString();
-      this.queueName = task.getQueueName();
-
-      if (task instanceof ProjectTask) {
-        ProjectTask<?> projectTask = ((ProjectTask<?>) task);
-        Project.NameKey name = projectTask.getProjectNameKey();
-        if (name != null) {
-          this.projectName = name.get();
-        }
-        this.remoteName = projectTask.getRemoteName();
-      }
-    }
   }
 }

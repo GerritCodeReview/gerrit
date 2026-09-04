@@ -16,6 +16,25 @@
       "message": "When toggling from rich back to source mode, `this.shadowRoot?.querySelector(\u0027gr-diff-markdown-viewer\u0027)` returns the first viewer in the shadow DOM.\n\nIf multiple Markdown files are expanded simultaneously in the file list and the user toggles one of the subsequent files, this flushes drafts for the first viewer instead of the one matching `path`.\n\nConsider finding the viewer matching `path`, similar to how `diffHost` is handled below:\n```typescript\nconst viewers \u003d Array.from(\n  this.shadowRoot?.querySelectorAll\u003cGrDiffMarkdownViewer\u003e(\n    \u0027gr-diff-markdown-viewer\u0027\n  ) ?? []\n);\nconst viewer \u003d viewers.find(v \u003d\u003e v.path \u003d\u003d\u003d path);\nawait viewer?.autoSaveDrafts();\n```",
       "revId": "74a267260f9f90b4c057c911865c662afec9e644",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d597f84_afd0d1d7",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1689,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2026-09-04T21:55:47Z",
+      "side": 1,
+      "message": "Done! Updated `toggleRichMarkdown` to query all `gr-diff-markdown-viewer` instances and match by `path`, ensuring draft flushing targets the correct viewer when multiple markdown files are expanded. Added regression test in `gr-file-list_test.ts`.",
+      "parentUuid": "307a7643_ee630f5b",
+      "isAi": true,
+      "revId": "74a267260f9f90b4c057c911865c662afec9e644",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

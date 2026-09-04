@@ -2168,6 +2168,9 @@ link:config-gerrit.html#auth.type[authentication type] is `LDAP`,
 |`max_token_lifetime`         |optional|
 The link:config-gerrit.html#auth.maxAuthTokenLifetime[maximum lifetime]
 of authentication tokens.
+|`auth_type`                  ||
+The authentication type that is configured on the server; see
+link:config-gerrit.html#auth.type[auth.type].
 |==========================================
 
 [[cache-info]]
@@ -2538,6 +2541,15 @@ link:config-gerrit.html#gerrit.reportBugUrl[URL to report bugs].
 link:config-gerrit.html#gerrit.instanceId[Short identifier for this Gerrit installation].
 |`default_branch`       |optional|
 link:config-gerrit.html#gerrit.defaultBranch[Name of the default branch to use on the project creation].
+|`all_projects`         ||
+The name of the `All-Projects` root project.
+|`all_users`            ||
+The name of the `All-Users` project, in which per-user data such as account
+preferences and watched projects is stored.
+|`primary_weblink_name` |optional|
+The name of the configured primary web link
+(link:config-gerrit.html#gerrit.primaryWeblinkName[gerrit.primaryWeblinkName]),
+if one is set.
 |=================================
 
 [[groups-config-info]]
@@ -2872,6 +2884,12 @@ Number of currently running tasks.
 Number of currently ready tasks.
 |`sleeping`     |optional|
 Number of currently sleeping tasks.
+|`starting`     |optional|
+Number of currently starting tasks.
+|`stopping`     |optional|
+Number of currently stopping tasks.
+|`parked`       |optional|
+Number of currently parked tasks.
 |============================
 
 [[thread-summary-info]]

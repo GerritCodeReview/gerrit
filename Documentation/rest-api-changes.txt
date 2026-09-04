@@ -8616,7 +8616,7 @@ link:rest-api-changes.html#web-link-info[WebLinkInfo] entries.
 The `DiffInfo` entity contains information about the diff of a file
 in a revision.
 
-If the link:#weblinks-only[weblinks-only] parameter is specified, only
+If the `weblinks-only` parameter is specified, only
 the `web_links` field is set.
 
 [options="header",cols="1,^1,5"]
@@ -8938,7 +8938,7 @@ the flow service implementation.
 are supported and their format depends on the flow service implementation.
 |=========================
 
-[[flow-action-type]]
+[[flow-action-type-info]]
 === FlowActionTypeInfo
 The `FlowActionTypeInfo` entity describes an action that may be used in a flow.
 

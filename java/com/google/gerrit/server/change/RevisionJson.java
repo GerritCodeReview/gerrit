@@ -504,7 +504,7 @@ public class RevisionJson {
         parentInfo.patchSetNumber = parentData.patchSetNumber().get();
       }
       if (parentData.changeStatus().isPresent()) {
-        parentInfo.changeStatus = parentData.changeStatus().get().name();
+        parentInfo.changeStatus = parentData.changeStatus().get().asChangeStatus();
       }
       parentInfo.isMergedInTargetBranch = parentData.isMergedInTargetBranch();
       result.add(parentInfo);

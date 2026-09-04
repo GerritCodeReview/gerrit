@@ -46,6 +46,46 @@
       },
       "revId": "cea2dc4bd5cdcf4c957741ea837b26d296589262",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9872f82_052744e1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 26
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-04T22:30:05Z",
+      "side": 1,
+      "message": "Post-merge -1: This change has caused a regression in a non-functional requirement.",
+      "revId": "cea2dc4bd5cdcf4c957741ea837b26d296589262",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "505601a4_c38866cc",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluatorImpl.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-04T22:30:05Z",
+      "side": 1,
+      "message": "This is problematic: if I don\u0027t want to use any timeout (the default) this still has an effect on the execution, because submit requirements are then used asynchronously with a future waiting forever.\n\nMore importantly, there is a nasty side-effect: with synchronous execution, the submit requirement was running with the context of the current user, but when running asynchronously, it is running with the context of the internal user (see L192).\n\nWe must be able to make this running logic modular and *disable it* if there is no need for timeouts or async execution of the submit requirements.\n\nAlso, we must highlight in the documentation the side effects in terms of the change in the security domain when running it asynchronously.\n\nThis needs to be fixed *before* shipping Gerrit v3.15 in November 2026.",
+      "range": {
+        "startLine": 190,
+        "startChar": 0,
+        "endLine": 267,
+        "endChar": 7
+      },
+      "revId": "cea2dc4bd5cdcf4c957741ea837b26d296589262",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

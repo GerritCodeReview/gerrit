@@ -4542,6 +4542,9 @@ Whether the calling user can delete this branch.
 |`web_links` |optional|
 Links to the branch in external sites as a list of
 link:rest-api-changes.html#web-link-info[WebLinkInfo] entries.
+|`actions`   |optional|
+Actions the caller might be able to perform on this branch, as a map of action
+name to link:rest-api-changes.html#action-info[ActionInfo] entities.
 |=========================
 
 [[branch-input]]
@@ -4738,6 +4741,13 @@ empty commits should be rejected when a change is merged.
 link:rest-api-changes.html#action-info[ActionInfo] entities.
 |`skip_adding_author_and_committer_as_reviewers`    |optional|
 Whether to skip adding the Git commit author and committer as reviewers for a new change.
+|`enable_reviewer_by_email`||
+link:#inherited-boolean-info[InheritedBooleanInfo] that tells whether reviewers
+and CCs that do not have a Gerrit account can be added to a change by their
+email address.
+|`extension_panel_names`|optional|
+Views that are shown as extension panels, as a map of panel section name to the
+list of panel names configured for the project.
 |=======================================================
 
 [[create-commit-input]]
@@ -4830,9 +4840,40 @@ Can be `TRUE`, `FALSE` or `INHERIT`. +
 If not set, this setting is not updated.
 This property is deprecated and will be removed in
 a future release.
+|`enable_signed_push`                      |optional|
+Whether signed push validation is enabled on the project. +
+Can be `TRUE`, `FALSE` or `INHERIT`. +
+If not set, this setting is not updated.
+|`require_signed_push`                     |optional|
+Whether signed push validation is required on the project. +
+Can be `TRUE`, `FALSE` or `INHERIT`. +
+If not set, this setting is not updated.
 |`reject_implicit_merges`                  |optional|
 Whether a check for implicit merges will be performed when changes are
 pushed for review or submitted. +
+Can be `TRUE`, `FALSE` or `INHERIT`. +
+If not set, this setting is not updated.
+|`private_by_default`                      |optional|
+Whether all new changes in the project are set to private by default. +
+Can be `TRUE`, `FALSE` or `INHERIT`. +
+If not set, this setting is not updated.
+|`work_in_progress_by_default`             |optional|
+Whether all new changes in the project are set to work-in-progress by default. +
+Can be `TRUE`, `FALSE` or `INHERIT`. +
+If not set, this setting is not updated.
+|`enable_reviewer_by_email`                |optional|
+Whether reviewers and CCs that do not have a Gerrit account can be added to a
+change by their email address. +
+Can be `TRUE`, `FALSE` or `INHERIT`. +
+If not set, this setting is not updated.
+|`match_author_to_committer_date`          |optional|
+Whether a change's author date is changed to match its submit date when the
+change is submitted. +
+Can be `TRUE`, `FALSE` or `INHERIT`. +
+If not set, this setting is not updated.
+|`skip_adding_author_and_committer_as_reviewers` |optional|
+Whether to skip adding the Git commit author and committer as reviewers of a
+new change. +
 Can be `TRUE`, `FALSE` or `INHERIT`. +
 If not set, this setting is not updated.
 |`max_object_size_limit`                   |optional|
@@ -4857,12 +4898,12 @@ of parameter names to values.
 Whether empty commits should be rejected when a change is merged.
 Can be `TRUE`, `FALSE` or `INHERIT`. +
 If not set, this setting is not updated.
-|`commentlinks`                              |optional|
+|`comment_links`                           |optional|
 Map of commentlink names to link:#commentlink-input[CommentLinkInput]
 entities to add or update on the project. If the given commentlink
 already exists, it will be updated with the given values, otherwise
 it will be created. If the value is null, that entry is deleted.
-|`message`           |optional|
+|`commit_message`    |optional|
 A commit message for this change.
 |======================================================
 

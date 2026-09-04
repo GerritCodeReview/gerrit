@@ -27,7 +27,6 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.securestore.SecureStore;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
-import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import java.nio.file.Path;
 import org.eclipse.jgit.lib.Config;
@@ -41,7 +40,6 @@ import org.eclipse.jgit.lib.PersonIdent;
  * dbInjector that are not otherwise easily available, but that a plugin author might expect to
  * exist.
  */
-@SuppressWarnings("ProvidesMethodOutsideOfModule")
 @Singleton
 class CopyConfigModule extends AbstractModule {
   private final Path sitePath;
@@ -76,56 +74,36 @@ class CopyConfigModule extends AbstractModule {
     this.isReplicaProvider = isReplicaProvider;
   }
 
-  @Provides
-  @SitePath
-  Path getSitePath() {
-    return sitePath;
-  }
-
-  @Provides
-  SitePaths getSitePaths() {
-    return sitePaths;
-  }
-
-  @Provides
-  TrackingFooters getTrackingFooters() {
-    return trackingFooters;
-  }
-
-  @Provides
-  @GerritServerConfig
-  Config getGerritServerConfig() {
-    return gerritServerConfig;
-  }
-
-  @Provides
-  GitRepositoryManager getGitRepositoryManager() {
-    return gitRepositoryManager;
-  }
-
-  @Provides
-  @AnonymousCowardName
-  String getAnonymousCowardName() {
-    return anonymousCowardName;
-  }
-
-  @Provides
-  @GerritPersonIdent
-  PersonIdent getServerIdent() {
-    return serverIdentProvider.get();
-  }
-
-  @Provides
-  SecureStore getSecureStore() {
-    return secureStore;
-  }
-
-  @Provides
-  @GerritIsReplica
-  boolean getIsReplica() {
-    return isReplicaProvider.get();
-  }
-
   @Override
-  protected void configure() {}
+  protected void configure() {
+    if (sitePath != null) {
+      bind(Path.class).annotatedWith(SitePath.class).toInstance(sitePath);
+    }
+    if (sitePaths != null) {
+      bind(SitePaths.class).toInstance(sitePaths);
+    }
+    if (trackingFooters != null) {
+      bind(TrackingFooters.class).toInstance(trackingFooters);
+    }
+    if (gerritServerConfig != null) {
+      bind(Config.class).annotatedWith(GerritServerConfig.class).toInstance(gerritServerConfig);
+    }
+    if (gitRepositoryManager != null) {
+      bind(GitRepositoryManager.class).toInstance(gitRepositoryManager);
+    }
+    if (anonymousCowardName != null) {
+      bind(String.class).annotatedWith(AnonymousCowardName.class).toInstance(anonymousCowardName);
+    }
+    if (serverIdentProvider != null) {
+      bind(PersonIdent.class)
+          .annotatedWith(GerritPersonIdent.class)
+          .toProvider(serverIdentProvider);
+    }
+    if (secureStore != null) {
+      bind(SecureStore.class).toInstance(secureStore);
+    }
+    if (isReplicaProvider != null) {
+      bind(Boolean.class).annotatedWith(GerritIsReplica.class).toProvider(isReplicaProvider);
+    }
+  }
 }

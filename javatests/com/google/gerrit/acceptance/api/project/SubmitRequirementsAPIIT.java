@@ -37,6 +37,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.config.RegexAllowedGroupsProvider;
 import com.google.inject.Inject;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -690,6 +691,97 @@ public class SubmitRequirementsAPIIT extends AbstractDaemonTest {
             MethodNotAllowedException.class,
             () -> gApi.projects().name(project.get()).submitRequirement("code-review").delete());
     assertThat(e.getMessage()).contains("Updating project config without review is disabled");
+  }
+
+  @Test
+  @GerritConfig(
+      name = RegexAllowedGroupsProvider.SECTION + "." + RegexAllowedGroupsProvider.KEY,
+      value = "Administrators")
+  public void nonMemberCannotUpdateDescriptionOfRegexSubmitRequirement() throws Exception {
+    SubmitRequirementInput input = new SubmitRequirementInput();
+    input.name = "regex";
+    input.submittabilityExpression = "authoremail:.*";
+    gApi.projects().name(project.get()).submitRequirement("regex").create(input);
+
+    setUserAsProjectOwner();
+
+    input.description = "updated description";
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class,
+            () -> gApi.projects().name(project.get()).submitRequirement("regex").update(input));
+
+    assertThat(thrown).hasMessageThat().contains("not permitted for your account");
+  }
+
+  @Test
+  @GerritConfig(
+      name = RegexAllowedGroupsProvider.SECTION + "." + RegexAllowedGroupsProvider.KEY,
+      value = "Project Owners")
+  public void nonMemberCannotCreateRegexSubmitRequirement() throws Exception {
+    setUserAsProjectOwner();
+    for (String expression :
+        ImmutableList.of(
+            "branch:\"^refs/heads/.*\"",
+            "authoremail:.*",
+            "committeremail:.*",
+            "uploaderemail:.*")) {
+      SubmitRequirementInput input = new SubmitRequirementInput();
+      input.name = "regex";
+      input.submittabilityExpression = expression;
+
+      BadRequestException thrown =
+          assertThrows(
+              BadRequestException.class,
+              () -> gApi.projects().name(project.get()).submitRequirement("regex").create(input));
+
+      assertThat(thrown).hasMessageThat().contains("not permitted for your account");
+    }
+  }
+
+  @Test
+  @GerritConfig(
+      name = RegexAllowedGroupsProvider.SECTION + "." + RegexAllowedGroupsProvider.KEY,
+      value = "Registered Users")
+  public void memberCanCreateRegexSubmitRequirement() throws Exception {
+    SubmitRequirementInput input = new SubmitRequirementInput();
+    input.name = "regex";
+    input.submittabilityExpression = "authoremail:.*";
+
+    SubmitRequirementInfo info =
+        gApi.projects().name(project.get()).submitRequirement("regex").create(input).get();
+
+    assertThat(info.submittabilityExpression).isEqualTo(input.submittabilityExpression);
+  }
+
+  @Test
+  @GerritConfig(
+      name = RegexAllowedGroupsProvider.SECTION + "." + RegexAllowedGroupsProvider.KEY,
+      value = "Project Owners")
+  public void nonMemberCannotUpdateSubmitRequirement() throws Exception {
+    SubmitRequirementInput input = new SubmitRequirementInput();
+    input.name = "code-review";
+    input.submittabilityExpression = "label:code-review=+2";
+    gApi.projects().name(project.get()).submitRequirement("code-review").create(input);
+
+    setUserAsProjectOwner();
+    input.applicabilityExpression = "branch:^refs/heads/release-.*";
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class,
+            () ->
+                gApi.projects().name(project.get()).submitRequirement("code-review").update(input));
+
+    assertThat(thrown).hasMessageThat().contains("not permitted for your account");
+  }
+
+  private void setUserAsProjectOwner() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.OWNER).ref("refs/*").group(REGISTERED_USERS))
+        .update();
+    requestScopeOperations.setApiUser(user.id());
   }
 
   private SubmitRequirementInfo createSubmitRequirement(String srName) throws RestApiException {

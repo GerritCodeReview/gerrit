@@ -1,0 +1,98 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "79752893_542cf468",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-09-04T19:24:30Z",
+      "side": 1,
+      "message": "I like this feature. My main issue is with putting code into embed that it mostly for gr-diff that we share with other project and we don\u0027t plan to share with others. It would need to be dump component without any dependencies. If you can please move it out of embed. I will do +2 after that.\n\nOtherwise I think it\u0027s ok if code is more experimental (like just using marked lexer and doing a lot of stuff there) since user can anytime switch to proper text diff.",
+      "revId": "9a0ae3cbf660d38c125b1f9a7f7eaf41d29ea689",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d0c034f_c733dc48",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 505,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-09-04T19:24:30Z",
+      "side": 1,
+      "message": "Setting `this.threads \u003d []` when `hidden` is true unmounts all `\u003cgr-comment-thread\u003e` elements from the DOM. If a user is in the middle of drafting a comment in standard diff mode and clicks \"Rich diff\", `\u003cgr-comment\u003e` is unmounted immediately. Because draft auto-saving is debounced (`AUTO_SAVE_DEBOUNCE_DELAY_MS`) and `disconnectedCallback` does not flush pending edits, any unsaved draft content in local component state will be lost without warning.\n\nAdditionally, `hidden` is a generic reflected HTML attribute on `GrDiffHost`, so any other visibility toggles (collapse, tabs, modals) will also tear down comment threads.\n\nConsider ensuring in-flight drafts are flushed/saved before unmounting threads (or before toggling views), or using a more scoped property / inert handling rather than clearing `threads` directly on `hidden`.",
+      "isAi": true,
+      "revId": "9a0ae3cbf660d38c125b1f9a7f7eaf41d29ea689",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c014fbf3_4246df9d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 847,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-09-04T19:24:30Z",
+      "side": 1,
+      "message": "Removing this block introduces a few subtle regressions:\n\n1. **Divergent thread computation**: `gr-diff-view` now computes `threadsForFile` via a getter for `\u003cgr-diff-markdown-viewer\u003e`, while `\u003cgr-diff-host\u003e` independently computes threads in its own `willUpdate`. This duplicates the logic for resolving file threads and `old_path` mappings.\n2. **Missing reactive triggers**: The removed block explicitly triggered on changes to `files`, `change`, `path`, `patchNum`, and `basePatchNum`. If `files` loads asynchronously after `diffHost` has initialized (e.g. populating `old_path` for renamed files), `diffHost` may not re-trigger thread computation.\n3. **Timing guarantee lost**: The previous `this.diffHost.updateComplete.then(...)` ensured that the diff DOM structure and slots were ready before comment threads were slotted into the diff table.\n\nIt seems this was removed because the async `then()` callback was overwriting `diffHost.threads \u003d []` when hidden. Instead of removing parent coordination and having `gr-diff-host` inspect its own `hidden` property, consider keeping thread coordination in `gr-diff-view` and conditionally passing/setting threads only when rich markdown view is inactive (e.g. `if (!this.isShowingRichMarkdown())`).",
+      "isAi": true,
+      "revId": "9a0ae3cbf660d38c125b1f9a7f7eaf41d29ea689",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4642a6dd_309f5fe4",
+        "filename": "polygerrit-ui/app/embed/diff/gr-diff-markdown/gr-diff-markdown-viewer.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-09-04T19:24:30Z",
+      "side": 1,
+      "message": "Per `polygerrit-ui/app/embed/README.md`, the `embed/` directory is reserved for self-contained components that can be used independently of Gerrit (e.g. in Gitiles).\n\n`GrDiffMarkdownViewer` directly imports application domain models (`commentsModel`, `browserModel`, `userModel`) and `\u003cgr-comment-thread\u003e`. This inverts the dependency layering and prevents this component from being used outside of Gerrit.\n\nConsider moving this under `polygerrit-ui/app/elements/diff/gr-diff-markdown-viewer/` (and moving `markdown-diff-util.ts` either to `polygerrit-ui/app/utils/` or co-locating it there), or splitting it into an embeddable model-free renderer in `embed/` and a host component in `elements/diff/`.",
+      "isAi": true,
+      "revId": "9a0ae3cbf660d38c125b1f9a7f7eaf41d29ea689",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9d971ec_b7cd8241",
+        "filename": "polygerrit-ui/app/utils/diff-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-09-04T19:24:30Z",
+      "side": 1,
+      "message": "Please fix this WARNING reported by autoreview issue finding: It is safer to use `startsWith(\u0027text/markdown\u0027)` to handle MIME types that might include charset parameters (e.g., `text/markdown; charset\u003dutf-8`).\n\n```typescript\n    !!contentTypeA?.startsWith(\u0027text/x-markdown\u0027) ||\n    !!contentTypeB?.startsWith(\u0027text/x-markdown\u0027) ||\n    !!contentTypeA?.startsWith(\u0027text/markdown\u0027) ||\n    !!contentTypeB?.startsWith(\u0027text/markdown\u0027)\n```",
+      "range": {
+        "startLine": 132,
+        "startChar": 0,
+        "endLine": 132,
+        "endChar": 0
+      },
+      "revId": "9a0ae3cbf660d38c125b1f9a7f7eaf41d29ea689",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

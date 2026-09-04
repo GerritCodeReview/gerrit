@@ -2721,6 +2721,13 @@ file was added; the right pane is empty when a file was deleted.
 Whether matching brackets should be highlighted.
 |`line_wrapping`               |not set if `false`|
 Whether to enable line wrapping or not.
+|`render_entire_file`          |not set if `false`|
+Whether the whole file should be rendered instead of only the changed parts.
+|`responsive_mode`             |optional|
+The responsive-rendering mode of the diff view. Allowed values are `NONE`,
+`SHRINK_ONLY` and `FULL_RESPONSIVE`.
+|`skip_unchanged`              |not set if `false`|
+Whether files without changes are skipped when switching between files.
 |===========================================
 
 [[diff-preferences-input]]
@@ -2836,6 +2843,8 @@ Whether this is the preferred email address of the user.
 Set true if the user must confirm control of the email address
 by following a verification link before Gerrit will permit use of
 this address.
+|`avatar`   |not set if `false`|
+Whether this email address is the one used to display the user's avatar.
 |========================
 
 [[email-input]]

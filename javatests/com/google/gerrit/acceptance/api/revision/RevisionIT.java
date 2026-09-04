@@ -2643,7 +2643,7 @@ public class RevisionIT extends AbstractDaemonTest {
         r1.getChangeId(),
         r1.getChange().change().getChangeId(),
         /* patchSetNumber= */ 1,
-        /* parentChangeStatus= */ "NEW",
+        /* parentChangeStatus= */ ChangeStatus.NEW,
         /* isParentCommitMergedInTargetBranch= */ false);
   }
 
@@ -2666,7 +2666,7 @@ public class RevisionIT extends AbstractDaemonTest {
         r1.getChangeId(),
         r1.getChange().change().getChangeId(),
         /* patchSetNumber= */ 1,
-        /* parentChangeStatus= */ "NEW",
+        /* parentChangeStatus= */ ChangeStatus.NEW,
         /* isParentCommitMergedInTargetBranch= */ false);
   }
 
@@ -2687,7 +2687,7 @@ public class RevisionIT extends AbstractDaemonTest {
         r1.getChangeId(),
         r1.getChange().change().getChangeId(),
         /* patchSetNumber= */ 2,
-        /* parentChangeStatus= */ "NEW",
+        /* parentChangeStatus= */ ChangeStatus.NEW,
         /* isParentCommitMergedInTargetBranch= */ false);
   }
 
@@ -2711,7 +2711,7 @@ public class RevisionIT extends AbstractDaemonTest {
         r1.getChangeId(),
         r1.getChange().change().getChangeId(),
         /* patchSetNumber= */ 1,
-        /* parentChangeStatus= */ "MERGED",
+        /* parentChangeStatus= */ ChangeStatus.MERGED,
         /* isParentCommitMergedInTargetBranch= */ false);
   }
 
@@ -2743,7 +2743,7 @@ public class RevisionIT extends AbstractDaemonTest {
         r11.getChangeId(),
         r11.getChange().change().getChangeId(),
         /* patchSetNumber= */ 2,
-        /* parentChangeStatus= */ "MERGED",
+        /* parentChangeStatus= */ ChangeStatus.MERGED,
         /* isParentCommitMergedInTargetBranch= */ true);
   }
 
@@ -2774,7 +2774,7 @@ public class RevisionIT extends AbstractDaemonTest {
         r11.getChangeId(),
         r11.getChange().change().getChangeId(),
         /* patchSetNumber= */ 2,
-        /* parentChangeStatus= */ "MERGED",
+        /* parentChangeStatus= */ ChangeStatus.MERGED,
         /* isParentCommitMergedInTargetBranch= */ false);
   }
 
@@ -2825,7 +2825,7 @@ public class RevisionIT extends AbstractDaemonTest {
       String changeId,
       Integer changeNumber,
       Integer patchSetNumber,
-      String parentChangeStatus,
+      ChangeStatus parentChangeStatus,
       boolean isParentCommitMergedInTargetBranch) {
     assertThat(info.commitId).isEqualTo(parentCommitId.name());
     assertThat(info.changeStatus).isEqualTo(parentChangeStatus);

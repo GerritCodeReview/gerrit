@@ -882,6 +882,7 @@ export class GrReplyDialog extends LitElement {
           )}
         >
         </gr-account-list>
+        <gr-endpoint-slot name="middle"></gr-endpoint-slot>
         <gr-endpoint-slot name="right"></gr-endpoint-slot>
       </div>
     `;

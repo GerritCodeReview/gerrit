@@ -1,5 +1,6 @@
 <html>
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Gerrit Code Review - Sign In</title>
     <style type="text/css">
       #error_message {
@@ -11,6 +12,22 @@
       }
       #cancel_link {
         margin-left: 45px;
+      }
+      /* Stack the form in a single column on small screens so it fits
+         without horizontal scrolling; inputs fill the row width. */
+      @media (max-width: 600px) {
+        #login_form table,
+        #login_form table tbody,
+        #login_form table tr,
+        #login_form table td {
+          display: block;
+        }
+        #login_form input[type="text"],
+        #login_form input[type="password"] {
+          width: 100%;
+          box-sizing: border-box;
+          font-size: 16px; /* avoid iOS auto-zoom on focus */
+        }
       }
     </style>
     <style id="gerrit_sitecss" type="text/css"></style>
@@ -24,14 +41,14 @@
       <form method="POST" action="#" id="login_form" autocomplete="off" onsubmit="return shouldSubmit()">
         <table style="border: 0;">
         <tr>
-          <th>Username</th>
+          <td><label for="f_user">Username</label></td>
           <td><input name="username" id="f_user"
                      type="text"
                      size="25"
                      tabindex="1" /></td>
         </tr>
         <tr>
-          <th>Password</th>
+          <td><label for="f_pass">Password</label></td>
           <td><input name="password" id="f_pass"
                      type="password"
                      size="25"

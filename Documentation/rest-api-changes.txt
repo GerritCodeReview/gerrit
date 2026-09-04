@@ -2531,6 +2531,48 @@ only works if `enable-context` is set to true.
   }
 ----
 
+[[list-change-robot-comments]]
+=== List Change Robot Comments
+--
+'GET /changes/link:#change-id[\{change-id\}]/robotcomments'
+--
+
+Lists the robot comments of all revisions of the change.
+
+Returns a map of file paths to lists of
+link:#comment-info[CommentInfo] entries. The entries in the map are
+sorted by file path.
+
+.Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/robotcomments HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "main.c": [
+      {
+        "patch_set": 1,
+        "id": "TvcXrmjM",
+        "line": 23,
+        "message": "unused variable",
+        "updated": "2016-02-26 15:40:43.986000000",
+        "author": {
+          "_account_id": 1000110,
+          "name": "Code Analyzer",
+          "email": "code.analyzer@example.com"
+        }
+      }
+    ]
+  }
+----
+
 [[list-change-drafts]]
 === List Change Drafts
 --
@@ -6002,6 +6044,80 @@ describes the published comment.
   }
 ----
 
+[[list-robot-comments]]
+=== List Robot Comments
+--
+'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/robotcomments'
+--
+
+Lists the robot comments of a revision.
+
+As result a map is returned that maps the file path to a list of
+link:#comment-info[CommentInfo] entries. The entries in the map are
+sorted by file path.
+
+.Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/1/robotcomments HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "main.c": [
+      {
+        "id": "TvcXrmjM",
+        "line": 23,
+        "message": "unused variable",
+        "updated": "2016-02-26 15:40:43.986000000",
+        "author": {
+          "_account_id": 1000110,
+          "name": "Code Analyzer"
+        }
+      }
+    ]
+  }
+----
+
+[[get-robot-comment]]
+=== Get Robot Comment
+--
+'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/robotcomments/link:#robot-comment-id[\{robot-comment-id\}]'
+--
+
+Retrieves a robot comment of a revision.
+
+As response a link:#comment-info[CommentInfo] entity is returned.
+
+.Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/1/robotcomments/TvcXrmjM HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "id": "TvcXrmjM",
+    "line": 23,
+    "message": "unused variable",
+    "updated": "2016-02-26 15:40:43.986000000",
+    "author": {
+      "_account_id": 1000110,
+      "name": "Code Analyzer"
+    }
+  }
+----
+
 [[delete-comment]]
 === Delete Comment
 --
@@ -6449,6 +6565,24 @@ That is, only one of them may be used at a time.
     "/COMMIT_MSG",
     "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java",
   ]
+----
+
+[[get-revision-archive]]
+=== Get Archive
+--
+'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/archive'
+--
+
+Retrieves an archive of the files in a revision.
+
+The archive format is specified with the `format` request parameter. The
+supported formats depend on the server configuration; typical values are
+`tgz`, `tar`, `tbz2` and `txz`. The response body is the binary content of the
+archive.
+
+.Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/1/archive?format=tgz HTTP/1.0
 ----
 
 [[get-content]]
@@ -7297,6 +7431,10 @@ ID of a change message returned in a link:#change-message-info[ChangeMessageInfo
 [[comment-id]]
 === \{comment-id\}
 UUID of a published comment.
+
+[[robot-comment-id]]
+=== \{robot-comment-id\}
+UUID of a robot comment.
 
 [[draft-id]]
 === \{draft-id\}

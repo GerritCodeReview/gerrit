@@ -8158,6 +8158,20 @@ documentation of the installed plugins to learn whether they support validation
 options. Unknown validation options are silently ignored.
 |===========================
 
+[[plugin-defined-info]]
+=== PluginDefinedInfo
+The `PluginDefinedInfo` entity contains plugin-specific information about a
+change, contributed by a plugin. A plugin may add further fields.
+
+[options="header",cols="1,^1,5"]
+|============================
+|Field Name||Description
+|`name`    ||
+The name of the plugin that contributed the information.
+|`message` |optional|
+A message from the plugin.
+|============================
+
 [[comment-info]]
 === CommentInfo
 The `CommentInfo` entity contains information about an inline comment.

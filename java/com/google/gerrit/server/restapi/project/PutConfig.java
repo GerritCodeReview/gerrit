@@ -65,6 +65,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.regex.Pattern;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -170,13 +171,9 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
             regexAllowed ? ImmutableMap.of() : projectConfig.getCommentLinkRegexes();
         updateCommentLinks(projectConfig, input.commentLinks);
         if (!regexAllowed) {
-          try {
-            projectConfigRegexValidator.assertNoAdditionalRegexes(
-                existingCommentLinkRegexes.entrySet(),
-                projectConfig.getCommentLinkRegexes().entrySet());
-          } catch (ConfigInvalidException e) {
-            throw new ResourceConflictException(e.getMessage(), e);
-          }
+          projectConfigRegexValidator.assertNoAdditionalRegexes(
+              existingCommentLinkRegexes.entrySet(),
+              projectConfig.getCommentLinkRegexes().entrySet());
         }
       }
 
@@ -207,7 +204,10 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
     } catch (RepositoryNotFoundException notFound) {
       throw new ResourceNotFoundException(projectName.get(), notFound);
     } catch (ConfigInvalidException err) {
-      throw new ResourceConflictException("Cannot read project " + projectName, err);
+      String invalidConfigMessage =
+          Optional.ofNullable(err.getMessage()).map(msg -> ": " + msg).orElse("");
+      throw new ResourceConflictException(
+          "Invalid project config for " + projectName + invalidConfigMessage, err);
     } catch (IOException err) {
       throw new ResourceConflictException("Cannot update project " + projectName, err);
     }

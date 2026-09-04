@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9c0bebb_c96db1e9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-09-04T11:23:35Z",
+      "side": 1,
+      "message": "@matthias.sohn@gmail.com @nasser.grainawi@oss.qualcomm.com @luca.milanesio@gmail.com please take another look at this now that I\u0027ve switched to a default allow system (on suggestion by Luca) which is also what allowed the AI review permission to be merged.\n\nI believe this should remove any doubt about merging this change now.",
+      "revId": "058e1f69dfefc3969c7a4ac6c893fdfb13b20673",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -71,6 +71,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "51b35508_e5fad197",
+        "filename": "java/com/google/gerrit/server/git/QueueSnapshotLog.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 4665459
+      },
+      "writtenOn": "2026-09-04T23:47:35Z",
+      "side": 1,
+      "message": "I was trying to follow `SshLog`, but that is request-driven and we also have the scheduling piece for this log. Matching with the gc log impl makes sense. Now, I have renamed it to `WorkQueueSnapshotLogFile` and split it like GC does. LogFile just sets up the log file, with scheduling in `WorkQueueSnapshotRunner` and config in `WorkQueueSnapshotConfig`.",
+      "parentUuid": "d1dddbf8_cc50b4e4",
+      "revId": "b07d7f2f08b66a39b7a56a79bf3a7c350e922ab8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "da828afb_e660fdf0",
@@ -88,6 +106,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d0c9efe_220b438a",
+        "filename": "java/com/google/gerrit/server/git/QueueSnapshotLog.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 4665459
+      },
+      "writtenOn": "2026-09-04T23:47:35Z",
+      "side": 1,
+      "message": "Done. Setup is in the constructor now. Following `GarbageCollectionLogFile`, the appender is attached to the class logger rather than held in a field, so no volatile and nothing to pass around.",
+      "parentUuid": "da828afb_e660fdf0",
+      "revId": "b07d7f2f08b66a39b7a56a79bf3a7c350e922ab8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9dc983de_6f4e98fe",
@@ -101,6 +137,24 @@
       "writtenOn": "2026-08-21T20:24:59Z",
       "side": 1,
       "message": "appendTaskEvents?",
+      "revId": "b07d7f2f08b66a39b7a56a79bf3a7c350e922ab8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3fef70ae_ae29e4cd",
+        "filename": "java/com/google/gerrit/server/git/QueueSnapshotLog.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 4665459
+      },
+      "writtenOn": "2026-09-04T23:47:35Z",
+      "side": 1,
+      "message": "NA",
+      "parentUuid": "9dc983de_6f4e98fe",
       "revId": "b07d7f2f08b66a39b7a56a79bf3a7c350e922ab8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -140,6 +194,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6117845a_6bc235d1",
+        "filename": "java/com/google/gerrit/server/git/QueueSnapshotLog.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 4665459
+      },
+      "writtenOn": "2026-09-04T23:47:35Z",
+      "side": 1,
+      "message": "Makes sense, but I\u0027m not taking on json logging in this change. I did add a precursor that moves `TaskInfo` out of the restapi package so we can use it here, since restapi depends on server and not the other way around. That also removes the similar `TaskRow` class I had. Only `TaskInfo` is reusable though, not the view, as `ListTasks` requires an identified user and filters tasks by project visibility, which doesn\u0027t suit a background job that wants the whole queue.",
+      "parentUuid": "52af0177_04bafc04",
+      "revId": "b07d7f2f08b66a39b7a56a79bf3a7c350e922ab8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "25ea25b1_8e2ff10e",
@@ -153,6 +225,24 @@
       "writtenOn": "2026-08-21T20:24:59Z",
       "side": 1,
       "message": "s/emitTaskEvent/appendTaskEvent/ ?",
+      "revId": "b07d7f2f08b66a39b7a56a79bf3a7c350e922ab8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ac6e44e_5f4f8025",
+        "filename": "java/com/google/gerrit/server/git/QueueSnapshotLog.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 4665459
+      },
+      "writtenOn": "2026-09-04T23:47:35Z",
+      "side": 1,
+      "message": "Renamed to write, after the split in PS3",
+      "parentUuid": "25ea25b1_8e2ff10e",
       "revId": "b07d7f2f08b66a39b7a56a79bf3a7c350e922ab8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

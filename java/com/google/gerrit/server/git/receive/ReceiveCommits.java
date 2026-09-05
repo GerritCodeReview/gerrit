@@ -1867,6 +1867,8 @@ class ReceiveCommits {
     PermissionBackend.ForRef perm;
     Set<String> reviewer = Sets.newLinkedHashSet();
     Set<String> cc = Sets.newLinkedHashSet();
+    Set<String> silentReviewer = Sets.newLinkedHashSet();
+    Set<String> silentCc = Sets.newLinkedHashSet();
     Map<String, Short> labels = new HashMap<>();
     String message;
     List<RevCommit> baseCommit;
@@ -1979,14 +1981,38 @@ class ReceiveCommits {
         name = "--reviewer",
         aliases = {"-r"},
         metaVar = "REVIEWER",
-        usage = "add reviewer to changes")
-    void reviewer(String str) {
-      reviewer.add(str);
+        usage =
+            "add reviewer to changes (append ':silent' via push option to suppress notification"
+                + " email)")
+    void reviewer(String str) throws CmdLineException {
+      if (str.endsWith(":silent")) {
+        String name = str.substring(0, str.length() - ":silent".length());
+        if (name.isEmpty()) {
+          throw cmdLineParser.reject("reviewer identifier cannot be empty");
+        }
+        silentReviewer.add(name);
+        reviewer.remove(name);
+      } else if (!silentReviewer.contains(str)) {
+        reviewer.add(str);
+      }
     }
 
-    @Option(name = "--cc", metaVar = "CC", usage = "add CC to changes")
-    void cc(String str) {
-      cc.add(str);
+    @Option(
+        name = "--cc",
+        metaVar = "CC",
+        usage =
+            "add CC to changes (append ':silent' via push option to suppress notification email)")
+    void cc(String str) throws CmdLineException {
+      if (str.endsWith(":silent")) {
+        String name = str.substring(0, str.length() - ":silent".length());
+        if (name.isEmpty()) {
+          throw cmdLineParser.reject("CC identifier cannot be empty");
+        }
+        silentCc.add(name);
+        cc.remove(name);
+      } else if (!silentCc.contains(str)) {
+        cc.add(str);
+      }
     }
 
     @Option(
@@ -2074,6 +2100,15 @@ class ReceiveCommits {
     }
 
     /**
+     * Get silent reviewer strings from magic branch options
+     *
+     * @return set of silent reviewer strings to pass to {@code ReviewerModifier}.
+     */
+    ImmutableSet<String> getSilentReviewers() {
+      return ImmutableSet.copyOf(silentReviewer);
+    }
+
+    /**
      * Get CC strings from magic branch options
      *
      * <p>The set of CCs on a change includes strings passed explicitly via options
@@ -2081,7 +2116,16 @@ class ReceiveCommits {
      * @return set of CC strings to pass to {@code ReviewerModifier}.
      */
     ImmutableSet<String> getCcs() {
-      return ImmutableSet.copyOf(cc);
+      return ImmutableSet.copyOf(Sets.difference(cc, Sets.union(reviewer, silentReviewer)));
+    }
+
+    /**
+     * Get silent CC strings from magic branch options
+     *
+     * @return set of silent CC strings to pass to {@code ReviewerModifier}.
+     */
+    ImmutableSet<String> getSilentCcs() {
+      return ImmutableSet.copyOf(Sets.difference(silentCc, Sets.union(reviewer, silentReviewer)));
     }
 
     void setWithholdComments(boolean withholdComments) {
@@ -2131,6 +2175,16 @@ class ReceiveCommits {
       // do not reach here. However if someone tries to specify the '%custom-key-value' option with
       // allowed characters in the value, we return a message here telling the user that they should
       // use the push option instead.
+      for (java.util.Map.Entry<String, String> entry : optionMap.entries()) {
+        if (entry.getValue().endsWith(":silent")) {
+          throw cmdLineParser.reject(
+              String.format(
+                  "the ':silent' modifier for option '%s' is only supported via push options"
+                      + " ('-o %s=%s')",
+                  entry.getKey(), entry.getKey(), entry.getValue()));
+        }
+      }
+
       if (optionMap.containsKey(CUSTOM_KEYED_VALUE_OPTION)) {
         throw cmdLineParser.reject(
             String.format(
@@ -3163,10 +3217,17 @@ class ReceiveCommits {
 
           bu.setNotify(magicBranch.getNotifyForNewChange());
           logger.atFine().log(
-              "Inserting change with reviewers %s and ccs %s",
-              magicBranch.getReviewers(), magicBranch.getCcs());
+              "Inserting change with reviewers %s (silent: %s) and ccs %s (silent: %s)",
+              magicBranch.getReviewers(),
+              magicBranch.getSilentReviewers(),
+              magicBranch.getCcs(),
+              magicBranch.getSilentCcs());
           bu.insertChange(
-              ins.setReviewersAndCcsAsStrings(magicBranch.getReviewers(), magicBranch.getCcs())
+              ins.setReviewersAndCcsAsStrings(
+                      magicBranch.getReviewers(),
+                      magicBranch.getCcs(),
+                      magicBranch.getSilentReviewers(),
+                      magicBranch.getSilentCcs())
                   .setApprovals(approvals)
                   .setMessage(msg.toString())
                   .setRequestScopePropagator(requestScopePropagator)

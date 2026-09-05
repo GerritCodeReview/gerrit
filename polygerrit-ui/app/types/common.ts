@@ -1131,6 +1131,8 @@ export interface ReviewInput {
   remove_from_attention_set?: AttentionSetInput[];
   ignore_automatic_attention_set_rules?: boolean;
   response_format_options?: string[];
+  is_ai?: boolean;
+  labels_is_ai?: {[key: string]: boolean};
 }
 
 /**

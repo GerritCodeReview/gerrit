@@ -34,6 +34,8 @@ web_test_runner(
     name = "web_test_runner",
     srcs = ["web_test_runner.sh"],
     data = [
+        "//lib/fonts:material-icons",
+        "//lib/fonts:robotofonts",
         "//polygerrit-ui:node_modules",
         "//polygerrit-ui/app:node_modules",
         "//polygerrit-ui/app:web-test-runner_app-sources",

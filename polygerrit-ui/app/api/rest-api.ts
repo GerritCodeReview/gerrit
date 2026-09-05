@@ -306,6 +306,7 @@ export declare interface ApprovalInfo extends AccountInfo {
   date?: Timestamp;
   tag?: ReviewInputTag;
   post_submit?: boolean; // not set if false
+  is_ai?: boolean;
 }
 
 /**

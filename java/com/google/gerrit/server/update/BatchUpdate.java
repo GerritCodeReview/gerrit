@@ -561,8 +561,8 @@ public class BatchUpdate implements AutoCloseable {
     }
   }
 
-  // For upstream implementation, AccessPath.WEB_BROWSER is never set, so the method will always
-  // return false.
+  // Asynchronous change indexing is performed for WEB_BROWSER requests or for non-service
+  // users (such as interactive git pushes) when enabled in gerrit.config.
   @UsedAt(GOOGLE)
   private boolean indexAsync() {
     if (!gerritConfig.getBoolean("index", "indexChangesAsync", false)) {

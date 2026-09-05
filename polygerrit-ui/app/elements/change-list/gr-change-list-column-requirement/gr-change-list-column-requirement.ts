@@ -212,9 +212,16 @@ export class GrChangeListColumnRequirement extends LitElement {
     const allLabels = this.change?.labels ?? {};
     const labelInfo = allLabels[label];
     if (isDetailedLabelInfo(labelInfo)) {
-      return getAllUniqueApprovals(labelInfo).filter(
+      const approvals = getAllUniqueApprovals(labelInfo).filter(
         approval => !hasNeutralStatus(labelInfo, approval)
       );
+      if (label.toLowerCase().includes('coverage')) {
+        const runtimeVotes = approvals.filter(a => !a.is_ai);
+        if (runtimeVotes.length > 0) {
+          return runtimeVotes;
+        }
+      }
+      return approvals;
     }
     return [];
   }

@@ -648,6 +648,11 @@ public class PostReviewOp implements BatchUpdateOp {
       PatchSetApproval c = current.remove(lt.getName());
       String normName = lt.getName();
       approvals.put(normName, (short) 0);
+      boolean isAi =
+          (in.labelsIsAi != null && Boolean.TRUE.equals(in.labelsIsAi.get(name)))
+              || (in.labelsFromAi != null && Boolean.TRUE.equals(in.labelsFromAi.get(name)))
+              || Boolean.TRUE.equals(in.isAi)
+              || Boolean.TRUE.equals(in.fromAi);
       if (ent.getValue() == null || ent.getValue() == 0) {
         // User requested delete of this label.
         oldApprovals.put(normName, null);
@@ -669,29 +674,41 @@ public class PostReviewOp implements BatchUpdateOp {
             c.toBuilder()
                 .value(ent.getValue())
                 .granted(ctx.getWhen())
-                .tag(Optional.ofNullable(in.tag));
+                .tag(Optional.ofNullable(in.tag))
+                .isAi(isAi);
         ctx.getUser().updateRealAccountId(b::realAccountId);
         c = b.build();
         ups.add(c);
         addLabelDelta(normName, c.value());
         oldApprovals.put(normName, previous.get(normName));
         approvals.put(normName, c.value());
-        update.putApproval(normName, ent.getValue());
+        update.putApproval(normName, ent.getValue(), isAi);
       } else if (c != null && c.value() == ent.getValue()) {
-        current.put(normName, c);
-        oldApprovals.put(normName, null);
-        approvals.put(normName, c.value());
+        if (inLabels.containsKey(name) && c.isAi() != isAi) {
+          PatchSetApproval.Builder b =
+              c.toBuilder().granted(ctx.getWhen()).tag(Optional.ofNullable(in.tag)).isAi(isAi);
+          ctx.getUser().updateRealAccountId(b::realAccountId);
+          c = b.build();
+          ups.add(c);
+          approvals.put(normName, c.value());
+          update.putApproval(normName, ent.getValue(), isAi);
+        } else {
+          current.put(normName, c);
+          oldApprovals.put(normName, null);
+          approvals.put(normName, c.value());
+        }
       } else if (c == null) {
         c =
             ApprovalsUtil.newApproval(psId, user, lt.getLabelId(), ent.getValue(), ctx.getWhen())
                 .tag(Optional.ofNullable(in.tag))
                 .granted(ctx.getWhen())
+                .isAi(isAi)
                 .build();
         ups.add(c);
         addLabelDelta(normName, c.value());
         oldApprovals.put(normName, previous.get(normName));
         approvals.put(normName, c.value());
-        update.putApproval(normName, ent.getValue());
+        update.putApproval(normName, ent.getValue(), isAi);
 
         // Votes may be applied on outdated patch sets, using a ChangeUpdate that was created for
         // the outdated patch set. Reviewers however cannot be added on outdated patch sets, but

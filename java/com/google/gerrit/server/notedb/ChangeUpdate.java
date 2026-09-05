@@ -31,6 +31,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_CURRENT;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_CUSTOM_KEYED_VALUE;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_GROUPS;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_HASHTAGS;
+import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_IS_AI;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_LABEL;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_MERGE_STRATEGY;
 import static com.google.gerrit.server.notedb.ChangeNoteFooters.FOOTER_NO_BASE_REASON;
@@ -313,16 +314,25 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   public void putApproval(String label, short value) {
-    putApprovalFor(getAccountId(), label, value);
+    putApprovalFor(getAccountId(), label, value, false);
+  }
+
+  public void putApproval(String label, short value, boolean isAi) {
+    putApprovalFor(getAccountId(), label, value, isAi);
   }
 
   public void putApprovalFor(Account.Id reviewer, String label, short value) {
+    putApprovalFor(reviewer, label, value, false);
+  }
+
+  public void putApprovalFor(Account.Id reviewer, String label, short value, boolean isAi) {
     PatchSetApproval psa =
         PatchSetApproval.builder()
             .key(PatchSetApproval.key(getPatchSetId(), reviewer, LabelId.create(label)))
             .value(value)
             .granted(when)
             .uuid(patchSetApprovalUuidGenerator.get(getPatchSetId(), reviewer, label, value, when))
+            .isAi(isAi)
             .build();
     approvals.put(label, reviewer, Optional.of(psa));
   }
@@ -836,6 +846,18 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     }
     for (PatchSetApproval patchSetApproval : copiedApprovals) {
       addCopiedLabelFooter(msg, patchSetApproval);
+    }
+
+    List<String> aiLabels =
+        approvals.values().stream()
+            .filter(Optional::isPresent)
+            .map(Optional::get)
+            .filter(PatchSetApproval::isAi)
+            .map(PatchSetApproval::label)
+            .distinct()
+            .toList();
+    if (!aiLabels.isEmpty()) {
+      addFooter(msg, FOOTER_IS_AI, comma.join(aiLabels));
     }
 
     if (submissionId != null) {

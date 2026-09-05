@@ -362,4 +362,72 @@ suite('gr-submit-requirements tests', () => {
       'submit-requirement-codeowners'
     );
   });
+
+  suite('AI vote indicator in submit requirements', () => {
+    test('renders AI indicator when vote has is_ai', async () => {
+      const aiVote = {
+        ...createApproval(),
+        value: 1,
+        is_ai: true,
+      };
+      const modifiedChange = {...change};
+      modifiedChange.labels = {
+        Verified: {
+          ...createDetailedLabelInfo(),
+          all: [aiVote],
+        },
+      };
+      modifiedChange.submit_requirements = [
+        {
+          ...createSubmitRequirementResultInfo(),
+          name: 'Verified',
+          status: SubmitRequirementStatus.SATISFIED,
+          submittability_expression_result:
+            createSubmitRequirementExpressionInfo('label:Verified=MAX'),
+        },
+      ];
+      element.change = modifiedChange;
+      await element.updateComplete;
+
+      const voteChips = element.shadowRoot?.querySelectorAll('gr-vote-chip');
+      assert.equal(voteChips?.length, 1);
+      assert.isTrue(voteChips?.[0].vote?.is_ai);
+    });
+
+    test('prioritizes non-AI vote over AI vote for same value', async () => {
+      const aiVote = {
+        ...createApproval(),
+        value: 1,
+        is_ai: true,
+      };
+      const nonAiVote = {
+        ...createApproval(),
+        value: 1,
+        is_ai: false,
+      };
+      const modifiedChange = {...change};
+      modifiedChange.labels = {
+        Verified: {
+          ...createDetailedLabelInfo(),
+          all: [aiVote, nonAiVote],
+        },
+      };
+      modifiedChange.submit_requirements = [
+        {
+          ...createSubmitRequirementResultInfo(),
+          name: 'Verified',
+          status: SubmitRequirementStatus.SATISFIED,
+          submittability_expression_result:
+            createSubmitRequirementExpressionInfo('label:Verified=MAX'),
+        },
+      ];
+      element.change = modifiedChange;
+      await element.updateComplete;
+
+      const voteChips = element.shadowRoot?.querySelectorAll('gr-vote-chip');
+      assert.equal(voteChips?.length, 1);
+      assert.isNotTrue(voteChips?.[0].vote?.is_ai);
+      assert.equal(voteChips?.[0].vote?.value, 1);
+    });
+  });
 });

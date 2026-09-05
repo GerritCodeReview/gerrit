@@ -54,4 +54,5 @@ public class ChangeNoteFooters {
   public static final FooterKey FOOTER_CC_EMAIL = new FooterKey("CC-email");
   public static final FooterKey FOOTER_REMOVED = new FooterKey("Removed");
   public static final FooterKey FOOTER_REMOVED_EMAIL = new FooterKey("Removed-email");
+  public static final FooterKey FOOTER_IS_AI = new FooterKey("Is-AI");
 }

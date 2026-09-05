@@ -36,6 +36,11 @@ public class ReviewInput {
 
   public String tag;
 
+  public Boolean isAi;
+  public Boolean fromAi;
+  public Map<String, Boolean> labelsIsAi;
+  public Map<String, Boolean> labelsFromAi;
+
   public Map<String, Short> labels;
   public Map<String, List<CommentInput>> comments;
 
@@ -142,11 +147,29 @@ public class ReviewInput {
   }
 
   @CanIgnoreReturnValue
+  public ReviewInput label(String name, short value, boolean isAi) {
+    label(name, value);
+    if (labelsIsAi == null) {
+      labelsIsAi = new LinkedHashMap<>(4);
+    }
+    labelsIsAi.put(name, isAi);
+    return this;
+  }
+
+  @CanIgnoreReturnValue
   public ReviewInput label(String name, int value) {
     if (value < Short.MIN_VALUE || value > Short.MAX_VALUE) {
       throw new IllegalArgumentException();
     }
     return label(name, (short) value);
+  }
+
+  @CanIgnoreReturnValue
+  public ReviewInput label(String name, int value, boolean isAi) {
+    if (value < Short.MIN_VALUE || value > Short.MAX_VALUE) {
+      throw new IllegalArgumentException();
+    }
+    return label(name, (short) value, isAi);
   }
 
   @CanIgnoreReturnValue

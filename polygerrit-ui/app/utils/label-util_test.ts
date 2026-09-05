@@ -10,6 +10,7 @@ import {
   computeOrderedLabelValues,
   extractAssociatedLabels,
   extractLabelsWithCountFrom,
+  getAllUniqueApprovals,
   getApplicableLabels,
   getApprovalInfo,
   getCodeReviewLabel,
@@ -1117,6 +1118,53 @@ suite('label-util', () => {
         'Custom-Label-3',
       ];
       assert.deepEqual(orderSubmitRequirementNames(names), expected);
+    });
+  });
+
+  suite('getAllUniqueApprovals', () => {
+    test('returns unique approvals sorted from highest to lowest', () => {
+      const labelInfo: DetailedLabelInfo = {
+        values: VALUES_2,
+        all: [{value: 1}, {value: 2}, {value: 1}],
+      };
+      const unique = getAllUniqueApprovals(labelInfo);
+      assert.deepEqual(
+        unique.map(u => u.value),
+        [2, 1]
+      );
+    });
+
+    test('prioritizes non-AI vote over AI vote for same value', () => {
+      const aiVote: ApprovalInfo = {value: 2, is_ai: true};
+      const runtimeVote: ApprovalInfo = {value: 2, is_ai: false};
+      const labelInfo: DetailedLabelInfo = {
+        values: VALUES_2,
+        all: [aiVote, runtimeVote],
+      };
+      const unique = getAllUniqueApprovals(labelInfo);
+      assert.equal(unique.length, 1);
+      assert.equal(unique[0].value, 2);
+      assert.isFalse(unique[0].is_ai);
+    });
+
+    test('retains AI vote when no non-AI vote with same value exists', () => {
+      const aiVote: ApprovalInfo = {value: 2, is_ai: true};
+      const runtimeVote: ApprovalInfo = {value: 1, is_ai: false};
+      const labelInfo: DetailedLabelInfo = {
+        values: VALUES_2,
+        all: [aiVote, runtimeVote],
+      };
+      const unique = getAllUniqueApprovals(labelInfo);
+      assert.equal(unique.length, 2);
+      assert.deepEqual(
+        unique.map(u => {
+          return {value: u.value, is_ai: u.is_ai};
+        }),
+        [
+          {value: 2, is_ai: true},
+          {value: 1, is_ai: false},
+        ]
+      );
     });
   });
 });

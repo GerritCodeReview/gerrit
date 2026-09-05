@@ -279,7 +279,21 @@ public class LabelsJsonRules {
       @Nullable VotingRangeInfo permittedVotingRange,
       @Nullable String tag,
       @Nullable Instant date) {
+    return approvalInfo(accountLoader, id, value, permittedVotingRange, tag, date, null);
+  }
+
+  private ApprovalInfo approvalInfo(
+      AccountLoader accountLoader,
+      Account.Id id,
+      @Nullable Integer value,
+      @Nullable VotingRangeInfo permittedVotingRange,
+      @Nullable String tag,
+      @Nullable Instant date,
+      @Nullable Boolean isAi) {
     ApprovalInfo ai = new ApprovalInfo(id.get(), value, permittedVotingRange, tag, date);
+    if (Boolean.TRUE.equals(isAi)) {
+      ai.isAi = true;
+    }
     accountLoader.put(ai);
     return ai;
   }
@@ -387,6 +401,9 @@ public class LabelsJsonRules {
           info.tag = psa.tag().orElse(null);
           if (psa.postSubmit()) {
             info.postSubmit = true;
+          }
+          if (psa.isAi()) {
+            info.isAi = true;
           }
         }
         if (!standard) {
@@ -527,6 +544,7 @@ public class LabelsJsonRules {
             pvr == null ? null : pvr.getOrDefault(lt.get().getName(), null);
         String tag = null;
         Instant date = null;
+        Boolean isAi = null;
         PatchSetApproval psa = current.get(accountId, lt.get().getName());
         if (psa != null) {
           value = Integer.valueOf(psa.value());
@@ -538,6 +556,9 @@ public class LabelsJsonRules {
           }
           tag = psa.tag().orElse(null);
           date = psa.granted();
+          if (psa.isAi()) {
+            isAi = true;
+          }
           if (psa.postSubmit()) {
             logger.atWarning().log("unexpected post-submit approval on open change: %s", psa);
           }
@@ -549,7 +570,7 @@ public class LabelsJsonRules {
         }
         addApproval(
             e.getValue().label(),
-            approvalInfo(accountLoader, accountId, value, permittedVotingRange, tag, date));
+            approvalInfo(accountLoader, accountId, value, permittedVotingRange, tag, date, isAi));
       }
     }
   }

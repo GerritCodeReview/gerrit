@@ -204,6 +204,8 @@ export function canReviewerVote(
 export function getAllUniqueApprovals(labelInfo?: LabelInfo) {
   if (!labelInfo || !isDetailedLabelInfo(labelInfo)) return [];
   const uniqueApprovals = (labelInfo.all ?? [])
+    .slice()
+    .sort((a, b) => (a.is_ai ? 1 : 0) - (b.is_ai ? 1 : 0))
     .filter(
       (approvalInfo, index, array) =>
         index === array.findIndex(other => other.value === approvalInfo.value)

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance.server.mail;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabel;
@@ -29,10 +30,12 @@ import static com.google.gerrit.extensions.api.changes.NotifyHandling.OWNER;
 import static com.google.gerrit.extensions.api.changes.NotifyHandling.OWNER_REVIEWERS;
 import static com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy.CC_ON_OWN_COMMENTS;
 import static com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy.ENABLED;
+import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.project.testing.TestLabels.labelBuilder;
 import static com.google.gerrit.server.project.testing.TestLabels.value;
+import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
@@ -61,10 +64,14 @@ import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.CommitMessageInput;
 import com.google.gerrit.server.restapi.change.PostReviewOp;
 import com.google.inject.Inject;
+import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Repository;
@@ -1130,6 +1137,34 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   }
 
   @Test
+  public void createReviewableChangeWithSilentReviewerAndCcPushOptions() throws Exception {
+    StagedPreChange spc =
+        stagePreChangeWithPushOptions(
+            "refs/for/master",
+            users ->
+                ImmutableList.of(
+                    "r=" + users.reviewer.username() + ":silent",
+                    "cc=" + users.ccer.username() + ":silent"));
+    assertThat(sender)
+        .sent("newchange", spc)
+        .bcc(spc.watchingProjectOwner)
+        .bcc(NEW_CHANGES, NEW_PATCHSETS)
+        .noOneElse();
+    assertThat(sender).didNotSend();
+
+    // Verify NoteDb state
+    ChangeInfo ci = get(spc.changeId, DETAILED_LABELS);
+    Collection<AccountInfo> reviewers =
+        firstNonNull(ci.reviewers.get(ReviewerState.REVIEWER), ImmutableList.<AccountInfo>of());
+    Truth.assertThat(reviewers.stream().map(a -> a._accountId).collect(toList()))
+        .containsExactly(spc.reviewer.id().get());
+    Collection<AccountInfo> ccs =
+        firstNonNull(ci.reviewers.get(ReviewerState.CC), ImmutableList.<AccountInfo>of());
+    Truth.assertThat(ccs.stream().map(a -> a._accountId).collect(toList()))
+        .containsExactly(spc.ccer.id().get());
+  }
+
+  @Test
   public void createReviewableChangeWithReviewersAndCcsByEmail() throws Exception {
     StagedPreChange spc =
         stagePreChange(
@@ -2046,6 +2081,82 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   }
 
   @Test
+  public void newPatchSetOnReviewableChangeAddingSilentReviewerPushOption() throws Exception {
+    StagedChange sc = stageReviewableChange();
+    TestAccount newReviewer = sc.testAccount("newReviewer");
+    pushTo(
+        sc,
+        "refs/for/master",
+        sc.owner,
+        ImmutableList.of("r=" + newReviewer.username() + ":silent"));
+    assertThat(sender)
+        .sent("newpatchset", sc)
+        .to(sc.reviewer)
+        .cc(sc.ccer)
+        .bcc(sc.starrer)
+        .bcc(NEW_PATCHSETS)
+        .noOneElse();
+    assertThat(sender).didNotSend();
+
+    // Verify NoteDb state
+    ChangeInfo ci = get(sc.changeId, DETAILED_LABELS);
+    Collection<AccountInfo> reviewers =
+        firstNonNull(ci.reviewers.get(ReviewerState.REVIEWER), ImmutableList.<AccountInfo>of());
+    Truth.assertThat(reviewers.stream().map(a -> a._accountId).collect(toList()))
+        .containsExactly(sc.reviewer.id().get(), newReviewer.id().get());
+  }
+
+  @Test
+  public void newPatchSetOnReviewableChangeAddingSilentReviewerAndRegularReviewerPushOption()
+      throws Exception {
+    StagedChange sc = stageReviewableChange();
+    TestAccount newReviewer = sc.testAccount("newReviewer");
+    TestAccount newReviewer2 = sc.testAccount("newReviewer2");
+    pushTo(
+        sc,
+        "refs/for/master",
+        sc.owner,
+        ImmutableList.of(
+            "r=" + newReviewer.username() + ":silent", "r=" + newReviewer2.username()));
+    assertThat(sender)
+        .sent("newpatchset", sc)
+        .to(sc.reviewer, newReviewer2)
+        .cc(sc.ccer)
+        .bcc(sc.starrer)
+        .bcc(NEW_PATCHSETS)
+        .noOneElse();
+    assertThat(sender).didNotSend();
+  }
+
+  @Test
+  public void newPatchSetOnReviewableChangePromotingCcToSilentReviewer() throws Exception {
+    StagedChange sc = stageReviewableChange();
+    // sc.ccer is already CC. Push new patch set promoting sc.ccer to silent reviewer.
+    pushTo(
+        sc, "refs/for/master", sc.owner, ImmutableList.of("r=" + sc.ccer.username() + ":silent"));
+    assertThat(sender)
+        .sent("newpatchset", sc)
+        .to(sc.reviewer)
+        .bcc(sc.starrer)
+        .bcc(NEW_PATCHSETS)
+        .noOneElse();
+    assertThat(sender).didNotSend();
+
+    // Verify sc.ccer is now REVIEWER in NoteDb and no longer in CC
+    ChangeInfo ci = get(sc.changeId, DETAILED_LABELS);
+    Collection<AccountInfo> reviewers =
+        firstNonNull(ci.reviewers.get(ReviewerState.REVIEWER), ImmutableList.<AccountInfo>of());
+    Truth.assertThat(reviewers.stream().map(a -> a._accountId).collect(toList()))
+        .containsExactly(sc.reviewer.id().get(), sc.ccer.id().get());
+    // Filter out null account IDs since CC_BY_EMAIL does not have an account ID
+    Collection<AccountInfo> ccs =
+        firstNonNull(ci.reviewers.get(ReviewerState.CC), ImmutableList.<AccountInfo>of());
+    List<Integer> ccIds =
+        ccs.stream().map(a -> a._accountId).filter(id -> id != null).collect(toList());
+    Truth.assertThat(ccIds).doesNotContain(sc.ccer.id().get());
+  }
+
+  @Test
   public void newPatchSetOnWipChangeAddingReviewer() throws Exception {
     StagedChange sc = stageWipChange();
     TestAccount newReviewer = sc.testAccount("newReviewer");
@@ -2084,6 +2195,23 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
 
   private void pushTo(StagedChange sc, String ref, TestAccount by) throws Exception {
     pushTo(sc, ref, by, ENABLED);
+  }
+
+  private void pushTo(StagedChange sc, String ref, TestAccount by, List<String> pushOptions)
+      throws Exception {
+    setEmailStrategy(by, ENABLED);
+
+    String randomContent = UUID.randomUUID().toString();
+    PushOneCommit push =
+        pushFactory.create(
+            by.newIdent(),
+            sc.repo,
+            "New Patch Set",
+            PushOneCommit.FILE_NAME,
+            randomContent,
+            sc.changeId);
+    push.setPushOptions(pushOptions);
+    push.to(ref).assertOkStatus();
   }
 
   private void pushTo(StagedChange sc, String ref, TestAccount by, EmailStrategy emailStrategy)

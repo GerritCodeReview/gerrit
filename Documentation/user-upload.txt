@@ -442,6 +442,14 @@ automatically avoid sending duplicate email notifications, such as
 if one of the specified reviewers or CC addresses had also requested
 to receive all new change notifications.
 
+Reviewers and CC addresses can also be added silently without sending them an
+email notification by appending `:silent` to the reviewer or CC option when
+passed via push options (`-o`):
+
+----
+  git push -o r=a@a.com:silent -o cc=b@o.com:silent ssh://john.doe@git.example.com:29418/kernel/common HEAD:refs/for/experimental
+----
+
 If you are frequently sending changes to the same parties and/or
 branches, consider adding a custom remote block to your project's
 `.git/config` file:

@@ -433,14 +433,20 @@ public class ReplaceOp implements BatchUpdateOp {
           Streams.concat(
               inputs,
               magicBranch.getReviewers().stream()
-                  .map(r -> newReviewerInput(r, ReviewerState.REVIEWER)),
-              magicBranch.getCcs().stream().map(r -> newReviewerInput(r, ReviewerState.CC)));
+                  .map(r -> newReviewerInput(r, ReviewerState.REVIEWER, false)),
+              magicBranch.getSilentReviewers().stream()
+                  .map(r -> newReviewerInput(r, ReviewerState.REVIEWER, true)),
+              magicBranch.getCcs().stream()
+                  .map(r -> newReviewerInput(r, ReviewerState.CC, false)),
+              magicBranch.getSilentCcs().stream()
+                  .map(r -> newReviewerInput(r, ReviewerState.CC, true)));
     }
 
     return inputs.collect(toImmutableList());
   }
 
-  private static InternalReviewerInput newReviewerInput(String reviewer, ReviewerState state) {
+  private static InternalReviewerInput newReviewerInput(
+      String reviewer, ReviewerState state, boolean silent) {
     // Disable individual emails when adding reviewers, as all reviewers will receive the single
     // bulk new patch set email.
     InternalReviewerInput input =
@@ -449,6 +455,7 @@ public class ReplaceOp implements BatchUpdateOp {
     // Ignore failures for reasons like the reviewer being inactive or being unable to see the
     // change. See discussion in ChangeInserter.
     input.otherFailureBehavior = ReviewerModifier.FailureBehavior.IGNORE_EXCEPT_NOT_FOUND;
+    input.silent = silent;
 
     return input;
   }
@@ -567,12 +574,24 @@ public class ReplaceOp implements BatchUpdateOp {
                 .collect(toImmutableSet()),
             Streams.concat(
                     oldRecipients.getReviewers().stream(),
-                    reviewerAdditions.flattenResults(ReviewerOp.Result::addedReviewers).stream()
+                    reviewerAdditions
+                        .flattenResults(ReviewerOp.Result::addedReviewers, a -> !a.isSilent())
+                        .stream()
                         .map(PatchSetApproval::accountId))
                 .collect(toImmutableSet()),
             Streams.concat(
-                    oldRecipients.getCcOnly().stream(),
-                    reviewerAdditions.flattenResults(ReviewerOp.Result::addedCCs).stream())
+                    oldRecipients.getCcOnly().stream()
+                        .filter(
+                            ccId ->
+                                !reviewerAdditions
+                                    .flattenResults(ReviewerOp.Result::addedReviewers)
+                                    .stream()
+                                    .map(PatchSetApproval::accountId)
+                                    .collect(toImmutableSet())
+                                    .contains(ccId)),
+                    reviewerAdditions
+                        .flattenResults(ReviewerOp.Result::addedCCs, a -> !a.isSilent())
+                        .stream())
                 .collect(toImmutableSet()),
             changeKind,
             notes.getMetaId())

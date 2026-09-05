@@ -190,6 +190,11 @@ public abstract class CurrentUser {
     return get(LAST_LOGIN_EXTERNAL_ID_PROPERTY_KEY);
   }
 
+  /** Returns the immutable {@link PropertyMap} containing properties attached to this user. */
+  public PropertyMap properties() {
+    return properties;
+  }
+
   /**
    * Checks if the current user has the same account id of another.
    *

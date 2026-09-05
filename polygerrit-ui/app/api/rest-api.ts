@@ -1242,6 +1242,16 @@ export declare interface SubmitTypeInfo {
 }
 
 /**
+ * The SubmittedTogetherInfo entity contains information about a collection of
+ * changes that would be submitted together.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#submitted-together-info
+ */
+export declare interface SubmittedTogetherInfo {
+  changes: ChangeInfo[];
+  non_visible_changes: number;
+}
+
+/**
  * The SuggestInfo entity contains information about Gerritconfiguration from
  * the suggest section.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#suggest-info

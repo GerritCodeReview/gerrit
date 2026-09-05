@@ -333,7 +333,7 @@ export class GrSubmitRequirements extends LitElement {
         associatedLabelsWithVotes,
         label =>
           html`<div class="votes-line">
-            ${this.renderLabelVote(label, allLabels)}
+            ${this.renderLabelVote(label, allLabels, requirement)}
             ${this.renderVoteCountHelpLabel(requirement, label, allLabels)}
             ${this.renderOverrideLabels(
               requirement,
@@ -370,12 +370,36 @@ export class GrSubmitRequirements extends LitElement {
     return html`Requires ${count} votes`;
   }
 
-  renderLabelVote(label: string, labels: LabelNameToInfoMap) {
+  renderLabelVote(
+    label: string,
+    labels: LabelNameToInfoMap,
+    requirement?: SubmitRequirementResultInfo
+  ) {
     const labelInfo = labels[label];
     if (isDetailedLabelInfo(labelInfo)) {
       const uniqueApprovals = getAllUniqueApprovals(labelInfo).filter(
         approval => !hasNeutralStatus(labelInfo, approval)
       );
+      const isCoverage =
+        label.toLowerCase().includes('coverage') ||
+        (requirement?.name.toLowerCase().includes('coverage') ?? false);
+
+      if (isCoverage && uniqueApprovals.length > 0) {
+        const runtimeVotes = uniqueApprovals.filter(a => !a.is_ai);
+        const aiVotes = uniqueApprovals.filter(a => !!a.is_ai);
+        // Runtime execution takes precedence over AI prediction
+        const authoritativeVote =
+          runtimeVotes.length > 0 ? runtimeVotes[0] : aiVotes[0];
+        if (!authoritativeVote) return [];
+        return [
+          html`<gr-vote-chip
+            .vote=${authoritativeVote}
+            .label=${labelInfo}
+            .more=${false}
+          ></gr-vote-chip>`,
+        ];
+      }
+
       return uniqueApprovals.map(
         approvalInfo =>
           html`<gr-vote-chip

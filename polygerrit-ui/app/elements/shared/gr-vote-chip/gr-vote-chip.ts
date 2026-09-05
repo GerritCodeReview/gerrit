@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../gr-tooltip-content/gr-tooltip-content';
+import '../gr-icon/gr-icon';
 import {css, html, LitElement, TemplateResult} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
 import {
@@ -47,6 +48,9 @@ export class GrVoteChip extends LitElement {
 
   @property({type: Boolean, attribute: 'tooltip-with-who-voted'})
   tooltipWithWhoVoted = false;
+
+  @property({type: Boolean})
+  isAi = false;
 
   static override get styles() {
     return [
@@ -93,10 +97,26 @@ export class GrVoteChip extends LitElement {
           height: var(--gr-vote-chip-height, 16px);
           font-size: var(--font-size-small);
           justify-content: center;
+          align-items: center;
           padding: 1px;
           border-radius: var(--border-radius);
           line-height: var(--gr-vote-chip-width, 16px);
           color: var(--vote-text-color);
+        }
+        .vote-chip.has-ai,
+        .chip-angle.has-ai {
+          width: auto;
+          min-width: 16px;
+          padding: 1px 4px;
+          gap: 2px;
+        }
+        .vote-chip gr-icon.ai-icon,
+        .chip-angle gr-icon.ai-icon {
+          --gr-icon-size: 11px;
+          color: currentColor;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
         }
         .more > .vote-chip {
           position: relative;
@@ -125,14 +145,21 @@ export class GrVoteChip extends LitElement {
     const renderValue = this.renderValue();
     if (!renderValue) return;
 
+    const isAi = this.computeIsAi();
     return html`<gr-tooltip-content
       class="container ${this.more ? 'more' : ''}"
       title=${this.computeTooltip(renderValue)}
       has-tooltip
     >
-      <div class="vote-chip ${this.computeClass()}">${renderValue}</div>
+      <div class="vote-chip ${this.computeClass()} ${isAi ? 'has-ai' : ''}">
+        ${isAi ? html`<gr-icon icon="ai" class="ai-icon"></gr-icon>` : ''}
+        ${renderValue}
+      </div>
       ${this.more
-        ? html`<div class="chip-angle ${this.computeClass()}">
+        ? html`<div
+            class="chip-angle ${this.computeClass()} ${isAi ? 'has-ai' : ''}"
+          >
+            ${isAi ? html`<gr-icon icon="ai" class="ai-icon"></gr-icon>` : ''}
             ${renderValue}
           </div>`
         : ''}
@@ -173,6 +200,10 @@ export class GrVoteChip extends LitElement {
     }
   }
 
+  private computeIsAi() {
+    return this.isAi || !!this.vote?.is_ai;
+  }
+
   private computeTooltip(renderValue: string | TemplateResult<1>) {
     if (!this.label || !isDetailedLabelInfo(this.label)) {
       return '';
@@ -182,8 +213,16 @@ export class GrVoteChip extends LitElement {
         ? this.label.values?.[renderValue] ?? ''
         : '';
 
+    const isAi = this.computeIsAi();
     if (this.tooltipWithWhoVoted && this.vote) {
-      return `${this.vote?.name}: ${voteDescription}`;
+      const who = isAi
+        ? `${this.vote?.name} (Predicted by AI)`
+        : this.vote?.name;
+      return `${who}: ${voteDescription}`;
+    } else if (isAi) {
+      return voteDescription
+        ? `Predicted by AI: ${voteDescription}`
+        : 'Predicted by AI';
     } else {
       return voteDescription;
     }

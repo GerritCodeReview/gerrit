@@ -283,6 +283,7 @@ class ReceiveCommits {
   public static final String DIRECT_PUSH_JUSTIFICATION_OPTION = "push-justification";
 
   private static final String CUSTOM_KEYED_VALUE_OPTION = "custom-keyed-value";
+  private static final String SILENT_SUFFIX = ":silent";
 
   interface Factory {
     ReceiveCommits create(
@@ -1867,6 +1868,8 @@ class ReceiveCommits {
     PermissionBackend.ForRef perm;
     Set<String> reviewer = Sets.newLinkedHashSet();
     Set<String> cc = Sets.newLinkedHashSet();
+    Set<String> silentReviewer = Sets.newLinkedHashSet();
+    Set<String> silentCc = Sets.newLinkedHashSet();
     Map<String, Short> labels = new HashMap<>();
     String message;
     List<RevCommit> baseCommit;
@@ -1979,14 +1982,36 @@ class ReceiveCommits {
         name = "--reviewer",
         aliases = {"-r"},
         metaVar = "REVIEWER",
-        usage = "add reviewer to changes")
-    void reviewer(String str) {
-      reviewer.add(str);
+        usage = "add reviewer to changes (append ':silent' via push option to suppress email)")
+    void reviewer(String str) throws CmdLineException {
+      parseReviewerOrCc(str, "reviewer", reviewer, silentReviewer);
     }
 
-    @Option(name = "--cc", metaVar = "CC", usage = "add CC to changes")
-    void cc(String str) {
-      cc.add(str);
+    @Option(
+        name = "--cc",
+        metaVar = "CC",
+        usage = "add CC to changes (append ':silent' via push option to suppress email)")
+    void cc(String str) throws CmdLineException {
+      parseReviewerOrCc(str, "CC", cc, silentCc);
+    }
+
+    // Note: The ":silent" suffix is only supported when passed via push options (-o) because
+    // colons (":") cannot be used in Git ref names or refspecs (they serve as the <src>:<dst>
+    // delimiter and are rejected by git-check-ref-format client-side).
+    private void parseReviewerOrCc(
+        String str, String optionName, Set<String> normalSet, Set<String> silentSet)
+        throws CmdLineException {
+      if (str.endsWith(SILENT_SUFFIX)) {
+        String name = str.substring(0, str.length() - SILENT_SUFFIX.length());
+        if (name.isEmpty()) {
+          throw cmdLineParser.reject(optionName + " identifier cannot be empty");
+        }
+        // If an account is specified as silent, keep it silent even if also specified normally.
+        silentSet.add(name);
+        normalSet.remove(name);
+      } else if (!silentSet.contains(str)) {
+        normalSet.add(str);
+      }
     }
 
     @Option(
@@ -2074,6 +2099,15 @@ class ReceiveCommits {
     }
 
     /**
+     * Get silent reviewer strings from magic branch options
+     *
+     * @return set of silent reviewer strings to pass to {@code ReviewerModifier}.
+     */
+    ImmutableSet<String> getSilentReviewers() {
+      return ImmutableSet.copyOf(silentReviewer);
+    }
+
+    /**
      * Get CC strings from magic branch options
      *
      * <p>The set of CCs on a change includes strings passed explicitly via options
@@ -2081,7 +2115,20 @@ class ReceiveCommits {
      * @return set of CC strings to pass to {@code ReviewerModifier}.
      */
     ImmutableSet<String> getCcs() {
-      return ImmutableSet.copyOf(cc);
+      return ImmutableSet.copyOf(Sets.difference(cc, reviewersAndSilentReviewers()));
+    }
+
+    /**
+     * Get silent CC strings from magic branch options
+     *
+     * @return set of silent CC strings to pass to {@code ReviewerModifier}.
+     */
+    ImmutableSet<String> getSilentCcs() {
+      return ImmutableSet.copyOf(Sets.difference(silentCc, reviewersAndSilentReviewers()));
+    }
+
+    private Set<String> reviewersAndSilentReviewers() {
+      return Sets.union(reviewer, silentReviewer);
     }
 
     void setWithholdComments(boolean withholdComments) {
@@ -3163,10 +3210,17 @@ class ReceiveCommits {
 
           bu.setNotify(magicBranch.getNotifyForNewChange());
           logger.atFine().log(
-              "Inserting change with reviewers %s and ccs %s",
-              magicBranch.getReviewers(), magicBranch.getCcs());
+              "Inserting change with reviewers %s (silent: %s) and ccs %s (silent: %s)",
+              magicBranch.getReviewers(),
+              magicBranch.getSilentReviewers(),
+              magicBranch.getCcs(),
+              magicBranch.getSilentCcs());
           bu.insertChange(
-              ins.setReviewersAndCcsAsStrings(magicBranch.getReviewers(), magicBranch.getCcs())
+              ins.setReviewersAndCcsAsStrings(
+                      magicBranch.getReviewers(),
+                      magicBranch.getCcs(),
+                      magicBranch.getSilentReviewers(),
+                      magicBranch.getSilentCcs())
                   .setApprovals(approvals)
                   .setMessage(msg.toString())
                   .setRequestScopePropagator(requestScopePropagator)

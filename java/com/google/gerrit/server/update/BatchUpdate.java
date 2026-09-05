@@ -307,7 +307,7 @@ public class BatchUpdate implements AutoCloseable {
   private final Map<Change.Id, Change> newChanges = new HashMap<>();
   private final List<OpData<RepoOnlyOp>> repoOnlyOps = new ArrayList<>();
   private final Map<Change.Id, NotifyHandling> perChangeNotifyHandling = new HashMap<>();
-  private final Config gerritConfig;
+  private Config gerritConfig;
 
   private RepoView repoView;
   private ImmutableMultimap<Project.NameKey, BatchRefUpdate> batchRefUpdate;
@@ -561,10 +561,11 @@ public class BatchUpdate implements AutoCloseable {
     }
   }
 
-  // For upstream implementation, AccessPath.WEB_BROWSER is never set, so the method will always
-  // return false.
+  // Asynchronous change indexing is performed for WEB_BROWSER requests or for non-service
+  // users (such as interactive git pushes) when enabled in gerrit.config.
+  @VisibleForTesting
   @UsedAt(GOOGLE)
-  private boolean indexAsync() {
+  boolean indexAsync() {
     if (!gerritConfig.getBoolean("index", "indexChangesAsync", false)) {
       return false;
     }
@@ -574,6 +575,13 @@ public class BatchUpdate implements AutoCloseable {
     }
 
     return user.isIdentifiedUser() && !serviceUserClassifier.isServiceUser(user.getAccountId());
+  }
+
+  @CanIgnoreReturnValue
+  @VisibleForTesting
+  BatchUpdate setGerritConfigForTesting(Config gerritConfig) {
+    this.gerritConfig = gerritConfig;
+    return this;
   }
 
   void fireRefChangeEvents() {

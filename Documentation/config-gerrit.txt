@@ -4070,10 +4070,10 @@ Defaults to `false`.
 [[index.indexChangesAsync]]index.indexChangesAsync::
 +
 On BatchUpdate, do not await indexing completion before returning the request
-to the user (WEB_BROWSER requests only).
-This has an advantage of faster UI (because indexing latency does not contribute
-to the write request latency) and disadvantage that the indexing result might not be
-immediately available after the write request.
+to the user (WEB_BROWSER requests and non-service user requests, e.g. git push).
+This has an advantage of faster response times (because indexing latency does not
+contribute to the write request latency) and disadvantage that the indexing result
+might not be immediately available after the write request.
 +
 Defaults to `false`.
 

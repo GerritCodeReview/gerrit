@@ -142,9 +142,7 @@ Service users have the following special behaviour:
   `tags` field in link:rest-api-accounts.html#account-info[AccountInfo]).
 * Change indexing is done synchronously for service users only if
   link:config-gerrit.html#index.indexChangesAsync[asynchronous change indexing]
-  is enabled in the Gerrit config (and the
-  `GerritBackendFeature__do_change_indexing_asynchronously_for_non_service_users`
-  experiment is enabled).
+  is enabled in the Gerrit config.
 * For Gerrit servers at Google, querying the change index uses strong reads only
   for service users. Other users may get results that are stale by a few
   seconds.

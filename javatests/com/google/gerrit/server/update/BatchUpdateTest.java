@@ -30,6 +30,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
@@ -83,6 +84,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import com.google.gerrit.server.AccessPath;
+import com.google.gerrit.server.account.ServiceUserClassifier;
+import com.google.gerrit.server.group.db.GroupDelta;
+import com.google.gerrit.server.group.db.GroupsUpdate;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
@@ -121,6 +126,8 @@ public class BatchUpdateTest {
   @Inject private AbandonOp.Factory abandonOpFactory;
   @Inject @GerritPersonIdent private PersonIdent serverIdent;
   @Inject private RetryHelper retryHelper;
+  @Inject private com.google.gerrit.server.account.GroupCache groupCache;
+  @Inject @com.google.gerrit.server.ServerInitiated private Provider<GroupsUpdate> groupsUpdateProvider;
 
   @Rule public final MockitoRule mockito = MockitoJUnit.rule();
 
@@ -957,6 +964,68 @@ public class BatchUpdateTest {
     @Override
     public void postUpdate(PostUpdateContext ctx) {
       postUpdateUser = ctx.getUser();
+    }
+  }
+
+  @Test
+  public void indexAsync_disabledByDefault() throws Exception {
+    try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.now())) {
+      assertThat(bu.indexAsync()).isFalse();
+    }
+  }
+
+  @Test
+  public void indexAsync_whenEnabled_returnsTrueForWebBrowser() throws Exception {
+    Config cfg = new Config();
+    cfg.setBoolean("index", null, "indexChangesAsync", true);
+
+    IdentifiedUser u = user.get().asIdentifiedUser();
+    u.setAccessPath(AccessPath.WEB_BROWSER);
+
+    try (BatchUpdate bu = batchUpdateFactory.create(project, u, TimeUtil.now())) {
+      bu.setGerritConfigForTesting(cfg);
+      assertThat(bu.indexAsync()).isTrue();
+    }
+  }
+
+  @Test
+  public void indexAsync_whenEnabled_returnsTrueForNonServiceUserGitPush() throws Exception {
+    Config cfg = new Config();
+    cfg.setBoolean("index", null, "indexChangesAsync", true);
+
+    IdentifiedUser u = user.get().asIdentifiedUser();
+    u.setAccessPath(AccessPath.GIT);
+
+    try (BatchUpdate bu = batchUpdateFactory.create(project, u, TimeUtil.now())) {
+      bu.setGerritConfigForTesting(cfg);
+      assertThat(bu.indexAsync()).isTrue();
+    }
+  }
+
+  @Test
+  public void indexAsync_whenEnabled_returnsFalseForServiceUserGitPush() throws Exception {
+    Config cfg = new Config();
+    cfg.setBoolean("index", null, "indexChangesAsync", true);
+
+    Account.Id serviceUserAccountId =
+        accountManager.authenticate(authRequestFactory.createForUser("robot")).getAccountId();
+    IdentifiedUser serviceUser = userFactory.create(serviceUserAccountId);
+    serviceUser.setAccessPath(AccessPath.GIT);
+
+    // Add serviceUser to "Service Users" group
+    AccountGroup.UUID serviceUsersUuid =
+        groupCache.get(AccountGroup.nameKey(ServiceUserClassifier.SERVICE_USERS))
+            .orElseThrow()
+            .getGroupUUID();
+    GroupDelta delta =
+        GroupDelta.builder()
+            .setMemberModification(members -> ImmutableSet.<Account.Id>builder().addAll(members).add(serviceUserAccountId).build())
+            .build();
+    groupsUpdateProvider.get().updateGroup(serviceUsersUuid, delta);
+
+    try (BatchUpdate bu = batchUpdateFactory.create(project, serviceUser, TimeUtil.now())) {
+      bu.setGerritConfigForTesting(cfg);
+      assertThat(bu.indexAsync()).isFalse();
     }
   }
 }

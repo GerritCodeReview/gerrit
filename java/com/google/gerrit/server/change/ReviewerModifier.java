@@ -85,6 +85,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
@@ -137,6 +138,9 @@ public class ReviewerModifier {
      * <p>If false, and the account is already a REVIEWER, the state will remain REVIEWER.
      */
     public boolean allowDowngradeToCc = true;
+
+    /** Whether the reviewer/CC was added silently (omitted from outgoing notification emails). */
+    public boolean silent = false;
   }
 
   public static InternalReviewerInput newReviewerInput(
@@ -146,6 +150,15 @@ public class ReviewerModifier {
     in.state = state;
     in.notify = notify;
     return in;
+  }
+
+  public static InternalReviewerInput newReviewerInput(
+      String reviewer, ReviewerState state, boolean skipVisibilityCheck, boolean silent) {
+    InternalReviewerInput input = newReviewerInput(reviewer, state, NotifyHandling.NONE);
+    input.otherFailureBehavior = FailureBehavior.IGNORE_EXCEPT_NOT_FOUND;
+    input.skipVisibilityCheck = skipVisibilityCheck;
+    input.silent = silent;
+    return input;
   }
 
   public static Optional<InternalReviewerInput> newReviewerInputFromCommitIdentity(
@@ -476,6 +489,19 @@ public class ReviewerModifier {
     private final ReviewerInput input;
     @Nullable private final FailureType failureType;
 
+    public static final Predicate<ReviewerModification> NOT_SILENT =
+        m ->
+            !(m.input() instanceof InternalReviewerInput)
+                || !((InternalReviewerInput) m.input()).silent;
+
+    public ReviewerInput input() {
+      return input;
+    }
+
+    public boolean isSilent() {
+      return input instanceof InternalReviewerInput && ((InternalReviewerInput) input).silent;
+    }
+
     private ReviewerModification(ReviewerInput input, FailureType failureType) {
       this.input = input;
       this.failureType = requireNonNull(failureType);
@@ -713,12 +739,19 @@ public class ReviewerModifier {
 
     public <T> ImmutableSet<T> flattenResults(
         Function<ReviewerOp.Result, ? extends Collection<T>> func) {
+      return flattenResults(func, a -> true);
+    }
+
+    public <T> ImmutableSet<T> flattenResults(
+        Function<ReviewerOp.Result, ? extends Collection<T>> func,
+        Predicate<ReviewerModification> filter) {
       modifications()
           .forEach(
               a ->
                   checkArgument(
                       a.op != null && a.op.getResult() != null, "missing result on %s", a));
       return modifications().stream()
+          .filter(filter)
           .map(a -> a.op.getResult())
           .map(func)
           .flatMap(Collection::stream)

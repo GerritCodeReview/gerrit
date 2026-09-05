@@ -348,26 +348,55 @@ public class ChangeInserter implements InsertChangeOp {
     return setReviewersAndCcsAsStrings(
         Iterables.transform(reviewers, Account.Id::toString),
         Iterables.transform(ccs, Account.Id::toString),
+        ImmutableList.of(),
+        ImmutableList.of(),
         /* skipVisibilityCheck= */ true);
   }
 
   @CanIgnoreReturnValue
   public ChangeInserter setReviewersAndCcsAsStrings(
       Iterable<String> reviewers, Iterable<String> ccs) {
-    return setReviewersAndCcsAsStrings(reviewers, ccs, /* skipVisibilityCheck= */ false);
+    return setReviewersAndCcsAsStrings(
+        reviewers, ccs, ImmutableList.of(), ImmutableList.of(), /* skipVisibilityCheck= */ false);
+  }
+
+  @CanIgnoreReturnValue
+  public ChangeInserter setReviewersAndCcsAsStrings(
+      Iterable<String> reviewers,
+      Iterable<String> ccs,
+      Iterable<String> silentReviewers,
+      Iterable<String> silentCcs) {
+    return setReviewersAndCcsAsStrings(
+        reviewers, ccs, silentReviewers, silentCcs, /* skipVisibilityCheck= */ false);
   }
 
   @CanIgnoreReturnValue
   private ChangeInserter setReviewersAndCcsAsStrings(
-      Iterable<String> reviewers, Iterable<String> ccs, boolean skipVisibilityCheck) {
+      Iterable<String> reviewers,
+      Iterable<String> ccs,
+      Iterable<String> silentReviewers,
+      Iterable<String> silentCcs,
+      boolean skipVisibilityCheck) {
     reviewerInputs =
         Streams.concat(
                 Streams.stream(reviewers)
                     .distinct()
-                    .map(id -> newReviewerInput(id, ReviewerState.REVIEWER, skipVisibilityCheck)),
+                    .map(
+                        id ->
+                            newReviewerInput(
+                                id, ReviewerState.REVIEWER, skipVisibilityCheck, false)),
+                Streams.stream(silentReviewers)
+                    .distinct()
+                    .map(
+                        id ->
+                            newReviewerInput(
+                                id, ReviewerState.REVIEWER, skipVisibilityCheck, true)),
                 Streams.stream(ccs)
                     .distinct()
-                    .map(id -> newReviewerInput(id, ReviewerState.CC, skipVisibilityCheck)))
+                    .map(id -> newReviewerInput(id, ReviewerState.CC, skipVisibilityCheck, false)),
+                Streams.stream(silentCcs)
+                    .distinct()
+                    .map(id -> newReviewerInput(id, ReviewerState.CC, skipVisibilityCheck, true)))
             .collect(toImmutableList());
     return this;
   }
@@ -614,15 +643,20 @@ public class ChangeInserter implements InsertChangeOp {
                     emailFactories.createStartReviewChangeEmail();
                 startReviewEmail.markAsCreateChange();
                 startReviewEmail.addReviewers(
-                    reviewerAdditions.flattenResults(ReviewerOp.Result::addedReviewers).stream()
+                    reviewerAdditions
+                        .flattenResults(ReviewerOp.Result::addedReviewers, a -> !a.isSilent())
+                        .stream()
                         .map(PatchSetApproval::accountId)
                         .collect(toImmutableSet()));
                 startReviewEmail.addReviewersByEmail(
-                    reviewerAdditions.flattenResults(ReviewerOp.Result::addedReviewersByEmail));
+                    reviewerAdditions.flattenResults(
+                        ReviewerOp.Result::addedReviewersByEmail, a -> !a.isSilent()));
                 startReviewEmail.addExtraCC(
-                    reviewerAdditions.flattenResults(ReviewerOp.Result::addedCCs));
+                    reviewerAdditions.flattenResults(
+                        ReviewerOp.Result::addedCCs, a -> !a.isSilent()));
                 startReviewEmail.addExtraCCByEmail(
-                    reviewerAdditions.flattenResults(ReviewerOp.Result::addedCCsByEmail));
+                    reviewerAdditions.flattenResults(
+                        ReviewerOp.Result::addedCCsByEmail, a -> !a.isSilent()));
                 ChangeEmail changeEmail =
                     emailFactories.createChangeEmail(
                         change.getProject(), change.getId(), startReviewEmail);
@@ -740,9 +774,9 @@ public class ChangeInserter implements InsertChangeOp {
   }
 
   private static InternalReviewerInput newReviewerInput(
-      String reviewer, ReviewerState state, boolean skipVisibilityCheck) {
-    // Disable individual emails when adding reviewers, as all reviewers will receive the single
-    // bulk new change email.
+      String reviewer, ReviewerState state, boolean skipVisibilityCheck, boolean silent) {
+    // Disable individual emails when adding reviewers, as non-silent reviewers will receive the
+    // single bulk new change email.
     InternalReviewerInput input =
         ReviewerModifier.newReviewerInput(reviewer, state, NotifyHandling.NONE);
 
@@ -754,6 +788,7 @@ public class ChangeInserter implements InsertChangeOp {
     input.otherFailureBehavior = ReviewerModifier.FailureBehavior.IGNORE_EXCEPT_NOT_FOUND;
 
     input.skipVisibilityCheck = skipVisibilityCheck;
+    input.silent = silent;
 
     return input;
   }

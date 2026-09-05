@@ -37,6 +37,8 @@ web_test_runner(
         "//polygerrit-ui:node_modules",
         "//polygerrit-ui/app:node_modules",
         "//polygerrit-ui/app:web-test-runner_app-sources",
+        "//lib/fonts:robotofonts",
+        "//lib/fonts:material-icons",
     ],
 )
 

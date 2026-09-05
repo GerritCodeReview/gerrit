@@ -40,7 +40,8 @@ public enum PatchSetApprovalProtoConverter
             .setValue(patchSetApproval.value())
             .setGranted(patchSetApproval.granted().toEpochMilli())
             .setPostSubmit(patchSetApproval.postSubmit())
-            .setCopied(patchSetApproval.copied());
+            .setCopied(patchSetApproval.copied())
+            .setIsAi(patchSetApproval.isAi());
 
     patchSetApproval.uuid().ifPresent(uuid -> builder.setUuid(uuid.get()));
     patchSetApproval.tag().ifPresent(builder::setTag);
@@ -73,6 +74,9 @@ public enum PatchSetApprovalProtoConverter
     }
     if (proto.hasRealAccountId()) {
       builder.realAccountId(accountIdConverter.fromProto(proto.getRealAccountId()));
+    }
+    if (proto.hasIsAi()) {
+      builder.isAi(proto.getIsAi());
     }
     return builder.build();
   }

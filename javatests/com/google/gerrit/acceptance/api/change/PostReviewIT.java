@@ -62,6 +62,7 @@ import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
@@ -1413,6 +1414,73 @@ public class PostReviewIT extends AbstractDaemonTest {
     com.google.gerrit.extensions.common.CommentInfo commentInfo = comments.get(0);
     assertThat(commentInfo.message).isEqualTo("AI draft");
     assertThat(commentInfo.isAi).isTrue();
+  }
+
+  @Test
+  public void postReviewWithIsAiVote() throws Exception {
+    PushOneCommit.Result r = createChange();
+    ReviewInput input = new ReviewInput().label(LabelId.CODE_REVIEW, 1, true);
+    gApi.changes().id(r.getChangeId()).current().review(input);
+
+    ChangeInfo c = gApi.changes().id(r.getChangeId()).get(ListChangesOption.DETAILED_LABELS);
+    ApprovalInfo approval = Iterables.getOnlyElement(c.labels.get(LabelId.CODE_REVIEW).all);
+    assertThat(approval.value).isEqualTo(1);
+    assertThat(approval.isAi).isTrue();
+  }
+
+  @Test
+  public void postReviewWithGlobalIsAiFlag() throws Exception {
+    PushOneCommit.Result r = createChange();
+    ReviewInput input = new ReviewInput().label(LabelId.CODE_REVIEW, 1);
+    input.isAi = true;
+    gApi.changes().id(r.getChangeId()).current().review(input);
+
+    ChangeInfo c = gApi.changes().id(r.getChangeId()).get(ListChangesOption.DETAILED_LABELS);
+    ApprovalInfo approval = Iterables.getOnlyElement(c.labels.get(LabelId.CODE_REVIEW).all);
+    assertThat(approval.value).isEqualTo(1);
+    assertThat(approval.isAi).isTrue();
+  }
+
+  @Test
+  public void postReviewRuntimeVoteSupersedesAiVote() throws Exception {
+    PushOneCommit.Result r = createChange();
+    // First vote with AI
+    ReviewInput aiInput = new ReviewInput().label(LabelId.CODE_REVIEW, 1, true);
+    gApi.changes().id(r.getChangeId()).current().review(aiInput);
+
+    ChangeInfo c = gApi.changes().id(r.getChangeId()).get(ListChangesOption.DETAILED_LABELS);
+    ApprovalInfo approval = Iterables.getOnlyElement(c.labels.get(LabelId.CODE_REVIEW).all);
+    assertThat(approval.isAi).isTrue();
+
+    // Later human/runtime votes on same label
+    ReviewInput runtimeInput = new ReviewInput().label(LabelId.CODE_REVIEW, 2);
+    gApi.changes().id(r.getChangeId()).current().review(runtimeInput);
+
+    c = gApi.changes().id(r.getChangeId()).get(ListChangesOption.DETAILED_LABELS);
+    approval = Iterables.getOnlyElement(c.labels.get(LabelId.CODE_REVIEW).all);
+    assertThat(approval.value).isEqualTo(2);
+    assertThat(approval.isAi).isNull();
+  }
+
+  @Test
+  public void postReviewRuntimeVoteWithSameValueClearsAiFlag() throws Exception {
+    PushOneCommit.Result r = createChange();
+    // Vote +1 with AI
+    ReviewInput aiInput = new ReviewInput().label(LabelId.CODE_REVIEW, 1, true);
+    gApi.changes().id(r.getChangeId()).current().review(aiInput);
+
+    ChangeInfo c = gApi.changes().id(r.getChangeId()).get(ListChangesOption.DETAILED_LABELS);
+    ApprovalInfo approval = Iterables.getOnlyElement(c.labels.get(LabelId.CODE_REVIEW).all);
+    assertThat(approval.isAi).isTrue();
+
+    // Vote +1 without AI (value unchanged, but isAi cleared)
+    ReviewInput runtimeInput = new ReviewInput().label(LabelId.CODE_REVIEW, 1);
+    gApi.changes().id(r.getChangeId()).current().review(runtimeInput);
+
+    c = gApi.changes().id(r.getChangeId()).get(ListChangesOption.DETAILED_LABELS);
+    approval = Iterables.getOnlyElement(c.labels.get(LabelId.CODE_REVIEW).all);
+    assertThat(approval.value).isEqualTo(1);
+    assertThat(approval.isAi).isNull();
   }
 
   private static void assertAttentionSet(

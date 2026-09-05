@@ -362,4 +362,74 @@ suite('gr-submit-requirements tests', () => {
       'submit-requirement-codeowners'
     );
   });
+
+  suite('code-coverage submit requirement', () => {
+    test('renders AI prediction vote when only AI vote is present', async () => {
+      const aiVote = {
+        ...createApproval(),
+        value: 2,
+        is_ai: true,
+      };
+      const modifiedChange = {...change};
+      modifiedChange.labels = {
+        'Code-Coverage': {
+          ...createDetailedLabelInfo(),
+          all: [aiVote],
+        },
+      };
+      modifiedChange.submit_requirements = [
+        {
+          ...createSubmitRequirementResultInfo(),
+          name: 'Code-Coverage',
+          status: SubmitRequirementStatus.SATISFIED,
+          submittability_expression_result:
+            createSubmitRequirementExpressionInfo('label:Code-Coverage=MAX'),
+        },
+      ];
+      element.change = modifiedChange;
+      await element.updateComplete;
+
+      const voteChips = element.shadowRoot?.querySelectorAll('gr-vote-chip');
+      assert.equal(voteChips?.length, 1);
+      assert.isTrue(voteChips?.[0].vote?.is_ai);
+      assert.isFalse(voteChips?.[0].more);
+    });
+
+    test('runtime execution vote supersedes AI prediction vote', async () => {
+      const aiVote = {
+        ...createApproval(),
+        value: 2,
+        is_ai: true,
+      };
+      const runtimeVote = {
+        ...createApproval(),
+        value: 1,
+        is_ai: false,
+      };
+      const modifiedChange = {...change};
+      modifiedChange.labels = {
+        'Code-Coverage': {
+          ...createDetailedLabelInfo(),
+          all: [aiVote, runtimeVote],
+        },
+      };
+      modifiedChange.submit_requirements = [
+        {
+          ...createSubmitRequirementResultInfo(),
+          name: 'Code-Coverage',
+          status: SubmitRequirementStatus.UNSATISFIED,
+          submittability_expression_result:
+            createSubmitRequirementExpressionInfo('label:Code-Coverage=MAX'),
+        },
+      ];
+      element.change = modifiedChange;
+      await element.updateComplete;
+
+      const voteChips = element.shadowRoot?.querySelectorAll('gr-vote-chip');
+      assert.equal(voteChips?.length, 1);
+      assert.isNotTrue(voteChips?.[0].vote?.is_ai);
+      assert.equal(voteChips?.[0].vote?.value, 1);
+      assert.isFalse(voteChips?.[0].more);
+    });
+  });
 });

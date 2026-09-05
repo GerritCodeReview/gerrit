@@ -59,6 +59,9 @@ public class ApprovalInfo extends AccountInfo {
    */
   public VotingRangeInfo permittedVotingRange;
 
+  /** Whether this vote was cast by an AI service. */
+  public Boolean isAi;
+
   public ApprovalInfo(Integer id) {
     super(id);
   }
@@ -69,11 +72,22 @@ public class ApprovalInfo extends AccountInfo {
       @Nullable VotingRangeInfo permittedVotingRange,
       @Nullable String tag,
       @Nullable Timestamp date) {
+    this(id, value, permittedVotingRange, tag, date, null);
+  }
+
+  public ApprovalInfo(
+      Integer id,
+      @Nullable Integer value,
+      @Nullable VotingRangeInfo permittedVotingRange,
+      @Nullable String tag,
+      @Nullable Timestamp date,
+      @Nullable Boolean isAi) {
     super(id);
     this.value = value;
     this.permittedVotingRange = permittedVotingRange;
     this.date = date;
     this.tag = tag;
+    this.isAi = isAi;
   }
 
   public ApprovalInfo(
@@ -82,10 +96,21 @@ public class ApprovalInfo extends AccountInfo {
       @Nullable VotingRangeInfo permittedVotingRange,
       @Nullable String tag,
       @Nullable Instant date) {
+    this(id, value, permittedVotingRange, tag, date, null);
+  }
+
+  public ApprovalInfo(
+      Integer id,
+      @Nullable Integer value,
+      @Nullable VotingRangeInfo permittedVotingRange,
+      @Nullable String tag,
+      @Nullable Instant date,
+      @Nullable Boolean isAi) {
     super(id);
     this.value = value;
     this.permittedVotingRange = permittedVotingRange;
     this.tag = tag;
+    this.isAi = isAi;
     if (date != null) {
       setDate(date);
     }
@@ -107,18 +132,19 @@ public class ApprovalInfo extends AccountInfo {
           && Objects.equals(value, approvalInfo.value)
           && Objects.equals(date, approvalInfo.date)
           && Objects.equals(postSubmit, approvalInfo.postSubmit)
-          && Objects.equals(permittedVotingRange, approvalInfo.permittedVotingRange);
+          && Objects.equals(permittedVotingRange, approvalInfo.permittedVotingRange)
+          && Objects.equals(isAi, approvalInfo.isAi);
     }
     return false;
   }
 
   @Override
   public String toString() {
-    return super.toString() + ", value=" + this.value;
+    return super.toString() + ", value=" + this.value + (isAi != null ? ", isAi=" + isAi : "");
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(super.hashCode(), tag, value, date, postSubmit, permittedVotingRange);
+    return Objects.hash(super.hashCode(), tag, value, date, postSubmit, permittedVotingRange, isAi);
   }
 }

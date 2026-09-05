@@ -177,5 +177,92 @@ suite('gr-vote-chip tests', () => {
         </gr-tooltip-content>`
       );
     });
+
+    test('renders AI indicator when vote.is_ai is true', async () => {
+      const aiVote: ApprovalInfo = {
+        ...createApproval(),
+        value: 2,
+        is_ai: true,
+      };
+      const labelInfoWithValues = {
+        ...createDetailedLabelInfo(),
+        values: {'+2': 'Approved'},
+      };
+      element = await fixture<GrVoteChip>(
+        html`<gr-vote-chip
+          .label=${labelInfoWithValues}
+          .vote=${aiVote}
+        ></gr-vote-chip>`
+      );
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ ` <gr-tooltip-content
+          class="container"
+          has-tooltip=""
+          title="Predicted by AI: Approved"
+        >
+          <div class="has-ai max vote-chip">
+            <gr-icon class="ai-icon" custom="" icon="ai"></gr-icon>
+            +2
+          </div>
+        </gr-tooltip-content>`
+      );
+    });
+
+    test('renders AI indicator when isAi property is true', async () => {
+      element = await fixture<GrVoteChip>(
+        html`<gr-vote-chip
+          .label=${labelInfo}
+          .vote=${vote}
+          .isAi=${true}
+        ></gr-vote-chip>`
+      );
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ ` <gr-tooltip-content
+          class="container"
+          has-tooltip=""
+          title="Predicted by AI"
+        >
+          <div class="has-ai positive vote-chip">
+            <gr-icon class="ai-icon" custom="" icon="ai"></gr-icon>
+            +2
+          </div>
+        </gr-tooltip-content>`
+      );
+    });
+
+    test('renders AI indicator with tooltip who voted', async () => {
+      const aiVote: ApprovalInfo = {
+        ...createApproval(),
+        name: 'Gerrit AI',
+        value: 2,
+        is_ai: true,
+      };
+      const labelInfoWithAll = {
+        all: [{value: 2}],
+        values: {'+2': 'Great'},
+      };
+      element = await fixture<GrVoteChip>(
+        html`<gr-vote-chip
+          .label=${labelInfoWithAll}
+          .vote=${aiVote}
+          tooltip-with-who-voted
+        ></gr-vote-chip>`
+      );
+      assert.shadowDom.equal(
+        element,
+        /* HTML */ ` <gr-tooltip-content
+          class="container"
+          has-tooltip=""
+          title="Gerrit AI (Predicted by AI): Great"
+        >
+          <div class="has-ai max vote-chip">
+            <gr-icon class="ai-icon" custom="" icon="ai"></gr-icon>
+            +2
+          </div>
+        </gr-tooltip-content>`
+      );
+    });
   });
 });

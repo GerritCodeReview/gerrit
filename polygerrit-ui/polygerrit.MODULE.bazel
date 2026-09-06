@@ -21,11 +21,17 @@
 #    package.json. At the same time we want to avoid accidental usages of code
 #    from devDependencies in polygerrit bundle.
 
-rules_ts_ext = use_extension("@aspect_rules_ts//ts:extensions.bzl", "ext", dev_dependency = True)
-rules_ts_ext.deps(
-    ts_version_from = "@npm//:typescript/resolved.json",
-)
-use_repo(rules_ts_ext, "npm_typescript")
+# Bazel compiles PolyGerrit with the native, Go-based TypeScript 7
+# compiler, which type-checks and transpiles ~4x faster than the JS-based
+# tsc. It is pinned explicitly (decoupled from the npm `typescript`
+# version) because the JS-API lint toolchain -- typescript-eslint, gts,
+# lit-analyzer -- does not support TS 7 yet, so the npm `typescript`
+# dependency stays on 6.0 for lint and the non-Bazel `yarn compile`
+# type-check. TS 7 is designed to run side-by-side with TS 6.
+# The integrity for this version is mirrored in rules_ts' versions.bzl.
+typescript = use_extension("@aspect_rules_ts//ts:extensions.bzl", "typescript", dev_dependency = True)
+typescript.deps(version = "7.0.2")
+use_repo(typescript, "npm_typescript")
 
 # The node version is read from //:.nvmrc, the cross-tool convention file
 # also honored by nvm and CI -- Bazel and the yarn dev flow share one pin.

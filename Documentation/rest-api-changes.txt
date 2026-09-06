@@ -7818,6 +7818,8 @@ link:rest-api-accounts.html#account-info[ AccountInfo] entity.
 |`starred`            |not set if `false`|
 Whether the calling user has starred this change.
 Only set if link:#star[requested].
+|`stars`              |optional|
+List of star labels that are applied by the calling user to this change.
 |`reviewed`           |not set if `false`|
 Whether the change was reviewed by the calling user.
 Only set if link:#reviewed[reviewed] is requested.
@@ -8868,6 +8870,12 @@ the file permission bits. For deleted files, this field will not be present.
 For added files, this field will not be present.
 |`new_sha`        |optional|SHA-1 of the file content at the new commit.
 For deleted files, this field will not be present.
+|`diffs_too_expensive_to_compute`|optional, not set if `false`|
+Whether Gerrit skipped expensive diff data for this file because diff
+computation timed out. This can only be set when the
+`GerritBackendFeature__timeout_file_diff_computation` experiment is enabled;
+when the experiment is disabled, file diffs are computed without this timeout
+and the field is not set.
 |=============================
 
 [[fix-input]]
@@ -10318,6 +10326,10 @@ set to WorkInProgress/ReadyForReview.
 |Field Name      ||Description
 |`message`       |optional|
 Message to be added as a review comment to the change being set WorkInProgress/ReadyForReview.
+|`notify`        |optional|
+Notify handling that defines to whom email notifications should be sent
+after the change is set to WorkInProgress/ReadyForReview. Allowed values
+are `NONE`, `OWNER`, `OWNER_REVIEWERS` and `ALL`.
 |=============================
 
 GERRIT

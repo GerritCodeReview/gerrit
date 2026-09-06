@@ -1807,6 +1807,10 @@ the snapshot.
 'POST /config/server/snapshot.indexes HTTP/1.0'
 --
 
+This creates a snapshot of all write index versions. The snapshot `id` may be
+provided in the request body as a
+link:#snapshot-indexes-input[SnapshotIndexes.Input] entity.
+
 .Request
 ----
   POST /config/server/snapshot.indexes HTTP/1.0
@@ -1861,7 +1865,9 @@ This creates a snapshot of all write index versions of the specified index.
 'POST /config/server/indexes/link:#index-name[\{index-name\}]/versions/#index-version[\{index-version\}]/snapshot'
 --
 
-This creates a snapshot of one index version of the specified index.
+This creates a snapshot of one index version of the specified index. The snapshot
+`id` may be provided in the request body as a
+link:#snapshot-index-version-input[SnapshotIndexVersion.Input] entity.
 
 .Request
 ----
@@ -1891,7 +1897,9 @@ This creates a snapshot of one index version of the specified index.
 
 This endpoint allows to trigger background reindexing of an index version.  It is
 also supported to specify whether to reuse existing up-to-date (non-stale) index
-documents and whether to notifyListeners or not.
+documents and whether to notifyListeners or not. The options are provided in the
+request body as a link:#reindex-index-version-input[ReindexIndexVersion.Input]
+entity.
 
 .Request
 ----
@@ -2043,6 +2051,9 @@ This endpoint allows Gerrit administrators to apply a shorter maximum lifetime
 to existing authentication tokens. This is required, when a shorter maximum
 lifetime is enforced. Changing the configuration will not apply that maximum
 to existing tokens. These have to be adapted using this REST API endpoint.
+
+The new maximum lifetime must be provided in the request body as a
+link:#reduce-max-token-lifetime-input[ReduceMaxTokenLifetime.Input] entity.
 
 This migration task will run asynchronously.
 
@@ -2735,6 +2746,29 @@ link:config-gerrit.html#receive.certNonceSeed[global configuration] for
 details.
 |=======================================
 
+[[reduce-max-token-lifetime-input]]
+=== ReduceMaxTokenLifetime.Input
+The `ReduceMaxTokenLifetime.Input` entity contains the parameters used to
+reduce the maximum lifetime of existing authentication tokens.
+
+[options="header",cols="1,6"]
+|=============================
+|Field Name    |Description
+|`lifetime`    |The new maximum lifetime that will be applied to authentication tokens.
+|=============================
+
+[[reindex-index-version-input]]
+=== ReindexIndexVersion.Input
+The `ReindexIndexVersion.Input` entity contains the parameters used to
+reindex a specific index version.
+
+[options="header",cols="1,^1,5"]
+|=============================
+|Field Name         ||Description
+|`reuse`            |optional|Whether existing documents may be reused instead of being recomputed while reindexing.
+|`notify_listeners` |optional|Whether index listeners should be notified about the reindex progress.
+|=============================
+
 [[version-info]]
 === VersionInfo
 The `VersionInfo` entity contains information about the version of the
@@ -2833,6 +2867,28 @@ index snapshot.
 A string ID that will be used as the folder name containing the
 snapshots. Defaults to current timestamp.
 |=======================
+
+[[snapshot-indexes-input]]
+=== SnapshotIndexes.Input
+The `SnapshotIndexes.Input` entity contains the parameters used to create a
+snapshot of all indexes.
+
+[options="header",cols="1,^1,5"]
+|=============================
+|Field Name    ||Description
+|`id`          |optional|A string ID that will be used as the folder name containing the snapshots. Defaults to current timestamp.
+|=============================
+
+[[snapshot-index-version-input]]
+=== SnapshotIndexVersion.Input
+The `SnapshotIndexVersion.Input` entity contains the parameters used to
+create a snapshot of a specific index version.
+
+[options="header",cols="1,^1,5"]
+|=============================
+|Field Name    ||Description
+|`id`          |optional|A string ID that will be used as the folder name containing the snapshot. Defaults to current timestamp.
+|=============================
 
 [[sshd-info]]
 === SshdInfo

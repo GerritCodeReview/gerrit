@@ -4944,6 +4944,18 @@ The inherited value of the configuration parameter, only set if
 `inheritable` is true.
 |===============================
 
+[[config-value]]
+=== ConfigValue
+The `ConfigValue` entity describes a single configuration value, used when
+setting project configuration parameters.
+
+[options="header",cols="1,^1,5"]
+|=============================
+|Field Name    ||Description
+|`value`       |optional|The new single value for the configuration parameter.
+|`values`      |optional|The new list of values for a multi-valued configuration parameter.
+|=============================
+
 [[dashboard-info]]
 === DashboardInfo
 The `DashboardInfo` entity contains information about a project

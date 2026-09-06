@@ -8325,6 +8325,18 @@ line of the source file content.
 |`context_line`      |String containing the line text.
 |===========================
 
+[[context-line-info]]
+=== ContextLineInfo
+The `ContextLineInfo` entity contains the line number and line text of a
+single line of context of the source file where a comment was written.
+
+[options="header",cols="1,6"]
+|===========================
+|Field Name          |Description
+|`line_number`       |The line number of the source line.
+|`context_line`      |The text of the context line.
+|===========================
+
 [[commit-info]]
 === CommitInfo
 The `CommitInfo` entity contains information about a commit.
@@ -9039,6 +9051,17 @@ and/or remove from, a change.
 |`remove`  |optional|The list of hashtags to be removed from the change.
 |=======================
 
+[[get-meta-file-info]]
+=== GetMeta.FileInfo
+The `GetMeta.FileInfo` entity contains information about a file returned by
+the get-meta endpoint of a change edit.
+
+[options="header",cols="1,^1,5"]
+|=============================
+|Field Name  ||Description
+|`web_links` |optional|Links to the file in external sites as a list of link:#diff-web-link-info[DiffWebLinkInfo] entities.
+|=============================
+
 [[included-in-info]]
 === IncludedInInfo
 The `IncludedInInfo` entity contains information about the branches a
@@ -9058,6 +9081,41 @@ Each tag is listed without the 'refs/tags/' prefix.
 systems that include this change, e.g. a list of servers on which this
 change is deployed.
 |=======================
+
+[[input-with-commit-message]]
+=== InputWithCommitMessage
+The `InputWithCommitMessage` entity is a generic input that carries a
+commit message only.
+
+[options="header",cols="1,^1,5"]
+|=============================
+|Field Name      ||Description
+|`commit_message`|optional|The commit message to use.
+|=============================
+
+[[input-with-message]]
+=== InputWithMessage
+The `InputWithMessage` entity is a generic input that carries a message
+only.
+
+[options="header",cols="1,^1,5"]
+|=============================
+|Field Name ||Description
+|`message`  |optional|The message to use.
+|=============================
+
+[[label]]
+=== SubmitRecordInfo.Label
+The `SubmitRecordInfo.Label` entity describes a single label as part of a
+link:#submit-record-info[SubmitRecordInfo] entity.
+
+[options="header",cols="1,^1,5"]
+|=============================
+|Field Name  ||Description
+|`label`     ||The name of the label.
+|`status`    ||The status of the label, one of `OK`, `REJECT`, `NEED`, `MAY` or `IMPOSSIBLE`.
+|`applied_by`|optional|The link:rest-api-accounts.html#account-info[AccountInfo] of the user that applied the vote to the label.
+|=============================
 
 [[label-info]]
 === LabelInfo
@@ -9110,6 +9168,19 @@ option is requested.
 label. The map maps the values ("`-2`", "`-1`", " `0`", "`+1`", "`+2`")
 to the value descriptions.
 |===========================
+
+[[legacy-submit-requirement-info]]
+=== LegacySubmitRequirementInfo
+The `LegacySubmitRequirementInfo` entity describes a legacy submit
+requirement of a change.
+
+[options="header",cols="1,6"]
+|=============================
+|Field Name     |Description
+|`status`       |The status of the submit requirement, for example `OK` or `NOT_READY`.
+|`fallback_text`|A human readable description of the submit requirement.
+|`type`         |The type of the submit requirement.
+|=============================
 
 [[mergeable-info]]
 === MergeableInfo

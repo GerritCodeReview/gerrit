@@ -860,7 +860,8 @@ describes the owner group.
 
 Sets the owner group of a Gerrit internal group.
 
-The new owner group must be provided in the request body.
+The new owner group must be provided in the request body as a
+link:#owner-input[OwnerInput] entity.
 
 The new owner can be specified by name, by group UUID or by the legacy
 numeric group ID.
@@ -1698,6 +1699,16 @@ should be added or deleted.
 A list of link:rest-api-accounts.html#account-id[account ids] that
 identify the accounts that should be added or deleted.
 |==========================
+
+[[owner-input]]
+=== OwnerInput
+The `OwnerInput` entity contains information about the owner of a group.
+
+[options="header",cols="1,6"]
+|=============================
+|Field Name |Description
+|`owner`    |The id of the group that should own this group.
+|=============================
 
 
 GERRIT

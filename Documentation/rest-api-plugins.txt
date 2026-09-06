@@ -473,6 +473,8 @@ The `PluginInput` entity describes a plugin that should be installed.
 |======================
 |Field Name|Description
 |`url`     |URL to the plugin jar.
+|`raw`     |The raw plugin content (the plugin jar) uploaded in the request
+body, as an alternative to `url`.
 |======================
 
 

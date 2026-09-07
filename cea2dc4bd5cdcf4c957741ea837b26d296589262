@@ -65,6 +65,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "54f43069_a285f84c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 26
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-07T19:51:18Z",
+      "side": 1,
+      "message": "All the issues have been discussed. Resolving it.",
+      "parentUuid": "f9872f82_052744e1",
+      "revId": "cea2dc4bd5cdcf4c957741ea837b26d296589262",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "505601a4_c38866cc",
@@ -246,6 +264,30 @@
       "side": 1,
       "message": "\u003e we must always evaluate submit requirements as internal user\n\nI believe the caller should decide the correct context, and the thread executing the evaluation should honour it.",
       "parentUuid": "eb1cec54_8bb2abe9",
+      "range": {
+        "startLine": 190,
+        "startChar": 0,
+        "endLine": 267,
+        "endChar": 7
+      },
+      "revId": "cea2dc4bd5cdcf4c957741ea837b26d296589262",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "58d86b69_a221a476",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluatorImpl.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-07T19:51:18Z",
+      "side": 1,
+      "message": "Actually, this is a private method, and it has always been called with a manual context for an internal user; the current implementation is consistent with that use. Resolving it.",
+      "parentUuid": "e1879551_3c9ae2fc",
       "range": {
         "startLine": 190,
         "startChar": 0,

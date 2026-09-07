@@ -2028,7 +2028,8 @@ part of the response.
 Changes that will also be submitted:
 1. All changes of the same topic if
 link:config-gerrit.html#change.submitWholeTopic[`change.submitWholeTopic`]
-configuration is set to true.
+is set to `ENFORCED`. To submit a whole topic selectively without enforcing
+it globally, use link:#submit-whole-topic[Submit Whole Topic] instead.
 2. All dependent changes.
 3. The closure of the above (e.g if a dependent change has a topic, all changes
 of *that* topic will also be submitted).
@@ -2071,6 +2072,80 @@ message is contained in the response body.
   blocked by Verified
 ----
 
+[[submit-whole-topic]]
+=== Submit Whole Topic
+--
+'POST /changes/link:#change-id[\{change-id\}]/submit.topic'
+--
+
+Submits all open changes that share the topic of the specified change
+together, in a single operation.
+
+This is an opt-in alternative to link:#submit-change[Submit Change]. It is
+only available when
+link:config-gerrit.html#change.submitWholeTopic[`change.submitWholeTopic`]
+is set to `OPTIONAL`. When the setting is `DISABLED` or `ENFORCED` the
+endpoint returns `405 Method Not Allowed`.
+
+The caller must have submit permission on every change in the topic
+closure. Only the latest revision of each change is submitted.
+
+.Request
+----
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/submit.topic HTTP/1.0
+----
+
+As response a link:#change-info[ChangeInfo] entity is returned that
+describes the submitted/merged change.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "id": "myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940",
+    "project": "myProject",
+    "branch": "master",
+    "change_id": "I8473b95934b5732ac55d26311a706c9c2bde9940",
+    "subject": "Implementing Feature X",
+    "status": "MERGED",
+    "created": "2013-02-01 09:59:32.126000000",
+    "updated": "2013-02-21 11:16:36.775000000",
+    "submitted": "2013-02-21 11:16:36.615000000",
+    "_number": 3965,
+    "owner": {
+      "name": "John Doe"
+    },
+    "current_revision_number": 2
+  }
+----
+
+If the feature is not enabled the response is `405 Method Not Allowed`:
+
+.Response
+----
+  HTTP/1.1 405 Method Not Allowed
+  Content-Disposition: attachment
+  Content-Type: text/plain; charset=UTF-8
+
+  submit whole topic is not available
+----
+
+If a submit rule blocks one of the changes in the topic closure the
+response is `409 Conflict`:
+
+.Response
+----
+  HTTP/1.1 409 Conflict
+  Content-Disposition: attachment
+  Content-Type: text/plain; charset=UTF-8
+
+  blocked by Verified
+----
+
 [[submitted-together]]
 === Changes Submitted Together
 --
@@ -2085,8 +2160,8 @@ The list consists of:
 
 * The given change.
 * If link:config-gerrit.html#change.submitWholeTopic[`change.submitWholeTopic`]
-  is enabled OR if the `o=TOPIC_CLOSURE` query parameter is passed, include all
-  open changes with the same topic.
+  is set to `ENFORCED` OR if the `o=TOPIC_CLOSURE` query parameter is passed,
+  include all open changes with the same topic.
 * For each change whose submit type is not CHERRY_PICK, include unmerged
   ancestors targeting the same branch.
 
@@ -5431,7 +5506,9 @@ part of the response.
 Changes that will also be submitted:
 1. All changes of the same topic if
 link:config-gerrit.html#change.submitWholeTopic[`change.submitWholeTopic`]
-configuration is set to true.
+is set to `ENFORCED`. To submit a whole topic selectively without enforcing
+it globally, use link:#submit-whole-topic-revision[Submit Whole Topic]
+instead.
 2. All dependent changes.
 3. The closure of the above (e.g if a dependent change has a topic, all changes
 of *that* topic will also be submitted).
@@ -5465,6 +5542,82 @@ If the revision cannot be submitted, e.g. because the submit rule
 doesn't allow submitting the revision or the revision is not the
 current revision, the response is "`409 Conflict`" and the error
 message is contained in the response body.
+
+.Response
+----
+  HTTP/1.1 409 Conflict
+  Content-Type: text/plain; charset=UTF-8
+
+  "revision 674ac754f91e64a0efb8087e59a176484bd534d1 is not current revision"
+----
+
+[[submit-whole-topic-revision]]
+=== Submit Whole Topic
+--
+'POST /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/submit.topic'
+--
+
+Revision-level variant of link:#submit-whole-topic[Submit Whole Topic].
+Submits all open changes that share the topic of the specified change
+together, in a single operation.
+
+The supplied `\{revision-id\}` must be the current revision of the change;
+submitting a non-current revision returns `409 Conflict`.
+
+This endpoint is only available when
+link:config-gerrit.html#change.submitWholeTopic[`change.submitWholeTopic`]
+is set to `OPTIONAL`. When the setting is `DISABLED` or `ENFORCED` the
+endpoint returns `405 Method Not Allowed`.
+
+The caller must have submit permission on every change in the topic
+closure.
+
+.Request
+----
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/submit.topic HTTP/1.0
+----
+
+As response a link:#change-info[ChangeInfo] entity is returned that
+describes the submitted/merged change.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "id": "myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940",
+    "project": "myProject",
+    "branch": "master",
+    "change_id": "I8473b95934b5732ac55d26311a706c9c2bde9940",
+    "subject": "Implementing Feature X",
+    "status": "MERGED",
+    "created": "2013-02-01 09:59:32.126000000",
+    "updated": "2013-02-21 11:16:36.775000000",
+    "submitted": "2013-02-21 11:16:36.615000000",
+    "_number": 3965,
+    "owner": {
+      "name": "John Doe"
+    },
+    "current_revision_number": 2
+  }
+----
+
+If the feature is not enabled the response is `405 Method Not Allowed`:
+
+.Response
+----
+  HTTP/1.1 405 Method Not Allowed
+  Content-Disposition: attachment
+  Content-Type: text/plain; charset=UTF-8
+
+  submit whole topic is not available
+----
+
+If the revision is not the current revision, or a submit rule blocks one
+of the changes in the topic closure, the response is `409 Conflict`:
 
 .Response
 ----

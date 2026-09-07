@@ -158,6 +158,30 @@
       },
       "revId": "cea2dc4bd5cdcf4c957741ea837b26d296589262",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3197cdf6_56e4a2c7",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluatorImpl.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-07T14:17:19Z",
+      "side": 1,
+      "message": "@luca.milanesio@gmail.com: actually this discussion went into wrong direction. If you read the comment(s) at L72-74 (L60-62 in the old code): we must always evaluate submit requirements as internal user!\n\nIMHO, there is nothing that needs to be fixed but we can improve by eliminating no-timeout evaluation i.e. always have a timeout.",
+      "parentUuid": "e1879551_3c9ae2fc",
+      "range": {
+        "startLine": 190,
+        "startChar": 0,
+        "endLine": 267,
+        "endChar": 7
+      },
+      "revId": "cea2dc4bd5cdcf4c957741ea837b26d296589262",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

@@ -107,6 +107,12 @@ suite('gr-change-actions tests', () => {
             title: 'Submit patch set 2 into master',
             enabled: true,
           },
+          'submit.topic': {
+            method: HttpMethod.POST,
+            label: 'Submit whole topic',
+            title: 'Submit all changes of the same topic',
+            enabled: true,
+          },
           revert_submission: {
             method: HttpMethod.POST,
             label: 'Revert submission',
@@ -181,6 +187,24 @@ suite('gr-change-actions tests', () => {
                 >
                   <gr-icon icon="done_all"></gr-icon>
                   Submit
+                </gr-button>
+              </gr-tooltip-content>
+              <gr-tooltip-content
+                has-tooltip=""
+                position-below=""
+                title="Submit all changes of the same topic"
+              >
+                <gr-button
+                  aria-disabled="false"
+                  class="submit.topic"
+                  data-action-key="submit.topic"
+                  data-label="Submit whole topic"
+                  primary=""
+                  role="button"
+                  tabindex="0"
+                >
+                  <gr-icon icon="done_all"> </gr-icon>
+                  Submit whole topic
                 </gr-button>
               </gr-tooltip-content>
             </section>
@@ -263,6 +287,11 @@ suite('gr-change-actions tests', () => {
             <gr-confirm-submit-dialog
               class="confirmDialog"
               id="confirmSubmitDialog"
+            >
+            </gr-confirm-submit-dialog>
+            <gr-confirm-submit-dialog
+              class="confirmDialog"
+              id="confirmSubmitTopicDialog"
             >
             </gr-confirm-submit-dialog>
             <gr-dialog
@@ -451,11 +480,15 @@ suite('gr-change-actions tests', () => {
 
     test('primary and secondary actions split properly', () => {
       // Submit should be the only primary action.
-      assert.equal(element.topLevelPrimaryActions!.length, 1);
+      assert.equal(element.topLevelPrimaryActions!.length, 2);
       assert.equal(element.topLevelPrimaryActions![0].label, 'Submit');
       assert.equal(
+        element.topLevelPrimaryActions![1].label,
+        'Submit whole topic'
+      );
+      assert.equal(
         element.topLevelSecondaryActions!.length,
-        element.topLevelActions!.length - 1
+        element.topLevelActions!.length - 2
       );
     });
 
@@ -754,6 +787,7 @@ suite('gr-change-actions tests', () => {
         '/submit',
         assertUIActionInfo(element.revisionActions?.submit),
         true,
+        undefined,
       ]);
     });
 

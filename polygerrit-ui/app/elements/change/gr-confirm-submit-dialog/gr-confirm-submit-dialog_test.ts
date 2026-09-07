@@ -5,14 +5,17 @@
  */
 import '../../../test/common-test-setup';
 import {
+  createChange,
   createParsedChange,
   createRevision,
   createThread,
 } from '../../../test/test-data-generators';
-import {EDIT} from '../../../types/common';
+import {EDIT, RepoName, TopicName} from '../../../types/common';
 import {GrConfirmSubmitDialog} from './gr-confirm-submit-dialog';
 import './gr-confirm-submit-dialog';
 import {assert, fixture, html} from '@open-wc/testing';
+import {testResolver} from '../../../test/common-test-setup';
+import {relatedChangesModelToken} from '../../../models/change/related-changes-model';
 
 suite('gr-confirm-submit-dialog tests', () => {
   let element: GrConfirmSubmitDialog;
@@ -72,6 +75,188 @@ suite('gr-confirm-submit-dialog tests', () => {
       element.computeUnresolvedCommentsWarning(),
       'Heads Up! 2 unresolved comments.'
     );
+  });
+
+  test('renders topic changes list when submitWholeTopic is checked', async () => {
+    const relatedChangesModel = testResolver(relatedChangesModelToken);
+    relatedChangesModel.updateState({
+      sameTopicChanges: [
+        {
+          ...createChange(),
+          subject: 'Change A',
+          project: 'repo/a' as RepoName,
+        },
+        {
+          ...createChange(),
+          subject: 'Change B',
+          project: 'repo/b' as RepoName,
+        },
+      ],
+    });
+    element.action = {label: 'Submit'};
+    element.change = {
+      ...createParsedChange(),
+      subject: 'my-subject',
+      topic: 'my-topic' as TopicName,
+      revisions: {},
+    };
+    await element.updateComplete;
+
+    // List should not be visible before checking the checkbox
+    assert.isNull(element.shadowRoot!.querySelector('.topicChangesList'));
+
+    element.submitWholeTopic = true;
+    await element.updateComplete;
+
+    const items = element.shadowRoot!.querySelectorAll(
+      '.topicChangeLine gr-related-change'
+    );
+    assert.equal(items.length, 2);
+    assert.equal(
+      items[0].querySelector('[slot="name"]')!.textContent!.trim(),
+      'Change A'
+    );
+    assert.equal(
+      items[1].querySelector('[slot="name"]')!.textContent!.trim(),
+      'Change B'
+    );
+  });
+
+  test('warning shown when topic has unsubmittable changes and checkbox unchecked', async () => {
+    const relatedChangesModel = testResolver(relatedChangesModelToken);
+    relatedChangesModel.updateState({
+      sameTopicChanges: [
+        {
+          ...createChange(),
+          subject: 'Change A',
+          project: 'repo/a' as RepoName,
+          submittable: false,
+        },
+      ],
+    });
+    element.action = {label: 'Submit'};
+    element.change = {
+      ...createParsedChange(),
+      subject: 'my-subject',
+      topic: 'my-topic' as TopicName,
+      revisions: {},
+    };
+    element.submitWholeTopic = false;
+    await element.updateComplete;
+
+    const warning = element.shadowRoot!.querySelector('.warningBox');
+    assert.isNotNull(warning);
+    assert.include(
+      warning.textContent,
+      'Some changes in this topic are not ready to submit.'
+    );
+  });
+
+  test('blocking warning shown when topic has unsubmittable changes and checkbox checked', async () => {
+    const relatedChangesModel = testResolver(relatedChangesModelToken);
+    relatedChangesModel.updateState({
+      sameTopicChanges: [
+        {
+          ...createChange(),
+          subject: 'Change A',
+          project: 'repo/a' as RepoName,
+          submittable: false,
+        },
+      ],
+    });
+    element.action = {label: 'Submit'};
+    element.change = {
+      ...createParsedChange(),
+      subject: 'my-subject',
+      topic: 'my-topic' as TopicName,
+      revisions: {},
+    };
+    element.submitWholeTopic = true;
+    await element.updateComplete;
+
+    const warning = element.shadowRoot!.querySelector('.warningBox');
+    assert.isNotNull(warning);
+    assert.include(
+      warning.textContent,
+      'Not all changes in this topic are ready to submit.'
+    );
+  });
+
+  test('no warning shown when all topic changes are submittable', async () => {
+    const relatedChangesModel = testResolver(relatedChangesModelToken);
+    relatedChangesModel.updateState({
+      sameTopicChanges: [
+        {
+          ...createChange(),
+          subject: 'Change A',
+          project: 'repo/a' as RepoName,
+          submittable: true,
+        },
+      ],
+    });
+    element.action = {label: 'Submit'};
+    element.change = {
+      ...createParsedChange(),
+      subject: 'my-subject',
+      topic: 'my-topic' as TopicName,
+      revisions: {},
+    };
+    element.submitWholeTopic = true;
+    await element.updateComplete;
+
+    assert.isNull(element.shadowRoot!.querySelector('.warningBox'));
+  });
+
+  test('submit button disabled when submitting whole topic with unsubmittable changes', async () => {
+    const relatedChangesModel = testResolver(relatedChangesModelToken);
+    relatedChangesModel.updateState({
+      sameTopicChanges: [
+        {
+          ...createChange(),
+          subject: 'Change A',
+          project: 'repo/a' as RepoName,
+          submittable: false,
+        },
+      ],
+    });
+    element.action = {label: 'Submit'};
+    element.change = {
+      ...createParsedChange(),
+      subject: 'my-subject',
+      topic: 'my-topic' as TopicName,
+      revisions: {},
+    };
+    element.submitWholeTopic = true;
+    await element.updateComplete;
+
+    const dialog = element.shadowRoot!.querySelector('gr-dialog');
+    assert.isTrue(dialog!.hasAttribute('disabled'));
+  });
+
+  test('submit button enabled when all topic changes are submittable', async () => {
+    const relatedChangesModel = testResolver(relatedChangesModelToken);
+    relatedChangesModel.updateState({
+      sameTopicChanges: [
+        {
+          ...createChange(),
+          subject: 'Change A',
+          project: 'repo/a' as RepoName,
+          submittable: true,
+        },
+      ],
+    });
+    element.action = {label: 'Submit'};
+    element.change = {
+      ...createParsedChange(),
+      subject: 'my-subject',
+      topic: 'my-topic' as TopicName,
+      revisions: {},
+    };
+    element.submitWholeTopic = true;
+    await element.updateComplete;
+
+    const dialog = element.shadowRoot!.querySelector('gr-dialog');
+    assert.isFalse(dialog!.hasAttribute('disabled'));
   });
 
   test('computeHasChangeEdit', () => {

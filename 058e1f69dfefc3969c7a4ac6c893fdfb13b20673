@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "458720d2_2c3af6c1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1155610
+      },
+      "writtenOn": "2026-09-07T09:53:50Z",
+      "side": 1,
+      "message": "Arguably this is a bit confusing now that the permission is granted by default. Maybe this could be removed, happy to discuss.",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 16
+      },
+      "revId": "058e1f69dfefc3969c7a4ac6c893fdfb13b20673",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d9c0bebb_c96db1e9",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 19

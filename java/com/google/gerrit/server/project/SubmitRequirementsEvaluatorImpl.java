@@ -191,68 +191,65 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
             Metadata.builder().changeId(cd.change().getId().get()).build())) {
       Callable<SubmitRequirementResult> task =
           () -> {
-            try (ManualRequestContext ctx = requestContext.open()) {
-              Optional<SubmitRequirementExpressionResult> applicabilityResult =
-                  sr.applicabilityExpression().isPresent()
-                      ? Optional.of(evaluateExpression(sr.applicabilityExpression().get(), cd))
-                      : Optional.empty();
+            Optional<SubmitRequirementExpressionResult> applicabilityResult =
+                sr.applicabilityExpression().isPresent()
+                    ? Optional.of(evaluateExpression(sr.applicabilityExpression().get(), cd))
+                    : Optional.empty();
 
-              Optional<SubmitRequirementExpressionResult> submittabilityResult =
-                  Optional.of(
-                      SubmitRequirementExpressionResult.notEvaluated(
-                          sr.submittabilityExpression()));
+            Optional<SubmitRequirementExpressionResult> submittabilityResult =
+                Optional.of(
+                    SubmitRequirementExpressionResult.notEvaluated(sr.submittabilityExpression()));
 
-              Optional<SubmitRequirementExpressionResult> overrideResult =
+            Optional<SubmitRequirementExpressionResult> overrideResult =
+                sr.overrideExpression().isPresent()
+                    ? Optional.of(
+                        SubmitRequirementExpressionResult.notEvaluated(
+                            sr.overrideExpression().get()))
+                    : Optional.empty();
+
+            if (!sr.applicabilityExpression().isPresent()
+                || SubmitRequirementResult.assertPass(applicabilityResult)) {
+              submittabilityResult =
+                  Optional.of(evaluateExpression(sr.submittabilityExpression(), cd));
+              overrideResult =
                   sr.overrideExpression().isPresent()
-                      ? Optional.of(
-                          SubmitRequirementExpressionResult.notEvaluated(
-                              sr.overrideExpression().get()))
+                      ? Optional.of(evaluateExpression(sr.overrideExpression().get(), cd))
                       : Optional.empty();
-
-              if (!sr.applicabilityExpression().isPresent()
-                  || SubmitRequirementResult.assertPass(applicabilityResult)) {
-                submittabilityResult =
-                    Optional.of(evaluateExpression(sr.submittabilityExpression(), cd));
-                overrideResult =
-                    sr.overrideExpression().isPresent()
-                        ? Optional.of(evaluateExpression(sr.overrideExpression().get(), cd))
-                        : Optional.empty();
-              }
-
-              if (applicabilityResult.isPresent()) {
-                logger.atFine().log(
-                    "Applicability expression result for SR name '%s':"
-                        + " passing atoms: %s, failing atoms: %s",
-                    sr.name(),
-                    applicabilityResult.get().passingAtoms(),
-                    applicabilityResult.get().failingAtoms());
-              }
-              if (submittabilityResult.isPresent()) {
-                logger.atFine().log(
-                    "Submittability expression result for SR name '%s':"
-                        + " passing atoms: %s, failing atoms: %s",
-                    sr.name(),
-                    submittabilityResult.get().passingAtoms(),
-                    submittabilityResult.get().failingAtoms());
-              }
-              if (overrideResult.isPresent()) {
-                logger.atFine().log(
-                    "Override expression result for SR name '%s':"
-                        + " passing atoms: %s, failing atoms: %s",
-                    sr.name(),
-                    overrideResult.get().passingAtoms(),
-                    overrideResult.get().failingAtoms());
-              }
-
-              return SubmitRequirementResult.builder()
-                  .legacy(Optional.of(false))
-                  .submitRequirement(sr)
-                  .patchSetCommitId(cd.currentPatchSet().commitId())
-                  .submittabilityExpressionResult(submittabilityResult)
-                  .applicabilityExpressionResult(applicabilityResult)
-                  .overrideExpressionResult(overrideResult)
-                  .build();
             }
+
+            if (applicabilityResult.isPresent()) {
+              logger.atFine().log(
+                  "Applicability expression result for SR name '%s':"
+                      + " passing atoms: %s, failing atoms: %s",
+                  sr.name(),
+                  applicabilityResult.get().passingAtoms(),
+                  applicabilityResult.get().failingAtoms());
+            }
+            if (submittabilityResult.isPresent()) {
+              logger.atFine().log(
+                  "Submittability expression result for SR name '%s':"
+                      + " passing atoms: %s, failing atoms: %s",
+                  sr.name(),
+                  submittabilityResult.get().passingAtoms(),
+                  submittabilityResult.get().failingAtoms());
+            }
+            if (overrideResult.isPresent()) {
+              logger.atFine().log(
+                  "Override expression result for SR name '%s':"
+                      + " passing atoms: %s, failing atoms: %s",
+                  sr.name(),
+                  overrideResult.get().passingAtoms(),
+                  overrideResult.get().failingAtoms());
+            }
+
+            return SubmitRequirementResult.builder()
+                .legacy(Optional.of(false))
+                .submitRequirement(sr)
+                .patchSetCommitId(cd.currentPatchSet().commitId())
+                .submittabilityExpressionResult(submittabilityResult)
+                .applicabilityExpressionResult(applicabilityResult)
+                .overrideExpressionResult(overrideResult)
+                .build();
           };
       Future<SubmitRequirementResult> future = executor.submit(task);
 

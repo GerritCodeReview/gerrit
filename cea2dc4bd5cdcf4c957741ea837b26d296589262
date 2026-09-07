@@ -86,6 +86,30 @@
       },
       "revId": "cea2dc4bd5cdcf4c957741ea837b26d296589262",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "188f3fcd_651c5f98",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluatorImpl.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-07T10:53:05Z",
+      "side": 1,
+      "message": "\u003e This is problematic: if I don\u0027t want to use any timeout (the default) this still has an effect on the execution, because submit requirements are then used asynchronously with a future waiting forever.\n\nDidn\u0027t we have a similar issue also before this change: no-timeout \u003e\u003e\u003e wait forever?\nSo the calling thread would wait forever on the submit requirement evaluation before this change\nand after this change it would be waiting on a future which would be waiting on the submit requirement evaluation. For me, this doesn\u0027t look like a new issue except that one more thread is blocked than before.\nActually, do we want to preserve the feature of no-timeout submit requirement evaluation? What is it good for?\n\n\u003e More importantly, there is a nasty side-effect: with synchronous execution, the submit requirement was running with the context of the current user, but when running asynchronously, it is running with the context of the internal user (see L192).\n\nI believe this can be easily fixed by using `requestContext.openAs(\u003ccurrentUser\u003e)`.\n\n\u003e \n\u003e We must be able to make this running logic modular and *disable it* if there is no need for timeouts or async execution of the submit requirements.\n\nSee my first response above.\n\n\u003e \n\u003e Also, we must highlight in the documentation the side effects in terms of the change in the security domain when running it asynchronously.\n\u003e \n\u003e This needs to be fixed *before* shipping Gerrit v3.15 in November 2026.",
+      "parentUuid": "505601a4_c38866cc",
+      "range": {
+        "startLine": 190,
+        "startChar": 0,
+        "endLine": 267,
+        "endChar": 7
+      },
+      "revId": "cea2dc4bd5cdcf4c957741ea837b26d296589262",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

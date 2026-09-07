@@ -1921,15 +1921,17 @@ export class GrChangeActions
   }
 
   // private but used in test
-  handleSubmitConfirm() {
+  handleSubmitConfirm(e: CustomEvent<{submitWholeTopic: boolean}>) {
     if (!this.canSubmitChange()) {
       return;
     }
+    const submitWholeTopic = e.detail?.submitWholeTopic ?? false;
     this.hideAllDialogs();
     this.fireAction(
       '/submit',
       assertUIActionInfo(this.revisionActions?.submit),
-      true
+      true,
+      submitWholeTopic ? {submit_whole_topic: true} : undefined
     );
   }
 

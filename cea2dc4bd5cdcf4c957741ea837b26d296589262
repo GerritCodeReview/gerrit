@@ -182,6 +182,30 @@
       },
       "revId": "cea2dc4bd5cdcf4c957741ea837b26d296589262",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa6ca309_6076ecff",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluatorImpl.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-09-07T14:21:29Z",
+      "side": 1,
+      "message": "When we implemented this, we decided to keep the no-timeout option to make this change non breaking change. contrary, we have to provide some default timeout if we want to do that.",
+      "parentUuid": "3197cdf6_56e4a2c7",
+      "range": {
+        "startLine": 190,
+        "startChar": 0,
+        "endLine": 267,
+        "endChar": 7
+      },
+      "revId": "cea2dc4bd5cdcf4c957741ea837b26d296589262",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

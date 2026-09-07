@@ -2320,8 +2320,11 @@ allowed].
 link:config-gerrit.html#change.updateDelay[How often in seconds the web
 interface should poll for updates to the currently open change].
 |`submit_whole_topic` |not set if `false`|
-link:config-gerrit.html#change.submitWholeTopic[A configuration if
-the whole topic is submitted].
+link:config-gerrit.html#change.submitWholeTopic[Configuration that enforces
+the whole topic to be submitted]. Deprecated; use `enforce_whole_topic_submit`.
+|`enforce_whole_topic_submit` |not set if `false`|
+link:config-gerrit.html#change.enforceWholeTopicSubmit[Configuration that enforces
+the whole topic to be submitted].
 |`disable_private_changes` |not set if `false`|
 Returns true if private changes are disabled.
 |`mergeability_computation_behavior` ||

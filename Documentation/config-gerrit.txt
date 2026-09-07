@@ -1948,10 +1948,32 @@ changes related by topic)".
 
 [[change.submitWholeTopic]]change.submitWholeTopic::
 +
-Determines if the submit button submits the whole topic instead of
-just the current change.
+Controls how submitting a change with a topic behaves. Accepts the
+following values:
 +
-Default is `false`.
+--
+`false` (default);;
+Submit only the current change. The "submit whole topic" action is not
+offered in the UI or via the REST API. Equivalent to `DISABLED`.
+`true`;;
+Submitting a change always submits all changes sharing its topic. The
+normal Submit button already covers the whole topic, so the dedicated
+"submit whole topic" action is not shown separately. Equivalent to
+`ENFORCED`.
+`DISABLED`;;
+Same as `false`. The "submit whole topic" feature is entirely off.
+`ENFORCED`;;
+Same as `true`. Every submit automatically includes all changes
+sharing the topic.
+`OPTIONAL`;;
+The "submit whole topic" action is available as an explicit opt-in via
+the UI button and the `POST /changes/{id}/submit.topic` REST endpoint,
+but submitting a single change does *not* automatically pull in the
+rest of the topic. Use this when you want to offer the feature
+selectively rather than enforcing it globally.
+--
++
+Default is `false` (`DISABLED`).
 
 [[change.updateDelay]]change.updateDelay::
 +

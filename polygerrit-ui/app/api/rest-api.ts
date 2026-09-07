@@ -195,6 +195,20 @@ export enum SubmitType {
 }
 
 /**
+ * Controls how submitting a change with a topic behaves.
+ * Corresponds to change.submitWholeTopic in gerrit.config.
+ * @see SubmitWholeTopicMode (Java)
+ */
+export enum SubmitWholeTopicMode {
+  /** Submit only the current change (default, legacy false). */
+  DISABLED = 'DISABLED',
+  /** Every submit automatically pulls in the whole topic (legacy true). */
+  ENFORCED = 'ENFORCED',
+  /** The "submit whole topic" action is available as an explicit opt-in. */
+  OPTIONAL = 'OPTIONAL',
+}
+
+/**
  * The state of a flow stage.
  */
 export enum FlowStageState {
@@ -289,6 +303,7 @@ export declare interface ActionNameToActionInfoMap {
   abandon?: ActionInfo;
   restore?: ActionInfo;
   submit?: ActionInfo;
+  "submit.topic"?: ActionInfo;
   topic?: ActionInfo;
   hashtags?: ActionInfo;
   ready?: ActionInfo;
@@ -362,7 +377,13 @@ export declare interface ChangeConfigInfo {
   allow_blame?: boolean;
   large_change: number;
   update_delay: number;
+  /**
+   * @deprecated Use submit_whole_topic_mode instead. True only when
+   * submit_whole_topic_mode is TRUE.
+   */
   submit_whole_topic?: boolean;
+  /** The full mode controlling topic-based submission. */
+  submit_whole_topic_mode?: SubmitWholeTopicMode;
   disable_private_changes?: boolean;
   mergeability_computation_behavior: MergeabilityComputationBehavior;
   conflicts_predicate_enabled?: boolean;

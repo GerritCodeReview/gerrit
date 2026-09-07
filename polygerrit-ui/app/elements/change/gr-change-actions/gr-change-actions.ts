@@ -278,6 +278,7 @@ const ACTIONS_WITH_ICONS = new Map<
   [QUICK_APPROVE_ACTION.key, {icon: 'check'}],
   [AI_CHAT_ACTION.__key, {icon: 'ai'}],
   [RevisionActions.SUBMIT, {icon: 'done_all'}],
+  [RevisionActions.SUBMIT_TOPIC, {icon: 'done_all'}],
 ]);
 
 const EDIT_ACTIONS: Set<string> = new Set([
@@ -374,6 +375,9 @@ export class GrChangeActions
 
   @query('#confirmSubmitDialog') confirmSubmitDialog?: GrConfirmSubmitDialog;
 
+  @query('#confirmSubmitTopicDialog')
+  confirmSubmitTopicDialog?: GrConfirmSubmitDialog;
+
   @query('#createFollowUpDialog') createFollowUpDialog?: GrDialog;
 
   @query('#createFollowUpChange') createFollowUpChange?: GrCreateChangeDialog;
@@ -398,6 +402,7 @@ export class GrChangeActions
   @state() primaryActionKeys: PrimaryActionKey[] = [
     ChangeActions.READY,
     RevisionActions.SUBMIT,
+    RevisionActions.SUBMIT_TOPIC,
   ];
 
   @state() _hideQuickApproveAction = false;
@@ -789,6 +794,13 @@ export class GrChangeActions
           .action=${this.revisionActions?.submit}
           @cancel=${this.handleConfirmDialogCancel}
           @confirm=${this.handleSubmitConfirm}
+        ></gr-confirm-submit-dialog>
+        <gr-confirm-submit-dialog
+          id="confirmSubmitTopicDialog"
+          class="confirmDialog"
+          .action=${this.revisionActions?.['submit.topic']}
+          @cancel=${this.handleConfirmDialogCancel}
+          @confirm=${this.handleSubmitTopicConfirm}
         ></gr-confirm-submit-dialog>
         <gr-dialog
           id="createFollowUpDialog"
@@ -1494,6 +1506,14 @@ export class GrChangeActions
     this.showActionDialog(this.confirmSubmitDialog);
   }
 
+  showSubmitTopicDialog() {
+    if (!this.canSubmitChange()) {
+      return;
+    }
+    assertIsDefined(this.confirmSubmitTopicDialog, 'confirmSubmitTopicDialog');
+    this.showActionDialog(this.confirmSubmitTopicDialog);
+  }
+
   private async handleActionTap(e: MouseEvent, key: string, type: string) {
     e.preventDefault();
     let el = e.target as Element;
@@ -1656,6 +1676,16 @@ export class GrChangeActions
         assertIsDefined(this.confirmSubmitDialog, 'confirmSubmitDialog');
         this.showActionDialog(this.confirmSubmitDialog);
         break;
+      case RevisionActions.SUBMIT_TOPIC:
+        if (!this.canSubmitChange()) {
+          return;
+        }
+        assertIsDefined(
+          this.confirmSubmitTopicDialog,
+          'confirmSubmitTopicDialog'
+        );
+        this.showActionDialog(this.confirmSubmitTopicDialog);
+        break;
       default:
         this.fireAction(
           this.prependSlash(key),
@@ -1682,6 +1712,7 @@ export class GrChangeActions
 
   private hideAllDialogs() {
     assertIsDefined(this.confirmSubmitDialog, 'confirmSubmitDialog');
+    assertIsDefined(this.confirmSubmitTopicDialog, 'confirmSubmitTopicDialog');
     const dialogEls = queryAll(this, '.confirmDialog');
     for (const dialogEl of dialogEls) {
       (dialogEl as HTMLElement).hidden = true;
@@ -1938,6 +1969,18 @@ export class GrChangeActions
     );
   }
 
+  handleSubmitTopicConfirm() {
+    if (!this.canSubmitChange()) {
+      return;
+    }
+    this.hideAllDialogs();
+    this.fireAction(
+      '/submit.topic',
+      assertUIActionInfo(this.revisionActions?.['submit.topic']),
+      true
+    );
+  }
+
   private isOverflowAction(type: string, key: string) {
     return this.overflowActions.some(
       action => action.type === type && action.key === key
@@ -2089,6 +2132,7 @@ export class GrChangeActions
       case ChangeActions.REBASE_EDIT:
       case ChangeActions.REBASE:
       case ChangeActions.SUBMIT:
+      case ChangeActions.SUBMIT_TOPIC:
         // Hide rebase dialog only if the action succeeds
         this.actionsModal?.close();
         this.hideAllDialogs();

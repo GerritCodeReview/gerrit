@@ -179,6 +179,8 @@ public class ChangeRestApiModule extends RestApiModule {
     get(ROBOT_COMMENT_KIND).to(GetRobotComment.class);
 
     post(REVISION_KIND, "submit").to(Submit.class);
+    // TODO: Don't bind this, when submitting whole topic is enforced
+    post(REVISION_KIND, "submit.topic").to(SubmitWholeTopic.class);
     get(REVISION_KIND, "submit_type").to(TestSubmitType.Get.class);
     post(REVISION_KIND, "test.submit_rule").to(TestSubmitRule.class);
     post(REVISION_KIND, "test.submit_type").to(TestSubmitType.class);
@@ -188,6 +190,7 @@ public class ChangeRestApiModule extends RestApiModule {
     get(CHANGE_KIND, "topic").to(GetTopic.class);
     put(CHANGE_KIND, "topic").to(PutTopic.class);
     post(CHANGE_KIND, "submit").to(Submit.CurrentRevision.class);
+    post(CHANGE_KIND, "submit.topic").to(SubmitWholeTopic.CurrentRevision.class);
     get(CHANGE_KIND, "submitted_together").to(SubmittedTogether.class);
     get(CHANGE_KIND, "suggest_reviewers").to(SuggestChangeReviewers.class);
 

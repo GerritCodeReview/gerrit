@@ -14,12 +14,28 @@
 
 package com.google.gerrit.extensions.common;
 
+import com.google.gerrit.extensions.client.SubmitWholeTopicMode;
+
 /** API response containing values from the {@code change} section of {@code gerrit.config}. */
 public class ChangeConfigInfo {
   public Boolean allowBlame;
   public Boolean disablePrivateChanges;
   public int updateDelay;
-  public Boolean submitWholeTopic;
+
+  /**
+   * Backward-compatible boolean: {@code true} when {@link #submitWholeTopicMode} is {@link
+   * SubmitWholeTopicMode#ENFORCED}, {@code false} or {@code null} otherwise.
+   *
+   * @deprecated Use {@link #submitWholeTopicMode} instead.
+   */
+  @Deprecated public Boolean submitWholeTopic;
+
+  /**
+   * The full {@link SubmitWholeTopicMode} controlling how topic-based submission behaves. Clients
+   * that understand this field should prefer it over {@link #submitWholeTopic}.
+   */
+  public SubmitWholeTopicMode submitWholeTopicMode;
+
   public String mergeabilityComputationBehavior;
   public Boolean conflictsPredicateEnabled;
   public Boolean allowMarkdownBase64ImagesInComments;

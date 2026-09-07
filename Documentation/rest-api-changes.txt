@@ -352,7 +352,7 @@ link:#approval-info[ApprovalInfo] of the `all` attribute.
 * `SUBMITTABLE`: include the `submittable` field in link:#change-info[ChangeInfo],
   which can be used to tell if the change is reviewed and ready for submit. Only
   changes with `status` is `NEW` can be submittable, for `MERGED` and
-  `ABANDONED` changes this alway evaluates to `false`.
+  `ABANDONED` changes this always evaluates to `false`.
 --
 
 [[web-links]]
@@ -7536,7 +7536,7 @@ likely allowed to execute it. This may change if state is updated
 at the server or permissions are modified. Not present if false.
 |`enabled_options`      |optional|
 Optional list of enabled options. +
-See the list of suppported options link:#action-options[below].
+See the list of supported options link:#action-options[below].
 |====================================
 
 [[action-options]]
@@ -9313,7 +9313,7 @@ link:user-notify.html#recipient-types[recipient type].
 |Field Name||Description
 |`accounts`|optional|
 A list of link:rest-api-accounts.html#account-id[account IDs] that
-identify the accounts that should be should be notified.
+identify the accounts that should be notified.
 |=======================
 
 [[parent-info]]

@@ -69,7 +69,7 @@ The following metrics are reported.
 ** `cancellation_reason`:
    The reason why the request was cancelled.
 * `cancellation/receive_timeout_count`: Number of requests that are cancelled
-  because link:config.html#receive.timeout[receive.timout] is exceeded
+  because link:config.html#receive.timeout[receive.timeout] is exceeded
 ** `cancellation_type`:
    The cancellation type (graceful or forceful).
 

@@ -960,7 +960,7 @@ It is possible to specify the following options:
 'GET /config/server/labels'
 --
 
-Lists the globally defined labels (labels that are added programatically via the
+Lists the globally defined labels (labels that are added programmatically via the
 link:dev-plugins.html#label-type[LabelType] extension point).
 
 As result a list of labels as link:rest-api-projects.html#label-definition-info[
@@ -1003,7 +1003,7 @@ The entries in the list are sorted by label name.
 --
 
 Lists the globally defined submit requirements (submit requirements that are
-added programatically via the
+added programmatically via the
 link:dev-plugins.html#submit-requirement[SubmitRequirement] extension point).
 
 As result a list of submit-requirements as

@@ -982,6 +982,32 @@ Sets an email address as preferred email address for an account.
 If the email address was already the preferred email address of the
 account the response is "`200 OK`".
 
+[[set-avatar-email]]
+=== Set Avatar Email
+--
+'PUT /accounts/link:#account-id[\{account-id\}]/emails/link:#email-id[\{email-id\}]/avatar'
+--
+
+Sets an email address as the avatar email address for an account. The
+avatar email address is used for avatar lookup, e.g. via Gravatar.
+
+Only an email address that is assigned to the account can be set as its
+avatar email address. Callers that are not the account owner must have
+the 'Modify Account' global capability.
+
+.Request
+----
+  PUT /accounts/self/emails/john.doe@example.com/avatar HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 201 Created
+----
+
+If the email address was already the avatar email address of the account
+the response is "`200 OK`".
+
 [[list-ssh-keys]]
 === List SSH Keys
 --

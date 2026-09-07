@@ -206,6 +206,30 @@
       },
       "revId": "cea2dc4bd5cdcf4c957741ea837b26d296589262",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb1cec54_8bb2abe9",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluatorImpl.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-09-07T15:45:32Z",
+      "side": 1,
+      "message": "I fixed the security concer here: https://gerrit-review.googlesource.com/c/gerrit/+/627401\n\nMy fix preserves the caller context during async SR evaluation.",
+      "parentUuid": "e1879551_3c9ae2fc",
+      "range": {
+        "startLine": 190,
+        "startChar": 0,
+        "endLine": 267,
+        "endChar": 7
+      },
+      "revId": "cea2dc4bd5cdcf4c957741ea837b26d296589262",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

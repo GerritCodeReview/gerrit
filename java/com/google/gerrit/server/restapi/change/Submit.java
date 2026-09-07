@@ -125,7 +125,7 @@ public class Submit
   private final ParameterizedString titlePatternWithAncestors;
   private final String submitTopicLabel;
   private final ParameterizedString submitTopicTooltip;
-  private final boolean submitWholeTopic;
+  private final boolean enforceWholeTopicSubmit;
   private final Provider<InternalChangeQuery> queryProvider;
   private final ChangeJson.Factory json;
   private final ChangeData.Factory changeDataFactory;
@@ -170,7 +170,7 @@ public class Submit
             MoreObjects.firstNonNull(
                 cfg.getString("change", null, "submitTooltipAncestors"),
                 DEFAULT_TOOLTIP_ANCESTORS));
-    submitWholeTopic = MergeSuperSet.wholeTopicEnabled(cfg);
+    enforceWholeTopicSubmit = MergeSuperSet.isWholeTopicSubmitEnforced(cfg);
     this.submitTopicLabel =
         MoreObjects.firstNonNull(
             Strings.emptyToNull(cfg.getString("change", null, "submitTopicLabel")),
@@ -331,7 +331,8 @@ public class Submit
     if (!Strings.isNullOrEmpty(topic)) {
       topicSize = queryProvider.get().noFields().byTopicOpen(topic).size();
     }
-    boolean treatWithTopic = submitWholeTopic && !Strings.isNullOrEmpty(topic) && topicSize > 1;
+    boolean treatWithTopic =
+        enforceWholeTopicSubmit && !Strings.isNullOrEmpty(topic) && topicSize > 1;
 
     if (submitProblems != null) {
       return new UiAction.Description()

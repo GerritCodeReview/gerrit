@@ -51,6 +51,7 @@ import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
+import com.google.gerrit.server.InternalUser;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.project.SubmitRequirementEvaluationException;
 import com.google.gerrit.server.project.SubmitRequirementsEvaluatorImpl;
@@ -64,6 +65,7 @@ import com.google.gerrit.server.query.change.SubmitRequirementPredicate;
 import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.util.Providers;
 import java.util.Optional;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
@@ -1133,6 +1135,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
             projectCache,
             globalSubmitRequirements,
             cfg,
+            Providers.of(new InternalUser()),
             oneOffRequestContext,
             mockExecutor,
             regexQueryPermissionChecker);

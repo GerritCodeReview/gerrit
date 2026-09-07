@@ -23,6 +23,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.MoreExecutors;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.PredicateResult;
 import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementExpression;
@@ -31,6 +32,7 @@ import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.index.RegexQueryPermissionChecker;
@@ -45,8 +47,10 @@ import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.inject.Inject;
 import com.google.inject.Module;
+import com.google.inject.OutOfScopeException;
 import com.google.inject.Provider;
 import com.google.inject.Provides;
+import com.google.inject.ProvisionException;
 import com.google.inject.Scopes;
 import com.google.inject.Singleton;
 import java.util.Locale;
@@ -74,10 +78,8 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
   private final boolean requireOperatorForUpdate;
   private final boolean requireOperatorForEvaluation;
   private final ExecutorService executor;
-  // Use a request context to execute predicates as an internal user with expanded visibility.
-  // This is so that the evaluation does not depend on who is running the current request (e.g.
-  // a "ownerin" predicate with group that is not visible to the person making this request).
   private final OneOffRequestContext requestContext;
+  private final Provider<CurrentUser> currentUser;
   private final long executionTimeout;
   private final SubmitRequirementRegexQueryPermissionChecker regexQueryPermissionChecker;
 
@@ -139,6 +141,7 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
       ProjectCache projectCache,
       PluginSetContext<SubmitRequirement> globalSubmitRequirements,
       @GerritServerConfig Config config,
+      Provider<CurrentUser> currentUser,
       OneOffRequestContext requestContext,
       @SubmitRequirementExecutor ExecutorService executor,
       SubmitRequirementRegexQueryPermissionChecker regexQueryPermissionChecker) {
@@ -146,6 +149,7 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
     this.projectCache = projectCache;
     this.globalSubmitRequirements = globalSubmitRequirements;
     this.config = config;
+    this.currentUser = currentUser;
     this.requestContext = requestContext;
     this.regexQueryPermissionChecker = regexQueryPermissionChecker;
     this.requireOperatorForUpdate = requireOperatorForUpdate();
@@ -161,6 +165,10 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
     if (!regexQueryPermissionChecker.isAllowed()) {
       regexQueryPermissionChecker.check(expression.expressionString());
     }
+
+    // Use a request context to execute predicates as an internal user with expanded visibility.
+    // This is so that the evaluation does not depend on who is running the current request (e.g.
+    // a "ownerin" predicate with group that is not visible to the person making this request).
     try (ManualRequestContext ignored = requestContext.open()) {
       @SuppressWarnings("unused")
       var unused =
@@ -183,6 +191,10 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
   @Override
   public ImmutableMap<SubmitRequirement, SubmitRequirementResult> evaluateAllRequirements(
       ChangeData cd) {
+    // This method is used to return the full set of submit requirements associated with a
+    // change, therefore it must return the same information and result regardless of the
+    // user that is running the request (e.g. a "ownerin" predicate with group that is not visible
+    // to the person making this request).
     try (ManualRequestContext ignored = requestContext.open()) {
       return getRequirements(cd);
     }
@@ -190,6 +202,8 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
 
   @Override
   public SubmitRequirementResult evaluateRequirement(SubmitRequirement sr, ChangeData cd) {
+    // This method is never used in Gerrit production code, however, its JavaDoc asserts that it
+    // should be executed by running inside an internal user request context.
     try (ManualRequestContext ignored = requestContext.open()) {
       return evaluateRequirementInternal(sr, cd);
     }
@@ -201,6 +215,17 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
     if (!regexQueryPermissionChecker.isAllowed()) {
       checkRegexPermission(sr);
     }
+
+    // This method is called from the /changes/<change-id>/check.submit_requirement REST-API
+    // which is evaluating a user-crafted submit requirement against a change in Gerrit.
+    // Because of the nature of the request and the lack of trust of the remote user
+    // performing the request, executing the operation using an internal user context
+    // would represent a security risk: the code and expressions used in the submit
+    // requirement passed have not been reviewed or approved by anyone and could either
+    // cause data leak or overload to the Gerrit server.
+    //
+    // Execute the submit requirement using the current user context so that any visibility
+    // or restrictions are taken into account when evaluating it.
     return evaluateRequirementInternal(sr, cd);
   }
 
@@ -239,13 +264,15 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
   }
 
   private SubmitRequirementResult evaluateRequirementInternal(SubmitRequirement sr, ChangeData cd) {
+    Optional<Account.Id> userAccountId = getCurrentAccountId();
     try (TraceTimer timer =
         TraceContext.newTimer(
             "Evaluate submit requirement " + sr.name(),
             Metadata.builder().changeId(cd.change().getId().get()).build())) {
       Callable<SubmitRequirementResult> task =
           () -> {
-            try (ManualRequestContext ctx = requestContext.open()) {
+            try (ManualRequestContext ctx =
+                userAccountId.map(requestContext::openAs).orElseGet(requestContext::open)) {
               Optional<SubmitRequirementExpressionResult> applicabilityResult =
                   sr.applicabilityExpression().isPresent()
                       ? Optional.of(evaluateExpression(sr.applicabilityExpression().get(), cd))
@@ -321,6 +348,19 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
         logger.atSevere().withCause(e).log("Error evaluating Submit requirement: %s", sr.name());
         return errorResult(sr, cd, e);
       }
+    }
+  }
+
+  private Optional<Account.Id> getCurrentAccountId() {
+    try {
+      CurrentUser user = currentUser.get();
+      return user.isIdentifiedUser()
+          ? Optional.of(user.asIdentifiedUser().getAccountId())
+          : Optional.empty();
+    } catch (OutOfScopeException | ProvisionException e) {
+      // Some non-request callers, such as ChangeIndexer, deliberately expose no scoped user.
+      logger.atFiner().withCause(e).log("Unable to resolve user");
+      return Optional.empty();
     }
   }
 

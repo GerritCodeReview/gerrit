@@ -92,7 +92,6 @@ import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 @NoHttpd
@@ -468,8 +467,7 @@ public class SubmitRequirementIT extends AbstractDaemonTest {
     assertThat(result.status).isEqualTo(Status.SATISFIED);
   }
 
-  @Ignore // This test has been broken by I7613d40bf57 where the execution is always executed by the
-  // internal user
+  @Test
   public void checkSubmitRequirementWithInvisibleOwnerInGroupReturnsError() throws Exception {
     GroupInput groupInput = new GroupInput();
     groupInput.name = name("invisible-group");

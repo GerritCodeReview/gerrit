@@ -370,6 +370,7 @@ export declare interface ChangeConfigInfo {
   large_change: number;
   update_delay: number;
   submit_whole_topic?: boolean;
+  enforce_whole_topic_submit?: boolean;
   disable_private_changes?: boolean;
   mergeability_computation_behavior: MergeabilityComputationBehavior;
   conflicts_predicate_enabled?: boolean;

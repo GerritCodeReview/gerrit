@@ -745,13 +745,21 @@ public class MergeOp implements AutoCloseable {
       IdentifiedUser caller,
       boolean checkSubmitRules,
       SubmitInput submitInput,
-      boolean dryrun)
+      boolean dryrun,
+      boolean includingTopicClosure)
       throws ConfigInvalidException,
           PermissionBackendException,
           UpdateException,
           IOException,
           RestApiException {
-    return merge(change, caller, checkSubmitRules, submitInput, dryrun, (cs) -> Optional.empty());
+    return merge(
+        change,
+        caller,
+        checkSubmitRules,
+        submitInput,
+        dryrun,
+        includingTopicClosure,
+        (cs) -> Optional.empty());
   }
 
   /**
@@ -769,6 +777,7 @@ public class MergeOp implements AutoCloseable {
    * @param dryrun if true, this includes calculating all projects affected by the submission,
    *     checking for possible submission problems (ACLs, merge conflicts, etc) but not the merge
    *     itself.
+   * @param includingTopicClosure if true, all changes within the same topic will be merged.
    * @param preMergeChecker function for checking if the merge should continue or not
    * @throws RestApiException if an error occurred.
    * @throws PermissionBackendException if permissions can't be checked
@@ -786,6 +795,7 @@ public class MergeOp implements AutoCloseable {
       boolean checkSubmitRules,
       SubmitInput submitInput,
       boolean dryrun,
+      boolean includingTopicClosure,
       PreMergeChecker preMergeChecker)
       throws RestApiException,
           UpdateException,
@@ -809,7 +819,8 @@ public class MergeOp implements AutoCloseable {
       logger.atFine().log("Beginning integration of %s", change);
       try {
 
-        ChangeSet indexBackedChangeSet = completeMergeChangeSetWithRetry(change);
+        ChangeSet indexBackedChangeSet =
+            completeMergeChangeSetWithRetry(change, includingTopicClosure);
 
         if (preMergeChecker.check(indexBackedChangeSet).isPresent()) {
           return null;
@@ -904,7 +915,7 @@ public class MergeOp implements AutoCloseable {
     }
   }
 
-  private ChangeSet completeMergeChangeSetWithRetry(Change change)
+  private ChangeSet completeMergeChangeSetWithRetry(Change change, boolean includingTopicClosure)
       throws IOException, ResourceConflictException {
     try {
       mergeSuperSet.setMergeOpRepoManager(orm);
@@ -920,10 +931,7 @@ public class MergeOp implements AutoCloseable {
                     Change reloadChange = change;
                     ChangeSet indexBackedMergeChangeSet =
                         mergeSuperSet.completeChangeSet(
-                            reloadChange,
-                            caller.getRealUser(),
-                            /* includingTopicClosure= */ false,
-                            backfill);
+                            reloadChange, caller.getRealUser(), includingTopicClosure, backfill);
                     if (!indexBackedMergeChangeSet.ids().contains(reloadChange.getId())) {
                       // indexBackedChangeSet contains only open changes, if the change is missing
                       // in this set it might be that the change was concurrently submitted in the

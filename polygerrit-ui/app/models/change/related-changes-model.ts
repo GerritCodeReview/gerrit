@@ -16,7 +16,7 @@ import {ChangeModel} from './change-model';
 import {combineLatest, forkJoin, from, of} from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
 import {ConfigModel} from '../config/config-model';
-import {ChangeStatus} from '../../api/rest-api';
+import {ChangeStatus, SubmitWholeTopicMode} from '../../api/rest-api';
 import {isDefined} from '../../types/types';
 
 export interface RelatedChangesState {
@@ -211,7 +211,16 @@ export class RelatedChangesModel extends Model<RelatedChangesState> {
       .pipe(
         switchMap(([changeNum, topic, config]) => {
           if (!changeNum || !topic || !config) return of(undefined);
-          if (config.change.submit_whole_topic) return of(undefined);
+          // When mode is TRUE every submit already includes the whole topic;
+          // the same-topic panel is redundant. For ENABLED the user opts in
+          // explicitly, so we still show the panel. Fall back to the legacy
+          // boolean for servers that don't send submit_whole_topic_mode yet.
+          const mode =
+            config.change.submit_whole_topic_mode ??
+            (config.change.submit_whole_topic
+              ? SubmitWholeTopicMode.ENFORCED
+              : SubmitWholeTopicMode.DISABLED);
+          if (mode === SubmitWholeTopicMode.ENFORCED) return of(undefined);
           return from(
             this.restApiService.getChangesWithSameTopic(topic, {
               openChangesOnly: true,

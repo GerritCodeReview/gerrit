@@ -2028,7 +2028,8 @@ part of the response.
 Changes that will also be submitted:
 1. All changes of the same topic if
 link:config-gerrit.html#change.submitWholeTopic[`change.submitWholeTopic`]
-configuration is set to true.
+is set to `ENFORCED`. To submit a whole topic selectively without enforcing
+it globally, use link:#submit-whole-topic[Submit Whole Topic] instead.
 2. All dependent changes.
 3. The closure of the above (e.g if a dependent change has a topic, all changes
 of *that* topic will also be submitted).
@@ -2071,6 +2072,84 @@ message is contained in the response body.
   blocked by Verified
 ----
 
+[[submit-whole-topic]]
+=== Submit Whole Topic
+--
+'POST /changes/link:#change-id[\{change-id\}]/submit.topic'
+--
+
+Submits all open changes that share the topic of the specified change
+together, in a single operation.
+
+This is an opt-in alternative to link:#submit-change[Submit Change]. It is
+only available when
+link:config-gerrit.html#change.submitWholeTopic[`change.submitWholeTopic`]
+is set to `OPTIONAL`. When the setting is `DISABLED` or `ENFORCED` the
+endpoint returns `405 Method Not Allowed`.
+
+The caller must have submit permission on every change in the topic
+closure. Only the latest revision of each change is submitted.
+
+For the full set of guarantees and limitations, including cross-project
+non-atomicity and concurrent-submit behaviour, see
+link:#submit-whole-topic-guarantees[Submit Whole Topic: Guarantees and Limitations].
+
+.Request
+----
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/submit.topic HTTP/1.0
+----
+
+As response a link:#change-info[ChangeInfo] entity is returned that
+describes the submitted/merged change.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "id": "myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940",
+    "project": "myProject",
+    "branch": "master",
+    "change_id": "I8473b95934b5732ac55d26311a706c9c2bde9940",
+    "subject": "Implementing Feature X",
+    "status": "MERGED",
+    "created": "2013-02-01 09:59:32.126000000",
+    "updated": "2013-02-21 11:16:36.775000000",
+    "submitted": "2013-02-21 11:16:36.615000000",
+    "_number": 3965,
+    "owner": {
+      "name": "John Doe"
+    },
+    "current_revision_number": 2
+  }
+----
+
+If the feature is not enabled the response is `405 Method Not Allowed`:
+
+.Response
+----
+  HTTP/1.1 405 Method Not Allowed
+  Content-Disposition: attachment
+  Content-Type: text/plain; charset=UTF-8
+
+  submit whole topic is not available
+----
+
+If a submit rule blocks one of the changes in the topic closure the
+response is `409 Conflict`:
+
+.Response
+----
+  HTTP/1.1 409 Conflict
+  Content-Disposition: attachment
+  Content-Type: text/plain; charset=UTF-8
+
+  blocked by Verified
+----
+
 [[submitted-together]]
 === Changes Submitted Together
 --
@@ -2085,8 +2164,8 @@ The list consists of:
 
 * The given change.
 * If link:config-gerrit.html#change.submitWholeTopic[`change.submitWholeTopic`]
-  is enabled OR if the `o=TOPIC_CLOSURE` query parameter is passed, include all
-  open changes with the same topic.
+  is set to `ENFORCED` OR if the `o=TOPIC_CLOSURE` query parameter is passed,
+  include all open changes with the same topic.
 * For each change whose submit type is not CHERRY_PICK, include unmerged
   ancestors targeting the same branch.
 
@@ -5431,7 +5510,9 @@ part of the response.
 Changes that will also be submitted:
 1. All changes of the same topic if
 link:config-gerrit.html#change.submitWholeTopic[`change.submitWholeTopic`]
-configuration is set to true.
+is set to `ENFORCED`. To submit a whole topic selectively without enforcing
+it globally, use link:#submit-whole-topic-revision[Submit Whole Topic]
+instead.
 2. All dependent changes.
 3. The closure of the above (e.g if a dependent change has a topic, all changes
 of *that* topic will also be submitted).
@@ -5473,6 +5554,178 @@ message is contained in the response body.
 
   "revision 674ac754f91e64a0efb8087e59a176484bd534d1 is not current revision"
 ----
+
+[[submit-whole-topic-revision]]
+=== Submit Whole Topic
+--
+'POST /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/submit.topic'
+--
+
+Revision-level variant of link:#submit-whole-topic[Submit Whole Topic].
+Submits all open changes that share the topic of the specified change
+together, in a single operation.
+
+The supplied `\{revision-id\}` must be the current revision of the change;
+submitting a non-current revision returns `409 Conflict`.
+
+This endpoint is only available when
+link:config-gerrit.html#change.submitWholeTopic[`change.submitWholeTopic`]
+is set to `OPTIONAL`. When the setting is `DISABLED` or `ENFORCED` the
+endpoint returns `405 Method Not Allowed`.
+
+The caller must have submit permission on every change in the topic
+closure.
+
+For the full set of guarantees and limitations, including cross-project
+non-atomicity and concurrent-submit behaviour, see
+link:#submit-whole-topic-guarantees[Submit Whole Topic: Guarantees and Limitations].
+
+.Request
+----
+  POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/submit.topic HTTP/1.0
+----
+
+As response a link:#change-info[ChangeInfo] entity is returned that
+describes the submitted/merged change.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "id": "myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940",
+    "project": "myProject",
+    "branch": "master",
+    "change_id": "I8473b95934b5732ac55d26311a706c9c2bde9940",
+    "subject": "Implementing Feature X",
+    "status": "MERGED",
+    "created": "2013-02-01 09:59:32.126000000",
+    "updated": "2013-02-21 11:16:36.775000000",
+    "submitted": "2013-02-21 11:16:36.615000000",
+    "_number": 3965,
+    "owner": {
+      "name": "John Doe"
+    },
+    "current_revision_number": 2
+  }
+----
+
+If the feature is not enabled the response is `405 Method Not Allowed`:
+
+.Response
+----
+  HTTP/1.1 405 Method Not Allowed
+  Content-Disposition: attachment
+  Content-Type: text/plain; charset=UTF-8
+
+  submit whole topic is not available
+----
+
+If the revision is not the current revision, or a submit rule blocks one
+of the changes in the topic closure, the response is `409 Conflict`:
+
+.Response
+----
+  HTTP/1.1 409 Conflict
+  Content-Type: text/plain; charset=UTF-8
+
+  "revision 674ac754f91e64a0efb8087e59a176484bd534d1 is not current revision"
+----
+
+[[submit-whole-topic-guarantees]]
+=== Submit Whole Topic: Guarantees and Limitations
+
+This section documents what Gerrit guarantees when
+link:#submit-whole-topic[Submit Whole Topic] is used, and what it
+explicitly cannot guarantee.
+
+==== What is guaranteed
+
+[[submit-whole-topic-guarantee-permission]]
+Permissions::
+The caller must have submit permission on every change in the topic
+closure before any ref is written. If any permission check fails the
+entire operation is rejected with `403 Forbidden` or `409 Conflict`
+(depending on which change lacks permission) and no changes are merged.
+
+[[submit-whole-topic-guarantee-submit-rules]]
+Submit rules::
+Every change in the topic closure is checked against its project's
+submit rules before any ref is written. If any change is not ready the
+entire operation is rejected with `409 Conflict` and no changes are
+merged.
+
+[[submit-whole-topic-guarantee-single-project]]
+Atomicity within a single project::
+When all changes in the topic closure belong to the *same* project,
+their refs are updated in a single
+link:https://git-scm.com/docs/git-push[atomic batch ref update]. Either
+all refs are written or none are.
+
+[[submit-whole-topic-guarantee-retry]]
+Retry on concurrent modification::
+If a concurrent submit causes a ref-lock conflict during the operation,
+Gerrit retries the whole submission automatically. On retry, changes
+that were already merged by the concurrent submit are silently skipped
+(`allowMerged=true`), and only the remaining open changes are
+completed. This means a temporary race does not cause the operation to
+fail permanently.
+
+[[submit-whole-topic-guarantee-ancestors]]
+Unmerged ancestors::
+For each change in the topic whose submit strategy is not
+`CHERRY_PICK`, all unmerged ancestor changes targeting the same branch
+are also included in the submission, exactly as for a regular submit.
+
+[[submit-whole-topic-guarantee-open-only]]
+Only open changes are submitted::
+The topic closure is computed from open changes only. Changes in the
+topic that are already merged at the time the operation starts are
+ignored and do not cause the operation to fail.
+
+==== What cannot be guaranteed
+
+[[submit-whole-topic-no-guarantee-cross-project]]
+No atomicity across projects::
+When the topic closure spans *multiple* projects, each project's refs
+are written in a *separate* batch ref update. These per-project updates
+are applied sequentially and are not coordinated with each other.
+If project A succeeds but project B subsequently fails (for example
+after retries are exhausted), the changes in project A remain merged
+and the changes in project B remain open. There is no automatic
+rollback.
++
+This is an inherent limitation of Git's ref-locking model: a single
+atomic transaction cannot span multiple repositories.
+
+[[submit-whole-topic-no-guarantee-new-changes]]
+Changes added to the topic after submission starts::
+The topic closure is computed once when the request is received. Any
+change whose topic is set to the same value after that point is not
+included in the current operation. There is no mechanism to wait for or
+retry with an extended closure.
+
+[[submit-whole-topic-no-guarantee-concurrent-single-submit]]
+Isolation from concurrent single-change submits::
+In `OPTIONAL` mode nothing prevents another user from submitting
+individual changes from the same topic concurrently via the normal
+link:#submit-change[Submit] endpoint. Such concurrent submits are not
+blocked or rolled back. If the triggering change itself is merged by a
+concurrent submit before this operation runs, the operation returns
+`409 Conflict`.
+
+[[submit-whole-topic-no-guarantee-response-change]]
+The response change may not be the only one submitted::
+The `200 OK` response body contains the
+link:#change-info[ChangeInfo] for the triggering change only. Other
+changes in the topic closure are submitted in the same operation but
+are not individually enumerated in the response. Use
+link:#submitted-together[Changes Submitted Together] (with
+`o=TOPIC_CLOSURE`) before calling this endpoint to enumerate the full
+set of changes that will be included.
 
 [[get-patch]]
 === Get Patch

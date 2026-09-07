@@ -20,6 +20,7 @@ import static java.util.Objects.requireNonNull;
 import com.google.common.base.Strings;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.extensions.client.SubmitWholeTopicMode;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -83,8 +84,12 @@ public class MergeSuperSet {
     this.projectCache = projectCache;
   }
 
-  public static boolean wholeTopicEnabled(Config config) {
-    return config.getBoolean("change", null, "submitWholeTopic", false);
+  /**
+   * Returns the {@link SubmitWholeTopicMode} configured for {@code change.submitWholeTopic},
+   * preserving backward compatibility with the legacy boolean values {@code true}/{@code false}.
+   */
+  public static SubmitWholeTopicMode wholeTopicMode(Config config) {
+    return SubmitWholeTopicMode.parse(config.getString("change", null, "submitWholeTopic"));
   }
 
   @CanIgnoreReturnValue
@@ -144,7 +149,7 @@ public class MergeSuperSet {
               && permissionBackend.user(user).change(cd).test(ChangePermission.READ);
 
       ChangeSet changeSet = new ChangeSet(cd, visible);
-      if (wholeTopicEnabled(cfg) || includingTopicClosure) {
+      if (wholeTopicMode(cfg) == SubmitWholeTopicMode.ENFORCED || includingTopicClosure) {
         return completeChangeSetIncludingTopics(changeSet, user, backfill);
       }
       try (TraceContext traceContext = PluginContext.newTrace(mergeSuperSetComputation);

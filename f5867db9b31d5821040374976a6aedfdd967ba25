@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d8cdbba3_3cad1a52",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-07T05:13:23Z",
+      "side": 1,
+      "message": "This is a public API change that would require adaptation in client plugin code. I believe this is worth mentioning in the release notes.",
+      "revId": "f5867db9b31d5821040374976a6aedfdd967ba25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

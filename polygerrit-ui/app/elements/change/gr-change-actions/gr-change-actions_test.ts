@@ -108,6 +108,12 @@ suite('gr-change-actions tests', () => {
             title: 'Submit patch set 2 into master',
             enabled: true,
           },
+          'submit.topic': {
+            method: HttpMethod.POST,
+            label: 'Submit whole topic',
+            title: 'Submit all changes of the same topic',
+            enabled: true,
+          },
           revert_submission: {
             method: HttpMethod.POST,
             label: 'Revert submission',
@@ -182,6 +188,24 @@ suite('gr-change-actions tests', () => {
                 >
                   <gr-icon icon="done_all"></gr-icon>
                   Submit
+                </gr-button>
+              </gr-tooltip-content>
+              <gr-tooltip-content
+                has-tooltip=""
+                position-below=""
+                title="Submit all changes of the same topic"
+              >
+                <gr-button
+                  aria-disabled="false"
+                  class="submit.topic"
+                  data-action-key="submit.topic"
+                  data-label="Submit whole topic"
+                  primary=""
+                  role="button"
+                  tabindex="0"
+                >
+                  <gr-icon icon="done_all"> </gr-icon>
+                  Submit whole topic
                 </gr-button>
               </gr-tooltip-content>
             </section>
@@ -264,6 +288,11 @@ suite('gr-change-actions tests', () => {
             <gr-confirm-submit-dialog
               class="confirmDialog"
               id="confirmSubmitDialog"
+            >
+            </gr-confirm-submit-dialog>
+            <gr-confirm-submit-dialog
+              class="confirmDialog"
+              id="confirmSubmitTopicDialog"
             >
             </gr-confirm-submit-dialog>
             <gr-dialog
@@ -452,11 +481,15 @@ suite('gr-change-actions tests', () => {
 
     test('primary and secondary actions split properly', () => {
       // Submit should be the only primary action.
-      assert.equal(element.topLevelPrimaryActions!.length, 1);
+      assert.equal(element.topLevelPrimaryActions!.length, 2);
       assert.equal(element.topLevelPrimaryActions![0].label, 'Submit');
       assert.equal(
+        element.topLevelPrimaryActions![1].label,
+        'Submit whole topic'
+      );
+      assert.equal(
         element.topLevelSecondaryActions!.length,
-        element.topLevelActions!.length - 1
+        element.topLevelActions!.length - 2
       );
     });
 
@@ -774,6 +807,96 @@ suite('gr-change-actions tests', () => {
         'gr-button[data-action-key="submit"]'
       ).click();
       assert.equal(fireActionStub.callCount, 0);
+    });
+
+    suite('submit whole topic', () => {
+      test('submit whole topic button shown when action available', async () => {
+        queryAndAssert<GrButton>(
+          element,
+          'gr-button[data-action-key="submit.topic"]'
+        );
+      });
+
+      test('clicking submit whole topic opens confirm dialog', async () => {
+        const showSpy = sinon.spy(element, 'showActionDialog');
+        queryAndAssert<GrButton>(
+          element,
+          'gr-button[data-action-key="submit.topic"]'
+        ).click();
+        await element.updateComplete;
+        assert.isTrue(
+          showSpy.calledWith(
+            queryAndAssert<GrConfirmSubmitDialog>(
+              element,
+              '#confirmSubmitTopicDialog'
+            )
+          )
+        );
+      });
+
+      test('showSubmitTopicDialog opens dialog', async () => {
+        const showSpy = sinon.spy(element, 'showActionDialog');
+        sinon.stub(element, 'canSubmitChange').returns(true);
+        element.showSubmitTopicDialog();
+        await element.updateComplete;
+        assert.isTrue(
+          showSpy.calledWith(
+            queryAndAssert<GrConfirmSubmitDialog>(
+              element,
+              '#confirmSubmitTopicDialog'
+            )
+          )
+        );
+      });
+
+      test('showSubmitTopicDialog does nothing when canSubmitChange is false', async () => {
+        const showSpy = sinon.spy(element, 'showActionDialog');
+        sinon.stub(element, 'canSubmitChange').returns(false);
+        element.showSubmitTopicDialog();
+        await element.updateComplete;
+        assert.isFalse(showSpy.called);
+      });
+
+      test('handleSubmitTopicConfirm fires action', () => {
+        const fireStub = sinon.stub(element, 'fireAction');
+        sinon.stub(element, 'canSubmitChange').returns(true);
+        element.handleSubmitTopicConfirm();
+        assert.isTrue(fireStub.calledOnce);
+        assert.deepEqual(fireStub.lastCall.args, [
+          '/submit.topic',
+          assertUIActionInfo(element.revisionActions?.['submit.topic']),
+          true,
+        ]);
+      });
+
+      test('handleSubmitTopicConfirm does nothing when canSubmitChange is false', () => {
+        const fireStub = sinon.stub(element, 'fireAction');
+        sinon.stub(element, 'canSubmitChange').returns(false);
+        element.handleSubmitTopicConfirm();
+        assert.isFalse(fireStub.called);
+      });
+
+      test('submit whole topic with plugin hook blocking', async () => {
+        sinon.stub(element, 'canSubmitChange').callsFake(() => false);
+        const fireActionStub = sinon.stub(element, 'fireAction');
+        await element.updateComplete;
+        queryAndAssert<GrButton>(
+          element,
+          'gr-button[data-action-key="submit.topic"]'
+        ).click();
+        assert.equal(fireActionStub.callCount, 0);
+      });
+
+      test('after submit whole topic succeeds, navigates to change', async () => {
+        sinon.stub(element, 'canSubmitChange').returns(true);
+        element.handleSubmitTopicConfirm();
+        // Simulate a successful action response
+        await element.handleResponse(
+          assertUIActionInfo(element.revisionActions?.['submit.topic']),
+          new Response(null, {status: 200})
+        );
+        assert.isTrue(navigateResetStub.calledOnce);
+      });
     });
 
     test('rebase change', async () => {

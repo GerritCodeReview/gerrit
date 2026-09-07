@@ -110,6 +110,30 @@
       },
       "revId": "cea2dc4bd5cdcf4c957741ea837b26d296589262",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15488a62_df4a0beb",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluatorImpl.java",
+        "patchSetId": 26
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-07T11:23:27Z",
+      "side": 1,
+      "message": "\u003e We must be able to make this running logic modular and *disable it* if there is no need for timeouts or async execution of the submit requirements.\n\nLooking at the L96-98, if `submitRequirement.evaluationThreads` is negative (which is the default), we use a direct executor which means run in the calling thread: this is then the same as doing synchronous evaluation.",
+      "parentUuid": "188f3fcd_651c5f98",
+      "range": {
+        "startLine": 190,
+        "startChar": 0,
+        "endLine": 267,
+        "endChar": 7
+      },
+      "revId": "cea2dc4bd5cdcf4c957741ea837b26d296589262",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

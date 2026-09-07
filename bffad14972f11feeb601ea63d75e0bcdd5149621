@@ -112,6 +112,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "c0d6705e_ca8d92d0",
+        "filename": "java/com/google/gerrit/server/restapi/change/SubmittedTogether.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-09-07T10:46:22Z",
+      "side": 1,
+      "message": "Looking at this more closely, I don\u0027t think this changes the API behaviour.\n\nBefore this change, the check was after the `if` branches, but `hidden` could only be non-zero in the `isNew()` branch.\n\nBoth the `merged` and the fallback branch explicitly set `hidden \u003d 0`, so the check could never reject those cases.\n\nSo yeah, in practice, that guard applied only to open changes before as well.",
+      "parentUuid": "c083b2a3_862e13dc",
+      "range": {
+        "startLine": 140,
+        "startChar": 0,
+        "endLine": 142,
+        "endChar": 9
+      },
+      "revId": "bffad14972f11feeb601ea63d75e0bcdd5149621",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "3aae0d3b_b8d6495e",
         "filename": "java/com/google/gerrit/server/restapi/change/SubmittedTogether.java",
         "patchSetId": 5

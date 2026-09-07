@@ -59,6 +59,7 @@ export enum ChangeActions {
   REVIEWED = 'reviewed',
   STOP_EDIT = 'stopEdit',
   SUBMIT = 'submit',
+  SUBMIT_TOPIC = 'submit.topic',
   UNREVIEWED = 'unreviewed',
   WIP = 'wip',
   INCLUDED_IN = 'includedIn',
@@ -68,6 +69,7 @@ export enum RevisionActions {
   CHERRYPICK = 'cherrypick',
   REBASE = 'rebase',
   SUBMIT = 'submit',
+  SUBMIT_TOPIC = 'submit.topic',
   DOWNLOAD = 'download',
 }
 

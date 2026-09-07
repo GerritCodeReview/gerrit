@@ -24,6 +24,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.ContributorAgreement;
+import com.google.gerrit.extensions.client.SubmitWholeTopicMode;
 import com.google.gerrit.extensions.common.AccountDefaultDisplayName;
 import com.google.gerrit.extensions.common.AccountsInfo;
 import com.google.gerrit.extensions.common.AuthInfo;
@@ -226,7 +227,9 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.allowBlame = toBoolean(config.getBoolean("change", "allowBlame", true));
     info.updateDelay =
         (int) ConfigUtil.getTimeUnit(config, "change", null, "updateDelay", 300, TimeUnit.SECONDS);
-    info.submitWholeTopic = toBoolean(MergeSuperSet.wholeTopicEnabled(config));
+    info.submitWholeTopic =
+        toBoolean(MergeSuperSet.wholeTopicMode(config) == SubmitWholeTopicMode.ENFORCED);
+    info.submitWholeTopicMode = MergeSuperSet.wholeTopicMode(config);
     info.disablePrivateChanges =
         toBoolean(this.config.getBoolean("change", null, "disablePrivateChanges", false));
     info.mergeabilityComputationBehavior =

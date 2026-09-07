@@ -809,7 +809,8 @@ public class MergeOp implements AutoCloseable {
       logger.atFine().log("Beginning integration of %s", change);
       try {
 
-        ChangeSet indexBackedChangeSet = completeMergeChangeSetWithRetry(change);
+        ChangeSet indexBackedChangeSet =
+            completeMergeChangeSetWithRetry(change, submitInput.submitWholeTopic);
 
         if (preMergeChecker.check(indexBackedChangeSet).isPresent()) {
           return null;
@@ -903,7 +904,7 @@ public class MergeOp implements AutoCloseable {
     }
   }
 
-  private ChangeSet completeMergeChangeSetWithRetry(Change change)
+  private ChangeSet completeMergeChangeSetWithRetry(Change change, boolean includingTopicClosure)
       throws IOException, ResourceConflictException {
     try {
       mergeSuperSet.setMergeOpRepoManager(orm);
@@ -919,10 +920,7 @@ public class MergeOp implements AutoCloseable {
                     Change reloadChange = change;
                     ChangeSet indexBackedMergeChangeSet =
                         mergeSuperSet.completeChangeSet(
-                            reloadChange,
-                            caller.getRealUser(),
-                            /* includingTopicClosure= */ false,
-                            backfill);
+                            reloadChange, caller.getRealUser(), includingTopicClosure, backfill);
                     if (!indexBackedMergeChangeSet.ids().contains(reloadChange.getId())) {
                       // indexBackedChangeSet contains only open changes, if the change is missing
                       // in this set it might be that the change was concurrently submitted in the

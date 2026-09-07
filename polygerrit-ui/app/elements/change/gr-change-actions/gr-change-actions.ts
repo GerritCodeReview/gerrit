@@ -1925,11 +1925,14 @@ export class GrChangeActions
     if (!this.canSubmitChange()) {
       return;
     }
+    const submitWholeTopic =
+      this.confirmSubmitDialog?.submitWholeTopic ?? false;
     this.hideAllDialogs();
     this.fireAction(
       '/submit',
       assertUIActionInfo(this.revisionActions?.submit),
-      true
+      true,
+      submitWholeTopic ? {submit_whole_topic: true} : undefined
     );
   }
 

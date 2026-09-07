@@ -226,7 +226,8 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.allowBlame = toBoolean(config.getBoolean("change", "allowBlame", true));
     info.updateDelay =
         (int) ConfigUtil.getTimeUnit(config, "change", null, "updateDelay", 300, TimeUnit.SECONDS);
-    info.submitWholeTopic = toBoolean(MergeSuperSet.wholeTopicEnabled(config));
+    info.submitWholeTopic = toBoolean(MergeSuperSet.isWholeTopicSubmitEnforced(config));
+    info.enforceWholeTopicSubmit = toBoolean(MergeSuperSet.isWholeTopicSubmitEnforced(config));
     info.disablePrivateChanges =
         toBoolean(this.config.getBoolean("change", null, "disablePrivateChanges", false));
     info.mergeabilityComputationBehavior =

@@ -210,7 +210,10 @@ public class PluginGuiceEnvironment {
     addOnStartStopReloadListeners(PluginName.GERRIT, injector);
   }
 
-  private void addOnStartStopReloadListeners(String pluginName, Injector injector) {
+  private void addOnStartStopReloadListeners(String pluginName, @Nullable Injector injector) {
+    if (injector == null) {
+      return;
+    }
     onStart.putAll(pluginName, listeners(injector, StartPluginListener.class));
     onStop.putAll(pluginName, listeners(injector, StopPluginListener.class));
     onReload.putAll(pluginName, listeners(injector, ReloadPluginListener.class));
@@ -294,6 +297,8 @@ public class PluginGuiceEnvironment {
     }
 
     addOnStartStopReloadListeners(plugin.getName(), plugin.getSysInjector());
+    addOnStartStopReloadListeners(plugin.getName(), plugin.getSshInjector());
+    addOnStartStopReloadListeners(plugin.getName(), plugin.getHttpInjector());
   }
 
   private ImmutableList<Injector> listOfInjectors(Injector... injectors) {
@@ -395,6 +400,8 @@ public class PluginGuiceEnvironment {
 
     removeOnStartStopReloadListeners(oldPlugin.getName());
     addOnStartStopReloadListeners(newPlugin.getName(), newPlugin.getSysInjector());
+    addOnStartStopReloadListeners(newPlugin.getName(), newPlugin.getSshInjector());
+    addOnStartStopReloadListeners(newPlugin.getName(), newPlugin.getHttpInjector());
   }
 
   private void reattachMap(

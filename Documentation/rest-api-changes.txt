@@ -3535,7 +3535,7 @@ response "`204 No Content`" is returned.
 [[get-edit-file]]
 === Retrieve file content from Change Edit
 --
-'GET /changes/link:#change-id[\{change-id\}]/edit/path%2fto%2ffile
+'GET /changes/link:#change-id[\{change-id\}]/edit/link:#file-id[\{file-id\}]'
 --
 
 Retrieves content of a file from a change edit.
@@ -3577,7 +3577,7 @@ Alternatively, if the only value of the Accept request header is
 [[get-edit-meta-data]]
 === Retrieve meta data of a file from Change Edit
 --
-'GET /changes/link:#change-id[\{change-id\}]/edit/path%2fto%2ffile/meta
+'GET /changes/link:#change-id[\{change-id\}]/edit/link:#file-id[\{file-id\}]/meta'
 --
 
 Retrieves meta data of a file from a change edit. Currently only
@@ -3621,7 +3621,7 @@ returned.
 [[get-edit-message]]
 === Retrieve commit message from Change Edit or current patch set of the change
 --
-'GET /changes/link:#change-id[\{change-id\}]/edit:message
+'GET /changes/link:#change-id[\{change-id\}]/edit:message'
 --
 
 Retrieves commit message from change edit.
@@ -3659,7 +3659,7 @@ Alternatively, if the only value of the Accept request header is
 [[publish-edit]]
 === Publish Change Edit
 --
-'POST /changes/link:#change-id[\{change-id\}]/edit:publish
+'POST /changes/link:#change-id[\{change-id\}]/edit:publish'
 --
 
 Promotes change edit to a regular patch set.

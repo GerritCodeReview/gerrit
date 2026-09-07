@@ -1582,6 +1582,9 @@ EditPreferencesInfo] is returned.
 
 [[index.changes]]
 === Index a set of changes
+--
+'POST /config/server/index.changes'
+--
 
 This endpoint allows Gerrit admins to index a set of changes with one request
 by providing a link:#index-changes-input[IndexChangesInput] entity.
@@ -1971,6 +1974,9 @@ capability.
 
 [[cleanup.changes]]
 === Cleanup of stale changes
+--
+'POST /config/server/cleanup.changes'
+--
 
 This endpoint allows Gerrit administrators to abandon changes older than some given
 time. This allows to run change cleanup manually outside of the configured schedule or
@@ -1999,6 +2005,9 @@ The change cleanup will run asynchronously.
 
 [[cleanup.draft.comments]]
 === Cleanup of already published draft comments
+--
+'POST /config/server/cleanup.draft.comments'
+--
 
 This endpoint allows Gerrit administrators to cleanup already published draft
 comments that were not deleted.
@@ -2018,6 +2027,9 @@ This cleanup task will run asynchronously.
 
 [[passwords.to.tokens]]
 === Migration of HTTP passwords to authentication tokens
+--
+'POST /config/server/passwords.to.tokens'
+--
 
 This endpoint allows Gerrit administrators to migrate remaining HTTP passwords
 to authentication tokens. For the user the migration is invisible, i.e. the
@@ -2046,6 +2058,9 @@ This migration task will run asynchronously.
 
 [[reduce.token.lifetime]]
 === Apply maximum lifetime to authentication tokens
+--
+'POST /config/server/reduce.token.lifetime'
+--
 
 This endpoint allows Gerrit administrators to apply a shorter maximum lifetime
 to existing authentication tokens. This is required, when a shorter maximum
@@ -2079,7 +2094,7 @@ This migration task will run asynchronously.
 [[get-experiment]]
 === Get Experiment
 --
-'GET /config/server/experiments/link:#experiment-name[\{experiment-name\}]
+'GET /config/server/experiments/link:#experiment-name[\{experiment-name\}]'
 --
 
 Retrieves the details of the experiment with the given name.

@@ -30,6 +30,7 @@ import com.google.gerrit.entities.SubmitRequirementResult;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.logging.Metadata;
@@ -42,7 +43,10 @@ import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.inject.Inject;
 import com.google.inject.Module;
+import com.google.inject.OutOfScopeException;
+import com.google.inject.Provider;
 import com.google.inject.Provides;
+import com.google.inject.ProvisionException;
 import com.google.inject.Scopes;
 import com.google.inject.Singleton;
 import java.util.Locale;
@@ -69,10 +73,10 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
   private final boolean requireOperatorForUpdate;
   private final boolean requireOperatorForEvaluation;
   private final ExecutorService executor;
-  // Use a request context to execute predicates as an internal user with expanded visibility.
-  // This is so that the evaluation does not depend on who is running the current request (e.g.
-  // a "ownerin" predicate with group that is not visible to the person making this request).
+  // Use a request context to evaluate submit requirements. Worker threads do not inherit the
+  // caller's request context, so async evaluation reopens the context under the captured caller.
   private final OneOffRequestContext requestContext;
+  private final Provider<CurrentUser> currentUser;
   private final long executionTimeout;
 
   public static Module module() {
@@ -113,12 +117,14 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
       ProjectCache projectCache,
       PluginSetContext<SubmitRequirement> globalSubmitRequirements,
       @GerritServerConfig Config config,
+      Provider<CurrentUser> currentUser,
       OneOffRequestContext requestContext,
       @SubmitRequirementExecutor ExecutorService executor) {
     this.queryBuilderFactory = queryBuilderFactory;
     this.projectCache = projectCache;
     this.globalSubmitRequirements = globalSubmitRequirements;
     this.config = config;
+    this.currentUser = currentUser;
     this.requestContext = requestContext;
     this.requireOperatorForUpdate = requireOperatorForUpdate();
     this.requireOperatorForEvaluation = requireOperatorForEvaluation();
@@ -152,15 +158,17 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
   @Override
   public ImmutableMap<SubmitRequirement, SubmitRequirementResult> evaluateAllRequirements(
       ChangeData cd) {
+    Optional<CurrentUser> user = getCurrentUser();
     try (ManualRequestContext ignored = requestContext.open()) {
-      return getRequirements(cd);
+      return getRequirements(cd, user);
     }
   }
 
   @Override
   public SubmitRequirementResult evaluateRequirement(SubmitRequirement sr, ChangeData cd) {
+    Optional<CurrentUser> user = getCurrentUser();
     try (ManualRequestContext ignored = requestContext.open()) {
-      return evaluateRequirementInternal(sr, cd);
+      return evaluateRequirementInternal(sr, cd, user);
     }
   }
 
@@ -184,14 +192,15 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
     }
   }
 
-  private SubmitRequirementResult evaluateRequirementInternal(SubmitRequirement sr, ChangeData cd) {
+  private SubmitRequirementResult evaluateRequirementInternal(
+      SubmitRequirement sr, ChangeData cd, Optional<CurrentUser> user) {
     try (TraceTimer timer =
         TraceContext.newTimer(
             "Evaluate submit requirement " + sr.name(),
             Metadata.builder().changeId(cd.change().getId().get()).build())) {
       Callable<SubmitRequirementResult> task =
           () -> {
-            try (ManualRequestContext ctx = requestContext.open()) {
+            try (ManualRequestContext ctx = openForEvaluation(user)) {
               Optional<SubmitRequirementExpressionResult> applicabilityResult =
                   sr.applicabilityExpression().isPresent()
                       ? Optional.of(evaluateExpression(sr.applicabilityExpression().get(), cd))
@@ -270,6 +279,21 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
     }
   }
 
+  private Optional<CurrentUser> getCurrentUser() {
+    try {
+      return Optional.of(currentUser.get());
+    } catch (OutOfScopeException | ProvisionException e) {
+      // Some non-request callers, such as ChangeIndexer, deliberately expose no scoped user.
+      return Optional.empty();
+    }
+  }
+
+  private ManualRequestContext openForEvaluation(Optional<CurrentUser> user) {
+    return user.filter(CurrentUser::isIdentifiedUser)
+        .map(u -> requestContext.openAs(u.getAccountId()))
+        .orElseGet(requestContext::open);
+  }
+
   private SubmitRequirementResult timeoutResult(SubmitRequirement sr, ChangeData cd) {
     SubmitRequirementExpressionResult timeout =
         SubmitRequirementExpressionResult.create(
@@ -322,7 +346,8 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
    * <p>The behaviour in case of the name match is controlled by {@link
    * SubmitRequirement#allowOverrideInChildProjects} of global {@link SubmitRequirement}.
    */
-  private ImmutableMap<SubmitRequirement, SubmitRequirementResult> getRequirements(ChangeData cd) {
+  private ImmutableMap<SubmitRequirement, SubmitRequirementResult> getRequirements(
+      ChangeData cd, Optional<CurrentUser> user) {
     try (TraceTimer timer =
         TraceContext.newTimer(
             "Evaluate submit requirements",
@@ -355,7 +380,7 @@ public class SubmitRequirementsEvaluatorImpl implements SubmitRequirementsEvalua
       ImmutableMap.Builder<SubmitRequirement, SubmitRequirementResult> results =
           ImmutableMap.builder();
       for (SubmitRequirement requirement : requirements.values()) {
-        results.put(requirement, evaluateRequirementInternal(requirement, cd));
+        results.put(requirement, evaluateRequirementInternal(requirement, cd, user));
       }
       return results.build();
     }

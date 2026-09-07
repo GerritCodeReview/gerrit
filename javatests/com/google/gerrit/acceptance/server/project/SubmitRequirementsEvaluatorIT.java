@@ -38,6 +38,7 @@ import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelFunction;
 import com.google.gerrit.entities.SubmitRequirement;
@@ -51,6 +52,7 @@ import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.project.SubmitRequirementEvaluationException;
 import com.google.gerrit.server.project.SubmitRequirementsEvaluatorImpl;
@@ -84,6 +86,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
   @Inject SubmitRequirementChangeQueryBuilder.Factory queryBuilderFactory;
   @Inject PluginSetContext<SubmitRequirement> globalSubmitRequirements;
   @Inject OneOffRequestContext oneOffRequestContext;
+  @Inject Provider<CurrentUser> currentUserProvider;
 
   private ChangeData changeData;
   private String changeId;
@@ -1090,6 +1093,38 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
     gApi.projects().name(allProjects.get()).submitRequirement("Code-Review").delete();
   }
 
+  static class CurrentUserSubmitRequirementPredicate extends SubmitRequirementPredicate
+      implements ChangeIsOperandFactory {
+
+    static final String OPERAND = "current-user";
+
+    private final Provider<CurrentUser> currentUserProvider;
+    private final Account.Id expectedAccountId;
+
+    CurrentUserSubmitRequirementPredicate(
+        Provider<CurrentUser> currentUserProvider, Account.Id expectedAccountId) {
+      super("is", OPERAND);
+      this.currentUserProvider = currentUserProvider;
+      this.expectedAccountId = expectedAccountId;
+    }
+
+    @Override
+    public boolean match(ChangeData object) {
+      CurrentUser user = currentUserProvider.get();
+      return user.isIdentifiedUser() && user.getAccountId().equals(expectedAccountId);
+    }
+
+    @Override
+    public int getCost() {
+      return 0;
+    }
+
+    @Override
+    public Predicate<ChangeData> create(ChangeQueryBuilder builder) throws QueryParseException {
+      return this;
+    }
+  }
+
   /** Submit requirement predicate that always throws an error on match. */
   static class ThrowingSubmitRequirementPredicate extends SubmitRequirementPredicate
       implements ChangeIsOperandFactory {
@@ -1119,6 +1154,33 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "submitRequirement.executionTimeout", value = "30s")
+  @GerritConfig(name = "submitRequirement.evaluationThreads", value = "2")
+  public void evaluateRequirementAsync_runsWithCurrentUserContext() throws Exception {
+    requestScopeOperations.setApiUser(user.id());
+    SubmitRequirement sr =
+        SubmitRequirement.builder()
+            .setName("current-user-context-test")
+            .setSubmittabilityExpression(
+                SubmitRequirementExpression.create(
+                    String.format(
+                        "is:%s_%s", CurrentUserSubmitRequirementPredicate.OPERAND, PLUGIN_NAME)))
+            .setAllowOverrideInChildProjects(false)
+            .build();
+
+    try (Registration registration =
+        extensionRegistry
+            .newRegistration()
+            .add(
+                new CurrentUserSubmitRequirementPredicate(currentUserProvider, user.id()),
+                CurrentUserSubmitRequirementPredicate.OPERAND)) {
+      SubmitRequirementResult result = evaluator.evaluateRequirement(sr, changeData);
+
+      assertThat(result.status()).isEqualTo(SubmitRequirementResult.Status.SATISFIED);
+    }
+  }
+
+  @Test
   @GerritConfig(name = "submitRequirement.executionTimeout", value = "2")
   @GerritConfig(name = "submitRequirement.evaluationThreads", value = "2")
   public void evaluateRequirement_timesOut_returnsTimeoutResult() throws Exception {
@@ -1130,6 +1192,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
             projectCache,
             globalSubmitRequirements,
             cfg,
+            currentUserProvider,
             oneOffRequestContext,
             mockExecutor);
 

@@ -83,8 +83,11 @@ public class MergeSuperSet {
     this.projectCache = projectCache;
   }
 
-  public static boolean wholeTopicEnabled(Config config) {
-    return config.getBoolean("change", null, "submitWholeTopic", false);
+  /** Returns whether the submission of the whole topic is being enforced. */
+  public static boolean isWholeTopicSubmitEnforced(Config config) {
+    boolean submitWholeTopic = config.getBoolean("change", "submitWholeTopic", false); // deprecated
+    boolean enforceWholeTopicSubmit = config.getBoolean("change", "enforceWholeTopicSubmit", false);
+    return submitWholeTopic || enforceWholeTopicSubmit;
   }
 
   @CanIgnoreReturnValue
@@ -144,7 +147,7 @@ public class MergeSuperSet {
               && permissionBackend.user(user).change(cd).test(ChangePermission.READ);
 
       ChangeSet changeSet = new ChangeSet(cd, visible);
-      if (wholeTopicEnabled(cfg) || includingTopicClosure) {
+      if (isWholeTopicSubmitEnforced(cfg) || includingTopicClosure) {
         return completeChangeSetIncludingTopics(changeSet, user, backfill);
       }
       try (TraceContext traceContext = PluginContext.newTrace(mergeSuperSetComputation);

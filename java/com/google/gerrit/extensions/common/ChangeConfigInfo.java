@@ -19,7 +19,17 @@ public class ChangeConfigInfo {
   public Boolean allowBlame;
   public Boolean disablePrivateChanges;
   public int updateDelay;
-  public Boolean submitWholeTopic;
+
+  /**
+   * Backward-compatible boolean
+   *
+   * @deprecated Use {@link #enforceWholeTopicSubmit} instead.
+   */
+  @Deprecated public Boolean submitWholeTopic;
+
+  /** Preferred alternative to {@link #submitWholeTopic}. */
+  public Boolean enforceWholeTopicSubmit;
+
   public String mergeabilityComputationBehavior;
   public Boolean conflictsPredicateEnabled;
   public Boolean allowMarkdownBase64ImagesInComments;

@@ -2075,8 +2075,23 @@ changes related by topic)".
 
 [[change.submitWholeTopic]]change.submitWholeTopic::
 +
-Determines if the submit button submits the whole topic instead of
-just the current change.
+Deprecated in favor of link:#change.enforceWholeTopicSubmit[enforceWholeTopicSubmit].
++
+Determines if the submit button enforces submitting the whole topic
+instead of just the current change. If disabled, the option to submit
+the whole topic still exists.
++
+Default is `false`.
+
+[[change.enforceWholeTopicSubmit]]change.enforceWholeTopicSubmit::
++
+Determines if the submit button enforces submitting the whole topic
+instead of just the current change. If disabled, the option to submit
+the whole topic still exists.
++
+Replaces link:#change.submitWholeTopic[submitWholeTopic] to provide
+a clear naming. If one of these options is `true`, submitting the
+whole topic will be enforced.
 +
 Default is `false`.
 

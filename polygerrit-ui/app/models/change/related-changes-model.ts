@@ -211,7 +211,6 @@ export class RelatedChangesModel extends Model<RelatedChangesState> {
       .pipe(
         switchMap(([changeNum, topic, config]) => {
           if (!changeNum || !topic || !config) return of(undefined);
-          if (config.change.submit_whole_topic) return of(undefined);
           return from(
             this.restApiService.getChangesWithSameTopic(topic, {
               openChangesOnly: true,

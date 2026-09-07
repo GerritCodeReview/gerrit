@@ -34,6 +34,7 @@ import com.google.gerrit.entities.SubmitTypeRecord;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.extensions.client.SubmitWholeTopicMode;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -103,11 +104,11 @@ public class Submit
     implements RestModifyView<RevisionResource, SubmitInput>, UiAction<RevisionResource> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private static final String DEFAULT_TOOLTIP = "Submit patch set ${patchSet} into ${branch}";
-  private static final String DEFAULT_TOOLTIP_ANCESTORS =
+  protected static final String DEFAULT_TOOLTIP = "Submit patch set ${patchSet} into ${branch}";
+  protected static final String DEFAULT_TOOLTIP_ANCESTORS =
       "Submit patch set ${patchSet} and ancestors (${submitSize} changes "
           + "altogether) into ${branch}";
-  private static final String DEFAULT_TOPIC_TOOLTIP =
+  protected static final String DEFAULT_TOPIC_TOOLTIP =
       "Submit all ${topicSize} changes of the same topic "
           + "(${submitSize} changes including ancestors and other "
           + "changes related by topic)";
@@ -116,15 +117,15 @@ public class Submit
 
   private final GitRepositoryManager repoManager;
   private final PermissionBackend permissionBackend;
-  private final Provider<MergeOp> mergeOpProvider;
+  protected final Provider<MergeOp> mergeOpProvider;
   private final Provider<MergeSuperSet> mergeSuperSet;
   private final AccountResolver accountResolver;
   private final String label;
   private final String labelWithParents;
   private final ParameterizedString titlePattern;
   private final ParameterizedString titlePatternWithAncestors;
-  private final String submitTopicLabel;
-  private final ParameterizedString submitTopicTooltip;
+  protected final String submitTopicLabel;
+  protected final ParameterizedString submitTopicTooltip;
   private final boolean submitWholeTopic;
   private final Provider<InternalChangeQuery> queryProvider;
   private final ChangeJson.Factory json;
@@ -133,7 +134,7 @@ public class Submit
   private final MergeUtilFactory mergeUtilFactory;
   private final MergeabilityCache mergeabilityCache;
 
-  private final boolean useMergeabilityCheck;
+  protected final boolean useMergeabilityCheck;
 
   @Inject
   Submit(
@@ -143,6 +144,36 @@ public class Submit
       Provider<MergeSuperSet> mergeSuperSet,
       AccountResolver accountResolver,
       @GerritServerConfig Config cfg,
+      Provider<InternalChangeQuery> queryProvider,
+      ChangeJson.Factory json,
+      ChangeData.Factory changeDataFactory,
+      ProjectCache projectCache,
+      MergeUtilFactory mergeUtilFactory,
+      MergeabilityCache mergeabilityCache) {
+    this(
+        repoManager,
+        permissionBackend,
+        mergeOpProvider,
+        mergeSuperSet,
+        accountResolver,
+        cfg,
+        MergeSuperSet.wholeTopicMode(cfg) == SubmitWholeTopicMode.ENFORCED,
+        queryProvider,
+        json,
+        changeDataFactory,
+        projectCache,
+        mergeUtilFactory,
+        mergeabilityCache);
+  }
+
+  Submit(
+      GitRepositoryManager repoManager,
+      PermissionBackend permissionBackend,
+      Provider<MergeOp> mergeOpProvider,
+      Provider<MergeSuperSet> mergeSuperSet,
+      AccountResolver accountResolver,
+      @GerritServerConfig Config cfg,
+      boolean submitWholeTopic,
       Provider<InternalChangeQuery> queryProvider,
       ChangeJson.Factory json,
       ChangeData.Factory changeDataFactory,
@@ -170,7 +201,7 @@ public class Submit
             MoreObjects.firstNonNull(
                 cfg.getString("change", null, "submitTooltipAncestors"),
                 DEFAULT_TOOLTIP_ANCESTORS));
-    submitWholeTopic = MergeSuperSet.wholeTopicEnabled(cfg);
+    this.submitWholeTopic = submitWholeTopic;
     this.submitTopicLabel =
         MoreObjects.firstNonNull(
             Strings.emptyToNull(cfg.getString("change", null, "submitTopicLabel")),
@@ -233,7 +264,7 @@ public class Submit
     }
 
     try (MergeOp op = mergeOpProvider.get()) {
-      Change updatedChange = op.merge(change, submitter, true, input, false);
+      Change updatedChange = op.merge(change, submitter, true, input, false, submitWholeTopic);
       if (updatedChange.isMerged()) {
         return updatedChange;
       }
@@ -257,7 +288,7 @@ public class Submit
    * @return a reason why any of the changes is not submittable or null
    */
   @Nullable
-  private String problemsForSubmittingChangeset(ChangeData cd, ChangeSet cs, CurrentUser user) {
+  protected String problemsForSubmittingChangeset(ChangeData cd, ChangeSet cs, CurrentUser user) {
     Optional<String> reason =
         mergeOpProvider
             .get()
@@ -297,40 +328,18 @@ public class Submit
   @Override
   public UiAction.Description getDescription(RevisionResource resource)
       throws IOException, PermissionBackendException {
-    ChangeData changeData = resource.getChangeResource().getChangeData();
-    Change change = changeData.change();
-    if (!change.isNew() || !resource.isCurrent()) {
-      return null; // submit not visible
-    }
-    if (!changeData.projectStatePermitsWrite()) {
-      return null; // submit not visible
-    }
-
     ChangeData cd = resource.getChangeResource().getChangeData();
-    try {
-      mergeOpProvider.get().checkSubmitRequirements(cd);
-    } catch (ResourceConflictException e) {
-      return null; // submit not visible
+    Change change = cd.change();
+
+    if (!isActionVisible(resource, change, cd)) {
+      return null;
     }
 
-    ChangeSet cs =
-        mergeSuperSet
-            .get()
-            .completeChangeSet(cd.change(), resource.getUser(), /* includingTopicClosure= */ false);
-    // Replace potentially stale ChangeData for the current change with the fresher one.
-    cs =
-        new ChangeSet(
-            cs.changes().stream()
-                .map(csChange -> csChange.getId().equals(cd.getId()) ? cd : csChange)
-                .collect(toImmutableList()),
-            cs.nonVisibleChanges());
+    ChangeSet cs = getChangeSet(resource, cd);
     String submitProblems = problemsForSubmittingChangeset(cd, cs, resource.getUser());
 
     String topic = change.getTopic();
-    int topicSize = 0;
-    if (!Strings.isNullOrEmpty(topic)) {
-      topicSize = queryProvider.get().noFields().byTopicOpen(topic).size();
-    }
+    int topicSize = getTopicSize(topic);
     boolean treatWithTopic = submitWholeTopic && !Strings.isNullOrEmpty(topic) && topicSize > 1;
 
     if (submitProblems != null) {
@@ -350,15 +359,7 @@ public class Submit
     Boolean enabled = useMergeabilityCheck ? cd.isMergeable() : true;
 
     if (treatWithTopic) {
-      ImmutableMap<String, String> params =
-          ImmutableMap.of(
-              "topicSize", String.valueOf(topicSize),
-              "submitSize", String.valueOf(cs.size()));
-      return new UiAction.Description()
-          .setLabel(submitTopicLabel)
-          .setTitle(Strings.emptyToNull(submitTopicTooltip.replace(params)))
-          .setVisible(true)
-          .setEnabled(Boolean.TRUE.equals(enabled));
+      return getSubmitTopicDescription(topicSize, cs, enabled);
     }
     ImmutableMap<String, String> params =
         ImmutableMap.of(
@@ -370,6 +371,59 @@ public class Submit
     return new UiAction.Description()
         .setLabel(cs.size() > 1 ? labelWithParents : label)
         .setTitle(Strings.emptyToNull(tp.replace(params)))
+        .setVisible(true)
+        .setEnabled(Boolean.TRUE.equals(enabled));
+  }
+
+  protected boolean isActionVisible(RevisionResource resource, Change change, ChangeData cd) {
+    if (!change.isNew() || !resource.isCurrent()) {
+      return false; // submit not visible
+    }
+    if (!cd.projectStatePermitsWrite()) {
+      return false; // submit not visible
+    }
+
+    try {
+      mergeOpProvider.get().checkSubmitRequirements(cd);
+    } catch (ResourceConflictException e) {
+      return false; // submit not visible
+    }
+    return true;
+  }
+
+  protected ChangeSet getChangeSet(RevisionResource resource, ChangeData cd)
+      throws IOException, PermissionBackendException {
+    ChangeSet cs =
+        mergeSuperSet
+            .get()
+            .completeChangeSet(cd.change(), resource.getUser(), /* includingTopicClosure= */ false);
+    // Replace potentially stale ChangeData for the current change with the fresher one.
+    cs =
+        new ChangeSet(
+            cs.changes().stream()
+                .map(csChange -> csChange.getId().equals(cd.getId()) ? cd : csChange)
+                .collect(toImmutableList()),
+            cs.nonVisibleChanges());
+    return cs;
+  }
+
+  protected int getTopicSize(String topic) {
+    int topicSize = 0;
+    if (!Strings.isNullOrEmpty(topic)) {
+      topicSize = queryProvider.get().noFields().byTopicOpen(topic).size();
+    }
+    return topicSize;
+  }
+
+  protected UiAction.Description getSubmitTopicDescription(
+      int topicSize, ChangeSet cs, Boolean enabled) {
+    ImmutableMap<String, String> params =
+        ImmutableMap.of(
+            "topicSize", String.valueOf(topicSize),
+            "submitSize", String.valueOf(cs.size()));
+    return new UiAction.Description()
+        .setLabel(submitTopicLabel)
+        .setTitle(Strings.emptyToNull(submitTopicTooltip.replace(params)))
         .setVisible(true)
         .setEnabled(Boolean.TRUE.equals(enabled));
   }

@@ -51,7 +51,7 @@ Tells Gerrit to call `provider.fetch()`.
 == updateResult
 `checksApi.updateResult(run: CheckRun, result: CheckResult)`
 
-Updates an individual result. This can be used for lazy laoding detailled
+Updates an individual result. This can be used for lazy loading detailed
 information. For example, if you are using the
 link:pg-plugin-endpoints.html#_check_result_expanded[`check-result-expanded`
 endpoint], then you can load more result details when the user expands a result

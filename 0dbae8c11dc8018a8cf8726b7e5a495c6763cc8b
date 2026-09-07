@@ -166,37 +166,6 @@
   "submitRequirementResults": [
     {
       "submitRequirement": {
-        "name": "BCID-Exit-Gate-Verified",
-        "description": {
-          "value": "BCID Exit Gate verification must be provided by the Exit Gate service."
-        },
-        "applicabilityExpression": {
-          "value": {
-            "expressionString": "is:bcid-exit-gate-applicable_gerrit"
-          }
-        },
-        "submittabilityExpression": {
-          "expressionString": "label:BCID-Exit-Gate-Verified\u003dMAX\u0026user\u003ddevtools-gerritcodereview-exitgate"
-        },
-        "overrideExpression": {},
-        "allowOverrideInChildProjects": false
-      },
-      "applicabilityExpressionResult": {
-        "value": {"expression":{"expressionString":"is:bcid-exit-gate-applicable_gerrit"},"status":"FAIL","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["is:bcid-exit-gate-applicable_gerrit"],"atomExplanations":{"value":{"is:bcid-exit-gate-applicable_gerrit":""}}}
-      },
-      "submittabilityExpressionResult": {
-        "value": {"expression":{"expressionString":"label:BCID-Exit-Gate-Verified=MAX&user=devtools-gerritcodereview-exitgate"},"status":"NOT_EVALUATED","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":[],"atomExplanations":{"value":null}}
-      },
-      "overrideExpressionResult": {},
-      "patchSetCommitId": "0dbae8c11dc8018a8cf8726b7e5a495c6763cc8b",
-      "legacy": {
-        "value": false
-      },
-      "forced": {},
-      "hidden": {}
-    },
-    {
-      "submitRequirement": {
         "name": "Code-Review",
         "description": {
           "value": "At least one maximum vote for label \u0027Code-Review\u0027 is required"
@@ -352,7 +321,7 @@
         },
         "applicabilityExpression": {
           "value": {
-            "expressionString": "-branch:refs/meta/config AND (file:\"^lib/.*\" OR file:\"^WORKSPACE$\" OR file:\"^.gitmodule$\" OR file:\"^tools/deps.bzl$\")"
+            "expressionString": "-branch:refs/meta/config AND (file:\"^lib/.*\" OR file:\"^WORKSPACE.*$\" OR file:\"^.gitmodule$\" OR file:\"^tools/deps.toml$\")"
           }
         },
         "submittabilityExpression": {
@@ -362,7 +331,7 @@
         "allowOverrideInChildProjects": false
       },
       "applicabilityExpressionResult": {
-        "value": {"expression":{"expressionString":"-branch:refs/meta/config AND (file:\"^lib/.*\" OR file:\"^WORKSPACE$\" OR file:\"^.gitmodule$\" OR file:\"^tools/deps.bzl$\")"},"status":"FAIL","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["branch:refs/meta/config","file:\"^lib/.*\"","file:\"^WORKSPACE$\"","file:\"^.gitmodule$\"","file:\"^tools/deps.bzl$\""],"atomExplanations":{"value":{"branch:refs/meta/config":"","file:\"^lib/.*\"":"","file:\"^WORKSPACE$\"":"","file:\"^.gitmodule$\"":"","file:\"^tools/deps.bzl$\"":""}}}
+        "value": {"expression":{"expressionString":"-branch:refs/meta/config AND (file:\"^lib/.*\" OR file:\"^WORKSPACE.*$\" OR file:\"^.gitmodule$\" OR file:\"^tools/deps.toml$\")"},"status":"FAIL","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":["branch:refs/meta/config","file:\"^lib/.*\"","file:\"^WORKSPACE.*$\"","file:\"^.gitmodule$\"","file:\"^tools/deps.toml$\""],"atomExplanations":{"value":{"branch:refs/meta/config":"","file:\"^lib/.*\"":"","file:\"^WORKSPACE.*$\"":"","file:\"^.gitmodule$\"":"","file:\"^tools/deps.toml$\"":""}}}
       },
       "submittabilityExpressionResult": {
         "value": {"expression":{"expressionString":"label:Library-Compliance=MAX AND -label:Library-Compliance=MIN"},"status":"NOT_EVALUATED","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":[],"atomExplanations":{"value":null}}
@@ -465,6 +434,37 @@
       },
       "submittabilityExpressionResult": {
         "value": {"expression":{"expressionString":"is:review-enforcement-satisfied_gerrit"},"status":"NOT_EVALUATED","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":[],"atomExplanations":{"value":null}}
+      },
+      "overrideExpressionResult": {},
+      "patchSetCommitId": "0dbae8c11dc8018a8cf8726b7e5a495c6763cc8b",
+      "legacy": {
+        "value": false
+      },
+      "forced": {},
+      "hidden": {}
+    },
+    {
+      "submitRequirement": {
+        "name": "SLSA-Policy-Verified",
+        "description": {
+          "value": "Verify that binaries are authorized and free from tampering at the configured level."
+        },
+        "applicabilityExpression": {
+          "value": {
+            "expressionString": "branch:^refs/heads/.* AND is:bcid-exit-gate-applicable_gerrit"
+          }
+        },
+        "submittabilityExpression": {
+          "expressionString": "label:SLSA-Policy-Verified\u003dMAX\u0026user\u003ddevtools-gerritcodereview-exitgate"
+        },
+        "overrideExpression": {},
+        "allowOverrideInChildProjects": false
+      },
+      "applicabilityExpressionResult": {
+        "value": {"expression":{"expressionString":"branch:^refs/heads/.* AND is:bcid-exit-gate-applicable_gerrit"},"status":"FAIL","errorMessage":{"value":null},"passingAtoms":["branch:^refs/heads/.*"],"failingAtoms":["is:bcid-exit-gate-applicable_gerrit"],"atomExplanations":{"value":{"branch:^refs/heads/.*":"","is:bcid-exit-gate-applicable_gerrit":""}}}
+      },
+      "submittabilityExpressionResult": {
+        "value": {"expression":{"expressionString":"label:SLSA-Policy-Verified=MAX&user=devtools-gerritcodereview-exitgate"},"status":"NOT_EVALUATED","errorMessage":{"value":null},"passingAtoms":[],"failingAtoms":[],"atomExplanations":{"value":null}}
       },
       "overrideExpressionResult": {},
       "patchSetCommitId": "0dbae8c11dc8018a8cf8726b7e5a495c6763cc8b",

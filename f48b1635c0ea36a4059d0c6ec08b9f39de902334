@@ -1,0 +1,192 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f700c188_eca8c60c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-07T19:53:55Z",
+      "side": 1,
+      "message": "Not sure we have an issue here, as the change was never released.",
+      "revId": "f48b1635c0ea36a4059d0c6ec08b9f39de902334",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f95a8be_19119813",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-07T19:53:55Z",
+      "side": 1,
+      "message": "As before, the issue was never surfaced, and therefore, this fix arrives before it becomes visible externally.",
+      "revId": "f48b1635c0ea36a4059d0c6ec08b9f39de902334",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b1e6666_3cd005e2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-07T19:53:55Z",
+      "side": 1,
+      "message": "Not sure this is the correct way of evaluating submit requirements: in fact, a functional test is failing.",
+      "revId": "f48b1635c0ea36a4059d0c6ec08b9f39de902334",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d2740fd_512f441c",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluatorImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-07T19:53:55Z",
+      "side": 1,
+      "message": "```suggestion\n      SubmitRequirement sr, ChangeData cd, Optional\u003cAccount.Id\u003e userAccountId) {\n```",
+      "revId": "f48b1635c0ea36a4059d0c6ec08b9f39de902334",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2159800f_96a267d6",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluatorImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-07T19:53:55Z",
+      "side": 1,
+      "message": "```suggestion\n            try (ManualRequestContext ctx \u003d userAccountId.map(requestContext::openAs).orElseGet(requestContext::open))\n```",
+      "revId": "f48b1635c0ea36a4059d0c6ec08b9f39de902334",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e2dc5a0_39c85e64",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluatorImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-07T19:53:55Z",
+      "side": 1,
+      "message": "We do need to know if the current user has an `Account.Id` or not, see L291-L295.\n\n```suggestion\n  private Optional\u003cAccount.Id\u003e getIdentifiedUser() {\n```",
+      "range": {
+        "startLine": 282,
+        "startChar": 32,
+        "endLine": 282,
+        "endChar": 46
+      },
+      "revId": "f48b1635c0ea36a4059d0c6ec08b9f39de902334",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a2577c9_6cec7128",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluatorImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-07T19:53:55Z",
+      "side": 1,
+      "message": "It would be worth logging at trace level that this exception happened.",
+      "revId": "f48b1635c0ea36a4059d0c6ec08b9f39de902334",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3396edaf_c9eef04f",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluatorImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-07T19:53:55Z",
+      "side": 1,
+      "message": "This can be inlined.",
+      "range": {
+        "startLine": 291,
+        "startChar": 0,
+        "endLine": 295,
+        "endChar": 3
+      },
+      "revId": "f48b1635c0ea36a4059d0c6ec08b9f39de902334",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4a30b7b_59c43584",
+        "filename": "javatests/com/google/gerrit/acceptance/server/project/SubmitRequirementsEvaluatorIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1104,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-07T19:53:55Z",
+      "side": 1,
+      "message": "Missing `@Inject` here?",
+      "revId": "f48b1635c0ea36a4059d0c6ec08b9f39de902334",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "227e063a_6d76fd5b",
+        "filename": "javatests/com/google/gerrit/acceptance/server/project/SubmitRequirementsEvaluatorIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1181,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-07T19:53:55Z",
+      "side": 1,
+      "message": "I am unsure if this is a good example of how to test this fix.\nA submit requirement should have the same result *regardless* of the current user.",
+      "range": {
+        "startLine": 1156,
+        "startChar": 0,
+        "endLine": 1181,
+        "endChar": 3
+      },
+      "revId": "f48b1635c0ea36a4059d0c6ec08b9f39de902334",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

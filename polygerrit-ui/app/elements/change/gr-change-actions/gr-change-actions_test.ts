@@ -754,6 +754,7 @@ suite('gr-change-actions tests', () => {
         '/submit',
         assertUIActionInfo(element.revisionActions?.submit),
         true,
+        undefined,
       ]);
     });
 

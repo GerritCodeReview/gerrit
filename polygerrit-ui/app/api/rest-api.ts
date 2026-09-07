@@ -289,6 +289,7 @@ export declare interface ActionNameToActionInfoMap {
   abandon?: ActionInfo;
   restore?: ActionInfo;
   submit?: ActionInfo;
+  "submit.topic"?: ActionInfo;
   topic?: ActionInfo;
   hashtags?: ActionInfo;
   ready?: ActionInfo;

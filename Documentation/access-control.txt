@@ -465,6 +465,15 @@ Most prominent is the `refs/for/<branch ref>` reference which is the reference
 upon which we build the code review intercept before submitting a commit to
 the branch it's uploaded to.
 
+For review pushes, `refs/for/<branch-name>` is shorthand for the destination
+branch `refs/heads/<branch-name>`. For example, pushing to `refs/for/master`
+uploads a change for review to `refs/heads/master`.
+
+Access-control section names are evaluated as written and are not normalized
+using this shorthand. To grant, deny, or block review uploads to `master`,
+configure the permission on `refs/for/refs/heads/master`; to configure all
+normal branches, use `refs/for/refs/heads/*`.
+
 Further documentation on how to push can be found on the
 link:user-upload.html#push_create[Upload changes] page.
 

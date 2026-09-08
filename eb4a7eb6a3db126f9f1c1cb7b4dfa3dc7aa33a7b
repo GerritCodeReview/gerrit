@@ -69,6 +69,24 @@
       "parentUuid": "d71670d0_66983ec4",
       "revId": "eb4a7eb6a3db126f9f1c1cb7b4dfa3dc7aa33a7b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3e6773a_e1f81092",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-08T13:49:59Z",
+      "side": 1,
+      "message": "One reason I ask is that it introduces new code and concept in the Gerrit core that very likely could be done from a plugin: if we imagine that Gerrit core could notify listeners on two events like \"about to index a change\" and \"change indexed\" (this one already exists) then a plugin could store the intent on the first event type and delete it on the second event type. The plugin would also reschedule the pending indexing tasks.\n\nAnother reason I ask is that I have been working (internally) on an indexer runtime mode for Gerrit where one or more Gerrit instances are acting only as indexers (no user facing traffic). In that mode a primary Gerrit would notify indexers to perform indexing instead of doing it on its own. A most obvious implementation is to use a pubsub for sending and receiving indexing messages. The pubsub also handles retries for Gerrit (will resend if message not ack-ed). This allows us to scale up indexer nodes by need. Yes, this requires a shared index.\nNow, a (conceptual) problem is that the feature added with this change is always present in Gerrit core but we wouldn\u0027t need it for the described scenario.",
+      "parentUuid": "de58e8a2_2ec8fad6",
+      "revId": "eb4a7eb6a3db126f9f1c1cb7b4dfa3dc7aa33a7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

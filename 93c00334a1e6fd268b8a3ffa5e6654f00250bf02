@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95afe630_da459cfd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-08T07:54:57Z",
+      "side": 1,
+      "message": "I don\u0027t understand why is this needed:\na. There is no such thing as http or ssh plugins\nb. A plugin has *always* a sys injector, whilst it may not have an http or ssh injector\n\nHave you tried to add the listener to the plugin\u0027s sys injector instead?",
+      "revId": "93c00334a1e6fd268b8a3ffa5e6654f00250bf02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

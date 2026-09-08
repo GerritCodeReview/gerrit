@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a4f2b18_44fdde08",
+        "filename": "javatests/com/google/gerrit/server/restapi/project/ListSubmitRequirementTemplatesTest.java",
+        "patchSetId": 33
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-09-08T10:10:18Z",
+      "side": 1,
+      "message": "If you need to mock that much, you should consider using an IT test based on AbstractDaemonTest or whether this scenario is maybe not possible at all, because the permission system does not allow for it.",
+      "revId": "0bfee60b67dc46ae9ecad1b9ac612b3c71d5a334",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

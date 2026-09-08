@@ -414,6 +414,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ad40f541_3390e0f4",
+        "filename": "java/com/google/gerrit/server/restapi/project/SubmitRequirementTemplateLoader.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-09-08T10:10:18Z",
+      "side": 1,
+      "message": "Are you sure that the current solution is secure? Maybe it would be better to document that template users have to have access to the providing projects.",
+      "parentUuid": "43e92b04_c7dc2848",
+      "range": {
+        "startLine": 88,
+        "startChar": 6,
+        "endLine": 88,
+        "endChar": 84
+      },
+      "revId": "d3c6d135d9b3ea325646d7acaac116c8a91014b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a230a94d_b2a86911",
         "filename": "javatests/com/google/gerrit/server/restapi/project/GetSubmitRequirementTemplateTest.java",
         "patchSetId": 28
@@ -543,6 +567,30 @@
       "side": 1,
       "message": "i removed throwing exception from tests.",
       "parentUuid": "06120605_9c9bf742",
+      "range": {
+        "startLine": 146,
+        "startChar": 1,
+        "endLine": 148,
+        "endChar": 46
+      },
+      "revId": "d3c6d135d9b3ea325646d7acaac116c8a91014b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c36b003_fa6976d2",
+        "filename": "javatests/com/google/gerrit/server/restapi/project/SubmitRequirementTemplatesCollectionTest.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-09-08T10:10:18Z",
+      "side": 1,
+      "message": "Right. This is just a mock in tests",
+      "parentUuid": "c02428fd_28123794",
       "range": {
         "startLine": 146,
         "startChar": 1,

@@ -34,6 +34,23 @@
       "parentUuid": "21c3ebf2_fa34cc2d",
       "revId": "4eef32bde821d650d041f17cd4bb94cd772cd147",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd365c45_d6038593",
+        "filename": "javatests/com/google/gerrit/server/restapi/project/ListSubmitRequirementTemplatesTest.java",
+        "patchSetId": 30
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-09-08T10:10:18Z",
+      "side": 1,
+      "message": "You have to mock a huge amount. To me it looks like this should rather be an integration test using AbstractDaemonTest, where we have an available Guice environment.",
+      "revId": "4eef32bde821d650d041f17cd4bb94cd772cd147",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

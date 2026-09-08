@@ -16,6 +16,24 @@
       "message": "This is a public API change that would require adaptation in client plugin code. I believe this is worth mentioning in the release notes.",
       "revId": "f5867db9b31d5821040374976a6aedfdd967ba25",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eca8bde8_ae66cc68",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-09-08T05:42:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d8cdbba3_3cad1a52",
+      "revId": "f5867db9b31d5821040374976a6aedfdd967ba25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

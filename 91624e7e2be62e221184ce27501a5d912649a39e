@@ -19,6 +19,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4e9ed9b_b48d24c8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-09-08T10:29:58Z",
+      "side": 1,
+      "message": "The correctness concerns were addressed as follows:\n\n1. The `isOwnSection` guard was removed. The exclusive matchers are moved up and will cause a full check before parent allows are checked.\n\n2. DENY will now always be fully evaluated as before.\n\n3. refer to 2.)\n\nThe architectural suggestion was implemented as suggested.",
+      "parentUuid": "84bd9130_aba76a8b",
+      "revId": "91624e7e2be62e221184ce27501a5d912649a39e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ff48e503_ea368fee",
@@ -292,6 +310,24 @@
       "writtenOn": "2026-08-28T17:56:58Z",
       "side": 1,
       "message": "Can we avoid duplicating the logic? Could `PermissionCollection`, `RefVisibilityControl` and/or `RefControl` use this class? This method seems mostly to reimplement logic from elsewhere.\n\nI overall like the improvement we get from this change, but I\u0027m concerned it makes our (already complicated) permissions backend more complicated.",
+      "revId": "91624e7e2be62e221184ce27501a5d912649a39e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "141d0039_01f8cd59",
+        "filename": "java/com/google/gerrit/server/permissions/ReadAccessClassifier.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-09-08T10:29:58Z",
+      "side": 1,
+      "message": "By continuing to fully evaluate BLOCK/DENY, the parallel logic is now minimal and should not greatly increase complexity.",
+      "parentUuid": "9b8d49b7_81a2fe40",
       "revId": "91624e7e2be62e221184ce27501a5d912649a39e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

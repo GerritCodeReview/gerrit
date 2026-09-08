@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d1f0e79_21782121",
+        "filename": "javatests/com/google/gerrit/acceptance/server/permissions/RefControlIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-09-08T23:48:13Z",
+      "side": 1,
+      "message": "If you have no ALLOWs, what\u0027s the point of adding a BLOCK? What\u0027s the expected behavior with no ALLOWs? (I think that\u0027s what you should have after `setUpGroups()` runs)",
+      "revId": "6c9f47e1367d55e01ec7f1d00b22bf77dacecaec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c15914c3_3af1cc52",
+        "filename": "javatests/com/google/gerrit/acceptance/server/permissions/RefControlIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-09-08T23:48:13Z",
+      "side": 1,
+      "message": "Would it be better to block `ANONYMOUS_USERS` here like the tests above do?",
+      "range": {
+        "startLine": 155,
+        "startChar": 45,
+        "endLine": 155,
+        "endChar": 55
+      },
+      "revId": "6c9f47e1367d55e01ec7f1d00b22bf77dacecaec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d562939_4bba9001",
+        "filename": "javatests/com/google/gerrit/acceptance/server/permissions/RefControlIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-09-08T23:48:13Z",
+      "side": 1,
+      "message": "This is a strange use of a group named `privileged`, since the result is fewer perms for them.",
+      "revId": "6c9f47e1367d55e01ec7f1d00b22bf77dacecaec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb71b4be_767fc166",
+        "filename": "javatests/com/google/gerrit/acceptance/server/permissions/RefControlIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-09-08T23:48:13Z",
+      "side": 1,
+      "message": "Why simulate with a different parent project instead of updating `allProjects`?",
+      "range": {
+        "startLine": 375,
+        "startChar": 47,
+        "endLine": 375,
+        "endChar": 77
+      },
+      "revId": "6c9f47e1367d55e01ec7f1d00b22bf77dacecaec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

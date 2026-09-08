@@ -87,6 +87,24 @@
       "parentUuid": "de58e8a2_2ec8fad6",
       "revId": "eb4a7eb6a3db126f9f1c1cb7b4dfa3dc7aa33a7b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8efd21fe_8fc0f99d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-09-08T16:53:02Z",
+      "side": 1,
+      "message": "\u003e One reason I ask is that it introduces new code and concept in the Gerrit core that very likely could be done from a plugin: if we imagine that Gerrit core could notify listeners on two events like \"about to index a change\" and \"change indexed\" (this one already exists) then a plugin could store the intent on the first event type and delete it on the second event type. The plugin would also reschedule the pending indexing tasks.\n\nPlugin would then do a time based recovery which is not the optimal (might recover before actual index is complete or could recover very late.). This change does the recovery when the thread dies indicating a problem in the flow.",
+      "parentUuid": "a3e6773a_e1f81092",
+      "revId": "eb4a7eb6a3db126f9f1c1cb7b4dfa3dc7aa33a7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

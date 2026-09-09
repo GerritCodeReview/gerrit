@@ -52,6 +52,24 @@
       "parentUuid": "38a2b0f6_9ae54f91",
       "revId": "e8df5cc023c7522bc7a9ccfa6fa71df988dbdb88",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b74a8169_7ae6049d",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-09-09T11:29:45Z",
+      "side": 1,
+      "message": "😄",
+      "parentUuid": "d871763b_c21a6503",
+      "revId": "e8df5cc023c7522bc7a9ccfa6fa71df988dbdb88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

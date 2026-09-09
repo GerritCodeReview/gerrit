@@ -4286,6 +4286,24 @@ Open and closed changes are indexed in separate indexes named
 
 The following settings are only used when the index type is `LUCENE`.
 
+[[index.lockFactory]]index.lockFactory::
++
+The lock implementation that Lucene uses to prevent concurrent writers from
+corrupting an index directory. Can be either `NATIVE`, which uses
+link:https://lucene.apache.org/core/api/core/org/apache/lucene/store/NativeFSLockFactory.html[
+NativeFSLockFactory,role=external,window=_blank], or `SIMPLE`, which uses
+link:https://lucene.apache.org/core/api/core/org/apache/lucene/store/SimpleFSLockFactory.html[
+SimpleFSLockFactory,role=external,window=_blank]. Lucene recommends `SIMPLE`
+for indexes on filesystems where OS-level locking is unreliable, such as NFS.
++
+> **NOTE**: Before changing this setting, stop all processes writing to the
+> index and delete the leftover `write.lock` file of every index directory
+> under `<site_dir>/index`, including the `open` and `closed` subdirectories
+> of the changes index. Processes configured with different lock factories do
+> not lock against each other and can corrupt the index.
++
+Defaults to `NATIVE`.
+
 [[index.name.ramBufferSize]]index.name.ramBufferSize::
 +
 Determines the amount of RAM that may be used for buffering added documents

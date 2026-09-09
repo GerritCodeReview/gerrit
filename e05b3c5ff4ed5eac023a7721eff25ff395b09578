@@ -34,6 +34,24 @@
       "parentUuid": "a32b2234_d9b00c9d",
       "revId": "e05b3c5ff4ed5eac023a7721eff25ff395b09578",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c94d42a_b0964ff6",
+        "filename": "java/com/google/gerrit/server/schema/H2CustomLockAccountPatchReviewStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-09-09T16:10:24Z",
+      "side": 1,
+      "message": "Not mattering assumes knowledge that the Lock returned by newLock() is shared under the hood.",
+      "parentUuid": "3edac35e_2ac33685",
+      "revId": "e05b3c5ff4ed5eac023a7721eff25ff395b09578",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

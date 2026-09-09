@@ -22,6 +22,30 @@
       },
       "revId": "07231a33ebc1f453bd32d91aa8c674828e59514a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1698bed_1f6cf18f",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-09-09T20:40:52Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "e073ef7d_f249fdc8",
+      "range": {
+        "startLine": 468,
+        "startChar": 0,
+        "endLine": 470,
+        "endChar": 51
+      },
+      "revId": "07231a33ebc1f453bd32d91aa8c674828e59514a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

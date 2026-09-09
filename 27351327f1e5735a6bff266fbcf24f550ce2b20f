@@ -16,6 +16,24 @@
       "message": "you need to combine this check with L#912 ? \n\nmissing setting `isSetRunningDuringCancellation`",
       "revId": "27351327f1e5735a6bff266fbcf24f550ce2b20f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7df6a547_67876502",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 914,
+      "author": {
+        "id": 4665459
+      },
+      "writtenOn": "2026-09-09T17:45:51Z",
+      "side": 1,
+      "message": "Setting `isSetRunningDuringCancellation` to `true` for READY/PARKED would duplicate the removal already handled in the finally block of `run()`, since `run()` is in flight in those states. We set it to true only when the state is `null`, i.e. `run()` never started, so `cancel()` has to handle the removal itself.",
+      "parentUuid": "2b56ac45_5554350b",
+      "revId": "27351327f1e5735a6bff266fbcf24f550ce2b20f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

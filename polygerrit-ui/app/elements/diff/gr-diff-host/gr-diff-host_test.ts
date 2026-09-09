@@ -1652,6 +1652,7 @@ suite('gr-diff-host tests', () => {
       assert.isTrue(setUrlStub.calledOnce);
       assert.include(setUrlStub.firstCall.args[0], '/+/42/edit');
       assert.notInclude(setUrlStub.firstCall.args[0], '..edit');
+      assert.notInclude(setUrlStub.firstCall.args[0], 'forceReload=true');
       assert.isTrue(
         reportStub.calledWith(Interaction.REVERT_DELTA_CLICKED, {
           path: 'foo.ts',
@@ -1724,6 +1725,7 @@ suite('gr-diff-host tests', () => {
       assert.isTrue(setUrlStub.calledOnce);
       assert.include(setUrlStub.firstCall.args[0], '/+/42/edit');
       assert.notInclude(setUrlStub.firstCall.args[0], '..edit');
+      assert.include(setUrlStub.firstCall.args[0], 'forceReload=true');
       assert.isTrue(applyFixStub.calledOnce);
       assert.equal(applyFixStub.firstCall.args[0], 42 as NumericChangeId);
       assert.equal(applyFixStub.firstCall.args[1], 1 as RevisionPatchSetNum);
@@ -1758,6 +1760,7 @@ suite('gr-diff-host tests', () => {
 
       assert.isTrue(setUrlStub.calledOnce);
       assert.include(setUrlStub.firstCall.args[0], '/+/42/edit');
+      assert.notInclude(setUrlStub.firstCall.args[0], 'forceReload=true');
       assert.isTrue(applyFixStub.calledOnce);
       assert.equal(applyFixStub.firstCall.args[0], 42 as NumericChangeId);
       assert.equal(applyFixStub.firstCall.args[1], 3 as RevisionPatchSetNum);
@@ -1769,6 +1772,7 @@ suite('gr-diff-host tests', () => {
         Promise.resolve(new Response('', {status: 200}))
       );
       sinon.stub(element, 'reload').resolves();
+      const setUrlStub = sinon.stub(testResolver(navigationToken), 'setUrl');
 
       element.patchRange = {
         ...createPatchRange(),
@@ -1798,6 +1802,8 @@ suite('gr-diff-host tests', () => {
 
       await element.handleRevertDelta(group);
 
+      assert.isTrue(setUrlStub.calledOnce);
+      assert.notInclude(setUrlStub.firstCall.args[0], 'forceReload=true');
       assert.isTrue(applyFixStub.calledOnce);
       assert.equal(applyFixStub.firstCall.args[0], 42 as NumericChangeId);
       assert.equal(applyFixStub.firstCall.args[1], 2 as RevisionPatchSetNum);

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04a3f9f6_1c7f4c5d",
+        "filename": "java/com/google/gerrit/server/permissions/ReadAccessClassifier.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-09-09T13:30:42Z",
+      "side": 1,
+      "message": "If, like a lot of Gerrit servers, access to `refs/*` is blocked for anonymous users, this causes this performance improvement to not help at all.",
+      "revId": "e21a6d2a6eba7165153ca94538e6f76ec9a58baa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

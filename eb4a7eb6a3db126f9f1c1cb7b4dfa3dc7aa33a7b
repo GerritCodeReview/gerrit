@@ -105,6 +105,70 @@
       "parentUuid": "a3e6773a_e1f81092",
       "revId": "eb4a7eb6a3db126f9f1c1cb7b4dfa3dc7aa33a7b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "920e937f_1b25ec60",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-09T08:40:57Z",
+      "side": 1,
+      "message": "Which exactly thread? Can you pinpoint to the relevant place in this change?\nWith this change, Gerrit application logic starts depending on JVM thread IDs. IIUC, it also introduces an assumption about which thread will start/finish indexing? What if this assumption changes in the future?\nFurther, what if we want to start using virtual threads (project loom) where virtual threads are mounted onto carrier threads?",
+      "parentUuid": "8efd21fe_8fc0f99d",
+      "revId": "eb4a7eb6a3db126f9f1c1cb7b4dfa3dc7aa33a7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98b14d27_2f422774",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 4166,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-09T08:40:57Z",
+      "side": 1,
+      "message": "which thread id?",
+      "range": {
+        "startLine": 4166,
+        "startChar": 49,
+        "endLine": 4166,
+        "endChar": 59
+      },
+      "revId": "eb4a7eb6a3db126f9f1c1cb7b4dfa3dc7aa33a7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb4f2a6f_9baf0fc4",
+        "filename": "java/com/google/gerrit/server/index/change/PendingIndexUpdateScanner.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-09T08:40:57Z",
+      "side": 1,
+      "message": "AFAIK, thread IDs are guaranteed to be unique only while the thread is alive. Thread ID can be reused after a thread gets terminated.",
+      "range": {
+        "startLine": 157,
+        "startChar": 0,
+        "endLine": 159,
+        "endChar": 3
+      },
+      "revId": "eb4a7eb6a3db126f9f1c1cb7b4dfa3dc7aa33a7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

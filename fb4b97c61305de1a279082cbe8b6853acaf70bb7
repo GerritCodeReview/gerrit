@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52c273be_1af29152",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-09-09T11:24:33Z",
+      "side": 1,
+      "message": "Is this really necessary ? See https://h2database.com/html/features.html#do_not_close_on_exit",
+      "revId": "fb4b97c61305de1a279082cbe8b6853acaf70bb7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

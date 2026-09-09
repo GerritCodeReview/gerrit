@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e073ef7d_f249fdc8",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 470,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-09-09T20:40:12Z",
+      "side": 1,
+      "message": "The \"shorthand\" part is a little misleading\n```suggestion\nFor review pushes, `refs/for/\u003cbranch-name\u003e` is shorthand for the destination\nbranch `refs/for/refs/heads/\u003cbranch-name\u003e`. For example, pushing to\n`refs/for/master` uploads a change for review to `refs/heads/master`.\n```",
+      "range": {
+        "startLine": 468,
+        "startChar": 0,
+        "endLine": 470,
+        "endChar": 51
+      },
+      "revId": "07231a33ebc1f453bd32d91aa8c674828e59514a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

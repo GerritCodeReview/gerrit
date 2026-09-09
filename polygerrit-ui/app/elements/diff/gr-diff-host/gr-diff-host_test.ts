@@ -19,7 +19,9 @@ import {
   createComment,
   createCommentThread,
   createDiff,
+  createEditRevision,
   createPatchRange,
+  createRevision,
   createRunResult,
 } from '../../../test/test-data-generators';
 import {
@@ -43,6 +45,7 @@ import {
   PARENT,
   PatchSetNum,
   PatchSetNumber,
+  RevisionInfo,
   RevisionPatchSetNum,
 } from '../../../types/common';
 import {CoverageType} from '../../../types/types';
@@ -1627,6 +1630,7 @@ suite('gr-diff-host tests', () => {
         ...createPatchRange(),
         patchNum: EDIT,
       };
+      element.latestPatchNum = 1 as PatchSetNumber;
       element.path = 'foo.ts';
       element.changeNum = 42 as NumericChangeId;
 
@@ -1661,7 +1665,7 @@ suite('gr-diff-host tests', () => {
       );
       assert.isTrue(applyFixStub.calledOnce);
       assert.equal(applyFixStub.firstCall.args[0], 42 as NumericChangeId);
-      assert.equal(applyFixStub.firstCall.args[1], EDIT);
+      assert.equal(applyFixStub.firstCall.args[1], 1 as RevisionPatchSetNum);
       assert.isUndefined(applyFixStub.firstCall.args[3]);
       assert.equal(applyFixStub.firstCall.args[4], throwingErrorCallback);
       assert.deepEqual(applyFixStub.firstCall.args[2], [
@@ -1756,8 +1760,47 @@ suite('gr-diff-host tests', () => {
       assert.include(setUrlStub.firstCall.args[0], '/+/42/edit');
       assert.isTrue(applyFixStub.calledOnce);
       assert.equal(applyFixStub.firstCall.args[0], 42 as NumericChangeId);
-      assert.equal(applyFixStub.firstCall.args[1], EDIT);
+      assert.equal(applyFixStub.firstCall.args[1], 3 as RevisionPatchSetNum);
       assert.isUndefined(applyFixStub.firstCall.args[3]);
+    });
+
+    test('handleRevertDelta resolves base patchset from edit revision', async () => {
+      const applyFixStub = stubRestApi('applyFixSuggestion').returns(
+        Promise.resolve(new Response('', {status: 200}))
+      );
+      sinon.stub(element, 'reload').resolves();
+
+      element.patchRange = {
+        ...createPatchRange(),
+        patchNum: EDIT,
+      };
+      element.change = {
+        ...createChange(),
+        revisions: {
+          r1: createRevision(1),
+          r2: createRevision(2),
+          rEdit: createEditRevision(2) as unknown as RevisionInfo,
+        },
+      };
+      element.latestPatchNum = 3 as PatchSetNumber;
+      element.editMode = true;
+      element.path = 'foo.ts';
+      element.changeNum = 42 as NumericChangeId;
+
+      const removeLine = new GrDiffLine(GrDiffLineType.REMOVE, 10, 0);
+      removeLine.text = 'old code';
+      const addLine = new GrDiffLine(GrDiffLineType.ADD, 0, 10);
+      addLine.text = 'new code';
+      const group = new GrDiffGroup({
+        type: GrDiffGroupType.DELTA,
+        lines: [removeLine, addLine],
+      });
+
+      await element.handleRevertDelta(group);
+
+      assert.isTrue(applyFixStub.calledOnce);
+      assert.equal(applyFixStub.firstCall.args[0], 42 as NumericChangeId);
+      assert.equal(applyFixStub.firstCall.args[1], 2 as RevisionPatchSetNum);
     });
 
     test('handleRevertDelta calls onComplete callback on success', async () => {
@@ -1771,6 +1814,7 @@ suite('gr-diff-host tests', () => {
         ...createPatchRange(),
         patchNum: EDIT,
       };
+      element.latestPatchNum = 1 as PatchSetNumber;
       element.editMode = true;
       element.path = 'foo.ts';
       element.changeNum = 42 as NumericChangeId;
@@ -1800,6 +1844,7 @@ suite('gr-diff-host tests', () => {
         ...createPatchRange(),
         patchNum: EDIT,
       };
+      element.latestPatchNum = 1 as PatchSetNumber;
       element.editMode = true;
       element.path = 'foo.ts';
       element.changeNum = 42 as NumericChangeId;

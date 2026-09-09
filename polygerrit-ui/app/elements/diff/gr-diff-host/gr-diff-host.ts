@@ -17,6 +17,7 @@ import {getAppContext} from '../../../services/app-context';
 import {
   computeAllPatchSets,
   computeLatestPatchNum,
+  findEdit,
   getParentIndex,
   isAParent,
   isMergeParent,
@@ -1485,7 +1486,19 @@ export class GrDiffHost extends LitElement {
       return;
     }
 
-    const patchNum = this.patchRange.patchNum;
+    let patchNum: RevisionPatchSetNum | undefined = this.patchRange.patchNum;
+    if (patchNum === undefined) {
+      onComplete?.();
+      return;
+    }
+
+    if (patchNum === EDIT) {
+      const editRev = findEdit(Object.values(this.change?.revisions ?? {}));
+      patchNum =
+        (editRev?.basePatchNum as PatchSetNumber | undefined) ??
+        this.latestPatchNum ??
+        computeLatestPatchNum(computeAllPatchSets(this.change));
+    }
     if (patchNum === undefined) {
       onComplete?.();
       return;

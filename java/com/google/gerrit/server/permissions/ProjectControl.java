@@ -382,6 +382,10 @@ public class ProjectControl {
     return !cfg.getBoolean("gerrit", "requireChangeForConfigUpdate", false);
   }
 
+  boolean isAiReviewAllowedByDefault() {
+    return cfg.getBoolean("change", "aiReviewAllowedByDefault", true);
+  }
+
   private class ForProjectImpl extends ForProject {
     private String resourcePath;
 

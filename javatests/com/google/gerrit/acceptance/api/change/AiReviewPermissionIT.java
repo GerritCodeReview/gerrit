@@ -21,6 +21,7 @@ import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.d
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.Permission;
@@ -200,6 +201,51 @@ public class AiReviewPermissionIT extends AbstractDaemonTest {
         .project(allProjects)
         .forUpdate()
         .add(deny(Permission.AI_REVIEW).ref("refs/heads/*").group(REGISTERED_USERS))
+        .update();
+
+    requestScopeOperations.setApiUser(user.id());
+    Map<String, ActionInfo> actions = gApi.changes().id(changeId).current().actions();
+
+    assertThat(actions.get(AI_REVIEW).enabled).isFalse();
+  }
+
+  @Test
+  @GerritConfig(name = "change.aiReviewAllowedByDefault", value = "false")
+  public void aiReviewActionDisabledByDefaultWhenDefaultAllowIsOff() throws Exception {
+    String changeId = createChange().getChangeId();
+
+    requestScopeOperations.setApiUser(user.id());
+    Map<String, ActionInfo> actions = gApi.changes().id(changeId).current().actions();
+
+    assertThat(actions.get(AI_REVIEW).enabled).isFalse();
+  }
+
+  @Test
+  @GerritConfig(name = "change.aiReviewAllowedByDefault", value = "false")
+  public void aiReviewActionAbsentWhenDefaultAllowIsOffAndUserInGrantedGroup() throws Exception {
+    String changeId = createChange().getChangeId();
+
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.AI_REVIEW).ref("refs/heads/*").group(REGISTERED_USERS))
+        .update();
+
+    requestScopeOperations.setApiUser(user.id());
+    Map<String, ActionInfo> actions = gApi.changes().id(changeId).current().actions();
+
+    assertThat(actions).doesNotContainKey(AI_REVIEW);
+  }
+
+  @Test
+  @GerritConfig(name = "change.aiReviewAllowedByDefault", value = "false")
+  public void aiReviewActionDisabledWhenDefaultAllowIsOffAndOnlyDenyConfigured() throws Exception {
+    String changeId = createChange().getChangeId();
+
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(deny(Permission.AI_REVIEW).ref("refs/heads/*").group(adminGroupUuid()))
         .update();
 
     requestScopeOperations.setApiUser(user.id());

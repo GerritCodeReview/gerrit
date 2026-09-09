@@ -1641,6 +1641,18 @@ link:config-project-config.html#submit-type[submit types].
 +
 Default is `true`.
 
+[[change.aiReviewAllowedByDefault]]change.aiReviewAllowedByDefault::
++
+If set to `true`, the link:access-control.html#category_ai_review[AI Review]
+permission uses a default-allow model: all users have access unless a 'DENY' or
+'BLOCK' rule restricts them, and configuring any 'ALLOW' rule switches the
+permission to the standard default-deny model.
++
+If set to `false`, `aiReview` is evaluated like every other permission: access
+is denied unless an explicit 'ALLOW' rule grants it.
++
+Default is `true`.
+
 [[change.allowBlame]]change.allowBlame::
 +
 Allow blame on side by side diff. If set to `false`, blame cannot be used.

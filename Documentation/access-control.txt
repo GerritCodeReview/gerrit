@@ -1062,21 +1062,18 @@ This category controls who is able to use AI-assisted review features,
 such as the "Review Agent" and "Create AI Review Prompt" buttons.
 
 [NOTE]
-Unlike all other Gerrit permissions which use a default-deny model
-(access is denied unless an explicit 'ALLOW' rule grants it), the
-`aiReview` permission uses a *default-allow* model during the experiment
-phase. This means:
+By default `aiReview` uses a *default-allow* model, unlike all other Gerrit
+permissions. When no `aiReview` rules are configured, all users have access, and
+'DENY' and 'BLOCK' rules can be used on their own to restrict specific groups
+without first granting 'ALLOW' to everyone else. Configuring any 'ALLOW' rule
+switches the permission to the standard default-deny model, where only users
+matching an 'ALLOW' rule have access. Site administrators are subject to the
+same rules as other users.
 
-* When no `aiReview` rules are configured, all users have access.
-* 'DENY' and 'BLOCK' rules can be used on their own to restrict specific
-  groups, without needing to first grant 'ALLOW' to everyone else.
-* When 'ALLOW' rules are present, the permission switches to the standard
-  model: only users matching an 'ALLOW' rule have access.
-* Site administrators are subject to the same rules as other users.
-
-This non-standard behavior will be removed when the experiment ends, at
-which point `aiReview` will follow the standard default-deny model like
-all other permissions.
+Setting
+link:config-gerrit.html#change.aiReviewAllowedByDefault[change.aiReviewAllowedByDefault]
+to `false` in `gerrit.config` turns the default-allow model off, so that
+`aiReview` is evaluated like every other permission.
 
 To restrict AI review to a specific group on all branches:
 

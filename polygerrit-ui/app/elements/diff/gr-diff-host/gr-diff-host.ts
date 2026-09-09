@@ -1537,6 +1537,9 @@ export class GrDiffHost extends LitElement {
     if (res?.ok) {
       fireAlert(this, 'Change reverted.');
       const currentChildView = this.getChangeViewModel().getState()?.childView;
+      const hasEdit =
+        !!findEdit(Object.values(this.change?.revisions ?? {})) ||
+        this.patchRange?.patchNum === EDIT;
       this.getNavigation().setUrl(
         createApplyFixUrl({
           change: this.change,
@@ -1544,7 +1547,7 @@ export class GrDiffHost extends LitElement {
           repo: this.change?.project ?? this.projectName ?? ('' as RepoName),
           basePatchNum: PARENT,
           patchNum: EDIT,
-          forceReload: true,
+          forceReload: !hasEdit,
           filePath: this.path,
           currentChildView,
         })

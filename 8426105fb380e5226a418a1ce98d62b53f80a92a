@@ -90,6 +90,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3269068e_b96bd339",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-09-09T11:14:11Z",
+      "side": 1,
+      "message": "I setup a new gerrit site with this version and tried the following permissions in All-Projects:\n\n```\n[access \"refs/*\"]\n\tread \u003d group Administrators\n\tread \u003d block group Blocked Users\n\tpostReviewComment \u003d group Registered Users\n\tpostReviewComment \u003d block group Untrusted Users\n[access \"refs/for/*\"]\n\taddPatchSet \u003d group Registered Users\n\tpush \u003d group Registered Users\n\tpushMerge \u003d group Registered Users\n[access \"refs/heads/*\"]\n\tcreate \u003d group Administrators\n\tcreate \u003d group Project Owners\n\teditTopicName \u003d +force group Administrators\n\teditTopicName \u003d +force group Project Owners\n\tforgeAuthor \u003d group Registered Users\n\tforgeCommitter \u003d group Administrators\n\tforgeCommitter \u003d group Project Owners\n\tlabel-Code-Review \u003d -2..+2 group Administrators\n\tlabel-Code-Review \u003d -2..+2 group Project Owners\n\tlabel-Code-Review \u003d -1..+1 group Registered Users\n\tlabel-Code-Review \u003d block -1..+1 group Untrusted Users\n\tread \u003d group Anonymous Users\n\trevert \u003d group Administrators\n\trevert \u003d group Project Owners\n\tsubmit \u003d group Administrators\n\tsubmit \u003d group Project Owners\n[access \"refs/meta/config\"]\n\texclusiveGroupPermissions \u003d read\n\tcreate \u003d group Administrators\n\tcreate \u003d group Project Owners\n\tlabel-Code-Review \u003d -2..+2 group Administrators\n\tlabel-Code-Review \u003d -2..+2 group Project Owners\n\tlabel-Code-Review \u003d -1..+1 group Registered Users\n\tlabel-Code-Review \u003d block -1..-1 group Untrusted Users\n\tread \u003d group Administrators\n\tread \u003d group Project Owners\n\tsubmit \u003d group Administrators\n\tsubmit \u003d group Project Owners\n[access \"refs/meta/version\"]\n\tread \u003d group Anonymous Users\n[access \"refs/tags/*\"]\n\tcreate \u003d group Administrators\n\tcreate \u003d group Project Owners\n\tcreateSignedTag \u003d group Administrators\n\tcreateSignedTag \u003d group Project Owners\n\tcreateTag \u003d group Administrators\n\tcreateTag \u003d group Project Owners\n```\n\nI created a user \"test\" and added it to the \"Untrusted Users\" group.\nThe site only has the default \"Code Review\" label.\n\nI blocked postReviewComment for \"Untrusted Users\"\n```\n[access \"refs/*\"]\n    postReviewComment \u003d block group Untrusted Users\n```\nand I blocked CodeReview for \"Untrusted Users\"\"\n```\n[access \"refs/heads/*\"]\n    label-Code-Review \u003d block -1..+1 group Untrusted Users\n[access \"refs/meta/config\"]\n    label-Code-Review \u003d block -1..+1 group Untrusted Users\n```\n\nThough the user \"test\" who is member of \"Untrusted Users\" still was able to post comments on a change owned by another user.",
+      "parentUuid": "0fa4587a_6f31d2e5",
+      "revId": "8426105fb380e5226a418a1ce98d62b53f80a92a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1d0542bd_b2a79100",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 17
@@ -135,6 +153,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c56bc251_30b51c9e",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 702,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-09-09T11:14:11Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "98c1d7d2_ed537472",
+      "range": {
+        "startLine": 702,
+        "startChar": 71,
+        "endLine": 702,
+        "endChar": 87
+      },
+      "revId": "8426105fb380e5226a418a1ce98d62b53f80a92a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2e0814e1_2c3b73c4",
@@ -158,6 +200,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab26cf63_47b7baa7",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 743,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-09-09T11:14:11Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "2e0814e1_2c3b73c4",
+      "range": {
+        "startLine": 743,
+        "startChar": 71,
+        "endLine": 743,
+        "endChar": 87
+      },
+      "revId": "8426105fb380e5226a418a1ce98d62b53f80a92a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2c4ee2f3_73127854",
@@ -171,6 +237,30 @@
       "writtenOn": "2026-05-28T08:41:42Z",
       "side": 1,
       "message": "I think this should block ANONYMOUS_USERS",
+      "range": {
+        "startLine": 767,
+        "startChar": 71,
+        "endLine": 767,
+        "endChar": 87
+      },
+      "revId": "8426105fb380e5226a418a1ce98d62b53f80a92a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3dd0ec2_f1ab15a2",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 767,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-09-09T11:14:11Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "2c4ee2f3_73127854",
       "range": {
         "startLine": 767,
         "startChar": 71,

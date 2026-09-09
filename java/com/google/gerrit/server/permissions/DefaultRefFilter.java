@@ -169,16 +169,25 @@ public class DefaultRefFilter {
     visibleRefs.addAll(initialRefFilter.visibleRefs());
     if (!initialRefFilter.deferredTags().isEmpty()) {
       try (TraceTimer traceTimer = TraceContext.newTimer("Check visibility of deferred tags")) {
-        Result allVisibleBranches = filterRefs(getTaggableRefs(repo), opts, visibleChanges);
+        List<Ref> taggableRefs;
+        try {
+          List<Ref> allRefs = new ArrayList<>(repo.getRefDatabase().getRefs());
+          allRefs.removeAll(refs);
+          taggableRefs = getTaggableRefs(allRefs);
+        } catch (IOException e) {
+          throw new PermissionBackendException(e);
+        }
+        List<Ref> visibleTaggableRefs = getTaggableRefs(visibleRefs.build());
+
+        Result additionalVisibleBranches = filterRefs(taggableRefs, opts, visibleChanges);
         checkState(
-            allVisibleBranches.deferredTags().isEmpty(),
+            additionalVisibleBranches.deferredTags().isEmpty(),
             "unexpected tags found when filtering refs/heads/* "
-                + allVisibleBranches.deferredTags());
+                + additionalVisibleBranches.deferredTags());
+        visibleTaggableRefs.addAll(additionalVisibleBranches.visibleRefs());
 
         TagMatcher tags =
-            tagCache
-                .get(projectState.getNameKey())
-                .matcher(tagCache, repo, allVisibleBranches.visibleRefs());
+            tagCache.get(projectState.getNameKey()).matcher(tagCache, repo, visibleTaggableRefs);
         for (Ref tag : initialRefFilter.deferredTags()) {
           try {
             if (tags.isReachable(tag)) {
@@ -330,20 +339,15 @@ public class DefaultRefFilter {
    * <p>We exclude symbolic refs because their target will be included and this will suffice for
    * computing reachability.
    */
-  private static List<Ref> getTaggableRefs(Repository repo) throws PermissionBackendException {
-    try {
-      List<Ref> allRefs = repo.getRefDatabase().getRefs();
-      return allRefs.stream()
-          .filter(
-              r ->
-                  !RefNames.isGerritRef(r.getName())
-                      && !r.getName().startsWith(RefNames.REFS_TAGS)
-                      && !r.isSymbolic()
-                      && !r.getName().equals(RefNames.REFS_CONFIG))
-          .collect(Collectors.toList());
-    } catch (IOException e) {
-      throw new PermissionBackendException(e);
-    }
+  private static List<Ref> getTaggableRefs(List<Ref> allRefs) {
+    return allRefs.stream()
+        .filter(
+            r ->
+                !RefNames.isGerritRef(r.getName())
+                    && !r.getName().startsWith(RefNames.REFS_TAGS)
+                    && !r.isSymbolic()
+                    && !r.getName().equals(RefNames.REFS_CONFIG))
+        .collect(Collectors.toList());
   }
 
   /**

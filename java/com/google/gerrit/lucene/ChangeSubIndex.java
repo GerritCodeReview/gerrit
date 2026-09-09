@@ -43,13 +43,14 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.document.NumericDocValuesField;
 import org.apache.lucene.search.SearcherFactory;
 import org.apache.lucene.store.Directory;
-import org.apache.lucene.store.FSDirectory;
+import org.eclipse.jgit.lib.Config;
 
 public class ChangeSubIndex extends AbstractLuceneIndex<Change.Id, ChangeData>
     implements ChangeIndex {
   ChangeSubIndex(
       Schema<ChangeData> schema,
       SitePaths sitePaths,
+      Config cfg,
       Path path,
       ImmutableSet<String> skipFields,
       GerritIndexWriterConfig writerConfig,
@@ -59,7 +60,7 @@ public class ChangeSubIndex extends AbstractLuceneIndex<Change.Id, ChangeData>
     this(
         schema,
         sitePaths,
-        FSDirectory.open(path),
+        LuceneDirectory.open(cfg, path),
         path.getFileName().toString(),
         skipFields,
         writerConfig,

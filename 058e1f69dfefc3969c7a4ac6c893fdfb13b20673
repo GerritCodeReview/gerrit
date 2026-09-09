@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f78d7a1c_c78677e1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-09-09T21:57:19Z",
+      "side": 1,
+      "message": "I think you want to move your new text on L12-13 into this paragraph and reword it all together. I want to keep the content about the implicit grant if a user can vote, but the part about \"without having to run migration scripts\" should go away with the explanation from L12-13.",
+      "parentUuid": "458720d2_2c3af6c1",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 16
+      },
+      "revId": "058e1f69dfefc3969c7a4ac6c893fdfb13b20673",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d9c0bebb_c96db1e9",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 19

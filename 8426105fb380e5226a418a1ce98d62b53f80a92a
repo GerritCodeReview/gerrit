@@ -108,6 +108,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fd569834_37c61f6c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-09-09T21:57:19Z",
+      "side": 1,
+      "message": "Your blocks aren\u0027t doing anything because they\u0027re in the [same access section as an allow](https://gerrit-review.googlesource.com/Documentation/access-control.html#__block_and_allow_rules_in_the_same_access_section).\n\nThe allows for `Registered Users` override the block here:\n```\n[access \"refs/*\"]\n\t....\n\tpostReviewComment \u003d group Registered Users  \u003c--- overrides\n\tpostReviewComment \u003d block group Untrusted Users\n```\n\nand here:\n```\n[access \"refs/heads/*\"]\n\t....\n\tlabel-Code-Review \u003d -1..+1 group Registered Users \u003c--- overrides\n\tlabel-Code-Review \u003d block -1..+1 group Untrusted Users\n```",
+      "parentUuid": "3269068e_b96bd339",
+      "revId": "8426105fb380e5226a418a1ce98d62b53f80a92a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1d0542bd_b2a79100",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 17

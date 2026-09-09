@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b56ac45_5554350b",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 914,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-09-09T15:39:47Z",
+      "side": 1,
+      "message": "you need to combine this check with L#912 ? \n\nmissing setting `isSetRunningDuringCancellation`",
+      "revId": "27351327f1e5735a6bff266fbcf24f550ce2b20f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

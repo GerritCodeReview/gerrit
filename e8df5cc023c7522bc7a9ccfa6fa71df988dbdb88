@@ -34,6 +34,24 @@
       "parentUuid": "ee789947_ed9b4080",
       "revId": "e8df5cc023c7522bc7a9ccfa6fa71df988dbdb88",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d871763b_c21a6503",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-09-09T11:28:56Z",
+      "side": 1,
+      "message": "then the cherry-pick is of course ok ;-)",
+      "parentUuid": "38a2b0f6_9ae54f91",
+      "revId": "e8df5cc023c7522bc7a9ccfa6fa71df988dbdb88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -163,6 +163,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "52ab7cff_b7691ef2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-09-10T08:21:50Z",
+      "side": 1,
+      "message": "Next change in the series. https://gerrit-review.googlesource.com/c/gerrit/+/613021/1",
+      "parentUuid": "e894b69c_eb85019a",
+      "revId": "eb4a7eb6a3db126f9f1c1cb7b4dfa3dc7aa33a7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "98b14d27_2f422774",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 8

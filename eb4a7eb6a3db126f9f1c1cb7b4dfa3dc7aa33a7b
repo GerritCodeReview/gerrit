@@ -145,6 +145,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e894b69c_eb85019a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-10T08:18:49Z",
+      "side": 1,
+      "message": "\u003e \n\u003e You are right in that it is not unique (as per api contract, but implementation seems is other way?), in the relation chain we already use a custom sequence instead of the thread id.\n\nSorry I do not follow: what do you mean by \"relation chain\" and what is a \"custom sequence\"?",
+      "parentUuid": "2407bce8_ee8c5dd8",
+      "revId": "eb4a7eb6a3db126f9f1c1cb7b4dfa3dc7aa33a7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "98b14d27_2f422774",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 8

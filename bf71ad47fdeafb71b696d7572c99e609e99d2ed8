@@ -22,6 +22,30 @@
       },
       "revId": "bf71ad47fdeafb71b696d7572c99e609e99d2ed8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "66147439_00529033",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 678,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-09-10T17:04:59Z",
+      "side": 1,
+      "message": "I kept this separate because it updates a different mirror surface. The existing entries cover npm artifacts and bazel_libs; this change adds the protoc toolchain binary mirror, with its own uploader, checksum pin, and rewrite rule. Squashing would save one number update, but would mix separate dependency classes and make future mirror maintenance harder to audit.",
+      "parentUuid": "c5bee8a6_17298f45",
+      "range": {
+        "startLine": 678,
+        "startChar": 0,
+        "endLine": 678,
+        "endChar": 4
+      },
+      "revId": "bf71ad47fdeafb71b696d7572c99e609e99d2ed8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

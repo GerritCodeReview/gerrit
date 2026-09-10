@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "32a31061_00d00124",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-09-10T13:22:15Z",
+      "side": 1,
+      "message": "This was originally in the k8s-gerrit repository, since we make use of that there and then ended up in Gerrit on somebodies suggestion. I would be fine to move it to a dedicated repository.",
+      "parentUuid": "e8ac97bc_65063a4e",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 21
+      },
+      "revId": "76307d27b37b6b29f322f88c831482970d36db18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "5e8a9f3f_446c6e9c",

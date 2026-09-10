@@ -24,6 +24,31 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d970248_eeaf8c1b",
+        "filename": "java/com/google/gerrit/server/experiments/ExperimentFeaturesConstants.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1162625
+      },
+      "writtenOn": "2026-09-10T18:57:42Z",
+      "side": 1,
+      "message": "Removed the experiment feature constant from Gerrit and updated the commit message.",
+      "parentUuid": "58a94e3d_a3ac7903",
+      "range": {
+        "startLine": 84,
+        "startChar": 29,
+        "endLine": 84,
+        "endChar": 90
+      },
+      "isAi": true,
+      "revId": "e15bb04a7522c9107c81deadc6f2c703eddd77be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "89d758e3_0d2785b0",
@@ -47,6 +72,31 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3afa4c9_8b071789",
+        "filename": "java/com/google/gerrit/server/schema/testing/AllProjectsCreatorTestUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1162625
+      },
+      "writtenOn": "2026-09-10T18:57:42Z",
+      "side": 1,
+      "message": "Done. Added getAllProjectsAccessSection(readersGroupName, usersGroupName) and updated DEFAULT_ALL_PROJECTS_ACCESS_SECTION and helper methods to use the template.",
+      "parentUuid": "89d758e3_0d2785b0",
+      "range": {
+        "startLine": 142,
+        "startChar": 30,
+        "endLine": 142,
+        "endChar": 37
+      },
+      "isAi": true,
+      "revId": "e15bb04a7522c9107c81deadc6f2c703eddd77be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4db18d6c_d40f96f6",
@@ -66,6 +116,31 @@
         "endLine": 211,
         "endChar": 30
       },
+      "revId": "e15bb04a7522c9107c81deadc6f2c703eddd77be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f345015_b0aff40d",
+        "filename": "javatests/com/google/gerrit/server/schema/AllProjectsCreatorTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1162625
+      },
+      "writtenOn": "2026-09-10T18:57:42Z",
+      "side": 1,
+      "message": "Removed the builder tests since fallback and custom group propagation are already verified in AllProjectsCreatorTest.",
+      "parentUuid": "4db18d6c_d40f96f6",
+      "range": {
+        "startLine": 211,
+        "startChar": 14,
+        "endLine": 211,
+        "endChar": 30
+      },
+      "isAi": true,
       "revId": "e15bb04a7522c9107c81deadc6f2c703eddd77be",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

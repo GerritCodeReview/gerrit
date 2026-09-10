@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd2b7518_f27f0686",
+        "filename": "tools/nogithub.downloader_config",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-10T16:49:03Z",
+      "side": 1,
+      "message": "Can we have the CI use this config for builds? So, to ensure that we won\u0027t rely on GitHub-only resources anymore.",
+      "revId": "982be7a4f1a5420e44e8e39af783b548004ce731",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -222,8 +222,9 @@ class GitGarbageCollection:
 
         try:
             repo.gc(repo_dir, self.git_config, args)
-        except repo.GitCommandException:
+        except repo.GitCommandException as e:
             LOG.error("Failed to run gc in %s", repo_dir)
+            raise e
 
         for after_step in self.after_steps:
             after_step.run(repo_dir)

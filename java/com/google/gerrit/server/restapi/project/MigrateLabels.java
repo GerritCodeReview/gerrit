@@ -16,47 +16,120 @@ package com.google.gerrit.server.restapi.project;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.Response;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.project.ProjectResource;
-import com.google.gerrit.server.schema.MigrateLabelFunctionsToSubmitRequirement;
+import com.google.gerrit.server.restapi.project.MigrateLabelFunctionsToSubmitRequirement.Status;
+import com.google.gerrit.server.restapi.project.RepoMetaDataUpdater.ConfigChangeCreator;
 import com.google.gerrit.server.schema.UpdateUI;
+import com.google.gerrit.server.update.UpdateException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.io.IOException;
 import java.util.Set;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class MigrateLabels implements RestModifyView<ProjectResource, MigrateLabelsInput> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  private final RepoMetaDataUpdater repoMetaDataUpdater;
   private final MigrateLabelFunctionsToSubmitRequirement migrateLabelFunctionsToSubmitRequirement;
   private final PermissionBackend permissionBackend;
 
   @Inject
   MigrateLabels(
+      RepoMetaDataUpdater repoMetaDataUpdater,
       MigrateLabelFunctionsToSubmitRequirement migrateLabelFunctionsToSubmitRequirement,
       PermissionBackend permissionBackend) {
+    this.repoMetaDataUpdater = repoMetaDataUpdater;
     this.migrateLabelFunctionsToSubmitRequirement = migrateLabelFunctionsToSubmitRequirement;
     this.permissionBackend = permissionBackend;
   }
 
   @Override
   public Response<MigrateLabelsInfo> apply(ProjectResource rsrc, MigrateLabelsInput input)
-      throws Exception {
-    Project.NameKey project = rsrc.getNameKey();
-    permissionBackend.currentUser().project(project).check(ProjectPermission.WRITE_CONFIG);
-    MigrateLabelFunctionsToSubmitRequirement.Status status =
-        migrateLabelFunctionsToSubmitRequirement.executeMigration(project, new LoggingUpdateUI());
-
+      throws RestApiException,
+          PermissionBackendException,
+          IOException,
+          ConfigInvalidException,
+          UpdateException {
+    Status status = execute(rsrc, ExecutionMode.DIRECT).status();
     MigrateLabelsInfo info = new MigrateLabelsInfo();
     info.status = status;
     return Response.ok(info);
   }
 
-  public static class LoggingUpdateUI implements UpdateUI {
+  /**
+   * Executes the label-functions-to-submit-requirements migration for the given project resource.
+   *
+   * <p>In {@link ExecutionMode#DIRECT} mode the config is committed straight to {@code
+   * refs/meta/config} after a {@link ProjectPermission#WRITE_CONFIG} check.
+   *
+   * <p>In {@link ExecutionMode#REVIEW} mode no commit is made to {@code refs/meta/config}; instead
+   * a code-review change is created. Permission enforcement is delegated to {@link
+   * RepoMetaDataUpdater#configChangeCreator}, which requires either {@code WRITE_CONFIG} or {@code
+   * CREATE_CHANGE} on {@code refs/meta/config}.
+   *
+   * @param rsrc the project resource to migrate
+   * @param mode whether to commit directly or create a review change
+   * @return the migration result containing the {@link Status} and, for {@link
+   *     ExecutionMode#REVIEW}, the created {@link com.google.gerrit.extensions.common.ChangeInfo}
+   *     when the project was actually migrated
+   */
+  MigrationResult execute(ProjectResource rsrc, ExecutionMode mode)
+      throws RestApiException,
+          PermissionBackendException,
+          IOException,
+          ConfigInvalidException,
+          UpdateException {
+    Project.NameKey project = rsrc.getNameKey();
+    return switch (mode) {
+      case DIRECT -> executeDirect(project);
+      case REVIEW -> executeReview(project, rsrc);
+    };
+  }
 
+  private MigrationResult executeDirect(Project.NameKey project)
+      throws RestApiException, PermissionBackendException, IOException, ConfigInvalidException {
+    permissionBackend.currentUser().project(project).check(ProjectPermission.WRITE_CONFIG);
+    Status status =
+        migrateLabelFunctionsToSubmitRequirement.executeMigration(project, new LoggingUpdateUI());
+    return new MigrationResult(status, null);
+  }
+
+  private MigrationResult executeReview(Project.NameKey project, ProjectResource rsrc)
+      throws RestApiException,
+          PermissionBackendException,
+          IOException,
+          ConfigInvalidException,
+          UpdateException {
+    try (ConfigChangeCreator creator =
+        repoMetaDataUpdater.configChangeCreator(
+            project, null, MigrateLabelFunctionsToSubmitRequirement.COMMIT_MSG)) {
+      Status status =
+          migrateLabelFunctionsToSubmitRequirement.updateConfig(
+              rsrc.getProjectState().getNameKey(), creator.getConfig(), new LoggingUpdateUI());
+      if (status == Status.MIGRATED) {
+        return new MigrationResult(status, creator.createChange().value());
+      }
+      return new MigrationResult(status, null);
+    }
+  }
+
+  record MigrationResult(Status status, ChangeInfo change) {}
+
+  enum ExecutionMode {
+    DIRECT,
+    REVIEW
+  }
+
+  public static class LoggingUpdateUI implements UpdateUI {
     @Override
     public void message(String message) {
       logger.atInfo().log("%s", message);

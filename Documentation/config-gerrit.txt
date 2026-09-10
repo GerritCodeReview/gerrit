@@ -60,7 +60,7 @@ Use the following format to create a h2 file at a different path than default
 
 ---
 [accountPatchReviewDb]
-  url = jdbc:h2:file:/path/to/db
+  url = jdbc:h2:async:/path/to/db
 ---
 
 

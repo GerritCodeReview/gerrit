@@ -41,7 +41,7 @@ import org.eclipse.jgit.lib.Config;
 @Singleton
 public class H2JGitLockAccountPatchReviewStore extends H2CustomLockAccountPatchReviewStore {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-  private static final String H2_DB_URL_PREFIX = "jdbc:h2:file:";
+  private static final String H2_DB_URL_PREFIX = "jdbc:h2:async:";
   private static final long INITIAL_BACKOFF_MS = 1;
   private static final long MAX_BACKOFF_MS = 500;
   private final File lockTarget;
@@ -58,7 +58,7 @@ public class H2JGitLockAccountPatchReviewStore extends H2CustomLockAccountPatchR
       throw new IllegalArgumentException("Not a valid H2 file URL: " + h2Url);
     }
 
-    // URL format: "jdbc:h2:file:/path/to/db" - where ";" in the path is escaped as "\;"
+    // URL format: "jdbc:h2:async:/path/to/db" - where ";" in the path is escaped as "\;"
     String path = h2Url.substring(H2_DB_URL_PREFIX.length());
 
     // Split on first unescaped ";" to drop options, then unescape "\;" in the path

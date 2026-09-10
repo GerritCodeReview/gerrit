@@ -461,7 +461,7 @@ public abstract class JdbcAccountPatchReviewStore
   @VisibleForTesting
   static String createH2Url(Path path) {
     return new StringBuilder()
-        .append("jdbc:h2:file:")
+        .append("jdbc:h2:async:")
         .append(path.toAbsolutePath().toString())
         .toString()
         .replace(";", "\\;");

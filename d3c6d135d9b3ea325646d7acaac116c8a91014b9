@@ -436,6 +436,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1f50ec4d_ba619cae",
+        "filename": "java/com/google/gerrit/server/restapi/project/SubmitRequirementTemplateLoader.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-09-10T14:41:09Z",
+      "side": 1,
+      "message": "As discussed, this scenario is unlikely to happen. \nWe have already documented access info here https://gerrit-review.googlesource.com/c/gerrit/+/579981/34/Documentation/rest-api-projects.txt#4160",
+      "parentUuid": "ad40f541_3390e0f4",
+      "range": {
+        "startLine": 88,
+        "startChar": 6,
+        "endLine": 88,
+        "endChar": 84
+      },
+      "revId": "d3c6d135d9b3ea325646d7acaac116c8a91014b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a230a94d_b2a86911",

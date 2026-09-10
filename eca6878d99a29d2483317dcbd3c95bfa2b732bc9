@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "514a3359_e85d7256",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-09-10T19:43:10Z",
+      "side": 1,
+      "message": "Thanks, but looks like the tests fail?\n```\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d Test output for //javatests/com/google/gerrit/mail:maillib_tests:\nJUnit4 Test Runner\nI............................E..E.E.E.E..I.......😛 test\n😛 test\n........IIIIIII\nTime: 0.387\nThere were 5 failures:\n1) simpleFileComment(com.google.gerrit.mail.GmailHtmlParserTest)\nvalue of    : parse(...).size()\nexpected    : 3\nbut was     : 1\niterable was: [com.google.gerrit.mail.MailComment@61df66b6]\n\tat com.google.gerrit.mail.HtmlParserTest.simpleFileComment(HtmlParserTest.java:127)\n2) simpleInlineComments(com.google.gerrit.mail.GmailHtmlParserTest)\nvalue of    : parse(...).size()\nexpected    : 3\nbut was     : 1\niterable was: [com.google.gerrit.mail.MailComment@9f116cc]\n\tat com.google.gerrit.mail.HtmlParserTest.simpleInlineComments(HtmlParserTest.java:79)\n3) noChangeMessage(com.google.gerrit.mail.GmailHtmlParserTest)\nvalue of    : parse(...).size()\nexpected    : 2\nbut was     : 0\niterable was: []\n\tat com.google.gerrit.mail.HtmlParserTest.noChangeMessage(HtmlParserTest.java:154)\n4) simpleInlineCommentsWithLink(com.google.gerrit.mail.GmailHtmlParserTest)\nvalue of    : parse(...).size()\nexpected    : 3\nbut was     : 1\niterable was: [com.google.gerrit.mail.MailComment@16d04d3d]\n\tat com.google.gerrit.mail.HtmlParserTest.simpleInlineCommentsWithLink(HtmlParserTest.java:102)\n5) commentsSpanningMultipleBlocks(com.google.gerrit.mail.GmailHtmlParserTest)\nvalue of    : parse(...).size()\nexpected    : 3\nbut was     : 1\niterable was: [com.google.gerrit.mail.MailComment@5c33f1a9]\n\tat com.google.gerrit.mail.HtmlParserTest.commentsSpanningMultipleBlocks(HtmlParserTest.java:171)\n```",
+      "parentUuid": "eb5046f2_6d445086",
+      "revId": "eca6878d99a29d2483317dcbd3c95bfa2b732bc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2bd4aa9c_108ef065",
         "filename": "java/com/google/gerrit/mail/HtmlParser.java",
         "patchSetId": 1

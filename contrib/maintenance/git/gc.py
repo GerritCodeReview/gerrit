@@ -206,7 +206,7 @@ class GitGarbageCollection:
         self.after_steps = after_steps
         self.git_config = git_config
 
-    def run(self, repo_dir=None, args=None):
+    def run(self, repo_dir=None, args=None) -> bool:
         LOG.info("Started gc in %s", repo_dir)
         if not repo_dir:
             repo_dir = repo.git_dir()
@@ -222,13 +222,15 @@ class GitGarbageCollection:
 
         try:
             repo.gc(repo_dir, self.git_config, args)
-        except repo.GitCommandException:
+        except repo.GitCommandException as e:
             LOG.error("Failed to run gc in %s", repo_dir)
+            return False
 
         for after_step in self.after_steps:
             after_step.run(repo_dir)
 
         LOG.info("Finished gc in %s", repo_dir)
+        return True
 
     def _is_aggressive(self, project_dir):
         if os.path.exists(os.path.join(project_dir, "gc-aggressive")):

@@ -26,7 +26,13 @@ class BatchGitGarbageCollection:
         self.projects = projects
         self.gc_runner = gc_runner
 
-    def run(self, gc_args):
+    def run(self, gc_args) -> bool:
         base_path = self.site.get_base_path()
+        failures = 0
         for project in self.projects:
-            self.gc_runner.run(os.path.join(base_path, project + GIT_SUFFIX), gc_args)
+            if not self.gc_runner.run(
+                os.path.join(base_path, project + GIT_SUFFIX), gc_args
+            ):
+                failures += 1
+
+        return failures == 0

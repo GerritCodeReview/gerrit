@@ -38,11 +38,14 @@ def _run_projects_gc(args):
         if args[0].projects
         else site.get_projects(args[0].skip_projects)
     )
-    BatchGitGarbageCollection(
+    if BatchGitGarbageCollection(
         site,
         projects,
         GitGarbageCollectionProvider.get(args[0].pack_refs, args[0].config),
-    ).run(args[1])
+    ).run(args[1]):
+        sys.exit(0)
+
+    sys.exit(1)
 
 
 def main():

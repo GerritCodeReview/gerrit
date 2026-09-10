@@ -30,7 +30,9 @@ logging.basicConfig(
 
 
 def _run_gc(args):
-    GitGarbageCollectionProvider.get(args[0].pack_refs).run(args=args[1])
+    if GitGarbageCollectionProvider.get(args[0].pack_refs).run(args=args[1]):
+        sys.exit(0)
+    sys.exit(1)
 
 
 def main():

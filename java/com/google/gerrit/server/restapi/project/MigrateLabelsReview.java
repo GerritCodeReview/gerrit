@@ -14,47 +14,29 @@
 
 package com.google.gerrit.server.restapi.project;
 
-import static com.google.gerrit.server.restapi.project.MigrateLabelFunctionsToSubmitRequirement.Status.MIGRATED;
-
-import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.BadRequestException;
-import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.project.ProjectResource;
-import com.google.gerrit.server.restapi.project.RepoMetaDataUpdater.ConfigChangeCreator;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
 public class MigrateLabelsReview implements RestModifyView<ProjectResource, MigrateLabelsInput> {
-
-  private final RepoMetaDataUpdater repoMetaDataUpdater;
-  private final MigrateLabelFunctionsToSubmitRequirement migrateLabelFunctionsToSubmitRequirement;
+  private final MigrateLabels migrateLabels;
 
   @Inject
-  MigrateLabelsReview(
-      RepoMetaDataUpdater repoMetaDataUpdater,
-      MigrateLabelFunctionsToSubmitRequirement migrateLabelFunctionsToSubmitRequirement) {
-    this.repoMetaDataUpdater = repoMetaDataUpdater;
-    this.migrateLabelFunctionsToSubmitRequirement = migrateLabelFunctionsToSubmitRequirement;
+  MigrateLabelsReview(MigrateLabels migrateLabels) {
+    this.migrateLabels = migrateLabels;
   }
 
   @Override
   public Response<MigrateLabelsReviewInfo> apply(ProjectResource rsrc, MigrateLabelsInput input)
-      throws AuthException, BadRequestException, ResourceConflictException, Exception {
-    try (ConfigChangeCreator creator =
-        repoMetaDataUpdater.configChangeCreator(
-            rsrc.getNameKey(), null, MigrateLabelFunctionsToSubmitRequirement.COMMIT_MSG)) {
-      MigrateLabelFunctionsToSubmitRequirement.Status status =
-          migrateLabelFunctionsToSubmitRequirement.updateConfig(
-              rsrc.getProjectState().getNameKey(),
-              creator.getConfig(),
-              new MigrateLabels.LoggingUpdateUI());
-      if (status == MIGRATED) {
-        return Response.ok(new MigrateLabelsReviewInfo(MIGRATED, creator.createChange().value()));
-      }
-      return Response.ok(new MigrateLabelsReviewInfo(status));
+      throws Exception {
+    MigrateLabels.MigrationResult result =
+        migrateLabels.execute(rsrc, MigrateLabels.ExecutionMode.REVIEW);
+    if (result.change() != null) {
+      return Response.ok(new MigrateLabelsReviewInfo(result.status(), result.change()));
     }
+    return Response.ok(new MigrateLabelsReviewInfo(result.status()));
   }
 }

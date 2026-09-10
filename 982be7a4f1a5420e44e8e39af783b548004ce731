@@ -16,6 +16,24 @@
       "message": "Can we have the CI use this config for builds? So, to ensure that we won\u0027t rely on GitHub-only resources anymore.",
       "revId": "982be7a4f1a5420e44e8e39af783b548004ce731",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8926209e_98b2e30e",
+        "filename": "tools/nogithub.downloader_config",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-09-10T17:12:35Z",
+      "side": 1,
+      "message": "Yes, but that should be a separate follow-up after this series lands. This change only adds the nogithub.downloader_config test config to Gerrit. To make CI use it, we need a separate change in gerrit-ci-scripts that passes:\n\n```\n  --downloader_config\u003dtools/nogithub.downloader_config\n```\n\nto the relevant Bazel builds. Keeping that separate avoids coupling the Gerrit-side config addition with the CI job rollout.",
+      "parentUuid": "dd2b7518_f27f0686",
+      "revId": "982be7a4f1a5420e44e8e39af783b548004ce731",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

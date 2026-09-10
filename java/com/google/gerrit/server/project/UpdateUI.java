@@ -12,6 +12,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.server.schema;
+package com.google.gerrit.server.project;
 
-public interface UpdateUI extends com.google.gerrit.server.project.UpdateUI {}
+import java.util.Set;
+
+public interface UpdateUI {
+
+  void message(String message);
+
+  /** Requests the user to answer a yes/no question. */
+  boolean yesno(boolean defaultValue, String message);
+
+  /** Prints a message asking the user to let us know when it's safe to continue. */
+  void waitForUser();
+
+  /**
+   * Prompts the user for a string, suggesting a default.
+   *
+   * @return the chosen string from the list of allowed values.
+   */
+  String readString(String defaultValue, Set<String> allowedValues, String message);
+
+  boolean isBatch();
+}

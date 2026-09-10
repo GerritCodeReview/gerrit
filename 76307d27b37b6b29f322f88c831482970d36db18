@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "93c04524_30230ddb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-09-10T15:25:07Z",
+      "side": 1,
+      "message": "You could use a shorter prefix like `contrib/maint:`. If this code has no real dependency on the rest of the Gerrit tree, I also agree it would be fine in a separate repo.",
+      "parentUuid": "32a31061_00d00124",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 21
+      },
+      "revId": "76307d27b37b6b29f322f88c831482970d36db18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "5e8a9f3f_446c6e9c",

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a08a7291_c8615c86",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-09-10T16:28:40Z",
+      "side": 1,
+      "message": "@david.ostrovsky@gmail.com I saw the note in https://gerrit-review.googlesource.com/Documentation/dev-bazel.html#_adding_and_or_updating_maven_dependencies about the maven mirror, but there\u0027s no details there about how to upload a new artifact to the mirror. How does that happen?",
+      "revId": "e3985c09bd335845645084af57016e8555131744",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

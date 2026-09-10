@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d87033d_48e73de3",
+        "filename": "java/com/google/gerrit/server/schema/H2JGitLockAccountPatchReviewStore.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-09-10T19:23:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "427acac1_671645a7",
+      "revId": "26c9651767fc620d264007e94ec64a75e8914bc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "21857b89_037cadea",
@@ -49,6 +67,24 @@
       "writtenOn": "2026-09-10T17:33:18Z",
       "side": 1,
       "message": "This deadline needs to be calculated before line 93?",
+      "revId": "26c9651767fc620d264007e94ec64a75e8914bc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e410555a_e208e25a",
+        "filename": "java/com/google/gerrit/server/schema/H2JGitLockAccountPatchReviewStore.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-09-10T19:23:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21857b89_037cadea",
       "revId": "26c9651767fc620d264007e94ec64a75e8914bc5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

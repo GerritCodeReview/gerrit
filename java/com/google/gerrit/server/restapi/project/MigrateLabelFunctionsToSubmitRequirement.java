@@ -30,7 +30,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.restapi.project.RepoMetaDataUpdater.ConfigUpdater;
-import com.google.gerrit.server.schema.UpdateUI;
+import com.google.gerrit.server.project.UpdateUI;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.Collection;

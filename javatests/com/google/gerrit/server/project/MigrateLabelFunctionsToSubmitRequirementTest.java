@@ -28,7 +28,6 @@ import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.entities.SubmitRequirementExpression;
 import com.google.gerrit.server.restapi.project.MigrateLabelFunctionsToSubmitRequirement;
 import com.google.gerrit.server.restapi.project.MigrateLabelFunctionsToSubmitRequirement.Status;
-import com.google.gerrit.server.schema.UpdateUI;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
 import com.google.gerrit.testing.TestUpdateUI;
 import java.util.LinkedHashMap;

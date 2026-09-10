@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5bee8a6_17298f45",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 678,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-10T16:55:59Z",
+      "side": 1,
+      "message": "Why not squash with its predecessors to avoid updating the number multiple times?",
+      "range": {
+        "startLine": 678,
+        "startChar": 0,
+        "endLine": 678,
+        "endChar": 4
+      },
+      "revId": "bf71ad47fdeafb71b696d7572c99e609e99d2ed8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

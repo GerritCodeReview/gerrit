@@ -146,6 +146,25 @@ exponential backoff starting at 1 ms, capped at 500 ms per sleep.
 +
 Default is `30 seconds`.
 
+[[accountPatchReviewDb.h2LockBatchSize]]accountPatchReviewDb.h2LockBatchSize::
++
+Maximum number of callers that may share one held external H2 lock.
+Only applies when `accountPatchReviewDb.h2LockType` is set.
++
+When multiple Gerrit threads are waiting for the H2 lock, Gerrit acquires the
+external lock once and admits up to this many waiting in-process callers into the
+same lock batch. Each admitted caller opens its own H2 connection and commits or
+rolls back independently. The external lock remains held until all callers in the
+batch have closed their connections, then Gerrit releases it and a later batch
+may acquire the lock.
++
+This reduces repeated lock-file acquire/release cycles when many local threads
+are accessing the AccountPatchReviewDb concurrently. It does not allow callers
+from other Gerrit processes to enter the same batch; other processes must still
+wait for the external lock to be released.
++
+Default is `32`.
+
 [[accounts]]
 === Section accounts
 

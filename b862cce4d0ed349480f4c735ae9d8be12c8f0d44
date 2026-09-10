@@ -16,6 +16,24 @@
       "message": "Can you modify it to say write.lock file for each index ?\n\n```suggestion\n\u003e index and delete any leftover `\u003cindex_dir\u003e/chages_\u003cversion\u003e/write.lock` files. Processes configured with\n```",
       "revId": "b862cce4d0ed349480f4c735ae9d8be12c8f0d44",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c9b6f98_3982d386",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 4286,
+      "author": {
+        "id": 4665459
+      },
+      "writtenOn": "2026-09-10T16:53:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a4be9be_1eb4301d",
+      "revId": "b862cce4d0ed349480f4c735ae9d8be12c8f0d44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

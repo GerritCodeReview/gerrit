@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "181b0977_f1de3e3b",
+        "filename": "java/com/google/gerrit/server/schema/H2JGitLockAccountPatchReviewStore.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-09-10T17:33:18Z",
+      "side": 1,
+      "message": "I really feel like this approach is way more complicated than it needs to be, and I think that it will lead to more bugs. My biggest concern with this approach is that I am not able easily reason about this approach to tell if it is correct. This reminds me of the quote:\n\n\"Kernighan\u0027s Law - Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.\"\n\nI am not certain that I am smart enough to understand what is happening here, and I am very doubtful that I would be able to debug it.\n\nIs there anything more to protect here than access to the lockFile? Will a synchronized on each of the 2 methods accessing it not protect its access adequately?",
+      "revId": "26c9651767fc620d264007e94ec64a75e8914bc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21857b89_037cadea",
+        "filename": "java/com/google/gerrit/server/schema/H2JGitLockAccountPatchReviewStore.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-09-10T17:33:18Z",
+      "side": 1,
+      "message": "This deadline needs to be calculated before line 93?",
+      "revId": "26c9651767fc620d264007e94ec64a75e8914bc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

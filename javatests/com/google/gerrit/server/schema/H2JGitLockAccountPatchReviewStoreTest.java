@@ -24,18 +24,18 @@ import org.junit.Test;
 public class H2JGitLockAccountPatchReviewStoreTest {
   @Test
   public void lockTargetFromUrl_plainPath() {
-    assertThat(lockTargetFromUrl("jdbc:h2:file:/path/to/db")).isEqualTo(new File("/path/to/db"));
+    assertThat(lockTargetFromUrl("jdbc:h2:async:/path/to/db")).isEqualTo(new File("/path/to/db"));
   }
 
   @Test
   public void lockTargetFromUrl_stripsOptions() {
-    assertThat(lockTargetFromUrl("jdbc:h2:file:/path/to/db;FILE_LOCK=NO;DB_CLOSE_DELAY=0"))
+    assertThat(lockTargetFromUrl("jdbc:h2:async:/path/to/db;FILE_LOCK=NO;DB_CLOSE_DELAY=0"))
         .isEqualTo(new File("/path/to/db"));
   }
 
   @Test
   public void lockTargetFromUrl_unescapesSemicolonInPath() {
-    assertThat(lockTargetFromUrl("jdbc:h2:file:/path/with\\;semi/db;FILE_LOCK=NO"))
+    assertThat(lockTargetFromUrl("jdbc:h2:async:/path/with\\;semi/db;FILE_LOCK=NO"))
         .isEqualTo(new File("/path/with;semi/db"));
   }
 

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3fd63ab_f1f36232",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-09-10T13:02:13Z",
+      "side": 1,
+      "message": "I have performed more tests based on real repositories. In those tests, I was not able to detect any performance improvements. There was no statistically significant difference in the time required to call `git ls-remote`.\nWithout measurable improvement, this change does not add any value. I will abandon it.",
+      "revId": "fdd62f4067e23bcd3c643df1d65aa577f3504ba4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

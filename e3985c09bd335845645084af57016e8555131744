@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "72a1c590_a4b7f3bc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-09-10T16:47:39Z",
+      "side": 1,
+      "message": "I was thinking it should go into master first until we\u0027re sure it doesn\u0027t introduce any regressions, then backport to stable-3.12.",
+      "parentUuid": "7be936ce_36f3cf89",
+      "range": {
+        "startLine": 7,
+        "startChar": 13,
+        "endLine": 7,
+        "endChar": 20
+      },
+      "revId": "e3985c09bd335845645084af57016e8555131744",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a08a7291_c8615c86",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1

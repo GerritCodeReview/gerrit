@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.schema;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.SitePaths;
 import java.lang.reflect.InvocationTargetException;
@@ -22,6 +23,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import org.eclipse.jgit.lib.Config;
 
@@ -29,13 +31,21 @@ import org.eclipse.jgit.lib.Config;
  * Abstract base for H2 stores that replace H2's built-in file locking with a custom mechanism.
  *
  * <p>H2 is opened with {@code FILE_LOCK=NO}; subclasses implement {@link #newLock()}, returning a
- * {@link Lock} whose {@link Lock#tryLock(long, TimeUnit)} implementation is responsible for its own
- * retry and backoff strategy, up to the given wait time.
+ * raw {@link Lock} with a working {@link Lock#tryLock()} and {@link Lock#unlock()}. This class
+ * adds retry-with-backoff (up to {@code h2LockTimeout}) and batching: up to {@code
+ * h2LockBatchSize} in-process callers can share one held lock instead of each acquiring/releasing
+ * separately.
  */
 abstract class H2CustomLockAccountPatchReviewStore extends H2AccountPatchReviewStore {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   private static final long DEFAULT_LOCK_TIMEOUT_MS = TimeUnit.SECONDS.toMillis(30);
+  private static final int DEFAULT_LOCK_BATCH_SIZE = 32;
+  private static final long INITIAL_BACKOFF_MS = 1;
+  private static final long MAX_BACKOFF_MS = 500;
+
   private final String url;
   private final long lockTimeoutMs;
+  private final int lockBatchSize;
   private Lock lockInstance;
 
   protected H2CustomLockAccountPatchReviewStore(Config cfg, SitePaths sitePaths) {
@@ -49,20 +59,101 @@ abstract class H2CustomLockAccountPatchReviewStore extends H2AccountPatchReviewS
             "h2LockTimeout",
             DEFAULT_LOCK_TIMEOUT_MS,
             TimeUnit.MILLISECONDS);
+    lockBatchSize =
+        cfg.getInt(
+            JdbcAccountPatchReviewStore.ACCOUNT_PATCH_REVIEW_DB,
+            "h2LockBatchSize",
+            DEFAULT_LOCK_BATCH_SIZE);
   }
 
   protected long getLockTimeoutMs() {
     return lockTimeoutMs;
   }
 
-  /** Creates a new, not-yet-acquired {@link Lock}. */
+  protected int getLockBatchSize() {
+    return lockBatchSize;
+  }
+
+  /** Creates a new, not-yet-acquired raw {@link Lock}; only tryLock()/unlock() are used. */
   protected abstract Lock newLock();
 
-  protected synchronized Lock lock() {
+  private synchronized Lock lock() {
     if (lockInstance == null) {
-      lockInstance = newLock();
+      lockInstance = newBatchingLock(newLock());
     }
     return lockInstance;
+  }
+
+  /** Wraps {@code raw} with retry-with-backoff and epoch batching. */
+  private Lock newBatchingLock(Lock raw) {
+    return new Lock() {
+      // An epoch runs from raw.tryLock() succeeding to every admitted caller having called
+      // unlock(): acquired only grows, capped at lockBatchSize; released grows to match it. The
+      // epoch is active while released < acquired, and ends (releasing raw) once they're equal.
+      private int acquired;
+      private int released;
+
+      @Override
+      public boolean tryLock(long time, TimeUnit unit) throws InterruptedException {
+        long backoffMs = INITIAL_BACKOFF_MS;
+        long deadline = System.currentTimeMillis() + unit.toMillis(time);
+        while (!tryJoinOrAcquire()) {
+          long remaining = deadline - System.currentTimeMillis();
+          if (remaining <= 0) {
+            return false;
+          }
+          long sleepMs = Math.min(backoffMs, remaining);
+          logger.atFine().log("H2 lock held by another process, retrying in %d ms", sleepMs);
+          Thread.sleep(sleepMs);
+          backoffMs = Math.min(backoffMs * 2, MAX_BACKOFF_MS);
+        }
+        return true;
+      }
+
+      private synchronized boolean tryJoinOrAcquire() {
+        if (released < acquired) {
+          if (acquired < lockBatchSize) {
+            acquired++;
+            return true;
+          }
+          return false;
+        }
+        if (raw.tryLock()) {
+          acquired = 1;
+          released = 0;
+          return true;
+        }
+        return false;
+      }
+
+      @Override
+      public synchronized void unlock() {
+        released++;
+        if (released == acquired) {
+          raw.unlock();
+        }
+      }
+
+      @Override
+      public void lock() {
+        throw new UnsupportedOperationException();
+      }
+
+      @Override
+      public void lockInterruptibly() {
+        throw new UnsupportedOperationException();
+      }
+
+      @Override
+      public boolean tryLock() {
+        throw new UnsupportedOperationException();
+      }
+
+      @Override
+      public Condition newCondition() {
+        throw new UnsupportedOperationException();
+      }
+    };
   }
 
   @Override

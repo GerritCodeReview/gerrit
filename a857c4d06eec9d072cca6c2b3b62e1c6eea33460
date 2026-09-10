@@ -16,6 +16,24 @@
       "message": "I think your edit didn\u0027t quite work here.",
       "revId": "a857c4d06eec9d072cca6c2b3b62e1c6eea33460",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a75890c1_3d76d0e8",
+        "filename": "javatests/com/google/gerrit/acceptance/server/permissions/RefControlIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-09-10T06:44:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "42f8d6dc_940d4113",
+      "revId": "a857c4d06eec9d072cca6c2b3b62e1c6eea33460",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9a98a95_4d93bb86",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 697,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-10T16:53:45Z",
+      "side": 1,
+      "message": "@david.ostrovsky@gmail.com did you already run this to upload them to our Gerrit bucket on GCP?",
+      "range": {
+        "startLine": 697,
+        "startChar": 0,
+        "endLine": 697,
+        "endChar": 66
+      },
+      "revId": "a50c447150dea7a6ca77bec1a4cf36fa7a6478e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

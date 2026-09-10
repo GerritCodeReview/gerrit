@@ -23,43 +23,43 @@ public class JdbcAccountPatchReviewStoreTest {
   @Test
   public void checkCreateH2Url() {
     assertThat(JdbcAccountPatchReviewStore.createH2Url(Path.of("test")))
-        .isEqualTo("jdbc:h2:file:" + Path.of("test").toAbsolutePath());
+        .isEqualTo("jdbc:h2:async:" + Path.of("test").toAbsolutePath());
     assertThat(JdbcAccountPatchReviewStore.createH2Url(Path.of("test.db")))
-        .isEqualTo("jdbc:h2:file:" + Path.of("test.db").toAbsolutePath());
+        .isEqualTo("jdbc:h2:async:" + Path.of("test.db").toAbsolutePath());
     assertThat(JdbcAccountPatchReviewStore.createH2Url(Path.of("test.db.mv.db")))
-        .isEqualTo("jdbc:h2:file:" + Path.of("test.db.mv.db").toAbsolutePath());
+        .isEqualTo("jdbc:h2:async:" + Path.of("test.db.mv.db").toAbsolutePath());
     assertThat(JdbcAccountPatchReviewStore.createH2Url(Path.of("test.db.mv.db.trace.db")))
-        .isEqualTo("jdbc:h2:file:" + Path.of("test.db.mv.db.trace.db").toAbsolutePath());
+        .isEqualTo("jdbc:h2:async:" + Path.of("test.db.mv.db.trace.db").toAbsolutePath());
   }
 
   @Test
   public void checkCreateH2UrlWithPath() {
     assertThat(JdbcAccountPatchReviewStore.createH2Url(Path.of("path/to/test")))
-        .isEqualTo("jdbc:h2:file:" + Path.of("path/to/test").toAbsolutePath());
+        .isEqualTo("jdbc:h2:async:" + Path.of("path/to/test").toAbsolutePath());
     assertThat(JdbcAccountPatchReviewStore.createH2Url(Path.of("path/to/test.db")))
-        .isEqualTo("jdbc:h2:file:" + Path.of("path/to/test.db").toAbsolutePath());
+        .isEqualTo("jdbc:h2:async:" + Path.of("path/to/test.db").toAbsolutePath());
     assertThat(JdbcAccountPatchReviewStore.createH2Url(Path.of("path/to/test.db.mv.db")))
-        .isEqualTo("jdbc:h2:file:" + Path.of("path/to/test.db.mv.db").toAbsolutePath());
+        .isEqualTo("jdbc:h2:async:" + Path.of("path/to/test.db.mv.db").toAbsolutePath());
     assertThat(JdbcAccountPatchReviewStore.createH2Url(Path.of("path/to/test.db.mv.db.trace.db")))
-        .isEqualTo("jdbc:h2:file:" + Path.of("path/to/test.db.mv.db.trace.db").toAbsolutePath());
+        .isEqualTo("jdbc:h2:async:" + Path.of("path/to/test.db.mv.db.trace.db").toAbsolutePath());
   }
 
   @Test
   public void checkCreateH2UrlWithSemicolon() {
     assertThat(JdbcAccountPatchReviewStore.createH2Url(Path.of("test;test")))
         .isEqualTo(
-            "jdbc:h2:file:" + Path.of("test;test").toAbsolutePath().toString().replace(";", "\\;"));
+            "jdbc:h2:async:" + Path.of("test;test").toAbsolutePath().toString().replace(";", "\\;"));
     assertThat(JdbcAccountPatchReviewStore.createH2Url(Path.of("test.db;test")))
         .isEqualTo(
-            "jdbc:h2:file:"
+            "jdbc:h2:async:"
                 + Path.of("test.db;test").toAbsolutePath().toString().replace(";", "\\;"));
     assertThat(JdbcAccountPatchReviewStore.createH2Url(Path.of("test.db.mv.db;test")))
         .isEqualTo(
-            "jdbc:h2:file:"
+            "jdbc:h2:async:"
                 + Path.of("test.db.mv.db;test").toAbsolutePath().toString().replace(";", "\\;"));
     assertThat(JdbcAccountPatchReviewStore.createH2Url(Path.of("test.db.mv.db.trace.db;test")))
         .isEqualTo(
-            "jdbc:h2:file:"
+            "jdbc:h2:async:"
                 + Path.of("test.db.mv.db.trace.db;test")
                     .toAbsolutePath()
                     .toString()

@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "26b8907e_9fddd6bc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-09-10T03:00:39Z",
+      "side": 1,
+      "message": "Can you please also add/update the tests in `javatests/com/google/gerrit/mail/GmailHtmlParserTest.java`?\n\nWe can focus review on this change and then merge it up to master, so we won\u0027t need https://gerrit-review.googlesource.com/c/gerrit/+/628801 (you can abandon it if you want).",
+      "revId": "eca6878d99a29d2483317dcbd3c95bfa2b732bc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2bd4aa9c_108ef065",
+        "filename": "java/com/google/gerrit/mail/HtmlParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-09-10T03:00:39Z",
+      "side": 1,
+      "message": "Remove the \"local patch\" part?\n```suggestion\n          \"gmail_attr\" // \"On \u003cdate\u003e, \u003cname\u003e \u003c\u003cemail\u003e\u003e wrote:\" attribution line\n```",
+      "revId": "eca6878d99a29d2483317dcbd3c95bfa2b732bc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e1b5f9c_36e7cf76",
+        "filename": "java/com/google/gerrit/mail/HtmlParser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-09-10T03:00:39Z",
+      "side": 1,
+      "message": "I don\u0027t think you need this comment, it\u0027s talking about previous behavior and we document that in the commit message.\n```suggestion\n  private static boolean hasProviderExtraClass(Element e) {\n```",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 59
+      },
+      "revId": "eca6878d99a29d2483317dcbd3c95bfa2b732bc9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

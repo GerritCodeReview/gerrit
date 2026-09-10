@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.schema;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.SitePaths;
 import java.lang.reflect.InvocationTargetException;
@@ -21,7 +22,13 @@ import java.lang.reflect.Proxy;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayDeque;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Queue;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import org.eclipse.jgit.lib.Config;
 
@@ -29,13 +36,21 @@ import org.eclipse.jgit.lib.Config;
  * Abstract base for H2 stores that replace H2's built-in file locking with a custom mechanism.
  *
  * <p>H2 is opened with {@code FILE_LOCK=NO}; subclasses implement {@link #newLock()}, returning a
- * {@link Lock} whose {@link Lock#tryLock(long, TimeUnit)} implementation is responsible for its own
- * retry and backoff strategy, up to the given wait time.
+ * raw {@link Lock} with a working {@link Lock#tryLock()} and {@link Lock#unlock()}. This class adds
+ * retry-with-backoff (up to {@code h2LockTimeout}) and batching: up to {@code h2LockBatchSize}
+ * in-process callers can share one held lock at a time instead of each acquiring/releasing
+ * separately.
  */
 abstract class H2CustomLockAccountPatchReviewStore extends H2AccountPatchReviewStore {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   private static final long DEFAULT_LOCK_TIMEOUT_MS = TimeUnit.SECONDS.toMillis(30);
+  private static final int DEFAULT_LOCK_BATCH_SIZE = 32;
+  private static final long INITIAL_BACKOFF_MS = 1;
+  private static final long MAX_BACKOFF_MS = 500;
+
   private final String url;
   private final long lockTimeoutMs;
+  private final int lockBatchSize;
   private Lock lockInstance;
 
   protected H2CustomLockAccountPatchReviewStore(Config cfg, SitePaths sitePaths) {
@@ -49,20 +64,132 @@ abstract class H2CustomLockAccountPatchReviewStore extends H2AccountPatchReviewS
             "h2LockTimeout",
             DEFAULT_LOCK_TIMEOUT_MS,
             TimeUnit.MILLISECONDS);
+    lockBatchSize =
+        Math.max(
+            1,
+            cfg.getInt(
+                JdbcAccountPatchReviewStore.ACCOUNT_PATCH_REVIEW_DB,
+                "h2LockBatchSize",
+                DEFAULT_LOCK_BATCH_SIZE));
   }
 
   protected long getLockTimeoutMs() {
     return lockTimeoutMs;
   }
 
-  /** Creates a new, not-yet-acquired {@link Lock}. */
+  protected int getLockBatchSize() {
+    return lockBatchSize;
+  }
+
+  /** Creates a new, not-yet-acquired raw {@link Lock}; only tryLock()/unlock() are used. */
   protected abstract Lock newLock();
 
-  protected synchronized Lock lock() {
+  private synchronized Lock lock() {
     if (lockInstance == null) {
-      lockInstance = newLock();
+      lockInstance = newBatchingLock(newLock(), lockBatchSize);
     }
     return lockInstance;
+  }
+
+  /** Wraps {@code raw} with retry-with-backoff and fixed-size batching. */
+  static Lock newBatchingLock(Lock raw, int lockBatchSize) {
+    return new Lock() {
+      // Threads not yet admitted, in the order they arrived.
+      private final Queue<Long> waiting = new ArrayDeque<>();
+      // Threads currently holding the lock.
+      private final Set<Long> acquired = new HashSet<>();
+      private final int maxActive = Math.max(1, lockBatchSize);
+
+      @Override
+      public boolean tryLock(long time, TimeUnit unit) throws InterruptedException {
+        long backoffMs = INITIAL_BACKOFF_MS;
+        long deadline = System.nanoTime() + unit.toNanos(time);
+        long threadId = Thread.currentThread().getId();
+        synchronized (this) {
+          waiting.offer(threadId);
+          while (true) {
+            if (acquired.contains(threadId)) {
+              return true;
+            }
+            if (acquired.isEmpty() && isTaskedToTryRaw(threadId) && raw.tryLock()) {
+              acquired.add(threadId);
+              waiting.remove(threadId);
+              try {
+                admitBatch();
+              } catch (RuntimeException e) {
+                logger.atSevere().withCause(e).log(
+                    "Exception while allowing next batch of waiting threads");
+              }
+              return true;
+            }
+            long remainingNanos = deadline - System.nanoTime();
+            if (remainingNanos <= 0) {
+              waiting.remove(threadId);
+              return false;
+            }
+            long waitMs = Math.clamp(TimeUnit.NANOSECONDS.toMillis(remainingNanos), 1, backoffMs);
+            logger.atFine().log("H2 lock held by another process, retrying in %d ms", waitMs);
+            try {
+              wait(waitMs);
+            } catch (InterruptedException e) {
+              waiting.remove(threadId);
+              throw e;
+            }
+            backoffMs = Math.min(backoffMs * 2, MAX_BACKOFF_MS);
+          }
+        }
+      }
+
+      @Override
+      public synchronized void unlock() {
+        acquired.remove(Thread.currentThread().threadId());
+        try {
+          if (acquired.isEmpty()) {
+            raw.unlock();
+          }
+        } finally {
+          notifyAll();
+        }
+      }
+
+      private boolean isTaskedToTryRaw(long threadId) {
+        // Only the head thread tries the raw lock. If it times out or is interrupted,
+        // stopWaiting() removes it and the next thread becomes tasked to try.
+        return waiting.peek() == threadId;
+      }
+
+      private void admitBatch() {
+        Iterator<Long> it = waiting.iterator();
+        int localAdmitted = 0;
+        while (it.hasNext() && localAdmitted++ < maxActive) {
+          acquired.add(it.next());
+          it.remove();
+        }
+        // This wakes up all the threads waiting in the queue so that they loop
+        // to check their admitted status.
+        notifyAll();
+      }
+
+      @Override
+      public void lock() {
+        throw new UnsupportedOperationException();
+      }
+
+      @Override
+      public void lockInterruptibly() {
+        throw new UnsupportedOperationException();
+      }
+
+      @Override
+      public boolean tryLock() {
+        throw new UnsupportedOperationException();
+      }
+
+      @Override
+      public Condition newCondition() {
+        throw new UnsupportedOperationException();
+      }
+    };
   }
 
   @Override

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "af317e85_de4b1ff3",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluatorImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-09-10T13:20:35Z",
+      "side": 1,
+      "message": "Edit the diff view by setting ignore whitespace. \nthere only L211 newly added in this method.",
+      "revId": "de31b6c7c21c4981a412d45db6ef0d49b7596ea2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -4,12 +4,17 @@ Short Version:
  - Provide a meaningful commit message.
  - Make sure all code is under the Apache License, 2.0.
  - Make sure all commit messages have a Change-Id.
+ - Make sure all commit messages have a Release-Notes footer. Use
+   `Release-Notes: skip` when no release note is needed.
+ - Include a `Bug: Issue <#>` or `Feature: Issue <#>` line when applicable.
  - Publish your changes for review:
 
    git push https://gerrit.googlesource.com/gerrit HEAD:refs/for/master
 
 See https://gerrit-review.googlesource.com/Documentation/dev-contributing.html
-for full details.
+for contribution-process details and
+https://gerrit-review.googlesource.com/Documentation/dev-crafting-changes.html
+for commit-message and change-crafting guidance.
 
 Long Version:
 

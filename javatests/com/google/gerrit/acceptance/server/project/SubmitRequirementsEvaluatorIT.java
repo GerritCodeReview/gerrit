@@ -84,6 +84,7 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
   @Inject SubmitRequirementChangeQueryBuilder.Factory queryBuilderFactory;
   @Inject PluginSetContext<SubmitRequirement> globalSubmitRequirements;
   @Inject OneOffRequestContext oneOffRequestContext;
+  @Inject SubmitRequirementsEvaluatorImpl.Metrics metrics;
 
   private ChangeData changeData;
   private String changeId;
@@ -1108,7 +1109,8 @@ public class SubmitRequirementsEvaluatorIT extends AbstractDaemonTest {
             globalSubmitRequirements,
             cfg,
             oneOffRequestContext,
-            mockExecutor);
+            mockExecutor,
+            metrics);
 
     SubmitRequirement sr =
         SubmitRequirement.builder()

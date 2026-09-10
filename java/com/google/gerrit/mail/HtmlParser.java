@@ -32,7 +32,8 @@ public class HtmlParser {
   private static final ImmutableSet<String> MAIL_PROVIDER_EXTRAS =
       ImmutableSet.of(
           "gmail_extra", // "On 01/01/2017 User<user@gmail.com> wrote:"
-          "gmail_quote" // Used for quoting original content
+          "gmail_quote", // Used for quoting original content
+          "gmail_attr" // "On <date>, <name> <<email>> wrote:" attribution line (local patch)
           );
 
   private static final ImmutableSet<String> ALLOWED_HTML_TAGS =
@@ -43,6 +44,14 @@ public class HtmlParser {
           );
 
   private HtmlParser() {}
+
+  // Local patch: MAIL_PROVIDER_EXTRAS previously only matched an *ancestor's* class, never the
+  // element's own class, and used exact-string className() matching rather than proper
+  // whitespace-tokenized class matching (Gmail emits compound classes like
+  // "gmail_quote gmail_quote_container"). This helper fixes both.
+  private static boolean hasProviderExtraClass(Element e) {
+    return MAIL_PROVIDER_EXTRAS.stream().anyMatch(e::hasClass);
+  }
 
   /**
    * Parses comments from html email.
@@ -78,11 +87,9 @@ public class HtmlParser {
     for (Element e : d.body().getAllElements()) {
       String elementName = e.tagName();
       boolean isInBlockQuote =
-          e.parents().stream()
-              .anyMatch(
-                  p ->
-                      p.tagName().equals("blockquote")
-                          || MAIL_PROVIDER_EXTRAS.contains(p.className()));
+          hasProviderExtraClass(e)
+              || e.parents().stream()
+                  .anyMatch(p -> p.tagName().equals("blockquote") || hasProviderExtraClass(p));
 
       if (elementName.equals("a")) {
         String href = e.attr("href");

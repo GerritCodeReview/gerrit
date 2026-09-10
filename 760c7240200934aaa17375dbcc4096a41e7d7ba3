@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "451718aa_87eb0ef9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-09-10T16:59:44Z",
+      "side": 1,
+      "message": "My one hesitation with this is their [doc on file systems](https://h2database.com/html/advanced.html#file_system) says `async: experimental file system`. I don\u0027t know how \"experimental\" they really consider it though. The full recommendation is to use a client/server model instead of the embedded model. I think we also have this problem with Lucene and we do something to protect the threads from being interrupted, so perhaps we could apply that to h2 too.",
+      "revId": "760c7240200934aaa17375dbcc4096a41e7d7ba3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

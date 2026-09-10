@@ -16,6 +16,24 @@
       "message": "Have you tested it against a brand-new bucket and checked if it uploaded all artefacts successfully, and the build succeeded with them?",
       "revId": "1e50913a37f09896a13408d115004fa51d020e4f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6b1a6c9_d8db675c",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 663,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-09-10T17:09:34Z",
+      "side": 1,
+      "message": "Yes.\n\nI tested the upload path end-to-end, including populating an empty mirror location and verifying the build against the mirrored artifacts. The same mirror flow was also exercised in the recent protobuf 36.1 and H2 updates; see: [1].\n\nI also voted Verified+1.\n\n[1]: https://paste.opendev.org/show/bcpSktyYVDi5Rf0NTUIP/",
+      "parentUuid": "47c84233_0227631a",
+      "revId": "1e50913a37f09896a13408d115004fa51d020e4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

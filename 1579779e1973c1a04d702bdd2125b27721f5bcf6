@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d6380d6_3a222b98",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2026-09-10T06:10:07Z",
+      "side": 1,
+      "message": "I\u0027m no longer working on Gerrit, hence removing myself as reviewer.",
+      "revId": "1579779e1973c1a04d702bdd2125b27721f5bcf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

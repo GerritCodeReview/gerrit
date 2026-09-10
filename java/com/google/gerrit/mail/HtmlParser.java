@@ -32,7 +32,8 @@ public class HtmlParser {
   private static final ImmutableSet<String> MAIL_PROVIDER_EXTRAS =
       ImmutableSet.of(
           "gmail_extra", // "On 01/01/2017 User<user@gmail.com> wrote:"
-          "gmail_quote" // Used for quoting original content
+          "gmail_quote", // Used for quoting original content
+          "gmail_attr" // "On <date>, <name> <<email>> wrote:" attribution line
           );
 
   private static final ImmutableSet<String> ALLOWED_HTML_TAGS =
@@ -43,6 +44,10 @@ public class HtmlParser {
           );
 
   private HtmlParser() {}
+
+  private static boolean hasProviderExtraClass(Element e) {
+    return MAIL_PROVIDER_EXTRAS.stream().anyMatch(e::hasClass);
+  }
 
   /**
    * Parses comments from html email.
@@ -78,11 +83,9 @@ public class HtmlParser {
     for (Element e : d.body().getAllElements()) {
       String elementName = e.tagName();
       boolean isInBlockQuote =
-          e.parents().stream()
-              .anyMatch(
-                  p ->
-                      p.tagName().equals("blockquote")
-                          || MAIL_PROVIDER_EXTRAS.contains(p.className()));
+          hasProviderExtraClass(e)
+              || e.parents().stream()
+                  .anyMatch(p -> p.tagName().equals("blockquote") || p.hasClass("gmail_attr"));
 
       if (elementName.equals("a")) {
         String href = e.attr("href");

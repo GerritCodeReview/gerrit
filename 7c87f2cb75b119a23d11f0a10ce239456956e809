@@ -22,6 +22,30 @@
       },
       "revId": "7c87f2cb75b119a23d11f0a10ce239456956e809",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0285ae3_137508db",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 678,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-09-10T17:03:06Z",
+      "side": 1,
+      "message": "npm artifacts and bazel_libs are checked by separate scripts and represent different dependency surfaces. Keeping this as a separate update makes the change easier to review and avoids mixing two unrelated allowlist changes.",
+      "parentUuid": "4997d762_1db55b49",
+      "range": {
+        "startLine": 678,
+        "startChar": 0,
+        "endLine": 678,
+        "endChar": 5
+      },
+      "revId": "7c87f2cb75b119a23d11f0a10ce239456956e809",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

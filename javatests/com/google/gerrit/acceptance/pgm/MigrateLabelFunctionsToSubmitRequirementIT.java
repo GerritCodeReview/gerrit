@@ -32,8 +32,9 @@ import com.google.gerrit.extensions.common.SubmitRequirementInput;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.server.restapi.project.CreateLabel;
-import com.google.gerrit.server.schema.MigrateLabelFunctionsToSubmitRequirement;
-import com.google.gerrit.server.schema.MigrateLabelFunctionsToSubmitRequirement.Status;
+import com.google.gerrit.server.restapi.project.MigrateLabelFunctionsToSubmitRequirement;
+import com.google.gerrit.server.restapi.project.MigrateLabelFunctionsToSubmitRequirement.Status;
+import com.google.gerrit.server.restapi.project.RepoMetaDataUpdater;
 import com.google.gerrit.server.schema.UpdateUI;
 import com.google.inject.Inject;
 import java.util.Map;
@@ -42,11 +43,12 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
 
-/** Test for {@link com.google.gerrit.server.schema.MigrateLabelFunctionsToSubmitRequirement}. */
+/** Test for {@link MigrateLabelFunctionsToSubmitRequirement}. */
 @Sandboxed
 public class MigrateLabelFunctionsToSubmitRequirementIT extends AbstractDaemonTest {
   @Inject private ProjectOperations projectOperations;
   @Inject private CreateLabel createLabel;
+  @Inject private RepoMetaDataUpdater repoMetaDataUpdater;
 
   @Test
   public void migrateBlockingLabel_maxWithBlock() throws Exception {
@@ -111,7 +113,7 @@ public class MigrateLabelFunctionsToSubmitRequirementIT extends AbstractDaemonTe
     assertExistentSr(
         /* srName */ "Foo",
         /* applicabilityExpression= */ null,
-        /* submittabilityExpression= */ "label:Foo=MAX&user=non_uploader AND -label:Foo=MIN",
+        /* submittabilityExpression= */ "label:Foo=MAX,user=non_uploader AND -label:Foo=MIN",
         /* canOverride= */ true);
     assertLabelFunction("Foo", "NoBlock");
   }
@@ -128,7 +130,7 @@ public class MigrateLabelFunctionsToSubmitRequirementIT extends AbstractDaemonTe
     assertExistentSr(
         /* srName */ "Foo",
         /* applicabilityExpression= */ null,
-        /* submittabilityExpression= */ "label:Foo=MAX&user=non_uploader",
+        /* submittabilityExpression= */ "label:Foo=MAX,user=non_uploader",
         /* canOverride= */ true);
     assertLabelFunction("Foo", "NoBlock");
   }
@@ -512,7 +514,7 @@ public class MigrateLabelFunctionsToSubmitRequirementIT extends AbstractDaemonTe
   private TestUpdateUI runMigration(Status expectedResult) throws Exception {
     TestUpdateUI updateUi = new TestUpdateUI();
     MigrateLabelFunctionsToSubmitRequirement executor =
-        new MigrateLabelFunctionsToSubmitRequirement(repoManager, serverIdent.get());
+        new MigrateLabelFunctionsToSubmitRequirement(repoMetaDataUpdater, repoManager);
     Status status = executor.executeMigration(project, updateUi);
     assertThat(status).isEqualTo(expectedResult);
     projectCache.evictAndReindex(project);

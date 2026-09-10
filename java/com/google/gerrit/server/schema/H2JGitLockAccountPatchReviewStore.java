@@ -42,8 +42,6 @@ import org.eclipse.jgit.lib.Config;
 public class H2JGitLockAccountPatchReviewStore extends H2CustomLockAccountPatchReviewStore {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   private static final String H2_DB_URL_PREFIX = "jdbc:h2:file:";
-  private static final long INITIAL_BACKOFF_MS = 1;
-  private static final long MAX_BACKOFF_MS = 500;
   private final File lockTarget;
 
   @Inject
@@ -79,35 +77,16 @@ public class H2JGitLockAccountPatchReviewStore extends H2CustomLockAccountPatchR
   /**
    * Creates a {@link Lock} whose {@link Lock#tryLock(long, TimeUnit)} creates and acquires a
    * jgit-style {@link LockFile}, retrying with backoff until the given wait time elapses.
-   */
-  @Override
+   */  @Override
   protected Lock newLock() {
     return new Lock() {
       private LockFile lockFile;
-
-      @Override
-      public boolean tryLock(long time, TimeUnit unit) throws InterruptedException {
-        long backoffMs = INITIAL_BACKOFF_MS;
-        long deadline = System.currentTimeMillis() + unit.toMillis(time);
-        while (!tryLock()) {
-          long remaining = deadline - System.currentTimeMillis();
-          if (remaining <= 0) {
-            return false;
-          }
-          long sleepMs = Math.min(backoffMs, remaining);
-          logger.atFine().log("H2 lock held by another process, retrying in %d ms", sleepMs);
-          Thread.sleep(sleepMs);
-          backoffMs = Math.min(backoffMs * 2, MAX_BACKOFF_MS);
-        }
-        return true;
-      }
 
       @Override
       public synchronized boolean tryLock() {
         if (lockFile != null) {
           return false;
         }
-
         try {
           LockFile currLock = new LockFile(lockTarget);
           if (currLock.lock()) {
@@ -133,6 +112,11 @@ public class H2JGitLockAccountPatchReviewStore extends H2CustomLockAccountPatchR
 
       @Override
       public void lockInterruptibly() {
+        throw new UnsupportedOperationException();
+      }
+
+      @Override
+      public boolean tryLock(long time, TimeUnit unit) {
         throw new UnsupportedOperationException();
       }
 

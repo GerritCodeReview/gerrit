@@ -259,7 +259,7 @@ public class MigrateLabelFunctionsToSubmitRequirement {
   }
 
   private static String toApplicableIfExpression(String branchRef) {
-    // Reqex -> migrate as it is.
+    // Regex -> migrate as it is.
     if (branchRef.startsWith("^")) {
       return "branch:" + branchRef;
     }

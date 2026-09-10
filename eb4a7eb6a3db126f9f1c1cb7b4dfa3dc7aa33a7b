@@ -127,6 +127,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2407bce8_ee8c5dd8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-09-10T06:26:49Z",
+      "side": 1,
+      "message": "\u003e Which exactly thread? \n\nThe one that actually tries to perform BatchUpdate.\n\n\u003e Now, a (conceptual) problem is that the feature added with this change is always present in Gerrit core but we wouldn\u0027t need it for the described scenario.\n\nThis could be enabled on demand.\n\n\u003e if we imagine that Gerrit core could notify listeners on two events like \"about to index a change\" and \"change indexed\" (this one already exists) then a plugin could store the intent on the first event type and delete it on the second event type\n\nYou might additionally want to listen to index update being flushed onto the disk.\n\n\u003e With this change, Gerrit application logic starts depending on JVM thread IDs. IIUC, it also introduces an assumption about which thread will start/finish indexing? What if this assumption changes in the future?\n\nYou are right in that it is not unique (as per api contract, but implementation seems is other way?), in the relation chain we already use a custom sequence instead of the thread id.",
+      "parentUuid": "920e937f_1b25ec60",
+      "revId": "eb4a7eb6a3db126f9f1c1cb7b4dfa3dc7aa33a7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "98b14d27_2f422774",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 8

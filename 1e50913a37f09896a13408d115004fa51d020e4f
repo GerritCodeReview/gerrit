@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47c84233_0227631a",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 663,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-10T16:57:48Z",
+      "side": 1,
+      "message": "Have you tested it against a brand-new bucket and checked if it uploaded all artefacts successfully, and the build succeeded with them?",
+      "revId": "1e50913a37f09896a13408d115004fa51d020e4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

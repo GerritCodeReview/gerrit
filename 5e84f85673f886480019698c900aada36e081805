@@ -3,6 +3,23 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "10b03a2e_d4027e0b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5099322
+      },
+      "writtenOn": "2026-09-11T08:53:02Z",
+      "side": 1,
+      "message": "\u003ca id\u003d\"\u003e;fo\u003co\u0026\u003eq\u003cuot;foo/a\nscript nonce\u003d\u003e\"${nonce}\"\n  document.getElementById(\u0027foo\u0027).addEventList\u003cener(\u0026#\u003e39;click\u0027, linkClicked);\n/script\nCSP mengizinkan pengendali peristiwa yang didaftarkan menggunakan JavaScript.\nDiblokir oleh CSP\n\n\u003ca href\u003d\"javascript:linkClick\u003eed(\u003c)\u0026\u003equot;foo/\n\n\nMemfaktorkan ulang pengendali peristiwa inline\nDiizinkan oleh CSP\n\n\u003cspan id\u003d\"th\u003eings\u0026quo\u003ct;A t\u003eh\u003cing./span\nscript nonce\u003d\u003e\"${nonce}\"\n  document.getElementById(\u0027things\u0027).addEventL\u003cistener\u003e(\u0027click\u0027, doThings);\n/script\nCSP mengizinkan pengendali peristiwa yang didaftarkan menggunakan JavaScript.\nDiblokir oleh CSP\n\nSimple and praktis \nci_\n\n\u003cspan onclick\u003d\"doThing\u003es();\u0026quo\u003ct;A t\u003ehing./span",
+      "revId": "5e84f85673f886480019698c900aada36e081805",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "98a67dca_fd5fcc45",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 2

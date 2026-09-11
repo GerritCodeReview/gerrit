@@ -32,6 +32,9 @@ import com.google.inject.Injector;
 import com.google.inject.Singleton;
 import com.google.inject.internal.UniqueAnnotations;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
 import org.jspecify.annotations.NonNull;
 import org.junit.Test;
 
@@ -55,10 +58,20 @@ public class PluginOnStartStopIT extends LightweightPluginDaemonTest {
   @Singleton
   public static class TestStopPluginListener implements StopPluginListener {
     public volatile Plugin plugin;
+    private List<Consumer<Plugin>> beforeStopListeners = new ArrayList<>();
 
     @Override
     public void onStopPlugin(Plugin plugin) {
       this.plugin = plugin;
+    }
+
+    @Override
+    public void beforeStopPlugin(Plugin plugin) {
+      beforeStopListeners.forEach(listener -> listener.accept(plugin));
+    }
+
+    public void addBeforeStopListener(Consumer<Plugin> pluginAsserts) {
+      beforeStopListeners.add(pluginAsserts);
     }
   }
 
@@ -93,6 +106,33 @@ public class PluginOnStartStopIT extends LightweightPluginDaemonTest {
     PluginInfo pluginInfo = plugin().get();
     assertThat(pluginInfo.id).isEqualTo(TEST_PLUGIN);
     assertThat(pluginInfo.disabled).isTrue();
+
+    assertThat(testStopPluginListener.plugin).isNotNull();
+    assertThat(testStopPluginListener.plugin.getName()).isEqualTo(TEST_PLUGIN);
+  }
+
+  @Test
+  @GerritConfig(name = "plugins.allowRemoteAdmin", value = "true")
+  public void pluginStartStopListener_calledOnPluginLoadedAndReloaded() throws Exception {
+    Injector pluginSysInjector = plugin.getSysInjector();
+    TestStartPluginListener testStartPluginListener =
+        pluginSysInjector.getInstance(TestStartPluginListener.class);
+    TestStopPluginListener testStopPluginListener =
+        pluginSysInjector.getInstance(TestStopPluginListener.class);
+
+    String pluginId = installPlugin(installPluginInput()).get().id;
+    assertThat(pluginId).isEqualTo(TEST_PLUGIN);
+
+    assertThat(testStartPluginListener.plugin).isNotNull();
+    assertThat(testStartPluginListener.plugin.getName()).isEqualTo(TEST_PLUGIN);
+
+    testStopPluginListener.addBeforeStopListener(
+        (pluginBeforeStop) -> {
+          assertThat(testStartPluginListener.plugin).isEqualTo(pluginBeforeStop);
+          assertThat(testStopPluginListener.plugin).isNull();
+        });
+
+    plugin().reload();
 
     assertThat(testStopPluginListener.plugin).isNotNull();
     assertThat(testStopPluginListener.plugin.getName()).isEqualTo(TEST_PLUGIN);

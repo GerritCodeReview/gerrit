@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7c6037b3_4e0d9d69",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-11T10:11:27Z",
+      "side": 1,
+      "message": "\u003e \u003e Apologies for the super-late (2 years old) review:\n\u003e Your comments are always welcome :-)\n\u003e \n\u003e \u003e what is the rationale of NOT using JGit that does include all the cleanup steps needed by Gerrit?\n\u003e \n\u003e These scripts are an iteration of what we have used at SAP for years and IIRC were based on scripts originally written by Qualcomm. These were originally written as shell scripts and then rewritten by us in Python, because of the increased complexity, especially by the feature to preserve packs.\n\nI do not have objection in using Python for automation, my question was why not calling the `jgit` executable here instead of `git`, or at least make it configurable and not hardcoded.\n\n\u003e We have always used CGit, because at least in the past, JGit was not able to GC some of our largest projects efficiently or in a decent amount of time.\n\nI remember those issues, I had them also with some of our clients and fixed them all in JGit 😄\n\nIf you see other issues, please report them on the JGit project and I\u0027ll have a look at them.\n\n\u003e This was still the case, when we started to use the preserve pack feature on some of our repos and that was teh last time we checked.\n\nHow many years ago was it? Last time I came to SAP in Waldorf they were all fixed, I recall I discussed about them with Matthias over lunchtime.\n\n\u003e We always wanted to provide the option to use JGit with this script as well to also be able to more easily have test runs, whether this would work for us now, but there were always tasks with a higher prio, so we just never came around adding that, similar to other maintenance tasks that should be added to this suite (I am now working on a task packing refs that is currently also a loose shell script in our collection).\n\nGotcha.\n\n\u003e \u003e Are we duplicating the JGit logic into Python here?\n\u003e \n\u003e To be honest, I can\u0027t 100 % say, since I am not too familiar with JGit GC (likely a question for @matthias.sohn@gmail.com). The preserve packs feature is for sure. Not sure about the other cleanup steps.\n\nI would then recommend going through an analysis of what has changed in JGit since then and see if these scripts need to have the amended logic updated here.\n\nAt the moment, they are a _snapshot in the past_ which is fine, but we need to make that statement explicit in the README.md.\n\nAt the moment, it is quite confusing because I see references to JGit features, but the `git` executable is the only one hardcoded, which is misleading.\nYou could include the time (or better SHA1) of the JGit code you\u0027ve used as version to replicate in Python.\n\n\u003e \u003e Is there any risk of the two logic to be off sync in the near future?\n\u003e \n\u003e I would say the risk is low, with the highest chance being with the preserve pack feature. If that changes in Jgit, we will need to adapt, yes, but if we don\u0027t the worst thing to happen would likely be a bunch of hardlinks that nobody reads and a few interrupted git actions, which would also happen under the default behaviour.\n\nThe preserve logic was one of the examples: there is logic not replicated in Python, like the packing strategy, which is different between C-Git and JGit.\n\n\u003e \u003e How do we remember to update these Python scripts every time that we update JGit on the maintenance side?\n\u003e \n\u003e We are actively using this in production and are following Gerrit\u0027s master branch very closely. Thus, we would quickly take care of that. (Yes, still not ideal to have multiple implementations.)\n\nCool, are you therefore also taking care of all the stable support branches of Gerrit, or only adapting it on master?",
+      "parentUuid": "29da1296_b15ffaf2",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 43
+      },
+      "revId": "813aa842dc8838bdfdb076b888be97b6fd6742ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9b2688a6_e1ac766b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 9
@@ -79,6 +103,24 @@
       "side": 1,
       "message": "As written in my other comment, allowing to use JGit was a planned feature, which we just didn\u0027t come around implementing yet, because there was no need for our own setup yet. Will try to allocate some time soon.",
       "parentUuid": "9b2688a6_e1ac766b",
+      "revId": "813aa842dc8838bdfdb076b888be97b6fd6742ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "74d73aa7_c241ab52",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-11T10:11:27Z",
+      "side": 1,
+      "message": "Sounds good, thanks for answering it!",
+      "parentUuid": "4d5ae065_cee87be4",
       "revId": "813aa842dc8838bdfdb076b888be97b6fd6742ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

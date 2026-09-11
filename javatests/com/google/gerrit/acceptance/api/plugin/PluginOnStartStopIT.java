@@ -21,26 +21,40 @@ import org.junit.Test;
     name = "plugin-start-stop-listener",
     sysModule = "com.google.gerrit.acceptance.api.plugin.PluginOnStartStopIT$TestModule")
 public class PluginOnStartStopIT extends LightweightPluginDaemonTest {
-  private static final String TEST_PLUGIN = "test-plugin";
-  private static final String TEST_PLUGIN_FILENAME = TEST_PLUGIN + ".jar";
+  static final String TEST_PLUGIN = "test-plugin";
+  static final String TEST_PLUGIN_FILENAME = TEST_PLUGIN + ".jar";
 
   @Singleton
   public static class TestStartPluginListener implements StartPluginListener {
     public volatile Plugin plugin;
+    public volatile Injector pluginInjector;
 
     @Override
     public void onStartPlugin(Plugin plugin) {
-      this.plugin = plugin;
+      if (plugin.getName().equals(TEST_PLUGIN)) {
+        this.plugin = plugin;
+        this.pluginInjector = plugin.getSysInjector();
+      }
     }
   }
 
   @Singleton
   public static class TestStopPluginListener implements StopPluginListener {
     public volatile Plugin plugin;
+    public volatile Injector pluginInjector;
+
+    @Override
+    public void beforeStopPlugin(Plugin plugin) {
+      if (plugin.getName().equals(TEST_PLUGIN)) {
+        this.pluginInjector = plugin.getSysInjector();
+      }
+    }
 
     @Override
     public void onStopPlugin(Plugin plugin) {
-      this.plugin = plugin;
+      if (plugin.getName().equals(TEST_PLUGIN)) {
+        this.plugin = plugin;
+      }
     }
   }
 
@@ -72,13 +86,15 @@ public class PluginOnStartStopIT extends LightweightPluginDaemonTest {
 
     assertThat(testStartPluginListener.plugin).isNotNull();
     assertThat(testStartPluginListener.plugin.getName()).isEqualTo(TEST_PLUGIN);
+    assertThat(testStartPluginListener.pluginInjector).isNotNull();
 
-    gApi.plugins().install(TEST_PLUGIN_FILENAME, input).disable();
+    gApi.plugins().name(TEST_PLUGIN).disable();
     PluginInfo pluginInfo = gApi.plugins().name(TEST_PLUGIN).get();
     assertThat(pluginInfo.id).isEqualTo(TEST_PLUGIN);
     assertThat(pluginInfo.disabled).isTrue();
 
     assertThat(testStopPluginListener.plugin).isNotNull());
     assertThat(testStopPluginListener.plugin.getName()).isEqualTo(TEST_PLUGIN);
+    assertThat(testStopPluginListener.pluginInjector).isNotNull();
   }
 }

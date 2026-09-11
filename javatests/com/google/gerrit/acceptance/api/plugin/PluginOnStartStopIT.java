@@ -25,8 +25,8 @@ import org.junit.Test;
     name = "plugin-start-stop-listener",
     sysModule = "com.google.gerrit.acceptance.api.plugin.PluginOnStartStopIT$TestModule")
 public class PluginOnStartStopIT extends LightweightPluginDaemonTest {
-  private static final String TEST_PLUGIN = "test-plugin";
-  private static final String TEST_PLUGIN_FILENAME = TEST_PLUGIN + ".jar";
+  static final String TEST_PLUGIN = "test-plugin";
+  static final String TEST_PLUGIN_FILENAME = TEST_PLUGIN + ".jar";
 
   @Singleton
   public static class TestStartPluginListener implements StartPluginListener {
@@ -41,6 +41,12 @@ public class PluginOnStartStopIT extends LightweightPluginDaemonTest {
   @Singleton
   public static class TestStopPluginListener implements StopPluginListener {
     public volatile Plugin plugin;
+    public volatile Injector pluginInjector;
+
+    @Override
+    public void beforeStopPlugin(Plugin plugin) {
+      this.pluginInjector = plugin.getSysInjector();
+    }
 
     @Override
     public void onStopPlugin(Plugin plugin) {
@@ -82,6 +88,7 @@ public class PluginOnStartStopIT extends LightweightPluginDaemonTest {
 
     assertThat(testStopPluginListener.plugin).isNotNull();
     assertThat(testStopPluginListener.plugin.getName()).isEqualTo(TEST_PLUGIN);
+    assertThat(testStopPluginListener.pluginInjector).isNotNull();
   }
 
   private static @NonNull InstallPluginInput installPluginInput() throws IOException {

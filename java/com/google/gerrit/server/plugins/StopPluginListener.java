@@ -14,7 +14,20 @@
 
 package com.google.gerrit.server.plugins;
 
-/** Broadcasts event indicating a plugin was unloaded. */
+/** Broadcasts event indicating a plugin being unloaded. */
 public interface StopPluginListener {
+
+  /**
+   * Called when the plugin is being stopped, but its GuiceEnvironment is still accessible.
+   *
+   * @param plugin {@link Plugin} about to be stopped
+   */
+  default void beforeStopPlugin(Plugin plugin) {}
+
+  /**
+   * Called when the plugin has been stopped, including its GuiceEnvironment.
+   *
+   * @param plugin {@link Plugin} been stopped
+   */
   void onStopPlugin(Plugin plugin);
 }

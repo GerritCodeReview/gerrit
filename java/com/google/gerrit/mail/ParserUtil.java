@@ -74,7 +74,18 @@ public class ParserUtil {
   public static boolean isCommentUrl(String str, String changeUrl, Comment comment) {
     int lineNbr = comment.range == null ? comment.lineNbr : comment.range.startLine;
     return str.equals(filePath(changeUrl, comment) + "@" + lineNbr)
-        || str.equals(filePath(changeUrl, comment) + "@a" + lineNbr);
+        || str.equals(filePath(changeUrl, comment) + "@a" + lineNbr)
+        || matchesInlineCommentPermalink(str, changeUrl, comment);
+  }
+
+  /** Check if string is the UUID-based inline comment permalink Gerrit's mail sender emits */
+  private static boolean matchesInlineCommentPermalink(
+      String str, String changeUrl, Comment comment) {
+    if (comment.key.uuid == null) {
+      return false;
+    }
+    String prefix = changeUrl + "/comment/" + comment.key.uuid;
+    return str.equals(prefix) || str.startsWith(prefix + "?");
   }
 
   /** Generate the fully qualified filepath */

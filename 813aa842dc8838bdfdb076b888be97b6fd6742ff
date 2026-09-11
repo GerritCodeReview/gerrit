@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "12cae13e_b3faa209",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-09-11T10:25:30Z",
+      "side": 1,
+      "message": "\u003e Cool, are you therefore also taking care of all the stable support branches of Gerrit, or only adapting it on master?\n\nWe only have Gerrit instances running on master, thus it is not easy for us to keep track of older versions. However, at leas tso far there shouldn\u0027t be anything that requires a specific Gerrit version (at least for the supported versions). If there are requests for having specific versions for a given Gerrit release, we can have a look at it.",
+      "parentUuid": "7c6037b3_4e0d9d69",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 43
+      },
+      "revId": "813aa842dc8838bdfdb076b888be97b6fd6742ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9b2688a6_e1ac766b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 9

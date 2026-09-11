@@ -72,6 +72,10 @@ import org.eclipse.jgit.lib.Config;
  *         <li>{@code <minutes>}: {@code 00}-{@code 59}
  *       </ul>
  *       The timezone cannot be specified but is always the system default time-zone.
+ *   <li>{@code minimumInitialDelay}. Minimum time after schedule creation before the first
+ *       execution. If the delay selected by {@code startTime} is shorter, it is advanced by whole
+ *       {@code interval} periods until the minimum delay is met. If 0 or not specified, no minimum
+ *       is applied.
  *   <li>{@code jitter}: A maximum random delay that will be added to the job's start time. If 0 or
  *       not specified, no jitter is applied.
  *       <ul>
@@ -79,8 +83,8 @@ import org.eclipse.jgit.lib.Config;
  *       </ul>
  * </ul>
  *
- * <p>The section and the subsection from which the {@code interval}, {@code startTime} and {@code
- * jitter} parameters are read can be configured.
+ * <p>The section and the subsection from which the {@code interval}, {@code startTime}, {@code
+ * minimumInitialDelay}, and {@code jitter} parameters are read can be configured.
  *
  * <p>Examples for a schedule configuration:
  *
@@ -114,6 +118,7 @@ public abstract class ScheduleConfig {
 
   @VisibleForTesting static final String KEY_INTERVAL = "interval";
   @VisibleForTesting static final String KEY_STARTTIME = "startTime";
+  @VisibleForTesting static final String KEY_MINIMUM_INITIAL_DELAY = "minimumInitialDelay";
   @VisibleForTesting static final String KEY_JITTER = "jitter";
 
   private static final long MISSING_CONFIG = -1L;
@@ -129,6 +134,7 @@ public abstract class ScheduleConfig {
         .setNow(computeNow())
         .setKeyInterval(KEY_INTERVAL)
         .setKeyStartTime(KEY_STARTTIME)
+        .setKeyMinimumInitialDelay(KEY_MINIMUM_INITIAL_DELAY)
         .setKeyJitter(KEY_JITTER)
         .setConfig(config)
         .setSection(section);
@@ -145,6 +151,8 @@ public abstract class ScheduleConfig {
 
   abstract String keyStartTime();
 
+  abstract String keyMinimumInitialDelay();
+
   abstract String keyJitter();
 
   abstract ZonedDateTime now();
@@ -152,6 +160,8 @@ public abstract class ScheduleConfig {
   @Memoized
   public Optional<Schedule> schedule() {
     long interval = computeInterval(config(), section(), subsection(), keyInterval());
+    long minimumInitialDelay =
+        computeMinimumInitialDelay(config(), section(), subsection(), keyMinimumInitialDelay());
     long jitter = computeJitter(config(), section(), subsection(), keyJitter());
 
     long initialDelay;
@@ -163,14 +173,16 @@ public abstract class ScheduleConfig {
       initialDelay = interval;
     }
 
-    if (isInvalidOrMissing(interval, initialDelay, jitter)) {
+    if (isInvalidOrMissing(interval, initialDelay, minimumInitialDelay, jitter)) {
       return Optional.empty();
     }
 
+    initialDelay = applyMinimumInitialDelay(initialDelay, interval, minimumInitialDelay);
     return Optional.of(Schedule.create(interval, initialDelay));
   }
 
-  private boolean isInvalidOrMissing(long interval, long initialDelay, long jitter) {
+  private boolean isInvalidOrMissing(
+      long interval, long initialDelay, long minimumInitialDelay, long jitter) {
     String key = section() + (subsection() != null ? "." + subsection() : "");
     if (interval == MISSING_CONFIG && initialDelay == MISSING_CONFIG) {
       logger.atInfo().log("No schedule configuration for \"%s\".", key);
@@ -202,7 +214,17 @@ public abstract class ScheduleConfig {
       initialDelay = INVALID_CONFIG;
     }
 
-    if (interval == INVALID_CONFIG || initialDelay == INVALID_CONFIG || jitter == INVALID_CONFIG) {
+    if (minimumInitialDelay != INVALID_CONFIG && minimumInitialDelay < 0) {
+      logger.atSevere().log(
+          "Invalid minimum initial delay value \"%d\" for \"%s\". It must be >= 0",
+          minimumInitialDelay, key);
+      minimumInitialDelay = INVALID_CONFIG;
+    }
+
+    if (interval == INVALID_CONFIG
+        || initialDelay == INVALID_CONFIG
+        || minimumInitialDelay == INVALID_CONFIG
+        || jitter == INVALID_CONFIG) {
       logger.atSevere().log("Invalid schedule configuration for \"%s\" is ignored. ", key);
       return true;
     }
@@ -216,6 +238,10 @@ public abstract class ScheduleConfig {
     b.append(formatValue(keyInterval()));
     b.append(", ");
     b.append(formatValue(keyStartTime()));
+    if (config().getString(section(), subsection(), keyMinimumInitialDelay()) != null) {
+      b.append(", ");
+      b.append(formatValue(keyMinimumInitialDelay()));
+    }
     return b.toString();
   }
 
@@ -260,6 +286,31 @@ public abstract class ScheduleConfig {
       logger.atSevere().log("%s", e.getMessage());
       return INVALID_CONFIG;
     }
+  }
+
+  private static long computeMinimumInitialDelay(
+      Config rc, String section, String subsection, String keyMinimumInitialDelay) {
+    try {
+      return ConfigUtil.getTimeUnit(
+          rc, section, subsection, keyMinimumInitialDelay, 0, TimeUnit.MILLISECONDS);
+    } catch (IllegalArgumentException e) {
+      logger.atSevere().log("%s", e.getMessage());
+      return INVALID_CONFIG;
+    }
+  }
+
+  private static long applyMinimumInitialDelay(
+      long initialDelay, long interval, long minimumInitialDelay) {
+    if (initialDelay >= minimumInitialDelay) {
+      return initialDelay;
+    }
+
+    long delayToAdd = minimumInitialDelay - initialDelay;
+    long intervalsToAdd = delayToAdd / interval;
+    if (delayToAdd % interval != 0) {
+      intervalsToAdd++;
+    }
+    return Math.addExact(initialDelay, Math.multiplyExact(intervalsToAdd, interval));
   }
 
   private static long computeInitialDelay(
@@ -328,6 +379,8 @@ public abstract class ScheduleConfig {
     public abstract Builder setKeyInterval(String keyInterval);
 
     public abstract Builder setKeyStartTime(String keyStartTime);
+
+    public abstract Builder setKeyMinimumInitialDelay(String keyMinimumInitialDelay);
 
     public abstract Builder setKeyJitter(String keyJitter);
 

@@ -19,10 +19,10 @@ import logging
 import sys
 
 import cli.gc
+import cli.pack_refs
 
 from gerrit.site import Site
-from gerrit.tasks.projects import BatchGitGarbageCollection
-from git.gc import GitGarbageCollectionProvider
+from gerrit.tasks.projects import BatchGitGarbageCollection, BatchGitPackRefs
 
 logging.basicConfig(
     level=logging.INFO,
@@ -44,6 +44,22 @@ def _run_projects_gc(args):
         args[0].pack_refs,
         args[0].config,
     ).run(args[1]):
+        sys.exit(0)
+
+    sys.exit(1)
+
+
+def _run_projects_packrefs(args):
+    site = Site(args[0].site)
+    projects = (
+        args[0].projects
+        if args[0].projects
+        else site.get_projects(args[0].skip_projects)
+    )
+    if BatchGitPackRefs(
+        site,
+        projects,
+    ).run():
         sys.exit(0)
 
     sys.exit(1)
@@ -105,6 +121,14 @@ def main():
         default=[],
     )
     parser_projects_gc.set_defaults(func=_run_projects_gc)
+
+    parser_projects_pack_refs = subparsers_projects.add_parser(
+        "pack-refs",
+        prog=cli.pack_refs.PROG,
+        description=cli.pack_refs.DESCRIPTION,
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
+    parser_projects_pack_refs.set_defaults(func=_run_projects_packrefs)
 
     args = parser.parse_known_args()
     args[0].func(args)

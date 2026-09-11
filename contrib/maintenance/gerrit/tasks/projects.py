@@ -15,6 +15,8 @@
 from pathlib import Path
 import sys
 
+from git.pack_refs import GitPackRefs
+
 sys.path.append("../..")
 
 from gerrit.tasks.abstract import BatchProjectTask
@@ -32,3 +34,12 @@ class BatchGitGarbageCollection(BatchProjectTask):
         super().__init__(
             site, projects, GitGarbageCollectionProvider.get(pack_refs, git_config)
         )
+
+
+class BatchGitPackRefs(BatchProjectTask):
+    def __init__(
+        self,
+        site: Path,
+        projects: list[str],
+    ):
+        super().__init__(site, projects, GitPackRefs())

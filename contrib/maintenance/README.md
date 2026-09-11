@@ -6,6 +6,7 @@ Some tools will also work with git repositories in general.
 The following tools are available:
 
 - [Extended Git GarbageCollection](#extended-git-garbagecollection)
+- [Git Pack Refs](#git-pack-refs)
 
 ## Dependencies
 
@@ -128,7 +129,28 @@ pipenv run python ./gerrit-maintenance.py \
   --quiet
 ```
 
-The CLI also includes all extended features mentioned in [this section](#extended-features).
+The CLI also includes all extended features mentioned in
+[this section](#extended-features).
+
+#### Git Pack Refs
+
+To run `git pack-refs` as part of the gerrit-maintenance CLI, run:
+
+```sh
+pipenv run python ./gerrit-maintenance.py \
+  -d $SITE \
+  projects \
+  pack-refs
+```
+
+This command runs `git pack-refs --all` on every project repository in the
+site. Before packing, a hard-link backup of the current `packed-refs` file
+is created (suffixed `-<timestamp>-before`). The command skips repositories
+that have no loose refs, logging a message and moving on without calling
+`git pack-refs`.
+
+Use the `--project` / `--skip` flags described above to limit which
+projects are processed.
 
 ## Extended Git GarbageCollection
 
@@ -275,3 +297,29 @@ The extended gc will check for the existence of the following files:
 
 In the latter case, the file will be deleted, effectively causing an aggressive
 gc just once.
+
+## Git Pack Refs
+
+Git stores refs either as loose files under `refs/` or in a single
+`packed-refs` file. Repositories with a high rate of ref creation (e.g.
+Gerrit's per-patchset `refs/changes/` namespace) can accumulate thousands
+of loose refs, which degrades performance on many filesystems.
+
+`git pack-refs --all` consolidates all loose refs into `packed-refs` in one
+pass. The `pack-refs` task provided here wraps this command with an
+additional safety backup step.
+
+### Behaviour
+
+1. **Skip if no loose refs** — the repository is scanned for files under
+   `refs/`. If none are found, the command exits immediately without
+   calling `git pack-refs`.
+2. **Before-backup** — a hard-link of the current `packed-refs` file is
+   created as `packed-refs-<timestamp>-before` before packing starts.
+3. **Pack all refs** — `git pack-refs --all` is executed, moving every
+   loose ref into `packed-refs` and emptying the `refs/` subtree.
+
+### Usage via the CLI
+
+See [Git Pack Refs](#git-pack-refs-1) under the *Projects* subcommands
+section above.

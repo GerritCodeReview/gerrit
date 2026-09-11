@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4aacead8_3792942f",
+        "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluatorImpl.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-09-11T14:14:56Z",
+      "side": 1,
+      "message": "change name",
+      "revId": "5fc6677b34e3051c7285907e2d2bb75a0d3befac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

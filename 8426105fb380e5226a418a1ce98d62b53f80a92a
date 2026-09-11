@@ -144,6 +144,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1d480ed1_ecad061a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-09-11T17:44:30Z",
+      "side": 1,
+      "message": "\u003e I tried again, it works if voting on \"Code-Review\" is allowed for specific groups and \"postReviewComment\" is blocked on \"refs/*\" for untrusted users.\n\n+1\n\n\u003e \n\u003e But I couldn\u0027t find a working configuration which\n\u003e \n\u003e - allows all registered users except a group \"Untrusted Users\" to vote -1..+1 on label Code-Review\n\nHuh, yeah, I don\u0027t think there\u0027s a way to specify that (without adding another project layer). And as you\u0027re pointing out here, it\u0027s already a problem independent of this new permission. There\u0027s no way to do it in Gerrit. I think we need to solve this first or the new perm may not be particularly useful.\n\nThe workaround with another project would be to only have the `block group Untrusted Users` rule in the parent project, then add the allow rule in the child project. I\u0027m pretty sure that will do what you want since the parent project will be checked first. Anyone not in the untrusted group will fall through to the child project check.\n\n\u003e \n\u003e Why do we need an explicit new permission \"postReviewComment\" if they also must not have any voting permission ? Wouldn\u0027t it then be sufficient to not grant any voting permissions to the untrusted users ?\n\nBecause admins might want to allow legitimate users without voting permission to comment on changes. Without a distinct perm, we can\u0027t enable that.",
+      "parentUuid": "831b6243_07c9c7c2",
+      "revId": "8426105fb380e5226a418a1ce98d62b53f80a92a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1d0542bd_b2a79100",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 17

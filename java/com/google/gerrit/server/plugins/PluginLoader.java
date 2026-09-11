@@ -214,6 +214,7 @@ public class PluginLoader implements LifecycleListener {
 
   private synchronized void unloadPlugin(Plugin plugin) {
     persistentCacheFactory.onStop(plugin.getName());
+    env.beforeStopPlugin(plugin);
     String name = plugin.getName();
     logger.atInfo().log("Unloading plugin %s, version %s", name, plugin.getVersion());
     plugin.stop(env);

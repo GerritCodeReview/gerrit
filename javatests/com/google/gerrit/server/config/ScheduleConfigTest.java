@@ -121,6 +121,30 @@ public class ScheduleConfigTest {
   }
 
   @Test
+  public void minimumInitialDelayAdvancesInitialDelayByWholeIntervals() {
+    Config rc = new Config();
+    rc.setString("a", null, ScheduleConfig.KEY_INTERVAL, "1d");
+    rc.setString("a", null, ScheduleConfig.KEY_STARTTIME, "20:00");
+    rc.setString("a", null, ScheduleConfig.KEY_MINIMUM_INITIAL_DELAY, "1d");
+
+    Optional<Schedule> schedule = ScheduleConfig.builder(rc, "a").setNow(NOW).buildSchedule();
+
+    assertThat(schedule).isPresent();
+    assertThat(schedule.get().initialDelay()).isEqualTo(ms(1, DAYS) + ms(10, HOURS));
+    assertThat(schedule.get().interval()).isEqualTo(ms(1, DAYS));
+  }
+
+  @Test
+  public void invalidConfigNegativeMinimumInitialDelay() {
+    Config rc = new Config();
+    rc.setString("a", null, ScheduleConfig.KEY_INTERVAL, "1d");
+    rc.setString("a", null, ScheduleConfig.KEY_STARTTIME, "20:00");
+    rc.setString("a", null, ScheduleConfig.KEY_MINIMUM_INITIAL_DELAY, "-1h");
+
+    assertThat(ScheduleConfig.builder(rc, "a").setNow(NOW).buildSchedule()).isEmpty();
+  }
+
+  @Test
   public void invalidConfigBadJitter() {
     Config rc = new Config();
     rc.setString("a", null, ScheduleConfig.KEY_INTERVAL, "1h");

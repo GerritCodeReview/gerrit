@@ -1,5 +1,29 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aab3d527_2374b2dc",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2026-09-11T07:58:22Z",
+      "side": 1,
+      "message": "Technically, `refs/for/refs/heads/\u003cbranch-name\u003e` is not a branch and I kind of feel that the earlier wording made more sense. Would it be better to remove that part altogether?\n```suggestion\nFor review pushes, `refs/for/\u003cbranch-name\u003e` is shorthand for the more explicit\n`refs/for/refs/heads/\u003cbranch-name\u003e`. For example, pushing to\n```",
+      "range": {
+        "startLine": 468,
+        "startChar": 0,
+        "endLine": 469,
+        "endChar": 43
+      },
+      "revId": "1d82ae56b834b05ac370124b405dab265097a29a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

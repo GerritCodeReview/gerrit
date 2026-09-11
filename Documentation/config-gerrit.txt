@@ -1401,6 +1401,14 @@ Whether to asynchronously prune all cache when starting Gerrit.
 +
 Defaults to `true`.
 
+[[cachePruning.minimumInitialDelay]]cachePruning.minimumInitialDelay::
++
+The link:#schedule-configuration-minimumInitialDelay[minimum initial delay]
+after Gerrit starts before periodic cache pruning may run.
++
+Set `cachePruning.pruneOnStartup` to `false` to prevent all cache pruning
+during this delay.
+
 [[cachePruning.startTime]]cachePruning.startTime::
 +
 The link:#schedule-configuration-startTime[start time] for running
@@ -6496,10 +6504,53 @@ The placeholders can have the following values:
 The time zone cannot be specified but is always the system default
 time zone. Hours must be zero-padded, i.e. `06:00` rather than `6:00`.
 
+<<<<<<< HEAD   (6c818c25db85fe9f064c4eb0049cefed307ae24c Update git submodules)
 The section (and optionally the subsection) in which the `interval` and
 `startTime` keys must be set depends on the background job for which a
 schedule should be configured. E.g. for the change cleanup job the keys
 must be set in the link:#changeCleanup[changeCleanup] section:
+||||||| BASE   (76e8c765ee60c454c7a3cf341233c021d427b024 Merge "Use java.util.concurrent.locks.Lock for custom H2 loc)
+[[schedule-configuration-jitter]]
+* `jitter`:
+A maximum random delay that will be added to the job's scheduled start time. The same suffixes as
+link:#schedule-configuration-interval[interval] are supported for defining the
+time unit.
++
+By default, no jitter is applied.
+
+The section (and optionally the subsection) in which the `interval`,
+`startTime` and `jitter` keys must be set depends on the background job for
+which a schedule should be configured. E.g. for the change cleanup job the keys
+must be set in the link:#changeCleanup[changeCleanup] section:
+=======
+[[schedule-configuration-jitter]]
+* `jitter`:
+A maximum random delay that will be added to the job's scheduled start time. The same suffixes as
+link:#schedule-configuration-interval[interval] are supported for defining the
+time unit.
++
+By default, no jitter is applied.
+
+[[schedule-configuration-minimumInitialDelay]]
+* `minimumInitialDelay`
+Minimum time after schedule creation before the first execution of the
+periodic background job. If the execution selected by `startTime` is earlier
+than this delay, it is advanced by whole `interval` periods until the minimum
+delay is met. This preserves the configured periodic schedule.
++
+This setting does not affect additional startup executions that a background
+job may schedule separately from its periodic schedule.
++
+The same suffixes as link:#schedule-configuration-interval[interval] are
+supported. The value must not be negative.
++
+Defaults to `0` (no minimum delay).
+
+The section (and optionally the subsection) in which the `interval`,
+`startTime`, `minimumInitialDelay`, and `jitter` keys must be set depends on the
+background job for which a schedule should be configured. For example, change
+cleanup keys must be set in the link:#changeCleanup[changeCleanup] section.
+>>>>>>> CHANGE (40f54a08438b22808978df1cd07074e66a6de38a Add minimum initial delay to scheduled jobs)
 
 ----
   [changeCleanup]

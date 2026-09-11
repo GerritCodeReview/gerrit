@@ -71,10 +71,36 @@ import org.eclipse.jgit.lib.Config;
  *         <li>{@code <minutes>}: {@code 00}-{@code 59}
  *       </ul>
  *       The timezone cannot be specified but is always the system default time-zone.
+<<<<<<< HEAD   (6c818c25db85fe9f064c4eb0049cefed307ae24c Update git submodules)
+||||||| BASE   (76e8c765ee60c454c7a3cf341233c021d427b024 Merge "Use java.util.concurrent.locks.Lock for custom H2 loc)
+ *   <li>{@code jitter}: A maximum random delay that will be added to the job's start time. If 0 or
+ *       not specified, no jitter is applied.
+ *       <ul>
+ *         <li>The same suffixes as {@code interval} are supported for defining the time unit.
+ *       </ul>
+=======
+ *   <li>{@code minimumInitialDelay}. Minimum time after schedule creation before the first
+ *       execution. If the delay selected by {@code startTime} is shorter, it is advanced by whole
+ *       {@code interval} periods until the minimum delay is met. If 0 or not specified, no minimum
+ *       is applied.
+ *   <li>{@code jitter}: A maximum random delay that will be added to the job's start time. If 0 or
+ *       not specified, no jitter is applied.
+ *       <ul>
+ *         <li>The same suffixes as {@code interval} are supported for defining the time unit.
+ *       </ul>
+>>>>>>> CHANGE (40f54a08438b22808978df1cd07074e66a6de38a Add minimum initial delay to scheduled jobs)
  * </ul>
  *
+<<<<<<< HEAD   (6c818c25db85fe9f064c4eb0049cefed307ae24c Update git submodules)
  * <p>The section and the subsection from which the {@code interval} and {@code startTime}
  * parameters are read can be configured.
+||||||| BASE   (76e8c765ee60c454c7a3cf341233c021d427b024 Merge "Use java.util.concurrent.locks.Lock for custom H2 loc)
+ * <p>The section and the subsection from which the {@code interval}, {@code startTime} and {@code
+ * jitter} parameters are read can be configured.
+=======
+ * <p>The section and the subsection from which the {@code interval}, {@code startTime}, {@code
+ * minimumInitialDelay}, and {@code jitter} parameters are read can be configured.
+>>>>>>> CHANGE (40f54a08438b22808978df1cd07074e66a6de38a Add minimum initial delay to scheduled jobs)
  *
  * <p>Examples for a schedule configuration:
  *
@@ -104,6 +130,13 @@ public abstract class ScheduleConfig {
 
   @VisibleForTesting static final String KEY_INTERVAL = "interval";
   @VisibleForTesting static final String KEY_STARTTIME = "startTime";
+<<<<<<< HEAD   (6c818c25db85fe9f064c4eb0049cefed307ae24c Update git submodules)
+||||||| BASE   (76e8c765ee60c454c7a3cf341233c021d427b024 Merge "Use java.util.concurrent.locks.Lock for custom H2 loc)
+  @VisibleForTesting static final String KEY_JITTER = "jitter";
+=======
+  @VisibleForTesting static final String KEY_MINIMUM_INITIAL_DELAY = "minimumInitialDelay";
+  @VisibleForTesting static final String KEY_JITTER = "jitter";
+>>>>>>> CHANGE (40f54a08438b22808978df1cd07074e66a6de38a Add minimum initial delay to scheduled jobs)
 
   private static final long MISSING_CONFIG = -1L;
   private static final long INVALID_CONFIG = -2L;
@@ -117,6 +150,13 @@ public abstract class ScheduleConfig {
         .setNow(computeNow())
         .setKeyInterval(KEY_INTERVAL)
         .setKeyStartTime(KEY_STARTTIME)
+<<<<<<< HEAD   (6c818c25db85fe9f064c4eb0049cefed307ae24c Update git submodules)
+||||||| BASE   (76e8c765ee60c454c7a3cf341233c021d427b024 Merge "Use java.util.concurrent.locks.Lock for custom H2 loc)
+        .setKeyJitter(KEY_JITTER)
+=======
+        .setKeyMinimumInitialDelay(KEY_MINIMUM_INITIAL_DELAY)
+        .setKeyJitter(KEY_JITTER)
+>>>>>>> CHANGE (40f54a08438b22808978df1cd07074e66a6de38a Add minimum initial delay to scheduled jobs)
         .setConfig(config)
         .setSection(section);
   }
@@ -132,11 +172,29 @@ public abstract class ScheduleConfig {
 
   abstract String keyStartTime();
 
+<<<<<<< HEAD   (6c818c25db85fe9f064c4eb0049cefed307ae24c Update git submodules)
+||||||| BASE   (76e8c765ee60c454c7a3cf341233c021d427b024 Merge "Use java.util.concurrent.locks.Lock for custom H2 loc)
+  abstract String keyJitter();
+
+=======
+  abstract String keyMinimumInitialDelay();
+
+  abstract String keyJitter();
+
+>>>>>>> CHANGE (40f54a08438b22808978df1cd07074e66a6de38a Add minimum initial delay to scheduled jobs)
   abstract ZonedDateTime now();
 
   @Memoized
   public Optional<Schedule> schedule() {
     long interval = computeInterval(config(), section(), subsection(), keyInterval());
+<<<<<<< HEAD   (6c818c25db85fe9f064c4eb0049cefed307ae24c Update git submodules)
+||||||| BASE   (76e8c765ee60c454c7a3cf341233c021d427b024 Merge "Use java.util.concurrent.locks.Lock for custom H2 loc)
+    long jitter = computeJitter(config(), section(), subsection(), keyJitter());
+=======
+    long minimumInitialDelay =
+        computeMinimumInitialDelay(config(), section(), subsection(), keyMinimumInitialDelay());
+    long jitter = computeJitter(config(), section(), subsection(), keyJitter());
+>>>>>>> CHANGE (40f54a08438b22808978df1cd07074e66a6de38a Add minimum initial delay to scheduled jobs)
 
     long initialDelay;
     if (interval > 0) {
@@ -146,14 +204,28 @@ public abstract class ScheduleConfig {
       initialDelay = interval;
     }
 
+<<<<<<< HEAD   (6c818c25db85fe9f064c4eb0049cefed307ae24c Update git submodules)
     if (isInvalidOrMissing(interval, initialDelay)) {
+||||||| BASE   (76e8c765ee60c454c7a3cf341233c021d427b024 Merge "Use java.util.concurrent.locks.Lock for custom H2 loc)
+    if (isInvalidOrMissing(interval, initialDelay, jitter)) {
+=======
+    if (isInvalidOrMissing(interval, initialDelay, minimumInitialDelay, jitter)) {
+>>>>>>> CHANGE (40f54a08438b22808978df1cd07074e66a6de38a Add minimum initial delay to scheduled jobs)
       return Optional.empty();
     }
 
+    initialDelay = applyMinimumInitialDelay(initialDelay, interval, minimumInitialDelay);
     return Optional.of(Schedule.create(interval, initialDelay));
   }
 
+<<<<<<< HEAD   (6c818c25db85fe9f064c4eb0049cefed307ae24c Update git submodules)
   private boolean isInvalidOrMissing(long interval, long initialDelay) {
+||||||| BASE   (76e8c765ee60c454c7a3cf341233c021d427b024 Merge "Use java.util.concurrent.locks.Lock for custom H2 loc)
+  private boolean isInvalidOrMissing(long interval, long initialDelay, long jitter) {
+=======
+  private boolean isInvalidOrMissing(
+      long interval, long initialDelay, long minimumInitialDelay, long jitter) {
+>>>>>>> CHANGE (40f54a08438b22808978df1cd07074e66a6de38a Add minimum initial delay to scheduled jobs)
     String key = section() + (subsection() != null ? "." + subsection() : "");
     if (interval == MISSING_CONFIG && initialDelay == MISSING_CONFIG) {
       logger.atInfo().log("No schedule configuration for \"%s\".", key);
@@ -185,7 +257,23 @@ public abstract class ScheduleConfig {
       initialDelay = INVALID_CONFIG;
     }
 
+<<<<<<< HEAD   (6c818c25db85fe9f064c4eb0049cefed307ae24c Update git submodules)
     if (interval == INVALID_CONFIG || initialDelay == INVALID_CONFIG) {
+||||||| BASE   (76e8c765ee60c454c7a3cf341233c021d427b024 Merge "Use java.util.concurrent.locks.Lock for custom H2 loc)
+    if (interval == INVALID_CONFIG || initialDelay == INVALID_CONFIG || jitter == INVALID_CONFIG) {
+=======
+    if (minimumInitialDelay != INVALID_CONFIG && minimumInitialDelay < 0) {
+      logger.atSevere().log(
+          "Invalid minimum initial delay value \"%d\" for \"%s\". It must be >= 0",
+          minimumInitialDelay, key);
+      minimumInitialDelay = INVALID_CONFIG;
+    }
+
+    if (interval == INVALID_CONFIG
+        || initialDelay == INVALID_CONFIG
+        || minimumInitialDelay == INVALID_CONFIG
+        || jitter == INVALID_CONFIG) {
+>>>>>>> CHANGE (40f54a08438b22808978df1cd07074e66a6de38a Add minimum initial delay to scheduled jobs)
       logger.atSevere().log("Invalid schedule configuration for \"%s\" is ignored. ", key);
       return true;
     }
@@ -199,6 +287,10 @@ public abstract class ScheduleConfig {
     b.append(formatValue(keyInterval()));
     b.append(", ");
     b.append(formatValue(keyStartTime()));
+    if (config().getString(section(), subsection(), keyMinimumInitialDelay()) != null) {
+      b.append(", ");
+      b.append(formatValue(keyMinimumInitialDelay()));
+    }
     return b.toString();
   }
 
@@ -234,6 +326,54 @@ public abstract class ScheduleConfig {
     }
   }
 
+<<<<<<< HEAD   (6c818c25db85fe9f064c4eb0049cefed307ae24c Update git submodules)
+||||||| BASE   (76e8c765ee60c454c7a3cf341233c021d427b024 Merge "Use java.util.concurrent.locks.Lock for custom H2 loc)
+  private static long computeJitter(
+      Config rc, String section, String subsection, String keyJitter) {
+    try {
+      return ConfigUtil.getTimeUnit(
+          rc, section, subsection, keyJitter, DEFAULT_JITTER, TimeUnit.MILLISECONDS);
+    } catch (IllegalArgumentException e) {
+      logger.atSevere().log("%s", e.getMessage());
+      return INVALID_CONFIG;
+    }
+  }
+
+=======
+  private static long computeJitter(
+      Config rc, String section, String subsection, String keyJitter) {
+    try {
+      return ConfigUtil.getTimeUnit(
+          rc, section, subsection, keyJitter, DEFAULT_JITTER, TimeUnit.MILLISECONDS);
+    } catch (IllegalArgumentException e) {
+      logger.atSevere().log("%s", e.getMessage());
+      return INVALID_CONFIG;
+    }
+  }
+
+  private static long computeMinimumInitialDelay(
+      Config rc, String section, String subsection, String keyMinimumInitialDelay) {
+    try {
+      return ConfigUtil.getTimeUnit(
+          rc, section, subsection, keyMinimumInitialDelay, 0, TimeUnit.MILLISECONDS);
+    } catch (IllegalArgumentException e) {
+      logger.atSevere().log("%s", e.getMessage());
+      return INVALID_CONFIG;
+    }
+  }
+
+  private static long applyMinimumInitialDelay(
+      long initialDelay, long interval, long minimumInitialDelay) {
+    if (initialDelay >= minimumInitialDelay) {
+      return initialDelay;
+    }
+
+    long deficit = minimumInitialDelay - initialDelay;
+    long intervalsToAdd = (deficit + interval - 1) / interval;
+    return initialDelay + intervalsToAdd * interval;
+  }
+
+>>>>>>> CHANGE (40f54a08438b22808978df1cd07074e66a6de38a Add minimum initial delay to scheduled jobs)
   private static long computeInitialDelay(
       Config rc,
       String section,
@@ -293,6 +433,16 @@ public abstract class ScheduleConfig {
 
     public abstract Builder setKeyStartTime(String keyStartTime);
 
+<<<<<<< HEAD   (6c818c25db85fe9f064c4eb0049cefed307ae24c Update git submodules)
+||||||| BASE   (76e8c765ee60c454c7a3cf341233c021d427b024 Merge "Use java.util.concurrent.locks.Lock for custom H2 loc)
+    public abstract Builder setKeyJitter(String keyJitter);
+
+=======
+    public abstract Builder setKeyMinimumInitialDelay(String keyMinimumInitialDelay);
+
+    public abstract Builder setKeyJitter(String keyJitter);
+
+>>>>>>> CHANGE (40f54a08438b22808978df1cd07074e66a6de38a Add minimum initial delay to scheduled jobs)
     @VisibleForTesting
     abstract Builder setNow(ZonedDateTime now);
 

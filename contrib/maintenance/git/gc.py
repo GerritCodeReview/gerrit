@@ -20,6 +20,9 @@ from datetime import datetime, timedelta
 from glob import glob
 from pathlib import Path
 
+from gerrit.tasks import Step
+from gerrit.tasks.abstract import ProjectTaskRunner
+
 from .config import GitConfigReader
 from . import repo
 
@@ -40,7 +43,7 @@ class Util:
         return datetime.fromtimestamp(os.stat(file).st_mtime) + max_age < datetime.now()
 
 
-class GCStep(abc.ABC):
+class GCStep(Step):
     def __init__(self, git_config: GitConfigReader):
         self.git_config = git_config
 
@@ -200,23 +203,12 @@ class GitGarbageCollectionProvider:
         return GitGarbageCollection(init_steps, after_steps, git_config)
 
 
-class GitGarbageCollection:
+class GitGarbageCollection(ProjectTaskRunner):
     def __init__(self, init_steps, after_steps, git_config=None):
-        self.init_steps = init_steps
-        self.after_steps = after_steps
+        super().__init__("gc", init_steps, after_steps)
         self.git_config = git_config
 
-    def run(self, repo_dir=None, args=None) -> bool:
-        LOG.info("Started gc in %s", repo_dir)
-        if not repo_dir:
-            repo_dir = repo.git_dir()
-        if not os.path.exists(repo_dir) or not os.path.isdir(repo_dir):
-            LOG.error("Failed: Directory does not exist: %s", repo_dir)
-            return
-
-        for init_step in self.init_steps:
-            init_step.run(repo_dir)
-
+    def _task(self, repo_dir=None, args=None) -> bool:
         if self._is_aggressive(repo_dir) and AGGRESSIVE_FLAG not in args:
             args.append(AGGRESSIVE_FLAG)
 
@@ -226,10 +218,6 @@ class GitGarbageCollection:
             LOG.error("Failed to run gc in %s", repo_dir)
             return False
 
-        for after_step in self.after_steps:
-            after_step.run(repo_dir)
-
-        LOG.info("Finished gc in %s", repo_dir)
         return True
 
     def _is_aggressive(self, project_dir):

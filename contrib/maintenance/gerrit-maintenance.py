@@ -21,7 +21,7 @@ import sys
 import cli.gc
 
 from gerrit.site import Site
-from gerrit.tasks.gc import BatchGitGarbageCollection
+from gerrit.tasks.projects import BatchGitGarbageCollection
 from git.gc import GitGarbageCollectionProvider
 
 logging.basicConfig(
@@ -41,7 +41,8 @@ def _run_projects_gc(args):
     if BatchGitGarbageCollection(
         site,
         projects,
-        GitGarbageCollectionProvider.get(args[0].pack_refs, args[0].config),
+        args[0].pack_refs,
+        args[0].config,
     ).run(args[1]):
         sys.exit(0)
 

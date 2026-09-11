@@ -12,27 +12,23 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import os.path
+from pathlib import Path
 import sys
 
 sys.path.append("../..")
 
-from git.repo import GIT_SUFFIX
+from gerrit.tasks.abstract import BatchProjectTask
+from git.gc import GitGarbageCollectionProvider
 
 
-class BatchGitGarbageCollection:
-    def __init__(self, site, projects, gc_runner):
-        self.site = site
-        self.projects = projects
-        self.gc_runner = gc_runner
-
-    def run(self, gc_args) -> bool:
-        base_path = self.site.get_base_path()
-        failures = 0
-        for project in self.projects:
-            if not self.gc_runner.run(
-                os.path.join(base_path, project + GIT_SUFFIX), gc_args
-            ):
-                failures += 1
-
-        return failures == 0
+class BatchGitGarbageCollection(BatchProjectTask):
+    def __init__(
+        self,
+        site: Path,
+        projects: list[str],
+        pack_refs: bool = True,
+        git_config: str = None,
+    ):
+        super().__init__(
+            site, projects, GitGarbageCollectionProvider.get(pack_refs, git_config)
+        )

@@ -55,6 +55,12 @@ public class PluginOnStartStopIT extends LightweightPluginDaemonTest {
   @Singleton
   public static class TestStopPluginListener implements StopPluginListener {
     public volatile Plugin plugin;
+    public volatile Injector sysInjector;
+
+    @Override
+    public void beforeStopPlugin(Plugin plugin) {
+      this.sysInjector = plugin.getSysInjector();
+    }
 
     @Override
     public void onStopPlugin(Plugin plugin) {
@@ -96,6 +102,7 @@ public class PluginOnStartStopIT extends LightweightPluginDaemonTest {
 
     assertThat(testStopPluginListener.plugin).isNotNull();
     assertThat(testStopPluginListener.plugin.getName()).isEqualTo(TEST_PLUGIN);
+    assertThat(testStopPluginListener.sysInjector).isNotNull();
   }
 
   private static @NonNull InstallPluginInput installPluginInput() throws IOException {

@@ -34,6 +34,24 @@
       "parentUuid": "e3fd63ab_f1f36232",
       "revId": "fdd62f4067e23bcd3c643df1d65aa577f3504ba4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "226fe7e4_4dccbf2b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-09-11T07:01:31Z",
+      "side": 1,
+      "message": "I originally assumed that it would be the visibility checks for tags, since the repository we saw issues with, had only a few branches, but a few thousand tags. That turned out not to be the case, because Gerrit is using a bitmap to efficiently cache the visibility and only performs bounded rev walks, which is quite fast. Since the issues started with a configuration change restricting visibility to a set of branches via an exclusive read and reverting that change apparently fixed that, I came into looking into looking ref visibility checks that can\u0027t use the existing shortcuts. Caching is not really feasible here due to the support of external groups like LDAP groups, where we don\u0027t control the membership lifecycle, so I tried to shortcut the computation for the visibility of as many refs as possible with this change.\nOther spots I noticed, are: a disabled `changes` cache lead to a huge increase in latency during `git ls-remote`. Since this cache should not be used on scaled Gerrit servers, this can dominate requests that need to get all refs in a repository.\nIn our case, we figured out that a high amount of loose refs caused the slowdown in the end and optimizing the packing solved it for us. The reason why removing the exclusive read apparently helped was, that a full visibility check loads all refs another time to get all taggable refs. Thus, this permission change more than doubled the request time.",
+      "parentUuid": "64720cd1_09323604",
+      "revId": "fdd62f4067e23bcd3c643df1d65aa577f3504ba4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

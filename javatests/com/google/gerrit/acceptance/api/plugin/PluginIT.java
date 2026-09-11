@@ -170,17 +170,17 @@ public class PluginIT extends AbstractDaemonTest {
 
   private void assertPlugins(List<PluginInfo> actual, List<String> expected) {
     List<String> _actual = actual.stream().map(p -> p.id).collect(toList());
-    List<String> _expected = expected.stream().map(this::pluginName).collect(toList());
+    List<String> _expected = expected.stream().map(PluginIT::pluginName).collect(toList());
     assertThat(_actual).containsExactlyElementsIn(_expected);
   }
 
-  private String pluginName(String plugin) {
+  static String pluginName(String plugin) {
     int dot = plugin.indexOf(".");
     assertThat(dot).isGreaterThan(0);
     return plugin.substring(0, dot);
   }
 
-  private RawInput pluginJarContent(String plugin) throws IOException {
+  private static RawInput pluginJarContent(String plugin) throws IOException {
     ByteArrayOutputStream arrayStream = new ByteArrayOutputStream();
     Manifest manifest = new Manifest();
     Attributes attributes = manifest.getMainAttributes();
@@ -193,7 +193,7 @@ public class PluginIT extends AbstractDaemonTest {
     return RawInputUtil.create(arrayStream.toByteArray());
   }
 
-  private RawInput pluginContent(String plugin) throws IOException {
+  static RawInput pluginContent(String plugin) throws IOException {
     if (plugin.endsWith(".js")) {
       return JS_PLUGIN_CONTENT;
     }
@@ -202,7 +202,7 @@ public class PluginIT extends AbstractDaemonTest {
   }
 
   @Nullable
-  private String pluginVersion(String plugin) {
+  private static String pluginVersion(String plugin) {
     String name = pluginName(plugin);
     if (name.endsWith("empty")) {
       return "";
@@ -215,7 +215,7 @@ public class PluginIT extends AbstractDaemonTest {
   }
 
   @Nullable
-  private String pluginApiVersion(String plugin) {
+  private static String pluginApiVersion(String plugin) {
     if (plugin.endsWith("normal.jar")) {
       return "2.16.19-SNAPSHOT";
     }

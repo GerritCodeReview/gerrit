@@ -52,6 +52,24 @@
       "parentUuid": "64720cd1_09323604",
       "revId": "fdd62f4067e23bcd3c643df1d65aa577f3504ba4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9560b575_a0d8eb4a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-09-11T17:16:38Z",
+      "side": 1,
+      "message": "Thanks for all that!\n\nWhile the `changes` cache should be disabled, the `changes_by_project` cache was designed to be a multi-primary safe replacement for `changes` and should offer some good perf improvement. It does have a warning in the release notes about [issue 380898784](https://issues.gerritcodereview.com/issues/380898784), which could be applicable to your env (but I\u0027m also not clear on the failure case reported there).\n\nDo you have `core.usePerRequestRefCache\u003dtrue`?",
+      "parentUuid": "226fe7e4_4dccbf2b",
+      "revId": "fdd62f4067e23bcd3c643df1d65aa577f3504ba4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

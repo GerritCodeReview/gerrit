@@ -16,6 +16,24 @@
       "message": "Can you explain motivation for this change?",
       "revId": "4d9df897e1feb765506eaa778e67e7561f77402c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6d482444_20f11e5b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-09-11T17:23:13Z",
+      "side": 1,
+      "message": "+1. It\u0027d be great to have more context on why someone would want cache pruning or other schedules delayed after restart.",
+      "parentUuid": "8508c04e_0adeb074",
+      "revId": "4d9df897e1feb765506eaa778e67e7561f77402c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

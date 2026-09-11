@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "35c3123a_d5496298",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-09-11T16:53:55Z",
+      "side": 1,
+      "message": "+1, but I think we should be careful not to overstate the impact. Assuming these logs are only accessible to an admin, that admin already has the ability to impersonate a user through `suexec` and `X-Run-As` capabilities (with some subtle differences). IIUC, the credential scope here is only valid for Gerrit.",
+      "parentUuid": "65d2b5d6_245c3614",
+      "revId": "08d4fb3b02182427330f375d8845420f2086f76a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "5c15a830_87280205",

@@ -1722,6 +1722,9 @@ By default 0, which means no limit.
 Maximum number of files allowed per change. Larger changes are rejected and must
 be split up. For merge changes we are comparing against the auto-merge commit,
 so we allow large merges, if they merge cleanly.
+Note that rename detection is disabled during validation for performance
+reasons, so renaming a file counts as two changed files (one deletion and one
+addition).
 +
 By default 100,000.
 

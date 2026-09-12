@@ -7190,7 +7190,7 @@ The user must be a reviewer, cc, uploader, or owner on the change.
   POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/attention HTTP/1.0
 ----
 
-Details should be provided in the request body as an
+Details, including `reason`, must be provided in the request body as an
 link:#attention-set-input[AttentionSetInput] entity.
 
 .Request
@@ -7238,7 +7238,7 @@ is silently ignored.
   POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/attention/John%20Doe/delete HTTP/1.0
 ----
 
-Reason can be provided in the request body as an
+`reason` must be provided in the request body as an
 link:#attention-set-input[AttentionSetInput] entity.
 
 User must be left empty, or the user must be exactly

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b0d692b_b4430fb7",
+        "filename": "javatests/com/google/gerrit/acceptance/api/plugin/PluginOnStartStopIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-12T00:40:54Z",
+      "side": 1,
+      "message": "Why are we installing the same plugin again?\n\n\n\n```suggestion\n    gApi.plugins().name(TEST_PLUGIN).disable();\n```",
+      "range": {
+        "startLine": 76,
+        "startChar": 4,
+        "endLine": 76,
+        "endChar": 55
+      },
+      "revId": "98f6156a71edb47631f4885e995517ac2c78cd5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

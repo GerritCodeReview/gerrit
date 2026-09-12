@@ -61,6 +61,8 @@ public abstract class JdbcAccountPatchReviewStore
       "jdbc:h2:mem:account_patch_reviews;DB_CLOSE_DELAY=-1";
 
   static final String ACCOUNT_PATCH_REVIEW_DB = "accountPatchReviewDb";
+  static final String H2_ASYNC_URL_PREFIX = "jdbc:h2:async:";
+  static final String H2_FILE_URL_PREFIX = "jdbc:h2:file:";
   private static final String H2_DB = "h2";
   private static final String MARIADB = "mariadb";
   private static final String MYSQL = "mysql";
@@ -158,6 +160,15 @@ public abstract class JdbcAccountPatchReviewStore
     String url = cfg.getString(ACCOUNT_PATCH_REVIEW_DB, null, URL);
     if (url == null) {
       return createH2Url(sitePaths.db_dir.resolve("account_patch_reviews"));
+    }
+    url = normalizeH2Url(url);
+    return url;
+  }
+
+  @VisibleForTesting
+  static String normalizeH2Url(String url) {
+    if (url.startsWith(H2_FILE_URL_PREFIX)) {
+      return H2_ASYNC_URL_PREFIX + url.substring(H2_FILE_URL_PREFIX.length());
     }
     return url;
   }
@@ -461,7 +472,7 @@ public abstract class JdbcAccountPatchReviewStore
   @VisibleForTesting
   static String createH2Url(Path path) {
     return new StringBuilder()
-        .append("jdbc:h2:async:")
+        .append(H2_ASYNC_URL_PREFIX)
         .append(path.toAbsolutePath().toString())
         .toString()
         .replace(";", "\\;");

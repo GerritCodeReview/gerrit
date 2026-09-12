@@ -28,6 +28,11 @@ public class H2JGitLockAccountPatchReviewStoreTest {
   }
 
   @Test
+  public void lockTargetFromUrl_legacyFileUrl() {
+    assertThat(lockTargetFromUrl("jdbc:h2:file:/path/to/db")).isEqualTo(new File("/path/to/db"));
+  }
+
+  @Test
   public void lockTargetFromUrl_stripsOptions() {
     assertThat(lockTargetFromUrl("jdbc:h2:async:/path/to/db;FILE_LOCK=NO;DB_CLOSE_DELAY=0"))
         .isEqualTo(new File("/path/to/db"));

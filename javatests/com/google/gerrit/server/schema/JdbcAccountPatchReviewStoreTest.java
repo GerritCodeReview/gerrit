@@ -16,10 +16,20 @@ package com.google.gerrit.server.schema;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.gerrit.server.config.SitePaths;
 import java.nio.file.Path;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import org.eclipse.jgit.lib.Config;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 
 public class JdbcAccountPatchReviewStoreTest {
+  @Rule public TemporaryFolder temporaryFolder = new TemporaryFolder();
+
   @Test
   public void checkCreateH2Url() {
     assertThat(JdbcAccountPatchReviewStore.createH2Url(Path.of("test")))
@@ -65,5 +75,59 @@ public class JdbcAccountPatchReviewStoreTest {
                     .toAbsolutePath()
                     .toString()
                     .replace(";", "\\;"));
+  }
+
+  @Test
+  public void normalizeH2Url_preservesAsyncUrl() {
+    assertThat(JdbcAccountPatchReviewStore.normalizeH2Url("jdbc:h2:async:/path/to/db;FILE_LOCK=NO"))
+        .isEqualTo("jdbc:h2:async:/path/to/db;FILE_LOCK=NO");
+  }
+
+  @Test
+  public void normalizeH2Url_convertsLegacyFileUrlToAsyncUrl() {
+    assertThat(JdbcAccountPatchReviewStore.normalizeH2Url("jdbc:h2:file:/path/to/db;FILE_LOCK=NO"))
+        .isEqualTo("jdbc:h2:async:/path/to/db;FILE_LOCK=NO");
+  }
+
+  @Test
+  public void getUrl_normalizesLegacyFileUrlFromConfig() throws Exception {
+    Config cfg = new Config();
+    cfg.setString(
+        JdbcAccountPatchReviewStore.ACCOUNT_PATCH_REVIEW_DB,
+        null,
+        "url",
+        "jdbc:h2:file:/path/to/db;FILE_LOCK=NO");
+
+    assertThat(
+            JdbcAccountPatchReviewStore.getUrl(
+                cfg, new SitePaths(temporaryFolder.getRoot().toPath())))
+        .isEqualTo("jdbc:h2:async:/path/to/db;FILE_LOCK=NO");
+  }
+
+  @Test
+  public void normalizeH2Url_preservesNonFileH2Url() {
+    assertThat(JdbcAccountPatchReviewStore.normalizeH2Url("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1"))
+        .isEqualTo("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1");
+  }
+
+  @Test
+  public void createH2Url_canCreateAndReadAsyncH2Database() throws Exception {
+    String url =
+        JdbcAccountPatchReviewStore.createH2Url(
+            temporaryFolder.newFolder("db").toPath().resolve("account_patch_reviews"));
+
+    try (Connection con = DriverManager.getConnection(url);
+        Statement stmt = con.createStatement()) {
+      stmt.executeUpdate("CREATE TABLE account_patch_reviews (id INT PRIMARY KEY, path VARCHAR)");
+      stmt.executeUpdate("INSERT INTO account_patch_reviews VALUES (1, 'README.md')");
+    }
+
+    try (Connection con = DriverManager.getConnection(url);
+        Statement stmt = con.createStatement();
+        ResultSet rs = stmt.executeQuery("SELECT path FROM account_patch_reviews WHERE id = 1")) {
+      assertThat(rs.next()).isTrue();
+      assertThat(rs.getString(1)).isEqualTo("README.md");
+      assertThat(rs.next()).isFalse();
+    }
   }
 }

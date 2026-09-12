@@ -20,6 +20,7 @@ import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -39,6 +40,9 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InOrder;
 
 public class AllRequestFilterFilterProxyTest {
+  public static final String PLUGIN_NAME = "plugin";
+  public static final String OTHER_PLUGIN_NAME = "other-plugin";
+
   /**
    * Set of filters for FilterProxy
    *
@@ -79,8 +83,14 @@ public class AllRequestFilterFilterProxyTest {
    */
   @CanIgnoreReturnValue
   private ReloadableRegistrationHandle<AllRequestFilter> addFilter(AllRequestFilter filter) {
+    return addFilter(PLUGIN_NAME, filter);
+  }
+
+  @CanIgnoreReturnValue
+  private ReloadableRegistrationHandle<AllRequestFilter> addFilter(
+      String pluginName, AllRequestFilter filter) {
     Key<AllRequestFilter> key = Key.get(AllRequestFilter.class);
-    return filters.add("gerrit", key, Providers.of(filter));
+    return filters.add(pluginName, key, Providers.of(filter));
   }
 
   @Test
@@ -270,19 +280,20 @@ public class AllRequestFilterFilterProxyTest {
     HttpServletResponse res3 = new FakeHttpServletResponse();
 
     Plugin plugin = mock(Plugin.class);
+    when(plugin.getName()).thenReturn(PLUGIN_NAME);
 
     FilterChain chain = mock(FilterChain.class);
 
     ArgumentCaptor<FilterChain> capturedChainA1 = ArgumentCaptor.forClass(FilterChain.class);
     ArgumentCaptor<FilterChain> capturedChainB1 = ArgumentCaptor.forClass(FilterChain.class);
-    ArgumentCaptor<FilterChain> capturedChainB2 = ArgumentCaptor.forClass(FilterChain.class);
 
     AllRequestFilter filterA = mock(AllRequestFilter.class);
     AllRequestFilter filterB = mock(AllRequestFilter.class);
 
     AllRequestFilter.FilterProxy filterProxy = getFilterProxy();
     ReloadableRegistrationHandle<AllRequestFilter> handleFilterA = addFilter(filterA);
-    ReloadableRegistrationHandle<AllRequestFilter> handleFilterB = addFilter(filterB);
+    ReloadableRegistrationHandle<AllRequestFilter> handleFilterB =
+        addFilter(OTHER_PLUGIN_NAME, filterB);
 
     InOrder inorder = inOrder(filterA, filterB, chain);
 
@@ -299,25 +310,16 @@ public class AllRequestFilterFilterProxyTest {
     capturedChainB1.getValue().doFilter(req1, res1);
     inorder.verify(chain).doFilter(req1, res1);
 
-    // Unloading filterA
-    handleFilterA.remove();
-    filterProxy.onStopPlugin(plugin);
+    // Preparing to stop plugin
+    filterProxy.beforeStopPlugin(plugin);
 
+    // The registered filters have been destroyed
     inorder.verify(filterA).destroy(); // Cleaning up of filterA after it got unloaded
+    inorder.verify(filterB, never()).destroy(); // Cleaning up of filterA after it got unloaded
 
-    // Request #2 only with filterB
-    filterProxy.doFilter(req2, res2, chain);
-
-    inorder.verify(filterB).doFilter(eq(req2), eq(res2), capturedChainB2.capture());
-    inorder.verify(filterA, never()).doFilter(eq(req2), eq(res2), any(FilterChain.class));
-    capturedChainB2.getValue().doFilter(req2, res2);
-    inorder.verify(chain).doFilter(req2, res2);
-
-    // Unloading filterB
+    // Unload filters
+    handleFilterA.remove();
     handleFilterB.remove();
-    filterProxy.onStopPlugin(plugin);
-
-    inorder.verify(filterB).destroy(); // Cleaning up of filterA after it got unloaded
 
     // Request #3 with no additional filters
     filterProxy.doFilter(req3, res3, chain);

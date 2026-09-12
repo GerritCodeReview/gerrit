@@ -20,6 +20,7 @@ import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -39,6 +40,8 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InOrder;
 
 public class AllRequestFilterFilterProxyTest {
+  public static final String PLUGIN_NAME = "plugin";
+
   /**
    * Set of filters for FilterProxy
    *
@@ -80,7 +83,7 @@ public class AllRequestFilterFilterProxyTest {
   @CanIgnoreReturnValue
   private ReloadableRegistrationHandle<AllRequestFilter> addFilter(AllRequestFilter filter) {
     Key<AllRequestFilter> key = Key.get(AllRequestFilter.class);
-    return filters.add("gerrit", key, Providers.of(filter));
+    return filters.add(PLUGIN_NAME, key, Providers.of(filter));
   }
 
   @Test
@@ -270,12 +273,12 @@ public class AllRequestFilterFilterProxyTest {
     HttpServletResponse res3 = new FakeHttpServletResponse();
 
     Plugin plugin = mock(Plugin.class);
+    when(plugin.getName()).thenReturn(PLUGIN_NAME);
 
     FilterChain chain = mock(FilterChain.class);
 
     ArgumentCaptor<FilterChain> capturedChainA1 = ArgumentCaptor.forClass(FilterChain.class);
     ArgumentCaptor<FilterChain> capturedChainB1 = ArgumentCaptor.forClass(FilterChain.class);
-    ArgumentCaptor<FilterChain> capturedChainB2 = ArgumentCaptor.forClass(FilterChain.class);
 
     AllRequestFilter filterA = mock(AllRequestFilter.class);
     AllRequestFilter filterB = mock(AllRequestFilter.class);
@@ -299,25 +302,16 @@ public class AllRequestFilterFilterProxyTest {
     capturedChainB1.getValue().doFilter(req1, res1);
     inorder.verify(chain).doFilter(req1, res1);
 
-    // Unloading filterA
-    handleFilterA.remove();
-    filterProxy.onStopPlugin(plugin);
+    // Preparing to stop plugin
+    filterProxy.beforeStopPlugin(plugin);
 
+    // The registered filters have been destroyed
     inorder.verify(filterA).destroy(); // Cleaning up of filterA after it got unloaded
-
-    // Request #2 only with filterB
-    filterProxy.doFilter(req2, res2, chain);
-
-    inorder.verify(filterB).doFilter(eq(req2), eq(res2), capturedChainB2.capture());
-    inorder.verify(filterA, never()).doFilter(eq(req2), eq(res2), any(FilterChain.class));
-    capturedChainB2.getValue().doFilter(req2, res2);
-    inorder.verify(chain).doFilter(req2, res2);
-
-    // Unloading filterB
-    handleFilterB.remove();
-    filterProxy.onStopPlugin(plugin);
-
     inorder.verify(filterB).destroy(); // Cleaning up of filterA after it got unloaded
+
+    // Unload filters
+    handleFilterA.remove();
+    handleFilterB.remove();
 
     // Request #3 with no additional filters
     filterProxy.doFilter(req3, res3, chain);

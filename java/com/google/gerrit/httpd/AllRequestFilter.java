@@ -15,6 +15,7 @@
 package com.google.gerrit.httpd;
 
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.registration.Extension;
 import com.google.gerrit.server.plugins.Plugin;
 import com.google.gerrit.server.plugins.StopPluginListener;
 import com.google.inject.Inject;
@@ -90,14 +91,10 @@ public abstract class AllRequestFilter implements Filter {
       return ret;
     }
 
-    private synchronized void cleanUpInitializedFilters() {
-      Iterable<AllRequestFilter> filtersToCleanUp = initializedFilters;
-      initializedFilters = new DynamicSet<>();
-      for (AllRequestFilter filter : filtersToCleanUp) {
-        if (filters.contains(filter)) {
-          initializedFilters.add("gerrit", filter);
-        } else {
-          filter.destroy();
+    private synchronized void cleanUpInitializedFilters(String pluginName) {
+      for (Extension<AllRequestFilter> filterEntry : filters.entries()) {
+        if (filterEntry.getPluginName().equals(pluginName)) {
+          filterEntry.get().destroy();
         }
       }
     }
@@ -165,11 +162,11 @@ public abstract class AllRequestFilter implements Filter {
     }
 
     @Override
-    public void onStopPlugin(Plugin plugin) {
+    public void beforeStopPlugin(Plugin plugin) {
       // In order to allow properly garbage collection, we need to scrub
-      // initializedFilters clean of filters stemming from plugins as they
-      // get unloaded.
-      cleanUpInitializedFilters();
+      // initializedFilters clean of filters stemming from the plugins that
+      // will be unloaded
+      cleanUpInitializedFilters(plugin.getName());
     }
   }
 

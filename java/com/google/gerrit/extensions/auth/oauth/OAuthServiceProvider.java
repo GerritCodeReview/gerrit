@@ -71,6 +71,30 @@ public interface OAuthServiceProvider {
   OAuthUserInfo getUserInfo(OAuthToken token) throws IOException;
 
   /**
+   * Whether this provider can refresh an expired access token (OAuth 2.0 refresh grant, RFC 6749
+   * section 6). Defaults to {@code false}; a provider that requests and accepts refresh tokens
+   * overrides this together with {@link #refresh}.
+   *
+   * @return whether {@link #refresh} is supported for this provider
+   */
+  default boolean supportsRefresh() {
+    return false;
+  }
+
+  /**
+   * Exchanges the refresh token carried in {@code expiredToken.getRaw()} for a fresh access token.
+   *
+   * @param expiredToken the previously issued token whose access token has expired
+   * @return a new token, with {@code expiresAt} populated
+   * @throws OAuthRevokedException when the IdP reports {@code invalid_grant} (the grant is gone;
+   *     revoke the session); an {@link IOException} subtype
+   * @throws IOException on a transient IdP/network failure (handle by policy, do not revoke)
+   */
+  default OAuthToken refresh(OAuthToken expiredToken) throws IOException {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
    * Returns the OAuth version of the service.
    *
    * @return oauth version as string

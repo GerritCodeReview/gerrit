@@ -16,6 +16,24 @@
       "message": "```suggestion\n    assertThat(testStopPluginListener.plugin).isNotNull());\n    assertThat(testStopPluginListener.plugin.getName()).isEqualTo(TEST_PLUGIN);\n```",
       "revId": "ba9521a1c4dd2f8668196a38a6fb71b6f24add6c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1122fd4b_7b81afb8",
+        "filename": "javatests/com/google/gerrit/acceptance/api/plugin/PluginOnStartStopIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-12T00:38:18Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "5c66565d_32a9829f",
+      "revId": "ba9521a1c4dd2f8668196a38a6fb71b6f24add6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

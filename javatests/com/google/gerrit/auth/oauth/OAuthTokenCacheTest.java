@@ -18,9 +18,13 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.extensions.proto.ProtoTruth.assertThat;
 import static com.google.gerrit.proto.testing.SerializedClassSubject.assertThatSerializedClass;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.auth.oauth.OAuthToken;
+import com.google.gerrit.extensions.auth.oauth.OAuthTokenEncrypter;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.proto.testing.SerializedClassSubject;
 import com.google.gerrit.server.cache.proto.Cache.OAuthTokenProto;
 import com.google.gerrit.server.cache.serialize.CacheSerializer;
@@ -87,6 +91,89 @@ public final class OAuthTokenCacheTest {
   public void accountIdSerializerIsNotAnAnonymousClass() {
     assertThat(OAuthTokenCache.AccountIdSerializer.INSTANCE.getDeclaringClass().getSimpleName())
         .isNotEmpty();
+  }
+
+  private static OAuthTokenCache newCache() {
+    Cache<Account.Id, OAuthToken> cache = CacheBuilder.newBuilder().build();
+    DynamicItem<OAuthTokenEncrypter> encrypter =
+        DynamicItem.itemOf(OAuthTokenEncrypter.class, null);
+    return new OAuthTokenCache(cache, encrypter);
+  }
+
+  private static OAuthToken tokenExpiringAt(long expiresAtMillis) {
+    return new OAuthToken("t", "s", "raw", expiresAtMillis, "provider");
+  }
+
+  @Test
+  public void getEvenIfExpired_returnsExpiredEntry_withoutEvicting() {
+    OAuthTokenCache cache = newCache();
+    Account.Id id = Account.id(1);
+    OAuthToken expired = tokenExpiringAt(System.currentTimeMillis() - 1000);
+    cache.put(id, expired);
+
+    // Returns the expired token, and a second call still returns it: no eviction.
+    assertThat(cache.getEvenIfExpired(id)).isEqualTo(expired);
+    assertThat(cache.getEvenIfExpired(id)).isEqualTo(expired);
+  }
+
+  @Test
+  public void getOrEvictIfExpired_evictsExpiredEntry_andReturnsNull() {
+    OAuthTokenCache cache = newCache();
+    Account.Id id = Account.id(1);
+    cache.put(id, tokenExpiringAt(System.currentTimeMillis() - 1000));
+
+    assertThat(cache.getOrEvictIfExpired(id)).isNull();
+    // get() evicted it, so even getEvenIfExpired now misses.
+    assertThat(cache.getEvenIfExpired(id)).isNull();
+  }
+
+  @Test
+  public void getOrEvictIfExpired_returnsUnexpiredEntry() {
+    OAuthTokenCache cache = newCache();
+    Account.Id id = Account.id(1);
+    OAuthToken valid = tokenExpiringAt(Long.MAX_VALUE);
+    cache.put(id, valid);
+
+    assertThat(cache.getOrEvictIfExpired(id)).isEqualTo(valid);
+    assertThat(cache.getEvenIfExpired(id)).isEqualTo(valid);
+  }
+
+  @Test
+  public void getEvenIfExpired_missing_returnsNull() {
+    assertThat(newCache().getEvenIfExpired(Account.id(999))).isNull();
+  }
+
+  @Test
+  public void getEvenIfExpired_decryptsWithBoundEncrypter() {
+    Cache<Account.Id, OAuthToken> backing = CacheBuilder.newBuilder().build();
+    DynamicItem<OAuthTokenEncrypter> encrypter =
+        DynamicItem.itemOf(OAuthTokenEncrypter.class, new FakeEncrypter());
+    OAuthTokenCache cache = new OAuthTokenCache(backing, encrypter);
+    Account.Id id = Account.id(1);
+    cache.put(id, tokenExpiringAt(Long.MAX_VALUE)); // stored encrypted
+
+    // Backing cache holds the encrypted form; getEvenIfExpired returns the decrypted original.
+    assertThat(backing.getIfPresent(id).getToken()).isEqualTo("enc:t");
+    assertThat(cache.getEvenIfExpired(id).getToken()).isEqualTo("t");
+  }
+
+  /** Reversible, non-crypto stand-in that prefixes the token so decrypt is observable. */
+  private static final class FakeEncrypter implements OAuthTokenEncrypter {
+    @Override
+    public OAuthToken encrypt(OAuthToken t) {
+      return new OAuthToken(
+          "enc:" + t.getToken(), t.getSecret(), t.getRaw(), t.getExpiresAt(), t.getProviderId());
+    }
+
+    @Override
+    public OAuthToken decrypt(OAuthToken t) {
+      return new OAuthToken(
+          t.getToken().substring("enc:".length()),
+          t.getSecret(),
+          t.getRaw(),
+          t.getExpiresAt(),
+          t.getProviderId());
+    }
   }
 
   /** See {@link SerializedClassSubject} for background and what to do if this test fails. */

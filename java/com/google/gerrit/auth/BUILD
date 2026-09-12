@@ -22,6 +22,7 @@ java_library(
         "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/server/cache/serialize",
         "//java/com/google/gerrit/server/logging",
+        "//java/com/google/gerrit/server/util/time",
         "//java/com/google/gerrit/util/ssl",
         "//lib:guava",
         "//lib:jgit",

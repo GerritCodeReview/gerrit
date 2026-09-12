@@ -803,6 +803,25 @@ attacker with write access to `oauth_tokens`.
 By default, unset. For sites using `auth.type = OAUTH`, `init` generates
 a 256-bit key into `secure.config` when this value is not already set.
 
+[[auth.oauthTokenRefreshInterval]]auth.oauthTokenRefreshInterval::
++
+When an OAuth access-token refresh fails (for example, the identity provider is
+briefly unavailable), Gerrit backs off before trying to refresh that account's
+token again, so that during a provider outage there is no retry on every
+request. The delay starts at 1 second and doubles after each failed attempt, up
+to this interval. The backoff state is kept in memory per account and is cleared
+on restart or after a successful refresh. While an expired token is backed off,
+read paths report that no usable token is available until the next retry
+succeeds. Values should use common unit suffixes to express their setting:
++
+* s, sec, second, seconds
+* m, min, minute, minutes
+* h, hr, hour, hours
++
+If a unit suffix is not specified, `minutes` is assumed.
++
+By default, 5 minutes.
+
 [[auth.userNameToLowerCase]]auth.userNameToLowerCase::
 +
 If set the username that is received to authenticate a git operation

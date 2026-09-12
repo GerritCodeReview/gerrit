@@ -4,9 +4,11 @@ junit_tests(
     name = "httpd_tests",
     srcs = glob(["**/*.java"]),
     deps = [
+        "//java/com/google/gerrit/auth",
         "//java/com/google/gerrit/entities",
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/httpd",
+        "//java/com/google/gerrit/httpd/auth/oauth",
         "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/server/restapi",
         "//java/com/google/gerrit/testing:gerrit-junit",

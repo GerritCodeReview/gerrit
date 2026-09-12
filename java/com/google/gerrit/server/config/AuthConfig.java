@@ -76,6 +76,7 @@ public class AuthConfig {
   private final Duration maxAuthTokenLifetime;
   private final int maxAuthTokensPerAccount;
   private final boolean httpPasswordFallbackEnabled;
+  private final boolean oauthTokenRefreshFilterEnabled;
 
   @Inject
   AuthConfig(@GerritServerConfig Config cfg) throws XsrfException {
@@ -115,6 +116,7 @@ public class AuthConfig {
         (int)
             ConfigUtil.getTimeUnit(cfg, "auth", null, "externalIdsRefExpiry", 0, TimeUnit.SECONDS);
     httpPasswordFallbackEnabled = cfg.getBoolean("auth", "httpPasswordFallbackEnabled", true);
+    oauthTokenRefreshFilterEnabled = cfg.getBoolean("auth", "enableOAuthTokenRefreshFilter", false);
 
     if (gitBasicAuthPolicy == GitBasicAuthPolicy.HTTP_LDAP
         && authType != AuthType.LDAP
@@ -369,6 +371,14 @@ public class AuthConfig {
 
   public boolean isOAuthType() {
     return authType == AuthType.OAUTH;
+  }
+
+  /**
+   * Whether the request-time OAuth access-token refresh filter is installed. Off by default:
+   * enabling it (auth.enableOAuthTokenRefreshFilter = true) is opt-in and experimental.
+   */
+  public boolean isOAuthTokenRefreshFilterEnabled() {
+    return oauthTokenRefreshFilterEnabled;
   }
 
   public boolean isAllowRegisterNewEmail() {

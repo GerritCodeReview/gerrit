@@ -34,7 +34,6 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
-import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.registration.DynamicItem;
@@ -566,19 +565,17 @@ public class CommitValidators {
 
     private int countChangedFiles(CommitReceivedEvent receiveEvent)
         throws DiffNotAvailableException {
-      // For merge commits this will compare against auto-merge.
+      // For merge commits this compares against auto-merge. Do not detect renames; detecting
+      // renames requires reading file contents and computing pairwise similarity, which is a
+      // significant performance bottleneck for changes with many files. Note that without rename
+      // detection, a renamed file counts as 2 changed files (1 deletion + 1 addition).
       Map<String, ModifiedFile> modifiedFiles =
           receiveEvent.diffOperations.loadModifiedFilesAgainstParentIfNecessary(
               receiveEvent.getProjectNameKey(),
               receiveEvent.commit,
               0,
-              /* enableRenameDetection= */ true);
-      // We don't want to count the COMMIT_MSG and MERGE_LIST files.
-      List<ModifiedFile> modifiedFilesList =
-          modifiedFiles.values().stream()
-              .filter(p -> !Patch.isMagic(p.newPath().orElse("")))
-              .collect(Collectors.toList());
-      return modifiedFilesList.size();
+              /* enableRenameDetection= */ false);
+      return modifiedFiles.size();
     }
   }
 

@@ -147,6 +147,16 @@ public class OAuthTokenCache {
     return accessToken;
   }
 
+  /**
+   * True if a token is cached for the account and has expired, decided from the cleartext {@code
+   * expiresAt} without decrypting (encrypters must keep it cleartext; see {@link
+   * OAuthTokenEncrypter}), so the refresh-on-read path skips crypto when nothing needs refreshing.
+   */
+  public boolean hasExpiredToken(Account.Id id) {
+    OAuthToken accessToken = cache.getIfPresent(id);
+    return accessToken != null && accessToken.isExpired();
+  }
+
   public void put(Account.Id id, OAuthToken accessToken) {
     requireNonNull(accessToken);
     if (disabled) {

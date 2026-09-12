@@ -27,6 +27,7 @@ junit_tests(
         "//lib:protobuf",
         "//lib/flogger:api",
         "//lib/guice",
+        "//lib/mockito",
         "//lib/truth",
         "//lib/truth:truth-java8-extension",
         "//lib/truth:truth-proto-extension",

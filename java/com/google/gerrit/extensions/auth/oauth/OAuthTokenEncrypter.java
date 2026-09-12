@@ -16,6 +16,15 @@ package com.google.gerrit.extensions.auth.oauth;
 
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 
+/**
+ * Encrypts and decrypts an {@link OAuthToken} for storage at rest.
+ *
+ * <p>Implementations must encrypt only the secret fields ({@code token}, {@code secret}, {@code
+ * raw}) and leave {@code expiresAt} and {@code providerId} in cleartext: they are non-secret
+ * metadata (an expiry timestamp and a provider routing id) that Gerrit reads <em>without</em>
+ * decrypting -- for instance to decide, on the refresh-on-read path, whether a cached token has
+ * expired.
+ */
 @ExtensionPoint
 public interface OAuthTokenEncrypter {
 
@@ -29,7 +38,7 @@ public interface OAuthTokenEncrypter {
   /**
    * Decrypts the secret parts of the given OAuth access token.
    *
-   * @param encrypted an encryppted OAuth access token.
+   * @param encrypted an encrypted OAuth access token.
    */
   OAuthToken decrypt(OAuthToken encrypted);
 }

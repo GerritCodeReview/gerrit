@@ -1,0 +1,174 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "caf4ac3f_19498d64",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2026-09-12T01:41:42Z",
+      "side": 1,
+      "message": "I love this.  Let\u0027s get some throughput numbers with high concurrency,  before and after.",
+      "revId": "c93ffe7b02127cf3d5e5ac0b2cc6d42813adae12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9941eb92_738005d9",
+        "filename": "java/com/google/gerrit/server/schema/H2CustomLockAccountPatchReviewStore.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2026-09-12T01:41:42Z",
+      "side": 1,
+      "message": "numAdmitted, numLocked, numAquired?",
+      "revId": "c93ffe7b02127cf3d5e5ac0b2cc6d42813adae12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f18640c9_d8bf240e",
+        "filename": "java/com/google/gerrit/server/schema/H2CustomLockAccountPatchReviewStore.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2026-09-12T01:41:42Z",
+      "side": 1,
+      "message": "Help the reader understand the \u003d\u003d waiter check. isTaskedToTryRaw(). In the function, explain not only is it the first to enter, but that a new thread is selected if the first one times out.",
+      "revId": "c93ffe7b02127cf3d5e5ac0b2cc6d42813adae12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "771f1143_0ff8914d",
+        "filename": "java/com/google/gerrit/server/schema/H2CustomLockAccountPatchReviewStore.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2026-09-12T01:41:42Z",
+      "side": 1,
+      "message": "Can you annotate why this is needed? Maybe tryFromAnotherThread(). Is this missing the extra logic in the catch below?",
+      "revId": "c93ffe7b02127cf3d5e5ac0b2cc6d42813adae12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47e36a29_98b3b571",
+        "filename": "java/com/google/gerrit/server/schema/H2CustomLockAccountPatchReviewStore.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2026-09-12T01:41:42Z",
+      "side": 1,
+      "message": "stopWaiting(waiter);",
+      "revId": "c93ffe7b02127cf3d5e5ac0b2cc6d42813adae12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35adc8f5_1f4df302",
+        "filename": "java/com/google/gerrit/server/schema/H2CustomLockAccountPatchReviewStore.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2026-09-12T01:41:42Z",
+      "side": 1,
+      "message": "Finally",
+      "revId": "c93ffe7b02127cf3d5e5ac0b2cc6d42813adae12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0bb9413a_94e034f3",
+        "filename": "java/com/google/gerrit/server/schema/H2CustomLockAccountPatchReviewStore.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2026-09-12T01:41:42Z",
+      "side": 1,
+      "message": "Finally",
+      "revId": "c93ffe7b02127cf3d5e5ac0b2cc6d42813adae12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5073f206_662d2c2e",
+        "filename": "java/com/google/gerrit/server/schema/H2CustomLockAccountPatchReviewStore.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2026-09-12T01:41:42Z",
+      "side": 1,
+      "message": "allowAdmittedToProceed()",
+      "revId": "c93ffe7b02127cf3d5e5ac0b2cc6d42813adae12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec9cc8c5_cdd23b70",
+        "filename": "java/com/google/gerrit/server/schema/H2CustomLockAccountPatchReviewStore.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2026-09-12T01:41:42Z",
+      "side": 1,
+      "message": "unlockRawIfUnlockedByAllAcquired()?",
+      "revId": "c93ffe7b02127cf3d5e5ac0b2cc6d42813adae12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "301bfb1c_728d5c07",
+        "filename": "java/com/google/gerrit/server/schema/H2CustomLockAccountPatchReviewStore.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2026-09-12T01:41:42Z",
+      "side": 1,
+      "message": "Finally",
+      "revId": "c93ffe7b02127cf3d5e5ac0b2cc6d42813adae12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

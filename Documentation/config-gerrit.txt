@@ -62,6 +62,13 @@ Use the following format to create a h2 file at a different path than default
 [accountPatchReviewDb]
   url = jdbc:h2:async:/path/to/db
 ---
++
+For backwards compatibility Gerrit also accepts the previous
+`jdbc:h2:file:/path/to/db` form and internally uses `jdbc:h2:async:`.
+H2 documents the `async:` file system as a workaround for applications that
+may interrupt embedded H2 operations, but not as a complete safety guarantee.
+Use a client/server database for the strongest isolation from interrupted
+request threads.
 
 
 [[accountPatchReviewDb.poolLimit]]accountPatchReviewDb.poolLimit::

@@ -777,6 +777,27 @@ The value of this parameter must be the identifier of an OAuth 2 provider
 in the form `plugin-name:provider-name`. Consult the respective plugin
 documentation for details.
 
+[[auth.enableOAuthTokenRefreshFilter]]auth.enableOAuthTokenRefreshFilter::
++
+When `true`, and link:#auth.type[`auth.type`] is `OAUTH`, Gerrit installs a
+request-time filter that renews an expired OAuth access token from its refresh
+token on interactive browser requests, so the token served by
+`GET /accounts/{id}/oauthtoken` (usable as the Git-over-HTTP credential) does
+not stop working roughly an hour after sign-in. This flag governs only that
+core filter; a plugin that retrieves the token by other means (for example an
+SSH command) manages refresh independently. Only OAuth providers that implement
+token refresh are affected; all others behave as before.
++
+Enabling this persists a long-lived refresh token in the `oauth_tokens`
+cache, so an `OAuthTokenEncrypter` implementation should be installed to
+protect it at rest. When this filter renews a token and no encrypter is
+bound, Gerrit logs a warning; that warning covers only this core filter's
+storage path. A plugin that manages refresh by other means (for example an
+SSH command, or storing the token at login) is responsible for warning
+about its own storage paths.
++
+By default, `false`.
+
 [[auth.oauthTokenRefreshInterval]]auth.oauthTokenRefreshInterval::
 +
 When an OAuth access-token refresh fails (for example, the identity provider is

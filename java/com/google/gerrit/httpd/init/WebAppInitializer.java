@@ -458,7 +458,7 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
     if (authConfig.getAuthType() == AuthType.OPENID) {
       modules.add(new OpenIdModule());
     } else if (authConfig.getAuthType() == AuthType.OAUTH) {
-      modules.add(new OAuthModule());
+      modules.add(new OAuthModule(authConfig));
     }
     modules.add(new AuthModule(authConfig));
 

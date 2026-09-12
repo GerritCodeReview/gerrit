@@ -15,6 +15,8 @@
 package com.google.gerrit.httpd;
 
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.registration.Extension;
+import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.server.plugins.Plugin;
 import com.google.gerrit.server.plugins.StopPluginListener;
 import com.google.inject.Inject;
@@ -24,7 +26,9 @@ import com.google.inject.Singleton;
 import com.google.inject.internal.UniqueAnnotations;
 import com.google.inject.servlet.ServletModule;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Optional;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -56,6 +60,7 @@ public abstract class AllRequestFilter implements Filter {
   static class FilterProxy implements Filter, StopPluginListener {
     private final DynamicSet<AllRequestFilter> filters;
 
+    private final HashMap<AllRequestFilter, RegistrationHandle> initializedFiltersHandles;
     private DynamicSet<AllRequestFilter> initializedFilters;
     private FilterConfig filterConfig;
 
@@ -63,6 +68,7 @@ public abstract class AllRequestFilter implements Filter {
     FilterProxy(DynamicSet<AllRequestFilter> filters) {
       this.filters = filters;
       this.initializedFilters = new DynamicSet<>();
+      this.initializedFiltersHandles = new HashMap<>();
       this.filterConfig = null;
     }
 
@@ -82,7 +88,7 @@ public abstract class AllRequestFilter implements Filter {
         // synchronized.
         if (!initializedFilters.contains(filter)) {
           filter.init(filterConfig);
-          initializedFilters.add("gerrit", filter);
+          initializedFiltersHandles.put(filter, initializedFilters.add("gerrit", filter));
         }
       } else {
         ret = false;
@@ -90,14 +96,17 @@ public abstract class AllRequestFilter implements Filter {
       return ret;
     }
 
-    private synchronized void cleanUpInitializedFilters() {
-      Iterable<AllRequestFilter> filtersToCleanUp = initializedFilters;
-      initializedFilters = new DynamicSet<>();
-      for (AllRequestFilter filter : filtersToCleanUp) {
-        if (filters.contains(filter)) {
-          initializedFilters.add("gerrit", filter);
-        } else {
-          filter.destroy();
+    private synchronized void cleanUpInitializedFilters(String pluginName) {
+      for (Extension<AllRequestFilter> filterEntry : filters.entries()) {
+        if (filterEntry.getPluginName().equals(pluginName)) {
+          AllRequestFilter filter = filterEntry.get();
+          Optional.ofNullable(initializedFiltersHandles.get(filter))
+              .ifPresent(
+                  h -> {
+                    filter.destroy();
+                    h.remove();
+                  });
+          initializedFiltersHandles.remove(filter);
         }
       }
     }
@@ -165,11 +174,11 @@ public abstract class AllRequestFilter implements Filter {
     }
 
     @Override
-    public void onStopPlugin(Plugin plugin) {
+    public void beforeStopPlugin(Plugin plugin) {
       // In order to allow properly garbage collection, we need to scrub
-      // initializedFilters clean of filters stemming from plugins as they
-      // get unloaded.
-      cleanUpInitializedFilters();
+      // initializedFilters clean of filters stemming from the plugins that
+      // will be unloaded
+      cleanUpInitializedFilters(plugin.getName());
     }
   }
 

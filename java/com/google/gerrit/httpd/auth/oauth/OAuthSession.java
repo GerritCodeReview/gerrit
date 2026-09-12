@@ -264,11 +264,10 @@ class OAuthSession {
 
   @Override
   public String toString() {
-    return "OAuthSession [token="
-        + tokenCache.getOrEvictIfExpired(accountId)
-        + ", user="
-        + user
-        + "]";
+    // getEvenIfExpired, not getOrEvictIfExpired: toString must not have the side effect of evicting
+    // an expired token (which would drop a still-usable refresh token before the refresh filter can
+    // use it).
+    return "OAuthSession [token=" + tokenCache.getEvenIfExpired(accountId) + ", user=" + user + "]";
   }
 
   public void setServiceProvider(OAuthServiceProvider provider) {

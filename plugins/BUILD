@@ -46,6 +46,7 @@ PLUGIN_API = [
 
 EXPORTS = [
     "//antlr3:query_parser",
+    "//java/com/google/gerrit/auth:oauth-token-cache",
     "//java/com/google/gerrit/common:annotations",
     "//java/com/google/gerrit/common:server",
     "//java/com/google/gerrit/exceptions",

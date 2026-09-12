@@ -566,13 +566,15 @@ public class CommitValidators {
 
     private int countChangedFiles(CommitReceivedEvent receiveEvent)
         throws DiffNotAvailableException {
-      // For merge commits this will compare against auto-merge.
+      // For merge commits this will compare against auto-merge. Do not detect renames; that would
+      // require reading file contents and computing pairwise similarity, which is a significant
+      // performance bottleneck for changes with many files (see commit 429c91b6d4).
       Map<String, ModifiedFile> modifiedFiles =
           receiveEvent.diffOperations.loadModifiedFilesAgainstParentIfNecessary(
               receiveEvent.getProjectNameKey(),
               receiveEvent.commit,
               0,
-              /* enableRenameDetection= */ true);
+              /* enableRenameDetection= */ false);
       // We don't want to count the COMMIT_MSG and MERGE_LIST files.
       List<ModifiedFile> modifiedFilesList =
           modifiedFiles.values().stream()

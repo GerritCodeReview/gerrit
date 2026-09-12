@@ -57,7 +57,7 @@ public class GetOAuthToken implements RestReadView<AccountResource> {
     if (!self.get().hasSameAccountId(rsrc.getUser())) {
       throw new AuthException("not allowed to get access token");
     }
-    OAuthToken accessToken = tokenCache.get(rsrc.getUser().getAccountId());
+    OAuthToken accessToken = tokenCache.getOrEvictIfExpired(rsrc.getUser().getAccountId());
     if (accessToken == null) {
       throw new ResourceNotFoundException();
     }

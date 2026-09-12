@@ -16,6 +16,24 @@
       "message": "That goes against the description of the interface in the [javadoc](https://gerrit.googlesource.com/gerrit/+/refs/changes/41/629941/1/java/com/google/gerrit/server/plugins/StopPluginListener.java#17):\n\u003e `Broadcasts event indicating a plugin was unloaded.`\n\nThat\u0027s past-tense, so implementers should expect the plugin has completed unloading.\n\nIf we need a pre-stop, I think we need a new listener interface.",
       "revId": "59136b9fd84afb21e10bacff54ec56391e7b9c41",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5853bd9d_a09196ca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-12T00:36:18Z",
+      "side": 1,
+      "message": "True, we should not change the current semantics.\nI have added a new method for the beforeStopPlugin() notification with a default backwards-compatible action.",
+      "parentUuid": "5b1b94e7_aeea3636",
+      "revId": "59136b9fd84afb21e10bacff54ec56391e7b9c41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

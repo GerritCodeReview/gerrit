@@ -44,7 +44,7 @@ public final class OAuthTokenCacheTest {
     cache.put(Account.id(1001), token);
 
     assertThat(cache.isDisabled()).isFalse();
-    assertThat(cache.get(Account.id(1001))).isEqualTo(token);
+    assertThat(cache.getOrEvictIfExpired(Account.id(1001))).isEqualTo(token);
   }
 
   @Test
@@ -58,7 +58,7 @@ public final class OAuthTokenCacheTest {
         Account.id(1001), new OAuthToken("token", "secret", "raw", 4102444800000L, "provider"));
 
     assertThat(cache.isDisabled()).isTrue();
-    assertThat(cache.get(Account.id(1001))).isNull();
+    assertThat(cache.getOrEvictIfExpired(Account.id(1001))).isNull();
     assertThat(backingCache.getIfPresent(Account.id(1001))).isNull();
   }
 
@@ -120,6 +120,78 @@ public final class OAuthTokenCacheTest {
         .isNotEmpty();
   }
 
+  @Test
+  public void getEvenIfExpired_returnsExpiredEntry_withoutEvicting() {
+    OAuthTokenCache cache = newCache();
+    Account.Id id = Account.id(1);
+    OAuthToken expired = tokenExpiringAt(System.currentTimeMillis() - 1000);
+    cache.put(id, expired);
+
+    // Returns the expired token, and a second call still returns it: no eviction.
+    assertThat(cache.getEvenIfExpired(id)).isEqualTo(expired);
+    assertThat(cache.getEvenIfExpired(id)).isEqualTo(expired);
+  }
+
+  @Test
+  public void getOrEvictIfExpired_evictsExpiredEntry_andReturnsNull() {
+    OAuthTokenCache cache = newCache();
+    Account.Id id = Account.id(1);
+    cache.put(id, tokenExpiringAt(System.currentTimeMillis() - 1000));
+
+    assertThat(cache.getOrEvictIfExpired(id)).isNull();
+    // get() evicted it, so even getEvenIfExpired now misses.
+    assertThat(cache.getEvenIfExpired(id)).isNull();
+  }
+
+  @Test
+  public void getOrEvictIfExpired_returnsUnexpiredEntry() {
+    OAuthTokenCache cache = newCache();
+    Account.Id id = Account.id(1);
+    OAuthToken valid = tokenExpiringAt(Long.MAX_VALUE);
+    cache.put(id, valid);
+
+    assertThat(cache.getOrEvictIfExpired(id)).isEqualTo(valid);
+    assertThat(cache.getEvenIfExpired(id)).isEqualTo(valid);
+  }
+
+  @Test
+  public void getEvenIfExpired_missing_returnsNull() {
+    assertThat(newCache().getEvenIfExpired(Account.id(999))).isNull();
+  }
+
+  @Test
+  public void getEvenIfExpired_decryptsWithBoundEncrypter() {
+    Cache<Account.Id, OAuthToken> backing = CacheBuilder.newBuilder().build();
+    DynamicItem<OAuthTokenEncrypter> encrypter =
+        DynamicItem.itemOf(OAuthTokenEncrypter.class, new FakeEncrypter());
+    OAuthTokenCache cache = new OAuthTokenCache(backing, encrypter, new Config());
+    Account.Id id = Account.id(1);
+    cache.put(id, tokenExpiringAt(Long.MAX_VALUE)); // stored encrypted
+
+    // Backing cache holds the encrypted form; getEvenIfExpired returns the decrypted original.
+    assertThat(backing.getIfPresent(id).getToken()).isEqualTo("enc:t");
+    assertThat(cache.getEvenIfExpired(id).getToken()).isEqualTo("t");
+  }
+
+  /** Reversible, non-crypto stand-in that prefixes the token so decrypt is observable. */
+  private static final class FakeEncrypter implements OAuthTokenEncrypter {
+    @Override
+    public OAuthToken encrypt(OAuthToken t) {
+      return new OAuthToken(
+          "enc:" + t.getToken(), t.getSecret(), t.getRaw(), t.getExpiresAt(), t.getProviderId());
+    }
+
+    @Override
+    public OAuthToken decrypt(OAuthToken t) {
+      return new OAuthToken(
+          t.getToken().substring("enc:".length()),
+          t.getSecret(),
+          t.getRaw(),
+          t.getExpiresAt(),
+          t.getProviderId());
+    }
+  }
+
   /** See {@link SerializedClassSubject} for background and what to do if this test fails. */
   @Test
   public void oAuthTokenFields() throws Exception {
@@ -134,11 +206,19 @@ public final class OAuthTokenCacheTest {
                 .build());
   }
 
+  private static OAuthTokenCache newCache() {
+    return newCache(new Config());
+  }
+
   private static OAuthTokenCache newCache(Config cfg) {
     return newCache(CacheBuilder.newBuilder().build(), cfg);
   }
 
   private static OAuthTokenCache newCache(Cache<Account.Id, OAuthToken> cache, Config cfg) {
     return new OAuthTokenCache(cache, DynamicItem.itemOf(OAuthTokenEncrypter.class, null), cfg);
+  }
+
+  private static OAuthToken tokenExpiringAt(long expiresAtMillis) {
+    return new OAuthToken("t", "s", "raw", expiresAtMillis, "provider");
   }
 }

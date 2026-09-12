@@ -777,6 +777,21 @@ The value of this parameter must be the identifier of an OAuth 2 provider
 in the form `plugin-name:provider-name`. Consult the respective plugin
 documentation for details.
 
+[[auth.oauthTokenRefreshInterval]]auth.oauthTokenRefreshInterval::
++
+When an OAuth access-token refresh fails (for example, the identity provider is
+briefly unavailable), Gerrit will not attempt to refresh that account's token
+again until this interval has elapsed, so a provider outage is not retried on
+every request. Values should use common unit suffixes to express their setting:
++
+* s, sec, second, seconds
+* m, min, minute, minutes
+* h, hr, hour, hours
++
+If a unit suffix is not specified, `minutes` is assumed.
++
+By default, 5 minutes.
+
 [[auth.userNameToLowerCase]]auth.userNameToLowerCase::
 +
 If set the username that is received to authenticate a git operation

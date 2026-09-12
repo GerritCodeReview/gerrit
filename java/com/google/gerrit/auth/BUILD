@@ -10,9 +10,12 @@ java_library(
     name = "auth",
     srcs = glob(
         ["**/*.java"],
+        exclude = ["oauth/OAuthTokenCache.java"],
     ),
     visibility = ["//visibility:public"],
+    exports = [":oauth-token-cache"],
     deps = [
+        ":oauth-token-cache",
         "//java/com/google/gerrit/common:annotations",
         "//java/com/google/gerrit/common:server",
         "//java/com/google/gerrit/entities",
@@ -31,6 +34,23 @@ java_library(
         "//lib/auto:auto-value-annotations",
         "//lib/errorprone:annotations",
         "//lib/flogger:api",
+        "//lib/guice",
+        "//proto:cache_java_proto",
+    ],
+)
+
+java_library(
+    name = "oauth-token-cache",
+    srcs = ["oauth/OAuthTokenCache.java"],
+    visibility = ["//plugins:__pkg__"],
+    deps = [
+        "//java/com/google/gerrit/common:annotations",
+        "//java/com/google/gerrit/entities",
+        "//java/com/google/gerrit/extensions:api",
+        "//java/com/google/gerrit/proto",
+        "//java/com/google/gerrit/server",
+        "//java/com/google/gerrit/server/cache/serialize",
+        "//lib:guava",
         "//lib/guice",
         "//proto:cache_java_proto",
     ],

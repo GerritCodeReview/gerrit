@@ -702,7 +702,7 @@ public class Daemon extends SiteProgram {
         || authConfig.getAuthType() == AuthType.OPENID_SSO) {
       modules.add(new OpenIdModule());
     } else if (authConfig.getAuthType() == AuthType.OAUTH) {
-      modules.add(new OAuthModule());
+      modules.add(new OAuthModule(authConfig));
     }
 
     modules.add(sysInjector.getInstance(GetUserFilterModule.class));

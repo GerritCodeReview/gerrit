@@ -16,10 +16,18 @@ package com.google.gerrit.httpd.auth.oauth;
 
 import com.google.gerrit.extensions.auth.oauth.OAuthServiceProvider;
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.httpd.AllRequestFilter;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.servlet.ServletModule;
 
 /** Servlets and support related to OAuth authentication. */
 public class OAuthModule extends ServletModule {
+  private final AuthConfig authConfig;
+
+  public OAuthModule(AuthConfig authConfig) {
+    this.authConfig = authConfig;
+  }
 
   @Override
   protected void configureServlets() {
@@ -27,5 +35,10 @@ public class OAuthModule extends ServletModule {
     // This is needed to invalidate OAuth session during logout
     serve("/logout").with(OAuthLogoutServlet.class);
     DynamicMap.mapOf(binder(), OAuthServiceProvider.class);
+    if (authConfig.isOAuthTokenRefreshFilterEnabled()) {
+      // Opt-in, off by default (auth.enableOAuthTokenRefreshFilter): renew an expired
+      // browser access token at request time.
+      DynamicSet.bind(binder(), AllRequestFilter.class).to(OAuthTokenRefreshFilter.class);
+    }
   }
 }

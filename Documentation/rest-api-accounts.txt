@@ -744,6 +744,15 @@ If there is no token available, or the token has already expired,
 "`404 Not Found`" is returned as response. Requests to obtain an access
 token of another user are rejected with "`403 Forbidden`".
 
+By default a cached token is not renewed, so it stops being returned
+about an hour after sign-in (per the provider's token lifetime). If a
+client relies on this endpoint for a durable credential (for example a
+Git-over-HTTP password), enable request-time refresh with
+link:config-gerrit.html#auth.enableOAuthTokenRefreshFilter[`auth.enableOAuthTokenRefreshFilter`]
+(off by default), and use an OAuth provider that both supports token
+refresh and has it enabled; otherwise the expired token is evicted
+rather than renewed.
+
 [[get-state]]
 === Get Account State
 --

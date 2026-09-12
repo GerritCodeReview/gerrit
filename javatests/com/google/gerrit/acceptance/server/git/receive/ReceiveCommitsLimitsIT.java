@@ -98,4 +98,28 @@ public class ReceiveCommitsLimitsIT extends AbstractDaemonTest {
         .to("refs/for/master")
         .assertErrorStatus("Exceeding maximum number of files per change (2 > 1)");
   }
+
+  @Test
+  @GerritConfig(name = "change.maxFiles", value = "1")
+  public void limitFileCount_renameWithoutRenameDetectionExceedsLimit() throws Exception {
+    RevCommit parent =
+        commitBuilder()
+            .add("foo.txt", "same old, same old")
+            .add("bar.txt", "bar")
+            .message("blah")
+            .create();
+    testRepo.reset(parent);
+
+    // Renaming foo.txt to renamed.txt without rename detection counts as 2 changed files
+    // (1 deletion + 1 addition) and is rejected when maxFiles is 1.
+    pushFactory
+        .create(
+            admin.newIdent(),
+            testRepo,
+            "blah",
+            ImmutableMap.of("bar.txt", "bar", "renamed.txt", "same old, same old"))
+        .setParent(parent)
+        .to("refs/for/master")
+        .assertErrorStatus("Exceeding maximum number of files per change (2 > 1)");
+  }
 }

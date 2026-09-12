@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7c60ddcd_fb44e4f7",
+        "filename": "javatests/com/google/gerrit/acceptance/api/plugin/PluginOnStartStopIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-12T00:44:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27ce6d4f_ce95859c",
+      "revId": "074956467fa18c56718cfa008c40aa856c626a6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6989cc2c_b8233821",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-09-12T00:40:06Z",
       "side": 1,
       "message": "This isn\u0027t needed because it is already asserted in the test.",
+      "revId": "074956467fa18c56718cfa008c40aa856c626a6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "29d292ee_161af0ef",
+        "filename": "javatests/com/google/gerrit/acceptance/api/plugin/PluginOnStartStopIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-12T00:44:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6989cc2c_b8233821",
       "revId": "074956467fa18c56718cfa008c40aa856c626a6a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f50a1a9a_3f785501",
+        "filename": "javatests/com/google/gerrit/acceptance/api/plugin/PluginOnStartStopIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-12T00:44:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1270234a_85d5e7c3",
+      "revId": "074956467fa18c56718cfa008c40aa856c626a6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "db44c95f_11f7f102",
@@ -65,6 +119,24 @@
       "writtenOn": "2026-09-12T00:40:06Z",
       "side": 1,
       "message": "This additional assertion isn\u0027t relevant to this change.",
+      "revId": "074956467fa18c56718cfa008c40aa856c626a6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "97b2d75c_7958b93c",
+        "filename": "javatests/com/google/gerrit/acceptance/api/plugin/PluginOnStartStopIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-12T00:44:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db44c95f_11f7f102",
       "revId": "074956467fa18c56718cfa008c40aa856c626a6a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

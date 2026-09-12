@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c1ea5855_e743de4c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2026-09-12T01:42:28Z",
+      "side": 1,
+      "message": "Mistakingly resolved",
+      "parentUuid": "caf4ac3f_19498d64",
+      "revId": "c93ffe7b02127cf3d5e5ac0b2cc6d42813adae12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9941eb92_738005d9",
         "filename": "java/com/google/gerrit/server/schema/H2CustomLockAccountPatchReviewStore.java",
         "patchSetId": 4

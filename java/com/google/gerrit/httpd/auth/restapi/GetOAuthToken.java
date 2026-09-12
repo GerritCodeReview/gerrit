@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountResource;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -40,15 +41,18 @@ public class GetOAuthToken implements RestReadView<AccountResource> {
   private final Provider<CurrentUser> self;
   private final OAuthTokenCache tokenCache;
   private final Provider<String> canonicalWebUrlProvider;
+  private final boolean refreshEnabled;
 
   @Inject
   GetOAuthToken(
       Provider<CurrentUser> self,
       OAuthTokenCache tokenCache,
-      @CanonicalWebUrl Provider<String> urlProvider) {
+      @CanonicalWebUrl Provider<String> urlProvider,
+      AuthConfig authConfig) {
     this.self = self;
     this.tokenCache = tokenCache;
     this.canonicalWebUrlProvider = urlProvider;
+    this.refreshEnabled = authConfig.isOAuthTokenRefreshFilterEnabled();
   }
 
   @Override
@@ -57,7 +61,17 @@ public class GetOAuthToken implements RestReadView<AccountResource> {
     if (!self.get().hasSameAccountId(rsrc.getUser())) {
       throw new AuthException("not allowed to get access token");
     }
-    OAuthToken accessToken = tokenCache.getOrEvictIfExpired(rsrc.getUser().getAccountId());
+    OAuthToken accessToken;
+    if (refreshEnabled) {
+      // Refresh may be pending or backed off; get() would evict an expired entry and drop the
+      // refresh_token in its raw response, so read without evicting and treat expired as absent.
+      accessToken = tokenCache.getEvenIfExpired(rsrc.getUser().getAccountId());
+      if (accessToken != null && accessToken.isExpired()) {
+        accessToken = null;
+      }
+    } else {
+      accessToken = tokenCache.getOrEvictIfExpired(rsrc.getUser().getAccountId());
+    }
     if (accessToken == null) {
       throw new ResourceNotFoundException();
     }

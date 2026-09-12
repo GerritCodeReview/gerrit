@@ -62,7 +62,7 @@ public class GetOAuthToken implements RestReadView<AccountResource> {
       throw new ResourceConflictException(
           "OAuth token cache is disabled by cache.oauth_tokens.memoryLimit = 0");
     }
-    OAuthToken accessToken = tokenCache.get(rsrc.getUser().getAccountId());
+    OAuthToken accessToken = tokenCache.getOrEvictIfExpired(rsrc.getUser().getAccountId());
     if (accessToken == null) {
       throw new ResourceNotFoundException();
     }

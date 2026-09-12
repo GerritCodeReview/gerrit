@@ -264,7 +264,11 @@ class OAuthSession {
 
   @Override
   public String toString() {
-    return "OAuthSession [token=" + tokenCache.get(accountId) + ", user=" + user + "]";
+    return "OAuthSession [token="
+        + tokenCache.getOrEvictIfExpired(accountId)
+        + ", user="
+        + user
+        + "]";
   }
 
   public void setServiceProvider(OAuthServiceProvider provider) {

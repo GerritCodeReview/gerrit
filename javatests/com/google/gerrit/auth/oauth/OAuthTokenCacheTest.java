@@ -171,6 +171,17 @@ public final class OAuthTokenCacheTest {
   }
 
   @Test
+  public void hasExpiredToken_trueForExpired_falseForValidOrAbsent() {
+    OAuthTokenCache cache = newCache();
+    Account.Id id = Account.id(1);
+    assertThat(cache.hasExpiredToken(id)).isFalse(); // absent
+    cache.put(id, tokenExpiringAt(Long.MAX_VALUE));
+    assertThat(cache.hasExpiredToken(id)).isFalse(); // valid
+    cache.put(id, tokenExpiringAt(System.currentTimeMillis() - 1000));
+    assertThat(cache.hasExpiredToken(id)).isTrue(); // expired
+  }
+
+  @Test
   public void getEvenIfExpired_decryptsWithBoundEncrypter() {
     Cache<Account.Id, OAuthToken> backing = CacheBuilder.newBuilder().build();
     DynamicItem<OAuthTokenEncrypter> encrypter =

@@ -16,6 +16,24 @@
       "message": "My one hesitation with this is their [doc on file systems](https://h2database.com/html/advanced.html#file_system) says `async: experimental file system`. I don\u0027t know how \"experimental\" they really consider it though. The full recommendation is to use a client/server model instead of the embedded model. I think we also have this problem with Lucene and we do something to protect the threads from being interrupted, so perhaps we could apply that to h2 too.",
       "revId": "760c7240200934aaa17375dbcc4096a41e7d7ba3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "171196a5_64fa0d9b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-09-12T09:40:27Z",
+      "side": 1,
+      "message": "The direction looks good to me, but I found one upgrade-compatibility gap: existing sites may already have accountPatchReviewDb.url configured with the previously documented jdbc:h2:file: prefix. With this patch, those sites would continue using H2\u0027s default file filesystem and would not get the async filesystem mitigation.\n\nThere was also a startup regression for sites combining that legacy URL with accountPatchReviewDb.h2LockType \u003d jgit, because lockTargetFromUrl() only accepted jdbc:h2:async:.\n\nI uploaded a follow-up change 630181 that normalizes legacy jdbc:h2:file: account patch review URLs to jdbc:h2:async:, keeps the jgit-lock parser compatible with both prefixes, adds unit coverage, and adds an end-to-end test for starting the jgit-lock store from a legacy file URL.\n\nFeel free to squash it into this change if you prefer.",
+      "parentUuid": "451718aa_87eb0ef9",
+      "revId": "760c7240200934aaa17375dbcc4096a41e7d7ba3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

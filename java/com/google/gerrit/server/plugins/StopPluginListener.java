@@ -29,5 +29,6 @@ public interface StopPluginListener {
    *
    * @param plugin {@link Plugin} been stopped
    */
-  void onStopPlugin(Plugin plugin);
+  default void onStopPlugin(Plugin plugin) {}
+  ;
 }

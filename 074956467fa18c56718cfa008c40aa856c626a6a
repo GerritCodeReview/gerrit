@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "27ce6d4f_ce95859c",
+        "filename": "javatests/com/google/gerrit/acceptance/api/plugin/PluginOnStartStopIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-12T00:40:06Z",
+      "side": 1,
+      "message": "This isn\u0027t needed because it is already asserted in the test.",
+      "revId": "074956467fa18c56718cfa008c40aa856c626a6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6989cc2c_b8233821",
+        "filename": "javatests/com/google/gerrit/acceptance/api/plugin/PluginOnStartStopIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-12T00:40:06Z",
+      "side": 1,
+      "message": "This isn\u0027t needed because it is already asserted in the test.",
+      "revId": "074956467fa18c56718cfa008c40aa856c626a6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1270234a_85d5e7c3",
+        "filename": "javatests/com/google/gerrit/acceptance/api/plugin/PluginOnStartStopIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-12T00:40:06Z",
+      "side": 1,
+      "message": "This isn\u0027t needed because it is already asserted in the test.",
+      "revId": "074956467fa18c56718cfa008c40aa856c626a6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db44c95f_11f7f102",
+        "filename": "javatests/com/google/gerrit/acceptance/api/plugin/PluginOnStartStopIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-12T00:40:06Z",
+      "side": 1,
+      "message": "This additional assertion isn\u0027t relevant to this change.",
+      "revId": "074956467fa18c56718cfa008c40aa856c626a6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

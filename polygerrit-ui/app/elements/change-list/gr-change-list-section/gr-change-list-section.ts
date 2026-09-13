@@ -59,6 +59,10 @@ export class GrChangeListSection extends LitElement {
   @property({type: Array})
   visibleChangeTableColumns?: string[];
 
+  /** The columns to show on narrow screens, see `changeTableNarrowPrefs()`. */
+  @property({type: Array})
+  visibleChangeTableColumnsNarrow?: string[];
+
   @property({type: Boolean})
   showNumber?: boolean; // No default value to prevent flickering.
 
@@ -376,6 +380,7 @@ export class GrChangeListSection extends LitElement {
         .sectionName=${this.changeSection.name}
         .starsLoading=${this.starsLoading}
         .visibleChangeTableColumns=${columns}
+        .visibleChangeTableColumnsNarrow=${this.visibleChangeTableColumnsNarrow}
         .showNumber=${!!this.showNumber}
         .usp=${this.usp}
         .labelNames=${this.labelNames}

@@ -118,6 +118,9 @@ public final class UserPreferencesConverter {
       if (info.changeTable != null) {
         builder = builder.addAllChangeTable(info.changeTable);
       }
+      if (info.changeTableNarrow != null) {
+        builder = builder.addAllChangeTableNarrow(info.changeTableNarrow);
+      }
       builder =
           setIfNotNull(
               builder, builder::setAllowBrowserNotifications, info.allowBrowserNotifications);
@@ -191,6 +194,8 @@ public final class UserPreferencesConverter {
                   .collect(toImmutableList())
               : null;
       res.changeTable = proto.getChangeTableCount() != 0 ? proto.getChangeTableList() : null;
+      res.changeTableNarrow =
+          proto.getChangeTableNarrowCount() != 0 ? proto.getChangeTableNarrowList() : null;
       res.allowBrowserNotifications =
           proto.hasAllowBrowserNotifications() ? proto.getAllowBrowserNotifications() : null;
       res.allowSuggestCodeWhileCommenting =

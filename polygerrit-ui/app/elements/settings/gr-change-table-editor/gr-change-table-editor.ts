@@ -10,7 +10,11 @@ import {css, html, LitElement} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {grFormStyles} from '../../../styles/gr-form-styles';
-import {ColumnNames} from '../../../constants/constants';
+import {
+  ColumnNames,
+  NARROW_COLUMN_NAMES,
+  VOTES_COLUMN,
+} from '../../../constants/constants';
 import {subscribe} from '../../lit/subscription-controller';
 import {resolve} from '../../../models/dependency';
 import {configModelToken} from '../../../models/config/config-model';
@@ -18,6 +22,7 @@ import '@material/web/checkbox/checkbox';
 import {materialStyles} from '../../../styles/gr-material-styles';
 import {MdCheckbox} from '@material/web/checkbox/checkbox';
 import {
+  changeTableNarrowPrefs,
   changeTablePrefs,
   userModelToken,
 } from '../../../models/user/user-model';
@@ -37,6 +42,12 @@ export class GrChangeTableEditor extends LitElement {
 
   // private but used in test
   @state() localChangeTableColumns: string[] = [];
+
+  /**
+   * The columns picked for narrow screens, see `NARROW_COLUMN_NAMES`.
+   * Private but used in test.
+   */
+  @state() localNarrowColumns: string[] = [];
 
   // private but used in test
   @state() showNumber?: boolean;
@@ -58,7 +69,8 @@ export class GrChangeTableEditor extends LitElement {
         #changeCols {
           width: auto;
         }
-        #changeCols .visibleHeader {
+        #changeCols .visibleHeader,
+        #changeCols .narrowHeader {
           text-align: left;
         }
         .checkboxContainer {
@@ -94,6 +106,7 @@ export class GrChangeTableEditor extends LitElement {
         this.prefs = prefs;
         this.showNumber = !!prefs.legacycid_in_change_table;
         this.localChangeTableColumns = changeTablePrefs(prefs);
+        this.localNarrowColumns = changeTableNarrowPrefs(prefs);
         this.labelFilterInput = prefs.label_filter ?? '';
       }
     );
@@ -115,6 +128,7 @@ export class GrChangeTableEditor extends LitElement {
               <tr>
                 <th class="nameHeader">Column</th>
                 <th class="visibleHeader">Visible</th>
+                <th class="narrowHeader">On narrow screens</th>
               </tr>
             </thead>
 
@@ -129,12 +143,20 @@ export class GrChangeTableEditor extends LitElement {
                     @change=${this.handleNumberCheckboxClick}
                   ></md-checkbox>
                 </td>
+                <td></td>
               </tr>
 
               ${this.defaultColumns.map(col => this.renderRow(col))}
               <tr>
+                <td>
+                  <label for="narrow-${VOTES_COLUMN}">${VOTES_COLUMN}</label>
+                </td>
+                <td></td>
+                ${this.renderNarrowCheckbox(VOTES_COLUMN)}
+              </tr>
+              <tr>
                 <td><label for="labelsFilter">Shown Labels</label></td>
-                <td class="labelsFilterCell">
+                <td class="labelsFilterCell" colspan="2">
                   <md-outlined-text-field
                     id="labelsFilter"
                     class="showBlueFocusBorder labelsFilterInput"
@@ -169,7 +191,26 @@ export class GrChangeTableEditor extends LitElement {
             @change=${this.handleTargetClick}
           ></md-checkbox>
         </td>
+        ${this.renderNarrowCheckbox(column)}
       </tr>
+    `;
+  }
+
+  /**
+   * The checkbox for showing `column` on narrow screens. The subject is
+   * always shown there, so it gets an empty cell.
+   */
+  private renderNarrowCheckbox(column: string) {
+    if (!NARROW_COLUMN_NAMES.includes(column)) return html`<td></td>`;
+    return html`
+      <td class="checkboxContainer">
+        <md-checkbox
+          id="narrow-${column}"
+          name=${column}
+          .checked=${this.localNarrowColumns.includes(column)}
+          @change=${this.handleNarrowTargetClick}
+        ></md-checkbox>
+      </td>
     `;
   }
 
@@ -224,11 +265,36 @@ export class GrChangeTableEditor extends LitElement {
     );
   }
 
+  /**
+   * Handle a click on a narrow-screen column checkbox and update the
+   * localNarrowColumns property accordingly.
+   */
+  private handleNarrowTargetClick(e: Event) {
+    const checkbox = e.target as MdCheckbox;
+
+    const column = checkbox.name;
+    const checked = checkbox.checked;
+
+    const exists = this.localNarrowColumns.includes(column);
+
+    if (checked === exists) return;
+
+    const updated = checked
+      ? [...this.localNarrowColumns, column]
+      : this.localNarrowColumns.filter(c => c !== column);
+
+    // Normalize order based on NARROW_COLUMN_NAMES
+    this.localNarrowColumns = NARROW_COLUMN_NAMES.filter(c =>
+      updated.includes(c)
+    );
+  }
+
   // private but used in test
   async handleSaveChangeTable() {
     await this.getUserModel().updatePreferences({
       ...this.prefs,
       change_table: this.localChangeTableColumns,
+      change_table_narrow: this.localNarrowColumns,
       legacycid_in_change_table: this.showNumber,
       label_filter: this.labelFilterInput.trim(),
     });
@@ -239,11 +305,15 @@ export class GrChangeTableEditor extends LitElement {
     const columnsChanged =
       prefsColumns.length !== this.localChangeTableColumns.length ||
       prefsColumns.some(c => !this.localChangeTableColumns.includes(c));
+    const prefsNarrowColumns = changeTableNarrowPrefs(this.prefs);
+    const narrowChanged =
+      prefsNarrowColumns.length !== this.localNarrowColumns.length ||
+      prefsNarrowColumns.some(c => !this.localNarrowColumns.includes(c));
     const numberChanged =
       !!this.prefs.legacycid_in_change_table !== !!this.showNumber;
     const savedFilter = this.prefs.label_filter ?? '';
     const labelsChanged = savedFilter !== this.labelFilterInput.trim();
-    return columnsChanged || numberChanged || labelsChanged;
+    return columnsChanged || narrowChanged || numberChanged || labelsChanged;
   }
 }
 

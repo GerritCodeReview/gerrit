@@ -17,6 +17,7 @@ package com.google.gerrit.server.account;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.config.ConfigUtil.storeSection;
 import static com.google.gerrit.server.git.UserConfigSections.CHANGE_TABLE_COLUMN;
+import static com.google.gerrit.server.git.UserConfigSections.CHANGE_TABLE_NARROW_COLUMN;
 import static com.google.gerrit.server.git.UserConfigSections.KEY_ID;
 import static com.google.gerrit.server.git.UserConfigSections.KEY_TARGET;
 import static com.google.gerrit.server.git.UserConfigSections.KEY_URL;
@@ -133,7 +134,10 @@ public class StoredPreferences {
           null,
           mergedGeneralPreferencesInput,
           PreferencesParserUtil.parseDefaultGeneralPreferences(defaultCfg, null));
-      setChangeTable(cfg, mergedGeneralPreferencesInput.changeTable);
+      setChangeTable(
+          cfg,
+          mergedGeneralPreferencesInput.changeTable,
+          mergedGeneralPreferencesInput.changeTableNarrow);
       setMy(cfg, mergedGeneralPreferencesInput.my);
 
       // evict the cached general preferences
@@ -229,7 +233,7 @@ public class StoredPreferences {
         input,
         GeneralPreferencesInfo.defaults());
     setMy(defaultPrefs.getConfig(), input.my);
-    setChangeTable(defaultPrefs.getConfig(), input.changeTable);
+    setChangeTable(defaultPrefs.getConfig(), input.changeTable, input.changeTableNarrow);
     defaultPrefs.commit(md);
 
     return PreferencesParserUtil.parseGeneralPreferences(defaultPrefs.getConfig(), null, null);
@@ -282,10 +286,18 @@ public class StoredPreferences {
     return defaultPrefs.getConfig();
   }
 
-  private static void setChangeTable(Config cfg, List<String> changeTable) {
+  private static void setChangeTable(
+      Config cfg, List<String> changeTable, List<String> changeTableNarrow) {
+    // Both column lists live in the same config section. A null list means
+    // "leave that list alone", so only the keys that were given get replaced.
     if (changeTable != null) {
-      unsetSection(cfg, UserConfigSections.CHANGE_TABLE);
+      cfg.unset(UserConfigSections.CHANGE_TABLE, null, CHANGE_TABLE_COLUMN);
       cfg.setStringList(UserConfigSections.CHANGE_TABLE, null, CHANGE_TABLE_COLUMN, changeTable);
+    }
+    if (changeTableNarrow != null) {
+      cfg.unset(UserConfigSections.CHANGE_TABLE, null, CHANGE_TABLE_NARROW_COLUMN);
+      cfg.setStringList(
+          UserConfigSections.CHANGE_TABLE, null, CHANGE_TABLE_NARROW_COLUMN, changeTableNarrow);
     }
   }
 

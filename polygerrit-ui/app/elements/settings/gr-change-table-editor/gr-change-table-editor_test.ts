@@ -51,6 +51,7 @@ suite('gr-change-table-editor tests', () => {
               <tr>
                 <th class="nameHeader">Column</th>
                 <th class="visibleHeader">Visible</th>
+                <th class="narrowHeader">On narrow screens</th>
               </tr>
             </thead>
             <tbody>
@@ -61,6 +62,7 @@ suite('gr-change-table-editor tests', () => {
                 <td class="checkboxContainer">
                   <md-checkbox id="numberCheckbox" name="number"> </md-checkbox>
                 </td>
+                <td></td>
               </tr>
               <tr>
                 <td>
@@ -69,6 +71,7 @@ suite('gr-change-table-editor tests', () => {
                 <td class="checkboxContainer">
                   <md-checkbox id="Subject" name="Subject"> </md-checkbox>
                 </td>
+                <td></td>
               </tr>
               <tr>
                 <td>
@@ -76,6 +79,9 @@ suite('gr-change-table-editor tests', () => {
                 </td>
                 <td class="checkboxContainer">
                   <md-checkbox id="Owner" name="Owner"> </md-checkbox>
+                </td>
+                <td class="checkboxContainer">
+                  <md-checkbox id="narrow-Owner" name="Owner"> </md-checkbox>
                 </td>
               </tr>
               <tr>
@@ -85,6 +91,10 @@ suite('gr-change-table-editor tests', () => {
                 <td class="checkboxContainer">
                   <md-checkbox id="Reviewers" name="Reviewers"> </md-checkbox>
                 </td>
+                <td class="checkboxContainer">
+                  <md-checkbox id="narrow-Reviewers" name="Reviewers">
+                  </md-checkbox>
+                </td>
               </tr>
               <tr>
                 <td>
@@ -92,6 +102,9 @@ suite('gr-change-table-editor tests', () => {
                 </td>
                 <td class="checkboxContainer">
                   <md-checkbox id="Repo" name="Repo"> </md-checkbox>
+                </td>
+                <td class="checkboxContainer">
+                  <md-checkbox id="narrow-Repo" name="Repo"> </md-checkbox>
                 </td>
               </tr>
               <tr>
@@ -101,6 +114,9 @@ suite('gr-change-table-editor tests', () => {
                 <td class="checkboxContainer">
                   <md-checkbox id="Branch" name="Branch"> </md-checkbox>
                 </td>
+                <td class="checkboxContainer">
+                  <md-checkbox id="narrow-Branch" name="Branch"> </md-checkbox>
+                </td>
               </tr>
               <tr>
                 <td>
@@ -108,6 +124,10 @@ suite('gr-change-table-editor tests', () => {
                 </td>
                 <td class="checkboxContainer">
                   <md-checkbox id="Hashtags" name="Hashtags"> </md-checkbox>
+                </td>
+                <td class="checkboxContainer">
+                  <md-checkbox id="narrow-Hashtags" name="Hashtags">
+                  </md-checkbox>
                 </td>
               </tr>
               <tr>
@@ -117,6 +137,10 @@ suite('gr-change-table-editor tests', () => {
                 <td class="checkboxContainer">
                   <md-checkbox id="Updated" name="Updated"> </md-checkbox>
                 </td>
+                <td class="checkboxContainer">
+                  <md-checkbox id="narrow-Updated" name="Updated">
+                  </md-checkbox>
+                </td>
               </tr>
               <tr>
                 <td>
@@ -124,6 +148,9 @@ suite('gr-change-table-editor tests', () => {
                 </td>
                 <td class="checkboxContainer">
                   <md-checkbox id="Size" name="Size"> </md-checkbox>
+                </td>
+                <td class="checkboxContainer">
+                  <md-checkbox id="narrow-Size" name="Size"> </md-checkbox>
                 </td>
               </tr>
               <tr>
@@ -133,12 +160,24 @@ suite('gr-change-table-editor tests', () => {
                 <td class="checkboxContainer">
                   <md-checkbox id="Status" name="Status"> </md-checkbox>
                 </td>
+                <td class="checkboxContainer">
+                  <md-checkbox id="narrow-Status" name="Status"> </md-checkbox>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <label for="narrow-Votes"> Votes </label>
+                </td>
+                <td></td>
+                <td class="checkboxContainer">
+                  <md-checkbox id="narrow-Votes" name="Votes"> </md-checkbox>
+                </td>
               </tr>
               <tr>
                 <td>
                   <label for="labelsFilter"> Shown Labels </label>
                 </td>
-                <td class="labelsFilterCell">
+                <td class="labelsFilterCell" colspan="2">
                   <md-outlined-text-field
                     class="labelsFilterInput showBlueFocusBorder"
                     id="labelsFilter"
@@ -166,9 +205,9 @@ suite('gr-change-table-editor tests', () => {
     const rows = queryAndAssert(element, 'tbody').querySelectorAll('tr');
     let tds;
 
-    // The `+ 2` is for the number column and the labels column, which aren't
+    // The `+ 3` is for the number, votes and labels rows, which aren't
     // included in the change table behavior's list.
-    assert.equal(rows.length, element.defaultColumns.length + 2);
+    assert.equal(rows.length, element.defaultColumns.length + 3);
     for (let i = 0; i < element.defaultColumns.length; i++) {
       tds = rows[i + 1].querySelectorAll('td');
       assert.equal(tds[0].textContent, element.defaultColumns[i]);
@@ -256,12 +295,44 @@ suite('gr-change-table-editor tests', () => {
     assert.notInclude(element.localChangeTableColumns, 'Subject');
   });
 
+  test('narrow checkboxes', async () => {
+    element.localNarrowColumns = ['Owner', 'Votes'];
+    await element.updateComplete;
+
+    const ownerNarrow = queryAndAssert<MdCheckbox>(
+      element,
+      'md-checkbox[id="narrow-Owner"]'
+    );
+    const sizeNarrow = queryAndAssert<MdCheckbox>(
+      element,
+      'md-checkbox[id="narrow-Size"]'
+    );
+    const votesNarrow = queryAndAssert<MdCheckbox>(
+      element,
+      'md-checkbox[id="narrow-Votes"]'
+    );
+    assert.isNotOk(element.shadowRoot?.querySelector('#narrow-Subject'));
+    assert.isTrue(ownerNarrow.checked);
+    assert.isFalse(sizeNarrow.checked);
+    assert.isTrue(votesNarrow.checked);
+
+    sizeNarrow.click();
+    await element.updateComplete;
+    assert.deepEqual(element.localNarrowColumns, ['Owner', 'Size', 'Votes']);
+
+    ownerNarrow.click();
+    await element.updateComplete;
+    assert.deepEqual(element.localNarrowColumns, ['Size', 'Votes']);
+  });
+
   test('handleSaveChangeTable', async () => {
     let newColumns = ['Owner', 'Project', 'Branch'];
     element.localChangeTableColumns = newColumns.slice(0);
+    element.localNarrowColumns = ['Owner', 'Votes'];
     element.showNumber = false;
     await element.handleSaveChangeTable();
     assert.deepEqual(element.prefs.change_table, newColumns);
+    assert.deepEqual(element.prefs.change_table_narrow, ['Owner', 'Votes']);
     assert.isNotOk(element.prefs.legacycid_in_change_table);
 
     newColumns = ['Size'];

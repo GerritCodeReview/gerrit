@@ -1076,6 +1076,8 @@ export interface PreferencesInfo {
   my: TopMenuItemInfo[];
   // Do not use directly, but use changeTablePrefs() in user model to map/filter legacy columns.
   change_table: string[];
+  // Do not use directly, but use changeTableNarrowPrefs() in user model.
+  change_table_narrow?: string[];
   email_strategy: EmailStrategy;
   default_base_for_merges: DefaultBase;
   publish_comments_on_push?: boolean;

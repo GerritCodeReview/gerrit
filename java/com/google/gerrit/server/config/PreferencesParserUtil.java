@@ -22,6 +22,7 @@ import static com.google.gerrit.server.config.UserPreferencesConverter.EditPrefe
 import static com.google.gerrit.server.config.UserPreferencesConverter.GeneralPreferencesInfoConverter.GENERAL_PREFERENCES_INFO_CONVERTER;
 import static com.google.gerrit.server.git.UserConfigSections.CHANGE_TABLE;
 import static com.google.gerrit.server.git.UserConfigSections.CHANGE_TABLE_COLUMN;
+import static com.google.gerrit.server.git.UserConfigSections.CHANGE_TABLE_NARROW_COLUMN;
 import static com.google.gerrit.server.git.UserConfigSections.KEY_ID;
 import static com.google.gerrit.server.git.UserConfigSections.KEY_TARGET;
 import static com.google.gerrit.server.git.UserConfigSections.KEY_URL;
@@ -84,9 +85,11 @@ public class PreferencesParserUtil {
             input);
     if (input != null) {
       r.changeTable = input.changeTable;
+      r.changeTableNarrow = input.changeTableNarrow;
       r.my = input.my;
     } else {
       r.changeTable = parseChangeTableColumns(cfg, defaultCfg);
+      r.changeTableNarrow = parseChangeTableNarrowColumns(cfg, defaultCfg);
       r.my = parseMyMenus(my(cfg), defaultCfg);
     }
     return r;
@@ -106,6 +109,8 @@ public class PreferencesParserUtil {
                 ? parseDefaultGeneralPreferences(defaultCfg, null)
                 : GeneralPreferencesInfo.defaults());
     r.changeTable = cfg.changeTable != null ? cfg.changeTable : Lists.newArrayList();
+    r.changeTableNarrow =
+        cfg.changeTableNarrow != null ? cfg.changeTableNarrow : Lists.newArrayList();
     r.my = parseMyMenus(cfg.my, defaultCfg);
     return r;
   }
@@ -238,6 +243,15 @@ public class PreferencesParserUtil {
     return changeTable;
   }
 
+  private static List<String> parseChangeTableNarrowColumns(
+      Config cfg, @Nullable Config defaultCfg) {
+    List<String> changeTableNarrow = changeTableNarrow(cfg);
+    if (changeTableNarrow == null && defaultCfg != null) {
+      changeTableNarrow = changeTableNarrow(defaultCfg);
+    }
+    return changeTableNarrow;
+  }
+
   private static List<MenuItem> parseMyMenus(
       @Nullable List<MenuItem> my, @Nullable Config defaultCfg) {
     if (defaultCfg != null && (my == null || my.isEmpty())) {
@@ -312,6 +326,10 @@ public class PreferencesParserUtil {
 
   private static List<String> changeTable(Config cfg) {
     return Lists.newArrayList(cfg.getStringList(CHANGE_TABLE, null, CHANGE_TABLE_COLUMN));
+  }
+
+  private static List<String> changeTableNarrow(Config cfg) {
+    return Lists.newArrayList(cfg.getStringList(CHANGE_TABLE, null, CHANGE_TABLE_NARROW_COLUMN));
   }
 
   private static List<MenuItem> my(Config cfg) {

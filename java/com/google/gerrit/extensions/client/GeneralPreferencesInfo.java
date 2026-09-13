@@ -146,6 +146,13 @@ public class GeneralPreferencesInfo {
   public Boolean workInProgressByDefault;
   public List<MenuItem> my;
   public List<String> changeTable;
+
+  /**
+   * The columns to display in the change table on narrow screens, where the change list collapses
+   * each change to two rows. Empty means "use the frontend's default narrow column set".
+   */
+  public List<String> changeTableNarrow;
+
   public Boolean allowBrowserNotifications;
   public Boolean allowSuggestCodeWhileCommenting;
   public Boolean allowAutocompletingComments;
@@ -226,6 +233,7 @@ public class GeneralPreferencesInfo {
             this.workInProgressByDefault, other.workInProgressByDefault)
         && Objects.equals(this.my, other.my)
         && Objects.equals(this.changeTable, other.changeTable)
+        && Objects.equals(this.changeTableNarrow, other.changeTableNarrow)
         && equalBooleanPreferencesFields(
             this.allowBrowserNotifications, other.allowBrowserNotifications)
         && equalBooleanPreferencesFields(
@@ -261,6 +269,7 @@ public class GeneralPreferencesInfo {
         workInProgressByDefault,
         my,
         changeTable,
+        changeTableNarrow,
         allowBrowserNotifications,
         allowSuggestCodeWhileCommenting,
         allowAutocompletingComments,
@@ -293,6 +302,7 @@ public class GeneralPreferencesInfo {
         .add("workInProgressByDefault", workInProgressByDefault)
         .add("my", my)
         .add("changeTable", changeTable)
+        .add("changeTableNarrow", changeTableNarrow)
         .add("allowBrowserNotifications", allowBrowserNotifications)
         .add("allowSuggestCodeWhileCommenting", allowSuggestCodeWhileCommenting)
         .add("allowAutocompletingComments", allowAutocompletingComments)

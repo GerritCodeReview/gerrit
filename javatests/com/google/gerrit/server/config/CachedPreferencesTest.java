@@ -269,12 +269,14 @@ public class CachedPreferencesTest {
 
   /**
    * {@link PreferencesParserUtil#parseGeneralPreferences} sets explicit values to {@link
-   * GeneralPreferencesInfo#my} and {@link GeneralPreferencesInfo#changeTable} in case of null
-   * defaults. Set these back to {@code null} for comparing with the defaults.
+   * GeneralPreferencesInfo#my}, {@link GeneralPreferencesInfo#changeTable} and {@link
+   * GeneralPreferencesInfo#changeTableNarrow} in case of null defaults. Set these back to {@code
+   * null} for comparing with the defaults.
    */
   private static GeneralPreferencesInfo cleanGeneralPreferences(GeneralPreferencesInfo pref) {
     pref.my = null;
     pref.changeTable = null;
+    pref.changeTableNarrow = null;
     return pref;
   }
 }

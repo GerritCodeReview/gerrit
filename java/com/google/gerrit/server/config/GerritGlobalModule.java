@@ -117,6 +117,7 @@ import com.google.gerrit.server.account.externalids.ExternalIdModule;
 import com.google.gerrit.server.approval.ApprovalsUtil;
 import com.google.gerrit.server.auth.AuthBackend;
 import com.google.gerrit.server.auth.UniversalAuthBackend;
+import com.google.gerrit.server.auth.oauth.OAuthTokenRevokedListener;
 import com.google.gerrit.server.avatar.AvatarProvider;
 import com.google.gerrit.server.cache.CacheDef;
 import com.google.gerrit.server.cache.CacheRemovalListener;
@@ -377,6 +378,9 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicMap.mapOf(binder(), CapabilityDefinition.class);
     // In sys (not web) so GetOAuthToken and the oauth-token SSH command can refresh expired tokens.
     DynamicMap.mapOf(binder(), OAuthServiceProvider.class);
+    // Fired when a token is revoked+evicted, so a provider plugin can drop derived state (e.g. a
+    // Git-over-HTTP token-validation cache); core stays ignorant of which plugin, if any, listens.
+    DynamicSet.setOf(binder(), OAuthTokenRevokedListener.class);
     DynamicMap.mapOf(binder(), PluginProjectPermissionDefinition.class);
     DynamicSet.setOf(binder(), GitReferenceUpdatedListener.class);
     DynamicSet.setOf(binder(), GitBatchRefUpdateListener.class);

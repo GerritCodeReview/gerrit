@@ -63,6 +63,52 @@
       "message": "@matthias.sohn@gmail.com @nasser.grainawi@oss.qualcomm.com @luca.milanesio@gmail.com please take another look at this now that I\u0027ve switched to a default allow system (on suggestion by Luca) which is also what allowed the AI review permission to be merged.\n\nI believe this should remove any doubt about merging this change now.",
       "revId": "058e1f69dfefc3969c7a4ac6c893fdfb13b20673",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19e0a8aa_bcfea1f6",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 1009,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-13T21:00:10Z",
+      "side": 1,
+      "message": "```suggestion\ncomments on changes, unless there is permission to vote on any label.\n```",
+      "range": {
+        "startLine": 1008,
+        "startChar": 19,
+        "endLine": 1009,
+        "endChar": 28
+      },
+      "revId": "058e1f69dfefc3969c7a4ac6c893fdfb13b20673",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d42be332_84f0673f",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 1011,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-13T21:00:10Z",
+      "side": 1,
+      "message": "```suggestion\nOne of the typical use cases is for preventing\n```",
+      "range": {
+        "startLine": 1011,
+        "startChar": 1,
+        "endLine": 1011,
+        "endChar": 79
+      },
+      "revId": "058e1f69dfefc3969c7a4ac6c893fdfb13b20673",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

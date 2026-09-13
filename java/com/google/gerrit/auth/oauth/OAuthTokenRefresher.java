@@ -28,6 +28,7 @@ import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -44,14 +45,16 @@ import org.eclipse.jgit.lib.Config;
  * swallowed. A still-valid or absent token is detected from the cleartext {@code expiresAt} without
  * decrypting.
  *
- * <p>Constructed in the core web injector, where {@link DynamicMap}{@code <OAuthServiceProvider>}
- * is reachable, so no provider registry needs to move to sys. Renewal is serialized per account
- * with a non-blocking {@link Lock#tryLock()} and backs off for {@code
- * auth.oauthTokenRefreshInterval} after a failure.
+ * <p>A sys-level singleton: {@link DynamicMap}{@code <OAuthServiceProvider>} is declared in {@code
+ * GerritGlobalModule} (sys), so the web read path ({@code GetOAuthToken}) and the ssh {@code
+ * oauth-token} commands share one refresher. Renewal is serialized per account with a non-blocking
+ * {@link Lock#tryLock()}. Transient failures use in-memory, per-account exponential backoff up to
+ * {@code auth.oauthTokenRefreshInterval}.
  */
 @Singleton
 public class OAuthTokenRefresher {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+  private static final long INITIAL_BACKOFF_MILLIS = TimeUnit.SECONDS.toMillis(1);
 
   private final OAuthTokenCache tokenCache;
   private final DynamicMap<OAuthServiceProvider> providers;
@@ -61,7 +64,8 @@ public class OAuthTokenRefresher {
   // refresh (single-flight), never block.
   private final Striped<Lock> refreshLocks = Striped.lock(16);
   private final AtomicBoolean warnedNoEncrypter = new AtomicBoolean();
-  private final Cache<Account.Id, Boolean> recentlyFailed;
+  private final long maxBackoffMillis;
+  private final Cache<Account.Id, Backoff> failedRefreshes;
 
   @Inject
   public OAuthTokenRefresher(
@@ -72,16 +76,12 @@ public class OAuthTokenRefresher {
     this.tokenCache = tokenCache;
     this.providers = providers;
     this.encrypter = encrypter;
-    long intervalMillis =
-        ConfigUtil.getTimeUnit(
-            config,
-            "auth",
-            null,
-            "oauthTokenRefreshInterval",
-            TimeUnit.MINUTES.toMillis(5),
-            TimeUnit.MILLISECONDS);
-    this.recentlyFailed =
-        CacheBuilder.newBuilder().expireAfterWrite(intervalMillis, TimeUnit.MILLISECONDS).build();
+    maxBackoffMillis = getRefreshIntervalMillis(config);
+    long failureStateTtlMillis = Math.max(maxBackoffMillis, INITIAL_BACKOFF_MILLIS);
+    this.failedRefreshes =
+        CacheBuilder.newBuilder()
+            .expireAfterWrite(failureStateTtlMillis, TimeUnit.MILLISECONDS)
+            .build();
   }
 
   /**
@@ -95,8 +95,8 @@ public class OAuthTokenRefresher {
     if (!tokenCache.hasExpiredToken(accountId)) {
       return;
     }
-    if (recentlyFailed.getIfPresent(accountId) != null) {
-      logger.atFine().log("backing off after a recent failed refresh for account %s", accountId);
+    if (isBackedOff(accountId)) {
+      logger.atFine().log("backing off after a failed refresh for account %s", accountId);
       return;
     }
     Lock lock = refreshLocks.get(accountId);
@@ -119,6 +119,7 @@ public class OAuthTokenRefresher {
       warnIfStoringRefreshTokenUnencrypted();
       long oldExpiresAt = token.getExpiresAt();
       OAuthToken refreshed = provider.refresh(token);
+      failedRefreshes.invalidate(accountId);
       tokenCache.put(accountId, refreshed);
       logger.atInfo().log(
           "Refreshed OAuth access token for account %s (provider %s): expiresAt %d -> %d",
@@ -129,16 +130,38 @@ public class OAuthTokenRefresher {
           "OAuth grant revoked for account %s (invalid_grant); dropped token", accountId);
       throw e;
     } catch (IOException e) {
-      recentlyFailed.put(accountId, Boolean.TRUE);
+      recordFailure(accountId);
       logger.atWarning().withCause(e).log(
           "OAuth access-token refresh failed for account %s", accountId);
     } catch (RuntimeException e) {
-      recentlyFailed.put(accountId, Boolean.TRUE);
+      recordFailure(accountId);
       logger.atWarning().withCause(e).log(
           "Unexpected error refreshing OAuth access token for account %s", accountId);
     } finally {
       lock.unlock();
     }
+  }
+
+  private boolean isBackedOff(Account.Id accountId) {
+    Backoff backoff = failedRefreshes.getIfPresent(accountId);
+    return backoff != null && TimeUtil.nowMs() < backoff.retryAtMillis();
+  }
+
+  private void recordFailure(Account.Id accountId) {
+    Backoff previous = failedRefreshes.getIfPresent(accountId);
+    long delayMillis =
+        previous == null
+            ? Math.min(INITIAL_BACKOFF_MILLIS, maxBackoffMillis)
+            : Math.min(previous.delayMillis() * 2, maxBackoffMillis);
+    failedRefreshes.put(accountId, new Backoff(delayMillis, TimeUtil.nowMs() + delayMillis));
+  }
+
+  static long getRefreshIntervalMillis(Config config) {
+    String value = config.getString("auth", null, "oauthTokenRefreshInterval");
+    if (value != null && value.trim().matches("[0-9]+")) {
+      value = value + " minutes";
+    }
+    return ConfigUtil.getTimeUnit(value, TimeUnit.MINUTES.toMillis(5), TimeUnit.MILLISECONDS);
   }
 
   private void warnIfStoringRefreshTokenUnencrypted() {
@@ -166,4 +189,6 @@ public class OAuthTokenRefresher {
       return null;
     }
   }
+
+  private record Backoff(long delayMillis, long retryAtMillis) {}
 }

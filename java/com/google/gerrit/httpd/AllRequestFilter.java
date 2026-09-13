@@ -26,6 +26,8 @@ import com.google.inject.internal.UniqueAnnotations;
 import com.google.inject.servlet.ServletModule;
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -57,13 +59,13 @@ public abstract class AllRequestFilter implements Filter {
   static class FilterProxy implements Filter, StopPluginListener {
     private final DynamicSet<AllRequestFilter> filters;
 
-    private DynamicSet<AllRequestFilter> initializedFilters;
+    private Set<AllRequestFilter> initializedFilters;
     private FilterConfig filterConfig;
 
     @Inject
     FilterProxy(DynamicSet<AllRequestFilter> filters) {
       this.filters = filters;
-      this.initializedFilters = new DynamicSet<>();
+      this.initializedFilters = ConcurrentHashMap.newKeySet();
       this.filterConfig = null;
     }
 
@@ -83,7 +85,7 @@ public abstract class AllRequestFilter implements Filter {
         // synchronized.
         if (!initializedFilters.contains(filter)) {
           filter.init(filterConfig);
-          initializedFilters.add("gerrit", filter);
+          initializedFilters.add(filter);
         }
       } else {
         ret = false;
@@ -154,9 +156,8 @@ public abstract class AllRequestFilter implements Filter {
 
     @Override
     public synchronized void destroy() {
-      Iterable<AllRequestFilter> filtersToDestroy = initializedFilters;
-      initializedFilters = new DynamicSet<>();
-      for (AllRequestFilter filter : filtersToDestroy) {
+      initializedFilters = ConcurrentHashMap.newKeySet();
+      for (AllRequestFilter filter : filters) {
         filter.destroy();
       }
     }

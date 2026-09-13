@@ -140,6 +140,7 @@ import com.google.gerrit.sshd.SshSessionFactoryInitializer;
 import com.google.gerrit.sshd.commands.DefaultCommandModule;
 import com.google.gerrit.sshd.commands.ExternalIdCommandsModule;
 import com.google.gerrit.sshd.commands.IndexCommandsModule;
+import com.google.gerrit.sshd.commands.OAuthTokenCommandsModule;
 import com.google.gerrit.sshd.commands.SequenceCommandsModule;
 import com.google.gerrit.sshd.plugin.LfsPluginAuthCommand.LfsPluginAuthCommandModule;
 import com.google.inject.AbstractModule;
@@ -655,6 +656,7 @@ public class Daemon extends SiteProgram {
             replica,
             sysInjector.getInstance(DownloadConfig.class),
             sysInjector.getInstance(LfsPluginAuthCommandModule.class)));
+    modules.add(new OAuthTokenCommandsModule());
 
     modules.addAll(testSshModules);
     if (!replica) {

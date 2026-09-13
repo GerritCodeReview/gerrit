@@ -16,7 +16,10 @@ package com.google.gerrit.httpd.auth.restapi;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.auth.oauth.OAuthTokenCache;
+import com.google.gerrit.auth.oauth.OAuthTokenRefresher;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.extensions.auth.oauth.OAuthRevokedException;
 import com.google.gerrit.extensions.auth.oauth.OAuthToken;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -40,15 +43,18 @@ public class GetOAuthToken implements RestReadView<AccountResource> {
 
   private final Provider<CurrentUser> self;
   private final OAuthTokenCache tokenCache;
+  private final OAuthTokenRefresher refresher;
   private final Provider<String> canonicalWebUrlProvider;
 
   @Inject
   GetOAuthToken(
       Provider<CurrentUser> self,
       OAuthTokenCache tokenCache,
+      OAuthTokenRefresher refresher,
       @CanonicalWebUrl Provider<String> urlProvider) {
     this.self = self;
     this.tokenCache = tokenCache;
+    this.refresher = refresher;
     this.canonicalWebUrlProvider = urlProvider;
   }
 
@@ -62,8 +68,18 @@ public class GetOAuthToken implements RestReadView<AccountResource> {
       throw new ResourceConflictException(
           "OAuth token cache is disabled by cache.oauth_tokens.memoryLimit = 0");
     }
-    OAuthToken accessToken = tokenCache.getOrEvictIfExpired(rsrc.getUser().getAccountId());
-    if (accessToken == null) {
+    Account.Id id = rsrc.getUser().getAccountId();
+    try {
+      // Refresh on read: renew an expired token in place (RFC 6749 section 6) before returning it.
+      refresher.refreshIfExpired(id);
+    } catch (OAuthRevokedException e) {
+      logger.atFine().withCause(e).log("OAuth grant revoked for account %s", id);
+      throw new ResourceNotFoundException();
+    }
+    // Read without evicting (getEvenIfExpired) so a token that could not be refreshed keeps its
+    // refresh_token; treat a still-expired token as absent.
+    OAuthToken accessToken = tokenCache.getEvenIfExpired(id);
+    if (accessToken == null || accessToken.isExpired()) {
       throw new ResourceNotFoundException();
     }
     OAuthTokenInfo accessTokenInfo = new OAuthTokenInfo();

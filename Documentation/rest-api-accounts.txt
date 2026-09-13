@@ -740,12 +740,19 @@ that describes the OAuth access token.
     }
 ----
 
-If there is no token available, or the token has already expired,
-"`404 Not Found`" is returned as response. Requests to obtain an access
-token of another user are rejected with "`403 Forbidden`". If the
+If there is no token available, or the token has expired and could not be
+renewed, "`404 Not Found`" is returned as response. Requests to obtain an
+access token of another user are rejected with "`403 Forbidden`". If the
 link:config-gerrit.html#cache.oauth_tokens[`oauth_tokens` cache] is disabled
 with `cache.oauth_tokens.memoryLimit = 0`, "`409 Conflict`" is returned as
 response.
+
+An expired token is renewed on read from its refresh token when the
+account's OAuth provider supports and has enabled token refresh, so the
+endpoint keeps returning a valid token (usable as a Git-over-HTTP
+password). If it cannot be renewed, the endpoint reports "`404 Not
+Found`" without evicting the cached entry (its refresh token is retained
+for a later `oauth-token evict` or `revoke`).
 
 [[get-state]]
 === Get Account State

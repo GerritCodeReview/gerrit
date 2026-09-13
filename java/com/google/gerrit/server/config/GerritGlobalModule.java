@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.api.changes.ActionVisitor;
 import com.google.gerrit.extensions.api.projects.CommentLinkInfo;
 import com.google.gerrit.extensions.auth.oauth.OAuthLoginProvider;
+import com.google.gerrit.extensions.auth.oauth.OAuthServiceProvider;
 import com.google.gerrit.extensions.auth.oauth.OAuthTokenEncrypter;
 import com.google.gerrit.extensions.common.AccountDefaultDisplayName;
 import com.google.gerrit.extensions.common.AccountVisibility;
@@ -374,6 +375,8 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicMap.mapOf(binder(), new TypeLiteral<CacheDef<?, ?>>() {});
     DynamicSet.setOf(binder(), CacheRemovalListener.class);
     DynamicMap.mapOf(binder(), CapabilityDefinition.class);
+    // In sys (not web) so GetOAuthToken and the oauth-token SSH command can refresh expired tokens.
+    DynamicMap.mapOf(binder(), OAuthServiceProvider.class);
     DynamicMap.mapOf(binder(), PluginProjectPermissionDefinition.class);
     DynamicSet.setOf(binder(), GitReferenceUpdatedListener.class);
     DynamicSet.setOf(binder(), GitBatchRefUpdateListener.class);

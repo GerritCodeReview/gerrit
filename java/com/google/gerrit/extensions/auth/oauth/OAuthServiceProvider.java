@@ -95,6 +95,30 @@ public interface OAuthServiceProvider {
   }
 
   /**
+   * Whether this provider can revoke a token at the identity provider (OAuth 2.0 token revocation,
+   * RFC 7009). Defaults to {@code false}; a provider whose IdP exposes a revocation endpoint
+   * overrides this together with {@link #revoke}.
+   *
+   * @return whether {@link #revoke} is supported for this provider
+   */
+  default boolean supportsRevoke() {
+    return false;
+  }
+
+  /**
+   * Revokes {@code token} at the identity provider so it can no longer be used there (RFC 7009):
+   * POST the token to the provider's revocation endpoint (for Google, {@code
+   * https://oauth2.googleapis.com/revoke}). An already-invalid token is a no-op. Unlike {@link
+   * #refresh}, this does not throw {@link OAuthRevokedException}.
+   *
+   * @param token the token to revoke at the IdP
+   * @throws IOException on a transient IdP/network failure
+   */
+  default void revoke(OAuthToken token) throws IOException {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
    * Returns the OAuth version of the service.
    *
    * @return oauth version as string
@@ -102,7 +126,7 @@ public interface OAuthServiceProvider {
   String getVersion();
 
   /**
-   * Returns the name of this service. This name is resented the user to choose between multiple
+   * Returns the name of this service. This name is presented to the user to choose between multiple
    * service providers
    *
    * @return name of the service

@@ -45,10 +45,11 @@ import org.eclipse.jgit.lib.Config;
  * swallowed. A still-valid or absent token is detected from the cleartext {@code expiresAt} without
  * decrypting.
  *
- * <p>Constructed in the core web injector, where {@link DynamicMap}{@code <OAuthServiceProvider>}
- * is reachable, so no provider registry needs to move to sys. Renewal is serialized per account
- * with a non-blocking {@link Lock#tryLock()}. Transient failures use in-memory, per-account
- * exponential backoff up to {@code auth.oauthTokenRefreshInterval}.
+ * <p>A sys-level singleton: {@link DynamicMap}{@code <OAuthServiceProvider>} is declared in {@code
+ * GerritGlobalModule} (sys), so the web read path ({@code GetOAuthToken}) and the ssh {@code
+ * oauth-token} commands share one refresher. Renewal is serialized per account with a non-blocking
+ * {@link Lock#tryLock()}. Transient failures use in-memory, per-account exponential backoff up to
+ * {@code auth.oauthTokenRefreshInterval}.
  */
 @Singleton
 public class OAuthTokenRefresher {

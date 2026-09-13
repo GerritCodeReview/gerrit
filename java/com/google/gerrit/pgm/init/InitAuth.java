@@ -30,6 +30,8 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.mail.SignedToken;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.security.SecureRandom;
+import java.util.Base64;
 import java.util.EnumSet;
 
 /** Initialize the {@code auth} configuration section. */
@@ -59,9 +61,12 @@ class InitAuth implements InitStep {
   public void run() {
     ui.header("User Authentication");
 
-    initAuthType();
+    AuthType authType = initAuthType();
     if (auth.getSecure("registerEmailPrivateKey") == null) {
       auth.setSecure("registerEmailPrivateKey", SignedToken.generateRandomKey());
+    }
+    if (authType == AuthType.OAUTH && auth.getSecure("tokenEncryptionKey") == null) {
+      auth.setSecure("tokenEncryptionKey", generateTokenEncryptionKey());
     }
 
     initSignedPush();
@@ -71,7 +76,7 @@ class InitAuth implements InitStep {
     }
   }
 
-  private void initAuthType() {
+  private AuthType initAuthType() {
     AuthType authType =
         auth.select(
             "Authentication method",
@@ -140,6 +145,7 @@ class InitAuth implements InitStep {
           OPENID,
           OPENID_SSO -> {}
     }
+    return authType;
   }
 
   private void initSignedPush() {
@@ -151,5 +157,11 @@ class InitAuth implements InitStep {
   private void initUserNameCaseSensitivity() {
     boolean enableCaseInsensitivity = ui.yesno(true, "Use case insensitive usernames");
     auth.set("userNameCaseInsensitive", Boolean.toString(enableCaseInsensitivity));
+  }
+
+  private static String generateTokenEncryptionKey() {
+    byte[] key = new byte[32]; // 256-bit AES key; base64-encoded, HKDF-expanded at runtime
+    new SecureRandom().nextBytes(key);
+    return Base64.getEncoder().encodeToString(key);
   }
 }

@@ -777,6 +777,32 @@ The value of this parameter must be the identifier of an OAuth 2 provider
 in the form `plugin-name:provider-name`. Consult the respective plugin
 documentation for details.
 
+[[auth.tokenEncryptionKey]]auth.tokenEncryptionKey::
++
+Base64-encoded AES key used to encrypt the sensitive fields (`token`, `secret`,
+`raw`) of stored OAuth tokens in the `oauth_tokens` cache. The key must decode
+to a 128-, 192-, or 256-bit AES key (16, 24, or 32 bytes); it is expanded with
+HKDF-SHA256 and each value is stored as AES-256-GCM with `expiresAt`/`providerId`
+authenticated as additional data.
++
+Generate a 256-bit key, for example with `openssl rand -base64 32`.
++
+Because it is a secret, store it in `'$site_path'/etc/secure.config`, not
+`gerrit.config`. For sites using `auth.type = OAUTH`, `init` (including the
+upgrade `init` run) generates this key into `secure.config` automatically when
+it is not already set, so tokens are encrypted by default.
++
+When `auth.type` is `OAUTH` and this is unset, tokens are stored in cleartext and
+Gerrit logs a warning at startup. Setting it is strongly recommended, especially
+when a provider issues refresh tokens. A value written while unset stays readable
+after the key is set (cleartext entries are returned unchanged). This cleartext
+fallback is intended only for entries written before this key was configured;
+encryption of the stored tokens protects against read exposure of the cache file, not an
+attacker with write access to `oauth_tokens`.
++
+By default, unset. For sites using `auth.type = OAUTH`, `init` generates
+a 256-bit key into `secure.config` when this value is not already set.
+
 [[auth.userNameToLowerCase]]auth.userNameToLowerCase::
 +
 If set the username that is received to authenticate a git operation

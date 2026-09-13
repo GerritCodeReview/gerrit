@@ -169,7 +169,7 @@ and provider, that is either locally against the identity provider's JWKS
 (as is done for Keycloak) or via an introspection round trip to the
 provider. An expired token is rejected, so Git-over-HTTP returns
 `401` until a fresh token is presented. (With any other `gitBasicAuthPolicy`, Git
-basic-auth expects the generated HTTP password instead.) Two client-side options
+basic-auth expects the generated HTTP password instead.) Three client-side options
 keep Git working without re-login (the server never refreshes a token presented for
 a Git request):
 
@@ -183,6 +183,11 @@ a Git request):
 * An OAuth provider plugin may also ship a provider-specific helper that refreshes
   directly against the identity provider, holding its own refresh token (for example
   a helper for a Google Desktop client). See the provider plugin's documentation.
+
+* Gerrit's core `oauth-token` SSH command prints the caller's current access token
+  (refreshing it first if expired), authenticated by the caller's SSH key rather than
+  a cookie. Use it directly as the Git password, or wrap it in a credential helper.
+  See link:cmd-oauth-token.html[oauth-token].
 
 To create changes as users of Gerrit would, run:
 

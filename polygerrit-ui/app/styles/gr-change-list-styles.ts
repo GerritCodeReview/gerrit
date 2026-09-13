@@ -158,7 +158,8 @@ export const changeListStyles = css`
     }
     gr-change-list-item {
       flex-wrap: wrap;
-      justify-content: space-between;
+      justify-content: flex-start;
+      column-gap: var(--spacing-l);
       padding: var(--spacing-xs) var(--spacing-m);
       border-top: 1px solid var(--border-color);
     }
@@ -191,7 +192,7 @@ export const changeListStyles = css`
     .updated,
     .submitted,
     .waiting,
-    .label,
+    .size,
     .groupHeader .star,
     .noChanges .star {
       display: none;
@@ -204,8 +205,7 @@ export const changeListStyles = css`
       margin-bottom: var(--spacing-xs);
       width: calc(100% - 2em);
     }
-    .owner,
-    .size {
+    .owner {
       max-width: none;
     }
     .noChanges .cell {

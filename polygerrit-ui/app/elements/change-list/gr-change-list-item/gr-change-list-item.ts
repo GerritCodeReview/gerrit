@@ -340,6 +340,15 @@ export class GrChangeListItem extends LitElement {
           .spacer {
             max-width: calc(100vw - 50px);
           }
+          /* On narrow screens the label cells replace the size cell in
+             the second row. They have no header row to line up with, so
+             drop the fixed column width and group them at the end. */
+          .cell.label {
+            width: auto;
+          }
+          .cell:not(.label) + .cell.label {
+            margin-left: auto;
+          }
         }
       `,
     ];

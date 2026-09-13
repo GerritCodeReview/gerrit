@@ -1,0 +1,100 @@
+= gerrit oauth-token
+
+== NAME
+gerrit oauth-token - Inspect and manage the caller's (or, for admins, an account's) OAuth token.
+
+== SYNOPSIS
+[verse]
+--
+_ssh_ -p <port> <host> _gerrit oauth-token_ <SUBCOMMAND> [<OPTIONS>]
+--
+
+== DESCRIPTION
+Dispatcher for the OAuth access-token subcommands. Invoked without a
+subcommand, it prints the list of available subcommands.
+
+Requires `auth.type = OAUTH`. Tokens are stored in the `oauth_tokens`
+cache when a user signs in through an OAuth provider.
+
+== SUBCOMMANDS
+`get`::
+	Print the caller's OAuth access token. If the cached token has
+	expired and its issuing provider supports refresh, it is renewed
+	from its refresh token first (RFC 6749 section 6), so the printed
+	token is valid. Fails if there is no token, or the token is expired
+	and cannot be refreshed, or the grant was revoked.
+
+`show`::
+	Print metadata for the caller's OAuth token: `provider_id`,
+	`expires_at` (epoch millis and ISO-8601), and `type`, but not the
+	token value. Refreshes on read like `get`.
+
+`evict`::
+	*(admin)* Drop cached OAuth token(s) locally, forcing
+	re-authentication. This is a *local purge only*: it does not revoke
+	the token at the identity provider. Select the target with exactly
+	one of `--account-id` or `--all`.
+
+`revoke`::
+	*(admin)* Revoke OAuth token(s) at the identity provider (OAuth 2.0
+	Token Revocation, RFC 7009) and evict them from the cache. Unlike
+	`evict`, this invalidates the token *upstream*, so use it as a
+	compromise response. Select the target with exactly one of
+	`--account-id`, `--username`, or `--all`.
++
+`revoke` does *not* terminate the account's Gerrit web sessions; a live
+`GerritAccount` cookie retains UI access until its own TTL. For a full
+compromise response also flush `web_sessions`
+(`gerrit flush-caches --cache web_sessions`) or deactivate the account.
+
+== OPTIONS
+--account-id::
+	Numeric account id whose OAuth token to evict/revoke (admin).
+
+--username::
+	Account (username, email, or id) whose OAuth token to revoke (admin;
+	`revoke` only).
+
+--all::
+	Evict/revoke every cached OAuth token, for example after a suspected
+	site compromise (admin).
+
+== ACCESS
+`get` and `show` act on the caller's own token and are available to any
+authenticated user. `evict` and `revoke` require the caller to be a
+member of the privileged 'Administrators' group (the
+`Administrate Server` global capability).
+
+== SCRIPTING
+`get` is intended for scripting, for example as a Git credential helper
+that supplies a fresh token on every fetch or push.
+
+== EXAMPLES
+Print the caller's (refreshed) access token:
+
+----
+$ ssh -p 29418 review.example.com gerrit oauth-token get
+ya29....
+----
+
+Show token metadata:
+
+----
+$ ssh -p 29418 review.example.com gerrit oauth-token show
+provider_id=oauth-plugin:google-oauth
+expires_at=1789302350686 (2026-09-13T12:25:50Z)
+type=bearer
+----
+
+Revoke a compromised account's token at the IdP and evict it:
+
+----
+$ ssh -p 29418 review.example.com gerrit oauth-token revoke --username jdoe
+----
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

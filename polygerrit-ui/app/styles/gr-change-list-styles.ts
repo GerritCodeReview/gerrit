@@ -159,7 +159,6 @@ export const changeListStyles = css`
     gr-change-list-item {
       flex-wrap: wrap;
       justify-content: flex-start;
-      column-gap: var(--spacing-l);
       padding: var(--spacing-xs) var(--spacing-m);
       border-top: 1px solid var(--border-color);
     }
@@ -185,14 +184,6 @@ export const changeListStyles = css`
     .groupTitle,
     .leftPadding,
     .selection,
-    .status,
-    .repo,
-    .branch,
-    .hashtags,
-    .updated,
-    .submitted,
-    .waiting,
-    .size,
     .groupHeader .star,
     .noChanges .star {
       display: none;

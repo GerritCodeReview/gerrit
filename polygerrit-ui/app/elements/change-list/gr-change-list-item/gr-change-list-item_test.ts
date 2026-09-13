@@ -23,6 +23,7 @@ import {
 } from '../../../test/test-data-generators';
 import {
   query,
+  queryAll,
   queryAndAssert,
   waitUntilObserved,
 } from '../../../test/test-utils';
@@ -48,7 +49,11 @@ import {
 } from '../../../models/bulk-actions/bulk-actions-model';
 import {UserModel, userModelToken} from '../../../models/user/user-model';
 import {createTestAppContext} from '../../../test/test-app-context-init';
-import {ColumnNames} from '../../../constants/constants';
+import {
+  ColumnNames,
+  DEFAULT_VISIBLE_COLUMNS,
+  VOTES_COLUMN,
+} from '../../../constants/constants';
 import {testResolver} from '../../../test/common-test-setup';
 
 suite('gr-change-list-item tests', () => {
@@ -234,6 +239,73 @@ suite('gr-change-list-item tests', () => {
         assert.isOk(query(element, elementClass));
       }
     }
+  });
+
+  suite('narrow columns', () => {
+    setup(async () => {
+      element.visibleChangeTableColumns = [...DEFAULT_VISIBLE_COLUMNS];
+      element.labelNames = ['Code-Review', 'Verified'];
+      element.change = createChange();
+      await element.updateComplete;
+    });
+
+    test('defaults mark owner, reviewers and label cells', async () => {
+      assert.isTrue(queryAndAssert(element, '.cell.owner').matches('.narrow'));
+      assert.isTrue(
+        queryAndAssert(element, '.cell.reviewers').matches('.narrow')
+      );
+      const labelCells = queryAll(element, '.cell.label');
+      assert.equal(labelCells.length, 2);
+      for (const cell of labelCells) {
+        assert.isTrue(cell.matches('.narrow'));
+      }
+      assert.isFalse(queryAndAssert(element, '.cell.size').matches('.narrow'));
+      assert.isFalse(
+        queryAndAssert(element, '.cell.status').matches('.narrow')
+      );
+      assert.isFalse(queryAndAssert(element, '.cell.repo').matches('.narrow'));
+    });
+
+    test('preference picks the marked cells', async () => {
+      element.visibleChangeTableColumnsNarrow = [
+        ColumnNames.REPO,
+        ColumnNames.SIZE,
+      ];
+      await element.updateComplete;
+
+      assert.isTrue(queryAndAssert(element, '.cell.repo').matches('.narrow'));
+      assert.isTrue(queryAndAssert(element, '.cell.size').matches('.narrow'));
+      assert.isFalse(queryAndAssert(element, '.cell.owner').matches('.narrow'));
+      assert.isFalse(
+        queryAndAssert(element, '.cell.reviewers').matches('.narrow')
+      );
+      for (const cell of queryAll(element, '.cell.label')) {
+        assert.isFalse(cell.matches('.narrow'));
+      }
+    });
+
+    test('Votes switches all label cells together', async () => {
+      element.visibleChangeTableColumnsNarrow = [VOTES_COLUMN];
+      await element.updateComplete;
+
+      const labelCells = queryAll(element, '.cell.label');
+      assert.equal(labelCells.length, 2);
+      for (const cell of labelCells) {
+        assert.isTrue(cell.matches('.narrow'));
+      }
+      assert.isFalse(queryAndAssert(element, '.cell.owner').matches('.narrow'));
+    });
+
+    test('subject is always shown and never needs the class', async () => {
+      element.visibleChangeTableColumnsNarrow = [];
+      await element.updateComplete;
+
+      assert.isOk(query(element, '.cell.subject'));
+      assert.isFalse(
+        queryAndAssert(element, '.cell.subject').matches('.narrow')
+      );
+      assert.equal(queryAll(element, '.cell.narrow').length, 0);
+    });
   });
 
   test('hashtags cell not rendered when column is not visible', async () => {
@@ -451,45 +523,50 @@ suite('gr-change-list-item tests', () => {
         <label class="selectionLabel">
           <md-checkbox checked=""> </md-checkbox>
         </label>
-        <gr-change-star></gr-change-star>
-        <a href="/c/test-project/+/42">42</a>
-        <a href="/c/test-project/+/42" title="Test subject">
-          <div class="container">
-            <div class="content">Test subject</div>
-            <div class="spacer">Test subject</div>
-            <span></span>
-          </div>
-        </a>
-        <gr-account-label
-          deselected=""
-          clickable=""
-          highlightattention=""
-        ></gr-account-label>
-        <div></div>
-        <a class="fullRepo" href="/q/project:test-project+status:open">
-          test-project
-        </a>
-        <a
-          class="truncatedRepo"
-          href="/q/project:test-project+status:open"
-          title="test-project"
-        >
-          test-project
-        </a>
-        <a href="/q/project:test-project+branch:test-branch"> test-branch </a>
-        <gr-date-formatter withtooltip=""></gr-date-formatter>
-        <gr-date-formatter withtooltip=""></gr-date-formatter>
-        <gr-date-formatter
-          forcerelative=""
-          relativeoptionnoago=""
-          withtooltip=""
-        >
-        </gr-date-formatter>
-        <gr-tooltip-content has-tooltip="" title="Size unknown">
-          <span class="placeholder"> -- </span>
-        </gr-tooltip-content>
-        <gr-change-list-column-requirements-summary>
-        </gr-change-list-column-requirements-summary>
+        <div class="change-header">
+          <gr-change-star></gr-change-star>
+          <a href="/c/test-project/+/42">42</a>
+          <a href="/c/test-project/+/42" title="Test subject">
+            <div class="container">
+              <div class="content">Test subject</div>
+              <div class="spacer">Test subject</div>
+              <span></span>
+            </div>
+          </a>
+        </div>
+        <div class="change-metadata">
+          <gr-account-label
+            deselected=""
+            clickable=""
+            highlightattention=""
+          ></gr-account-label>
+          <div></div>
+          <a class="fullRepo" href="/q/project:test-project+status:open">
+            test-project
+          </a>
+          <a
+            class="truncatedRepo"
+            href="/q/project:test-project+status:open"
+            title="test-project"
+          >
+            test-project
+          </a>
+          <a href="/q/project:test-project+branch:test-branch"> test-branch </a>
+          <gr-date-formatter withtooltip=""></gr-date-formatter>
+          <gr-date-formatter withtooltip=""></gr-date-formatter>
+          <gr-date-formatter
+            forcerelative=""
+            relativeoptionnoago=""
+            withtooltip=""
+          >
+          </gr-date-formatter>
+          <gr-tooltip-content has-tooltip="" title="Size unknown">
+            <span class="placeholder"> -- </span>
+          </gr-tooltip-content>
+          <gr-change-list-column-requirements-summary>
+          </gr-change-list-column-requirements-summary>
+          <div class="cell votes narrow"></div>
+        </div>
       `
     );
   });

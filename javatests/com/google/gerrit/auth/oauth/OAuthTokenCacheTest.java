@@ -44,7 +44,7 @@ public final class OAuthTokenCacheTest {
     cache.put(Account.id(1001), token);
 
     assertThat(cache.isDisabled()).isFalse();
-    assertThat(cache.getOrEvictIfExpired(Account.id(1001))).isEqualTo(token);
+    assertThat(cache.getEvenIfExpired(Account.id(1001))).isEqualTo(token);
   }
 
   @Test
@@ -58,7 +58,7 @@ public final class OAuthTokenCacheTest {
         Account.id(1001), new OAuthToken("token", "secret", "raw", 4102444800000L, "provider"));
 
     assertThat(cache.isDisabled()).isTrue();
-    assertThat(cache.getOrEvictIfExpired(Account.id(1001))).isNull();
+    assertThat(cache.getEvenIfExpired(Account.id(1001))).isNull();
     assertThat(backingCache.getIfPresent(Account.id(1001))).isNull();
   }
 
@@ -130,28 +130,6 @@ public final class OAuthTokenCacheTest {
     // Returns the expired token, and a second call still returns it: no eviction.
     assertThat(cache.getEvenIfExpired(id)).isEqualTo(expired);
     assertThat(cache.getEvenIfExpired(id)).isEqualTo(expired);
-  }
-
-  @Test
-  public void getOrEvictIfExpired_evictsExpiredEntry_andReturnsNull() {
-    OAuthTokenCache cache = newCache();
-    Account.Id id = Account.id(1);
-    cache.put(id, tokenExpiringAt(System.currentTimeMillis() - 1000));
-
-    assertThat(cache.getOrEvictIfExpired(id)).isNull();
-    // get() evicted it, so even getEvenIfExpired now misses.
-    assertThat(cache.getEvenIfExpired(id)).isNull();
-  }
-
-  @Test
-  public void getOrEvictIfExpired_returnsUnexpiredEntry() {
-    OAuthTokenCache cache = newCache();
-    Account.Id id = Account.id(1);
-    OAuthToken valid = tokenExpiringAt(Long.MAX_VALUE);
-    cache.put(id, valid);
-
-    assertThat(cache.getOrEvictIfExpired(id)).isEqualTo(valid);
-    assertThat(cache.getEvenIfExpired(id)).isEqualTo(valid);
   }
 
   @Test

@@ -117,10 +117,8 @@ public class OAuthTokenCache {
   }
 
   /**
-   * Returns the decrypted token even if it has expired, without evicting it. Refresh-aware callers
-   * use this so an expired token's {@code raw} (which may carry a refresh token) stays reachable;
-   * ordinary callers should use {@link #getOrEvictIfExpired(Account.Id)}, which evicts expired
-   * tokens.
+   * Returns the decrypted token even if it has expired, without evicting it, so an expired token's
+   * {@code raw} (which may carry a refresh token) stays reachable for the refresh-on-read path.
    */
   @Nullable
   public OAuthToken getEvenIfExpired(Account.Id id) {
@@ -132,19 +130,6 @@ public class OAuthTokenCache {
       return null;
     }
     return decrypt(accessToken);
-  }
-
-  @Nullable
-  public OAuthToken getOrEvictIfExpired(Account.Id id) {
-    OAuthToken accessToken = getEvenIfExpired(id);
-    if (accessToken == null) {
-      return null;
-    }
-    if (accessToken.isExpired()) {
-      cache.invalidate(id);
-      return null;
-    }
-    return accessToken;
   }
 
   /**

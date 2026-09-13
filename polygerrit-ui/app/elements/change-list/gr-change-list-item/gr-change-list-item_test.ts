@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import * as sinon from 'sinon';
+import {setViewport} from '@web/test-runner-commands';
 import {assert, fixture} from '@open-wc/testing';
 import {html} from 'lit';
 import {
@@ -24,6 +25,7 @@ import {
 import {
   query,
   queryAndAssert,
+  waitUntil,
   waitUntilObserved,
 } from '../../../test/test-utils';
 import {
@@ -428,6 +430,8 @@ suite('gr-change-list-item tests', () => {
   });
 
   test('renders', async () => {
+    await setViewport({width: 1000, height: 900});
+    await waitUntil(() => !element.shadowRoot!.querySelector('.change-header'));
     const change = createChange();
     bulkActionsModel.sync([change]);
     bulkActionsModel.addSelectedChangeNum(change._number);
@@ -451,6 +455,7 @@ suite('gr-change-list-item tests', () => {
         <label class="selectionLabel">
           <md-checkbox checked=""> </md-checkbox>
         </label>
+
         <gr-change-star></gr-change-star>
         <a href="/c/test-project/+/42">42</a>
         <a href="/c/test-project/+/42" title="Test subject">

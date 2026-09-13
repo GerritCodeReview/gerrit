@@ -19,6 +19,7 @@ import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USE
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_UUID;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.extensions.client.GitBasicAuthPolicy;
 import com.google.gerrit.server.account.externalids.ExternalId;
@@ -76,6 +77,7 @@ public class AuthConfig {
   private final Duration maxAuthTokenLifetime;
   private final int maxAuthTokensPerAccount;
   private final boolean httpPasswordFallbackEnabled;
+  @Nullable private final String oauthTokenEncryptionKey;
 
   @Inject
   AuthConfig(@GerritServerConfig Config cfg) throws XsrfException {
@@ -115,6 +117,7 @@ public class AuthConfig {
         (int)
             ConfigUtil.getTimeUnit(cfg, "auth", null, "externalIdsRefExpiry", 0, TimeUnit.SECONDS);
     httpPasswordFallbackEnabled = cfg.getBoolean("auth", "httpPasswordFallbackEnabled", true);
+    oauthTokenEncryptionKey = cfg.getString("auth", null, "tokenEncryptionKey");
 
     if (gitBasicAuthPolicy == GitBasicAuthPolicy.HTTP_LDAP
         && authType != AuthType.LDAP
@@ -369,6 +372,16 @@ public class AuthConfig {
 
   public boolean isOAuthType() {
     return authType == AuthType.OAUTH;
+  }
+
+  /**
+   * Base64-encoded AES key ({@code auth.tokenEncryptionKey}) used to encrypt stored OAuth tokens
+   * in the {@code oauth_tokens} cache, or {@code null} when unset (tokens are then stored in
+   * cleartext).
+   */
+  @Nullable
+  public String getOAuthTokenEncryptionKey() {
+    return oauthTokenEncryptionKey;
   }
 
   public boolean isAllowRegisterNewEmail() {

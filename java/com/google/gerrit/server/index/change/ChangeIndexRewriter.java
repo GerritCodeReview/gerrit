@@ -192,8 +192,9 @@ public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
    * @param leafTerms number of leaf index query terms encountered so far.
    * @return {@code null} if no part of this subtree can be queried in the index directly. {@code
    *     in} if this subtree and all its children can be queried directly in the index. Otherwise, a
-   *     predicate that is semantically equivalent, with some of its subtrees wrapped to query the
-   *     index directly.
+   *     semantically equivalent predicate with indexed subtrees wrapped to query the index
+   *     directly, or with existing {@link ChangeDataSource} children preserved intact when no
+   *     children are directly indexed (e.g. a subtree of plugin datasources).
    * @throws QueryParseException if the underlying index implementation does not support this
    *     predicate.
    */
@@ -292,6 +293,13 @@ public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
       ChangeIndex index,
       QueryOptions opts)
       throws QueryParseException {
+    if (isIndexed.isEmpty()) {
+      // A rewritten child may itself be a ChangeDataSource (for example, an OR of plugin
+      // datasources), while its sibling is a non-indexed ChangeDataSource. Keep that tree intact
+      // rather than adding a match-all index query, which could be selected ahead of the more
+      // selective datasource.
+      return copy(in, newChildren);
+    }
     if (isIndexed.cardinality() == 1) {
       int i = isIndexed.nextSetBit(0);
       Predicate<ChangeData> indexed = newChildren.remove(i);

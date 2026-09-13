@@ -162,6 +162,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "10f26edf_de11e2a7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-13T21:03:44Z",
+      "side": 1,
+      "message": "\u003e Because admins might want to allow legitimate users without voting permission to comment on changes. Without a distinct perm, we can\u0027t enable that.\n\nWell, it\u0027s the other way around: at the moment, even if you don\u0027t have any permission to vote, you can still comment on a change as long as the project is visible. That also makes the read-only status of a project pretty useless, as people can still comment on changes.\n\nThe new permission should allow to explicitly block that permission, so that you can enforce the non-commenting policy and block spammers.",
+      "parentUuid": "1d480ed1_ecad061a",
+      "revId": "8426105fb380e5226a418a1ce98d62b53f80a92a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1d0542bd_b2a79100",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 17

@@ -321,6 +321,7 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
     modules.add(cfgInjector.getInstance(AccountCacheImpl.AccountCacheBindingModule.class));
 
     modules.add(cfgInjector.getInstance(GerritGlobalModule.class));
+    modules.add(new AuthModule(authConfig));
     modules.add(new GerritApiModule());
     modules.add(new ProjectQueryBuilderModule());
     modules.add(new DefaultRefLogIdentityProvider.Module());
@@ -460,7 +461,6 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
     } else if (authConfig.getAuthType() == AuthType.OAUTH) {
       modules.add(new OAuthModule());
     }
-    modules.add(new AuthModule(authConfig));
 
     modules.add(sysInjector.getInstance(GetUserFilter.GetUserFilterModule.class));
 

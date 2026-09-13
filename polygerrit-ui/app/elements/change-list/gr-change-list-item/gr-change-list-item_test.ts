@@ -451,45 +451,50 @@ suite('gr-change-list-item tests', () => {
         <label class="selectionLabel">
           <md-checkbox checked=""> </md-checkbox>
         </label>
-        <gr-change-star></gr-change-star>
-        <a href="/c/test-project/+/42">42</a>
-        <a href="/c/test-project/+/42" title="Test subject">
-          <div class="container">
-            <div class="content">Test subject</div>
-            <div class="spacer">Test subject</div>
-            <span></span>
-          </div>
-        </a>
-        <gr-account-label
-          deselected=""
-          clickable=""
-          highlightattention=""
-        ></gr-account-label>
-        <div></div>
-        <a class="fullRepo" href="/q/project:test-project+status:open">
-          test-project
-        </a>
-        <a
-          class="truncatedRepo"
-          href="/q/project:test-project+status:open"
-          title="test-project"
-        >
-          test-project
-        </a>
-        <a href="/q/project:test-project+branch:test-branch"> test-branch </a>
-        <gr-date-formatter withtooltip=""></gr-date-formatter>
-        <gr-date-formatter withtooltip=""></gr-date-formatter>
-        <gr-date-formatter
-          forcerelative=""
-          relativeoptionnoago=""
-          withtooltip=""
-        >
-        </gr-date-formatter>
-        <gr-tooltip-content has-tooltip="" title="Size unknown">
-          <span class="placeholder"> -- </span>
-        </gr-tooltip-content>
-        <gr-change-list-column-requirements-summary>
-        </gr-change-list-column-requirements-summary>
+        <div class="change-header">
+          <gr-change-star></gr-change-star>
+          <a href="/c/test-project/+/42">42</a>
+          <a href="/c/test-project/+/42" title="Test subject">
+            <div class="container">
+              <div class="content">Test subject</div>
+              <div class="spacer">Test subject</div>
+              <span></span>
+            </div>
+          </a>
+        </div>
+        <div class="change-metadata">
+          <gr-account-label
+            deselected=""
+            clickable=""
+            highlightattention=""
+          ></gr-account-label>
+          <div></div>
+          <a class="fullRepo" href="/q/project:test-project+status:open">
+            test-project
+          </a>
+          <a
+            class="truncatedRepo"
+            href="/q/project:test-project+status:open"
+            title="test-project"
+          >
+            test-project
+          </a>
+          <a href="/q/project:test-project+branch:test-branch"> test-branch </a>
+          <gr-date-formatter withtooltip=""></gr-date-formatter>
+          <gr-date-formatter withtooltip=""></gr-date-formatter>
+          <gr-date-formatter
+            forcerelative=""
+            relativeoptionnoago=""
+            withtooltip=""
+          >
+          </gr-date-formatter>
+          <gr-tooltip-content has-tooltip="" title="Size unknown">
+            <span class="placeholder"> -- </span>
+          </gr-tooltip-content>
+          <gr-change-list-column-requirements-summary>
+          </gr-change-list-column-requirements-summary>
+          <div class="cell votes"></div>
+        </div>
       `
     );
   });

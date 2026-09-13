@@ -225,6 +225,7 @@ export class GrChangeList extends LitElement {
           display: block;
           padding: 0 8px;
           box-sizing: border-box;
+          overflow-x: auto;
         }
         #changeList {
           border-collapse: separate;

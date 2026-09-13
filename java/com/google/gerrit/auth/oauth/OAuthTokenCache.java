@@ -20,6 +20,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Converter;
 import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.auth.oauth.OAuthToken;
@@ -34,6 +35,7 @@ import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
+import java.util.Set;
 
 @Singleton
 public class OAuthTokenCache {
@@ -139,9 +141,8 @@ public class OAuthTokenCache {
   }
 
   /**
-   * True if a token is cached for the account and has expired, decided from the cleartext {@code
-   * expiresAt} without decrypting (encrypters must keep it cleartext; see {@link
-   * OAuthTokenEncrypter}), so the refresh-on-read path skips crypto when nothing needs refreshing.
+   * True if a token is cached for the account and expired (checks cleartext {@code expiresAt}, no
+   * decrypt).
    */
   public boolean hasExpiredToken(Account.Id id) {
     OAuthToken accessToken = cache.getIfPresent(id);
@@ -154,6 +155,20 @@ public class OAuthTokenCache {
 
   public void remove(Account.Id id) {
     cache.invalidate(id);
+  }
+
+  /** Purges every cached OAuth token (e.g. after a suspected site compromise or key theft). */
+  public void removeAll() {
+    cache.invalidateAll();
+  }
+
+  /**
+   * Account ids with a token in the in-memory cache; used by bulk revoke. Disk-only entries are not
+   * listed. {@link #removeAll()} still purges them, but they cannot be individually revoked
+   * upstream (their token is not loaded).
+   */
+  public Set<Account.Id> accountsWithCachedToken() {
+    return ImmutableSet.copyOf(cache.asMap().keySet());
   }
 
   private OAuthToken encrypt(OAuthToken token) {

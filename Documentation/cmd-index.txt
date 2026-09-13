@@ -73,6 +73,9 @@ link:cmd-ls-members.html[gerrit ls-members]::
 link:cmd-ls-projects.html[gerrit ls-projects]::
 	List projects visible to the caller.
 
+link:cmd-oauth-token.html[gerrit oauth-token]::
+	Inspect and manage OAuth access tokens (get, show, evict, revoke).
+
 link:cmd-query.html[gerrit query]::
 	Query the change search index.
 

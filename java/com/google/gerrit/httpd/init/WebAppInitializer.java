@@ -321,6 +321,11 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
     modules.add(cfgInjector.getInstance(AccountCacheImpl.AccountCacheBindingModule.class));
 
     modules.add(cfgInjector.getInstance(GerritGlobalModule.class));
+    // In sys (not web), matching Daemon: OAuthTokenCache and the OAuthTokenEncrypter DynamicItem
+    // must share the sys injector with GerritGlobalModule's itemOf and be visible to the ssh
+    // injector (which hosts the oauth-token commands). In the web injector they would be invisible
+    // to both, silently disabling stored-token encryption and breaking the SSH commands under a WAR.
+    modules.add(new AuthModule(authConfig));
     modules.add(new GerritApiModule());
     modules.add(new ProjectQueryBuilderModule());
     modules.add(new DefaultRefLogIdentityProvider.Module());
@@ -460,7 +465,6 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
     } else if (authConfig.getAuthType() == AuthType.OAUTH) {
       modules.add(new OAuthModule());
     }
-    modules.add(new AuthModule(authConfig));
 
     modules.add(sysInjector.getInstance(GetUserFilter.GetUserFilterModule.class));
 

@@ -156,6 +156,23 @@
       "message": "git fetch https://gerrit.googlesource.com/gerrit refs/changes/21/589121/1 \u0026\u0026 git checkout -b change-589121 FETCH_HEAD",
       "revId": "9332e7650a1368f4e0207587010c64e34b1d3832",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec2175e7_eb09a66d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5161135
+      },
+      "writtenOn": "2026-09-13T22:03:48Z",
+      "side": 1,
+      "message": "git fetch https://gerrit.googlesource.com/gerrit refs/changes/21/589121/1 \u0026\u0026 git checkout -b change-589121 FETCH_HEAD",
+      "revId": "9332e7650a1368f4e0207587010c64e34b1d3832",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

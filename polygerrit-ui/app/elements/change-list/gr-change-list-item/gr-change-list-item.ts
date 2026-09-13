@@ -167,6 +167,8 @@ export class GrChangeListItem extends LitElement {
 
   override connectedCallback() {
     super.connectedCallback();
+    this.updateNarrowScreen();
+    this.narrowMediaQuery.addEventListener('change', this.updateNarrowScreen);
     this.getPluginLoader()
       .awaitPluginsLoaded()
       .then(() => {
@@ -180,6 +182,11 @@ export class GrChangeListItem extends LitElement {
 
   override disconnectedCallback() {
     this.removeEventListener('click', this.onItemClick);
+    this.narrowMediaQuery.removeEventListener(
+      'change',
+      this.updateNarrowScreen
+    );
+    super.disconnectedCallback();
   }
 
   override willUpdate(changedProperties: PropertyValues<this>) {
@@ -204,6 +211,14 @@ export class GrChangeListItem extends LitElement {
     this.checked = selectedChangeNums.includes(this.change._number);
   }
 
+  private readonly narrowMediaQuery = window.matchMedia('(max-width: 50em)');
+
+  @state() private narrowScreen = this.narrowMediaQuery.matches;
+
+  private readonly updateNarrowScreen = () => {
+    this.narrowScreen = this.narrowMediaQuery.matches;
+  };
+
   static override get styles() {
     return [
       formStyles,
@@ -222,6 +237,11 @@ export class GrChangeListItem extends LitElement {
         :host([checked]),
         :host(:hover) {
           background-color: var(--hover-background-color);
+        }
+        .change-header,
+        .change-metadata,
+        .votes {
+          display: contents;
         }
         .container {
           position: relative;
@@ -336,9 +356,66 @@ export class GrChangeListItem extends LitElement {
           :host {
             display: flex;
           }
-          .content,
-          .spacer {
-            max-width: calc(100vw - 50px);
+          .change-header,
+          .change-metadata {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            min-width: 0;
+            gap: var(--spacing-m);
+          }
+          .change-header {
+            align-items: baseline;
+          }
+          .change-metadata {
+            flex-wrap: wrap;
+          }
+          .cell.star,
+          .cell.number {
+            flex: none;
+          }
+          .cell.number {
+            order: 1;
+          }
+          .cell.subject {
+            flex: 1;
+            min-width: 0;
+            width: auto;
+            margin-bottom: 0;
+          }
+          .subject > a {
+            width: 100%;
+          }
+          .container {
+            min-width: 0;
+          }
+          .content {
+            position: static;
+            white-space: normal;
+            overflow-wrap: anywhere;
+          }
+          .spacer,
+          .container > span {
+            display: none;
+          }
+          .owner {
+            --account-max-length: calc(100vw - 4rem);
+            min-width: 0;
+            max-width: 100%;
+          }
+          .cell.votes {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            margin-left: auto;
+            max-width: 100%;
+            gap: var(--spacing-s);
+          }
+          /* Keep absent labels in their slots, so columns stay aligned. */
+          .cell.label {
+            flex: 0 0 24px;
+            width: 24px;
+            min-height: 24px;
           }
         }
       `,
@@ -347,19 +424,47 @@ export class GrChangeListItem extends LitElement {
 
   override render() {
     const changeUrl = this.computeChangeURL();
+    // Keep the desktop table cells as direct children, as before.
+    if (!this.narrowScreen) {
+      return html`
+        <td aria-hidden="true" class="cell leftPadding"></td>
+        ${this.renderCellSelectionBox()} ${this.renderCellStar()}
+        ${this.renderCellNumber(changeUrl)} ${this.renderCellSubject(changeUrl)}
+        ${this.renderCellOwner()} ${this.renderCellReviewers()}
+        ${this.renderCellRepo()} ${this.renderCellBranch()}
+        ${this.renderCellHashtags()} ${this.renderCellUpdated()}
+        ${this.renderCellSubmitted()} ${this.renderCellWaiting()}
+        ${this.renderCellSize()} ${this.renderCellRequirements()}
+        ${this.labelNames?.map(labelNames =>
+          this.renderChangeLabels(labelNames)
+        )}
+        ${this.dynamicCellEndpoints?.map(pluginEndpointName =>
+          this.renderChangePluginEndpoint(pluginEndpointName)
+        )}
+      `;
+    }
     return html`
       <td aria-hidden="true" class="cell leftPadding"></td>
-      ${this.renderCellSelectionBox()} ${this.renderCellStar()}
-      ${this.renderCellNumber(changeUrl)} ${this.renderCellSubject(changeUrl)}
-      ${this.renderCellOwner()} ${this.renderCellReviewers()}
-      ${this.renderCellRepo()} ${this.renderCellBranch()}
-      ${this.renderCellHashtags()} ${this.renderCellUpdated()}
-      ${this.renderCellSubmitted()} ${this.renderCellWaiting()}
-      ${this.renderCellSize()} ${this.renderCellRequirements()}
-      ${this.labelNames?.map(labelNames => this.renderChangeLabels(labelNames))}
-      ${this.dynamicCellEndpoints?.map(pluginEndpointName =>
-        this.renderChangePluginEndpoint(pluginEndpointName)
-      )}
+      ${this.renderCellSelectionBox()}
+      <div class="change-header">
+        ${this.renderCellStar()} ${this.renderCellNumber(changeUrl)}
+        ${this.renderCellSubject(changeUrl)}
+      </div>
+      <div class="change-metadata">
+        ${this.renderCellOwner()} ${this.renderCellReviewers()}
+        ${this.renderCellRepo()} ${this.renderCellBranch()}
+        ${this.renderCellHashtags()} ${this.renderCellUpdated()}
+        ${this.renderCellSubmitted()} ${this.renderCellWaiting()}
+        ${this.renderCellSize()} ${this.renderCellRequirements()}
+        <div class="cell votes">
+          ${this.labelNames?.map(labelName =>
+            this.renderChangeLabels(labelName)
+          )}
+        </div>
+        ${this.dynamicCellEndpoints?.map(pluginEndpointName =>
+          this.renderChangePluginEndpoint(pluginEndpointName)
+        )}
+      </div>
     `;
   }
 

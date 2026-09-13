@@ -163,6 +163,33 @@ To create changes as users of Gerrit would, run:
 git push origin HEAD:refs/for/master
 ----
 
+[[git_over_http_oauth]]
+==== Git over HTTP with OAuth
+
+When the instance is configured with
+link:config-gerrit.html#auth.type[`auth.type = OAUTH`] *and*
+link:config-gerrit.html#auth.gitBasicAuthPolicy[`auth.gitBasicAuthPolicy = OAUTH`],
+the HTTP password for Git is the OAuth *access token*, not a generated token. The
+token is verified by the OAuth provider plugin. Depending on the plugin
+and provider, that is either locally against the identity provider's JWKS
+(as is done for Keycloak) or via an introspection round trip to the
+provider. An expired token is rejected, so Git-over-HTTP returns
+`401` until a fresh token is presented. (With any other `gitBasicAuthPolicy`, Git
+basic-auth expects the generated HTTP password instead.) Two client-side options
+keep Git working without re-login (the server never refreshes a token presented for
+a Git request):
+
+* A provider-agnostic reference helper is provided in
+  `contrib/get_account_oauth_token.py`. It authenticates with the browser session
+  cookie (`GerritAccount`) and fetches `GET /accounts/self/oauthtoken`; the server
+  renews an expired token on read (from its refresh token, when the provider
+  supports refresh), so the helper always hands Git a valid one. See the file's
+  header comment for one-time setup.
+
+* An OAuth provider plugin may also ship a provider-specific helper that refreshes
+  directly against the identity provider, holding its own refresh token (for example
+  a helper for a Google Desktop client). See the provider plugin's documentation.
+
 [[run_daemon]]
 === Running the Daemon
 

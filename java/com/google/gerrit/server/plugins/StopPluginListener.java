@@ -28,7 +28,9 @@ public interface StopPluginListener {
    * Called when the plugin has been stopped, including its GuiceEnvironment.
    *
    * @param plugin {@link Plugin} been stopped
+   * @deprecated use {@link StopPluginListener#beforeStopPlugin(Plugin)} instead
    */
+  @Deprecated(forRemoval = true)
   default void onStopPlugin(Plugin plugin) {}
   ;
 }

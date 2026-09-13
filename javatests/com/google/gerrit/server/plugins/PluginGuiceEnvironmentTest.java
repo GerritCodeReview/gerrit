@@ -131,8 +131,8 @@ public class PluginGuiceEnvironmentTest {
     verify(reloadPluginListenerReloadedMock).onReloadPlugin(pluginMock, reloadedPluginMock);
 
     stopPlugin(env, pluginMock);
-    verify(stopPluginListenerMock, never()).onStopPlugin(pluginMock);
-    verify(stopPluginListenerReloadedMock).onStopPlugin(pluginMock);
+    verify(stopPluginListenerMock, never()).beforeStopPlugin(pluginMock);
+    verify(stopPluginListenerReloadedMock).beforeStopPlugin(pluginMock);
   }
 
   private void startPlugin(PluginGuiceEnvironment env, Plugin plugin) {
@@ -161,7 +161,7 @@ public class PluginGuiceEnvironmentTest {
     verify(reloadPluginListenerMock, verificationMode)
         .onReloadPlugin(pluginMock, reloadedPluginMock);
     stopPlugin(env, pluginMock);
-    verify(stopPluginListenerMock, verificationMode).onStopPlugin(pluginMock);
+    verify(stopPluginListenerMock, verificationMode).beforeStopPlugin(pluginMock);
   }
 
   private void mockPlugin(Plugin pluginMock, String pluginName, Injector sysInjector) {

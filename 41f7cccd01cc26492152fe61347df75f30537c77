@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b3739609_58f4e25e",
+        "filename": "java/com/google/gerrit/httpd/AllRequestFilter.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-14T16:29:11Z",
+      "side": 0,
+      "message": "This reinitialisation has been lost in this modification: the plugins destroyed need to be removed from the `initializedFilters`",
+      "range": {
+        "startLine": 95,
+        "startChar": 6,
+        "endLine": 95,
+        "endChar": 46
+      },
+      "revId": "41f7cccd01cc26492152fe61347df75f30537c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

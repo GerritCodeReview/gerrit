@@ -189,6 +189,30 @@
       },
       "revId": "43668779bc744ed4a0bf16d95998c6e186fb4bf4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1bf9dac5_c22be1c7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-14T12:03:13Z",
+      "side": 1,
+      "message": "\u003e The option name gerrit.allowCommentsWithoutPermissions is self-contradicting, if you have this permission, \"withoutPermissions\" can\u0027t be true since you have this permission.\n\nGood point: if the option is named permitCommentsWithoutPermissions then the problem is obvious :-)",
+      "parentUuid": "6346b8e9_377b95ed",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 56
+      },
+      "revId": "43668779bc744ed4a0bf16d95998c6e186fb4bf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

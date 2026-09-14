@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "62483ecc_5042fc34",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-14T12:00:17Z",
+      "side": 1,
+      "message": "`beforeStopPlugin` isn\u0027t an event, so it can\u0027t be emitted.",
+      "parentUuid": "9af53040_7aab2d2d",
+      "range": {
+        "startLine": 7,
+        "startChar": 26,
+        "endLine": 7,
+        "endChar": 30
+      },
+      "revId": "cabe64b614a2a676314dd08efd302ef10e2ebf4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "abaf630a_7ba57703",

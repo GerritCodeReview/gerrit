@@ -15,9 +15,9 @@
 package com.google.gerrit.server.index;
 
 import com.google.common.primitives.Ints;
-import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
 import java.io.IOException;
+import java.nio.file.Path;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
@@ -32,10 +32,8 @@ public class GerritIndexStatus {
 
   private final FileBasedConfig cfg;
 
-  public GerritIndexStatus(SitePaths sitePaths) throws ConfigInvalidException, IOException {
-    cfg =
-        new FileBasedConfig(
-            sitePaths.index_dir.resolve("gerrit_index.config").toFile(), FS.detect());
+  public GerritIndexStatus(Path indexDir) throws ConfigInvalidException, IOException {
+    cfg = new FileBasedConfig(indexDir.resolve("gerrit_index.config").toFile(), FS.detect());
     cfg.load();
     convertLegacyConfig();
   }

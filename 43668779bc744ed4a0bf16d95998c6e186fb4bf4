@@ -117,6 +117,30 @@
       },
       "revId": "43668779bc744ed4a0bf16d95998c6e186fb4bf4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "66fbbd94_5eca7cbe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-14T11:50:20Z",
+      "side": 1,
+      "message": "Lastly, the _configuration_ should be on a per-project basis, because I may have some open-source projects that do not bother being SPAMmed, but I would like to disable it by default on All-Projects.\n\nSo it should be on the `project.config` and should respect hierarchy.\n\nIn a nutshell, something really _similar_ to an ACL ;-)",
+      "parentUuid": "ba361cc0_ac40a5ad",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 56
+      },
+      "revId": "43668779bc744ed4a0bf16d95998c6e186fb4bf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

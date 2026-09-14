@@ -16,6 +16,24 @@
       "message": "Why is this necessary and what would the client do differently for 409 vs 404 response?",
       "revId": "e1d85d244d4c5a552b934fb0738e9dc40a6005bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "59e17531_d0820eed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-09-14T13:51:11Z",
+      "side": 1,
+      "message": "Without the separate status code, a client cannot distinguish \"no usable token currently exists\" from \"this endpoint is administratively disabled\".\n\n- `404 Not Found` remains the normal per-account state: no cached token, or no usable token after refresh. The user may be able to fix that by signing in again, or the administrator may need to fix the provider configuration.\n\n- `409 Conflict` means the Gerrit server configuration makes this endpoint unusable: `cache.oauth_tokens.memoryLimit \u003d 0` disables token storage, so Gerrit will drop tokens on login and re-authentication will not help. The operator must re-enable the cache, or clients must use a different credential flow.\n\nSo the client can report a configuration problem for 409 instead of misleading the user into another login loop.",
+      "parentUuid": "3ec33a72_d989b110",
+      "revId": "e1d85d244d4c5a552b934fb0738e9dc40a6005bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

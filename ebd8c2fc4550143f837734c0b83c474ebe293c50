@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31a14f5b_fc19c3af",
+        "filename": "javatests/com/google/gerrit/acceptance/api/plugin/PluginIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-09-14T07:57:28Z",
+      "side": 1,
+      "message": "This isn\u0027t used in any subclass, we don\u0027t need to widen its visibility in this change.",
+      "revId": "ebd8c2fc4550143f837734c0b83c474ebe293c50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "00f33cfb_b23935d8",
+        "filename": "javatests/com/google/gerrit/acceptance/api/plugin/PluginOnStartStopIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-09-14T07:57:28Z",
+      "side": 1,
+      "message": "Missing Header",
+      "revId": "ebd8c2fc4550143f837734c0b83c474ebe293c50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

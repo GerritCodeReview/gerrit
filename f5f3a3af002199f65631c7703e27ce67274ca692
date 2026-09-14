@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fadd7538_258b0906",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 811,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-09-14T11:47:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1206eccd_c0d09f64",
+      "range": {
+        "startLine": 810,
+        "startChar": 39,
+        "endLine": 811,
+        "endChar": 14
+      },
+      "revId": "f5f3a3af002199f65631c7703e27ce67274ca692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ce6af1eb_4f4151b8",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-09-14T11:03:10Z",
       "side": 1,
       "message": "What does that mean for the user? Is a refresh typically tried before the token actually expires? If not, that likely means that the user is at minimum locked out for the configured time, which might be long for a short network glitch that might even be on Gerrit\u0027s end. Could we use an exponential backoff?",
+      "range": {
+        "startLine": 819,
+        "startChar": 0,
+        "endLine": 819,
+        "endChar": 22
+      },
+      "revId": "f5f3a3af002199f65631c7703e27ce67274ca692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fb2ac769_bafe9908",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 819,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-09-14T11:47:34Z",
+      "side": 1,
+      "message": "Done. I changed this to exponential backoff.\n\nAfter the first transient refresh failure Gerrit retries after 1 second, then doubles the per-account in-memory delay after each failed attempt up to `auth.oauthTokenRefreshInterval` (default: 5 minutes). A successful refresh clears the backoff state, and a restart clears it as well.\n\nWhile the expired token is backed off, callers still see no usable token, but this avoids locking the user out for the full configured interval after a short outage.",
+      "parentUuid": "ce6af1eb_4f4151b8",
       "range": {
         "startLine": 819,
         "startChar": 0,
@@ -64,6 +112,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a48b6432_ea125c21",
+        "filename": "java/com/google/gerrit/auth/oauth/OAuthTokenRefresher.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-09-14T11:47:34Z",
+      "side": 1,
+      "message": "Done. I expanded the commit message to say that this change only introduces and tests the refresher, and that the follow-up change wires it into `GetOAuthToken` and the user-visible read paths.",
+      "parentUuid": "77eac2c8_c19c3317",
+      "revId": "f5f3a3af002199f65631c7703e27ce67274ca692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3909f478_4854930a",
@@ -77,6 +143,24 @@
       "writtenOn": "2026-09-14T11:03:10Z",
       "side": 1,
       "message": "nit: These changes rather belong to the change introducing this extension point",
+      "revId": "f5f3a3af002199f65631c7703e27ce67274ca692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "adcdaaad_ebfaf4f1",
+        "filename": "java/com/google/gerrit/extensions/auth/oauth/OAuthTokenEncrypter.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-09-14T11:47:34Z",
+      "side": 1,
+      "message": "This extension point was added with the original `oauth_tokens` cache support, so I cannot move it to an earlier change in this series. Do you mean that this javadoc cleanup should move to the change that adds the in-tree AES-GCM encrypter?",
+      "parentUuid": "3909f478_4854930a",
       "revId": "f5f3a3af002199f65631c7703e27ce67274ca692",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

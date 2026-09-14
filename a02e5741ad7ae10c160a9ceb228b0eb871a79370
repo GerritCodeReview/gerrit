@@ -16,6 +16,24 @@
       "message": "A concern I have with this approach is that when another primary holds the lock, all the threads attempting to get the lock will be coming here and spinning and doing IO trying to acquire the lock?",
       "revId": "a02e5741ad7ae10c160a9ceb228b0eb871a79370",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a0990968_9d03f140",
+        "filename": "java/com/google/gerrit/server/schema/H2CustomLockAccountPatchReviewStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-09-14T21:57:32Z",
+      "side": 1,
+      "message": "NA in new PS.",
+      "parentUuid": "2212cd44_ab248241",
+      "revId": "a02e5741ad7ae10c160a9ceb228b0eb871a79370",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

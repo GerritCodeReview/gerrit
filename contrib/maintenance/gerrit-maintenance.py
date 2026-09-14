@@ -43,6 +43,7 @@ def _run_projects_gc(args):
         projects,
         args[0].pack_refs,
         args[0].config,
+        args[0].jgit,
     ).run(args[1]):
         sys.exit(0)
 
@@ -59,6 +60,7 @@ def _run_projects_packrefs(args):
     if BatchGitPackRefs(
         site,
         projects,
+        args[0].jgit,
     ).run():
         sys.exit(0)
 
@@ -74,6 +76,15 @@ def main():
         dest="site",
         action="store",
         default="/var/gerrit",
+    )
+    parser.add_argument(
+        "--jgit",
+        help=(
+            "When provided, jgit is used instead of cgit. "
+            "Requires jgit CLI executable to be in PATH."
+        ),
+        dest="jgit",
+        action="store_true",
     )
     parser.set_defaults(func=lambda x: parser.print_usage())
 

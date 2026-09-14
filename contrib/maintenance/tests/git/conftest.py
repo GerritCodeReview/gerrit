@@ -15,19 +15,26 @@
 import os.path
 import pytest
 
-import git.repo
+from git.repo import CGitBackend, JGitBackend
 
 
 @pytest.fixture(scope="function")
 def repo(tmp_path_factory):
     dir = tmp_path_factory.mktemp("repos")
     repo_name = "test.git"
-    git.repo.init(dir, repo_name, bare=True)
+    CGitBackend().init(dir, repo_name, bare=True)
     return os.path.join(dir, repo_name)
 
 
 @pytest.fixture(scope="function")
 def local_repo(tmp_path_factory, repo):
     dir = tmp_path_factory.mktemp("local.git")
-    git.repo.clone(repo, dir)
+    CGitBackend().clone(repo, dir)
     return dir
+
+
+@pytest.fixture(params=["cgit", "jgit"])
+def backend(request):
+    if request.param == "cgit":
+        return CGitBackend()
+    return JGitBackend()

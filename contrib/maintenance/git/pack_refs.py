@@ -20,6 +20,7 @@ from datetime import datetime
 from gerrit.tasks.abstract import ProjectTaskRunner, Step
 
 from . import repo
+from .repo import CGitBackend, JGitBackend
 
 LOG = logging.getLogger(__name__)
 
@@ -36,8 +37,9 @@ class BackupPackedRefs(Step):
 
 
 class GitPackRefs(ProjectTaskRunner):
-    def __init__(self):
+    def __init__(self, jgit=False):
         timestamp = datetime.now().timestamp()
+        self.backend = JGitBackend() if jgit else CGitBackend()
         super().__init__(
             "pack-refs",
             [
@@ -55,14 +57,15 @@ class GitPackRefs(ProjectTaskRunner):
 
         if loose_ref_count == 0:
             LOG.info("No loose refs found. Skipping repacking.")
-            return
+            return True
 
         LOG.info("Found %s loose refs -> pack all refs", loose_ref_count)
 
         try:
-            repo.pack_refs(repo_dir, all=True)
+            self.backend.pack_refs(repo_dir, all=True)
         except repo.GitCommandException as e:
             LOG.error("Failed to pack refs in %s", repo_dir)
-            raise e
+            return False
 
         LOG.info("Finished packing refs in %s", repo_dir)
+        return True

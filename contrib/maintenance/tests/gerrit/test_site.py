@@ -16,7 +16,7 @@ import os
 import pytest
 
 from gerrit.site import Site
-from git.repo import init, GIT_SUFFIX
+from git.repo import CGitBackend, GIT_SUFFIX
 
 REPOSITORIES = ["All-Projects", "All-Users", "test", "nested/repo"]
 
@@ -27,7 +27,7 @@ def site(tmp_path_factory):
     base_path = os.path.join(site, "git")
     os.makedirs(base_path)
     for repo in REPOSITORIES:
-        init(base_path, repo + GIT_SUFFIX, bare=True)
+        CGitBackend().init(base_path, repo + GIT_SUFFIX, bare=True)
     etc_path = os.path.join(site, "etc")
     os.makedirs(etc_path)
     with open(os.path.join(etc_path, "gerrit.config"), "w") as f:

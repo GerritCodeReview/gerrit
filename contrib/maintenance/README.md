@@ -58,6 +58,14 @@ pipenv run python ./gerrit-maintenance.py -d $SITE -h
 
 At this level, the path to the Gerrit site has to be provided.
 
+To use JGit instead of CGit, set the `--jgit`-flag:
+
+```sh
+pipenv run python ./gerrit-maintenance.py \
+  -d $SITE \
+  --jgit
+```
+
 The next layer deals with the different aspects of a Gerrit site:
 
 ### Projects

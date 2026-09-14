@@ -17,19 +17,19 @@ import unittest.mock as mock
 
 import pytest
 
-import git.repo
-
 from pathlib import Path
 from git.pack_refs import BackupPackedRefs, GitPackRefs
+from git.repo import CGitBackend, JGitBackend
 
 
 @pytest.fixture(scope="function")
 def repo_with_loose_refs(repo, local_repo):
+    git = CGitBackend()
     test_file = Path(os.path.join(local_repo, "test.txt"))
     test_file.touch()
-    git.repo.add(local_repo, [test_file])
-    git.repo.commit(local_repo, "test commit")
-    git.repo.push(local_repo, "origin", "HEAD:refs/heads/testbranch")
+    git.add(local_repo, [test_file])
+    git.commit(local_repo, "test commit")
+    git.push(local_repo, "origin", "HEAD:refs/heads/testbranch")
     # BackupPackedRefs requires packed-refs to exist before the task runs
     Path(os.path.join(repo, "packed-refs")).touch()
     yield repo
@@ -48,18 +48,17 @@ def test_BackupPackedRefs_creates_hardlink(repo):
     assert os.stat(packed_refs).st_ino == os.stat(backup).st_ino
 
 
-def test_GitPackRefs_skips_when_no_loose_refs(repo):
+def test_GitPackRefs_skips_when_no_loose_refs(repo, backend):
     # BackupPackedRefs requires packed-refs to exist
     Path(os.path.join(repo, "packed-refs")).touch()
 
-    # No files under refs/ — pack-refs should not be called
-    with mock.patch("git.repo.pack_refs") as mock_pack_refs:
-        task = GitPackRefs()
+    with mock.patch.object(type(backend), "pack_refs") as mock_pack_refs:
+        task = GitPackRefs(jgit=isinstance(backend, JGitBackend))
         task.run(repo)
         mock_pack_refs.assert_not_called()
 
 
-def test_GitPackRefs_packs_when_loose_refs_exist(repo_with_loose_refs):
+def test_GitPackRefs_packs_when_loose_refs_exist(repo_with_loose_refs, backend):
     # Confirm there is at least one loose ref
     loose_ref_count = sum(
         len(files)
@@ -67,7 +66,7 @@ def test_GitPackRefs_packs_when_loose_refs_exist(repo_with_loose_refs):
     )
     assert loose_ref_count > 0
 
-    task = GitPackRefs()
+    task = GitPackRefs(jgit=isinstance(backend, JGitBackend))
     task.run(repo_with_loose_refs)
 
     # After packing, refs/heads should be empty
@@ -79,15 +78,8 @@ def test_GitPackRefs_packs_when_loose_refs_exist(repo_with_loose_refs):
     assert os.path.exists(packed_refs)
 
 
-def test_GitPackRefs_creates_before_backup(repo_with_loose_refs):
-    """The before-backup is created by the init step.
-
-    Note: the after-backup step is registered but _task() currently returns
-    None (falsy) rather than True, so abstract.ProjectTaskRunner skips the
-    after_steps. The before-backup is therefore the only backup produced.
-    """
-
-    task = GitPackRefs()
+def test_GitPackRefs_creates_before_and_after_backups(repo_with_loose_refs, backend):
+    task = GitPackRefs(jgit=isinstance(backend, JGitBackend))
     task.run(repo_with_loose_refs)
 
     packed_refs = os.path.join(repo_with_loose_refs, "packed-refs")
@@ -98,25 +90,22 @@ def test_GitPackRefs_creates_before_backup(repo_with_loose_refs):
         for f in os.listdir(repo_with_loose_refs)
         if f.startswith("packed-refs-") and f != "packed-refs"
     ]
-    # Only the before-backup is created because _task() returns None
-    assert len(backups) == 1
+    assert len(backups) == 2
     assert any("before" in b for b in backups)
+    assert any("after" in b for b in backups)
 
 
 @mock.patch("subprocess.run")
-def test_GitPackRefs_calls_pack_refs_command(mock_subproc_run, repo):
-    # Simulate loose refs so the task doesn't short-circuit
+def test_GitPackRefs_calls_pack_refs_command(mock_subproc_run, repo, backend):
     loose_ref = os.path.join(repo, "refs", "heads", "main")
     Path(loose_ref).touch()
 
-    # Make BackupPackedRefs a no-op so missing packed-refs doesn't fail
     packed_refs = os.path.join(repo, "packed-refs")
     Path(packed_refs).touch()
 
-    task = GitPackRefs()
+    task = GitPackRefs(jgit=isinstance(backend, JGitBackend))
     task.run(repo)
 
     mock_subproc_run.assert_called()
-    # Verify the pack-refs command was among the calls
     calls = [str(c) for c in mock_subproc_run.call_args_list]
     assert any("pack-refs" in c for c in calls)

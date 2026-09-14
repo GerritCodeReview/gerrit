@@ -30,9 +30,12 @@ class BatchGitGarbageCollection(BatchProjectTask):
         projects: list[str],
         pack_refs: bool = True,
         git_config: str = None,
+        jgit: bool = False,
     ):
         super().__init__(
-            site, projects, GitGarbageCollectionProvider.get(pack_refs, git_config)
+            site,
+            projects,
+            GitGarbageCollectionProvider.get(pack_refs, git_config, jgit),
         )
 
 
@@ -41,5 +44,6 @@ class BatchGitPackRefs(BatchProjectTask):
         self,
         site: Path,
         projects: list[str],
+        jgit: bool = False,
     ):
-        super().__init__(site, projects, GitPackRefs())
+        super().__init__(site, projects, GitPackRefs(jgit))

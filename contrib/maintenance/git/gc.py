@@ -25,6 +25,7 @@ from gerrit.tasks.abstract import ProjectTaskRunner
 
 from .config import GitConfigReader
 from . import repo
+from .repo import CGitBackend, GitBackend, JGitBackend
 
 LOG = logging.getLogger(__name__)
 
@@ -181,12 +182,16 @@ class DeleteStaleIncomingPacksCleanupStep(GCStep):
 
 
 class PackAllRefsAfterStep(GCStep):
+    def __init__(self, git_config: GitConfigReader, backend: GitBackend = None):
+        super().__init__(git_config)
+        self.backend = backend or CGitBackend()
+
     def run(self, repo_dir):
         loose_ref_count = 0
         for _, _, files in os.walk(os.path.join(repo_dir, "refs"), topdown=True):
             loose_ref_count += len([file for file in files])
         if loose_ref_count > MAX_LOOSE_REF_COUNT:
-            repo.pack_refs(repo_dir, all=True)
+            self.backend.pack_refs(repo_dir, all=True)
             LOG.info("Found %d loose refs -> pack all refs", loose_ref_count)
         else:
             LOG.info(
@@ -197,33 +202,34 @@ class PackAllRefsAfterStep(GCStep):
 
 class GitGarbageCollectionProvider:
     @staticmethod
-    def get(pack_refs=True, git_config=None):
-        init_steps = [
-            GCLockHandlingInitStep(git_config),
-            PreservePacksInitStep(git_config),
-        ]
+    def get(pack_refs=True, git_config=None, jgit=False):
+        backend = JGitBackend() if jgit else CGitBackend(git_config)
+        init_steps = []
+        if not jgit:
+            init_steps.append(GCLockHandlingInitStep(git_config))
+            init_steps.append(PreservePacksInitStep(git_config))
         after_steps = [
             DeleteEmptyRefDirsCleanupStep(git_config),
             DeleteStaleIncomingPacksCleanupStep(git_config),
         ]
 
         if pack_refs:
-            after_steps.append(PackAllRefsAfterStep(git_config))
+            after_steps.append(PackAllRefsAfterStep(git_config, backend))
 
-        return GitGarbageCollection(init_steps, after_steps, git_config)
+        return GitGarbageCollection(init_steps, after_steps, backend)
 
 
 class GitGarbageCollection(ProjectTaskRunner):
-    def __init__(self, init_steps, after_steps, git_config=None):
+    def __init__(self, init_steps, after_steps, backend: GitBackend = None):
         super().__init__("gc", init_steps, after_steps)
-        self.git_config = git_config
+        self.backend = backend or CGitBackend()
 
     def _task(self, repo_dir=None, args=None) -> bool:
         if self._is_aggressive(repo_dir) and AGGRESSIVE_FLAG not in args:
             args.append(AGGRESSIVE_FLAG)
 
         try:
-            repo.gc(repo_dir, self.git_config, args)
+            self.backend.gc(repo_dir, args=args)
         except repo.GitCommandException as e:
             LOG.error("Failed to run gc in %s", repo_dir)
             return False

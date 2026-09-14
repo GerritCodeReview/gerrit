@@ -15,7 +15,7 @@
 import os
 import unittest.mock as mock
 
-import git.repo
+from git.repo import CGitBackend, JGitBackend
 
 from datetime import datetime
 from pathlib import Path
@@ -23,10 +23,12 @@ from git.gc import (
     MAX_AGE_EMPTY_REF_DIRS,
     MAX_AGE_INCOMING_PACKS,
     MAX_AGE_GC_LOCK,
+    MAX_LOOSE_REF_COUNT,
     DeleteStaleIncomingPacksCleanupStep,
     DeleteEmptyRefDirsCleanupStep,
     GCLockHandlingInitStep,
     GitGarbageCollection,
+    GitGarbageCollectionProvider,
     PackAllRefsAfterStep,
     PreservePacksInitStep,
 )
@@ -198,19 +200,19 @@ def test_DeleteStaleIncomingPacksCleanupStep(repo):
     assert not os.path.exists(incoming_pack_file)
 
 
-def test_PackAllRefsAfterStep(repo, local_repo):
+def test_PackAllRefsAfterStep(repo, local_repo, backend):
     test_file = Path(os.path.join(local_repo, "test.txt"))
     test_file.touch()
-    git.repo.add(local_repo, [test_file])
-    git.repo.commit(local_repo, "test commit")
+    backend.add(local_repo, [test_file])
+    backend.commit(local_repo, "test commit")
 
     target_loose_ref_count = 15
     loose_ref_count = 0
     while loose_ref_count < target_loose_ref_count:
         loose_ref_count += 1
-        git.repo.push(local_repo, "origin", f"HEAD:refs/heads/test{loose_ref_count}")
+        backend.push(local_repo, "origin", f"HEAD:refs/heads/test{loose_ref_count}")
 
-    task = PackAllRefsAfterStep([])
+    task = PackAllRefsAfterStep([], backend=backend)
     task.run(repo)
 
     assert len(os.listdir(os.path.join(repo, "refs", "heads"))) == 0
@@ -221,7 +223,7 @@ def test_PackAllRefsAfterStep(repo, local_repo):
             len(f.readlines()) == target_loose_ref_count + 1
         )  # First line is a comment
 
-    git.repo.push(
+    backend.push(
         local_repo, "origin", f"HEAD:refs/heads/test{target_loose_ref_count + 1}"
     )
     task.run(repo)
@@ -233,11 +235,73 @@ def test_PackAllRefsAfterStep(repo, local_repo):
 
 
 @mock.patch("subprocess.run")
-def test_gc_executed(mock_subproc_run, repo):
-    gc = GitGarbageCollection([], [])
+def test_gc_executed(mock_subproc_run, repo, backend):
+    gc = GitGarbageCollection([], [], backend=backend)
     gc.run(repo)
     mock_subproc_run.assert_called()
     assert mock_subproc_run.call_count == 1
+
+
+# Backend-specific tests
+
+
+def test_preserve_packs_step_skipped_for_jgit():
+    provider = GitGarbageCollectionProvider.get(jgit=True)
+    step_types = [type(s) for s in provider.init_steps]
+    assert PreservePacksInitStep not in step_types
+
+
+def test_preserve_packs_step_present_for_cgit():
+    provider = GitGarbageCollectionProvider.get(jgit=False)
+    step_types = [type(s) for s in provider.init_steps]
+    assert PreservePacksInitStep in step_types
+
+
+@mock.patch("subprocess.run")
+def test_gc_uses_cgit_by_default(mock_subproc_run, repo):
+    gc = GitGarbageCollection([], [])
+    gc.run(repo)
+    calls = [str(c) for c in mock_subproc_run.call_args_list]
+    assert any("git" in c and "gc" in c for c in calls)
+    assert not any("jgit" in c for c in calls)
+
+
+def test_gc_preserves_packs(repo, local_repo, backend):
+    """End-to-end: preserved pack files appear in objects/pack/preserved/
+    after gc runs with preserve packs configured.
+
+    For CGit, PreservePacksInitStep hard-links packs into preserved/ before
+    gc runs, reading gc.preserveoldpacks from the repo config.
+    For JGit, jgit gc moves old packs into preserved/ natively, reading
+    pack.preserveOldPacks from the repo config. gc.prunePackExpire is set to
+    "now" so that freshly created packs are eligible for preservation in tests.
+    """
+    git = CGitBackend()
+    test_file = Path(os.path.join(local_repo, "test.txt"))
+    test_file.touch()
+    git.add(local_repo, [test_file])
+    git.commit(local_repo, "test commit")
+    git.push(local_repo, "origin", "HEAD:refs/heads/main")
+
+    # Run an initial gc to create real pack files (setup, not system under test)
+    git.gc(repo)
+    pack_path = os.path.join(repo, "objects", "pack")
+    assert any(f.endswith(".pack") for f in os.listdir(pack_path))
+
+    with GitConfigWriter(os.path.join(repo, "config")) as writer:
+        writer.set("pack", None, "preserveoldpacks", True)
+        writer.set("gc", None, "prunepackexpire", "now")
+        writer.write()
+
+    GitGarbageCollectionProvider.get(
+        git_config=[], jgit=isinstance(backend, JGitBackend)
+    ).run(repo)
+
+    preserved_path = os.path.join(pack_path, "preserved")
+    assert os.path.exists(preserved_path)
+    preserved_files = os.listdir(preserved_path)
+    assert any(f.endswith(".old-pack") for f in preserved_files)
+    assert any(f.endswith(".old-idx") for f in preserved_files)
 
 
 def _modify_last_modified(file, time_delta):

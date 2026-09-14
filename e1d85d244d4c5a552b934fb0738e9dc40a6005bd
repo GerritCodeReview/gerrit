@@ -34,6 +34,24 @@
       "parentUuid": "3ec33a72_d989b110",
       "revId": "e1d85d244d4c5a552b934fb0738e9dc40a6005bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "97e64dc8_f7c20b35",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-14T14:54:14Z",
+      "side": 1,
+      "message": "OK, I understand the intention but is it clients role to \"detect a server configuration problem\"? Further, is 409 a good choice for the response code? Why is this a \"conflict\"? Maybe 501 \"not implemented\" or 403 forbidden are better choices?",
+      "parentUuid": "59e17531_d0820eed",
+      "revId": "e1d85d244d4c5a552b934fb0738e9dc40a6005bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

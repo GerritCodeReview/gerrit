@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1206eccd_c0d09f64",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 811,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-09-14T11:03:10Z",
+      "side": 1,
+      "message": "```suggestion\nagain until this interval has elapsed, so that during a provider outage there is no retry on\nevery request. Values should use common unit suffixes to express their setting:\n```",
+      "range": {
+        "startLine": 810,
+        "startChar": 39,
+        "endLine": 811,
+        "endChar": 14
+      },
+      "revId": "f5f3a3af002199f65631c7703e27ce67274ca692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce6af1eb_4f4151b8",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 819,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-09-14T11:03:10Z",
+      "side": 1,
+      "message": "What does that mean for the user? Is a refresh typically tried before the token actually expires? If not, that likely means that the user is at minimum locked out for the configured time, which might be long for a short network glitch that might even be on Gerrit\u0027s end. Could we use an exponential backoff?",
+      "range": {
+        "startLine": 819,
+        "startChar": 0,
+        "endLine": 819,
+        "endChar": 22
+      },
+      "revId": "f5f3a3af002199f65631c7703e27ce67274ca692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77eac2c8_c19c3317",
+        "filename": "java/com/google/gerrit/auth/oauth/OAuthTokenRefresher.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-09-14T11:03:10Z",
+      "side": 1,
+      "message": "This is currently called from anywhere outside of tests. If you want to keep the usage in a separate change, I would mention that.",
+      "revId": "f5f3a3af002199f65631c7703e27ce67274ca692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3909f478_4854930a",
+        "filename": "java/com/google/gerrit/extensions/auth/oauth/OAuthTokenEncrypter.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-09-14T11:03:10Z",
+      "side": 1,
+      "message": "nit: These changes rather belong to the change introducing this extension point",
+      "revId": "f5f3a3af002199f65631c7703e27ce67274ca692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

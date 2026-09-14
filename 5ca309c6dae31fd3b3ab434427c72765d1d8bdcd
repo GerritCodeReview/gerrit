@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "980f83e0_ab0ff65f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-09-14T15:58:19Z",
+      "side": 1,
+      "message": "Interesting how it returned back rename detection. I also like how you find that it is not needed to check if path is magicpath because files are from treewalk",
+      "revId": "5ca309c6dae31fd3b3ab434427c72765d1d8bdcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

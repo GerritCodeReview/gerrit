@@ -22,6 +22,30 @@
       },
       "revId": "9f270d273e4baaadfc8f55c31489d99d1d0da65f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45f90fee_87ee36f9",
+        "filename": "java/com/google/gerrit/httpd/AllRequestFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-14T11:19:31Z",
+      "side": 1,
+      "message": "Good catch, I believe the issue is in the implementation of the `beforeStopPlugin()`, which promises to notify *when the plugin is about to be stopped*, which isn\u0027t the case here. The plugin *has been stopped already* during a reload, because all its bindings have been reassigned.",
+      "parentUuid": "d86c038a_8b96a670",
+      "range": {
+        "startLine": 94,
+        "startChar": 0,
+        "endLine": 97,
+        "endChar": 38
+      },
+      "revId": "9f270d273e4baaadfc8f55c31489d99d1d0da65f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

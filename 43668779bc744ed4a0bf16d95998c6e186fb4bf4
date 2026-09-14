@@ -69,6 +69,30 @@
       },
       "revId": "43668779bc744ed4a0bf16d95998c6e186fb4bf4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ec2cdc1_40dc0d29",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-14T11:42:36Z",
+      "side": 1,
+      "message": "\u003e \u003e What if a user is allowed to vote on a label but the \"post review comment\" permission is explicitly denied/blocked for that user?\n\u003e \n\u003e I was thinking the same, and the combination isn\u0027t valid IMHO.\n\u003e The permission to vote on a label means that *you can* post feedback, therefore you can also post commits.\n\u003e \n\u003e I believe here the issue is when Gerrit allows to post comment when you don\u0027t have permissions to vote, which seems wrong honestly. Not sure why Gerrit always allowed it, which doesn\u0027t make sense to me.\n\u003e As it doesn\u0027t make sense that Gerrit allows to comment on a read-only project :-O\n\u003e \n\u003e \u003e At least that combination of permissions is confusing and probably unnecessary.\n\u003e \n\u003e +1\n\u003e \n\u003e \u003e Considering the main purpose of this change, to prevent spam, is it worth a new permission?\n\u003e \u003e I would propose to make let the new behaviour be the default and only provide a gerrit.config global setting to allow admins to keep compatibility (\u003d allow spam): gerrit.allowSpam \u003d true\n\u003e \n\u003e Well, not named exactly that way but yes, a global capability or a config setting would also work.\n\nSure, not exactly that name. I intentionally exaggerated the name to pinpoint the exact problem of the old behaviour and question if it is worth keeping compability.\n\n\u003e \n\u003e What about `gerrit.allowCommentsWithoutPermissions`?\n\nFine with me.\n\n\u003e \n\u003e But then we would also need the `allowCommentsOnReadOnly` as well, therefore two settings.\n\nI probably missed some discussions: for what would be allowCommentsOnReadOnly used?",
+      "parentUuid": "2d193955_c3d307b0",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 56
+      },
+      "revId": "43668779bc744ed4a0bf16d95998c6e186fb4bf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

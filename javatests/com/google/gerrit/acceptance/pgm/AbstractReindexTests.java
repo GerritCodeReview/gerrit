@@ -45,6 +45,7 @@ import com.google.inject.Key;
 import com.google.inject.Provider;
 import com.google.inject.TypeLiteral;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Collection;
 import java.util.function.Consumer;
 import org.eclipse.jgit.lib.Config;
@@ -64,8 +65,8 @@ public abstract class AbstractReindexTests extends StandaloneSiteTest {
   public void reindexFromScratch() throws Exception {
     setUpChange();
 
-    MoreFiles.deleteRecursively(sitePaths.index_dir, RecursiveDeleteOption.ALLOW_INSECURE);
-    Files.createDirectory(sitePaths.index_dir);
+    MoreFiles.deleteRecursively(sitePaths.resolve("index"), RecursiveDeleteOption.ALLOW_INSECURE);
+    Files.createDirectory(sitePaths.resolve("index"));
     assertServerStartupFails();
 
     runGerrit("reindex", "-d", sitePaths.site_path.toString(), "--show-stack-trace", "--verbose");
@@ -111,8 +112,8 @@ public abstract class AbstractReindexTests extends StandaloneSiteTest {
     updateConfig(config -> config.setBoolean("index", null, "reuseExistingDocuments", true));
     setUpChange();
 
-    MoreFiles.deleteRecursively(sitePaths.index_dir, RecursiveDeleteOption.ALLOW_INSECURE);
-    Files.createDirectory(sitePaths.index_dir);
+    MoreFiles.deleteRecursively(sitePaths.resolve("index"), RecursiveDeleteOption.ALLOW_INSECURE);
+    Files.createDirectory(sitePaths.resolve("index"));
     assertServerStartupFails();
 
     runGerrit("reindex", "-d", sitePaths.site_path.toString(), "--show-stack-trace", "--verbose");
@@ -121,7 +122,7 @@ public abstract class AbstractReindexTests extends StandaloneSiteTest {
     runGerrit("reindex", "-d", sitePaths.site_path.toString(), "--show-stack-trace", "--verbose");
     assertIndexQueries();
 
-    Files.copy(sitePaths.index_dir, sitePaths.resolve("index-backup"));
+    Files.copy(sitePaths.resolve("index"), sitePaths.resolve("index-backup"));
     try (ServerContext ctx = startServer()) {
       GerritApi gApi = ctx.getInjector().getInstance(GerritApi.class);
       gApi.changes().id(changeId).revision(1).review(ReviewInput.approve());
@@ -129,14 +130,36 @@ public abstract class AbstractReindexTests extends StandaloneSiteTest {
       assertThat(gApi.changes().query("label:Code-Review+2").get().stream().map(c -> c.changeId))
           .containsExactly(changeId);
     }
-    MoreFiles.deleteRecursively(sitePaths.index_dir, RecursiveDeleteOption.ALLOW_INSECURE);
-    Files.copy(sitePaths.resolve("index-backup"), sitePaths.index_dir);
+    MoreFiles.deleteRecursively(sitePaths.resolve("index"), RecursiveDeleteOption.ALLOW_INSECURE);
+    Files.copy(sitePaths.resolve("index-backup"), sitePaths.resolve("index"));
     runGerrit("reindex", "-d", sitePaths.site_path.toString(), "--show-stack-trace", "--verbose");
     try (ServerContext ctx = startServer()) {
       GerritApi gApi = ctx.getInjector().getInstance(GerritApi.class);
       assertThat(gApi.changes().query("label:Code-Review+2").get().stream().map(c -> c.changeId))
           .containsExactly(changeId);
     }
+  }
+
+  @Test
+  public void reindexWithCustomIndexPath() throws Exception {
+    // Create a change against default index location, then update index.path
+    setUpChange();
+    updateConfig(config -> config.setString("index", null, "path", "custom-index"));
+
+    // Gerrit will refuse to start until that directory is (re)indexed.
+    assertServerStartupFails();
+
+    runGerrit("reindex", "-d", sitePaths.site_path.toString(), "--show-stack-trace", "--verbose");
+    Path customIndexDir = sitePaths.resolve("custom-index");
+    assertWithMessage("custom index.path directory").that(Files.exists(customIndexDir)).isTrue();
+    assertWithMessage("gerrit_index.config under custom index.path")
+        .that(Files.exists(customIndexDir.resolve("gerrit_index.config")))
+        .isTrue();
+
+    GerritIndexStatus status = new GerritIndexStatus(customIndexDir);
+    assertThat(status.getReady(CHANGES, ChangeSchemaDefinitions.INSTANCE.getLatest().getVersion()))
+        .isTrue();
+    assertIndexQueries();
   }
 
   private void assertIndexQueries() throws Exception {
@@ -253,7 +276,7 @@ public abstract class AbstractReindexTests extends StandaloneSiteTest {
     int currVersion = ChangeSchemaDefinitions.INSTANCE.getLatest().getVersion();
 
     // Before storing any changes, switch back to the previous version.
-    GerritIndexStatus status = new GerritIndexStatus(sitePaths);
+    GerritIndexStatus status = new GerritIndexStatus(sitePaths.resolve("index"));
     status.setReady(CHANGES, currVersion, false);
     status.setReady(CHANGES, prevVersion, true);
     status.save();
@@ -361,7 +384,7 @@ public abstract class AbstractReindexTests extends StandaloneSiteTest {
   private void assertReady(int expectedReady) throws Exception {
     ImmutableSortedSet<Integer> allVersions =
         ChangeSchemaDefinitions.INSTANCE.getSchemas().keySet();
-    GerritIndexStatus status = new GerritIndexStatus(sitePaths);
+    GerritIndexStatus status = new GerritIndexStatus(sitePaths.resolve("index"));
     assertWithMessage("ready state for index versions")
         .that(
             allVersions.stream().collect(toImmutableMap(v -> v, v -> status.getReady(CHANGES, v))))

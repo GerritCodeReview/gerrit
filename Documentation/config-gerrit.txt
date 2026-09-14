@@ -3882,6 +3882,14 @@ Note that after enabling the secondary index, the index must be built
 using the link:pgm-reindex.html[reindex program] before restarting the
 Gerrit server.
 
+[[index.path]]index.path::
++
+Path to the directory where Gerrit stores its index.
++
+If not absolute, the path is resolved relative to `$site_path`.
++
+Default is `$site_path/index`.
+
 [[index.type]]index.type::
 +
 *(DEPRECATED)* The only supported value is `LUCENE`, which is the default,

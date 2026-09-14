@@ -70,6 +70,30 @@
       },
       "revId": "9f270d273e4baaadfc8f55c31489d99d1d0da65f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4b424f2_83979b75",
+        "filename": "java/com/google/gerrit/httpd/AllRequestFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-14T16:19:10Z",
+      "side": 1,
+      "message": "Tested E2E and the reload is working as expected.",
+      "parentUuid": "84583b79_95e900ed",
+      "range": {
+        "startLine": 94,
+        "startChar": 0,
+        "endLine": 97,
+        "endChar": 38
+      },
+      "revId": "9f270d273e4baaadfc8f55c31489d99d1d0da65f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

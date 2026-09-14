@@ -22,6 +22,30 @@
       },
       "revId": "f0556e3d5df5fac7e80b0d706e3ff66fdcf23b24",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff0fd5dc_5f95ceb4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-09-14T11:19:54Z",
+      "side": 1,
+      "message": "Ah found it. It comes with the next change. Consider squashing the change or at least mention it",
+      "parentUuid": "a0b1fa38_05f510f6",
+      "range": {
+        "startLine": 14,
+        "startChar": 15,
+        "endLine": 16,
+        "endChar": 0
+      },
+      "revId": "f0556e3d5df5fac7e80b0d706e3ff66fdcf23b24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

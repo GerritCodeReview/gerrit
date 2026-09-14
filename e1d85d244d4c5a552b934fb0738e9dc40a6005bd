@@ -52,6 +52,24 @@
       "parentUuid": "59e17531_d0820eed",
       "revId": "e1d85d244d4c5a552b934fb0738e9dc40a6005bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b829c5c_25cd1c5a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-09-14T16:27:29Z",
+      "side": 1,
+      "message": "I do not expect clients to diagnose arbitrary server configuration. The client-visible difference is whether retrying the OAuth/login flow can help.\n\nI used `409` because the request is valid and the endpoint exists, but it conflicts with the server\u0027s current configured state.\n\nIn this case the user is authorized to retrieve their own OAuth token, Gerrit implements the `/oauthtoken` endpoint, and the provider may be configured correctly for token refresh. The failure is narrower: the requested `oauthtoken` resource depends on Gerrit storing OAuth tokens, but token storage was explicitly disabled with `cache.oauth_tokens.memoryLimit \u003d 0`.\n\nThat is why `403` and `501` feel misleading to me: this is neither an authorization failure nor an unimplemented endpoint. `404` is still used for the normal per-account \"no usable token exists\" case, where logging in again or fixing provider refresh may help. Here, retrying login cannot help because Gerrit will keep dropping the token.\n\n`503` is the closest alternative: it would communicate that this token-retrieval service is unavailable. I still prefer `409` because the unavailability is not transient service health; it is a configured state. That said, I can switch to `503` if we prefer to model disabled token storage as service unavailability rather than a state conflict.",
+      "parentUuid": "97e64dc8_f7c20b35",
+      "revId": "e1d85d244d4c5a552b934fb0738e9dc40a6005bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

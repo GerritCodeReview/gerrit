@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "469b5e24_a11cf051",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-14T10:56:36Z",
+      "side": 1,
+      "message": "Why not mention that also in the documentation (access-control.txt)?",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 65
+      },
+      "revId": "43668779bc744ed4a0bf16d95998c6e186fb4bf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5ac4b59_43011945",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-14T10:56:36Z",
+      "side": 1,
+      "message": "What if a user is allowed to vote on a label but the \"post review comment\" permission is explicitly denied/blocked for that user?\nAt least that combination of permissions is confusing and probably unnecessary.\n\nConsidering the main purpose of this change, to prevent spam, is it worth a new permission?\nI would propose to make let the new behaviour be the default and only provide a gerrit.config global setting to allow admins to keep compatibility (\u003d allow spam): gerrit.allowSpam \u003d true",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 56
+      },
+      "revId": "43668779bc744ed4a0bf16d95998c6e186fb4bf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

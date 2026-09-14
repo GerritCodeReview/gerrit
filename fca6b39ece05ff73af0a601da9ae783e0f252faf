@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bbf5eca5_504d2193",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-09-14T09:51:20Z",
+      "side": 1,
+      "message": "```suggestion\nBy accessing the plugin\u0027s Guice environment just before the final stop and\n```",
+      "range": {
+        "startLine": 21,
+        "startChar": 17,
+        "endLine": 21,
+        "endChar": 23
+      },
+      "revId": "fca6b39ece05ff73af0a601da9ae783e0f252faf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d8303a77_a21ef3b1",
         "filename": "java/com/google/gerrit/server/plugins/PluginLoader.java",
         "patchSetId": 14

@@ -213,6 +213,30 @@
       },
       "revId": "43668779bc744ed4a0bf16d95998c6e186fb4bf4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4682ae2_484ca893",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-09-14T12:20:25Z",
+      "side": 1,
+      "message": "\u003e At least that combination of permissions is confusing and probably unnecessary.\n\nI agree, I considered removing that too, as I don\u0027t think we have permissions that also depend on another permission anywhere, makes it hard to debug as well.\n\nI ended up opting to keep it though, as the question then becomes which one should take priority? If I can vote on a label, but can\u0027t post comments then should I be able to still post my vote?\n\nI believe Google has a use case where some people don\u0027t have permissions to vote on change but still need to be allowed to post comments, and this is how we ended up here.\n\nMaybe `allowPostCommentsWithoutVotePermissions` is an appropriate name, but the question of which one takes precedence over the ability to vote still remains.",
+      "parentUuid": "1bf9dac5_c22be1c7",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 56
+      },
+      "revId": "43668779bc744ed4a0bf16d95998c6e186fb4bf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

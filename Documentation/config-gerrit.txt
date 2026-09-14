@@ -1225,6 +1225,24 @@ is similar to the `git_modified_files` cache but performs extra logic including
 filtering out files that are untouched by both commits because they were purely
 modified between the parent commits.
 
+[[cache.oauth_tokens]]cache `"oauth_tokens"`::
++
+Stores OAuth access and refresh tokens for users that sign in with
+`auth.type = OAUTH`.
++
+To avoid persisting OAuth tokens to disk, set
+`cache.oauth_tokens.diskLimit = 0`. Tokens are then kept only in memory and
+users may need to sign in again after a Gerrit restart.
++
+To disable OAuth token caching entirely, also set
+`cache.oauth_tokens.memoryLimit = 0`. When disabled, OAuth sign-in may still
+create a web session, but REST requests to `GET /accounts/{id}/oauthtoken`
+fail with `409 Conflict` and flows that rely on cached OAuth tokens are not
+available.
++
+If tokens were previously written to disk, stop Gerrit and remove any existing
+`oauth_tokens` persistent cache files from the cache directory.
+
 cache `"git_file_diff"`::
 +
 Each item caches the pure git diff between two git trees for a specific file

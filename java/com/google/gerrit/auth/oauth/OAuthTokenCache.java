@@ -30,14 +30,17 @@ import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.proto.Cache.OAuthTokenProto;
 import com.google.gerrit.server.cache.serialize.CacheSerializer;
 import com.google.gerrit.server.cache.serialize.IntegerCacheSerializer;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
+import org.eclipse.jgit.lib.Config;
 
 @Singleton
 public class OAuthTokenCache {
   public static final String OAUTH_TOKENS = "oauth_tokens";
+  private static final long DEFAULT_MEMORY_LIMIT = 1024;
 
   private final DynamicItem<OAuthTokenEncrypter> encrypter;
 
@@ -101,17 +104,23 @@ public class OAuthTokenCache {
   }
 
   private final Cache<Account.Id, OAuthToken> cache;
+  private final boolean disabled;
 
   @Inject
   OAuthTokenCache(
       @Named(OAUTH_TOKENS) Cache<Account.Id, OAuthToken> cache,
-      DynamicItem<OAuthTokenEncrypter> encrypter) {
+      DynamicItem<OAuthTokenEncrypter> encrypter,
+      @GerritServerConfig Config cfg) {
     this.cache = cache;
     this.encrypter = encrypter;
+    this.disabled = cfg.getLong("cache", OAUTH_TOKENS, "memoryLimit", DEFAULT_MEMORY_LIMIT) == 0;
   }
 
   @Nullable
   public OAuthToken get(Account.Id id) {
+    if (disabled) {
+      return null;
+    }
     OAuthToken accessToken = cache.getIfPresent(id);
     if (accessToken == null) {
       return null;
@@ -125,11 +134,19 @@ public class OAuthTokenCache {
   }
 
   public void put(Account.Id id, OAuthToken accessToken) {
-    cache.put(id, encrypt(requireNonNull(accessToken)));
+    requireNonNull(accessToken);
+    if (disabled) {
+      return;
+    }
+    cache.put(id, encrypt(accessToken));
   }
 
   public void remove(Account.Id id) {
     cache.invalidate(id);
+  }
+
+  public boolean isDisabled() {
+    return disabled;
   }
 
   private OAuthToken encrypt(OAuthToken token) {

@@ -45,6 +45,30 @@
       },
       "revId": "43668779bc744ed4a0bf16d95998c6e186fb4bf4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d193955_c3d307b0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-14T11:31:34Z",
+      "side": 1,
+      "message": "\u003e What if a user is allowed to vote on a label but the \"post review comment\" permission is explicitly denied/blocked for that user?\n\nI was thinking the same, and the combination isn\u0027t valid IMHO.\nThe permission to vote on a label means that *you can* post feedback, therefore you can also post commits.\n\nI believe here the issue is when Gerrit allows to post comment when you don\u0027t have permissions to vote, which seems wrong honestly. Not sure why Gerrit always allowed it, which doesn\u0027t make sense to me.\nAs it doesn\u0027t make sense that Gerrit allows to comment on a read-only project :-O\n\n\u003e At least that combination of permissions is confusing and probably unnecessary.\n\n+1\n\n\u003e Considering the main purpose of this change, to prevent spam, is it worth a new permission?\n\u003e I would propose to make let the new behaviour be the default and only provide a gerrit.config global setting to allow admins to keep compatibility (\u003d allow spam): gerrit.allowSpam \u003d true\n\nWell, not named exactly that way but yes, a global capability or a config setting would also work.\n\nWhat about `gerrit.allowCommentsWithoutPermissions`?\n\nBut then we would also need the `allowCommentsOnReadOnly` as well, therefore two settings.",
+      "parentUuid": "c5ac4b59_43011945",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 56
+      },
+      "revId": "43668779bc744ed4a0bf16d95998c6e186fb4bf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

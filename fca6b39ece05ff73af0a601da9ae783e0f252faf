@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c168dc7c_4468cef7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-14T10:56:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bbf5eca5_504d2193",
+      "range": {
+        "startLine": 21,
+        "startChar": 17,
+        "endLine": 21,
+        "endChar": 23
+      },
+      "revId": "fca6b39ece05ff73af0a601da9ae783e0f252faf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d8303a77_a21ef3b1",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-09-14T08:29:26Z",
       "side": 1,
       "message": "don\u0027t we need to unload the plugin _before_ the plugin caches are unloaded at L216?",
+      "range": {
+        "startLine": 217,
+        "startChar": 0,
+        "endLine": 217,
+        "endChar": 33
+      },
+      "revId": "fca6b39ece05ff73af0a601da9ae783e0f252faf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7039b7b_d501c1e4",
+        "filename": "java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-14T10:56:03Z",
+      "side": 1,
+      "message": "Good catch, yes indeed.",
+      "parentUuid": "d8303a77_a21ef3b1",
       "range": {
         "startLine": 217,
         "startChar": 0,

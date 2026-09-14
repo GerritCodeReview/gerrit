@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8096d460_b4c69214",
+        "filename": "java/com/google/gerrit/server/schema/AllProjectsCreator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 3001824
+      },
+      "writtenOn": "2026-09-14T18:04:28Z",
+      "side": 0,
+      "message": "Reading into these 2 more it looks like the change of \"default\" ANONYMOUS_USERS and REGISTERED_USERS GroupReferences is potentially a breaking change.\n\nThese 2 lines get the \u0027GroupReference\u0027s from from the systemGroupBackend while the new default \u0027GroupReference\u0027s in AllProjectsInput create them new.\n\nInstead it might be worth changing AllProjectsInput#defaultReadersGroup and AllProjectsInput#defaultUsersGroup to be Optionals and get the anonymous and registered \u0027GroupReference\u0027s in AllProjectsCreate if they\u0027re not set on the AllProjectsInput.",
+      "range": {
+        "startLine": 89,
+        "startChar": 0,
+        "endLine": 90,
+        "endChar": 68
+      },
+      "revId": "e96ad21b5878eec0c53182459d7cb4b9451a2bd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

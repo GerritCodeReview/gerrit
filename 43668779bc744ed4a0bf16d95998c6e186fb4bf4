@@ -141,6 +141,30 @@
       },
       "revId": "43668779bc744ed4a0bf16d95998c6e186fb4bf4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff3f1624_4f885fca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-09-14T11:55:32Z",
+      "side": 1,
+      "message": "The option name `gerrit.allowCommentsWithoutPermissions` is self-contradicting, if you have this permission, \"withoutPermissions\" can\u0027t be true since you have this permission.\n\nI think if a repo is read-only __all__ write operations should be blocked. I guess if you really want the current behavior you could still configure it using fine grained permissions, why do we need a shortcut option for this current behavior ?",
+      "parentUuid": "2d193955_c3d307b0",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 56
+      },
+      "revId": "43668779bc744ed4a0bf16d95998c6e186fb4bf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

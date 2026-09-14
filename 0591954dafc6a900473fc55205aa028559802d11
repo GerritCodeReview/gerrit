@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c0b8fd9a_7e4ed80e",
+        "filename": "java/com/google/gerrit/server/schema/H2CustomLockAccountPatchReviewStore.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-09-14T23:51:45Z",
+      "side": 1,
+      "message": "I don\u0027t follow, help me understand the concern.\n\n\nMy thought is that there are many variables in this code base which need to change together or state will be lost. By combining two of these into one variable, I think it reduces the risk of the state being out of whack? This leaves the waiter.admited variable, which can still get out of sync, and it should also go for the same reason? I think that all of those things could actually be managed with a single transition by moving waiters to an acquired Set instead? That would allow you to manage the lock state, the acquired count, and whether a thread was admitted all atomically, making the role of the synchronized much less important, and likely also reducing the complexity of the finallys which I am worried are going to be hard to get right currently.",
+      "parentUuid": "defe3747_118eab9f",
+      "revId": "0591954dafc6a900473fc55205aa028559802d11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9e71c756_6f1281d1",
         "filename": "java/com/google/gerrit/server/schema/H2CustomLockAccountPatchReviewStore.java",
         "patchSetId": 5

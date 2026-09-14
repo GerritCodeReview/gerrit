@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a32f7f8_80f1834d",
+        "filename": "java/com/google/gerrit/auth/oauth/OAuthTokenAesGcmEncrypter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-14T14:17:22Z",
+      "side": 1,
+      "message": "Most of the code in this class seems to be just cryptography, independent of OAuth. There are only two methods which unpack an OAuth token perform encryption/decryption of its parts and pack the results again. Factor out generic cryptography functionality in a separate class, thus keeping focus clean and making it (re)usable for other scenarios.",
+      "revId": "ca35309c24c964841c1b621395e8386e70869d23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

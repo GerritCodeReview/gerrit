@@ -22,6 +22,7 @@ import com.google.gerrit.index.Schema;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.GerritIndexStatus;
+import com.google.gerrit.server.index.IndexDir;
 import com.google.gerrit.server.index.OnlineUpgradeListener;
 import com.google.gerrit.server.index.VersionManager;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
@@ -39,18 +40,20 @@ import org.eclipse.jgit.lib.Config;
 public class LuceneVersionManager extends VersionManager {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  static Path getDir(SitePaths sitePaths, String name, Schema<?> schema) {
-    return sitePaths.index_dir.resolve(String.format("%s_%04d", name, schema.getVersion()));
+  static Path getDir(Path indexDir, String name, Schema<?> schema) {
+    return indexDir.resolve(String.format("%s_%04d", name, schema.getVersion()));
   }
 
   @Inject
   LuceneVersionManager(
       @GerritServerConfig Config cfg,
       SitePaths sitePaths,
+      @IndexDir Path indexDir,
       PluginSetContext<OnlineUpgradeListener> listeners,
       Collection<IndexDefinition<?, ?, ?>> defs) {
     super(
         sitePaths,
+        indexDir,
         listeners,
         defs,
         VersionManager.shouldPerformOnlineUpgrade(cfg),
@@ -63,7 +66,7 @@ public class LuceneVersionManager extends VersionManager {
     TreeMap<Integer, VersionManager.Version<V>> versions = new TreeMap<>();
     for (Schema<V> schema : def.getSchemas().values()) {
       // This part is Lucene-specific.
-      Path p = getDir(sitePaths, def.getName(), schema);
+      Path p = getDir(indexDir, def.getName(), schema);
       boolean isDir = Files.isDirectory(p);
       if (Files.exists(p) && !isDir) {
         logger.atWarning().log("Not a directory: %s", p.toAbsolutePath());
@@ -73,7 +76,7 @@ public class LuceneVersionManager extends VersionManager {
     }
 
     String prefix = def.getName() + "_";
-    try (DirectoryStream<Path> paths = Files.newDirectoryStream(sitePaths.index_dir)) {
+    try (DirectoryStream<Path> paths = Files.newDirectoryStream(indexDir)) {
       for (Path p : paths) {
         String n = p.getFileName().toString();
         if (!n.startsWith(prefix)) {
@@ -90,7 +93,7 @@ public class LuceneVersionManager extends VersionManager {
         }
       }
     } catch (IOException e) {
-      logger.atSevere().withCause(e).log("Error scanning index directory: %s", sitePaths.index_dir);
+      logger.atSevere().withCause(e).log("Error scanning index directory: %s", indexDir);
     }
     return versions;
   }

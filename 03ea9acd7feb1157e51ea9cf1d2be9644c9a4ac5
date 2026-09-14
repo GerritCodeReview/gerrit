@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b794869f_235633ff",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-09-14T18:03:05Z",
+      "side": 1,
+      "message": "This change depends on JGit and Gitiles changes:\n\n* https://review.gerrithub.io/c/eclipse-jgit/jgit/+/1249788\n* https://gerrit-review.googlesource.com/c/gitiles/+/630781",
+      "revId": "03ea9acd7feb1157e51ea9cf1d2be9644c9a4ac5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

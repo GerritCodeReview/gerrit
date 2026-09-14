@@ -70,6 +70,24 @@
       "parentUuid": "226fe7e4_4dccbf2b",
       "revId": "fdd62f4067e23bcd3c643df1d65aa577f3504ba4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "002ccf07_13573522",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-09-14T07:28:53Z",
+      "side": 1,
+      "message": "\u003e While the changes cache should be disabled, the changes_by_project cache was designed to be a multi-primary safe replacement for changes and should offer some good perf improvement. It does have a warning in the release notes about issue 380898784, which could be applicable to your env (but I\u0027m also not clear on the failure case reported there).\n\nWe are running close to master and are using the default config, i.e. we have a 1g disk cache and no in memory cache. The hit rate is 100 % for the disk cache, at least right now. In the situation where we had too many loose refs, thread dumps showed that it was actually trying to scan loose refs instead of using the cache. I would guess because of the traffic on the project, which is our largest, there is a decent amount of (re-)loading of changes required. Without the cache it would probably have been even slower.\n\n\u003e Do you have core.usePerRequestRefCache\u003dtrue?\n\nNo, we have set it explicitly to `false`, since we encountered issues using it about 2 years ago, IIRC this was related to running git gc concurrently in our multi-primary setup.",
+      "parentUuid": "9560b575_a0d8eb4a",
+      "revId": "fdd62f4067e23bcd3c643df1d65aa577f3504ba4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

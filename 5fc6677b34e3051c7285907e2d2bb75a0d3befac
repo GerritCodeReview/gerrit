@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e41ba796_e0b9d470",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-14T11:31:47Z",
+      "side": 1,
+      "message": "This was just a starting point in our discussion but this is not the main motivation\nfor this metric. As with any other metric the purpose is to be able to monitor\nthe latency.",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 58
+      },
+      "revId": "5fc6677b34e3051c7285907e2d2bb75a0d3befac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4aacead8_3792942f",
         "filename": "java/com/google/gerrit/server/project/SubmitRequirementsEvaluatorImpl.java",
         "patchSetId": 11

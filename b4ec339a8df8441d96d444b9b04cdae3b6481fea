@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3786804d_72fcd458",
+        "filename": "javatests/com/google/gerrit/auth/oauth/OAuthTokenCacheTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-09-14T09:27:16Z",
+      "side": 1,
+      "message": "nit: Move to after line 226 to group with similar methods",
+      "range": {
+        "startLine": 123,
+        "startChar": 0,
+        "endLine": 128,
+        "endChar": 3
+      },
+      "revId": "b4ec339a8df8441d96d444b9b04cdae3b6481fea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

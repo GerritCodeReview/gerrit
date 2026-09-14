@@ -46,6 +46,30 @@
       },
       "revId": "9f270d273e4baaadfc8f55c31489d99d1d0da65f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84583b79_95e900ed",
+        "filename": "java/com/google/gerrit/httpd/AllRequestFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-14T15:52:40Z",
+      "side": 1,
+      "message": "This has been address in the `beforeStopPlugin()` which is invoked before starting the reload. See https://gerrit-review.googlesource.com/c/gerrit/+/629941/19.",
+      "parentUuid": "45f90fee_87ee36f9",
+      "range": {
+        "startLine": 94,
+        "startChar": 0,
+        "endLine": 97,
+        "endChar": 38
+      },
+      "revId": "9f270d273e4baaadfc8f55c31489d99d1d0da65f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

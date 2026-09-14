@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.config;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.Nullable;
 import com.google.inject.Inject;
@@ -23,6 +24,9 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.util.FS;
 
 /** Important paths within a {@link SitePath}. */
 @Singleton
@@ -91,7 +95,6 @@ public final class SitePaths {
     mail_dir = etc_dir.resolve("mail");
     hooks_dir = p.resolve("hooks");
     static_dir = p.resolve("static");
-    index_dir = p.resolve("index");
 
     gerrit_sh = bin_dir.resolve("gerrit.sh");
     gerrit_service = bin_dir.resolve("gerrit.service");
@@ -101,6 +104,8 @@ public final class SitePaths {
     gerrit_config = etc_dir.resolve("gerrit.config");
     secure_config = etc_dir.resolve("secure.config");
     notedb_config = etc_dir.resolve("notedb.config");
+
+    index_dir = resolveIndexDir(gerrit_config);
 
     jgit_config = etc_dir.resolve("jgit.config");
 
@@ -126,6 +131,25 @@ public final class SitePaths {
       isNew = true;
     }
     this.isNew = isNew;
+  }
+
+  /**
+   * Resolves the index directory, honoring {@code index.path} in {@code gerrit.config} if set.
+   *
+   * <p>{@code index.path} may be absolute or relative to {@code sitePath}. If unset, the index
+   * directory defaults to {@code sitePath/index}.
+   */
+  private Path resolveIndexDir(Path gerritConfig) throws IOException {
+    FileBasedConfig cfg = new FileBasedConfig(gerritConfig.toFile(), FS.DETECTED);
+    if (cfg.getFile().exists()) {
+      try {
+        cfg.load();
+      } catch (ConfigInvalidException e) {
+        throw new IOException("Invalid config file " + gerritConfig, e);
+      }
+    }
+    String indexPath = cfg.getString("index", null, "path");
+    return Strings.isNullOrEmpty(indexPath) ? site_path.resolve("index") : resolve(indexPath);
   }
 
   /**

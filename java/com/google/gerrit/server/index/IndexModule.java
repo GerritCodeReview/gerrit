@@ -17,6 +17,7 @@ package com.google.gerrit.server.index;
 import static com.google.gerrit.server.git.QueueProvider.QueueType.BATCH;
 import static com.google.gerrit.server.git.QueueProvider.QueueType.INTERACTIVE;
 
+import com.google.common.base.Strings;
 import com.google.common.base.Ticker;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
@@ -35,6 +36,7 @@ import com.google.gerrit.index.project.ProjectIndexer;
 import com.google.gerrit.index.project.ProjectSchemaDefinitions;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MultiProgressMonitor;
 import com.google.gerrit.server.git.WorkQueue;
@@ -65,9 +67,14 @@ import com.google.inject.Provides;
 import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
 import com.google.inject.multibindings.OptionalBinder;
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Collection;
 import java.util.concurrent.TimeUnit;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.util.FS;
 
 /**
  * Module for non-indexer-specific secondary index setup.
@@ -77,6 +84,7 @@ import org.eclipse.jgit.lib.Config;
  */
 @SuppressWarnings("ProvidesMethodOutsideOfModule")
 public class IndexModule extends LifecycleModule {
+  public static final String INDEX = "index";
   public static final ImmutableList<SchemaDefinitions<?>> ALL_SCHEMA_DEFS =
       ImmutableList.of(
           AccountSchemaDefinitions.INSTANCE,
@@ -87,7 +95,7 @@ public class IndexModule extends LifecycleModule {
   /** Type of secondary index. */
   public static IndexType getIndexType(Injector injector) {
     Config cfg = injector.getInstance(Key.get(Config.class, GerritServerConfig.class));
-    String configValue = cfg != null ? cfg.getString("index", null, "type") : null;
+    String configValue = cfg != null ? cfg.getString(INDEX, null, "type") : null;
     return new IndexType(configValue);
   }
 
@@ -219,8 +227,7 @@ public class IndexModule extends LifecycleModule {
     int threads = this.threads;
     if (threads == 0) {
       threads =
-          config.getInt(
-              "index", null, "threads", Runtime.getRuntime().availableProcessors() / 2 + 1);
+          config.getInt(INDEX, null, "threads", Runtime.getRuntime().availableProcessors() / 2 + 1);
     }
     if (threads < 0) {
       return MoreExecutors.newDirectExecutorService();
@@ -240,7 +247,7 @@ public class IndexModule extends LifecycleModule {
     int threads = this.threads;
     if (threads == 0) {
       threads =
-          config.getInt("index", null, "batchThreads", Runtime.getRuntime().availableProcessors());
+          config.getInt(INDEX, null, "batchThreads", Runtime.getRuntime().availableProcessors());
     }
     if (threads < 0) {
       return MoreExecutors.newDirectExecutorService();
@@ -253,6 +260,35 @@ public class IndexModule extends LifecycleModule {
   StalenessChecker getChangeStalenessChecker(
       ChangeIndexCollection indexes, GitRepositoryManager repoManager, IndexConfig indexConfig) {
     return new StalenessChecker(indexes, repoManager, indexConfig);
+  }
+
+  @Provides
+  @Singleton
+  @IndexDir
+  Path getIndexDirectory(@GerritServerConfig Config cfg, SitePaths site) {
+    return indexDirectory(cfg, site);
+  }
+
+  /**
+   * Resolves the index directory before the Guice injector exists (e.g. during {@code Init}), by
+   * reading {@code gerrit.config} directly from disk.
+   */
+  public static Path indexDirectory(SitePaths sitePaths) throws IOException {
+    FileBasedConfig cfg = new FileBasedConfig(sitePaths.gerrit_config.toFile(), FS.DETECTED);
+    if (cfg.getFile().exists()) {
+      try {
+        cfg.load();
+      } catch (ConfigInvalidException e) {
+        throw new IOException("Invalid config file " + sitePaths.gerrit_config, e);
+      }
+    }
+    return indexDirectory(cfg, sitePaths);
+  }
+
+  /** Resolves the index directory from an already-loaded {@code gerrit.config}. */
+  public static Path indexDirectory(Config cfg, SitePaths site) {
+    String name = cfg.getString(INDEX, null, "directory");
+    return Strings.isNullOrEmpty(name) ? site.resolve(INDEX) : site.resolve(name);
   }
 
   @Singleton

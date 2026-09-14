@@ -34,6 +34,7 @@ import com.google.gerrit.server.config.GerritOptions;
 import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.index.GerritIndexStatus;
+import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.account.AccountSchemaDefinitions;
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
 import com.google.gerrit.server.index.group.GroupSchemaDefinitions;
@@ -115,7 +116,7 @@ public class Init extends BaseInit {
 
   @Override
   protected boolean beforeInit(SiteInit init) throws Exception {
-    indexStatus = new GerritIndexStatus(init.site);
+    indexStatus = new GerritIndexStatus(IndexModule.indexDirectory(init.site));
     ErrorLogFile.errorOnlyConsole();
 
     if (!skipPlugins) {

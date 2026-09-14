@@ -71,10 +71,20 @@ class PreservePacksInitStep(GCStep):
         with GitConfigReader(
             os.path.join(repo_dir, "config"), self.git_config
         ) as config_reader:
-            is_prune_preserved = config_reader.get("gc", None, "prunepreserved", False)
-            is_preserve_old_packs = config_reader.get(
-                "gc", None, "preserveoldpacks", False
+            is_prune_preserved = config_reader.get(
+                "pack", None, "prunepreserved", False
             )
+            if not is_prune_preserved:
+                is_prune_preserved = config_reader.get(
+                    "gc", None, "prunepreserved", False
+                )
+            is_preserve_old_packs = config_reader.get(
+                "pack", None, "preserveoldpacks", False
+            )
+            if not is_preserve_old_packs:
+                is_preserve_old_packs = config_reader.get(
+                    "gc", None, "preserveoldpacks", False
+                )
 
         if is_prune_preserved:
             self._prune_preserved(repo_dir)

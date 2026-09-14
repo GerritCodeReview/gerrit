@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5222e90_e9f8a9b0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-09-14T10:49:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3cec0dea_ce6707e4",
+      "range": {
+        "startLine": 45,
+        "startChar": 54,
+        "endLine": 46,
+        "endChar": 45
+      },
+      "revId": "402fd6c6da5ab0231e09cd9e218966a1aa17a08b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7668614b_adab3db4",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-09-14T09:18:22Z",
       "side": 1,
       "message": "This is only available with JDK 24 and newer, i.e. this fails with the AFAIK still supported Java 21.",
+      "range": {
+        "startLine": 33,
+        "startChar": 7,
+        "endLine": 33,
+        "endChar": 42
+      },
+      "revId": "402fd6c6da5ab0231e09cd9e218966a1aa17a08b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "40c61315_2662f9e0",
+        "filename": "java/com/google/gerrit/auth/oauth/OAuthTokenAesGcmEncrypter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-09-14T10:49:59Z",
+      "side": 1,
+      "message": "Done, thanks. I removed the dependency on `javax.crypto.KDF` and `HKDFParameterSpec`.\n\nThe key derivation now implements HKDF-SHA256 per RFC 5869 using `Mac.getInstance(\"HmacSHA256\")` and `SecretKeySpec`, which is available on the supported Java 21 runtime. I also added an RFC 5869 test vector so the local HKDF implementation is covered directly.",
+      "parentUuid": "7668614b_adab3db4",
       "range": {
         "startLine": 33,
         "startChar": 7,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f6edb6b_351eafb7",
+        "filename": "java/com/google/gerrit/auth/oauth/OAuthTokenAesGcmEncrypter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-09-14T10:49:59Z",
+      "side": 1,
+      "message": "Done. The code now uses a `ThreadLocal\u003cCipher\u003e`.\n\nThe cipher is still re-initialized for every encrypt/decrypt operation with the derived key, fresh IV for encryption, and the operation-specific AAD. So the stateful GCM cipher is not shared across threads or reused without `init()`.",
+      "parentUuid": "f87c15f7_3fe4e90f",
+      "range": {
+        "startLine": 138,
+        "startChar": 0,
+        "endLine": 138,
+        "endChar": 57
+      },
+      "revId": "402fd6c6da5ab0231e09cd9e218966a1aa17a08b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "49419ddf_94af0267",
@@ -83,6 +155,30 @@
       "writtenOn": "2026-09-14T09:18:22Z",
       "side": 1,
       "message": "I believe we should test that directly in `decrypt()`. This would lead to 1 test instead of 3. I don\u0027t believe there should be a case, where only one of three fields is encrypted.",
+      "range": {
+        "startLine": 160,
+        "startChar": 4,
+        "endLine": 160,
+        "endChar": 53
+      },
+      "revId": "402fd6c6da5ab0231e09cd9e218966a1aa17a08b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "639a8cc0_e89028ba",
+        "filename": "java/com/google/gerrit/auth/oauth/OAuthTokenAesGcmEncrypter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-09-14T10:49:59Z",
+      "side": 1,
+      "message": "Agreed. I kept this covered through the public `decrypt()` path rather than testing the private per-field helper.\n\nThe test uses one whole cleartext `OAuthToken` and verifies that `decrypt()` returns it unchanged. I did not add mixed partially-encrypted token cases, because that is not a supported/expected stored state.",
+      "parentUuid": "49419ddf_94af0267",
       "range": {
         "startLine": 160,
         "startChar": 4,

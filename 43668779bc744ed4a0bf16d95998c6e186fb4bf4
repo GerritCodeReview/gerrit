@@ -237,6 +237,30 @@
       },
       "revId": "43668779bc744ed4a0bf16d95998c6e186fb4bf4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "73d9ef56_256d342d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-14T21:30:49Z",
+      "side": 1,
+      "message": "\u003e I believe Google has a use case where some people don\u0027t have permissions to vote on change but still need to be allowed to post comments, and this is how we ended up here.\n\nI recall that Google actually doesn\u0027t really use scoring but simply comments. A change with outstanding comments isn\u0027t mergeable for them. Voting or not doesn\u0027t really make any difference.\n\nIf we move forward with this change, we allow Google\u0027s use-cases to be implemented.\nWe also alllow to make a repository *really read-only* by blocking the permission to comment on it, in addition to the read-only status.\n\nWith regards to the permission of allowing to vote, we can simply document clearly that it won\u0027t be possible to block comments on it: we can\u0027t really block an API without blocking it.",
+      "parentUuid": "d4682ae2_484ca893",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 56
+      },
+      "revId": "43668779bc744ed4a0bf16d95998c6e186fb4bf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d86c038a_8b96a670",
+        "filename": "java/com/google/gerrit/httpd/AllRequestFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-09-14T08:51:18Z",
+      "side": 1,
+      "message": "During reload, the `onReloadPlugin(oldPlugin, newPlugin)` replaces the filter registrations before `unloadPlugin(oldPlugin)` invokes `beforeStopPlugin()`.\n\n1. The replacement plugin starts: [PluginLoader.java:524](https://github.com/GerritCodeReview/gerrit/blob/9f270d273e4baaadfc8f55c31489d99d1d0da65f/java/com/google/gerrit/server/plugins/PluginLoader.java#L524)\n2. It replacas the registrations: [PluginLoader.java:531](https://github.com/GerritCodeReview/gerrit/blob/9f270d273e4baaadfc8f55c31489d99d1d0da65f/java/com/google/gerrit/server/plugins/PluginLoader.java#L531)\n\nOnly then is the old plugin unloaded:\n\n3. Unload the old plugin: [PluginLoader.java:532](https://github.com/GerritCodeReview/gerrit/blob/9f270d273e4baaadfc8f55c31489d99d1d0da65f/java/com/google/gerrit/server/plugins/PluginLoader.java#L532)\n\nSo at this point, looking up filters by plugin name selects the _replacement_ instance\u0027s filters.\nWouldn’t this destroy the _new_ filters instead of the _old_ ones?\n\nI think the old cleanup was looking at previously initialised filters and destroying those no longer present in the shared set.",
+      "range": {
+        "startLine": 94,
+        "startChar": 0,
+        "endLine": 97,
+        "endChar": 38
+      },
+      "revId": "9f270d273e4baaadfc8f55c31489d99d1d0da65f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

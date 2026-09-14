@@ -93,6 +93,30 @@
       },
       "revId": "43668779bc744ed4a0bf16d95998c6e186fb4bf4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba361cc0_ac40a5ad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-14T11:48:19Z",
+      "side": 1,
+      "message": "\u003e \u003e \n\u003e \u003e But then we would also need the `allowCommentsOnReadOnly` as well, therefore two settings.\n\u003e \n\u003e I probably missed some discussions: for what would be allowCommentsOnReadOnly used?\n\nGerrit gives implicitly the permission to comment on any change that you can see, even if you have zero permissions to do anything other than seeing the change.\n\nThat applies also to projects that are in read-only, where you would never expect people to be able to change any of its changes\u0027 meta-data by commenting.\n\nThe introduction of a new permission to comment on changes would have resolved that use case as well. But also a global permission would also work.\n\nIf you want to allow people to comment on projects that are writable but NOT on projects that are read-only, then you need to set:\n\n```\n[gerrit]\n   allowCommentsWithoutPermissions \u003d true\n   allowCommentsOnReadOnly \u003d false\n```\n\nThat\u0027s why I believe @nasser.grainawi@oss.qualcomm.com and @danielesassoli@gmail.com had the idea to define a new ACL for it.",
+      "parentUuid": "5ec2cdc1_40dc0d29",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 56
+      },
+      "revId": "43668779bc744ed4a0bf16d95998c6e186fb4bf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

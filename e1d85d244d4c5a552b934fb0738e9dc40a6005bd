@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ec33a72_d989b110",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-14T13:26:26Z",
+      "side": 1,
+      "message": "Why is this necessary and what would the client do differently for 409 vs 404 response?",
+      "revId": "e1d85d244d4c5a552b934fb0738e9dc40a6005bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

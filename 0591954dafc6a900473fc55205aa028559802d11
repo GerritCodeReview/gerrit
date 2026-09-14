@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bdd72c95_fc0aa3f1",
+        "filename": "java/com/google/gerrit/server/schema/H2CustomLockAccountPatchReviewStore.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2026-09-14T22:16:53Z",
+      "side": 1,
+      "message": "No need for rawLocked, use numAqcuired \u003d\u003d 0 to signal this?",
+      "revId": "0591954dafc6a900473fc55205aa028559802d11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e71c756_6f1281d1",
+        "filename": "java/com/google/gerrit/server/schema/H2CustomLockAccountPatchReviewStore.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2026-09-14T22:16:53Z",
+      "side": 1,
+      "message": "If any exception leaks out of this loop, the lock will get hung indefinitely once acquired?",
+      "revId": "0591954dafc6a900473fc55205aa028559802d11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c30dbbe_6293acfe",
+        "filename": "java/com/google/gerrit/server/schema/H2CustomLockAccountPatchReviewStore.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2026-09-14T22:16:53Z",
+      "side": 1,
+      "message": "Is it safe to unlock even in this case?",
+      "revId": "0591954dafc6a900473fc55205aa028559802d11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "168f23db_b0755621",
+        "filename": "java/com/google/gerrit/server/schema/H2CustomLockAccountPatchReviewStore.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2026-09-14T22:16:53Z",
+      "side": 1,
+      "message": "Since this isn\u0027t intended to block, use an iterator instead? This avoids the need to check for empty?",
+      "revId": "0591954dafc6a900473fc55205aa028559802d11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

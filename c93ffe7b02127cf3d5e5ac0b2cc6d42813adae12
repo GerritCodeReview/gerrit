@@ -349,6 +349,24 @@
       "parentUuid": "301bfb1c_728d5c07",
       "revId": "c93ffe7b02127cf3d5e5ac0b2cc6d42813adae12",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79bc0f45_e8095562",
+        "filename": "java/com/google/gerrit/server/schema/H2CustomLockAccountPatchReviewStore.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2026-09-14T22:16:53Z",
+      "side": 1,
+      "message": "If unlock throws an exception, I think it is safe to consider it unlocked anyway (worse case an attempt to lock it will fail), so I think the line below need to be in a finally block.",
+      "parentUuid": "6fb0383d_84801c95",
+      "revId": "c93ffe7b02127cf3d5e5ac0b2cc6d42813adae12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

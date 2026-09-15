@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bdd7dfd8_83aa098f",
+        "filename": "java/com/google/gerrit/server/schema/H2CustomLockAccountPatchReviewStore.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-09-15T00:56:15Z",
+      "side": 1,
+      "message": "Have to use thread ids since we dont get any identifier during the unlock().",
+      "revId": "0db40905a160c79cc34fa8f65bc352755ab3d30a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f3b15b9a_8f3a97e1",
+        "filename": "java/com/google/gerrit/server/schema/H2CustomLockAccountPatchReviewStore.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-09-15T00:56:15Z",
+      "side": 1,
+      "message": "Should we block Reenterant support ?",
+      "revId": "0db40905a160c79cc34fa8f65bc352755ab3d30a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

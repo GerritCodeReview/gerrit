@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb92f6db_60da8770",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-09-15T22:49:40Z",
+      "side": 1,
+      "message": "How many concurrent writers on each node, and how many nodes? I would think we want to test around twice the number of writers as the max batch size?",
+      "revId": "f3cd0fa465ebf887ce2bac27914f17ac9434b334",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4971ce8a_be6e060d",
+        "filename": "java/com/google/gerrit/server/schema/H2CustomLockAccountPatchReviewStore.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-09-15T22:49:40Z",
+      "side": 1,
+      "message": "This is the same as calling unlock()?",
+      "revId": "f3cd0fa465ebf887ce2bac27914f17ac9434b334",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

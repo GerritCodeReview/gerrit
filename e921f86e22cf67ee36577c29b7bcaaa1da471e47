@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8992059_de779923",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-09-15T06:03:16Z",
+      "side": 1,
+      "message": "Abandoning in favor of the stable-3.12 upload. Per Gerrit\u0027s security-fix process, a fix for a vulnerability affecting all supported releases must originate on the oldest non-EOL branch (stable-3.12) and merge forward, not land on master directly. \n\nRe-uploaded to stable-3.12 as change 631121.",
+      "revId": "e921f86e22cf67ee36577c29b7bcaaa1da471e47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

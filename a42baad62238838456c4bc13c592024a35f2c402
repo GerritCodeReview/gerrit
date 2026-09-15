@@ -3,6 +3,40 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3c01f0f9_bfd009ff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-15T13:01:35Z",
+      "side": 1,
+      "message": "linear may not be optimal: as the expiration day approaches the notifications shall be sent more often.",
+      "revId": "a42baad62238838456c4bc13c592024a35f2c402",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28cc4636_1bb452ec",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 698,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-15T13:01:35Z",
+      "side": 1,
+      "message": "I have an alternative proposal. Instead of two parameters which define linear intervals I suggest having an explicit list of days before:\n```\n  auth.tokenExpiryNoficationDaysBefore \u003d 30, 14, 7, 3, 2, 1\n```\n\nThis is predictable and human readable.",
+      "revId": "a42baad62238838456c4bc13c592024a35f2c402",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6f3eed38_9c3f30c0",
         "filename": "java/com/google/gerrit/server/account/AuthTokenExpiryNotificationConfig.java",
         "patchSetId": 4

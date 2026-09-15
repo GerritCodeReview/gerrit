@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e0157b2_6ddcea7e",
+        "filename": "java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-15T09:47:52Z",
+      "side": 1,
+      "message": "This doesn\u0027t look right to me: prolog specific parameters in the method signature of the \"generic\" submit rule evaluator.\n\nI see that this was done because of the REST endpoint `TestSubmitType` but that endpoint is purely Prolog specific and shouldn\u0027t use SubmitRuleEvaluator",
+      "revId": "5b38329607abb5533ee88c82536e2e9975d1287b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "351a2c79_2670d526",
+        "filename": "java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-15T09:47:52Z",
+      "side": 1,
+      "message": "This is unnecessary initialization because submitType will be always set with the next if-then-else statement.",
+      "range": {
+        "startLine": 195,
+        "startChar": 45,
+        "endLine": 195,
+        "endChar": 64
+      },
+      "revId": "5b38329607abb5533ee88c82536e2e9975d1287b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43507d32_125adab5",
+        "filename": "java/com/google/gerrit/server/restapi/change/TestSubmitType.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-15T09:47:52Z",
+      "side": 1,
+      "message": "This REST endpoint is prolog specific and shouldn\u0027t go via `SubmitRuleEvaluator` just to reach prolog machinery through it.",
+      "revId": "5b38329607abb5533ee88c82536e2e9975d1287b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5ebd863_fdc1a76e",
+        "filename": "java/com/google/gerrit/server/rules/prolog/PrologRuleEvaluator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-15T09:47:52Z",
+      "side": 1,
+      "message": "The commit message says that the fallback to the project-level submit type is removed from Prolog rule evaluation. Why do we have it here?",
+      "revId": "5b38329607abb5533ee88c82536e2e9975d1287b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

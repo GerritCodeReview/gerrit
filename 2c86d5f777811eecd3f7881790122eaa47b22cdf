@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c0a768d_d87e2111",
+        "filename": "java/com/google/gerrit/httpd/AllRequestFilter.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-09-15T16:40:58Z",
+      "side": 1,
+      "message": "Agreed. `contains()` is only used here to avoid initialising the same filter twice, and keeping the old identity scan means doing a full scan on every HTTP request.\n\nI don\u0027t see a concrete case where we need the old identity behaviour, to be honest, so I\u0027m fine with using the concurrent set.\n\nNo need to preserve the full scan for now.",
+      "parentUuid": "0584465b_91133e64",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 62
+      },
+      "revId": "2c86d5f777811eecd3f7881790122eaa47b22cdf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "391bfc7f_12714bd7",

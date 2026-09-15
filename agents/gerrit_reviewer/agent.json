@@ -1,0 +1,7 @@
+{
+  "name": "gerrit_reviewer",
+  "description": "Automated Code Reviewer orchestrating a Multi-Perspective Swarming Framework on Gerrit Changes.",
+  "configPath": {
+    "relativePathToConfig": "config.yaml"
+  }
+}

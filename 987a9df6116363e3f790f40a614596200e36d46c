@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f307fb47_0db2317b",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ReviewInput.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-09-15T21:08:28Z",
+      "side": 1,
+      "message": "I thought it\u0027s about isAI only\n\nPlease fix this WARNING reported by autoreview issue finding: Is it intentional to include `fromAi` and `labelsFromAi`? They are not mentioned in the commit message. If they are intended for backwards compatibility with an earlier prototype, consider adding a short comment to clarify their purpose so they don\u0027t get accidentally removed in the future.",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 0
+      },
+      "revId": "987a9df6116363e3f790f40a614596200e36d46c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

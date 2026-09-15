@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fbc3f835_537bec84",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-09-15T23:37:23Z",
+      "side": 1,
+      "message": "Cool, can you add those and the corresponding \u0027before\u0027 numbers to the commit message?",
+      "parentUuid": "5609d69b_95c113bf",
+      "revId": "f3cd0fa465ebf887ce2bac27914f17ac9434b334",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4971ce8a_be6e060d",
         "filename": "java/com/google/gerrit/server/schema/H2CustomLockAccountPatchReviewStore.java",
         "patchSetId": 11

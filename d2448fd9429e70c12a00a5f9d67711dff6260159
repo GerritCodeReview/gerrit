@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "385000bb_22c8084a",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeIndexRewriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-09-15T04:57:16Z",
+      "side": 1,
+      "message": "Does this go against what the comment on L193-196 says? I think this is likely the correct code change, but I\u0027m worried other things might expect an `IndexPredicate` as the ChangeDataSource.",
+      "revId": "d2448fd9429e70c12a00a5f9d67711dff6260159",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

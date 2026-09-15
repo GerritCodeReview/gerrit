@@ -14,7 +14,6 @@
 
 package com.google.gerrit.httpd;
 
-import com.google.common.collect.Lists;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.Extension;
 import com.google.gerrit.server.plugins.Plugin;
@@ -27,7 +26,8 @@ import com.google.inject.internal.UniqueAnnotations;
 import com.google.inject.servlet.ServletModule;
 import java.io.IOException;
 import java.util.Iterator;
-import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.stream.StreamSupport;
 import javax.servlet.Filter;
@@ -63,13 +63,13 @@ public abstract class AllRequestFilter implements Filter {
   static class FilterProxy implements Filter, StopPluginListener {
     private final DynamicSet<AllRequestFilter> filters;
 
-    private List<AllRequestFilter> initializedFilters;
+    private Set<AllRequestFilter> initializedFilters;
     private FilterConfig filterConfig;
 
     @Inject
     FilterProxy(DynamicSet<AllRequestFilter> filters) {
       this.filters = filters;
-      this.initializedFilters = Lists.newCopyOnWriteArrayList();
+      this.initializedFilters = ConcurrentHashMap.newKeySet();
       this.filterConfig = null;
     }
 
@@ -166,7 +166,7 @@ public abstract class AllRequestFilter implements Filter {
     @Override
     public synchronized void destroy() {
       cleanUpInitializedFilters(SELECT_ALL);
-      initializedFilters = Lists.newCopyOnWriteArrayList();
+      initializedFilters = ConcurrentHashMap.newKeySet();
     }
 
     @Override
@@ -183,13 +183,11 @@ public abstract class AllRequestFilter implements Filter {
     }
 
     private boolean isInitializedFilter(AllRequestFilter filter) {
-      return initializedFilters.stream().anyMatch(f -> f == filter);
+      return initializedFilters.contains(filter);
     }
 
     private void removeFromInitializedFilters(AllRequestFilter filter) {
-      List<AllRequestFilter> newList =
-          initializedFilters.stream().filter(f -> f != filter).toList();
-      initializedFilters = newList;
+      initializedFilters.remove(filter);
     }
   }
 

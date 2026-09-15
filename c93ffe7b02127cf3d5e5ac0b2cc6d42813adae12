@@ -367,6 +367,24 @@
       "parentUuid": "6fb0383d_84801c95",
       "revId": "c93ffe7b02127cf3d5e5ac0b2cc6d42813adae12",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0649080e_5fa1d842",
+        "filename": "java/com/google/gerrit/server/schema/H2CustomLockAccountPatchReviewStore.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-09-15T00:54:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "79bc0f45_e8095562",
+      "revId": "c93ffe7b02127cf3d5e5ac0b2cc6d42813adae12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

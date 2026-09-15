@@ -54,6 +54,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "edf08c2f_cbc8bb2f",
+        "filename": "java/com/google/gerrit/server/schema/H2CustomLockAccountPatchReviewStore.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-09-15T00:54:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c0b8fd9a_7e4ed80e",
+      "revId": "0591954dafc6a900473fc55205aa028559802d11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9e71c756_6f1281d1",
@@ -67,6 +85,24 @@
       "writtenOn": "2026-09-14T22:16:53Z",
       "side": 1,
       "message": "If any exception leaks out of this loop, the lock will get hung indefinitely once acquired?",
+      "revId": "0591954dafc6a900473fc55205aa028559802d11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e7745eb9_0b05a82f",
+        "filename": "java/com/google/gerrit/server/schema/H2CustomLockAccountPatchReviewStore.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-09-15T00:54:50Z",
+      "side": 1,
+      "message": "Yeah, if its acquires and then leaks yes. (added some try-catch)",
+      "parentUuid": "9e71c756_6f1281d1",
       "revId": "0591954dafc6a900473fc55205aa028559802d11",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -88,6 +124,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9b9e294_23613b3c",
+        "filename": "java/com/google/gerrit/server/schema/H2CustomLockAccountPatchReviewStore.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-09-15T00:54:50Z",
+      "side": 1,
+      "message": "NA now.",
+      "parentUuid": "2c30dbbe_6293acfe",
+      "revId": "0591954dafc6a900473fc55205aa028559802d11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "168f23db_b0755621",
@@ -101,6 +155,24 @@
       "writtenOn": "2026-09-14T22:16:53Z",
       "side": 1,
       "message": "Since this isn\u0027t intended to block, use an iterator instead? This avoids the need to check for empty?",
+      "revId": "0591954dafc6a900473fc55205aa028559802d11",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f970832e_38eba618",
+        "filename": "java/com/google/gerrit/server/schema/H2CustomLockAccountPatchReviewStore.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-09-15T00:54:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "168f23db_b0755621",
       "revId": "0591954dafc6a900473fc55205aa028559802d11",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

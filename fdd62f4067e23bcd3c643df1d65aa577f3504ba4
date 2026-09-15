@@ -106,6 +106,24 @@
       "parentUuid": "002ccf07_13573522",
       "revId": "fdd62f4067e23bcd3c643df1d65aa577f3504ba4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c64691d_70f07fb5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-15T18:56:25Z",
+      "side": 1,
+      "message": "\u003e I think we determined that behavior was due to some bugs we had in JGit at the time and they\u0027ve all been fixed since.\n\nDo you have any reference to the fixes?",
+      "parentUuid": "f54b4e35_1ba674c4",
+      "revId": "fdd62f4067e23bcd3c643df1d65aa577f3504ba4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

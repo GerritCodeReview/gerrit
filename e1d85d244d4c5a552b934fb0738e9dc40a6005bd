@@ -88,6 +88,24 @@
       "parentUuid": "2b829c5c_25cd1c5a",
       "revId": "e1d85d244d4c5a552b934fb0738e9dc40a6005bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "34be55bb_11423c1f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-09-15T13:58:27Z",
+      "side": 1,
+      "message": "Correct, an immediate retry after 409 will not help. The value is not automatic retry; it is avoiding the wrong recovery path.\n\nFor 404, the client can reasonably tell the user/admin to re-authenticate or check the provider refresh-token setup, because Gerrit token storage is enabled but no usable token is available for this account.\n\nFor 409, re-authentication is known to be useless: Gerrit will keep dropping the token until the operator changes `cache.oauth_tokens.memoryLimit` and restarts. So a client/tool can stop the login loop and report that this endpoint is administratively disabled on the server.\n\nThat is the practical distinction I wanted to preserve. I am fine keeping 409 for that reason.",
+      "parentUuid": "5d9df8ba_d6644513",
+      "revId": "e1d85d244d4c5a552b934fb0738e9dc40a6005bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

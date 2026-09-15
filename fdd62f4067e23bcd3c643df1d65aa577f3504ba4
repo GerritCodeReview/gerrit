@@ -124,6 +124,24 @@
       "parentUuid": "f54b4e35_1ba674c4",
       "revId": "fdd62f4067e23bcd3c643df1d65aa577f3504ba4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9af406b8_a2b3a4ce",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-09-15T21:18:39Z",
+      "side": 1,
+      "message": "\u003e \u003e I think we determined that behavior was due to some bugs we had in JGit at the time and they\u0027ve all been fixed since.\n\u003e \n\u003e Do you have any reference to the fixes?\n\nJGit change 1176275: SnapshottingRefDirectory: Invalidate snapshot after locking ref for update | https://eclipse.gerrithub.io/c/eclipse-jgit/jgit/+/1176275 which is referenced in the related Gerrit issue https://issues.gerritcodereview.com/issues/309098227#comment20\n\nThere were also [other fixes merged](https://eclipse.gerrithub.io/q/project:eclipse-jgit/jgit+status:merged+-branch:master+-is:merge+(file:org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectoryUpdate.java+OR+file:org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/RefDirectory.java+OR+file:org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/SnapshottingRefDirectory.java+OR+file:org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/file/PackedBatchRefUpdate.java)+mergedafter:2023-11-04) since the original issue was reported.",
+      "parentUuid": "0c64691d_70f07fb5",
+      "revId": "fdd62f4067e23bcd3c643df1d65aa577f3504ba4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

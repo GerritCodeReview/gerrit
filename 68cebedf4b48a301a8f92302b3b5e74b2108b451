@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee327ce5_30621e74",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4665459
+      },
+      "writtenOn": "2026-09-15T00:58:58Z",
+      "side": 1,
+      "message": "Does index.path work as expected when a new site is init?",
+      "revId": "68cebedf4b48a301a8f92302b3b5e74b2108b451",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1fa32ccb_a35b32a1",
+        "filename": "java/com/google/gerrit/server/config/SitePaths.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 4665459
+      },
+      "writtenOn": "2026-09-15T00:58:58Z",
+      "side": 1,
+      "message": "We dont have to do the normalize() and toRealPath() if the cfg is not set? How about:\n\n```\nString indexPath \u003d cfg.getString(\"index\", null, \"path\");\nif (Strings.isNullOrEmpty(indexPath)) {\n  return site_path.resolve(\"index\");\n} else {\n  return resolve(indexPath);\n}\n\n```",
+      "revId": "68cebedf4b48a301a8f92302b3b5e74b2108b451",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -163,6 +163,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c51f16f1_53690cb4",
+        "filename": "java/com/google/gerrit/server/project/SubmitTypeEvaluator.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-15T10:37:33Z",
+      "side": 1,
+      "message": "This class appears to handle the project-level default, prolog based submit type and also evaluate the (new) query based submit type. It delegates to other classes for the first two and implements query based submit type evaluation here. \n\nI would like to propose a cleaner split of responsibilities. Have dedicated classes which evaluate submit type:\n* based on project-level default\n* based on prolog based submit type\n* based on query based submit type\n\nThen have one class, maybe exactly this one, which wraps all those and handles priority",
+      "revId": "2c41acf7bb2bcfc5533add619059aacbef730942",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b939358c_5f76c14a",
         "filename": "java/com/google/gerrit/server/project/SubmitTypeEvaluator.java",
         "patchSetId": 8

@@ -71,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e0b464d_42380c08",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-15T13:03:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c051d866_c459d0e2",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 135
+      },
+      "revId": "41f7cccd01cc26492152fe61347df75f30537c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f2ec1ed4_12405163",
@@ -84,6 +108,30 @@
       "writtenOn": "2026-09-15T12:00:07Z",
       "side": 1,
       "message": "```suggestion\n   * @param plugin {@link Plugin} that has been stopped\n```",
+      "range": {
+        "startLine": 30,
+        "startChar": 34,
+        "endLine": 30,
+        "endChar": 46
+      },
+      "revId": "41f7cccd01cc26492152fe61347df75f30537c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "70805e1c_7caa4ea1",
+        "filename": "java/com/google/gerrit/server/plugins/StopPluginListener.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-15T13:03:53Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "f2ec1ed4_12405163",
       "range": {
         "startLine": 30,
         "startChar": 34,

@@ -70,6 +70,24 @@
       "parentUuid": "97e64dc8_f7c20b35",
       "revId": "e1d85d244d4c5a552b934fb0738e9dc40a6005bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d9df8ba_d6644513",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-15T13:32:31Z",
+      "side": 1,
+      "message": "OK, I don\u0027t have a strong opinion on the response code. You can keep whichever you want. Regarding the client handling the response: when would a retry (after receiving 409) really help? Not before Gerrit server is reconfigured and restarted, right? If this is true, then basically all retries will fail as it is extremely unlikely that a restart will occur between the two attempts. Again, I am not against having a different response code for this case, but does it help in any realistic scenario?",
+      "parentUuid": "2b829c5c_25cd1c5a",
+      "revId": "e1d85d244d4c5a552b934fb0738e9dc40a6005bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

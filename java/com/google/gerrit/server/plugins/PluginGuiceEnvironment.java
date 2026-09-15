@@ -308,6 +308,12 @@ public class PluginGuiceEnvironment {
     return injectorsListBuilder.build();
   }
 
+  public void beforeStopPlugin(Plugin plugin) {
+    for (StopPluginListener l : onStop.values()) {
+      l.beforeStopPlugin(plugin);
+    }
+  }
+
   public void onStopPlugin(Plugin plugin) {
     for (StopPluginListener l : onStop.values()) {
       l.onStopPlugin(plugin);

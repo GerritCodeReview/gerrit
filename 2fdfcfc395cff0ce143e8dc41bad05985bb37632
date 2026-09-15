@@ -3,6 +3,86 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6359f32a_9962b4a1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-15T11:59:49Z",
+      "side": 1,
+      "message": "This change effectively allows to have submit-whole-topic flag per request.\nMaybe that would be a more explicit commit message subject.",
+      "revId": "2fdfcfc395cff0ce143e8dc41bad05985bb37632",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d84604e_72e444ff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-15T11:59:49Z",
+      "side": 1,
+      "message": "had or still has? According to the documentation this is still available.",
+      "range": {
+        "startLine": 9,
+        "startChar": 7,
+        "endLine": 9,
+        "endChar": 10
+      },
+      "revId": "2fdfcfc395cff0ce143e8dc41bad05985bb37632",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0db75548_d4ed6229",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 1968,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-15T11:59:49Z",
+      "side": 1,
+      "message": "I wonder if all this complexity is justified or if we just need to allow overriding the global setting on per-request level.",
+      "range": {
+        "startLine": 1961,
+        "startChar": 0,
+        "endLine": 1968,
+        "endChar": 12
+      },
+      "revId": "2fdfcfc395cff0ce143e8dc41bad05985bb37632",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3299f85f_3e584dc3",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2078,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-15T11:59:49Z",
+      "side": 1,
+      "message": "Did you consider adding an option to the existing submit-change endpoint, something like:\n```\nPOST /changes/{change-id}/submit?wholeTopic\u003dtrue\n```\n\nThis would override the default from the change.submitWholeTopic",
+      "revId": "2fdfcfc395cff0ce143e8dc41bad05985bb37632",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b5f3ec61_1ea729a1",
         "filename": "java/com/google/gerrit/server/restapi/change/ChangeRestApiModule.java",
         "patchSetId": 6

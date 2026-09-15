@@ -16,6 +16,24 @@
       "message": "Does this go against what the comment on L193-196 says? I think this is likely the correct code change, but I\u0027m worried other things might expect an `IndexPredicate` as the ChangeDataSource.",
       "revId": "d2448fd9429e70c12a00a5f9d67711dff6260159",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c1e1881_3573eb5a",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeIndexRewriter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-09-15T15:45:03Z",
+      "side": 1,
+      "message": "The javadoc on L193-196 was stale for this path; updated it (PS2). On the `IndexPredicate` worry: `AndSource` selects its source by DataSource + min cardinality and the two branches just above (L264, L270) already return `copy(in, newChildren)` for all-datasource subtrees with no `IndexedChangeQuery`. This branch just extends that to the mixed no-directly-indexed case, so a non-IndexPredicate root ChangeDataSource is already established behavior.",
+      "parentUuid": "385000bb_22c8084a",
+      "revId": "d2448fd9429e70c12a00a5f9d67711dff6260159",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

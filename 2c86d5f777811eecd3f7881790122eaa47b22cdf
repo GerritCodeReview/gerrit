@@ -72,6 +72,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "62794712_c4926c62",
+        "filename": "java/com/google/gerrit/httpd/AllRequestFilter.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-15T16:47:32Z",
+      "side": 1,
+      "message": "I\u0027ll remove the full scan in the follow-up, so that we have one clean removal of `DynamicSet\u003c\u003e` and another that removes the full scan by using the object equality instead of identity.",
+      "parentUuid": "2c0a768d_d87e2111",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 62
+      },
+      "revId": "2c86d5f777811eecd3f7881790122eaa47b22cdf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "391bfc7f_12714bd7",

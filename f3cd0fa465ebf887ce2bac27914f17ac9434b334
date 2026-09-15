@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "24b2c5cb_a9ca3678",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-09-15T23:20:56Z",
+      "side": 1,
+      "message": "2 nodes and 10 concurrent operations at a time.\n\nI\u0027ve tried increasing the concurrency to 64 and it did show ~3600 ops/min. No api fails were observed.",
+      "parentUuid": "fb92f6db_60da8770",
+      "revId": "f3cd0fa465ebf887ce2bac27914f17ac9434b334",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4971ce8a_be6e060d",
         "filename": "java/com/google/gerrit/server/schema/H2CustomLockAccountPatchReviewStore.java",
         "patchSetId": 11
@@ -31,6 +49,24 @@
       "writtenOn": "2026-09-15T22:49:40Z",
       "side": 1,
       "message": "This is the same as calling unlock()?",
+      "revId": "f3cd0fa465ebf887ce2bac27914f17ac9434b334",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2449c4f8_45193c66",
+        "filename": "java/com/google/gerrit/server/schema/H2CustomLockAccountPatchReviewStore.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-09-15T23:20:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4971ce8a_be6e060d",
       "revId": "f3cd0fa465ebf887ce2bac27914f17ac9434b334",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

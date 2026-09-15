@@ -107,6 +107,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f01a5426_3b90c55b",
+        "filename": "java/com/google/gerrit/server/schema/H2CustomLockAccountPatchReviewStore.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2026-09-15T02:18:11Z",
+      "side": 1,
+      "message": "What if it already was moved to acquired? Same on line 135?",
+      "revId": "0db40905a160c79cc34fa8f65bc352755ab3d30a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7ab7bcde_3acf24f9",
         "filename": "java/com/google/gerrit/server/schema/H2CustomLockAccountPatchReviewStore.java",
         "patchSetId": 7

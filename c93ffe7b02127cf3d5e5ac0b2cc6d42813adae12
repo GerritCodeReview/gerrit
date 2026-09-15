@@ -213,6 +213,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "06592364_90f8db5d",
+        "filename": "java/com/google/gerrit/server/schema/H2CustomLockAccountPatchReviewStore.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-09-15T01:41:16Z",
+      "side": 1,
+      "message": "Unexpected RuntimeException.",
+      "parentUuid": "8c1df748_123a0c44",
+      "revId": "c93ffe7b02127cf3d5e5ac0b2cc6d42813adae12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0bb9413a_94e034f3",
         "filename": "java/com/google/gerrit/server/schema/H2CustomLockAccountPatchReviewStore.java",
         "patchSetId": 4

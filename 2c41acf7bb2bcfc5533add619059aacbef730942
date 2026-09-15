@@ -1,0 +1,187 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a924b43a_3e61de48",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 1040,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-15T10:07:50Z",
+      "side": 1,
+      "message": "Not only different branches, but in general different changes. This might have been the reason for Luca\u0027s assumption in his comment on L1071",
+      "range": {
+        "startLine": 1040,
+        "startChar": 38,
+        "endLine": 1040,
+        "endChar": 56
+      },
+      "revId": "2c41acf7bb2bcfc5533add619059aacbef730942",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "335801f4_2ff37a72",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 1041,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-15T10:07:50Z",
+      "side": 1,
+      "message": "types",
+      "range": {
+        "startLine": 1041,
+        "startChar": 33,
+        "endLine": 1041,
+        "endChar": 43
+      },
+      "revId": "2c41acf7bb2bcfc5533add619059aacbef730942",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84ee3efc_c317a5c5",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 1085,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-15T10:07:50Z",
+      "side": 1,
+      "message": "Maybe provide another example which shall show that this is not just about submit type per branch",
+      "revId": "2c41acf7bb2bcfc5533add619059aacbef730942",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9dff32d3_35538b97",
+        "filename": "java/com/google/gerrit/entities/SubmitTypeOverride.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-15T10:07:50Z",
+      "side": 1,
+      "message": "+5",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "2c41acf7bb2bcfc5533add619059aacbef730942",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c69a9cd_2fa5e725",
+        "filename": "java/com/google/gerrit/entities/SubmitTypeOverride.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-15T10:07:50Z",
+      "side": 1,
+      "message": "matching changes",
+      "range": {
+        "startLine": 25,
+        "startChar": 43,
+        "endLine": 26,
+        "endChar": 3
+      },
+      "revId": "2c41acf7bb2bcfc5533add619059aacbef730942",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e10e1323_0687b2b9",
+        "filename": "java/com/google/gerrit/entities/SubmitTypeOverride.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-15T10:07:50Z",
+      "side": 1,
+      "message": "I suggest to not use \"Override\" in the name: first, one can wonder if it has something to do with the overrideIf key name from the submit requirements, and second, this class doesn\u0027t implement any override policy, it just provides a submit type expression. This class doesn\u0027t know and doesn\u0027t need to know that its expression may be used for overriding a default submit type.\n\nThe override is handled in a different place (in the SubmitRuleEvaluator).",
+      "revId": "2c41acf7bb2bcfc5533add619059aacbef730942",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d99ae3a4_1b86d628",
+        "filename": "java/com/google/gerrit/entities/SubmitTypeOverrideExpression.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-15T10:07:50Z",
+      "side": 1,
+      "message": "1. The same argument about using Override in the name as in the SubmitTypeOverride class\n2. this class is just a wrapper around a String: why not use String instead?",
+      "revId": "2c41acf7bb2bcfc5533add619059aacbef730942",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30ac573c_3d1c3bea",
+        "filename": "java/com/google/gerrit/server/project/ProjectConfig.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-15T10:07:50Z",
+      "side": 1,
+      "message": "Why not use the existing constant from submit requirements?",
+      "revId": "2c41acf7bb2bcfc5533add619059aacbef730942",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b939358c_5f76c14a",
+        "filename": "java/com/google/gerrit/server/project/SubmitTypeEvaluator.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-15T10:07:50Z",
+      "side": 1,
+      "message": "I don\u0027t understand the series: the previous change removed default fallback from Prolog into the SubmitRuleEvaluator class thus preparing it to be a central place to evaluate submit type. Now we have a new class SubmitTypeEvaluator which is the central place and it directly refers to the prolog machinery, bypassing the SubmitRuleEvaluator.",
+      "range": {
+        "startLine": 56,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 80
+      },
+      "revId": "2c41acf7bb2bcfc5533add619059aacbef730942",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

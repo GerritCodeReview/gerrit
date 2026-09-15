@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f8d5d8d_0de6fc33",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-09-15T02:23:29Z",
+      "side": 1,
+      "message": "It has the same behavior that of git repos path config option now.",
+      "parentUuid": "82335236_2cf2ae1d",
+      "revId": "68cebedf4b48a301a8f92302b3b5e74b2108b451",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1fa32ccb_a35b32a1",
@@ -49,6 +67,24 @@
       "writtenOn": "2026-09-15T00:58:58Z",
       "side": 1,
       "message": "We dont have to do the normalize() and toRealPath() if the cfg is not set? How about:\n\n```\nString indexPath \u003d cfg.getString(\"index\", null, \"path\");\nif (Strings.isNullOrEmpty(indexPath)) {\n  return site_path.resolve(\"index\");\n} else {\n  return resolve(indexPath);\n}\n\n```",
+      "revId": "68cebedf4b48a301a8f92302b3b5e74b2108b451",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b0bc8c62_0f0b32bb",
+        "filename": "java/com/google/gerrit/server/config/SitePaths.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-09-15T02:23:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1fa32ccb_a35b32a1",
       "revId": "68cebedf4b48a301a8f92302b3b5e74b2108b451",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

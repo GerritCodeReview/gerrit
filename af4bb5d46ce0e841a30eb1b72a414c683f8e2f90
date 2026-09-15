@@ -33,6 +33,80 @@
       "message": "Seems worth trying.",
       "revId": "af4bb5d46ce0e841a30eb1b72a414c683f8e2f90",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5974234_4e286742",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheFactory.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-15T13:20:17Z",
+      "side": 1,
+      "message": "when you are at it, why not eliminate the repetition of this string and use the already existing constant?",
+      "range": {
+        "startLine": 231,
+        "startChar": 15,
+        "endLine": 231,
+        "endChar": 31
+      },
+      "revId": "af4bb5d46ce0e841a30eb1b72a414c683f8e2f90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2dab5bee_bfb8cff7",
+        "filename": "java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-15T13:20:17Z",
+      "side": 1,
+      "message": "use existing constant",
+      "revId": "af4bb5d46ce0e841a30eb1b72a414c683f8e2f90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b66d942_fd435525",
+        "filename": "javatests/com/google/gerrit/server/cache/h2/H2CacheFactoryTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-15T13:20:17Z",
+      "side": 1,
+      "message": "use existing constant",
+      "revId": "af4bb5d46ce0e841a30eb1b72a414c683f8e2f90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03cec96d_c5ca6e02",
+        "filename": "javatests/com/google/gerrit/server/schema/H2JGitLockAccountPatchReviewStoreTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-15T13:20:17Z",
+      "side": 1,
+      "message": "use existing constant for the H2 prefix",
+      "revId": "af4bb5d46ce0e841a30eb1b72a414c683f8e2f90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

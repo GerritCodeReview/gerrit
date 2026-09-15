@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa3a66bb_3a56ef7f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-09-15T12:00:07Z",
+      "side": 1,
+      "message": "```suggestion\nIntroduce a new method beforeStopPlugin() to the StopPluginListener so that\n```",
+      "range": {
+        "startLine": 14,
+        "startChar": 23,
+        "endLine": 14,
+        "endChar": 33
+      },
+      "revId": "41f7cccd01cc26492152fe61347df75f30537c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c051d866_c459d0e2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-09-15T12:00:07Z",
+      "side": 1,
+      "message": "`called immediately before the stop of the plugin PluginGuiceEnvironment.` reads a bit awkward to me.\n\nHow about:\n\n```suggestion\nRelease-Notes: Introduce StopPluginListener.beforeStopPlugin() called immediately before the plugin is being stopped, but its GuiceEnvironment is still accessible.\n```",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 135
+      },
+      "revId": "41f7cccd01cc26492152fe61347df75f30537c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2ec1ed4_12405163",
+        "filename": "java/com/google/gerrit/server/plugins/StopPluginListener.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-09-15T12:00:07Z",
+      "side": 1,
+      "message": "```suggestion\n   * @param plugin {@link Plugin} that has been stopped\n```",
+      "range": {
+        "startLine": 30,
+        "startChar": 34,
+        "endLine": 30,
+        "endChar": 46
+      },
+      "revId": "41f7cccd01cc26492152fe61347df75f30537c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

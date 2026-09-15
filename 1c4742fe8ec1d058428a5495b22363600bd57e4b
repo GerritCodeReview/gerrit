@@ -104,6 +104,24 @@
       "parentUuid": "8e4a428c_e87f1056",
       "revId": "1c4742fe8ec1d058428a5495b22363600bd57e4b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1bbbcfe1_328e9048",
+        "filename": "java/com/google/gerrit/server/schema/H2CustomLockAccountPatchReviewStore.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-09-15T18:03:10Z",
+      "side": 1,
+      "message": "While I agree it won\u0027t guarantee ordering, it would avoid waking up any remaining waiting threads.",
+      "parentUuid": "bbecf478_7af57c91",
+      "revId": "1c4742fe8ec1d058428a5495b22363600bd57e4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

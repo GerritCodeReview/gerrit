@@ -35,6 +35,7 @@ import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.query.change.AcceptedRevWalkCache;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeQueryProcessor;
@@ -53,6 +54,7 @@ public class QueryChanges implements RestReadView<TopLevelResource>, DynamicOpti
   private final ChangeJson.Factory json;
   private final ChangeQueryBuilder qb;
   private final Provider<ChangeQueryProcessor> queryProcessorProvider;
+  private final Provider<AcceptedRevWalkCache> acceptedRevWalkCacheProvider;
   private final HashMap<String, DynamicOptions.DynamicBean> dynamicBeans = new HashMap<>();
   private final Provider<CurrentUser> userProvider;
   private final PermissionBackend permissionBackend;
@@ -137,11 +139,13 @@ public class QueryChanges implements RestReadView<TopLevelResource>, DynamicOpti
       ChangeJson.Factory json,
       ChangeQueryBuilder qb,
       Provider<ChangeQueryProcessor> queryProcessorProvider,
+      Provider<AcceptedRevWalkCache> acceptedRevWalkCacheProvider,
       Provider<CurrentUser> userProvider,
       PermissionBackend permissionBackend) {
     this.json = json;
     this.qb = qb;
     this.queryProcessorProvider = queryProcessorProvider;
+    this.acceptedRevWalkCacheProvider = acceptedRevWalkCacheProvider;
     this.userProvider = userProvider;
     this.permissionBackend = permissionBackend;
 
@@ -222,7 +226,10 @@ public class QueryChanges implements RestReadView<TopLevelResource>, DynamicOpti
     }
 
     int cnt = queries.size();
-    List<QueryResult<ChangeData>> results = queryProcessor.query(qb.parse(queries));
+    List<QueryResult<ChangeData>> results;
+    try (AcceptedRevWalkCache cache = acceptedRevWalkCacheProvider.get()) {
+      results = queryProcessor.query(qb.withAcceptedRevWalkCache(cache).parse(queries));
+    }
     List<List<ChangeInfo>> res =
         json.create(options, queryProcessor.getInfosFactory()).format(results);
     for (int n = 0; n < cnt; n++) {

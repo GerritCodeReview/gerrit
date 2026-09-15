@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "54b700b6_6dbce66d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5150830
+      },
+      "writtenOn": "2026-09-15T14:07:30Z",
+      "side": 1,
+      "message": "@nasser.grainawi@oss.qualcomm.com, can you review this, otherwise do you know who can, so we can try to get it in? Thanks for the help!",
+      "revId": "004912bef0d0c0ddb30d9497459129f9cdb953e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

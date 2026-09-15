@@ -62,3 +62,16 @@ configs: {
   automatic: true
 }
 
+
+# Multi-Perspective Code Review Agent
+configs: {
+  id: "code-review-agent"
+  display_name: "Code Review Agent"
+  description: "Orchestrates the Multi-Perspective Swarming Framework to perform deep, high-quality code reviews on Gerrit changes."
+  skills: "gerrit_reviewer_agent"
+  subagents: "agents/gerrit_reviewer"
+  tags: "code-review-agent"
+  include_filters: {
+    project: "gerrit"
+  }
+}

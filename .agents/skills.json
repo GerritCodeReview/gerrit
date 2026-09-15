@@ -2,6 +2,9 @@
   "entries": [
     {
       "path": "/google/src/files/head/depot/google3/learning/gemini/agents/skills/gerrit"
+    },
+    {
+      "path": "configs/skills/gerrit_reviewer_agent"
     }
   ]
 }

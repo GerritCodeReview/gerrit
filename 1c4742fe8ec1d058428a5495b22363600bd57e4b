@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a795b06_c6658ab8",
+        "filename": "java/com/google/gerrit/server/schema/H2CustomLockAccountPatchReviewStore.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-09-15T03:41:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "547aa100_19cc9288",
+      "revId": "1c4742fe8ec1d058428a5495b22363600bd57e4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4650a3a6_d109cbbe",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3d87d4c_9f79634c",
+        "filename": "java/com/google/gerrit/server/schema/H2CustomLockAccountPatchReviewStore.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-09-15T03:41:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4650a3a6_d109cbbe",
+      "revId": "1c4742fe8ec1d058428a5495b22363600bd57e4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8e4a428c_e87f1056",
@@ -48,6 +84,24 @@
       "writtenOn": "2026-09-15T03:19:16Z",
       "side": 1,
       "message": "Would it make more sense to notify each thread here as it gets acquired?",
+      "revId": "1c4742fe8ec1d058428a5495b22363600bd57e4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bbecf478_7af57c91",
+        "filename": "java/com/google/gerrit/server/schema/H2CustomLockAccountPatchReviewStore.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-09-15T03:41:14Z",
+      "side": 1,
+      "message": "That might wake up new threads since order is not gauranteed.",
+      "parentUuid": "8e4a428c_e87f1056",
       "revId": "1c4742fe8ec1d058428a5495b22363600bd57e4b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

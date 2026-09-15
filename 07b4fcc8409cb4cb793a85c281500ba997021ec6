@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa0446c0_10d7c3a9",
+        "filename": "contrib/maintenance/git/pack_refs.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-09-15T07:26:34Z",
+      "side": 1,
+      "message": "Should return false instead",
+      "revId": "07b4fcc8409cb4cb793a85c281500ba997021ec6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

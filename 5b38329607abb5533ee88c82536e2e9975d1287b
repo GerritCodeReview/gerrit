@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fa8b2f82_c997a277",
+        "filename": "java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-09-15T09:58:06Z",
+      "side": 1,
+      "message": "I agree and had actually the same thought while implementing this, but in principle this was the case before as well. This whole class is only dealing with prolog, either submit rules or submit types. The name didn\u0027t age well with the introduction of submit requirements.",
+      "parentUuid": "3e0157b2_6ddcea7e",
+      "revId": "5b38329607abb5533ee88c82536e2e9975d1287b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "351a2c79_2670d526",
         "filename": "java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
         "patchSetId": 4

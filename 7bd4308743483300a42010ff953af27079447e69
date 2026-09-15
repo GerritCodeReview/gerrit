@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34cdfb87_1e1f22e8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-09-15T16:50:33Z",
+      "side": 1,
+      "message": "This message doesn\u0027t give any reasoning why we\u0027re adding this nor why existing cipher support isn\u0027t sufficient for whatever use case this is supporting.",
+      "revId": "7bd4308743483300a42010ff953af27079447e69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

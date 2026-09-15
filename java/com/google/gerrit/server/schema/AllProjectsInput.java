@@ -86,6 +86,12 @@ public abstract class AllProjectsInput {
         .build();
   }
 
+  /** The default reader group which gets read permissions granted. */
+  public abstract Optional<GroupReference> defaultReadersGroup();
+
+  /** The default user group which gets default permissions granted. */
+  public abstract Optional<GroupReference> defaultUsersGroup();
+
   /** The administrator group which gets default permissions granted. */
   public abstract Optional<GroupReference> administratorsGroup();
 
@@ -143,6 +149,10 @@ public abstract class AllProjectsInput {
 
   @AutoValue.Builder
   public abstract static class Builder {
+    public abstract Builder defaultReadersGroup(GroupReference defaultReadersGroup);
+
+    public abstract Builder defaultUsersGroup(GroupReference defaultUsersGroup);
+
     public abstract Builder administratorsGroup(GroupReference adminGroup);
 
     public abstract Builder serviceUsersGroup(GroupReference serviceUsersGroup);

@@ -50,51 +50,57 @@ public class AllProjectsCreatorTestUtil {
           "  administrateServer = group Administrators",
           "  priority = batch group Service Users",
           "  streamEvents = group Service Users");
+
+  private static ImmutableList<String> getAllProjectsAccessSection(
+      String readersGroupName, String usersGroupName) {
+    return ImmutableList.of(
+        "[access \"refs/*\"]",
+        "  read = group Administrators",
+        "  postReviewComment = group " + usersGroupName,
+        "  read = block group Blocked Users",
+        "[access \"refs/for/*\"]",
+        "  addPatchSet = group " + usersGroupName,
+        "  push = group " + usersGroupName,
+        "  pushMerge = group " + usersGroupName,
+        "[access \"refs/heads/*\"]",
+        "  read = group " + readersGroupName,
+        "  revert = group Administrators",
+        "  revert = group Project Owners",
+        "  create = group Administrators",
+        "  create = group Project Owners",
+        "  editTopicName = +force group Administrators",
+        "  editTopicName = +force group Project Owners",
+        "  forgeAuthor = group " + usersGroupName,
+        "  forgeCommitter = group Administrators",
+        "  forgeCommitter = group Project Owners",
+        "  label-Code-Review = -2..+2 group Administrators",
+        "  label-Code-Review = -2..+2 group Project Owners",
+        "  label-Code-Review = -1..+1 group " + usersGroupName,
+        "  submit = group Administrators",
+        "  submit = group Project Owners",
+        "[access \"refs/meta/config\"]",
+        "  exclusiveGroupPermissions = read",
+        "  create = group Administrators",
+        "  create = group Project Owners",
+        "  label-Code-Review = -2..+2 group Administrators",
+        "  label-Code-Review = -2..+2 group Project Owners",
+        "  read = group Administrators",
+        "  read = group Project Owners",
+        "  submit = group Administrators",
+        "  submit = group Project Owners",
+        "[access \"refs/meta/version\"]",
+        "  read = group " + readersGroupName,
+        "[access \"refs/tags/*\"]",
+        "  create = group Administrators",
+        "  create = group Project Owners",
+        "  createSignedTag = group Administrators",
+        "  createSignedTag = group Project Owners",
+        "  createTag = group Administrators",
+        "  createTag = group Project Owners");
+  }
+
   private static final ImmutableList<String> DEFAULT_ALL_PROJECTS_ACCESS_SECTION =
-      ImmutableList.of(
-          "[access \"refs/*\"]",
-          "  read = group Administrators",
-          "  postReviewComment = group Registered Users",
-          "  read = block group Blocked Users",
-          "[access \"refs/for/*\"]",
-          "  addPatchSet = group Registered Users",
-          "  push = group Registered Users",
-          "  pushMerge = group Registered Users",
-          "[access \"refs/heads/*\"]",
-          "  read = group Anonymous Users",
-          "  revert = group Administrators",
-          "  revert = group Project Owners",
-          "  create = group Administrators",
-          "  create = group Project Owners",
-          "  editTopicName = +force group Administrators",
-          "  editTopicName = +force group Project Owners",
-          "  forgeAuthor = group Registered Users",
-          "  forgeCommitter = group Administrators",
-          "  forgeCommitter = group Project Owners",
-          "  label-Code-Review = -2..+2 group Administrators",
-          "  label-Code-Review = -2..+2 group Project Owners",
-          "  label-Code-Review = -1..+1 group Registered Users",
-          "  submit = group Administrators",
-          "  submit = group Project Owners",
-          "[access \"refs/meta/config\"]",
-          "  exclusiveGroupPermissions = read",
-          "  create = group Administrators",
-          "  create = group Project Owners",
-          "  label-Code-Review = -2..+2 group Administrators",
-          "  label-Code-Review = -2..+2 group Project Owners",
-          "  read = group Administrators",
-          "  read = group Project Owners",
-          "  submit = group Administrators",
-          "  submit = group Project Owners",
-          "[access \"refs/meta/version\"]",
-          "  read = group Anonymous Users",
-          "[access \"refs/tags/*\"]",
-          "  create = group Administrators",
-          "  create = group Project Owners",
-          "  createSignedTag = group Administrators",
-          "  createSignedTag = group Project Owners",
-          "  createTag = group Administrators",
-          "  createTag = group Project Owners");
+      getAllProjectsAccessSection("Anonymous Users", "Registered Users");
   private static final ImmutableList<String> DEFAULT_ALL_PROJECTS_LABEL_SECTION =
       ImmutableList.of(
           "[label \"Code-Review\"]",
@@ -130,6 +136,34 @@ public class AllProjectsCreatorTestUtil {
                 DEFAULT_ALL_PROJECTS_SUBMIT_SECTION,
                 DEFAULT_ALL_PROJECTS_CAPABILITY_SECTION,
                 DEFAULT_ALL_PROJECTS_ACCESS_SECTION,
+                DEFAULT_ALL_PROJECTS_LABEL_SECTION,
+                DEFAULT_ALL_PROJECTS_CODE_REVIEW_SUBMIT_REQUIREMENT_SECTION,
+                DEFAULT_ALL_PROJECTS_SUBMIT_REQUIREMENT_SECTION))
+        .collect(Collectors.joining("\n"));
+  }
+
+  public static String getAllProjectsWithCustomDefaultReadersAcls(String groupName) {
+    return Streams.stream(
+            Iterables.concat(
+                DEFAULT_ALL_PROJECTS_PROJECT_SECTION,
+                DEFAULT_ALL_PROJECTS_RECEIVE_SECTION,
+                DEFAULT_ALL_PROJECTS_SUBMIT_SECTION,
+                DEFAULT_ALL_PROJECTS_CAPABILITY_SECTION,
+                getAllProjectsAccessSection(groupName, "Registered Users"),
+                DEFAULT_ALL_PROJECTS_LABEL_SECTION,
+                DEFAULT_ALL_PROJECTS_CODE_REVIEW_SUBMIT_REQUIREMENT_SECTION,
+                DEFAULT_ALL_PROJECTS_SUBMIT_REQUIREMENT_SECTION))
+        .collect(Collectors.joining("\n"));
+  }
+
+  public static String getAllProjectsWithCustomDefaultUsersAcls(String groupName) {
+    return Streams.stream(
+            Iterables.concat(
+                DEFAULT_ALL_PROJECTS_PROJECT_SECTION,
+                DEFAULT_ALL_PROJECTS_RECEIVE_SECTION,
+                DEFAULT_ALL_PROJECTS_SUBMIT_SECTION,
+                DEFAULT_ALL_PROJECTS_CAPABILITY_SECTION,
+                getAllProjectsAccessSection("Anonymous Users", groupName),
                 DEFAULT_ALL_PROJECTS_LABEL_SECTION,
                 DEFAULT_ALL_PROJECTS_CODE_REVIEW_SUBMIT_REQUIREMENT_SECTION,
                 DEFAULT_ALL_PROJECTS_SUBMIT_REQUIREMENT_SECTION))

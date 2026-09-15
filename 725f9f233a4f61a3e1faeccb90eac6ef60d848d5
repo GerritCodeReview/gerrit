@@ -46,6 +46,30 @@
       },
       "revId": "725f9f233a4f61a3e1faeccb90eac6ef60d848d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81f5336a_8bb2a8e6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-09-15T11:13:02Z",
+      "side": 1,
+      "message": "Yes, this is intentional. I updated the wording to make the intent clearer: the old `jdbc:h2:file:` spelling is now treated as a legacy alias for `jdbc:h2:async:` for `accountPatchReviewDb`.\n\nMy reasoning is that `jdbc:h2:file:` was the previously documented form, not an explicit opt-out from the async file-system mitigation. If we keep honouring it literally, upgraded sites that followed the old documentation would remain on the weaker H2 mode forever unless the gerrit administrator manually notices and edits the URL.\n\nNew sites are initialized with `jdbc:h2:async:` after the previous change, so this follow-up makes existing sites receive the same behavior. That also gives a sane default for non-interactive init/upgrade paths.\n\nThe jgit-lock URL parser still accepts both `async:` and legacy `file:` forms, so existing `h2LockType\u003djgit` deployments do not break.\n\nIf we want to support an explicit legacy-H2 opt-out, I think that should be a separate, deliberate setting with clear documentation and warnings, not the old documented URL prefix continuing to mean the less safe mode by _accident_.",
+      "parentUuid": "b6ca1a34_4027aded",
+      "range": {
+        "startLine": 10,
+        "startChar": 44,
+        "endLine": 12,
+        "endChar": 45
+      },
+      "revId": "725f9f233a4f61a3e1faeccb90eac6ef60d848d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f3eed38_9c3f30c0",
+        "filename": "java/com/google/gerrit/server/account/AuthTokenExpiryNotificationConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2026-09-15T10:26:25Z",
+      "side": 1,
+      "message": "Worth adding a log line if this is false (due to misconfiguration) instead of silent disabling? since every other misconfiguration (putting a non-int in) will fail fast on bad config",
+      "revId": "a42baad62238838456c4bc13c592024a35f2c402",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35b62868_64a73f91",
+        "filename": "java/com/google/gerrit/server/account/AuthTokenExpiryNotifier.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2026-09-15T10:26:25Z",
+      "side": 1,
+      "message": "Comment implies that if you reach this point there\u0027s definitely a notification within the window, but a match might not exist - maybe prepend an \u0027If\u0027 to the comment",
+      "revId": "a42baad62238838456c4bc13c592024a35f2c402",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

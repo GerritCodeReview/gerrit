@@ -42,6 +42,7 @@ import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gson.Gson;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -87,6 +88,7 @@ public class OutputStreamQuery {
   private final GitRepositoryManager repoManager;
   private final ChangeQueryBuilder queryBuilder;
   private final ChangeQueryProcessor queryProcessor;
+  private final Provider<AcceptedRevWalkCache> acceptedRevWalkCacheProvider;
   private final EventFactory eventFactory;
   private final TrackingFooters trackingFooters;
   private final AccountAttributeLoader.Factory accountAttributeLoaderFactory;
@@ -112,12 +114,14 @@ public class OutputStreamQuery {
       GitRepositoryManager repoManager,
       ChangeQueryBuilder queryBuilder,
       ChangeQueryProcessor queryProcessor,
+      Provider<AcceptedRevWalkCache> acceptedRevWalkCacheProvider,
       EventFactory eventFactory,
       TrackingFooters trackingFooters,
       AccountAttributeLoader.Factory accountAttributeLoaderFactory) {
     this.repoManager = repoManager;
     this.queryBuilder = queryBuilder;
     this.queryProcessor = queryProcessor;
+    this.acceptedRevWalkCacheProvider = acceptedRevWalkCacheProvider;
     this.eventFactory = eventFactory;
     this.trackingFooters = trackingFooters;
     this.accountAttributeLoaderFactory = accountAttributeLoaderFactory;
@@ -216,7 +220,11 @@ public class OutputStreamQuery {
         Map<Project.NameKey, Repository> repos = new HashMap<>();
         Map<Project.NameKey, RevWalk> revWalks = new HashMap<>();
         Map<Project.NameKey, AttributesNodeProvider> attributesNodeProviders = new HashMap<>();
-        QueryResult<ChangeData> results = queryProcessor.query(queryBuilder.parse(queryString));
+        QueryResult<ChangeData> results;
+        try (AcceptedRevWalkCache cache = acceptedRevWalkCacheProvider.get()) {
+          results =
+              queryProcessor.query(queryBuilder.withAcceptedRevWalkCache(cache).parse(queryString));
+        }
         pluginInfosByChange = queryProcessor.createPluginDefinedInfos(results.entities());
         try {
           AccountAttributeLoader accountLoader = accountAttributeLoaderFactory.create();

@@ -20,8 +20,11 @@ import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabel;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
+import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_COMMIT;
+import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.extensions.client.ListChangesOption.REVIEWED;
+import static com.google.gerrit.extensions.client.ListChangesOption.SUBMITTABLE;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.server.project.testing.TestLabels.label;
 import static com.google.gerrit.server.project.testing.TestLabels.value;
@@ -90,6 +93,7 @@ import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.ProjectWatchInfo;
 import com.google.gerrit.extensions.client.ReviewerState;
+import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
@@ -129,6 +133,7 @@ import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.group.testing.TestGroupBackend;
@@ -141,6 +146,7 @@ import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.schema.SchemaCreator;
+import com.google.gerrit.server.submit.SubmitDryRun;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.OneOffRequestContext;
@@ -208,6 +214,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Inject protected PatchSetUtil psUtil;
   @Inject protected ChangeNotes.Factory changeNotesFactory;
   @Inject protected Provider<ChangeQueryProcessor> queryProcessorProvider;
+  @Inject protected SubmitDryRun submitDryRun;
   @Inject protected SchemaCreator schemaCreator;
   @Inject protected Sequences seq;
   @Inject protected ThreadLocalRequestContext requestContext;
@@ -3480,6 +3487,120 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   @GerritConfig(name = "core.useGitattributesForMerge", value = "true")
+  public void conflictsSharedWalkMatchesFreshWalk() throws Exception {
+    Project.NameKey project = Project.nameKey("conflicts-shared-walk");
+    repo = createAndOpenProject(project);
+    RevCommit base = repo.parseBody(repo.commit().add("shared.txt", "base\n").create());
+    RevCommit targetCommit =
+        repo.parseBody(repo.commit().parent(base).add("shared.txt", "target\n").create());
+    RevCommit nonConflictingCommit =
+        repo.parseBody(repo.commit().parent(base).add("other.txt", "other\n").create());
+    RevCommit conflictingCommit =
+        repo.parseBody(repo.commit().parent(base).add("shared.txt", "conflict\n").create());
+    Change target = insert(project, newChangeForCommit(repo, targetCommit));
+    Change nonConflicting = insert(project, newChangeForCommit(repo, nonConflictingCommit));
+    Change conflicting = insert(project, newChangeForCommit(repo, conflictingCommit));
+    ImmutableList<Change> candidates = ImmutableList.of(nonConflicting, conflicting);
+    ImmutableList<RevCommit> candidateCommits =
+        ImmutableList.of(nonConflictingCommit, conflictingCommit);
+
+    List<Change.Id> freshResults = new ArrayList<>();
+    for (int i = 0; i < candidates.size(); i++) {
+      Change candidate = candidates.get(i);
+      try (Repository candidateRepo = repoManager.openRepository(project);
+          CodeReviewCommit.CodeReviewRevWalk rw = CodeReviewCommit.newRevWalk(candidateRepo)) {
+        var accepted = SubmitDryRun.getAlreadyAccepted(candidateRepo, rw);
+        accepted.add(rw.parseCommit(targetCommit));
+        boolean conflicts =
+            !submitDryRun.run(
+                null,
+                SubmitType.MERGE_IF_NECESSARY,
+                candidateRepo,
+                rw,
+                target.getDest(),
+                targetCommit,
+                candidateCommits.get(i),
+                accepted);
+        if (conflicts) {
+          freshResults.add(candidate.getId());
+        }
+      }
+    }
+
+    List<Change.Id> sharedResults = new ArrayList<>();
+    try (AcceptedRevWalkCache cache = new AcceptedRevWalkCache(repoManager)) {
+      for (int i = 0; i < candidates.size(); i++) {
+        Change candidate = candidates.get(i);
+        RevCommit candidateCommit = candidateCommits.get(i);
+        boolean conflicts =
+            cache.run(
+                project,
+                candidateRepo -> SubmitDryRun.getAlreadyAccepted(candidateRepo),
+                targetCommit,
+                (candidateRepo, rw, accepted) ->
+                    !submitDryRun.run(
+                        null,
+                        SubmitType.MERGE_IF_NECESSARY,
+                        candidateRepo,
+                        rw,
+                        target.getDest(),
+                        targetCommit,
+                        candidateCommit,
+                        accepted));
+        if (conflicts) {
+          sharedResults.add(candidate.getId());
+        }
+      }
+    }
+
+    assertThat(sharedResults).containsExactly(conflicting.getId());
+    assertThat(sharedResults).containsExactlyElementsIn(freshResults).inOrder();
+  }
+
+  /**
+   * Opt-in benchmark for the expensive post-filter work done by {@code conflicts:}.
+   *
+   * <p>Run with {@code -Dgerrit.conflictsBenchmark=true}; optionally set {@code
+   * -Dgerrit.conflictsBenchmark.changes=<count>}. Every open change is a sibling commit that
+   * modifies the same path, so querying one change must check it against all the others.
+   */
+  @Test
+  public void conflictsBenchmark() throws Exception {
+    assume().that(Boolean.getBoolean("gerrit.conflictsBenchmark")).isTrue();
+    int changeCount = Integer.getInteger("gerrit.conflictsBenchmark.changes", 100);
+    assume().that(changeCount).isAtLeast(2);
+
+    Project.NameKey project = Project.nameKey("conflicts-benchmark");
+    repo = createAndOpenProject(project);
+    RevCommit base = repo.parseBody(repo.commit().add("shared.txt", "base\n").create());
+
+    List<Change> changes = new ArrayList<>(changeCount);
+    for (int i = 0; i < changeCount; i++) {
+      RevCommit commit =
+          repo.parseBody(
+              repo.commit()
+                  .parent(base)
+                  .add("shared.txt", "conflicting change " + i + "\n")
+                  .create());
+      changes.add(insert(project, newChangeForCommit(repo, commit)));
+    }
+
+    Change target = changes.get(0);
+    long startNanos = System.nanoTime();
+    List<ChangeInfo> result =
+        newQuery("status:open conflicts:" + target.getId().get())
+            .withNoLimit()
+            .withOptions(CURRENT_REVISION, CURRENT_COMMIT, SUBMITTABLE)
+            .get();
+    long elapsedMillis = (System.nanoTime() - startNanos) / 1_000_000;
+
+    assertThat(result).hasSize(changeCount - 1);
+    System.err.printf(
+        "conflicts benchmark: changes=%d matches=%d elapsed_ms=%d%n",
+        changeCount, result.size(), elapsedMillis);
+  }
+
+  @Test
   public void conflictsUnionContentMerge() throws Exception {
     Project.NameKey project = Project.nameKey("repo");
     repo = createAndOpenProject(project);

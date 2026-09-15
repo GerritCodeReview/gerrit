@@ -128,6 +128,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private boolean hasImportedChanges;
+  @Nullable private AcceptedRevWalkCache acceptedRevWalkCache;
 
   public interface ChangeOperatorFactory extends OperatorFactory<ChangeData, ChangeQueryBuilder> {}
 
@@ -574,7 +575,16 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   }
 
   public ChangeQueryBuilder asUser(CurrentUser user) {
-    return new ChangeQueryBuilder(builderDef, args.asUser(user));
+    ChangeQueryBuilder builder = new ChangeQueryBuilder(builderDef, args.asUser(user));
+    builder.acceptedRevWalkCache = acceptedRevWalkCache;
+    return builder;
+  }
+
+  /** Returns a builder using the cache owned by one query evaluation for conflicts predicates. */
+  public ChangeQueryBuilder withAcceptedRevWalkCache(AcceptedRevWalkCache cache) {
+    ChangeQueryBuilder builder = new ChangeQueryBuilder(builderDef, args);
+    builder.acceptedRevWalkCache = cache;
+    return builder;
   }
 
   public Arguments getArgs() {
@@ -861,13 +871,18 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
   @Operator
   public Predicate<ChangeData> conflicts(String value) throws QueryParseException {
+    return conflicts(value, acceptedRevWalkCache);
+  }
+
+  private Predicate<ChangeData> conflicts(String value, @Nullable AcceptedRevWalkCache cache)
+      throws QueryParseException {
     if (!args.conflictsPredicateEnabled) {
       throw new QueryParseException("'conflicts:' operator is not supported on this gerrit host");
     }
     List<Change> changes = parseChange(value);
     List<Predicate<ChangeData>> or = new ArrayList<>(changes.size());
     for (Change c : changes) {
-      or.add(ConflictsPredicate.create(args, value, c));
+      or.add(ConflictsPredicate.create(args, value, c, cache));
     }
     return Predicate.or(or);
   }

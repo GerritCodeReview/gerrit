@@ -57,6 +57,12 @@ public class ConflictsPredicate {
 
   public static Predicate<ChangeData> create(Arguments args, String value, Change c)
       throws QueryParseException {
+    return create(args, value, c, null);
+  }
+
+  public static Predicate<ChangeData> create(
+      Arguments args, String value, Change c, AcceptedRevWalkCache walkCache)
+      throws QueryParseException {
     ChangeData cd;
     List<String> files;
     try {
@@ -92,7 +98,7 @@ public class ConflictsPredicate {
     and.add(Predicate.or(filePredicates));
 
     ChangeDataCache changeDataCache = new ChangeDataCache(cd, args.projectCache);
-    and.add(new CheckConflict(value, args, c, changeDataCache));
+    and.add(new CheckConflict(value, args, c, changeDataCache, walkCache));
     return Predicate.and(and);
   }
 
@@ -100,12 +106,19 @@ public class ConflictsPredicate {
     private final Arguments args;
     private final BranchNameKey dest;
     private final ChangeDataCache changeDataCache;
+    private final AcceptedRevWalkCache walkCache;
 
-    CheckConflict(String value, Arguments args, Change c, ChangeDataCache changeDataCache) {
+    CheckConflict(
+        String value,
+        Arguments args,
+        Change c,
+        ChangeDataCache changeDataCache,
+        AcceptedRevWalkCache walkCache) {
       super(ChangeQueryBuilder.FIELD_CONFLICTS, value);
       this.args = args;
       this.dest = c.getDest();
       this.changeDataCache = changeDataCache;
+      this.walkCache = walkCache;
     }
 
     @Override
@@ -139,7 +152,8 @@ public class ConflictsPredicate {
                 other,
                 str.type,
                 projectState.is(BooleanProjectConfig.USE_CONTENT_MERGE));
-        return args.conflictsCache.get(conflictsKey, new Loader(object, changeDataCache, args));
+        return args.conflictsCache.get(
+            conflictsKey, new Loader(object, changeDataCache, args, walkCache));
       } catch (StorageException | ExecutionException | UncheckedExecutionException e) {
         ObjectId finalOther = other;
         warnWithOccasionalStackTrace(
@@ -207,20 +221,55 @@ public class ConflictsPredicate {
     private final ChangeData changeData;
     private final ConflictsPredicate.ChangeDataCache changeDataCache;
     private final ChangeQueryBuilder.Arguments args;
+    private final AcceptedRevWalkCache walkCache;
 
     private Loader(
         ChangeData changeData,
         ConflictsPredicate.ChangeDataCache changeDataCache,
-        ChangeQueryBuilder.Arguments args) {
+        ChangeQueryBuilder.Arguments args,
+        AcceptedRevWalkCache walkCache) {
       this.changeData = changeData;
       this.changeDataCache = changeDataCache;
       this.args = args;
+      this.walkCache = walkCache;
     }
 
     @Override
     public Boolean call() throws Exception {
       Change otherChange = changeData.change();
       ObjectId other = changeData.currentPatchSet().commitId();
+      if (walkCache == null) {
+        logger.atFine().log("No query-local conflicts walk; using per-candidate RevWalk");
+        return runWithFreshWalk(otherChange, other);
+      }
+      try {
+        return walkCache.run(
+            otherChange.getProject(),
+            changeDataCache::getAlreadyAccepted,
+            changeDataCache.getTestAgainst(),
+            (repo, rw, alreadyAccepted) ->
+                !args.submitDryRun.run(
+                    null,
+                    changeData.submitTypeRecord().type,
+                    repo,
+                    rw,
+                    otherChange.getDest(),
+                    changeDataCache.getTestAgainst(),
+                    other,
+                    alreadyAccepted));
+      } catch (NoSuchProjectException | IOException e) {
+        warnWithOccasionalStackTrace(
+            e,
+            "Failure when loading conflicts of change %s in %s (%s): %s",
+            changeData.getId(),
+            firstNonNull(otherChange.getProject(), "unknown project"),
+            other != null ? other.name() : "unknown commit",
+            e.getMessage());
+        return false;
+      }
+    }
+
+    private boolean runWithFreshWalk(Change otherChange, ObjectId other) throws Exception {
       try (Repository repo = args.repoManager.openRepository(otherChange.getProject());
           CodeReviewCommit.CodeReviewRevWalk rw = CodeReviewCommit.newRevWalk(repo)) {
         return !args.submitDryRun.run(
@@ -232,15 +281,6 @@ public class ConflictsPredicate {
             changeDataCache.getTestAgainst(),
             other,
             getAlreadyAccepted(repo, rw));
-      } catch (NoSuchProjectException | IOException e) {
-        warnWithOccasionalStackTrace(
-            e,
-            "Failure when loading conflicts of change %s in %s (%s): %s",
-            changeData.getId(),
-            firstNonNull(otherChange.getProject(), "unknown project"),
-            other != null ? other.name() : "unknown commit",
-            e.getMessage());
-        return false;
       }
     }
 

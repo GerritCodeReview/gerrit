@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae2f4cbb_14af1e4b",
+        "filename": "java/com/google/gerrit/httpd/AllRequestFilter.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-09-15T14:00:10Z",
+      "side": 1,
+      "message": "nit.\nReplacing `DynamicSet` is a goo shout, we don\u0027t need `DynamicSet`.\n\nHaving said that, I was looking at its implementation and DynamicSet uses `\u003d\u003d` equality in its `contains` method:\n\n```\npublic boolean contains(T item) {\n  Iterator\u003cT\u003e iterator \u003d iterator();\n  while (iterator.hasNext()) {\n    T candidate \u003d iterator.next();\n    if (candidate \u003d\u003d item) {\n      return true;\n    }\n  }\n  return false;\n}\n```\n\n`ConcurrentHashMap.newKeySet()` uses `equals()` and `hashCode()` instead.\nThis means two distinct registered filters might now compare equal (when their `equals()` is `true`), even if they are different instances.\n\nThat said, I am not sure how likely/possible it is to register filters with the same hash code, so this is purely theoretical.\nFeel free to ignore.",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 62
+      },
+      "revId": "2c86d5f777811eecd3f7881790122eaa47b22cdf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "391bfc7f_12714bd7",
+        "filename": "java/com/google/gerrit/httpd/AllRequestFilter.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-09-15T14:00:10Z",
+      "side": 1,
+      "message": "The `init()` at L149 runs once when Jetty starts and initialises only the `filters` in the `DynamicSet`.\n\nLater, when a plugin is loaded, Gerrit attaches that plugin\u0027s filter to the same `filters` DynamicSet, but this `FilterProxy.init()` is not called again.\n\nThat\u0027s why those plugin filters are initialised lazily on their first HTTP request:\n\n```\nif (initializedFilters.contains(filter) || initFilterIfNeeded(filter)) {\n  filter.doFilter(...);\n}\n```\n\nIf one filter has never passed through this initialisation (because it received no requests), we will `destroy` a filter that was never initialised (in the previous implementation we were only looping through _initialised_ filters).\n\n\n\nCalling `destroy()` can then fail with an `NPE`, for example:\n\n\n```\nclass XXXAuditFilter extends AllRequestFilter {\n  private AuditClient client;\n\n  @Override\n  public void init(FilterConfig config) {\n    client \u003d new AuditClient(config);\n  }\n\n  @Override\n  public void destroy() {\n    client.close();\n  }\n}\n```\n\nCould `destroy()` keep iterating over the initialised filters instead?",
+      "range": {
+        "startLine": 162,
+        "startChar": 0,
+        "endLine": 169,
+        "endChar": 0
+      },
+      "revId": "2c86d5f777811eecd3f7881790122eaa47b22cdf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

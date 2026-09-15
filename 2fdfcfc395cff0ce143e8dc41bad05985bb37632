@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5f3ec61_1ea729a1",
+        "filename": "java/com/google/gerrit/server/restapi/change/ChangeRestApiModule.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2026-09-15T10:13:01Z",
+      "side": 1,
+      "message": "should this TODO be added as part of this change?",
+      "revId": "2fdfcfc395cff0ce143e8dc41bad05985bb37632",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16dfbf08_ed6f5c30",
+        "filename": "java/com/google/gerrit/server/restapi/change/SubmitWholeTopic.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1144862
+      },
+      "writtenOn": "2026-09-15T10:13:01Z",
+      "side": 1,
+      "message": "Comment block is confusing- references commented-out code, and this is a new file so it\u0027s lost history if relevant. Unsure what\u0027s still needed. Maybe replace whole block? Something like\n\n// Mergeability is computed by unmergeableChanges() in problemsForSubmittingChangeset\n// before this point, so it\u0027s safe to read the cached value here",
+      "revId": "2fdfcfc395cff0ce143e8dc41bad05985bb37632",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

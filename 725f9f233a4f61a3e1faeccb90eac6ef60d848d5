@@ -22,6 +22,30 @@
       },
       "revId": "725f9f233a4f61a3e1faeccb90eac6ef60d848d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6ca1a34_4027aded",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-09-15T01:59:01Z",
+      "side": 1,
+      "message": "If we are migrating everything to `async`, I would not want this to stand out too.",
+      "parentUuid": "74291ab3_0e4f7fce",
+      "range": {
+        "startLine": 10,
+        "startChar": 44,
+        "endLine": 12,
+        "endChar": 45
+      },
+      "revId": "725f9f233a4f61a3e1faeccb90eac6ef60d848d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

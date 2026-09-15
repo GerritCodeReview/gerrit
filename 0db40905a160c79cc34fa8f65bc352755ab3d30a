@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "79c6c83a_b53d906b",
+        "filename": "java/com/google/gerrit/server/schema/H2CustomLockAccountPatchReviewStore.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-09-15T03:02:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "43a93821_9f2379da",
+      "revId": "0db40905a160c79cc34fa8f65bc352755ab3d30a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f3b15b9a_8f3a97e1",
@@ -71,6 +89,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d64727e1_b6847e1e",
+        "filename": "java/com/google/gerrit/server/schema/H2CustomLockAccountPatchReviewStore.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-09-15T03:02:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aef3905d_5d54eca4",
+      "revId": "0db40905a160c79cc34fa8f65bc352755ab3d30a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a02446e1_29db2a86",
@@ -88,6 +124,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9dd0e9c_c986d507",
+        "filename": "java/com/google/gerrit/server/schema/H2CustomLockAccountPatchReviewStore.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-09-15T03:02:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a02446e1_29db2a86",
+      "revId": "0db40905a160c79cc34fa8f65bc352755ab3d30a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a7b5547d_544b8709",
@@ -101,6 +155,24 @@
       "writtenOn": "2026-09-15T01:41:16Z",
       "side": 1,
       "message": "I think enduring below this line needs a try catch",
+      "revId": "0db40905a160c79cc34fa8f65bc352755ab3d30a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2cccf32d_60f63201",
+        "filename": "java/com/google/gerrit/server/schema/H2CustomLockAccountPatchReviewStore.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-09-15T03:02:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7b5547d_544b8709",
       "revId": "0db40905a160c79cc34fa8f65bc352755ab3d30a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -140,6 +212,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "86b1b6fc_35dcbc9c",
+        "filename": "java/com/google/gerrit/server/schema/H2CustomLockAccountPatchReviewStore.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-09-15T03:02:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "493b7919_48659167",
+      "revId": "0db40905a160c79cc34fa8f65bc352755ab3d30a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7ab7bcde_3acf24f9",
@@ -153,6 +243,24 @@
       "writtenOn": "2026-09-15T01:41:16Z",
       "side": 1,
       "message": "Nees to start at 1?",
+      "revId": "0db40905a160c79cc34fa8f65bc352755ab3d30a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "22f7a37d_fcb0c640",
+        "filename": "java/com/google/gerrit/server/schema/H2CustomLockAccountPatchReviewStore.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-09-15T03:02:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ab7bcde_3acf24f9",
       "revId": "0db40905a160c79cc34fa8f65bc352755ab3d30a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

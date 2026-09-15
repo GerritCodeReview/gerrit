@@ -46,6 +46,29 @@
       },
       "revId": "41f7cccd01cc26492152fe61347df75f30537c77",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9f0d440_961f507c",
+        "filename": "javatests/com/google/gerrit/httpd/AllRequestFilterFilterProxyTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-09-15T12:38:20Z",
+      "side": 0,
+      "message": "The previous test covered removing `filterA`, invoke the cleanup, and verify that only filterA is destroyed while filterB remains usable.\n\nObviously this is obsolete because we have cleanup based on `plugin` name, that makes sense.\nShould we add a test to cover two plugins instead?\n\nSomething like:\n\n```\naddFilter(\"plugin-a\", filterA);\naddFilter(\"plugin-b\", filterB);\n\nfilterProxy.beforeStopPlugin(plugin(\"plugin-a\"));\n\nverify(filterA).destroy();\nverify(filterB, never()).destroy();\n```\n\nI am just saying because the current test registers both filters under the same plugin name, so destroying both is expected.",
+      "range": {
+        "startLine": 302,
+        "startChar": 2,
+        "endLine": 309,
+        "endChar": 44
+      },
+      "revId": "41f7cccd01cc26492152fe61347df75f30537c77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

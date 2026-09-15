@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0584465b_91133e64",
+        "filename": "java/com/google/gerrit/httpd/AllRequestFilter.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-15T16:32:49Z",
+      "side": 1,
+      "message": "The `contains(T item)` was created for the sole purpose of using `DynamicSet\u003c\u003e` here as a surrogate of a set, see https://gerrit-review.googlesource.com/c/gerrit/+/70072/8/gerrit-extension-api/src/main/java/com/google/gerrit/extensions/registration/DynamicSet.java.\n\nThe implementation of `contains()` is quite expensive because it performs a full scan of all items in the `DynamicSet\u003c\u003e`, looking for the *same item* rather than the *equal object*.\n\nI am indeed changing the implementation here, I agree, compared to the original version. However, I could argue that the original implementation was not optimised, as we execute this check for *every request* that passes through the Gerrit HTTP pipeline.\n\nI can keep the semantics here by introducing a method that performs a full scan as it did before, and then remove it in the follow-up. If anyone complains about two plugins having the same AllRequestFilter active at the same time, then we can revisit the choice and just remove the optimisation.\n\nWhat do you think?",
+      "parentUuid": "ae2f4cbb_14af1e4b",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 62
+      },
+      "revId": "2c86d5f777811eecd3f7881790122eaa47b22cdf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "391bfc7f_12714bd7",
         "filename": "java/com/google/gerrit/httpd/AllRequestFilter.java",
         "patchSetId": 7

@@ -123,38 +123,42 @@ public class SubmitDryRun {
     CodeReviewCommit tipCommit = rw.parseCommit(tip);
     CodeReviewCommit toMergeCommit = rw.parseCommit(toMerge);
     RevFlag canMerge = rw.newFlag("CAN_MERGE");
-    toMergeCommit.add(canMerge);
-    Arguments args =
-        new Arguments(
-            repo,
-            rw,
-            mergeUtilFactory.create(getProject(destBranch)),
-            new MergeSorter(
-                caller,
-                rw,
-                alreadyAccepted,
-                canMerge,
-                queryProvider,
-                ImmutableSet.of(toMergeCommit)));
+    try {
+      toMergeCommit.add(canMerge);
+      Arguments args =
+          new Arguments(
+              repo,
+              rw,
+              mergeUtilFactory.create(getProject(destBranch)),
+              new MergeSorter(
+                  caller,
+                  rw,
+                  alreadyAccepted,
+                  canMerge,
+                  queryProvider,
+                  ImmutableSet.of(toMergeCommit)));
 
-    switch (submitType) {
-      case CHERRY_PICK:
-        return CherryPick.dryRun(args, tipCommit, toMergeCommit);
-      case FAST_FORWARD_ONLY:
-        return FastForwardOnly.dryRun(args, tipCommit, toMergeCommit);
-      case MERGE_ALWAYS:
-        return MergeAlways.dryRun(args, tipCommit, toMergeCommit);
-      case MERGE_IF_NECESSARY:
-        return MergeIfNecessary.dryRun(args, tipCommit, toMergeCommit);
-      case REBASE_IF_NECESSARY:
-        return RebaseIfNecessary.dryRun(args, repo, tipCommit, toMergeCommit);
-      case REBASE_ALWAYS:
-        return RebaseAlways.dryRun(args, repo, tipCommit, toMergeCommit);
-      case INHERIT:
-      default:
-        String errorMsg = "No submit strategy for: " + submitType;
-        logger.atSevere().log("%s", errorMsg);
-        throw new StorageException(errorMsg);
+      switch (submitType) {
+        case CHERRY_PICK:
+          return CherryPick.dryRun(args, tipCommit, toMergeCommit);
+        case FAST_FORWARD_ONLY:
+          return FastForwardOnly.dryRun(args, tipCommit, toMergeCommit);
+        case MERGE_ALWAYS:
+          return MergeAlways.dryRun(args, tipCommit, toMergeCommit);
+        case MERGE_IF_NECESSARY:
+          return MergeIfNecessary.dryRun(args, tipCommit, toMergeCommit);
+        case REBASE_IF_NECESSARY:
+          return RebaseIfNecessary.dryRun(args, repo, tipCommit, toMergeCommit);
+        case REBASE_ALWAYS:
+          return RebaseAlways.dryRun(args, repo, tipCommit, toMergeCommit);
+        case INHERIT:
+        default:
+          String errorMsg = "No submit strategy for: " + submitType;
+          logger.atSevere().log("%s", errorMsg);
+          throw new StorageException(errorMsg);
+      }
+    } finally {
+      rw.disposeFlag(canMerge);
     }
   }
 

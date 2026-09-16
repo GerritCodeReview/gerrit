@@ -34,6 +34,24 @@
       "parentUuid": "e0f56673_f52637dc",
       "revId": "d157d5d5e977e903267b2d562cfd6fa9320fad88",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f2b43add_4fa8cf64",
+        "filename": "java/com/google/gerrit/server/project/LockManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-16T10:36:02Z",
+      "side": 0,
+      "message": "The existing interface, although rudimentary, has no assumptions about namespaces. As such it is a good basis for building on top of it: it provides a basic functionality without assumptions about usage patterns.",
+      "parentUuid": "44a998bd_6625b815",
+      "revId": "d157d5d5e977e903267b2d562cfd6fa9320fad88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

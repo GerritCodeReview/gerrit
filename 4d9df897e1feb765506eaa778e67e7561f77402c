@@ -52,6 +52,24 @@
       "parentUuid": "6d482444_20f11e5b",
       "revId": "4d9df897e1feb765506eaa778e67e7561f77402c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cbd9e211_1f39e8da",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-16T08:58:32Z",
+      "side": 1,
+      "message": "OK, thanks for the explanation. Can you add that to the commit message too?",
+      "parentUuid": "f9e5dc92_0d66256b",
+      "revId": "4d9df897e1feb765506eaa778e67e7561f77402c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

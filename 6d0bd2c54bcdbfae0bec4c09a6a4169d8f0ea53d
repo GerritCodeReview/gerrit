@@ -16,6 +16,46 @@
       "message": "Use set to start with ?",
       "revId": "6d0bd2c54bcdbfae0bec4c09a6a4169d8f0ea53d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6d515b8_b88861e3",
+        "filename": "java/com/google/gerrit/sshd/commands/ShowQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-16T09:37:03Z",
+      "side": 1,
+      "message": "Why is this not a `EnumSet\u003cTask.State\u003e states`. This would eliminate the conversion (L138).",
+      "range": {
+        "startLine": 87,
+        "startChar": 10,
+        "endLine": 87,
+        "endChar": 33
+      },
+      "revId": "6d0bd2c54bcdbfae0bec4c09a6a4169d8f0ea53d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e9ebb85_0e4570e7",
+        "filename": "java/com/google/gerrit/sshd/commands/ShowQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-16T09:37:03Z",
+      "side": 1,
+      "message": "will this also be case-insensitive like you did for aliases? If not, the perform `toUpperCase` already at the L271",
+      "revId": "6d0bd2c54bcdbfae0bec4c09a6a4169d8f0ea53d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

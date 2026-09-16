@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c3420382_51892cd6",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 698,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-09-16T11:36:25Z",
+      "side": 1,
+      "message": "To design it more in lines of the git config format I used:\n\n```\n[auth]\n  tokenExpiryNoficationDaysBefore \u003d 30\n  tokenExpiryNoficationDaysBefore \u003d 20\n```",
+      "parentUuid": "28cc4636_1bb452ec",
+      "revId": "a42baad62238838456c4bc13c592024a35f2c402",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6f3eed38_9c3f30c0",
         "filename": "java/com/google/gerrit/server/account/AuthTokenExpiryNotificationConfig.java",
         "patchSetId": 4
@@ -48,6 +66,24 @@
       "writtenOn": "2026-09-15T10:26:25Z",
       "side": 1,
       "message": "Worth adding a log line if this is false (due to misconfiguration) instead of silent disabling? since every other misconfiguration (putting a non-int in) will fail fast on bad config",
+      "revId": "a42baad62238838456c4bc13c592024a35f2c402",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "541c3b0d_7513bbbb",
+        "filename": "java/com/google/gerrit/server/account/AuthTokenExpiryNotificationConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-09-16T11:36:25Z",
+      "side": 1,
+      "message": "The configuration option is now explicit.",
+      "parentUuid": "6f3eed38_9c3f30c0",
       "revId": "a42baad62238838456c4bc13c592024a35f2c402",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -65,6 +101,24 @@
       "writtenOn": "2026-09-15T10:26:25Z",
       "side": 1,
       "message": "Comment implies that if you reach this point there\u0027s definitely a notification within the window, but a match might not exist - maybe prepend an \u0027If\u0027 to the comment",
+      "revId": "a42baad62238838456c4bc13c592024a35f2c402",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "194c27ae_c0e5009c",
+        "filename": "java/com/google/gerrit/server/account/AuthTokenExpiryNotifier.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-09-16T11:36:25Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "35b62868_64a73f91",
       "revId": "a42baad62238838456c4bc13c592024a35f2c402",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78ac0ee3_25a6af6f",
+        "filename": "java/com/google/gerrit/server/config/ScheduleConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-16T11:26:46Z",
+      "side": 1,
+      "message": "Why do we need to use `Math.addExact` and `Math.multiplExact` here? Use plain \u0027+\u0027 and \u0027*\u0027 operators. Those `Math` operations only provide protection against overflow, but are we dealing with intervals that will overflow int or long. How big such intervals have to be to cause an overflow?",
+      "revId": "5ea3537d2dd7802381f4dbe8bd75f8f35375230d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "176b976a_e497bec6",
+        "filename": "java/com/google/gerrit/server/config/ScheduleConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-16T11:26:46Z",
+      "side": 1,
+      "message": "Also the code here could be written a bit less verbose by using a known ceiling division trick: ceil(a / b) \u003d (a + b - 1) / b\n\n```suggestion\n    long deficit \u003d minimumInitialDelay - initialDelay;\n    long intervalsToAdd \u003d (deficit + interval - 1) / interval;\n    return initialDelay + intervalsToAdd * interval));\n```",
+      "range": {
+        "startLine": 308,
+        "startChar": 1,
+        "endLine": 313,
+        "endChar": 85
+      },
+      "revId": "5ea3537d2dd7802381f4dbe8bd75f8f35375230d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

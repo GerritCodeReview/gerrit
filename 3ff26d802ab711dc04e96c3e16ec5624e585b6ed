@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dbd3014a_5b30a7d6",
+        "filename": "java/com/google/gerrit/server/account/AuthTokenExpiryNotifier.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-16T12:24:58Z",
+      "side": 1,
+      "message": "extract the two cases into two private methods: notifyExpired, notifyExpiring. This will improve readability of this method.",
+      "range": {
+        "startLine": 177,
+        "startChar": 0,
+        "endLine": 210,
+        "endChar": 9
+      },
+      "revId": "3ff26d802ab711dc04e96c3e16ec5624e585b6ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

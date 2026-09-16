@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a11c1fd_cb78c71b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-16T12:24:58Z",
+      "side": 1,
+      "message": "See a comment from me in the previous change about making this also configurable",
+      "revId": "794de4786e2a99567f677b7aa296cfc1f101842d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

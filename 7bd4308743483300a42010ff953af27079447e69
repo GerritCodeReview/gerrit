@@ -16,6 +16,24 @@
       "message": "This message doesn\u0027t give any reasoning why we\u0027re adding this nor why existing cipher support isn\u0027t sufficient for whatever use case this is supporting.",
       "revId": "7bd4308743483300a42010ff953af27079447e69",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "718a0584_aa934a2a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-09-16T06:23:54Z",
+      "side": 1,
+      "message": "I expanded the commit message to explain the motivation.\n\nThis is split out as a small leaf prerequisite for change 630421, which uses it to encrypt stored OAuth token fields. The reusable part is not OAuth-specific: AES-GCM seal/open, random IVs, AAD binding, envelope parsing, and HKDF-SHA256 key derivation.\n\nThe OAuth change then owns only the OAuth policy: which fields are encrypted, which values are bound as AAD, and how legacy cleartext entries are handled.\n\nIt still uses only JDK/JCE primitives. The only local crypto composition is HKDF-SHA256, because Gerrit still supports Java 21 and the JDK HKDF API is newer.",
+      "parentUuid": "34cdfb87_1e1f22e8",
+      "revId": "7bd4308743483300a42010ff953af27079447e69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

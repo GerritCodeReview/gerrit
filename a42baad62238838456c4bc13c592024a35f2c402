@@ -73,6 +73,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3db3f2a4_fe232fc4",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 698,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-16T12:24:13Z",
+      "side": 1,
+      "message": "Acknowledged, although the key name is quite long for such use-case. What about:\n```\n[auth \"token-expiration-notification\"]\n  daysBefore \u003d 30\n  daysBefore \u003d 20\n  ...\n```\n\nBtw, we could also add the \"after\" options:\n```\n[auth \"token-expiration-notification\"]\n  daysBefore \u003d 30\n  daysBefore \u003d 20\n  ...\n  daysAfter \u003d 1\n  daysAfter \u003d 2\n```",
+      "parentUuid": "c3420382_51892cd6",
+      "revId": "a42baad62238838456c4bc13c592024a35f2c402",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6f3eed38_9c3f30c0",
         "filename": "java/com/google/gerrit/server/account/AuthTokenExpiryNotificationConfig.java",
         "patchSetId": 4

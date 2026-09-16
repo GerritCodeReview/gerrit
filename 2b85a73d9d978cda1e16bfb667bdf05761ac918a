@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "32be5def_970e3d6c",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 776,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-16T12:24:13Z",
+      "side": 1,
+      "message": "This sounds like each entry is a list and we can have multiple entries. I think it should start with: A number of days ...",
+      "range": {
+        "startLine": 774,
+        "startChar": 0,
+        "endLine": 776,
+        "endChar": 14
+      },
+      "revId": "2b85a73d9d978cda1e16bfb667bdf05761ac918a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

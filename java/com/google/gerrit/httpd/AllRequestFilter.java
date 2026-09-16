@@ -80,21 +80,14 @@ public abstract class AllRequestFilter implements Filter {
      * @return {@code true} if filter is now initialized
      * @throws ServletException if filter itself fails to init
      */
-    private synchronized boolean initFilterIfNeeded(AllRequestFilter filter)
-        throws ServletException {
-      boolean ret = true;
-      if (filters.contains(filter)) {
-        // Regardless of whether or not the caller checked filter's
-        // containment in initializedFilters, we better re-check as we're now
-        // synchronized.
-        if (!isInitializedFilter(filter)) {
-          filter.init(filterConfig);
-          initializedFilters.add(filter);
-        }
-      } else {
-        ret = false;
+    private synchronized void initFilterIfNeeded(AllRequestFilter filter) throws ServletException {
+      // Regardless of whether or not the caller checked filter's
+      // containment in initializedFilters, we better re-check as we're now
+      // synchronized.
+      if (!isInitializedFilter(filter)) {
+        filter.init(filterConfig);
+        initializedFilters.add(filter);
       }
-      return ret;
     }
 
     private synchronized void cleanUpInitializedFilters(
@@ -118,7 +111,7 @@ public abstract class AllRequestFilter implements Filter {
         @Override
         public void doFilter(ServletRequest req, ServletResponse res)
             throws IOException, ServletException {
-          while (itr.hasNext()) {
+          if (itr.hasNext()) {
             AllRequestFilter filter = itr.next();
             // To avoid {@code synchronized} on the whole filtering (and
             // thereby killing concurrency), we start the below disjunction
@@ -139,12 +132,13 @@ public abstract class AllRequestFilter implements Filter {
             // it, given that this is really both really improbable and also
             // the "proper" fix for it would basically kill concurrency of
             // webrequests.
-            if (isInitializedFilter(filter) || initFilterIfNeeded(filter)) {
-              filter.doFilter(req, res, this);
-              return;
+            if (!isInitializedFilter(filter)) {
+              initFilterIfNeeded(filter);
             }
+            filter.doFilter(req, res, this);
+          } else {
+            last.doFilter(req, res);
           }
-          last.doFilter(req, res);
         }
       }.doFilter(req, res);
     }
@@ -158,8 +152,7 @@ public abstract class AllRequestFilter implements Filter {
       filterConfig = config;
 
       for (AllRequestFilter f : filters) {
-        @SuppressWarnings("unused")
-        var unused = initFilterIfNeeded(f);
+        initFilterIfNeeded(f);
       }
     }
 

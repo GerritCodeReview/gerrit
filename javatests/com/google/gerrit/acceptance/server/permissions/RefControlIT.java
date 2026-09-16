@@ -43,10 +43,10 @@ import org.junit.Test;
 /**
  * Integration tests for ref-based permission settings.
  *
- * <p>Tests use {@link PermissionBackend#filter} directly to verify which refs are visible, covering
- * scenarios not already tested by {@link com.google.gerrit.acceptance.git.RefAdvertisementIT}
- * (which uses the git wire protocol) or {@link com.google.gerrit.server.permissions.RefControlTest}
- * (which tests at the unit level).
+ * <p>Tests use PermissionBackend.WithUser#filter(ProjectPermission, Collection)} directly to verify
+ * which refs are visible, covering scenarios not already tested by {@link
+ * com.google.gerrit.acceptance.git.RefAdvertisementIT} (which uses the git wire protocol) or {@link
+ * com.google.gerrit.server.permissions.RefControlTest} (which tests at the unit level).
  */
 public class RefControlIT extends AbstractDaemonTest {
 

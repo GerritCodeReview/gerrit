@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0df26ba7_6c28f6cd",
+        "filename": "java/com/google/gerrit/extensions/registration/DynamicSet.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-09-16T14:18:38Z",
+      "side": 1,
+      "message": "We are deprecating this method, but are not really suggesting an equivalent alternative.\n`Sets` would use `equals`, but `DynamicSet.contains()` uses identity (`\u003d\u003d`) instead.\n\nI think the Javadoc should just warn callers to avoid it, rather than tell them to use another API that doesn\u0027t do the same thing.\n\nWDYT?",
+      "range": {
+        "startLine": 218,
+        "startChar": 0,
+        "endLine": 218,
+        "endChar": 32
+      },
+      "revId": "089b03958cd5e404aebb24b43a89b1410134d353",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

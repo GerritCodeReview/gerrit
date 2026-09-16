@@ -59,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f4ad174_f3ffdfd7",
+        "filename": "java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-09-16T09:13:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "351a2c79_2670d526",
+      "range": {
+        "startLine": 195,
+        "startChar": 45,
+        "endLine": 195,
+        "endChar": 64
+      },
+      "revId": "5b38329607abb5533ee88c82536e2e9975d1287b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "43507d32_125adab5",
@@ -78,6 +102,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "dd1a7837_9fec8f85",
+        "filename": "java/com/google/gerrit/server/restapi/change/TestSubmitType.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-09-16T09:13:48Z",
+      "side": 1,
+      "message": "`SubmitRuleEvaluator` is as of now also prolog specific. Also to preserve the previous behaviour for this endpoint, we need to fall back to the project\u0027s default, which is now done by the `SubmitRuleEvaluator` and not by the Prolog rule evaluator.",
+      "parentUuid": "43507d32_125adab5",
+      "revId": "5b38329607abb5533ee88c82536e2e9975d1287b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d5ebd863_fdc1a76e",
         "filename": "java/com/google/gerrit/server/rules/prolog/PrologRuleEvaluator.java",
         "patchSetId": 4
@@ -89,6 +131,24 @@
       "writtenOn": "2026-09-15T09:47:52Z",
       "side": 1,
       "message": "The commit message says that the fallback to the project-level submit type is removed from Prolog rule evaluation. Why do we have it here?",
+      "revId": "5b38329607abb5533ee88c82536e2e9975d1287b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ce18978_5bcbf747",
+        "filename": "java/com/google/gerrit/server/rules/prolog/PrologRuleEvaluator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-09-16T09:13:48Z",
+      "side": 1,
+      "message": "This should have been deleted. Done.",
+      "parentUuid": "d5ebd863_fdc1a76e",
       "revId": "5b38329607abb5533ee88c82536e2e9975d1287b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

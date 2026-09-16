@@ -29,4 +29,26 @@ import java.util.concurrent.locks.Lock;
  */
 public interface LockManager {
   public Lock getLock(String name);
+
+  /**
+   * Returns a lock namespaced by {@code major}, {@code minor} and optional {@code args}, so that
+   * two unrelated callers can never collide on the same lock key.
+   *
+   * <ul>
+   *   <li>{@code major}: the top-level namespace requesting the lock. Either {@code "gerrit"} for
+   *       Gerrit core, or {@code "plugins/<plugin_name>"} for a plugin.
+   *   <li>{@code minor}: the name of the functionality within that namespace that the lock guards
+   *       (e.g. {@code "change-cleanup"}).
+   *   <li>{@code args}: the arguments to that functionality that further scope the lock (e.g. a
+   *       project name). May be empty if the functionality doesn't need to scope the lock any
+   *       further.
+   * </ul>
+   */
+  public default Lock getLock(String major, String minor, String... args) {
+    StringBuilder key = new StringBuilder(major).append('/').append(minor);
+    for (String arg : args) {
+      key.append('/').append(arg);
+    }
+    return getLock(key.toString());
+  }
 }

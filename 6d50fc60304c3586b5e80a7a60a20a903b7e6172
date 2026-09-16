@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23afde6c_2a4e8624",
+        "filename": "java/com/google/gerrit/server/account/MaxAuthTokenLifetimeApplier.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-09-16T17:40:19Z",
+      "side": 1,
+      "message": "Would it make sense to have an Enum for gerrit minor entries to avoid conflicts?",
+      "revId": "6d50fc60304c3586b5e80a7a60a20a903b7e6172",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

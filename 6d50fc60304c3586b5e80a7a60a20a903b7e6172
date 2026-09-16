@@ -54,6 +54,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e50e579_b9c44da3",
+        "filename": "java/com/google/gerrit/server/account/MaxAuthTokenLifetimeApplier.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-09-16T23:37:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4df11831_12c8f999",
+      "revId": "6d50fc60304c3586b5e80a7a60a20a903b7e6172",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ec16ac3f_14d43bb8",
@@ -67,6 +85,30 @@
       "writtenOn": "2026-09-16T22:49:20Z",
       "side": 1,
       "message": "Is `/` a good delimiter? projects for example contain slashes more often than not. How about, `~`? It is already used in Gerrit, for example `project~branch~Change-Id`.",
+      "range": {
+        "startLine": 49,
+        "startChar": 32,
+        "endLine": 49,
+        "endChar": 33
+      },
+      "revId": "6d50fc60304c3586b5e80a7a60a20a903b7e6172",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a70c763c_229a234b",
+        "filename": "java/com/google/gerrit/server/project/LockManager.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-09-16T23:37:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ec16ac3f_14d43bb8",
       "range": {
         "startLine": 49,
         "startChar": 32,

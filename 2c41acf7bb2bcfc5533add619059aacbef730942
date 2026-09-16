@@ -261,6 +261,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f15f6334_60e56e69",
+        "filename": "java/com/google/gerrit/entities/SubmitTypeOverride.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-16T10:14:59Z",
+      "side": 1,
+      "message": "Why not `SubmitTypeRule`. I am against using \"override\" in the name because this class doesn\u0027t do any override (on its own). It is used to override project-level default but this knowledge is not part of this class.",
+      "parentUuid": "68a4e216_3ebed67d",
+      "revId": "2c41acf7bb2bcfc5533add619059aacbef730942",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d99ae3a4_1b86d628",
         "filename": "java/com/google/gerrit/entities/SubmitTypeOverrideExpression.java",
         "patchSetId": 8
@@ -325,6 +343,24 @@
       "side": 1,
       "message": "Because it contains `SR` (submit requirement) in its name, which doesn\u0027t fit. If we do that, we should introduce an abstraction about this kind of configuration.",
       "parentUuid": "30ac573c_3d1c3bea",
+      "revId": "2c41acf7bb2bcfc5533add619059aacbef730942",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74859668_9ae4f73d",
+        "filename": "java/com/google/gerrit/server/project/ProjectConfig.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-16T10:14:59Z",
+      "side": 1,
+      "message": "```suggestion\n  public static final String KEY_ST_APPLICABILITY_EXPRESSION \u003d KEY_SR_APPLICABILITY_EXPRESSION;\n```",
+      "parentUuid": "9495e741_da38253a",
       "revId": "2c41acf7bb2bcfc5533add619059aacbef730942",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

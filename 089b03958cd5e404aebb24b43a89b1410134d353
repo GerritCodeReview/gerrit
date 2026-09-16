@@ -46,6 +46,30 @@
       },
       "revId": "089b03958cd5e404aebb24b43a89b1410134d353",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb0659f4_ec3aec64",
+        "filename": "java/com/google/gerrit/extensions/registration/DynamicSet.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-09-16T16:36:56Z",
+      "side": 1,
+      "message": "Fair point, I read the comparison as suggesting a replacement.\n\n\nWhen deprecating a method, I usually expect some guidance on what to use instead. But I understand that here the intention is simply to discourage its use, which the Javadoc already says.\n\nAcked.",
+      "parentUuid": "d2e1cb50_5f2d4776",
+      "range": {
+        "startLine": 218,
+        "startChar": 0,
+        "endLine": 218,
+        "endChar": 32
+      },
+      "revId": "089b03958cd5e404aebb24b43a89b1410134d353",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

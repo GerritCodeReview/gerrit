@@ -2512,5 +2512,14 @@ suite('gr-file-list tests', () => {
       assert.isFalse(readmeSaveSpy.called);
       assert.isTrue(docsSaveSpy.calledOnce);
     });
+
+    test('gridcell count parity across markdown and non-markdown rows', () => {
+      const rows = queryAll(element, '.file-row');
+      assert.equal(rows.length, 2);
+
+      const mdCells = queryAll(rows[0], '[role="gridcell"]');
+      const nonMdCells = queryAll(rows[1], '[role="gridcell"]');
+      assert.equal(mdCells.length, nonMdCells.length);
+    });
   });
 });

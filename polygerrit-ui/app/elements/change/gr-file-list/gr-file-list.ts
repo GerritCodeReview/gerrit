@@ -525,12 +525,15 @@ export class GrFileList extends LitElement {
         .show-hide {
           margin-left: var(--spacing-s);
           width: 1.9em;
+          position: relative;
         }
         .richMarkdownToggle {
           align-items: center;
           display: inline-flex;
           justify-content: flex-end;
-          margin-right: var(--spacing-s);
+          position: absolute;
+          right: 2em;
+          white-space: nowrap;
           opacity: 0;
         }
         .row:hover .richMarkdownToggle,
@@ -1236,7 +1239,7 @@ export class GrFileList extends LitElement {
         )}
         <!-- endpoint: change-view-file-list-content -->
         ${this.renderReviewed(file)} ${this.renderFileControls(file)}
-        ${this.renderRichMarkdownToggle(file)} ${this.renderShowHide(file)}
+        ${this.renderShowHide(file)}
       </div>
       ${when(
         this.isFileExpanded(file.__path),
@@ -1733,7 +1736,7 @@ export class GrFileList extends LitElement {
     if (!isMarkdownDiff(file.__path)) return nothing;
     const isRich = this.isShowingRichMarkdown(file.__path);
     return html`
-      <div class="richMarkdownToggle" role="gridcell">
+      <div class="richMarkdownToggle">
         <gr-tooltip-content
           has-tooltip
           title=${isRich
@@ -1758,6 +1761,7 @@ export class GrFileList extends LitElement {
   private renderShowHide(file: NormalizedFileInfo) {
     const expanded = this.isFileExpanded(file.__path);
     return html` <div class="show-hide" role="gridcell">
+      ${this.renderRichMarkdownToggle(file)}
       <!-- Do not use input type="checkbox" with hidden input and
             visible label here. Screen readers don't read/interract
             correctly with such input.

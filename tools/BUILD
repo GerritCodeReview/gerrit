@@ -25,16 +25,6 @@ proto_lang_toolchain(
     java_runtime = "@rules_java//toolchains:remotejdk_" + VERSION,
     javacopts = [
         "-Xlint:-removal",
-        # JDK-8225377: before JDK 22, javac does not attach type-use annotations
-        # loaded from classpath class files to their symbols, so Error Prone
-        # emits NullArgumentForNonNullParameter false positives on idiomatic
-        # Guava calls (Iterables.getFirst/getLast(x, null),
-        # ToStringHelper.add(name, nullable)). This flag opts in to the fix on
-        # JDK 21 (available 21.0.8+); it is enabled by default and a no-op on
-        # JDK 22+. Error Prone's own -Xplugin path requires this flag on
-        # JDK <= 21, but Bazel's JavaBuilder wires Error Prone directly and does
-        # not pass it.
-        "-XDaddTypeAnnotationsToSymbol=true",
     ],
     package_configuration = [
         ":error_prone",
@@ -44,7 +34,6 @@ proto_lang_toolchain(
     target_version = VERSION,
     visibility = ["//visibility:public"],
 ) for VERSION in [
-    "21",
     "25",
 ]]
 
@@ -322,12 +311,11 @@ java_package_configuration(
         "-Xep:NonOverridingEquals:ERROR",
         "-Xep:NonRuntimeAnnotation:ERROR",
         "-Xep:NullOptional:ERROR",
-        # Kept at ERROR. The false positive on Guava @ParametricNullness /
-        # JSpecify @Nullable parameters (e.g. Iterables.getFirst(x, null)) is
-        # avoided by the -XDaddTypeAnnotationsToSymbol=true javacopt in the
-        # error_prone_warnings_toolchain above, which works around OpenJDK
-        # JDK-8225377 on JDK <= 21. See
-        # https://github.com/bazelbuild/bazel/issues/30743 for the full trail.
+        # Kept at ERROR. The Guava @ParametricNullness / JSpecify @Nullable
+        # false positive (e.g. Iterables.getFirst(x, null)) came from OpenJDK
+        # JDK-8225377, fixed in JDK 22; with a minimum JDK of 25 javac attaches
+        # the type-use annotations natively, so no javacopt workaround is needed.
+        # See https://github.com/bazelbuild/bazel/issues/30743 for the full trail.
         "-Xep:NullArgumentForNonNullParameter:ERROR",
         "-Xep:NullTernary:ERROR",
         "-Xep:NullableConstructor:ERROR",

@@ -206,9 +206,16 @@ public class DynamicSet<T> implements Iterable<T> {
   /**
    * Returns {@code true} if this set contains the given item.
    *
+   * <p>NOTE: The method checks for the item inside the DynamicSet looking for the same object
+   * inside the list of items and not using an direct lookup by hash-code or equals. Using this
+   * method is therefore significantly slower than a normal {@link java.util.Set#contains(Object)}
+   * and is executed with a O(N) elapsed time based on N registered items in the set.
+   *
    * @param item item to check whether or not it is contained.
    * @return {@code true} if this set contains the given item.
+   * @deprecated Avoid because of O(N) execution time
    */
+  @Deprecated(forRemoval = true)
   public boolean contains(T item) {
     Iterator<T> iterator = iterator();
     while (iterator.hasNext()) {

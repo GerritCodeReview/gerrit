@@ -16,6 +16,24 @@
       "message": "Needs to be adapted",
       "revId": "55869510c381dd486f7491bbc84b3ac4b2b3a0cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "01f9e53b_40504e2e",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 764,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-09-16T11:43:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "46f4b7cc_72fc05aa",
+      "revId": "55869510c381dd486f7491bbc84b3ac4b2b3a0cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

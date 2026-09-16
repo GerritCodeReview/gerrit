@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1400b2a7_d9b34129",
+        "filename": "java/com/google/gerrit/httpd/ProjectOAuthFilter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-16T10:06:05Z",
+      "side": 1,
+      "message": "there are many repetitions of this code fragment in this change. does it make sense to factor it out as a small utility",
+      "range": {
+        "startLine": 251,
+        "startChar": 0,
+        "endLine": 258,
+        "endChar": 5
+      },
+      "revId": "1f51e634a0a1795749045f713f512021d7083fa5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

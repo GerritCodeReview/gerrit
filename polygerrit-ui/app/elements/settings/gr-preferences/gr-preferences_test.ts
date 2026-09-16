@@ -251,7 +251,7 @@ suite('gr-preferences tests', () => {
               </span>
             </section>
             <section>
-              <span class="title">Default Base For Merges</span>
+              <span class="title"> Default Base For Merges </span>
               <span class="value">
                 <md-outlined-select>
                   <md-select-option

@@ -523,8 +523,10 @@ export class GrFileList extends LitElement {
           outline: none;
         }
         .show-hide {
+          align-items: center;
+          display: flex;
+          justify-content: flex-end;
           margin-left: var(--spacing-s);
-          width: 1.9em;
         }
         .richMarkdownToggle {
           align-items: center;
@@ -1236,7 +1238,7 @@ export class GrFileList extends LitElement {
         )}
         <!-- endpoint: change-view-file-list-content -->
         ${this.renderReviewed(file)} ${this.renderFileControls(file)}
-        ${this.renderRichMarkdownToggle(file)} ${this.renderShowHide(file)}
+        ${this.renderShowHide(file)}
       </div>
       ${when(
         this.isFileExpanded(file.__path),
@@ -1522,6 +1524,7 @@ export class GrFileList extends LitElement {
   }
 
   private renderSizeBar(file: NormalizedFileInfo) {
+    if (!this.showSizeBars) return nothing;
     const sizeBarLayout: SizeBarLayout = this.sizeBarLayout;
     return html` <div class="desktop" role="gridcell">
       <!-- The content must be in a separate div. It guarantees, that
@@ -1733,7 +1736,7 @@ export class GrFileList extends LitElement {
     if (!isMarkdownDiff(file.__path)) return nothing;
     const isRich = this.isShowingRichMarkdown(file.__path);
     return html`
-      <div class="richMarkdownToggle" role="gridcell">
+      <div class="richMarkdownToggle">
         <gr-tooltip-content
           has-tooltip
           title=${isRich
@@ -1758,6 +1761,7 @@ export class GrFileList extends LitElement {
   private renderShowHide(file: NormalizedFileInfo) {
     const expanded = this.isFileExpanded(file.__path);
     return html` <div class="show-hide" role="gridcell">
+      ${this.renderRichMarkdownToggle(file)}
       <!-- Do not use input type="checkbox" with hidden input and
             visible label here. Screen readers don't read/interract
             correctly with such input.

@@ -277,6 +277,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec94166a_fc468038",
+        "filename": "java/com/google/gerrit/entities/SubmitTypeOverride.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-09-16T12:19:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f15f6334_60e56e69",
+      "revId": "2c41acf7bb2bcfc5533add619059aacbef730942",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d99ae3a4_1b86d628",
@@ -361,6 +379,24 @@
       "side": 1,
       "message": "```suggestion\n  public static final String KEY_ST_APPLICABILITY_EXPRESSION \u003d KEY_SR_APPLICABILITY_EXPRESSION;\n```",
       "parentUuid": "9495e741_da38253a",
+      "revId": "2c41acf7bb2bcfc5533add619059aacbef730942",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a1ef030_d7efdf78",
+        "filename": "java/com/google/gerrit/server/project/ProjectConfig.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-09-16T12:19:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "74859668_9ae4f73d",
       "revId": "2c41acf7bb2bcfc5533add619059aacbef730942",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

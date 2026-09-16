@@ -83,6 +83,22 @@ suite('user-message tests', () => {
     assert.equal(content?.textContent?.trim(), 'Hello, world!');
   });
 
+  test('renders long unbroken file path with break-word wrapping', async () => {
+    const longPath =
+      'src/com/android/settings/supervision/EnableSupervisionActivity.kt';
+    element.message = {...message, content: longPath};
+    await element.updateComplete;
+
+    const content = element.shadowRoot?.querySelector(
+      '.text-content'
+    ) as HTMLElement;
+    assert.isOk(content);
+    assert.equal(content.textContent?.trim(), longPath);
+    const computedStyle = getComputedStyle(content);
+    assert.equal(computedStyle.overflowWrap, 'break-word');
+    assert.equal(computedStyle.wordBreak, 'break-word');
+  });
+
   test('renders with account', async () => {
     const userModel = testResolver(userModelToken);
     userModel.updateState({

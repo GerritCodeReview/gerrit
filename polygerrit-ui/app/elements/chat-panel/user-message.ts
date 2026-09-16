@@ -94,10 +94,13 @@ export class UserMessage extends LitElement {
 
       .user-input-container {
         padding-top: var(--spacing-m);
+        min-width: 0;
       }
 
       .text-content {
         white-space: pre-wrap;
+        overflow-wrap: break-word;
+        word-break: break-word;
         margin: 0px;
       }
 

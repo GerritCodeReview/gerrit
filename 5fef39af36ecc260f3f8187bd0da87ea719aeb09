@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "427d1ee4_aeb8e176",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-16T09:49:07Z",
+      "side": 1,
+      "message": "If we have a chain of 3 changes: Base \u003c C1 \u003c C2 \u003c C3, will it be possible to\nget cumulative diff also from the intermediate changes (C2 in this case)?",
+      "revId": "5fef39af36ecc260f3f8187bd0da87ea719aeb09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

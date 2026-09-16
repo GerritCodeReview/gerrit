@@ -16,6 +16,24 @@
       "message": "Shall this really to into Gerrit source code? We do that from an external task.",
       "revId": "6eddb134cf97bb5b944872a71a007cdb4f77dfca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "043ed98d_d445c701",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-09-16T09:56:38Z",
+      "side": 1,
+      "message": "That sounds exactly why we should be doing it in gerrit? I suspect that most experienced gerrit sites have something similar with no good reason for it being different?",
+      "parentUuid": "8803015b_25ba97dc",
+      "revId": "6eddb134cf97bb5b944872a71a007cdb4f77dfca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

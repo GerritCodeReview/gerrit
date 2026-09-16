@@ -70,7 +70,7 @@ public class MaxAuthTokenLifetimeApplier implements Runnable {
 
   @Override
   public void run() {
-    Lock lock = lockManager.getLock("ReduceMaxAuthTokenLifetime");
+    Lock lock = lockManager.getLock("gerrit", "reduce-max-auth-token-lifetime");
     if (!lock.tryLock()) {
       logger.atWarning().log("Task applying limit to auth token lifetime already running.");
       return;

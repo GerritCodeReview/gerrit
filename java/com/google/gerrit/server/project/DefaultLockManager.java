@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.util.concurrent.Striped;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.inject.AbstractModule;
@@ -31,10 +32,12 @@ public class DefaultLockManager implements LockManager {
     }
   }
 
+  private record LockKey(String major, String minor, ImmutableList<String> args) {}
+
   Striped<Lock> locks = Striped.lock(10);
 
   @Override
-  public Lock getLock(String name) {
-    return locks.get(name);
+  public Lock getLock(String major, String minor, String... args) {
+    return locks.get(new LockKey(major, minor, ImmutableList.copyOf(args)));
   }
 }

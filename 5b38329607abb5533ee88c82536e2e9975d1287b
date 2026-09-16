@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0104b2ba_5328c727",
+        "filename": "java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-16T12:28:42Z",
+      "side": 1,
+      "message": "I see, this class is in wrong package if it is prolog specific.",
+      "parentUuid": "fa8b2f82_c997a277",
+      "revId": "5b38329607abb5533ee88c82536e2e9975d1287b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "351a2c79_2670d526",
@@ -114,6 +132,24 @@
       "side": 1,
       "message": "`SubmitRuleEvaluator` is as of now also prolog specific. Also to preserve the previous behaviour for this endpoint, we need to fall back to the project\u0027s default, which is now done by the `SubmitRuleEvaluator` and not by the Prolog rule evaluator.",
       "parentUuid": "43507d32_125adab5",
+      "revId": "5b38329607abb5533ee88c82536e2e9975d1287b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fcb9085d_7edf4bbd",
+        "filename": "java/com/google/gerrit/server/restapi/change/TestSubmitType.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-16T12:28:42Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "dd1a7837_9fec8f85",
       "revId": "5b38329607abb5533ee88c82536e2e9975d1287b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

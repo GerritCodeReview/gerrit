@@ -124,7 +124,7 @@ public class ChangeCleanupRunner implements Runnable {
 
   @Override
   public void run() {
-    Lock lock = lockManager.getLock("change-cleanup");
+    Lock lock = lockManager.getLock(LockManager.CoreLock.CHANGE_CLEANUP);
     if (!lock.tryLock()) {
       logger.atInfo().log(
           "Couldn't acquire change-cleanup lock. Assuming another server is running"

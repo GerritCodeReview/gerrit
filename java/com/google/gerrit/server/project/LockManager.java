@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.common.collect.Lists;
 import java.util.concurrent.locks.Lock;
 
 /**
@@ -28,5 +29,39 @@ import java.util.concurrent.locks.Lock;
  * lock manager that provides global locks.
  */
 public interface LockManager {
+  /**
+   * Enumeration of {@link LockManager} lock names owned by Gerrit core.
+   *
+   * <p>Centralizing core lock names here prevents two unrelated core call sites from silently
+   * colliding on the same string. Plugins should not add entries; they should use {@link
+   * PluginLockManager} instead.
+   */
+  enum CoreLock {
+    CHANGE_CLEANUP("change-cleanup"),
+    CREATE_PROJECT("create-project"),
+    DRAFT_COMMENTS_CLEANUP("draft-comments-cleanup"),
+    MIGRATE_PASSWORDS_TO_TOKENS("migrate-passwords-to-tokens"),
+    REDUCE_MAX_AUTH_TOKEN_LIFETIME("reduce-max-auth-token-lifetime");
+
+    private final String functionality;
+
+    CoreLock(String functionality) {
+      this.functionality = functionality;
+    }
+
+    String functionality() {
+      return functionality;
+    }
+  }
+
   public Lock getLock(String name);
+
+  /**
+   * Returns a lock owned by Gerrit core, scoped by a well-known {@link CoreLock} and optional
+   * {@code args} that further narrow the scope (e.g. a project name). The {@code "gerrit"}
+   * namespace is implied. Plugins should use {@link PluginLockManager} instead.
+   */
+  default Lock getLock(CoreLock lock, String... args) {
+    return getLock(String.join("~", Lists.asList("gerrit", lock.functionality(), args)));
+  }
 }

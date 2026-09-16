@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d3d66e6_46982496",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-09-16T16:46:44Z",
+      "side": 1,
+      "message": "This sounds like every `AllRequestFilter` invocation used to perform the full scan.\n\nHowever, the expensive `contains()` was called only when a filter was not initialised (by `initFilterIfNeeded`), not for every `AllRequestFilter` invocation.\n\n```\nisInitializedFilter(filter) || initFilterIfNeeded(filter)\n```\n\nConsider rephrasing to something like:\n\n```\nAvoid a full scan through registered filters when lazily initialising an AllRequestFilter.\n```\n\nor something similar?",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 46
+      },
+      "revId": "c9b7dc5bd31961c53739ea81af8676ac29a53b08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.ChangeCleanupConfig;
 import com.google.gerrit.server.git.WorkQueue;
+import com.google.gerrit.server.project.CoreLockKeys;
 import com.google.gerrit.server.project.LockManager;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.UpdateException;
@@ -124,7 +125,7 @@ public class ChangeCleanupRunner implements Runnable {
 
   @Override
   public void run() {
-    Lock lock = lockManager.getLock("change-cleanup");
+    Lock lock = lockManager.getLock(CoreLockKeys.CHANGE_CLEANUP);
     if (!lock.tryLock()) {
       logger.atInfo().log(
           "Couldn't acquire change-cleanup lock. Assuming another server is running"

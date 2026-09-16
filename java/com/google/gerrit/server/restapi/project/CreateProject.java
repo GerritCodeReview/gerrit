@@ -44,6 +44,7 @@ import com.google.gerrit.server.group.GroupResolver;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.plugincontext.PluginItemContext;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
+import com.google.gerrit.server.project.CoreLockKeys;
 import com.google.gerrit.server.project.CreateProjectArgs;
 import com.google.gerrit.server.project.LockManager;
 import com.google.gerrit.server.project.ProjectConfig;
@@ -168,7 +169,9 @@ public class CreateProject
     }
     args.initOnly = input.initOnly;
 
-    Lock nameLock = lockManager.call(lockManager -> lockManager.getLock(args.getProject().get()));
+    Lock nameLock =
+        lockManager.call(
+            lockManager -> lockManager.getLock(CoreLockKeys.createProject(args.getProject())));
     nameLock.lock();
     try {
       try {

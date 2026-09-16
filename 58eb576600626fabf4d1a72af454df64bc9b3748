@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff36ed4a_ce6c716e",
+        "filename": "java/com/google/gerrit/server/project/CombinedSubmitTypeEvaluator.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-16T10:27:32Z",
+      "side": 1,
+      "message": "The override occurs in this class and not inside the `OverrideSubmitTypeEvaluator`: therefore the name `OverrideSubmitTypeEvaluator` is misleading. It should be: `SubmitTypeRuleEvaluator` and, if you want to use \"override\" in the name, then it belongs to this classes name.",
+      "range": {
+        "startLine": 50,
+        "startChar": 16,
+        "endLine": 50,
+        "endChar": 43
+      },
+      "revId": "58eb576600626fabf4d1a72af454df64bc9b3748",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

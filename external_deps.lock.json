@@ -45,8 +45,6 @@
     "com.h2database:h2": 377222208,
     "com.ibm.icu:icu4j": -802150924,
     "com.icegreen:greenmail": -1151466560,
-    "com.jcraft:jsch": 1133842314,
-    "com.jcraft:jzlib": 864660349,
     "com.ryanharter.auto.value:auto-value-gson-extension": 520453879,
     "com.ryanharter.auto.value:auto-value-gson-factory": 1068512450,
     "com.ryanharter.auto.value:auto-value-gson-runtime": 187755792,
@@ -134,6 +132,7 @@
     "org.antlr:antlr": -2055062274,
     "org.antlr:antlr-runtime": -2145792567,
     "org.antlr:stringtemplate": -752719922,
+    "org.apache.ant:ant": 51716534,
     "org.apache.commons:commons-compress": -1289113474,
     "org.apache.commons:commons-lang3": 1729335886,
     "org.apache.commons:commons-math3": -1738699872,
@@ -297,10 +296,6 @@
     "com.ibm.icu:icu4j:jar:sources": 163265109,
     "com.icegreen:greenmail": 945965666,
     "com.icegreen:greenmail:jar:sources": -245613146,
-    "com.jcraft:jsch": 1084501210,
-    "com.jcraft:jsch:jar:sources": -586408740,
-    "com.jcraft:jzlib": -1423321085,
-    "com.jcraft:jzlib:jar:sources": 1440827148,
     "com.ryanharter.auto.value:auto-value-gson-extension": -1071085858,
     "com.ryanharter.auto.value:auto-value-gson-extension:jar:sources": -670606081,
     "com.ryanharter.auto.value:auto-value-gson-factory": -586162268,
@@ -367,6 +362,10 @@
     "org.antlr:antlr:jar:sources": -1910959184,
     "org.antlr:stringtemplate": -1632674608,
     "org.antlr:stringtemplate:jar:sources": -562160043,
+    "org.apache.ant:ant": -431447101,
+    "org.apache.ant:ant-launcher": -333622244,
+    "org.apache.ant:ant-launcher:jar:sources": -77100552,
+    "org.apache.ant:ant:jar:sources": 389240804,
     "org.apache.commons:commons-compress": -832484004,
     "org.apache.commons:commons-compress:jar:sources": -1888643111,
     "org.apache.commons:commons-lang3": 1841935436,
@@ -820,20 +819,6 @@
       },
       "version": "1.5.5"
     },
-    "com.jcraft:jsch": {
-      "shasums": {
-        "jar": "d492b15a6d2ea3f1cc39c422c953c40c12289073dbe8360d98c0f6f9ec74fc44",
-        "sources": "e01ff2d282aa1b492bbb6187b3e363cd20a6ef51a6f23ae0ec4be179570a8480"
-      },
-      "version": "0.1.55"
-    },
-    "com.jcraft:jzlib": {
-      "shasums": {
-        "jar": "89b1360f407381bf61fde411019d8cbd009ebb10cff715f3669017a031027560",
-        "sources": "35ebd67941ce7024e6e7d80b60a4252a9687fa0f909a7079ac904bef6c1658cf"
-      },
-      "version": "1.1.3"
-    },
     "com.ryanharter.auto.value:auto-value-gson-extension": {
       "shasums": {
         "jar": "261be84be30a56994e132d718a85efcd579197a2edb9426b84c5722c56955eca",
@@ -1069,6 +1054,20 @@
         "sources": "0d11ceb967d8b8adc0ec9aecbe3b3acb051f9c4b07430dffb25f1c3a8f5ca342"
       },
       "version": "4.0.2"
+    },
+    "org.apache.ant:ant": {
+      "shasums": {
+        "jar": "763acda4a69588c9ea8817a952851ff0c2fc4bffa1d081c2565dc407f29d5794",
+        "sources": "817ebf06c0a01d5d59cae996815b154b7b7172d40d75304f39ab107e8133c0d6"
+      },
+      "version": "1.10.15"
+    },
+    "org.apache.ant:ant-launcher": {
+      "shasums": {
+        "jar": "5c8551990307a032336d98ddaed549a39a689f07d4d4c6b950601bf22b3d6a1b",
+        "sources": "ab774b88172f80beb0e11e697adbab13e8436b4c959bef51d5dba44f1d192d72"
+      },
+      "version": "1.10.15"
     },
     "org.apache.commons:commons-compress": {
       "shasums": {
@@ -1726,6 +1725,9 @@
     "org.antlr:stringtemplate": [
       "org.antlr:antlr-runtime"
     ],
+    "org.apache.ant:ant": [
+      "org.apache.ant:ant-launcher"
+    ],
     "org.apache.commons:commons-compress": [
       "commons-codec:commons-codec",
       "commons-io:commons-io",
@@ -2326,15 +2328,6 @@
       "com.icegreen.greenmail.user",
       "com.icegreen.greenmail.util"
     ],
-    "com.jcraft:jsch": [
-      "com.jcraft.jsch",
-      "com.jcraft.jsch.jce",
-      "com.jcraft.jsch.jcraft",
-      "com.jcraft.jsch.jgss"
-    ],
-    "com.jcraft:jzlib": [
-      "com.jcraft.jzlib"
-    ],
     "com.ryanharter.auto.value:auto-value-gson-extension": [
       "autovaluegson.shaded.com.google.auto.common",
       "autovaluegson.shaded.com.google.common.annotations",
@@ -2730,6 +2723,73 @@
       "org.stringtemplate.v4.debug",
       "org.stringtemplate.v4.gui",
       "org.stringtemplate.v4.misc"
+    ],
+    "org.apache.ant:ant": [
+      "org.apache.tools.ant",
+      "org.apache.tools.ant.attribute",
+      "org.apache.tools.ant.dispatch",
+      "org.apache.tools.ant.filters",
+      "org.apache.tools.ant.filters.util",
+      "org.apache.tools.ant.helper",
+      "org.apache.tools.ant.input",
+      "org.apache.tools.ant.listener",
+      "org.apache.tools.ant.loader",
+      "org.apache.tools.ant.property",
+      "org.apache.tools.ant.taskdefs",
+      "org.apache.tools.ant.taskdefs.compilers",
+      "org.apache.tools.ant.taskdefs.condition",
+      "org.apache.tools.ant.taskdefs.cvslib",
+      "org.apache.tools.ant.taskdefs.email",
+      "org.apache.tools.ant.taskdefs.launcher",
+      "org.apache.tools.ant.taskdefs.modules",
+      "org.apache.tools.ant.taskdefs.optional",
+      "org.apache.tools.ant.taskdefs.optional.ccm",
+      "org.apache.tools.ant.taskdefs.optional.clearcase",
+      "org.apache.tools.ant.taskdefs.optional.depend",
+      "org.apache.tools.ant.taskdefs.optional.depend.constantpool",
+      "org.apache.tools.ant.taskdefs.optional.ejb",
+      "org.apache.tools.ant.taskdefs.optional.extension",
+      "org.apache.tools.ant.taskdefs.optional.extension.resolvers",
+      "org.apache.tools.ant.taskdefs.optional.i18n",
+      "org.apache.tools.ant.taskdefs.optional.j2ee",
+      "org.apache.tools.ant.taskdefs.optional.javacc",
+      "org.apache.tools.ant.taskdefs.optional.javah",
+      "org.apache.tools.ant.taskdefs.optional.jlink",
+      "org.apache.tools.ant.taskdefs.optional.jsp",
+      "org.apache.tools.ant.taskdefs.optional.jsp.compilers",
+      "org.apache.tools.ant.taskdefs.optional.native2ascii",
+      "org.apache.tools.ant.taskdefs.optional.net",
+      "org.apache.tools.ant.taskdefs.optional.pvcs",
+      "org.apache.tools.ant.taskdefs.optional.script",
+      "org.apache.tools.ant.taskdefs.optional.sos",
+      "org.apache.tools.ant.taskdefs.optional.testing",
+      "org.apache.tools.ant.taskdefs.optional.unix",
+      "org.apache.tools.ant.taskdefs.optional.vss",
+      "org.apache.tools.ant.taskdefs.optional.windows",
+      "org.apache.tools.ant.taskdefs.rmic",
+      "org.apache.tools.ant.types",
+      "org.apache.tools.ant.types.mappers",
+      "org.apache.tools.ant.types.optional",
+      "org.apache.tools.ant.types.optional.depend",
+      "org.apache.tools.ant.types.resources",
+      "org.apache.tools.ant.types.resources.comparators",
+      "org.apache.tools.ant.types.resources.selectors",
+      "org.apache.tools.ant.types.selectors",
+      "org.apache.tools.ant.types.selectors.modifiedselector",
+      "org.apache.tools.ant.types.spi",
+      "org.apache.tools.ant.util",
+      "org.apache.tools.ant.util.depend",
+      "org.apache.tools.ant.util.facade",
+      "org.apache.tools.ant.util.java15",
+      "org.apache.tools.ant.util.optional",
+      "org.apache.tools.ant.util.regexp",
+      "org.apache.tools.bzip2",
+      "org.apache.tools.mail",
+      "org.apache.tools.tar",
+      "org.apache.tools.zip"
+    ],
+    "org.apache.ant:ant-launcher": [
+      "org.apache.tools.ant.launch"
     ],
     "org.apache.commons:commons-compress": [
       "org.apache.commons.compress",
@@ -4397,10 +4457,6 @@
       "com.ibm.icu:icu4j:jar:sources",
       "com.icegreen:greenmail",
       "com.icegreen:greenmail:jar:sources",
-      "com.jcraft:jsch",
-      "com.jcraft:jsch:jar:sources",
-      "com.jcraft:jzlib",
-      "com.jcraft:jzlib:jar:sources",
       "com.ryanharter.auto.value:auto-value-gson-extension",
       "com.ryanharter.auto.value:auto-value-gson-extension:jar:sources",
       "com.ryanharter.auto.value:auto-value-gson-factory",
@@ -4467,6 +4523,10 @@
       "org.antlr:antlr:jar:sources",
       "org.antlr:stringtemplate",
       "org.antlr:stringtemplate:jar:sources",
+      "org.apache.ant:ant",
+      "org.apache.ant:ant-launcher",
+      "org.apache.ant:ant-launcher:jar:sources",
+      "org.apache.ant:ant:jar:sources",
       "org.apache.commons:commons-compress",
       "org.apache.commons:commons-compress:jar:sources",
       "org.apache.commons:commons-lang3",
@@ -4695,10 +4755,6 @@
       "com.ibm.icu:icu4j:jar:sources",
       "com.icegreen:greenmail",
       "com.icegreen:greenmail:jar:sources",
-      "com.jcraft:jsch",
-      "com.jcraft:jsch:jar:sources",
-      "com.jcraft:jzlib",
-      "com.jcraft:jzlib:jar:sources",
       "com.ryanharter.auto.value:auto-value-gson-extension",
       "com.ryanharter.auto.value:auto-value-gson-extension:jar:sources",
       "com.ryanharter.auto.value:auto-value-gson-factory",
@@ -4765,6 +4821,10 @@
       "org.antlr:antlr:jar:sources",
       "org.antlr:stringtemplate",
       "org.antlr:stringtemplate:jar:sources",
+      "org.apache.ant:ant",
+      "org.apache.ant:ant-launcher",
+      "org.apache.ant:ant-launcher:jar:sources",
+      "org.apache.ant:ant:jar:sources",
       "org.apache.commons:commons-compress",
       "org.apache.commons:commons-compress:jar:sources",
       "org.apache.commons:commons-lang3",

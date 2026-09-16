@@ -16,7 +16,9 @@ package com.google.gerrit.sshd.commands;
 
 import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 
+import com.google.common.base.Ascii;
 import com.google.common.base.MoreObjects;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -38,11 +40,18 @@ import java.io.IOException;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import org.apache.sshd.server.Environment;
 import org.apache.sshd.server.channel.ChannelSession;
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
+import org.kohsuke.args4j.OptionDef;
+import org.kohsuke.args4j.spi.EnumOptionHandler;
+import org.kohsuke.args4j.spi.Parameters;
+import org.kohsuke.args4j.spi.Setter;
 
 /** Display the current work queue. */
 @AdminHighPriorityCommand
@@ -68,6 +77,17 @@ final class ShowQueue extends SshCommand {
       aliases = {"-q"},
       usage = "group tasks by queue and print queue info")
   private boolean groupByQueue;
+
+  private final EnumSet<Task.State> states = EnumSet.noneOf(Task.State.class);
+
+  @Option(
+      name = "--state",
+      aliases = {"-s"},
+      handler = StateHandler.class,
+      usage = "only show tasks in the specified state")
+  void addState(Task.State state) {
+    states.add(state);
+  }
 
   @Inject private PermissionBackend permissionBackend;
   @Inject private ListTasks listTasks;
@@ -116,6 +136,9 @@ final class ShowQueue extends SshCommand {
     long now = TimeUtil.nowMs();
     if (queueName != null && !queueName.isEmpty()) {
       tasks = tasks.stream().filter(t -> queueName.equalsIgnoreCase(t.queueName)).toList();
+    }
+    if (!states.isEmpty()) {
+      tasks = tasks.stream().filter(t -> states.contains(t.state)).toList();
     }
 
     if (groupByQueue) {
@@ -232,6 +255,32 @@ final class ShowQueue extends SshCommand {
       case OTHER:
       default:
         return state.toString();
+    }
+  }
+
+  public static class StateHandler extends EnumOptionHandler<Task.State> {
+    private static final ImmutableMap<String, Task.State> ALIASES =
+        ImmutableMap.of(
+            "WAITING", Task.State.READY,
+            "KILLED", Task.State.CANCELLED);
+
+    public StateHandler(CmdLineParser parser, OptionDef option, Setter<? super Task.State> setter) {
+      super(parser, option, setter, Task.State.class);
+    }
+
+    @Override
+    public int parseArguments(Parameters params) throws CmdLineException {
+      String param = params.getParameter(0);
+      Task.State alias = ALIASES.get(Ascii.toUpperCase(param));
+      if (alias != null) {
+        setter.addValue(alias);
+        return 1;
+      }
+      try {
+        return super.parseArguments(params);
+      } catch (CmdLineException e) {
+        throw new CmdLineException(owner, String.format("%s is not a valid task state", param), e);
+      }
     }
   }
 }

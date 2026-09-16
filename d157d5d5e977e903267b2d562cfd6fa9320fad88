@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e0f56673_f52637dc",
+        "filename": "java/com/google/gerrit/server/project/LockManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-09-16T09:16:28Z",
+      "side": 0,
+      "message": "Since this effectively breaks the old interface, would it make more sense to introduce the new new method and only deprecate the old one so that plugins have time to move off the old one?\nWe could make the new interface have a default new method which uses the old one, perhaps by using a slash to separate arguments? But that would like require only one or 0 arguments after minor?",
+      "revId": "d157d5d5e977e903267b2d562cfd6fa9320fad88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

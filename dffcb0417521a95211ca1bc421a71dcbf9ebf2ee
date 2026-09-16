@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "24bd30e8_acb460ce",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 1069,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-09-16T09:13:56Z",
+      "side": 1,
+      "message": "One usecase that exists for us, is the submission of changes to CRDs for the Gerrit Operator. Here we would only like fast forward to avoid that the generated CRD yaml files diverge from what is generated out of the Java code. All other changes however could be merged or rebased to the branch. SO we could use a `file:` query to select the changes changing CRDs.",
+      "parentUuid": "a1ef5f47_5e2dded7",
+      "range": {
+        "startLine": 1067,
+        "startChar": 0,
+        "endLine": 1069,
+        "endChar": 66
+      },
+      "revId": "dffcb0417521a95211ca1bc421a71dcbf9ebf2ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "81891000_6e563ad9",
@@ -85,6 +109,30 @@
       "side": 1,
       "message": "I agree, let\u0027s stay close to the submit requirements configuration style.",
       "parentUuid": "81891000_6e563ad9",
+      "range": {
+        "startLine": 1077,
+        "startChar": 0,
+        "endLine": 1078,
+        "endChar": 30
+      },
+      "revId": "dffcb0417521a95211ca1bc421a71dcbf9ebf2ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d584a0c_bf6d440b",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 1078,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-09-16T09:13:56Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "d69332c8_4047bf8b",
       "range": {
         "startLine": 1077,
         "startChar": 0,

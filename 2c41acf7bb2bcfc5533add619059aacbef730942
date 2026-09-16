@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "65075aa4_04d62197",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 1040,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-09-16T09:13:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a924b43a_3e61de48",
+      "range": {
+        "startLine": 1040,
+        "startChar": 38,
+        "endLine": 1040,
+        "endChar": 56
+      },
+      "revId": "2c41acf7bb2bcfc5533add619059aacbef730942",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "335801f4_2ff37a72",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-09-15T10:07:50Z",
       "side": 1,
       "message": "types",
+      "range": {
+        "startLine": 1041,
+        "startChar": 33,
+        "endLine": 1041,
+        "endChar": 43
+      },
+      "revId": "2c41acf7bb2bcfc5533add619059aacbef730942",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b38f09be_76a358bd",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 1041,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-09-16T09:13:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "335801f4_2ff37a72",
       "range": {
         "startLine": 1041,
         "startChar": 33,
@@ -64,6 +112,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "25d1a84d_c9496c54",
+        "filename": "Documentation/config-project-config.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 1085,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-09-16T09:13:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84ee3efc_c317a5c5",
+      "revId": "2c41acf7bb2bcfc5533add619059aacbef730942",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9dff32d3_35538b97",
@@ -77,6 +143,30 @@
       "writtenOn": "2026-09-15T10:07:50Z",
       "side": 1,
       "message": "+5",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "2c41acf7bb2bcfc5533add619059aacbef730942",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "02ee06ca_1ceb7a5c",
+        "filename": "java/com/google/gerrit/entities/SubmitTypeOverride.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-09-16T09:13:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9dff32d3_35538b97",
       "range": {
         "startLine": 1,
         "startChar": 17,
@@ -110,6 +200,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "96543adc_373cd7ad",
+        "filename": "java/com/google/gerrit/entities/SubmitTypeOverride.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-09-16T09:13:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c69a9cd_2fa5e725",
+      "range": {
+        "startLine": 25,
+        "startChar": 43,
+        "endLine": 26,
+        "endChar": 3
+      },
+      "revId": "2c41acf7bb2bcfc5533add619059aacbef730942",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e10e1323_0687b2b9",
@@ -127,6 +241,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "68a4e216_3ebed67d",
+        "filename": "java/com/google/gerrit/entities/SubmitTypeOverride.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-09-16T09:13:56Z",
+      "side": 1,
+      "message": "I would lie, if I would say that I am happy with the name. The name that is following the schema for submit requirements would be `SubmitType` but that is already taken. But maybe `SubmitTypeOverrideRule` is a better description.",
+      "parentUuid": "e10e1323_0687b2b9",
+      "revId": "2c41acf7bb2bcfc5533add619059aacbef730942",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d99ae3a4_1b86d628",
@@ -140,6 +272,24 @@
       "writtenOn": "2026-09-15T10:07:50Z",
       "side": 1,
       "message": "1. The same argument about using Override in the name as in the SubmitTypeOverride class\n2. this class is just a wrapper around a String: why not use String instead?",
+      "revId": "2c41acf7bb2bcfc5533add619059aacbef730942",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ec2696f_e8a77d64",
+        "filename": "java/com/google/gerrit/entities/SubmitTypeOverrideExpression.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-09-16T09:13:56Z",
+      "side": 1,
+      "message": "This was basically created based on the submit requirements equivalent. Removed now.",
+      "parentUuid": "d99ae3a4_1b86d628",
       "revId": "2c41acf7bb2bcfc5533add619059aacbef730942",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -163,6 +313,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9495e741_da38253a",
+        "filename": "java/com/google/gerrit/server/project/ProjectConfig.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-09-16T09:13:56Z",
+      "side": 1,
+      "message": "Because it contains `SR` (submit requirement) in its name, which doesn\u0027t fit. If we do that, we should introduce an abstraction about this kind of configuration.",
+      "parentUuid": "30ac573c_3d1c3bea",
+      "revId": "2c41acf7bb2bcfc5533add619059aacbef730942",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c51f16f1_53690cb4",
         "filename": "java/com/google/gerrit/server/project/SubmitTypeEvaluator.java",
         "patchSetId": 8
@@ -174,6 +342,24 @@
       "writtenOn": "2026-09-15T10:37:33Z",
       "side": 1,
       "message": "This class appears to handle the project-level default, prolog based submit type and also evaluate the (new) query based submit type. It delegates to other classes for the first two and implements query based submit type evaluation here. \n\nI would like to propose a cleaner split of responsibilities. Have dedicated classes which evaluate submit type:\n* based on project-level default\n* based on prolog based submit type\n* based on query based submit type\n\nThen have one class, maybe exactly this one, which wraps all those and handles priority",
+      "revId": "2c41acf7bb2bcfc5533add619059aacbef730942",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "51f6084f_2b5fcb6d",
+        "filename": "java/com/google/gerrit/server/project/SubmitTypeEvaluator.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-09-16T09:13:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c51f16f1_53690cb4",
       "revId": "2c41acf7bb2bcfc5533add619059aacbef730942",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -191,6 +377,30 @@
       "writtenOn": "2026-09-15T10:07:50Z",
       "side": 1,
       "message": "I don\u0027t understand the series: the previous change removed default fallback from Prolog into the SubmitRuleEvaluator class thus preparing it to be a central place to evaluate submit type. Now we have a new class SubmitTypeEvaluator which is the central place and it directly refers to the prolog machinery, bypassing the SubmitRuleEvaluator.",
+      "range": {
+        "startLine": 56,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 80
+      },
+      "revId": "2c41acf7bb2bcfc5533add619059aacbef730942",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "28d086b2_313dfe0f",
+        "filename": "java/com/google/gerrit/server/project/SubmitTypeEvaluator.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-09-16T09:13:56Z",
+      "side": 1,
+      "message": "The parent change solves the issue that the prolog machinery was also used to set the default. This was fine while the hierarchy was still Prolog -\u003e Default. Now it is Prolog -\u003e Override -\u003e Default. If the prolog rule evaluation would still return the default as before, we wouldn\u0027t be able to determine in all cases whether some rule applied or the default is being used and thus whether to look at overrides or not.\nRegarding the new class, it was introduced here, because the old class was dealing only with Prolog, which is now not the case anymore for submit types. Thus, the scope changed and I deemed it necessary to have a dedicated class for that. The parent change did not have the issue yet, thus I left the old class structure unchanged there (although it was admittedly not perfect from the start).",
+      "parentUuid": "b939358c_5f76c14a",
       "range": {
         "startLine": 56,
         "startChar": 0,

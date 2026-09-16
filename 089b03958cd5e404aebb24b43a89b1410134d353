@@ -22,6 +22,30 @@
       },
       "revId": "089b03958cd5e404aebb24b43a89b1410134d353",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2e1cb50_5f2d4776",
+        "filename": "java/com/google/gerrit/extensions/registration/DynamicSet.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-16T16:22:17Z",
+      "side": 1,
+      "message": "\u003e We are deprecating this method, but are not really suggesting an equivalent alternative.\n\nI don\u0027t believe there is another equivalent method we want to suggest: we just want to trigger a warning to whoever uses it that this API will disappear.\n\n\u003e `Sets` would use `equals`, but `DynamicSet.contains()` uses identity (`\u003d\u003d`) instead.\n\nExactly.\n\n\u003e I think the Javadoc should just warn callers to avoid it, rather than tell them to use another API that doesn\u0027t do the same thing.\n\nI don\u0027t believe I suggested using `Set.contains()` as a replacement; I just warned that it doesn\u0027t work like `Set.contains()`.",
+      "parentUuid": "0df26ba7_6c28f6cd",
+      "range": {
+        "startLine": 218,
+        "startChar": 0,
+        "endLine": 218,
+        "endChar": 32
+      },
+      "revId": "089b03958cd5e404aebb24b43a89b1410134d353",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

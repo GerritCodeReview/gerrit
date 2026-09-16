@@ -22,6 +22,46 @@
       },
       "revId": "b40569ad24f174732cf87657cc122992d8629133",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee3096ea_33d03488",
+        "filename": "java/com/google/gerrit/pgm/init/InitIndex.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 4665459
+      },
+      "writtenOn": "2026-09-16T22:26:19Z",
+      "side": 1,
+      "message": "```suggestion\n  private static final String DIRECTORY \u003d \"directory\";\n```",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 48
+      },
+      "revId": "b40569ad24f174732cf87657cc122992d8629133",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "342d3e07_42af4c0b",
+        "filename": "java/com/google/gerrit/server/index/IndexModule.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 4665459
+      },
+      "writtenOn": "2026-09-16T22:26:19Z",
+      "side": 1,
+      "message": "There is some duplication in `IndexModule` and `InitIndex`. Both resolve the index directory themselves, each with its own \u0027index\u0027 default and its own site.resolve() call. Could we make this overload public and call it in InitIndex?",
+      "revId": "b40569ad24f174732cf87657cc122992d8629133",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

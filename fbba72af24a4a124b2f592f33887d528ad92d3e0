@@ -16,6 +16,23 @@
       "message": "@ifrade@google.com @milutin@google.com\n\nThis only swaps the AutoFactory qualifier from javax.inject to jakarta.inject (no new artifact). Could we get Library-Compliance +1 here?",
       "revId": "fbba72af24a4a124b2f592f33887d528ad92d3e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d97323ef_94075173",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-09-16T20:06:08Z",
+      "side": 1,
+      "message": "I need more time on this. Google has several AutoFactoryProcessors and I need to check what is needed to move here.",
+      "revId": "fbba72af24a4a124b2f592f33887d528ad92d3e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

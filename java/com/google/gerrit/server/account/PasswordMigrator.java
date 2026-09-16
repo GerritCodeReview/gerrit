@@ -35,6 +35,7 @@ import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
+import com.google.gerrit.server.project.CoreLockKeys;
 import com.google.gerrit.server.project.LockManager;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
@@ -101,7 +102,7 @@ public class PasswordMigrator implements Runnable {
 
   @Override
   public void run() {
-    Lock lock = lockManager.getLock("MigratePasswordsToTokens");
+    Lock lock = lockManager.getLock(CoreLockKeys.MIGRATE_PASSWORDS_TO_TOKENS);
     if (!lock.tryLock()) {
       logger.atWarning().log("Migration of passwords to tokens already running.");
       return;

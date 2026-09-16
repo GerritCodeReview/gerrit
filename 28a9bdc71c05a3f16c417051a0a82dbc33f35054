@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9868006a_19a95973",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-09-16T02:39:45Z",
+      "side": 1,
+      "message": "There shouldn\u0027t be any impacts.",
+      "parentUuid": "c7b24be9_dcbb6fa5",
+      "revId": "28a9bdc71c05a3f16c417051a0a82dbc33f35054",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6cc9b22a_fbfdac7c",
@@ -31,6 +49,30 @@
       "writtenOn": "2026-09-16T01:30:07Z",
       "side": 1,
       "message": "Should we rename to index.directory to be consistent with cache.directory?",
+      "range": {
+        "startLine": 3885,
+        "startChar": 14,
+        "endLine": 3885,
+        "endChar": 24
+      },
+      "revId": "28a9bdc71c05a3f16c417051a0a82dbc33f35054",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bceb1a4f_1bebb661",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 3885,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-09-16T02:39:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6cc9b22a_fbfdac7c",
       "range": {
         "startLine": 3885,
         "startChar": 14,
@@ -58,6 +100,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc6ca0a7_88e70f8b",
+        "filename": "java/com/google/gerrit/pgm/init/InitIndex.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-09-16T02:39:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5fb55c36_bfba3eaf",
+      "revId": "28a9bdc71c05a3f16c417051a0a82dbc33f35054",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0caebf60_bef9b66e",
@@ -71,6 +131,30 @@
       "writtenOn": "2026-09-16T01:03:29Z",
       "side": 1,
       "message": "Also guard against empty index.path?\n\n```suggestion\n    return Strings.isNullOrEmpty(name) ? site.resolve(\"index\") : site.resolve(name);\n```",
+      "range": {
+        "startLine": 289,
+        "startChar": 4,
+        "endLine": 289,
+        "endChar": 69
+      },
+      "revId": "28a9bdc71c05a3f16c417051a0a82dbc33f35054",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f15bc0d9_a9e564cb",
+        "filename": "java/com/google/gerrit/server/index/IndexModule.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-09-16T02:39:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0caebf60_bef9b66e",
       "range": {
         "startLine": 289,
         "startChar": 4,

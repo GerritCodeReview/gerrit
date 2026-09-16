@@ -101,7 +101,7 @@ public class PasswordMigrator implements Runnable {
 
   @Override
   public void run() {
-    Lock lock = lockManager.getLock("MigratePasswordsToTokens");
+    Lock lock = lockManager.getLock(LockManager.CoreLock.MIGRATE_PASSWORDS_TO_TOKENS);
     if (!lock.tryLock()) {
       logger.atWarning().log("Migration of passwords to tokens already running.");
       return;

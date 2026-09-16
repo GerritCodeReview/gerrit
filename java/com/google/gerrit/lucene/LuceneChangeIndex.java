@@ -182,6 +182,7 @@ public class LuceneChangeIndex implements ChangeIndex {
           new ChangeSubIndex(
               schema,
               sitePaths,
+              cfg,
               dir.resolve(CHANGES_OPEN),
               skipFields,
               openConfig,
@@ -191,6 +192,7 @@ public class LuceneChangeIndex implements ChangeIndex {
           new ChangeSubIndex(
               schema,
               sitePaths,
+              cfg,
               dir.resolve(CHANGES_CLOSED),
               skipFields,
               closedConfig,

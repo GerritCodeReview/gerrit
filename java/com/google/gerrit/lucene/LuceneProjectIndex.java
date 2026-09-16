@@ -50,7 +50,6 @@ import org.apache.lucene.search.Sort;
 import org.apache.lucene.search.SortField;
 import org.apache.lucene.store.ByteBuffersDirectory;
 import org.apache.lucene.store.Directory;
-import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.BytesRef;
 import org.eclipse.jgit.lib.Config;
 
@@ -78,7 +77,7 @@ public class LuceneProjectIndex extends AbstractLuceneIndex<Project.NameKey, Pro
       return new ByteBuffersDirectory();
     }
     Path indexDir = LuceneVersionManager.getDir(sitePaths, PROJECTS, schema);
-    return FSDirectory.open(indexDir);
+    return LuceneDirectory.open(cfg, indexDir);
   }
 
   @Inject

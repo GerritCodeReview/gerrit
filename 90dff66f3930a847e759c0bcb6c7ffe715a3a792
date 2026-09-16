@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f309646f_4751a311",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-16T05:04:39Z",
+      "side": 1,
+      "message": "This looks really interesting. Why don\u0027y you present at the forthcoming Gerrit User Summit 2026 (see gus26.gerritforge.com) your agent swarm that is working on the development and review of Gerrit at Google?\n\n9-10 November in Sunnyvale, not far from where you guys live :-)",
+      "revId": "90dff66f3930a847e759c0bcb6c7ffe715a3a792",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

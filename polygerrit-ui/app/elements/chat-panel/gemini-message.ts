@@ -132,6 +132,7 @@ export class GeminiMessage extends LitElement {
         font-family: var(--monospace-font-family);
         font-size: var(--font-size-small);
         white-space: pre-wrap;
+        overflow-wrap: break-word;
         background-color: var(--background-color-tertiary);
         padding: var(--spacing-s);
         border-radius: var(--border-radius);

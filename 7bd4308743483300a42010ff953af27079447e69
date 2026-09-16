@@ -34,6 +34,24 @@
       "parentUuid": "34cdfb87_1e1f22e8",
       "revId": "7bd4308743483300a42010ff953af27079447e69",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5195cdcf_c4618fe1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-09-16T21:39:29Z",
+      "side": 1,
+      "message": "Ok, but why create this local impl instead of using Bouncycastle? We already have that dependency. I think you can use BC classes instead of writing our own `hkdfSha256()` and `hmacSha256()`. We still need the `isSealed()`, `seal()`, and `open()` methods.",
+      "parentUuid": "718a0584_aa934a2a",
+      "revId": "7bd4308743483300a42010ff953af27079447e69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

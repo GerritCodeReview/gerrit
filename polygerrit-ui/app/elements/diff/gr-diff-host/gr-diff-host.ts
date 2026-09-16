@@ -457,7 +457,8 @@ export class GrDiffHost extends LitElement {
     ) {
       return false;
     }
-    if (isMagicPath(this.path)) return false;
+    if (isMagicPath(this.path) || this.path === 'project.config') return false;
+    if (this.change?.branch === 'refs/meta/config') return false;
     if (this.diff?.binary || isImageDiff(this.diff)) return false;
     if (
       this.change?.status === ChangeStatus.MERGED ||
@@ -1520,6 +1521,27 @@ export class GrDiffHost extends LitElement {
         undefined,
         throwingErrorCallback
       );
+      if (res?.ok) {
+        fireAlert(this, 'Change reverted.');
+        const currentChildView =
+          this.getChangeViewModel().getState()?.childView;
+        const hasEdit =
+          !!findEdit(Object.values(this.change?.revisions ?? {})) ||
+          this.patchRange?.patchNum === EDIT;
+        this.getNavigation().setUrl(
+          createApplyFixUrl({
+            change: this.change,
+            changeNum: this.changeNum,
+            repo: this.change?.project ?? this.projectName ?? ('' as RepoName),
+            basePatchNum: PARENT,
+            patchNum: EDIT,
+            forceReload: !hasEdit,
+            filePath: this.path,
+            currentChildView,
+          })
+        );
+        await this.reload(true);
+      }
     } catch (error) {
       if (error instanceof Error) {
         errorText = error.message;
@@ -1532,27 +1554,6 @@ export class GrDiffHost extends LitElement {
         success: res?.ok ?? false,
         status: res?.status,
       });
-    }
-
-    if (res?.ok) {
-      fireAlert(this, 'Change reverted.');
-      const currentChildView = this.getChangeViewModel().getState()?.childView;
-      const hasEdit =
-        !!findEdit(Object.values(this.change?.revisions ?? {})) ||
-        this.patchRange?.patchNum === EDIT;
-      this.getNavigation().setUrl(
-        createApplyFixUrl({
-          change: this.change,
-          changeNum: this.changeNum,
-          repo: this.change?.project ?? this.projectName ?? ('' as RepoName),
-          basePatchNum: PARENT,
-          patchNum: EDIT,
-          forceReload: !hasEdit,
-          filePath: this.path,
-          currentChildView,
-        })
-      );
-      await this.reload(true);
     }
   }
 }

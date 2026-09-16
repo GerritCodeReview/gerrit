@@ -37,6 +37,7 @@ import {
   Base64ImageFile,
   BasePatchSetNum,
   BlameInfo,
+  BranchName,
   CommentRange,
   CommentThread,
   DraftInfo,
@@ -1891,6 +1892,42 @@ suite('gr-diff-host tests', () => {
       assert.isFalse(applyFixStub.called);
     });
 
+    test('handleRevertDelta ignores concurrent revert calls when already reverting', async () => {
+      let resolveApplyFix: (res: Response) => void;
+      const applyFixPromise = new Promise<Response>(resolve => {
+        resolveApplyFix = resolve;
+      });
+      const applyFixStub =
+        stubRestApi('applyFixSuggestion').returns(applyFixPromise);
+      sinon.stub(element, 'reload').resolves();
+
+      element.patchRange = {
+        ...createPatchRange(),
+        patchNum: EDIT,
+      };
+      element.latestPatchNum = 1 as PatchSetNumber;
+      element.editMode = true;
+      element.path = 'foo.ts';
+      element.changeNum = 42 as NumericChangeId;
+
+      const removeLine = new GrDiffLine(GrDiffLineType.REMOVE, 10, 0);
+      removeLine.text = 'old code';
+      const addLine = new GrDiffLine(GrDiffLineType.ADD, 0, 10);
+      addLine.text = 'new code';
+      const group = new GrDiffGroup({
+        type: GrDiffGroupType.DELTA,
+        lines: [removeLine, addLine],
+      });
+
+      const firstCall = element.handleRevertDelta(group);
+      const secondCall = element.handleRevertDelta(group);
+
+      resolveApplyFix!(new Response('', {status: 200}));
+      await Promise.all([firstCall, secondCall]);
+
+      assert.isTrue(applyFixStub.calledOnce);
+    });
+
     test('is_edit_mode is false when in editMode but viewing older patchset', async () => {
       element.patchRange = {
         ...createPatchRange(),
@@ -1905,7 +1942,7 @@ suite('gr-diff-host tests', () => {
       assert.isFalse(element.isRevertAllowed());
     });
 
-    test('is_edit_mode is false for commit message and merge list', async () => {
+    test('is_edit_mode is false for commit message, merge list, and project.config', async () => {
       element.patchRange = {
         ...createPatchRange(),
         patchNum: EDIT,
@@ -1921,6 +1958,29 @@ suite('gr-diff-host tests', () => {
       element.path = '/MERGE_LIST';
       await element.updateComplete;
       grDiff = element.shadowRoot?.querySelector('gr-diff');
+      assert.isFalse(grDiff?.renderPrefs?.is_edit_mode);
+      assert.isFalse(element.isRevertAllowed());
+
+      element.path = 'project.config';
+      await element.updateComplete;
+      grDiff = element.shadowRoot?.querySelector('gr-diff');
+      assert.isFalse(grDiff?.renderPrefs?.is_edit_mode);
+      assert.isFalse(element.isRevertAllowed());
+    });
+
+    test('is_edit_mode is false for refs/meta/config branch', async () => {
+      element.patchRange = {
+        ...createPatchRange(),
+        patchNum: EDIT,
+      };
+      element.editMode = true;
+      element.path = 'groups';
+      element.change = {
+        ...createChange(),
+        branch: 'refs/meta/config' as BranchName,
+      };
+      await element.updateComplete;
+      const grDiff = element.shadowRoot?.querySelector('gr-diff');
       assert.isFalse(grDiff?.renderPrefs?.is_edit_mode);
       assert.isFalse(element.isRevertAllowed());
     });

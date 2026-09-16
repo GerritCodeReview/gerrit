@@ -34,6 +34,24 @@
       "parentUuid": "8803015b_25ba97dc",
       "revId": "6eddb134cf97bb5b944872a71a007cdb4f77dfca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31b047d7_819a61f9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-16T09:59:38Z",
+      "side": 1,
+      "message": "On the other hand, everyone does Gerrit monitoring but the whole monitoring setup and infrastructure is not a part of Gerrit itself.",
+      "parentUuid": "043ed98d_d445c701",
+      "revId": "6eddb134cf97bb5b944872a71a007cdb4f77dfca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

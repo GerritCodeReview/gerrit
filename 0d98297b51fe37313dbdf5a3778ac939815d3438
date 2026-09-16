@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aaf1bae5_1a2999e9",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeIndexRewriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1152670
+      },
+      "writtenOn": "2026-09-16T04:26:38Z",
+      "side": 1,
+      "message": "This is a bit hard to read. Do you think something like below would be better?\n\n```suggestion\n   * @return {@code null} if no part of this subtree can be queried directly in the index, the\n   *     original predicate {@code in} if the entire subtree can, or a semantically equivalent\n   *     predicate with the indexed subtrees wrapped in index queries. When none of the children are\n   *     directly indexed, any existing {@link ChangeDataSource} children are preserved intact, as\n   *     can happen for a subtree of plugin data sources.\n```",
+      "range": {
+        "startLine": 193,
+        "startChar": 0,
+        "endLine": 197,
+        "endChar": 78
+      },
+      "revId": "0d98297b51fe37313dbdf5a3778ac939815d3438",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

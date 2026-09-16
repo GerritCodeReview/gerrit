@@ -168,7 +168,10 @@ public class CreateProject
     }
     args.initOnly = input.initOnly;
 
-    Lock nameLock = lockManager.call(lockManager -> lockManager.getLock(args.getProject().get()));
+    Lock nameLock =
+        lockManager.call(
+            lockManager ->
+                lockManager.getLock(LockManager.CoreLock.CREATE_PROJECT, args.getProject().get()));
     nameLock.lock();
     try {
       try {

@@ -24,6 +24,7 @@ import com.google.gerrit.server.git.MultiProgressMonitor.TaskKind;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
+import com.google.gerrit.server.project.CoreLockKeys;
 import com.google.gerrit.server.project.LockManager;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
@@ -70,7 +71,7 @@ public class MaxAuthTokenLifetimeApplier implements Runnable {
 
   @Override
   public void run() {
-    Lock lock = lockManager.getLock("ReduceMaxAuthTokenLifetime");
+    Lock lock = lockManager.getLock(CoreLockKeys.REDUCE_MAX_AUTH_TOKEN_LIFETIME);
     if (!lock.tryLock()) {
       logger.atWarning().log("Task applying limit to auth token lifetime already running.");
       return;

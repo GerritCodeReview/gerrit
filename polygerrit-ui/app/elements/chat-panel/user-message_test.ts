@@ -5,7 +5,6 @@
  */
 import '../../test/common-test-setup';
 import '../shared/gr-avatar/gr-avatar';
-import './user-message';
 import {assert, fixture, html} from '@open-wc/testing';
 import {UserMessage} from './user-message';
 import {
@@ -81,6 +80,22 @@ suite('user-message tests', () => {
   test('renders with content', async () => {
     const content = element.shadowRoot?.querySelector('.text-content');
     assert.equal(content?.textContent?.trim(), 'Hello, world!');
+  });
+
+  test('renders long unbroken file path with break-word wrapping', async () => {
+    const longPath =
+      'src/com/android/settings/supervision/EnableSupervisionActivity.kt';
+    element.message = {...message, content: longPath};
+    await element.updateComplete;
+
+    const content = element.shadowRoot?.querySelector(
+      '.text-content'
+    ) as HTMLElement;
+    assert.isOk(content);
+    assert.equal(content.textContent?.trim(), longPath);
+    const computedStyle = getComputedStyle(content);
+    assert.equal(computedStyle.overflowWrap, 'break-word');
+    assert.equal(computedStyle.wordBreak, 'break-word');
   });
 
   test('renders with account', async () => {

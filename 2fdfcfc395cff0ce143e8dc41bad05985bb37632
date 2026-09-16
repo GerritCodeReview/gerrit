@@ -66,6 +66,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f1a27672_511fab1f",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 1968,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-09-16T13:16:48Z",
+      "side": 1,
+      "message": "For me it was mostly the question, why this didn\u0027t exist yet and whether there is a reason that people might not want to allow this. This way nothing changes without actively configuring it, so it is quite conservative. But I would agree, if nobody brings forward a reason, we should just enable it for everyone.",
+      "parentUuid": "0db75548_d4ed6229",
+      "range": {
+        "startLine": 1961,
+        "startChar": 0,
+        "endLine": 1968,
+        "endChar": 12
+      },
+      "revId": "2fdfcfc395cff0ce143e8dc41bad05985bb37632",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3299f85f_3e584dc3",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 6

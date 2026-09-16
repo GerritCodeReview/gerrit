@@ -59,13 +59,13 @@ suite('gr-diff-preferences tests', () => {
             <label class="title" for="contextLineSelect"> Context </label>
             <span class="value">
               <md-outlined-select id="contextSelect" value="10">
-                <md-select-option md-menu-item="" tabindex="0" value="3">
+                <md-select-option md-menu-item="" tabindex="-1" value="3">
                   <div slot="headline">3 lines</div>
                 </md-select-option>
                 <md-select-option
                   data-aria-selected="true"
                   md-menu-item=""
-                  tabindex="-1"
+                  tabindex="0"
                   value="10"
                 >
                   <div slot="headline">10 lines</div>

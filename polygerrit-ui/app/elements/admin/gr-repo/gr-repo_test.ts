@@ -383,7 +383,7 @@ suite('gr-repo tests', () => {
                        </md-select-option>
                        <md-select-option
                          md-menu-item=""
-                         tabindex="-1"
+                         tabindex="0"
                          value="FALSE"
                        >
                          <div slot="headline">
@@ -423,7 +423,7 @@ suite('gr-repo tests', () => {
                        </md-select-option>
                        <md-select-option
                          md-menu-item=""
-                         tabindex="-1"
+                         tabindex="0"
                          value="FALSE"
                        >
                          <div slot="headline">
@@ -463,7 +463,7 @@ suite('gr-repo tests', () => {
                        </md-select-option>
                        <md-select-option
                          md-menu-item=""
-                         tabindex="-1"
+                         tabindex="0"
                          value="FALSE"
                        >
                          <div slot="headline">
@@ -506,7 +506,7 @@ suite('gr-repo tests', () => {
                        </md-select-option>
                        <md-select-option
                          md-menu-item=""
-                         tabindex="-1"
+                         tabindex="0"
                          value="FALSE"
                        >
                          <div slot="headline">
@@ -549,7 +549,7 @@ suite('gr-repo tests', () => {
                        </md-select-option>
                        <md-select-option
                          md-menu-item=""
-                         tabindex="-1"
+                         tabindex="0"
                          value="FALSE"
                        >
                          <div slot="headline">
@@ -589,7 +589,7 @@ suite('gr-repo tests', () => {
                        </md-select-option>
                        <md-select-option
                          md-menu-item=""
-                         tabindex="-1"
+                         tabindex="0"
                          value="FALSE"
                        >
                          <div slot="headline">
@@ -629,7 +629,7 @@ suite('gr-repo tests', () => {
                        </md-select-option>
                        <md-select-option
                          md-menu-item=""
-                         tabindex="-1"
+                         tabindex="0"
                          value="FALSE"
                        >
                          <div slot="headline">
@@ -669,7 +669,7 @@ suite('gr-repo tests', () => {
                        </md-select-option>
                        <md-select-option
                          md-menu-item=""
-                         tabindex="-1"
+                         tabindex="0"
                          value="FALSE"
                        >
                          <div slot="headline">
@@ -709,7 +709,7 @@ suite('gr-repo tests', () => {
                        </md-select-option>
                        <md-select-option
                          md-menu-item=""
-                         tabindex="-1"
+                         tabindex="0"
                          value="FALSE"
                        >
                          <div slot="headline">
@@ -766,7 +766,7 @@ suite('gr-repo tests', () => {
                        </md-select-option>
                        <md-select-option
                          md-menu-item=""
-                         tabindex="-1"
+                         tabindex="0"
                          value="FALSE"
                        >
                          <div slot="headline">
@@ -806,7 +806,7 @@ suite('gr-repo tests', () => {
                        </md-select-option>
                        <md-select-option
                          md-menu-item=""
-                         tabindex="-1"
+                         tabindex="0"
                          value="FALSE"
                        >
                          <div slot="headline">
@@ -854,7 +854,7 @@ suite('gr-repo tests', () => {
                        </md-select-option>
                        <md-select-option
                          md-menu-item=""
-                         tabindex="-1"
+                         tabindex="0"
                          value="FALSE"
                        >
                          <div slot="headline">
@@ -894,7 +894,7 @@ suite('gr-repo tests', () => {
                        </md-select-option>
                        <md-select-option
                          md-menu-item=""
-                         tabindex="-1"
+                         tabindex="0"
                          value="FALSE"
                        >
                          <div slot="headline">

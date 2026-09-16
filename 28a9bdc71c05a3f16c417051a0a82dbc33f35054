@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7b24be9_dcbb6fa5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4665459
+      },
+      "writtenOn": "2026-09-16T01:03:29Z",
+      "side": 1,
+      "message": "Does this have any notable impacts for folks not using Lucene (i.e using index-elasticsearch or index-opensearch)?",
+      "revId": "28a9bdc71c05a3f16c417051a0a82dbc33f35054",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0caebf60_bef9b66e",
+        "filename": "java/com/google/gerrit/server/index/IndexModule.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 4665459
+      },
+      "writtenOn": "2026-09-16T01:03:29Z",
+      "side": 1,
+      "message": "Also guard against empty index.path?\n\n```suggestion\n    return Strings.isNullOrEmpty(name) ? site.resolve(\"index\") : site.resolve(name);\n```",
+      "range": {
+        "startLine": 289,
+        "startChar": 4,
+        "endLine": 289,
+        "endChar": 69
+      },
+      "revId": "28a9bdc71c05a3f16c417051a0a82dbc33f35054",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

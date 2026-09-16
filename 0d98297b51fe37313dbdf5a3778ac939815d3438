@@ -22,6 +22,30 @@
       },
       "revId": "0d98297b51fe37313dbdf5a3778ac939815d3438",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9909aeea_a16278e9",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeIndexRewriter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-09-16T05:57:20Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "aaf1bae5_1a2999e9",
+      "range": {
+        "startLine": 193,
+        "startChar": 0,
+        "endLine": 197,
+        "endChar": 78
+      },
+      "revId": "0d98297b51fe37313dbdf5a3778ac939815d3438",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

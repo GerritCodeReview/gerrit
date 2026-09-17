@@ -15,18 +15,18 @@
 package com.google.gerrit.server.restapi.project;
 
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.server.project.MigrateLabelFunctionsToSubmitRequirement.Status;
 
 public class MigrateLabelsReviewInfo {
-  public MigrateLabelFunctionsToSubmitRequirement.Status status;
+  public Status status;
   public ChangeInfo change;
 
-  public MigrateLabelsReviewInfo(
-      MigrateLabelFunctionsToSubmitRequirement.Status status, ChangeInfo change) {
+  public MigrateLabelsReviewInfo(Status status, ChangeInfo change) {
     this.status = status;
     this.change = change;
   }
 
-  public MigrateLabelsReviewInfo(MigrateLabelFunctionsToSubmitRequirement.Status status) {
+  public MigrateLabelsReviewInfo(Status status) {
     this(status, null);
   }
 }

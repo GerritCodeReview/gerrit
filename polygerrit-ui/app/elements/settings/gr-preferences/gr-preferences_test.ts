@@ -92,7 +92,7 @@ suite('gr-preferences tests', () => {
                   <md-select-option
                     data-aria-selected="true"
                     md-menu-item=""
-                    tabindex="-1"
+                    tabindex="0"
                     value="LIGHT"
                   >
                     <div slot="headline">Light</div>
@@ -115,7 +115,7 @@ suite('gr-preferences tests', () => {
                   <md-select-option
                     data-aria-selected="true"
                     md-menu-item=""
-                    tabindex="-1"
+                    tabindex="0"
                     value="25"
                   >
                     <div slot="headline">25 rows per page</div>
@@ -150,7 +150,7 @@ suite('gr-preferences tests', () => {
                   <md-select-option
                     data-aria-selected="true"
                     md-menu-item=""
-                    tabindex="-1"
+                    tabindex="0"
                     value="UK"
                   >
                     <div slot="headline">03/06 ; 03/06/2016 (UK)</div>
@@ -191,7 +191,7 @@ suite('gr-preferences tests', () => {
                   <md-select-option
                     data-aria-selected="true"
                     md-menu-item=""
-                    tabindex="-1"
+                    tabindex="0"
                     value="ENABLED"
                   >
                     <div slot="headline">Only comments left by others</div>
@@ -251,7 +251,7 @@ suite('gr-preferences tests', () => {
               </span>
             </section>
             <section>
-              <span class="title">Default Base For Merges</span>
+              <span class="title"> Default Base For Merges </span>
               <span class="value">
                 <md-outlined-select>
                   <md-select-option
@@ -264,7 +264,7 @@ suite('gr-preferences tests', () => {
                   <md-select-option
                     data-aria-selected="true"
                     md-menu-item=""
-                    tabindex="-1"
+                    tabindex="0"
                     value="FIRST_PARENT"
                   >
                     <div slot="headline">First Parent</div>
@@ -294,7 +294,7 @@ suite('gr-preferences tests', () => {
                   <md-select-option
                     data-aria-selected="true"
                     md-menu-item=""
-                    tabindex="-1"
+                    tabindex="0"
                     value="UNIFIED_DIFF"
                   >
                     <div slot="headline">Unified diff</div>

@@ -16,25 +16,24 @@ package com.google.gerrit.util.crypto;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import java.nio.ByteBuffer;
 import java.security.GeneralSecurityException;
 import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Base64;
 import javax.crypto.Cipher;
+import javax.crypto.KDF;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.GCMParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
-import org.bouncycastle.crypto.digests.SHA256Digest;
-import org.bouncycastle.crypto.generators.HKDFBytesGenerator;
-import org.bouncycastle.crypto.params.HKDFParameters;
+import javax.crypto.spec.HKDFParameterSpec;
 
 /**
  * Authenticated encryption of short strings with AES-256-GCM.
  *
  * <p>The supplied key material is expanded into a dedicated 256-bit AES key with HKDF-SHA256 (RFC
- * 5869) using BouncyCastle, domain-separated by a caller-provided {@code info} label; the input key
- * bytes are zeroed after derivation. Each value is sealed as {@code "gcm:v1:" + Base64(iv ||
- * ciphertext || tag)} with a fresh 96-bit IV, and the caller supplies opaque additional
+ * 5869) using JDK 25 {@link KDF}, domain-separated by a caller-provided {@code info} label; the
+ * input key bytes are zeroed after derivation. Each value is sealed as {@code "gcm:v1:" + Base64(iv
+ * || ciphertext || tag)} with a fresh 96-bit IV, and the caller supplies opaque additional
  * authenticated data (AAD) that is bound into the tag.
  */
 public final class AesGcmCipher {
@@ -44,10 +43,9 @@ public final class AesGcmCipher {
   private static final int IV_BYTES = 12;
   private static final int TAG_BITS = 128;
   private static final int DERIVED_KEY_BYTES = 32;
-  private static final ThreadLocal<Cipher> CIPHERS =
-      ThreadLocal.withInitial(AesGcmCipher::newCipher);
 
   private final SecretKey derivedKey;
+  private final SecureRandom random = new SecureRandom();
 
   /**
    * Derives a dedicated 256-bit AES key from the given key material via HKDF, then wipes the input.
@@ -60,12 +58,15 @@ public final class AesGcmCipher {
       throw new IllegalArgumentException("Master key material must be at least 128 bits.");
     }
     try {
-      byte[] keyBytes = hkdfSha256(masterKeyBytes, info, DERIVED_KEY_BYTES);
-      try {
-        this.derivedKey = new SecretKeySpec(keyBytes, "AES");
-      } finally {
-        Arrays.fill(keyBytes, (byte) 0);
-      }
+      this.derivedKey =
+          KDF.getInstance("HKDF-SHA256")
+              .deriveKey(
+                  "AES",
+                  HKDFParameterSpec.ofExtract()
+                      .addIKM(masterKeyBytes)
+                      .thenExpand(info, DERIVED_KEY_BYTES));
+    } catch (GeneralSecurityException e) {
+      throw new IllegalStateException("Failed to derive encryption key via HKDF", e);
     } finally {
       Arrays.fill(masterKeyBytes, (byte) 0);
     }
@@ -84,9 +85,9 @@ public final class AesGcmCipher {
   public String seal(byte[] aad, String plaintext) {
     try {
       byte[] iv = new byte[IV_BYTES];
-      Holder.RANDOM.nextBytes(iv);
+      random.nextBytes(iv);
 
-      Cipher cipher = CIPHERS.get();
+      Cipher cipher = Cipher.getInstance(TRANSFORMATION);
       cipher.init(Cipher.ENCRYPT_MODE, derivedKey, new GCMParameterSpec(TAG_BITS, iv));
       cipher.updateAAD(aad);
 
@@ -98,10 +99,8 @@ public final class AesGcmCipher {
         Arrays.fill(pt, (byte) 0);
       }
 
-      byte[] out = new byte[IV_BYTES + ct.length];
-      System.arraycopy(iv, 0, out, 0, IV_BYTES);
-      System.arraycopy(ct, 0, out, IV_BYTES, ct.length);
-      return PREFIX + Base64.getEncoder().encodeToString(out);
+      byte[] payload = ByteBuffer.allocate(IV_BYTES + ct.length).put(iv).put(ct).array();
+      return PREFIX + Base64.getEncoder().encodeToString(payload);
     } catch (GeneralSecurityException e) {
       throw new IllegalStateException("AES-GCM encryption failed", e);
     }
@@ -122,7 +121,8 @@ public final class AesGcmCipher {
       if (all.length < IV_BYTES + (TAG_BITS / 8)) {
         throw new IllegalArgumentException("Truncated or corrupted ciphertext payload.");
       }
-      Cipher cipher = CIPHERS.get();
+
+      Cipher cipher = Cipher.getInstance(TRANSFORMATION);
       cipher.init(
           Cipher.DECRYPT_MODE, derivedKey, new GCMParameterSpec(TAG_BITS, all, 0, IV_BYTES));
       cipher.updateAAD(aad);
@@ -138,26 +138,5 @@ public final class AesGcmCipher {
     } catch (GeneralSecurityException e) {
       throw new IllegalStateException("AES-GCM decryption failed (wrong key or tampered)", e);
     }
-  }
-
-  /** HKDF-SHA256 using BouncyCastle HKDFBytesGenerator. */
-  private static byte[] hkdfSha256(byte[] ikm, byte[] info, int length) {
-    HKDFBytesGenerator hkdf = new HKDFBytesGenerator(new SHA256Digest());
-    hkdf.init(new HKDFParameters(ikm, null, info));
-    byte[] okm = new byte[length];
-    hkdf.generateBytes(okm, 0, length);
-    return okm;
-  }
-
-  private static Cipher newCipher() {
-    try {
-      return Cipher.getInstance(TRANSFORMATION);
-    } catch (GeneralSecurityException e) {
-      throw new IllegalStateException("Failed to initialize AES-GCM cipher", e);
-    }
-  }
-
-  private static class Holder {
-    private static final SecureRandom RANDOM = new SecureRandom();
   }
 }

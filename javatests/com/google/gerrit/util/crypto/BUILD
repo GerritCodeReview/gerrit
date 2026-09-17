@@ -6,7 +6,6 @@ junit_tests(
     deps = [
         "//java/com/google/gerrit/util/crypto",
         "//lib:junit",
-        "//lib/bouncycastle:bcprov",
         "//lib/truth",
     ],
 )

@@ -4,7 +4,4 @@ java_library(
     name = "crypto",
     srcs = glob(["**/*.java"]),
     visibility = ["//visibility:public"],
-    deps = [
-        "//lib/bouncycastle:bcprov-neverlink",
-    ],
 )

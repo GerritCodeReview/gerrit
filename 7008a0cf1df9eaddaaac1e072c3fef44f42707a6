@@ -16,6 +16,24 @@
       "message": "Maybe this could re-use logic from https://gerrit.googlesource.com/gerrit/+/refs/changes/61/629361/2/java/com/google/gerrit/server/mail/send/CommentChangeEmailDecoratorImpl.java#82 ? Or reuse [`urlFormatter`](https://gerrit.googlesource.com/gerrit/+/refs/changes/61/629361/2/java/com/google/gerrit/server/config/UrlFormatter.java) directly?",
       "revId": "7008a0cf1df9eaddaaac1e072c3fef44f42707a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d564ff8_48156791",
+        "filename": "java/com/google/gerrit/mail/ParserUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 5150830
+      },
+      "writtenOn": "2026-09-17T21:38:38Z",
+      "side": 1,
+      "message": "Unfortunately I don\u0027t think those can be reused directly here. Both getInlineCommentView() and getCommentsTabView() need a real Change entity and a live, injected UrlFormatter instance. Reusing the methods themselves would mean threading a Change/UrlFormatter all the way down through HtmlParser/ParserUtil\u0027s call chain, which felt like a much bigger and more invasive change than this fix warrants.\n\nI do agree with the underlying concern, though -- these URL shapes are currently duplicated as literal strings in two unrelated files with nothing enforcing they stay in sync, which is exactly how this bug happened in the first place. I\u0027d rather not take that on as part of this change, though; I think it deserves its own ticket/CL so it can be scoped and reviewed on its own rather than riding along with this bug fix.",
+      "parentUuid": "162f445c_59c90fae",
+      "revId": "7008a0cf1df9eaddaaac1e072c3fef44f42707a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

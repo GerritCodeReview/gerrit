@@ -16,13 +16,15 @@ package com.google.gerrit.server.restapi.project;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.ProjectPermission;
+import com.google.gerrit.server.project.MigrateLabelFunctionsToSubmitRequirement.Status;
 import com.google.gerrit.server.project.ProjectResource;
-import com.google.gerrit.server.schema.MigrateLabelFunctionsToSubmitRequirement;
-import com.google.gerrit.server.schema.UpdateUI;
+import com.google.gerrit.server.project.UpdateUI;
+import com.google.gerrit.server.restapi.project.RepoMetaDataUpdater.ConfigChangeCreator;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.Set;
@@ -31,13 +33,16 @@ import java.util.Set;
 public class MigrateLabels implements RestModifyView<ProjectResource, MigrateLabelsInput> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  private final RepoMetaDataUpdater repoMetaDataUpdater;
   private final MigrateLabelFunctionsToSubmitRequirement migrateLabelFunctionsToSubmitRequirement;
   private final PermissionBackend permissionBackend;
 
   @Inject
   MigrateLabels(
+      RepoMetaDataUpdater repoMetaDataUpdater,
       MigrateLabelFunctionsToSubmitRequirement migrateLabelFunctionsToSubmitRequirement,
       PermissionBackend permissionBackend) {
+    this.repoMetaDataUpdater = repoMetaDataUpdater;
     this.migrateLabelFunctionsToSubmitRequirement = migrateLabelFunctionsToSubmitRequirement;
     this.permissionBackend = permissionBackend;
   }
@@ -45,18 +50,50 @@ public class MigrateLabels implements RestModifyView<ProjectResource, MigrateLab
   @Override
   public Response<MigrateLabelsInfo> apply(ProjectResource rsrc, MigrateLabelsInput input)
       throws Exception {
-    Project.NameKey project = rsrc.getNameKey();
-    permissionBackend.currentUser().project(project).check(ProjectPermission.WRITE_CONFIG);
-    MigrateLabelFunctionsToSubmitRequirement.Status status =
-        migrateLabelFunctionsToSubmitRequirement.executeMigration(project, new LoggingUpdateUI());
-
+    Status status = execute(rsrc, ExecutionMode.DIRECT).status();
     MigrateLabelsInfo info = new MigrateLabelsInfo();
     info.status = status;
     return Response.ok(info);
   }
 
-  public static class LoggingUpdateUI implements UpdateUI {
+  MigrationResult execute(ProjectResource rsrc, ExecutionMode mode) throws Exception {
+    Project.NameKey project = rsrc.getNameKey();
+    return switch (mode) {
+      case DIRECT -> executeDirect(project);
+      case REVIEW -> executeReview(project, rsrc);
+    };
+  }
 
+  private MigrationResult executeDirect(Project.NameKey project) throws Exception {
+    permissionBackend.currentUser().project(project).check(ProjectPermission.WRITE_CONFIG);
+    Status status =
+        migrateLabelFunctionsToSubmitRequirement.executeMigration(project, new LoggingUpdateUI());
+    return new MigrationResult(status, null);
+  }
+
+  private MigrationResult executeReview(Project.NameKey project, ProjectResource rsrc)
+      throws Exception {
+    try (ConfigChangeCreator creator =
+        repoMetaDataUpdater.configChangeCreator(
+            project, null, MigrateLabelFunctionsToSubmitRequirement.COMMIT_MSG)) {
+      Status status =
+          migrateLabelFunctionsToSubmitRequirement.updateConfig(
+              rsrc.getProjectState().getNameKey(), creator.getConfig(), new LoggingUpdateUI());
+      if (status == Status.MIGRATED) {
+        return new MigrationResult(status, creator.createChange().value());
+      }
+      return new MigrationResult(status, null);
+    }
+  }
+
+  record MigrationResult(Status status, ChangeInfo change) {}
+
+  enum ExecutionMode {
+    DIRECT,
+    REVIEW
+  }
+
+  public static class LoggingUpdateUI implements UpdateUI {
     @Override
     public void message(String message) {
       logger.atInfo().log("%s", message);

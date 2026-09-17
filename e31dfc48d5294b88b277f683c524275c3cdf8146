@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "06bad6d3_057dbcca",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-17T14:20:57Z",
+      "side": 1,
+      "message": "Please also add unit tests for the LockKey class: mainly its string formatting",
+      "revId": "e31dfc48d5294b88b277f683c524275c3cdf8146",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a8f70072_903cb4d2",
         "filename": "java/com/google/gerrit/server/project/LockKey.java",
         "patchSetId": 9

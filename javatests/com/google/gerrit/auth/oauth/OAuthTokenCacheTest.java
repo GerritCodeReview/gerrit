@@ -18,19 +18,50 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.extensions.proto.ProtoTruth.assertThat;
 import static com.google.gerrit.proto.testing.SerializedClassSubject.assertThatSerializedClass;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.auth.oauth.OAuthToken;
+import com.google.gerrit.extensions.auth.oauth.OAuthTokenEncrypter;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.proto.testing.SerializedClassSubject;
 import com.google.gerrit.server.cache.proto.Cache.OAuthTokenProto;
 import com.google.gerrit.server.cache.serialize.CacheSerializer;
 import java.lang.reflect.Type;
+import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 @RunWith(JUnit4.class)
 public final class OAuthTokenCacheTest {
+  @Test
+  public void cacheIsEnabledByDefault() {
+    OAuthToken token = new OAuthToken("token", "secret", "raw", 4102444800000L, "provider");
+    OAuthTokenCache cache = newCache(new Config());
+
+    cache.put(Account.id(1001), token);
+
+    assertThat(cache.isDisabled()).isFalse();
+    assertThat(cache.get(Account.id(1001))).isEqualTo(token);
+  }
+
+  @Test
+  public void cacheIsDisabledWhenMemoryLimitIsZero() {
+    Config cfg = new Config();
+    cfg.setLong("cache", OAuthTokenCache.OAUTH_TOKENS, "memoryLimit", 0);
+    Cache<Account.Id, OAuthToken> backingCache = CacheBuilder.newBuilder().build();
+    OAuthTokenCache cache = newCache(backingCache, cfg);
+
+    cache.put(
+        Account.id(1001), new OAuthToken("token", "secret", "raw", 4102444800000L, "provider"));
+
+    assertThat(cache.isDisabled()).isTrue();
+    assertThat(cache.get(Account.id(1001))).isNull();
+    assertThat(backingCache.getIfPresent(Account.id(1001))).isNull();
+  }
+
   @Test
   public void oAuthTokenSerializer() throws Exception {
     OAuthToken token = new OAuthToken("token", "secret", "raw", 12345L, "provider");
@@ -101,5 +132,13 @@ public final class OAuthTokenCacheTest {
                 .put("expiresAt", long.class)
                 .put("providerId", String.class)
                 .build());
+  }
+
+  private static OAuthTokenCache newCache(Config cfg) {
+    return newCache(CacheBuilder.newBuilder().build(), cfg);
+  }
+
+  private static OAuthTokenCache newCache(Cache<Account.Id, OAuthToken> cache, Config cfg) {
+    return new OAuthTokenCache(cache, DynamicItem.itemOf(OAuthTokenEncrypter.class, null), cfg);
   }
 }

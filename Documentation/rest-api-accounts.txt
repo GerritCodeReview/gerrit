@@ -742,7 +742,10 @@ that describes the OAuth access token.
 
 If there is no token available, or the token has already expired,
 "`404 Not Found`" is returned as response. Requests to obtain an access
-token of another user are rejected with "`403 Forbidden`".
+token of another user are rejected with "`403 Forbidden`". If the
+link:config-gerrit.html#cache.oauth_tokens[`oauth_tokens` cache] is disabled
+with `cache.oauth_tokens.memoryLimit = 0`, "`409 Conflict`" is returned as
+response.
 
 [[get-state]]
 === Get Account State

@@ -19,6 +19,7 @@ import com.google.gerrit.auth.oauth.OAuthTokenCache;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.auth.oauth.OAuthToken;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -53,9 +54,13 @@ public class GetOAuthToken implements RestReadView<AccountResource> {
 
   @Override
   public Response<OAuthTokenInfo> apply(AccountResource rsrc)
-      throws AuthException, ResourceNotFoundException {
+      throws AuthException, ResourceNotFoundException, ResourceConflictException {
     if (!self.get().hasSameAccountId(rsrc.getUser())) {
       throw new AuthException("not allowed to get access token");
+    }
+    if (tokenCache.isDisabled()) {
+      throw new ResourceConflictException(
+          "OAuth token cache is disabled by cache.oauth_tokens.memoryLimit = 0");
     }
     OAuthToken accessToken = tokenCache.get(rsrc.getUser().getAccountId());
     if (accessToken == null) {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec512e6d_899e9fcb",
+        "filename": "java/com/google/gerrit/sshd/commands/ShowQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-17T12:23:31Z",
+      "side": 1,
+      "message": "If filtering would be done inside this call then the implementation would also be useable for the equivalent REST endpoint which could expose a similar option like the SSH command.\nFurther, the filtering probably needs to go down to the `WorkQueue` class: there we can filter out tasks early before materializing complete collection in-memory. Would me much more memory efficient than the current implementation.\n\n[1] https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#list-tasks",
+      "revId": "7b93a8f42e85865642466400399f26ea0d5bc2c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

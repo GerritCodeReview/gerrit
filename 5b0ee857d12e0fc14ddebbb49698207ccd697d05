@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "36a516eb_3065c2a3",
+        "filename": "java/com/google/gerrit/server/project/LockKey.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-17T16:44:21Z",
+      "side": 1,
+      "message": "I would just use \"name\". This is a lock manager and it manages locks. Lock have namespace and name. Thats it. The LockManager doesn\u0027t imply for which purpose all the caller will use it.",
+      "parentUuid": "a095dadd_98234c8c",
+      "range": {
+        "startLine": 32,
+        "startChar": 27,
+        "endLine": 32,
+        "endChar": 35
+      },
+      "revId": "5b0ee857d12e0fc14ddebbb49698207ccd697d05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "07e2e0b0_9597c421",
         "filename": "java/com/google/gerrit/server/project/LockKey.java",
         "patchSetId": 10

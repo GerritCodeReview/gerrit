@@ -24,6 +24,7 @@ import com.google.gerrit.server.git.MultiProgressMonitor.TaskKind;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
+import com.google.gerrit.server.plugincontext.PluginItemContext;
 import com.google.gerrit.server.project.CoreLockKeys;
 import com.google.gerrit.server.project.LockManager;
 import com.google.inject.assistedinject.Assisted;
@@ -43,7 +44,7 @@ public class MaxAuthTokenLifetimeApplier implements Runnable {
 
   private final MultiProgressMonitor.Factory multiProgressMonitorFactory;
   private final AuthTokenAccessor tokenAccessor;
-  private final LockManager lockManager;
+  private final PluginItemContext<LockManager> lockManager;
   private final Accounts accounts;
   private final Instant expiryInstant;
 
@@ -59,7 +60,7 @@ public class MaxAuthTokenLifetimeApplier implements Runnable {
   public MaxAuthTokenLifetimeApplier(
       MultiProgressMonitor.Factory multiProgressMonitorFactory,
       AuthTokenAccessor tokenAccessor,
-      LockManager lockManager,
+      PluginItemContext<LockManager> lockManager,
       Accounts accounts,
       @Assisted Instant expiryInstant) {
     this.multiProgressMonitorFactory = multiProgressMonitorFactory;
@@ -71,7 +72,9 @@ public class MaxAuthTokenLifetimeApplier implements Runnable {
 
   @Override
   public void run() {
-    Lock lock = lockManager.getLock(CoreLockKeys.REDUCE_MAX_AUTH_TOKEN_LIFETIME);
+    Lock lock =
+        lockManager.call(
+            lockManager -> lockManager.getLock(CoreLockKeys.REDUCE_MAX_AUTH_TOKEN_LIFETIME));
     if (!lock.tryLock()) {
       logger.atWarning().log("Task applying limit to auth token lifetime already running.");
       return;

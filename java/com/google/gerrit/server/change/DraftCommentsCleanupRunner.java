@@ -22,6 +22,7 @@ import com.google.gerrit.server.config.ScheduleConfig;
 import com.google.gerrit.server.config.ScheduleConfig.Schedule;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.notedb.DeleteZombieCommentsRefs;
+import com.google.gerrit.server.plugincontext.PluginItemContext;
 import com.google.gerrit.server.project.CoreLockKeys;
 import com.google.gerrit.server.project.LockManager;
 import com.google.inject.Inject;
@@ -69,17 +70,19 @@ public class DraftCommentsCleanupRunner implements Runnable {
   }
 
   private final DeleteZombieCommentsRefs.Factory factory;
-  private final LockManager lockManager;
+  private final PluginItemContext<LockManager> lockManager;
 
   @Inject
-  DraftCommentsCleanupRunner(DeleteZombieCommentsRefs.Factory factory, LockManager lockManager) {
+  DraftCommentsCleanupRunner(
+      DeleteZombieCommentsRefs.Factory factory, PluginItemContext<LockManager> lockManager) {
     this.factory = factory;
     this.lockManager = lockManager;
   }
 
   @Override
   public void run() {
-    Lock lock = lockManager.getLock(CoreLockKeys.DRAFT_COMMENTS_CLEANUP);
+    Lock lock =
+        lockManager.call(lockManager -> lockManager.getLock(CoreLockKeys.DRAFT_COMMENTS_CLEANUP));
     if (!lock.tryLock()) {
       logger.atInfo().log(
           "Couldn't acquire draft-comments-cleanup lock. Assuming the task is running");

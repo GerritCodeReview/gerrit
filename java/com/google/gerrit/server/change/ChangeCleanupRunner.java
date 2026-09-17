@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.ChangeCleanupConfig;
 import com.google.gerrit.server.git.WorkQueue;
+import com.google.gerrit.server.plugincontext.PluginItemContext;
 import com.google.gerrit.server.project.CoreLockKeys;
 import com.google.gerrit.server.project.LockManager;
 import com.google.gerrit.server.update.RetryHelper;
@@ -80,7 +81,7 @@ public class ChangeCleanupRunner implements Runnable {
   private final OneOffRequestContext oneOffRequestContext;
   private final AbandonUtil abandonUtil;
   private final RetryHelper retryHelper;
-  private final LockManager lockManager;
+  private final PluginItemContext<LockManager> lockManager;
   private final long abandonAfterMillis;
   private final boolean abandonIfMergeable;
   @Nullable private final String message;
@@ -91,7 +92,7 @@ public class ChangeCleanupRunner implements Runnable {
       OneOffRequestContext oneOffRequestContext,
       AbandonUtil abandonUtil,
       RetryHelper retryHelper,
-      LockManager lockManager,
+      PluginItemContext<LockManager> lockManager,
       @Assisted long abandonAfterMillis,
       @Assisted boolean abandonIfMergeable,
       @Assisted("message") @Nullable String message,
@@ -111,7 +112,7 @@ public class ChangeCleanupRunner implements Runnable {
       OneOffRequestContext oneOffRequestContext,
       AbandonUtil abandonUtil,
       RetryHelper retryHelper,
-      LockManager lockManager,
+      PluginItemContext<LockManager> lockManager,
       ChangeCleanupConfig cfg) {
     this.oneOffRequestContext = oneOffRequestContext;
     this.abandonUtil = abandonUtil;
@@ -125,7 +126,7 @@ public class ChangeCleanupRunner implements Runnable {
 
   @Override
   public void run() {
-    Lock lock = lockManager.getLock(CoreLockKeys.CHANGE_CLEANUP);
+    Lock lock = lockManager.call(lockManager -> lockManager.getLock(CoreLockKeys.CHANGE_CLEANUP));
     if (!lock.tryLock()) {
       logger.atInfo().log(
           "Couldn't acquire change-cleanup lock. Assuming another server is running"

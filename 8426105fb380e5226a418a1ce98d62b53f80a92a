@@ -198,6 +198,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "633449d3_6b598fe9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4639732
+      },
+      "writtenOn": "2026-09-17T15:30:50Z",
+      "side": 1,
+      "message": "Checking if all open concerns were resolved.",
+      "parentUuid": "be1eddea_755d7c07",
+      "revId": "8426105fb380e5226a418a1ce98d62b53f80a92a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1d0542bd_b2a79100",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 17

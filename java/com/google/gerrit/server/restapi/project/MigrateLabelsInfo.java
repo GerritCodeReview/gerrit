@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.restapi.project;
 
-import com.google.gerrit.server.schema.MigrateLabelFunctionsToSubmitRequirement;
+import com.google.gerrit.server.project.MigrateLabelFunctionsToSubmitRequirement.Status;
 
 public class MigrateLabelsInfo {
-  public MigrateLabelFunctionsToSubmitRequirement.Status status;
+  public Status status;
 }

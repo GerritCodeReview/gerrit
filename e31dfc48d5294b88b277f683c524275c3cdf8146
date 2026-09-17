@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc6be350_6595a28d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-09-17T14:33:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06bad6d3_057dbcca",
+      "revId": "e31dfc48d5294b88b277f683c524275c3cdf8146",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a8f70072_903cb4d2",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0d540eb_8803eb75",
+        "filename": "java/com/google/gerrit/server/project/LockKey.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-09-17T14:33:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8f70072_903cb4d2",
+      "revId": "e31dfc48d5294b88b277f683c524275c3cdf8146",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "59c647c7_d3cf54ea",
@@ -48,6 +84,24 @@
       "writtenOn": "2026-09-17T14:16:08Z",
       "side": 1,
       "message": "This is not a new problem introduced with this change but we should enforce non-null values for the namespace and name.",
+      "revId": "e31dfc48d5294b88b277f683c524275c3cdf8146",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d5d8374_5bb5a500",
+        "filename": "java/com/google/gerrit/server/project/LockKey.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-09-17T14:33:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "59c647c7_d3cf54ea",
       "revId": "e31dfc48d5294b88b277f683c524275c3cdf8146",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

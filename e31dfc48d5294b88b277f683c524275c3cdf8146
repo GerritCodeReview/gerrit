@@ -50,6 +50,23 @@
       "message": "This is not a new problem introduced with this change but we should enforce non-null values for the namespace and name.",
       "revId": "e31dfc48d5294b88b277f683c524275c3cdf8146",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84060fac_a15490aa",
+        "filename": "java/com/google/gerrit/server/restapi/project/CreateProject.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-17T14:24:35Z",
+      "side": 1,
+      "message": "Btw, this is the only place in Gerrit code which respects the fact that `LockManager` is an extension point: its default implementation can be replaced by a plugin. This is how it should be injected.\nAll other places inject the `LockManager` directly which means that they will always get `DefaultLockManger` also when a plugin replaces the default implementation.\nWe need to fix all other places and do the same as here, but not in this change.\nIf you are already at it: can you please create a follow-up change which fixes that?",
+      "revId": "e31dfc48d5294b88b277f683c524275c3cdf8146",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

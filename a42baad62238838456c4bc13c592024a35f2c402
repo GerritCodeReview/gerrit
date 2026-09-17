@@ -89,6 +89,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c94029c6_c97e4167",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 698,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-09-17T11:27:06Z",
+      "side": 1,
+      "message": "Done.\nI don\u0027t believe that sending emails after the fact makes sense. A followup change implements a single notification in the cycle after it expired. If the user ignored the notifications before it won\u0027t help after. A 401 is the best signal then.",
+      "parentUuid": "3db3f2a4_fe232fc4",
+      "revId": "a42baad62238838456c4bc13c592024a35f2c402",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6f3eed38_9c3f30c0",

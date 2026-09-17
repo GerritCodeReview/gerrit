@@ -35,6 +35,7 @@ import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
+import com.google.gerrit.server.plugincontext.PluginItemContext;
 import com.google.gerrit.server.project.CoreLockKeys;
 import com.google.gerrit.server.project.LockManager;
 import com.google.inject.Provider;
@@ -66,7 +67,7 @@ public class PasswordMigrator implements Runnable {
   private final AllUsersName allUsers;
   private final ExternalIdNotes.FactoryNoReindex externalIdNotesFactory;
   private final Optional<Instant> expirationDate;
-  private final LockManager lockManager;
+  private final PluginItemContext<LockManager> lockManager;
 
   private MultiProgressMonitor mpm;
   private Task doneTask;
@@ -87,7 +88,7 @@ public class PasswordMigrator implements Runnable {
       ExternalIdNotes.FactoryNoReindex externalIdNotesFactory,
       Provider<MetaDataUpdate.Server> metaDataUpdateServerFactory,
       @Assisted Optional<Instant> expirationDate,
-      LockManager lockManager) {
+      PluginItemContext<LockManager> lockManager) {
     this.repoManager = repoManager;
     this.multiProgressMonitorFactory = multiProgressMonitorFactory;
     this.tokenAccessor = tokenAccessor;
@@ -102,7 +103,9 @@ public class PasswordMigrator implements Runnable {
 
   @Override
   public void run() {
-    Lock lock = lockManager.getLock(CoreLockKeys.MIGRATE_PASSWORDS_TO_TOKENS);
+    Lock lock =
+        lockManager.call(
+            lockManager -> lockManager.getLock(CoreLockKeys.MIGRATE_PASSWORDS_TO_TOKENS));
     if (!lock.tryLock()) {
       logger.atWarning().log("Migration of passwords to tokens already running.");
       return;

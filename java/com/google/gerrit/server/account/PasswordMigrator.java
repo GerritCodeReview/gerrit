@@ -21,6 +21,7 @@ import com.google.common.base.Stopwatch;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.server.account.externalids.DuplicateExternalIdKeyException;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdFactory;
@@ -66,7 +67,7 @@ public class PasswordMigrator implements Runnable {
   private final AllUsersName allUsers;
   private final ExternalIdNotes.FactoryNoReindex externalIdNotesFactory;
   private final Optional<Instant> expirationDate;
-  private final LockManager lockManager;
+  private final DynamicItem<LockManager> lockManager;
 
   private MultiProgressMonitor mpm;
   private Task doneTask;
@@ -87,7 +88,7 @@ public class PasswordMigrator implements Runnable {
       ExternalIdNotes.FactoryNoReindex externalIdNotesFactory,
       Provider<MetaDataUpdate.Server> metaDataUpdateServerFactory,
       @Assisted Optional<Instant> expirationDate,
-      LockManager lockManager) {
+      DynamicItem<LockManager> lockManager) {
     this.repoManager = repoManager;
     this.multiProgressMonitorFactory = multiProgressMonitorFactory;
     this.tokenAccessor = tokenAccessor;
@@ -102,7 +103,7 @@ public class PasswordMigrator implements Runnable {
 
   @Override
   public void run() {
-    Lock lock = lockManager.getLock(CoreLockKeys.MIGRATE_PASSWORDS_TO_TOKENS);
+    Lock lock = lockManager.get().getLock(CoreLockKeys.MIGRATE_PASSWORDS_TO_TOKENS);
     if (!lock.tryLock()) {
       logger.atWarning().log("Migration of passwords to tokens already running.");
       return;

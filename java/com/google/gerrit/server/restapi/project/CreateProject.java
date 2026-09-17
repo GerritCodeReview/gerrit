@@ -29,6 +29,7 @@ import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ProjectInfo;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -42,7 +43,6 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.ProjectOwnerGroupsProvider;
 import com.google.gerrit.server.group.GroupResolver;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.plugincontext.PluginItemContext;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.project.CoreLockKeys;
 import com.google.gerrit.server.project.CreateProjectArgs;
@@ -79,7 +79,7 @@ public class CreateProject
   private final Provider<PutConfig> putConfig;
   private final AllProjectsName allProjects;
   private final AllUsersName allUsers;
-  private final PluginItemContext<LockManager> lockManager;
+  private final DynamicItem<LockManager> lockManager;
   private final ProjectCreator projectCreator;
 
   private final Config gerritConfig;
@@ -95,7 +95,7 @@ public class CreateProject
       Provider<PutConfig> putConfig,
       AllProjectsName allProjects,
       AllUsersName allUsers,
-      PluginItemContext<LockManager> lockManager,
+      DynamicItem<LockManager> lockManager,
       @GerritServerConfig Config gerritConfig) {
     this.projectsCollection = projectsCollection;
     this.projectCreator = projectCreator;
@@ -169,9 +169,7 @@ public class CreateProject
     }
     args.initOnly = input.initOnly;
 
-    Lock nameLock =
-        lockManager.call(
-            lockManager -> lockManager.getLock(CoreLockKeys.createProject(args.getProject())));
+    Lock nameLock = lockManager.get().getLock(CoreLockKeys.createProject(args.getProject()));
     nameLock.lock();
     try {
       try {

@@ -16,6 +16,23 @@
       "message": "Don\u0027t we want to explicitly control string formatting of the `LockKey` instances? I wouldn\u0027t take the default `toString` implementation for that purpose.",
       "revId": "e31dfc48d5294b88b277f683c524275c3cdf8146",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59c647c7_d3cf54ea",
+        "filename": "java/com/google/gerrit/server/project/LockKey.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-17T14:16:08Z",
+      "side": 1,
+      "message": "This is not a new problem introduced with this change but we should enforce non-null values for the namespace and name.",
+      "revId": "e31dfc48d5294b88b277f683c524275c3cdf8146",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

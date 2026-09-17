@@ -72,6 +72,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "770e50d5_4ee6b503",
+        "filename": "java/com/google/gerrit/server/project/LockKey.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-09-17T16:53:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36a516eb_3065c2a3",
+      "range": {
+        "startLine": 32,
+        "startChar": 27,
+        "endLine": 32,
+        "endChar": 35
+      },
+      "revId": "5b0ee857d12e0fc14ddebbb49698207ccd697d05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "07e2e0b0_9597c421",
@@ -95,6 +119,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bdaa0623_848639ea",
+        "filename": "java/com/google/gerrit/server/project/LockKey.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-09-17T16:53:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07e2e0b0_9597c421",
+      "range": {
+        "startLine": 35,
+        "startChar": 52,
+        "endLine": 35,
+        "endChar": 60
+      },
+      "revId": "5b0ee857d12e0fc14ddebbb49698207ccd697d05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3ce34cc2_b1a594db",
@@ -108,6 +156,30 @@
       "writtenOn": "2026-09-17T16:33:09Z",
       "side": 1,
       "message": "Name",
+      "range": {
+        "startLine": 24,
+        "startChar": 36,
+        "endLine": 24,
+        "endChar": 44
+      },
+      "revId": "5b0ee857d12e0fc14ddebbb49698207ccd697d05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f50a260_34f979fb",
+        "filename": "javatests/com/google/gerrit/server/project/LockKeyTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-09-17T16:53:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ce34cc2_b1a594db",
       "range": {
         "startLine": 24,
         "startChar": 36,

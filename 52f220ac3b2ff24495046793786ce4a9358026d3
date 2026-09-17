@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "33ac2c0d_8c9fe610",
+        "filename": "java/com/google/gerrit/server/project/LockManager.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-09-17T13:27:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a9ce00b9_5a4e3182",
+      "revId": "52f220ac3b2ff24495046793786ce4a9358026d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fb9116e0_84500954",
@@ -49,6 +67,30 @@
       "writtenOn": "2026-09-17T11:17:09Z",
       "side": 1,
       "message": "In my opinion this doesn\u0027t belong here. A low-level API, like LockManager, should not know about all its usages and shouldn\u0027t require to be modified for every new usage. This can be put into own class which provides convenient methods to create core lock keys, for example:\n```\npublic final class CoreLockKeys {\n  public static final LockKey CHANGE_CLEANUP \u003d LockKey.core(\"change-cleanup\");\n  \n  public static final LockKey createProject(Project.NameKey projectName) {\n    return LockKey.core(\"create-project\", projectName.get());\n  }\n  ...\n}\n```",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 69
+      },
+      "revId": "52f220ac3b2ff24495046793786ce4a9358026d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b5994be_39bd2e24",
+        "filename": "java/com/google/gerrit/server/project/LockManager.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-09-17T13:27:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb9116e0_84500954",
       "range": {
         "startLine": 40,
         "startChar": 0,

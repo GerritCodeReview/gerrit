@@ -16,6 +16,7 @@ package com.google.gerrit.pgm;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.extensions.config.FactoryModule;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.lucene.LuceneIndexModule;
@@ -91,7 +92,8 @@ public class ReduceMaxTokenLifetime extends SiteProgram {
                     .annotatedWith(InstallPlugins.class)
                     .toInstance(new ArrayList<>());
                 bind(IdentifiedUser.GenericFactory.class);
-                bind(LockManager.class).toInstance(new DefaultLockManager());
+                DynamicItem.itemOf(binder(), LockManager.class);
+                DynamicItem.bind(binder(), LockManager.class).to(DefaultLockManager.class);
 
                 factory(MetaDataUpdate.InternalFactory.class);
                 factory(VersionedAuthTokens.Factory.class);

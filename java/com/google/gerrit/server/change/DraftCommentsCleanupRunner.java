@@ -16,6 +16,7 @@ package com.google.gerrit.server.change;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.events.LifecycleListener;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.ScheduleConfig;
@@ -69,17 +70,18 @@ public class DraftCommentsCleanupRunner implements Runnable {
   }
 
   private final DeleteZombieCommentsRefs.Factory factory;
-  private final LockManager lockManager;
+  private final DynamicItem<LockManager> lockManager;
 
   @Inject
-  DraftCommentsCleanupRunner(DeleteZombieCommentsRefs.Factory factory, LockManager lockManager) {
+  DraftCommentsCleanupRunner(
+      DeleteZombieCommentsRefs.Factory factory, DynamicItem<LockManager> lockManager) {
     this.factory = factory;
     this.lockManager = lockManager;
   }
 
   @Override
   public void run() {
-    Lock lock = lockManager.getLock(CoreLockKeys.DRAFT_COMMENTS_CLEANUP);
+    Lock lock = lockManager.get().getLock(CoreLockKeys.DRAFT_COMMENTS_CLEANUP);
     if (!lock.tryLock()) {
       logger.atInfo().log(
           "Couldn't acquire draft-comments-cleanup lock. Assuming the task is running");

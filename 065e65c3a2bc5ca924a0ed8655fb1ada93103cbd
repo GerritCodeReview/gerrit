@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29191fea_e06f860f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-09-17T19:18:43Z",
+      "side": 1,
+      "message": "Please fix this wrapping",
+      "revId": "065e65c3a2bc5ca924a0ed8655fb1ada93103cbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

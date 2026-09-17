@@ -27,6 +27,7 @@ import static org.junit.Assert.assertEquals;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.query.AndCardinalPredicate;
@@ -35,6 +36,8 @@ import com.google.gerrit.index.query.OrCardinalPredicate;
 import com.google.gerrit.index.query.OrPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
+import com.google.gerrit.server.plugincontext.PluginContext.PluginMetrics;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.query.change.AndChangeSource;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeIndexPredicate;
@@ -64,7 +67,9 @@ public class ChangeIndexRewriterTest {
     queryBuilder = new FakeQueryBuilder(indexes);
     rewrite =
         new ChangeIndexRewriter(
-            indexes, IndexConfig.builder().maxTerms(MAX_INDEX_QUERY_TERMS).build());
+            indexes,
+            IndexConfig.builder().maxTerms(MAX_INDEX_QUERY_TERMS).build(),
+            new PluginSetContext<>(new DynamicSet<>(), PluginMetrics.DISABLED_INSTANCE));
   }
 
   @Test

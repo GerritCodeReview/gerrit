@@ -98,6 +98,20 @@ public abstract class Project {
     default int compareTo(NameKey o) {
       return name().compareTo(o.get());
     }
+
+    /**
+     * Indicates whether some other object is "equal to" this one. Subclasses must override this
+     * method to delegate to {@link #projectNameEquals}.
+     */
+    @Override
+    boolean equals(Object o);
+
+    /**
+     * Indicates whether some other object is "equal to" this one. Subclasses must override this
+     * method to delegate to {@link #projectNameHashCode}.
+     */
+    @Override
+    int hashCode();
   }
 
   public abstract NameKey getNameKey();

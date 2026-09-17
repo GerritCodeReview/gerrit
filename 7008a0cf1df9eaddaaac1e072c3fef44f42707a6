@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "162f445c_59c90fae",
+        "filename": "java/com/google/gerrit/mail/ParserUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-09-17T21:04:25Z",
+      "side": 1,
+      "message": "Maybe this could re-use logic from https://gerrit.googlesource.com/gerrit/+/refs/changes/61/629361/2/java/com/google/gerrit/server/mail/send/CommentChangeEmailDecoratorImpl.java#82 ? Or reuse [`urlFormatter`](https://gerrit.googlesource.com/gerrit/+/refs/changes/61/629361/2/java/com/google/gerrit/server/config/UrlFormatter.java) directly?",
+      "revId": "7008a0cf1df9eaddaaac1e072c3fef44f42707a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

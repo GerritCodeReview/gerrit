@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2d0a0c75_d3579e45",
+        "filename": "java/com/google/gerrit/server/project/LockManager.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-17T11:17:09Z",
+      "side": 1,
+      "message": "I will put all of my comments here because there are several points that needs to be addressed that are not just implementation details. Here are some problems with the current design in this patch-set:\n\n* interface separation \u0026 code duplication\n`PlugingLockManager` isn\u0027t a `LockManager` it is a different java interface. Plus, the string joining logic (the lock name format) is duplicated. Polymorphism breaks: anything expecting a `LockManager` cannot accept a `PluginLockManager`. If the lock name format changes then two places need to be updated.\n\n* inflexible plugin namespacing\nPinning the plugin name in the `PluginLockManager` to `@PluginName` makes it impossible for two plugins to share a lock. Using the `LockManager` directly and the \"old\" `getLock(String name)` method would be the only way. But we want to deprecate that old method.\n\nI thought more about the design and want to propose (or implement if you want me to take over?) the following: have a single unified `LockManager` interface for both core and plugins and define a structured `LockKey` object that encapsulates namespacing.\n```\npublic final record LockKey(String namespace, String name, String... args) {\n  public static LockKey of(String namespace, String name, String... args) { return new LockKey(...);}\n  public static LockKey core(String name, String... args) {return ...}\n  public static LockKey plugin(String pluginName, String name, String... args) {return ...}\n  \n  // make a defensive copy of the args list to keep the instance immutable\n  // handle string joining here\n  // java record provides equals and hashCode automatically\n}\n```\n\nThe `LockManager` interface:\n```\npublic interface LockManager {\n  public Lock getLock(LockKey key);\n  \n  @Deprecated\n  public Lock getLock(String name);\n} \n```\n\nWith this design the one `LockManager` interface is used everywhere and the namespace topic is moved where it belongs: to the LockKey class.",
+      "revId": "52f220ac3b2ff24495046793786ce4a9358026d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb9116e0_84500954",
+        "filename": "java/com/google/gerrit/server/project/LockManager.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-17T11:17:09Z",
+      "side": 1,
+      "message": "In my opinion this doesn\u0027t belong here. A low-level API, like LockManager, should not know about all its usages and shouldn\u0027t require to be modified for every new usage. This can be put into own class which provides convenient methods to create core lock keys, for example:\n```\npublic final class CoreLockKeys {\n  public static final LockKey CHANGE_CLEANUP \u003d LockKey.core(\"change-cleanup\");\n  \n  public static final LockKey createProject(Project.NameKey projectName) {\n    return LockKey.core(\"create-project\", projectName.get());\n  }\n  ...\n}\n```",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 69
+      },
+      "revId": "52f220ac3b2ff24495046793786ce4a9358026d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

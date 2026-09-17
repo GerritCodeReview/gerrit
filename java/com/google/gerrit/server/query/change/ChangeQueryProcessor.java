@@ -28,7 +28,9 @@ import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.query.IndexPredicate;
 import com.google.gerrit.index.query.Predicate;
+import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.index.query.QueryProcessor;
+import com.google.gerrit.index.query.QueryResult;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.DynamicOptions;
@@ -41,6 +43,8 @@ import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.ChangeIndexRewriter;
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
 import com.google.gerrit.server.index.change.IndexedChangeQuery;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
+import com.google.gerrit.server.plugincontext.PluginSetEntryContext;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -65,6 +69,7 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
   private final List<Extension<ChangePluginDefinedInfoFactory>>
       changePluginDefinedInfoFactoriesByPlugin = new ArrayList<>();
   private final IndexConfig indexConfig;
+  private final PluginSetContext<ChangeQueryPredicateRewriter> predicateRewriters;
 
   @Singleton
   protected static class ChangeQueryMetrics extends QueryProcessor.Metrics {
@@ -90,7 +95,8 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
       ChangeIndexCollection indexes,
       ChangeIndexRewriter rewriter,
       ChangeIsVisibleToPredicate.Factory changeIsVisibleToPredicateFactory,
-      DynamicSet<ChangePluginDefinedInfoFactory> changePluginDefinedInfoFactories) {
+      DynamicSet<ChangePluginDefinedInfoFactory> changePluginDefinedInfoFactories,
+      PluginSetContext<ChangeQueryPredicateRewriter> predicateRewriters) {
     super(
         changeQueryMetrics,
         ChangeSchemaDefinitions.INSTANCE,
@@ -102,10 +108,29 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
     this.userProvider = userProvider;
     this.changeIsVisibleToPredicateFactory = changeIsVisibleToPredicateFactory;
     this.indexConfig = indexConfig;
+    this.predicateRewriters = predicateRewriters;
 
     changePluginDefinedInfoFactories
         .entries()
         .forEach(e -> changePluginDefinedInfoFactoriesByPlugin.add(e));
+  }
+
+  @Override
+  public List<QueryResult<ChangeData>> query(List<Predicate<ChangeData>> queries)
+      throws QueryParseException {
+    List<Predicate<ChangeData>> rewritten = new ArrayList<>(queries.size());
+    for (Predicate<ChangeData> query : queries) {
+      for (PluginSetEntryContext<ChangeQueryPredicateRewriter> c : predicateRewriters) {
+        Predicate<ChangeData> in = query;
+        query = c.call(r -> r.rewrite(in), QueryParseException.class);
+        if (query == null) {
+          throw new QueryParseException(
+              "plugin '" + c.getPluginName() + "' returned a null query rewrite");
+        }
+      }
+      rewritten.add(query);
+    }
+    return super.query(rewritten);
   }
 
   @Override

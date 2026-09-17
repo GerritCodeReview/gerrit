@@ -1,0 +1,175 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce18ec5e_9a61cfc4",
+        "filename": "java/com/google/gerrit/server/query/change/AcceptedRevWalkCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-09-17T23:24:42Z",
+      "side": 1,
+      "message": "Use `Map.computeIfAbsent()` instead\n```suggestion\n    Entry entry \u003d entries.computeIfAbsent(project, p -\u003e new Entry(repoManager.openRepository(p)));\n```",
+      "range": {
+        "startLine": 68,
+        "startChar": 0,
+        "endLine": 72,
+        "endChar": 5
+      },
+      "revId": "d2b20fdb094d4d6a74edb51de73bc42b7cebcdce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f775ed20_03a54fe6",
+        "filename": "java/com/google/gerrit/server/query/change/AcceptedRevWalkCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-09-17T23:24:42Z",
+      "side": 1,
+      "message": "We\u0027re only tracking this for the test. Can you spy on `entry.rw.reset()` instead?",
+      "revId": "d2b20fdb094d4d6a74edb51de73bc42b7cebcdce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f50833fe_dd4e5336",
+        "filename": "java/com/google/gerrit/server/query/change/AcceptedRevWalkCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-09-17T23:24:42Z",
+      "side": 1,
+      "message": "We\u0027re only tracking this for the test. Can you spy on `SubmitDryRun.addCommits()` instead?",
+      "revId": "d2b20fdb094d4d6a74edb51de73bc42b7cebcdce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4111c8ae_c2588dda",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-09-17T23:24:42Z",
+      "side": 1,
+      "message": "This is uglier than I\u0027d like. I get it that we need to close the `AcceptedRevWalkCache`, but the layering here isn\u0027t great.\n\nCan you explore adding something to `PerThreadCache` that can call `close()` on entries? I think that would end up being a lot simpler and could be extended to more use cases in the future.",
+      "revId": "d2b20fdb094d4d6a74edb51de73bc42b7cebcdce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cde96e41_9defd7b0",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 878,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-09-17T23:24:42Z",
+      "side": 1,
+      "message": "Since we also have the conflictsCache, let\u0027s not shorten this to `cache`.\n```suggestion\n  private Predicate\u003cChangeData\u003e conflicts(String value, @Nullable AcceptedRevWalkCache acceptedRevWalkCache)\n```",
+      "revId": "d2b20fdb094d4d6a74edb51de73bc42b7cebcdce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95c85e94_6c511ca4",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 886,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-09-17T23:24:42Z",
+      "side": 1,
+      "message": "```suggestion\n      or.add(ConflictsPredicate.create(args, value, c, acceptedRevWalkCache));\n```",
+      "revId": "d2b20fdb094d4d6a74edb51de73bc42b7cebcdce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5b6f250f_baabfb2f",
+        "filename": "java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-09-17T23:24:42Z",
+      "side": 1,
+      "message": "Isn\u0027t this caching a similar set of data?",
+      "revId": "d2b20fdb094d4d6a74edb51de73bc42b7cebcdce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2879c61e_b3bdfa34",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3560,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-09-17T23:24:42Z",
+      "side": 1,
+      "message": "We don\u0027t typically add benchmark tests. You can put it in a child change that we abandon later if we just want it to show an improvement in this change.",
+      "range": {
+        "startLine": 3560,
+        "startChar": 12,
+        "endLine": 3560,
+        "endChar": 21
+      },
+      "revId": "d2b20fdb094d4d6a74edb51de73bc42b7cebcdce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b9b32de_4bbbc57f",
+        "filename": "javatests/com/google/gerrit/server/query/change/AcceptedRevWalkCacheTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-09-17T23:24:42Z",
+      "side": 1,
+      "message": "Second line should be in the try too?\n\n```suggestion\n    try (Repository ignored \u003d repoManager.createRepository(project);\n        AcceptedRevWalkCache cache \u003d new AcceptedRevWalkCache(repoManager)) {\n```",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 73
+      },
+      "revId": "d2b20fdb094d4d6a74edb51de73bc42b7cebcdce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

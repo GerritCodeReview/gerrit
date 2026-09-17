@@ -163,6 +163,24 @@
       "parentUuid": "3909f478_4854930a",
       "revId": "f5f3a3af002199f65631c7703e27ce67274ca692",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78935b65_dcacb04a",
+        "filename": "java/com/google/gerrit/extensions/auth/oauth/OAuthTokenEncrypter.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-09-17T12:23:48Z",
+      "side": 1,
+      "message": "Yes, that is what I meant.",
+      "parentUuid": "adcdaaad_ebfaf4f1",
+      "revId": "f5f3a3af002199f65631c7703e27ce67274ca692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

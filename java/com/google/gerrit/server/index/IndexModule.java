@@ -58,6 +58,7 @@ import com.google.gerrit.server.index.group.GroupSchemaDefinitions;
 import com.google.gerrit.server.index.options.IsFirstInsertForEntry;
 import com.google.gerrit.server.index.project.ProjectIndexDefinition;
 import com.google.gerrit.server.index.project.ProjectIndexerImpl;
+import com.google.gerrit.server.query.change.ChangeQueryPredicateRewriter;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Key;
@@ -126,6 +127,7 @@ public class IndexModule extends LifecycleModule {
     listener().to(AccountIndexCollection.class);
 
     bind(ChangeIndexRewriter.class);
+    DynamicSet.setOf(binder(), ChangeQueryPredicateRewriter.class);
     bind(ChangeIndexCollection.class);
     listener().to(ChangeIndexCollection.class);
     factory(ChangeIndexer.Factory.class);

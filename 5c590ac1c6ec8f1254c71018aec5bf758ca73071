@@ -16,6 +16,24 @@
       "message": "This still provides the opportunity for plugins to mistakenly specify their name incorrectly and hence collide with other plugin\u0027s namespace. If we want to use `@PluginName` annotation we should do something like:\n\n```\npublic class PluginLockKeys {\n  private final String pluginName;\n\n  @Inject\n  PluginLockKeys(@PluginName String pluginName) {\n    this.pluginName \u003d pluginName;\n  }\n\n  public LockKey of(String name, String... args) {\n    return LockKey.plugin(pluginName, name, args);\n  }\n}\n```\n\nand then remove this method from here ? If two plugins want to share a namespace they could still do so by explicitly calling LockKey#of().\n\n@sasa.zivkov@sap.com Do you think its a valid concern and solution ?",
       "revId": "5c590ac1c6ec8f1254c71018aec5bf758ca73071",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7763205_3411e202",
+        "filename": "java/com/google/gerrit/server/project/LockKey.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-17T14:03:48Z",
+      "side": 1,
+      "message": "No, I don\u0027t think this is a concern. We can trust plugin developers to properly use own plugin name. After all, they could also use `LockKey.of(...)` and provide any namespace.",
+      "parentUuid": "ef9b1565_c092012d",
+      "revId": "5c590ac1c6ec8f1254c71018aec5bf758ca73071",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

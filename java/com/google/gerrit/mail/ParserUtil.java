@@ -17,6 +17,7 @@ package com.google.gerrit.mail;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.Patch;
 import java.util.List;
 import java.util.StringJoiner;
 import java.util.regex.Pattern;
@@ -74,7 +75,35 @@ public class ParserUtil {
   public static boolean isCommentUrl(String str, String changeUrl, Comment comment) {
     int lineNbr = comment.range == null ? comment.lineNbr : comment.range.startLine;
     return str.equals(filePath(changeUrl, comment) + "@" + lineNbr)
-        || str.equals(filePath(changeUrl, comment) + "@a" + lineNbr);
+        || str.equals(filePath(changeUrl, comment) + "@a" + lineNbr)
+        || matchesInlineCommentPermalink(str, changeUrl, comment)
+        || matchesPatchsetLevelCommentsTabLink(str, changeUrl, comment);
+  }
+
+  /** Check if string is the UUID-based inline comment permalink Gerrit's mail sender emits */
+  private static boolean matchesInlineCommentPermalink(
+      String str, String changeUrl, Comment comment) {
+    if (comment.key.uuid == null) {
+      return false;
+    }
+    String prefix = changeUrl + "/comment/" + comment.key.uuid;
+    return str.equals(prefix) || str.startsWith(prefix + "?");
+  }
+
+  /**
+   * Check if string is the comments-tab link Gerrit's mail sender emits for a patchset-level
+   * comment. Unlike the per-line permalink above, this link is not unique per comment -- every
+   * patchset-level comment in a notification shares the same changeUrl + "?tab=comments" href -- so
+   * this only disambiguates by comment type (patchset-level vs. not), relying on the same in-order
+   * iterator position HtmlParser already uses to distinguish multiple comments on the same file.
+   */
+  private static boolean matchesPatchsetLevelCommentsTabLink(
+      String str, String changeUrl, Comment comment) {
+    if (!Patch.PATCHSET_LEVEL.equals(comment.key.filename)) {
+      return false;
+    }
+    String prefix = changeUrl + "?tab=comments";
+    return str.equals(prefix) || str.startsWith(prefix + "&");
   }
 
   /** Generate the fully qualified filepath */

@@ -40,11 +40,14 @@ import com.google.gerrit.index.query.OrPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.index.query.TooManyTermsInQueryException;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
+import com.google.gerrit.server.plugincontext.PluginSetEntryContext;
 import com.google.gerrit.server.query.change.AndChangeSource;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;
 import com.google.gerrit.server.query.change.ChangeIndexPredicate;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
+import com.google.gerrit.server.query.change.ChangeQueryPredicateRewriter;
 import com.google.gerrit.server.query.change.ChangeStatusPredicate;
 import com.google.gerrit.server.query.change.IsSubmittablePredicate;
 import com.google.gerrit.server.query.change.OrSource;
@@ -140,16 +143,22 @@ public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
 
   private final ChangeIndexCollection indexes;
   private final IndexConfig config;
+  private final PluginSetContext<ChangeQueryPredicateRewriter> predicateRewriters;
 
   @Inject
-  ChangeIndexRewriter(ChangeIndexCollection indexes, IndexConfig config) {
+  ChangeIndexRewriter(
+      ChangeIndexCollection indexes,
+      IndexConfig config,
+      PluginSetContext<ChangeQueryPredicateRewriter> predicateRewriters) {
     this.indexes = indexes;
     this.config = config;
+    this.predicateRewriters = predicateRewriters;
   }
 
   @Override
   public Predicate<ChangeData> rewrite(Predicate<ChangeData> in, QueryOptions opts)
       throws QueryParseException {
+    in = applyPluginRewrites(in, opts);
     Predicate<ChangeData> s = rewriteImpl(in, opts);
     if (!(s instanceof ChangeDataSource)) {
       logger.atFine().log(
@@ -163,6 +172,23 @@ public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
       throw new QueryParseException("invalid query: " + s);
     }
     return s;
+  }
+
+  /**
+   * Applies any registered {@link ChangeQueryPredicateRewriter} plugins to {@code in}, in
+   * registration order, before source planning and secondary-index rewriting.
+   */
+  private Predicate<ChangeData> applyPluginRewrites(Predicate<ChangeData> in, QueryOptions opts)
+      throws QueryParseException {
+    for (PluginSetEntryContext<ChangeQueryPredicateRewriter> c : predicateRewriters) {
+      Predicate<ChangeData> input = in;
+      in = c.call(r -> r.rewrite(input, opts), QueryParseException.class);
+      if (in == null) {
+        throw new QueryParseException(
+            "plugin '" + c.getPluginName() + "' returned a null query rewrite");
+      }
+    }
+    return in;
   }
 
   private Predicate<ChangeData> rewriteImpl(Predicate<ChangeData> in, QueryOptions opts)

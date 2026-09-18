@@ -642,7 +642,7 @@ public class ProjectConfigIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void rejectSubmitRequirement_duplicateApplicableIfKeys() throws Exception {
+  public void multipleExpressionKeys_areOrJoined() throws Exception {
     fetchRefsMetaConfig();
     PushOneCommit push =
         pushFactory.create(
@@ -650,66 +650,36 @@ public class ProjectConfigIT extends AbstractDaemonTest {
             testRepo,
             "Test Change",
             ProjectConfig.PROJECT_CONFIG,
-            "[submit-requirement \"Foo\"]\n "
-                + "   applicableIf = is:true\n  "
-                + "   submittableIf = label:Code-Review=MAX\n"
-                + "[submit-requirement \"Foo\"]\n"
-                + "   applicableIf = is:false\n");
+            """
+                [submit-requirement "Foo"]
+                    applicableIf = branch:refs/heads/main
+                    applicableIf = branch:refs/heads/develop
+                    submittableIf = label:Code-Review=MAX
+                    submittableIf = label:Verified=+1
+                    overrideIf = is:true
+                    overrideIf = label:Override=+1
+                """);
     PushOneCommit.Result r = push.to(RefNames.REFS_CONFIG);
-    r.assertErrorStatus(
-        String.format("commit %s: invalid project configuration", abbreviateName(r.getCommit())));
-    r.assertMessage(
-        String.format(
-            "ERROR: commit %s:   project.config: multiple definitions of applicableif"
-                + " for submit requirement 'foo'",
-            abbreviateName(r.getCommit())));
-  }
-
-  @Test
-  public void rejectSubmitRequirement_duplicateSubmittableIfKeys() throws Exception {
-    fetchRefsMetaConfig();
-    PushOneCommit push =
-        pushFactory.create(
-            admin.newIdent(),
-            testRepo,
-            "Test Change",
-            ProjectConfig.PROJECT_CONFIG,
-            "[submit-requirement \"Foo\"]\n"
-                + "    submittableIf = label:Code-Review=MAX\n"
-                + "[submit-requirement \"Foo\"]\n"
-                + "    submittableIf = label:Code-Review=MIN\n");
-    PushOneCommit.Result r = push.to(RefNames.REFS_CONFIG);
-    r.assertErrorStatus(
-        String.format("commit %s: invalid project configuration", abbreviateName(r.getCommit())));
-    r.assertMessage(
-        String.format(
-            "ERROR: commit %s:   project.config: multiple definitions of submittableif"
-                + " for submit requirement 'foo'",
-            abbreviateName(r.getCommit())));
-  }
-
-  @Test
-  public void rejectSubmitRequirement_duplicateOverrideIfKeys() throws Exception {
-    fetchRefsMetaConfig();
-    PushOneCommit push =
-        pushFactory.create(
-            admin.newIdent(),
-            testRepo,
-            "Test Change",
-            ProjectConfig.PROJECT_CONFIG,
-            "[submit-requirement \"Foo\"]\n"
-                + "  overrideIf = is:true\n "
-                + "  submittableIf = label:Code-Review=MAX\n"
-                + "[submit-requirement \"Foo\"]\n"
-                + "  overrideIf = is:false\n");
-    PushOneCommit.Result r = push.to(RefNames.REFS_CONFIG);
-    r.assertErrorStatus(
-        String.format("commit %s: invalid project configuration", abbreviateName(r.getCommit())));
-    r.assertMessage(
-        String.format(
-            "ERROR: commit %s:   project.config: multiple definitions of overrideif"
-                + " for submit requirement 'foo'",
-            abbreviateName(r.getCommit())));
+    r.assertOkStatus();
+    try (Repository git = repoManager.openRepository(project)) {
+      ProjectConfig cfg = projectConfigFactory.create(project);
+      cfg.load(git);
+      assertThat(cfg.getSubmitRequirementSections())
+          .containsExactly(
+              "Foo",
+              SubmitRequirement.builder()
+                  .setName("Foo")
+                  .setApplicabilityExpression(
+                      SubmitRequirementExpression.of(
+                          "branch:refs/heads/main OR branch:refs/heads/develop"))
+                  .setSubmittabilityExpression(
+                      SubmitRequirementExpression.create(
+                          "label:Code-Review=MAX OR label:Verified=+1"))
+                  .setOverrideExpression(
+                      SubmitRequirementExpression.of("is:true OR label:Override=+1"))
+                  .setAllowOverrideInChildProjects(false)
+                  .build());
+    }
   }
 
   @Test
@@ -1458,6 +1428,65 @@ public class ProjectConfigIT extends AbstractDaemonTest {
     r.assertErrorStatus(
         String.format(
             "invalid %s file in revision %s", ProjectConfig.PROJECT_CONFIG, r.getCommit().name()));
+  }
+
+  @Test
+  public void blankApplicableIfAndOverrideIfExpressionKeyValues_treatedAsAbsent() throws Exception {
+    fetchRefsMetaConfig();
+    PushOneCommit push =
+        pushFactory.create(
+            admin.newIdent(),
+            testRepo,
+            "Test Change",
+            ProjectConfig.PROJECT_CONFIG,
+            """
+                [submit-requirement "Foo"]
+                    applicableIf =
+                    applicableIf =
+                    submittableIf = label:Code-Review=MAX
+                    overrideIf =
+                    overrideIf =
+                """);
+    PushOneCommit.Result r = push.to(RefNames.REFS_CONFIG);
+    r.assertOkStatus();
+    try (Repository git = repoManager.openRepository(project)) {
+      ProjectConfig cfg = projectConfigFactory.create(project);
+      cfg.load(git);
+      assertThat(cfg.getSubmitRequirementSections())
+          .containsExactly(
+              "Foo",
+              SubmitRequirement.builder()
+                  .setName("Foo")
+                  .setSubmittabilityExpression(
+                      SubmitRequirementExpression.create("label:Code-Review=MAX"))
+                  .setAllowOverrideInChildProjects(false)
+                  .build());
+      assertThat(cfg.getValidationErrors()).isEmpty();
+    }
+  }
+
+  @Test
+  public void blankSubmittableIfValues_causeValidationError() throws Exception {
+    fetchRefsMetaConfig();
+    PushOneCommit push =
+        pushFactory.create(
+            admin.newIdent(),
+            testRepo,
+            "Test Change",
+            ProjectConfig.PROJECT_CONFIG,
+            """
+                [submit-requirement "Foo"]
+                    submittableIf =
+                    submittableIf =
+                """);
+    PushOneCommit.Result r = push.to(RefNames.REFS_CONFIG);
+    r.assertErrorStatus(
+        String.format("commit %s: invalid project configuration", abbreviateName(r.getCommit())));
+    r.assertMessage(
+        String.format(
+            "ERROR: commit %s:   project.config: Setting a submittability expression for submit"
+                + " requirement 'Foo' is required: Missing submit-requirement.Foo.submittableIf",
+            abbreviateName(r.getCommit())));
   }
 
   private void fetchRefsMetaConfig() throws Exception {

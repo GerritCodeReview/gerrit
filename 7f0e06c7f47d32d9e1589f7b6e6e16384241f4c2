@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "35f6326c_8ee016e0",
+        "filename": "java/com/google/gerrit/server/project/LockKey.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-09-18T08:59:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6154adcb_95513e8d",
+      "range": {
+        "startLine": 22,
+        "startChar": 62,
+        "endLine": 22,
+        "endChar": 97
+      },
+      "revId": "7f0e06c7f47d32d9e1589f7b6e6e16384241f4c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "68ca88f0_f4215b43",
@@ -37,6 +61,24 @@
       "writtenOn": "2026-09-18T08:52:36Z",
       "side": 1,
       "message": "also add javadoc here: Returns a lock key in the given namespace",
+      "revId": "7f0e06c7f47d32d9e1589f7b6e6e16384241f4c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "174f9621_ad34f711",
+        "filename": "java/com/google/gerrit/server/project/LockKey.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-09-18T08:59:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68ca88f0_f4215b43",
       "revId": "7f0e06c7f47d32d9e1589f7b6e6e16384241f4c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -64,6 +106,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8282c668_77d6d088",
+        "filename": "java/com/google/gerrit/server/project/LockKey.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-09-18T08:59:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9bc8da5_73be108f",
+      "range": {
+        "startLine": 38,
+        "startChar": 25,
+        "endLine": 38,
+        "endChar": 45
+      },
+      "revId": "7f0e06c7f47d32d9e1589f7b6e6e16384241f4c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ccd5c0b1_89169d85",
@@ -81,6 +147,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "19699fc6_936b87ca",
+        "filename": "java/com/google/gerrit/server/project/LockKey.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-09-18T08:59:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ccd5c0b1_89169d85",
+      "revId": "7f0e06c7f47d32d9e1589f7b6e6e16384241f4c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f08f8a03_83c06733",
@@ -94,6 +178,24 @@
       "writtenOn": "2026-09-18T08:52:36Z",
       "side": 1,
       "message": "Gerrit\u0027s code base prefers using Guava\u0027s Joiner over String.join. This also allows us to avoid\nallocating an array:\n```suggestion\n    return Joiner.on(\u0027~\u0027).join(Iterables.concat(ImmutableList.of(namespace, name), args));\n```",
+      "revId": "7f0e06c7f47d32d9e1589f7b6e6e16384241f4c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "822d9dfa_7de94e88",
+        "filename": "java/com/google/gerrit/server/project/LockKey.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-09-18T08:59:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f08f8a03_83c06733",
       "revId": "7f0e06c7f47d32d9e1589f7b6e6e16384241f4c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

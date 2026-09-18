@@ -38,6 +38,7 @@ import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.patch.DiffOperationsForCommitValidation;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.util.MagicBranch;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
@@ -198,7 +199,8 @@ public class BranchCommitValidator {
                   rejectCommits,
                   receiveEvent.revWalk,
                   change,
-                  skipValidation);
+                  skipValidation,
+                  isDirectRefUpdate(cmd));
         }
 
         validationInfos =
@@ -227,6 +229,17 @@ public class BranchCommitValidator {
       }
       return Result.create(true, validationInfos, messages.build());
     }
+  }
+
+  /**
+   * Returns true when this receive command is a true direct ref update, for the purpose of scoping
+   * the {@code Push Merge Commit} permission to the destination ref rather than {@code refs/for/}.
+   *
+   * <p>Magic branches ({@code refs/for/*}) return false (review path). Everything else (e.g. {@code
+   * refs/heads/*}, {@code refs/tags/*}, {@code refs/meta/config}) is a direct update.
+   */
+  static boolean isDirectRefUpdate(ReceiveCommand cmd) {
+    return !MagicBranch.isMagicBranch(cmd.getRefName());
   }
 
   private String messageForCommit(RevCommit c, String msg, ObjectReader objectReader)

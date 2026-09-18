@@ -111,6 +111,30 @@
       },
       "revId": "ca13cc03fc306b9c0d3835d1b9a37c2654fa6f97",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d1de9a5_733b22c9",
+        "filename": "java/com/google/gerrit/entities/Project.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-09-18T16:27:03Z",
+      "side": 1,
+      "message": "I\u0027m fine with either. This didn\u0027t seem like something that would repeat across the code base, but I agree that suppressing a warning in test code is preferable to adding boilerplate to app code.",
+      "parentUuid": "becd5148_fba084bb",
+      "range": {
+        "startLine": 101,
+        "startChar": 0,
+        "endLine": 114,
+        "endChar": 19
+      },
+      "revId": "ca13cc03fc306b9c0d3835d1b9a37c2654fa6f97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

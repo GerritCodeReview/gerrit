@@ -72,7 +72,13 @@ ts_project(
     incremental = True,
     out_dir = "_plugin_api_out",
     root_dir = "api",
-    tsconfig = {"compilerOptions": {"rootDir": "api"}},
+    # The plugin API is production code and does not use mocha test globals.
+    # tsconfig-plugins-base.json sets types=["mocha"], but the mocha @types
+    # are not available when compiling this target, so override with [].
+    tsconfig = {"compilerOptions": {
+        "rootDir": "api",
+        "types": [],
+    }},
 )
 
 npm_package(

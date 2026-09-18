@@ -15,6 +15,7 @@
 package com.google.gerrit.server.git.receive;
 
 import static com.google.gerrit.git.ObjectIds.abbreviateName;
+import static com.google.gerrit.server.git.validators.CommitValidators.NEW_PATCHSET_PATTERN;
 import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_OTHER_REASON;
 
 import com.google.auto.value.AutoValue;
@@ -38,6 +39,7 @@ import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.patch.DiffOperationsForCommitValidation;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.util.MagicBranch;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
@@ -198,7 +200,8 @@ public class BranchCommitValidator {
                   rejectCommits,
                   receiveEvent.revWalk,
                   change,
-                  skipValidation);
+                  skipValidation,
+                  isDirectRefUpdate(cmd));
         }
 
         validationInfos =
@@ -227,6 +230,20 @@ public class BranchCommitValidator {
       }
       return Result.create(true, validationInfos, messages.build());
     }
+  }
+
+  /**
+   * Returns true when this receive command is a true direct ref update, for the purpose of scoping
+   * the {@code Push Merge Commit} permission to the destination ref rather than {@code refs/for/}.
+   *
+   * <p>Magic branches ({@code refs/for/*}) and patch-set refs ({@code refs/changes/*}) are review
+   * paths and return false. Everything else (e.g. {@code refs/heads/*}, {@code refs/tags/*}, {@code
+   * refs/meta/config}) is a direct update. For patch-set refs the destination is derived from the
+   * raw ref name, so the review permission check lands on {@code refs/for/refs/changes/...}.
+   */
+  static boolean isDirectRefUpdate(ReceiveCommand cmd) {
+    String refName = cmd.getRefName();
+    return !MagicBranch.isMagicBranch(refName) && !NEW_PATCHSET_PATTERN.matcher(refName).matches();
   }
 
   private String messageForCommit(RevCommit c, String msg, ObjectReader objectReader)

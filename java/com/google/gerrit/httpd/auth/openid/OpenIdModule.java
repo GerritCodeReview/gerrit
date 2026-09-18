@@ -16,7 +16,13 @@ package com.google.gerrit.httpd.auth.openid;
 
 import com.google.gerrit.extensions.auth.oauth.OAuthServiceProvider;
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.httpd.ProxyProperties;
+import com.google.inject.Provides;
+import com.google.inject.Singleton;
 import com.google.inject.servlet.ServletModule;
+import java.net.URL;
+import org.openid4java.consumer.ConsumerManager;
+import org.openid4java.util.HttpClientFactory;
 
 /** Servlets related to OpenID authentication. */
 public class OpenIdModule extends ServletModule {
@@ -30,5 +36,20 @@ public class OpenIdModule extends ServletModule {
     filter("/").through(XrdsFilter.class);
     bind(OpenIdServiceImpl.class);
     DynamicMap.mapOf(binder(), OAuthServiceProvider.class);
+  }
+
+  @Provides
+  @Singleton
+  ConsumerManager provideConsumerManager(ProxyProperties proxyProperties) {
+    if (proxyProperties.getProxyUrl() != null) {
+      final org.openid4java.util.ProxyProperties proxy = new org.openid4java.util.ProxyProperties();
+      URL url = proxyProperties.getProxyUrl();
+      proxy.setProxyHostName(url.getHost());
+      proxy.setProxyPort(url.getPort());
+      proxy.setUserName(proxyProperties.getUsername());
+      proxy.setPassword(proxyProperties.getPassword());
+      HttpClientFactory.setProxyProperties(proxy);
+    }
+    return new ConsumerManager();
   }
 }

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd.auth.openid;
 
+import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.PageLinks;
@@ -23,7 +24,6 @@ import com.google.gerrit.entities.KeyUtil;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.httpd.CanonicalWebUrl;
-import com.google.gerrit.httpd.ProxyProperties;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.UrlEncoded;
@@ -38,7 +38,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.net.URL;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
@@ -65,7 +64,6 @@ import org.openid4java.message.pape.PapeResponse;
 import org.openid4java.message.sreg.SRegMessage;
 import org.openid4java.message.sreg.SRegRequest;
 import org.openid4java.message.sreg.SRegResponse;
-import org.openid4java.util.HttpClientFactory;
 
 @Singleton
 class OpenIdServiceImpl {
@@ -77,6 +75,7 @@ class OpenIdServiceImpl {
   private static final String P_TOKEN = "gerrit.token";
   private static final String P_REMEMBER = "gerrit.remember";
   private static final String P_CLAIMED = "gerrit.claimed";
+  private static final String P_LINK_STATE = "gerrit.link_state";
   private static final int LASTID_AGE = 365 * 24 * 60 * 60; // seconds
 
   private static final String OPENID_MODE = "openid.mode";
@@ -95,6 +94,7 @@ class OpenIdServiceImpl {
   private final List<String> openIdDomains;
   private final ExternalIdKeyFactory externalIdKeyFactory;
   private final com.google.gerrit.server.account.AuthRequest.Factory authRequestFactory;
+  private final Provider<OpenIdLinkState> linkState;
 
   /** Maximum age, in seconds, before forcing re-authentication of account. */
   private final int papeMaxAuthAge;
@@ -107,25 +107,16 @@ class OpenIdServiceImpl {
       @GerritServerConfig Config config,
       AuthConfig ac,
       AccountManager am,
-      ProxyProperties proxyProperties,
+      ConsumerManager consumerManager,
       ExternalIdKeyFactory externalIdKeyFactory,
-      com.google.gerrit.server.account.AuthRequest.Factory authRequestFactory) {
-
-    if (proxyProperties.getProxyUrl() != null) {
-      final org.openid4java.util.ProxyProperties proxy = new org.openid4java.util.ProxyProperties();
-      URL url = proxyProperties.getProxyUrl();
-      proxy.setProxyHostName(url.getHost());
-      proxy.setProxyPort(url.getPort());
-      proxy.setUserName(proxyProperties.getUsername());
-      proxy.setPassword(proxyProperties.getPassword());
-      HttpClientFactory.setProxyProperties(proxy);
-    }
+      com.google.gerrit.server.account.AuthRequest.Factory authRequestFactory,
+      Provider<OpenIdLinkState> linkState) {
 
     webSession = cf;
     identifiedUser = iu;
     urlProvider = up;
     accountManager = am;
-    manager = new ConsumerManager();
+    manager = consumerManager;
     allowedOpenIDs = ac.getAllowedOpenIDs();
     openIdDomains = ac.getOpenIdDomains();
     papeMaxAuthAge =
@@ -139,6 +130,7 @@ class OpenIdServiceImpl {
                 TimeUnit.SECONDS);
     this.externalIdKeyFactory = externalIdKeyFactory;
     this.authRequestFactory = authRequestFactory;
+    this.linkState = linkState;
   }
 
   @SuppressWarnings("unchecked")
@@ -149,7 +141,8 @@ class OpenIdServiceImpl {
       boolean remember,
       String returnToken) {
     final State state;
-    state = init(req, openidIdentifier, mode, remember, returnToken);
+    final String linkStateToken = mode == SignInMode.LINK_IDENTIY ? linkState.get().get() : null;
+    state = init(req, openidIdentifier, mode, remember, returnToken, linkStateToken);
     if (state == null) {
       return new DiscoveryResult(DiscoveryResult.Status.NO_PROVIDER);
     }
@@ -220,6 +213,7 @@ class OpenIdServiceImpl {
     final String claimedIdentifier = req.getParameter(P_CLAIMED);
     final String returnToken = req.getParameter(P_TOKEN);
     final boolean remember = "1".equals(req.getParameter(P_REMEMBER));
+    final String linkStateToken = req.getParameter(P_LINK_STATE);
     final String rediscoverIdentifier =
         claimedIdentifier != null ? claimedIdentifier : openidIdentifier;
     final State state;
@@ -231,7 +225,7 @@ class OpenIdServiceImpl {
       return;
     }
 
-    state = init(req, rediscoverIdentifier, mode, remember, returnToken);
+    state = init(req, rediscoverIdentifier, mode, remember, returnToken, linkStateToken);
     if (state == null) {
       // Re-discovery must have failed, we can't run a login.
       //
@@ -273,6 +267,12 @@ class OpenIdServiceImpl {
         //
         cancel(req, rsp);
       }
+      return;
+    }
+
+    if (mode == SignInMode.LINK_IDENTIY && !linkState.get().check(linkStateToken)) {
+      logger.atSevere().log("OpenID link rejected: missing or invalid link-state token");
+      cancelWithError(req, rsp, "Invalid or expired account-link request");
       return;
     }
 
@@ -528,7 +528,8 @@ class OpenIdServiceImpl {
       final String openidIdentifier,
       final SignInMode mode,
       final boolean remember,
-      final String returnToken) {
+      final String returnToken,
+      @Nullable final String linkStateToken) {
     final List<?> list;
     try {
       list = manager.discover(openidIdentifier);
@@ -546,6 +547,9 @@ class OpenIdServiceImpl {
     retTo.put(P_MODE, mode.name());
     if (returnToken != null && returnToken.length() > 0) {
       retTo.put(P_TOKEN, returnToken);
+    }
+    if (!Strings.isNullOrEmpty(linkStateToken)) {
+      retTo.put(P_LINK_STATE, linkStateToken);
     }
     if (remember) {
       retTo.put(P_REMEMBER, "1");

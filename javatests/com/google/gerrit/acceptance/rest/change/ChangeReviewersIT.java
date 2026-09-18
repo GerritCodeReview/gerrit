@@ -556,7 +556,10 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     assertThat(m.rcpt()).containsExactly(user.getNameEmail(), observer.getNameEmail());
     assertThat(m.body())
         .contains(
-            admin.fullName() + " has posted comments on this change by " + admin.fullName() + ".");
+            admin.getNameEmail()
+                + " has posted comments on this change by "
+                + admin.fullName()
+                + ".");
     assertThat(m.body()).contains("Change subject: " + PushOneCommit.SUBJECT + "\n");
     assertThat(m.body()).contains("Patch Set 1: Code-Review+2");
 

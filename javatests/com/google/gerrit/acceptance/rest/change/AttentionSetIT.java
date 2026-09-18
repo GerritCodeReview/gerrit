@@ -27,6 +27,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
+import com.google.common.html.HtmlEscapers;
 import com.google.common.truth.Correspondence;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -161,7 +162,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
         .contains(
             String.format(
                 "%s requires the attention of %s to this change.\n The reason is: first.",
-                user.fullName(), admin.fullName()));
+                user.getNameEmail(), admin.fullName()));
 
     // Update the reason
     sender.clear();
@@ -179,7 +180,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
         .contains(
             String.format(
                 "%s requires the attention of %s to this change.\n The reason is: second.",
-                user.fullName(), admin.fullName()));
+                user.getNameEmail(), admin.fullName()));
   }
 
   @Test
@@ -200,7 +201,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
         .contains(
             String.format(
                 "%s requires the attention of %s to this change.\n The reason is: reason.",
-                user.fullName(), admin.fullName()));
+                user.getNameEmail(), admin.fullName()));
 
     // Second add with the same reason is ignored.
     sender.clear();
@@ -338,7 +339,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
     String emailBody = Iterables.getOnlyElement(sender.getMessages()).body();
     assertThat(emailBody)
         .contains(
-            user.fullName()
+            user.getNameEmail()
                 + " removed themselves from the attention set of this change.\n"
                 + " The reason is: removed.");
   }
@@ -2058,7 +2059,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
         .contains(
             String.format(
                 "%s requires the attention of %s to this change.\n The reason is: Added by %s.",
-                user.fullName(), admin.fullName(), user.getNameEmail()));
+                user.getNameEmail(), admin.fullName(), user.getNameEmail()));
   }
 
   @Test
@@ -2078,7 +2079,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
             String.format(
                 "%s removed themselves from the attention set of this change.\n"
                     + " The reason is: Removed by %s.",
-                user.fullName(), user.getNameEmail()));
+                user.getNameEmail(), user.getNameEmail()));
   }
 
   @Test
@@ -2586,7 +2587,8 @@ public class AttentionSetIT extends AbstractDaemonTest {
             String.format(
                 "<p> Attention is currently required from: %s. </p>\n"
                     + "<p>%s <strong>uploaded patch set #2</strong> to this change.</p>",
-                user.fullName(), admin.fullName()));
+                user.fullName(),
+                HtmlEscapers.htmlEscaper().escape(admin.getNameEmail().toString())));
     assertThat(message.htmlBody())
         .contains(
             String.format(
@@ -2699,7 +2701,8 @@ public class AttentionSetIT extends AbstractDaemonTest {
             String.format(
                 "<p> Attention is currently required from: %s. </p>\n"
                     + "<p>%s <strong>uploaded patch set #2</strong> to this change.</p>",
-                user.fullName(), admin.fullName()));
+                user.fullName(),
+                HtmlEscapers.htmlEscaper().escape(admin.getNameEmail().toString())));
     assertThat(message.htmlBody())
         .contains(
             String.format(
@@ -2809,7 +2812,9 @@ public class AttentionSetIT extends AbstractDaemonTest {
             String.format(
                 "<p> Attention is currently required from: %s, %s. </p>\n"
                     + "<p>%s <strong>uploaded patch set #2</strong> to this change.</p>",
-                user.fullName(), user2.fullName(), admin.fullName()));
+                user.fullName(),
+                user2.fullName(),
+                HtmlEscapers.htmlEscaper().escape(admin.getNameEmail().toString())));
     assertThat(message.htmlBody())
         .contains(
             String.format(
@@ -2879,7 +2884,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
         .contains(
             String.format(
                 "<p>%s <strong>uploaded patch set #2</strong> to this change.</p>",
-                admin.fullName()));
+                HtmlEscapers.htmlEscaper().escape(admin.getNameEmail().toString())));
     assertThat(message.htmlBody())
         .contains(
             String.format(
@@ -2961,7 +2966,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
         .contains(
             String.format(
                 "<p>%s <strong>uploaded patch set #2</strong> to this change.</p>",
-                admin.fullName()));
+                HtmlEscapers.htmlEscaper().escape(admin.getNameEmail().toString())));
     assertThat(message.htmlBody())
         .doesNotContain("The following approvals got outdated and were removed:");
   }
@@ -3045,7 +3050,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
                 "Attention is currently required from: %s, %s.\n"
                     + "\n"
                     + "%s has posted comments on this change by %s.",
-                admin.fullName(), user.fullName(), approver.fullName(), admin.fullName()));
+                admin.fullName(), user.fullName(), approver.getNameEmail(), admin.fullName()));
     assertThat(message.body()).doesNotContain("\nPatch Set 2: Code-Review+2\n");
     assertThat(message.body())
         .contains("The change is no longer submittable: Code-Review is unsatisfied now.\n");
@@ -3131,7 +3136,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
                 "Attention is currently required from: %s, %s.\n"
                     + "\n"
                     + "%s has posted comments on this change by %s.",
-                admin.fullName(), user.fullName(), approver.fullName(), admin.fullName()));
+                admin.fullName(), user.fullName(), approver.getNameEmail(), admin.fullName()));
     assertThat(message.body()).doesNotContain("\nPatch Set 2: Code-Review+2\n");
     assertThat(message.body()).contains("\nPatch Set 2: Code-Review+1\n");
     assertThat(message.body())
@@ -3219,7 +3224,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
                 "Attention is currently required from: %s, %s.\n"
                     + "\n"
                     + "%s has posted comments on this change by %s.",
-                admin.fullName(), user.fullName(), approver.fullName(), admin.fullName()));
+                admin.fullName(), user.fullName(), approver.getNameEmail(), admin.fullName()));
     assertThat(message.body()).contains("\nPatch Set 2: Code-Review-2\n");
     assertThat(message.body())
         .contains("The change is no longer submittable: Code-Review is unsatisfied now.\n");

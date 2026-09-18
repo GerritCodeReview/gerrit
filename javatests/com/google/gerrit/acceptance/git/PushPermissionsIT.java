@@ -25,6 +25,7 @@ import static java.util.stream.Collectors.toList;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.GlobalCapability;
@@ -33,6 +34,7 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.server.project.ProjectConfig;
@@ -123,6 +125,71 @@ public class PushPermissionsIT extends AbstractDaemonTest {
     RemoteRefUpdate success =
         push("HEAD:refs/heads/newbranch").getRemoteUpdate("refs/heads/newbranch");
     assertThat(success.getStatus()).isEqualTo(Status.OK);
+  }
+
+  @Test
+  public void pushMergeCommitDirectlyWithPushMergePermissionOnTargetRef() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.PUSH).ref("refs/heads/*").group(REGISTERED_USERS))
+        .add(allow(Permission.PUSH_MERGE).ref("refs/heads/*").group(REGISTERED_USERS))
+        .update();
+
+    createMergeCommit().to("refs/heads/master").assertOkStatus();
+  }
+
+  @Test
+  public void pushMergeCommitDirectlyWithLegacyPushMergePermission() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.PUSH).ref("refs/heads/*").group(REGISTERED_USERS))
+        .add(allow(Permission.PUSH_MERGE).ref("refs/for/refs/heads/*").group(REGISTERED_USERS))
+        .update();
+
+    createMergeCommit().to("refs/heads/master").assertOkStatus();
+  }
+
+  @Test
+  public void pushMergeCommitDirectlyWithoutPushMergePermissionDenied() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.PUSH).ref("refs/heads/*").group(REGISTERED_USERS))
+        .update();
+
+    createMergeCommit()
+        .to("refs/heads/master")
+        .assertErrorStatus("you are not allowed to upload merges");
+  }
+
+  @Test
+  public void pushMergeCommitForReviewDoesNotUseTargetRefPermission() throws Exception {
+    setRequireChangeId(InheritableBoolean.FALSE);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.PUSH).ref("refs/for/refs/heads/*").group(REGISTERED_USERS))
+        .add(allow(Permission.PUSH_MERGE).ref("refs/heads/*").group(REGISTERED_USERS))
+        .update();
+
+    createMergeCommit()
+        .to("refs/for/master")
+        .assertErrorStatus("you are not allowed to upload merges");
+  }
+
+  @Test
+  public void pushMergeCommitForReviewWithPushMergePermissionOnReviewRef() throws Exception {
+    setRequireChangeId(InheritableBoolean.FALSE);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.PUSH).ref("refs/for/refs/heads/*").group(REGISTERED_USERS))
+        .add(allow(Permission.PUSH_MERGE).ref("refs/for/refs/heads/*").group(REGISTERED_USERS))
+        .update();
+
+    createMergeCommit().to("refs/for/master").assertOkStatus();
   }
 
   @Test
@@ -365,6 +432,24 @@ public class PushPermissionsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void skipValidationDirectPushWithPushMergePermissionOnTargetRef() throws Exception {
+    // The skip-validation composite right requires Push Merge Commit; granting it on the
+    // destination ref (not refs/for/) must be sufficient for a direct push.
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.PUSH).ref("refs/heads/*").group(REGISTERED_USERS))
+        .add(allow(Permission.FORGE_SERVER).ref("refs/heads/*").group(REGISTERED_USERS))
+        .add(allow(Permission.PUSH_MERGE).ref("refs/heads/*").group(REGISTERED_USERS))
+        .update();
+
+    testRepo.branch("HEAD").commit().create();
+    PushResult r =
+        push(c -> c.setPushOptions(ImmutableList.of("skip-validation")), "HEAD:refs/heads/master");
+    assertThat(r).onlyRef("refs/heads/master").isOk();
+  }
+
+  @Test
   public void accessDatabaseForNoteDbDenied() throws Exception {
     projectOperations
         .project(project)
@@ -505,5 +590,19 @@ public class PushPermissionsIT extends AbstractDaemonTest {
         break;
     }
     return u.getNewObjectId();
+  }
+
+  private PushOneCommit createMergeCommit() throws Exception {
+    RevCommit initialHead =
+        testRepo.getRevWalk().parseCommit(testRepo.getRepository().resolve("HEAD"));
+    RevCommit secondParent = testRepo.branch("side").commit().create();
+    return pushFactory
+        .create(
+            admin.newIdent(),
+            testRepo,
+            "merge commit\n\nChange-Id: I0000000000000000000000000000000000000001",
+            "merge.txt",
+            "merge")
+        .setParents(ImmutableList.of(initialHead, secondParent));
   }
 }

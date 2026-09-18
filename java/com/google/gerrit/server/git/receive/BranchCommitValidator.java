@@ -38,6 +38,7 @@ import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.patch.DiffOperationsForCommitValidation;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.util.MagicBranch;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
@@ -198,7 +199,8 @@ public class BranchCommitValidator {
                   rejectCommits,
                   receiveEvent.revWalk,
                   change,
-                  skipValidation);
+                  skipValidation,
+                  !MagicBranch.isMagicBranch(cmd.getRefName()));
         }
 
         validationInfos =

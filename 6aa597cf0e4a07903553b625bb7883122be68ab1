@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b21540b9_574c953c",
+        "filename": "javatests/com/google/gerrit/acceptance/server/permissions/RefControlIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-09-18T20:57:00Z",
+      "side": 1,
+      "message": "Your commit message says \"Fix\", but it looks like you removed the `{@link}` tag here?",
+      "revId": "6aa597cf0e4a07903553b625bb7883122be68ab1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

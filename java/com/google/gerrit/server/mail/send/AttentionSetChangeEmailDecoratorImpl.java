@@ -51,6 +51,7 @@ public class AttentionSetChangeEmailDecoratorImpl implements AttentionSetChangeE
   @Override
   public void populateEmailContent() {
     email.addSoyParam("attentionSetUser", email.getNameFor(attentionSetUser));
+    email.addSoyParam("attentionSetUserEmail", email.getNameEmailFor(attentionSetUser));
     email.addSoyParam("reason", reason);
 
     changeEmail.addAuthors(RecipientType.TO);

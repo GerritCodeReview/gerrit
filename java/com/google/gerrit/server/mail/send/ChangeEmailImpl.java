@@ -648,7 +648,7 @@ public class ChangeEmailImpl implements ChangeEmail {
     setThreadHeaders();
 
     email.addSoyParam("coverLetter", getCoverLetter());
-    email.addSoyParam("fromName", email.getNameFor(email.getFrom()));
+    email.addSoyParam("fromName", email.getNameEmailFor(email.getFrom()));
     email.addSoyParam("fromEmail", email.getNameEmailFor(email.getFrom()));
 
     addChangeRelatedSoyParams();

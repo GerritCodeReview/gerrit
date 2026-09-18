@@ -428,7 +428,32 @@ public class RevertIT extends AbstractDaemonTest {
     ImmutableList<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(2);
     assertThat(sender.getMessages(revertChange.changeId, "newchange")).hasSize(1);
-    assertThat(sender.getMessages(r.getChangeId(), "revert")).hasSize(1);
+    List<Message> revertMessages = sender.getMessages(r.getChangeId(), "revert");
+    assertThat(revertMessages).hasSize(1);
+    assertThat(revertMessages.get(0).body())
+        .contains(admin.getNameEmail() + " has created a revert of this change.");
+  }
+
+  @Test
+  public void revertNotificationIncludesSenderEmail() throws Exception {
+    PushOneCommit.Result r = createChange();
+    gApi.changes().id(r.getChangeId()).addReviewer(user.email());
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(ReviewInput.approve());
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).submit();
+
+    TestAccount meUser =
+        accountCreator.create(
+            "me_user", "me@example.com", "Me", /* displayName= */ null, "Administrators");
+    requestScopeOperations.setApiUser(meUser.id());
+    sender.clear();
+    gApi.changes().id(r.getChangeId()).revert();
+
+    List<Message> revertMessages = sender.getMessages(r.getChangeId(), "revert");
+    assertThat(revertMessages).hasSize(1);
+    assertThat(revertMessages.get(0).body())
+        .contains("Me <me@example.com> has created a revert of this change.");
+    assertThat(revertMessages.get(0).htmlBody())
+        .contains("Me &lt;me@example.com&gt; has <strong>created a revert</strong> of this change.");
   }
 
   @Test

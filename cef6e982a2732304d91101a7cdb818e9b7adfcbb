@@ -22,6 +22,30 @@
       },
       "revId": "cef6e982a2732304d91101a7cdb818e9b7adfcbb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "02971d46_8c8de1a4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-09-18T12:06:03Z",
+      "side": 1,
+      "message": "Rather than deleting a file, I introduced a common impl class\n`java/com/google/gerrit/server/project/MigrateLabelFunctionsToSubmitRequirement.java`\nand old implementation files extend this class.\n\nOld implementation files:\n`java/com/google/gerrit/server/restapi/project/MigrateLabelFunctionsToSubmitRequirement.java`\n`java/com/google/gerrit/server/schema/MigrateLabelFunctionsToSubmitRequirement.java`\n\nMaybe I should consider to rename these classes to avoid too many files with same name.",
+      "parentUuid": "76f34862_5f916e16",
+      "range": {
+        "startLine": 17,
+        "startChar": 46,
+        "endLine": 18,
+        "endChar": 8
+      },
+      "revId": "cef6e982a2732304d91101a7cdb818e9b7adfcbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

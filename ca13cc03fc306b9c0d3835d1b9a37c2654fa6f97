@@ -63,6 +63,30 @@
       },
       "revId": "ca13cc03fc306b9c0d3835d1b9a37c2654fa6f97",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd29872c_24f8d887",
+        "filename": "java/com/google/gerrit/entities/Project.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-18T13:15:44Z",
+      "side": 1,
+      "message": "What about `@SuppressWarnings(\"TruthIncompatibleType\")` as an alternative?\nI guess we don\u0027t want to see a proliferation of the boilerplate equals/hashCode declarations all around Gerrit\u0027s code",
+      "parentUuid": "549d0407_497e91e5",
+      "range": {
+        "startLine": 101,
+        "startChar": 0,
+        "endLine": 114,
+        "endChar": 19
+      },
+      "revId": "ca13cc03fc306b9c0d3835d1b9a37c2654fa6f97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

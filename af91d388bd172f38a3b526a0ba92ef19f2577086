@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a52b2700_0c716183",
+        "filename": "java/com/google/gerrit/pgm/MigratePasswordsToTokens.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-18T10:36:58Z",
+      "side": 1,
+      "message": "This is a standalone site program in which case we don\u0027t need to bind a DynamicItem for the LockManager.",
+      "revId": "af91d388bd172f38a3b526a0ba92ef19f2577086",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d12e7a5_f7c51120",
+        "filename": "java/com/google/gerrit/pgm/ReduceMaxTokenLifetime.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-18T10:36:58Z",
+      "side": 1,
+      "message": "This is a standalone site program in which case we don\u0027t need to bind a DynamicItem for the LockManager.",
+      "revId": "af91d388bd172f38a3b526a0ba92ef19f2577086",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "777af908_927a23da",
+        "filename": "java/com/google/gerrit/server/account/MaxAuthTokenLifetimeApplier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-18T10:36:58Z",
+      "side": 1,
+      "message": "I took one more look at the usage of `PluginItemContext` vs direct usage of the `DynamicItem` and, in my opinion, the `PluginItemContext` gives us almost nothing over `DynamicItem`. Further, we have to use a lambda expression with the `PluginItemContext` which is a little awkward compared to the direct usage of `DynamicItem` which would be:\n```\n  lockManager.get().getLock(CoreLockKeys.REDUCE_MAX_AUTH_TOKEN_LIFETIME);\n```\n\nTherefore, my suggestion is to use `DynamicItem\u003cLockManager\u003e`. Also change the existing usage of `PluginItemContext` in the `CreateProject` to `DynamicItem`.",
+      "revId": "af91d388bd172f38a3b526a0ba92ef19f2577086",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

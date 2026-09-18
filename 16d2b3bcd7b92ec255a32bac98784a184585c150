@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b6aed88_40842836",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-09-18T06:56:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "38d1763c_39eb79e5",
+      "range": {
+        "startLine": 15,
+        "startChar": 15,
+        "endLine": 15,
+        "endChar": 25
+      },
+      "revId": "16d2b3bcd7b92ec255a32bac98784a184585c150",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dd13c705_2939d536",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-09-18T02:09:43Z",
       "side": 1,
       "message": "We shouldn\u0027t use the same constant for section name and dir default. They are two different things and should have different constants?",
+      "range": {
+        "startLine": 291,
+        "startChar": 54,
+        "endLine": 291,
+        "endChar": 59
+      },
+      "revId": "16d2b3bcd7b92ec255a32bac98784a184585c150",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "01dc594b_340675aa",
+        "filename": "java/com/google/gerrit/server/index/IndexModule.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-09-18T06:56:06Z",
+      "side": 1,
+      "message": "The constant name doesn\u0027t imply it as section name or dir name. (just reuse of a string.)",
+      "parentUuid": "dd13c705_2939d536",
       "range": {
         "startLine": 291,
         "startChar": 54,

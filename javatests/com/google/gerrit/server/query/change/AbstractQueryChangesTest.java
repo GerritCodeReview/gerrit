@@ -90,6 +90,7 @@ import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.ProjectWatchInfo;
 import com.google.gerrit.extensions.client.ReviewerState;
+import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
@@ -129,6 +130,7 @@ import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.group.testing.TestGroupBackend;
@@ -141,6 +143,7 @@ import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.schema.SchemaCreator;
+import com.google.gerrit.server.submit.SubmitDryRun;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.OneOffRequestContext;
@@ -208,6 +211,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Inject protected PatchSetUtil psUtil;
   @Inject protected ChangeNotes.Factory changeNotesFactory;
   @Inject protected Provider<ChangeQueryProcessor> queryProcessorProvider;
+  @Inject protected SubmitDryRun submitDryRun;
   @Inject protected SchemaCreator schemaCreator;
   @Inject protected Sequences seq;
   @Inject protected ThreadLocalRequestContext requestContext;
@@ -3476,6 +3480,77 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("conflicts:" + change2.getId().get());
     assertQuery("conflicts:" + change3.getId().get(), change1);
     assertQuery("conflicts:" + change4.getId().get());
+  }
+
+  @Test
+  public void conflictsSharedWalkMatchesFreshWalk() throws Exception {
+    Project.NameKey project = Project.nameKey("conflicts-shared-walk");
+    repo = createAndOpenProject(project);
+    RevCommit base = repo.parseBody(repo.commit().add("shared.txt", "base\n").create());
+    RevCommit targetCommit =
+        repo.parseBody(repo.commit().parent(base).add("shared.txt", "target\n").create());
+    RevCommit nonConflictingCommit =
+        repo.parseBody(repo.commit().parent(base).add("other.txt", "other\n").create());
+    RevCommit conflictingCommit =
+        repo.parseBody(repo.commit().parent(base).add("shared.txt", "conflict\n").create());
+    Change target = insert(project, newChangeForCommit(repo, targetCommit));
+    Change nonConflicting = insert(project, newChangeForCommit(repo, nonConflictingCommit));
+    Change conflicting = insert(project, newChangeForCommit(repo, conflictingCommit));
+    ImmutableList<Change> candidates = ImmutableList.of(nonConflicting, conflicting);
+    ImmutableList<RevCommit> candidateCommits =
+        ImmutableList.of(nonConflictingCommit, conflictingCommit);
+
+    List<Change.Id> freshResults = new ArrayList<>();
+    for (int i = 0; i < candidates.size(); i++) {
+      Change candidate = candidates.get(i);
+      try (Repository candidateRepo = repoManager.openRepository(project);
+          CodeReviewCommit.CodeReviewRevWalk rw = CodeReviewCommit.newRevWalk(candidateRepo)) {
+        var accepted = SubmitDryRun.getAlreadyAccepted(candidateRepo, rw);
+        accepted.add(rw.parseCommit(targetCommit));
+        boolean conflicts =
+            !submitDryRun.run(
+                null,
+                SubmitType.MERGE_IF_NECESSARY,
+                candidateRepo,
+                rw,
+                target.getDest(),
+                targetCommit,
+                candidateCommits.get(i),
+                accepted);
+        if (conflicts) {
+          freshResults.add(candidate.getId());
+        }
+      }
+    }
+
+    List<Change.Id> sharedResults = new ArrayList<>();
+    try (AcceptedRevWalkCache cache = new AcceptedRevWalkCache(repoManager)) {
+      for (int i = 0; i < candidates.size(); i++) {
+        Change candidate = candidates.get(i);
+        RevCommit candidateCommit = candidateCommits.get(i);
+        boolean conflicts =
+            cache.run(
+                project,
+                candidateRepo -> SubmitDryRun.getAlreadyAccepted(candidateRepo),
+                targetCommit,
+                (candidateRepo, rw, accepted) ->
+                    !submitDryRun.run(
+                        null,
+                        SubmitType.MERGE_IF_NECESSARY,
+                        candidateRepo,
+                        rw,
+                        target.getDest(),
+                        targetCommit,
+                        candidateCommit,
+                        accepted));
+        if (conflicts) {
+          sharedResults.add(candidate.getId());
+        }
+      }
+    }
+
+    assertThat(sharedResults).containsExactly(conflicting.getId());
+    assertThat(sharedResults).containsExactlyElementsIn(freshResults).inOrder();
   }
 
   @Test

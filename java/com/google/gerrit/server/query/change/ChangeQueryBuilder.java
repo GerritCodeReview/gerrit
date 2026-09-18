@@ -861,13 +861,19 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
   @Operator
   public Predicate<ChangeData> conflicts(String value) throws QueryParseException {
+    return conflicts(value, AcceptedRevWalkCache.PerThread.get(args.repoManager));
+  }
+
+  private Predicate<ChangeData> conflicts(
+      String value, @Nullable AcceptedRevWalkCache acceptedRevWalkCache)
+      throws QueryParseException {
     if (!args.conflictsPredicateEnabled) {
       throw new QueryParseException("'conflicts:' operator is not supported on this gerrit host");
     }
     List<Change> changes = parseChange(value);
     List<Predicate<ChangeData>> or = new ArrayList<>(changes.size());
     for (Change c : changes) {
-      or.add(ConflictsPredicate.create(args, value, c));
+      or.add(ConflictsPredicate.create(args, value, c, acceptedRevWalkCache));
     }
     return Predicate.or(or);
   }

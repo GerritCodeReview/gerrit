@@ -88,6 +88,7 @@ junit_tests(
         "//java/com/google/gerrit/testing:gerrit-test-util",
         "//lib:guava",
         "//lib:jgit",
+        "//lib/mockito",
         "//lib/truth",
         "//lib/truth:truth-proto-extension",
         "//proto:cache_java_proto",

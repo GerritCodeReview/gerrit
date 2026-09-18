@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e5b8288_2923fd13",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-09-18T16:12:49Z",
+      "side": 1,
+      "message": "I realized this starting commit was incorrect and so the log missed the other fix that was included:\n```\n$ git -C modules/jgit log --oneline --no-merges 2f8bc42f..cb208f624\n293828ffa Revert \"RefDirectory#refreshPathToLooseRef: also refresh loose ref itself\"\n4a6727e1d RefDirectory: fix pack() unlocking held locks prematurely\n```",
+      "revId": "6980984aeb48c696c33a789f56369fe8ad576468",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

@@ -39,6 +39,30 @@
       },
       "revId": "ca13cc03fc306b9c0d3835d1b9a37c2654fa6f97",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "549d0407_497e91e5",
+        "filename": "java/com/google/gerrit/entities/Project.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1083648
+      },
+      "writtenOn": "2026-09-18T12:59:29Z",
+      "side": 1,
+      "message": "I admit that I don\u0027t really have a sales pitch beyond the existing commit description: It puts the description of the contract of `NameKey.equals`+`hashCode` on those methods, and it prevents Error Prone from concluding that subtypes like `AllProjectsName` and `AllUsersName` are unlikely to be `equals` to one another (because they don\u0027t inherit a value-based `equals` implementation.)",
+      "parentUuid": "0282cd31_3b759a93",
+      "range": {
+        "startLine": 101,
+        "startChar": 0,
+        "endLine": 114,
+        "endChar": 19
+      },
+      "revId": "ca13cc03fc306b9c0d3835d1b9a37c2654fa6f97",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

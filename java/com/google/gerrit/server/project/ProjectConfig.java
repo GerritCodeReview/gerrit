@@ -1012,9 +1012,15 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private Optional<SubmitRequirement> readSubmitRequirement(
       Config rc, String section, String name, String entityName, boolean validateName) {
     String description = rc.getString(section, name, KEY_SR_DESCRIPTION);
-    String applicabilityExpr = rc.getString(section, name, KEY_SR_APPLICABILITY_EXPRESSION);
-    String submittabilityExpr = rc.getString(section, name, KEY_SR_SUBMITTABILITY_EXPRESSION);
-    String overrideExpr = rc.getString(section, name, KEY_SR_OVERRIDE_EXPRESSION);
+    String[] applicabilityExprs = rc.getStringList(section, name, KEY_SR_APPLICABILITY_EXPRESSION);
+    String[] submittabilityExprs =
+        rc.getStringList(section, name, KEY_SR_SUBMITTABILITY_EXPRESSION);
+    String[] overrideExprs = rc.getStringList(section, name, KEY_SR_OVERRIDE_EXPRESSION);
+    String applicabilityExpr =
+        applicabilityExprs.length == 0 ? null : String.join(" OR ", applicabilityExprs);
+    String submittabilityExpr =
+        submittabilityExprs.length == 0 ? null : String.join(" OR ", submittabilityExprs);
+    String overrideExpr = overrideExprs.length == 0 ? null : String.join(" OR ", overrideExprs);
     Optional<Boolean> allowOverrideInChildProjects =
         readAllowOverrideInChildProjects(rc, section, name, entityName);
     if (!allowOverrideInChildProjects.isPresent()) {
@@ -1073,24 +1079,8 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
               "Multiple definitions of %s for submit requirement '%s'",
               KEY_SR_DESCRIPTION, srName));
     }
-    if (rc.getStringList(SUBMIT_REQUIREMENT, srName, KEY_SR_APPLICABILITY_EXPRESSION).length > 1) {
-      error(
-          String.format(
-              "Multiple definitions of %s for submit requirement '%s'",
-              KEY_SR_APPLICABILITY_EXPRESSION, srName));
-    }
-    if (rc.getStringList(SUBMIT_REQUIREMENT, srName, KEY_SR_SUBMITTABILITY_EXPRESSION).length > 1) {
-      error(
-          String.format(
-              "Multiple definitions of %s for submit requirement '%s'",
-              KEY_SR_SUBMITTABILITY_EXPRESSION, srName));
-    }
-    if (rc.getStringList(SUBMIT_REQUIREMENT, srName, KEY_SR_OVERRIDE_EXPRESSION).length > 1) {
-      error(
-          String.format(
-              "Multiple definitions of %s for submit requirement '%s'",
-              KEY_SR_OVERRIDE_EXPRESSION, srName));
-    }
+    // Multiple applicableIf / submittableIf / overrideIf values are intentionally allowed;
+    // they are OR-joined at read time.
     if (rc.getStringList(SUBMIT_REQUIREMENT, srName, KEY_SR_OVERRIDE_IN_CHILD_PROJECTS).length
         > 1) {
       error(

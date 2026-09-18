@@ -25,11 +25,11 @@ import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.project.ProjectField;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.account.AccountField;
 import com.google.gerrit.server.index.group.GroupField;
 import com.google.gerrit.server.query.change.GroupBackedUser;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
@@ -37,9 +37,9 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 public final class IndexUtils {
 
   /** Mark an index version as ready to serve queries. */
-  public static void setReady(SitePaths sitePaths, String name, int version, boolean ready) {
+  public static void setReady(Path indexDir, String name, int version, boolean ready) {
     try {
-      GerritIndexStatus cfg = new GerritIndexStatus(sitePaths);
+      GerritIndexStatus cfg = new GerritIndexStatus(indexDir);
       cfg.setReady(name, version, ready);
       cfg.save();
     } catch (ConfigInvalidException | IOException e) {

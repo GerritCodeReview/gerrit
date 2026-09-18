@@ -71,6 +71,7 @@ import com.google.gerrit.server.account.GroupMembers;
 import com.google.gerrit.server.account.QueryList;
 import com.google.gerrit.server.account.VersionedAccountDestinations;
 import com.google.gerrit.server.account.VersionedAccountQueries;
+import com.google.gerrit.server.cache.PerThreadCache;
 import com.google.gerrit.server.change.ChangeTriplet;
 import com.google.gerrit.server.change.MergeabilityComputationBehavior;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -126,6 +127,9 @@ import org.eclipse.jgit.revwalk.RevWalk;
 /** Parses a query string meant to be applied to change objects. */
 public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuilder> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
+  private static final PerThreadCache.Key<AcceptedRevWalkCache> ACCEPTED_REV_WALK_CACHE_KEY =
+      PerThreadCache.Key.create(AcceptedRevWalkCache.class);
 
   private boolean hasImportedChanges;
 
@@ -861,13 +865,34 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
   @Operator
   public Predicate<ChangeData> conflicts(String value) throws QueryParseException {
+    return conflicts(value, acceptedRevWalkCache());
+  }
+
+  /**
+   * Returns the {@link AcceptedRevWalkCache} for this request, or {@code null} if there is no
+   * {@link PerThreadCache} (e.g. for internal queries not scoped to a single request). The cache is
+   * closed automatically at the end of the request by {@link PerThreadCache#close()}.
+   */
+  @Nullable
+  private AcceptedRevWalkCache acceptedRevWalkCache() {
+    PerThreadCache perThreadCache = PerThreadCache.get();
+    if (perThreadCache == null) {
+      return null;
+    }
+    return perThreadCache.get(
+        ACCEPTED_REV_WALK_CACHE_KEY, () -> new AcceptedRevWalkCache(args.repoManager));
+  }
+
+  private Predicate<ChangeData> conflicts(
+      String value, @Nullable AcceptedRevWalkCache acceptedRevWalkCache)
+      throws QueryParseException {
     if (!args.conflictsPredicateEnabled) {
       throw new QueryParseException("'conflicts:' operator is not supported on this gerrit host");
     }
     List<Change> changes = parseChange(value);
     List<Predicate<ChangeData>> or = new ArrayList<>(changes.size());
     for (Change c : changes) {
-      or.add(ConflictsPredicate.create(args, value, c));
+      or.add(ConflictsPredicate.create(args, value, c, acceptedRevWalkCache));
     }
     return Predicate.or(or);
   }

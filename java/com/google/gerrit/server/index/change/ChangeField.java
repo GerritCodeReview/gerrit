@@ -17,7 +17,6 @@ package com.google.gerrit.server.index.change;
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
-import static com.google.gerrit.server.query.change.ChangeQueryBuilder.FIELD_CHANGE_NUMBER;
 import static com.google.gerrit.server.util.AttentionSetUtil.additionsOnly;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.joining;
@@ -141,7 +140,7 @@ public class ChangeField {
           .build(cd -> cd.getId().get());
 
   public static final IndexedField<ChangeData, Integer>.SearchSpec CHANGENUM_SPEC =
-      CHANGENUM_FIELD.integer(FIELD_CHANGE_NUMBER);
+      CHANGENUM_FIELD.integer(ChangeQueryBuilder.FIELD_CHANGE_NUMBER);
 
   /** Newer style Change-Id key. */
   public static final IndexedField<ChangeData, String> CHANGE_ID_FIELD =

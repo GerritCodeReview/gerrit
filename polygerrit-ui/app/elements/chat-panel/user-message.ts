@@ -98,6 +98,7 @@ export class UserMessage extends LitElement {
 
       .text-content {
         white-space: pre-wrap;
+        overflow-wrap: break-word;
         margin: 0px;
       }
 

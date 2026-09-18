@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93773d15_f23eb100",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-09-18T18:50:47Z",
+      "side": 1,
+      "message": "`PerThreadProjectCache` and `PerThreadRefDbCache` both have this within those classes.",
+      "revId": "b393df58627d8a2c31f441908fe27ac048d4d294",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ac6b2d3_34aa0d0c",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 884,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-09-18T18:50:47Z",
+      "side": 1,
+      "message": "I think you want to move this to `AcceptedRevWalkCache` or a nested class like `AcceptedRevWalkCache.PerThread`.",
+      "range": {
+        "startLine": 872,
+        "startChar": 0,
+        "endLine": 884,
+        "endChar": 3
+      },
+      "revId": "b393df58627d8a2c31f441908fe27ac048d4d294",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a22ccd5f_5146afe3",
+        "filename": "java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-09-18T18:50:47Z",
+      "side": 1,
+      "message": "Add Nullable annotation?\n```suggestion\n      Arguments args, String value, Change c, @Nullable AcceptedRevWalkCache walkCache)\n```",
+      "revId": "b393df58627d8a2c31f441908fe27ac048d4d294",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "466b97b3_ea6343b3",
+        "filename": "java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-09-18T18:50:47Z",
+      "side": 1,
+      "message": "Add Nullable annotation?\n\n```suggestion\n        @Nullable AcceptedRevWalkCache walkCache) {\n```",
+      "revId": "b393df58627d8a2c31f441908fe27ac048d4d294",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6277d328_c0469c93",
+        "filename": "java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-09-18T18:50:47Z",
+      "side": 1,
+      "message": "Can we create a walkCache here when we don\u0027t already have one? We\u0027d need a `boolean shouldClose` to know if we need to close it in the `finally`, but then maybe we can remove `runWithFreshWalk()`? I don\u0027t think the cache adds any extra work comparatively.",
+      "revId": "b393df58627d8a2c31f441908fe27ac048d4d294",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e5c21a39_3b97488a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-09-18T20:40:26Z",
+      "side": 1,
+      "message": "FYI, I\u0027ll push a new PS and a new change to address my comments.",
+      "revId": "b393df58627d8a2c31f441908fe27ac048d4d294",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "93773d15_f23eb100",
         "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
         "patchSetId": 3

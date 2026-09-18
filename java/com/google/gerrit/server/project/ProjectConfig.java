@@ -92,6 +92,7 @@ import java.util.Set;
 import java.util.function.Consumer;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
@@ -1012,9 +1013,13 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private Optional<SubmitRequirement> readSubmitRequirement(
       Config rc, String section, String name, String entityName, boolean validateName) {
     String description = rc.getString(section, name, KEY_SR_DESCRIPTION);
-    String applicabilityExpr = rc.getString(section, name, KEY_SR_APPLICABILITY_EXPRESSION);
-    String submittabilityExpr = rc.getString(section, name, KEY_SR_SUBMITTABILITY_EXPRESSION);
-    String overrideExpr = rc.getString(section, name, KEY_SR_OVERRIDE_EXPRESSION);
+    String[] applicabilityExprs = rc.getStringList(section, name, KEY_SR_APPLICABILITY_EXPRESSION);
+    String[] submittabilityExprs =
+        rc.getStringList(section, name, KEY_SR_SUBMITTABILITY_EXPRESSION);
+    String[] overrideExprs = rc.getStringList(section, name, KEY_SR_OVERRIDE_EXPRESSION);
+    String applicabilityExpr = joinExpressions(applicabilityExprs);
+    String submittabilityExpr = joinExpressions(submittabilityExprs);
+    String overrideExpr = joinExpressions(overrideExprs);
     Optional<Boolean> allowOverrideInChildProjects =
         readAllowOverrideInChildProjects(rc, section, name, entityName);
     if (!allowOverrideInChildProjects.isPresent()) {
@@ -1046,6 +1051,21 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
             .build());
   }
 
+  /**
+   * Joins a list of expression values with " OR ", ignoring blank entries. Returns null when no
+   * non-blank values are present (key absent or all values empty), so callers can distinguish "not
+   * set" from "empty expression".
+   */
+  @Nullable
+  private static String joinExpressions(String[] values) {
+    String joined =
+        Arrays.stream(values)
+            .map(String::trim)
+            .filter(s -> !s.isEmpty())
+            .collect(Collectors.joining(" OR "));
+    return joined.isEmpty() ? null : joined;
+  }
+
   private Optional<Boolean> readAllowOverrideInChildProjects(
       Config rc, String section, String name, String entityName) {
     try {
@@ -1073,24 +1093,8 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
               "Multiple definitions of %s for submit requirement '%s'",
               KEY_SR_DESCRIPTION, srName));
     }
-    if (rc.getStringList(SUBMIT_REQUIREMENT, srName, KEY_SR_APPLICABILITY_EXPRESSION).length > 1) {
-      error(
-          String.format(
-              "Multiple definitions of %s for submit requirement '%s'",
-              KEY_SR_APPLICABILITY_EXPRESSION, srName));
-    }
-    if (rc.getStringList(SUBMIT_REQUIREMENT, srName, KEY_SR_SUBMITTABILITY_EXPRESSION).length > 1) {
-      error(
-          String.format(
-              "Multiple definitions of %s for submit requirement '%s'",
-              KEY_SR_SUBMITTABILITY_EXPRESSION, srName));
-    }
-    if (rc.getStringList(SUBMIT_REQUIREMENT, srName, KEY_SR_OVERRIDE_EXPRESSION).length > 1) {
-      error(
-          String.format(
-              "Multiple definitions of %s for submit requirement '%s'",
-              KEY_SR_OVERRIDE_EXPRESSION, srName));
-    }
+    // Multiple applicableIf / submittableIf / overrideIf values are intentionally allowed.
+    // Each additional value represents an alternative condition and is OR-joined at read time.
     if (rc.getStringList(SUBMIT_REQUIREMENT, srName, KEY_SR_OVERRIDE_IN_CHILD_PROJECTS).length
         > 1) {
       error(

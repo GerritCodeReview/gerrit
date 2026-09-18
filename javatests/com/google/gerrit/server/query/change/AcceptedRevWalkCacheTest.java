@@ -22,7 +22,6 @@ import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.cache.PerThreadCache;
 import com.google.gerrit.server.git.CodeReviewCommit;
@@ -42,8 +41,7 @@ public class AcceptedRevWalkCacheTest {
     try (Repository ignored = repoManager.createRepository(project);
         PerThreadCache unused = PerThreadCache.create()) {
       cache = AcceptedRevWalkCache.PerThread.get(repoManager);
-      Void unusedResult =
-          cache.run(project, ignoredRepo -> ImmutableSet.of(), null, (repo, rw, accepted) -> null);
+      Void unusedResult = cache.run(project, null, (repo, rw, accepted) -> null);
       assertThat(cache.entryForTesting(project)).isNotNull();
     }
 
@@ -60,9 +58,7 @@ public class AcceptedRevWalkCacheTest {
           mockStatic(SubmitDryRun.class, CALLS_REAL_METHODS)) {
         // Trigger creation of the cache entry, then substitute a spy for its RevWalk so we can
         // verify reset() calls for the remaining candidates below.
-        Void unused =
-            cache.run(
-                project, ignoredRepo -> ImmutableSet.of(), null, (repo, rw, accepted) -> null);
+        Void unused = cache.run(project, null, (repo, rw, accepted) -> null);
         AcceptedRevWalkCache.Entry entry = cache.entryForTesting(project);
         CodeReviewCommit.CodeReviewRevWalk spyRw = spy(entry.rw);
         entry.rw = spyRw;
@@ -72,7 +68,6 @@ public class AcceptedRevWalkCacheTest {
           Void unusedResult =
               cache.run(
                   project,
-                  ignoredRepo -> ImmutableSet.of(),
                   null,
                   (repo, rw, alreadyAccepted) -> {
                     RevFlag flag = rw.newFlag("test");
@@ -83,6 +78,11 @@ public class AcceptedRevWalkCacheTest {
 
         // The accepted set is parsed once for the project, even though 40 candidates were
         // evaluated against it.
+        submitDryRun.verify(
+            () -> {
+              var unusedAccepted = SubmitDryRun.getAlreadyAccepted(any(Repository.class));
+            },
+            times(1));
         submitDryRun.verify(() -> SubmitDryRun.addCommits(any(), any(), any()), times(1));
         // Each run() resets the walk before and after evaluating a candidate.
         verify(spyRw, times(additionalCandidates * 2)).reset();

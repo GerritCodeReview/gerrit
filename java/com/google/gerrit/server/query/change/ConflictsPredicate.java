@@ -29,23 +29,16 @@ import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.query.PostFilterPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
-import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder.Arguments;
-import com.google.gerrit.server.submit.SubmitDryRun;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevWalk;
 
 public class ConflictsPredicate {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
@@ -179,7 +172,6 @@ public class ConflictsPredicate {
 
     private ObjectId testAgainst;
     private ProjectState projectState;
-    private Set<ObjectId> alreadyAccepted;
 
     ChangeDataCache(ChangeData cd, ProjectCache projectCache) {
       this.cd = cd;
@@ -198,13 +190,6 @@ public class ConflictsPredicate {
         projectState = projectCache.get(cd.project()).orElseThrow(noSuchProject(cd.project()));
       }
       return projectState;
-    }
-
-    Set<ObjectId> getAlreadyAccepted(Repository repo) throws IOException {
-      if (alreadyAccepted == null) {
-        alreadyAccepted = SubmitDryRun.getAlreadyAccepted(repo);
-      }
-      return alreadyAccepted;
     }
   }
 
@@ -238,25 +223,15 @@ public class ConflictsPredicate {
     public Boolean call() throws Exception {
       Change otherChange = changeData.change();
       ObjectId other = changeData.currentPatchSet().commitId();
-      if (walkCache == null) {
-        logger.atFine().log("No query-local conflicts walk; using per-candidate RevWalk");
-        return runWithFreshWalk(otherChange, other);
-      }
       try {
-        return walkCache.run(
-            otherChange.getProject(),
-            changeDataCache::getAlreadyAccepted,
-            changeDataCache.getTestAgainst(),
-            (repo, rw, alreadyAccepted) ->
-                !args.submitDryRun.run(
-                    null,
-                    changeData.submitTypeRecord().type,
-                    repo,
-                    rw,
-                    otherChange.getDest(),
-                    changeDataCache.getTestAgainst(),
-                    other,
-                    alreadyAccepted));
+        if (walkCache == null) {
+          logger.atFine().log("No query-local conflicts walk; using a temporary walk");
+          try (AcceptedRevWalkCache temporaryWalkCache =
+              new AcceptedRevWalkCache(args.repoManager)) {
+            return runWithWalkCache(temporaryWalkCache, otherChange, other);
+          }
+        }
+        return runWithWalkCache(walkCache, otherChange, other);
       } catch (NoSuchProjectException | IOException e) {
         warnWithOccasionalStackTrace(
             e,
@@ -269,33 +244,21 @@ public class ConflictsPredicate {
       }
     }
 
-    private boolean runWithFreshWalk(Change otherChange, ObjectId other) throws Exception {
-      try (Repository repo = args.repoManager.openRepository(otherChange.getProject());
-          CodeReviewCommit.CodeReviewRevWalk rw = CodeReviewCommit.newRevWalk(repo)) {
-        return !args.submitDryRun.run(
-            null,
-            changeData.submitTypeRecord().type,
-            repo,
-            rw,
-            otherChange.getDest(),
-            changeDataCache.getTestAgainst(),
-            other,
-            getAlreadyAccepted(repo, rw));
-      }
-    }
-
-    private Set<RevCommit> getAlreadyAccepted(Repository repo, RevWalk rw) {
-      try {
-        Set<RevCommit> accepted = new HashSet<>();
-        SubmitDryRun.addCommits(changeDataCache.getAlreadyAccepted(repo), rw, accepted);
-        ObjectId tip = changeDataCache.getTestAgainst();
-        if (tip != null) {
-          accepted.add(rw.parseCommit(tip));
-        }
-        return accepted;
-      } catch (StorageException | IOException e) {
-        throw new StorageException("Failed to determine already accepted commits.", e);
-      }
+    private boolean runWithWalkCache(
+        AcceptedRevWalkCache walkCache, Change otherChange, ObjectId other) throws Exception {
+      return walkCache.run(
+          otherChange.getProject(),
+          changeDataCache.getTestAgainst(),
+          (repo, rw, alreadyAccepted) ->
+              !args.submitDryRun.run(
+                  null,
+                  changeData.submitTypeRecord().type,
+                  repo,
+                  rw,
+                  otherChange.getDest(),
+                  changeDataCache.getTestAgainst(),
+                  other,
+                  alreadyAccepted));
     }
   }
 }

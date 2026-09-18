@@ -3531,7 +3531,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
         boolean conflicts =
             cache.run(
                 project,
-                candidateRepo -> SubmitDryRun.getAlreadyAccepted(candidateRepo),
                 targetCommit,
                 (candidateRepo, rw, accepted) ->
                     !submitDryRun.run(

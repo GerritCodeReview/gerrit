@@ -60,11 +60,6 @@ public class AcceptedRevWalkCache implements AutoCloseable {
   }
 
   @FunctionalInterface
-  public interface AcceptedObjectIds {
-    Set<ObjectId> get(Repository repo) throws IOException;
-  }
-
-  @FunctionalInterface
   public interface WalkOperation<T> {
     T run(Repository repo, CodeReviewCommit.CodeReviewRevWalk rw, Set<RevCommit> alreadyAccepted)
         throws Exception;
@@ -78,11 +73,7 @@ public class AcceptedRevWalkCache implements AutoCloseable {
     this.repoManager = repoManager;
   }
 
-  public synchronized <T> T run(
-      Project.NameKey project,
-      AcceptedObjectIds acceptedObjectIds,
-      ObjectId tip,
-      WalkOperation<T> operation)
+  public synchronized <T> T run(Project.NameKey project, ObjectId tip, WalkOperation<T> operation)
       throws Exception {
     Entry entry =
         entries.computeIfAbsent(
@@ -99,7 +90,7 @@ public class AcceptedRevWalkCache implements AutoCloseable {
     // the walk-bound accepted commits while clearing all traversal state from the prior candidate.
     entry.rw.reset();
     try {
-      return operation.run(entry.repo, entry.rw, entry.getAlreadyAccepted(acceptedObjectIds, tip));
+      return operation.run(entry.repo, entry.rw, entry.getAlreadyAccepted(tip));
     } finally {
       entry.rw.reset();
     }
@@ -132,14 +123,13 @@ public class AcceptedRevWalkCache implements AutoCloseable {
       rw.setRetainBody(false);
     }
 
-    Set<RevCommit> getAlreadyAccepted(AcceptedObjectIds acceptedObjectIds, ObjectId tip) {
+    Set<RevCommit> getAlreadyAccepted(ObjectId tip) {
       try {
         if (alreadyAccepted == null) {
           // Only look up the accepted object IDs (a potentially expensive ref scan) the first
-          // time they are needed for this project; the caller's own memoization, if any, is not
-          // relied upon here.
+          // time they are needed for this project.
           Set<RevCommit> parsed = new HashSet<>();
-          SubmitDryRun.addCommits(acceptedObjectIds.get(repo), rw, parsed);
+          SubmitDryRun.addCommits(SubmitDryRun.getAlreadyAccepted(repo), rw, parsed);
           alreadyAccepted = parsed;
         }
         Set<RevCommit> accepted = new HashSet<>(alreadyAccepted);

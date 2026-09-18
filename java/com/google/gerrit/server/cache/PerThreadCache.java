@@ -116,6 +116,9 @@ public class PerThreadCache implements AutoCloseable {
   /**
    * Returns an instance of {@code T} that was either loaded from the cache or obtained from the
    * provided {@link Supplier}.
+   *
+   * <p>If the loaded value implements {@link AutoCloseable}, it is closed when this cache is
+   * closed at the end of the request.
    */
   public <T> T get(Key<T> key, Supplier<T> loader) {
     @SuppressWarnings("unchecked")
@@ -130,5 +133,22 @@ public class PerThreadCache implements AutoCloseable {
   @Override
   public void close() {
     CACHE.remove();
+    RuntimeException firstException = null;
+    for (Object value : cache.values()) {
+      if (value instanceof AutoCloseable) {
+        try {
+          ((AutoCloseable) value).close();
+        } catch (Exception e) {
+          if (firstException == null) {
+            firstException = new IllegalStateException("Failed to close per-thread cache entry", e);
+          } else {
+            firstException.addSuppressed(e);
+          }
+        }
+      }
+    }
+    if (firstException != null) {
+      throw firstException;
+    }
   }
 }

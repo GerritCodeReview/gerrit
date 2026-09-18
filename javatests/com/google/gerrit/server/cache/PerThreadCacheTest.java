@@ -17,6 +17,8 @@ package com.google.gerrit.server.cache;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Supplier;
 import org.junit.Test;
 
@@ -59,6 +61,66 @@ public class PerThreadCacheTest {
   }
 
   @Test
+  public void getDoesNotCloseValue() {
+    TestCloseable value = new TestCloseable("value", new ArrayList<>());
+    PerThreadCache.Key<TestCloseable> key = PerThreadCache.Key.create(TestCloseable.class);
+
+    try (PerThreadCache cache = PerThreadCache.create()) {
+      assertThat(cache.get(key, () -> value)).isSameInstanceAs(value);
+    }
+
+    assertThat(value.closeCount).isEqualTo(0);
+  }
+
+  @Test
+  public void getAndRegisterForCloseClosesInReverseRegistrationOrder() {
+    List<String> closeOrder = new ArrayList<>();
+    TestCloseable first = new TestCloseable("first", closeOrder);
+    TestCloseable second = new TestCloseable("second", closeOrder);
+    PerThreadCache.Key<TestCloseable> firstKey =
+        PerThreadCache.Key.create(TestCloseable.class, "first");
+    PerThreadCache.Key<TestCloseable> secondKey =
+        PerThreadCache.Key.create(TestCloseable.class, "second");
+
+    try (PerThreadCache cache = PerThreadCache.create()) {
+      assertThat(cache.getAndRegisterForClose(firstKey, () -> first)).isSameInstanceAs(first);
+      assertThat(cache.getAndRegisterForClose(secondKey, () -> second)).isSameInstanceAs(second);
+      assertThat(closeOrder).isEmpty();
+    }
+
+    assertThat(closeOrder).containsExactly("second", "first").inOrder();
+  }
+
+  @Test
+  public void getAndRegisterForCloseClosesSameInstanceOnlyOnce() {
+    TestCloseable value = new TestCloseable("value", new ArrayList<>());
+    PerThreadCache.Key<TestCloseable> firstKey =
+        PerThreadCache.Key.create(TestCloseable.class, "first");
+    PerThreadCache.Key<TestCloseable> secondKey =
+        PerThreadCache.Key.create(TestCloseable.class, "second");
+
+    try (PerThreadCache cache = PerThreadCache.create()) {
+      assertThat(cache.getAndRegisterForClose(firstKey, () -> value)).isSameInstanceAs(value);
+      assertThat(cache.getAndRegisterForClose(secondKey, () -> value)).isSameInstanceAs(value);
+    }
+
+    assertThat(value.closeCount).isEqualTo(1);
+  }
+
+  @Test
+  public void closeIsIdempotent() {
+    TestCloseable value = new TestCloseable("value", new ArrayList<>());
+    PerThreadCache.Key<TestCloseable> key = PerThreadCache.Key.create(TestCloseable.class);
+    PerThreadCache cache = PerThreadCache.create();
+    assertThat(cache.getAndRegisterForClose(key, () -> value)).isSameInstanceAs(value);
+
+    cache.close();
+    cache.close();
+
+    assertThat(value.closeCount).isEqualTo(1);
+  }
+
+  @Test
   public void cleanUp() {
     PerThreadCache.Key<String> key = PerThreadCache.Key.create(String.class);
     try (PerThreadCache ignored = PerThreadCache.create()) {
@@ -82,6 +144,23 @@ public class PerThreadCacheTest {
       IllegalStateException thrown =
           assertThrows(IllegalStateException.class, () -> PerThreadCache.create());
       assertThat(thrown).hasMessageThat().contains("called create() twice on the same request");
+    }
+  }
+
+  private static class TestCloseable implements AutoCloseable {
+    private final String name;
+    private final List<String> closeOrder;
+    private int closeCount;
+
+    TestCloseable(String name, List<String> closeOrder) {
+      this.name = name;
+      this.closeOrder = closeOrder;
+    }
+
+    @Override
+    public void close() {
+      closeCount++;
+      closeOrder.add(name);
     }
   }
 }

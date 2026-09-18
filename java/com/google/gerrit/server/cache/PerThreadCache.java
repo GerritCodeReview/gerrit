@@ -20,7 +20,12 @@ import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.Nullable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.IdentityHashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Supplier;
 
 /**
@@ -110,6 +115,10 @@ public class PerThreadCache implements AutoCloseable {
   }
 
   private final Map<Key<?>, Object> cache = Maps.newHashMap();
+  private final List<AutoCloseable> closeOrder = new ArrayList<>();
+  private final Set<AutoCloseable> registeredCloseables =
+      Collections.newSetFromMap(new IdentityHashMap<>());
+  private boolean closed;
 
   private PerThreadCache() {}
 
@@ -118,6 +127,7 @@ public class PerThreadCache implements AutoCloseable {
    * provided {@link Supplier}.
    */
   public <T> T get(Key<T> key, Supplier<T> loader) {
+    checkState(!closed, "cannot use a closed PerThreadCache");
     @SuppressWarnings("unchecked")
     T value = (T) cache.get(key);
     if (value == null) {
@@ -127,8 +137,50 @@ public class PerThreadCache implements AutoCloseable {
     return value;
   }
 
+  /**
+   * Returns an instance of {@code T} from the cache and registers it to be closed when this cache
+   * is closed.
+   */
+  public <T extends AutoCloseable> T getAndRegisterForClose(Key<T> key, Supplier<T> loader) {
+    T value = get(key, loader);
+    if (value != null && registeredCloseables.add(value)) {
+      closeOrder.add(value);
+    }
+    return value;
+  }
+
   @Override
   public void close() {
+    if (closed) {
+      return;
+    }
+    closed = true;
     CACHE.remove();
+    List<AutoCloseable> closeables = new ArrayList<>(closeOrder.reversed());
+    closeOrder.clear();
+    registeredCloseables.clear();
+    cache.clear();
+
+    Throwable firstException = null;
+    for (AutoCloseable closeable : closeables) {
+      try {
+        closeable.close();
+      } catch (Throwable t) {
+        if (firstException == null) {
+          firstException = t;
+        } else if (t != firstException) {
+          firstException.addSuppressed(t);
+        }
+      }
+    }
+    if (firstException instanceof Error) {
+      throw (Error) firstException;
+    }
+    if (firstException instanceof RuntimeException) {
+      throw (RuntimeException) firstException;
+    }
+    if (firstException != null) {
+      throw new IllegalStateException("Failed to close per-thread cache entry", firstException);
+    }
   }
 }

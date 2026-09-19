@@ -98,10 +98,10 @@ public class SshSessionMina extends SshSession {
     InputStream in = process.getInputStream();
     InputStream err = process.getErrorStream();
 
-    Scanner s = new Scanner(err, UTF_8.name()).useDelimiter("\\A");
+    Scanner s = new Scanner(err, UTF_8).useDelimiter("\\A");
     error = s.hasNext() ? s.next() : null;
 
-    s = new Scanner(in, UTF_8.name()).useDelimiter("\\A");
+    s = new Scanner(in, UTF_8).useDelimiter("\\A");
     return s.hasNext() ? s.next() : "";
   }
 
@@ -111,7 +111,7 @@ public class SshSessionMina extends SshSession {
     Process process = getMinaSession().exec(command, 0);
     InputStream err = process.getErrorStream();
 
-    Scanner s = new Scanner(err, UTF_8.name()).useDelimiter("\\A");
+    Scanner s = new Scanner(err, UTF_8).useDelimiter("\\A");
     error = s.hasNext() ? s.next() : null;
 
     try {

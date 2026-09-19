@@ -2564,7 +2564,8 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   async restoreFileInChangeEdit(
     changeNum: NumericChangeId,
-    restore_path: string
+    restore_path: string,
+    errFn?: ErrorCallback
   ): Promise<Response> {
     const url = await this._changeBaseURL(changeNum);
     return this._restApiHelper.fetch({
@@ -2573,6 +2574,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
         body: {restore_path},
       }),
       url: `${url}/edit`,
+      errFn,
       anonymizedUrl: `${ANONYMIZED_CHANGE_BASE_URL}/edit`,
       reportServerError: true,
     });
@@ -2611,7 +2613,8 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
   async saveChangeEdit(
     changeNum: NumericChangeId,
     path: string,
-    contents: string
+    contents: string,
+    errFn?: ErrorCallback
   ): Promise<Response> {
     const url = await this._changeBaseURL(changeNum);
     return this._restApiHelper.fetch({
@@ -2621,6 +2624,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
         contentType: 'text/plain',
       }),
       url: `${url}/edit/${encodeURIComponent(path)}`,
+      errFn,
       anonymizedUrl: `${ANONYMIZED_CHANGE_BASE_URL}/edit/*`,
       reportServerError: true,
     });

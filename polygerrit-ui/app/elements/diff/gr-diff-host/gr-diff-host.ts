@@ -45,7 +45,10 @@ import {
   RepoName,
   RevisionPatchSetNum,
 } from '../../../types/common';
-import {GrDiffGroup} from '../../../embed/diff/gr-diff/gr-diff-group';
+import {
+  GrDiffGroup,
+  GrDiffGroupType,
+} from '../../../embed/diff/gr-diff/gr-diff-group';
 import {
   DiffInfo,
   DiffPreferencesInfo,
@@ -124,6 +127,8 @@ import {shortcutsServiceToken} from '../../../services/shortcuts/shortcuts-servi
 import {toComment} from '../../../models/checks/checks-util';
 import {
   createRevertFixSuggestion,
+  getContentGroups,
+  getRevertedFileContent,
   lineNumberToNumber,
 } from '../../../embed/diff/gr-diff/gr-diff-utils';
 
@@ -1477,15 +1482,28 @@ export class GrDiffHost extends LitElement {
       return;
     }
 
+    const allGroups = this.diffElement?.groups ?? [];
     const fixSuggestion = createRevertFixSuggestion(
       this.path,
       group,
-      this.diffElement?.groups ?? []
+      allGroups
     );
     if (!fixSuggestion) {
       onComplete?.();
       return;
     }
+
+    const revertedContent = getRevertedFileContent(group, allGroups);
+    const contentGroups = getContentGroups(allGroups);
+    const hasOtherDeltas = contentGroups.some(
+      g =>
+        g !== group &&
+        g.type === GrDiffGroupType.DELTA &&
+        !g.ignoredWhitespaceOnly
+    );
+    const hasEdit =
+      !!findEdit(Object.values(this.change?.revisions ?? {})) ||
+      this.patchRange?.patchNum === EDIT;
 
     let patchNum: RevisionPatchSetNum | undefined = this.patchRange.patchNum;
     if (patchNum === undefined) {
@@ -1505,6 +1523,22 @@ export class GrDiffHost extends LitElement {
       return;
     }
 
+    const saveRevertedEdit = () => {
+      if (this.diff?.change_type === 'ADDED' && !hasOtherDeltas) {
+        return this.restApiService.restoreFileInChangeEdit(
+          this.changeNum!,
+          this.path!,
+          throwingErrorCallback
+        );
+      }
+      return this.restApiService.saveChangeEdit(
+        this.changeNum!,
+        this.path!,
+        revertedContent!,
+        throwingErrorCallback
+      );
+    };
+
     this.isReverting = true;
     fireAlert(this, 'Reverting change...');
     this.reporting.reportInteraction(Interaction.REVERT_DELTA_CLICKED, {
@@ -1514,20 +1548,29 @@ export class GrDiffHost extends LitElement {
     let res: Response | undefined;
     let errorText = '';
     try {
-      res = await this.restApiService.applyFixSuggestion(
-        this.changeNum,
-        patchNum,
-        fixSuggestion.replacements,
-        undefined,
-        throwingErrorCallback
-      );
+      if (hasEdit && revertedContent !== undefined) {
+        res = await saveRevertedEdit();
+      } else {
+        try {
+          res = await this.restApiService.applyFixSuggestion(
+            this.changeNum,
+            patchNum,
+            fixSuggestion.replacements,
+            undefined,
+            throwingErrorCallback
+          );
+        } catch (applyError) {
+          if (revertedContent !== undefined) {
+            res = await saveRevertedEdit();
+          } else {
+            throw applyError;
+          }
+        }
+      }
       if (res?.ok) {
         fireAlert(this, 'Change reverted.');
         const currentChildView =
           this.getChangeViewModel().getState()?.childView;
-        const hasEdit =
-          !!findEdit(Object.values(this.change?.revisions ?? {})) ||
-          this.patchRange?.patchNum === EDIT;
         this.getNavigation().setUrl(
           createApplyFixUrl({
             change: this.change,

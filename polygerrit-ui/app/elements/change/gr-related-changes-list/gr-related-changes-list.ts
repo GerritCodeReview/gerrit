@@ -284,7 +284,7 @@ export class GrRelatedChangesList extends LitElement {
           <gr-stack-diff-dialog
             id="stackDiffDialog"
             .repo=${this.change?.project}
-            .relatedChanges=${this.relatedChanges}
+            .relatedChanges=${this.computeConnectedChanges()}
           ></gr-stack-diff-dialog>
         `
       )}
@@ -317,6 +317,10 @@ export class GrRelatedChangesList extends LitElement {
       this.relatedChanges
     );
 
+    const connectedChanges = this.relatedChanges.filter(c =>
+      connectedRevisions.includes(c.commit.commit)
+    );
+
     return html`<section id="relatedChanges">
       <gr-related-collapse
         .name=${'Relation chain'}
@@ -326,7 +330,8 @@ export class GrRelatedChangesList extends LitElement {
         .numChangesWhenCollapsed=${sectionSize(Section.RELATED_CHANGES)}
       >
         ${when(
-          this.flagsService.isEnabled(KnownExperimentId.STACK_DIFF),
+          this.flagsService.isEnabled(KnownExperimentId.STACK_DIFF) &&
+            connectedChanges.length >= 2,
           () => html`
             <gr-button
               id="openStackDiffButton"
@@ -783,6 +788,18 @@ export class GrRelatedChangesList extends LitElement {
       --pos;
     }
     return connected;
+  }
+
+  // private but used in tests
+  computeConnectedChanges(): RelatedChangeAndCommitInfo[] {
+    const connectedRevisions = this._computeConnectedRevisions(
+      this.change,
+      this.latestPatchNum,
+      this.relatedChanges
+    );
+    return this.relatedChanges.filter(c =>
+      connectedRevisions.includes(c.commit.commit)
+    );
   }
 }
 

@@ -16,7 +16,14 @@ import {
   createRevision,
   createSubmittedTogetherInfo,
 } from '../../../test/test-data-generators';
-import {query, queryAndAssert, waitEventLoop} from '../../../test/test-utils';
+import {
+  query,
+  queryAndAssert,
+  stubFlags,
+  waitEventLoop,
+} from '../../../test/test-utils';
+import {KnownExperimentId} from '../../../services/flags/flags';
+import {GrStackDiffDialog} from './gr-stack-diff-dialog';
 import {
   ChangeId,
   ChangeInfo,
@@ -570,6 +577,20 @@ suite('gr-related-changes-list', () => {
       '9e593f6dcc2c0785a2ad2c895a34ad2aa9a0d8b6',
       'a3e5d9d4902b915a39e2efba5577211b9b3ebe7b',
     ]);
+
+    element.change = change;
+    element.latestPatchNum = latestPatchNum;
+    element.relatedChanges = relatedChanges;
+    const connectedChangesList = element.computeConnectedChanges();
+    assert.equal(connectedChangesList.length, 3);
+    assert.deepEqual(
+      connectedChangesList.map(c => c.commit.commit),
+      [
+        'a3e5d9d4902b915a39e2efba5577211b9b3ebe7b' as CommitId,
+        '9e593f6dcc2c0785a2ad2c895a34ad2aa9a0d8b6' as CommitId,
+        'af815dac54318826b7f1fa468acc76349ffc588e' as CommitId,
+      ]
+    );
   });
 
   suite('gr-related-changes-list plugin tests', () => {
@@ -667,6 +688,102 @@ suite('gr-related-changes-list', () => {
       assert.equal(
         await href(relatedChange(2)),
         '/c/test-project/+/123/-1..2?usp=related-change'
+      );
+    });
+  });
+
+  suite('stack diff button and dialog', () => {
+    let element: GrRelatedChangesList;
+
+    setup(async () => {
+      stubFlags('isEnabled')
+        .withArgs(KnownExperimentId.STACK_DIFF)
+        .returns(true);
+      element = await fixture(
+        html`<gr-related-changes-list></gr-related-changes-list>`
+      );
+    });
+
+    test('does not render button when fewer than 2 connected changes', async () => {
+      const change = {
+        ...createParsedChange(),
+        revisions: {
+          r1: {...createRevision(), _number: 1 as PatchSetNumber},
+        },
+        current_revision: 'r1' as CommitId,
+      };
+      element.change = change;
+      element.latestPatchNum = 1 as PatchSetNumber;
+      element.relatedChanges = [
+        {
+          ...createRelatedChangeAndCommitInfo(),
+          commit: {
+            ...createCommitInfoWithRequiredCommit('r1' as CommitId),
+            parents: [],
+          },
+        },
+      ];
+      await element.updateComplete;
+
+      assert.isUndefined(query(element, '#openStackDiffButton'));
+    });
+
+    test('renders button and passes connected changes to dialog when >= 2 connected', async () => {
+      const change = {
+        ...createParsedChange(),
+        revisions: {
+          r1: {...createRevision(), _number: 1 as PatchSetNumber},
+        },
+        current_revision: 'r1' as CommitId,
+      };
+      element.change = change;
+      element.latestPatchNum = 1 as PatchSetNumber;
+      element.relatedChanges = [
+        // Indirect relation (not connected)
+        {
+          ...createRelatedChangeAndCommitInfo(),
+          commit: {
+            ...createCommitInfoWithRequiredCommit('indirect' as CommitId),
+            parents: [
+              {commit: 'unrelated-parent' as CommitId, subject: 'Unrelated'},
+            ],
+          },
+        },
+        // Connected child
+        {
+          ...createRelatedChangeAndCommitInfo(),
+          commit: {
+            ...createCommitInfoWithRequiredCommit('r2' as CommitId),
+            parents: [{commit: 'r1' as CommitId, subject: 'Current change'}],
+          },
+        },
+        // Current change
+        {
+          ...createRelatedChangeAndCommitInfo(),
+          commit: {
+            ...createCommitInfoWithRequiredCommit('r1' as CommitId),
+            parents: [{commit: 'base-parent' as CommitId, subject: 'Base'}],
+          },
+        },
+      ];
+      await element.updateComplete;
+
+      const button = queryAndAssert<HTMLElement>(
+        element,
+        '#openStackDiffButton'
+      );
+      assert.isOk(button);
+
+      const dialog = queryAndAssert<GrStackDiffDialog>(
+        element,
+        '#stackDiffDialog'
+      );
+      assert.isOk(dialog);
+      // Verify indirect relation was filtered out and only connected changes are passed
+      assert.equal(dialog.relatedChanges.length, 2);
+      assert.deepEqual(
+        dialog.relatedChanges.map(c => c.commit.commit),
+        ['r2' as CommitId, 'r1' as CommitId]
       );
     });
   });

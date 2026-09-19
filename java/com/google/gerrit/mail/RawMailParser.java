@@ -24,7 +24,6 @@ import com.google.common.primitives.Ints;
 import com.google.gerrit.entities.Address;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.time.Instant;
 import java.util.Locale;
 import org.apache.james.mime4j.MimeException;
@@ -150,8 +149,7 @@ public class RawMailParser {
       Entity part, StringBuilder textBuilder, StringBuilder htmlBuilder) throws IOException {
     if (isPlainOrHtml(part.getMimeType()) && !isAttachment(part.getDispositionType())) {
       TextBody tb = (TextBody) part.getBody();
-      String result =
-          CharStreams.toString(new InputStreamReader(tb.getInputStream(), tb.getMimeCharset()));
+      String result = CharStreams.toString(tb.getReader());
       if (part.getMimeType().equals("text/plain")) {
         textBuilder.append(result);
       } else if (part.getMimeType().equals("text/html")) {

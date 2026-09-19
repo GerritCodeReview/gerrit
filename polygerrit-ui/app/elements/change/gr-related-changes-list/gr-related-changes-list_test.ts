@@ -16,7 +16,14 @@ import {
   createRevision,
   createSubmittedTogetherInfo,
 } from '../../../test/test-data-generators';
-import {query, queryAndAssert, waitEventLoop} from '../../../test/test-utils';
+import {
+  query,
+  queryAndAssert,
+  stubFlags,
+  waitEventLoop,
+} from '../../../test/test-utils';
+import {KnownExperimentId} from '../../../services/flags/flags';
+import {GrStackDiffDialog} from './gr-stack-diff-dialog';
 import {
   ChangeId,
   ChangeInfo,
@@ -668,6 +675,63 @@ suite('gr-related-changes-list', () => {
         await href(relatedChange(2)),
         '/c/test-project/+/123/-1..2?usp=related-change'
       );
+    });
+  });
+
+  suite('stack diff button and dialog', () => {
+    let element: GrRelatedChangesList;
+
+    setup(async () => {
+      stubFlags('isEnabled')
+        .withArgs(KnownExperimentId.STACK_DIFF)
+        .returns(true);
+      element = await fixture(
+        html`<gr-related-changes-list></gr-related-changes-list>`
+      );
+    });
+
+    test('renders button and passes change, patchNum, and relatedChanges to dialog', async () => {
+      const change = {
+        ...createParsedChange(),
+        revisions: {
+          r1: {...createRevision(), _number: 1 as PatchSetNumber},
+        },
+        current_revision: 'r1' as CommitId,
+      };
+      element.change = change;
+      element.latestPatchNum = 1 as PatchSetNumber;
+      element.relatedChanges = [
+        {
+          ...createRelatedChangeAndCommitInfo(),
+          commit: {
+            ...createCommitInfoWithRequiredCommit('r2' as CommitId),
+            parents: [{commit: 'r1' as CommitId, subject: 'Current change'}],
+          },
+        },
+        {
+          ...createRelatedChangeAndCommitInfo(),
+          commit: {
+            ...createCommitInfoWithRequiredCommit('r1' as CommitId),
+            parents: [{commit: 'base-parent' as CommitId, subject: 'Base'}],
+          },
+        },
+      ];
+      await element.updateComplete;
+
+      const button = queryAndAssert<HTMLElement>(
+        element,
+        '#openStackDiffButton'
+      );
+      assert.isOk(button);
+
+      const dialog = queryAndAssert<GrStackDiffDialog>(
+        element,
+        '#stackDiffDialog'
+      );
+      assert.isOk(dialog);
+      assert.strictEqual(dialog.change, change);
+      assert.equal(dialog.patchNum, 1);
+      assert.strictEqual(dialog.relatedChanges, element.relatedChanges);
     });
   });
 });

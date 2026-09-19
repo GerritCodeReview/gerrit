@@ -5,6 +5,7 @@
  */
 import {css, html, LitElement, nothing, TemplateResult} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
+import {when} from 'lit/directives/when.js';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {modalStyles} from '../../../styles/gr-modal-styles';
 import {getAppContext} from '../../../services/app-context';
@@ -14,9 +15,11 @@ import {subscribe} from '../../lit/subscription-controller';
 import {
   CommitId,
   FileNameToFileInfoMap,
+  PatchSetNumber,
   RelatedChangeAndCommitInfo,
   RepoName,
 } from '../../../types/common';
+import {ParsedChangeInfo} from '../../../types/types';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {GrSyntaxLayerWorker} from '../../../embed/diff/gr-syntax-layer/gr-syntax-layer-worker';
 import {highlightServiceToken} from '../../../services/highlight/highlight-service';
@@ -25,6 +28,7 @@ import '@material/web/select/outlined-select';
 import '@material/web/select/select-option';
 import '../../../embed/diff/gr-diff/gr-diff';
 import {computeTruncatedPath} from '../../../utils/path-list-util';
+import {getRevisionKey} from '../../../utils/change-util';
 
 @customElement('gr-stack-diff-dialog')
 export class GrStackDiffDialog extends LitElement {
@@ -33,6 +37,12 @@ export class GrStackDiffDialog extends LitElement {
 
   @property({type: String})
   repo?: RepoName;
+
+  @property({type: Object})
+  change?: ParsedChangeInfo;
+
+  @property({type: String})
+  patchNum?: PatchSetNumber;
 
   @property({type: Array})
   relatedChanges: RelatedChangeAndCommitInfo[] = [];
@@ -240,9 +250,17 @@ export class GrStackDiffDialog extends LitElement {
             transform: rotate(360deg);
           }
         }
+        .error-container {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          width: 100%;
+          padding: var(--spacing-xl);
+          gap: var(--spacing-m);
+        }
         .error-message {
           color: var(--error-text-color);
-          padding: var(--spacing-xl);
           text-align: center;
         }
         footer {
@@ -277,15 +295,207 @@ export class GrStackDiffDialog extends LitElement {
     this.dialog.close();
   }
 
-  private initializeCommitIds() {
+  // private but used in tests
+  computeConnectedRevisions(): CommitId[] {
+    if (!this.relatedChanges || !this.change) {
+      return [];
+    }
+
+    const changeRevision = this.patchNum
+      ? getRevisionKey(this.change, this.patchNum)
+      : this.change.current_revision;
+
+    if (!changeRevision) {
+      return [];
+    }
+
+    const connected: CommitId[] = [];
+    const commits = this.relatedChanges.map(c => c.commit);
+    let pos = commits.length - 1;
+
+    while (pos >= 0) {
+      const commit: CommitId = commits[pos].commit;
+      connected.push(commit);
+      if (commit === changeRevision) {
+        break;
+      }
+      pos--;
+    }
+    while (pos >= 0) {
+      for (let i = 0; i < commits[pos].parents.length; i++) {
+        if (connected.includes(commits[pos].parents[i].commit)) {
+          connected.push(commits[pos].commit);
+          break;
+        }
+      }
+      --pos;
+    }
+    return connected;
+  }
+
+  // private but used in tests
+  getConnectedChanges(): RelatedChangeAndCommitInfo[] {
+    const connectedRevisions = this.computeConnectedRevisions();
+    if (connectedRevisions.length === 0) {
+      return [];
+    }
+    return this.relatedChanges.filter(c =>
+      connectedRevisions.includes(c.commit.commit)
+    );
+  }
+
+  // private but used in tests
+  isIndirectRelation(change: RelatedChangeAndCommitInfo): boolean {
+    const connectedRevisions = this.computeConnectedRevisions();
+    return (
+      connectedRevisions.length > 0 &&
+      !connectedRevisions.includes(change.commit.commit)
+    );
+  }
+
+  // private but used in tests
+  isAncestor(ancestorSha?: CommitId, descendantSha?: CommitId): boolean {
+    if (!ancestorSha || !descendantSha) return false;
+    if (ancestorSha === descendantSha) return true;
+
+    const parentMap = new Map<CommitId, CommitId[]>();
+    for (const c of this.relatedChanges) {
+      const parents = c.commit.parents?.map(p => p.commit) ?? [];
+      parentMap.set(c.commit.commit, parents);
+    }
+
+    const visited = new Set<CommitId>();
+    const queue: CommitId[] = [descendantSha];
+    visited.add(descendantSha);
+
+    while (queue.length > 0) {
+      const current = queue.shift()!;
+      const parents = parentMap.get(current) ?? [];
+      for (const parent of parents) {
+        if (parent === ancestorSha) {
+          return true;
+        }
+        if (!visited.has(parent)) {
+          visited.add(parent);
+          queue.push(parent);
+        }
+      }
+    }
+    return false;
+  }
+
+  // private but used in tests
+  findValidBaseForTarget(target: CommitId): CommitId | undefined {
+    const changeMap = new Map<CommitId, RelatedChangeAndCommitInfo>();
+    for (const c of this.relatedChanges) {
+      changeMap.set(c.commit.commit, c);
+    }
+
+    let current = target;
+    while (changeMap.has(current)) {
+      const change = changeMap.get(current)!;
+      const parents = change.commit.parents;
+      if (!parents || parents.length === 0) {
+        break;
+      }
+      const parentSha = parents[0].commit;
+      if (changeMap.has(parentSha)) {
+        current = parentSha;
+      } else {
+        return parentSha;
+      }
+    }
+    const oldestInChain = changeMap.get(current);
+    if (oldestInChain?.commit.parents?.[0]?.commit) {
+      return oldestInChain.commit.parents[0].commit;
+    }
+    return current;
+  }
+
+  // private but used in tests
+  findValidTargetForBase(base: CommitId): CommitId | undefined {
+    for (const c of this.relatedChanges) {
+      if (c.commit.commit !== base && this.isAncestor(base, c.commit.commit)) {
+        return c.commit.commit;
+      }
+    }
+    for (const c of this.relatedChanges) {
+      if (c.commit.commit === base) {
+        return base;
+      }
+    }
+    return undefined;
+  }
+
+  // private but used in tests
+  getBaseParents(): CommitId[] {
+    const parents: CommitId[] = [];
+    const allChangeCommitShas = new Set(
+      this.relatedChanges.map(c => c.commit.commit)
+    );
+
+    const connectedChanges = this.getConnectedChanges();
+    if (connectedChanges.length > 0) {
+      const oldestConnected = connectedChanges[connectedChanges.length - 1];
+      if (
+        oldestConnected.commit.parents &&
+        oldestConnected.commit.parents.length > 0
+      ) {
+        const rootParent = oldestConnected.commit.parents[0].commit;
+        if (!allChangeCommitShas.has(rootParent)) {
+          parents.push(rootParent);
+        }
+      }
+    }
+
+    for (const change of this.relatedChanges) {
+      if (change.commit.parents && change.commit.parents.length > 0) {
+        const parentSha = change.commit.parents[0].commit;
+        if (
+          !allChangeCommitShas.has(parentSha) &&
+          !parents.includes(parentSha)
+        ) {
+          parents.push(parentSha);
+        }
+      }
+    }
+
+    return parents;
+  }
+
+  // private but used in tests
+  initializeCommitIds() {
     if (this.relatedChanges.length === 0) {
       return;
     }
-    const oldestChange = this.relatedChanges[this.relatedChanges.length - 1];
-    if (oldestChange.commit.parents && oldestChange.commit.parents.length > 0) {
-      this.baseCommitId = oldestChange.commit.parents[0].commit;
+    const connectedChanges = this.getConnectedChanges();
+    if (connectedChanges.length > 0) {
+      const oldestConnected = connectedChanges[connectedChanges.length - 1];
+      if (
+        oldestConnected.commit.parents &&
+        oldestConnected.commit.parents.length > 0
+      ) {
+        this.baseCommitId = oldestConnected.commit.parents[0].commit;
+      } else {
+        this.baseCommitId = oldestConnected.commit.commit;
+      }
+      this.targetCommitId = connectedChanges[0].commit.commit;
+    } else {
+      const oldestChange = this.relatedChanges[this.relatedChanges.length - 1];
+      if (
+        oldestChange.commit.parents &&
+        oldestChange.commit.parents.length > 0
+      ) {
+        this.baseCommitId = oldestChange.commit.parents[0].commit;
+      }
+      this.targetCommitId = this.relatedChanges[0].commit.commit;
     }
-    this.targetCommitId = this.relatedChanges[0].commit.commit;
+  }
+
+  // private but used in tests
+  resetToConnectedChain() {
+    this.initializeCommitIds();
+    this.loadDiffFileList();
   }
 
   private async loadDiffFileList() {
@@ -345,19 +555,37 @@ export class GrStackDiffDialog extends LitElement {
   }
 
   // private but used in template
-  handleBaseChange(e: Event) {
+  async handleBaseChange(e: Event) {
     const select = e.target as HTMLSelectElement;
     this.baseCommitId = ((select.value || select.getAttribute('value')) ??
       '') as CommitId;
-    this.loadDiffFileList();
+    if (
+      this.targetCommitId &&
+      !this.isAncestor(this.baseCommitId, this.targetCommitId)
+    ) {
+      const validTarget = this.findValidTargetForBase(this.baseCommitId);
+      if (validTarget) {
+        this.targetCommitId = validTarget;
+      }
+    }
+    await this.loadDiffFileList();
   }
 
   // private but used in template
-  handleTargetChange(e: Event) {
+  async handleTargetChange(e: Event) {
     const select = e.target as HTMLSelectElement;
     this.targetCommitId = ((select.value || select.getAttribute('value')) ??
       '') as CommitId;
-    this.loadDiffFileList();
+    if (
+      this.baseCommitId &&
+      !this.isAncestor(this.baseCommitId, this.targetCommitId)
+    ) {
+      const validBase = this.findValidBaseForTarget(this.targetCommitId);
+      if (validBase) {
+        this.baseCommitId = validBase;
+      }
+    }
+    await this.loadDiffFileList();
   }
 
   override render() {
@@ -408,29 +636,32 @@ export class GrStackDiffDialog extends LitElement {
   // private but used in template
   renderBaseOptions() {
     const options: TemplateResult[] = [];
-    if (this.relatedChanges.length > 0) {
-      const oldestChange = this.relatedChanges[this.relatedChanges.length - 1];
-      if (
-        oldestChange.commit.parents &&
-        oldestChange.commit.parents.length > 0
-      ) {
-        const parentSha = oldestChange.commit.parents[0].commit;
-        options.push(html`
-          <md-select-option .value=${parentSha}>
-            <div slot="headline">
-              Base Parent (${parentSha.substring(0, 7)})
-            </div>
-          </md-select-option>
-        `);
-      }
+    const baseParents = this.getBaseParents();
+    const connectedRevisions = this.computeConnectedRevisions();
+
+    for (const parentSha of baseParents) {
+      const isIndirect =
+        connectedRevisions.length > 0 && parentSha !== baseParents[0];
+      options.push(html`
+        <md-select-option .value=${parentSha}>
+          <div slot="headline">
+            Base Parent
+            (${parentSha.substring(0, 7)})${isIndirect ? ' (indirect)' : ''}
+          </div>
+        </md-select-option>
+      `);
     }
 
     for (const change of this.relatedChanges) {
       const sha = change.commit.commit;
       const subject = change.commit.subject;
+      const isIndirect = this.isIndirectRelation(change);
       options.push(html`
         <md-select-option .value=${sha}>
-          <div slot="headline">[${sha.substring(0, 7)}] ${subject}</div>
+          <div slot="headline">
+            [${sha.substring(0, 7)}]
+            ${subject}${isIndirect ? ' (indirect)' : ''}
+          </div>
         </md-select-option>
       `);
     }
@@ -442,9 +673,13 @@ export class GrStackDiffDialog extends LitElement {
     return this.relatedChanges.map(change => {
       const sha = change.commit.commit;
       const subject = change.commit.subject;
+      const isIndirect = this.isIndirectRelation(change);
       return html`
         <md-select-option .value=${sha}>
-          <div slot="headline">[${sha.substring(0, 7)}] ${subject}</div>
+          <div slot="headline">
+            [${sha.substring(0, 7)}]
+            ${subject}${isIndirect ? ' (indirect)' : ''}
+          </div>
         </md-select-option>
       `;
     });
@@ -465,7 +700,23 @@ export class GrStackDiffDialog extends LitElement {
       `;
     }
     if (this.error) {
-      return html` <div class="error-message">${this.error}</div> `;
+      return html`
+        <div class="error-container">
+          <div class="error-message">${this.error}</div>
+          ${when(
+            this.getConnectedChanges().length > 0,
+            () => html`
+              <gr-button
+                id="resetChainButton"
+                link
+                @click=${this.resetToConnectedChain}
+              >
+                Reset to connected chain
+              </gr-button>
+            `
+          )}
+        </div>
+      `;
     }
 
     const filePaths = Object.keys(this.files);

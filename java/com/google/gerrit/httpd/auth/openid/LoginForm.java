@@ -26,10 +26,12 @@ import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.common.auth.openid.OpenIdUrls;
 import com.google.gerrit.extensions.auth.oauth.OAuthServiceProvider;
 import com.google.gerrit.extensions.client.AuthType;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gerrit.httpd.LoginUrlToken;
+import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.httpd.template.SiteHeaderFooter;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.AuthConfig;
@@ -57,6 +59,9 @@ class LoginForm extends HttpServlet {
   private static final long serialVersionUID = 1L;
 
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+  private static final String P_LINK = "link";
+  private static final String P_PROVIDER_ID = "provider_id";
+  private static final String P_XSRF = "xsrfKey";
 
   private static final ImmutableMap<String, String> ALL_PROVIDERS =
       ImmutableMap.of("launchpad", OpenIdUrls.URL_LAUNCHPAD);
@@ -69,6 +74,7 @@ class LoginForm extends HttpServlet {
   private final String ssoUrl;
   private final SiteHeaderFooter header;
   private final Provider<CurrentUser> currentUserProvider;
+  private final DynamicItem<WebSession> webSession;
   private final DynamicMap<OAuthServiceProvider> oauthServiceProviders;
 
   @Inject
@@ -80,6 +86,7 @@ class LoginForm extends HttpServlet {
       SiteHeaderFooter header,
       Provider<OAuthSessionOverOpenID> oauthSessionProvider,
       Provider<CurrentUser> currentUserProvider,
+      DynamicItem<WebSession> webSession,
       DynamicMap<OAuthServiceProvider> oauthServiceProviders) {
     this.urlProvider = urlProvider;
     this.impl = impl;
@@ -87,6 +94,7 @@ class LoginForm extends HttpServlet {
     this.maxRedirectUrlLength = config.getInt("openid", "maxRedirectUrlLength", 10);
     this.oauthSessionProvider = oauthSessionProvider;
     this.currentUserProvider = currentUserProvider;
+    this.webSession = webSession;
     this.oauthServiceProviders = oauthServiceProviders;
 
     if (urlProvider == null || Strings.isNullOrEmpty(urlProvider.get())) {
@@ -122,28 +130,33 @@ class LoginForm extends HttpServlet {
       discover(req, res, false, ssoUrl, false, token, mode);
     } else {
       String id = Strings.nullToEmpty(req.getParameter("id")).trim();
-      if (!id.isEmpty()) {
+      boolean link = req.getParameter(P_LINK) != null;
+      if (!id.isEmpty() && !link) {
         doPost(req, res);
       } else {
-        boolean link = req.getParameter("link") != null;
-        sendForm(req, res, link, null);
+        sendForm(req, res, link, null, id);
       }
     }
   }
 
   @Override
   protected void doPost(HttpServletRequest req, HttpServletResponse res) throws IOException {
-    boolean link = req.getParameter("link") != null;
-    String id = Strings.nullToEmpty(req.getParameter("id")).trim();
+    boolean link = req.getParameter(P_LINK) != null;
+    if (link && !isValidLinkRequest(req)) {
+      sendForm(req, res, true, "Invalid account-link request.", null);
+      return;
+    }
+
+    String id = getProviderId(req);
     if (id.isEmpty()) {
-      sendForm(req, res, link, null);
+      sendForm(req, res, link, null, null);
       return;
     }
     if (!id.startsWith("http://") && !id.startsWith("https://")) {
       id = "http://" + id;
     }
     if ((ssoUrl != null && !ssoUrl.equals(id)) || !impl.isAllowedOpenID(id)) {
-      sendForm(req, res, link, "OpenID provider not permitted by site policy.");
+      sendForm(req, res, link, "OpenID provider not permitted by site policy.", null);
       return;
     }
 
@@ -181,6 +194,26 @@ class LoginForm extends HttpServlet {
     }
   }
 
+  private static String getProviderId(HttpServletRequest req) {
+    String id = Strings.nullToEmpty(req.getParameter("id")).trim();
+    if (!id.isEmpty()) {
+      return id;
+    }
+    return Strings.nullToEmpty(req.getParameter(P_PROVIDER_ID)).trim();
+  }
+
+  private boolean isValidLinkRequest(HttpServletRequest req) {
+    String xsrfKey = req.getParameter(P_XSRF);
+    if (!"POST".equals(req.getMethod()) || Strings.isNullOrEmpty(xsrfKey)) {
+      return false;
+    }
+
+    WebSession session = webSession.get();
+    return currentUserProvider.get().isIdentifiedUser()
+        && session.isSignedIn()
+        && session.isValidXGerritAuth(xsrfKey);
+  }
+
   private void discover(
       HttpServletRequest req,
       HttpServletResponse res,
@@ -201,11 +234,11 @@ class LoginForm extends HttpServlet {
         break;
 
       case NO_PROVIDER:
-        sendForm(req, res, link, "Provider is not supported, or was incorrectly entered.");
+        sendForm(req, res, link, "Provider is not supported, or was incorrectly entered.", null);
         break;
 
       case ERROR:
-        sendForm(req, res, link, "Unable to connect with OpenID provider.");
+        sendForm(req, res, link, "Unable to connect with OpenID provider.", null);
         break;
     }
   }
@@ -246,7 +279,11 @@ class LoginForm extends HttpServlet {
   }
 
   private void sendForm(
-      HttpServletRequest req, HttpServletResponse res, boolean link, @Nullable String errorMessage)
+      HttpServletRequest req,
+      HttpServletResponse res,
+      boolean link,
+      @Nullable String errorMessage,
+      @Nullable String id)
       throws IOException {
     String self = req.getRequestURI();
     String cancel = MoreObjects.firstNonNull(urlProvider != null ? urlProvider.get() : "/", "/");
@@ -258,11 +295,16 @@ class LoginForm extends HttpServlet {
     HtmlDomUtil.find(doc, "cancel_link").setAttribute("href", cancel);
 
     if (!link || ssoUrl != null) {
-      Element input = HtmlDomUtil.find(doc, "f_link");
-      input.getParentNode().removeChild(input);
+      Element linkInput = HtmlDomUtil.find(doc, "f_link");
+      linkInput.getParentNode().removeChild(linkInput);
+      Element xsrfInput = HtmlDomUtil.find(doc, "f_xsrfKey");
+      xsrfInput.getParentNode().removeChild(xsrfInput);
+    } else {
+      HtmlDomUtil.find(doc, "f_xsrfKey")
+          .setAttribute("value", Strings.nullToEmpty(webSession.get().getXGerritAuth()));
     }
 
-    String last = getLastId(req);
+    String last = !Strings.isNullOrEmpty(id) ? id : getLastId(req);
     if (last != null) {
       HtmlDomUtil.find(doc, "f_openid").setAttribute("value", last);
     }
@@ -291,9 +333,15 @@ class LoginForm extends HttpServlet {
       StringBuilder u = new StringBuilder();
       u.append(self).append(a.getAttribute("href"));
       if (link) {
-        u.append("&link");
+        Element button = doc.createElement("button");
+        button.setAttribute("type", "submit");
+        button.setAttribute("name", P_PROVIDER_ID);
+        button.setAttribute("value", Url.decode(a.getAttribute("href").substring("?id=".length())));
+        button.setTextContent(a.getTextContent());
+        a.getParentNode().replaceChild(button, a);
+      } else {
+        a.setAttribute("href", u.toString());
       }
-      a.setAttribute("href", u.toString());
     }
 
     // OAuth: Add plugin based providers
@@ -324,15 +372,19 @@ class LoginForm extends HttpServlet {
       Element form, boolean link, String pluginName, String id, String serviceName) {
     Element div = form.getOwnerDocument().createElement("div");
     div.setAttribute("id", id);
-    Element hyperlink = form.getOwnerDocument().createElement("a");
-    StringBuilder u = new StringBuilder(String.format("?id=%s_%s", pluginName, id));
     if (link) {
-      u.append("&link");
+      Element button = form.getOwnerDocument().createElement("button");
+      button.setAttribute("type", "submit");
+      button.setAttribute("name", P_PROVIDER_ID);
+      button.setAttribute("value", String.format("%s_%s", pluginName, id));
+      button.setTextContent(serviceName + " (" + pluginName + " plugin)");
+      div.appendChild(button);
+    } else {
+      Element hyperlink = form.getOwnerDocument().createElement("a");
+      hyperlink.setAttribute("href", String.format("?id=%s_%s", pluginName, id));
+      hyperlink.setTextContent(serviceName + " (" + pluginName + " plugin)");
+      div.appendChild(hyperlink);
     }
-    hyperlink.setAttribute("href", u.toString());
-
-    hyperlink.setTextContent(serviceName + " (" + pluginName + " plugin)");
-    div.appendChild(hyperlink);
     form.appendChild(div);
   }
 

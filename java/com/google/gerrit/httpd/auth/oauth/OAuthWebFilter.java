@@ -21,9 +21,11 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.auth.oauth.OAuthServiceProvider;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.httpd.HtmlDomUtil;
 import com.google.gerrit.httpd.LoginUrlToken;
+import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.httpd.template.SiteHeaderFooter;
 import com.google.gerrit.server.config.CanonicalWebUrl;
 import com.google.inject.Inject;
@@ -50,8 +52,11 @@ import org.w3c.dom.Element;
 /* OAuth web filter uses active OAuth session to perform OAuth requests */
 class OAuthWebFilter implements Filter {
   static final String GERRIT_LOGIN = "/login";
+  private static final String P_LINK = "link";
+  private static final String P_XSRF = "xsrfKey";
 
   private final Provider<String> urlProvider;
+  private final DynamicItem<WebSession> webSession;
   private final Provider<OAuthSession> oauthSessionProvider;
   private final DynamicMap<OAuthServiceProvider> oauthServiceProviders;
   private final SiteHeaderFooter header;
@@ -60,10 +65,12 @@ class OAuthWebFilter implements Filter {
   @Inject
   OAuthWebFilter(
       @CanonicalWebUrl @Nullable Provider<String> urlProvider,
+      DynamicItem<WebSession> webSession,
       DynamicMap<OAuthServiceProvider> oauthServiceProviders,
       Provider<OAuthSession> oauthSessionProvider,
       SiteHeaderFooter header) {
     this.urlProvider = urlProvider;
+    this.webSession = webSession;
     this.oauthServiceProviders = oauthServiceProviders;
     this.oauthSessionProvider = oauthSessionProvider;
     this.header = header;
@@ -84,7 +91,13 @@ class OAuthWebFilter implements Filter {
     HttpServletResponse httpResponse = (HttpServletResponse) response;
 
     OAuthSession oauthSession = oauthSessionProvider.get();
-    if (request.getParameter("link") != null) {
+    boolean link = request.getParameter(P_LINK) != null;
+    if (link && !isValidLinkRequest(httpRequest)) {
+      selectProvider(httpRequest, httpResponse, true, null);
+      return;
+    }
+
+    if (link) {
       oauthSession.setLinkMode(true);
       oauthSession.setServiceProvider(null);
     }
@@ -95,7 +108,7 @@ class OAuthWebFilter implements Filter {
 
     if (isGerritLogin(httpRequest) || oauthSession.isOAuthFinal(httpRequest)) {
       if (service == null && Strings.isNullOrEmpty(provider)) {
-        selectProvider(httpRequest, httpResponse, null);
+        selectProvider(httpRequest, httpResponse, link, null);
         return;
       }
       if (service == null) {
@@ -108,6 +121,16 @@ class OAuthWebFilter implements Filter {
     } else {
       chain.doFilter(httpRequest, response);
     }
+  }
+
+  private boolean isValidLinkRequest(HttpServletRequest req) {
+    String xsrfKey = req.getParameter(P_XSRF);
+    if (!"POST".equals(req.getMethod()) || Strings.isNullOrEmpty(xsrfKey)) {
+      return false;
+    }
+
+    WebSession session = webSession.get();
+    return session.isSignedIn() && session.isValidXGerritAuth(xsrfKey);
   }
 
   private OAuthServiceProvider findService(String providerId) throws ServletException {
@@ -124,7 +147,7 @@ class OAuthWebFilter implements Filter {
   }
 
   private void selectProvider(
-      HttpServletRequest req, HttpServletResponse res, @Nullable String errorMessage)
+      HttpServletRequest req, HttpServletResponse res, boolean link, @Nullable String errorMessage)
       throws IOException {
     String self = req.getRequestURI();
     String cancel = MoreObjects.firstNonNull(urlProvider != null ? urlProvider.get() : "/", "/");
@@ -134,6 +157,15 @@ class OAuthWebFilter implements Filter {
     HtmlDomUtil.find(doc, "hostName").setTextContent(req.getServerName());
     HtmlDomUtil.find(doc, "login_form").setAttribute("action", self);
     HtmlDomUtil.find(doc, "cancel_link").setAttribute("href", cancel);
+    if (!link) {
+      Element linkInput = HtmlDomUtil.find(doc, "f_link");
+      linkInput.getParentNode().removeChild(linkInput);
+      Element xsrfInput = HtmlDomUtil.find(doc, "f_xsrfKey");
+      xsrfInput.getParentNode().removeChild(xsrfInput);
+    } else {
+      HtmlDomUtil.find(doc, "f_xsrfKey")
+          .setAttribute("value", Strings.nullToEmpty(webSession.get().getXGerritAuth()));
+    }
 
     Element emsg = HtmlDomUtil.find(doc, "error_message");
     if (Strings.isNullOrEmpty(errorMessage)) {
@@ -148,20 +180,30 @@ class OAuthWebFilter implements Filter {
     for (String pluginName : plugins) {
       Map<String, Provider<OAuthServiceProvider>> m = oauthServiceProviders.byPlugin(pluginName);
       for (Map.Entry<String, Provider<OAuthServiceProvider>> e : m.entrySet()) {
-        addProvider(providers, pluginName, e.getKey(), e.getValue().get().getName());
+        addProvider(providers, link, pluginName, e.getKey(), e.getValue().get().getName());
       }
     }
 
     sendHtml(res, doc);
   }
 
-  private static void addProvider(Element form, String pluginName, String id, String serviceName) {
+  private static void addProvider(
+      Element form, boolean link, String pluginName, String id, String serviceName) {
     Element div = form.getOwnerDocument().createElement("div");
     div.setAttribute("id", id);
-    Element hyperlink = form.getOwnerDocument().createElement("a");
-    hyperlink.setAttribute("href", String.format("?provider=%s_%s", pluginName, id));
-    hyperlink.setTextContent(serviceName + " (" + pluginName + " plugin)");
-    div.appendChild(hyperlink);
+    if (link) {
+      Element button = form.getOwnerDocument().createElement("button");
+      button.setAttribute("type", "submit");
+      button.setAttribute("name", "provider");
+      button.setAttribute("value", String.format("%s_%s", pluginName, id));
+      button.setTextContent(serviceName + " (" + pluginName + " plugin)");
+      div.appendChild(button);
+    } else {
+      Element hyperlink = form.getOwnerDocument().createElement("a");
+      hyperlink.setAttribute("href", String.format("?provider=%s_%s", pluginName, id));
+      hyperlink.setTextContent(serviceName + " (" + pluginName + " plugin)");
+      div.appendChild(hyperlink);
+    }
     form.appendChild(div);
   }
 

@@ -9,6 +9,7 @@ junit_tests(
         "//java/com/google/gerrit/httpd",
         "//java/com/google/gerrit/httpd/auth/openid",
         "//java/com/google/gerrit/server",
+        "//javatests/com/google/gerrit/util/http/testutil",
         "//lib:jgit",
         "//lib:servlet-api",
         "//lib/guice",

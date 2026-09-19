@@ -22,6 +22,30 @@
       },
       "revId": "1f51e634a0a1795749045f713f512021d7083fa5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8545958a_0957f884",
+        "filename": "java/com/google/gerrit/httpd/ProjectOAuthFilter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-09-19T12:28:31Z",
+      "side": 1,
+      "message": "Done.\n\nFactored the repeated fragment into `CharsetUtil.forNameOrUtf8` (java/com/google/gerrit/common/CharsetUtil.java) — it resolves a possibly-null/invalid charset name and raises a checked IOException for an unknown/illegal one, defaulting a null name to UTF-8.\n\nThe shared Basic auth header decoding is now in `BasicAuthHeader` (java/com/google/gerrit/httpd/BasicAuthHeader.java), so ProjectBasicAuthFilter and ProjectOAuthFilter both call the helper instead of repeating the try/catch.\n\nThe RawMailParser copy is gone as well, via mime4j\u0027s `TextBody.getReader()`, see base commit in this series.",
+      "parentUuid": "1400b2a7_d9b34129",
+      "range": {
+        "startLine": 251,
+        "startChar": 0,
+        "endLine": 258,
+        "endChar": 5
+      },
+      "revId": "1f51e634a0a1795749045f713f512021d7083fa5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

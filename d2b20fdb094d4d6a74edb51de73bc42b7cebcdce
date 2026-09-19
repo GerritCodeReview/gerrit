@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad260014_8e90aea3",
+        "filename": "java/com/google/gerrit/server/query/change/AcceptedRevWalkCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-09-19T10:22:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce18ec5e_9a61cfc4",
+      "range": {
+        "startLine": 68,
+        "startChar": 0,
+        "endLine": 72,
+        "endChar": 5
+      },
+      "revId": "d2b20fdb094d4d6a74edb51de73bc42b7cebcdce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f775ed20_03a54fe6",
@@ -37,6 +61,24 @@
       "writtenOn": "2026-09-17T23:24:42Z",
       "side": 1,
       "message": "We\u0027re only tracking this for the test. Can you spy on `entry.rw.reset()` instead?",
+      "revId": "d2b20fdb094d4d6a74edb51de73bc42b7cebcdce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a196c3dc_ee09d620",
+        "filename": "java/com/google/gerrit/server/query/change/AcceptedRevWalkCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-09-19T10:22:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f775ed20_03a54fe6",
       "revId": "d2b20fdb094d4d6a74edb51de73bc42b7cebcdce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -58,6 +100,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "448e7e23_dd8935d6",
+        "filename": "java/com/google/gerrit/server/query/change/AcceptedRevWalkCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-09-19T10:22:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f50833fe_dd4e5336",
+      "revId": "d2b20fdb094d4d6a74edb51de73bc42b7cebcdce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4111c8ae_c2588dda",
@@ -71,6 +131,24 @@
       "writtenOn": "2026-09-17T23:24:42Z",
       "side": 1,
       "message": "This is uglier than I\u0027d like. I get it that we need to close the `AcceptedRevWalkCache`, but the layering here isn\u0027t great.\n\nCan you explore adding something to `PerThreadCache` that can call `close()` on entries? I think that would end up being a lot simpler and could be extended to more use cases in the future.",
+      "revId": "d2b20fdb094d4d6a74edb51de73bc42b7cebcdce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "85e78210_fe85864a",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-09-19T10:22:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4111c8ae_c2588dda",
       "revId": "d2b20fdb094d4d6a74edb51de73bc42b7cebcdce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -92,6 +170,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "54e7c7e8_2cde5d25",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 878,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-09-19T10:22:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cde96e41_9defd7b0",
+      "revId": "d2b20fdb094d4d6a74edb51de73bc42b7cebcdce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "95c85e94_6c511ca4",
@@ -109,6 +205,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5dfe522_427da062",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 886,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-09-19T10:22:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "95c85e94_6c511ca4",
+      "revId": "d2b20fdb094d4d6a74edb51de73bc42b7cebcdce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5b6f250f_baabfb2f",
@@ -122,6 +236,24 @@
       "writtenOn": "2026-09-17T23:24:42Z",
       "side": 1,
       "message": "Isn\u0027t this caching a similar set of data?",
+      "revId": "d2b20fdb094d4d6a74edb51de73bc42b7cebcdce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "42f62026_ac37a91b",
+        "filename": "java/com/google/gerrit/server/query/change/ConflictsPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-09-19T10:22:47Z",
+      "side": 1,
+      "message": "Updated to be called once per project per query",
+      "parentUuid": "5b6f250f_baabfb2f",
       "revId": "d2b20fdb094d4d6a74edb51de73bc42b7cebcdce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -149,6 +281,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c68ddf64_566c9ae2",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3560,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-09-19T10:22:47Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "2879c61e_b3bdfa34",
+      "range": {
+        "startLine": 3560,
+        "startChar": 12,
+        "endLine": 3560,
+        "endChar": 21
+      },
+      "revId": "d2b20fdb094d4d6a74edb51de73bc42b7cebcdce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6b9b32de_4bbbc57f",
@@ -162,6 +318,30 @@
       "writtenOn": "2026-09-17T23:24:42Z",
       "side": 1,
       "message": "Second line should be in the try too?\n\n```suggestion\n    try (Repository ignored \u003d repoManager.createRepository(project);\n        AcceptedRevWalkCache cache \u003d new AcceptedRevWalkCache(repoManager)) {\n```",
+      "range": {
+        "startLine": 31,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 73
+      },
+      "revId": "d2b20fdb094d4d6a74edb51de73bc42b7cebcdce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "998e2162_e0291bb0",
+        "filename": "javatests/com/google/gerrit/server/query/change/AcceptedRevWalkCacheTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-09-19T10:22:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b9b32de_4bbbc57f",
       "range": {
         "startLine": 31,
         "startChar": 0,

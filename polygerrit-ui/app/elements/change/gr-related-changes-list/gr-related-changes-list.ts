@@ -284,6 +284,8 @@ export class GrRelatedChangesList extends LitElement {
           <gr-stack-diff-dialog
             id="stackDiffDialog"
             .repo=${this.change?.project}
+            .change=${this.change}
+            .patchNum=${this.latestPatchNum}
             .relatedChanges=${this.relatedChanges}
           ></gr-stack-diff-dialog>
         `

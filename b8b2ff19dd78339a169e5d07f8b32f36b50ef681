@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a1e4b3fd_69fa154e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-09-20T09:50:44Z",
+      "side": 1,
+      "message": "Folds in the PS15 review findings; paired with the follow-up change.\n\n* patch-set refs (`refs/changes/*`) stay on the refs/for/ permission path (adds the NEW_PATCHSET_PATTERN exclusion)\n* merge-permission ref selection is factored into a shared helper; unit coverage for ref classification, forGerritCommits direct-vs-patch-set, and forMergedCommits\n* acceptance coverage for a direct merge push rejected without Push Merge Commit and for the skip-validation path\n* access-control.txt documents the refs/for/ fallback (direct-push-only, and a broad `refs/for/*` grant authorizes direct merge pushes to every matching branch).\n\nFollow-up (separate change):\n\n* consolidates the destination-vs-refs/for decision into UploadMergesPermissionValidator and reduces RefControl\u0027s MERGE and skip-validation checks to a plain Push Merge Commit check\n* side effect: skip-validation\u0027s merge component no longer falls back to refs/for/; it requires Push Merge Commit on the destination ref.",
+      "revId": "b8b2ff19dd78339a169e5d07f8b32f36b50ef681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -33,6 +33,42 @@
       "message": "This change adds the missing isConfigRef() guard to deleteSingleRef().\n\nPreviously, the protection against deleting refs/meta/config existed only\nin the multi-ref path (createDeleteCommand). When a single ref was\nsupplied, deleteMultipleRefs() delegated to deleteSingleRef(), bypassing\nthe check.\n\nThis aligns the single-ref path with the existing multi-ref protection\nand closes the inconsistency reported on repo-discuss.",
       "revId": "67a0270dc3a8ae5e53323c99518f98c085850b65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e23f1c2_d8ad5098",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3894415
+      },
+      "writtenOn": "2026-09-20T08:02:17Z",
+      "side": 1,
+      "message": "Thank you for reviewing this change.\n\nThis patch addresses the inconsistency where refs/meta/config can be deleted through the single-ref path. Currently deleteMultipleRefs short-circuits to deleteSingleRef when only one ref is provided, bypassing the isConfigRef() guard.\n\nI added the missing isConfigRef() check to deleteSingleRef() to match the protection in deleteMultipleRefs.\n\nAdded Release-Notes: skip and fixed the build.\nPTAL.",
+      "parentUuid": "a9932673_94417e6e",
+      "revId": "67a0270dc3a8ae5e53323c99518f98c085850b65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5adb5f97_f317e8c0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3894415
+      },
+      "writtenOn": "2026-09-20T08:02:17Z",
+      "side": 1,
+      "message": "Thank you for reviewing this change.\n\nThis patch addresses the inconsistency where refs/meta/config can be deleted through the single-ref path. Currently deleteMultipleRefs short-circuits to deleteSingleRef when only one ref is provided, bypassing the isConfigRef() guard.\n\nI added the missing isConfigRef() check to deleteSingleRef() to match the protection in deleteMultipleRefs.\n\nAdded Release-Notes: skip and fixed the build.\nPTAL.",
+      "parentUuid": "fe0366be_27a2a36c",
+      "revId": "67a0270dc3a8ae5e53323c99518f98c085850b65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

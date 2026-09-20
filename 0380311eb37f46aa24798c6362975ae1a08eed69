@@ -16,6 +16,23 @@
       "message": "Fixed Release-Notes and addressed review comments. Will push patchset 5 to fix Verified -1. Thanks!",
       "revId": "0380311eb37f46aa24798c6362975ae1a08eed69",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5cb6a7c6_18bf216d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3894415
+      },
+      "writtenOn": "2026-09-20T09:57:28Z",
+      "side": 1,
+      "message": "Patch set 5: Added Release-Notes: skip and rebased.\n\nPlease review. The previous 403 was due to .gitcookies formatting issue, fixed via SSH with VPN.\n\nThanks!",
+      "revId": "0380311eb37f46aa24798c6362975ae1a08eed69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

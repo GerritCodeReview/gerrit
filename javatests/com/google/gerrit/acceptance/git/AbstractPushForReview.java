@@ -3749,7 +3749,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
         .add(allow(Permission.FORGE_AUTHOR).ref(ref).group(groupUuid))
         .add(allow(Permission.FORGE_COMMITTER).ref(ref).group(groupUuid))
         .add(allow(Permission.FORGE_SERVER).ref(ref).group(groupUuid))
-        .add(allow(Permission.PUSH_MERGE).ref("refs/for/" + ref).group(groupUuid))
+        .add(allow(Permission.PUSH_MERGE).ref(ref).group(groupUuid))
         .update();
   }
 

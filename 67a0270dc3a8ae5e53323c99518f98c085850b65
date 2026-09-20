@@ -105,6 +105,24 @@
       "parentUuid": "1e23f1c2_d8ad5098",
       "revId": "67a0270dc3a8ae5e53323c99518f98c085850b65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ac0fbe5_3d666a57",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3894415
+      },
+      "writtenOn": "2026-09-20T12:37:05Z",
+      "side": 1,
+      "message": "git remote set-url origin https://gerrit-review.googlesource.com/gerrit\ngit config --global http.cookiefile /data/data/com.termux/files/home/.gitcookies",
+      "parentUuid": "9ad3296c_bfaed76c",
+      "revId": "67a0270dc3a8ae5e53323c99518f98c085850b65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

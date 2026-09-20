@@ -181,6 +181,24 @@
       "parentUuid": "adcdaaad_ebfaf4f1",
       "revId": "f5f3a3af002199f65631c7703e27ce67274ca692",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b0beb69_1cb4ef94",
+        "filename": "java/com/google/gerrit/extensions/auth/oauth/OAuthTokenEncrypter.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-09-20T04:14:35Z",
+      "side": 1,
+      "message": "Done. I removed the Javadoc hunk from this CL.\n\nI missed moving it before change 630421 was merged, so I\u0027ve uploaded change 633561 as a small documentation-only follow-up instead.",
+      "parentUuid": "78935b65_dcacb04a",
+      "revId": "f5f3a3af002199f65631c7703e27ce67274ca692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -120,6 +120,23 @@
       "message": "Restoring to push patchset 5 with Release-Notes: skip",
       "revId": "0380311eb37f46aa24798c6362975ae1a08eed69",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "74a82125_1146215c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3894415
+      },
+      "writtenOn": "2026-09-20T13:09:58Z",
+      "side": 1,
+      "message": "Patchset 5: Added Release-Notes: skip and rebased on master.\n\nThis fixes the missing isConfigRef() check in deleteSingleRef().\nPreviously the protection existed only in the multi-ref path.\n\nPTAL.",
+      "revId": "0380311eb37f46aa24798c6362975ae1a08eed69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

@@ -143,14 +143,17 @@ public class CommitValidators {
       this.commitValidationInfoListeners = commitValidationInfoListeners;
     }
 
-    // The ref whose Push Merge Commit permission gates a merge on this push: the destination ref
-    // for direct pushes, otherwise the refs/for review ref.
-    private static PermissionBackend.ForRef mergePermRef(
+    // Direct push: destination ref or legacy refs/for grant. Review upload: refs/for ref only.
+    private static UploadMergesPermissionValidator uploadMergesValidator(
         PermissionBackend.ForProject forProject,
         PermissionBackend.ForRef destPerm,
         BranchNameKey branch,
         boolean directPush) {
-      return directPush ? destPerm : forProject.ref(MagicBranch.NEW_CHANGE + branch.branch());
+      PermissionBackend.ForRef reviewPerm =
+          forProject.ref(MagicBranch.NEW_CHANGE + branch.branch());
+      return directPush
+          ? new UploadMergesPermissionValidator(destPerm, reviewPerm)
+          : new UploadMergesPermissionValidator(reviewPerm);
     }
 
     public CommitValidators forReceiveCommits(
@@ -163,13 +166,11 @@ public class CommitValidators {
         boolean skipValidation,
         boolean isDirectPush) {
       PermissionBackend.ForRef perm = forProject.ref(branch.branch());
-      PermissionBackend.ForRef uploadMergesPerm =
-          mergePermRef(forProject, perm, branch, isDirectPush);
       ProjectState projectState =
           projectCache.get(branch.project()).orElseThrow(illegalState(branch.project()));
       ImmutableList.Builder<CommitValidationListener> validators = ImmutableList.builder();
       validators
-          .add(new UploadMergesPermissionValidator(uploadMergesPerm))
+          .add(uploadMergesValidator(forProject, perm, branch, isDirectPush))
           .add(new ProjectStateValidationListener(projectState))
           .add(new AmendedGerritMergeCommitValidationListener(perm, gerritIdent))
           .add(new AuthorUploaderValidator(user, perm, urlFormatter.get()))
@@ -200,13 +201,11 @@ public class CommitValidators {
         RevWalk rw,
         @Nullable Change change) {
       PermissionBackend.ForRef perm = forProject.ref(branch.branch());
-      PermissionBackend.ForRef uploadMergesPerm =
-          mergePermRef(forProject, perm, branch, /* directPush= */ change == null);
       ProjectState projectState =
           projectCache.get(branch.project()).orElseThrow(illegalState(branch.project()));
       ImmutableList.Builder<CommitValidationListener> validators = ImmutableList.builder();
       validators
-          .add(new UploadMergesPermissionValidator(uploadMergesPerm))
+          .add(uploadMergesValidator(forProject, perm, branch, /* directPush= */ change == null))
           .add(new ProjectStateValidationListener(projectState))
           .add(new AmendedGerritMergeCommitValidationListener(perm, gerritIdent))
           .add(new AuthorUploaderValidator(user, perm, urlFormatter.get()))
@@ -244,13 +243,11 @@ public class CommitValidators {
       //  - Plugin validators may do things like require certain commit message
       //    formats, so we play it safe and exclude them.
       PermissionBackend.ForRef perm = forProject.ref(branch.branch());
-      PermissionBackend.ForRef uploadMergesPerm =
-          mergePermRef(forProject, perm, branch, /* directPush= */ false);
       ProjectState projectState =
           projectCache.get(branch.project()).orElseThrow(illegalState(branch.project()));
       ImmutableList.Builder<CommitValidationListener> validators = ImmutableList.builder();
       validators
-          .add(new UploadMergesPermissionValidator(uploadMergesPerm))
+          .add(uploadMergesValidator(forProject, perm, branch, /* directPush= */ false))
           .add(new ProjectStateValidationListener(projectState))
           .add(new AuthorUploaderValidator(user, perm, urlFormatter.get()))
           .add(new CommitterUploaderValidator(user, perm, urlFormatter.get()));
@@ -668,10 +665,10 @@ public class CommitValidators {
 
   /** Require permission to upload merge commits. */
   public static class UploadMergesPermissionValidator implements CommitValidationListener {
-    private final PermissionBackend.ForRef perm;
+    private final ImmutableList<PermissionBackend.ForRef> perms;
 
-    public UploadMergesPermissionValidator(PermissionBackend.ForRef perm) {
-      this.perm = perm;
+    public UploadMergesPermissionValidator(PermissionBackend.ForRef... perms) {
+      this.perms = ImmutableList.copyOf(perms);
     }
 
     @Override
@@ -681,8 +678,10 @@ public class CommitValidators {
         return Collections.emptyList();
       }
       try {
-        if (perm.test(RefPermission.MERGE)) {
-          return Collections.emptyList();
+        for (PermissionBackend.ForRef perm : perms) {
+          if (perm.test(RefPermission.MERGE)) {
+            return Collections.emptyList();
+          }
         }
         throw new CommitValidationException("you are not allowed to upload merges");
       } catch (PermissionBackendException e) {

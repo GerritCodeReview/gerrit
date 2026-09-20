@@ -450,6 +450,26 @@ public class PushPermissionsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void skipValidationWithPushMergePermissionOnReviewRefDenied() throws Exception {
+    // Skip-validation's Push Merge Commit component is scoped to the destination ref; a refs/for
+    // grant no longer satisfies it.
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.PUSH).ref("refs/heads/*").group(REGISTERED_USERS))
+        .add(allow(Permission.FORGE_SERVER).ref("refs/heads/*").group(REGISTERED_USERS))
+        .add(allow(Permission.PUSH_MERGE).ref("refs/for/refs/heads/*").group(REGISTERED_USERS))
+        .update();
+
+    testRepo.branch("HEAD").commit().create();
+    PushResult r =
+        push(c -> c.setPushOptions(ImmutableList.of("skip-validation")), "HEAD:refs/heads/master");
+    assertThat(r)
+        .onlyRef("refs/heads/master")
+        .isRejected("prohibited by Gerrit: not permitted: skip validation");
+  }
+
+  @Test
   public void accessDatabaseForNoteDbDenied() throws Exception {
     projectOperations
         .project(project)

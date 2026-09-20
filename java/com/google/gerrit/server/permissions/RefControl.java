@@ -243,18 +243,6 @@ public class RefControl {
     return canPerform(Permission.REVERT);
   }
 
-  /**
-   * Returns true if this user can update this ref with a merge commit: Push Merge Commit on the ref,
-   * or the legacy refs/for grant for non-magic refs.
-   */
-  private boolean canUpdateWithMerge() {
-    return canPerform(Permission.PUSH_MERGE)
-        || (!MagicBranch.isMagicBranch(refName)
-            && projectControl
-                .controlForRef(MagicBranch.NEW_CHANGE + refName)
-                .canPerform(Permission.PUSH_MERGE));
-  }
-
   /** Returns true if the user can update the reference as a fast-forward. */
   private boolean canUpdate() {
     if (RefNames.REFS_CONFIG.equals(refName) && !projectControl.isOwner()) {
@@ -720,7 +708,7 @@ public class RefControl {
         return canForgeGerritServerIdentity();
       }
       case MERGE -> {
-        return canUpdateWithMerge();
+        return canPerform(Permission.PUSH_MERGE);
       }
       case CREATE_CHANGE -> {
         return canUpload();
@@ -747,7 +735,7 @@ public class RefControl {
         return canForgeAuthor()
             && canForgeCommitter()
             && canForgeGerritServerIdentity()
-            && canUpdateWithMerge();
+            && canPerform(Permission.PUSH_MERGE);
       }
     }
     throw new PermissionBackendException(perm + " unsupported");

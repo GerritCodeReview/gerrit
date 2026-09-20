@@ -33,6 +33,59 @@
       "message": "Patch set 5: Added Release-Notes: skip and rebased.\n\nPlease review. The previous 403 was due to .gitcookies formatting issue, fixed via SSH with VPN.\n\nThanks!",
       "revId": "0380311eb37f46aa24798c6362975ae1a08eed69",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "776b474a_cba2f15f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3894415
+      },
+      "writtenOn": "2026-09-20T12:11:39Z",
+      "side": 1,
+      "message": "Thank you for reviewing this change.\n\nThis patch addresses the inconsistency where refs/meta/config can be deleted through the single-ref path. Currently deleteMultipleRefs short-circuits to deleteSingleRef when only one ref is provided, bypassing the isConfigRef() guard.\n\nI added the missing isConfigRef() check to deleteSingleRef() to match the protection in deleteMultipleRefs.\n\nAdded Release-Notes: skip and fixed the build.\nPTAL.",
+      "parentUuid": "333c9099_2f167792",
+      "revId": "0380311eb37f46aa24798c6362975ae1a08eed69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa79cee0_329e3a6f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3894415
+      },
+      "writtenOn": "2026-09-20T12:11:39Z",
+      "side": 1,
+      "message": "Thank you for reviewing this change.\n\nThis patch addresses the inconsistency where refs/meta/config can be deleted through the single-ref path. Currently deleteMultipleRefs short-circuits to deleteSingleRef when only one ref is provided, bypassing the isConfigRef() guard.\n\nI added the missing isConfigRef() check to deleteSingleRef() to match the protection in deleteMultipleRefs.\n\nAdded Release-Notes: skip and fixed the build.\nPTAL.",
+      "parentUuid": "5cb6a7c6_18bf216d",
+      "revId": "0380311eb37f46aa24798c6362975ae1a08eed69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef1f1192_4be547bd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3894415
+      },
+      "writtenOn": "2026-09-20T12:11:39Z",
+      "side": 1,
+      "message": "Thank you for reviewing this change.\n\nThis patch addresses the inconsistency where refs/meta/config can be deleted through the single-ref path. Currently deleteMultipleRefs short-circuits to deleteSingleRef when only one ref is provided, bypassing the isConfigRef() guard.\n\nI added the missing isConfigRef() check to deleteSingleRef() to match the protection in deleteMultipleRefs.\n\nAdded Release-Notes: skip and fixed the build.\nPTAL.",
+      "revId": "0380311eb37f46aa24798c6362975ae1a08eed69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

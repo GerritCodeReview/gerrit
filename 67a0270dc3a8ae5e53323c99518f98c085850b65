@@ -69,6 +69,42 @@
       "parentUuid": "fe0366be_27a2a36c",
       "revId": "67a0270dc3a8ae5e53323c99518f98c085850b65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ad3296c_bfaed76c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3894415
+      },
+      "writtenOn": "2026-09-20T12:11:39Z",
+      "side": 1,
+      "message": "Thank you for reviewing this change.\n\nThis patch addresses the inconsistency where refs/meta/config can be deleted through the single-ref path. Currently deleteMultipleRefs short-circuits to deleteSingleRef when only one ref is provided, bypassing the isConfigRef() guard.\n\nI added the missing isConfigRef() check to deleteSingleRef() to match the protection in deleteMultipleRefs.\n\nAdded Release-Notes: skip and fixed the build.\nPTAL.",
+      "parentUuid": "5adb5f97_f317e8c0",
+      "revId": "67a0270dc3a8ae5e53323c99518f98c085850b65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "db0cad03_55a3e3ad",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3894415
+      },
+      "writtenOn": "2026-09-20T12:11:39Z",
+      "side": 1,
+      "message": "\u003e Thank you for reviewing this change.\n\u003e \n\u003e This patch addresses the inconsistency where refs/meta/config can be deleted through the single-ref path. Currently deleteMultipleRefs short-circuits to deleteSingleRef when only one ref is provided, bypassing the isConfigRef() guard.\n\u003e \n\u003e I added the missing isConfigRef() check to deleteSingleRef() to match the protection in deleteMultipleRefs.\n\u003e \n\u003e Added Release-Notes: skip and fixed the build.\n\u003e PTAL.",
+      "parentUuid": "1e23f1c2_d8ad5098",
+      "revId": "67a0270dc3a8ae5e53323c99518f98c085850b65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

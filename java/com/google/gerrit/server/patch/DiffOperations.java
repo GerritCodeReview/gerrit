@@ -67,6 +67,12 @@ public interface DiffOperations {
       Project.NameKey project, ObjectId newCommit, int parentNum, boolean enableRenameDetection)
       throws DiffNotAvailableException;
 
+  default ImmutableList<ModifiedFile> getModifiedFilesCached(
+      Project.NameKey project, ObjectId oldCommit, ObjectId newCommit)
+      throws DiffNotAvailableException {
+    return ImmutableList.of();
+  }
+
   /**
    * Returns the list of added, deleted or modified files between a commit against its base. The
    * {@link Patch#COMMIT_MSG} and {@link Patch#MERGE_LIST} (for merge commits) are also returned.

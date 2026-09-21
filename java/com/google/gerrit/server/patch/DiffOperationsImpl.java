@@ -190,7 +190,8 @@ public class DiffOperationsImpl implements DiffOperations {
               useTimeout,
               /* whitespace= */ null));
 
-      if (cmp.isAgainstAutoMerge() || isMergeAgainstParent(cmp, project, newCommit)) {
+      if (cmp.isAgainstAutoMerge()
+          || isMergeAgainstParent(cmp, project, newCommit, diffParams.numParents())) {
         fileCacheKeys.add(
             createFileDiffCacheKey(
                 project,
@@ -447,9 +448,13 @@ public class DiffOperationsImpl implements DiffOperations {
             || fileDiffOutput.changeType() == ChangeType.COPIED);
   }
 
-  private boolean isMergeAgainstParent(ComparisonType cmp, Project.NameKey project, ObjectId commit)
+  private boolean isMergeAgainstParent(
+      ComparisonType cmp, Project.NameKey project, ObjectId commit, @Nullable Integer numParents)
       throws IOException {
-    return (cmp.isAgainstParent() && baseCommitUtil.getNumParents(project, commit) > 1);
+    return cmp.isAgainstParent()
+        && (numParents != null
+            ? numParents > 1
+            : baseCommitUtil.getNumParents(project, commit) > 1);
   }
 
   private static ModifiedFilesCacheKey createModifiedFilesKey(
@@ -560,6 +565,9 @@ public class DiffOperationsImpl implements DiffOperations {
     @Nullable
     abstract Integer parent();
 
+    @Nullable
+    abstract Integer numParents();
+
     /** Compute the diff for {@value Patch#COMMIT_MSG} and {@link Patch#MERGE_LIST} only. */
     @Nullable
     abstract Boolean skipFiles();
@@ -579,6 +587,8 @@ public class DiffOperationsImpl implements DiffOperations {
 
       abstract Builder parent(@Nullable Integer parent);
 
+      abstract Builder numParents(@Nullable Integer numParents);
+
       abstract Builder skipFiles(@Nullable Boolean skipFiles);
 
       abstract Builder comparisonType(ComparisonType comparisonType);
@@ -595,8 +605,13 @@ public class DiffOperationsImpl implements DiffOperations {
       RepoView repoView,
       ObjectInserter ins)
       throws IOException {
+    int numParents = baseCommitUtil.getNumParents(repoView.getRevWalk(), newCommit);
     DiffParameters.Builder result =
-        DiffParameters.builder().project(project).newCommit(newCommit).parent(parent);
+        DiffParameters.builder()
+            .project(project)
+            .newCommit(newCommit)
+            .parent(parent)
+            .numParents(numParents);
     if (parent > 0) {
       RevCommit baseCommit = baseCommitUtil.getBaseCommit(repoView, ins, newCommit, parent);
       if (baseCommit == null) {
@@ -611,7 +626,6 @@ public class DiffOperationsImpl implements DiffOperations {
       result.comparisonType(ComparisonType.againstParent(parent));
       return result.build();
     }
-    int numParents = baseCommitUtil.getNumParents(project, newCommit);
     if (numParents == 0) {
       result.baseCommit(ObjectId.zeroId());
       result.comparisonType(ComparisonType.againstRoot());

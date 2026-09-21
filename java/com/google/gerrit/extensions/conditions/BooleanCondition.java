@@ -16,6 +16,8 @@ package com.google.gerrit.extensions.conditions;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
+import java.util.Objects;
+import java.util.function.BooleanSupplier;
 
 /** Delayed evaluation of a boolean condition. */
 public abstract class BooleanCondition {
@@ -24,6 +26,14 @@ public abstract class BooleanCondition {
 
   public static BooleanCondition valueOf(boolean a) {
     return a ? TRUE : FALSE;
+  }
+
+  /**
+   * Returns a condition whose value is computed lazily via {@code supplier} only when non-trivial
+   * evaluation is required.
+   */
+  public static BooleanCondition lazy(BooleanSupplier supplier) {
+    return new Lazy(Objects.requireNonNull(supplier));
   }
 
   public static BooleanCondition and(BooleanCondition a, BooleanCondition b) {
@@ -297,6 +307,49 @@ public abstract class BooleanCondition {
     @Override
     protected boolean evaluatesTrivially() {
       return true;
+    }
+  }
+
+  private static final class Lazy extends BooleanCondition {
+    private final BooleanSupplier supplier;
+
+    Lazy(BooleanSupplier supplier) {
+      this.supplier = supplier;
+    }
+
+    @Override
+    public boolean value() {
+      return supplier.getAsBoolean();
+    }
+
+    @Override
+    public <T> ImmutableList<T> children(Class<T> type) {
+      return ImmutableList.of();
+    }
+
+    @Override
+    public BooleanCondition reduce() {
+      return this;
+    }
+
+    @Override
+    public int hashCode() {
+      return supplier.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object other) {
+      return other instanceof Lazy && supplier.equals(((Lazy) other).supplier);
+    }
+
+    @Override
+    public String toString() {
+      return "lazy(" + supplier + ")";
+    }
+
+    @Override
+    protected boolean evaluatesTrivially() {
+      return false;
     }
   }
 

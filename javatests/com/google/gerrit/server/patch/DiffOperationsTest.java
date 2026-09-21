@@ -484,6 +484,48 @@ public class DiffOperationsTest {
     assertThat(diffOutput3.edits()).isEmpty();
   }
 
+  @Test
+  public void listModifiedFilesAgainstParentWithSkipDiffStat() throws Exception {
+    ObjectId parent1 =
+        createCommit(repo, null, ImmutableList.of(new FileEntity(fileName1, fileContent1)));
+    ObjectId parent2 =
+        createCommit(repo, null, ImmutableList.of(new FileEntity(fileName2, fileContent2)));
+    ObjectId merge =
+        createMergeCommit(
+            repo,
+            ImmutableList.of(
+                new FileEntity(fileName1, fileContent1 + "\nupdated"),
+                new FileEntity(fileName2, fileContent2),
+                new FileEntity("file_3.txt", "file 3 content")),
+            parent1,
+            parent2);
+
+    DiffOptions skipDiffStatOptions = DiffOptions.DEFAULTS.toBuilder().skipDiffStat(true).build();
+    Map<String, FileDiffOutput> modifiedFiles =
+        diffOperations.listModifiedFilesAgainstParent(
+            testProjectName, merge, /* parentNum= */ 0, skipDiffStatOptions);
+
+    assertThat(modifiedFiles.keySet()).containsExactly(fileName1, "file_3.txt");
+    FileDiffOutput file1Diff = modifiedFiles.get(fileName1);
+    assertThat(file1Diff.changeType()).isEqualTo(ChangeType.MODIFIED);
+    assertThat(file1Diff.oldSha()).isPresent();
+    assertThat(file1Diff.newSha()).isPresent();
+    assertThat(file1Diff.oldSha()).isNotEqualTo(file1Diff.newSha());
+    assertThat(file1Diff.oldMode())
+        .hasValue(com.google.gerrit.entities.Patch.FileMode.REGULAR_FILE);
+    assertThat(file1Diff.newMode())
+        .hasValue(com.google.gerrit.entities.Patch.FileMode.REGULAR_FILE);
+    assertThat(file1Diff.edits()).isEmpty();
+
+    FileDiffOutput file3Diff = modifiedFiles.get("file_3.txt");
+    assertThat(file3Diff.changeType()).isEqualTo(ChangeType.ADDED);
+    assertThat(file3Diff.oldSha()).isEmpty();
+    assertThat(file3Diff.newSha()).isPresent();
+    assertThat(file3Diff.newMode())
+        .hasValue(com.google.gerrit.entities.Patch.FileMode.REGULAR_FILE);
+    assertThat(file3Diff.edits()).isEmpty();
+  }
+
   static class FileEntity {
     String name;
     String content;

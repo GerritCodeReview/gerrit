@@ -54,17 +54,24 @@ import com.google.inject.Module;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.Function;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.treewalk.TreeWalk;
+import org.eclipse.jgit.treewalk.filter.PathFilterGroup;
 
 /**
  * Provides different file diff operations. Uses the underlying Git/Gerrit caches to speed up the
@@ -151,10 +158,24 @@ public class DiffOperationsImpl implements DiffOperations {
   }
 
   private ImmutableMap<String, FileDiffOutput> getModifiedFiles(
-      DiffParameters diffParams, DiffOptions diffOptions) throws DiffNotAvailableException {
+      DiffParameters diffParams,
+      DiffOptions diffOptions,
+      @Nullable RevWalk revWalk,
+      @Nullable Config repoConfig)
+      throws DiffNotAvailableException {
     logger.atFine().log(
         "getModifiedFiles (diffParams: %s, diffOptions: %s)", diffParams, diffOptions);
     try {
+      if (diffOptions.skipDiffStat()) {
+        if (revWalk != null && repoConfig != null) {
+          return computeModifiedFilesWithoutDiffStat(diffParams, diffOptions, revWalk, repoConfig);
+        }
+        try (Repository repo = repoManager.openRepository(diffParams.project());
+            RevWalk rw = new RevWalk(repo)) {
+          return computeModifiedFilesWithoutDiffStat(diffParams, diffOptions, rw, repo.getConfig());
+        }
+      }
+
       Project.NameKey project = diffParams.project();
       ObjectId newCommit = diffParams.newCommit();
       ObjectId oldCommit = diffParams.baseCommit();
@@ -162,14 +183,23 @@ public class DiffOperationsImpl implements DiffOperations {
 
       ImmutableList<ModifiedFile> modifiedFiles;
       if (diffOptions.skipRebaseFiltering()) {
-        try (Repository repo = repoManager.openRepository(project);
-            RevWalk revWalk = new RevWalk(repo)) {
+        if (revWalk != null && repoConfig != null) {
           ModifiedFilesLoader loader =
               modifiedFilesLoaderFactory
                   .createWithRetrievingModifiedFilesForTreesFromGitModifiedFilesCache()
                   .withSkipRebaseFiltering(true);
           loader.withRenameDetection(RENAME_SCORE);
-          modifiedFiles = loader.load(project, repo.getConfig(), revWalk, oldCommit, newCommit);
+          modifiedFiles = loader.load(project, repoConfig, revWalk, oldCommit, newCommit);
+        } else {
+          try (Repository repo = repoManager.openRepository(project);
+              RevWalk rw = new RevWalk(repo)) {
+            ModifiedFilesLoader loader =
+                modifiedFilesLoaderFactory
+                    .createWithRetrievingModifiedFilesForTreesFromGitModifiedFilesCache()
+                    .withSkipRebaseFiltering(true);
+            loader.withRenameDetection(RENAME_SCORE);
+            modifiedFiles = loader.load(project, repo.getConfig(), rw, oldCommit, newCommit);
+          }
         }
       } else {
         modifiedFiles =
@@ -225,6 +255,121 @@ public class DiffOperationsImpl implements DiffOperations {
     }
   }
 
+  private ImmutableMap<String, FileDiffOutput> computeModifiedFilesWithoutDiffStat(
+      DiffParameters diffParams, DiffOptions diffOptions, RevWalk rw, Config repoConfig)
+      throws IOException, DiffNotAvailableException {
+    if (Boolean.TRUE.equals(diffParams.skipFiles())) {
+      return ImmutableMap.of();
+    }
+    Project.NameKey project = diffParams.project();
+    ObjectId oldCommit = diffParams.baseCommit();
+    ObjectId newCommit = diffParams.newCommit();
+    ComparisonType cmp = diffParams.comparisonType();
+
+    ImmutableCollection<ModifiedFile> modifiedFiles;
+    if (diffOptions.skipRebaseFiltering()) {
+      ModifiedFilesLoader loader =
+          modifiedFilesLoaderFactory
+              .createWithRetrievingModifiedFilesForTreesFromGitModifiedFilesCache()
+              .withSkipRebaseFiltering(true);
+      loader.withRenameDetection(RENAME_SCORE);
+      modifiedFiles = loader.load(project, repoConfig, rw, oldCommit, newCommit);
+    } else {
+      modifiedFiles =
+          loadModifiedFilesWithoutCacheIfNecessary(
+                  project, diffParams, rw, repoConfig, /* enableRenameDetection= */ true)
+              .values();
+    }
+
+    Set<String> allPaths = new HashSet<>();
+    for (ModifiedFile mf : modifiedFiles) {
+      mf.oldPath().ifPresent(allPaths::add);
+      mf.newPath().ifPresent(allPaths::add);
+    }
+    if (allPaths.isEmpty()) {
+      return ImmutableMap.of();
+    }
+
+    RevTree aTree = oldCommit.equals(ObjectId.zeroId()) ? null : rw.parseTree(oldCommit);
+    RevTree bTree = rw.parseTree(newCommit);
+    Map<String, ObjectId> oldShas = new HashMap<>();
+    Map<String, Patch.FileMode> oldModes = new HashMap<>();
+    Map<String, ObjectId> newShas = new HashMap<>();
+    Map<String, Patch.FileMode> newModes = new HashMap<>();
+
+    try (TreeWalk tw = new TreeWalk(rw.getObjectReader())) {
+      tw.setRecursive(true);
+      tw.setFilter(PathFilterGroup.createFromStrings(allPaths));
+      int aIdx = aTree != null ? tw.addTree(aTree) : -1;
+      int bIdx = tw.addTree(bTree);
+      while (tw.next()) {
+        String path = tw.getPathString();
+        if (aIdx >= 0 && !tw.getFileMode(aIdx).equals(FileMode.MISSING)) {
+          oldShas.put(path, tw.getObjectId(aIdx));
+          oldModes.put(path, mapFileMode(tw.getFileMode(aIdx)));
+        }
+        if (!tw.getFileMode(bIdx).equals(FileMode.MISSING)) {
+          newShas.put(path, tw.getObjectId(bIdx));
+          newModes.put(path, mapFileMode(tw.getFileMode(bIdx)));
+        }
+      }
+    }
+
+    ImmutableMap.Builder<String, FileDiffOutput> result = ImmutableMap.builder();
+    for (ModifiedFile mf : modifiedFiles) {
+      String path = mf.getDefaultPath();
+      if (path.equals(COMMIT_MSG) || path.equals(MERGE_LIST)) {
+        continue;
+      }
+      Optional<Patch.FileMode> oldMode =
+          mf.oldPath().map(p -> oldModes.getOrDefault(p, Patch.FileMode.MISSING));
+      Optional<Patch.FileMode> newMode =
+          mf.newPath().map(p -> newModes.getOrDefault(p, Patch.FileMode.MISSING));
+      Optional<ObjectId> oldSha =
+          mf.oldPath().map(oldShas::get).filter(sha -> !sha.equals(ObjectId.zeroId()));
+      Optional<ObjectId> newSha =
+          mf.newPath().map(newShas::get).filter(sha -> !sha.equals(ObjectId.zeroId()));
+      FileDiffOutput fileDiff =
+          FileDiffOutput.builder()
+              .oldCommitId(oldCommit)
+              .newCommitId(newCommit)
+              .comparisonType(cmp)
+              .changeType(mf.changeType())
+              .patchType(Optional.of(Patch.PatchType.UNIFIED))
+              .oldPath(mf.oldPath())
+              .newPath(mf.newPath())
+              .oldMode(oldMode)
+              .newMode(newMode)
+              .oldSha(oldSha)
+              .newSha(newSha)
+              .headerLines(ImmutableList.of())
+              .edits(ImmutableList.of())
+              .size(0)
+              .sizeDelta(0)
+              .build();
+      String key = path;
+      result.put(key, fileDiff);
+    }
+    return result.buildOrThrow();
+  }
+
+  private static Patch.FileMode mapFileMode(FileMode jgitFileMode) {
+    if (jgitFileMode.equals(FileMode.TREE)) {
+      return Patch.FileMode.TREE;
+    } else if (jgitFileMode.equals(FileMode.SYMLINK)) {
+      return Patch.FileMode.SYMLINK;
+    } else if (jgitFileMode.equals(FileMode.GITLINK)) {
+      return Patch.FileMode.GITLINK;
+    } else if (jgitFileMode.equals(FileMode.REGULAR_FILE)) {
+      return Patch.FileMode.REGULAR_FILE;
+    } else if (jgitFileMode.equals(FileMode.EXECUTABLE_FILE)) {
+      return Patch.FileMode.EXECUTABLE_FILE;
+    } else if (jgitFileMode.equals(FileMode.MISSING)) {
+      return Patch.FileMode.MISSING;
+    }
+    throw new IllegalArgumentException("Unsupported type " + jgitFileMode);
+  }
+
   @Override
   public Map<String, FileDiffOutput> listModifiedFilesAgainstParent(
       Project.NameKey project, ObjectId newCommit, int parent, DiffOptions diffOptions)
@@ -239,7 +384,7 @@ public class DiffOperationsImpl implements DiffOperations {
           project, newCommit.name(), ins);
 
       DiffParameters diffParams = computeDiffParameters(project, newCommit, parent, repoView, ins);
-      return getModifiedFiles(diffParams, diffOptions);
+      return getModifiedFiles(diffParams, diffOptions, revWalk, repoView.getConfig());
     } catch (IOException e) {
       throw new DiffNotAvailableException(
           "Failed to evaluate the parent/base commit for commit " + newCommit, e);
@@ -280,7 +425,7 @@ public class DiffOperationsImpl implements DiffOperations {
             .baseCommit(oldCommit)
             .comparisonType(ComparisonType.againstOtherPatchSet())
             .build();
-    return getModifiedFiles(params, diffOptions);
+    return getModifiedFiles(params, diffOptions, /* revWalk= */ null, /* repoConfig= */ null);
   }
 
   @Override

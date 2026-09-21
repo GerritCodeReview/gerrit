@@ -47,17 +47,28 @@ public class FileInfoJsonImpl implements FileInfoJson {
   public Map<String, FileInfo> getFileInfoMap(
       Change change, ObjectId objectId, @Nullable PatchSet base)
       throws ResourceConflictException, PatchListNotAvailableException {
+    return getFileInfoMap(change, objectId, base, /* skipDiffStat= */ false);
+  }
+
+  @Nullable
+  @Override
+  public Map<String, FileInfo> getFileInfoMap(
+      Change change, ObjectId objectId, @Nullable PatchSet base, boolean skipDiffStat)
+      throws ResourceConflictException, PatchListNotAvailableException {
+    DiffOptions diffOptions =
+        skipDiffStat
+            ? DiffOptions.DEFAULTS.toBuilder().skipDiffStat(true).build()
+            : DiffOptions.DEFAULTS;
     try {
       if (base == null) {
         // Setting parentNum=0 requests the default parent, which is the only parent for
         // single-parent commits, or the auto-merge otherwise
         return asFileInfo(
             diffs.listModifiedFilesAgainstParent(
-                change.getProject(), objectId, /* parentNum= */ 0, DiffOptions.DEFAULTS));
+                change.getProject(), objectId, /* parentNum= */ 0, diffOptions));
       }
       return asFileInfo(
-          diffs.listModifiedFiles(
-              change.getProject(), base.commitId(), objectId, DiffOptions.DEFAULTS));
+          diffs.listModifiedFiles(change.getProject(), base.commitId(), objectId, diffOptions));
     } catch (DiffNotAvailableException e) {
       convertException(e);
       return null; // unreachable. handleAndThrow will throw an exception anyway

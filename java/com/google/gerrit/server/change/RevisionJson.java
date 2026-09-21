@@ -26,6 +26,7 @@ import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_ACC
 import static com.google.gerrit.extensions.client.ListChangesOption.DOWNLOAD_COMMANDS;
 import static com.google.gerrit.extensions.client.ListChangesOption.PARENTS;
 import static com.google.gerrit.extensions.client.ListChangesOption.PUSH_CERTIFICATES;
+import static com.google.gerrit.extensions.client.ListChangesOption.SKIP_DIFFSTAT;
 import static com.google.gerrit.extensions.client.ListChangesOption.WEB_LINKS;
 import static com.google.gerrit.server.CommonConverters.toGitPerson;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
@@ -430,7 +431,7 @@ public class RevisionJson {
 
     if (has(ALL_FILES) || (out.isCurrent && has(CURRENT_FILES))) {
       try {
-        out.files = fileInfoJson.getFileInfoMap(c, in);
+        out.files = fileInfoJson.getFileInfoMap(c, in, has(SKIP_DIFFSTAT));
         out.files.remove(Patch.COMMIT_MSG);
         out.files.remove(Patch.MERGE_LIST);
       } catch (ResourceConflictException e) {

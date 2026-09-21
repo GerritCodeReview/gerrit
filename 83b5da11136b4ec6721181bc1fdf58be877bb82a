@@ -52,6 +52,24 @@
       "parentUuid": "755d0e66_9f59fb33",
       "revId": "83b5da11136b4ec6721181bc1fdf58be877bb82a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "592c9c0f_fbdbed17",
+        "filename": "java/com/google/gerrit/server/restapi/config/TasksCollection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-21T11:37:52Z",
+      "side": 1,
+      "message": "And to answer my own question: this was needed because the `ListTasks` is not a singleton any more",
+      "parentUuid": "d62767ce_137b6fba",
+      "revId": "83b5da11136b4ec6721181bc1fdf58be877bb82a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

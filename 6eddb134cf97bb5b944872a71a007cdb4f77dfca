@@ -70,6 +70,24 @@
       "parentUuid": "31b047d7_819a61f9",
       "revId": "6eddb134cf97bb5b944872a71a007cdb4f77dfca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e09d3836_18b5972c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-21T08:00:37Z",
+      "side": 1,
+      "message": "It fits in whatever monitoring system one uses. I mean, Gerrit core exposes the \u0027show-queue\u0027 endpoint both via SSH and REST, so one can periodically fetch that.\n\nIf we let this into Gerrit core then the next thing could be to periodically write java thread dumps into a log, which is also useful for post-incident analysis. Just to give one more example.\n\nBtw, if you really want to emit that log from Gerrit runtime you can also do it from a plugin?",
+      "parentUuid": "7e962e1d_200be853",
+      "revId": "6eddb134cf97bb5b944872a71a007cdb4f77dfca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

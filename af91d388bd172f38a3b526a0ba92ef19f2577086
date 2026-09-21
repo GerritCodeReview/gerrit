@@ -89,6 +89,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b49427e_ec8d94a7",
+        "filename": "java/com/google/gerrit/pgm/ReduceMaxTokenLifetime.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-09-21T14:56:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9f4d2c1_89f2a387",
+      "revId": "af91d388bd172f38a3b526a0ba92ef19f2577086",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "777af908_927a23da",
@@ -138,6 +156,24 @@
       "side": 1,
       "message": "My comment was a bit imprecise, I didn\u0027t mean to tell that `PluginItemContext` brings nothing over `DynamicItem` in general: I think it brings us nothing in this concrete case, usage of the `LockManager`.",
       "parentUuid": "d0c9d227_ff60952b",
+      "revId": "af91d388bd172f38a3b526a0ba92ef19f2577086",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "211519c8_4bc1ffaf",
+        "filename": "java/com/google/gerrit/server/account/MaxAuthTokenLifetimeApplier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-09-21T14:56:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24a200a8_e138ea3e",
       "revId": "af91d388bd172f38a3b526a0ba92ef19f2577086",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

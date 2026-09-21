@@ -16,6 +16,7 @@ package com.google.gerrit.pgm;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.extensions.config.FactoryModule;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.lucene.LuceneIndexModule;
@@ -95,7 +96,8 @@ public class MigratePasswordsToTokens extends SiteProgram {
                 bind(new TypeLiteral<List<String>>() {})
                     .annotatedWith(InstallPlugins.class)
                     .toInstance(new ArrayList<>());
-                bind(LockManager.class).toInstance(new DefaultLockManager());
+                DynamicItem.itemOf(binder(), LockManager.class);
+                DynamicItem.bind(binder(), LockManager.class).to(DefaultLockManager.class);
 
                 factory(PasswordMigrator.Factory.class);
                 factory(MetaDataUpdate.InternalFactory.class);

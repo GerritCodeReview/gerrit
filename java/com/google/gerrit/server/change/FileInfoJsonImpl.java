@@ -36,10 +36,114 @@ import org.eclipse.jgit.lib.ObjectId;
 /** Implementation of {@link FileInfoJson} using {@link DiffOperations}. */
 public class FileInfoJsonImpl implements FileInfoJson {
   private final DiffOperations diffs;
+  private final com.google.gerrit.server.git.GitRepositoryManager repoManager;
 
   @Inject
-  FileInfoJsonImpl(DiffOperations diffOperations) {
+  FileInfoJsonImpl(
+      DiffOperations diffOperations,
+      com.google.gerrit.server.git.GitRepositoryManager repoManager) {
     this.diffs = diffOperations;
+    this.repoManager = repoManager;
+  }
+
+  @Nullable
+  @Override
+  public Map<String, FileInfo> getFileInfoMapWithoutDiffStat(
+      Change change,
+      PatchSet patchSet,
+      @Nullable org.eclipse.jgit.lib.Repository repo,
+      @Nullable org.eclipse.jgit.revwalk.RevWalk rw)
+      throws ResourceConflictException, PatchListNotAvailableException {
+    try {
+      if (repo != null && rw != null) {
+        return computeFromTreeWalk(change.getProject(), patchSet.commitId(), rw);
+      }
+      try (org.eclipse.jgit.lib.Repository r = repoManager.openRepository(change.getProject());
+          org.eclipse.jgit.revwalk.RevWalk walk = new org.eclipse.jgit.revwalk.RevWalk(r)) {
+        return computeFromTreeWalk(change.getProject(), patchSet.commitId(), walk);
+      }
+    } catch (java.io.IOException | DiffNotAvailableException e) {
+      convertException(
+          e instanceof DiffNotAvailableException
+              ? (DiffNotAvailableException) e
+              : new DiffNotAvailableException(e));
+      return null;
+    }
+  }
+
+  private Map<String, FileInfo> computeFromTreeWalk(
+      Project.NameKey project, ObjectId objectId, org.eclipse.jgit.revwalk.RevWalk rw)
+      throws java.io.IOException,
+          DiffNotAvailableException,
+          ResourceConflictException,
+          PatchListNotAvailableException {
+    org.eclipse.jgit.revwalk.RevCommit newCommit = rw.parseCommit(objectId);
+    if (newCommit.getParentCount() > 1) {
+      return getFileInfoMap(project, objectId, 0);
+    }
+    ObjectId oldCommit =
+        newCommit.getParentCount() == 1 ? newCommit.getParent(0).getId() : ObjectId.zeroId();
+    com.google.common.collect.ImmutableList<com.google.gerrit.server.patch.gitdiff.ModifiedFile>
+        modifiedFiles = diffs.getModifiedFilesCached(project, oldCommit, objectId);
+    org.eclipse.jgit.revwalk.RevTree aTree =
+        oldCommit.equals(ObjectId.zeroId()) ? null : rw.parseTree(oldCommit);
+    org.eclipse.jgit.revwalk.RevTree bTree = rw.parseTree(newCommit);
+    Map<String, ObjectId> oldShas = new HashMap<>();
+    Map<String, Integer> oldModes = new HashMap<>();
+    Map<String, ObjectId> newShas = new HashMap<>();
+    Map<String, Integer> newModes = new HashMap<>();
+    java.util.Set<String> allPaths = new java.util.HashSet<>();
+    for (com.google.gerrit.server.patch.gitdiff.ModifiedFile mf : modifiedFiles) {
+      mf.oldPath().ifPresent(allPaths::add);
+      mf.newPath().ifPresent(allPaths::add);
+    }
+    if (!allPaths.isEmpty()) {
+      try (org.eclipse.jgit.treewalk.TreeWalk tw =
+          new org.eclipse.jgit.treewalk.TreeWalk(rw.getObjectReader())) {
+        tw.setRecursive(true);
+        tw.setFilter(org.eclipse.jgit.treewalk.filter.PathFilterGroup.createFromStrings(allPaths));
+        int aIdx = aTree != null ? tw.addTree(aTree) : -1;
+        int bIdx = tw.addTree(bTree);
+        while (tw.next()) {
+          String path = tw.getPathString();
+          if (aIdx >= 0 && !tw.getFileMode(aIdx).equals(org.eclipse.jgit.lib.FileMode.MISSING)) {
+            oldShas.put(path, tw.getObjectId(aIdx));
+            oldModes.put(path, tw.getRawMode(aIdx));
+          }
+          if (!tw.getFileMode(bIdx).equals(org.eclipse.jgit.lib.FileMode.MISSING)) {
+            newShas.put(path, tw.getObjectId(bIdx));
+            newModes.put(path, tw.getRawMode(bIdx));
+          }
+        }
+      }
+    }
+    Map<String, FileInfo> result = new HashMap<>();
+    for (com.google.gerrit.server.patch.gitdiff.ModifiedFile mf : modifiedFiles) {
+      String path = mf.getDefaultPath();
+      if (path.equals(Patch.COMMIT_MSG) || path.equals(Patch.MERGE_LIST)) {
+        continue;
+      }
+      FileInfo fileInfo = new FileInfo();
+      fileInfo.status =
+          mf.changeType() != Patch.ChangeType.MODIFIED ? mf.changeType().getCode() : null;
+      fileInfo.oldPath = FilePathAdapter.getOldPath(mf.oldPath(), mf.changeType());
+      if (mf.oldPath().isPresent()) {
+        ObjectId oSha = oldShas.get(mf.oldPath().get());
+        if (oSha != null && !oSha.equals(ObjectId.zeroId())) {
+          fileInfo.oldSha = oSha.name();
+        }
+        fileInfo.oldMode = oldModes.get(mf.oldPath().get());
+      }
+      if (mf.newPath().isPresent()) {
+        ObjectId nSha = newShas.get(mf.newPath().get());
+        if (nSha != null && !nSha.equals(ObjectId.zeroId())) {
+          fileInfo.newSha = nSha.name();
+        }
+        fileInfo.newMode = newModes.get(mf.newPath().get());
+      }
+      result.put(path, fileInfo);
+    }
+    return result;
   }
 
   @Nullable

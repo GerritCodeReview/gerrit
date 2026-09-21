@@ -39,6 +39,15 @@ public interface FileInfoJson {
     return getFileInfoMap(change, patchSet.commitId(), null);
   }
 
+  default Map<String, FileInfo> getFileInfoMapWithoutDiffStat(
+      Change change,
+      PatchSet patchSet,
+      @Nullable org.eclipse.jgit.lib.Repository repo,
+      @Nullable org.eclipse.jgit.revwalk.RevWalk rw)
+      throws ResourceConflictException, PatchListNotAvailableException {
+    return getFileInfoMap(change, patchSet);
+  }
+
   /**
    * Computes the list of modified files for a given change and patchset against its parent. For
    * merge commits, callers can use 0, 1, 2, etc... to choose a specific parent. The first parent is

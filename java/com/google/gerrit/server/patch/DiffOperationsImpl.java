@@ -120,6 +120,13 @@ public class DiffOperationsImpl implements DiffOperations {
   }
 
   @Override
+  public ImmutableList<ModifiedFile> getModifiedFilesCached(
+      Project.NameKey project, ObjectId oldCommit, ObjectId newCommit)
+      throws DiffNotAvailableException {
+    return modifiedFilesCache.get(createModifiedFilesKey(project, oldCommit, newCommit));
+  }
+
+  @Override
   public ImmutableList<ModifiedFile> getModifiedFiles(
       Project.NameKey project, ObjectId newCommit, int parentNum, boolean enableRenameDetection)
       throws DiffNotAvailableException {

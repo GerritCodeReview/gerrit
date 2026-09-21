@@ -71,9 +71,8 @@ public class AbandonIT extends AbstractDaemonTest {
     assertThat(Iterables.getLast(info.messages).message.toLowerCase(Locale.US))
         .contains("abandoned");
 
-    ResourceConflictException thrown =
-        assertThrows(ResourceConflictException.class, () -> gApi.changes().id(changeId).abandon());
-    assertThat(thrown).hasMessageThat().contains("change is abandoned");
+    gApi.changes().id(changeId).abandon();
+    assertThat(get(changeId, MESSAGES).status).isEqualTo(ChangeStatus.ABANDONED);
   }
 
   @Test

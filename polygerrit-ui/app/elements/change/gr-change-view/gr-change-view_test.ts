@@ -48,6 +48,7 @@ import {
   CommentThread,
   CommitId,
   EDIT,
+  GitRef,
   NumericChangeId,
   PARENT,
   RepoName,
@@ -1555,6 +1556,45 @@ suite('gr-change-view tests', () => {
     );
     assert.isTrue(
       copyLinksDialog.copyLinks.some(copyLink => copyLink.value === sha)
+    );
+  });
+
+  test('renders refspec in copy links', async () => {
+    const refspec = 'refs/changes/1/2/3' as GitRef;
+    element.change = createChangeViewChange();
+    element.revision = {
+      ...createRevision(),
+      ref: refspec,
+    };
+    element.loading = false;
+    await element.updateComplete;
+
+    const copyLinksDialog = queryAndAssert<GrCopyLinks>(
+      element,
+      'gr-copy-links'
+    );
+    assert.deepEqual(
+      copyLinksDialog.copyLinks.find(copyLink => copyLink.label === 'Refspec'),
+      {
+        label: 'Refspec',
+        shortcut: 'f',
+        value: refspec,
+      }
+    );
+  });
+
+  test('does not render refspec in copy links without a revision', async () => {
+    element.change = createChangeViewChange();
+    element.revision = undefined;
+    element.loading = false;
+    await element.updateComplete;
+
+    const copyLinksDialog = queryAndAssert<GrCopyLinks>(
+      element,
+      'gr-copy-links'
+    );
+    assert.isUndefined(
+      copyLinksDialog.copyLinks.find(copyLink => copyLink.label === 'Refspec')
     );
   });
 

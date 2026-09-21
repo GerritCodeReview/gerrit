@@ -17,6 +17,8 @@ package com.google.gerrit.server.restapi.config;
 import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.toList;
 
+import com.google.common.base.Ascii;
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -35,21 +37,39 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Predicate;
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.Option;
+import org.kohsuke.args4j.OptionDef;
+import org.kohsuke.args4j.spi.EnumOptionHandler;
+import org.kohsuke.args4j.spi.Parameters;
+import org.kohsuke.args4j.spi.Setter;
 
-@Singleton
 public class ListTasks implements RestReadView<ConfigResource> {
   private final PermissionBackend permissionBackend;
   private final WorkQueue workQueue;
   private final Provider<CurrentUser> self;
   private final ProjectCache projectCache;
+
+  private final EnumSet<Task.State> states = EnumSet.noneOf(Task.State.class);
+
+  @Option(
+      name = "--state",
+      aliases = {"-s"},
+      handler = StateHandler.class,
+      usage = "only show tasks in the specified state")
+  void addState(Task.State state) {
+    states.add(state);
+  }
 
   @Inject
   public ListTasks(
@@ -104,7 +124,8 @@ public class ListTasks implements RestReadView<ConfigResource> {
   }
 
   private List<TaskInfo> getTasks() {
-    return workQueue.getTaskInfos(TaskInfo::new).stream()
+    Predicate<Task<?>> filter = states.isEmpty() ? t -> true : t -> states.contains(t.getState());
+    return workQueue.getTaskInfos(filter, TaskInfo::new).stream()
         .sorted(
             comparing((TaskInfo t) -> t.state.ordinal())
                 .thenComparing(t -> t.delay)
@@ -137,6 +158,32 @@ public class ListTasks implements RestReadView<ConfigResource> {
           this.projectName = name.get();
         }
         this.remoteName = projectTask.getRemoteName();
+      }
+    }
+  }
+
+  public static class StateHandler extends EnumOptionHandler<Task.State> {
+    private static final ImmutableMap<String, Task.State> ALIASES =
+        ImmutableMap.of(
+            "WAITING", Task.State.READY,
+            "KILLED", Task.State.CANCELLED);
+
+    public StateHandler(CmdLineParser parser, OptionDef option, Setter<? super Task.State> setter) {
+      super(parser, option, setter, Task.State.class);
+    }
+
+    @Override
+    public int parseArguments(Parameters params) throws CmdLineException {
+      String param = params.getParameter(0);
+      Task.State alias = ALIASES.get(Ascii.toUpperCase(param));
+      if (alias != null) {
+        setter.addValue(alias);
+        return 1;
+      }
+      try {
+        return super.parseArguments(params);
+      } catch (CmdLineException e) {
+        throw new CmdLineException(owner, String.format("%s is not a valid task state", param), e);
       }
     }
   }

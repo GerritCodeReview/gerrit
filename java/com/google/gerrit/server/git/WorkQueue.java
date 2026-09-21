@@ -64,6 +64,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Predicate;
 import org.apache.commons.lang3.mutable.MutableBoolean;
 import org.eclipse.jgit.lib.Config;
 
@@ -293,10 +294,16 @@ public class WorkQueue {
   }
 
   public <T> List<T> getTaskInfos(TaskInfoFactory<T> factory) {
+    return getTaskInfos(task -> true, factory);
+  }
+
+  public <T> List<T> getTaskInfos(Predicate<Task<?>> filter, TaskInfoFactory<T> factory) {
     List<T> taskInfos = new ArrayList<>();
     for (Executor exe : queues) {
       for (Task<?> task : exe.getTasks()) {
-        taskInfos.add(factory.getTaskInfo(task));
+        if (filter.test(task)) {
+          taskInfos.add(factory.getTaskInfo(task));
+        }
       }
     }
     return taskInfos;

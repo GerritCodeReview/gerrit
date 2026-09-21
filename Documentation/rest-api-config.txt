@@ -1065,6 +1065,21 @@ As result a list of link:#task-info[TaskInfo] entities is returned.
 The entries in the list are sorted by task state, remaining delay and
 command.
 
+==== Task Options
+State(s)::
+Only list the tasks that are in the specified state. May be repeated to
+list the tasks matching any of the states. The state names are matched
+case insensitively, and apart from the two aliases below are the same
+ones reported by the `state` field of link:#task-info[TaskInfo]:
+`DONE`, `CANCELLED` (alias `KILLED`), `STOPPING`, `RUNNING`,
+`STARTING`, `PARKED`, `READY` (alias `WAITING`), `SLEEPING` and
+`OTHER`.
++
+.Request
+----
+  GET /config/server/tasks/?state=RUNNING&state=PARKED HTTP/1.0
+----
+
 .Request
 ----
   GET /config/server/tasks/ HTTP/1.0
@@ -2844,8 +2859,8 @@ work queue.
 |Field Name   ||Description
 |`id`         ||The ID of the task.
 |`state`      ||
-The state of the task, can be `DONE`, `CANCELLED`, `RUNNING`, `READY`,
-`SLEEPING` and `OTHER`.
+The state of the task, can be `DONE`, `CANCELLED`, `STOPPING`,
+`RUNNING`, `STARTING`, `PARKED`, `READY`, `SLEEPING` and `OTHER`.
 |`start_time` ||The start time of the task.
 |`delay`      ||The remaining delay of the task.
 |`command`    ||The command of the task.

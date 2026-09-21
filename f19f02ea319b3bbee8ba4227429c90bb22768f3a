@@ -46,6 +46,30 @@
       },
       "revId": "f19f02ea319b3bbee8ba4227429c90bb22768f3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd39cf6b_c235ba56",
+        "filename": "java/com/google/gerrit/auth/oauth/OAuthTokenRefresher.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-09-21T14:13:59Z",
+      "side": 1,
+      "message": "Done. Renamed it to `retryAtMillis` so it is clear that the value is an absolute timestamp compared with `TimeUtil.nowMs()`, not a duration.",
+      "parentUuid": "58111ced_6798c042",
+      "range": {
+        "startLine": 193,
+        "startChar": 48,
+        "endLine": 193,
+        "endChar": 64
+      },
+      "revId": "f19f02ea319b3bbee8ba4227429c90bb22768f3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

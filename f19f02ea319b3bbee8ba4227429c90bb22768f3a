@@ -70,6 +70,30 @@
       },
       "revId": "f19f02ea319b3bbee8ba4227429c90bb22768f3a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "06b2400d_bde0a2e6",
+        "filename": "java/com/google/gerrit/auth/oauth/OAuthTokenRefresher.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-21T14:18:16Z",
+      "side": 1,
+      "message": "Thanks. Btw, it would be better if we use \u0027java.time.Duration` and `java.time.Instant` instead of plain `long`, then it is clear from the data type what it is and we cannot easily compare incompatible types.\nI understand that this is likely out of scope of this change.",
+      "parentUuid": "cd39cf6b_c235ba56",
+      "range": {
+        "startLine": 193,
+        "startChar": 48,
+        "endLine": 193,
+        "endChar": 64
+      },
+      "revId": "f19f02ea319b3bbee8ba4227429c90bb22768f3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

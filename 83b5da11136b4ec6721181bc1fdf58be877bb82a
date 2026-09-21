@@ -16,6 +16,24 @@
       "message": "Is this change really necessary and why?",
       "revId": "83b5da11136b4ec6721181bc1fdf58be877bb82a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "755d0e66_9f59fb33",
+        "filename": "java/com/google/gerrit/server/restapi/config/TasksCollection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-09-21T09:36:57Z",
+      "side": 1,
+      "message": "We find ourselves often running \u0027watch ssh ... gerrit show-queue ... | grep ...\u0027. So anything which makes that easier seems desirable to me as it will reduce both the mental, and the system overhead.",
+      "parentUuid": "df7db004_7d63a05c",
+      "revId": "83b5da11136b4ec6721181bc1fdf58be877bb82a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

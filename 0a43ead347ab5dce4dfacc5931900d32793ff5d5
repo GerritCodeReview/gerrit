@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7110ddf8_ed897cfc",
+        "filename": "java/com/google/gerrit/server/project/ProjectConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1076,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-21T09:18:31Z",
+      "side": 0,
+      "message": "Invite also the author of this (removed) code to review this change.",
+      "revId": "0a43ead347ab5dce4dfacc5931900d32793ff5d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

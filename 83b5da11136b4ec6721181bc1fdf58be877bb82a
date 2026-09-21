@@ -34,6 +34,24 @@
       "parentUuid": "df7db004_7d63a05c",
       "revId": "83b5da11136b4ec6721181bc1fdf58be877bb82a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d62767ce_137b6fba",
+        "filename": "java/com/google/gerrit/server/restapi/config/TasksCollection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-21T10:25:55Z",
+      "side": 1,
+      "message": "I am not asking about this complete change but only about replacing `ListTasks` with `Provider\u003cListTasks\u003e`.",
+      "parentUuid": "755d0e66_9f59fb33",
+      "revId": "83b5da11136b4ec6721181bc1fdf58be877bb82a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

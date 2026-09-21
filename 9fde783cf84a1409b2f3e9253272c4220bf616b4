@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "375841f0_090920f9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-09-21T17:14:35Z",
+      "side": 1,
+      "message": "Also happens when the change is merged and a submit is done again. Should this be consistent ? (or should we just update Abandon alone ?)",
+      "revId": "9fde783cf84a1409b2f3e9253272c4220bf616b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

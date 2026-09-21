@@ -88,7 +88,9 @@ public class AbandonOp implements BatchUpdateOp {
     change = ctx.getChange();
     PatchSet.Id psId = change.currentPatchSetId();
     ChangeUpdate update = ctx.getUpdate(psId);
-    if (!change.isNew()) {
+    if(change.isAbandoned()) {
+      logger.atInfo().log("Change %s was already abandoned", change.getId());
+    } else if (!change.isNew()) {
       throw new ResourceConflictException("change is " + ChangeUtil.status(change));
     }
     patchSet = psUtil.get(ctx.getNotes(), psId);

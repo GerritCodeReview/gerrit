@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c2ace3a_c3cfb162",
+        "filename": "java/com/google/gerrit/auth/oauth/OAuthTokenRefresher.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-21T12:37:22Z",
+      "side": 1,
+      "message": "this name is imprecise: it indicates it is a period of time but then L1147 compares it with `nowMs()` which indicates this is actually an instant.",
+      "range": {
+        "startLine": 193,
+        "startChar": 48,
+        "endLine": 193,
+        "endChar": 64
+      },
+      "revId": "f19f02ea319b3bbee8ba4227429c90bb22768f3a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

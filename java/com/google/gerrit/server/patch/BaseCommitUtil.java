@@ -64,9 +64,13 @@ class BaseCommitUtil {
         ObjectInserter ins = repo.newObjectInserter();
         ObjectReader reader = ins.newReader();
         RevWalk rw = new RevWalk(reader)) {
-      RevCommit current = rw.parseCommit(commitId);
-      return current.getParentCount();
+      return getNumParents(rw, commitId);
     }
+  }
+
+  int getNumParents(RevWalk rw, ObjectId commitId) throws IOException {
+    RevCommit current = rw.parseCommit(commitId);
+    return current.getParentCount();
   }
 
   /**

@@ -73,6 +73,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b9f4d2c1_89f2a387",
+        "filename": "java/com/google/gerrit/pgm/ReduceMaxTokenLifetime.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-21T08:28:20Z",
+      "side": 1,
+      "message": "My conclusion in this comment might be wrong: if this standalone program depends on any code which injects `DynamicItem\u003cLockManager\u003e` then we would need also to bind it like that.",
+      "parentUuid": "c9fe52ca_b41d40ad",
+      "revId": "af91d388bd172f38a3b526a0ba92ef19f2577086",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "777af908_927a23da",
         "filename": "java/com/google/gerrit/server/account/MaxAuthTokenLifetimeApplier.java",
         "patchSetId": 2
@@ -102,6 +120,24 @@
       "side": 1,
       "message": "It does look like we get logging/traceability and plugin metrics from these",
       "parentUuid": "777af908_927a23da",
+      "revId": "af91d388bd172f38a3b526a0ba92ef19f2577086",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24a200a8_e138ea3e",
+        "filename": "java/com/google/gerrit/server/account/MaxAuthTokenLifetimeApplier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-21T08:28:20Z",
+      "side": 1,
+      "message": "My comment was a bit imprecise, I didn\u0027t mean to tell that `PluginItemContext` brings nothing over `DynamicItem` in general: I think it brings us nothing in this concrete case, usage of the `LockManager`.",
+      "parentUuid": "d0c9d227_ff60952b",
       "revId": "af91d388bd172f38a3b526a0ba92ef19f2577086",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

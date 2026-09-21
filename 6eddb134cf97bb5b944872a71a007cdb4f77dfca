@@ -106,6 +106,24 @@
       "parentUuid": "e09d3836_18b5972c",
       "revId": "6eddb134cf97bb5b944872a71a007cdb4f77dfca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a5a5e9a_8d5aff74",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-21T12:10:56Z",
+      "side": 1,
+      "message": "Yes, metrics are in core and, in my opinion, this is same like \"show-queue is in core\". We use plugins to push metrics into an external system (like prometheus).\nBy the same analogy we can use a plugin to push show-queue periodically in an external system (log file or something remote).\n\nI will not actively oppose this change",
+      "parentUuid": "b6f0586d_36de3dea",
+      "revId": "6eddb134cf97bb5b944872a71a007cdb4f77dfca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

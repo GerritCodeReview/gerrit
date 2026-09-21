@@ -37,6 +37,7 @@ import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RevertInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.RevertSubmissionInfo;
+import com.google.gerrit.extensions.conditions.BooleanCondition;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -85,6 +86,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -490,13 +492,22 @@ public class RevertSubmission
                 and(
                     change.isMerged()
                         && change.getSubmissionId() != null
-                        && isChangePartOfSubmission(change.getSubmissionId())
                         && projectStatePermitsWrite,
                     permissionBackend
                         .user(rsrc.getUser())
                         .ref(change.getDest())
                         .testCond(CREATE_CHANGE)),
-                permissionBackend.user(rsrc.getUser()).change(rsrc.getNotes()).testCond(REVERT)));
+                and(
+                    permissionBackend.user(rsrc.getUser()).change(rsrc.getNotes()).testCond(REVERT),
+                    new BooleanCondition() {
+                      @Override
+                      public boolean value() {
+                        return isChangePartOfSubmission(change.getSubmissionId());
+                      }
+
+                      @Override
+                      public void children(Consumer<BooleanCondition> c) {}
+                    })));
   }
 
   /**
@@ -504,7 +515,7 @@ public class RevertSubmission
    * @return True if the submission has more than one change, false otherwise.
    */
   private Boolean isChangePartOfSubmission(String submissionId) {
-    return (queryProvider.get().setLimit(2).bySubmissionId(submissionId).size() > 1);
+    return (queryProvider.get().setLimit(2).noFields().bySubmissionId(submissionId).size() > 1);
   }
 
   private class CreateCherryPickOp implements BatchUpdateOp {

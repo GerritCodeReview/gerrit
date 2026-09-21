@@ -1369,6 +1369,13 @@ export class GrChangeView extends LitElement {
         value: `${this.change?.change_id}`,
       },
     ];
+    if (this.revision?.ref) {
+      links.push({
+        label: 'Refspec',
+        shortcut: 'f',
+        value: this.revision.ref,
+      });
+    }
     if (
       this.change?.status === ChangeStatus.MERGED &&
       this.change?.current_revision

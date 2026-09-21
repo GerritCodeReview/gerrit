@@ -22,6 +22,7 @@ public abstract class DiffOptions {
       DiffOptions.builder()
           .skipFilesWithAllEditsDueToRebase(true)
           .skipRebaseFiltering(false)
+          .skipDiffStat(false)
           .build();
 
   public abstract boolean skipFilesWithAllEditsDueToRebase();
@@ -35,8 +36,18 @@ public abstract class DiffOptions {
    */
   public abstract boolean skipRebaseFiltering();
 
+  /**
+   * Whether to skip computing full per-file text diffs and diffstats (insertions, deletions, size,
+   * sizeDelta) and instead populate lightweight {@link
+   * com.google.gerrit.server.patch.filediff.FileDiffOutput} entries containing only file paths,
+   * change types, file modes, and blob SHAs.
+   */
+  public abstract boolean skipDiffStat();
+
+  public abstract Builder toBuilder();
+
   public static DiffOptions.Builder builder() {
-    return new AutoValue_DiffOptions.Builder().skipRebaseFiltering(false);
+    return new AutoValue_DiffOptions.Builder().skipRebaseFiltering(false).skipDiffStat(false);
   }
 
   @AutoValue.Builder
@@ -44,6 +55,8 @@ public abstract class DiffOptions {
     public abstract Builder skipFilesWithAllEditsDueToRebase(boolean value);
 
     public abstract Builder skipRebaseFiltering(boolean value);
+
+    public abstract Builder skipDiffStat(boolean value);
 
     public abstract DiffOptions build();
   }

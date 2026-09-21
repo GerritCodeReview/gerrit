@@ -85,9 +85,14 @@ public class AbandonOp implements BatchUpdateOp {
 
   @Override
   public boolean updateChange(ChangeContext ctx) throws ResourceConflictException {
+    if (change.isAbandoned()) {
+      logger.atInfo().log("Change %s was already abandoned", change.getId());
+      return true;
+    }
     change = ctx.getChange();
     PatchSet.Id psId = change.currentPatchSetId();
     ChangeUpdate update = ctx.getUpdate(psId);
+
     if (!change.isNew()) {
       throw new ResourceConflictException("change is " + ChangeUtil.status(change));
     }

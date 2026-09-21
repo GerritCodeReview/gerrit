@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c82b1ed1_788a3fcd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-21T17:04:33Z",
+      "side": 1,
+      "message": "`Release-Notes` missing",
+      "revId": "6a4eaf6907eec9e8e395ef79b45a5c378aa6e694",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

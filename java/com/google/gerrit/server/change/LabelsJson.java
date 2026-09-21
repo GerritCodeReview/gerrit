@@ -136,6 +136,13 @@ public class LabelsJson {
    */
   Map<String, Collection<String>> permittedLabels(Account.Id filterApprovalsBy, ChangeData cd)
       throws PermissionBackendException {
+    return permittedLabels(
+        permissionBackend.absentUser(filterApprovalsBy).change(cd), filterApprovalsBy, cd);
+  }
+
+  private Map<String, Collection<String>> permittedLabels(
+      PermissionBackend.ForChange userPerm, Account.Id filterApprovalsBy, ChangeData cd)
+      throws PermissionBackendException {
     try (TraceTimer timer =
         TraceContext.newTimer(
             "Get permitted labels",
@@ -147,8 +154,7 @@ public class LabelsJson {
         if (isMerged && !labelType.isAllowPostSubmit()) {
           continue;
         }
-        Set<LabelPermission.WithValue> can =
-            permissionBackend.absentUser(filterApprovalsBy).change(cd).test(labelType);
+        Set<LabelPermission.WithValue> can = userPerm.test(labelType);
         for (LabelPermission.WithValue val : can) {
           logger.atFine().log(
               "User %s For label %s can vote %s ", filterApprovalsBy, val.label(), val.value());
@@ -499,7 +505,7 @@ public class LabelsJson {
       PermissionBackend.ForChange perm = null;
       if (detailed) {
         perm = permissionBackend.absentUser(accountId).change(cd);
-        pvr = getPermittedVotingRanges(permittedLabels(accountId, cd));
+        pvr = getPermittedVotingRanges(permittedLabels(perm, accountId, cd));
       }
       for (Map.Entry<String, LabelInfo> e : labels.entrySet()) {
         Optional<LabelType> lt = labelTypes.byLabel(e.getKey());

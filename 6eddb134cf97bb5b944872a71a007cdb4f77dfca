@@ -88,6 +88,24 @@
       "parentUuid": "7e962e1d_200be853",
       "revId": "6eddb134cf97bb5b944872a71a007cdb4f77dfca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6f0586d_36de3dea",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-09-21T11:02:19Z",
+      "side": 1,
+      "message": "Thread dumps are risky, as they can slow down/block operations, otherwise I would agree that it WOULD make sense in core! I think that the fact that we have them in the gerrit.sh script already shows that this is something that people feel is fundamental. I believe metrics are mostly in core today? I know there are metrics plugins which interface with external monitoring systems, but this isn\u0027t an interface to an external system like Prometheus, this is effectively an internal system which uses the log system directly, and we write all sorts of logs (including from plugins) already, it is simple and requires very little from an admin.\n\nI personally think this is a very valuable thing to have in core, and I would prefer not to have to setup an external system to do this on all my systems. I would ask you to imagine yourself changing jobs, and still working on Gerrit, would you want to have to configure an external system to do this, or would you prefer to have it just happening for you by Gerrit? I feel this is the type of thing that makes onboarding Gerrit easier (and that we should be making onboarding easier).",
+      "parentUuid": "e09d3836_18b5972c",
+      "revId": "6eddb134cf97bb5b944872a71a007cdb4f77dfca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

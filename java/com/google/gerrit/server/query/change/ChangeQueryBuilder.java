@@ -79,6 +79,7 @@ import com.google.gerrit.server.config.GerritImportedServerIds;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.HasOperandAliasConfig;
 import com.google.gerrit.server.config.OperatorAliasConfig;
+import com.google.gerrit.server.config.TrustedRegex;
 import com.google.gerrit.server.experiments.ExperimentFeatures;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.change.ChangeField;
@@ -406,7 +407,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
         ChangeIsVisibleToPredicate.Factory changeIsVisbleToPredicateFactory,
         PluginSetContext<SubmitRule> submitRules,
         EditByPredicateProvider editByPredicateProvider,
-        RegexCompiler regexCompiler) {
+        @TrustedRegex RegexCompiler regexCompiler) {
       this.queryProvider = queryProvider;
       this.rewriter = rewriter;
       this.opFactories = opFactories;
@@ -444,7 +445,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       this.regexCompiler = regexCompiler;
     }
 
-    public Arguments asUser(CurrentUser otherUser) {
+    private Arguments copy(Provider<CurrentUser> otherUser, RegexCompiler otherRegexCompiler) {
       return new Arguments(
           queryProvider,
           rewriter,
@@ -452,7 +453,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
           hasOperands,
           isOperands,
           userFactory,
-          Providers.of(otherUser),
+          otherUser,
           permissionBackend,
           changeDataFactory,
           commentsUtil,
@@ -480,7 +481,15 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
           changeIsVisbleToPredicateFactory,
           submitRules,
           editByPredicateProvider,
-          regexCompiler);
+          otherRegexCompiler);
+    }
+
+    public Arguments asUser(CurrentUser otherUser) {
+      return copy(Providers.of(otherUser), regexCompiler);
+    }
+
+    Arguments withRegexCompiler(RegexCompiler regexCompiler) {
+      return copy(self, regexCompiler);
     }
 
     Arguments asUser(Account.Id otherId) {

@@ -29,6 +29,7 @@ import com.google.gerrit.extensions.restapi.RestCollectionCreateView;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
+import com.google.gerrit.server.git.validators.ProjectConfigRegexValidator;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
@@ -55,6 +56,7 @@ public class CreateLabel
   private final ProjectConfig.Factory projectConfigFactory;
   private final ProjectCache projectCache;
   private final ApprovalQueryBuilder approvalQueryBuilder;
+  private final ProjectConfigRegexValidator projectConfigRegexValidator;
 
   @Inject
   public CreateLabel(
@@ -63,13 +65,15 @@ public class CreateLabel
       MetaDataUpdate.User updateFactory,
       ProjectConfig.Factory projectConfigFactory,
       ProjectCache projectCache,
-      ApprovalQueryBuilder approvalQueryBuilder) {
+      ApprovalQueryBuilder approvalQueryBuilder,
+      ProjectConfigRegexValidator projectConfigRegexValidator) {
     this.user = user;
     this.permissionBackend = permissionBackend;
     this.updateFactory = updateFactory;
     this.projectConfigFactory = projectConfigFactory;
     this.projectCache = projectCache;
     this.approvalQueryBuilder = approvalQueryBuilder;
+    this.projectConfigRegexValidator = projectConfigRegexValidator;
   }
 
   @Override
@@ -100,8 +104,15 @@ public class CreateLabel
 
     try (MetaDataUpdate md = updateFactory.create(rsrc.getNameKey())) {
       ProjectConfig config = projectConfigFactory.read(md);
-
-      LabelType labelType = createLabel(config, id.get(), input);
+      LabelType labelType;
+      if (projectConfigRegexValidator.isAllowed()) {
+        labelType = createLabel(config, id.get(), input);
+      } else {
+        var existingLabelBranchRegexes = config.getLabelBranchRegexes();
+        labelType = createLabel(config, id.get(), input);
+        projectConfigRegexValidator.assertNoAdditionalRegexes(
+            existingLabelBranchRegexes, config.getLabelBranchRegexes());
+      }
 
       if (input.commitMessage != null) {
         md.setMessage(Strings.emptyToNull(input.commitMessage.trim()));

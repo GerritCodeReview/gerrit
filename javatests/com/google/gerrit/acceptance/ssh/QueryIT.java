@@ -23,7 +23,9 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.SshSession;
+import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.acceptance.UseSsh;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.annotations.Exports;
@@ -38,7 +40,9 @@ import com.google.gerrit.index.query.OperatorPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.index.query.ResultSet;
+import com.google.gerrit.server.config.RegexAllowedGroupsProvider;
 import com.google.gerrit.server.data.ChangeAttribute;
+import com.google.gerrit.server.permissions.RegexPermissionPolicy;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeDataSource;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
@@ -53,6 +57,18 @@ import org.junit.Test;
 @UseSsh
 public class QueryIT extends AbstractDaemonTest {
   private static Gson gson = new Gson();
+
+  @Test
+  @UseLocalDisk
+  @GerritConfig(
+      name = RegexAllowedGroupsProvider.SECTION + "." + RegexAllowedGroupsProvider.KEY,
+      value = "Project Owners")
+  public void regexQueryRejectedForUserOutsideAllowedGroup() throws Exception {
+    String output = userSshSession.exec("gerrit query project:^.*");
+
+    userSshSession.assertSuccess();
+    assertThat(output).contains(RegexPermissionPolicy.NOT_PERMITTED_MESSAGE);
+  }
 
   @Test
   public void basicQueryJSON() throws Exception {

@@ -48,6 +48,8 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.config.UntrustedRegex;
+import com.google.gerrit.server.config.UntrustedRegexCompiler.RegexPermissionException;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.group.GroupResolver;
 import com.google.gerrit.server.ioutil.RegexCompiler;
@@ -200,7 +202,7 @@ public class ListProjectsImpl extends AbstractListProjects {
       PermissionBackend permissionBackend,
       ProjectNode.Factory projectNodeFactory,
       WebLinks webLinks,
-      RegexCompiler regexCompiler,
+      @UntrustedRegex RegexCompiler regexCompiler,
       Provider<QueryProjects> queryProjectsProvider,
       @GerritServerConfig Config config,
       ProjectIndexCollection projectIndexes) {
@@ -625,8 +627,8 @@ public class ListProjectsImpl extends AbstractListProjects {
       RegexListSearcher<Project.NameKey> searcher;
       try {
         searcher = new RegexListSearcher<>(regexCompiler, matchRegex, Project.NameKey::get);
-      } catch (IllegalArgumentException e) {
-        throw new BadRequestException(e.getMessage());
+      } catch (RegexPermissionException | IllegalArgumentException e) {
+        throw new BadRequestException(e.getMessage(), e);
       }
       return searcher.search(projectCache.all().asList());
     } else {

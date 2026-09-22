@@ -41,12 +41,15 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
+import com.google.gerrit.server.config.RegexAllowedGroupsProvider;
+import com.google.gerrit.server.permissions.RegexPermissionPolicy;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.restapi.change.QueryChanges;
 import com.google.gerrit.truth.NullAwareCorrespondence;
@@ -64,6 +67,63 @@ public class QueryChangesIT extends AbstractDaemonTest {
   @Inject private ProjectOperations projectOperations;
   @Inject private Provider<QueryChanges> queryChangesProvider;
   @Inject private RequestScopeOperations requestScopeOperations;
+
+  @Test
+  @GerritConfig(
+      name = RegexAllowedGroupsProvider.SECTION + "." + RegexAllowedGroupsProvider.KEY,
+      value = "Project Owners")
+  public void regexQueryRejectedForUserOutsideAllowedGroup() throws Exception {
+    requestScopeOperations.setApiUser(user.id());
+    QueryChanges queryChanges = queryChangesProvider.get();
+    queryChanges.addQuery("project:^.*");
+
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class, () -> queryChanges.apply(TopLevelResource.INSTANCE));
+
+    assertThat(thrown).hasMessageThat().isEqualTo(RegexPermissionPolicy.NOT_PERMITTED_MESSAGE);
+  }
+
+  @Test
+  @GerritConfig(
+      name = RegexAllowedGroupsProvider.SECTION + "." + RegexAllowedGroupsProvider.KEY,
+      value = "Project Owners")
+  public void anonymousRegexQueryIsRejected() throws Exception {
+    requestScopeOperations.setApiUserAnonymous();
+    QueryChanges queryChanges = queryChangesProvider.get();
+    queryChanges.addQuery("project:^.*");
+
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class, () -> queryChanges.apply(TopLevelResource.INSTANCE));
+
+    assertThat(thrown).hasMessageThat().isEqualTo(RegexPermissionPolicy.NOT_PERMITTED_MESSAGE);
+  }
+
+  @Test
+  @GerritConfig(
+      name = RegexAllowedGroupsProvider.SECTION + "." + RegexAllowedGroupsProvider.KEY,
+      value = "Project Owners")
+  public void regexInNamedQueryIsCheckedForCurrentUser() throws Exception {
+    TestRepository<InMemoryRepository> allUsersRepo = cloneProject(allUsers, user);
+    allUsersRepo.git().fetch().setRefSpecs(RefNames.refsUsers(user.id()) + ":userRef").call();
+    allUsersRepo.reset("userRef");
+    pushFactory
+        .create(
+            user.newIdent(), allUsersRepo, "Add named query", "queries", "expensive\tproject:^.*\n")
+        .to(RefNames.REFS_USERS_SELF)
+        .assertOkStatus();
+
+    requestScopeOperations.setApiUser(user.id());
+    QueryChanges queryChanges = queryChangesProvider.get();
+    queryChanges.addQuery("query:expensive");
+
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class, () -> queryChanges.apply(TopLevelResource.INSTANCE));
+
+    assertThat(thrown).hasMessageThat().isEqualTo(RegexPermissionPolicy.NOT_PERMITTED_MESSAGE);
+  }
 
   @Test
   @SuppressWarnings("unchecked")

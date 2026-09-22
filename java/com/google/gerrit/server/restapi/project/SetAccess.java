@@ -31,6 +31,7 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupBackend;
+import com.google.gerrit.server.git.validators.ProjectConfigRegexValidator;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.RefPermission;
@@ -48,6 +49,7 @@ public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessI
   private final GetAccess getAccess;
   private final Provider<IdentifiedUser> identifiedUser;
   private final SetAccessUtil accessUtil;
+  private final ProjectConfigRegexValidator projectConfigRegexValidator;
   private final RepoMetaDataUpdater repoMetaDataUpdater;
 
   @Inject
@@ -57,12 +59,14 @@ public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessI
       GetAccess getAccess,
       Provider<IdentifiedUser> identifiedUser,
       SetAccessUtil accessUtil,
+      ProjectConfigRegexValidator projectConfigRegexValidator,
       RepoMetaDataUpdater repoMetaDataUpdater) {
     this.groupBackend = groupBackend;
     this.permissionBackend = permissionBackend;
     this.getAccess = getAccess;
     this.identifiedUser = identifiedUser;
     this.accessUtil = accessUtil;
+    this.projectConfigRegexValidator = projectConfigRegexValidator;
     this.repoMetaDataUpdater = repoMetaDataUpdater;
   }
 
@@ -101,8 +105,13 @@ public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessI
               }
             }
 
+            var existingAccessSectionRegexNames = config.getAccessSectionRegexNames();
             accessUtil.validateChanges(config, removals, additions);
             accessUtil.applyChanges(config, removals, additions);
+            if (!projectConfigRegexValidator.isAllowed()) {
+              projectConfigRegexValidator.assertNoAdditionalRegexes(
+                  existingAccessSectionRegexNames, config.getAccessSectionRegexNames());
+            }
 
             accessUtil.setParentName(
                 identifiedUser.get(),
@@ -114,7 +123,7 @@ public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessI
     } catch (InvalidNameException e) {
       throw new BadRequestException(e.toString());
     } catch (ConfigInvalidException e) {
-      throw new ResourceConflictException(rsrc.getName(), e);
+      throw new ResourceConflictException(e.getMessage(), e);
     }
 
     return Response.ok(getAccess.apply(rsrc.getNameKey()));

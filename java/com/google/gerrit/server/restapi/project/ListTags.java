@@ -29,6 +29,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.CommonConverters;
 import com.google.gerrit.server.WebLinks;
+import com.google.gerrit.server.config.UntrustedRegex;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.ioutil.RegexCompiler;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -128,7 +129,7 @@ public class ListTags implements RestReadView<ProjectResource> {
       PermissionBackend permissionBackend,
       WebLinks webLinks,
       TagSorter tagSorter,
-      RegexCompiler regexCompiler) {
+      @UntrustedRegex RegexCompiler regexCompiler) {
     this.repoManager = repoManager;
     this.permissionBackend = permissionBackend;
     this.links = webLinks;

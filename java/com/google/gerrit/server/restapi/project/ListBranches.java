@@ -41,6 +41,7 @@ import com.google.gerrit.proto.Entities.PaginationToken;
 import com.google.gerrit.proto.Protos;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.WebLinks;
+import com.google.gerrit.server.config.UntrustedRegex;
 import com.google.gerrit.server.extensions.webui.UiActions;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.ioutil.RegexCompiler;
@@ -139,7 +140,7 @@ public class ListBranches implements RestReadView<ProjectResource> {
       DynamicMap<RestView<BranchResource>> branchViews,
       UiActions uiActions,
       WebLinks webLinks,
-      RegexCompiler regexCompiler) {
+      @UntrustedRegex RegexCompiler regexCompiler) {
     this.repoManager = repoManager;
     this.permissionBackend = permissionBackend;
     this.branchViews = branchViews;

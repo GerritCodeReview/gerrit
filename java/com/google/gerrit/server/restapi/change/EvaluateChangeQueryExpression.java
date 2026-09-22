@@ -30,8 +30,8 @@ import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
+import com.google.gerrit.server.query.change.UntrustedChangeQueryBuilder;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.util.List;
@@ -52,13 +52,13 @@ public class EvaluateChangeQueryExpression implements RestReadView<ChangeResourc
               + " index.")
   public boolean useIndex;
 
-  private final Provider<ChangeQueryBuilder> queryBuilder;
+  private final Provider<UntrustedChangeQueryBuilder> queryBuilder;
   private final Provider<InternalChangeQuery> internalChangeQuery;
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   @Inject
   EvaluateChangeQueryExpression(
-      Provider<ChangeQueryBuilder> queryBuilder,
+      Provider<UntrustedChangeQueryBuilder> queryBuilder,
       Provider<InternalChangeQuery> internalChangeQuery) {
     this.queryBuilder = queryBuilder;
     this.internalChangeQuery = internalChangeQuery;

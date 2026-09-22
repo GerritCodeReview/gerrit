@@ -18,12 +18,17 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.acceptance.GitUtil.fetch;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
+import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.config.GerritConfig;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
+import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.annotations.Exports;
@@ -35,6 +40,8 @@ import com.google.gerrit.index.query.OperatorPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.config.RegexAllowedGroupsProvider;
+import com.google.gerrit.server.permissions.RegexPermissionPolicy;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
@@ -45,6 +52,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
@@ -62,6 +70,9 @@ import org.junit.Test;
  * refs/meta/config}.
  */
 public class SubmitRequirementsValidationIT extends AbstractDaemonTest {
+  @Inject private ProjectOperations projectOperations;
+  @Inject private RequestScopeOperations requestScopeOperations;
+
   @Test
   public void validSubmitRequirementIsAccepted_optionalParametersNotSet() throws Exception {
     fetchRefsMetaConfig();
@@ -639,6 +650,60 @@ public class SubmitRequirementsValidationIT extends AbstractDaemonTest {
                 submitRequirementName,
                 ProjectConfig.KEY_SR_SUBMITTABILITY_EXPRESSION,
                 invalidExpression));
+  }
+
+  @Test
+  @GerritConfig(
+      name = RegexAllowedGroupsProvider.SECTION + "." + RegexAllowedGroupsProvider.KEY,
+      value = "Project Owners")
+  public void newRegexSubmitRequirementIsRejectedForUserOutsideAllowedGroup() throws Exception {
+    fetchRefsMetaConfig();
+    updateProjectConfig(
+        projectConfig ->
+            projectConfig.setString(
+                ProjectConfig.SUBMIT_REQUIREMENT,
+                /* subsection= */ "Code-Review",
+                /* name= */ ProjectConfig.KEY_SR_SUBMITTABILITY_EXPRESSION,
+                /* value= */ "authoremail:.*"));
+
+    PushResult r = pushRefsMetaConfig();
+
+    assertErrorStatus(r, RegexPermissionPolicy.NOT_PERMITTED_MESSAGE);
+  }
+
+  @Test
+  @GerritConfig(
+      name = RegexAllowedGroupsProvider.SECTION + "." + RegexAllowedGroupsProvider.KEY,
+      value = "Administrators")
+  public void newRegexSubmitRequirementPushedAsChangeIsRejectedForUserOutsideAllowedGroup()
+      throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.OWNER).ref("refs/*").group(REGISTERED_USERS))
+        .update();
+    TestRepository<InMemoryRepository> userRepo = cloneProject(project, user);
+    fetch(userRepo, RefNames.REFS_CONFIG + ":" + RefNames.REFS_CONFIG);
+    userRepo.reset(RefNames.REFS_CONFIG);
+
+    Config projectConfig = new Config();
+    projectConfig.fromText(projectOperations.project(project).getConfig().toText());
+    projectConfig.setString(
+        ProjectConfig.SUBMIT_REQUIREMENT,
+        "Code-Review",
+        ProjectConfig.KEY_SR_SUBMITTABILITY_EXPRESSION,
+        "authoremail:.*");
+    PushOneCommit.Result result =
+        pushFactory
+            .create(
+                user.newIdent(),
+                userRepo,
+                "Add regex submit requirement",
+                ProjectConfig.PROJECT_CONFIG,
+                projectConfig.toText())
+            .to("refs/for/" + RefNames.REFS_CONFIG);
+    result.assertErrorStatus();
+    assertThat(result.getMessages()).contains(RegexPermissionPolicy.NOT_PERMITTED_MESSAGE);
   }
 
   private void fetchRefsMetaConfig() throws Exception {

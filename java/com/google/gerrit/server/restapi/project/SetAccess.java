@@ -34,6 +34,7 @@ import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.RefPermission;
+import com.google.gerrit.server.project.AccessSectionRegexValidator;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.restapi.project.RepoMetaDataUpdater.ConfigUpdater;
@@ -50,6 +51,7 @@ public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessI
   private final GetAccess getAccess;
   private final Provider<IdentifiedUser> identifiedUser;
   private final SetAccessUtil accessUtil;
+  private final AccessSectionRegexValidator accessSectionRegexValidator;
   private final RepoMetaDataUpdater repoMetaDataUpdater;
   private final CreateGroupPermissionSyncer createGroupPermissionSyncer;
 
@@ -60,6 +62,7 @@ public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessI
       GetAccess getAccess,
       Provider<IdentifiedUser> identifiedUser,
       SetAccessUtil accessUtil,
+      AccessSectionRegexValidator accessSectionRegexValidator,
       CreateGroupPermissionSyncer createGroupPermissionSyncer,
       RepoMetaDataUpdater repoMetaDataUpdater) {
     this.groupBackend = groupBackend;
@@ -67,6 +70,7 @@ public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessI
     this.getAccess = getAccess;
     this.identifiedUser = identifiedUser;
     this.accessUtil = accessUtil;
+    this.accessSectionRegexValidator = accessSectionRegexValidator;
     this.repoMetaDataUpdater = repoMetaDataUpdater;
     this.createGroupPermissionSyncer = createGroupPermissionSyncer;
   }
@@ -102,6 +106,7 @@ public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessI
         }
       }
 
+      accessSectionRegexValidator.validateNewRegexes(config.getAccessSections(), additions);
       accessUtil.validateChanges(config, removals, additions);
       accessUtil.applyChanges(config, removals, additions);
 
@@ -117,7 +122,7 @@ public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessI
     } catch (InvalidNameException e) {
       throw new BadRequestException(e.toString());
     } catch (ConfigInvalidException e) {
-      throw new ResourceConflictException(rsrc.getName(), e);
+      throw new ResourceConflictException(e.getMessage(), e);
     }
 
     return Response.ok(getAccess.apply(rsrc.getNameKey()));

@@ -22,6 +22,7 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountProperties;
+import com.google.gerrit.server.account.ProjectWatches;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
@@ -69,7 +70,9 @@ public class AccountMergeValidator implements MergeValidationListener {
     ChangeData cd =
         changeDataFactory.create(destProject.getProject().getNameKey(), patchSetId.changeId());
     try {
-      if (!cd.currentFilePaths().contains(AccountProperties.ACCOUNT_CONFIG)) {
+      List<String> currentFilePaths = cd.currentFilePaths();
+      if (!currentFilePaths.contains(AccountProperties.ACCOUNT_CONFIG)
+          && !currentFilePaths.contains(ProjectWatches.WATCH_CONFIG)) {
         return;
       }
     } catch (StorageException e) {

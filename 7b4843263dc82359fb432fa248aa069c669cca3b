@@ -34,6 +34,24 @@
       "parentUuid": "0f65ad07_fd601257",
       "revId": "7b4843263dc82359fb432fa248aa069c669cca3b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e076ccf_2448dd86",
+        "filename": "java/com/google/gerrit/server/restapi/config/ConfigRestApiModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-09-22T12:31:02Z",
+      "side": 1,
+      "message": "Agreed, I think this change is fine as is, but on master it would make sense to review what\u0027s being binded for replicas more broadly",
+      "parentUuid": "b52e9490_0a0c27d3",
+      "revId": "7b4843263dc82359fb432fa248aa069c669cca3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

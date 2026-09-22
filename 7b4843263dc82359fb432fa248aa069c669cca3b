@@ -52,6 +52,24 @@
       "parentUuid": "b52e9490_0a0c27d3",
       "revId": "7b4843263dc82359fb432fa248aa069c669cca3b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8125e17c_a3c48505",
+        "filename": "java/com/google/gerrit/server/restapi/config/ConfigRestApiModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-22T13:08:57Z",
+      "side": 1,
+      "message": "In my opinion, there should be exactly one place where ChangeCleanupRunner and the new REST API for change cleanup are bound or not bound (in case or replica). Technically, this means to have one guice module which binds both. Then the only place where the decision is made is in the creation of the sysInjector.",
+      "parentUuid": "0e076ccf_2448dd86",
+      "revId": "7b4843263dc82359fb432fa248aa069c669cca3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

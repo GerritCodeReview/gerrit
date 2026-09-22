@@ -107,10 +107,11 @@ public class OAuthToken implements Serializable {
 
   @Override
   public String toString() {
+    // Never print token, secret, or raw: raw may carry a long-lived refresh token.
     return MoreObjects.toStringHelper(this)
-        .add("token", token)
-        .add("secret", secret)
-        .add("raw", raw)
+        .add("token", "<redacted>")
+        .add("secret", "<redacted>")
+        .add("raw", "<redacted>")
         .add("expiresAt", expiresAt)
         .add("providerId", providerId)
         .toString();

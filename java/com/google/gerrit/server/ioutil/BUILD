@@ -12,5 +12,6 @@ java_library(
         "//lib:jgit",
         "//lib:jgit-archive",
         "//lib/errorprone:annotations",
+        "//lib/guice",
     ],
 )

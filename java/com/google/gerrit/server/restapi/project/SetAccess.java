@@ -117,7 +117,7 @@ public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessI
     } catch (InvalidNameException e) {
       throw new BadRequestException(e.toString());
     } catch (ConfigInvalidException e) {
-      throw new ResourceConflictException(rsrc.getName(), e);
+      throw new ResourceConflictException(e.getMessage(), e);
     }
 
     return Response.ok(getAccess.apply(rsrc.getNameKey()));

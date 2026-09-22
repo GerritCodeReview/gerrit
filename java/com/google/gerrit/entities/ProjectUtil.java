@@ -15,6 +15,48 @@
 package com.google.gerrit.entities;
 
 public class ProjectUtil {
+  public static class InvalidProjectNameException extends IllegalArgumentException {
+    private static final long serialVersionUID = 1L;
+
+    public InvalidProjectNameException(String message) {
+      super(message);
+    }
+  }
+
+  /**
+   * Validates that a project name does not use an unsupported Git URL spelling.
+   *
+   * <p>Call this when accepting project names from user-controlled request paths, command-line
+   * arguments, or request bodies. A single trailing {@code .git} suffix is valid. Repeated terminal
+   * {@code .git} suffixes are rejected because they can otherwise create multiple logical project
+   * names for the same physical repository.
+   *
+   * @param name project name to validate
+   * @throws InvalidProjectNameException if the project name uses repeated terminal {@code .git}
+   *     suffixes
+   */
+  public static void validateProjectName(String name) throws InvalidProjectNameException {
+    name = stripTrailingSlash(name);
+    if (name.endsWith(".git.git")) {
+      throw new InvalidProjectNameException(
+          String.format("Project cannot end in repeated .git suffixes: %s", name));
+    }
+  }
+
+  /**
+   * Normalizes a project name supplied using Git URL spelling.
+   *
+   * <p>Trailing slashes are removed first, then at most one trailing {@code .git} suffix is
+   * removed. This preserves Gerrit's longstanding behavior for repository names supplied as Git
+   * URLs, such as {@code project.git} or {@code project.git/}.
+   *
+   * <p>This method only normalizes. It does not reject unsupported project names. Call {@link
+   * #validateProjectName(String)} before sanitizing user-controlled input when invalid spellings
+   * must be rejected.
+   *
+   * @param name project name to normalize
+   * @return normalized project name
+   */
   public static String sanitizeProjectName(String name) {
     name = stripGitSuffix(name);
     name = stripTrailingSlash(name);

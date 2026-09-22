@@ -59,13 +59,16 @@ import com.google.gerrit.extensions.config.PluginProjectPermissionDefinition;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.webui.FileHistoryWebLink;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
+import com.google.gerrit.server.config.RegexAllowedGroupsProvider;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.group.testing.TestGroupBackend;
+import com.google.gerrit.server.permissions.RegexPermissionPolicy;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.schema.GrantRevertPermission;
 import com.google.inject.Inject;
@@ -92,6 +95,7 @@ public class AccessIT extends AbstractDaemonTest {
   private static final String REFS_META_VERSION = "refs/meta/version";
   private static final String REFS_DRAFTS = "refs/draft-comments/*";
   private static final String REFS_STARRED_CHANGES = "refs/starred-changes/*";
+  private static final String REGEX_HEADS = "^refs/heads/.+";
 
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
@@ -265,6 +269,108 @@ public class AccessIT extends AbstractDaemonTest {
     RevCommit updatedHead = projectOperations.project(newProjectName).getHead(RefNames.REFS_CONFIG);
     eventRecorder.assertRefUpdatedEvents(
         newProjectName.get(), RefNames.REFS_CONFIG, null, initialHead, initialHead, updatedHead);
+  }
+
+  @Test
+  @GerritConfig(
+      name = RegexAllowedGroupsProvider.SECTION + "." + RegexAllowedGroupsProvider.KEY,
+      value = "Administrators")
+  public void nonMemberCannotAddRegexAccessSection() throws Exception {
+    setUserAsProjectOwner();
+
+    ResourceConflictException thrown =
+        assertThrows(ResourceConflictException.class, () -> pApi().access(newRegexAccessInput()));
+    assertThat(thrown).hasMessageThat().isEqualTo(RegexPermissionPolicy.NOT_PERMITTED_MESSAGE);
+  }
+
+  @Test
+  @GerritConfig(
+      name = RegexAllowedGroupsProvider.SECTION + "." + RegexAllowedGroupsProvider.KEY,
+      value = "Administrators")
+  public void nonMemberCanCreateButCannotSubmitRegexAccessChange() throws Exception {
+    setUserAsProjectOwner();
+
+    ChangeInfo change = pApi().accessChange(newRegexAccessInput());
+    assertThat(change.status).isEqualTo(ChangeStatus.NEW);
+
+    requestScopeOperations.setApiUser(admin.id());
+    ReviewInput review = new ReviewInput();
+    review.label("Code-Review", (short) 2);
+    gApi.changes().id(change._number).current().review(review);
+
+    requestScopeOperations.setApiUser(user.id());
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> gApi.changes().id(change._number).current().submit());
+    assertThat(thrown).hasMessageThat().contains(RegexPermissionPolicy.NOT_PERMITTED_MESSAGE);
+  }
+
+  @Test
+  @GerritConfig(
+      name = RegexAllowedGroupsProvider.SECTION + "." + RegexAllowedGroupsProvider.KEY,
+      value = "Administrators")
+  public void nonMemberCanUpdateExistingRegexAccessSection() throws Exception {
+    pApi().access(newRegexAccessInput(Permission.READ));
+
+    setUserAsProjectOwner();
+    pApi().access(newRegexAccessInput(Permission.PUSH));
+  }
+
+  @Test
+  @GerritConfig(
+      name = RegexAllowedGroupsProvider.SECTION + "." + RegexAllowedGroupsProvider.KEY,
+      value = "Administrators")
+  public void nonMemberCannotPushButCanCreateRegexAccessChange() throws Exception {
+    setUserAsProjectOwner();
+    projectOperations
+        .project(newProjectName)
+        .forUpdate()
+        .add(allow(Permission.PUSH).ref(RefNames.REFS_CONFIG).group(REGISTERED_USERS))
+        .update();
+
+    PushOneCommit.Result result = pushRegexAccessSection(RefNames.REFS_CONFIG);
+    result.assertErrorStatus();
+    result.assertMessage(RegexPermissionPolicy.NOT_PERMITTED_MESSAGE);
+
+    result = pushRegexAccessSection("refs/for/" + RefNames.REFS_CONFIG);
+    result.assertOkStatus();
+    String changeId = result.getChangeId();
+
+    requestScopeOperations.setApiUser(admin.id());
+    ReviewInput review = new ReviewInput();
+    review.label("Code-Review", (short) 2);
+    gApi.changes().id(changeId).current().review(review);
+
+    requestScopeOperations.setApiUser(user.id());
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class, () -> gApi.changes().id(changeId).current().submit());
+    assertThat(thrown).hasMessageThat().contains(RegexPermissionPolicy.NOT_PERMITTED_MESSAGE);
+  }
+
+  private PushOneCommit.Result pushRegexAccessSection(String destination) throws Exception {
+    TestRepository<InMemoryRepository> userRepo = cloneProject(newProjectName, user);
+    GitUtil.fetch(userRepo, RefNames.REFS_CONFIG + ":" + RefNames.REFS_CONFIG);
+    userRepo.reset(RefNames.REFS_CONFIG);
+
+    Config config = new Config();
+    config.fromText(
+        pApi().branch(RefNames.REFS_CONFIG).file(ProjectConfig.PROJECT_CONFIG).asString());
+    config.setString(
+        ProjectConfig.ACCESS,
+        REGEX_HEADS,
+        Permission.READ,
+        "group " + SystemGroupBackend.REGISTERED_USERS.get());
+
+    return pushFactory
+        .create(
+            user.newIdent(),
+            userRepo,
+            "Add regex access",
+            ProjectConfig.PROJECT_CONFIG,
+            config.toText())
+        .to(destination);
   }
 
   @Test
@@ -1217,6 +1323,31 @@ public class AccessIT extends AbstractDaemonTest {
     p.add = new HashMap<>();
     p.remove = new HashMap<>();
     return p;
+  }
+
+  private ProjectAccessInput newRegexAccessInput() {
+    return newRegexAccessInput(Permission.READ);
+  }
+
+  private ProjectAccessInput newRegexAccessInput(String permission) {
+    ProjectAccessInput input = newProjectAccessInput();
+    AccessSectionInfo section = newAccessSectionInfo();
+    PermissionInfo permissionInfo = newPermissionInfo();
+    permissionInfo.rules.put(
+        SystemGroupBackend.REGISTERED_USERS.get(),
+        new PermissionRuleInfo(PermissionRuleInfo.Action.ALLOW, false));
+    section.permissions.put(permission, permissionInfo);
+    input.add.put(REGEX_HEADS, section);
+    return input;
+  }
+
+  private void setUserAsProjectOwner() throws Exception {
+    projectOperations
+        .project(newProjectName)
+        .forUpdate()
+        .add(allow(Permission.OWNER).ref(REFS_ALL).group(REGISTERED_USERS))
+        .update();
+    requestScopeOperations.setApiUser(user.id());
   }
 
   private PermissionInfo newPermissionInfo() {

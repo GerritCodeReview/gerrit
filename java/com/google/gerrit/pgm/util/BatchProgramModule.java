@@ -61,8 +61,12 @@ import com.google.gerrit.server.config.EnablePeerIPInReflogRecordProvider;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GitReceivePackGroups;
 import com.google.gerrit.server.config.GitUploadPackGroups;
+import com.google.gerrit.server.config.RegexAllowedGroups;
 import com.google.gerrit.server.config.SkipCurrentRulesEvaluationOnClosedChangesModule;
 import com.google.gerrit.server.config.SysExecutorModule;
+import com.google.gerrit.server.config.TrustedRegex;
+import com.google.gerrit.server.config.UntrustedRegex;
+import com.google.gerrit.server.config.UntrustedRegexCompiler;
 import com.google.gerrit.server.extensions.events.AttentionSetObserver;
 import com.google.gerrit.server.extensions.events.EventUtil;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
@@ -79,6 +83,7 @@ import com.google.gerrit.server.patch.DiffOperationsForCommitValidation;
 import com.google.gerrit.server.patch.DiffOperationsImpl;
 import com.google.gerrit.server.patch.PatchListCacheImpl;
 import com.google.gerrit.server.permissions.DefaultPermissionBackendModule;
+import com.google.gerrit.server.permissions.RegexPermissionPolicy;
 import com.google.gerrit.server.permissions.SectionSortCache;
 import com.google.gerrit.server.plugins.PluginModule;
 import com.google.gerrit.server.project.CommentLinkProvider;
@@ -163,7 +168,14 @@ public class BatchProgramModule extends FactoryModule {
     bind(IdentifiedUser.class).toProvider(Providers.of(null));
     bind(EmailNewPatchSet.Factory.class).toProvider(Providers.of(null));
     bind(CurrentUser.class).to(InternalUser.class);
-    bind(RegexCompiler.class).to(DefaultRegexCompiler.class).in(SINGLETON);
+    bind(RegexCompiler.class)
+        .annotatedWith(UntrustedRegex.class)
+        .to(UntrustedRegexCompiler.class)
+        .in(SINGLETON);
+    bind(RegexCompiler.class)
+        .annotatedWith(TrustedRegex.class)
+        .to(DefaultRegexCompiler.class)
+        .in(SINGLETON);
     factory(PatchSetInserter.Factory.class);
     factory(RebaseChangeOp.Factory.class);
     factory(DiffOperationsForCommitValidation.Factory.class);
@@ -177,6 +189,10 @@ public class BatchProgramModule extends FactoryModule {
     bind(new TypeLiteral<Set<AccountGroup.UUID>>() {})
         .annotatedWith(GitReceivePackGroups.class)
         .toInstance(Collections.emptySet());
+    bind(new TypeLiteral<Set<AccountGroup.UUID>>() {})
+        .annotatedWith(RegexAllowedGroups.class)
+        .toInstance(Collections.emptySet());
+    bind(RegexPermissionPolicy.class).toProvider(RegexPermissionPolicy.Factory.class).in(SINGLETON);
 
     modules.add(new BatchGitModule());
     modules.add(

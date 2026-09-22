@@ -19,6 +19,7 @@ import static com.google.common.net.HttpHeaders.ACCESS_CONTROL_ALLOW_METHODS;
 import static com.google.common.net.HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN;
 import static com.google.common.net.HttpHeaders.ORIGIN;
 import static com.google.common.net.HttpHeaders.VARY;
+import static com.google.gerrit.common.CharsetUtil.forNameOrUtf8;
 import static com.google.gerrit.common.FileUtil.lastModified;
 import static com.google.gerrit.server.plugins.PluginEntry.ATTR_CHARACTER_ENCODING;
 import static com.google.gerrit.server.plugins.PluginEntry.ATTR_CONTENT_TYPE;
@@ -534,7 +535,7 @@ class HttpPluginServlet extends HttpServlet implements StartPluginListener, Relo
     }
     m.appendTail(sb);
 
-    byte[] html = new MarkdownFormatter().markdownToDocHtml(sb.toString(), UTF_8.name());
+    byte[] html = new MarkdownFormatter().markdownToDocHtml(sb.toString(), UTF_8);
     resourceCache.put(
         cacheKey,
         new SmallResource(html)
@@ -574,16 +575,14 @@ class HttpPluginServlet extends HttpServlet implements StartPluginListener, Relo
 
   private static String extractTitleFromMarkdown(PluginContentScanner scanner, PluginEntry entry)
       throws IOException {
-    String charEnc = null;
-    Map<Object, String> atts = entry.getAttrs();
-    if (atts != null) {
-      charEnc = Strings.emptyToNull(atts.get(ATTR_CHARACTER_ENCODING));
-    }
-    if (charEnc == null) {
-      charEnc = UTF_8.name();
-    }
     return new MarkdownFormatter()
-        .extractTitleFromMarkdown(readWholeEntry(scanner, entry), charEnc);
+        .extractTitleFromMarkdown(readWholeEntry(scanner, entry), charset(entry));
+  }
+
+  private static Charset charset(PluginEntry entry) throws IOException {
+    Map<Object, String> atts = entry.getAttrs();
+    return forNameOrUtf8(
+        atts != null ? Strings.emptyToNull(atts.get(ATTR_CHARACTER_ENCODING)) : null);
   }
 
   private static Optional<PluginEntry> findSource(PluginContentScanner scanner, String file)
@@ -603,14 +602,7 @@ class HttpPluginServlet extends HttpServlet implements StartPluginListener, Relo
       HttpServletResponse res)
       throws IOException {
     byte[] rawmd = readWholeEntry(scanner, entry);
-    String encoding = null;
-    Map<Object, String> atts = entry.getAttrs();
-    if (atts != null) {
-      encoding = Strings.emptyToNull(atts.get(ATTR_CHARACTER_ENCODING));
-    }
-
-    String txtmd =
-        RawParseUtils.decode(Charset.forName(encoding != null ? encoding : UTF_8.name()), rawmd);
+    String txtmd = RawParseUtils.decode(charset(entry), rawmd);
     long time = entry.getTime();
     if (0 < time) {
       res.setDateHeader("Last-Modified", time);

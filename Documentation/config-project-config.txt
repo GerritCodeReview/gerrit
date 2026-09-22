@@ -348,7 +348,7 @@ namespace of the `access` subsections. The format of the access rules is: +
   (e.g. `label-Code-Review`).
 * `(block|deny)?`: `block` defines a link:access-control.html#block-rule[BLOCK]
   rule, `deny` defines a link:access-control.html#deny-rule[DENY] rule, if
-  neither `block` or `deny` is specified an link:access-control.html#allow-rule[
+  neither `block` nor `deny` is specified, an link:access-control.html#allow-rule[
   ALLOW] rule is defined.
 * `<range>?`: Only set for label permission. The voting range in the format
   `<min-vote>..<max-vote>` (e.g. `-1..+1`).

@@ -7988,6 +7988,13 @@ Callers can find out if there were conflicts by checking the
 `contains_git_conflicts` field in the link:#change-info[ChangeInfo]. If
 there are conflicts the cherry-pick change is marked as
 work-in-progress.
+|`work_in_progress`  |optional|
+Whether the resulting change should be marked as work-in-progress. +
+If not set, the resulting change is marked as work-in-progress if the source
+change is work-in-progress or if the cherry-pick resulted in git conflicts (see
+`allow_conflicts` above). An explicit value overrides both, hence setting this
+to `false` creates a change that is ready for review even if it contains git
+conflict markers.
 |`topic`             |optional|
 The topic of the created cherry-picked change. If not set, the default depends
 on the source. If the source is a change with a topic, the resulting topic

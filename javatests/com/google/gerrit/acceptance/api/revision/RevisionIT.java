@@ -609,6 +609,240 @@ public class RevisionIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void cherryPickWithWorkInProgress() throws Exception {
+    createBranch(BranchNameKey.create(project, "stable"));
+
+    // Change is created by 'admin' and has 'user' as reviewer.
+    PushOneCommit.Result r = createChange();
+    gApi.changes().id(r.getChangeId()).addReviewer(user.email());
+
+    // 'user2' cherry-picks the change as work-in-progress and keeps the reviewers.
+    requestScopeOperations.setApiUser(accountCreator.user2().id());
+    CherryPickInput in = new CherryPickInput();
+    in.destination = "stable";
+    in.message = "this needs to go to stable";
+    in.keepReviewers = true;
+    in.workInProgress = true;
+    // Work-in-progress changes are not exempted from notifications, hence ask for no notifications
+    // explicitly.
+    in.notify = NotifyHandling.NONE;
+    sender.clear();
+    ChangeInfo cherryPick = gApi.changes().id(r.getChangeId()).current().cherryPick(in).get();
+
+    assertThat(cherryPick.workInProgress).isTrue();
+    // 'admin' is a reviewer as the owner of the source change, 'user' as its reviewer.
+    assertThat(
+            cherryPick.reviewers.get(ReviewerState.REVIEWER).stream()
+                .map(a -> a._accountId)
+                .collect(toList()))
+        .containsExactly(admin.id().get(), user.id().get());
+    // Reviewers of a work-in-progress change are not added to its attention set.
+    assertThat(cherryPick.attentionSet).isNull();
+    assertThat(sender.getMessages()).isEmpty();
+
+    // Marking the change ready for review adds the reviewers to the attention set and notifies
+    // them.
+    sender.clear();
+    gApi.changes().id(cherryPick.id).setReadyForReview();
+    ChangeInfo readyCherryPick = gApi.changes().id(cherryPick.id).get();
+    assertThat(readyCherryPick.workInProgress).isNull();
+    assertThat(readyCherryPick.attentionSet.keySet())
+        .containsExactly(admin.id().get(), user.id().get());
+    assertThat(sender.getMessages()).isNotEmpty();
+  }
+
+  @Test
+  public void cherryPickWorkInProgressChangeWithWorkInProgressFalse() throws Exception {
+    PushOneCommit.Result r = pushTo("refs/for/master%wip");
+    CherryPickInput in = new CherryPickInput();
+    in.destination = "foo";
+    in.message = "cherry pick message";
+    in.workInProgress = false;
+    gApi.projects().name(project.get()).branch(in.destination).create(new BranchInput());
+    ChangeApi orig = gApi.changes().id(project.get() + "~master~" + r.getChangeId());
+
+    // An explicit work_in_progress wins over the work-in-progress state of the source change.
+    ChangeApi cherry = orig.revision(r.getCommit().name()).cherryPick(in);
+    assertThat(cherry.get().workInProgress).isNull();
+  }
+
+  @Test
+  public void cherryPickWithAllowConflictsAndWorkInProgressFalse() throws Exception {
+    RevCommit initialHead = projectOperations.project(project).getHead("master");
+
+    // Create a branch and push a commit to it (by-passing review).
+    String destBranch = "foo";
+    gApi.projects().name(project.get()).branch(destBranch).create(new BranchInput());
+    pushFactory
+        .create(admin.newIdent(), testRepo, PushOneCommit.SUBJECT, FILE_NAME, "some content")
+        .to("refs/heads/" + destBranch);
+
+    // Create a change on master with a commit that conflicts with the commit on the other branch.
+    testRepo.reset(initialHead);
+    PushOneCommit.Result r =
+        pushFactory
+            .create(admin.newIdent(), testRepo, PushOneCommit.SUBJECT, FILE_NAME, "other content")
+            .to("refs/for/master");
+
+    CherryPickInput in = new CherryPickInput();
+    in.destination = destBranch;
+    in.message = "Cherry-Pick";
+    in.allowConflicts = true;
+    in.workInProgress = false;
+    ChangeInfo cherryPick = change(r).revision(r.getCommit().name()).cherryPickAsInfo(in);
+
+    // An explicit work_in_progress wins over the presence of git conflicts, hence the change is
+    // ready for review although it contains git conflict markers.
+    assertThat(cherryPick.containsGitConflicts).isTrue();
+    assertThat(cherryPick.workInProgress).isNull();
+  }
+
+  @Test
+  public void cherryPickToExistingChangeWithWorkInProgress() throws Exception {
+    PushOneCommit.Result sourceChange =
+        pushFactory
+            .create(admin.newIdent(), testRepo, SUBJECT, FILE_NAME, "a")
+            .to("refs/for/master");
+
+    BranchInput branchInput = new BranchInput();
+    branchInput.revision = sourceChange.getCommit().getParent(0).name();
+    gApi.projects().name(project.get()).branch("foo").create(branchInput);
+
+    PushOneCommit.Result destChange =
+        pushFactory
+            .create(admin.newIdent(), testRepo, SUBJECT, FILE_NAME, "b", sourceChange.getChangeId())
+            .to("refs/for/foo");
+    String destChangeId = project.get() + "~foo~" + destChange.getChangeId();
+    // The source change and the destination change share the Change-Id, hence the destination
+    // change must be looked up by its triplet.
+    Change.Id destChangeNumber = Change.id(gApi.changes().id(destChangeId).get()._number);
+
+    // The destination change is ready for review and has 'user' in its attention set.
+    gApi.changes().id(destChangeId).addReviewer(user.email());
+    assertThat(gApi.changes().id(destChangeId).get().attentionSet.keySet())
+        .containsExactly(user.id().get());
+
+    CherryPickInput in = new CherryPickInput();
+    in.destination = "foo";
+    in.message = sourceChange.getCommit().getFullMessage();
+    in.workInProgress = true;
+    in.notify = NotifyHandling.NONE;
+    ChangeInfo cherryPick =
+        gApi.changes()
+            .id(project.get() + "~master~" + sourceChange.getChangeId())
+            .current()
+            .cherryPick(in)
+            .get();
+
+    // The existing change got a new patch set and was set to work-in-progress, which cleared its
+    // attention set.
+    assertThat(cherryPick._number).isEqualTo(destChangeNumber.get());
+    assertThat(cherryPick.workInProgress).isTrue();
+    assertThat(cherryPick.attentionSet).isEmpty();
+    assertThat(
+            projectOperations
+                .project(project)
+                .getHead(RefNames.changeMetaRef(destChangeNumber))
+                .getFullMessage())
+        .contains("Work-in-progress: true");
+  }
+
+  @Test
+  public void cherryPickToExistingWorkInProgressChangeWithWorkInProgress() throws Exception {
+    PushOneCommit.Result sourceChange =
+        pushFactory
+            .create(admin.newIdent(), testRepo, SUBJECT, FILE_NAME, "a")
+            .to("refs/for/master");
+
+    BranchInput branchInput = new BranchInput();
+    branchInput.revision = sourceChange.getCommit().getParent(0).name();
+    gApi.projects().name(project.get()).branch("foo").create(branchInput);
+
+    PushOneCommit.Result destChange =
+        pushFactory
+            .create(admin.newIdent(), testRepo, SUBJECT, FILE_NAME, "b", sourceChange.getChangeId())
+            .to("refs/for/foo%wip");
+    String destChangeId = project.get() + "~foo~" + destChange.getChangeId();
+    // The source change and the destination change share the Change-Id, hence the destination
+    // change must be looked up by its triplet.
+    Change.Id destChangeNumber = Change.id(gApi.changes().id(destChangeId).get()._number);
+    assertThat(gApi.changes().id(destChangeId).get().workInProgress).isTrue();
+
+    CherryPickInput in = new CherryPickInput();
+    in.destination = "foo";
+    in.message = sourceChange.getCommit().getFullMessage();
+    in.workInProgress = true;
+    in.notify = NotifyHandling.NONE;
+    ChangeInfo cherryPick =
+        gApi.changes()
+            .id(project.get() + "~master~" + sourceChange.getChangeId())
+            .current()
+            .cherryPick(in)
+            .get();
+
+    // The destination change was already work-in-progress, hence the requested state is not
+    // written to NoteDb again.
+    assertThat(cherryPick._number).isEqualTo(destChangeNumber.get());
+    assertThat(cherryPick.workInProgress).isTrue();
+    assertThat(
+            projectOperations
+                .project(project)
+                .getHead(RefNames.changeMetaRef(destChangeNumber))
+                .getFullMessage())
+        .doesNotContain("Work-in-progress");
+  }
+
+  @Test
+  public void cherryPickToExistingWorkInProgressChangeWithWorkInProgressFalse() throws Exception {
+    // The source change is work-in-progress, so that the work-in-progress state that would be
+    // inferred for the destination change is true and the explicit work_in_progress overrides it.
+    PushOneCommit.Result sourceChange =
+        pushFactory
+            .create(admin.newIdent(), testRepo, SUBJECT, FILE_NAME, "a")
+            .to("refs/for/master%wip");
+
+    BranchInput branchInput = new BranchInput();
+    branchInput.revision = sourceChange.getCommit().getParent(0).name();
+    gApi.projects().name(project.get()).branch("foo").create(branchInput);
+
+    PushOneCommit.Result destChange =
+        pushFactory
+            .create(admin.newIdent(), testRepo, SUBJECT, FILE_NAME, "b", sourceChange.getChangeId())
+            .to("refs/for/foo%wip");
+    String destChangeId = project.get() + "~foo~" + destChange.getChangeId();
+    // The source change and the destination change share the Change-Id, hence the destination
+    // change must be looked up by its triplet.
+    Change.Id destChangeNumber = Change.id(gApi.changes().id(destChangeId).get()._number);
+    gApi.changes().id(destChangeId).addReviewer(user.email());
+    assertThat(gApi.changes().id(destChangeId).get().workInProgress).isTrue();
+
+    CherryPickInput in = new CherryPickInput();
+    in.destination = "foo";
+    in.message = sourceChange.getCommit().getFullMessage();
+    in.workInProgress = false;
+    in.notify = NotifyHandling.NONE;
+    ChangeInfo cherryPick =
+        gApi.changes()
+            .id(project.get() + "~master~" + sourceChange.getChangeId())
+            .current()
+            .cherryPick(in)
+            .get();
+
+    // An explicit work_in_progress wins over the work-in-progress state of the source change, hence
+    // the destination change is set to ready for review, which adds its reviewers to the attention
+    // set.
+    assertThat(cherryPick._number).isEqualTo(destChangeNumber.get());
+    assertThat(cherryPick.workInProgress).isNull();
+    assertThat(cherryPick.attentionSet.keySet()).containsExactly(user.id().get());
+    assertThat(
+            projectOperations
+                .project(project)
+                .getHead(RefNames.changeMetaRef(destChangeNumber))
+                .getFullMessage())
+        .contains("Work-in-progress: false");
+  }
+
+  @Test
   public void cherryPickToSameBranch() throws Exception {
     PushOneCommit.Result r = createChange();
     ChangeApi change = gApi.changes().id(project.get() + "~master~" + r.getChangeId());

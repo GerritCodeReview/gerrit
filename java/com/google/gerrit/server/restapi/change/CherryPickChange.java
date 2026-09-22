@@ -190,7 +190,6 @@ public class CherryPickChange {
         null,
         null,
         null,
-        null,
         Optional.empty());
   }
 
@@ -238,7 +237,6 @@ public class CherryPickChange {
         null,
         null,
         null,
-        null,
         Optional.empty());
   }
 
@@ -258,7 +256,9 @@ public class CherryPickChange {
    *     the change that matches {@code input.base} is unknown. If {@code input.base} is set but a
    *     {@code baseChange} is not provided an index query will be done to try finding the matching
    *     change. If known the base change should be provided to avoid this index lookup.
-   * @param input Input object for different configurations of cherry pick.
+   * @param input Input object for different configurations of cherry pick. The work-in-progress
+   *     state of the resulting change is taken from {@code input.workInProgress} if it is set,
+   *     otherwise it is inferred from the source change and from the presence of git conflicts.
    * @param dest Destination branch for the cherry pick.
    * @param timestamp the current timestamp.
    * @param revertedChange The id of the change that is reverted. This is used for the "revertOf"
@@ -294,7 +294,6 @@ public class CherryPickChange {
       @Nullable Change.Id revertedChange,
       @Nullable ObjectId changeIdForNewChange,
       @Nullable Change.Id idForNewChange,
-      @Nullable Boolean workInProgress,
       Optional<RevCommit> verifiedBaseCommit)
       throws IOException,
           InvalidChangeOperationException,
@@ -420,6 +419,7 @@ public class CherryPickChange {
       } catch (MergeIdenticalTreeException | MergeConflictException e) {
         throw new IntegrationConflictException("Cherry pick failed: " + e.getMessage(), e);
       }
+      boolean workInProgress = resolveWorkInProgress(input, sourceChange, cherryPickCommit);
       try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
         try (BatchUpdate bu = batchUpdateFactory.create(project, identifiedUser, timestamp)) {
           bu.setRepository(git, revWalk, oi);
@@ -485,7 +485,7 @@ public class CherryPickChange {
       @Nullable ObjectId sourceCommit,
       String topic,
       CherryPickInput input,
-      @Nullable Boolean workInProgress)
+      boolean workInProgress)
       throws IOException {
     Change destChange = destNotes.getChange();
     PatchSet.Id psId = ChangeUtil.nextPatchSetId(git, destChange.currentPatchSetId());
@@ -496,15 +496,8 @@ public class CherryPickChange {
             inserter.getPatchSetId(), sourceBranch, sourceCommit, cherryPickCommit));
     cherryPickCommit.getConflicts().ifPresent(inserter::setConflicts);
     inserter.setTopic(topic);
-    if (workInProgress != null) {
+    if (workInProgress != destChange.isWorkInProgress()) {
       inserter.setWorkInProgress(workInProgress);
-    } else {
-      boolean shouldSetToWIP =
-          (sourceChange != null && sourceChange.isWorkInProgress())
-              || !cherryPickCommit.getFilesWithGitConflicts().isEmpty();
-      if (shouldSetToWIP != destNotes.getChange().isWorkInProgress()) {
-        inserter.setWorkInProgress(shouldSetToWIP);
-      }
     }
     inserter.setValidationOptions(
         ValidationOptionsUtil.getValidateOptionsAsMultimap(input.validationOptions));
@@ -533,19 +526,13 @@ public class CherryPickChange {
       CherryPickInput input,
       @Nullable Change.Id revertOf,
       @Nullable Change.Id idForNewChange,
-      @Nullable Boolean workInProgress)
+      boolean workInProgress)
       throws IOException, InvalidChangeOperationException {
     Change.Id changeId = idForNewChange != null ? idForNewChange : Change.id(seq.nextChangeId());
     ChangeInserter ins = changeInserterFactory.create(changeId, cherryPickCommit, refName);
     cherryPickCommit.getConflicts().ifPresent(ins::setConflicts);
     ins.setRevertOf(revertOf);
-    if (workInProgress != null) {
-      ins.setWorkInProgress(workInProgress);
-    } else {
-      ins.setWorkInProgress(
-          (sourceChange != null && sourceChange.isWorkInProgress())
-              || !cherryPickCommit.getFilesWithGitConflicts().isEmpty());
-    }
+    ins.setWorkInProgress(workInProgress);
     ins.setValidationOptions(
         ValidationOptionsUtil.getValidateOptionsAsMultimap(input.validationOptions));
     BranchNameKey sourceBranch = sourceChange == null ? null : sourceChange.getDest();
@@ -594,6 +581,20 @@ public class CherryPickChange {
     }
     bu.insertChange(ins);
     return changeId;
+  }
+
+  /**
+   * Resolves whether the cherry-picked change should be work-in-progress: an explicit {@code
+   * input.workInProgress} wins; otherwise inherit from the source change or from the presence of
+   * git conflicts.
+   */
+  private static boolean resolveWorkInProgress(
+      CherryPickInput input, @Nullable Change sourceChange, CodeReviewCommit cherryPickCommit) {
+    if (input.workInProgress != null) {
+      return input.workInProgress;
+    }
+    return (sourceChange != null && sourceChange.isWorkInProgress())
+        || !cherryPickCommit.getFilesWithGitConflicts().isEmpty();
   }
 
   private NotifyResolver.Result resolveNotify(CherryPickInput input)

@@ -33,4 +33,13 @@ public class CherryPickInput {
   public boolean allowEmpty;
   public Map<String, String> validationOptions;
   public String committerEmail;
+
+  /**
+   * Whether the resulting change should be marked work-in-progress.
+   *
+   * <p>If unset, the change is marked work-in-progress if the source change is work-in-progress or
+   * if the cherry-pick produced git conflicts (see {@link #allowConflicts}). An explicit value
+   * always wins over both.
+   */
+  public Boolean workInProgress;
 }

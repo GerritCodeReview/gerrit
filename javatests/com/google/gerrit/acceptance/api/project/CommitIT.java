@@ -627,6 +627,40 @@ public class CommitIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void cherryPickCommitWithWorkInProgress() throws Exception {
+    String destBranch = "foo";
+    createBranch(BranchNameKey.create(project, destBranch));
+
+    RevCommit commitToCherryPick =
+        createNewCommitWithoutChangeId("refs/heads/master", "a.txt", "content");
+
+    CherryPickInput input = new CherryPickInput();
+    input.destination = destBranch;
+    input.message = "it goes to foo branch";
+
+    // Without work_in_progress the created change is ready for review, since there is no source
+    // change to inherit the work-in-progress state from and there are no git conflicts.
+    ChangeInfo cherryPickResult =
+        gApi.projects()
+            .name(project.get())
+            .commit(commitToCherryPick.getName())
+            .cherryPick(input)
+            .get();
+    assertThat(cherryPickResult.workInProgress).isNull();
+
+    input.workInProgress = true;
+    input.message = "it goes to foo branch as work-in-progress";
+    commitToCherryPick = createNewCommitWithoutChangeId("refs/heads/master", "b.txt", "content");
+    cherryPickResult =
+        gApi.projects()
+            .name(project.get())
+            .commit(commitToCherryPick.getName())
+            .cherryPick(input)
+            .get();
+    assertThat(cherryPickResult.workInProgress).isTrue();
+  }
+
+  @Test
   public void cherryPickCommitWithChangeIdCreateNewChange() throws Exception {
     String destBranch = "foo";
     createBranch(BranchNameKey.create(project, destBranch));

@@ -37,6 +37,9 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.config.RegexAllowedGroupsProvider;
+import com.google.gerrit.server.permissions.RegexPermissionPolicy;
 import com.google.inject.Inject;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
@@ -45,6 +48,24 @@ import org.junit.Test;
 public class SetLabelIT extends AbstractDaemonTest {
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private ProjectOperations projectOperations;
+
+  @Test
+  @GerritConfig(
+      name = RegexAllowedGroupsProvider.SECTION + "." + RegexAllowedGroupsProvider.KEY,
+      value = "Project Owners")
+  public void nonMemberCannotSetLabelRegexBranch() throws Exception {
+    LabelDefinitionInput input = new LabelDefinitionInput();
+    input.branches = ImmutableList.of("^refs/heads/stable-.*");
+
+    RestApiException thrown =
+        assertThrows(
+            RestApiException.class,
+            () -> gApi.projects().name(allProjects.get()).label(LabelId.CODE_REVIEW).update(input));
+    assertThat(thrown)
+        .hasCauseThat()
+        .hasMessageThat()
+        .contains(RegexPermissionPolicy.NOT_PERMITTED_MESSAGE);
+  }
 
   @Test
   public void anonymous() throws Exception {

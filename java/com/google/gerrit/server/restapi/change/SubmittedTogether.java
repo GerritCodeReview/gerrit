@@ -37,6 +37,7 @@ import com.google.gerrit.server.change.WalkSorter;
 import com.google.gerrit.server.change.WalkSorter.PatchSetData;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.ChangeIsVisibleToPredicate;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.submit.ChangeSet;
 import com.google.gerrit.server.submit.MergeSuperSet;
@@ -67,6 +68,7 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
   private final Provider<InternalChangeQuery> queryProvider;
   private final Provider<MergeSuperSet> mergeSuperSet;
   private final Provider<WalkSorter> sorter;
+  private final ChangeIsVisibleToPredicate.Factory changeIsVisibleToPredicateFactory;
 
   @Option(name = "-o", usage = "Output options")
   void addOption(String option) {
@@ -92,11 +94,13 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
       ChangeJson.Factory json,
       Provider<InternalChangeQuery> queryProvider,
       Provider<MergeSuperSet> mergeSuperSet,
-      Provider<WalkSorter> sorter) {
+      Provider<WalkSorter> sorter,
+      ChangeIsVisibleToPredicate.Factory changeIsVisibleToPredicateFactory) {
     this.json = json;
     this.queryProvider = queryProvider;
     this.mergeSuperSet = mergeSuperSet;
     this.sorter = sorter;
+    this.changeIsVisibleToPredicateFactory = changeIsVisibleToPredicateFactory;
   }
 
   public SubmittedTogether addListChangesOption(Set<ListChangesOption> o) {
@@ -138,8 +142,19 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
         cds = ensureRequiredDataIsLoaded(cs.changes().asList());
         hidden = cs.nonVisibleChanges().size();
       } else if (c.isMerged()) {
-        cds = queryProvider.get().bySubmissionId(c.getSubmissionId());
+        List<ChangeData> submittedChanges = queryProvider.get().bySubmissionId(c.getSubmissionId());
+        ChangeIsVisibleToPredicate visibleToUser =
+            changeIsVisibleToPredicateFactory.forUser(resource.getUser());
+        ImmutableList.Builder<ChangeData> visibleSubmittedChanges = ImmutableList.builder();
         hidden = 0;
+        for (ChangeData submittedChange : submittedChanges) {
+          if (visibleToUser.match(submittedChange)) {
+            visibleSubmittedChanges.add(submittedChange);
+          } else {
+            hidden++;
+          }
+        }
+        cds = visibleSubmittedChanges.build();
       } else {
         cds = Collections.emptyList();
         hidden = 0;

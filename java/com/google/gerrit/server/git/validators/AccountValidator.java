@@ -16,22 +16,37 @@ package com.google.gerrit.server.git.validators;
 
 import static java.util.stream.Collectors.toSet;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.ProjectWatchKey;
+import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.extensions.client.ProjectWatchInfo;
+import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountConfig;
 import com.google.gerrit.server.account.AccountProperties;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ValidationError;
+import com.google.gerrit.server.index.RegexQueryPermissionChecker;
 import com.google.gerrit.server.mail.send.OutgoingEmailValidator;
+import com.google.gerrit.server.permissions.RegexPermissionPolicy;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 
@@ -41,19 +56,26 @@ import org.eclipse.jgit.revwalk.RevWalk;
  * refs/users} manually.
  */
 public class AccountValidator {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final Provider<IdentifiedUser> self;
   private final AllUsersName allUsersName;
   private final OutgoingEmailValidator emailValidator;
+  private final RegexQueryPermissionChecker regexPermissionChecker;
+  private final GitRepositoryManager repoManager;
 
   @Inject
   public AccountValidator(
       Provider<IdentifiedUser> self,
       AllUsersName allUsersName,
-      OutgoingEmailValidator emailValidator) {
+      OutgoingEmailValidator emailValidator,
+      RegexQueryPermissionChecker regexPermissionChecker,
+      GitRepositoryManager repoManager) {
     this.self = self;
     this.allUsersName = allUsersName;
     this.emailValidator = emailValidator;
+    this.regexPermissionChecker = regexPermissionChecker;
+    this.repoManager = repoManager;
   }
 
   /**
@@ -67,19 +89,23 @@ public class AccountValidator {
       @Nullable ObjectId oldId,
       ObjectId newId)
       throws IOException {
+    AccountConfig oldAccountConfig = null;
     Optional<Account> oldAccount = Optional.empty();
     if (oldId != null && !ObjectId.zeroId().equals(oldId)) {
       try {
-        oldAccount = loadAccount(accountId, allUsersRepo, rw, oldId, null);
+        oldAccountConfig = loadAccountConfig(accountId, allUsersRepo, rw, oldId, null);
+        oldAccount = oldAccountConfig.getLoadedAccount();
       } catch (ConfigInvalidException e) {
         // ignore, maybe the new commit is repairing it now
       }
     }
 
     ImmutableList.Builder<String> messages = ImmutableList.builder();
+    AccountConfig newAccountConfig;
     Optional<Account> newAccount;
     try {
-      newAccount = loadAccount(accountId, allUsersRepo, rw, newId, messages);
+      newAccountConfig = loadAccountConfig(accountId, allUsersRepo, rw, newId, messages);
+      newAccount = newAccountConfig.getLoadedAccount();
     } catch (ConfigInvalidException e) {
       return ImmutableList.of(
           String.format(
@@ -107,10 +133,34 @@ public class AccountValidator {
       }
     }
 
+    if (!regexPermissionChecker.isAllowed()
+        && !projectWatchesRegexFilters(oldAccountConfig)
+            .containsAll(projectWatchesRegexFilters(newAccountConfig))) {
+      messages.add(
+          String.format(
+              "invalid project watch filters: " + RegexPermissionPolicy.NOT_PERMITTED_MESSAGE));
+    }
+
     return messages.build();
   }
 
-  private Optional<Account> loadAccount(
+  private Set<ProjectWatchKey> projectWatchesRegexFilters(AccountConfig accountConfig) {
+    return Optional.ofNullable(accountConfig).map(AccountConfig::getProjectWatches).stream()
+        .flatMap(watches -> watches.keySet().stream())
+        .filter(watchKey -> hasRegex(watchKey.filter()))
+        .collect(toSet());
+  }
+
+  private boolean hasRegex(@Nullable String query) {
+    try {
+      return query != null && regexPermissionChecker.containsRegexInQuery(query);
+    } catch (QueryParseException e) {
+      logger.atWarning().withCause(e).log("Unable to parse regex query: %s", query);
+      return false;
+    }
+  }
+
+  private AccountConfig loadAccountConfig(
       Account.Id accountId,
       Repository allUsersRepo,
       RevWalk rw,
@@ -126,6 +176,46 @@ public class AccountValidator {
               .map(ValidationError::getMessage)
               .collect(toSet()));
     }
-    return accountConfig.getLoadedAccount();
+    return accountConfig;
+  }
+
+  public boolean allowRegexInFilters(Account.Id accountId, List<ProjectWatchInfo> input)
+      throws IOException, ConfigInvalidException {
+    if (regexPermissionChecker.isAllowed()) {
+      return true;
+    }
+
+    try (Repository allUsersRepo = repoManager.openRepository(allUsersName)) {
+      String accountRefName = RefNames.refsUsers(accountId);
+      Ref accountRef = allUsersRepo.exactRef(accountRefName);
+      Set<ProjectWatchKey> currentProjectWatches =
+          (accountRef == null
+              ? ImmutableSet.of()
+              : getProjectWatchKeys(allUsersRepo, accountRef.getObjectId(), accountId));
+      Set<ProjectWatchKey> newProjectWatches =
+          input.stream()
+              .filter(projectWatchInfo -> !Strings.isNullOrEmpty(projectWatchInfo.project))
+              .filter(projectWatchInfo -> hasRegex(projectWatchInfo.filter))
+              .map(
+                  watchInfo ->
+                      ProjectWatchKey.create(Project.nameKey(watchInfo.project), watchInfo.filter))
+              .collect(Collectors.toUnmodifiableSet());
+
+      return currentProjectWatches.containsAll(newProjectWatches);
+    }
+  }
+
+  private ImmutableSet<ProjectWatchKey> getProjectWatchKeys(
+      Repository allUsersRepo, ObjectId accountObjectId, Account.Id accountId)
+      throws ConfigInvalidException, IOException {
+    try (ObjectReader or = allUsersRepo.newObjectReader();
+        RevWalk rw = new RevWalk(or)) {
+      AccountConfig accountConfig =
+          loadAccountConfig(accountId, allUsersRepo, rw, accountObjectId, null);
+      return ImmutableSet.copyOf(
+          accountConfig.getProjectWatches().keySet().stream()
+              .filter(projectWatchKey -> hasRegex(projectWatchKey.filter()))
+              .collect(toSet()));
+    }
   }
 }

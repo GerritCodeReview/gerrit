@@ -29,6 +29,7 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
+import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.SubmitRequirementsJson;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -110,8 +111,12 @@ public class CheckSubmitRequirement
         srName != null && refsConfigChangeId != null
             ? createSubmitRequirementFromRequestParams()
             : createSubmitRequirement(input);
-    SubmitRequirementResult res =
-        evaluator.evaluateRequirement(requirement, resource.getChangeData());
+    SubmitRequirementResult res;
+    try {
+      res = evaluator.evaluateRequirementWithCurrentUser(requirement, resource.getChangeData());
+    } catch (QueryParseException e) {
+      throw new BadRequestException(e.getMessage(), e);
+    }
     return Response.ok(SubmitRequirementsJson.toInfo(requirement, res));
   }
 

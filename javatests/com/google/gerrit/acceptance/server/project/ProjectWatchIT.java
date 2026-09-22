@@ -19,6 +19,7 @@ import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.a
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
@@ -31,19 +32,96 @@ import com.google.gerrit.entities.NotifyConfig;
 import com.google.gerrit.entities.NotifyConfig.NotifyType;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.GroupInfo;
+import com.google.gerrit.server.config.RegexAllowedGroupsProvider;
+import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.gerrit.server.permissions.RegexPermissionPolicy;
+import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.inject.Inject;
 import java.util.EnumSet;
+import java.util.function.Consumer;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
 
 @NoHttpd
 public class ProjectWatchIT extends AbstractDaemonTest {
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
+
+  @Test
+  @GerritConfig(
+      name = RegexAllowedGroupsProvider.SECTION + "." + RegexAllowedGroupsProvider.KEY,
+      value = "Administrators")
+  public void nonMemberCannotAddOrChangeRegexNotifyFilterButCanKeepExistingOne() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.OWNER).ref("refs/*").group(SystemGroupBackend.REGISTERED_USERS))
+        .add(
+            allow(Permission.PUSH)
+                .ref(RefNames.REFS_CONFIG)
+                .group(SystemGroupBackend.REGISTERED_USERS))
+        .update();
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig()
+          .putNotifyConfig(
+              "existing",
+              NotifyConfig.builder()
+                  .setName("existing")
+                  .setHeader(NotifyConfig.Header.CC)
+                  .setFilter("status:open")
+                  .build());
+      u.getConfig()
+          .putNotifyConfig(
+              "legacy",
+              NotifyConfig.builder()
+                  .setName("legacy")
+                  .setHeader(NotifyConfig.Header.CC)
+                  .setFilter("project:^foo.*")
+                  .build());
+      u.save();
+    }
+
+    PushOneCommit.Result result = pushRegexNotifyFilter("existing");
+    result.assertErrorStatus();
+    result.assertMessage(RegexPermissionPolicy.NOT_PERMITTED_MESSAGE);
+
+    result = pushRegexNotifyFilter("new");
+    result.assertErrorStatus();
+    result.assertMessage(RegexPermissionPolicy.NOT_PERMITTED_MESSAGE);
+
+    result = pushProjectConfig(config -> config.setString("project", null, "description", "new"));
+    result.assertOkStatus();
+  }
+
+  private PushOneCommit.Result pushRegexNotifyFilter(String name) throws Exception {
+    return pushProjectConfig(
+        config -> config.setString("notify", name, "filter", "project:^foo.*"));
+  }
+
+  private PushOneCommit.Result pushProjectConfig(Consumer<Config> configUpdater) throws Exception {
+    TestRepository<InMemoryRepository> userRepo = cloneProject(project, user);
+    GitUtil.fetch(userRepo, RefNames.REFS_CONFIG + ":" + RefNames.REFS_CONFIG);
+    userRepo.reset(RefNames.REFS_CONFIG);
+
+    Config config = new Config();
+    config.fromText(projectOperations.project(project).getConfig().toText());
+    configUpdater.accept(config);
+
+    return pushFactory
+        .create(
+            user.newIdent(),
+            userRepo,
+            "Update project config",
+            ProjectConfig.PROJECT_CONFIG,
+            config.toText())
+        .to(RefNames.REFS_CONFIG);
+  }
 
   @Test
   public void newPatchSetsNotifyConfig() throws Exception {

@@ -875,9 +875,21 @@ public abstract class AbstractDaemonTest {
       String fileName,
       String content)
       throws Exception {
+    return createChangeWithTopic(repo, "master", topic, commitMsg, fileName, content);
+  }
+
+  @CanIgnoreReturnValue
+  protected PushOneCommit.Result createChangeWithTopic(
+      TestRepository<InMemoryRepository> repo,
+      String targetBranch,
+      String topic,
+      String commitMsg,
+      String fileName,
+      String content)
+      throws Exception {
     assertThat(topic).isNotEmpty();
     return createCommitAndPush(
-        repo, "refs/for/master%topic=" + name(topic), commitMsg, fileName, content);
+        repo, "refs/for/" + targetBranch + "%topic=" + name(topic), commitMsg, fileName, content);
   }
 
   @CanIgnoreReturnValue

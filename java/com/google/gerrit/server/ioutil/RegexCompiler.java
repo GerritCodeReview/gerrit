@@ -14,10 +14,15 @@
 
 package com.google.gerrit.server.ioutil;
 
+import com.google.inject.ImplementedBy;
 import dk.brics.automaton.Automaton;
 
 /** Compiles regular expressions into automata. */
 @FunctionalInterface
+// NOTE: This is left only for stable branches for not breaking compatibility
+// with all the existing code. It will be removed on master and check if all the references
+// to RegexCompiler needs to be annotated with @TrustedRegex or @UntrustedRegex instead.
+@ImplementedBy(DefaultRegexCompiler.class)
 public interface RegexCompiler {
   Automaton toAutomaton(String pattern);
 }

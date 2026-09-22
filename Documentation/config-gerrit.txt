@@ -2164,7 +2164,7 @@ that always restrict cleanup to open changes (`status:new`) and may additionally
 include predicates derived from other cleanup options such as
 link:#changeCleanup.abandonAfter[abandonAfter] and
 link:#changeCleanup.abandonIfMergeable[abandonIfMergeable].
-
++
 Any valid link:user-search.html[change search] expression is accepted. This
 allows limiting the batch size, excluding specific changes, or combining both:
 +

@@ -16,6 +16,24 @@
       "message": "There are more endpoints that don\u0027t make sense for replicas, e.g. top-menus, even though they in principle might work (without Guice errors). Should we introduce a more generic solution for REST API modules?",
       "revId": "7b4843263dc82359fb432fa248aa069c669cca3b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b52e9490_0a0c27d3",
+        "filename": "java/com/google/gerrit/server/restapi/config/ConfigRestApiModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-09-22T12:26:55Z",
+      "side": 1,
+      "message": "Although this should then likely only be done on master and not in a stable branch.",
+      "parentUuid": "0f65ad07_fd601257",
+      "revId": "7b4843263dc82359fb432fa248aa069c669cca3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

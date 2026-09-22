@@ -16,6 +16,24 @@
       "message": "Also happens when the change is merged and a submit is done again. Should this be consistent ? (or should we just update Abandon alone ?)",
       "revId": "9fde783cf84a1409b2f3e9253272c4220bf616b4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64560de6_22265d08",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-09-22T14:43:57Z",
+      "side": 1,
+      "message": "Good question, I thin kew should definitely keep them as different changes, are they are different operations.\nIt depends from the caller\u0027s expectations. Here I\u0027m trying to fix a situation where the whole batch abandon is aborted because one of the changes was already abandoned.\n\nSubmitting an already submitted change I would expect it to fail, but I guess we can discuss if that\u0027s what most people expect or not.",
+      "parentUuid": "375841f0_090920f9",
+      "revId": "9fde783cf84a1409b2f3e9253272c4220bf616b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

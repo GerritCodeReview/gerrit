@@ -96,7 +96,7 @@ public class MarkdownFormatter {
     return optionsExt;
   }
 
-  public byte[] markdownToDocHtml(String md, String charEnc) {
+  public byte[] markdownToDocHtml(String md, Charset charset) {
     Node root = parseMarkdown(md);
     HtmlRenderer renderer = HtmlRenderer.builder(markDownOptions()).build();
     String title = findTitle(root);
@@ -118,11 +118,11 @@ public class MarkdownFormatter {
     html.append("<body>\n");
     html.append(renderer.render(root));
     html.append("\n</body></html>");
-    return html.toString().getBytes(Charset.forName(charEnc));
+    return html.toString().getBytes(charset);
   }
 
-  public String extractTitleFromMarkdown(byte[] data, String charEnc) {
-    String md = RawParseUtils.decode(Charset.forName(charEnc), data);
+  public String extractTitleFromMarkdown(byte[] data, Charset charset) {
+    String md = RawParseUtils.decode(charset, data);
     return findTitle(parseMarkdown(md));
   }
 

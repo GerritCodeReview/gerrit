@@ -32,8 +32,8 @@ public class RevertInput {
   public String topic;
 
   /**
-   * Mark the change as work-in-progress. This will also override the {@link #notify} value to
-   * {@link NotifyHandling#OWNER}
+   * Mark the change as work-in-progress. If {@link #notify} is {@code null}, it defaults to {@link
+   * NotifyHandling#NONE} instead of {@link NotifyHandling#ALL}.
    */
   public Boolean workInProgress;
 

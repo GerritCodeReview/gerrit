@@ -7973,7 +7973,8 @@ Number of the parent relative to which the cherry-pick should be considered.
 Notify handling that defines to whom email notifications should be sent
 after the cherry-pick. +
 Allowed values are `NONE`, `OWNER`, `OWNER_REVIEWERS` and `ALL`. +
-If not set, the default is `ALL`.
+If not set, the default is `OWNER` if the resulting change is
+work-in-progress, and `ALL` otherwise (see `work_in_progress` below).
 |`notify_details`    |optional|
 Additional information about whom to notify about the update as a map
 of link:user-notify.html#recipient-types[recipient type] to
@@ -7987,14 +7988,17 @@ created change contain git conflict markers to indicate the conflicts.
 Callers can find out if there were conflicts by checking the
 `contains_git_conflicts` field in the link:#change-info[ChangeInfo]. If
 there are conflicts the cherry-pick change is marked as
-work-in-progress.
+work-in-progress, which also makes `notify` default to `OWNER` (see
+`notify` above). Setting `work_in_progress` to `false` overrides this.
 |`work_in_progress`  |optional|
 Whether the resulting change should be marked as work-in-progress. +
 If not set, the resulting change is marked as work-in-progress if the source
 change is work-in-progress or if the cherry-pick resulted in git conflicts (see
 `allow_conflicts` above). An explicit value overrides both, hence setting this
 to `false` creates a change that is ready for review even if it contains git
-conflict markers.
+conflict markers. +
+The resulting work-in-progress state also determines the default for `notify`
+(see `notify` above).
 |`topic`             |optional|
 The topic of the created cherry-picked change. If not set, the default depends
 on the source. If the source is a change with a topic, the resulting topic
@@ -8021,6 +8025,19 @@ Gerrit core doesn't support any validation options, but commit validation
 listeners that are implemented in plugins may. Please refer to the
 documentation of the installed plugins to learn whether they support validation
 options. Unknown validation options are silently ignored.
+|===========================
+
+The work-in-progress state of the resulting change, and the resulting default
+for `notify`, are:
+
+[options="header"]
+|===========================
+|`work_in_progress`|source change is work-in-progress|cherry-pick has conflicts|resulting change|default `notify`
+|unset|no|no|ready for review|`ALL`
+|unset|yes|any|work-in-progress|`OWNER`
+|unset|no|yes|work-in-progress|`OWNER`
+|`true`|any|any|work-in-progress|`OWNER`
+|`false`|any|any|ready for review|`ALL`
 |===========================
 
 [[comment-info]]

@@ -423,7 +423,7 @@ public class CherryPickChange {
       try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {
         try (BatchUpdate bu = batchUpdateFactory.create(project, identifiedUser, timestamp)) {
           bu.setRepository(git, revWalk, oi);
-          bu.setNotify(resolveNotify(input));
+          bu.setNotify(resolveNotify(input, workInProgress));
           Change.Id changeId;
           String newTopic = null;
           if (input.topic != null) {
@@ -597,10 +597,15 @@ public class CherryPickChange {
         || !cherryPickCommit.getFilesWithGitConflicts().isEmpty();
   }
 
-  private NotifyResolver.Result resolveNotify(CherryPickInput input)
+  /**
+   * Resolves the notify handling. Defaults to {@code OWNER} when the resulting change is
+   * work-in-progress, to avoid notifying reviewers and project watchers about a change that is not
+   * ready for review. This matches {@code CreateChange} and {@code ReceiveCommits}.
+   */
+  private NotifyResolver.Result resolveNotify(CherryPickInput input, boolean workInProgress)
       throws BadRequestException, ConfigInvalidException, IOException {
-    return notifyResolver.resolve(
-        firstNonNull(input.notify, NotifyHandling.ALL), input.notifyDetails);
+    NotifyHandling defaultNotify = workInProgress ? NotifyHandling.OWNER : NotifyHandling.ALL;
+    return notifyResolver.resolve(firstNonNull(input.notify, defaultNotify), input.notifyDetails);
   }
 
   private String messageForDestinationChange(

@@ -508,6 +508,10 @@ public class CommitIT extends AbstractDaemonTest {
     PushOneCommit.Result existingChange =
         createChange(testRepo, destBranch, SUBJECT, FILE_NAME, destContent, null);
 
+    // Add 'user' as reviewer of the existing change, so that it can be verified below that they
+    // are not notified about the new patch set that contains git conflicts.
+    gApi.changes().id(existingChange.getChangeId()).addReviewer(user.email());
+
     testRepo.reset(initialHead);
     String changeContent = "another content";
     PushOneCommit.Result srcChange =
@@ -539,6 +543,7 @@ public class CommitIT extends AbstractDaemonTest {
     // verify the transient fields, we do a REST call instead, where we can get the returned
     // ChangeInfo and verify the transient fields in it.
     input.allowConflicts = true;
+    sender.clear();
     RestResponse response =
         adminRestSession.post(
             "/projects/" + project.get() + "/commits/" + commitToCherryPick.name() + "/cherrypick",
@@ -547,6 +552,11 @@ public class CommitIT extends AbstractDaemonTest {
     ChangeInfo cherryPickChange = newGson().fromJson(response.getReader(), ChangeInfo.class);
     assertThat(cherryPickChange.containsGitConflicts).isTrue();
     assertThat(cherryPickChange.workInProgress).isTrue();
+
+    // The new patch set turns the existing change into a work-in-progress change because it
+    // contains git conflicts, hence notify defaults to OWNER and the reviewer of the existing
+    // change is not notified.
+    assertThat(sender.getMessages()).isEmpty();
 
     // Verify the conflicts information
     RevisionInfo currentRevision =

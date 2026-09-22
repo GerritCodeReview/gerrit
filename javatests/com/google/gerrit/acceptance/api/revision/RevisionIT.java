@@ -596,16 +596,34 @@ public class RevisionIT extends AbstractDaemonTest {
   @Test
   public void cherryPickWorkInProgressChange() throws Exception {
     PushOneCommit.Result r = pushTo("refs/for/master%wip");
+
+    // 'user' is a reviewer of the source change and watches the project.
+    gApi.changes().id(r.getChangeId()).addReviewer(user.email());
+    requestScopeOperations.setApiUser(user.id());
+    watch(project.get());
+    requestScopeOperations.setApiUser(admin.id());
+
     CherryPickInput in = new CherryPickInput();
     in.destination = "foo";
     in.message = "cherry pick message";
+    in.keepReviewers = true;
     gApi.projects().name(project.get()).branch(in.destination).create(new BranchInput());
     ChangeApi orig = gApi.changes().id(project.get() + "~master~" + r.getChangeId());
 
+    sender.clear();
     ChangeApi cherry = orig.revision(r.getCommit().name()).cherryPick(in);
     assertThat(cherry.get().cherryPickOfChange).isEqualTo(orig.get()._number);
     assertThat(cherry.get().cherryPickOfPatchSet).isEqualTo(1);
     assertThat(cherry.get().workInProgress).isTrue();
+
+    // The cherry-pick change is work-in-progress because the source change is work-in-progress,
+    // hence notify defaults to OWNER and the reviewer that was carried over is not notified.
+    assertThat(
+            cherry.get().reviewers.get(ReviewerState.REVIEWER).stream()
+                .map(a -> a._accountId)
+                .collect(toList()))
+        .containsExactly(user.id().get());
+    assertThat(sender.getMessages()).isEmpty();
   }
 
   @Test
@@ -623,7 +641,7 @@ public class RevisionIT extends AbstractDaemonTest {
     in.message = "this needs to go to stable";
     in.keepReviewers = true;
     in.workInProgress = true;
-    // Work-in-progress changes are not exempted from notifications, hence ask for no notifications
+    // For work-in-progress changes notify defaults to OWNER, ask for no notifications at all
     // explicitly.
     in.notify = NotifyHandling.NONE;
     sender.clear();
@@ -649,6 +667,138 @@ public class RevisionIT extends AbstractDaemonTest {
     assertThat(readyCherryPick.attentionSet.keySet())
         .containsExactly(admin.id().get(), user.id().get());
     assertThat(sender.getMessages()).isNotEmpty();
+  }
+
+  @Test
+  public void cherryPickWithWorkInProgressDoesNotNotify() throws Exception {
+    createBranch(BranchNameKey.create(project, "stable"));
+
+    // 'user2' watches the project, so that notifications to project watchers are observable.
+    requestScopeOperations.setApiUser(accountCreator.user2().id());
+    watch(project.get());
+    requestScopeOperations.setApiUser(admin.id());
+
+    // Change is created by 'admin' and has 'user' as reviewer.
+    PushOneCommit.Result r = createChange();
+    gApi.changes().id(r.getChangeId()).addReviewer(user.email());
+
+    CherryPickInput in = new CherryPickInput();
+    in.destination = "stable";
+    in.message = "this needs to go to stable";
+    in.keepReviewers = true;
+    in.workInProgress = true;
+    sender.clear();
+    ChangeInfo cherryPick = gApi.changes().id(r.getChangeId()).current().cherryPick(in).get();
+
+    assertThat(cherryPick.workInProgress).isTrue();
+    assertThat(
+            cherryPick.reviewers.get(ReviewerState.REVIEWER).stream()
+                .map(a -> a._accountId)
+                .collect(toList()))
+        .containsExactly(user.id().get());
+    // The cherry-pick change is work-in-progress, hence notify defaults to OWNER: neither the
+    // reviewer that was carried over nor the project watcher is notified. The owner of the
+    // cherry-pick change is the calling user, who is never notified about their own actions, hence
+    // no email is sent at all (see
+    // cherryPickToExistingChangeWithWorkInProgressDefaultsNotifyToOwner for a test that verifies
+    // that the owner is notified).
+    assertThat(sender.getMessages()).isEmpty();
+  }
+
+  @Test
+  public void cherryPickToExistingChangeWithWorkInProgressDefaultsNotifyToOwner() throws Exception {
+    PushOneCommit.Result sourceChange =
+        pushFactory
+            .create(admin.newIdent(), testRepo, SUBJECT, FILE_NAME, "a")
+            .to("refs/for/master");
+
+    BranchInput branchInput = new BranchInput();
+    branchInput.revision = sourceChange.getCommit().getParent(0).name();
+    gApi.projects().name(project.get()).branch("foo").create(branchInput);
+
+    // The destination change is created by 'admin' and has 'user' as reviewer.
+    PushOneCommit.Result destChange =
+        pushFactory
+            .create(admin.newIdent(), testRepo, SUBJECT, FILE_NAME, "b", sourceChange.getChangeId())
+            .to("refs/for/foo");
+    // The source change and the destination change share the Change-Id, hence the destination
+    // change must be looked up by its triplet.
+    String destChangeId = project.get() + "~foo~" + destChange.getChangeId();
+    gApi.changes().id(destChangeId).addReviewer(user.email());
+
+    // 'user2' does the cherry-pick, so that the owner of the destination change is not the calling
+    // user, which makes notifications to the owner observable (users are not notified about their
+    // own actions).
+    requestScopeOperations.setApiUser(accountCreator.user2().id());
+    CherryPickInput in = new CherryPickInput();
+    in.destination = "foo";
+    in.message = sourceChange.getCommit().getFullMessage();
+    in.workInProgress = true;
+    sender.clear();
+    ChangeInfo cherryPick =
+        gApi.changes()
+            .id(project.get() + "~master~" + sourceChange.getChangeId())
+            .current()
+            .cherryPick(in)
+            .get();
+
+    // The destination change was set to work-in-progress, hence notify defaults to OWNER: only the
+    // owner of the destination change is notified, not its reviewer.
+    assertThat(cherryPick.workInProgress).isTrue();
+    FakeEmailSender.Message m = Iterables.getOnlyElement(sender.getMessages());
+    assertThat(m.rcpt()).containsExactly(admin.getNameEmail());
+  }
+
+  @Test
+  public void cherryPickWithWorkInProgressAndNotifyAll() throws Exception {
+    createBranch(BranchNameKey.create(project, "stable"));
+
+    // Change is created by 'admin' and has 'user' as reviewer.
+    PushOneCommit.Result r = createChange();
+    gApi.changes().id(r.getChangeId()).addReviewer(user.email());
+
+    CherryPickInput in = new CherryPickInput();
+    in.destination = "stable";
+    in.message = "this needs to go to stable";
+    in.keepReviewers = true;
+    in.workInProgress = true;
+    in.notify = NotifyHandling.ALL;
+    sender.clear();
+    ChangeInfo cherryPick = gApi.changes().id(r.getChangeId()).current().cherryPick(in).get();
+
+    // An explicitly specified notify value wins over the default for work-in-progress changes,
+    // hence the reviewer that was carried over is notified.
+    assertThat(cherryPick.workInProgress).isTrue();
+    FakeEmailSender.Message m = Iterables.getOnlyElement(sender.getMessages());
+    assertThat(m.rcpt()).containsExactly(user.getNameEmail());
+  }
+
+  @Test
+  public void cherryPickWithoutWorkInProgressNotifiesReviewersAndWatchers() throws Exception {
+    createBranch(BranchNameKey.create(project, "stable"));
+
+    // 'user2' watches the project.
+    requestScopeOperations.setApiUser(accountCreator.user2().id());
+    watch(project.get());
+    requestScopeOperations.setApiUser(admin.id());
+
+    // Change is created by 'admin' and has 'user' as reviewer.
+    PushOneCommit.Result r = createChange();
+    gApi.changes().id(r.getChangeId()).addReviewer(user.email());
+
+    CherryPickInput in = new CherryPickInput();
+    in.destination = "stable";
+    in.message = "this needs to go to stable";
+    in.keepReviewers = true;
+    sender.clear();
+    ChangeInfo cherryPick = gApi.changes().id(r.getChangeId()).current().cherryPick(in).get();
+
+    // The cherry-pick change is ready for review, hence notify defaults to ALL: the reviewer that
+    // was carried over and the project watcher are notified.
+    assertThat(cherryPick.workInProgress).isNull();
+    FakeEmailSender.Message m = Iterables.getOnlyElement(sender.getMessages());
+    assertThat(m.rcpt())
+        .containsExactly(user.getNameEmail(), accountCreator.user2().getNameEmail());
   }
 
   @Test
@@ -1042,10 +1192,15 @@ public class RevisionIT extends AbstractDaemonTest {
     ChangeApi changeApi = change(r);
     assertThat(changeApi.get().messages).hasSize(1);
 
+    // Add 'user' as reviewer, so that it can be verified below that they are not notified about
+    // the work-in-progress cherry-pick change.
+    changeApi.addReviewer(user.email());
+
     // Cherry-pick the change to the other branch, that should fail with a conflict.
     CherryPickInput in = new CherryPickInput();
     in.destination = destBranch;
     in.message = "Cherry-Pick";
+    in.keepReviewers = true;
     ResourceConflictException thrown =
         assertThrows(
             ResourceConflictException.class,
@@ -1054,9 +1209,21 @@ public class RevisionIT extends AbstractDaemonTest {
 
     // Cherry-pick with auto merge should succeed.
     in.allowConflicts = true;
+    sender.clear();
     ChangeInfo cherryPickChange = changeApi.revision(r.getCommit().name()).cherryPickAsInfo(in);
     assertThat(cherryPickChange.containsGitConflicts).isTrue();
     assertThat(cherryPickChange.workInProgress).isTrue();
+
+    // The cherry-pick change is work-in-progress because it contains git conflicts, hence notify
+    // defaults to OWNER and the reviewer that was carried over is not notified (the owner of the
+    // cherry-pick change is the calling user, who is not notified about their own actions).
+    ChangeInfo cherryPickChangeInfo = gApi.changes().id(cherryPickChange._number).get();
+    assertThat(
+            cherryPickChangeInfo.reviewers.get(ReviewerState.REVIEWER).stream()
+                .map(a -> a._accountId)
+                .collect(toList()))
+        .containsExactly(user.id().get());
+    assertThat(sender.getMessages()).isEmpty();
 
     // Verify the conflicts information
     RevCommit head = projectOperations.project(project).getHead(cherryPickChange.branch);

@@ -117,7 +117,8 @@ export class GrCopyLinks extends LitElement {
       tabindex="-1"
       .menuCorner=${this.horizontalAlign === 'left'
         ? 'start-start'
-        : 'end-start'}
+        : 'start-end'}
+      .anchorCorner=${this.horizontalAlign === 'left' ? 'end-start' : 'end-end'}
       ?quick=${true}
       .yOffset=${this.verticalOffset}
       @opened=${() => {

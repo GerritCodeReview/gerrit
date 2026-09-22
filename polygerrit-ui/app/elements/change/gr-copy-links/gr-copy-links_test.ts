@@ -79,4 +79,20 @@ suite('gr-copy-links tests', () => {
     assert.isTrue(clipboardStub.called);
     assert.isTrue(clipboardStub.calledWith('123456'));
   });
+
+  test('horizontalAlign left sets corners correctly', async () => {
+    element.horizontalAlign = 'left';
+    await element.updateComplete;
+    const mdMenu = queryAndAssert<MdMenu>(element, 'md-menu');
+    assert.equal(mdMenu.menuCorner, 'start-start');
+    assert.equal(mdMenu.anchorCorner, 'end-start');
+  });
+
+  test('horizontalAlign right sets corners correctly', async () => {
+    element.horizontalAlign = 'right';
+    await element.updateComplete;
+    const mdMenu = queryAndAssert<MdMenu>(element, 'md-menu');
+    assert.equal(mdMenu.menuCorner, 'start-end');
+    assert.equal(mdMenu.anchorCorner, 'end-end');
+  });
 });

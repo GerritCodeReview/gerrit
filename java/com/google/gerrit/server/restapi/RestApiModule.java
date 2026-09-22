@@ -43,6 +43,5 @@ public class RestApiModule extends AbstractModule {
     install(new PluginRestApiModule());
     install(new ProjectRestApiModule());
     install(new ProjectRestApiModule.BatchModule());
-    install(new ChangeCleanupRunnerModule());
   }
 }

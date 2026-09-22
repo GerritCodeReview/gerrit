@@ -88,6 +88,24 @@
       "parentUuid": "8125e17c_a3c48505",
       "revId": "7b4843263dc82359fb432fa248aa069c669cca3b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17fb99bd_57d313e7",
+        "filename": "java/com/google/gerrit/server/restapi/config/ConfigRestApiModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-22T18:09:35Z",
+      "side": 1,
+      "message": "If we reach an agreement on Ie3304e2e, then this fix can be abandoned.",
+      "parentUuid": "75f53b4a_55f454a5",
+      "revId": "7b4843263dc82359fb432fa248aa069c669cca3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

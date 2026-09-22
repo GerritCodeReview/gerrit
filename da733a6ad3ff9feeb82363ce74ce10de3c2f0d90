@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7a956b4_a40222bc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-09-22T04:40:36Z",
+      "side": 1,
+      "message": "Do we have a concrete example of this for any plugin on gerrit.googlesource.com?",
+      "revId": "da733a6ad3ff9feeb82363ce74ce10de3c2f0d90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6121f63_5b4d3c39",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-09-22T04:40:36Z",
+      "side": 1,
+      "message": "This doesn\u0027t appear to be accurate? If any plugin returns null, we throw `QueryParseException` and the query fails.",
+      "range": {
+        "startLine": 15,
+        "startChar": 29,
+        "endLine": 16,
+        "endChar": 7
+      },
+      "revId": "da733a6ad3ff9feeb82363ce74ce10de3c2f0d90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -22,6 +22,30 @@
       },
       "revId": "b5b959a4bdcf2a2f7ccb953787464060f5b979b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1dee421_146f111f",
+        "filename": "java/com/google/gerrit/server/change/AbandonOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1155599
+      },
+      "writtenOn": "2026-09-22T15:05:00Z",
+      "side": 1,
+      "message": "Good point, we could even move the `isNew` check further up. Will do separately.",
+      "parentUuid": "964f2ea5_d3348247",
+      "range": {
+        "startLine": 91,
+        "startChar": 0,
+        "endLine": 92,
+        "endChar": 77
+      },
+      "revId": "b5b959a4bdcf2a2f7ccb953787464060f5b979b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

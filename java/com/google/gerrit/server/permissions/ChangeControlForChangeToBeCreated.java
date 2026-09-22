@@ -18,13 +18,25 @@ import com.google.gerrit.server.permissions.PermissionBackend.ForChange;
 
 /** Access control management for a user accessing a change that has not been created yet. */
 public class ChangeControlForChangeToBeCreated extends AbstractChangeControl {
+  private final boolean isOwner;
 
   public ChangeControlForChangeToBeCreated(
       ProjectControl projectControl,
       RefControl refControl,
       PermissionBackend permissionBackend,
       boolean isOwner) {
-    super(projectControl, refControl, permissionBackend, /* isNew= */ true, isOwner);
+    super(projectControl, refControl, permissionBackend);
+    this.isOwner = isOwner;
+  }
+
+  @Override
+  protected boolean isNew() {
+    return true;
+  }
+
+  @Override
+  protected boolean isOwner() {
+    return isOwner;
   }
 
   @Override

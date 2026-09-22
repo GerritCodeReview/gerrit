@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f814485d_ea3bf064",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-22T11:27:27Z",
+      "side": 1,
+      "message": "Well spotted, this is because the module is a _listener_ that creates new bindings for every execution, thanks to the use of the `listen()` method.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 6
+      },
+      "revId": "3549a6136b57738428e61c2c95f3fcabaa7f859b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "050f3f20_2ae89025",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-22T11:27:27Z",
+      "side": 1,
+      "message": "This is the wrong fix: see the root cause at https://gerrit-review.googlesource.com/c/gerrit/+/420300/comment/9ba395f8_f75ea3b2/ and the proper fix at I2c17b5d11.",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 41
+      },
+      "revId": "3549a6136b57738428e61c2c95f3fcabaa7f859b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -18,12 +18,14 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
+import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
 
 /** Asserts behavior on {@link PermissionBackend} using a fully-started Gerrit. */
@@ -55,6 +57,22 @@ public class PermissionBackendIT extends AbstractDaemonTest {
     boolean reviewerCanSee =
         pb.absentUser(user.id()).change(changeData).test(ChangePermission.READ);
     assertThat(reviewerCanSee).isTrue();
+  }
+
+  @Test
+  public void nonPrivateChangeDataWithoutChange_canCheckReadWithoutLoadingChange()
+      throws Exception {
+
+    Change.Id nonExistentChangeId = Change.id(Integer.MAX_VALUE);
+    ChangeData changeData =
+        changeDataFactory.createNonPrivate(
+            BranchNameKey.create(project, "refs/heads/master"),
+            nonExistentChangeId,
+            ObjectId.zeroId());
+
+    boolean canSee =
+        pb.absentUser(user.id()).project(project).change(changeData).test(ChangePermission.READ);
+    assertThat(canSee).isTrue();
   }
 
   @Test

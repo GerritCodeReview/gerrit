@@ -24,7 +24,13 @@ public class CherryPickInput {
   public String base;
   public Integer parent;
 
-  public NotifyHandling notify = NotifyHandling.ALL;
+  /**
+   * Who to send email notifications to after the cherry-pick. If not specified, defaults to {@link
+   * NotifyHandling#OWNER} if the resulting change is work-in-progress (see {@link
+   * #workInProgress}), or {@link NotifyHandling#ALL} otherwise.
+   */
+  public NotifyHandling notify;
+
   public Map<RecipientType, NotifyInfo> notifyDetails;
 
   public boolean keepReviewers;
@@ -40,6 +46,9 @@ public class CherryPickInput {
    * <p>If unset, the change is marked work-in-progress if the source change is work-in-progress or
    * if the cherry-pick produced git conflicts (see {@link #allowConflicts}). An explicit value
    * always wins over both.
+   *
+   * <p>If the resulting change is work-in-progress, {@link #notify} defaults to {@link
+   * NotifyHandling#OWNER} instead of {@link NotifyHandling#ALL}.
    */
   public Boolean workInProgress;
 }

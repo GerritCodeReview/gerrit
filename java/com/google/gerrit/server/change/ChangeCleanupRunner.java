@@ -16,6 +16,7 @@ package com.google.gerrit.server.change;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -41,6 +42,12 @@ public class ChangeCleanupRunner implements Runnable {
     @Override
     protected void configure() {
       listener().to(Lifecycle.class);
+    }
+  }
+
+  public static class ChangeCleanupRunnerFactoryModule extends FactoryModule {
+    @Override
+    protected void configure() {
       factory(Factory.class);
     }
   }

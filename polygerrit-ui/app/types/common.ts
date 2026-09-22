@@ -1421,6 +1421,7 @@ export interface CherryPickInput {
   allow_conflicts?: boolean;
   topic?: TopicName;
   allow_empty?: boolean;
+  work_in_progress?: boolean;
 }
 
 /**

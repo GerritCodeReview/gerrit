@@ -326,12 +326,7 @@ public class RevertSubmission
         bu.addOp(
             changeNotes.getChange().getId(),
             new CreateCherryPickOp(
-                revCommit,
-                generatedChangeId,
-                cherryPickRevertChangeId,
-                timestamp,
-                revertInput.getWorkInProgress(),
-                baseCommit));
+                revCommit, generatedChangeId, cherryPickRevertChangeId, timestamp, baseCommit));
         if (!revertInput.getWorkInProgress()) {
           commitUtil.addChangeRevertedNotificationOps(
               bu, changeNotes.getChangeId(), cherryPickRevertChangeId, generatedChangeId.name());
@@ -361,6 +356,10 @@ public class RevertSubmission
     // but not for the intermediately created revert commit.
     cherryPickInput.notify = revertInput.notify;
     if (revertInput.getWorkInProgress()) {
+      // createCherryPickedRevert() opens its own BatchUpdate on the change that is being reverted
+      // and resolves the notify handling from this field directly, rather than going through
+      // CherryPickChange. Hence the default for work-in-progress revert submissions must be
+      // applied here and not only in CherryPickChange.
       cherryPickInput.notify = firstNonNull(cherryPickInput.notify, NotifyHandling.NONE);
     }
     cherryPickInput.notifyDetails = revertInput.notifyDetails;
@@ -368,6 +367,10 @@ public class RevertSubmission
     cherryPickInput.keepReviewers = true;
     cherryPickInput.topic = revertInput.topic;
     cherryPickInput.allowEmpty = true;
+    // getWorkInProgress() returns a primitive, so this is always set explicitly. This preserves the
+    // existing behavior that the requested work-in-progress state wins over the work-in-progress
+    // state of the change that is being reverted and over git conflicts.
+    cherryPickInput.workInProgress = revertInput.getWorkInProgress();
     return cherryPickInput;
   }
 
@@ -512,7 +515,6 @@ public class RevertSubmission
     private final ObjectId computedChangeId;
     private final Change.Id cherryPickRevertChangeId;
     private final Instant timestamp;
-    private final boolean workInProgress;
     private final RevCommit baseCommit;
 
     CreateCherryPickOp(
@@ -520,13 +522,11 @@ public class RevertSubmission
         ObjectId computedChangeId,
         Change.Id cherryPickRevertChangeId,
         Instant timestamp,
-        Boolean workInProgress,
         RevCommit baseCommit) {
       this.revCommitId = revCommitId;
       this.computedChangeId = computedChangeId;
       this.cherryPickRevertChangeId = cherryPickRevertChangeId;
       this.timestamp = timestamp;
-      this.workInProgress = workInProgress;
       this.baseCommit = baseCommit;
     }
 
@@ -547,7 +547,6 @@ public class RevertSubmission
               change.getId(),
               computedChangeId,
               cherryPickRevertChangeId,
-              workInProgress,
               Optional.ofNullable(baseCommit));
       // save the commit as base for next cherryPick of that branch
       ChangeNotes cherryPickChange =

@@ -26,6 +26,12 @@ import com.google.gerrit.server.config.CapabilityResource;
 import com.google.gerrit.server.config.TopMenuResource;
 
 public class ConfigRestApiModule extends RestApiModule {
+  private final boolean isReplica;
+
+  public ConfigRestApiModule(boolean isReplica) {
+    this.isReplica = isReplica;
+  }
+
   @Override
   protected void configure() {
     DynamicMap.mapOf(binder(), CapabilityResource.CAPABILITY_KIND);
@@ -54,7 +60,9 @@ public class ConfigRestApiModule extends RestApiModule {
     put(CONFIG_KIND, "preferences.edit").to(SetEditPreferences.class);
     post(CONFIG_KIND, "reload").to(ReloadConfig.class);
     post(CONFIG_KIND, "snapshot.indexes").to(SnapshotIndexes.class);
-    post(CONFIG_KIND, "cleanup.changes").to(CleanupChanges.class);
+    if (!isReplica) {
+      post(CONFIG_KIND, "cleanup.changes").to(CleanupChanges.class);
+    }
 
     child(CONFIG_KIND, "tasks").to(TasksCollection.class);
     delete(TASK_KIND).to(DeleteTask.class);

@@ -339,14 +339,34 @@ export function findBlame(blameInfos: BlameInfo[], line?: LineNumber) {
   );
 }
 
+export function getContentGroups(groups: GrDiffGroup[]): GrDiffGroup[] {
+  const result: GrDiffGroup[] = [];
+  for (const group of groups) {
+    if (group.type === GrDiffGroupType.CONTEXT_CONTROL) {
+      result.push(...getContentGroups(group.contextGroups));
+    } else {
+      const isSpecialFileOrLostGroup =
+        group.lines.length === 1 &&
+        (group.lines[0].beforeNumber === FILE ||
+          group.lines[0].beforeNumber === LOST ||
+          group.lines[0].afterNumber === FILE ||
+          group.lines[0].afterNumber === LOST);
+      if (!isSpecialFileOrLostGroup) {
+        result.push(group);
+      }
+    }
+  }
+  return result;
+}
+
 function findPrevLineOnRight(
-  allGroups: GrDiffGroup[],
+  contentGroups: GrDiffGroup[],
   group: GrDiffGroup
 ): GrDiffLine | undefined {
-  const groupIdx = allGroups.indexOf(group);
+  const groupIdx = contentGroups.indexOf(group);
   if (groupIdx === -1) return undefined;
   for (let i = groupIdx - 1; i >= 0; i--) {
-    const lines = allGroups[i].lines;
+    const lines = contentGroups[i].lines;
     for (let j = lines.length - 1; j >= 0; j--) {
       const line = lines[j];
       if (typeof line.afterNumber === 'number' && line.afterNumber > 0) {
@@ -358,13 +378,13 @@ function findPrevLineOnRight(
 }
 
 function findNextLineOnRight(
-  allGroups: GrDiffGroup[],
+  contentGroups: GrDiffGroup[],
   group: GrDiffGroup
 ): GrDiffLine | undefined {
-  const groupIdx = allGroups.indexOf(group);
+  const groupIdx = contentGroups.indexOf(group);
   if (groupIdx === -1) return undefined;
-  for (let i = groupIdx + 1; i < allGroups.length; i++) {
-    const lines = allGroups[i].lines;
+  for (let i = groupIdx + 1; i < contentGroups.length; i++) {
+    const lines = contentGroups[i].lines;
     for (const line of lines) {
       if (typeof line.afterNumber === 'number' && line.afterNumber > 0) {
         return line;
@@ -374,6 +394,38 @@ function findNextLineOnRight(
   return undefined;
 }
 
+export function getRevertedFileContent(
+  group: GrDiffGroup,
+  allGroups: GrDiffGroup[]
+): string | undefined {
+  if (group.type !== GrDiffGroupType.DELTA) return undefined;
+  const contentGroups = getContentGroups(allGroups);
+  if (contentGroups.length === 0 || !contentGroups.includes(group)) {
+    return undefined;
+  }
+  if (contentGroups.some(g => g.skip !== undefined)) {
+    return undefined;
+  }
+
+  const lines: string[] = [];
+  for (const g of contentGroups) {
+    if (g === group) {
+      for (const line of g.removes) {
+        lines.push(line.text);
+      }
+    } else if (g.type === GrDiffGroupType.BOTH) {
+      for (const line of g.lines) {
+        lines.push(line.text);
+      }
+    } else if (g.type === GrDiffGroupType.DELTA) {
+      for (const line of g.adds) {
+        lines.push(line.text);
+      }
+    }
+  }
+  return lines.join('\n');
+}
+
 export function createRevertFixSuggestion(
   path: string,
   group: GrDiffGroup,
@@ -381,8 +433,9 @@ export function createRevertFixSuggestion(
 ): FixSuggestionInfo | undefined {
   if (group.type !== GrDiffGroupType.DELTA) return undefined;
 
-  const groupIdx = allGroups.indexOf(group);
-  if (allGroups.length > 0 && groupIdx === -1) {
+  const contentGroups = getContentGroups(allGroups);
+  const groupIdx = contentGroups.indexOf(group);
+  if (contentGroups.length > 0 && groupIdx === -1) {
     return undefined;
   }
 
@@ -423,8 +476,8 @@ export function createRevertFixSuggestion(
     if (typeof startLine !== 'number' || typeof endLine !== 'number') {
       return undefined;
     }
-    const prevLine = findPrevLineOnRight(allGroups, group);
-    const nextLine = findNextLineOnRight(allGroups, group);
+    const prevLine = findPrevLineOnRight(contentGroups, group);
+    const nextLine = findNextLineOnRight(contentGroups, group);
 
     if (startLine > 1 && prevLine && typeof prevLine.afterNumber === 'number') {
       // Include the line above: replace from start of line above
@@ -492,7 +545,7 @@ export function createRevertFixSuggestion(
       startLine === 1 &&
       !prevLine &&
       !nextLine &&
-      (allGroups.length === 0 || allGroups.length === 1)
+      (contentGroups.length === 0 || contentGroups.length === 1)
     ) {
       // Entire file was added (no line above and no line below)
       const lastLineText = adds[adds.length - 1].text;
@@ -519,7 +572,7 @@ export function createRevertFixSuggestion(
 
   // Case 3: Pure Deletion in Edit (removes has lines, adds is empty)
   if (removes.length > 0 && adds.length === 0) {
-    const nextLine = findNextLineOnRight(allGroups, group);
+    const nextLine = findNextLineOnRight(contentGroups, group);
     if (nextLine && typeof nextLine.afterNumber === 'number') {
       return {
         fix_id: PROVIDED_FIX_ID,
@@ -539,7 +592,7 @@ export function createRevertFixSuggestion(
       };
     } else {
       // Deletion at the end of the file
-      const prevLine = findPrevLineOnRight(allGroups, group);
+      const prevLine = findPrevLineOnRight(contentGroups, group);
       if (prevLine && typeof prevLine.afterNumber === 'number') {
         const prevLineNumber = prevLine.afterNumber;
         return {
@@ -558,7 +611,7 @@ export function createRevertFixSuggestion(
             },
           ],
         };
-      } else if (allGroups.length === 0 || allGroups.length === 1) {
+      } else if (contentGroups.length === 0 || contentGroups.length === 1) {
         // File in Edit was completely empty
         return {
           fix_id: PROVIDED_FIX_ID,

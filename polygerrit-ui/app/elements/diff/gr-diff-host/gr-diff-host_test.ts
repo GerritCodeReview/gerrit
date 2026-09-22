@@ -2044,5 +2044,136 @@ suite('gr-diff-host tests', () => {
       await element.updateComplete;
       assert.isFalse(element.isRevertAllowed());
     });
+
+    test('handleRevertDelta uses saveChangeEdit when in EDIT mode with groups loaded', async () => {
+      const applyFixStub = stubRestApi('applyFixSuggestion');
+      const saveEditStub = stubRestApi('saveChangeEdit').returns(
+        Promise.resolve(new Response(null, {status: 204}))
+      );
+      sinon.stub(element, 'reload').resolves();
+      sinon.stub(testResolver(navigationToken), 'setUrl');
+
+      element.patchRange = {
+        ...createPatchRange(),
+        patchNum: EDIT,
+      };
+      element.latestPatchNum = 1 as PatchSetNumber;
+      element.editMode = true;
+      element.path = 'foo.ts';
+      element.changeNum = 42 as NumericChangeId;
+      await element.updateComplete;
+
+      const hunk1Remove = new GrDiffLine(GrDiffLineType.REMOVE, 1, 0);
+      hunk1Remove.text = 'const a = 1;';
+      const hunk1Add = new GrDiffLine(GrDiffLineType.ADD, 0, 1);
+      hunk1Add.text = 'const a = 2;';
+      const hunk1Group = new GrDiffGroup({
+        type: GrDiffGroupType.DELTA,
+        lines: [hunk1Remove, hunk1Add],
+      });
+
+      const hunk2Remove = new GrDiffLine(GrDiffLineType.REMOVE, 2, 0);
+      hunk2Remove.text = 'const b = 1;';
+      const hunk2Add = new GrDiffLine(GrDiffLineType.ADD, 0, 2);
+      hunk2Add.text = 'const b = 2;';
+      const hunk2Group = new GrDiffGroup({
+        type: GrDiffGroupType.DELTA,
+        lines: [hunk2Remove, hunk2Add],
+      });
+
+      assertIsDefined(element.diffElement);
+      element.diffElement.groups = [hunk1Group, hunk2Group];
+
+      await element.handleRevertDelta(hunk2Group);
+
+      assert.isFalse(applyFixStub.called);
+      assert.isTrue(saveEditStub.calledOnce);
+      assert.equal(saveEditStub.firstCall.args[0], 42 as NumericChangeId);
+      assert.equal(saveEditStub.firstCall.args[1], 'foo.ts');
+      assert.equal(
+        saveEditStub.firstCall.args[2],
+        'const a = 2;\nconst b = 1;'
+      );
+    });
+
+    test('handleRevertDelta uses deleteFileInChangeEdit when reverting only delta of ADDED file', async () => {
+      const applyFixStub = stubRestApi('applyFixSuggestion');
+      const deleteFileStub = stubRestApi('deleteFileInChangeEdit').returns(
+        Promise.resolve(new Response(null, {status: 204}))
+      );
+      sinon.stub(element, 'reload').resolves();
+      sinon.stub(testResolver(navigationToken), 'setUrl');
+
+      element.patchRange = {
+        ...createPatchRange(),
+        patchNum: EDIT,
+      };
+      element.latestPatchNum = 1 as PatchSetNumber;
+      element.editMode = true;
+      element.path = 'added.ts';
+      element.changeNum = 42 as NumericChangeId;
+      element.diff = {
+        ...createDiff(),
+        change_type: 'ADDED',
+      };
+      await element.updateComplete;
+
+      const addLine = new GrDiffLine(GrDiffLineType.ADD, 0, 1);
+      addLine.text = 'new file content';
+      const group = new GrDiffGroup({
+        type: GrDiffGroupType.DELTA,
+        lines: [addLine],
+      });
+
+      assertIsDefined(element.diffElement);
+      element.diffElement.groups = [group];
+
+      await element.handleRevertDelta(group);
+
+      assert.isFalse(applyFixStub.called);
+      assert.isTrue(deleteFileStub.calledOnce);
+      assert.equal(deleteFileStub.firstCall.args[0], 42 as NumericChangeId);
+      assert.equal(deleteFileStub.firstCall.args[1], 'added.ts');
+    });
+
+    test('handleRevertDelta falls back to saveChangeEdit when applyFixSuggestion fails', async () => {
+      const applyFixStub = stubRestApi('applyFixSuggestion').callsFake(() =>
+        Promise.reject(
+          new Error('Error 409: Cannot calculate fix replacement for range')
+        )
+      );
+      const saveEditStub = stubRestApi('saveChangeEdit').returns(
+        Promise.resolve(new Response(null, {status: 204}))
+      );
+      sinon.stub(element, 'reload').resolves();
+      sinon.stub(testResolver(navigationToken), 'setUrl');
+
+      element.patchRange = createPatchRange(undefined, 1);
+      element.latestPatchNum = 1 as PatchSetNumber;
+      element.editMode = true;
+      element.path = 'foo.ts';
+      element.changeNum = 42 as NumericChangeId;
+      await element.updateComplete;
+
+      const removeLine = new GrDiffLine(GrDiffLineType.REMOVE, 1, 0);
+      removeLine.text = 'old code';
+      const addLine = new GrDiffLine(GrDiffLineType.ADD, 0, 1);
+      addLine.text = 'new code';
+      const group = new GrDiffGroup({
+        type: GrDiffGroupType.DELTA,
+        lines: [removeLine, addLine],
+      });
+
+      assertIsDefined(element.diffElement);
+      element.diffElement.groups = [group];
+
+      await element.handleRevertDelta(group);
+
+      assert.isTrue(applyFixStub.calledOnce);
+      assert.isTrue(saveEditStub.calledOnce);
+      assert.equal(saveEditStub.firstCall.args[0], 42 as NumericChangeId);
+      assert.equal(saveEditStub.firstCall.args[1], 'foo.ts');
+      assert.equal(saveEditStub.firstCall.args[2], 'old code');
+    });
   });
 });

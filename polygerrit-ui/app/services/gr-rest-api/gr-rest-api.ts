@@ -308,12 +308,14 @@ export interface RestApiService extends Finalizable {
 
   deleteFileInChangeEdit(
     changeNum: NumericChangeId,
-    path: string
+    path: string,
+    errFn?: ErrorCallback
   ): Promise<Response | undefined>;
 
   restoreFileInChangeEdit(
     changeNum: NumericChangeId,
-    restore_path: string
+    restore_path: string,
+    errFn?: ErrorCallback
   ): Promise<Response | undefined>;
 
   renameFileInChangeEdit(
@@ -741,7 +743,8 @@ export interface RestApiService extends Finalizable {
   saveChangeEdit(
     changeNum: NumericChangeId,
     path: string,
-    contents: string
+    contents: string,
+    errFn?: ErrorCallback
   ): Promise<Response>;
   getRepoTags(
     filter: string,

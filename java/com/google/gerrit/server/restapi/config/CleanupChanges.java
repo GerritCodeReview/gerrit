@@ -14,10 +14,13 @@
 
 package com.google.gerrit.server.restapi.config;
 
+import static com.google.gerrit.server.config.ConfigResource.CONFIG_KIND;
+
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
+import com.google.gerrit.extensions.restapi.RestApiModule;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.change.ChangeCleanupRunner;
 import com.google.gerrit.server.config.ConfigResource;
@@ -34,6 +37,14 @@ import java.util.concurrent.TimeUnit;
 public class CleanupChanges implements RestModifyView<ConfigResource, Input> {
   private final ChangeCleanupRunner.Factory runnerFactory;
   private final WorkQueue workQueue;
+
+  public static class CleanupChangesModule extends RestApiModule {
+    @Override
+    protected void configure() {
+      install(new ChangeCleanupRunner.ChangeCleanupRunnerModule());
+      post(CONFIG_KIND, "cleanup.changes").to(CleanupChanges.class);
+    }
+  }
 
   public static class Input {
     String after;

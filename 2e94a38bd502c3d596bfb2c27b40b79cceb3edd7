@@ -39,6 +39,23 @@
       },
       "revId": "2e94a38bd502c3d596bfb2c27b40b79cceb3edd7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30eb2425_6bb3890e",
+        "filename": "java/com/google/gerrit/server/restapi/config/ConfigRestApiModule.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-22T12:05:39Z",
+      "side": 1,
+      "message": "This should not be exposed on replicas, as change cleanup should never ever happen there.",
+      "revId": "2e94a38bd502c3d596bfb2c27b40b79cceb3edd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

@@ -42,28 +42,22 @@ import java.util.Set;
 abstract class AbstractChangeControl {
   protected final ProjectControl projectControl;
   protected final RefControl refControl;
-  protected final boolean isNew;
   protected final PermissionBackend permissionBackend;
-
-  /** Is this user the owner of the change? */
-  protected final boolean isOwner;
 
   private Map<String, PermissionRange> labels;
 
   AbstractChangeControl(
-      ProjectControl projectControl,
-      RefControl refControl,
-      PermissionBackend permissionBackend,
-      boolean isNew,
-      boolean isOwner) {
+      ProjectControl projectControl, RefControl refControl, PermissionBackend permissionBackend) {
     this.projectControl = projectControl;
     this.refControl = refControl;
     this.permissionBackend = permissionBackend;
-    this.isNew = isNew;
-    this.isOwner = isOwner;
   }
 
   protected abstract ForChange asForChange();
+
+  protected abstract boolean isNew();
+
+  protected abstract boolean isOwner();
 
   protected CurrentUser getUser() {
     return refControl.getUser();
@@ -85,7 +79,7 @@ abstract class AbstractChangeControl {
       return switch (perm) {
         case READ -> isVisible();
         case ABANDON -> canAbandon();
-        case DELETE -> projectControl.isAdmin() || refControl.canDeleteChanges(isOwner);
+        case DELETE -> projectControl.isAdmin() || refControl.canDeleteChanges(isOwner());
         case ADD_PATCH_SET -> canAddPatchSet();
         case EDIT_DESCRIPTION -> canEditDescription();
         case EDIT_HASHTAGS -> canEditHashtags();
@@ -95,7 +89,7 @@ abstract class AbstractChangeControl {
         case REBASE_ON_BEHALF_OF_UPLOADER -> canRebaseOnBehalfOfUploader();
         case RESTORE -> canRestore();
         case REVERT -> canRevert();
-        case SUBMIT -> refControl.canSubmit(isOwner);
+        case SUBMIT -> refControl.canSubmit(isOwner());
         case TOGGLE_WORK_IN_PROGRESS_STATE -> canToggleWorkInProgressState();
         case REMOVE_REVIEWER -> refControl.canPerform(changePermissionName(perm));
         case SUBMIT_AS ->
@@ -121,7 +115,7 @@ abstract class AbstractChangeControl {
 
   /** Can this user abandon this change? */
   private boolean canAbandon() {
-    return isOwner // owner (aka creator) of the change can abandon
+    return isOwner() // owner (aka creator) of the change can abandon
         || refControl.isOwner() // branch owner can abandon
         || projectControl.isOwner() // project owner can abandon
         || refControl.canPerform(Permission.ABANDON) // user can abandon a specific ref
@@ -133,7 +127,7 @@ abstract class AbstractChangeControl {
     if (!refControl.asForRef().testOrFalse(RefPermission.CREATE_CHANGE)) {
       return false;
     }
-    if (isOwner) {
+    if (isOwner()) {
       return true;
     }
     return refControl.canAddPatchSet();
@@ -141,21 +135,21 @@ abstract class AbstractChangeControl {
 
   /** Can this user edit the topic name? */
   private boolean canEditTopicName() {
-    if (isNew) {
-      return isOwner // owner (aka creator) of the change can edit topic
+    if (isNew()) {
+      return isOwner() // owner (aka creator) of the change can edit topic
           || refControl.isOwner() // branch owner can edit topic
           || projectControl.isOwner() // project owner can edit topic
           || refControl.canPerform(
               Permission.EDIT_TOPIC_NAME) // user can edit topic on a specific ref
           || projectControl.isAdmin();
     }
-    return refControl.canForceEditTopicName(isOwner);
+    return refControl.canForceEditTopicName(isOwner());
   }
 
   /** Can this user edit the description? */
   private boolean canEditDescription() {
-    if (isNew) {
-      return isOwner // owner (aka creator) of the change can edit desc
+    if (isNew()) {
+      return isOwner() // owner (aka creator) of the change can edit desc
           || refControl.isOwner() // branch owner can edit desc
           || projectControl.isOwner() // project owner can edit desc
           || projectControl.isAdmin();
@@ -165,7 +159,7 @@ abstract class AbstractChangeControl {
 
   /** Can this user edit the hashtag name? */
   private boolean canEditHashtags() {
-    return isOwner // owner (aka creator) of the change can edit hashtags
+    return isOwner() // owner (aka creator) of the change can edit hashtags
         || refControl.isOwner() // branch owner can edit hashtags
         || projectControl.isOwner() // project owner can edit hashtags
         || refControl.canPerform(
@@ -175,13 +169,13 @@ abstract class AbstractChangeControl {
 
   /** Can this user edit the custom keyed values? */
   private boolean canEditCustomKeyedValues() {
-    return isOwner // owner (aka creator) of the change can edit custom keyed values
+    return isOwner() // owner (aka creator) of the change can edit custom keyed values
         || projectControl.isAdmin();
   }
 
   /** Can this user rebase this change? */
   private boolean canRebase() {
-    return (isOwner || refControl.canSubmit(isOwner) || refControl.canRebase())
+    return (isOwner() || refControl.canSubmit(isOwner()) || refControl.canRebase())
         && refControl.asForRef().testOrFalse(RefPermission.CREATE_CHANGE);
   }
 
@@ -195,7 +189,7 @@ abstract class AbstractChangeControl {
    * separately.
    */
   private boolean canRebaseOnBehalfOfUploader() {
-    return (isOwner || refControl.canSubmit(isOwner) || refControl.canRebase());
+    return (isOwner() || refControl.canSubmit(isOwner()) || refControl.canRebase());
   }
 
   /** Can this user restore this change? */
@@ -211,7 +205,7 @@ abstract class AbstractChangeControl {
 
   /** Can this user toggle WorkInProgress state? */
   private boolean canToggleWorkInProgressState() {
-    return isOwner
+    return isOwner()
         || projectControl.isOwner()
         || refControl.canPerform(Permission.TOGGLE_WORK_IN_PROGRESS_STATE)
         || projectControl.isAdmin();
@@ -247,7 +241,7 @@ abstract class AbstractChangeControl {
 
   /** The range of permitted values associated with a label permission. */
   private PermissionRange getRange(String permission) {
-    return refControl.getRange(permission, isOwner);
+    return refControl.getRange(permission, isOwner());
   }
 
   protected class ForChangeImpl extends ForChange {

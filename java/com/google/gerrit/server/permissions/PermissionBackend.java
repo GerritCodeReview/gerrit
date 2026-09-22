@@ -182,7 +182,7 @@ public abstract class PermissionBackend {
     /** Returns an instance scoped for the change, and its destination ref and project. */
     public ForChange change(ChangeData cd) {
       try {
-        return ref(cd.change().getDest()).change(cd);
+        return ref(cd.branchOrThrow()).change(cd);
       } catch (StorageException e) {
         return FailedPermissionBackend.change("unavailable", e);
       }

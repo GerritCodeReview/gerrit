@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "337a30bc_c2bd2874",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-22T15:18:11Z",
+      "side": 1,
+      "message": "Eliminate double negation",
+      "revId": "47e02f6c31754d11f5e3f24d91b534d4c07e7ab9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a4de689_14543a56",
+        "filename": "java/com/google/gerrit/server/change/AbandonOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-22T15:18:11Z",
+      "side": 1,
+      "message": "This check is too early: the `change` gets assigned a value only at L91.",
+      "revId": "47e02f6c31754d11f5e3f24d91b534d4c07e7ab9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

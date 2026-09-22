@@ -58,7 +58,7 @@ public class PeriodicProjectListCacheWarmer implements Runnable {
       }
 
       if (interval == -1L) {
-        logger.atWarning().log("project_list cache warmer is disabled");
+        logger.atInfo().log("project_list cache warmer is disabled");
         return;
       }
 

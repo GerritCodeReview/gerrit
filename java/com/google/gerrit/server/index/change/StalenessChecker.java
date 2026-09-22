@@ -21,6 +21,7 @@ import static java.util.stream.Collectors.joining;
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Splitter;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
@@ -31,8 +32,10 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.RefState;
+import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.StalenessCheckResult;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -40,7 +43,6 @@ import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.regex.Pattern;
 import org.eclipse.jgit.lib.Ref;
@@ -111,12 +113,25 @@ public class StalenessChecker {
       return StalenessCheckResult.notStale(); // Index version not new enough for this check.
     }
 
-    Optional<ChangeData> result =
-        i.get(id, IndexedChangeQuery.createOptions(indexConfig, 0, 1, FIELDS));
-    if (!result.isPresent()) {
+    // Concurrent updates can leave a change in both the open and closed sub-indexes.
+    // Read two documents to ensure we don't have a stale copy.
+    ImmutableList<ChangeData> results;
+    try {
+      results =
+          i.getSource(
+                  i.keyPredicate(id), IndexedChangeQuery.createOptions(indexConfig, 0, 2, FIELDS))
+              .read()
+              .toList();
+    } catch (QueryParseException e) {
+      throw new StorageException("Unexpected QueryParseException during staleness check", e);
+    }
+    if (results.isEmpty()) {
       return StalenessCheckResult.stale("Document %s missing from index", id);
     }
-    ChangeData cd = result.get();
+    if (results.size() > 1) {
+      return StalenessCheckResult.stale("Multiple documents found in index for %s", id);
+    }
+    ChangeData cd = results.getFirst();
     return check(repoManager, id, cd.getRefStates(), parsePatterns(cd));
   }
 

@@ -72,6 +72,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f7eb858_a1ac7d1d",
+        "filename": "java/com/google/gerrit/server/git/receive/BranchCommitValidator.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-09-22T17:08:57Z",
+      "side": 1,
+      "message": "Done — removed the refs/changes/* exclusion and its javadoc entirely.\n\nisDirectRefUpdate now only distinguishes magic branches from direct updates, relying on the create/push permission checks as you suggested rather than repeating the check here.",
+      "parentUuid": "7799badf_f3f994c5",
+      "range": {
+        "startLine": 242,
+        "startChar": 66,
+        "endLine": 242,
+        "endChar": 91
+      },
+      "revId": "3a0a7a1a4960bc02cbe4ae61e7ea55b8e21b620c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "696bc6fd_f626cc2a",

@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dbdb609c_0d92979b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-09-22T11:34:41Z",
+      "side": 1,
+      "message": "Thank you for contribution. I hope it will not make it crowded there, I haven\u0027t used it this ref in my workflows. I will see if users will complain and what is usage after some time.",
+      "revId": "9cd8ab06a397f334f2bff05488d6808dae8607a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

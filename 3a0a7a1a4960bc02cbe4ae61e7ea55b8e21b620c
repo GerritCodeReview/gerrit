@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "80abffc0_ddbfcacc",
+        "filename": "java/com/google/gerrit/server/git/receive/BranchCommitValidator.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-09-22T06:04:52Z",
+      "side": 1,
+      "message": "You\u0027re right — nobody should ever need to set permissions on that pattern. It\u0027s a defensive branch, not a live path: a direct push to a refs/changes/* ref is rejected by the create/push permission checks before commit validation runs (verified with an acceptance test — it fails at the create gate, then the create-new-objects gate), so the merge scoping never resolves to refs/for/refs/changes/\u003cn\u003e in practice. I reworded the javadoc to describe the exclusion as defensive rather than implying refs/for/refs/changes/... is a normal outcome.",
+      "parentUuid": "50cff5a3_21228b39",
+      "range": {
+        "startLine": 242,
+        "startChar": 66,
+        "endLine": 242,
+        "endChar": 91
+      },
+      "revId": "3a0a7a1a4960bc02cbe4ae61e7ea55b8e21b620c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "696bc6fd_f626cc2a",
@@ -37,6 +61,24 @@
       "writtenOn": "2026-09-21T22:21:02Z",
       "side": 1,
       "message": "Why do we need `NEW_PATCHSET_PATTERN`? Isn\u0027t `RefNames.isRefsChanges(refName)` sufficient?",
+      "revId": "3a0a7a1a4960bc02cbe4ae61e7ea55b8e21b620c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "811fd9cd_60093d19",
+        "filename": "java/com/google/gerrit/server/git/receive/BranchCommitValidator.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-09-22T06:04:52Z",
+      "side": 1,
+      "message": "Done — switched to RefNames.isRefsChanges as you suggested. (This branch is defensive anyway: a merge push to refs/changes/* is blocked by the create/push permission checks before validation and never reaches here, so it\u0027s a no-op in practice)",
+      "parentUuid": "696bc6fd_f626cc2a",
       "revId": "3a0a7a1a4960bc02cbe4ae61e7ea55b8e21b620c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -58,6 +100,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9022588b_6887539c",
+        "filename": "javatests/com/google/gerrit/acceptance/git/PushPermissionsIT.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-09-22T06:04:52Z",
+      "side": 1,
+      "message": "Done: added pushMergeCommitDirectlyWithoutPushPermissionDenied (Push Merge Commit granted without Push is rejected at the ref-update check with not permitted: update, matching the access-control.txt note that Push Merge Commit is an add-on to Push).",
+      "parentUuid": "f9425093_340df00f",
+      "revId": "3a0a7a1a4960bc02cbe4ae61e7ea55b8e21b620c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5f4de3e9_ed254476",
@@ -71,6 +131,30 @@
       "writtenOn": "2026-09-21T22:21:02Z",
       "side": 1,
       "message": "Every test here has these same 5 lines. Move them to a common setup method?",
+      "range": {
+        "startLine": 71,
+        "startChar": 0,
+        "endLine": 75,
+        "endChar": 86
+      },
+      "revId": "3a0a7a1a4960bc02cbe4ae61e7ea55b8e21b620c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "76484262_779bdc4b",
+        "filename": "javatests/com/google/gerrit/server/git/validators/CommitValidatorsTest.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-09-22T06:04:52Z",
+      "side": 1,
+      "message": "Done: extracted the shared mock setup (forProject plus the branch/review ForRef stubs) into a @Before (setUpMergePermissions); each test now only sets its own test(MERGE) expectations.",
+      "parentUuid": "5f4de3e9_ed254476",
       "range": {
         "startLine": 71,
         "startChar": 0,

@@ -10,7 +10,7 @@ flogger = "0.8"
 # to keep Bazel and extension dependencies in sync.
 guava = "33.5.0-jre"
 guice = "6.0.0"
-lucene = "10.4.0"
+lucene = "10.5.1"
 slf4j = "2.0.18"
 sshd = "2.19.0"
 truth = "1.4.4"

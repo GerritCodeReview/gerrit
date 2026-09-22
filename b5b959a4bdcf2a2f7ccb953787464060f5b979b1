@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "964f2ea5_d3348247",
+        "filename": "java/com/google/gerrit/server/change/AbandonOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-22T15:01:04Z",
+      "side": 1,
+      "message": "shouldn\u0027t this be done immediately after L88 and, more importantly, immediately `return` from the method? We don\u0027t need to change the last-updated of that change and no need to send an email etc...",
+      "range": {
+        "startLine": 91,
+        "startChar": 0,
+        "endLine": 92,
+        "endChar": 77
+      },
+      "revId": "b5b959a4bdcf2a2f7ccb953787464060f5b979b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

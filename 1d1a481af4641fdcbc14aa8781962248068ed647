@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee345dfe_7833f172",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-09-22T17:43:39Z",
+      "side": 1,
+      "message": "The deferral logic and adding `.noFields()` to the query are great and definitely needed.\n\nHowever, subclassing `PrivateInternals_BooleanCondition.SubclassOnlyInCoreServer` directly inside a REST handler is an anti-pattern. That class is explicitly documented as `DO NOT USE`, and only exists as internal plumbing for `PermissionBackendCondition`.\n\nCould we instead add a first-class factory method to `BooleanCondition` (e.g. `BooleanCondition.lazy(BooleanSupplier)` or `fromSupplier` in `com.google.gerrit.extensions.conditions.BooleanCondition`)?\n\nThat way:\n1. `BooleanCondition` gets a clean, reusable lazy evaluation mechanism for all actions/plugins.\n2. Here we can simply write:\n   `and(testCond(REVERT), BooleanCondition.lazy(() -\u003e isChangePartOfSubmission(change.getSubmissionId())))`\n3. We avoid the 18 lines of anonymous inner class boilerplate and keep `PrivateInternals_*` internal.\n\nAlso, `isChangePartOfSubmission` below can return primitive `boolean` instead of boxed `Boolean`.",
+      "isAi": true,
+      "revId": "1d1a481af4641fdcbc14aa8781962248068ed647",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

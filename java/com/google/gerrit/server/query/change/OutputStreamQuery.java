@@ -110,7 +110,8 @@ public class OutputStreamQuery {
   @Inject
   OutputStreamQuery(
       GitRepositoryManager repoManager,
-      ChangeQueryBuilder queryBuilder,
+      // Building the caller's SSH query compiles its regexes, so permissions must be checked here.
+      UntrustedChangeQueryBuilder queryBuilder,
       ChangeQueryProcessor queryProcessor,
       EventFactory eventFactory,
       TrackingFooters trackingFooters,

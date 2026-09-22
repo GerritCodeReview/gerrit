@@ -19,11 +19,16 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.extensions.client.ProjectWatchInfo;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.server.config.RegexAllowedGroupsProvider;
+import com.google.gerrit.server.permissions.RegexPermissionPolicy;
 import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +65,86 @@ public class WatchedProjectsIT extends AbstractDaemonTest {
     List<ProjectWatchInfo> persistedWatchedProjects =
         gApi.accounts().self().setWatchedProjects(projectsToWatch);
     assertThat(persistedWatchedProjects).containsAtLeastElementsIn(projectsToWatch).inOrder();
+  }
+
+  @Test
+  public void setWatchedProjectsWithRegexAllowedByDefault() throws Exception {
+    List<ProjectWatchInfo> projectsToWatch = new ArrayList<>();
+    ProjectWatchInfo pwi =
+        newProjectWatchInfo(NEW_PROJECT_NAME + "3", "branch:^.*", projectsToWatch);
+
+    assertThatWatchedProjectContainsExactly(projectsToWatch, pwi);
+  }
+
+  @Test
+  @GerritConfig(
+      name = RegexAllowedGroupsProvider.SECTION + "." + RegexAllowedGroupsProvider.KEY,
+      value = "Registered Users")
+  public void setWatchedProjectsWithRegexAllowedForTrustedUsers() throws Exception {
+    List<ProjectWatchInfo> projectsToWatch = new ArrayList<>();
+    ProjectWatchInfo pwi =
+        newProjectWatchInfo(NEW_PROJECT_NAME + "4", "branch:^.*", projectsToWatch);
+
+    assertThatWatchedProjectContainsExactly(projectsToWatch, pwi);
+  }
+
+  @Test
+  @GerritConfig(
+      name = RegexAllowedGroupsProvider.SECTION + "." + RegexAllowedGroupsProvider.KEY,
+      value = "Project Owners")
+  public void setWatchedProjectsWithBranchFilterAllowedForUntrustedUser() throws Exception {
+    List<ProjectWatchInfo> projectsToWatch = new ArrayList<>(1);
+    ProjectWatchInfo pwi =
+        newProjectWatchInfo(NEW_PROJECT_NAME + "5", "branch:master", projectsToWatch);
+
+    assertThatWatchedProjectContainsExactly(projectsToWatch, pwi);
+  }
+
+  @Test
+  @GerritConfig(
+      name = RegexAllowedGroupsProvider.SECTION + "." + RegexAllowedGroupsProvider.KEY,
+      value = "Project Owners")
+  public void setWatchedProjectsWithRegexDeniedForUntrustedUser() throws Exception {
+    List<ProjectWatchInfo> projectsToWatch = new ArrayList<>(1);
+    newProjectWatchInfo(NEW_PROJECT_NAME + "6", "branch:^.*", projectsToWatch);
+
+    AuthException exc =
+        assertThrows(
+            AuthException.class, () -> gApi.accounts().self().setWatchedProjects(projectsToWatch));
+    assertThat(exc.getMessage()).contains(RegexPermissionPolicy.NOT_PERMITTED_MESSAGE);
+  }
+
+  @Test
+  @GerritConfig(
+      name = RegexAllowedGroupsProvider.SECTION + "." + RegexAllowedGroupsProvider.KEY,
+      value = "Administrators")
+  public void setWatchedProjectsWithExistingRegexAllowedForUntrustedUser() throws Exception {
+    List<ProjectWatchInfo> projectsToWatch = new ArrayList<>(1);
+    requestScopeOperations.setApiUser(admin.id());
+    ProjectWatchInfo pwiWithRegex =
+        newProjectWatchInfo(NEW_PROJECT_NAME + "7", "branch:^.*", projectsToWatch);
+    gApi.accounts().id(user.id().get()).setWatchedProjects(projectsToWatch);
+
+    requestScopeOperations.setApiUser(user.id());
+    ProjectWatchInfo pwiWithoutRegex =
+        newProjectWatchInfo(NEW_PROJECT_NAME + "8", "branch:foobar", projectsToWatch);
+
+    assertThatWatchedProjectContainsExactly(projectsToWatch, pwiWithRegex, pwiWithoutRegex);
+  }
+
+  private ProjectWatchInfo newProjectWatchInfo(
+      String projectName, String filter, List<ProjectWatchInfo> projectsToWatch) {
+    ProjectWatchInfo pwi = new ProjectWatchInfo();
+    pwi.project = projectOperations.newProject().name(projectName).create().get();
+    pwi.filter = filter;
+    projectsToWatch.add(pwi);
+    return pwi;
+  }
+
+  private void assertThatWatchedProjectContainsExactly(
+      List<ProjectWatchInfo> projectsToWatch, ProjectWatchInfo... pwi) throws RestApiException {
+    assertThat(gApi.accounts().self().setWatchedProjects(projectsToWatch))
+        .containsExactlyElementsIn(pwi);
   }
 
   @Test

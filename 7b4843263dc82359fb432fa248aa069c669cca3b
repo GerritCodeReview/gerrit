@@ -70,6 +70,24 @@
       "parentUuid": "0e076ccf_2448dd86",
       "revId": "7b4843263dc82359fb432fa248aa069c669cca3b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "75f53b4a_55f454a5",
+        "filename": "java/com/google/gerrit/server/restapi/config/ConfigRestApiModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-22T17:20:03Z",
+      "side": 1,
+      "message": "Good point, I\u0027ve made an alternative solution where I create both in the same Guice module, see Ie3304e2e.",
+      "parentUuid": "8125e17c_a3c48505",
+      "revId": "7b4843263dc82359fb432fa248aa069c669cca3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

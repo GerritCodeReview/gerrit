@@ -309,6 +309,34 @@ suite('gr-diff-row test', () => {
     assert.isNotNull(revertBtn.querySelector('gr-icon'));
   });
 
+  test('toggles revert-hover class on parent section when hovering revert button', async () => {
+    const section = document.createElement('tbody');
+    section.className = 'section delta';
+    element.parentElement?.replaceChild(section, element);
+    section.appendChild(element);
+
+    const line = new GrDiffLine(GrDiffLineType.REMOVE, 1, 0);
+    line.text = 'lorem ipsum';
+    element.left = line;
+    element.right = new GrDiffLine(GrDiffLineType.BLANK);
+    element.group = new GrDiffGroup({
+      type: GrDiffGroupType.DELTA,
+      lines: [line],
+    });
+    element.showRevertButton = true;
+    await element.updateComplete;
+
+    const revertBtn = element.querySelector<HTMLButtonElement>('.revert-btn')!;
+    assert.isNotNull(revertBtn);
+    assert.isFalse(section.classList.contains('revert-hover'));
+
+    revertBtn.dispatchEvent(new MouseEvent('mouseenter'));
+    assert.isTrue(section.classList.contains('revert-hover'));
+
+    revertBtn.dispatchEvent(new MouseEvent('mouseleave'));
+    assert.isFalse(section.classList.contains('revert-hover'));
+  });
+
   test('updateLayers aborts when DOM element references change during await', async () => {
     const line = new GrDiffLine(GrDiffLineType.BOTH, 1, 1);
     line.text = 'lorem ipsum';

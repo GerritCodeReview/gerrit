@@ -60,6 +60,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bc6073dc_71145945",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-09-23T07:37:43Z",
+      "side": 1,
+      "message": "A more minimal change just fixing the reported issue might be:\n\n```\ndiff --git a/java/com/google/gerrit/pgm/Daemon.java b/java/com/google/gerrit/pgm/Daemon.java\nindex 6310a1ea1e..88e49f1512 100644\n--- a/java/com/google/gerrit/pgm/Daemon.java\n+++ b/java/com/google/gerrit/pgm/Daemon.java\n@@ -561,8 +561,8 @@ public class Daemon extends SiteProgram {\n     if (!replica) {\n       modules.add(new AccountDeactivatorModule());\n       modules.add(new AttentionSetOwnerAdderModule());\n-      modules.add(new ChangeCleanupRunnerModule());\n     }\n+    modules.add(new ChangeCleanupRunnerModule(new GerritOptions(headless, replica, devCdn)));\n     modules.add(new LocalMergeSuperSetComputationModule());\n     modules.add(new DefaultLockManagerModule());\n \ndiff --git a/java/com/google/gerrit/server/change/ChangeCleanupRunner.java b/java/com/google/gerrit/server/change/ChangeCleanupRunner.java\nindex 728830c5b0..9bef8a7d53 100644\n--- a/java/com/google/gerrit/server/change/ChangeCleanupRunner.java\n+++ b/java/com/google/gerrit/server/change/ChangeCleanupRunner.java\n@@ -20,6 +20,7 @@ import com.google.gerrit.extensions.events.LifecycleListener;\n import com.google.gerrit.extensions.restapi.RestApiException;\n import com.google.gerrit.lifecycle.LifecycleModule;\n import com.google.gerrit.server.config.ChangeCleanupConfig;\n+import com.google.gerrit.server.config.GerritOptions;\n import com.google.gerrit.server.git.WorkQueue;\n import com.google.gerrit.server.update.RetryHelper;\n import com.google.gerrit.server.update.UpdateException;\n@@ -34,10 +35,22 @@ public class ChangeCleanupRunner implements Runnable {\n   private static final FluentLogger logger \u003d FluentLogger.forEnclosingClass();\n \n   public static class ChangeCleanupRunnerModule extends LifecycleModule {\n+    private final boolean replica;\n+\n+    public ChangeCleanupRunnerModule() {\n+      this.replica \u003d false;\n+    }\n+\n+    public ChangeCleanupRunnerModule(GerritOptions opts) {\n+      this.replica \u003d opts.replica();\n+    }\n+\n     @Override\n     protected void configure() {\n-      listener().to(Lifecycle.class);\n       factory(Factory.class);\n+      if (!replica) {\n+        listener().to(Lifecycle.class);\n+      }\n     }\n   }\n \ndiff --git a/java/com/google/gerrit/server/restapi/RestApiModule.java b/java/com/google/gerrit/server/restapi/RestApiModule.java\nindex 359393e8a1..73991c9c77 100644\n--- a/java/com/google/gerrit/server/restapi/RestApiModule.java\n+++ b/java/com/google/gerrit/server/restapi/RestApiModule.java\n@@ -14,7 +14,6 @@\n \n package com.google.gerrit.server.restapi;\n \n-import com.google.gerrit.server.change.ChangeCleanupRunner.ChangeCleanupRunnerModule;\n import com.google.gerrit.server.plugins.PluginRestApiModule;\n import com.google.gerrit.server.restapi.access.AccessRestApiModule;\n import com.google.gerrit.server.restapi.account.AccountRestApiModule;\n@@ -43,6 +42,5 @@ public class RestApiModule extends AbstractModule {\n     install(new PluginRestApiModule());\n     install(new ProjectRestApiModule());\n     install(new ProjectRestApiModule.BatchModule());\n-    install(new ChangeCleanupRunnerModule());\n   }\n }\n```\n\nThis would still leave the REST API endpoint available in replicas, but already deal with the issue at hand.",
+      "revId": "902c21280af673e8e040e87eb0de9bbe1392b151",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a21460b5_2c6204d4",
         "filename": "java/com/google/gerrit/server/restapi/config/CleanupChanges.java",
         "patchSetId": 3
@@ -71,6 +88,23 @@
       "writtenOn": "2026-09-23T06:31:54Z",
       "side": 1,
       "message": "Should we test if this is not available in replicas? Or we are good to assume in general REST APIs are not available in replicas?",
+      "revId": "902c21280af673e8e040e87eb0de9bbe1392b151",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ac3392e_19b29332",
+        "filename": "java/com/google/gerrit/server/restapi/config/CleanupChanges.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-09-23T07:37:43Z",
+      "side": 1,
+      "message": "This also breaks the pattern that we register REST API endpoints in dedicated modules, one per REST API namespace. A pattern that makes it easy to find REST API endpoint definitions and how they are wired in Gerrit. I would prefer not to break this.\nThe REST API endpoints available in replicas is a subset of the ones available in primary Gerrits. Thus, we could split the ConfigRestApiModule to represent this instead of using if-condtions all over the place.",
       "revId": "902c21280af673e8e040e87eb0de9bbe1392b151",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

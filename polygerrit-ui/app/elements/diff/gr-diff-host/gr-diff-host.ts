@@ -1482,17 +1482,17 @@ export class GrDiffHost extends LitElement {
       return;
     }
 
+    this.reporting.reportInteraction(Interaction.REVERT_DELTA_CLICKED, {
+      path: this.path,
+    });
+    this.reporting.time(Timing.REVERT_DELTA_LOAD);
+
     const allGroups = this.diffElement?.groups ?? [];
     const fixSuggestion = createRevertFixSuggestion(
       this.path,
       group,
       allGroups
     );
-    if (!fixSuggestion) {
-      onComplete?.();
-      return;
-    }
-
     const revertedContent = getRevertedFileContent(group, allGroups);
     const contentGroups = getContentGroups(allGroups);
     const hasOtherDeltas = contentGroups.some(
@@ -1506,11 +1506,6 @@ export class GrDiffHost extends LitElement {
       !!findEdit(Object.values(this.change?.revisions ?? {})) || isEditMode;
 
     let patchNum: RevisionPatchSetNum | undefined = this.patchRange.patchNum;
-    if (patchNum === undefined) {
-      onComplete?.();
-      return;
-    }
-
     if (patchNum === EDIT) {
       const editRev = findEdit(Object.values(this.change?.revisions ?? {}));
       patchNum =
@@ -1518,7 +1513,13 @@ export class GrDiffHost extends LitElement {
         this.latestPatchNum ??
         computeLatestPatchNum(computeAllPatchSets(this.change));
     }
-    if (patchNum === undefined) {
+
+    const canDirectSave = isEditMode && revertedContent !== undefined;
+    if (!canDirectSave && (!fixSuggestion || patchNum === undefined)) {
+      this.reporting.timeEnd(Timing.REVERT_DELTA_LOAD, {
+        success: false,
+        reason: !fixSuggestion ? 'no-fix-suggestion' : 'no-patch-num',
+      });
       onComplete?.();
       return;
     }
@@ -1541,21 +1542,17 @@ export class GrDiffHost extends LitElement {
 
     this.isReverting = true;
     fireAlert(this, 'Reverting change...');
-    this.reporting.reportInteraction(Interaction.REVERT_DELTA_CLICKED, {
-      path: this.path,
-    });
-    this.reporting.time(Timing.REVERT_DELTA_LOAD);
     let res: Response | undefined;
     let errorText = '';
     try {
-      if (isEditMode && revertedContent !== undefined) {
+      if (canDirectSave) {
         res = await saveRevertedEdit();
       } else {
         try {
           res = await this.restApiService.applyFixSuggestion(
             this.changeNum,
-            patchNum,
-            fixSuggestion.replacements,
+            patchNum!,
+            fixSuggestion!.replacements,
             undefined,
             throwingErrorCallback
           );

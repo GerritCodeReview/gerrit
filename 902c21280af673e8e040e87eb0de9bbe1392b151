@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee97099b_01565550",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-23T09:06:49Z",
+      "side": 1,
+      "message": "Added on https://gerrit-review.googlesource.com/c/gerrit/+/634177, it isn\u0027t specific to this change at all, and it is a general gap in the documentation. I realised we never mentioned anywhere that Gerrit replicas do not support any write operation, do not expose REST-API and do not offer any SSH commands that would write to the repository.",
+      "parentUuid": "7da6c018_873f9f53",
+      "revId": "902c21280af673e8e040e87eb0de9bbe1392b151",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d0b1e97c_f88f77ea",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b380e33f_1868c0e3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-23T09:06:49Z",
+      "side": 1,
+      "message": "Done with https://gerrit-review.googlesource.com/c/gerrit/+/634177.",
+      "parentUuid": "d0b1e97c_f88f77ea",
+      "revId": "902c21280af673e8e040e87eb0de9bbe1392b151",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9dd39adf_3cb539a8",
@@ -48,6 +84,30 @@
       "writtenOn": "2026-09-23T06:31:54Z",
       "side": 1,
       "message": "The linked issue refers to a double-spawn of the cleanup thread as the main problem.\nHowever, from the commit message, it doesn\u0027t seem to be the main focus of the change.\n\nCan you either split it into separate changes or make it clearer in the commit message which one is the issue?\n\nAlso, I would add a test to check the double-spawn since it is the main issue we are targeting.",
+      "range": {
+        "startLine": 16,
+        "startChar": 25,
+        "endLine": 16,
+        "endChar": 67
+      },
+      "revId": "902c21280af673e8e040e87eb0de9bbe1392b151",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a6a454ea_426fa66f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-23T09:06:49Z",
+      "side": 1,
+      "message": "\u003e The linked issue refers to a double-spawn of the cleanup thread as the main problem.\n\u003e However, from the commit message, it doesn\u0027t seem to be the main focus of the change.\n\nCorrect, the change does not target the double-spawn but is a follow-up on @sasa.zivkov@sap.com\u0027s comment on https://gerrit-review.googlesource.com/c/gerrit/+/634167/comment/0f65ad07_fd601257/.\n\n\u003e Can you either split it into separate changes or make it clearer in the commit message which one is the issue?\n\nThere is nothing in this change that fixes *directly* the bug. I can remove the reference to the bug if that helps.\n\n\u003e Also, I would add a test to check the double-spawn since it is the main issue we are targeting.\n\nI don\u0027t believe it is the focus of the change; it should be done as a separate change.",
+      "parentUuid": "9dd39adf_3cb539a8",
       "range": {
         "startLine": 16,
         "startChar": 25,

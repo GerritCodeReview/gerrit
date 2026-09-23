@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb09ef14_6d7d6b48",
+        "filename": "tools/maven/gerrit-acceptance-framework_pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-23T13:41:36Z",
+      "side": 1,
+      "message": "Conflict markers leftover",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 19
+      },
+      "revId": "9599430bad0cfd7b6dfb4f8f65589634badfedaf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33b284dc_ed91ecde",
+        "filename": "tools/maven/gerrit-extension-api_pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-23T13:41:36Z",
+      "side": 1,
+      "message": "Conflict markers leftover",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 19
+      },
+      "revId": "9599430bad0cfd7b6dfb4f8f65589634badfedaf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d0861019_6e694fd2",
+        "filename": "tools/maven/gerrit-plugin-api_pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-23T13:41:36Z",
+      "side": 1,
+      "message": "Conflict markers leftover",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 19
+      },
+      "revId": "9599430bad0cfd7b6dfb4f8f65589634badfedaf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b0ba792_1e0fcc1b",
+        "filename": "tools/maven/gerrit-war_pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-23T13:41:36Z",
+      "side": 1,
+      "message": "Conflict markers leftover",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 19
+      },
+      "revId": "9599430bad0cfd7b6dfb4f8f65589634badfedaf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

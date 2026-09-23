@@ -15,7 +15,6 @@
 package com.google.gerrit.server.restapi.account;
 
 import static com.google.gerrit.server.mail.EmailFactories.AUTH_TOKEN_UPDATED;
-import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
@@ -188,16 +187,6 @@ public class CreateToken
 
   @UsedAt(UsedAt.Project.PLUGIN_SERVICEUSER)
   public static String generate() {
-    byte[] rand = SecureRandomUtil.newBytes(LEN);
-
-    byte[] enc = BaseEncoding.base64().encode(rand).getBytes(UTF_8);
-    StringBuilder r = new StringBuilder(enc.length);
-    for (int i = 0; i < enc.length; i++) {
-      if (enc[i] == '=') {
-        break;
-      }
-      r.append((char) enc[i]);
-    }
-    return r.toString();
+    return BaseEncoding.base64().omitPadding().encode(SecureRandomUtil.newBytes(LEN));
   }
 }

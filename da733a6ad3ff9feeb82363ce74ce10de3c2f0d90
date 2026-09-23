@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b90e423_e1df2991",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-09-23T07:41:08Z",
+      "side": 1,
+      "message": "Not that I\u0027m aware of. We have use cases internally at Qualcomm where multiple predicates back the same query source and would benefit from being merged into one.",
+      "parentUuid": "a7a956b4_a40222bc",
+      "revId": "da733a6ad3ff9feeb82363ce74ce10de3c2f0d90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c6121f63_5b4d3c39",
@@ -31,6 +49,30 @@
       "writtenOn": "2026-09-22T04:40:36Z",
       "side": 1,
       "message": "This doesn\u0027t appear to be accurate? If any plugin returns null, we throw `QueryParseException` and the query fails.",
+      "range": {
+        "startLine": 15,
+        "startChar": 29,
+        "endLine": 16,
+        "endChar": 7
+      },
+      "revId": "da733a6ad3ff9feeb82363ce74ce10de3c2f0d90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aaa1339d_0c44c4b0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-09-23T07:41:08Z",
+      "side": 1,
+      "message": "Ack. Updated the commit message",
+      "parentUuid": "c6121f63_5b4d3c39",
       "range": {
         "startLine": 15,
         "startChar": 29,

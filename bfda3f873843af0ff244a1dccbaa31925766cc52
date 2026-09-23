@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fcb73f69_9d68c632",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-09-23T06:23:44Z",
+      "side": 1,
+      "message": "Yes, the check can run while another index write is in progress. It might reindex unnecessarily, and another write could still run after it.\n\nThis change handles a narrower case: both documents are already there, but the stale check reads only one and misses the duplicate.\n\nThat\u0027s Issue 564637471, which the current tests cover.\nMaking the writes atomic and testing that race remains a separate problem in Issue 440360427.\n\nI will reword the commit message to clarify the scope: this fixes detection of an existing duplicate, while Issue 440360427 covers the write race itself.",
+      "parentUuid": "59ecf01a_3d3e7e62",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 35
+      },
+      "revId": "bfda3f873843af0ff244a1dccbaa31925766cc52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2b8d4a0e_58bef449",
         "filename": "javatests/com/google/gerrit/acceptance/server/index/change/LuceneChangeIndexerIT.java",
         "patchSetId": 1
@@ -37,6 +61,24 @@
       "writtenOn": "2026-09-22T15:06:59Z",
       "side": 1,
       "message": "Add some concurrency tests here?",
+      "revId": "bfda3f873843af0ff244a1dccbaa31925766cc52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52ab9f8f_c671863d",
+        "filename": "javatests/com/google/gerrit/acceptance/server/index/change/LuceneChangeIndexerIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-09-23T06:23:44Z",
+      "side": 1,
+      "message": "I don\u0027t think we need a concurrency test for this fix.\n\nWe just need to start with the state we are meant to repair: one document in each index.\nA test that forces concurrent writes should belong to 440360427, in my opinion.",
+      "parentUuid": "2b8d4a0e_58bef449",
       "revId": "bfda3f873843af0ff244a1dccbaa31925766cc52",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

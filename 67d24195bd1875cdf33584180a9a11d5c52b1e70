@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c925be6_3fa28b79",
+        "filename": "Documentation/pgm-daemon.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-23T09:02:45Z",
+      "side": 1,
+      "message": "unrelated.",
+      "revId": "67d24195bd1875cdf33584180a9a11d5c52b1e70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

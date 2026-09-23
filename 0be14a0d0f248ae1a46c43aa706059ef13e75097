@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e2b1e8a6_c757d885",
+        "filename": "java/com/google/gerrit/server/change/FileInfoJsonImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-09-23T08:22:53Z",
+      "side": 1,
+      "message": "Architectural comment: this Git tree-walk / `SKIP_DIFFSTAT` handling should live inside `DiffOperationsImpl` (via `DiffOptions`) rather than `FileInfoJsonImpl`.\n\n`FileInfoJsonImpl` (`com.google.gerrit.server.change`) is intended to be a thin DTO mapper over `DiffOperations` (`com.google.gerrit.server.patch`) without direct `GitRepositoryManager` / `RevWalk` / `TreeWalk` logic. Putting `computeFromTreeWalk` in `FileInfoJsonImpl` introduces a few issues:\n\n1. **Layering \u0026 duplicated `FileInfo` mapping**: `FileInfoJsonImpl` now opens the repo, walks trees, and duplicates the `FileInfo` construction logic from `asFileInfo()`.\n2. **Merge commits (`parentCount \u003e 1`) and `base !\u003d null` are bypassed**: Because `computeFromTreeWalk` manually checks `if (newCommit.getParentCount() \u003e 1)` and falls back to `getFileInfoMap()`, merge commits (which often have the largest file lists) silently ignore `SKIP_DIFFSTAT`. `DiffOperationsImpl#computeDiffParameters` (`BaseCommitUtil`) already resolves the base/auto-merge commit for all commit types.\n3. **Duplicate `RevWalk` on cache miss**: Opening a `RevWalk` in `FileInfoJsonImpl` and then calling `diffs.getModifiedFilesCached()` (`modifiedFilesCache.get()`) opens a second `Repository`/`RevWalk` inside `ModifiedFilesCacheImpl.Loader` on cache misses. `DiffOperationsImpl` already has `loadModifiedFilesWithoutCacheIfNecessary(...)` specifically to check `modifiedFilesCacheImpl.getIfPresent()` and load via `ModifiedFilesLoader` reusing the already-open `RevWalk`.\n\n**Suggested design:**\n- Add `skipDiffStat` (or `skipFileDiffs`) to `DiffOptions`.\n- In `DiffOperationsImpl`, after resolving `diffParams` (including auto-merge) and loading `modifiedFiles` via `loadModifiedFilesWithoutCacheIfNecessary`, if `diffOptions.skipDiffStat()` is true, populate lightweight `FileDiffOutput` entries (with `changeType`, `oldPath`, `newPath`, `oldMode`, `newMode`, `oldSha`, `newSha`, and empty edits) using the already-open `RevWalk` instead of querying `FileDiffCache` (or carry the `DiffEntry` mode/SHA fields from `GitModifiedFilesLoader#toModifiedFile`, since `DiffFormatter#scan` already reads them during the tree walk).\n- Then `FileInfoJsonImpl` doesn\u0027t need `GitRepositoryManager` or `computeFromTreeWalk` at all—it just passes `DiffOptions` to `diffs.listModifiedFilesAgainstParent` / `diffs.listModifiedFiles` and reuses `asFileInfo()`.",
+      "revId": "0be14a0d0f248ae1a46c43aa706059ef13e75097",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "81629e9a_8cd856ec",
+        "filename": "java/com/google/gerrit/server/change/RevisionJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 436,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-09-23T08:22:53Z",
+      "side": 1,
+      "message": "This might be big one!",
+      "range": {
+        "startLine": 435,
+        "startChar": 12,
+        "endLine": 436,
+        "endChar": 77
+      },
+      "revId": "0be14a0d0f248ae1a46c43aa706059ef13e75097",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

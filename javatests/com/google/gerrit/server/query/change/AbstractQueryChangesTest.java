@@ -90,6 +90,7 @@ import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.ProjectWatchInfo;
 import com.google.gerrit.extensions.client.ReviewerState;
+import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
@@ -165,9 +166,12 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+import org.eclipse.jgit.dircache.DirCacheEditor.PathEdit;
+import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -3479,6 +3483,306 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  public void conflictsFalsePositiveForChangeStackedOnOpenChange() throws Exception {
+    ImmutableList<Change> changes =
+        createSameFileModeChangesWithOneStackedOnOpenChange(Project.nameKey("repo"));
+    Change change2 = changes.get(0);
+    Change change3 = changes.get(1);
+    Change change4 = changes.get(2);
+
+    // change3 and change4 are correctly not reported as conflicting with each other.
+    //
+    // change2 however is falsely reported as conflicting with both of them. change2's parent
+    // (change1's commit) is not "already accepted", so MergeSorter#sort short-circuits with
+    // MISSING_DEPENDENCY before any merge is attempted (see MergeUtil#hasMissingDependencies), and
+    // ConflictsPredicate treats that failure as a conflict.
+    // TODO: change2 cannot genuinely conflict with change3 or change4; these queries should not
+    // report any change.
+    assertQuery("conflicts:" + change3.getId().get(), change2);
+    assertQuery("conflicts:" + change4.getId().get(), change2);
+
+    // When evaluated from change2's side, change3 and change4 are the commits being merged and
+    // they have no missing dependencies, so a fresh check finds that they merge cleanly into
+    // change2 (see conflictsResultDependsOnQueryOrder). However, ConflictKey is symmetric (it
+    // orders the two commits), so the results cached by the queries above are reused here and
+    // change3 and change4 are reported.
+    // TODO: This query should not report any change.
+    assertQuery("conflicts:" + change2.getId().get(), change4, change3);
+  }
+
+  @Test
+  public void conflictsResultDependsOnQueryOrder() throws Exception {
+    // Create the same setup as in conflictsFalsePositiveForChangeStackedOnOpenChange twice, in
+    // two projects, and run the "conflicts:" queries in opposite orders.
+    ImmutableList<Change> changesA =
+        createSameFileModeChangesWithOneStackedOnOpenChange(Project.nameKey("repoA"));
+    ImmutableList<Change> changesB =
+        createSameFileModeChangesWithOneStackedOnOpenChange(Project.nameKey("repoB"));
+
+    // In repoA, change3 and change4 are queried first. change2 is reported as conflicting with
+    // both of them because of its missing dependency (see
+    // conflictsFalsePositiveForChangeStackedOnOpenChange), and ConflictKey being symmetric, these
+    // cached results are reused when querying change2.
+    assertQuery("conflicts:" + changesA.get(1).getId().get(), changesA.get(0));
+    assertQuery("conflicts:" + changesA.get(2).getId().get(), changesA.get(0));
+    assertQuery("conflicts:" + changesA.get(0).getId().get(), changesA.get(2), changesA.get(1));
+
+    // In repoB, change2 is queried first. From change2's side, change3 and change4 are the
+    // commits being merged; they have no missing dependencies and merge cleanly into change2, so
+    // no conflict is found. These cached results are then reused when querying change3 and
+    // change4, so the false positive seen in repoA does not show up.
+    // TODO: The results should not depend on the query order; repoA and repoB should give the
+    // same (empty) results.
+    assertQuery("conflicts:" + changesB.get(0).getId().get());
+    assertQuery("conflicts:" + changesB.get(1).getId().get());
+    assertQuery("conflicts:" + changesB.get(2).getId().get());
+  }
+
+  /**
+   * Creates changes change1 to change4 in a new project, and returns change2, change3 and change4.
+   *
+   * <p>change1 only touches file1. change2, change3 and change4 each make file4, which already
+   * exists on the branch tip, executable without changing its content, and each add a distinct file
+   * of their own. A file mode change cannot cause a content conflict, and because of the distinct
+   * files none of them becomes empty when submitted after the others, so none of change2, change3
+   * and change4 genuinely conflicts with any other. change2 is stacked on change1, change3 and
+   * change4 are based directly on the branch tip.
+   */
+  private ImmutableList<Change> createSameFileModeChangesWithOneStackedOnOpenChange(
+      Project.NameKey project) throws Exception {
+    repo = createAndOpenProject(project);
+    // The project name in the commit message ensures that the commits differ between projects,
+    // since the conflicts cache is keyed on commit IDs only.
+    RevCommit tip =
+        repo.branch("master")
+            .commit()
+            .message("Tip of " + project.get())
+            .add("file4", "contents4")
+            .create();
+
+    // change1's commit is not reachable from any branch or tag, i.e. it is not "already
+    // accepted".
+    RevCommit commit1 =
+        repo.parseBody(repo.commit().parent(tip).add("file1", "contents1").create());
+    insert(project, newChangeForCommit(repo, commit1));
+
+    RevCommit commit2 =
+        repo.parseBody(
+            repo.commit()
+                .parent(commit1)
+                .edit(setExecutable("file4"))
+                .add("file2", "contents2")
+                .create());
+    Change change2 = insert(project, newChangeForCommit(repo, commit2));
+    RevCommit commit3 =
+        repo.parseBody(
+            repo.commit()
+                .parent(tip)
+                .edit(setExecutable("file4"))
+                .add("file3", "contents3")
+                .create());
+    Change change3 = insert(project, newChangeForCommit(repo, commit3));
+    RevCommit commit4 =
+        repo.parseBody(
+            repo.commit()
+                .parent(tip)
+                .edit(setExecutable("file4"))
+                .add("file5", "contents5")
+                .create());
+    Change change4 = insert(project, newChangeForCommit(repo, commit4));
+    return ImmutableList.of(change2, change3, change4);
+  }
+
+  @Test
+  public void conflictsFalsePositiveForDescendantOfQueriedChange() throws Exception {
+    Project.NameKey project = Project.nameKey("repo");
+    repo = createAndOpenProject(project);
+    RevCommit tip = repo.branch("master").commit().add("base", "contents").create();
+
+    // change1 is the change we will query "conflicts:" against below.
+    RevCommit commit1 = repo.parseBody(repo.commit().parent(tip).add("fileA", "v1").create());
+    Change change1 = insert(project, newChangeForCommit(repo, commit1));
+
+    // change2 is stacked directly on top of change1. Since change1 is the change being queried,
+    // its commit is added to the "already accepted" set for this query, so change2 has no missing
+    // dependencies and fast-forwards on top of change1. It is correctly not reported.
+    RevCommit commit2 = repo.parseBody(repo.commit().parent(commit1).add("fileA", "v2").create());
+    insert(project, newChangeForCommit(repo, commit2));
+
+    // change3 is stacked on change2, i.e. two hops above change1. Like change2, it has change1 in
+    // its history, so it can never conflict with change1: it cannot be submitted without change1
+    // being submitted first.
+    RevCommit commit3 = repo.parseBody(repo.commit().parent(commit2).add("fileA", "v3").create());
+    Change change3 = insert(project, newChangeForCommit(repo, commit3));
+
+    // Nevertheless change3 is falsely reported as conflicting with change1. Its parent (change2's
+    // commit) is neither reachable from an accepted ref nor change1's commit, so MergeSorter#sort
+    // bails out with MISSING_DEPENDENCY before a fast-forward or merge is ever attempted. Within a
+    // stack of open changes only the change directly on top of the queried change gets a real
+    // conflict check; everything further up the stack is reported as conflicting.
+    // TODO: change3 cannot genuinely conflict with change1; this query should not report any
+    // change.
+    assertQuery("conflicts:" + change1.getId().get(), change3);
+  }
+
+  @Test
+  public void conflictsAgainstAncestorOfQueriedChange() throws Exception {
+    Project.NameKey project = Project.nameKey("repo");
+    repo = createAndOpenProject(project);
+    RevCommit tip = repo.branch("master").commit().add("base", "contents").create();
+
+    // change1 is the base of a linear stack, based directly on the branch tip, and adds "shared".
+    RevCommit commit1 = repo.parseBody(repo.commit().parent(tip).add("shared", "v1").create());
+    Change change1 = insert(project, newChangeForCommit(repo, commit1));
+
+    // change2 and change3 are stacked on change1 and do not touch "shared".
+    RevCommit commit2 =
+        repo.parseBody(repo.commit().parent(commit1).add("unrelated2", "x").create());
+    Change change2 = insert(project, newChangeForCommit(repo, commit2));
+    RevCommit commit3 =
+        repo.parseBody(repo.commit().parent(commit2).add("unrelated3", "x").create());
+    Change change3 = insert(project, newChangeForCommit(repo, commit3));
+
+    // change4 is the query target, stacked on change3, and modifies "shared".
+    RevCommit commit4 = repo.parseBody(repo.commit().parent(commit3).add("shared", "v4").create());
+    Change change4 = insert(project, newChangeForCommit(repo, commit4));
+
+    // change1 is an ancestor of change4. change4 cannot be submitted without change1 being
+    // submitted first, and a change can never conflict with its own history, so change1 is
+    // correctly not reported. Technically, change1's commit is merged into change4's commit,
+    // which is added to the "already accepted" set for this query, so the check succeeds as a
+    // fast-forward.
+    assertQuery("conflicts:" + change4.getId().get());
+
+    // Once change1 gets a new patch set that is no longer in change4's history and has
+    // different content in "shared", change1 is correctly reported as conflicting: change1's new
+    // commit cannot be merged cleanly on top of change4's commit, and neither can change4 be
+    // trivially rebased onto change1's new commit.
+    RevCommit commit5 = repo.parseBody(repo.commit().parent(tip).add("shared", "v5").create());
+    change1 = newPatchSet(repo, change1, user, commit5);
+    assertQuery("conflicts:" + change4.getId().get(), change1);
+
+    // change1 is also reported if its new patch set has the same content in "shared" as the
+    // original commit1. The check does not rebase change4 onto change1's new patch set; it tests
+    // commit6 against commit4 as they are. With the default submit type, it merges commit6 into
+    // commit4. Their merge base is the branch tip, which lacks "shared", so both sides add "shared"
+    // with different content ("v1" vs. "v4"), which is a conflict. Other submit types report
+    // change1 as well: the merge and rebase submit types run the same merge, CHERRY_PICK applies
+    // commit6's delta to commit4 with the same result, and FAST_FORWARD_ONLY fails since neither
+    // commit contains the other.
+    //
+    // This is expected: "conflicts:" reflects the changes as they currently are, and change4
+    // depends on an outdated patch set of change1, so it cannot be submitted as is (see
+    // AbstractSubmitByMerge#dependencyOnOutdatedPatchSetOfUnsubmittedChangePreventsMerge). Once
+    // change4 is rebased onto commit6, change1 is an ancestor of change4 again and is no longer
+    // reported.
+    RevCommit commit6 = repo.parseBody(repo.commit().parent(tip).add("shared", "v1").create());
+    change1 = newPatchSet(repo, change1, user, commit6);
+    assertQuery("conflicts:" + change4.getId().get(), change1);
+
+    // Rebase change2, change3 and change4 onto commit6.
+    RevCommit commit7 =
+        repo.parseBody(repo.commit().parent(commit6).add("unrelated2", "x").create());
+    var unused = newPatchSet(repo, change2, user, commit7);
+    RevCommit commit8 =
+        repo.parseBody(repo.commit().parent(commit7).add("unrelated3", "x").create());
+    unused = newPatchSet(repo, change3, user, commit8);
+    RevCommit commit9 = repo.parseBody(repo.commit().parent(commit8).add("shared", "v4").create());
+    change4 = newPatchSet(repo, change4, user, commit9);
+    assertQuery("conflicts:" + change4.getId().get());
+  }
+
+  @Test
+  public void conflictsWithAncestorOfQueriedChangeWithCherryPick() throws Exception {
+    // Create the same stack in two projects and run the "conflicts:" queries in opposite orders.
+    ImmutableList<Change> changesA =
+        createStackWithSubmitType(Project.nameKey("repoA"), SubmitType.CHERRY_PICK);
+    ImmutableList<Change> changesB =
+        createStackWithSubmitType(Project.nameKey("repoB"), SubmitType.CHERRY_PICK);
+
+    // change1 is reported as conflicting with change2, although it is an ancestor of change2. This
+    // is expected: CHERRY_PICK ignores dependencies, so change2 can be submitted without change1,
+    // which then no longer applies (see
+    // SubmitByCherryPickIT#submitDependentConflictingChangesOutOfOrder and the warning in the
+    // documentation of the submit types). The check does not consider fast-forwards (see
+    // MergeUtil#canCherryPick); it cherry-picks change1's commit onto change2's commit: relative to
+    // change1's parent (the branch tip), which lacks "shared", both sides add "shared" with
+    // different content ("v1" vs. "v2"), which is a conflict.
+    assertQuery("conflicts:" + changesA.get(1).getId().get(), changesA.get(0));
+
+    // change2 is reported as conflicting with change1, too, but only because ConflictKey is
+    // symmetric and this is the cached result from above. A fresh check would cherry-pick change2's
+    // commit onto change1's commit, relative to change2's parent, which is change1's commit
+    // itself, so it would apply cleanly.
+    // TODO: This query should not report any change.
+    assertQuery("conflicts:" + changesA.get(0).getId().get(), changesA.get(1));
+
+    // In repoB, change1 is queried first. The check then cherry-picks change2's commit onto
+    // change1's commit, which applies cleanly as explained above, and no conflict is found. The
+    // cherry-pick check is not symmetric, but ConflictKey treats it as such, so the cached result
+    // is then reused when querying change2 and the results depend on the query order.
+    // TODO: The results should not depend on the query order; querying change2 should report
+    // change1, as in repoA.
+    assertQuery("conflicts:" + changesB.get(0).getId().get());
+    assertQuery("conflicts:" + changesB.get(1).getId().get());
+  }
+
+  @Test
+  public void conflictsWithAncestorOfQueriedChangeWithRebaseAlways() throws Exception {
+    // Same as conflictsWithAncestorOfQueriedChangeWithCherryPick, but with REBASE_ALWAYS, which,
+    // unlike CHERRY_PICK, does not ignore dependencies: change2 can only be submitted together
+    // with or after change1, so they cannot conflict.
+    ImmutableList<Change> changesA =
+        createStackWithSubmitType(Project.nameKey("repoA"), SubmitType.REBASE_ALWAYS);
+    ImmutableList<Change> changesB =
+        createStackWithSubmitType(Project.nameKey("repoB"), SubmitType.REBASE_ALWAYS);
+
+    // The check merges the two commits (see RebaseSubmitStrategy#dryRun). change1's commit is
+    // merged into change2's commit, so this always succeeds and neither change is reported,
+    // regardless of the query order.
+    assertQuery("conflicts:" + changesA.get(1).getId().get());
+    assertQuery("conflicts:" + changesA.get(0).getId().get());
+
+    assertQuery("conflicts:" + changesB.get(0).getId().get());
+    assertQuery("conflicts:" + changesB.get(1).getId().get());
+  }
+
+  /**
+   * Creates a project with the given submit type and changes change1 and change2, and returns them.
+   *
+   * <p>change1 adds "shared", change2 is stacked on change1 and modifies "shared".
+   */
+  private ImmutableList<Change> createStackWithSubmitType(
+      Project.NameKey project, SubmitType submitType) throws Exception {
+    repo = createAndOpenProject(project);
+    ConfigInput conf = new ConfigInput();
+    conf.submitType = submitType;
+    gApi.projects().name(project.get()).config(conf);
+    // The project name in the commit message ensures that the commits differ between projects,
+    // since the conflicts cache is keyed on commit IDs only.
+    RevCommit tip =
+        repo.branch("master")
+            .commit()
+            .message("Tip of " + project.get())
+            .add("base", "contents")
+            .create();
+    RevCommit commit1 = repo.parseBody(repo.commit().parent(tip).add("shared", "v1").create());
+    Change change1 = insert(project, newChangeForCommit(repo, commit1));
+    RevCommit commit2 = repo.parseBody(repo.commit().parent(commit1).add("shared", "v2").create());
+    Change change2 = insert(project, newChangeForCommit(repo, commit2));
+    return ImmutableList.of(change1, change2);
+  }
+
+  private static PathEdit setExecutable(String path) {
+    return new PathEdit(path) {
+      @Override
+      public void apply(DirCacheEntry ent) {
+        ent.setFileMode(FileMode.EXECUTABLE_FILE);
+      }
+    };
+  }
+
+  @Test
   @GerritConfig(name = "core.useGitattributesForMerge", value = "true")
   public void conflictsUnionContentMerge() throws Exception {
     Project.NameKey project = Project.nameKey("repo");
@@ -4993,27 +5297,35 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
                   .message(message.orElse("updated message"))
                   .add("file" + n, "contents " + n)
                   .create());
-
-      PatchSetInserter inserter =
-          patchSetFactory
-              .create(changeNotesFactory.createChecked(c), PatchSet.id(c.getId(), n), commit)
-              .setFireRevisionCreated(false)
-              .disableValidation();
-      testRefAction(
-          () -> {
-            try (BatchUpdate bu = updateFactory.create(c.getProject(), user, TimeUtil.now());
-                ObjectInserter oi = repo.getRepository().newObjectInserter();
-                ObjectReader reader = oi.newReader();
-                RevWalk rw = new RevWalk(reader)) {
-              bu.setRepository(repo.getRepository(), rw, oi);
-              bu.setNotify(NotifyResolver.Result.none());
-              bu.addOp(c.getId(), inserter);
-              bu.execute();
-            }
-          });
-
-      return inserter.getChange();
+      return newPatchSet(repo, c, user, commit);
     }
+  }
+
+  protected Change newPatchSet(
+      TestRepository<Repository> repo, Change c, CurrentUser user, RevCommit commit)
+      throws Exception {
+    PatchSetInserter inserter =
+        patchSetFactory
+            .create(
+                changeNotesFactory.createChecked(c),
+                PatchSet.id(c.getId(), c.currentPatchSetId().get() + 1),
+                commit)
+            .setFireRevisionCreated(false)
+            .disableValidation();
+    testRefAction(
+        () -> {
+          try (BatchUpdate bu = updateFactory.create(c.getProject(), user, TimeUtil.now());
+              ObjectInserter oi = repo.getRepository().newObjectInserter();
+              ObjectReader reader = oi.newReader();
+              RevWalk rw = new RevWalk(reader)) {
+            bu.setRepository(repo.getRepository(), rw, oi);
+            bu.setNotify(NotifyResolver.Result.none());
+            bu.addOp(c.getId(), inserter);
+            bu.execute();
+          }
+        });
+
+    return inserter.getChange();
   }
 
   protected ThrowableSubject assertThatQueryException(Object query) throws Exception {

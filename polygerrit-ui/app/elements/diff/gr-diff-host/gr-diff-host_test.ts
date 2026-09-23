@@ -2104,10 +2104,7 @@ suite('gr-diff-host tests', () => {
       sinon.stub(element, 'reload').resolves();
       sinon.stub(testResolver(navigationToken), 'setUrl');
 
-      element.patchRange = {
-        ...createPatchRange(),
-        patchNum: EDIT,
-      };
+      element.patchRange = createPatchRange(undefined, 1);
       element.latestPatchNum = 1 as PatchSetNumber;
       element.editMode = true;
       element.path = 'added.ts';
@@ -2134,6 +2131,43 @@ suite('gr-diff-host tests', () => {
       assert.isTrue(deleteFileStub.calledOnce);
       assert.equal(deleteFileStub.firstCall.args[0], 42 as NumericChangeId);
       assert.equal(deleteFileStub.firstCall.args[1], 'added.ts');
+    });
+
+    test('handleRevertDelta uses restoreFileInChangeEdit when reverting only delta of DELETED file', async () => {
+      const applyFixStub = stubRestApi('applyFixSuggestion');
+      const restoreFileStub = stubRestApi('restoreFileInChangeEdit').returns(
+        Promise.resolve(new Response(null, {status: 204}))
+      );
+      sinon.stub(element, 'reload').resolves();
+      sinon.stub(testResolver(navigationToken), 'setUrl');
+
+      element.patchRange = createPatchRange(undefined, 1);
+      element.latestPatchNum = 1 as PatchSetNumber;
+      element.editMode = true;
+      element.path = 'deleted.sh';
+      element.changeNum = 42 as NumericChangeId;
+      element.diff = {
+        ...createDiff(),
+        change_type: 'DELETED',
+      };
+      await element.updateComplete;
+
+      const removeLine = new GrDiffLine(GrDiffLineType.REMOVE, 1, 0);
+      removeLine.text = '#!/bin/bash';
+      const group = new GrDiffGroup({
+        type: GrDiffGroupType.DELTA,
+        lines: [removeLine],
+      });
+
+      assertIsDefined(element.diffElement);
+      element.diffElement.groups = [group];
+
+      await element.handleRevertDelta(group);
+
+      assert.isFalse(applyFixStub.called);
+      assert.isTrue(restoreFileStub.calledOnce);
+      assert.equal(restoreFileStub.firstCall.args[0], 42 as NumericChangeId);
+      assert.equal(restoreFileStub.firstCall.args[1], 'deleted.sh');
     });
 
     test('handleRevertDelta falls back to saveChangeEdit when applyFixSuggestion fails', async () => {

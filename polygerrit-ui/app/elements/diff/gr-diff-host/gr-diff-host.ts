@@ -1501,6 +1501,12 @@ export class GrDiffHost extends LitElement {
         g.type === GrDiffGroupType.DELTA &&
         !g.ignoredWhitespaceOnly
     );
+    const isWholeFileAdd =
+      this.diff?.change_type === 'ADDED' && !hasOtherDeltas;
+    const isWholeFileDelete =
+      this.diff?.change_type === 'DELETED' &&
+      !hasOtherDeltas &&
+      this.patchRange.basePatchNum === PARENT;
     const isEditMode = this.patchRange?.patchNum === EDIT;
     const hasEdit =
       !!findEdit(Object.values(this.change?.revisions ?? {})) || isEditMode;
@@ -1514,7 +1520,10 @@ export class GrDiffHost extends LitElement {
         computeLatestPatchNum(computeAllPatchSets(this.change));
     }
 
-    const canDirectSave = isEditMode && revertedContent !== undefined;
+    const canDirectSave =
+      isWholeFileAdd ||
+      isWholeFileDelete ||
+      (isEditMode && revertedContent !== undefined);
     if (!canDirectSave && (!fixSuggestion || patchNum === undefined)) {
       this.reporting.timeEnd(Timing.REVERT_DELTA_LOAD, {
         success: false,
@@ -1525,8 +1534,15 @@ export class GrDiffHost extends LitElement {
     }
 
     const saveRevertedEdit = () => {
-      if (this.diff?.change_type === 'ADDED' && !hasOtherDeltas) {
+      if (isWholeFileAdd) {
         return this.restApiService.deleteFileInChangeEdit(
+          this.changeNum!,
+          this.path!,
+          throwingErrorCallback
+        );
+      }
+      if (isWholeFileDelete) {
+        return this.restApiService.restoreFileInChangeEdit(
           this.changeNum!,
           this.path!,
           throwingErrorCallback

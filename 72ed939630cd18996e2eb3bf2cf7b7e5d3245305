@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56f685cd_f4a3fea1",
+        "filename": "java/com/google/gerrit/server/restapi/config/CleanupChanges.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-23T14:37:40Z",
+      "side": 1,
+      "message": "I like this whole change, just this module should likely be in its own file because we generally don\u0027t have Guice modules inside classes implementing RestModifyView",
+      "revId": "72ed939630cd18996e2eb3bf2cf7b7e5d3245305",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c103d69c_aa540898",
+        "filename": "Documentation/pgm-daemon.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-23T12:30:09Z",
+      "side": 1,
+      "message": "Indenting to be brought back to col 0, otherwise it\u0027ll be rendered as a code block.",
+      "range": {
+        "startLine": 64,
+        "startChar": 0,
+        "endLine": 72,
+        "endChar": 61
+      },
+      "revId": "39397a70775d0557455a277a7aa64736fa5624f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

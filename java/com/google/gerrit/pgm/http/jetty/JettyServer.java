@@ -354,14 +354,23 @@ public class JettyServer {
       //     decodes to a reserved one (e.g. %25 decoding to '%'),
       //     hit by /changes/%3C%25%3DFOO%25%3E~1/detail where the
       //     decoded identifier '<%=FOO%>' contains a literal '%'.
-      // Allow exactly these two violations; broader presets like LEGACY
+      //   - SUSPICIOUS_PATH_CHARACTERS: Allow encoded path characters
+      //     not allowed by the Servlet spec rules. This is needed to support
+      //     backslashes in change queries which UI encodes in the path.
+      //     Example:
+      //       branch:^a\.b
+      //     UI code create this URI: http://host/q/branch:%5Ea%5C.b
+      //     When opening that encoded URI again Jetty rejects it because of
+      //     the (encoded) backslash
+      // Allow exactly these three violations; broader presets like LEGACY
       // also permit suspicious characters, USER_INFO, FRAGMENT etc. that
       // Gerrit's REST surface does not need.
       config.setUriCompliance(
           UriCompliance.from(
               EnumSet.of(
                   UriCompliance.Violation.AMBIGUOUS_PATH_SEPARATOR,
-                  UriCompliance.Violation.AMBIGUOUS_PATH_ENCODING)));
+                  UriCompliance.Violation.AMBIGUOUS_PATH_ENCODING,
+                  UriCompliance.Violation.SUSPICIOUS_PATH_CHARACTERS)));
 
       if (AuthType.CLIENT_SSL_CERT_LDAP.equals(authType) && !"https".equals(u.getScheme())) {
         throw new IllegalArgumentException(

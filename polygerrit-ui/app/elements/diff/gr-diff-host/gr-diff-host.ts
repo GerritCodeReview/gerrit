@@ -1482,17 +1482,17 @@ export class GrDiffHost extends LitElement {
       return;
     }
 
+    this.reporting.reportInteraction(Interaction.REVERT_DELTA_CLICKED, {
+      path: this.path,
+    });
+    this.reporting.time(Timing.REVERT_DELTA_LOAD);
+
     const allGroups = this.diffElement?.groups ?? [];
     const fixSuggestion = createRevertFixSuggestion(
       this.path,
       group,
       allGroups
     );
-    if (!fixSuggestion) {
-      onComplete?.();
-      return;
-    }
-
     const revertedContent = getRevertedFileContent(group, allGroups);
     const contentGroups = getContentGroups(allGroups);
     const hasOtherDeltas = contentGroups.some(
@@ -1501,16 +1501,11 @@ export class GrDiffHost extends LitElement {
         g.type === GrDiffGroupType.DELTA &&
         !g.ignoredWhitespaceOnly
     );
-    const isEditMode = this.patchRange?.patchNum === EDIT;
+    const isEditPatchset = this.patchRange?.patchNum === EDIT;
     const hasEdit =
-      !!findEdit(Object.values(this.change?.revisions ?? {})) || isEditMode;
+      !!findEdit(Object.values(this.change?.revisions ?? {})) || isEditPatchset;
 
     let patchNum: RevisionPatchSetNum | undefined = this.patchRange.patchNum;
-    if (patchNum === undefined) {
-      onComplete?.();
-      return;
-    }
-
     if (patchNum === EDIT) {
       const editRev = findEdit(Object.values(this.change?.revisions ?? {}));
       patchNum =
@@ -1518,19 +1513,28 @@ export class GrDiffHost extends LitElement {
         this.latestPatchNum ??
         computeLatestPatchNum(computeAllPatchSets(this.change));
     }
-    if (patchNum === undefined) {
+
+    const canDirectSave = isEditPatchset && revertedContent !== undefined;
+    if (!canDirectSave && (!fixSuggestion || patchNum === undefined)) {
+      this.reporting.timeEnd(Timing.REVERT_DELTA_LOAD, {
+        success: false,
+        reason: !fixSuggestion ? 'no-fix-suggestion' : 'no-patch-num',
+      });
       onComplete?.();
       return;
     }
 
-    const saveRevertedEdit = () => {
+    let strategy = 'apply-fix';
+    const saveRevertedEdit = (isFallback = false) => {
       if (this.diff?.change_type === 'ADDED' && !hasOtherDeltas) {
+        strategy = 'delete-file';
         return this.restApiService.deleteFileInChangeEdit(
           this.changeNum!,
           this.path!,
           throwingErrorCallback
         );
       }
+      strategy = isFallback ? 'apply-fix-fallback' : 'edit-save';
       return this.restApiService.saveChangeEdit(
         this.changeNum!,
         this.path!,
@@ -1541,62 +1545,55 @@ export class GrDiffHost extends LitElement {
 
     this.isReverting = true;
     fireAlert(this, 'Reverting change...');
-    this.reporting.reportInteraction(Interaction.REVERT_DELTA_CLICKED, {
-      path: this.path,
-    });
-    this.reporting.time(Timing.REVERT_DELTA_LOAD);
     let res: Response | undefined;
-    let errorText = '';
     try {
-      if (isEditMode && revertedContent !== undefined) {
-        res = await saveRevertedEdit();
-      } else {
-        try {
-          res = await this.restApiService.applyFixSuggestion(
-            this.changeNum,
-            patchNum,
-            fixSuggestion.replacements,
-            undefined,
-            throwingErrorCallback
-          );
-        } catch (applyError) {
-          if (revertedContent !== undefined) {
-            res = await saveRevertedEdit();
-          } else {
-            throw applyError;
+      try {
+        if (canDirectSave) {
+          res = await saveRevertedEdit();
+        } else if (fixSuggestion && patchNum !== undefined) {
+          try {
+            res = await this.restApiService.applyFixSuggestion(
+              this.changeNum,
+              patchNum,
+              fixSuggestion.replacements,
+              undefined,
+              throwingErrorCallback
+            );
+          } catch (applyError) {
+            if (revertedContent === undefined) throw applyError;
+            res = await saveRevertedEdit(true);
           }
         }
+      } catch (error) {
+        const errorText = error instanceof Error ? error.message : '';
+        fireAlert(this, `Reverting change failed: ${errorText}`);
       }
-      if (res?.ok) {
-        fireAlert(this, 'Change reverted.');
-        const currentChildView =
-          this.getChangeViewModel().getState()?.childView;
-        this.getNavigation().setUrl(
-          createApplyFixUrl({
-            change: this.change,
-            changeNum: this.changeNum,
-            repo: this.change?.project ?? this.projectName ?? ('' as RepoName),
-            basePatchNum: PARENT,
-            patchNum: EDIT,
-            forceReload: !hasEdit,
-            filePath: this.path,
-            currentChildView,
-          })
-        );
-        await this.reload(true);
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        errorText = error.message;
-      }
-      fireAlert(this, `Reverting change failed: ${errorText}`);
-    } finally {
-      this.isReverting = false;
-      onComplete?.();
+      // Must run before setUrl(): navigation calls
+      // reporting.beforeLocationChanged(), which drops pending timers.
       this.reporting.timeEnd(Timing.REVERT_DELTA_LOAD, {
         success: res?.ok ?? false,
         status: res?.status,
+        strategy,
       });
+      if (!res?.ok) return;
+      fireAlert(this, 'Change reverted.');
+      const currentChildView = this.getChangeViewModel().getState()?.childView;
+      this.getNavigation().setUrl(
+        createApplyFixUrl({
+          change: this.change,
+          changeNum: this.changeNum,
+          repo: this.change?.project ?? this.projectName ?? ('' as RepoName),
+          basePatchNum: PARENT,
+          patchNum: EDIT,
+          forceReload: !hasEdit,
+          filePath: this.path,
+          currentChildView,
+        })
+      );
+      await this.reload(true);
+    } finally {
+      this.isReverting = false;
+      onComplete?.();
     }
   }
 }

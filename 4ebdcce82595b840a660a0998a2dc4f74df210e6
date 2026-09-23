@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e3311d90_cddaaec8",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 3498,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-09-23T19:04:17Z",
+      "side": 1,
+      "message": "This probably isn\u0027t the best way to demonstrate this, since whichever change submits second would be effectively empty. That\u0027s not strictly a git conflict, but might be reasonable for the `conflicts:` operator to surface?\n\nA more likely scenario would be if file4 exists on the tip with `\"contents4\"`, and then commits 2,3,4 each add the same new content to file4 along with content to other non-overlapping files (i.e. `file2`,`file3`,`file5`). commit1 continues to touch only file1. I think you\u0027ll get the same result, but your comments will be better able to show the desired/expected end result.\n\nIn fact, looking at what you explain on L3516, could you even show this with commits 2,3,4 only having a file mode change (set executable) on file4? That obviously can\u0027t have a content conflict.",
+      "range": {
+        "startLine": 3497,
+        "startChar": 66,
+        "endLine": 3498,
+        "endChar": 90
+      },
+      "revId": "4ebdcce82595b840a660a0998a2dc4f74df210e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cddb641b_d808c102",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 3549,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-09-23T19:04:17Z",
+      "side": 1,
+      "message": "This seems like a pretty bad false positive.",
+      "revId": "4ebdcce82595b840a660a0998a2dc4f74df210e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "96c44f8e_7387e13b",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 3583,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-09-23T19:04:17Z",
+      "side": 1,
+      "message": "But this is the expected result with any merge submit strategy (which suggests perhaps we need tests for conflicts operator and other submit strategies). commit4 won\u0027t submit without commit1 submitting first, so there can never be a conflict. You can\u0027t conflict with anything in your history. It\u0027s not a false negative, it\u0027s a true negative.\n\nThe case where this gets interesting is when change1 has a newer patchset that is no longer commit1. If that new commit5 has anything other than `v1` in `shared`, then I would expect change1 to show up in `conflicts:4`, indicating a trivial rebase isn\u0027t possible.",
+      "revId": "4ebdcce82595b840a660a0998a2dc4f74df210e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

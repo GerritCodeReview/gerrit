@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d199b415_20cbb4fc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-09-23T19:06:34Z",
+      "side": 1,
+      "message": "nit: extra leading space\n```suggestion\nAllow SUSPICIOUS_PATH_CHARACTERS in Jetty URI compliance\n```",
+      "revId": "aec9cb258c1a727b3c9274f8b94bc0e7c30cce25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0ae6c3a9_11f7bec6",
         "filename": "java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
         "patchSetId": 1
@@ -14,6 +31,24 @@
       "writtenOn": "2026-09-23T10:41:49Z",
       "side": 1,
       "message": "NOTE: an alternative approach would be to try to fix that in the UI code where `\\.` gets replaced by character class `[.]` but, I am afraid, that would go deep into regex parsing.",
+      "revId": "aec9cb258c1a727b3c9274f8b94bc0e7c30cce25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f577b794_33ddad3f",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-09-23T19:06:34Z",
+      "side": 1,
+      "message": "yeah, this change seems much safer than trying to rewrite regexes on the fly",
+      "parentUuid": "0ae6c3a9_11f7bec6",
       "revId": "aec9cb258c1a727b3c9274f8b94bc0e7c30cce25",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

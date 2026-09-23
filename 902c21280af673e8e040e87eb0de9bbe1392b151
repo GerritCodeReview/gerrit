@@ -77,6 +77,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d6cee7ca_eac8ef81",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-23T08:52:39Z",
+      "side": 1,
+      "message": "Would you like to upload a patch? @thomas.draebing@sap.com",
+      "parentUuid": "bc6073dc_71145945",
+      "revId": "902c21280af673e8e040e87eb0de9bbe1392b151",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a21460b5_2c6204d4",
         "filename": "java/com/google/gerrit/server/restapi/config/CleanupChanges.java",
         "patchSetId": 3
@@ -105,6 +123,24 @@
       "writtenOn": "2026-09-23T07:37:43Z",
       "side": 1,
       "message": "This also breaks the pattern that we register REST API endpoints in dedicated modules, one per REST API namespace. A pattern that makes it easy to find REST API endpoint definitions and how they are wired in Gerrit. I would prefer not to break this.\nThe REST API endpoints available in replicas is a subset of the ones available in primary Gerrits. Thus, we could split the ConfigRestApiModule to represent this instead of using if-condtions all over the place.",
+      "revId": "902c21280af673e8e040e87eb0de9bbe1392b151",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "48b9e5ec_5841e741",
+        "filename": "java/com/google/gerrit/server/restapi/config/CleanupChanges.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-23T08:52:39Z",
+      "side": 1,
+      "message": "\u003e The REST API endpoints available in replicas is a subset of the ones available in primary Gerrits.\n\nAFAIK, replicas have NO REST-API exposed.\n\nTry to run a Gerrit server as a replica and use the most basic REST API, such as `/config/server/version`, and you\u0027ll get a 404.",
+      "parentUuid": "1ac3392e_19b29332",
       "revId": "902c21280af673e8e040e87eb0de9bbe1392b151",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ae6c3a9_11f7bec6",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-23T10:41:49Z",
+      "side": 1,
+      "message": "NOTE: an alternative approach would be to try to fix that in the UI code where `\\.` gets replaced by character class `[.]` but, I am afraid, that would go deep into regex parsing.",
+      "revId": "aec9cb258c1a727b3c9274f8b94bc0e7c30cce25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

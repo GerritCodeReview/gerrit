@@ -2175,5 +2175,40 @@ suite('gr-diff-host tests', () => {
       assert.equal(saveEditStub.firstCall.args[1], 'foo.ts');
       assert.equal(saveEditStub.firstCall.args[2], 'old code');
     });
+
+    test('handleRevertDelta logs telemetry when fix suggestion cannot be computed', async () => {
+      const reportInteractionStub = sinon.stub(
+        element.reporting,
+        'reportInteraction'
+      );
+      const timeStub = sinon.stub(element.reporting, 'time');
+      const timeEndStub = sinon.stub(element.reporting, 'timeEnd');
+
+      element.patchRange = createPatchRange(undefined, 1);
+      element.latestPatchNum = 1 as PatchSetNumber;
+      element.editMode = true;
+      element.path = 'foo.ts';
+      element.changeNum = 42 as NumericChangeId;
+      await element.updateComplete;
+
+      const invalidGroup = new GrDiffGroup({
+        type: GrDiffGroupType.BOTH,
+        lines: [new GrDiffLine(GrDiffLineType.BOTH, 1, 1)],
+      });
+      let completed = false;
+      await element.handleRevertDelta(invalidGroup, () => {
+        completed = true;
+      });
+
+      assert.isTrue(completed);
+      assert.isTrue(reportInteractionStub.calledOnce);
+      assert.isTrue(timeStub.calledOnce);
+      assert.isTrue(
+        timeEndStub.calledWithExactly(Timing.REVERT_DELTA_LOAD, {
+          success: false,
+          reason: 'no-fix-suggestion',
+        })
+      );
+    });
   });
 });

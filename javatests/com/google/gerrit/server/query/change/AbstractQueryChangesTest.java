@@ -3479,6 +3479,111 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  public void conflictsFalsePositiveForChangeStackedOnUnmergedChange() throws Exception {
+    Project.NameKey project = Project.nameKey("repo");
+    repo = createAndOpenProject(project);
+
+    // change1 is an open, unsubmitted change unrelated to file4 below. Its commit is not
+    // reachable from any branch or tag, i.e. it is not "already accepted".
+    RevCommit commit1 = repo.parseBody(repo.commit().add("file1", "contents1").create());
+    insert(project, newChangeForCommit(repo, commit1));
+
+    // change2 is stacked directly on top of change1's (unmerged) commit and touches file4.
+    RevCommit commit2 =
+        repo.parseBody(repo.commit().parent(commit1).add("file4", "contents4").create());
+    Change change2 = insert(project, newChangeForCommit(repo, commit2));
+
+    // change3 touches file4 with the exact same content as change2, but (unlike change2) is based
+    // directly on the accepted branch tip rather than on change1. A real 3-way merge of change2's
+    // and change3's file4 content would succeed trivially since the content is identical.
+    RevCommit commit3 = repo.parseBody(repo.commit().add("file4", "contents4").create());
+    Change change3 = insert(project, newChangeForCommit(repo, commit3));
+
+    // change4 has the same identical, non-conflicting file4 content and, like change3, is not
+    // stacked on an open change.
+    RevCommit commit4 = repo.parseBody(repo.commit().add("file4", "contents4").create());
+    Change change4 = insert(project, newChangeForCommit(repo, commit4));
+
+    // change3 and change4 have identical file4 content and neither is stacked on an open change,
+    // so they are correctly never reported as conflicting with each other.
+    assertQuery("conflicts:" + change3.getId().get(), change2);
+    assertQuery("conflicts:" + change4.getId().get(), change2);
+
+    // change2 is falsely reported as conflicting with both change3 and change4, even though its
+    // file4 content is identical to theirs and a real merge would succeed. This happens because
+    // change2's parent (change1's commit) is not merged into any branch/tag ("already accepted"),
+    // so MergeSorter#sort short-circuits with MISSING_DEPENDENCY before the actual content merge
+    // is ever attempted (see MergeUtil#hasMissingDependencies). ConflictsPredicate therefore
+    // treats any change stacked on an open/unsubmitted change as conflicting with everything that
+    // shares a file, regardless of whether the content actually conflicts.
+    assertQuery("conflicts:" + change2.getId().get(), change4, change3);
+  }
+
+  @Test
+  public void conflictsOnlyRescuesImmediateChildOfQueriedChange() throws Exception {
+    Project.NameKey project = Project.nameKey("repo");
+    repo = createAndOpenProject(project);
+
+    // change1 is the change we will query "conflicts:" against below.
+    RevCommit commit1 = repo.parseBody(repo.commit().add("fileA", "orig").create());
+    Change change1 = insert(project, newChangeForCommit(repo, commit1));
+
+    // change2 is stacked directly on top of change1. Since change1 is the change being queried,
+    // its commit is added to the "already accepted" set for this query, so change2's real
+    // mergeability is evaluated: it fast-forwards cleanly on top of change1, so it correctly does
+    // NOT show up as conflicting.
+    RevCommit commit2 = repo.parseBody(repo.commit().parent(commit1).add("fileA", "v2").create());
+    insert(project, newChangeForCommit(repo, commit2));
+
+    // change3 is stacked on change2, i.e. two hops below change1. Its parent (change2's commit) is
+    // neither an accepted ref tip nor change1's commit, so MergeSorter#sort bails out with
+    // MISSING_DEPENDENCY before ever attempting a real merge -- even though change3's fileA
+    // content ("orig") is identical to change1's, so a real merge would succeed trivially.
+    RevCommit commit3 = repo.parseBody(repo.commit().parent(commit2).add("fileA", "orig").create());
+    Change change3 = insert(project, newChangeForCommit(repo, commit3));
+
+    // Only change3 (two hops away) is falsely reported as conflicting with change1. change2 (one
+    // hop away) is correctly excluded, illustrating that within a single stack of open changes,
+    // only the change immediately built on top of the queried change gets a real conflict check;
+    // everything further down the same stack is unconditionally treated as conflicting.
+    assertQuery("conflicts:" + change1.getId().get(), change3);
+  }
+
+  @Test
+  public void conflictsAgainstAncestorsOfQueriedChange() throws Exception {
+    Project.NameKey project = Project.nameKey("repo");
+    repo = createAndOpenProject(project);
+
+    // change1 is the base of a linear stack, built directly on the accepted branch tip. It
+    // touches "shared" with content that genuinely differs from change4's below.
+    RevCommit commit1 = repo.parseBody(repo.commit().add("shared", "v1").create());
+    insert(project, newChangeForCommit(repo, commit1));
+
+    // change2 is stacked on change1 and does NOT touch "shared".
+    RevCommit commit2 =
+        repo.parseBody(repo.commit().parent(commit1).add("unrelated2", "x").create());
+    insert(project, newChangeForCommit(repo, commit2));
+
+    // change3 is stacked on change2, does not touch "shared" either.
+    RevCommit commit3 =
+        repo.parseBody(repo.commit().parent(commit2).add("unrelated3", "x").create());
+    insert(project, newChangeForCommit(repo, commit3));
+
+    // change4 is the query target, stacked on change3, and touches "shared" with content that
+    // genuinely differs from change1's.
+    RevCommit commit4 = repo.parseBody(repo.commit().parent(commit3).add("shared", "v4").create());
+    Change change4 = insert(project, newChangeForCommit(repo, commit4));
+
+    // change1 is an ancestor of change4 (several hops away) and genuinely touches "shared" with
+    // different content -- content that would conflict in a real 3-way merge. It is still never
+    // reported as conflicting, because change1's commit trivially fast-forwards into change4:
+    // MergeSorter's ancestor walk from change1 is bounded by change4's own commit being added to
+    // the "already accepted" set for this query, so canFastForward() short-circuits to true
+    // before any content merge is attempted.
+    assertQuery("conflicts:" + change4.getId().get());
+  }
+
+  @Test
   @GerritConfig(name = "core.useGitattributesForMerge", value = "true")
   public void conflictsUnionContentMerge() throws Exception {
     Project.NameKey project = Project.nameKey("repo");

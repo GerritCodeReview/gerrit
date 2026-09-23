@@ -520,6 +520,18 @@ export const grDiffRowStyles = css`
     color: var(--primary-button-background-color, #1a73e8);
     box-shadow: var(--elevation-level-2, 0 1px 3px 1px rgba(60, 64, 67, 0.15));
   }
+  tbody.section.delta.revert-hover,
+  tbody.section.delta:has(.revert-btn:hover),
+  tbody.section.delta:has(.revert-btn.loading) {
+    outline: 1px dashed var(--primary-button-background-color, #1a73e8);
+    outline-offset: -1px;
+  }
+  tbody.section.delta.revert-hover gr-diff-row td.content.add,
+  tbody.section.delta.revert-hover gr-diff-row td.content.remove,
+  tbody.section.delta:has(.revert-btn:hover) gr-diff-row td.content.add,
+  tbody.section.delta:has(.revert-btn:hover) gr-diff-row td.content.remove {
+    filter: brightness(0.96);
+  }
   gr-diff-row .revert-btn:active {
     background-color: var(--chip-selected-background-color, #e8f0fe);
   }

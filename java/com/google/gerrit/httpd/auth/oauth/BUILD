@@ -13,6 +13,7 @@ java_library(
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/httpd",
         "//java/com/google/gerrit/server",
+        "//java/com/google/gerrit/util/crypto",
         "//lib:gson",
         "//lib:guava",
         "//lib:jgit",

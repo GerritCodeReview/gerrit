@@ -28,6 +28,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.ReceivePackInitializer;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.util.crypto.SecureRandomUtil;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -35,11 +36,8 @@ import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
 import com.google.inject.multibindings.OptionalBinder;
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.PreReceiveHook;
@@ -82,7 +80,8 @@ class SignedPushModule extends AbstractModule {
       if (enableSignedPush) {
         String seed = cfg.getString("receive", null, "certNonceSeed");
         if (Strings.isNullOrEmpty(seed)) {
-          seed = randomString(64);
+          // Signed-push cert-nonce HMAC seed: 48 random bytes (384 bits) as base64url.
+          seed = SecureRandomUtil.newRandomString(48);
         }
         signedPushConfig = new SignedPushConfig();
         signedPushConfig.setCertNonceSeed(seed);
@@ -150,19 +149,5 @@ class SignedPushModule extends AbstractModule {
         }
       };
     }
-  }
-
-  private static String randomString(int len) {
-    Random random;
-    try {
-      random = SecureRandom.getInstance("SHA1PRNG");
-    } catch (NoSuchAlgorithmException e) {
-      throw new IllegalStateException(e);
-    }
-    StringBuilder sb = new StringBuilder(len);
-    for (int i = 0; i < len; i++) {
-      sb.append((char) random.nextInt());
-    }
-    return sb.toString();
   }
 }

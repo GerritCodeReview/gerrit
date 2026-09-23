@@ -227,6 +227,24 @@
       "parentUuid": "1ac3392e_19b29332",
       "revId": "902c21280af673e8e040e87eb0de9bbe1392b151",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "89350236_b8c2619a",
+        "filename": "java/com/google/gerrit/server/restapi/config/CleanupChanges.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-23T09:19:12Z",
+      "side": 1,
+      "message": "See `ConfigRestApiBindingsIT.java:146`, the test `shouldNotBindCleanupChangesOnReplica()` which does exactly that.\n\nWith regards to REST-API, there is no RestApiServlet registered in replias, therefore no REST-APIs are served, regardless of this change.\n\nThe `WebModule.java` has this conditional:\n\n```\n    if (options.enableMasterFeatures()) {\n      install(new UrlModule(authConfig));\n    }\n```\n\nThe `UrlModule.java` is responsible for registering the `RestApiServlet`s:\n\n```\n    // Bind servlets for REST root collections.\n    // The \u0027/plugins/\u0027 root collection is already handled by HttpPluginServlet\n    // which is bound in HttpPluginModule. We cannot bind it here again although\n    // this means that plugins can\u0027t add REST views on PLUGIN_KIND.\n    serveRegex(\"^/(?:a/)?access/(.*)$\").with(AccessRestApiServlet.class);\n    serveRegex(\"^/(?:a/)?access$\").with(AccessRestApiServlet.class);\n    serveRegex(\"^/(?:a/)?accounts/(.*)$\").with(AccountsRestApiServlet.class);\n    serveRegex(\"^/(?:a/)?accounts$\").with(AccountsRestApiServlet.class);\n    serveRegex(\"^/(?:a/)?changes/(.*)$\").with(ChangesRestApiServlet.class);\n    serveRegex(\"^/(?:a/)?changes$\").with(ChangesRestApiServlet.class);\n    serveRegex(\"^/(?:a/)?config/(.*)$\").with(ConfigRestApiServlet.class);\n    serveRegex(\"^/(?:a/)?config$\").with(ConfigRestApiServlet.class);\n    serveRegex(\"^/(?:a/)?groups/(.*)?$\").with(GroupsRestApiServlet.class);\n    serveRegex(\"^/(?:a/)?groups$\").with(GroupsRestApiServlet.class);\n    serveRegex(\"^/(?:a/)?projects/(.*)?$\").with(ProjectsRestApiServlet.class);\n    serveRegex(\"^/(?:a/)?projects$\").with(ProjectsRestApiServlet.class);\n```\n\nNone of those files is touched in this change, and none of the modifications made here is impacting their logic; therefore, a test would be outside the scope of this change.",
+      "parentUuid": "a21460b5_2c6204d4",
+      "revId": "902c21280af673e8e040e87eb0de9bbe1392b151",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -22,6 +22,30 @@
       },
       "revId": "24305ef661f0816a8a2b0c303db88dca8b1f0b01",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "97dd1fde_f700b1d5",
+        "filename": "java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 564,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-23T09:19:12Z",
+      "side": 0,
+      "message": "It is still used in `CleanupChanges.java:44`",
+      "parentUuid": "9c9b5190_75b56662",
+      "range": {
+        "startLine": 564,
+        "startChar": 22,
+        "endLine": 564,
+        "endChar": 47
+      },
+      "revId": "24305ef661f0816a8a2b0c303db88dca8b1f0b01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

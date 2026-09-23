@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5ab45d7_d6bd54f7",
+        "filename": "java/com/google/gerrit/server/index/change/StalenessChecker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-09-23T21:08:35Z",
+      "side": 1,
+      "message": "getFirst was added on java25, so this would not compile with java17:\n\n```\nERROR: /home/jenkins/gerrit/java/com/google/gerrit/server/BUILD:31:13: Building java/com/google/gerrit/server/libserver-class.jar (1277 source files) and running annotation processors (AutoFactoryProcessor, AutoAnnotationProcessor, AutoValueProcessor, AutoOneOfProcessor) failed: (Exit 1): java failed: error executing Javac command (from target //java/com/google/gerrit/server:server) external/remotejdk17_linux/bin/java \u0027--add-exports\u003djdk.compiler/com.sun.tools.javac.api\u003dALL-UNNAMED\u0027 \u0027--add-exports\u003djdk.compiler/com.sun.tools.javac.main\u003dALL-UNNAMED\u0027 ... (remaining 19 arguments skipped)\njava/com/google/gerrit/server/index/change/StalenessChecker.java:134: error: cannot find symbol\n    ChangeData cd \u003d results.getFirst();\n                           ^\n  symbol:   method getFirst()\n  location: variable results of type ImmutableList\u003cChangeData\u003e\nUse --verbose_failures to see the command lines of failed build steps.\n```",
+      "range": {
+        "startLine": 134,
+        "startChar": 0,
+        "endLine": 134,
+        "endChar": 39
+      },
+      "revId": "8b6f8b0f6db75c90a3ed7e1e8efc995880e90287",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

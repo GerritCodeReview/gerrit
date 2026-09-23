@@ -291,8 +291,10 @@ suite('gr-diff-row test', () => {
 
     const revertBtn = element.querySelector<HTMLButtonElement>('.revert-btn')!;
     assert.isNotNull(revertBtn);
+    assert.equal(revertBtn.title, 'Revert 1 removed line');
     revertBtn.click();
     await element.updateComplete;
+    assert.equal(revertBtn.title, 'Reverting...');
 
     assert.isDefined(eventDetail);
     assert.equal(eventDetail?.group, group);

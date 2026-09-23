@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c1b9ff7d_6955ec34",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-09-23T09:51:56Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "fcb73f69_9d68c632",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 35
+      },
+      "revId": "bfda3f873843af0ff244a1dccbaa31925766cc52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2b8d4a0e_58bef449",
         "filename": "javatests/com/google/gerrit/acceptance/server/index/change/LuceneChangeIndexerIT.java",
         "patchSetId": 1

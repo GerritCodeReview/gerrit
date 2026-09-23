@@ -616,9 +616,27 @@ export class GrDiffRow extends LitElement {
   @state()
   private isReverting = false;
 
+  private getRevertButtonTooltip(): string {
+    if (this.isReverting) return 'Reverting...';
+    const removes = this.group?.removes.length ?? 0;
+    const adds = this.group?.adds.length ?? 0;
+    if (removes > 0 && adds === 0) {
+      return `Revert ${removes} removed ${removes === 1 ? 'line' : 'lines'}`;
+    }
+    if (adds > 0 && removes === 0) {
+      return `Revert ${adds} added ${adds === 1 ? 'line' : 'lines'}`;
+    }
+    const count = Math.max(removes, adds);
+    if (count > 0) {
+      return `Revert ${count} modified ${count === 1 ? 'line' : 'lines'}`;
+    }
+    return 'Revert this change';
+  }
+
   private renderRevertButton(side: Side) {
     if (!this.showRevertButton) return nothing;
     if (!this.unifiedDiff && side !== Side.LEFT) return nothing;
+    const tooltip = this.getRevertButtonTooltip();
     return html`
       <div class="revert-container">
         <button
@@ -628,8 +646,8 @@ export class GrDiffRow extends LitElement {
           })}
           type="button"
           ?disabled=${this.isReverting}
-          title=${this.isReverting ? 'Reverting...' : 'Revert this change'}
-          aria-label=${this.isReverting ? 'Reverting...' : 'Revert this change'}
+          title=${tooltip}
+          aria-label=${tooltip}
           @click=${this.handleRevertClick}
         >
           ${this.isReverting

@@ -2175,5 +2175,80 @@ suite('gr-diff-host tests', () => {
       assert.equal(saveEditStub.firstCall.args[1], 'foo.ts');
       assert.equal(saveEditStub.firstCall.args[2], 'old code');
     });
+
+    test('handleRevertDelta logs telemetry when fix suggestion cannot be computed', async () => {
+      const reportInteractionStub = sinon.stub(
+        element.reporting,
+        'reportInteraction'
+      );
+      const timeStub = sinon.stub(element.reporting, 'time');
+      const timeEndStub = sinon.stub(element.reporting, 'timeEnd');
+
+      element.patchRange = createPatchRange(undefined, 1);
+      element.latestPatchNum = 1 as PatchSetNumber;
+      element.editMode = true;
+      element.path = 'foo.ts';
+      element.changeNum = 42 as NumericChangeId;
+      await element.updateComplete;
+
+      const invalidGroup = new GrDiffGroup({
+        type: GrDiffGroupType.BOTH,
+        lines: [new GrDiffLine(GrDiffLineType.BOTH, 1, 1)],
+      });
+      let completed = false;
+      await element.handleRevertDelta(invalidGroup, () => {
+        completed = true;
+      });
+
+      assert.isTrue(completed);
+      assert.isTrue(reportInteractionStub.calledOnce);
+      assert.isTrue(timeStub.calledOnce);
+      assert.isTrue(
+        timeEndStub.calledWithExactly(Timing.REVERT_DELTA_LOAD, {
+          success: false,
+          reason: 'no-fix-suggestion',
+        })
+      );
+    });
+
+    test('handleRevertDelta reports REVERT_DELTA_LOAD before navigation resets timers', async () => {
+      stubRestApi('applyFixSuggestion').returns(
+        Promise.resolve(new Response(null, {status: 200}))
+      );
+      const reloadStub = sinon.stub(element, 'reload').resolves();
+      const setUrlStub = sinon.stub(testResolver(navigationToken), 'setUrl');
+      const timeEndStub = sinon.stub(element.reporting, 'timeEnd');
+      const onCompleteSpy = sinon.spy();
+
+      element.patchRange = createPatchRange(undefined, 1);
+      element.latestPatchNum = 1 as PatchSetNumber;
+      element.editMode = true;
+      element.path = 'foo.ts';
+      element.changeNum = 42 as NumericChangeId;
+      await element.updateComplete;
+
+      const removeLine = new GrDiffLine(GrDiffLineType.REMOVE, 1, 0);
+      removeLine.text = 'old code';
+      const group = new GrDiffGroup({
+        type: GrDiffGroupType.DELTA,
+        lines: [removeLine],
+      });
+
+      assertIsDefined(element.diffElement);
+      element.diffElement.groups = [group];
+
+      await element.handleRevertDelta(group, onCompleteSpy);
+
+      assert.isTrue(
+        timeEndStub.calledOnceWithExactly(Timing.REVERT_DELTA_LOAD, {
+          success: true,
+          status: 200,
+          strategy: 'apply-fix',
+        })
+      );
+      assert.isTrue(timeEndStub.calledBefore(setUrlStub));
+      assert.isTrue(timeEndStub.calledBefore(reloadStub));
+      assert.isTrue(reloadStub.calledBefore(onCompleteSpy));
+    });
   });
 });

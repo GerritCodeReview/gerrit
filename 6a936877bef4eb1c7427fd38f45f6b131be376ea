@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "93a0da3f_d38957fc",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeIndexRewriter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 5175891
+      },
+      "writtenOn": "2026-09-23T15:18:56Z",
+      "side": 0,
+      "message": "java/com/google/gerrit/server/query/change/ChangeQueryPredicateRewriter.java",
+      "revId": "6a936877bef4eb1c7427fd38f45f6b131be376ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

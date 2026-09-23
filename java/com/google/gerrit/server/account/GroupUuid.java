@@ -15,6 +15,7 @@
 package com.google.gerrit.server.account;
 
 import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.util.crypto.SecureRandomUtil;
 import java.security.MessageDigest;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -25,7 +26,7 @@ public class GroupUuid {
     MessageDigest md = Constants.newMessageDigest();
     md.update(Constants.encode("group " + groupName + "\n"));
     md.update(Constants.encode("creator " + creator.toExternalString() + "\n"));
-    md.update(Constants.encode(String.valueOf(Math.random())));
+    md.update(SecureRandomUtil.newBytes(16));
     return AccountGroup.uuid(ObjectId.fromRaw(md.digest()).name());
   }
 

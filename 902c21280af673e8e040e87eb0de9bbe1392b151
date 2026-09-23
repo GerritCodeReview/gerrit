@@ -179,6 +179,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bcaa68e9_ad902bfb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-23T16:11:28Z",
+      "side": 1,
+      "message": "@thomas.draebing@sap.com can you check with @sasa.zivkov@sap.com if form suits you? Alternatively I would be happy to review your solution uploaded as a new change.",
+      "parentUuid": "d6cee7ca_eac8ef81",
+      "revId": "902c21280af673e8e040e87eb0de9bbe1392b151",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a21460b5_2c6204d4",
         "filename": "java/com/google/gerrit/server/restapi/config/CleanupChanges.java",
         "patchSetId": 3

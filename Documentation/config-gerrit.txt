@@ -2412,6 +2412,16 @@ Used on Gerrit replica installations. If set to `true` the Gerrit JVM is
 called with the '--replica' switch, enabling replica mode. If no value is
 set (or any other value), Gerrit defaults to primary mode enabling write
 operations.
++
+Due to its strictly replica read-only architecture, a replica operates with heavily
+restricted functionality compared to a fully-fledged Gerrit server. It strictly
+rejects all Git write operations over the Git protocol (such as `git push`),
+requiring all repository modifications to be routed to the primary instance.
+Furthermore, a replica provides absolutely no REST-API support and exposes only
+a highly limited subset of SSH commands. Finally, because a replica does not
+host the core review metadata, it lacks full secondary indexing support; the
+only index maintained on a replica is the `groups` index, which is strictly
+necessary for evaluating repository read access controls.
 
 [[container.slave]]container.slave::
 +

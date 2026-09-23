@@ -22,6 +22,29 @@
       },
       "revId": "8b6f8b0f6db75c90a3ed7e1e8efc995880e90287",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0738bde9_4fa4789f",
+        "filename": "java/com/google/gerrit/server/index/change/StalenessChecker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-09-23T21:09:19Z",
+      "side": 1,
+      "message": "```suggestion\n    ChangeData cd \u003d results.get(0);\n```",
+      "range": {
+        "startLine": 134,
+        "startChar": 0,
+        "endLine": 134,
+        "endChar": 39
+      },
+      "revId": "8b6f8b0f6db75c90a3ed7e1e8efc995880e90287",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

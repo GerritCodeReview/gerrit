@@ -633,6 +633,15 @@ export class GrDiffRow extends LitElement {
     return 'Revert this change';
   }
 
+  override disconnectedCallback() {
+    this.setSectionRevertHover(false);
+    super.disconnectedCallback();
+  }
+
+  private setSectionRevertHover(hover: boolean) {
+    this.closest('.section')?.classList.toggle('revert-hover', hover);
+  }
+
   private renderRevertButton(side: Side) {
     if (!this.showRevertButton) return nothing;
     if (!this.unifiedDiff && side !== Side.LEFT) return nothing;
@@ -648,6 +657,10 @@ export class GrDiffRow extends LitElement {
           ?disabled=${this.isReverting}
           title=${tooltip}
           aria-label=${tooltip}
+          @mouseenter=${() => this.setSectionRevertHover(true)}
+          @mouseleave=${() => this.setSectionRevertHover(false)}
+          @focus=${() => this.setSectionRevertHover(true)}
+          @blur=${() => this.setSectionRevertHover(false)}
           @click=${this.handleRevertClick}
         >
           ${this.isReverting
@@ -667,6 +680,7 @@ export class GrDiffRow extends LitElement {
       group: this.group,
       onComplete: () => {
         this.isReverting = false;
+        this.setSectionRevertHover(false);
       },
     });
   }

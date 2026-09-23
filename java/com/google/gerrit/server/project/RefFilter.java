@@ -19,6 +19,7 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.server.config.UntrustedRegexCompiler.RegexPermissionException;
 import com.google.gerrit.server.ioutil.RegexCompiler;
 import dk.brics.automaton.RunAutomaton;
 import java.util.List;
@@ -101,8 +102,8 @@ public class RefFilter<T> {
     }
     try {
       return new RunAutomaton(regexCompiler.toAutomaton(regex));
-    } catch (IllegalArgumentException e) {
-      throw new BadRequestException(e.getMessage());
+    } catch (RegexPermissionException | IllegalArgumentException e) {
+      throw new BadRequestException(e.getMessage(), e);
     }
   }
 

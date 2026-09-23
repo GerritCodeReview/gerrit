@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git.validators;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.BranchNameKey;
@@ -138,6 +139,7 @@ public class MergeValidators {
     private final PermissionBackend permissionBackend;
     private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
     private final ProjectConfig.Factory projectConfigFactory;
+    private final ProjectConfigRegexValidator projectConfigRegexValidator;
     private final boolean allowProjectOwnersToChangeParent;
 
     public interface Factory {
@@ -152,6 +154,7 @@ public class MergeValidators {
         PermissionBackend permissionBackend,
         DynamicMap<ProjectConfigEntry> pluginConfigEntries,
         ProjectConfig.Factory projectConfigFactory,
+        ProjectConfigRegexValidator projectConfigRegexValidator,
         @GerritServerConfig Config config) {
       this.allProjectsName = allProjectsName;
       this.allUsersName = allUsersName;
@@ -159,6 +162,7 @@ public class MergeValidators {
       this.permissionBackend = permissionBackend;
       this.pluginConfigEntries = pluginConfigEntries;
       this.projectConfigFactory = projectConfigFactory;
+      this.projectConfigRegexValidator = projectConfigRegexValidator;
       this.allowProjectOwnersToChangeParent =
           config.getBoolean("receive", "allowProjectOwnersToChangeParent", false);
     }
@@ -178,6 +182,18 @@ public class MergeValidators {
         try {
           ProjectConfig cfg = projectConfigFactory.create(destProject.getNameKey());
           cfg.load(destProject.getNameKey(), repo, commit);
+
+          if (!projectConfigRegexValidator.isAllowed()) {
+            ProjectConfig existingConfig = projectConfigFactory.create(destProject.getNameKey());
+            existingConfig.load(repo);
+            projectConfigRegexValidator.assertNoAdditionalRegexes(
+                existingConfig.getAccessSectionRegexNames(), cfg.getAccessSectionRegexNames());
+          }
+
+          validateMimeTypeRegexes(repo, destProject, cfg);
+          validateCommentLinkRegexes(repo, destProject, cfg);
+          validateLabelBranchRegexes(repo, destProject, cfg);
+
           newParent = cfg.getProject().getParent(allProjectsName);
           final Project.NameKey oldParent = destProject.getProject().getParent(allProjectsName);
           if (oldParent == null) {
@@ -241,10 +257,50 @@ public class MergeValidators {
               throw new MergeValidationException(PLUGIN_VALUE_NOT_PERMITTED);
             }
           }
-        } catch (ConfigInvalidException | IOException e) {
+        } catch (ConfigInvalidException e) {
+          throw new MergeValidationException(
+              MoreObjects.firstNonNull(e.getMessage(), INVALID_CONFIG), e);
+        } catch (IOException e) {
           throw new MergeValidationException(INVALID_CONFIG, e);
         }
       }
+    }
+
+    private void validateMimeTypeRegexes(
+        Repository repo, ProjectState destProject, ProjectConfig cfg)
+        throws IOException, ConfigInvalidException {
+      if (projectConfigRegexValidator.isAllowed()) {
+        return;
+      }
+      ProjectConfig existingConfig = projectConfigFactory.create(destProject.getNameKey());
+      existingConfig.load(repo);
+      projectConfigRegexValidator.assertNoAdditionalRegexes(
+          existingConfig.getMimeTypeRegexes(), cfg.getMimeTypeRegexes());
+    }
+
+    private void validateCommentLinkRegexes(
+        Repository repo, ProjectState destProject, ProjectConfig cfg)
+        throws IOException, ConfigInvalidException {
+      if (projectConfigRegexValidator.isAllowed()) {
+        return;
+      }
+      ProjectConfig existingConfig = projectConfigFactory.create(destProject.getNameKey());
+      existingConfig.load(repo);
+      projectConfigRegexValidator.assertNoAdditionalRegexes(
+          existingConfig.getCommentLinkRegexes().entrySet(),
+          cfg.getCommentLinkRegexes().entrySet());
+    }
+
+    private void validateLabelBranchRegexes(
+        Repository repo, ProjectState destProject, ProjectConfig cfg)
+        throws IOException, ConfigInvalidException {
+      if (projectConfigRegexValidator.isAllowed()) {
+        return;
+      }
+      ProjectConfig existingConfig = projectConfigFactory.create(destProject.getNameKey());
+      existingConfig.load(repo);
+      projectConfigRegexValidator.assertNoAdditionalRegexes(
+          existingConfig.getLabelBranchRegexes(), cfg.getLabelBranchRegexes());
     }
   }
 

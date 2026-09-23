@@ -35,7 +35,7 @@ public class RegexUploaderEmailPredicate extends SubmitRequirementPredicate {
   private final AccountCache accountCache;
 
   public RegexUploaderEmailPredicate(
-      @Provided AccountCache accountCache, String pattern, @Provided RegexCompiler regexCompiler)
+      @Provided AccountCache accountCache, String pattern, RegexCompiler regexCompiler)
       throws QueryParseException {
     super("uploaderemail", pattern);
     this.accountCache = accountCache;

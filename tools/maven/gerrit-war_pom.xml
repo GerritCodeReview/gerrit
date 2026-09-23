@@ -2,7 +2,11 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.google.gerrit</groupId>
   <artifactId>gerrit-war</artifactId>
+<<<<<<< HEAD
   <version>3.14.4-SNAPSHOT</version>
+=======
+  <version>3.13.10-SNAPSHOT</version>
+>>>>>>> stable-3.13
   <packaging>war</packaging>
   <name>Gerrit Code Review - WAR</name>
   <description>Gerrit WAR</description>

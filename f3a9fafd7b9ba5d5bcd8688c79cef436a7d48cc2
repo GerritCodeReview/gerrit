@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d9b5f61_368e7918",
+        "filename": "java/com/google/gerrit/server/change/AbandonOp.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-23T08:40:29Z",
+      "side": 1,
+      "message": "this likely has to be `false` according to the javadoc of the `updateChange` in the `BatchUpdateOp` but it looks like it is not honored always and the `postUpdate` is called even when this method returns `false`.",
+      "revId": "f3a9fafd7b9ba5d5bcd8688c79cef436a7d48cc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1f0872f0_48cf1e37",
+        "filename": "java/com/google/gerrit/server/change/AbandonOp.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-23T08:40:29Z",
+      "side": 1,
+      "message": "this `else` is unnecessary",
+      "revId": "f3a9fafd7b9ba5d5bcd8688c79cef436a7d48cc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ae43b2fb_1aa72c24",
+        "filename": "java/com/google/gerrit/server/change/AbandonOp.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-23T08:40:29Z",
+      "side": 1,
+      "message": "A test fails now with NPE because this code is not reached in case of an already abandoned change but the `postUpdate` is called anyway and the `patchSet` is `null` and `null` is passed to the `changeAbandoned.fire` method. \n\nI don\u0027t like how this class uses side-effects (setting fields to values that are expected to be set for the `postUpdate`) but this seems to be part of the overall \"framework\"",
+      "revId": "f3a9fafd7b9ba5d5bcd8688c79cef436a7d48cc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

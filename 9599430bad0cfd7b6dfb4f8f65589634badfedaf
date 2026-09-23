@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "78a2c23f_3dc1ddaa",
+        "filename": "tools/maven/gerrit-acceptance-framework_pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-09-23T13:44:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb09ef14_6d7d6b48",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 19
+      },
+      "revId": "9599430bad0cfd7b6dfb4f8f65589634badfedaf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "33b284dc_ed91ecde",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-09-23T13:41:36Z",
       "side": 1,
       "message": "Conflict markers leftover",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 19
+      },
+      "revId": "9599430bad0cfd7b6dfb4f8f65589634badfedaf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cccb8071_628e3fc3",
+        "filename": "tools/maven/gerrit-extension-api_pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-09-23T13:44:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33b284dc_ed91ecde",
       "range": {
         "startLine": 5,
         "startChar": 0,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "04f06605_d7333530",
+        "filename": "tools/maven/gerrit-plugin-api_pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-09-23T13:44:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0861019_6e694fd2",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 19
+      },
+      "revId": "9599430bad0cfd7b6dfb4f8f65589634badfedaf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6b0ba792_1e0fcc1b",
@@ -83,6 +155,30 @@
       "writtenOn": "2026-09-23T13:41:36Z",
       "side": 1,
       "message": "Conflict markers leftover",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 19
+      },
+      "revId": "9599430bad0cfd7b6dfb4f8f65589634badfedaf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4e37355_789ad1c8",
+        "filename": "tools/maven/gerrit-war_pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-09-23T13:44:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b0ba792_1e0fcc1b",
       "range": {
         "startLine": 5,
         "startChar": 0,

@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7da6c018_873f9f53",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-09-23T06:31:54Z",
+      "side": 1,
+      "message": "Can we add a note in the documentation [1] mentioning that it is not available on replicas.\n\n[1]: https://gerrit-documentation.storage.googleapis.com/Documentation/3.11.11/config-gerrit.html#changeCleanup",
+      "revId": "902c21280af673e8e040e87eb0de9bbe1392b151",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d0b1e97c_f88f77ea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-09-23T06:31:54Z",
+      "side": 1,
+      "message": "Can you make clearer which REST API won\u0027t be available anymore in the replica.",
+      "revId": "902c21280af673e8e040e87eb0de9bbe1392b151",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9dd39adf_3cb539a8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-09-23T06:31:54Z",
+      "side": 1,
+      "message": "The linked issue refers to a double-spawn of the cleanup thread as the main problem.\nHowever, from the commit message, it doesn\u0027t seem to be the main focus of the change.\n\nCan you either split it into separate changes or make it clearer in the commit message which one is the issue?\n\nAlso, I would add a test to check the double-spawn since it is the main issue we are targeting.",
+      "range": {
+        "startLine": 16,
+        "startChar": 25,
+        "endLine": 16,
+        "endChar": 67
+      },
+      "revId": "902c21280af673e8e040e87eb0de9bbe1392b151",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a21460b5_2c6204d4",
+        "filename": "java/com/google/gerrit/server/restapi/config/CleanupChanges.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2026-09-23T06:31:54Z",
+      "side": 1,
+      "message": "Should we test if this is not available in replicas? Or we are good to assume in general REST APIs are not available in replicas?",
+      "revId": "902c21280af673e8e040e87eb0de9bbe1392b151",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

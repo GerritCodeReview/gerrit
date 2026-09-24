@@ -17,6 +17,25 @@
       "isAi": true,
       "revId": "1d1a481af4641fdcbc14aa8781962248068ed647",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b955667_776ba63d",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2026-09-24T17:03:36Z",
+      "side": 1,
+      "message": "Done. Added BooleanCondition.lazy(BooleanSupplier) to BooleanCondition, replaced the anonymous PrivateInternals_BooleanCondition subclass in RevertSubmission with BooleanCondition.lazy(...), and changed isChangePartOfSubmission to return primitive boolean.",
+      "parentUuid": "ee345dfe_7833f172",
+      "isAi": true,
+      "revId": "1d1a481af4641fdcbc14aa8781962248068ed647",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

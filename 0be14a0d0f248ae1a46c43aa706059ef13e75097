@@ -20,6 +20,25 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "1a6cde41_0c763df1",
+        "filename": "java/com/google/gerrit/server/change/FileInfoJsonImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2026-09-24T17:03:16Z",
+      "side": 1,
+      "message": "Done. Added DiffOptions.skipDiffStat() and moved the lightweight FileDiffOutput / TreeWalk handling into DiffOperationsImpl#computeModifiedFilesWithoutDiffStat (reusing the open RevWalk and loadModifiedFilesWithoutCacheIfNecessary, and supporting merge commits via computeDiffParameters). FileInfoJsonImpl now simply passes DiffOptions to diffs.listModifiedFilesAgainstParent / diffs.listModifiedFiles and reuses asFileInfo().",
+      "parentUuid": "e2b1e8a6_c757d885",
+      "isAi": true,
+      "revId": "0be14a0d0f248ae1a46c43aa706059ef13e75097",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "81629e9a_8cd856ec",
         "filename": "java/com/google/gerrit/server/change/RevisionJson.java",
         "patchSetId": 2

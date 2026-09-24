@@ -3682,6 +3682,20 @@ configuration.
 By default, `\http://*:8080`.
 --
 
+[[httpd.enableProxyProtocol]]httpd.enableProxyProtocol::
++
+If `true`, enables parsing HAProxy PROXY protocol headers on incoming
+HTTP connections configured with `proxy-http://` or `proxy-https://`.
+This allows Gerrit and applications to access the original client
+address and port instead of the reverse proxy address.
++
+This should only be enabled when all traffic on the listener comes from
+trusted proxies that always send a valid PROXY header. Enabling this on
+a public listener without such a trusted proxy may allow clients to
+spoof source addresses.
++
+By default, `false`.
+
 [[httpd.reuseAddress]]httpd.reuseAddress::
 +
 If `true`, permits the daemon to bind to the port even if the port

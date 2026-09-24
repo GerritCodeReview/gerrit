@@ -70,6 +70,8 @@ import org.eclipse.jetty.server.ForwardedRequestCustomizer;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.HttpConfiguration;
 import org.eclipse.jetty.server.HttpConnectionFactory;
+import org.eclipse.jetty.server.ProxyConnectionFactory;
+import org.eclipse.jetty.server.ProxyCustomizer;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.SecureRequestCustomizer;
 import org.eclipse.jetty.server.Server;
@@ -115,6 +117,7 @@ public class JettyServer {
           return super.customize(request, responseHeaders);
         }
       };
+  private static final ProxyCustomizer PROXY_CUSTOMIZER = new ProxyCustomizer();
 
   static class Lifecycle implements LifecycleListener {
     private final JettyServer server;
@@ -336,6 +339,7 @@ public class JettyServer {
     final int acceptors = cfg.getInt("httpd", "acceptorThreads", 0);
     final int selectors = cfg.getInt("httpd", "selectorThreads", 2);
     final AuthType authType = cfg.getEnum("auth", null, "type", AuthType.OPENID);
+    final boolean enableProxyProtocol = cfg.getBoolean("httpd", null, "enableProxyProtocol", false);
 
     reverseProxy = isReverseProxied(listenUrls);
     final Connector[] connectors = new Connector[listenUrls.length];
@@ -441,7 +445,10 @@ public class JettyServer {
                     }
                   });
         }
-        c = newServerConnector(server, acceptors, selectors, config);
+        c =
+            enableProxyProtocol
+                ? newProxyServerConnector(server, acceptors, selectors, config)
+                : newServerConnector(server, acceptors, selectors, config);
 
       } else {
         throw unsupportedProtocol(u);
@@ -474,10 +481,25 @@ public class JettyServer {
     return connectors;
   }
 
-  private static ServerConnector newServerConnector(
+  static ServerConnector newServerConnector(
       Server server, int acceptors, int selectors, HttpConfiguration config) {
     return new ServerConnector(
         server, null, null, null, acceptors, selectors, new HttpConnectionFactory(config));
+  }
+
+  static ServerConnector newProxyServerConnector(
+      Server server, int acceptors, int selectors, HttpConfiguration config) {
+    config.addCustomizer(PROXY_CUSTOMIZER);
+    HttpConnectionFactory http = new HttpConnectionFactory(config);
+    return new ServerConnector(
+        server,
+        null,
+        null,
+        null,
+        acceptors,
+        selectors,
+        new ProxyConnectionFactory(http.getProtocol()),
+        http);
   }
 
   private HttpConfiguration defaultConfig(int requestHeaderSize) {

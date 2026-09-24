@@ -37,6 +37,7 @@ import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RevertInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.RevertSubmissionInfo;
+import com.google.gerrit.extensions.conditions.BooleanCondition;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -490,21 +491,23 @@ public class RevertSubmission
                 and(
                     change.isMerged()
                         && change.getSubmissionId() != null
-                        && isChangePartOfSubmission(change.getSubmissionId())
                         && projectStatePermitsWrite,
                     permissionBackend
                         .user(rsrc.getUser())
                         .ref(change.getDest())
                         .testCond(CREATE_CHANGE)),
-                permissionBackend.user(rsrc.getUser()).change(rsrc.getNotes()).testCond(REVERT)));
+                and(
+                    permissionBackend.user(rsrc.getUser()).change(rsrc.getNotes()).testCond(REVERT),
+                    BooleanCondition.lazy(
+                        () -> isChangePartOfSubmission(change.getSubmissionId())))));
   }
 
   /**
    * @param submissionId the submission id of the change.
    * @return True if the submission has more than one change, false otherwise.
    */
-  private Boolean isChangePartOfSubmission(String submissionId) {
-    return (queryProvider.get().setLimit(2).bySubmissionId(submissionId).size() > 1);
+  private boolean isChangePartOfSubmission(String submissionId) {
+    return queryProvider.get().setLimit(2).noFields().bySubmissionId(submissionId).size() > 1;
   }
 
   private class CreateCherryPickOp implements BatchUpdateOp {

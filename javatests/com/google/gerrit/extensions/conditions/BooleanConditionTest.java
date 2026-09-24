@@ -158,4 +158,24 @@ public class BooleanConditionTest {
             BooleanCondition.valueOf(true));
     assertEquals(nonReduced.reduce(), reduced);
   }
+
+  @Test
+  public void lazyCondition_NotEvaluatedWhenShortCircuitedByFalseAnd() throws Exception {
+    BooleanCondition lazy =
+        BooleanCondition.lazy(
+            () -> {
+              throw new AssertionError("supplier should not be evaluated");
+            });
+    BooleanCondition combined = BooleanCondition.and(false, lazy);
+    assertEquals(BooleanCondition.valueOf(false), combined.reduce());
+    assertEquals(false, combined.value());
+  }
+
+  @Test
+  public void lazyCondition_EvaluatedWhenNeeded() throws Exception {
+    BooleanCondition lazyTrue = BooleanCondition.lazy(() -> true);
+    BooleanCondition lazyFalse = BooleanCondition.lazy(() -> false);
+    assertEquals(true, BooleanCondition.and(true, lazyTrue).value());
+    assertEquals(false, BooleanCondition.and(true, lazyFalse).value());
+  }
 }

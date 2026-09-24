@@ -22,6 +22,52 @@
       },
       "revId": "8924524bd5de248d27d84103550ad98bf93e20ef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cec01e64_9124ef23",
+        "filename": "java/com/google/gerrit/server/change/RevisionJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2026-09-24T19:19:20Z",
+      "side": 1,
+      "message": "Opening the repository here when ALL_FILES or CURRENT_FILES is requested is unnecessary and introduces a performance regression. RevisionJson does not pass its Repository or RevWalk instance down to fileInfoJson.getFileInfoMap(...). Instead, FileInfoJsonImpl calls DiffOperationsImpl, which opens its own repository and RevWalk internally. You should remove these options from openRepoIfNecessary to avoid unnecessarily opening and closing git repositories for every revision formatted.",
+      "range": {
+        "startLine": 480,
+        "startChar": 0,
+        "endLine": 480,
+        "endChar": 0
+      },
+      "revId": "8924524bd5de248d27d84103550ad98bf93e20ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5401dd5c_31e07e28",
+        "filename": "java/com/google/gerrit/server/patch/DiffOperationsImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2026-09-24T19:19:20Z",
+      "side": 1,
+      "message": "This can be simplified to String key \u003d path; since path is already defined as mf.getDefaultPath() at the beginning of the loop (which returns the new path if present, or the old path if deleted).",
+      "range": {
+        "startLine": 350,
+        "startChar": 0,
+        "endLine": 350,
+        "endChar": 0
+      },
+      "revId": "8924524bd5de248d27d84103550ad98bf93e20ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

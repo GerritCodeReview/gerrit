@@ -142,13 +142,13 @@
     "org.apache.httpcomponents:httpcore": -1696303652,
     "org.apache.james:apache-mime4j-core": -753273784,
     "org.apache.james:apache-mime4j-dom": -1889888125,
-    "org.apache.lucene:lucene-analysis-common": 582251708,
-    "org.apache.lucene:lucene-backward-codecs": 1414616849,
-    "org.apache.lucene:lucene-core": 299918137,
+    "org.apache.lucene:lucene-analysis-common": 1272813182,
+    "org.apache.lucene:lucene-backward-codecs": 2105178323,
+    "org.apache.lucene:lucene-core": 990479611,
     "org.apache.lucene:lucene-facet": -125344464,
-    "org.apache.lucene:lucene-misc": -1756758452,
+    "org.apache.lucene:lucene-misc": -1066196978,
     "org.apache.lucene:lucene-queries": 1341801569,
-    "org.apache.lucene:lucene-queryparser": 2090205297,
+    "org.apache.lucene:lucene-queryparser": -1514200525,
     "org.apache.lucene:lucene-sandbox": 1803509280,
     "org.apache.mina:mina-core": -1403307213,
     "org.apache.sshd:sshd-common": 1844247612,
@@ -384,16 +384,16 @@
     "org.apache.james:apache-mime4j-core:jar:sources": 1540423501,
     "org.apache.james:apache-mime4j-dom": -704995319,
     "org.apache.james:apache-mime4j-dom:jar:sources": -1311932247,
-    "org.apache.lucene:lucene-analysis-common": 966070693,
-    "org.apache.lucene:lucene-analysis-common:jar:sources": -1260454377,
-    "org.apache.lucene:lucene-backward-codecs": -1819747764,
-    "org.apache.lucene:lucene-backward-codecs:jar:sources": 2116900461,
-    "org.apache.lucene:lucene-core": -633809608,
-    "org.apache.lucene:lucene-core:jar:sources": 856971755,
-    "org.apache.lucene:lucene-misc": 882591687,
-    "org.apache.lucene:lucene-misc:jar:sources": 1204085693,
-    "org.apache.lucene:lucene-queryparser": 2111539382,
-    "org.apache.lucene:lucene-queryparser:jar:sources": 1992621418,
+    "org.apache.lucene:lucene-analysis-common": 117494556,
+    "org.apache.lucene:lucene-analysis-common:jar:sources": 184261997,
+    "org.apache.lucene:lucene-backward-codecs": 497823300,
+    "org.apache.lucene:lucene-backward-codecs:jar:sources": -1962146763,
+    "org.apache.lucene:lucene-core": -1567138351,
+    "org.apache.lucene:lucene-core:jar:sources": -1408614504,
+    "org.apache.lucene:lucene-misc": -673826350,
+    "org.apache.lucene:lucene-misc:jar:sources": 619654209,
+    "org.apache.lucene:lucene-queryparser": -1551455963,
+    "org.apache.lucene:lucene-queryparser:jar:sources": -1536444117,
     "org.apache.mina:mina-core": -584591076,
     "org.apache.mina:mina-core:jar:sources": 71382131,
     "org.apache.sshd:sshd-mina": -36716477,
@@ -1134,38 +1134,38 @@
     },
     "org.apache.lucene:lucene-analysis-common": {
       "shasums": {
-        "jar": "8e768c9b2a3870f1fc2655181516699e719a56b9aaf8664226a11ae7d90cb4e9",
-        "sources": "c14727f25cc1a6c73d90720531309672300ca473f2d1f52e74281bfef4299c63"
+        "jar": "f710afd91a820987a48f3a215e076715b9237b324cf5458281109ef0d2a17b73",
+        "sources": "e3fef65eabb8c8c23d82ce8c8a73b1cff34e595fbfa97cb5fbfc14997a1ff9d0"
       },
-      "version": "10.4.0"
+      "version": "10.5.1"
     },
     "org.apache.lucene:lucene-backward-codecs": {
       "shasums": {
-        "jar": "4e77973982b8e24e4357b18e75f54cffe74b1ab7a354b1b81e1d23d6265de493",
-        "sources": "909b951a578828c40120eb7c12a12a02677b9974b88d47993517eb82089ec059"
+        "jar": "0cfe4d9d2af63cf90ddbc974d49337c6747158413587ee35bf4b8d4e288b6389",
+        "sources": "e0efd21f29345408b557f35fc904cef4a1d7fba44c48c45f2db78307cc55fc10"
       },
-      "version": "10.4.0"
+      "version": "10.5.1"
     },
     "org.apache.lucene:lucene-core": {
       "shasums": {
-        "jar": "8f894d211a8123938ccb9ff6827d136747e0eb6b1782ada6ac9086aa911b52e2",
-        "sources": "2411eab5a52ef845327fae889a7ed14f2d75d0c765bedb30156fe95195e05e16"
+        "jar": "2b4912cc792f462e8e7b350f7c958f538ee7ec42da4cf4b65902fb9d546bba53",
+        "sources": "04941f26f1bb4b6ca95a4738bceeecb30919611f7cb5d844eddb19da94495373"
       },
-      "version": "10.4.0"
+      "version": "10.5.1"
     },
     "org.apache.lucene:lucene-misc": {
       "shasums": {
-        "jar": "399f56e1bc2e08d927505139f9f459f1e33059e177eace080ea2bbcd88505fd5",
-        "sources": "a7a398e89dd21881c3bfa44c5a517ee93678b6260dc40185dd7e65afddaa5ade"
+        "jar": "75065a4afbd5bb3bc9230d9ee772368c769cdf4e1a4c33071bd9b0832c00c0ae",
+        "sources": "b1495220daa818f302d43e8d7548b38a63e214a8be635e1586f0b2bf6ee30373"
       },
-      "version": "10.4.0"
+      "version": "10.5.1"
     },
     "org.apache.lucene:lucene-queryparser": {
       "shasums": {
-        "jar": "4635f2a14e9c01574c4cf9ad60e018ab2b041b7889369107a991ef950648c847",
-        "sources": "70615c5d3f3e1a610716176c599fc79e0687a7879ede2c117ce22efde92ec9b0"
+        "jar": "75eddb74abccaf1f3ea5cb1ca2ceff29afb7f564892b50914404720f03d458c4",
+        "sources": "464ba30008b9ad56c4acda3b17823bdd8a8a2b94e99a0a6d77aebef570e4023e"
       },
-      "version": "10.4.0"
+      "version": "10.5.1"
     },
     "org.apache.mina:mina-core": {
       "shasums": {
@@ -3122,6 +3122,7 @@
       "org.apache.lucene.codecs.lucene99",
       "org.apache.lucene.codecs.perfield",
       "org.apache.lucene.document",
+      "org.apache.lucene.document.column",
       "org.apache.lucene.geo",
       "org.apache.lucene.index",
       "org.apache.lucene.internal.hppc",
@@ -5235,6 +5236,7 @@
         "org.apache.lucene.codecs.lucene104.Lucene104PostingsFormat"
       ],
       "org.apache.lucene.index.SortFieldProvider": [
+        "org.apache.lucene.search.BinarySortField$Provider",
         "org.apache.lucene.search.SortField$Provider",
         "org.apache.lucene.search.SortedNumericSortField$Provider",
         "org.apache.lucene.search.SortedSetSortField$Provider"

@@ -16,6 +16,7 @@ package com.google.gerrit.server.query.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.extensions.proto.ProtoTruth.assertThat;
+import static com.google.gerrit.extensions.client.SubmitType.CHERRY_PICK;
 import static com.google.gerrit.extensions.client.SubmitType.FAST_FORWARD_ONLY;
 import static com.google.gerrit.extensions.client.SubmitType.MERGE_IF_NECESSARY;
 import static com.google.gerrit.proto.testing.SerializedClassSubject.assertThatSerializedClass;
@@ -40,6 +41,20 @@ public class ConflictKeyTest {
         .isEqualTo(ConflictKey.createWithoutNormalization(id1, id2, FAST_FORWARD_ONLY, true));
     assertThat(id2First)
         .isEqualTo(ConflictKey.createWithoutNormalization(id2, id1, FAST_FORWARD_ONLY, true));
+    assertThat(id1First).isNotEqualTo(id2First);
+  }
+
+  @Test
+  public void cherryPickPreservesInputOrder() {
+    ObjectId id1 = ObjectId.fromString("badc0feebadc0feebadc0feebadc0feebadc0fee");
+    ObjectId id2 = ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef");
+    ConflictKey id1First = ConflictKey.create(id1, id2, CHERRY_PICK, true);
+    ConflictKey id2First = ConflictKey.create(id2, id1, CHERRY_PICK, true);
+
+    assertThat(id1First)
+        .isEqualTo(ConflictKey.createWithoutNormalization(id1, id2, CHERRY_PICK, true));
+    assertThat(id2First)
+        .isEqualTo(ConflictKey.createWithoutNormalization(id2, id1, CHERRY_PICK, true));
     assertThat(id1First).isNotEqualTo(id2First);
   }
 

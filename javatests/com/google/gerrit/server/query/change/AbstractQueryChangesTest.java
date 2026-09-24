@@ -3735,21 +3735,15 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     // different content ("v1" vs. "v2"), which is a conflict.
     assertQuery("conflicts:" + changesA.get(1).getId().get(), changesA.get(0));
 
-    // change2 is reported as conflicting with change1, too, but only because ConflictKey is
-    // symmetric and this is the cached result from above. A fresh check would cherry-pick change2's
-    // commit onto change1's commit, relative to change2's parent, which is change1's commit
-    // itself, so it would apply cleanly.
-    // TODO: This query should not report any change.
-    assertQuery("conflicts:" + changesA.get(0).getId().get(), changesA.get(1));
+    // When change1 is queried, the check cherry-picks change2's commit onto change1's commit,
+    // relative to change2's parent, which is change1's commit itself, so it applies cleanly and
+    // change2 is not reported. The cherry-pick check is not symmetric, so ConflictKey keeps the
+    // order of the commits and the result from above is not reused.
+    assertQuery("conflicts:" + changesA.get(0).getId().get());
 
-    // In repoB, change1 is queried first. The check then cherry-picks change2's commit onto
-    // change1's commit, which applies cleanly as explained above, and no conflict is found. The
-    // cherry-pick check is not symmetric, but ConflictKey treats it as such, so the cached result
-    // is then reused when querying change2 and the results depend on the query order.
-    // TODO: The results should not depend on the query order; querying change2 should report
-    // change1, as in repoA.
+    // In repoB, change1 is queried first. The results do not depend on the query order.
     assertQuery("conflicts:" + changesB.get(0).getId().get());
-    assertQuery("conflicts:" + changesB.get(1).getId().get());
+    assertQuery("conflicts:" + changesB.get(1).getId().get(), changesB.get(0));
   }
 
   @Test

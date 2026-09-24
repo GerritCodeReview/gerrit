@@ -40,6 +40,7 @@ import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
@@ -203,9 +204,12 @@ public class MergeabilityCacheImpl implements MergeabilityCache {
               return true; // Assume yes on new branch.
             }
             try (CodeReviewRevWalk rw = CodeReviewCommit.newRevWalk(repo)) {
-              Set<RevCommit> accepted = SubmitDryRun.getAlreadyAccepted(repo, rw);
-              accepted.add(rw.parseCommit(key.into));
-              accepted.addAll(Arrays.asList(rw.parseCommit(key.commit).getParents()));
+              // Mergeability only depends on the commit itself, not on whether its dependencies
+              // are open or already merged, so treat its parents as accepted. Since all ancestors
+              // of accepted commits are excluded from the missing dependency check, no further
+              // commits, e.g. branch tips, need to be accepted.
+              Set<RevCommit> accepted =
+                  new HashSet<>(Arrays.asList(rw.parseCommit(key.commit).getParents()));
               return submitDryRun.run(
                   null, key.submitType, repo, rw, dest, key.into, key.commit, accepted);
             }

@@ -3805,6 +3805,33 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  @GerritConfig(
+      name = "change.mergeabilityComputationBehavior",
+      value = "API_REF_UPDATED_AND_CHANGE_REINDEX")
+  public void mergeableForChangesStackedOnOpenChanges() throws Exception {
+    assume().that(getSchema().hasField(ChangeField.MERGEABLE_SPEC)).isTrue();
+    Project.NameKey project = Project.nameKey("repo");
+    repo = createAndOpenProject(project);
+    RevCommit base = repo.branch("master").commit().add("file4", "contents4").create();
+    repo.branch("master").commit().add("file4", "contents4-master").create();
+
+    // change1 is based on an outdated branch tip, but does not conflict with the current one.
+    // change2 is stacked on change1 and conflicts with the current branch tip. change3 is stacked
+    // on change2 and only touches its own file, but it cannot be merged without change2.
+    RevCommit commit1 = repo.parseBody(repo.commit().parent(base).add("file1", "1").create());
+    Change change1 = insert(project, newChangeForCommit(repo, commit1));
+    RevCommit commit2 =
+        repo.parseBody(repo.commit().parent(commit1).add("file4", "contents4-2").create());
+    Change change2 = insert(project, newChangeForCommit(repo, commit2));
+    RevCommit commit3 = repo.parseBody(repo.commit().parent(commit2).add("file3", "3").create());
+    Change change3 = insert(project, newChangeForCommit(repo, commit3));
+
+    // Open dependencies do not make a change unmergeable, but the content they bring in counts.
+    assertQuery("is:mergeable", change1);
+    assertQuery("-is:mergeable", change3, change2);
+  }
+
+  @Test
   public void cherrypick() throws Exception {
     assume().that(getSchema().hasField(ChangeField.CHERRY_PICK_SPEC)).isTrue();
     Project.NameKey project = Project.nameKey("repo");

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3429ffc_64e81a9e",
+        "filename": "java/com/google/gerrit/extensions/conditions/BooleanCondition.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-09-24T18:06:46Z",
+      "side": 1,
+      "message": "Very nice!",
+      "range": {
+        "startLine": 35,
+        "startChar": 33,
+        "endLine": 35,
+        "endChar": 37
+      },
+      "revId": "41a0171e53c567a52e1ead1eed8ee24a2c36a8a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

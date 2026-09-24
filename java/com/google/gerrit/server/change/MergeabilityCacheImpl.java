@@ -39,14 +39,11 @@ import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
-import java.util.Arrays;
 import java.util.Objects;
-import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevCommit;
 
 @Singleton
 public class MergeabilityCacheImpl implements MergeabilityCache {
@@ -203,11 +200,15 @@ public class MergeabilityCacheImpl implements MergeabilityCache {
               return true; // Assume yes on new branch.
             }
             try (CodeReviewRevWalk rw = CodeReviewCommit.newRevWalk(repo)) {
-              Set<RevCommit> accepted = SubmitDryRun.getAlreadyAccepted(repo, rw);
-              accepted.add(rw.parseCommit(key.into));
-              accepted.addAll(Arrays.asList(rw.parseCommit(key.commit).getParents()));
               return submitDryRun.run(
-                  null, key.submitType, repo, rw, dest, key.into, key.commit, accepted);
+                  null,
+                  key.submitType,
+                  repo,
+                  rw,
+                  dest,
+                  key.into,
+                  key.commit,
+                  SubmitDryRun.getParents(rw, key.commit));
             }
           });
     } catch (ExecutionException | UncheckedExecutionException e) {

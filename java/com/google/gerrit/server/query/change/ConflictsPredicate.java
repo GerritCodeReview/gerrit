@@ -34,10 +34,9 @@ import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder.Arguments;
+import com.google.gerrit.server.submit.SubmitDryRun;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.Callable;
@@ -244,7 +243,7 @@ public class ConflictsPredicate {
 
     private Set<RevCommit> getParents(RevWalk rw, ObjectId commitId) {
       try {
-        return new HashSet<>(Arrays.asList(rw.parseCommit(commitId).getParents()));
+        return SubmitDryRun.getParents(rw, commitId);
       } catch (IOException e) {
         throw new StorageException(
             String.format("Failed to determine parents of commit %s.", commitId.name()), e);

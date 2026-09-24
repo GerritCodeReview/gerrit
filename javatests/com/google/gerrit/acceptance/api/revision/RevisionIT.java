@@ -1906,6 +1906,64 @@ public class RevisionIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void mergeableForChangeStackedOnOpenChange() throws Exception {
+    PushOneCommit.Result r1 = createChange("Change 1", "a.txt", "a");
+    PushOneCommit.Result r2 = createChange("Change 2", "b.txt", "b");
+
+    // An open dependency does not make a change unmergeable.
+    assertThat(isMergeable(r1)).isTrue();
+    assertThat(isMergeable(r2)).isTrue();
+
+    // Neither does a dependency that is based on an outdated branch tip, as long as its content
+    // can be merged into the current one.
+    addCommitToMasterBehindGerritsBack("c.txt", "c");
+    assertThat(isMergeable(r1)).isTrue();
+    assertThat(isMergeable(r2)).isTrue();
+  }
+
+  @Test
+  public void notMergeableForChangeStackedOnOpenChangeThatConflicts() throws Exception {
+    PushOneCommit.Result r1 = createChange("Change 1", "a.txt", "a");
+    PushOneCommit.Result r2 = createChange("Change 2", "b.txt", "b");
+
+    // r2 does not touch a.txt itself, but the content that r1 brings in counts.
+    addCommitToMasterBehindGerritsBack("a.txt", "conflicting");
+    assertThat(isMergeable(r1)).isFalse();
+    assertThat(isMergeable(r2)).isFalse();
+  }
+
+  @Test
+  public void mergeableForChangeStackedOnOpenChangeWithFastForwardOnly() throws Exception {
+    updateSubmitType(project, SubmitType.FAST_FORWARD_ONLY);
+    PushOneCommit.Result r1 = createChange("Change 1", "a.txt", "a");
+    PushOneCommit.Result r2 = createChange("Change 2", "b.txt", "b");
+
+    assertThat(isMergeable(r1)).isTrue();
+    assertThat(isMergeable(r2)).isTrue();
+
+    // Once the branch tip moves on, neither change can be fast-forwarded.
+    addCommitToMasterBehindGerritsBack("c.txt", "c");
+    assertThat(isMergeable(r1)).isFalse();
+    assertThat(isMergeable(r2)).isFalse();
+  }
+
+  private boolean isMergeable(PushOneCommit.Result r) throws Exception {
+    return gApi.changes().id(r.getChangeId()).current().mergeable().mergeable;
+  }
+
+  private void addCommitToMasterBehindGerritsBack(String fileName, String content)
+      throws Exception {
+    try (Repository repo = repoManager.openRepository(project);
+        TestRepository<Repository> tr = new TestRepository<>(repo)) {
+      tr.branch("refs/heads/master")
+          .commit()
+          .message("Side update")
+          .add(fileName, content)
+          .create();
+    }
+  }
+
+  @Test
   public void files() throws Exception {
     PushOneCommit.Result r = createChange();
     Map<String, FileInfo> files =

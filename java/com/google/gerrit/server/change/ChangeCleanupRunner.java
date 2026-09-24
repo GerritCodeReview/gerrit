@@ -28,6 +28,7 @@ import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
+import com.google.inject.util.Providers;
 
 /** Runnable to enable scheduling change cleanups to run periodically */
 public class ChangeCleanupRunner implements Runnable {
@@ -38,6 +39,13 @@ public class ChangeCleanupRunner implements Runnable {
     protected void configure() {
       listener().to(Lifecycle.class);
       factory(Factory.class);
+    }
+  }
+
+  public static class DisabledChangeCleanupRunnerModule extends LifecycleModule {
+    @Override
+    protected void configure() {
+      bind(Factory.class).toProvider(Providers.of(null));
     }
   }
 

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "02a6dfbf_22a197c4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-09-24T00:08:35Z",
+      "side": 1,
+      "message": "I tested that this works with `send-proxy-v2` config in haproxy, like this with haproxy in docker:\n```\nfrontend gerrit_ssh\n    bind *:29418\n    mode tcp\n    default_backend gerrit\n\nbackend gerrit\n    mode tcp\n    server gerrit host.docker.internal:29418 send-proxy-v2\n```\n\n+hari for what I think is a no-op library compliance check (Google doesn\u0027t use sshd anyway)",
+      "revId": "ee73f8eb56a870780dd1d9e2725f33e38728290e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

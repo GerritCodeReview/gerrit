@@ -34,10 +34,9 @@ import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder.Arguments;
+import com.google.gerrit.server.submit.SubmitDryRun;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.Callable;
@@ -238,11 +237,9 @@ public class ConflictsPredicate {
 
     private Set<RevCommit> getAlreadyAccepted(RevWalk rw, ObjectId other) {
       // Only check whether the other change itself conflicts with the tested change. Whether the
-      // other change's own dependencies are open or already merged is irrelevant for this, so
-      // treat its parents as accepted. Since all ancestors of accepted commits are excluded from
-      // the missing dependency check, no further commits, e.g. branch tips, need to be accepted.
+      // other change's own dependencies are open or already merged is irrelevant for this.
       try {
-        return new HashSet<>(Arrays.asList(rw.parseCommit(other).getParents()));
+        return SubmitDryRun.getParentsAsAlreadyAccepted(rw, other);
       } catch (IOException e) {
         throw new StorageException("Failed to determine already accepted commits.", e);
       }

@@ -34,9 +34,9 @@ import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder.Arguments;
-import com.google.gerrit.server.submit.SubmitDryRun;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -165,7 +165,6 @@ public class ConflictsPredicate {
 
     private ObjectId testAgainst;
     private ProjectState projectState;
-    private Set<ObjectId> alreadyAccepted;
 
     ChangeDataCache(ChangeData cd, ProjectCache projectCache) {
       this.cd = cd;
@@ -184,13 +183,6 @@ public class ConflictsPredicate {
         projectState = projectCache.get(cd.project()).orElseThrow(noSuchProject(cd.project()));
       }
       return projectState;
-    }
-
-    Set<ObjectId> getAlreadyAccepted(Repository repo) throws IOException {
-      if (alreadyAccepted == null) {
-        alreadyAccepted = SubmitDryRun.getAlreadyAccepted(repo);
-      }
-      return alreadyAccepted;
     }
   }
 
@@ -231,7 +223,7 @@ public class ConflictsPredicate {
             otherChange.getDest(),
             changeDataCache.getTestAgainst(),
             other,
-            getAlreadyAccepted(repo, rw));
+            getAlreadyAccepted(rw, other));
       } catch (NoSuchProjectException | IOException e) {
         warnWithOccasionalStackTrace(
             e,
@@ -244,16 +236,14 @@ public class ConflictsPredicate {
       }
     }
 
-    private Set<RevCommit> getAlreadyAccepted(Repository repo, RevWalk rw) {
+    private Set<RevCommit> getAlreadyAccepted(RevWalk rw, ObjectId other) {
+      // Only check whether the other change itself conflicts with the tested change. Whether the
+      // other change's own dependencies are open or already merged is irrelevant for this, so
+      // treat its parents as accepted. Since all ancestors of accepted commits are excluded from
+      // the missing dependency check, no further commits, e.g. branch tips, need to be accepted.
       try {
-        Set<RevCommit> accepted = new HashSet<>();
-        SubmitDryRun.addCommits(changeDataCache.getAlreadyAccepted(repo), rw, accepted);
-        ObjectId tip = changeDataCache.getTestAgainst();
-        if (tip != null) {
-          accepted.add(rw.parseCommit(tip));
-        }
-        return accepted;
-      } catch (StorageException | IOException e) {
+        return new HashSet<>(Arrays.asList(rw.parseCommit(other).getParents()));
+      } catch (IOException e) {
         throw new StorageException("Failed to determine already accepted commits.", e);
       }
     }

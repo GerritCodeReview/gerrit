@@ -33,7 +33,7 @@ public class ConflictsCacheImpl implements ConflictsCache {
       @Override
       protected void configure() {
         persist(NAME, ConflictKey.class, Boolean.class)
-            .version(1)
+            .version(2)
             .keySerializer(ConflictKey.Serializer.INSTANCE)
             .valueSerializer(BooleanCacheSerializer.INSTANCE)
             .maximumWeight(37400);

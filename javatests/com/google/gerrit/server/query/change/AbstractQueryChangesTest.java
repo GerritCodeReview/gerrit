@@ -3483,56 +3483,61 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
-  public void conflictsFalsePositiveForChangeStackedOnOpenChange() throws Exception {
+  public void conflictsForChangeStackedOnOpenChange() throws Exception {
     ImmutableList<Change> changes =
         createSameFileModeChangesWithOneStackedOnOpenChange(Project.nameKey("repo"));
     Change change2 = changes.get(0);
     Change change3 = changes.get(1);
     Change change4 = changes.get(2);
 
-    // change3 and change4 are correctly not reported as conflicting with each other.
-    //
-    // change2 however is falsely reported as conflicting with both of them. change2's parent
-    // (change1's commit) is not "already accepted", so MergeSorter#sort short-circuits with
-    // MISSING_DEPENDENCY before any merge is attempted (see MergeUtil#hasMissingDependencies), and
-    // ConflictsPredicate treats that failure as a conflict.
-    // TODO: change2 cannot genuinely conflict with change3 or change4; these queries should not
-    // report any change.
-    assertQuery("conflicts:" + change3.getId().get(), change2);
-    assertQuery("conflicts:" + change4.getId().get(), change2);
-
-    // When evaluated from change2's side, change3 and change4 are the commits being merged and
-    // they have no missing dependencies, so a fresh check finds that they merge cleanly into
-    // change2 (see conflictsResultDependsOnQueryOrder). However, ConflictKey is symmetric (it
-    // orders the two commits), so the results cached by the queries above are reused here and
-    // change3 and change4 are reported.
-    // TODO: This query should not report any change.
-    assertQuery("conflicts:" + change2.getId().get(), change4, change3);
+    // change2 is stacked on the open change1. change1's commit is treated as already accepted
+    // when checking change2, so the check does not fail with a missing dependency, and change2 is
+    // correctly not reported as conflicting with change3 or change4.
+    assertQuery("conflicts:" + change3.getId().get());
+    assertQuery("conflicts:" + change4.getId().get());
+    assertQuery("conflicts:" + change2.getId().get());
   }
 
   @Test
-  public void conflictsResultDependsOnQueryOrder() throws Exception {
-    // Create the same setup as in conflictsFalsePositiveForChangeStackedOnOpenChange twice, in
-    // two projects, and run the "conflicts:" queries in opposite orders.
+  public void conflictsForChangeStackedOnOpenChangeWithRealConflict() throws Exception {
+    Project.NameKey project = Project.nameKey("repo");
+    repo = createAndOpenProject(project);
+    RevCommit tip = repo.branch("master").commit().add("file4", "contents4").create();
+
+    // change1 is open and only touches file1. change2 is stacked on change1, change3 is based
+    // directly on the branch tip, and both modify file4 differently.
+    RevCommit commit1 =
+        repo.parseBody(repo.commit().parent(tip).add("file1", "contents1").create());
+    insert(project, newChangeForCommit(repo, commit1));
+    RevCommit commit2 =
+        repo.parseBody(repo.commit().parent(commit1).add("file4", "contents4-2").create());
+    Change change2 = insert(project, newChangeForCommit(repo, commit2));
+    RevCommit commit3 =
+        repo.parseBody(repo.commit().parent(tip).add("file4", "contents4-3").create());
+    Change change3 = insert(project, newChangeForCommit(repo, commit3));
+
+    // Treating change2's open dependency as accepted does not hide the genuine conflict.
+    assertQuery("conflicts:" + change3.getId().get(), change2);
+    assertQuery("conflicts:" + change2.getId().get(), change3);
+  }
+
+  @Test
+  public void conflictsResultDoesNotDependOnQueryOrder() throws Exception {
+    // Create the same setup as in conflictsForChangeStackedOnOpenChange twice, in two projects,
+    // and run the "conflicts:" queries in opposite orders. Since ConflictKey is symmetric, the
+    // results cached by the first queries are reused by the later ones, so both orders must give
+    // the same results.
     ImmutableList<Change> changesA =
         createSameFileModeChangesWithOneStackedOnOpenChange(Project.nameKey("repoA"));
     ImmutableList<Change> changesB =
         createSameFileModeChangesWithOneStackedOnOpenChange(Project.nameKey("repoB"));
 
-    // In repoA, change3 and change4 are queried first. change2 is reported as conflicting with
-    // both of them because of its missing dependency (see
-    // conflictsFalsePositiveForChangeStackedOnOpenChange), and ConflictKey being symmetric, these
-    // cached results are reused when querying change2.
-    assertQuery("conflicts:" + changesA.get(1).getId().get(), changesA.get(0));
-    assertQuery("conflicts:" + changesA.get(2).getId().get(), changesA.get(0));
-    assertQuery("conflicts:" + changesA.get(0).getId().get(), changesA.get(2), changesA.get(1));
+    // In repoA, change3 and change4 are queried first.
+    assertQuery("conflicts:" + changesA.get(1).getId().get());
+    assertQuery("conflicts:" + changesA.get(2).getId().get());
+    assertQuery("conflicts:" + changesA.get(0).getId().get());
 
-    // In repoB, change2 is queried first. From change2's side, change3 and change4 are the
-    // commits being merged; they have no missing dependencies and merge cleanly into change2, so
-    // no conflict is found. These cached results are then reused when querying change3 and
-    // change4, so the false positive seen in repoA does not show up.
-    // TODO: The results should not depend on the query order; repoA and repoB should give the
-    // same (empty) results.
+    // In repoB, change2 is queried first.
     assertQuery("conflicts:" + changesB.get(0).getId().get());
     assertQuery("conflicts:" + changesB.get(1).getId().get());
     assertQuery("conflicts:" + changesB.get(2).getId().get());
@@ -3560,8 +3565,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
             .add("file4", "contents4")
             .create();
 
-    // change1's commit is not reachable from any branch or tag, i.e. it is not "already
-    // accepted".
+    // change1 is open, i.e. its commit is not reachable from any branch or tag.
     RevCommit commit1 =
         repo.parseBody(repo.commit().parent(tip).add("file1", "contents1").create());
     insert(project, newChangeForCommit(repo, commit1));
@@ -3594,7 +3598,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
-  public void conflictsFalsePositiveForDescendantOfQueriedChange() throws Exception {
+  public void conflictsForDescendantOfQueriedChange() throws Exception {
     Project.NameKey project = Project.nameKey("repo");
     repo = createAndOpenProject(project);
     RevCommit tip = repo.branch("master").commit().add("base", "contents").create();
@@ -3603,9 +3607,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     RevCommit commit1 = repo.parseBody(repo.commit().parent(tip).add("fileA", "v1").create());
     Change change1 = insert(project, newChangeForCommit(repo, commit1));
 
-    // change2 is stacked directly on top of change1. Since change1 is the change being queried,
-    // its commit is added to the "already accepted" set for this query, so change2 has no missing
-    // dependencies and fast-forwards on top of change1. It is correctly not reported.
+    // change2 is stacked directly on top of change1, so it fast-forwards on top of change1 and is
+    // correctly not reported.
     RevCommit commit2 = repo.parseBody(repo.commit().parent(commit1).add("fileA", "v2").create());
     insert(project, newChangeForCommit(repo, commit2));
 
@@ -3613,16 +3616,12 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     // its history, so it can never conflict with change1: it cannot be submitted without change1
     // being submitted first.
     RevCommit commit3 = repo.parseBody(repo.commit().parent(commit2).add("fileA", "v3").create());
-    Change change3 = insert(project, newChangeForCommit(repo, commit3));
+    insert(project, newChangeForCommit(repo, commit3));
 
-    // Nevertheless change3 is falsely reported as conflicting with change1. Its parent (change2's
-    // commit) is neither reachable from an accepted ref nor change1's commit, so MergeSorter#sort
-    // bails out with MISSING_DEPENDENCY before a fast-forward or merge is ever attempted. Within a
-    // stack of open changes only the change directly on top of the queried change gets a real
-    // conflict check; everything further up the stack is reported as conflicting.
-    // TODO: change3 cannot genuinely conflict with change1; this query should not report any
-    // change.
-    assertQuery("conflicts:" + change1.getId().get(), change3);
+    // change3's parent (change2's commit) is treated as already accepted when checking change3, so
+    // the check does not fail with a missing dependency, and change3 is correctly not reported
+    // either.
+    assertQuery("conflicts:" + change1.getId().get());
   }
 
   @Test
@@ -3649,9 +3648,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
     // change1 is an ancestor of change4. change4 cannot be submitted without change1 being
     // submitted first, and a change can never conflict with its own history, so change1 is
-    // correctly not reported. Technically, change1's commit is merged into change4's commit,
-    // which is added to the "already accepted" set for this query, so the check succeeds as a
-    // fast-forward.
+    // correctly not reported. Technically, change1's commit is merged into change4's commit, so
+    // the check succeeds as a fast-forward.
     assertQuery("conflicts:" + change4.getId().get());
 
     // Once change1 gets a new patch set that is no longer in change4's history and has

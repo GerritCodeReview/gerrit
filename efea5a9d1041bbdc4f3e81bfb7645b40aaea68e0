@@ -18,6 +18,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "368c373a_ba8c1ef8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-09-24T17:53:59Z",
+      "side": 1,
+      "message": "If you want to abandon this, I have a working version now in 634309: Support PROXY protocol for SSH requests | https://gerrit-review.googlesource.com/c/gerrit/+/634309",
+      "revId": "efea5a9d1041bbdc4f3e81bfb7645b40aaea68e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5047faa3_2a7f34b4",

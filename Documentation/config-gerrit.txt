@@ -3609,7 +3609,8 @@ enabled to honor `X-Forwarded-For`, `X-Forwarded-Host` and
 `X-Forwarded-Server`.  These headers are typically set by Apache's
 link:https://httpd.apache.org/docs/2.4/mod/mod_proxy.html#x-headers[mod_proxy,role=external,window=_blank].
 +
-[NOTE]
+[[httpd.listenUrl.proxyHttpSecurity]]
+[WARNING]
 --
 For security reasons, make sure to only allow connections from a
 trusted reverse proxy in your network, as clients could otherwise
@@ -3681,6 +3682,25 @@ configuration.
 
 By default, `\http://*:8080`.
 --
+
+[[httpd.enableProxyProtocol]]httpd.enableProxyProtocol::
++
+If `true`, enables parsing PROXY protocol headers on incoming HTTP connections
+configured with `proxy-http://` or `proxy-https://`. This allows Gerrit to
+access the original client address and port instead of the reverse proxy
+address. A PROXY protocol header is optional; connections without one are
+handled normally.
++
+[WARNING]
+This should only be enabled when *all* HTTP traffic on the listener comes
+from trusted proxies. A client that can connect directly to the HTTP
+listener can send a forged PROXY protocol header and spoof its source
+address.
+
+See also <<httpd.listenUrl.proxyHttpSecurity, the proxy-http security warning>>
+for related reverse-proxy security considerations.
++
+By default, `false`.
 
 [[httpd.reuseAddress]]httpd.reuseAddress::
 +

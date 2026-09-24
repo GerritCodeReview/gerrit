@@ -337,10 +337,11 @@ public class JettyServer {
     final int selectors = cfg.getInt("httpd", "selectorThreads", 2);
     final AuthType authType = cfg.getEnum("auth", null, "type", AuthType.OPENID);
 
-    reverseProxy = isReverseProxied(listenUrls);
+    boolean allReverseProxy = true;
     final Connector[] connectors = new Connector[listenUrls.length];
     for (int idx = 0; idx < listenUrls.length; idx++) {
       final URI u = listenUrls[idx];
+      final String scheme = u.getScheme();
       final int defaultPort;
       final ServerConnector c;
       HttpConfiguration config = defaultConfig(requestHeaderSize);
@@ -363,10 +364,10 @@ public class JettyServer {
                   UriCompliance.Violation.AMBIGUOUS_PATH_SEPARATOR,
                   UriCompliance.Violation.AMBIGUOUS_PATH_ENCODING)));
 
-      if (AuthType.CLIENT_SSL_CERT_LDAP.equals(authType) && !"https".equals(u.getScheme())) {
+      if (AuthType.CLIENT_SSL_CERT_LDAP.equals(authType) && !"https".equals(scheme)) {
         throw new IllegalArgumentException(
             "Protocol '"
-                + u.getScheme()
+                + scheme
                 + "' "
                 + " not supported in httpd.listenurl '"
                 + u
@@ -375,11 +376,13 @@ public class JettyServer {
                 + "'; only 'https' is supported");
       }
 
-      if ("http".equals(u.getScheme())) {
+      if ("http".equals(scheme)) {
+        allReverseProxy = false;
         defaultPort = 80;
         c = newServerConnector(server, acceptors, selectors, config);
 
-      } else if ("https".equals(u.getScheme())) {
+      } else if ("https".equals(scheme)) {
+        allReverseProxy = false;
         SslContextFactory.Server ssl = new SslContextFactory.Server();
         final Path keystore = getFile(cfg, "sslkeystore", "etc/keystore");
         String password = cfg.getString("httpd", null, "sslkeypassword");
@@ -415,41 +418,38 @@ public class JettyServer {
                 new SslConnectionFactory(ssl, "http/1.1"),
                 new HttpConnectionFactory(config));
 
-      } else if ("proxy-http".equals(u.getScheme())) {
+      } else if ("proxy-http".equals(scheme) || "proxy-https".equals(scheme)) {
         defaultPort = 8080;
         config.addCustomizer(FORWARDED_REQUEST_CUSTOMIZER);
-        c = newServerConnector(server, acceptors, selectors, config);
+        if ("proxy-https".equals(scheme)) {
+          // For a proxy that terminates TLS, mark every request as HTTPS
+          // unconditionally. ForwardedRequestCustomizer alone only sets
+          // isSecure() when the proxy sends X-Forwarded-Proto=https or
+          // X-Proxied-Https=on; this wrapper covers proxies that don't.
+          // Jetty 12's HttpConfiguration.Customizer returns a (possibly
+          // wrapped) Request, so wrap the URI's scheme and override isSecure().
+          config.addCustomizer(
+              (request, responseHeaders) ->
+                  new Request.Wrapper(request) {
+                    @Override
+                    public HttpURI getHttpURI() {
+                      return HttpURI.build(super.getHttpURI())
+                          .scheme(HttpScheme.HTTPS.asString())
+                          .asImmutable();
+                    }
 
-      } else if ("proxy-https".equals(u.getScheme())) {
-        defaultPort = 8080;
-        config.addCustomizer(FORWARDED_REQUEST_CUSTOMIZER);
-        // For a proxy that terminates TLS, mark every request as HTTPS
-        // unconditionally. ForwardedRequestCustomizer alone only sets
-        // isSecure() when the proxy sends X-Forwarded-Proto=https or
-        // X-Proxied-Https=on; this wrapper covers proxies that don't.
-        // Jetty 12's HttpConfiguration.Customizer returns a (possibly
-        // wrapped) Request, so wrap the URI's scheme and override isSecure().
-        config.addCustomizer(
-            (request, responseHeaders) ->
-                new Request.Wrapper(request) {
-                  @Override
-                  public HttpURI getHttpURI() {
-                    return HttpURI.build(super.getHttpURI())
-                        .scheme(HttpScheme.HTTPS.asString())
-                        .asImmutable();
-                  }
-
-                  @Override
-                  public boolean isSecure() {
-                    return true;
-                  }
-                });
+                    @Override
+                    public boolean isSecure() {
+                      return true;
+                    }
+                  });
+        }
         c = newServerConnector(server, acceptors, selectors, config);
 
       } else {
         throw new IllegalArgumentException(
             "Protocol '"
-                + u.getScheme()
+                + scheme
                 + "' "
                 + " not supported in httpd.listenurl '"
                 + u
@@ -482,6 +482,7 @@ public class JettyServer {
       c.setIdleTimeout(cfg.getTimeUnit("httpd", null, "idleTimeout", 30000L, MILLISECONDS));
       connectors[idx] = c;
     }
+    reverseProxy = allReverseProxy;
     return connectors;
   }
 
@@ -510,15 +511,6 @@ public class JettyServer {
     // Revisit if slow-client mitigation becomes desirable.
 
     return config;
-  }
-
-  static boolean isReverseProxied(URI[] listenUrls) {
-    for (URI u : listenUrls) {
-      if ("http".equals(u.getScheme()) || "https".equals(u.getScheme())) {
-        return false;
-      }
-    }
-    return true;
   }
 
   static URI[] listenURLs(Config cfg) {

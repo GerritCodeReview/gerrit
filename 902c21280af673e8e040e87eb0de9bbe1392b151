@@ -213,6 +213,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "12a3944d_42bf8602",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-24T10:55:25Z",
+      "side": 1,
+      "message": "Thomas and myself just had a talk about this topic and wondered why are we even discussing REST module(s) for replica. REST is not available on replicas, right?\nThis is, of course, another topic and we can continue on master with a cleaner separation.",
+      "parentUuid": "390dbcac_3ac6abf1",
+      "revId": "902c21280af673e8e040e87eb0de9bbe1392b151",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a21460b5_2c6204d4",

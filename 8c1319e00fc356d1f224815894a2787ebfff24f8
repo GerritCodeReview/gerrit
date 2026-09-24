@@ -26,6 +26,31 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "fa17379e_f43791c7",
+        "filename": "java/com/google/gerrit/server/change/RevisionJson.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 403,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2026-09-24T17:03:22Z",
+      "side": 1,
+      "message": "Done. Imported ChangeKind.",
+      "parentUuid": "d9d43fc4_251eb99b",
+      "range": {
+        "startLine": 403,
+        "startChar": 64,
+        "endLine": 403,
+        "endChar": 70
+      },
+      "isAi": true,
+      "revId": "8c1319e00fc356d1f224815894a2787ebfff24f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "986f91ee_9082446b",
         "filename": "java/com/google/gerrit/server/change/RevisionJson.java",
         "patchSetId": 3

@@ -14,10 +14,13 @@
 
 package com.google.gerrit.server.restapi.config;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.Response;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.change.ChangeCleanupRunner;
 import com.google.gerrit.server.config.ConfigResource;
@@ -42,13 +45,16 @@ public class CleanupChanges implements RestModifyView<ConfigResource, Input> {
   }
 
   @Inject
-  CleanupChanges(WorkQueue workQueue, ChangeCleanupRunner.Factory runnerFactory) {
+  CleanupChanges(WorkQueue workQueue, @Nullable ChangeCleanupRunner.Factory runnerFactory) {
     this.runnerFactory = runnerFactory;
     this.workQueue = workQueue;
   }
 
   @Override
-  public Response<?> apply(ConfigResource rsrc, Input input) throws BadRequestException {
+  public Response<?> apply(ConfigResource rsrc, Input input) throws RestApiException {
+    if (runnerFactory == null) {
+      throw new MethodNotAllowedException("Change cleanup not supported on Gerrit replicas.");
+    }
     if (taskAlreadyScheduled()) {
       return Response.ok("Change cleaner already in queue.");
     }

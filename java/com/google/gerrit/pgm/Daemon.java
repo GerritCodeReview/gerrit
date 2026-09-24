@@ -75,6 +75,7 @@ import com.google.gerrit.server.cache.h2.H2CacheModule;
 import com.google.gerrit.server.cache.mem.DefaultMemoryCacheModule;
 import com.google.gerrit.server.change.AttentionSetOwnerAdder.AttentionSetOwnerAdderModule;
 import com.google.gerrit.server.change.ChangeCleanupRunner.ChangeCleanupRunnerModule;
+import com.google.gerrit.server.change.ChangeCleanupRunner.DisabledChangeCleanupRunnerModule;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.AuthConfigModule;
 import com.google.gerrit.server.config.CanonicalWebUrlModule;
@@ -562,7 +563,10 @@ public class Daemon extends SiteProgram {
       modules.add(new AccountDeactivatorModule());
       modules.add(new AttentionSetOwnerAdderModule());
       modules.add(new ChangeCleanupRunnerModule());
+    } else {
+      modules.add(new DisabledChangeCleanupRunnerModule());
     }
+
     modules.add(new LocalMergeSuperSetComputationModule());
     modules.add(new DefaultLockManagerModule());
 

@@ -18,6 +18,7 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.PatchSetApproval.UUID;
+import com.google.gerrit.util.crypto.SecureRandomUtil;
 import com.google.inject.Singleton;
 import java.security.MessageDigest;
 import java.time.Instant;
@@ -40,7 +41,7 @@ public class PatchSetApprovalUuidGeneratorImpl implements PatchSetApprovalUuidGe
     md.update(Constants.encode("label " + label + "\n"));
     md.update(Constants.encode("value " + value + "\n"));
     md.update(Constants.encode("granted " + granted.toEpochMilli() + "\n"));
-    md.update(Constants.encode(String.valueOf(Math.random())));
+    md.update(SecureRandomUtil.newBytes(16));
     return PatchSetApproval.uuid(ObjectId.fromRaw(md.digest()).name());
   }
 }

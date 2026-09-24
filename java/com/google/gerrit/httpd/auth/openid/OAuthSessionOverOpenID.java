@@ -18,7 +18,6 @@ import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
 import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
-import com.google.common.io.BaseEncoding;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.auth.oauth.OAuthServiceProvider;
 import com.google.gerrit.extensions.auth.oauth.OAuthToken;
@@ -35,12 +34,11 @@ import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
+import com.google.gerrit.util.crypto.SecureRandomUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.servlet.SessionScoped;
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 import java.util.Optional;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
@@ -53,7 +51,6 @@ class OAuthSessionOverOpenID {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   static final String GERRIT_LOGIN = "/login";
-  private static final SecureRandom randomState = newRandomGenerator();
   private final String state;
   private final DynamicItem<WebSession> webSession;
   private final Provider<IdentifiedUser> identifiedUser;
@@ -75,7 +72,7 @@ class OAuthSessionOverOpenID {
       CanonicalWebUrl urlProvider,
       ExternalIdKeyFactory externalIdKeyFactory,
       AuthRequest.Factory authRequestFactory) {
-    this.state = generateRandomState();
+    this.state = SecureRandomUtil.newRandomString32();
     this.webSession = webSession;
     this.identifiedUser = identifiedUser;
     this.accountManager = accountManager;
@@ -222,20 +219,6 @@ class OAuthSessionOverOpenID {
       return false;
     }
     return true;
-  }
-
-  private static SecureRandom newRandomGenerator() {
-    try {
-      return SecureRandom.getInstance("SHA1PRNG");
-    } catch (NoSuchAlgorithmException e) {
-      throw new IllegalStateException("No SecureRandom available for GitHub authentication", e);
-    }
-  }
-
-  private static String generateRandomState() {
-    byte[] state = new byte[32];
-    randomState.nextBytes(state);
-    return BaseEncoding.base64Url().encode(state);
   }
 
   @Override

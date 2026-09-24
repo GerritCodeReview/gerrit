@@ -33,9 +33,11 @@ public abstract class ConflictKey {
       AnyObjectId commit, AnyObjectId otherCommit, SubmitType submitType, boolean contentMerge) {
     ObjectId commitCopy = commit.copy();
     ObjectId otherCommitCopy = otherCommit.copy();
-    if (submitType == SubmitType.FAST_FORWARD_ONLY) {
-      // The conflict check for FF-only is non-symmetrical, and we need to treat (X, Y) differently
-      // from (Y, X). Store the commits in the input order.
+    if (submitType == SubmitType.FAST_FORWARD_ONLY || submitType == SubmitType.CHERRY_PICK) {
+      // The conflict checks for FF-only and cherry-pick are non-symmetrical, and we need to treat
+      // (X, Y) differently from (Y, X). A cherry-pick applies the delta of the commit relative to
+      // its own parent, so e.g. cherry-picking an ancestor onto its descendant may fail while the
+      // reverse succeeds. Store the commits in the input order.
       return new AutoValue_ConflictKey(commitCopy, otherCommitCopy, submitType, contentMerge);
     }
     // Otherwise, the check is symmetrical; sort commit/otherCommit before storing, so the actual

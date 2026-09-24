@@ -231,6 +231,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "153ab136_10dae18f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-24T10:59:32Z",
+      "side": 1,
+      "message": "\u003e Thomas and myself just had a talk about this topic and wondered why are we even discussing REST module(s) for replica. REST is not available on replicas, right?\n\nExactly, that\u0027s the main point.\nThe fact that we are still registering the REST-API endpoints in replicas is wrong, but changing it requires some refactoring.\n\n\u003e This is, of course, another topic and we can continue on master with a cleaner separation.\n\nYep.",
+      "parentUuid": "12a3944d_42bf8602",
+      "revId": "902c21280af673e8e040e87eb0de9bbe1392b151",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a21460b5_2c6204d4",

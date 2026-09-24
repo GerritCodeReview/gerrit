@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9f7f4823_9231149f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-24T08:27:41Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "d199b415_20cbb4fc",
+      "revId": "aec9cb258c1a727b3c9274f8b94bc0e7c30cce25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0ae6c3a9_11f7bec6",
@@ -49,6 +67,24 @@
       "side": 1,
       "message": "yeah, this change seems much safer than trying to rewrite regexes on the fly",
       "parentUuid": "0ae6c3a9_11f7bec6",
+      "revId": "aec9cb258c1a727b3c9274f8b94bc0e7c30cce25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "be9889e5_e8722af2",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-24T08:27:41Z",
+      "side": 1,
+      "message": "Marked as resolved.",
+      "parentUuid": "f577b794_33ddad3f",
       "revId": "aec9cb258c1a727b3c9274f8b94bc0e7c30cce25",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

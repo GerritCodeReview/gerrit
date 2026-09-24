@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d837f817_c3eb0bcf",
+        "filename": "java/com/google/gerrit/server/change/RevisionJson.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-09-24T18:15:02Z",
+      "side": 1,
+      "message": "Please fix this WARNING reported by autoreview issue finding: It appears opening the repository here for `ALL_FILES` or `CURRENT_FILES` is unnecessary and could lead to performance overhead. `fileInfoJson.getFileInfoMap(...)` (called below when these options are enabled) does not accept or utilize this repository or RevWalk, and the underlying `DiffOperationsImpl` opens its own Repository/RevWalk instances internally.",
+      "range": {
+        "startLine": 480,
+        "startChar": 0,
+        "endLine": 480,
+        "endChar": 0
+      },
+      "revId": "8924524bd5de248d27d84103550ad98bf93e20ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

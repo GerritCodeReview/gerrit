@@ -215,13 +215,20 @@ public class ConflictsPredicate {
       ObjectId other = changeData.currentPatchSet().commitId();
       try (Repository repo = args.repoManager.openRepository(otherChange.getProject());
           CodeReviewCommit.CodeReviewRevWalk rw = CodeReviewCommit.newRevWalk(repo)) {
+        ObjectId testAgainst = changeDataCache.getTestAgainst();
+        if (isAncestorOrDescendant(rw, testAgainst, other)) {
+          // A change can only be submitted together with or after its ancestors, and submitting
+          // them never conflicts with it. Not all submit strategies detect this, e.g. CHERRY_PICK
+          // would apply the ancestor's delta on top of the descendant.
+          return false;
+        }
         return !args.submitDryRun.run(
             null,
             changeData.submitTypeRecord().type,
             repo,
             rw,
             otherChange.getDest(),
-            changeDataCache.getTestAgainst(),
+            testAgainst,
             other,
             getAlreadyAccepted(rw, other));
       } catch (NoSuchProjectException | IOException e) {
@@ -234,6 +241,13 @@ public class ConflictsPredicate {
             e.getMessage());
         return false;
       }
+    }
+
+    private static boolean isAncestorOrDescendant(RevWalk rw, ObjectId a, ObjectId b)
+        throws IOException {
+      RevCommit commitA = rw.parseCommit(a);
+      RevCommit commitB = rw.parseCommit(b);
+      return rw.isMergedInto(commitA, commitB) || rw.isMergedInto(commitB, commitA);
     }
 
     private Set<RevCommit> getAlreadyAccepted(RevWalk rw, ObjectId other) {

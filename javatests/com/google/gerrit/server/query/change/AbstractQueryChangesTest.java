@@ -3607,8 +3607,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     RevCommit commit1 = repo.parseBody(repo.commit().parent(tip).add("fileA", "v1").create());
     Change change1 = insert(project, newChangeForCommit(repo, commit1));
 
-    // change2 is stacked directly on top of change1, so it fast-forwards on top of change1 and is
-    // correctly not reported.
+    // change2 is stacked directly on top of change1.
     RevCommit commit2 = repo.parseBody(repo.commit().parent(commit1).add("fileA", "v2").create());
     insert(project, newChangeForCommit(repo, commit2));
 
@@ -3618,9 +3617,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     RevCommit commit3 = repo.parseBody(repo.commit().parent(commit2).add("fileA", "v3").create());
     insert(project, newChangeForCommit(repo, commit3));
 
-    // change3's parent (change2's commit) is treated as already accepted when checking change3, so
-    // the check does not fail with a missing dependency, and change3 is correctly not reported
-    // either.
+    // Neither change2 nor change3 is reported, since both have change1 in their history.
     assertQuery("conflicts:" + change1.getId().get());
   }
 
@@ -3648,8 +3645,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
     // change1 is an ancestor of change4. change4 cannot be submitted without change1 being
     // submitted first, and a change can never conflict with its own history, so change1 is
-    // correctly not reported. Technically, change1's commit is merged into change4's commit, so
-    // the check succeeds as a fast-forward.
+    // correctly not reported.
     assertQuery("conflicts:" + change4.getId().get());
 
     // Once change1 gets a new patch set that is no longer in change4's history and has
@@ -3689,31 +3685,19 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
-  public void conflictsFalsePositiveForAncestorOfQueriedChangeWithCherryPick() throws Exception {
+  public void conflictsForAncestorOfQueriedChangeWithCherryPick() throws Exception {
     // Create the same stack in two projects and run the "conflicts:" queries in opposite orders.
     ImmutableList<Change> changesA = createCherryPickStack(Project.nameKey("repoA"));
     ImmutableList<Change> changesB = createCherryPickStack(Project.nameKey("repoB"));
 
-    // change1 is falsely reported as conflicting with change2, although it is an ancestor of
-    // change2. With CHERRY_PICK the check does not consider fast-forwards (see
-    // MergeUtil#canCherryPick). It cherry-picks change1's commit onto change2's commit instead:
-    // relative to change1's parent (the branch tip), which lacks "shared", both sides add "shared"
-    // with different content ("v1" vs. "v2"), which is a conflict. This models a state that
-    // cannot occur: change2's commit already contains change1, and with CHERRY_PICK change2 can
-    // only be submitted after change1, which then applies cleanly.
-    // TODO: change1 cannot genuinely conflict with change2; this query should not report any
-    // change.
-    assertQuery("conflicts:" + changesA.get(1).getId().get(), changesA.get(0));
+    // change1 is an ancestor of change2, so they are correctly not reported as conflicting with
+    // each other, regardless of the query order. With CHERRY_PICK, change2 can only be submitted
+    // after change1, which then applies cleanly. The CHERRY_PICK dry run would not detect this: it
+    // would cherry-pick change1's commit onto change2's commit, which already contains change1,
+    // and find that both add "shared" with different content ("v1" vs. "v2").
+    assertQuery("conflicts:" + changesA.get(1).getId().get());
+    assertQuery("conflicts:" + changesA.get(0).getId().get());
 
-    // ConflictKey is symmetric, so the cached result from above is reused and change2 is reported
-    // as conflicting with change1, too.
-    // TODO: This query should not report any change.
-    assertQuery("conflicts:" + changesA.get(0).getId().get(), changesA.get(1));
-
-    // In repoB, change1 is queried first. The check then cherry-picks change2's commit onto
-    // change1's commit, relative to change2's parent, which is change1's commit itself, so it
-    // applies cleanly and no conflict is found. The cached result is then reused when querying
-    // change2, so the results depend on the query order.
     assertQuery("conflicts:" + changesB.get(0).getId().get());
     assertQuery("conflicts:" + changesB.get(1).getId().get());
   }

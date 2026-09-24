@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "87e725f1_6cdc7719",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-09-24T08:56:39Z",
+      "side": 1,
+      "message": "More minimal solution, but not ideal because of the null-check. More for a discussion/idea finding.",
+      "revId": "8e8bee8e8b060116b8b6c4b4fa7c666149d77865",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

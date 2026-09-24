@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf36875a_26e9b6ff",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-09-24T08:58:15Z",
+      "side": 1,
+      "message": "I tried to find a more minimal solution and came up with https://gerrit-review.googlesource.com/c/gerrit/+/634544. I don\u0027t believe it is better, since it requires a null-check, which is not a good design, but maybe it brings up further ideas.",
+      "revId": "6b559c63cfac542b9335e9cb8458b2b71c7035e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

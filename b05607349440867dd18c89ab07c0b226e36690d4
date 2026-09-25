@@ -16,6 +16,24 @@
       "message": "```suggestion\nRelease-Notes: skip\n```\n\nThis is not interesting for Gerrit users",
       "revId": "b05607349440867dd18c89ab07c0b226e36690d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b691084a_fd176d37",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-09-25T14:12:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc79f0c8_260fdc39",
+      "revId": "b05607349440867dd18c89ab07c0b226e36690d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

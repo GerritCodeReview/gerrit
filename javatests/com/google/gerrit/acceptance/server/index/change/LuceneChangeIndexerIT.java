@@ -15,6 +15,9 @@
 package com.google.gerrit.acceptance.server.index.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.entities.Change.Status.ABANDONED;
+import static com.google.gerrit.entities.Change.Status.NEW;
+import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.LinkedListMultimap;
@@ -24,17 +27,23 @@ import com.google.gerrit.acceptance.ChangeIndexedCounter;
 import com.google.gerrit.acceptance.ExtensionRegistry;
 import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.UseClockStep;
 import com.google.gerrit.acceptance.config.GerritConfig;
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project.NameKey;
+import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.IndexDefinition;
 import com.google.gerrit.index.RefState;
 import com.google.gerrit.index.SiteIndexer.Result;
 import com.google.gerrit.server.index.change.AllChangesIndexer;
 import com.google.gerrit.server.index.change.ChangeIndex;
+import com.google.gerrit.server.index.change.IndexedChangeQuery;
+import com.google.gerrit.server.index.change.StalenessChecker;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Inject;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
@@ -53,6 +62,7 @@ public class LuceneChangeIndexerIT extends AbstractDaemonTest {
   @Inject private ExtensionRegistry extensionRegistry;
 
   @Inject private Collection<IndexDefinition<?, ?, ?>> indexDefs;
+  @Inject private IndexConfig indexConfig;
   private AllChangesIndexer allChangesIndexer;
   private ChangeIndex index;
 
@@ -62,6 +72,49 @@ public class LuceneChangeIndexerIT extends AbstractDaemonTest {
         indexDefs.stream().filter(i -> i.getName().equals("changes")).findFirst().get();
     allChangesIndexer = (AllChangesIndexer) changeIndex.getSiteIndexer();
     index = (ChangeIndex) changeIndex.getIndexCollection().getWriteIndexes().iterator().next();
+  }
+
+  @Test
+  @UseClockStep
+  public void reindexIfStaleRemovesOldOpenDocument() throws Exception {
+    ChangeData openChange = createChange().getChange();
+    gApi.changes().id(openChange.getId().get()).abandon();
+
+    assertReindexRemovesDuplicate(openChange, ABANDONED);
+  }
+
+  @Test
+  @UseClockStep
+  public void reindexIfStaleRemovesOldClosedDocument() throws Exception {
+    PushOneCommit.Result change = createChange();
+    gApi.changes().id(change.getChangeId()).abandon();
+    ChangeData abandonedChange = change.getChange();
+    gApi.changes().id(change.getChangeId()).restore();
+
+    assertReindexRemovesDuplicate(abandonedChange, NEW);
+  }
+
+  private void assertReindexRemovesDuplicate(ChangeData staleChange, Change.Status currentStatus)
+      throws Exception {
+    // calling `insert` on the stale change will leave a copy in the other sub-index.
+    index.insert(staleChange);
+    assertThat(indexedStatuses(staleChange.getId())).containsExactly(NEW, ABANDONED);
+
+    assertThat(indexer.reindexIfStale(project, staleChange.getId())).isTrue();
+    assertThat(indexedStatuses(staleChange.getId())).containsExactly(currentStatus);
+    assertThat(indexer.reindexIfStale(project, staleChange.getId())).isFalse();
+  }
+
+  private List<Change.Status> indexedStatuses(Change.Id id) throws Exception {
+    return index
+        .getSource(
+            index.keyPredicate(id),
+            IndexedChangeQuery.createOptions(indexConfig, 0, 2, StalenessChecker.FIELDS))
+        .read()
+        .toList()
+        .stream()
+        .map(cd -> cd.change().getStatus())
+        .collect(toList());
   }
 
   @Test

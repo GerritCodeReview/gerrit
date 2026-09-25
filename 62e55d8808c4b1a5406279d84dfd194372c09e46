@@ -16,6 +16,24 @@
       "message": "There is no need to create this Splitter instance for every call. Make it private static final.",
       "revId": "62e55d8808c4b1a5406279d84dfd194372c09e46",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4a379a1_930254d8",
+        "filename": "java/com/google/gerrit/auth/oauth/OAuthTokenRevoker.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-09-25T14:24:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b43bba58_b28a06a3",
+      "revId": "62e55d8808c4b1a5406279d84dfd194372c09e46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

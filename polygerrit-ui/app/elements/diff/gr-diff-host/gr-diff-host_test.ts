@@ -18,6 +18,7 @@ import {
   createChange,
   createComment,
   createCommentThread,
+  createCommitInfoWithRequiredCommit,
   createDiff,
   createEditRevision,
   createPatchRange,
@@ -2096,33 +2097,72 @@ suite('gr-diff-host tests', () => {
       );
     });
 
-    test('handleRevertDelta uses deleteFileInChangeEdit when reverting only delta of ADDED file', async () => {
+    for (const patchNum of [1 as PatchSetNumber, EDIT]) {
+      test(`handleRevertDelta uses deleteFileInChangeEdit when reverting only delta of ADDED file (patchNum=${patchNum})`, async () => {
+        const applyFixStub = stubRestApi('applyFixSuggestion');
+        const deleteFileStub = stubRestApi('deleteFileInChangeEdit').returns(
+          Promise.resolve(new Response(null, {status: 204}))
+        );
+        sinon.stub(element, 'reload').resolves();
+        sinon.stub(testResolver(navigationToken), 'setUrl');
+
+        element.patchRange = {
+          ...createPatchRange(),
+          patchNum,
+        };
+        element.latestPatchNum = 1 as PatchSetNumber;
+        element.editMode = true;
+        element.path = 'added.ts';
+        element.changeNum = 42 as NumericChangeId;
+        element.diff = {
+          ...createDiff(),
+          change_type: 'ADDED',
+        };
+        await element.updateComplete;
+
+        const addLine = new GrDiffLine(GrDiffLineType.ADD, 0, 1);
+        addLine.text = 'new file content';
+        const group = new GrDiffGroup({
+          type: GrDiffGroupType.DELTA,
+          lines: [addLine],
+        });
+
+        assertIsDefined(element.diffElement);
+        element.diffElement.groups = [group];
+
+        await element.handleRevertDelta(group);
+
+        assert.isFalse(applyFixStub.called);
+        assert.isTrue(deleteFileStub.calledOnce);
+        assert.equal(deleteFileStub.firstCall.args[0], 42 as NumericChangeId);
+        assert.equal(deleteFileStub.firstCall.args[1], 'added.ts');
+      });
+    }
+
+    test('handleRevertDelta uses restoreFileInChangeEdit when reverting only delta of DELETED file', async () => {
       const applyFixStub = stubRestApi('applyFixSuggestion');
-      const deleteFileStub = stubRestApi('deleteFileInChangeEdit').returns(
+      const restoreFileStub = stubRestApi('restoreFileInChangeEdit').returns(
         Promise.resolve(new Response(null, {status: 204}))
       );
       sinon.stub(element, 'reload').resolves();
       sinon.stub(testResolver(navigationToken), 'setUrl');
 
-      element.patchRange = {
-        ...createPatchRange(),
-        patchNum: EDIT,
-      };
+      element.patchRange = createPatchRange(undefined, 1);
       element.latestPatchNum = 1 as PatchSetNumber;
       element.editMode = true;
-      element.path = 'added.ts';
+      element.path = 'deleted.sh';
       element.changeNum = 42 as NumericChangeId;
       element.diff = {
         ...createDiff(),
-        change_type: 'ADDED',
+        change_type: 'DELETED',
       };
       await element.updateComplete;
 
-      const addLine = new GrDiffLine(GrDiffLineType.ADD, 0, 1);
-      addLine.text = 'new file content';
+      const removeLine = new GrDiffLine(GrDiffLineType.REMOVE, 1, 0);
+      removeLine.text = '#!/bin/bash';
       const group = new GrDiffGroup({
         type: GrDiffGroupType.DELTA,
-        lines: [addLine],
+        lines: [removeLine],
       });
 
       assertIsDefined(element.diffElement);
@@ -2131,9 +2171,105 @@ suite('gr-diff-host tests', () => {
       await element.handleRevertDelta(group);
 
       assert.isFalse(applyFixStub.called);
-      assert.isTrue(deleteFileStub.calledOnce);
-      assert.equal(deleteFileStub.firstCall.args[0], 42 as NumericChangeId);
-      assert.equal(deleteFileStub.firstCall.args[1], 'added.ts');
+      assert.isTrue(restoreFileStub.calledOnce);
+      assert.equal(restoreFileStub.firstCall.args[0], 42 as NumericChangeId);
+      assert.equal(restoreFileStub.firstCall.args[1], 'deleted.sh');
+    });
+
+    test('handleRevertDelta does not use restoreFileInChangeEdit for DELETED file on merge commit against Auto Merge', async () => {
+      const applyFixStub = stubRestApi('applyFixSuggestion').returns(
+        Promise.resolve(new Response(null, {status: 200}))
+      );
+      const restoreFileStub = stubRestApi('restoreFileInChangeEdit');
+      sinon.stub(element, 'reload').resolves();
+      sinon.stub(testResolver(navigationToken), 'setUrl');
+
+      const mergeRev = createRevision(1);
+      mergeRev.commit!.parents = [
+        createCommitInfoWithRequiredCommit('p1'),
+        createCommitInfoWithRequiredCommit('p2'),
+      ];
+      element.change = {
+        ...createChange(),
+        revisions: {rev1: mergeRev},
+      };
+      element.patchRange = {
+        basePatchNum: PARENT,
+        patchNum: 1 as PatchSetNumber,
+      };
+      element.latestPatchNum = 1 as PatchSetNumber;
+      element.editMode = true;
+      element.path = 'deleted.sh';
+      element.changeNum = 42 as NumericChangeId;
+      element.diff = {
+        ...createDiff(),
+        change_type: 'DELETED',
+      };
+      await element.updateComplete;
+
+      const removeLine = new GrDiffLine(GrDiffLineType.REMOVE, 1, 0);
+      removeLine.text = '#!/bin/bash';
+      const group = new GrDiffGroup({
+        type: GrDiffGroupType.DELTA,
+        lines: [removeLine],
+      });
+
+      assertIsDefined(element.diffElement);
+      element.diffElement.groups = [group];
+
+      await element.handleRevertDelta(group);
+
+      assert.isFalse(restoreFileStub.called);
+      assert.isTrue(applyFixStub.calledOnce);
+    });
+
+    test('handleRevertDelta uses restoreFileInChangeEdit for DELETED file on merge commit against Parent 1', async () => {
+      const applyFixStub = stubRestApi('applyFixSuggestion');
+      const restoreFileStub = stubRestApi('restoreFileInChangeEdit').returns(
+        Promise.resolve(new Response(null, {status: 204}))
+      );
+      sinon.stub(element, 'reload').resolves();
+      sinon.stub(testResolver(navigationToken), 'setUrl');
+
+      const mergeRev = createRevision(1);
+      mergeRev.commit!.parents = [
+        createCommitInfoWithRequiredCommit('p1'),
+        createCommitInfoWithRequiredCommit('p2'),
+      ];
+      element.change = {
+        ...createChange(),
+        revisions: {rev1: mergeRev},
+      };
+      element.patchRange = {
+        basePatchNum: -1 as BasePatchSetNum,
+        patchNum: 1 as PatchSetNumber,
+      };
+      element.latestPatchNum = 1 as PatchSetNumber;
+      element.editMode = true;
+      element.path = 'deleted.sh';
+      element.changeNum = 42 as NumericChangeId;
+      element.diff = {
+        ...createDiff(),
+        change_type: 'DELETED',
+      };
+      await element.updateComplete;
+
+      const removeLine = new GrDiffLine(GrDiffLineType.REMOVE, 1, 0);
+      removeLine.text = '#!/bin/bash';
+      const group = new GrDiffGroup({
+        type: GrDiffGroupType.DELTA,
+        lines: [removeLine],
+      });
+
+      assertIsDefined(element.diffElement);
+      element.diffElement.groups = [group];
+
+      await element.handleRevertDelta(group);
+
+      assert.isFalse(applyFixStub.called);
+      assert.isTrue(restoreFileStub.calledOnce);
+      assert.equal(restoreFileStub.firstCall.args[0], 42 as NumericChangeId);
+      assert.equal(restoreFileStub.firstCall.args[1], 'deleted.sh');
     });
 
     test('handleRevertDelta falls back to saveChangeEdit when applyFixSuggestion fails', async () => {

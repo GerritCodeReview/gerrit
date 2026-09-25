@@ -131,6 +131,7 @@ import {
   getRevertedFileContent,
   lineNumberToNumber,
 } from '../../../embed/diff/gr-diff/gr-diff-utils';
+import {RevisionInfo as RevisionInfoClass} from '../../shared/revision-info/revision-info';
 
 const EMPTY_BLAME = 'No blame information for this diff.';
 
@@ -1514,7 +1515,28 @@ export class GrDiffHost extends LitElement {
         computeLatestPatchNum(computeAllPatchSets(this.change));
     }
 
-    const canDirectSave = isEditPatchset && revertedContent !== undefined;
+    // restoreFileInChangeEdit restores from the FIRST parent of the edit's base
+    // commit (RestoreFileModification), so it is only a faithful revert when
+    // that is the left side of this diff. For merges, PARENT means "Auto Merge".
+    // Deleting (the ADDED case) needs no guard: the left side never has the file.
+    const base = this.patchRange.basePatchNum;
+    const isMerge =
+      !!this.change &&
+      new RevisionInfoClass(this.change).isMergeCommit(patchNum);
+    const leftIsFirstParent = isMerge
+      ? isMergeParent(base) && getParentIndex(base) === 1
+      : base === PARENT;
+    const isWholeFileAdd =
+      this.diff?.change_type === 'ADDED' && !hasOtherDeltas;
+    const isWholeFileDelete =
+      this.diff?.change_type === 'DELETED' &&
+      !hasOtherDeltas &&
+      leftIsFirstParent;
+
+    const canDirectSave =
+      isWholeFileAdd ||
+      isWholeFileDelete ||
+      (isEditPatchset && revertedContent !== undefined);
     if (!canDirectSave && (!fixSuggestion || patchNum === undefined)) {
       this.reporting.timeEnd(Timing.REVERT_DELTA_LOAD, {
         success: false,
@@ -1526,9 +1548,17 @@ export class GrDiffHost extends LitElement {
 
     let strategy = 'apply-fix';
     const saveRevertedEdit = (isFallback = false) => {
-      if (this.diff?.change_type === 'ADDED' && !hasOtherDeltas) {
+      if (isWholeFileAdd) {
         strategy = 'delete-file';
         return this.restApiService.deleteFileInChangeEdit(
+          this.changeNum!,
+          this.path!,
+          throwingErrorCallback
+        );
+      }
+      if (isWholeFileDelete) {
+        strategy = 'restore-file';
+        return this.restApiService.restoreFileInChangeEdit(
           this.changeNum!,
           this.path!,
           throwingErrorCallback

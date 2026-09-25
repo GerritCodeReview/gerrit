@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62957c39_9cd0557b",
+        "filename": "java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-25T12:26:29Z",
+      "side": 1,
+      "message": "As I see this adds one new extension point, but the commit message says two?",
+      "revId": "0d6e9eafca67ded7eca3c10da298da48f71d84e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

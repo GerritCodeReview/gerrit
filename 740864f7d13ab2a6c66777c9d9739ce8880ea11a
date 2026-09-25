@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e34c9c89_6fd43478",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-25T10:36:54Z",
+      "side": 1,
+      "message": "This feature is 10 years overdue :-)",
+      "revId": "740864f7d13ab2a6c66777c9d9739ce8880ea11a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

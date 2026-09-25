@@ -16,6 +16,69 @@
       "message": "This feature is 10 years overdue :-)",
       "revId": "740864f7d13ab2a6c66777c9d9739ce8880ea11a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f83a33a0_6bdba557",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 6345,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-25T10:59:30Z",
+      "side": 1,
+      "message": "Is this an haproxy specific feature? Or will it work behind any proxy supporting \"proxy protocol\"?",
+      "range": {
+        "startLine": 6345,
+        "startChar": 27,
+        "endLine": 6345,
+        "endChar": 40
+      },
+      "revId": "740864f7d13ab2a6c66777c9d9739ce8880ea11a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d02822ef_84aab7c8",
+        "filename": "java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 287,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-25T10:59:30Z",
+      "side": 1,
+      "message": "The old code sets the `SshSession.KEY` synchronously, the new one on this call back. There are a couple\nof places in the sshd package which perform `session.getAttribute(SshSession.KEY)` and assume it is not `null`.\nThis assumption was correct before this change but does it still hold? One such place is in the `DatabasePubKeyAuth` L112-113.\nAnother one is in the `CommandFactoryProvider`.\n\nWould it make sense to set the session eagerly (as before) and then *update* the peer address here when a better address\nis available?",
+      "range": {
+        "startLine": 280,
+        "startChar": 0,
+        "endLine": 287,
+        "endChar": 19
+      },
+      "revId": "740864f7d13ab2a6c66777c9d9739ce8880ea11a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cad0aafb_514915ee",
+        "filename": "java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-25T10:59:30Z",
+      "side": 1,
+      "message": "continuing on the previous comment: here we do have a null-check.",
+      "revId": "740864f7d13ab2a6c66777c9d9739ce8880ea11a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

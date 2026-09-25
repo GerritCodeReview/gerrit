@@ -22,6 +22,30 @@
       },
       "revId": "655c89a2f3cbc61e8848e348c5b03b9d2bf5e78f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea66c9ae_0da53787",
+        "filename": "java/com/google/gerrit/httpd/auth/restapi/GetOAuthToken.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-09-25T13:26:14Z",
+      "side": 0,
+      "message": "Done.\n\nIndeed, this change removed its last production caller.\n\nRemoved getOrEvictIfExpired together with its OAuthTokenCacheTest cases, and updated the two places that referenced it: the getEvenIfExpired javadoc that pointed to it and the OAuthSession#toString comment that named it.",
+      "parentUuid": "d7d58bb3_611dcfef",
+      "range": {
+        "startLine": 65,
+        "startChar": 40,
+        "endLine": 65,
+        "endChar": 59
+      },
+      "revId": "655c89a2f3cbc61e8848e348c5b03b9d2bf5e78f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

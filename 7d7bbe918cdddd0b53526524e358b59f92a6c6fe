@@ -16,6 +16,24 @@
       "message": "Do we need a test for \"expired token successfully refreshed\"?",
       "revId": "7d7bbe918cdddd0b53526524e358b59f92a6c6fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "05965f81_4eaf01c7",
+        "filename": "javatests/com/google/gerrit/httpd/auth/restapi/GetOAuthTokenTest.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-09-25T13:26:14Z",
+      "side": 1,
+      "message": "Done.\n\nAdded expiredToken_refreshedSuccessfully_returned: refreshIfExpired renews the token in place, so the read-after-refresh returns 200 — the token comes back only because refresh ran (without it the read misses -\u003e 404).\n\nFills the gap between validToken_refreshedOnRead_returned (already valid) and expiredUnrefreshableToken_notFound (refresh couldn\u0027t help).",
+      "parentUuid": "a910f6f1_d2338fd8",
+      "revId": "7d7bbe918cdddd0b53526524e358b59f92a6c6fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

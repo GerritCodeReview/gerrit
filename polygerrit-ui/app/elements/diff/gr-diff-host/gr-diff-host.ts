@@ -1538,6 +1538,10 @@ export class GrDiffHost extends LitElement {
       isWholeFileDelete ||
       (isEditPatchset && revertedContent !== undefined);
     if (!canDirectSave && (!fixSuggestion || patchNum === undefined)) {
+      fireAlert(
+        this,
+        'Reverting change failed: Unable to calculate revert for this diff chunk.'
+      );
       this.reporting.timeEnd(Timing.REVERT_DELTA_LOAD, {
         success: false,
         reason: !fixSuggestion ? 'no-fix-suggestion' : 'no-patch-num',
@@ -1573,8 +1577,20 @@ export class GrDiffHost extends LitElement {
       );
     };
 
+    const messages = isWholeFileAdd
+      ? {
+          pending: 'Reverting added file...',
+          done: 'Added file removed in change edit.',
+        }
+      : isWholeFileDelete
+      ? {
+          pending: 'Restoring deleted file...',
+          done: 'Deleted file restored in change edit.',
+        }
+      : {pending: 'Reverting change...', done: 'Change reverted.'};
+
     this.isReverting = true;
-    fireAlert(this, 'Reverting change...');
+    fireAlert(this, messages.pending);
     let res: Response | undefined;
     try {
       try {
@@ -1606,7 +1622,7 @@ export class GrDiffHost extends LitElement {
         strategy,
       });
       if (!res?.ok) return;
-      fireAlert(this, 'Change reverted.');
+      fireAlert(this, messages.done);
       const currentChildView = this.getChangeViewModel().getState()?.childView;
       this.getNavigation().setUrl(
         createApplyFixUrl({

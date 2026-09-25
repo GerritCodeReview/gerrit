@@ -291,8 +291,10 @@ suite('gr-diff-row test', () => {
 
     const revertBtn = element.querySelector<HTMLButtonElement>('.revert-btn')!;
     assert.isNotNull(revertBtn);
+    assert.equal(revertBtn.title, 'Revert 1 removed line');
     revertBtn.click();
     await element.updateComplete;
+    assert.equal(revertBtn.title, 'Reverting...');
 
     assert.isDefined(eventDetail);
     assert.equal(eventDetail?.group, group);
@@ -306,6 +308,52 @@ suite('gr-diff-row test', () => {
     assert.isNull(revertBtn.querySelector('.loadingSpin'));
     assert.isNotNull(revertBtn.querySelector('gr-icon'));
   });
+
+  for (const tc of [
+    {removes: 1, adds: 0, expected: 'Revert 1 removed line'},
+    {removes: 3, adds: 0, expected: 'Revert 3 removed lines'},
+    {removes: 0, adds: 1, expected: 'Revert 1 added line'},
+    {removes: 0, adds: 5, expected: 'Revert 5 added lines'},
+    {
+      removes: 1,
+      adds: 10,
+      expected: 'Revert 1 removed line and 10 added lines',
+    },
+    {
+      removes: 2,
+      adds: 1,
+      expected: 'Revert 2 removed lines and 1 added line',
+    },
+  ]) {
+    test(`revert button tooltip for ${tc.removes} removes and ${tc.adds} adds`, async () => {
+      const lines: GrDiffLine[] = [];
+      for (let i = 0; i < tc.removes; i++) {
+        const l = new GrDiffLine(GrDiffLineType.REMOVE, i + 1, 0);
+        l.text = `rem ${i}`;
+        lines.push(l);
+      }
+      for (let i = 0; i < tc.adds; i++) {
+        const l = new GrDiffLine(GrDiffLineType.ADD, 0, i + 1);
+        l.text = `add ${i}`;
+        lines.push(l);
+      }
+      const group = new GrDiffGroup({
+        type: GrDiffGroupType.DELTA,
+        lines,
+      });
+      element.left = lines[0];
+      element.right = new GrDiffLine(GrDiffLineType.BLANK);
+      element.group = group;
+      element.showRevertButton = true;
+      await element.updateComplete;
+
+      const revertBtn =
+        element.querySelector<HTMLButtonElement>('.revert-btn')!;
+      assert.isNotNull(revertBtn);
+      assert.equal(revertBtn.title, tc.expected);
+      assert.equal(revertBtn.getAttribute('aria-label'), tc.expected);
+    });
+  }
 
   test('updateLayers aborts when DOM element references change during await', async () => {
     const line = new GrDiffLine(GrDiffLineType.BOTH, 1, 1);

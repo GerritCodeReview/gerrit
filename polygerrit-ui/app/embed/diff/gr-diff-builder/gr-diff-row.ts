@@ -22,6 +22,7 @@ import {assertIsDefined} from '../../../utils/common-util';
 import {fire} from '../../../utils/event-util';
 import {getBaseUrl} from '../../../utils/url-util';
 import {otherSide} from '../../../utils/diff-util';
+import {pluralize} from '../../../utils/string-util';
 import './gr-diff-text';
 import {
   findBlame,
@@ -616,9 +617,25 @@ export class GrDiffRow extends LitElement {
   @state()
   private isReverting = false;
 
+  private getRevertButtonTooltip(): string {
+    if (this.isReverting) return 'Reverting...';
+    const removes = this.group?.removes.length ?? 0;
+    const adds = this.group?.adds.length ?? 0;
+    if (removes > 0 && adds > 0) {
+      return `Revert ${pluralize(removes, 'removed line')} and ${pluralize(
+        adds,
+        'added line'
+      )}`;
+    }
+    if (removes > 0) return `Revert ${pluralize(removes, 'removed line')}`;
+    if (adds > 0) return `Revert ${pluralize(adds, 'added line')}`;
+    return 'Revert this change';
+  }
+
   private renderRevertButton(side: Side) {
     if (!this.showRevertButton) return nothing;
     if (!this.unifiedDiff && side !== Side.LEFT) return nothing;
+    const tooltip = this.getRevertButtonTooltip();
     return html`
       <div class="revert-container">
         <button
@@ -628,8 +645,8 @@ export class GrDiffRow extends LitElement {
           })}
           type="button"
           ?disabled=${this.isReverting}
-          title=${this.isReverting ? 'Reverting...' : 'Revert this change'}
-          aria-label=${this.isReverting ? 'Reverting...' : 'Revert this change'}
+          title=${tooltip}
+          aria-label=${tooltip}
           @click=${this.handleRevertClick}
         >
           ${this.isReverting

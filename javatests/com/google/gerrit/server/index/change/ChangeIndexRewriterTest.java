@@ -142,6 +142,22 @@ public class ChangeIndexRewriterTest {
   }
 
   @Test
+  public void nonIndexAndWithRewrittenOrSourcePredicates() throws Exception {
+    Predicate<ChangeData> in = parse("baz:a (baz:b OR baz:c)");
+    Predicate<ChangeData> out = rewrite(in);
+
+    // The OR is rewritten into an OrSource while baz:a remains a non-indexed datasource. No
+    // indexed child exists, so the rewriter must not insert a match-all IndexedChangeQuery.
+    assertThat(out.getClass()).isSameInstanceAs(AndChangeSource.class);
+    assertThat(out.getChildCount()).isEqualTo(2);
+    assertThat(out.getChild(0)).isEqualTo(parse("baz:a"));
+    assertThat(out.getChild(1).getClass()).isSameInstanceAs(OrSource.class);
+    assertThat(out.getChild(1).getChildren())
+        .containsExactly(parse("baz:b"), parse("baz:c"))
+        .inOrder();
+  }
+
+  @Test
   public void oneIndexPredicate() throws Exception {
     Predicate<ChangeData> in = parse("foo:a file:b");
     Predicate<ChangeData> out = rewrite(in);

@@ -74,7 +74,6 @@ import com.google.gerrit.server.audit.AuditModule;
 import com.google.gerrit.server.cache.h2.H2CacheModule;
 import com.google.gerrit.server.cache.mem.DefaultMemoryCacheModule;
 import com.google.gerrit.server.change.AttentionSetOwnerAdder.AttentionSetOwnerAdderModule;
-import com.google.gerrit.server.change.ChangeCleanupRunner.ChangeCleanupRunnerModule;
 import com.google.gerrit.server.change.DraftCommentsCleanupRunner;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.AuthConfigModule;
@@ -115,6 +114,7 @@ import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
 import com.google.gerrit.server.plugins.PluginModule;
 import com.google.gerrit.server.project.DefaultLockManager.DefaultLockManagerModule;
 import com.google.gerrit.server.restapi.RestApiModule;
+import com.google.gerrit.server.restapi.config.CleanupChangesModule;
 import com.google.gerrit.server.schema.JdbcAccountPatchReviewStore.JdbcAccountPatchReviewStoreModule;
 import com.google.gerrit.server.schema.NoteDbSchemaVersionCheck;
 import com.google.gerrit.server.securestore.DefaultSecureStore;
@@ -567,7 +567,7 @@ public class Daemon extends SiteProgram {
     if (!replica) {
       modules.add(new AccountDeactivatorModule());
       modules.add(new AttentionSetOwnerAdderModule());
-      modules.add(new ChangeCleanupRunnerModule());
+      modules.add(new CleanupChangesModule());
       modules.add(new DraftCommentsCleanupRunner.Module());
     }
     modules.add(new LocalMergeSuperSetComputationModule());

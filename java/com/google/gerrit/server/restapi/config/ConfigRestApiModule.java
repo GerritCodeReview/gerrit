@@ -54,7 +54,6 @@ public class ConfigRestApiModule extends RestApiModule {
     put(CONFIG_KIND, "preferences.edit").to(SetEditPreferences.class);
     post(CONFIG_KIND, "reload").to(ReloadConfig.class);
     post(CONFIG_KIND, "snapshot.indexes").to(SnapshotIndexes.class);
-    post(CONFIG_KIND, "cleanup.changes").to(CleanupChanges.class);
     post(CONFIG_KIND, "cleanup.draft.comments").to(CleanupDraftComments.class);
 
     child(CONFIG_KIND, "tasks").to(TasksCollection.class);

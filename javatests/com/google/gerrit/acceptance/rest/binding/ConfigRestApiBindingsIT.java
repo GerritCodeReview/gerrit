@@ -17,18 +17,22 @@ package com.google.gerrit.acceptance.rest.binding;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.rest.util.RestApiCallHelper;
 import com.google.gerrit.acceptance.rest.util.RestCall;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.gerrit.server.project.ProjectCacheImpl;
+import com.google.gerrit.server.restapi.config.CleanupChanges;
 import com.google.gerrit.server.restapi.config.ListTasks.TaskInfo;
 import com.google.gson.reflect.TypeToken;
+import com.google.inject.ConfigurationException;
 import com.google.inject.Inject;
 import java.util.List;
 import java.util.Optional;
@@ -136,5 +140,16 @@ public class ConfigRestApiBindingsIT extends AbstractDaemonTest {
     assertThat(id).isPresent();
 
     RestApiCallHelper.execute(adminRestSession, TASK_ENDPOINTS, id.get());
+  }
+
+  @Sandboxed
+  @Test
+  public void shouldNotBindCleanupChangesOnReplica() throws Exception {
+    assertThat(server.getTestInjector().getInstance(CleanupChanges.class)).isNotNull();
+
+    restartAsSlave();
+    assertThrows(
+        ConfigurationException.class,
+        () -> server.getTestInjector().getInstance(CleanupChanges.class));
   }
 }

@@ -45,6 +45,54 @@
       },
       "revId": "8b6f8b0f6db75c90a3ed7e1e8efc995880e90287",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "09baa72a_9830d722",
+        "filename": "java/com/google/gerrit/server/index/change/StalenessChecker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-25T14:51:32Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "0738bde9_4fa4789f",
+      "range": {
+        "startLine": 134,
+        "startChar": 0,
+        "endLine": 134,
+        "endChar": 39
+      },
+      "revId": "8b6f8b0f6db75c90a3ed7e1e8efc995880e90287",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bec1fa29_0fac5c6d",
+        "filename": "java/com/google/gerrit/server/index/change/StalenessChecker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-25T14:51:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c5ab45d7_d6bd54f7",
+      "range": {
+        "startLine": 134,
+        "startChar": 0,
+        "endLine": 134,
+        "endChar": 39
+      },
+      "revId": "8b6f8b0f6db75c90a3ed7e1e8efc995880e90287",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

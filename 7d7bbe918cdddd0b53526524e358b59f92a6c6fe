@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a910f6f1_d2338fd8",
+        "filename": "javatests/com/google/gerrit/httpd/auth/restapi/GetOAuthTokenTest.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-25T12:23:20Z",
+      "side": 1,
+      "message": "Do we need a test for \"expired token successfully refreshed\"?",
+      "revId": "7d7bbe918cdddd0b53526524e358b59f92a6c6fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -22,6 +22,30 @@
       },
       "revId": "b0f756b81cccec5f031cda293e3b4411e5020e4d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c0108d9_45cfedf2",
+        "filename": "java/com/google/gerrit/auth/oauth/OAuthTokenRevoker.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-09-25T13:57:12Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "51a9ac7b_3aef385f",
+      "range": {
+        "startLine": 157,
+        "startChar": 0,
+        "endLine": 165,
+        "endChar": 5
+      },
+      "revId": "b0f756b81cccec5f031cda293e3b4411e5020e4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

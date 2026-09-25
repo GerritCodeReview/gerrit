@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc79f0c8_260fdc39",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-25T11:13:09Z",
+      "side": 1,
+      "message": "```suggestion\nRelease-Notes: skip\n```\n\nThis is not interesting for Gerrit users",
+      "revId": "b05607349440867dd18c89ab07c0b226e36690d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4bbe857b_531cb421",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-09-25T07:14:10Z",
+      "side": 1,
+      "message": "@milutin@google.com\nCould you also cast Library-Compliance+1 vote?",
+      "revId": "4799ef48d912115fb2238459b3c933c2fe733d27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

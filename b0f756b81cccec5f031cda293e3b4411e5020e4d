@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51a9ac7b_3aef385f",
+        "filename": "java/com/google/gerrit/auth/oauth/OAuthTokenRevoker.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-25T13:40:09Z",
+      "side": 1,
+      "message": "A little less elaborate implementation using Guava is possible. If you accept then it then make the\nSplitter instance `private static final`.\n\n```suggestion\n    Splitter s \u003d Splitter.on(\u0027:\u0027).limit(2).omitEmptyStrings();\n    List\u003cString\u003e parts \u003d s.split(providerId);\n    if (parts.size() \u003c 2) {\n      return null;\n    }\n    try {\n      return providers.get(parts.get(0), parts.get(1));\n    } catch (RuntimeException e) {\n      return null;\n    }\n```",
+      "range": {
+        "startLine": 157,
+        "startChar": 0,
+        "endLine": 165,
+        "endChar": 5
+      },
+      "revId": "b0f756b81cccec5f031cda293e3b4411e5020e4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

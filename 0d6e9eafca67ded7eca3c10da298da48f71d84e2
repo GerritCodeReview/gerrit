@@ -16,6 +16,24 @@
       "message": "As I see this adds one new extension point, but the commit message says two?",
       "revId": "0d6e9eafca67ded7eca3c10da298da48f71d84e2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c0c19a6_f61f701c",
+        "filename": "java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-09-25T12:47:57Z",
+      "side": 1,
+      "message": "You\u0027re right that only one new binding appears here — that\u0027s expected.\n \nOAuthServiceProvider is already an bound extension point, unchanged by this commit. \n\nThe change adds two default methods to it — supportsRevoke() / revoke(OAuthToken) — so a provider gets the revoke capability with no new binding.\n\nThe only new extension point is OAuthTokenRevokedListener, which is why it\u0027s the single new DynamicSet.setOf(...) line. Example implementation in the `oauth` plugin: change 634160 (OAuthTokenValidationCacheCleaner).\n\nI\u0027ve adapted the commit message.",
+      "parentUuid": "62957c39_9cd0557b",
+      "revId": "0d6e9eafca67ded7eca3c10da298da48f71d84e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

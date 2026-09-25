@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b43bba58_b28a06a3",
+        "filename": "java/com/google/gerrit/auth/oauth/OAuthTokenRevoker.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-09-25T14:05:31Z",
+      "side": 1,
+      "message": "There is no need to create this Splitter instance for every call. Make it private static final.",
+      "revId": "62e55d8808c4b1a5406279d84dfd194372c09e46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

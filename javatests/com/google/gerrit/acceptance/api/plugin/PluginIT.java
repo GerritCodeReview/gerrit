@@ -22,6 +22,7 @@ import static java.util.stream.Collectors.toList;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.Nullable;
@@ -36,6 +37,7 @@ import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.RawInput;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.plugins.MandatoryPluginsCollection;
 import com.google.inject.Inject;
 import java.io.ByteArrayOutputStream;
@@ -64,6 +66,7 @@ public class PluginIT extends AbstractDaemonTest {
 
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private MandatoryPluginsCollection mandatoryPluginsCollection;
+  @Inject private WorkQueue workQueue;
 
   @Test
   @GerritConfig(name = "plugins.allowRemoteAdmin", value = "true")
@@ -137,6 +140,25 @@ public class PluginIT extends AbstractDaemonTest {
     // Non-admin cannot disable
     requestScopeOperations.setApiUser(user.id());
     assertThrows(AuthException.class, () -> gApi.plugins().name("plugin-a").disable());
+  }
+
+  @Test
+  @Sandboxed
+  @GerritConfig(name = "plugins.allowRemoteAdmin", value = "true")
+  public void stopCancelsScheduledPluginCleanup() throws Exception {
+    InstallPluginInput input = new InstallPluginInput();
+    input.raw = JS_PLUGIN_CONTENT;
+    gApi.plugins().install("test.js", input).disable();
+
+    List<WorkQueue.Task<?>> cleaners =
+        workQueue.getTasks().stream()
+            .filter(task -> task.toString().startsWith("Plugin Cleaner"))
+            .collect(toList());
+    assertThat(cleaners).hasSize(1);
+
+    restart();
+
+    assertThat(cleaners.get(0).isCancelled()).isTrue();
   }
 
   @SuppressWarnings("deprecation")

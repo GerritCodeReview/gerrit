@@ -19,6 +19,7 @@ import static org.junit.Assert.fail;
 import com.github.rholder.retry.RetryException;
 import com.github.rholder.retry.RetryerBuilder;
 import com.github.rholder.retry.StopStrategies;
+import com.github.rholder.retry.WaitStrategies;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Sets;
@@ -46,6 +47,7 @@ import org.junit.runner.Description;
 
 public class GitRepositoryReferenceCountingManager implements GitRepositoryManager {
   private static final int TIMEOUT_WAITING_FOR_CLOSED_REPOSITORIES_SEC = 30;
+  private static final int POLL_INTERVAL_FOR_CLOSED_REPOSITORIES_MILLIS = 100;
   private final GitRepositoryManager delegate;
   private Set<RepositoryTracking> openRepositories;
   private final AllUsersName allUsersName;
@@ -231,6 +233,9 @@ public class GitRepositoryReferenceCountingManager implements GitRepositoryManag
           .withStopStrategy(
               StopStrategies.stopAfterDelay(
                   TIMEOUT_WAITING_FOR_CLOSED_REPOSITORIES_SEC, TimeUnit.SECONDS))
+          .withWaitStrategy(
+              WaitStrategies.fixedWait(
+                  POLL_INTERVAL_FOR_CLOSED_REPOSITORIES_MILLIS, TimeUnit.MILLISECONDS))
           .build()
           .call(this::getOpenRepositoriesToReport);
     } catch (ExecutionException | RetryException e) {

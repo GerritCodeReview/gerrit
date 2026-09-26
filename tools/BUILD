@@ -29,7 +29,11 @@ proto_lang_toolchain(
     javabuilder_jvm_opts = ["--sun-misc-unsafe-memory-access=allow"] if int(VERSION) >= 24 else [],
     javacopts = [
         "-Xlint:-removal",
-    ],
+    ] + ([
+        # Read dependency type annotations on Java 21, as Java 22+ does by default.
+        # See: https://github.com/google/error-prone/issues/5426.
+        "-XDaddTypeAnnotationsToSymbol=true",
+    ] if VERSION == "21" else []),
     package_configuration = [
         ":error_prone",
         ":first_party_removal_warnings",

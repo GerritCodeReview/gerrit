@@ -174,12 +174,13 @@ def _add_file(in_file, output):
 
 def _make_war(input_dir, output):
     return "(%s)" % " && ".join([
+        "set -o pipefail",
         "root=$(pwd)",
         "TZ=UTC",
         "export TZ",
         "cd %s" % input_dir,
         "find . -exec touch -t 198001010000 '{}' ';' 2> /dev/null",
-        "zip -X -9qr ${root}/%s ." % (output.path),
+        "find . -mindepth 1 -print | LC_ALL=C sort | zip -X -9q ${root}/%s -@" % (output.path),
     ])
 
 def _ci_sorted(xs):

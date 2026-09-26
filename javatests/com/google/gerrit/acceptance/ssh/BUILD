@@ -14,6 +14,7 @@ acceptance_tests(
     ),
     group = "ssh",
     labels = ["ssh"],
+    shard_count = 4,
     vm_args = ["-Xmx512m"],
     deps = [
         ":util",

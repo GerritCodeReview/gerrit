@@ -22,6 +22,9 @@ common:remote_shared --jobs=200
 common:remote_shared --disk_cache=
 common:remote_shared --remote_download_minimal
 
+# Select after the remote profile when requested outputs are needed locally.
+common:remote_toplevel --remote_download_outputs=toplevel
+
 # Set several flags related to specifying the platform, toolchain and java
 # properties.
 common:remote_shared --extra_execution_platforms=//tools/remote:platform

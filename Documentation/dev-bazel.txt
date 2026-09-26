@@ -923,6 +923,11 @@ bazelisk test --config=remote_bb //javatests/com/google/gerrit/git:small_tests
 `remote_bb` and `remote25_bb` use Java 25; use `remote21_bb` for Java 21.
 Local reporting and cache-only builds can add `--config=java21`.
 
+Remote builds keep output downloads minimal by default. To download requested
+outputs, such as `bazel-bin/gerrit.war`, add `--config=remote_toplevel` after
+the remote profile. To opt in for all remote builds in this checkout, add
+`common:remote_shared --config=remote_toplevel` to `user.bazelrc`.
+
 
 GERRIT
 ------

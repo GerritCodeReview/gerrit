@@ -53,9 +53,20 @@ common:config_gcp --remote_executor=remotebuildexecution.googleapis.com
 common:config_gcp --google_default_credentials
 common:config_gcp --config=remote_shared
 
+# Also available without BuildBuddy via --config=diagnostics.
+# Override both paths for concurrent invocations.
+common:diagnostics --execution_log_compact_file=bazel-execution.log
+common:diagnostics --profile=bazel-profile.json.gz
+# Preserve action details for investigations, at the cost of larger profiles.
+common:diagnostics --experimental_profile_include_target_label
+common:diagnostics --experimental_profile_include_primary_output
+common:diagnostics --noslim_profile
+
 # Reporting only: retain local execution, platforms, PATH and disk cache.
 build:reporting_bb --bes_results_url=https://app.buildbuddy.io/invocation/
 build:reporting_bb --bes_backend=grpcs://remote.buildbuddy.io
+# Capture execution and timing details for BuildBuddy invocations.
+build:reporting_bb --config=diagnostics
 
 # These commands inherit build options but should not publish invocations.
 run:reporting_bb --bes_backend=

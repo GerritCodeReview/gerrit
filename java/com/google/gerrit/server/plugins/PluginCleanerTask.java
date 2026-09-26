@@ -30,6 +30,7 @@ class PluginCleanerTask implements Runnable {
   private final PluginLoader loader;
   private volatile int pending;
   private Future<?> self;
+  private boolean stopped;
   private int attempts;
   private long start;
 
@@ -76,8 +77,16 @@ class PluginCleanerTask implements Runnable {
     ensureScheduled();
   }
 
+  synchronized void stop() {
+    stopped = true;
+    if (self != null) {
+      self.cancel(false);
+      self = null;
+    }
+  }
+
   private void ensureScheduled() {
-    if (self == null && 0 < pending) {
+    if (!stopped && self == null && 0 < pending) {
       if (attempts == 1) {
         self = workQueue.getDefaultQueue().schedule(this, 30, TimeUnit.SECONDS);
       } else {

@@ -927,6 +927,19 @@ Remote builds download requested outputs, such as `bazel-bin/gerrit.war`.
 For CI jobs that do not consume outputs, add `--config=remote_minimal` after
 the remote profile to skip those downloads.
 
+=== Diagnostics
+
+BuildBuddy builds and tests automatically write `bazel-execution.log`
+(compact execution log) and `bazel-profile.json.gz` (detailed timing profile)
+in the checkout root. For builds without BuildBuddy, add `--config=diagnostics`.
+Override `--execution_log_compact_file` and `--profile` with unique paths for
+concurrent builds or to retain previous logs.
+
+Share the printed invocation URL with collaborators who have access.
+Review local logs before sharing them; they can contain sensitive values.
+Local build-event files can include authentication headers even with
+`--noannounce_rc`.
+
 
 GERRIT
 ------

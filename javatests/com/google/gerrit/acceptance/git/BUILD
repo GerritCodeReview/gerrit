@@ -5,6 +5,7 @@ load("//javatests/com/google/gerrit/acceptance:tests.bzl", "acceptance_tests")
     srcs = [f],
     group = f[:f.index(".")],
     labels = ["git"],
+    shard_count = 4 if f == "SshPushForReviewIT.java" else 0,
     vm_args = ["-Xmx512m"],
     deps = [
         ":push_for_review",

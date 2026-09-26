@@ -19,10 +19,16 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.gerrit.testing.NoGitRepositoryCheckIfClosed;
 import java.io.IOException;
+import java.time.Duration;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.Test;
 
 public class GitRepositoryReferenceCountingManagerIT extends AbstractDaemonTest {
+
+  @Override
+  protected Duration repositoryCloseTimeout() {
+    return Duration.ZERO;
+  }
 
   private class CallerLeavingRepositoryOpen {
 

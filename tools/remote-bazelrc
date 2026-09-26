@@ -20,7 +20,10 @@
 # for a remote machine to execute them.
 common:remote_shared --jobs=200
 common:remote_shared --disk_cache=
-common:remote_shared --remote_download_minimal
+common:remote_shared --remote_download_outputs=toplevel
+
+# Select after the remote profile for CI jobs that do not consume build outputs.
+common:remote_minimal --remote_download_outputs=minimal
 
 # Set several flags related to specifying the platform, toolchain and java
 # properties.

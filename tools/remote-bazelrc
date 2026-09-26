@@ -68,6 +68,10 @@ cquery:reporting_bb --bes_results_url=
 common:cache_bb --config=reporting_bb
 common:cache_bb --remote_cache=grpcs://remote.buildbuddy.io
 common:cache_bb --remote_upload_local_results
+# BuildBuddy advertises zstd support for cache uploads and downloads.
+common:cache_bb --remote_cache_compression
+# Deduplicate large cache blobs with content-defined upload/download chunks.
+common:cache_bb --experimental_remote_cache_chunking
 
 # Preserve config_bb and the remote*_bb public aliases.
 common:config_bb --config=remote_shared

@@ -12,14 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# This file is auto-generated from release/bazelrc.tpl and should not be
-# modified directly.
-
-# This .bazelrc file contains all of the flags required for the provided
-# toolchain with Remote Build Execution.
-#
-# This .bazelrc file also contains all of the flags required for the local
-# docker sandboxing.
+# Remote execution and optional BuildBuddy reporting/cache profiles.
 
 # Depending on how many machines are in the remote execution instance, setting
 # this higher can make builds faster by allowing more jobs to run in parallel.
@@ -57,22 +50,26 @@ common:config_gcp --remote_executor=remotebuildexecution.googleapis.com
 common:config_gcp --google_default_credentials
 common:config_gcp --config=remote_shared
 
-# Configuration flags for remote settings in BuildBuddy RBE
-# Enable the remote cache so action results can be shared across machines,
-# developers, and workspaces.
-common:config_bb --remote_cache=grpcs://remote.buildbuddy.io
+# Reporting only: retain local execution, platforms, PATH and disk cache.
+common:reporting_bb --announce_rc
+build:reporting_bb --bes_results_url=https://app.buildbuddy.io/invocation/
+build:reporting_bb --bes_backend=grpcs://remote.buildbuddy.io
 
-# Enable remote execution so actions are performed on the remote systems.
-common:config_bb --remote_executor=grpcs://remote.buildbuddy.io
+# These commands inherit build options but should not publish invocations.
+run:reporting_bb --bes_backend=
+run:reporting_bb --bes_results_url=
+aquery:reporting_bb --bes_backend=
+aquery:reporting_bb --bes_results_url=
+cquery:reporting_bb --bes_backend=
+cquery:reporting_bb --bes_results_url=
+# Plain query does not inherit the build-scoped BES options above.
 
-# The results from each Bazel command are viewable with BuildBuddy
-build:config_bb --bes_results_url=https://app.buildbuddy.io/invocation/
+# Cache plus reporting: cache misses still execute locally.
+common:cache_bb --config=reporting_bb
+common:cache_bb --remote_cache=grpcs://remote.buildbuddy.io
+common:cache_bb --remote_upload_local_results
 
-# The results of a local build will be uploaded to the BuildBuddy server,
-# providing visibility and collaboration features for the build.
-common:config_bb --remote_upload_local_results
-
-# Define the Build Event Service (BES) backend to use for remote caching and
-# build event storage.
-build:config_bb --bes_backend=grpcs://remote.buildbuddy.io
+# Preserve config_bb and the remote*_bb public aliases.
 common:config_bb --config=remote_shared
+common:config_bb --config=cache_bb
+common:config_bb --remote_executor=grpcs://remote.buildbuddy.io

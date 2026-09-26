@@ -157,6 +157,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Modifier;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -641,7 +642,8 @@ public abstract class AbstractDaemonTest {
             configRule.description().getClassName()
                 + "."
                 + configRule.description().getMethodName()
-                + "()");
+                + "()",
+            repositoryCloseTimeout());
       } finally {
         repositoryCountingManager.clear();
       }
@@ -649,6 +651,10 @@ public abstract class AbstractDaemonTest {
 
     // Set useDefaultTicker in afterTest, so the next beforeTest will use the default ticker
     testTicker.useDefaultTicker();
+  }
+
+  protected Duration repositoryCloseTimeout() {
+    return GitRepositoryReferenceCountingManager.DEFAULT_REPOSITORY_CLOSE_TIMEOUT;
   }
 
   /**

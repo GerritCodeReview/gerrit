@@ -1,4 +1,6 @@
 common --lockfile_mode=error
+# Reject transitive upgrades that change the requested direct module versions.
+common --check_direct_dependencies=error
 # Enable Gerrit-tree-only plugin checks (standalone plugin builds skip them).
 common --@com_googlesource_gerrit_bazlets//flags:in_gerrit_tree=true
 common --incompatible_disallow_struct_provider_syntax=false
@@ -68,13 +70,6 @@ common:remote25_gcp --config=remote25
 # Builds and executes on BuildBuddy RBE using remotejdk_25
 common:remote25_bb --config=remote_bb
 common:remote25_bb --config=build_java25_shared
-
-# Enable strict_action_env flag to. For more information on this feature see
-# https://groups.google.com/forum/#!topic/bazel-discuss/_VmRfMyyHBk.
-# This will be the new default behavior at some point (and the flag was flipped
-# shortly in 0.21.0 - https://github.com/bazelbuild/bazel/issues/7026). Remove
-# this flag here once flipped in Bazel again.
-build --incompatible_strict_action_env
 
 common --announce_rc
 

@@ -19,6 +19,7 @@ import static org.junit.Assert.fail;
 import com.github.rholder.retry.RetryException;
 import com.github.rholder.retry.RetryerBuilder;
 import com.github.rholder.retry.StopStrategies;
+import com.github.rholder.retry.WaitStrategies;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Sets;
@@ -231,6 +232,7 @@ public class GitRepositoryReferenceCountingManager implements GitRepositoryManag
           .withStopStrategy(
               StopStrategies.stopAfterDelay(
                   TIMEOUT_WAITING_FOR_CLOSED_REPOSITORIES_SEC, TimeUnit.SECONDS))
+          .withWaitStrategy(WaitStrategies.fixedWait(100, TimeUnit.MILLISECONDS))
           .build()
           .call(this::getOpenRepositoriesToReport);
     } catch (ExecutionException | RetryException e) {

@@ -21,9 +21,9 @@
 #    package.json. At the same time we want to avoid accidental usages of code
 #    from devDependencies in polygerrit bundle.
 
-rules_ts_ext = use_extension("@aspect_rules_ts//ts:extensions.bzl", "ext", dev_dependency = True)
+rules_ts_ext = use_extension("@aspect_rules_ts//ts:extensions.bzl", "typescript", dev_dependency = True)
 rules_ts_ext.deps(
-    ts_version_from = "//:package.json",
+    version_from = "//:package.json",
 )
 use_repo(rules_ts_ext, "npm_typescript")
 

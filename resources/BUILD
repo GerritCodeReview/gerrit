@@ -11,5 +11,10 @@ genrule2(
     name = "log4j-config__jar",
     srcs = ["log4j.properties"],
     outs = ["log4j-config.jar"],
-    cmd = "cd $$(dirname $(location log4j.properties)) && zip -9Dqr $$ROOT/$@ .",
+    cmd = " && ".join([
+        "cp $(location log4j.properties) $$TMP/log4j.properties",
+        "cd $$TMP",
+        "TZ=UTC touch -t 198001010000 log4j.properties",
+        "TZ=UTC zip -X9q $$ROOT/$@ log4j.properties",
+    ]),
 )

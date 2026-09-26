@@ -886,19 +886,52 @@ bazelisk test --config=remote \
 ```
 
 
-== BuildBuddy Remote Build Support
+== BuildBuddy reporting, caching and remote execution
 
-To utilize the BuildBuddy Remote Build Execution service, please consult the
-documentation available at the following link: https://www.buildbuddy.io[BuildBuddy].
+Use one of these link:https://www.buildbuddy.io[BuildBuddy] profiles:
 
-To use RBE, execute
+[cols="1,3",options="header"]
+|===
+|Profile |Behavior
+|`reporting_bb` |Publish build events; keep execution local.
+|`cache_bb` |Add a remote cache; cache misses execute locally.
+|`remote_bb` |Add remote execution on `//tools/remote:platform`.
+|===
+
+Reporting and cache-only profiles do not cancel a remote profile selected
+elsewhere. Build and test commands publish invocations; `run`, `query`,
+`aquery` and `cquery` do not publish them by default.
+
+=== Authentication
+
+Create or protect the ignored `user.bazelrc` in the checkout root:
 
 ```
-bazelisk test --config=remote_bb \
-    --remote_instance_name=projects/${PROJECT}/instances/default_instance \
-    --remote_header=x-buildbuddy-api-key=YOUR_API_KEY \
-    javatests/...
+(umask 077; touch user.bazelrc)
+chmod 600 user.bazelrc
 ```
+
+Then add your API key:
+
+```
+common:reporting_bb --bes_header=x-buildbuddy-api-key=YOUR_API_KEY
+common:cache_bb --remote_header=x-buildbuddy-api-key=YOUR_API_KEY
+common:reporting_bb --noannounce_rc
+```
+
+`--noannounce_rc` keeps the key out of printed rc options.
+No Google credentials or GCP project is needed.
+See the link:https://www.buildbuddy.io/docs/guide-auth/[authentication guide].
+
+=== Build and test
+
+```
+bazelisk build --config=remote_bb //:gerrit
+bazelisk test --config=remote_bb //javatests/com/google/gerrit/git:small_tests
+```
+
+`remote_bb` and `remote25_bb` use Java 25; use `remote21_bb` for Java 21.
+Local reporting and cache-only builds can add `--config=java21`.
 
 
 GERRIT

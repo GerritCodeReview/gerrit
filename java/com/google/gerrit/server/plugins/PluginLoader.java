@@ -356,6 +356,7 @@ public class PluginLoader implements LifecycleListener {
     }
     srvInfoImpl.state = ServerInformation.State.SHUTDOWN;
     synchronized (this) {
+      cleaner.get().stop();
       for (Plugin p : running.values()) {
         env.beforeStopPlugin(p);
         unloadPlugin(p);

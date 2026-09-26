@@ -31,6 +31,7 @@ import com.google.gerrit.server.git.DelegateRepository;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.RepositoryExistsException;
 import java.io.IOException;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -46,7 +47,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.junit.runner.Description;
 
 public class GitRepositoryReferenceCountingManager implements GitRepositoryManager {
-  private static final int TIMEOUT_WAITING_FOR_CLOSED_REPOSITORIES_SEC = 30;
+  public static final Duration DEFAULT_REPOSITORY_CLOSE_TIMEOUT = Duration.ofSeconds(30);
   private final GitRepositoryManager delegate;
   private Set<RepositoryTracking> openRepositories;
   private final AllUsersName allUsersName;
@@ -204,7 +205,11 @@ public class GitRepositoryReferenceCountingManager implements GitRepositoryManag
   }
 
   public void assertThatAllRepositoriesAreClosed(String testName) {
-    List<String> repositoriesToReport = waitUntilAllRepositoriesAreClosed();
+    assertThatAllRepositoriesAreClosed(testName, DEFAULT_REPOSITORY_CLOSE_TIMEOUT);
+  }
+
+  public void assertThatAllRepositoriesAreClosed(String testName, Duration timeout) {
+    List<String> repositoriesToReport = waitUntilAllRepositoriesAreClosed(timeout);
     if (!repositoriesToReport.isEmpty()) {
       fail(
           "All repositories were expected to be closed at the end of the following test:\n"
@@ -225,13 +230,17 @@ public class GitRepositoryReferenceCountingManager implements GitRepositoryManag
     }
   }
 
-  private List<String> waitUntilAllRepositoriesAreClosed() {
+  private List<String> waitUntilAllRepositoriesAreClosed(Duration timeout) {
+    if (timeout.isNegative()) {
+      throw new IllegalArgumentException("timeout must be nonnegative");
+    }
+    if (timeout.isZero()) {
+      return getOpenRepositoriesToReport();
+    }
     try {
       return RetryerBuilder.<List<String>>newBuilder()
           .retryIfResult(Predicates.not(List::isEmpty))
-          .withStopStrategy(
-              StopStrategies.stopAfterDelay(
-                  TIMEOUT_WAITING_FOR_CLOSED_REPOSITORIES_SEC, TimeUnit.SECONDS))
+          .withStopStrategy(StopStrategies.stopAfterDelay(timeout.toNanos(), TimeUnit.NANOSECONDS))
           .withWaitStrategy(WaitStrategies.fixedWait(100, TimeUnit.MILLISECONDS))
           .build()
           .call(this::getOpenRepositoriesToReport);

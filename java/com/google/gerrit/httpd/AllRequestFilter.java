@@ -39,7 +39,7 @@ import javax.servlet.ServletResponse;
 
 /** Filters all HTTP requests passing through the server. */
 public abstract class AllRequestFilter implements Filter {
-  public static final Function<Extension<AllRequestFilter>, Boolean> SELECT_ALL = _ -> true;
+  public static final Function<Extension<AllRequestFilter>, Boolean> SELECT_ALL = unused -> true;
 
   public static Module module() {
     return new ServletModule() {

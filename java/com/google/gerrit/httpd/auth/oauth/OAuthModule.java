@@ -14,18 +14,14 @@
 
 package com.google.gerrit.httpd.auth.oauth;
 
-import com.google.gerrit.extensions.auth.oauth.OAuthServiceProvider;
-import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.inject.servlet.ServletModule;
 
 /** Servlets and support related to OAuth authentication. */
 public class OAuthModule extends ServletModule {
-
   @Override
   protected void configureServlets() {
     filter("/login", "/login/*", "/oauth").through(OAuthWebFilter.class);
     // This is needed to invalidate OAuth session during logout
     serve("/logout").with(OAuthLogoutServlet.class);
-    DynamicMap.mapOf(binder(), OAuthServiceProvider.class);
   }
 }

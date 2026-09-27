@@ -206,7 +206,7 @@ direct pushes depends on the project's access rights.
 To push a commit for review it must be pushed to
 link:access-control.html#refs_for[refs/for/<branch-name>]. This means
 the link:access-control.html#category_push_review[Push] access right
-must be assigned on `refs/for/<branch-name>`.
+must be assigned on `refs/for/refs/heads/<branch-name>`.
 
 To allow direct pushes and bypass code review, the
 link:access-control.html#category_push_direct[Push] access right is

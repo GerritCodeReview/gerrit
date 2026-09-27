@@ -20,8 +20,8 @@ long-term context to future developers.
 
 | Chapter Theme / Title | Scope & Objective |
 | :--- | :--- |
-| **Commit Title Conventions** | Defines stylistic and length requirements for the first line of the commit message to optimize history navigation. |
-| **Commit Body Structure & Formatting** | Outlines instructions to clearly explain the "what" and "why" of the patchset with pragmatic conciseness and precise wrapping. |
+| **Commit Title Conventions** | Defines stylistic requirements for the first line of the commit message to optimize history navigation. |
+| **Commit Body Structure & Formatting** | Outlines instructions to clearly explain the "what" and "why" of the patchset with pragmatic conciseness. |
 | **Metadata Footers & Preservations** | Enforces the strict preservation of system-critical integration footers (such as Change-Id and issue tracking IDs). |
 | **Review Feedback & Suggested Commit Message** | Instructs the reviewer to provide a complete, fully-compliant, copy-pasteable revised commit message. |
 
@@ -30,31 +30,31 @@ long-term context to future developers.
 
 ## Chapter: Commit Title Conventions
 
-**Context:** The title line of a Git commit message is the first line of visual feedback for engineers navigating repository logs. To ensure standard sizing, clarity, and readability, title structures are subject to rigid constraints.
+**Context:** The title line of a Git commit message is the first line of visual feedback for engineers navigating repository logs. To ensure clarity and readability, title structures should be direct and action-oriented.
 
 ### Summary
 
 | Rule ID | Principle / Constraint | Priority | Primary Symptom / Trap |
 | :--- | :--- | :--- | :--- |
-| **T1-01** | Concise & Imperative Commit Titles | High | Writing titles exceeding 60 characters, or utilizing past-tense/progressive verbs (e.g. "Fixed...", "Fixing..."). |
+| **T1-01** | Concise & Imperative Commit Titles | High | Utilizing past-tense/progressive verbs (e.g. "Fixed...", "Fixing...") or trailing punctuation. |
 
 ### Rules
 
 #### T1-01: Concise & Imperative Commit Titles
 
-> **Rule:** Commit titles must be 60 characters or less, start with an imperative verb (e.g., "Add", "Fix", "Update", "Remove"), and use sentence case without trailing punctuation.
+> **Rule:** Commit titles must start with an imperative verb (e.g., "Add", "Fix", "Update", "Remove") and use sentence case without trailing punctuation. Do not enforce character count or line length limits on the commit title.
 >
-> **What:** The commit title line must be a concise, imperative sentence summary strictly 60 characters or less.
+> **What:** The commit title line must be a concise, imperative sentence summary.
 >
 > **Applies To:** Git commit message first line.
 >
-> **Why:** The codebase's core validation rules programmatically block and flag commits with subjects exceeding 60 characters. Keeping the title under this strict limit avoids repository presubmit upload blockages and ensures neat display in CLI tools.
+> **Why:** Using consistent imperative verbs and sentence case without trailing punctuation ensures clean, readable display in repository logs and CLI tools. Line length is already checked deterministically by Gerrit commit validators.
 
-**Trap 1: Writing passive, overly long, or descriptive titles using progressive or past tense.**
+**Trap 1: Writing passive or non-imperative titles using progressive or past tense.**
 
 **Don't:**
 ```text
-Fixing the loading spinner bug in gr-reply-dialog.ts and adding tests
+Fixing the loading spinner bug in gr-reply-dialog.ts and adding tests.
 ```
 
 **Do:**
@@ -66,15 +66,14 @@ Fix loading spinner and add test coverage
 
 ## Chapter: Commit Body Structure & Formatting
 
-**Context:** The body of a commit is a vital repository asset storing the architectural intent behind a change. It must explain engineering decisions with pragmatic conciseness, provide targeted context, and be wrapped strictly for terminal compatibility.
+**Context:** The body of a commit is a vital repository asset storing the architectural intent behind a change. It must explain engineering decisions with pragmatic conciseness and provide targeted context.
 
 ### Summary
 
 | Rule ID | Principle / Constraint | Priority | Primary Symptom / Trap |
 | :--- | :--- | :--- | :--- |
 | **T2-01** | Explaining the Context: What and Why | High | Omitting commit bodies entirely, repeating the title, describing "how" instead of "why", or leaving critical design/bug links without context. |
-| **T2-02** | Strict Line Wrapping at 72 Characters | High | Writing continuous, single-line paragraphs that span past 72 characters, causing awkward wrapping in console windows. |
-| **T2-03** | Pragmatic Tone, Conciseness, and Anti-Filler | High | Writing verbose, flowery prose, introducing generic engineering philosophy/boilerplate, or using redundant Q&A layouts on simple changes. |
+| **T2-02** | Pragmatic Tone, Conciseness, and Anti-Filler | High | Writing verbose, flowery prose, introducing generic engineering philosophy/boilerplate, or using redundant Q&A layouts on simple changes. |
 
 --------------------------------------------------------------------------------
 
@@ -208,34 +207,7 @@ Change-Id: I75ef56099ea36b8838a65746abb3a4771fcefd23
 
 --------------------------------------------------------------------------------
 
-#### T2-02: Strict Line Wrapping at 72 Characters
-
-> **Rule:** Wrap the body of all commit messages strictly at 72 characters per line, except for unwrappable URLs, file paths, or commands.
->
-> **What:** Lines in the commit body must have explicit carriage returns at or before 72 columns.
->
-> **Applies To:** Git commit message bodies.
->
-> **Why:** Terminal output screens wrap at standard columns. Explicitly wrapping to 72 characters ensures clean reading in simple text editors, CLI viewers, and patch viewers.
-
-**Trap 1: Appending full paragraphs without manual word wrapping.**
-
-**Don't:**
-```text
-This change refactors the core caching helper and resolves a race condition that occurs when the same component gets disconnected rapidly from the DOM during teardown, which historically resulted in an uncaught exception.
-```
-
-**Do:**
-```text
-This change refactors the core caching helper and resolves a race
-condition that occurs when the same component gets disconnected
-rapidly from the DOM during teardown, which historically resulted
-in an uncaught exception.
-```
-
---------------------------------------------------------------------------------
-
-#### T2-03: Pragmatic Tone, Conciseness, and Anti-Filler
+#### T2-02: Pragmatic Tone, Conciseness, and Anti-Filler
 
 > **Rule:** Commit messages must be concise, direct, and free of conversational filler, obvious generalities, marketing/PR speak, or excessive boilerplate structure. Every sentence must serve to communicate technical context.
 >
@@ -274,8 +246,8 @@ Register gerrit-commit-message-review agent and skill
 To automate commit log hygiene audits across this repository, this
 change registers the new agent to trigger automatically on COMMIT_MSG
 changes. The accompanying skill definition outlines rules for
-subject-line format, strict 72-character line wrapping, context and
-intent explanation, and strict preservation of integration footers.
+subject-line format, context and intent explanation, and strict
+preservation of integration footers.
 
 Bug: Issue 505405738
 ```
@@ -428,27 +400,27 @@ Change-Id: Iab12cd34ef560078009000120034005600780090
 
 > **Rule:** Whenever any formatting, structure, or hygiene issues are identified in the commit message, the review feedback must include a dedicated section containing the complete, fully-compliant, and improved version of the commit message wrapped inside a markdown code block (e.g., using `text` or `git` syntax highlighting). If the original commit message is already satisfactory, fully compliant, and informative, no revised version or suggestions should be provided.
 >
-> **What:** The review feedback must provide the complete revised commit message in a single code block as a drop-in replacement ONLY when violations or potential improvements are found. This suggested message must meticulously apply all the guidelines defined in this skill (e.g., title length under 60 chars, imperative verbs, strict 72-character line wrapping in the body, pragmatic and concise explanation). It **must** preserve all existing metadata footers (like `Change-Id`, `Bug`, `Closes`, and `Release-Notes`) exactly as they appeared in the original message. If the commit message is already fully compliant, the reviewer should state that no improvements are necessary and omit the suggestion block.
+> **What:** The review feedback must provide the complete revised commit message in a single code block as a drop-in replacement ONLY when violations or potential improvements are found. This suggested message must meticulously apply all the guidelines defined in this skill (e.g., imperative verbs, clear context and intent explanation, pragmatic and concise tone). It **must** preserve all existing metadata footers (like `Change-Id`, `Bug`, `Closes`, and `Release-Notes`) exactly as they appeared in the original message. If the commit message is already fully compliant, the reviewer should state that no improvements are necessary and omit the suggestion block.
 >
 > **Applies To:** Review feedback reports and summary comments on COMMIT_MSG.
 >
-> **Why:** Developers want to resolve formatting issues as quickly as possible. Providing a complete, copy-pasteable improved message eliminates the need for the developer to manually re-wrap lines or rewrite sentences, significantly improving the developer experience. However, forcing a rewrite when the message is already of high quality causes unnecessary noise and friction.
+> **Why:** Developers want to resolve formatting issues as quickly as possible. Providing a complete, copy-pasteable improved message eliminates the need for the developer to manually rewrite sentences, significantly improving the developer experience. However, forcing a rewrite when the message is already of high quality causes unnecessary noise and friction.
 
 **Trap 1: Providing feedback comments on individual lines but omitting a single, unified revised commit message.**
 
 **Don't:**
 ```text
-Line 1: The title has 65 characters, which is over the 60-character limit. Please shorten it.
-Line 3: This line is 85 characters long. Please wrap it at 72 characters.
+Line 1: The title uses progressive tense ("Fixing...") instead of an imperative verb.
+Line 3: The opening sentence repeats the commit title instead of explaining why the change is needed.
 ```
 
 **Do:**
 ````text
 ### Commit Message Review
 
-I found a few formatting issues with your commit message:
-1. The title is too long (65 characters).
-2. The body paragraphs are not wrapped at 72 characters.
+I found a few issues with your commit message:
+1. The title uses progressive tense ("Fixing...") instead of an imperative verb.
+2. The opening sentence repeats the commit title instead of explaining the underlying problem.
 
 Here is an improved, fully-compliant version of your commit message that you can copy and paste directly into the Gerrit edit dialog:
 
@@ -473,15 +445,15 @@ Change-Id: Iab12cd34ef560078009000120034005600780090
 
 #### T4-02: Pragmatic Tolerance & Anti-Noise
 
-> **Rule:** The reviewer must adopt a pragmatic, non-pedantic approach to evaluating commit messages. Do NOT suggest rewrites for minor stylistic differences, subjective phrasing preferences, or trivial casing choices if the original message is already clear, informative, correctly wrapped, and compliant with core limits.
+> **Rule:** The reviewer must adopt a pragmatic, non-pedantic approach to evaluating commit messages. Do NOT suggest rewrites for minor stylistic differences, subjective phrasing preferences, or trivial casing choices if the original message is already clear and informative. Do NOT count characters or flag subject or body line lengths, as line length limits are already enforced deterministically by Gerrit's commit validators.
 >
-> **What:** Apply a high threshold of value before flagging a commit message or suggesting an alternative. Trivial stylistic points (such as starting a component prefix colon with a lowercase verb, e.g., `GrepServlet: add ...` vs `GrepServlet: Add ...`, or slightly differing sentence structures that express the same context) are considered acceptable. The reviewer must **never** post comments or generate a suggestion block for these minor variations. Suggest revisions **only** when there are clear, objective violations (e.g., title > 60 chars, body lines > 72 chars, missing essential context, or corrupted/missing metadata).
+> **What:** Apply a high threshold of value before flagging a commit message or suggesting an alternative. Trivial stylistic points (such as starting a component prefix colon with a lowercase verb, e.g., `GrepServlet: add ...` vs `GrepServlet: Add ...`, or slightly differing sentence structures that express the same context) are considered acceptable. The reviewer must **never** post comments or generate a suggestion block for these minor variations or for line-length/wrapping counts. Suggest revisions **only** when there are clear, substantive violations (e.g., missing essential context, repeating the title verbatim as the sole body, or corrupted/missing metadata footers).
 >
 > **Applies To:** All review feedback reports and comments.
 >
 > **Why:** Superfluous or nitpicky reviews (often referred to as "pedantic noise") irritate authors, waste review cycles, and erode trust in automated tooling. AI reviews must focus strictly on high-value correctness, safety, and critical readability standards.
 
-**Trap 1: Flagging a well-written, informative, and correctly-wrapped commit message over minor sentence formatting or prefix casing.**
+**Trap 1: Flagging a well-written, informative commit message over minor sentence formatting, prefix casing, or line lengths.**
 
 **Don't (Pedantic Noise):**
 ```text

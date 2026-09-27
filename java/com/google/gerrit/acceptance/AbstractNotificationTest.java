@@ -493,17 +493,28 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
 
     StagedPreChange(String ref, @Nullable PushOptionGenerator pushOptionGenerator)
         throws Exception {
+      this(ref, pushOptionGenerator, null);
+    }
+
+    StagedPreChange(
+        String ref,
+        @Nullable PushOptionGenerator magicBranchOptionGenerator,
+        @Nullable PushOptionGenerator pushOptionGenerator)
+        throws Exception {
       super();
-      List<String> pushOptions = null;
-      if (pushOptionGenerator != null) {
-        pushOptions = pushOptionGenerator.pushOptions(this);
+      List<String> magicBranchOptions = null;
+      if (magicBranchOptionGenerator != null) {
+        magicBranchOptions = magicBranchOptionGenerator.pushOptions(this);
       }
-      if (pushOptions != null) {
-        ref = ref + '%' + Joiner.on(',').join(pushOptions);
+      if (magicBranchOptions != null) {
+        ref = ref + '%' + Joiner.on(',').join(magicBranchOptions);
       }
       requestScopeOperations.setApiUser(owner.id());
       repo = cloneProject(project, owner);
       PushOneCommit push = pushFactory.create(owner.newIdent(), repo);
+      if (pushOptionGenerator != null) {
+        push.setPushOptions(pushOptionGenerator.pushOptions(this));
+      }
       result = push.to(ref);
       result.assertOkStatus();
       changeId = result.getChangeId();
@@ -519,6 +530,12 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
   protected StagedPreChange stagePreChange(
       String ref, @Nullable PushOptionGenerator pushOptionGenerator) throws Exception {
     return new StagedPreChange(ref, pushOptionGenerator);
+  }
+
+  @CanIgnoreReturnValue
+  protected StagedPreChange stagePreChangeWithPushOptions(
+      String ref, PushOptionGenerator pushOptionGenerator) throws Exception {
+    return new StagedPreChange(ref, null, pushOptionGenerator);
   }
 
   protected class StagedChange extends StagedPreChange {

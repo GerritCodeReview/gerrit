@@ -191,6 +191,32 @@ public class QueryParserTest {
     assertThat(r).child(1).child(0).hasNoChildren();
   }
 
+  @Test(timeout = 1000)
+  public void deeplyNestedParenthesesParseQuickly() throws Exception {
+    // Without grammar memoization this parse is exponential in the nesting depth, taking ~40s at
+    // depth 10 instead of ~16ms.
+    int depth = 10;
+    String query = "(".repeat(depth) + "status:open" + ")".repeat(depth);
+
+    Tree r = parse(query);
+    assertThat(r).hasType(FIELD_NAME);
+    assertThat(r).hasText("status");
+    assertThat(r).hasChildCount(1);
+    assertThat(r).child(0).hasType(SINGLE_WORD);
+    assertThat(r).child(0).hasText("open");
+    assertThat(r).child(0).hasNoChildren();
+  }
+
+  @Test(timeout = 1000)
+  public void deeplyNestedMalformedQueryFailsQuickly() throws Exception {
+    // The blowup happens during speculative parsing, so it also triggers on malformed input: this
+    // unbalanced query (no closing parens) takes ~40s unpatched before failing, vs ~1ms here.
+    int depth = 10;
+    String query = "(".repeat(depth) + "status:open";
+
+    assertThrows(QueryParseException.class, () -> parse(query));
+  }
+
   @Test
   public void defaultFieldWithColon() throws Exception {
     Tree r = parse("CodeReview:+2");

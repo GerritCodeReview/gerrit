@@ -89,7 +89,9 @@ export class GrChangeListCopyLinkFlow extends LitElement {
           id="copyLinkButton"
           link
           @click=${(e: Event) => {
-            this.copyLinks?.toggleDropdown(e.target as HTMLElement);
+            this.copyLinks?.toggleDropdown(
+              (e.currentTarget ?? e.target) as HTMLElement
+            );
           }}
         >
           Copy Link

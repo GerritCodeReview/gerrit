@@ -61,3 +61,7 @@
 	url = ../plugins/webhooks
 	branch = .
 
+[submodule "modules/gitiles"]
+	path = modules/gitiles
+	url = ../gitiles
+	branch = .

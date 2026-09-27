@@ -18,11 +18,9 @@ import static com.google.gerrit.httpd.ProjectBasicAuthFilter.authenticationFaile
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
-import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
-import com.google.common.io.BaseEncoding;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.auth.oauth.OAuthLoginProvider;
@@ -41,7 +39,6 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.Locale;
 import java.util.NoSuchElementException;
@@ -69,7 +66,6 @@ class ProjectOAuthFilter implements Filter {
 
   private static final String REALM_NAME = "Gerrit Code Review";
   private static final String AUTHORIZATION = "Authorization";
-  private static final String BASIC = "Basic ";
   private static final String BEARER = "Bearer ";
   private static final String GIT_COOKIE_PREFIX = "git-";
 
@@ -134,8 +130,8 @@ class ProjectOAuthFilter implements Filter {
       authRequest = authRequestFactory.createForBearerToken(authInfo.tokenOrSecret);
       // or if there is a BASIC authentication header
     } else {
-      if (hdr != null && hdr.startsWith(BASIC)) {
-        authInfo = extractAuthInfo(hdr, encoding(req));
+      if (hdr != null && hdr.startsWith(BasicAuthHeader.PREFIX)) {
+        authInfo = extractAuthInfo(hdr, req.getCharacterEncoding());
         if (authInfo == null) {
           rsp.sendError(SC_UNAUTHORIZED);
           return false;
@@ -246,17 +242,14 @@ class ProjectOAuthFilter implements Filter {
   }
 
   @Nullable
-  private AuthInfo extractAuthInfo(String hdr, String encoding)
-      throws UnsupportedEncodingException {
-    byte[] decoded = BaseEncoding.base64().decode(hdr.substring(BASIC.length()));
-    String usernamePassword = new String(decoded, encoding);
-    int splitPos = usernamePassword.indexOf(':');
-    if (splitPos < 1 || splitPos == usernamePassword.length() - 1) {
+  private AuthInfo extractAuthInfo(String hdr, String encoding) throws IOException {
+    Optional<BasicAuthHeader.Credentials> credentials = BasicAuthHeader.parse(hdr, encoding);
+    if (credentials.isEmpty()) {
       return null;
     }
     return new AuthInfo(
-        usernamePassword.substring(0, splitPos),
-        usernamePassword.substring(splitPos + 1),
+        credentials.get().username(),
+        credentials.get().password(),
         defaultAuthPlugin,
         defaultAuthProvider);
   }
@@ -268,9 +261,9 @@ class ProjectOAuthFilter implements Filter {
   }
 
   @Nullable
-  private AuthInfo extractAuthInfo(Cookie cookie) throws UnsupportedEncodingException {
+  private AuthInfo extractAuthInfo(Cookie cookie) {
     String username =
-        URLDecoder.decode(cookie.getName().substring(GIT_COOKIE_PREFIX.length()), UTF_8.name());
+        URLDecoder.decode(cookie.getName().substring(GIT_COOKIE_PREFIX.length()), UTF_8);
     String value = cookie.getValue();
     int splitPos = value.lastIndexOf('@');
     if (splitPos < 1 || splitPos == value.length() - 1) {
@@ -293,10 +286,6 @@ class ProjectOAuthFilter implements Filter {
       return null;
     }
     return new AuthInfo(username, token, pluginName, exportName);
-  }
-
-  private static String encoding(HttpServletRequest req) {
-    return MoreObjects.firstNonNull(req.getCharacterEncoding(), UTF_8.name());
   }
 
   @Nullable
@@ -340,7 +329,7 @@ class ProjectOAuthFilter implements Filter {
     private void status(int sc) {
       if (sc == SC_UNAUTHORIZED) {
         StringBuilder v = new StringBuilder();
-        v.append(BASIC);
+        v.append(BasicAuthHeader.PREFIX);
         v.append("realm=\"").append(REALM_NAME).append("\"");
         setHeader(WWW_AUTHENTICATE, v.toString());
       } else if (containsHeader(WWW_AUTHENTICATE)) {

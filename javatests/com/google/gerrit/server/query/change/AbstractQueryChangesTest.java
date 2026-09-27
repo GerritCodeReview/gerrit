@@ -2264,6 +2264,81 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  public void byOnlyPathsLiteral() throws Exception {
+    Project.NameKey project = Project.nameKey("repo");
+    repo = createAndOpenProject(project);
+    Change oneFile = insert(project, newChangeWithFiles(repo, "src/Foo.java"));
+    Change twoFiles = insert(project, newChangeWithFiles(repo, "src/Foo.java", "src/Bar.java"));
+    Change otherFile = insert(project, newChangeWithFiles(repo, "src/Bar.java"));
+    Change threeFiles =
+        insert(project, newChangeWithFiles(repo, "src/Foo.java", "src/Bar.java", "src/Baz.java"));
+
+    // Single-file exact match
+    assertQuery("onlypaths:src/Foo.java", oneFile);
+    assertQuery("onlypaths:src/Bar.java", otherFile);
+
+    // Two-file exact match — query order must not matter
+    assertQuery("onlypaths:src/Foo.java,src/Bar.java", twoFiles);
+    assertQuery("onlypaths:src/Bar.java,src/Foo.java", twoFiles);
+
+    // Three-file exact match
+    assertQuery("onlypaths:src/Foo.java,src/Bar.java,src/Baz.java", threeFiles);
+
+    // Superset must NOT match
+    assertQuery("onlypaths:src/Foo.java,src/Bar.java,src/Baz.java,src/Extra.java");
+
+    // Inverse
+    assertQuery("-onlypaths:src/Foo.java", threeFiles, otherFile, twoFiles);
+  }
+
+  @Test
+  public void byOnlyPathsRegex() throws Exception {
+    Project.NameKey project = Project.nameKey("repo");
+    repo = createAndOpenProject(project);
+    Change allJava = insert(project, newChangeWithFiles(repo, "src/Foo.java", "src/Bar.java"));
+    Change mixed = insert(project, newChangeWithFiles(repo, "src/Foo.java", "src/Foo.kt"));
+    Change allKt = insert(project, newChangeWithFiles(repo, "src/Foo.kt"));
+
+    // Only changes where every file matches the regex are returned.
+    // allJava: both files are .java — matches
+    // mixed: has a .kt file — must not match
+    // allKt: only .kt file — must not match
+    assertQuery("onlypaths:{^src/.*\\.java$}", allJava);
+
+    // Only changes where every file matches the regex are returned.
+    // allKt: only .kt file — matches
+    // mixed: has a .java file — must not match
+    // allJava: both files are .java — must not match
+    assertQuery("onlypaths:{^src/.*\\.kt$}", allKt);
+
+    // Regex covering both extensions matches all three changes
+    assertQuery("onlypaths:{^src/.*\\.(java|kt)$}", allKt, mixed, allJava);
+
+    // No real file matches
+    assertQuery("onlypaths:^test/.*");
+  }
+
+  @Test
+  public void byFileCount() throws Exception {
+    assume().that(getSchema().hasField(ChangeField.FILE_COUNT_SPEC)).isTrue();
+
+    Project.NameKey project = Project.nameKey("repo");
+    repo = createAndOpenProject(project);
+    Change oneFile = insert(project, newChangeWithFiles(repo, "src/Foo.java"));
+    Change twoFiles = insert(project, newChangeWithFiles(repo, "src/Foo.java", "src/Bar.java"));
+    Change threeFiles =
+        insert(project, newChangeWithFiles(repo, "src/Foo.java", "src/Bar.java", "src/Baz.java"));
+
+    assertQuery("filecount:1", oneFile);
+    assertQuery("filecount:2", twoFiles);
+    assertQuery("filecount:3", threeFiles);
+    assertQuery("filecount:>1", threeFiles, twoFiles);
+    assertQuery("filecount:<2", oneFile);
+    assertQuery("filecount:<5", threeFiles, twoFiles, oneFile);
+    assertQuery("filecount:>3");
+  }
+
+  @Test
   public void byFooter() throws Exception {
     Project.NameKey project = Project.nameKey("repo");
     repo = createAndOpenProject(project);
@@ -5264,5 +5339,120 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   private ChangeApi getChangeApi(Change change) throws RestApiException {
     return gApi.changes().id(change.getProject().get(), change.getChangeId());
+  }
+
+  @Test
+  public void byLegacyChangeIds() throws Exception {
+    Project.NameKey project = Project.nameKey("repo");
+    repo = createAndOpenProject(project);
+    Change change1 = insert(project, newChange(repo));
+    Change change2 = insert(project, newChange(repo));
+    Change change3 = insert(project, newChange(repo));
+
+    // Empty list
+    assertThat(queryProvider.get().byLegacyChangeIds(ImmutableList.of())).isEmpty();
+
+    // Single ID
+    List<ChangeData> cds = queryProvider.get().byLegacyChangeIds(ImmutableList.of(change1.getId()));
+    assertThat(cds.stream().map(ChangeData::getId).collect(toList()))
+        .containsExactly(change1.getId());
+
+    // Multiple IDs
+    cds =
+        queryProvider
+            .get()
+            .byLegacyChangeIds(ImmutableList.of(change1.getId(), change2.getId(), change3.getId()));
+    assertThat(cds.stream().map(ChangeData::getId).collect(toList()))
+        .containsExactly(change1.getId(), change2.getId(), change3.getId());
+
+    // Non-existent ID mixed with valid ID
+    cds =
+        queryProvider.get().byLegacyChangeIds(ImmutableList.of(change1.getId(), Change.id(999999)));
+    assertThat(cds.stream().map(ChangeData::getId).collect(toList()))
+        .containsExactly(change1.getId());
+
+    // Duplicate IDs in input are deduplicated
+    cds =
+        queryProvider
+            .get()
+            .byLegacyChangeIds(ImmutableList.of(change1.getId(), change1.getId(), change2.getId()));
+    assertThat(cds.stream().map(ChangeData::getId).collect(toList()))
+        .containsExactly(change1.getId(), change2.getId());
+  }
+
+  @Test
+  public void byProjectCommits() throws Exception {
+    Project.NameKey project = Project.nameKey("repo");
+    repo = createAndOpenProject(project);
+    ChangeInserter ins1 = newChangeWithStatus(repo, Change.Status.NEW);
+    Change change1 = insert(project, ins1);
+    ChangeInserter ins2 = newChangeWithStatus(repo, Change.Status.MERGED);
+    Change change2 = insert(project, ins2);
+    ChangeInserter ins3 = newChangeWithStatus(repo, Change.Status.ABANDONED);
+    Change change3 = insert(project, ins3);
+
+    String c1 = ins1.getCommitId().name();
+    String c2 = ins2.getCommitId().name();
+    String c3 = ins3.getCommitId().name();
+
+    // Empty list
+    assertThat(queryProvider.get().byProjectCommits(project, ImmutableList.of())).isEmpty();
+
+    // Single commit
+    List<ChangeData> cds = queryProvider.get().byProjectCommits(project, ImmutableList.of(c1));
+    assertThat(cds.stream().map(ChangeData::getId).collect(toList()))
+        .containsExactly(change1.getId());
+
+    // All commits
+    cds = queryProvider.get().byProjectCommits(project, ImmutableList.of(c1, c2, c3));
+    assertThat(cds.stream().map(ChangeData::getId).collect(toList()))
+        .containsExactly(change1.getId(), change2.getId(), change3.getId());
+
+    // Duplicate commit hashes are deduplicated
+    cds = queryProvider.get().byProjectCommits(project, ImmutableList.of(c1, c1, c2));
+    assertThat(cds.stream().map(ChangeData::getId).collect(toList()))
+        .containsExactly(change1.getId(), change2.getId());
+
+    // Other project returns empty
+    Project.NameKey otherProject = Project.nameKey("other-repo");
+    createProject(otherProject);
+    assertThat(queryProvider.get().byProjectCommits(otherProject, ImmutableList.of(c1, c2, c3)))
+        .isEmpty();
+  }
+
+  @Test
+  public void byLegacyChangeIdsAndByProjectCommitsPartitioning() throws Exception {
+    Project.NameKey project = Project.nameKey("partition-repo");
+    repo = createAndOpenProject(project);
+    ChangeInserter ins1 = newChangeWithStatus(repo, Change.Status.NEW);
+    Change change1 = insert(project, ins1);
+    ChangeInserter ins2 = newChangeWithStatus(repo, Change.Status.MERGED);
+    Change change2 = insert(project, ins2);
+
+    String c1 = ins1.getCommitId().name();
+    String c2 = ins2.getCommitId().name();
+
+    int maxTerms = indexConfig.maxTerms();
+    List<Change.Id> largeIdList = new ArrayList<>(maxTerms + 50);
+    largeIdList.add(change1.getId());
+    largeIdList.add(change2.getId());
+    for (int i = 0; i < maxTerms + 48; i++) {
+      largeIdList.add(Change.id(1000000 + i));
+    }
+
+    List<ChangeData> cds = queryProvider.get().byLegacyChangeIds(largeIdList);
+    assertThat(cds.stream().map(ChangeData::getId).collect(toList()))
+        .containsExactly(change1.getId(), change2.getId());
+
+    List<String> largeHashList = new ArrayList<>(maxTerms + 50);
+    largeHashList.add(c1);
+    largeHashList.add(c2);
+    for (int i = 0; i < maxTerms + 48; i++) {
+      largeHashList.add(String.format("%040x", i + 1));
+    }
+
+    cds = queryProvider.get().byProjectCommits(project, largeHashList);
+    assertThat(cds.stream().map(ChangeData::getId).collect(toList()))
+        .containsExactly(change1.getId(), change2.getId());
   }
 }

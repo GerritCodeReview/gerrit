@@ -231,6 +231,7 @@ suite('gr-reply-dialog tests', () => {
               <div class="peopleList">
                 <div class="peopleListLabel">Reviewers</div>
                 <gr-account-list id="reviewers"> </gr-account-list>
+                <gr-endpoint-slot name="middle"> </gr-endpoint-slot>
                 <gr-endpoint-slot name="right"> </gr-endpoint-slot>
               </div>
               <gr-endpoint-slot name="below"> </gr-endpoint-slot>
@@ -373,6 +374,7 @@ suite('gr-reply-dialog tests', () => {
           <div class="peopleList">
             <div class="peopleListLabel">Reviewers</div>
             <gr-account-list id="reviewers"> </gr-account-list>
+            <gr-endpoint-slot name="middle"> </gr-endpoint-slot>
             <gr-endpoint-slot name="right"> </gr-endpoint-slot>
           </div>
           <gr-endpoint-slot name="below"> </gr-endpoint-slot>
@@ -428,6 +430,7 @@ suite('gr-reply-dialog tests', () => {
           <div class="peopleList">
             <div class="peopleListLabel">Reviewers</div>
             <gr-account-list id="reviewers"> </gr-account-list>
+            <gr-endpoint-slot name="middle"> </gr-endpoint-slot>
             <gr-endpoint-slot name="right"> </gr-endpoint-slot>
           </div>
           <gr-endpoint-slot name="below"> </gr-endpoint-slot>
@@ -2535,6 +2538,28 @@ suite('gr-reply-dialog tests', () => {
       await waitUntil(() => element.patchsetLevelDraftMessage === '');
 
       assert.isTrue(element.isSendDisabled());
+    });
+
+    test('send sets includeDefaults based on change status', async () => {
+      stubSaveReview(() => {});
+      const getLabelValuesStub = sinon
+        .stub(element.getLabelScores(), 'getLabelValues')
+        .returns({});
+
+      element.change = {
+        ...createChange(),
+        status: ChangeStatus.NEW,
+      };
+      await element.send(false, false);
+      assert.isTrue(getLabelValuesStub.calledWith(true));
+
+      getLabelValuesStub.resetHistory();
+      element.change = {
+        ...createChange(),
+        status: ChangeStatus.MERGED,
+      };
+      await element.send(false, false);
+      assert.isTrue(getLabelValuesStub.calledWith(false));
     });
 
     test('sending patchset level comment', async () => {

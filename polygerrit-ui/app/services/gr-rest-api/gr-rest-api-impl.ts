@@ -1776,6 +1776,38 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     }) as Promise<BranchInfo[] | undefined>;
   }
 
+  getProjectCommitDiff(
+    repo: RepoName,
+    commitId: CommitId,
+    baseCommitId: CommitId
+  ): Promise<FileNameToFileInfoMap | undefined> {
+    const encodeName = encodeURIComponent(repo);
+    return this._restApiHelper.fetchJSON({
+      url: `/projects/${encodeName}/commits/${commitId}/diff`,
+      params: {
+        base: baseCommitId,
+        'name-only': true,
+      },
+      anonymizedUrl: '/projects/*/commits/*/diff',
+    }) as Promise<FileNameToFileInfoMap | undefined>;
+  }
+
+  getProjectCommitFileDiff(
+    repo: RepoName,
+    commitId: CommitId,
+    baseCommitId: CommitId,
+    fileId: string
+  ): Promise<DiffInfo | undefined> {
+    const encodeName = encodeURIComponent(repo);
+    return this._restApiHelper.fetchJSON({
+      url: `/projects/${encodeName}/commits/${commitId}/files/${encodeURIComponent(
+        fileId
+      )}/diff`,
+      params: {base: baseCommitId},
+      anonymizedUrl: '/projects/*/commits/*/files/*/diff',
+    }) as Promise<DiffInfo | undefined>;
+  }
+
   getRepoTags(
     filter: string,
     repo: RepoName,
@@ -1821,6 +1853,19 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       url: `/projects/${encodeURIComponent(repoName)}/submit_requirements`,
       errFn,
       anonymizedUrl: '/projects/*/submit_requirements',
+    }) as Promise<SubmitRequirementInfo[] | undefined>;
+  }
+
+  getRepoSubmitRequirementTemplates(
+    repoName: RepoName,
+    errFn?: ErrorCallback
+  ): Promise<SubmitRequirementInfo[] | undefined> {
+    return this._restApiHelper.fetchJSON({
+      url: `/projects/${encodeURIComponent(
+        repoName
+      )}/submit_requirements_templates`,
+      errFn,
+      anonymizedUrl: '/projects/*/submit_requirements_templates',
     }) as Promise<SubmitRequirementInfo[] | undefined>;
   }
 
@@ -2519,7 +2564,8 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   async restoreFileInChangeEdit(
     changeNum: NumericChangeId,
-    restore_path: string
+    restore_path: string,
+    errFn?: ErrorCallback
   ): Promise<Response> {
     const url = await this._changeBaseURL(changeNum);
     return this._restApiHelper.fetch({
@@ -2528,6 +2574,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
         body: {restore_path},
       }),
       url: `${url}/edit`,
+      errFn,
       anonymizedUrl: `${ANONYMIZED_CHANGE_BASE_URL}/edit`,
       reportServerError: true,
     });
@@ -2552,7 +2599,8 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
 
   async deleteFileInChangeEdit(
     changeNum: NumericChangeId,
-    path: string
+    path: string,
+    errFn?: ErrorCallback
   ): Promise<Response> {
     const url = await this._changeBaseURL(changeNum);
     return this._restApiHelper.fetch({
@@ -2560,13 +2608,15 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       url: `${url}/edit/${encodeURIComponent(path)}`,
       anonymizedUrl: `${ANONYMIZED_CHANGE_BASE_URL}/edit/*`,
       reportServerError: true,
+      errFn,
     });
   }
 
   async saveChangeEdit(
     changeNum: NumericChangeId,
     path: string,
-    contents: string
+    contents: string,
+    errFn?: ErrorCallback
   ): Promise<Response> {
     const url = await this._changeBaseURL(changeNum);
     return this._restApiHelper.fetch({
@@ -2576,6 +2626,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
         contentType: 'text/plain',
       }),
       url: `${url}/edit/${encodeURIComponent(path)}`,
+      errFn,
       anonymizedUrl: `${ANONYMIZED_CHANGE_BASE_URL}/edit/*`,
       reportServerError: true,
     });
@@ -2650,11 +2701,15 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     );
     const body: {
       fix_replacement_infos: FixReplacementInfo[];
-      original_patchset_for_fix?: PatchSetNum;
+      original_patchset_for_fix?: number;
     } = {
       fix_replacement_infos: fixReplacementInfos,
     };
-    if (targetPatchNum !== undefined && targetPatchNum !== fixPatchNum) {
+    if (
+      targetPatchNum !== undefined &&
+      targetPatchNum !== fixPatchNum &&
+      typeof fixPatchNum === 'number'
+    ) {
       body.original_patchset_for_fix = fixPatchNum;
     }
     return this._restApiHelper.fetch({

@@ -38,6 +38,7 @@ import com.google.gerrit.server.change.WalkSorter;
 import com.google.gerrit.server.change.WalkSorter.PatchSetData;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.ChangeIsVisibleToPredicate;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.submit.ChangeSet;
 import com.google.gerrit.server.submit.MergeSuperSet;
@@ -68,6 +69,7 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
   private final Provider<InternalChangeQuery> queryProvider;
   private final Provider<MergeSuperSet> mergeSuperSet;
   private final Provider<WalkSorter> sorter;
+  private final ChangeIsVisibleToPredicate.Factory changeIsVisibleToPredicateFactory;
 
   @Option(name = "-o", usage = "Output options")
   void addOption(String option) {
@@ -93,11 +95,13 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
       ChangeJson.Factory json,
       Provider<InternalChangeQuery> queryProvider,
       Provider<MergeSuperSet> mergeSuperSet,
-      Provider<WalkSorter> sorter) {
+      Provider<WalkSorter> sorter,
+      ChangeIsVisibleToPredicate.Factory changeIsVisibleToPredicateFactory) {
     this.json = json;
     this.queryProvider = queryProvider;
     this.mergeSuperSet = mergeSuperSet;
     this.sorter = sorter;
+    this.changeIsVisibleToPredicateFactory = changeIsVisibleToPredicateFactory;
   }
 
   public SubmittedTogether addListChangesOption(Set<ListChangesOption> o) {
@@ -128,7 +132,7 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
       throws AuthException, IOException, PermissionBackendException {
     Change c = resource.getChange();
     try {
-      List<ChangeData> cds;
+      ImmutableList<ChangeData> cds;
       int hidden;
 
       if (c.isNew()) {
@@ -137,9 +141,7 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
                 .get()
                 .completeChangeSet(c, resource.getUser(), options.contains(TOPIC_CLOSURE));
         hidden = cs.nonVisibleChanges().size();
-        if (hidden != 0 && !options.contains(NON_VISIBLE_CHANGES)) {
-          throw new AuthException("change would be submitted with a change that you cannot see");
-        }
+
         if (cs.size() <= 1 && hidden == 0) {
           SubmittedTogetherInfo info = new SubmittedTogetherInfo();
           info.changes = ImmutableList.of();
@@ -148,9 +150,20 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
         }
         cds = cs.changes().asList();
       } else if (c.isMerged()) {
-        cds = queryProvider.get().bySubmissionId(c.getSubmissionId());
+        List<ChangeData> submittedChanges = queryProvider.get().bySubmissionId(c.getSubmissionId());
+        ChangeIsVisibleToPredicate visibleToUser =
+            changeIsVisibleToPredicateFactory.forUser(resource.getUser());
+        ImmutableList.Builder<ChangeData> visibleSubmittedChanges = ImmutableList.builder();
         hidden = 0;
-        if (cds.size() <= 1) {
+        for (ChangeData submittedChange : submittedChanges) {
+          if (visibleToUser.match(submittedChange)) {
+            visibleSubmittedChanges.add(submittedChange);
+          } else {
+            hidden++;
+          }
+        }
+        cds = visibleSubmittedChanges.build();
+        if (cds.size() <= 1 && hidden == 0) {
           SubmittedTogetherInfo info = new SubmittedTogetherInfo();
           info.changes = ImmutableList.of();
           info.nonVisibleChanges = 0;
@@ -161,6 +174,10 @@ public class SubmittedTogether implements RestReadView<ChangeResource> {
         info.changes = ImmutableList.of();
         info.nonVisibleChanges = 0;
         return info;
+      }
+
+      if (hidden != 0 && !options.contains(NON_VISIBLE_CHANGES)) {
+        throw new AuthException("change would be submitted with a change that you cannot see");
       }
 
       cds = sort(cds, hidden);

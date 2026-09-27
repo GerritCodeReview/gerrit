@@ -5,6 +5,7 @@
  */
 import {
   BasePatchSetNum,
+  EDIT,
   FileInfo,
   FileNameToFileInfoMap,
   PARENT,
@@ -12,12 +13,13 @@ import {
   PatchSetNumber,
   RevisionPatchSetNum,
 } from '../../types/common';
-import {combineLatest, from, Observable, of} from 'rxjs';
+import {combineLatest, forkJoin, from, Observable, of} from 'rxjs';
 import {map, switchMap} from 'rxjs/operators';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
 import {select} from '../../utils/observable-util';
 import {FileInfoStatus, SpecialFilePath} from '../../constants/constants';
 import {specialFilePathCompare} from '../../utils/path-list-util';
+import {RevisionInfo as RevisionInfoClass} from '../../elements/shared/revision-info/revision-info';
 import {Model} from '../base/model';
 import {define} from '../dependency';
 import {ChangeModel} from './change-model';
@@ -133,12 +135,24 @@ export interface FilesState {
    * Empty if the left chosen patchset is PARENT.
    */
   filesRightBase: NormalizedFileInfo[];
+
+  /**
+   * For merge commits vs Auto Merge, paths of files that merged cleanly.
+   */
+  cleanlyMergedPaths: string[];
+
+  /**
+   * Old paths of cleanly merged files (for renamed files).
+   */
+  cleanlyMergedOldPaths: string[];
 }
 
 const initialState: FilesState = {
   files: [],
   filesLeftBase: [],
   filesRightBase: [],
+  cleanlyMergedPaths: [],
+  cleanlyMergedOldPaths: [],
 };
 
 export const filesModelToken = define<FilesModel>('files-model');
@@ -161,6 +175,16 @@ export class FilesModel extends Model<FilesState> {
   public readonly filesLeftBase$;
 
   public readonly filesRightBase$;
+
+  public readonly cleanlyMergedPaths$ = select(
+    this.state$,
+    state => state.cleanlyMergedPaths
+  );
+
+  public readonly cleanlyMergedOldPaths$ = select(
+    this.state$,
+    state => state.cleanlyMergedOldPaths
+  );
 
   constructor(
     readonly changeModel: ChangeModel,
@@ -214,6 +238,7 @@ export class FilesModel extends Model<FilesState> {
           return {filesRightBase: [...files]};
         }
       ),
+      this.subscribeToCleanlyMergedPaths(),
     ];
   }
 
@@ -260,6 +285,62 @@ export class FilesModel extends Model<FilesState> {
         }),
         map(mapToList),
         map(filesToState)
+      )
+      .subscribe(state => {
+        this.updateState(state);
+      });
+  }
+
+  private subscribeToCleanlyMergedPaths() {
+    return combineLatest([
+      this.changeModel.change$,
+      this.changeModel.changeNum$,
+      this.changeModel.basePatchNum$,
+      this.changeModel.patchNum$,
+    ])
+      .pipe(
+        switchMap(([change, changeNum, basePatchNum, patchNum]) => {
+          if (
+            !change ||
+            !changeNum ||
+            !patchNum ||
+            !new RevisionInfoClass(change).isMergeCommit(patchNum) ||
+            basePatchNum !== PARENT ||
+            patchNum === EDIT
+          ) {
+            return of({cleanlyMergedPaths: [], cleanlyMergedOldPaths: []});
+          }
+          return forkJoin([
+            from(
+              this.restApiService.getChangeOrEditFiles(changeNum, {
+                basePatchNum: -1 as BasePatchSetNum,
+                patchNum,
+              })
+            ),
+            from(
+              this.restApiService.getChangeOrEditFiles(changeNum, {
+                basePatchNum: PARENT,
+                patchNum,
+              })
+            ),
+          ]).pipe(
+            map(([allFilesByPath, conflictingFilesByPath]) => {
+              if (!allFilesByPath) {
+                return {cleanlyMergedPaths: [], cleanlyMergedOldPaths: []};
+              }
+              const conflictingPaths = Object.keys(
+                conflictingFilesByPath ?? {}
+              );
+              const cleanlyMergedPaths = Object.keys(allFilesByPath).filter(
+                path => !conflictingPaths.includes(path)
+              );
+              const cleanlyMergedOldPaths = cleanlyMergedPaths
+                .map(path => allFilesByPath[path].old_path)
+                .filter((oldPath): oldPath is string => !!oldPath);
+              return {cleanlyMergedPaths, cleanlyMergedOldPaths};
+            })
+          );
+        })
       )
       .subscribe(state => {
         this.updateState(state);

@@ -21,6 +21,7 @@ import static com.google.gerrit.server.project.testing.TestLabels.labelBuilder;
 import static com.google.gerrit.server.project.testing.TestLabels.value;
 
 import com.google.common.collect.Iterables;
+import com.google.common.html.HtmlEscapers;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -86,12 +87,13 @@ public class ChangeNoLongerSubmittableIT extends AbstractDaemonTest {
                 "Attention is currently required from: %s, %s.\n"
                     + "\n"
                     + "%s has posted comments on this change by %s.",
-                admin.fullName(), user.fullName(), approver.fullName(), admin.fullName()));
+                admin.fullName(), user.fullName(), approver.getNameEmail(), admin.fullName()));
     assertThat(message.htmlBody())
         .contains(
             String.format(
                 "<p>%s has posted comments on this change by %s.</p>",
-                approver.fullName(), admin.fullName()));
+                HtmlEscapers.htmlEscaper().escape(approver.getNameEmail().toString()),
+                admin.fullName()));
     assertThat(message.body())
         .contains("The change is no longer submittable: Code-Review is unsatisfied now.\n");
     assertThat(message.htmlBody())
@@ -135,12 +137,13 @@ public class ChangeNoLongerSubmittableIT extends AbstractDaemonTest {
                 "Attention is currently required from: %s, %s.\n"
                     + "\n"
                     + "%s has posted comments on this change by %s.",
-                admin.fullName(), user.fullName(), approver.fullName(), admin.fullName()));
+                admin.fullName(), user.fullName(), approver.getNameEmail(), admin.fullName()));
     assertThat(message.htmlBody())
         .contains(
             String.format(
                 "<p>%s has posted comments on this change by %s.</p>",
-                approver.fullName(), admin.fullName()));
+                HtmlEscapers.htmlEscaper().escape(approver.getNameEmail().toString()),
+                admin.fullName()));
     assertThat(message.body())
         .contains("The change is no longer submittable: Code-Review is unsatisfied now.\n");
     assertThat(message.htmlBody())
@@ -185,12 +188,13 @@ public class ChangeNoLongerSubmittableIT extends AbstractDaemonTest {
                 "Attention is currently required from: %s, %s.\n"
                     + "\n"
                     + "%s has posted comments on this change by %s.",
-                admin.fullName(), user.fullName(), approver.fullName(), admin.fullName()));
+                admin.fullName(), user.fullName(), approver.getNameEmail(), admin.fullName()));
     assertThat(message.htmlBody())
         .contains(
             String.format(
                 "<p>%s has posted comments on this change by %s.</p>",
-                approver.fullName(), admin.fullName()));
+                HtmlEscapers.htmlEscaper().escape(approver.getNameEmail().toString()),
+                admin.fullName()));
     assertThat(message.body())
         .contains("The change is no longer submittable: Code-Review is unsatisfied now.\n");
     assertThat(message.htmlBody())
@@ -310,12 +314,13 @@ public class ChangeNoLongerSubmittableIT extends AbstractDaemonTest {
                 "Attention is currently required from: %s, %s.\n"
                     + "\n"
                     + "%s has posted comments on this change by %s.",
-                admin.fullName(), user.fullName(), approver.fullName(), admin.fullName()));
+                admin.fullName(), user.fullName(), approver.getNameEmail(), admin.fullName()));
     assertThat(message.htmlBody())
         .contains(
             String.format(
                 "<p>%s has posted comments on this change by %s.</p>",
-                approver.fullName(), admin.fullName()));
+                HtmlEscapers.htmlEscaper().escape(approver.getNameEmail().toString()),
+                admin.fullName()));
     assertThat(message.body())
         .contains(
             "The change is no longer submittable:"
@@ -367,12 +372,13 @@ public class ChangeNoLongerSubmittableIT extends AbstractDaemonTest {
                 "Attention is currently required from: %s, %s.\n"
                     + "\n"
                     + "%s has posted comments on this change by %s.",
-                admin.fullName(), user.fullName(), approver.fullName(), admin.fullName()));
+                admin.fullName(), user.fullName(), approver.getNameEmail(), admin.fullName()));
     assertThat(message.htmlBody())
         .contains(
             String.format(
                 "<p>%s has posted comments on this change by %s.</p>",
-                approver.fullName(), admin.fullName()));
+                HtmlEscapers.htmlEscaper().escape(approver.getNameEmail().toString()),
+                admin.fullName()));
     assertThat(message.body()).doesNotContain("The change is no longer submittable");
     assertThat(message.htmlBody()).doesNotContain("The change is no longer submittable");
   }
@@ -418,12 +424,13 @@ public class ChangeNoLongerSubmittableIT extends AbstractDaemonTest {
                 "Attention is currently required from: %s, %s.\n"
                     + "\n"
                     + "%s has posted comments on this change by %s.",
-                admin.fullName(), user.fullName(), approver.fullName(), admin.fullName()));
+                admin.fullName(), user.fullName(), approver.getNameEmail(), admin.fullName()));
     assertThat(message.htmlBody())
         .contains(
             String.format(
                 "<p>%s has posted comments on this change by %s.</p>",
-                approver.fullName(), admin.fullName()));
+                HtmlEscapers.htmlEscaper().escape(approver.getNameEmail().toString()),
+                admin.fullName()));
     assertThat(message.body()).doesNotContain("The change is no longer submittable");
     assertThat(message.htmlBody()).doesNotContain("The change is no longer submittable");
   }
@@ -460,12 +467,13 @@ public class ChangeNoLongerSubmittableIT extends AbstractDaemonTest {
                 "Attention is currently required from: %s, %s.\n"
                     + "\n"
                     + "%s has posted comments on this change by %s.",
-                admin.fullName(), user.fullName(), approver.fullName(), admin.fullName()));
+                admin.fullName(), user.fullName(), approver.getNameEmail(), admin.fullName()));
     assertThat(message.htmlBody())
         .contains(
             String.format(
                 "<p>%s has posted comments on this change by %s.</p>",
-                approver.fullName(), admin.fullName()));
+                HtmlEscapers.htmlEscaper().escape(approver.getNameEmail().toString()),
+                admin.fullName()));
     assertThat(message.body()).doesNotContain("The change is no longer submittable");
     assertThat(message.htmlBody()).doesNotContain("The change is no longer submittable");
   }
@@ -502,12 +510,13 @@ public class ChangeNoLongerSubmittableIT extends AbstractDaemonTest {
                 "Attention is currently required from: %s, %s.\n"
                     + "\n"
                     + "%s has posted comments on this change by %s.",
-                admin.fullName(), user.fullName(), approver.fullName(), admin.fullName()));
+                admin.fullName(), user.fullName(), approver.getNameEmail(), admin.fullName()));
     assertThat(message.htmlBody())
         .contains(
             String.format(
                 "<p>%s has posted comments on this change by %s.</p>",
-                approver.fullName(), admin.fullName()));
+                HtmlEscapers.htmlEscaper().escape(approver.getNameEmail().toString()),
+                admin.fullName()));
     assertThat(message.body()).doesNotContain("The change is no longer submittable");
     assertThat(message.htmlBody()).doesNotContain("The change is no longer submittable");
   }
@@ -558,7 +567,7 @@ public class ChangeNoLongerSubmittableIT extends AbstractDaemonTest {
                 admin.fullName(),
                 user.fullName(),
                 approver.fullName(),
-                uploaderPs3.fullName(),
+                uploaderPs3.getNameEmail(),
                 admin.fullName()));
     assertThat(message.body())
         .contains("The change is no longer submittable: Code-Review is unsatisfied now.\n");
@@ -631,7 +640,7 @@ public class ChangeNoLongerSubmittableIT extends AbstractDaemonTest {
                     + "\n"
                     + "%s has uploaded a new patch set (#3) to the change originally created by"
                     + " %s.",
-                admin.fullName(), user.fullName(), approver.fullName(), admin.fullName()));
+                admin.fullName(), user.fullName(), approver.getNameEmail(), admin.fullName()));
     assertThat(message.body())
         .contains("The change is no longer submittable: Code-Review is unsatisfied now.\n");
     assertThat(message.htmlBody())
@@ -703,7 +712,7 @@ public class ChangeNoLongerSubmittableIT extends AbstractDaemonTest {
                     + "\n"
                     + "%s has uploaded a new patch set (#3) to the change originally created by"
                     + " %s.",
-                admin.fullName(), user.fullName(), approver.fullName(), admin.fullName()));
+                admin.fullName(), user.fullName(), approver.getNameEmail(), admin.fullName()));
     assertThat(message.body())
         .contains("The change is no longer submittable: Code-Review is unsatisfied now.\n");
     assertThat(message.htmlBody())
@@ -780,7 +789,7 @@ public class ChangeNoLongerSubmittableIT extends AbstractDaemonTest {
                 admin.fullName(),
                 user.fullName(),
                 uploaderPs3.fullName(),
-                uploaderPs3.fullName(),
+                uploaderPs3.getNameEmail(),
                 admin.fullName()));
     assertThat(message.body())
         .contains("The change is no longer submittable: Code-Review is unsatisfied now.\n");
@@ -843,7 +852,7 @@ public class ChangeNoLongerSubmittableIT extends AbstractDaemonTest {
                     + "\n"
                     + "%s has uploaded a new patch set (#3) to the change originally created by"
                     + " %s.",
-                admin.fullName(), user.fullName(), uploaderPs3.fullName(), admin.fullName()));
+                admin.fullName(), user.fullName(), uploaderPs3.getNameEmail(), admin.fullName()));
     assertThat(message.body()).doesNotContain("The change is no longer submittable");
     assertThat(message.htmlBody()).doesNotContain("The change is no longer submittable");
   }
@@ -904,7 +913,7 @@ public class ChangeNoLongerSubmittableIT extends AbstractDaemonTest {
                 user.fullName(),
                 approver.fullName(),
                 uploaderPs3.fullName(),
-                uploaderPs3.fullName(),
+                uploaderPs3.getNameEmail(),
                 admin.fullName()));
     assertThat(message.body()).doesNotContain("The change is no longer submittable");
     assertThat(message.htmlBody()).doesNotContain("The change is no longer submittable");
@@ -930,7 +939,7 @@ public class ChangeNoLongerSubmittableIT extends AbstractDaemonTest {
         .contains(
             String.format(
                 "%s has uploaded a new patch set (#3) to the change originally created by %s.",
-                uploaderPs3.fullName(), admin.fullName()));
+                uploaderPs3.getNameEmail(), admin.fullName()));
     assertThat(message.body()).doesNotContain("The change is no longer submittable");
     assertThat(message.htmlBody()).doesNotContain("The change is no longer submittable");
   }
@@ -981,7 +990,7 @@ public class ChangeNoLongerSubmittableIT extends AbstractDaemonTest {
                     + "\n"
                     + "%s has uploaded a new patch set (#3) to the change originally created by"
                     + " %s.",
-                uploaderPs3.fullName(), uploaderPs3.fullName(), admin.fullName()));
+                uploaderPs3.fullName(), uploaderPs3.getNameEmail(), admin.fullName()));
     assertThat(message.body()).doesNotContain("The change is no longer submittable");
     assertThat(message.htmlBody()).doesNotContain("The change is no longer submittable");
   }

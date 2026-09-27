@@ -117,7 +117,8 @@ export class GrCopyLinks extends LitElement {
       tabindex="-1"
       .menuCorner=${this.horizontalAlign === 'left'
         ? 'start-start'
-        : 'end-start'}
+        : 'start-end'}
+      .anchorCorner=${this.horizontalAlign === 'left' ? 'end-start' : 'end-end'}
       ?quick=${true}
       .yOffset=${this.verticalOffset}
       @opened=${() => {
@@ -151,6 +152,8 @@ export class GrCopyLinks extends LitElement {
         id=${`${id}-copy-clipboard`}
         nowrap
         ?multiline=${!!multiline}
+        copyTargetName=${label}
+        buttonTitle=${`Copy ${label} to clipboard`}
         ${index === 0 && ref(this.copyClipboardRef)}
       ></gr-copy-clipboard>
     </div>`;

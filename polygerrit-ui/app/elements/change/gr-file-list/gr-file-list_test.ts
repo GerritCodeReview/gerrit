@@ -18,6 +18,7 @@ import {
   waitEventLoop,
   waitUntil,
 } from '../../../test/test-utils';
+import type {GrDiffMarkdownViewer} from '../../diff/gr-diff-markdown-viewer/gr-diff-markdown-viewer';
 import {
   BasePatchSetNum,
   CommitId,
@@ -207,7 +208,12 @@ suite('gr-file-list tests', () => {
               <span class="truncatedFileName" title="path/file0">
                 …/file0
               </span>
-              <gr-copy-clipboard hideinput=""> </gr-copy-clipboard>
+              <gr-copy-clipboard
+                buttontitle="Copy file path to clipboard"
+                copytargetname="File path"
+                hideinput=""
+              >
+              </gr-copy-clipboard>
             </a>
           </span>
           <div role="gridcell">
@@ -327,7 +333,12 @@ suite('gr-file-list tests', () => {
               <span class="truncatedFileName" title="path/file0">
                 …/file0
               </span>
-              <gr-copy-clipboard hideinput=""> </gr-copy-clipboard>
+              <gr-copy-clipboard
+                buttontitle="Copy file path to clipboard"
+                copytargetname="File path"
+                hideinput=""
+              >
+              </gr-copy-clipboard>
             </a>
           </span>
         `
@@ -345,7 +356,12 @@ suite('gr-file-list tests', () => {
               <span class="truncatedFileName" title="path/file1">
                 …/file1
               </span>
-              <gr-copy-clipboard hideinput=""> </gr-copy-clipboard>
+              <gr-copy-clipboard
+                buttontitle="Copy file path to clipboard"
+                copytargetname="File path"
+                hideinput=""
+              >
+              </gr-copy-clipboard>
             </a>
           </span>
         `
@@ -1618,18 +1634,10 @@ suite('gr-file-list tests', () => {
     });
 
     suite('for merge commits', () => {
-      let filesStub: sinon.SinonStub;
-
       setup(async () => {
         element.files = [
           normalize({size: 0, size_delta: 0}, 'conflictingFile.js'),
         ];
-        filesStub = stubRestApi('getChangeOrEditFiles')
-          .onFirstCall()
-          .resolves({
-            'conflictingFile.js': {size: 0, size_delta: 0},
-            'cleanlyMergedFile.js': {size: 0, size_delta: 0},
-          });
         stubRestApi('getReviewedFiles').resolves([]);
         stubRestApi('getDiffPreferences').resolves(createDefaultDiffPrefs());
         const changeWithMultipleParents = {
@@ -1656,6 +1664,8 @@ suite('gr-file-list tests', () => {
       });
 
       test('displays cleanly merged file count', async () => {
+        element.cleanlyMergedPaths = ['cleanlyMergedFile.js'];
+        await element.updateComplete;
         await waitUntil(() => !!query(element, '.cleanlyMergedText'));
 
         const message = queryAndAssert<HTMLSpanElement>(
@@ -1666,15 +1676,10 @@ suite('gr-file-list tests', () => {
       });
 
       test('displays plural cleanly merged file count', async () => {
-        filesStub.restore();
-        stubRestApi('getChangeOrEditFiles')
-          .onFirstCall()
-          .resolves({
-            'conflictingFile.js': {size: 0, size_delta: 0},
-            'cleanlyMergedFile.js': {size: 0, size_delta: 0},
-            'anotherCleanlyMergedFile.js': {size: 0, size_delta: 0},
-          });
-        await element.updateCleanlyMergedPaths();
+        element.cleanlyMergedPaths = [
+          'cleanlyMergedFile.js',
+          'anotherCleanlyMergedFile.js',
+        ];
         await element.updateComplete;
         await waitUntil(() => !!query(element, '.cleanlyMergedText'));
 
@@ -1686,34 +1691,17 @@ suite('gr-file-list tests', () => {
       });
 
       test('displays button for navigating to parent 1 base', async () => {
+        element.cleanlyMergedPaths = ['cleanlyMergedFile.js'];
+        await element.updateComplete;
         await waitUntil(() => !!query(element, '.showParentButton'));
 
         queryAndAssert(element, '.showParentButton');
       });
 
-      test('computes old paths for cleanly merged files', async () => {
-        filesStub.restore();
-        stubRestApi('getChangeOrEditFiles')
-          .onFirstCall()
-          .resolves({
-            'conflictingFile.js': {size: 0, size_delta: 0},
-            'cleanlyMergedFile.js': {
-              old_path: 'cleanlyMergedFileOldName.js',
-              size: 0,
-              size_delta: 0,
-            },
-          });
-        await element.updateCleanlyMergedPaths();
-
-        assert.deepEqual(element.cleanlyMergedOldPaths, [
-          'cleanlyMergedFileOldName.js',
-        ]);
-      });
-
       test('not shown for non-Auto Merge base parents', async () => {
+        element.cleanlyMergedPaths = [];
         element.basePatchNum = 1 as BasePatchSetNum;
         element.patchNum = 2 as RevisionPatchSetNum;
-        await element.updateCleanlyMergedPaths();
         await element.updateComplete;
 
         assert.notOk(query(element, '.cleanlyMergedText'));
@@ -1721,9 +1709,9 @@ suite('gr-file-list tests', () => {
       });
 
       test('not shown in edit mode', async () => {
+        element.cleanlyMergedPaths = [];
         element.basePatchNum = 1 as BasePatchSetNum;
         element.patchNum = EDIT;
-        await element.updateCleanlyMergedPaths();
         await element.updateComplete;
 
         assert.notOk(query(element, '.cleanlyMergedText'));
@@ -2406,6 +2394,132 @@ suite('gr-file-list tests', () => {
         'invisible'
       );
       assert.equal(element.computeClass('', 'file.java'), '');
+    });
+  });
+
+  suite('rich markdown diff', () => {
+    setup(async () => {
+      stubRestApi('getDiffComments').returns(Promise.resolve({}));
+      stubRestApi('getDiffDrafts').returns(Promise.resolve({}));
+      stubRestApi('getAccountCapabilities').returns(Promise.resolve({}));
+      stubElement('gr-diff-host', 'reload').callsFake(() => Promise.resolve());
+      stubElement('gr-diff-host', 'prefetchDiff').callsFake(() => {});
+
+      element = await fixture(html`<gr-file-list></gr-file-list>`);
+      element.numFilesShown = 5;
+      element.files = [normalize({}, 'README.md'), normalize({}, 'file.ts')];
+      await element.updateComplete;
+    });
+
+    test('toggle button rendered only for markdown files', () => {
+      const rows = queryAll(element, '.file-row');
+      assert.equal(rows.length, 2);
+
+      const mdToggle = rows[0].querySelector('.toggleRichMarkdown');
+      assert.isOk(mdToggle);
+
+      const nonMdToggle = rows[1].querySelector('.toggleRichMarkdown');
+      assert.isNotOk(nonMdToggle);
+    });
+
+    test('clicking toggleRichMarkdown expands file and enables rich mode', async () => {
+      assert.isFalse(element.isFileExpanded('README.md'));
+      assert.isFalse(element.isShowingRichMarkdown('README.md'));
+
+      element.toggleRichMarkdown('README.md');
+      await element.updateComplete;
+
+      assert.isTrue(element.isFileExpanded('README.md'));
+      assert.isTrue(element.isShowingRichMarkdown('README.md'));
+
+      const viewer = query(element, 'gr-diff-markdown-viewer');
+      assert.isOk(viewer);
+
+      // Toggle off
+      element.toggleRichMarkdown('README.md');
+      await element.updateComplete;
+
+      assert.isFalse(element.isShowingRichMarkdown('README.md'));
+      const viewerAfter = query(element, 'gr-diff-markdown-viewer');
+      assert.isNotOk(viewerAfter);
+    });
+
+    test('handleNewComment delegates to viewer when viewer has active selection', async () => {
+      element.loggedIn = true;
+      element.toggleRichMarkdown('README.md');
+      await element.updateComplete;
+
+      const viewer = queryAndAssert<GrDiffMarkdownViewer>(
+        element,
+        'gr-diff-markdown-viewer'
+      );
+      assert.isTrue(viewer.loggedIn);
+
+      sinon.stub(viewer, 'hasActiveSelection').returns(true);
+      const commentSpy = sinon.spy(viewer, 'createCommentFromSelectionOrHover');
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (element as any).handleNewComment();
+
+      assert.isTrue(commentSpy.calledOnce);
+    });
+
+    test('c and C shortcuts delegate to viewer when cursor is on rich markdown file', async () => {
+      element.loggedIn = true;
+      element.toggleRichMarkdown('README.md');
+      await element.updateComplete;
+
+      const viewer = queryAndAssert<GrDiffMarkdownViewer>(
+        element,
+        'gr-diff-markdown-viewer'
+      );
+      const commentSpy = sinon.spy(viewer, 'createCommentFromSelectionOrHover');
+
+      element.fileCursor.setCursorAtIndex(0);
+      assert.equal(element.files[element.fileCursor.index].__path, 'README.md');
+
+      pressKey(element, 'c');
+      assert.isTrue(commentSpy.calledOnce);
+
+      pressKey(element, 'C');
+      assert.isTrue(commentSpy.calledTwice);
+    });
+
+    test('toggling rich to source flushes drafts for matching file viewer', async () => {
+      element.files = [normalize({}, 'README.md'), normalize({}, 'DOCS.md')];
+      await element.updateComplete;
+
+      element.toggleRichMarkdown('README.md');
+      element.toggleRichMarkdown('DOCS.md');
+      await element.updateComplete;
+
+      const viewers = Array.from(
+        queryAll<GrDiffMarkdownViewer>(element, 'gr-diff-markdown-viewer')
+      );
+      assert.equal(viewers.length, 2);
+
+      const readmeViewer = viewers.find(v => v.path === 'README.md')!;
+      const docsViewer = viewers.find(v => v.path === 'DOCS.md')!;
+      assert.isOk(readmeViewer);
+      assert.isOk(docsViewer);
+
+      const readmeSaveSpy = sinon.spy(readmeViewer, 'autoSaveDrafts');
+      const docsSaveSpy = sinon.spy(docsViewer, 'autoSaveDrafts');
+
+      await element.toggleRichMarkdown('DOCS.md');
+      await element.updateComplete;
+
+      assert.isFalse(readmeSaveSpy.called);
+      assert.isTrue(docsSaveSpy.calledOnce);
+    });
+
+    test('gridcell count parity across markdown and non-markdown rows', () => {
+      const rows = queryAll(element, '.file-row');
+      assert.equal(rows.length, 2);
+
+      const mdCells = queryAll(rows[0], '[role="gridcell"]');
+      const nonMdCells = queryAll(rows[1], '[role="gridcell"]');
+      assert.equal(mdCells.length, nonMdCells.length);
     });
   });
 });

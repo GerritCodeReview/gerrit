@@ -15,7 +15,6 @@
 package com.google.gerrit.server.schema;
 
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.SitePaths;
 import java.lang.reflect.InvocationTargetException;
@@ -23,29 +22,41 @@ import java.lang.reflect.Proxy;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayDeque;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Queue;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
 import org.eclipse.jgit.lib.Config;
 
 /**
  * Abstract base for H2 stores that replace H2's built-in file locking with a custom mechanism.
  *
- * <p>H2 is opened with {@code FILE_LOCK=NO}; subclasses implement {@link #tryAcquireLock()} to make
- * a single lock attempt. The retry loop with exponential backoff is handled here.
+ * <p>H2 is opened with {@code FILE_LOCK=NO}; subclasses implement {@link #newLock()}, returning a
+ * raw {@link Lock} with a working {@link Lock#tryLock()} and {@link Lock#unlock()}. This class adds
+ * retry-with-backoff (up to {@code h2LockTimeout}) and batching: up to {@code h2LockBatchSize}
+ * in-process callers can share one held lock at a time instead of each acquiring/releasing
+ * separately.
  */
 abstract class H2CustomLockAccountPatchReviewStore extends H2AccountPatchReviewStore {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+  private static final long DEFAULT_LOCK_TIMEOUT_MS = TimeUnit.SECONDS.toMillis(30);
+  private static final int DEFAULT_LOCK_BATCH_SIZE = 32;
   private static final long INITIAL_BACKOFF_MS = 1;
   private static final long MAX_BACKOFF_MS = 500;
-  static final long DEFAULT_LOCK_TIMEOUT_MS = TimeUnit.SECONDS.toMillis(30);
 
   private final String url;
   private final long lockTimeoutMs;
+  private final int lockBatchSize;
+  private Lock lockInstance;
 
   protected H2CustomLockAccountPatchReviewStore(Config cfg, SitePaths sitePaths) {
     super();
-    this.url =
-        JdbcAccountPatchReviewStore.getUrl(cfg, sitePaths) + ";FILE_LOCK=NO;DB_CLOSE_DELAY=0";
-    this.lockTimeoutMs =
+    url = JdbcAccountPatchReviewStore.getUrl(cfg, sitePaths) + ";FILE_LOCK=NO;DB_CLOSE_DELAY=0";
+    lockTimeoutMs =
         ConfigUtil.getTimeUnit(
             cfg,
             JdbcAccountPatchReviewStore.ACCOUNT_PATCH_REVIEW_DB,
@@ -53,58 +64,172 @@ abstract class H2CustomLockAccountPatchReviewStore extends H2AccountPatchReviewS
             "h2LockTimeout",
             DEFAULT_LOCK_TIMEOUT_MS,
             TimeUnit.MILLISECONDS);
+    lockBatchSize =
+        Math.max(
+            1,
+            cfg.getInt(
+                JdbcAccountPatchReviewStore.ACCOUNT_PATCH_REVIEW_DB,
+                "h2LockBatchSize",
+                DEFAULT_LOCK_BATCH_SIZE));
   }
 
   protected long getLockTimeoutMs() {
     return lockTimeoutMs;
   }
 
-  /**
-   * Makes a single attempt to acquire the lock.
-   *
-   * @return a {@link Runnable} that releases the lock, or {@code null} if the lock is currently
-   *     held by another process (retry-able)
-   * @throws SQLException on a hard, non-retryable error
-   */
-  @Nullable
-  protected abstract Runnable tryAcquireLock() throws SQLException;
+  protected int getLockBatchSize() {
+    return lockBatchSize;
+  }
 
-  private Runnable acquireExclusiveLock() throws SQLException {
-    long backoffMs = INITIAL_BACKOFF_MS;
-    long deadline = System.currentTimeMillis() + lockTimeoutMs;
-    while (true) {
-      Runnable unlock = tryAcquireLock();
-      if (unlock != null) {
-        return unlock;
-      }
-      long remaining = deadline - System.currentTimeMillis();
-      if (remaining <= 0) {
-        throw new SQLException("Could not acquire H2 lock within " + lockTimeoutMs + " ms");
-      }
-      long sleepMs = Math.min(backoffMs, remaining);
-      logger.atFine().log("H2 lock held by another process, retrying in %d ms", sleepMs);
-      try {
-        Thread.sleep(sleepMs);
-      } catch (InterruptedException ie) {
-        Thread.currentThread().interrupt();
-        throw new SQLException("Interrupted while waiting for H2 lock", ie);
-      }
-      backoffMs = Math.min(backoffMs * 2, MAX_BACKOFF_MS);
+  /** Creates a new, not-yet-acquired raw {@link Lock}; only tryLock()/unlock() are used. */
+  protected abstract Lock newLock();
+
+  private synchronized Lock lock() {
+    if (lockInstance == null) {
+      lockInstance = newBatchingLock(newLock(), lockBatchSize);
     }
+    return lockInstance;
+  }
+
+  /** Wraps {@code raw} with retry-with-backoff and fixed-size batching. */
+  static Lock newBatchingLock(Lock raw, int lockBatchSize) {
+    return new Lock() {
+      // Threads not yet admitted, in the order they arrived.
+      private final Queue<Thread> waiting = new ArrayDeque<>();
+      // Threads currently holding the lock.
+      private final Set<Thread> acquired = new HashSet<>();
+      private final int maxActive = Math.max(1, lockBatchSize);
+
+      @Override
+      public boolean tryLock(long time, TimeUnit unit) throws InterruptedException {
+        long backoffMs = INITIAL_BACKOFF_MS;
+        long deadline = System.nanoTime() + unit.toNanos(time);
+        Thread thread = Thread.currentThread();
+        synchronized (this) {
+          waiting.offer(thread);
+          while (true) {
+            if (acquired.contains(thread)) {
+              return true;
+            }
+            if (acquired.isEmpty() && isTaskedToTryRaw(thread)) {
+              if (tryAcquireRaw()) {
+                return true;
+              }
+            }
+            try {
+              long remainingNanos = deadline - System.nanoTime();
+              if (remainingNanos <= 0) {
+                waiting.remove(thread);
+                return false;
+              }
+              long waitMs = Math.clamp(TimeUnit.NANOSECONDS.toMillis(remainingNanos), 1, backoffMs);
+              logger.atFine().log("H2 lock held by another process, retrying in %d ms", waitMs);
+              wait(waitMs);
+              backoffMs = Math.min(backoffMs * 2, MAX_BACKOFF_MS);
+            } catch (InterruptedException | RuntimeException e) {
+              unlock(thread);
+              throw e;
+            }
+          }
+        }
+      }
+
+      @Override
+      public synchronized void unlock() {
+        unlock(Thread.currentThread());
+      }
+
+      private void unlock(Thread thread) {
+        acquired.remove(thread);
+        try {
+          if (acquired.isEmpty()) {
+            raw.unlock();
+          }
+        } finally {
+          notifyAll();
+        }
+      }
+
+      private boolean tryAcquireRaw() {
+        boolean rawAcquired = false;
+        try {
+          rawAcquired = raw.tryLock();
+        } catch (RuntimeException e) {
+          logger.atSevere().withCause(e).log(
+              "Exception while trying to lock for AccountPatchReviewStore");
+        }
+        try {
+          if (rawAcquired) {
+            admitBatch();
+          }
+        } catch (RuntimeException e) {
+          logger.atSevere().withCause(e).log(
+              "Exception while allowing next batch of waiting threads");
+        }
+        return rawAcquired;
+      }
+
+      private boolean isTaskedToTryRaw(Thread thread) {
+        // Only the head thread tries the raw lock. If it times out or is interrupted,
+        // stopWaiting() removes it and the next thread becomes tasked to try.
+        return waiting.peek() == thread;
+      }
+
+      private void admitBatch() {
+        Iterator<Thread> it = waiting.iterator();
+        int localAdmitted = 0;
+        while (it.hasNext() && localAdmitted++ < maxActive) {
+          acquired.add(it.next());
+          it.remove();
+        }
+        // This wakes up all the threads waiting in the queue so that they loop
+        // to check their admitted status.
+        notifyAll();
+      }
+
+      @Override
+      public void lock() {
+        throw new UnsupportedOperationException();
+      }
+
+      @Override
+      public void lockInterruptibly() {
+        throw new UnsupportedOperationException();
+      }
+
+      @Override
+      public boolean tryLock() {
+        throw new UnsupportedOperationException();
+      }
+
+      @Override
+      public Condition newCondition() {
+        throw new UnsupportedOperationException();
+      }
+    };
   }
 
   @Override
   public Connection getConnection() throws SQLException {
-    Runnable unlock = acquireExclusiveLock();
+    Lock lock = lock();
     try {
-      return lockingConnection(DriverManager.getConnection(url), unlock);
+      if (!lock.tryLock(lockTimeoutMs, TimeUnit.MILLISECONDS)) {
+        throw new SQLException("Could not acquire H2 lock within " + lockTimeoutMs + " ms");
+      }
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+      throw new SQLException("Interrupted while waiting for H2 lock", e);
+    }
+
+    try {
+      return lockingConnection(DriverManager.getConnection(url), lock);
     } catch (SQLException e) {
-      unlock.run();
+      lock.unlock();
       throw e;
     }
   }
 
-  private static Connection lockingConnection(Connection con, Runnable unlock) {
+  private static Connection lockingConnection(Connection con, Lock lock) {
     return (Connection)
         Proxy.newProxyInstance(
             Connection.class.getClassLoader(),
@@ -116,7 +241,7 @@ abstract class H2CustomLockAccountPatchReviewStore extends H2AccountPatchReviewS
                 throw e.getCause();
               } finally {
                 if ("close".equals(method.getName())) {
-                  unlock.run();
+                  lock.unlock();
                 }
               }
             });

@@ -3364,6 +3364,50 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
+  public void pushWithEmptySilentReviewerIsRejected() throws Exception {
+    PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
+    push.setPushOptions(ImmutableList.of("r=:silent"));
+    PushOneCommit.Result r = push.to("refs/for/master");
+    r.assertErrorStatus("reviewer identifier cannot be empty");
+  }
+
+  @Test
+  public void pushWithEmptySilentCcIsRejected() throws Exception {
+    PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
+    push.setPushOptions(ImmutableList.of("cc=:silent"));
+    PushOneCommit.Result r = push.to("refs/for/master");
+    r.assertErrorStatus("CC identifier cannot be empty");
+  }
+
+  @Test
+  public void pushWithSilentCcPushOption() throws Exception {
+    PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
+    push.setPushOptions(ImmutableList.of("cc=" + user.email() + ":silent"));
+    PushOneCommit.Result r = push.to("refs/for/master");
+    r.assertOkStatus();
+
+    ChangeInfo ci = get(r.getChangeId(), DETAILED_LABELS);
+    Collection<AccountInfo> ccs =
+        firstNonNull(ci.reviewers.get(ReviewerState.CC), ImmutableList.<AccountInfo>of());
+    assertThat(ccs.stream().map(a -> a._accountId).collect(toList()))
+        .containsExactly(user.id().get());
+  }
+
+  @Test
+  public void pushWithSilentReviewerPushOption() throws Exception {
+    PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
+    push.setPushOptions(ImmutableList.of("r=" + user.email() + ":silent"));
+    PushOneCommit.Result r = push.to("refs/for/master");
+    r.assertOkStatus();
+
+    ChangeInfo ci = get(r.getChangeId(), DETAILED_LABELS);
+    Collection<AccountInfo> reviewers =
+        firstNonNull(ci.reviewers.get(ReviewerState.REVIEWER), ImmutableList.<AccountInfo>of());
+    assertThat(reviewers.stream().map(a -> a._accountId).collect(toList()))
+        .containsExactly(user.id().get());
+  }
+
+  @Test
   public void pushWithInvalidBaseIsRejected() throws Exception {
     PushOneCommit.Result r = pushTo("refs/for/master%base=invalid");
     r.assertErrorStatus("expected SHA1 for option --base: invalid");

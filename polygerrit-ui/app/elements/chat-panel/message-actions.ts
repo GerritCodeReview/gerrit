@@ -87,6 +87,8 @@ export class MessageActions extends LitElement {
         .text=${this.getGeminiMessageText()}
         hideInput
         .smallIcon=${false}
+        buttonTitle="Copy response to clipboard"
+        copyTargetName="Response"
       ></gr-copy-clipboard>
 
       <md-icon-button

@@ -33,6 +33,7 @@ import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.sshd.AdminHighPriorityCommand;
 import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
+import com.google.gerrit.util.cli.Options;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.time.Instant;
@@ -50,7 +51,7 @@ import org.kohsuke.args4j.Option;
     name = "show-queue",
     description = "Display the background work queues",
     runsAt = MASTER_OR_SLAVE)
-final class ShowQueue extends SshCommand {
+public final class ShowQueue extends SshCommand {
   @Option(
       name = "--wide",
       aliases = {"-w"},
@@ -70,7 +71,9 @@ final class ShowQueue extends SshCommand {
   private boolean groupByQueue;
 
   @Inject private PermissionBackend permissionBackend;
-  @Inject private ListTasks listTasks;
+
+  @Inject @Options public ListTasks listTasks;
+
   @Inject private IdentifiedUser currentUser;
   @Inject private WorkQueue workQueue;
 

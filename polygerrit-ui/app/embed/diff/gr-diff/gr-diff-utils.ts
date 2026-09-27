@@ -3,7 +3,11 @@
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import {BlameInfo, CommentRange} from '../../../types/common';
+import {
+  BlameInfo,
+  CommentRange,
+  FixSuggestionInfo,
+} from '../../../types/common';
 import {Side, SpecialFilePath} from '../../../constants/constants';
 import {
   DiffContextExpandedExternalDetail,
@@ -15,7 +19,9 @@ import {
   LOST,
   RenderPreferences,
 } from '../../../api/diff';
-import {GrDiffGroup} from './gr-diff-group';
+import {GrDiffGroup, GrDiffGroupType} from './gr-diff-group';
+import {GrDiffLine} from './gr-diff-line';
+import {PROVIDED_FIX_ID} from '../../../utils/comment-util';
 
 /**
  * In JS, unicode code points above 0xFFFF occupy two elements of a string.
@@ -331,4 +337,303 @@ export function findBlame(blameInfos: BlameInfo[], line?: LineNumber) {
   return blameInfos.find(info =>
     info.ranges.find(range => range.start <= line && line <= range.end)
   );
+}
+
+export function getContentGroups(groups: GrDiffGroup[]): GrDiffGroup[] {
+  const result: GrDiffGroup[] = [];
+  for (const group of groups) {
+    if (group.type === GrDiffGroupType.CONTEXT_CONTROL) {
+      result.push(...getContentGroups(group.contextGroups));
+    } else {
+      const isSpecialFileOrLostGroup =
+        group.lines.length === 1 &&
+        (group.lines[0].beforeNumber === FILE ||
+          group.lines[0].beforeNumber === LOST ||
+          group.lines[0].afterNumber === FILE ||
+          group.lines[0].afterNumber === LOST);
+      if (!isSpecialFileOrLostGroup) {
+        result.push(group);
+      }
+    }
+  }
+  return result;
+}
+
+function findPrevLineOnRight(
+  contentGroups: GrDiffGroup[],
+  group: GrDiffGroup
+): GrDiffLine | undefined {
+  const groupIdx = contentGroups.indexOf(group);
+  if (groupIdx === -1) return undefined;
+  for (let i = groupIdx - 1; i >= 0; i--) {
+    const lines = contentGroups[i].lines;
+    for (let j = lines.length - 1; j >= 0; j--) {
+      const line = lines[j];
+      if (typeof line.afterNumber === 'number' && line.afterNumber > 0) {
+        return line;
+      }
+    }
+  }
+  return undefined;
+}
+
+function findNextLineOnRight(
+  contentGroups: GrDiffGroup[],
+  group: GrDiffGroup
+): GrDiffLine | undefined {
+  const groupIdx = contentGroups.indexOf(group);
+  if (groupIdx === -1) return undefined;
+  for (let i = groupIdx + 1; i < contentGroups.length; i++) {
+    const lines = contentGroups[i].lines;
+    for (const line of lines) {
+      if (typeof line.afterNumber === 'number' && line.afterNumber > 0) {
+        return line;
+      }
+    }
+  }
+  return undefined;
+}
+
+export function getRevertedFileContent(
+  group: GrDiffGroup,
+  allGroups: GrDiffGroup[]
+): string | undefined {
+  if (group.type !== GrDiffGroupType.DELTA) return undefined;
+  const contentGroups = getContentGroups(allGroups);
+  if (contentGroups.length === 0 || !contentGroups.includes(group)) {
+    return undefined;
+  }
+  if (contentGroups.some(g => g.skip !== undefined)) {
+    return undefined;
+  }
+
+  const lines: string[] = [];
+  for (const g of contentGroups) {
+    if (g === group) {
+      for (const line of g.removes) {
+        lines.push(line.text);
+      }
+    } else if (g.type === GrDiffGroupType.BOTH) {
+      for (const line of g.lines) {
+        lines.push(line.text);
+      }
+    } else if (g.type === GrDiffGroupType.DELTA) {
+      for (const line of g.adds) {
+        lines.push(line.text);
+      }
+    }
+  }
+  return lines.join('\n');
+}
+
+export function createRevertFixSuggestion(
+  path: string,
+  group: GrDiffGroup,
+  allGroups: GrDiffGroup[] = []
+): FixSuggestionInfo | undefined {
+  if (group.type !== GrDiffGroupType.DELTA) return undefined;
+
+  const contentGroups = getContentGroups(allGroups);
+  const groupIdx = contentGroups.indexOf(group);
+  if (contentGroups.length > 0 && groupIdx === -1) {
+    return undefined;
+  }
+
+  const removes = group.removes ?? [];
+  const adds = group.adds ?? [];
+
+  // Case 1: Modification (lines removed in base AND lines added in edit)
+  if (removes.length > 0 && adds.length > 0) {
+    const startLine = adds[0].afterNumber;
+    const endLine = adds[adds.length - 1].afterNumber;
+    if (typeof startLine !== 'number' || typeof endLine !== 'number') {
+      return undefined;
+    }
+    const lastLineText = adds[adds.length - 1].text;
+    const replacement = removes.map(l => l.text).join('\n');
+    return {
+      fix_id: PROVIDED_FIX_ID,
+      description: 'Revert change',
+      replacements: [
+        {
+          path,
+          range: {
+            start_line: startLine,
+            start_character: 0,
+            end_line: endLine,
+            end_character: lastLineText.length,
+          },
+          replacement,
+        },
+      ],
+    };
+  }
+
+  // Case 2: Pure Addition in Edit (removes is empty, adds has lines)
+  if (removes.length === 0 && adds.length > 0) {
+    const startLine = adds[0].afterNumber;
+    const endLine = adds[adds.length - 1].afterNumber;
+    if (typeof startLine !== 'number' || typeof endLine !== 'number') {
+      return undefined;
+    }
+    const prevLine = findPrevLineOnRight(contentGroups, group);
+    const nextLine = findNextLineOnRight(contentGroups, group);
+
+    if (startLine > 1 && prevLine && typeof prevLine.afterNumber === 'number') {
+      // Include the line above: replace from start of line above
+      if (nextLine && typeof nextLine.afterNumber === 'number') {
+        return {
+          fix_id: PROVIDED_FIX_ID,
+          description: 'Revert change',
+          replacements: [
+            {
+              path,
+              range: {
+                start_line: prevLine.afterNumber,
+                start_character: 0,
+                end_line: nextLine.afterNumber,
+                end_character: 0,
+              },
+              replacement: prevLine.text + '\n',
+            },
+          ],
+        };
+      } else {
+        // Addition at EOF: replace from start of line above to end of last added line
+        const lastLineText = adds[adds.length - 1].text;
+        return {
+          fix_id: PROVIDED_FIX_ID,
+          description: 'Revert change',
+          replacements: [
+            {
+              path,
+              range: {
+                start_line: prevLine.afterNumber,
+                start_character: 0,
+                end_line: endLine,
+                end_character: lastLineText.length,
+              },
+              replacement: prevLine.text + '\n',
+            },
+          ],
+        };
+      }
+    } else if (
+      startLine === 1 &&
+      nextLine &&
+      typeof nextLine.afterNumber === 'number'
+    ) {
+      // Addition at the top of the file (line 1, no line above):
+      // Include line below: replace from (1, 0) to end of next line
+      return {
+        fix_id: PROVIDED_FIX_ID,
+        description: 'Revert change',
+        replacements: [
+          {
+            path,
+            range: {
+              start_line: 1,
+              start_character: 0,
+              end_line: nextLine.afterNumber,
+              end_character: nextLine.text.length,
+            },
+            replacement: nextLine.text,
+          },
+        ],
+      };
+    } else if (
+      startLine === 1 &&
+      !prevLine &&
+      !nextLine &&
+      (contentGroups.length === 0 || contentGroups.length === 1)
+    ) {
+      // Entire file was added (no line above and no line below)
+      const lastLineText = adds[adds.length - 1].text;
+      return {
+        fix_id: PROVIDED_FIX_ID,
+        description: 'Revert change',
+        replacements: [
+          {
+            path,
+            range: {
+              start_line: 1,
+              start_character: 0,
+              end_line: endLine,
+              end_character: lastLineText.length,
+            },
+            replacement: '',
+          },
+        ],
+      };
+    } else {
+      return undefined;
+    }
+  }
+
+  // Case 3: Pure Deletion in Edit (removes has lines, adds is empty)
+  if (removes.length > 0 && adds.length === 0) {
+    const nextLine = findNextLineOnRight(contentGroups, group);
+    if (nextLine && typeof nextLine.afterNumber === 'number') {
+      return {
+        fix_id: PROVIDED_FIX_ID,
+        description: 'Revert change',
+        replacements: [
+          {
+            path,
+            range: {
+              start_line: nextLine.afterNumber,
+              start_character: 0,
+              end_line: nextLine.afterNumber,
+              end_character: 0,
+            },
+            replacement: removes.map(l => l.text).join('\n') + '\n',
+          },
+        ],
+      };
+    } else {
+      // Deletion at the end of the file
+      const prevLine = findPrevLineOnRight(contentGroups, group);
+      if (prevLine && typeof prevLine.afterNumber === 'number') {
+        const prevLineNumber = prevLine.afterNumber;
+        return {
+          fix_id: PROVIDED_FIX_ID,
+          description: 'Revert change',
+          replacements: [
+            {
+              path,
+              range: {
+                start_line: prevLineNumber,
+                start_character: prevLine.text.length,
+                end_line: prevLineNumber,
+                end_character: prevLine.text.length,
+              },
+              replacement: '\n' + removes.map(l => l.text).join('\n'),
+            },
+          ],
+        };
+      } else if (contentGroups.length === 0 || contentGroups.length === 1) {
+        // File in Edit was completely empty
+        return {
+          fix_id: PROVIDED_FIX_ID,
+          description: 'Revert change',
+          replacements: [
+            {
+              path,
+              range: {
+                start_line: 1,
+                start_character: 0,
+                end_line: 1,
+                end_character: 0,
+              },
+              replacement: removes.map(l => l.text).join('\n') + '\n',
+            },
+          ],
+        };
+      } else {
+        return undefined;
+      }
+    }
+  }
+
+  return undefined;
 }

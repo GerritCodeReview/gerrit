@@ -79,6 +79,8 @@ suite('gr-label-scores tests', () => {
   });
 
   test('render', () => {
+    const mergedMessage =
+      'Because this change has been merged, votes may not be decreased. You can still reply to comments without changing your vote.';
     assert.shadowDom.equal(
       element,
       /* HTML */ `
@@ -87,9 +89,7 @@ suite('gr-label-scores tests', () => {
         </div>
         <gr-label-score-row name="Code-Review"> </gr-label-score-row>
         <gr-label-score-row name="Verified"> </gr-label-score-row>
-        <div class="mergedMessage" hidden="">
-          Because this change has been merged, votes may not be decreased.
-        </div>
+        <div class="mergedMessage" hidden="">${mergedMessage}</div>
         <div class="abandonedMessage" hidden="">
           Because this change has been abandoned, you cannot vote.
         </div>
@@ -125,6 +125,27 @@ suite('gr-label-scores tests', () => {
     await element.updateComplete;
 
     assert.deepEqual(element.getLabelValues(true), {'Code-Review': 0});
+    assert.deepEqual(element.getLabelValues(false), {});
+  });
+
+  test('getLabelValues with previous vote and includeDefaults=false', async () => {
+    // Setup gives account +1 on Code-Review and +1 on Verified.
+    const row = queryAndAssert<GrLabelScoreRow>(
+      element,
+      'gr-label-score-row[name="Code-Review"]'
+    );
+    // User changes their vote to +2
+    row.setSelectedValue('+2');
+    await element.updateComplete;
+
+    // includeDefaults=false should OMIT Verified (since it is unchanged at
+    // +1) but should INCLUDE Code-Review (since it changed to +2).
+    assert.deepEqual(element.getLabelValues(false), {'Code-Review': 2});
+
+    // Changing back to +1 (original vote) makes it unchanged again, so it's
+    // omitted.
+    row.setSelectedValue('+1');
+    await element.updateComplete;
     assert.deepEqual(element.getLabelValues(false), {});
   });
 

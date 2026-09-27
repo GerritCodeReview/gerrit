@@ -13,3 +13,9 @@ local_repository(
     name = "java-prettify",
     path = "modules/java-prettify",
 )
+
+# Gitiles source repository consumed from git submodule.
+local_repository(
+    name = "gitiles",
+    path = "modules/gitiles",
+)

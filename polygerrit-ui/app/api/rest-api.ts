@@ -795,6 +795,7 @@ export declare interface GerritInfo {
   primary_weblink_name?: string;
   instance_id?: string;
   default_branch?: string;
+  submit_commit_url?: string;
 }
 
 export type GitRef = BrandType<string, '_gitRef'>;
@@ -1238,6 +1239,16 @@ export declare interface SubmitTypeInfo {
   value: Exclude<SubmitType, SubmitType.INHERIT>;
   configured_value: SubmitType;
   inherited_value: Exclude<SubmitType, SubmitType.INHERIT>;
+}
+
+/**
+ * The SubmittedTogetherInfo entity contains information about a collection of
+ * changes that would be submitted together.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#submitted-together-info
+ */
+export declare interface SubmittedTogetherInfo {
+  changes: ChangeInfo[];
+  non_visible_changes: number;
 }
 
 /**

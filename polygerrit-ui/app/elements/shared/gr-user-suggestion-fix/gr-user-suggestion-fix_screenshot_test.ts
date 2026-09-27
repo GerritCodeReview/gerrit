@@ -20,12 +20,38 @@ import {CommentModel} from '../gr-comment-model/gr-comment-model';
 import {NumericChangeId, RevisionPatchSetNum} from '../../../api/rest-api';
 import {getAppContext} from '../../../services/app-context';
 import {stubFlags, visualDiffDarkTheme} from '../../../test/test-utils';
+import {highlightServiceToken} from '../../../services/highlight/highlight-service';
+import {testResolver} from '../../../test/common-test-setup';
+import * as sinon from 'sinon';
+import {highlightedStringToRanges} from '../../../utils/syntax-util';
+import {SyntaxLayerLine} from '../../../types/syntax-worker-api';
 
 suite('gr-user-suggestion-fix screenshot tests', () => {
   let element: GrUserSuggestionsFix;
 
   setup(async () => {
     stubFlags('isEnabled').returns(true);
+    const highlightService = testResolver(highlightServiceToken);
+    const leftRanges: SyntaxLayerLine[] = highlightedStringToRanges(
+      '<span class="keyword">export</span> <span class="keyword">class</span> <span class="title">Test</span> {\n' +
+        '  <span class="keyword">private</span> <span class="title function_">oldMethod</span>() {\n' +
+        '    <span class="variable">console</span>.<span class="title function_">log</span>(<span class="string">"old"</span>);\n' +
+        '  }\n' +
+        '}'
+    );
+    const rightRanges: SyntaxLayerLine[] = highlightedStringToRanges(
+      '<span class="keyword">export</span> <span class="keyword">class</span> <span class="title">Test</span> {\n' +
+        '  <span class="keyword">private</span> <span class="title function_">newMethod</span>() {\n' +
+        '    <span class="variable">console</span>.<span class="title function_">log</span>(<span class="string">"new"</span>);\n' +
+        '  }\n' +
+        '}'
+    );
+    sinon.stub(highlightService, 'highlight').callsFake(async (_lang, code) => {
+      if (code?.includes('oldMethod')) return leftRanges;
+      if (code?.includes('newMethod')) return rightRanges;
+      return [];
+    });
+
     const commentModel = new CommentModel(getAppContext().restApiService);
     commentModel.updateState({
       comment: createComment(),
@@ -88,6 +114,13 @@ suite('gr-user-suggestion-fix screenshot tests', () => {
         ],
       },
     };
+    element.requestUpdate();
+    await element.updateComplete;
+    await element.suggestionDiffPreview!.updateComplete;
+    // Allow syntax worker promise and notify to apply annotations
+    await new Promise(r => setTimeout(r, 100));
+    await document.fonts?.ready;
+
     await visualDiff(element, 'gr-user-suggestion-fix');
     await visualDiffDarkTheme(element, 'gr-user-suggestion-fix');
   });

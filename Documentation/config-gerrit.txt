@@ -146,6 +146,25 @@ exponential backoff starting at 1 ms, capped at 500 ms per sleep.
 +
 Default is `30 seconds`.
 
+[[accountPatchReviewDb.h2LockBatchSize]]accountPatchReviewDb.h2LockBatchSize::
++
+Maximum number of callers that may share one held external H2 lock.
+Only applies when `accountPatchReviewDb.h2LockType` is set.
++
+When multiple Gerrit threads are waiting for the H2 lock, Gerrit acquires the
+external lock once and admits up to this many waiting in-process callers into the
+same lock batch. Each admitted caller opens its own H2 connection and commits or
+rolls back independently. The external lock remains held until all callers in the
+batch have closed their connections, then Gerrit releases it and a later batch
+may acquire the lock.
++
+This reduces repeated lock-file acquire/release cycles when many local threads
+are accessing the AccountPatchReviewDb concurrently. It does not allow callers
+from other Gerrit processes to enter the same batch; other processes must still
+wait for the external lock to be released.
++
+Default is `32`.
+
 [[accounts]]
 === Section accounts
 
@@ -777,6 +796,47 @@ The value of this parameter must be the identifier of an OAuth 2 provider
 in the form `plugin-name:provider-name`. Consult the respective plugin
 documentation for details.
 
+[[auth.tokenEncryptionKey]]auth.tokenEncryptionKey::
++
+Base64-encoded AES key used to encrypt the sensitive fields (`token`, `secret`,
+`raw`) of stored OAuth tokens in the `oauth_tokens` cache. The key must decode
+to a 128-, 192-, or 256-bit AES key (16, 24, or 32 bytes); it is expanded with
+HKDF-SHA256 and each value is stored as AES-256-GCM with `expiresAt`/`providerId`
+authenticated as additional data.
++
+Generate a 256-bit key, for example with `openssl rand -base64 32`.
++
+Because it is a secret, store it in `'$site_path'/etc/secure.config`, not
+`gerrit.config`. For sites using `auth.type = OAUTH`, `init` (including the
+upgrade `init` run) generates this key into `secure.config` automatically when
+it is not already set, so tokens are encrypted by default.
++
+When `auth.type` is `OAUTH` and this is unset, tokens are stored in cleartext and
+Gerrit logs a warning at startup. Setting it is strongly recommended, especially
+when a provider issues refresh tokens. A value written while unset stays readable
+after the key is set (cleartext entries are returned unchanged). This cleartext
+fallback is intended only for entries written before this key was configured;
+encryption of the stored tokens protects against read exposure of the cache file, not an
+attacker with write access to `oauth_tokens`.
++
+By default, unset. For sites using `auth.type = OAUTH`, `init` generates
+a 256-bit key into `secure.config` when this value is not already set.
+
+[[auth.oauthTokenRefreshInterval]]auth.oauthTokenRefreshInterval::
++
+When an OAuth access-token refresh fails (for example, the identity provider is
+briefly unavailable), Gerrit will not attempt to refresh that account's token
+again until this interval has elapsed, so a provider outage is not retried on
+every request. Values should use common unit suffixes to express their setting:
++
+* s, sec, second, seconds
+* m, min, minute, minutes
+* h, hr, hour, hours
++
+If a unit suffix is not specified, `minutes` is assumed.
++
+By default, 5 minutes.
+
 [[auth.userNameToLowerCase]]auth.userNameToLowerCase::
 +
 If set the username that is received to authenticate a git operation
@@ -1225,6 +1285,24 @@ is similar to the `git_modified_files` cache but performs extra logic including
 filtering out files that are untouched by both commits because they were purely
 modified between the parent commits.
 
+[[cache.oauth_tokens]]cache `"oauth_tokens"`::
++
+Stores OAuth access and refresh tokens for users that sign in with
+`auth.type = OAUTH`.
++
+To avoid persisting OAuth tokens to disk, set
+`cache.oauth_tokens.diskLimit = 0`. Tokens are then kept only in memory and
+users may need to sign in again after a Gerrit restart.
++
+To disable OAuth token caching entirely, also set
+`cache.oauth_tokens.memoryLimit = 0`. When disabled, OAuth sign-in may still
+create a web session, but REST requests to `GET /accounts/{id}/oauthtoken`
+fail with `409 Conflict` and flows that rely on cached OAuth tokens are not
+available.
++
+If tokens were previously written to disk, stop Gerrit and remove any existing
+`oauth_tokens` persistent cache files from the cache directory.
+
 cache `"git_file_diff"`::
 +
 Each item caches the pure git diff between two git trees for a specific file
@@ -1576,6 +1654,14 @@ Whether to asynchronously prune all cache when starting Gerrit.
 +
 Defaults to `true`.
 
+[[cachePruning.minimumInitialDelay]]cachePruning.minimumInitialDelay::
++
+The link:#schedule-configuration-minimumInitialDelay[minimum initial delay]
+after Gerrit starts before periodic cache pruning may run.
++
+Set `cachePruning.pruneOnStartup` to `false` to prevent all cache pruning
+during this delay.
+
 [[cachePruning.startTime]]cachePruning.startTime::
 +
 The link:#schedule-configuration-startTime[start time] for running
@@ -1722,6 +1808,9 @@ By default 0, which means no limit.
 Maximum number of files allowed per change. Larger changes are rejected and must
 be split up. For merge changes we are comparing against the auto-merge commit,
 so we allow large merges, if they merge cleanly.
+Note that rename detection is disabled during validation for performance
+reasons, so renaming a file counts as two changed files (one deletion and one
+addition).
 +
 By default 100,000.
 
@@ -2075,7 +2164,7 @@ that always restrict cleanup to open changes (`status:new`) and may additionally
 include predicates derived from other cleanup options such as
 link:#changeCleanup.abandonAfter[abandonAfter] and
 link:#changeCleanup.abandonIfMergeable[abandonIfMergeable].
-
++
 Any valid link:user-search.html[change search] expression is accepted. This
 allows limiting the batch size, excluding specific changes, or combining both:
 +
@@ -2323,6 +2412,16 @@ Used on Gerrit replica installations. If set to `true` the Gerrit JVM is
 called with the '--replica' switch, enabling replica mode. If no value is
 set (or any other value), Gerrit defaults to primary mode enabling write
 operations.
++
+Due to its strictly replica read-only architecture, a replica operates with heavily
+restricted functionality compared to a fully-fledged Gerrit server. It strictly
+rejects all Git write operations over the Git protocol (such as `git push`),
+requiring all repository modifications to be routed to the primary instance.
+Furthermore, a replica provides absolutely no REST-API support and exposes only
+a highly limited subset of SSH commands. Finally, because a replica does not
+host the core review metadata, it lacks full secondary indexing support; the
+only index maintained on a replica is the `groups` index, which is strictly
+necessary for evaluating repository read access controls.
 
 [[container.slave]]container.slave::
 +
@@ -2971,6 +3070,22 @@ Example:
 ----
 [gerrit]
   primaryWeblinkName = gitiles
+----
+
+[[gerrit.submitCommitUrl]]gerrit.submitCommitUrl::
++
+URL used to link commit hashes in change messages generated when a change is
+submitted or cherry-picked. The URL must use the `http` or `https` scheme.
+The optional `${commit}` placeholder is replaced with the commit hash. If the
+placeholder is omitted, the commit hash is appended as a path segment.
++
+By default unset. In this case Gerrit derives the URL from the revision's
+configured code browser weblinks when possible.
++
+Example:
+----
+[gerrit]
+  submitCommitUrl = https://chromiumdash.appspot.com/commit/${commit}
 ----
 
 [[gerrit.reportBugUrl]]gerrit.reportBugUrl::
@@ -3675,8 +3790,22 @@ and `false` if httpd.listenUrl uses proxy-http:// or proxy-https://.
 +
 Number of worker threads dedicated to accepting new incoming TCP
 connections and allocating them connection-specific resources.
+<<httpd.selectorThreads,Selector threads>> handle I/O on accepted connections
+separately.
 +
-By default, 2, which should be suitable for most high-traffic sites.
+By default, 0, which causes selector threads to also accept new incoming
+connections. Sites that need dedicated acceptor threads can increase this
+value.
+
+[[httpd.selectorThreads]]httpd.selectorThreads::
++
+Number of NIO selector threads used to dispatch I/O events for existing
+connections. Each selector thread runs a `java.nio.channels.Selector` loop and
+is shared across all open connections.
++
+By default, 2, which should be suitable for most high-traffic sites. When
+<<httpd.acceptorThreads,`httpd.acceptorThreads`>> is 0, selector threads also
+accept new incoming connections.
 
 [[httpd.minThreads]]httpd.minThreads::
 +
@@ -3848,6 +3977,14 @@ The index section configures the secondary index.
 Note that after enabling the secondary index, the index must be built
 using the link:pgm-reindex.html[reindex program] before restarting the
 Gerrit server.
+
+[[index.directory]]index.directory::
++
+Path to the directory where Gerrit stores its index.
++
+If not absolute, the path is resolved relative to `$site_path`.
++
+Default is `$site_path/index`.
 
 [[index.type]]index.type::
 +
@@ -4054,10 +4191,10 @@ Defaults to `false`.
 [[index.indexChangesAsync]]index.indexChangesAsync::
 +
 On BatchUpdate, do not await indexing completion before returning the request
-to the user (WEB_BROWSER requests only).
-This has an advantage of faster UI (because indexing latency does not contribute
-to the write request latency) and disadvantage that the indexing result might not be
-immediately available after the write request.
+to the user (WEB_BROWSER requests and non-service user requests, e.g. git push).
+This has an advantage of faster response times (because indexing latency does not
+contribute to the write request latency) and a disadvantage that the indexing result
+might not be immediately available after the write request.
 +
 Defaults to `false`.
 
@@ -4255,6 +4392,24 @@ Open and closed changes are indexed in separate indexes named
 'open' and 'closed' respectively.
 
 The following settings are only used when the index type is `LUCENE`.
+
+[[index.lockFactory]]index.lockFactory::
++
+The lock implementation that Lucene uses to prevent concurrent writers from
+corrupting an index directory. Can be either `NATIVE`, which uses
+link:https://lucene.apache.org/core/api/core/org/apache/lucene/store/NativeFSLockFactory.html[
+NativeFSLockFactory,role=external,window=_blank], or `SIMPLE`, which uses
+link:https://lucene.apache.org/core/api/core/org/apache/lucene/store/SimpleFSLockFactory.html[
+SimpleFSLockFactory,role=external,window=_blank]. Lucene recommends `SIMPLE`
+for indexes on filesystems where OS-level locking is unreliable, such as NFS.
++
+> **NOTE**: Before changing this setting, stop all processes writing to the
+> index and delete the leftover `write.lock` file of every index directory
+> under `<site_dir>/index`, including the `open` and `closed` subdirectories
+> of the changes index. Processes configured with different lock factories do
+> not lock against each other and can corrupt the index.
++
+Defaults to `NATIVE`.
 
 [[index.name.ramBufferSize]]index.name.ramBufferSize::
 +
@@ -5233,6 +5388,32 @@ the below configuration
 ----
 
 Gerrit will load `c-plugin` first, followed-up by `a-plugin` and `b-plugin` last.
+
+[[regex]]
+=== Section regex
+
+[[regex.allowedGroup]]regex.allowedGroup::
++
+List of groups whose members are allowed to provide regular expressions in
+requests to Gerrit or in configuration they create or update. This option may
+be specified more than once; membership in any listed group is sufficient.
++
+Defaults to allowing `Anonymous Users`, which means that everyone can supply
+regular expression operands. To block only anonymous users, set it to the
+system group `Registered Users`.
++
+The `Change Owner` system group is not supported because its membership depends
+on a specific change.
++
+The check applies to interactive change searches, including named queries
+expanded with `query:`, the `r=` parameter of the project, branch and tag
+listing APIs, `ssh ls-projects -r`, and new or changed submit requirement
+expressions, ACL ref patterns, and project notification filters. It does not
+apply when Gerrit evaluates regular expressions already stored in submit
+requirements, project watches, project notification filters or ACL ref patterns.
++
+This configuration is loaded at startup and cannot be hot-reloaded. Gerrit
+fails to start if any configured name cannot be resolved to a group.
 
 [[receive]]
 === Section receive
@@ -7043,10 +7224,25 @@ time unit.
 +
 By default, no jitter is applied.
 
+[[schedule-configuration-minimumInitialDelay]]
+* `minimumInitialDelay`
+Minimum time after schedule creation before the first execution of the
+periodic background job. If the execution selected by `startTime` is earlier
+than this delay, it is advanced by whole `interval` periods until the minimum
+delay is met. This preserves the configured periodic schedule.
++
+This setting does not affect additional startup executions that a background
+job may schedule separately from its periodic schedule.
++
+The same suffixes as link:#schedule-configuration-interval[interval] are
+supported. The value must not be negative.
++
+Defaults to `0` (no minimum delay).
+
 The section (and optionally the subsection) in which the `interval`,
-`startTime` and `jitter` keys must be set depends on the background job for
-which a schedule should be configured. E.g. for the change cleanup job the keys
-must be set in the link:#changeCleanup[changeCleanup] section:
+`startTime`, `minimumInitialDelay`, and `jitter` keys must be set depends on the
+background job for which a schedule should be configured. For example, change
+cleanup keys must be set in the link:#changeCleanup[changeCleanup] section.
 
 ----
   [changeCleanup]

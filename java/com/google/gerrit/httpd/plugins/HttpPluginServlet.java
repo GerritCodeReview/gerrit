@@ -64,7 +64,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -509,7 +508,7 @@ class HttpPluginServlet extends HttpServlet implements StartPluginListener, Relo
       PluginResourceKey cacheKey,
       HttpServletResponse res,
       long lastModifiedTime)
-      throws UnsupportedEncodingException, IOException {
+      throws IOException {
     Map<String, String> macros = new HashMap<>();
     macros.put("PLUGIN", pluginName);
     macros.put("SSH_HOST", sshHost);

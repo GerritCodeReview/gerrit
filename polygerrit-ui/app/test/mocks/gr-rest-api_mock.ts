@@ -410,6 +410,11 @@ export const grRestApiMock: RestApiService = {
   getRepoSubmitRequirements(): Promise<SubmitRequirementInfo[] | undefined> {
     return Promise.resolve([]);
   },
+  getRepoSubmitRequirementTemplates(): Promise<
+    SubmitRequirementInfo[] | undefined
+  > {
+    return Promise.resolve([]);
+  },
   createSubmitRequirement(): Promise<SubmitRequirementInfo | undefined> {
     return Promise.resolve(undefined);
   },
@@ -445,6 +450,12 @@ export const grRestApiMock: RestApiService = {
   },
   getRepoBranches(): Promise<BranchInfo[] | undefined> {
     return Promise.resolve([]);
+  },
+  getProjectCommitDiff(): Promise<FileNameToFileInfoMap | undefined> {
+    return Promise.resolve(undefined);
+  },
+  getProjectCommitFileDiff(): Promise<DiffInfo | undefined> {
+    return Promise.resolve(undefined);
   },
   getRepoDashboards(): Promise<DashboardInfo[] | undefined> {
     return Promise.resolve([]);

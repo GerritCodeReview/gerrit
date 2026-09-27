@@ -130,4 +130,79 @@ public class IdentifiedUserTest {
     /* assert again to test cached email address by IdentifiedUser.invalidEmails */
     assertThat(identifiedUser.hasEmailAddress("non-exist@email.com")).isFalse();
   }
+
+  @Test
+  public void materializedCopyPreservesAccessPath() {
+    assertThat(identifiedUser.getAccessPath()).isEqualTo(AccessPath.UNKNOWN);
+    assertThat(identifiedUser.materializedCopy().getAccessPath()).isEqualTo(AccessPath.UNKNOWN);
+
+    for (AccessPath path : AccessPath.values()) {
+      identifiedUser.setAccessPath(path);
+      IdentifiedUser copy = identifiedUser.materializedCopy();
+      assertThat(copy.getAccessPath()).isEqualTo(path);
+    }
+  }
+
+  @Test
+  public void materializedCopyAccessPathMutationIsIsolated() {
+    identifiedUser.setAccessPath(AccessPath.GIT);
+    IdentifiedUser copy = identifiedUser.materializedCopy();
+    assertThat(copy.getAccessPath()).isEqualTo(AccessPath.GIT);
+
+    copy.setAccessPath(AccessPath.WEB_BROWSER);
+    assertThat(identifiedUser.getAccessPath()).isEqualTo(AccessPath.GIT);
+    assertThat(copy.getAccessPath()).isEqualTo(AccessPath.WEB_BROWSER);
+  }
+
+  @Test
+  public void materializedCopyPreservesPropertyMap() {
+    PropertyMap.Key<String> testKey = PropertyMap.key();
+    PropertyMap properties = PropertyMap.builder().put(testKey, "customValue").build();
+    IdentifiedUser userWithProps =
+        identifiedUserFactory.forTest(identifiedUser.getAccountId(), properties);
+    assertThat(userWithProps.get(testKey)).hasValue("customValue");
+
+    IdentifiedUser copy = userWithProps.materializedCopy();
+    assertThat(copy.get(testKey)).hasValue("customValue");
+    assertThat(copy.properties()).isSameInstanceAs(properties);
+  }
+
+  @Test
+  public void materializedCopyRealUserIsIsolatedAndSelfReferencing() {
+    assertThat(identifiedUser.getRealUser()).isSameInstanceAs(identifiedUser);
+
+    IdentifiedUser copy = identifiedUser.materializedCopy();
+    assertThat(copy.getRealUser()).isSameInstanceAs(copy);
+    assertThat(copy.getRealUser()).isNotSameInstanceAs(identifiedUser);
+  }
+
+  @Test
+  public void materializedCopyPreservesImpersonatedRealUser() {
+    Account.Id callerId = Account.id(2);
+    IdentifiedUser caller = identifiedUserFactory.create(callerId);
+    caller.setAccessPath(AccessPath.REST_API);
+
+    IdentifiedUser impersonated =
+        identifiedUserFactory.runAs(
+            /* remotePeer= */ null,
+            identifiedUser.getAccountId(),
+            caller,
+            IdentifiedUser.ImpersonationPermissionMode.THIS_USER);
+    assertThat(impersonated.isImpersonated()).isTrue();
+    assertThat(impersonated.getRealUser().getAccountId()).isEqualTo(callerId);
+
+    IdentifiedUser copy = impersonated.materializedCopy();
+    assertThat(copy.isImpersonated()).isTrue();
+    assertThat(copy.getRealUser().getAccountId()).isEqualTo(callerId);
+    assertThat(copy.getRealUser().getAccessPath()).isEqualTo(AccessPath.REST_API);
+    assertThat(copy.getRealUser()).isNotSameInstanceAs(caller);
+  }
+
+  @Test
+  public void materializedCopyWithUnloadedStateDoesNotThrowNpe() {
+    IdentifiedUser freshUser = identifiedUserFactory.create(Account.id(3));
+    IdentifiedUser copy = freshUser.materializedCopy();
+    assertThat(copy.getAccountId()).isEqualTo(Account.id(3));
+    assertThat(copy.getAccessPath()).isEqualTo(AccessPath.UNKNOWN);
+  }
 }

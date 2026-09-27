@@ -17,10 +17,12 @@ package com.google.gerrit.server.change;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.events.LifecycleListener;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.ChangeCleanupConfig;
 import com.google.gerrit.server.git.WorkQueue;
+import com.google.gerrit.server.project.CoreLockKeys;
 import com.google.gerrit.server.project.LockManager;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.UpdateException;
@@ -79,7 +81,7 @@ public class ChangeCleanupRunner implements Runnable {
   private final OneOffRequestContext oneOffRequestContext;
   private final AbandonUtil abandonUtil;
   private final RetryHelper retryHelper;
-  private final LockManager lockManager;
+  private final DynamicItem<LockManager> lockManager;
   private final long abandonAfterMillis;
   private final boolean abandonIfMergeable;
   @Nullable private final String message;
@@ -90,7 +92,7 @@ public class ChangeCleanupRunner implements Runnable {
       OneOffRequestContext oneOffRequestContext,
       AbandonUtil abandonUtil,
       RetryHelper retryHelper,
-      LockManager lockManager,
+      DynamicItem<LockManager> lockManager,
       @Assisted long abandonAfterMillis,
       @Assisted boolean abandonIfMergeable,
       @Assisted("message") @Nullable String message,
@@ -110,7 +112,7 @@ public class ChangeCleanupRunner implements Runnable {
       OneOffRequestContext oneOffRequestContext,
       AbandonUtil abandonUtil,
       RetryHelper retryHelper,
-      LockManager lockManager,
+      DynamicItem<LockManager> lockManager,
       ChangeCleanupConfig cfg) {
     this.oneOffRequestContext = oneOffRequestContext;
     this.abandonUtil = abandonUtil;
@@ -124,7 +126,7 @@ public class ChangeCleanupRunner implements Runnable {
 
   @Override
   public void run() {
-    Lock lock = lockManager.getLock("change-cleanup");
+    Lock lock = lockManager.get().getLock(CoreLockKeys.CHANGE_CLEANUP);
     if (!lock.tryLock()) {
       logger.atInfo().log(
           "Couldn't acquire change-cleanup lock. Assuming another server is running"

@@ -63,6 +63,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.regex.Pattern;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
@@ -162,7 +163,10 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
       logger.atWarning().withCause(e).log("Failed to update config of project %s.", projectName);
       throw new ResourceConflictException("Cannot update " + projectName);
     } catch (ConfigInvalidException err) {
-      throw new ResourceConflictException("Cannot read project " + projectName, err);
+      String invalidConfigMessage =
+          Optional.ofNullable(err.getMessage()).map(msg -> ": " + msg).orElse("");
+      throw new ResourceConflictException(
+          "Invalid project config for " + projectName + invalidConfigMessage, err);
     }
   }
 

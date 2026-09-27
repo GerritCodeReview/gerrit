@@ -18,12 +18,14 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Stopwatch;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.server.git.MultiProgressMonitor;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
 import com.google.gerrit.server.git.MultiProgressMonitor.TaskKind;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
+import com.google.gerrit.server.project.CoreLockKeys;
 import com.google.gerrit.server.project.LockManager;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
@@ -42,7 +44,7 @@ public class MaxAuthTokenLifetimeApplier implements Runnable {
 
   private final MultiProgressMonitor.Factory multiProgressMonitorFactory;
   private final AuthTokenAccessor tokenAccessor;
-  private final LockManager lockManager;
+  private final DynamicItem<LockManager> lockManager;
   private final Accounts accounts;
   private final Instant expiryInstant;
 
@@ -58,7 +60,7 @@ public class MaxAuthTokenLifetimeApplier implements Runnable {
   public MaxAuthTokenLifetimeApplier(
       MultiProgressMonitor.Factory multiProgressMonitorFactory,
       AuthTokenAccessor tokenAccessor,
-      LockManager lockManager,
+      DynamicItem<LockManager> lockManager,
       Accounts accounts,
       @Assisted Instant expiryInstant) {
     this.multiProgressMonitorFactory = multiProgressMonitorFactory;
@@ -70,7 +72,7 @@ public class MaxAuthTokenLifetimeApplier implements Runnable {
 
   @Override
   public void run() {
-    Lock lock = lockManager.getLock("ReduceMaxAuthTokenLifetime");
+    Lock lock = lockManager.get().getLock(CoreLockKeys.REDUCE_MAX_AUTH_TOKEN_LIFETIME);
     if (!lock.tryLock()) {
       logger.atWarning().log("Task applying limit to auth token lifetime already running.");
       return;

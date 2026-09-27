@@ -25,6 +25,7 @@ import {
   ChangeMessageId,
   CommentInfo,
   CommentInput,
+  CommitId,
   CommitInfo,
   ConfigInfo,
   ConfigInput,
@@ -209,6 +210,19 @@ export interface RestApiService extends Finalizable {
     errFn?: ErrorCallback
   ): Promise<BranchInfo[] | undefined>;
 
+  getProjectCommitDiff(
+    repo: RepoName,
+    commitId: CommitId,
+    baseCommitId: CommitId
+  ): Promise<FileNameToFileInfoMap | undefined>;
+
+  getProjectCommitFileDiff(
+    repo: RepoName,
+    commitId: CommitId,
+    baseCommitId: CommitId,
+    fileId: string
+  ): Promise<DiffInfo | undefined>;
+
   getChangeDetail(
     changeNum?: number | string,
     errFn?: ErrorCallback
@@ -294,12 +308,14 @@ export interface RestApiService extends Finalizable {
 
   deleteFileInChangeEdit(
     changeNum: NumericChangeId,
-    path: string
+    path: string,
+    errFn?: ErrorCallback
   ): Promise<Response | undefined>;
 
   restoreFileInChangeEdit(
     changeNum: NumericChangeId,
-    restore_path: string
+    restore_path: string,
+    errFn?: ErrorCallback
   ): Promise<Response | undefined>;
 
   renameFileInChangeEdit(
@@ -316,6 +332,11 @@ export interface RestApiService extends Finalizable {
   ): Promise<string[] | undefined>;
 
   getRepoSubmitRequirements(
+    repoName: RepoName,
+    errFn?: ErrorCallback
+  ): Promise<SubmitRequirementInfo[] | undefined>;
+
+  getRepoSubmitRequirementTemplates(
     repoName: RepoName,
     errFn?: ErrorCallback
   ): Promise<SubmitRequirementInfo[] | undefined>;
@@ -722,7 +743,8 @@ export interface RestApiService extends Finalizable {
   saveChangeEdit(
     changeNum: NumericChangeId,
     path: string,
-    contents: string
+    contents: string,
+    errFn?: ErrorCallback
   ): Promise<Response>;
   getRepoTags(
     filter: string,

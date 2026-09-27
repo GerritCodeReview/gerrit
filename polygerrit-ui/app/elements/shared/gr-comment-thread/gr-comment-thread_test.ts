@@ -123,7 +123,12 @@ suite('gr-comment-thread tests', () => {
           <a href="/c/test-repo-name/+/1/1/test-path-comment-thread">
             test-path-comment-thread
           </a>
-          <gr-copy-clipboard hideinput=""></gr-copy-clipboard>
+          <gr-copy-clipboard
+            buttontitle="Copy file path to clipboard"
+            copytargetname="File path"
+            hideinput=""
+          >
+          </gr-copy-clipboard>
         </div>
         <div class="pathInfo">
           <a href="/c/test-repo-name/+/1/1/test-path-comment-thread#314">
@@ -160,7 +165,12 @@ suite('gr-comment-thread tests', () => {
           <a href="/c/test-repo-name/+/1/1/test-path-comment-thread">
             test-path-comment-thread
           </a>
-          <gr-copy-clipboard hideinput=""></gr-copy-clipboard>
+          <gr-copy-clipboard
+            buttontitle="Copy file path to clipboard"
+            copytargetname="File path"
+            hideinput=""
+          >
+          </gr-copy-clipboard>
         </div>
         <div class="pathInfo">
           <a href="/c/test-repo-name/+/1/1/test-path-comment-thread#314">

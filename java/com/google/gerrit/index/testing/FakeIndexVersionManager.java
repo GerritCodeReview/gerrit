@@ -21,11 +21,13 @@ import com.google.gerrit.index.Schema;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.GerritIndexStatus;
+import com.google.gerrit.server.index.IndexDir;
 import com.google.gerrit.server.index.OnlineUpgradeListener;
 import com.google.gerrit.server.index.VersionManager;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.nio.file.Path;
 import java.util.Collection;
 import java.util.TreeMap;
 import org.eclipse.jgit.lib.Config;
@@ -38,10 +40,12 @@ public class FakeIndexVersionManager extends VersionManager {
   FakeIndexVersionManager(
       @GerritServerConfig Config cfg,
       SitePaths sitePaths,
+      @IndexDir Path indexDir,
       PluginSetContext<OnlineUpgradeListener> listeners,
       Collection<IndexDefinition<?, ?, ?>> defs) {
     super(
         sitePaths,
+        indexDir,
         listeners,
         defs,
         VersionManager.shouldPerformOnlineUpgrade(cfg),

@@ -72,13 +72,13 @@ public class InitIT extends StandaloneSiteTest {
 
     // Simulate a projects indexes files modified in the past by 3 seconds
     Optional<Instant> projectsLastModified =
-        getProjectsIndexLastModified(sitePaths.index_dir).map(t -> t.minusSeconds(3));
+        getProjectsIndexLastModified(sitePaths.resolve("index")).map(t -> t.minusSeconds(3));
     assertThat(projectsLastModified).isPresent();
-    setProjectsIndexLastModifiedInThePast(sitePaths.index_dir, projectsLastModified.get());
+    setProjectsIndexLastModifiedInThePast(sitePaths.resolve("index"), projectsLastModified.get());
 
     initSite();
     Optional<Instant> projectsLastModifiedAfterInit =
-        getProjectsIndexLastModified(sitePaths.index_dir);
+        getProjectsIndexLastModified(sitePaths.resolve("index"));
 
     // Verify that projects index files haven't been updated
     assertThat(projectsLastModified).isEqualTo(projectsLastModifiedAfterInit);

@@ -10,15 +10,21 @@ import {
   computeContext,
   computeKeyLocations,
   computeLineLength,
+  createRevertFixSuggestion,
   FULL_CONTEXT,
   FullContext,
+  getContentGroups,
   getDataFromCommentThreadEl,
   getRange,
+  getRevertedFileContent,
   GrDiffCommentThread,
   GrDiffThreadElement,
 } from './gr-diff-utils';
-import {FILE, LOST, Side} from '../../../api/diff';
+import {FILE, GrDiffLineType, LOST, Side} from '../../../api/diff';
 import {createDefaultDiffPrefs} from '../../../constants/constants';
+import {GrDiffGroup, GrDiffGroupType} from './gr-diff-group';
+import {GrDiffLine} from './gr-diff-line';
+import {PROVIDED_FIX_ID} from '../../../utils/comment-util';
 
 suite('gr-diff-utils tests', () => {
   test('getRange returns undefined with start_line = 0', () => {
@@ -235,6 +241,514 @@ suite('gr-diff-utils tests', () => {
       assert.sameOrderedMembers(
         comments.sort(compareComments),
         commentsOrdered
+      );
+    });
+  });
+
+  suite('createRevertFixSuggestion', () => {
+    test('returns undefined for non-delta group', () => {
+      const line = new GrDiffLine(GrDiffLineType.BOTH, 1, 1);
+      line.text = 'common line';
+      const group = new GrDiffGroup({
+        type: GrDiffGroupType.BOTH,
+        lines: [line],
+      });
+      assert.isUndefined(createRevertFixSuggestion('foo.ts', group));
+    });
+
+    test('creates fix for modification', () => {
+      const removeLine = new GrDiffLine(GrDiffLineType.REMOVE, 10, 0);
+      removeLine.text = 'const a = 1;';
+      const addLine = new GrDiffLine(GrDiffLineType.ADD, 0, 10);
+      addLine.text = 'const a = 2;';
+      const group = new GrDiffGroup({
+        type: GrDiffGroupType.DELTA,
+        lines: [removeLine, addLine],
+      });
+      const fix = createRevertFixSuggestion('foo.ts', group);
+      assert.isDefined(fix);
+      assert.equal(fix.fix_id, PROVIDED_FIX_ID);
+      assert.equal(fix.description, 'Revert change');
+      assert.deepEqual(fix.replacements, [
+        {
+          path: 'foo.ts',
+          range: {
+            start_line: 10,
+            start_character: 0,
+            end_line: 10,
+            end_character: 12,
+          },
+          replacement: 'const a = 1;',
+        },
+      ]);
+    });
+
+    test('creates fix for pure addition in middle of file', () => {
+      const prevLine = new GrDiffLine(GrDiffLineType.BOTH, 4, 4);
+      prevLine.text = 'common line 4';
+      const prevGroup = new GrDiffGroup({
+        type: GrDiffGroupType.BOTH,
+        lines: [prevLine],
+      });
+
+      const addLine1 = new GrDiffLine(GrDiffLineType.ADD, 0, 5);
+      addLine1.text = 'new line 5';
+      const addLine2 = new GrDiffLine(GrDiffLineType.ADD, 0, 6);
+      addLine2.text = 'new line 6';
+      const group = new GrDiffGroup({
+        type: GrDiffGroupType.DELTA,
+        lines: [addLine1, addLine2],
+      });
+
+      const nextLine = new GrDiffLine(GrDiffLineType.BOTH, 5, 7);
+      nextLine.text = 'common line 7';
+      const nextGroup = new GrDiffGroup({
+        type: GrDiffGroupType.BOTH,
+        lines: [nextLine],
+      });
+
+      const fix = createRevertFixSuggestion('foo.ts', group, [
+        prevGroup,
+        group,
+        nextGroup,
+      ]);
+      assert.isDefined(fix);
+      assert.deepEqual(fix.replacements, [
+        {
+          path: 'foo.ts',
+          range: {
+            start_line: 4,
+            start_character: 0,
+            end_line: 7,
+            end_character: 0,
+          },
+          replacement: 'common line 4\n',
+        },
+      ]);
+    });
+
+    test('creates fix for pure addition of empty line in middle of file', () => {
+      const prevLine = new GrDiffLine(GrDiffLineType.BOTH, 1, 1);
+      prevLine.text = 'first line';
+      const prevGroup = new GrDiffGroup({
+        type: GrDiffGroupType.BOTH,
+        lines: [prevLine],
+      });
+
+      const emptyLine = new GrDiffLine(GrDiffLineType.ADD, 0, 2);
+      emptyLine.text = '';
+      const group = new GrDiffGroup({
+        type: GrDiffGroupType.DELTA,
+        lines: [emptyLine],
+      });
+
+      const nextLine = new GrDiffLine(GrDiffLineType.BOTH, 2, 3);
+      nextLine.text = 'second line';
+      const nextGroup = new GrDiffGroup({
+        type: GrDiffGroupType.BOTH,
+        lines: [nextLine],
+      });
+
+      const fix = createRevertFixSuggestion('foo.ts', group, [
+        prevGroup,
+        group,
+        nextGroup,
+      ]);
+      assert.isDefined(fix);
+      assert.deepEqual(fix.replacements, [
+        {
+          path: 'foo.ts',
+          range: {
+            start_line: 1,
+            start_character: 0,
+            end_line: 3,
+            end_character: 0,
+          },
+          replacement: 'first line\n',
+        },
+      ]);
+    });
+
+    test('creates fix for pure addition at beginning of file', () => {
+      const addLine = new GrDiffLine(GrDiffLineType.ADD, 0, 1);
+      addLine.text = '';
+      const group = new GrDiffGroup({
+        type: GrDiffGroupType.DELTA,
+        lines: [addLine],
+      });
+
+      const nextLine = new GrDiffLine(GrDiffLineType.BOTH, 1, 2);
+      nextLine.text = 'existing line';
+      const nextGroup = new GrDiffGroup({
+        type: GrDiffGroupType.BOTH,
+        lines: [nextLine],
+      });
+
+      const fix = createRevertFixSuggestion('foo.ts', group, [
+        group,
+        nextGroup,
+      ]);
+      assert.isDefined(fix);
+      assert.deepEqual(fix.replacements, [
+        {
+          path: 'foo.ts',
+          range: {
+            start_line: 1,
+            start_character: 0,
+            end_line: 2,
+            end_character: 13,
+          },
+          replacement: 'existing line',
+        },
+      ]);
+    });
+
+    test('creates fix for pure addition at end of file', () => {
+      const prevLine = new GrDiffLine(GrDiffLineType.BOTH, 10, 10);
+      prevLine.text = 'prev line 10';
+      const prevGroup = new GrDiffGroup({
+        type: GrDiffGroupType.BOTH,
+        lines: [prevLine],
+      });
+
+      const addLine = new GrDiffLine(GrDiffLineType.ADD, 0, 11);
+      addLine.text = 'end addition';
+      const group = new GrDiffGroup({
+        type: GrDiffGroupType.DELTA,
+        lines: [addLine],
+      });
+
+      const fix = createRevertFixSuggestion('foo.ts', group, [
+        prevGroup,
+        group,
+      ]);
+      assert.isDefined(fix);
+      assert.deepEqual(fix.replacements, [
+        {
+          path: 'foo.ts',
+          range: {
+            start_line: 10,
+            start_character: 0,
+            end_line: 11,
+            end_character: 12,
+          },
+          replacement: 'prev line 10\n',
+        },
+      ]);
+    });
+
+    test('creates fix for pure addition of whole file', () => {
+      const addLine = new GrDiffLine(GrDiffLineType.ADD, 0, 1);
+      addLine.text = 'whole file content';
+      const group = new GrDiffGroup({
+        type: GrDiffGroupType.DELTA,
+        lines: [addLine],
+      });
+
+      const fix = createRevertFixSuggestion('foo.ts', group, [group]);
+      assert.isDefined(fix);
+      assert.deepEqual(fix.replacements, [
+        {
+          path: 'foo.ts',
+          range: {
+            start_line: 1,
+            start_character: 0,
+            end_line: 1,
+            end_character: 18,
+          },
+          replacement: '',
+        },
+      ]);
+    });
+
+    test('creates fix for pure deletion in middle of file', () => {
+      const removeLine1 = new GrDiffLine(GrDiffLineType.REMOVE, 5, 0);
+      removeLine1.text = 'deleted line 5';
+      const removeLine2 = new GrDiffLine(GrDiffLineType.REMOVE, 6, 0);
+      removeLine2.text = 'deleted line 6';
+      const group = new GrDiffGroup({
+        type: GrDiffGroupType.DELTA,
+        lines: [removeLine1, removeLine2],
+      });
+
+      const nextLine = new GrDiffLine(GrDiffLineType.BOTH, 7, 5);
+      nextLine.text = 'common line';
+      const nextGroup = new GrDiffGroup({
+        type: GrDiffGroupType.BOTH,
+        lines: [nextLine],
+      });
+
+      const fix = createRevertFixSuggestion('foo.ts', group, [
+        group,
+        nextGroup,
+      ]);
+      assert.isDefined(fix);
+      assert.deepEqual(fix.replacements, [
+        {
+          path: 'foo.ts',
+          range: {
+            start_line: 5,
+            start_character: 0,
+            end_line: 5,
+            end_character: 0,
+          },
+          replacement: 'deleted line 5\ndeleted line 6\n',
+        },
+      ]);
+    });
+
+    test('creates fix for pure deletion at end of file', () => {
+      const prevLine = new GrDiffLine(GrDiffLineType.BOTH, 4, 4);
+      prevLine.text = 'prev line 4';
+      const prevGroup = new GrDiffGroup({
+        type: GrDiffGroupType.BOTH,
+        lines: [prevLine],
+      });
+
+      const removeLine = new GrDiffLine(GrDiffLineType.REMOVE, 5, 0);
+      removeLine.text = 'deleted last line';
+      const group = new GrDiffGroup({
+        type: GrDiffGroupType.DELTA,
+        lines: [removeLine],
+      });
+
+      const fix = createRevertFixSuggestion('foo.ts', group, [
+        prevGroup,
+        group,
+      ]);
+      assert.isDefined(fix);
+      assert.deepEqual(fix.replacements, [
+        {
+          path: 'foo.ts',
+          range: {
+            start_line: 4,
+            start_character: 11,
+            end_line: 4,
+            end_character: 11,
+          },
+          replacement: '\ndeleted last line',
+        },
+      ]);
+    });
+
+    test('returns undefined when group is not found in non-empty allGroups', () => {
+      const otherGroup = new GrDiffGroup({
+        type: GrDiffGroupType.BOTH,
+        lines: [new GrDiffLine(GrDiffLineType.BOTH, 1, 1)],
+      });
+      const group = new GrDiffGroup({
+        type: GrDiffGroupType.DELTA,
+        lines: [new GrDiffLine(GrDiffLineType.ADD, 0, 5)],
+      });
+
+      const fix = createRevertFixSuggestion('foo.ts', group, [otherGroup]);
+      assert.isUndefined(fix);
+    });
+
+    test('returns undefined when pure addition has startLine > 1 without surrounding context', () => {
+      const group = new GrDiffGroup({
+        type: GrDiffGroupType.DELTA,
+        lines: [new GrDiffLine(GrDiffLineType.ADD, 0, 10)],
+      });
+
+      const fix = createRevertFixSuggestion('foo.ts', group, [group]);
+      assert.isUndefined(fix);
+    });
+
+    test('returns undefined when pure addition has startLine > 1 without prevLine even if nextLine exists', () => {
+      const addLine = new GrDiffLine(GrDiffLineType.ADD, 0, 5);
+      addLine.text = 'added line';
+      const group = new GrDiffGroup({
+        type: GrDiffGroupType.DELTA,
+        lines: [addLine],
+      });
+
+      const nextLine = new GrDiffLine(GrDiffLineType.BOTH, 6, 6);
+      nextLine.text = 'next line';
+      const nextGroup = new GrDiffGroup({
+        type: GrDiffGroupType.BOTH,
+        lines: [nextLine],
+      });
+
+      const fix = createRevertFixSuggestion('foo.ts', group, [
+        group,
+        nextGroup,
+      ]);
+      assert.isUndefined(fix);
+    });
+
+    test('creates fix for whole file addition when LOST and FILE groups are present', () => {
+      const lostLine = new GrDiffLine(GrDiffLineType.BOTH, LOST, LOST);
+      const lostGroup = new GrDiffGroup({
+        type: GrDiffGroupType.BOTH,
+        lines: [lostLine],
+      });
+      const fileLine = new GrDiffLine(GrDiffLineType.BOTH, FILE, FILE);
+      const fileGroup = new GrDiffGroup({
+        type: GrDiffGroupType.BOTH,
+        lines: [fileLine],
+      });
+      const addLine = new GrDiffLine(GrDiffLineType.ADD, 0, 1);
+      addLine.text = 'whole file content';
+      const group = new GrDiffGroup({
+        type: GrDiffGroupType.DELTA,
+        lines: [addLine],
+      });
+
+      const fix = createRevertFixSuggestion('foo.ts', group, [
+        lostGroup,
+        fileGroup,
+        group,
+      ]);
+      assert.isDefined(fix);
+      assert.deepEqual(fix.replacements, [
+        {
+          path: 'foo.ts',
+          range: {
+            start_line: 1,
+            start_character: 0,
+            end_line: 1,
+            end_character: 18,
+          },
+          replacement: '',
+        },
+      ]);
+    });
+
+    test('creates fix when surrounding lines are inside CONTEXT_CONTROL groups', () => {
+      const prevLine = new GrDiffLine(GrDiffLineType.BOTH, 4, 4);
+      prevLine.text = 'hidden line 4';
+      const hiddenPrevGroup = new GrDiffGroup({
+        type: GrDiffGroupType.BOTH,
+        lines: [prevLine],
+      });
+      const contextControlBefore = new GrDiffGroup({
+        type: GrDiffGroupType.CONTEXT_CONTROL,
+        contextGroups: [hiddenPrevGroup],
+      });
+
+      const addLine = new GrDiffLine(GrDiffLineType.ADD, 0, 5);
+      addLine.text = 'added line 5';
+      const group = new GrDiffGroup({
+        type: GrDiffGroupType.DELTA,
+        lines: [addLine],
+      });
+
+      const nextLine = new GrDiffLine(GrDiffLineType.BOTH, 5, 6);
+      nextLine.text = 'hidden line 6';
+      const hiddenNextGroup = new GrDiffGroup({
+        type: GrDiffGroupType.BOTH,
+        lines: [nextLine],
+      });
+      const contextControlAfter = new GrDiffGroup({
+        type: GrDiffGroupType.CONTEXT_CONTROL,
+        contextGroups: [hiddenNextGroup],
+      });
+
+      const fix = createRevertFixSuggestion('foo.ts', group, [
+        contextControlBefore,
+        group,
+        contextControlAfter,
+      ]);
+      assert.isDefined(fix);
+      assert.deepEqual(fix.replacements, [
+        {
+          path: 'foo.ts',
+          range: {
+            start_line: 4,
+            start_character: 0,
+            end_line: 6,
+            end_character: 0,
+          },
+          replacement: 'hidden line 4\n',
+        },
+      ]);
+    });
+  });
+
+  suite('getRevertedFileContent', () => {
+    test('reconstructs file content when reverting second hunk in multi-hunk file', () => {
+      const lostLine = new GrDiffLine(GrDiffLineType.BOTH, LOST, LOST);
+      const lostGroup = new GrDiffGroup({
+        type: GrDiffGroupType.BOTH,
+        lines: [lostLine],
+      });
+      const fileLine = new GrDiffLine(GrDiffLineType.BOTH, FILE, FILE);
+      const fileGroup = new GrDiffGroup({
+        type: GrDiffGroupType.BOTH,
+        lines: [fileLine],
+      });
+
+      const hunk1Remove = new GrDiffLine(GrDiffLineType.REMOVE, 1, 0);
+      hunk1Remove.text = 'const a = 1;';
+      const hunk1Add = new GrDiffLine(GrDiffLineType.ADD, 0, 1);
+      hunk1Add.text = 'const a = 2;';
+      const hunk1Group = new GrDiffGroup({
+        type: GrDiffGroupType.DELTA,
+        lines: [hunk1Remove, hunk1Add],
+      });
+
+      const middleLine = new GrDiffLine(GrDiffLineType.BOTH, 2, 2);
+      middleLine.text = 'const middle = true;';
+      const hiddenMiddleGroup = new GrDiffGroup({
+        type: GrDiffGroupType.BOTH,
+        lines: [middleLine],
+      });
+      const contextControl = new GrDiffGroup({
+        type: GrDiffGroupType.CONTEXT_CONTROL,
+        contextGroups: [hiddenMiddleGroup],
+      });
+
+      const hunk2Remove = new GrDiffLine(GrDiffLineType.REMOVE, 3, 0);
+      hunk2Remove.text = 'const b = 1;';
+      const hunk2Add = new GrDiffLine(GrDiffLineType.ADD, 0, 3);
+      hunk2Add.text = 'const b = 2;';
+      const hunk2Group = new GrDiffGroup({
+        type: GrDiffGroupType.DELTA,
+        lines: [hunk2Remove, hunk2Add],
+      });
+
+      const eofLine = new GrDiffLine(GrDiffLineType.BOTH, 4, 4);
+      eofLine.text = '';
+      const eofGroup = new GrDiffGroup({
+        type: GrDiffGroupType.BOTH,
+        lines: [eofLine],
+      });
+
+      const allGroups = [
+        lostGroup,
+        fileGroup,
+        hunk1Group,
+        contextControl,
+        hunk2Group,
+        eofGroup,
+      ];
+
+      assert.equal(getContentGroups(allGroups).length, 4);
+      const reverted = getRevertedFileContent(hunk2Group, allGroups);
+      assert.equal(
+        reverted,
+        'const a = 2;\nconst middle = true;\nconst b = 1;\n'
+      );
+    });
+
+    test('returns undefined when allGroups is empty or has skipped chunks', () => {
+      const addLine = new GrDiffLine(GrDiffLineType.ADD, 0, 1);
+      addLine.text = 'added';
+      const deltaGroup = new GrDiffGroup({
+        type: GrDiffGroupType.DELTA,
+        lines: [addLine],
+      });
+      assert.isUndefined(getRevertedFileContent(deltaGroup, []));
+
+      const skippedGroup = new GrDiffGroup({
+        type: GrDiffGroupType.BOTH,
+        skip: 100,
+        offsetLeft: 2,
+        offsetRight: 2,
+      });
+      assert.isUndefined(
+        getRevertedFileContent(deltaGroup, [deltaGroup, skippedGroup])
       );
     });
   });

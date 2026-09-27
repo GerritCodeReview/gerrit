@@ -282,10 +282,6 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
   }
 
   @Test
-  @GerritConfig(
-      name = "experiments.disabled",
-      // The test intentionally create an implicit merge change.
-      value = "GerritBackendFeature__reject_implicit_merges_on_merge")
   @GerritConfig(name = "repository.*.defaultConfig", value = "receive.rejectImplicitMerges=false")
   public void submitWithMergedAncestorsOnOtherBranch() throws Throwable {
     RevCommit initialHead = projectOperations.project(project).getHead("master");
@@ -336,10 +332,7 @@ public class SubmitByMergeIfNecessaryIT extends AbstractSubmitByMerge {
   }
 
   @Test
-  @GerritConfig(
-      name = "experiments.disabled",
-      // The test intentionally create an implicit merge change.
-      value = "GerritBackendFeature__reject_implicit_merges_on_merge")
+  @GerritConfig(name = "repository.*.defaultConfig", value = "receive.rejectImplicitMerges=false")
   public void submitWithOpenAncestorsOnOtherBranch() throws Throwable {
     RevCommit initialHead = projectOperations.project(project).getHead("master");
     PushOneCommit.Result change1 =

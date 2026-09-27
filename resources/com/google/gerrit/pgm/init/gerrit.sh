@@ -51,7 +51,7 @@ fi
 
 usage() {
     me=`basename "$0"`
-    echo >&2 "Usage: $me {start|stop|restart|check|status|run|supervise|threads} [-d site] [--debug [--debug-port|--debug-address ...] [--suspend]] [--count=n]"
+    echo >&2 "Usage: $me {start|stop|restart|check|status|run|supervise|threads|histogram} [-d site] [--debug [--debug-port|--debug-address ...] [--suspend]] [--count=n]"
     exit 1
 }
 
@@ -73,6 +73,13 @@ thread_dump() {
   test -f $1 || return 1
   PID=`cat $1`
   $JSTACK $PID || return 1
+  return 0;
+}
+
+histogram_dump() {
+  test -f $1 || return 1
+  PID=`cat $1`
+  $JCMD $PID GC.class_histogram || return 1
   return 0;
 }
 
@@ -258,6 +265,7 @@ GERRIT_LOGS="$GERRIT_SITE/logs"
 GERRIT_PID="$GERRIT_LOGS/gerrit.pid"
 GERRIT_RUN="$GERRIT_LOGS/gerrit.run"
 GERRIT_THREADS="$GERRIT_LOGS/threads"
+GERRIT_HISTOGRAM="$GERRIT_LOGS/histogram"
 GERRIT_TMP="$GERRIT_SITE/tmp"
 export GERRIT_TMP
 
@@ -331,6 +339,10 @@ fi
 
 if test -z "$JSTACK"; then
   JSTACK="$JAVA_HOME/bin/jstack"
+fi
+
+if test -z "$JCMD"; then
+  JCMD="$JAVA_HOME/bin/jcmd"
 fi
 
 #####################################################
@@ -673,6 +685,19 @@ case "$ACTION" in
           sleep 1
         done
       fi
+      exit 0
+    else
+      echo "Gerrit not running?"
+    fi
+    exit 3
+  ;;
+
+  histogram)
+    if running "$GERRIT_PID" ; then
+      mkdir -p -- "$GERRIT_HISTOGRAM"
+      HISTOGRAM="$GERRIT_HISTOGRAM/histogram-`ztime`"
+      histogram_dump "$GERRIT_PID" > "$HISTOGRAM" || exit 1
+      echo "$HISTOGRAM"
       exit 0
     else
       echo "Gerrit not running?"

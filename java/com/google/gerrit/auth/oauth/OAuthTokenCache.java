@@ -20,6 +20,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Converter;
 import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.auth.oauth.OAuthToken;
@@ -30,14 +31,18 @@ import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.proto.Cache.OAuthTokenProto;
 import com.google.gerrit.server.cache.serialize.CacheSerializer;
 import com.google.gerrit.server.cache.serialize.IntegerCacheSerializer;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
+import java.util.Set;
+import org.eclipse.jgit.lib.Config;
 
 @Singleton
 public class OAuthTokenCache {
   public static final String OAUTH_TOKENS = "oauth_tokens";
+  private static final long DEFAULT_MEMORY_LIMIT = 1024;
 
   private final DynamicItem<OAuthTokenEncrypter> encrypter;
 
@@ -101,35 +106,71 @@ public class OAuthTokenCache {
   }
 
   private final Cache<Account.Id, OAuthToken> cache;
+  private final boolean disabled;
 
   @Inject
   OAuthTokenCache(
       @Named(OAUTH_TOKENS) Cache<Account.Id, OAuthToken> cache,
-      DynamicItem<OAuthTokenEncrypter> encrypter) {
+      DynamicItem<OAuthTokenEncrypter> encrypter,
+      @GerritServerConfig Config cfg) {
     this.cache = cache;
     this.encrypter = encrypter;
+    this.disabled = cfg.getLong("cache", OAUTH_TOKENS, "memoryLimit", DEFAULT_MEMORY_LIMIT) == 0;
   }
 
+  /**
+   * Returns the decrypted token even if it has expired, without evicting it, so an expired token's
+   * {@code raw} (which may carry a refresh token) stays reachable for the refresh-on-read path.
+   */
   @Nullable
-  public OAuthToken get(Account.Id id) {
+  public OAuthToken getEvenIfExpired(Account.Id id) {
+    if (disabled) {
+      return null;
+    }
     OAuthToken accessToken = cache.getIfPresent(id);
     if (accessToken == null) {
       return null;
     }
-    accessToken = decrypt(accessToken);
-    if (accessToken.isExpired()) {
-      cache.invalidate(id);
-      return null;
-    }
-    return accessToken;
+    return decrypt(accessToken);
+  }
+
+  /**
+   * True if a token is cached for the account and expired (checks cleartext {@code expiresAt}, no
+   * decrypt).
+   */
+  public boolean hasExpiredToken(Account.Id id) {
+    OAuthToken accessToken = cache.getIfPresent(id);
+    return accessToken != null && accessToken.isExpired();
   }
 
   public void put(Account.Id id, OAuthToken accessToken) {
-    cache.put(id, encrypt(requireNonNull(accessToken)));
+    requireNonNull(accessToken);
+    if (disabled) {
+      return;
+    }
+    cache.put(id, encrypt(accessToken));
   }
 
   public void remove(Account.Id id) {
     cache.invalidate(id);
+  }
+
+  public boolean isDisabled() {
+    return disabled;
+  }
+
+  /** Purges every cached OAuth token (e.g. after a suspected site compromise or key theft). */
+  public void removeAll() {
+    cache.invalidateAll();
+  }
+
+  /**
+   * Account ids with a token in the in-memory cache; used by bulk revoke. Disk-only entries are not
+   * listed. {@link #removeAll()} still purges them, but they cannot be individually revoked
+   * upstream (their token is not loaded).
+   */
+  public Set<Account.Id> accountsWithCachedToken() {
+    return ImmutableSet.copyOf(cache.asMap().keySet());
   }
 
   private OAuthToken encrypt(OAuthToken token) {

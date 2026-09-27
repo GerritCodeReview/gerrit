@@ -6,6 +6,8 @@
 import '../../../styles/gr-a11y-styles';
 import '../../../styles/shared-styles';
 import '../../diff/gr-diff-host/gr-diff-host';
+import '../../diff/gr-diff-markdown-viewer/gr-diff-markdown-viewer';
+import type {GrDiffMarkdownViewer} from '../../diff/gr-diff-markdown-viewer/gr-diff-markdown-viewer';
 import '../../diff/gr-diff-preferences-dialog/gr-diff-preferences-dialog';
 import '../../edit/gr-edit-file-controls/gr-edit-file-controls';
 import '../../shared/gr-button/gr-button';
@@ -36,14 +38,14 @@ import {
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {
   BasePatchSetNum,
-  EDIT,
   FileInfo,
   NumericChangeId,
   PARENT,
   PatchRange,
   RevisionPatchSetNum,
 } from '../../../types/common';
-import {DiffPreferencesInfo} from '../../../types/diff';
+import {isMarkdownDiff} from '../../../utils/diff-util';
+import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {GrDiffHost} from '../../diff/gr-diff-host/gr-diff-host';
 import {GrDiffPreferencesDialog} from '../../diff/gr-diff-preferences-dialog/gr-diff-preferences-dialog';
 import {GrDiffCursor} from '../../../embed/diff/gr-diff-cursor/gr-diff-cursor';
@@ -51,7 +53,6 @@ import {GrCursorManager} from '../../shared/gr-cursor-manager/gr-cursor-manager'
 import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api';
 import {ParsedChangeInfo, PatchSetFile} from '../../../types/types';
 import {Interaction, Timing} from '../../../constants/reporting';
-import {RevisionInfo} from '../../shared/revision-info/revision-info';
 import {select} from '../../../utils/observable-util';
 import {resolve} from '../../../models/dependency';
 import {browserModelToken} from '../../../models/browser/browser-model';
@@ -271,6 +272,13 @@ export class GrFileList extends LitElement {
   @state()
   expandedFiles: Set<string> = new Set();
 
+  @state()
+  private diffsByPath = new Map<string, DiffInfo>();
+
+  // Private but used in tests.
+  @state()
+  richMarkdownFiles: Set<string> = new Set();
+
   // Private but used in tests.
   @state()
   showSizeBars = true;
@@ -278,8 +286,9 @@ export class GrFileList extends LitElement {
   // For merge commits vs Auto Merge, an extra file row is shown detailing the
   // files that were merged without conflict. These files are also passed to any
   // plugins.
+  // Private but used in tests.
   @state()
-  private cleanlyMergedPaths: string[] = [];
+  cleanlyMergedPaths: string[] = [];
 
   // Private but used in tests.
   @state()
@@ -309,8 +318,6 @@ export class GrFileList extends LitElement {
   sizeBarLayout: SizeBarLayout = createDefaultSizeBarLayout();
 
   private readonly reporting = getAppContext().reportingService;
-
-  private readonly restApiService = getAppContext().restApiService;
 
   private readonly getPluginLoader = resolve(this, pluginLoaderToken);
 
@@ -518,6 +525,28 @@ export class GrFileList extends LitElement {
         .show-hide {
           margin-left: var(--spacing-s);
           width: 1.9em;
+          position: relative;
+        }
+        .richMarkdownToggle {
+          align-items: center;
+          display: inline-flex;
+          justify-content: flex-end;
+          position: absolute;
+          right: 2em;
+          white-space: nowrap;
+          opacity: 0;
+        }
+        .row:hover .richMarkdownToggle,
+        .row:focus-within .richMarkdownToggle,
+        .row.expanded .richMarkdownToggle {
+          opacity: 100;
+        }
+        .richMarkdownToggle gr-button {
+          --gr-button-padding: 0 var(--spacing-s);
+        }
+        .richMarkdownToggle gr-icon {
+          font-size: 16px;
+          margin-right: var(--spacing-xs);
         }
         .fileListButton {
           margin: var(--spacing-m);
@@ -874,6 +903,20 @@ export class GrFileList extends LitElement {
     );
     subscribe(
       this,
+      () => this.getFilesModel().cleanlyMergedPaths$,
+      paths => {
+        this.cleanlyMergedPaths = paths;
+      }
+    );
+    subscribe(
+      this,
+      () => this.getFilesModel().cleanlyMergedOldPaths$,
+      paths => {
+        this.cleanlyMergedOldPaths = paths;
+      }
+    );
+    subscribe(
+      this,
       () => this.getBrowserModel().diffViewMode$,
       diffView => {
         this.diffViewMode = diffView;
@@ -1201,17 +1244,38 @@ export class GrFileList extends LitElement {
       ${when(
         this.isFileExpanded(file.__path),
         () => html`
-          <gr-diff-host
-            ?noAutoRender=${true}
-            ?showLoadFailure=${true}
-            .changeNum=${this.changeNum}
-            .change=${this.change}
-            .patchRange=${this.patchRange}
-            .file=${patchSetFile}
-            .path=${file.__path}
-            .projectName=${this.change?.project}
-            ?noRenderOnPrefsChange=${true}
-          ></gr-diff-host>
+          ${when(
+            this.isShowingRichMarkdown(file.__path),
+            () => html`
+              <gr-diff-markdown-viewer
+                .diff=${this.getDiffForPath(file.__path)}
+                .path=${file.__path}
+                .patchRange=${this.patchRange}
+                .loggedIn=${this.loggedIn}
+              ></gr-diff-markdown-viewer>
+            `
+          )}
+          <div ?hidden=${this.isShowingRichMarkdown(file.__path)}>
+            <gr-diff-host
+              ?hidden=${this.isShowingRichMarkdown(file.__path)}
+              ?disabledThreads=${this.isShowingRichMarkdown(file.__path)}
+              ?noAutoRender=${true}
+              ?showLoadFailure=${true}
+              .changeNum=${this.changeNum}
+              .change=${this.change}
+              .patchRange=${this.patchRange}
+              .file=${patchSetFile}
+              .path=${file.__path}
+              .projectName=${this.change?.project}
+              ?noRenderOnPrefsChange=${true}
+              @diff-changed=${(e: CustomEvent<{value?: DiffInfo}>) => {
+                if (e.detail.value) {
+                  this.diffsByPath.set(file.__path, e.detail.value);
+                  this.requestUpdate();
+                }
+              }}
+            ></gr-diff-host>
+          </div>
         `
       )}
     </div>`;
@@ -1354,6 +1418,8 @@ export class GrFileList extends LitElement {
           <gr-copy-clipboard
             ?hideInput=${true}
             .text=${file.__path}
+            buttonTitle="Copy file path to clipboard"
+            copyTargetName="File path"
           ></gr-copy-clipboard>
         </a>
         ${when(
@@ -1376,6 +1442,8 @@ export class GrFileList extends LitElement {
               <gr-copy-clipboard
                 ?hideInput=${true}
                 .text=${file.old_path}
+                buttonTitle="Copy old file path to clipboard"
+                copyTargetName="Old file path"
               ></gr-copy-clipboard>
             </div>
           `
@@ -1610,9 +1678,90 @@ export class GrFileList extends LitElement {
     </div>`;
   }
 
+  isShowingRichMarkdown(path?: string): boolean {
+    if (!path || !isMarkdownDiff(path)) return false;
+    return this.richMarkdownFiles.has(path);
+  }
+
+  async toggleRichMarkdown(path: string, e?: Event) {
+    if (e) {
+      e.stopPropagation();
+      e.preventDefault();
+    }
+    const isRich = this.richMarkdownFiles.has(path);
+    if (isRich) {
+      const viewers = Array.from(
+        this.shadowRoot?.querySelectorAll<GrDiffMarkdownViewer>(
+          'gr-diff-markdown-viewer'
+        ) ?? []
+      );
+      const viewer = viewers.find(v => v.path === path);
+      await viewer?.autoSaveDrafts();
+    } else {
+      const diffHosts = Array.from(
+        this.shadowRoot?.querySelectorAll<GrDiffHost>('gr-diff-host') ?? []
+      );
+      const diffHost = this.findDiffByPath(path, diffHosts);
+      await diffHost?.autoSaveDrafts();
+    }
+    const newSet = new Set(this.richMarkdownFiles);
+    if (newSet.has(path)) {
+      newSet.delete(path);
+    } else {
+      newSet.add(path);
+      if (!this.isFileExpanded(path)) {
+        const newExpanded = new Set(this.expandedFiles);
+        newExpanded.add(path);
+        this.expandedFiles = newExpanded;
+      }
+    }
+    this.richMarkdownFiles = newSet;
+  }
+
+  getDiffForPath(path: string): DiffInfo | undefined {
+    const cached = this.diffsByPath.get(path);
+    if (cached) return cached;
+    const diffHosts = Array.from(
+      this.shadowRoot?.querySelectorAll<GrDiffHost>('gr-diff-host') ?? []
+    );
+    const diffHost = this.findDiffByPath(path, diffHosts);
+    if (diffHost?.diff) {
+      this.diffsByPath.set(path, diffHost.diff);
+      return diffHost.diff;
+    }
+    return undefined;
+  }
+
+  private renderRichMarkdownToggle(file: NormalizedFileInfo) {
+    if (!isMarkdownDiff(file.__path)) return nothing;
+    const isRich = this.isShowingRichMarkdown(file.__path);
+    return html`
+      <div class="richMarkdownToggle">
+        <gr-tooltip-content
+          has-tooltip
+          title=${isRich
+            ? 'View source diff'
+            : 'View rich rendered markdown diff'}
+        >
+          <gr-button
+            link
+            class="toggleRichMarkdown"
+            @click=${(e: MouseEvent) => this.toggleRichMarkdown(file.__path, e)}
+          >
+            <gr-icon icon=${isRich ? 'code' : 'preview'} filled></gr-icon>
+            <span class="richToggleLabel"
+              >${isRich ? 'Source diff' : 'Rich diff'}</span
+            >
+          </gr-button>
+        </gr-tooltip-content>
+      </div>
+    `;
+  }
+
   private renderShowHide(file: NormalizedFileInfo) {
     const expanded = this.isFileExpanded(file.__path);
     return html` <div class="show-hide" role="gridcell">
+      ${this.renderRichMarkdownToggle(file)}
       <!-- Do not use input type="checkbox" with hidden input and
             visible label here. Screen readers don't read/interract
             correctly with such input.
@@ -1869,43 +2018,6 @@ export class GrFileList extends LitElement {
   protected override firstUpdated(): void {
     this.detectChromiteButler();
     this.reporting.fileListDisplayed();
-  }
-
-  // TODO: Move into files-model.
-  // visible for testing
-  async updateCleanlyMergedPaths() {
-    // When viewing Auto Merge base vs a patchset, add an additional row that
-    // knows how many files were cleanly merged. This requires an additional RPC
-    // for the diffs between target parent and the patch set. The cleanly merged
-    // files are all the files in the target RPC that weren't in the Auto Merge
-    // RPC.
-    if (
-      this.change &&
-      this.changeNum &&
-      this.patchNum &&
-      new RevisionInfo(this.change).isMergeCommit(this.patchNum) &&
-      this.basePatchNum === PARENT &&
-      this.patchNum !== EDIT
-    ) {
-      const allFilesByPath = await this.restApiService.getChangeOrEditFiles(
-        this.changeNum,
-        {
-          basePatchNum: -1 as BasePatchSetNum, // -1 is first (target) parent
-          patchNum: this.patchNum,
-        }
-      );
-      if (!allFilesByPath) return;
-      const conflictingPaths = this.files.map(f => f.__path);
-      this.cleanlyMergedPaths = Object.keys(allFilesByPath).filter(
-        path => !conflictingPaths.includes(path)
-      );
-      this.cleanlyMergedOldPaths = this.cleanlyMergedPaths
-        .map(path => allFilesByPath[path].old_path)
-        .filter((oldPath): oldPath is string => !!oldPath);
-    } else {
-      this.cleanlyMergedPaths = [];
-      this.cleanlyMergedOldPaths = [];
-    }
   }
 
   private detectChromiteButler() {
@@ -2237,6 +2349,24 @@ export class GrFileList extends LitElement {
 
   private handleNewComment() {
     this.classList.remove('hideComments');
+    const viewers = Array.from(
+      this.shadowRoot?.querySelectorAll<GrDiffMarkdownViewer>(
+        'gr-diff-markdown-viewer'
+      ) ?? []
+    );
+    const viewerWithSelection = viewers.find(v => v.hasActiveSelection());
+    if (viewerWithSelection) {
+      viewerWithSelection.createCommentFromSelectionOrHover();
+      return;
+    }
+    const currentPath = this.files[this.fileCursor.index]?.__path;
+    if (currentPath && this.isShowingRichMarkdown(currentPath)) {
+      const currentViewer = viewers.find(v => v.path === currentPath);
+      if (currentViewer) {
+        currentViewer.createCommentFromSelectionOrHover();
+        return;
+      }
+    }
     this.diffCursor?.createCommentInPlace();
   }
 
@@ -2433,7 +2563,6 @@ export class GrFileList extends LitElement {
 
   async filesChanged() {
     if (this.expandedFiles.size > 0) this.expandedFiles = new Set();
-    await this.updateCleanlyMergedPaths();
     if (!this.files || this.files.length === 0) return;
     await this.updateComplete;
     this.fileCursor.stops = Array.from(

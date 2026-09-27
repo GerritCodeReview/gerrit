@@ -165,6 +165,8 @@ export class GrGroup extends LitElement {
         <gr-copy-clipboard
           id="uuid"
           .text=${this.getGroupUUID()}
+          buttonTitle="Copy Group UUID to clipboard"
+          copyTargetName="Group UUID"
         ></gr-copy-clipboard>
       </fieldset>
     `;

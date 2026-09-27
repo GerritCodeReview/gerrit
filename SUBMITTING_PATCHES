@@ -8,6 +8,8 @@ Short Version:
 
    git push https://gerrit.googlesource.com/gerrit HEAD:refs/for/master
 
+See https://gerrit-review.googlesource.com/Documentation/dev-contributing.html
+for full details.
 
 Long Version:
 
@@ -61,6 +63,11 @@ need to be a contributor’s original creation.
 
 
 (3) Sending your patches.
+
+Due to spam abuse, membership in the http://groups.google.com/group/repo-discuss
+Google Group is required in order to create Gerrit changes on the
+https://gerrit-review.googlesource.com Gerrit server. Ensure you've done that
+before attempting git push.
 
 Do not email your patches to anyone.
 

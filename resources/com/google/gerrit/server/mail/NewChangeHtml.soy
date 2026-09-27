@@ -19,8 +19,10 @@
 import * as mailTemplate from 'com/google/gerrit/server/mail/Private.soy';
 
 {template NewChangeHtml}
+  {@param? change: ?}
   {@param diffLines: ?}
   {@param email: ?}
+  {@param? fromEmail: ?}
   {@param fromName: ?}
   {@param ownerName: ?}
   {@param patchSet: ?}
@@ -36,7 +38,7 @@ import * as mailTemplate from 'com/google/gerrit/server/mail/Private.soy';
           {$reviewerName}
         {/for}{sp}
         to <strong>review</strong> this change
-        {if $fromName != $ownerName}{sp}authored by {$ownerName}{/if}.
+        {if ($fromEmail && $change ? $fromEmail != $change.ownerEmail : $fromName != $ownerName)}{sp}authored by {$ownerName}{/if}.
         {\n}
       {/if}
       {if $email.removedReviewerNames}

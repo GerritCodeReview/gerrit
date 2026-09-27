@@ -24,8 +24,8 @@ import com.google.gerrit.index.project.ProjectIndex;
 import com.google.gerrit.index.testing.AbstractFakeIndex;
 import com.google.gerrit.index.testing.FakeIndexVersionManager;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.AbstractIndexModule;
+import com.google.gerrit.server.index.IndexDir;
 import com.google.gerrit.server.index.VersionManager;
 import com.google.gerrit.server.index.account.AccountIndex;
 import com.google.gerrit.server.index.change.ChangeIndex;
@@ -36,6 +36,7 @@ import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.assistedinject.Assisted;
+import java.nio.file.Path;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
 
@@ -106,11 +107,11 @@ class CustomModuleFakeIndexChange extends AbstractFakeIndex.FakeChangeIndex {
 
   @com.google.inject.Inject
   CustomModuleFakeIndexChange(
-      SitePaths sitePaths,
+      @IndexDir Path indexDir,
       ChangeData.Factory changeDataFactory,
       @Assisted Schema<ChangeData> schema,
       @GerritServerConfig Config cfg,
       IndexConfig indexConfig) {
-    super(sitePaths, changeDataFactory, schema, cfg, indexConfig);
+    super(indexDir, changeDataFactory, schema, cfg, indexConfig);
   }
 }

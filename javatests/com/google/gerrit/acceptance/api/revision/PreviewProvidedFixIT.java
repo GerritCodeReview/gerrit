@@ -272,6 +272,37 @@ public class PreviewProvidedFixIT extends AbstractDaemonTest {
     assertThat(diff).content().element(1).linesOfB().containsExactly("2nd line", "");
   }
 
+  @Test
+  public void previewFixWithUnchangedLinesInsideReplacementRange() throws Exception {
+    // Replacement covers lines 3 to 5, where line 4 is unchanged.
+    String replacement = "Modified third line\nFourth line\nModified fifth line\n";
+    ApplyProvidedFixInput applyProvidedFixInput =
+        createApplyProvidedFixInput(FILE_NAME, replacement, 3, 0, 6, 0);
+
+    Map<String, DiffInfo> fixPreview =
+        gApi.changes().id(changeId).current().getFixPreview(applyProvidedFixInput);
+    DiffInfo diff = fixPreview.get(FILE_NAME);
+
+    // Should be split into two replacement hunks around the unchanged line 4.
+    assertThat(diff.content).hasSize(5);
+    assertThat(diff)
+        .content()
+        .element(0)
+        .commonLines()
+        .containsExactly("First line", "Second line");
+    assertThat(diff).content().element(1).linesOfA().containsExactly("Third line");
+    assertThat(diff).content().element(1).linesOfB().containsExactly("Modified third line");
+    assertThat(diff).content().element(2).commonLines().containsExactly("Fourth line");
+    assertThat(diff).content().element(3).linesOfA().containsExactly("Fifth line");
+    assertThat(diff).content().element(3).linesOfB().containsExactly("Modified fifth line");
+    assertThat(diff)
+        .content()
+        .element(4)
+        .commonLines()
+        .containsExactly(
+            "Sixth line", "Seventh line", "Eighth line", "Ninth line", "Tenth line", "");
+  }
+
   private ApplyProvidedFixInput createApplyProvidedFixInput(
       String file_name,
       String replacement,

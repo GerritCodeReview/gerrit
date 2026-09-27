@@ -126,7 +126,7 @@ def normalize_jar_id(jar_name):
         n = n[:i]
     return n
 
-def should_skip_packaged_jar(jar_name):
+def should_skip_packaged_jar(ctx, jar_name):
     """Returns True if the packaged jar should be skipped.
 
     jar_name must be the post-processed name (war_jar_name output).
@@ -137,7 +137,7 @@ def should_skip_packaged_jar(jar_name):
     Returns:
       True if the packaged jar should be skipped, False otherwise.
     """
-    for pfx in EXCLUDE_WAR_JAR_PREFIXES:
+    for pfx in EXCLUDE_WAR_JAR_PREFIXES + ctx.attr.exclude_jar_prefixes:
         if jar_name.startswith(pfx):
             return True
 
@@ -212,7 +212,7 @@ def _war_impl(ctx):
 
     for dep in depset(transitive = transitive_libs).to_list():
         packaged = war_jar_name(dep)
-        if should_skip_packaged_jar(packaged):
+        if should_skip_packaged_jar(ctx, packaged):
             continue
 
         cmd += _add_file(dep, build_output + "/WEB-INF/lib/")
@@ -231,7 +231,7 @@ def _war_impl(ctx):
 
     for dep in depset(transitive = transitive_pgmlibs).to_list():
         packaged = war_jar_name(dep)
-        if should_skip_packaged_jar(packaged):
+        if should_skip_packaged_jar(ctx, packaged):
             continue
 
         if dep not in inputs:
@@ -292,6 +292,7 @@ def _war_impl(ctx):
 _pkg_war = rule(
     attrs = {
         "context": attr.label_list(allow_files = True),
+        "exclude_jar_prefixes": attr.string_list(),
         "libs": attr.label_list(allow_files = jar_filetype),
         "pgmlibs": attr.label_list(allow_files = False),
     },
@@ -303,7 +304,14 @@ _pkg_war = rule(
     implementation = _war_impl,
 )
 
-def pkg_war(name, ui = "polygerrit", context = [], doc = False, **kwargs):
+def pkg_war(
+        name,
+        ui = "polygerrit",
+        context = [],
+        doc = False,
+        additional_libs = [],
+        exclude_jar_prefixes = [],
+        **kwargs):
     """Rule for packaging the Gerrit WAR.
 
     Args:
@@ -311,6 +319,8 @@ def pkg_war(name, ui = "polygerrit", context = [], doc = False, **kwargs):
       ui: The UI type, e.g. "polygerrit".
       context: The list of context dependencies.
       doc: Whether to include documentation.
+      additional_libs: Additional libraries to package into WEB-INF/lib.
+      exclude_jar_prefixes: Additional packaged jar prefixes to skip.
       **kwargs: Additional keyword arguments.
     """
     doc_ctx = []
@@ -324,11 +334,12 @@ def pkg_war(name, ui = "polygerrit", context = [], doc = False, **kwargs):
 
     _pkg_war(
         name = name,
-        libs = LIBS + doc_lib,
+        libs = LIBS + doc_lib + additional_libs,
         pgmlibs = PGMLIBS,
         context = doc_ctx + context + ui_deps + [
             "//java:gerrit-main-class_deploy.jar",
             "//webapp:assets",
         ],
+        exclude_jar_prefixes = exclude_jar_prefixes,
         **kwargs
     )

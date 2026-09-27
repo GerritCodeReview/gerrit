@@ -100,6 +100,42 @@ suite('commit-message-formatter-util tests', () => {
       );
     });
 
+    test('footers with equals sign (TAG=agy, CONV=...) are not split or merged', () => {
+      const message =
+        'Fix the thing\n\nThis is the body.\n\nTAG=agy\nCONV=fe186e29-8ffb-4bb8-a778-d48e3c804048\nChange-Id: abcdefg\n';
+      assert.equal(
+        formatCommitMessageString(message),
+        'Fix the thing\n\nThis is the body.\n\nTAG=agy\nCONV=fe186e29-8ffb-4bb8-a778-d48e3c804048\nChange-Id: abcdefg\n'
+      );
+    });
+
+    test('footers with equals sign separated by a blank line', () => {
+      const message =
+        'Fix the thing\n\nThis is the body.\n\nTAG=agy\nCONV=fe186e29-8ffb-4bb8-a778-d48e3c804048\n\nChange-Id: abcdefg\n';
+      assert.equal(
+        formatCommitMessageString(message),
+        'Fix the thing\n\nThis is the body.\n\nTAG=agy\nCONV=fe186e29-8ffb-4bb8-a778-d48e3c804048\nChange-Id: abcdefg\n'
+      );
+    });
+
+    test('footers with equals sign only are recognized as footers', () => {
+      const message =
+        'Fix the thing\n\nThis is the body.\n\nTAG=agy\nCONV=fe186e29-8ffb-4bb8-a778-d48e3c804048\n';
+      assert.equal(
+        formatCommitMessageString(message),
+        'Fix the thing\n\nThis is the body.\n\nTAG=agy\nCONV=fe186e29-8ffb-4bb8-a778-d48e3c804048\n'
+      );
+    });
+
+    test('chromium-style footers with equals sign are preserved', () => {
+      const message =
+        'Add new feature\n\nThis is a long description of the feature that should be wrapped across multiple lines if needed.\n\nBUG=chromium:12345\nTEST=browser_tests\nR=reviewer@chromium.org\n';
+      assert.equal(
+        formatCommitMessageString(message),
+        'Add new feature\n\nThis is a long description of the feature that should be wrapped across\nmultiple lines if needed.\n\nBUG=chromium:12345\nTEST=browser_tests\nR=reviewer@chromium.org\n'
+      );
+    });
+
     test('indented lines are untouched', () => {
       const message =
         'Fix the thing\n\n    This is an indented line.\n        This is another indented line.\n\nChange-Id: abcdefg\n';
@@ -503,6 +539,19 @@ suite('commit-message-formatter-util tests', () => {
           hasTrailingBlankLine: false,
         },
         'footer with at least one proper format line should be kept as footer'
+      );
+    });
+
+    test('footer with equals sign format line is kept as footer', () => {
+      assertParseResult(
+        'Subject\n\nBody line\n\nTAG=agy\nCONV=fe186e29-8ffb-4bb8-a778-d48e3c804048',
+        {
+          subject: 'Subject',
+          body: ['Body line'],
+          footer: ['TAG=agy', 'CONV=fe186e29-8ffb-4bb8-a778-d48e3c804048'],
+          hasTrailingBlankLine: false,
+        },
+        'footer with equals sign format line should be kept as footer'
       );
     });
   });

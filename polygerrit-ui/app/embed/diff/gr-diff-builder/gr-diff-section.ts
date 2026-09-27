@@ -139,10 +139,13 @@ export class GrDiffSection extends LitElement {
     const hideFileCommentButton =
       this.diffPrefs?.show_file_comment_button === false ||
       this.renderPrefs?.show_file_comment_button === false;
+    const isDelta =
+      this.group.type === GrDiffGroupType.DELTA && !this.group.dueToRebase;
+    const isEditMode = !!this.renderPrefs?.is_edit_mode;
     const body = html`
       <tbody class=${extras.join(' ')}>
         ${this.renderContextControls()} ${this.renderMoveControls()}
-        ${pairs.map(pair => {
+        ${pairs.map((pair, index) => {
           const leftClass = `left-${pair.left.lineNumber(Side.LEFT)}`;
           const rightClass = `right-${pair.right.lineNumber(Side.RIGHT)}`;
           return html`
@@ -150,6 +153,8 @@ export class GrDiffSection extends LitElement {
               class="${leftClass} ${rightClass}"
               .left=${pair.left}
               .right=${pair.right}
+              .group=${this.group}
+              .showRevertButton=${isDelta && isEditMode && index === 0}
               .layers=${this.layers}
               .lineLength=${this.diffPrefs?.line_length ?? 80}
               .tabSize=${this.diffPrefs?.tab_size ?? 2}

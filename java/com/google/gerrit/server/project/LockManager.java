@@ -28,5 +28,12 @@ import java.util.concurrent.locks.Lock;
  * lock manager that provides global locks.
  */
 public interface LockManager {
-  public Lock getLock(String name);
+
+  @Deprecated
+  Lock getLock(String name);
+
+  /** Returns a lock identified by {@code key}. */
+  default Lock getLock(LockKey key) {
+    return getLock(key.toString());
+  }
 }

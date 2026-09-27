@@ -2443,7 +2443,7 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(messages).hasSize(1);
     Message msg = messages.get(0);
     assertThat(msg.rcpt()).containsExactly(user.getNameEmail());
-    assertThat(msg.body()).contains(admin.fullName() + " has removed a vote from this change.");
+    assertThat(msg.body()).contains(admin.getNameEmail() + " has removed a vote from this change.");
     assertThat(msg.body())
         .contains("Removed Code-Review+1 by " + user.fullName() + " <" + user.email() + ">\n");
 
@@ -5194,7 +5194,7 @@ public class ChangeIT extends AbstractDaemonTest {
     // Check that the email was removed as a CC and an email was sent.
     assertThat(gApi.changes().id(r.getChangeId()).get().reviewers).isEmpty();
     assertThat(Iterables.getOnlyElement(sender.getMessages()).body())
-        .contains(String.format("%s has removed %s", admin.fullName(), reviewerInput.reviewer));
+        .contains(String.format("%s has removed %s", admin.getNameEmail(), reviewerInput.reviewer));
   }
 
   @Test
@@ -5235,7 +5235,7 @@ public class ChangeIT extends AbstractDaemonTest {
     // Check that the email was removed as a CC and an email was sent.
     assertThat(gApi.changes().id(r.getChangeId()).get().reviewers).isEmpty();
     assertThat(Iterables.getOnlyElement(sender.getMessages()).body())
-        .contains(String.format("%s has removed %s", admin.fullName(), reviewerInput.reviewer));
+        .contains(String.format("%s has removed %s", admin.getNameEmail(), reviewerInput.reviewer));
   }
 
   @Test

@@ -183,7 +183,10 @@ export class GrWatchedProjectsEditor extends LitElement {
   loadData() {
     return this.restApiService.getWatchedProjects().then(projs => {
       this.originalProjects = projs;
-      this.projects = projs ? [...projs] : [];
+      this.projects =
+        projs?.map(project => {
+          return {...project};
+        }) ?? [];
     });
   }
 
@@ -207,7 +210,10 @@ export class GrWatchedProjectsEditor extends LitElement {
       })
       .then(projects => {
         this.originalProjects = projects;
-        this.projects = projects ? [...projects] : [];
+        this.projects =
+          projects?.map(project => {
+            return {...project};
+          }) ?? [];
         this.projectsToRemove = [];
         this.setHasUnsavedChanges();
       });
@@ -231,10 +237,15 @@ export class GrWatchedProjectsEditor extends LitElement {
     const index = this.projects.indexOf(project);
     if (index < 0) return;
     this.projects.splice(index, 1);
-    // Don't add project to projectsToRemove if it wasn't in
-    // originalProjects.
-    if (this.originalProjects.includes(project))
+    if (
+      this.originalProjects.some(
+        originalProject =>
+          originalProject.project === project.project &&
+          this.areFiltersEqual(originalProject.filter, project.filter)
+      )
+    ) {
       this.projectsToRemove.push(project);
+    }
     this.requestUpdate();
     this.setHasUnsavedChanges();
   }

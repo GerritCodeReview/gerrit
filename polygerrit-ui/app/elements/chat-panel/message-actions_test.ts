@@ -82,7 +82,12 @@ suite('message-actions tests', () => {
     assert.shadowDom.equal(
       element,
       /* HTML */ `
-        <gr-copy-clipboard class="copy-button" hideinput="">
+        <gr-copy-clipboard
+          buttontitle="Copy response to clipboard"
+          class="copy-button"
+          copytargetname="Response"
+          hideinput=""
+        >
         </gr-copy-clipboard>
         <md-icon-button
           class="regenerate-button"
@@ -102,7 +107,13 @@ suite('message-actions tests', () => {
     assert.shadowDom.equal(
       element,
       /* HTML */ `
-        <gr-copy-clipboard class="copy-button" hidden="" hideinput="">
+        <gr-copy-clipboard
+          buttontitle="Copy response to clipboard"
+          class="copy-button"
+          copytargetname="Response"
+          hidden=""
+          hideinput=""
+        >
         </gr-copy-clipboard>
         <md-icon-button
           class="regenerate-button"

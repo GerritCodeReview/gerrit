@@ -19,6 +19,7 @@ import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.server.group.testing.InternalGroupSubject.internalGroups;
 import static com.google.gerrit.truth.OptionalSubject.assertThat;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
@@ -102,6 +103,23 @@ public class GroupIndexerIT {
 
     Optional<InternalGroup> updatedGroup = groupCache.get(groupUuid);
     assertThatGroup(updatedGroup).value().description().isEqualTo("Modified");
+  }
+
+  @Test
+  public void batchEvictionByUuidUpdatesStaleUuidCache() throws Exception {
+    AccountGroup.UUID groupUuid1 = createGroup("group1");
+    AccountGroup.UUID groupUuid2 = createGroup("group2");
+    loadGroupToCache(groupUuid1);
+    loadGroupToCache(groupUuid2);
+    updateGroupWithoutCacheOrIndex(groupUuid1, newGroupDelta().setDescription("Modified1").build());
+    updateGroupWithoutCacheOrIndex(groupUuid2, newGroupDelta().setDescription("Modified2").build());
+
+    groupCache.evict(ImmutableList.of(groupUuid1, groupUuid2));
+
+    Optional<InternalGroup> updatedGroup1 = groupCache.get(groupUuid1);
+    assertThatGroup(updatedGroup1).value().description().isEqualTo("Modified1");
+    Optional<InternalGroup> updatedGroup2 = groupCache.get(groupUuid2);
+    assertThatGroup(updatedGroup2).value().description().isEqualTo("Modified2");
   }
 
   @Test

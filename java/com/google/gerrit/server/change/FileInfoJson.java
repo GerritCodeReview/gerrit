@@ -39,6 +39,18 @@ public interface FileInfoJson {
     return getFileInfoMap(change, patchSet.commitId(), null);
   }
 
+  default Map<String, FileInfo> getFileInfoMap(
+      Change change, PatchSet patchSet, boolean skipDiffStat)
+      throws ResourceConflictException, PatchListNotAvailableException {
+    return getFileInfoMap(change, patchSet.commitId(), null, skipDiffStat);
+  }
+
+  default Map<String, FileInfo> getFileInfoMap(
+      Change change, ObjectId objectId, @Nullable PatchSet base, boolean skipDiffStat)
+      throws ResourceConflictException, PatchListNotAvailableException {
+    return getFileInfoMap(change, objectId, base);
+  }
+
   /**
    * Computes the list of modified files for a given change and patchset against its parent. For
    * merge commits, callers can use 0, 1, 2, etc... to choose a specific parent. The first parent is

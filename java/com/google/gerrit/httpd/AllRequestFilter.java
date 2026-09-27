@@ -15,6 +15,7 @@
 package com.google.gerrit.httpd;
 
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.registration.Extension;
 import com.google.gerrit.server.plugins.Plugin;
 import com.google.gerrit.server.plugins.StopPluginListener;
 import com.google.inject.Inject;
@@ -25,6 +26,10 @@ import com.google.inject.internal.UniqueAnnotations;
 import com.google.inject.servlet.ServletModule;
 import java.io.IOException;
 import java.util.Iterator;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.stream.StreamSupport;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -34,6 +39,8 @@ import javax.servlet.ServletResponse;
 
 /** Filters all HTTP requests passing through the server. */
 public abstract class AllRequestFilter implements Filter {
+  public static final Function<Extension<AllRequestFilter>, Boolean> SELECT_ALL = _ -> true;
+
   public static Module module() {
     return new ServletModule() {
       @Override
@@ -56,13 +63,13 @@ public abstract class AllRequestFilter implements Filter {
   static class FilterProxy implements Filter, StopPluginListener {
     private final DynamicSet<AllRequestFilter> filters;
 
-    private DynamicSet<AllRequestFilter> initializedFilters;
+    private Set<AllRequestFilter> initializedFilters;
     private FilterConfig filterConfig;
 
     @Inject
     FilterProxy(DynamicSet<AllRequestFilter> filters) {
       this.filters = filters;
-      this.initializedFilters = new DynamicSet<>();
+      this.initializedFilters = ConcurrentHashMap.newKeySet();
       this.filterConfig = null;
     }
 
@@ -70,36 +77,29 @@ public abstract class AllRequestFilter implements Filter {
      * Initializes a filter if needed
      *
      * @param filter The filter that should get initialized
-     * @return {@code true} if filter is now initialized
      * @throws ServletException if filter itself fails to init
      */
-    private synchronized boolean initFilterIfNeeded(AllRequestFilter filter)
-        throws ServletException {
-      boolean ret = true;
-      if (filters.contains(filter)) {
-        // Regardless of whether or not the caller checked filter's
-        // containment in initializedFilters, we better re-check as we're now
-        // synchronized.
-        if (!initializedFilters.contains(filter)) {
-          filter.init(filterConfig);
-          initializedFilters.add("gerrit", filter);
-        }
-      } else {
-        ret = false;
+    private synchronized void initFilterIfNeeded(AllRequestFilter filter) throws ServletException {
+      // Regardless of whether or not the caller checked filter's
+      // containment in initializedFilters, we better re-check as we're now
+      // synchronized.
+      if (!isInitializedFilter(filter)) {
+        filter.init(filterConfig);
+        initializedFilters.add(filter);
       }
-      return ret;
     }
 
-    private synchronized void cleanUpInitializedFilters() {
-      Iterable<AllRequestFilter> filtersToCleanUp = initializedFilters;
-      initializedFilters = new DynamicSet<>();
-      for (AllRequestFilter filter : filtersToCleanUp) {
-        if (filters.contains(filter)) {
-          initializedFilters.add("gerrit", filter);
-        } else {
-          filter.destroy();
-        }
-      }
+    private synchronized void cleanUpInitializedFilters(
+        Function<Extension<AllRequestFilter>, Boolean> filterFunc) {
+      StreamSupport.stream(filters.entries().spliterator(), false)
+          .filter(filterFunc::apply)
+          .map(Extension::get)
+          .filter(this::isInitializedFilter)
+          .forEach(
+              f -> {
+                f.destroy();
+                removeFromInitializedFilters(f);
+              });
     }
 
     @Override
@@ -110,7 +110,7 @@ public abstract class AllRequestFilter implements Filter {
         @Override
         public void doFilter(ServletRequest req, ServletResponse res)
             throws IOException, ServletException {
-          while (itr.hasNext()) {
+          if (itr.hasNext()) {
             AllRequestFilter filter = itr.next();
             // To avoid {@code synchronized} on the whole filtering (and
             // thereby killing concurrency), we start the below disjunction
@@ -131,12 +131,13 @@ public abstract class AllRequestFilter implements Filter {
             // it, given that this is really both really improbable and also
             // the "proper" fix for it would basically kill concurrency of
             // webrequests.
-            if (initializedFilters.contains(filter) || initFilterIfNeeded(filter)) {
-              filter.doFilter(req, res, this);
-              return;
+            if (!isInitializedFilter(filter)) {
+              initFilterIfNeeded(filter);
             }
+            filter.doFilter(req, res, this);
+          } else {
+            last.doFilter(req, res);
           }
-          last.doFilter(req, res);
         }
       }.doFilter(req, res);
     }
@@ -150,26 +151,35 @@ public abstract class AllRequestFilter implements Filter {
       filterConfig = config;
 
       for (AllRequestFilter f : filters) {
-        @SuppressWarnings("unused")
-        var unused = initFilterIfNeeded(f);
+        initFilterIfNeeded(f);
       }
     }
 
     @Override
     public synchronized void destroy() {
-      Iterable<AllRequestFilter> filtersToDestroy = initializedFilters;
-      initializedFilters = new DynamicSet<>();
-      for (AllRequestFilter filter : filtersToDestroy) {
-        filter.destroy();
-      }
+      cleanUpInitializedFilters(SELECT_ALL);
+      initializedFilters = ConcurrentHashMap.newKeySet();
     }
 
     @Override
-    public void onStopPlugin(Plugin plugin) {
+    public void beforeStopPlugin(Plugin plugin) {
       // In order to allow properly garbage collection, we need to scrub
-      // initializedFilters clean of filters stemming from plugins as they
-      // get unloaded.
-      cleanUpInitializedFilters();
+      // initializedFilters clean of filters stemming from the plugins that
+      // will be unloaded
+      cleanUpInitializedFilters(selectExtentionForPlugin(plugin));
+    }
+
+    private static Function<Extension<AllRequestFilter>, Boolean> selectExtentionForPlugin(
+        Plugin plugin) {
+      return ext -> ext.getPluginName().equals(plugin.getName());
+    }
+
+    private boolean isInitializedFilter(AllRequestFilter filter) {
+      return initializedFilters.contains(filter);
+    }
+
+    private void removeFromInitializedFilters(AllRequestFilter filter) {
+      initializedFilters.remove(filter);
     }
   }
 

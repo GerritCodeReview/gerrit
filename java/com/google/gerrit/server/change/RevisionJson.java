@@ -24,8 +24,10 @@ import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_COMM
 import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_FILES;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_ACCOUNTS;
 import static com.google.gerrit.extensions.client.ListChangesOption.DOWNLOAD_COMMANDS;
+import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
 import static com.google.gerrit.extensions.client.ListChangesOption.PARENTS;
 import static com.google.gerrit.extensions.client.ListChangesOption.PUSH_CERTIFICATES;
+import static com.google.gerrit.extensions.client.ListChangesOption.SKIP_DIFFSTAT;
 import static com.google.gerrit.extensions.client.ListChangesOption.WEB_LINKS;
 import static com.google.gerrit.server.CommonConverters.toGitPerson;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
@@ -39,6 +41,7 @@ import com.google.gerrit.entities.ParentCommitData;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
@@ -280,6 +283,8 @@ public class RevisionJson {
           RevWalk rw = newRevWalk(repo)) {
         AttributesNodeProvider attributesNodeProvider =
             repo != null ? repo.createAttributesNodeProvider() : null;
+        boolean allPatchSetsLoaded = has(ALL_REVISIONS) || has(MESSAGES);
+        PatchSet priorPs = null;
         for (PatchSet in : map.values()) {
           PatchSet.Id id = in.id();
           boolean want;
@@ -294,8 +299,18 @@ public class RevisionJson {
             res.put(
                 in.commitId().name(),
                 toRevisionInfo(
-                    accountLoader, cd, in, repo, rw, false, changeInfo, attributesNodeProvider));
+                    accountLoader,
+                    cd,
+                    in,
+                    allPatchSetsLoaded ? Optional.ofNullable(priorPs) : Optional.empty(),
+                    /* isFirstPatchSet= */ allPatchSetsLoaded && priorPs == null,
+                    repo,
+                    rw,
+                    false,
+                    changeInfo,
+                    attributesNodeProvider));
           }
+          priorPs = in;
         }
         return res;
       }
@@ -342,6 +357,31 @@ public class RevisionJson {
       @Nullable ChangeInfo changeInfo,
       @Nullable AttributesNodeProvider attributesNodeProvider)
       throws PatchListNotAvailableException, GpgException, IOException, PermissionBackendException {
+    return toRevisionInfo(
+        accountLoader,
+        cd,
+        in,
+        Optional.empty(),
+        /* isFirstPatchSet= */ false,
+        repo,
+        rw,
+        fillCommit,
+        changeInfo,
+        attributesNodeProvider);
+  }
+
+  private RevisionInfo toRevisionInfo(
+      AccountLoader accountLoader,
+      ChangeData cd,
+      PatchSet in,
+      Optional<PatchSet> priorPs,
+      boolean isFirstPatchSet,
+      @Nullable Repository repo,
+      @Nullable RevWalk rw,
+      boolean fillCommit,
+      @Nullable ChangeInfo changeInfo,
+      @Nullable AttributesNodeProvider attributesNodeProvider)
+      throws PatchListNotAvailableException, GpgException, IOException, PermissionBackendException {
     Change c = cd.change();
     RevisionInfo out = new RevisionInfo();
     out.isCurrent = in.id().equals(c.currentPatchSetId());
@@ -360,9 +400,22 @@ public class RevisionJson {
       out.realUploader = accountLoader.get(in.realUploader());
     }
     out.fetch = makeFetchMap(cd, in);
-    out.kind =
-        changeKindCache.getChangeKind(
-            rw, repo != null ? repo.getConfig() : null, attributesNodeProvider, cd, in);
+    if (isFirstPatchSet || in.id().get() <= 1) {
+      out.kind = ChangeKind.REWORK;
+    } else if (priorPs.isPresent()) {
+      out.kind =
+          changeKindCache.getChangeKind(
+              cd.project(),
+              rw,
+              repo != null ? repo.getConfig() : null,
+              attributesNodeProvider,
+              priorPs.get().commitId(),
+              in.commitId());
+    } else {
+      out.kind =
+          changeKindCache.getChangeKind(
+              rw, repo != null ? repo.getConfig() : null, attributesNodeProvider, cd, in);
+    }
     out.description = in.description().orElse(null);
     out.conflicts =
         in.conflicts()
@@ -430,7 +483,7 @@ public class RevisionJson {
 
     if (has(ALL_FILES) || (out.isCurrent && has(CURRENT_FILES))) {
       try {
-        out.files = fileInfoJson.getFileInfoMap(c, in);
+        out.files = fileInfoJson.getFileInfoMap(c, in, has(SKIP_DIFFSTAT));
         out.files.remove(Patch.COMMIT_MSG);
         out.files.remove(Patch.MERGE_LIST);
       } catch (ResourceConflictException e) {
@@ -473,7 +526,7 @@ public class RevisionJson {
 
   @Nullable
   private Repository openRepoIfNecessary(Project.NameKey project) throws IOException {
-    if (has(ALL_COMMITS) || has(CURRENT_COMMIT) || has(COMMIT_FOOTERS)) {
+    if (has(ALL_REVISIONS) || has(ALL_COMMITS) || has(CURRENT_COMMIT) || has(COMMIT_FOOTERS)) {
       return repoManager.openRepository(project);
     }
     return null;

@@ -79,6 +79,7 @@ import com.google.gerrit.server.config.GerritImportedServerIds;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.HasOperandAliasConfig;
 import com.google.gerrit.server.config.OperatorAliasConfig;
+import com.google.gerrit.server.config.TrustedRegex;
 import com.google.gerrit.server.experiments.ExperimentFeatures;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.change.ChangeField;
@@ -181,6 +182,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   public static final String FIELD_EXACTCOMMITTER = "exactcommitter";
   public static final String FIELD_EXTENSION = "extension";
   public static final String FIELD_ONLY_EXTENSIONS = "onlyextensions";
+  public static final String FIELD_ONLY_PATHS = "onlypaths";
   public static final String FIELD_FOOTER = "footer";
   public static final String FIELD_FOOTER_NAME = "footernames";
   public static final String FIELD_CONFLICTS = "conflicts";
@@ -192,6 +194,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   public static final String FIELD_EXACTCOMMIT = "exactcommit";
   public static final String FIELD_FILE = "file";
   public static final String FIELD_FILEPART = "filepart";
+  public static final String FIELD_FILE_COUNT = "filecount";
   public static final String FIELD_GROUP = "group";
   public static final String FIELD_HASHTAG = "hashtag";
   public static final String FIELD_LABEL = "label";
@@ -412,7 +415,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
         ChangeIsVisibleToPredicate.Factory changeIsVisbleToPredicateFactory,
         PluginSetContext<SubmitRule> submitRules,
         EditByPredicateProvider editByPredicateProvider,
-        RegexCompiler regexCompiler) {
+        @TrustedRegex RegexCompiler regexCompiler) {
       this.queryProvider = queryProvider;
       this.rewriter = rewriter;
       this.opFactories = opFactories;
@@ -450,7 +453,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       this.regexCompiler = regexCompiler;
     }
 
-    public Arguments asUser(CurrentUser otherUser) {
+    private Arguments copy(Provider<CurrentUser> otherUser, RegexCompiler otherRegexCompiler) {
       return new Arguments(
           queryProvider,
           rewriter,
@@ -458,7 +461,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
           hasOperands,
           isOperands,
           userFactory,
-          Providers.of(otherUser),
+          otherUser,
           permissionBackend,
           changeDataFactory,
           commentsUtil,
@@ -486,7 +489,15 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
           changeIsVisbleToPredicateFactory,
           submitRules,
           editByPredicateProvider,
-          regexCompiler);
+          otherRegexCompiler);
+    }
+
+    public Arguments asUser(CurrentUser otherUser) {
+      return copy(Providers.of(otherUser), regexCompiler);
+    }
+
+    Arguments withRegexCompiler(RegexCompiler regexCompiler) {
+      return copy(self, regexCompiler);
     }
 
     Arguments asUser(Account.Id otherId) {
@@ -1048,6 +1059,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   }
 
   @Operator
+  public Predicate<ChangeData> filecount(String count) throws QueryParseException {
+    return ChangePredicates.filecount(count);
+  }
+
+  @Operator
   public Predicate<ChangeData> ext(String ext) {
     return extension(ext);
   }
@@ -1065,6 +1081,15 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   @Operator
   public Predicate<ChangeData> onlyextensions(String extList) {
     return new FileExtensionListPredicate(extList);
+  }
+
+  @Operator
+  public Predicate<ChangeData> onlypaths(String value) {
+    if (value.startsWith("^")) {
+      return new RegexOnlyPathsPredicate(value, args.regexCompiler);
+    }
+    return ChangePredicates.onlyPaths(
+        value, args.getSchema() != null && args.getSchema().hasField(ChangeField.FILE_COUNT_SPEC));
   }
 
   @Operator

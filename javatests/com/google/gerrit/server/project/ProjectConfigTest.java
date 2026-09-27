@@ -132,7 +132,7 @@ public class ProjectConfigTest {
                     + "  agreementUrl = http://www.example.com/agree\n")
             .create();
 
-    ProjectConfig cfg = read(rev);
+    ProjectConfig cfg = read(ALL_PROJECTS, rev);
     assertThat(cfg.getAccountsSection().getSameGroupVisibility()).hasSize(2);
     ContributorAgreement ca = cfg.getContributorAgreement("Individual");
     assertThat(ca.getName()).isEqualTo("Individual");
@@ -164,6 +164,32 @@ public class ProjectConfigTest {
     assertThat(submit.getExclusiveGroup()).isTrue();
     assertThat(read.getExclusiveGroup()).isTrue();
     assertThat(push.getExclusiveGroup()).isFalse();
+  }
+
+  @Test
+  public void readConfigWithEscapedDotInRegexAccessSectionRef() throws Exception {
+    // In git config subsection syntax, "\\" encodes a literal backslash, so
+    // the file text [access "^refs/heads/.*foo\\.bar"] yields subsection name
+    // "^refs/heads/.*foo\.bar", which includes a literal dot match.
+    RevCommit rev =
+        tr.commit()
+            .add("groups", group(developers))
+            .add(
+                "project.config",
+                "[access \"^refs/heads/.*foo\\\\.bar\"]\n" + "  read = group Developers\n")
+            .create();
+    update(rev);
+
+    ProjectConfig cfg = read(rev);
+    assertThat(cfg.getAccessSection("^refs/heads/.*foo\\.bar")).isNotNull();
+    // Without proper escaping the dot would not be literal, so the unescaped
+    // form must not resolve to the same section.
+    assertThat(cfg.getAccessSection("^refs/heads/.*foo.bar")).isNull();
+
+    // Round-trip: the backslash must survive a write-back.
+    rev = commit(cfg);
+    assertThat(text(rev, "project.config"))
+        .isEqualTo("[access \"^refs/heads/.*foo\\\\.bar\"]\n" + "  read = group Developers\n");
   }
 
   @Test
@@ -315,6 +341,60 @@ public class ProjectConfigTest {
   }
 
   @Test
+  public void readSubmitRequirementTemplates() throws Exception {
+    RevCommit rev =
+        tr.commit()
+            .add("groups", group(developers))
+            .add(
+                "project.config",
+                "[submit-requirement-template \"Code-Review\"]\n"
+                    + "  description = Require Code-Review +2 before submit\n"
+                    + "  applicableIf = -branch:refs/meta/config\n"
+                    + "  submittableIf = label(Code-Review, +2)\n"
+                    + "  overrideIf = is:false\n"
+                    + "  canOverrideInChildProjects = true\n")
+            .create();
+
+    ProjectConfig cfg = read(rev);
+
+    assertThat(cfg.getSubmitRequirementTemplateSections())
+        .containsExactly(
+            "Code-Review",
+            SubmitRequirement.builder()
+                .setName("Code-Review")
+                .setDescription(Optional.of("Require Code-Review +2 before submit"))
+                .setApplicabilityExpression(
+                    SubmitRequirementExpression.of("-branch:refs/meta/config"))
+                .setSubmittabilityExpression(
+                    SubmitRequirementExpression.create("label(Code-Review, +2)"))
+                .setOverrideExpression(SubmitRequirementExpression.of("is:false"))
+                .setAllowOverrideInChildProjects(true)
+                .build());
+  }
+
+  @Test
+  public void readSubmitRequirementTemplateNoSubmittabilityExpression() throws Exception {
+    RevCommit rev =
+        tr.commit()
+            .add("groups", group(developers))
+            .add(
+                "project.config",
+                "[submit-requirement-template \"Code-Review\"]\n"
+                    + "  applicableIf = -branch:refs/meta/config\n")
+            .create();
+
+    ProjectConfig cfg = read(rev);
+
+    assertThat(cfg.getSubmitRequirementTemplateSections()).isEmpty();
+    assertThat(cfg.getValidationErrors()).hasSize(1);
+    assertThat(Iterables.getOnlyElement(cfg.getValidationErrors()).getMessage())
+        .isEqualTo(
+            "project.config: Setting a submittability expression for submit requirement"
+                + " template 'Code-Review' is required: Missing"
+                + " submit-requirement-template.Code-Review.submittableIf");
+  }
+
+  @Test
   public void readConfigLabelOldStyleWithLeadingSpace() throws Exception {
     RevCommit rev =
         tr.commit()
@@ -439,7 +519,7 @@ public class ProjectConfigTest {
             .create();
     update(rev);
 
-    ProjectConfig cfg = read(rev);
+    ProjectConfig cfg = read(ALL_PROJECTS, rev);
     cfg.upsertAccessSection(
         "refs/heads/*",
         section -> {
@@ -877,7 +957,7 @@ public class ProjectConfigTest {
             .create();
     update(rev);
 
-    ProjectConfig cfg = read(rev);
+    ProjectConfig cfg = read(ALL_PROJECTS, rev);
     ContributorAgreement.Builder section = cfg.getContributorAgreement("Individual").toBuilder();
     section.setAccepted(ImmutableList.of());
     cfg.upsertContributorAgreement(section.build());
@@ -887,6 +967,20 @@ public class ProjectConfigTest {
             "[commentlink \"bugzilla\"]\n"
                 + "\tmatch = \"(bug\\\\s+#?)(\\\\d+)\"\n"
                 + "\tlink = http://bugs.example.com/show_bug.cgi?id=$2\n");
+  }
+
+  @Test
+  public void contributorSectionIsIgnoredIfSetOnRegularProject() throws Exception {
+    RevCommit rev =
+        tr.commit()
+            .add(
+                "project.config",
+                "[contributor-agreement \"Individual\"]\n" + "  accepted = group Developers\n")
+            .create();
+    update(rev);
+
+    ProjectConfig cfg = read(rev);
+    assertThat(cfg.getContributorAgreement("Individual")).isNull();
   }
 
   @Test
@@ -1020,7 +1114,12 @@ public class ProjectConfigTest {
   }
 
   private ProjectConfig read(RevCommit rev) throws IOException, ConfigInvalidException {
-    ProjectConfig cfg = factory.create(Project.nameKey("test"));
+    return read(Project.nameKey("test"), rev);
+  }
+
+  private ProjectConfig read(Project.NameKey projectNameKey, RevCommit rev)
+      throws IOException, ConfigInvalidException {
+    ProjectConfig cfg = factory.create(projectNameKey);
     cfg.load(db, rev);
     return cfg;
   }

@@ -23,9 +23,10 @@ import * as mailTemplate from 'com/google/gerrit/server/mail/Private.soy';
   {@param email: ?}
   {@param fromName: ?}
   {@param attentionSetUser: ?}
+  {@param? attentionSetUserEmail: ?}
   {@param reason: ?}
   <p>
-    {if $fromName == $attentionSetUser}
+    {if $fromName == $attentionSetUser || $fromName == $attentionSetUserEmail}
       {$fromName} added themselves to the attention set of this change.
     {else}
       {$fromName} requires the attention of {$attentionSetUser} to this change.

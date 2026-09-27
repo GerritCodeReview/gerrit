@@ -166,8 +166,10 @@ public class AllProjectsCreator {
     config.upsertAccessSection(
         AccessSection.HEADS,
         heads -> {
-          initDefaultAclsForAnonymousUsers(heads, config);
-          initDefaultAclsForRegisteredUsers(heads, codeReviewLabel, config);
+          initDefaultAclsForDefaultReaders(
+              heads, config, input.defaultReadersGroup().orElse(anonymous));
+          initDefaultAclsForDefaultUsers(
+              heads, codeReviewLabel, config, input.defaultUsersGroup().orElse(registered));
         });
 
     config.upsertAccessSection(
@@ -200,29 +202,34 @@ public class AllProjectsCreator {
             .build());
   }
 
-  private void initDefaultAclsForAnonymousUsers(AccessSection.Builder heads, ProjectConfig config) {
-    grant(config, heads, Permission.READ, anonymous);
+  private void initDefaultAclsForDefaultReaders(
+      AccessSection.Builder heads, ProjectConfig config, GroupReference defaultReadersGroup) {
+    grant(config, heads, Permission.READ, defaultReadersGroup);
 
     config.upsertAccessSection(
-        "refs/meta/version", version -> grant(config, version, Permission.READ, anonymous));
+        "refs/meta/version",
+        version -> grant(config, version, Permission.READ, defaultReadersGroup));
   }
 
-  private void initDefaultAclsForRegisteredUsers(
-      AccessSection.Builder heads, LabelType codeReviewLabel, ProjectConfig config) {
-    grant(config, heads, codeReviewLabel, -1, 1, registered);
-    grant(config, heads, Permission.FORGE_AUTHOR, registered);
+  private void initDefaultAclsForDefaultUsers(
+      AccessSection.Builder heads,
+      LabelType codeReviewLabel,
+      ProjectConfig config,
+      GroupReference defaultUsersGroup) {
+    grant(config, heads, codeReviewLabel, -1, 1, defaultUsersGroup);
+    grant(config, heads, Permission.FORGE_AUTHOR, defaultUsersGroup);
 
     config.upsertAccessSection(
         "refs/for/*",
         refsFor -> {
-          grant(config, refsFor, Permission.ADD_PATCH_SET, registered);
-          grant(config, refsFor, Permission.PUSH, registered);
-          grant(config, refsFor, Permission.PUSH_MERGE, registered);
+          grant(config, refsFor, Permission.ADD_PATCH_SET, defaultUsersGroup);
+          grant(config, refsFor, Permission.PUSH, defaultUsersGroup);
+          grant(config, refsFor, Permission.PUSH_MERGE, defaultUsersGroup);
         });
 
     config.upsertAccessSection(
         AccessSection.ALL,
-        refsFor -> grant(config, refsFor, Permission.POST_REVIEW_COMMENT, registered));
+        all -> grant(config, all, Permission.POST_REVIEW_COMMENT, defaultUsersGroup));
   }
 
   private void initDefaultAclsForServiceUsers(

@@ -14,14 +14,11 @@
 
 package com.google.gerrit.httpd;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
 import static javax.servlet.http.HttpServletResponse.SC_SERVICE_UNAVAILABLE;
 import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 
-import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
-import com.google.common.io.BaseEncoding;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.client.GitBasicAuthPolicy;
@@ -70,7 +67,6 @@ class ProjectBasicAuthFilter implements Filter {
 
   public static final String REALM_NAME = "Gerrit Code Review";
   private static final String AUTHORIZATION = "Authorization";
-  private static final String LIT_BASIC = "Basic ";
 
   private final DynamicItem<WebSession> session;
   private final AccountCache accountCache;
@@ -124,22 +120,21 @@ class ProjectBasicAuthFilter implements Filter {
 
   private boolean verify(HttpServletRequest req, Response rsp) throws IOException {
     final String hdr = req.getHeader(AUTHORIZATION);
-    if (hdr == null || !hdr.startsWith(LIT_BASIC)) {
+    if (hdr == null || !hdr.startsWith(BasicAuthHeader.PREFIX)) {
       // Allow an anonymous connection through, or it might be using a
       // session cookie instead of basic authentication.
       return true;
     }
 
-    final byte[] decoded = BaseEncoding.base64().decode(hdr.substring(LIT_BASIC.length()));
-    String usernamePassword = new String(decoded, encoding(req));
-    int splitPos = usernamePassword.indexOf(':');
-    if (splitPos < 1) {
+    Optional<BasicAuthHeader.Credentials> credentials =
+        BasicAuthHeader.parse(hdr, req.getCharacterEncoding());
+    if (credentials.isEmpty()) {
       rsp.sendError(SC_UNAUTHORIZED);
       return false;
     }
 
-    String username = usernamePassword.substring(0, splitPos);
-    String password = usernamePassword.substring(splitPos + 1);
+    String username = credentials.get().username();
+    String password = credentials.get().password();
     if (Strings.isNullOrEmpty(password)) {
       rsp.sendError(SC_UNAUTHORIZED);
       return false;
@@ -243,10 +238,6 @@ class ProjectBasicAuthFilter implements Filter {
     }
   }
 
-  private String encoding(HttpServletRequest req) {
-    return MoreObjects.firstNonNull(req.getCharacterEncoding(), UTF_8.name());
-  }
-
   static class Response extends HttpServletResponseWrapper {
     private static final String WWW_AUTHENTICATE = "WWW-Authenticate";
 
@@ -257,7 +248,7 @@ class ProjectBasicAuthFilter implements Filter {
     private void status(int sc) {
       if (sc == SC_UNAUTHORIZED) {
         StringBuilder v = new StringBuilder();
-        v.append(LIT_BASIC);
+        v.append(BasicAuthHeader.PREFIX);
         v.append("realm=\"").append(REALM_NAME).append("\"");
         setHeader(WWW_AUTHENTICATE, v.toString());
       } else if (containsHeader(WWW_AUTHENTICATE)) {

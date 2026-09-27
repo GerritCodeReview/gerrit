@@ -140,11 +140,9 @@ Service users have the following special behaviour:
   requiring `Code-Review` approvals from all reviewers].
 * In the REST API, service user accounts are tagged with `SERVICE_USER` (see the
   `tags` field in link:rest-api-accounts.html#account-info[AccountInfo]).
-* Change indexing is done synchronously for service users only if
+* Change indexing is done synchronously for service users, even if
   link:config-gerrit.html#index.indexChangesAsync[asynchronous change indexing]
-  is enabled in the Gerrit config (and the
-  `GerritBackendFeature__do_change_indexing_asynchronously_for_non_service_users`
-  experiment is enabled).
+  is enabled in the Gerrit config.
 * For Gerrit servers at Google, querying the change index uses strong reads only
   for service users. Other users may get results that are stale by a few
   seconds.
@@ -265,6 +263,16 @@ by prefixing the reference name with `^`.  For example
 `^refs/heads/[a-z]{1,8}` matches all lower case branch names
 between 1 and 8 characters long.  Within a regular expression `.`
 is a wildcard matching any character, but may be escaped as `\.`.
+Because access section names are stored as git config subsection
+names, a literal backslash in the subsection header must itself be
+escaped as `\\`.  This means the regex `\.` must be written as `\\.`
+in `project.config`:
++
+----
+[access "^refs/heads/.*foo\\.bar"]
+    read = group Developers
+----
++
 The link:http://www.brics.dk/automaton/[dk.brics.automaton library,role=external,window=_blank]
 is used for evaluation of regular expression access control
 rules. See the library documentation for details on this
@@ -454,6 +462,15 @@ git push operation.
 Most prominent is the `refs/for/<branch ref>` reference which is the reference
 upon which we build the code review intercept before submitting a commit to
 the branch it's uploaded to.
+
+For review pushes, `refs/for/<branch-name>` is shorthand for the destination
+branch `refs/for/refs/heads/<branch-name>`. For example, pushing to
+`refs/for/master` uploads a change for review to `refs/heads/master`.
+
+Access-control section names are evaluated as written and are not normalized
+using this shorthand. To grant, deny, or block review uploads to `master`,
+configure the permission on `refs/for/refs/heads/master`; to configure all
+normal branches, use `refs/for/refs/heads/*`.
 
 Further documentation on how to push can be found on the
 link:user-upload.html#push_create[Upload changes] page.

@@ -15,6 +15,7 @@ import {assert, fixture, html} from '@open-wc/testing';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {MdOutlinedTextField} from '@material/web/textfield/outlined-text-field';
+import {MdCheckbox} from '@material/web/checkbox/checkbox';
 
 suite('gr-watched-projects-editor tests', () => {
   let element: GrWatchedProjectsEditor;
@@ -364,6 +365,28 @@ suite('gr-watched-projects-editor tests', () => {
     assert.equal(projects[4].project, 'project d');
     assert.isNotOk(projects[4].filter);
     assert.isTrue(projects[4]._is_local);
+  });
+
+  test('notification change sets has unsaved changes', async () => {
+    const hasUnsavedChangesSpy = sinon.spy();
+    element.addEventListener(
+      'has-unsaved-changes-changed',
+      hasUnsavedChangesSpy
+    );
+    const checkbox = queryAndAssert<MdCheckbox>(
+      element,
+      'tbody tr:nth-child(2) md-checkbox[data-key="notify_new_changes"]'
+    );
+
+    assert.isTrue(checkbox.checked);
+    checkbox.click();
+    await element.updateComplete;
+
+    assert.isFalse(checkbox.checked);
+    assert.isTrue(element.originalProjects![1].notify_new_changes);
+    assert.isFalse(element.projects![1].notify_new_changes);
+    assert.isTrue(hasUnsavedChangesSpy.calledOnce);
+    assert.isTrue(hasUnsavedChangesSpy.lastCall.args[0].detail.value);
   });
 
   test('_handleAddProject with invalid inputs', () => {

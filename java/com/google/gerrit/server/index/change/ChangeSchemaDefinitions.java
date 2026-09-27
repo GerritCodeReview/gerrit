@@ -283,6 +283,7 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
           .build();
 
   /** Add met and unmet requirement tracking fields */
+  @Deprecated
   static final Schema<ChangeData> V89 =
       new Schema.Builder<ChangeData>()
           .add(V88)
@@ -290,6 +291,14 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
               ChangeField.UNMET_REQUIREMENT_FIELD, ChangeField.UNSATISFIED_REQUIREMENT_COUNT_FIELD)
           .addSearchSpecs(
               ChangeField.UNMET_REQUIREMENT_SPEC, ChangeField.UNSATISFIED_REQUIREMENT_COUNT_SPEC)
+          .build();
+
+  /** Add file count field */
+  static final Schema<ChangeData> V90 =
+      new Schema.Builder<ChangeData>()
+          .add(V89)
+          .addIndexedFields(ChangeField.FILE_COUNT)
+          .addSearchSpecs(ChangeField.FILE_COUNT_SPEC)
           .build();
 
   /**

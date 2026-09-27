@@ -42,7 +42,7 @@ import java.util.Optional;
 @Singleton
 public class TasksCollection implements ChildCollection<ConfigResource, TaskResource> {
   private final DynamicMap<RestView<TaskResource>> views;
-  private final ListTasks list;
+  private final Provider<ListTasks> list;
   private final WorkQueue workQueue;
   private final Provider<CurrentUser> self;
   private final PermissionBackend permissionBackend;
@@ -51,7 +51,7 @@ public class TasksCollection implements ChildCollection<ConfigResource, TaskReso
   @Inject
   TasksCollection(
       DynamicMap<RestView<TaskResource>> views,
-      ListTasks list,
+      Provider<ListTasks> list,
       WorkQueue workQueue,
       Provider<CurrentUser> self,
       PermissionBackend permissionBackend,
@@ -66,7 +66,7 @@ public class TasksCollection implements ChildCollection<ConfigResource, TaskReso
 
   @Override
   public RestView<ConfigResource> list() {
-    return list;
+    return list.get();
   }
 
   @Override

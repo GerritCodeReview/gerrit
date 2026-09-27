@@ -32,6 +32,7 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.inject.ProvisionException;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -99,6 +100,7 @@ public abstract class VersionManager implements LifecycleListener {
   protected final boolean reuseExistingDocuments;
   protected final String runReindexMsg;
   protected final SitePaths sitePaths;
+  protected final Path indexDir;
 
   private final PluginSetContext<OnlineUpgradeListener> listeners;
 
@@ -108,11 +110,13 @@ public abstract class VersionManager implements LifecycleListener {
 
   protected VersionManager(
       SitePaths sitePaths,
+      Path indexDir,
       PluginSetContext<OnlineUpgradeListener> listeners,
       Collection<IndexDefinition<?, ?, ?>> defs,
       boolean onlineUpgrade,
       boolean reuseExistingDocuments) {
     this.sitePaths = sitePaths;
+    this.indexDir = indexDir;
     this.listeners = listeners;
     this.defs = Maps.newHashMapWithExpectedSize(defs.size());
     for (IndexDefinition<?, ?, ?> def : defs) {
@@ -267,7 +271,7 @@ public abstract class VersionManager implements LifecycleListener {
 
   protected GerritIndexStatus createIndexStatus() {
     try {
-      return new GerritIndexStatus(sitePaths);
+      return new GerritIndexStatus(indexDir);
     } catch (ConfigInvalidException | IOException e) {
       throw fail(e);
     }

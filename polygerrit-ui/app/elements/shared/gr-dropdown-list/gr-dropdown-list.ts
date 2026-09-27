@@ -335,6 +335,8 @@ export class GrDropdownList extends LitElement {
           ?hidden=${!this.showCopyForTriggerText}
           hideInput
           .text=${this.text}
+          buttonTitle="Copy to clipboard"
+          copyTargetName="Text"
         ></gr-copy-clipboard>
       </gr-button>
       <div class="dropdown-menu">

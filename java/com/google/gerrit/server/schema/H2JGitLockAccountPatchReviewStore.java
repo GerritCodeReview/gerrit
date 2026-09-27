@@ -18,14 +18,15 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.File;
 import java.io.IOException;
-import java.sql.SQLException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
 import java.util.regex.Pattern;
 import org.eclipse.jgit.internal.storage.file.LockFile;
 import org.eclipse.jgit.lib.Config;
@@ -73,14 +74,57 @@ public class H2JGitLockAccountPatchReviewStore extends H2CustomLockAccountPatchR
         lockTarget, getLockTimeoutMs());
   }
 
-  @Nullable
+  /**
+   * Creates a {@link Lock} whose {@link Lock#tryLock(long, TimeUnit)} creates and acquires a
+   * jgit-style {@link LockFile}, retrying with backoff until the given wait time elapses.
+   */
   @Override
-  protected Runnable tryAcquireLock() throws SQLException {
-    LockFile lock = new LockFile(lockTarget);
-    try {
-      return lock.lock() ? lock::unlock : null;
-    } catch (IOException e) {
-      throw new SQLException("Failed to acquire jgit-style lock for H2 database", e);
-    }
+  protected Lock newLock() {
+    return new Lock() {
+      private LockFile lockFile;
+
+      @Override
+      public synchronized boolean tryLock() {
+        if (lockFile != null) {
+          return false;
+        }
+        try {
+          LockFile currLock = new LockFile(lockTarget);
+          if (currLock.lock()) {
+            lockFile = currLock;
+            return true;
+          }
+        } catch (IOException e) {
+          logger.atInfo().withCause(e).log("Failed to acquire jgit-style lock for H2 database");
+        }
+        return false;
+      }
+
+      @Override
+      public synchronized void unlock() {
+        lockFile.unlock();
+        lockFile = null;
+      }
+
+      @Override
+      public void lock() {
+        throw new UnsupportedOperationException();
+      }
+
+      @Override
+      public void lockInterruptibly() {
+        throw new UnsupportedOperationException();
+      }
+
+      @Override
+      public boolean tryLock(long time, TimeUnit unit) {
+        throw new UnsupportedOperationException();
+      }
+
+      @Override
+      public Condition newCondition() {
+        throw new UnsupportedOperationException();
+      }
+    };
   }
 }

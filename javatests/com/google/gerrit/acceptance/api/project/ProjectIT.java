@@ -1185,10 +1185,6 @@ public class ProjectIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(
-      name = "experiments.disabled",
-      // The test intentionally create an implicit merge change.
-      value = "GerritBackendFeature__reject_implicit_merges_on_merge")
   @GerritConfig(name = "repository.*.defaultConfig", value = "receive.rejectImplicitMerges=false")
   public void commitsIncludedInRefsMergedChangeNonTipCommit() throws Exception {
     String branchWithChange1 = R_HEADS + "branch-with-change1";

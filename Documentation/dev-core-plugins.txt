@@ -142,8 +142,8 @@ core plugin:
    link:access-control.html#category_submit[Submit] or
    link:access-control.html#category_review_labels[Code-Review+2]
    permissions for non-Gerrit maintainers.
-** Create a component for the plugin in
-   link:https://bugs.chromium.org/p/gerrit/adminComponents[Monorail] and assign
+** Have a Googler create a component for the plugin in the
+   link:https://issues.gerritcodereview.com[issue tracker] and assign
    all issues that already exist for the plugin to this component.
 ** Add the plugin as
    link:https://gerrit.googlesource.com/gerrit/+/refs/heads/master/.gitmodules[Git

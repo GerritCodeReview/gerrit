@@ -5,18 +5,24 @@
  */
 import './gr-related-change';
 import './gr-related-collapse';
+import './gr-stack-diff-dialog';
+import {GrStackDiffDialog} from './gr-stack-diff-dialog';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../../plugins/gr-endpoint-slot/gr-endpoint-slot';
 import '../../shared/gr-icon/gr-icon';
 import {classMap} from 'lit/directives/class-map.js';
 import {css, html, LitElement, TemplateResult} from 'lit';
-import {customElement, state} from 'lit/decorators.js';
+import {customElement, query, state} from 'lit/decorators.js';
+import {when} from 'lit/directives/when.js';
+import {getAppContext} from '../../../services/app-context';
+import {KnownExperimentId} from '../../../services/flags/flags';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {
   ChangeInfo,
   CommitId,
   PatchSetNumber,
+  PreferencesInfo,
   RelatedChangeAndCommitInfo,
   RevisionPatchSetNum,
   SubmittedTogetherInfo,
@@ -29,7 +35,12 @@ import {DEFAULT_NUM_CHANGES_WHEN_COLLAPSED} from './gr-related-collapse';
 import {createChangeUrl} from '../../../models/views/change';
 import {subscribe} from '../../lit/subscription-controller';
 import {resolve} from '../../../models/dependency';
-import {changeModelToken} from '../../../models/change/change-model';
+import {
+  changeModelToken,
+  urlBaseForCommit,
+} from '../../../models/change/change-model';
+import {userModelToken} from '../../../models/user/user-model';
+import {createDefaultPreferences} from '../../../constants/constants';
 import {relatedChangesModelToken} from '../../../models/change/related-changes-model';
 
 export interface ChangeMarkersInList {
@@ -49,6 +60,11 @@ export enum Section {
 
 @customElement('gr-related-changes-list')
 export class GrRelatedChangesList extends LitElement {
+  @query('#stackDiffDialog')
+  private stackDiffDialog?: GrStackDiffDialog;
+
+  private readonly flagsService = getAppContext().flagsService;
+
   @state()
   change?: ParsedChangeInfo;
 
@@ -73,12 +89,17 @@ export class GrRelatedChangesList extends LitElement {
   @state()
   sameTopicChanges: ChangeInfo[] = [];
 
+  @state()
+  preferences?: PreferencesInfo;
+
   private readonly getChangeModel = resolve(this, changeModelToken);
 
   private readonly getRelatedChangesModel = resolve(
     this,
     relatedChangesModelToken
   );
+
+  private readonly getUserModel = resolve(this, userModelToken);
 
   constructor() {
     super();
@@ -116,6 +137,11 @@ export class GrRelatedChangesList extends LitElement {
       this,
       () => this.getRelatedChangesModel().sameTopicChanges$,
       x => (this.sameTopicChanges = x ?? [])
+    );
+    subscribe(
+      this,
+      () => this.getUserModel().preferences$,
+      x => (this.preferences = x)
     );
   }
 
@@ -252,7 +278,23 @@ export class GrRelatedChangesList extends LitElement {
       <gr-endpoint-slot name="top"></gr-endpoint-slot>
       ${sections}
       <gr-endpoint-slot name="bottom"></gr-endpoint-slot>
+      ${when(
+        this.flagsService.isEnabled(KnownExperimentId.STACK_DIFF),
+        () => html`
+          <gr-stack-diff-dialog
+            id="stackDiffDialog"
+            .repo=${this.change?.project}
+            .relatedChanges=${this.relatedChanges}
+          ></gr-stack-diff-dialog>
+        `
+      )}
     </gr-endpoint-decorator>`;
+  }
+
+  protected openStackDiff(e: Event) {
+    e.preventDefault();
+    e.stopPropagation();
+    this.stackDiffDialog?.open();
   }
 
   private renderRelationChain(
@@ -283,6 +325,19 @@ export class GrRelatedChangesList extends LitElement {
         .length=${this.relatedChanges.length}
         .numChangesWhenCollapsed=${sectionSize(Section.RELATED_CHANGES)}
       >
+        ${when(
+          this.flagsService.isEnabled(KnownExperimentId.STACK_DIFF),
+          () => html`
+            <gr-button
+              id="openStackDiffButton"
+              slot="header-action"
+              link
+              @click=${this.openStackDiff}
+            >
+              Diff
+            </gr-button>
+          `
+        )}
         ${this.relatedChanges.map(
           (change, index) =>
             html`<div
@@ -307,6 +362,7 @@ export class GrRelatedChangesList extends LitElement {
                       repo: change.project,
                       usp: 'related-change',
                       patchNum: change._revision_number as RevisionPatchSetNum,
+                      basePatchNum: this.computeRelatedChangeBase(change),
                     })
                   : ''}
                 show-change-status
@@ -674,6 +730,21 @@ export class GrRelatedChangesList extends LitElement {
     const aNum = getChangeNumber(a);
     const bNum = getChangeNumber(b);
     return aNum === bNum;
+  }
+
+  /**
+   * The base for the link of a change in the relation chain: merge commits are
+   * linked with the base that the `default_base_for_merges` preference picks,
+   * spelled out in the URL, so that the link keeps pointing at the same diff
+   * for whoever it is shared with.
+   */
+  // private but used in tests
+  computeRelatedChangeBase(change: RelatedChangeAndCommitInfo) {
+    const isMergeCommit = (change.commit.parents?.length ?? 0) > 1;
+    return urlBaseForCommit(
+      isMergeCommit,
+      this.preferences ?? createDefaultPreferences()
+    );
   }
 
   /*

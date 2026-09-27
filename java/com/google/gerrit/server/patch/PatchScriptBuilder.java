@@ -44,6 +44,10 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import org.eclipse.jgit.diff.Edit;
+import org.eclipse.jgit.diff.EditList;
+import org.eclipse.jgit.diff.HistogramDiff;
+import org.eclipse.jgit.diff.RawText;
+import org.eclipse.jgit.diff.RawTextComparator;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
@@ -122,7 +126,7 @@ public class PatchScriptBuilder {
     if (a.mode == FileMode.MISSING) {
       throw new ResourceNotFoundException(String.format("File %s not found", fileName));
     }
-    FixCalculator.FixResult fixResult = FixCalculator.calculateFix(a.src, fixReplacements, true);
+    FixCalculator.FixResult fixResult = FixCalculator.calculateFix(a.src, fixReplacements, false);
     PatchSide b =
         new PatchSide(
             null,
@@ -135,9 +139,26 @@ public class PatchScriptBuilder {
             a.displayMethod,
             a.fileMode);
 
+    RawText aRawText = new RawText(a.src.getContent());
+    RawText bRawText = new RawText(fixResult.text.getContent());
+    RawTextComparator cmp = comparatorFor(diffPrefs != null ? diffPrefs.ignoreWhitespace : null);
+    EditList edits = new HistogramDiff().diff(cmp, aRawText, bRawText);
+
+    ImmutableList<Edit> finalEdits;
+    if (diffPrefs == null
+        || diffPrefs.intralineDifference == null
+        || diffPrefs.intralineDifference) {
+      IntraLineDiff intraLineDiff =
+          IntraLineLoader.compute(
+              a.src, fixResult.text, ImmutableList.copyOf(edits), ImmutableSet.of());
+      finalEdits = ImmutableList.copyOf(intraLineDiff.getEdits());
+    } else {
+      finalEdits = ImmutableList.copyOf(edits);
+    }
+
     PatchFileChange change =
         new PatchFileChange(
-            fixResult.edits,
+            finalEdits,
             ImmutableSet.of(),
             ImmutableList.of(),
             fileName,
@@ -146,6 +167,24 @@ public class PatchScriptBuilder {
             PatchType.UNIFIED);
 
     return build(a, b, change);
+  }
+
+  private static RawTextComparator comparatorFor(
+      @Nullable DiffPreferencesInfo.Whitespace whitespace) {
+    if (whitespace == null) {
+      return RawTextComparator.DEFAULT;
+    }
+    switch (whitespace) {
+      case IGNORE_ALL:
+        return RawTextComparator.WS_IGNORE_ALL;
+      case IGNORE_TRAILING:
+        return RawTextComparator.WS_IGNORE_TRAILING;
+      case IGNORE_LEADING_AND_TRAILING:
+        return RawTextComparator.WS_IGNORE_CHANGE;
+      case IGNORE_NONE:
+      default:
+        return RawTextComparator.DEFAULT;
+    }
   }
 
   private PatchSide resolveSideA(

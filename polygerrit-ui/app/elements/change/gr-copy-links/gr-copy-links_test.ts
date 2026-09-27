@@ -45,6 +45,8 @@ suite('gr-copy-links tests', () => {
         <div class="dropdown-content">
           <div class="copy-link-row">
             <gr-copy-clipboard
+              buttontitle="Copy Change ID to clipboard"
+              copytargetname="Change ID"
               id="Change_ID-field-copy-clipboard"
               label="Change ID"
               nowrap=""
@@ -76,5 +78,21 @@ suite('gr-copy-links tests', () => {
     pressKey(mdMenu, 'd');
     assert.isTrue(clipboardStub.called);
     assert.isTrue(clipboardStub.calledWith('123456'));
+  });
+
+  test('horizontalAlign left sets corners correctly', async () => {
+    element.horizontalAlign = 'left';
+    await element.updateComplete;
+    const mdMenu = queryAndAssert<MdMenu>(element, 'md-menu');
+    assert.equal(mdMenu.menuCorner, 'start-start');
+    assert.equal(mdMenu.anchorCorner, 'end-start');
+  });
+
+  test('horizontalAlign right sets corners correctly', async () => {
+    element.horizontalAlign = 'right';
+    await element.updateComplete;
+    const mdMenu = queryAndAssert<MdMenu>(element, 'md-menu');
+    assert.equal(mdMenu.menuCorner, 'start-end');
+    assert.equal(mdMenu.anchorCorner, 'end-end');
   });
 });

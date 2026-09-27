@@ -2583,7 +2583,7 @@ public class RevisionIT extends AbstractDaemonTest {
     ImmutableList<FakeEmailSender.Message> messages = sender.getMessages();
     FakeEmailSender.Message m = Iterables.getOnlyElement(messages);
     assertThat(m.rcpt()).containsExactly(user.getNameEmail());
-    assertThat(m.body()).contains(admin.fullName() + " has uploaded a new patch set (#2).");
+    assertThat(m.body()).contains(admin.getNameEmail() + " has uploaded a new patch set (#2).");
   }
 
   @Test

@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../../shared/gr-comment-thread/gr-comment-thread';
+import type {GrCommentThread} from '../../shared/gr-comment-thread/gr-comment-thread';
 import '../../checks/gr-diff-check-result';
 import '../../../embed/diff/gr-diff/gr-diff';
 import {
@@ -11,8 +12,12 @@ import {
   isImageDiff,
   isLineUnchanged,
 } from '../../../utils/diff-util';
+import {isMagicPath} from '../../../utils/path-list-util';
 import {getAppContext} from '../../../services/app-context';
 import {
+  computeAllPatchSets,
+  computeLatestPatchNum,
+  findEdit,
   getParentIndex,
   isAParent,
   isMergeParent,
@@ -35,10 +40,15 @@ import {
   PARENT,
   PatchRange,
   PatchSetNum,
+  PatchSetNumber,
   PreferencesInfo,
   RepoName,
   RevisionPatchSetNum,
 } from '../../../types/common';
+import {
+  GrDiffGroup,
+  GrDiffGroupType,
+} from '../../../embed/diff/gr-diff/gr-diff-group';
 import {
   DiffInfo,
   DiffPreferencesInfo,
@@ -46,7 +56,12 @@ import {
   WebLinkInfo,
 } from '../../../types/diff';
 import {GrDiff} from '../../../embed/diff/gr-diff/gr-diff';
-import {CommentSide, DiffViewMode, Side} from '../../../constants/constants';
+import {
+  ChangeStatus,
+  CommentSide,
+  DiffViewMode,
+  Side,
+} from '../../../constants/constants';
 import {FilesWebLinks} from '../gr-patch-range-select/gr-patch-range-select';
 import {KnownExperimentId} from '../../../services/flags/flags';
 import {
@@ -57,8 +72,9 @@ import {
   waitForEventOnce,
 } from '../../../utils/event-util';
 import {assertIsDefined} from '../../../utils/common-util';
+import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 import {TokenHighlightLayer} from '../../../embed/diff/gr-diff-builder/token-highlight-layer';
-import {Timing} from '../../../constants/reporting';
+import {Interaction, Timing} from '../../../constants/reporting';
 import {ChangeComments} from '../gr-comment-api/gr-comment-api';
 import {Subscription} from 'rxjs';
 import {
@@ -96,6 +112,12 @@ import {
 } from '../../../utils/async-util';
 import {subscribe} from '../../lit/subscription-controller';
 import {userModelToken} from '../../../models/user/user-model';
+import {changeModelToken} from '../../../models/change/change-model';
+import {
+  changeViewModelToken,
+  createApplyFixUrl,
+} from '../../../models/views/change';
+import {navigationToken} from '../../core/gr-navigation/gr-navigation';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {keyed} from 'lit/directives/keyed.js';
 import {repeat} from 'lit/directives/repeat.js';
@@ -103,7 +125,12 @@ import {ifDefined} from 'lit/directives/if-defined.js';
 import {Shortcut} from '../../lit/shortcut-controller';
 import {shortcutsServiceToken} from '../../../services/shortcuts/shortcuts-service';
 import {toComment} from '../../../models/checks/checks-util';
-import {lineNumberToNumber} from '../../../embed/diff/gr-diff/gr-diff-utils';
+import {
+  createRevertFixSuggestion,
+  getContentGroups,
+  getRevertedFileContent,
+  lineNumberToNumber,
+} from '../../../embed/diff/gr-diff/gr-diff-utils';
 
 const EMPTY_BLAME = 'No blame information for this diff.';
 
@@ -222,6 +249,9 @@ export class GrDiffHost extends LitElement {
   @property({type: Boolean})
   showLoadFailure?: boolean;
 
+  @property({type: Boolean})
+  disabledThreads = false;
+
   @state()
   private loggedIn = false;
 
@@ -311,7 +341,21 @@ export class GrDiffHost extends LitElement {
 
   private readonly getChecksModel = resolve(this, checksModelToken);
 
+  private readonly getChangeModel = resolve(this, changeModelToken);
+
+  private readonly getChangeViewModel = resolve(this, changeViewModelToken);
+
+  private readonly getNavigation = resolve(this, navigationToken);
+
   private readonly getPluginLoader = resolve(this, pluginLoaderToken);
+
+  @state()
+  editMode = false;
+
+  @state()
+  latestPatchNum?: PatchSetNumber;
+
+  private isReverting = false;
 
   // visible for testing
   readonly reporting = getAppContext().reportingService;
@@ -358,6 +402,12 @@ export class GrDiffHost extends LitElement {
         this.reload(false);
       }
     });
+    this.addEventListener(
+      'revert-delta',
+      (e: CustomEvent<{group: GrDiffGroup; onComplete?: () => void}>) => {
+        this.handleRevertDelta(e.detail.group, e.detail.onComplete);
+      }
+    );
     subscribe(
       this,
       () => this.getBrowserModel().diffViewMode$,
@@ -384,6 +434,16 @@ export class GrDiffHost extends LitElement {
     );
     subscribe(
       this,
+      () => this.getChangeModel().editMode$,
+      editMode => (this.editMode = editMode)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().latestPatchNum$,
+      latestPatchNum => (this.latestPatchNum = latestPatchNum)
+    );
+    subscribe(
+      this,
       () => this.getPluginLoader().pluginsModel.pluginsLoaded$,
       async pluginsLoaded => {
         if (pluginsLoaded) {
@@ -391,6 +451,34 @@ export class GrDiffHost extends LitElement {
         }
       }
     );
+  }
+
+  // visible for testing
+  isRevertAllowed(): boolean {
+    if (!this.loggedIn) return false;
+    if (
+      this.patchRange?.basePatchNum === undefined ||
+      !isAParent(this.patchRange.basePatchNum)
+    ) {
+      return false;
+    }
+    if (isMagicPath(this.path) || this.path === 'project.config') return false;
+    if (this.change?.branch === 'refs/meta/config') return false;
+    if (this.diff?.binary || isImageDiff(this.diff)) return false;
+    if (
+      this.change?.status === ChangeStatus.MERGED ||
+      this.change?.status === ChangeStatus.ABANDONED
+    ) {
+      return false;
+    }
+    const isEditMode = this.editMode || this.patchRange?.patchNum === EDIT;
+    if (!isEditMode) return false;
+    const patchNum = this.patchRange?.patchNum;
+    if (patchNum === EDIT) return true;
+    const latestPatchNum =
+      this.latestPatchNum ??
+      computeLatestPatchNum(computeAllPatchSets(this.change));
+    return patchNum !== undefined && patchNum === latestPatchNum;
   }
 
   override connectedCallback() {
@@ -422,13 +510,16 @@ export class GrDiffHost extends LitElement {
     if (
       changedProperties.has('changeComments') ||
       changedProperties.has('patchRange') ||
-      changedProperties.has('file')
+      changedProperties.has('file') ||
+      changedProperties.has('disabledThreads')
     ) {
-      this.threads = this.computeFileThreads(
-        this.changeComments,
-        this.patchRange,
-        this.file
-      );
+      this.threads = this.disabledThreads
+        ? []
+        : this.computeFileThreads(
+            this.changeComments,
+            this.patchRange,
+            this.file
+          );
     }
     if (
       changedProperties.has('noRenderOnPrefsChange') ||
@@ -498,6 +589,14 @@ export class GrDiffHost extends LitElement {
     }
   }
 
+  async autoSaveDrafts(): Promise<void> {
+    const threadElements = Array.from(
+      this.shadowRoot?.querySelectorAll<GrCommentThread>('gr-comment-thread') ??
+        []
+    );
+    await Promise.all(threadElements.map(thread => thread.autoSave()));
+  }
+
   override render() {
     const showNewlineWarningLeft =
       this.hasTrailingNewlines(this.diff, true) === false;
@@ -506,6 +605,10 @@ export class GrDiffHost extends LitElement {
     const useNewImageDiffUi = this.flags.isEnabled(
       KnownExperimentId.NEW_IMAGE_DIFF_UI
     );
+    const renderPrefs: RenderPreferences = {
+      ...this.renderPrefs,
+      is_edit_mode: this.isRevertAllowed(),
+    };
 
     return keyed(
       this.grDiffKey,
@@ -516,7 +619,7 @@ export class GrDiffHost extends LitElement {
         .path=${this.path}
         .prefs=${this.prefs}
         .noRenderOnPrefsChange=${this.noRenderOnPrefsChange}
-        .renderPrefs=${this.renderPrefs}
+        .renderPrefs=${renderPrefs}
         .lineWrapping=${this.lineWrapping}
         .viewMode=${this.viewMode}
         .lineOfInterest=${this.lineOfInterest}
@@ -1363,6 +1466,135 @@ export class GrDiffHost extends LitElement {
     }
     if (!lines) return null;
     return lines[lines.length - 1] === '';
+  }
+
+  async handleRevertDelta(group: GrDiffGroup, onComplete?: () => void) {
+    if (!this.changeNum || !this.patchRange || !this.path) {
+      onComplete?.();
+      return;
+    }
+    if (!this.isRevertAllowed()) {
+      onComplete?.();
+      return;
+    }
+    if (this.isReverting) {
+      onComplete?.();
+      return;
+    }
+
+    this.reporting.reportInteraction(Interaction.REVERT_DELTA_CLICKED, {
+      path: this.path,
+    });
+    this.reporting.time(Timing.REVERT_DELTA_LOAD);
+
+    const allGroups = this.diffElement?.groups ?? [];
+    const fixSuggestion = createRevertFixSuggestion(
+      this.path,
+      group,
+      allGroups
+    );
+    const revertedContent = getRevertedFileContent(group, allGroups);
+    const contentGroups = getContentGroups(allGroups);
+    const hasOtherDeltas = contentGroups.some(
+      g =>
+        g !== group &&
+        g.type === GrDiffGroupType.DELTA &&
+        !g.ignoredWhitespaceOnly
+    );
+    const isEditPatchset = this.patchRange?.patchNum === EDIT;
+    const hasEdit =
+      !!findEdit(Object.values(this.change?.revisions ?? {})) || isEditPatchset;
+
+    let patchNum: RevisionPatchSetNum | undefined = this.patchRange.patchNum;
+    if (patchNum === EDIT) {
+      const editRev = findEdit(Object.values(this.change?.revisions ?? {}));
+      patchNum =
+        (editRev?.basePatchNum as PatchSetNumber | undefined) ??
+        this.latestPatchNum ??
+        computeLatestPatchNum(computeAllPatchSets(this.change));
+    }
+
+    const canDirectSave = isEditPatchset && revertedContent !== undefined;
+    if (!canDirectSave && (!fixSuggestion || patchNum === undefined)) {
+      this.reporting.timeEnd(Timing.REVERT_DELTA_LOAD, {
+        success: false,
+        reason: !fixSuggestion ? 'no-fix-suggestion' : 'no-patch-num',
+      });
+      onComplete?.();
+      return;
+    }
+
+    let strategy = 'apply-fix';
+    const saveRevertedEdit = (isFallback = false) => {
+      if (this.diff?.change_type === 'ADDED' && !hasOtherDeltas) {
+        strategy = 'delete-file';
+        return this.restApiService.deleteFileInChangeEdit(
+          this.changeNum!,
+          this.path!,
+          throwingErrorCallback
+        );
+      }
+      strategy = isFallback ? 'apply-fix-fallback' : 'edit-save';
+      return this.restApiService.saveChangeEdit(
+        this.changeNum!,
+        this.path!,
+        revertedContent!,
+        throwingErrorCallback
+      );
+    };
+
+    this.isReverting = true;
+    fireAlert(this, 'Reverting change...');
+    let res: Response | undefined;
+    try {
+      try {
+        if (canDirectSave) {
+          res = await saveRevertedEdit();
+        } else if (fixSuggestion && patchNum !== undefined) {
+          try {
+            res = await this.restApiService.applyFixSuggestion(
+              this.changeNum,
+              patchNum,
+              fixSuggestion.replacements,
+              undefined,
+              throwingErrorCallback
+            );
+          } catch (applyError) {
+            if (revertedContent === undefined) throw applyError;
+            res = await saveRevertedEdit(true);
+          }
+        }
+      } catch (error) {
+        const errorText = error instanceof Error ? error.message : '';
+        fireAlert(this, `Reverting change failed: ${errorText}`);
+      }
+      // Must run before setUrl(): navigation calls
+      // reporting.beforeLocationChanged(), which drops pending timers.
+      this.reporting.timeEnd(Timing.REVERT_DELTA_LOAD, {
+        success: res?.ok ?? false,
+        status: res?.status,
+        strategy,
+      });
+      if (!res?.ok) return;
+      fireAlert(this, 'Change reverted.');
+      const currentChildView = this.getChangeViewModel().getState()?.childView;
+      this.getNavigation().setUrl(
+        createApplyFixUrl({
+          change: this.change,
+          changeNum: this.changeNum,
+          repo: this.change?.project ?? this.projectName ?? ('' as RepoName),
+          basePatchNum: PARENT,
+          patchNum: EDIT,
+          forceReload: !hasEdit,
+          filePath: this.path,
+          currentChildView,
+        })
+      );
+      await this.reload(true);
+    } finally {
+      this.isReverting = false;
+      onComplete?.();
+    }
   }
 }
 

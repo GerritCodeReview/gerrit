@@ -261,6 +261,7 @@ public class PluginLoader implements LifecycleListener {
           continue;
         }
 
+        env.beforeStopPlugin(active);
         unloadPlugin(active);
         try {
           FileSnapshot snapshot = FileSnapshot.save(off.toFile());
@@ -356,6 +357,7 @@ public class PluginLoader implements LifecycleListener {
     srvInfoImpl.state = ServerInformation.State.SHUTDOWN;
     synchronized (this) {
       for (Plugin p : running.values()) {
+        env.beforeStopPlugin(p);
         unloadPlugin(p);
       }
       running.clear();
@@ -516,6 +518,7 @@ public class PluginLoader implements LifecycleListener {
       name = newPlugin.getName();
       boolean reload = oldPlugin != null && oldPlugin.canReload() && newPlugin.canReload();
       if (!reload && oldPlugin != null) {
+        env.beforeStopPlugin(oldPlugin);
         unloadPlugin(oldPlugin);
       }
       if (!newPlugin.isDisabled()) {
@@ -527,6 +530,7 @@ public class PluginLoader implements LifecycleListener {
         }
       }
       if (reload) {
+        env.beforeStopPlugin(oldPlugin);
         env.onReloadPlugin(oldPlugin, newPlugin);
         unloadPlugin(oldPlugin);
       } else if (!newPlugin.isDisabled()) {
@@ -560,6 +564,7 @@ public class PluginLoader implements LifecycleListener {
       if (runningPlugin.getApiModule().isPresent()) {
         logger.atWarning().log("Cannot remove plugin %s as it has registered an ApiModule", name);
       } else {
+        env.beforeStopPlugin(runningPlugin);
         unloadPlugin(running.get(name));
       }
     }

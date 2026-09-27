@@ -44,7 +44,7 @@ import com.google.gerrit.index.query.ResultSet;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.change.MergeabilityComputationBehavior;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.index.IndexDir;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.index.account.AccountIndex;
 import com.google.gerrit.server.index.change.ChangeField;
@@ -54,6 +54,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangePredicates;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import java.nio.file.Path;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -75,10 +76,10 @@ public abstract class AbstractFakeIndex<K, V, D> implements Index<K, V> {
   private final Schema<V> schema;
 
   /**
-   * SitePaths (config files) are used to signal that an index is ready. This implementation is
-   * consistent with other index backends.
+   * The index directory (config files) is used to signal that an index is ready. This
+   * implementation is consistent with other index backends.
    */
-  private final SitePaths sitePaths;
+  private final Path indexDir;
 
   private final String indexName;
   private final Map<K, D> indexedDocuments;
@@ -86,9 +87,9 @@ public abstract class AbstractFakeIndex<K, V, D> implements Index<K, V> {
   private int flushAndCommitCount;
   private List<Integer> resultsSizes;
 
-  AbstractFakeIndex(Schema<V> schema, SitePaths sitePaths, String indexName) {
+  AbstractFakeIndex(Schema<V> schema, Path indexDir, String indexName) {
     this.schema = schema;
-    this.sitePaths = sitePaths;
+    this.indexDir = indexDir;
     this.indexName = indexName;
     this.indexedDocuments = new HashMap<>();
     this.queryCount = 0;
@@ -238,7 +239,7 @@ public abstract class AbstractFakeIndex<K, V, D> implements Index<K, V> {
 
   @Override
   public void markReady(boolean ready) {
-    IndexUtils.setReady(sitePaths, indexName, schema.getVersion(), ready);
+    IndexUtils.setReady(indexDir, indexName, schema.getVersion(), ready);
   }
 
   /** Method to get a key from a document. */
@@ -270,12 +271,12 @@ public abstract class AbstractFakeIndex<K, V, D> implements Index<K, V> {
     @Inject
     @VisibleForTesting
     protected FakeChangeIndex(
-        SitePaths sitePaths,
+        @IndexDir Path indexDir,
         ChangeData.Factory changeDataFactory,
         @Assisted Schema<ChangeData> schema,
         @GerritServerConfig Config cfg,
         IndexConfig indexConfig) {
-      super(schema, sitePaths, "changes");
+      super(schema, indexDir, "changes");
       this.changeDataFactory = changeDataFactory;
       this.skipMergable = !MergeabilityComputationBehavior.fromConfig(cfg).includeInIndex();
       this.indexConfig = indexConfig;
@@ -356,8 +357,8 @@ public abstract class AbstractFakeIndex<K, V, D> implements Index<K, V> {
   public static class FakeAccountIndex
       extends AbstractFakeIndex<Account.Id, AccountState, AccountState> implements AccountIndex {
     @Inject
-    FakeAccountIndex(SitePaths sitePaths, @Assisted Schema<AccountState> schema) {
-      super(schema, sitePaths, "accounts");
+    FakeAccountIndex(@IndexDir Path indexDir, @Assisted Schema<AccountState> schema) {
+      super(schema, indexDir, "accounts");
     }
 
     @Override
@@ -394,8 +395,8 @@ public abstract class AbstractFakeIndex<K, V, D> implements Index<K, V> {
       extends AbstractFakeIndex<AccountGroup.UUID, InternalGroup, InternalGroup>
       implements GroupIndex {
     @Inject
-    FakeGroupIndex(SitePaths sitePaths, @Assisted Schema<InternalGroup> schema) {
-      super(schema, sitePaths, "groups");
+    FakeGroupIndex(@IndexDir Path indexDir, @Assisted Schema<InternalGroup> schema) {
+      super(schema, indexDir, "groups");
     }
 
     @Override
@@ -431,8 +432,8 @@ public abstract class AbstractFakeIndex<K, V, D> implements Index<K, V> {
   public static class FakeProjectIndex
       extends AbstractFakeIndex<Project.NameKey, ProjectData, ProjectData> implements ProjectIndex {
     @Inject
-    FakeProjectIndex(SitePaths sitePaths, @Assisted Schema<ProjectData> schema) {
-      super(schema, sitePaths, "projects");
+    FakeProjectIndex(@IndexDir Path indexDir, @Assisted Schema<ProjectData> schema) {
+      super(schema, indexDir, "projects");
     }
 
     @Override

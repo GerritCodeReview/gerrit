@@ -616,6 +616,20 @@ public class RefControlTest {
   }
 
   @Test
+  public void regexWithEscapedDotMatchesLiteralDotOnly() throws Exception {
+    projectOperations
+        .project(localKey)
+        .forUpdate()
+        .add(allow(READ).ref("^refs/heads/.*foo\\.bar").group(DEVS))
+        .update();
+
+    ProjectControl u = user(localKey, DEVS);
+    assertCanRead("refs/heads/bar-foo.bar", u);
+    // Without the escaping, '.' would be a wildcard and this would also match.
+    assertCannotRead("refs/heads/bar-fooXbar", u);
+  }
+
+  @Test
   public void blockRule_ParentBlocksChild() throws Exception {
     projectOperations
         .project(localKey)

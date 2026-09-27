@@ -29,6 +29,11 @@ import {
 } from '../../../types/common';
 import {ParsedChangeInfo} from '../../../types/types';
 import {getChangeNumber} from '../../../utils/change-util';
+import {
+  createDefaultPreferences,
+  DefaultBase,
+} from '../../../constants/constants';
+import {userModelToken} from '../../../models/user/user-model';
 import {GrEndpointDecorator} from '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import './gr-related-changes-list';
@@ -37,6 +42,7 @@ import {
   GrRelatedChangesList,
   Section,
 } from './gr-related-changes-list';
+import {GrRelatedChange} from './gr-related-change';
 import {GrRelatedCollapse} from './gr-related-collapse';
 
 suite('gr-related-changes-list', () => {
@@ -599,6 +605,69 @@ suite('gr-related-changes-list', () => {
       await waitEventLoop();
       assert.strictEqual(hookEl!.plugin, plugin!);
       assert.strictEqual(hookEl!.change, element.change);
+    });
+  });
+
+  suite('relation chain base', () => {
+    function relatedChange(numParents: number): RelatedChangeAndCommitInfo {
+      return {
+        ...createRelatedChangeAndCommitInfo(),
+        _change_number: 123 as NumericChangeId,
+        _revision_number: 2,
+        commit: {
+          ...createCommitInfoWithRequiredCommit(),
+          parents: Array.from({length: numParents}, (_, i) => {
+            return {
+              commit: `parent${i}` as CommitId,
+              subject: 'parent',
+            };
+          }),
+        },
+      };
+    }
+
+    async function href(change: RelatedChangeAndCommitInfo) {
+      element.change = createParsedChange();
+      element.latestPatchNum = 1 as PatchSetNumber;
+      element.relatedChanges = [change];
+      await element.updateComplete;
+      return queryAndAssert<GrRelatedChange>(
+        queryAndAssert<HTMLElement>(element, '#relatedChanges'),
+        'gr-related-change'
+      ).href;
+    }
+
+    test('single parent commit has no base in the URL', async () => {
+      testResolver(userModelToken).setPreferences({
+        ...createDefaultPreferences(),
+        default_base_for_merges: DefaultBase.FIRST_PARENT,
+      });
+      assert.equal(
+        await href(relatedChange(1)),
+        '/c/test-project/+/123/2?usp=related-change'
+      );
+    });
+
+    test('merge commit is linked with the auto-merge base', async () => {
+      testResolver(userModelToken).setPreferences({
+        ...createDefaultPreferences(),
+        default_base_for_merges: DefaultBase.AUTO_MERGE,
+      });
+      assert.equal(
+        await href(relatedChange(2)),
+        '/c/test-project/+/123/0..2?usp=related-change'
+      );
+    });
+
+    test('merge commit is linked with the first parent base', async () => {
+      testResolver(userModelToken).setPreferences({
+        ...createDefaultPreferences(),
+        default_base_for_merges: DefaultBase.FIRST_PARENT,
+      });
+      assert.equal(
+        await href(relatedChange(2)),
+        '/c/test-project/+/123/-1..2?usp=related-change'
+      );
     });
   });
 });

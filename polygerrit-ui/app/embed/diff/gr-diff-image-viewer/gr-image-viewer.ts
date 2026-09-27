@@ -161,6 +161,9 @@ export class GrImageViewer extends LitElement {
           font-size: var(--font-size-normal);
           --image-border-width: 2px;
         }
+        :host(.fit) {
+          max-height: var(--image-viewer-max-height, 75vh);
+        }
         .imageArea {
           grid-row-start: 1;
           grid-column-start: 1;
@@ -679,6 +682,7 @@ export class GrImageViewer extends LitElement {
   // We don't want property changes in updateSizes() to trigger infinite update
   // loops, so we perform this in update() instead of updated().
   override update(changedProperties: PropertyValues) {
+    this.classList.toggle('fit', this.scaledSelected);
     if (!this.baseUrl) this.baseSelected = false;
 
     if (!this.revisionUrl) this.baseSelected = true;

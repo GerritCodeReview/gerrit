@@ -28,6 +28,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.UseClockStep;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.AccessSection;
@@ -44,6 +45,8 @@ import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.server.config.RegexAllowedGroupsProvider;
+import com.google.gerrit.server.permissions.RegexPermissionPolicy;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
@@ -60,6 +63,19 @@ import org.junit.Test;
 public class TagsIT extends AbstractDaemonTest {
   private static final ImmutableList<String> testTags =
       ImmutableList.of("tag-A", "tag-B", "tag-C", "tag-D", "tag-E", "tag-F", "tag-G", "tag-H");
+
+  @Test
+  @GerritConfig(
+      name = RegexAllowedGroupsProvider.SECTION + "." + RegexAllowedGroupsProvider.KEY,
+      value = "Project Owners")
+  public void regexRejectedForUserOutsideAllowedGroup() throws Exception {
+    requestScopeOperations.setApiUser(user.id());
+
+    BadRequestException thrown =
+        assertThrows(BadRequestException.class, () -> getTags().withRegex(".*").get());
+
+    assertThat(thrown).hasMessageThat().isEqualTo(RegexPermissionPolicy.NOT_PERMITTED_MESSAGE);
+  }
 
   private static final String ANNOTATION = "annotation";
 

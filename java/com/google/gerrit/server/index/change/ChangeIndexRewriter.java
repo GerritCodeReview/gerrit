@@ -20,6 +20,7 @@ import static com.google.gerrit.server.query.change.ChangeStatusPredicate.open;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Change.Status;
@@ -59,6 +60,8 @@ import org.eclipse.jgit.util.MutableInteger;
 /** Rewriter that pushes boolean logic into the secondary index. */
 @Singleton
 public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   /** Set of all open change statuses. */
   public static final ImmutableSet<Change.Status> OPEN_STATUSES;
 
@@ -149,6 +152,10 @@ public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
       throws QueryParseException {
     Predicate<ChangeData> s = rewriteImpl(in, opts);
     if (!(s instanceof ChangeDataSource)) {
+      logger.atFine().log(
+          "Query rewrite did not produce a ChangeDataSource; falling back to full-status index"
+              + " scan (and(or(open,closed), ...)). Original query: %s, rewritten: %s",
+          in, s);
       in = Predicate.and(Predicate.or(open(), closed()), in);
       s = rewriteImpl(in, opts);
     }
@@ -183,10 +190,11 @@ public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
    * @param index index whose schema determines which fields are indexed.
    * @param opts other query options.
    * @param leafTerms number of leaf index query terms encountered so far.
-   * @return {@code null} if no part of this subtree can be queried in the index directly. {@code
-   *     in} if this subtree and all its children can be queried directly in the index. Otherwise, a
-   *     predicate that is semantically equivalent, with some of its subtrees wrapped to query the
-   *     index directly.
+   * @return {@code null} if no part of this subtree can be queried directly in the index, the
+   *     original predicate {@code in} if the entire subtree can, or a semantically equivalent
+   *     predicate with the indexed subtrees wrapped in index queries. When none of the children are
+   *     directly indexed, any existing {@link ChangeDataSource} children are preserved intact, as
+   *     can happen for a subtree of plugin data sources.
    * @throws QueryParseException if the underlying index implementation does not support this
    *     predicate.
    */
@@ -285,6 +293,13 @@ public class ChangeIndexRewriter implements IndexRewriter<ChangeData> {
       ChangeIndex index,
       QueryOptions opts)
       throws QueryParseException {
+    if (isIndexed.isEmpty()) {
+      // A rewritten child may itself be a ChangeDataSource (for example, an OR of plugin
+      // datasources), while its sibling is a non-indexed ChangeDataSource. Keep that tree intact
+      // rather than adding a match-all index query, which could be selected ahead of the more
+      // selective datasource.
+      return copy(in, newChildren);
+    }
     if (isIndexed.cardinality() == 1) {
       int i = isIndexed.nextSetBit(0);
       Predicate<ChangeData> indexed = newChildren.remove(i);

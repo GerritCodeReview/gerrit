@@ -21,10 +21,10 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
@@ -227,9 +227,6 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
 
   static class ParentGroupsLoader
       extends CacheLoader<AccountGroup.UUID, ImmutableSet<AccountGroup.UUID>> {
-    // Be conservative with batching: We don't want to exhaust the number of
-    // results per page and maximum terms per query. Both are usually 1000+.
-    private static final int MAX_BATCH_SIZE = 100;
     private final RetryHelper retryHelper;
 
     @Inject
@@ -250,16 +247,13 @@ public class GroupIncludeCacheImpl implements GroupIncludeCache {
     public Map<AccountGroup.UUID, ImmutableSet<AccountGroup.UUID>> loadAll(
         Iterable<? extends AccountGroup.UUID> keys) {
       int numKeys = Iterables.size(keys);
-      Map<AccountGroup.UUID, ImmutableSet<AccountGroup.UUID>> result =
-          Maps.newHashMapWithExpectedSize(numKeys);
+      if (numKeys == 0) {
+        return ImmutableMap.of();
+      }
       try (TraceTimer timer = TraceContext.newTimer("Loading " + numKeys + " parent groups")) {
-        Map<AccountGroup.UUID, ImmutableSet<AccountGroup.UUID>> bySubgroups =
-            retryHelper
-                .groupIndexQuery("loadParentGroups", q -> q.bySubgroups(ImmutableSet.copyOf(keys)))
-                .call();
-        Iterables.partition(keys, MAX_BATCH_SIZE)
-            .forEach(keyPartition -> result.putAll(bySubgroups));
-        return result;
+        return retryHelper
+            .groupIndexQuery("loadParentGroups", q -> q.bySubgroups(ImmutableSet.copyOf(keys)))
+            .call();
       }
     }
   }

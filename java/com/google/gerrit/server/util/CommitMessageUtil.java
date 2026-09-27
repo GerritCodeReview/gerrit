@@ -20,8 +20,7 @@ import com.google.common.base.Strings;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.extensions.restapi.BadRequestException;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
+import com.google.gerrit.util.crypto.SecureRandomUtil;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -32,17 +31,8 @@ import org.eclipse.jgit.util.ChangeIdUtil;
 
 /** Utility functions to manipulate commit messages. */
 public class CommitMessageUtil {
-  private static final SecureRandom rng;
   private static final Pattern changeIdFooterPattern =
       Pattern.compile("Change-Id: *(I[a-f0-9]{40})");
-
-  static {
-    try {
-      rng = SecureRandom.getInstance("SHA1PRNG");
-    } catch (NoSuchAlgorithmException e) {
-      throw new IllegalStateException("Cannot create RNG for Change-Id generator", e);
-    }
-  }
 
   private CommitMessageUtil() {}
 
@@ -67,8 +57,7 @@ public class CommitMessageUtil {
   }
 
   public static ObjectId generateChangeId() {
-    byte[] rand = new byte[Constants.OBJECT_ID_STRING_LENGTH];
-    rng.nextBytes(rand);
+    byte[] rand = SecureRandomUtil.newBytes(Constants.OBJECT_ID_STRING_LENGTH);
     String randomString = new String(rand, UTF_8);
 
     try (ObjectInserter f = new ObjectInserter.Formatter()) {

@@ -99,6 +99,8 @@ export enum Timing {
   PREVIEW_FIX_LOAD = 'PreviewFixLoad',
   // Time to apply fix for a user suggested edit or a fix from checks
   APPLY_FIX_LOAD = 'ApplyFixLoad',
+  // Time to revert a delta hunk in diff edit mode
+  REVERT_DELTA_LOAD = 'RevertDeltaLoad',
   // Time to copy target to clipboard
   COPY_TO_CLIPBOARD = 'CopyToClipboard',
   // Time to autocomplete a comment
@@ -188,6 +190,8 @@ export enum Interaction {
   FLOW_CREATED = 'flow-created',
   // AI Chat interaction request failures
   AI_CHAT_FAILURE = 'ai-chat-failure',
+  // Revert hunk clicked in diff edit mode
+  REVERT_DELTA_CLICKED = 'revert-delta-clicked',
 }
 
 /**

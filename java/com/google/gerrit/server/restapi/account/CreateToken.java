@@ -15,7 +15,6 @@
 package com.google.gerrit.server.restapi.account;
 
 import static com.google.gerrit.server.mail.EmailFactories.AUTH_TOKEN_UPDATED;
-import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
@@ -43,12 +42,11 @@ import com.google.gerrit.server.mail.EmailFactories;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.util.crypto.SecureRandomUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 import java.sql.Timestamp;
 import java.time.Duration;
 import java.time.Instant;
@@ -72,15 +70,6 @@ public class CreateToken
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private static final int LEN = 31;
-  private static final SecureRandom rng;
-
-  static {
-    try {
-      rng = SecureRandom.getInstance("SHA1PRNG");
-    } catch (NoSuchAlgorithmException e) {
-      throw new IllegalStateException("Cannot create RNG for password generator", e);
-    }
-  }
 
   private final Provider<CurrentUser> self;
   private final PermissionBackend permissionBackend;
@@ -198,17 +187,6 @@ public class CreateToken
 
   @UsedAt(UsedAt.Project.PLUGIN_SERVICEUSER)
   public static String generate() {
-    byte[] rand = new byte[LEN];
-    rng.nextBytes(rand);
-
-    byte[] enc = BaseEncoding.base64().encode(rand).getBytes(UTF_8);
-    StringBuilder r = new StringBuilder(enc.length);
-    for (int i = 0; i < enc.length; i++) {
-      if (enc[i] == '=') {
-        break;
-      }
-      r.append((char) enc[i]);
-    }
-    return r.toString();
+    return BaseEncoding.base64().omitPadding().encode(SecureRandomUtil.newBytes(LEN));
   }
 }

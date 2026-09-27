@@ -131,7 +131,7 @@ public class IndexSnapshotsIT extends AbstractDaemonTest {
   private File verifySnapshot(Response<?> rsp) {
     assertThat(rsp.value()).isInstanceOf(SnapshotInfo.class);
     SnapshotInfo snapshotInfo = (SnapshotInfo) rsp.value();
-    Path snapshotDir = sitePaths.index_dir.resolve("snapshots").resolve(snapshotInfo.id);
+    Path snapshotDir = sitePaths.resolve("index").resolve("snapshots").resolve(snapshotInfo.id);
     File snapshot = snapshotDir.toFile();
     assertThat(snapshot.exists()).isTrue();
     assertThat(snapshot.isDirectory()).isTrue();

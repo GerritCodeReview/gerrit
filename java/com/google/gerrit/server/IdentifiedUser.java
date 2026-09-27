@@ -263,7 +263,7 @@ public class IdentifiedUser extends CurrentUser {
   private final Provider<SocketAddress> remotePeerProvider;
   private final Account.Id accountId;
 
-  private AccountState state;
+  private volatile AccountState state;
   private boolean loadedAllEmails;
   private Set<String> invalidEmails;
   private GroupMembership effectiveGroups;
@@ -293,9 +293,39 @@ public class IdentifiedUser extends CurrentUser {
         groupBackend,
         enablePeerIPInReflogRecord,
         remotePeerProvider,
-        state.account().id(),
+        state,
         realUser,
         PropertyMap.EMPTY,
+        permissionMode);
+  }
+
+  private IdentifiedUser(
+      AuthConfig authConfig,
+      Realm realm,
+      String anonymousCowardName,
+      RefLogIdentityProvider refLogIdentityProvider,
+      Provider<String> canonicalUrl,
+      AccountCache accountCache,
+      GroupBackend groupBackend,
+      Boolean enablePeerIPInReflogRecord,
+      Provider<SocketAddress> remotePeerProvider,
+      AccountState state,
+      @Nullable CurrentUser realUser,
+      PropertyMap properties,
+      ImpersonationPermissionMode permissionMode) {
+    this(
+        authConfig,
+        realm,
+        anonymousCowardName,
+        refLogIdentityProvider,
+        canonicalUrl,
+        accountCache,
+        groupBackend,
+        enablePeerIPInReflogRecord,
+        remotePeerProvider,
+        state.account().id(),
+        realUser,
+        properties,
         permissionMode);
     this.state = state;
   }
@@ -573,19 +603,30 @@ public class IdentifiedUser extends CurrentUser {
             throw e;
           };
     }
-    return new IdentifiedUser(
-        authConfig,
-        realm,
-        anonymousCowardName,
-        refLogIdentityProvider,
-        Providers.of(canonicalUrl.get()),
-        accountCache,
-        groupBackend,
-        enablePeerIPInReflogRecord,
-        remotePeer,
-        state,
-        realUser,
-        permissionMode);
+    // Note: Lazy-loaded caches (effectiveGroups, validEmails, invalidEmails) are intentionally
+    // not copied to prevent cross-thread reference leaks or data races on mutable collections;
+    // they are safely re-evaluated if needed by the background thread.
+    CurrentUser copyRealUser = (realUser == this) ? null : realUser;
+    if (copyRealUser != null && copyRealUser.isIdentifiedUser()) {
+      copyRealUser = ((IdentifiedUser) copyRealUser).materializedCopy();
+    }
+    IdentifiedUser copy =
+        new IdentifiedUser(
+            authConfig,
+            realm,
+            anonymousCowardName,
+            refLogIdentityProvider,
+            Providers.of(canonicalUrl.get()),
+            accountCache,
+            groupBackend,
+            enablePeerIPInReflogRecord,
+            remotePeer,
+            state(),
+            copyRealUser,
+            properties(),
+            permissionMode);
+    copy.setAccessPath(getAccessPath());
+    return copy;
   }
 
   @Override

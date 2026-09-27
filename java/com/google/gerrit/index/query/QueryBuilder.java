@@ -48,6 +48,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
 import org.antlr.runtime.CharStream;
 import org.antlr.runtime.CommonToken;
 import org.antlr.runtime.tree.CommonTree;
@@ -227,6 +228,67 @@ public abstract class QueryBuilder<T, Q extends QueryBuilder<T, Q>> {
       throw new QueryParseException("query is empty");
     }
     return toPredicate(QueryParser.parse(query));
+  }
+
+  /**
+   * Parse a user-supplied query string and allows to find a pattern in its leaf nodes.
+   *
+   * @param query the query string.
+   * @param findLeafPredicate predicate that finds a pattern in a leaf node.
+   * @return true if at least one leaf matching the predicate was found.
+   * @throws QueryParseException the query string is invalid and cannot be parsed by this parser.
+   *     This may be due to a syntax error, may be due to an operator not being supported, or due to
+   *     an invalid value being passed to a recognized operator.
+   */
+  public static boolean findTextInParsedQuery(
+      String query, Function<String, Boolean> findLeafPredicate) throws QueryParseException {
+    return findInLeavesText(QueryParser.parse(query), findLeafPredicate);
+  }
+
+  private static boolean findInLeavesText(
+      Tree queryTree, Function<String, Boolean> findLeafPredicate) {
+    int childCount = queryTree.getChildCount();
+    if (childCount == 0) {
+      return queryTree.getText() != null && findLeafPredicate.apply(queryTree.getText());
+    } else {
+      for (int i = 0; i < childCount; i++) {
+        Tree child = queryTree.getChild(i);
+        if (findInLeavesText(child, findLeafPredicate)) {
+          return true;
+        }
+      }
+      return false;
+    }
+  }
+
+  /**
+   * Parse a user-supplied query string and allows to find a field in its nodes.
+   *
+   * @param query the query string.
+   * @param fieldNamePredicate predicate that finds a node name.
+   * @return true if at least one field matching the predicate was found.
+   * @throws QueryParseException the query string is invalid and cannot be parsed by this parser.
+   *     This may be due to a syntax error, may be due to an operator not being supported, or due to
+   *     an invalid value being passed to a recognized operator.
+   */
+  public static boolean findFieldInParsedQuery(
+      String query, Function<String, Boolean> fieldNamePredicate) throws QueryParseException {
+    return findInFieldNames(QueryParser.parse(query), fieldNamePredicate);
+  }
+
+  private static boolean findInFieldNames(
+      Tree queryTree, Function<String, Boolean> fieldNamePredicate) {
+    if (queryTree.getType() == FIELD_NAME) {
+      return queryTree.getText() != null && fieldNamePredicate.apply(queryTree.getText());
+    } else {
+      for (int i = 0; i < queryTree.getChildCount(); i++) {
+        Tree child = queryTree.getChild(i);
+        if (findInFieldNames(child, fieldNamePredicate)) {
+          return true;
+        }
+      }
+      return false;
+    }
   }
 
   public void setOperatorAliases(Map<String, String> opAliases) {

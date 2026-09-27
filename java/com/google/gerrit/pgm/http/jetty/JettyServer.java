@@ -333,7 +333,8 @@ public class JettyServer {
     final int requestHeaderSize = cfg.getInt("httpd", "requestheadersize", 16386);
     final URI[] listenUrls = listenURLs(cfg);
     final boolean reuseAddress = cfg.getBoolean("httpd", "reuseaddress", true);
-    final int acceptors = cfg.getInt("httpd", "acceptorThreads", 2);
+    final int acceptors = cfg.getInt("httpd", "acceptorThreads", 0);
+    final int selectors = cfg.getInt("httpd", "selectorThreads", 2);
     final AuthType authType = cfg.getEnum("auth", null, "type", AuthType.OPENID);
 
     reverseProxy = isReverseProxied(listenUrls);
@@ -353,14 +354,23 @@ public class JettyServer {
       //     decodes to a reserved one (e.g. %25 decoding to '%'),
       //     hit by /changes/%3C%25%3DFOO%25%3E~1/detail where the
       //     decoded identifier '<%=FOO%>' contains a literal '%'.
-      // Allow exactly these two violations; broader presets like LEGACY
+      //   - SUSPICIOUS_PATH_CHARACTERS: Allow encoded path characters
+      //     not allowed by the Servlet spec rules. This is needed to support
+      //     backslashes in change queries which UI encodes in the path.
+      //     Example:
+      //       branch:^a\.b
+      //     UI code create this URI: http://host/q/branch:%5Ea%5C.b
+      //     When opening that encoded URI again Jetty rejects it because of
+      //     the (encoded) backslash
+      // Allow exactly these three violations; broader presets like LEGACY
       // also permit suspicious characters, USER_INFO, FRAGMENT etc. that
       // Gerrit's REST surface does not need.
       config.setUriCompliance(
           UriCompliance.from(
               EnumSet.of(
                   UriCompliance.Violation.AMBIGUOUS_PATH_SEPARATOR,
-                  UriCompliance.Violation.AMBIGUOUS_PATH_ENCODING)));
+                  UriCompliance.Violation.AMBIGUOUS_PATH_ENCODING,
+                  UriCompliance.Violation.SUSPICIOUS_PATH_CHARACTERS)));
 
       if (AuthType.CLIENT_SSL_CERT_LDAP.equals(authType) && !"https".equals(u.getScheme())) {
         throw new IllegalArgumentException(
@@ -376,7 +386,7 @@ public class JettyServer {
 
       if ("http".equals(u.getScheme())) {
         defaultPort = 80;
-        c = newServerConnector(server, acceptors, config);
+        c = newServerConnector(server, acceptors, selectors, config);
 
       } else if ("https".equals(u.getScheme())) {
         SslContextFactory.Server ssl = new SslContextFactory.Server();
@@ -409,15 +419,15 @@ public class JettyServer {
                 null,
                 null,
                 null,
-                0,
                 acceptors,
+                selectors,
                 new SslConnectionFactory(ssl, "http/1.1"),
                 new HttpConnectionFactory(config));
 
       } else if ("proxy-http".equals(u.getScheme())) {
         defaultPort = 8080;
         config.addCustomizer(FORWARDED_REQUEST_CUSTOMIZER);
-        c = newServerConnector(server, acceptors, config);
+        c = newServerConnector(server, acceptors, selectors, config);
 
       } else if ("proxy-https".equals(u.getScheme())) {
         defaultPort = 8080;
@@ -443,7 +453,7 @@ public class JettyServer {
                     return true;
                   }
                 });
-        c = newServerConnector(server, acceptors, config);
+        c = newServerConnector(server, acceptors, selectors, config);
 
       } else {
         throw new IllegalArgumentException(
@@ -485,9 +495,9 @@ public class JettyServer {
   }
 
   private static ServerConnector newServerConnector(
-      Server server, int acceptors, HttpConfiguration config) {
+      Server server, int acceptors, int selectors, HttpConfiguration config) {
     return new ServerConnector(
-        server, null, null, null, 0, acceptors, new HttpConnectionFactory(config));
+        server, null, null, null, acceptors, selectors, new HttpConnectionFactory(config));
   }
 
   private HttpConfiguration defaultConfig(int requestHeaderSize) {

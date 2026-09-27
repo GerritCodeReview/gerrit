@@ -882,6 +882,7 @@ export class GrReplyDialog extends LitElement {
           )}
         >
         </gr-account-list>
+        <gr-endpoint-slot name="middle"></gr-endpoint-slot>
         <gr-endpoint-slot name="right"></gr-endpoint-slot>
       </div>
     `;
@@ -1517,7 +1518,9 @@ export class GrReplyDialog extends LitElement {
 
   // visible for testing
   async send(includeComments: boolean, startReview: boolean) {
-    const labels = this.getLabelScores().getLabelValues();
+    const includeDefaults =
+      !this.change || this.change.status !== ChangeStatus.MERGED;
+    const labels = this.getLabelScores().getLabelValues(includeDefaults);
     if (labels[StandardLabels.CODE_REVIEW] === 2) {
       this.reporting.reportInteraction(Interaction.CODE_REVIEW_APPROVAL);
     }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1aced559_7dd24b5d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-09-27T22:03:53Z",
+      "side": 1,
+      "message": "```suggestion\nRelease-Notes: Fix LDAP login form accessibility: use \u003clabel\u003e instead of \u003cth\u003e\nChange-Id: I2ab7df88360d26e53111e76006c455e5a04e90fb\n```",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 52
+      },
+      "revId": "ba20db9a5740d8ee1eb2724890066afefa0d3bf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

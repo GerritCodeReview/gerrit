@@ -1,16 +1,139 @@
 <html>
   <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Gerrit Code Review - Sign In</title>
     <style type="text/css">
+      html {
+        font-size: .875em;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background-color: var(--gray-200, #e8eaed);
+        font-family: var(--font-family, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif);
+        font-size: var(--font-size-normal, 1rem);
+        line-height: var(--line-height-normal, 1.4);
+        color: var(--primary-text-color, #2a3340);
+      }
+      /* Hide the empty chrome so the card can centre */
+      #gerrit_topmenu,
+      #gerrit_header,
+      #gerrit_body > div {
+        display: none;
+      }
+      #gerrit_body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+      #login_form {
+        box-sizing: border-box;
+        width: 22em;
+        max-width: 100%;
+        padding: 2em 2.5em 2.5em;
+        background-color: #fff;
+        border: 1px solid #d9cbbf;
+        border-radius: 5px;
+        box-shadow: 5px 5px 50px -16px rgba(42, 51, 64, 0.55);
+      }
+      #login_form h1 {
+        font-size: 1.3em;
+        font-weight: 600;
+        margin: 0 0 1em;
+        text-align: center;
+        color: #2a3340;
+      }
       #error_message {
-        padding: 5px;
-        margin: 2em;
-        width: 20em;
-        background-color: rgb(255, 255, 116);
-        font-weight: bold;
+        box-sizing: border-box;
+        margin: 0 0 1.2em;
+        padding: 12px 16px;
+        border: 1px solid #c5221f;
+        border-radius: 4px;
+        background-color: #fce8e6;
+        color: #c5221f;
+        font-weight: 600;
+      }
+      /* Labels above their input, at every width */
+      #login_form table,
+      #login_form tbody,
+      #login_form tr,
+      #login_form td {
+        display: block;
+        width: auto;
+      }
+      #login_form td {
+        padding: 0;
+      }
+      #login_form td:empty {
+        display: none;
+      }
+      #login_form tr {
+        margin: 0 0 1.1em;
+      }
+      #login_form tr:last-child {
+        margin: 0;
+      }
+      #login_form label {
+        display: block;
+        margin: 0 0 0.3em;
+        color: #5f6d73;
+        font-weight: 600;
+      }
+      #login_form label[for="f_remember"] {
+        display: inline;
+        font-weight: 400;
+      }
+      #login_form input[type="text"],
+      #login_form input[type="password"] {
+        box-sizing: border-box;
+        width: 100%;
+        padding: 8px 10px;
+        margin: 0;
+        border: 1px solid #b4b4aa;
+        border-radius: 4px;
+        font: inherit;
+        color: var(--primary-text-color, #2a3340);
+      }
+      #login_form input[type="text"]:focus,
+      #login_form input[type="password"]:focus {
+        border-color: #bf8c6f;
+        outline: 0;
+        box-shadow: 0 0 0 2px rgba(191, 140, 111, 0.25);
+      }
+      #login_form input[type="checkbox"] {
+        margin: 0 0.5em 0 0;
+        vertical-align: middle;
+        accent-color: #314972;
+      }
+      #b_signin {
+        padding: 9px 22px;
+        border: 1px solid #314972;
+        border-radius: 4px;
+        background-color: #314972;
+        color: #fff;
+        font: inherit;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      #b_signin:hover {
+        background-color: #3d5e8f;
+        border-color: #3d5e8f;
+      }
+      #b_signin:disabled {
+        opacity: 0.6;
+        cursor: default;
       }
       #cancel_link {
-        margin-left: 45px;
+        margin-left: 18px;
+        color: #5f6d73;
+        text-decoration: none;
+      }
+      #cancel_link:hover {
+        color: #2a3340;
+        text-decoration: underline;
       }
     </style>
     <style id="gerrit_sitecss" type="text/css"></style>
@@ -19,19 +142,19 @@
     <div id="gerrit_topmenu" style="height:45px;" class="gerritTopMenu"></div>
     <div id="gerrit_header"></div>
     <div id="gerrit_body" class="gerritBody">
-      <h1>Sign In to Gerrit Code Review at <span id="hostName">example.com</span></h1>
-      <div id="error_message">Invalid username or password.</div>
       <form method="POST" action="#" id="login_form" autocomplete="off" onsubmit="return shouldSubmit()">
+        <h1>Sign In to Gerrit Code Review at <span id="hostName">example.com</span></h1>
+        <div id="error_message">Invalid username or password.</div>
         <table style="border: 0;">
         <tr>
-          <th>Username</th>
+          <td><label for="f_user">Username</label></td>
           <td><input name="username" id="f_user"
                      type="text"
                      size="25"
                      tabindex="1" /></td>
         </tr>
         <tr>
-          <th>Password</th>
+          <td><label for="f_pass">Password</label></td>
           <td><input name="password" id="f_pass"
                      type="password"
                      size="25"

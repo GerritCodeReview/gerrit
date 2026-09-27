@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4b5ad173_419af40e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5198354
+      },
+      "writtenOn": "2026-09-27T21:21:41Z",
+      "side": 1,
+      "message": "git pull https://gerrit.googlesource.com/gerrit refs/changes/25/630425/18",
+      "revId": "e8aebb711e1af982b226d61aee3d97a868d356ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

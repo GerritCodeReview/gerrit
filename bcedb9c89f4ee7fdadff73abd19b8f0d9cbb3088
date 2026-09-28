@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34c2ab8f_11e5bad2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-09-28T14:28:43Z",
+      "side": 1,
+      "message": "Remove this. Has to be above Change-Id with no gaps.",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 44
+      },
+      "revId": "bcedb9c89f4ee7fdadff73abd19b8f0d9cbb3088",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "45383cab_3beae884",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-09-28T14:28:43Z",
+      "side": 1,
+      "message": "```suggestion\nRelease-Notes: Restyle the LDAP sign-in page\nChange-Id: Ia827463100a91d07a9c3294f4397779bb419d167\n```",
+      "revId": "bcedb9c89f4ee7fdadff73abd19b8f0d9cbb3088",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21d3e16d_5a07359a",
+        "filename": "resources/com/google/gerrit/httpd/auth/ldap/LoginForm.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-09-28T14:28:43Z",
+      "side": 1,
+      "message": "I presume all this can be changed in GerritSite.css (i\u0027m thinking wikimedia here).",
+      "revId": "bcedb9c89f4ee7fdadff73abd19b8f0d9cbb3088",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

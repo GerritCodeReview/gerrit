@@ -16,6 +16,8 @@ package com.google.gerrit.extensions.conditions;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 import org.junit.Test;
 
 public class BooleanConditionTest {
@@ -169,6 +171,45 @@ public class BooleanConditionTest {
     BooleanCondition combined = BooleanCondition.and(false, lazy);
     assertEquals(BooleanCondition.valueOf(false), combined.reduce());
     assertEquals(false, combined.value());
+    assertEquals(false, BooleanCondition.and(lazy, BooleanCondition.FALSE).value());
+  }
+
+  @Test
+  public void lazyCondition_NotEvaluatedWhenShortCircuitedByTrueOr() {
+    BooleanCondition lazy =
+        BooleanCondition.lazy(
+            () -> {
+              throw new AssertionError("supplier should not be evaluated");
+            });
+    assertEquals(true, BooleanCondition.or(true, lazy).value());
+    assertEquals(true, BooleanCondition.or(lazy, BooleanCondition.TRUE).value());
+  }
+
+  @Test
+  public void lazyCondition_OperatorsPreserveDeferredEvaluation() {
+    AtomicBoolean value = new AtomicBoolean(false);
+    AtomicInteger evaluations = new AtomicInteger();
+    BooleanCondition lazy =
+        BooleanCondition.lazy(
+            () -> {
+              evaluations.incrementAndGet();
+              return value.get();
+            });
+    BooleanCondition and = BooleanCondition.and(true, lazy);
+    BooleanCondition or = BooleanCondition.or(false, lazy);
+    BooleanCondition not = BooleanCondition.not(lazy);
+    assertEquals(0, evaluations.get());
+
+    assertEquals(false, and.value());
+    assertEquals(false, or.value());
+    assertEquals(true, not.value());
+    assertEquals(3, evaluations.get());
+
+    value.set(true);
+    assertEquals(true, and.value());
+    assertEquals(true, or.value());
+    assertEquals(false, not.value());
+    assertEquals(6, evaluations.get());
   }
 
   @Test

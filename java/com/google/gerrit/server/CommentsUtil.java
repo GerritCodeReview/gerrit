@@ -187,6 +187,35 @@ public class CommentsUtil {
     return c;
   }
 
+  /**
+   * Sets the comment's line number, range, and side from {@code input}, inheriting omitted location
+   * fields from the parent comment when {@code comment.parentUuid} is set.
+   */
+  public void setLocationFromInputAndParent(
+      HumanComment comment,
+      com.google.gerrit.extensions.client.Comment input,
+      ChangeNotes changeNotes) {
+    comment.setLineNbrAndRange(input.line, input.range);
+    if (comment.parentUuid == null) {
+      return;
+    }
+    Optional<HumanComment> parentOpt = getPublishedHumanComment(changeNotes, comment.parentUuid);
+    if (parentOpt.isEmpty()) {
+      return;
+    }
+    HumanComment parent = parentOpt.get();
+    if (input.side == null && input.parent == null && comment.side != parent.side) {
+      comment.side = parent.side;
+      comment.setCommitId(null);
+    }
+    if (input.line == null && input.range == null) {
+      comment.lineNbr = parent.lineNbr;
+    }
+    if (input.range == null && parent.range != null && comment.lineNbr == parent.lineNbr) {
+      comment.range = new Comment.Range(parent.range);
+    }
+  }
+
   public Optional<HumanComment> getPublishedHumanComment(ChangeNotes notes, Comment.Key key) {
     return publishedHumanCommentsByChange(notes).stream()
         .filter(c -> key.equals(c.key))

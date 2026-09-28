@@ -185,6 +185,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "66fb3694_c2e4a7e7",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ChangePermissionsInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-09-28T22:56:50Z",
+      "side": 1,
+      "message": "Agreed — and done in PS5, even better than a map: changed to `Set\u003cString\u003e`.\n\nIt holds the granted permission names using the canonical strings from com.google.gerrit.entities.Permission (\"aiReview\", \"deleteComment\",...), as you suggested.\n\nSince these permissions are all default-deny, a `Map\u003cString, Boolean\u003e` value would always be true — absence from the set already means \"not granted\", so the Boolean carries no information.\n\nThe set is that map with the redundant value dropped. New permissions add nothing to the type, so there\u0027s nothing to duplicate.",
+      "parentUuid": "5bcafd80_d2722af0",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 31
+      },
+      "revId": "c96d927c6e7981301a7c64a3859d01c6445794a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5db550cc_30dad773",
@@ -198,6 +222,30 @@
       "writtenOn": "2026-05-31T19:55:17Z",
       "side": 1,
       "message": "If we follow this pattern, this code will become a giant if/then/else.\n\nSee my suggestion to simply returning a map of permissions.",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 5
+      },
+      "revId": "c96d927c6e7981301a7c64a3859d01c6445794a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce8660ea_9fab8aa5",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetChangePermissions.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-09-28T22:56:50Z",
+      "side": 1,
+      "message": "Agreed, fixed in PS5 — no if/then/else.\n\nThe handler iterates a single EnumSet\u003cChangePermission\u003e (EXPOSED_PERMISSIONS) and, for each that tests true, adds DefaultPermissionMappings.changePermissionName(p) to the set. Exposing a new permission is one enum entry, not a field plus a branch.",
+      "parentUuid": "5db550cc_30dad773",
       "range": {
         "startLine": 32,
         "startChar": 0,

@@ -16,6 +16,24 @@
       "message": "I don\u0027t believe this is the correct fix: the filename in the URL just needs to be URL encoded. See my comment on https://issues.gerritcodereview.com/issues/562298034",
       "revId": "e497c7c19d5473bc2a1ebf31788ee3d1aed741e6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a22f20f_dc475441",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-09-28T20:43:53Z",
+      "side": 1,
+      "message": "Agreed — the correct fix is client-side URL-encoding, change 634945 (encode the magic path\u0027s leading / as %2F).\n\nThis server change was only a non-invasive, backwards-compatible stopgap for the stable branch — its commit message already notes it must not be forward-merged to master. Once the client fix is accepted on stable-3.14, I\u0027m happy to abandon this approach.",
+      "parentUuid": "c137717a_ce1623ee",
+      "revId": "e497c7c19d5473bc2a1ebf31788ee3d1aed741e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

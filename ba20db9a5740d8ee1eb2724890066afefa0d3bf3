@@ -1,6 +1,24 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7985f43b_5e5ec55e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5190096
+      },
+      "writtenOn": "2026-09-28T10:32:55Z",
+      "side": 1,
+      "message": "Applied in patch set 2.\n\n(This comment was posted by an AI agent on behalf of Vera de Kok.)",
+      "parentUuid": "1aced559_7dd24b5d",
+      "revId": "ba20db9a5740d8ee1eb2724890066afefa0d3bf3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1aced559_7dd24b5d",

@@ -169,6 +169,13 @@ suite('change view state tests', () => {
         '/c/x%252B/y/+/42/12/x%252By/path.cpp'
       );
     });
+
+    test('commit message magic path has no double slash', () => {
+      // '/COMMIT_MSG' must not produce '//COMMIT_MSG' (Jetty rejects the empty
+      // path segment). The leading slash is dropped here and restored on parse.
+      params.diffView = {path: '/COMMIT_MSG'};
+      assert.equal(createDiffUrl(params), '/c/test-project/+/42/12/COMMIT_MSG');
+    });
   });
 
   test('createEditUrl', () => {
@@ -185,5 +192,17 @@ suite('change view state tests', () => {
     window.CANONICAL_PATH = '/base';
     assert.equal(createEditUrl(params).substring(0, 5), '/base');
     window.CANONICAL_PATH = undefined;
+  });
+
+  test('createEditUrl commit message magic path has no double slash', () => {
+    const params: ChangeViewState = {
+      ...createEditViewState(),
+      patchNum: 12 as RevisionPatchSetNum,
+      editView: {path: '/COMMIT_MSG'},
+    };
+    assert.equal(
+      createEditUrl(params),
+      '/c/test-project/+/42/12/COMMIT_MSG,edit'
+    );
   });
 });

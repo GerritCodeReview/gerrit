@@ -99,6 +99,7 @@ import {
   isInBaseOfPatchRange,
 } from '../../../utils/comment-util';
 import {isFileUnchanged} from '../../../utils/diff-util';
+import {isMagicPath} from '../../../utils/path-list-util';
 import {Route, ViewState} from '../../../models/views/base';
 import {Model} from '../../../models/base/model';
 import {
@@ -1495,6 +1496,13 @@ export class GrRouter implements Finalizable, NavigationService {
   handleDiffRoute(ctx: PageContext) {
     const changeNum = Number(ctx.params[1]) as NumericChangeId;
     // Parameter order is based on the regex group number matched.
+    // A magic path (COMMIT_MSG, MERGE_LIST) is carried in the URL without its
+    // leading slash to avoid a '//' empty segment; restore it so it matches
+    // SpecialFilePath. Legacy '//' URLs already include the slash.
+    // Tradeoff: a real repo file at root literally named COMMIT_MSG/MERGE_LIST
+    // (names Gerrit reserves for magic files) now resolves to the magic file.
+    let path = ctx.params[8];
+    if (path && isMagicPath(`/${path}`)) path = `/${path}`;
     const state: ChangeViewState = {
       repo: ctx.params[0] as RepoName,
       changeNum,
@@ -1502,7 +1510,7 @@ export class GrRouter implements Finalizable, NavigationService {
       patchNum: convertToPatchSetNum(ctx.params[6]) as RevisionPatchSetNum,
       view: GerritView.CHANGE,
       childView: ChangeChildView.DIFF,
-      diffView: {path: ctx.params[8]},
+      diffView: {path},
     };
     const queryMap = new URLSearchParams(ctx.querystring);
     const checksPatchset = Number(queryMap.get('checksPatchset'));
@@ -1552,6 +1560,9 @@ export class GrRouter implements Finalizable, NavigationService {
     // Parameter order is based on the regex group number matched.
     const project = ctx.params[0] as RepoName;
     const changeNum = Number(ctx.params[1]) as NumericChangeId;
+    // See handleDiffRoute(): restore a magic path's leading slash.
+    let path = ctx.params[3];
+    if (path && isMagicPath(`/${path}`)) path = `/${path}`;
     const state: ChangeViewState = {
       repo: project,
       changeNum,
@@ -1559,7 +1570,7 @@ export class GrRouter implements Finalizable, NavigationService {
       patchNum: convertToPatchSetNum(ctx.params[2]) as RevisionPatchSetNum,
       view: GerritView.CHANGE,
       childView: ChangeChildView.EDIT,
-      editView: {path: ctx.params[3], lineNum: Number(ctx.hash)},
+      editView: {path, lineNum: Number(ctx.hash)},
     };
     const queryMap = new URLSearchParams(ctx.querystring);
     if (queryMap.has('forceReload')) state.forceReload = true;

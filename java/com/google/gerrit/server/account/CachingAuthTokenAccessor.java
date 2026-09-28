@@ -61,7 +61,6 @@ public class CachingAuthTokenAccessor implements AuthTokenAccessor {
   public synchronized void addTokens(Account.Id accountId, Collection<AuthToken> tokens)
       throws IOException, ConfigInvalidException, InvalidAuthTokenException {
     accessor.addTokens(accountId, tokens);
-    authTokenCache.evict(accountId);
   }
 
   @Override
@@ -69,38 +68,31 @@ public class CachingAuthTokenAccessor implements AuthTokenAccessor {
   public synchronized AuthToken addToken(
       Account.Id accountId, String id, String hashedToken, Optional<Instant> expiration)
       throws IOException, ConfigInvalidException, InvalidAuthTokenException {
-    AuthToken token = accessor.addToken(accountId, id, hashedToken, expiration);
-    authTokenCache.evict(accountId);
-    return token;
+    return accessor.addToken(accountId, id, hashedToken, expiration);
   }
 
   @Override
   public AuthToken addPlainToken(
       Account.Id accountId, String id, String token, Optional<Instant> expiration)
       throws IOException, ConfigInvalidException, InvalidAuthTokenException {
-    AuthToken authToken = accessor.addPlainToken(accountId, id, token, expiration);
-    authTokenCache.evict(accountId);
-    return authToken;
+    return accessor.addPlainToken(accountId, id, token, expiration);
   }
 
   @Override
   public void deleteToken(Account.Id accountId, String id)
       throws IOException, ConfigInvalidException, InvalidAuthTokenException {
     accessor.deleteToken(accountId, id);
-    authTokenCache.evict(accountId);
   }
 
   @Override
   public void deleteAllTokens(Account.Id accountId)
       throws IOException, ConfigInvalidException, InvalidAuthTokenException {
     accessor.deleteAllTokens(accountId);
-    authTokenCache.evict(accountId);
   }
 
   @Override
   public void updateToken(Account.Id accountId, AuthToken token)
       throws IOException, ConfigInvalidException, InvalidAuthTokenException {
     accessor.updateToken(accountId, token);
-    authTokenCache.evict(accountId);
   }
 }

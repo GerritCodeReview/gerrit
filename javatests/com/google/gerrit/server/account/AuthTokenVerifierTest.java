@@ -17,13 +17,10 @@ package com.google.gerrit.server.account;
 import static com.google.common.truth.Truth.assertThat;
 import static org.mockito.Mockito.doReturn;
 
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.Account;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.List;
 import java.util.Optional;
 import org.junit.Before;
 import org.junit.Test;
@@ -35,8 +32,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 public class AuthTokenVerifierTest {
   private static final Account.Id ACCOUNT_ID = Account.id(1);
   private AuthTokenVerifier tokenVerifier;
-  private LoadingCache<Account.Id, List<AuthToken>> cache;
-  @Mock AuthTokenCache.Loader loader;
+  @Mock AuthTokenCache authTokenCache;
 
   @Before
   public void setUp() throws Exception {
@@ -50,9 +46,7 @@ public class AuthTokenVerifierTest {
                 "id4",
                 "tokenWithExpiredLifetime",
                 Optional.of(Instant.now().minus(1, ChronoUnit.DAYS))));
-    doReturn(tokens).when(loader).load(ACCOUNT_ID);
-    cache = CacheBuilder.newBuilder().build(loader);
-    AuthTokenCache authTokenCache = new AuthTokenCache(cache);
+    doReturn(tokens).when(authTokenCache).get(ACCOUNT_ID);
     AuthTokenAccessor tokenAccessor = new CachingAuthTokenAccessor(authTokenCache, null);
     tokenVerifier = new AuthTokenVerifier(tokenAccessor);
   }

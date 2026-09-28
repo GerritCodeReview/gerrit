@@ -1,14 +1,117 @@
 <html>
   <head>
     <title>Gerrit Code Review</title>
+    <style>
+      html {
+        font-size: .875em;
+      }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: var(--gray-200, #e8eaed);
+        font-family: var(--font-family, -apple-system, BlinkMacSystemFont,
+          "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif);
+        font-size: var(--font-size-normal, 1rem);
+        line-height: var(--line-height-normal, 1.4);
+        color: var(--primary-text-color, #2a3340);
+      }
+      #gerrit_topmenu,
+      #gerrit_header {
+        display: none;
+      }
+      body > div:last-child {
+        display: none;
+      }
+      #gerrit_body {
+        box-sizing: border-box;
+        width: 34em;
+        max-width: 100%;
+        padding: 2em 2.5em 2.5em;
+        background-color: #fff;
+        border: 1px solid #d9cbbf;
+        border-radius: 5px;
+        box-shadow: 5px 5px 50px -16px rgba(42, 51, 64, 0.55);
+      }
+      h2 {
+        font-size: 1.3em;
+        font-weight: 600;
+        margin: 0 0 1em;
+        color: #2a3340;
+      }
+      hr + h2 {
+        margin-top: 1.5em;
+      }
+      table,
+      tbody,
+      tr,
+      th,
+      td {
+        display: block;
+      }
+      th,
+      td {
+        text-align: left;
+      }
+      th {
+        margin: 1.1em 0 0.3em;
+        color: #5f6d73;
+        font-weight: 600;
+      }
+      tr:first-child th {
+        margin-top: 0;
+      }
+      input[type="text"] {
+        box-sizing: border-box;
+        display: block;
+        width: 100%;
+        padding: 8px 10px;
+        margin: 0 0 0.6em;
+        border: 1px solid #b4b4aa;
+        border-radius: 4px;
+        font: inherit;
+        color: var(--primary-text-color, #2a3340);
+      }
+      input[type="text"]:focus {
+        border-color: #bf8c6f;
+        outline: 0;
+        box-shadow: 0 0 0 2px rgba(191, 140, 111, 0.25);
+      }
+      input[type="submit"] {
+        padding: 9px 22px;
+        border: 1px solid #314972;
+        border-radius: 4px;
+        background-color: #314972;
+        color: #fff;
+        font: inherit;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      input[type="submit"]:hover {
+        background-color: #3d5e8f;
+        border-color: #3d5e8f;
+      }
+      hr {
+        border: 0;
+        border-top: 1px solid #d9cbbf;
+        margin: 2em 0 1.5em;
+      }
+    </style>
     <style id="gerrit_sitecss" type="text/css"></style>
   </head>
-  <body>
+  <body class="login">
     <div id="gerrit_topmenu" style="height:45px;" class="gerritTopMenu"></div>
     <div id="gerrit_header"></div>
     <div id="gerrit_body" class="gerritBody">
       <h2>Sign In</h2>
       <table border="0">
+        <tr>
+          <th>Choose:</th>
+          <td id="userlist"/>
+        </tr>
+
         <tr>
           <th>Username:</th>
           <td>
@@ -37,11 +140,6 @@
               <input type="submit" value="Become Account" />
             </form>
           </td>
-        </tr>
-
-        <tr>
-          <th style="vertical-align: top;">Choose:</th>
-          <td id="userlist"/>
         </tr>
       </table>
 

@@ -28,6 +28,7 @@ import {define} from '../dependency';
 import {Model} from '../base/model';
 import {ViewState} from './base';
 import {isNumber} from '../../utils/patch-set-util';
+import {isMagicPath} from '../../utils/path-list-util';
 
 export enum ChangeChildView {
   OVERVIEW = 'OVERVIEW',
@@ -236,7 +237,14 @@ export function createDiffUrl(
     childView: ChangeChildView.DIFF,
   });
 
-  let path = `/${encodeURL(state.diffView?.path ?? '')}`;
+  // Magic paths (COMMIT_MSG, MERGE_LIST) begin with a slash; percent-encode it
+  // so the URL has no '//' empty segment (rejected by Jetty since 3.14). Jetty
+  // already allows the encoded separator (%2F), and the router decodes it back.
+  const filePath = state.diffView?.path ?? '';
+  const encodedPath = isMagicPath(filePath)
+    ? encodeURIComponent(filePath)
+    : encodeURL(filePath);
+  let path = `/${encodedPath}`;
   // TODO: Move creating of comment URLs to a separate function. We are
   // "abusing" the `commentId` property, which should only be used for pointing
   // to comment in the COMMENTS tab of the OVERVIEW page.
@@ -278,7 +286,12 @@ export function createEditUrl(
     patchNum: obj.patchNum ?? EDIT,
   });
 
-  const path = `/${encodeURL(state.editView?.path ?? '')}`;
+  // See createDiffUrl(): percent-encode a magic path's leading slash.
+  const editPath = state.editView?.path ?? '';
+  const encodedPath = isMagicPath(editPath)
+    ? encodeURIComponent(editPath)
+    : encodeURL(editPath);
+  const path = `/${encodedPath}`;
   const line = state.editView?.lineNum;
   const suffix = line ? `#${line}` : '';
 

@@ -975,6 +975,17 @@ suite('gr-router tests', () => {
           });
         });
 
+        test('DIFF commit message magic path round-trips', async () => {
+          // createDiffUrl emits %2FCOMMIT_MSG; the router decodes the encoded
+          // separator back to the magic path /COMMIT_MSG.
+          await checkUrlToState('/c/test-project/+/42/4..7/%2FCOMMIT_MSG', {
+            ...createDiffViewState(),
+            basePatchNum: 4 as BasePatchSetNum,
+            patchNum: 7 as RevisionPatchSetNum,
+            diffView: {path: '/COMMIT_MSG'},
+          });
+        });
+
         test('COMMENT base..1', async () => {
           const change: ParsedChangeInfo = createParsedChange();
           const repo = change.project;

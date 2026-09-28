@@ -14,6 +14,8 @@
 
 package com.google.gerrit.sshd.commands;
 
+import static com.google.common.base.Equivalence.identity;
+
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
 import com.google.common.flogger.FluentLogger;
@@ -88,7 +90,7 @@ final class Receive extends AbstractGitCommand {
 
     try {
       Capable r = arc.canUpload();
-      if (r != Capable.OK) {
+      if (!identity().equivalent(r, Capable.OK)) {
         throw die(r.getMessage());
       }
     } catch (PermissionBackendException e) {
@@ -119,7 +121,7 @@ final class Receive extends AbstractGitCommand {
       msg.append("Unpack error on project \"").append(projectState.getName()).append("\":\n");
 
       msg.append("  AdvertiseRefsHook: ").append(rp.getAdvertiseRefsHook());
-      if (rp.getAdvertiseRefsHook() == AdvertiseRefsHook.DEFAULT) {
+      if (identity().equivalent(rp.getAdvertiseRefsHook(), AdvertiseRefsHook.DEFAULT)) {
         msg.append("DEFAULT");
       } else {
         msg.append(rp.getAdvertiseRefsHook().getClass());

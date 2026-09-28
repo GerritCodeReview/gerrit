@@ -115,7 +115,7 @@ public class ChangeFileContentModification implements TreeModification {
           FileMode fileMode = FileMode.fromBits(newGitFileMode);
           dirCacheEntry.setFileMode(fileMode);
         }
-        if (dirCacheEntry.getFileMode() == FileMode.GITLINK) {
+        if (FileMode.GITLINK.equals(dirCacheEntry.getRawMode())) {
           dirCacheEntry.setLength(0);
           dirCacheEntry.setLastModified(Instant.EPOCH);
 

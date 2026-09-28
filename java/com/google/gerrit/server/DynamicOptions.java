@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server;
 
+import static com.google.common.base.Equivalence.identity;
+
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.server.plugins.DelegatingClassLoader;
@@ -241,9 +243,9 @@ public class DynamicOptions implements AutoCloseable {
     ClassLoader beanCl = bean.getClass().getClassLoader();
 
     ClassLoader loader = beanCl;
-    if (beanCl != coreCl) { // bean from a plugin?
+    if (!identity().equivalent(beanCl, coreCl)) { // bean from a plugin?
       ClassLoader dynamicBeanCl = dynamicBean.getClass().getClassLoader();
-      if (beanCl != dynamicBeanCl) { // in a different plugin?
+      if (!identity().equivalent(beanCl, dynamicBeanCl)) { // in a different plugin?
         loader = getMergedClassLoader(beanCl, dynamicBeanCl);
       }
     }
@@ -251,7 +253,7 @@ public class DynamicOptions implements AutoCloseable {
     String className = null;
     if (dynamicBean instanceof ClassNameProvider) {
       className = ((ClassNameProvider) dynamicBean).getClassName();
-    } else if (loader != beanCl) { // in a different plugin?
+    } else if (!identity().equivalent(loader, beanCl)) { // in a different plugin?
       className = dynamicBean.getClass().getCanonicalName();
     }
 

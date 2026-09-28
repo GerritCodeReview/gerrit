@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git.receive;
 
+import static com.google.common.base.Equivalence.identity;
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
@@ -3349,7 +3350,7 @@ class ReceiveCommits {
       if (magicBranch != null && magicBranch.cmd.getResult() != NOT_ATTEMPTED) {
         // Cancel creations tied to refs/for/ command.
         for (ReplaceRequest req : replaceByChange.values()) {
-          if (req.inputCommand == magicBranch.cmd && req.cmd != null) {
+          if (identity().equivalent(req.inputCommand, magicBranch.cmd) && req.cmd != null) {
             req.cmd.setResult(ReceiveCommand.Result.REJECTED_OTHER_REASON, "aborted");
           }
         }

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.sshd;
 
+import static com.google.common.base.Equivalence.identity;
 import static com.google.gerrit.server.ssh.SshAddressesModule.IANA_SSH_PORT;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.apache.sshd.core.CoreModuleProperties.AUTH_TIMEOUT;
@@ -409,7 +410,8 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   private void shutdownServiceFactoryExecutor(AbstractIoServiceFactory ioServiceFactory) {
     ioServiceFactory.close(true);
     ExecutorService serviceFactoryExecutor = ioServiceFactory.getExecutorService();
-    if (serviceFactoryExecutor != null && serviceFactoryExecutor != executor) {
+    if (serviceFactoryExecutor != null
+        && !identity().equivalent(serviceFactoryExecutor, executor)) {
       serviceFactoryExecutor.shutdownNow();
     }
   }

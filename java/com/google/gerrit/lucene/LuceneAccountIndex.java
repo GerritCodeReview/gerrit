@@ -14,6 +14,7 @@
 
 package com.google.gerrit.lucene;
 
+import static com.google.common.base.Equivalence.identity;
 import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.gerrit.server.index.account.AccountField.FULL_NAME_SPEC;
 import static com.google.gerrit.server.index.account.AccountField.ID_FIELD_SPEC;
@@ -121,16 +122,16 @@ public class LuceneAccountIndex extends AbstractLuceneIndex<Account.Id, AccountS
   void add(Document doc, Values<AccountState> values) {
     // Add separate DocValues fields for those fields needed for sorting.
     SchemaField<AccountState, ?> f = values.getField();
-    if (f == ID_FIELD_SPEC) {
+    if (identity().equivalent(f, ID_FIELD_SPEC)) {
       int v = (Integer) getOnlyElement(values.getValues());
       doc.add(new NumericDocValuesField(ID_SORT_FIELD, v));
-    } else if (f == ID_STR_FIELD_SPEC) {
+    } else if (identity().equivalent(f, ID_STR_FIELD_SPEC)) {
       String v = (String) getOnlyElement(values.getValues());
       doc.add(new NumericDocValuesField(ID2_SORT_FIELD, Integer.valueOf(v)));
-    } else if (f == FULL_NAME_SPEC) {
+    } else if (identity().equivalent(f, FULL_NAME_SPEC)) {
       String value = (String) getOnlyElement(values.getValues());
       doc.add(new SortedDocValuesField(FULL_NAME_SORT_FIELD, new BytesRef(value)));
-    } else if (f == PREFERRED_EMAIL_EXACT_SPEC) {
+    } else if (identity().equivalent(f, PREFERRED_EMAIL_EXACT_SPEC)) {
       String value = (String) getOnlyElement(values.getValues());
       doc.add(new SortedDocValuesField(EMAIL_SORT_FIELD, new BytesRef(value)));
     }

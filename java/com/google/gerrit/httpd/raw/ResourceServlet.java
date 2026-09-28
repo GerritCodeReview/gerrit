@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd.raw;
 
+import static com.google.common.base.Equivalence.identity;
 import static com.google.common.net.HttpHeaders.CONTENT_ENCODING;
 import static com.google.common.net.HttpHeaders.ETAG;
 import static com.google.common.net.HttpHeaders.IF_MODIFIED_SINCE;
@@ -194,7 +195,7 @@ public abstract class ResourceServlet extends HttpServlet {
       rsp.setStatus(SC_INTERNAL_SERVER_ERROR);
       return;
     }
-    if (r == Resource.NOT_FOUND) {
+    if (identity().equivalent(r, Resource.NOT_FOUND)) {
       notFound(rsp); // Cached not found response.
       return;
     }
@@ -341,7 +342,7 @@ public abstract class ResourceServlet extends HttpServlet {
       try {
         t = rs.getLastModifiedTime(p);
       } catch (NoSuchFileException e) {
-        return this != NOT_FOUND;
+        return !identity().equivalent(this, NOT_FOUND);
       }
       return t.toMillis() == 0 || lastModified.toMillis() == 0 || !lastModified.equals(t);
     }

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git.receive;
 
+import static com.google.common.base.Equivalence.identity;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.quota.QuotaGroupDefinitions.REPOSITORY_SIZE_GROUP;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
@@ -413,7 +414,9 @@ public class AsyncReceiveCommits {
    */
   public PreReceiveHook asHook() {
     return (rp, commands) -> {
-      checkState(receivePack == rp, "can't perform PreReceive for a different receive pack");
+      checkState(
+          identity().equivalent(receivePack, rp),
+          "can't perform PreReceive for a different receive pack");
       long startNanos = System.nanoTime();
       ReceiveCommitsResult result;
       try {

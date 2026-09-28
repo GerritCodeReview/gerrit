@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.notedb;
 
+import static com.google.common.base.Equivalence.identity;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 import static org.eclipse.jgit.util.ChangeIdUtil.indexOfFirstFooterLine;
@@ -243,7 +244,7 @@ public abstract class AbstractChangeUpdate {
       return null;
     }
 
-    checkArgument(rw.getObjectReader().getCreatedFromInserter() == ins);
+    checkArgument(identity().equivalent(rw.getObjectReader().getCreatedFromInserter(), ins));
 
     logger.atFinest().log(
         "%s for change %s of project %s in %s (NoteDb)",
@@ -254,7 +255,7 @@ public abstract class AbstractChangeUpdate {
     if (cb == null) {
       result = z;
       return z; // Impl intends to delete the ref.
-    } else if (cb == NO_OP_UPDATE) {
+    } else if (identity().equivalent(cb, NO_OP_UPDATE)) {
       return null; // Impl is a no-op.
     }
 

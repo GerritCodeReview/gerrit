@@ -14,6 +14,7 @@
 
 package com.google.gerrit.index;
 
+import static com.google.common.base.Equivalence.identity;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
@@ -145,7 +146,8 @@ public class Schema<T> {
 
   @CanIgnoreReturnValue
   private static <T> SchemaField<T, ?> checkSame(SchemaField<T, ?> f1, SchemaField<T, ?> f2) {
-    checkState(f1 == f2, "Mismatched %s fields: %s != %s", f1.getName(), f1, f2);
+    checkState(
+        identity().equivalent(f1, f2), "Mismatched %s fields: %s != %s", f1.getName(), f1, f2);
     return f1;
   }
 

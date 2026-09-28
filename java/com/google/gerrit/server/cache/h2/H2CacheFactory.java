@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.cache.h2;
 
+import static com.google.common.base.Equivalence.identity;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.base.Strings;
@@ -141,7 +142,7 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
                   TimeUnit.MILLISECONDS);
         }
       }
-      if (se != executor) {
+      if (!identity().equivalent(se, executor)) {
         se.shutdown();
       }
     }

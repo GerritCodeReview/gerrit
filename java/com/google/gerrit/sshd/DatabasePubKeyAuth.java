@@ -14,6 +14,7 @@
 
 package com.google.gerrit.sshd;
 
+import static com.google.common.base.Equivalence.identity;
 import static com.google.common.base.Preconditions.checkState;
 import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -128,9 +129,9 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
     SshKeyCacheEntry key = find(keyList, suppliedKey);
     if (key == null) {
       String err;
-      if (keyList == SshKeyCacheImpl.NO_SUCH_USER) {
+      if (identity().equivalent(keyList, SshKeyCacheImpl.NO_SUCH_USER)) {
         err = "user-not-found";
-      } else if (keyList == SshKeyCacheImpl.NO_KEYS) {
+      } else if (identity().equivalent(keyList, SshKeyCacheImpl.NO_KEYS)) {
         err = "key-list-empty";
       } else {
         err = "no-matching-key";

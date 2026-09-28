@@ -133,7 +133,7 @@ public class ListDashboards implements RestReadView<ProjectResource> {
       tw.addTree(rw.parseTree(ref.getObjectId()));
       tw.setRecursive(true);
       while (tw.next()) {
-        if (tw.getFileMode(0) == FileMode.REGULAR_FILE) {
+        if (FileMode.REGULAR_FILE.equals(tw.getRawMode(0))) {
           try {
             list.add(
                 DashboardsCollection.parse(

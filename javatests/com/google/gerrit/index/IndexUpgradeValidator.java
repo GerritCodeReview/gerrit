@@ -14,6 +14,7 @@
 
 package com.google.gerrit.index;
 
+import static com.google.common.base.Equivalence.identity;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.truth.Truth.assertWithMessage;
 
@@ -53,7 +54,11 @@ public class IndexUpgradeValidator {
         .isTrue();
     ImmutableList<String> modifiedFields =
         keptFields.stream()
-            .filter(fieldName -> previousSchemaFields.get(fieldName) != schemaFields.get(fieldName))
+            .filter(
+                fieldName ->
+                    !identity()
+                        .equivalent(
+                            previousSchemaFields.get(fieldName), schemaFields.get(fieldName)))
             .collect(toImmutableList());
     assertWithMessage("Fields may not be modified (create a new field instead)")
         .that(modifiedFields)

@@ -114,11 +114,11 @@ public class FileContentUtil {
 
         org.eclipse.jgit.lib.FileMode mode = tw.getFileMode(0);
         ObjectId id = tw.getObjectId(0);
-        if (mode == org.eclipse.jgit.lib.FileMode.GITLINK) {
+        if (org.eclipse.jgit.lib.FileMode.GITLINK.equals(mode.getBits())) {
           return BinaryResult.create(id.name()).setContentType(X_GIT_GITLINK).base64();
         }
 
-        if (mode == org.eclipse.jgit.lib.FileMode.TREE) {
+        if (org.eclipse.jgit.lib.FileMode.TREE.equals(mode.getBits())) {
           throw new BadRequestException("cannot retrieve content of directories");
         }
 
@@ -132,7 +132,7 @@ public class FileContentUtil {
         }
 
         String type;
-        if (mode == org.eclipse.jgit.lib.FileMode.SYMLINK) {
+        if (org.eclipse.jgit.lib.FileMode.SYMLINK.equals(mode.getBits())) {
           type = X_GIT_SYMLINK;
         } else {
           type = registry.getMimeType(path, raw).toString();

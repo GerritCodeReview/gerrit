@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git;
 
+import static com.google.common.base.Equivalence.identity;
 import static java.util.stream.Collectors.toList;
 
 import com.google.gerrit.common.Nullable;
@@ -90,7 +91,7 @@ public class TagSetHolder {
   private TagSet rebuild(TagCache cache, Repository db, TagSet old, TagMatcher m) {
     synchronized (buildLock) {
       TagSet cur = this.tags;
-      if (cur == old) {
+      if (identity().equivalent(cur, old)) {
         cur = new TagSet(projectName);
         cur.build(db, old, m);
         this.tags = cur;

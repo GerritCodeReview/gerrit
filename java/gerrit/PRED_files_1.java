@@ -100,7 +100,7 @@ public class PRED_files_1 extends Predicate.P1 {
       treeWalk.setFilter(PathFilterGroup.createFromStrings(allPaths));
 
       while (treeWalk.next()) {
-        if (treeWalk.getFileMode() == FileMode.GITLINK) {
+        if (FileMode.GITLINK.equals(treeWalk.getRawMode(0))) {
           submodules.add(treeWalk.getPathString());
         }
       }

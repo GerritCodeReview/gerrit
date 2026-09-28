@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.plugins;
 
+import static com.google.common.base.Equivalence.identity;
+
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Joiner;
 import com.google.common.base.MoreObjects;
@@ -393,7 +395,7 @@ public class PluginLoader implements LifecycleListener {
           logger.atInfo().log("Reloading plugin %s", name);
           Plugin newPlugin = runPlugin(name, active.getSrcFile(), active);
 
-          if (newPlugin != active) {
+          if (!identity().equivalent(newPlugin, active)) {
             logger.atInfo().log(
                 "Reloaded plugin %s%s, version %s",
                 newPlugin.getName(),

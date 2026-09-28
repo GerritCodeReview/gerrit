@@ -424,20 +424,19 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
     if (patch.id().get() > 1) {
       try {
         Collection<PatchSet> patchSetCollection = change.patchSets();
-        PatchSet priorPs = patch;
+        PatchSet priorPs = null;
         for (PatchSet ps : patchSetCollection) {
           if (ps.id().get() < patch.id().get()
-              && (ps.id().get() > priorPs.id().get() || priorPs == patch)) {
+              && (priorPs == null || ps.id().get() > priorPs.id().get())) {
             // We only want the previous patch set, so walk until the last one
             priorPs = ps;
           }
         }
 
-        // If we still think the previous patch is the current patch,
-        // we only have one patch set.  Return the default.
+        // If there is no previous patch set, return the default.
         // This can happen if a user creates a draft, uploads a second patch,
         // and deletes the draft.
-        if (priorPs != patch) {
+        if (priorPs != null) {
           kind =
               cache.getChangeKind(
                   change.project(),

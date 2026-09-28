@@ -18,7 +18,7 @@ import com.google.common.collect.ImmutableList;
 import java.sql.Timestamp;
 
 /** Document field types supported by the secondary index system. */
-public class FieldType<T> {
+public final class FieldType<T> {
   /** A single integer-valued field. */
   public static final FieldType<Integer> INTEGER = new FieldType<>("INTEGER");
 

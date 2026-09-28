@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.update.context;
 
+import static com.google.common.base.Equivalence.identity;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
@@ -191,7 +192,7 @@ public class RefUpdateContext implements AutoCloseable {
   public void addCustomData(Object data) {
     // Store the data in the top-level context only.
     RefUpdateContext currentContext = current.get().getFirst();
-    if (this != currentContext) {
+    if (!identity().equivalent(this, currentContext)) {
       currentContext.addCustomData(data);
       return;
     }
@@ -213,7 +214,7 @@ public class RefUpdateContext implements AutoCloseable {
   public <T> ImmutableList<T> getCustomData(Class<T> clazz) {
     // The data is available in the top-level context only.
     RefUpdateContext currentContext = current.get().getFirst();
-    if (this != currentContext) {
+    if (!identity().equivalent(this, currentContext)) {
       return currentContext.getCustomData(clazz);
     }
 
@@ -237,7 +238,7 @@ public class RefUpdateContext implements AutoCloseable {
   public <T> void clearCustomData(Class<T> clazz) {
     // The data is available in the top-level context only.
     RefUpdateContext currentContext = current.get().getFirst();
-    if (this != currentContext) {
+    if (!identity().equivalent(this, currentContext)) {
       currentContext.clearCustomData(clazz);
       return;
     }
@@ -269,7 +270,8 @@ public class RefUpdateContext implements AutoCloseable {
   public void close() {
     Deque<RefUpdateContext> openedContexts = getCurrent();
     checkState(
-        openedContexts.peekLast() == this, "The current context is different from this context.");
+        identity().equivalent(openedContexts.peekLast(), this),
+        "The current context is different from this context.");
     openedContexts.removeLast();
   }
 }

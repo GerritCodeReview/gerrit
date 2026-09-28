@@ -14,6 +14,7 @@
 
 package com.google.gerrit.extensions.registration;
 
+import static com.google.common.base.Equivalence.identity;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.common.collect.ImmutableSortedSet.toImmutableSortedSet;
 import static java.util.Comparator.naturalOrder;
@@ -220,7 +221,7 @@ public class DynamicSet<T> implements Iterable<T> {
     Iterator<T> iterator = iterator();
     while (iterator.hasNext()) {
       T candidate = iterator.next();
-      if (candidate == item) {
+      if (identity().equivalent(candidate, item)) {
         return true;
       }
     }

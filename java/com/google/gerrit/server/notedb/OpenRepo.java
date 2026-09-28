@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.notedb;
 
+import static com.google.common.base.Equivalence.identity;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 import static java.util.Objects.requireNonNull;
@@ -82,7 +83,7 @@ class OpenRepo implements AutoCloseable {
       boolean close) {
     ObjectReader reader = rw.getObjectReader();
     checkArgument(
-        ins == null || reader.getCreatedFromInserter() == ins,
+        ins == null || identity().equivalent(reader.getCreatedFromInserter(), ins),
         "expected reader to be created from %s, but was %s",
         ins,
         reader.getCreatedFromInserter());

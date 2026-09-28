@@ -464,8 +464,8 @@ public class PostReviewOp implements BatchUpdateOp {
           comment.unresolved = inputComment.unresolved;
         }
 
+        commentsUtil.setLocationFromInputAndParent(comment, inputComment, ctx.getNotes());
         commentsUtil.setCommentCommitId(comment, ctx.getChange(), ps);
-        comment.setLineNbrAndRange(inputComment.line, inputComment.range);
         comment.tag = in.tag;
         comment.isAi = inputComment.isAi;
 

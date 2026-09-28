@@ -345,7 +345,7 @@ public class JettyServer {
       HttpConfiguration config = defaultConfig(requestHeaderSize);
 
       // Jetty 12 changed the default UriCompliance to RFC3986 (strict),
-      // which rejects two URI shapes Gerrit's REST API depends on:
+      // which rejects three URI shapes Gerrit's UI/REST depend on:
       //   - AMBIGUOUS_PATH_SEPARATOR: encoded '/' (%2F) inside a path
       //     segment, used for project/branch names (e.g.
       //     DELETE /projects/foo%2Fbar/branches/refs%2Fheads%2Ftest);
@@ -353,14 +353,20 @@ public class JettyServer {
       //     decodes to a reserved one (e.g. %25 decoding to '%'),
       //     hit by /changes/%3C%25%3DFOO%25%3E~1/detail where the
       //     decoded identifier '<%=FOO%>' contains a literal '%'.
-      // Allow exactly these two violations; broader presets like LEGACY
-      // also permit suspicious characters, USER_INFO, FRAGMENT etc. that
-      // Gerrit's REST surface does not need.
+      //   - AMBIGUOUS_EMPTY_SEGMENT: an empty path segment ('//'), which
+      //     PolyGerrit emits for the magic commit-message/merge-list files
+      //     (e.g. /c/p/+/1/1//COMMIT_MSG). Jetty 9 tolerated this; 3.14
+      //     regressed to 400 "Ambiguous URI empty segment" when such a URL
+      //     is opened directly.
+      // Allow exactly these violations; broader presets like LEGACY also
+      // permit suspicious characters, USER_INFO, FRAGMENT etc. that Gerrit's
+      // REST surface does not need.
       config.setUriCompliance(
           UriCompliance.from(
               EnumSet.of(
                   UriCompliance.Violation.AMBIGUOUS_PATH_SEPARATOR,
-                  UriCompliance.Violation.AMBIGUOUS_PATH_ENCODING)));
+                  UriCompliance.Violation.AMBIGUOUS_PATH_ENCODING,
+                  UriCompliance.Violation.AMBIGUOUS_EMPTY_SEGMENT)));
 
       if (AuthType.CLIENT_SSL_CERT_LDAP.equals(authType) && !"https".equals(u.getScheme())) {
         throw new IllegalArgumentException(

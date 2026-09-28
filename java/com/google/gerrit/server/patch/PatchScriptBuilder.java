@@ -124,7 +124,7 @@ public class PatchScriptBuilder {
       throws IOException, ResourceConflictException, ResourceNotFoundException {
     SidesResolver sidesResolver = new SidesResolver(git, ComparisonType.againstOtherPatchSet());
     PatchSide a = resolveSideA(git, sidesResolver, fileName, baseId);
-    if (a.mode == FileMode.MISSING) {
+    if (FileMode.MISSING.equals(a.mode.getBits())) {
       throw new ResourceNotFoundException(String.format("File %s not found", fileName));
     }
     FixCalculator.FixResult fixResult = FixCalculator.calculateFix(a.src, fixReplacements, false);
@@ -400,7 +400,7 @@ public class PatchScriptBuilder {
         boolean reuse =
             other != null
                 && other.id.equals(id)
-                && (other.mode == mode || isBothFile(other.mode, mode));
+                && (other.mode.equals(mode.getBits()) || isBothFile(other.mode, mode));
         Text src = null;
         byte[] srcContent;
         if (reuse) {
@@ -415,7 +415,7 @@ public class PatchScriptBuilder {
           displayMethod = other.displayMethod;
           src = other.src;
 
-        } else if (srcContent.length > 0 && FileMode.SYMLINK != mode) {
+        } else if (srcContent.length > 0 && !FileMode.SYMLINK.equals(mode.getBits())) {
           MimeType registryMimeType = registry.getMimeType(path, srcContent);
           if ("image".equals(registryMimeType.getMediaType())
               && registry.isSafeInline(registryMimeType)) {
@@ -447,7 +447,7 @@ public class PatchScriptBuilder {
           src = new Text(srcContent);
         }
       }
-      if (mode == FileMode.MISSING) {
+      if (FileMode.MISSING.equals(mode.getBits())) {
         displayMethod = DisplayMethod.NONE;
       }
       PatchScript.FileMode fileMode = PatchScript.FileMode.fromJgitFileMode(mode);

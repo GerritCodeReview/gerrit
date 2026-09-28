@@ -288,7 +288,7 @@ class BranchCommitBuilder {
       if (tw == null) {
         throw new BadRequestException("path does not exist: " + path);
       }
-      if (tw.getFileMode(0) == FileMode.TREE) {
+      if (FileMode.TREE.equals(tw.getRawMode(0))) {
         throw new BadRequestException("path is a directory, not a file: " + path);
       }
     }

@@ -26,6 +26,7 @@ import static com.google.gerrit.truth.MapSubject.assertThatMap;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -1925,6 +1926,100 @@ public class CommentsIT extends AbstractDaemonTest {
 
     CommentInfo addedDraft = addDraft(changeId, revId1, replyDraft);
     assertThat(addedDraft.inReplyTo).isEqualTo(parentInfo.id);
+  }
+
+  @Test
+  public void replyWithOmittedLocationFieldsInheritsFromParentComment() throws Exception {
+    String path = "file1";
+    PushOneCommit.Result r = createMergeCommitChange("refs/for/master", path);
+    String changeId = r.getChangeId();
+    String revId = r.getCommit().getName();
+
+    Comment.Range parentRange = createRange(1, 0, 2, 4);
+    CommentInput lineParentInput =
+        CommentsUtil.newCommentOnParent(path, 2, 2, "parent on merge parent line");
+    lineParentInput.unresolved = true;
+    CommentInput rangeParentInput =
+        CommentsUtil.newComment(path, Side.REVISION, parentRange, "parent on range", true);
+    ReviewInput setupInput = new ReviewInput();
+    setupInput.comments =
+        ImmutableMap.of(path, ImmutableList.of(lineParentInput, rangeParentInput));
+    revision(r).review(setupInput);
+
+    List<CommentInfo> initialComments = getPublishedComments(changeId, revId).get(path);
+    assertThat(initialComments).hasSize(2);
+    CommentInfo lineParent =
+        initialComments.stream()
+            .filter(c -> c.message.equals("parent on merge parent line"))
+            .findFirst()
+            .orElseThrow();
+    CommentInfo rangeParent =
+        initialComments.stream()
+            .filter(c -> c.message.equals("parent on range"))
+            .findFirst()
+            .orElseThrow();
+
+    // Post ReviewInput replies omitting line, range, side, and parent.
+    CommentInput lineReplyInput = new CommentInput();
+    lineReplyInput.inReplyTo = lineParent.id;
+    lineReplyInput.message = "Done line.";
+    lineReplyInput.unresolved = false;
+
+    CommentInput rangeReplyInput = new CommentInput();
+    rangeReplyInput.inReplyTo = rangeParent.id;
+    rangeReplyInput.message = "Done range.";
+    rangeReplyInput.unresolved = false;
+
+    ReviewInput replyReview = new ReviewInput();
+    replyReview.comments = ImmutableMap.of(path, ImmutableList.of(lineReplyInput, rangeReplyInput));
+    revision(r).review(replyReview);
+
+    CommentInfo lineReply =
+        getPublishedComments(changeId, revId).get(path).stream()
+            .filter(c -> c.message.equals("Done line."))
+            .findFirst()
+            .orElseThrow();
+    assertThat(lineReply.inReplyTo).isEqualTo(lineParent.id);
+    assertThat(lineReply.line).isEqualTo(2);
+    assertThat(lineReply.side).isEqualTo(Side.PARENT);
+    assertThat(lineReply.parent).isEqualTo(2);
+    assertThat(lineReply.commitId).isEqualTo(lineParent.commitId);
+    assertThat(lineReply.unresolved).isFalse();
+
+    CommentInfo rangeReply =
+        getPublishedComments(changeId, revId).get(path).stream()
+            .filter(c -> c.message.equals("Done range."))
+            .findFirst()
+            .orElseThrow();
+    assertThat(rangeReply.inReplyTo).isEqualTo(rangeParent.id);
+    assertThat(rangeReply.line).isEqualTo(2);
+    assertThat(rangeReply.range).isEqualTo(parentRange);
+    assertThat(rangeReply.commitId).isEqualTo(rangeParent.commitId);
+    assertThat(rangeReply.unresolved).isFalse();
+
+    // Also verify draft creation and draft update with omitted location fields.
+    DraftInput draftReplyInput = new DraftInput();
+    draftReplyInput.path = path;
+    draftReplyInput.inReplyTo = lineParent.id;
+    draftReplyInput.message = "Draft reply";
+    CommentInfo createdDraft = addDraft(changeId, revId, draftReplyInput);
+    assertThat(createdDraft.inReplyTo).isEqualTo(lineParent.id);
+    assertThat(createdDraft.line).isEqualTo(2);
+    assertThat(createdDraft.side).isEqualTo(Side.PARENT);
+    assertThat(createdDraft.parent).isEqualTo(2);
+    assertThat(createdDraft.commitId).isEqualTo(lineParent.commitId);
+    assertThat(createdDraft.unresolved).isTrue();
+
+    DraftInput updateDraftInput = new DraftInput();
+    updateDraftInput.path = path;
+    updateDraftInput.message = "Updated draft reply";
+    updateDraft(changeId, revId, updateDraftInput, createdDraft.id);
+    CommentInfo updatedDraft = getDraftComment(changeId, revId, createdDraft.id);
+    assertThat(updatedDraft.inReplyTo).isEqualTo(lineParent.id);
+    assertThat(updatedDraft.line).isEqualTo(2);
+    assertThat(updatedDraft.side).isEqualTo(Side.PARENT);
+    assertThat(updatedDraft.parent).isEqualTo(2);
+    assertThat(updatedDraft.commitId).isEqualTo(lineParent.commitId);
   }
 
   @Test

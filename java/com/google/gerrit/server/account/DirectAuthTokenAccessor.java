@@ -19,6 +19,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.git.AllUsersRepository;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -28,6 +29,8 @@ import java.time.Instant;
 import java.util.Collection;
 import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Repository;
 
 /** Read/write authentication tokens by user ID. */
 @Singleton
@@ -36,6 +39,7 @@ public class DirectAuthTokenAccessor implements AuthTokenAccessor {
 
   private final AllUsersName allUsersName;
   private final VersionedAuthTokens.Factory authTokenFactory;
+  private final Provider<Repository> allUsersRepository;
   private final Provider<MetaDataUpdate.User> metaDataUpdateFactory;
   private final IdentifiedUser.GenericFactory userFactory;
 
@@ -43,10 +47,12 @@ public class DirectAuthTokenAccessor implements AuthTokenAccessor {
   DirectAuthTokenAccessor(
       AllUsersName allUsersName,
       VersionedAuthTokens.Factory authTokenFactory,
+      @AllUsersRepository Provider<Repository> allUsersRepository,
       Provider<MetaDataUpdate.User> metaDataUpdateFactory,
       IdentifiedUser.GenericFactory userFactory) {
     this.allUsersName = allUsersName;
     this.authTokenFactory = authTokenFactory;
+    this.allUsersRepository = allUsersRepository;
     this.metaDataUpdateFactory = metaDataUpdateFactory;
     this.userFactory = userFactory;
   }
@@ -61,6 +67,13 @@ public class DirectAuthTokenAccessor implements AuthTokenAccessor {
   public ImmutableList<AuthToken> getTokens(Account.Id accountId)
       throws IOException, ConfigInvalidException {
     return readFromNoteDb(accountId).getTokens();
+  }
+
+  ImmutableList<AuthToken> getTokens(Account.Id accountId, ObjectId revision)
+      throws IOException, ConfigInvalidException {
+    VersionedAuthTokens tokens = authTokenFactory.create(accountId);
+    tokens.load(allUsersName, allUsersRepository.get(), revision);
+    return tokens.getTokens();
   }
 
   @Override

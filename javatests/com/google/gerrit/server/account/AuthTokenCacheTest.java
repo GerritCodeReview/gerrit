@@ -15,10 +15,19 @@
 package com.google.gerrit.server.account;
 
 import static com.google.common.truth.Truth.assertThat;
-import static org.mockito.Mockito.doReturn;
 
-import com.google.common.collect.ImmutableList;
+import com.google.common.cache.CacheBuilder;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.config.AllUsersNameProvider;
+import com.google.gerrit.server.config.AuthConfig;
+import com.google.gerrit.testing.InMemoryRepositoryManager;
+import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ObjectId;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,23 +37,75 @@ import org.mockito.junit.MockitoJUnitRunner;
 @RunWith(MockitoJUnitRunner.class)
 public class AuthTokenCacheTest {
   private static final Account.Id ACCOUNT_ID = Account.id(1);
+  private static final AllUsersName ALL_USERS = new AllUsersName(AllUsersNameProvider.DEFAULT);
+  private static final String USER_REF = RefNames.refsUsers(ACCOUNT_ID);
   private static final String PWD = "secret";
 
+  private TestRepository<InMemoryRepositoryManager.Repo> repo;
   private AuthTokenCache.Loader cacheLoader;
+  private AuthTokenCache cache;
 
-  @Mock private DirectAuthTokenAccessor tokenAccessor;
+  @Mock private AuthConfig authConfig;
 
   @Before
   public void setUp() throws Exception {
-    doReturn(ImmutableList.of(AuthToken.createWithPlainToken("token", PWD)))
-        .when(tokenAccessor)
-        .getTokens(ACCOUNT_ID);
-    cacheLoader = new AuthTokenCache.Loader(tokenAccessor);
+    InMemoryRepositoryManager repoManager = new InMemoryRepositoryManager();
+    repo = new TestRepository<>(repoManager.createRepository(ALL_USERS));
+    cacheLoader =
+        new AuthTokenCache.Loader(
+            repoManager,
+            ALL_USERS,
+            accountId -> new VersionedAuthTokens(repoManager, ALL_USERS, authConfig, accountId));
+    cache =
+        new AuthTokenCache(CacheBuilder.newBuilder().build(cacheLoader), repoManager, ALL_USERS);
+  }
+
+  @After
+  public void tearDown() {
+    repo.close();
   }
 
   @Test
   public void loadTokenFromAccount() throws Exception {
-    ImmutableList<AuthToken> tokens = cacheLoader.load(ACCOUNT_ID);
-    assertThat(HashedPassword.decode(tokens.get(0).hashedToken()).checkPassword(PWD)).isTrue();
+    AuthToken token = AuthToken.createWithPlainToken("token", PWD);
+    ObjectId revision = writeTokens(token);
+    writeTokens();
+
+    assertThat(cacheLoader.load(new AuthTokenCache.Key(ACCOUNT_ID, revision)))
+        .containsExactly(token);
+  }
+
+  @Test
+  public void seesTokenAddedAfterCachingEmptyList() throws Exception {
+    writeTokens();
+    assertThat(cache.get(ACCOUNT_ID)).isEmpty();
+
+    AuthToken token = AuthToken.createWithPlainToken("token", PWD);
+    writeTokens(token);
+
+    assertThat(cache.get(ACCOUNT_ID)).containsExactly(token);
+  }
+
+  @Test
+  public void rejectsTokenDeletedInGit() throws Exception {
+    writeTokens(AuthToken.createWithPlainToken("token", PWD));
+    AuthTokenVerifier verifier = new AuthTokenVerifier(new CachingAuthTokenAccessor(cache, null));
+    assertThat(verifier.checkToken(ACCOUNT_ID, PWD)).isTrue();
+
+    writeTokens();
+
+    assertThat(verifier.checkToken(ACCOUNT_ID, PWD)).isFalse();
+  }
+
+  @CanIgnoreReturnValue
+  private ObjectId writeTokens(AuthToken... tokens) throws Exception {
+    Config config = new Config();
+    for (AuthToken token : tokens) {
+      config.setString("token", token.id(), "hash", token.hashedToken());
+    }
+    return repo.branch(USER_REF)
+        .commit()
+        .add(VersionedAuthTokens.FILE_NAME, config.toText())
+        .create();
   }
 }

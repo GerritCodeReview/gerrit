@@ -46,7 +46,6 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.flogger.FluentLogger;
-import com.google.common.io.BaseEncoding;
 import com.google.common.io.CountingOutputStream;
 import com.google.common.math.IntMath;
 import com.google.common.net.HttpHeaders;
@@ -148,6 +147,7 @@ import com.google.inject.Provider;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 import com.google.inject.util.Providers;
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.EOFException;
@@ -164,6 +164,7 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -1414,16 +1415,7 @@ public class RestApiServlet extends HttpServlet {
           new BinaryResult() {
             @Override
             public void writeTo(OutputStream out) throws IOException {
-              try (OutputStreamWriter w =
-                      new OutputStreamWriter(
-                          new FilterOutputStream(out) {
-                            @Override
-                            public void close() {
-                              // Do not close out, but only w and e.
-                            }
-                          },
-                          ISO_8859_1);
-                  OutputStream e = BaseEncoding.base64().encodingStream(w)) {
+              try (OutputStream e = base64EncodingStream(out)) {
                 src.writeTo(e);
               }
             }
@@ -1854,11 +1846,36 @@ public class RestApiServlet extends HttpServlet {
     int maxSize = base64MaxSize(bin.getContentLength());
     int estSize = Math.min(base64MaxSize(HEAP_EST_SIZE), maxSize);
     TemporaryBuffer.Heap buf = heap(estSize, maxSize);
-    try (OutputStream encoded =
-        BaseEncoding.base64().encodingStream(new OutputStreamWriter(buf, ISO_8859_1))) {
+    try (OutputStream encoded = base64EncodingStream(buf)) {
       bin.writeTo(encoded);
     }
     return asBinaryResult(buf);
+  }
+
+  /**
+   * Returns a stream that writes the base64 encoding of its input to {@code out}.
+   *
+   * <p>Closing the returned stream writes the final padding and flushes {@code out}, but does not
+   * close it.
+   *
+   * <p>This deliberately does not use Guava's {@code BaseEncoding#encodingStream(Writer)}: that
+   * writes every encoded character individually to the {@link Writer}, and an {@link
+   * OutputStreamWriter} allocates a new buffer for each of those writes.
+   */
+  private static OutputStream base64EncodingStream(OutputStream out) {
+    OutputStream nonClosing =
+        new FilterOutputStream(out) {
+          @Override
+          public void write(byte[] b, int off, int len) throws IOException {
+            out.write(b, off, len);
+          }
+
+          @Override
+          public void close() throws IOException {
+            flush();
+          }
+        };
+    return new BufferedOutputStream(Base64.getEncoder().wrap(nonClosing));
   }
 
   private static BinaryResult compress(BinaryResult bin) throws IOException {

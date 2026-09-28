@@ -16,6 +16,24 @@
       "message": "Are you able to link a before and after screenshot please? I suppose showing it with desktop + mobile.",
       "revId": "43ec3483ea0406e7658ec4bd527c126f043fd37d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "45cfd342_54c842b5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5190096
+      },
+      "writtenOn": "2026-09-28T12:42:47Z",
+      "side": 1,
+      "message": "See https://photos.app.goo.gl/sSdKvbAfGdLCtCtW9 for screenshots of desktop and mobile before and after this patch and the one for the WM install",
+      "parentUuid": "85c19680_9394591a",
+      "revId": "43ec3483ea0406e7658ec4bd527c126f043fd37d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

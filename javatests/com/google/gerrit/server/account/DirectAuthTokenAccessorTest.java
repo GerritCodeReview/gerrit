@@ -44,7 +44,7 @@ public class DirectAuthTokenAccessorTest {
     tokenAccessor =
         new HttpPasswordFallbackAuthTokenAccessor(
             accountCache,
-            new DirectAuthTokenAccessor(null, authTokenFactory, null, null),
+            new DirectAuthTokenAccessor(null, authTokenFactory, null, null, null),
             null,
             null,
             null,

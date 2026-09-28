@@ -975,6 +975,24 @@ suite('gr-router tests', () => {
           });
         });
 
+        test('DIFF commit message magic path', async () => {
+          // New single-slash form: no '//' empty segment, restored to
+          // '/COMMIT_MSG' on parse so it matches SpecialFilePath.
+          await checkUrlToState('/c/test-project/+/42/4..7/COMMIT_MSG', {
+            ...createDiffViewState(),
+            basePatchNum: 4 as BasePatchSetNum,
+            patchNum: 7 as RevisionPatchSetNum,
+            diffView: {path: '/COMMIT_MSG'},
+          });
+          // Legacy '//' URLs still parse to the same magic path.
+          await checkUrlToState('/c/test-project/+/42/4..7//COMMIT_MSG', {
+            ...createDiffViewState(),
+            basePatchNum: 4 as BasePatchSetNum,
+            patchNum: 7 as RevisionPatchSetNum,
+            diffView: {path: '/COMMIT_MSG'},
+          });
+        });
+
         test('COMMENT base..1', async () => {
           const change: ParsedChangeInfo = createParsedChange();
           const repo = change.project;
@@ -1053,6 +1071,16 @@ suite('gr-router tests', () => {
           childView: ChangeChildView.EDIT,
           patchNum: 3 as RevisionPatchSetNum,
           editView: {path: 'foo/bar/baz', lineNum: 4},
+        });
+        // Commit message magic path: single slash in URL, restored on parse.
+        await checkUrlToState('/c/foo/bar/+/1234/3/COMMIT_MSG,edit', {
+          ...createEditViewState(),
+          repo: 'foo/bar' as RepoName,
+          changeNum: 1234 as NumericChangeId,
+          view: GerritView.CHANGE,
+          childView: ChangeChildView.EDIT,
+          patchNum: 3 as RevisionPatchSetNum,
+          editView: {path: '/COMMIT_MSG', lineNum: 0},
         });
       });
 

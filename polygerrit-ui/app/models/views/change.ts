@@ -28,6 +28,7 @@ import {define} from '../dependency';
 import {Model} from '../base/model';
 import {ViewState} from './base';
 import {isNumber} from '../../utils/patch-set-util';
+import {isMagicPath} from '../../utils/path-list-util';
 
 export enum ChangeChildView {
   OVERVIEW = 'OVERVIEW',
@@ -236,7 +237,13 @@ export function createDiffUrl(
     childView: ChangeChildView.DIFF,
   });
 
-  let path = `/${encodeURL(state.diffView?.path ?? '')}`;
+  // Magic paths (COMMIT_MSG, MERGE_LIST) carry a leading slash; drop it so the
+  // URL has a single separator, not '//', which Jetty rejects with "Ambiguous
+  // URI empty segment". handleDiffRoute() restores the slash when parsing.
+  const filePath = state.diffView?.path ?? '';
+  let path = `/${encodeURL(
+    isMagicPath(filePath) ? filePath.slice(1) : filePath
+  )}`;
   // TODO: Move creating of comment URLs to a separate function. We are
   // "abusing" the `commentId` property, which should only be used for pointing
   // to comment in the COMMENTS tab of the OVERVIEW page.
@@ -278,7 +285,11 @@ export function createEditUrl(
     patchNum: obj.patchNum ?? EDIT,
   });
 
-  const path = `/${encodeURL(state.editView?.path ?? '')}`;
+  // See createDiffUrl(): strip the magic-path leading slash to avoid '//'.
+  const editPath = state.editView?.path ?? '';
+  const path = `/${encodeURL(
+    isMagicPath(editPath) ? editPath.slice(1) : editPath
+  )}`;
   const line = state.editView?.lineNum;
   const suffix = line ? `#${line}` : '';
 

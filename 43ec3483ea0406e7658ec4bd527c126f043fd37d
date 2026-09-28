@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "85c19680_9394591a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-09-28T11:22:29Z",
+      "side": 1,
+      "message": "Are you able to link a before and after screenshot please? I suppose showing it with desktop + mobile.",
+      "revId": "43ec3483ea0406e7658ec4bd527c126f043fd37d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

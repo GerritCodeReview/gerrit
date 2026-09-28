@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0c71d05f_211f8774",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 3604707
+      },
+      "writtenOn": "2026-09-28T22:49:28Z",
+      "side": 1,
+      "message": "It might make sense to bind the jgit lock manager as a default implementation?",
+      "revId": "a4c491dcc8cfd5500782d0fe01fd843fad203d8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a70bbf94_9fc38e71",
         "filename": "java/com/google/gerrit/server/schema/H2PluginLockAccountPatchReviewStore.java",
         "patchSetId": 7

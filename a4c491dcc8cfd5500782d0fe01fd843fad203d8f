@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b1773d3_fe79d0df",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-09-28T23:23:33Z",
+      "side": 1,
+      "message": "we cannot assume they are probably on a shared-disk mp setup.",
+      "parentUuid": "0c71d05f_211f8774",
+      "revId": "a4c491dcc8cfd5500782d0fe01fd843fad203d8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a70bbf94_9fc38e71",

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7bff9feb_22ccebbd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-09-28T01:26:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b953d74_4841d9be",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 34
+      },
+      "revId": "801df05fd9f1ef0780b81ece8e1718d69a27374d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "31e3bb6c_50acc68a",
@@ -37,6 +61,24 @@
       "writtenOn": "2026-09-22T00:15:26Z",
       "side": 1,
       "message": "The batching logic in H2CustomLockAccountPatchReviewStore can cause a lock to be released by a thread different from the one that acquired it. We should update the docs to highlight that plugin implementers must support cross-thread lock releases.",
+      "revId": "801df05fd9f1ef0780b81ece8e1718d69a27374d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e192048a_4a6e8a35",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-09-28T01:26:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "31e3bb6c_50acc68a",
       "revId": "801df05fd9f1ef0780b81ece8e1718d69a27374d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

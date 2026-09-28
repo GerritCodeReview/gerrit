@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.account;
 
+import static com.google.common.base.Equivalence.identity;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.PROJECT_OWNERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
@@ -121,7 +122,7 @@ public class UniversalGroupBackendTest {
               public GroupMembership answer(InvocationOnMock invocation) {
                 GroupMembership membership = mock(GroupMembership.class);
                 when(membership.contains(eq(handled)))
-                    .thenReturn(invocation.getArguments()[0] == member);
+                    .thenReturn(identity().equivalent(invocation.getArguments()[0], member));
                 when(membership.contains(eq(notHandled))).thenReturn(false);
                 return membership;
               }

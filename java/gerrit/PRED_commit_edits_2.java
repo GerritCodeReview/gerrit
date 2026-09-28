@@ -14,6 +14,8 @@
 
 package gerrit;
 
+import static com.google.common.base.Equivalence.identity;
+
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Patch;
@@ -113,13 +115,13 @@ public class PRED_commit_edits_2 extends Predicate.P2 {
           }
           Text tB = load(bTree, newName, reader);
           for (Edit edit : edits) {
-            if (tA != Text.EMPTY) {
+            if (!identity().equivalent(tA, Text.EMPTY)) {
               String aDiff = tA.getString(edit.getBeginA(), edit.getEndA(), true);
               if (editRegex.matcher(aDiff).find()) {
                 return cont;
               }
             }
-            if (tB != Text.EMPTY) {
+            if (!identity().equivalent(tB, Text.EMPTY)) {
               String bDiff = tB.getString(edit.getBeginB(), edit.getEndB(), true);
               if (editRegex.matcher(bDiff).find()) {
                 return cont;

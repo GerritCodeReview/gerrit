@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance.server.util;
 
+import static com.google.common.base.Equivalence.identity;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -142,7 +143,7 @@ public class TaskListenerIT extends AbstractDaemonTest {
 
     protected boolean isDelegatable(Task<?> task) {
       if (delegate != null) {
-        if (this.task == task) {
+        if (identity().equivalent(this.task, task)) {
           return true;
         }
         if (this.task == null) {

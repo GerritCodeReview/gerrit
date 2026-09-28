@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd;
 
+import static com.google.common.base.Equivalence.identity;
 import static org.eclipse.jgit.http.server.GitSmartHttpTools.sendError;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -633,7 +634,7 @@ public class GitOverHttpServlet extends GitServlet {
                 responseWrapper));
       }
 
-      if (canUpload != Capable.OK) {
+      if (!identity().equivalent(canUpload, Capable.OK)) {
         GitSmartHttpTools.sendError(
             httpRequest,
             responseWrapper,

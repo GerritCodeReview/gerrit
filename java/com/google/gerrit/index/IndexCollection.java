@@ -14,6 +14,8 @@
 
 package com.google.gerrit.index;
 
+import static com.google.common.base.Equivalence.identity;
+
 import com.google.common.annotations.VisibleForTesting;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.extensions.events.LifecycleListener;
@@ -44,7 +46,10 @@ public abstract class IndexCollection<K, V, I extends Index<K, V>> implements Li
   @VisibleForTesting
   public void setSearchIndex(I index, boolean closeOld) {
     I old = searchIndex.getAndSet(index);
-    if (closeOld && old != null && old != index && !writeIndexes.contains(old)) {
+    if (closeOld
+        && old != null
+        && !identity().equivalent(old, index)
+        && !writeIndexes.contains(old)) {
       old.close();
     }
   }
@@ -101,7 +106,7 @@ public abstract class IndexCollection<K, V, I extends Index<K, V>> implements Li
       read.close();
     }
     for (I write : writeIndexes) {
-      if (write != read) {
+      if (!identity().equivalent(write, read)) {
         write.close();
       }
     }

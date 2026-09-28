@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server;
 
+import static com.google.common.base.Equivalence.identity;
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 
@@ -374,7 +375,7 @@ public class IdentifiedUser extends CurrentUser {
 
   @Override
   public boolean isImpersonated() {
-    if (realUser == this) {
+    if (identity().equivalent(realUser, this)) {
       return false;
     }
     if (realUser.isIdentifiedUser()) {
@@ -606,7 +607,7 @@ public class IdentifiedUser extends CurrentUser {
     // Note: Lazy-loaded caches (effectiveGroups, validEmails, invalidEmails) are intentionally
     // not copied to prevent cross-thread reference leaks or data races on mutable collections;
     // they are safely re-evaluated if needed by the background thread.
-    CurrentUser copyRealUser = (realUser == this) ? null : realUser;
+    CurrentUser copyRealUser = identity().equivalent(realUser, this) ? null : realUser;
     if (copyRealUser != null && copyRealUser.isIdentifiedUser()) {
       copyRealUser = ((IdentifiedUser) copyRealUser).materializedCopy();
     }

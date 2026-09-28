@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd.plugins;
 
+import static com.google.common.base.Equivalence.identity;
 import static com.google.common.net.HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS;
 import static com.google.common.net.HttpHeaders.ACCESS_CONTROL_ALLOW_METHODS;
 import static com.google.common.net.HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN;
@@ -726,7 +727,7 @@ class HttpPluginServlet extends HttpServlet implements StartPluginListener, Relo
     private static String getPrefix(Plugin plugin, String attr, String def) {
       Path path = plugin.getSrcFile();
       PluginContentScanner scanner = plugin.getContentScanner();
-      if (path == null || scanner == PluginContentScanner.EMPTY) {
+      if (path == null || identity().equivalent(scanner, PluginContentScanner.EMPTY)) {
         return def;
       }
       try {

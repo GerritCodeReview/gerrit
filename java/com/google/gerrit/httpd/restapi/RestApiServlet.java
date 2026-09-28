@@ -15,6 +15,7 @@
 // WARNING: NoteDbUpdateManager cares about the package name RestApiServlet lives in.
 package com.google.gerrit.httpd.restapi;
 
+import static com.google.common.base.Equivalence.identity;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
@@ -622,7 +623,7 @@ public class RestApiServlet extends HttpServlet {
           logger.atFinest().log("REST call succeeded: %d", statusCode);
         }
 
-        if (response != Response.none()) {
+        if (!identity().equivalent(response, Response.none())) {
           Object value = Response.unwrap(response);
           if (value instanceof BinaryResult) {
             responseBytes = replyBinaryResult(req, res, (BinaryResult) value);

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.lucene;
 
+import static com.google.common.base.Equivalence.identity;
 import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.gerrit.index.project.ProjectField.NAME_SPEC;
 
@@ -111,7 +112,7 @@ public class LuceneProjectIndex extends AbstractLuceneIndex<Project.NameKey, Pro
   void add(Document doc, Values<ProjectData> values) {
     // Add separate DocValues field for the field that is needed for sorting.
     SchemaField<ProjectData, ?> f = values.getField();
-    if (f == NAME_SPEC) {
+    if (identity().equivalent(f, NAME_SPEC)) {
       String value = (String) getOnlyElement(values.getValues());
       doc.add(new SortedDocValuesField(NAME_SORT_FIELD, new BytesRef(value)));
     }

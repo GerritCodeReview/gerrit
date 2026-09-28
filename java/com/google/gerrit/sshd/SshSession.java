@@ -14,6 +14,8 @@
 
 package com.google.gerrit.sshd;
 
+import static com.google.common.base.Equivalence.identity;
+
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.CurrentUser;
 import java.net.InetAddress;
@@ -47,7 +49,7 @@ public class SshSession {
     user.setAccessPath(AccessPath.SSH_COMMAND);
     this.sessionId = parent.sessionId;
     this.remoteAddress = peer;
-    if (parent.remoteAddress == peer) {
+    if (identity().equivalent(parent.remoteAddress, peer)) {
       this.remoteAsString = parent.remoteAsString;
     } else {
       this.remoteAsString = format(peer) + "/" + parent.remoteAsString;

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.restapi.account;
 
+import static com.google.common.base.Equivalence.identity;
+
 import com.google.common.collect.ImmutableCollection;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.AccountGroup;
@@ -86,7 +88,7 @@ public class GetAgreements implements RestReadView<AccountResource> {
     }
 
     IdentifiedUser user = self.get().asIdentifiedUser();
-    if (user != resource.getUser()) {
+    if (!identity().equivalent(user, resource.getUser())) {
       if (!permissionBackend.user(user).test(GlobalPermission.ADMINISTRATE_SERVER)) {
         throw new AuthException("not allowed to get contributor agreements");
       }

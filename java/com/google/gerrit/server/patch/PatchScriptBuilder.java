@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.patch;
 
+import static com.google.common.base.Equivalence.identity;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 
@@ -375,7 +376,7 @@ public class PatchScriptBuilder {
           byte[] srcContent = src.getContent();
           DisplayMethod displayMethod;
           FileMode mode;
-          if (src == Text.EMPTY) {
+          if (identity().equivalent(src, Text.EMPTY)) {
             mode = FileMode.MISSING;
             displayMethod = DisplayMethod.NONE;
           } else {
@@ -440,7 +441,7 @@ public class PatchScriptBuilder {
         DisplayMethod displayMethod,
         boolean reuse) {
       if (!reuse) {
-        if (srcContent == Text.NO_BYTES) {
+        if (identity().equivalent(srcContent, Text.NO_BYTES)) {
           src = Text.EMPTY;
         } else {
           src = new Text(srcContent);

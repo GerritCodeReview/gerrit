@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.update;
 
+import static com.google.common.base.Equivalence.identity;
 import static com.google.common.base.Preconditions.checkArgument;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toMap;
@@ -63,7 +64,7 @@ public class RepoView implements AutoCloseable {
 
   public RepoView(Repository repo, RevWalk rw, ObjectInserter inserter) {
     checkArgument(
-        rw.getObjectReader().getCreatedFromInserter() == inserter,
+        identity().equivalent(rw.getObjectReader().getCreatedFromInserter(), inserter),
         "expected RevWalk %s to be created by ObjectInserter %s",
         rw,
         inserter);

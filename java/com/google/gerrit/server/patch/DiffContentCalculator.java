@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.patch;
 
+import static com.google.common.base.Equivalence.identity;
+
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
@@ -55,7 +57,7 @@ class DiffContentCalculator {
    */
   DiffCalculatorResult calculateDiffContent(
       TextSource srcA, TextSource srcB, ImmutableList<Edit> edits) {
-    if (srcA.src == srcB.src && edits.isEmpty()) {
+    if (identity().equivalent(srcA.src, srcB.src) && edits.isEmpty()) {
       // Odd special case; the files are identical (100% rename or copy)
       // and the user has asked for context that is larger than the file.
       // Send them the entire file, with an empty edit after the last line.

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.query.change;
 
+import static com.google.common.base.Equivalence.identity;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.flogger.LazyArgs.lazy;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
@@ -837,7 +838,7 @@ public class ChangeData {
   }
 
   boolean fastIsVisibleTo(CurrentUser user) {
-    return visibleTo == user;
+    return identity().equivalent(visibleTo, user);
   }
 
   void cacheVisibleTo(CurrentUser user) {

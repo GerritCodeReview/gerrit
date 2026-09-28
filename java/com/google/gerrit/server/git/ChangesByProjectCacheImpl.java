@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.git;
 
+import static com.google.common.base.Equivalence.identity;
+
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.cache.Cache;
@@ -145,7 +147,7 @@ public class ChangesByProjectCacheImpl implements ChangesByProjectCache {
             Project.NameKey.parse(projectProto.getName()),
             cdFactory,
             ChangeNotes.Factory.scanChangeIds(repo),
-            ours == projectChanges ? "Scanning" : "Updating")
+            identity().equivalent(ours, projectChanges) ? "Scanning" : "Updating")
         .cds();
   }
 

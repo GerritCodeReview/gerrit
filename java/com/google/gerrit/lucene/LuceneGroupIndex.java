@@ -14,6 +14,7 @@
 
 package com.google.gerrit.lucene;
 
+import static com.google.common.base.Equivalence.identity;
 import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.gerrit.server.index.group.GroupField.UUID_FIELD_SPEC;
 
@@ -110,7 +111,7 @@ public class LuceneGroupIndex extends AbstractLuceneIndex<AccountGroup.UUID, Int
   void add(Document doc, Values<InternalGroup> values) {
     // Add separate DocValues field for the field that is needed for sorting.
     SchemaField<InternalGroup, ?> f = values.getField();
-    if (f == UUID_FIELD_SPEC) {
+    if (identity().equivalent(f, UUID_FIELD_SPEC)) {
       String value = (String) getOnlyElement(values.getValues());
       doc.add(new SortedDocValuesField(UUID_SORT_FIELD, new BytesRef(value)));
     }

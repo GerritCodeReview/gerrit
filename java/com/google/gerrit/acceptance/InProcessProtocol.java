@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance;
 
+import static com.google.common.base.Equivalence.identity;
 import static com.google.gerrit.server.git.receive.LazyPostReceiveHookChain.affectsSize;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static com.google.gerrit.server.quota.QuotaGroupDefinitions.REPOSITORY_SIZE_GROUP;
@@ -326,7 +327,7 @@ class InProcessProtocol extends TestProtocol<Context> {
 
         AsyncReceiveCommits arc =
             factory.create(projectState, identifiedUser, db, null, null, null);
-        if (arc.canUpload() != Capable.OK) {
+        if (!identity().equivalent(arc.canUpload(), Capable.OK)) {
           throw new ServiceNotAuthorizedException();
         }
 

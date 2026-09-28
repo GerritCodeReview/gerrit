@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance;
 
+import static com.google.common.base.Equivalence.identity;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.truth.TruthJUnit.assume;
 import static java.util.Objects.requireNonNull;
@@ -102,7 +103,7 @@ public class GerritServerTestRule implements ServerTestRule {
 
   public void afterTest() throws Exception {
     closeSsh();
-    if (server != commonServer) {
+    if (!identity().equivalent(server, commonServer)) {
       server.close();
       server = null;
     }
@@ -183,7 +184,7 @@ public class GerritServerTestRule implements ServerTestRule {
    */
   public void restartKeepSessionOpen() throws Exception {
     checkState(
-        server != commonServer,
+        !identity().equivalent(server, commonServer),
         "The commonServer can't be restarted; to use this method, the test must be @Sandboxed");
     server = GerritServer.restart(server, testSysModule.get(), testSshModule.get());
     getTestInjector().injectMembers(this);
@@ -192,7 +193,7 @@ public class GerritServerTestRule implements ServerTestRule {
   @Override
   public void restart() throws Exception {
     checkState(
-        server != commonServer,
+        !identity().equivalent(server, commonServer),
         "The commonServer can't be restarted; to use this method, the test must be @Sandboxed");
     closeSsh();
     server = GerritServer.restart(server, testSysModule.get(), testSshModule.get());
@@ -203,7 +204,7 @@ public class GerritServerTestRule implements ServerTestRule {
   @Override
   public void restartAsSlave() throws Exception {
     checkState(
-        server != commonServer,
+        !identity().equivalent(server, commonServer),
         "The commonServer can't be restarted; to use this method, the test must be @Sandboxed");
     closeSsh();
     server = GerritServer.restartAsSlave(server);

@@ -54,7 +54,7 @@ public class VersionedAccountDestinations extends VersionedMetaData {
     logger.atFine().log("Loading named destinations from ref %s", ref);
     String prefix = DestinationList.DIR_NAME + "/";
     for (PathInfo p : getPathInfos(true)) {
-      if (p.fileMode == FileMode.REGULAR_FILE) {
+      if (FileMode.REGULAR_FILE.equals(p.fileMode.getBits())) {
         String path = p.path;
         if (path.startsWith(prefix)) {
           String label = path.substring(prefix.length());

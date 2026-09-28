@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.index.change;
 
+import static com.google.common.base.Equivalence.identity;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.index.change.ChangeField.CHANGE_SPEC;
 import static com.google.gerrit.server.index.change.ChangeField.NUMERIC_ID_STR_SPEC;
@@ -179,7 +180,9 @@ public class IndexedChangeQuery extends IndexedQuery<Change.Id, ChangeData>
       }
     }
     Predicate<ChangeData> pred = getChild(0);
-    if (source != null && fromSource.get(cd) == source && postIndexMatch(pred, cd)) {
+    if (source != null
+        && identity().equivalent(fromSource.get(cd), source)
+        && postIndexMatch(pred, cd)) {
       return true;
     }
 

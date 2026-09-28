@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.schema;
 
+import static com.google.common.base.Equivalence.identity;
+
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.SitePaths;
@@ -172,7 +174,7 @@ abstract class H2CustomLockAccountPatchReviewStore extends H2AccountPatchReviewS
       private boolean isTaskedToTryRaw(Thread thread) {
         // Only the head thread tries the raw lock. If it times out or is interrupted,
         // stopWaiting() removes it and the next thread becomes tasked to try.
-        return waiting.peek() == thread;
+        return identity().equivalent(waiting.peek(), thread);
       }
 
       private void admitBatch() {

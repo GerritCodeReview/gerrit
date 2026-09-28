@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.submit;
 
+import static com.google.common.base.Equivalence.identity;
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
@@ -108,7 +109,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     logger.atFine().log(
         "%s#updateRepo for change %s", getClass().getSimpleName(), toMerge.change().getId());
     checkState(
-        ctx.getRevWalk() == args.rw,
+        identity().equivalent(ctx.getRevWalk(), args.rw),
         "SubmitStrategyOp requires callers to call BatchUpdate#setRepository with exactly the same"
             + " CodeReviewRevWalk instance from the SubmitStrategy.Arguments: %s != %s",
         ctx.getRevWalk(),

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.sshd;
 
+import static com.google.common.base.Equivalence.identity;
+
 import com.google.auto.value.AutoAnnotation;
 import com.google.gerrit.common.Nullable;
 import com.google.inject.Key;
@@ -73,7 +75,7 @@ public class Commands {
     if (name instanceof NestedCommandNameImpl) {
       return parent.equals(((NestedCommandNameImpl) name).parent);
     }
-    if (parent == CMD_ROOT) {
+    if (identity().equivalent(parent, CMD_ROOT)) {
       return true;
     }
     return false;

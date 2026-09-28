@@ -37,7 +37,7 @@ public abstract class BooleanCondition {
   }
 
   public static BooleanCondition and(BooleanCondition a, BooleanCondition b) {
-    return a == FALSE || b == FALSE ? FALSE : new And(a, b);
+    return FALSE.equals(a) || FALSE.equals(b) ? FALSE : new And(a, b);
   }
 
   public static BooleanCondition and(boolean a, BooleanCondition b) {
@@ -45,7 +45,7 @@ public abstract class BooleanCondition {
   }
 
   public static BooleanCondition or(BooleanCondition a, BooleanCondition b) {
-    return a == TRUE || b == TRUE ? TRUE : new Or(a, b);
+    return TRUE.equals(a) || TRUE.equals(b) ? TRUE : new Or(a, b);
   }
 
   public static BooleanCondition or(boolean a, BooleanCondition b) {
@@ -53,7 +53,7 @@ public abstract class BooleanCondition {
   }
 
   public static BooleanCondition not(BooleanCondition bc) {
-    return bc == TRUE ? FALSE : bc == FALSE ? TRUE : new Not(bc);
+    return TRUE.equals(bc) ? FALSE : FALSE.equals(bc) ? TRUE : new Not(bc);
   }
 
   BooleanCondition() {}

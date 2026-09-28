@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.submitrequirement.predicate;
 
+import static com.google.common.base.Equivalence.identity;
+
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
@@ -146,13 +148,13 @@ public class FileEditsPredicate extends SubmitRequirementPredicate {
             }
             Text tB = load(bTree, newName, reader);
             for (Edit edit : edits) {
-              if (tA != Text.EMPTY) {
+              if (!identity().equivalent(tA, Text.EMPTY)) {
                 String aDiff = tA.getString(edit.getBeginA(), edit.getEndA(), true);
                 if (match(aDiff, fileEditsArgs.editPattern(), editPattern)) {
                   return true;
                 }
               }
-              if (tB != Text.EMPTY) {
+              if (!identity().equivalent(tB, Text.EMPTY)) {
                 String bDiff = tB.getString(edit.getBeginB(), edit.getEndB(), true);
                 if (match(bDiff, fileEditsArgs.editPattern(), editPattern)) {
                   return true;

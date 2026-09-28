@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.patch;
 
+import static com.google.common.base.Equivalence.identity;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.flogger.FluentLogger;
@@ -141,7 +142,7 @@ public class AutoMerger {
    */
   public RevCommit lookupFromGitOrMergeInMemory(
       Repository repo, RevWalk rw, InMemoryInserter ins, RevCommit merge) throws IOException {
-    checkArgument(rw.getObjectReader().getCreatedFromInserter() == ins);
+    checkArgument(identity().equivalent(rw.getObjectReader().getCreatedFromInserter(), ins));
 
     try (RepoView repoView = new RepoView(repo, rw, ins)) {
       Optional<RevCommit> existingCommit =

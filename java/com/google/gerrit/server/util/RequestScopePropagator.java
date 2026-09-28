@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.util;
 
+import static com.google.common.base.Equivalence.identity;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.Throwables;
@@ -79,7 +80,7 @@ public abstract class RequestScopePropagator {
     return new Callable<>() {
       @Override
       public T call() throws Exception {
-        if (callerContext == local.getContext()) {
+        if (identity().equivalent(callerContext, local.getContext())) {
           return callable.call();
         }
         return wrapped.call();

@@ -37,10 +37,13 @@ public class PatchScript {
     GITLINK;
 
     public static FileMode fromJgitFileMode(org.eclipse.jgit.lib.FileMode jgitFileMode) {
+      if (jgitFileMode == null) {
+        return FileMode.FILE;
+      }
       PatchScript.FileMode fileMode = PatchScript.FileMode.FILE;
-      if (jgitFileMode == org.eclipse.jgit.lib.FileMode.SYMLINK) {
+      if (org.eclipse.jgit.lib.FileMode.SYMLINK.equals(jgitFileMode.getBits())) {
         fileMode = FileMode.SYMLINK;
-      } else if (jgitFileMode == org.eclipse.jgit.lib.FileMode.GITLINK) {
+      } else if (org.eclipse.jgit.lib.FileMode.GITLINK.equals(jgitFileMode.getBits())) {
         fileMode = FileMode.GITLINK;
       }
       return fileMode;

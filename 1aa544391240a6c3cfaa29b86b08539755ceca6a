@@ -33,6 +33,24 @@
       "message": "Handling of the (temporary) String array variable could also go into the utility method which returns\nthe final result as one string. This would keep this method cleaner: we would still have 3 lines of code here.",
       "revId": "1aa544391240a6c3cfaa29b86b08539755ceca6a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aeb6fe28_ef19a8ed",
+        "filename": "java/com/google/gerrit/server/project/ProjectConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1016,
+      "author": {
+        "id": 4240010
+      },
+      "writtenOn": "2026-09-28T08:36:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7f1d7288_fab6e5e1",
+      "revId": "1aa544391240a6c3cfaa29b86b08539755ceca6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

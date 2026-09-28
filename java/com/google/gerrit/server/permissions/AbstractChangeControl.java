@@ -98,7 +98,8 @@ abstract class AbstractChangeControl {
         case REVERT -> canRevert();
         case SUBMIT -> refControl.canSubmit(isOwner);
         case TOGGLE_WORK_IN_PROGRESS_STATE -> canToggleWorkInProgressState();
-        case REMOVE_REVIEWER, AI_REVIEW -> refControl.canPerform(changePermissionName(perm));
+        case REMOVE_REVIEWER -> refControl.canPerform(changePermissionName(perm));
+        case AI_REVIEW -> canAiReview();
         case SUBMIT_AS ->
             permissionBackend.user(getUser()).test(GlobalPermission.RUN_AS)
                 || refControl.canPerform(changePermissionName(perm));
@@ -215,6 +216,15 @@ abstract class AbstractChangeControl {
   /** Can this user delete published comments or change messages on this change? */
   private boolean canDeleteComment() {
     return refControl.canPerform(Permission.DELETE_COMMENT) || projectControl.isAdmin();
+  }
+
+  /**
+   * Whether the user may use AI Review on this change. Default is standard default-deny (an
+   * explicit {@code aiReview} rule is required). {@link ChangeControl} overrides this to also allow
+   * registered users when the {@code allow_ai_review_for_registered_users} experiment is enabled.
+   */
+  protected boolean canAiReview() {
+    return refControl.canPerform(Permission.AI_REVIEW);
   }
 
   private boolean can(AbstractLabelPermission perm) {

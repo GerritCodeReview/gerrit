@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "00045458_93e0b3d0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 5190096
+      },
+      "writtenOn": "2026-09-28T21:31:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34c2ab8f_11e5bad2",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 44
+      },
+      "revId": "bcedb9c89f4ee7fdadff73abd19b8f0d9cbb3088",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "45383cab_3beae884",
@@ -41,6 +65,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3fcb48cb_c9a1c1fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 5190096
+      },
+      "writtenOn": "2026-09-28T21:31:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45383cab_3beae884",
+      "revId": "bcedb9c89f4ee7fdadff73abd19b8f0d9cbb3088",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "21d3e16d_5a07359a",
@@ -54,6 +96,24 @@
       "writtenOn": "2026-09-28T14:28:43Z",
       "side": 1,
       "message": "I presume all this can be changed in GerritSite.css (i\u0027m thinking wikimedia here).",
+      "revId": "bcedb9c89f4ee7fdadff73abd19b8f0d9cbb3088",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ad22eb5_fdeaef7a",
+        "filename": "resources/com/google/gerrit/httpd/auth/ldap/LoginForm.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5190096
+      },
+      "writtenOn": "2026-09-28T21:31:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21d3e16d_5a07359a",
       "revId": "bcedb9c89f4ee7fdadff73abd19b8f0d9cbb3088",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

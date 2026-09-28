@@ -688,6 +688,103 @@ suite('comment-util', () => {
       sanitiseRanges(comments);
       assert.deepEqual(comments[1].range, comments[0].range);
     });
+
+    test('does not copy range from parent when child specifies a different line', () => {
+      const comments: Comment[] = [
+        {
+          id: 'parent_comment' as UrlEncodedCommentId,
+          message: 'i am a parent',
+          updated: '2015-12-23 15:00:20.396000000' as Timestamp,
+          line: 2,
+          patch_set: 1 as RevisionPatchSetNum,
+          path: 'some/path',
+          range: {
+            start_line: 1,
+            start_character: 0,
+            end_line: 2,
+            end_character: 0,
+          },
+        },
+        {
+          id: 'child_comment' as UrlEncodedCommentId,
+          message: 'i am a child on a different line',
+          updated: '2015-12-24 15:01:20.396000000' as Timestamp,
+          line: 10,
+          in_reply_to: 'parent_comment' as UrlEncodedCommentId,
+          patch_set: 1 as RevisionPatchSetNum,
+          path: 'some/path',
+        },
+      ];
+      sanitiseRanges(comments);
+      assert.isUndefined(comments[1].range);
+      assert.equal(comments[1].line, 10);
+    });
+
+    test('copies line, side, and parent from parent to child when omitted', () => {
+      const comments: Comment[] = [
+        {
+          id: 'grandchild_comment' as UrlEncodedCommentId,
+          message: 'i am a grandchild',
+          updated: '2015-12-25 15:01:20.396000000' as Timestamp,
+          in_reply_to: 'child_comment' as UrlEncodedCommentId,
+          patch_set: 1 as RevisionPatchSetNum,
+          path: 'some/path',
+        },
+        {
+          id: 'parent_comment' as UrlEncodedCommentId,
+          message: 'i am a parent',
+          updated: '2015-12-23 15:00:20.396000000' as Timestamp,
+          line: 1149,
+          side: CommentSide.PARENT,
+          parent: 2,
+          patch_set: 1 as RevisionPatchSetNum,
+          path: 'some/path',
+        },
+        {
+          id: 'child_comment' as UrlEncodedCommentId,
+          message: 'i am a child',
+          updated: '2015-12-24 15:01:20.396000000' as Timestamp,
+          in_reply_to: 'parent_comment' as UrlEncodedCommentId,
+          patch_set: 1 as RevisionPatchSetNum,
+          path: 'some/path',
+        },
+      ];
+      sanitiseRanges(comments);
+      assert.equal(comments[2].line, 1149);
+      assert.equal(comments[2].side, CommentSide.PARENT);
+      assert.equal(comments[2].parent, 2);
+      assert.equal(comments[0].line, 1149);
+      assert.equal(comments[0].side, CommentSide.PARENT);
+      assert.equal(comments[0].parent, 2);
+    });
+
+    test('threads reply with omitted line under line-anchored parent and resolves thread', () => {
+      const comments: Comment[] = [
+        {
+          id: '3c955307_8f4eda46' as UrlEncodedCommentId,
+          message: 'Please update this check.',
+          updated: '2026-09-28 15:00:00.000000000' as Timestamp,
+          line: 1149,
+          unresolved: true,
+          patch_set: 2 as RevisionPatchSetNum,
+          path: 'tests/presubmit_canned_checks_test.py',
+        },
+        {
+          id: '8bfecfec_df855c1e' as UrlEncodedCommentId,
+          message: 'Done.',
+          updated: '2026-09-28 15:05:00.000000000' as Timestamp,
+          in_reply_to: '3c955307_8f4eda46' as UrlEncodedCommentId,
+          unresolved: false,
+          patch_set: 2 as RevisionPatchSetNum,
+          path: 'tests/presubmit_canned_checks_test.py',
+        },
+      ];
+      const threads = createCommentThreads(comments);
+      assert.equal(threads.length, 1);
+      assert.equal(threads[0].line, 1149);
+      assert.equal(threads[0].comments.length, 2);
+      assert.isFalse(isUnresolved(threads[0]));
+    });
   });
   suite('computeDisplayLine', () => {
     test('PatchSetLevel', () => {

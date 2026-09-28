@@ -212,9 +212,10 @@ export function createNewReply(
 /**
  * Ensures that all comments that are replies have the same range as their
  * parent.
- * sortComments requires the ranges of all comments in a thread to match.
- * It's possible to create a reply via REST API without the range being set
- * hence ensure the ranges are properly derived before forming threads.
+ * sortComments requires the location (range, line, side, parent) of all
+ * comments in a thread to match. It's possible to create a reply via REST API
+ * without the range, line, side, or parent being set, hence ensure these are
+ * properly derived from the parent comment before forming threads.
  */
 export function sanitiseRanges(comments: Comment[]) {
   const idToComment = new Map<string, Comment>();
@@ -224,13 +225,36 @@ export function sanitiseRanges(comments: Comment[]) {
     }
   }
 
-  for (const comment of comments) {
-    if (comment.in_reply_to) {
-      const parent = idToComment.get(comment.in_reply_to);
-      if (parent?.range && !comment.range) {
-        comment.range = {...parent.range};
-      }
+  const visited = new Set<Comment>();
+  function inheritFromParent(comment: Comment) {
+    if (visited.has(comment)) {
+      return;
     }
+    visited.add(comment);
+    if (!comment.in_reply_to) {
+      return;
+    }
+    const parent = idToComment.get(comment.in_reply_to);
+    if (!parent) {
+      return;
+    }
+    inheritFromParent(parent);
+    if (parent.line !== undefined && comment.line === undefined) {
+      comment.line = parent.line;
+    }
+    if (parent.range && !comment.range && comment.line === parent.line) {
+      comment.range = {...parent.range};
+    }
+    if (parent.side !== undefined && comment.side === undefined) {
+      comment.side = parent.side;
+    }
+    if (parent.parent !== undefined && comment.parent === undefined) {
+      comment.parent = parent.parent;
+    }
+  }
+
+  for (const comment of comments) {
+    inheritFromParent(comment);
   }
 }
 

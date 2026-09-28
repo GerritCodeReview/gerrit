@@ -14,6 +14,7 @@ import {
   CommentThread,
   DraftInfo,
   NumericChangeId,
+  PatchSetNumber,
   RepoName,
   RevisionPatchSetNum,
   SavingState,
@@ -106,6 +107,7 @@ suite('gr-comment-thread tests', () => {
     stubRestApi('getLoggedIn').returns(Promise.resolve(false));
     element = await fixture(html`<gr-comment-thread></gr-comment-thread>`);
     element.changeNum = 1 as NumericChangeId;
+    element.latestPatchNum = 1 as PatchSetNumber;
     element.showFileName = true;
     element.showFilePath = true;
     element.repoName = 'test-repo-name' as RepoName;
@@ -939,6 +941,7 @@ suite('gr-comment-thread tests', () => {
     setup(async () => {
       element.repoName = 'test-repo' as RepoName;
       element.changeNum = 1 as NumericChangeId;
+      element.latestPatchNum = 2 as PatchSetNumber;
     });
 
     test('generates direct diff url for latest patchset comment on right side', () => {
@@ -961,6 +964,27 @@ suite('gr-comment-thread tests', () => {
       assert.equal(url, '/c/test-repo/+/1/2/test-file.ts#15');
     });
 
+    test('falls back to comment url when comment is on an older patchset than latestPatchNum', () => {
+      element.latestPatchNum = 3 as PatchSetNumber;
+      const comment: CommentInfo = {
+        ...createComment(),
+        id: 'c1' as UrlEncodedCommentId,
+        patch_set: 1 as RevisionPatchSetNum,
+        line: 15,
+      };
+      element.thread = {
+        ...createThread(comment),
+        path: 'test-file.ts',
+        patchNum: 1 as RevisionPatchSetNum,
+        line: 15,
+        commentSide: CommentSide.REVISION,
+      };
+
+      // @ts-expect-error (testing private method)
+      const url = element.getUrlForFileComment();
+      assert.equal(url, '/c/test-repo/+/1/comment/c1/');
+    });
+
     test('generates direct diff url with #b prefix for parent side comment', () => {
       const comment: CommentInfo = {
         ...createComment(),
@@ -980,6 +1004,68 @@ suite('gr-comment-thread tests', () => {
       // @ts-expect-error (testing private method)
       const url = element.getUrlForFileComment();
       assert.equal(url, '/c/test-repo/+/1/2/test-file.ts#b20');
+    });
+
+    test('generates direct diff url with #b prefix for parent side comment even on older patchset', () => {
+      element.latestPatchNum = 3 as PatchSetNumber;
+      const comment: CommentInfo = {
+        ...createComment(),
+        id: 'c2' as UrlEncodedCommentId,
+        patch_set: 1 as RevisionPatchSetNum,
+        line: 20,
+        side: CommentSide.PARENT,
+      };
+      element.thread = {
+        ...createThread(comment),
+        path: 'test-file.ts',
+        patchNum: 1 as RevisionPatchSetNum,
+        line: 20,
+        commentSide: CommentSide.PARENT,
+      };
+
+      // @ts-expect-error (testing private method)
+      const url = element.getUrlForFileComment();
+      assert.equal(url, '/c/test-repo/+/1/1/test-file.ts#b20');
+    });
+
+    test('falls back to comment url when latestPatchNum is undefined', () => {
+      element.latestPatchNum = undefined;
+      const comment: CommentInfo = {
+        ...createComment(),
+        id: 'c1' as UrlEncodedCommentId,
+        patch_set: 2 as RevisionPatchSetNum,
+        line: 15,
+      };
+      element.thread = {
+        ...createThread(comment),
+        path: 'test-file.ts',
+        patchNum: 2 as RevisionPatchSetNum,
+        line: 15,
+        commentSide: CommentSide.REVISION,
+      };
+
+      // @ts-expect-error (testing private method)
+      const url = element.getUrlForFileComment();
+      assert.equal(url, '/c/test-repo/+/1/comment/c1/');
+    });
+
+    test('generates direct diff url for unsaved draft (missing id) on older patchset', () => {
+      element.latestPatchNum = 3 as PatchSetNumber;
+      const comment = createNewDraft({
+        patch_set: 1 as RevisionPatchSetNum,
+        line: 15,
+      });
+      element.thread = {
+        ...createThread(comment),
+        path: 'test-file.ts',
+        patchNum: 1 as RevisionPatchSetNum,
+        line: 15,
+        commentSide: CommentSide.REVISION,
+      };
+
+      // @ts-expect-error (testing private method)
+      const url = element.getUrlForFileComment();
+      assert.equal(url, '/c/test-repo/+/1/1/test-file.ts#15');
     });
 
     test('generates direct diff url without # line anchor for file-level comment', () => {
@@ -1097,6 +1183,7 @@ suite('gr-comment-thread tests', () => {
     });
 
     test('generates direct diff url using thread patchNum and line for ported comment', () => {
+      element.latestPatchNum = 3 as PatchSetNumber;
       const comment: CommentInfo = {
         ...createComment(),
         id: 'c8' as UrlEncodedCommentId,
@@ -1117,6 +1204,7 @@ suite('gr-comment-thread tests', () => {
     });
 
     test('generates direct diff url using thread range end_line when thread line is undefined', () => {
+      element.latestPatchNum = 3 as PatchSetNumber;
       const comment: CommentInfo = {
         ...createComment(),
         id: 'c9' as UrlEncodedCommentId,

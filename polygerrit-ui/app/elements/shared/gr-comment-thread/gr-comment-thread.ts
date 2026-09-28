@@ -42,6 +42,7 @@ import {
   CommentThread,
   isDraft,
   NumericChangeId,
+  PatchSetNumber,
   RepoName,
   UrlEncodedCommentId,
 } from '../../../types/common';
@@ -215,6 +216,9 @@ export class GrCommentThread extends LitElement {
   changeNum?: NumericChangeId;
 
   @state()
+  latestPatchNum?: PatchSetNumber;
+
+  @state()
   prefs: DiffPreferencesInfo = createDefaultDiffPrefs();
 
   @state()
@@ -305,6 +309,11 @@ export class GrCommentThread extends LitElement {
       this,
       () => this.getChangeModel().repo$,
       x => (this.repoName = x)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().latestPatchNum$,
+      x => (this.latestPatchNum = x)
     );
     subscribe(
       this,
@@ -870,7 +879,16 @@ export class GrCommentThread extends LitElement {
     }
     const patchNum = this.thread?.patchNum ?? comment.patch_set;
     const path = this.thread?.path;
-    if (!patchNum || !path) {
+    const side = this.thread?.commentSide ?? comment.side;
+    // Revision-side comments on older patchsets must use the /comment/<id>/
+    // route so that GrRouter.handleCommentRoute() can compute the right patch
+    // range (comment patchset vs. latest, or Base vs. comment patchset if the
+    // file is unchanged). Drafts without an id cannot use that route.
+    const needsCommentRoute =
+      !!comment.id &&
+      side !== CommentSide.PARENT &&
+      patchNum !== this.latestPatchNum;
+    if (!patchNum || !path || needsCommentRoute) {
       if (!comment.id) {
         return undefined;
       }
@@ -889,7 +907,6 @@ export class GrCommentThread extends LitElement {
           ? this.thread.range.start_line
           : this.thread.range.end_line;
     }
-    const side = this.thread?.commentSide ?? comment.side;
     const leftSide = side === CommentSide.PARENT;
     return createDiffUrl({
       changeNum: this.changeNum,

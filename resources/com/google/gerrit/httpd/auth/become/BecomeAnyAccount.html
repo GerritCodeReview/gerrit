@@ -48,20 +48,20 @@
       table,
       tbody,
       tr,
-      th,
-      td {
+      td,
+      label {
         display: block;
       }
-      th,
-      td {
+      td,
+      label {
         text-align: left;
       }
-      th {
+      label {
         margin: 1.1em 0 0.3em;
         color: #5f6d73;
         font-weight: 600;
       }
-      tr:first-child th {
+      tr:first-child label {
         margin-top: 0;
       }
       input[type="text"] {
@@ -109,38 +109,38 @@
       <h2>Sign In</h2>
       <table border="0">
         <tr>
-          <th>Username:</th>
+          <td><label for="user_name">Username:</label></td>
           <td>
             <form method="GET">
-              <input type="text" size="30" name="user_name" />
+              <input type="text" size="30" name="user_name" id="user_name" />
               <input type="submit" value="Become Account" />
             </form>
           </td>
         </tr>
 
         <tr>
-          <th>Email Address:</th>
+          <td><label for="preferred_email">Email Address:</label></td>
           <td>
             <form method="GET">
-              <input type="text" size="30" name="preferred_email" />
+              <input type="text" size="30" name="preferred_email" id="preferred_email" />
               <input type="submit" value="Become Account" />
             </form>
           </td>
         </tr>
 
         <tr>
-          <th>Account ID:</th>
+          <td><label for="account_id">Account ID:</label></td>
           <td>
             <form method="GET">
-              <input type="text" size="12" name="account_id" />
+              <input type="text" size="12" name="account_id" id="account_id" />
               <input type="submit" value="Become Account" />
             </form>
           </td>
         </tr>
 
         <tr>
-          <th style="vertical-align: top;">Choose:</th>
-          <td id="userlist"/>
+          <td><label for="userlist">Choose:</label></td>
+          <td id="userlist"></td>
         </tr>
       </table>
 

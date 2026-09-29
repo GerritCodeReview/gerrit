@@ -108,8 +108,12 @@ abstract class AbstractChangeControl {
     }
   }
 
-  /** Can this user perform AI review for this change? */
-  private boolean canAiReview() {
+  /**
+   * Whether the user may use AI Review on this change. Default is standard default-deny (an
+   * explicit {@code aiReview} rule is required). {@link ChangeControl} overrides this to also allow
+   * registered users when the {@code allow_ai_review_for_registered_users} experiment is enabled.
+   */
+  protected boolean canAiReview() {
     return refControl.canPerform(Permission.AI_REVIEW);
   }
 

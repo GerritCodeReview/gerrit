@@ -22,10 +22,12 @@ import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.p
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.extensions.common.ActionInfo;
+import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.inject.Inject;
 import java.util.Map;
 import org.junit.Test;
@@ -228,6 +230,46 @@ public class AiReviewPermissionIT extends AbstractDaemonTest {
     Map<String, ActionInfo> actions = gApi.changes().id(changeId).current().actions();
 
     assertThat(actions.get(AI_REVIEW).enabled).isFalse();
+  }
+
+  @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      value = ExperimentFeaturesConstants.ALLOW_AI_REVIEW_FOR_REGISTERED_USERS)
+  public void aiReviewActionAbsentForRegisteredUserWhenExperimentEnabledAndNoGrant()
+      throws Exception {
+    String changeId = createChange().getChangeId();
+
+    // Remove the seeded grant: default-deny would deny, but the experiment lets
+    // identified users pass without any rule, so the action is absent (allowed).
+    removeSeededAiReviewGrant();
+
+    requestScopeOperations.setApiUser(user.id());
+    Map<String, ActionInfo> actions = gApi.changes().id(changeId).current().actions();
+
+    assertThat(actions).doesNotContainKey(AI_REVIEW);
+  }
+
+  @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      value = ExperimentFeaturesConstants.ALLOW_AI_REVIEW_FOR_REGISTERED_USERS)
+  public void aiReviewBlockIgnoredWhenExperimentEnabled() throws Exception {
+    String changeId = createChange().getChangeId();
+
+    // A BLOCK would normally deny even against an ALLOW, but the experiment is an
+    // unconditional override for identified users: the block is ignored and the
+    // action stays absent (allowed).
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.AI_REVIEW).ref("refs/heads/*").group(REGISTERED_USERS))
+        .update();
+
+    requestScopeOperations.setApiUser(user.id());
+    Map<String, ActionInfo> actions = gApi.changes().id(changeId).current().actions();
+
+    assertThat(actions).doesNotContainKey(AI_REVIEW);
   }
 
   private void removeSeededAiReviewGrant() throws Exception {

@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "da24a517_e6ab3856",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 505,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-09-29T22:53:16Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "e00b0bcb_b1d0da8d",
+      "revId": "156263f1edccb8e4ce48d6f71f307190cbcb7a36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "630c0928_f18e86c7",
@@ -35,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "af0f0aea_6b407cd8",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 510,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-09-29T22:53:16Z",
+      "side": 1,
+      "message": "No, we can\u0027t return early because we want to validate all the URIs. If any are invalid, we need to reach L512 and throw the exception. But I realized this is flipping the behavior of `isReverseProxied()` from \"false if any are not proxy-\" to \"true if any are proxy-\". Before this change, the only thing it\u0027s used for is if we enable the request log by default, so I\u0027m not sure it matters much.\n\nI decided this could all be simplified more. See PS2.",
+      "parentUuid": "630c0928_f18e86c7",
+      "revId": "156263f1edccb8e4ce48d6f71f307190cbcb7a36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3e34e074_00d11afd",
@@ -48,6 +84,24 @@
       "writtenOn": "2026-09-25T10:14:09Z",
       "side": 1,
       "message": "```suggestion\n    return false;\n```",
+      "revId": "156263f1edccb8e4ce48d6f71f307190cbcb7a36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "34a8337b_fa473ea9",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-09-29T22:53:16Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "3e34e074_00d11afd",
       "revId": "156263f1edccb8e4ce48d6f71f307190cbcb7a36",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

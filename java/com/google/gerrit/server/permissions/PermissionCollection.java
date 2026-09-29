@@ -171,23 +171,6 @@ public class PermissionCollection {
     }
   }
 
-  /** Returns DENY rules for the given permission. */
-  List<PermissionRule> getDenyRules(String perm) {
-    List<PermissionRule> result = new ArrayList<>();
-    for (AccessSection s : accessSectionsUpward) {
-      Permission p = s.getPermission(perm);
-      if (p == null) {
-        continue;
-      }
-      for (PermissionRule pr : p.getRules()) {
-        if (pr.getAction() == PermissionRule.Action.DENY) {
-          result.add(pr);
-        }
-      }
-    }
-    return result;
-  }
-
   /** Returns permissions in the right order for evaluating BLOCK status. */
   List<List<Permission>> getBlockRules(String perm) {
     List<List<Permission>> ps = blockPerProjectByPermission.get(perm);

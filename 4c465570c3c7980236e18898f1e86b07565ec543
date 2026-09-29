@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "95e514db_3e79e981",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-29T06:15:02Z",
+      "side": 1,
+      "message": "Missing `Release-Notes: clarify that usePerRequestRefCache is incompatible with reftable`",
+      "revId": "4c465570c3c7980236e18898f1e86b07565ec543",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "3f61841c_77ec72da",

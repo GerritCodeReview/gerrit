@@ -162,6 +162,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1c5a9fd2_8c5e1509",
+        "filename": "java/com/google/gerrit/server/account/AuthTokenCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-29T18:52:52Z",
+      "side": 1,
+      "message": "👍 Yes, but I would suggest addressing the AccountCache with a separate change.",
+      "parentUuid": "6ff32542_994a51ef",
+      "revId": "f2f8c01e21ad6f5375ac2e19c80c22441fbde7da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "88a00654_ab5c4d39",
         "filename": "java/com/google/gerrit/server/account/AuthTokenCache.java",
         "patchSetId": 1

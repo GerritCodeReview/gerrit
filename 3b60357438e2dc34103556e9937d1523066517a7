@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "90224887_151d3952",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-29T06:07:45Z",
+      "side": 1,
+      "message": "Just one nit on the documentation on the risk of ignoring the `BLOCK` rules when the feature switch is enabled.",
+      "revId": "3b60357438e2dc34103556e9937d1523066517a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5bb06bb_86e77ce7",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 4620,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-29T06:07:45Z",
+      "side": 1,
+      "message": "You should put a note here by warning that when this flag is enabled, AI review *cannot* be disabled by ACL anymore, because any BLOCK rule would be ignored.\n\nAlso, the BLOCK rule ignored should be tested.",
+      "revId": "3b60357438e2dc34103556e9937d1523066517a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -214,6 +214,30 @@
       },
       "revId": "35bea59698e9abb0f42af67dd1a9979b88d2fe23",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd47233f_3e5f79a2",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2395,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-29T06:12:21Z",
+      "side": 1,
+      "message": "See my proposal on Discord: why don\u0027t we read this from the JGit\u0027s config instead? It\u0027s a hack but it could work.\nIn a future when everyone uses ref-table, this will become dead code anyway, and that future could be really close as ref-table is now production ready.\n\nSee the Discord\u0027s proposal:\n\n_\"Alternatively, you could set the config on the JGit\u0027s config (JGit would ignore it anyway) and have Gerrit read it from the local repository manager. That could work, but it looks like a hack, but you can try.\"_",
+      "parentUuid": "87e8a15a_74df9a4c",
+      "range": {
+        "startLine": 2393,
+        "startChar": 0,
+        "endLine": 2395,
+        "endChar": 1
+      },
+      "revId": "35bea59698e9abb0f42af67dd1a9979b88d2fe23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

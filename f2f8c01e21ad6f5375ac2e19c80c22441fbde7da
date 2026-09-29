@@ -144,6 +144,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6ff32542_994a51ef",
+        "filename": "java/com/google/gerrit/server/account/AuthTokenCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-09-29T18:48:06Z",
+      "side": 1,
+      "message": "Just for reference, I have checked the AccountCache, and it is using the same pattern, opening the repo in `get()` as well as in the Loader during `load()`. If we optimize, then we should apply the new pattern to all caches with the account version in their key.",
+      "parentUuid": "daf50d89_2265ff53",
+      "revId": "f2f8c01e21ad6f5375ac2e19c80c22441fbde7da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "88a00654_ab5c4d39",
         "filename": "java/com/google/gerrit/server/account/AuthTokenCache.java",
         "patchSetId": 1

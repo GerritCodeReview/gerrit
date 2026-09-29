@@ -525,14 +525,12 @@ export class GrFileList extends LitElement {
         .show-hide {
           margin-left: var(--spacing-s);
           width: 1.9em;
-          position: relative;
         }
         .richMarkdownToggle {
           align-items: center;
           display: inline-flex;
-          justify-content: flex-end;
-          position: absolute;
-          right: 2em;
+          margin-left: var(--spacing-xs);
+          vertical-align: middle;
           white-space: nowrap;
           opacity: 0;
         }
@@ -630,9 +628,14 @@ export class GrFileList extends LitElement {
         .markReviewed:focus {
           outline: none;
         }
-        .markReviewed,
-        .pathLink {
+        .markReviewed {
           display: inline-block;
+          margin: -2px 0;
+          padding: var(--spacing-s) 0;
+          text-decoration: none;
+        }
+        .pathLink {
+          display: inline;
           margin: -2px 0;
           padding: var(--spacing-s) 0;
           text-decoration: none;
@@ -716,6 +719,12 @@ export class GrFileList extends LitElement {
           .expanded .truncatedFileName,
           .fullFileName {
             display: none;
+          }
+          .richMarkdownToggle .richToggleLabel {
+            display: none;
+          }
+          .richMarkdownToggle gr-icon {
+            margin-right: 0;
           }
         }
         :host(.hideComments) {
@@ -1422,6 +1431,7 @@ export class GrFileList extends LitElement {
             copyTargetName="File path"
           ></gr-copy-clipboard>
         </a>
+        ${this.renderRichMarkdownToggle(file)}
         ${when(
           file.diffs_too_expensive_to_compute,
           () => html`
@@ -1761,7 +1771,6 @@ export class GrFileList extends LitElement {
   private renderShowHide(file: NormalizedFileInfo) {
     const expanded = this.isFileExpanded(file.__path);
     return html` <div class="show-hide" role="gridcell">
-      ${this.renderRichMarkdownToggle(file)}
       <!-- Do not use input type="checkbox" with hidden input and
             visible label here. Screen readers don't read/interract
             correctly with such input.

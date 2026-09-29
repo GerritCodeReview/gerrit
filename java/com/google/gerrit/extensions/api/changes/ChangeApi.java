@@ -529,6 +529,8 @@ public interface ChangeApi {
    */
   ChangeMessageApi message(String id) throws RestApiException;
 
+  ChangePermissionsInfo permissions() throws RestApiException;
+
   abstract class CommentsRequest {
     private boolean enableContext;
     private int contextPadding;

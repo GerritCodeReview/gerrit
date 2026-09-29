@@ -27,6 +27,7 @@ import com.google.gerrit.extensions.api.changes.AttentionSetInput;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.ChangeEditApi;
 import com.google.gerrit.extensions.api.changes.ChangeMessageApi;
+import com.google.gerrit.extensions.api.changes.ChangePermissionsInfo;
 import com.google.gerrit.extensions.api.changes.Changes;
 import com.google.gerrit.extensions.api.changes.CustomKeyedValuesInput;
 import com.google.gerrit.extensions.api.changes.FixInput;
@@ -90,6 +91,7 @@ import com.google.gerrit.server.restapi.change.DeleteChange;
 import com.google.gerrit.server.restapi.change.DeletePrivate;
 import com.google.gerrit.server.restapi.change.EvaluateChangeQueryExpression;
 import com.google.gerrit.server.restapi.change.GetChange;
+import com.google.gerrit.server.restapi.change.GetChangePermissions;
 import com.google.gerrit.server.restapi.change.GetCustomKeyedValues;
 import com.google.gerrit.server.restapi.change.GetHashtags;
 import com.google.gerrit.server.restapi.change.GetMessage;
@@ -196,6 +198,7 @@ class ChangeApiImpl implements ChangeApi {
   private final IsFlowsEnabled isFlowsEnabled;
   private final Provider<EvaluateChangeQueryExpression> evaluateChangeQueryExpressionProvider;
   private final Provider<GetPureRevert> getPureRevertProvider;
+  private final GetChangePermissions getChangePermissions;
   private final DynamicOptionParser dynamicOptionParser;
   private final Injector injector;
   private final DynamicMap<DynamicOptions.DynamicBean> dynamicBeans;
@@ -256,6 +259,7 @@ class ChangeApiImpl implements ChangeApi {
       IsFlowsEnabled isFlowsEnabled,
       Provider<EvaluateChangeQueryExpression> evaluateChangeQueryExpressionProvider,
       Provider<GetPureRevert> getPureRevertProvider,
+      GetChangePermissions getChangePermissions,
       DynamicOptionParser dynamicOptionParser,
       @Assisted ChangeResource change,
       Injector injector,
@@ -314,6 +318,7 @@ class ChangeApiImpl implements ChangeApi {
     this.isFlowsEnabled = isFlowsEnabled;
     this.evaluateChangeQueryExpressionProvider = evaluateChangeQueryExpressionProvider;
     this.getPureRevertProvider = getPureRevertProvider;
+    this.getChangePermissions = getChangePermissions;
     this.dynamicOptionParser = dynamicOptionParser;
     this.change = change;
     this.injector = injector;
@@ -897,6 +902,15 @@ class ChangeApiImpl implements ChangeApi {
       return changeMessageApi.create(resource);
     } catch (Exception e) {
       throw asRestApiException("Cannot parse change message " + id, e);
+    }
+  }
+
+  @Override
+  public ChangePermissionsInfo permissions() throws RestApiException {
+    try {
+      return getChangePermissions.apply(change).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot list change permissions", e);
     }
   }
 

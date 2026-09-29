@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.deny;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.permissionKey;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -40,15 +41,34 @@ public class AiReviewPermissionIT extends AbstractDaemonTest {
   public void aiReviewActionAbsentByDefault() throws Exception {
     String changeId = createChange().getChangeId();
 
+    // aiReview is default-deny, but All-Projects seeds an explicit grant for
+    // Registered Users on refs/heads/*, so a registered caller is permitted and
+    // the action is absent (the UI treats absence as "allowed").
     Map<String, ActionInfo> actions = gApi.changes().id(changeId).current().actions();
 
     assertThat(actions).doesNotContainKey(AI_REVIEW);
   }
 
   @Test
-  public void aiReviewActionDisabledWhenUserNotInGrantedGroup() throws Exception {
+  public void aiReviewActionDisabledWhenSeededGrantRemoved() throws Exception {
     String changeId = createChange().getChangeId();
 
+    // Without the seeded grant, default-deny leaves the registered caller denied.
+    removeSeededAiReviewGrant();
+
+    requestScopeOperations.setApiUser(user.id());
+    Map<String, ActionInfo> actions = gApi.changes().id(changeId).current().actions();
+
+    assertThat(actions.get(AI_REVIEW).enabled).isFalse();
+  }
+
+  @Test
+  public void aiReviewActionDisabledWhenNotInGrantedGroup() throws Exception {
+    String changeId = createChange().getChangeId();
+
+    // Drop the seeded grant, then grant only the admin group: a non-admin
+    // registered user is not covered by any ALLOW rule and is denied.
+    removeSeededAiReviewGrant();
     projectOperations
         .project(project)
         .forUpdate()
@@ -177,13 +197,15 @@ public class AiReviewPermissionIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void aiReviewActionDisabledForAdminWhenAdminGroupDenied() throws Exception {
+  public void aiReviewActionDisabledForAdminWhenAdminGroupBlocked() throws Exception {
     String changeId = createChange().getChangeId();
 
+    // Admins are not exempt: a BLOCK on the admin group overrides the seeded
+    // grant (a bare DENY would only cancel an ALLOW for the same group).
     projectOperations
         .project(project)
         .forUpdate()
-        .add(deny(Permission.AI_REVIEW).ref("refs/heads/*").group(adminGroupUuid()))
+        .add(block(Permission.AI_REVIEW).ref("refs/heads/*").group(adminGroupUuid()))
         .update();
 
     requestScopeOperations.setApiUser(admin.id());
@@ -206,5 +228,13 @@ public class AiReviewPermissionIT extends AbstractDaemonTest {
     Map<String, ActionInfo> actions = gApi.changes().id(changeId).current().actions();
 
     assertThat(actions.get(AI_REVIEW).enabled).isFalse();
+  }
+
+  private void removeSeededAiReviewGrant() throws Exception {
+    projectOperations
+        .project(allProjects)
+        .forUpdate()
+        .remove(permissionKey(Permission.AI_REVIEW).ref("refs/heads/*"))
+        .update();
   }
 }

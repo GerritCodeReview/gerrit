@@ -110,7 +110,7 @@ abstract class AbstractChangeControl {
 
   /** Can this user perform AI review for this change? */
   private boolean canAiReview() {
-    return refControl.canPerformDefaultAllow(Permission.AI_REVIEW);
+    return refControl.canPerform(Permission.AI_REVIEW);
   }
 
   /** Can this user see this change? */

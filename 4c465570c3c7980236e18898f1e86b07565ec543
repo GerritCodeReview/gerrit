@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f61841c_77ec72da",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-29T06:14:10Z",
+      "side": 1,
+      "message": "I would suggest merging it anyway, as the lack of documentation is causing confusion.",
+      "revId": "4c465570c3c7980236e18898f1e86b07565ec543",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

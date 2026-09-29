@@ -33,6 +33,7 @@ import {
   ChangeId,
   ChangeInfo,
   ChangeMessageId,
+  ChangePermissionsInfo,
   ChangeViewChangeInfo,
   CommentInfo,
   CommentInput,
@@ -324,6 +325,15 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       url: `/changes/${changeNum}/validation-options`,
       reportUrlAsIs: true,
     }) as Promise<ValidationOptionsInfo | undefined>;
+  }
+
+  getChangePermissions(
+    changeNum: NumericChangeId
+  ): Promise<ChangePermissionsInfo | undefined> {
+    return this._restApiHelper.fetchJSON({
+      url: `/changes/${changeNum}/permissions`,
+      reportUrlAsIs: true,
+    }) as Promise<ChangePermissionsInfo | undefined>;
   }
 
   getRepo(

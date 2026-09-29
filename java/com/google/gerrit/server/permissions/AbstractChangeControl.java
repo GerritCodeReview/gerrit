@@ -99,25 +99,14 @@ abstract class AbstractChangeControl {
         case REVERT -> canRevert();
         case SUBMIT -> refControl.canSubmit(isOwner);
         case TOGGLE_WORK_IN_PROGRESS_STATE -> canToggleWorkInProgressState();
-        case REMOVE_REVIEWER -> refControl.canPerform(changePermissionName(perm));
+        case REMOVE_REVIEWER, AI_REVIEW -> refControl.canPerform(changePermissionName(perm));
         case SUBMIT_AS ->
             permissionBackend.user(getUser()).test(GlobalPermission.RUN_AS)
                 || refControl.canPerform(changePermissionName(perm));
-        case AI_REVIEW -> canAiReview();
       };
     } catch (StorageException e) {
       throw new PermissionBackendException("unavailable", e);
     }
-  }
-
-  /**
-   * Whether the user may use AI Review on this change. The base check is the standard default-deny
-   * model (an explicit {@code aiReview} rule is required). {@link ChangeControl} overrides this to
-   * also allow registered users when the {@code allow_ai_review_for_registered_users} experiment is
-   * enabled, which overrides the ACL (including a {@code block}) for identified users.
-   */
-  protected boolean canAiReview() {
-    return refControl.canPerform(Permission.AI_REVIEW);
   }
 
   /** Can this user see this change? */

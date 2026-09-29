@@ -273,7 +273,6 @@ export declare interface ActionInfo {
 export declare interface ActionNameToActionInfoMap {
   [actionType: string]: ActionInfo | undefined;
   // List of actions explicitly used in code:
-  aiReview?: ActionInfo;
   wip?: ActionInfo;
   publishEdit?: ActionInfo;
   rebaseEdit?: ActionInfo;
@@ -1196,6 +1195,17 @@ export declare interface ServerInfo {
  */
 export declare interface ValidationOptionsInfo {
   validation_options: ValidationOptionInfo[];
+}
+
+/**
+ * Describes the change-scoped permissions of the calling user on a change.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#change-permissions-info
+ *
+ * `permissions` lists the names of the granted permissions (e.g.
+ * 'aiReview'); a name is present iff the permission is granted.
+ */
+export declare interface ChangePermissionsInfo {
+  permissions?: string[];
 }
 
 /**

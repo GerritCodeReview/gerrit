@@ -7,6 +7,7 @@ import {
   AUTO_MERGE,
   BasePatchSetNum,
   ChangeInfo,
+  ChangePermissionsInfo,
   ChangeViewChangeInfo,
   CommitId,
   EDIT,
@@ -61,6 +62,7 @@ import {
   SubmittabilityInfo,
 } from '../../services/gr-rest-api/gr-rest-api';
 import {select} from '../../utils/observable-util';
+import {AccessPermissionId} from '../../utils/access-util';
 import {assertIsDefined} from '../../utils/common-util';
 import {Model} from '../base/model';
 import {UserModel} from '../user/user-model';
@@ -122,6 +124,12 @@ export interface ChangeState {
    * go back to `undefined` after being set for a change.
    */
   mergeable?: boolean;
+  /**
+   * Change-scoped permissions of the calling user on this change, fetched from
+   * `GET /changes/{id}/permissions`. Loaded lazily after the change itself is
+   * loaded; `undefined` while the request is still in flight.
+   */
+  permissions?: ChangePermissionsInfo;
 }
 
 export enum RevisionFileUpdateStatus {
@@ -431,6 +439,17 @@ export class ChangeModel extends Model<ChangeState> {
     changeState => changeState.mergeable
   );
 
+  public readonly permissions$ = select(
+    this.state$,
+    changeState => changeState.permissions
+  );
+
+  public readonly canAiReview$ = select(
+    this.permissions$,
+    permissions =>
+      permissions?.permissions?.includes(AccessPermissionId.AI_REVIEW) ?? false
+  );
+
   public readonly branch$ = select(this.change$, change => change?.branch);
 
   public readonly changeNum$ = select(this.change$, change => change?._number);
@@ -645,6 +664,7 @@ export class ChangeModel extends Model<ChangeState> {
       this.loadChange(),
       this.loadSubmittabilityInfo(),
       this.loadMergeable(),
+      this.loadPermissions(),
       this.loadReviewedFiles(),
       this.setOverviewTitle(),
       this.setDiffTitle(),
@@ -836,6 +856,22 @@ export class ChangeModel extends Model<ChangeState> {
         })
       )
       .subscribe(mergeable => this.updateState({mergeable}));
+  }
+
+  private loadPermissions() {
+    return this.changeNum$
+      .pipe(
+        switchMap(changeNum => {
+          if (changeNum === undefined) {
+            this.updateState({permissions: undefined});
+            return of(undefined);
+          }
+          return from(this.restApiService.getChangePermissions(changeNum));
+        })
+      )
+      .subscribe(permissions => {
+        if (permissions !== undefined) this.updateState({permissions});
+      });
   }
 
   public reloadSubmittability() {

@@ -33,6 +33,24 @@
       "message": "You should put a note here by warning that when this flag is enabled, AI review *cannot* be disabled by ACL anymore, because any BLOCK rule would be ignored.\n\nAlso, the BLOCK rule ignored should be tested.",
       "revId": "3b60357438e2dc34103556e9937d1523066517a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "53ab3ea4_a9ee786a",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 4620,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-09-29T13:14:26Z",
+      "side": 1,
+      "message": "Good point. I added a test and extended the documentation. Done.",
+      "parentUuid": "b5bb06bb_86e77ce7",
+      "revId": "3b60357438e2dc34103556e9937d1523066517a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

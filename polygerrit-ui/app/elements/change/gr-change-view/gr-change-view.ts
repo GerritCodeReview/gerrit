@@ -1458,9 +1458,7 @@ export class GrChangeView extends LitElement {
               </gr-editable-content>
             </div>
             <h3 class="assistive-tech-only">Comments and Checks Summary</h3>
-            <gr-change-summary
-              .revisionActions=${this.currentRevisionActions}
-            ></gr-change-summary>
+            <gr-change-summary></gr-change-summary>
             <gr-endpoint-decorator name="commit-container">
               <gr-endpoint-param name="change" .value=${this.change}>
               </gr-endpoint-param>

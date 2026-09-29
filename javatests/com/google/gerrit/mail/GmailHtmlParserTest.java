@@ -14,21 +14,25 @@
 
 package com.google.gerrit.mail;
 
+import static com.google.common.truth.Truth.assertThat;
+
+import com.google.gerrit.entities.HumanComment;
+import java.util.List;
+import org.junit.Test;
+
 public class GmailHtmlParserTest extends HtmlParserTest {
   @Override
   protected String newHtmlBody(
       String changeMessage, String c1, String c2, String c3, String f1, String f2, String fc1) {
     String email =
         ""
-            + "<div class=\"gmail_default\" dir=\"ltr\">"
+            + "<div dir=\"ltr\">"
             + (changeMessage != null ? changeMessage : "")
-            + "<div class=\"gmail_extra\"><br><div class=\"gmail_quote\">"
-            + "On Fri, Nov 18, 2016 at 11:15 AM, foobar (Gerrit) noreply@gerrit.com"
-            + "<span dir=\"ltr\">&lt;<a href=\"mailto:noreply@gerrit.com\" "
-            + "target=\"_blank\">noreply@gerrit.com</a>&gt;</span> wrote:<br>"
-            + "</div></div><blockquote class=\"gmail_quote\" "
-            + "<p>foobar <strong>posted comments</strong> on this change.</p>"
-            + "<p><a href=\""
+            + "</div><br><div class=\"gmail_quote gmail_quote_container\"><div dir=\"ltr\""
+            + " class=\"gmail_attr\">On Fri, Nov 18, 2016 at 11:15 AM foobar (Gerrit) &lt;<a"
+            + " href=\"mailto:noreply@gerrit.com\">noreply@gerrit.com</a>&gt;"
+            + " wrote:<br></div><blockquote class=\"gmail_quote\"><p>foobar <strong>posted"
+            + " comments</strong> on this change.</p><p><a href=\""
             + CHANGE_URL
             + "/1\" "
             + "target=\"_blank\">View Change</a></p><div>Patch Set 2: CR-1\n"
@@ -115,5 +119,31 @@ public class GmailHtmlParserTest extends HtmlParserTest {
     return "</ul></li></ul></blockquote><div>"
         + comment
         + "</div><blockquote class=\"gmail_quote\"><ul><li><ul>";
+  }
+
+  @Test
+  public void oldStyleGmailExtraAttributionLineIsStripped() {
+    String changeMessage = "Looks good to me.";
+    String email =
+        ""
+            + "<div class=\"gmail_default\" dir=\"ltr\">"
+            + changeMessage
+            + "<div class=\"gmail_extra\"><br><div class=\"gmail_quote\">"
+            + "On Fri, Nov 18, 2016 at 11:15 AM, foobar (Gerrit) noreply@gerrit.com"
+            + "<span dir=\"ltr\">&lt;<a href=\"mailto:noreply@gerrit.com\" "
+            + "target=\"_blank\">noreply@gerrit.com</a>&gt;</span> wrote:<br>"
+            + "</div></div><blockquote class=\"gmail_quote\">"
+            + "<div>Quoted notification body that must not survive parsing.</div>"
+            + "</blockquote></div>";
+
+    MailMessage.Builder b = newMailMessageBuilder();
+    b.htmlContent(email);
+
+    List<HumanComment> comments = defaultComments();
+    List<MailComment> parsedComments = HtmlParser.parse(b.build(), comments, CHANGE_URL);
+
+    assertThat(parsedComments).hasSize(1);
+    assertPatchsetComment(changeMessage, parsedComments.get(0));
+    assertThat(parsedComments.get(0).message).doesNotContain("wrote:");
   }
 }

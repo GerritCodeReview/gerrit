@@ -16,9 +16,80 @@ package com.google.gerrit.mail;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.HumanComment;
+import com.google.gerrit.entities.Patch;
+import java.time.Instant;
 import org.junit.Test;
 
 public class ParserUtilTest {
+  private static final String CHANGE_URL = "https://gerrit-review.googlesource.com/c/project/+/123";
+
+  private static HumanComment newComment(String uuid, String file, int patchSetId, int line) {
+    HumanComment c =
+        new HumanComment(
+            new Comment.Key(uuid, file, patchSetId),
+            Account.id(0),
+            Instant.EPOCH,
+            (short) 0,
+            "comment",
+            "",
+            false);
+    c.lineNbr = line;
+    return c;
+  }
+
+  @Test
+  public void isCommentUrlMatchesInlineCommentPermalink() {
+    HumanComment comment = newComment("270c2451_11be09b9", "gerrit-server/test.txt", 1, 382);
+
+    // The UUID-based permalink CommentChangeEmailDecoratorImpl/UrlFormatter actually emit,
+    // with and without the "?usp=email" query parameter Gerrit's mail sender appends.
+    assertThat(
+            ParserUtil.isCommentUrl(
+                CHANGE_URL + "/comment/270c2451_11be09b9?usp=email", CHANGE_URL, comment))
+        .isTrue();
+    assertThat(
+            ParserUtil.isCommentUrl(CHANGE_URL + "/comment/270c2451_11be09b9", CHANGE_URL, comment))
+        .isTrue();
+
+    // A different comment's permalink must not match.
+    assertThat(
+            ParserUtil.isCommentUrl(
+                CHANGE_URL + "/comment/some_other_uuid?usp=email", CHANGE_URL, comment))
+        .isFalse();
+  }
+
+  @Test
+  public void isCommentUrlStillMatchesLegacyFormat() {
+    HumanComment comment = newComment("uuid1", "gerrit-server/test.txt", 1, 3);
+
+    assertThat(
+            ParserUtil.isCommentUrl(
+                CHANGE_URL + "/1/gerrit-server/test.txt@3", CHANGE_URL, comment))
+        .isTrue();
+  }
+
+  @Test
+  public void isCommentUrlMatchesPatchsetLevelCommentsTabLink() {
+    HumanComment comment = newComment("patchset-comment-uuid", Patch.PATCHSET_LEVEL, 1, 0);
+
+    // The comments-tab link CommentChangeEmailDecoratorImpl#getCommentsTabLink() emits for
+    // patchset-level comments, with and without the "?usp=email" query parameter.
+    assertThat(ParserUtil.isCommentUrl(CHANGE_URL + "?tab=comments&usp=email", CHANGE_URL, comment))
+        .isTrue();
+    assertThat(ParserUtil.isCommentUrl(CHANGE_URL + "?tab=comments", CHANGE_URL, comment)).isTrue();
+
+    // A non-patchset-level comment must not match this link, even though the string itself
+    // doesn't depend on any per-comment identifier.
+    HumanComment fileComment = newComment("some-uuid", "gerrit-server/test.txt", 1, 3);
+    assertThat(
+            ParserUtil.isCommentUrl(
+                CHANGE_URL + "?tab=comments&usp=email", CHANGE_URL, fileComment))
+        .isFalse();
+  }
+
   @Test
   public void trimQuotationLineOnMessageWithoutQuoatationLine() throws Exception {
     assertThat(ParserUtil.trimQuotation("One line")).isEqualTo("One line");

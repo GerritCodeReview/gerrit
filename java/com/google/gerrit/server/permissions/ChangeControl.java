@@ -19,6 +19,8 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.experiments.ExperimentFeatures;
+import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.gerrit.server.permissions.PermissionBackend.ForChange;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
@@ -34,10 +36,12 @@ public class ChangeControl extends AbstractChangeControl {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final ChangeData changeData;
+  private final ExperimentFeatures experimentFeatures;
 
   @Inject
   protected ChangeControl(
       PermissionBackend permissionBackend,
+      ExperimentFeatures experimentFeatures,
       @Assisted ProjectControl projectControl,
       @Assisted RefControl refControl,
       @Assisted ChangeData changeData) {
@@ -48,6 +52,7 @@ public class ChangeControl extends AbstractChangeControl {
         changeData.change().isNew(),
         isOwner(refControl, changeData));
     this.changeData = changeData;
+    this.experimentFeatures = experimentFeatures;
   }
 
   private static boolean isOwner(RefControl refControl, ChangeData changeData) {
@@ -62,6 +67,14 @@ public class ChangeControl extends AbstractChangeControl {
   @Override
   public ForChange asForChange() {
     return new ForChangeImpl(changeData.getId());
+  }
+
+  @Override
+  protected boolean canAiReview() {
+    return super.canAiReview()
+        || (experimentFeatures.isFeatureEnabled(
+                ExperimentFeaturesConstants.ALLOW_AI_REVIEW_FOR_REGISTERED_USERS)
+            && getUser().isIdentifiedUser());
   }
 
   /** Can this user see this change? */

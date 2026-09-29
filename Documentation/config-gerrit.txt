@@ -4626,6 +4626,23 @@ removed in the next stable version.
 [experiments]
   enabled = ExperimentKey
 ----
++
+For example, `GerritBackendFeature__allow_ai_review_for_registered_users`
+grants the `aiReview` change permission to all registered users even when
+no explicit `aiReview` rule is configured, letting a site enable AI Review
+before the permission is added to `project.config`:
++
+----
+[experiments]
+  enabled = GerritBackendFeature__allow_ai_review_for_registered_users
+----
++
+NOTE: While this experiment is enabled, any identified user can use AI
+Review regardless of `project.config`. The experiment is an unconditional
+override that ignores ACLs: an explicit `block aiReview` rule has no
+effect, so AI Review can no longer be disabled or restricted by ACL.
+Disable the experiment and grant `aiReview` explicitly if you need
+per-ref or per-group control.
 
 [[experiments.disabled]]experiments.disabled::
 +

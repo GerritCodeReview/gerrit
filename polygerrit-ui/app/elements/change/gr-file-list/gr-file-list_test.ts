@@ -2521,5 +2521,33 @@ suite('gr-file-list tests', () => {
       const nonMdCells = queryAll(rows[1], '[role="gridcell"]');
       assert.equal(mdCells.length, nonMdCells.length);
     });
+
+    test('richMarkdownToggle is rendered inside .path and does not overlap .reviewed', async () => {
+      element.style.display = 'block';
+      element.style.width = '1100px';
+      element.loggedIn = true;
+      element.reviewed = ['README.md'];
+      await element.updateComplete;
+
+      const mdRow = queryAll(element, '.file-row')[0];
+      const pathCell = queryAndAssert<HTMLElement>(mdRow, '.path');
+      const showHideCell = queryAndAssert<HTMLElement>(mdRow, '.show-hide');
+      const reviewedCell = queryAndAssert<HTMLElement>(mdRow, '.reviewed');
+      const toggle = queryAndAssert<HTMLElement>(mdRow, '.richMarkdownToggle');
+
+      assert.isTrue(pathCell.contains(toggle));
+      assert.isFalse(showHideCell.contains(toggle));
+
+      const toggleRect = toggle.getBoundingClientRect();
+      const reviewedRect = reviewedCell.getBoundingClientRect();
+      assert.isAtMost(toggleRect.right, reviewedRect.left);
+
+      const label = queryAndAssert<HTMLElement>(toggle, '.richToggleLabel');
+      assert.notEqual(getComputedStyle(label).display, 'none');
+
+      element.style.width = '700px';
+      await element.updateComplete;
+      assert.equal(getComputedStyle(label).display, 'none');
+    });
   });
 });

@@ -5861,6 +5861,10 @@ Updates a draft comment on a revision.
 The new draft comment must be provided in the request body inside a
 link:#comment-input[CommentInput] entity.
 
+If `path` is omitted, the draft keeps its file, line, range and side, and
+only the provided fields are changed. `fix_suggestions` that are not
+provided are removed.
+
 .Request
 ----
   PUT /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/drafts/TvcXrmjM HTTP/1.0
@@ -8105,7 +8109,9 @@ If not set, the default is `REVISION`.
 The number of the line for which the comment should be added. +
 `0` if it is a file comment. +
 If neither line nor range is set, a file comment is added. +
-If range is set, this value is ignored in favor of the `end_line` of the range.
+If range is set, this value is ignored in favor of the `end_line` of the range. +
+When link:#update-draft[updating a draft] without `path`, the draft keeps
+its line.
 |`range`       |optional|
 The range of the comment as a link:#comment-range[CommentRange]
 entity.

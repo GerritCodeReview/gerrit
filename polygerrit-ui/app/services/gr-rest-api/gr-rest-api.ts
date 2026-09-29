@@ -23,6 +23,7 @@ import {
   ChangeId,
   ChangeInfo,
   ChangeMessageId,
+  ChangePermissionsInfo,
   CommentInfo,
   CommentInput,
   CommitId,
@@ -982,6 +983,10 @@ export interface RestApiService extends Finalizable {
   getValidationOptions(
     changeNum: NumericChangeId
   ): Promise<ValidationOptionsInfo | undefined>;
+
+  getChangePermissions(
+    changeNum: NumericChangeId
+  ): Promise<ChangePermissionsInfo | undefined>;
 
   getFlow(
     changeNum: NumericChangeId,

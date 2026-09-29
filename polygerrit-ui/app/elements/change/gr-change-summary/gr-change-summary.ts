@@ -10,7 +10,7 @@ import '../../shared/gr-icon/gr-icon';
 import '../../checks/gr-checks-action';
 import '../gr-ai-prompt-dialog/gr-ai-prompt-dialog';
 import {css, html, LitElement, nothing} from 'lit';
-import {customElement, property, query, state} from 'lit/decorators.js';
+import {customElement, query, state} from 'lit/decorators.js';
 import {subscribe} from '../../lit/subscription-controller';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {modalStyles} from '../../../styles/gr-modal-styles';
@@ -29,12 +29,7 @@ import {
   isRunningScheduledOrCompleted,
 } from '../../../models/checks/checks-util';
 import {getMentionedThreads, isUnresolved} from '../../../utils/comment-util';
-import {
-  AccountInfo,
-  ActionNameToActionInfoMap,
-  CommentThread,
-  DropdownLink,
-} from '../../../types/common';
+import {AccountInfo, CommentThread, DropdownLink} from '../../../types/common';
 import {FlowInfo, FlowStageState} from '../../../api/rest-api';
 import {Tab} from '../../../constants/constants';
 import {ChecksTabState} from '../../../types/events';
@@ -109,15 +104,7 @@ export class GrChangeSummary extends LitElement {
   @state()
   flows: FlowInfo[] = [];
 
-  @property({type: Object}) revisionActions?: ActionNameToActionInfoMap;
-
-  // Hide until the actions endpoint responds; then hide only on explicit deny.
-  private get canAiReview(): boolean {
-    return (
-      this.revisionActions !== undefined &&
-      this.revisionActions.aiReview?.enabled !== false
-    );
-  }
+  @state() canAiReview = false;
 
   private get canShowAiReview(): boolean {
     return !!this.selfAccount && this.canAiReview;
@@ -220,6 +207,11 @@ export class GrChangeSummary extends LitElement {
       this,
       () => this.getFlowsModel().flows$,
       x => (this.flows = x)
+    );
+    subscribe(
+      this,
+      () => this.getChangeModel().canAiReview$,
+      x => (this.canAiReview = x)
     );
   }
 

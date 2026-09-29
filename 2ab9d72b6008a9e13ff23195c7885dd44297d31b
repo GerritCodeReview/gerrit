@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5b82502_b61b0922",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/AiReviewPermissionIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-29T13:43:45Z",
+      "side": 1,
+      "message": "What\u0027s the point of allowing AI_REVIEW to Registered-Users and then denying the same permission?",
+      "range": {
+        "startLine": 157,
+        "startChar": 0,
+        "endLine": 158,
+        "endChar": 84
+      },
+      "revId": "2ab9d72b6008a9e13ff23195c7885dd44297d31b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "848575c5_37d26f7d",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/AiReviewPermissionIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-29T13:43:45Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be the other around? `AI_REVIEW` should be in the list of actions and also enabled.",
+      "revId": "2ab9d72b6008a9e13ff23195c7885dd44297d31b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cebbad31_dd940552",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/AiReviewPermissionIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-29T13:43:45Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be the other around? `AI_REVIEW` should be in the list of actions and also enabled.",
+      "range": {
+        "startLine": 272,
+        "startChar": 24,
+        "endLine": 272,
+        "endChar": 41
+      },
+      "revId": "2ab9d72b6008a9e13ff23195c7885dd44297d31b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

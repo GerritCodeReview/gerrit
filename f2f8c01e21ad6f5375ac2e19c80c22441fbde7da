@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "468c8363_729d5dc5",
+        "filename": "java/com/google/gerrit/server/account/AuthTokenCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-09-29T16:30:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c97c1233_a063bf21",
+      "revId": "f2f8c01e21ad6f5375ac2e19c80c22441fbde7da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "35e565bb_f5d170bd",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-09-29T11:53:55Z",
       "side": 1,
       "message": "Not sure of what this would do: you get the `revision` parameter and reassign it to its own copy.",
+      "revId": "f2f8c01e21ad6f5375ac2e19c80c22441fbde7da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "118ce94e_a5e4bb2b",
+        "filename": "java/com/google/gerrit/server/account/AuthTokenCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-09-29T16:30:42Z",
+      "side": 1,
+      "message": "We do the same for other cache keys [CachedAccountDetails](https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/account/CachedAccountDetails.java#42) or [ConflictKey](https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/query/change/ConflictKey.java#34)\n\nI believe the intention is to ensure that the object inserted in the key cannot be mutated later. Otherwise, the cache may no longer find its entry.\n\nThe `copy()` documentation states:\n\n```\n...\nThis method is useful to shed any additional memory that may be tied to the\n subclass, yet retain the unique identity of the object id for future lookups \n within maps and repositories.\n...\n```\n\nWDYT?",
+      "parentUuid": "35e565bb_f5d170bd",
       "revId": "f2f8c01e21ad6f5375ac2e19c80c22441fbde7da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -54,6 +90,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "83cda2d6_f882acb3",
+        "filename": "java/com/google/gerrit/server/account/AuthTokenCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-09-29T16:30:42Z",
+      "side": 1,
+      "message": "`openRepository` already returns a cached handle, though, right?\n\n```\nreturn RepositoryCache.open(...);\n```\n\nThe [AccountCache](https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/account/AccountCacheImpl.java#159) does the same.\n\nIf we kept it open, we would hold a resource handle for the entire lifetime of the cache.\n\nWDYT?",
+      "parentUuid": "83705e41_068090ca",
+      "revId": "f2f8c01e21ad6f5375ac2e19c80c22441fbde7da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "88a00654_ab5c4d39",
         "filename": "java/com/google/gerrit/server/account/AuthTokenCache.java",
         "patchSetId": 1
@@ -65,6 +119,30 @@
       "writtenOn": "2026-09-29T07:22:29Z",
       "side": 1,
       "message": "Why not just change the DirectAUthTokenAccessor to make use of the revision information?",
+      "range": {
+        "startLine": 109,
+        "startChar": 6,
+        "endLine": 113,
+        "endChar": 7
+      },
+      "revId": "f2f8c01e21ad6f5375ac2e19c80c22441fbde7da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4fd54f84_04e9ec4c",
+        "filename": "java/com/google/gerrit/server/account/AuthTokenCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-09-29T16:30:42Z",
+      "side": 1,
+      "message": "We could add a method receiving the revision to\nDirectAuthTokenAccessor and have the loader delegate to it.\n\nThe loader already opens `All-Users` because it needs to load exactly the revision in the cache key. \n\nMoving it to `DirectAuthTokenAccessor` would either require passing the open Repository to a new internal method, or make the accessor open it itself, if I understand what you meant.\n\nThis follows the same pattern as `AccountCacheImpl`\u0027s loader, which opens the\nrepository and loads the revision from its cache key directly.\n\nI think keeping it here is a little simpler and avoids expanding DirectAuthTokenAccessor for this cache-only use case, but please correct me if I have the wrong side of the stick here.",
+      "parentUuid": "88a00654_ab5c4d39",
       "range": {
         "startLine": 109,
         "startChar": 6,

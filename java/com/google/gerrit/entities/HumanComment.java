@@ -87,6 +87,7 @@ public class HumanComment extends Comment {
 
   public HumanComment(HumanComment comment) {
     super(comment);
+    this.unresolved = comment.unresolved;
   }
 
   @Override

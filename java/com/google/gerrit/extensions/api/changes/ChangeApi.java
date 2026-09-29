@@ -529,6 +529,41 @@ public interface ChangeApi {
    */
   ChangeMessageApi message(String id) throws RestApiException;
 
+  /** Returns the change-scoped permissions the calling user has on this change. */
+  default ChangePermissionsInfo permissions() throws RestApiException {
+    return permissionsRequest().get();
+  }
+
+  /** Returns a builder for the change-scoped permissions endpoint. */
+  PermissionsRequest permissionsRequest() throws RestApiException;
+
+  abstract class PermissionsRequest {
+    private boolean all;
+    private String account;
+
+    public abstract ChangePermissionsInfo get() throws RestApiException;
+
+    /** Report every change permission the user is granted, not only the scoped default. */
+    public PermissionsRequest withAllPermissions() {
+      this.all = true;
+      return this;
+    }
+
+    /** Report another account's permissions. Requires the Administrate Server capability. */
+    public PermissionsRequest forAccount(String account) {
+      this.account = account;
+      return this;
+    }
+
+    public boolean getAll() {
+      return all;
+    }
+
+    public String getAccount() {
+      return account;
+    }
+  }
+
   abstract class CommentsRequest {
     private boolean enableContext;
     private int contextPadding;

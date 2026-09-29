@@ -3045,6 +3045,78 @@ returned that contains all the validation options.
   }
 ----
 
+[[get-change-permissions]]
+=== Get Change Permissions
+--
+'GET /changes/link:#change-id[\{change-id\}]/permissions'
+--
+
+Retrieves the change-scoped permissions the calling user has on the
+change, for permissions that are not exposed through the change's
+link:#change-info[`actions`] map.
+
+By default this endpoint exposes only the change-scoped permissions that
+are currently required and have no other channel. The default set grows
+additively as a concrete need appears, so new permissions are added
+without breaking clients. A caller that wants the full set can use the
+`o=ALL` option below.
+
+[NOTE]
+Most change-scoped permissions (e.g. `abandon`, `delete`, `revert`,
+`rebase`, `submit`, `topic`, `hashtags`, ...) reach the client today
+via the link:#change-info[`actions`] field on `ChangeInfo` or the
+link:#revision-info[`actions`] field on `RevisionInfo`. Those entries
+are produced by REST handlers that implement `UiAction<ChangeResource>`
+and carry richer information than a boolean permission bit (label,
+title, HTTP method, conditional `enabled` state). They remain the
+canonical source for those permissions and are NOT duplicated here.
+
+This endpoint surfaces change-scoped permissions whose REST handlers
+do not naturally fit the `UiAction` pattern -- for example because the
+action is purely client-side and has no server handler at all.
+Currently it exposes the link:access-control.html#category_ai_review[
+`aiReview`] permission. Additional permissions that share this shape
+may be added in the future; the response is extensible.
+
+The `o=ALL` option returns every change permission the calling user is
+granted, not only the default set above. The names come from
+`DefaultPermissionMappings`, so not every returned name has a matching
+`Permission` constant. It is intended for introspection and is best
+effort rather than a stability contract.
+
+The `account` option reports the permissions of another user instead of
+the caller. Only an administrator holding the global `Administrate Server`
+capability may use it, and it composes with `o=ALL`. The reported account
+need not be able to see the change.
+
+.Request
+----
+  GET /changes/myProject~123/permissions HTTP/1.0
+----
+
+As response a link:#change-permissions-info[ChangePermissionsInfo] entity is
+returned. Its `permissions` field lists the change-scoped permissions in this
+endpoint's scope that the calling user is granted. The scope is the set
+described in the note above. A name is present if and only if the caller is
+granted it within that scope. Permissions outside the scope (for example
+those carried by the `actions` map or by `removable_labels`) are not
+repeated here, so an absent name makes no statement about whether such a
+permission is granted.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "permissions": [
+      "aiReview"
+    ]
+  }
+----
+
 [[list-change-messages]]
 === List Change Messages
 --
@@ -8204,6 +8276,28 @@ The name of the plugin that contributed the information.
 |`message` |optional|
 A message from the plugin.
 |============================
+
+[[change-permissions-info]]
+=== ChangePermissionsInfo
+The `ChangePermissionsInfo` entity describes the change-scoped permissions
+the calling user has on a change.
+
+For permissions that are exposed through the change or revision
+link:#change-info[`actions`] map (e.g. `abandon`, `delete`, `revert`,
+`rebase`, `submit`), this entity is not the canonical source -- see
+link:#get-change-permissions[Get Change Permissions] for the scope of
+this endpoint.
+
+[options="header",cols="1,^1,5"]
+|===========================
+|Field Name    ||Description
+|`permissions` ||
+The names of the change-scoped permissions the calling user has on the
+change (e.g. `aiReview`). Only permissions within the requested scope are
+reported. Within that scope a name is present if and only if it is
+granted. Absence of a permission outside the scope makes no statement
+about whether it is granted.
+|===========================
 
 [[comment-info]]
 === CommentInfo

@@ -356,6 +356,17 @@ suite('gr-rest-api-service-impl tests', () => {
     assert.equal(params?.['context-padding'], 3);
   });
 
+  test('getChangePermissions suppresses errors', async () => {
+    const res403 = new Response(undefined, {status: 403});
+    const spy = sinon.spy();
+    addListenerForTest(document, 'server-error', spy);
+    sinon.stub(authService, 'fetch').resolves(res403);
+    const result = await element.getChangePermissions(1 as NumericChangeId);
+    await waitEventLoop();
+    assert.isUndefined(result);
+    assert.isFalse(spy.called);
+  });
+
   test('legacy n,z key in change url is replaced', async () => {
     const stub = sinon
       .stub(element._restApiHelper, 'fetchJSON')

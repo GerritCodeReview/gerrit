@@ -211,6 +211,30 @@
       },
       "revId": "f2f8c01e21ad6f5375ac2e19c80c22441fbde7da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "419022f7_1ca1d499",
+        "filename": "java/com/google/gerrit/server/account/AuthTokenCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-09-29T17:39:07Z",
+      "side": 1,
+      "message": "Using the DirectAuthTokenAccessor would follow this path:\n`DirectAuthTokenAccessor.getTokens() -\u003e DirectAuthTokenAccessor.readFromNoteDb() -\u003e VersionedAuthTokens.load()`\nThe latter will then open All-Users and read the tokens from the user ref, which is basically the same you are doing here.\nFollowing this pattern would make it much easier to identify readers of tokens from the repo in the code and requires less repitition.",
+      "parentUuid": "4fd54f84_04e9ec4c",
+      "range": {
+        "startLine": 109,
+        "startChar": 6,
+        "endLine": 113,
+        "endChar": 7
+      },
+      "revId": "f2f8c01e21ad6f5375ac2e19c80c22441fbde7da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -109,13 +109,13 @@ abstract class AbstractChangeControl {
   }
 
   /**
-   * Whether the user may use AI Review on this change. The base check follows the aiReview
-   * permission's current default-allow model. {@link ChangeControl} overrides this to also allow
-   * registered users when the {@code allow_ai_review_for_registered_users} experiment is enabled,
-   * which overrides the ACL (including a {@code block}) for identified users.
+   * Whether the user may use AI Review on this change. The base check is the standard default-deny
+   * model (an explicit {@code aiReview} rule is required). {@link ChangeControl} overrides this to
+   * also allow registered users when the {@code allow_ai_review_for_registered_users} experiment is
+   * enabled, which overrides the ACL (including a {@code block}) for identified users.
    */
   protected boolean canAiReview() {
-    return refControl.canPerformDefaultAllow(Permission.AI_REVIEW);
+    return refControl.canPerform(Permission.AI_REVIEW);
   }
 
   /** Can this user see this change? */

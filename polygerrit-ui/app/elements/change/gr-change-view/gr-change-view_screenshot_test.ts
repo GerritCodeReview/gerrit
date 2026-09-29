@@ -26,6 +26,7 @@ import {
   waitUntil,
 } from '../../../test/test-utils';
 import {testResolver} from '../../../test/common-test-setup';
+import {AccessPermissionId} from '../../../utils/access-util';
 import {changeModelToken} from '../../../models/change/change-model';
 import {commentsModelToken} from '../../../models/comments/comments-model';
 import {
@@ -243,6 +244,11 @@ suite('gr-change-view screenshot tests', () => {
 
     const changeModel = testResolver(changeModelToken);
     changeModel.updateStateChange(change);
+    // The "Review Agent" action and "Create AI Review Prompt" link are
+    // gated on the ai_review permission from /changes/{id}/permissions.
+    changeModel.updateState({
+      permissions: {permissions: [AccessPermissionId.AI_REVIEW]},
+    });
 
     // Set comments model to a settled state (not loading)
     const commentsModel = testResolver(commentsModelToken);

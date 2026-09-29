@@ -3,6 +3,57 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c97c1233_a063bf21",
+        "filename": "java/com/google/gerrit/server/account/AuthTokenCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-29T11:53:55Z",
+      "side": 1,
+      "message": "This looks more like a precondition to me, and it should also cover `revision`.\n\n\n```suggestion      \n      Preconditions.checkNotNull(accountId, \"Account id cannot be null\");\n      Preconditions.checkNotNull(revision, \"Revision cannot be null\");\n```",
+      "revId": "f2f8c01e21ad6f5375ac2e19c80c22441fbde7da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35e565bb_f5d170bd",
+        "filename": "java/com/google/gerrit/server/account/AuthTokenCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-29T11:53:55Z",
+      "side": 1,
+      "message": "Not sure of what this would do: you get the `revision` parameter and reassign it to its own copy.",
+      "revId": "f2f8c01e21ad6f5375ac2e19c80c22441fbde7da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83705e41_068090ca",
+        "filename": "java/com/google/gerrit/server/account/AuthTokenCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-09-29T11:53:55Z",
+      "side": 1,
+      "message": "The most expensive part of this API call is opening the repository.\nSince `All-Users.git` will always exist and never be deleted or renamed, can we just open the repository and keep it open here?",
+      "revId": "f2f8c01e21ad6f5375ac2e19c80c22441fbde7da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "88a00654_ab5c4d39",
         "filename": "java/com/google/gerrit/server/account/AuthTokenCache.java",
         "patchSetId": 1

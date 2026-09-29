@@ -110,6 +110,7 @@ public class ChangeRestApiModule extends RestApiModule {
 
     post(CHANGE_KIND, "move").to(Move.class);
     post(CHANGE_KIND, "patch:apply").to(ApplyPatch.class);
+    get(CHANGE_KIND, "permissions").to(GetChangePermissions.class);
     post(CHANGE_KIND, "private").to(PostPrivate.class);
     post(CHANGE_KIND, "private.delete").to(DeletePrivateByPost.class);
     delete(CHANGE_KIND, "private").to(DeletePrivate.class);

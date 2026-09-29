@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "527d0530_b44b34e2",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3687,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-09-29T22:53:16Z",
+      "side": 1,
+      "message": "No, works for any PROXY protocol. Updated the doc.",
+      "parentUuid": "efb4ba7c_06c91c37",
+      "revId": "9338bdc9b3232b18cff844ee79b6a47dfbbc18df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "92b32df8_be807e27",
@@ -41,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "92d42fb3_eb11943f",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 451,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-09-29T22:53:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "92b32df8_be807e27",
+      "range": {
+        "startLine": 448,
+        "startChar": 0,
+        "endLine": 451,
+        "endChar": 75
+      },
+      "revId": "9338bdc9b3232b18cff844ee79b6a47dfbbc18df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5cdddebb_df43b79e",
@@ -54,6 +96,30 @@
       "writtenOn": "2026-09-25T10:27:01Z",
       "side": 1,
       "message": "Make this all one method: it is then easier to follow how the final `ServerConnector` is built and it also\nallows for the reuse of the `new HttpConnectionFactory(config)`.",
+      "range": {
+        "startLine": 484,
+        "startChar": 0,
+        "endLine": 504,
+        "endChar": 0
+      },
+      "revId": "9338bdc9b3232b18cff844ee79b6a47dfbbc18df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb77ead3_0c1443a1",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 504,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-09-29T22:53:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5cdddebb_df43b79e",
       "range": {
         "startLine": 484,
         "startChar": 0,

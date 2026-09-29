@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "88a00654_ab5c4d39",
+        "filename": "java/com/google/gerrit/server/account/AuthTokenCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-09-29T07:22:29Z",
+      "side": 1,
+      "message": "Why not just change the DirectAUthTokenAccessor to make use of the revision information?",
+      "range": {
+        "startLine": 109,
+        "startChar": 6,
+        "endLine": 113,
+        "endChar": 7
+      },
+      "revId": "f2f8c01e21ad6f5375ac2e19c80c22441fbde7da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

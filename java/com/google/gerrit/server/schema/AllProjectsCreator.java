@@ -218,6 +218,7 @@ public class AllProjectsCreator {
       GroupReference defaultUsersGroup) {
     grant(config, heads, codeReviewLabel, -1, 1, defaultUsersGroup);
     grant(config, heads, Permission.FORGE_AUTHOR, defaultUsersGroup);
+    grant(config, heads, Permission.AI_REVIEW, registered);
 
     config.upsertAccessSection(
         "refs/for/*",

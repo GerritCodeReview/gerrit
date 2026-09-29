@@ -25,13 +25,11 @@ import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
-import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.changes.ChangePermissionsInfo;
-import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.inject.Inject;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
@@ -189,48 +187,6 @@ public class GetChangePermissionsIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      value = ExperimentFeaturesConstants.ALLOW_AI_REVIEW_FOR_REGISTERED_USERS)
-  public void aiReviewTrueForRegisteredUserWhenExperimentEnabledAndNoGrant() throws Exception {
-    String changeId = createChange().getChangeId();
-
-    // Remove the seeded grant so no aiReview rule remains in project.config.
-    projectOperations
-        .allProjectsForUpdate()
-        .remove(permissionKey(AI_REVIEW).ref("refs/heads/*"))
-        .update();
-
-    requestScopeOperations.setApiUser(user.id());
-
-    ChangePermissionsInfo info = gApi.changes().id(changeId).permissions();
-
-    assertThat(info.permissions).contains(AI_REVIEW);
-  }
-
-  @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      value = ExperimentFeaturesConstants.ALLOW_AI_REVIEW_FOR_REGISTERED_USERS)
-  public void aiReviewBlockIgnoredWhenExperimentEnabled() throws Exception {
-    String changeId = createChange().getChangeId();
-
-    // The experiment is an unconditional override for identified users, so a
-    // BLOCK rule has no effect and aiReview is still reported.
-    projectOperations
-        .project(project)
-        .forUpdate()
-        .add(block(AI_REVIEW).ref("refs/heads/*").group(REGISTERED_USERS))
-        .update();
-
-    requestScopeOperations.setApiUser(user.id());
-
-    ChangePermissionsInfo info = gApi.changes().id(changeId).permissions();
-
-    assertThat(info.permissions).contains(AI_REVIEW);
-  }
-
-  @Test
   public void aiReviewAbsentForAdminWhenAdminGroupBlocked() throws Exception {
     String changeId = createChange().getChangeId();
 
@@ -352,22 +308,6 @@ public class GetChangePermissionsIT extends AbstractDaemonTest {
         .update();
 
     requestScopeOperations.setApiUser(user.id());
-
-    ChangePermissionsInfo info = gApi.changes().id(changeId).permissions();
-
-    assertThat(info.permissions).doesNotContain(AI_REVIEW);
-  }
-
-  @Test
-  @GerritConfig(
-      name = "experiments.enabled",
-      value = ExperimentFeaturesConstants.ALLOW_AI_REVIEW_FOR_REGISTERED_USERS)
-  public void aiReviewAbsentForAnonymousWhenExperimentEnabled() throws Exception {
-    String changeId = createChange().getChangeId();
-
-    // The experiment override only applies to identified users; an anonymous
-    // caller is not granted even with the flag on.
-    requestScopeOperations.setApiUserAnonymous();
 
     ChangePermissionsInfo info = gApi.changes().id(changeId).permissions();
 

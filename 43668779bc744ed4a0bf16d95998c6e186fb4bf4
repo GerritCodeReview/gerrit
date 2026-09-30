@@ -261,6 +261,23 @@
       },
       "revId": "43668779bc744ed4a0bf16d95998c6e186fb4bf4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0152a221_d5b4d2b8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-09-30T14:23:31Z",
+      "side": 1,
+      "message": "As implemented, this permission can\u0027t reliably block a spammer, which defeats its purpose.\n\nIt uses **default-allow** semantics — unusual for a Gerrit permission, where every other change permission is default-deny: `canPostReviewComment()` is `canPerformDefaultAllow(POST_REVIEW_COMMENT) || canApplyAnyLabel()`, so absent a rule the answer is *allow*, and anyone who can vote on any label passes regardless — a `block` is silently re-granted by label-vote permission (the case Matthias hit).\n\nThe fix is to make it a normal, **100% Gerrit-compatible default-deny** permission.\n\nThat `|| canApplyAnyLabel()` is also what keeps the \"can vote but comment blocked — which wins?\" question open. It doesn\u0027t need to be. I fully agree with Edwin, who already proposed the answer on this change:\n\n\u003e Alternatively, should having the Review permission rather be a\n\u003e pre-condition for any write action, similarly to how the Read\n\u003e permission is a pre-condition for any action? This way when there is\n\u003e spammer we only need to block the Review permission, instead of needing\n\u003e to block all kind of other permissions that are assigned to Registered\n\u003e Users as well (Rebase, Revert, voting on Code-Review, etc.).\n\nThat\u0027s exactly what default-deny gives us. A vote is published through the same `PostReview` path, so gating it up front means blocking `postReviewComment` also blocks voting — the \"vote-yes, comment-blocked\" combination simply can\u0027t occur, and an admin blocks one permission rather than every label. The ambiguous case goes away (and it\u0027s covered by a test).\n\nI have a default-deny alternative (similar to the refactored aiReview\npermission in change 586901) ready (topic [`post-review-comment-default-deny`](https://gerrit-review.googlesource.com/q/topic:post-review-comment-default-deny)):\n\n- gate on `canPerform(POST_REVIEW_COMMENT)` only (plus an internal-user\n  bypass for plugins); drop `canApplyAnyLabel()`;\n- no regression — the merged seed (change 454501) grants Registered Users\n  on `refs/*`, and existing sites get it via `Schema_186`;\n- precondition on the whole review-write surface: `PostReview` (reviews\n  and votes), `CreateDraftComment`, `PutDraftComment`, `PostReviewers`\n  (reviewers/CC);\n- a temporary experiment flag bridges deployments that cannot control\n  the schema-migration rollout across their tenants — they can enable\n  commenting without first seeding `project.config`.\n\nThe series ships extended tests that cover Edwin\u0027s assumption: a user blocked from `postReviewComment` cannot post a review, cannot vote, cannot create or update a draft, and cannot add reviewers/CC (and can still delete an unpublishable draft; the flag override is covered too).\n\nSo blocking a spammer takes one `block postReviewComment` rule, and it covers votes and reviewer/CC as well.",
+      "revId": "43668779bc744ed4a0bf16d95998c6e186fb4bf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -22,6 +22,7 @@ import java.util.Collection;
 import java.util.List;
 
 public class AndSource<T> extends AndPredicate<T> implements DataSource<T> {
+  protected final Predicate<T> selectedSource;
   protected final FilteredSource<T> filteredSource;
 
   private final int start;
@@ -57,6 +58,7 @@ public class AndSource<T> extends AndPredicate<T> implements DataSource<T> {
     if (selectedSource == null) {
       throw new IllegalArgumentException("No DataSource Found");
     }
+    this.selectedSource = selectedSource;
     this.filteredSource = toDataSource(selectedSource);
     this.cardinality = minCardinality;
   }

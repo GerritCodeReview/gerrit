@@ -4613,6 +4613,24 @@ removed in the next stable version.
 [experiments]
   enabled = ExperimentKey
 ----
++
+For example, `GerritBackendFeature__allow_post_review_comment_for_registered_users`
+grants the `postReviewComment` change permission to all registered users even
+when no explicit `postReviewComment` rule reaches the host, letting a deployment
+that does not run the schema migration enable commenting before the permission
+is seeded in `project.config`:
++
+----
+[experiments]
+  enabled = GerritBackendFeature__allow_post_review_comment_for_registered_users
+----
++
+NOTE: While this experiment is enabled, any identified user can post review
+comments regardless of `project.config`. The experiment is an unconditional
+override that ignores ACLs: an explicit `block postReviewComment` rule has no
+effect, so commenting can no longer be disabled or restricted by ACL. Disable
+the experiment and grant `postReviewComment` explicitly if you need per-ref or
+per-group control.
 
 [[experiments.disabled]]experiments.disabled::
 +

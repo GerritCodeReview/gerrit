@@ -19,6 +19,8 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.experiments.ExperimentFeatures;
+import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.gerrit.server.permissions.PermissionBackend.ForChange;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
@@ -34,10 +36,12 @@ public class ChangeControl extends AbstractChangeControl {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final ChangeData changeData;
+  private final ExperimentFeatures experimentFeatures;
 
   @Inject
   protected ChangeControl(
       PermissionBackend permissionBackend,
+      ExperimentFeatures experimentFeatures,
       @Assisted ProjectControl projectControl,
       @Assisted RefControl refControl,
       @Assisted ChangeData changeData) {
@@ -48,6 +52,7 @@ public class ChangeControl extends AbstractChangeControl {
         changeData.change().isNew(),
         isOwner(refControl, changeData));
     this.changeData = changeData;
+    this.experimentFeatures = experimentFeatures;
   }
 
   private static boolean isOwner(RefControl refControl, ChangeData changeData) {
@@ -57,6 +62,21 @@ public class ChangeControl extends AbstractChangeControl {
       return id.equals(changeData.change().getOwner());
     }
     return false;
+  }
+
+  /**
+   * Temporary rollout bridge: while the experiment is enabled, any identified user may post review
+   * comments even without the ACL grant. This exists for deployments that do not run the schema
+   * migration to seed the {@code postReviewComment} permission. It is a pure OR, so it ignores an
+   * explicit {@code block} while enabled, and is removed in a follow-up once such hosts have seeded
+   * their ACLs.
+   */
+  @Override
+  protected boolean canPostReviewComment() {
+    return super.canPostReviewComment()
+        || (experimentFeatures.isFeatureEnabled(
+                ExperimentFeaturesConstants.ALLOW_POST_REVIEW_COMMENT_FOR_REGISTERED_USERS)
+            && getUser().isIdentifiedUser());
   }
 
   @Override

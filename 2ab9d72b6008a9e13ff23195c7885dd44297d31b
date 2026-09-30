@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6b389512_a564cd75",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/AiReviewPermissionIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-09-30T05:51:13Z",
+      "side": 1,
+      "message": "Good point: ALLOW/DENY precedence itself is not specific to aiReview.\n\nThe reason this test exists in the series is that the previous change moves aiReview from a custom default-allow path to Gerrit\u0027s standard ACL evaluation. So this test is intended as a regression check that aiReview now behaves like an ordinary change-scoped permission, including DENY canceling an ALLOW for the same tuple.\n\nIt is not meant to test the experiment flag. The experiment-specific coverage is the later no-grant / block-ignored cases. I can clarify the test name/comment, or trim the generic ACL matrix if you think the parent change already covers enough.",
+      "parentUuid": "a5b82502_b61b0922",
+      "range": {
+        "startLine": 157,
+        "startChar": 0,
+        "endLine": 158,
+        "endChar": 84
+      },
+      "revId": "2ab9d72b6008a9e13ff23195c7885dd44297d31b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "848575c5_37d26f7d",
@@ -43,6 +67,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cfa14164_e8fcf3b8",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/AiReviewPermissionIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-09-30T05:51:13Z",
+      "side": 1,
+      "message": "I agree this is confusing, and I think the confusion comes from the temporary state of the series.\n\nToday aiReview has two separate pieces of technical debt:\n\n1. Permission semantics: it uses a custom default-allow path instead of Gerrit\u0027s normal default-deny ACL evaluation.\n2. UI transport: ActionJson smuggles a synthetic aiReview action because there is no server-side UiAction handler for it.\n\nI split the series so the first part fixes only (1): aiReview starts using normal ACL evaluation, while the existing ActionJson transport is kept temporarily so the UI keeps working at every commit.\n\nThat means the tests in this change still assert the old transport shape: when aiReview is denied, ActionJson emits a synthetic action with enabled\u003dfalse; when aiReview is allowed, the action is absent.\n\nThe second part fixes (2). Follow-up change 635823 removes this ActionJson smuggling after `GET /changes/{id}/permissions` exists, and moves the coverage to GetChangePermissionsIT where \"allowed\" is represented directly as the presence of \"aiReview\" in the permissions list.\n\nSo I can either keep this order and improve the comments/test names here, or move the `GET /permissions` endpoint earlier in the series to avoid this temporary ActionJson shape. I originally introduced `GET /permissions` earlier in the series, but changed the order later to make the semantic change reviewable in isolation.\n\nThe current split/order would also let us merge the first two semantic changes earlier:\n\n* Switch aiReview to default-deny semantics\n* Allow AI Review for registered users behind an experiment flag\n\nThose can be reviewed independently from the later UI transport cleanup.",
+      "parentUuid": "848575c5_37d26f7d",
+      "revId": "2ab9d72b6008a9e13ff23195c7885dd44297d31b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cebbad31_dd940552",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/AiReviewPermissionIT.java",
         "patchSetId": 2
@@ -54,6 +96,30 @@
       "writtenOn": "2026-09-29T13:43:45Z",
       "side": 1,
       "message": "Shouldn\u0027t this be the other around? `AI_REVIEW` should be in the list of actions and also enabled.",
+      "range": {
+        "startLine": 272,
+        "startChar": 24,
+        "endLine": 272,
+        "endChar": 41
+      },
+      "revId": "2ab9d72b6008a9e13ff23195c7885dd44297d31b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e15302ab_56f4a52a",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/AiReviewPermissionIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-09-30T05:51:13Z",
+      "side": 1,
+      "message": "Same as above.",
+      "parentUuid": "cebbad31_dd940552",
       "range": {
         "startLine": 272,
         "startChar": 24,

@@ -34,6 +34,7 @@ import com.google.gerrit.server.DraftCommentsReader;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.DraftCommentResource;
 import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.update.BatchUpdate;
@@ -92,6 +93,10 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
     } else if (in.line != null && in.range != null && in.line != in.range.endLine) {
       throw new BadRequestException("range endLine must be on the same line as the comment");
     }
+    rsrc.getRevisionResource()
+        .getChangeResource()
+        .permissions()
+        .check(ChangePermission.POST_REVIEW_COMMENT);
     CreateDraftComment.validateDraftComment(
         rsrc.getRevisionResource(), in, commentValidators, commentsUtil);
     try (RefUpdateContext ctx = RefUpdateContext.open(CHANGE_MODIFICATION)) {

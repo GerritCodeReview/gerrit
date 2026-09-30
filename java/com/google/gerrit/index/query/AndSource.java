@@ -19,7 +19,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.PaginationType;
 import java.util.Collection;
-import java.util.List;
 
 public class AndSource<T> extends AndPredicate<T> implements DataSource<T> {
   protected final Predicate<T> selectedSource;
@@ -76,10 +75,6 @@ public class AndSource<T> extends AndPredicate<T> implements DataSource<T> {
   @Override
   public boolean match(T object) {
     return !super.isMatchable() || super.match(object);
-  }
-
-  protected List<T> transformBuffer(List<T> buffer) {
-    return buffer;
   }
 
   @Override

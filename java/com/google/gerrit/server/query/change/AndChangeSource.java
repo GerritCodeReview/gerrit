@@ -18,7 +18,6 @@ import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.query.AndSource;
 import com.google.gerrit.index.query.Predicate;
 import java.util.Collection;
-import java.util.List;
 
 public class AndChangeSource extends AndSource<ChangeData> implements ChangeDataSource {
 
@@ -35,14 +34,6 @@ public class AndChangeSource extends AndSource<ChangeData> implements ChangeData
   public boolean hasChange() {
     return selectedSource instanceof ChangeDataSource
         && ((ChangeDataSource) selectedSource).hasChange();
-  }
-
-  @Override
-  protected List<ChangeData> transformBuffer(List<ChangeData> buffer) {
-    if (!hasChange()) {
-      ChangeData.ensureChangeLoaded(buffer);
-    }
-    return super.transformBuffer(buffer);
   }
 
   @Override

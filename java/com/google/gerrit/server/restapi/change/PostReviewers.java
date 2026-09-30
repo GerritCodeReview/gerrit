@@ -82,6 +82,7 @@ public class PostReviewers
           UpdateException,
           PermissionBackendException,
           ConfigInvalidException {
+    rsrc.permissions().check(ChangePermission.POST_REVIEW_COMMENT);
     final CurrentUser user = getActingUser(rsrc.getUser(), input, rsrc.getNotes());
 
     ReviewerModification modification =

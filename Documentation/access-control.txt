@@ -1006,6 +1006,26 @@ the Work In Progress bit of the change (even without having the
 Must be assigned on the target branch ref (i.e. on 'refs/heads/\*', not on
 'refs/for/*').
 
+[[category_post_review_comment]]
+=== Post Review Comment
+
+This category controls who is able to post review comments through the REST,
+SSH and extension APIs (and, since a vote is published together with a change
+message, to vote and to add reviewers/CC). Draft comments published at push
+time with `--publish-comments` are not gated by this permission.
+
+This permission is *default-deny*: a user needs it to post. `All-Projects`
+ships with an explicit grant for `Registered Users` on 'refs/*', and existing
+sites receive the same grant through a schema migration, so ordinary users keep
+commenting after an upgrade.
+
+To stop a user or group from commenting (for example spammers, or to make a
+project genuinely read-only), add a `block` rule. Because the default grant
+lives in the 'refs/*' section of `All-Projects`, and a same-section `allow`
+exempts a `block`, the block must be placed in a *different* access section:
+on 'refs/heads/\*' to cover normal changes, additionally on 'refs/meta/config'
+to cover project-config changes, or as a 'refs/*' block in a child project.
+
 [[category_delete_own_changes]]
 === Delete Own Changes
 

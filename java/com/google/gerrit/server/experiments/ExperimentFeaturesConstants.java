@@ -45,4 +45,13 @@ public class ExperimentFeaturesConstants {
   /** Whether we restrict the creation of branch permissions. */
   public static final String GERRIT_BACKEND_FEATURE_RESTRICT_BRANCH_PERMISSIONS =
       "GerritBackendFeature__restrict_branch_permissions";
+
+  /**
+   * Temporary rollout bridge: allow identified users to post review comments even without the
+   * {@code postReviewComment} ACL grant. Intended for deployments that do not run the schema
+   * migration that seeds the permission. Read at startup, so toggling requires a restart; while
+   * enabled it overrides an explicit {@code block}. Removed once such hosts have seeded their ACLs.
+   */
+  public static final String ALLOW_POST_REVIEW_COMMENT_FOR_REGISTERED_USERS =
+      "GerritBackendFeature__allow_post_review_comment_for_registered_users";
 }

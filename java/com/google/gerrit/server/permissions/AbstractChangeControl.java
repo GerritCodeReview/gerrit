@@ -91,6 +91,7 @@ abstract class AbstractChangeControl {
         case EDIT_HASHTAGS -> canEditHashtags();
         case EDIT_CUSTOM_KEYED_VALUES -> canEditCustomKeyedValues();
         case EDIT_TOPIC_NAME -> canEditTopicName();
+        case POST_REVIEW_COMMENT -> canPostReviewComment();
         case REBASE -> canRebase();
         case REBASE_ON_BEHALF_OF_UPLOADER -> canRebaseOnBehalfOfUploader();
         case RESTORE -> canRestore();
@@ -215,6 +216,20 @@ abstract class AbstractChangeControl {
         || projectControl.isOwner()
         || refControl.canPerform(Permission.TOGGLE_WORK_IN_PROGRESS_STATE)
         || projectControl.isAdmin();
+  }
+
+  /**
+   * Can this user post review comments (and, transitively, votes and reviewer additions)?
+   *
+   * <p>Default-deny: absent an explicit ACL rule the answer is {@code false}. All-Projects ships an
+   * explicit {@code refs/*} grant for Registered Users (see {@code GrantPostReviewCommentPermission}
+   * / the seed in {@code AllProjectsCreator}), so ordinary users keep commenting. Internal/plugin
+   * users carry no group memberships, so they are trusted here the same way {@code READ} trusts them.
+   *
+   * <p>{@code protected} so {@link ChangeControl} can OR-in the temporary rollout experiment flag.
+   */
+  protected boolean canPostReviewComment() {
+    return getUser().isInternalUser() || refControl.canPerform(Permission.POST_REVIEW_COMMENT);
   }
 
   private boolean can(AbstractLabelPermission perm) {

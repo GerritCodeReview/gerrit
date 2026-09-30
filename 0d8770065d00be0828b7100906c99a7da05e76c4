@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7648f4c_cff6f6fb",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1096475
+      },
+      "writtenOn": "2026-09-30T22:16:40Z",
+      "side": 1,
+      "message": "Please fix this WARNING reported by autoreview issue finding: To exactly match the backend fix and prevent inheriting a range that belongs to a different line (in case the REST API caller explicitly provided a different `line` but omitted `range`), consider moving the `line` inheritance before the `range` inheritance and checking if `comment.line \u003d\u003d\u003d parent.line` before copying the range:\n\n```typescript\n    if (parent.line !\u003d\u003d undefined \u0026\u0026 comment.line \u003d\u003d\u003d undefined) {\n      comment.line \u003d parent.line;\n    }\n    if (parent.range \u0026\u0026 !comment.range \u0026\u0026 comment.line \u003d\u003d\u003d parent.line) {\n      comment.range \u003d {...parent.range};\n    }\n```",
+      "range": {
+        "startLine": 247,
+        "startChar": 0,
+        "endLine": 247,
+        "endChar": 0
+      },
+      "revId": "0d8770065d00be0828b7100906c99a7da05e76c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

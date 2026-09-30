@@ -20,6 +20,7 @@ export enum AccessPermissionId {
   FORGE_COMMITTER = 'forgeCommitter',
   FORGE_SERVER_AS_COMMITTER = 'forgeServerAsCommitter',
   OWNER = 'owner',
+  POST_REVIEW_COMMENT = 'postReviewComment',
   PUSH = 'push',
   PUSH_MERGE = 'pushMerge',
   READ = 'read',
@@ -91,6 +92,10 @@ export const AccessPermissions: {[id: string]: AccessPermission} = {
   [AccessPermissionId.OWNER]: {
     id: AccessPermissionId.OWNER,
     name: 'Owner',
+  },
+  [AccessPermissionId.POST_REVIEW_COMMENT]: {
+    id: AccessPermissionId.POST_REVIEW_COMMENT,
+    name: 'Post Review Comment',
   },
   [AccessPermissionId.PUSH]: {
     id: AccessPermissionId.PUSH,
@@ -192,6 +197,7 @@ const DocsDocAnchors: Record<string, string> = {
   [AccessPermissionId.FORGE_COMMITTER]: 'category_forge_committer',
   [AccessPermissionId.FORGE_SERVER_AS_COMMITTER]: 'category_forge_server',
   [AccessPermissionId.OWNER]: 'category_owner',
+  [AccessPermissionId.POST_REVIEW_COMMENT]: 'category_post_review_comment',
   [AccessPermissionId.PUSH]: 'category_push',
   [AccessPermissionId.PUSH_MERGE]: 'category_push_merge',
   [AccessPermissionId.READ]: 'category_read',

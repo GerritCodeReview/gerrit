@@ -45,7 +45,6 @@ import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import java.time.Instant;
 import java.util.Collections;
 import java.util.Optional;
 
@@ -146,25 +145,25 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
         commentsUtil.deleteHumanComments(update, Collections.singleton(origComment));
         comment.key.filename = in.path;
       }
+      update(comment, in, ctx);
       commentsUtil.setCommentCommitId(comment, ctx.getChange(), ps);
       commentsUtil.putHumanComments(
-          update,
-          HumanComment.Status.DRAFT,
-          Collections.singleton(update(comment, in, ctx.getWhen())));
+          update, HumanComment.Status.DRAFT, Collections.singleton(comment));
       return true;
     }
   }
 
-  private static HumanComment update(HumanComment e, DraftInput in, Instant when) {
-    if (in.side != null) {
+  private void update(HumanComment e, DraftInput in, ChangeContext ctx) {
+    if (in.side != null || in.parent != null) {
       e.side = in.side();
+      e.setCommitId(null);
     }
     if (in.inReplyTo != null) {
       e.parentUuid = Url.decode(in.inReplyTo);
     }
-    e.setLineNbrAndRange(in.line, in.range);
+    commentsUtil.setLocationFromInputAndParent(e, in, ctx.getNotes());
     e.message = in.message.trim();
-    e.setWrittenOn(when);
+    e.setWrittenOn(ctx.getWhen());
     if (in.tag != null) {
       // TODO(dborowitz): Can we support changing tags via PUT?
       e.tag = in.tag;
@@ -180,6 +179,5 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
     } else {
       e.fixSuggestions = null;
     }
-    return e;
   }
 }

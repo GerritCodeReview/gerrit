@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "60a1d455_81f94976",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1075,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-01T17:27:11Z",
+      "side": 1,
+      "message": "Agreed. Swapped the order: change 635464 lands first, this change second. Each builds and passes AiReviewPermissionIT standalone.",
+      "parentUuid": "b825ef49_a15c75e2",
+      "range": {
+        "startLine": 1073,
+        "startChar": 25,
+        "endLine": 1075,
+        "endChar": 14
+      },
+      "revId": "ea4a86bd25d08d5c5a1d0654087dcc613d15ab6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6e46d1f5_e28d0906",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-10-01T06:25:33Z",
       "side": 1,
       "message": "```suggestion\nTo allow a default grant for everyone\n```",
+      "range": {
+        "startLine": 1088,
+        "startChar": 3,
+        "endLine": 1088,
+        "endChar": 42
+      },
+      "revId": "ea4a86bd25d08d5c5a1d0654087dcc613d15ab6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "371b592c_e761bd51",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1088,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-01T17:27:11Z",
+      "side": 1,
+      "message": "Dropped. The whole deny example is removed, so the heading goes with it.",
+      "parentUuid": "6e46d1f5_e28d0906",
       "range": {
         "startLine": 1088,
         "startChar": 3,
@@ -64,6 +112,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "674572d4_4c315210",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 1094,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-01T17:27:11Z",
+      "side": 1,
+      "message": "You are right this example does not work: a deny on a subgroup cannot carve it out of a broad allow.\n\nBut a deny on the same group does suppress the allow, so deny is not generally ignored. Block does not fix it either (same-section ALLOW overrides BLOCK).\n\nThe working options are grant only to the intended groups, or block the subgroup in a child project.\n\nDoc updated accordingly.",
+      "parentUuid": "b8375964_c7818a40",
+      "revId": "ea4a86bd25d08d5c5a1d0654087dcc613d15ab6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ff789025_63258f3a",
@@ -77,6 +143,30 @@
       "writtenOn": "2026-10-01T06:25:33Z",
       "side": 1,
       "message": "All permissions are default-deny, but we don\u0027t mention the fact in every comment.\n\n\n\n```suggestion\n    // All-Projects seeds an explicit grant for\n```",
+      "range": {
+        "startLine": 44,
+        "startChar": 7,
+        "endLine": 44,
+        "endChar": 31
+      },
+      "revId": "ea4a86bd25d08d5c5a1d0654087dcc613d15ab6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9df4741f_e526765c",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/AiReviewPermissionIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-01T17:27:11Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "ff789025_63258f3a",
       "range": {
         "startLine": 44,
         "startChar": 7,
@@ -110,6 +200,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "61da30c9_9a3cbdca",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/AiReviewPermissionIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-01T17:27:11Z",
+      "side": 1,
+      "message": "No mismatch: L44 is the allowed case, L62 is the denied case. Added a class-level comment documenting the convention so it is not a trap.",
+      "parentUuid": "e144db3c_f189aafd",
+      "range": {
+        "startLine": 46,
+        "startChar": 11,
+        "endLine": 46,
+        "endChar": 64
+      },
+      "revId": "ea4a86bd25d08d5c5a1d0654087dcc613d15ab6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b5e7e016_3b7014bb",
@@ -123,6 +237,30 @@
       "writtenOn": "2026-10-01T06:25:33Z",
       "side": 1,
       "message": "I believe we should assert that the action is not present, isn\u0027t it?",
+      "range": {
+        "startLine": 62,
+        "startChar": 4,
+        "endLine": 62,
+        "endChar": 57
+      },
+      "revId": "ea4a86bd25d08d5c5a1d0654087dcc613d15ab6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef6578f2_5e334159",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/AiReviewPermissionIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-01T17:27:11Z",
+      "side": 1,
+      "message": "L62 is the denied case, so the action is present with `enabled\u003dfalse`.\n\nL49 `doesNotContainKey` would instead match the allowed case.\n\nCaptured live from `GET /changes/{id}/revisions/current/actions`:\n\nDenied (no grant / default-deny):\n```\n  )]}\u0027\n  {..., \"aiReview\":{\"label\":\"AI Review\",\"title\":\"Run AI Review on this change\",\"enabled\":false}}\n```\n\nAllowed (seeded grant): same response without any aiReview key.",
+      "parentUuid": "b5e7e016_3b7014bb",
       "range": {
         "startLine": 62,
         "startChar": 4,

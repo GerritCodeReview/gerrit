@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58f620c7_f4d9846b",
+        "filename": "tools/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-01T12:28:12Z",
+      "side": 1,
+      "message": "Java 21 isn\u0027t supported anymore: we do we want to account for this case?",
+      "range": {
+        "startLine": 36,
+        "startChar": 9,
+        "endLine": 36,
+        "endChar": 24
+      },
+      "revId": "36b3e9d40f6d30a9991a12251adcbff129cfc324",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

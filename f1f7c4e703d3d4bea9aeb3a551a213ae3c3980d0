@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "81d4357b_4e445c73",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 3705,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-01T23:10:55Z",
+      "side": 1,
+      "message": "`CHERRY_PICK` doesn\u0027t actually enforce that, which is why we have warnings against using it in https://gerrit-review.googlesource.com/Documentation/config-project-config.html#submit-type\nTherefore, I think with cherry-pick the conflict is real and expected.\n\n`REBASE_ALWAYS` does enforce it, so you could also setup another test with that submit type to compare.",
+      "revId": "f1f7c4e703d3d4bea9aeb3a551a213ae3c3980d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd3012d7_4188bc0c",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 3720,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-01T23:10:55Z",
+      "side": 1,
+      "message": "As noted above, this second query should return change1, as it does on L3708.",
+      "revId": "f1f7c4e703d3d4bea9aeb3a551a213ae3c3980d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79073332_68d1130b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-10-01T15:38:18Z",
+      "side": 1,
+      "message": "That is how @CacheDir is also done and are we saying that is bad and should make all of them follow same pattern ?",
+      "revId": "91526d92bbe008e3ffa9df78cbcdcf73fe6b5fb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03ca9505_75f6cf15",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-10-01T15:38:18Z",
+      "side": 1,
+      "message": "I actually think we should be just sending them indexDir instead of the sitePaths. but I guess oversharing is okay ?",
+      "revId": "91526d92bbe008e3ffa9df78cbcdcf73fe6b5fb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

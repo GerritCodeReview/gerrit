@@ -25,34 +25,13 @@ import com.google.inject.Inject;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.lang.reflect.Field;
 import java.util.Locale;
-import org.junit.After;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class EmailValidatorIT extends AbstractDaemonTest {
   private static final String UNSUPPORTED_PREFIX = "#! ";
 
   @Inject private OutgoingEmailValidator validator;
-
-  @BeforeClass
-  public static void setUpClass() throws Exception {
-    // Reset before first use, in case other tests have already run in this JVM.
-    resetDomainValidator();
-  }
-
-  @After
-  public void tearDown() throws Exception {
-    resetDomainValidator();
-  }
-
-  private static void resetDomainValidator() throws Exception {
-    Class<?> c = Class.forName("org.apache.commons.validator.routines.DomainValidator");
-    Field f = c.getDeclaredField("inUse");
-    f.setAccessible(true);
-    f.setBoolean(c, false);
-  }
 
   @Test
   @GerritConfig(name = "sendemail.allowTLD", value = "example")

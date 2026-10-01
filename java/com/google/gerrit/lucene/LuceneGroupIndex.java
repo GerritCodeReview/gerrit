@@ -32,7 +32,6 @@ import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.index.IndexDir;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.index.group.GroupIndex;
 import com.google.gerrit.server.index.options.AutoFlush;
@@ -72,27 +71,27 @@ public class LuceneGroupIndex extends AbstractLuceneIndex<AccountGroup.UUID, Int
   private final QueryBuilder<InternalGroup> queryBuilder;
   private final Provider<GroupCache> groupCache;
 
-  private static Directory dir(Schema<?> schema, Config cfg, Path indexDir) throws IOException {
+  private static Directory dir(Schema<?> schema, Config cfg, SitePaths sitePaths)
+      throws IOException {
     if (LuceneIndexModule.isInMemoryTest(cfg)) {
       return new ByteBuffersDirectory();
     }
-    Path dir = LuceneVersionManager.getDir(indexDir, GROUPS, schema);
-    return LuceneDirectory.open(cfg, dir);
+    Path indexDir = LuceneVersionManager.getDir(sitePaths, GROUPS, schema);
+    return LuceneDirectory.open(cfg, indexDir);
   }
 
   @Inject
   LuceneGroupIndex(
       @GerritServerConfig Config cfg,
       SitePaths sitePaths,
-      @IndexDir Path indexDir,
       Provider<GroupCache> groupCache,
       @Assisted Schema<InternalGroup> schema,
       AutoFlush autoFlush)
       throws IOException {
     super(
         schema,
-        indexDir,
-        dir(schema, cfg, indexDir),
+        sitePaths,
+        dir(schema, cfg, sitePaths),
         GROUPS,
         ImmutableSet.of(),
         null,

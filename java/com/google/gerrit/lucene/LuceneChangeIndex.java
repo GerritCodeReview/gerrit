@@ -53,7 +53,6 @@ import com.google.gerrit.proto.Protos;
 import com.google.gerrit.server.change.MergeabilityComputationBehavior;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.index.IndexDir;
 import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.index.change.ChangeField;
@@ -135,7 +134,6 @@ public class LuceneChangeIndex implements ChangeIndex {
   LuceneChangeIndex(
       @GerritServerConfig Config cfg,
       SitePaths sitePaths,
-      @IndexDir Path indexDir,
       @IndexExecutor(INTERACTIVE) ListeningExecutorService executor,
       ChangeData.Factory changeDataFactory,
       @Assisted Schema<ChangeData> schema,
@@ -161,7 +159,7 @@ public class LuceneChangeIndex implements ChangeIndex {
       openIndex =
           new ChangeSubIndex(
               schema,
-              indexDir,
+              sitePaths,
               new ByteBuffersDirectory(),
               "ramOpen",
               skipFields,
@@ -171,7 +169,7 @@ public class LuceneChangeIndex implements ChangeIndex {
       closedIndex =
           new ChangeSubIndex(
               schema,
-              indexDir,
+              sitePaths,
               new ByteBuffersDirectory(),
               "ramClosed",
               skipFields,
@@ -179,11 +177,11 @@ public class LuceneChangeIndex implements ChangeIndex {
               searcherFactory,
               autoFlush);
     } else {
-      Path dir = LuceneVersionManager.getDir(indexDir, CHANGES, schema);
+      Path dir = LuceneVersionManager.getDir(sitePaths, CHANGES, schema);
       openIndex =
           new ChangeSubIndex(
               schema,
-              indexDir,
+              sitePaths,
               cfg,
               dir.resolve(CHANGES_OPEN),
               skipFields,
@@ -193,7 +191,7 @@ public class LuceneChangeIndex implements ChangeIndex {
       closedIndex =
           new ChangeSubIndex(
               schema,
-              indexDir,
+              sitePaths,
               cfg,
               dir.resolve(CHANGES_CLOSED),
               skipFields,

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb01d22d_3932cd9f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-01T23:48:45Z",
+      "side": 1,
+      "message": "I think we want more tests than just this, or at least check that the existing `mergeable` test(s) in `javatests/com/google/gerrit/acceptance/api/revision/RevisionIT.java` cover this well enough.",
+      "revId": "59f3e1ca5f9164af507f5d753a8f2d82c10c1c06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "421ba3ef_84d6b138",
+        "filename": "java/com/google/gerrit/server/submit/SubmitDryRun.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-01T23:48:45Z",
+      "side": 1,
+      "message": "This results in marking all of these commits as uninteresting, so we won\u0027t walk to them. Does removing the heads/tags mean we walk more commits?",
+      "revId": "59f3e1ca5f9164af507f5d753a8f2d82c10c1c06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

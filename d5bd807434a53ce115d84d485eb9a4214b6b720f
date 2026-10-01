@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7b3725d_c635cfff",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-01T20:32:01Z",
+      "side": 1,
+      "message": "`java/com/google/gerrit/sshd/SshKeyCacheImpl.java` looks like it would have the same buggy behavior as it just uses the username in the cache `get()`.",
+      "revId": "d5bd807434a53ce115d84d485eb9a4214b6b720f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5cc4e92d_6fcf5c4e",
+        "filename": "java/com/google/gerrit/server/account/AuthTokenCache.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-01T20:32:01Z",
+      "side": 1,
+      "message": "This works, but you\u0027ll get cache invalidations for *any* account update, not just tokens. Better would be to check the blob object-id of the `tokens.config` file (`VersionedAuthTokens`), if it exists, and use that in the key. There\u0027s a protected `getObjectId(filename)` method already in `VersionedMetaData` that does that lookup for you. You can see it used in [`ProjectConfig`](https://gerrit.googlesource.com/gerrit/+/refs/changes/85/634885/4/java/com/google/gerrit/server/project/ProjectConfig.java#705).\n\nWith that improvement, you might even want to switch this to a persisted cache, but we can always do that later too.",
+      "revId": "d5bd807434a53ce115d84d485eb9a4214b6b720f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

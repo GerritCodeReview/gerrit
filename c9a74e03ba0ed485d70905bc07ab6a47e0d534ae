@@ -16,6 +16,23 @@
       "message": "Why do we need this? Gerrit requires Java 25 from now on at source level.",
       "revId": "c9a74e03ba0ed485d70905bc07ab6a47e0d534ae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5fe19d0e_7cece8df",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-01T13:18:32Z",
+      "side": 1,
+      "message": "My bad, I totally forgot that we have to ensure Java 21 source code compatibility.",
+      "revId": "c9a74e03ba0ed485d70905bc07ab6a47e0d534ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

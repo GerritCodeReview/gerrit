@@ -48,6 +48,7 @@ import com.google.gerrit.index.query.FieldBundle;
 import com.google.gerrit.index.query.ListResultSet;
 import com.google.gerrit.index.query.ResultSet;
 import com.google.gerrit.proto.Protos;
+import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.index.options.AutoFlush;
 import com.google.gerrit.server.logging.LoggingContextAwareExecutorService;
@@ -104,7 +105,7 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
   }
 
   private final Schema<V> schema;
-  private final Path indexDir;
+  private final SitePaths sitePaths;
   private final Directory dir;
   private final String name;
   private final ImmutableSet<String> skipFields;
@@ -120,7 +121,7 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
   @SuppressWarnings("ThreadPriorityCheck")
   AbstractLuceneIndex(
       Schema<V> schema,
-      Path indexDir,
+      SitePaths sitePaths,
       Directory dir,
       String name,
       ImmutableSet<String> skipFields,
@@ -131,7 +132,7 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
       Function<V, K> valueToKeyFunction)
       throws IOException {
     this.schema = schema;
-    this.indexDir = indexDir;
+    this.sitePaths = sitePaths;
     this.dir = dir;
     this.name = name;
     this.skipFields = skipFields;
@@ -246,7 +247,7 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
 
   @Override
   public void markReady(boolean ready) {
-    IndexUtils.setReady(indexDir, name, schema.getVersion(), ready);
+    IndexUtils.setReady(sitePaths, name, schema.getVersion(), ready);
   }
 
   @Override
@@ -554,12 +555,9 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
     IndexCommit commit = snapshooter.snapshot();
     try {
       Path sourceDir = canonical(((FSDirectory) commit.getDirectory()).getDirectory());
-      Path canonicalIndexDir = canonical(indexDir);
+      Path indexDir = canonical(sitePaths.index_dir);
       Path targetDir =
-          canonicalIndexDir
-              .resolve("snapshots")
-              .resolve(id)
-              .resolve(canonicalIndexDir.relativize(sourceDir));
+          indexDir.resolve("snapshots").resolve(id).resolve(indexDir.relativize(sourceDir));
       if (targetDir.toFile().exists()) {
         throw new FileAlreadyExistsException(targetDir.toString());
       }

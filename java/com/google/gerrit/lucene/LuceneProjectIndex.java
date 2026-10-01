@@ -32,7 +32,6 @@ import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.index.IndexDir;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.index.options.AutoFlush;
 import com.google.gerrit.server.project.ProjectCache;
@@ -72,28 +71,27 @@ public class LuceneProjectIndex extends AbstractLuceneIndex<Project.NameKey, Pro
   private final QueryBuilder<ProjectData> queryBuilder;
   private final Provider<ProjectCache> projectCache;
 
-  private static Directory dir(Schema<ProjectData> schema, Config cfg, Path indexDir)
+  private static Directory dir(Schema<ProjectData> schema, Config cfg, SitePaths sitePaths)
       throws IOException {
     if (LuceneIndexModule.isInMemoryTest(cfg)) {
       return new ByteBuffersDirectory();
     }
-    Path dir = LuceneVersionManager.getDir(indexDir, PROJECTS, schema);
-    return LuceneDirectory.open(cfg, dir);
+    Path indexDir = LuceneVersionManager.getDir(sitePaths, PROJECTS, schema);
+    return LuceneDirectory.open(cfg, indexDir);
   }
 
   @Inject
   LuceneProjectIndex(
       @GerritServerConfig Config cfg,
       SitePaths sitePaths,
-      @IndexDir Path indexDir,
       Provider<ProjectCache> projectCache,
       @Assisted Schema<ProjectData> schema,
       AutoFlush autoFlush)
       throws IOException {
     super(
         schema,
-        indexDir,
-        dir(schema, cfg, indexDir),
+        sitePaths,
+        dir(schema, cfg, sitePaths),
         PROJECTS,
         ImmutableSet.of(),
         null,

@@ -108,7 +108,7 @@
     "commons-logging:commons-logging": -264381874,
     "commons-net:commons-net": 1227155931,
     "commons-pool:commons-pool": -2015226625,
-    "commons-validator:commons-validator": -89255997,
+    "commons-validator:commons-validator": -349173223,
     "dk.brics:automaton": -733058,
     "eu.medsea.mimeutil:mime-util": -1364938376,
     "io.dropwizard.metrics:metrics-core": 1542162680,
@@ -317,8 +317,8 @@
     "commons-net:commons-net:jar:sources": -729248524,
     "commons-pool:commons-pool": -212519749,
     "commons-pool:commons-pool:jar:sources": 1134824914,
-    "commons-validator:commons-validator": 298719241,
-    "commons-validator:commons-validator:jar:sources": 1666065747,
+    "commons-validator:commons-validator": -842137273,
+    "commons-validator:commons-validator:jar:sources": 1073953409,
     "dk.brics:automaton": -509279352,
     "dk.brics:automaton:jar:sources": 1035320481,
     "eu.medsea.mimeutil:mime-util": -188093271,
@@ -897,10 +897,10 @@
     },
     "commons-validator:commons-validator": {
       "shasums": {
-        "jar": "bd62795d7068a69cbea333f6dbf9c9c1a6ad7521443fb57202a44874f240ba25",
-        "sources": "9d4d052237a3b010138b853d8603d996cc3f89a6b3f793c5a50b93481cd8dea2"
+        "jar": "b7e1dcdc60d581de82934f4600e25af9ad9366730af1704ddcbf459e4dcc85e5",
+        "sources": "77a063f693602793cee0b64a2ebc066ce9120f2be966146b3b187fa6f921cbd4"
       },
-      "version": "1.6"
+      "version": "1.11.0"
     },
     "dk.brics:automaton": {
       "shasums": {

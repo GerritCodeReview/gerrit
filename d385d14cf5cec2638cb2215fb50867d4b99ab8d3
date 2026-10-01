@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8addada3_47faffcd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-10-01T14:43:31Z",
+      "side": 1,
+      "message": "Sasa\u0027s new implementation in https://gerrit-review.googlesource.com/c/gerrit/+/636564 looks much less intrusive",
+      "revId": "d385d14cf5cec2638cb2215fb50867d4b99ab8d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

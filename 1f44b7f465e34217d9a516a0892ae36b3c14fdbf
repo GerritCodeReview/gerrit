@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "99e72e68_a2737fc2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5207119
+      },
+      "writtenOn": "2026-10-01T15:06:06Z",
+      "side": 1,
+      "message": "hardreset my cp pls",
+      "revId": "1f44b7f465e34217d9a516a0892ae36b3c14fdbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

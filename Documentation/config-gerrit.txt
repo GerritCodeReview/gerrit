@@ -3987,6 +3987,14 @@ index is used.
 For using other indexing backends (e.g. ElasticSearch), refer to
 `gerrit.installIndexModule` setting.
 +
+[[index.directory]]index.directory::
++
+Path to the directory where Gerrit stores its secondary index files.
++
+If not absolute, the path is resolved relative to `$site_path`.
++
+Default is `$site_path/index`.
++
 [[index.threads]]index.threads::
 +
 Number of threads to use for indexing in normal interactive operations. Setting

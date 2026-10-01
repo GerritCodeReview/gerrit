@@ -34,7 +34,6 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
-import com.google.gerrit.server.index.IndexDir;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.index.account.AccountIndex;
 import com.google.gerrit.server.index.options.AutoFlush;
@@ -82,28 +81,27 @@ public class LuceneAccountIndex extends AbstractLuceneIndex<Account.Id, AccountS
   private final QueryBuilder<AccountState> queryBuilder;
   private final Provider<AccountCache> accountCache;
 
-  private static Directory dir(Schema<AccountState> schema, Config cfg, Path indexDir)
+  private static Directory dir(Schema<AccountState> schema, Config cfg, SitePaths sitePaths)
       throws IOException {
     if (LuceneIndexModule.isInMemoryTest(cfg)) {
       return new ByteBuffersDirectory();
     }
-    Path dir = LuceneVersionManager.getDir(indexDir, ACCOUNTS, schema);
-    return LuceneDirectory.open(cfg, dir);
+    Path indexDir = LuceneVersionManager.getDir(sitePaths, ACCOUNTS, schema);
+    return LuceneDirectory.open(cfg, indexDir);
   }
 
   @Inject
   LuceneAccountIndex(
       @GerritServerConfig Config cfg,
       SitePaths sitePaths,
-      @IndexDir Path indexDir,
       Provider<AccountCache> accountCache,
       @Assisted Schema<AccountState> schema,
       AutoFlush autoFlush)
       throws IOException {
     super(
         schema,
-        indexDir,
-        dir(schema, cfg, indexDir),
+        sitePaths,
+        dir(schema, cfg, sitePaths),
         ACCOUNTS,
         ImmutableSet.of(),
         null,

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee8fd734_f46619ce",
+        "filename": "java/com/google/gerrit/httpd/AllRequestFilter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-01T12:27:21Z",
+      "side": 0,
+      "message": "This is a perfectly legal statement with Java 25, which is the minimum version required by Gerrit.",
+      "range": {
+        "startLine": 42,
+        "startChar": 82,
+        "endLine": 42,
+        "endChar": 91
+      },
+      "revId": "6893cddbd8b4095bddb444c88c71a61beb478744",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

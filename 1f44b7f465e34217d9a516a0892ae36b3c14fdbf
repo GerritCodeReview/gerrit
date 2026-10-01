@@ -20,6 +20,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4fb32cc2_c4450a4d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-01T20:38:35Z",
+      "side": 1,
+      "message": "Also, if you\u0027re going to have this provider, why not use it everywhere we use `AllUsersName`? As you note, there\u0027s likely a lot of Gerrit operations that need account data. `git grep \u0027openRepository(allUsersName)\u0027` shows some good candidates. I would at least update `java/com/google/gerrit/server/group/db/Groups.java` and `java/com/google/gerrit/server/account/GroupCacheImpl.java` in a follow up change, but the `java/com/google/gerrit/server/account/externalids/storage/notedb/...` classes would also be good to update.",
+      "revId": "1f44b7f465e34217d9a516a0892ae36b3c14fdbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2e625aaf_16768a55",
         "filename": "java/com/google/gerrit/server/git/AllUsersRepository.java",
         "patchSetId": 3

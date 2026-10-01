@@ -15,6 +15,7 @@
 package com.google.gerrit.pgm.init;
 
 import com.google.common.collect.Iterables;
+import com.google.gerrit.common.FileUtil;
 import com.google.gerrit.index.IndexType;
 import com.google.gerrit.index.SchemaDefinitions;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
@@ -57,6 +58,7 @@ class InitIndex implements InitStep {
             index.select("Type", "type", IndexType.getDefault(), IndexType.getKnownTypes()));
 
     if ((site.isNew || isEmptySite()) && type.isLucene()) {
+      FileUtil.mkdirsOrDie(site.index_dir, "Cannot create index directory");
       for (SchemaDefinitions<?> def : IndexModule.ALL_SCHEMA_DEFS) {
         IndexUtils.setReady(site, def.getName(), def.getLatest().getVersion(), true);
       }

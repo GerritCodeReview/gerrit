@@ -1049,7 +1049,7 @@ public abstract class AbstractAccountIT extends AbstractDaemonTest {
             "@example.com",
 
             // Non-supported TLD  (see tlds-alpha-by-domain.txt)
-            "new.email@example.africa");
+            "new.email@example.active");
     AccountIndexedCounter accountIndexedCounter = getAccountIndexedCounter();
     try (Registration registration =
         extensionRegistry.newRegistration().add(accountIndexedCounter)) {

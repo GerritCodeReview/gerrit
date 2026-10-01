@@ -16,6 +16,57 @@
       "message": "hardreset my cp pls",
       "revId": "1f44b7f465e34217d9a516a0892ae36b3c14fdbf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e625aaf_16768a55",
+        "filename": "java/com/google/gerrit/server/git/AllUsersRepository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-01T19:50:32Z",
+      "side": 1,
+      "message": "nit: replace \"each\" since there\u0027s only 1 repo\n\n```suggestion\n * \u003cp\u003eInject a {@code Provider\u003cRepository\u003e} and use the repository obtained from {@code get()} in\n```",
+      "revId": "1f44b7f465e34217d9a516a0892ae36b3c14fdbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e1d719b_ca37ea5c",
+        "filename": "java/com/google/gerrit/server/git/AllUsersRepositoryProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-01T19:50:32Z",
+      "side": 1,
+      "message": "This should have a test added for at least basic functionality and ideally covers both `core.useFileKeyByProjectCache` values.",
+      "revId": "1f44b7f465e34217d9a516a0892ae36b3c14fdbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "945974d2_ade1c6bf",
+        "filename": "java/com/google/gerrit/server/git/AllUsersRepositoryProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-01T19:50:32Z",
+      "side": 1,
+      "message": "Also set `repository \u003d null;` so we don\u0027t close again by accident?\n```suggestion\n      repository.close();\n      repository \u003d null;\n```",
+      "revId": "1f44b7f465e34217d9a516a0892ae36b3c14fdbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

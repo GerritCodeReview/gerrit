@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e0f04df5_9a9c3e39",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-01T07:58:30Z",
+      "side": 1,
+      "message": "Did this behaviour cause an end-to-end issue? If yes, can you create the issue and link it here as `Bug: Issue NNNN` please?",
+      "range": {
+        "startLine": 11,
+        "startChar": 16,
+        "endLine": 13,
+        "endChar": 21
+      },
+      "revId": "d48d5aa8f25e9a3bd720753fe6f26db5d37bdf53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

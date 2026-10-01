@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "061550fd_b1198bbc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-01T20:41:11Z",
+      "side": 1,
+      "message": "I think this change mostly improves things, but overall, we still have a strange situation where most perm checks happen in `RefControl`, but then the ones that need commit object data have their logic in `CommitValidator`s. It feels weird to have that logic outside of the `permissions` package.",
+      "revId": "66845fb495f1693f0bd37a0fba7e3b79fd9b3795",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

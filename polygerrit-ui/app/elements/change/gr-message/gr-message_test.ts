@@ -12,10 +12,12 @@ import {
 } from '../../core/gr-navigation/gr-navigation';
 import {
   createAccountWithIdNameAndEmail,
+  createAccountDetailWithId,
   createChange,
   createChangeMessage,
   createComment,
   createCommentThread,
+  createDetailedLabelInfo,
   createLabelInfo,
   createRevisions,
 } from '../../../test/test-data-generators';
@@ -40,11 +42,12 @@ import {
 } from '../../../types/common';
 import {ChangeMessageDeletedEventDetail} from '../../../types/events';
 import {GrButton} from '../../shared/gr-button/gr-button';
-import {CommentSide} from '../../../constants/constants';
+import {CommentSide, MessageTag} from '../../../constants/constants';
 import {SinonStubbedMember} from 'sinon';
 import {html} from 'lit';
 import {assert, fixture} from '@open-wc/testing';
 import {testResolver} from '../../../test/common-test-setup';
+import {userModelToken} from '../../../models/user/user-model';
 
 suite('gr-message tests', () => {
   let element: GrMessage;
@@ -424,6 +427,43 @@ suite('gr-message tests', () => {
         assert.equal(
           setUrlStub.lastCall.firstArg,
           '/c/test-project/+/42/199..200'
+        );
+      });
+
+      test('uses the user\'s latest prior review as the diff base', async () => {
+        const account = createAccountDetailWithId(1);
+        testResolver(userModelToken).setAccount(account);
+        element.change = {
+          ...createChange(),
+          revisions: createRevisions(4),
+          labels: {'Code-Review': createDetailedLabelInfo()},
+          messages: [
+            {
+              ...createChangeMessage(),
+              author: account,
+              message: 'Patch Set 1: Code-Review+1',
+              _revision_number: 1 as RevisionPatchSetNum,
+            },
+          ],
+        };
+        element.allCommentThreads = [
+          createCommentThread([
+            {author: account, patch_set: 1 as RevisionPatchSetNum},
+          ]),
+        ];
+        element.message = {
+          ...createChangeMessage(),
+          message: 'Uploaded patch set 3.',
+          tag: MessageTag.TAG_NEW_PATCHSET,
+        };
+        await element.updateComplete;
+
+        element.handleViewPatchsetDiff(new MouseEvent('click'));
+
+        assert.equal(setUrlStub.lastCall.firstArg, '/c/test-project/+/42/1..3');
+        assert.include(
+          queryAndAssert<GrButton>(element, '.patchsetDiffButton').textContent,
+          'View Diff from patch set 1'
         );
       });
 

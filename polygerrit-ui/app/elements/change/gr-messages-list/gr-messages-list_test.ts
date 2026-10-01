@@ -340,6 +340,7 @@ suite('gr-messages-list tests', () => {
       // threads
       assertIsDefined(messageElements[0].message, 'message');
       assert.equal(messageElements[0].message.commentThreads.length, 3);
+      assert.equal(messageElements[0].allCommentThreads.length, 5);
       // first thread contains 1 comment
       assert.equal(
         messageElements[0].message.commentThreads[0].comments.length,

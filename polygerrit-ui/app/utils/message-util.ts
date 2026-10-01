@@ -6,11 +6,14 @@
 import {MessageTag} from '../constants/constants';
 import {
   AccountInfo,
+  BasePatchSetNum,
   ChangeId,
   ChangeInfo,
   ChangeMessage,
   ChangeMessageInfo,
+  CommentThread,
   PatchSetNum,
+  isDraft,
 } from '../types/common';
 import {ParsedChangeInfo} from '../types/types';
 import {LabelExtreme, PATCH_SET_PREFIX_PATTERN} from './comment-util';
@@ -24,6 +27,18 @@ export const LABEL_TITLE_SCORE_PATTERN =
 export interface Score {
   label?: string;
   value?: string;
+}
+
+function getLabelExtremes(
+  change: ChangeInfo | ParsedChangeInfo
+): LabelExtreme {
+  const labelExtremes: LabelExtreme = {};
+  const labels = change.labels ?? {};
+  for (const labelName of Object.keys(labels)) {
+    const range = getVotingRange(labels[labelName]);
+    if (range) labelExtremes[labelName] = range;
+  }
+  return labelExtremes;
 }
 
 function getRevertChangeIdFromMessage(msg: ChangeMessageInfo): ChangeId {
@@ -84,14 +99,7 @@ export function getCodeReviewVotesFromMessage(
     return codeReviewVotes;
   }
 
-  const labelExtremes: LabelExtreme = {};
-  for (const labelName of Object.keys(change.labels)) {
-    const labelInfo = change.labels[labelName];
-    const range = getVotingRange(labelInfo);
-    if (range) {
-      labelExtremes[labelName] = range;
-    }
-  }
+  const labelExtremes = getLabelExtremes(change);
 
   for (const message of change.messages) {
     if (message.author?._account_id !== account._account_id) {
@@ -111,4 +119,52 @@ export function getCodeReviewVotesFromMessage(
     }
   }
   return codeReviewVotes;
+}
+
+export function getPatchSetsWithUserVotes(
+  change?: ChangeInfo | ParsedChangeInfo,
+  account?: AccountInfo
+): Set<PatchSetNum> {
+  const patchSets = new Set<PatchSetNum>();
+  if (!change?.messages || !account) return patchSets;
+
+  const labelExtremes = getLabelExtremes(change);
+  for (const message of change.messages) {
+    if (message.author?._account_id !== account._account_id) continue;
+    if (typeof message._revision_number !== 'number') continue;
+
+    const scores = getScores(message, labelExtremes);
+    if (scores.some(score => score.value !== undefined)) {
+      patchSets.add(message._revision_number);
+    }
+  }
+  return patchSets;
+}
+
+export function getLastReviewedPatchSet(
+  change: ChangeInfo | ParsedChangeInfo | undefined,
+  commentThreads: CommentThread[],
+  account: AccountInfo | undefined,
+  targetPatchSet: PatchSetNum | undefined
+): BasePatchSetNum | undefined {
+  if (!account || typeof targetPatchSet !== 'number') return undefined;
+  if (targetPatchSet === 1) return undefined;
+
+  const reviewedPatchSets = new Set<PatchSetNum>(
+    getPatchSetsWithUserVotes(change, account)
+  );
+  for (const thread of commentThreads) {
+    for (const comment of thread.comments) {
+      if (isDraft(comment)) continue;
+      if (comment.author?._account_id !== account._account_id) continue;
+      if (typeof comment.patch_set !== 'number') continue;
+      reviewedPatchSets.add(comment.patch_set);
+    }
+  }
+
+  const priorPatchSets = [...reviewedPatchSets].filter(
+    (patchSet): patchSet is BasePatchSetNum =>
+      typeof patchSet === 'number' && patchSet < targetPatchSet
+  );
+  return priorPatchSets.length > 0 ? Math.max(...priorPatchSets) : undefined;
 }

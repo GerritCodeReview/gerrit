@@ -395,6 +395,7 @@ export class GrMessagesList extends LitElement {
           .changeNum=${this.changeNum}
           .message=${message}
           .commentThreads=${message.commentThreads ?? []}
+          .allCommentThreads=${this.commentThreads}
           @message-anchor-tap=${this.handleAnchorClick}
           .labelExtremes=${labelExtremes}
           data-message-id=${ifDefined(getMessageId(message) as string)}

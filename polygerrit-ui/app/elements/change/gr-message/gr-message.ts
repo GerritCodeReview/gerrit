@@ -53,7 +53,10 @@ import {configModelToken} from '../../../models/config/config-model';
 import {userModelToken} from '../../../models/user/user-model';
 import {computeMainCodeBrowserWeblink} from '../../../utils/weblink-util';
 import {subscribe} from '../../lit/subscription-controller';
-import {LABEL_TITLE_SCORE_PATTERN} from '../../../utils/message-util';
+import {
+  getLastReviewedPatchSet,
+  LABEL_TITLE_SCORE_PATTERN,
+} from '../../../utils/message-util';
 
 const UPLOADED_NEW_PATCHSET_PATTERN = /Uploaded patch set (\d+)./;
 const MERGED_PATCHSET_PATTERN = /(\d+) is the latest approved patch-set/;
@@ -97,6 +100,9 @@ export class GrMessage extends LitElement {
   @property({type: Array})
   commentThreads: CommentThread[] = [];
 
+  @property({type: Array})
+  allCommentThreads: CommentThread[] = [];
+
   get author() {
     return this.message?.author || this.message?.updated_by;
   }
@@ -119,6 +125,9 @@ export class GrMessage extends LitElement {
 
   @state()
   isAdmin = false;
+
+  @state()
+  private account?: AccountInfo;
 
   @state()
   private isDeletingChangeMsg = false;
@@ -148,6 +157,11 @@ export class GrMessage extends LitElement {
       this,
       () => this.getUserModel().isAdmin$,
       x => (this.isAdmin = x)
+    );
+    subscribe(
+      this,
+      () => this.getUserModel().account$,
+      x => (this.account = x)
     );
   }
 
@@ -531,13 +545,34 @@ export class GrMessage extends LitElement {
 
   private renderDiffButton() {
     if (!this.showViewDiffButton()) return nothing;
+    const lastReviewedPatchSet = this.getLastReviewedPatchSet();
     return html` <gr-button
       class="patchsetDiffButton"
       @click=${this.handleViewPatchsetDiff}
       link
     >
-      View Diff
+      View Diff${when(
+        lastReviewedPatchSet,
+        () => html` from patch set ${lastReviewedPatchSet}`
+      )}
     </gr-button>`;
+  }
+
+  private getLastReviewedPatchSet(): BasePatchSetNum | undefined {
+    const patchNum = this.getUploadedPatchsetNumber();
+    if (patchNum === undefined) return undefined;
+    return getLastReviewedPatchSet(
+      this.change,
+      this.allCommentThreads,
+      this.account,
+      patchNum
+    );
+  }
+
+  private getUploadedPatchsetNumber(): RevisionPatchSetNum | undefined {
+    const match = this.message?.message.match(UPLOADED_NEW_PATCHSET_PATTERN);
+    if (!match || isNaN(Number(match[1]))) return undefined;
+    return Number(match[1]) as RevisionPatchSetNum;
   }
 
   private updateExpandedClass() {
@@ -605,7 +640,13 @@ export class GrMessage extends LitElement {
       if (isNaN(Number(match[1])))
         throw new Error('invalid patchnum in message');
       patchNum = Number(match[1]) as RevisionPatchSetNum;
-      basePatchNum = computePredecessor(patchNum)!;
+      basePatchNum =
+        getLastReviewedPatchSet(
+          this.change,
+          this.allCommentThreads,
+          this.account,
+          patchNum
+        ) ?? computePredecessor(patchNum)!;
     } else if (this.message.message.match(MERGED_PATCHSET_PATTERN)) {
       const match = this.message.message.match(MERGED_PATCHSET_PATTERN)!;
       if (isNaN(Number(match[1])))

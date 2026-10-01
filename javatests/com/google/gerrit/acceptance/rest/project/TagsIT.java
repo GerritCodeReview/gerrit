@@ -228,6 +228,43 @@ public class TagsIT extends AbstractDaemonTest {
             .withSortBy(ListTagSortOption.CREATION_TIME)
             .get();
     assertTagList(FluentIterable.from(ImmutableList.of("tag-A", "tag-B")), result);
+
+    // With filter, start and limit
+    result = getTags().withRegex("^tag-[B-F]$").withStart(1).withLimit(2).get();
+    assertTagList(FluentIterable.from(ImmutableList.of("tag-C", "tag-D")), result);
+
+    // With descending order and start
+    result = getTags().withDescendingOrder(true).withStart(1).withLimit(2).get();
+    assertTagList(FluentIterable.from(ImmutableList.of("tag-G", "tag-F")), result);
+
+    // With filter, descending order, start and limit
+    result =
+        getTags()
+            .withRegex("^tag-[B-F]$")
+            .withDescendingOrder(true)
+            .withStart(1)
+            .withLimit(2)
+            .get();
+    assertTagList(FluentIterable.from(ImmutableList.of("tag-E", "tag-D")), result);
+
+    // With sortBy creation time, filter, start and limit
+    result =
+        getTags()
+            .withSortBy(ListTagSortOption.CREATION_TIME)
+            .withSubstring("ag-")
+            .withStart(1)
+            .withLimit(2)
+            .get();
+    assertTagList(FluentIterable.from(ImmutableList.of("tag-G", "tag-F")), result);
+    result =
+        getTags()
+            .withSortBy(ListTagSortOption.CREATION_TIME)
+            .withRegex("^tag-[B-F]$")
+            .withDescendingOrder(true)
+            .withStart(1)
+            .withLimit(2)
+            .get();
+    assertTagList(FluentIterable.from(ImmutableList.of("tag-C", "tag-D")), result);
   }
 
   @Test
@@ -282,6 +319,21 @@ public class TagsIT extends AbstractDaemonTest {
     assertThat(tags).hasSize(1);
     assertThat(tags.get(0).ref).isEqualTo(R_TAGS + tag1.ref);
     assertThat(tags.get(0).revision).isEqualTo(tag1.revision);
+
+    // 'start' and 'limit' must be applied after the non-visible tags have been filtered out.
+    requestScopeOperations.setApiUser(admin.id());
+    TagInput tag3 = new TagInput();
+    tag3.ref = "v3.0";
+    tag3.revision = r1.getCommit().getName();
+    tag(tag3.ref).create(tag3);
+    requestScopeOperations.setApiUser(user.id());
+
+    tags = getTags().withStart(1).withLimit(1).get();
+    assertThat(tags).hasSize(1);
+    assertThat(tags.get(0).ref).isEqualTo(R_TAGS + tag3.ref);
+    tags = getTags().withDescendingOrder(true).withStart(1).withLimit(1).get();
+    assertThat(tags).hasSize(1);
+    assertThat(tags.get(0).ref).isEqualTo(R_TAGS + tag1.ref);
   }
 
   @Test

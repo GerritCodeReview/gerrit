@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.project;
 
 import static com.google.gerrit.entities.RefNames.isConfigRef;
+import static java.util.Comparator.comparing;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.Project;
@@ -149,33 +150,51 @@ public class ListTags implements RestReadView<ProjectResource> {
       throws IOException, ResourceNotFoundException, RestApiException, PermissionBackendException {
     resource.getProjectState().checkStatePermitsRead();
 
-    List<TagInfo> tags = new ArrayList<>();
-
     PermissionBackend.ForProject perm =
         permissionBackend.currentUser().project(resource.getNameKey());
     try (Repository repo = getRepository(resource.getNameKey());
         RevWalk rw = new RevWalk(repo)) {
-      Collection<Ref> all =
-          visibleTags(
-              resource.getNameKey(), repo, repo.getRefDatabase().getRefsByPrefix(Constants.R_TAGS));
-      for (Ref ref : all) {
+      // Filter on substring and regex before checking visibility and creating the TagInfos, since
+      // both are expensive for projects with many tags.
+      ImmutableList<Ref> matching =
+          new RefFilter<>(Constants.R_TAGS, Ref::getName, regexCompiler)
+              .subString(matchSubstring)
+              .regex(matchRegex)
+              .filter(repo.getRefDatabase().getRefsByPrefix(Constants.R_TAGS));
+      List<Ref> refs = new ArrayList<>(visibleTags(resource.getNameKey(), repo, matching));
+
+      boolean sortByRef = sortBy == ListTagSortOption.REF;
+      if (sortByRef) {
+        // The sort order only depends on the ref name, hence 'start' and 'limit' can be applied
+        // before creating the TagInfos.
+        refs.sort(comparing(Ref::getName));
+        if (descendingOrder) {
+          Collections.reverse(refs);
+        }
+        refs = paginate(refs);
+      }
+
+      List<TagInfo> tags = new ArrayList<>(refs.size());
+      for (Ref ref : refs) {
         tags.add(
             createTagInfo(perm.ref(ref.getName()), ref, rw, resource.getProjectState(), links));
       }
-    }
 
-    tagSorter.sort(sortBy, tags, descendingOrder);
-    if (descendingOrder) {
-      Collections.reverse(tags);
+      if (!sortByRef) {
+        tagSorter.sort(sortBy, tags, descendingOrder);
+        if (descendingOrder) {
+          Collections.reverse(tags);
+        }
+        tags = paginate(tags);
+      }
+      return Response.ok(ImmutableList.copyOf(tags));
     }
+  }
 
-    return Response.ok(
-        new RefFilter<>(Constants.R_TAGS, (TagInfo tag) -> tag.ref, regexCompiler)
-            .start(start)
-            .limit(limit)
-            .subString(matchSubstring)
-            .regex(matchRegex)
-            .filter(tags));
+  private <T> List<T> paginate(List<T> list) {
+    int from = Math.min(Math.max(start, 0), list.size());
+    int to = limit > 0 ? Math.min(from + limit, list.size()) : list.size();
+    return list.subList(from, to);
   }
 
   public TagInfo get(ProjectResource resource, IdString id)

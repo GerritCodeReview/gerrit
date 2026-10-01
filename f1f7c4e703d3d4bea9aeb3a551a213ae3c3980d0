@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "61f7c67e_19b2e067",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-01T23:49:15Z",
+      "side": 1,
+      "message": "We probably want to cross-check this behavior against the tests in `javatests/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java`",
+      "revId": "f1f7c4e703d3d4bea9aeb3a551a213ae3c3980d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "81d4357b_4e445c73",
         "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
         "patchSetId": 3

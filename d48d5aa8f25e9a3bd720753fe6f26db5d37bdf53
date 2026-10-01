@@ -22,6 +22,30 @@
       },
       "revId": "d48d5aa8f25e9a3bd720753fe6f26db5d37bdf53",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a04e133_13f03db4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-10-01T09:40:13Z",
+      "side": 1,
+      "message": "No end-to-end issue that I know of. The only thing that uses `AndChangeSource.hasChange()` is the tie-break in `AndChangeSource.compare()` (directly, or through `OrSource.hasChange()`). It only matters when two sources in an AND have equal cost and cardinality. Query results are unchanged. At worst Gerrit reads from a source that doesn\u0027t preload changes, and they load later when needed. I found this while reading the code, not from a reported problem, so I don\u0027t think an issue is needed. I\u0027m happy to file one if you\u0027d still like it for tracking.",
+      "parentUuid": "e0f04df5_9a9c3e39",
+      "range": {
+        "startLine": 11,
+        "startChar": 16,
+        "endLine": 13,
+        "endChar": 21
+      },
+      "revId": "d48d5aa8f25e9a3bd720753fe6f26db5d37bdf53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

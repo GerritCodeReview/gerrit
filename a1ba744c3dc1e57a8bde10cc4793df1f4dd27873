@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ad5e4a5_0975b512",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-10-01T14:45:55Z",
+      "side": 1,
+      "message": "this looks less intrusive than the previous implementation in https://gerrit-review.googlesource.com/c/gerrit/+/636563",
+      "revId": "a1ba744c3dc1e57a8bde10cc4793df1f4dd27873",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

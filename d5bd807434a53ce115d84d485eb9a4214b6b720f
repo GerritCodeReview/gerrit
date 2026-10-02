@@ -69,6 +69,24 @@
       "parentUuid": "5cc4e92d_6fcf5c4e",
       "revId": "d5bd807434a53ce115d84d485eb9a4214b6b720f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e25e378_ce80c66a",
+        "filename": "java/com/google/gerrit/server/account/AuthTokenCache.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-02T23:02:38Z",
+      "side": 1,
+      "message": "Yeah, I agree that the tradeoff likely isn\u0027t worth it. However, I think we do probably want to make this cache smarter, probably with the same kind of two-layer approach we use in other caches (see groups `BYUUID_NAME` and `BYUUID_NAME_PERSISTED`).\n\nAs-is, if a user makes several updates to their account (changes preferences), they\u0027ll accumulate multiple entries in this cache, only one of which is valid. With the split cache approach you can tune the in-memory cache with a short maxAge in a multi-site/primary setup so that updated entries don\u0027t stay in the cache for long and you don\u0027t have even the ref-read perf hit while the entry is valid in memory.",
+      "parentUuid": "c66edebb_72d9902b",
+      "revId": "d5bd807434a53ce115d84d485eb9a4214b6b720f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

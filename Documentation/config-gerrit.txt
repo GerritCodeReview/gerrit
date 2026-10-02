@@ -977,7 +977,7 @@ inside this directory.
 +
 If not absolute, the path is resolved relative to `$site_path`.
 +
-Default is unset, no disk cache.
+Default is `cache`. To disable the disk cache, set this to an empty string.
 
 [[cache.enableDiskStatMetrics]]cache.enableDiskStatMetrics::
 +

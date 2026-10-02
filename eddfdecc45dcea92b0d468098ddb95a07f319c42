@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98eb30f5_97daa615",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-02T00:28:03Z",
+      "side": 1,
+      "message": "Looks like this causes a real test failure in `AccountNoteDbIT`?\n```\n1) addInvalidEmail[default](com.google.gerrit.acceptance.api.accounts.AccountNoteDbIT)\njava.lang.AssertionError: expected com.google.gerrit.extensions.restapi.BadRequestException but no exception was thrown\n\tat com.google.gerrit.testing.GerritJUnit.assertThrows(GerritJUnit.java:61)\n\tat com.google.gerrit.acceptance.api.accounts.AbstractAccountIT.addInvalidEmail(AbstractAccountIT.java:1059)\n```",
+      "revId": "eddfdecc45dcea92b0d468098ddb95a07f319c42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

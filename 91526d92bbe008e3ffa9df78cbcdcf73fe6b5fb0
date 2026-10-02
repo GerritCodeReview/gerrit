@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b79e5b9_664079c4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-10-02T11:32:42Z",
+      "side": 1,
+      "message": "OK, I checked it and this is a fair point about the cache directory. In a follow-up change in this series I will fix my previous work and move it to SitePaths.",
+      "parentUuid": "cb8489b2_f70f1556",
+      "revId": "91526d92bbe008e3ffa9df78cbcdcf73fe6b5fb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "03ca9505_75f6cf15",
@@ -67,6 +85,24 @@
       "side": 1,
       "message": "Sorry if I misunderstood your comment, but if you propose to dissolve SitePaths then it should be done explicitly where we can review and discuss the idea and not as a side effect of another change. Until then, in my option, the SitePahts shall remain one central place where the complete site path structure is available.",
       "parentUuid": "03ca9505_75f6cf15",
+      "revId": "91526d92bbe008e3ffa9df78cbcdcf73fe6b5fb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0266492_76389269",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-10-02T11:32:42Z",
+      "side": 1,
+      "message": "Having now cache_dir also in the SitePaths with I537e61924a0eb02c627488bb7aec6babd00a3094 we can, of course, discuss if injecting SitePaths class all around Gerrit code is a good design or not. My point here is that if this is considered a problem then it was also a problem before introducing configurable index.directory and, as such, should have been addressed in a dedicated change which discusses exactly that point.",
+      "parentUuid": "71fb03fd_b12cdc6a",
       "revId": "91526d92bbe008e3ffa9df78cbcdcf73fe6b5fb0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

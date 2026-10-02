@@ -243,11 +243,6 @@ public class RefControl {
     return canPerform(Permission.REVERT);
   }
 
-  /** Returns true if this user can submit merge patch sets to this ref */
-  private boolean canUploadMerges() {
-    return projectControl.controlForRef("refs/for/" + refName).canPerform(Permission.PUSH_MERGE);
-  }
-
   /** Returns true if the user can update the reference as a fast-forward. */
   private boolean canUpdate() {
     if (RefNames.REFS_CONFIG.equals(refName) && !projectControl.isOwner()) {
@@ -713,7 +708,7 @@ public class RefControl {
         return canForgeGerritServerIdentity();
       }
       case MERGE -> {
-        return canUploadMerges();
+        return canPerform(Permission.PUSH_MERGE);
       }
       case CREATE_CHANGE -> {
         return canUpload();
@@ -740,7 +735,7 @@ public class RefControl {
         return canForgeAuthor()
             && canForgeCommitter()
             && canForgeGerritServerIdentity()
-            && canUploadMerges();
+            && canPerform(Permission.PUSH_MERGE);
       }
     }
     throw new PermissionBackendException(perm + " unsupported");

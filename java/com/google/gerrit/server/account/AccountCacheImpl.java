@@ -35,7 +35,7 @@ import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.CachedPreferences;
 import com.google.gerrit.server.config.DefaultPreferencesCache;
-import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.AllUsersRepository;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
@@ -43,6 +43,7 @@ import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Module;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import java.io.IOException;
@@ -104,8 +105,7 @@ public class AccountCacheImpl implements AccountCache {
 
   private final ExternalIdsNoteDbImpl externalIds;
   private final LoadingCache<CachedAccountDetails.Key, CachedAccountDetails> accountDetailsCache;
-  private final GitRepositoryManager repoManager;
-  private final AllUsersName allUsersName;
+  private final Provider<Repository> allUsersRepository;
   private final DefaultPreferencesCache defaultPreferenceCache;
   private final ExternalIdKeyFactory externalIdKeyFactory;
 
@@ -114,14 +114,12 @@ public class AccountCacheImpl implements AccountCache {
       ExternalIdsNoteDbImpl externalIds,
       @Named(BYID_AND_REV_NAME)
           LoadingCache<CachedAccountDetails.Key, CachedAccountDetails> accountDetailsCache,
-      GitRepositoryManager repoManager,
-      AllUsersName allUsersName,
+      @AllUsersRepository Provider<Repository> allUsersRepository,
       DefaultPreferencesCache defaultPreferenceCache,
       ExternalIdKeyFactory externalIdKeyFactory) {
     this.externalIds = externalIds;
     this.accountDetailsCache = accountDetailsCache;
-    this.repoManager = repoManager;
-    this.allUsersName = allUsersName;
+    this.allUsersRepository = allUsersRepository;
     this.defaultPreferenceCache = defaultPreferenceCache;
     this.externalIdKeyFactory = externalIdKeyFactory;
   }
@@ -156,39 +154,37 @@ public class AccountCacheImpl implements AccountCache {
     try (TraceTimer ignored =
         TraceContext.newTimer(
             "Loading accounts", Metadata.builder().resourceCount(accountIds.size()).build())) {
-      try (Repository allUsers = repoManager.openRepository(allUsersName)) {
-        String[] refNames = new String[accountIds.size()];
-        int i = 0;
-        for (Account.Id id : accountIds) {
-          refNames[i++] = RefNames.refsUsers(id);
-        }
-        Map<String, Ref> refs = allUsers.getRefDatabase().exactRef(refNames);
-        Set<CachedAccountDetails.Key> keys =
-            Sets.newLinkedHashSetWithExpectedSize(accountIds.size());
-        for (Account.Id id : accountIds) {
-          Ref userRef = refs.get(RefNames.refsUsers(id));
-          if (userRef == null || userRef.getObjectId() == null) {
-            continue;
-          }
-          keys.add(CachedAccountDetails.Key.create(id, userRef.getObjectId()));
-        }
-        if (keys.isEmpty()) {
-          return ImmutableMap.of();
-        }
-        CachedPreferences defaultPreferences = defaultPreferenceCache.get();
-        ImmutableSetMultimap<Account.Id, ExternalId> extIdsByAccount = externalIds.allByAccount();
-        ImmutableMap.Builder<Account.Id, AccountState> result =
-            ImmutableMap.builderWithExpectedSize(keys.size());
-        for (Map.Entry<CachedAccountDetails.Key, CachedAccountDetails> account :
-            accountDetailsCache.getAll(keys).entrySet()) {
-          Account.Id id = account.getKey().accountId();
-          result.put(
-              id,
-              AccountState.forCachedAccount(
-                  account.getValue(), defaultPreferences, extIdsByAccount.get(id)));
-        }
-        return result.build();
+      Repository allUsers = allUsersRepository.get();
+      String[] refNames = new String[accountIds.size()];
+      int i = 0;
+      for (Account.Id id : accountIds) {
+        refNames[i++] = RefNames.refsUsers(id);
       }
+      Map<String, Ref> refs = allUsers.getRefDatabase().exactRef(refNames);
+      Set<CachedAccountDetails.Key> keys = Sets.newLinkedHashSetWithExpectedSize(accountIds.size());
+      for (Account.Id id : accountIds) {
+        Ref userRef = refs.get(RefNames.refsUsers(id));
+        if (userRef == null || userRef.getObjectId() == null) {
+          continue;
+        }
+        keys.add(CachedAccountDetails.Key.create(id, userRef.getObjectId()));
+      }
+      if (keys.isEmpty()) {
+        return ImmutableMap.of();
+      }
+      CachedPreferences defaultPreferences = defaultPreferenceCache.get();
+      ImmutableSetMultimap<Account.Id, ExternalId> extIdsByAccount = externalIds.allByAccount();
+      ImmutableMap.Builder<Account.Id, AccountState> result =
+          ImmutableMap.builderWithExpectedSize(keys.size());
+      for (Map.Entry<CachedAccountDetails.Key, CachedAccountDetails> account :
+          accountDetailsCache.getAll(keys).entrySet()) {
+        Account.Id id = account.getKey().accountId();
+        result.put(
+            id,
+            AccountState.forCachedAccount(
+                account.getValue(), defaultPreferences, extIdsByAccount.get(id)));
+      }
+      return result.build();
     } catch (IOException | ExecutionException e) {
       throw new StorageException(e);
     }
@@ -215,22 +211,23 @@ public class AccountCacheImpl implements AccountCache {
 
   @Singleton
   static class Loader extends CacheLoader<CachedAccountDetails.Key, CachedAccountDetails> {
-    private final GitRepositoryManager repoManager;
+    private final Provider<Repository> allUsersRepository;
     private final AllUsersName allUsersName;
 
     @Inject
-    Loader(GitRepositoryManager repoManager, AllUsersName allUsersName) {
-      this.repoManager = repoManager;
+    Loader(@AllUsersRepository Provider<Repository> allUsersRepository, AllUsersName allUsersName) {
+      this.allUsersRepository = allUsersRepository;
       this.allUsersName = allUsersName;
     }
 
     @Override
     public CachedAccountDetails load(CachedAccountDetails.Key key) throws Exception {
       try (TraceTimer ignored =
-              TraceContext.newTimer(
-                  "Loading account", Metadata.builder().accountId(key.accountId().get()).build());
-          Repository repo = repoManager.openRepository(allUsersName)) {
-        AccountConfig cfg = new AccountConfig(key.accountId(), allUsersName, repo).load(key.id());
+          TraceContext.newTimer(
+              "Loading account", Metadata.builder().accountId(key.accountId().get()).build())) {
+        AccountConfig cfg =
+            new AccountConfig(key.accountId(), allUsersName, allUsersRepository.get())
+                .load(key.id());
         Account account =
             cfg.getLoadedAccount()
                 .orElseThrow(() -> new AccountNotFoundException(key.accountId() + " not found"));

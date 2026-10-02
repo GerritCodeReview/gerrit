@@ -32,9 +32,8 @@ import org.eclipse.jgit.revwalk.RevCommit;
  * the caller may forge the author, committer, or server identity, or upload a merge commit. Like
  * {@link CreateRefControl}, it combines Git object data with a {@link PermissionBackend.ForRef} and
  * keeps the decision in the project access-control layer rather than inside the commit validators.
- * The caller passes the already-resolved {@code ForRef}; the validators translate the
- * boolean/exception results into {@code CommitValidationException}s and render any user-facing
- * messages.
+ * The validators translate the results into {@code CommitValidationException}s and render any
+ * user-facing messages.
  */
 @Singleton
 public class ReceiveCommitControl {
@@ -65,21 +64,32 @@ public class ReceiveCommitControl {
     return forRef.test(RefPermission.FORGE_COMMITTER);
   }
 
-  /**
-   * Whether the committer identity may be forged on this ref, without a commit-identity shortcut.
-   */
+  /** Whether the committer identity may be forged on this ref. */
   public boolean canForgeCommitter(PermissionBackend.ForRef forRef)
       throws PermissionBackendException {
     return forRef.test(RefPermission.FORGE_COMMITTER);
   }
 
-  /** Whether the user may push this commit if it is a merge; non-merges are always allowed. */
-  public boolean canUploadMerge(PermissionBackend.ForRef forRef, RevCommit commit)
+  /**
+   * Whether the user may push this commit if it is a merge; non-merges are always allowed.
+   *
+   * <p>Direct pushes are authorized by {@code Push Merge Commit} on the destination ref, with the
+   * legacy {@code refs/for/} grant as a fallback. Pushes for review are authorized by the grant on
+   * the {@code refs/for/} review ref.
+   */
+  public boolean canUploadMerge(
+      PermissionBackend.ForRef destRef,
+      PermissionBackend.ForRef reviewRef,
+      boolean directPush,
+      RevCommit commit)
       throws PermissionBackendException {
     if (commit.getParentCount() <= 1) {
       return true;
     }
-    return forRef.test(RefPermission.MERGE);
+    if (directPush) {
+      return destRef.test(RefPermission.MERGE) || reviewRef.test(RefPermission.MERGE);
+    }
+    return reviewRef.test(RefPermission.MERGE);
   }
 
   /**

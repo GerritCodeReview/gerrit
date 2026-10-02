@@ -70,13 +70,26 @@ public class ReceiveCommitControl {
     return forRef.test(RefPermission.FORGE_COMMITTER);
   }
 
-  /** Whether the user may push this commit if it is a merge; non-merges are always allowed. */
-  public boolean canUploadMerge(PermissionBackend.ForRef forRef, RevCommit commit)
+  /**
+   * Whether the user may push this commit if it is a merge; non-merges are always allowed.
+   *
+   * <p>Direct pushes are authorized by {@code Push Merge Commit} on the destination ref, with the
+   * legacy {@code refs/for/} grant as a fallback. Pushes for review are authorized by the grant on
+   * the {@code refs/for/} review ref.
+   */
+  public boolean canUploadMerge(
+      PermissionBackend.ForRef destRef,
+      PermissionBackend.ForRef reviewRef,
+      boolean directPush,
+      RevCommit commit)
       throws PermissionBackendException {
     if (commit.getParentCount() <= 1) {
       return true;
     }
-    return forRef.test(RefPermission.MERGE);
+    if (directPush) {
+      return destRef.test(RefPermission.MERGE) || reviewRef.test(RefPermission.MERGE);
+    }
+    return reviewRef.test(RefPermission.MERGE);
   }
 
   /**

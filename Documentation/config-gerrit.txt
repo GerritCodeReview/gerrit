@@ -969,8 +969,7 @@ By default, the JVM common ForkJoinPool is used.
 +
 Path to a local directory where Gerrit can write cached entities for
 future lookup.  This local disk cache is used to retain potentially
-expensive to compute information across restarts.  If the location
-does not exist, Gerrit will try to create it.
+expensive to compute information across restarts.
 +
 Technically, cached entities are persisted as a set of H2 databases
 inside this directory.

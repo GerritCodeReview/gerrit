@@ -16,6 +16,24 @@
       "message": "I think this change mostly improves things, but overall, we still have a strange situation where most perm checks happen in `RefControl`, but then the ones that need commit object data have their logic in `CommitValidator`s. It feels weird to have that logic outside of the `permissions` package.",
       "revId": "66845fb495f1693f0bd37a0fba7e3b79fd9b3795",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ec6acdff_7b1b1296",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-02T09:46:01Z",
+      "side": 1,
+      "message": "Agreed.\n\nMapping commit-object facts onto a RefPermission inside CommitValidators is the wrong place for a permission decision, and both of these changes kept adding to that layer instead of fixing it.\n\nI am abandoning this change and replacing them with a short series that does it properly, following the existing pattern: Gerrit already keeps object-dependent permission decisions in dedicated server/project/ controls that combine the Git object with a PermissionBackend.ForRef (CreateRefControl, DeleteVoteControl, RemoveReviewerControl).\n\nThe new series, on top of master (change 636985):\n\n1. Move forged-identity checks into ReceiveCommitControl.\n2. Move the merge-commit check the same way; after this no commit-object permission decision remains in the validators.\n3. Allow direct merge pushes on the clean design: the feature from change 258271, with the destination-vs-refs/for scoping in canUploadMerge instead of the validator factory.\n4. Deprecate the legacy refs/for fallback for direct merge pushes (warn + docs only).",
+      "parentUuid": "061550fd_b1198bbc",
+      "revId": "66845fb495f1693f0bd37a0fba7e3b79fd9b3795",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

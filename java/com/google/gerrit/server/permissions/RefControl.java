@@ -713,7 +713,7 @@ public class RefControl {
         return canForgeGerritServerIdentity();
       }
       case MERGE -> {
-        return canUploadMerges();
+        return canPerform(Permission.PUSH_MERGE);
       }
       case CREATE_CHANGE -> {
         return canUpload();

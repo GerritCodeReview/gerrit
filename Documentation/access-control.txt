@@ -733,12 +733,15 @@ push to happen.  Some projects wish to restrict merges to being created
 by Gerrit. By granting `Push` without `Push Merge Commit`, the only
 merges that enter the system will be those created by Gerrit.
 
-The reference name connected to a `Push Merge Commit` entry must always
-be prefixed with `refs/for/`, for example `refs/for/refs/heads/BRANCH`.
-This applies even for an entry that complements a `Push` entry for
-`refs/heads/BRANCH` that allows direct pushes of non-merge commits, and
-the intention of the `Push Merge Commit` entry is to allow direct pushes
-of merge commits.
+For pushes for review, a `Push Merge Commit` entry must be prefixed with
+`refs/for/`, for example `refs/for/refs/heads/BRANCH`; granting it only on
+`refs/heads/BRANCH` does not authorize review uploads. For direct pushes, the
+permission should be granted on `refs/heads/BRANCH`; for legacy reasons an
+entry prefixed with `refs/for/` also continues to authorize direct pushes (the
+fallback applies to direct pushes only, not the other way around). Note that
+this fallback matches the ref pattern of the `refs/for/` entry, so a broad
+entry such as `refs/for/*` authorizes direct merge pushes to every matching
+branch.
 
 
 [[category_push_annotated]]

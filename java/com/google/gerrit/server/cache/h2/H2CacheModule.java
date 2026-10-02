@@ -15,7 +15,6 @@
 package com.google.gerrit.server.cache.h2;
 
 import com.google.common.collect.ImmutableSet;
-import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.lifecycle.LifecycleModule;
@@ -29,9 +28,6 @@ import com.google.gerrit.server.logging.LoggingContextAwareExecutorService;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.name.Names;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.EnumSet;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
@@ -42,8 +38,6 @@ import org.eclipse.jgit.lib.Config;
 
 @ModuleImpl(name = CacheModule.PERSISTENT_MODULE)
 public class H2CacheModule extends LifecycleModule {
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
   private final ImmutableSet<CacheOptions> options;
 
   public H2CacheModule(Set<CacheOptions> options) {
@@ -66,36 +60,9 @@ public class H2CacheModule extends LifecycleModule {
   @Provides
   @Singleton
   @Nullable
-  @CacheDir
-  Path getCacheDir(SitePaths site, @GerritServerConfig Config config) {
-    String name = config.getString("cache", null, "directory");
-    if (name == null) {
-      return null;
-    }
-    Path loc = site.resolve(name);
-    if (!Files.exists(loc)) {
-      try {
-        Files.createDirectories(loc);
-      } catch (IOException e) {
-        logger.atWarning().log("Can't create disk cache: %s", loc.toAbsolutePath());
-        return null;
-      }
-    }
-    if (!Files.isWritable(loc)) {
-      logger.atWarning().log("Can't write to disk cache: %s", loc.toAbsolutePath());
-      return null;
-    }
-    logger.atInfo().log("Enabling disk cache %s", loc.toAbsolutePath());
-    return loc;
-  }
-
-  @Provides
-  @Singleton
-  @Nullable
   @CacheCleanupExecutor
-  ScheduledExecutorService createDiskCachePruneExecutor(
-      WorkQueue workQueue, @Nullable @CacheDir Path cacheDir) {
-    if (options.contains(CacheOptions.CACHE_CLEANUP) && cacheDir != null) {
+  ScheduledExecutorService createDiskCachePruneExecutor(WorkQueue workQueue, SitePaths site) {
+    if (options.contains(CacheOptions.CACHE_CLEANUP) && site.cache_dir != null) {
       return workQueue.createQueue(1, "DiskCache-Prune", true);
     }
     return null;
@@ -105,8 +72,8 @@ public class H2CacheModule extends LifecycleModule {
   @Singleton
   @Nullable
   @CacheStoreExecutor
-  ExecutorService createDiskCacheStoreExecutor(@Nullable @CacheDir Path cacheDir) {
-    if (cacheDir != null) {
+  ExecutorService createDiskCacheStoreExecutor(SitePaths site) {
+    if (site.cache_dir != null) {
       return new LoggingContextAwareExecutorService(
           Executors.newFixedThreadPool(
               1, new ThreadFactoryBuilder().setNameFormat("DiskCache-Store-%d").build()));
@@ -119,8 +86,8 @@ public class H2CacheModule extends LifecycleModule {
   @Nullable
   @CacheStoreStartupExecutor
   ExecutorService createDiskCacheStoreStartupExecutor(
-      @Nullable @CacheDir Path cacheDir, @GerritServerConfig Config cfg) {
-    if (cacheDir == null) {
+      SitePaths site, @GerritServerConfig Config cfg) {
+    if (site.cache_dir == null) {
       return null;
     }
     int startupThreads = cfg.getInt("cache", null, "startupThreads", 1);

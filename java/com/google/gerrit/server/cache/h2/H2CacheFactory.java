@@ -33,11 +33,11 @@ import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.ScheduleConfig;
 import com.google.gerrit.server.config.ScheduleConfig.Schedule;
+import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
-import java.nio.file.Path;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
@@ -98,10 +98,10 @@ class H2CacheFactory extends PersistentCacheBaseFactory implements LifecycleList
       @Nullable @CacheCleanupExecutor ScheduledExecutorService cleanupExecutor,
       @Nullable @CacheStoreExecutor ExecutorService storeExecutor,
       @Nullable @CacheStoreStartupExecutor ExecutorService startupExecutor,
-      @Nullable @CacheDir Path cacheDir,
+      SitePaths site,
       Set<CacheOptions> options,
       @Named("DiskCacheReadOnly") AtomicBoolean isDiskCacheReadOnly) {
-    super(memCacheFactory, cfg, cacheDir);
+    super(memCacheFactory, cfg, site.cache_dir);
     h2CacheSize = cfg.getLong("cache", null, "h2CacheSize", -1);
     h2AutoServer = cfg.getBoolean("cache", null, "h2AutoServer", false);
     pruneOnStartup = cfg.getBoolean("cachePruning", null, "pruneOnStartup", true);

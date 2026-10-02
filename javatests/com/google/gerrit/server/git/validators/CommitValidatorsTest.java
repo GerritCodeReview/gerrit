@@ -39,6 +39,7 @@ import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.plugincontext.PluginSetEntryContext;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
+import com.google.gerrit.server.project.ProjectNotifyFilterValidator;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.approval.ApprovalQueryBuilder;
 import java.util.Optional;
@@ -108,6 +109,8 @@ public class CommitValidatorsTest {
         new AllProjectsName("All-Projects"),
         projectCache,
         mock(ProjectConfig.Factory.class),
+        mock(ProjectNotifyFilterValidator.class),
+        mock(ProjectConfigRegexValidator.class),
         mock(ChangeUtil.class),
         new CommitValidators.Metrics(metricMaker),
         mock(ApprovalQueryBuilder.class),

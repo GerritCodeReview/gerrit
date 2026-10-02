@@ -1109,7 +1109,7 @@ public class CommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void putDraft_withoutPath_keepsRangeAndSide() throws Exception {
+  public void putDraft_withoutPath_keepsRangeSideAndUnresolved() throws Exception {
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
     String revId = r.getCommit().getName();
@@ -1120,6 +1120,7 @@ public class CommentsIT extends AbstractDaemonTest {
     range.endCharacter = 3;
     DraftInput comment = CommentsUtil.newDraft(FILE_NAME, Side.REVISION, range, "foo");
     comment.line = null;
+    comment.unresolved = true;
     CommentInfo original = addDraft(changeId, revId, comment);
 
     updateDraft(changeId, revId, messageOnly("bar"), original.id);
@@ -1130,6 +1131,24 @@ public class CommentsIT extends AbstractDaemonTest {
     assertThat(updated.line).isEqualTo(2);
     assertThat(updated.range).isEqualTo(original.range);
     assertThat(updated.side).isEqualTo(original.side);
+    assertThat(updated.unresolved).isTrue();
+  }
+
+  @Test
+  public void putDraft_withoutUnresolved_keepsUnresolved() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    String revId = r.getCommit().getName();
+    DraftInput comment = CommentsUtil.newDraft(FILE_NAME, Side.REVISION, 1, "foo");
+    comment.unresolved = true;
+    CommentInfo original = addDraft(changeId, revId, comment);
+
+    DraftInput update = messageOnly("bar");
+    update.path = FILE_NAME;
+    update.line = 1;
+    updateDraft(changeId, revId, update, original.id);
+
+    assertThat(getDraftComment(changeId, revId, original.id).unresolved).isTrue();
   }
 
   @Test

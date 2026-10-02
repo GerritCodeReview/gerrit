@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5c615e54_afa837c1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5201997
+      },
+      "writtenOn": "2026-10-02T04:20:16Z",
+      "side": 1,
+      "message": "Thomas",
+      "revId": "7b4843263dc82359fb432fa248aa069c669cca3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0f65ad07_fd601257",
         "filename": "java/com/google/gerrit/server/restapi/config/ConfigRestApiModule.java",
         "patchSetId": 2

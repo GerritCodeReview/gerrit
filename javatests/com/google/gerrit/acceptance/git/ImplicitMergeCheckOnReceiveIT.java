@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
 
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.UseLocalDisk;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.git.ObjectIds;
 import java.util.Locale;
@@ -78,6 +79,46 @@ public class ImplicitMergeCheckOnReceiveIT extends AbstractImplicitMergeTest {
 
     assertThat(c.getMessage().toLowerCase(Locale.US))
         .doesNotContain(implicitMergeOf(m.getCommit()));
+  }
+
+  @Test
+  public void notImplicitMerge_pushWithBase_noWarning() throws Exception {
+    setRejectImplicitMerges();
+
+    PushOneCommit.Result m1 = push("refs/heads/master", "1", "f", "1");
+    push("refs/heads/master", "2", "f", "2");
+    testRepo.reset(m1.getCommit());
+    PushOneCommit.Result c = push("refs/for/master%base=" + m1.getCommit().name(), "3", "f", "3");
+
+    c.assertOkStatus();
+    assertThat(c.getMessage().toLowerCase(Locale.US)).doesNotContain("implicit merge");
+  }
+
+  @Test
+  @UseLocalDisk
+  public void notImplicitMerge_pushWithBase_withBitmaps_noWarning() throws Exception {
+    setRejectImplicitMerges();
+
+    PushOneCommit.Result m1 = push("refs/heads/master", "1", "f", "1");
+    adminRestSession.post("/projects/" + project.get() + "/gc").assertOK();
+    push("refs/heads/master", "2", "f", "2");
+    testRepo.reset(m1.getCommit());
+    PushOneCommit.Result c = push("refs/for/master%base=" + m1.getCommit().name(), "3", "f", "3");
+
+    c.assertOkStatus();
+    assertThat(c.getMessage().toLowerCase(Locale.US)).doesNotContain("implicit merge");
+  }
+
+  @Test
+  public void implicitMerge_pushWithBaseOnOtherBranch_rejected() throws Exception {
+    setRejectImplicitMerges();
+
+    pushHead(testRepo, "refs/heads/stable", false);
+    PushOneCommit.Result m = push("refs/heads/master", "0", "file", "0");
+    PushOneCommit.Result c = push("refs/for/stable%base=" + m.getCommit().name(), "1", "file", "1");
+
+    c.assertMessage(implicitMergeOf(m.getCommit()));
+    c.assertErrorStatus();
   }
 
   private String implicitMergeOf(ObjectId commit) throws Exception {

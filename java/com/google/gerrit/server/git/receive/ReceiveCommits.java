@@ -2979,9 +2979,7 @@ class ReceiveCommits {
         logger.atFine().log(
             "Marking target ref %s (%s) uninteresting",
             magicBranch.dest.branch(), targetRef.getObjectId().name());
-        receivePack
-            .getRevWalk()
-            .markUninteresting(globalRevWalk.parseCommit(targetRef.getObjectId()));
+        globalRevWalk.markUninteresting(globalRevWalk.parseCommit(targetRef.getObjectId()));
       }
     }
   }
@@ -2992,39 +2990,40 @@ class ReceiveCommits {
       if (!mergedParents.isEmpty()) {
         Ref targetRef = receivePackRefCache.exactRef(magicBranch.dest.branch());
         if (targetRef != null) {
-          RevCommit tip = globalRevWalk.parseCommit(targetRef.getObjectId());
-          ReachabilityChecker checker =
-              globalRevWalk.getObjectReader().createReachabilityChecker(globalRevWalk);
-          boolean containsImplicitMerges = true;
-          for (RevCommit p : mergedParents) {
-            Optional<RevCommit> unreachableCommit =
-                checker.areAllReachable(ImmutableList.of(p), Stream.of(tip));
-            containsImplicitMerges &= unreachableCommit.isPresent();
-            if (!containsImplicitMerges) {
-              break;
-            }
-          }
-
-          if (containsImplicitMerges) {
-            globalRevWalk.reset();
+          try (RevWalk rw = new RevWalk(globalRevWalk.getObjectReader())) {
+            RevCommit tip = rw.parseCommit(targetRef.getObjectId());
+            ReachabilityChecker checker = rw.getObjectReader().createReachabilityChecker(rw);
+            boolean containsImplicitMerges = true;
             for (RevCommit p : mergedParents) {
-              globalRevWalk.markStart(p);
+              Optional<RevCommit> unreachableCommit =
+                  checker.areAllReachable(ImmutableList.of(rw.parseCommit(p)), Stream.of(tip));
+              containsImplicitMerges &= unreachableCommit.isPresent();
+              if (!containsImplicitMerges) {
+                break;
+              }
             }
-            globalRevWalk.markUninteresting(tip);
-            RevCommit c;
-            while ((c = globalRevWalk.next()) != null) {
-              globalRevWalk.parseBody(c);
-              messages.add(
-                  new CommitValidationMessage(
-                      "Implicit Merge of "
-                          + abbreviateName(c, globalRevWalk.getObjectReader())
-                          + " "
-                          + c.getShortMessage(),
-                      ValidationMessage.Type.ERROR));
+
+            if (containsImplicitMerges) {
+              rw.reset();
+              for (RevCommit p : mergedParents) {
+                rw.markStart(rw.parseCommit(p));
+              }
+              rw.markUninteresting(tip);
+              RevCommit c;
+              while ((c = rw.next()) != null) {
+                rw.parseBody(c);
+                messages.add(
+                    new CommitValidationMessage(
+                        "Implicit Merge of "
+                            + abbreviateName(c, rw.getObjectReader())
+                            + " "
+                            + c.getShortMessage(),
+                        ValidationMessage.Type.ERROR));
+              }
+              reject(
+                  magicBranch.cmd,
+                  RejectionReason.create(MetricBucket.IMPLICIT_MERGE, "implicit merges detected"));
             }
-            reject(
-                magicBranch.cmd,
-                RejectionReason.create(MetricBucket.IMPLICIT_MERGE, "implicit merges detected"));
           }
         }
       }

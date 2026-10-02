@@ -15,10 +15,15 @@
 package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
+import static com.google.gerrit.entities.Permission.READ;
+import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.TestAccount;
@@ -30,12 +35,25 @@ import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
+import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Inject;
 import java.util.List;
+import org.eclipse.jgit.lib.Config;
 import org.junit.Before;
 import org.junit.Test;
 
 public class SuggestBranchReviewersIT extends AbstractDaemonTest {
+
+  /**
+   * Runs all tests with a real FanOut thread pool, so that reviewer visibility checks run
+   * concurrently. The default test configuration uses a direct executor.
+   */
+  @ConfigSuite.Config
+  public static Config fanOutThreadPool() {
+    Config cfg = new Config();
+    cfg.setInt("execution", null, "fanOutThreadPoolSize", 4);
+    return cfg;
+  }
 
   @Inject private RequestScopeOperations requestScopeOperations;
 
@@ -103,6 +121,47 @@ public class SuggestBranchReviewersIT extends AbstractDaemonTest {
 
   private List<SuggestedReviewerInfo> suggestCcs(String query) throws Exception {
     return gApi.projects().name(project.get()).branch("otherBranch").suggestCcs(query).get();
+  }
+
+  @Test
+  public void suggestReviewers_mixedVisibility_onlyVisibleAccountsUpToLimit() throws Exception {
+    String prefix = name("vis");
+    ImmutableList.Builder<TestAccount> accountsBuilder = ImmutableList.builder();
+    for (int i = 0; i < 6; i++) {
+      accountsBuilder.add(accountCreator.create(prefix + "-" + i));
+    }
+    ImmutableList<TestAccount> accounts = accountsBuilder.build();
+
+    AccountGroup.UUID readers =
+        groupOperations
+            .newGroup()
+            .name(name("branch-readers"))
+            .members(user1.id(), accounts.get(0).id(), accounts.get(2).id(), accounts.get(4).id())
+            .create();
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(READ).ref("refs/heads/otherBranch").group(ANONYMOUS_USERS))
+        .add(allow(READ).ref("refs/heads/otherBranch").group(readers))
+        .update();
+    ImmutableSet<Integer> visibleIds =
+        ImmutableSet.of(
+            accounts.get(0).id().get(), accounts.get(2).id().get(), accounts.get(4).id().get());
+
+    requestScopeOperations.setApiUser(user1.id());
+
+    List<Integer> limited = accountIds(suggestReviewers(prefix, 2));
+    assertThat(limited).hasSize(2);
+    assertThat(visibleIds).containsAtLeastElementsIn(limited);
+
+    assertThat(accountIds(suggestReviewers(prefix, 10))).containsExactlyElementsIn(visibleIds);
+  }
+
+  private static List<Integer> accountIds(List<SuggestedReviewerInfo> reviewers) {
+    return reviewers.stream()
+        .filter(r -> r.account != null)
+        .map(r -> r.account._accountId)
+        .collect(toList());
   }
 
   @Test

@@ -1651,5 +1651,62 @@ suite('gr-change-view tests', () => {
 
     assert.isFalse(contentWithSidebar.hideSide);
     assert.isTrue(processChatRequestStub.calledOnceWithExactly(event.detail));
+    const decorator = queryAndAssert(
+      element,
+      'gr-endpoint-decorator[name="chat-panel"]'
+    );
+    queryAndAssert(decorator, 'chat-panel');
+  });
+
+  test('chat-panel endpoint can be replaced by a plugin', async () => {
+    element.change = {...createChangeViewChange(), labels: {}};
+    element.revision = createRevision();
+    await element.updateComplete;
+
+    const promise = mockPromise();
+    window.Gerrit.install(
+      promise.resolve,
+      '0.1',
+      'http://some/plugins/chat-plugin.js'
+    );
+    const plugin = (await promise) as PluginApi;
+
+    class CustomPluginChatPanel extends HTMLElement {
+      change?: unknown;
+
+      revision?: unknown;
+    }
+
+    const customChatTagName = 'custom-plugin-chat-panel';
+    if (!customElements.get(customChatTagName)) {
+      customElements.define(customChatTagName, CustomPluginChatPanel);
+    }
+
+    plugin.registerCustomComponent('chat-panel', customChatTagName, {
+      replace: true,
+    });
+
+    element.dispatchEvent(
+      new CustomEvent('explain-code-requested', {
+        detail: {prompt: ''},
+        bubbles: true,
+        composed: true,
+      })
+    );
+    await element.updateComplete;
+
+    const decorator = queryAndAssert(
+      element,
+      'gr-endpoint-decorator[name="chat-panel"]'
+    );
+    await waitUntil(() => !!decorator.querySelector(customChatTagName));
+
+    const customChat = queryAndAssert<CustomPluginChatPanel>(
+      decorator,
+      customChatTagName
+    );
+    assert.isNull(decorator.querySelector('chat-panel'));
+    assert.equal(customChat.change, element.change);
+    assert.equal(customChat.revision, element.revision);
   });
 });

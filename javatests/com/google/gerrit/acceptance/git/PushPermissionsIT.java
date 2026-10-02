@@ -142,7 +142,9 @@ public class PushPermissionsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void pushMergeCommitDirectlyWithLegacyPushMergePermission() throws Exception {
+  public void pushMergeCommitDirectlyWithReviewRefPushMergePermissionDenied() throws Exception {
+    // A refs/for Push Merge Commit grant no longer authorizes a direct merge push; it must be
+    // granted on the destination ref.
     projectOperations
         .project(project)
         .forUpdate()
@@ -150,7 +152,9 @@ public class PushPermissionsIT extends AbstractDaemonTest {
         .add(allow(Permission.PUSH_MERGE).ref("refs/for/refs/heads/*").group(REGISTERED_USERS))
         .update();
 
-    createMergeCommit().to("refs/heads/master").assertOkStatus();
+    createMergeCommit()
+        .to("refs/heads/master")
+        .assertErrorStatus("you are not allowed to upload merges");
   }
 
   @Test

@@ -77,7 +77,8 @@ public class DirectPushIT extends AbstractDaemonTest {
         .add(allow(Permission.FORGE_AUTHOR).ref("refs/*").group(adminGroupUuid()))
         .add(allow(Permission.FORGE_COMMITTER).ref("refs/*").group(adminGroupUuid()))
         .add(allow(Permission.FORGE_SERVER).ref("refs/*").group(adminGroupUuid()))
-        .add(allow(Permission.PUSH_MERGE).ref("refs/*").group(adminGroupUuid()))
+        // Push Merge Commit on the destination ref (not refs/for) must satisfy skip-validation.
+        .add(allow(Permission.PUSH_MERGE).ref("refs/heads/*").group(adminGroupUuid()))
         .update();
 
     TestCommitValidationInfoListener testCommitValidationInfoListener =

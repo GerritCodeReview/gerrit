@@ -70,7 +70,11 @@ public class GrantDirectPushPermissionsOnStartup implements LifecycleListener {
       adminGroupRef = projectConfig.resolve(adminGroupRef);
       PermissionRule.Builder rule = PermissionRule.builder(adminGroupRef).setAction(Action.ALLOW);
       projectConfig.upsertAccessSection(
-          RefNames.REFS_HEADS + "*", as -> as.upsertPermission(Permission.PUSH).add(rule));
+          RefNames.REFS_HEADS + "*",
+          as -> {
+            as.upsertPermission(Permission.PUSH).add(rule);
+            as.upsertPermission(Permission.PUSH_MERGE).add(rule);
+          });
       projectConfig.upsertAccessSection(
           RefNames.REFS_CONFIG, as -> as.upsertPermission(Permission.PUSH).add(rule));
       projectConfig.commit(metaDataUpdate);

@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "76c88e53_466d65b8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-10-02T21:16:33Z",
+      "side": 1,
+      "message": "True.\nThis was discussed [here](https://issues.gerritcodereview.com/issues/565837990#comment5). I will address this as a separate change.",
+      "parentUuid": "f7b3725d_c635cfff",
+      "revId": "d5bd807434a53ce115d84d485eb9a4214b6b720f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5cc4e92d_6fcf5c4e",
         "filename": "java/com/google/gerrit/server/account/AuthTokenCache.java",
         "patchSetId": 4
@@ -31,6 +49,24 @@
       "writtenOn": "2026-10-01T20:32:01Z",
       "side": 1,
       "message": "This works, but you\u0027ll get cache invalidations for *any* account update, not just tokens. Better would be to check the blob object-id of the `tokens.config` file (`VersionedAuthTokens`), if it exists, and use that in the key. There\u0027s a protected `getObjectId(filename)` method already in `VersionedMetaData` that does that lookup for you. You can see it used in [`ProjectConfig`](https://gerrit.googlesource.com/gerrit/+/refs/changes/85/634885/4/java/com/google/gerrit/server/project/ProjectConfig.java#705).\n\nWith that improvement, you might even want to switch this to a persisted cache, but we can always do that later too.",
+      "revId": "d5bd807434a53ce115d84d485eb9a4214b6b720f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c66edebb_72d9902b",
+        "filename": "java/com/google/gerrit/server/account/AuthTokenCache.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-10-02T21:16:33Z",
+      "side": 1,
+      "message": "Oh, interesting observation.\n\nMy main concern with this approach is that we would need to read the commit and look up tokens.config in its tree _before_ checking the cache on every authentication lookup.\n\nWith the current key, we only read the ref. So we would avoid some cache misses, but add work to every cache hit.\n\nI am not sure that would be any faster, to be honest. Do you have any insights on this?\n\nAlso, using the `VersionedMetaData.getObjectId()` helper would not be a free lunch either. It uses the reader available during `load()`, but loading `VersionedAuthTokens` just to get the blob ID would also _parse_ the tokens before checking the cache, which undermines the purpose of it.\n\n```\n @Override\n  protected void onLoad() throws IOException, ConfigInvalidException {\n    tokens \u003d parse(readUTF8(FILE_NAME));\n  }\n```\n\nIf we adopt blob keys, we should resolve the blob without parsing tokens and have the loader parse that exact blob through DirectAuthTokenAccessor. Passing a blob ID to the existing revision overload would be incorrect: it expects a commit.\n\nGiven the above, I am still inclined toward the commit-based key for this fix, for the time being.\n\nWDYT?",
+      "parentUuid": "5cc4e92d_6fcf5c4e",
       "revId": "d5bd807434a53ce115d84d485eb9a4214b6b720f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

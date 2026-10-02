@@ -29,10 +29,11 @@ import org.eclipse.jgit.revwalk.RevCommit;
  * Access control for a commit entering Gerrit's commit-validation pipeline.
  *
  * <p>Owns the push-permission decisions that depend on the {@link RevCommit} being pushed: whether
- * the caller may forge the author, committer, or server identity. Like {@link CreateRefControl}, it
- * combines Git object data with a {@link PermissionBackend.ForRef} and keeps the decision in the
- * project access-control layer rather than inside the commit validators. The validators translate
- * the results into {@code CommitValidationException}s and render any user-facing messages.
+ * the caller may forge the author, committer, or server identity, or upload a merge commit. Like
+ * {@link CreateRefControl}, it combines Git object data with a {@link PermissionBackend.ForRef} and
+ * keeps the decision in the project access-control layer rather than inside the commit validators.
+ * The validators translate the results into {@code CommitValidationException}s and render any
+ * user-facing messages.
  */
 @Singleton
 public class ReceiveCommitControl {
@@ -67,6 +68,15 @@ public class ReceiveCommitControl {
   public boolean canForgeCommitter(PermissionBackend.ForRef forRef)
       throws PermissionBackendException {
     return forRef.test(RefPermission.FORGE_COMMITTER);
+  }
+
+  /** Whether the user may push this commit if it is a merge; non-merges are always allowed. */
+  public boolean canUploadMerge(PermissionBackend.ForRef forRef, RevCommit commit)
+      throws PermissionBackendException {
+    if (commit.getParentCount() <= 1) {
+      return true;
+    }
+    return forRef.test(RefPermission.MERGE);
   }
 
   /**

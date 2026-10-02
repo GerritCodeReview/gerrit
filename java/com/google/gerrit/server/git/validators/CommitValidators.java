@@ -104,6 +104,27 @@ public class CommitValidators {
       Pattern.compile("^" + REFS_CHANGES + "(?:[0-9][0-9]/)?([1-9][0-9]*)(?:/[1-9][0-9]*)?$");
 
   @Singleton
+  static class Metrics {
+    final Counter2<Integer, String> countManyFilesPerChange;
+
+    @Inject
+    Metrics(MetricMaker metricMaker) {
+      countManyFilesPerChange =
+          metricMaker.newCounter(
+              "validation/file_count",
+              new Description("Count commits with many files per change."),
+              Field.ofInteger("file_count", (meta, value) -> {})
+                  .description(
+                      "number of modified files in the patchset (without rename detection; file"
+                          + " renames count as 1 deletion + 1 addition)")
+                  .build(),
+              Field.ofString("host_repo", (meta, value) -> {})
+                  .description("host and repository of the change in the format 'host/repo'")
+                  .build());
+    }
+  }
+
+  @Singleton
   public static class Factory {
     private final PersonIdent gerritIdent;
     private final DynamicItem<UrlFormatter> urlFormatter;
@@ -116,7 +137,7 @@ public class CommitValidators {
     private final Config config;
     private final ProjectConfigRegexValidator projectConfigRegexValidator;
     private final ChangeUtil changeUtil;
-    private final MetricMaker metricMaker;
+    private final Metrics metrics;
     private final ApprovalQueryBuilder approvalQueryBuilder;
     private final PluginSetContext<CommitValidationInfoListener> commitValidationInfoListeners;
 
@@ -133,7 +154,7 @@ public class CommitValidators {
         ProjectNotifyFilterValidator projectNotifyFilterValidator,
         ProjectConfigRegexValidator projectConfigRegexValidator,
         ChangeUtil changeUtil,
-        MetricMaker metricMaker,
+        Metrics metrics,
         ApprovalQueryBuilder approvalQueryBuilder,
         PluginSetContext<CommitValidationInfoListener> commitValidationInfoListeners) {
       this.gerritIdent = gerritIdent;
@@ -147,7 +168,7 @@ public class CommitValidators {
       this.projectNotifyFilterValidator = projectNotifyFilterValidator;
       this.projectConfigRegexValidator = projectConfigRegexValidator;
       this.changeUtil = changeUtil;
-      this.metricMaker = metricMaker;
+      this.metrics = metrics;
       this.approvalQueryBuilder = approvalQueryBuilder;
       this.commitValidationInfoListeners = commitValidationInfoListeners;
     }
@@ -169,7 +190,7 @@ public class CommitValidators {
           .add(new ProjectStateValidationListener(projectState))
           .add(new AmendedGerritMergeCommitValidationListener(perm, gerritIdent))
           .add(new AuthorUploaderValidator(user, perm, urlFormatter.get()))
-          .add(new FileCountValidator(config, urlFormatter.get(), metricMaker))
+          .add(new FileCountValidator(config, urlFormatter.get(), metrics.countManyFilesPerChange))
           .add(new CommitterUploaderValidator(user, perm, urlFormatter.get()))
           .add(new SignedOffByValidator(user, perm, projectState))
           .add(new ChangeIdValidator(changeUtil, projectState, urlFormatter.get(), config, change))
@@ -213,7 +234,7 @@ public class CommitValidators {
           .add(new ProjectStateValidationListener(projectState))
           .add(new AmendedGerritMergeCommitValidationListener(perm, gerritIdent))
           .add(new AuthorUploaderValidator(user, perm, urlFormatter.get()))
-          .add(new FileCountValidator(config, urlFormatter.get(), metricMaker))
+          .add(new FileCountValidator(config, urlFormatter.get(), metrics.countManyFilesPerChange))
           .add(new SignedOffByValidator(user, perm, projectState))
           .add(new ChangeIdValidator(changeUtil, projectState, urlFormatter.get(), config, change))
           .add(
@@ -534,20 +555,12 @@ public class CommitValidators {
     private final UrlFormatter urlFormatter;
     private final Counter2<Integer, String> metricCountManyFilesPerChange;
 
-    FileCountValidator(Config config, UrlFormatter urlFormatter, MetricMaker metricMaker) {
+    FileCountValidator(
+        Config config,
+        UrlFormatter urlFormatter,
+        Counter2<Integer, String> metricCountManyFilesPerChange) {
       this.urlFormatter = urlFormatter;
-      this.metricCountManyFilesPerChange =
-          metricMaker.newCounter(
-              "validation/file_count",
-              new Description("Count commits with many files per change."),
-              Field.ofInteger("file_count", (meta, value) -> {})
-                  .description(
-                      "number of modified files in the patchset (without rename detection; file"
-                          + " renames count as 1 deletion + 1 addition)")
-                  .build(),
-              Field.ofString("host_repo", (meta, value) -> {})
-                  .description("host and repository of the change in the format 'host/repo'")
-                  .build());
+      this.metricCountManyFilesPerChange = metricCountManyFilesPerChange;
       maxFileCount = config.getInt("change", null, "maxFiles", 100_000);
     }
 

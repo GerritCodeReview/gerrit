@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "57cc5ab8_4b920b97",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-10-02T17:37:14Z",
+      "side": 1,
+      "message": "Yes, 100%.\nI just wanted to avoid a big-bang change for all consumers of All-Users.\n\nThis change adds the provider only.\nI3dae6280 - The next change wires the `accounts` cache to consume it.\nI666b717  - The one after that uses it when fixing the tokens cache.\n\nOnce these stabilise, I will follow it up with a series of changes addressing all remaining consumers.",
+      "parentUuid": "4fb32cc2_c4450a4d",
+      "revId": "1f44b7f465e34217d9a516a0892ae36b3c14fdbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2e625aaf_16768a55",
         "filename": "java/com/google/gerrit/server/git/AllUsersRepository.java",
         "patchSetId": 3
@@ -48,6 +66,24 @@
       "writtenOn": "2026-10-01T19:50:32Z",
       "side": 1,
       "message": "nit: replace \"each\" since there\u0027s only 1 repo\n\n```suggestion\n * \u003cp\u003eInject a {@code Provider\u003cRepository\u003e} and use the repository obtained from {@code get()} in\n```",
+      "revId": "1f44b7f465e34217d9a516a0892ae36b3c14fdbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9082d89_e0f9eaf1",
+        "filename": "java/com/google/gerrit/server/git/AllUsersRepository.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-10-02T17:37:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e625aaf_16768a55",
       "revId": "1f44b7f465e34217d9a516a0892ae36b3c14fdbf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -69,6 +105,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "988e5e12_f91b80c9",
+        "filename": "java/com/google/gerrit/server/git/AllUsersRepositoryProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-10-02T17:37:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9e1d719b_ca37ea5c",
+      "revId": "1f44b7f465e34217d9a516a0892ae36b3c14fdbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "945974d2_ade1c6bf",
@@ -82,6 +136,24 @@
       "writtenOn": "2026-10-01T19:50:32Z",
       "side": 1,
       "message": "Also set `repository \u003d null;` so we don\u0027t close again by accident?\n```suggestion\n      repository.close();\n      repository \u003d null;\n```",
+      "revId": "1f44b7f465e34217d9a516a0892ae36b3c14fdbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc2f1574_0fbe835c",
+        "filename": "java/com/google/gerrit/server/git/AllUsersRepositoryProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-10-02T17:37:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "945974d2_ade1c6bf",
       "revId": "1f44b7f465e34217d9a516a0892ae36b3c14fdbf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

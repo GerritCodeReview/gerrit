@@ -5,6 +5,7 @@
  */
 import './gr-checks-chip';
 import './gr-summary-chip';
+import {SummaryChipStyles} from './gr-summary-chip';
 import '../gr-comments-summary/gr-comments-summary';
 import '../../shared/gr-icon/gr-icon';
 import '../../checks/gr-checks-action';
@@ -346,6 +347,40 @@ export class GrChangeSummary extends LitElement {
         gr-checks-chip:focus-within {
           z-index: 10;
         }
+        .prototypeErrorChip {
+          color: var(--error-foreground);
+          border: 1px solid var(--error-foreground);
+          background: var(--error-background);
+          cursor: pointer;
+          display: inline-block;
+          padding: var(--spacing-xxs) var(--spacing-m) var(--spacing-xxs)
+            var(--spacing-s);
+          margin-right: var(--spacing-s);
+          border-radius: 12px;
+          vertical-align: top;
+          position: relative;
+          top: 2px;
+        }
+        .prototypeErrorChip gr-icon {
+          color: var(--error-foreground);
+          font-size: var(--line-height-small);
+        }
+        .prototypeSummaryFooter {
+          display: flex;
+          align-items: center;
+          gap: var(--spacing-xl);
+          color: var(--deemphasized-text-color);
+          margin-top: var(--spacing-xs);
+        }
+        .prototypeSummaryFooter .footerItem {
+          display: inline-flex;
+          align-items: center;
+          gap: var(--spacing-xs);
+        }
+        .prototypeSummaryFooter gr-icon {
+          font-size: 16px;
+          color: var(--deemphasized-text-color);
+        }
       `,
     ];
   }
@@ -465,15 +500,18 @@ export class GrChangeSummary extends LitElement {
   }
 
   renderChecksChipForCategory(category: Category) {
-    const runs = this.runs.filter(run => {
+    const nonAgentRuns = this.runs.filter(run => !run.isAiPowered);
+    const runs = nonAgentRuns.filter(run => {
       if (hasResultsOf(run, category)) return true;
       return category === Category.SUCCESS && hasCompletedWithoutResults(run);
     });
-    const hasRunning = this.runs.some(isRunningOrScheduled);
-    const hasWarning = this.runs.some(run =>
+    const hasRunning = nonAgentRuns.some(isRunningOrScheduled);
+    const hasWarning = nonAgentRuns.some(run =>
       hasResultsOf(run, Category.WARNING)
     );
-    const hasError = this.runs.some(run => hasResultsOf(run, Category.ERROR));
+    const hasError = nonAgentRuns.some(run =>
+      hasResultsOf(run, Category.ERROR)
+    );
     const count = (run: CheckRun) => getResultsOf(run, category);
 
     // Sometimes INFO and SUCCESS results should not consume much UI space and
@@ -497,6 +535,7 @@ export class GrChangeSummary extends LitElement {
 
   renderChecksChipRunning() {
     const runs = this.runs
+      .filter(run => !run.isAiPowered)
       .filter(isRunningOrScheduled)
       .sort(compareByWorstCategory);
     return this.renderChecksChipsExpanded(runs, RunStatus.RUNNING);
@@ -579,7 +618,7 @@ export class GrChangeSummary extends LitElement {
       .statusOrCategory=${statusOrCategory}
       .text=${text}
       .links=${links}
-      .isAi=${!!run.isAiPowered}
+      .isAi=${false}
       @click=${handler}
       @keydown=${(e: KeyboardEvent) => handleSpaceOrEnter(e, handler)}
     ></gr-checks-chip>`;
@@ -596,7 +635,7 @@ export class GrChangeSummary extends LitElement {
     });
   }
 
-  private handleOpenAiPromptDialog() {
+  handleOpenAiPromptDialog() {
     assertIsDefined(this.aiPromptModal, 'aiPromptModal');
     this.aiPromptModal.showModal();
     this.aiPromptDialog?.open();
@@ -607,32 +646,70 @@ export class GrChangeSummary extends LitElement {
     this.aiPromptModal.close();
   }
 
+  private renderAgentsSummary() {
+    const agentRuns = this.runs.filter(run => run.isAiPowered);
+    if (agentRuns.length === 0) return nothing;
+    return html`
+      <tr>
+        <td class="key">Agents:</td>
+        <td class="value">
+          <div class="checksSummary">
+            ${agentRuns.map(run =>
+              this.renderChecksChipDetailed(
+                run,
+                run.worstCategory ?? Category.WARNING
+              )
+            )}
+          </div>
+        </td>
+      </tr>
+    `;
+  }
+
   override render() {
+    const passedCount = this.runs.filter(
+      run => !run.isAiPowered && hasResultsOf(run, Category.SUCCESS)
+    ).length;
     return html`
       <div>
         <table class="info">
+          ${this.renderAgentsSummary()}
           <tr>
-            <td class="key">Comments</td>
+            <td class="key">Checks:</td>
             <td class="value">
-              <div class="value-content">
-                <gr-comments-summary
-                  .commentsLoading=${this.commentsLoading}
-                  .commentThreads=${this.commentThreads}
-                  .draftCount=${this.draftCount}
-                  .mentionCount=${this.mentionCount}
-                  showCommentCategoryName
-                  clickableChips
-                ></gr-comments-summary>
-                ${this.canShowAiReview
-                  ? html`<gr-button link @click=${this.handleOpenAiPromptDialog}
-                      >Create AI Review Prompt</gr-button
-                    >`
-                  : nothing}
+              <div class="checksSummary">
+                ${this.renderChecksChipForCategory(Category.ERROR)}
+                <gr-summary-chip
+                  .styleType=${SummaryChipStyles.WARNING}
+                  icon="account_circle"
+                  iconFilled
+                  ><strong>3 Unresolved comments</strong></gr-summary-chip
+                >
+                <br />
+                ${this.renderChecksChipForCategory(Category.WARNING)}
+                ${this.renderChecksChipForCategory(Category.INFO)}
+                ${this.renderChecksChipRunning()}
               </div>
             </td>
           </tr>
-          ${this.renderChecksSummary()} ${this.renderFlowsSummary()}
+          ${this.renderFlowsSummary()}
         </table>
+        <div class="prototypeSummaryFooter font-small">
+          <span
+            class="footerItem"
+            role="button"
+            tabindex="0"
+            @click=${() =>
+              this.onChipClick({statusOrCategory: Category.SUCCESS})}
+          >
+            <gr-icon icon="check"></gr-icon>
+            <span>${passedCount} checks Passed</span>
+          </span>
+          <span class="footerItem">
+            <gr-icon icon="chat_bubble_outline"></gr-icon>
+            <span>4 resolved comments.</span>
+          </span>
+        </div>
       </div>
       ${this.canShowAiReview
         ? html`<dialog id="aiPromptModal" tabindex="-1">
@@ -720,7 +797,7 @@ export class GrChangeSummary extends LitElement {
     `;
   }
 
-  private renderChecksSummary() {
+  renderChecksSummary() {
     const hasNonRunningChip = this.runs.some(
       run => hasCompletedWithoutResults(run) || hasResults(run)
     );

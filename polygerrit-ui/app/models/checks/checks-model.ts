@@ -500,6 +500,116 @@ export class ChecksModel extends Model<ChecksState> {
       'visibilitychange',
       this.visibilityChangeListener
     );
+    this.registerFakeChecksProvider();
+  }
+
+  private registerFakeChecksProvider() {
+    const pluginName = 'autofix-prototype';
+    const buildFakeRuns = (change = 1, patchset = 1): CheckRunApi[] => {
+      const passedChecks: CheckRunApi[] = Array.from({length: 15}, (_, i) => {
+        return {
+          change,
+          patchset,
+          attempt: 1,
+          checkName: `Presubmit Check #${i + 1}`,
+          status: RunStatus.COMPLETED,
+          results: [
+            {
+              category: Category.SUCCESS,
+              summary: `Presubmit Check #${i + 1} passed.`,
+            },
+          ],
+        };
+      });
+      return [
+        {
+          change,
+          patchset,
+          attempt: 1,
+          checkName: '2 AutoFix Created',
+          isAiPowered: true,
+          status: RunStatus.COMPLETED,
+          results: [
+            {
+              category: Category.WARNING,
+              summary: '2 AutoFix CLs were created for presubmit failures.',
+            },
+          ],
+        },
+        {
+          change,
+          patchset,
+          attempt: 1,
+          checkName: 'Tests added by AI',
+          isAiPowered: true,
+          status: RunStatus.COMPLETED,
+          results: [
+            {
+              category: Category.WARNING,
+              summary: 'Unit tests were automatically added by AI.',
+            },
+          ],
+        },
+        {
+          change,
+          patchset,
+          attempt: 1,
+          checkName: 'Presubmit failed (AutoFix created)',
+          labelName: 'Presubmit-Verified',
+          status: RunStatus.COMPLETED,
+          results: [
+            {
+              category: Category.ERROR,
+              summary:
+                'Presubmit build failed; a suggested AutoFix CL has been created.',
+            },
+          ],
+        },
+        {
+          change,
+          patchset,
+          attempt: 1,
+          checkName: '1 Compliance Suggestions',
+          status: RunStatus.COMPLETED,
+          results: [
+            {
+              category: Category.WARNING,
+              summary: '1 compliance suggestion available.',
+            },
+          ],
+        },
+        ...passedChecks,
+      ];
+    };
+
+    this.register({
+      pluginName,
+      config: {fetchPollingIntervalSeconds: 0},
+      provider: {
+        fetch: (data: ChangeData) =>
+          Promise.resolve({
+            responseCode: ResponseCode.OK,
+            runs: buildFakeRuns(data.changeNumber, data.patchsetNumber),
+          }),
+      },
+    });
+    const initialRuns = buildFakeRuns();
+    this.updateStateSetResults(
+      pluginName,
+      initialRuns,
+      [],
+      [],
+      undefined,
+      ChecksPatchset.LATEST
+    );
+    this.updateStateSetResults(
+      pluginName,
+      initialRuns,
+      [],
+      [],
+      undefined,
+      ChecksPatchset.SELECTED
+    );
   }
 
   private reportStats(state: {[name: string]: ChecksProviderState}) {

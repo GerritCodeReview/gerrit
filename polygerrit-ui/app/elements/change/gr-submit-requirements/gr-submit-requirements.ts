@@ -145,6 +145,24 @@ export class GrSubmitRequirements extends LitElement {
           vertical-align: middle;
           margin-left: calc(var(--spacing-s));
         }
+        .prototypeErrorIcon {
+          color: var(--error-foreground);
+        }
+        .prototypeNegativeVote {
+          background-color: var(--negative-red-background-color, #d93025);
+          color: #ffffff;
+          border-radius: 4px;
+          padding: 0 6px;
+          font-size: var(--font-size-small, 12px);
+          font-weight: var(--font-weight-bold, 700);
+          margin-right: var(--spacing-s);
+          display: inline-block;
+          line-height: 18px;
+        }
+        .prototypeAutoFixLabel {
+          color: var(--link-color);
+          font-weight: var(--font-weight-medium, 500);
+        }
       `,
     ];
   }
@@ -175,6 +193,9 @@ export class GrSubmitRequirements extends LitElement {
     const submit_requirements = orderSubmitRequirements(
       getRequirements(this.change)
     );
+    const hasPresubmitVerified = submit_requirements.some(
+      req => req.name === 'Presubmit-Verified'
+    );
 
     const requirementKey = (req: SubmitRequirementResultInfo, index: number) =>
       `${index}-${req.name}`;
@@ -192,42 +213,58 @@ export class GrSubmitRequirements extends LitElement {
             ></span>`
         )}
       </h3>
-      ${when(
-        submit_requirements.length !== 0,
-        () => html`<table
-            class="requirements"
-            aria-labelledby="submit-requirements-caption"
-          >
-            <thead hidden>
-              <tr>
-                <th>Status</th>
-                <th>Name</th>
-                <th>Votes</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${repeat(
-                submit_requirements,
-                requirementKey,
-                (requirement, index) =>
-                  this.renderRequirement(requirement, index)
-              )}
-            </tbody>
-          </table>
-          ${this.disableHovercards
-            ? ''
-            : submit_requirements.map(
-                (requirement, index) => html`
-                  <gr-submit-requirement-hovercard
-                    for="requirement-${index}-${charsOnly(requirement.name)}"
-                    .requirement=${requirement}
-                    .change=${this.change}
-                    .account=${this.account}
-                    .mutable=${this.mutable ?? false}
-                  ></gr-submit-requirement-hovercard>
-                `
-              )}`
-      )}`;
+      <table class="requirements" aria-labelledby="submit-requirements-caption">
+        <thead hidden>
+          <tr>
+            <th>Status</th>
+            <th>Name</th>
+            <th>Votes</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${repeat(submit_requirements, requirementKey, (requirement, index) =>
+            this.renderRequirement(requirement, index)
+          )}
+          ${hasPresubmitVerified
+            ? nothing
+            : html`<tr>
+                <td>
+                  <gr-icon
+                    class="prototypeErrorIcon"
+                    filled
+                    icon="error"
+                    role="img"
+                    aria-label="unsatisfied"
+                  ></gr-icon>
+                </td>
+                <td class="name">
+                  <gr-limited-text
+                    class="name"
+                    .text=${'Presubmit-Verified'}
+                  ></gr-limited-text>
+                </td>
+                <td>
+                  <div class="votes-cell">
+                    <span class="prototypeNegativeVote">-2</span>
+                    <span class="prototypeAutoFixLabel">AutoFix Created</span>
+                  </div>
+                </td>
+              </tr>`}
+        </tbody>
+      </table>
+      ${this.disableHovercards
+        ? ''
+        : submit_requirements.map(
+            (requirement, index) => html`
+              <gr-submit-requirement-hovercard
+                for="requirement-${index}-${charsOnly(requirement.name)}"
+                .requirement=${requirement}
+                .change=${this.change}
+                .account=${this.account}
+                .mutable=${this.mutable ?? false}
+              ></gr-submit-requirement-hovercard>
+            `
+          )}`;
   }
 
   private renderRequirement(
@@ -287,6 +324,15 @@ export class GrSubmitRequirements extends LitElement {
   }
 
   private renderStatus(requirement: SubmitRequirementResultInfo) {
+    if (requirement.name === 'Presubmit-Verified') {
+      return html`<gr-icon
+        class="prototypeErrorIcon"
+        filled
+        icon="error"
+        role="img"
+        aria-label="unsatisfied"
+      ></gr-icon>`;
+    }
     const icon = iconForRequirement(requirement);
     return html`<gr-icon
       class=${icon.icon}
@@ -298,6 +344,12 @@ export class GrSubmitRequirements extends LitElement {
   }
 
   renderVoteCell(requirement: SubmitRequirementResultInfo) {
+    if (requirement.name === 'Presubmit-Verified') {
+      return html`<div>
+        <span class="prototypeNegativeVote">-2</span>
+        <span class="prototypeAutoFixLabel">AutoFix Created</span>
+      </div>`;
+    }
     if (requirement.status === SubmitRequirementStatus.ERROR) {
       return html`<span class="error">Error</span>`;
     }

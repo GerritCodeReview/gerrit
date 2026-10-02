@@ -74,7 +74,7 @@ export class GrChecksChip extends LitElement {
         }
         .checksChip .text {
           display: inline-block;
-          max-width: 120px;
+          max-width: 300px;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;

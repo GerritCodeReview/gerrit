@@ -237,6 +237,52 @@ export class GrRelatedChangesList extends LitElement {
           border-bottom: none;
           border-top: none;
         }
+        .autofixBadge {
+          background-color: #1a73e8;
+          color: #ffffff;
+          border-radius: 4px;
+          font-size: 10px;
+          font-weight: var(--font-weight-bold, 700);
+          line-height: 16px;
+          padding: 0 6px;
+          letter-spacing: 0.3px;
+          display: inline-flex;
+          align-items: center;
+          flex-shrink: 0;
+        }
+        .autofixRow {
+          align-items: center;
+          gap: var(--spacing-s);
+          padding: 4px var(--spacing-m) 4px var(--spacing-s);
+        }
+        .autofixLineContainer {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          width: 100%;
+          gap: var(--spacing-m);
+        }
+        .autofixLeft {
+          display: inline-flex;
+          align-items: center;
+          gap: var(--spacing-s);
+          overflow: hidden;
+        }
+        .autofixLink {
+          color: var(--link-color);
+          text-decoration: none;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+        .autofixLink:hover {
+          text-decoration: underline;
+        }
+        .autofixExtra {
+          color: var(--deemphasized-text-color);
+          white-space: nowrap;
+          flex-shrink: 0;
+        }
       `,
     ];
   }
@@ -253,6 +299,7 @@ export class GrRelatedChangesList extends LitElement {
     const sectionRenderers = [
       this.renderRelationChain,
       this.renderSubmittedTogether,
+      this.renderSuggestedAutoFixCls,
       this.renderSameTopic,
       this.renderMergeConflicts,
       this.renderCherryPicks,
@@ -386,7 +433,53 @@ export class GrRelatedChangesList extends LitElement {
       !submittedTogetherChanges.length &&
       !this.submittedTogether?.non_visible_changes
     ) {
-      return undefined;
+      return html`<section id="submittedTogether">
+        <gr-related-collapse
+          .name=${'Submitted together'}
+          title="parent changes appear below child changes"
+          class=${classMap({first: isFirst})}
+          .length=${2}
+          .numChangesWhenCollapsed=${3}
+        >
+          <div
+            class="relatedChangeLine selected show-when-collapsed autofixRow"
+          >
+            <div class="autofixLineContainer">
+              <div class="autofixLeft">
+                <span
+                  class="marker arrowToCurrentChange"
+                  role="img"
+                  aria-label="Current change"
+                  >➔</span
+                >
+                <a
+                  href="#"
+                  class="autofixLink"
+                  @click=${(e: Event) => e.preventDefault()}
+                  >Implement new API...</a
+                >
+              </div>
+              <span class="autofixExtra"
+                >platform/frameworks/base&nbsp;|&nbsp;main</span
+              >
+            </div>
+          </div>
+          <div class="relatedChangeLine show-when-collapsed autofixRow">
+            <div class="autofixLineContainer">
+              <div class="autofixLeft">
+                <span class="marker space"></span>
+                <a
+                  href="#"
+                  class="autofixLink"
+                  @click=${(e: Event) => e.preventDefault()}
+                  >Update build rules...</a
+                >
+              </div>
+              <span class="autofixExtra">build/soong&nbsp;|&nbsp;main</span>
+            </div>
+          </div>
+        </gr-related-collapse>
+      </section>`;
     }
     const countNonVisibleChanges =
       this.submittedTogether?.non_visible_changes ?? 0;
@@ -428,6 +521,35 @@ export class GrRelatedChangesList extends LitElement {
       <div class="note" ?hidden=${!countNonVisibleChanges}>
         (+ ${pluralize(countNonVisibleChanges, 'non-visible change')})
       </div>
+    </section>`;
+  }
+
+  private renderSuggestedAutoFixCls(isFirst: boolean) {
+    return html`<section id="suggestedAutoFixCls">
+      <gr-related-collapse
+        .name=${'Suggested AutoFix CLs'}
+        class=${classMap({first: isFirst})}
+        .length=${1}
+        .numChangesWhenCollapsed=${3}
+      >
+        <span slot="header-action" class="autofixBadge">NEW</span>
+        <div class="relatedChangeLine show-when-collapsed autofixRow">
+          <div class="autofixLineContainer">
+            <div class="autofixLeft">
+              <span class="autofixBadge">AUTOFIX</span>
+              <a
+                href="#"
+                class="autofixLink"
+                @click=${(e: Event) => e.preventDefault()}
+                >Fix build failures...</a
+              >
+            </div>
+            <span class="autofixExtra"
+              >platform/frameworks/base&nbsp;|&nbsp;main</span
+            >
+          </div>
+        </div>
+      </gr-related-collapse>
     </section>`;
   }
 

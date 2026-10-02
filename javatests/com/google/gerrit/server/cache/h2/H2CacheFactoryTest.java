@@ -28,15 +28,19 @@ import com.google.gerrit.server.cache.PersistentCacheDef;
 import com.google.gerrit.server.cache.h2.H2CacheImpl.SqlStore;
 import com.google.gerrit.server.cache.serialize.CacheSerializer;
 import com.google.gerrit.server.cache.serialize.StringCacheSerializer;
+import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.TypeLiteral;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Duration;
 import java.util.EnumSet;
 import java.util.concurrent.atomic.AtomicBoolean;
 import javax.annotation.Nullable;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.util.FS;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -48,7 +52,15 @@ public class H2CacheFactoryTest {
 
   @Test
   public void newSqlStore_setsUrl() throws Exception {
-    Path cacheDir = temporaryFolder.newFolder("cache").toPath();
+    Path siteRoot = temporaryFolder.newFolder("site").toPath();
+    Path etcDir = Files.createDirectories(siteRoot.resolve("etc"));
+    Files.createDirectories(siteRoot.resolve("cache"));
+    FileBasedConfig gerritConfig =
+        new FileBasedConfig(etcDir.resolve("gerrit.config").toFile(), FS.DETECTED);
+    gerritConfig.setString("cache", null, "directory", "cache");
+    gerritConfig.save();
+    SitePaths sitePaths = new SitePaths(siteRoot);
+
     H2CacheFactory factory =
         new H2CacheFactory(
             new NoOpMemoryCacheFactory(),
@@ -57,7 +69,7 @@ public class H2CacheFactoryTest {
             null,
             null,
             null,
-            cacheDir,
+            sitePaths,
             EnumSet.noneOf(CacheOptions.class),
             new AtomicBoolean(false));
 
@@ -67,7 +79,7 @@ public class H2CacheFactoryTest {
     assertThat(readField(store, "url"))
         .isEqualTo(
             "jdbc:h2:file:"
-                + cacheDir.resolve("demo-cache-v2").toAbsolutePath()
+                + sitePaths.cache_dir.resolve("demo-cache-v2").toAbsolutePath()
                 + ";DB_CLOSE_DELAY=-1");
   }
 

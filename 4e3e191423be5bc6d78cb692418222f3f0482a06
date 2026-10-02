@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a9f5215_7c461f7c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-02T10:02:31Z",
+      "side": 1,
+      "message": "I uploaded an alternative approach that keeps the merge/forge permission checks in a dedicated server/project/ control (ReceiveCommitControl) instead of CommitValidators. See change 636985.",
+      "revId": "4e3e191423be5bc6d78cb692418222f3f0482a06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

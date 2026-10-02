@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "15f2db08_58a1a618",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-02T20:19:48Z",
+      "side": 1,
+      "message": "I still need to actually try this in a local site, but it fixes a UX thing that always annoys me.",
+      "revId": "d620f56012dbce3f2c00b64285afe4d4143dd157",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

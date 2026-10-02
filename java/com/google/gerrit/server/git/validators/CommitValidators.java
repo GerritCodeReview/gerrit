@@ -186,7 +186,7 @@ public class CommitValidators {
           projectCache.get(branch.project()).orElseThrow(illegalState(branch.project()));
       ImmutableList.Builder<CommitValidationListener> validators = ImmutableList.builder();
       validators
-          .add(new UploadMergesPermissionValidator(perm))
+          .add(new UploadMergesPermissionValidator(perm, receiveCommitControl))
           .add(new ProjectStateValidationListener(projectState))
           .add(new AmendedGerritMergeCommitValidationListener(perm, receiveCommitControl))
           .add(new AuthorUploaderValidator(user, perm, urlFormatter.get(), receiveCommitControl))
@@ -230,7 +230,7 @@ public class CommitValidators {
           projectCache.get(branch.project()).orElseThrow(illegalState(branch.project()));
       ImmutableList.Builder<CommitValidationListener> validators = ImmutableList.builder();
       validators
-          .add(new UploadMergesPermissionValidator(perm))
+          .add(new UploadMergesPermissionValidator(perm, receiveCommitControl))
           .add(new ProjectStateValidationListener(projectState))
           .add(new AmendedGerritMergeCommitValidationListener(perm, receiveCommitControl))
           .add(new AuthorUploaderValidator(user, perm, urlFormatter.get(), receiveCommitControl))
@@ -281,7 +281,7 @@ public class CommitValidators {
           projectCache.get(branch.project()).orElseThrow(illegalState(branch.project()));
       ImmutableList.Builder<CommitValidationListener> validators = ImmutableList.builder();
       validators
-          .add(new UploadMergesPermissionValidator(perm))
+          .add(new UploadMergesPermissionValidator(perm, receiveCommitControl))
           .add(new ProjectStateValidationListener(projectState))
           .add(new AuthorUploaderValidator(user, perm, urlFormatter.get(), receiveCommitControl))
           .add(
@@ -761,22 +761,22 @@ public class CommitValidators {
   /** Require permission to upload merge commits. */
   public static class UploadMergesPermissionValidator implements CommitValidationListener {
     private final PermissionBackend.ForRef perm;
+    private final ReceiveCommitControl receiveCommitControl;
 
-    public UploadMergesPermissionValidator(PermissionBackend.ForRef perm) {
+    public UploadMergesPermissionValidator(
+        PermissionBackend.ForRef perm, ReceiveCommitControl receiveCommitControl) {
       this.perm = perm;
+      this.receiveCommitControl = receiveCommitControl;
     }
 
     @Override
     public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
         throws CommitValidationException {
-      if (receiveEvent.commit.getParentCount() <= 1) {
-        return Collections.emptyList();
-      }
       try {
-        if (perm.test(RefPermission.MERGE)) {
-          return Collections.emptyList();
+        if (!receiveCommitControl.canUploadMerge(perm, receiveEvent.commit)) {
+          throw new CommitValidationException("you are not allowed to upload merges");
         }
-        throw new CommitValidationException("you are not allowed to upload merges");
+        return Collections.emptyList();
       } catch (PermissionBackendException e) {
         logger.atSevere().withCause(e).log("cannot check MERGE");
         throw new CommitValidationException("internal auth error");

@@ -49,6 +49,7 @@ public final class SitePaths {
   public final Path hooks_dir;
   public final Path static_dir;
   public final Path index_dir;
+  @Nullable public final Path cache_dir;
 
   public final Path gerrit_sh;
   public final Path gerrit_service;
@@ -95,7 +96,9 @@ public final class SitePaths {
     mail_dir = etc_dir.resolve("mail");
     hooks_dir = p.resolve("hooks");
     static_dir = p.resolve("static");
-    index_dir = resolveIndexDir(p, etc_dir.resolve("gerrit.config"));
+    FileBasedConfig cfg = loadGerritConfig(etc_dir.resolve("gerrit.config"));
+    index_dir = resolveIndexDir(p, cfg);
+    cache_dir = resolveCacheDir(p, cfg);
 
     gerrit_sh = bin_dir.resolve("gerrit.sh");
     gerrit_service = bin_dir.resolve("gerrit.service");
@@ -132,7 +135,7 @@ public final class SitePaths {
     this.isNew = isNew;
   }
 
-  private static Path resolveIndexDir(Path sitePath, Path gerritConfig) throws IOException {
+  private static FileBasedConfig loadGerritConfig(Path gerritConfig) throws IOException {
     FileBasedConfig cfg = new FileBasedConfig(gerritConfig.toFile(), FS.DETECTED);
     if (cfg.getFile().exists()) {
       try {
@@ -141,16 +144,32 @@ public final class SitePaths {
         throw new IOException("Invalid config file " + gerritConfig, e);
       }
     }
-    String configured = cfg.getString("index", null, "directory");
-    if (!Strings.isNullOrEmpty(configured)) {
-      Path loc = sitePath.resolve(configured).normalize();
-      try {
-        return loc.toRealPath();
-      } catch (IOException e) {
-        return loc.toAbsolutePath();
-      }
+    return cfg;
+  }
+
+  private static Path resolveIndexDir(Path sitePath, FileBasedConfig cfg) throws IOException {
+    Path configured = resolveConfiguredPath(sitePath, cfg, "index", "directory");
+    return configured != null ? configured : sitePath.resolve("index");
+  }
+
+  @Nullable
+  private static Path resolveCacheDir(Path sitePath, FileBasedConfig cfg) throws IOException {
+    return resolveConfiguredPath(sitePath, cfg, "cache", "directory");
+  }
+
+  @Nullable
+  private static Path resolveConfiguredPath(
+      Path sitePath, FileBasedConfig cfg, String section, String key) throws IOException {
+    String configured = cfg.getString(section, null, key);
+    if (Strings.isNullOrEmpty(configured)) {
+      return null;
     }
-    return sitePath.resolve("index");
+    Path loc = sitePath.resolve(configured).normalize();
+    try {
+      return loc.toRealPath();
+    } catch (IOException e) {
+      return loc.toAbsolutePath();
+    }
   }
 
   /**

@@ -17,6 +17,7 @@ package com.google.gerrit.server.restapi.change;
 import static com.google.gerrit.entities.Patch.PATCHSET_LEVEL;
 import static com.google.gerrit.server.update.context.RefUpdateContext.RefUpdateType.CHANGE_MODIFICATION;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.PatchSet;
@@ -77,11 +78,13 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
   }
 
   @Override
-  public Response<CommentInfo> apply(DraftCommentResource rsrc, DraftInput in)
+  public Response<CommentInfo> apply(DraftCommentResource rsrc, DraftInput input)
       throws RestApiException, UpdateException, PermissionBackendException {
-    if (in == null || in.message == null || in.message.trim().isEmpty()) {
+    if (input == null || input.message == null || input.message.trim().isEmpty()) {
       return delete.apply(rsrc, null);
-    } else if (in.id != null && !rsrc.getId().equals(in.id)) {
+    }
+    DraftInput in = input.path == null ? withDefaultLocation(input, rsrc.getComment()) : input;
+    if (in.id != null && !rsrc.getId().equals(in.id)) {
       throw new BadRequestException("id must match URL");
     } else if (in.line != null && in.line < 0) {
       throw new BadRequestException("line must be >= 0");
@@ -103,6 +106,38 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
             commentJson.get().setFillAccounts(false).newHumanCommentFormatter().format(op.comment));
       }
     }
+  }
+
+  /**
+   * Returns a copy of {@code in} that keeps the location of {@code orig}: its path and, unless
+   * {@code in} sets a line or range, its line. Without the line, {@code update()} would reset it to
+   * 0 and turn the draft into a file comment.
+   *
+   * <p>Copies instead of mutating so that callers can reuse their input. New fields of {@link
+   * DraftInput} or its superclasses must be copied here too.
+   */
+  @VisibleForTesting
+  static DraftInput withDefaultLocation(DraftInput in, HumanComment orig) {
+    DraftInput copy = new DraftInput();
+    copy.patchSet = in.patchSet;
+    copy.id = in.id;
+    copy.path = orig.key.filename;
+    copy.side = in.side;
+    copy.parent = in.parent;
+    copy.line = in.line;
+    copy.range = in.range;
+    copy.inReplyTo = in.inReplyTo;
+    copy.updated = in.updated;
+    copy.message = in.message;
+    copy.commitId = in.commitId;
+    copy.fixSuggestions = in.fixSuggestions;
+    copy.isAi = in.isAi;
+    copy.tag = in.tag;
+    copy.unresolved = in.unresolved;
+    if (copy.line == null && copy.range == null && orig.lineNbr > 0) {
+      copy.line = orig.lineNbr;
+    }
+    return copy;
   }
 
   private class Op implements BatchUpdateOp {

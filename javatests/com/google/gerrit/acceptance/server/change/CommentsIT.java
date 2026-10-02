@@ -1077,6 +1077,136 @@ public class CommentsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void putDraft_withoutPath_keepsPathAndLine() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    String revId = r.getCommit().getName();
+    DraftInput comment = CommentsUtil.newDraft(FILE_NAME, Side.REVISION, 1, "foo");
+    CommentInfo commentInfo = addDraft(changeId, revId, comment);
+
+    updateDraft(changeId, revId, messageOnly("bar"), commentInfo.id);
+
+    CommentInfo updated = getDraftComment(changeId, revId, commentInfo.id);
+    assertThat(updated.message).isEqualTo("bar");
+    assertThat(updated.path).isEqualTo(FILE_NAME);
+    assertThat(updated.line).isEqualTo(1);
+  }
+
+  @Test
+  public void putDraft_withoutPath_keepsPatchsetLevelPath() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    String revId = r.getCommit().getName();
+    DraftInput comment = CommentsUtil.newDraftWithOnlyMandatoryFields(PATCHSET_LEVEL, "foo");
+    CommentInfo commentInfo = addDraft(changeId, revId, comment);
+
+    updateDraft(changeId, revId, messageOnly("bar"), commentInfo.id);
+
+    CommentInfo updated = getDraftComment(changeId, revId, commentInfo.id);
+    assertThat(updated.message).isEqualTo("bar");
+    assertThat(updated.path).isEqualTo(PATCHSET_LEVEL);
+    assertThat(updated.line).isNull();
+  }
+
+  @Test
+  public void putDraft_withoutPath_keepsRangeAndSide() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    String revId = r.getCommit().getName();
+    Comment.Range range = new Comment.Range();
+    range.startLine = 1;
+    range.startCharacter = 0;
+    range.endLine = 2;
+    range.endCharacter = 3;
+    DraftInput comment = CommentsUtil.newDraft(FILE_NAME, Side.REVISION, range, "foo");
+    comment.line = null;
+    CommentInfo original = addDraft(changeId, revId, comment);
+
+    updateDraft(changeId, revId, messageOnly("bar"), original.id);
+
+    CommentInfo updated = getDraftComment(changeId, revId, original.id);
+    assertThat(updated.message).isEqualTo("bar");
+    assertThat(updated.path).isEqualTo(FILE_NAME);
+    assertThat(updated.line).isEqualTo(2);
+    assertThat(updated.range).isEqualTo(original.range);
+    assertThat(updated.side).isEqualTo(original.side);
+  }
+
+  @Test
+  public void putDraft_withoutPath_keepsParentSide() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    String revId = r.getCommit().getName();
+    DraftInput comment = CommentsUtil.newDraft(FILE_NAME, Side.PARENT, 1, "foo");
+    CommentInfo original = addDraft(changeId, revId, comment);
+
+    updateDraft(changeId, revId, messageOnly("bar"), original.id);
+
+    CommentInfo updated = getDraftComment(changeId, revId, original.id);
+    assertThat(updated.side).isEqualTo(Side.PARENT);
+    assertThat(updated.line).isEqualTo(1);
+  }
+
+  @Test
+  public void putDraft_withoutPath_withRange_keepsPath() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    String revId = r.getCommit().getName();
+    DraftInput comment = CommentsUtil.newDraft(FILE_NAME, Side.REVISION, 0, "foo");
+    CommentInfo original = addDraft(changeId, revId, comment);
+
+    DraftInput update = messageOnly("bar");
+    update.range = createLineRange(1, 3);
+    updateDraft(changeId, revId, update, original.id);
+
+    CommentInfo updated = getDraftComment(changeId, revId, original.id);
+    assertThat(updated.path).isEqualTo(FILE_NAME);
+    assertThat(updated.line).isEqualTo(update.range.endLine);
+  }
+
+  @Test
+  public void putDraft_withoutPath_patchsetLevelDraftCantGetLine() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    String revId = r.getCommit().getName();
+    DraftInput comment = CommentsUtil.newDraftWithOnlyMandatoryFields(PATCHSET_LEVEL, "foo");
+    CommentInfo original = addDraft(changeId, revId, comment);
+
+    DraftInput update = messageOnly("bar");
+    update.line = 1;
+    BadRequestException ex =
+        assertThrows(
+            BadRequestException.class, () -> updateDraft(changeId, revId, update, original.id));
+    assertThat(ex)
+        .hasMessageThat()
+        .contains("patchset-level comments can't have side, range, or line");
+  }
+
+  @Test
+  public void putDraft_withoutPath_doesNotModifyInput() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    String revId = r.getCommit().getName();
+    CommentInfo draft1 =
+        addDraft(changeId, revId, CommentsUtil.newDraft(FILE_NAME, Side.REVISION, 1, "foo"));
+    CommentInfo draft2 =
+        addDraft(changeId, revId, CommentsUtil.newDraft("other_file", Side.REVISION, 2, "foo"));
+
+    DraftInput update = messageOnly("bar");
+    updateDraft(changeId, revId, update, draft1.id);
+    updateDraft(changeId, revId, update, draft2.id);
+
+    assertThat(update.path).isNull();
+    assertThat(update.line).isNull();
+    CommentInfo updated1 = getDraftComment(changeId, revId, draft1.id);
+    assertThat(updated1.path).isEqualTo(FILE_NAME);
+    assertThat(updated1.line).isEqualTo(1);
+    CommentInfo updated2 = getDraftComment(changeId, revId, draft2.id);
+    assertThat(updated2.path).isEqualTo("other_file");
+    assertThat(updated2.line).isEqualTo(2);
+  }
+
+  @Test
   public void putDraft_updateInvalidInReplyTo() throws Exception {
     Change.Id changeId = changeOperations.newChange().createV1();
     DraftInput originalDraftInput = CommentsUtil.newDraft(FILE_NAME, Side.REVISION, 0, "foo");
@@ -2482,6 +2612,12 @@ public class CommentsIT extends AbstractDaemonTest {
 
   private void updateDraft(Change.Id changeId, DraftInput in, String uuid) throws Exception {
     gApi.changes().id(changeId.get()).current().draft(uuid).update(in);
+  }
+
+  private static DraftInput messageOnly(String message) {
+    DraftInput in = new DraftInput();
+    in.message = message;
+    return in;
   }
 
   private void deleteDraft(String changeId, String revId, String uuid) throws Exception {

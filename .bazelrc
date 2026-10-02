@@ -14,7 +14,6 @@ common --repo_env=ASPECT_TOOLS_TELEMETRY=-all
 
 build --workspace_status_command="python3 ./tools/workspace_status.py"
 common --repository_cache=~/.gerritcodereview/bazel-cache/repository
-common --action_env=PATH
 common --disk_cache=~/.gerritcodereview/bazel-cache/cas
 
 # Builds using remotejdk_25, executes using remotejdk_25 or local_jdk

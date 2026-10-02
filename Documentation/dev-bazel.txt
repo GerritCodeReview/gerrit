@@ -853,23 +853,8 @@ gcloud alpha remote-build-execution worker-pools create default \
     --disk-size=200
 ```
 
-Note, that we are using Ubuntu2404 docker image from bazel project:
-
-
-```
-docker pull gcr.io/bazel-public/ubuntu2404@sha256:a5e969f2208ae4ab3cbe18cd85971f1f602345a650495674736a66b3ef9a55d1
-```
-
-Re-build rbe_autoconfig project, conduct a new release and switch to using it
-in `MODULE.bazel` file. For more details see this
-link:https://github.com/davido/rbe_autoconfig[repository,role=external,window=_blank]
-
-Note, to authenticate to the gcr.io registry, the following command must be
-used:
-
-```
-gcloud auth configure-docker
-```
+Update `tools/remote/BUILD` to change the Linux x86-64 execution platform
+or its pinned container image.
 
 To see the documentation, developer must be added to this group:
 https://groups.google.com/forum/#!forum/rbe-alpha-customers.
@@ -901,6 +886,11 @@ Use one of these link:https://www.buildbuddy.io[BuildBuddy] profiles:
 Reporting and cache-only profiles do not cancel a remote profile selected
 elsewhere. Build and test commands publish invocations; `run`, `query`,
 `aquery` and `cquery` do not publish them by default.
+
+Actions use Bazel's default PATH. For local tools outside that PATH, add
+`build:local_tools --action_env=PATH=...` to `user.bazelrc` and select
+`--config=local_tools` only for local builds. Replace `...` with the required
+PATH, including the system tool directories.
 
 === Authentication
 

@@ -46,6 +46,7 @@ import com.google.gerrit.metrics.Description.Units;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.metrics.Timer0;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.FanOutExecutor;
 import com.google.gerrit.server.account.AccountControl;
 import com.google.gerrit.server.account.AccountDirectory.FillOptions;
 import com.google.gerrit.server.account.AccountLoader;
@@ -68,12 +69,14 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
 
 public class ReviewersUtil {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
@@ -134,6 +137,7 @@ public class ReviewersUtil {
   private final AccountControl.Factory accountControlFactory;
   private final Provider<CurrentUser> self;
   private final ServiceUserClassifier serviceUserClassifier;
+  private final ExecutorService executor;
 
   @Inject
   ReviewersUtil(
@@ -149,7 +153,8 @@ public class ReviewersUtil {
       IndexConfig indexConfig,
       AccountControl.Factory accountControlFactory,
       Provider<CurrentUser> self,
-      ServiceUserClassifier serviceUserClassifier) {
+      ServiceUserClassifier serviceUserClassifier,
+      @FanOutExecutor ExecutorService executor) {
     this.accountVisibility = accountVisibility;
     this.accountLoaderFactory = accountLoaderFactory;
     this.accountQueryBuilder = accountQueryBuilder;
@@ -163,6 +168,7 @@ public class ReviewersUtil {
     this.accountControlFactory = accountControlFactory;
     this.self = self;
     this.serviceUserClassifier = serviceUserClassifier;
+    this.executor = executor;
   }
 
   public interface VisibilityControl {
@@ -219,31 +225,35 @@ public class ReviewersUtil {
     // Filter accounts by visibility, skip service users and enforce limit
     List<Account.Id> filteredRecommendations = new ArrayList<>();
     try (Timer0.Context ctx = metrics.filterVisibility.start()) {
+      List<Account.Id> eligibleCandidates = new ArrayList<>();
       for (Account.Id reviewer : sortedRecommendations) {
-        if (filteredRecommendations.size() >= limit) {
-          logger.atFine().log("Skip results because the limit (%s) has been reached.", limit);
-          break;
-        }
         if (suggestReviewers.isSkipServiceUsers()
             && serviceUserClassifier.isServiceUser(reviewer)) {
           logger.atFine().log("Filter out %s because it's a service user", reviewer);
           continue;
         }
-        // Check if change is visible to reviewer and if the current user can see reviewer
-        if (!visibilityControl.isVisibleTo(reviewer)) {
-          logger.atFine().log("Filter out %s because this user cannot see the change", reviewer);
-          continue;
-        }
+        eligibleCandidates.add(reviewer);
+      }
 
-        // Check if the current user can see reviewer
-        if (!accountControl.canSee(reviewer)) {
-          logger.atFine().log(
-              "Filter out %s because the caller (%s) cannot see the account",
-              reviewer, self.get().getLoggableName());
-          continue;
+      if (!eligibleCandidates.isEmpty() && limit > 0) {
+        VisibilityCheckPipeline pipeline =
+            new VisibilityCheckPipeline(
+                eligibleCandidates,
+                id -> isSuggestable(id, visibilityControl, accountControl, currentUser),
+                executor,
+                limit,
+                VISIBILITY_CHECK_TIMEOUT);
+        try {
+          Account.Id reviewer;
+          while ((reviewer = pipeline.get()) != null) {
+            filteredRecommendations.add(reviewer);
+          }
+        } catch (InterruptedException e) {
+          logger.atWarning().withCause(e).log("Interrupted while checking reviewer visibility");
+          Thread.currentThread().interrupt();
+        } finally {
+          pipeline.stop();
         }
-
-        filteredRecommendations.add(reviewer);
       }
     }
     logger.atFine().log("Filtered recommendations: %s", filteredRecommendations);
@@ -257,6 +267,26 @@ public class ReviewersUtil {
             filteredRecommendations);
     logger.atFine().log("Suggested reviewers: %s", formatSuggestedReviewers(suggestedReviewers));
     return suggestedReviewers;
+  }
+
+  private static final Duration VISIBILITY_CHECK_TIMEOUT = Duration.ofSeconds(2);
+
+  private static boolean isSuggestable(
+      Account.Id id,
+      VisibilityControl visibilityControl,
+      AccountControl accountControl,
+      CurrentUser currentUser) {
+    if (!visibilityControl.isVisibleTo(id)) {
+      logger.atFine().log("Filter out %s because this user cannot see the change", id);
+      return false;
+    }
+    if (!accountControl.canSee(id)) {
+      logger.atFine().log(
+          "Filter out %s because the caller (%s) cannot see the account",
+          id, currentUser.getLoggableName());
+      return false;
+    }
+    return true;
   }
 
   private static Account.Id fromIdField(FieldBundle f, boolean useLegacyNumericFields) {

@@ -46,6 +46,7 @@ import com.google.gerrit.metrics.Description.Units;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.metrics.Timer0;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.FanOutExecutor;
 import com.google.gerrit.server.account.AccountControl;
 import com.google.gerrit.server.account.AccountDirectory.FillOptions;
 import com.google.gerrit.server.account.AccountLoader;
@@ -68,12 +69,19 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class ReviewersUtil {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
@@ -134,6 +142,7 @@ public class ReviewersUtil {
   private final AccountControl.Factory accountControlFactory;
   private final Provider<CurrentUser> self;
   private final ServiceUserClassifier serviceUserClassifier;
+  private final ExecutorService executor;
 
   @Inject
   ReviewersUtil(
@@ -149,7 +158,8 @@ public class ReviewersUtil {
       IndexConfig indexConfig,
       AccountControl.Factory accountControlFactory,
       Provider<CurrentUser> self,
-      ServiceUserClassifier serviceUserClassifier) {
+      ServiceUserClassifier serviceUserClassifier,
+      @FanOutExecutor ExecutorService executor) {
     this.accountVisibility = accountVisibility;
     this.accountLoaderFactory = accountLoaderFactory;
     this.accountQueryBuilder = accountQueryBuilder;
@@ -163,6 +173,7 @@ public class ReviewersUtil {
     this.accountControlFactory = accountControlFactory;
     this.self = self;
     this.serviceUserClassifier = serviceUserClassifier;
+    this.executor = executor;
   }
 
   public interface VisibilityControl {
@@ -219,31 +230,31 @@ public class ReviewersUtil {
     // Filter accounts by visibility, skip service users and enforce limit
     List<Account.Id> filteredRecommendations = new ArrayList<>();
     try (Timer0.Context ctx = metrics.filterVisibility.start()) {
+      List<Account.Id> eligibleCandidates = new ArrayList<>();
       for (Account.Id reviewer : sortedRecommendations) {
-        if (filteredRecommendations.size() >= limit) {
-          logger.atFine().log("Skip results because the limit (%s) has been reached.", limit);
-          break;
-        }
         if (suggestReviewers.isSkipServiceUsers()
             && serviceUserClassifier.isServiceUser(reviewer)) {
           logger.atFine().log("Filter out %s because it's a service user", reviewer);
           continue;
         }
-        // Check if change is visible to reviewer and if the current user can see reviewer
-        if (!visibilityControl.isVisibleTo(reviewer)) {
-          logger.atFine().log("Filter out %s because this user cannot see the change", reviewer);
-          continue;
-        }
+        eligibleCandidates.add(reviewer);
+      }
 
-        // Check if the current user can see reviewer
-        if (!accountControl.canSee(reviewer)) {
-          logger.atFine().log(
-              "Filter out %s because the caller (%s) cannot see the account",
-              reviewer, self.get().getLoggableName());
-          continue;
+      if (!eligibleCandidates.isEmpty() && limit > 0) {
+        VisibilityCheckPipeline pipeline =
+            new VisibilityCheckPipeline(
+                eligibleCandidates, visibilityControl, accountControl, currentUser, limit);
+        try {
+          Account.Id reviewer;
+          while ((reviewer = pipeline.get()) != null) {
+            filteredRecommendations.add(reviewer);
+          }
+        } catch (InterruptedException e) {
+          logger.atWarning().withCause(e).log("Interrupted while checking reviewer visibility");
+          Thread.currentThread().interrupt();
+        } finally {
+          pipeline.stop();
         }
-
-        filteredRecommendations.add(reviewer);
       }
     }
     logger.atFine().log("Filtered recommendations: %s", filteredRecommendations);
@@ -257,6 +268,162 @@ public class ReviewersUtil {
             filteredRecommendations);
     logger.atFine().log("Suggested reviewers: %s", formatSuggestedReviewers(suggestedReviewers));
     return suggestedReviewers;
+  }
+
+  private static final Duration VISIBILITY_CHECK_TIMEOUT = Duration.ofSeconds(2);
+
+  private static class CandidateResult {
+    final Account.Id id;
+    final boolean visible;
+
+    CandidateResult(Account.Id id, boolean visible) {
+      this.id = id;
+      this.visible = visible;
+    }
+  }
+
+  private class VisibilityCheckPipeline {
+    private final List<Account.Id> candidates;
+    private final VisibilityControl visibilityControl;
+    private final AccountControl accountControl;
+    private final CurrentUser currentUser;
+    private final int limit;
+    private final List<CompletableFuture<CandidateResult>> futures;
+    private final BlockingQueue<CandidateResult> ready;
+    private final AtomicInteger inFlightCount = new AtomicInteger(0);
+    private int nextCandidateIndex = 0;
+    private int visibleCount = 0;
+    private long deadlineNanos;
+    private volatile boolean stopped = false;
+    private boolean started = false;
+
+    VisibilityCheckPipeline(
+        List<Account.Id> candidates,
+        VisibilityControl visibilityControl,
+        AccountControl accountControl,
+        CurrentUser currentUser,
+        int limit) {
+      this.candidates = candidates;
+      this.visibilityControl = visibilityControl;
+      this.accountControl = accountControl;
+      this.currentUser = currentUser;
+      this.limit = limit;
+      this.futures = new ArrayList<>();
+      this.ready = new ArrayBlockingQueue<>(Math.max(1, candidates.size()));
+    }
+
+    private void start() {
+      if (started || stopped) {
+        return;
+      }
+      started = true;
+      deadlineNanos = System.nanoTime() + VISIBILITY_CHECK_TIMEOUT.toNanos();
+      int initialBatchSize = Math.min(limit + 2, candidates.size());
+      for (int i = 0; i < initialBatchSize; i++) {
+        startCandidate(i);
+      }
+    }
+
+    @Nullable
+    Account.Id get() throws InterruptedException {
+      start();
+      while (visibleCount < limit) {
+        if (stopped
+            || (ready.isEmpty()
+                && inFlightCount.get() == 0
+                && nextCandidateIndex >= candidates.size())) {
+          return null;
+        }
+
+        long remainingNanos = deadlineNanos - System.nanoTime();
+        if (remainingNanos <= 0) {
+          logger.atFine().log(
+              "Visibility check pipeline reached overall timeout of %s; giving up",
+              VISIBILITY_CHECK_TIMEOUT);
+          stop();
+          return null;
+        }
+
+        long pollNanos = Math.min(remainingNanos, TimeUnit.MILLISECONDS.toNanos(100));
+        CandidateResult result = ready.poll(pollNanos, TimeUnit.NANOSECONDS);
+        if (result == null) {
+          continue;
+        }
+
+        if (result.visible) {
+          visibleCount++;
+          if (visibleCount >= limit) {
+            logger.atFine().log("Skip results because the limit (%s) has been reached.", limit);
+            stop();
+          }
+          return result.id;
+        }
+      }
+      return null;
+    }
+
+    synchronized void startCandidate(int index) {
+      if (stopped || index >= candidates.size() || futures.get(index) != null) {
+        return;
+      }
+      Account.Id id = candidates.get(index);
+      inFlightCount.incrementAndGet();
+      CompletableFuture<CandidateResult> future =
+          CompletableFuture.supplyAsync(
+              () -> {
+                try {
+                  if (!visibilityControl.isVisibleTo(id)) {
+                    logger.atFine().log(
+                        "Filter out %s because this user cannot see the change", id);
+                    return new CandidateResult(id, false);
+                  }
+                  if (!accountControl.canSee(id)) {
+                    logger.atFine().log(
+                        "Filter out %s because the caller (%s) cannot see the account",
+                        id, currentUser.getLoggableName());
+                    return new CandidateResult(id, false);
+                  }
+                  return new CandidateResult(id, true);
+                } catch (Throwable t) {
+                  logger.atWarning().withCause(t).log(
+                      "Failed visibility check for candidate %s; skipping", id);
+                  return new CandidateResult(id, false);
+                }
+              },
+              executor);
+
+      future =
+          future.whenComplete(
+              (result, throwable) -> {
+                CandidateResult res = result != null ? result : new CandidateResult(id, false);
+                ready.offer(res);
+                inFlightCount.decrementAndGet();
+                if (!res.visible) {
+                  startNext();
+                }
+              });
+
+      futures.set(index, future);
+      if (index >= nextCandidateIndex) {
+        nextCandidateIndex = index + 1;
+      }
+    }
+
+    synchronized void startNext() {
+      if (stopped || nextCandidateIndex >= candidates.size()) {
+        return;
+      }
+      startCandidate(nextCandidateIndex++);
+    }
+
+    synchronized void stop() {
+      stopped = true;
+      for (CompletableFuture<CandidateResult> f : futures) {
+        if (f != null && !f.isDone()) {
+          f.cancel(true);
+        }
+      }
+    }
   }
 
   private static Account.Id fromIdField(FieldBundle f, boolean useLegacyNumericFields) {

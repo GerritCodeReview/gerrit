@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c8b9eb4_812bd855",
+        "filename": "tools/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-02T14:55:52Z",
+      "side": 1,
+      "message": "Strictly speaking you don\u0027t need this condition. Starting with Java 22+, it\u0027s a no-op, so we could simplify this.\n\nThis is something my change 619806 was doing and in fact it\u0027s green on master (that is using JDK 25 per default).",
+      "range": {
+        "startLine": 36,
+        "startChar": 5,
+        "endLine": 36,
+        "endChar": 33
+      },
+      "revId": "608341b306ce1b8c1aa2da450d0dcf18199afddf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

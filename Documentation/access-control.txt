@@ -743,10 +743,15 @@ this fallback matches the ref pattern of the `refs/for/` entry, so a broad
 entry such as `refs/for/*` authorizes direct merge pushes to every matching
 branch.
 
+[NOTE]
+The `refs/for/` fallback for direct merge pushes is deprecated and will be
+removed in a future release. Grant `Push Merge Commit` on `refs/heads/BRANCH`
+for direct merge pushes. A direct merge push authorized only through the
+fallback logs a warning on the server.
+
 The `refs/for/` fallback above applies only to the direct-push merge check.
 The `skip-validation` push option's merge requirement is not subject to it: it
 requires `Push Merge Commit` on the destination ref itself.
-
 
 [[category_push_annotated]]
 [[category_create_annotated]]

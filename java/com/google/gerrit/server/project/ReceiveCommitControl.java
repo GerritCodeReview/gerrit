@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
@@ -22,6 +23,7 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevCommit;
 
@@ -37,6 +39,8 @@ import org.eclipse.jgit.revwalk.RevCommit;
  */
 @Singleton
 public class ReceiveCommitControl {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private final PersonIdent gerritIdent;
 
   @Inject
@@ -73,9 +77,10 @@ public class ReceiveCommitControl {
   /**
    * Whether the user may push this commit if it is a merge; non-merges are always allowed.
    *
-   * <p>Direct pushes are authorized by {@code Push Merge Commit} on the destination ref, with the
-   * legacy {@code refs/for/} grant as a fallback. Pushes for review are authorized by the grant on
-   * the {@code refs/for/} review ref.
+   * <p>Direct pushes are authorized by {@code Push Merge Commit} on the destination ref. For
+   * backward compatibility a grant on the {@code refs/for/} review ref also still authorizes direct
+   * pushes, but that fallback is deprecated and will be removed in a future release. Pushes for
+   * review are authorized by the grant on the {@code refs/for/} review ref.
    */
   public boolean canUploadMerge(
       PermissionBackend.ForRef destRef,
@@ -87,7 +92,18 @@ public class ReceiveCommitControl {
       return true;
     }
     if (directPush) {
-      return destRef.test(RefPermission.MERGE) || reviewRef.test(RefPermission.MERGE);
+      if (destRef.test(RefPermission.MERGE)) {
+        return true;
+      }
+      if (reviewRef.test(RefPermission.MERGE)) {
+        logger.atWarning().atMostEvery(1, TimeUnit.HOURS).log(
+            "Direct merge push to %s was authorized only via the deprecated refs/for Push Merge"
+                + " Commit fallback; grant Push Merge Commit on the destination ref instead. This"
+                + " fallback will be removed in a future release.",
+            destRef.resourcePath());
+        return true;
+      }
+      return false;
     }
     return reviewRef.test(RefPermission.MERGE);
   }

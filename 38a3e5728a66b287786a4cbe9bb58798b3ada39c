@@ -26,8 +26,9 @@
     },
     "gerritforge:rbe-a6a0e4682515f3521897c5f950d1394f4619d928": {
       "state": "NOT_STARTED",
+      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-chrome-latest/48548/console",
       "created": "2026-10-03T01:42:10Z",
-      "updated": "2026-10-03T01:51:53Z"
+      "updated": "2026-10-03T01:52:34Z"
     }
   }
 }

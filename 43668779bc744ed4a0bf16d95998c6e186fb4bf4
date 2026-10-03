@@ -296,6 +296,24 @@
       "parentUuid": "0152a221_d5b4d2b8",
       "revId": "43668779bc744ed4a0bf16d95998c6e186fb4bf4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7c480b7_4f4a440e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-03T16:02:14Z",
+      "side": 1,
+      "message": "\u003e  I don\u0027t think it resolves the issue from the comment thread with Matthias though: https://gerrit-review.googlesource.com/c/gerrit/+/450463/comments/23466543_fe807c9c\n\u003e That\u0027s an overall Gerrit perms limitation that should have a separate fix/feature, but is likely necessary for this to be effective against spammers.\n\nAgreed, default-deny alone doesn\u0027t solve the deficiency of Gerrit permission model: a broad ALLOW clears a narrower BLOCK in the same section.\n\nPushed the fix: change 637624. A new, per-permission `exclusiveGroupBlock` flag scopes a BLOCK to its own group, so a same-section ALLOW for a different group no longer clears it. \n\nTogether with my default-deny series, the Registered-Spammers case works (same section):\n\n```\n[access \"refs/*\"]\n  exclusiveGroupBlock \u003d postReviewComment\n  postReviewComment \u003d group Registered Users\n  postReviewComment \u003d block group Spammers\n```\n\n\u003e That does go quite a bit further and might be what we want, but I don\u0027t think that should be called postReviewComment anymore.\n\nLet\u0027s not rename it. The seed granting `postReviewComment` to Registered Users on refs/* is already merged (change 454501, Schema_186), so the name lives in a deployed migration and in existing `project.configs`. Renaming needs a second migration and rewrites seeded ACLs.\n\nTwo options that keep the name: leave the current scope as-is, or drop the PostReviewers (reviewers/CC) precondition so the name matches the scope and gate \"Add reviewers/CC\" separately. WDYT?",
+      "parentUuid": "0ea9f533_583ac960",
+      "revId": "43668779bc744ed4a0bf16d95998c6e186fb4bf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

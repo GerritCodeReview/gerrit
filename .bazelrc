@@ -30,6 +30,7 @@ build:remote_gcp --config=remote
 
 # Enables builds and execution on BuildBuddy RBE
 build:remote_bb --config=config_bb
+build:remote_bb --action_env=DOCKER_API_VERSION=1.43
 
 # Builds using remotejdk_21, executes using remotejdk_21 or local_jdk
 build:build_java21_shared --java_language_version=21

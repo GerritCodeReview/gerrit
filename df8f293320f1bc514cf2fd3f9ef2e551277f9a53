@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4cbea7a2_a4c4c32f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5179666
+      },
+      "writtenOn": "2026-10-03T13:27:17Z",
+      "side": 1,
+      "message": "Merge Commit terbagi di dua tempat terpisah:\n​Commit Validators: Menentukan ref mana yang diperiksa.\n​RefControl.canUpdateWithMerge: Memiliki logika fallback lama (legacy) yang memeriksa refs/for/*.\n​Pembagian ini menyebabkan duplikasi dan potensi ketidakcocokan logika pengecekan hak akses (ACL).\n\nKonsolidasi ke UploadMergesPermissionValidator:\nSemua keputusan pengecekan izin kini dipusatkan di satu kelas validator. Validator ini memeriksa ref yang sesuai secara langsung:\n​Direct Push (Push langsung ke branch): Memeriksa destination ref (misal refs/heads/main) dan legacy refs/for ref.\n​Review Uploads (Push ke refs/for/...): Memeriksa ref refs/for/*.\n​Penyederhanaan RefControl:\nFungsi pengecekan MERGE dan skip-validation di RefControl disederhanakan menjadi pemeriksaan izin Push Merge Commit biasa pada ref terkait tanpa logika bercabang.\n\nRingkasan Metadata Commit\n​Bug Tracking: Issue 40001199\n​Change-Id: I001e62d0480212b24175fd384919036be208221b\n​Inti Perubahan: Refactoring keamanan internal Gerrit untuk menghilangkan pola kode lama (legacy fallback) dan mempertegas pengecekan izin bypass/validation skip.\n\nModifiy pada configuration projeject Gerrit\nKarena opsi skip-validiation pada push Marge TIDAK menggunakan fallback maka. Refs/for/* dan mewajibkan izin push Marge \nCommit langsung pada destination reff contoh (refs/head/main) sesuaikan pada project.config.pada refs/meta/config\n\n\n\n   [  Acsess: refs/head/* ]\n   Berikan izin pushmarge secara eksplisit pada grup bot/service accaunt pada destination ref pushmarge\u003d grup service account\nPush\u003dgrup service account\n\nModifiy  perintah push pada script CI/CD bot\n\nPenggunaan yang benar setelah upload atau git push original head:refs/head/main-skip-validation \nRefs/for jika bermaksud melakukan direct Marge dengan skip validation:\nGit/push.origin.HeAD/refs/for/main(diutamakan)skip-validation \u003c-- (tidak lagi fallback ke refs /for untuk skip validation direct Marge)\n\nModifiy configuration chacker \nJika bot chacker seperti ayeaye team/ chek-speaker-photo-val \nMengungah status validasi dan melakukan otomatisasi Marge\n\n{\n  \"name\": \"Speaker Profile Photo Checker\",\n  \"id\": \"chk-speaker-photo-val\",\n  \"repository\": \"website-speakers\",\n  \"status\": \"DISABLED\",\n  \"required\": false,\n  \"query\": \"article.speaker-card:not(:has(img.speaker-photo))\",\n  \"notes\": \"Diperbarui: Izin pushMerge service account disesuaikan dengan aturan destination ref Issue 40001199\"\n}\n(Hanya contoh dalam perumpamaan\u0027 jika ada kesamaan itu adalah unsur ketidaksengajaan)\n\n\n\nSaran : \nPerbaharui dokumentasi internal dan beritahu kepada tim dev.ops\nlAGENCY refs/for fallbeck untuk melakukan skip validation Marge sudah tidak berlaku atau istilah deprecated or removed.\nDan lakukan. Identifikasi bot dan script automation yang telah mengeksekusi git push dan flag +maksudnya mencari semua repostorinya)\n\n\n\nI apologize for using Indonesian; using copy-and-paste for translations creates the impression among participants that the answer is merely a copy-paste job.",
+      "revId": "df8f293320f1bc514cf2fd3f9ef2e551277f9a53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

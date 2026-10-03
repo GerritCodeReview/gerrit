@@ -123,6 +123,11 @@ public class GerritServer implements AutoCloseable {
   @BindingAnnotation
   public @interface TestSshServerAddress {}
 
+  /** Marker on {@link InetSocketAddress} for test HTTP server. */
+  @Retention(RUNTIME)
+  @BindingAnnotation
+  public @interface TestHttpServerAddress {}
+
   @AutoValue
   public abstract static class Description {
     public static Description forTestClass(
@@ -652,6 +657,14 @@ public class GerritServer implements AutoCloseable {
             return !"off".equalsIgnoreCase(addr)
                 ? SocketUtil.resolve(cfg.getString("sshd", null, "listenAddress"), 0)
                 : null;
+          }
+
+          @Provides
+          @Singleton
+          @TestHttpServerAddress
+          InetSocketAddress getHttpAddress(@GerritServerConfig Config cfg) {
+            URI uri = URI.create(cfg.getString("httpd", null, "listenUrl"));
+            return new InetSocketAddress(uri.getHost(), uri.getPort());
           }
         };
     return sysInjector.createChildInjector(module);

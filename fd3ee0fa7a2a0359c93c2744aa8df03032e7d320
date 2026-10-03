@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a87003db_d4cd0d03",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 3693,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-03T00:02:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0efc6afe_d886e0ff",
+      "revId": "fd3ee0fa7a2a0359c93c2744aa8df03032e7d320",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a0e222b5_9b6f5918",
@@ -31,6 +49,30 @@
       "writtenOn": "2026-09-30T14:18:47Z",
       "side": 1,
       "message": "Add the customizer in the parent method like already done?",
+      "range": {
+        "startLine": 499,
+        "startChar": 0,
+        "endLine": 501,
+        "endChar": 5
+      },
+      "revId": "fd3ee0fa7a2a0359c93c2744aa8df03032e7d320",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "68c7e5b5_fdf68813",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 501,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-03T00:02:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a0e222b5_9b6f5918",
       "range": {
         "startLine": 499,
         "startChar": 0,

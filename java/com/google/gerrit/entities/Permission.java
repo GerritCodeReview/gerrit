@@ -211,13 +211,7 @@ public abstract class Permission implements Comparable<Permission> {
   }
 
   private static boolean sameGroup(PermissionRule rule, GroupReference group) {
-    if (group.getUUID() != null && rule.getGroup().getUUID() != null) {
-      return group.getUUID().equals(rule.getGroup().getUUID());
-    } else if (group.getName() != null && rule.getGroup().getName() != null) {
-      return group.getName().equals(rule.getGroup().getName());
-    } else {
-      return false;
-    }
+    return rule.getGroup() != null && rule.getGroup().isSame(group);
   }
 
   @Override

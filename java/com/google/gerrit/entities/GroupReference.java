@@ -66,6 +66,22 @@ public abstract class GroupReference implements Comparable<GroupReference> {
     return new AutoValue_GroupReference(null, name);
   }
 
+  /**
+   * Whether this references the same group as {@code other}, by UUID when both are present and
+   * otherwise by name. Unlike {@link #equals}, it does not require both UUID and name to match.
+   *
+   * @param other the group reference to compare against
+   * @return {@code true} if both reference the same group
+   */
+  public boolean isSame(GroupReference other) {
+    if (getUUID() != null && other.getUUID() != null) {
+      return getUUID().equals(other.getUUID());
+    } else if (getName() != null && other.getName() != null) {
+      return getName().equals(other.getName());
+    }
+    return false;
+  }
+
   @Override
   public final int compareTo(GroupReference o) {
     return uuid(this).compareTo(uuid(o));

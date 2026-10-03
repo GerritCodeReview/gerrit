@@ -347,6 +347,17 @@ public class RefControl {
     return pr.getAction() == Action.BLOCK && (!pr.getForce() || withForce);
   }
 
+  /** Whether a force-aware ALLOW rule in this Permission applies to the user. */
+  private boolean hasMatchingForceAwareAllow(
+      Permission p, boolean isChangeOwner, boolean withForce) {
+    for (PermissionRule allowRule : p.getRules()) {
+      if (isAllow(allowRule, withForce) && projectControl.match(allowRule, isChangeOwner)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   protected PermissionRange toRange(String permissionName, boolean isChangeOwner) {
     int blockAllowMin = Integer.MIN_VALUE, blockAllowMax = Integer.MAX_VALUE;
 
@@ -432,37 +443,24 @@ public class RefControl {
           continue projectLoop;
         }
 
-        boolean blocked = false;
-        for (PermissionRule pr : p.getRules()) {
-          if (!withForce && pr.getForce()) {
+        for (PermissionRule blockRule : p.getRules()) {
+          if (!withForce && blockRule.getForce()) {
             // force on block rule only applies to withForce permission.
             continue;
           }
-
-          if (isBlock(pr, withForce) && projectControl.match(pr, isChangeOwner)) {
+          if (!isBlock(blockRule, withForce) || !projectControl.match(blockRule, isChangeOwner)) {
+            continue;
+          }
+          logger.atFine().log(
+              "Block rule found for permission %s and user %s",
+              permissionName, getUser().getLoggableName());
+          if (hasMatchingForceAwareAllow(p, isChangeOwner, withForce)) {
             logger.atFine().log(
-                "Block rule found for permission %s and user %s",
+                "Allow rule found in the same access section which overrides the BLOCK for"
+                    + " permission %s and user %s",
                 permissionName, getUser().getLoggableName());
-            blocked = true;
-            break;
+            continue;
           }
-        }
-
-        if (blocked) {
-          // ALLOW in the same AccessSection (ie. in the same Permission) overrides the BLOCK.
-          for (PermissionRule pr : p.getRules()) {
-            if (isAllow(pr, withForce) && projectControl.match(pr, isChangeOwner)) {
-              logger.atFine().log(
-                  "Allow rule found in the same access section which overrides the BLOCK for"
-                      + " permission %s and user %s",
-                  permissionName, getUser().getLoggableName());
-              blocked = false;
-              break;
-            }
-          }
-        }
-
-        if (blocked) {
           logger.atFine().log(
               "Permission %s is blocked for user %s", permissionName, getUser().getLoggableName());
           return true;

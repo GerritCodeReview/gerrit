@@ -1,1 +1,5 @@
-gerritPipeline()
+node('server') {
+    sh '''
+        id -a
+    '''
+}

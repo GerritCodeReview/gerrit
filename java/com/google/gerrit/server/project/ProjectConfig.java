@@ -150,6 +150,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   public static final String ACCESS = "access";
   private static final String KEY_INHERIT_FROM = "inheritFrom";
   private static final String KEY_GROUP_PERMISSIONS = "exclusiveGroupPermissions";
+  private static final String KEY_GROUP_BLOCK = "exclusiveGroupBlock";
 
   private static final String ACCOUNTS = "accounts";
   private static final String KEY_SAME_GROUP_VISIBILITY = "sameGroupVisibility";
@@ -881,6 +882,15 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
                   n = convertLegacyPermission(n);
                   if (isCoreOrPluginPermission(n)) {
                     as.upsertPermission(n).setExclusiveGroup(true);
+                  }
+                }
+              }
+
+              for (String varName : rc.getStringList(ACCESS, refName, KEY_GROUP_BLOCK)) {
+                for (String n : Splitter.on(EXCLUSIVE_PERMISSIONS_SPLIT_PATTERN).split(varName)) {
+                  n = convertLegacyPermission(n);
+                  if (isCoreOrPluginPermission(n)) {
+                    as.upsertPermission(n).setExclusiveBlock(true);
                   }
                 }
               }
@@ -1647,6 +1657,21 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         rc.setString(ACCESS, refName, KEY_GROUP_PERMISSIONS, doNotInherit.toString());
       } else {
         rc.unset(ACCESS, refName, KEY_GROUP_PERMISSIONS);
+      }
+
+      StringBuilder exclusiveBlock = new StringBuilder();
+      for (Permission perm : sort(as.getPermissions())) {
+        if (perm.getExclusiveBlock()) {
+          if (0 < exclusiveBlock.length()) {
+            exclusiveBlock.append(' ');
+          }
+          exclusiveBlock.append(perm.getName());
+        }
+      }
+      if (0 < exclusiveBlock.length()) {
+        rc.setString(ACCESS, refName, KEY_GROUP_BLOCK, exclusiveBlock.toString());
+      } else {
+        rc.unset(ACCESS, refName, KEY_GROUP_BLOCK);
       }
 
       Set<String> have = new HashSet<>();

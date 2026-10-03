@@ -149,6 +149,7 @@ public class ProjectOperationsImpl implements ProjectOperations {
           addPermissions(projectConfig, projectUpdate.addedPermissions());
           addLabelPermissions(projectConfig, projectUpdate.addedLabelPermissions());
           setExclusiveGroupPermissions(projectConfig, projectUpdate.exclusiveGroupPermissions());
+          setExclusiveGroupBlock(projectConfig, projectUpdate.exclusiveGroupBlock());
           projectConfig.updateProject(
               update ->
                   projectUpdate
@@ -226,6 +227,16 @@ public class ProjectOperationsImpl implements ProjectOperations {
               projectConfig.upsertAccessSection(
                   key.section(),
                   as -> as.upsertPermission(key.name()).setExclusiveGroup(exclusive)));
+    }
+
+    private void setExclusiveGroupBlock(
+        ProjectConfig projectConfig,
+        ImmutableMap<TestProjectUpdate.TestPermissionKey, Boolean> exclusiveGroupBlock) {
+      exclusiveGroupBlock.forEach(
+          (key, exclusiveBlock) ->
+              projectConfig.upsertAccessSection(
+                  key.section(),
+                  as -> as.upsertPermission(key.name()).setExclusiveBlock(exclusiveBlock)));
     }
 
     @Nullable

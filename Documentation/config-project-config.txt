@@ -361,6 +361,12 @@ To make access rules link:access-control.html#exclusive[exclusive] they need to
 be included into the value of the `exclusiveGroupPermissions` key: +
 `exclusiveGroupPermissions = <space-separated-list-of-access-category-ids>`
 
+To scope a `BLOCK` rule to its own group, so that it is cleared only by an
+`ALLOW` rule for the same group, the permission needs to be included into the
+value of the link:access-control.html#exclusive_group_block[
+`exclusiveGroupBlock`] key: +
+`exclusiveGroupBlock = <space-separated-list-of-access-category-ids>`
+
 .Example access subsections
 ----
   [access "refs/heads/*"]

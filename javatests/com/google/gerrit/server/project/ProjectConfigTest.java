@@ -111,6 +111,7 @@ public class ProjectConfigTest {
                 "project.config",
                 "[access \"refs/heads/*\"]\n"
                     + "  exclusiveGroupPermissions = read submit create\n"
+                    + "  exclusiveGroupBlock = read\n"
                     + "  submit = group Developers\n"
                     + "  push = group Developers\n"
                     + "  read = group Developers\n"
@@ -164,6 +165,11 @@ public class ProjectConfigTest {
     assertThat(submit.getExclusiveGroup()).isTrue();
     assertThat(read.getExclusiveGroup()).isTrue();
     assertThat(push.getExclusiveGroup()).isFalse();
+
+    assertThat(read.getExclusiveBlock()).isTrue();
+    assertThat(create.getExclusiveBlock()).isFalse();
+    assertThat(submit.getExclusiveBlock()).isFalse();
+    assertThat(push.getExclusiveBlock()).isFalse();
   }
 
   @Test
@@ -502,6 +508,7 @@ public class ProjectConfigTest {
                 "project.config",
                 "[access \"refs/heads/*\"]\n"
                     + "  exclusiveGroupPermissions = read submit\n"
+                    + "  exclusiveGroupBlock = read\n"
                     + "  submit = group Developers\n"
                     + "  upload = group Developers\n"
                     + "  read = group Developers\n"
@@ -541,6 +548,7 @@ public class ProjectConfigTest {
         .isEqualTo(
             "[access \"refs/heads/*\"]\n"
                 + "  exclusiveGroupPermissions = read submit\n"
+                + "  exclusiveGroupBlock = read\n"
                 + "  submit = group Developers\n"
                 + "\tsubmit = group Staff\n"
                 + "  upload = group Developers\n"

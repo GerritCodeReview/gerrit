@@ -500,6 +500,24 @@ public class AccessIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void addAccessSectionWithExclusiveBlockPermission() throws Exception {
+    ProjectAccessInput accessInput = newProjectAccessInput();
+    AccessSectionInfo accessSectionInfo = newAccessSectionInfo();
+
+    PermissionInfo read = newPermissionInfo();
+    read.exclusiveBlock = true;
+    PermissionRuleInfo pri = new PermissionRuleInfo(PermissionRuleInfo.Action.BLOCK, false);
+    read.rules.put(SystemGroupBackend.REGISTERED_USERS.get(), pri);
+    accessSectionInfo.permissions.put(Permission.READ, read);
+
+    accessInput.add.put(REFS_HEADS, accessSectionInfo);
+    ProjectAccessInfo updatedAccessSectionInfo = pApi().access(accessInput);
+    assertThat(updatedAccessSectionInfo.local).isEqualTo(accessInput.add);
+
+    assertThat(pApi().access().local).isEqualTo(accessInput.add);
+  }
+
+  @Test
   public void addAccessSectionWithInvalidPermission() throws Exception {
     ProjectAccessInput accessInput = newProjectAccessInput();
     AccessSectionInfo accessSectionInfo = createDefaultAccessSectionInfo();

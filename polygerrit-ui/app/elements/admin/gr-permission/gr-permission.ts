@@ -118,6 +118,9 @@ export class GrPermission extends LitElement {
   @state()
   originalExclusiveValue?: boolean;
 
+  @state()
+  originalExclusiveBlockValue?: boolean;
+
   // private but used in test
   @state()
   docsBaseUrl = '';
@@ -273,6 +276,13 @@ export class GrPermission extends LitElement {
                     @change=${this.handleValueChange}
                   ></md-switch
                   >${this.computeExclusiveLabel(this.permission?.value)}
+                  <md-switch
+                    id="exclusiveBlockToggle"
+                    ?selected=${!!this.permission?.value.exclusive_block}
+                    ?disabled=${!this.editing}
+                    @change=${this.handleBlockValueChange}
+                  ></md-switch
+                  >${this.computeExclusiveBlockLabel(this.permission?.value)}
                 `
               )}
               <gr-button
@@ -338,6 +348,7 @@ export class GrPermission extends LitElement {
       return;
     }
     this.originalExclusiveValue = !!this.permission.value.exclusive;
+    this.originalExclusiveBlockValue = !!this.permission.value.exclusive_block;
     this.requestUpdate();
   }
 
@@ -390,6 +401,7 @@ export class GrPermission extends LitElement {
 
       // Restore exclusive bit to original.
       this.permission.value.exclusive = this.originalExclusiveValue;
+      this.permission.value.exclusive_block = this.originalExclusiveBlockValue;
       fire(this, 'permission-changed', {value: this.permission});
       this.requestUpdate();
     }
@@ -411,6 +423,16 @@ export class GrPermission extends LitElement {
     }
     this.permission.value.modified = true;
     this.permission.value.exclusive = (e.target as MdSwitch).selected;
+    // Allows overall access page to know a change has been made.
+    fire(this, 'access-modified', {});
+  }
+
+  handleBlockValueChange(e: Event) {
+    if (!this.permission) {
+      return;
+    }
+    this.permission.value.modified = true;
+    this.permission.value.exclusive_block = (e.target as MdSwitch).selected;
     // Allows overall access page to know a change has been made.
     fire(this, 'access-modified', {});
   }
@@ -601,6 +623,12 @@ export class GrPermission extends LitElement {
 
   private computeExclusiveLabel(permission?: EditablePermissionInfo) {
     return permission?.exclusive ? 'Exclusive' : 'Not Exclusive';
+  }
+
+  private computeExclusiveBlockLabel(permission?: EditablePermissionInfo) {
+    return permission?.exclusive_block
+      ? 'Exclusive Block'
+      : 'Not Exclusive Block';
   }
 
   // TODO: Do not use generic `CustomEvent`.

@@ -152,6 +152,91 @@ public class RefControlIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void broadAllowClearsNarrowBlockInSameSection_withoutExclusiveGroupBlock()
+      throws Exception {
+    // Default behavior: allow a broad group, block a narrow sub-group in the same section. The
+    // broad ALLOW clears the BLOCK regardless of group, so the blocked group can still read.
+    Project.NameKey p = projectOperations.newProject().create();
+    gApi.projects().name(p.get()).branch("main").create(new BranchInput());
+    projectOperations
+        .project(p)
+        .forUpdate()
+        .add(allow(READ).ref("refs/*").group(REGISTERED_USERS))
+        .add(block(READ).ref("refs/*").group(unprivileged))
+        .update();
+
+    // Registered user outside the blocked group can read.
+    assertThat(visibleRefs(p, privilegedUser)).contains("refs/heads/main");
+    // Member of the blocked group can still read: the broad ALLOW clears the BLOCK.
+    assertThat(visibleRefs(p, user)).contains("refs/heads/main");
+  }
+
+  @Test
+  public void exclusiveGroupBlock_keepsNarrowBlockUnderBroadAllowInSameSection() throws Exception {
+    // Documented example:
+    //   [access "refs/*"]  exclusiveGroupBlock = read
+    //                      read = group Registered Users
+    //                      read = block group <narrow group>
+    // With the flag, only a same-group ALLOW clears the BLOCK, so the broad Registered Users ALLOW
+    // no longer unblocks members of the narrow group.
+    Project.NameKey p = projectOperations.newProject().create();
+    gApi.projects().name(p.get()).branch("main").create(new BranchInput());
+    projectOperations
+        .project(p)
+        .forUpdate()
+        .add(allow(READ).ref("refs/*").group(REGISTERED_USERS))
+        .add(block(READ).ref("refs/*").group(unprivileged))
+        .setExclusiveGroupBlock(permissionKey(READ).ref("refs/*"), true)
+        .update();
+
+    // Registered user outside the blocked group is unaffected and can read.
+    assertThat(visibleRefs(p, privilegedUser)).contains("refs/heads/main");
+    // Member of the blocked (narrow) group stays blocked despite the broad ALLOW.
+    assertThat(visibleRefs(p, user)).isEmpty();
+  }
+
+  @Test
+  public void exclusiveGroupBlock_sameGroupAllowStillClearsBlock() throws Exception {
+    // With the flag set, a BLOCK is still cleared by an ALLOW for the SAME group.
+    Project.NameKey p = projectOperations.newProject().create();
+    gApi.projects().name(p.get()).branch("main").create(new BranchInput());
+    projectOperations
+        .project(p)
+        .forUpdate()
+        .add(block(READ).ref("refs/*").group(privileged))
+        .add(allow(READ).ref("refs/*").group(privileged))
+        .setExclusiveGroupBlock(permissionKey(READ).ref("refs/*"), true)
+        .update();
+
+    assertThat(visibleRefs(p, privilegedUser)).contains("refs/heads/main");
+  }
+
+  @Test
+  public void exclusiveGroupBlock_multipleBlocks_eachEvaluatedIndependently() throws Exception {
+    // A user matching two BLOCKs stays blocked when only one has a same-group ALLOW: each matching
+    // block is evaluated independently, so a same-group ALLOW must not clear a different block.
+    gApi.groups().id(privileged.get()).addMembers(user.username());
+
+    Project.NameKey p = projectOperations.newProject().create();
+    gApi.projects().name(p.get()).branch("main").create(new BranchInput());
+    projectOperations
+        .project(p)
+        .forUpdate()
+        .add(allow(READ).ref("refs/*").group(privileged))
+        .add(block(READ).ref("refs/*").group(privileged))
+        .add(block(READ).ref("refs/*").group(unprivileged))
+        .setExclusiveGroupBlock(permissionKey(READ).ref("refs/*"), true)
+        .update();
+
+    // privilegedUser is only in 'privileged': its block is cleared by the same-group ALLOW and the
+    // 'unprivileged' block does not match, so it can read.
+    assertThat(visibleRefs(p, privilegedUser)).contains("refs/heads/main");
+    // user is in both groups: the 'privileged' block is cleared, but the 'unprivileged' block has
+    // no same-group ALLOW, so it stays blocked.
+    assertThat(visibleRefs(p, user)).isEmpty();
+  }
+
+  @Test
   public void blockWithExclusiveAllowOnMoreSpecificRef_unblocks() throws Exception {
     // Documented example:
     //   [access "refs/*"]        read = block group X

@@ -24,7 +24,9 @@ import com.google.gerrit.server.cache.proto.Cache;
 public class PermissionSerializer {
   public static Permission deserialize(Cache.PermissionProto proto) {
     Permission.Builder builder =
-        Permission.builder(proto.getName()).setExclusiveGroup(proto.getExclusiveGroup());
+        Permission.builder(proto.getName())
+            .setExclusiveGroup(proto.getExclusiveGroup())
+            .setExclusiveBlock(proto.getExclusiveBlock());
     proto.getRulesList().stream()
         .map(PermissionRuleSerializer::deserialize)
         .map(PermissionRule::toBuilder)
@@ -36,6 +38,7 @@ public class PermissionSerializer {
     return Cache.PermissionProto.newBuilder()
         .setName(autoValue.getName())
         .setExclusiveGroup(autoValue.getExclusiveGroup())
+        .setExclusiveBlock(autoValue.getExclusiveBlock())
         .addAllRules(
             autoValue.getRules().stream()
                 .map(PermissionRuleSerializer::serialize)

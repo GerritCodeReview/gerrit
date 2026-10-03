@@ -329,4 +329,27 @@ public class PermissionTest {
     permissionOther.add(permissionRule2);
     assertThat(permission.build().equals(permissionOther.build())).isTrue();
   }
+
+  @Test
+  public void sameGroup() {
+    PermissionRule uuidA = rule(GroupReference.create(AccountGroup.uuid("uuid-a"), "A"));
+    PermissionRule uuidAOtherName =
+        rule(GroupReference.create(AccountGroup.uuid("uuid-a"), "other"));
+    PermissionRule uuidB = rule(GroupReference.create(AccountGroup.uuid("uuid-b"), "A"));
+    PermissionRule nameA = rule(GroupReference.create("A"));
+    PermissionRule nameOther = rule(GroupReference.create("other"));
+
+    // When both rules carry a UUID the comparison is by UUID only, with no name fallback.
+    assertThat(Permission.sameGroup(uuidA, uuidAOtherName)).isTrue();
+    assertThat(Permission.sameGroup(uuidA, uuidB)).isFalse();
+
+    // When a UUID is absent on either side, fall back to name.
+    assertThat(Permission.sameGroup(uuidA, nameA)).isTrue();
+    assertThat(Permission.sameGroup(nameA, nameA)).isTrue();
+    assertThat(Permission.sameGroup(nameA, nameOther)).isFalse();
+  }
+
+  private static PermissionRule rule(GroupReference group) {
+    return PermissionRule.builder(group).build();
+  }
 }

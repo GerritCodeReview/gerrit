@@ -50,6 +50,23 @@
       "message": "Ada apa ??\nblob: 98ba8075780d6a783119078ad31231324177f75d [file] [log] [blame]\n[bucket \"luci.gerrit.try\"]\n[bucket \"luci.gerrit.ci\"]",
       "revId": "4e3e191423be5bc6d78cb692418222f3f0482a06",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "14d90b59_72a83eac",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5179666
+      },
+      "writtenOn": "2026-10-03T16:03:56Z",
+      "side": 1,
+      "message": "blob: 98ba8075780d6a783119078ad31231324177f75d [file] [log] [blame]\n\u003e [bucket \"luci.gerrit.try\"]\n\u003e [bucket \"luci.gerrit.ci\"]",
+      "revId": "4e3e191423be5bc6d78cb692418222f3f0482a06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

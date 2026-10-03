@@ -70,6 +70,8 @@ import org.eclipse.jetty.server.ForwardedRequestCustomizer;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.HttpConfiguration;
 import org.eclipse.jetty.server.HttpConnectionFactory;
+import org.eclipse.jetty.server.ProxyConnectionFactory;
+import org.eclipse.jetty.server.ProxyCustomizer;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.SecureRequestCustomizer;
 import org.eclipse.jetty.server.Server;
@@ -115,6 +117,7 @@ public class JettyServer {
           return super.customize(request, responseHeaders);
         }
       };
+  private static final ProxyCustomizer PROXY_CUSTOMIZER = new ProxyCustomizer();
 
   static class Lifecycle implements LifecycleListener {
     private final JettyServer server;
@@ -336,6 +339,7 @@ public class JettyServer {
     final int acceptors = cfg.getInt("httpd", "acceptorThreads", 0);
     final int selectors = cfg.getInt("httpd", "selectorThreads", 2);
     final AuthType authType = cfg.getEnum("auth", null, "type", AuthType.OPENID);
+    final boolean enableProxyProtocol = cfg.getBoolean("httpd", null, "enableProxyProtocol", false);
 
     boolean allReverseProxy = true;
     final Connector[] connectors = new Connector[listenUrls.length];
@@ -388,7 +392,7 @@ public class JettyServer {
       if ("http".equals(scheme)) {
         allReverseProxy = false;
         defaultPort = 80;
-        c = newServerConnector(server, acceptors, selectors, config);
+        c = newServerConnector(server, acceptors, selectors, config, false);
 
       } else if ("https".equals(scheme)) {
         allReverseProxy = false;
@@ -430,6 +434,9 @@ public class JettyServer {
       } else if ("proxy-http".equals(scheme) || "proxy-https".equals(scheme)) {
         defaultPort = 8080;
         config.addCustomizer(FORWARDED_REQUEST_CUSTOMIZER);
+        if (enableProxyProtocol) {
+          config.addCustomizer(PROXY_CUSTOMIZER);
+        }
         if ("proxy-https".equals(scheme)) {
           // For a proxy that terminates TLS, mark every request as HTTPS
           // unconditionally. ForwardedRequestCustomizer alone only sets
@@ -453,7 +460,7 @@ public class JettyServer {
                     }
                   });
         }
-        c = newServerConnector(server, acceptors, selectors, config);
+        c = newServerConnector(server, acceptors, selectors, config, enableProxyProtocol);
 
       } else {
         throw new IllegalArgumentException(
@@ -495,10 +502,25 @@ public class JettyServer {
     return connectors;
   }
 
-  private static ServerConnector newServerConnector(
-      Server server, int acceptors, int selectors, HttpConfiguration config) {
-    return new ServerConnector(
-        server, null, null, null, acceptors, selectors, new HttpConnectionFactory(config));
+  static ServerConnector newServerConnector(
+      Server server,
+      int acceptors,
+      int selectors,
+      HttpConfiguration config,
+      boolean enableProxyProtocol) {
+    HttpConnectionFactory http = new HttpConnectionFactory(config);
+    if (enableProxyProtocol) {
+      return new ServerConnector(
+          server,
+          null,
+          null,
+          null,
+          acceptors,
+          selectors,
+          new ProxyConnectionFactory(http.getProtocol()),
+          http);
+    }
+    return new ServerConnector(server, null, null, null, acceptors, selectors, http);
   }
 
   private HttpConfiguration defaultConfig(int requestHeaderSize) {

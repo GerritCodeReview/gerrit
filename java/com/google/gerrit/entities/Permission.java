@@ -65,6 +65,7 @@ public abstract class Permission implements Comparable<Permission> {
   public static final String AI_REVIEW = "aiReview";
 
   public static final boolean DEF_EXCLUSIVE_GROUP = false;
+  public static final boolean DEF_EXCLUSIVE_BLOCK = false;
 
   private static final List<String> NAMES_LC;
   private static final int LABEL_INDEX;
@@ -175,12 +176,15 @@ public abstract class Permission implements Comparable<Permission> {
 
   protected abstract boolean isExclusiveGroup();
 
+  protected abstract boolean isExclusiveBlock();
+
   public abstract ImmutableList<PermissionRule> getRules();
 
   public static Builder builder(String name) {
     return new AutoValue_Permission.Builder()
         .setName(name)
         .setExclusiveGroup(DEF_EXCLUSIVE_GROUP)
+        .setExclusiveBlock(DEF_EXCLUSIVE_BLOCK)
         .setRules(ImmutableList.of());
   }
 
@@ -199,6 +203,12 @@ public abstract class Permission implements Comparable<Permission> {
     return isExclusiveGroup() && !OWNER.equals(getName());
   }
 
+  public boolean getExclusiveBlock() {
+    // Unlike exclusiveGroupPermissions, no OWNER guard is needed: this only narrows which ALLOW
+    // clears a same-section BLOCK, so it cannot strip an owner of an inherited owner grant.
+    return isExclusiveBlock();
+  }
+
   @Nullable
   public PermissionRule getRule(GroupReference group) {
     for (PermissionRule r : getRules()) {
@@ -212,6 +222,11 @@ public abstract class Permission implements Comparable<Permission> {
 
   private static boolean sameGroup(PermissionRule rule, GroupReference group) {
     return rule.getGroup() != null && rule.getGroup().isSame(group);
+  }
+
+  /** Whether two rules target the same group (see {@link GroupReference#isSame}). */
+  public static boolean sameGroup(PermissionRule a, PermissionRule b) {
+    return a.getGroup() != null && b.getGroup() != null && a.getGroup().isSame(b.getGroup());
   }
 
   @Override
@@ -242,6 +257,9 @@ public abstract class Permission implements Comparable<Permission> {
     bldr.append(getName()).append(" ");
     if (isExclusiveGroup()) {
       bldr.append("[exclusive] ");
+    }
+    if (isExclusiveBlock()) {
+      bldr.append("[exclusiveBlock] ");
     }
     bldr.append("[");
     Iterator<PermissionRule> it = getRules().iterator();
@@ -276,6 +294,8 @@ public abstract class Permission implements Comparable<Permission> {
     public abstract String getName();
 
     public abstract Builder setExclusiveGroup(boolean value);
+
+    public abstract Builder setExclusiveBlock(boolean value);
 
     @CanIgnoreReturnValue
     public Builder modifyRules(Consumer<List<PermissionRule.Builder>> modification) {

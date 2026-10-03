@@ -19,6 +19,7 @@ import java.util.Objects;
 public class PermissionInfo {
   public String label;
   public Boolean exclusive;
+  public Boolean exclusiveBlock;
   public Map<String, PermissionRuleInfo> rules;
 
   public PermissionInfo(String label, Boolean exclusive) {
@@ -32,6 +33,7 @@ public class PermissionInfo {
       PermissionInfo p = (PermissionInfo) obj;
       return Objects.equals(label, p.label)
           && Objects.equals(exclusive, p.exclusive)
+          && Objects.equals(exclusiveBlock, p.exclusiveBlock)
           && Objects.equals(rules, p.rules);
     }
     return false;
@@ -39,6 +41,6 @@ public class PermissionInfo {
 
   @Override
   public int hashCode() {
-    return Objects.hash(label, exclusive, rules);
+    return Objects.hash(label, exclusive, exclusiveBlock, rules);
   }
 }

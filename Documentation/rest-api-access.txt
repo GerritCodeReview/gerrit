@@ -349,6 +349,9 @@ permission.
 The name of the label. Not set if it's not a label permission.
 |`exclusive`    |not set if `false`|
 Whether this permission is assigned exclusively.
+|`exclusive_block` |not set if `false`|
+Whether a same-section block rule for this permission can only be cleared by
+an allow rule for the same group.
 |`rules`        ||
 The rules assigned for this permission as a map that maps the UUIDs of
 the groups for which the permission are assigned to

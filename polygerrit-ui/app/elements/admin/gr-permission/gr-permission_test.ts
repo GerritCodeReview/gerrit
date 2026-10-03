@@ -360,6 +360,8 @@ suite('gr-permission tests', () => {
                 <div class="right">
                   <md-switch disabled="" id="exclusiveToggle"> </md-switch>
                   Not Exclusive
+                  <md-switch disabled="" id="exclusiveBlockToggle"> </md-switch>
+                  Not Exclusive Block
                   <gr-button
                     aria-disabled="false"
                     id="removeBtn"
@@ -517,6 +519,24 @@ suite('gr-permission tests', () => {
       element.editing = false;
       await element.updateComplete;
       assert.isFalse(element.permission!.value.exclusive);
+    });
+
+    test('modify the exclusiveBlock bit', async () => {
+      element.editing = true;
+      element.name = 'Priority';
+      element.section = 'refs/*' as GitRef;
+      await element.updateComplete;
+
+      assert.isFalse(element.originalExclusiveBlockValue);
+      assert.isNotOk(element.permission!.value.modified);
+      queryAndAssert<MdSwitch>(element, '#exclusiveBlockToggle').click();
+      await element.updateComplete;
+      assert.isTrue(element.permission!.value.exclusive_block);
+      assert.isTrue(element.permission!.value.modified);
+      assert.isFalse(element.originalExclusiveBlockValue);
+      element.editing = false;
+      await element.updateComplete;
+      assert.isFalse(element.permission!.value.exclusive_block);
     });
 
     test('modifying emits access-modified event', async () => {

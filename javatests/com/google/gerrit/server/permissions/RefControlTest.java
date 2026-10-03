@@ -726,6 +726,80 @@ public class RefControlTest {
   }
 
   @Test
+  public void exclusiveGroupBlockLabelRange_narrowBlockSurvivesBroadAllow() throws Exception {
+    // With exclusiveGroupBlock, a label BLOCK for a narrow group is not cleared by a broad
+    // different-group ALLOW in the same section, so the narrow group's vote range stays clamped.
+    projectOperations
+        .project(localKey)
+        .forUpdate()
+        .add(
+            allowLabel(LabelId.CODE_REVIEW)
+                .ref("refs/heads/*")
+                .group(REGISTERED_USERS)
+                .range(-2, +2))
+        .add(blockLabel(LabelId.CODE_REVIEW).ref("refs/heads/*").group(DEVS).range(-2, +2))
+        .setExclusiveGroupBlock(labelPermissionKey(LabelId.CODE_REVIEW).ref("refs/heads/*"), true)
+        .update();
+
+    ProjectControl u = user(localKey, DEVS);
+
+    PermissionRange range =
+        u.controlForRef("refs/heads/master").getRange(LABEL + LabelId.CODE_REVIEW);
+    assertCanVote(1, range);
+    assertCanVote(-1, range);
+    assertCannotVote(2, range);
+    assertCannotVote(-2, range);
+  }
+
+  @Test
+  public void exclusiveGroupBlockLabelRange_sameGroupAllowClearsBlock() throws Exception {
+    // With exclusiveGroupBlock, a label BLOCK is still cleared by an ALLOW for the SAME group, so
+    // the range is not clamped.
+    projectOperations
+        .project(localKey)
+        .forUpdate()
+        .add(allowLabel(LabelId.CODE_REVIEW).ref("refs/heads/*").group(DEVS).range(-2, +2))
+        .add(blockLabel(LabelId.CODE_REVIEW).ref("refs/heads/*").group(DEVS).range(-2, +2))
+        .setExclusiveGroupBlock(labelPermissionKey(LabelId.CODE_REVIEW).ref("refs/heads/*"), true)
+        .update();
+
+    ProjectControl u = user(localKey, DEVS);
+
+    PermissionRange range =
+        u.controlForRef("refs/heads/master").getRange(LABEL + LabelId.CODE_REVIEW);
+    assertCanVote(2, range);
+    assertCanVote(-2, range);
+  }
+
+  @Test
+  public void exclusiveGroupBlockLabelRange_multipleBlocksIntersect() throws Exception {
+    // With exclusiveGroupBlock, several uncleared same-section label BLOCKs each clamp the range;
+    // their clamps intersect to the tightest surviving window.
+    projectOperations
+        .project(localKey)
+        .forUpdate()
+        .add(
+            allowLabel(LabelId.CODE_REVIEW)
+                .ref("refs/heads/*")
+                .group(REGISTERED_USERS)
+                .range(-2, +2))
+        .add(blockLabel(LabelId.CODE_REVIEW).ref("refs/heads/*").group(DEVS).range(-2, +2))
+        .add(blockLabel(LabelId.CODE_REVIEW).ref("refs/heads/*").group(fixers).range(-1, +1))
+        .setExclusiveGroupBlock(labelPermissionKey(LabelId.CODE_REVIEW).ref("refs/heads/*"), true)
+        .update();
+
+    ProjectControl u = user(localKey, DEVS, fixers);
+
+    PermissionRange range =
+        u.controlForRef("refs/heads/master").getRange(LABEL + LabelId.CODE_REVIEW);
+    // block DEVS(-2..2) clamps to [-1,1]; block fixers(-1..1) clamps to [0,0]; intersection [0,0].
+    assertCanVote(0, range);
+    assertCannotVote(1, range);
+    assertCannotVote(-1, range);
+    assertCannotVote(2, range);
+  }
+
+  @Test
   public void inheritSubmit_AllowInChildDoesntAffectUnblockInParent() throws Exception {
     projectOperations
         .project(parentKey)

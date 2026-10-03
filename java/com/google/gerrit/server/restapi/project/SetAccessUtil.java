@@ -91,6 +91,9 @@ public class SetAccessUtil {
         if (permissionEntry.getValue().exclusive != null) {
           p.setExclusiveGroup(permissionEntry.getValue().exclusive);
         }
+        if (permissionEntry.getValue().exclusiveBlock != null) {
+          p.setExclusiveBlock(permissionEntry.getValue().exclusiveBlock);
+        }
 
         for (Map.Entry<String, PermissionRuleInfo> permissionRuleInfoEntry :
             permissionEntry.getValue().rules.entrySet()) {

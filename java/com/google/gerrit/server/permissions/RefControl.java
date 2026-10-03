@@ -347,11 +347,17 @@ public class RefControl {
     return pr.getAction() == Action.BLOCK && (!pr.getForce() || withForce);
   }
 
-  /** Whether a force-aware ALLOW rule in this Permission applies to the user. */
-  private boolean hasMatchingForceAwareAllow(
-      Permission p, boolean isChangeOwner, boolean withForce) {
+  /**
+   * Whether an ALLOW rule in this Permission clears {@code blockRule} for the user. Without
+   * exclusiveGroupBlock any matching ALLOW clears it, whereas with the flag only a same-group ALLOW
+   * clears it.
+   */
+  private boolean blockCleared(
+      Permission p, PermissionRule blockRule, boolean isChangeOwner, boolean withForce) {
     for (PermissionRule allowRule : p.getRules()) {
-      if (isAllow(allowRule, withForce) && projectControl.match(allowRule, isChangeOwner)) {
+      if (isAllow(allowRule, withForce)
+          && projectControl.match(allowRule, isChangeOwner)
+          && (!p.getExclusiveBlock() || Permission.sameGroup(allowRule, blockRule))) {
         return true;
       }
     }
@@ -374,6 +380,24 @@ public class RefControl {
               continue projectLoop;
             }
           }
+        }
+
+        if (p.getExclusiveBlock()) {
+          // Each matching BLOCK is cleared only by a same-group ALLOW; uncleared blocks intersect.
+          // Ranges carry no force semantics, so there is no force skip here (unlike isBlocked).
+          for (PermissionRule blockRule : p.getRules()) {
+            if (blockRule.getAction() == Action.BLOCK
+                && projectControl.match(blockRule, isChangeOwner)
+                && !blockCleared(p, blockRule, isChangeOwner, /* withForce= */ false)) {
+              projectBlockAllowMin = Math.max(projectBlockAllowMin, blockRule.getMin() + 1);
+              projectBlockAllowMax = Math.min(projectBlockAllowMax, blockRule.getMax() - 1);
+              blockFound = true;
+            }
+          }
+          if (blockFound) {
+            break;
+          }
+          continue;
         }
 
         for (PermissionRule pr : p.getRules()) {
@@ -454,7 +478,7 @@ public class RefControl {
           logger.atFine().log(
               "Block rule found for permission %s and user %s",
               permissionName, getUser().getLoggableName());
-          if (hasMatchingForceAwareAllow(p, isChangeOwner, withForce)) {
+          if (blockCleared(p, blockRule, isChangeOwner, withForce)) {
             logger.atFine().log(
                 "Allow rule found in the same access section which overrides the BLOCK for"
                     + " permission %s and user %s",

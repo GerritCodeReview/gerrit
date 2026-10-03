@@ -417,11 +417,12 @@ message PermissionRuleProto {
 }
 
 // Serialized form of com.google.gerrit.common.data.Permission.
-// Next ID: 4
+// Next ID: 5
 message PermissionProto {
   string name = 1;
   bool exclusive_group = 2;
   repeated PermissionRuleProto rules = 3;
+  bool exclusive_block = 4;
 }
 
 // Serialized form of com.google.gerrit.common.data.AccessSection.

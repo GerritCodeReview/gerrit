@@ -351,6 +351,8 @@ public abstract class TestProjectUpdate {
 
     abstract ImmutableMap.Builder<TestPermissionKey, Boolean> exclusiveGroupPermissionsBuilder();
 
+    abstract ImmutableMap.Builder<TestPermissionKey, Boolean> exclusiveGroupBlockBuilder();
+
     abstract Builder removeAllAccessSections(boolean value);
 
     abstract ImmutableMap.Builder<BooleanProjectConfig, InheritableBoolean>
@@ -580,6 +582,29 @@ public abstract class TestProjectUpdate {
       return this;
     }
 
+    /** Sets the exclusiveGroupBlock bit for the given permission key. */
+    @CanIgnoreReturnValue
+    public Builder setExclusiveGroupBlock(
+        TestPermissionKey.Builder testPermissionKeyBuilder, boolean exclusiveBlock) {
+      return setExclusiveGroupBlock(testPermissionKeyBuilder.build(), exclusiveBlock);
+    }
+
+    /** Sets the exclusiveGroupBlock bit for the given permission key. */
+    @CanIgnoreReturnValue
+    public Builder setExclusiveGroupBlock(
+        TestPermissionKey testPermissionKey, boolean exclusiveBlock) {
+      checkArgument(
+          !testPermissionKey.group().isPresent(),
+          "do not specify group for setExclusiveGroupBlock: %s",
+          testPermissionKey);
+      checkArgument(
+          !testPermissionKey.section().equals(GLOBAL_CAPABILITIES),
+          "setExclusiveGroupBlock not valid for global capabilities: %s",
+          testPermissionKey);
+      exclusiveGroupBlockBuilder().put(testPermissionKey, exclusiveBlock);
+      return this;
+    }
+
     abstract Builder projectUpdater(ThrowingConsumer<TestProjectUpdate> projectUpdater);
 
     abstract TestProjectUpdate autoBuild();
@@ -617,6 +642,8 @@ public abstract class TestProjectUpdate {
   abstract ImmutableList<TestPermissionKey> removedPermissions();
 
   abstract ImmutableMap<TestPermissionKey, Boolean> exclusiveGroupPermissions();
+
+  abstract ImmutableMap<TestPermissionKey, Boolean> exclusiveGroupBlock();
 
   abstract ThrowingConsumer<TestProjectUpdate> projectUpdater();
 

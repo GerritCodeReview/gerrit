@@ -139,7 +139,7 @@ public class ProjectCacheImpl implements ProjectCache {
             .keySerializer(new ProtobufSerializer<>(Cache.ProjectCacheKeyProto.parser()))
             .valueSerializer(PersistedProjectConfigSerializer.INSTANCE)
             .diskLimit(1 << 30) // 1 GiB
-            .version(4)
+            .version(5)
             .maximumWeight(0);
 
         cache(CACHE_LIST, ListKey.class, new TypeLiteral<ImmutableSortedSet<Project.NameKey>>() {})

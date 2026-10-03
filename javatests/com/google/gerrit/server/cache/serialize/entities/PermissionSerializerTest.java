@@ -27,6 +27,7 @@ public class PermissionSerializerTest {
   static final Permission ALL_VALUES_SET =
       Permission.builder(Permission.ABANDON)
           .setExclusiveGroup(!Permission.DEF_EXCLUSIVE_GROUP)
+          .setExclusiveBlock(!Permission.DEF_EXCLUSIVE_BLOCK)
           .add(PermissionRule.builder(GroupReference.create("group")))
           .build();
 

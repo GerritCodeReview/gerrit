@@ -768,6 +768,7 @@ export type AccessPermissionsMap = {[permissionName: string]: PermissionInfo};
 export interface PermissionInfo {
   label?: string; // The name of the label. Not set if it’s not a label permission.
   exclusive?: boolean;
+  exclusive_block?: boolean;
   rules: PermissionInfoRules;
 }
 

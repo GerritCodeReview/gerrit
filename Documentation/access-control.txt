@@ -1367,6 +1367,41 @@ the same permission then this 'ALLOW' rule overrides the 'BLOCK' rule:
 In this case a user which is a member of the group 'Y' will still be allowed to
 push to 'refs/heads/*' even if it is a member of the group 'X'.
 
+[[exclusive_group_block]]
+=== 'BLOCK' scoped to its group with the exclusiveGroupBlock flag
+
+By default a same-section 'ALLOW' clears a 'BLOCK' for any user the 'ALLOW'
+matches, regardless of which group the 'BLOCK' names. This makes it impossible
+to allow a broad group while blocking a narrow sub-group in the same section:
+the broad 'ALLOW' always clears the narrow 'BLOCK'.
+
+Setting the `exclusiveGroupBlock` flag for a permission changes this: a 'BLOCK'
+is then cleared only by an 'ALLOW' for the *same* group. An 'ALLOW' for a
+different (broader) group in the same section no longer clears it, so the
+narrow 'BLOCK' stays effective.
+
+----
+  [access "refs/heads/*"]
+    exclusiveGroupBlock = read
+    read = group Registered Users
+    read = block group Spammers
+----
+
+Here every member of 'Registered Users' is allowed to read 'refs/heads/*',
+except members of the narrower 'Spammers' group (who are themselves 'Registered
+Users'), whose 'BLOCK' is no longer cleared by the broader 'Registered Users'
+'ALLOW'. Without the flag the 'BLOCK' would be cleared and 'Spammers' would be
+allowed.
+
+Like a <<deny,`DENY`>> rule, it ties a 'BLOCK' to a specific group. But unlike
+'DENY', which any 'ALLOW' overrides, an exclusive-group 'BLOCK' is cleared only
+by a same-group 'ALLOW', so the 'BLOCK' keeps its strength.
+
+[NOTE]
+The flag is opt-in, so the common "restrict reads to logged-in users" pattern
+(`read = block group Anonymous Users` with `read = group Registered Users` in
+the same section) is unaffected.
+
 === 'BLOCK' and 'ALLOW' rules in the same project with the Exclusive flag
 
 When a project contains a 'BLOCK' and 'ALLOW' that uses the Exclusive flag in a

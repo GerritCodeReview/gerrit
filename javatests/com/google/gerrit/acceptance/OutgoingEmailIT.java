@@ -80,7 +80,7 @@ public class OutgoingEmailIT extends AbstractDaemonTest {
       sender.clear();
       gApi.accounts().self().addEmail(input);
 
-      assertThat(sender.getMessages()).hasSize(1);
+      assertThat(sender.getMessages()).hasSize(2);
       FakeEmailSender.Message m = sender.getMessages().get(0);
       assertThat(m.rcpt()).containsExactly(Address.create(email));
 

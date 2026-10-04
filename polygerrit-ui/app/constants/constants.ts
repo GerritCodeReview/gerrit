@@ -139,6 +139,7 @@ export const NARROW_COLUMN_NAMES: string[] = [
 export const DEFAULT_NARROW_VISIBLE_COLUMNS: string[] = [
   ColumnNames.OWNER,
   ColumnNames.REVIEWERS,
+  ColumnNames.REPO,
   VOTES_COLUMN,
 ];
 

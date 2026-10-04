@@ -403,6 +403,21 @@ export class GrChangeListItem extends LitElement {
             min-width: 0;
             max-width: 100%;
           }
+          .repo {
+            flex: 1 0 6rem;
+            min-width: 0;
+            max-width: 100%;
+          }
+          .repo a {
+            white-space: normal;
+            overflow-wrap: anywhere;
+          }
+          .repo .truncatedRepo {
+            display: none;
+          }
+          .repo .fullRepo {
+            display: block;
+          }
           .cell.votes {
             display: flex;
             flex-wrap: wrap;
@@ -410,6 +425,7 @@ export class GrChangeListItem extends LitElement {
             margin-left: auto;
             max-width: 100%;
             gap: var(--spacing-s);
+            padding-right: 0;
           }
           /* On narrow screens only the subject and the cells picked by the
              narrow column preference are shown (see narrowClass()). */

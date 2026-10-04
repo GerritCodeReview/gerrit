@@ -20,7 +20,9 @@ import {
 import {fire, fireReload} from '../../../utils/event-util';
 import {
   ColumnNames,
+  DEFAULT_NARROW_VISIBLE_COLUMNS,
   DEFAULT_VISIBLE_COLUMNS,
+  NARROW_COLUMN_NAMES,
   ScrollMode,
 } from '../../../constants/constants';
 import {
@@ -46,6 +48,7 @@ import {createChangeUrl} from '../../../models/views/change';
 import {pluginLoaderToken} from '../../shared/gr-js-api-interface/gr-plugin-loader';
 import {subscribe} from '../../lit/subscription-controller';
 import {
+  changeTableNarrowPrefs,
   changeTablePrefs,
   userModelToken,
 } from '../../../models/user/user-model';
@@ -139,6 +142,10 @@ export class GrChangeList extends LitElement {
 
   @property({type: Array})
   visibleChangeTableColumns?: string[];
+
+  /** The columns to show on narrow screens, see `changeTableNarrowPrefs()`. */
+  @property({type: Array})
+  visibleChangeTableColumnsNarrow?: string[];
 
   @state()
   preferences?: PreferencesInput;
@@ -298,6 +305,7 @@ export class GrChangeList extends LitElement {
         )}
         .showNumber=${this.showNumber}
         .visibleChangeTableColumns=${this.visibleChangeTableColumns}
+        .visibleChangeTableColumnsNarrow=${this.visibleChangeTableColumnsNarrow}
         .usp=${this.usp}
         .startIndex=${startIndex}
         .triggerSelectionCallback=${(index: number) => {
@@ -366,12 +374,17 @@ export class GrChangeList extends LitElement {
     this.changeTableColumns = Object.values(ColumnNames);
     this.showNumber = false;
     this.visibleChangeTableColumns = [...DEFAULT_VISIBLE_COLUMNS];
+    this.visibleChangeTableColumnsNarrow = [...DEFAULT_NARROW_VISIBLE_COLUMNS];
     if (this.loggedInUser && this.preferences) {
       this.showNumber = !!this.preferences?.legacycid_in_change_table;
       const prefColumns = changeTablePrefs(this.preferences);
       // This is for sorting `prefColumns` as in `ColumnNames`:
       this.visibleChangeTableColumns = Object.values(ColumnNames).filter(col =>
         prefColumns.includes(col)
+      );
+      const narrowPrefColumns = changeTableNarrowPrefs(this.preferences);
+      this.visibleChangeTableColumnsNarrow = NARROW_COLUMN_NAMES.filter(col =>
+        narrowPrefColumns.includes(col)
       );
       this.labelFilter = this.preferences.label_filter
         ? this.preferences.label_filter

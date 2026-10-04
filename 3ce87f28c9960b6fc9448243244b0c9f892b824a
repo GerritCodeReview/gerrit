@@ -16,6 +16,24 @@
       "message": "`remote_shared` backs every remote profile (`config_bb`, `config_gcp`, `remote_bb`, `remote21_bb`, `remote25_bb`), so this flips the download default for all remote builds and tests, not just release builds.\n\nVerified on RBE: `bazel build --config\u003dremote_bb --remote_download_minimal //:headless` succeeds (324 actions, 319 remote); the `.jars.txt` / `.entries.txt` manifests are on disk, but `bazel-bin/headless.war` is not.\n\nSo the agent already has everything it needs, and the 80 MB WAR download is pure overhead for jobs that don\u0027t consume it.\n\nSuggestion: keep `remote_shared --remote_download_minimal` and add an opt-in instead of flipping the default:\n\n`common:remote_toplevel --remote_download_outputs\u003dtoplevel`\n\nThe rare run that wants the artifact locally selects `--config\u003dremote_toplevel` (or add it constantly in `user.bazelrc`), and every CI job keeps today\u0027s behavior with no change — and no `remote_minimal` opt-out to remember and order correctly.",
       "revId": "3ce87f28c9960b6fc9448243244b0c9f892b824a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c76e277_5a2ab17d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1087391
+      },
+      "writtenOn": "2026-10-04T11:59:40Z",
+      "side": 1,
+      "message": "Updated in patch set 4: kept remote_shared --remote_download_minimal and replaced remote_minimal with the opt-in remote_toplevel profile. The documentation now shows selecting it after the remote profile, or adding common:remote_shared --config\u003dremote_toplevel to user.bazelrc for all remote builds in the checkout. The commit message now explains why minimal downloads remain the default.",
+      "parentUuid": "07db8d4c_1dd22053",
+      "revId": "3ce87f28c9960b6fc9448243244b0c9f892b824a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

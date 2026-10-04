@@ -138,6 +138,7 @@ public class UserPreferencesConverterTest {
                         .setId("id2")
                         .build()))
             .addAllChangeTable(ImmutableList.of("table1", "table2"))
+            .addAllChangeTableNarrow(ImmutableList.of("narrow1", "narrow2"))
             .setAllowBrowserNotifications(true)
             .setDiffPageSidebar("plugin-insight")
             .build();

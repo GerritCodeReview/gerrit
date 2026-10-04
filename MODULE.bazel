@@ -26,6 +26,16 @@ single_version_override(
     version = "9.9.0",
 )
 
+# JDK 27 (non-LTS) runtime and compile toolchains, layered on rules_java. Not
+# yet in the Bazel Central Registry, so pin the GitHub source; drop this
+# git_override once it is published to the BCR.
+bazel_dep(name = "java_toolchains", version = "0.0.1")
+git_override(
+    module_name = "java_toolchains",
+    commit = "5ba7b4f08019bccab1f560f29d1734ed55e3e985",
+    remote = "https://github.com/davido/java_toolchains.git",
+)
+
 # Libraries / toolchains.
 bazel_dep(name = "protobuf", version = "36.2")
 

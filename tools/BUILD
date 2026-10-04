@@ -21,7 +21,7 @@ proto_lang_toolchain(
 [default_java_toolchain(
     name = "error_prone_warnings_toolchain_java" + VERSION,
     configuration = dict(),
-    java_runtime = "@rules_java//toolchains:remotejdk_" + VERSION,
+    java_runtime = ("@rules_java_toolchains" if VERSION == "27" else "@rules_java") + "//toolchains:remotejdk_" + VERSION,
     javacopts = [
         "-Xlint:-removal",
     ],
@@ -34,6 +34,7 @@ proto_lang_toolchain(
     visibility = ["//visibility:public"],
 ) for VERSION in [
     "25",
+    "27",
 ]]
 
 # Error Prone errors enabled by default; see ../.bazelrc for how this is

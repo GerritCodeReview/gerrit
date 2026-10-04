@@ -22,6 +22,30 @@
       },
       "revId": "417834c1f190111c3aafab11169c2cb322a062e6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "810730e9_a35c1444",
+        "filename": "javatests/com/google/gerrit/acceptance/GitRepositoryReferenceCountingManagerIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1087391
+      },
+      "writtenOn": "2026-10-04T10:49:11Z",
+      "side": 1,
+      "message": "Addressed in patch set 4: added the comment explaining that these tests leave repositories open deliberately or close them synchronously. A zero timeout still performs one immediate check rather than skipping validation.",
+      "parentUuid": "0c2654e6_efa7175c",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 25
+      },
+      "revId": "417834c1f190111c3aafab11169c2cb322a062e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

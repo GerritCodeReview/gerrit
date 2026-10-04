@@ -54,7 +54,7 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
   @Test
   public void getAndSetPreferences() throws Exception {
     GeneralPreferencesInfo o = gApi.accounts().id(user42.id().get()).getPreferences();
-    assertPrefs(o, GeneralPreferencesInfo.defaults(), "my", "changeTable");
+    assertPrefs(o, GeneralPreferencesInfo.defaults(), "my", "changeTable", "changeTableNarrow");
     assertThat(o.my)
         .containsExactly(
             new MenuItem("Dashboard", "/dashboard/self", null),
@@ -65,6 +65,7 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
             new MenuItem("All Visible Changes", "/q/is:visible", null),
             new MenuItem("Groups", "/settings/#Groups", null));
     assertThat(o.changeTable).isEmpty();
+    assertThat(o.changeTableNarrow).isEmpty();
 
     GeneralPreferencesInfo i = GeneralPreferencesInfo.defaults();
 
@@ -94,11 +95,15 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
     i.my.add(new MenuItem("name", "url"));
     i.changeTable = new ArrayList<>();
     i.changeTable.add("Status");
+    i.changeTableNarrow = new ArrayList<>();
+    i.changeTableNarrow.add("Owner");
+    i.changeTableNarrow.add("Votes");
 
     o = gApi.accounts().id(user42.id().get()).setPreferences(i);
     assertPrefs(o, i, "my");
     assertThat(o.my).containsExactlyElementsIn(i.my);
     assertThat(o.changeTable).containsExactlyElementsIn(i.changeTable);
+    assertThat(o.changeTableNarrow).containsExactlyElementsIn(i.changeTableNarrow);
     assertThat(o.theme).isEqualTo(i.theme);
     assertThat(o.allowBrowserNotifications).isEqualTo(i.allowBrowserNotifications);
     assertThat(o.allowSuggestCodeWhileCommenting).isEqualTo(i.allowSuggestCodeWhileCommenting);
@@ -123,7 +128,7 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
     assertThat(o.changesPerPage).isEqualTo(newChangesPerPage);
 
     // assert hard-coded defaults
-    assertPrefs(o, d, "my", "changeTable", "changesPerPage");
+    assertPrefs(o, d, "my", "changeTable", "changeTableNarrow", "changesPerPage");
   }
 
   @Test
@@ -136,29 +141,29 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
 
     GeneralPreferencesInfo o = gApi.accounts().id(admin.id().get()).getPreferences();
     assertThat(o.changesPerPage).isEqualTo(configuredChangesPerPage);
-    assertPrefs(o, d, "my", "changeTable", "changesPerPage");
+    assertPrefs(o, d, "my", "changeTable", "changeTableNarrow", "changesPerPage");
 
     int newChangesPerPage = configuredChangesPerPage * 2;
     GeneralPreferencesInfo i = new GeneralPreferencesInfo();
     i.changesPerPage = newChangesPerPage;
     GeneralPreferencesInfo a = gApi.accounts().id(admin.id().get()).setPreferences(i);
     assertThat(a.changesPerPage).isEqualTo(newChangesPerPage);
-    assertPrefs(a, d, "my", "changeTable", "changesPerPage");
+    assertPrefs(a, d, "my", "changeTable", "changeTableNarrow", "changesPerPage");
 
     a = gApi.accounts().id(admin.id().get()).getPreferences();
     assertThat(a.changesPerPage).isEqualTo(newChangesPerPage);
-    assertPrefs(a, d, "my", "changeTable", "changesPerPage");
+    assertPrefs(a, d, "my", "changeTable", "changeTableNarrow", "changesPerPage");
 
     // overwrite the configured default with original hard-coded default
     i = new GeneralPreferencesInfo();
     i.changesPerPage = d.changesPerPage;
     a = gApi.accounts().id(admin.id().get()).setPreferences(i);
     assertThat(a.changesPerPage).isEqualTo(d.changesPerPage);
-    assertPrefs(a, d, "my", "changeTable", "changesPerPage");
+    assertPrefs(a, d, "my", "changeTable", "changeTableNarrow", "changesPerPage");
 
     a = gApi.accounts().id(admin.id().get()).getPreferences();
     assertThat(a.changesPerPage).isEqualTo(d.changesPerPage);
-    assertPrefs(a, d, "my", "changeTable", "changesPerPage");
+    assertPrefs(a, d, "my", "changeTable", "changeTableNarrow", "changesPerPage");
   }
 
   @Test

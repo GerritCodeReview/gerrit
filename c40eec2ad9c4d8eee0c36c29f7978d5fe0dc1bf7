@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f454a6a_f995649e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5212879
+      },
+      "writtenOn": "2026-10-04T20:42:09Z",
+      "side": 1,
+      "message": "634303: Reuse the file-count validation metric | https://gerrit-review.googlesource.com/c/gerrit/+/634303",
+      "revId": "c40eec2ad9c4d8eee0c36c29f7978d5fe0dc1bf7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

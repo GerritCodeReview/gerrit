@@ -22,6 +22,30 @@
       },
       "revId": "161ffcb9d5f90fdbc9c6efc6ebf246e8aad027c4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "da906a1f_8c36acfc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-04T10:40:29Z",
+      "side": 1,
+      "message": "I\u0027ve done more tests on RBE@GCP and figured, that `--remote_cache_compression` doesn\u0027t actually work on a clean build, e.g: \":headless\" target. So let\u0027s not add this option top GCP.",
+      "parentUuid": "78fc70b7_ef81636f",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 0
+      },
+      "revId": "161ffcb9d5f90fdbc9c6efc6ebf246e8aad027c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

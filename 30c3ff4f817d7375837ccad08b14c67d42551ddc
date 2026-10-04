@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "97854fa1_9a911acf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-04T07:45:45Z",
+      "side": 1,
+      "message": "Thanks, I will upload new protobuf release to gerrit maven mirror.",
+      "revId": "30c3ff4f817d7375837ccad08b14c67d42551ddc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

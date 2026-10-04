@@ -22,6 +22,30 @@
       },
       "revId": "d88d60e7204cdc504a99da506238ad55f697fba7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec8c9fc7_456de049",
+        "filename": "tools/remote-bazelrc",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1087391
+      },
+      "writtenOn": "2026-10-04T10:49:07Z",
+      "side": 1,
+      "message": "Removed the redundant reporting_bb --announce_rc in patch set 3. The global common --announce_rc remains, and the user.bazelrc override still applies last.",
+      "parentUuid": "e7708576_8af4039b",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 33
+      },
+      "revId": "d88d60e7204cdc504a99da506238ad55f697fba7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

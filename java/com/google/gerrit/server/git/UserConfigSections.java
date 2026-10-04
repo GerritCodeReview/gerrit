@@ -31,6 +31,9 @@ public class UserConfigSections {
 
   public static final String CHANGE_TABLE_COLUMN = "column";
 
+  /** The columns to display in the change table on narrow screens. */
+  public static final String CHANGE_TABLE_NARROW_COLUMN = "narrowColumn";
+
   /** The edit user preferences. */
   public static final String EDIT = "edit";
 

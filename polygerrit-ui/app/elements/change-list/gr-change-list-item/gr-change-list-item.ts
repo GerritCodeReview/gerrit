@@ -35,7 +35,13 @@ import {css, html, LitElement, PropertyValues} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {submitRequirementsStyles} from '../../../styles/gr-submit-requirements-styles';
 import {ifDefined} from 'lit/directives/if-defined.js';
-import {ChangeStatus, ColumnNames, WAITING} from '../../../constants/constants';
+import {
+  ChangeStatus,
+  ColumnNames,
+  DEFAULT_NARROW_VISIBLE_COLUMNS,
+  VOTES_COLUMN,
+  WAITING,
+} from '../../../constants/constants';
 import {bulkActionsModelToken} from '../../../models/bulk-actions/bulk-actions-model';
 import {resolve} from '../../../models/dependency';
 import {subscribe} from '../../lit/subscription-controller';
@@ -90,6 +96,14 @@ export class GrChangeListItem extends LitElement {
 
   @property({type: Array})
   visibleChangeTableColumns?: string[];
+
+  /**
+   * The columns to show on narrow screens, where the item collapses to two
+   * rows. Values are `ColumnNames` (minus Subject, which is always shown) or
+   * `VOTES_COLUMN` for all label cells together. Undefined means the defaults.
+   */
+  @property({type: Array})
+  visibleChangeTableColumnsNarrow?: string[];
 
   @property({type: Array})
   labelNames?: string[];
@@ -421,6 +435,14 @@ export class GrChangeListItem extends LitElement {
             margin-left: auto;
             max-width: 100%;
             gap: var(--spacing-s);
+            padding-right: 0;
+          }
+          /* On narrow screens only the subject and the cells picked by the
+             narrow column preference are shown (see narrowClass()). */
+          .cell:not(.subject):not(.star):not(.number):not(.endpoint):not(
+              .narrow
+            ) {
+            display: none;
           }
           /* Keep absent labels in their slots, so columns stay aligned. */
           .cell.label.narrowHidden {
@@ -455,14 +477,16 @@ export class GrChangeListItem extends LitElement {
         ${this.renderCellHashtags()} ${this.renderCellUpdated()}
         ${this.renderCellSubmitted()} ${this.renderCellWaiting()}
         ${this.renderCellSize()} ${this.renderCellRequirements()}
-        <div class="cell votes">
+        <div class="cell votes ${this.narrowClass(VOTES_COLUMN)}">
           ${this.labelNames?.map(labelName =>
             this.renderChangeLabels(labelName)
           )}
           ${this.narrowLabels &&
           (this.labelNames?.length ?? 0) > this.narrowLabels.length
             ? html`<td
-                class="cell label labelOverflow"
+                class="cell label labelOverflow ${this.narrowClass(
+                  VOTES_COLUMN
+                )}"
                 title=${this.labelNames
                   ?.filter(name => !this.narrowLabels!.includes(name))
                   .join(', ')}
@@ -548,7 +572,7 @@ export class GrChangeListItem extends LitElement {
     if (this.computeIsColumnHidden(ColumnNames.OWNER)) return;
 
     return html`
-      <td class="cell owner">
+      <td class="cell owner ${this.narrowClass(ColumnNames.OWNER)}">
         <gr-account-label
           highlightAttention
           clickable
@@ -563,7 +587,7 @@ export class GrChangeListItem extends LitElement {
     if (this.computeIsColumnHidden(ColumnNames.REVIEWERS)) return;
 
     return html`
-      <td class="cell reviewers">
+      <td class="cell reviewers ${this.narrowClass(ColumnNames.REVIEWERS)}">
         <div>
           ${this.computePrimaryReviewers().map((reviewer, index) =>
             this.renderChangeReviewers(reviewer, index)
@@ -601,7 +625,7 @@ export class GrChangeListItem extends LitElement {
 
     const repo = this.change?.project ?? '';
     return html`
-      <td class="cell repo">
+      <td class="cell repo ${this.narrowClass(ColumnNames.REPO)}">
         <a class="fullRepo" href=${this.computeRepoUrl()}> ${repo} </a>
         <a class="truncatedRepo" href=${this.computeRepoUrl()} title=${repo}>
           ${truncatePath(repo, 2)}
@@ -614,7 +638,7 @@ export class GrChangeListItem extends LitElement {
     if (this.computeIsColumnHidden(ColumnNames.BRANCH)) return;
 
     return html`
-      <td class="cell branch">
+      <td class="cell branch ${this.narrowClass(ColumnNames.BRANCH)}">
         <a href=${this.computeRepoBranchURL()} title=${this.change?.branch}>
           ${this.change?.branch}
         </a>
@@ -641,7 +665,7 @@ export class GrChangeListItem extends LitElement {
     if (this.computeIsColumnHidden(ColumnNames.UPDATED)) return;
 
     return html`
-      <td class="cell updated">
+      <td class="cell updated ${this.narrowClass(ColumnNames.UPDATED)}">
         <gr-date-formatter
           withTooltip
           .dateStr=${this.formatDate(this.change?.updated)}
@@ -654,7 +678,7 @@ export class GrChangeListItem extends LitElement {
     if (this.computeIsColumnHidden('Submitted')) return;
 
     return html`
-      <td class="cell submitted">
+      <td class="cell submitted ${this.narrowClass(ColumnNames.UPDATED)}">
         <gr-date-formatter
           withTooltip
           .dateStr=${this.formatDate(this.change?.submitted)}
@@ -667,7 +691,7 @@ export class GrChangeListItem extends LitElement {
     if (this.computeIsColumnHidden(WAITING)) return;
 
     return html`
-      <td class="cell waiting">
+      <td class="cell waiting ${this.narrowClass(ColumnNames.UPDATED)}">
         <gr-date-formatter
           withTooltip
           forceRelative
@@ -682,7 +706,7 @@ export class GrChangeListItem extends LitElement {
     if (this.computeIsColumnHidden(ColumnNames.SIZE)) return;
 
     return html`
-      <td class="cell size">
+      <td class="cell size ${this.narrowClass(ColumnNames.SIZE)}">
         <gr-tooltip-content has-tooltip title=${this.computeSizeTooltip()}>
           ${this.renderChangeSize()}
         </gr-tooltip-content>
@@ -703,7 +727,9 @@ export class GrChangeListItem extends LitElement {
     if (this.computeIsColumnHidden(ColumnNames.STATUS)) return;
 
     return html`
-      <td class="cell status requirements">
+      <td
+        class="cell status requirements ${this.narrowClass(ColumnNames.STATUS)}"
+      >
         <gr-change-list-column-requirements-summary .change=${this.change}>
         </gr-change-list-column-requirements-summary>
       </td>
@@ -714,7 +740,7 @@ export class GrChangeListItem extends LitElement {
     if (this.computeIsColumnHidden(ColumnNames.HASHTAGS)) return;
 
     return html`
-      <td class="cell hashtags">
+      <td class="cell hashtags ${this.narrowClass(ColumnNames.HASHTAGS)}">
         ${(this.change?.hashtags ?? []).map(hashtag =>
           this.renderChangeHashtag(hashtag)
         )}
@@ -736,8 +762,8 @@ export class GrChangeListItem extends LitElement {
 
   private renderChangeLabels(labelName: string) {
     return html` <td
-      class="cell label requirement ${this.narrowLabels &&
-      !this.narrowLabels.includes(labelName)
+      class="cell label requirement ${this.narrowClass(VOTES_COLUMN)} ${this
+        .narrowLabels && !this.narrowLabels.includes(labelName)
         ? 'narrowHidden'
         : ''}"
       style="order: ${this.narrowLabels?.indexOf(labelName) ?? 0}"
@@ -903,6 +929,19 @@ export class GrChangeListItem extends LitElement {
         : this.dashboardUser;
     if (!userId || !this.change?.attention_set) return undefined;
     return this.change?.attention_set[userId]?.last_update;
+  }
+
+  /**
+   * Returns the `narrow` class if `column` is part of the narrow column set,
+   * so that the narrow-screen media query keeps the cell visible. Columns
+   * that replace Updated in dashboard sections (Waiting, Submitted) follow
+   * the Updated setting.
+   */
+  // private but used in test
+  narrowClass(column: string) {
+    const narrowColumns =
+      this.visibleChangeTableColumnsNarrow ?? DEFAULT_NARROW_VISIBLE_COLUMNS;
+    return narrowColumns.includes(column) ? 'narrow' : '';
   }
 
   private computeIsColumnHidden(columnToCheck?: string) {

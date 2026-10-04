@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a2f5920c_6a75bdba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1087391
+      },
+      "writtenOn": "2026-10-04T10:49:05Z",
+      "side": 1,
+      "message": "Split into the five requested concerns. This CL now contains only the identity-equivalence rewrites; the other changes are:\n\n- JGit file-mode comparisons: https://gerrit-review.googlesource.com/c/gerrit/+/637743\n- BooleanCondition rewrite and tests: https://gerrit-review.googlesource.com/c/gerrit/+/637744\n- Prior-patch-set sentinel cleanup: https://gerrit-review.googlesource.com/c/gerrit/+/637745\n- FieldType finalization: https://gerrit-review.googlesource.com/c/gerrit/+/637746\n\nAll five commit boundaries compile independently before the rules_java upgrade, with ReferenceEquality enabled. The split preserves the original combined patch\u0027s final code.",
+      "parentUuid": "19fc7e39_f080fb8f",
+      "revId": "448ca9d1bb94f4c275e57865851c822e6adb22ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c4076801_60421a17",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-10-04T05:03:06Z",
       "side": 1,
       "message": "For changes in these packages: `com.google.gerrit.server.notedb` and `com.google.gerrit.entities` we have submit-requirement for additional commit footer:\n\n```\nForward-Compatible: checked\n```\n\nSee change 339146 where this submit-requirement was added.",
+      "revId": "448ca9d1bb94f4c275e57865851c822e6adb22ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9789b22c_ec2dd29a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1087391
+      },
+      "writtenOn": "2026-10-04T10:49:05Z",
+      "side": 1,
+      "message": "Checked that these changes do not alter persisted data or serialization. Added Forward-Compatible: checked to this identity-only CL and the prior-patch-set sentinel cleanup CL (637745).",
+      "parentUuid": "c4076801_60421a17",
       "revId": "448ca9d1bb94f4c275e57865851c822e6adb22ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

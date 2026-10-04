@@ -17,13 +17,12 @@ bazel_dep(name = "rules_nodejs", version = "6.7.6")
 bazel_dep(name = "rules_python", version = "2.3.4")
 bazel_dep(name = "rules_shell", version = "0.8.0")
 
-# Pin rules_java to Gerrit's chosen version. Transitive bzlmod modules can
-# otherwise raise it through MVS, which changes the Java toolchain inputs
-# and can break custom plugin builds. When merging up, keep this override
-# but update the version to the target branch's chosen rules_java version.
-single_version_override(
+# Pin rules_java to pending PR for Java 27 support:
+# https://github.com/bazelbuild/rules_java/pull/385
+git_override(
     module_name = "rules_java",
-    version = "9.9.0",
+    remote = "https://github.com/sluongng/rules_java.git",
+    commit = "c9e6c5877b6103054cb2331340d31862c3fb7db6",
 )
 
 # Libraries / toolchains.

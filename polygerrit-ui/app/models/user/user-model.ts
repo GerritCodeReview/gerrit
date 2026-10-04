@@ -23,6 +23,7 @@ import {
   createDefaultDiffPrefs,
   createDefaultEditPrefs,
   createDefaultPreferences,
+  DEFAULT_NARROW_VISIBLE_COLUMNS,
   DEFAULT_VISIBLE_COLUMNS,
 } from '../../constants/constants';
 import {RestApiService} from '../../services/gr-rest-api/gr-rest-api';
@@ -41,6 +42,16 @@ export function changeTablePrefs(prefs: Partial<PreferencesInfo>) {
   return cols
     .map(column => (column === 'Project' ? ColumnNames.REPO : column))
     .map(column => (column === ' Status ' ? ColumnNames.STATUS : column));
+}
+
+/**
+ * The columns to show on narrow screens, where the change list collapses each
+ * change to two rows. An empty pref means "the defaults".
+ */
+export function changeTableNarrowPrefs(prefs: Partial<PreferencesInfo>) {
+  const cols = prefs.change_table_narrow ?? [];
+  if (cols.length === 0) return [...DEFAULT_NARROW_VISIBLE_COLUMNS];
+  return cols.map(column => (column === 'Project' ? ColumnNames.REPO : column));
 }
 
 export interface UserState {

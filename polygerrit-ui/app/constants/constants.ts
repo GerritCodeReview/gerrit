@@ -116,6 +116,33 @@ export const DEFAULT_VISIBLE_COLUMNS: string[] = Object.values(
 ).filter(col => col !== ColumnNames.HASHTAGS);
 
 /**
+ * Pseudo-column for the narrow (phone) change list preference. On wide
+ * screens every label is its own column; on narrow screens they are switched
+ * on or off together under this one name.
+ */
+export const VOTES_COLUMN = 'Votes';
+
+/**
+ * Columns that can be chosen for the narrow (phone) change list, where each
+ * change collapses to two rows. The subject is always shown and is therefore
+ * not part of this list.
+ */
+export const NARROW_COLUMN_NAMES: string[] = [
+  ...Object.values(ColumnNames).filter(col => col !== ColumnNames.SUBJECT),
+  VOTES_COLUMN,
+];
+
+/**
+ * Columns shown on narrow screens when the user has not customized their
+ * narrow change table preference.
+ */
+export const DEFAULT_NARROW_VISIBLE_COLUMNS: string[] = [
+  ColumnNames.OWNER,
+  ColumnNames.REVIEWERS,
+  VOTES_COLUMN,
+];
+
+/**
  * @description Modes for gr-diff-cursor
  * The scroll behavior for the cursor. Values are 'never' and
  * 'keep-visible'. 'keep-visible' will only scroll if the cursor is beyond
@@ -272,6 +299,7 @@ export function createDefaultPreferences(): PreferencesInfo {
     date_format: DateFormat.STD,
     time_format: TimeFormat.HHMM_12,
     change_table: [],
+    change_table_narrow: [],
     email_strategy: EmailStrategy.ATTENTION_SET_ONLY,
     default_base_for_merges: DefaultBase.AUTO_MERGE,
     allow_browser_notifications: false,

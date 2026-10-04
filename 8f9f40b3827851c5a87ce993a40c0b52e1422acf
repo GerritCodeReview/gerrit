@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d01e1464_97fe860b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1087391
+      },
+      "writtenOn": "2026-10-04T18:42:46Z",
+      "side": 1,
+      "message": "lgtm\n\nI recommend following up with a CL that explores adding UseCompactObjectHeaders to jdk args of Gerrit. It\u0027s a big win in the Bazel ecosystem and is enabled by default in JDK 27.",
+      "revId": "8f9f40b3827851c5a87ce993a40c0b52e1422acf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

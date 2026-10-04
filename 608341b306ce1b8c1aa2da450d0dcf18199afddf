@@ -22,6 +22,30 @@
       },
       "revId": "608341b306ce1b8c1aa2da450d0dcf18199afddf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "64468b9e_d468fb81",
+        "filename": "tools/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-04T05:18:59Z",
+      "side": 1,
+      "message": "On second thought, let\u0027s keep it as-is. The explicit condition documents that the flag is only needed on Java 21.",
+      "parentUuid": "7c8b9eb4_812bd855",
+      "range": {
+        "startLine": 36,
+        "startChar": 5,
+        "endLine": 36,
+        "endChar": 33
+      },
+      "revId": "608341b306ce1b8c1aa2da450d0dcf18199afddf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

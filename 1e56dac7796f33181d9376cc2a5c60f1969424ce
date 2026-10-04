@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f5742ff_e0618ebe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-04T12:39:45Z",
+      "side": 1,
+      "message": "nit: `Forward-Compatible: checked` isn\u0027t needed here. That footer guards changes to persisted/serialized formats — NoteDb (`com.google.gerrit.server.notedb`) and serialized data (`com.google.gerrit.entities`).\n\nThis change is pure in-memory logic with identical results and touches neither storage nor serialization.",
+      "revId": "1e56dac7796f33181d9376cc2a5c60f1969424ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

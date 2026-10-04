@@ -21,7 +21,12 @@ import {createDefaultPreferences} from '../../../constants/constants';
 import {userModelToken} from '../../../models/user/user-model';
 import {GrChangeListItem} from '../gr-change-list-item/gr-change-list-item';
 import {GrChangeListSection} from '../gr-change-list-section/gr-change-list-section';
-import {ChangeInfo, NumericChangeId, Timestamp} from '../../../types/common';
+import {
+  ChangeInfo,
+  NumericChangeId,
+  RepoName,
+  Timestamp,
+} from '../../../types/common';
 import {visualDiffDarkTheme} from '../../../test/test-utils';
 
 suite('gr-change-list screenshot tests', () => {
@@ -71,6 +76,9 @@ suite('gr-change-list screenshot tests', () => {
           subject:
             'Show label votes and configurable columns on narrow screens',
           owner: {...change.owner, name: 'Monty Taylor Sword Nimi'},
+          project: (index === 0
+            ? 'openstack/very-long-repository-name'
+            : 'gerrit') as RepoName,
           submit_requirements: (index === 0
             ? ['Code-Review', 'Verified', 'Frontend-Verified', 'Code-Style']
             : ['Code-Review', 'Code-Style']
@@ -114,6 +122,20 @@ suite('gr-change-list screenshot tests', () => {
           )
         );
         assert.deepEqual(votePositions[0], votePositions[1]);
+        const headerPositions = Array.from(
+          section.shadowRoot!.querySelectorAll('.groupTitle .label')
+        ).map(cell => Math.round(cell.getBoundingClientRect().left));
+        assert.deepEqual(headerPositions, votePositions[0]);
+        const repo = first.querySelector('.repo')!;
+        assert.isAbove(repo.getBoundingClientRect().width, 0);
+        const repoLink = repo.querySelector<HTMLElement>('.fullRepo')!;
+        assert.isAbove(repoLink.getBoundingClientRect().width, 0);
+        assert.equal(repoLink.textContent?.trim(), element.changes[0].project);
+        assert.isAtMost(repoLink.scrollWidth, repoLink.clientWidth);
+        assert.isAtLeast(
+          repo.getBoundingClientRect().left,
+          first.querySelector('.owner')!.getBoundingClientRect().right
+        );
         const accountLabel = first.querySelector('gr-account-label')!;
         const name = accountLabel.shadowRoot!.querySelector('.name')!;
         assert.isAbove(name.clientWidth, 100);
@@ -122,6 +144,88 @@ suite('gr-change-list screenshot tests', () => {
       }
       await visualDiff(element, `gr-change-list-${width}px`);
       await visualDiffDarkTheme(element, `gr-change-list-${width}px`);
+    });
+  }
+
+  for (const width of [390, 700, 1000]) {
+    test(`30 labels at ${width}px`, async () => {
+      await setViewport({width, height: 900});
+      const userModel = testResolver(userModelToken);
+      const account = createAccountDetailWithIdNameAndEmail();
+      userModel.setAccount(account);
+      element.loggedInUser = account;
+      element.config = createServerInfo();
+      userModel.setPreferences({
+        ...createDefaultPreferences(),
+        legacycid_in_change_table: true,
+      });
+      const labels = Array.from(
+        {length: 30},
+        (_, index) =>
+          `Check-${String.fromCharCode(
+            65 + Math.floor(index / 26)
+          )}-${String.fromCharCode(65 + (index % 26))}`
+      );
+      element.changes = createChanges(2).map((change, index) => {
+        return {
+          ...change,
+          subject: 'A change with thirty submit requirements',
+          owner: {...change.owner, name: 'Monty Taylor'},
+          project: 'openstack/nova' as RepoName,
+          submit_requirements: labels
+            .filter((_, labelIndex) => index === 0 || labelIndex % 2 === 0)
+            .map(name => {
+              return {...createSubmitRequirementResultInfo(), name};
+            }),
+        };
+      });
+      await element.updateComplete;
+      await nextFrame();
+      element.showNumber = true;
+      await element.updateComplete;
+      await nextFrame();
+      const section = element.shadowRoot!.querySelector<GrChangeListSection>(
+        'gr-change-list-section'
+      )!;
+      await section.updateComplete;
+      const rows = Array.from(
+        section.shadowRoot!.querySelectorAll<GrChangeListItem>(
+          'gr-change-list-item'
+        )
+      );
+      await Promise.all(rows.map(row => row.updateComplete));
+      await nextFrame();
+      const headers = Array.from(
+        section.shadowRoot!.querySelectorAll<HTMLElement>('.groupTitle .label')
+      );
+      assert.lengthOf(headers, 30);
+      for (const row of rows) {
+        const votes = Array.from(
+          row.shadowRoot!.querySelectorAll<HTMLElement>('.label')
+        );
+        assert.lengthOf(votes, 30);
+        if (width <= 800) {
+          assert.deepEqual(
+            votes.map(cell => Math.round(cell.getBoundingClientRect().left)),
+            headers.map(cell => Math.round(cell.getBoundingClientRect().left))
+          );
+          assert.isAtMost(row.scrollWidth, row.clientWidth);
+          const voteLines = new Set(
+            votes.map(cell => Math.round(cell.getBoundingClientRect().top))
+          );
+          const headerLines = new Set(
+            headers.map(cell => Math.round(cell.getBoundingClientRect().top))
+          );
+          assert.equal(voteLines.size, width === 390 ? 3 : 2);
+          assert.equal(headerLines.size, voteLines.size);
+        }
+      }
+      assert.isAtMost(element.getBoundingClientRect().right, width);
+      if (width > 800) {
+        assert.isAbove(element.scrollWidth, element.clientWidth);
+      }
+      await visualDiff(element, `gr-change-list-30-labels-${width}px`);
+      await visualDiffDarkTheme(element, `gr-change-list-30-labels-${width}px`);
     });
   }
 });

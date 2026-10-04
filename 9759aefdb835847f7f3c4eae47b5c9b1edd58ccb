@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "64f2c0e1_a0855c4c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-04T09:09:48Z",
+      "side": 1,
+      "message": "Nit: this body line is 74 columns.\n\nPlease wrap the commit message body at 72 (edit the message inline to reflow).",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 74
+      },
+      "revId": "9759aefdb835847f7f3c4eae47b5c9b1edd58ccb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -14,7 +14,11 @@ import {changeListStyles} from '../../../styles/gr-change-list-styles';
 import {fontStyles} from '../../../styles/gr-font-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {Metadata} from '../../../utils/change-metadata-util';
-import {WAITING} from '../../../constants/constants';
+import {
+  DEFAULT_NARROW_VISIBLE_COLUMNS,
+  VOTES_COLUMN,
+  WAITING,
+} from '../../../constants/constants';
 import {provide, resolve} from '../../../models/dependency';
 import {
   BulkActionsModel,
@@ -58,6 +62,10 @@ export function computeLabelShortcut(labelName: string) {
 export class GrChangeListSection extends LitElement {
   @property({type: Array})
   visibleChangeTableColumns?: string[];
+
+  /** The columns to show on narrow screens, see `changeTableNarrowPrefs()`. */
+  @property({type: Array})
+  visibleChangeTableColumnsNarrow?: string[];
 
   @property({type: Boolean})
   showNumber?: boolean; // No default value to prevent flickering.
@@ -509,7 +517,12 @@ export class GrChangeListSection extends LitElement {
           groupTitle: true,
           separateVotes: this.separateVotes,
           narrowVotes:
-            !showBulkActionsHeader && (this.labelNames?.length ?? 0) > 0,
+            !showBulkActionsHeader &&
+            (this.labelNames?.length ?? 0) > 0 &&
+            (
+              this.visibleChangeTableColumnsNarrow ??
+              DEFAULT_NARROW_VISIBLE_COLUMNS
+            ).includes(VOTES_COLUMN),
           showSelectionBorder: showBulkActionsHeader,
         })}
       >
@@ -613,6 +626,7 @@ export class GrChangeListSection extends LitElement {
         .sectionName=${this.changeSection.name}
         .starsLoading=${this.starsLoading}
         .visibleChangeTableColumns=${columns}
+        .visibleChangeTableColumnsNarrow=${this.visibleChangeTableColumnsNarrow}
         .showNumber=${!!this.showNumber}
         .usp=${this.usp}
         .labelNames=${this.labelNames}

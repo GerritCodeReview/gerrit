@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78fc70b7_ef81636f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-04T10:20:36Z",
+      "side": 1,
+      "message": "Verified against GCP RBE (built //java/com/google/gerrit/entities:entities):\n\n- --remote_cache_compression: works — GCP advertises zstd.\n- --experimental_remote_cache_chunking: fails the build — GCP doesn\u0027t implement the chunking primitives:\n--experimental_remote_cache_chunking requested but remote does not support SplitBlob\n--experimental_remote_cache_chunking requested but remote does not support SpliceBlob\n\nFailed to query remote execution capabilities: ... remote does not support FastCDC 2020 chunking algorithm.\n\nTwo takeaways:\n1. Keeping chunking off config_gcp is correct and necessary — it hard-errors there, it does not degrade gracefully.\n2. Compression is not BuildBuddy-specific: it works on GCP too. So config_gcp could gain --remote_cache_compression for a CI speedup (a follow-up is fine).\n\nThe message\u0027s \"Bazel negotiates compression and chunking using the remote server\u0027s advertised capabilities, so these options remain specific to BuildBuddy\" isn\u0027t accurate — chunking errors rather than negotiating, and compression works on both backends. Worth rewording.\n\n\n[1]: https://paste.opendev.org/show/bjzR2IS1HW4eZgwULyIT/",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 0
+      },
+      "revId": "161ffcb9d5f90fdbc9c6efc6ebf246e8aad027c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

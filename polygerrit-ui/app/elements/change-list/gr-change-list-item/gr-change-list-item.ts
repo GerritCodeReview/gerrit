@@ -242,6 +242,9 @@ export class GrChangeListItem extends LitElement {
         .votes {
           display: contents;
         }
+        .narrowRepo {
+          display: none;
+        }
         .container {
           min-width: 12rem;
           position: relative;
@@ -403,6 +406,22 @@ export class GrChangeListItem extends LitElement {
             min-width: 0;
             max-width: 100%;
           }
+          .repo {
+            flex: 1 0 6rem;
+            min-width: 0;
+            max-width: 100%;
+          }
+          .repo a {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+          .repo .truncatedRepo {
+            display: none;
+          }
+          .repo .narrowRepo {
+            display: block;
+          }
           .cell.votes {
             display: flex;
             flex-wrap: wrap;
@@ -410,6 +429,7 @@ export class GrChangeListItem extends LitElement {
             margin-left: auto;
             max-width: 100%;
             gap: var(--spacing-s);
+            padding-right: 0;
           }
           /* On narrow screens only the subject and the cells picked by the
              narrow column preference are shown (see narrowClass()). */
@@ -582,6 +602,9 @@ export class GrChangeListItem extends LitElement {
         <a class="fullRepo" href=${this.computeRepoUrl()}> ${repo} </a>
         <a class="truncatedRepo" href=${this.computeRepoUrl()} title=${repo}>
           ${truncatePath(repo, 2)}
+        </a>
+        <a class="narrowRepo" href=${this.computeRepoUrl()} title=${repo}>
+          ${truncatePath(repo, 1)}
         </a>
       </td>
     `;

@@ -21,7 +21,12 @@ import {createDefaultPreferences} from '../../../constants/constants';
 import {userModelToken} from '../../../models/user/user-model';
 import {GrChangeListItem} from '../gr-change-list-item/gr-change-list-item';
 import {GrChangeListSection} from '../gr-change-list-section/gr-change-list-section';
-import {ChangeInfo, NumericChangeId, Timestamp} from '../../../types/common';
+import {
+  ChangeInfo,
+  NumericChangeId,
+  RepoName,
+  Timestamp,
+} from '../../../types/common';
 import {visualDiffDarkTheme} from '../../../test/test-utils';
 
 suite('gr-change-list screenshot tests', () => {
@@ -71,6 +76,9 @@ suite('gr-change-list screenshot tests', () => {
           subject:
             'Show label votes and configurable columns on narrow screens',
           owner: {...change.owner, name: 'Monty Taylor Sword Nimi'},
+          project: (index === 0
+            ? 'openstack/very-long-repository-name'
+            : 'gerrit') as RepoName,
           submit_requirements: (index === 0
             ? ['Code-Review', 'Verified', 'Frontend-Verified', 'Code-Style']
             : ['Code-Review', 'Code-Style']
@@ -114,6 +122,16 @@ suite('gr-change-list screenshot tests', () => {
           )
         );
         assert.deepEqual(votePositions[0], votePositions[1]);
+        const headerPositions = Array.from(
+          section.shadowRoot!.querySelectorAll('.groupTitle .label')
+        ).map(cell => Math.round(cell.getBoundingClientRect().left));
+        assert.deepEqual(headerPositions, votePositions[0]);
+        const repo = first.querySelector('.repo')!;
+        assert.isAbove(repo.getBoundingClientRect().width, 0);
+        assert.isAtLeast(
+          repo.getBoundingClientRect().left,
+          first.querySelector('.owner')!.getBoundingClientRect().right
+        );
         const accountLabel = first.querySelector('gr-account-label')!;
         const name = accountLabel.shadowRoot!.querySelector('.name')!;
         assert.isAbove(name.clientWidth, 100);

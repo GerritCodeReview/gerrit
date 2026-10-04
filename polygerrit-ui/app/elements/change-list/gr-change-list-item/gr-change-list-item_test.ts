@@ -249,7 +249,7 @@ suite('gr-change-list-item tests', () => {
       await element.updateComplete;
     });
 
-    test('defaults mark owner, reviewers and label cells', async () => {
+    test('defaults mark owner, reviewers, repo and label cells', async () => {
       assert.isTrue(queryAndAssert(element, '.cell.owner').matches('.narrow'));
       assert.isTrue(
         queryAndAssert(element, '.cell.reviewers').matches('.narrow')
@@ -263,7 +263,7 @@ suite('gr-change-list-item tests', () => {
       assert.isFalse(
         queryAndAssert(element, '.cell.status').matches('.narrow')
       );
-      assert.isFalse(queryAndAssert(element, '.cell.repo').matches('.narrow'));
+      assert.isTrue(queryAndAssert(element, '.cell.repo').matches('.narrow'));
     });
 
     test('preference picks the marked cells', async () => {
@@ -546,6 +546,13 @@ suite('gr-change-list-item tests', () => {
           </a>
           <a
             class="truncatedRepo"
+            href="/q/project:test-project+status:open"
+            title="test-project"
+          >
+            test-project
+          </a>
+          <a
+            class="narrowRepo"
             href="/q/project:test-project+status:open"
             title="test-project"
           >

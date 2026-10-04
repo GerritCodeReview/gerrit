@@ -22,6 +22,30 @@
       },
       "revId": "9759aefdb835847f7f3c4eae47b5c9b1edd58ccb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4e78d9c_1a4ee5aa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1087391
+      },
+      "writtenOn": "2026-10-04T10:49:09Z",
+      "side": 1,
+      "message": "Reflowed the paragraph in patch set 3. All commit-message lines are now within 72 columns.",
+      "parentUuid": "64f2c0e1_a0855c4c",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 74
+      },
+      "revId": "9759aefdb835847f7f3c4eae47b5c9b1edd58ccb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

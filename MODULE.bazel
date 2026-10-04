@@ -26,6 +26,17 @@ single_version_override(
     version = "9.9.0",
 )
 
+# JDK 25 and 27 archive pins and toolchains, using upstream rules_java. Not
+# yet in the Bazel Central Registry, so pin the GitHub source; drop this
+# git_override once it is published to the BCR.
+# https://github.com/bazel-contrib/SIG-rules-authors/issues/127
+bazel_dep(name = "jdk_catalog", version = "0.0.2-catalog.1")
+git_override(
+    module_name = "jdk_catalog",
+    commit = "459fd5a9ba5505e8ac5fdad7d0b5bdd2b3126149",
+    remote = "https://github.com/davido/jdk_catalog.git",
+)
+
 # Libraries / toolchains.
 bazel_dep(name = "protobuf", version = "36.2")
 
@@ -41,6 +52,9 @@ single_version_override(
 
 # Toolchain setup.
 register_toolchains("//tools:all")
+
+# Prefer catalog JDKs over the runtimes bundled with rules_java.
+register_toolchains("@jdk_catalog//toolchains:all")
 
 # Plugin packaging support: bazlets pin and generated Gerrit API version repo.
 include("//tools:bazlets.MODULE.bazel")

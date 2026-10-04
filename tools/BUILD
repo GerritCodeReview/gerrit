@@ -18,10 +18,18 @@ proto_lang_toolchain(
     toolchain_type = "@rules_java//java/proto:toolchain_type",
 )
 
+# JDK version -> Bazel module providing its remote JDK runtime.
+# rules_java ships only LTS runtimes (<= 25); non-LTS (27) comes from
+# rules_java_toolchains.
+JDK_RUNTIME_MODULE = {
+    "25": "@rules_java",
+    "27": "@rules_java_toolchains",
+}
+
 [default_java_toolchain(
-    name = "error_prone_warnings_toolchain_java" + VERSION,
+    name = "error_prone_warnings_toolchain_java" + version,
     configuration = dict(),
-    java_runtime = "@rules_java//toolchains:remotejdk_" + VERSION,
+    java_runtime = module + "//toolchains:remotejdk_" + version,
     javacopts = [
         "-Xlint:-removal",
     ],
@@ -29,12 +37,10 @@ proto_lang_toolchain(
         ":error_prone",
         ":first_party_removal_warnings",
     ],
-    source_version = VERSION,
-    target_version = VERSION,
+    source_version = version,
+    target_version = version,
     visibility = ["//visibility:public"],
-) for VERSION in [
-    "25",
-]]
+) for version, module in JDK_RUNTIME_MODULE.items()]
 
 # Error Prone errors enabled by default; see ../.bazelrc for how this is
 # enabled. This warnings list is originally based on:

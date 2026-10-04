@@ -94,6 +94,19 @@ suite('gr-change-list section', () => {
     );
   });
 
+  test('narrow vote headers follow the column preference', async () => {
+    element.labelNames = ['Code-Review', 'Verified'];
+    await element.updateComplete;
+    assert.isTrue(
+      queryAndAssert(element, '.groupTitle').classList.contains('narrowVotes')
+    );
+    element.visibleChangeTableColumnsNarrow = [ColumnNames.REPO];
+    await element.updateComplete;
+    assert.isFalse(
+      queryAndAssert(element, '.groupTitle').classList.contains('narrowVotes')
+    );
+  });
+
   test('renders action bar when some changes are selected', async () => {
     assert.isNotOk(query(element, 'gr-change-list-action-bar'));
     element.bulkActionsModel.setState({

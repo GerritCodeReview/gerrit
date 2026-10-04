@@ -184,13 +184,6 @@ export const changeListStyles = css`
     .groupTitle,
     .leftPadding,
     .selection,
-    .status,
-    .branch,
-    .hashtags,
-    .updated,
-    .submitted,
-    .waiting,
-    .size,
     .groupHeader .star,
     .noChanges .star {
       display: none;

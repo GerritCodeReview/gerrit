@@ -1657,6 +1657,10 @@ link:#preferences-input[PreferencesInput] entity.
     "change_table": [
       "Subject",
       "Owner"
+    ],
+    "change_table_narrow": [
+      "Owner",
+      "Votes"
     ]
   }
 ----
@@ -1709,6 +1713,10 @@ link:#general-preferences-info[GeneralPreferencesInfo] entity.
     "change_table": [
       "Subject",
       "Owner"
+    ],
+    "change_table_narrow": [
+      "Owner",
+      "Votes"
     ]
   }
 ----
@@ -3069,6 +3077,12 @@ link:rest-api-config.html#top-menu-item-info[TopMenuItemInfo] entities.
 |`change_table`                           ||
 The columns to display in the change table (Gerrit web app UI only). The
 default is empty, which will default columns as determined by the frontend.
+|`change_table_narrow`                    ||
+The columns to display in the change table on narrow screens, where the
+change list collapses each change to two rows (Gerrit web app UI only). The
+subject is always shown. The special column `Votes` stands for all of the
+label vote columns together. The default is empty, which will default
+columns as determined by the frontend.
 |`email_strategy`               ||
 The type of email strategy to use. On `ENABLED`, the user will receive emails
 from Gerrit. On `CC_ON_OWN_COMMENTS` the user will also receive emails for
@@ -3156,6 +3170,12 @@ link:rest-api-config.html#top-menu-item-info[TopMenuItemInfo] entities.
 |`change_table`                           ||
 The columns to display in the change table (Gerrit web app UI only). The
 default is empty, which will default columns as determined by the frontend.
+|`change_table_narrow`                    ||
+The columns to display in the change table on narrow screens, where the
+change list collapses each change to two rows (Gerrit web app UI only). The
+subject is always shown. The special column `Votes` stands for all of the
+label vote columns together. The default is empty, which will default
+columns as determined by the frontend.
 |`email_strategy`               |optional|
 The type of email strategy to use. On `ENABLED`, the user will receive emails
 from Gerrit. On `CC_ON_OWN_COMMENTS` the user will also receive emails for

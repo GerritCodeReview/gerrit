@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e7708576_8af4039b",
+        "filename": "tools/remote-bazelrc",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-04T08:57:46Z",
+      "side": 1,
+      "message": "Nit: Redundant — --announce_rc is already set globally as common --announce_rc in .bazelrc, so re-asserting it here has no functional effect.\n\nThe --noannounce_rc override in the doc works regardless of this line, since user.bazelrc is imported last — so this is documentary, not functional.",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 33
+      },
+      "revId": "d88d60e7204cdc504a99da506238ad55f697fba7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

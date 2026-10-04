@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "706f5dd5_a88af65b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1087391
+      },
+      "writtenOn": "2026-10-04T18:39:07Z",
+      "side": 1,
+      "message": "Link to commit\nhttps://gerrit.googlesource.com/bazlets/+/a149563c735184151b2122c59019b2941af1cb60\n\nLGTM",
+      "revId": "0ffe233984047bf700217a083f266433a60fa68b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

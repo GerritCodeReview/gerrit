@@ -14,6 +14,7 @@ bazel_dep(name = "rules_android", version = "0.7.3")
 bazel_dep(name = "rules_go", version = "0.63.0")
 bazel_dep(name = "rules_java", version = "9.9.0")
 bazel_dep(name = "rules_nodejs", version = "6.7.6")
+bazel_dep(name = "rules_java_toolchains", version = "0.0.1")
 bazel_dep(name = "rules_python", version = "2.3.4")
 bazel_dep(name = "rules_shell", version = "0.8.0")
 
@@ -24,6 +25,15 @@ bazel_dep(name = "rules_shell", version = "0.8.0")
 single_version_override(
     module_name = "rules_java",
     version = "9.9.0",
+)
+
+# JDK 27 (non-LTS) runtime and compile toolchains, layered on rules_java. Not
+# yet in the Bazel Central Registry, so pin the GitHub source; drop this
+# git_override once it is published to the BCR.
+git_override(
+    module_name = "rules_java_toolchains",
+    commit = "bf00188ae557e033dcda4909997faad343d8d0c9",
+    remote = "https://github.com/davido/rules_java_toolchains.git",
 )
 
 # Libraries / toolchains.

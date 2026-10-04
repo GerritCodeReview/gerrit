@@ -16,6 +16,23 @@
       "message": "Thanks, much appreciated.\n\nCould you please split this by concern?\n\nBesides making the review easier, it would make partial revert/backport decisions much safer. For example, if the `FileMode` conversion or the`BooleanCondition` laziness rewrite caused an unexpected regression, we should be able to revert just that part without also reverting the unrelated identity-comparison cleanup.\n\nThe pieces seem naturally separable:\n\n1. explicit `identity().equivalent(...)` rewrites\n2. semantic JGit `FileMode` comparisons\n3. `BooleanCondition` laziness-preserving rewrite and tests\n4. `ChangeKindCacheImpl` sentinel cleanup\n5. `FieldType` finalization\n\nAll are related to keeping `ReferenceEquality` enabled and satisfying Error Prone, but they have different regression profiles, so separate commits would make this much easier to review and unwind if needed. The current shape mixes mechanical rewrites with small semantic cleanups, which makes the review surface larger than necessary.",
       "revId": "448ca9d1bb94f4c275e57865851c822e6adb22ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4076801_60421a17",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-04T05:03:06Z",
+      "side": 1,
+      "message": "For changes in these packages: `com.google.gerrit.server.notedb` and `com.google.gerrit.entities` we have submit-requirement for additional commit footer:\n\n```\nForward-Compatible: checked\n```\n\nSee change 339146 where this submit-requirement was added.",
+      "revId": "448ca9d1bb94f4c275e57865851c822e6adb22ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

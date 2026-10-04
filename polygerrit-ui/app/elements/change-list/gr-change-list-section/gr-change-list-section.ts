@@ -174,6 +174,25 @@ export class GrChangeListSection extends LitElement {
         .selection:has(.loadingSpin):not(:has(md-checkbox)) {
           padding-right: 4px !important;
         }
+        @media only screen and (max-width: 50em) {
+          .groupTitle.narrowVotes {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            gap: var(--spacing-s);
+            padding: var(--spacing-xs) var(--spacing-m);
+            font-size: var(--font-size-small);
+          }
+          .groupTitle td:not(.label) {
+            display: none;
+          }
+          .groupTitle td.label {
+            flex: 0 0 24px;
+            width: 24px;
+            padding: 0;
+            border: none;
+          }
+        }
       `,
     ];
   }
@@ -290,6 +309,8 @@ export class GrChangeListSection extends LitElement {
       <tr
         class=${classMap({
           groupTitle: true,
+          narrowVotes:
+            !showBulkActionsHeader && (this.labelNames?.length ?? 0) > 0,
           showSelectionBorder: showBulkActionsHeader,
         })}
       >

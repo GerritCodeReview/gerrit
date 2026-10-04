@@ -389,6 +389,21 @@ export class GrChangeListItem extends LitElement {
             min-width: 0;
             max-width: 100%;
           }
+          .repo {
+            flex: 1 0 6rem;
+            min-width: 0;
+            max-width: 100%;
+          }
+          .repo a {
+            white-space: normal;
+            overflow-wrap: anywhere;
+          }
+          .repo .truncatedRepo {
+            display: none;
+          }
+          .repo .fullRepo {
+            display: block;
+          }
           .cell.votes {
             display: flex;
             flex-wrap: wrap;

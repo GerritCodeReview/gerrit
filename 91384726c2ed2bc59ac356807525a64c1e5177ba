@@ -16,6 +16,24 @@
       "message": "Need to have this above Change-Id. There cannot be a space.",
       "revId": "91384726c2ed2bc59ac356807525a64c1e5177ba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "29356aed_a89086ad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1010246
+      },
+      "writtenOn": "2026-10-05T20:30:18Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "a80d080c_f82605c4",
+      "revId": "91384726c2ed2bc59ac356807525a64c1e5177ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,5 +1,29 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "523ff59a_794a23f0",
+        "filename": ".bazelrc",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-05T14:28:31Z",
+      "side": 1,
+      "message": "This has created instability today: there is an increasing number of workers created and left inactive, causing the accumulation of hundreds of containers.\n\nI\u0027ve tried now to limit the number of persistent workers to 50 and run the executors as:\n\n```\n docker run -d \\\n    --mount type\u003dbind,source\u003d/var/run/docker.sock,target\u003d/var/run/docker.sock \\\n    --volume /tmp/buildbuddy:/buildbuddy \\\n    $IMAGE \\\n    --executor.docker_socket\u003d/var/run/docker.sock \\\n    --executor.host_root_directory\u003d/tmp/buildbuddy \\\n    --executor.app_target\u003dgrpcs://gerritforge.buildbuddy.io \\\n    --executor.runner_pool.max_runner_count\u003d50 \\\n    --executor.api_key\u003d$BB_KEY\n```\n\nLet\u0027s see if the situation improves.",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 55
+      },
+      "revId": "e7e97e5249aa7397629223512cec1f38cc9d58e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {

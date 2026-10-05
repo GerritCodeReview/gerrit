@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3ec67ea6_07fc8167",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1148215
+      },
+      "writtenOn": "2026-10-05T11:04:34Z",
+      "side": 1,
+      "message": "I am no longer a maintainer on Gerrit. Please find a different reviewer",
+      "revId": "99c54fbc27f1c9ad009a66647b455624a311cca9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

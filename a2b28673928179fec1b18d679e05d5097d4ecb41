@@ -16,6 +16,24 @@
       "message": "We should also do this for the same setup as `conflictsForChangeStackedOnOpenChangeWithRealConflict()` to show the case where there\u0027s a real conflict too. i.e. same as L3502-3519, then swap the last two lines:\n```\n    assertQuery(\"conflicts:\" + change2.getId().get(), change3);\n    assertQuery(\"conflicts:\" + change3.getId().get(), change2);\n```",
       "revId": "a2b28673928179fec1b18d679e05d5097d4ecb41",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "17eb31a4_57a399ae",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3525,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-10-05T11:24:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3484c8bb_11e14181",
+      "revId": "a2b28673928179fec1b18d679e05d5097d4ecb41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

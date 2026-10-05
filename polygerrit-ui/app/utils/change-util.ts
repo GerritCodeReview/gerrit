@@ -16,8 +16,8 @@ import {
 import {ParsedChangeInfo} from '../types/types';
 import {getUserId, isServiceUser} from './account-util';
 
-interface ChangeStatusesOptions {
-  mergeable: boolean;
+export interface ChangeStatusesOptions {
+  mergeable?: boolean;
   /** Is there a reverting change and if so, what status has it? */
   revertingChangeStatus?: ChangeStatus;
 }

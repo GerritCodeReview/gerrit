@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4adfc13_57c8dd10",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 8168,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-10-05T09:32:03Z",
+      "side": 1,
+      "message": "Can you clarify? does this mean these fields will be part of this response?",
+      "range": {
+        "startLine": 8168,
+        "startChar": 33,
+        "endLine": 8168,
+        "endChar": 65
+      },
+      "revId": "88923b3016570cae56c2083c87f1f87ef6871c08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

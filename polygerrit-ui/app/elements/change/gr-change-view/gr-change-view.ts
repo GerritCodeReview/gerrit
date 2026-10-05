@@ -1838,7 +1838,9 @@ export class GrChangeView extends LitElement {
   }
 
   private computeChangeStatusChips() {
-    if (!this.change || this.mergeable === undefined) return [];
+    if (!this.change) {
+      return [];
+    }
 
     const options = {
       mergeable: this.mergeable,
@@ -2436,7 +2438,7 @@ export class GrChangeView extends LitElement {
     const classes = ['header'];
     const status = this.computeChangeStatusChips()?.[0];
     if (status) {
-      classes.push(status.toLowerCase());
+      classes.push(status.toLowerCase().replaceAll(' ', '-'));
     }
     if (this.editMode) {
       classes.push('editMode');

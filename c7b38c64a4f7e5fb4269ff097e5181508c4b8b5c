@@ -16,6 +16,23 @@
       "message": "Needs a googler to review because of changing the API.",
       "revId": "c7b38c64a4f7e5fb4269ff097e5181508c4b8b5c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "301fca55_f7d2a6fb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-10-05T20:42:36Z",
+      "side": 1,
+      "message": "IMHO we don\u0027t need to add complexity by adding new settings for narrow screens. Usage is very low for narrow screens from our data. Maybe better css rules, smaller other columns would be better. I am not blocking, just my opinion",
+      "revId": "c7b38c64a4f7e5fb4269ff097e5181508c4b8b5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -57,6 +57,7 @@ public class InitModule extends FactoryModule {
     step().to(InitGitManager.class);
     step().to(InitJGitConfig.class);
     step().to(InitLogging.class);
+    step().to(InitJdkOptions.class);
     step().to(InitIndex.class);
     step().to(InitAuth.class);
     step().to(InitAdminUser.class);

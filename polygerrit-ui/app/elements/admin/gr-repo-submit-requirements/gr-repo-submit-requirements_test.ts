@@ -36,6 +36,9 @@ suite('gr-repo-submit-requirements tests', () => {
           },
         ] as SubmitRequirementInfo[])
       );
+      stubRestApi('getRepoSubmitRequirementTemplates').returns(
+        Promise.resolve([] as SubmitRequirementInfo[])
+      );
       element.repo = 'test' as RepoName;
     });
 
@@ -181,17 +184,6 @@ suite('gr-repo-submit-requirements tests', () => {
             <gr-dialog>
               <div class="header" slot="header">Create Submit Requirement</div>
               <div class="main" slot="main">
-                <div class="template-action-row">
-                  <gr-button
-                    aria-disabled="false"
-                    class="action select-from-template"
-                    link=""
-                    role="button"
-                    tabindex="0"
-                  >
-                    Select from Template
-                  </gr-button>
-                </div>
                 <div class="gr-form-styles">
               <div id="form">
                 <section>
@@ -393,6 +385,49 @@ suite('gr-repo-submit-requirements tests', () => {
       </gr-repo-submit-requirements-template-dialog>
     `
       );
+    });
+
+    test('select from template button is shown when templates exist', async () => {
+      await waitEventLoop();
+      element.isProjectOwner = true;
+      element.submitRequirementTemplates = [
+        {name: 'Template-Verified'} as SubmitRequirementInfo,
+      ];
+      await element.updateComplete;
+
+      // Open the create dialog
+      const createDialog = queryAndAssert<HTMLDialogElement>(
+        element,
+        '#createDialog'
+      );
+      createDialog.showModal();
+      await element.updateComplete;
+
+      const selectFromTemplateBtn = queryAndAssert<GrButton>(
+        element,
+        '.select-from-template'
+      );
+      assert.isOk(selectFromTemplateBtn);
+    });
+
+    test('select from template button is hidden when no templates exist', async () => {
+      await waitEventLoop();
+      element.isProjectOwner = true;
+      // submitRequirementTemplates is empty by default (no templates returned in setup)
+      await element.updateComplete;
+
+      // Open the create dialog
+      const createDialog = queryAndAssert<HTMLDialogElement>(
+        element,
+        '#createDialog'
+      );
+      createDialog.showModal();
+      await element.updateComplete;
+
+      const selectFromTemplateBtn = element.shadowRoot?.querySelector(
+        '.select-from-template'
+      );
+      assert.isNull(selectFromTemplateBtn);
     });
 
     test('template-selected event pre-populates create form', async () => {

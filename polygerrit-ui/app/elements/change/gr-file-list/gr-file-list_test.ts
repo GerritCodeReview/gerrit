@@ -1815,7 +1815,7 @@ suite('gr-file-list tests', () => {
       element.editMode = false;
       assert.equal(
         element.computeDiffURL(path),
-        '/c/gerrit/+/42/1//COMMIT_MSG'
+        '/c/gerrit/+/42/1/%2FCOMMIT_MSG'
       );
     });
 
@@ -1858,7 +1858,7 @@ suite('gr-file-list tests', () => {
       const path = '/COMMIT_MSG';
       assert.equal(
         element.computeDiffURL(path),
-        '/c/gerrit/+/42/1//COMMIT_MSG,edit'
+        '/c/gerrit/+/42/1/%2FCOMMIT_MSG,edit'
       );
     });
   });

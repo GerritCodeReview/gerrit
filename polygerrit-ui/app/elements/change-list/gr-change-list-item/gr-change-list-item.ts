@@ -204,6 +204,9 @@ export class GrChangeListItem extends LitElement {
     this.checked = selectedChangeNums.includes(this.change._number);
   }
 
+  @property({type: Array})
+  narrowLabels?: string[];
+
   static override get styles() {
     return [
       formStyles,
@@ -222,6 +225,9 @@ export class GrChangeListItem extends LitElement {
         :host([checked]),
         :host(:hover) {
           background-color: var(--hover-background-color);
+        }
+        .labelOverflow {
+          display: none;
         }
         .change-header,
         .change-metadata,
@@ -389,15 +395,36 @@ export class GrChangeListItem extends LitElement {
             min-width: 0;
             max-width: 100%;
           }
+          .repo {
+            flex: 1 0 6rem;
+            min-width: 0;
+            max-width: 100%;
+          }
+          .repo a {
+            white-space: normal;
+            overflow-wrap: anywhere;
+          }
+          .repo .truncatedRepo {
+            display: none;
+          }
+          .repo .fullRepo {
+            display: block;
+          }
           .cell.votes {
             display: flex;
-            flex-wrap: wrap;
             justify-content: flex-end;
             margin-left: auto;
             max-width: 100%;
             gap: var(--spacing-s);
           }
           /* Keep absent labels in their slots, so columns stay aligned. */
+          .cell.label.narrowHidden {
+            display: none;
+          }
+          .cell.label.labelOverflow {
+            display: flex;
+            justify-content: center;
+          }
           .cell.label {
             flex: 0 0 24px;
             width: 24px;
@@ -427,6 +454,18 @@ export class GrChangeListItem extends LitElement {
           ${this.labelNames?.map(labelName =>
             this.renderChangeLabels(labelName)
           )}
+          ${this.narrowLabels &&
+          (this.labelNames?.length ?? 0) > this.narrowLabels.length
+            ? html`<td
+                class="cell label labelOverflow"
+                title=${this.labelNames
+                  ?.filter(name => !this.narrowLabels!.includes(name))
+                  .join(', ')}
+                style="order: ${this.narrowLabels.length}"
+              >
+                …
+              </td>`
+            : ''}
         </div>
         ${this.dynamicCellEndpoints?.map(pluginEndpointName =>
           this.renderChangePluginEndpoint(pluginEndpointName)
@@ -689,7 +728,13 @@ export class GrChangeListItem extends LitElement {
   }
 
   private renderChangeLabels(labelName: string) {
-    return html` <td class="cell label requirement">
+    return html` <td
+      class="cell label requirement ${this.narrowLabels &&
+      !this.narrowLabels.includes(labelName)
+        ? 'narrowHidden'
+        : ''}"
+      style="order: ${this.narrowLabels?.indexOf(labelName) ?? 0}"
+    >
       <gr-change-list-column-requirement
         .change=${this.change}
         .labelName=${labelName}

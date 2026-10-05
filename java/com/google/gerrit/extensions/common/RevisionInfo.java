@@ -15,6 +15,7 @@
 package com.google.gerrit.extensions.common;
 
 import com.google.gerrit.extensions.client.ChangeKind;
+import com.google.gerrit.extensions.client.ChangeStatus;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.List;
@@ -153,7 +154,7 @@ public class RevisionInfo {
      * If the parent commit is a patch-set of another gerrit change, this field will hold the change
      * status of the parent change. Otherwise, will be null.
      */
-    public String changeStatus;
+    public ChangeStatus changeStatus;
 
     @Override
     public boolean equals(Object o) {

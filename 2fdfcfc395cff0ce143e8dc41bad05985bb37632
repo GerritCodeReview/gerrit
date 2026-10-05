@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "293ac79a_205bd183",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-10-05T09:13:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6359f32a_9962b4a1",
+      "revId": "2fdfcfc395cff0ce143e8dc41bad05985bb37632",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0d84604e_72e444ff",
@@ -31,6 +49,30 @@
       "writtenOn": "2026-09-15T11:59:49Z",
       "side": 1,
       "message": "had or still has? According to the documentation this is still available.",
+      "range": {
+        "startLine": 9,
+        "startChar": 7,
+        "endLine": 9,
+        "endChar": 10
+      },
+      "revId": "2fdfcfc395cff0ce143e8dc41bad05985bb37632",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "22743c68_72142a49",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-10-05T09:13:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d84604e_72e444ff",
       "range": {
         "startLine": 9,
         "startChar": 7,
@@ -107,6 +149,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "92366d5d_5aa40cfe",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2078,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-10-05T09:13:20Z",
+      "side": 1,
+      "message": "Sending URL-parameters in a POST request is not a typical pattern. One would rather put it into `SubmitInput`. That could be done, since there is a clear default and would thus not be a breaking API change. However, the issue would be the `getDescription()` method, which currently seems to allow just having one UI action bound to a REST API endpoint. This could be solved however by having a checkbox in a dialog after pressing submit.\nTBH, I am not sure what would be the best solution here. I chose the current one, since it adds a button that is basically the same for the user as the one for the enforced topic submission.",
+      "parentUuid": "3299f85f_3e584dc3",
+      "revId": "2fdfcfc395cff0ce143e8dc41bad05985bb37632",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b5f3ec61_1ea729a1",
         "filename": "java/com/google/gerrit/server/restapi/change/ChangeRestApiModule.java",
         "patchSetId": 6
@@ -118,6 +178,24 @@
       "writtenOn": "2026-09-15T10:13:01Z",
       "side": 1,
       "message": "should this TODO be added as part of this change?",
+      "revId": "2fdfcfc395cff0ce143e8dc41bad05985bb37632",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7d97a203_cf49a87a",
+        "filename": "java/com/google/gerrit/server/restapi/change/ChangeRestApiModule.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-10-05T09:13:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b5f3ec61_1ea729a1",
       "revId": "2fdfcfc395cff0ce143e8dc41bad05985bb37632",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -135,6 +213,24 @@
       "writtenOn": "2026-09-15T10:13:01Z",
       "side": 1,
       "message": "Comment block is confusing- references commented-out code, and this is a new file so it\u0027s lost history if relevant. Unsure what\u0027s still needed. Maybe replace whole block? Something like\n\n// Mergeability is computed by unmergeableChanges() in problemsForSubmittingChangeset\n// before this point, so it\u0027s safe to read the cached value here",
+      "revId": "2fdfcfc395cff0ce143e8dc41bad05985bb37632",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1598a694_b636a0fe",
+        "filename": "java/com/google/gerrit/server/restapi/change/SubmitWholeTopic.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-10-05T09:13:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16dfbf08_ed6f5c30",
       "revId": "2fdfcfc395cff0ce143e8dc41bad05985bb37632",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

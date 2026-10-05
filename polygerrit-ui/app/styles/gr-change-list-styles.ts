@@ -39,7 +39,7 @@ export const changeListStyles = css`
     vertical-align: middle;
   }
   .groupTitle td:not(.label):not(.endpoint):not(.star),
-  .cell:not(.label):not(.endpoint):not(.star) {
+  .cell:not(.label):not(.endpoint):not(.star):not(.votes) {
     padding-right: 8px;
   }
   .groupTitle td {
@@ -149,6 +149,50 @@ export const changeListStyles = css`
       max-width: 10rem;
     }
   }
+  @media only screen and (min-width: 50.001em) and (max-width: 80em) {
+    .repo,
+    .branch {
+      white-space: normal;
+    }
+    .repo a,
+    .branch a {
+      white-space: normal;
+      overflow-wrap: anywhere;
+    }
+    .repo a {
+      width: 8rem;
+      max-width: 8rem;
+    }
+    .branch a {
+      display: inline-block;
+      max-width: 6rem;
+    }
+    .repo .truncatedRepo,
+    .branch a {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 3;
+      overflow: hidden;
+    }
+  }
+  @media only screen and (min-width: 50.001em) and (max-width: 64em) {
+    .repo a {
+      width: 6rem;
+      max-width: 6rem;
+    }
+    .branch a {
+      max-width: 4rem;
+    }
+  }
+  @media only screen and (min-width: 50.001em) and (max-width: 56em) {
+    .repo a {
+      width: 4rem;
+      max-width: 4rem;
+    }
+    .branch a {
+      max-width: 3rem;
+    }
+  }
   @media only screen and (max-width: 50em) {
     :host {
       font-family: var(--header-font-family);
@@ -185,7 +229,6 @@ export const changeListStyles = css`
     .leftPadding,
     .selection,
     .status,
-    .repo,
     .branch,
     .hashtags,
     .updated,

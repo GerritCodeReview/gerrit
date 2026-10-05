@@ -479,7 +479,12 @@ suite('gr-change-list-item tests', () => {
           >
             test-project
           </a>
-          <a href="/q/project:test-project+branch:test-branch"> test-branch </a>
+          <a
+            href="/q/project:test-project+branch:test-branch"
+            title="test-branch"
+          >
+            test-branch
+          </a>
           <gr-date-formatter withtooltip=""></gr-date-formatter>
           <gr-date-formatter withtooltip=""></gr-date-formatter>
           <gr-date-formatter

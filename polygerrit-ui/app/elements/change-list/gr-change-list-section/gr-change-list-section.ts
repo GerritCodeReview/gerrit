@@ -124,6 +124,91 @@ export class GrChangeListSection extends LitElement {
 
   private isLoggedIn = false;
 
+  @state()
+  private narrowLabelCapacity = Infinity;
+
+  private labelResizeObserver?: ResizeObserver;
+
+  private labelResizeFrame = 0;
+
+  @state()
+  private listWidth = Infinity;
+
+  @state()
+  private separateVotes = false;
+
+  private voteLayoutFrame = 0;
+
+  override connectedCallback() {
+    super.connectedCallback();
+    this.updateComplete.then(() => {
+      if (!this.isConnected) return;
+      const list = (this.getRootNode() as ShadowRoot).host;
+      if (!(list instanceof HTMLElement)) return;
+      this.labelResizeObserver = new ResizeObserver(() => {
+        // Match the row padding, 24px slots and 2px gaps on narrow screens.
+        const capacity = Math.max(
+          1,
+          Math.floor((list.clientWidth - 24 + 2) / 26)
+        );
+        if (
+          capacity === this.narrowLabelCapacity &&
+          list.clientWidth === this.listWidth
+        )
+          return;
+        cancelAnimationFrame(this.labelResizeFrame);
+        this.labelResizeFrame = requestAnimationFrame(() => {
+          this.narrowLabelCapacity = capacity;
+          this.listWidth = list.clientWidth;
+        });
+      });
+      this.labelResizeObserver.observe(list);
+    });
+  }
+
+  override disconnectedCallback() {
+    this.labelResizeObserver?.disconnect();
+    cancelAnimationFrame(this.labelResizeFrame);
+    cancelAnimationFrame(this.voteLayoutFrame);
+    super.disconnectedCallback();
+  }
+
+  override updated(changedProperties: PropertyValues) {
+    if (
+      !changedProperties.has('listWidth') &&
+      !changedProperties.has('labelNames') &&
+      !changedProperties.has('changeSection') &&
+      !changedProperties.has('visibleChangeTableColumns') &&
+      !changedProperties.has('showNumber')
+    )
+      return;
+    // Measure the inline table again when the width or label set changes.
+    this.updateComplete.then(() => {
+      cancelAnimationFrame(this.voteLayoutFrame);
+      this.voteLayoutFrame = requestAnimationFrame(() => {
+        if (!this.isConnected || this.listWidth <= 800 || this.listWidth > 1280)
+          return;
+        const list = (this.getRootNode() as ShadowRoot).host;
+        if (!(list instanceof HTMLElement)) return;
+        this.separateVotes = list.scrollWidth > list.clientWidth;
+      });
+    });
+  }
+
+  private get narrowLabels() {
+    const labels = [...(this.labelNames ?? [])];
+    const priority = ['Code-Review', 'Verified'];
+    labels.sort((a, b) => {
+      const rank = (name: string) => {
+        const index = priority.indexOf(name);
+        return index < 0 ? priority.length : index;
+      };
+      return rank(a) - rank(b);
+    });
+    const capacity = this.narrowLabelCapacity;
+    return labels.slice(0, labels.length > capacity ? capacity - 1 : capacity);
+  }
+
   static override get styles() {
     return [
       sharedStyles,
@@ -174,6 +259,76 @@ export class GrChangeListSection extends LitElement {
         .selection:has(.loadingSpin):not(:has(md-checkbox)) {
           padding-right: 4px !important;
         }
+        .groupTitle.separateVotes .label {
+          display: none;
+        }
+        .separateVoteSlots {
+          display: flex;
+          justify-content: flex-end;
+          gap: 2px;
+        }
+        .voteRow > td,
+        .voteHeaderRow > td {
+          padding: var(--spacing-s) var(--spacing-m);
+        }
+        .voteRow > td {
+          border-top: none;
+        }
+        .voteRow:last-child {
+          --last-border-bottom: 1px solid var(--border-color);
+          --last-border-radius: 4px;
+        }
+        gr-change-list-item:hover + .voteRow,
+        gr-change-list-item[checked] + .voteRow {
+          background-color: var(--hover-background-color);
+        }
+        gr-change-list-item[selected] + .voteRow,
+        gr-change-list-item:focus + .voteRow {
+          background-color: var(--selection-background-color);
+        }
+        gr-change-list-item[highlight] + .voteRow {
+          background-color: var(--line-item-highlight-color);
+        }
+        gr-change-list-item[highlight][selected] + .voteRow,
+        gr-change-list-item[highlight]:focus + .voteRow {
+          background-color: var(--line-item-highlight-selection-color);
+        }
+        .voteHeaderRow {
+          color: var(--deemphasized-text-color);
+          font-size: var(--font-size-small);
+        }
+        .voteSlot {
+          flex: 0 0 24px;
+          width: 24px;
+          text-align: center;
+        }
+        .labelOverflow {
+          display: none;
+        }
+        @media only screen and (max-width: 50em) {
+          .groupTitle.narrowVotes {
+            display: flex;
+            justify-content: flex-end;
+            gap: var(--spacing-s);
+            padding: var(--spacing-xs) var(--spacing-m);
+            font-size: var(--font-size-small);
+          }
+          .groupTitle .labelOverflow {
+            display: block;
+          }
+          .groupTitle td:not(.label) {
+            display: none;
+          }
+          .groupTitle td.label.narrowHidden {
+            display: none;
+          }
+          .groupTitle td.label {
+            flex: 0 0 24px;
+            width: 24px;
+            padding: 0;
+            border: none;
+          }
+        }
       `,
     ];
   }
@@ -208,6 +363,15 @@ export class GrChangeListSection extends LitElement {
   }
 
   override willUpdate(changedProperties: PropertyValues) {
+    if (
+      changedProperties.has('listWidth') ||
+      changedProperties.has('labelNames') ||
+      changedProperties.has('changeSection') ||
+      changedProperties.has('visibleChangeTableColumns') ||
+      changedProperties.has('showNumber')
+    ) {
+      this.separateVotes = false;
+    }
     if (changedProperties.has('changeSection') && this.isLoggedIn) {
       // In case the list of changes is updated due to auto reloading, we want
       // to ensure the model removes any stale change that is not a part of the
@@ -218,7 +382,9 @@ export class GrChangeListSection extends LitElement {
 
   override render() {
     const columns = this.computeColumns();
-    const colSpan = this.computeColspan(columns);
+    const colSpan =
+      this.computeColspan(columns) -
+      (this.separateVotes ? this.labelNames?.length ?? 0 : 0);
     return html`
       <tbody>
         <tr class="groupGap"></tr>
@@ -228,11 +394,62 @@ export class GrChangeListSection extends LitElement {
         ${this.isEmpty()
           ? this.renderNoChangesRow(colSpan)
           : this.renderColumnHeaders(columns)}
-        ${this.changeSection.results.map((change, index) =>
-          this.renderChangeRow(change, index, columns)
+        ${this.separateVotes && !this.isEmpty()
+          ? this.renderSeparateVotesHeader(colSpan)
+          : ''}
+        ${this.changeSection.results.map(
+          (change, index) => html`
+            ${this.renderChangeRow(change, index, columns)}
+            ${this.separateVotes
+              ? this.renderSeparateVotes(change, colSpan)
+              : ''}
+          `
         )}
       </tbody>
     `;
+  }
+
+  private renderSeparateVotesHeader(colSpan: number) {
+    return html`<tr class="voteHeaderRow">
+      <td colspan=${colSpan}>
+        <div class="separateVoteSlots">
+          ${this.narrowLabels.map(
+            name =>
+              html`<span class="voteSlot" title=${name}
+                >${computeLabelShortcut(name)}</span
+              >`
+          )}
+          ${this.renderSeparateOverflow()}
+        </div>
+      </td>
+    </tr>`;
+  }
+
+  private renderSeparateVotes(change: ChangeInfo, colSpan: number) {
+    return html`<tr class="voteRow">
+      <td colspan=${colSpan}>
+        <div class="separateVoteSlots">
+          ${this.narrowLabels.map(
+            name => html`<span class="voteSlot">
+              <gr-change-list-column-requirement
+                .change=${change}
+                .labelName=${name}
+              ></gr-change-list-column-requirement>
+            </span>`
+          )}
+          ${this.renderSeparateOverflow()}
+        </div>
+      </td>
+    </tr>`;
+  }
+
+  private renderSeparateOverflow() {
+    const omitted = this.labelNames.filter(
+      name => !this.narrowLabels.includes(name)
+    );
+    return omitted.length > 0
+      ? html`<span class="voteSlot" title=${omitted.join(', ')}>…</span>`
+      : '';
   }
 
   private renderNoChangesRow(colSpan: number) {
@@ -290,6 +507,9 @@ export class GrChangeListSection extends LitElement {
       <tr
         class=${classMap({
           groupTitle: true,
+          separateVotes: this.separateVotes,
+          narrowVotes:
+            !showBulkActionsHeader && (this.labelNames?.length ?? 0) > 0,
           showSelectionBorder: showBulkActionsHeader,
         })}
       >
@@ -307,6 +527,17 @@ export class GrChangeListSection extends LitElement {
               ${this.labelNames?.map(labelName =>
                 this.renderLabelHeader(labelName)
               )}
+              ${this.labelNames?.length > this.narrowLabels.length
+                ? html`<td
+                    class="label labelOverflow"
+                    title=${this.labelNames
+                      .filter(name => !this.narrowLabels.includes(name))
+                      .join(', ')}
+                    style="order: ${this.narrowLabels.length}"
+                  >
+                    …
+                  </td>`
+                : ''}
               ${this.dynamicHeaderEndpoints?.map(pluginHeader =>
                 this.renderEndpointHeader(pluginHeader)
               )}`}
@@ -345,7 +576,13 @@ export class GrChangeListSection extends LitElement {
 
   private renderLabelHeader(labelName: string) {
     return html`
-      <td class="label" title=${labelName}>
+      <td
+        class="label ${this.narrowLabels.includes(labelName)
+          ? ''
+          : 'narrowHidden'}"
+        title=${labelName}
+        style="order: ${this.narrowLabels.indexOf(labelName)}"
+      >
         ${computeLabelShortcut(labelName)}
       </td>
     `;
@@ -379,6 +616,8 @@ export class GrChangeListSection extends LitElement {
         .showNumber=${!!this.showNumber}
         .usp=${this.usp}
         .labelNames=${this.labelNames}
+        .narrowLabels=${this.narrowLabels}
+        .separateVotes=${this.separateVotes}
         .globalIndex=${this.startIndex + index}
         .triggerSelectionCallback=${this.triggerSelectionCallback}
         aria-label=${ariaLabel}

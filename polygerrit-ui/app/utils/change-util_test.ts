@@ -81,6 +81,14 @@ suite('change-util tests', () => {
     change.submittable = true;
     statuses = changeStatuses(change, {mergeable: false});
     assert.deepEqual(statuses, [ChangeStates.MERGE_CONFLICT]);
+
+    change.submittable = false;
+    statuses = changeStatuses(change, {mergeable: undefined});
+    assert.deepEqual(statuses, [ChangeStates.ACTIVE]);
+
+    change.submittable = true;
+    statuses = changeStatuses(change, {mergeable: undefined});
+    assert.deepEqual(statuses, [ChangeStates.READY_TO_SUBMIT]);
   });
 
   test('Git conflict', () => {
@@ -138,6 +146,13 @@ suite('change-util tests', () => {
       changeStatuses(change, {
         revertingChangeStatus: ChangeStatus.MERGED,
         mergeable: true,
+      }),
+      [ChangeStates.MERGED, ChangeStates.REVERT_SUBMITTED]
+    );
+    assert.deepEqual(
+      changeStatuses(change, {
+        revertingChangeStatus: ChangeStatus.MERGED,
+        mergeable: undefined,
       }),
       [ChangeStates.MERGED, ChangeStates.REVERT_SUBMITTED]
     );

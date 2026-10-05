@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "afe37b0d_1e77a5b3",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1161,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-10-05T11:22:42Z",
+      "side": 1,
+      "message": "Sounds good!",
+      "parentUuid": "737f54fc_655b70fe",
+      "range": {
+        "startLine": 1161,
+        "startChar": 18,
+        "endLine": 1161,
+        "endChar": 28
+      },
+      "revId": "d725cdf005d2b7953d367ad690bf87d5d16c9885",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b36c85bf_80cb681e",
@@ -85,6 +109,30 @@
       "side": 1,
       "message": "Same background here: `FieldJson` is the current nested Java DTO name. I agree that `FieldInfo` would still be too generic, so in the follow-up rename I would use `MetricFieldInfo`.",
       "parentUuid": "b36c85bf_80cb681e",
+      "range": {
+        "startLine": 2961,
+        "startChar": 4,
+        "endLine": 2961,
+        "endChar": 13
+      },
+      "revId": "d725cdf005d2b7953d367ad690bf87d5d16c9885",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2dd07e31_c79c0868",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2961,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-10-05T11:22:42Z",
+      "side": 1,
+      "message": "Yep makes sense",
+      "parentUuid": "f881d095_016819aa",
       "range": {
         "startLine": 2961,
         "startChar": 4,

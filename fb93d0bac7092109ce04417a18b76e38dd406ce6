@@ -12,9 +12,9 @@
       "state": "FAILED",
       "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-chrome-latest/48986/console",
       "started": "2026-10-05T13:10:56Z",
-      "finished": "2026-10-05T13:12:04Z",
+      "finished": "2026-10-05T13:12:07Z",
       "created": "2026-10-05T13:08:22Z",
-      "updated": "2026-10-05T13:12:04Z"
+      "updated": "2026-10-05T13:12:09Z"
     },
     "gerritforge:rbe-a6a0e4682515f3521897c5f950d1394f4619d928": {
       "state": "FAILED",

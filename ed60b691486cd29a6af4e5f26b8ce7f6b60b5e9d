@@ -16,6 +16,24 @@
       "message": "As noted in the first change in this series, this isn\u0027t true for CHERRY_PICK, so we shouldn\u0027t be trying to \"fix it\".",
       "revId": "ed60b691486cd29a6af4e5f26b8ce7f6b60b5e9d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1532f0f3_7e1d9d5d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-10-05T11:24:35Z",
+      "side": 1,
+      "message": "Agreed, the conflict is real with CHERRY_PICK. Dropped the ancestor special case. The remaining bug was that ConflictKey treats the cherry-pick check as symmetric, so results depended on query order. The key now keeps the commit order for CHERRY_PICK, as for FAST_FORWARD_ONLY",
+      "parentUuid": "537942b7_f21c7703",
+      "revId": "ed60b691486cd29a6af4e5f26b8ce7f6b60b5e9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

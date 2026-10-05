@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f5d5ed8_8652ea8f",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 439,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-10-05T08:40:08Z",
+      "side": 1,
+      "message": "HttpConfiguration applies customizers in registration order. ForwardedRequestCustomizer sets the remote address from\n X-Forwarded-For; then ProxyCustomizer overwrites it with data from the PROXY protocol EndPoint attributes. This means\n PROXY protocol data takes precedence, directly contradicting the documentation:\n\n \u003e \"If both a PROXY protocol header and X-Forwarded-For are present, the X-Forwarded-For header takes precedence for the\n  client address.\"",
+      "range": {
+        "startLine": 437,
+        "startChar": 0,
+        "endLine": 439,
+        "endChar": 9
+      },
+      "revId": "d5e6aec46c8c3f9b2d216814d61f4198f5a5895f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d1495952_b7b2ec1e",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 505,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-10-05T08:40:08Z",
+      "side": 1,
+      "message": "Annotate with `@VisibleForTesting`",
+      "revId": "d5e6aec46c8c3f9b2d216814d61f4198f5a5895f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "022cf03b_bfab3807",
+        "filename": "javatests/com/google/gerrit/acceptance/server/httpd/JettyProxyProtocolIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-10-05T08:40:08Z",
+      "side": 1,
+      "message": "Maybe add a test that verifies teh behaviour when a PROXY request is being sent with this being disabled.",
+      "revId": "d5e6aec46c8c3f9b2d216814d61f4198f5a5895f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33495165_0b2a72ac",
+        "filename": "javatests/com/google/gerrit/acceptance/server/httpd/JettyProxyProtocolIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-10-05T08:40:08Z",
+      "side": 1,
+      "message": "This is at least present in one other test. It would be good to have that in a utility class for reuse.",
+      "range": {
+        "startLine": 104,
+        "startChar": 0,
+        "endLine": 108,
+        "endChar": 3
+      },
+      "revId": "d5e6aec46c8c3f9b2d216814d61f4198f5a5895f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

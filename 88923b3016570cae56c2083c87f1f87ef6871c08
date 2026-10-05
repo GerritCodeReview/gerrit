@@ -22,6 +22,30 @@
       },
       "revId": "88923b3016570cae56c2083c87f1f87ef6871c08",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "790b6815_f7f1721d",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 8168,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-05T10:55:08Z",
+      "side": 1,
+      "message": "Yes, when a plugin returns a subclass of `PluginDefinedInfo`.\n\nThe base DTO has only `name` and `message`, but the extension point explicitly allows plugins to subclass it. This is covered by tests too: `ChangeMetaIT` defines `MyMetaHash extends PluginDefinedInfo` with an extra `myMetaRef` field and asserts that the REST response contains it as `my_meta_ref`.\n\nI’ll clarify the text so the table is described as the common/base fields, while plugin-specific subclasses may add additional fields.",
+      "parentUuid": "a4adfc13_57c8dd10",
+      "range": {
+        "startLine": 8168,
+        "startChar": 33,
+        "endLine": 8168,
+        "endChar": 65
+      },
+      "revId": "88923b3016570cae56c2083c87f1f87ef6871c08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

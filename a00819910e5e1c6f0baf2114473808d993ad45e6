@@ -22,6 +22,30 @@
       },
       "revId": "a00819910e5e1c6f0baf2114473808d993ad45e6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc84c11f_90a7ba63",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1019,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-05T11:32:38Z",
+      "side": 1,
+      "message": "Good point. I’ll document both as `404 Not Found`.",
+      "parentUuid": "bf74d120_84937322",
+      "range": {
+        "startLine": 1018,
+        "startChar": 0,
+        "endLine": 1019,
+        "endChar": 27
+      },
+      "revId": "a00819910e5e1c6f0baf2114473808d993ad45e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

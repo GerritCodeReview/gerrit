@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1bb885a_2766ec9d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-10-05T10:29:46Z",
+      "side": 1,
+      "message": "Nit: removing the generated `-XX:+UseCompactObjectHeaders` entry is not really a durable opt-out.\nThe next invocation of Gerrit init will see no flag and will add it again.\n\nI think we should document that adding an explicit `-XX:-UseCompactObjectHeaders` is required for a persistent opt-out. WDYT?",
+      "range": {
+        "startLine": 16,
+        "startChar": 46,
+        "endLine": 17,
+        "endChar": 39
+      },
+      "revId": "7e0906cb8f045c6b4edebc940bcc338ca4c33ea6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca1c5688_43685840",
+        "filename": "java/com/google/gerrit/pgm/init/InitJdkOptions.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-10-05T10:29:46Z",
+      "side": 1,
+      "message": "This name feels a bit broad for something that currently handles one very specific option.\n\nIf the idea is to reuse this class for other JDK options in the future, then I would avoid documenting only `UseCompactObjectHeaders` at the class level.\n\nOtherwise, maybe give it a narrower name that is specific to `UseCompactObjectHeaders`?",
+      "range": {
+        "startLine": 32,
+        "startChar": 13,
+        "endLine": 32,
+        "endChar": 27
+      },
+      "revId": "7e0906cb8f045c6b4edebc940bcc338ca4c33ea6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa12a70d_8081ac29",
+        "filename": "java/com/google/gerrit/pgm/init/InitJdkOptions.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-10-05T10:29:46Z",
+      "side": 1,
+      "message": "The flag is enabled on every `JDK \u003e\u003d 25`, not only JDK 25, as the commit message says.\nFor example, this would enable it even if Gerrit was already running on JDK 27 already, which, as you mention, enables compact object headers by default so it would be redundant.\n\nDid you mean to enable it _only_ for JDK 25?\n\n```\nif (Runtime.version().feature() !\u003d 25) {\n  return;\n}\n```\n\nIf JDK 26 also requires Gerrit to enable it, we should document it accordingly.",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 5
+      },
+      "revId": "7e0906cb8f045c6b4edebc940bcc338ca4c33ea6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

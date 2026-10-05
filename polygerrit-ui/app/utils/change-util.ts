@@ -16,8 +16,8 @@ import {
 import {ParsedChangeInfo} from '../types/types';
 import {getUserId, isServiceUser} from './account-util';
 
-interface ChangeStatusesOptions {
-  mergeable: boolean;
+export interface ChangeStatusesOptions {
+  mergeable?: boolean;
   /** Is there a reverting change and if so, what status has it? */
   revertingChangeStatus?: ChangeStatus;
 }
@@ -139,7 +139,7 @@ export function changeStatuses(
     return states;
   }
 
-  if (change.submittable) {
+  if (change.submittable && options.mergeable !== undefined) {
     states.push(ChangeStates.READY_TO_SUBMIT);
   }
   if (states.length === 0) {

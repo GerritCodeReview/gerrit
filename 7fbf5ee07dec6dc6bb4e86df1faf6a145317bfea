@@ -101,6 +101,23 @@
       "message": "This change 517104 introduced a known deadlock (Issue 451182462).\n\nRoot cause: Caffeine 3.1.8 holds a global lock on the whole cache during \nits internal maintenance task to evict expired entries (see \nhttps://github.com/ben-manes/caffeine/issues/672). In Gerrit, some caches \nlike diff cache have expensive loading functions, so fetch + eviction \ndeadlock on the global eviction lock.\n\nGerritHub.io went into deadlock after this upgrade. Reverting via \nhttps://gerrit-review.googlesource.com/c/gerrit/+/533961 fixed it.\n\nRecommendation: Do NOT use 3.1.8. Upgrade directly to 3.2.2 where this \nis fixed. This pattern is now detected by Zayed Shield scanner \n(CVE-2026-73802 / Issue 451182462).\n\nBug Hunter: المحارب nike49424\nProject: Zayed Shield - Presidential Office",
       "revId": "7fbf5ee07dec6dc6bb4e86df1faf6a145317bfea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f8251456_e3b75f04",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3894415
+      },
+      "writtenOn": "2026-10-05T04:37:48Z",
+      "side": 1,
+      "message": "Follow-up from Zayed Shield scan on master f9fc34045b\n\nThanks for fixing 517104 -\u003e 533961/533962 (caffeine 3.1.8 deadlock Issue 451182462).\n\nWhile re-scanning current master with Zayed Shield v4.0 EN, I found another critical pattern still present:\n\n**File:** java/com/google/gerrit/httpd/restapi/RestApiServlet.java\n**Scanner:** [[!]] CVE-2026-73802 FLUSH_CACHES bypass\n**Check:** grep -n \"originalPluginName\" returns empty on master\n\n**Root cause:**\npath.isEmpty() + isPost / POST_ON_COLLECTION handling mutates viewData.pluginName without saving original and without re-enforcing checkRequiresCapability() after POST/DELETE. This can allow FLUSH_CACHES to bypass capability check.\n\nThis is a recommend-only finding from scan_java_capability_bypass:\n- save originalPluginName \u003d viewData.pluginName\n- restore and enforce checkRequiresCapability after POST/DELETE\n\nI have not pushed a fix yet, reporting for triage first. If confirmed, I can upload a change for refs/for/master similar to 533961/533962.\n\nEvidence log: /data/data/com.termux/files/home/gerrit/gerrit/reports/SECURITY_REPORT_v4_EN.md - Total 1 Critical 1\n\nBug Hunter: nike49424 (ID 3894415) / Zayed Shield v4.0 - Presidential Office Project\nRefs: 517104, 533961, 533962, CVE-2026-73802",
+      "revId": "7fbf5ee07dec6dc6bb4e86df1faf6a145317bfea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

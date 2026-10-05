@@ -16,6 +16,24 @@
       "message": "lgtm\n\nI recommend following up with a CL that explores adding UseCompactObjectHeaders to jdk args of Gerrit. It\u0027s a big win in the Bazel ecosystem and is enabled by default in JDK 27.",
       "revId": "8f9f40b3827851c5a87ce993a40c0b52e1422acf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "595d3688_94f2cc66",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-05T06:37:26Z",
+      "side": 1,
+      "message": "Thanks for the review and the `UseCompactObjectHeaders` suggestion.\n\nDone in both layers:\n\n- Bazel build server + tests (change 638023): host_jvm_args for the server JVM, --jvmopt for test JVMs.\n- Gerrit runtime, default-on via site init (change 638024): a small InitJdkOptions step writes -XX:+UseCompactObjectHeaders to container.javaOptions, so new sites get it and existing sites pick it up on their next init/upgrade.\n\nWe\u0027re on Bazel 9.2.0, so the flags are passed manually; on Bazel 10.x the `--experimental_use_compact_object_headers` startup option is default-on, and on JDK 27 compact object headers are the JVM default, so the explicit flags can be dropped then.",
+      "parentUuid": "d01e1464_97fe860b",
+      "revId": "8f9f40b3827851c5a87ce993a40c0b52e1422acf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

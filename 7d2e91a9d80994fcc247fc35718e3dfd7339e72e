@@ -16,6 +16,23 @@
       "message": "According to Gerrit milenstone We have to wait",
       "revId": "7d2e91a9d80994fcc247fc35718e3dfd7339e72e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "98e9c6b6_1fad8475",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-05T06:37:26Z",
+      "side": 1,
+      "message": "According to Gerrit milenstone We have to wait",
+      "revId": "7d2e91a9d80994fcc247fc35718e3dfd7339e72e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

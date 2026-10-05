@@ -2396,6 +2396,19 @@ link:#httpd.requestLog[httpd.requestLog] and
 link:#sshd.requestLog[sshd.requestLog]. The
 link:#log.jsonLogging[log.jsonLogging] and
 link:#log.textLogging[log.textLogging] options are also ignored.
++
+On JDK 25, Gerrit enables compact object headers (JEP 519) by default
+during site init to lower heap usage; they shrink object headers from 12
+or 16 bytes to 8:
++
+----
+  javaOptions = -XX:+UseCompactObjectHeaders
+----
++
+This is a product feature since JDK 25, so no
+`-XX:+UnlockExperimentalVMOptions` is required. To opt out, remove the
+option. Running site init again on JDK 25 adds it back; set
+`-XX:-UseCompactObjectHeaders` instead to persist the opt-out.
 
 [[container.daemonOpt]]container.daemonOpt::
 +

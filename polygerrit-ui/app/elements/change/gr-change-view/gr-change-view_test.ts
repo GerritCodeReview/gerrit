@@ -1172,6 +1172,21 @@ suite('gr-change-view tests', () => {
     assert.equal(element.computeHeaderClass(), 'header editMode');
   });
 
+  test('header class computation with status and undefined mergeable', async () => {
+    element.change = {
+      ...createChangeViewChange(),
+      status: ChangeStatus.NEW,
+    };
+    element.mergeable = undefined;
+    assert.equal(element.computeHeaderClass(), 'header active');
+
+    element.change = {
+      ...createChangeViewChange(),
+      status: ChangeStatus.MERGED,
+    };
+    assert.equal(element.computeHeaderClass(), 'header merged');
+  });
+
   test('maybeScrollToMessage', async () => {
     element.change = {
       ...createChangeViewChange(),

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e70deec3_b5f2abb7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-05T16:13:42Z",
+      "side": 1,
+      "message": "This should be 3.16.0-SNAPSHOT (we are on master)",
+      "revId": "9b7faba5708e5a99641784caf529443d877a89a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

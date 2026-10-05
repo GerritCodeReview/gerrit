@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b62e9b1_8e85822b",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1161,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-10-05T09:30:00Z",
+      "side": 1,
+      "message": "All other entities have the `Info` suffix, not `Json`.\nCan you consider normalizing this one with them?",
+      "range": {
+        "startLine": 1161,
+        "startChar": 18,
+        "endLine": 1161,
+        "endChar": 28
+      },
+      "revId": "d725cdf005d2b7953d367ad690bf87d5d16c9885",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b36c85bf_80cb681e",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2961,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-10-05T09:30:00Z",
+      "side": 1,
+      "message": "The `Json` suffix seems inconsistent with the `Info` suffix we use to name other entities.\nAlso, `Field` sounds very generic.\n\nCan you consider namespacing this one to something more appropriate, like `MetricFieldInfo` or something similar?",
+      "range": {
+        "startLine": 2961,
+        "startChar": 4,
+        "endLine": 2961,
+        "endChar": 13
+      },
+      "revId": "d725cdf005d2b7953d367ad690bf87d5d16c9885",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1838,7 +1838,9 @@ export class GrChangeView extends LitElement {
   }
 
   private computeChangeStatusChips() {
-    if (!this.change || this.mergeable === undefined) return [];
+    if (!this.change) {
+      return [];
+    }
 
     const options = {
       mergeable: this.mergeable,

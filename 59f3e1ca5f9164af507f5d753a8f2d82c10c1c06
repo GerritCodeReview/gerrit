@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "45bd9fdc_d17f2385",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-10-05T11:25:19Z",
+      "side": 1,
+      "message": "The existing RevisionIT mergeable tests don\u0027t cover stacked changes, so I added RevisionIT tests for changes stacked on open changes: mergeable, conflicting through the parent\u0027s content, and FAST_FORWARD_ONLY. They pass with and without this change, and fail if the accepted set is emptied.",
+      "parentUuid": "bb01d22d_3932cd9f",
+      "revId": "59f3e1ca5f9164af507f5d753a8f2d82c10c1c06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "421ba3ef_84d6b138",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-10-01T23:48:45Z",
       "side": 1,
       "message": "This results in marking all of these commits as uninteresting, so we won\u0027t walk to them. Does removing the heads/tags mean we walk more commits?",
+      "revId": "59f3e1ca5f9164af507f5d753a8f2d82c10c1c06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "27f4a794_aa0a40e2",
+        "filename": "java/com/google/gerrit/server/submit/SubmitDryRun.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-10-05T11:25:19Z",
+      "side": 1,
+      "message": "No, it walks fewer.                                                                                                                                                                            \n\nThe walk adds the change\u0027s commit and all accepted commits to one queue and always processes the newest commit first. That way, \"accepted\" marks pass down history before the walk reaches the commits below them. Otherwise a commit that is reachable from an accepted tip could be reported as missing.                                                                                    \n\nBefore, every branch and tag tip was accepted. Tips newer than the change\u0027s commit came out of the queue first, and their history had to be walked back to the change\u0027s date before the walk could finish, even though accepting the parents already gave the correct answer.                                                                                                               \n\nNow the parents are the only accepted commits. Nothing in the queue is newer than the change\u0027s commit, so the walk handles it, reaches its parents and stops.",
+      "parentUuid": "421ba3ef_84d6b138",
       "revId": "59f3e1ca5f9164af507f5d753a8f2d82c10c1c06",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

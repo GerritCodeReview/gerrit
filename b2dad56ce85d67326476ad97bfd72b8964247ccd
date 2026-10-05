@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8fadb544_47431396",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-10-05T11:36:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ecdc7836_0d8fcfbc",
+      "revId": "b2dad56ce85d67326476ad97bfd72b8964247ccd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a61333ee_f39f302d",
@@ -31,6 +49,30 @@
       "writtenOn": "2026-10-01T16:13:20Z",
       "side": 1,
       "message": "nit: I think you can leave this part out. We can find it in the commit message with git blame if we need to.\n```suggestion\n   * OutputStreamWriter} allocates a new buffer for each of those writes.\n```",
+      "range": {
+        "startLine": 1863,
+        "startChar": 73,
+        "endLine": 1864,
+        "endChar": 95
+      },
+      "revId": "b2dad56ce85d67326476ad97bfd72b8964247ccd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f41e9a1_e04be6cd",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1864,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-10-05T11:36:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a61333ee_f39f302d",
       "range": {
         "startLine": 1863,
         "startChar": 73,
@@ -64,6 +106,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "93df3a3f_91befe93",
+        "filename": "javatests/com/google/gerrit/httpd/restapi/RestApiServletTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-10-05T11:36:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5bb76b49_83f2e7a5",
+      "range": {
+        "startLine": 28,
+        "startChar": 13,
+        "endLine": 28,
+        "endChar": 31
+      },
+      "revId": "b2dad56ce85d67326476ad97bfd72b8964247ccd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1ce6fcbb_d05b6418",
@@ -77,6 +143,24 @@
       "writtenOn": "2026-10-01T16:13:20Z",
       "side": 1,
       "message": "Can you also add a test (like the one below) explicitly verifying that closing the encoding stream does not close the caller-provided output stream?\nI\u0027d test this through `replyBinaryResult()` and count closes on the response stream. Use an unknown-length result so the test exercises the streaming branch:\n\n```java\n@Test\npublic void base64DoesNotCloseResponseStreamTwice() throws Exception {\n  byte[] data \u003d {0, 1, 2, 3};\n  TrackingResponse res \u003d new TrackingResponse();\n\n  BinaryResult bin \u003d\n      new BinaryResult() {\n        @Override\n        public void writeTo(OutputStream out) throws IOException {\n          out.write(data);\n        }\n      }.base64();\n\n  RestApiServlet.replyBinaryResult(null, res, bin);\n\n  assertThat(res.closeCount).isEqualTo(1);\n  assertThat(res.body.toByteArray())\n      .isEqualTo(BaseEncoding.base64().encode(data).getBytes(ISO_8859_1));\n}\n\nprivate static final class TrackingResponse extends FakeHttpServletResponse {\n  final ByteArrayOutputStream body \u003d new ByteArrayOutputStream();\n  int closeCount;\n\n  private final ServletOutputStream output \u003d\n      new ServletOutputStream() {\n        @Override\n        public void write(int b) {\n          body.write(b);\n        }\n\n        @Override\n        public void close() {\n          closeCount++;\n        }\n\n        @Override\n        public boolean isReady() {\n          return true;\n        }\n\n        @Override\n        public void setWriteListener(WriteListener listener) {\n          throw new UnsupportedOperationException();\n        }\n      };\n\n  @Override\n  public ServletOutputStream getOutputStream() {\n    return output;\n  }\n}\n```\n\nA correct implementation closes the response stream once — when `replyBinaryResult()` closes its `CountingOutputStream`. If the base64 wrapper accidentally closes the supplied stream, the count becomes two.",
+      "revId": "b2dad56ce85d67326476ad97bfd72b8964247ccd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "737ea10e_24b9f04b",
+        "filename": "javatests/com/google/gerrit/httpd/restapi/RestApiServletTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 3255163
+      },
+      "writtenOn": "2026-10-05T11:36:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ce6fcbb_d05b6418",
       "revId": "b2dad56ce85d67326476ad97bfd72b8964247ccd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

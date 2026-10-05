@@ -194,6 +194,26 @@ suite('gr-diff-selection', () => {
     assert.equal(element.getSelectedText(Side.LEFT), 'ba\nzin\nga');
   });
 
+  test('copies whole line with element endpoints', () => {
+    element.setClasses(['selected-left']);
+    const content = diffTable.querySelector<HTMLElement>('.contentText');
+    if (!content) assert.fail('content element missing');
+
+    const selection = document.getSelection();
+    if (!selection) assert.fail('no selection');
+    selection.removeAllRanges();
+    const range = document.createRange();
+    range.selectNodeContents(content);
+    selection.addRange(range);
+
+    const event = emulateCopyOn(content);
+    assert.deepEqual(event.clipboardData.setData.lastCall.args, [
+      'Text',
+      'ba ba',
+    ]);
+    assert.isTrue(event.preventDefault.called);
+  });
+
   test('copies content correctly when end is not a text node', () => {
     const unknownElement = document.createElement('div');
     unknownElement.appendChild(document.createTextNode('Should not be copied'));

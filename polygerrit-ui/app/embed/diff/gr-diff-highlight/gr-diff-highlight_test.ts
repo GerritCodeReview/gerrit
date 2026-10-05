@@ -696,6 +696,23 @@ suite('gr-diff-highlight', () => {
       assert.equal(result, 0);
     });
 
+    test('whole-line selection with element endpoints', () => {
+      const content = stubContent(2, Side.RIGHT);
+      if (!content) assert.fail('content element not found');
+
+      emulateSelection(content, 0, content, content.childNodes.length);
+
+      assert.deepEqual(element.selectedRange, {
+        range: {
+          start_line: 2,
+          start_character: 0,
+          end_line: 2,
+          end_character: element.getLength(content),
+        },
+        side: Side.RIGHT,
+      });
+    });
+
     test('fixTripleClickSelection', () => {
       const startContent = stubContent(119, Side.RIGHT);
       const endContent = stubContent(120, Side.RIGHT);

@@ -21,6 +21,9 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.server.logging.TraceContext.TraceIdConsumer;
+import com.google.gerrit.extensions.registration.DynamicSet;
+import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +36,7 @@ public class TraceContextTest {
   public void cleanup() {
     LoggingContext.getInstance().clearTags();
     LoggingContext.getInstance().forceLogging(false);
+    TraceContext.setTraceSpanListeners(null);
   }
 
   @Test
@@ -332,4 +336,149 @@ public class TraceContextTest {
       this.traceId = traceId;
     }
   }
+
+  @Test
+  public void traceTimerInvokesTraceSpanListener() {
+    DynamicSet<TraceSpanListener> listeners = new DynamicSet<>();
+    AtomicBoolean started = new AtomicBoolean();
+    AtomicBoolean closed = new AtomicBoolean();
+    String[] recordedOp = new String[1];
+    Metadata[] recordedMeta = new Metadata[1];
+
+    listeners.add(
+        "test-plugin",
+        new TraceSpanListener() {
+          @Override
+          public TraceSpan onTimerStart(String operation, Metadata metadata) {
+            started.set(true);
+            recordedOp[0] = operation;
+            recordedMeta[0] = metadata;
+            return () -> closed.set(true);
+          }
+        });
+
+    TraceContext.setTraceSpanListeners(listeners);
+
+    Metadata meta = Metadata.builder().projectName("test-project").build();
+    try (TraceContext.TraceTimer timer = TraceContext.newTimer("my-operation", meta)) {
+      assertThat(started.get()).isTrue();
+      assertThat(recordedOp[0]).isEqualTo("my-operation");
+      assertThat(recordedMeta[0]).isEqualTo(meta);
+      assertThat(closed.get()).isFalse();
+    }
+    assertThat(closed.get()).isTrue();
+  }
+
+  @Test
+  public void traceContextInvokesTraceSpanListener() {
+    DynamicSet<TraceSpanListener> listeners = new DynamicSet<>();
+    AtomicBoolean started = new AtomicBoolean();
+    AtomicBoolean closed = new AtomicBoolean();
+    List<String> tags = new ArrayList<>();
+
+    listeners.add(
+        "test-plugin",
+        new TraceSpanListener() {
+          @Override
+          public TraceSpan onContextStart(TraceContext context) {
+            started.set(true);
+            return new TraceSpan() {
+              @Override
+              public void onTag(String name, String value) {
+                tags.add(name + "=" + value);
+              }
+
+              @Override
+              public void close() {
+                closed.set(true);
+              }
+            };
+          }
+        });
+
+    TraceContext.setTraceSpanListeners(listeners);
+
+    try (TraceContext ctx = TraceContext.open()) {
+      assertThat(started.get()).isTrue();
+      ctx.addTag("foo", "bar");
+      ctx.addTag("key", "val");
+      assertThat(closed.get()).isFalse();
+    }
+    assertThat(tags).containsExactly("foo=bar", "key=val").inOrder();
+    assertThat(closed.get()).isTrue();
+  }
+
+  @Test
+  public void multipleTraceSpanListenersClosedInReverseOrder() {
+    DynamicSet<TraceSpanListener> listeners = new DynamicSet<>();
+    List<String> events = new ArrayList<>();
+
+    listeners.add(
+        "plugin-1",
+        new TraceSpanListener() {
+          @Override
+          public TraceSpan onTimerStart(String operation, Metadata metadata) {
+            events.add("start-1");
+            return () -> events.add("close-1");
+          }
+        });
+
+    listeners.add(
+        "plugin-2",
+        new TraceSpanListener() {
+          @Override
+          public TraceSpan onTimerStart(String operation, Metadata metadata) {
+            events.add("start-2");
+            return () -> events.add("close-2");
+          }
+        });
+
+    TraceContext.setTraceSpanListeners(listeners);
+
+    try (TraceContext.TraceTimer timer = TraceContext.newTimer("op")) {
+      assertThat(events).containsExactly("start-1", "start-2").inOrder();
+    }
+    assertThat(events).containsExactly("start-1", "start-2", "close-2", "close-1").inOrder();
+  }
+
+  @Test
+  public void traceSpanListenerFailureDoesNotBreakTraceContextOrTimer() {
+    DynamicSet<TraceSpanListener> listeners = new DynamicSet<>();
+    listeners.add(
+        "faulty-plugin",
+        new TraceSpanListener() {
+          @Override
+          public TraceSpan onTimerStart(String operation, Metadata metadata) {
+            throw new RuntimeException("timer start failure");
+          }
+
+          @Override
+          public TraceSpan onContextStart(TraceContext context) {
+            return new TraceSpan() {
+              @Override
+              public void onTag(String name, String value) {
+                throw new RuntimeException("tag failure");
+              }
+
+              @Override
+              public void close() {
+                throw new RuntimeException("close failure");
+              }
+            };
+          }
+        });
+
+    TraceContext.setTraceSpanListeners(listeners);
+
+    // Timer shouldn't throw when listener fails on start
+    try (TraceContext.TraceTimer timer = TraceContext.newTimer("op")) {
+      // do nothing
+    }
+
+    // Context shouldn't throw when listener fails on tag or close
+    try (TraceContext ctx = TraceContext.open()) {
+      ctx.addTag("foo", "bar");
+    }
+  }
+
 }

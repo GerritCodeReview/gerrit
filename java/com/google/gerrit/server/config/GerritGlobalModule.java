@@ -173,6 +173,8 @@ import com.google.gerrit.server.index.change.ReindexChangesAfterRefUpdate;
 import com.google.gerrit.server.ioutil.DefaultRegexCompiler;
 import com.google.gerrit.server.ioutil.RegexCompiler;
 import com.google.gerrit.server.logging.PerformanceLogger;
+import com.google.gerrit.server.logging.TraceSpanInstaller;
+import com.google.gerrit.server.logging.TraceSpanListener;
 import com.google.gerrit.server.mail.AutoReplyMailFilter;
 import com.google.gerrit.server.mail.ListMailFilter;
 import com.google.gerrit.server.mail.MailFilter;
@@ -489,6 +491,8 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), QuotaEnforcer.class);
     DynamicSet.setOf(binder(), PerformanceLogger.class);
     DynamicSet.bind(binder(), PerformanceLogger.class).to(PerformanceMetrics.class);
+    DynamicSet.setOf(binder(), TraceSpanListener.class);
+    DynamicSet.bind(binder(), LifecycleListener.class).to(TraceSpanInstaller.class);
     DynamicSet.setOf(binder(), RequestListener.class);
     DynamicSet.bind(binder(), RequestListener.class).to(TraceRequestListener.class);
     DynamicSet.setOf(binder(), ExceptionHook.class);

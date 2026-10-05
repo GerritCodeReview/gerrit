@@ -28,6 +28,12 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.server.cancellation.RequestStateContext;
 import com.google.gerrit.server.logging.RunningOperations.RegistrationHandle;
+import com.google.common.annotations.VisibleForTesting;
+import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.registration.Extension;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import java.util.function.BiConsumer;
@@ -103,6 +109,17 @@ public class TraceContext implements AutoCloseable {
   private static final FluentLogger traceContextLogger = FluentLogger.forEnclosingClass();
 
   private static final String PLUGIN_TAG = "PLUGIN";
+
+  private static DynamicSet<TraceSpanListener> traceSpanListeners = DynamicSet.emptySet();
+
+  public static void setTraceSpanListeners(@Nullable DynamicSet<TraceSpanListener> listeners) {
+    traceSpanListeners = listeners != null ? listeners : DynamicSet.emptySet();
+  }
+
+  @VisibleForTesting
+  public static DynamicSet<TraceSpanListener> getTraceSpanListeners() {
+    return traceSpanListeners;
+  }
 
   public static TraceContext open() {
     return new TraceContext();
@@ -183,6 +200,7 @@ public class TraceContext implements AutoCloseable {
     private final RegistrationHandle registrationHandle;
     private final BiConsumer<Long, ImmutableList<String>> doneLogFn;
     private final Stopwatch stopwatch;
+    private final List<TraceSpanListener.TraceSpan> timerSpans;
 
     private TraceTimer(String operation) {
       this(
@@ -224,6 +242,29 @@ public class TraceContext implements AutoCloseable {
       RequestStateContext.abortIfCancelled();
       this.registrationHandle =
           LoggingContext.getInstance().getRunningOperations().add(operation, metadata);
+
+      DynamicSet<TraceSpanListener> listeners = traceSpanListeners;
+      List<TraceSpanListener.TraceSpan> spans = null;
+      for (Extension<TraceSpanListener> extension : listeners.entries()) {
+        try {
+          TraceSpanListener listener = extension.get();
+          if (listener != null) {
+            TraceSpanListener.TraceSpan span = listener.onTimerStart(operation, metadata);
+            if (span != null) {
+              if (spans == null) {
+                spans = new ArrayList<>();
+              }
+              spans.add(span);
+            }
+          }
+        } catch (RuntimeException e) {
+          logger.atWarning().withCause(e).log(
+              "Failure in %s of plugin %s on timer start",
+              extension.get().getClass(), extension.getPluginName());
+        }
+      }
+      this.timerSpans = spans != null ? spans : Collections.emptyList();
+
       startLogFn.run();
       this.doneLogFn = doneLogFn;
       this.stopwatch = Stopwatch.createStarted();
@@ -231,6 +272,13 @@ public class TraceContext implements AutoCloseable {
 
     @Override
     public void close() {
+      for (int i = timerSpans.size() - 1; i >= 0; i--) {
+        try {
+          timerSpans.get(i).close();
+        } catch (RuntimeException e) {
+          logger.atWarning().withCause(e).log("Failed closing trace timer span");
+        }
+      }
       stopwatch.stop();
       doneLogFn.accept(
           stopwatch.elapsed(TimeUnit.NANOSECONDS), registrationHandle.parentOperations());
@@ -248,10 +296,34 @@ public class TraceContext implements AutoCloseable {
   private boolean stopForceLoggingOnClose;
   private boolean stopAclLoggingOnClose;
 
+  private final List<TraceSpanListener.TraceSpan> traceSpans;
+
   private TraceContext() {
     // Just in case remember the old state and reset ACL log entries.
     this.oldAclLogging = LoggingContext.getInstance().isAclLogging();
     this.oldAclLogRecords = LoggingContext.getInstance().getAclLogRecords();
+
+    DynamicSet<TraceSpanListener> listeners = traceSpanListeners;
+    List<TraceSpanListener.TraceSpan> spans = null;
+    for (Extension<TraceSpanListener> extension : listeners.entries()) {
+      try {
+        TraceSpanListener listener = extension.get();
+        if (listener != null) {
+          TraceSpanListener.TraceSpan span = listener.onContextStart(this);
+          if (span != null) {
+            if (spans == null) {
+              spans = new ArrayList<>();
+            }
+            spans.add(span);
+          }
+        }
+      } catch (RuntimeException e) {
+        traceContextLogger.atWarning().withCause(e).log(
+            "Failure in %s of plugin %s on context start",
+            extension.get().getClass(), extension.getPluginName());
+      }
+    }
+    this.traceSpans = spans != null ? spans : Collections.emptyList();
   }
 
   @CanIgnoreReturnValue
@@ -264,6 +336,13 @@ public class TraceContext implements AutoCloseable {
     String name = requireNonNull(tagName, "tag name is required");
     String value = requireNonNull(tagValue, "tag value is required").toString();
     tags.put(name, value, LoggingContext.getInstance().addTag(name, value));
+    for (TraceSpanListener.TraceSpan span : traceSpans) {
+      try {
+        span.onTag(name, value);
+      } catch (RuntimeException e) {
+        traceContextLogger.atWarning().withCause(e).log("Failed updating span with tag %s", name);
+      }
+    }
     return this;
   }
 
@@ -321,6 +400,13 @@ public class TraceContext implements AutoCloseable {
   @Override
   public void close() {
     try {
+      for (int i = traceSpans.size() - 1; i >= 0; i--) {
+        try {
+          traceSpans.get(i).close();
+        } catch (RuntimeException e) {
+          traceContextLogger.atWarning().withCause(e).log("Failed closing trace context span");
+        }
+      }
       for (Table.Cell<String, String, Boolean> cell : tags.cellSet()) {
         if (cell.getValue()) {
           LoggingContext.getInstance().removeTag(cell.getRowKey(), cell.getColumnKey());

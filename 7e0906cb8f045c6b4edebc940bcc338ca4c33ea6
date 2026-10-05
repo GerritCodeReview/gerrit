@@ -26,6 +26,53 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f3ea29df_89764989",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-05T11:02:01Z",
+      "side": 1,
+      "message": "Why would someone disable it?\nAlso, this is needed when migrating from Java 21 to Java 25, which means it will be part of the migration to v3.15 only.\n\nI don\u0027t see any problem in just saying: _\"If you don\u0027t like it, just remove it. It may be added again if you re-run a migration from v3.14 to v3.15\"_",
+      "parentUuid": "f1bb885a_2766ec9d",
+      "range": {
+        "startLine": 16,
+        "startChar": 46,
+        "endLine": 17,
+        "endChar": 39
+      },
+      "revId": "7e0906cb8f045c6b4edebc940bcc338ca4c33ea6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "418bf6f7_51b0325b",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2401,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-05T11:02:01Z",
+      "side": 1,
+      "message": "I believe this is done for:\n- new setups\n- migrations from v3.14",
+      "range": {
+        "startLine": 2401,
+        "startChar": 0,
+        "endLine": 2401,
+        "endChar": 36
+      },
+      "revId": "7e0906cb8f045c6b4edebc940bcc338ca4c33ea6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ca1c5688_43685840",
         "filename": "java/com/google/gerrit/pgm/init/InitJdkOptions.java",
         "patchSetId": 2
@@ -37,6 +84,29 @@
       "writtenOn": "2026-10-05T10:29:46Z",
       "side": 1,
       "message": "This name feels a bit broad for something that currently handles one very specific option.\n\nIf the idea is to reuse this class for other JDK options in the future, then I would avoid documenting only `UseCompactObjectHeaders` at the class level.\n\nOtherwise, maybe give it a narrower name that is specific to `UseCompactObjectHeaders`?",
+      "range": {
+        "startLine": 32,
+        "startChar": 13,
+        "endLine": 32,
+        "endChar": 27
+      },
+      "revId": "7e0906cb8f045c6b4edebc940bcc338ca4c33ea6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b65e2508_e5123bad",
+        "filename": "java/com/google/gerrit/pgm/init/InitJdkOptions.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-05T11:02:01Z",
+      "side": 1,
+      "message": "This should be part of the schema migration IMHO. If you upgraded and you didn\u0027t need it, it should not do anything.",
       "range": {
         "startLine": 32,
         "startChar": 13,

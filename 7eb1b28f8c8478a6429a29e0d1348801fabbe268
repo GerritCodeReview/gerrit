@@ -22,6 +22,30 @@
       },
       "revId": "7eb1b28f8c8478a6429a29e0d1348801fabbe268",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b87848e_489696e9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-05T11:18:15Z",
+      "side": 1,
+      "message": "Good point. This field is only meaningful when `GerritBackendFeature__timeout_file_diff_computation` is enabled. \n\nI updated the row to mention the experiment and the unset behavior.",
+      "parentUuid": "aef99237_a067da29",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 39
+      },
+      "revId": "7eb1b28f8c8478a6429a29e0d1348801fabbe268",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "737f54fc_655b70fe",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1161,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-05T10:47:51Z",
+      "side": 1,
+      "message": "Current situation: these names come from the existing Java response DTOs: `MetricJson` is the package-private DTO returned by ListMetrics/GetMetric, and `FieldJson` is its nested field DTO.\n\nI used those names intentionally because the OpenAPI extraction work benefits when REST documentation entity names can be matched directly to Java response types, without a manual mapping exception.\n\nI agree that this is inconsistent with the usual REST docs `*Info` convention, and also that `FieldJson` is too generic. I’d prefer not to mix that Java rename into this documentation change, though. I can follow up with a small cleanup that renames the package-private DTOs and docs together, for example:\n\n* `MetricJson` -\u003e `MetricInfo`\n* `FieldJson` -\u003e `MetricFieldInfo`\n\nThat would keep the code/docs/OpenAPI names aligned and should be wire-compatible.",
+      "parentUuid": "2b62e9b1_8e85822b",
+      "range": {
+        "startLine": 1161,
+        "startChar": 18,
+        "endLine": 1161,
+        "endChar": 28
+      },
+      "revId": "d725cdf005d2b7953d367ad690bf87d5d16c9885",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b36c85bf_80cb681e",
         "filename": "Documentation/rest-api-config.txt",
         "patchSetId": 2
@@ -37,6 +61,30 @@
       "writtenOn": "2026-10-05T09:30:00Z",
       "side": 1,
       "message": "The `Json` suffix seems inconsistent with the `Info` suffix we use to name other entities.\nAlso, `Field` sounds very generic.\n\nCan you consider namespacing this one to something more appropriate, like `MetricFieldInfo` or something similar?",
+      "range": {
+        "startLine": 2961,
+        "startChar": 4,
+        "endLine": 2961,
+        "endChar": 13
+      },
+      "revId": "d725cdf005d2b7953d367ad690bf87d5d16c9885",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f881d095_016819aa",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2961,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-05T10:47:51Z",
+      "side": 1,
+      "message": "Same background here: `FieldJson` is the current nested Java DTO name. I agree that `FieldInfo` would still be too generic, so in the follow-up rename I would use `MetricFieldInfo`.",
+      "parentUuid": "b36c85bf_80cb681e",
       "range": {
         "startLine": 2961,
         "startChar": 4,

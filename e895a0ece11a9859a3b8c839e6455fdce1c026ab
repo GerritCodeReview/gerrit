@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "312b718a_3c3de670",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReviewersUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1162625
+      },
+      "writtenOn": "2026-10-05T22:46:21Z",
+      "side": 1,
+      "message": "Because results are returned in completion order this has the potential to drop the highest ranked candidate(s). Would it make sense to still parallelize these but read them all as futures in index order to keep the sorting deterministic?",
+      "range": {
+        "startLine": 347,
+        "startChar": 14,
+        "endLine": 347,
+        "endChar": 35
+      },
+      "revId": "e895a0ece11a9859a3b8c839e6455fdce1c026ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

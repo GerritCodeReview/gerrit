@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf74d120_84937322",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1019,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-10-05T10:00:53Z",
+      "side": 1,
+      "message": "Can you expand that:\n- if the `account-id` could not be found you get 404\n- if the email does not belong to yhe user you get a 404",
+      "range": {
+        "startLine": 1018,
+        "startChar": 0,
+        "endLine": 1019,
+        "endChar": 27
+      },
+      "revId": "a00819910e5e1c6f0baf2114473808d993ad45e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

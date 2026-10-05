@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9c05b59_76dd44c5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-10-05T11:31:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f3ea29df_89764989",
+      "range": {
+        "startLine": 16,
+        "startChar": 46,
+        "endLine": 17,
+        "endChar": 39
+      },
+      "revId": "7e0906cb8f045c6b4edebc940bcc338ca4c33ea6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "418bf6f7_51b0325b",
@@ -189,6 +213,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e4f630b_26ac6a1c",
+        "filename": "java/com/google/gerrit/pgm/init/InitJdkOptions.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-10-05T11:31:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "13c721bb_1d4ed4e9",
+      "range": {
+        "startLine": 32,
+        "startChar": 13,
+        "endLine": 32,
+        "endChar": 27
+      },
+      "revId": "7e0906cb8f045c6b4edebc940bcc338ca4c33ea6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aa12a70d_8081ac29",
@@ -226,6 +274,30 @@
       "side": 1,
       "message": "👍",
       "parentUuid": "aa12a70d_8081ac29",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 5
+      },
+      "revId": "7e0906cb8f045c6b4edebc940bcc338ca4c33ea6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "59d6ad1f_8d027c12",
+        "filename": "java/com/google/gerrit/pgm/init/InitJdkOptions.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-10-05T11:31:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ee6dc71_a067cb76",
       "range": {
         "startLine": 49,
         "startChar": 0,

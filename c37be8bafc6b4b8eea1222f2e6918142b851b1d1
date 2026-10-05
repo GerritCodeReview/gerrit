@@ -4,9 +4,9 @@
       "state": "FAILED",
       "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-codestyle/20439/console",
       "started": "2026-10-05T13:32:30Z",
-      "finished": "2026-10-05T13:33:24Z",
+      "finished": "2026-10-05T13:33:26Z",
       "created": "2026-10-05T11:27:53Z",
-      "updated": "2026-10-05T13:33:24Z"
+      "updated": "2026-10-05T13:33:26Z"
     },
     "gerritforge:notedb-a6a0e4682515f3521897c5f950d1394f4619d928": {
       "state": "FAILED",

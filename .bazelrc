@@ -30,8 +30,6 @@ common:remote_gcp --config=remote
 
 # Enables builds and execution on BuildBuddy RBE
 common:remote_bb --config=config_bb
-# Reuse worker-capable tools across remote actions.
-common:remote_bb --experimental_remote_mark_tool_inputs
 
 # Builds using remotejdk_21, executes using remotejdk_21 or local_jdk
 common:build_java21_shared --java_language_version=21

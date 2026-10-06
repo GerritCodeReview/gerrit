@@ -314,6 +314,24 @@
       "parentUuid": "0ea9f533_583ac960",
       "revId": "43668779bc744ed4a0bf16d95998c6e186fb4bf4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2df8a423_fbcdd7c0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-06T23:24:40Z",
+      "side": 1,
+      "message": "\u003e Pushed the fix: change 637624. A new, per-permission `exclusiveGroupBlock` flag scopes a BLOCK to its own group, so a same-section ALLOW for a different group no longer clears it. \n\nThanks, that\u0027s huge! Reviewed it. Mostly good, just a nit on a case that stands out strangely.\n\nWith that, can we safely re-add the allow for anyone who can vote on any label? I\u0027m not sure it would work because they\u0027d need something like\n```\n[access \"refs/*\"]\n  exclusiveGroupBlock \u003d postReviewComment label-*\n  postReviewComment \u003d group Registered Users\n  postReviewComment \u003d block group Spammers\n  label-* \u003d block 0..0 group Spammers\n```\nand I\u0027m pretty sure those `label-*` bits won\u0027t work. Or else every section granting label vote perms for any group would need a block rule added too. That\u0027s not a good approach.\n\n\u003e \u003e That does go quite a bit further and might be what we want, but I don\u0027t think that should be called postReviewComment anymore.\n\u003e \n\u003e Let\u0027s not rename it.\n\nAck.\n\n\u003e \n\u003e Two options that keep the name: leave the current scope as-is, or drop the PostReviewers (reviewers/CC) precondition so the name matches the scope and gate \"Add reviewers/CC\" separately. WDYT?\n\nI think `CreateDraftComment` and `PutDraftComment` are close enough to `Post Review Comment` that no one would be confused by it. I also think we can adjust the name in the UI and explain it well enough in the docs that controlling reviewers/CCs should be ok. So, I think the current scope is fine.",
+      "parentUuid": "e7c480b7_4f4a440e",
+      "revId": "43668779bc744ed4a0bf16d95998c6e186fb4bf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb2df858_24561d6f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5005823
+      },
+      "writtenOn": "2026-10-06T20:39:54Z",
+      "side": 1,
+      "message": "I\u0027d prefer to keep it separate so it\u0027s clearer what was required for bumping the version and what is cleanup.\n\nThanks for the follow-up!",
+      "parentUuid": "5666b928_4fe9e38f",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 70
+      },
+      "revId": "9c3532d06b6d6b77db9298bc237362971b454137",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5ccc8ae4_ad351d69",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-10-06T19:06:27Z",
       "side": 1,
       "message": "Nit: could you wrap this paragraph at 72 columns?",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 73
+      },
+      "revId": "9c3532d06b6d6b77db9298bc237362971b454137",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3eec2cfa_b88954e9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 5005823
+      },
+      "writtenOn": "2026-10-06T20:39:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ccc8ae4_ad351d69",
       "range": {
         "startLine": 32,
         "startChar": 0,

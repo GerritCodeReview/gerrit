@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7c3d0478_135a7d3b",
+        "filename": "java/com/google/gerrit/server/account/AuthTokenExpiryNotificationConfig.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-10-06T14:36:51Z",
+      "side": 1,
+      "message": "This still leaves the admin guessing which values were ignored",
+      "range": {
+        "startLine": 59,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 79
+      },
+      "revId": "80a7a3d6a7130a81b2c3044c70d1cc21459efb68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e77f0b70_774d2ee2",
+        "filename": "java/com/google/gerrit/server/account/AuthTokenExpiryNotifier.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-10-06T14:36:51Z",
+      "side": 1,
+      "message": "I suggest to reframe this to a version that matches the javadoc:\n\n```suggestion\n  private static final Schedule DAILY_AT_MIDNIGHT \u003d\n      ScheduleConfig.Schedule.createOrFail(Duration.ofDays(1).toMillis(), \"00:00\");\n```\n\nBtw, using `Duration` instead of `TimeUnit` is more idiomatic in modern Java versions.",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 89
+      },
+      "revId": "80a7a3d6a7130a81b2c3044c70d1cc21459efb68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

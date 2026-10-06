@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bdcc035e_a774494a",
+        "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmailValidator.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-06T20:52:15Z",
+      "side": 1,
+      "message": "This isn\u0027t necessarily needed in this update: the `EmailValidator.getInstance(true, true)` returns a singleton anyway, and there was no need to store a reference to it inside this instance.\n\nConsider keeping the existing code at L53.",
+      "range": {
+        "startLine": 48,
+        "startChar": 6,
+        "endLine": 48,
+        "endChar": 62
+      },
+      "revId": "5753599716b19e1254e159e4c9af339fcb89b909",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

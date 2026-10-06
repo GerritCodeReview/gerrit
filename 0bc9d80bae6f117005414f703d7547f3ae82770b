@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "87f0667d_b37ee7cd",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AbstractAccountIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 1052,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-06T20:52:15Z",
+      "side": 0,
+      "message": "Is `.africa` now a recognised TLD?",
+      "range": {
+        "startLine": 1052,
+        "startChar": 31,
+        "endLine": 1052,
+        "endChar": 37
+      },
+      "revId": "0bc9d80bae6f117005414f703d7547f3ae82770b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

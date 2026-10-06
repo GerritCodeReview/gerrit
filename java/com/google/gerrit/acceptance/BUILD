@@ -90,8 +90,6 @@ PGM_DEPLOY_ENV = [
 java_library(
     name = "lib",
     testonly = True,
-    resource_strip_prefix = "resources",
-    resources = ["//resources/com/google/gerrit/acceptance"],
     visibility = ["//visibility:public"],
     exports = [
         ":framework-lib",

@@ -19,7 +19,7 @@ import static org.apache.commons.validator.routines.DomainValidator.ArrayType.GE
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import java.util.Collections;
+import java.util.List;
 import org.apache.commons.validator.routines.DomainValidator;
 import org.apache.commons.validator.routines.DomainValidator.Item;
 import org.apache.commons.validator.routines.EmailValidator;
@@ -39,14 +39,11 @@ public class OutgoingEmailValidator {
   @Inject
   OutgoingEmailValidator(@GerritServerConfig Config config) {
     String[] allowTLD = config.getStringList("sendemail", null, "allowTLD");
-    if (allowTLD.length != 0) {
-      DomainValidator dv =
-          DomainValidator.getInstance(
-              true, Collections.singletonList(new Item(GENERIC_PLUS, allowTLD)));
-      this.validator = new EmailValidator(true, true, dv);
-    } else {
-      this.validator = EmailValidator.getInstance(true, true);
-    }
+    DomainValidator domainValidator =
+        allowTLD.length == 0
+            ? DomainValidator.getInstance(true)
+            : DomainValidator.getInstance(true, List.of(new Item(GENERIC_PLUS, allowTLD)));
+    this.validator = new EmailValidator(true, true, domainValidator);
   }
 
   public boolean isValid(String addr) {

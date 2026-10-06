@@ -1,0 +1,75 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c1c99e8_b787186b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-10-06T12:16:00Z",
+      "side": 1,
+      "message": "Great, that looks like good improvement for most cases.\n\nI would be maybe worried only about showing READY_TO_SUBMIT before being sure that mergeablity is true.",
+      "revId": "0fd34d4fd1f4f31bb280fef0505ac8468c4d50cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ffb1e56_2ccf766a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 2441,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-10-06T12:16:00Z",
+      "side": 1,
+      "message": "Good catch - since `ChangeStates` values contain spaces (\u0027Merge Conflict\u0027, \u0027Git Conflict\u0027, \u0027Ready to submit\u0027) and the classes are joined with \u0027 \u0027, the old code produced separate `merge` / `conflict` classes, so `.header.merge-conflict`, `.header.git-conflict` and `.header.ready-to-submit` never matched.\n\nBut this is an independent, user-visible change (those header border colors will start appearing for the first time) and isn\u0027t mentioned in the commit message. Please either mention it in the commit message (e.g. \"Also fix header class for multi-word statuses, which never matched the existing CSS selectors\")",
+      "isAi": true,
+      "revId": "0fd34d4fd1f4f31bb280fef0505ac8468c4d50cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ee4a63b_2273e67b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 1175,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-10-06T12:16:00Z",
+      "side": 1,
+      "message": "nit: test is `async` but doesn\u0027t await anything; can drop `async`.",
+      "isAi": true,
+      "revId": "0fd34d4fd1f4f31bb280fef0505ac8468c4d50cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf7d8b4c_dbf323f6",
+        "filename": "polygerrit-ui/app/utils/change-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-10-06T12:16:00Z",
+      "side": 1,
+      "message": "With the mergeable gate removed, an open change with `submittable\u003dtrue` that turns out to have a merge conflict will now show \"Ready to submit\" for the 1-3s while mergeability loads, and then flip to \"Merge Conflict\" (and with the header class fix, the border goes green -\u003e red). That\u0027s a false positive the old gate was implicitly protecting against.\n\nCould we avoid claiming READY_TO_SUBMIT until mergeability is known? Showing ACTIVE in the meantime is fine (optimistic upgrade later is OK, a wrong \"ready\" claim isn\u0027t):\n\n```ts\nif (change.submittable \u0026\u0026 options.mergeable !\u003d\u003d undefined) {\n  states.push(ChangeStates.READY_TO_SUBMIT);\n}\n```\n\nand update the new test case `{mergeable: undefined}` + `submittable \u003d true` to expect `[ChangeStates.ACTIVE]`.",
+      "isAi": true,
+      "revId": "0fd34d4fd1f4f31bb280fef0505ac8468c4d50cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

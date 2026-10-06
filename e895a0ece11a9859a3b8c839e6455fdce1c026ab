@@ -47,6 +47,30 @@
       "isAi": true,
       "revId": "e895a0ece11a9859a3b8c839e6455fdce1c026ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "74bf9570_d0c23d0a",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReviewersUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1084887
+      },
+      "writtenOn": "2026-10-06T17:40:32Z",
+      "side": 1,
+      "message": "Well, the AI comment is not quite accurate since these results are not fully deterministic, they rely the latency of each parallel request. But they do prioritize ranking as desired.",
+      "parentUuid": "ec2672bf_9a934065",
+      "range": {
+        "startLine": 347,
+        "startChar": 14,
+        "endLine": 347,
+        "endChar": 35
+      },
+      "revId": "e895a0ece11a9859a3b8c839e6455fdce1c026ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

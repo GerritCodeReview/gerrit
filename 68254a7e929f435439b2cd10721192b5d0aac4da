@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4deef9b3_5e778bc5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-06T22:14:51Z",
+      "side": 1,
+      "message": "I\u0027m not sure about a hardcoded timeout here. There\u0027s no timeout currently, unless it\u0027s possible for an admin to use a [`deadline`](https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#deadline.id) for it? There are [other knobs](https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#suggest) admins can use to adjust performance of account suggestions, maybe this should go there?\n\nMy concern is that if someone currently has very poorly performing suggestions, they could end up with no suggestions after this change.",
+      "revId": "68254a7e929f435439b2cd10721192b5d0aac4da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

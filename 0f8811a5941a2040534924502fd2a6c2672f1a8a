@@ -60,6 +60,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7915e66e_751e1796",
+        "filename": "java/com/google/gerrit/server/git/AllUsersRepositoryProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-10-06T11:36:33Z",
+      "side": 1,
+      "message": "Thinking again about this, I made `get()` `synchronised` so that checking and initialising the repository happen under the same lock. Two callers cannot create it concurrently. \n\n`stop()` uses that lock too, so I don\u0027t think we need any `AtomicRef` here.\n\nWDYT?",
+      "parentUuid": "e581610b_7f7dcdf8",
+      "revId": "0f8811a5941a2040534924502fd2a6c2672f1a8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5ef4cdde_a1e1a250",
         "filename": "java/com/google/gerrit/server/git/AllUsersRepositoryProvider.java",
         "patchSetId": 4
@@ -71,6 +89,24 @@
       "writtenOn": "2026-10-06T10:27:45Z",
       "side": 1,
       "message": "We reach this point, it means we have a bug in the software. We should also get the stack trace and display here, so that we can understand where the problem is and fix it.",
+      "revId": "0f8811a5941a2040534924502fd2a6c2672f1a8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ea48399_8fd76752",
+        "filename": "java/com/google/gerrit/server/git/AllUsersRepositoryProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-10-06T11:36:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ef4cdde_a1e1a250",
       "revId": "0f8811a5941a2040534924502fd2a6c2672f1a8a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

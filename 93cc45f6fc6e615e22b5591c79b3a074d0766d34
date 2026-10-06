@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed4e09c9_a1a4a80a",
+        "filename": "java/com/google/gerrit/server/git/AllUsersRepositoryProvider.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-06T14:16:34Z",
+      "side": 1,
+      "message": "I don\u0027t believe we need this case.\n\nIf Gerrit has stopped, then the check at L56 will avoid the method reaching this point.\nThe only situation that it *may* reach this point is if there were two concurrent start and stop of Gerrit, I don\u0027t believe it is possible though.",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 72
+      },
+      "revId": "93cc45f6fc6e615e22b5591c79b3a074d0766d34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d2e0e0c_deccaeb0",
+        "filename": "javatests/com/google/gerrit/server/git/AllUsersRepositoryProviderTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-06T14:16:34Z",
+      "side": 1,
+      "message": "Gerrit shutdown can happen *after* the startup ... I\u0027ve never seen a case where whilst the startup is in progress Gerrit accepts a shutdown request.\n\nDo we really need this case?",
+      "range": {
+        "startLine": 109,
+        "startChar": 0,
+        "endLine": 114,
+        "endChar": 3
+      },
+      "revId": "93cc45f6fc6e615e22b5591c79b3a074d0766d34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

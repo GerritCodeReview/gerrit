@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "590225b4_23cdf335",
+        "filename": "java/com/google/gerrit/server/account/AuthTokenExpiryNotificationConfig.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-10-06T12:30:43Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "76873af7_cd30d2d5",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 0
+      },
+      "revId": "423a7205c0d4c82899818be8fd082bcff967920b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "433365b5_6c6bda94",
@@ -37,6 +61,24 @@
       "writtenOn": "2026-10-05T13:23:54Z",
       "side": 1,
       "message": "If my previous suggestion gets accepted, this becomes more readable:\n\n\n```suggestion\n        config.getBoolean(AUTH, TOKEN_EXPIRY, NOTIFY, true);\n```",
+      "revId": "423a7205c0d4c82899818be8fd082bcff967920b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "834023f4_43a98eee",
+        "filename": "java/com/google/gerrit/server/account/AuthTokenExpiryNotificationConfig.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-10-06T12:30:43Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "433365b5_6c6bda94",
       "revId": "423a7205c0d4c82899818be8fd082bcff967920b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -64,6 +106,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "147a7858_993e9349",
+        "filename": "java/com/google/gerrit/server/account/AuthTokenExpiryNotificationConfig.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-10-06T12:30:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4bdce232_1cc25e83",
+      "range": {
+        "startLine": 64,
+        "startChar": 47,
+        "endLine": 64,
+        "endChar": 83
+      },
+      "revId": "423a7205c0d4c82899818be8fd082bcff967920b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c992d681_14b183b7",
@@ -77,6 +143,24 @@
       "writtenOn": "2026-10-05T13:23:54Z",
       "side": 1,
       "message": "The list of params is incomplete",
+      "revId": "423a7205c0d4c82899818be8fd082bcff967920b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1d59aab2_7446f03d",
+        "filename": "java/com/google/gerrit/server/account/AuthTokenExpiryNotificationConfig.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-10-06T12:30:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c992d681_14b183b7",
       "revId": "423a7205c0d4c82899818be8fd082bcff967920b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -144,6 +228,72 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc8ca6e0_7b4b88ae",
+        "filename": "java/com/google/gerrit/server/account/AuthTokenExpiryNotificationConfig.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-10-06T12:30:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5bf03a50_ad97329f",
+      "revId": "423a7205c0d4c82899818be8fd082bcff967920b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c01adcb_fe961932",
+        "filename": "java/com/google/gerrit/server/account/AuthTokenExpiryNotificationConfig.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-10-06T12:30:43Z",
+      "side": 1,
+      "message": "But `Instant.now()` is called outside of a loop and this method is called within the loop. The check time should be constant in a single run for all accounts.",
+      "parentUuid": "9f4ef820_65e44e38",
+      "range": {
+        "startLine": 99,
+        "startChar": 34,
+        "endLine": 99,
+        "endChar": 51
+      },
+      "revId": "423a7205c0d4c82899818be8fd082bcff967920b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4e3c1d06_1b0809e7",
+        "filename": "java/com/google/gerrit/server/account/AuthTokenExpiryNotificationConfig.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-10-06T12:30:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "942480fd_d1f7f345",
+      "range": {
+        "startLine": 99,
+        "startChar": 17,
+        "endLine": 99,
+        "endChar": 33
+      },
+      "revId": "423a7205c0d4c82899818be8fd082bcff967920b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bfbff1d4_b226f30e",
@@ -157,6 +307,30 @@
       "writtenOn": "2026-10-05T13:23:54Z",
       "side": 1,
       "message": "The same check is already done from the caller. We only need one",
+      "range": {
+        "startLine": 100,
+        "startChar": 0,
+        "endLine": 102,
+        "endChar": 5
+      },
+      "revId": "423a7205c0d4c82899818be8fd082bcff967920b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "27161704_b1227f8b",
+        "filename": "java/com/google/gerrit/server/account/AuthTokenExpiryNotificationConfig.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-10-06T12:30:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bfbff1d4_b226f30e",
       "range": {
         "startLine": 100,
         "startChar": 0,
@@ -190,6 +364,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b04f3406_25bb266e",
+        "filename": "java/com/google/gerrit/server/account/AuthTokenExpiryNotificationConfig.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-10-06T12:30:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "491aed4f_ac548e9d",
+      "range": {
+        "startLine": 109,
+        "startChar": 0,
+        "endLine": 110,
+        "endChar": 88
+      },
+      "revId": "423a7205c0d4c82899818be8fd082bcff967920b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2ebf6ac0_452bcdb7",
@@ -213,6 +411,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "74e126d2_f5a1c595",
+        "filename": "java/com/google/gerrit/server/account/AuthTokenExpiryNotifier.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-10-06T12:30:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ebf6ac0_452bcdb7",
+      "range": {
+        "startLine": 127,
+        "startChar": 1,
+        "endLine": 130,
+        "endChar": 5
+      },
+      "revId": "423a7205c0d4c82899818be8fd082bcff967920b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5eea85e8_c1a42bc9",
@@ -226,6 +448,24 @@
       "writtenOn": "2026-10-05T13:23:54Z",
       "side": 1,
       "message": "Truncation of the `checkTime` is done twice: here and also inside the `shouldBeNotified` method.\nIn my opinion and to make the check robust, the callers of shouldn\u0027t be responsible for truncating, they should be OK by passing `now()`.",
+      "revId": "423a7205c0d4c82899818be8fd082bcff967920b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f4909de6_07479e8c",
+        "filename": "java/com/google/gerrit/server/account/AuthTokenExpiryNotifier.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-10-06T12:30:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5eea85e8_c1a42bc9",
       "revId": "423a7205c0d4c82899818be8fd082bcff967920b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

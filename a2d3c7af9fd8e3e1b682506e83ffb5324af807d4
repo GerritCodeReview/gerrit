@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4324e870_a0dac93e",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1379,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-06T23:05:46Z",
+      "side": 1,
+      "message": "This is a confusing example to use. See my comment on `RefControlIT`.",
+      "range": {
+        "startLine": 1378,
+        "startChar": 70,
+        "endLine": 1379,
+        "endChar": 55
+      },
+      "revId": "a2d3c7af9fd8e3e1b682506e83ffb5324af807d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f086ab90_d94b8782",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1387,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-06T23:05:46Z",
+      "side": 1,
+      "message": "Maybe use allow/block `label-Code-Review \u003d -1..+1` instead? Then you could show it combined with the anon/registered users read restriction since `exclusiveGroupBlock` would be `label-Code-Review` and not `read`.",
+      "range": {
+        "startLine": 1385,
+        "startChar": 0,
+        "endLine": 1387,
+        "endChar": 31
+      },
+      "revId": "a2d3c7af9fd8e3e1b682506e83ffb5324af807d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83810e97_b85fd70f",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1394,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-06T23:05:46Z",
+      "side": 1,
+      "message": "Move this to the Examples (just below L1472)?",
+      "range": {
+        "startLine": 1383,
+        "startChar": 0,
+        "endLine": 1394,
+        "endChar": 8
+      },
+      "revId": "a2d3c7af9fd8e3e1b682506e83ffb5324af807d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e0dae328_cf24db29",
+        "filename": "Documentation/access-control.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1817,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-06T23:05:46Z",
+      "side": 1,
+      "message": "We should update this section too",
+      "revId": "a2d3c7af9fd8e3e1b682506e83ffb5324af807d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ab331f5_2904cebb",
+        "filename": "javatests/com/google/gerrit/acceptance/server/permissions/RefControlIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-06T23:05:46Z",
+      "side": 1,
+      "message": "I\u0027m confused by this setup. What\u0027s the use case for this? Why would you add both rules and not only the allow? Are you just documenting/testing it in case someone does it?\n\nI think the feature is simpler to understand if we can eliminate this case. Can we call it an error?",
+      "range": {
+        "startLine": 206,
+        "startChar": 0,
+        "endLine": 207,
+        "endChar": 57
+      },
+      "revId": "a2d3c7af9fd8e3e1b682506e83ffb5324af807d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

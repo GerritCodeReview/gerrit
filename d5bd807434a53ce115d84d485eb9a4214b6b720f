@@ -87,6 +87,24 @@
       "parentUuid": "c66edebb_72d9902b",
       "revId": "d5bd807434a53ce115d84d485eb9a4214b6b720f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd277227_c9df63b4",
+        "filename": "java/com/google/gerrit/server/account/AuthTokenCache.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-10-06T11:55:09Z",
+      "side": 1,
+      "message": "Yes, that\u0027s a good point.\nWith the previous implementation, we only updated the cache when `tokens.config` changed (due to explicit eviction).\n\nWith the current implementation, any update to the ref user (unrelated to `tokens.config`) creates a new cache entry even though `tokens.config` is unchanged. (as @nasser.grainawi@oss.qualcomm.com pointed out).\n\nI am trying to think of any other similar use case we have, but the only one coming to mind is `sshkeys`, which is also not handled, so it suffers from the same problem.\n\nI agree that a two-layer cache would be a better follow-up. \nI don\u0027t think I will have bandwidth to continue on this for the time being, so I will have to park this change.\n\n@luca.milanesio@gmail.com, @thomas.draebing@sap.com, @nasser.grainawi@oss.qualcomm.com, if you guys, or anyone else, have proposals, I am happy to review them.",
+      "parentUuid": "9e25e378_ce80c66a",
+      "revId": "d5bd807434a53ce115d84d485eb9a4214b6b720f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

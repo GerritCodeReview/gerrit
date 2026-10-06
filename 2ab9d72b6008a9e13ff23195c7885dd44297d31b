@@ -83,6 +83,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c50e243_7f20d368",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/AiReviewPermissionIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-06T12:57:22Z",
+      "side": 1,
+      "message": "This should be resolved now.",
+      "parentUuid": "cfa14164_e8fcf3b8",
+      "revId": "2ab9d72b6008a9e13ff23195c7885dd44297d31b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cebbad31_dd940552",

@@ -16,6 +16,63 @@
       "message": "I don\u0027t think we need to be paranoid about jgit behavior and test different `core.repositoryCache*` config values, but you could just to be sure our shared repo doesn\u0027t get evicted and closed by the cache.",
       "revId": "0f8811a5941a2040534924502fd2a6c2672f1a8a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "103827a8_7a3d9ca7",
+        "filename": "java/com/google/gerrit/server/git/AllUsersRepositoryProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-06T10:27:45Z",
+      "side": 1,
+      "message": "This should be an `AtomicRef` to a `SharedRepository`",
+      "range": {
+        "startLine": 45,
+        "startChar": 20,
+        "endLine": 45,
+        "endChar": 47
+      },
+      "revId": "0f8811a5941a2040534924502fd2a6c2672f1a8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e581610b_7f7dcdf8",
+        "filename": "java/com/google/gerrit/server/git/AllUsersRepositoryProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-06T10:27:45Z",
+      "side": 1,
+      "message": "If we don\u0027t have an `AtomicRef`, we risk to create a `SharedRepository` twice (or more)",
+      "revId": "0f8811a5941a2040534924502fd2a6c2672f1a8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ef4cdde_a1e1a250",
+        "filename": "java/com/google/gerrit/server/git/AllUsersRepositoryProvider.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-06T10:27:45Z",
+      "side": 1,
+      "message": "We reach this point, it means we have a bug in the software. We should also get the stack trace and display here, so that we can understand where the problem is and fix it.",
+      "revId": "0f8811a5941a2040534924502fd2a6c2672f1a8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

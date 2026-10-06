@@ -1047,8 +1047,8 @@ public abstract class AbstractAccountIT extends AbstractDaemonTest {
             // Missing user part
             "@example.com",
 
-            // Non-supported TLD  (see tlds-alpha-by-domain.txt)
-            "new.email@example.active");
+            // Non-supported TLD
+            "new.email@example.invalid");
     AccountIndexedCounter accountIndexedCounter = getAccountIndexedCounter();
     try (Registration registration =
         extensionRegistry.newRegistration().add(accountIndexedCounter)) {

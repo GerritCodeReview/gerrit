@@ -22,6 +22,30 @@
       },
       "revId": "5753599716b19e1254e159e4c9af339fcb89b909",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5841ec5b_279fe8ed",
+        "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmailValidator.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 5005823
+      },
+      "writtenOn": "2026-10-06T22:29:07Z",
+      "side": 1,
+      "message": "My understanding is that the configuration in the if branch above would always be ignored if L53 was kept as-is. \n\nIt\u0027s a little silly to optimize for tests, but this is attempting to be cleaner than swallowing errors from calls to DomainValidator.updateTLDOverride after it\u0027s instantiated (which seem to only happen for tests). The test suite had to force the field `DomainValidator.inUse` to false so a repeated call to updateTLDOverride could occur.\n\nThe most recent version of Apache Commons Validator doesn\u0027t let us reuse the resetDomainValidator logic because the original instantiation is now cached and immutable - as in re-running updateTLDOverride is now a no-op even when inUse is false\n\nThis is also cleaner if we somehow end up with cases where the global DomainValidator singleton is used elsewhere and locks the instantiation before OutgoingEmailValidator is instantiated.\n\nI don\u0027t have strong feelings past making the test suite reasonable and passing - just sharing all the context I have on this :)",
+      "parentUuid": "bdcc035e_a774494a",
+      "range": {
+        "startLine": 48,
+        "startChar": 6,
+        "endLine": 48,
+        "endChar": 62
+      },
+      "revId": "5753599716b19e1254e159e4c9af339fcb89b909",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -22,6 +22,30 @@
       },
       "revId": "0bc9d80bae6f117005414f703d7547f3ae82770b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c2bdc83f_0eb6c98f",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AbstractAccountIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 1052,
+      "author": {
+        "id": 5005823
+      },
+      "writtenOn": "2026-10-06T22:29:07Z",
+      "side": 0,
+      "message": "Yeah I believe it was added awhile ago -  https://commons.apache.org/proper/commons-validator/apidocs/src-html/org/apache/commons/validator/routines/DomainValidator.html#line-224",
+      "parentUuid": "87f0667d_b37ee7cd",
+      "range": {
+        "startLine": 1052,
+        "startChar": 31,
+        "endLine": 1052,
+        "endChar": 37
+      },
+      "revId": "0bc9d80bae6f117005414f703d7547f3ae82770b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

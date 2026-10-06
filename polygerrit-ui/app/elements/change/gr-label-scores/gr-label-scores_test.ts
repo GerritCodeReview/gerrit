@@ -21,6 +21,9 @@ import {
 import {ChangeStatus} from '../../../constants/constants';
 import {getVoteForAccount} from '../../../utils/label-util';
 import {assert, fixture, html} from '@open-wc/testing';
+import {sendMouse, setViewport} from '@web/test-runner-commands';
+import {GrButton} from '../../shared/gr-button/gr-button';
+import {MdTextButton} from '@material/web/button/text-button';
 
 suite('gr-label-scores tests', () => {
   const accountId = 123 as AccountId;
@@ -96,6 +99,59 @@ suite('gr-label-scores tests', () => {
       `
     );
   });
+
+  for (const width of [1200, 700, 390]) {
+    test(`vote hit areas stay within their buttons at ${width}px`, async () => {
+      await setViewport({width, height: 800});
+      const rows = ['Code-Review', 'Verified'].map(name =>
+        queryAndAssert<GrLabelScoreRow>(
+          element,
+          `gr-label-score-row[name="${name}"]`
+        )
+      );
+      await Promise.all(rows.map(row => row.updateComplete));
+      for (const row of rows) row.setSelectedValue('-1');
+      await Promise.all(rows.map(row => row.updateComplete));
+      const buttons = rows.map(row =>
+        queryAndAssert<GrButton>(row, 'gr-button[data-value=" 0"]')
+      );
+      await Promise.all(buttons.map(button => button.updateComplete));
+      await Promise.all(
+        buttons.map(
+          button =>
+            queryAndAssert<MdTextButton>(button, 'md-text-button')
+              .updateComplete
+        )
+      );
+      const rects = buttons.map(button => button.getBoundingClientRect());
+      const click = async (rect: DOMRect, y: number) => {
+        await sendMouse({
+          type: 'click',
+          position: [Math.round(rect.x + rect.width / 2), Math.round(y)],
+        });
+        await Promise.all(rows.map(row => row.updateComplete));
+      };
+
+      // These points used to hit the other row's overlapping touch target.
+      await click(rects[0], rects[0].bottom + 1);
+      await click(rects[1], rects[1].top - 1);
+      assert.deepEqual(element.getLabelValues(), {
+        'Code-Review': -1,
+        Verified: -1,
+      });
+
+      await click(rects[0], rects[0].y + rects[0].height / 2);
+      assert.deepEqual(element.getLabelValues(), {
+        'Code-Review': 0,
+        Verified: -1,
+      });
+      await click(rects[1], rects[1].y + rects[1].height / 2);
+      assert.deepEqual(element.getLabelValues(), {
+        'Code-Review': 0,
+        Verified: 0,
+      });
+    });
+  }
 
   test('get and set label scores', async () => {
     for (const label of Object.keys(element.permittedLabels!)) {

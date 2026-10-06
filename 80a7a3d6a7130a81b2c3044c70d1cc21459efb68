@@ -3,6 +3,46 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2424045d_e7df1b4d",
+        "filename": "java/com/google/gerrit/server/account/AuthTokenExpiryNotificationConfig.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-10-06T15:37:12Z",
+      "side": 1,
+      "message": "```suggestion\n          Arrays.stream(configNotificationDays)\n```",
+      "revId": "80a7a3d6a7130a81b2c3044c70d1cc21459efb68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a1e7d08_12ed4714",
+        "filename": "java/com/google/gerrit/server/account/AuthTokenExpiryNotificationConfig.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-10-06T15:37:12Z",
+      "side": 1,
+      "message": "subsection missing",
+      "range": {
+        "startLine": 59,
+        "startChar": 47,
+        "endLine": 59,
+        "endChar": 52
+      },
+      "revId": "80a7a3d6a7130a81b2c3044c70d1cc21459efb68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7c3d0478_135a7d3b",
         "filename": "java/com/google/gerrit/server/account/AuthTokenExpiryNotificationConfig.java",
         "patchSetId": 10
@@ -19,6 +59,53 @@
         "startChar": 0,
         "endLine": 60,
         "endChar": 79
+      },
+      "revId": "80a7a3d6a7130a81b2c3044c70d1cc21459efb68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ebda69a_149283ea",
+        "filename": "java/com/google/gerrit/server/account/AuthTokenExpiryNotificationConfig.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-10-06T15:37:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c3d0478_135a7d3b",
+      "range": {
+        "startLine": 59,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 79
+      },
+      "revId": "80a7a3d6a7130a81b2c3044c70d1cc21459efb68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4315f574_ff311c3f",
+        "filename": "java/com/google/gerrit/server/account/AuthTokenExpiryNotificationConfig.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-10-06T15:37:12Z",
+      "side": 1,
+      "message": "This seems outdated: neither startDays not intervalDays exists as option",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 70,
+        "endChar": 24
       },
       "revId": "80a7a3d6a7130a81b2c3044c70d1cc21459efb68",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
@@ -67,6 +154,23 @@
         "endLine": 62,
         "endChar": 89
       },
+      "revId": "80a7a3d6a7130a81b2c3044c70d1cc21459efb68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed825f8f_c39457e1",
+        "filename": "javatests/com/google/gerrit/server/account/AuthTokenExpiryNotificationConfigTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-10-06T15:37:12Z",
+      "side": 1,
+      "message": "Add a test for non-integer values for `notifyDaysBefore`?",
       "revId": "80a7a3d6a7130a81b2c3044c70d1cc21459efb68",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2cc18480_8c072431",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 439,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-06T18:39:59Z",
+      "side": 1,
+      "message": "Thanks for catching, this wasn\u0027t quite right, and actually works better with the order reversed. Updated the implementation and added comments. The integration test now includes a test case sending both PROXY and `X-Forwarded-For` headers and verifies that the forwarded source is honored.\n\nDoes it look good to you now?",
+      "parentUuid": "8f5d5ed8_8652ea8f",
+      "range": {
+        "startLine": 437,
+        "startChar": 0,
+        "endLine": 439,
+        "endChar": 9
+      },
+      "revId": "d5e6aec46c8c3f9b2d216814d61f4198f5a5895f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d1495952_b7b2ec1e",
         "filename": "java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
         "patchSetId": 3
@@ -37,6 +61,24 @@
       "writtenOn": "2026-10-05T08:40:08Z",
       "side": 1,
       "message": "Annotate with `@VisibleForTesting`",
+      "revId": "d5e6aec46c8c3f9b2d216814d61f4198f5a5895f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "01515a6c_efdbd833",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/JettyServer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 505,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-06T18:39:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d1495952_b7b2ec1e",
       "revId": "d5e6aec46c8c3f9b2d216814d61f4198f5a5895f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -58,6 +100,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d8cc13a9_6c72d81c",
+        "filename": "javatests/com/google/gerrit/acceptance/server/httpd/JettyProxyProtocolIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-06T18:39:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "022cf03b_bfab3807",
+      "revId": "d5e6aec46c8c3f9b2d216814d61f4198f5a5895f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "33495165_0b2a72ac",
@@ -71,6 +131,30 @@
       "writtenOn": "2026-10-05T08:40:08Z",
       "side": 1,
       "message": "This is at least present in one other test. It would be good to have that in a utility class for reuse.",
+      "range": {
+        "startLine": 104,
+        "startChar": 0,
+        "endLine": 108,
+        "endChar": 3
+      },
+      "revId": "d5e6aec46c8c3f9b2d216814d61f4198f5a5895f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "82023eb6_6484837a",
+        "filename": "javatests/com/google/gerrit/acceptance/server/httpd/JettyProxyProtocolIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2026-10-06T18:39:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33495165_0b2a72ac",
       "range": {
         "startLine": 104,
         "startChar": 0,

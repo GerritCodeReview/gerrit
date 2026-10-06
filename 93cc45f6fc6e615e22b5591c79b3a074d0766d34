@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c367a3e2_ae022f51",
+        "filename": "java/com/google/gerrit/server/git/AllUsersRepositoryProvider.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-10-06T14:18:32Z",
+      "side": 1,
+      "message": "Good point. Done.",
+      "parentUuid": "ed4e09c9_a1a4a80a",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 73,
+        "endChar": 72
+      },
+      "revId": "93cc45f6fc6e615e22b5591c79b3a074d0766d34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5d2e0e0c_deccaeb0",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-10-06T14:16:34Z",
       "side": 1,
       "message": "Gerrit shutdown can happen *after* the startup ... I\u0027ve never seen a case where whilst the startup is in progress Gerrit accepts a shutdown request.\n\nDo we really need this case?",
+      "range": {
+        "startLine": 109,
+        "startChar": 0,
+        "endLine": 114,
+        "endChar": 3
+      },
+      "revId": "93cc45f6fc6e615e22b5591c79b3a074d0766d34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9029745_32c6dbe9",
+        "filename": "javatests/com/google/gerrit/server/git/AllUsersRepositoryProviderTest.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-10-06T14:18:32Z",
+      "side": 1,
+      "message": "Marked as resolved.",
+      "parentUuid": "5d2e0e0c_deccaeb0",
       "range": {
         "startLine": 109,
         "startChar": 0,

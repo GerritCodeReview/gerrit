@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5666b928_4fe9e38f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-06T19:06:27Z",
+      "side": 1,
+      "message": "Maintaining this annotated TLD snapshot creates extra work whenever Commons Validator changes its supported TLDs.\n\nI uploaded a follow-up change 639564 that uses `DomainValidator.getTLDEntries(...)` in `EmailValidatorIT` and removes the local snapshot. It also uses `example.invalid` as a stable negative case.\n\nThis deliberately changes the coverage: we check that Gerrit accepts Commons’ supported TLDs, while leaving verification of the TLD list itself to Commons.\n\nThe individual retired-TLD assertions are removed. Feel free to squash the follow-up into this change or keep it separate.",
+      "range": {
+        "startLine": 29,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 70
+      },
+      "revId": "9c3532d06b6d6b77db9298bc237362971b454137",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5ccc8ae4_ad351d69",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-06T19:06:27Z",
+      "side": 1,
+      "message": "Nit: could you wrap this paragraph at 72 columns?",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 73
+      },
+      "revId": "9c3532d06b6d6b77db9298bc237362971b454137",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

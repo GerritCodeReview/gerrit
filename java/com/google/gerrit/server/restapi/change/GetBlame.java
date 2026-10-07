@@ -14,8 +14,10 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.common.BlameInfo;
 import com.google.gerrit.extensions.common.RangeInfo;
@@ -32,6 +34,8 @@ import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.patch.AutoMerger;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gitiles.blame.cache.BlameCache;
+import com.google.gitiles.blame.cache.IgnoreRevFileReader;
+import com.google.gitiles.blame.cache.IgnoreRevFileReader.IgnoreRevsFile;
 import com.google.gitiles.blame.cache.Region;
 import com.google.inject.Inject;
 import java.io.IOException;
@@ -48,6 +52,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.kohsuke.args4j.Option;
 
 public class GetBlame implements RestReadView<FileResource> {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final GitRepositoryManager repoManager;
   private final BlameCache blameCache;
@@ -139,7 +144,7 @@ public class GetBlame implements RestReadView<FileResource> {
     List<Region> blameRegions;
     try (TraceContext.TraceTimer ignored =
         TraceContext.newTimer("blameCache.get", Metadata.empty())) {
-      blameRegions = blameCache.get(repository, id, path);
+      blameRegions = blameCache.get(repository, id, path, getIgnoreIds(revWalk, id));
     }
 
     int from = 1;
@@ -158,6 +163,28 @@ public class GetBlame implements RestReadView<FileResource> {
       result.add(key);
     }
     return result;
+  }
+
+  private static ImmutableSet<ObjectId> getIgnoreIds(RevWalk rw, ObjectId id) {
+    IgnoreRevsFile file;
+    try {
+      file = IgnoreRevFileReader.read(rw, id);
+    } catch (IOException e) {
+      logger.atWarning().withCause(e).log(
+          "Cannot read %s at %s", IgnoreRevFileReader.DEFAULT_PATH, id.name());
+      return ImmutableSet.of();
+    }
+    if (file.tooLarge()) {
+      logger.atWarning().log(
+          "%s at %s is larger than %d bytes, not ignoring any revisions",
+          IgnoreRevFileReader.DEFAULT_PATH, id.name(), IgnoreRevFileReader.MAX_SIZE);
+      return ImmutableSet.of();
+    } else if (file.truncated()) {
+      logger.atInfo().log(
+          "Ignoring only the first %d revisions listed in %s at %s",
+          IgnoreRevFileReader.MAX_REVS, IgnoreRevFileReader.DEFAULT_PATH, id.name());
+    }
+    return file.ids();
   }
 
   private static BlameInfo toBlameInfo(RevCommit commit, PersonIdent sourceAuthor) {

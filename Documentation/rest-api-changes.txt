@@ -7047,6 +7047,10 @@ blame.
 The `base` parameter can be specified to control the base patch set from which
 the blame should be generated.
 
+If a `.git-blame-ignore-revs` file is present at the root of the repository in
+the revision being blamed, the revisions listed in it are ignored when computing
+the blame.
+
 [[set-reviewed]]
 === Set Reviewed
 --

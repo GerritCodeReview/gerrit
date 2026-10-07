@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2eaa776_f53d5432",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1155610
+      },
+      "writtenOn": "2026-10-07T07:54:59Z",
+      "side": 1,
+      "message": "```suggestion\nRelease-Notes: Optimise accounts cache loading and external-ids reading by not opening All-Users repository at every load event\n```",
+      "range": {
+        "startLine": 16,
+        "startChar": 15,
+        "endLine": 16,
+        "endChar": 154
+      },
+      "revId": "2220bd7648729250f17a4c6a9e0fcd8bb3a7d03e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

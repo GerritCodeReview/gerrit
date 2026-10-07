@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb3c1075_ee4d5217",
+        "filename": "java/com/google/gerrit/server/account/AuthTokenExpiryNotificationConfig.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-10-07T07:25:48Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "2424045d_e7df1b4d",
+      "revId": "80a7a3d6a7130a81b2c3044c70d1cc21459efb68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4a1e7d08_12ed4714",
@@ -31,6 +49,30 @@
       "writtenOn": "2026-10-06T15:37:12Z",
       "side": 1,
       "message": "subsection missing",
+      "range": {
+        "startLine": 59,
+        "startChar": 47,
+        "endLine": 59,
+        "endChar": 52
+      },
+      "revId": "80a7a3d6a7130a81b2c3044c70d1cc21459efb68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4767baba_0d19a2b5",
+        "filename": "java/com/google/gerrit/server/account/AuthTokenExpiryNotificationConfig.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-10-07T07:25:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a1e7d08_12ed4714",
       "range": {
         "startLine": 59,
         "startChar": 47,
@@ -111,6 +153,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e31f309_cdb26f16",
+        "filename": "java/com/google/gerrit/server/account/AuthTokenExpiryNotificationConfig.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-10-07T07:25:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4315f574_ff311c3f",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 70,
+        "endChar": 24
+      },
+      "revId": "80a7a3d6a7130a81b2c3044c70d1cc21459efb68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e77f0b70_774d2ee2",
@@ -158,6 +224,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8b57530e_b644664b",
+        "filename": "java/com/google/gerrit/server/account/AuthTokenExpiryNotifier.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-10-07T07:25:48Z",
+      "side": 1,
+      "message": "Fix applied.",
+      "parentUuid": "df2aff9c_f7eed4d2",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 89
+      },
+      "revId": "80a7a3d6a7130a81b2c3044c70d1cc21459efb68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ed825f8f_c39457e1",
@@ -171,6 +261,24 @@
       "writtenOn": "2026-10-06T15:37:12Z",
       "side": 1,
       "message": "Add a test for non-integer values for `notifyDaysBefore`?",
+      "revId": "80a7a3d6a7130a81b2c3044c70d1cc21459efb68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6fc7b97_f8f84043",
+        "filename": "javatests/com/google/gerrit/server/account/AuthTokenExpiryNotificationConfigTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2026-10-07T07:25:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed825f8f_c39457e1",
       "revId": "80a7a3d6a7130a81b2c3044c70d1cc21459efb68",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

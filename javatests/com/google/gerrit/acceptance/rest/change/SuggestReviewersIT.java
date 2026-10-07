@@ -48,14 +48,28 @@ import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Inject;
 import java.util.List;
 import java.util.Locale;
 import java.util.stream.IntStream;
+import org.eclipse.jgit.lib.Config;
 import org.junit.Before;
 import org.junit.Test;
 
 public class SuggestReviewersIT extends AbstractDaemonTest {
+
+  /**
+   * Runs all tests with a real FanOut thread pool, so that reviewer visibility checks run
+   * concurrently. The default test configuration uses a direct executor.
+   */
+  @ConfigSuite.Config
+  public static Config fanOutThreadPool() {
+    Config cfg = new Config();
+    cfg.setInt("execution", null, "fanOutThreadPoolSize", 4);
+    return cfg;
+  }
+
   @Inject private AccountOperations accountOperations;
   @Inject private GroupOperations groupOperations;
   @Inject private ProjectOperations projectOperations;
@@ -735,6 +749,91 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     assertThat(reviewers.stream().map(r -> r.account._accountId).collect(toList()))
         .containsExactly(reviewer.id().get(), newTeamMember.id().get())
         .inOrder();
+  }
+
+  @Test
+  public void suggestReviewers_mixedVisibility_preservesRankingAndLimit() throws Exception {
+    MixedVisibilitySetup setup = setUpMixedVisibility();
+
+    requestScopeOperations.setApiUser(setup.caller.id());
+    List<SuggestedReviewerInfo> reviewers = suggestReviewers(createChangeFromApi(), null, 2);
+
+    // Reviewers are ranked by how often they reviewed the caller's changes. Odd-ranked
+    // reviewers cannot see the change, so the first 2 visible reviewers are ranks 0 and 2.
+    assertThat(accountIds(reviewers))
+        .containsExactly(setup.ranked.get(0).id().get(), setup.ranked.get(2).id().get())
+        .inOrder();
+  }
+
+  @Test
+  public void suggestReviewers_manyInvisibleCandidates_allVisibleFound() throws Exception {
+    MixedVisibilitySetup setup = setUpMixedVisibility();
+
+    requestScopeOperations.setApiUser(setup.caller.id());
+    List<SuggestedReviewerInfo> reviewers = suggestReviewers(createChangeFromApi(), null, 10);
+
+    // The limit exceeds the number of visible candidates, so every candidate is checked and all
+    // visible ones are returned in ranking order.
+    assertThat(accountIds(reviewers))
+        .containsExactly(
+            setup.ranked.get(0).id().get(),
+            setup.ranked.get(2).id().get(),
+            setup.ranked.get(4).id().get())
+        .inOrder();
+  }
+
+  private static class MixedVisibilitySetup {
+    final TestAccount caller;
+    final ImmutableList<TestAccount> ranked;
+
+    MixedVisibilitySetup(TestAccount caller, ImmutableList<TestAccount> ranked) {
+      this.caller = caller;
+      this.ranked = ranked;
+    }
+  }
+
+  /**
+   * Creates 6 reviewers of the caller's recent changes. The reviewer at index i reviewed (6 - i)
+   * changes, so the default suggestion ranks the reviewers in index order. Afterwards, only the
+   * caller and the even-ranked reviewers can read the project.
+   */
+  private MixedVisibilitySetup setUpMixedVisibility() throws Exception {
+    TestAccount caller = user("mixedcaller", "Mixed Caller");
+    ImmutableList.Builder<TestAccount> rankedBuilder = ImmutableList.builder();
+    for (int i = 0; i < 6; i++) {
+      rankedBuilder.add(user("mixedreviewer" + i, "Mixed Reviewer " + i));
+    }
+    ImmutableList<TestAccount> ranked = rankedBuilder.build();
+
+    requestScopeOperations.setApiUser(caller.id());
+    for (int c = 0; c < ranked.size(); c++) {
+      String changeId = createChangeFromApi();
+      for (int r = 0; r < ranked.size() - c; r++) {
+        reviewChange(changeId, ranked.get(r));
+      }
+    }
+
+    requestScopeOperations.setApiUser(admin.id());
+    AccountGroup.UUID readers =
+        groupOperations
+            .newGroup()
+            .name(name("readers"))
+            .members(caller.id(), ranked.get(0).id(), ranked.get(2).id(), ranked.get(4).id())
+            .create();
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(READ).ref("refs/*").group(ANONYMOUS_USERS))
+        .add(allow(READ).ref("refs/*").group(readers))
+        .update();
+    return new MixedVisibilitySetup(caller, ranked);
+  }
+
+  private static List<Integer> accountIds(List<SuggestedReviewerInfo> reviewers) {
+    return reviewers.stream()
+        .filter(r -> r.account != null)
+        .map(r -> r.account._accountId)
+        .collect(toList());
   }
 
   private TestAccount createAccountWithSecondaryEmail(String name, String secondaryEmail)

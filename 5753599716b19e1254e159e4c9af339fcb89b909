@@ -70,6 +70,30 @@
       },
       "revId": "5753599716b19e1254e159e4c9af339fcb89b909",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c644726_a71123c6",
+        "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmailValidator.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-07T05:12:18Z",
+      "side": 1,
+      "message": "Gotcha, makes sense, thanks for explaining it.",
+      "parentUuid": "b6ebeffb_3bd7047d",
+      "range": {
+        "startLine": 48,
+        "startChar": 6,
+        "endLine": 48,
+        "endChar": 62
+      },
+      "revId": "5753599716b19e1254e159e4c9af339fcb89b909",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -46,6 +46,30 @@
       },
       "revId": "5753599716b19e1254e159e4c9af339fcb89b909",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b6ebeffb_3bd7047d",
+        "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmailValidator.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-07T04:21:02Z",
+      "side": 1,
+      "message": "Josie’s point applies to the custom-TLD case: restoring the original `isValid()` implementation would bypass the configured validator.\n\nThis also preserves production behavior: `sendemail.allowTLD` is an operator setting. Once its overrides are instance-specific, validation must use that configured instance. The tests exercise that contract.\n\nFor example, with `sendemail.allowTLD \u003d example`, calling the Commons singleton directly would reject `foo@bar.example`, ignoring Gerrit’s configured allowance.\n\n`EmailValidatorIT.testCustomTopLevelDomain()` already covers this case.\n\nIn my follow-up change 639564, I’ve simplified construction by selecting the default or custom `DomainValidator` first, then creating one `EmailValidator` around it.",
+      "parentUuid": "5841ec5b_279fe8ed",
+      "range": {
+        "startLine": 48,
+        "startChar": 6,
+        "endLine": 48,
+        "endChar": 62
+      },
+      "revId": "5753599716b19e1254e159e4c9af339fcb89b909",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

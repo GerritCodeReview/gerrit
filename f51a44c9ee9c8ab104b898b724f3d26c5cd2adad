@@ -16,6 +16,24 @@
       "message": "nit: Since `tlds-alpha-by-domain.txt` was the only file under `resources/com/google/gerrit/acceptance/`, we can also delete `resources/com/google/gerrit/acceptance/BUILD` and remove `resources \u003d [\"//resources/com/google/gerrit/acceptance\"]` (and `resource_strip_prefix \u003d \"resources\"`) from `java/com/google/gerrit/acceptance/BUILD`.",
       "revId": "f51a44c9ee9c8ab104b898b724f3d26c5cd2adad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c1046da_acc21354",
+        "filename": "resources/com/google/gerrit/acceptance/server/mail/tlds-alpha-by-domain.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-07T12:37:35Z",
+      "side": 1,
+      "message": "Thanks for noticing. Done.",
+      "parentUuid": "3c592070_12027397",
+      "revId": "f51a44c9ee9c8ab104b898b724f3d26c5cd2adad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

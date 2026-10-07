@@ -18,6 +18,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e11d4852_57b3993e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-10-07T14:52:59Z",
+      "side": 1,
+      "message": "I\u0027m seeing this:\n\n```\n2026-10-07 14:51:38.240657 | testnode | WARNING: Download from https://gerrit-maven.storage.googleapis.com/commons-validator/commons-validator/1.11.0/commons-validator-1.11.0-sources.jar failed: class java.io.FileNotFoundException GET returned 404 Not Found\n2026-10-07 14:51:38.257457 | testnode | WARNING: Download from https://gerrit-maven.storage.googleapis.com/commons-validator/commons-validator/1.11.0/commons-validator-1.11.0.jar failed: class java.io.FileNotFoundException GET returned 404 Not Found\n```",
+      "revId": "5753599716b19e1254e159e4c9af339fcb89b909",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bdcc035e_a774494a",

@@ -52,7 +52,6 @@ import java.util.EnumSet;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class SubmittedTogetherIT extends AbstractDaemonTest {

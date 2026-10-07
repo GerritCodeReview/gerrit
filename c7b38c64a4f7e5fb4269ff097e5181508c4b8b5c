@@ -33,6 +33,24 @@
       "message": "IMHO we don\u0027t need to add complexity by adding new settings for narrow screens. Usage is very low for narrow screens from our data. Maybe better css rules, smaller other columns would be better. I am not blocking, just my opinion",
       "revId": "c7b38c64a4f7e5fb4269ff097e5181508c4b8b5c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "34085a91_7f364af4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010246
+      },
+      "writtenOn": "2026-10-07T22:55:30Z",
+      "side": 1,
+      "message": "I\u0027m honestly ok abandoning this one. We\u0027ve landed better css and whatnot for the mobile view and I think it looks pretty good now. This was more for completeness in case there were folks with strong contrary feelings about what should be shown.",
+      "parentUuid": "301fca55_f7d2a6fb",
+      "revId": "c7b38c64a4f7e5fb4269ff097e5181508c4b8b5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

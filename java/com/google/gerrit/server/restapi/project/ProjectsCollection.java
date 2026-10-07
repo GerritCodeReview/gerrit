@@ -24,7 +24,6 @@ import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.NeedsParams;
-import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestCollection;
@@ -134,8 +133,7 @@ public class ProjectsCollection
   }
 
   @Nullable
-  private ProjectResource _parse(String id, boolean checkAccess)
-      throws PermissionBackendException, ResourceConflictException {
+  private ProjectResource _parse(String id, boolean checkAccess) throws PermissionBackendException {
     try {
       ProjectUtil.validateProjectName(id);
     } catch (InvalidProjectNameException e) {
@@ -157,15 +155,14 @@ public class ProjectsCollection
       // WRITE_CONFIG is checked here because it's only allowed to project owners (ACCESS may also
       // be allowed for other users). Allowing project owners to access here will help them to view
       // and update the config of hidden projects easily.
-      if (state.get().statePermitsRead()) {
-        if (!permissionBackend.currentUser().project(nameKey).test(ProjectPermission.ACCESS)) {
-          return null;
-        }
-      } else if (!permissionBackend
-          .currentUser()
-          .project(nameKey)
-          .test(ProjectPermission.WRITE_CONFIG)) {
-        state.get().checkStatePermitsRead();
+      // For everyone else a hidden project must be indistinguishable from a non-existing one, so
+      // that its existence and state are not disclosed.
+      ProjectPermission requiredPermission =
+          state.get().statePermitsRead()
+              ? ProjectPermission.ACCESS
+              : ProjectPermission.WRITE_CONFIG;
+      if (!permissionBackend.currentUser().project(nameKey).test(requiredPermission)) {
+        return null;
       }
     }
     return new ProjectResource(state.get(), user.get());

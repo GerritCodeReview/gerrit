@@ -16,6 +16,24 @@
       "message": "Could we check shutdown ordering before introducing this consumer? The provider is registered through GerritGlobalModule, after WorkQueueModule, so reverse lifecycle shutdown stops it before queued work drains. An email task requiring an external-ID cache reload can then hit “All-Users repository provider has stopped”. Can we make the provider outlive its consumers and cover that ordering in a test?\n\nThis is based on the lifecycle wiring. I haven’t reproduced it during daemon shutdown.",
       "revId": "47feb84e64b6976bc65d8c40f3a022f628bf5658",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91fd56e0_b100b326",
+        "filename": "java/com/google/gerrit/server/account/externalids/storage/notedb/ExternalIdCacheLoader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-10-07T08:05:31Z",
+      "side": 1,
+      "message": "Yes, I think David has a point.\nI haven\u0027t seen this happen during shutdown, but we install `WorkQueueModule` before `GerritGlobalModule`, so shutdown will stop our provider *before* `WorkQueue` finishes draining tasks.\n\nAlso, `ChangeExternalIdCaseSensitivityIT` tests are failing:\n\n```\n\nRequested by:\n1  : ExternalIdReader.\u003cinit\u003e(ExternalIdReader.java:93)\n      \\_ for 1st parameter allUsersRepositoryProvider\n     at ExternalIdsNoteDbImpl.\u003cinit\u003e(ExternalIdsNoteDbImpl.java:54)\n      \\_ for 1st parameter externalIdReader\n     at ExternalIdNoteDbReadStorageModule.configure(ExternalIdNoteDbReadStorageModule.java:27)\n      \\_ installed by: ChangeExternalIdCaseSensitivity$1 -\u003e ExternalIdNoteDbReadStorageModule\n```\n\nThis is because `ExternalIdNoteDbReadStorageModule` doesn’t install `GitModule`, which currently installs the `@allUsersRepository` provider.\n\nMoving the provider binding into `SchemaModule` will address both concerns.\n\nWDYT @david.ostrovsky@gmail.com, @luca.milanesio@gmail.com?",
+      "parentUuid": "2c4ffb79_98105739",
+      "revId": "47feb84e64b6976bc65d8c40f3a022f628bf5658",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

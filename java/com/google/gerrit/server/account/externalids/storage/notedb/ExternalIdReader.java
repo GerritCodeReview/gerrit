@@ -28,8 +28,9 @@ import com.google.gerrit.metrics.Timer0;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AuthConfig;
-import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.AllUsersRepository;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.time.Duration;
@@ -72,8 +73,8 @@ public class ExternalIdReader {
     return NoteMap.newEmptyMap();
   }
 
-  private final GitRepositoryManager repoManager;
   private final AllUsersName allUsersName;
+  private final Provider<Repository> allUsersRepositoryProvider;
   private boolean failOnLoad = false;
   private final Timer0 readAllLatency;
   private final Timer0 readSingleLatency;
@@ -85,13 +86,13 @@ public class ExternalIdReader {
   @VisibleForTesting
   @Inject
   public ExternalIdReader(
-      GitRepositoryManager repoManager,
+      @AllUsersRepository Provider<Repository> allUsersRepositoryProvider,
       AllUsersName allUsersName,
       MetricMaker metricMaker,
       ExternalIdFactoryNoteDbImpl externalIdFactory,
       AuthConfig authConfig) {
-    this.repoManager = repoManager;
     this.allUsersName = allUsersName;
+    this.allUsersRepositoryProvider = allUsersRepositoryProvider;
     this.readAllLatency =
         metricMaker.newTimer(
             "notedb/read_all_external_ids_latency",
@@ -113,7 +114,7 @@ public class ExternalIdReader {
                 () -> {
                   try {
                     logger.atFine().log("Refreshing external-ids revision from All-Users repo");
-                    return readRevision(repoManager, allUsersName);
+                    return readRevision(allUsersRepositoryProvider.get());
                   } catch (IOException e) {
                     throw new IllegalStateException(
                         "Couldn't refresh external-ids from All-Users repo", e);
@@ -137,14 +138,7 @@ public class ExternalIdReader {
   public ObjectId readRevision() throws IOException {
     return externalIdsRefExpirySecs > 0
         ? allUsersSupplier.get()
-        : readRevision(repoManager, allUsersName);
-  }
-
-  private static ObjectId readRevision(GitRepositoryManager repoManager, AllUsersName allUsersName)
-      throws IOException {
-    try (Repository repo = repoManager.openRepository(allUsersName)) {
-      return readRevision(repo);
-    }
+        : readRevision(allUsersRepositoryProvider.get());
   }
 
   public static ObjectId readRevision(Repository repo) throws IOException {
@@ -156,11 +150,10 @@ public class ExternalIdReader {
   ImmutableSet<ExternalId> all() throws IOException, ConfigInvalidException {
     checkReadEnabled();
 
-    try (Timer0.Context ctx = readAllLatency.start();
-        Repository repo = repoManager.openRepository(allUsersName)) {
+    try (Timer0.Context ctx = readAllLatency.start()) {
       return ExternalIdNotes.loadReadOnly(
               allUsersName,
-              repo,
+              allUsersRepositoryProvider.get(),
               null,
               externalIdFactory,
               authConfig.isUserNameCaseInsensitiveMigrationMode())
@@ -182,11 +175,10 @@ public class ExternalIdReader {
       throws IOException, ConfigInvalidException {
     checkReadEnabled();
 
-    try (Timer0.Context ctx = readAllLatency.start();
-        Repository repo = repoManager.openRepository(allUsersName)) {
+    try (Timer0.Context ctx = readAllLatency.start()) {
       return ExternalIdNotes.loadReadOnly(
               allUsersName,
-              repo,
+              allUsersRepositoryProvider.get(),
               rev,
               externalIdFactory,
               authConfig.isUserNameCaseInsensitiveMigrationMode())
@@ -198,11 +190,10 @@ public class ExternalIdReader {
   Optional<ExternalId> get(ExternalId.Key key) throws IOException, ConfigInvalidException {
     checkReadEnabled();
 
-    try (Timer0.Context ctx = readSingleLatency.start();
-        Repository repo = repoManager.openRepository(allUsersName)) {
+    try (Timer0.Context ctx = readSingleLatency.start()) {
       return ExternalIdNotes.loadReadOnly(
               allUsersName,
-              repo,
+              allUsersRepositoryProvider.get(),
               null,
               externalIdFactory,
               authConfig.isUserNameCaseInsensitiveMigrationMode())
@@ -215,11 +206,10 @@ public class ExternalIdReader {
       throws IOException, ConfigInvalidException {
     checkReadEnabled();
 
-    try (Timer0.Context ctx = readSingleLatency.start();
-        Repository repo = repoManager.openRepository(allUsersName)) {
+    try (Timer0.Context ctx = readSingleLatency.start()) {
       return ExternalIdNotes.loadReadOnly(
               allUsersName,
-              repo,
+              allUsersRepositoryProvider.get(),
               rev,
               externalIdFactory,
               authConfig.isUserNameCaseInsensitiveMigrationMode())

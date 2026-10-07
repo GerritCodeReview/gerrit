@@ -30,13 +30,13 @@ import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.metrics.Timer0;
 import com.google.gerrit.server.account.externalids.ExternalId;
-import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.AllUsersRepository;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import java.io.IOException;
@@ -69,8 +69,7 @@ public class ExternalIdCacheLoader {
 
   private final ExternalIdReader externalIdReader;
   private final Cache<ObjectId, AllExternalIds> externalIdCache;
-  private final GitRepositoryManager gitRepositoryManager;
-  private final AllUsersName allUsersName;
+  private final Provider<Repository> allUsersRepositoryProvider;
   private final Counter1<Boolean> reloadCounter;
   private final Timer0 reloadDifferential;
   private final boolean isPersistentCache;
@@ -78,8 +77,7 @@ public class ExternalIdCacheLoader {
 
   @Inject
   ExternalIdCacheLoader(
-      GitRepositoryManager gitRepositoryManager,
-      AllUsersName allUsersName,
+      @AllUsersRepository Provider<Repository> allUsersRepositoryProvider,
       ExternalIdReader externalIdReader,
       @Named(ExternalIdCacheImpl.CACHE_NAME) Cache<ObjectId, AllExternalIds> externalIdCache,
       MetricMaker metricMaker,
@@ -87,8 +85,7 @@ public class ExternalIdCacheLoader {
       ExternalIdFactoryNoteDbImpl externalIdFactory) {
     this.externalIdReader = externalIdReader;
     this.externalIdCache = externalIdCache;
-    this.gitRepositoryManager = gitRepositoryManager;
-    this.allUsersName = allUsersName;
+    this.allUsersRepositoryProvider = allUsersRepositoryProvider;
     this.reloadCounter =
         metricMaker.newCounter(
             "notedb/external_id_cache_load_count",
@@ -130,8 +127,8 @@ public class ExternalIdCacheLoader {
     // Once we know what files changed, we apply additions and removals to the previously cached
     // state.
 
-    try (Repository repo = gitRepositoryManager.openRepository(allUsersName);
-        RevWalk rw = new RevWalk(repo)) {
+    Repository repo = allUsersRepositoryProvider.get();
+    try (RevWalk rw = new RevWalk(repo)) {
       long start = System.nanoTime();
       Ref extIdRef = repo.exactRef(RefNames.REFS_EXTERNAL_IDS);
       if (extIdRef == null) {

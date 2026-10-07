@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b5e68a2_65fa4018",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-10-07T15:34:52Z",
+      "side": 1,
+      "message": "Probably want to remove one of these change-id footers.",
+      "revId": "ca99e61cedcf69302a9763dba11ec4c8c8df1fdc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -33,6 +33,23 @@
       "message": "Sorry @thomasmulhall410@yahoo.com, you are literally the only name I know when it comes to frontend stuff these days, since you\u0027re active on discord. If you are too busy but have a different name to pass it on to, please help me out.",
       "revId": "99c54fbc27f1c9ad009a66647b455624a311cca9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d30ff738_5665a419",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1071857
+      },
+      "writtenOn": "2026-10-07T11:21:48Z",
+      "side": 1,
+      "message": "Forgot to write this first, but tested cherry-picking this all the way up to master and it works the whole way in my testing.",
+      "revId": "99c54fbc27f1c9ad009a66647b455624a311cca9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

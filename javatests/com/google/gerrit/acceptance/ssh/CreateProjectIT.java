@@ -93,7 +93,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
     adminSshSession.assertSuccess();
     Optional<ProjectState> projectState = projectCache.get(Project.nameKey(newProjectName));
     assertThat(projectState).isPresent();
-    assertHead(newProjectName, "refs/heads/master");
+    assertHead(newProjectName, "refs/heads/main");
   }
 
   @Test
@@ -107,13 +107,13 @@ public class CreateProjectIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(name = "gerrit.defaultBranch", value = "refs/heads/main")
+  @GerritConfig(name = "gerrit.defaultBranch", value = "refs/heads/foo")
   public void withEmptyBranches_WhenDefaultBranchIsSet() throws Exception {
     String newProjectName = name("newProject");
     adminSshSession.exec("gerrit create-project " + newProjectName);
     adminSshSession.assertSuccess();
     Optional<ProjectState> projectState = projectCache.get(Project.nameKey(newProjectName));
     assertThat(projectState).isPresent();
-    assertHead(newProjectName, "refs/heads/main");
+    assertHead(newProjectName, "refs/heads/foo");
   }
 }

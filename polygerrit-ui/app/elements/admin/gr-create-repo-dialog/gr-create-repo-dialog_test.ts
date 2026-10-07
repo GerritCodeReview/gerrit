@@ -3,7 +3,7 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: Apache-2.0
  */
-import '../../../test/common-test-setup';
+import {testResolver} from '../../../test/common-test-setup';
 import './gr-create-repo-dialog';
 import {GrCreateRepoDialog} from './gr-create-repo-dialog';
 import {
@@ -15,6 +15,12 @@ import {BranchName, GroupId, RepoName} from '../../../types/common';
 import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {assert, fixture, html} from '@open-wc/testing';
 import {MdCheckbox} from '@material/web/checkbox/checkbox';
+import {MdOutlinedTextField} from '@material/web/textfield/outlined-text-field';
+import {configModelToken} from '../../../models/config/config-model';
+import {
+  createGerritInfo,
+  createServerInfo,
+} from '../../../test/test-data-generators';
 
 suite('gr-create-repo-dialog tests', () => {
   let element: GrCreateRepoDialog;
@@ -80,7 +86,7 @@ suite('gr-create-repo-dialog tests', () => {
                     class="showBlueFocusBorder"
                     id="defaultBranchNameInput"
                     inputmode=""
-                    placeholder="Optional, defaults to 'master'"
+                    placeholder="Optional, defaults to 'main'"
                     type="text"
                   >
                   </md-outlined-text-field>
@@ -213,5 +219,23 @@ suite('gr-create-repo-dialog tests', () => {
 
     assert.equal(element.repoConfig.name, configInputObj.name);
     assert.equal(element.nameChanged, true);
+  });
+
+  test('defaultBranch placeholder reflects server config', async () => {
+    const configModel = testResolver(configModelToken);
+    configModel.updateServerConfig({
+      ...createServerInfo(),
+      gerrit: {
+        ...createGerritInfo(),
+        default_branch: 'refs/heads/custom',
+      },
+    });
+    await element.updateComplete;
+
+    const input = queryAndAssert<MdOutlinedTextField>(
+      element,
+      '#defaultBranchNameInput'
+    );
+    assert.equal(input.placeholder, "Optional, defaults to 'custom'");
   });
 });

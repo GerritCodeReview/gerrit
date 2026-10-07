@@ -106,7 +106,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
     Optional<ProjectState> projectState = projectCache.get(Project.nameKey(newProjectName));
     assertThat(projectState).isPresent();
     assertProjectInfo(projectState.get().getProject(), p);
-    assertHead(newProjectName, "refs/heads/master");
+    assertHead(newProjectName, "refs/heads/main");
   }
 
   @Test
@@ -178,7 +178,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
     Optional<ProjectState> projectState = projectCache.get(Project.nameKey(newProjectName));
     assertThat(projectState).isPresent();
     assertProjectInfo(projectState.get().getProject(), p);
-    assertHead(newProjectName, "refs/heads/master");
+    assertHead(newProjectName, "refs/heads/main");
     assertThat(readProjectConfig(newProjectName))
         .hasValue("[access]\n\tinheritFrom = All-Projects\n[submit]\n\taction = inherit\n");
   }
@@ -191,7 +191,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
     Optional<ProjectState> projectState = projectCache.get(Project.nameKey(newProjectName));
     assertThat(projectState).isPresent();
     assertProjectInfo(projectState.get().getProject(), p);
-    assertHead(newProjectName, "refs/heads/master");
+    assertHead(newProjectName, "refs/heads/main");
   }
 
   @Test
@@ -202,7 +202,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
     Optional<ProjectState> projectState = projectCache.get(Project.nameKey(newProjectName));
     assertThat(projectState).isPresent();
     assertProjectInfo(projectState.get().getProject(), p);
-    assertHead(newProjectName, "refs/heads/master");
+    assertHead(newProjectName, "refs/heads/main");
   }
 
   @Test
@@ -213,7 +213,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
     Optional<ProjectState> projectState = projectCache.get(Project.nameKey(newProjectName));
     assertThat(projectState).isPresent();
     assertProjectInfo(projectState.get().getProject(), p);
-    assertHead(newProjectName, "refs/heads/master");
+    assertHead(newProjectName, "refs/heads/main");
   }
 
   @Test
@@ -309,7 +309,7 @@ public class CreateProjectIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(name = "gerrit.defaultBranch", value = "main")
+  @GerritConfig(name = "gerrit.defaultBranch", value = "foo")
   public void createPermissionOnlyProject_WhenDefaultBranchIsSet() throws Exception {
     String newProjectName = name("newProject");
     ProjectInput in = new ProjectInput();
@@ -351,18 +351,18 @@ public class CreateProjectIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(name = "gerrit.defaultBranch", value = "main")
+  @GerritConfig(name = "gerrit.defaultBranch", value = "foo")
   public void createProject_WhenDefaultBranchIsSet() throws Exception {
     String newProjectName = name("newProject");
     gApi.projects().create(newProjectName);
     ImmutableMap<String, BranchInfo> branches = getProjectBranches(newProjectName);
     // HEAD symbolic ref is set to the default, but the actual ref is not created.
     assertThat(branches.keySet()).containsExactly("HEAD", "refs/meta/config");
-    assertHead(newProjectName, "refs/heads/main");
+    assertHead(newProjectName, "refs/heads/foo");
   }
 
   @Test
-  @GerritConfig(name = "gerrit.defaultBranch", value = "main")
+  @GerritConfig(name = "gerrit.defaultBranch", value = "foo")
   public void createProjectWithEmptyCommit_WhenDefaultBranchIsSet() throws Exception {
     String newProjectName = name("newProject");
     ProjectInput in = new ProjectInput();
@@ -371,13 +371,13 @@ public class CreateProjectIT extends AbstractDaemonTest {
     gApi.projects().create(in);
     ImmutableMap<String, BranchInfo> branches = getProjectBranches(newProjectName);
     // HEAD symbolic ref is set to the default, and the actual ref is created.
-    assertThat(branches.keySet()).containsExactly("HEAD", "refs/meta/config", "refs/heads/main");
-    assertHead(newProjectName, "refs/heads/main");
-    assertEmptyCommit(newProjectName, "HEAD", "refs/heads/main");
+    assertThat(branches.keySet()).containsExactly("HEAD", "refs/meta/config", "refs/heads/foo");
+    assertHead(newProjectName, "refs/heads/foo");
+    assertEmptyCommit(newProjectName, "HEAD", "refs/heads/foo");
   }
 
   @Test
-  @GerritConfig(name = "gerrit.defaultBranch", value = "refs/heads/main")
+  @GerritConfig(name = "gerrit.defaultBranch", value = "refs/heads/foo")
   public void createProject_WhenDefaultBranchIsSet_WithBranches() throws Exception {
     // Host-level default only applies if no branches were passed in the input
     String newProjectName = name("newProject");

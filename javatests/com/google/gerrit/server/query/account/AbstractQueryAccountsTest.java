@@ -22,6 +22,7 @@ import static java.util.Comparator.naturalOrder;
 import static java.util.stream.Collectors.toList;
 import static org.junit.Assert.fail;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Streams;
@@ -787,6 +788,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     ProjectInput in = new ProjectInput();
     in.name = name;
     in.createEmptyCommit = true;
+    in.branches = ImmutableList.of("master");
     gApi.projects().create(in);
     return Project.nameKey(name);
   }

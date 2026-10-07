@@ -2889,7 +2889,7 @@ Defaults to `All-Projects` if not set.
 Name of the link:project-configuration.html#default-branch[default branch]
 to use on the project creation, if no other branches were specified in the input.
 +
-Defaults to `refs/heads/master` if not set.
+Defaults to `refs/heads/main` if not set.
 
 [[gerrit.allUsers]]gerrit.allUsers::
 +

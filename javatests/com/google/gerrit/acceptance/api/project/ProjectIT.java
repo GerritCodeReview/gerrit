@@ -75,6 +75,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
@@ -499,6 +500,19 @@ public class ProjectIT extends AbstractDaemonTest {
       // ACTIVE is represented as null in the API
       assertThat(gApi.projects().name(project.get()).config().state).isNull();
     }
+  }
+
+  @Test
+  public void hiddenProjectIsNotFoundForNonOwner() throws Exception {
+    ConfigInput ci = new ConfigInput();
+    ci.state = ProjectState.HIDDEN;
+    gApi.projects().name(project.get()).config(ci);
+
+    requestScopeOperations.setApiUser(user.id());
+    ResourceNotFoundException thrown =
+        assertThrows(
+            ResourceNotFoundException.class, () -> gApi.projects().name(project.get()).get());
+    assertThat(thrown).hasMessageThat().doesNotContain("HIDDEN");
   }
 
   @Test

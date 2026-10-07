@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.api.revision;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.entities.Patch.PATCHSET_LEVEL;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.extensions.common.BlameInfo;
@@ -151,5 +152,110 @@ public class GetBlameIT extends AbstractDaemonTest {
 
     // File doesn't exist in base commit.
     assertThat(blameInfos).isEmpty();
+  }
+
+  @Test
+  public void withIgnoreRevsFile() throws Exception {
+    PushOneCommit.Result r1 = createChange("Change 1", "foo.txt", "line1\nline2\n");
+    PushOneCommit.Result r2 = createChange("Change 2", "foo.txt", "line1\nline2 formatted\n");
+    PushOneCommit.Result r3 =
+        pushFactory
+            .create(
+                admin.newIdent(),
+                testRepo,
+                "Change 3",
+                ImmutableMap.of(
+                    "foo.txt",
+                    "line1\nline2 formatted\nline3\n",
+                    ".git-blame-ignore-revs",
+                    "# Formatting commit\n" + r2.getCommit().name() + "\n"))
+            .to("refs/for/master");
+
+    List<BlameInfo> blameInfos =
+        gApi.changes().id(r3.getChangeId()).current().file("foo.txt").blameRequest().get();
+
+    assertThat(blameInfos).hasSize(2);
+    BlameInfo first = getBlameInfoForCommit(blameInfos, r1.getCommit().name());
+    assertThat(first.ranges).hasSize(1);
+    assertThat(first.ranges.get(0).start).isEqualTo(1);
+    assertThat(first.ranges.get(0).end).isEqualTo(2);
+
+    BlameInfo second = getBlameInfoForCommit(blameInfos, r3.getCommit().name());
+    assertThat(second.ranges).hasSize(1);
+    assertThat(second.ranges.get(0).start).isEqualTo(3);
+    assertThat(second.ranges.get(0).end).isEqualTo(3);
+  }
+
+  @Test
+  public void withIgnoreRevsFileFromBase() throws Exception {
+    PushOneCommit.Result r1 = createChange("Change 1", "foo.txt", "line1\nline2\n");
+    PushOneCommit.Result r2 = createChange("Change 2", "foo.txt", "line1\nline2 formatted\n");
+    PushOneCommit.Result r3 =
+        createChange("Change 3", ".git-blame-ignore-revs", r2.getCommit().name() + "\n");
+    PushOneCommit.Result r4 =
+        createChange("Change 4", "foo.txt", "line1\nline2 formatted\nline3\n");
+
+    // Base of r4 is r3, which has .git-blame-ignore-revs ignoring r2.
+    List<BlameInfo> blameAtR3 =
+        gApi.changes()
+            .id(r4.getChangeId())
+            .current()
+            .file("foo.txt")
+            .blameRequest()
+            .forBase(true)
+            .get();
+    assertThat(blameAtR3).hasSize(1);
+    assertThat(blameAtR3.get(0).id).isEqualTo(r1.getCommit().name());
+    assertThat(blameAtR3.get(0).ranges).hasSize(1);
+    assertThat(blameAtR3.get(0).ranges.get(0).start).isEqualTo(1);
+    assertThat(blameAtR3.get(0).ranges.get(0).end).isEqualTo(2);
+
+    // Base of r3 is r2, which does not have .git-blame-ignore-revs yet.
+    List<BlameInfo> blameAtR2 =
+        gApi.changes()
+            .id(r3.getChangeId())
+            .current()
+            .file("foo.txt")
+            .blameRequest()
+            .forBase(true)
+            .get();
+    assertThat(blameAtR2).hasSize(2);
+    BlameInfo r1Blame = getBlameInfoForCommit(blameAtR2, r1.getCommit().name());
+    assertThat(r1Blame.ranges).hasSize(1);
+    assertThat(r1Blame.ranges.get(0).start).isEqualTo(1);
+    assertThat(r1Blame.ranges.get(0).end).isEqualTo(1);
+    BlameInfo r2Blame = getBlameInfoForCommit(blameAtR2, r2.getCommit().name());
+    assertThat(r2Blame.ranges).hasSize(1);
+    assertThat(r2Blame.ranges.get(0).start).isEqualTo(2);
+    assertThat(r2Blame.ranges.get(0).end).isEqualTo(2);
+  }
+
+  private static BlameInfo getBlameInfoForCommit(List<BlameInfo> blameInfos, String commitId) {
+    return blameInfos.stream()
+        .filter(b -> commitId.equals(b.id))
+        .findFirst()
+        .orElseThrow(() -> new AssertionError("No BlameInfo found for commit " + commitId));
+  }
+
+  @Test
+  public void withIgnoreRevsFileInlineCommentsAndInvalidLines() throws Exception {
+    PushOneCommit.Result r1 = createChange("Change 1", "foo.txt", "line1\nline2\n");
+    PushOneCommit.Result r2 = createChange("Change 2", "foo.txt", "line1\nline2 formatted\n");
+    PushOneCommit.Result r3 =
+        createChange(
+            "Change 3",
+            ".git-blame-ignore-revs",
+            "# Header comment\n\nnot-a-valid-sha\n"
+                + r2.getCommit().name()
+                + "\t# tab-separated inline comment\n");
+
+    List<BlameInfo> blameInfos =
+        gApi.changes().id(r3.getChangeId()).current().file("foo.txt").blameRequest().get();
+
+    assertThat(blameInfos).hasSize(1);
+    assertThat(blameInfos.get(0).id).isEqualTo(r1.getCommit().name());
+    assertThat(blameInfos.get(0).ranges).hasSize(1);
+    assertThat(blameInfos.get(0).ranges.get(0).start).isEqualTo(1);
+    assertThat(blameInfos.get(0).ranges.get(0).end).isEqualTo(2);
   }
 }

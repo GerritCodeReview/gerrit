@@ -5057,6 +5057,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     ProjectInput projectInput = new ProjectInput();
     projectInput.name = project.get();
     projectInput.createEmptyCommit = true;
+    projectInput.branches = ImmutableList.of("master");
     gApi.projects().create(projectInput);
   }
 

@@ -109,8 +109,8 @@ public class AbandonIT extends AbstractDaemonTest {
     TestRepository<InMemoryRepository> project2 = cloneProject(Project.nameKey(project2Name));
 
     CurrentUser user = localCtx.getContext().getUser();
-    PushOneCommit.Result a = createChange(project1, "master", "x", "x", "x", "");
-    PushOneCommit.Result b = createChange(project2, "master", "x", "x", "x", "");
+    PushOneCommit.Result a = createChange(project1, "main", "x", "x", "x", "");
+    PushOneCommit.Result b = createChange(project2, "main", "x", "x", "x", "");
     ImmutableList<ChangeData> list = ImmutableList.of(a.getChange(), b.getChange());
     ResourceConflictException thrown =
         assertThrows(

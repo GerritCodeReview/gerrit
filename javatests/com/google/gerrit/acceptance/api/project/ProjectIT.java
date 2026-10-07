@@ -130,28 +130,28 @@ public class ProjectIT extends AbstractDaemonTest {
         extensionRegistry.newRegistration().add(projectIndexedCounter)) {
       String name = name("foo");
       assertThat(gApi.projects().create(name).get().name).isEqualTo(name);
-      assertHead(name, "refs/heads/master");
+      assertHead(name, "refs/heads/main");
       RevCommit head = getRemoteHead(name, RefNames.REFS_CONFIG);
       eventRecorder.assertRefUpdatedEvents(name, RefNames.REFS_CONFIG, null, head);
 
-      eventRecorder.assertRefUpdatedEvents(name, "refs/heads/master", new String[] {});
+      eventRecorder.assertRefUpdatedEvents(name, "refs/heads/main", new String[] {});
       projectIndexedCounter.assertReindexOf(name);
     }
   }
 
   @Test
-  @GerritConfig(name = "gerrit.defaultBranch", value = "main")
+  @GerritConfig(name = "gerrit.defaultBranch", value = "foo")
   public void createProject_WhenDefaultBranchIsSetInConfig() throws Exception {
     ProjectIndexedCounter projectIndexedCounter = new ProjectIndexedCounter();
     try (Registration registration =
         extensionRegistry.newRegistration().add(projectIndexedCounter)) {
       String name = name("foo");
       assertThat(gApi.projects().create(name).get().name).isEqualTo(name);
-      assertHead(name, "refs/heads/main");
+      assertHead(name, "refs/heads/foo");
       RevCommit head = getRemoteHead(name, RefNames.REFS_CONFIG);
       eventRecorder.assertRefUpdatedEvents(name, RefNames.REFS_CONFIG, null, head);
 
-      eventRecorder.assertRefUpdatedEvents(name, "refs/heads/main", new String[] {});
+      eventRecorder.assertRefUpdatedEvents(name, "refs/heads/foo", new String[] {});
       projectIndexedCounter.assertReindexOf(name);
     }
   }
@@ -194,7 +194,7 @@ public class ProjectIT extends AbstractDaemonTest {
     RevCommit head = getRemoteHead(name, RefNames.REFS_CONFIG);
     eventRecorder.assertRefUpdatedEvents(name, RefNames.REFS_CONFIG, null, head);
 
-    eventRecorder.assertRefUpdatedEvents(name, "refs/heads/master", new String[] {});
+    eventRecorder.assertRefUpdatedEvents(name, "refs/heads/main", new String[] {});
   }
 
   @Test
@@ -208,8 +208,8 @@ public class ProjectIT extends AbstractDaemonTest {
     RevCommit head = getRemoteHead(name, RefNames.REFS_CONFIG);
     eventRecorder.assertRefUpdatedEvents(name, RefNames.REFS_CONFIG, null, head);
 
-    head = getRemoteHead(name, "refs/heads/master");
-    eventRecorder.assertRefUpdatedEvents(name, "refs/heads/master", null, head);
+    head = getRemoteHead(name, "refs/heads/main");
+    eventRecorder.assertRefUpdatedEvents(name, "refs/heads/main", null, head);
   }
 
   @Test

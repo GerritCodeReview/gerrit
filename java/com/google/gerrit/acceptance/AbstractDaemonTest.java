@@ -602,6 +602,7 @@ public abstract class AbstractDaemonTest {
     in.parent = parent != null ? parent.get() : null;
     in.submitType = submitType;
     in.createEmptyCommit = createEmptyCommit;
+    in.branches = ImmutableList.of(Constants.R_HEADS + Constants.MASTER);
     gApi.projects().create(in);
     return Project.nameKey(in.name);
   }

@@ -202,13 +202,13 @@ public class CreateProject
   private ImmutableList<String> normalizeBranchNames(List<String> branches)
       throws BadRequestException {
     if (branches == null || branches.isEmpty()) {
-      // Use host-level default for HEAD or fall back to 'master' if nothing else was specified in
+      // Use host-level default for HEAD or fall back to 'main' if nothing else was specified in
       // the input.
       String defaultBranch = gerritConfig.getString("gerrit", null, "defaultBranch");
       defaultBranch =
           defaultBranch != null
               ? normalizeAndValidateBranch(defaultBranch)
-              : Constants.R_HEADS + Constants.MASTER;
+              : Constants.R_HEADS + "main";
       return ImmutableList.of(defaultBranch);
     }
     List<String> normalizedBranches = new ArrayList<>();

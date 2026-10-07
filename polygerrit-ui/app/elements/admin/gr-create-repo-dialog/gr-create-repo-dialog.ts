@@ -70,7 +70,7 @@ export class GrCreateRepoDialog extends LitElement {
   /* private but used in test */
   @state() repoOwnerId?: GroupId;
 
-  @state() private defaultBranch = 'master';
+  @state() private defaultBranch = 'main';
 
   private readonly query: AutocompleteQuery;
 
@@ -91,7 +91,7 @@ export class GrCreateRepoDialog extends LitElement {
       () => this.configModel().serverConfig$,
       config => {
         this.defaultBranch = branchName(
-          config?.gerrit?.default_branch ?? 'master'
+          config?.gerrit?.default_branch ?? 'main'
         );
       }
     );

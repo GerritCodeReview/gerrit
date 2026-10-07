@@ -37,6 +37,7 @@ import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.testing.InMemoryRepositoryManager;
+import com.google.inject.util.Providers;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -48,6 +49,7 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -67,18 +69,28 @@ public class ExternalIDCacheLoaderTest {
 
   private ExternalIdFactoryNoteDbImpl externalIdFactory;
   @Mock private AuthConfig authConfig;
+  private Repository allUsersRepository;
 
   @Before
   public void setUp() throws Exception {
     externalIdFactory =
         new ExternalIdFactoryNoteDbImpl(new ExternalIdKeyFactory(() -> false), authConfig);
     externalIdCache = CacheBuilder.newBuilder().build();
-    repoManager.createRepository(ALL_USERS).close();
+    allUsersRepository = repoManager.createRepository(ALL_USERS);
     externalIdReader =
         new ExternalIdReader(
-            repoManager, ALL_USERS, new DisabledMetricMaker(), externalIdFactory, authConfig);
+            Providers.of(allUsersRepository),
+            ALL_USERS,
+            new DisabledMetricMaker(),
+            externalIdFactory,
+            authConfig);
     externalIdReaderSpy = Mockito.spy(externalIdReader);
     loader = createLoader();
+  }
+
+  @After
+  public void tearDown() throws Exception {
+    allUsersRepository.close();
   }
 
   @Test
@@ -250,8 +262,7 @@ public class ExternalIDCacheLoaderTest {
 
   private ExternalIdCacheLoader createLoader() {
     return new ExternalIdCacheLoader(
-        repoManager,
-        ALL_USERS,
+        Providers.of(allUsersRepository),
         externalIdReaderSpy,
         externalIdCache,
         new DisabledMetricMaker(),

@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "74550728_45dbdbc0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-07T10:55:25Z",
+      "side": 1,
+      "message": "@milutin@google.com Can you also LC+1 (@josiecuff@google.com should able be able to vote LC+1)?",
+      "revId": "5753599716b19e1254e159e4c9af339fcb89b909",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bdcc035e_a774494a",

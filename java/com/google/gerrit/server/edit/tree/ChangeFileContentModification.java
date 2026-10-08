@@ -64,7 +64,19 @@ public class ChangeFileContentModification implements TreeModification {
   public List<DirCacheEditor.PathEdit> getPathEdits(
       Repository repository, ObjectId treeId, ImmutableList<? extends ObjectId> parents) {
     DirCacheEditor.PathEdit changeContentEdit =
-        new ChangeContent(filePath, newContent, repository, newGitFileMode);
+        new ChangeContent(
+            filePath, newContent, repository, /* objectInserter= */ null, newGitFileMode);
+    return Collections.singletonList(changeContentEdit);
+  }
+
+  @Override
+  public List<DirCacheEditor.PathEdit> getPathEdits(
+      Repository repository,
+      ObjectInserter objectInserter,
+      ObjectId treeId,
+      ImmutableList<? extends ObjectId> parents) {
+    DirCacheEditor.PathEdit changeContentEdit =
+        new ChangeContent(filePath, newContent, repository, objectInserter, newGitFileMode);
     return Collections.singletonList(changeContentEdit);
   }
 
@@ -82,17 +94,20 @@ public class ChangeFileContentModification implements TreeModification {
     private final String filePath;
     private final RawInput newContent;
     private final Repository repository;
+    private final @Nullable ObjectInserter objectInserter;
     private final Integer newGitFileMode;
 
     ChangeContent(
         String filePath,
         RawInput newContent,
         Repository repository,
+        @Nullable ObjectInserter objectInserter,
         @Nullable Integer newGitFileMode) {
       super(filePath);
       this.filePath = filePath;
       this.newContent = newContent;
       this.repository = repository;
+      this.objectInserter = objectInserter;
       this.newGitFileMode = newGitFileMode;
     }
 
@@ -141,21 +156,24 @@ public class ChangeFileContentModification implements TreeModification {
     }
 
     private ObjectId createNewBlobAndGetItsId() throws IOException {
-      try (ObjectInserter objectInserter = repository.newObjectInserter()) {
-        ObjectId blobObjectId = createNewBlobAndGetItsId(objectInserter);
-        objectInserter.flush();
+      if (objectInserter != null) {
+        return createNewBlobAndGetItsId(objectInserter);
+      }
+      try (ObjectInserter inserter = repository.newObjectInserter()) {
+        ObjectId blobObjectId = createNewBlobAndGetItsId(inserter);
+        inserter.flush();
         return blobObjectId;
       }
     }
 
-    private ObjectId createNewBlobAndGetItsId(ObjectInserter objectInserter) throws IOException {
+    private ObjectId createNewBlobAndGetItsId(ObjectInserter inserter) throws IOException {
       long contentLength = newContent.getContentLength();
       if (contentLength < 0) {
-        return objectInserter.insert(OBJ_BLOB, getNewContentBytes());
+        return inserter.insert(OBJ_BLOB, getNewContentBytes());
       }
       try {
         InputStream contentInputStream = newContent.getInputStream();
-        return objectInserter.insert(OBJ_BLOB, contentLength, contentInputStream);
+        return inserter.insert(OBJ_BLOB, contentLength, contentInputStream);
       } catch (EOFException e) {
         if (e.getMessage().equals(JGitText.get().shortReadOfBlock)) {
           throw new BadContentLengthException(

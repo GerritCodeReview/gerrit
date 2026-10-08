@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c924e6b_74cd6617",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetBlame.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2026-10-08T23:46:10Z",
+      "side": 1,
+      "message": "ACK. This matches BlameServlet in Gitiles for now (and IgnoreRevFileReader bounds the file at 1 MiB / 20k revs, plus immutable patchset blame responses are HTTP-cached via CacheControl). Agreed that if we see overhead on large repos down the road, caching the parsed IgnoreRevsFile keyed by the .git-blame-ignore-revs blob ObjectId in BlameCache/IgnoreRevFileReader would be a nice follow-up so commits sharing the same blob don\u0027t re-parse it.",
+      "parentUuid": "30676828_24498631",
+      "revId": "6db1368e5d70cb0213a85a10ce19be30744eff2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fa517857_0ea3be77",
@@ -54,6 +72,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e43af91e_9851d2f3",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetBlame.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2026-10-08T23:46:10Z",
+      "side": 1,
+      "message": "Jetski claims this - \n\n-------------\n\n1. No conflict on .git-blame-ignore-revs: AutoMerger writes the merged tree (either to refs/cache-automerge/ or in-memory via InMemoryInserter). Because GetBlame.apply initializes revWalk over ins.newReader(), IgnoreRevFileReader.read(revWalk, id) reads the automerge tree and .git-blame-ignore-revs blob in both cases. Added withIgnoreRevsFileInMergeCommit in GetBlameIT (PS2) to cover forBase(true) on a 2-parent merge commit.\n\n2. Content conflict on .git-blame-ignore-revs: AutoMerger calls MergeUtil.mergeWithConflicts, which writes the conflicted file as a normal stage-0 blob in the automerge tree with standard \u003c\u003c\u003c\u003c\u003c\u003c\u003c / \u003d\u003d\u003d\u003d\u003d\u003d\u003d / \u003e\u003e\u003e\u003e\u003e\u003e\u003e conflict markers. IgnoreRevFileReader skips the non-hex conflict marker lines and still parses all valid 40-char SHAs from both parents (and for a modify/delete conflict, MergeUtil keeps the existing stage entry).\n\n-------------",
+      "parentUuid": "fa517857_0ea3be77",
+      "revId": "6db1368e5d70cb0213a85a10ce19be30744eff2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "82c4b13b_225e76d7",
@@ -68,6 +104,24 @@
       "side": 1,
       "message": "Great coverage for ignore-revs, base handling, and invalid/inline comment handling.\n\nConsider also adding a test case verifying behavior when .git-blame-ignore-revs is modified or introduced in a subsequent patch set or merge commit, or when an ignored commit is not an ancestor of the file being blamed (ensuring non-ancestor ignored hashes are safely ignored without error).",
       "isAi": true,
+      "revId": "6db1368e5d70cb0213a85a10ce19be30744eff2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ff4fc6d_9fdb8c7a",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/GetBlameIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1028847
+      },
+      "writtenOn": "2026-10-08T23:46:10Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "82c4b13b_225e76d7",
       "revId": "6db1368e5d70cb0213a85a10ce19be30744eff2c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

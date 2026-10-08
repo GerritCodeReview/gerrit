@@ -229,6 +229,35 @@ export function hasVotes(labelInfo: LabelInfo): boolean {
   return false;
 }
 
+export function isAiVote(approvalInfo?: ApprovalInfo): boolean {
+  if (!approvalInfo?.tag) return false;
+  return /(^|[:_-])ai([:_-]|$)/i.test(approvalInfo.tag);
+}
+
+export function hasAiVote(
+  requirement: SubmitRequirementResultInfo,
+  _labels?: LabelNameToInfoMap
+): boolean {
+  // TODO(b/562269774): Temporarily always show sparkle for Coverage-Over-70p
+  // (both AI and runtime coverage) for PoC. Re-enable the AI vote tag check
+  // below once PoC verification is complete.
+  return requirement.name === 'Coverage-Over-70p';
+  /*
+  if (!_labels) return false;
+  const associatedLabels = extractAssociatedLabels(requirement, {
+    extractFromSubmittability: true,
+    extractFromOverride: 'onlyIfOverridden',
+  });
+  return associatedLabels.some(labelName => {
+    const labelInfo = _labels[labelName];
+    if (!labelInfo || !isDetailedLabelInfo(labelInfo)) return false;
+    return (labelInfo.all ?? []).some(
+      approval => !hasNeutralStatus(labelInfo, approval) && isAiVote(approval)
+    );
+  });
+  */
+}
+
 export function labelCompare(labelName1: string, labelName2: string) {
   if (
     labelName1 === StandardLabels.CODE_REVIEW &&

@@ -29,6 +29,7 @@ import {
   getAllUniqueApprovals,
   getRequirements,
   getTriggerVotes,
+  hasAiVote,
   hasApprovedVote,
   hasNeutralStatus,
   hasRejectedVote,
@@ -111,6 +112,14 @@ export class GrSubmitRequirements extends LitElement {
         }
         gr-limited-text.name {
           font-weight: var(--font-weight-medium);
+        }
+        gr-icon.ai-icon {
+          color: var(--link-color);
+          --gr-icon-size: 16px;
+          font-size: 16px;
+          margin-right: var(--spacing-xs);
+          position: relative;
+          top: 2px;
         }
         table {
           border-collapse: collapse;
@@ -235,17 +244,25 @@ export class GrSubmitRequirements extends LitElement {
     index: number
   ) {
     const row = html`
-     <td>${this.renderStatus(requirement)}</td>
-        <td class="name">
-          <gr-limited-text
-            class="name"
-            .text=${requirement.name}
-          ></gr-limited-text>
-        </td>
-        <td>
-          ${this.renderEndpoint(requirement, this.renderVoteCell(requirement))}
-        </td>
-      </tr>
+      <td>${this.renderStatus(requirement)}</td>
+      <td class="name">
+        ${when(
+          hasAiVote(requirement, this.change?.labels),
+          () =>
+            html`<gr-icon
+              icon="spark"
+              class="ai-icon"
+              title="AI predicted"
+            ></gr-icon>`
+        )}
+        <gr-limited-text
+          class="name"
+          .text=${requirement.name}
+        ></gr-limited-text>
+      </td>
+      <td>
+        ${this.renderEndpoint(requirement, this.renderVoteCell(requirement))}
+      </td>
     `;
 
     if (this.disableHovercards) {

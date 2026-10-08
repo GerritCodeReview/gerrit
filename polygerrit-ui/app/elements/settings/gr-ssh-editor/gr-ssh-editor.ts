@@ -6,14 +6,19 @@
 import '../../shared/gr-autogrow-textarea/gr-autogrow-textarea';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-copy-clipboard/gr-copy-clipboard';
+import '../../shared/gr-date-formatter/gr-date-formatter';
 import {SshKeyInfo} from '../../../types/common';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {getAppContext} from '../../../services/app-context';
-import {css, html, LitElement, PropertyValues} from 'lit';
+import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {grFormStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
-import {fire} from '../../../utils/event-util';
+import {fire, fireAlert} from '../../../utils/event-util';
+import {formatDuration, parseDate} from '../../../utils/date-util';
+import {resolve} from '../../../models/dependency';
+import {configModelToken} from '../../../models/config/config-model';
+import {subscribe} from '../../lit/subscription-controller';
 import {modalStyles} from '../../../styles/gr-modal-styles';
 import {GrAutogrowTextarea} from '../../shared/gr-autogrow-textarea/gr-autogrow-textarea';
 import {formStyles} from '../../../styles/form-styles';
@@ -40,7 +45,14 @@ export class GrSshEditor extends LitElement {
   @property({type: Array})
   keysToRemove: SshKeyInfo[] = [];
 
+  @property({type: String})
+  newLifetime = '';
+
   @state() prevHasUnsavedChanges = false;
+
+  @state() maxLifetime = 'unlimited';
+
+  @state() showExpiredKeys = false;
 
   @query('#addButton') addButton!: GrButton;
 
@@ -50,6 +62,20 @@ export class GrSshEditor extends LitElement {
 
   private readonly restApiService = getAppContext().restApiService;
 
+  // Private but used in test
+  readonly getConfigModel = resolve(this, configModelToken);
+
+  constructor() {
+    super();
+    subscribe(
+      this,
+      () => this.getConfigModel().serverConfig$,
+      info => {
+        this.maxLifetime = info?.auth.max_ssh_key_lifetime || 'unlimited';
+      }
+    );
+  }
+
   static override get styles() {
     return [
       grFormStyles,
@@ -57,8 +83,28 @@ export class GrSshEditor extends LitElement {
       sharedStyles,
       modalStyles,
       css`
+        .statusHeader,
+        .statusColumn,
+        .expirationHeader,
+        .expirationColumn {
+          padding-right: var(--spacing-xl);
+          white-space: nowrap;
+        }
         .statusHeader {
           width: 4em;
+        }
+        .expirationHeader {
+          width: 7em;
+        }
+        .expired {
+          color: var(--negative-red-text-color);
+        }
+        .lifetimeInput {
+          width: 12em;
+        }
+        .lifetimeHint {
+          color: var(--deemphasized-text-color);
+          font-size: var(--font-size-small);
         }
         .keyHeader {
           width: 7.5em;
@@ -83,8 +129,11 @@ export class GrSshEditor extends LitElement {
         #existing {
           margin-bottom: var(--spacing-l);
         }
+        #existing table {
+          width: auto;
+        }
         #existing .commentColumn {
-          min-width: 27em;
+          min-width: 20em;
           width: auto;
         }
         gr-autogrow-textarea {
@@ -118,15 +167,21 @@ export class GrSshEditor extends LitElement {
               <tr>
                 <th class="commentColumn">Comment</th>
                 <th class="statusHeader">Status</th>
+                <th class="expirationHeader">Expiry</th>
                 <th class="keyHeader">Public key</th>
                 <th></th>
                 <th></th>
               </tr>
             </thead>
             <tbody>
-              ${this.keys.map((key, index) => this.renderKey(key, index))}
+              ${this.keys.map((key, index) =>
+                this.showExpiredKeys || !this.isKeyExpired(key)
+                  ? this.renderKey(key, index)
+                  : nothing
+              )}
             </tbody>
           </table>
+          ${this.renderExpiredToggle()}
           <dialog id="viewKeyModal" tabindex="-1">
             <fieldset>
               <section>
@@ -172,6 +227,21 @@ export class GrSshEditor extends LitElement {
               ></gr-autogrow-textarea>
             </span>
           </section>
+          <section>
+            <span class="title">Lifetime</span>
+            <span class="value">
+              <input
+                id="lifetime"
+                class="lifetimeInput"
+                placeholder="Lifetime (e.g. 30d)"
+                .value=${this.newLifetime}
+                @input=${(e: InputEvent) => {
+                  this.newLifetime = (e.target as HTMLInputElement).value;
+                }}
+              />
+              <div class="lifetimeHint">${this.renderLifetimeHint()}</div>
+            </span>
+          </section>
           <gr-button
             id="addButton"
             ?disabled=${!this.newKey.length}
@@ -183,10 +253,32 @@ export class GrSshEditor extends LitElement {
     `;
   }
 
+  private renderLifetimeHint() {
+    if (this.maxLifetime === 'unlimited') {
+      return 'Max. allowed lifetime: unlimited. Leave empty for no limit.';
+    }
+    return `Max. allowed lifetime: ${formatDuration(
+      this.maxLifetime
+    )}. Leave empty to use the maximum allowed lifetime.`;
+  }
+
   private renderKey(key: SshKeyInfo, index: number) {
-    return html` <tr>
+    const expired = this.isKeyExpired(key);
+    return html` <tr class=${expired ? 'expired' : ''}>
       <td class="commentColumn">${key.comment}</td>
-      <td>${key.valid ? 'Valid' : 'Invalid'}</td>
+      <td class="statusColumn">
+        ${expired ? 'Expired' : key.valid ? 'Valid' : 'Invalid'}
+      </td>
+      <td class="expirationColumn">
+        ${key.expiration
+          ? html`<gr-date-formatter
+              withTooltip
+              showDateAndTime
+              dateFormat="STD"
+              .dateStr=${key.expiration}
+            ></gr-date-formatter>`
+          : 'Never'}
+      </td>
       <td>
         <gr-button
           link=""
@@ -213,6 +305,25 @@ export class GrSshEditor extends LitElement {
         >
       </td>
     </tr>`;
+  }
+
+  private renderExpiredToggle() {
+    const expiredCount = this.keys.filter(key => this.isKeyExpired(key)).length;
+    if (!expiredCount) return nothing;
+    return html`<gr-button
+      id="toggleExpiredKeys"
+      link=""
+      @click=${() => {
+        this.showExpiredKeys = !this.showExpiredKeys;
+      }}
+      >${this.showExpiredKeys ? 'Hide' : 'Show'} expired keys
+      (${expiredCount})</gr-button
+    >`;
+  }
+
+  private isKeyExpired(key: SshKeyInfo) {
+    if (!key.expiration) return false;
+    return parseDate(key.expiration) < new Date();
   }
 
   loadData() {
@@ -251,19 +362,29 @@ export class GrSshEditor extends LitElement {
 
   // private but used in tests
   handleAddKey() {
+    const lifetime = this.newLifetime.trim();
+    if (lifetime && !/^[1-9]\d*\s*[a-zA-Z]*$/.test(lifetime)) {
+      fireAlert(
+        this,
+        'Invalid lifetime. The key would already be expired; use a positive value such as 30d.'
+      );
+      return Promise.resolve();
+    }
     this.addButton.disabled = true;
     this.newKeyEditor.disabled = true;
     return this.restApiService
-      .addAccountSSHKey(this.newKey.trim())
+      .addAccountSSHKey(this.newKey.trim(), lifetime || undefined)
       .then(key => {
         this.newKeyEditor.disabled = false;
         this.newKey = '';
+        this.newLifetime = '';
         this.keys.push(key);
         this.requestUpdate();
       })
-      .catch(() => {
+      .catch(err => {
         this.addButton.disabled = false;
         this.newKeyEditor.disabled = false;
+        fireAlert(this, `Failed to add SSH key: ${err.message ?? err}`);
       });
   }
 }

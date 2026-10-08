@@ -23,6 +23,25 @@ export function dateToTimestamp(date: Date): Timestamp {
   return date.toISOString().replace('T', ' ').replace('Z', '') as Timestamp;
 }
 
+/** Formats a duration given in minutes, e.g. "259200" as "180d". */
+export function formatDuration(durationMinutes: string) {
+  if (!durationMinutes) return '';
+  if (durationMinutes === 'unlimited') return 'unlimited';
+  let minutes = parseInt(durationMinutes, 10);
+  let hours = Math.floor(minutes / 60);
+  minutes = minutes % 60;
+  let days = Math.floor(hours / 24);
+  hours = hours % 24;
+  const years = Math.floor(days / 365);
+  days = days % 365;
+  let formatted = '';
+  if (years) formatted += `${years}y `;
+  if (days) formatted += `${days}d `;
+  if (hours) formatted += `${hours}h `;
+  if (minutes) formatted += `${minutes}m`;
+  return formatted.trim();
+}
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function isValidDate(date: any): date is Date {
   return date instanceof Date && !isNaN(date.valueOf());

@@ -17,30 +17,35 @@ package com.google.gerrit.server.account;
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Splitter;
 import com.google.gerrit.entities.Account;
+import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 
 /** An SSH key approved for use by an {@link Account}. */
 @AutoValue
 public abstract class AccountSshKey {
   public static AccountSshKey create(Account.Id accountId, int seq, String sshPublicKey) {
-    return create(accountId, seq, sshPublicKey, true);
-  }
-
-  public static AccountSshKey createInvalid(Account.Id accountId, int seq, String sshPublicKey) {
-    return create(accountId, seq, sshPublicKey, false);
+    return create(accountId, seq, sshPublicKey, true, false, Optional.empty());
   }
 
   public static AccountSshKey createInvalid(AccountSshKey key) {
-    return create(key.accountId(), key.seq(), key.sshPublicKey(), false);
+    return key.toBuilder().setValid(false).build();
   }
 
   public static AccountSshKey create(
-      Account.Id accountId, int seq, String sshPublicKey, boolean valid) {
+      Account.Id accountId,
+      int seq,
+      String sshPublicKey,
+      boolean valid,
+      boolean deleted,
+      Optional<Instant> expirationDate) {
     return new AutoValue_AccountSshKey.Builder()
         .setAccountId(accountId)
         .setSeq(seq)
         .setSshPublicKey(stripOffNewLines(sshPublicKey))
-        .setValid(valid && seq > 0)
+        .setValid(valid && !deleted && seq > 0)
+        .setDeleted(deleted)
+        .setExpirationDate(expirationDate)
         .build();
   }
 
@@ -55,6 +60,18 @@ public abstract class AccountSshKey {
   public abstract String sshPublicKey();
 
   public abstract boolean valid();
+
+  /** Whether the key was deleted. Deleted keys are retained to prevent adding them again. */
+  public abstract boolean deleted();
+
+  /** Instant after which this key must no longer be accepted for authentication, if any. */
+  public abstract Optional<Instant> expirationDate();
+
+  public abstract Builder toBuilder();
+
+  public boolean isExpired() {
+    return expirationDate().isPresent() && Instant.now().isAfter(expirationDate().get());
+  }
 
   private String publicKeyPart(int index, String defaultValue) {
     String s = sshPublicKey();
@@ -88,6 +105,10 @@ public abstract class AccountSshKey {
     public abstract Builder setSshPublicKey(String sshPublicKey);
 
     public abstract Builder setValid(boolean valid);
+
+    public abstract Builder setDeleted(boolean deleted);
+
+    public abstract Builder setExpirationDate(Optional<Instant> expirationDate);
 
     public abstract AccountSshKey build();
   }

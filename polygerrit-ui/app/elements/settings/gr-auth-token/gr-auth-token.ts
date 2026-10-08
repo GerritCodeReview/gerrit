@@ -18,7 +18,7 @@ import {subscribe} from '../../lit/subscription-controller';
 import {AuthTokenInfo} from '../../../types/common';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {fireAlert} from '../../../utils/event-util';
-import {parseDate} from '../../../utils/date-util';
+import {formatDuration, parseDate} from '../../../utils/date-util';
 import {MdOutlinedTextField} from '@material/web/textfield/outlined-text-field';
 import '@material/web/textfield/outlined-text-field';
 import {materialStyles} from '../../../styles/gr-material-styles';
@@ -327,7 +327,7 @@ export class GrAuthToken extends LitElement {
             id="lifetime"
             class="lifeTimeInput showBlueFocusBorder"
             placeholder="Lifetime (e.g. 30d)"
-            supporting-text="Max. allowed lifetime: ${this.formatDuration(
+            supporting-text="Max. allowed lifetime: ${formatDuration(
               this.maxLifetime
             )}. Leave empty to use maximum allowed lifetime."
             .value=${this.newLifetime ?? ''}
@@ -351,24 +351,6 @@ export class GrAuthToken extends LitElement {
         </th>
       </tr>
     `;
-  }
-
-  private formatDuration(durationMinutes: string) {
-    if (!durationMinutes) return '';
-    if (durationMinutes === 'unlimited') return 'unlimited';
-    let minutes = parseInt(durationMinutes, 10);
-    let hours = Math.floor(minutes / 60);
-    minutes = minutes % 60;
-    let days = Math.floor(hours / 24);
-    hours = hours % 24;
-    const years = Math.floor(days / 365);
-    days = days % 365;
-    let formatted = '';
-    if (years) formatted += `${years}y `;
-    if (days) formatted += `${days}d `;
-    if (hours) formatted += `${hours}h `;
-    if (minutes) formatted += `${minutes}m`;
-    return formatted;
   }
 
   loadData() {

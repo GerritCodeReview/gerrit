@@ -1099,8 +1099,16 @@ Adds an SSH key for a user.
 
 The SSH public key must be provided as raw content in the request body.
 
-Trying to add an SSH key that already exists succeeds, but no new SSH
-key is persisted.
+The optional `lifetime` query parameter (e.g. `lifetime=30d`) limits how
+long the key can be used. After it has expired the key can no longer be
+used to authenticate. If link:config-gerrit.html#auth.maxSshKeyLifetime[
+auth.maxSshKeyLifetime] is set, it is the default lifetime and the maximum
+that may be requested.
+
+Adding an SSH key fails with `400 Bad Request` if the key (compared
+without its comment) already exists, has expired, or was deleted while it
+had an expiration. A new SSH key must be generated instead; the expiration
+of an existing key cannot be changed.
 
 .Request
 ----
@@ -3198,6 +3206,8 @@ user.
 |`algorithm`     ||The algorithm of the SSH key.
 |`comment`       |optional|The comment of the SSH key.
 |`valid`         ||Whether the SSH key is valid.
+|`expiration`    |optional|The link:rest-api.html#timestamp[timestamp] after which
+the SSH key can no longer be used. Not set if the key never expires.
 |=============================
 
 [[username-input]]

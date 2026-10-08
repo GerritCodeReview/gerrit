@@ -32,6 +32,7 @@ import java.security.GeneralSecurityException;
 import java.security.KeyPair;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import org.apache.sshd.common.config.keys.writer.openssh.OpenSSHKeyPairResourceWriter;
 
 @Singleton
@@ -89,7 +90,8 @@ public class TestSshKeys {
   private KeyPair createKeyPair(Account.Id accountId, String username, @Nullable String email)
       throws Exception {
     KeyPair keyPair = SshSessionFactory.genSshKey();
-    testRefAction(() -> authorizedKeys.addKey(accountId, publicKey(keyPair, email)));
+    testRefAction(
+        () -> authorizedKeys.addKey(accountId, publicKey(keyPair, email), Optional.empty()));
 
     sshKeyCache.evict(username);
     return keyPair;

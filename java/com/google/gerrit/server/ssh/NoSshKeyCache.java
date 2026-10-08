@@ -20,6 +20,8 @@ import com.google.gerrit.server.account.AccountSshKey;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
+import java.time.Instant;
+import java.util.Optional;
 
 @Singleton
 public class NoSshKeyCache implements SshKeyCache, SshKeyCreator {
@@ -38,7 +40,8 @@ public class NoSshKeyCache implements SshKeyCache, SshKeyCreator {
   public void evict(String username) {}
 
   @Override
-  public AccountSshKey create(Account.Id accountId, int seq, String encoded)
+  public AccountSshKey create(
+      Account.Id accountId, int seq, String encoded, Optional<Instant> expirationDate)
       throws InvalidSshKeyException {
     throw new InvalidSshKeyException();
   }

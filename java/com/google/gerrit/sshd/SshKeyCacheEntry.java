@@ -16,14 +16,18 @@ package com.google.gerrit.sshd;
 
 import com.google.gerrit.entities.Account;
 import java.security.PublicKey;
+import java.time.Instant;
+import java.util.Optional;
 
 class SshKeyCacheEntry {
   private final Account.Id accountId;
   private final PublicKey publicKey;
+  private final Optional<Instant> expirationDate;
 
-  SshKeyCacheEntry(Account.Id accountId, PublicKey publicKey) {
+  SshKeyCacheEntry(Account.Id accountId, PublicKey publicKey, Optional<Instant> expirationDate) {
     this.accountId = accountId;
     this.publicKey = publicKey;
+    this.expirationDate = expirationDate;
   }
 
   Account.Id getAccount() {
@@ -31,6 +35,9 @@ class SshKeyCacheEntry {
   }
 
   boolean match(PublicKey inkey) {
+    if (expirationDate.isPresent() && Instant.now().isAfter(expirationDate.get())) {
+      return false;
+    }
     return publicKey.equals(inkey);
   }
 }

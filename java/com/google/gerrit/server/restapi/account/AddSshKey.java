@@ -19,6 +19,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.common.io.ByteSource;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.exceptions.InvalidSshKeyException;
 import com.google.gerrit.extensions.api.accounts.SshKeyInput;
@@ -33,6 +34,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountSshKey;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.mail.EmailFactories;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -40,21 +42,25 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.Duration;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.kohsuke.args4j.Option;
 
 /**
  * REST endpoint to add an SSH key for an account.
  *
  * <p>This REST endpoint handles {@code POST /accounts/<account-identifier>/sshkeys/} requests.
  */
-@Singleton
 public class AddSshKey
     implements RestCollectionModifyView<AccountResource, AccountResource.SshKey, SshKeyInput> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  private final Optional<Duration> maxSshKeyLifetime;
   private final Provider<CurrentUser> self;
   private final PermissionBackend permissionBackend;
   private final VersionedAuthorizedKeys.Accessor authorizedKeys;
@@ -67,12 +73,24 @@ public class AddSshKey
       PermissionBackend permissionBackend,
       VersionedAuthorizedKeys.Accessor authorizedKeys,
       SshKeyCache sshKeyCache,
-      EmailFactories emailFactories) {
+      EmailFactories emailFactories,
+      AuthConfig authConfig) {
+    this.maxSshKeyLifetime = authConfig.getMaxSshKeyLifetime();
     this.self = self;
     this.permissionBackend = permissionBackend;
     this.authorizedKeys = authorizedKeys;
     this.sshKeyCache = sshKeyCache;
     this.emailFactories = emailFactories;
+  }
+
+  @Nullable private String lifetime;
+
+  @Option(
+      name = "--lifetime",
+      metaVar = "LIFETIME",
+      usage = "lifetime of the SSH key, e.g. 30d; the key is rejected for login afterwards")
+  public void setLifetime(String lifetime) {
+    this.lifetime = lifetime;
   }
 
   @Override
@@ -106,8 +124,9 @@ public class AddSshKey
           }
         }.asCharSource(UTF_8).read();
 
+    Optional<Instant> expiration = getExpirationInstant(lifetime, maxSshKeyLifetime);
     try {
-      AccountSshKey sshKey = authorizedKeys.addKey(user.getAccountId(), sshPublicKey);
+      AccountSshKey sshKey = authorizedKeys.addKey(user.getAccountId(), sshPublicKey, expiration);
 
       try {
         emailFactories
@@ -123,5 +142,25 @@ public class AddSshKey
     } catch (InvalidSshKeyException e) {
       throw new BadRequestException(e.getMessage());
     }
+  }
+
+  /**
+   * Computes the expiration of a new SSH key.
+   *
+   * @param lifetime requested lifetime, may be null or empty
+   * @param maxLifetime server-wide maximum lifetime, also used as the default lifetime
+   */
+  public static Optional<Instant> getExpirationInstant(
+      @Nullable String lifetime, Optional<Duration> maxLifetime) throws BadRequestException {
+    Optional<Instant> expiration =
+        CreateToken.getExpirationInstant(lifetime, maxLifetime.map(max -> Instant.now().plus(max)));
+    if (maxLifetime.isPresent()
+        && expiration.get().isAfter(Instant.now().plus(maxLifetime.get()))) {
+      throw new BadRequestException(
+          String.format(
+              "lifetime exceeds maximum allowed lifetime of %s minutes",
+              maxLifetime.get().toMinutes()));
+    }
+    return expiration.map(e -> e.truncatedTo(ChronoUnit.SECONDS));
   }
 }

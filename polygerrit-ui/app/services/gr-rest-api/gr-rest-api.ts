@@ -282,7 +282,7 @@ export interface RestApiService extends Finalizable {
 
   getAccountSSHKeys(): Promise<SshKeyInfo[] | undefined>;
   deleteAccountSSHKey(key: string): void;
-  addAccountSSHKey(key: string): Promise<SshKeyInfo>;
+  addAccountSSHKey(key: string, lifetime?: string): Promise<SshKeyInfo>;
 
   createRepoBranch(
     name: RepoName,

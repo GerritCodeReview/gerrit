@@ -204,7 +204,10 @@ public class CreateAccount
 
     if (input.sshKey != null) {
       try {
-        authorizedKeys.addKey(accountId, input.sshKey);
+        authorizedKeys.addKey(
+            accountId,
+            input.sshKey,
+            AddSshKey.getExpirationInstant(null, authConfig.getMaxSshKeyLifetime()));
         sshKeyCache.evict(username);
       } catch (InvalidSshKeyException e) {
         throw new BadRequestException(e.getMessage());

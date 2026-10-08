@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.base.Splitter;
 import com.google.gerrit.entities.Account;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -144,6 +145,73 @@ public class AuthorizedKeysTest {
     assertThat(key.comment()).isEqualTo(keyParts.get(2));
   }
 
+  @Test
+  public void expiringKeysAreStoredWithExpiresPrefixOnTheSameLine() throws Exception {
+    Instant expiration = Instant.parse("2030-01-02T03:04:05Z");
+    List<Optional<AccountSshKey>> keys =
+        List.of(
+            Optional.of(AccountSshKey.create(accountId, 1, KEY1)),
+            Optional.of(
+                AccountSshKey.create(accountId, 2, KEY2, true, false, Optional.of(expiration))),
+            Optional.of(
+                AccountSshKey.create(accountId, 3, KEY3, false, false, Optional.of(expiration))),
+            Optional.empty(),
+            Optional.of(AccountSshKey.create(accountId, 5, KEY4)));
+    String file =
+        KEY1
+            + "\n# EXPIRES 2030-01-02T03:04:05Z "
+            + KEY2
+            + "\n# INVALID # EXPIRES 2030-01-02T03:04:05Z "
+            + KEY3
+            + "\n# DELETED\n"
+            + KEY4
+            + "\n";
+
+    assertThat(AuthorizedKeys.serialize(keys)).isEqualTo(file);
+    assertThat(AuthorizedKeys.parse(accountId, file)).containsExactlyElementsIn(keys).inOrder();
+  }
+
+  @Test
+  public void deletedKeyIsKeptWithMarker() throws Exception {
+    List<Optional<AccountSshKey>> keys = new ArrayList<>();
+    StringBuilder expected = new StringBuilder();
+    expected.append(addKey(keys, KEY1));
+    AccountSshKey deleted =
+        AccountSshKey.create(Account.id(1), 2, KEY2, false, true, Optional.empty());
+    keys.add(Optional.of(deleted));
+    expected.append(AuthorizedKeys.DELETED_KEY_COMMENT + " " + KEY2 + "\n");
+    Instant expiration = Instant.parse("2030-01-02T03:04:05Z");
+    AccountSshKey deletedExpiring =
+        AccountSshKey.create(Account.id(1), 3, KEY3, false, true, Optional.of(expiration));
+    keys.add(Optional.of(deletedExpiring));
+    expected.append(
+        AuthorizedKeys.DELETED_KEY_COMMENT
+            + " "
+            + AuthorizedKeys.EXPIRATION_COMMENT_PREFIX
+            + expiration
+            + " "
+            + KEY3
+            + "\n");
+    expected.append(addDeletedKey(keys));
+    expected.append(addKey(keys, KEY4));
+
+    assertSerialization(keys, expected);
+    assertParse(expected, keys);
+    assertThat(deleted.deleted()).isTrue();
+    assertThat(deleted.valid()).isFalse();
+    assertThat(deletedExpiring.expirationDate()).hasValue(expiration);
+  }
+
+  @Test
+  public void isExpired() throws Exception {
+    AccountSshKey key = AccountSshKey.create(accountId, 1, KEY1);
+    assertThat(key.isExpired()).isFalse();
+    Optional<Instant> past = Optional.of(Instant.now().minusSeconds(60));
+    Optional<Instant> future = Optional.of(Instant.now().plusSeconds(60));
+    assertThat(key.toBuilder().setExpirationDate(past).build().isExpired()).isTrue();
+    assertThat(key.toBuilder().setExpirationDate(future).build().isExpired()).isFalse();
+  }
+
   private static String toWindowsLineEndings(String s) {
     return s.replace("\n", "\r\n");
   }
@@ -186,7 +254,8 @@ public class AuthorizedKeysTest {
    * @return the expected line for this key in the authorized_keys file
    */
   private static String addInvalidKey(List<Optional<AccountSshKey>> keys, String pub) {
-    AccountSshKey key = AccountSshKey.createInvalid(Account.id(1), keys.size() + 1, pub);
+    AccountSshKey key =
+        AccountSshKey.create(Account.id(1), keys.size() + 1, pub, false, false, Optional.empty());
     keys.add(Optional.of(key));
     return AuthorizedKeys.INVALID_KEY_COMMENT_PREFIX + key.sshPublicKey() + "\n";
   }

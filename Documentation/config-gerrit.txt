@@ -761,6 +761,19 @@ If not set or if a value <= 0 is used, tokens can have an unlimited lifetime.
 +
 Existing tokens will not be affected by changing this value.
 
+[[auth.maxSshKeyLifetime]]auth.maxSshKeyLifetime::
++
+The maximum lifetime allowed for an SSH key, e.g. `180d`. The minimum time is
+1 minute. Values should use common unit suffixes to express their setting.
++
+If set, new SSH keys that don't specify a lifetime expire after this time, and
+a requested lifetime that exceeds this value is rejected. Expired SSH keys can
+no longer be used to authenticate.
++
+If not set or if a value <= 0 is used, SSH keys can have an unlimited lifetime.
++
+Existing SSH keys will not be affected by changing this value.
+
 [[auth.httpPasswordFallbackEnabled]]auth.httpPasswordFallbackEnabled::
 +
 To provide backward compatibility Gerrit will automatically fall back to

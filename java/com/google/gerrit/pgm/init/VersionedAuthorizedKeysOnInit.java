@@ -69,7 +69,8 @@ public class VersionedAuthorizedKeysOnInit extends VersionedMetaDataOnInit {
     checkState(keys != null, "SSH keys not loaded yet");
     int seq = keys.isEmpty() ? 1 : keys.size() + 1;
     AccountSshKey key =
-        new VersionedAuthorizedKeys.SimpleSshKeyCreator().create(accountId, seq, pub);
+        new VersionedAuthorizedKeys.SimpleSshKeyCreator()
+            .create(accountId, seq, pub, Optional.empty());
     keys.add(Optional.of(key));
     return key;
   }

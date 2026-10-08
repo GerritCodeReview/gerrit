@@ -17,7 +17,11 @@ package com.google.gerrit.server.ssh;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.exceptions.InvalidSshKeyException;
 import com.google.gerrit.server.account.AccountSshKey;
+import java.time.Instant;
+import java.util.Optional;
 
 public interface SshKeyCreator {
-  AccountSshKey create(Account.Id accountId, int seq, String encoded) throws InvalidSshKeyException;
+  AccountSshKey create(
+      Account.Id accountId, int seq, String encoded, Optional<Instant> expirationDate)
+      throws InvalidSshKeyException;
 }

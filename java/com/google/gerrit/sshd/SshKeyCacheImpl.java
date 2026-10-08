@@ -125,7 +125,7 @@ public class SshKeyCacheImpl implements SshKeyCache {
 
         List<SshKeyCacheEntry> kl = new ArrayList<>(4);
         for (AccountSshKey k : authorizedKeys.getKeys(user.get().accountId())) {
-          if (k.valid()) {
+          if (k.valid() && !k.isExpired()) {
             add(kl, k);
           }
         }
@@ -139,7 +139,7 @@ public class SshKeyCacheImpl implements SshKeyCache {
 
     private void add(List<SshKeyCacheEntry> kl, AccountSshKey k) {
       try {
-        kl.add(new SshKeyCacheEntry(k.accountId(), SshUtil.parse(k)));
+        kl.add(new SshKeyCacheEntry(k.accountId(), SshUtil.parse(k), k.expirationDate()));
       } catch (OutOfMemoryError e) {
         // This is the only case where we assume the problem has nothing
         // to do with the key object, and instead we must abort this load.
@@ -150,7 +150,7 @@ public class SshKeyCacheImpl implements SshKeyCache {
             "SSH key %d of account %s has an invalid algorithm %s: fixing the algorithm to %s",
             k.seq(), k.accountId(), e.getInvalidKeyAlgo(), e.getExpectedKeyAlgo());
         if (fixKeyAlgorithm(k, e.getExpectedKeyAlgo())) {
-          kl.add(new SshKeyCacheEntry(k.accountId(), e.getPublicKey()));
+          kl.add(new SshKeyCacheEntry(k.accountId(), e.getPublicKey(), k.expirationDate()));
         } else {
           markInvalid(k);
         }
@@ -175,7 +175,8 @@ public class SshKeyCacheImpl implements SshKeyCache {
             "Fixing SSH key %d of account %s algorithm to %s", k.seq(), k.accountId(), keyAlgo);
         authorizedKeys.deleteKey(k.accountId(), k.seq());
         String sshKey = k.sshPublicKey();
-        authorizedKeys.addKey(k.accountId(), keyAlgo + sshKey.substring(sshKey.indexOf(' ')));
+        authorizedKeys.addKey(
+            k.accountId(), keyAlgo + sshKey.substring(sshKey.indexOf(' ')), k.expirationDate());
         return true;
       } catch (IOException | ConfigInvalidException | InvalidSshKeyException e) {
         logger.atSevere().withCause(e).log(

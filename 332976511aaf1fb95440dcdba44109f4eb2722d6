@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "646f9b38_95925a8c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 3757754
+      },
+      "writtenOn": "2026-10-08T19:11:30Z",
+      "side": 1,
+      "message": "Hello Ben! Would you mind to take a look at a small fix for your change [c/457608](https://gerrit-review.googlesource.com/c/gerrit/+/457608)?",
+      "revId": "332976511aaf1fb95440dcdba44109f4eb2722d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

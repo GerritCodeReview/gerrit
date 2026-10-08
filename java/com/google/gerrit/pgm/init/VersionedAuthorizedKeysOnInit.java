@@ -30,6 +30,7 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -73,6 +74,33 @@ public class VersionedAuthorizedKeysOnInit extends VersionedMetaDataOnInit {
             .create(accountId, seq, pub, Optional.empty());
     keys.add(Optional.of(key));
     return key;
+  }
+
+  /**
+   * Sets the expiration of all valid keys that have none.
+   *
+   * @return the number of changed keys
+   */
+  public int setMissingExpiration(Instant expiration) {
+    checkState(keys != null, "SSH keys not loaded yet");
+    int changed = 0;
+    for (int i = 0; i < keys.size(); i++) {
+      Optional<AccountSshKey> key = keys.get(i);
+      if (key.isPresent() && key.get().valid() && key.get().expirationDate().isEmpty()) {
+        keys.set(
+            i,
+            Optional.of(
+                AccountSshKey.create(
+                    accountId,
+                    key.get().seq(),
+                    key.get().sshPublicKey(),
+                    true,
+                    false,
+                    Optional.of(expiration))));
+        changed++;
+      }
+    }
+    return changed;
   }
 
   @Override

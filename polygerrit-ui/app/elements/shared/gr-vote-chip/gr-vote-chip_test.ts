@@ -23,6 +23,40 @@ suite('gr-vote-chip tests', () => {
     sinon.stub(getAppContext().flagsService, 'isEnabled').returns(true);
   });
 
+  for (const [value, expected] of [
+    [-2, 'CR✗'],
+    [-1, 'CR-1'],
+    [1, 'CR+1'],
+    [2, 'CR✓'],
+  ] as const) {
+    test(`self-contained badge for ${value}`, async () => {
+      const element = await fixture<GrVoteChip>(html`<gr-vote-chip
+        label-name="CR"
+        .label=${{
+          values: {
+            '-2': 'Block',
+            '-1': 'Dislike',
+            '0': 'Neutral',
+            '+1': 'Recommend',
+            '+2': 'Approve',
+          },
+        }}
+        .vote=${{...createApproval(), value}}
+        tooltip-with-who-voted
+      ></gr-vote-chip>`);
+      assert.equal(
+        element.shadowRoot!.querySelector('.vote-chip')!.textContent?.trim(),
+        expected
+      );
+      element.labelName = undefined;
+      await element.updateComplete;
+      assert.equal(
+        element.shadowRoot!.querySelector('.vote-chip')!.textContent?.trim(),
+        value > 0 ? `+${value}` : `${value}`
+      );
+    });
+  }
+
   suite('with QuickLabelInfo', () => {
     test('renders positive', async () => {
       const labelInfo = {

@@ -16,6 +16,24 @@
       "message": "With this change the access permission code is moved outside of validators\nbut still validators are invoking it. So the anti-pattern is still there:\nthe validators feel responsible for permission checks.",
       "revId": "999f29a9755ab9343b0dbbde386b565fbcd7ff56",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "61c365b8_d66e4d3d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-08T19:51:47Z",
+      "side": 1,
+      "message": "Agreed. The validators still orchestrate the checks. These commits centralize the forge/merge decision in ReceiveCommitControl. They don\u0027t take the validators out of the orchestration path.\n\nI\u0027d keep that scope here.\n\nMoving the orchestration out has to cover both the receive path and server-side commit creation (ChangeInserter/PatchSetInserter/BranchCommitBuilder), and reproduce the exact set of checks each path runs today (they differ, e.g. server-created commits skip the committer-forge check, already-merged review skips server-forge and sign-off), plus the commit \u003csha\u003e: messages and the CommitValidationInfo callbacks — a separate, larger change, not a precondition for these two. A shared coordinator could do that without duplicating policy across callers.\n\nI\u0027ve amended the commit messages to describe centralization rather than full decoupling.\n\nDone.",
+      "parentUuid": "b984f223_b3d18c2f",
+      "revId": "999f29a9755ab9343b0dbbde386b565fbcd7ff56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

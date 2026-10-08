@@ -21,6 +21,7 @@ import com.google.common.cache.LoadingCache;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.exceptions.InvalidSshKeyException;
 import com.google.gerrit.server.account.AccountSshKey;
+import com.google.gerrit.server.account.SshKeyExpiryNotifier;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIdKeyFactory;
@@ -64,6 +65,7 @@ public class SshKeyCacheImpl implements SshKeyCache {
         bind(SshKeyCacheImpl.class);
         bind(SshKeyCache.class).to(SshKeyCacheImpl.class);
         bind(SshKeyCreator.class).to(SshKeyCreatorImpl.class);
+        install(SshKeyExpiryNotifier.module());
       }
     };
   }

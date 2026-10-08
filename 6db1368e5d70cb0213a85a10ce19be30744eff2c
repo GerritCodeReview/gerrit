@@ -1,0 +1,75 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c0d59e32_8a4cbce9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-10-08T23:23:44Z",
+      "side": 1,
+      "message": "@begizi@google.com for the question my agent posed on automerger",
+      "revId": "6db1368e5d70cb0213a85a10ce19be30744eff2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30676828_24498631",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetBlame.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-10-08T23:23:44Z",
+      "side": 1,
+      "message": "Note that while BlameCache caches the resulting blame regions based on (repository, id, path, ignoreIds), getIgnoreIds reads and parses the .git-blame-ignore-revs blob from the tree on every request to construct the cache key.\n\nFor repositories with large ignore-revs files or frequent blame queries on the same commit, resolving and reading the tree object each time may add overhead even on cache hits. If needed down the road, caching parsed ignore-revs sets keyed by commit or tree ObjectId could avoid repeated git tree lookups.",
+      "isAi": true,
+      "revId": "6db1368e5d70cb0213a85a10ce19be30744eff2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa517857_0ea3be77",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetBlame.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-10-08T23:23:44Z",
+      "side": 1,
+      "message": "In the 2-parent merge commit case above (lines 115-117), id is the synthetic in-memory/on-disk automerge commit (ObjectId automerge \u003d autoMerger.lookupFromGitOrMergeInMemory(...)).\n\nDoes the automerge commit always have a tree containing .git-blame-ignore-revs if it was present in the merge parents, or could a merge conflict on .git-blame-ignore-revs cause it to be missing or fail to read from the automerge tree? If an automerge conflict occurs on that file, getIgnoreIds will gracefully fall back to empty set (since IOException / missing path is caught), but worth verifying if this behaves as expected for merge changes.",
+      "isAi": true,
+      "revId": "6db1368e5d70cb0213a85a10ce19be30744eff2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82c4b13b_225e76d7",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/GetBlameIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-10-08T23:23:44Z",
+      "side": 1,
+      "message": "Great coverage for ignore-revs, base handling, and invalid/inline comment handling.\n\nConsider also adding a test case verifying behavior when .git-blame-ignore-revs is modified or introduced in a subsequent patch set or merge commit, or when an ignored commit is not an ancestor of the file being blamed (ensuring non-ancestor ignored hashes are safely ignored without error).",
+      "isAi": true,
+      "revId": "6db1368e5d70cb0213a85a10ce19be30744eff2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -15,7 +15,6 @@
 package com.google.gerrit.httpd.raw;
 
 import com.google.common.cache.Cache;
-import com.google.gerrit.server.experiments.ExperimentFeatures;
 import java.nio.file.Path;
 
 class DirectoryDocServlet extends DocServlet {
@@ -23,9 +22,8 @@ class DirectoryDocServlet extends DocServlet {
 
   private final Path doc;
 
-  DirectoryDocServlet(
-      Cache<Path, Resource> cache, Path unpackedWar, ExperimentFeatures experimentFeatures) {
-    super(cache, true, experimentFeatures);
+  DirectoryDocServlet(Cache<Path, Resource> cache, Path unpackedWar) {
+    super(cache, true);
     this.doc = unpackedWar.resolve("Documentation");
   }
 

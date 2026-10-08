@@ -363,6 +363,7 @@ export class GrChangeListItem extends LitElement {
             display: flex;
           }
           .change-header,
+          .change-subject,
           .change-metadata {
             display: flex;
             align-items: center;
@@ -372,6 +373,10 @@ export class GrChangeListItem extends LitElement {
           }
           .change-header {
             align-items: baseline;
+            color: var(--deemphasized-text-color);
+            font-size: var(--font-size-small);
+            font-weight: var(--font-weight-normal);
+            line-height: var(--line-height-small);
           }
           .change-metadata {
             flex-wrap: wrap;
@@ -380,8 +385,8 @@ export class GrChangeListItem extends LitElement {
           .cell.number {
             flex: none;
           }
-          .cell.number {
-            order: 1;
+          .cell.star {
+            margin-left: auto;
           }
           .cell.subject {
             flex: 1;
@@ -410,7 +415,7 @@ export class GrChangeListItem extends LitElement {
             max-width: 100%;
           }
           .repo {
-            flex: 1 0 6rem;
+            flex: 0 1 auto;
             min-width: 0;
             max-width: 100%;
           }
@@ -474,15 +479,16 @@ export class GrChangeListItem extends LitElement {
       <td aria-hidden="true" class="cell leftPadding"></td>
       ${this.renderCellSelectionBox()}
       <div class="change-header">
-        ${this.renderCellStar()} ${this.renderCellNumber(changeUrl)}
-        ${this.renderCellSubject(changeUrl)}
+        ${this.renderCellNumber(changeUrl)} ${this.renderCellRepo()}
+        ${this.renderCellStar()}
       </div>
+      <div class="change-subject">${this.renderCellSubject(changeUrl)}</div>
       <div class="change-metadata">
         ${this.renderCellOwner()} ${this.renderCellReviewers()}
-        ${this.renderCellRepo()} ${this.renderCellBranch()}
-        ${this.renderCellHashtags()} ${this.renderCellUpdated()}
-        ${this.renderCellSubmitted()} ${this.renderCellWaiting()}
-        ${this.renderCellSize()} ${this.renderCellRequirements()}
+        ${this.renderCellBranch()} ${this.renderCellHashtags()}
+        ${this.renderCellUpdated()} ${this.renderCellSubmitted()}
+        ${this.renderCellWaiting()} ${this.renderCellSize()}
+        ${this.renderCellRequirements()}
         <div class="cell votes">
           ${this.labelNames?.map(labelName =>
             this.renderChangeLabels(labelName)

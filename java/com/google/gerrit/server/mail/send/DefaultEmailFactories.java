@@ -50,6 +50,8 @@ public class DefaultEmailFactories implements EmailFactories {
   private final AuthTokenUpdateEmailDecoratorFactory authTokenUpdateEmailFactory;
   private final AuthTokenWillExpireEmailDecoratorFactory authTokenWillExpireEmailFactory;
   private final AuthTokenExpiredEmailDecoratorFactory authTokenExpiredEmailFactory;
+  private final SshKeyWillExpireEmailDecoratorFactory sshKeyWillExpireEmailFactory;
+  private final SshKeyExpiredEmailDecoratorFactory sshKeyExpiredEmailFactory;
   private final HttpPasswordUpdateEmailDecoratorFactory httpPasswordUpdateEmailFactory;
   private final RegisterNewEmailDecoratorImplFactory registerNewEmailFactory;
   private final OutgoingEmailFactory outgoingEmailFactory;
@@ -65,6 +67,8 @@ public class DefaultEmailFactories implements EmailFactories {
       AuthTokenUpdateEmailDecoratorFactory authTokenUpdateEmailFactory,
       AuthTokenWillExpireEmailDecoratorFactory authTokenWillExpireEmailFactory,
       AuthTokenExpiredEmailDecoratorFactory authTokenExpiredEmailFactory,
+      SshKeyWillExpireEmailDecoratorFactory sshKeyWillExpireEmailFactory,
+      SshKeyExpiredEmailDecoratorFactory sshKeyExpiredEmailFactory,
       HttpPasswordUpdateEmailDecoratorFactory httpPasswordUpdateEmailFactory,
       RegisterNewEmailDecoratorImplFactory registerNewEmailFactory,
       OutgoingEmailFactory outgoingEmailFactory) {
@@ -77,6 +81,8 @@ public class DefaultEmailFactories implements EmailFactories {
     this.authTokenUpdateEmailFactory = authTokenUpdateEmailFactory;
     this.authTokenWillExpireEmailFactory = authTokenWillExpireEmailFactory;
     this.authTokenExpiredEmailFactory = authTokenExpiredEmailFactory;
+    this.sshKeyWillExpireEmailFactory = sshKeyWillExpireEmailFactory;
+    this.sshKeyExpiredEmailFactory = sshKeyExpiredEmailFactory;
     this.httpPasswordUpdateEmailFactory = httpPasswordUpdateEmailFactory;
     this.registerNewEmailFactory = registerNewEmailFactory;
     this.outgoingEmailFactory = outgoingEmailFactory;
@@ -211,6 +217,16 @@ public class DefaultEmailFactories implements EmailFactories {
       String authTokenSettingsUrl) {
     return authTokenExpiredEmailFactory.create(
         account, authToken, additionalReceivers, authTokenSettingsUrl);
+  }
+
+  @Override
+  public EmailDecorator createSshKeyWillExpireEmail(Account account, AccountSshKey sshKey) {
+    return sshKeyWillExpireEmailFactory.create(account, sshKey);
+  }
+
+  @Override
+  public EmailDecorator createSshKeyExpiredEmail(Account account, AccountSshKey sshKey) {
+    return sshKeyExpiredEmailFactory.create(account, sshKey);
   }
 
   @Override

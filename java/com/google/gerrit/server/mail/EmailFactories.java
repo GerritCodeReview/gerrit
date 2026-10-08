@@ -69,6 +69,8 @@ public interface EmailFactories {
   String AUTH_TOKEN_UPDATED = "AuthTokenUpdate";
   String AUTH_TOKEN_WILL_EXPIRE = "AuthTokenWillExpire";
   String AUTH_TOKEN_EXPIRED = "AuthTokenExpired";
+  String SSH_KEY_WILL_EXPIRE = "SshKeyWillExpire";
+  String SSH_KEY_EXPIRED = "SshKeyExpired";
   String PASSWORD_UPDATED = "HttpPasswordUpdate";
   String INBOUND_EMAIL_REJECTED = "error";
   String NEW_EMAIL_REGISTERED = "registernewemail";
@@ -91,6 +93,8 @@ public interface EmailFactories {
       case AUTH_TOKEN_UPDATED -> "Authentication Token Updated";
       case AUTH_TOKEN_WILL_EXPIRE -> "Authentication Token Will Expire";
       case AUTH_TOKEN_EXPIRED -> "Authentication Token Expired";
+      case SSH_KEY_WILL_EXPIRE -> "SSH Key Will Expire";
+      case SSH_KEY_EXPIRED -> "SSH Key Expired";
       case PASSWORD_UPDATED -> "Password Updated";
       case INBOUND_EMAIL_REJECTED -> "Error";
       case NEW_EMAIL_REGISTERED -> "Email Registered";
@@ -181,6 +185,12 @@ public interface EmailFactories {
       AuthToken authToken,
       Set<Account.Id> additionalReceivers,
       String authTokenSettingsUrl);
+
+  /** Email decorator for SSH keys with close expiration date. */
+  EmailDecorator createSshKeyWillExpireEmail(Account account, AccountSshKey sshKey);
+
+  /** Email decorator for expired SSH keys. */
+  EmailDecorator createSshKeyExpiredEmail(Account account, AccountSshKey sshKey);
 
   /** Email decorator for password modification operations. */
   EmailDecorator createHttpPasswordUpdateEmail(IdentifiedUser user, String operation);

@@ -96,6 +96,10 @@ class MailSoySauceLoader {
     "RestoredHtml.soy",
     "Reverted.soy",
     "RevertedHtml.soy",
+    "SshKeyExpired.soy",
+    "SshKeyExpiredHtml.soy",
+    "SshKeyWillExpire.soy",
+    "SshKeyWillExpireHtml.soy",
   };
 
   private static final SoySauce DEFAULT = getDefault(null).build().compileTemplates();

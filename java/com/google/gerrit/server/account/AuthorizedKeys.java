@@ -17,6 +17,7 @@ package com.google.gerrit.server.account;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Splitter;
 import com.google.gerrit.entities.Account;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -30,6 +31,8 @@ public class AuthorizedKeys {
 
   @VisibleForTesting public static final String DELETED_KEY_COMMENT = "# DELETED";
 
+  @VisibleForTesting public static final String EXPIRATION_COMMENT_PREFIX = "# EXPIRES ";
+
   private static final Pattern LINE_SPLIT_PATTERN = Pattern.compile("\\r?\\n");
 
   public static List<Optional<AccountSshKey>> parse(Account.Id accountId, String s) {
@@ -41,27 +44,49 @@ public class AuthorizedKeys {
         continue;
       } else if (line.startsWith(INVALID_KEY_COMMENT_PREFIX)) {
         String pub = line.substring(INVALID_KEY_COMMENT_PREFIX.length());
-        AccountSshKey key = AccountSshKey.createInvalid(accountId, seq++, pub);
-        keys.add(Optional.of(key));
+        keys.add(Optional.of(parseKey(accountId, seq++, pub, false, false)));
       } else if (line.startsWith(DELETED_KEY_COMMENT)) {
-        keys.add(Optional.empty());
+        String pub = line.substring(DELETED_KEY_COMMENT.length()).trim();
+        keys.add(
+            pub.isEmpty()
+                ? Optional.empty()
+                : Optional.of(parseKey(accountId, seq, pub, false, true)));
         seq++;
-      } else if (line.startsWith("#")) {
+      } else if (line.startsWith("#") && !line.startsWith(EXPIRATION_COMMENT_PREFIX)) {
         continue;
       } else {
-        AccountSshKey key = AccountSshKey.create(accountId, seq++, line);
-        keys.add(Optional.of(key));
+        keys.add(Optional.of(parseKey(accountId, seq++, line, true, false)));
       }
     }
     return keys;
+  }
+
+  /** Parses a key that may be prefixed with {@code # EXPIRES <ISO-8601 instant> }. */
+  private static AccountSshKey parseKey(
+      Account.Id accountId, int seq, String text, boolean valid, boolean deleted) {
+    Optional<Instant> expiration = Optional.empty();
+    if (text.startsWith(EXPIRATION_COMMENT_PREFIX)) {
+      List<String> parts =
+          Splitter.on(' ')
+              .limit(2)
+              .splitToList(text.substring(EXPIRATION_COMMENT_PREFIX.length()).trim());
+      expiration = Optional.of(Instant.parse(parts.get(0)));
+      text = parts.get(1).trim();
+    }
+    return AccountSshKey.create(accountId, seq, text, valid, deleted, expiration);
   }
 
   public static String serialize(Collection<Optional<AccountSshKey>> keys) {
     StringBuilder b = new StringBuilder();
     for (Optional<AccountSshKey> key : keys) {
       if (key.isPresent()) {
-        if (!key.get().valid()) {
+        if (key.get().deleted()) {
+          b.append(DELETED_KEY_COMMENT).append(" ");
+        } else if (!key.get().valid()) {
           b.append(INVALID_KEY_COMMENT_PREFIX);
+        }
+        if (key.get().expirationDate().isPresent()) {
+          b.append(EXPIRATION_COMMENT_PREFIX).append(key.get().expirationDate().get()).append(" ");
         }
         b.append(key.get().sshPublicKey().trim());
       } else {

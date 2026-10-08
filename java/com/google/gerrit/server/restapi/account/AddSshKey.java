@@ -19,6 +19,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.common.io.ByteSource;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.exceptions.InvalidSshKeyException;
 import com.google.gerrit.extensions.api.accounts.SshKeyInput;
@@ -40,17 +41,19 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.ssh.SshKeyCache;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.google.inject.Singleton;
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.kohsuke.args4j.Option;
 
 /**
  * REST endpoint to add an SSH key for an account.
  *
  * <p>This REST endpoint handles {@code POST /accounts/<account-identifier>/sshkeys/} requests.
  */
-@Singleton
 public class AddSshKey
     implements RestCollectionModifyView<AccountResource, AccountResource.SshKey, SshKeyInput> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
@@ -73,6 +76,16 @@ public class AddSshKey
     this.authorizedKeys = authorizedKeys;
     this.sshKeyCache = sshKeyCache;
     this.emailFactories = emailFactories;
+  }
+
+  @Nullable private String lifetime;
+
+  @Option(
+      name = "--lifetime",
+      metaVar = "LIFETIME",
+      usage = "lifetime of the SSH key, e.g. 30d; the key is rejected for login afterwards")
+  public void setLifetime(String lifetime) {
+    this.lifetime = lifetime;
   }
 
   @Override
@@ -106,8 +119,11 @@ public class AddSshKey
           }
         }.asCharSource(UTF_8).read();
 
+    Optional<Instant> expiration =
+        CreateToken.getExpirationInstant(lifetime, Optional.empty())
+            .map(e -> e.truncatedTo(ChronoUnit.SECONDS));
     try {
-      AccountSshKey sshKey = authorizedKeys.addKey(user.getAccountId(), sshPublicKey);
+      AccountSshKey sshKey = authorizedKeys.addKey(user.getAccountId(), sshPublicKey, expiration);
 
       try {
         emailFactories

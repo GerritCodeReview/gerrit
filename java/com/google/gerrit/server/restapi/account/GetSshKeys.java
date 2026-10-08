@@ -32,6 +32,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.List;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -80,6 +81,7 @@ public class GetSshKeys implements RestReadView<AccountResource> {
     info.algorithm = sshKey.algorithm();
     info.comment = Strings.emptyToNull(sshKey.comment());
     info.valid = sshKey.valid();
+    info.expiration = sshKey.expirationDate().map(Timestamp::from).orElse(null);
     return info;
   }
 }

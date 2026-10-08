@@ -3410,7 +3410,7 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
     }) as Promise<unknown> as Promise<SshKeyInfo[] | undefined>;
   }
 
-  addAccountSSHKey(key: string): Promise<SshKeyInfo> {
+  addAccountSSHKey(key: string, lifetime?: string): Promise<SshKeyInfo> {
     // By passing throwingErrorCallback we guarantee that response is not-null.
     return this._restApiHelper.fetchJSON({
       fetchOptions: getFetchOptions({
@@ -3418,7 +3418,9 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
         body: key,
         contentType: 'text/plain',
       }),
-      url: '/accounts/self/sshkeys',
+      url:
+        '/accounts/self/sshkeys' +
+        (lifetime ? `?lifetime=${encodeURIComponent(lifetime)}` : ''),
       reportUrlAsIs: true,
       errFn: throwingErrorCallback,
     }) as Promise<unknown> as Promise<SshKeyInfo>;

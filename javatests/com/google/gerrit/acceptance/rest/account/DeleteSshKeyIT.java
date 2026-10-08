@@ -18,13 +18,11 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.UseSsh;
-import com.google.gerrit.acceptance.testsuite.account.TestSshKeys;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.server.account.AccountSshKey;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.restapi.account.DeleteSshKey;
 import com.google.inject.Inject;
-import java.security.KeyPair;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
@@ -106,17 +104,13 @@ public class DeleteSshKeyIT extends AbstractDaemonTest {
   }
 
   private void addUserSshKeys() throws Exception {
-    KeyPair keyPair = sshKeys.getKeyPair(user);
-    userSshKey =
-        authorizedKeys.addKey(
-            user(user).getAccountId(), TestSshKeys.publicKey(keyPair, user.email()));
+    var unused = sshKeys.getKeyPair(user);
+    userSshKey = authorizedKeys.getKey(user(user).getAccountId(), 1);
     gApi.accounts().id(user.id().get()).addSshKey(KEY1);
   }
 
   private void addAdminSshKeys() throws Exception {
-    KeyPair keyPair = sshKeys.getKeyPair(admin);
-    adminSshKey =
-        authorizedKeys.addKey(
-            user(admin).getAccountId(), TestSshKeys.publicKey(keyPair, admin.email()));
+    var unused = sshKeys.getKeyPair(admin);
+    adminSshKey = authorizedKeys.getKey(user(admin).getAccountId(), 1);
   }
 }

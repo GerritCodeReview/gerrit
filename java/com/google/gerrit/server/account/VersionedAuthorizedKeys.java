@@ -36,10 +36,12 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
@@ -55,14 +57,27 @@ import org.eclipse.jgit.lib.Repository;
  * <p>The order of the keys in the file determines the sequence numbers of the keys. The first line
  * corresponds to sequence number 1.
  *
- * <p>Invalid keys are marked with the prefix <code># INVALID</code>.
+ * <p>Each line has one of these forms:
  *
- * <p>To keep the sequence numbers intact when a key is deleted, a <code># DELETED</code> line is
- * inserted at the position where the key was deleted.
+ * <pre>{@code
+ * [# EXPIRES <instant> ]<key>             a valid key
+ * # INVALID [# EXPIRES <instant> ]<key>   an invalid key
+ * # DELETED [# EXPIRES <instant> ]<key>   a deleted key that had an expiration
+ * # DELETED                               a deleted key without expiration
+ * }</pre>
+ *
+ * <p>where {@code <instant>} is an ISO-8601 instant, e.g. {@code 2030-01-02T03:04:05Z}, and {@code
+ * <key>} is {@code <algorithm> <encoded key> [<comment>]}.
+ *
+ * <p>To keep the sequence numbers intact when a key is deleted, a {@code # DELETED} line is
+ * inserted at the position where the key was deleted. A deleted key that had an expiration is kept
+ * on that line so that it cannot be added again to renew it.
  *
  * <p>Other comment lines are ignored on read, and are not written back when the file is modified.
  */
 public class VersionedAuthorizedKeys extends VersionedMetaData {
+  public static final String KEY_ALREADY_EXISTS = "SSH key already exists";
+  public static final String KEY_USED_PREVIOUSLY = "SSH key has been used previously";
 
   /** Read/write SSH keys by user ID. */
   @Singleton
@@ -98,10 +113,11 @@ public class VersionedAuthorizedKeys extends VersionedMetaData {
     }
 
     @CanIgnoreReturnValue
-    public synchronized AccountSshKey addKey(Account.Id accountId, String pub)
+    public synchronized AccountSshKey addKey(
+        Account.Id accountId, String pub, Optional<Instant> expirationDate)
         throws IOException, ConfigInvalidException, InvalidSshKeyException {
       VersionedAuthorizedKeys authorizedKeys = read(accountId);
-      AccountSshKey key = authorizedKeys.addKey(pub);
+      AccountSshKey key = authorizedKeys.addKey(pub, expirationDate);
       commit(authorizedKeys);
       return key;
     }
@@ -143,8 +159,9 @@ public class VersionedAuthorizedKeys extends VersionedMetaData {
 
   public static class SimpleSshKeyCreator implements SshKeyCreator {
     @Override
-    public AccountSshKey create(Account.Id accountId, int seq, String encoded) {
-      return AccountSshKey.create(accountId, seq, encoded);
+    public AccountSshKey create(
+        Account.Id accountId, int seq, String encoded, Optional<Instant> expirationDate) {
+      return AccountSshKey.create(accountId, seq, encoded, true, false, expirationDate);
     }
   }
 
@@ -187,7 +204,7 @@ public class VersionedAuthorizedKeys extends VersionedMetaData {
   /** Returns all SSH keys. */
   private List<AccountSshKey> getKeys() {
     checkLoaded();
-    return keys.stream().filter(Optional::isPresent).map(Optional::get).collect(toList());
+    return keys.stream().flatMap(Optional::stream).filter(key -> !key.deleted()).collect(toList());
   }
 
   /**
@@ -200,28 +217,38 @@ public class VersionedAuthorizedKeys extends VersionedMetaData {
   @Nullable
   private AccountSshKey getKey(int seq) {
     checkLoaded();
-    return keys.get(seq - 1).orElse(null);
+    return keys.get(seq - 1).filter(key -> !key.deleted()).orElse(null);
   }
 
   /**
    * Adds a new public SSH key.
    *
-   * <p>If the specified public key exists already, the existing key is returned.
+   * <p>A key cannot be added if a key with the same algorithm and key material (the comment is
+   * ignored) exists already, has expired, or has been deleted before.
    *
    * @param pub the public SSH key to be added
+   * @param expirationDate when the new key expires, if at all
    * @return the new SSH key
+   * @throws InvalidSshKeyException if the key is invalid, exists already or was used previously
    */
-  private AccountSshKey addKey(String pub) throws InvalidSshKeyException {
+  private AccountSshKey addKey(String pub, Optional<Instant> expirationDate)
+      throws InvalidSshKeyException {
     checkLoaded();
 
-    for (Optional<AccountSshKey> key : keys) {
-      if (key.isPresent() && key.get().sshPublicKey().trim().equals(pub.trim())) {
-        return key.get();
+    int seq = keys.size() + 1;
+    AccountSshKey key = sshKeyCreator.create(accountId, seq, pub, expirationDate);
+
+    for (Optional<AccountSshKey> existing : keys) {
+      if (existing.isPresent()
+          && existing.get().algorithm().equals(key.algorithm())
+          && Objects.equals(existing.get().encodedKey(), key.encodedKey())) {
+        throw new InvalidSshKeyException(
+            existing.get().deleted() || existing.get().isExpired()
+                ? KEY_USED_PREVIOUSLY
+                : KEY_ALREADY_EXISTS);
       }
     }
 
-    int seq = keys.size() + 1;
-    AccountSshKey key = sshKeyCreator.create(accountId, seq, pub);
     keys.add(Optional.of(key));
     return key;
   }
@@ -236,7 +263,19 @@ public class VersionedAuthorizedKeys extends VersionedMetaData {
   private boolean deleteKey(int seq) {
     checkLoaded();
     if (seq <= keys.size() && keys.get(seq - 1).isPresent()) {
-      keys.set(seq - 1, Optional.empty());
+      AccountSshKey key = keys.get(seq - 1).get();
+      keys.set(
+          seq - 1,
+          key.expirationDate().isPresent()
+              ? Optional.of(
+                  AccountSshKey.create(
+                      key.accountId(),
+                      key.seq(),
+                      key.sshPublicKey(),
+                      false,
+                      true,
+                      key.expirationDate()))
+              : Optional.empty());
       return true;
     }
     return false;

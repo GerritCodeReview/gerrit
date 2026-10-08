@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.base.Splitter;
 import com.google.gerrit.entities.Account;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -144,6 +145,40 @@ public class AuthorizedKeysTest {
     assertThat(key.comment()).isEqualTo(keyParts.get(2));
   }
 
+  @Test
+  public void expiringKeysAreStoredWithExpiresPrefixOnTheSameLine() throws Exception {
+    Instant expiration = Instant.parse("2030-01-02T03:04:05Z");
+    List<Optional<AccountSshKey>> keys =
+        List.of(
+            Optional.of(
+                AccountSshKey.create(accountId, 1, KEY1, true, false, Optional.of(expiration))),
+            Optional.of(
+                AccountSshKey.create(accountId, 2, KEY2, false, false, Optional.of(expiration))));
+    String file =
+        "# EXPIRES 2030-01-02T03:04:05Z "
+            + KEY1
+            + "\n# INVALID # EXPIRES 2030-01-02T03:04:05Z "
+            + KEY2
+            + "\n";
+
+    assertThat(AuthorizedKeys.serialize(keys)).isEqualTo(file);
+    assertThat(AuthorizedKeys.parse(accountId, file)).containsExactlyElementsIn(keys).inOrder();
+  }
+
+  @Test
+  public void deletedKeyIsKeptWithMarker() throws Exception {
+    Instant expiration = Instant.parse("2030-01-02T03:04:05Z");
+    List<Optional<AccountSshKey>> keys =
+        List.of(
+            Optional.of(AccountSshKey.create(accountId, 1, KEY1, false, true, Optional.empty())),
+            Optional.of(
+                AccountSshKey.create(accountId, 2, KEY2, false, true, Optional.of(expiration))));
+    String file = "# DELETED " + KEY1 + "\n# DELETED # EXPIRES 2030-01-02T03:04:05Z " + KEY2 + "\n";
+
+    assertThat(AuthorizedKeys.serialize(keys)).isEqualTo(file);
+    assertThat(AuthorizedKeys.parse(accountId, file)).containsExactlyElementsIn(keys).inOrder();
+  }
+
   private static String toWindowsLineEndings(String s) {
     return s.replace("\n", "\r\n");
   }
@@ -186,7 +221,8 @@ public class AuthorizedKeysTest {
    * @return the expected line for this key in the authorized_keys file
    */
   private static String addInvalidKey(List<Optional<AccountSshKey>> keys, String pub) {
-    AccountSshKey key = AccountSshKey.createInvalid(Account.id(1), keys.size() + 1, pub);
+    AccountSshKey key =
+        AccountSshKey.create(Account.id(1), keys.size() + 1, pub, false, false, Optional.empty());
     keys.add(Optional.of(key));
     return AuthorizedKeys.INVALID_KEY_COMMENT_PREFIX + key.sshPublicKey() + "\n";
   }

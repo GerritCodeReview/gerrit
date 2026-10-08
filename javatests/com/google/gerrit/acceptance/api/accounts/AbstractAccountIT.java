@@ -147,7 +147,6 @@ import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.change.AccountPatchReviewStore;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.RegexAllowedGroupsProvider;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.group.testing.TestGroupBackend;
 import com.google.gerrit.server.index.account.AccountIndexer;
@@ -1796,16 +1795,16 @@ public abstract class AbstractAccountIT extends AbstractDaemonTest {
       assertThat(sender.getMessages()).hasSize(1);
       assertThat(sender.getMessages().get(0).body()).contains("new SSH keys have been added");
 
-      // Add an existing key (the request succeeds, but the key isn't added again)
+      // Add an existing key (the request is rejected and no email is sent)
       sender.clear();
-      gApi.accounts().self().addSshKey(initial);
+      BadRequestException thrown =
+          assertThrows(BadRequestException.class, () -> gApi.accounts().self().addSshKey(initial));
+      assertThat(thrown).hasMessageThat().isEqualTo("SSH key already exists");
       info = gApi.accounts().self().listSshKeys();
       assertThat(info).hasSize(2);
       assertSequenceNumbers(info);
       accountIndexedCounter.assertNoReindex();
-      // TODO: Issue 10769: Adding an already existing key should not result in a notification email
-      assertThat(sender.getMessages()).hasSize(1);
-      assertThat(sender.getMessages().get(0).body()).contains("new SSH keys have been added");
+      assertThat(sender.getMessages()).isEmpty();
 
       // Add another new key
       sender.clear();

@@ -15,14 +15,11 @@
 package com.google.gerrit.httpd.raw;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.server.experiments.ExperimentFeaturesConstants.GERRIT_BACKEND_FEATURE_ATTACH_NONCE_TO_DOCUMENTATION;
-import static org.mockito.Mockito.when;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.jimfs.Configuration;
 import com.google.common.jimfs.Jimfs;
-import com.google.gerrit.server.experiments.ExperimentFeatures;
 import com.google.gerrit.util.http.testutil.FakeHttpServletRequest;
 import com.google.gerrit.util.http.testutil.FakeHttpServletResponse;
 import java.io.IOException;
@@ -34,31 +31,20 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
 
 @RunWith(JUnit4.class)
 public class DocServletTest {
 
-  @Rule public final MockitoRule mockito = MockitoJUnit.rule();
-
-  @Mock private ExperimentFeatures experimentFeatures;
   private FileSystem fs = Jimfs.newFileSystem(Configuration.unix());
   private DocServlet docServlet;
 
   @Before
   public void setUp() throws Exception {
-    when(experimentFeatures.isFeatureEnabled(GERRIT_BACKEND_FEATURE_ATTACH_NONCE_TO_DOCUMENTATION))
-        .thenReturn(true);
-
     docServlet =
-        new DocServlet(
-            CacheBuilder.newBuilder().maximumSize(1).build(), false, experimentFeatures) {
+        new DocServlet(CacheBuilder.newBuilder().maximumSize(1).build(), false) {
           private static final long serialVersionUID = 1L;
 
           @Override
@@ -77,19 +63,6 @@ public class DocServletTest {
   @Test
   public void noNonce_unchangedResponse() throws Exception {
     FakeHttpServletRequest request = new FakeHttpServletRequest().setPathInfo(DOC_PATH);
-    FakeHttpServletResponse response = new FakeHttpServletResponse();
-
-    docServlet.doGet(request, response);
-
-    assertThat(response.getActualBody()).isEqualTo(HTML_RESPONSE.getBytes(StandardCharsets.UTF_8));
-  }
-
-  @Test
-  public void experimentDisabled_unchangedResponse() throws Exception {
-    when(experimentFeatures.isFeatureEnabled(GERRIT_BACKEND_FEATURE_ATTACH_NONCE_TO_DOCUMENTATION))
-        .thenReturn(false);
-    FakeHttpServletRequest request = new FakeHttpServletRequest().setPathInfo(DOC_PATH);
-    request.setAttribute("nonce", NONCE);
     FakeHttpServletResponse response = new FakeHttpServletResponse();
 
     docServlet.doGet(request, response);

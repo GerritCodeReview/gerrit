@@ -15,7 +15,6 @@
 package com.google.gerrit.httpd.raw;
 
 import com.google.common.cache.Cache;
-import com.google.gerrit.server.experiments.ExperimentFeatures;
 import com.google.gerrit.server.util.time.TimeUtil;
 import java.nio.file.FileSystem;
 import java.nio.file.Path;
@@ -28,9 +27,8 @@ class WarDocServlet extends DocServlet {
 
   private final FileSystem warFs;
 
-  WarDocServlet(
-      Cache<Path, Resource> cache, FileSystem warFs, ExperimentFeatures experimentFeatures) {
-    super(cache, false, experimentFeatures);
+  WarDocServlet(Cache<Path, Resource> cache, FileSystem warFs) {
+    super(cache, false);
     this.warFs = warFs;
   }
 

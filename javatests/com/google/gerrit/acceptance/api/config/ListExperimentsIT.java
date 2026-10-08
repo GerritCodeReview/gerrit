@@ -48,7 +48,6 @@ public class ListExperimentsIT extends AbstractDaemonTest {
     assertThat(experiments.keySet())
         .containsAtLeast(
             ExperimentFeaturesConstants.ALLOW_FIX_SUGGESTIONS_IN_COMMENTS,
-            ExperimentFeaturesConstants.GERRIT_BACKEND_FEATURE_ATTACH_NONCE_TO_DOCUMENTATION,
             ExperimentFeaturesConstants.SKIP_SUBMIT_RECORDS_WITHOUT_SUBMIT_REQUIREMENTS)
         .inOrder();
 
@@ -57,8 +56,7 @@ public class ListExperimentsIT extends AbstractDaemonTest {
         .isFalse();
     assertThat(
             experiments.get(
-                    ExperimentFeaturesConstants
-                        .GERRIT_BACKEND_FEATURE_ATTACH_NONCE_TO_DOCUMENTATION)
+                    ExperimentFeaturesConstants.SKIP_SUBMIT_RECORDS_WITHOUT_SUBMIT_REQUIREMENTS)
                 .enabled)
         .isFalse();
   }
@@ -66,13 +64,12 @@ public class ListExperimentsIT extends AbstractDaemonTest {
   @Test
   @GerritConfig(
       name = "experiments.enabled",
-      values = {"GerritBackendFeature__attach_nonce_to_documentation"})
+      values = {"GerritBackendFeature__allow_fix_suggestions_in_comments"})
   public void listEnabled_noneEnabled() throws Exception {
     ImmutableMap<String, ExperimentInfo> experiments =
         gApi.config().server().listExperiments().enabledOnly().get();
     assertThat(experiments.keySet())
-        .containsExactly(
-            ExperimentFeaturesConstants.GERRIT_BACKEND_FEATURE_ATTACH_NONCE_TO_DOCUMENTATION);
+        .containsExactly(ExperimentFeaturesConstants.ALLOW_FIX_SUGGESTIONS_IN_COMMENTS);
     for (ExperimentInfo experimentInfo : experiments.values()) {
       assertThat(experimentInfo.enabled).isTrue();
     }

@@ -189,11 +189,14 @@ export class GrAccountLabel extends LitElement {
           max-width: var(--account-max-length, 180px);
         }
         .hasAttention .name {
-          font-weight: var(--font-weight-bold);
+          font-weight: var(
+            --account-label-attention-font-weight,
+            var(--font-weight-bold)
+          );
         }
         a.ownerLink {
           text-decoration: none;
-          color: var(--primary-text-color);
+          color: var(--account-label-text-color, var(--primary-text-color));
           display: flex;
           align-items: center;
           gap: 3px;

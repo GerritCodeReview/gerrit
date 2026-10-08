@@ -76,6 +76,21 @@ suite('gr-change-list screenshot tests', () => {
           subject:
             'Show label votes and configurable columns on narrow screens',
           owner: {...change.owner, name: 'Monty Taylor Sword Nimi'},
+          ...(width <= 800 && index === 0
+            ? {
+                attention_set: {
+                  [change.owner._account_id!]: {account: change.owner},
+                },
+                reviewers: {
+                  REVIEWER: [
+                    {
+                      ...createAccountDetailWithIdNameAndEmail(2),
+                      name: 'Josh',
+                    },
+                  ],
+                },
+              }
+            : {}),
           project: (index === 0
             ? 'openstack/very-long-repository-name'
             : 'gerrit') as RepoName,
@@ -108,13 +123,24 @@ suite('gr-change-list screenshot tests', () => {
         const first = rows[0].shadowRoot!;
         const number = first.querySelector('.number')!;
         const subject = first.querySelector('.subject')!;
+        assert.isAtLeast(
+          subject.getBoundingClientRect().top,
+          first.querySelector('.change-header')!.getBoundingClientRect().bottom
+        );
         assert.equal(
-          Math.round(number.getBoundingClientRect().top),
-          Math.round(subject.getBoundingClientRect().top)
+          first.querySelector('.change-header')!.getBoundingClientRect().left,
+          subject.getBoundingClientRect().left
         );
         assert.isAtLeast(
-          number.getBoundingClientRect().left,
-          subject.getBoundingClientRect().right
+          first.querySelector('.change-metadata')!.getBoundingClientRect().top,
+          subject.getBoundingClientRect().bottom
+        );
+        const headerStyle = getComputedStyle(
+          first.querySelector('.change-header')!
+        );
+        assert.isBelow(
+          parseFloat(headerStyle.fontSize),
+          parseFloat(getComputedStyle(subject).fontSize)
         );
         const votePositions = rows.map(row =>
           Array.from(row.shadowRoot!.querySelectorAll('.label')).map(cell =>
@@ -134,10 +160,19 @@ suite('gr-change-list screenshot tests', () => {
         assert.isAtMost(repoLink.scrollWidth, repoLink.clientWidth);
         assert.isAtLeast(
           repo.getBoundingClientRect().left,
-          first.querySelector('.owner')!.getBoundingClientRect().right
+          number.getBoundingClientRect().right
+        );
+        assert.isAtMost(
+          repo.getBoundingClientRect().bottom,
+          subject.getBoundingClientRect().top
         );
         const accountLabel = first.querySelector('gr-account-label')!;
         const name = accountLabel.shadowRoot!.querySelector('.name')!;
+        assert.isBelow(
+          parseFloat(getComputedStyle(name).fontSize),
+          parseFloat(getComputedStyle(subject).fontSize)
+        );
+        assert.equal(getComputedStyle(name).fontWeight, '500');
         assert.isAbove(name.clientWidth, 100);
         assert.isAtMost(name.scrollWidth, name.clientWidth);
         assert.isAtMost(element.scrollWidth, element.clientWidth);
@@ -145,6 +180,7 @@ suite('gr-change-list screenshot tests', () => {
       if (width > 800) {
         for (const row of rows) {
           assert.isNull(row.shadowRoot!.querySelector('.change-header'));
+          assert.isNull(row.shadowRoot!.querySelector('.change-subject'));
           assert.isNull(row.shadowRoot!.querySelector('.change-metadata'));
           assert.isNull(row.shadowRoot!.querySelector('.votes'));
           for (const cell of row.shadowRoot!.querySelectorAll('td')) {

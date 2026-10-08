@@ -1,0 +1,51 @@
+= SetSshKeyExpiry
+
+== NAME
+SetSshKeyExpiry - Set the expiry of existing SSH keys that have none.
+
+== SYNOPSIS
+[verse]
+--
+_java_ -jar gerrit.war _SetSshKeyExpiry_
+  -d <SITE_PATH>
+  --lifetime <LIFETIME>
+--
+
+== DESCRIPTION
+SSH keys that were added before expiry was supported never expire. If
+link:config-gerrit.html#auth.maxSshKeyLifetime[auth.maxSshKeyLifetime] is
+configured, or SSH keys should expire for another reason, this tool sets an
+expiry on all valid SSH keys that don't have one yet. The expiry is the time
+when the tool runs plus the given lifetime.
+
+Keys that already have an expiry are not changed, no matter if it is earlier or
+later than the new one. Invalid and deleted keys are not changed either.
+
+== OPTIONS
+
+-d::
+--site-path::
+	Path of the Gerrit site
+
+--lifetime::
+	Lifetime of the SSH keys that have no expiry, counted from now. The
+	minimum lifetime is 1 minute. The lifetime has to be provided using the
+	following unit format:
++
+* m, min, minute, minutes
+* h, hr, hour, hours
+* d, day, days
+* w, week, weeks (`1 week` is treated as `7 days`)
+* mon, month, months (`1 month` is treated as `30 days`)
+* y, year, years (`1 year` is treated as `365 days`)
+
+== CONTEXT
+This command can only be run offline with direct access to the server's
+site.
+
+== EXAMPLES
+To let all SSH keys without expiry expire in 180 days:
+
+----
+    $ java -jar gerrit.war SetSshKeyExpiry -d site_path --lifetime "180d"
+----

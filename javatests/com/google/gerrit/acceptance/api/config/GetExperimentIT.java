@@ -57,13 +57,12 @@ public class GetExperimentIT extends AbstractDaemonTest {
   @Test
   @GerritConfig(
       name = "experiments.enabled",
-      values = {"GerritBackendFeature__attach_nonce_to_documentation"})
+      values = {"GerritBackendFeature__allow_fix_suggestions_in_comments"})
   public void getEnabled() throws Exception {
     ExperimentInfo experimentInfo =
         gApi.config()
             .server()
-            .experiment(
-                ExperimentFeaturesConstants.GERRIT_BACKEND_FEATURE_ATTACH_NONCE_TO_DOCUMENTATION)
+            .experiment(ExperimentFeaturesConstants.ALLOW_FIX_SUGGESTIONS_IN_COMMENTS)
             .get();
     assertThat(experimentInfo.enabled).isTrue();
   }
@@ -73,8 +72,7 @@ public class GetExperimentIT extends AbstractDaemonTest {
     ExperimentInfo experimentInfo =
         gApi.config()
             .server()
-            .experiment(
-                ExperimentFeaturesConstants.GERRIT_BACKEND_FEATURE_ATTACH_NONCE_TO_DOCUMENTATION)
+            .experiment(ExperimentFeaturesConstants.ALLOW_FIX_SUGGESTIONS_IN_COMMENTS)
             .get();
     assertThat(experimentInfo.enabled).isFalse();
   }

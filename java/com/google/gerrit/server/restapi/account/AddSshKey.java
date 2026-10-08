@@ -34,6 +34,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountSshKey;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
+import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.mail.EmailFactories;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -43,6 +44,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Optional;
@@ -58,6 +60,7 @@ public class AddSshKey
     implements RestCollectionModifyView<AccountResource, AccountResource.SshKey, SshKeyInput> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  private final Optional<Duration> maxSshKeyLifetime;
   private final Provider<CurrentUser> self;
   private final PermissionBackend permissionBackend;
   private final VersionedAuthorizedKeys.Accessor authorizedKeys;
@@ -70,7 +73,9 @@ public class AddSshKey
       PermissionBackend permissionBackend,
       VersionedAuthorizedKeys.Accessor authorizedKeys,
       SshKeyCache sshKeyCache,
-      EmailFactories emailFactories) {
+      EmailFactories emailFactories,
+      AuthConfig authConfig) {
+    this.maxSshKeyLifetime = authConfig.getMaxSshKeyLifetime();
     this.self = self;
     this.permissionBackend = permissionBackend;
     this.authorizedKeys = authorizedKeys;
@@ -119,9 +124,7 @@ public class AddSshKey
           }
         }.asCharSource(UTF_8).read();
 
-    Optional<Instant> expiration =
-        CreateToken.getExpirationInstant(lifetime, Optional.empty())
-            .map(e -> e.truncatedTo(ChronoUnit.SECONDS));
+    Optional<Instant> expiration = getExpirationInstant(lifetime, maxSshKeyLifetime);
     try {
       AccountSshKey sshKey = authorizedKeys.addKey(user.getAccountId(), sshPublicKey, expiration);
 
@@ -139,5 +142,25 @@ public class AddSshKey
     } catch (InvalidSshKeyException e) {
       throw new BadRequestException(e.getMessage());
     }
+  }
+
+  /**
+   * Computes the expiration of a new SSH key.
+   *
+   * @param lifetime requested lifetime, may be null or empty
+   * @param maxLifetime server-wide maximum lifetime, also used as the default lifetime
+   */
+  public static Optional<Instant> getExpirationInstant(
+      @Nullable String lifetime, Optional<Duration> maxLifetime) throws BadRequestException {
+    Optional<Instant> expiration =
+        CreateToken.getExpirationInstant(lifetime, maxLifetime.map(max -> Instant.now().plus(max)));
+    if (maxLifetime.isPresent()
+        && expiration.get().isAfter(Instant.now().plus(maxLifetime.get()))) {
+      throw new BadRequestException(
+          String.format(
+              "lifetime exceeds maximum allowed lifetime of %s minutes",
+              maxLifetime.get().toMinutes()));
+    }
+    return expiration.map(e -> e.truncatedTo(ChronoUnit.SECONDS));
   }
 }

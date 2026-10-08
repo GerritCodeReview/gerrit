@@ -8,6 +8,7 @@ import {Timestamp} from '../types/common';
 import '../test/common-test-setup';
 import {
   formatDate,
+  formatDuration,
   fromNow,
   isValidDate,
   isWithinDay,
@@ -243,6 +244,21 @@ suite('date-util tests', () => {
         '12:15 AM',
         formatDate(new Date('Jul 03 2013 00:15:00'), timeFormat)
       );
+    });
+  });
+
+  suite('formatDuration', () => {
+    test('formats minutes as years, days, hours and minutes', () => {
+      assert.equal(formatDuration('1'), '1m');
+      assert.equal(formatDuration('90'), '1h 30m');
+      assert.equal(formatDuration('259200'), '180d');
+      assert.equal(formatDuration('525600'), '1y');
+      assert.equal(formatDuration('527131'), '1y 1d 1h 31m');
+    });
+
+    test('handles empty and unlimited', () => {
+      assert.equal(formatDuration(''), '');
+      assert.equal(formatDuration('unlimited'), 'unlimited');
     });
   });
 });

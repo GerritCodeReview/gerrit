@@ -40,6 +40,7 @@ import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
 import com.google.inject.Inject;
+import java.time.Duration;
 import java.util.ArrayList;
 import org.junit.Test;
 
@@ -62,6 +63,7 @@ public class ServerInfoIT extends AbstractDaemonTest {
   @GerritConfig(name = "auth.loginUrl", value = "https://example.com/login")
   @GerritConfig(name = "auth.loginText", value = "LOGIN")
   @GerritConfig(name = "auth.switchAccountUrl", value = "https://example.com/switch")
+  @GerritConfig(name = "auth.maxSshKeyLifetime", value = "180d")
 
   // auth fields ignored when auth == HTTP
   @GerritConfig(name = "auth.registerUrl", value = "https://example.com/register")
@@ -104,6 +106,7 @@ public class ServerInfoIT extends AbstractDaemonTest {
     assertThat(i.auth.loginUrl).isEqualTo("https://example.com/login");
     assertThat(i.auth.loginText).isEqualTo("LOGIN");
     assertThat(i.auth.switchAccountUrl).isEqualTo("https://example.com/switch");
+    assertThat(i.auth.maxSshKeyLifetime).isEqualTo(Duration.ofDays(180).toMinutes());
     assertThat(i.auth.registerUrl).isNull();
     assertThat(i.auth.registerText).isNull();
     assertThat(i.auth.editFullNameUrl).isNull();

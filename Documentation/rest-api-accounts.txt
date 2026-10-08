@@ -1101,7 +1101,9 @@ The SSH public key must be provided as raw content in the request body.
 
 The optional `lifetime` query parameter (e.g. `lifetime=30d`) limits how
 long the key can be used. After it has expired the key can no longer be
-used to authenticate.
+used to authenticate. If link:config-gerrit.html#auth.maxSshKeyLifetime[
+auth.maxSshKeyLifetime] is set, it is the default lifetime and the maximum
+that may be requested.
 
 Adding an SSH key fails with `400 Bad Request` if the key (compared
 without its comment) already exists, has expired, or was deleted while it

@@ -15,7 +15,10 @@ import {customElement, property, query, state} from 'lit/decorators.js';
 import {grFormStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {fire, fireAlert} from '../../../utils/event-util';
-import {parseDate} from '../../../utils/date-util';
+import {formatDuration, parseDate} from '../../../utils/date-util';
+import {resolve} from '../../../models/dependency';
+import {configModelToken} from '../../../models/config/config-model';
+import {subscribe} from '../../lit/subscription-controller';
 import {modalStyles} from '../../../styles/gr-modal-styles';
 import {GrAutogrowTextarea} from '../../shared/gr-autogrow-textarea/gr-autogrow-textarea';
 import {formStyles} from '../../../styles/form-styles';
@@ -47,6 +50,8 @@ export class GrSshEditor extends LitElement {
 
   @state() prevHasUnsavedChanges = false;
 
+  @state() maxLifetime = 'unlimited';
+
   @state() showExpiredKeys = false;
 
   @query('#addButton') addButton!: GrButton;
@@ -56,6 +61,20 @@ export class GrSshEditor extends LitElement {
   @query('#viewKeyModal') viewKeyModal!: HTMLDialogElement;
 
   private readonly restApiService = getAppContext().restApiService;
+
+  // Private but used in test
+  readonly getConfigModel = resolve(this, configModelToken);
+
+  constructor() {
+    super();
+    subscribe(
+      this,
+      () => this.getConfigModel().serverConfig$,
+      info => {
+        this.maxLifetime = info?.auth.max_ssh_key_lifetime || 'unlimited';
+      }
+    );
+  }
 
   static override get styles() {
     return [
@@ -82,6 +101,10 @@ export class GrSshEditor extends LitElement {
         }
         .lifetimeInput {
           width: 12em;
+        }
+        .lifetimeHint {
+          color: var(--deemphasized-text-color);
+          font-size: var(--font-size-small);
         }
         .keyHeader {
           width: 7.5em;
@@ -210,12 +233,13 @@ export class GrSshEditor extends LitElement {
               <input
                 id="lifetime"
                 class="lifetimeInput"
-                placeholder="e.g. 30d (empty: no limit)"
+                placeholder="Lifetime (e.g. 30d)"
                 .value=${this.newLifetime}
                 @input=${(e: InputEvent) => {
                   this.newLifetime = (e.target as HTMLInputElement).value;
                 }}
               />
+              <div class="lifetimeHint">${this.renderLifetimeHint()}</div>
             </span>
           </section>
           <gr-button
@@ -227,6 +251,15 @@ export class GrSshEditor extends LitElement {
         </fieldset>
       </div>
     `;
+  }
+
+  private renderLifetimeHint() {
+    if (this.maxLifetime === 'unlimited') {
+      return 'Max. allowed lifetime: unlimited. Leave empty for no limit.';
+    }
+    return `Max. allowed lifetime: ${formatDuration(
+      this.maxLifetime
+    )}. Leave empty to use the maximum allowed lifetime.`;
   }
 
   private renderKey(key: SshKeyInfo, index: number) {

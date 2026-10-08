@@ -19,6 +19,7 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.UseSsh;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.extensions.common.SshKeyInfo;
 import com.google.gerrit.server.account.AccountSshKey;
@@ -47,6 +48,11 @@ public class AddSshKeyIT extends AbstractDaemonTest {
           + "jk2qBVMH3BgzPsTsEs+7ag9tfD8OCj+vOcwm626mQBZoR2e3niHa/9gnHBHFtOrGfzKbp"
           + "RjTWtiOZbB9HF+rqMVD+Dawo/oicX/dDg7VAgOFSPothe6RMhbgWf84UcK5aQd5eP5y+t"
           + "Q== john.doe@example.com";
+  private static final String KEY4 =
+      "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQDIJzW9BaAeO+upFletwwEBnGS15lJmS5i"
+          + "08/NiFef0jXtNNKcLtnd13bq8jOi5VA2is0bwof1c8YbwcvUkdFa8RL5aXoyZBpfYZsWs"
+          + "/YBLZGiHy5rjooMZQMnH37A50cBPnXr0AQz0WRBxLDBDyOZho+O/DfYAKv4rzPSQ3yw4+"
+          + "w== john.doe@example.com";
 
   private static final String KEY5_NO_COMMENT =
       "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQCgBRKGhiXvY6D9sM+Vbth5Kate57YF7kD"
@@ -82,6 +88,24 @@ public class AddSshKeyIT extends AbstractDaemonTest {
     adminRestSession
         .postRaw("/accounts/self/sshkeys?lifetime=bogus", RawInputUtil.create(KEY3))
         .assertBadRequest();
+  }
+
+  @Test
+  @GerritConfig(name = "auth.maxSshKeyLifetime", value = "7d")
+  public void maxLifetimeIsAppliedAsDefault() throws Exception {
+    Instant before = Instant.now();
+    SshKeyInfo info = add(KEY3, "");
+    assertExpiresIn(info, Duration.ofDays(7), before);
+  }
+
+  @Test
+  @GerritConfig(name = "auth.maxSshKeyLifetime", value = "7d")
+  public void lifetimeExceedingMaxIsRejected() throws Exception {
+    Instant before = Instant.now();
+    adminRestSession
+        .postRaw("/accounts/self/sshkeys?lifetime=8d", RawInputUtil.create(KEY4))
+        .assertBadRequest();
+    assertExpiresIn(add(KEY4, "?lifetime=6d"), Duration.ofDays(6), before);
   }
 
   @Test

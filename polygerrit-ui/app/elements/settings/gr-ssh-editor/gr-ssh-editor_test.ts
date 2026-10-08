@@ -184,8 +184,11 @@ suite('gr-ssh-editor tests', () => {
                 <input
                   class="lifetimeInput"
                   id="lifetime"
-                  placeholder="e.g. 30d (empty: no limit)"
+                  placeholder="Lifetime (e.g. 30d)"
                 />
+                <div class="lifetimeHint">
+                  Max. allowed lifetime: unlimited. Leave empty for no limit.
+                </div>
               </span>
             </section>
             <gr-button
@@ -419,5 +422,22 @@ suite('gr-ssh-editor tests', () => {
     }
     assert.isFalse(addStub.called);
     assert.isFalse(element.addButton.disabled);
+  });
+
+  test('lifetime hint shows the configured maximum', async () => {
+    const hint = () =>
+      queryAndAssert(element, '.lifetimeHint').textContent?.trim();
+    assert.equal(
+      hint(),
+      'Max. allowed lifetime: unlimited. Leave empty for no limit.'
+    );
+
+    element.maxLifetime = '259200';
+    await element.updateComplete;
+
+    assert.equal(
+      hint(),
+      'Max. allowed lifetime: 180d. Leave empty to use the maximum allowed lifetime.'
+    );
   });
 });

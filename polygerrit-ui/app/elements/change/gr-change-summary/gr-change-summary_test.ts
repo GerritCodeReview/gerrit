@@ -26,6 +26,8 @@ import {
 import {GrChecksChip} from './gr-checks-chip';
 import {CheckRun} from '../../../models/checks/checks-model';
 import {Category, RunStatus} from '../../../api/checks';
+import * as sinon from 'sinon';
+import {Tab} from '../../../constants/constants';
 import {FlowsModel, flowsModelToken} from '../../../models/flows/flows-model';
 
 function createFlow(partial: Partial<FlowInfo> = {}): FlowInfo {
@@ -347,6 +349,99 @@ suite('gr-change-summary test', () => {
       const plusMoreChip = chips[7];
       assert.equal(plusMoreChip.text, '+ 2 more');
       assert.isFalse(plusMoreChip.isAi);
+    });
+
+    test('AI Autofix with SUCCESS is pinned and rendered expanded as AutoFix Created', async () => {
+      element.runs = [
+        createRun({
+          checkName: 'AI Autofix',
+          status: RunStatus.COMPLETED,
+          results: [createCheckResult({category: Category.SUCCESS})],
+          statusLink: 'http://go/autofix-fix',
+        }),
+        createRun({
+          checkName: 'Presubmit Run',
+          status: RunStatus.COMPLETED,
+          results: [createCheckResult({category: Category.SUCCESS})],
+        }),
+        createRun({
+          checkName: 'Another Passing Run',
+          status: RunStatus.COMPLETED,
+          results: [createCheckResult({category: Category.SUCCESS})],
+        }),
+        createRun({
+          checkName: 'Failed Run',
+          status: RunStatus.COMPLETED,
+          results: [createCheckResult({category: Category.ERROR})],
+        }),
+      ];
+      element.showChecksSummary = true;
+      await element.updateComplete;
+
+      const chips = queryAll<GrChecksChip>(element, 'gr-checks-chip');
+      const autofixChip = [...chips].find(c => c.text === 'AutoFix Created');
+      assert.isDefined(autofixChip);
+      assert.equal(autofixChip.statusOrCategory, Category.SUCCESS);
+      assert.isTrue(autofixChip.isAi);
+      assert.deepEqual(autofixChip.links, ['http://go/autofix-fix']);
+
+      // Regular SUCCESS runs should be collapsed into count = 2
+      const collapsedSuccessChip = [...chips].find(
+        c => c.statusOrCategory === Category.SUCCESS && c.text === '2'
+      );
+      assert.isDefined(collapsedSuccessChip);
+      assert.isFalse(collapsedSuccessChip.isAi);
+    });
+
+    test('AI Autofix while running displays AutoFix Running... and isAi=true', async () => {
+      element.runs = [
+        createRun({
+          checkName: 'AI Autofix',
+          status: RunStatus.RUNNING,
+        }),
+        createRun({
+          checkName: 'Normal Running Check',
+          status: RunStatus.RUNNING,
+        }),
+      ];
+      element.showChecksSummary = true;
+      await element.updateComplete;
+
+      const chips = queryAll<GrChecksChip>(element, 'gr-checks-chip');
+      const autofixChip = [...chips].find(c => c.text === 'AutoFix Running...');
+      assert.isDefined(autofixChip);
+      assert.equal(autofixChip.statusOrCategory, RunStatus.RUNNING);
+      assert.isTrue(autofixChip.isAi);
+    });
+
+    test('clicking AI Autofix chips navigates to Checks tab with correct state', async () => {
+      element.runs = [
+        createRun({
+          checkName: 'AI Autofix',
+          status: RunStatus.COMPLETED,
+          results: [createCheckResult({category: Category.SUCCESS})],
+        }),
+      ];
+      element.showChecksSummary = true;
+      await element.updateComplete;
+
+      const chips = queryAll<GrChecksChip>(element, 'gr-checks-chip');
+      const autofixChip = [...chips].find(c => c.text === 'AutoFix Created');
+      assert.isDefined(autofixChip);
+
+      const showTabStub = sinon.stub();
+      element.addEventListener('show-tab', showTabStub);
+      autofixChip.click();
+
+      assert.isTrue(showTabStub.called);
+      assert.equal(showTabStub.lastCall.args[0].detail.tab, Tab.CHECKS);
+      assert.deepEqual(
+        showTabStub.lastCall.args[0].detail.tabState?.checksTab,
+        {
+          checkName: 'AI Autofix',
+          statusOrCategory: Category.SUCCESS,
+        }
+      );
     });
   });
 

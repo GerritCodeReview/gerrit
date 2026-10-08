@@ -9,7 +9,7 @@ import '../gr-comments-summary/gr-comments-summary';
 import '../../shared/gr-icon/gr-icon';
 import '../../checks/gr-checks-action';
 import '../gr-ai-prompt-dialog/gr-ai-prompt-dialog';
-import {css, html, LitElement, nothing} from 'lit';
+import {css, html, LitElement, nothing, TemplateResult} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {subscribe} from '../../lit/subscription-controller';
 import {sharedStyles} from '../../../styles/shared-styles';
@@ -476,17 +476,40 @@ export class GrChangeSummary extends LitElement {
     const hasError = this.runs.some(run => hasResultsOf(run, Category.ERROR));
     const count = (run: CheckRun) => getResultsOf(run, category);
 
-    // Sometimes INFO and SUCCESS results should not consume much UI space and
+    // AI Autofix runs that created a fix should be pinned and rendered as
+    // expanded detailed chips, rather than collapsing into the numeric chip.
+    if (category === Category.SUCCESS) {
+      const isPinned = (run: CheckRun) => run.checkName === 'AI Autofix';
+      const pinnedRuns = runs.filter(isPinned);
+      const regularRuns = runs.filter(run => !isPinned(run));
+
+      const pinnedChips = this.renderChecksChipsExpanded(
+        pinnedRuns,
+        Category.SUCCESS
+      );
+
+      let regularChips: TemplateResult | undefined;
+      if (hasRunning || hasError || hasWarning || regularRuns.length > 3) {
+        regularChips = this.renderChecksChipsCollapsed(
+          regularRuns,
+          category,
+          count
+        );
+      } else {
+        regularChips = this.renderChecksChipsExpanded(regularRuns, category);
+      }
+      if (pinnedChips && regularChips) {
+        return html`${pinnedChips}${regularChips}`;
+      }
+      return pinnedChips ?? regularChips;
+    }
+
+    // Sometimes INFO results should not consume much UI space and
     // not grab any attention, e.g. when there are errors. Then let's
-    // aggressively collapse them into one small chip. But if INFO and SUCCESS
+    // aggressively collapse them into one small chip. But if INFO
     // is all we have, then make use of the one line we have and show expanded
     // chips.
     if (
-      category === Category.SUCCESS &&
-      (hasRunning || hasError || hasWarning || runs.length > 3)
-    ) {
-      return this.renderChecksChipsCollapsed(runs, category, count);
-    } else if (
       category === Category.INFO &&
       (hasRunning || hasError || runs.length > 3)
     ) {
@@ -496,9 +519,15 @@ export class GrChangeSummary extends LitElement {
   }
 
   renderChecksChipRunning() {
-    const runs = this.runs
-      .filter(isRunningOrScheduled)
-      .sort(compareByWorstCategory);
+    const runs = this.runs.filter(isRunningOrScheduled).sort((a, b) => {
+      if (a.checkName === 'AI Autofix' && b.checkName !== 'AI Autofix') {
+        return -1;
+      }
+      if (b.checkName === 'AI Autofix' && a.checkName !== 'AI Autofix') {
+        return 1;
+      }
+      return compareByWorstCategory(a, b);
+    });
     return this.renderChecksChipsExpanded(runs, RunStatus.RUNNING);
   }
 
@@ -561,10 +590,24 @@ export class GrChangeSummary extends LitElement {
   ) {
     const links = [];
     if (run.statusLink) links.push(run.statusLink);
-    const text = `${run.checkName}`;
+    let text = `${run.checkName}`;
+    if (run.checkName === 'AI Autofix') {
+      if (statusOrCategory === Category.SUCCESS) {
+        text = 'AutoFix Created';
+      } else if (
+        statusOrCategory === RunStatus.RUNNING ||
+        run.status === RunStatus.RUNNING
+      ) {
+        text = 'AutoFix Running...';
+      }
+    }
+    const tabCategory =
+      run.checkName === 'AI Autofix' && statusOrCategory === RunStatus.RUNNING
+        ? Category.INFO
+        : statusOrCategory;
     const tabState: ChecksTabState = {
       checkName: run.checkName,
-      statusOrCategory,
+      statusOrCategory: tabCategory,
     };
     // Scheduled runs are rendered in the RUNNING section, but the icon of the
     // chip must be the one for SCHEDULED.
@@ -579,7 +622,7 @@ export class GrChangeSummary extends LitElement {
       .statusOrCategory=${statusOrCategory}
       .text=${text}
       .links=${links}
-      .isAi=${!!run.isAiPowered}
+      .isAi=${!!run.isAiPowered || run.checkName === 'AI Autofix'}
       @click=${handler}
       @keydown=${(e: KeyboardEvent) => handleSpaceOrEnter(e, handler)}
     ></gr-checks-chip>`;

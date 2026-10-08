@@ -23,8 +23,11 @@ import {
   SubmitRequirementResultInfo,
   SubmitRequirementStatus,
 } from '../../../api/rest-api';
+import * as sinon from 'sinon';
+import {Category, RunStatus} from '../../../api/checks';
+import {Tab} from '../../../constants/constants';
+import {GrChecksChip} from '../gr-change-summary/gr-checks-chip';
 import {LoadingStatus, ParsedChangeInfo} from '../../../types/types';
-import {RunStatus} from '../../../api/checks';
 import {testResolver} from '../../../test/common-test-setup';
 import {
   ChangeModel,
@@ -353,6 +356,153 @@ suite('gr-submit-requirements tests', () => {
           </div>
         </div>`
       );
+    });
+
+    suite('autofix chip', () => {
+      let presubmitChange: ParsedChangeInfo;
+
+      setup(async () => {
+        presubmitChange = {
+          ...change,
+          submit_requirements: [
+            {
+              ...createSubmitRequirementResultInfo(),
+              name: 'Presubmit-Verified',
+              submittability_expression_result:
+                createSubmitRequirementExpressionInfo(
+                  'label:Presubmit-Verified=MAX'
+                ),
+            },
+          ],
+          labels: {
+            'Presubmit-Verified': {
+              ...createDetailedLabelInfo(),
+              all: [
+                {
+                  ...createApproval(),
+                  value: -2,
+                },
+              ],
+            },
+          },
+        };
+        element.change = presubmitChange;
+        await element.updateComplete;
+      });
+
+      test('renders running autofix chip for Presubmit-Verified', async () => {
+        element.runs = [
+          {
+            ...createRun(),
+            checkName: 'AI Autofix',
+            status: RunStatus.RUNNING,
+            isLatestAttempt: true,
+          },
+        ];
+        await element.updateComplete;
+        const chip =
+          element.shadowRoot?.querySelector<GrChecksChip>('.autofix-chip');
+        assert.isDefined(chip);
+        assert.equal(chip!.statusOrCategory, RunStatus.RUNNING);
+        assert.equal(chip!.text, 'AutoFix Running...');
+        assert.isTrue(chip!.isAi);
+      });
+
+      test('renders completed autofix chip with fix for Presubmit-Verified', async () => {
+        element.runs = [
+          {
+            ...createRun(),
+            checkName: 'AI Autofix',
+            status: RunStatus.COMPLETED,
+            isLatestAttempt: true,
+            statusLink: 'http://go/autofix-test',
+            results: [createCheckResult({category: Category.SUCCESS})],
+          },
+        ];
+        await element.updateComplete;
+        const chip =
+          element.shadowRoot?.querySelector<GrChecksChip>('.autofix-chip');
+        assert.isDefined(chip);
+        assert.equal(chip!.statusOrCategory, Category.SUCCESS);
+        assert.equal(chip!.text, 'AutoFix Created');
+        assert.deepEqual(chip!.links, ['http://go/autofix-test']);
+        assert.isTrue(chip!.isAi);
+      });
+
+      test('does not render autofix chip when completed without fix', async () => {
+        element.runs = [
+          {
+            ...createRun(),
+            checkName: 'AI Autofix',
+            status: RunStatus.COMPLETED,
+            isLatestAttempt: true,
+            results: [createCheckResult({category: Category.INFO})],
+          },
+        ];
+        await element.updateComplete;
+        const chip =
+          element.shadowRoot?.querySelector<GrChecksChip>('.autofix-chip');
+        assert.isNull(chip);
+      });
+
+      test('clicking completed autofix chip fires show-tab event to checks tab', async () => {
+        element.runs = [
+          {
+            ...createRun(),
+            checkName: 'AI Autofix',
+            status: RunStatus.COMPLETED,
+            isLatestAttempt: true,
+            results: [createCheckResult({category: Category.SUCCESS})],
+          },
+        ];
+        await element.updateComplete;
+        const chip =
+          element.shadowRoot?.querySelector<GrChecksChip>('.autofix-chip');
+        assert.isDefined(chip);
+
+        const showTabStub = sinon.stub();
+        element.addEventListener('show-tab', showTabStub);
+        chip!.click();
+
+        assert.isTrue(showTabStub.called);
+        assert.equal(showTabStub.lastCall.args[0].detail.tab, Tab.CHECKS);
+        assert.deepEqual(
+          showTabStub.lastCall.args[0].detail.tabState?.checksTab,
+          {
+            checkName: 'AI Autofix',
+            statusOrCategory: Category.SUCCESS,
+          }
+        );
+      });
+
+      test('clicking running autofix chip fires show-tab event to checks tab with INFO category', async () => {
+        element.runs = [
+          {
+            ...createRun(),
+            checkName: 'AI Autofix',
+            status: RunStatus.RUNNING,
+            isLatestAttempt: true,
+          },
+        ];
+        await element.updateComplete;
+        const chip =
+          element.shadowRoot?.querySelector<GrChecksChip>('.autofix-chip');
+        assert.isDefined(chip);
+
+        const showTabStub = sinon.stub();
+        element.addEventListener('show-tab', showTabStub);
+        chip!.click();
+
+        assert.isTrue(showTabStub.called);
+        assert.equal(showTabStub.lastCall.args[0].detail.tab, Tab.CHECKS);
+        assert.deepEqual(
+          showTabStub.lastCall.args[0].detail.tabState?.checksTab,
+          {
+            checkName: 'AI Autofix',
+            statusOrCategory: Category.INFO,
+          }
+        );
+      });
     });
   });
 

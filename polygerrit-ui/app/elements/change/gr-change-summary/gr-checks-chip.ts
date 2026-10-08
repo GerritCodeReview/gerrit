@@ -74,7 +74,7 @@ export class GrChecksChip extends LitElement {
         }
         .checksChip .text {
           display: inline-block;
-          max-width: 120px;
+          max-width: 160px;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
@@ -176,9 +176,9 @@ export class GrChecksChip extends LitElement {
     const ariaLabel = this.computeAriaLabel();
     const chipClass = `checksChip font-small ${icon.name}`;
     const chipClassFullLength = `${chipClass} hoverFullLength`;
-    // 15 is roughly the number of chars for the chip exceeding its 120px width.
+    // 20 is roughly the number of chars for the chip exceeding its 160px width.
     return html`
-      ${this.text.length > 15
+      ${this.text.length > 20
         ? html` ${this.renderChip(
             chipClassFullLength,
             ariaLabel,

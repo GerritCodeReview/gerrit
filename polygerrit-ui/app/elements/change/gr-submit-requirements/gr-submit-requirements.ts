@@ -11,6 +11,7 @@ import '../gr-change-summary/gr-change-summary';
 import '../../shared/gr-limited-text/gr-limited-text';
 import '../../shared/gr-vote-chip/gr-vote-chip';
 import '../../checks/gr-checks-chip-for-label';
+import '../gr-change-summary/gr-checks-chip';
 import {css, html, LitElement, nothing, TemplateResult} from 'lit';
 import {customElement, property, state} from 'lit/decorators.js';
 import {LoadingStatus, ParsedChangeInfo} from '../../../types/types';
@@ -50,6 +51,19 @@ import {subscribe} from '../../lit/subscription-controller';
 import {when} from 'lit/directives/when.js';
 import {spinnerStyles} from '../../../styles/gr-spinner-styles';
 import {changeModelToken} from '../../../models/change/change-model';
+import {Category, RunStatus} from '../../../api/checks';
+import {hasResultsOf} from '../../../models/checks/checks-util';
+import {fireShowTab} from '../../../utils/event-util';
+import {Tab} from '../../../constants/constants';
+import {modifierPressed} from '../../../utils/dom-util';
+
+function handleSpaceOrEnter(e: KeyboardEvent, handler: () => void) {
+  if (modifierPressed(e)) return;
+  if (e.key !== 'Enter' && e.key !== ' ') return;
+  e.preventDefault();
+  e.stopPropagation();
+  handler();
+}
 
 /**
  * @attr {Boolean} suppress-title - hide titles, currently for hovercard view
@@ -133,7 +147,8 @@ export class GrSubmitRequirements extends LitElement {
         gr-vote-chip {
           margin-right: var(--spacing-s);
         }
-        gr-checks-chip-for-label {
+        gr-checks-chip-for-label,
+        .autofix-chip {
           /* .checksChip has top: 2px, this is canceling it */
           margin-top: -2px;
         }
@@ -449,11 +464,77 @@ export class GrSubmitRequirements extends LitElement {
       targetLabels
     );
 
-    if (errorRunsCount <= 0 && runningRunsCount <= 0) return undefined;
-    return html`<gr-checks-chip-for-label
-      .labels=${targetLabels}
-      .showRunning=${true}
-    ></gr-checks-chip-for-label>`;
+    const hasLabelChip = errorRunsCount > 0 || runningRunsCount > 0;
+    const labelChip = hasLabelChip
+      ? html`<gr-checks-chip-for-label
+          .labels=${targetLabels}
+          .showRunning=${true}
+        ></gr-checks-chip-for-label>`
+      : undefined;
+
+    const isPresubmit =
+      targetLabels.some(l => l.toLowerCase() === 'presubmit-verified') ||
+      requirement?.name?.toLowerCase() === 'presubmit-verified';
+    const autofixChip = isPresubmit ? this.renderAutofixChip() : undefined;
+
+    if (!labelChip && !autofixChip) return undefined;
+    return html`${labelChip}${autofixChip}`;
+  }
+
+  private renderAutofixChip() {
+    const run = this.runs.find(
+      r => r.checkName === 'AI Autofix' && r.isLatestAttempt !== false
+    );
+    if (!run) return undefined;
+
+    if (run.status === RunStatus.RUNNING) {
+      const handler = (e: Event) => {
+        e.stopPropagation();
+        fireShowTab(this, Tab.CHECKS, false, {
+          checksTab: {
+            checkName: run.checkName,
+            statusOrCategory: Category.INFO,
+          },
+        });
+      };
+      return html`<gr-checks-chip
+        class="autofix-chip"
+        .statusOrCategory=${RunStatus.RUNNING}
+        .text=${'AutoFix Running...'}
+        .isAi=${true}
+        @click=${handler}
+        @keydown=${(e: KeyboardEvent) =>
+          handleSpaceOrEnter(e, () => handler(e))}
+      ></gr-checks-chip>`;
+    }
+
+    if (
+      run.status === RunStatus.COMPLETED &&
+      hasResultsOf(run, Category.SUCCESS)
+    ) {
+      const handler = (e: Event) => {
+        e.stopPropagation();
+        fireShowTab(this, Tab.CHECKS, false, {
+          checksTab: {
+            checkName: run.checkName,
+            statusOrCategory: Category.SUCCESS,
+          },
+        });
+      };
+      const links = run.statusLink ? [run.statusLink] : [];
+      return html`<gr-checks-chip
+        class="autofix-chip"
+        .statusOrCategory=${Category.SUCCESS}
+        .text=${'AutoFix Created'}
+        .links=${links}
+        .isAi=${true}
+        @click=${handler}
+        @keydown=${(e: KeyboardEvent) =>
+          handleSpaceOrEnter(e, () => handler(e))}
+      ></gr-checks-chip>`;
+    }
+
+    return undefined;
   }
 
   renderTriggerVotes() {

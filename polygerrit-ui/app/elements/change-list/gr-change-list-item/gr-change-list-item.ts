@@ -363,6 +363,7 @@ export class GrChangeListItem extends LitElement {
             display: flex;
           }
           .change-header,
+          .change-subject,
           .change-metadata {
             display: flex;
             align-items: center;
@@ -371,17 +372,26 @@ export class GrChangeListItem extends LitElement {
             gap: var(--spacing-m);
           }
           .change-header {
-            align-items: baseline;
+            color: var(--deemphasized-text-color);
+            font-size: var(--font-size-small);
+            font-weight: var(--font-weight-normal);
+            line-height: var(--line-height-small);
           }
           .change-metadata {
             flex-wrap: wrap;
+            column-gap: var(--spacing-l);
           }
           .cell.star,
           .cell.number {
             flex: none;
           }
-          .cell.number {
-            order: 1;
+          .owner,
+          .reviewers {
+            font-size: var(--font-size-small);
+            font-weight: var(--font-weight-normal);
+            line-height: var(--line-height-small);
+            --account-label-text-color: var(--deemphasized-text-color);
+            --account-label-attention-font-weight: var(--font-weight-medium);
           }
           .cell.subject {
             flex: 1;
@@ -410,7 +420,7 @@ export class GrChangeListItem extends LitElement {
             max-width: 100%;
           }
           .repo {
-            flex: 1 0 6rem;
+            flex: 0 1 auto;
             min-width: 0;
             max-width: 100%;
           }
@@ -475,14 +485,15 @@ export class GrChangeListItem extends LitElement {
       ${this.renderCellSelectionBox()}
       <div class="change-header">
         ${this.renderCellStar()} ${this.renderCellNumber(changeUrl)}
-        ${this.renderCellSubject(changeUrl)}
+        ${this.renderCellRepo()}
       </div>
+      <div class="change-subject">${this.renderCellSubject(changeUrl)}</div>
       <div class="change-metadata">
         ${this.renderCellOwner()} ${this.renderCellReviewers()}
-        ${this.renderCellRepo()} ${this.renderCellBranch()}
-        ${this.renderCellHashtags()} ${this.renderCellUpdated()}
-        ${this.renderCellSubmitted()} ${this.renderCellWaiting()}
-        ${this.renderCellSize()} ${this.renderCellRequirements()}
+        ${this.renderCellBranch()} ${this.renderCellHashtags()}
+        ${this.renderCellUpdated()} ${this.renderCellSubmitted()}
+        ${this.renderCellWaiting()} ${this.renderCellSize()}
+        ${this.renderCellRequirements()}
         <div class="cell votes">
           ${this.labelNames?.map(labelName =>
             this.renderChangeLabels(labelName)
@@ -536,7 +547,7 @@ export class GrChangeListItem extends LitElement {
   }
 
   private renderCellNumber(changeUrl: string) {
-    if (!this.showNumber) return;
+    if (!this.showNumber && !this.narrowScreen) return;
 
     return html`
       <td class="cell number">

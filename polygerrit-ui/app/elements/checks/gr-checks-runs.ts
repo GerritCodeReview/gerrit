@@ -10,6 +10,7 @@ import './gr-hovercard-run';
 import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import './gr-checks-attempt';
+import './gr-checks-patchset-select';
 import {Action, Link, RunStatus} from '../../api/checks';
 import {sharedStyles} from '../../styles/shared-styles';
 import {
@@ -549,6 +550,13 @@ export class GrChecksRuns extends LitElement {
           --gr-button-padding: var(--spacing-s) var(--spacing-m);
           white-space: nowrap;
         }
+        gr-checks-patchset-select {
+          margin-top: var(--spacing-m);
+        }
+        :host([collapsed]) gr-checks-patchset-select {
+          pointer-events: auto;
+          cursor: default;
+        }
         .title gr-button.expandButton {
           --gr-button-padding: var(--spacing-xs) var(--spacing-s);
         }
@@ -656,6 +664,13 @@ export class GrChecksRuns extends LitElement {
         <div class="flex-space"></div>
         ${this.renderTitleButtons()} ${this.renderCollapseButton()}
       </h2>
+      <gr-checks-patchset-select
+        ?compact=${this.collapsed}
+        @click=${(e: Event) => {
+          // Changing the patchset should not expand the collapsed panel.
+          if (this.collapsed) e.stopPropagation();
+        }}
+      ></gr-checks-patchset-select>
       ${this.renderErrors()} ${this.renderSignIn()} ${this.renderZeroState()}
       <input
         id="filterInput"

@@ -15,6 +15,7 @@ import {
 import {
   classForLabelStatus,
   getLabelStatus,
+  LabelStatus,
   valueString,
 } from '../../../utils/label-util';
 
@@ -47,6 +48,10 @@ export class GrVoteChip extends LitElement {
 
   @property({type: Boolean, attribute: 'tooltip-with-who-voted'})
   tooltipWithWhoVoted = false;
+
+  /** Include the label abbreviation inside a self-contained vote badge. */
+  @property({attribute: 'label-name', reflect: true})
+  labelName?: string;
 
   static override get styles() {
     return [
@@ -98,6 +103,13 @@ export class GrVoteChip extends LitElement {
           line-height: var(--gr-vote-chip-width, 16px);
           color: var(--vote-text-color);
         }
+        :host([label-name]) .vote-chip {
+          width: auto;
+          min-width: 16px;
+          padding: 2px 6px;
+          border-radius: 12px;
+          white-space: nowrap;
+        }
         .more > .vote-chip {
           position: relative;
           z-index: 2;
@@ -130,7 +142,9 @@ export class GrVoteChip extends LitElement {
       title=${this.computeTooltip(renderValue)}
       has-tooltip
     >
-      <div class="vote-chip ${this.computeClass()}">${renderValue}</div>
+      <div class="vote-chip ${this.computeClass()}">
+        ${this.labelName}${renderValue}
+      </div>
       ${this.more
         ? html`<div class="chip-angle ${this.computeClass()}">
             ${renderValue}
@@ -147,6 +161,11 @@ export class GrVoteChip extends LitElement {
       return '';
     } else if (isDetailedLabelInfo(this.label)) {
       if (this.vote?.value) {
+        if (this.labelName) {
+          const status = getLabelStatus(this.label, this.vote.value);
+          if (status === LabelStatus.APPROVED) return html`&#x2713;`;
+          if (status === LabelStatus.REJECTED) return html`&#x2717;`;
+        }
         return valueString(this.vote.value);
       }
     } else if (isQuickLabelInfo(this.label)) {

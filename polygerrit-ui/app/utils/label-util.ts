@@ -551,3 +551,23 @@ export function isBlockingCondition(
     atom => atom.match(/^label[0-9]*:[\w-]+=MIN$/)
   );
 }
+
+const LABEL_PREFIX_INVALID_PROLOG = 'Invalid-Prolog-Rules-Label-Name--';
+const MAX_SHORTCUT_CHARS = 5;
+
+export function computeLabelShortcut(labelName: string) {
+  if (labelName.startsWith(LABEL_PREFIX_INVALID_PROLOG)) {
+    labelName = labelName.slice(LABEL_PREFIX_INVALID_PROLOG.length);
+  }
+  // Compute label shortcut by splitting token by - and capitalizing first
+  // letter of each token.
+  return labelName
+    .split('-')
+    .reduce((previousValue, currentValue) => {
+      if (!currentValue) {
+        return previousValue;
+      }
+      return previousValue + currentValue[0].toUpperCase();
+    }, '')
+    .slice(0, MAX_SHORTCUT_CHARS);
+}

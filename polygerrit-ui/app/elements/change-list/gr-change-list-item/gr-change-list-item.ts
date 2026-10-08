@@ -440,8 +440,8 @@ export class GrChangeListItem extends LitElement {
             margin-left: auto;
             max-width: 100%;
             gap: var(--spacing-s);
+            flex-wrap: wrap;
           }
-          /* Keep absent labels in their slots, so columns stay aligned. */
           .cell.label.narrowHidden {
             display: none;
           }
@@ -450,8 +450,8 @@ export class GrChangeListItem extends LitElement {
             justify-content: center;
           }
           .cell.label {
-            flex: 0 0 24px;
-            width: 24px;
+            flex: 0 0 auto;
+            width: auto;
             min-height: 24px;
           }
         }
@@ -781,6 +781,7 @@ export class GrChangeListItem extends LitElement {
     >
       <gr-change-list-column-requirement
         .change=${this.change}
+        .compact=${this.narrowScreen}
         .labelName=${labelName}
       >
       </gr-change-list-column-requirement>

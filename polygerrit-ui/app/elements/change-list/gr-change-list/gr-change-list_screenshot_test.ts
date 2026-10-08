@@ -13,6 +13,7 @@ import {visualDiff} from '@web/test-runner-visual-regression';
 import {GrChangeList} from './gr-change-list';
 import {
   createAccountDetailWithIdNameAndEmail,
+  createApproval,
   createChange,
   createServerInfo,
   createSubmitRequirementResultInfo,
@@ -27,6 +28,7 @@ import {
   RepoName,
   Timestamp,
 } from '../../../types/common';
+import {SubmitRequirementStatus} from '../../../api/rest-api';
 import {visualDiffDarkTheme, waitUntil} from '../../../test/test-utils';
 
 suite('gr-change-list screenshot tests', () => {
@@ -57,6 +59,62 @@ suite('gr-change-list screenshot tests', () => {
     await visualDiffDarkTheme(element, 'gr-change-list');
   });
 
+  test('self-contained mobile votes', async () => {
+    await setViewport({width: 390, height: 900});
+    element.changes = createChanges(5).map((change, index) => {
+      const value = [-2, -1, 1, 2, 0][index];
+      return {
+        ...change,
+        project: 'openstack/nova' as RepoName,
+        subject: [
+          'Blocked change',
+          'Needs improvement',
+          'Recommended change',
+          'Approved change',
+          'Waiting for votes',
+        ][index],
+        owner: {...change.owner, name: 'Monty Taylor'},
+        labels: {
+          'Code-Review': {
+            values: {
+              '-2': 'Block',
+              '-1': 'Dislike',
+              '0': 'Neutral',
+              '+1': 'Recommend',
+              '+2': 'Approve',
+            },
+            all: [{...createApproval(), value}],
+          },
+        },
+        submit_requirements: [
+          {
+            ...createSubmitRequirementResultInfo('label:Code-Review=MAX'),
+            name: 'Code-Review',
+            status:
+              value === 2
+                ? SubmitRequirementStatus.SATISFIED
+                : SubmitRequirementStatus.UNSATISFIED,
+          },
+        ],
+      };
+    });
+    await element.updateComplete;
+    await nextFrame();
+    const section = element.shadowRoot!.querySelector<GrChangeListSection>(
+      'gr-change-list-section'
+    )!;
+    await section.updateComplete;
+    const rows = Array.from(
+      section.shadowRoot!.querySelectorAll<GrChangeListItem>(
+        'gr-change-list-item'
+      )
+    );
+    await Promise.all(rows.map(row => row.updateComplete));
+    await nextFrame();
+    await visualDiff(element, 'gr-change-list-mobile-vote-badges');
+    await visualDiffDarkTheme(element, 'gr-change-list-mobile-vote-badges');
+  });
+
   for (const width of [390, 700, 801, 1000, 1400]) {
     test(`responsive list at ${width}px`, async () => {
       await setViewport({width, height: 900});
@@ -76,6 +134,21 @@ suite('gr-change-list screenshot tests', () => {
           subject:
             'Show label votes and configurable columns on narrow screens',
           owner: {...change.owner, name: 'Monty Taylor Sword Nimi'},
+          ...(width <= 800 && index === 0
+            ? {
+                attention_set: {
+                  [change.owner._account_id!]: {account: change.owner},
+                },
+                reviewers: {
+                  REVIEWER: [
+                    {
+                      ...createAccountDetailWithIdNameAndEmail(2),
+                      name: 'Josh',
+                    },
+                  ],
+                },
+              }
+            : {}),
           project: (index === 0
             ? 'openstack/very-long-repository-name'
             : 'gerrit') as RepoName,
@@ -108,24 +181,35 @@ suite('gr-change-list screenshot tests', () => {
         const first = rows[0].shadowRoot!;
         const number = first.querySelector('.number')!;
         const subject = first.querySelector('.subject')!;
+        assert.isAtLeast(
+          subject.getBoundingClientRect().top,
+          first.querySelector('.change-header')!.getBoundingClientRect().bottom
+        );
         assert.equal(
-          Math.round(number.getBoundingClientRect().top),
-          Math.round(subject.getBoundingClientRect().top)
+          first.querySelector('.change-header')!.getBoundingClientRect().left,
+          subject.getBoundingClientRect().left
         );
         assert.isAtLeast(
-          number.getBoundingClientRect().left,
-          subject.getBoundingClientRect().right
+          first.querySelector('.change-metadata')!.getBoundingClientRect().top,
+          subject.getBoundingClientRect().bottom
         );
-        const votePositions = rows.map(row =>
-          Array.from(row.shadowRoot!.querySelectorAll('.label')).map(cell =>
-            Math.round(cell.getBoundingClientRect().left)
-          )
+        const headerStyle = getComputedStyle(
+          first.querySelector('.change-header')!
         );
-        assert.deepEqual(votePositions[0], votePositions[1]);
-        const headerPositions = Array.from(
-          section.shadowRoot!.querySelectorAll('.groupTitle .label')
-        ).map(cell => Math.round(cell.getBoundingClientRect().left));
-        assert.deepEqual(headerPositions, votePositions[0]);
+        assert.isBelow(
+          parseFloat(headerStyle.fontSize),
+          parseFloat(getComputedStyle(subject).fontSize)
+        );
+        assert.isEmpty(
+          Array.from(
+            section.shadowRoot!.querySelectorAll('.groupTitle .label')
+          ).filter(cell => cell.getBoundingClientRect().width > 0)
+        );
+        assert.isTrue(
+          Array.from(
+            first.querySelectorAll('gr-change-list-column-requirement')
+          ).every(badge => badge.compact)
+        );
         const repo = first.querySelector('.repo')!;
         assert.isAbove(repo.getBoundingClientRect().width, 0);
         const repoLink = repo.querySelector<HTMLElement>('.fullRepo')!;
@@ -134,10 +218,19 @@ suite('gr-change-list screenshot tests', () => {
         assert.isAtMost(repoLink.scrollWidth, repoLink.clientWidth);
         assert.isAtLeast(
           repo.getBoundingClientRect().left,
-          first.querySelector('.owner')!.getBoundingClientRect().right
+          number.getBoundingClientRect().right
+        );
+        assert.isAtMost(
+          repo.getBoundingClientRect().bottom,
+          subject.getBoundingClientRect().top
         );
         const accountLabel = first.querySelector('gr-account-label')!;
         const name = accountLabel.shadowRoot!.querySelector('.name')!;
+        assert.isBelow(
+          parseFloat(getComputedStyle(name).fontSize),
+          parseFloat(getComputedStyle(subject).fontSize)
+        );
+        assert.equal(getComputedStyle(name).fontWeight, '500');
         assert.isAbove(name.clientWidth, 100);
         assert.isAtMost(name.scrollWidth, name.clientWidth);
         assert.isAtMost(element.scrollWidth, element.clientWidth);
@@ -145,6 +238,7 @@ suite('gr-change-list screenshot tests', () => {
       if (width > 800) {
         for (const row of rows) {
           assert.isNull(row.shadowRoot!.querySelector('.change-header'));
+          assert.isNull(row.shadowRoot!.querySelector('.change-subject'));
           assert.isNull(row.shadowRoot!.querySelector('.change-metadata'));
           assert.isNull(row.shadowRoot!.querySelector('.votes'));
           for (const cell of row.shadowRoot!.querySelectorAll('td')) {
@@ -219,44 +313,35 @@ suite('gr-change-list screenshot tests', () => {
             '.label:not(.labelOverflow)'
           )
         );
-        assert.lengthOf(votes, 30);
+        assert.lengthOf(votes, width <= 800 && row === rows[1] ? 15 : 30);
         if (width <= 800) {
-          assert.deepEqual(
-            votes
-              .filter(cell => cell.getBoundingClientRect().width > 0)
-              .map(cell => Math.round(cell.getBoundingClientRect().left)),
-            headers
-              .filter(cell => cell.getBoundingClientRect().width > 0)
-              .map(cell => Math.round(cell.getBoundingClientRect().left))
-          );
           assert.isAtMost(row.scrollWidth, row.clientWidth);
-          const voteLines = new Set(
-            votes
-              .filter(cell => cell.getBoundingClientRect().width > 0)
-              .map(cell => Math.round(cell.getBoundingClientRect().top))
-          );
-          const headerLines = new Set(
-            headers
-              .filter(cell => cell.getBoundingClientRect().width > 0)
-              .map(cell => Math.round(cell.getBoundingClientRect().top))
-          );
-          assert.equal(voteLines.size, 1);
-          const visibleHeaders = headers
+          const visibleVotes = votes
             .filter(cell => cell.getBoundingClientRect().width > 0)
             .sort(
               (a, b) =>
                 a.getBoundingClientRect().left - b.getBoundingClientRect().left
             );
-          assert.equal(visibleHeaders[0].title, 'Code-Review');
-          assert.equal(visibleHeaders[1].title, 'Verified');
-          assert.lengthOf(visibleHeaders, width === 390 ? 13 : 25);
+          assert.lengthOf(visibleVotes, 5);
+          assert.equal(
+            visibleVotes[0].querySelector('gr-change-list-column-requirement')!
+              .labelName,
+            'Code-Review'
+          );
+          assert.equal(
+            visibleVotes[1].querySelector('gr-change-list-column-requirement')!
+              .labelName,
+            row === rows[0] ? 'Verified' : 'Check-A-A'
+          );
+          assert.isEmpty(
+            headers.filter(cell => cell.getBoundingClientRect().width > 0)
+          );
           assert.isAbove(
             row
               .shadowRoot!.querySelector('.labelOverflow')!
               .getBoundingClientRect().width,
             0
           );
-          assert.equal(headerLines.size, voteLines.size);
         }
       }
       assert.isAtMost(element.getBoundingClientRect().right, width);
@@ -284,14 +369,14 @@ suite('gr-change-list screenshot tests', () => {
       }
       if (width === 700) {
         await setViewport({width: 390, height: 900});
-        await waitUntil(
-          () =>
-            Array.from(
-              section.shadowRoot!.querySelectorAll(
-                '.groupTitle .label:not(.labelOverflow)'
-              )
-            ).filter(cell => cell.getBoundingClientRect().width > 0).length ===
-            13
+        await waitUntil(() =>
+          rows.every(
+            row =>
+              Array.from(
+                row.shadowRoot!.querySelectorAll('.label:not(.labelOverflow)')
+              ).filter(cell => cell.getBoundingClientRect().width > 0)
+                .length === 5
+          )
         );
         await section.updateComplete;
         await Promise.all(rows.map(row => row.updateComplete));

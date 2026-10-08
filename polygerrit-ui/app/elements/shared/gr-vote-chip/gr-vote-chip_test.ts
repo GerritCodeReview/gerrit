@@ -23,6 +23,52 @@ suite('gr-vote-chip tests', () => {
     sinon.stub(getAppContext().flagsService, 'isEnabled').returns(true);
   });
 
+  for (const [value, expected] of [
+    [-2, 'CR'],
+    [-1, 'CR-1'],
+    [1, 'CR+1'],
+    [2, 'CR'],
+  ] as const) {
+    test(`self-contained badge for ${value}`, async () => {
+      const element = await fixture<GrVoteChip>(html`<gr-vote-chip
+        label-name="CR"
+        .label=${{
+          values: {
+            '-2': 'Block',
+            '-1': 'Dislike',
+            '0': 'Neutral',
+            '+1': 'Recommend',
+            '+2': 'Approve',
+          },
+        }}
+        .vote=${{...createApproval(), value}}
+        tooltip-with-who-voted
+      ></gr-vote-chip>`);
+      assert.equal(
+        element.shadowRoot!.querySelector('.vote-chip')!.textContent?.trim(),
+        expected
+      );
+      const icon = element.shadowRoot!.querySelector('gr-icon');
+      if (Math.abs(value) === 2) {
+        assert.equal(icon?.icon, value > 0 ? 'check' : 'close');
+        assert.include(
+          element
+            .shadowRoot!.querySelector('gr-tooltip-content')!
+            .getAttribute('title')!,
+          value > 0 ? 'Approve' : 'Block'
+        );
+      } else {
+        assert.isNull(icon);
+      }
+      element.labelName = undefined;
+      await element.updateComplete;
+      assert.equal(
+        element.shadowRoot!.querySelector('.vote-chip')!.textContent?.trim(),
+        value > 0 ? `+${value}` : `${value}`
+      );
+    });
+  }
+
   suite('with QuickLabelInfo', () => {
     test('renders positive', async () => {
       const labelInfo = {

@@ -113,8 +113,15 @@ public class TreeCreator {
    */
   public ObjectId createNewTreeAndGetId(Repository repository) throws IOException {
     ensureTreeModificationsDoNotTouchSameFiles();
-    DirCache newTree = createNewTree(repository);
-    return writeAndGetId(repository, newTree);
+    ObjectInserter oi = objectInserter.orElseGet(() -> repository.newObjectInserter());
+    try {
+      DirCache newTree = createNewTree(repository, oi);
+      return writeAndGetId(oi, newTree);
+    } finally {
+      if (objectInserter.isEmpty()) {
+        oi.close();
+      }
+    }
   }
 
   private void ensureTreeModificationsDoNotTouchSameFiles() {
@@ -139,9 +146,9 @@ public class TreeCreator {
     }
   }
 
-  private DirCache createNewTree(Repository repository) throws IOException {
+  private DirCache createNewTree(Repository repository, ObjectInserter oi) throws IOException {
     DirCache newTree = readBaseTree(repository);
-    List<DirCacheEditor.PathEdit> pathEdits = getPathEdits(repository);
+    List<DirCacheEditor.PathEdit> pathEdits = getPathEdits(repository, oi);
     applyPathEdits(newTree, pathEdits);
     return newTree;
   }
@@ -166,26 +173,21 @@ public class TreeCreator {
     }
   }
 
-  private List<DirCacheEditor.PathEdit> getPathEdits(Repository repository) throws IOException {
+  private List<DirCacheEditor.PathEdit> getPathEdits(Repository repository, ObjectInserter oi)
+      throws IOException {
     List<DirCacheEditor.PathEdit> pathEdits = new ArrayList<>();
     for (TreeModification treeModification : treeModifications) {
       pathEdits.addAll(
-          treeModification.getPathEdits(repository, baseTreeId, ImmutableList.copyOf(baseParents)));
+          treeModification.getPathEdits(
+              repository, oi, baseTreeId, ImmutableList.copyOf(baseParents)));
     }
     return pathEdits;
   }
 
-  private ObjectId writeAndGetId(Repository repository, DirCache tree) throws IOException {
-    ObjectInserter oi = objectInserter.orElseGet(() -> repository.newObjectInserter());
-    try {
-      ObjectId treeId = tree.writeTree(oi);
-      oi.flush();
-      return treeId;
-    } finally {
-      if (objectInserter.isEmpty()) {
-        oi.close();
-      }
-    }
+  private static ObjectId writeAndGetId(ObjectInserter oi, DirCache tree) throws IOException {
+    ObjectId treeId = tree.writeTree(oi);
+    oi.flush();
+    return treeId;
   }
 
   private static void applyPathEdits(DirCache tree, List<DirCacheEditor.PathEdit> pathEdits) {

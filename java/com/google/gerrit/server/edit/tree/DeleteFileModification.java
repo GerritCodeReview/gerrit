@@ -20,6 +20,7 @@ import java.util.Collections;
 import java.util.List;
 import org.eclipse.jgit.dircache.DirCacheEditor;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.Repository;
 
 /** A {@code TreeModification} which deletes a file. */
@@ -33,7 +34,10 @@ public class DeleteFileModification implements TreeModification {
 
   @Override
   public List<DirCacheEditor.PathEdit> getPathEdits(
-      Repository repository, ObjectId treeId, ImmutableList<? extends ObjectId> parents) {
+      Repository repository,
+      ObjectInserter objectInserter,
+      ObjectId treeId,
+      ImmutableList<? extends ObjectId> parents) {
     DirCacheEditor.DeletePath deletePathEdit = new DirCacheEditor.DeletePath(filePath);
     return Collections.singletonList(deletePathEdit);
   }

@@ -62,9 +62,12 @@ public class ChangeFileContentModification implements TreeModification {
 
   @Override
   public List<DirCacheEditor.PathEdit> getPathEdits(
-      Repository repository, ObjectId treeId, ImmutableList<? extends ObjectId> parents) {
+      Repository repository,
+      ObjectInserter objectInserter,
+      ObjectId treeId,
+      ImmutableList<? extends ObjectId> parents) {
     DirCacheEditor.PathEdit changeContentEdit =
-        new ChangeContent(filePath, newContent, repository, newGitFileMode);
+        new ChangeContent(filePath, newContent, objectInserter, newGitFileMode);
     return Collections.singletonList(changeContentEdit);
   }
 
@@ -81,18 +84,18 @@ public class ChangeFileContentModification implements TreeModification {
   private static class ChangeContent extends DirCacheEditor.PathEdit {
     private final String filePath;
     private final RawInput newContent;
-    private final Repository repository;
+    private final ObjectInserter objectInserter;
     private final Integer newGitFileMode;
 
     ChangeContent(
         String filePath,
         RawInput newContent,
-        Repository repository,
+        ObjectInserter objectInserter,
         @Nullable Integer newGitFileMode) {
       super(filePath);
       this.filePath = filePath;
       this.newContent = newContent;
-      this.repository = repository;
+      this.objectInserter = objectInserter;
       this.newGitFileMode = newGitFileMode;
     }
 
@@ -141,14 +144,6 @@ public class ChangeFileContentModification implements TreeModification {
     }
 
     private ObjectId createNewBlobAndGetItsId() throws IOException {
-      try (ObjectInserter objectInserter = repository.newObjectInserter()) {
-        ObjectId blobObjectId = createNewBlobAndGetItsId(objectInserter);
-        objectInserter.flush();
-        return blobObjectId;
-      }
-    }
-
-    private ObjectId createNewBlobAndGetItsId(ObjectInserter objectInserter) throws IOException {
       long contentLength = newContent.getContentLength();
       if (contentLength < 0) {
         return objectInserter.insert(OBJ_BLOB, getNewContentBytes());

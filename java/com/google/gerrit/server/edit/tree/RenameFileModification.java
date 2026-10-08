@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.util.List;
 import org.eclipse.jgit.dircache.DirCacheEditor;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
@@ -37,7 +38,10 @@ public class RenameFileModification implements TreeModification {
 
   @Override
   public List<DirCacheEditor.PathEdit> getPathEdits(
-      Repository repository, ObjectId treeId, ImmutableList<? extends ObjectId> parents)
+      Repository repository,
+      ObjectInserter objectInserter,
+      ObjectId treeId,
+      ImmutableList<? extends ObjectId> parents)
       throws IOException {
     if (ObjectId.zeroId().equals(treeId)) {
       return ImmutableList.of();

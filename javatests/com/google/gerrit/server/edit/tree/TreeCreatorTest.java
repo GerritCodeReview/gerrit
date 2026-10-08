@@ -25,8 +25,9 @@ import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
-import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -37,7 +38,7 @@ import org.junit.Test;
 
 public class TreeCreatorTest {
 
-  private Repository repository;
+  private InMemoryRepository repository;
   private TestRepository<?> testRepository;
 
   @Before
@@ -63,6 +64,42 @@ public class TreeCreatorTest {
 
     String fileContent = getFileContent(newTreeId, "file.txt");
     assertThat(fileContent).isEqualTo("Line 1");
+  }
+
+  @Test
+  public void multipleFileContentModificationsCreateSinglePackfile() throws Exception {
+    TreeCreator treeCreator = TreeCreator.basedOnEmptyTree();
+    treeCreator.addTreeModifications(
+        ImmutableList.of(
+            new ChangeFileContentModification("file1.txt", RawInputUtil.create("Content 1")),
+            new ChangeFileContentModification("file2.txt", RawInputUtil.create("Content 2")),
+            new ChangeFileContentModification("dir/file3.txt", RawInputUtil.create("Content 3"))));
+    ObjectId newTreeId = treeCreator.createNewTreeAndGetId(repository);
+
+    assertThat(getFileContent(newTreeId, "file1.txt")).isEqualTo("Content 1");
+    assertThat(getFileContent(newTreeId, "file2.txt")).isEqualTo("Content 2");
+    assertThat(getFileContent(newTreeId, "dir/file3.txt")).isEqualTo("Content 3");
+    assertThat(repository.getObjectDatabase().getPacks()).hasLength(1);
+  }
+
+  @Test
+  public void multipleFileContentModificationsReuseProvidedObjectInserter() throws Exception {
+    RevCommit baseCommit = testRepository.branch("refs/heads/main").commit().create();
+    int initialPacks = repository.getObjectDatabase().getPacks().length;
+
+    try (ObjectInserter oi = repository.newObjectInserter();
+        ObjectReader or = oi.newReader()) {
+      TreeCreator treeCreator = TreeCreator.basedOn(baseCommit, oi, or);
+      treeCreator.addTreeModifications(
+          ImmutableList.of(
+              new ChangeFileContentModification("file1.txt", RawInputUtil.create("Content 1")),
+              new ChangeFileContentModification("file2.txt", RawInputUtil.create("Content 2"))));
+      ObjectId newTreeId = treeCreator.createNewTreeAndGetId(repository);
+
+      assertThat(getFileContent(newTreeId, "file1.txt")).isEqualTo("Content 1");
+      assertThat(getFileContent(newTreeId, "file2.txt")).isEqualTo("Content 2");
+      assertThat(repository.getObjectDatabase().getPacks()).hasLength(initialPacks + 1);
+    }
   }
 
   @Test

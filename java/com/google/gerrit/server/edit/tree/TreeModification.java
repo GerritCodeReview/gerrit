@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.util.List;
 import org.eclipse.jgit.dircache.DirCacheEditor;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.Repository;
 
 /** A specific modification of a Git tree. */
@@ -38,7 +39,29 @@ public interface TreeModification {
    * @throws IOException if problems arise when accessing the repository
    */
   List<DirCacheEditor.PathEdit> getPathEdits(
-      Repository repository, ObjectId treeId, ImmutableList<? extends ObjectId> parents)
+      Repository repository,
+      ObjectId treeId,
+      ImmutableList<? extends ObjectId> parents)
+      throws IOException;
+
+  /**
+   * Returns a list of {@code PathEdit}s which are necessary in order to achieve the desired
+   * modification of the Git tree. The order of the {@code PathEdit}s can be crucial and hence
+   * shouldn't be changed.
+   *
+   * @param repository the affected Git repository
+   * @param objectInserter the {@code ObjectInserter} to use for inserting new Git objects
+   * @param treeId tree to which the modification is applied. A value of {@code ObjectId.zero()}
+   *     indicates an empty tree.
+   * @param parents parent commits of the commit to whose tree this modification is applied
+   * @return an ordered list of necessary {@code PathEdit}s
+   * @throws IOException if problems arise when accessing the repository
+   */
+  List<DirCacheEditor.PathEdit> getPathEdits(
+      Repository repository,
+      ObjectInserter objectInserter,
+      ObjectId treeId,
+      ImmutableList<? extends ObjectId> parents)
       throws IOException;
 
   /**

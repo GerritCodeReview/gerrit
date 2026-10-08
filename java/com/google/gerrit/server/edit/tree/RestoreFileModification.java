@@ -21,6 +21,7 @@ import java.util.Collections;
 import java.util.List;
 import org.eclipse.jgit.dircache.DirCacheEditor;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -40,7 +41,10 @@ public class RestoreFileModification implements TreeModification {
 
   @Override
   public List<DirCacheEditor.PathEdit> getPathEdits(
-      Repository repository, ObjectId treeId, ImmutableList<? extends ObjectId> parents)
+      Repository repository,
+      ObjectInserter objectInserter,
+      ObjectId treeId,
+      ImmutableList<? extends ObjectId> parents)
       throws IOException {
     if (parents.isEmpty()) {
       DirCacheEditor.DeletePath deletePath = new DirCacheEditor.DeletePath(filePath);

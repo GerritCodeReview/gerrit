@@ -51,6 +51,24 @@
       "message": "`JdbcAccountPatchReviewStoreModule` is registered before `PluginModule` in `WebAppInitializer` and `Daemon`. Should we switch the ordering? else we\u0027ll always see this exception.",
       "revId": "a4c491dcc8cfd5500782d0fe01fd843fad203d8f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "06fbc561_ad185a7e",
+        "filename": "java/com/google/gerrit/server/schema/H2PluginLockAccountPatchReviewStore.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 4069542
+      },
+      "writtenOn": "2026-10-08T15:35:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a70bbf94_9fc38e71",
+      "revId": "a4c491dcc8cfd5500782d0fe01fd843fad203d8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

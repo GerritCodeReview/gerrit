@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22398d03_e522668f",
+        "filename": "java/com/google/gerrit/server/edit/tree/TreeModification.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1162625
+      },
+      "writtenOn": "2026-10-08T20:03:21Z",
+      "side": 1,
+      "message": "Because this is a public interface we may want to also keep the old signature to avoid breaking external implementations.",
+      "range": {
+        "startLine": 42,
+        "startChar": 2,
+        "endLine": 42,
+        "endChar": 45
+      },
+      "revId": "52e0ce8ca8a61e4ead2d8be9c0e9ea1d412cd5a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

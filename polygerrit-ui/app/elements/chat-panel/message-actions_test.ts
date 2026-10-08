@@ -87,6 +87,7 @@ suite('message-actions tests', () => {
           class="copy-button"
           copytargetname="Response"
           hideinput=""
+          multiline=""
         >
         </gr-copy-clipboard>
         <md-icon-button
@@ -113,6 +114,7 @@ suite('message-actions tests', () => {
           copytargetname="Response"
           hidden=""
           hideinput=""
+          multiline=""
         >
         </gr-copy-clipboard>
         <md-icon-button
@@ -146,11 +148,12 @@ suite('message-actions tests', () => {
   });
 
   test('copy clipboard has correct text', async () => {
-    const turn = createTurn('another message');
+    const turn = createTurn('line 1\nline 2');
     chatModel.updateState({...chatModel.getState(), turns: [turn]});
     await element.updateComplete;
     const copy = element.shadowRoot?.querySelector('gr-copy-clipboard');
     assert.isOk(copy);
-    assert.equal(copy?.text, 'another message');
+    assert.isTrue(copy?.multiline);
+    assert.equal(copy?.text, 'line 1\nline 2');
   });
 });

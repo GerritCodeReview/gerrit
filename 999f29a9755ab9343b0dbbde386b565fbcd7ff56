@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b984f223_b3d18c2f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-10-08T15:43:49Z",
+      "side": 1,
+      "message": "With this change the access permission code is moved outside of validators\nbut still validators are invoking it. So the anti-pattern is still there:\nthe validators feel responsible for permission checks.",
+      "revId": "999f29a9755ab9343b0dbbde386b565fbcd7ff56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

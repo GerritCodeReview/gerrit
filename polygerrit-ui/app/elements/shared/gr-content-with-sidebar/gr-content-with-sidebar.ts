@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {customElement, property, query, state} from 'lit/decorators.js';
-import {css, html, LitElement, nothing} from 'lit';
+import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {styleMap} from 'lit/directives/style-map.js';
 
 const SIDEBAR_MIN_WIDTH = 250;
@@ -38,10 +38,85 @@ export class GrContentWithSidebar extends LitElement {
 
   private sidebarResizingStartWidthPx = 0;
 
+  private isUpdatingSidebarHeight = false;
+
+  private rafId?: number;
+
   private readonly boundResizeSidebar = (e: MouseEvent) =>
     this.resizeSidebar(e);
 
   private readonly boundStopSidebarResize = () => this.stopSidebarResize();
+
+  private readonly boundUpdateSidebarHeight = () => {
+    if (this.isUpdatingSidebarHeight) return;
+    this.isUpdatingSidebarHeight = true;
+    this.rafId = requestAnimationFrame(() => {
+      this.isUpdatingSidebarHeight = false;
+      this.rafId = undefined;
+      this.updateSidebarHeight();
+    });
+  };
+
+  override connectedCallback() {
+    super.connectedCallback();
+    const passiveOptions: AddEventListenerOptions = {passive: true};
+    window.addEventListener(
+      'scroll',
+      this.boundUpdateSidebarHeight,
+      passiveOptions
+    );
+    window.addEventListener(
+      'resize',
+      this.boundUpdateSidebarHeight,
+      passiveOptions
+    );
+  }
+
+  override disconnectedCallback() {
+    window.removeEventListener('scroll', this.boundUpdateSidebarHeight);
+    window.removeEventListener('resize', this.boundUpdateSidebarHeight);
+    if (this.rafId !== undefined) {
+      cancelAnimationFrame(this.rafId);
+      this.rafId = undefined;
+      this.isUpdatingSidebarHeight = false;
+    }
+    super.disconnectedCallback();
+  }
+
+  override updated(changedProperties: PropertyValues) {
+    super.updated(changedProperties);
+    if (changedProperties.has('hideSide')) {
+      if (this.hideSide) {
+        this.style.removeProperty('--sidebar-height');
+      } else {
+        this.updateSidebarHeight();
+      }
+    }
+  }
+
+  updateSidebarHeight() {
+    if (this.hideSide || !this.sidebarWrapper) return;
+    const rect = this.sidebarWrapper.getBoundingClientRect();
+    let sidebarTop = NaN;
+    const sidebarEl =
+      this.sidebarWrapper.querySelector<HTMLElement>('.sidebar');
+    if (sidebarEl) {
+      sidebarTop = parseFloat(getComputedStyle(sidebarEl).top);
+    }
+    if (Number.isNaN(sidebarTop)) {
+      sidebarTop = parseFloat(
+        getComputedStyle(this).getPropertyValue('--sidebar-top')
+      );
+    }
+    const resolvedSidebarTop = Number.isNaN(sidebarTop) ? 0 : sidebarTop;
+    const topInViewport = Math.max(resolvedSidebarTop, Math.round(rect.top));
+    const bottomInViewport = Math.min(
+      window.innerHeight,
+      Math.round(rect.bottom)
+    );
+    const availableHeight = Math.max(0, bottomInViewport - topInViewport);
+    this.style.setProperty('--sidebar-height', `${availableHeight}px`);
+  }
 
   static override get styles() {
     return [

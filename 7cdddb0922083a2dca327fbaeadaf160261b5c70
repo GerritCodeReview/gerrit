@@ -87,6 +87,24 @@
       "parentUuid": "596ddab5_bfd55311",
       "revId": "7cdddb0922083a2dca327fbaeadaf160261b5c70",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "391f1085_54aefa12",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2026-10-09T13:14:14Z",
+      "side": 1,
+      "message": "Yes, I checked now mobile preview and it is collapsed by default, so no Go to Latest. I\u0027ll see what I can do.",
+      "parentUuid": "d9f2f7ea_1af142d4",
+      "revId": "7cdddb0922083a2dca327fbaeadaf160261b5c70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

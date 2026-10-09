@@ -195,8 +195,6 @@ export class GrLabelScoreRow extends LitElement {
 
   private renderPermittedLabels() {
     const items = this.computePermittedLabelValues();
-    // Material's 48px touch targets overlap adjacent label rows. Restrict
-    // the hit area to the visible button so clicks cannot vote on another label.
     return items.map(
       (value, index) => html`
         <gr-button
@@ -210,7 +208,6 @@ export class GrLabelScoreRow extends LitElement {
           data-name=${ifDefined(this.label?.name)}
           data-value=${value}
           aria-label=${value}
-          touch-target="none"
           voteChip
           flatten
         >

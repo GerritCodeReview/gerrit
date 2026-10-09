@@ -407,6 +407,7 @@ class LdapRealm extends AbstractRealm {
       this.helper = helper;
     }
 
+    @SuppressWarnings("BanJNDI") // LDAP access is inherently JNDI-based.
     @Override
     public Boolean load(String groupDn) throws Exception {
       try (TraceTimer timer =

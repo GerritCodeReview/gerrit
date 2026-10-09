@@ -429,7 +429,7 @@ suite('gr-change-list-item tests', () => {
     assert.equal(setUrlStub.lastCall.firstArg, '/c/a/test/repo/+/42');
   });
 
-  test('narrow rows show the number and respect hidden repo', async () => {
+  test('narrow rows show the number and respect hidden repo and branch', async () => {
     await setViewport({width: 390, height: 900});
     await waitUntil(() => !!query(element, '.change-header'));
     element.change = change;
@@ -445,15 +445,33 @@ suite('gr-change-list-item tests', () => {
       '42'
     );
     assert.isNotOk(query(element, '.repo'));
+    assert.isNotOk(query(element, '.branch'));
     assert.isOk(query(element, '.change-subject .subject'));
     assert.isOk(query(element, '.change-metadata .owner'));
     assert.isOk(query(element, '.change-metadata .votes'));
+
+    element.visibleChangeTableColumns = [
+      ColumnNames.SUBJECT,
+      ColumnNames.OWNER,
+      ColumnNames.REPO,
+      ColumnNames.BRANCH,
+    ];
+    await element.updateComplete;
+    const branch = queryAndAssert(element, '.change-header .branch');
+    assert.equal(branch.previousElementSibling?.className, 'cell repo');
+    assert.equal(branch.textContent?.trim(), 'test-branch');
+    assert.equal(
+      queryAndAssert(branch, 'a').getAttribute('href'),
+      '/q/project:a/test/repo+branch:test-branch'
+    );
+    assert.isNotOk(query(element, '.change-metadata .branch'));
 
     await setViewport({width: 1000, height: 900});
     await waitUntil(() => !query(element, '.change-header'));
     assert.isNotOk(query(element, '.change-subject'));
     assert.isNotOk(query(element, '.number'));
     assert.isOk(query(element, '.subject'));
+    assert.isOk(query(element, '.branch gr-limited-text'));
   });
 
   test('renders', async () => {

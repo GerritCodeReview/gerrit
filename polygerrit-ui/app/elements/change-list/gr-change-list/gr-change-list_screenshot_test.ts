@@ -23,6 +23,7 @@ import {userModelToken} from '../../../models/user/user-model';
 import {GrChangeListItem} from '../gr-change-list-item/gr-change-list-item';
 import {GrChangeListSection} from '../gr-change-list-section/gr-change-list-section';
 import {
+  BranchName,
   ChangeInfo,
   NumericChangeId,
   RepoName,
@@ -139,6 +140,7 @@ suite('gr-change-list screenshot tests', () => {
                 attention_set: {
                   [change.owner._account_id!]: {account: change.owner},
                 },
+                branch: 'stable/very-long-branch-name' as BranchName,
                 reviewers: {
                   REVIEWER: [
                     {
@@ -222,6 +224,21 @@ suite('gr-change-list screenshot tests', () => {
         );
         assert.isAtMost(
           repo.getBoundingClientRect().bottom,
+          subject.getBoundingClientRect().top
+        );
+        const branch = first.querySelector('.change-header .branch')!;
+        assert.equal(branch.previousElementSibling, repo);
+        assert.isNull(first.querySelector('.change-metadata .branch'));
+        const branchLink = branch.querySelector<HTMLElement>('a')!;
+        assert.equal(branchLink.textContent?.trim(), element.changes[0].branch);
+        assert.isAbove(branchLink.clientWidth, 0);
+        assert.isAtMost(branchLink.scrollWidth, branchLink.clientWidth);
+        assert.isAtLeast(
+          branch.getBoundingClientRect().left,
+          repo.getBoundingClientRect().right
+        );
+        assert.isAtMost(
+          branch.getBoundingClientRect().bottom,
           subject.getBoundingClientRect().top
         );
         const accountLabel = first.querySelector('gr-account-label')!;

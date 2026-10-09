@@ -420,12 +420,15 @@ export class GrChangeListItem extends LitElement {
             min-width: 0;
             max-width: 100%;
           }
-          .repo {
+          .repo,
+          .cell.branch {
+            display: flex;
             flex: 0 1 auto;
             min-width: 0;
             max-width: 100%;
           }
-          .repo a {
+          .repo a,
+          .branch a {
             white-space: normal;
             overflow-wrap: anywhere;
           }
@@ -493,15 +496,14 @@ export class GrChangeListItem extends LitElement {
       ${this.renderCellSelectionBox()}
       <div class="change-header">
         ${this.renderCellStar()} ${this.renderCellNumber(changeUrl)}
-        ${this.renderCellRepo()}
+        ${this.renderCellRepo()} ${this.renderCellBranch()}
       </div>
       <div class="change-subject">${this.renderCellSubject(changeUrl)}</div>
       <div class="change-metadata">
         ${this.renderCellOwner()} ${this.renderCellReviewers()}
-        ${this.renderCellBranch()} ${this.renderCellHashtags()}
-        ${this.renderCellUpdated()} ${this.renderCellSubmitted()}
-        ${this.renderCellWaiting()} ${this.renderCellSize()}
-        ${this.renderCellRequirements()}
+        ${this.renderCellHashtags()} ${this.renderCellUpdated()}
+        ${this.renderCellSubmitted()} ${this.renderCellWaiting()}
+        ${this.renderCellSize()} ${this.renderCellRequirements()}
         <div class="cell votes">
           ${this.applicableLabels.map(labelName =>
             this.renderChangeLabels(labelName)
@@ -663,7 +665,7 @@ export class GrChangeListItem extends LitElement {
     return html`
       <td class="cell branch">
         <a href=${this.computeRepoBranchURL()}> ${this.change?.branch} </a>
-        ${this.renderChangeBranch()}
+        ${this.narrowScreen ? '' : this.renderChangeBranch()}
       </td>
     `;
   }

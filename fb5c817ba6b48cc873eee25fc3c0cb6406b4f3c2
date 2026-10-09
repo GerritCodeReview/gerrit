@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b632649a_8f04a6f2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-09T10:57:49Z",
+      "side": 1,
+      "message": "I believe a checklist is useful regardless of the AI or non-AI tooling used.\nPossibly a different change and a different chapter?",
+      "parentUuid": "8f1fa760_38c7f713",
+      "revId": "fb5c817ba6b48cc873eee25fc3c0cb6406b4f3c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3d26dafb_77a3eaaa",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 4

@@ -33,7 +33,6 @@ import {when} from 'lit/directives/when.js';
 import {spinnerStyles} from '../../../styles/gr-spinner-styles';
 
 const NUMBER_FIXED_COLUMNS = 4;
-const MAX_NARROW_LABELS = 5;
 const LABEL_PREFIX_INVALID_PROLOG = 'Invalid-Prolog-Rules-Label-Name--';
 const MAX_SHORTCUT_CHARS = 5;
 const INVALID_TOKENS = ['limit:', 'age:', '-age:'];
@@ -181,13 +180,7 @@ export class GrChangeListSection extends LitElement {
       return rank(a) - rank(b);
     });
     const capacity = this.narrowLabelCapacity;
-    return labels.slice(
-      0,
-      Math.min(
-        MAX_NARROW_LABELS,
-        labels.length > capacity ? capacity - 1 : capacity
-      )
-    );
+    return labels.slice(0, labels.length > capacity ? capacity - 1 : capacity);
   }
 
   static override get styles() {

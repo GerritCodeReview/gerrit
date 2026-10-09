@@ -1344,6 +1344,17 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     String changeId = GitUtil.getChangeId(testRepo, c).get();
     assertThat(getOwnerEmail(changeId)).isEqualTo(admin.email());
     assertThat(getReviewerEmails(changeId, ReviewerState.CC)).isEmpty();
+
+    // Create a replacement commit (patch set 2) with forged author and committer.
+    commitBuilder()
+        .author(user.newIdent())
+        .committer(user2.newIdent())
+        .add(PushOneCommit.FILE_NAME, "new content")
+        .message(PushOneCommit.SUBJECT + "\n\nChange-Id: " + changeId)
+        .create();
+    pushHead(testRepo, "refs/for/master");
+
+    assertThat(getReviewerEmails(changeId, ReviewerState.CC)).isEmpty();
   }
 
   @Test

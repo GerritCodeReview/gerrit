@@ -33,6 +33,7 @@ import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.PatchSet;
@@ -414,21 +415,23 @@ public class ReplaceOp implements BatchUpdateOp {
     // Disable individual emails when adding reviewers, as all reviewers will receive the single
     // bulk new change email.
     Stream<ReviewerInput> inputs =
-        Streams.concat(
-            newReviewerInputFromCommitIdentity(
-                change,
-                psInfo.getCommitId(),
-                psInfo.getAuthor().getAccount(),
-                NotifyHandling.NONE,
-                newPatchSet.uploader())
-                .stream(),
-            newReviewerInputFromCommitIdentity(
-                change,
-                psInfo.getCommitId(),
-                psInfo.getCommitter().getAccount(),
-                NotifyHandling.NONE,
-                newPatchSet.uploader())
-                .stream());
+        projectState.is(BooleanProjectConfig.SKIP_ADDING_AUTHOR_AND_COMMITTER_AS_REVIEWERS)
+            ? Stream.empty()
+            : Streams.concat(
+                newReviewerInputFromCommitIdentity(
+                    change,
+                    psInfo.getCommitId(),
+                    psInfo.getAuthor().getAccount(),
+                    NotifyHandling.NONE,
+                    newPatchSet.uploader())
+                    .stream(),
+                newReviewerInputFromCommitIdentity(
+                    change,
+                    psInfo.getCommitId(),
+                    psInfo.getCommitter().getAccount(),
+                    NotifyHandling.NONE,
+                    newPatchSet.uploader())
+                    .stream());
     if (magicBranch != null) {
       inputs =
           Streams.concat(

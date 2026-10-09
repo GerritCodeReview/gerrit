@@ -58,8 +58,8 @@ abstract class H2CustomLockAccountPatchReviewStore extends H2AccountPatchReviewS
   private BatchingLock lockInstance;
 
   protected H2CustomLockAccountPatchReviewStore(Config cfg, SitePaths sitePaths) {
-    super();
-    url = JdbcAccountPatchReviewStore.getUrl(cfg, sitePaths) + ";FILE_LOCK=NO;DB_CLOSE_DELAY=0";
+    super(JdbcAccountPatchReviewStore.getUrl(cfg, sitePaths));
+    url = getUrl() + ";FILE_LOCK=NO;DB_CLOSE_DELAY=0";
     lockTimeoutMs =
         ConfigUtil.getTimeUnit(
             cfg,

@@ -15,7 +15,7 @@
 package com.google.gerrit.server.schema;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.server.schema.H2JGitLockAccountPatchReviewStore.lockTargetFromUrl;
+import static com.google.gerrit.server.schema.H2AccountPatchReviewStore.dbFileFromUrl;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import java.io.File;
@@ -23,25 +23,24 @@ import org.junit.Test;
 
 public class H2JGitLockAccountPatchReviewStoreTest {
   @Test
-  public void lockTargetFromUrl_plainPath() {
-    assertThat(lockTargetFromUrl("jdbc:h2:file:/path/to/db")).isEqualTo(new File("/path/to/db"));
+  public void dbFileFromUrl_plainPath() {
+    assertThat(dbFileFromUrl("jdbc:h2:file:/path/to/db")).isEqualTo(new File("/path/to/db"));
   }
 
   @Test
-  public void lockTargetFromUrl_stripsOptions() {
-    assertThat(lockTargetFromUrl("jdbc:h2:file:/path/to/db;FILE_LOCK=NO;DB_CLOSE_DELAY=0"))
+  public void dbFileFromUrl_stripsOptions() {
+    assertThat(dbFileFromUrl("jdbc:h2:file:/path/to/db;FILE_LOCK=NO;DB_CLOSE_DELAY=0"))
         .isEqualTo(new File("/path/to/db"));
   }
 
   @Test
-  public void lockTargetFromUrl_unescapesSemicolonInPath() {
-    assertThat(lockTargetFromUrl("jdbc:h2:file:/path/with\\;semi/db;FILE_LOCK=NO"))
+  public void dbFileFromUrl_unescapesSemicolonInPath() {
+    assertThat(dbFileFromUrl("jdbc:h2:file:/path/with\\;semi/db;FILE_LOCK=NO"))
         .isEqualTo(new File("/path/with;semi/db"));
   }
 
   @Test
-  public void lockTargetFromUrl_throwsOnInvalidUrls() {
-    assertThrows(
-        IllegalArgumentException.class, () -> lockTargetFromUrl("jdbc:h2:mem:/path/to/db"));
+  public void dbFileFromUrl_throwsOnInvalidUrls() {
+    assertThrows(IllegalArgumentException.class, () -> dbFileFromUrl("jdbc:h2:mem:/path/to/db"));
   }
 }

@@ -111,6 +111,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b7255d5_0f7c75d7",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-09T20:55:06Z",
+      "side": 1,
+      "message": "Let me rephrase it: I meant, with the exception of *running* (not generating) the scripts for automatic CI/CD validation and for creating the release commits.\n\nThose are performed *automatically* by the CI/CD automation, not by someone posting reviews and writing manual commits.",
+      "parentUuid": "ef2901b7_03f9b8a5",
+      "range": {
+        "startLine": 137,
+        "startChar": 21,
+        "endLine": 137,
+        "endChar": 70
+      },
+      "revId": "fb5c817ba6b48cc873eee25fc3c0cb6406b4f3c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ba855886_ad4a9426",
@@ -124,6 +148,24 @@
       "writtenOn": "2026-10-09T17:22:31Z",
       "side": 1,
       "message": "```suggestion\nintended for code maintenance and error detection.\n```",
+      "revId": "fb5c817ba6b48cc873eee25fc3c0cb6406b4f3c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0af42b74_89c20441",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-09T20:55:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba855886_ad4a9426",
       "revId": "fb5c817ba6b48cc873eee25fc3c0cb6406b4f3c2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

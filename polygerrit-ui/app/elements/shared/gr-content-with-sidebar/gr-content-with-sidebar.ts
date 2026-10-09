@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {customElement, property, query, state} from 'lit/decorators.js';
-import {css, html, LitElement, nothing} from 'lit';
+import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {styleMap} from 'lit/directives/style-map.js';
 
 const SIDEBAR_MIN_WIDTH = 250;
@@ -38,10 +38,57 @@ export class GrContentWithSidebar extends LitElement {
 
   private sidebarResizingStartWidthPx = 0;
 
+  private ticking = false;
+
   private readonly boundResizeSidebar = (e: MouseEvent) =>
     this.resizeSidebar(e);
 
   private readonly boundStopSidebarResize = () => this.stopSidebarResize();
+
+  private readonly handleScroll = () => {
+    if (!this.ticking) {
+      this.ticking = true;
+      requestAnimationFrame(() => {
+        this.updateSidebarHeight();
+        this.ticking = false;
+      });
+    }
+  };
+
+  override connectedCallback() {
+    super.connectedCallback();
+    window.addEventListener('scroll', this.handleScroll, {passive: true});
+    window.addEventListener('resize', this.handleScroll, {passive: true});
+  }
+
+  override disconnectedCallback() {
+    window.removeEventListener('scroll', this.handleScroll);
+    window.removeEventListener('resize', this.handleScroll);
+    super.disconnectedCallback();
+  }
+
+  override updated(changedProperties: PropertyValues) {
+    super.updated(changedProperties);
+    if (changedProperties.has('hideSide')) {
+      this.updateSidebarHeight();
+    }
+  }
+
+  updateSidebarHeight() {
+    if (this.hideSide || !this.sidebarWrapper) {
+      return;
+    }
+    const rect = this.sidebarWrapper.getBoundingClientRect();
+    const sidebarEl =
+      this.sidebarWrapper.querySelector<HTMLElement>('.sidebar');
+    const sidebarTop = sidebarEl
+      ? parseFloat(getComputedStyle(sidebarEl).top) || 0
+      : 0;
+    const top = Math.max(sidebarTop, Math.round(rect.top));
+    const bottom = Math.min(window.innerHeight, Math.round(rect.bottom));
+    const availableHeight = Math.max(0, bottom - top);
+    this.style.setProperty('--sidebar-height', `${availableHeight}px`);
+  }
 
   static override get styles() {
     return [

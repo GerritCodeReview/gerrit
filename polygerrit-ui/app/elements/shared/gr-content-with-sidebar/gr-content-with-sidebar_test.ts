@@ -97,4 +97,83 @@ suite('gr-content-with-sidebar tests', () => {
       `
     );
   });
+
+  test('updateSidebarHeight sets --sidebar-height based on viewport position', async () => {
+    element.hideSide = false;
+    element.style.setProperty('--sidebar-top', '80px');
+    await element.updateComplete;
+
+    const wrapper = element.sidebarWrapper!;
+    sinon.stub(wrapper, 'getBoundingClientRect').returns({
+      top: 80,
+      bottom: 800,
+      left: 400,
+      right: 800,
+      width: 400,
+      height: 720,
+      x: 400,
+      y: 80,
+      toJSON: () => {},
+    });
+
+    element.updateSidebarHeight();
+
+    const sidebarHeight = element.style.getPropertyValue('--sidebar-height');
+    assert.isTrue(sidebarHeight.endsWith('px'));
+    const heightVal = parseFloat(sidebarHeight);
+    assert.isAbove(heightVal, 0);
+  });
+
+  test('updateSidebarHeight clamps to available viewport height when top offset exceeds sidebar-top', async () => {
+    element.hideSide = false;
+    element.style.setProperty('--sidebar-top', '80px');
+    await element.updateComplete;
+
+    const wrapper = element.sidebarWrapper!;
+    sinon.stub(wrapper, 'getBoundingClientRect').returns({
+      top: 120, // 80px + 40px banner
+      bottom: window.innerHeight + 500,
+      left: 400,
+      right: 800,
+      width: 400,
+      height: 480,
+      x: 400,
+      y: 120,
+      toJSON: () => {},
+    });
+
+    element.updateSidebarHeight();
+
+    const expectedHeight = `${window.innerHeight - 120}px`;
+    assert.equal(
+      element.style.getPropertyValue('--sidebar-height'),
+      expectedHeight
+    );
+  });
+
+  test('updateSidebarHeight clamps to container bottom when near bottom of page', async () => {
+    element.hideSide = false;
+    element.style.setProperty('--sidebar-top', '80px');
+    await element.updateComplete;
+
+    const wrapper = element.sidebarWrapper!;
+    sinon.stub(wrapper, 'getBoundingClientRect').returns({
+      top: 20, // scrolled past 80px
+      bottom: 400, // wrapper ends at 400px, comfortably within any test window
+      left: 400,
+      right: 800,
+      width: 400,
+      height: 380,
+      x: 400,
+      y: 20,
+      toJSON: () => {},
+    });
+
+    element.updateSidebarHeight();
+
+    // topInViewport is clamped to resolvedSidebarTop (80px).
+    // bottomInViewport is clamped to rect.bottom (400px).
+    // Available height = 400 - 80 = 320px.
+    assert.equal(element.style.getPropertyValue('--sidebar-height'), '320px');
+  });
 });

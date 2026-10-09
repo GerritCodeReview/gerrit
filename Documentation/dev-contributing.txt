@@ -112,6 +112,64 @@ A new feature or API extension, even if small, can incur a long-time
 maintenance and support burden and should be left pending for 24 hours
 to give maintainers in all time zones a chance to evaluate the change.
 
+[[ai-contributions]]
+=== Artificial Intelligence (AI) Contributions
+
+As AI-assisted development tools become increasingly prevalent, we
+recognize the productivity benefits they offer our contributors. However,
+to protect the integrity, security, and legal standing of the
+Gerrit Code Review project, any use of generative AI in your contributions
+keeps on being subject to the Google CLA.
+
+==== Human Authorship is Mandatory
+
+Authorship of a commit must exclusively belong to a human contributor.
+We explicitly reject any assignment of authorship, co-authorship, or
+attribution (e.g., `Author:` or `Co-Authored-By:` git trailers) to an
+AI model, bot, or generative tool. The human submitting the change is the
+sole recognized responsible author of the code.
+
+==== Prohibition of Autonomous Submissions
+
+We explicitly reject fully autonomous AI contributions. Any bots, agents,
+or scripts designed to automatically generate, push code, and propose code
+reviews without active human supervision and validation are strictly
+prohibited, with the exception of running the CI/CD validation jobs and
+performing the Gerrit releases done by scripts that are developed
+with the intent of managing the code maintenance and error detection.
+Every patch set must be actively curated, contextually evaluated, and
+manually submitted by a human developer.
+
+==== Total Assumption of Responsibility
+
+By submitting a patch set to Gerrit, the author and the signer of the
+Google Contributor License Agreement (CLA) assume *total and unconditional
+liability and responsibility* for the entirety of the contribution.
+This applies equally to code written manually and code generated,
+suggested, or modified by an AI tool.
+
+==== Comprehension and Accountability
+
+You must possess a total and complete understanding of the code you are
+submitting. If you cannot confidently explain how the AI-generated code
+works, maintain it, debug it, or address reviewer feedback regarding its
+architecture and security, it must not be submitted. Relying on AI is not
+an acceptable defense for introducing regressions, security
+vulnerabilities, or anti-patterns.
+
+==== DCO and CLA Compliance for Generated Code
+
+All AI-assisted contributions remain firmly bound by the Developer
+Certificate of Origin (DCO) and the Google CLA. By signing off on your
+commits, you certify that:
+
+. You have the legal right to submit the code under the project's
+  open-source license.
+. The AI tools utilized do not infringe on third-party copyrights.
+. The generation process has not injected legally encumbered, proprietary,
+  or copyleft-restricted code into the Gerrit codebase which is violation
+  of the Google CLA.
+
 [[design-driven-contribution-process]]
 === Design-driven Contribution Process
 

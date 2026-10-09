@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "877832e9_5a6695fe",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1030207
+      },
+      "writtenOn": "2026-10-09T16:55:43Z",
+      "side": 1,
+      "message": "Please fix this WARNING reported by gerrit-hygiene-operations: [gerrit-hygiene-operations] The commit message is missing a mandatory `Release-N...\n\n[gerrit-hygiene-operations] The commit message is missing a mandatory `Release-Notes:` footer. Automated CI/CD pipelines require this footer to parse and generate accurate changelogs.\n\n**Suggestion**\n\nPlease append a `Release-Notes:` footer to your commit message. Since this is a test fix, `Release-Notes: skip` is perfectly acceptable.\n\n```\nChange-Id: Ie4f9a16707b3768f2b191079795dfab0d1e9119d\nRelease-Notes: skip\n```\n\n**Reference**\n\nT6-01: Mandatory Release-Notes Footer Injection",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 0
+      },
+      "revId": "402f8f4576fb8c5539080857f435707a77180da4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

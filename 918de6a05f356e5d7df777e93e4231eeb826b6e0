@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "25759199_ce9bbffd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-09T15:06:41Z",
+      "side": 1,
+      "message": "@milutin@google.com, could you reapply the LC +1 to this change, please? Thanks! 🙏",
+      "revId": "918de6a05f356e5d7df777e93e4231eeb826b6e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

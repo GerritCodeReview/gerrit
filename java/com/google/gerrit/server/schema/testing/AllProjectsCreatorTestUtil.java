@@ -70,6 +70,7 @@ public class AllProjectsCreatorTestUtil {
         "  create = group Project Owners",
         "  editTopicName = +force group Administrators",
         "  editTopicName = +force group Project Owners",
+        "  aiReview = group Registered Users",
         "  forgeAuthor = group " + usersGroupName,
         "  forgeCommitter = group Administrators",
         "  forgeCommitter = group Project Owners",

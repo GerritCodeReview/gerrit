@@ -14,11 +14,8 @@
 
 package com.google.gerrit.httpd.raw;
 
-import static com.google.gerrit.server.experiments.ExperimentFeaturesConstants.GERRIT_BACKEND_FEATURE_ATTACH_NONCE_TO_DOCUMENTATION;
-
 import com.google.common.cache.Cache;
 import com.google.gerrit.httpd.HtmlDomUtil;
-import com.google.gerrit.server.experiments.ExperimentFeatures;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.Optional;
@@ -28,19 +25,15 @@ import javax.servlet.http.HttpServletResponse;
 abstract class DocServlet extends ResourceServlet {
   private static final long serialVersionUID = 1L;
 
-  private final ExperimentFeatures experimentFeatures;
-
-  DocServlet(Cache<Path, Resource> cache, boolean refresh, ExperimentFeatures experimentFeatures) {
+  DocServlet(Cache<Path, Resource> cache, boolean refresh) {
     super(cache, refresh);
-    this.experimentFeatures = experimentFeatures;
   }
 
   @Override
   protected boolean shouldProcessResourceBeforeServe(
       HttpServletRequest req, HttpServletResponse rsp, Path p) {
     String nonce = (String) req.getAttribute("nonce");
-    if (!experimentFeatures.isFeatureEnabled(GERRIT_BACKEND_FEATURE_ATTACH_NONCE_TO_DOCUMENTATION)
-        || nonce == null) {
+    if (nonce == null) {
       return false;
     }
     return ResourceServlet.contentType(p.toString()).equals("text/html");

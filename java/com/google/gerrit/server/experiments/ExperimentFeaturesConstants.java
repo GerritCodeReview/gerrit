@@ -19,10 +19,6 @@ import com.google.common.collect.ImmutableSet;
 /** Constants for Gerrit {@link ExperimentFeatures} */
 public class ExperimentFeaturesConstants {
 
-  /** Features that are known experiments and can be referenced in the code. */
-  public static String GERRIT_BACKEND_FEATURE_ATTACH_NONCE_TO_DOCUMENTATION =
-      "GerritBackendFeature__attach_nonce_to_documentation";
-
   /** Features, enabled by default in the current release. */
   public static final ImmutableSet<String> DEFAULT_ENABLED_FEATURES = ImmutableSet.of();
 

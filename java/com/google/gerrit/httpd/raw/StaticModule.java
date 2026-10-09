@@ -144,13 +144,12 @@ public class StaticModule extends ServletModule {
   @Provides
   @Singleton
   @Named(DOC_SERVLET)
-  HttpServlet getDocServlet(
-      @Named(CACHE) Cache<Path, Resource> cache, ExperimentFeatures experimentFeatures) {
+  HttpServlet getDocServlet(@Named(CACHE) Cache<Path, Resource> cache) {
     Paths p = getPaths();
     if (p.warFs != null) {
-      return new WarDocServlet(cache, p.warFs, experimentFeatures);
+      return new WarDocServlet(cache, p.warFs);
     } else if (p.unpackedWar != null && !p.isDev()) {
-      return new DirectoryDocServlet(cache, p.unpackedWar, experimentFeatures);
+      return new DirectoryDocServlet(cache, p.unpackedWar);
     } else {
       return new HttpServlet() {
         private static final long serialVersionUID = 1L;

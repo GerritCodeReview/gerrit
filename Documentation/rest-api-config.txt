@@ -941,7 +941,7 @@ The entries in the map are sorted by experiment name.
     "GerritBackendFeature__allow_fix_suggestions_in_comments": {
       "enabled": false
     },
-    "GerritBackendFeature__attach_nonce_to_documentation": {
+    "GerritBackendFeature__skip_submit_records_without_submit_requirements": {
       "enabled": true
     }
   }
@@ -2119,7 +2119,7 @@ Administrate Server] global capability.
 
 .Request
 ----
-  GET /config/server/experiments/mGerritBackendFeature__attach_nonce_to_documentation HTTP/1.0
+  GET /config/server/experiments/GerritBackendFeature__allow_fix_suggestions_in_comments HTTP/1.0
 ----
 
 As response an link:#experiment-info[Experiment] entity is returned that

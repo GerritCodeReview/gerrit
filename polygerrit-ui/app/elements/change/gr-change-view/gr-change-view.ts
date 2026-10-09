@@ -856,9 +856,8 @@ export class GrChangeView extends LitElement {
       css`
         :host {
           --sidebar-top: calc(
-            var(--main-header-height) + var(--change-header-height, 38px)
+            var(--main-header-height, 0px) + var(--change-header-height, 38px)
           );
-          --sidebar-bottom-overflow: var(--main-footer-height);
         }
         .tabs {
           display: flex;

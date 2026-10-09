@@ -575,7 +575,7 @@ export class GrDiffView extends LitElement {
           display: block;
           background-color: var(--view-background-color);
           --sidebar-top: calc(
-            var(--main-header-height) + var(--diff-header-height, 80px)
+            var(--main-header-height, 0px) + var(--diff-header-height, 80px)
           );
         }
         .hidden {

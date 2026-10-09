@@ -54,6 +54,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ead23634_5663b3c9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-09T12:09:17Z",
+      "side": 1,
+      "message": "These guidelines are becoming very urgent as we see OpenAI as the author of some of the Gerrit changes being now released on Gerrit v3.15:\nhttps://tinyurl.com/mrxbe5xz",
+      "revId": "fb5c817ba6b48cc873eee25fc3c0cb6406b4f3c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3d26dafb_77a3eaaa",

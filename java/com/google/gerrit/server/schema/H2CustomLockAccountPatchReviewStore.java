@@ -129,6 +129,7 @@ abstract class H2CustomLockAccountPatchReviewStore extends H2AccountPatchReviewS
               wait(waitMs);
               backoffMs = Math.min(backoffMs * 2, MAX_BACKOFF_MS);
             } catch (InterruptedException | RuntimeException e) {
+              waiting.remove(thread);
               unlock(thread);
               throw e;
             }
@@ -142,7 +143,11 @@ abstract class H2CustomLockAccountPatchReviewStore extends H2AccountPatchReviewS
       }
 
       private void unlock(Thread thread) {
-        acquired.remove(thread);
+        if (!acquired.remove(thread)) {
+          // Not a holder (a waiter that gave up)
+          notifyAll();
+          return;
+        }
         try {
           if (acquired.isEmpty()) {
             raw.unlock();

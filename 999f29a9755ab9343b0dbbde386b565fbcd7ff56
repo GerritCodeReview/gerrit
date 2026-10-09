@@ -34,6 +34,24 @@
       "parentUuid": "b984f223_b3d18c2f",
       "revId": "999f29a9755ab9343b0dbbde386b565fbcd7ff56",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "305b5e3d_0b28cd2a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2026-10-09T09:25:19Z",
+      "side": 1,
+      "message": "OK, then I misunderstood the intention: I thought that you want to break the anti-pattern where commit validators perform or even orchestrate any permission checks. But, as you point out, that would be a much larger change.",
+      "parentUuid": "61c365b8_d66e4d3d",
+      "revId": "999f29a9755ab9343b0dbbde386b565fbcd7ff56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

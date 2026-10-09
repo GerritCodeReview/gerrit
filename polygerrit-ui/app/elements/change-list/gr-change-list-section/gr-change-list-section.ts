@@ -124,65 +124,6 @@ export class GrChangeListSection extends LitElement {
 
   private isLoggedIn = false;
 
-  @state()
-  private narrowLabelCapacity = Infinity;
-
-  @state()
-  private narrowScreen = window.matchMedia('(max-width: 50em)').matches;
-
-  private labelResizeObserver?: ResizeObserver;
-
-  private labelResizeFrame = 0;
-
-  override connectedCallback() {
-    super.connectedCallback();
-    this.updateComplete.then(() => {
-      if (!this.isConnected) return;
-      const list = (this.getRootNode() as ShadowRoot).host;
-      if (!(list instanceof HTMLElement)) return;
-      this.labelResizeObserver = new ResizeObserver(() => {
-        // Match the row padding, 24px slots and 2px gaps on narrow screens.
-        const capacity = Math.max(
-          1,
-          Math.floor((list.clientWidth - 24 + 2) / 26)
-        );
-        const narrowScreen = window.matchMedia('(max-width: 50em)').matches;
-        if (
-          capacity === this.narrowLabelCapacity &&
-          narrowScreen === this.narrowScreen
-        )
-          return;
-        cancelAnimationFrame(this.labelResizeFrame);
-        this.labelResizeFrame = requestAnimationFrame(() => {
-          this.narrowLabelCapacity = capacity;
-          this.narrowScreen = narrowScreen;
-        });
-      });
-      this.labelResizeObserver.observe(list);
-    });
-  }
-
-  override disconnectedCallback() {
-    this.labelResizeObserver?.disconnect();
-    cancelAnimationFrame(this.labelResizeFrame);
-    super.disconnectedCallback();
-  }
-
-  private get narrowLabels() {
-    const labels = [...(this.labelNames ?? [])];
-    if (!this.narrowScreen) return labels;
-    const priority = ['Code-Review', 'Verified'];
-    labels.sort((a, b) => {
-      const rank = (name: string) => {
-        const index = priority.indexOf(name);
-        return index < 0 ? priority.length : index;
-      };
-      return rank(a) - rank(b);
-    });
-    const capacity = this.narrowLabelCapacity;
-    return labels.slice(0, labels.length > capacity ? capacity - 1 : capacity);
-  }
-
   static override get styles() {
     return [
       sharedStyles,
@@ -232,33 +173,6 @@ export class GrChangeListSection extends LitElement {
         }
         .selection:has(.loadingSpin):not(:has(md-checkbox)) {
           padding-right: 4px !important;
-        }
-        .labelOverflow {
-          display: none;
-        }
-        @media only screen and (max-width: 50em) {
-          .groupTitle.narrowVotes {
-            display: flex;
-            justify-content: flex-end;
-            gap: var(--spacing-s);
-            padding: var(--spacing-xs) var(--spacing-m);
-            font-size: var(--font-size-small);
-          }
-          .groupTitle .labelOverflow {
-            display: block;
-          }
-          .groupTitle td:not(.label) {
-            display: none;
-          }
-          .groupTitle td.label.narrowHidden {
-            display: none;
-          }
-          .groupTitle td.label {
-            flex: 0 0 24px;
-            width: 24px;
-            padding: 0;
-            border: none;
-          }
         }
       `,
     ];
@@ -376,8 +290,6 @@ export class GrChangeListSection extends LitElement {
       <tr
         class=${classMap({
           groupTitle: true,
-          narrowVotes:
-            !showBulkActionsHeader && (this.labelNames?.length ?? 0) > 0,
           showSelectionBorder: showBulkActionsHeader,
         })}
       >
@@ -395,17 +307,6 @@ export class GrChangeListSection extends LitElement {
               ${this.labelNames?.map(labelName =>
                 this.renderLabelHeader(labelName)
               )}
-              ${this.labelNames?.length > this.narrowLabels.length
-                ? html`<td
-                    class="label labelOverflow"
-                    title=${this.labelNames
-                      .filter(name => !this.narrowLabels.includes(name))
-                      .join(', ')}
-                    style="order: ${this.narrowLabels.length}"
-                  >
-                    …
-                  </td>`
-                : ''}
               ${this.dynamicHeaderEndpoints?.map(pluginHeader =>
                 this.renderEndpointHeader(pluginHeader)
               )}`}
@@ -444,13 +345,7 @@ export class GrChangeListSection extends LitElement {
 
   private renderLabelHeader(labelName: string) {
     return html`
-      <td
-        class="label ${this.narrowLabels.includes(labelName)
-          ? ''
-          : 'narrowHidden'}"
-        title=${labelName}
-        style="order: ${this.narrowLabels.indexOf(labelName)}"
-      >
+      <td class="label" title=${labelName}>
         ${computeLabelShortcut(labelName)}
       </td>
     `;
@@ -484,7 +379,6 @@ export class GrChangeListSection extends LitElement {
         .showNumber=${!!this.showNumber}
         .usp=${this.usp}
         .labelNames=${this.labelNames}
-        .narrowLabels=${this.narrowLabels}
         .globalIndex=${this.startIndex + index}
         .triggerSelectionCallback=${this.triggerSelectionCallback}
         aria-label=${ariaLabel}

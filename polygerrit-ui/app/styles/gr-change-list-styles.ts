@@ -39,7 +39,7 @@ export const changeListStyles = css`
     vertical-align: middle;
   }
   .groupTitle td:not(.label):not(.endpoint):not(.star),
-  .cell:not(.label):not(.endpoint):not(.star):not(.votes) {
+  .cell:not(.label):not(.endpoint):not(.star) {
     padding-right: 8px;
   }
   .groupTitle td {
@@ -185,6 +185,7 @@ export const changeListStyles = css`
     .leftPadding,
     .selection,
     .status,
+    .repo,
     .branch,
     .hashtags,
     .updated,

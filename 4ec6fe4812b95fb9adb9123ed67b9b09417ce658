@@ -84,6 +84,23 @@
       "message": "BLOCKBLOCK",
       "revId": "4ec6fe4812b95fb9adb9123ed67b9b09417ce658",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4ac59e2_a1c9b788",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5112818
+      },
+      "writtenOn": "2026-10-09T06:26:23Z",
+      "side": 1,
+      "message": "git clone https://gerrit.googlesource.com/gitiles",
+      "revId": "4ec6fe4812b95fb9adb9123ed67b9b09417ce658",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

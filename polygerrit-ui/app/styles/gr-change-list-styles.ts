@@ -39,7 +39,7 @@ export const changeListStyles = css`
     vertical-align: middle;
   }
   .groupTitle td:not(.label):not(.endpoint):not(.star),
-  .cell:not(.label):not(.endpoint):not(.star):not(.votes) {
+  .cell:not(.label):not(.endpoint):not(.star) {
     padding-right: 8px;
   }
   .groupTitle td {
@@ -158,7 +158,7 @@ export const changeListStyles = css`
     }
     gr-change-list-item {
       flex-wrap: wrap;
-      justify-content: flex-start;
+      justify-content: space-between;
       padding: var(--spacing-xs) var(--spacing-m);
       border-top: 1px solid var(--border-color);
     }
@@ -185,12 +185,13 @@ export const changeListStyles = css`
     .leftPadding,
     .selection,
     .status,
+    .repo,
     .branch,
     .hashtags,
     .updated,
     .submitted,
     .waiting,
-    .size,
+    .label,
     .groupHeader .star,
     .noChanges .star {
       display: none;
@@ -203,7 +204,8 @@ export const changeListStyles = css`
       margin-bottom: var(--spacing-xs);
       width: calc(100% - 2em);
     }
-    .owner {
+    .owner,
+    .size {
       max-width: none;
     }
     .noChanges .cell {

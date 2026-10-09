@@ -107,7 +107,7 @@ public class AllUsersRepositoryProviderTest {
 
   private static class TrackingRepositoryManager extends LocalDiskRepositoryManager {
     private TrackingRepository openedRepository;
-    private Consumer<TrackingRepository> onOpen = repo -> {};
+    private volatile Consumer<TrackingRepository> onOpen = repo -> {};
 
     TrackingRepositoryManager(SitePaths site, Config cfg) {
       super(site, cfg);

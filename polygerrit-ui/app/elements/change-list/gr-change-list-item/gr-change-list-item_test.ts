@@ -429,33 +429,6 @@ suite('gr-change-list-item tests', () => {
     assert.equal(setUrlStub.lastCall.firstArg, '/c/a/test/repo/+/42');
   });
 
-  test('narrow rows show the number and respect hidden repo', async () => {
-    await setViewport({width: 390, height: 900});
-    await waitUntil(() => !!query(element, '.change-header'));
-    element.change = change;
-    element.showNumber = false;
-    element.visibleChangeTableColumns = [
-      ColumnNames.SUBJECT,
-      ColumnNames.OWNER,
-    ];
-    await element.updateComplete;
-
-    assert.equal(
-      queryAndAssert(element, '.change-header .number').textContent?.trim(),
-      '42'
-    );
-    assert.isNotOk(query(element, '.repo'));
-    assert.isOk(query(element, '.change-subject .subject'));
-    assert.isOk(query(element, '.change-metadata .owner'));
-    assert.isOk(query(element, '.change-metadata .votes'));
-
-    await setViewport({width: 1000, height: 900});
-    await waitUntil(() => !query(element, '.change-header'));
-    assert.isNotOk(query(element, '.change-subject'));
-    assert.isNotOk(query(element, '.number'));
-    assert.isOk(query(element, '.subject'));
-  });
-
   test('renders', async () => {
     await setViewport({width: 1000, height: 900});
     await waitUntil(() => !element.shadowRoot!.querySelector('.change-header'));

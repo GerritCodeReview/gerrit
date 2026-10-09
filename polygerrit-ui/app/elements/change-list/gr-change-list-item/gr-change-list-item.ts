@@ -48,7 +48,6 @@ import {configModelToken} from '../../../models/config/config-model';
 import {formStyles} from '../../../styles/form-styles';
 import '@material/web/checkbox/checkbox';
 import {materialStyles} from '../../../styles/gr-material-styles';
-import {getChangeListLabels} from '../../../utils/label-util';
 
 enum ChangeSize {
   XS = 10,
@@ -364,7 +363,6 @@ export class GrChangeListItem extends LitElement {
             display: flex;
           }
           .change-header,
-          .change-subject,
           .change-metadata {
             display: flex;
             align-items: center;
@@ -373,26 +371,17 @@ export class GrChangeListItem extends LitElement {
             gap: var(--spacing-m);
           }
           .change-header {
-            color: var(--deemphasized-text-color);
-            font-size: var(--font-size-small);
-            font-weight: var(--font-weight-normal);
-            line-height: var(--line-height-small);
+            align-items: baseline;
           }
           .change-metadata {
             flex-wrap: wrap;
-            column-gap: var(--spacing-l);
           }
           .cell.star,
           .cell.number {
             flex: none;
           }
-          .owner,
-          .reviewers {
-            font-size: var(--font-size-small);
-            font-weight: var(--font-weight-normal);
-            line-height: var(--line-height-small);
-            --account-label-text-color: var(--deemphasized-text-color);
-            --account-label-attention-font-weight: var(--font-weight-medium);
+          .cell.number {
+            order: 1;
           }
           .cell.subject {
             flex: 1;
@@ -421,7 +410,7 @@ export class GrChangeListItem extends LitElement {
             max-width: 100%;
           }
           .repo {
-            flex: 0 1 auto;
+            flex: 1 0 6rem;
             min-width: 0;
             max-width: 100%;
           }
@@ -441,8 +430,8 @@ export class GrChangeListItem extends LitElement {
             margin-left: auto;
             max-width: 100%;
             gap: var(--spacing-s);
-            flex-wrap: wrap;
           }
+          /* Keep absent labels in their slots, so columns stay aligned. */
           .cell.label.narrowHidden {
             display: none;
           }
@@ -451,20 +440,13 @@ export class GrChangeListItem extends LitElement {
             justify-content: center;
           }
           .cell.label {
-            flex: 0 0 auto;
-            width: auto;
+            flex: 0 0 24px;
+            width: 24px;
             min-height: 24px;
           }
         }
       `,
     ];
-  }
-
-  private get applicableLabels() {
-    const applicableLabels = getChangeListLabels(this.change);
-    return (this.labelNames ?? []).filter(name =>
-      applicableLabels.includes(name)
-    );
   }
 
   override render() {
@@ -493,25 +475,24 @@ export class GrChangeListItem extends LitElement {
       ${this.renderCellSelectionBox()}
       <div class="change-header">
         ${this.renderCellStar()} ${this.renderCellNumber(changeUrl)}
-        ${this.renderCellRepo()}
+        ${this.renderCellSubject(changeUrl)}
       </div>
-      <div class="change-subject">${this.renderCellSubject(changeUrl)}</div>
       <div class="change-metadata">
         ${this.renderCellOwner()} ${this.renderCellReviewers()}
-        ${this.renderCellBranch()} ${this.renderCellHashtags()}
-        ${this.renderCellUpdated()} ${this.renderCellSubmitted()}
-        ${this.renderCellWaiting()} ${this.renderCellSize()}
-        ${this.renderCellRequirements()}
+        ${this.renderCellRepo()} ${this.renderCellBranch()}
+        ${this.renderCellHashtags()} ${this.renderCellUpdated()}
+        ${this.renderCellSubmitted()} ${this.renderCellWaiting()}
+        ${this.renderCellSize()} ${this.renderCellRequirements()}
         <div class="cell votes">
-          ${this.applicableLabels.map(labelName =>
+          ${this.labelNames?.map(labelName =>
             this.renderChangeLabels(labelName)
           )}
           ${this.narrowLabels &&
-          this.applicableLabels.length > this.narrowLabels.length
+          (this.labelNames?.length ?? 0) > this.narrowLabels.length
             ? html`<td
                 class="cell label labelOverflow"
-                title=${this.applicableLabels
-                  .filter(name => !this.narrowLabels!.includes(name))
+                title=${this.labelNames
+                  ?.filter(name => !this.narrowLabels!.includes(name))
                   .join(', ') ?? ''}
                 style="order: ${this.narrowLabels.length}"
               >
@@ -555,7 +536,7 @@ export class GrChangeListItem extends LitElement {
   }
 
   private renderCellNumber(changeUrl: string) {
-    if (!this.showNumber && !this.narrowScreen) return;
+    if (!this.showNumber) return;
 
     return html`
       <td class="cell number">
@@ -789,7 +770,6 @@ export class GrChangeListItem extends LitElement {
     >
       <gr-change-list-column-requirement
         .change=${this.change}
-        .compact=${this.narrowScreen}
         .labelName=${labelName}
       >
       </gr-change-list-column-requirement>

@@ -18,17 +18,29 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.deny;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.permissionKey;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.extensions.common.ActionInfo;
+import com.google.gerrit.server.experiments.ExperimentFeaturesConstants;
 import com.google.inject.Inject;
 import java.util.Map;
 import org.junit.Test;
 
+/**
+ * Tests for the {@code aiReview} change action.
+ *
+ * <p>The action uses an inverted visibility convention: it is emitted only when aiReview is
+ * <em>denied</em> (present, with {@code enabled=false}); when the user is permitted the action is
+ * <em>absent</em>, which the frontend treats as allowed. So throughout these tests {@code
+ * doesNotContainKey(AI_REVIEW)} asserts "allowed" and a present entry with {@code enabled=false}
+ * asserts "denied".
+ */
 public class AiReviewPermissionIT extends AbstractDaemonTest {
 
   private static final String AI_REVIEW = "aiReview";
@@ -40,15 +52,36 @@ public class AiReviewPermissionIT extends AbstractDaemonTest {
   public void aiReviewActionAbsentByDefault() throws Exception {
     String changeId = createChange().getChangeId();
 
+    // All-Projects seeds an explicit grant for Registered Users on
+    // refs/heads/*, so a registered caller is permitted and the action is
+    // absent (allowed).
     Map<String, ActionInfo> actions = gApi.changes().id(changeId).current().actions();
 
     assertThat(actions).doesNotContainKey(AI_REVIEW);
   }
 
   @Test
-  public void aiReviewActionDisabledWhenUserNotInGrantedGroup() throws Exception {
+  public void aiReviewActionDisabledWhenSeededGrantRemoved() throws Exception {
     String changeId = createChange().getChangeId();
 
+    // Without the seeded grant the registered caller is denied, so the action
+    // is present with enabled=false (see the class comment on the inverted
+    // absent=allowed / present+disabled=denied convention).
+    removeSeededAiReviewGrant();
+
+    requestScopeOperations.setApiUser(user.id());
+    Map<String, ActionInfo> actions = gApi.changes().id(changeId).current().actions();
+
+    assertThat(actions.get(AI_REVIEW).enabled).isFalse();
+  }
+
+  @Test
+  public void aiReviewActionDisabledWhenNotInGrantedGroup() throws Exception {
+    String changeId = createChange().getChangeId();
+
+    // Drop the seeded grant, then grant only the admin group: a non-admin
+    // registered user is not covered by any ALLOW rule and is denied.
+    removeSeededAiReviewGrant();
     projectOperations
         .project(project)
         .forUpdate()
@@ -177,13 +210,15 @@ public class AiReviewPermissionIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void aiReviewActionDisabledForAdminWhenAdminGroupDenied() throws Exception {
+  public void aiReviewActionDisabledForAdminWhenAdminGroupBlocked() throws Exception {
     String changeId = createChange().getChangeId();
 
+    // Admins are not exempt: a BLOCK on the admin group overrides the seeded
+    // grant (a bare DENY would only cancel an ALLOW for the same group).
     projectOperations
         .project(project)
         .forUpdate()
-        .add(deny(Permission.AI_REVIEW).ref("refs/heads/*").group(adminGroupUuid()))
+        .add(block(Permission.AI_REVIEW).ref("refs/heads/*").group(adminGroupUuid()))
         .update();
 
     requestScopeOperations.setApiUser(admin.id());
@@ -206,5 +241,53 @@ public class AiReviewPermissionIT extends AbstractDaemonTest {
     Map<String, ActionInfo> actions = gApi.changes().id(changeId).current().actions();
 
     assertThat(actions.get(AI_REVIEW).enabled).isFalse();
+  }
+
+  @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      value = ExperimentFeaturesConstants.ALLOW_AI_REVIEW_FOR_REGISTERED_USERS)
+  public void aiReviewBlockIgnoredWhenExperimentEnabled() throws Exception {
+    String changeId = createChange().getChangeId();
+
+    // A BLOCK would normally deny even against an ALLOW, but the experiment is an
+    // unconditional override for identified users: the block is ignored and the
+    // action stays absent (allowed).
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.AI_REVIEW).ref("refs/heads/*").group(REGISTERED_USERS))
+        .update();
+
+    requestScopeOperations.setApiUser(user.id());
+    Map<String, ActionInfo> actions = gApi.changes().id(changeId).current().actions();
+
+    assertThat(actions).doesNotContainKey(AI_REVIEW);
+  }
+
+  @Test
+  @GerritConfig(
+      name = "experiments.enabled",
+      value = ExperimentFeaturesConstants.ALLOW_AI_REVIEW_FOR_REGISTERED_USERS)
+  public void aiReviewActionAbsentForRegisteredUserWhenExperimentEnabledAndNoGrant()
+      throws Exception {
+    String changeId = createChange().getChangeId();
+
+    // Remove the seeded grant: default-deny would deny, but the experiment lets
+    // identified users pass without any rule, so the action is absent (allowed).
+    removeSeededAiReviewGrant();
+
+    requestScopeOperations.setApiUser(user.id());
+    Map<String, ActionInfo> actions = gApi.changes().id(changeId).current().actions();
+
+    assertThat(actions).doesNotContainKey(AI_REVIEW);
+  }
+
+  private void removeSeededAiReviewGrant() throws Exception {
+    projectOperations
+        .project(allProjects)
+        .forUpdate()
+        .remove(permissionKey(Permission.AI_REVIEW).ref("refs/heads/*"))
+        .update();
   }
 }

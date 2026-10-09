@@ -1,3 +1,7 @@
+# TODO(davido): On Bazel 10.x the --experimental_use_compact_object_headers
+# startup option is on by default; drop this manual host_jvm_args then.
+startup --host_jvm_args=-XX:+UseCompactObjectHeaders
+
 common --lockfile_mode=error
 # Reject transitive upgrades that change the requested direct module versions.
 common --check_direct_dependencies=error
@@ -71,6 +75,8 @@ common:remote25_bb --config=build_java25_shared
 
 common --announce_rc
 
+# TODO(davido): Remove after upgrade to JDK 27 (on by default).
+test --jvmopt=-XX:+UseCompactObjectHeaders
 test --build_tests_only
 test --test_output=errors
 

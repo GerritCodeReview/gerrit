@@ -45,4 +45,13 @@ public class ExperimentFeaturesConstants {
   /** Whether we restrict the creation of branch permissions. */
   public static final String GERRIT_BACKEND_FEATURE_RESTRICT_BRANCH_PERMISSIONS =
       "GerritBackendFeature__restrict_branch_permissions";
+
+  /**
+   * Whether registered users may use AI Review even when no explicit {@code aiReview} rule is
+   * configured. Lets sites enable the feature before adding the permission to {@code
+   * project.config}. Like all experiments, it is read at startup, so toggling it requires a server
+   * restart.
+   */
+  public static final String ALLOW_AI_REVIEW_FOR_REGISTERED_USERS =
+      "GerritBackendFeature__allow_ai_review_for_registered_users";
 }

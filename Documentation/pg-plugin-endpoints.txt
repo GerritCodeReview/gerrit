@@ -82,6 +82,21 @@ link:rest-api-changes.html#change-info[ChangeInfo]
 current revision displayed, an instance of
 link:rest-api-changes.html#revision-info[RevisionInfo]
 
+=== chat-panel
+The `chat-panel` extension point wraps the `<chat-panel>` component in the
+change view's right-hand sidebar. Plugins can decorate or replace the default
+chat panel.
+
+* `change`
++
+current change displayed, an instance of
+link:rest-api-changes.html#change-info[ChangeInfo]
+
+* `revision`
++
+current revision displayed, an instance of
+link:rest-api-changes.html#revision-info[RevisionInfo]
+
 === change-metadata-item
 The `change-metadata-item` extension point is located on the change view
 left panel, below the `Submit Requirements` and `Links` sections by default.

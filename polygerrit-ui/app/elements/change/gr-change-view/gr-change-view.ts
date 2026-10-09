@@ -1180,6 +1180,15 @@ export class GrChangeView extends LitElement {
         .sidebar {
           height: var(--sidebar-height);
         }
+        .sidebar gr-endpoint-decorator[name='chat-panel'] {
+          display: block;
+          height: 100%;
+        }
+        .sidebar
+          gr-endpoint-decorator[name='chat-panel']
+          > :not(gr-endpoint-param) {
+          height: 100%;
+        }
       `,
     ];
   }
@@ -1262,8 +1271,18 @@ export class GrChangeView extends LitElement {
   }
 
   private renderSidebar() {
-    if (!this.showSidebarChat) return;
-    return html`<chat-panel></chat-panel>`;
+    if (!this.showSidebarChat) {
+      return nothing;
+    }
+    return html`
+      <gr-endpoint-decorator name="chat-panel">
+        <gr-endpoint-param name="change" .value=${this.change}>
+        </gr-endpoint-param>
+        <gr-endpoint-param name="revision" .value=${this.revision}>
+        </gr-endpoint-param>
+        <chat-panel></chat-panel>
+      </gr-endpoint-decorator>
+    `;
   }
 
   private renderChangeInfoSection() {
@@ -2436,7 +2455,7 @@ export class GrChangeView extends LitElement {
     const classes = ['header'];
     const status = this.computeChangeStatusChips()?.[0];
     if (status) {
-      classes.push(status.toLowerCase());
+      classes.push(status.toLowerCase().replace(/\s/g, '-'));
     }
     if (this.editMode) {
       classes.push('editMode');

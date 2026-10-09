@@ -1068,43 +1068,49 @@ assigned).
 This category controls who is able to use AI-assisted review features,
 such as the "Review Agent" and "Create AI Review Prompt" buttons.
 
-[NOTE]
-Unlike all other Gerrit permissions which use a default-deny model
-(access is denied unless an explicit 'ALLOW' rule grants it), the
-`aiReview` permission uses a *default-allow* model during the experiment
-phase. This means:
+This permission follows the standard default-deny model: access is
+granted only to users matching an `ALLOW` rule (and not blocked by a
+`DENY` or `BLOCK` rule). To match the previous opt-out behavior,
+`All-Projects` ships with an explicit grant for `Registered Users` on
+`refs/heads/*`. Sites upgrading from an earlier release receive the same
+grant automatically via schema migration when an `aiReview` rule does
+not already exist on `refs/heads/*`. Admins can revoke, scope, or
+restrict the grant like any other change-scoped permission.
 
-* When no `aiReview` rules are configured, all users have access.
-* 'DENY' and 'BLOCK' rules can be used on their own to restrict specific
-  groups, without needing to first grant 'ALLOW' to everyone else.
-* When 'ALLOW' rules are present, the permission switches to the standard
-  model: only users matching an 'ALLOW' rule have access.
-* Site administrators are subject to the same rules as other users.
-
-This non-standard behavior will be removed when the experiment ends, at
-which point `aiReview` will follow the standard default-deny model like
-all other permissions.
-
-To restrict AI review to a specific group on all branches:
+To restrict AI review to a specific group on all branches, replace the
+default grant:
 
 ----
   [access "refs/heads/*"]
     aiReview = group AI Reviewers
 ----
 
-To deny a specific group while keeping access for everyone else:
+Because the default grant is a broad `allow` for `Registered Users`, a
+`DENY` or `BLOCK` rule in the same section does not carve a subgroup out
+of it. Within one access section an `ALLOW` overrides a `BLOCK`, and a
+broad `ALLOW` still grants a user who is also matched by a narrower
+`DENY`. Every member of a subgroup such as `Restricted Users` is also a
+`Registered User`, so the following does *not* remove their access:
 
 ----
   [access "refs/heads/*"]
+    aiReview = group Registered Users
     aiReview = deny group Restricted Users
 ----
 
-To block a group across all child projects (cannot be overridden):
+To exclude a subgroup, either grant `aiReview` only to the groups that
+should have it (replacing the broad grant, as shown above), or add a
+`BLOCK` for the subgroup in a child project or another access section,
+where the inherited `ALLOW` does not override it:
 
 ----
+  child-project: project.config
   [access "refs/heads/*"]
     aiReview = block group Restricted Users
 ----
+
+A `DENY` only revokes the grant for the same group, so it cannot exclude
+a subgroup while the broad grant stands.
 
 
 [[example_roles]]

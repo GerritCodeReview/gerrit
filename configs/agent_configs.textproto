@@ -62,3 +62,15 @@ configs: {
   automatic: true
 }
 
+# Default Multi-Perspective Code Review Agent
+configs: {
+  id: "code-review-agent"
+  display_name: "Code Review Agent"
+  description: "Default multi-perspective review agent for gerrit."
+  include_filters: {
+    project: "gerrit"
+    path_regex: ".*"
+  }
+  use_default_subagents: true
+  tags: "code-review-agent"
+}

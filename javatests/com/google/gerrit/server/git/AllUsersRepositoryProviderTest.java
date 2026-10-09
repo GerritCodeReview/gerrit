@@ -114,7 +114,7 @@ public class AllUsersRepositoryProviderTest {
     }
 
     @Override
-    public Repository openRepository(NameKey name) throws RepositoryNotFoundException {
+    public synchronized Repository openRepository(NameKey name) throws RepositoryNotFoundException {
       TrackingRepository repo = new TrackingRepository(super.openRepository(name));
       openedRepository = repo;
       onOpen.accept(repo);

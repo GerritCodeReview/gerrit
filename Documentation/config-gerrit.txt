@@ -118,6 +118,9 @@ When set, no connection pool is maintained. Each operation opens a fresh
 connection, holds the lock for the duration of that operation, and closes the
 connection immediately on completion.
 +
+All Gerrit primaries sharing the database must use the same lock type. A check
+is made at startup to ensure collisions don't happen which could corrupt the db.
++
 Supported values:
 +
 --

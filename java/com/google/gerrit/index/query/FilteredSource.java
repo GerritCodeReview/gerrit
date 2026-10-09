@@ -65,6 +65,7 @@ public class FilteredSource<T> implements DataSource<T> {
           if (last != null && source instanceof Paginated) {
             // Restart source and continue if we have not filled the
             // full limit the caller wants.
+            @SuppressWarnings("unchecked")
             Paginated<T> p = (Paginated<T>) source;
             QueryOptions opts = p.getOptions();
             final int limit = opts.limit();

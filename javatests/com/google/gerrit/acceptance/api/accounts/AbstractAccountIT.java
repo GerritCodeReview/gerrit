@@ -147,7 +147,6 @@ import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.change.AccountPatchReviewStore;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.RegexAllowedGroupsProvider;
-import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.group.testing.TestGroupBackend;
 import com.google.gerrit.server.index.account.AccountIndexer;
@@ -1048,8 +1047,8 @@ public abstract class AbstractAccountIT extends AbstractDaemonTest {
             // Missing user part
             "@example.com",
 
-            // Non-supported TLD  (see tlds-alpha-by-domain.txt)
-            "new.email@example.africa");
+            // Non-supported TLD
+            "new.email@example.invalid");
     AccountIndexedCounter accountIndexedCounter = getAccountIndexedCounter();
     try (Registration registration =
         extensionRegistry.newRegistration().add(accountIndexedCounter)) {

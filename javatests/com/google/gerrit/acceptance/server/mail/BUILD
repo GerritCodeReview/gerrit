@@ -14,7 +14,10 @@ DEPS = [
         "no_windows",
         "server",
     ],
-    deps = DEPS + [":util"],
+    deps = DEPS + [
+        ":util",
+        "//lib/commons:validator",
+    ],
 ) for f in glob(
     ["*IT.java"],
     exclude = ["AbstractMailIT.java"],

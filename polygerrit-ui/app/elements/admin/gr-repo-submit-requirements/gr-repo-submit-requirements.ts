@@ -89,6 +89,8 @@ export class GrRepoSubmitRequirements extends LitElement {
   @state()
   isEditing = false;
 
+  @state() submitRequirementTemplates?: SubmitRequirementInfo[];
+
   private readonly getNavigation = resolve(this, navigationToken);
 
   private readonly restApiService = getAppContext().restApiService;
@@ -195,6 +197,24 @@ export class GrRepoSubmitRequirements extends LitElement {
     }
   }
 
+  private async fetchTemplates() {
+    if (!this.repo) return;
+    try {
+      const errFn: ErrorCallback = response => {
+        firePageError(response);
+      };
+      const templates =
+        await this.restApiService.getRepoSubmitRequirementTemplates(
+          this.repo,
+          errFn
+        );
+      this.submitRequirementTemplates = templates ?? [];
+    } catch (e) {
+      console.error('Failed to fetch submit requirement templates:', e);
+      this.submitRequirementTemplates = [];
+    }
+  }
+
   override render() {
     return html`
       <gr-list-view
@@ -287,7 +307,7 @@ export class GrRepoSubmitRequirements extends LitElement {
 
       ${this.renderCreateDialog()} ${this.renderDeleteDialog()}
       <gr-repo-submit-requirements-template-dialog
-        .repo=${this.repo}
+        .templates=${this.submitRequirementTemplates}
         @template-selected=${(
           e: CustomEvent<{template: SubmitRequirementInfo}>
         ) => this.handleTemplateSelected(e.detail.template)}
@@ -299,6 +319,7 @@ export class GrRepoSubmitRequirements extends LitElement {
     if (changedProperties.has('repo')) {
       this.getSubmitRequirements();
       this.checkProjectOwner();
+      this.fetchTemplates();
     }
   }
 
@@ -360,7 +381,7 @@ export class GrRepoSubmitRequirements extends LitElement {
   private handleSelectFromTemplateClick() {
     assertIsDefined(this.templateDialog, 'templateDialog');
     this.createDialog?.close();
-    void this.templateDialog.show();
+    this.templateDialog.show();
   }
 
   private handleTemplateSelected(template: SubmitRequirementInfo) {
@@ -468,7 +489,8 @@ export class GrRepoSubmitRequirements extends LitElement {
           </div>
           <div class="main" slot="main">
             ${when(
-              !this.isEditing,
+              !this.isEditing &&
+                (this.submitRequirementTemplates?.length ?? 0) > 0,
               () => html`
                 <div class="template-action-row">
                   <gr-button

@@ -16,43 +16,20 @@ package com.google.gerrit.acceptance.server.mail;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
-import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.apache.commons.validator.routines.DomainValidator.ArrayType.COUNTRY_CODE_RO;
+import static org.apache.commons.validator.routines.DomainValidator.ArrayType.GENERIC_RO;
+import static org.apache.commons.validator.routines.DomainValidator.ArrayType.INFRASTRUCTURE_RO;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.server.mail.send.OutgoingEmailValidator;
 import com.google.inject.Inject;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.lang.reflect.Field;
-import java.util.Locale;
-import org.junit.After;
-import org.junit.BeforeClass;
+import org.apache.commons.validator.routines.DomainValidator;
+import org.apache.commons.validator.routines.DomainValidator.ArrayType;
 import org.junit.Test;
 
 public class EmailValidatorIT extends AbstractDaemonTest {
-  private static final String UNSUPPORTED_PREFIX = "#! ";
-
   @Inject private OutgoingEmailValidator validator;
-
-  @BeforeClass
-  public static void setUpClass() throws Exception {
-    // Reset before first use, in case other tests have already run in this JVM.
-    resetDomainValidator();
-  }
-
-  @After
-  public void tearDown() throws Exception {
-    resetDomainValidator();
-  }
-
-  private static void resetDomainValidator() throws Exception {
-    Class<?> c = Class.forName("org.apache.commons.validator.routines.DomainValidator");
-    Field f = c.getDeclaredField("inUse");
-    f.setAccessible(true);
-    f.setBoolean(c, false);
-  }
 
   @Test
   @GerritConfig(name = "sendemail.allowTLD", value = "example")
@@ -72,30 +49,14 @@ public class EmailValidatorIT extends AbstractDaemonTest {
 
   @Test
   public void validateTopLevelDomains() throws Exception {
-    try (InputStream in = this.getClass().getResourceAsStream("tlds-alpha-by-domain.txt")) {
-      if (in == null) {
-        throw new Exception("TLD list not found");
-      }
-      BufferedReader r = new BufferedReader(new InputStreamReader(in, UTF_8));
-      String tld;
-      while ((tld = r.readLine()) != null) {
-        if (tld.startsWith("# ") || tld.startsWith("XN--")) {
-          // Ignore comments and non-latin domains
-          continue;
-        }
-        if (tld.startsWith(UNSUPPORTED_PREFIX)) {
-          String test =
-              "test@example." + tld.toLowerCase(Locale.US).substring(UNSUPPORTED_PREFIX.length());
-          assertWithMessage("expected invalid TLD \"" + test + "\"")
-              .that(validator.isValid(test))
-              .isFalse();
-        } else {
-          String test = "test@example." + tld.toLowerCase(Locale.US);
-          assertWithMessage("failed to validate TLD \"" + test + "\"")
-              .that(validator.isValid(test))
-              .isTrue();
-        }
+    for (ArrayType tldType : new ArrayType[] {INFRASTRUCTURE_RO, COUNTRY_CODE_RO, GENERIC_RO}) {
+      for (String tld : DomainValidator.getTLDEntries(tldType)) {
+        String test = "test@example." + tld;
+        assertWithMessage("failed to validate TLD \"" + test + "\"")
+            .that(validator.isValid(test))
+            .isTrue();
       }
     }
+    assertThat(validator.isValid("test@example.invalid")).isFalse();
   }
 }

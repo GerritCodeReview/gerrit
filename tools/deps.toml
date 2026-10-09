@@ -54,7 +54,7 @@ commons-lang3 = { module = "org.apache.commons:commons-lang3", version = "3.20.0
 commons-net = { module = "commons-net:commons-net", version = "3.6" }
 commons-pool = { module = "commons-pool:commons-pool", version = "1.5.5" }
 commons-text = { module = "org.apache.commons:commons-text", version = "1.15.0" }
-commons-validator = { module = "commons-validator:commons-validator", version = "1.6" }
+commons-validator = { module = "commons-validator:commons-validator", version = "1.11.0" }
 diffutils = { module = "io.github.java-diff-utils:java-diff-utils", version = "4.16" }
 failureaccess = { module = "com.google.guava:failureaccess", version = "1.0.3" }
 flexmark-all = { module = "com.vladsch.flexmark:flexmark-all", version = "0.64.0:lib" }

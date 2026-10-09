@@ -43,7 +43,6 @@ import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.server.ChangeUtil;
-import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
@@ -66,6 +65,7 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectNotifyFilterValidator;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.ReceiveCommitControl;
 import com.google.gerrit.server.query.approval.ApprovalQueryBuilder;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.inject.Inject;
@@ -126,7 +126,7 @@ public class CommitValidators {
 
   @Singleton
   public static class Factory {
-    private final PersonIdent gerritIdent;
+    private final ReceiveCommitControl receiveCommitControl;
     private final DynamicItem<UrlFormatter> urlFormatter;
     private final PluginSetContext<CommitValidationListener> pluginValidators;
     private final AllUsersName allUsers;
@@ -143,7 +143,7 @@ public class CommitValidators {
 
     @Inject
     Factory(
-        @GerritPersonIdent PersonIdent gerritIdent,
+        ReceiveCommitControl receiveCommitControl,
         DynamicItem<UrlFormatter> urlFormatter,
         @GerritServerConfig Config config,
         PluginSetContext<CommitValidationListener> pluginValidators,
@@ -157,7 +157,7 @@ public class CommitValidators {
         Metrics metrics,
         ApprovalQueryBuilder approvalQueryBuilder,
         PluginSetContext<CommitValidationInfoListener> commitValidationInfoListeners) {
-      this.gerritIdent = gerritIdent;
+      this.receiveCommitControl = receiveCommitControl;
       this.urlFormatter = urlFormatter;
       this.config = config;
       this.pluginValidators = pluginValidators;
@@ -180,19 +180,23 @@ public class CommitValidators {
         NoteMap rejectCommits,
         RevWalk rw,
         @Nullable Change change,
-        boolean skipValidation) {
+        boolean skipValidation,
+        boolean isDirectPush) {
       PermissionBackend.ForRef perm = forProject.ref(branch.branch());
+      PermissionBackend.ForRef reviewRef = forProject.ref(MagicBranch.NEW_CHANGE + branch.branch());
       ProjectState projectState =
           projectCache.get(branch.project()).orElseThrow(illegalState(branch.project()));
       ImmutableList.Builder<CommitValidationListener> validators = ImmutableList.builder();
       validators
-          .add(new UploadMergesPermissionValidator(perm))
+          .add(
+              new UploadMergesPermissionValidator(
+                  perm, reviewRef, isDirectPush, receiveCommitControl))
           .add(new ProjectStateValidationListener(projectState))
-          .add(new AmendedGerritMergeCommitValidationListener(perm, gerritIdent))
-          .add(new AuthorUploaderValidator(user, perm, urlFormatter.get()))
+          .add(new AmendedGerritMergeCommitValidationListener(perm, receiveCommitControl))
+          .add(new AuthorUploaderValidator(user, perm, urlFormatter.get(), receiveCommitControl))
           .add(new FileCountValidator(config, urlFormatter.get(), metrics.countManyFilesPerChange))
-          .add(new CommitterUploaderValidator(user, perm, urlFormatter.get()))
-          .add(new SignedOffByValidator(user, perm, projectState))
+          .add(new CommitterUploaderValidator(user, perm, urlFormatter.get(), receiveCommitControl))
+          .add(new SignedOffByValidator(user, perm, projectState, receiveCommitControl))
           .add(new ChangeIdValidator(changeUtil, projectState, urlFormatter.get(), config, change))
           .add(
               new ConfigValidator(
@@ -226,16 +230,19 @@ public class CommitValidators {
         RevWalk rw,
         @Nullable Change change) {
       PermissionBackend.ForRef perm = forProject.ref(branch.branch());
+      PermissionBackend.ForRef reviewRef = forProject.ref(MagicBranch.NEW_CHANGE + branch.branch());
       ProjectState projectState =
           projectCache.get(branch.project()).orElseThrow(illegalState(branch.project()));
       ImmutableList.Builder<CommitValidationListener> validators = ImmutableList.builder();
       validators
-          .add(new UploadMergesPermissionValidator(perm))
+          .add(
+              new UploadMergesPermissionValidator(
+                  perm, reviewRef, /* directPush= */ change == null, receiveCommitControl))
           .add(new ProjectStateValidationListener(projectState))
-          .add(new AmendedGerritMergeCommitValidationListener(perm, gerritIdent))
-          .add(new AuthorUploaderValidator(user, perm, urlFormatter.get()))
+          .add(new AmendedGerritMergeCommitValidationListener(perm, receiveCommitControl))
+          .add(new AuthorUploaderValidator(user, perm, urlFormatter.get(), receiveCommitControl))
           .add(new FileCountValidator(config, urlFormatter.get(), metrics.countManyFilesPerChange))
-          .add(new SignedOffByValidator(user, perm, projectState))
+          .add(new SignedOffByValidator(user, perm, projectState, receiveCommitControl))
           .add(new ChangeIdValidator(changeUtil, projectState, urlFormatter.get(), config, change))
           .add(
               new ConfigValidator(
@@ -277,14 +284,18 @@ public class CommitValidators {
       //  - Plugin validators may do things like require certain commit message
       //    formats, so we play it safe and exclude them.
       PermissionBackend.ForRef perm = forProject.ref(branch.branch());
+      PermissionBackend.ForRef reviewRef = forProject.ref(MagicBranch.NEW_CHANGE + branch.branch());
       ProjectState projectState =
           projectCache.get(branch.project()).orElseThrow(illegalState(branch.project()));
       ImmutableList.Builder<CommitValidationListener> validators = ImmutableList.builder();
       validators
-          .add(new UploadMergesPermissionValidator(perm))
+          .add(
+              new UploadMergesPermissionValidator(
+                  perm, reviewRef, /* directPush= */ false, receiveCommitControl))
           .add(new ProjectStateValidationListener(projectState))
-          .add(new AuthorUploaderValidator(user, perm, urlFormatter.get()))
-          .add(new CommitterUploaderValidator(user, perm, urlFormatter.get()));
+          .add(new AuthorUploaderValidator(user, perm, urlFormatter.get(), receiveCommitControl))
+          .add(
+              new CommitterUploaderValidator(user, perm, urlFormatter.get(), receiveCommitControl));
       return new CommitValidators(commitValidationInfoListeners, validators.build());
     }
 
@@ -759,23 +770,31 @@ public class CommitValidators {
 
   /** Require permission to upload merge commits. */
   public static class UploadMergesPermissionValidator implements CommitValidationListener {
-    private final PermissionBackend.ForRef perm;
+    private final PermissionBackend.ForRef destRef;
+    private final PermissionBackend.ForRef reviewRef;
+    private final boolean directPush;
+    private final ReceiveCommitControl receiveCommitControl;
 
-    public UploadMergesPermissionValidator(PermissionBackend.ForRef perm) {
-      this.perm = perm;
+    public UploadMergesPermissionValidator(
+        PermissionBackend.ForRef destRef,
+        PermissionBackend.ForRef reviewRef,
+        boolean directPush,
+        ReceiveCommitControl receiveCommitControl) {
+      this.destRef = destRef;
+      this.reviewRef = reviewRef;
+      this.directPush = directPush;
+      this.receiveCommitControl = receiveCommitControl;
     }
 
     @Override
     public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
         throws CommitValidationException {
-      if (receiveEvent.commit.getParentCount() <= 1) {
-        return Collections.emptyList();
-      }
       try {
-        if (perm.test(RefPermission.MERGE)) {
-          return Collections.emptyList();
+        if (!receiveCommitControl.canUploadMerge(
+            destRef, reviewRef, directPush, receiveEvent.commit)) {
+          throw new CommitValidationException("you are not allowed to upload merges");
         }
-        throw new CommitValidationException("you are not allowed to upload merges");
+        return Collections.emptyList();
       } catch (PermissionBackendException e) {
         logger.atSevere().withCause(e).log("cannot check MERGE");
         throw new CommitValidationException("internal auth error");
@@ -787,12 +806,17 @@ public class CommitValidators {
     private final IdentifiedUser user;
     private final PermissionBackend.ForRef perm;
     private final ProjectState state;
+    private final ReceiveCommitControl receiveCommitControl;
 
     public SignedOffByValidator(
-        IdentifiedUser user, PermissionBackend.ForRef perm, ProjectState state) {
+        IdentifiedUser user,
+        PermissionBackend.ForRef perm,
+        ProjectState state,
+        ReceiveCommitControl receiveCommitControl) {
       this.user = user;
       this.perm = perm;
       this.state = state;
+      this.receiveCommitControl = receiveCommitControl;
     }
 
     @Override
@@ -821,7 +845,7 @@ public class CommitValidators {
       }
       if (!signedOffByAuthor && !signedOffByCommitter && !signedOffByMe) {
         try {
-          if (!perm.test(RefPermission.FORGE_COMMITTER)) {
+          if (!receiveCommitControl.canForgeCommitter(perm)) {
             throw new CommitValidationException(
                 "not Signed-off-by author/committer/uploader in message footer");
           }
@@ -839,23 +863,25 @@ public class CommitValidators {
     private final IdentifiedUser user;
     private final PermissionBackend.ForRef perm;
     private final UrlFormatter urlFormatter;
+    private final ReceiveCommitControl receiveCommitControl;
 
     public AuthorUploaderValidator(
-        IdentifiedUser user, PermissionBackend.ForRef perm, UrlFormatter urlFormatter) {
+        IdentifiedUser user,
+        PermissionBackend.ForRef perm,
+        UrlFormatter urlFormatter,
+        ReceiveCommitControl receiveCommitControl) {
       this.user = user;
       this.perm = perm;
       this.urlFormatter = urlFormatter;
+      this.receiveCommitControl = receiveCommitControl;
     }
 
     @Override
     public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
         throws CommitValidationException {
       PersonIdent author = receiveEvent.commit.getAuthorIdent();
-      if (user.hasEmailAddress(author.getEmailAddress())) {
-        return Collections.emptyList();
-      }
       try {
-        if (!perm.test(RefPermission.FORGE_AUTHOR)) {
+        if (!receiveCommitControl.canForgeAuthor(perm, user, receiveEvent.commit)) {
           throw new CommitValidationException(
               "invalid author", invalidEmail("author", author, user, urlFormatter));
         }
@@ -872,23 +898,25 @@ public class CommitValidators {
     private final IdentifiedUser user;
     private final PermissionBackend.ForRef perm;
     private final UrlFormatter urlFormatter;
+    private final ReceiveCommitControl receiveCommitControl;
 
     public CommitterUploaderValidator(
-        IdentifiedUser user, PermissionBackend.ForRef perm, UrlFormatter urlFormatter) {
+        IdentifiedUser user,
+        PermissionBackend.ForRef perm,
+        UrlFormatter urlFormatter,
+        ReceiveCommitControl receiveCommitControl) {
       this.user = user;
       this.perm = perm;
       this.urlFormatter = urlFormatter;
+      this.receiveCommitControl = receiveCommitControl;
     }
 
     @Override
     public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
         throws CommitValidationException {
       PersonIdent committer = receiveEvent.commit.getCommitterIdent();
-      if (user.hasEmailAddress(committer.getEmailAddress())) {
-        return Collections.emptyList();
-      }
       try {
-        if (!perm.test(RefPermission.FORGE_COMMITTER)) {
+        if (!receiveCommitControl.canForgeCommitter(perm, user, receiveEvent.commit)) {
           throw new CommitValidationException(
               "invalid committer", invalidEmail("committer", committer, user, urlFormatter));
         }
@@ -907,36 +935,31 @@ public class CommitValidators {
   public static class AmendedGerritMergeCommitValidationListener
       implements CommitValidationListener {
     private final PermissionBackend.ForRef perm;
-    private final PersonIdent gerritIdent;
+    private final ReceiveCommitControl receiveCommitControl;
 
     public AmendedGerritMergeCommitValidationListener(
-        PermissionBackend.ForRef perm, PersonIdent gerritIdent) {
+        PermissionBackend.ForRef perm, ReceiveCommitControl receiveCommitControl) {
       this.perm = perm;
-      this.gerritIdent = gerritIdent;
+      this.receiveCommitControl = receiveCommitControl;
     }
 
     @Override
     public List<CommitValidationMessage> onCommitReceived(CommitReceivedEvent receiveEvent)
         throws CommitValidationException {
-      PersonIdent author = receiveEvent.commit.getAuthorIdent();
-      if (receiveEvent.commit.getParentCount() > 1
-          && author.getName().equals(gerritIdent.getName())
-          && author.getEmailAddress().equals(gerritIdent.getEmailAddress())) {
-        try {
-          // Stop authors from amending the merge commits that Gerrit itself creates.
-          perm.check(RefPermission.FORGE_SERVER);
-        } catch (AuthException denied) {
-          throw new CommitValidationException(
-              String.format(
-                  "pushing merge commit %s by %s requires '%s' permission",
-                  receiveEvent.commit.getId(),
-                  gerritIdent.getEmailAddress(),
-                  RefPermission.FORGE_SERVER.name()),
-              denied);
-        } catch (PermissionBackendException e) {
-          logger.atSevere().withCause(e).log("cannot check FORGE_SERVER");
-          throw new CommitValidationException("internal auth error");
-        }
+      try {
+        // Stop authors from amending the merge commits that Gerrit itself creates.
+        receiveCommitControl.checkAmendedGerritMerge(perm, receiveEvent.commit);
+      } catch (AuthException denied) {
+        throw new CommitValidationException(
+            String.format(
+                "pushing merge commit %s by %s requires '%s' permission",
+                receiveEvent.commit.getId(),
+                receiveEvent.commit.getAuthorIdent().getEmailAddress(),
+                RefPermission.FORGE_SERVER.name()),
+            denied);
+      } catch (PermissionBackendException e) {
+        logger.atSevere().withCause(e).log("cannot check FORGE_SERVER");
+        throw new CommitValidationException("internal auth error");
       }
       return Collections.emptyList();
     }

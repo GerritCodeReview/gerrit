@@ -22,6 +22,30 @@
       },
       "revId": "69d8b183177d8204ca74246fdbdd0ff381485d36",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6bc7245_890fcc77",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-09T06:14:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca753fc3_710267e8",
+      "range": {
+        "startLine": 118,
+        "startChar": 94,
+        "endLine": 118,
+        "endChar": 102
+      },
+      "revId": "69d8b183177d8204ca74246fdbdd0ff381485d36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {customElement, property, query, state} from 'lit/decorators.js';
-import {css, html, LitElement, nothing} from 'lit';
+import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {styleMap} from 'lit/directives/style-map.js';
 
 const SIDEBAR_MIN_WIDTH = 250;
@@ -38,10 +38,65 @@ export class GrContentWithSidebar extends LitElement {
 
   private sidebarResizingStartWidthPx = 0;
 
+  private cachedSidebarTop = 0;
+
   private readonly boundResizeSidebar = (e: MouseEvent) =>
     this.resizeSidebar(e);
 
   private readonly boundStopSidebarResize = () => this.stopSidebarResize();
+
+  private readonly handleScroll = () => {
+    this.updateSidebarHeight();
+  };
+
+  private readonly handleResize = () => {
+    this.updateCachedSidebarTop();
+    this.updateSidebarHeight();
+  };
+
+  private updateCachedSidebarTop() {
+    const sidebarTopStr =
+      getComputedStyle(this).getPropertyValue('--sidebar-top');
+    this.cachedSidebarTop = parseFloat(sidebarTopStr) || 0;
+  }
+
+  override connectedCallback() {
+    super.connectedCallback();
+    this.updateCachedSidebarTop();
+    window.addEventListener('scroll', this.handleScroll, {passive: true});
+    window.addEventListener('resize', this.handleResize, {passive: true});
+  }
+
+  override disconnectedCallback() {
+    window.removeEventListener('scroll', this.handleScroll);
+    window.removeEventListener('resize', this.handleResize);
+    super.disconnectedCallback();
+  }
+
+  override updated(changedProperties: PropertyValues) {
+    super.updated(changedProperties);
+    if (changedProperties.has('hideSide')) {
+      this.updateCachedSidebarTop();
+      this.updateSidebarHeight();
+    }
+  }
+
+  updateSidebarHeight() {
+    if (this.hideSide || !this.sidebarWrapper) {
+      return;
+    }
+    if (this.cachedSidebarTop === 0) {
+      this.updateCachedSidebarTop();
+    }
+    const rect = this.sidebarWrapper.getBoundingClientRect();
+    const top = Math.max(this.cachedSidebarTop, Math.round(rect.top));
+    const bottom = Math.min(window.innerHeight, Math.round(rect.bottom));
+    const availableHeight = Math.max(0, bottom - top);
+    const heightStr = `${availableHeight}px`;
+    if (this.style.getPropertyValue('--sidebar-height') !== heightStr) {
+      this.style.setProperty('--sidebar-height', heightStr);
+    }
+  }
 
   static override get styles() {
     return [

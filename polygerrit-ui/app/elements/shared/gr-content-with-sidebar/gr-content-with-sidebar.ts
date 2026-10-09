@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {customElement, property, query, state} from 'lit/decorators.js';
-import {css, html, LitElement, nothing} from 'lit';
+import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {styleMap} from 'lit/directives/style-map.js';
 
 const SIDEBAR_MIN_WIDTH = 250;
@@ -38,10 +38,82 @@ export class GrContentWithSidebar extends LitElement {
 
   private sidebarResizingStartWidthPx = 0;
 
+  private isUpdatingSidebarHeight = false;
+
   private readonly boundResizeSidebar = (e: MouseEvent) =>
     this.resizeSidebar(e);
 
   private readonly boundStopSidebarResize = () => this.stopSidebarResize();
+
+  private readonly boundUpdateSidebarHeight = () => {
+    if (this.isUpdatingSidebarHeight) return;
+    this.isUpdatingSidebarHeight = true;
+    requestAnimationFrame(() => {
+      this.isUpdatingSidebarHeight = false;
+      this.updateSidebarHeight();
+    });
+  };
+
+  override connectedCallback() {
+    super.connectedCallback();
+    const passiveOptions: AddEventListenerOptions = {passive: true};
+    window.addEventListener(
+      'scroll',
+      this.boundUpdateSidebarHeight,
+      passiveOptions
+    );
+    window.addEventListener(
+      'resize',
+      this.boundUpdateSidebarHeight,
+      passiveOptions
+    );
+  }
+
+  override disconnectedCallback() {
+    window.removeEventListener('scroll', this.boundUpdateSidebarHeight);
+    window.removeEventListener('resize', this.boundUpdateSidebarHeight);
+    super.disconnectedCallback();
+  }
+
+  override firstUpdated(changedProperties: PropertyValues) {
+    super.firstUpdated(changedProperties);
+    if (!this.hideSide) {
+      this.updateSidebarHeight();
+    }
+  }
+
+  override updated(changedProperties: PropertyValues) {
+    super.updated(changedProperties);
+    if (changedProperties.has('hideSide')) {
+      if (this.hideSide) {
+        this.style.removeProperty('--sidebar-height');
+      } else {
+        this.updateSidebarHeight();
+      }
+    }
+  }
+
+  updateSidebarHeight() {
+    if (this.hideSide || !this.sidebarWrapper) return;
+    const rect = this.sidebarWrapper.getBoundingClientRect();
+    let sidebarTop = 0;
+    const sidebarEl =
+      this.sidebarWrapper.querySelector<HTMLElement>('.sidebar');
+    if (sidebarEl) {
+      sidebarTop = parseFloat(getComputedStyle(sidebarEl).top) || 0;
+    }
+    if (!sidebarTop) {
+      sidebarTop =
+        parseFloat(getComputedStyle(this).getPropertyValue('--sidebar-top')) ||
+        0;
+    }
+    const topInViewport = Math.max(sidebarTop, rect.top);
+    const availableHeight = Math.max(
+      0,
+      Math.round(window.innerHeight - topInViewport)
+    );
+    this.style.setProperty('--sidebar-height', `${availableHeight}px`);
+  }
 
   static override get styles() {
     return [

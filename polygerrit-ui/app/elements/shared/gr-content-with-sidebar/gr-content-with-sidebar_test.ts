@@ -97,4 +97,54 @@ suite('gr-content-with-sidebar tests', () => {
       `
     );
   });
+
+  test('updateSidebarHeight sets --sidebar-height based on viewport position', async () => {
+    element.hideSide = false;
+    element.style.setProperty('--sidebar-top', '80px');
+    await element.updateComplete;
+
+    element.updateSidebarHeight();
+
+    const sidebarHeight = element.style.getPropertyValue('--sidebar-height');
+    assert.isTrue(sidebarHeight.endsWith('px'));
+    const heightVal = parseFloat(sidebarHeight);
+    assert.isAbove(heightVal, 0);
+  });
+
+  test('updateSidebarHeight clamps to available viewport height when top offset exceeds sidebar-top', async () => {
+    element.hideSide = false;
+    element.style.setProperty('--sidebar-top', '80px');
+    await element.updateComplete;
+
+    const wrapper = element.sidebarWrapper!;
+    sinon.stub(wrapper, 'getBoundingClientRect').returns({
+      top: 120, // 80px + 40px banner
+      bottom: 600,
+      left: 400,
+      right: 800,
+      width: 400,
+      height: 480,
+      x: 400,
+      y: 120,
+      toJSON: () => {},
+    });
+
+    element.updateSidebarHeight();
+
+    const expectedHeight = `${window.innerHeight - 120}px`;
+    assert.equal(
+      element.style.getPropertyValue('--sidebar-height'),
+      expectedHeight
+    );
+  });
+
+  test('cleans up --sidebar-height when hideSide becomes true', async () => {
+    element.hideSide = false;
+    await element.updateComplete;
+    assert.isNotEmpty(element.style.getPropertyValue('--sidebar-height'));
+
+    element.hideSide = true;
+    await element.updateComplete;
+    assert.isEmpty(element.style.getPropertyValue('--sidebar-height'));
+  });
 });

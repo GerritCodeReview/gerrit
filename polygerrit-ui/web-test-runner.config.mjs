@@ -14,6 +14,7 @@ function testRunnerHtmlFactory(prefix) {
     <!DOCTYPE html>
     <html>
       <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="${prefix}app/styles/main.css">
         <link rel="stylesheet" href="${prefix}app/styles/fonts.css">
         <link rel="stylesheet" href="${prefix}app/styles/material-icons.css">
@@ -57,7 +58,32 @@ function getArgValue(flag) {
 const pathPrefix = runUnderBazel ? 'polygerrit-ui/' : '';
 const testFiles = getArgValue('--test-files');
 const runScreenshots = process.argv.includes('--run-screenshots');
+<<<<<<< HEAD   (3442b70e489da9b454935fa9928a85199a352535 Merge branch 'stable-3.13' into stable-3.14)
 const rootDir = getArgValue('--root-dir') ?? `${path.resolve(process.cwd())}/`;
+||||||| BASE   (ca48ca69ded02abf763595ec8653e3ed26b1b791 Merge "Revert "Prevent overlapping hit areas in label vote r)
+// Under Bazel, module imports may resolve through runfile symlinks to
+// rules_js package stores. Both the runfiles tree and those stores are under
+// bazel-out/<config>/bin, so use that as the WTR root.
+function getBazelBinDir() {
+  const cwd = path.resolve(process.cwd()).replace(/\\/g, '/');
+  const match = cwd.match(/^(.*\/bazel-out\/[^/]+\/bin)(?:\/|$)/);
+  return `${match?.[1] ?? cwd}/`;
+}
+
+const rootDir = getArgValue('--root-dir') ?? getBazelBinDir();
+=======
+const touchTestFile = `${pathPrefix}app/elements/change/gr-label-scores/gr-label-scores_test.ts`;
+// Under Bazel, module imports may resolve through runfile symlinks to
+// rules_js package stores. Both the runfiles tree and those stores are under
+// bazel-out/<config>/bin, so use that as the WTR root.
+function getBazelBinDir() {
+  const cwd = path.resolve(process.cwd()).replace(/\\/g, '/');
+  const match = cwd.match(/^(.*\/bazel-out\/[^/]+\/bin)(?:\/|$)/);
+  return `${match?.[1] ?? cwd}/`;
+}
+
+const rootDir = getArgValue('--root-dir') ?? getBazelBinDir();
+>>>>>>> CHANGE (36e8e7c08e455643c6cba7a111a3d2f0727aa758 Prevent overlapping hit areas in label vote rows)
 const tsConfig = getArgValue('--ts-config') ?? `${pathPrefix}app/tsconfig.json`;
 
 // When running screenshots, we serve from the root directory, so we need to
@@ -65,10 +91,57 @@ const tsConfig = getArgValue('--ts-config') ?? `${pathPrefix}app/tsconfig.json`;
 // When running under Bazel, we also need strictly fully qualified paths.
 const stylePathPrefix = 'polygerrit-ui/';
 
+<<<<<<< HEAD   (3442b70e489da9b454935fa9928a85199a352535 Merge branch 'stable-3.13' into stable-3.14)
+||||||| BASE   (ca48ca69ded02abf763595ec8653e3ed26b1b791 Merge "Revert "Prevent overlapping hit areas in label vote r)
+const chromeExecutablePath = [
+  process.env['CHROME_BIN'],
+  process.env['CI_CHROME_BIN'],
+  '/usr/bin/google-chrome',
+].find(p => p && fs.existsSync(p));
+
+=======
+const chromeExecutablePath = [
+  process.env['CHROME_BIN'],
+  process.env['CI_CHROME_BIN'],
+  '/usr/bin/google-chrome',
+].find(p => p && fs.existsSync(p));
+
+// WORKAROUND: Prevents tests from failing or timing out when run concurrently.
+// Recent Chrome versions aggressively throttle inactive tabs, which interferes with
+// parallel tests. These flags disable that behavior, ensuring tests that rely on
+// visibility or timers run reliably.
+// Some details: https://g-issues.gerritcodereview.com/issues/365565157
+function chromeLauncher(touch = false) {
+  return playwrightLauncher({
+    product: 'chromium',
+    ...(touch ? {
+      createBrowserContext: ({browser}) => browser.newContext({
+        hasTouch: true,
+        isMobile: true,
+      }),
+    } : {}),
+    launchOptions: {
+      ...(chromeExecutablePath ? { executablePath: chromeExecutablePath } : {}),
+      args: [
+        '--no-sandbox',
+        '--disable-dev-shm-usage',
+        '--disable-background-timer-throttling',
+        '--disable-backgrounding-occluded-windows',
+        '--disable-renderer-backgrounding',
+        '--font-render-hinting=none',
+        '--disable-font-subpixel-rendering',
+        '--disable-lcd-text',
+      ],
+    },
+  });
+}
+
+>>>>>>> CHANGE (36e8e7c08e455643c6cba7a111a3d2f0727aa758 Prevent overlapping hit areas in label vote rows)
 /** @type {import('@web/test-runner').TestRunnerConfig} */
 const config = {
   // Default is CPU cores / 2. Use default
   ...(runUnderBazel ? { concurrency: 1 } : {}),
+<<<<<<< HEAD   (3442b70e489da9b454935fa9928a85199a352535 Merge branch 'stable-3.13' into stable-3.14)
   // WORKAROUND: Prevents tests from failing or timing out when run concurrently.
   // Recent Chrome versions aggressively throttle inactive tabs, which interferes with
   // parallel tests. These flags disable that behavior, ensuring tests that rely on
@@ -86,6 +159,39 @@ const config = {
       },
     }),
   ],
+||||||| BASE   (ca48ca69ded02abf763595ec8653e3ed26b1b791 Merge "Revert "Prevent overlapping hit areas in label vote r)
+  // WORKAROUND: Prevents tests from failing or timing out when run concurrently.
+  // Recent Chrome versions aggressively throttle inactive tabs, which interferes with
+  // parallel tests. These flags disable that behavior, ensuring tests that rely on
+  // visibility or timers run reliably.
+  // Some details: https://g-issues.gerritcodereview.com/issues/365565157
+  browsers: [
+    playwrightLauncher({
+      product: 'chromium',
+      launchOptions: {
+        ...(chromeExecutablePath ? { executablePath: chromeExecutablePath } : {}),
+        args: [
+          '--no-sandbox',
+          '--disable-dev-shm-usage',
+          '--disable-background-timer-throttling',
+          '--disable-backgrounding-occluded-windows',
+          '--disable-renderer-backgrounding',
+          '--font-render-hinting=none',
+          '--disable-font-subpixel-rendering',
+          '--disable-lcd-text',
+        ],
+      },
+    }),
+  ],
+=======
+  browsers: [chromeLauncher()],
+  // Run vote hit-area regressions with native touch input as well as a mouse.
+  groups: runScreenshots || !fs.existsSync(touchTestFile) ? [] : [{
+    name: 'touch',
+    files: [touchTestFile],
+    browsers: [chromeLauncher(true)],
+  }],
+>>>>>>> CHANGE (36e8e7c08e455643c6cba7a111a3d2f0727aa758 Prevent overlapping hit areas in label vote rows)
 
   files: runScreenshots
     ? [
@@ -121,6 +227,18 @@ const config = {
   },
 
   plugins: [
+    {
+      name: 'touch-commands',
+      async executeCommand({command, payload, session}) {
+        if (command !== 'send-touch-tap') return;
+        if (session.browser.type !== 'playwright') {
+          throw new Error('Touch taps require the Playwright launcher');
+        }
+        const page = session.browser.getPage(session.id);
+        await page.touchscreen.tap(...payload.position);
+        return true;
+      },
+    },
     esbuildPlugin({
       ts: true,
       target: 'es2020',

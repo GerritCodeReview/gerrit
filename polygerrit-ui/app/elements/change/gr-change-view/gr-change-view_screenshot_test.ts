@@ -393,6 +393,15 @@ suite('gr-change-view screenshot tests', () => {
       await waitUntil(
         () => !!element.shadowRoot!.querySelector('gr-file-list')
       );
+      await waitUntil(
+        () =>
+          document.documentElement.style.getPropertyValue(
+            '--change-header-height'
+          ) !== '0px' &&
+          document.documentElement.style.getPropertyValue(
+            '--change-header-height'
+          ) !== ''
+      );
 
       await visualDiff(container, 'gr-change-view-1280px-chat-open');
       await visualDiffDarkTheme(container, 'gr-change-view-1280px-chat-open');

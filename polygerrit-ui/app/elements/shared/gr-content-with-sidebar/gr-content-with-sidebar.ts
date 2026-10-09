@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {customElement, property, query, state} from 'lit/decorators.js';
-import {css, html, LitElement, nothing} from 'lit';
+import {css, html, LitElement, nothing, PropertyValues} from 'lit';
 import {styleMap} from 'lit/directives/style-map.js';
 
 const SIDEBAR_MIN_WIDTH = 250;
@@ -19,6 +19,8 @@ const SIDEBAR_MIN_WIDTH = 250;
 @customElement('gr-content-with-sidebar')
 export class GrContentWithSidebar extends LitElement {
   @query('.sidebar-wrapper') sidebarWrapper?: HTMLElement;
+
+  @query('.top-reference') topReference?: HTMLElement;
 
   @state()
   private sidebarWidthPx = 400;
@@ -43,20 +45,83 @@ export class GrContentWithSidebar extends LitElement {
 
   private readonly boundStopSidebarResize = () => this.stopSidebarResize();
 
+  private readonly handleScroll = () => {
+    if (
+      window.scrollY > 200 &&
+      !this.style.getPropertyValue('--sidebar-wrapper-top')
+    ) {
+      return;
+    }
+    this.updateSidebarTop();
+  };
+
+  override connectedCallback() {
+    super.connectedCallback();
+    window.addEventListener('scroll', this.handleScroll, {passive: true});
+    window.addEventListener('resize', this.handleScroll, {passive: true});
+  }
+
+  override disconnectedCallback() {
+    window.removeEventListener('scroll', this.handleScroll);
+    window.removeEventListener('resize', this.handleScroll);
+    super.disconnectedCallback();
+  }
+
+  override firstUpdated(changedProperties: PropertyValues) {
+    super.firstUpdated(changedProperties);
+    this.updateSidebarTop();
+  }
+
+  override updated(changedProperties: PropertyValues) {
+    super.updated(changedProperties);
+    if (changedProperties.has('hideSide')) {
+      if (this.hideSide) {
+        this.style.removeProperty('--sidebar-wrapper-top');
+      } else {
+        this.updateSidebarTop();
+      }
+    }
+  }
+
+  updateSidebarTop() {
+    if (this.hideSide || !this.sidebarWrapper || !this.topReference) {
+      return;
+    }
+    const rect = this.getBoundingClientRect();
+    const sidebarTop = this.topReference.getBoundingClientRect().top;
+    const top = Math.max(sidebarTop, Math.round(rect.top));
+    const topStr = top > sidebarTop ? `${top}px` : '';
+    if (this.style.getPropertyValue('--sidebar-wrapper-top') !== topStr) {
+      if (topStr) {
+        this.style.setProperty('--sidebar-wrapper-top', topStr);
+      } else {
+        this.style.removeProperty('--sidebar-wrapper-top');
+      }
+    }
+  }
+
   static override get styles() {
     return [
       css`
         :host {
           display: block;
           position: relative;
-          --sidebar-height: calc(100vh - var(--sidebar-top, 0px));
+          --sidebar-height: 100%;
+        }
+        .top-reference {
+          position: fixed;
+          top: var(--sidebar-top, 0px);
+          visibility: hidden;
+          pointer-events: none;
+          height: 0;
+          width: 0;
         }
         .sidebar-wrapper {
           z-index: 50;
-          position: absolute;
+          position: fixed;
           display: flex;
-          top: 0;
-          bottom: calc(0px - var(--sidebar-bottom-overflow, 0px));
+          top: var(--sidebar-wrapper-top, var(--sidebar-top, 0px));
+          bottom: 0px;
           min-width: 250px;
           max-width: 100%;
           background-color: var(--background-color-secondary);
@@ -70,18 +135,15 @@ export class GrContentWithSidebar extends LitElement {
           right: auto;
         }
         .sidebar {
-          position: sticky;
-          top: var(--sidebar-top, 0px);
-          height: var(--sidebar-height);
+          height: 100%;
           box-sizing: border-box;
           overflow: auto;
           flex-grow: 1;
           font-size: 14px;
         }
         .resizer-wrapper {
-          position: sticky;
-          top: var(--sidebar-top, 0px);
-          height: var(--sidebar-height);
+          position: relative;
+          height: 100%;
           z-index: 51;
         }
         .resizer {
@@ -127,6 +189,7 @@ export class GrContentWithSidebar extends LitElement {
             width: `calc(100% - ${widthPx}px)`,
           });
     return html`
+      <div class="top-reference" aria-hidden="true"></div>
       <div>
         <div style=${mainStyle}>
           <slot name="main"></slot>

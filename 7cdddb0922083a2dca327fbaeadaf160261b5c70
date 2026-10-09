@@ -51,6 +51,24 @@
       "message": "Seems that under mobile, it\u0027d loose the \"go to latest patchset\". Is there a way to retain it? Possibly put it in a menu next to the patchset selector? (the three horizontal dots)",
       "revId": "7cdddb0922083a2dca327fbaeadaf160261b5c70",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "596ddab5_bfd55311",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2026-10-09T13:06:07Z",
+      "side": 1,
+      "message": "Also seems to remove like retry failed build, choose tryjob etc and the menu.",
+      "parentUuid": "39b84b84_d08e97af",
+      "revId": "7cdddb0922083a2dca327fbaeadaf160261b5c70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

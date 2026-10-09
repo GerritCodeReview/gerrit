@@ -69,6 +69,24 @@
       "parentUuid": "39b84b84_d08e97af",
       "revId": "7cdddb0922083a2dca327fbaeadaf160261b5c70",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9f2f7ea_1af142d4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2026-10-09T13:09:08Z",
+      "side": 1,
+      "message": "The third screenshot is when collapsed, so it appears as PS 2. If you click it, you see all patch sets, and the latest one reads \"(Latest)\". Is it collaped by default on mobile?\n\nRegarding the buttons, the screenshots are not from the same system. The \"before\" was taken from here, \"after\" from my server which doesn\u0027t have these.",
+      "parentUuid": "596ddab5_bfd55311",
+      "revId": "7cdddb0922083a2dca327fbaeadaf160261b5c70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

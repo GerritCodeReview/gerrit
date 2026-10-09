@@ -16,13 +16,20 @@ package com.google.gerrit.server.schema;
 
 import static com.google.common.base.Equivalence.identity;
 
+import com.google.common.base.Splitter;
+import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.SitePaths;
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Proxy;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.sql.SQLException;
 import java.util.ArrayDeque;
 import java.util.HashSet;
@@ -32,6 +39,7 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
+import java.util.regex.Pattern;
 import org.eclipse.jgit.lib.Config;
 
 /**
@@ -49,15 +57,20 @@ abstract class H2CustomLockAccountPatchReviewStore extends H2AccountPatchReviewS
   private static final int DEFAULT_LOCK_BATCH_SIZE = 32;
   private static final long INITIAL_BACKOFF_MS = 1;
   private static final long MAX_BACKOFF_MS = 500;
+  private static final String H2_DB_URL_PREFIX = "jdbc:h2:file:";
+  private static final String LOCK_TYPE_MARKER_SUFFIX = ".locktype";
 
   private final String url;
+  private final File dbFile;
   private final long lockTimeoutMs;
   private final int lockBatchSize;
   private Lock lockInstance;
 
   protected H2CustomLockAccountPatchReviewStore(Config cfg, SitePaths sitePaths) {
     super();
-    url = JdbcAccountPatchReviewStore.getUrl(cfg, sitePaths) + ";FILE_LOCK=NO;DB_CLOSE_DELAY=0";
+    String baseUrl = JdbcAccountPatchReviewStore.getUrl(cfg, sitePaths);
+    dbFile = dbFileFromUrl(baseUrl);
+    url = baseUrl + ";FILE_LOCK=NO;DB_CLOSE_DELAY=0";
     lockTimeoutMs =
         ConfigUtil.getTimeUnit(
             cfg,
@@ -81,6 +94,75 @@ abstract class H2CustomLockAccountPatchReviewStore extends H2AccountPatchReviewS
 
   protected int getLockBatchSize() {
     return lockBatchSize;
+  }
+
+  /** Name of this locking mechanism, recorded next to the DB to detect mixed configurations. */
+  protected abstract String lockType();
+
+  @Override
+  public void start() {
+    checkLockTypeMarker(dbFile, lockType());
+    super.start();
+  }
+
+  static File dbFileFromUrl(String h2Url) {
+    if (!h2Url.startsWith(H2_DB_URL_PREFIX)) {
+      throw new IllegalArgumentException("Not a valid H2 file URL: " + h2Url);
+    }
+
+    // URL format: "jdbc:h2:file:/path/to/db" - where ";" in the path is escaped as "\;"
+    String path = h2Url.substring(H2_DB_URL_PREFIX.length());
+
+    // Split on first unescaped ";" to drop options, then unescape "\;" in the path
+    return new File(
+        Iterables.get(Splitter.on(Pattern.compile("(?<!\\\\);")).split(path), 0)
+            .replace("\\;", ";"));
+  }
+
+  /**
+   * Records the lock type next to the DB on first use and fails if the DB was already claimed by a
+   * different lock type, since primaries using different locking would not exclude each other.
+   *
+   * <p>The marker is published by hard-linking a fully written temp file, which is atomic and fails
+   * if the marker already exists, so a marker is never visible without its content.
+   */
+  static void checkLockTypeMarker(File dbFile, String lockType) {
+    Path marker =
+        dbFile
+            .getAbsoluteFile()
+            .toPath()
+            .resolveSibling(dbFile.getName() + LOCK_TYPE_MARKER_SUFFIX);
+    Path tmp = null;
+    try {
+      tmp = Files.createTempFile(marker.getParent(), dbFile.getName(), ".locktype.tmp");
+      Files.writeString(tmp, lockType);
+      try {
+        Files.createLink(marker, tmp);
+        return;
+      } catch (FileAlreadyExistsException e) {
+        // Another primary already claimed the DB; compare below.
+      }
+      String existing = Files.readString(marker).trim();
+      if (!existing.equals(lockType)) {
+        throw new IllegalStateException(
+            String.format(
+                "H2 account patch review DB %s is used with h2LockType=%s by other primaries"
+                    + " (see %s), but this server is configured with h2LockType=%s. All primaries"
+                    + " must use the same locking. To change it, stop all primaries and delete"
+                    + " the marker file.",
+                dbFile, existing, marker, lockType));
+      }
+    } catch (IOException e) {
+      throw new IllegalStateException("Cannot read or write lock type marker " + marker, e);
+    } finally {
+      if (tmp != null) {
+        try {
+          Files.deleteIfExists(tmp);
+        } catch (IOException e) {
+          logger.atWarning().withCause(e).log("Cannot delete temp file %s", tmp);
+        }
+      }
+    }
   }
 
   /** Creates a new, not-yet-acquired raw {@link Lock}; only tryLock()/unlock() are used. */

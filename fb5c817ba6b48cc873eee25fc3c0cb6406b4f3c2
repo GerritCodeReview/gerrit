@@ -90,6 +90,46 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ef2901b7_03f9b8a5",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-10-09T17:22:31Z",
+      "side": 1,
+      "message": "Why this exception ? Vibe coded release scripts sound risky to me.",
+      "range": {
+        "startLine": 137,
+        "startChar": 21,
+        "endLine": 137,
+        "endChar": 70
+      },
+      "revId": "fb5c817ba6b48cc873eee25fc3c0cb6406b4f3c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba855886_ad4a9426",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2026-10-09T17:22:31Z",
+      "side": 1,
+      "message": "```suggestion\nintended for code maintenance and error detection.\n```",
+      "revId": "fb5c817ba6b48cc873eee25fc3c0cb6406b4f3c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3d26dafb_77a3eaaa",
         "filename": "Documentation/dev-contributing.txt",
         "patchSetId": 4

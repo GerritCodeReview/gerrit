@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f1fa760_38c7f713",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2026-10-09T07:57:41Z",
+      "side": 1,
+      "message": "I think the OpenInfra Foundation has done a great job of outlining a comprehensive [Policy for AI Generated Content](https://openinfra.org/legal/ai-policy).\n\nI find the **Contributor Checklist** and **Reviewer Checklist** particularly useful, as they give all parties a framework to evaluate whether a contribution adheres to the guidelines.\n\nI think having something similar will improve the understanding of whether a contribution could be committed or not.",
+      "revId": "fb5c817ba6b48cc873eee25fc3c0cb6406b4f3c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

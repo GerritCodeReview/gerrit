@@ -71,6 +71,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3c01eeed_d0b37500",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010246
+      },
+      "writtenOn": "2026-10-09T16:21:19Z",
+      "side": 1,
+      "message": "Guidelines are super helpful. My recently ai-labeled patches were done intentionally based on guidelines from a different community that explicitly requires all patches involving AI must be labelled as such. The industry has diverging views on the topic, which is fine ... and which means clarity and explicit documentation is essential. Thanks for this Luca!",
+      "revId": "fb5c817ba6b48cc873eee25fc3c0cb6406b4f3c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3d26dafb_77a3eaaa",

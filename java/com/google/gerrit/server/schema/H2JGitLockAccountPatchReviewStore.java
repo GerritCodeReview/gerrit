@@ -15,8 +15,6 @@
 package com.google.gerrit.server.schema;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Splitter;
-import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
@@ -27,7 +25,6 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
-import java.util.regex.Pattern;
 import org.eclipse.jgit.internal.storage.file.LockFile;
 import org.eclipse.jgit.lib.Config;
 
@@ -41,7 +38,6 @@ import org.eclipse.jgit.lib.Config;
 @Singleton
 public class H2JGitLockAccountPatchReviewStore extends H2CustomLockAccountPatchReviewStore {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-  private static final String H2_DB_URL_PREFIX = "jdbc:h2:file:";
   private final File lockTarget;
 
   @Inject
@@ -52,17 +48,12 @@ public class H2JGitLockAccountPatchReviewStore extends H2CustomLockAccountPatchR
 
   @VisibleForTesting
   static File lockTargetFromUrl(String h2Url) {
-    if (!h2Url.startsWith(H2_DB_URL_PREFIX)) {
-      throw new IllegalArgumentException("Not a valid H2 file URL: " + h2Url);
-    }
+    return dbFileFromUrl(h2Url);
+  }
 
-    // URL format: "jdbc:h2:file:/path/to/db" - where ";" in the path is escaped as "\;"
-    String path = h2Url.substring(H2_DB_URL_PREFIX.length());
-
-    // Split on first unescaped ";" to drop options, then unescape "\;" in the path
-    return new File(
-        Iterables.get(Splitter.on(Pattern.compile("(?<!\\\\);")).split(path), 0)
-            .replace("\\;", ";"));
+  @Override
+  protected String lockType() {
+    return JdbcAccountPatchReviewStore.H2_LOCK_TYPE_JGIT;
   }
 
   @Override

@@ -19,6 +19,7 @@ import {
 } from '../../../api/rest-api';
 import {submitRequirementsStyles} from '../../../styles/gr-submit-requirements-styles';
 import {
+  computeLabelShortcut,
   extractAssociatedLabels,
   getAllUniqueApprovals,
   getRequirements,
@@ -39,6 +40,9 @@ export class GrChangeListColumnRequirement extends LitElement {
   @property()
   labelName?: string;
 
+  @property({type: Boolean})
+  compact = false;
+
   static override get styles() {
     return [
       submitRequirementsStyles,
@@ -49,6 +53,23 @@ export class GrChangeListColumnRequirement extends LitElement {
           align-items: center;
           justify-content: center;
         }
+        .badge {
+          display: inline-flex;
+          align-items: center;
+          border: 1px solid var(--border-color);
+          border-radius: 12px;
+          padding: 0 6px;
+          height: 20px;
+          font-size: var(--font-size-small);
+          background: var(--table-header-background-color);
+          white-space: nowrap;
+        }
+        .badge gr-icon {
+          width: 16px;
+          height: 16px;
+          font-size: 16px;
+          margin-left: 2px;
+        }
         .container.not-applicable {
           background-color: var(--table-header-background-color);
           height: calc(var(--line-height-normal) + var(--spacing-m));
@@ -58,9 +79,19 @@ export class GrChangeListColumnRequirement extends LitElement {
   }
 
   override render() {
+    if (
+      this.compact &&
+      this.getRequirement(this.labelName ?? '').length === 0 &&
+      !this.isTriggerVote(this.labelName ?? '')
+    )
+      return;
     return html`<div
       class="container ${this.computeClass()}"
-      title=${ifDefined(this.computeLabelTitle())}
+      title=${ifDefined(
+        this.compact
+          ? `${this.labelName}: ${this.computeLabelTitle() ?? ''}`
+          : this.computeLabelTitle()
+      )}
     >
       ${this.renderContent()}
     </div>`;
@@ -91,16 +122,28 @@ export class GrChangeListColumnRequirement extends LitElement {
       if (votes.length > 0) {
         const bestVote = votes[0];
         return html`<gr-vote-chip
+          .labelName=${this.compact
+            ? computeLabelShortcut(this.labelName)
+            : undefined}
           .vote=${bestVote}
           .label=${labelInfo}
           tooltip-with-who-voted
         ></gr-vote-chip>`;
       }
     }
-    if (isQuickLabelInfo(labelInfo)) {
-      return html`<gr-vote-chip .label=${labelInfo}></gr-vote-chip>`;
+    if (isQuickLabelInfo(labelInfo) && (!this.compact || hasVotes(labelInfo))) {
+      return html`<gr-vote-chip
+        .labelName=${this.compact
+          ? computeLabelShortcut(this.labelName)
+          : undefined}
+        .label=${labelInfo}
+      ></gr-vote-chip>`;
     }
-    return;
+    return this.compact
+      ? html`<span class="badge"
+          >${computeLabelShortcut(this.labelName)}—</span
+        >`
+      : undefined;
   }
 
   private renderUnsatisfiedState(requirement: SubmitRequirementResultInfo) {
@@ -130,6 +173,9 @@ export class GrChangeListColumnRequirement extends LitElement {
       return this.renderStatusIcon(requirement.status);
     } else {
       return html`<gr-vote-chip
+        .labelName=${this.compact && this.labelName
+          ? computeLabelShortcut(this.labelName)
+          : undefined}
         .vote=${worstVote}
         .label=${labelInfo}
         tooltip-with-who-voted
@@ -139,17 +185,22 @@ export class GrChangeListColumnRequirement extends LitElement {
 
   private renderStatusIcon(status: SubmitRequirementStatus) {
     const icon = iconForStatus(status);
-    return html`
+    const content = html`
       <gr-icon
         class=${icon.icon}
         icon=${icon.icon}
         ?filled=${!!icon.filled}
       ></gr-icon>
     `;
+    return this.compact
+      ? html`<span class="badge"
+          >${computeLabelShortcut(this.labelName ?? '')}${content}</span
+        >`
+      : content;
   }
 
   private computeClass(): string {
-    if (!this.labelName) return '';
+    if (!this.labelName || this.compact) return '';
     const requirements = this.getRequirement(this.labelName);
     if (requirements.length === 0 && !this.isTriggerVote(this.labelName)) {
       return 'not-applicable';
@@ -162,7 +213,10 @@ export class GrChangeListColumnRequirement extends LitElement {
     const requirements = this.getRequirement(this.labelName);
     if (requirements.length === 0) {
       if (this.isTriggerVote(this.labelName)) {
-        return;
+        return this.compact &&
+          !hasVotes(this.change?.labels?.[this.labelName] ?? {})
+          ? 'No votes'
+          : undefined;
       } else {
         return 'Requirement not applicable';
       }

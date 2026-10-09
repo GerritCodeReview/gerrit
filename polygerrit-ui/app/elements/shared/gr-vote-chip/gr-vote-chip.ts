@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import '../gr-tooltip-content/gr-tooltip-content';
+import '../gr-icon/gr-icon';
 import {css, html, LitElement, TemplateResult} from 'lit';
 import {customElement, property} from 'lit/decorators.js';
 import {
@@ -15,6 +16,7 @@ import {
 import {
   classForLabelStatus,
   getLabelStatus,
+  LabelStatus,
   valueString,
 } from '../../../utils/label-util';
 
@@ -47,6 +49,10 @@ export class GrVoteChip extends LitElement {
 
   @property({type: Boolean, attribute: 'tooltip-with-who-voted'})
   tooltipWithWhoVoted = false;
+
+  /** Include the label abbreviation inside a self-contained vote badge. */
+  @property({attribute: 'label-name', reflect: true})
+  labelName?: string;
 
   static override get styles() {
     return [
@@ -98,6 +104,19 @@ export class GrVoteChip extends LitElement {
           line-height: var(--gr-vote-chip-width, 16px);
           color: var(--vote-text-color);
         }
+        :host([label-name]) .vote-chip {
+          width: auto;
+          align-items: center;
+          min-width: 16px;
+          padding: 2px 6px;
+          border-radius: 12px;
+          white-space: nowrap;
+        }
+        .vote-chip gr-icon {
+          width: 14px;
+          height: 16px;
+          font-size: 16px;
+        }
         .more > .vote-chip {
           position: relative;
           z-index: 2;
@@ -130,7 +149,9 @@ export class GrVoteChip extends LitElement {
       title=${this.computeTooltip(renderValue)}
       has-tooltip
     >
-      <div class="vote-chip ${this.computeClass()}">${renderValue}</div>
+      <div class="vote-chip ${this.computeClass()}">
+        ${this.labelName}${renderValue}
+      </div>
       ${this.more
         ? html`<div class="chip-angle ${this.computeClass()}">
             ${renderValue}
@@ -147,18 +168,29 @@ export class GrVoteChip extends LitElement {
       return '';
     } else if (isDetailedLabelInfo(this.label)) {
       if (this.vote?.value) {
+        if (this.labelName) {
+          const status = getLabelStatus(this.label, this.vote.value);
+          if (status === LabelStatus.APPROVED)
+            return this.renderStatusIcon('check');
+          if (status === LabelStatus.REJECTED)
+            return this.renderStatusIcon('close');
+        }
         return valueString(this.vote.value);
       }
     } else if (isQuickLabelInfo(this.label)) {
       if (this.label.approved) {
-        return html`&#x2713;`; // check mark
+        return this.labelName ? this.renderStatusIcon('check') : html`&#x2713;`; // check mark
       } else if (this.label.rejected) {
-        return html`&#x2717;`; // x mark
+        return this.labelName ? this.renderStatusIcon('close') : html`&#x2717;`; // x mark
       } else if (this.label.disliked || this.label.recommended) {
         return valueString(this.label.value);
       }
     }
     return '';
+  }
+
+  private renderStatusIcon(icon: 'check' | 'close') {
+    return html`<gr-icon icon=${icon}></gr-icon>`;
   }
 
   private computeClass() {
@@ -177,10 +209,13 @@ export class GrVoteChip extends LitElement {
     if (!this.label || !isDetailedLabelInfo(this.label)) {
       return '';
     }
-    const voteDescription =
+    const value =
       typeof renderValue === 'string'
-        ? this.label.values?.[renderValue] ?? ''
+        ? renderValue
+        : this.labelName && this.vote
+        ? valueString(this.vote.value)
         : '';
+    const voteDescription = this.label.values?.[value] ?? '';
 
     if (this.tooltipWithWhoVoted && this.vote) {
       return `${this.vote?.name}: ${voteDescription}`;

@@ -31,28 +31,15 @@ import '@material/web/checkbox/checkbox';
 import {materialStyles} from '../../../styles/gr-material-styles';
 import {when} from 'lit/directives/when.js';
 import {spinnerStyles} from '../../../styles/gr-spinner-styles';
+import {
+  computeLabelShortcut,
+  getChangeListLabels,
+} from '../../../utils/label-util';
+export {computeLabelShortcut} from '../../../utils/label-util';
 
 const NUMBER_FIXED_COLUMNS = 4;
-const LABEL_PREFIX_INVALID_PROLOG = 'Invalid-Prolog-Rules-Label-Name--';
-const MAX_SHORTCUT_CHARS = 5;
+const MAX_NARROW_LABELS = 5;
 const INVALID_TOKENS = ['limit:', 'age:', '-age:'];
-
-export function computeLabelShortcut(labelName: string) {
-  if (labelName.startsWith(LABEL_PREFIX_INVALID_PROLOG)) {
-    labelName = labelName.slice(LABEL_PREFIX_INVALID_PROLOG.length);
-  }
-  // Compute label shortcut by splitting token by - and capitalizing first
-  // letter of each token.
-  return labelName
-    .split('-')
-    .reduce((previousValue, currentValue) => {
-      if (!currentValue) {
-        return previousValue;
-      }
-      return previousValue + currentValue[0].toUpperCase();
-    }, '')
-    .slice(0, MAX_SHORTCUT_CHARS);
-}
 
 @customElement('gr-change-list-section')
 export class GrChangeListSection extends LitElement {
@@ -124,6 +111,58 @@ export class GrChangeListSection extends LitElement {
 
   private isLoggedIn = false;
 
+  @state()
+  private narrowScreen = window.matchMedia('(max-width: 50em)').matches;
+
+  private labelResizeObserver?: ResizeObserver;
+
+  private labelResizeFrame = 0;
+
+  override connectedCallback() {
+    super.connectedCallback();
+    this.updateComplete.then(() => {
+      if (!this.isConnected) return;
+      const list = (this.getRootNode() as ShadowRoot).host;
+      if (!(list instanceof HTMLElement)) return;
+      this.labelResizeObserver = new ResizeObserver(() => {
+        const narrowScreen = window.matchMedia('(max-width: 50em)').matches;
+        if (narrowScreen === this.narrowScreen) return;
+        cancelAnimationFrame(this.labelResizeFrame);
+        this.labelResizeFrame = requestAnimationFrame(() => {
+          this.narrowScreen = narrowScreen;
+        });
+      });
+      this.labelResizeObserver.observe(list);
+    });
+  }
+
+  override disconnectedCallback() {
+    this.labelResizeObserver?.disconnect();
+    cancelAnimationFrame(this.labelResizeFrame);
+    super.disconnectedCallback();
+  }
+
+  private get narrowLabels() {
+    return this.getNarrowLabels();
+  }
+
+  private getNarrowLabels(change?: ChangeInfo) {
+    if (!this.narrowScreen) return [...(this.labelNames ?? [])];
+    const applicableLabels = change ? getChangeListLabels(change) : undefined;
+    const labels = (this.labelNames ?? []).filter(
+      name => !applicableLabels || applicableLabels.includes(name)
+    );
+    const priority = ['Code-Review', 'Verified'];
+    labels.sort((a, b) => {
+      const rank = (name: string) => {
+        const index = priority.indexOf(name);
+        return index < 0 ? priority.length : index;
+      };
+      return rank(a) - rank(b);
+    });
+    return labels.slice(0, MAX_NARROW_LABELS);
+  }
+
   static override get styles() {
     return [
       sharedStyles,
@@ -173,6 +212,14 @@ export class GrChangeListSection extends LitElement {
         }
         .selection:has(.loadingSpin):not(:has(md-checkbox)) {
           padding-right: 4px !important;
+        }
+        .labelOverflow {
+          display: none;
+        }
+        @media only screen and (max-width: 50em) {
+          .groupTitle.narrowVotes {
+            display: none;
+          }
         }
       `,
     ];
@@ -290,6 +337,8 @@ export class GrChangeListSection extends LitElement {
       <tr
         class=${classMap({
           groupTitle: true,
+          narrowVotes:
+            !showBulkActionsHeader && (this.labelNames?.length ?? 0) > 0,
           showSelectionBorder: showBulkActionsHeader,
         })}
       >
@@ -307,6 +356,17 @@ export class GrChangeListSection extends LitElement {
               ${this.labelNames?.map(labelName =>
                 this.renderLabelHeader(labelName)
               )}
+              ${this.labelNames?.length > this.narrowLabels.length
+                ? html`<td
+                    class="label labelOverflow"
+                    title=${this.labelNames
+                      .filter(name => !this.narrowLabels.includes(name))
+                      .join(', ')}
+                    style="order: ${this.narrowLabels.length}"
+                  >
+                    …
+                  </td>`
+                : ''}
               ${this.dynamicHeaderEndpoints?.map(pluginHeader =>
                 this.renderEndpointHeader(pluginHeader)
               )}`}
@@ -345,7 +405,13 @@ export class GrChangeListSection extends LitElement {
 
   private renderLabelHeader(labelName: string) {
     return html`
-      <td class="label" title=${labelName}>
+      <td
+        class="label ${this.narrowLabels.includes(labelName)
+          ? ''
+          : 'narrowHidden'}"
+        title=${labelName}
+        style="order: ${this.narrowLabels.indexOf(labelName)}"
+      >
         ${computeLabelShortcut(labelName)}
       </td>
     `;
@@ -379,6 +445,7 @@ export class GrChangeListSection extends LitElement {
         .showNumber=${!!this.showNumber}
         .usp=${this.usp}
         .labelNames=${this.labelNames}
+        .narrowLabels=${this.getNarrowLabels(change)}
         .globalIndex=${this.startIndex + index}
         .triggerSelectionCallback=${this.triggerSelectionCallback}
         aria-label=${ariaLabel}

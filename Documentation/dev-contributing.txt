@@ -112,6 +112,77 @@ A new feature or API extension, even if small, can incur a long-time
 maintenance and support burden and should be left pending for 24 hours
 to give maintainers in all time zones a chance to evaluate the change.
 
+[[ai-contributions]]
+=== Artificial Intelligence (AI) Contributions
+
+==== AI is Welcomed
+
+As AI-assisted development tools become increasingly prevalent, we
+recognize the productivity benefits they offer our contributors and the
+increase in software quality and robustness they can provide.
+
+Contributors are free to use the AI tools that work best for them.
+We neither mandate particular tools nor discourage their use.
+
+These guidelines are focused on protecting the integrity, security, and
+healthiness of the Gerrit Code Review project, including contributions
+using AI-assisted tools, including generative AI and Agentic Coding.
+
+However, regardless of the AI-assisted tooling used, any contribution
+continues to be subject to the link:dev-cla.html[Google CLA,role=external,window=_blank].
+
+==== Human Attribution is Mandatory
+
+Attribution of a commit must be exclusively associated with a human contributor.
+We explicitly reject any assignment of authorship or co-authorship
+(e.g., `Author:` header or `Co-Authored-By:` footer) to an AI model, bot,
+or generative tool. Submissions containing tool- or AI-generated material are
+permitted provided that the true origins of the code are not misrepresented,
+while maintaining that the tool cannot be credited as an author. The human
+submitting the change is the sole recognized responsible author of the code.
+
+We prefer omitting `Assisted-By:` footers crediting AI or other tools as
+there is no clear value in including such a footer.
+
+==== Prohibition of Autonomous Contributions
+
+We explicitly reject fully autonomous AI contributions. Any bots, agents,
+or scripts designed to automatically generate, push code, and propose code
+reviews without active human supervision and validation are strictly
+prohibited, with the exception of running the CI/CD validation jobs and
+performing the Gerrit releases done by scripts that are developed
+with the intent of managing the code maintenance and error detection.
+Every patch set must be actively curated, contextually evaluated, and
+attributed to a human developer.
+
+The commit message shall be written by the human contributor without AI
+assistance apart from spelling or grammar checking.
+The contributor shall demonstrate to be the author of the intended
+behavior or change of behavior of the change and therefore be able to
+understand the reason behind the way the code has been written.
+
+==== Use of the Author Field and Attribution of the Contribution
+
+By pushing a code change to Gerrit, the author field of the commit message
+must correspond to the identity of the signer of the Google Contributor
+License Agreement (CLA).
+The author field of the commit message must be attributed to the entirety
+of the contribution, equally to code written manually and code generated,
+suggested, or modified by an AI tool.
+
+==== Comprehension and Accountability
+
+You must possess a thorough understanding of the code you are
+pushing and the associated commit message.
+If you cannot confidently explain what the end goal of a contribution is,
+its desired outcome, how the AI-generated code works, maintain it,
+debug it, or address reviewer feedback regarding its architecture and
+security, it must not be contributed to the project.
+
+Relying on AI or other tools to offload knowledge and understanding of
+the code is not an acceptable defense for introducing regressions,
+security vulnerabilities, or anti-patterns.
+
 [[design-driven-contribution-process]]
 === Design-driven Contribution Process
 

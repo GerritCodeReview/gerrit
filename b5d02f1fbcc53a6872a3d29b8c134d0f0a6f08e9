@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d81f1b76_b933e480",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2026-10-09T14:07:57Z",
+      "side": 1,
+      "message": "Thank you for fix, this looks really like bug that here it was forgotten",
+      "revId": "b5d02f1fbcc53a6872a3d29b8c134d0f0a6f08e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

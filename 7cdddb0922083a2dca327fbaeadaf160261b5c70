@@ -105,6 +105,24 @@
       "parentUuid": "d9f2f7ea_1af142d4",
       "revId": "7cdddb0922083a2dca327fbaeadaf160261b5c70",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3512f4f7_52c60378",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2026-10-09T13:41:57Z",
+      "side": 1,
+      "message": "Done in the new patch set. In compact mode (collapsed panel, or when the expanded panel is too narrow, as on mobile) \"Go To Latest Patchset\" is now shown as a \"Latest\" link below the patchset dropdown, with the full text as tooltip. I didn\u0027t use a three-dots menu because it doesn\u0027t fit next to the dropdown in the collapsed strip, and a direct link is one click less. This also fixes the overflow in the expanded mobile panel.\n\nNew screenshots added in the same link.",
+      "parentUuid": "391f1085_54aefa12",
+      "revId": "7cdddb0922083a2dca327fbaeadaf160261b5c70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

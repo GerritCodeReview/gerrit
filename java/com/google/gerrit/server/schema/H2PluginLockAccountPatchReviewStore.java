@@ -65,4 +65,9 @@ public class H2PluginLockAccountPatchReviewStore extends H2CustomLockAccountPatc
   protected Lock newLock() {
     return lockManager.get().getLock(CoreLockKeys.ACCOUNT_PATCH_REVIEW_DB);
   }
+
+  @Override
+  protected String lockType() {
+    return "plugin";
+  }
 }

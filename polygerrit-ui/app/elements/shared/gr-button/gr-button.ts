@@ -11,6 +11,7 @@ import {customElement, property} from 'lit/decorators.js';
 import {addShortcut, getEventPath, Key} from '../../../utils/dom-util';
 import {getAppContext} from '../../../services/app-context';
 import {classMap} from 'lit/directives/class-map.js';
+import {ifDefined} from 'lit/directives/if-defined.js';
 import {Interaction} from '../../../constants/reporting';
 import '@material/web/button/elevated-button';
 import '@material/web/button/text-button';
@@ -34,6 +35,10 @@ export class GrButton extends LitElement {
    */
   @property({type: Boolean, reflect: true})
   voteChip = false;
+
+  /** Override Material's expanded hit area; undefined keeps its default. */
+  @property({type: String, attribute: 'touch-target'})
+  touchTarget?: 'none' | 'wrapper';
 
   // Note: don't assign a value to this, since constructor is called
   // after created, the initial value maybe overridden by this
@@ -210,6 +215,7 @@ export class GrButton extends LitElement {
           class=${buttonClass}
           ?disabled=${this.disabled || this.loading}
           part="md-elevated-button"
+          touch-target=${ifDefined(this.touchTarget)}
           role="button"
           tabindex="-1"
         >
@@ -227,6 +233,7 @@ export class GrButton extends LitElement {
         class=${buttonClass}
         ?disabled=${this.disabled || this.loading}
         part="md-text-button"
+        touch-target=${ifDefined(this.touchTarget)}
         role="button"
         tabindex="-1"
       >

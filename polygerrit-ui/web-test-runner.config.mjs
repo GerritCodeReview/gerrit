@@ -14,6 +14,7 @@ function testRunnerHtmlFactory(prefix) {
     <!DOCTYPE html>
     <html>
       <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="${prefix}app/styles/main.css">
         <link rel="stylesheet" href="${prefix}app/styles/fonts.css">
         <link rel="stylesheet" href="${prefix}app/styles/material-icons.css">
@@ -57,6 +58,7 @@ function getArgValue(flag) {
 const pathPrefix = runUnderBazel ? 'polygerrit-ui/' : '';
 const testFiles = getArgValue('--test-files');
 const runScreenshots = process.argv.includes('--run-screenshots');
+const touchTestFile = `${pathPrefix}app/elements/change/gr-label-scores/gr-label-scores_test.ts`;
 const rootDir = getArgValue('--root-dir') ?? `${path.resolve(process.cwd())}/`;
 const tsConfig = getArgValue('--ts-config') ?? `${pathPrefix}app/tsconfig.json`;
 
@@ -65,27 +67,42 @@ const tsConfig = getArgValue('--ts-config') ?? `${pathPrefix}app/tsconfig.json`;
 // When running under Bazel, we also need strictly fully qualified paths.
 const stylePathPrefix = 'polygerrit-ui/';
 
+
+// WORKAROUND: Prevents tests from failing or timing out when run concurrently.
+// Recent Chrome versions aggressively throttle inactive tabs, which interferes with
+// parallel tests. These flags disable that behavior, ensuring tests that rely on
+// visibility or timers run reliably.
+// Some details: https://g-issues.gerritcodereview.com/issues/365565157
+function chromeLauncher(touch = false) {
+  return playwrightLauncher({
+    product: 'chromium',
+    ...(touch ? {
+      createBrowserContext: ({browser}) => browser.newContext({
+        hasTouch: true,
+        isMobile: true,
+      }),
+    } : {}),
+    launchOptions: {
+      args: [
+        '--disable-background-timer-throttling',
+        '--disable-backgrounding-occluded-windows',
+        '--disable-renderer-backgrounding',
+      ],
+    },
+  });
+}
+
 /** @type {import('@web/test-runner').TestRunnerConfig} */
 const config = {
   // Default is CPU cores / 2. Use default
   ...(runUnderBazel ? { concurrency: 1 } : {}),
-  // WORKAROUND: Prevents tests from failing or timing out when run concurrently.
-  // Recent Chrome versions aggressively throttle inactive tabs, which interferes with
-  // parallel tests. These flags disable that behavior, ensuring tests that rely on
-  // visibility or timers run reliably.
-  // Some details: https://g-issues.gerritcodereview.com/issues/365565157
-  browsers: [
-    playwrightLauncher({
-      product: 'chromium',
-      launchOptions: {
-        args: [
-          '--disable-background-timer-throttling',
-          '--disable-backgrounding-occluded-windows',
-          '--disable-renderer-backgrounding',
-        ],
-      },
-    }),
-  ],
+  browsers: [chromeLauncher()],
+  // Run vote hit-area regressions with native touch input as well as a mouse.
+  groups: runScreenshots || !fs.existsSync(touchTestFile) ? [] : [{
+    name: 'touch',
+    files: [touchTestFile],
+    browsers: [chromeLauncher(true)],
+  }],
 
   files: runScreenshots
     ? [
@@ -121,6 +138,18 @@ const config = {
   },
 
   plugins: [
+    {
+      name: 'touch-commands',
+      async executeCommand({command, payload, session}) {
+        if (command !== 'send-touch-tap') return;
+        if (session.browser.type !== 'playwright') {
+          throw new Error('Touch taps require the Playwright launcher');
+        }
+        const page = session.browser.getPage(session.id);
+        await page.touchscreen.tap(...payload.position);
+        return true;
+      },
+    },
     esbuildPlugin({
       ts: true,
       target: 'es2020',

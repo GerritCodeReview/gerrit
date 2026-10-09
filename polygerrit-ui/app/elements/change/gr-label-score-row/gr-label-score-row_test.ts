@@ -296,6 +296,7 @@ suite('gr-label-row-score tests', () => {
               tabindex="0"
               title="bad"
               data-vote="min"
+              touch-target="none"
               votechip=""
               flatten=""
             >
@@ -313,6 +314,7 @@ suite('gr-label-row-score tests', () => {
               tabindex="0"
               data-vote="neutral"
               title="Reset Vote"
+              touch-target="none"
               votechip=""
               flatten=""
             >
@@ -336,6 +338,7 @@ suite('gr-label-row-score tests', () => {
               tabindex="0"
               title="good"
               data-vote="max"
+              touch-target="none"
               votechip=""
               flatten=""
             >

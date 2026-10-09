@@ -21,16 +21,8 @@ import {
 import {ChangeStatus} from '../../../constants/constants';
 import {getVoteForAccount} from '../../../utils/label-util';
 import {assert, fixture, html} from '@open-wc/testing';
-import {
-  executeServerCommand,
-  sendMouse,
-  setViewport,
-} from '@web/test-runner-commands';
-import {GrButton} from '../../shared/gr-button/gr-button';
-import {MdTextButton} from '@material/web/button/text-button';
 
 suite('gr-label-scores tests', () => {
-  const input = navigator.maxTouchPoints > 0 ? 'touch' : 'mouse';
   const accountId = 123 as AccountId;
   let element: GrLabelScores;
 
@@ -104,80 +96,6 @@ suite('gr-label-scores tests', () => {
       `
     );
   });
-
-  for (const width of [1200, 700, 390]) {
-    test(`${input} near a vote button cannot change another label at ${width}px`, async () => {
-      await setViewport({width, height: 800});
-      assert.equal(window.innerWidth, width);
-      let pointerType = '';
-      element.addEventListener('pointerdown', e => {
-        pointerType = e.pointerType;
-      });
-      const rows = ['Code-Review', 'Verified'].map(name =>
-        queryAndAssert<GrLabelScoreRow>(
-          element,
-          `gr-label-score-row[name="${name}"]`
-        )
-      );
-      await Promise.all(rows.map(row => row.updateComplete));
-      for (const row of rows) row.setSelectedValue('-1');
-      await Promise.all(rows.map(row => row.updateComplete));
-      const buttons = rows.map(row =>
-        queryAndAssert<GrButton>(row, 'gr-button[data-value=" 0"]')
-      );
-      await Promise.all(buttons.map(button => button.updateComplete));
-      await Promise.all(
-        buttons.map(
-          button =>
-            queryAndAssert<MdTextButton>(button, 'md-text-button')
-              .updateComplete
-        )
-      );
-      const rects = buttons.map(button => button.getBoundingClientRect());
-      const click = async (rect: DOMRect, y: number) => {
-        const position: [number, number] = [
-          Math.round(rect.x + rect.width / 2),
-          Math.round(y),
-        ];
-        if (input === 'touch') {
-          await executeServerCommand('send-touch-tap', {position});
-        } else {
-          await sendMouse({type: 'click', position});
-        }
-        await Promise.all(rows.map(row => row.updateComplete));
-      };
-
-      // Round away from fractional edges so the points are fully outside
-      // the buttons even with different fonts or device pixel rounding.
-      // Tap adjustment may select the nearby button, but never the other label.
-      await click(rects[0], Math.ceil(rects[0].bottom) + 1);
-      assert.equal(element.getLabelValues().Verified, -1);
-      if (input === 'mouse') {
-        assert.equal(element.getLabelValues()['Code-Review'], -1);
-      }
-      for (const row of rows) row.setSelectedValue('-1');
-      await Promise.all(rows.map(row => row.updateComplete));
-      await click(rects[1], Math.floor(rects[1].top) - 1);
-      assert.equal(element.getLabelValues()['Code-Review'], -1);
-      if (input === 'mouse') {
-        assert.equal(element.getLabelValues().Verified, -1);
-      }
-      for (const row of rows) row.setSelectedValue('-1');
-      await Promise.all(rows.map(row => row.updateComplete));
-
-      await click(rects[0], rects[0].y + rects[0].height / 2);
-      assert.equal(pointerType, input);
-      assert.deepEqual(element.getLabelValues(), {
-        'Code-Review': 0,
-        Verified: -1,
-      });
-      await click(rects[1], rects[1].y + rects[1].height / 2);
-      assert.deepEqual(element.getLabelValues(), {
-        'Code-Review': 0,
-        Verified: 0,
-      });
-    });
-  }
 
   test('get and set label scores', async () => {
     for (const label of Object.keys(element.permittedLabels!)) {

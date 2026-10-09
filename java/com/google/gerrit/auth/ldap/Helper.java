@@ -374,6 +374,7 @@ class Helper {
     return ImmutableSet.copyOf(actual);
   }
 
+  @SuppressWarnings("BanJNDI") // LDAP access is inherently JNDI-based.
   private void recursivelyExpandGroups(
       final Set<String> groupDNs,
       final LdapSchema schema,

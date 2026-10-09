@@ -63,6 +63,7 @@ class LdapQuery {
     return pattern.getParameterNames();
   }
 
+  @SuppressWarnings("BanJNDI") // LDAP access is inherently JNDI-based.
   List<Result> query(DirContext ctx, Map<String, String> params, Timer0 queryTimer)
       throws NamingException {
     final SearchControls sc = new SearchControls();

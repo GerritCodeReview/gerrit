@@ -5542,6 +5542,12 @@ created but the project initialization was not done. Note, that this does not
 override any existing project configuration. If a conflicting configuration
 already exists the request is rejected with `409 Conflict`. The default is
 `false`.
+|`ref_storage`               |optional|
+The ref storage format for the project's repository (`REF_DIRECTORY`,
+`REFTABLE`). +
+If not set, `REF_DIRECTORY` is used. `REFTABLE` requires the server to run
+with `core.usePerRequestRefCache=false`; otherwise the request is rejected
+with `409 Conflict`.
 |=========================================
 
 [[project-parent-input]]

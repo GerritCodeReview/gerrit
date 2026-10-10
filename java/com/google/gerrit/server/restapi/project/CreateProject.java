@@ -27,6 +27,7 @@ import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.client.InheritableBoolean;
+import com.google.gerrit.extensions.client.RefStorage;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.registration.DynamicItem;
@@ -136,6 +137,12 @@ public class CreateProject
     args.projectDescription = Strings.emptyToNull(input.description);
     args.submitType = input.submitType;
     args.branch = normalizeBranchNames(input.branches);
+    args.refStorage = input.refStorage;
+    if (input.refStorage == RefStorage.REFTABLE
+        && gerritConfig.getBoolean("core", null, "usePerRequestRefCache", true)) {
+      throw new ResourceConflictException(
+          "Creating a reftable repository requires core.usePerRequestRefCache=false");
+    }
     if (input.owners == null || input.owners.isEmpty()) {
       args.ownerIds = new ArrayList<>(projectOwnerGroups.create(args.getProject()).get());
     } else {

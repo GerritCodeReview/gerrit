@@ -1565,7 +1565,14 @@ export class GrFileList extends LitElement {
         For example, without a nested div screen readers pronounce the
         "Commit message" row content with incorrect column headers.
         -->
-      <div class=${this.computeClass('', file.__path)}>
+      <div
+        class=${this.computeClass(
+          '',
+          file.__path,
+          /* showForCommitMessage */ false,
+          file.status
+        )}
+      >
         ${when(
           file.diffs_too_expensive_to_compute,
           () => html`
@@ -2523,11 +2530,17 @@ export class GrFileList extends LitElement {
   }
 
   // Private but used in tests.
-  computeClass(baseClass = '', path?: string, showForCommitMessage = false) {
+  computeClass(
+    baseClass = '',
+    path?: string,
+    showForCommitMessage = false,
+    status?: FileInfoStatus
+  ) {
     const classes = [baseClass];
     if (
-      !(showForCommitMessage && path === SpecialFilePath.COMMIT_MESSAGE) &&
-      isMagicPath(path)
+      (!(showForCommitMessage && path === SpecialFilePath.COMMIT_MESSAGE) &&
+        isMagicPath(path)) ||
+      status === FileInfoStatus.UNMODIFIED
     ) {
       classes.push('invisible');
     }

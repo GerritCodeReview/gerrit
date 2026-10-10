@@ -38,6 +38,7 @@ import {
   ConfigParameterInfoType,
   InheritedBooleanInfoConfiguredValue,
   PermissionAction,
+  RefStorage,
   RepoState,
   SubmitType,
 } from '../../../constants/constants';
@@ -229,6 +230,20 @@ suite('gr-repo tests', () => {
                    placeholder="<Insert repo description here>"
                  >
                  </gr-autogrow-textarea>
+               </fieldset>
+               <h3
+                 class="heading-3"
+                 id="RefStorage"
+               >
+                 Ref Storage
+               </h3>
+               <fieldset>
+                 <section>
+                   <span class="title"> Format </span>
+                   <span class="value" id="refStorageFormat">
+                     RefDirectory
+                   </span>
+                 </section>
                </fieldset>
                <h3
                  class="heading-3"
@@ -1240,6 +1255,18 @@ suite('gr-repo tests', () => {
       assert.equal(
         sel.querySelector('md-select-option')!.textContent?.trim(),
         'Inherit (Merge if necessary)'
+      );
+    });
+
+    test('convert ref storage', async () => {
+      const convertStub = stubRestApi('convertRepoRefStorage').returns(
+        Promise.resolve(new Response())
+      );
+      await element.loadRepo();
+      await element.updateComplete;
+      await element.handleConvertRefStorageConfirm();
+      assert.isTrue(
+        convertStub.calledWithExactly(REPO as RepoName, RefStorage.REFTABLE)
       );
     });
 

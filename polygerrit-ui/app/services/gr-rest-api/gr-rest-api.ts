@@ -71,6 +71,7 @@ import {
   ProjectInfoWithName,
   ProjectInput,
   ProjectWatchInfo,
+  RefStorage,
   RelatedChangesInfo,
   RepoAccessInfoMap,
   RepoName,
@@ -755,6 +756,11 @@ export interface RestApiService extends Finalizable {
   ): Promise<TagInfo[]>;
 
   setRepoHead(repo: RepoName, ref: GitRef): Promise<Response>;
+
+  convertRepoRefStorage(
+    repo: RepoName,
+    refStorage: RefStorage
+  ): Promise<Response>;
   deleteRepoTags(repo: RepoName, ref: GitRef): Promise<Response>;
   deleteRepoBranches(repo: RepoName, ref: GitRef): Promise<Response>;
   saveRepoConfig(repo: RepoName, config: ConfigInput): Promise<Response>;

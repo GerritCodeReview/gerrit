@@ -1049,6 +1049,49 @@ a link:#change-info[ChangeInfo] entity describing the resulting change.
   }
 ----
 
+[[set-ref-storage]]
+=== Set Ref Storage
+--
+'PUT /projects/link:#project-name[\{project-name\}]/ref-storage'
+--
+
+Converts the ref storage of a project's repository between `REF_DIRECTORY`
+and `REFTABLE`.
+
+Conversion is supported in both directions, but only for a local repository that is
+not already in the requested format. Converting to `REFTABLE` additionally requires the server
+to run with `core.usePerRequestRefCache=false` (reftable is otherwise
+unservable). A request is rejected with `409 Conflict` when it cannot be
+satisfied: the repository is already in the requested format, is not a local
+repository, or targets `REFTABLE` while `core.usePerRequestRefCache` is
+enabled.
+
+Caller must be a member of a group that is granted the
+link:access-control.html#capability_administrateServer[Administrate Server]
+capability.
+
+The conversion must be described in the request body as a
+link:#ref-storage-input[RefStorageInput] entity.
+
+.Request
+----
+  PUT /projects/myproject/ref-storage HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "ref_storage": "REFTABLE"
+  }
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  "REFTABLE"
+----
+
 [[run-gc]]
 === Run GC
 --
@@ -5552,6 +5595,20 @@ The ref storage format for the project's repository (`REF_DIRECTORY`,
 If not set, `REF_DIRECTORY` is used. `REFTABLE` requires the server to run
 with `core.usePerRequestRefCache=false`; otherwise the request is rejected
 with `409 Conflict`.
+|=========================================
+
+[[ref-storage-input]]
+=== RefStorageInput
+The `RefStorageInput` entity contains information for converting the ref
+storage of a project's repository.
+
+[options="header",cols="1,^2,4"]
+|=========================================
+|Field Name     ||Description
+|`ref_storage`  ||
+The target ref storage format (`REFTABLE` or `REF_DIRECTORY`).
+|`backup`       |`true` if not set|
+Whether a backup of the old ref storage should be kept.
 |=========================================
 
 [[project-parent-input]]

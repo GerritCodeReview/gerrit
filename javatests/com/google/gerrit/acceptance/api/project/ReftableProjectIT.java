@@ -23,8 +23,10 @@ import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
+import com.google.gerrit.extensions.api.projects.RefStorageInput;
 import com.google.gerrit.extensions.client.RefStorage;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import java.io.File;
 import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
@@ -97,6 +99,79 @@ public class ReftableProjectIT extends AbstractDaemonTest {
         .isEqualTo(RefStorage.REFTABLE);
   }
 
+  @Test
+  @GerritConfig(name = "core.usePerRequestRefCache", value = "false")
+  public void convertRefDirectoryProjectToReftable() throws Exception {
+    Project.NameKey name = Project.nameKey(name("to-convert"));
+    gApi.projects().create(name.get());
+
+    try (Repository repo = repoManager.openRepository(name)) {
+      assertThat(
+              repo.getConfig()
+                  .getInt(
+                      ConfigConstants.CONFIG_CORE_SECTION,
+                      null,
+                      ConfigConstants.CONFIG_KEY_REPO_FORMAT_VERSION,
+                      0))
+          .isEqualTo(0);
+    }
+
+    RefStorageInput in = new RefStorageInput();
+    in.refStorage = RefStorage.REFTABLE;
+    adminRestSession.put("/projects/" + name.get() + "/ref-storage", in).assertOK();
+
+    try (Repository repo = repoManager.openRepository(name)) {
+      assertReftable(repo);
+      assertThat(repo.exactRef(RefNames.REFS_CONFIG)).isNotNull();
+      assertThat(new File(repo.getDirectory(), "refs.old").exists()).isTrue();
+    }
+  }
+
+  @Test
+  @GerritConfig(name = "core.usePerRequestRefCache", value = "false")
+  public void convertReftableProjectBackToRefDirectory() throws Exception {
+    Project.NameKey name = Project.nameKey(name("to-revert"));
+    ProjectInput create = new ProjectInput();
+    create.name = name.get();
+    create.refStorage = RefStorage.REFTABLE;
+    create.createEmptyCommit = true;
+    gApi.projects().create(create);
+
+    RefStorageInput in = new RefStorageInput();
+    in.refStorage = RefStorage.REF_DIRECTORY;
+    adminRestSession.put("/projects/" + name.get() + "/ref-storage", in).assertOK();
+
+    try (Repository repo = repoManager.openRepository(name)) {
+      assertRefDirectory(repo);
+      assertThat(repo.exactRef(Constants.R_HEADS + Constants.MASTER)).isNotNull();
+      assertThat(repo.exactRef(RefNames.REFS_CONFIG)).isNotNull();
+    }
+    assertThat(gApi.projects().name(name.get()).config().refStorage)
+        .isEqualTo(RefStorage.REF_DIRECTORY);
+  }
+
+  @Test
+  @GerritConfig(name = "core.usePerRequestRefCache", value = "false")
+  public void convertRefusedWhenAlreadyInTargetFormat() throws Exception {
+    Project.NameKey name = Project.nameKey(name("already-refdir"));
+    gApi.projects().create(name.get());
+
+    RefStorageInput in = new RefStorageInput();
+    in.refStorage = RefStorage.REF_DIRECTORY;
+    adminRestSession.put("/projects/" + name.get() + "/ref-storage", in).assertConflict();
+  }
+
+  @Test
+  @GerritConfig(name = "core.usePerRequestRefCache", value = "true")
+  public void convertRefusedWhenPerRequestRefCacheEnabled() throws Exception {
+    Project.NameKey name = Project.nameKey(name("no-reftable"));
+    gApi.projects().create(name.get());
+
+    RefStorageInput in = new RefStorageInput();
+    in.refStorage = RefStorage.REFTABLE;
+    adminRestSession.put("/projects/" + name.get() + "/ref-storage", in).assertConflict();
+  }
+
   private static void assertReftable(Repository repo) {
     assertThat(
             repo.getConfig()
@@ -113,5 +188,23 @@ public class ReftableProjectIT extends AbstractDaemonTest {
                     null,
                     ConfigConstants.CONFIG_KEY_REF_STORAGE))
         .isEqualTo(ConfigConstants.CONFIG_REF_STORAGE_REFTABLE);
+  }
+
+  private static void assertRefDirectory(Repository repo) {
+    assertThat(
+            repo.getConfig()
+                .getInt(
+                    ConfigConstants.CONFIG_CORE_SECTION,
+                    null,
+                    ConfigConstants.CONFIG_KEY_REPO_FORMAT_VERSION,
+                    0))
+        .isEqualTo(0);
+    assertThat(
+            repo.getConfig()
+                .getString(
+                    ConfigConstants.CONFIG_EXTENSIONS_SECTION,
+                    null,
+                    ConfigConstants.CONFIG_KEY_REF_STORAGE))
+        .isNull();
   }
 }

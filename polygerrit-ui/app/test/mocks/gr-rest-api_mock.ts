@@ -635,6 +635,9 @@ export const grRestApiMock: RestApiService = {
   setRepoHead(): Promise<Response> {
     return Promise.resolve(new Response());
   },
+  convertRepoRefStorage(): Promise<Response> {
+    return Promise.resolve(new Response());
+  },
   updateIdentityInChangeEdit(): Promise<Response | undefined> {
     return Promise.resolve(new Response());
   },

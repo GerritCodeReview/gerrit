@@ -181,6 +181,14 @@ export enum RevisionKind {
 }
 
 /**
+ * Reference storage format selectable when creating a repository.
+ */
+export enum RefStorage {
+  REF_DIRECTORY = 'REF_DIRECTORY',
+  REFTABLE = 'REFTABLE',
+}
+
+/**
  * All supported submit types.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#submit-type-info
  */

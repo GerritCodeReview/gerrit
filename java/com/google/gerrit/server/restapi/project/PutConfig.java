@@ -153,7 +153,8 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
           cfgFactory,
           allProjects,
           uiActions,
-          views);
+          views,
+          ConfigInfoCreator.refStorageOf(updater.getRepository().getRefDatabase()));
 
     } catch (IOException e) {
       if (e.getCause() instanceof ConfigInvalidException) {

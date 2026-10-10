@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.project;
 
 import com.google.gerrit.extensions.api.projects.ConfigInfo;
+import com.google.gerrit.extensions.client.RefStorage;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
@@ -24,12 +25,15 @@ import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.extensions.webui.UiActions;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.io.IOException;
+import org.eclipse.jgit.lib.Repository;
 
 @Singleton
 public class GetConfig implements RestReadView<ProjectResource> {
@@ -40,6 +44,7 @@ public class GetConfig implements RestReadView<ProjectResource> {
   private final PermissionBackend permissionBackend;
   private final UiActions uiActions;
   private final DynamicMap<RestView<ProjectResource>> views;
+  private final GitRepositoryManager repoManager;
 
   @Inject
   public GetConfig(
@@ -49,7 +54,8 @@ public class GetConfig implements RestReadView<ProjectResource> {
       AllProjectsName allProjects,
       PermissionBackend permissionBackend,
       UiActions uiActions,
-      DynamicMap<RestView<ProjectResource>> views) {
+      DynamicMap<RestView<ProjectResource>> views,
+      GitRepositoryManager repoManager) {
     this.serverEnableSignedPush = serverEnableSignedPush;
     this.pluginConfigEntries = pluginConfigEntries;
     this.allProjects = allProjects;
@@ -57,6 +63,7 @@ public class GetConfig implements RestReadView<ProjectResource> {
     this.permissionBackend = permissionBackend;
     this.uiActions = uiActions;
     this.views = views;
+    this.repoManager = repoManager;
   }
 
   @Override
@@ -66,6 +73,12 @@ public class GetConfig implements RestReadView<ProjectResource> {
             .currentUser()
             .project(resource.getNameKey())
             .test(ProjectPermission.READ_CONFIG);
+    RefStorage refStorage = null;
+    try (Repository repo = repoManager.openRepository(resource.getNameKey())) {
+      refStorage = ConfigInfoCreator.refStorageOf(repo.getRefDatabase());
+    } catch (IOException e) {
+      // Leave refStorage unset if the repository cannot be opened.
+    }
     return Response.ok(
         ConfigInfoCreator.constructInfo(
             serverEnableSignedPush,
@@ -75,6 +88,7 @@ public class GetConfig implements RestReadView<ProjectResource> {
             cfgFactory,
             allProjects,
             uiActions,
-            views));
+            views,
+            refStorage));
   }
 }

@@ -25,6 +25,7 @@ import com.google.common.base.Predicates;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.extensions.client.RefStorage;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.DelegateRepository;
@@ -193,6 +194,12 @@ public class GitRepositoryReferenceCountingManager implements GitRepositoryManag
   public Repository createRepository(Project.NameKey name)
       throws RepositoryNotFoundException, RepositoryExistsException, IOException {
     return trackRepository(name, delegate.createRepository(name));
+  }
+
+  @Override
+  public Repository createRepository(Project.NameKey name, RefStorage refStorage)
+      throws RepositoryNotFoundException, RepositoryExistsException, IOException {
+    return trackRepository(name, delegate.createRepository(name, refStorage));
   }
 
   @Override

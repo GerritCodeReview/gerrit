@@ -94,6 +94,26 @@ public class ReftableProjectIT extends AbstractDaemonTest {
     assertThat(thrown).hasMessageThat().contains("init-only");
   }
 
+  @Test
+  public void configReportsRefDirectoryFormat() throws Exception {
+    Project.NameKey refDirectory = Project.nameKey(name("config-refdir"));
+    gApi.projects().create(refDirectory.get());
+    assertThat(gApi.projects().name(refDirectory.get()).config().refStorage)
+        .isEqualTo(RefStorage.REF_DIRECTORY);
+  }
+
+  @Test
+  @GerritConfig(name = "core.usePerRequestRefCache", value = "false")
+  public void configReportsReftableFormat() throws Exception {
+    Project.NameKey reftable = Project.nameKey(name("config-reftable"));
+    ProjectInput in = new ProjectInput();
+    in.name = reftable.get();
+    in.refStorage = RefStorage.REFTABLE;
+    gApi.projects().create(in);
+    assertThat(gApi.projects().name(reftable.get()).config().refStorage)
+        .isEqualTo(RefStorage.REFTABLE);
+  }
+
   private static void assertReftable(Repository repo) {
     assertThat(
             repo.getConfig()

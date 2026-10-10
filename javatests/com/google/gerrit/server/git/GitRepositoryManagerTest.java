@@ -14,8 +14,11 @@
 package com.google.gerrit.server.git;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertThrows;
 
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.Project.NameKey;
+import com.google.gerrit.extensions.client.RefStorage;
 import java.util.NavigableSet;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.Before;
@@ -33,6 +36,13 @@ public class GitRepositoryManagerTest {
   @Test
   public void shouldReturnFalseWhenDefaultCanPerformGC() {
     assertThat(objectUnderTest.canPerformGC()).isFalse();
+  }
+
+  @Test
+  public void shouldRejectUnsupportedRefStorageFormat() {
+    assertThrows(
+        RefStorageNotSupportedException.class,
+        () -> objectUnderTest.createRepository(Project.nameKey("test"), RefStorage.REFTABLE));
   }
 
   private static class TestGitRepositoryManager implements GitRepositoryManager {

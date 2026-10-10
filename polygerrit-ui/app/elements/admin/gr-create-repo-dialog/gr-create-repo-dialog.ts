@@ -11,12 +11,14 @@ import {
   ProjectInput,
   RepoName,
 } from '../../../types/common';
+import {RefStorage} from '../../../constants/constants';
 import {AutocompleteQuery} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {getAppContext} from '../../../services/app-context';
 import {convertToString} from '../../../utils/string-util';
 import {grFormStyles} from '../../../styles/gr-form-styles';
 import {sharedStyles} from '../../../styles/shared-styles';
 import {css, html, LitElement} from 'lit';
+import {when} from 'lit/directives/when.js';
 import {customElement, property, query, state} from 'lit/decorators.js';
 import {fire} from '../../../utils/event-util';
 import {throwingErrorCallback} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
@@ -72,6 +74,9 @@ export class GrCreateRepoDialog extends LitElement {
 
   @state() private defaultBranch = 'master';
 
+  /* private but used in test */
+  @state() reftableEnabled = false;
+
   private readonly query: AutocompleteQuery;
 
   private readonly queryGroups: AutocompleteQuery;
@@ -93,6 +98,7 @@ export class GrCreateRepoDialog extends LitElement {
         this.defaultBranch = branchName(
           config?.gerrit?.default_branch ?? 'master'
         );
+        this.reftableEnabled = config?.gerrit?.reftable_enabled ?? false;
       }
     );
   }
@@ -270,6 +276,31 @@ export class GrCreateRepoDialog extends LitElement {
               </span>
             </div>
           </section>
+          ${when(
+            this.reftableEnabled,
+            () => html`<section>
+              <div class="title-flex">
+                <span class="title">
+                  <gr-tooltip-content
+                    has-tooltip
+                    title="Store references using the reftable backend instead of the default refs directory."
+                  >
+                    Reftable <gr-icon icon="info"></gr-icon>
+                  </gr-tooltip-content>
+                </span>
+              </div>
+              <div class="value-flex">
+                <span class="value">
+                  <md-checkbox
+                    id="reftable"
+                    ?checked=${this.repoConfig.ref_storage ===
+                    RefStorage.REFTABLE}
+                    @change=${this.handleReftableChanged}
+                  ></md-checkbox>
+                </span>
+              </div>
+            </section>`
+          )}
         </div>
       </div>
     `;
@@ -352,6 +383,16 @@ export class GrCreateRepoDialog extends LitElement {
     this.repoConfig = {
       ...this.repoConfig,
       create_empty_commit: !this.repoConfig.create_empty_commit,
+    };
+  }
+
+  private handleReftableChanged() {
+    this.repoConfig = {
+      ...this.repoConfig,
+      ref_storage:
+        this.repoConfig.ref_storage === RefStorage.REFTABLE
+          ? undefined
+          : RefStorage.REFTABLE,
     };
   }
 

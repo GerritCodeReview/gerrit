@@ -15,6 +15,7 @@
 package com.google.gerrit.extensions.api.projects;
 
 import com.google.gerrit.extensions.client.InheritableBoolean;
+import com.google.gerrit.extensions.client.RefStorage;
 import com.google.gerrit.extensions.client.SubmitType;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +26,7 @@ public class ProjectInput {
   public String description;
   public boolean permissionsOnly;
   public boolean createEmptyCommit;
+  public RefStorage refStorage;
   public SubmitType submitType;
   public List<String> branches;
   public List<String> owners;

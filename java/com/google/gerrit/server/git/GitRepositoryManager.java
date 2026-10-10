@@ -15,6 +15,7 @@
 package com.google.gerrit.server.git;
 
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.extensions.client.RefStorage;
 import com.google.inject.ImplementedBy;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -72,6 +73,28 @@ public interface GitRepositoryManager {
    */
   Repository createRepository(Project.NameKey name)
       throws RepositoryNotFoundException, RepositoryExistsException, IOException;
+
+  /**
+   * Create (and open) a repository with the given ref storage format.
+   *
+   * @param name name of the repository to be created.
+   * @param refStorage ref storage format, or {@code null} for the default. Only honored when
+   *     creating a new repository.
+   * @return the newly created Repository instance. Caller must call {@code close()} when done.
+   * @throws RepositoryExistsException repository exists.
+   * @throws RepositoryCaseMismatchException the name collides with an existing name.
+   * @throws RepositoryNotFoundException the name is invalid.
+   * @throws IOException the repository cannot be created, or the requested format is not supported
+   *     by this repository manager.
+   */
+  default Repository createRepository(Project.NameKey name, RefStorage refStorage)
+      throws RepositoryNotFoundException, RepositoryExistsException, IOException {
+    if (refStorage != null && refStorage != RefStorage.REF_DIRECTORY) {
+      throw new IOException(
+          "Ref storage format " + refStorage + " is not supported by this repository manager");
+    }
+    return createRepository(name);
+  }
 
   /** Returns set of all known projects, sorted by natural NameKey order. */
   NavigableSet<Project.NameKey> list();

@@ -36,6 +36,7 @@ import {
 import {GrChangeListItem} from '../gr-change-list-item/gr-change-list-item';
 import {GrChangeListSection} from '../gr-change-list-section/gr-change-list-section';
 import {assert, fixture} from '@open-wc/testing';
+import {setViewport} from '@web/test-runner-commands';
 import {html} from 'lit';
 import {testResolver} from '../../../test/common-test-setup';
 import {Timestamp} from '../../../api/rest-api';
@@ -576,6 +577,7 @@ suite('gr-change-list basic tests', () => {
   });
 
   test('loggedIn and showNumber', async () => {
+    await setViewport({width: 1000, height: 900});
     element.sections = [{results: [{...createChange()}], name: 'a'}];
     element.loggedInUser = {_account_id: 1001 as AccountId};
     element.preferences = {
@@ -620,6 +622,17 @@ suite('gr-change-list basic tests', () => {
     await section.updateComplete;
     assert.isOk(query(query(section, 'gr-change-list-item'), '.star'));
     assert.isOk(query(query(section, 'gr-change-list-item'), '.number'));
+
+    element.showNumber = false;
+    await element.updateComplete;
+    await section.updateComplete;
+    await setViewport({width: 390, height: 900});
+    const row = queryAndAssert<GrChangeListItem>(
+      section,
+      'gr-change-list-item'
+    );
+    await waitUntil(() => !!query(row, '.change-header'));
+    assert.equal(queryAndAssert(row, '.number').textContent?.trim(), '42');
   });
 
   test('garbage columns in preference are not shown', async () => {

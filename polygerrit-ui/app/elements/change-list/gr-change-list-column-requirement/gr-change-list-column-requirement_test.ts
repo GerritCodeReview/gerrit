@@ -8,6 +8,7 @@ import {assert, fixture} from '@open-wc/testing';
 import {html} from 'lit';
 import './gr-change-list-column-requirement';
 import {GrChangeListColumnRequirement} from './gr-change-list-column-requirement';
+import {GrVoteChip} from '../../shared/gr-vote-chip/gr-vote-chip';
 import {
   createChange,
   createNonApplicableSubmitRequirementResultInfo,
@@ -63,6 +64,31 @@ suite('gr-change-list-column-requirement tests', () => {
     );
   });
 
+  test('compact status badge includes the label and full tooltip', async () => {
+    element =
+      await fixture<GrChangeListColumnRequirement>(html`<gr-change-list-column-requirement
+        .change=${change}
+        labelName="Code-Review"
+        compact
+      ></gr-change-list-column-requirement>`);
+    assert.equal(
+      element.shadowRoot!.querySelector('.badge')!.textContent?.trim(),
+      'CR'
+    );
+    assert.equal(
+      element.shadowRoot!.querySelector('gr-icon')!.getAttribute('icon'),
+      'check_circle'
+    );
+    assert.equal(
+      element.shadowRoot!.querySelector('.container')!.getAttribute('title'),
+      'Code-Review: Satisfied'
+    );
+    element.labelName = 'Missing';
+    await element.updateComplete;
+    assert.isNull(element.shadowRoot!.querySelector('.badge'));
+    assert.isNull(element.shadowRoot!.querySelector('.container'));
+  });
+
   test('show worst vote when state is not satisfied', async () => {
     const VALUES_2 = {
       '-2': 'blocking',
@@ -105,7 +131,7 @@ suite('gr-change-list-column-requirement tests', () => {
         <gr-vote-chip tooltip-with-who-voted=""></gr-vote-chip>
       </div>`
     );
-    const voteChip = queryAndAssert(element, 'gr-vote-chip');
+    const voteChip = queryAndAssert<GrVoteChip>(element, 'gr-vote-chip');
     assert.shadowDom.equal(
       voteChip,
       /* HTML */
@@ -154,7 +180,7 @@ suite('gr-change-list-column-requirement tests', () => {
         <gr-vote-chip tooltip-with-who-voted=""></gr-vote-chip>
       </div>`
     );
-    const voteChip = queryAndAssert(element, 'gr-vote-chip');
+    const voteChip = queryAndAssert<GrVoteChip>(element, 'gr-vote-chip');
     assert.shadowDom.equal(
       voteChip,
       /* HTML */
@@ -165,6 +191,27 @@ suite('gr-change-list-column-requirement tests', () => {
       >
         <div class="positive vote-chip">+1</div>
       </gr-tooltip-content>`
+    );
+    element.compact = true;
+    await element.updateComplete;
+    await voteChip.updateComplete;
+    assert.equal(voteChip.labelName, 'CQ');
+    assert.equal(
+      voteChip.shadowRoot!.querySelector('.vote-chip')!.textContent?.trim(),
+      'CQ+1'
+    );
+    element.change = {
+      ...change,
+      labels: {'Commit-Queue': {values: VALUES_2, all: []}},
+    };
+    await element.updateComplete;
+    assert.equal(
+      element.shadowRoot!.querySelector('.badge')!.textContent?.trim(),
+      'CQ—'
+    );
+    assert.equal(
+      element.shadowRoot!.querySelector('.container')!.getAttribute('title'),
+      'Commit-Queue: No votes'
     );
   });
 });

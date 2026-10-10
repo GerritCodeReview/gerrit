@@ -19,6 +19,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ProjectState;
+import com.google.gerrit.extensions.client.RefStorage;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ActionInfo;
 import java.util.List;
@@ -47,6 +48,10 @@ public class ConfigInfo {
   public SubmitType submitType;
   public SubmitTypeInfo defaultSubmitType;
   public ProjectState state;
+
+  /** Current ref storage format of the project's repository. */
+  @Nullable public RefStorage refStorage;
+
   public Map<String, Map<String, ConfigParameterInfo>> pluginConfig;
   public Map<String, ActionInfo> actions;
 

@@ -42,6 +42,7 @@ import {
 import {
   createDefaultDiffPrefs,
   DiffViewMode,
+  FileInfoStatus,
   SpecialFilePath,
 } from '../../../constants/constants';
 import {
@@ -1800,6 +1801,31 @@ suite('gr-file-list tests', () => {
           ' May include files outside of this change, also virtual or generated files.'
       );
     });
+
+    test('should hide stats column for unmodified files', async () => {
+      const modifiedFiles = createFiles(1, {lines_inserted: 5});
+      const unmodifiedFiles = createFiles(1, {
+        status: FileInfoStatus.UNMODIFIED,
+      });
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (element as any).modifiedFiles = modifiedFiles;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (element as any).unmodifiedFiles = unmodifiedFiles;
+      element.files = [...modifiedFiles, ...unmodifiedFiles];
+      await element.updateComplete;
+
+      const fileRows = queryAll<HTMLDivElement>(element, '.file-row');
+      assert.equal(fileRows.length, 2);
+
+      const modifiedStatsContent = queryAndAssert(fileRows[0], '.stats > div');
+      assert.isFalse(modifiedStatsContent.classList.contains('invisible'));
+
+      const unmodifiedStatsContent = queryAndAssert(
+        fileRows[1],
+        '.stats > div'
+      );
+      assert.isTrue(unmodifiedStatsContent.classList.contains('invisible'));
+    });
   });
 
   suite('diff url file list', () => {
@@ -2394,6 +2420,15 @@ suite('gr-file-list tests', () => {
         'invisible'
       );
       assert.equal(element.computeClass('', 'file.java'), '');
+      assert.equal(
+        element.computeClass(
+          '',
+          'file.java',
+          /* showForCommitMessage */ false,
+          FileInfoStatus.UNMODIFIED
+        ),
+        'invisible'
+      );
     });
   });
 

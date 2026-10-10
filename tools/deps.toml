@@ -10,7 +10,7 @@ httpcomp = "4.5.14"
 jetty = "12.1.12"
 mail = "1.6.0"
 mime4j = "0.8.1"
-ow2 = "9.9.1"
+ow2 = "9.10.1"
 prolog = "1.4.4"
 roaringBitmap = "0.9.44"
 

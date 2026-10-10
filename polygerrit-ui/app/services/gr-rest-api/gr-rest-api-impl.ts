@@ -87,6 +87,7 @@ import {
   ProjectInfoWithName,
   ProjectInput,
   ProjectWatchInfo,
+  RefStorage,
   RelatedChangesInfo,
   RepoAccessInfoMap,
   RepoName,
@@ -1753,6 +1754,18 @@ export class GrRestApiServiceImpl implements RestApiService, Finalizable {
       }),
       url: `/projects/${encodeURIComponent(repo)}/HEAD`,
       anonymizedUrl: '/projects/*/HEAD',
+      reportServerError: true,
+    });
+  }
+
+  convertRepoRefStorage(repo: RepoName, refStorage: RefStorage) {
+    return this._restApiHelper.fetch({
+      fetchOptions: getFetchOptions({
+        method: HttpMethod.PUT,
+        body: {ref_storage: refStorage},
+      }),
+      url: `/projects/${encodeURIComponent(repo)}/ref-storage`,
+      anonymizedUrl: '/projects/*/ref-storage',
       reportServerError: true,
     });
   }

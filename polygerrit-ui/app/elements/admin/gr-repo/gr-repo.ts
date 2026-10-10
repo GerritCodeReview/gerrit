@@ -6,6 +6,7 @@
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param';
 import '../../shared/gr-button/gr-button';
+import '../../shared/gr-dialog/gr-dialog';
 import '../../shared/gr-download-commands/gr-download-commands';
 import '../gr-repo-plugin-config/gr-repo-plugin-config';
 import {navigationToken} from '../../core/gr-navigation/gr-navigation';
@@ -22,11 +23,17 @@ import {
 } from '../../../types/common';
 import {
   InheritedBooleanInfoConfiguredValue,
+  RefStorage,
   RepoState,
   SubmitType,
 } from '../../../constants/constants';
 import {assertIsDefined, hasOwnProperty} from '../../../utils/common-util';
-import {firePageError, fireTitleChange} from '../../../utils/event-util';
+import {
+  fireAlert,
+  fireError,
+  firePageError,
+  fireTitleChange,
+} from '../../../utils/event-util';
 import {getAppContext} from '../../../services/app-context';
 import {WebLinkInfo} from '../../../types/diff';
 import {ErrorCallback} from '../../../api/rest';
@@ -37,7 +44,7 @@ import {sharedStyles} from '../../../styles/shared-styles';
 import {BindValueChangeEvent} from '../../../types/events';
 import {deepClone} from '../../../utils/deep-util';
 import {css, html, LitElement, nothing, PropertyValues} from 'lit';
-import {customElement, property, state} from 'lit/decorators.js';
+import {customElement, property, query, state} from 'lit/decorators.js';
 import {createChangeUrl} from '../../../models/views/change';
 import {when} from 'lit/directives/when.js';
 import {subscribe} from '../../lit/subscription-controller';
@@ -50,6 +57,7 @@ import {computeMainCodeBrowserWeblink} from '../../../utils/weblink-util';
 import {Command} from '../../shared/gr-download-commands/gr-download-commands';
 import '@material/web/textfield/outlined-text-field';
 import {materialStyles} from '../../../styles/gr-material-styles';
+import {modalStyles} from '../../../styles/gr-modal-styles';
 import '../../shared/gr-autogrow-textarea/gr-autogrow-textarea';
 import {GrAutogrowTextarea} from '../../shared/gr-autogrow-textarea/gr-autogrow-textarea';
 import {formStyles} from '../../../styles/form-styles';
@@ -130,6 +138,9 @@ export class GrRepo extends LitElement {
 
   @state() private pluginConfigChanged = false;
 
+  @query('#convertRefStorageModal')
+  private readonly convertRefStorageModal?: HTMLDialogElement;
+
   private readonly getUserModel = resolve(this, userModelToken);
 
   private readonly restApiService = getAppContext().restApiService;
@@ -171,6 +182,7 @@ export class GrRepo extends LitElement {
       grFormStyles,
       subpageStyles,
       sharedStyles,
+      modalStyles,
       css`
         .info {
           margin-bottom: var(--spacing-xl);
@@ -226,8 +238,8 @@ export class GrRepo extends LitElement {
             </h2>
             <div id="form">
               <fieldset>
-                ${this.renderDescription()} ${this.renderRepoOptions()}
-                ${this.renderPluginConfig()}
+                ${this.renderDescription()} ${this.renderRefStorage()}
+                ${this.renderRepoOptions()} ${this.renderPluginConfig()}
                 <gr-button
                   id="saveBtn"
                   ?disabled=${this.readOnly ||
@@ -242,7 +254,35 @@ export class GrRepo extends LitElement {
                   @click=${this.handleSaveRepoConfigForReview}
                   >Save For Review</gr-button
                 >
+                ${when(
+                  this.showConvertRefStorage,
+                  () => html`<gr-button
+                    id="convertReftableBtn"
+                    ?disabled=${this.readOnly}
+                    @click=${() => this.convertRefStorageModal?.showModal()}
+                    >Convert to ${this.convertTargetLabel}</gr-button
+                  >`
+                )}
               </fieldset>
+              ${when(
+                this.showConvertRefStorage,
+                () => html`<dialog id="convertRefStorageModal" tabindex="-1">
+                  <gr-dialog
+                    confirm-label="Convert"
+                    @confirm=${this.handleConvertRefStorageConfirm}
+                    @cancel=${() => this.convertRefStorageModal?.close()}
+                  >
+                    <div class="header" slot="header">
+                      Convert to ${this.convertTargetLabel}
+                    </div>
+                    <div class="main" slot="main">
+                      Convert ${this.repo} to the ${this.convertTargetLabel} ref
+                      storage backend? The previous ref storage is kept as a
+                      backup.
+                    </div>
+                  </gr-dialog>
+                </dialog>`
+              )}
               <gr-endpoint-decorator name="repo-config">
                 <gr-endpoint-param
                   name="repoName"
@@ -298,6 +338,20 @@ export class GrRepo extends LitElement {
           ?disabled=${this.readOnly}
           @input=${this.handleDescriptionInput}
         ></gr-autogrow-textarea>
+      </fieldset>
+    `;
+  }
+
+  private renderRefStorage() {
+    return html`
+      <h3 id="RefStorage" class="heading-3">Ref Storage</h3>
+      <fieldset>
+        <section>
+          <span class="title">Format</span>
+          <span class="value" id="refStorageFormat"
+            >${this.currentRefStorageLabel}</span
+          >
+        </section>
       </fieldset>
     `;
   }
@@ -996,6 +1050,51 @@ export class GrRepo extends LitElement {
           button.loading = false;
         }
       });
+  }
+
+  // reftable requires core.usePerRequestRefCache=false, so offer the conversion
+  // only where it can succeed: when the server advertises reftable support, or
+  // when the repository is already reftable (to convert it back).
+  private get showConvertRefStorage() {
+    return (
+      !!this.serverConfig?.gerrit?.reftable_enabled ||
+      this.repoConfig?.ref_storage === RefStorage.REFTABLE
+    );
+  }
+
+  private get convertTargetLabel() {
+    return this.repoConfig?.ref_storage === RefStorage.REFTABLE
+      ? 'RefDirectory'
+      : 'Reftable';
+  }
+
+  private get currentRefStorageLabel() {
+    return this.repoConfig?.ref_storage === RefStorage.REFTABLE
+      ? 'Reftable'
+      : 'RefDirectory';
+  }
+
+  async handleConvertRefStorageConfirm() {
+    const repo = this.repo;
+    const targetName = this.convertTargetLabel;
+    this.convertRefStorageModal?.close();
+    if (!repo) return;
+    const target =
+      this.repoConfig?.ref_storage === RefStorage.REFTABLE
+        ? RefStorage.REF_DIRECTORY
+        : RefStorage.REFTABLE;
+    try {
+      const response = await this.restApiService.convertRepoRefStorage(
+        repo,
+        target
+      );
+      if (!response?.ok) return;
+      fireAlert(this, `Converted ${repo} to ${targetName}`);
+      await this.loadRepo();
+    } catch (e) {
+      fireError(this, `Failed to convert ${repo} to ${targetName}`);
+      throw e;
+    }
   }
 
   private isEdited(

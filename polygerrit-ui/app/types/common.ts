@@ -237,6 +237,7 @@ export {
   FIRST_PARENT,
   isDetailedLabelInfo,
   isQuickLabelInfo,
+  RefStorage,
 };
 
 /*

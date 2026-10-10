@@ -16,6 +16,7 @@ import {
   MergeStrategy,
   NotifyType,
   PermissionAction,
+  RefStorage,
   RepoState,
   SubmitType,
   TimeFormat,
@@ -851,6 +852,7 @@ export interface ProjectInput {
   description?: string;
   permissions_only?: boolean;
   create_empty_commit?: boolean;
+  ref_storage?: RefStorage;
   submit_type?: SubmitType;
   branches?: BranchName[];
   owners?: GroupId[];

@@ -8,10 +8,12 @@ import './gr-create-repo-dialog';
 import {GrCreateRepoDialog} from './gr-create-repo-dialog';
 import {
   mockPromise,
+  query,
   queryAndAssert,
   stubRestApi,
 } from '../../../test/test-utils';
 import {BranchName, GroupId, RepoName} from '../../../types/common';
+import {RefStorage} from '../../../constants/constants';
 import {GrAutocomplete} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {assert, fixture, html} from '@open-wc/testing';
 import {MdCheckbox} from '@material/web/checkbox/checkbox';
@@ -153,6 +155,22 @@ suite('gr-create-repo-dialog tests', () => {
       queryAndAssert<MdCheckbox>(element, '#initialCommit').checked
     );
     assert.isFalse(queryAndAssert<MdCheckbox>(element, '#parentRepo').checked);
+  });
+
+  test('reftable checkbox hidden unless server advertises reftable', () => {
+    assert.isUndefined(query<MdCheckbox>(element, '#reftable'));
+  });
+
+  test('reftable checkbox selects reftable ref storage', async () => {
+    element.reftableEnabled = true;
+    await element.updateComplete;
+    const checkbox = queryAndAssert<MdCheckbox>(element, '#reftable');
+    checkbox.checked = true;
+    checkbox.dispatchEvent(
+      new Event('change', {bubbles: true, composed: true})
+    );
+    await element.updateComplete;
+    assert.equal(element.repoConfig.ref_storage, RefStorage.REFTABLE);
   });
 
   test('repo created', async () => {

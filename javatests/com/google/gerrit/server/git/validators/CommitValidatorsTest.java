@@ -41,10 +41,10 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectNotifyFilterValidator;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.project.ReceiveCommitControl;
 import com.google.gerrit.server.query.approval.ApprovalQueryBuilder;
 import java.util.Optional;
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Test;
 import org.mockito.ArgumentMatchers;
@@ -101,7 +101,7 @@ public class CommitValidatorsTest {
     PluginSetContext<CommitValidationInfoListener> commitValidationInfoListeners =
         mock(PluginSetContext.class);
     return new CommitValidators.Factory(
-        new PersonIdent("gerrit", "gerrit@example.com"),
+        mock(ReceiveCommitControl.class),
         urlFormatter,
         new Config(),
         pluginValidators,

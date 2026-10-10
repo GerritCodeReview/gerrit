@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.git;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
+import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.git.testing.PushResultSubject.assertThat;
@@ -25,6 +26,7 @@ import static java.util.stream.Collectors.toList;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.GlobalCapability;
@@ -33,6 +35,7 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.server.project.ProjectConfig;
@@ -44,6 +47,7 @@ import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.BlobBasedConfig;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.PushResult;
@@ -123,6 +127,187 @@ public class PushPermissionsIT extends AbstractDaemonTest {
     RemoteRefUpdate success =
         push("HEAD:refs/heads/newbranch").getRemoteUpdate("refs/heads/newbranch");
     assertThat(success.getStatus()).isEqualTo(Status.OK);
+  }
+
+  @Test
+  public void pushMergeCommitDirectlyWithPushMergePermissionOnTargetRef() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.PUSH).ref("refs/heads/*").group(REGISTERED_USERS))
+        .add(allow(Permission.PUSH_MERGE).ref("refs/heads/*").group(REGISTERED_USERS))
+        .update();
+
+    createMergeCommit().to("refs/heads/master").assertOkStatus();
+  }
+
+  @Test
+  public void pushMergeCommitDirectlyWithLegacyPushMergePermission() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.PUSH).ref("refs/heads/*").group(REGISTERED_USERS))
+        .add(allow(Permission.PUSH_MERGE).ref("refs/for/refs/heads/*").group(REGISTERED_USERS))
+        .update();
+
+    createMergeCommit().to("refs/heads/master").assertOkStatus();
+  }
+
+  @Test
+  public void pushMergeCommitDirectlyWithoutPushMergePermissionDenied() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.PUSH).ref("refs/heads/*").group(REGISTERED_USERS))
+        .update();
+
+    createMergeCommit()
+        .to("refs/heads/master")
+        .assertErrorStatus("you are not allowed to upload merges");
+  }
+
+  @Test
+  public void pushMergeCommitDirectlyWithoutPushPermissionDenied() throws Exception {
+    // Push Merge Commit is an add-on to Push (see access-control.txt): granting it without Push is
+    // not sufficient, so the push is rejected at the ref-update check before the merge validator.
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.PUSH_MERGE).ref("refs/heads/*").group(REGISTERED_USERS))
+        .update();
+
+    createMergeCommit()
+        .to("refs/heads/master")
+        .assertErrorStatus("prohibited by Gerrit: not permitted: update");
+  }
+
+  @Test
+  public void pushMergeCommitForReviewDoesNotUseTargetRefPermission() throws Exception {
+    setRequireChangeId(InheritableBoolean.FALSE);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.PUSH).ref("refs/for/refs/heads/*").group(REGISTERED_USERS))
+        .add(allow(Permission.PUSH_MERGE).ref("refs/heads/*").group(REGISTERED_USERS))
+        .update();
+
+    createMergeCommit()
+        .to("refs/for/master")
+        .assertErrorStatus("you are not allowed to upload merges");
+  }
+
+  @Test
+  public void pushMergeCommitForReviewWithPushMergePermissionOnReviewRef() throws Exception {
+    setRequireChangeId(InheritableBoolean.FALSE);
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.PUSH).ref("refs/for/refs/heads/*").group(REGISTERED_USERS))
+        .add(allow(Permission.PUSH_MERGE).ref("refs/for/refs/heads/*").group(REGISTERED_USERS))
+        .update();
+
+    createMergeCommit().to("refs/for/master").assertOkStatus();
+  }
+
+  @Test
+  public void pushForgedAuthorWithoutForgeAuthorPermissionDenied() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.PUSH).ref("refs/heads/*").group(REGISTERED_USERS))
+        .add(block(Permission.FORGE_AUTHOR).ref("refs/heads/*").group(REGISTERED_USERS))
+        .update();
+
+    RevCommit initialHead =
+        testRepo.getRevWalk().parseCommit(testRepo.getRepository().resolve("HEAD"));
+    pushFactory
+        .create(
+            new PersonIdent("Forged Author", "forged@example.com"),
+            testRepo,
+            "forged author\n\nChange-Id: I0000000000000000000000000000000000000004",
+            "a.txt",
+            "a")
+        .setParents(ImmutableList.of(initialHead))
+        .to("refs/heads/master")
+        .assertErrorStatus("invalid author");
+  }
+
+  @Test
+  public void pushForgedCommitterWithoutForgeCommitterPermissionDenied() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.PUSH).ref("refs/heads/*").group(REGISTERED_USERS))
+        .add(block(Permission.FORGE_COMMITTER).ref("refs/heads/*").group(REGISTERED_USERS))
+        .update();
+
+    RevCommit initialHead =
+        testRepo.getRevWalk().parseCommit(testRepo.getRepository().resolve("HEAD"));
+    pushFactory
+        .create(
+            new PersonIdent("Forged Committer", "forged@example.com"),
+            testRepo,
+            "forged committer\n\nChange-Id: I0000000000000000000000000000000000000005",
+            "b.txt",
+            "b")
+        .setParents(ImmutableList.of(initialHead))
+        .to("refs/heads/master")
+        .assertErrorStatus("invalid committer");
+  }
+
+  @Test
+  public void amendGerritAuthoredMergeWithoutForgeServerPermissionDenied() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.PUSH).ref("refs/heads/*").group(REGISTERED_USERS))
+        .add(allow(Permission.PUSH_MERGE).ref("refs/heads/*").group(REGISTERED_USERS))
+        .update();
+
+    createGerritAuthoredMerge("I0000000000000000000000000000000000000006")
+        .to("refs/heads/master")
+        .assertErrorStatus("requires 'FORGE_SERVER' permission");
+  }
+
+  @Test
+  public void amendGerritAuthoredMergeWithForgeServerPermissionAllowed() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.PUSH).ref("refs/heads/*").group(REGISTERED_USERS))
+        .add(allow(Permission.PUSH_MERGE).ref("refs/heads/*").group(REGISTERED_USERS))
+        .add(allow(Permission.FORGE_SERVER).ref("refs/heads/*").group(REGISTERED_USERS))
+        .update();
+
+    createGerritAuthoredMerge("I0000000000000000000000000000000000000007")
+        .to("refs/heads/master")
+        .assertOkStatus();
+  }
+
+  @Test
+  public void mergedOptionForMergeCommitUsesReviewMergePermission() throws Exception {
+    // Land a merge directly on master, then push it for review with %merged. The merged-commits
+    // validation checks Push Merge Commit on the refs/for review ref, not the destination ref, so
+    // without a refs/for grant the review upload is rejected even though the branch grant exists.
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.PUSH).ref("refs/heads/*").group(REGISTERED_USERS))
+        .add(allow(Permission.PUSH_MERGE).ref("refs/heads/*").group(REGISTERED_USERS))
+        .add(allow(Permission.PUSH).ref("refs/for/refs/heads/*").group(REGISTERED_USERS))
+        .update();
+
+    PushOneCommit.Result merged = createMergeCommit().to("refs/heads/master");
+    merged.assertOkStatus();
+
+    testRepo.reset(merged.getCommit());
+    String ref = "refs/for/master%merged";
+    PushResult pr = pushHead(testRepo, ref, false);
+    RemoteRefUpdate rru = pr.getRemoteUpdate(ref);
+    assertWithMessage(rru.getMessage())
+        .that(rru.getStatus())
+        .isEqualTo(RemoteRefUpdate.Status.REJECTED_OTHER_REASON);
+    assertThat(rru.getMessage()).contains("you are not allowed to upload merges");
   }
 
   @Test
@@ -365,6 +550,43 @@ public class PushPermissionsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void skipValidationWithPushMergePermissionOnTargetRef() throws Exception {
+    // Skip-validation's Push Merge Commit component is scoped to the destination ref.
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.PUSH).ref("refs/heads/*").group(REGISTERED_USERS))
+        .add(allow(Permission.FORGE_SERVER).ref("refs/heads/*").group(REGISTERED_USERS))
+        .add(allow(Permission.PUSH_MERGE).ref("refs/heads/*").group(REGISTERED_USERS))
+        .update();
+
+    testRepo.branch("HEAD").commit().create();
+    PushResult r =
+        push(c -> c.setPushOptions(ImmutableList.of("skip-validation")), "HEAD:refs/heads/master");
+    assertThat(r).onlyRef("refs/heads/master").isOk();
+  }
+
+  @Test
+  public void skipValidationWithPushMergePermissionOnReviewRefDenied() throws Exception {
+    // A refs/for Push Merge Commit grant no longer satisfies skip-validation; it is scoped to the
+    // destination ref.
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.PUSH).ref("refs/heads/*").group(REGISTERED_USERS))
+        .add(allow(Permission.FORGE_SERVER).ref("refs/heads/*").group(REGISTERED_USERS))
+        .add(allow(Permission.PUSH_MERGE).ref("refs/for/refs/heads/*").group(REGISTERED_USERS))
+        .update();
+
+    testRepo.branch("HEAD").commit().create();
+    PushResult r =
+        push(c -> c.setPushOptions(ImmutableList.of("skip-validation")), "HEAD:refs/heads/master");
+    assertThat(r)
+        .onlyRef("refs/heads/master")
+        .isRejected("prohibited by Gerrit: not permitted: skip validation");
+  }
+
+  @Test
   public void accessDatabaseForNoteDbDenied() throws Exception {
     projectOperations
         .project(project)
@@ -505,5 +727,33 @@ public class PushPermissionsIT extends AbstractDaemonTest {
         break;
     }
     return u.getNewObjectId();
+  }
+
+  private PushOneCommit createGerritAuthoredMerge(String changeId) throws Exception {
+    RevCommit initialHead =
+        testRepo.getRevWalk().parseCommit(testRepo.getRepository().resolve("HEAD"));
+    RevCommit secondParent = testRepo.branch("side").commit().create();
+    return pushFactory
+        .create(
+            serverIdent.get(),
+            testRepo,
+            "merge by server\n\nChange-Id: " + changeId,
+            "server-merge.txt",
+            "server-merge")
+        .setParents(ImmutableList.of(initialHead, secondParent));
+  }
+
+  private PushOneCommit createMergeCommit() throws Exception {
+    RevCommit initialHead =
+        testRepo.getRevWalk().parseCommit(testRepo.getRepository().resolve("HEAD"));
+    RevCommit secondParent = testRepo.branch("side").commit().create();
+    return pushFactory
+        .create(
+            admin.newIdent(),
+            testRepo,
+            "merge commit\n\nChange-Id: I0000000000000000000000000000000000000001",
+            "merge.txt",
+            "merge")
+        .setParents(ImmutableList.of(initialHead, secondParent));
   }
 }

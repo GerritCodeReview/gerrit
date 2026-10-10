@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b0e2073_3f38b215",
+        "filename": ".bazelrc",
+        "patchSetId": 39
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-10T07:28:44Z",
+      "side": 1,
+      "message": "Replace `--host_jvm_args\u003d-XX:+UseCompactObjectHeaders` with `--experimental_use_compact_object_headers`, or even drop if it\u0027s enabled per default anyway.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 52
+      },
+      "revId": "733315ee32803caa51aee57b0e0c47cfe1372f9b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

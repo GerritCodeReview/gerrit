@@ -683,7 +683,6 @@ export class GrChangeActions
             margin: 0;
           }
           #actionLoadingMessage {
-            margin: var(--spacing-m);
             text-align: center;
           }
           #moreMessage {

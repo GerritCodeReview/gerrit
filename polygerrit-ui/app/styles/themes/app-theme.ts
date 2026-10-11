@@ -428,7 +428,7 @@ const appThemeCss = safeStyleSheet`
     --header-border-image: '';
     --header-box-shadow: none;
     --header-padding: 0 var(--spacing-l);
-    --header-icon-size: 0em;
+    --header-icon-size: 1em;
     --header-icon: none;
     --header-text-color: var(--gray-50);
     --header-title-content: 'Gerrit';

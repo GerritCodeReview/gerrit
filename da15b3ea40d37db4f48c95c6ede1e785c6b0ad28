@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d5747132_005051b1",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-11T20:43:48Z",
+      "side": 1,
+      "message": "Actually, I won\u0027t need the `/` at all before the file is at the same level of the page.",
+      "parentUuid": "d42b6201_60454b0f",
+      "range": {
+        "startLine": 432,
+        "startChar": 0,
+        "endLine": 432,
+        "endChar": 35
+      },
+      "revId": "da15b3ea40d37db4f48c95c6ede1e785c6b0ad28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "db31a23a_2b28dde8",
         "filename": "polygerrit-ui/app/styles/themes/app-theme.ts",
         "patchSetId": 2

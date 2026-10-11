@@ -2625,6 +2625,11 @@ preferences and watched projects is stored.
 The name of the configured primary web link
 (link:config-gerrit.html#gerrit.primaryWeblinkName[gerrit.primaryWeblinkName]),
 if one is set.
+|`reftable_enabled`     |not set if `false`|
+Whether the reftable ref storage backend can be used on this
+server (requires
+link:config-gerrit.html#core.usePerRequestRefCache[core.usePerRequestRefCache]
+to be `false`).
 |=================================
 
 [[groups-config-info]]

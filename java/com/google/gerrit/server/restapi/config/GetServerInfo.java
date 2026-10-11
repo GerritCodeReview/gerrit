@@ -305,6 +305,8 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.submitCommitUrl = config.getString("gerrit", null, "submitCommitUrl");
     info.projectStatePredicateEnabled =
         config.getBoolean("gerrit", null, "projectStatePredicateEnabled", true);
+    info.reftableEnabled =
+        toBoolean(!config.getBoolean("core", null, "usePerRequestRefCache", true));
     return info;
   }
 

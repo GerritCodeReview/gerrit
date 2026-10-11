@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 import {safeStyleSheet, setStyleTextContent} from '../../utils/inner-html-util';
+import {getBaseUrl} from '../../utils/url-util';
 
 const appThemeCss = safeStyleSheet`
   html {
@@ -428,7 +429,7 @@ const appThemeCss = safeStyleSheet`
     --header-border-image: '';
     --header-box-shadow: none;
     --header-padding: 0 var(--spacing-l);
-    --header-icon-size: 0em;
+    --header-icon-size: 1em;
     --header-icon: none;
     --header-text-color: var(--gray-50);
     --header-title-content: 'Gerrit';
@@ -580,7 +581,22 @@ const appThemeCss = safeStyleSheet`
   }
 `;
 
-const styleEl = document.createElement('style');
-styleEl.setAttribute('id', 'light-theme');
-setStyleTextContent(styleEl, appThemeCss);
-document.head.appendChild(styleEl);
+
+export function applyTheme() {
+  if (document.head.querySelector('#light-theme')) return;
+  const styleEl = document.createElement('style');
+  styleEl.setAttribute('id', 'light-theme');
+  setStyleTextContent(styleEl, appThemeCss);
+  document.head.appendChild(styleEl);
+
+  // Keep the default in the stylesheet so custom themes can override it.
+  const rootRule = styleEl.sheet!.cssRules[0] as CSSStyleRule;
+  rootRule.style.setProperty(
+    '--header-icon',
+    `url("${getBaseUrl()}/diffy.png")`
+  );
+}
+
+
+applyTheme();
+

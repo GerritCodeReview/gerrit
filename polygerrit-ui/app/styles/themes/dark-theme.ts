@@ -205,10 +205,10 @@ const darkThemeCss = safeStyleSheet`
     /* header and footer */
     --footer-background-color: var(--background-color-tertiary);
     --footer-border-top: 1px solid var(--border-color);
-    --header-background-color: var(--background-color-tertiary);
+    --header-background-color: var(--blue-tonal);
     --header-border-bottom: 1px solid var(--border-color);
     --header-padding: 0 var(--spacing-l);
-    --header-text-color: var(--primary-text-color);
+    --header-text-color: var(--gray-50);
 
     /* dashboard size background colors */
     --dashboard-size-xs: var(--gray-700);

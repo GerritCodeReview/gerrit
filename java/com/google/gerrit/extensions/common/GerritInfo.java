@@ -27,4 +27,5 @@ public class GerritInfo {
   public String defaultBranch;
   public Boolean projectStatePredicateEnabled;
   public String submitCommitUrl;
+  public Boolean reftableEnabled;
 }

@@ -123,6 +123,8 @@ public class ServerInfoIT extends AbstractDaemonTest {
     assertThat(i.gerrit.allUsers).isEqualTo("Users");
     assertThat(i.gerrit.reportBugUrl).isEqualTo("https://example.com/report");
     assertThat(i.gerrit.instanceId).isEqualTo("devops-instance");
+    // core.usePerRequestRefCache defaults to true, so reftable is unavailable.
+    assertThat(i.gerrit.reftableEnabled).isNull();
 
     // plugin
     assertThat(i.plugin.jsResourcePaths).isEmpty();
@@ -138,6 +140,12 @@ public class ServerInfoIT extends AbstractDaemonTest {
 
     // notedb
     assertThat(gApi.config().server().getInfo().noteDbEnabled).isTrue();
+  }
+
+  @Test
+  @GerritConfig(name = "core.usePerRequestRefCache", value = "false")
+  public void reftableEnabledWhenPerRequestRefCacheDisabled() throws Exception {
+    assertThat(gApi.config().server().getInfo().gerrit.reftableEnabled).isTrue();
   }
 
   @Test

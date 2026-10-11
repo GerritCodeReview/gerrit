@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a84bd095_f4697d3b",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-11T08:04:57Z",
+      "side": 1,
+      "message": "This should be a separate follow-up change.",
+      "range": {
+        "startLine": 432,
+        "startChar": 4,
+        "endLine": 432,
+        "endChar": 42
+      },
+      "revId": "b85dbe7f2455d7c7841b4707e117e9ad1f2588b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7390b5a1_89944d53",
+        "filename": "polygerrit-ui/app/styles/themes/dark-theme.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-11T08:04:57Z",
+      "side": 1,
+      "message": "```suggestion\n    --header-text-color: var(--grey-50);\n```",
+      "range": {
+        "startLine": 211,
+        "startChar": 25,
+        "endLine": 211,
+        "endChar": 50
+      },
+      "revId": "b85dbe7f2455d7c7841b4707e117e9ad1f2588b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

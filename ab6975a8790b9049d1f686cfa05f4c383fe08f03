@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37c14b97_0b40c9c8",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 595,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-11T21:20:02Z",
+      "side": 1,
+      "message": "This method doesn\u0027t exist.",
+      "range": {
+        "startLine": 595,
+        "startChar": 12,
+        "endLine": 595,
+        "endChar": 24
+      },
+      "revId": "ab6975a8790b9049d1f686cfa05f4c383fe08f03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

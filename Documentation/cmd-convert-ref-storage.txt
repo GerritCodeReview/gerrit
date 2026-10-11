@@ -21,6 +21,10 @@ _ssh_ -p <port> <host> _gerrit convert-ref-storage_
 == DESCRIPTION
 Convert ref storage to reftable.
 
+Converting to `reftable` additionally requires the server to run with
+link:config-gerrit.html#core.usePerRequestRefCache[core.usePerRequestRefCache]
+set to `false` (reftable is otherwise unservable); the command fails otherwise.
+
 == ACCESS
 Administrators
 

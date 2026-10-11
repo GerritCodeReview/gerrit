@@ -678,10 +678,6 @@ export class GrChangeActions
             --gr-button-padding: var(--spacing-m);
             white-space: nowrap;
           }
-          gr-button,
-          gr-dropdown {
-            margin: 0;
-          }
           #actionLoadingMessage {
             margin: var(--spacing-m);
             text-align: center;

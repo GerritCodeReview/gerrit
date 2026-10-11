@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d42b6201_60454b0f",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-11T19:51:38Z",
+      "side": 1,
+      "message": "Could we make this URL respect Gerrit\u0027s canonical path (getBaseUrl())? For an installation under /review/, this requests /diffy.png instead of /review/diffy.png. See my alternative suggestion on line 586.\n\n```suggestion\n    --header-icon: none;\n```",
+      "range": {
+        "startLine": 432,
+        "startChar": 0,
+        "endLine": 432,
+        "endChar": 35
+      },
+      "revId": "da15b3ea40d37db4f48c95c6ede1e785c6b0ad28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db31a23a_2b28dde8",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 586,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-11T19:51:38Z",
+      "side": 1,
+      "message": "```suggestion\nexport function applyTheme() {\n  if (document.head.querySelector(\u0027#light-theme\u0027)) return;\n  const styleEl \u003d document.createElement(\u0027style\u0027);\n  styleEl.setAttribute(\u0027id\u0027, \u0027light-theme\u0027);\n  setStyleTextContent(styleEl, appThemeCss);\n  document.head.appendChild(styleEl);\n\n  // Keep the default in the stylesheet so custom themes can override it.\n  const rootRule \u003d styleEl.sheet!.cssRules[0] as CSSStyleRule;\n  rootRule.style.setProperty(\n    \u0027--header-icon\u0027,\n    `url(\"${getBaseUrl()}/diffy.png\")`\n  );\n}\n\n\napplyTheme();\n```",
+      "range": {
+        "startLine": 583,
+        "startChar": 0,
+        "endLine": 586,
+        "endChar": 35
+      },
+      "revId": "da15b3ea40d37db4f48c95c6ede1e785c6b0ad28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -26,6 +26,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5754d82d_28e2e00f",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-11T08:05:46Z",
+      "side": 1,
+      "message": "```suggestion\n    --header-icon: none;\n```",
+      "revId": "b85dbe7f2455d7c7841b4707e117e9ad1f2588b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7390b5a1_89944d53",
         "filename": "polygerrit-ui/app/styles/themes/dark-theme.ts",
         "patchSetId": 2

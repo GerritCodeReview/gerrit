@@ -183,7 +183,7 @@
     "org.jruby:jruby-complete": -2103568068,
     "org.json:json": -811907600,
     "org.jsoup:jsoup": -1061087167,
-    "org.mockito:mockito-core": 1330163800,
+    "org.mockito:mockito-core": -466787559,
     "org.nibor.autolink:autolink": -342487050,
     "org.objenesis:objenesis": 748376655,
     "org.openid4java:openid4java": -1889179110,
@@ -464,8 +464,8 @@
     "org.jsoup:jsoup:jar:sources": -2058254438,
     "org.jspecify:jspecify": 117231129,
     "org.jspecify:jspecify:jar:sources": -2134060298,
-    "org.mockito:mockito-core": -1796443576,
-    "org.mockito:mockito-core:jar:sources": 1900207417,
+    "org.mockito:mockito-core": -1058138256,
+    "org.mockito:mockito-core:jar:sources": 1799409451,
     "org.nibor.autolink:autolink": -443901116,
     "org.nibor.autolink:autolink:jar:sources": -1863403724,
     "org.objenesis:objenesis": 1536526812,
@@ -1414,10 +1414,10 @@
     },
     "org.mockito:mockito-core": {
       "shasums": {
-        "jar": "ae295bebd5d11fab97ab297815dc7617188b86003cbce3dfd5c0d5c3a6cc4a0c",
-        "sources": "38f869a12a1168ca8dc2a4acd090d8129a7f81afc8f1fc61582701894755fefd"
+        "jar": "97a1f835ad84075255aa37809e4379eff541273c02c6201cbad49bd5950932cd",
+        "sources": "6941ad79b3a92ba2dbd8a00570b0e2dcaf15529de4452c789454f11660f03bf7"
       },
-      "version": "5.23.0"
+      "version": "5.24.0"
     },
     "org.nibor.autolink:autolink": {
       "shasums": {

@@ -33,6 +33,23 @@
       "message": "9999",
       "revId": "00bfb0b7d3e7a6171299b1dc5d585df249766ea7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bcdfe939_892f7ab5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5232811
+      },
+      "writtenOn": "2026-10-11T05:25:02Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/gerrit/+/642203?forceReload\u003dtrue",
+      "revId": "00bfb0b7d3e7a6171299b1dc5d585df249766ea7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ],
   "submitRequirementResults": [

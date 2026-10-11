@@ -428,8 +428,8 @@ const appThemeCss = safeStyleSheet`
     --header-border-image: '';
     --header-box-shadow: none;
     --header-padding: 0 var(--spacing-l);
-    --header-icon-size: 0em;
-    --header-icon: none;
+    --header-icon-size: 1em;
+    --header-icon: url(/diffy.png);
     --header-text-color: var(--gray-50);
     --header-title-content: 'Gerrit';
     --header-title-font-size: 1.75rem;

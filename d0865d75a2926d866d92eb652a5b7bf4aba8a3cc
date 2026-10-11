@@ -39,6 +39,30 @@
       },
       "revId": "d0865d75a2926d866d92eb652a5b7bf4aba8a3cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e595a1b7_c0cd4f8a",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-11T08:59:06Z",
+      "side": 1,
+      "message": "Done, I\u0027d like to also update the logo in a follow up change.",
+      "parentUuid": "caa4cb92_29ff62fd",
+      "range": {
+        "startLine": 431,
+        "startChar": 0,
+        "endLine": 431,
+        "endChar": 28
+      },
+      "revId": "d0865d75a2926d866d92eb652a5b7bf4aba8a3cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

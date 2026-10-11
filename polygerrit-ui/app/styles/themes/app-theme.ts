@@ -423,14 +423,14 @@ const appThemeCss = safeStyleSheet`
     /* header and footer */
     --footer-background-color: transparent;
     --footer-border-top: none;
-    --header-background-color: var(--background-color-tertiary);
+    --header-background-color: var(--blue-tonal);
     --header-border-bottom: 1px solid var(--border-color);
     --header-border-image: '';
     --header-box-shadow: none;
     --header-padding: 0 var(--spacing-l);
-    --header-icon-size: 0em;
+    --header-icon-size: 1em;
     --header-icon: none;
-    --header-text-color: black;
+    --header-text-color: var(--gray-50);
     --header-title-content: 'Gerrit';
     --header-title-font-size: 1.75rem;
     /* This is just an initial value. Will be updated by a ResizeObserver. */

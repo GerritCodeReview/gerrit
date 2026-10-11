@@ -36,7 +36,7 @@ import org.kohsuke.args4j.spi.ExplicitBooleanOptionHandler;
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
 @CommandMetaData(
     name = "convert-ref-storage",
-    description = "Convert ref storage to reftable (experimental)",
+    description = "Convert ref storage to reftable",
     runsAt = MASTER_OR_SLAVE)
 public class ConvertRefStorage extends SshCommand {
   @Inject private GitRepositoryManager repoManager;

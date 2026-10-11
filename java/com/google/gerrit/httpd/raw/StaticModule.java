@@ -101,6 +101,7 @@ public class StaticModule extends ServletModule {
   private static final String FAVICON_SERVLET = "FaviconServlet";
   private static final String SERVICE_WORKER_SERVLET = "ServiceWorkerServlet";
   private static final String GERRIT_ICON_SERVLET = "GerritIconServlet";
+  private static final String DIFFY_ICON_SERVLET = "DiffyIconServlet";
   private static final String MANIFEST_SERVLET = "ManifestServlet";
   private static final String POLYGERRIT_INDEX_SERVLET = "PolyGerritUiIndexServlet";
   private static final String ROBOTS_TXT_SERVLET = "RobotsTxtServlet";
@@ -169,6 +170,7 @@ public class StaticModule extends ServletModule {
       serve("/robots.txt").with(named(ROBOTS_TXT_SERVLET));
       serve("/favicon.ico").with(named(FAVICON_SERVLET));
       serve("/gerrit_icon.png").with(named(GERRIT_ICON_SERVLET));
+      serve("/diffy.png").with(named(DIFFY_ICON_SERVLET));
       serve("/service-worker.js").with(named(SERVICE_WORKER_SERVLET));
       serve("/manifest.webmanifest").with(named(MANIFEST_SERVLET));
     }
@@ -214,6 +216,17 @@ public class StaticModule extends ServletModule {
         return new SingleFileServlet(cache, p.warFs.getPath("/gerrit_icon.png"), false);
       }
       return new SingleFileServlet(cache, webappSourcePath("gerrit_icon.png"), true);
+    }
+
+    @Provides
+    @Singleton
+    @Named(DIFFY_ICON_SERVLET)
+    HttpServlet getDiffyIconServlet(@Named(CACHE) Cache<Path, Resource> cache) {
+      Paths p = getPaths();
+      if (p.warFs != null) {
+        return new SingleFileServlet(cache, p.warFs.getPath("/diffy.png"), false);
+      }
+      return new SingleFileServlet(cache, webappSourcePath("diffy.png"), true);
     }
 
     @Provides

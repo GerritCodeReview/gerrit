@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1108541c_67846922",
+        "filename": "polygerrit-ui/app/styles/themes/dark-theme.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2026-10-11T08:06:42Z",
+      "side": 1,
+      "message": "```suggestion\n    --header-text-color: var(--gray-50);\n```",
+      "range": {
+        "startLine": 211,
+        "startChar": 31,
+        "endLine": 211,
+        "endChar": 35
+      },
+      "revId": "d37f21be739e6d61883ec580cac5e80eedbcdd03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

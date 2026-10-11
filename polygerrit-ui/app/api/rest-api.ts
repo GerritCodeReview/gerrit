@@ -797,6 +797,7 @@ export declare interface GerritInfo {
   instance_id?: string;
   default_branch?: string;
   submit_commit_url?: string;
+  reftable_available?: boolean;
 }
 
 export type GitRef = BrandType<string, '_gitRef'>;

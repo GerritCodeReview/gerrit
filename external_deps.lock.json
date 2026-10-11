@@ -153,9 +153,9 @@
     "org.apache.mina:mina-core": -1403307213,
     "org.apache.sshd:sshd-common": 1844247612,
     "org.apache.sshd:sshd-core": 602454664,
-    "org.apache.sshd:sshd-mina": 582747848,
-    "org.apache.sshd:sshd-osgi": -115413327,
-    "org.apache.sshd:sshd-sftp": 292810504,
+    "org.apache.sshd:sshd-mina": -295476386,
+    "org.apache.sshd:sshd-osgi": -993637561,
+    "org.apache.sshd:sshd-sftp": -585413730,
     "org.asciidoctor:asciidoctorj": -457860213,
     "org.assertj:assertj-core": -1145412507,
     "org.bouncycastle:bcpg-jdk18on": -892155165,
@@ -167,7 +167,7 @@
     "org.commonmark:commonmark-ext-gfm-strikethrough": 350394231,
     "org.commonmark:commonmark-ext-gfm-tables": 1881582931,
     "org.commonmark:commonmark-ext-yaml-front-matter": -1519651186,
-    "org.eclipse.jetty.ee11:jetty-ee11-servlet": 1925464069,
+    "org.eclipse.jetty.ee11:jetty-ee11-servlet": 118009606,
     "org.eclipse.jetty.ee8:jetty-ee8-nested": 1540074372,
     "org.eclipse.jetty.ee8:jetty-ee8-security": 504874893,
     "org.eclipse.jetty.ee8:jetty-ee8-servlet": 1828873492,
@@ -201,7 +201,7 @@
     "org.slf4j:slf4j-ext": 461447964,
     "org.slf4j:slf4j-log4j12": -630224096,
     "org.slf4j:slf4j-reload4j": -1895280540,
-    "org.slf4j:slf4j-simple": 1999565066,
+    "org.slf4j:slf4j-simple": -917181919,
     "org.tukaani:xz": -1743168321,
     "repositories": 2019057769,
     "xerces:xercesImpl": -1165914651,
@@ -396,12 +396,12 @@
     "org.apache.lucene:lucene-queryparser:jar:sources": -1536444117,
     "org.apache.mina:mina-core": -354250191,
     "org.apache.mina:mina-core:jar:sources": 71382131,
-    "org.apache.sshd:sshd-mina": -641188293,
-    "org.apache.sshd:sshd-mina:jar:sources": 97528844,
-    "org.apache.sshd:sshd-osgi": 1183476854,
-    "org.apache.sshd:sshd-osgi:jar:sources": 710209222,
-    "org.apache.sshd:sshd-sftp": -948314603,
-    "org.apache.sshd:sshd-sftp:jar:sources": -1268961386,
+    "org.apache.sshd:sshd-mina": 2004004570,
+    "org.apache.sshd:sshd-mina:jar:sources": -563090466,
+    "org.apache.sshd:sshd-osgi": 1205937329,
+    "org.apache.sshd:sshd-osgi:jar:sources": -737647791,
+    "org.apache.sshd:sshd-sftp": 1698263334,
+    "org.apache.sshd:sshd-sftp:jar:sources": 1050551263,
     "org.asciidoctor:asciidoctorj": 1685789893,
     "org.asciidoctor:asciidoctorj:jar:sources": 2091708864,
     "org.assertj:assertj-core": -253199576,
@@ -428,8 +428,8 @@
     "org.commonmark:commonmark-ext-yaml-front-matter": 1918089254,
     "org.commonmark:commonmark-ext-yaml-front-matter:jar:sources": -902462472,
     "org.commonmark:commonmark:jar:sources": -1511261547,
-    "org.eclipse.jetty.ee11:jetty-ee11-servlet": 688938258,
-    "org.eclipse.jetty.ee11:jetty-ee11-servlet:jar:sources": -873060978,
+    "org.eclipse.jetty.ee11:jetty-ee11-servlet": 306501636,
+    "org.eclipse.jetty.ee11:jetty-ee11-servlet:jar:sources": -1660643113,
     "org.eclipse.jetty.ee8:jetty-ee8-nested": 1759154570,
     "org.eclipse.jetty.ee8:jetty-ee8-nested:jar:sources": 1005566104,
     "org.eclipse.jetty.ee8:jetty-ee8-security": 1461787080,
@@ -498,8 +498,8 @@
     "org.slf4j:slf4j-ext:jar:sources": 1632735534,
     "org.slf4j:slf4j-reload4j": 1168851309,
     "org.slf4j:slf4j-reload4j:jar:sources": 2075068386,
-    "org.slf4j:slf4j-simple": -2071389655,
-    "org.slf4j:slf4j-simple:jar:sources": 751828941,
+    "org.slf4j:slf4j-simple": -506243416,
+    "org.slf4j:slf4j-simple:jar:sources": -58141894,
     "org.tukaani:xz": -321288404,
     "org.tukaani:xz:jar:sources": -893332662,
     "xerces:xercesImpl": -1852819301,
@@ -1176,24 +1176,24 @@
     },
     "org.apache.sshd:sshd-mina": {
       "shasums": {
-        "jar": "da1088d16ba7953444b7d9aefcfc60c9b5e000bf26542d4c3ed0573f692bf14a",
-        "sources": "a8e548e09d8744effe88d83dcd55faa87dc14c37f8a0a595b4c6af3b20e558aa"
+        "jar": "78a8de5cbd1004f5110fac491ba7842706b4e5c43fc91f638a483f95965b23c7",
+        "sources": "a337bcc1579c79f4a9a980e212b7080f3fbf9afca3e2808cf2251aec5178ac81"
       },
-      "version": "2.19.0"
+      "version": "2.20.0"
     },
     "org.apache.sshd:sshd-osgi": {
       "shasums": {
-        "jar": "0b6b9371c6a97430390b84c23c58f4470927a747e74704a0ca7d19a09a66fe37",
-        "sources": "d11b69618dba155f075571cbd9b21741953c27dfa9a1af09b4024f2183226abe"
+        "jar": "87d569c6b9bdfd27008c11c7966abb42022952e77034f47ba5ab6acf17ba3f62",
+        "sources": "af7a72033fe3bbbf8bf9b763b068ac83b5668ed8b7628f168fcf83b6f397f8c0"
       },
-      "version": "2.19.0"
+      "version": "2.20.0"
     },
     "org.apache.sshd:sshd-sftp": {
       "shasums": {
-        "jar": "a3ad30d2feba9fad589c7ad9117fcd9d332823697d59eb424fe2902f4d805575",
-        "sources": "e26b7df972cead5c529bca6ab3e782c27dd43b323f9a54f98d9e23d4f5d03c30"
+        "jar": "70ce2e0e35b1106c4371471fb93313e67e0ceab8f127bc09432e115f67a5089e",
+        "sources": "0b06a4c4425460577f356b0205a2667cd2bb4a1a25210e35772b7a0ff2cd61d0"
       },
-      "version": "2.19.0"
+      "version": "2.20.0"
     },
     "org.asciidoctor:asciidoctorj": {
       "shasums": {
@@ -1288,10 +1288,10 @@
     },
     "org.eclipse.jetty.ee11:jetty-ee11-servlet": {
       "shasums": {
-        "jar": "af76ee845345f184d96d8f6c926e64f8bda4cf858013598d392ad604d37e6bac",
-        "sources": "0daaa96e80d48f516c580b7f18bcdf2ebdea75654a7fddb1a1a933af36ae2d16"
+        "jar": "c6fb3047015c4ba543e869056e68451574417af0ab3fc0a28a9c73993499f45e",
+        "sources": "d912470b5cdb03456e6cb15dbca46c76308434340999dde4f6f1b9dce48685d5"
       },
-      "version": "12.1.12"
+      "version": "12.1.13"
     },
     "org.eclipse.jetty.ee8:jetty-ee8-nested": {
       "shasums": {
@@ -1533,10 +1533,10 @@
     },
     "org.slf4j:slf4j-simple": {
       "shasums": {
-        "jar": "8268bd018a5709b07209e0d8ca6221a37584ba1bc12ba985b8335a82c648bdd0",
-        "sources": "977f636bc90dc879c56cd6b6158abf0ee77a6f4619ab23342781a273b743786b"
+        "jar": "8e701404786a4f87219d39d4853c86dfe4e86ae99376a39749df6c08e75022e0",
+        "sources": "9ef476562573cf5df5bababc1e7da701d87a525991828b3dace15e5f2deff54c"
       },
-      "version": "2.0.18"
+      "version": "2.0.20"
     },
     "org.tukaani:xz": {
       "shasums": {

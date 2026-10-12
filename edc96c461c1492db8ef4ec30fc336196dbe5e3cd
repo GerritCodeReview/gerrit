@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12c4c6e2_d5310586",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-12T18:55:24Z",
+      "side": 1,
+      "message": "The etc/secure.config documentation states that it overrides settings in gerrit.config. The previous cache provider honored that precedence through @GerritServerConfig. This change bypasses it.",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 67
+      },
+      "revId": "edc96c461c1492db8ef4ec30fc336196dbe5e3cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "46d61a74_1cec54b5",
+        "filename": "java/com/google/gerrit/server/config/SitePaths.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-12T18:55:24Z",
+      "side": 1,
+      "message": "This bypasses secure-store` overrides previously honored through `@GerritServerConfig`.\n\nI verified `cache.directory \u003d cache` in `gerrit.config` and `secure-cache` in `secure.config`: the parent commit uses `secure-cache`, but this patch uses `cache`.\n\nCould we preserve effective configuration precedence?",
+      "range": {
+        "startLine": 101,
+        "startChar": 4,
+        "endLine": 101,
+        "endChar": 40
+      },
+      "revId": "edc96c461c1492db8ef4ec30fc336196dbe5e3cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc6b5933_f1df57fd",
+        "filename": "javatests/com/google/gerrit/server/cache/h2/H2CacheFactoryTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-12T18:55:24Z",
+      "side": 1,
+      "message": "Could we add coverage for a `secure.config` override of `cache.directory`?\n\nI added newSqlStore_respectsSecureConfigCacheDirectory() locally: the effective-config assertion passes, but the H2 URL assertion fails. The same scenario passes on the parent commit.\n\nReproducer test: [1]. It fails on patch set 5: H2 uses `cache` instead of `secure-cache`.\nThe same scenario passes on the parent commit using its older provider/constructor API.\n\n[1]: https://paste.opendev.org/show/bjC0pkAMCWiczgs6NYGa/",
+      "revId": "edc96c461c1492db8ef4ec30fc336196dbe5e3cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

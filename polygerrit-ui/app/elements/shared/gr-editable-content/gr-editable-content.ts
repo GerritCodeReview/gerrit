@@ -63,6 +63,7 @@ declare global {
   interface HTMLElementEventMap {
     'content-changed': ValueChangedEvent<string>;
     'editing-changed': ValueChangedEvent<boolean>;
+    'markdown-changed': ValueChangedEvent<boolean>;
     /** Fired when the 'cancel' button is pressed. */
     'editable-content-cancel': CustomEvent<{}>;
     /** Fired when the 'save' button is pressed. */
@@ -93,6 +94,9 @@ export class GrEditableContent extends LitElement {
   })
   editing = false;
 
+  @property({type: Boolean})
+  markdown = false;
+
   @property({type: Boolean, attribute: 'remove-zero-width-space'})
   removeZeroWidthSpace?: boolean;
 
@@ -105,6 +109,9 @@ export class GrEditableContent extends LitElement {
 
   @property({type: Boolean, attribute: 'hide-edit-commit-message'})
   hideEditCommitMessage?: boolean;
+
+  @property({type: Boolean, attribute: 'hide-markdown-toggle'})
+  hideMarkdownToggle?: boolean;
 
   /** If false, then the "Show more" button was used to expand. */
   @state() commitCollapsed = true;
@@ -198,6 +205,11 @@ export class GrEditableContent extends LitElement {
 
   override willUpdate(changedProperties: PropertyValues) {
     if (changedProperties.has('editing')) this.editingChanged();
+    if (changedProperties.has('markdown')) {
+      fire(this, 'markdown-changed', {
+        value: this.markdown,
+      });
+    }
     if (changedProperties.has('newContent')) {
       this.updateFormatState();
       this.updateStorageWithNewContent();
@@ -353,7 +365,12 @@ export class GrEditableContent extends LitElement {
   }
 
   private renderButtons() {
-    if (!this.editing && !this.commitCollapsible && this.hideEditCommitMessage)
+    if (
+      !this.editing &&
+      !this.commitCollapsible &&
+      this.hideEditCommitMessage &&
+      this.hideMarkdownToggle
+    )
       return nothing;
 
     return html`
@@ -379,6 +396,26 @@ export class GrEditableContent extends LitElement {
               </div>
             </gr-button>
             <div class="flex-space"></div>
+          `
+        )}
+        ${when(
+          !this.hideMarkdownToggle && !this.editing,
+          () => html`
+            <gr-button
+              link
+              class="markdown-toggle"
+              title=${this.markdown
+                ? 'Render commit message as plaintext'
+                : 'Render commit message as markdown'}
+              @click=${this.toggleMarkdown}
+              ><div>
+                <gr-icon
+                  icon=${this.markdown ? 'notes' : 'markdown'}
+                  small
+                ></gr-icon>
+                <span>${this.markdown ? 'Plaintext' : 'Markdown'}</span>
+              </div></gr-button
+            >
           `
         )}
         ${when(
@@ -630,6 +667,10 @@ export class GrEditableContent extends LitElement {
     if (this.commitCollapsed) {
       window.scrollTo(0, 0);
     }
+  }
+
+  toggleMarkdown() {
+    this.markdown = !this.markdown;
   }
 
   async handleEditCommitMessage() {

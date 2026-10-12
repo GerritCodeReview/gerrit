@@ -281,6 +281,9 @@ export class GrChangeView extends LitElement {
   private editingCommitMessage = false;
 
   @state()
+  commitMessageMarkdown = false;
+
+  @state()
   private latestCommitMessage = '';
 
   @state() basePatchNum: BasePatchSetNum = PARENT;
@@ -978,6 +981,11 @@ export class GrChangeView extends LitElement {
         .commitMessage gr-formatted-text {
           overflow-wrap: anywhere;
         }
+        .commitMessage gr-formatted-text[markdown] {
+          font-family: var(--font-family);
+          font-size: var(--font-size-normal);
+          line-height: var(--line-height-normal);
+        }
         #commitMessageEditor {
           /* Account for border and padding and rounding errors. */
           min-width: calc(72ch + 2px + 2 * var(--spacing-m) + 0.4px);
@@ -1462,8 +1470,10 @@ export class GrChangeView extends LitElement {
               <gr-editable-content
                 id="commitMessageEditor"
                 .editing=${this.editingCommitMessage}
+                .markdown=${this.commitMessageMarkdown}
                 .content=${this.latestCommitMessage}
                 @editing-changed=${this.handleEditingChanged}
+                @markdown-changed=${this.handleMarkdownChanged}
                 @content-changed=${this.handleContentChanged}
                 .storageKey=${`c${this.change?._number}_rev${this.change?.current_revision}`}
                 .hideEditCommitMessage=${hideEditCommitMessage}
@@ -1472,7 +1482,7 @@ export class GrChangeView extends LitElement {
               >
                 <gr-formatted-text
                   .content=${this.latestCommitMessage}
-                  .markdown=${false}
+                  ?markdown=${this.commitMessageMarkdown}
                 ></gr-formatted-text>
               </gr-editable-content>
             </div>
@@ -1798,6 +1808,10 @@ export class GrChangeView extends LitElement {
 
   private handleEditingChanged(e: ValueChangedEvent<boolean>) {
     this.editingCommitMessage = e.detail.value;
+  }
+
+  private handleMarkdownChanged(e: ValueChangedEvent<boolean>) {
+    this.commitMessageMarkdown = e.detail.value;
   }
 
   private handleContentChanged(e: ValueChangedEvent) {

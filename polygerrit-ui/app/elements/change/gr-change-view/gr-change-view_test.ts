@@ -1709,4 +1709,39 @@ suite('gr-change-view tests', () => {
     assert.equal(customChat.change, element.change);
     assert.equal(customChat.revision, element.revision);
   });
+
+  test('toggles commit message markdown', async () => {
+    element.change = createChangeViewChange();
+    element.revision = createRevision();
+    element.loading = false;
+    await element.updateComplete;
+
+    const editor = queryAndAssert<
+      HTMLElement & {updateComplete: Promise<boolean>}
+    >(element, '#commitMessageEditor');
+    const formattedText = queryAndAssert<HTMLElement & {markdown: boolean}>(
+      editor,
+      'gr-formatted-text'
+    );
+    assert.isFalse(formattedText.markdown);
+    assert.isFalse(formattedText.hasAttribute('markdown'));
+
+    const toggleButton = queryAndAssert<HTMLElement>(
+      editor,
+      'gr-button.markdown-toggle'
+    );
+    toggleButton.click();
+    await editor.updateComplete;
+    await element.updateComplete;
+
+    assert.isTrue(formattedText.markdown);
+    assert.isTrue(formattedText.hasAttribute('markdown'));
+
+    toggleButton.click();
+    await editor.updateComplete;
+    await element.updateComplete;
+
+    assert.isFalse(formattedText.markdown);
+    assert.isFalse(formattedText.hasAttribute('markdown'));
+  });
 });

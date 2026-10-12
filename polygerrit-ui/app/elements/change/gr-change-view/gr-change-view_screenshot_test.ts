@@ -400,4 +400,64 @@ suite('gr-change-view screenshot tests', () => {
       document.body.removeChild(container);
     }
   });
+
+  test('commit message markdown preview', async () => {
+    await setViewport({width: 801, height: 900});
+
+    const revisions = createRevisions(3);
+    revisions['3'].commit!.message = [
+      '### Add markdown commit message toggle',
+      '',
+      'Allow rendering the commit message as **Markdown** in the change view:',
+      '- Supports *bold*, `inline code`, and [links](https://gerrit-review.googlesource.com)',
+      '- Toggles seamlessly between `Markdown` and `Plaintext`',
+      '',
+      '> Quoted note in commit message',
+      '',
+      'Release-Notes: Add markdown toggle to commit message footer',
+      'Change-Id: I26418b8072db5b0fb315c93214e934477bc86b64',
+    ].join('\n');
+
+    const changeModel = testResolver(changeModelToken);
+    changeModel.updateStateChange({
+      ...element.change!,
+      revisions,
+    });
+    await element.updateComplete;
+
+    const toggleBtn = element.commitMessageEditor?.shadowRoot?.querySelector(
+      'gr-button.markdown-toggle'
+    ) as HTMLElement | null;
+    toggleBtn?.click();
+    await element.updateComplete;
+    await element.commitMessageEditor?.updateComplete;
+
+    const container = document.createElement('div');
+    container.style.width = '801px';
+    container.style.height = '900px';
+    container.style.overflow = 'hidden';
+    container.style.display = 'block';
+    container.style.backgroundColor = 'var(--view-background-color, #fff)';
+    container.appendChild(element);
+    document.body.appendChild(container);
+
+    try {
+      await waitUntil(() => !!element.fileList);
+      await element.updateComplete;
+      if (element.fileList) {
+        await element.fileList.updateComplete;
+      }
+      await waitUntil(
+        () => !!element.shadowRoot!.querySelector('gr-file-list')
+      );
+
+      await visualDiff(container, 'gr-change-view-commit-markdown-801px');
+      await visualDiffDarkTheme(
+        container,
+        'gr-change-view-commit-markdown-801px'
+      );
+    } finally {
+      document.body.removeChild(container);
+    }
+  });
 });

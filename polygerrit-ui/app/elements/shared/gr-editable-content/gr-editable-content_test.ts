@@ -71,6 +71,19 @@ suite('gr-editable-content tests', () => {
           <div class="flex-space"></div>
           <gr-button
             aria-disabled="false"
+            class="markdown-toggle"
+            link=""
+            role="button"
+            tabindex="0"
+            title="Render commit message as markdown"
+          >
+            <div>
+              <gr-icon icon="markdown" small></gr-icon>
+              <span>Markdown</span>
+            </div>
+          </gr-button>
+          <gr-button
+            aria-disabled="false"
             class="edit-commit-message"
             link=""
             role="button"
@@ -92,9 +105,15 @@ suite('gr-editable-content tests', () => {
     element.editing = false;
     element.commitCollapsible = false;
     element.hideEditCommitMessage = true;
+    element.hideMarkdownToggle = true;
     await element.updateComplete;
     assert.isNotOk(query(element, '.show-all-container'));
 
+    element.hideMarkdownToggle = false;
+    await element.updateComplete;
+    assert.isOk(query(element, '.show-all-container'));
+
+    element.hideMarkdownToggle = true;
     element.hideEditCommitMessage = false;
     await element.updateComplete;
     assert.isOk(query(element, '.show-all-container'));
@@ -108,6 +127,34 @@ suite('gr-editable-content tests', () => {
     element.commitCollapsible = true;
     await element.updateComplete;
     assert.isOk(query(element, '.show-all-container'));
+  });
+
+  test('markdown toggle', async () => {
+    const handler = sinon.spy();
+    element.addEventListener('markdown-changed', handler);
+
+    const toggleButton = queryAndAssert<GrButton>(
+      element,
+      'gr-button.markdown-toggle'
+    );
+    assert.isFalse(element.markdown);
+    assert.equal(toggleButton.textContent?.trim(), 'Markdown');
+
+    toggleButton.click();
+    await element.updateComplete;
+
+    assert.isTrue(element.markdown);
+    assert.isTrue(handler.calledOnce);
+    assert.deepEqual(handler.lastCall.args[0].detail, {value: true});
+    assert.equal(toggleButton.textContent?.trim(), 'Plaintext');
+
+    toggleButton.click();
+    await element.updateComplete;
+
+    assert.isFalse(element.markdown);
+    assert.isTrue(handler.calledTwice);
+    assert.deepEqual(handler.lastCall.args[0].detail, {value: false});
+    assert.equal(toggleButton.textContent?.trim(), 'Markdown');
   });
 
   test('save event', async () => {

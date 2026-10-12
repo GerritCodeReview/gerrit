@@ -14,12 +14,13 @@
 
 package com.google.gerrit.server.project;
 
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static java.util.stream.Collectors.toSet;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.cache.CacheLoader;
+import com.google.common.cache.CacheStats;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSortedSet;
@@ -74,6 +75,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -167,7 +169,7 @@ public class ProjectCacheImpl implements ProjectCache {
     };
   }
 
-  private final Config config;
+  private final ImmutableSet<AccountGroup.UUID> configuredRelevantGroupUuids;
   private final AllProjectsName allProjectsName;
   private final AllUsersName allUsersName;
   private final LoadingCache<Project.NameKey, Optional<CachedProjectConfig>> inMemoryProjectCache;
@@ -176,6 +178,15 @@ public class ProjectCacheImpl implements ProjectCache {
   private final Provider<ProjectIndexer> indexer;
   private final Timer0 guessRelevantGroupsLatency;
   private final ProjectState.Factory projectStateFactory;
+  private final AtomicLong relevantGroupsMutationCount = new AtomicLong();
+  private volatile RelevantGroupsCacheEntry relevantGroupsCacheEntry;
+
+  private record RelevantGroupsCacheEntry(
+      long mutationCount,
+      long loadCount,
+      long evictionCount,
+      long cacheSize,
+      ImmutableSet<AccountGroup.UUID> groupUuids) {}
 
   @Inject
   ProjectCacheImpl(
@@ -189,7 +200,10 @@ public class ProjectCacheImpl implements ProjectCache {
       MetricMaker metricMaker,
       ProjectState.Factory projectStateFactory,
       GitRepositoryManager repositoryManager) {
-    this.config = config;
+    this.configuredRelevantGroupUuids =
+        Arrays.stream(config.getStringList("groups", /* subsection= */ null, "relevantGroup"))
+            .map(AccountGroup::uuid)
+            .collect(toImmutableSet());
     this.allProjectsName = allProjectsName;
     this.allUsersName = allUsersName;
     this.inMemoryProjectCache = inMemoryProjectCache;
@@ -236,6 +250,7 @@ public class ProjectCacheImpl implements ProjectCache {
     if (p != null) {
       logger.atFine().log("Evict project '%s'", p.get());
       inMemoryProjectCache.invalidate(p);
+      relevantGroupsMutationCount.incrementAndGet();
     }
   }
 
@@ -300,16 +315,30 @@ public class ProjectCacheImpl implements ProjectCache {
   @Override
   public void refreshProjectList() {
     list.refresh(ListKey.ALL);
+    relevantGroupsMutationCount.incrementAndGet();
   }
 
   @Override
   public Set<AccountGroup.UUID> guessRelevantGroupUUIDs() {
     try (Timer0.Context ignored = guessRelevantGroupsLatency.start()) {
-      Set<AccountGroup.UUID> relevantGroupUuids =
+      long mutationCount = relevantGroupsMutationCount.get();
+      CacheStats stats = inMemoryProjectCache.stats();
+      long loadCount = stats.loadCount();
+      long evictionCount = stats.evictionCount();
+      long cacheSize = inMemoryProjectCache.size();
+
+      RelevantGroupsCacheEntry cached = relevantGroupsCacheEntry;
+      if (cached != null
+          && cached.mutationCount() == mutationCount
+          && cached.loadCount() == loadCount
+          && cached.evictionCount() == evictionCount
+          && cached.cacheSize() == cacheSize) {
+        return cached.groupUuids();
+      }
+
+      ImmutableSet<AccountGroup.UUID> relevantGroupUuids =
           Streams.concat(
-                  Arrays.stream(
-                          config.getStringList("groups", /* subsection= */ null, "relevantGroup"))
-                      .map(AccountGroup::uuid),
+                  configuredRelevantGroupUuids.stream(),
                   all().stream()
                       .map(n -> inMemoryProjectCache.getIfPresent(n))
                       .filter(Objects::nonNull)
@@ -318,7 +347,10 @@ public class ProjectCacheImpl implements ProjectCache {
                       // getAllGroupUUIDs shouldn't really return null UUIDs, but harden
                       // against them just in case there is a bug or corner case.
                       .filter(id -> id != null && id.get() != null))
-              .collect(toSet());
+              .collect(toImmutableSet());
+      relevantGroupsCacheEntry =
+          new RelevantGroupsCacheEntry(
+              mutationCount, loadCount, evictionCount, cacheSize, relevantGroupUuids);
       logger.atFine().log("relevant group UUIDs: %s", relevantGroupUuids);
       return relevantGroupUuids;
     }
@@ -527,6 +559,7 @@ public class ProjectCacheImpl implements ProjectCache {
   @VisibleForTesting
   public void evictAllByName() {
     inMemoryProjectCache.invalidateAll();
+    relevantGroupsMutationCount.incrementAndGet();
   }
 
   @VisibleForTesting

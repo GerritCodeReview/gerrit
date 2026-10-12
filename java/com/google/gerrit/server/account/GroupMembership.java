@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.common.collect.Iterators;
 import com.google.gerrit.entities.AccountGroup;
 import java.util.Collections;
 import java.util.Set;
@@ -59,4 +60,13 @@ public interface GroupMembership {
    * which make it expensive to enumerate the members of a group.
    */
   Set<AccountGroup.UUID> getKnownGroups();
+
+  /**
+   * Returns known groups partitioned by their underlying backend or resolution phase, evaluated
+   * lazily as the returned {@link Iterable} is traversed. Callers that only need to find a matching
+   * group can stop iterating early to avoid querying remaining group backends.
+   */
+  default Iterable<Set<AccountGroup.UUID>> getKnownGroupsByBackend() {
+    return () -> Iterators.singletonIterator(getKnownGroups());
+  }
 }

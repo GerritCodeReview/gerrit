@@ -29,6 +29,7 @@ import com.google.gerrit.server.project.ProjectConfig;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import java.util.Optional;
+import java.util.Set;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
 import org.junit.Test;
@@ -156,5 +157,28 @@ public class ProjectCacheIT extends AbstractDaemonTest {
     assertThat(inMemoryProjectCache.get(newProjectName)).isPresent(); // project available in cache
     assertThat(inMemoryProjectCache.stats().missCount())
         .isEqualTo(projectCreatedNumMisses); // misses no longer increased
+  }
+
+  @Test
+  public void guessRelevantGroupUUIDs_cachedAndInvalidatedOnProjectUpdate() throws Exception {
+    Set<AccountGroup.UUID> initialGroups = projectCache.guessRelevantGroupUUIDs();
+    Set<AccountGroup.UUID> secondLookup = projectCache.guessRelevantGroupUUIDs();
+    assertThat(secondLookup).isSameInstanceAs(initialGroups);
+
+    AccountGroup.UUID newExternalGroup = AccountGroup.uuid("external:new-relevant-group");
+    assertThat(initialGroups).doesNotContain(newExternalGroup);
+
+    GroupReference groupRef = GroupReference.create(newExternalGroup, "new-relevant-group");
+    try (AbstractDaemonTest.ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig()
+          .updatePluginConfig(
+              "test-plugin", cfg -> cfg.setGroupReference("relevant-group", groupRef));
+      u.save();
+    }
+    // Load updated project into inMemoryProjectCache and verify guessRelevantGroupUUIDs updates.
+    assertThat(projectCache.get(project)).isPresent();
+    Set<AccountGroup.UUID> updatedGroups = projectCache.guessRelevantGroupUUIDs();
+    assertThat(updatedGroups).contains(newExternalGroup);
+    assertThat(projectCache.guessRelevantGroupUUIDs()).isSameInstanceAs(updatedGroups);
   }
 }

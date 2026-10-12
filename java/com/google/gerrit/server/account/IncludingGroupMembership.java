@@ -14,8 +14,10 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.common.collect.AbstractIterator;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Iterators;
 import com.google.common.collect.Sets;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.InternalGroup;
@@ -45,6 +47,7 @@ public class IncludingGroupMembership implements GroupMembership {
   private final GroupIncludeCache includeCache;
   private final CurrentUser user;
   private final Map<AccountGroup.UUID, Boolean> memberOf;
+  private ImmutableSet<AccountGroup.UUID> directKnownGroups;
   private ImmutableSet<AccountGroup.UUID> knownGroups;
 
   @Inject
@@ -123,8 +126,10 @@ public class IncludingGroupMembership implements GroupMembership {
     return user.getEffectiveGroups().containsAnyOf(ids);
   }
 
-  private ImmutableSet<AccountGroup.UUID> computeKnownGroups() {
-    GroupMembership membership = user.getEffectiveGroups();
+  private ImmutableSet<AccountGroup.UUID> computeDirectKnownGroups() {
+    if (directKnownGroups != null) {
+      return directKnownGroups;
+    }
     Collection<AccountGroup.UUID> direct =
         user.isIdentifiedUser()
             ? includeCache.getGroupsWithMember(user.getAccountId())
@@ -133,13 +138,12 @@ public class IncludingGroupMembership implements GroupMembership {
     Set<AccountGroup.UUID> r = Sets.newHashSet(direct);
     r.remove(null);
 
-    Set<AccountGroup.UUID> q = Sets.newHashSet(r);
-    for (AccountGroup.UUID g : membership.intersection(includeCache.allExternalMembers())) {
-      if (g != null && r.add(g)) {
-        q.add(g);
-      }
-    }
+    expandParentGroups(r, Sets.newHashSet(r));
+    directKnownGroups = ImmutableSet.copyOf(r);
+    return directKnownGroups;
+  }
 
+  private void expandParentGroups(Set<AccountGroup.UUID> r, Set<AccountGroup.UUID> q) {
     while (!q.isEmpty()) {
       Collection<AccountGroup.UUID> parents = includeCache.parentGroupsOf(q);
       q.clear();
@@ -150,6 +154,24 @@ public class IncludingGroupMembership implements GroupMembership {
         }
       }
     }
+  }
+
+  private ImmutableSet<AccountGroup.UUID> computeKnownGroups() {
+    ImmutableSet<AccountGroup.UUID> direct = computeDirectKnownGroups();
+    Collection<AccountGroup.UUID> externalMembers = includeCache.allExternalMembers();
+    if (externalMembers.isEmpty()) {
+      return direct;
+    }
+
+    Set<AccountGroup.UUID> r = Sets.newHashSet(direct);
+    GroupMembership membership = user.getEffectiveGroups();
+    Set<AccountGroup.UUID> q = new HashSet<>();
+    for (AccountGroup.UUID g : membership.intersection(externalMembers)) {
+      if (g != null && r.add(g)) {
+        q.add(g);
+      }
+    }
+    expandParentGroups(r, q);
     return ImmutableSet.copyOf(r);
   }
 
@@ -159,5 +181,29 @@ public class IncludingGroupMembership implements GroupMembership {
       knownGroups = computeKnownGroups();
     }
     return knownGroups;
+  }
+
+  @Override
+  public Iterable<Set<AccountGroup.UUID>> getKnownGroupsByBackend() {
+    if (knownGroups != null || includeCache.allExternalMembers().isEmpty()) {
+      return () -> Iterators.singletonIterator(getKnownGroups());
+    }
+    return () ->
+        new AbstractIterator<Set<AccountGroup.UUID>>() {
+          private int step = 0;
+
+          @Override
+          protected Set<AccountGroup.UUID> computeNext() {
+            if (step == 0) {
+              step = 1;
+              return computeDirectKnownGroups();
+            }
+            if (step == 1) {
+              step = 2;
+              return Sets.difference(getKnownGroups(), computeDirectKnownGroups());
+            }
+            return endOfData();
+          }
+        };
   }
 }

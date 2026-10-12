@@ -130,13 +130,13 @@ public class MailMetadataIT extends AbstractDaemonTest {
     for (Map.Entry<String, Object> entry : want.entrySet()) {
       if (entry.getValue() instanceof String) {
         assertThat(body).contains(entry.getKey() + ": " + entry.getValue());
-      } else if (entry.getValue() instanceof Instant) {
+      } else if (entry.getValue() instanceof Instant instant) {
         assertThat(body)
             .contains(
                 entry.getKey()
                     + ": "
                     + MailProcessingUtil.rfcDateformatter.format(
-                        ZonedDateTime.ofInstant((Instant) entry.getValue(), ZoneId.of("UTC"))));
+                        ZonedDateTime.ofInstant(instant, ZoneId.of("UTC"))));
       } else {
         throw new Exception(
             "Object has unsupported type: "

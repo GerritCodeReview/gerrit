@@ -516,10 +516,9 @@ public class LuceneChangeIndex implements ChangeIndex {
     @Nullable
     private ScoreDoc getSearchAfter(ChangeSubIndex subIndex) {
       if (isSearchAfterPagination
-          && opts.searchAfter() != null
-          && opts.searchAfter() instanceof Map
-          && ((Map<?, ?>) opts.searchAfter()).get(subIndex) instanceof ScoreDoc) {
-        return (ScoreDoc) ((Map<?, ?>) opts.searchAfter()).get(subIndex);
+          && opts.searchAfter() instanceof Map<?, ?> searchAfter
+          && searchAfter.get(subIndex) instanceof ScoreDoc scoreDoc) {
+        return scoreDoc;
       }
       return null;
     }

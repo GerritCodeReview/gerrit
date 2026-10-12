@@ -92,8 +92,7 @@ class MetricInfo {
     } else if (metric instanceof Counter c) {
       count = c.getCount();
 
-    } else if (metric instanceof Gauge) {
-      Gauge<?> g = (Gauge<?>) metric;
+    } else if (metric instanceof Gauge<?> g) {
       value = g.getValue();
 
     } else if (metric instanceof Meter m) {

@@ -66,7 +66,7 @@ public class MarkdownFormatterHeader {
     void render(final AnchorLink node, final NodeRendererContext context) {
       Node parent = node.getParent();
 
-      if (parent instanceof Heading && ((Heading) parent).getLevel() == 1) {
+      if (parent instanceof Heading heading && heading.getLevel() == 1) {
         // render without anchor link
         context.renderChildren(node);
       } else {

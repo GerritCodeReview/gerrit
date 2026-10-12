@@ -160,8 +160,8 @@ public class GroupControl {
     }
 
     // Keep this logic in sync with DefaultRefFilter#isGroupOwner(...).
-    if (group instanceof GroupDescription.Internal) {
-      AccountGroup.UUID ownerUUID = ((GroupDescription.Internal) group).getOwnerGroupUUID();
+    if (group instanceof GroupDescription.Internal internalGroup) {
+      AccountGroup.UUID ownerUUID = internalGroup.getOwnerGroupUUID();
       if (getUser().getEffectiveGroups().contains(ownerUUID)) {
         logger.atFine().log(
             "user %s is owner of group %s", user.getLoggableName(), group.getGroupUUID().get());
@@ -228,8 +228,8 @@ public class GroupControl {
     if (user.isInternalUser()) {
       return true;
     }
-    if (group instanceof GroupDescription.Internal) {
-      return ((GroupDescription.Internal) group).isVisibleToAll() || isOwner();
+    if (group instanceof GroupDescription.Internal internalGroup) {
+      return internalGroup.isVisibleToAll() || isOwner();
     }
     return canAdministrateServer();
   }

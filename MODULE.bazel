@@ -4,7 +4,7 @@ module(name = "gerrit")
 bazel_dep(name = "bazel_features", version = "1.51.0")
 bazel_dep(name = "bazel_lib", version = "3.7.2")
 bazel_dep(name = "platforms", version = "1.1.0")
-bazel_dep(name = "rules_jvm_external", version = "7.1")
+bazel_dep(name = "rules_jvm_external", version = "7.2")
 
 # Language rules.
 bazel_dep(name = "aspect_rules_js", version = "3.4.1")

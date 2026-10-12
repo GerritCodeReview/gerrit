@@ -36,8 +36,6 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
 import java.io.IOException;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -45,6 +43,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
+import java.util.concurrent.CompletionException;
 import java.util.concurrent.TimeUnit;
 import javax.naming.CompositeName;
 import javax.naming.Context;
@@ -234,13 +233,13 @@ class Helper {
     }
     Subject subject = ctx.getSubject();
     try {
-      return Subject.doAs(
-          subject, (PrivilegedExceptionAction<DirContext>) () -> createContext(env));
-    } catch (PrivilegedActionException e) {
-      Throwables.throwIfInstanceOf(e.getException(), IOException.class);
-      Throwables.throwIfInstanceOf(e.getException(), NamingException.class);
-      Throwables.throwIfInstanceOf(e.getException(), RuntimeException.class);
-      logger.atWarning().withCause(e.getException()).log("Internal error");
+      return Subject.callAs(subject, () -> createContext(env));
+    } catch (CompletionException e) {
+      Throwable cause = e.getCause();
+      Throwables.throwIfInstanceOf(cause, IOException.class);
+      Throwables.throwIfInstanceOf(cause, NamingException.class);
+      Throwables.throwIfInstanceOf(cause, RuntimeException.class);
+      logger.atWarning().withCause(cause).log("Internal error");
       return null;
     } finally {
       ctx.logout();

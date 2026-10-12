@@ -16,6 +16,24 @@
       "message": "Commit message is stale.",
       "revId": "7fe84441d2b822ad4113144d9eb2d24e42eb7077",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a5de085_fd4a048d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-12T12:10:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c8f5f2e_1d2b14c6",
+      "revId": "7fe84441d2b822ad4113144d9eb2d24e42eb7077",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -39,8 +39,7 @@ public class AndChangeSource extends AndSource<ChangeData> implements ChangeData
   @Override
   public int compare(Predicate<ChangeData> a, Predicate<ChangeData> b) {
     int cmp = super.compare(a, b);
-    if (cmp == 0 && a instanceof ChangeDataSource as && b instanceof ChangeDataSource) {
-      ChangeDataSource bs = (ChangeDataSource) b;
+    if (cmp == 0 && a instanceof ChangeDataSource as && b instanceof ChangeDataSource bs) {
       cmp = (as.hasChange() ? 0 : 1) - (bs.hasChange() ? 0 : 1);
     }
     return cmp;

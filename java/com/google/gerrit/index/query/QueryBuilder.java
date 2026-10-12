@@ -175,8 +175,8 @@ public abstract class QueryBuilder<T, Q extends QueryBuilder<T, Q>> {
   @SuppressWarnings("unchecked")
   public static <T, P extends OperatorPredicate<T>> P find(
       Predicate<T> p, Class<P> clazz, String name) {
-    if (p instanceof OperatorPredicate
-        && ((OperatorPredicate<?>) p).getOperator().equals(name)
+    if (p instanceof OperatorPredicate<?> operatorPredicate
+        && operatorPredicate.getOperator().equals(name)
         && clazz.isAssignableFrom(p.getClass())) {
       return (P) p;
     }

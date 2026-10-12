@@ -309,8 +309,8 @@ public class ReviewerModifier {
     boolean exactMatchFound = false;
     try {
       if (ReviewerState.REMOVED.equals(input.state)
-          || (input instanceof InternalReviewerInput
-              && ((InternalReviewerInput) input).skipVisibilityCheck)) {
+          || (input instanceof InternalReviewerInput internalInput
+              && internalInput.skipVisibilityCheck)) {
         reviewerUser =
             accountResolver.resolveIncludeInactiveIgnoreVisibility(input.reviewer).asUniqueUser();
       } else {

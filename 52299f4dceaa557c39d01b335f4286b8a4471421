@@ -16,6 +16,24 @@
       "message": "Looks like screenshot failures need to be resolved too, which doesn\u0027t really look like it\u0027s caused by this change but rather flake/race condition",
       "revId": "52299f4dceaa557c39d01b335f4286b8a4471421",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "92a4053a_e9590c88",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2026-10-12T19:07:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f69edf68_f4e1e530",
+      "revId": "52299f4dceaa557c39d01b335f4286b8a4471421",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

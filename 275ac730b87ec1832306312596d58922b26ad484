@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "115e5f56_780ad2bd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5232670
+      },
+      "writtenOn": "2026-10-12T01:52:28Z",
+      "side": 1,
+      "message": "621702: Add documentation comment to ChangesCollection | https://gerrit-review.googlesource.com/c/gerrit/+/621702",
+      "revId": "275ac730b87ec1832306312596d58922b26ad484",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

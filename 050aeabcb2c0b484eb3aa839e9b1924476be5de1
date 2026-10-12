@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a54d5b3_d203954e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 4665459
+      },
+      "writtenOn": "2026-10-12T19:08:12Z",
+      "side": 1,
+      "message": "Should docs need an update too?",
+      "revId": "050aeabcb2c0b484eb3aa839e9b1924476be5de1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12ca5543_0025401b",
+        "filename": "java/com/google/gerrit/server/schema/H2CustomLockAccountPatchReviewStore.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 4665459
+      },
+      "writtenOn": "2026-10-12T19:08:12Z",
+      "side": 1,
+      "message": "Since we bind H2AccountPatchReviewStore when lockType is unset, shouldn\u0027t we move this check into that class? Otherwise, it won\u0027t be executed.",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 8
+      },
+      "revId": "050aeabcb2c0b484eb3aa839e9b1924476be5de1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -184,8 +184,7 @@ public abstract class PushCertificateChecker {
     PGPObjectFactory factory = new BcPGPObjectFactory(in);
     Object obj;
     while ((obj = factory.nextObject()) != null) {
-      if (obj instanceof PGPSignatureList) {
-        PGPSignatureList sigs = (PGPSignatureList) obj;
+      if (obj instanceof PGPSignatureList sigs) {
         if (!sigs.isEmpty()) {
           return sigs.get(0);
         }

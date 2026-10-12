@@ -29,8 +29,8 @@ class OperatingSystemMXBeanFactory {
   @Nullable
   static OperatingSystemMXBeanInterface create() {
     OperatingSystemMXBean sys = ManagementFactory.getOperatingSystemMXBean();
-    if (sys instanceof UnixOperatingSystemMXBean) {
-      return new OperatingSystemMXBeanUnixNative((UnixOperatingSystemMXBean) sys);
+    if (sys instanceof UnixOperatingSystemMXBean unixOperatingSystemMXBean) {
+      return new OperatingSystemMXBeanUnixNative(unixOperatingSystemMXBean);
     }
 
     for (String name :

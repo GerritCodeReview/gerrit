@@ -84,8 +84,7 @@ public class ValidationMessage {
 
   @Override
   public boolean equals(Object obj) {
-    if (obj instanceof ValidationMessage) {
-      ValidationMessage other = (ValidationMessage) obj;
+    if (obj instanceof ValidationMessage other) {
       return Objects.equals(message, other.message) && Objects.equals(type, other.type);
     }
     return false;

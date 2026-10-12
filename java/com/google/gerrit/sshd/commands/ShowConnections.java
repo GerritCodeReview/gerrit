@@ -97,8 +97,7 @@ final class ShowConnections extends SshCommand {
         acceptor.getManagedSessions().values().stream()
             .sorted(
                 (arg0, arg1) -> {
-                  if (arg0 instanceof MinaSession) {
-                    MinaSession mArg0 = (MinaSession) arg0;
+                  if (arg0 instanceof MinaSession mArg0) {
                     MinaSession mArg1 = (MinaSession) arg1;
                     if (mArg0.getSession().getCreationTime()
                         < mArg1.getSession().getCreationTime()) {
@@ -220,8 +219,8 @@ final class ShowConnections extends SshCommand {
       return "?";
     }
     String host = null;
-    if (remoteAddress instanceof InetSocketAddress) {
-      final InetSocketAddress sa = (InetSocketAddress) remoteAddress;
+    if (remoteAddress instanceof InetSocketAddress inetSocketAddress) {
+      final InetSocketAddress sa = inetSocketAddress;
       final InetAddress in = sa.getAddress();
       if (numeric) {
         return in.getHostAddress();

@@ -37,8 +37,7 @@ public class FileInfo {
 
   @Override
   public boolean equals(Object o) {
-    if (o instanceof FileInfo) {
-      FileInfo fileInfo = (FileInfo) o;
+    if (o instanceof FileInfo fileInfo) {
       return Objects.equals(status, fileInfo.status)
           && Objects.equals(oldMode, fileInfo.oldMode)
           && Objects.equals(newMode, fileInfo.newMode)

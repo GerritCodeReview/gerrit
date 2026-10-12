@@ -79,8 +79,7 @@ public class RevisionInfo {
 
   @Override
   public boolean equals(Object o) {
-    if (o instanceof RevisionInfo) {
-      RevisionInfo revisionInfo = (RevisionInfo) o;
+    if (o instanceof RevisionInfo revisionInfo) {
       return isCurrent == revisionInfo.isCurrent
           && Objects.equals(kind, revisionInfo.kind)
           && _number == revisionInfo._number
@@ -158,8 +157,7 @@ public class RevisionInfo {
 
     @Override
     public boolean equals(Object o) {
-      if (o instanceof ParentInfo) {
-        ParentInfo parentInfo = (ParentInfo) o;
+      if (o instanceof ParentInfo parentInfo) {
         return Objects.equals(branchName, parentInfo.branchName)
             && Objects.equals(commitId, parentInfo.commitId)
             && Objects.equals(isMergedInTargetBranch, parentInfo.isMergedInTargetBranch)

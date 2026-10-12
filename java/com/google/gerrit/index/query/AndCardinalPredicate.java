@@ -29,8 +29,8 @@ public class AndCardinalPredicate<T> extends AndPredicate<T> implements HasCardi
     }
     int minCardinality = Integer.MAX_VALUE;
     for (Predicate<T> child : getChildren()) {
-      if (child instanceof HasCardinality) {
-        minCardinality = Math.min(((HasCardinality) child).getCardinality(), minCardinality);
+      if (child instanceof HasCardinality hasCardinality) {
+        minCardinality = Math.min(hasCardinality.getCardinality(), minCardinality);
       }
     }
     cardinality = minCardinality;

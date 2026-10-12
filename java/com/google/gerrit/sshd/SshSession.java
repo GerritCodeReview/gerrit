@@ -122,8 +122,8 @@ public class SshSession {
   }
 
   private static String format(SocketAddress remote) {
-    if (remote instanceof InetSocketAddress) {
-      final InetSocketAddress sa = (InetSocketAddress) remote;
+    if (remote instanceof InetSocketAddress inetSocketAddress) {
+      final InetSocketAddress sa = inetSocketAddress;
 
       final InetAddress in = sa.getAddress();
       if (in != null) {

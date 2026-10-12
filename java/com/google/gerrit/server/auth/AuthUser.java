@@ -70,8 +70,8 @@ public class AuthUser {
 
   @Override
   public boolean equals(Object obj) {
-    if (obj instanceof AuthUser) {
-      return getUUID().equals(((AuthUser) obj).getUUID());
+    if (obj instanceof AuthUser authUser) {
+      return getUUID().equals(authUser.getUUID());
     }
     return false;
   }

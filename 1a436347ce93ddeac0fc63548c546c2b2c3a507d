@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1cdaf373_8016462d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-12T13:26:56Z",
+      "side": 1,
+      "message": "Thanks for this cleanup! In some generic cases, the unchecked warning moves to a later assignment and still needs suppression. That’s fine for this refactor.\n\nI found one behaviour regression in the Prolog list traversal.",
+      "revId": "1a436347ce93ddeac0fc63548c546c2b2c3a507d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a7e005d_5fba9118",
+        "filename": "java/com/google/gerrit/server/rules/prolog/PrologRuleEvaluator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-12T13:26:56Z",
+      "side": 1,
+      "message": "This binds l to the first list node, but the loop below advances t without updating l. With two or more results, it repeatedly appends the first result and sets t to the same tail, looping indefinitely and growing the list until memory is exhausted.\n\n```suggestion\n      if (resultsTerm instanceof ListTerm) {\n        r \u003d new ArrayList\u003c\u003e();\n        for (Term t \u003d resultsTerm; t instanceof ListTerm l; ) {\n          r.add(l.car().dereference());\n```",
+      "range": {
+        "startLine": 443,
+        "startChar": 0,
+        "endLine": 446,
+        "endChar": 0
+      },
+      "revId": "1a436347ce93ddeac0fc63548c546c2b2c3a507d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

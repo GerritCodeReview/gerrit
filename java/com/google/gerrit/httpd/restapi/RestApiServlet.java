@@ -390,8 +390,8 @@ public class RestApiServlet extends HttpServlet {
 
         if (path.isEmpty()) {
           globals.quotaChecker.enforce(req);
-          if (rc instanceof NeedsParams) {
-            ((NeedsParams) rc).setParams(qp.params());
+          if (rc instanceof NeedsParams needsParams) {
+            needsParams.setParams(qp.params());
           }
 
           if (isRead(req)) {
@@ -626,8 +626,8 @@ public class RestApiServlet extends HttpServlet {
 
         if (!identity().equivalent(response, Response.none())) {
           Object value = Response.unwrap(response);
-          if (value instanceof BinaryResult) {
-            responseBytes = replyBinaryResult(req, res, (BinaryResult) value);
+          if (value instanceof BinaryResult binaryResult) {
+            responseBytes = replyBinaryResult(req, res, binaryResult);
           } else {
             responseBytes = replyJson(req, res, false, qp.config(), value);
           }
@@ -1176,8 +1176,8 @@ public class RestApiServlet extends HttpServlet {
 
   @SuppressWarnings("rawtypes")
   private static boolean acceptsRawInput(Type type) {
-    if (type instanceof Class) {
-      for (Field f : ((Class) type).getDeclaredFields()) {
+    if (type instanceof Class<?> cls) {
+      for (Field f : cls.getDeclaredFields()) {
         if (f.getType() == RawInput.class) {
           return true;
         }
@@ -1243,8 +1243,8 @@ public class RestApiServlet extends HttpServlet {
       c.setAccessible(true);
       return c.newInstance();
     }
-    if (type instanceof ParameterizedType) {
-      Type rawType = ((ParameterizedType) type).getRawType();
+    if (type instanceof ParameterizedType parameterizedType) {
+      Type rawType = parameterizedType.getRawType();
       if (rawType instanceof Class && List.class.isAssignableFrom((Class<?>) rawType)) {
         return new ArrayList<>();
       }
@@ -1278,8 +1278,8 @@ public class RestApiServlet extends HttpServlet {
     buf.write(JSON_MAGIC);
     Writer w = new BufferedWriter(new OutputStreamWriter(buf, UTF_8));
     Gson gson = newGson(config);
-    if (result instanceof JsonElement) {
-      gson.toJson((JsonElement) result, w);
+    if (result instanceof JsonElement jsonElement) {
+      gson.toJson(jsonElement, w);
     } else {
       gson.toJson(result, w);
     }

@@ -176,8 +176,8 @@ class HttpLoginServlet extends HttpServlet {
     final NodeList list = parent.getChildNodes();
     for (int i = 0; i < list.getLength(); i++) {
       final Node n = list.item(i);
-      if (n instanceof Element) {
-        final Element e = (Element) n;
+      if (n instanceof Element element) {
+        final Element e = element;
         if (name.equals(e.getAttribute("class"))) {
           e.setTextContent(value);
         }

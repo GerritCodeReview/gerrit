@@ -79,8 +79,7 @@ public class ActionInfo {
 
   @Override
   public boolean equals(Object o) {
-    if (o instanceof ActionInfo) {
-      ActionInfo actionInfo = (ActionInfo) o;
+    if (o instanceof ActionInfo actionInfo) {
       return Objects.equals(method, actionInfo.method)
           && Objects.equals(label, actionInfo.label)
           && Objects.equals(title, actionInfo.title)

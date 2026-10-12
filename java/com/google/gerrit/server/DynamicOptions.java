@@ -251,8 +251,8 @@ public class DynamicOptions implements AutoCloseable {
     }
 
     String className = null;
-    if (dynamicBean instanceof ClassNameProvider) {
-      className = ((ClassNameProvider) dynamicBean).getClassName();
+    if (dynamicBean instanceof ClassNameProvider classNameProvider) {
+      className = classNameProvider.getClassName();
     } else if (!identity().equivalent(loader, beanCl)) { // in a different plugin?
       className = dynamicBean.getClass().getCanonicalName();
     }
@@ -261,10 +261,10 @@ public class DynamicOptions implements AutoCloseable {
       try {
         List<Module> modules = new ArrayList<>();
         Injector modulesInjector = injector;
-        if (dynamicBean instanceof ModulesClassNamesProvider) {
+        if (dynamicBean instanceof ModulesClassNamesProvider modulesClassNamesProvider) {
           modulesInjector = injector.createChildInjector();
           for (String moduleName :
-              ((ModulesClassNamesProvider) dynamicBean).getModulesClassNames()) {
+              modulesClassNamesProvider.getModulesClassNames()) {
             Class<Module> mClass = (Class<Module>) loader.loadClass(moduleName);
             modules.add(modulesInjector.getInstance(mClass));
           }
@@ -307,8 +307,7 @@ public class DynamicOptions implements AutoCloseable {
   }
 
   public void setDynamicBeans() {
-    if (bean instanceof BeanReceiver) {
-      BeanReceiver receiver = (BeanReceiver) bean;
+    if (bean instanceof BeanReceiver receiver) {
       for (Map.Entry<String, DynamicBean> e : beansByPlugin.entrySet()) {
         receiver.setDynamicBean(e.getKey(), e.getValue());
       }
@@ -326,8 +325,7 @@ public class DynamicOptions implements AutoCloseable {
   public void onBeanParseStart() {
     for (Map.Entry<String, DynamicBean> e : beansByPlugin.entrySet()) {
       DynamicBean instance = e.getValue();
-      if (instance instanceof BeanParseListener) {
-        BeanParseListener listener = (BeanParseListener) instance;
+      if (instance instanceof BeanParseListener listener) {
         listener.onBeanParseStart(e.getKey(), bean);
       }
     }
@@ -336,8 +334,7 @@ public class DynamicOptions implements AutoCloseable {
   public void onBeanParseEnd() {
     for (Map.Entry<String, DynamicBean> e : beansByPlugin.entrySet()) {
       DynamicBean instance = e.getValue();
-      if (instance instanceof BeanParseListener) {
-        BeanParseListener listener = (BeanParseListener) instance;
+      if (instance instanceof BeanParseListener listener) {
         listener.onBeanParseEnd(e.getKey(), bean);
       }
     }

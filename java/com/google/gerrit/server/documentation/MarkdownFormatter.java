@@ -128,8 +128,7 @@ public class MarkdownFormatter {
 
   @Nullable
   private String findTitle(Node root) {
-    if (root instanceof Heading) {
-      Heading h = (Heading) root;
+    if (root instanceof Heading h) {
       if (h.getLevel() == 1 && h.hasChildren()) {
         TextCollectingVisitor collectingVisitor = new TextCollectingVisitor();
         return collectingVisitor.collectAndGetText(h);

@@ -451,8 +451,8 @@ public class SmtpEmailSender implements EmailSender {
           // Ignored
         }
       }
-      if (e instanceof EmailException) {
-        throw (EmailException) e;
+      if (e instanceof EmailException emailException) {
+        throw emailException;
       }
       throw new EmailException(e.getMessage(), e);
     }

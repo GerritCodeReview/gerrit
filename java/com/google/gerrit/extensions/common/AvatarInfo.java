@@ -40,8 +40,7 @@ public class AvatarInfo {
 
   @Override
   public boolean equals(Object o) {
-    if (o instanceof AvatarInfo) {
-      AvatarInfo avatarInfo = (AvatarInfo) o;
+    if (o instanceof AvatarInfo avatarInfo) {
       return Objects.equals(url, avatarInfo.url) && Objects.equals(height, avatarInfo.height);
     }
     return false;

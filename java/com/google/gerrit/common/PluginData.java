@@ -30,8 +30,7 @@ public class PluginData {
 
   @Override
   public boolean equals(Object obj) {
-    if (obj instanceof PluginData) {
-      PluginData o = (PluginData) obj;
+    if (obj instanceof PluginData o) {
       return Objects.equals(name, o.name)
           && Objects.equals(version, o.version)
           && Objects.equals(pluginPath, o.pluginPath);

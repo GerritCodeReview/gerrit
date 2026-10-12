@@ -62,9 +62,9 @@ public interface IndexOperations {
 
       return () -> {
         ChangeIndex maybeEnabledSearchIndex = indices.getSearchIndex();
-        if (maybeEnabledSearchIndex instanceof DisabledChangeIndex) {
+        if (maybeEnabledSearchIndex instanceof DisabledChangeIndex disabledChangeIndex) {
           indices.setSearchIndex(
-              ((DisabledChangeIndex) maybeEnabledSearchIndex).unwrap(), /* closeOld */ false);
+              disabledChangeIndex.unwrap(), /* closeOld */ false);
         }
       };
     }
@@ -78,8 +78,8 @@ public interface IndexOperations {
       }
       return () -> {
         for (ChangeIndex i : indices.getWriteIndexes()) {
-          if (i instanceof DisabledChangeIndex) {
-            indices.addWriteIndex(((DisabledChangeIndex) i).unwrap());
+          if (i instanceof DisabledChangeIndex disabledChangeIndex) {
+            indices.addWriteIndex(disabledChangeIndex.unwrap());
           }
         }
       };
@@ -99,9 +99,9 @@ public interface IndexOperations {
 
       return () -> {
         AccountIndex maybeEnabledSearchIndex = indices.getSearchIndex();
-        if (maybeEnabledSearchIndex instanceof DisabledAccountIndex) {
+        if (maybeEnabledSearchIndex instanceof DisabledAccountIndex disabledAccountIndex) {
           indices.setSearchIndex(
-              ((DisabledAccountIndex) maybeEnabledSearchIndex).unwrap(), /* closeOld */ false);
+              disabledAccountIndex.unwrap(), /* closeOld */ false);
         }
       };
     }
@@ -115,8 +115,8 @@ public interface IndexOperations {
       }
       return () -> {
         for (AccountIndex i : indices.getWriteIndexes()) {
-          if (i instanceof DisabledAccountIndex) {
-            indices.addWriteIndex(((DisabledAccountIndex) i).unwrap());
+          if (i instanceof DisabledAccountIndex disabledAccountIndex) {
+            indices.addWriteIndex(disabledAccountIndex.unwrap());
           }
         }
       };
@@ -136,9 +136,9 @@ public interface IndexOperations {
 
       return () -> {
         ProjectIndex maybeEnabledSearchIndex = indices.getSearchIndex();
-        if (maybeEnabledSearchIndex instanceof DisabledProjectIndex) {
+        if (maybeEnabledSearchIndex instanceof DisabledProjectIndex disabledProjectIndex) {
           indices.setSearchIndex(
-              ((DisabledProjectIndex) maybeEnabledSearchIndex).unwrap(), /* closeOld */ false);
+              disabledProjectIndex.unwrap(), /* closeOld */ false);
         }
       };
     }
@@ -152,8 +152,8 @@ public interface IndexOperations {
       }
       return () -> {
         for (ProjectIndex i : indices.getWriteIndexes()) {
-          if (i instanceof DisabledProjectIndex) {
-            indices.addWriteIndex(((DisabledProjectIndex) i).unwrap());
+          if (i instanceof DisabledProjectIndex disabledProjectIndex) {
+            indices.addWriteIndex(disabledProjectIndex.unwrap());
           }
         }
       };

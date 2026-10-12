@@ -29,8 +29,8 @@ public class OrCardinalPredicate<T> extends OrPredicate<T> implements HasCardina
     }
     int aggregateCardinality = 0;
     for (Predicate<T> p : getChildren()) {
-      if (p instanceof HasCardinality) {
-        aggregateCardinality += ((HasCardinality) p).getCardinality();
+      if (p instanceof HasCardinality hasCardinality) {
+        aggregateCardinality += hasCardinality.getCardinality();
       }
     }
     cardinality = aggregateCardinality;

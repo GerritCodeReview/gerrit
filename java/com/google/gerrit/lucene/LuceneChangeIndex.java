@@ -353,8 +353,8 @@ public class LuceneChangeIndex implements ChangeIndex {
 
     @Override
     public int getCardinality() {
-      if (predicate instanceof HasCardinality) {
-        return ((HasCardinality) predicate).getCardinality();
+      if (predicate instanceof HasCardinality hasCardinality) {
+        return hasCardinality.getCardinality();
       }
       return 10;
     }

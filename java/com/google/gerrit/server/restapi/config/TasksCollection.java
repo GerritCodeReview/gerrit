@@ -88,8 +88,8 @@ public class TasksCollection implements ChildCollection<ConfigResource, TaskReso
     }
 
     Task<?> task = workQueue.getTask(taskId);
-    if (task instanceof ProjectTask) {
-      Project.NameKey nameKey = ((ProjectTask<?>) task).getProjectNameKey();
+    if (task instanceof ProjectTask<?> projectTask) {
+      Project.NameKey nameKey = projectTask.getProjectNameKey();
       if (nameKey != null) {
         Optional<ProjectState> state = projectCache.get(nameKey);
         if (!state.isPresent()) {

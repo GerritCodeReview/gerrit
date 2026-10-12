@@ -74,14 +74,13 @@ public final class ChangeInfoDiffer {
 
   @SuppressWarnings("unchecked") // reflection is used to construct instances of T
   private static <T> T getAdded(T oldValue, T newValue) {
-    if (newValue instanceof Collection) {
-      ImmutableList<?> result =
-          getAddedForCollection((Collection<?>) oldValue, (Collection<?>) newValue);
+    if (newValue instanceof Collection<?> newCollection) {
+      ImmutableList<?> result = getAddedForCollection((Collection<?>) oldValue, newCollection);
       return (T) result;
     }
 
-    if (newValue instanceof Map) {
-      ImmutableMap<?, ?> result = getAddedForMap((Map<?, ?>) oldValue, (Map<?, ?>) newValue);
+    if (newValue instanceof Map<?, ?> newMap) {
+      ImmutableMap<?, ?> result = getAddedForMap((Map<?, ?>) oldValue, newMap);
       return (T) result;
     }
 

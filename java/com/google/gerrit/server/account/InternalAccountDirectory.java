@@ -136,7 +136,7 @@ public class InternalAccountDirectory extends AccountDirectory {
     if (options.equals(ID_ONLY)) {
       return;
     }
-    if (in instanceof Collection && ((Collection<?>) in).isEmpty()) {
+    if (in instanceof Collection<?> collection && collection.isEmpty()) {
       return;
     }
 
@@ -201,7 +201,7 @@ public class InternalAccountDirectory extends AccountDirectory {
 
   @Override
   public void fillAccountAttributeInfo(Iterable<? extends AccountAttribute> in) {
-    if (in instanceof Collection && ((Collection<?>) in).isEmpty()) {
+    if (in instanceof Collection<?> collection && collection.isEmpty()) {
       return;
     }
     Set<Account.Id> ids;

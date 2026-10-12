@@ -42,10 +42,10 @@ public class CacheInfoFactory {
     cacheInfo.hitRatio = new HitRatioInfo();
     cacheInfo.hitRatio.setMem(stat.hitCount(), stat.requestCount());
 
-    if (cache instanceof PersistentCache) {
+    if (cache instanceof PersistentCache persistentCache) {
       cacheInfo.type = CacheType.DISK;
       if (includeDiskStats) {
-        PersistentCache.DiskStats diskStats = ((PersistentCache) cache).diskStats();
+        PersistentCache.DiskStats diskStats = persistentCache.diskStats();
         cacheInfo.entries.setDisk(diskStats.size());
         cacheInfo.entries.setSpace(diskStats.space());
         cacheInfo.hitRatio.setDisk(diskStats.hitCount(), diskStats.requestCount());

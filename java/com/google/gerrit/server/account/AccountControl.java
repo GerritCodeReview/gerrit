@@ -33,7 +33,10 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /** Access control management for one account's access to other accounts. */
 public class AccountControl {
@@ -69,7 +72,7 @@ public class AccountControl {
   public static class Factory {
     private final PermissionBackend permissionBackend;
     private final ProjectCache projectCache;
-    private final GroupControl.Factory groupControlFactory;
+    private final GroupControl.GenericFactory groupControlFactory;
     private final Provider<CurrentUser> user;
     private final IdentifiedUser.GenericFactory userFactory;
     private final AccountVisibility accountVisibility;
@@ -78,7 +81,7 @@ public class AccountControl {
     Factory(
         PermissionBackend permissionBackend,
         ProjectCache projectCache,
-        GroupControl.Factory groupControlFactory,
+        GroupControl.GenericFactory groupControlFactory,
         Provider<CurrentUser> user,
         IdentifiedUser.GenericFactory userFactory,
         AccountVisibility accountVisibility) {
@@ -121,18 +124,19 @@ public class AccountControl {
   }
 
   private final AccountsSection accountsSection;
-  private final GroupControl.Factory groupControlFactory;
+  private final GroupControl.GenericFactory groupControlFactory;
   private final PermissionBackend.WithUser perm;
   private final CurrentUser user;
   private final IdentifiedUser.GenericFactory userFactory;
   private final AccountVisibility accountVisibility;
+  private final Map<AccountGroup.UUID, Boolean> groupVisibilityCache = new ConcurrentHashMap<>();
 
-  private Boolean viewAll;
+  private volatile Boolean viewAll;
 
   private AccountControl(
       PermissionBackend permissionBackend,
       ProjectCache projectCache,
-      GroupControl.Factory groupControlFactory,
+      GroupControl.GenericFactory groupControlFactory,
       CurrentUser user,
       IdentifiedUser.GenericFactory userFactory,
       AccountVisibility accountVisibility) {
@@ -246,27 +250,45 @@ public class AccountControl {
     switch (accountVisibility) {
       case SAME_GROUP:
         {
-          Set<AccountGroup.UUID> usersGroups = groupsOf(otherUser.getUser());
+          Set<AccountGroup.UUID> blockedGroups = new HashSet<>();
           for (PermissionRule rule : accountsSection.getSameGroupVisibility()) {
             if (rule.isBlock() || rule.isDeny()) {
-              logger.atFine().log(
-                  "ignoring group %s of user %s for %s account visibility check"
-                      + " because there is a blocked/denied sameGroupVisibility rule: %s",
-                  rule.getGroup().getUUID(),
-                  otherUser.getUser().getLoggableName(),
-                  AccountVisibility.SAME_GROUP,
-                  rule);
-              usersGroups.remove(rule.getGroup().getUUID());
+              blockedGroups.add(rule.getGroup().getUUID());
             }
           }
 
-          if (user.getEffectiveGroups().containsAnyOf(usersGroups)) {
-            String reason =
-                String.format(
-                    "user %s can see account %d (they share a group (accountVisibility = %s))",
-                    user.getLoggableName(), otherUser.getId().get(), AccountVisibility.SAME_GROUP);
-            logger.atFine().log("%s", reason);
-            return VisibilityDecision.show(reason);
+          Set<AccountGroup.UUID> evaluatedGroups =
+              logger.atFine().isEnabled() ? new HashSet<>() : null;
+          for (Set<AccountGroup.UUID> backendGroups :
+              otherUser.getUser().getEffectiveGroups().getKnownGroupsByBackend()) {
+            Set<AccountGroup.UUID> candidateGroups = new HashSet<>();
+            for (AccountGroup.UUID groupUuid : backendGroups) {
+              if (SystemGroupBackend.isSystemGroup(groupUuid)) {
+                continue;
+              }
+              if (blockedGroups.contains(groupUuid)) {
+                logger.atFine().log(
+                    "ignoring group %s of user %s for %s account visibility check"
+                        + " because there is a blocked/denied sameGroupVisibility rule",
+                    groupUuid, otherUser.getUser().getLoggableName(), AccountVisibility.SAME_GROUP);
+                continue;
+              }
+              candidateGroups.add(groupUuid);
+            }
+            if (evaluatedGroups != null) {
+              evaluatedGroups.addAll(candidateGroups);
+            }
+            if (!candidateGroups.isEmpty()
+                && user.getEffectiveGroups().containsAnyOf(candidateGroups)) {
+              String reason =
+                  String.format(
+                      "user %s can see account %d (they share a group (accountVisibility = %s))",
+                      user.getLoggableName(),
+                      otherUser.getId().get(),
+                      AccountVisibility.SAME_GROUP);
+              logger.atFine().log("%s", reason);
+              return VisibilityDecision.show(reason);
+            }
           }
 
           String reason =
@@ -275,17 +297,28 @@ public class AccountControl {
                       + " %s))",
                   user.getLoggableName(), otherUser.getId().get(), AccountVisibility.SAME_GROUP);
           logger.atFine().log("%s", reason);
-          logger.atFine().log("groups of user %s: %s", user.getLoggableName(), groupsOf(user));
-          logger.atFine().log(
-              "groups of other user %s: %s", otherUser.getUser().getLoggableName(), usersGroups);
+          if (evaluatedGroups != null) {
+            logger.atFine().log("groups of user %s: %s", user.getLoggableName(), groupsOf(user));
+            logger.atFine().log(
+                "groups of other user %s: %s",
+                otherUser.getUser().getLoggableName(), evaluatedGroups);
+          }
           return VisibilityDecision.hide(reason);
         }
       case VISIBLE_GROUP:
         {
-          Set<AccountGroup.UUID> usersGroups = groupsOf(otherUser.getUser());
-          for (AccountGroup.UUID usersGroup : usersGroups) {
-            try {
-              if (groupControlFactory.controlFor(usersGroup).isVisible()) {
+          Set<AccountGroup.UUID> evaluatedGroups =
+              logger.atFine().isEnabled() ? new HashSet<>() : null;
+          for (Set<AccountGroup.UUID> backendGroups :
+              otherUser.getUser().getEffectiveGroups().getKnownGroupsByBackend()) {
+            for (AccountGroup.UUID usersGroup : backendGroups) {
+              if (SystemGroupBackend.isSystemGroup(usersGroup)) {
+                continue;
+              }
+              if (evaluatedGroups != null) {
+                evaluatedGroups.add(usersGroup);
+              }
+              if (isGroupVisible(usersGroup)) {
                 String reason =
                     String.format(
                         "user %s can see account %d (account is member of the visible group %s"
@@ -297,8 +330,6 @@ public class AccountControl {
                 logger.atFine().log("%s", reason);
                 return VisibilityDecision.show(reason);
               }
-            } catch (NoSuchGroupException e) {
-              continue;
             }
           }
 
@@ -308,8 +339,11 @@ public class AccountControl {
                       + " (accountVisibility = %s))",
                   user.getLoggableName(), otherUser.getId().get(), AccountVisibility.VISIBLE_GROUP);
           logger.atFine().log("%s", reason);
-          logger.atFine().log(
-              "groups of other user %s: %s", otherUser.getUser().getLoggableName(), usersGroups);
+          if (evaluatedGroups != null) {
+            logger.atFine().log(
+                "groups of other user %s: %s",
+                otherUser.getUser().getLoggableName(), evaluatedGroups);
+          }
           return VisibilityDecision.hide(reason);
         }
       case NONE:
@@ -323,6 +357,18 @@ public class AccountControl {
       default:
         throw new IllegalStateException("Bad AccountVisibility " + accountVisibility);
     }
+  }
+
+  private boolean isGroupVisible(AccountGroup.UUID groupUuid) {
+    return groupVisibilityCache.computeIfAbsent(
+        groupUuid,
+        uuid -> {
+          try {
+            return groupControlFactory.controlFor(user, uuid).isVisible();
+          } catch (NoSuchGroupException e) {
+            return false;
+          }
+        });
   }
 
   public boolean canViewAll() {

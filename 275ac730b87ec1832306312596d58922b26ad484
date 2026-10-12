@@ -16,6 +16,23 @@
       "message": "621702: Add documentation comment to ChangesCollection | https://gerrit-review.googlesource.com/c/gerrit/+/621702",
       "revId": "275ac730b87ec1832306312596d58922b26ad484",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7e04579_369de981",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 5232670
+      },
+      "writtenOn": "2026-10-12T01:57:30Z",
+      "side": 1,
+      "message": "git fetch --no-filter --no-tags https://gerrit.googlesource.com/gerrit refs/changes/02/621702/5 \u0026\u0026 git checkout -b change-621702 FETCH_HEAD",
+      "revId": "275ac730b87ec1832306312596d58922b26ad484",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -28,8 +28,7 @@ public class ValidationOptionInfo {
 
   @Override
   public boolean equals(Object o) {
-    if (o instanceof ValidationOptionInfo) {
-      ValidationOptionInfo validationInfo = (ValidationOptionInfo) o;
+    if (o instanceof ValidationOptionInfo validationInfo) {
       return Objects.equals(name, validationInfo.name)
           && Objects.equals(description, validationInfo.description);
     }

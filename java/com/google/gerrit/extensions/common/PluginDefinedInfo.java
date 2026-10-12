@@ -22,8 +22,7 @@ public class PluginDefinedInfo {
 
   @Override
   public boolean equals(Object o) {
-    if (o instanceof PluginDefinedInfo) {
-      PluginDefinedInfo pluginDefinedInfo = (PluginDefinedInfo) o;
+    if (o instanceof PluginDefinedInfo pluginDefinedInfo) {
       return Objects.equals(name, pluginDefinedInfo.name)
           && Objects.equals(message, pluginDefinedInfo.message);
     }

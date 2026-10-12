@@ -101,8 +101,7 @@ public class HtmlDomUtil {
     NodeList list = parent.getChildNodes();
     for (int i = 0; i < list.getLength(); i++) {
       Node n = list.item(i);
-      if (n instanceof Element) {
-        Element e = (Element) n;
+      if (n instanceof Element e) {
         if (name.equals(e.getAttribute("id"))) {
           return e;
         }

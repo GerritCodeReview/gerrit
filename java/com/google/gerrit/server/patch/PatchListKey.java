@@ -136,8 +136,7 @@ public class PatchListKey implements Serializable {
 
   @Override
   public boolean equals(Object o) {
-    if (o instanceof PatchListKey) {
-      PatchListKey k = (PatchListKey) o;
+    if (o instanceof PatchListKey k) {
       return Objects.equals(oldId, k.oldId)
           && Objects.equals(parentNum, k.parentNum)
           && Objects.equals(newId, k.newId)

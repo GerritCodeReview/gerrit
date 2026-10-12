@@ -33,8 +33,7 @@ public class ContextLineInfo {
 
   @Override
   public boolean equals(Object o) {
-    if (o instanceof ContextLineInfo) {
-      ContextLineInfo l = (ContextLineInfo) o;
+    if (o instanceof ContextLineInfo l) {
       return lineNumber == l.lineNumber && contextLine.equals(l.contextLine);
     }
     return false;

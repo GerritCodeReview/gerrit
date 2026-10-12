@@ -84,8 +84,8 @@ public abstract class Project {
     }
 
     default boolean projectNameEquals(Object b) {
-      if (b instanceof NameKey) {
-        return name().equals(((NameKey) b).get());
+      if (b instanceof NameKey nameKey) {
+        return name().equals(nameKey.get());
       }
       return false;
     }

@@ -82,8 +82,7 @@ public class SshAddressesModule extends AbstractModule {
     List<InetSocketAddress> local = new ArrayList<>();
 
     for (SocketAddress addr : listen) {
-      if (addr instanceof InetSocketAddress) {
-        InetSocketAddress inetAddr = (InetSocketAddress) addr;
+      if (addr instanceof InetSocketAddress inetAddr) {
         if (inetAddr.getAddress().isLoopbackAddress()) {
           local.add(inetAddr);
         } else {

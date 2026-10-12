@@ -39,8 +39,8 @@ public final class SocketUtil {
 
   /** Format an address string into {@code host:port} or {@code *:port} syntax. */
   public static String format(SocketAddress s, int defaultPort) {
-    if (s instanceof InetSocketAddress) {
-      final InetSocketAddress addr = (InetSocketAddress) s;
+    if (s instanceof InetSocketAddress inetSocketAddress) {
+      final InetSocketAddress addr = inetSocketAddress;
       if (addr.getPort() == defaultPort) {
         return safeHostname(hostname(addr));
       }

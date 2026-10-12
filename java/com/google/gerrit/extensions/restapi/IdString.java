@@ -67,8 +67,8 @@ public class IdString {
 
   @Override
   public boolean equals(Object other) {
-    if (other instanceof IdString) {
-      return urlEncoded.equals(((IdString) other).urlEncoded);
+    if (other instanceof IdString idString) {
+      return urlEncoded.equals(idString.urlEncoded);
     }
     return false;
   }

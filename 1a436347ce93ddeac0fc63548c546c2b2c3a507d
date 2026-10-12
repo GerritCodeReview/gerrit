@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "75b8ddff_58d14d81",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2026-10-12T14:42:59Z",
+      "side": 1,
+      "message": "I added some additional `instanceof` conversions in change 642705, as follow-up of this change. Feel free to squash it into yours, or we can keep it separate — either works for me.",
+      "parentUuid": "1cdaf373_8016462d",
+      "revId": "1a436347ce93ddeac0fc63548c546c2b2c3a507d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9a7e005d_5fba9118",

@@ -29,15 +29,20 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.ExtensionRegistry;
+import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.entities.GroupDescription;
+import com.google.gerrit.entities.GroupReference;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
@@ -48,10 +53,17 @@ import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.account.GroupBackend;
+import com.google.gerrit.server.account.GroupMembership;
+import com.google.gerrit.server.account.ListGroupMembership;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Inject;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Before;
@@ -71,6 +83,7 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
   }
 
   @Inject private AccountOperations accountOperations;
+  @Inject private ExtensionRegistry extensionRegistry;
   @Inject private GroupOperations groupOperations;
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
@@ -259,6 +272,95 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     reviewers = suggestReviewers(changeId, user2.username(), 2);
     assertThat(reviewers).hasSize(1);
     assertThat(Iterables.getOnlyElement(reviewers).account.name).isEqualTo(user2.fullName());
+  }
+
+  @Test
+  @GerritConfig(name = "accounts.visibility", value = "VISIBLE_GROUP")
+  public void suggestReviewersVisibleGroupVisibility() throws Exception {
+    String changeId = createChange().getChangeId();
+    List<SuggestedReviewerInfo> reviewers;
+
+    // user1 is in group1 and group3 (neither contains user2, and groups are not visibleToAll).
+    requestScopeOperations.setApiUser(user1.id());
+    reviewers = suggestReviewers(changeId, user2.fullName(), 2);
+    assertThat(reviewers).isEmpty();
+
+    // user3 is in group2, so group2 is visible to user3 (even on FanOutExecutor worker threads)
+    // and user3 can see user2 via VISIBLE_GROUP.
+    requestScopeOperations.setApiUser(user3.id());
+    reviewers = suggestReviewers(changeId, user2.username(), 2);
+    assertThat(reviewers).hasSize(1);
+    assertThat(Iterables.getOnlyElement(reviewers).account.name).isEqualTo(user2.fullName());
+  }
+
+  @Test
+  @GerritConfig(name = "accounts.visibility", value = "VISIBLE_GROUP")
+  public void suggestReviewersVisibleGroupShortCircuitsExternalGroupBackends() throws Exception {
+    String changeId = createChange().getChangeId();
+    AccountGroup.UUID externalSubgroup = AccountGroup.uuid("counting-ext:sub");
+    groupOperations.group(group3).forUpdate().addSubgroup(externalSubgroup).update();
+
+    AtomicInteger externalGetKnownGroupsCalls = new AtomicInteger();
+    AtomicInteger externalIntersectionCalls = new AtomicInteger();
+
+    GroupBackend countingExternalBackend =
+        new GroupBackend() {
+          @Override
+          public boolean handles(AccountGroup.UUID uuid) {
+            return uuid.get().startsWith("counting-ext:");
+          }
+
+          @Nullable
+          @Override
+          public GroupDescription.Basic get(AccountGroup.UUID uuid) {
+            return null;
+          }
+
+          @Override
+          public ImmutableList<GroupReference> suggest(
+              String name, @Nullable ProjectState project) {
+            return ImmutableList.of();
+          }
+
+          @Override
+          public GroupMembership membershipsOf(CurrentUser user) {
+            return new ListGroupMembership(ImmutableSet.of()) {
+              @Override
+              public Set<AccountGroup.UUID> getKnownGroups() {
+                externalGetKnownGroupsCalls.incrementAndGet();
+                return super.getKnownGroups();
+              }
+
+              @Override
+              public Set<AccountGroup.UUID> intersection(Iterable<AccountGroup.UUID> groupIds) {
+                externalIntersectionCalls.incrementAndGet();
+                return super.intersection(groupIds);
+              }
+            };
+          }
+
+          @Override
+          public boolean isVisibleToAll(AccountGroup.UUID uuid) {
+            return false;
+          }
+        };
+
+    try (Registration ignored = extensionRegistry.newRegistration().add(countingExternalBackend)) {
+      // user3 shares visible internal groups (group1, group2) with user1, user2, and user3.
+      // Visibility checks should short-circuit on direct internal groups without querying the
+      // external group backend's getKnownGroups() or intersection().
+      requestScopeOperations.setApiUser(user3.id());
+      List<SuggestedReviewerInfo> reviewers =
+          gApi.changes()
+              .id(changeId)
+              .suggestReviewers(name("user"))
+              .excludeGroups(true)
+              .withLimit(6)
+              .get();
+      assertReviewers(reviewers, ImmutableList.of(user1, user2, user3), ImmutableList.of());
+      assertThat(externalGetKnownGroupsCalls.get()).isEqualTo(0);
+      assertThat(externalIntersectionCalls.get()).isEqualTo(0);
+    }
   }
 
   @Test

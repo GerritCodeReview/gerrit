@@ -26,9 +26,12 @@ import static org.mockito.AdditionalMatchers.not;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.AccountGroup.UUID;
 import com.google.gerrit.entities.GroupReference;
@@ -219,5 +222,43 @@ public class UniversalGroupBackendTest {
 
     actual = suggest(backend, "dddd");
     assertEquals(ImmutableList.of("dddd", "a", "cc", "bbb", "eeeee"), actual);
+  }
+
+  @Test
+  public void knownGroupsByBackendShortCircuits() {
+    AccountGroup.UUID group1 = AccountGroup.uuid("group1");
+    AccountGroup.UUID group2 = AccountGroup.uuid("group2");
+
+    GroupMembership membership1 = mock(GroupMembership.class);
+    when(membership1.getKnownGroups()).thenReturn(ImmutableSet.of(group1));
+    when(membership1.getKnownGroupsByBackend()).thenCallRealMethod();
+    GroupBackend backend1 = mock(GroupBackend.class);
+    when(backend1.membershipsOf(any())).thenReturn(membership1);
+
+    GroupMembership membership2 = mock(GroupMembership.class);
+    when(membership2.getKnownGroups()).thenReturn(ImmutableSet.of(group2));
+    when(membership2.getKnownGroupsByBackend()).thenCallRealMethod();
+    GroupBackend backend2 = mock(GroupBackend.class);
+    when(backend2.membershipsOf(any())).thenReturn(membership2);
+
+    backends = new DynamicSet<>();
+    backends.add("gerrit", backend1);
+    backends.add("slow", backend2);
+    backend =
+        new UniversalGroupBackend(
+            new PluginSetContext<>(backends, PluginMetrics.DISABLED_INSTANCE),
+            new DisabledMetricMaker());
+
+    GroupMembership checker = backend.membershipsOf(user);
+    boolean found = false;
+    for (Set<UUID> backendGroups : checker.getKnownGroupsByBackend()) {
+      if (backendGroups.contains(group1)) {
+        found = true;
+        break;
+      }
+    }
+    assertTrue(found);
+    verify(membership1).getKnownGroups();
+    verify(membership2, never()).getKnownGroups();
   }
 }
